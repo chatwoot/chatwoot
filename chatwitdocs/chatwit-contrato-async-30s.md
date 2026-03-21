@@ -265,6 +265,10 @@ async function deliverMedia(
 14. [Adicionar contacts ao BOT_ACCESSIBLE_ENDPOINTS](#14-adicionar-contacts-ao-bot_accessible_endpoints-necessário)
 15. [Init do Agent Bot — Registrar token no Socialwise](#15-init-do-agent-bot--registrar-token-no-socialwise-necessário)
 16. [Template QUICK_REPLY Button Payload](#16-template-quick_reply-button-payload--parsing-no-webhook-necessário) ← **NOVO**
+17. [Evento `payment.confirmed` (InfinitePay)](#seção-17-evento-paymentconfirmed-infinitepay)
+19. [Recomendação: Coleta de Email do Contato via Fluxo](#19-recomendação-coleta-de-email-do-contato-via-fluxo)
+20. [InfinitePay: Links do Socialwise Flow via Chatwit](#20-infinitepay-links-gerados-pelo-socialwise-flow-devem-passar-pelo-chatwit-necessário)
+21. [Lead Sync Dedicado: contato criado + arquivos](#21-lead-sync-dedicado-contato-criado--arquivos-sem-webhook-genérico-necessário)
 
 ---
 
@@ -1526,6 +1530,19 @@ Enquanto o Chatwit não implementa a Parte 2, o Socialwise tem um **fallback por
 
 ## Changelog
 
+### v2.3.0 (2026-03-18) - Lead Sync dedicado para `recebearquivos` — 🟡 COMPATIBILIDADE SOCIALWISE IMPLEMENTADA
+
+**O que mudou neste contrato:**
+
+1. Nova Seção 21 documentando o payload dedicado `integration: "socialwise_lead_sync"`
+2. `contact_created` / `contact_updated` passam a ser a trilha oficial para criar/atualizar lead no Socialwise
+3. O sync de arquivos passa a ter contrato próprio, disparado apenas para mensagem **incoming** com attachment
+4. `message_created` / `message_updated` com `message_type: "outgoing"` ficam explicitamente fora dessa integração
+
+**Status atual:**
+- **Socialwise:** compatibilidade implementada em `/api/admin/leads-chatwit/recebearquivos`
+- **Chatwit:** pendente enviar o payload dedicado de arquivos
+
 ### v2.2.0 (2026-03-17) - InfinitePay: Endpoint dedicado de pagamento no SocialWise — ✅ IMPLEMENTADO
 
 **Seção 17 — Atualizado em 17/03/2026.**
@@ -2048,3 +2065,190 @@ Socialwise Flow gera link → webhook_url aponta pro Chatwit
 - O `checkout_url` fica vazio porque o link já foi consumido quando o webhook chega
 - O `status: 'pending'` é criado e imediatamente marcado como `paid` pela chamada seguinte `mark_as_paid!`
 - Se o `conversation_id` no order_nsu for inválido, o método retorna `nil` e o webhook é silenciosamente ignorado (safe)
+
+---
+
+## 21. Lead Sync Dedicado: contato criado + arquivos sem webhook genérico (NECESSÁRIO)
+
+> **Data:** 2026-03-18
+> **Prioridade:** 🔴 Alta
+> **Lado:** Chatwit + Socialwise
+> **Status:** 🟡 COMPATIBILIDADE SOCIALWISE IMPLEMENTADA (2026-03-18) | PENDENTE CHATWIT
+
+### Contexto
+
+A rota do Socialwise `POST /api/admin/leads-chatwit/recebearquivos` nasceu para duas responsabilidades muito específicas:
+
+1. **Criar/atualizar o lead** quando o contato aparece no Chatwit
+2. **Persistir anexos com deduplicação** (`chatwitFileId`) quando o cliente envia arquivos
+
+Na prática, ela foi cadastrada em um **webhook genérico de account**, recebendo `message_created` e `message_updated` para tudo: texto simples, mensagens do agente, mensagens outgoing do bot e outros ruídos. Isso gera trabalho inútil, payload pesado e risco de regressão.
+
+### Objetivo do contrato
+
+Trocar o fluxo atual:
+
+```
+Webhook genérico de conta → Socialwise filtra lixo
+```
+
+por um fluxo específico:
+
+```
+contact_created/contact_updated → cria ou atualiza lead
+lead_files_sync                → envia só os anexos relevantes
+```
+
+### O que o Socialwise já implementou
+
+O Socialwise agora aceita **três modos compatíveis** no endpoint `/api/admin/leads-chatwit/recebearquivos`:
+
+1. **`contact_created` / `contact_updated`** do webhook nativo do Chatwit
+   - Cria ou atualiza o lead mesmo sem conversa e sem anexos
+2. **Payload dedicado `integration: "socialwise_lead_sync"`**
+   - Focado em sync de arquivos, sem depender do payload genérico
+3. **Fallback legado**
+   - Ainda aceita `message_created` / `message_updated` antigos, mas:
+   - **ignora** `message_type: "outgoing"`
+   - **ignora** mensagens sem attachment
+
+### O que o Chatwit precisa fazer
+
+#### Parte A: usar eventos nativos para lead upsert
+
+Na configuração do webhook desta integração, assinar:
+
+- `contact_created`
+- `contact_updated`
+
+Se possível, manter `include_access_token = true` para o Socialwise persistir o token do usuário junto da conta Chatwit.
+
+#### Parte B: adicionar dispatch dedicado para arquivos inbound
+
+Quando houver mensagem **incoming** com anexos, o Chatwit deve enviar um POST dedicado para o Socialwise com payload mínimo:
+
+```json
+{
+  "integration": "socialwise_lead_sync",
+  "event": "lead_files_sync",
+  "account": { "id": 3, "name": "Conta X" },
+  "inbox": { "id": 4, "name": "WhatsApp - Comercial" },
+  "contact": {
+    "id": 1447,
+    "name": "João Silva",
+    "phone_number": "+5511999887766",
+    "thumbnail": "https://..."
+  },
+  "conversation": {
+    "id": 2724,
+    "display_id": 2514
+  },
+  "attachments": [
+    {
+      "id": 9981,
+      "file_type": "image",
+      "data_url": "https://chatwit.../arquivo.jpg"
+    },
+    {
+      "id": 9982,
+      "file_type": "file",
+      "data_url": "https://chatwit.../prova.pdf"
+    }
+  ],
+  "ACCESS_TOKEN": "token_do_admin_ou_usuario",
+  "metadata": {
+    "purpose": "lead_sync",
+    "payload_version": "1.0",
+    "source": "chatwit",
+    "skip_outgoing": true
+  }
+}
+```
+
+### Regras obrigatórias do dispatch dedicado
+
+1. **Nunca** disparar para `message_type: "outgoing"`
+2. **Nunca** disparar para mensagem sem attachment
+3. Enviar apenas os campos necessários para o Socialwise persistir lead + anexos
+4. Usar `attachment.id` como `chatwitFileId` para idempotência
+5. Preferir `conversation.display_id` para construir `leadUrl`
+
+### Implementação Ruby sugerida no Chatwit
+
+```ruby
+# app/listeners/webhook_listener.rb
+
+def message_created(event)
+  message = extract_message_and_account(event)[0]
+  inbox = message.inbox
+
+  return unless message.webhook_sendable?
+
+  payload = message.webhook_data.merge(event: __method__.to_s)
+  deliver_webhook_payloads(payload, inbox)
+  deliver_socialwise_lead_sync(message)
+end
+
+private
+
+def deliver_socialwise_lead_sync(message)
+  return unless message.incoming?
+  return if message.attachments.blank?
+
+  webhook_url = ENV.fetch('SOCIALWISE_WEBHOOK_URL', nil)
+  secret = ENV.fetch('CHATWIT_WEBHOOK_SECRET', nil)
+  return if webhook_url.blank? || secret.blank?
+
+  access_token = message.account.administrators.first&.access_token&.token
+
+  payload = {
+    integration: 'socialwise_lead_sync',
+    event: 'lead_files_sync',
+    account: message.account.webhook_data,
+    inbox: message.inbox.webhook_data,
+    contact: message.sender&.webhook_data,
+    conversation: {
+      id: message.conversation.id,
+      display_id: message.conversation.display_id
+    },
+    attachments: message.attachments.map(&:push_event_data),
+    ACCESS_TOKEN: access_token,
+    metadata: {
+      purpose: 'lead_sync',
+      payload_version: '1.0',
+      source: 'chatwit',
+      skip_outgoing: true
+    }
+  }
+
+  WebhookJob.perform_later(
+    "#{webhook_url}/api/admin/leads-chatwit/recebearquivos",
+    payload,
+    :account_webhook,
+    secret: secret,
+    delivery_id: SecureRandom.uuid
+  )
+end
+```
+
+### Resultado esperado
+
+| Caso | Antes | Depois |
+|------|-------|--------|
+| Contato novo no Chatwit | Dependia de webhook genérico ruidoso | `contact_created` cria/atualiza lead |
+| Mensagem outgoing do agente/bot | Caía na rota e precisava ser filtrada | Não entra no sync dedicado |
+| Mensagem incoming sem arquivo | Caía na rota sem necessidade | Não entra no sync dedicado |
+| Mensagem incoming com arquivo | Payload pesado com histórico | `lead_files_sync` enxuto + dedup por `chatwitFileId` |
+
+### Arquivos sugeridos no Chatwit
+
+1. **`app/listeners/webhook_listener.rb`**
+   - Chamar `deliver_socialwise_lead_sync(message)` após o webhook normal
+2. **Opcional: `lib/integrations/socialwise/lead_sync_dispatcher.rb`**
+   - Extrair o builder do payload dedicado para não poluir o listener
+
+### Observações
+
+- O Socialwise já está preparado para receber esse payload novo sem quebrar compatibilidade com o legado
+- Enquanto o Chatwit não enviar `lead_files_sync`, o fallback antigo continua funcionando, mas apenas para mensagens com attachment
+- Essa mudança reduz ruído, custo e risco de processar evento irrelevante de `outgoing`

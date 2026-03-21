@@ -66,7 +66,7 @@ class Integrations::Infinitepay::CreateLinkService
 
     {
       customer: {
-        name: @conversation.contact.name.presence || phone || 'Cliente',
+        name: sanitize_customer_name(@conversation.contact.name.presence || phone || 'Cliente'),
         email: @conversation.contact.email.presence || 'seuemail@gmail.com',
         phone_number: phone
       }.compact
@@ -170,7 +170,20 @@ class Integrations::Infinitepay::CreateLinkService
   end
 
   def plain_text_content(checkout_url)
-    ['💰 *Link de Pagamento*', "Valor a pagar: #{formatted_amount}", reference_line, checkout_url].compact.join("\n\n")
+    lines = []
+    lines << '┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓'
+    lines << '┃ 💰 **LINK DE PAGAMENTO**        ┃'
+    lines << '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛'
+    lines << ''
+    lines << '\> 📄 **Detalhes**'
+    lines << "\\> • **Valor:** #{formatted_amount} 💰"
+    lines << "\\> • **Ref:** #{@description}" if @description.present?
+    lines << ''
+    lines << '🔗 **Pague aqui:**'
+    lines << checkout_url
+    lines << ''
+    lines << '┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛'
+    lines.join("\n")
   end
 
   def apply_cta_attributes!(attrs, template, checkout_url)
@@ -218,7 +231,11 @@ class Integrations::Infinitepay::CreateLinkService
   end
 
   def formatted_amount
-    format('R$ %.2f', @amount_cents / 100.0)
+    value = @amount_cents / 100.0
+    formatted = format('%.2f', value)
+    integer_part, decimal_part = formatted.split('.')
+    integer_with_dots = integer_part.reverse.gsub(/(\d{3})(?=\d)/, '\\1.').reverse
+    "R$ #{integer_with_dots},#{decimal_part}"
   end
 
   def reference_line
@@ -249,5 +266,10 @@ class Integrations::Infinitepay::CreateLinkService
 
   def contact_name
     @conversation.contact&.name.to_s.strip.presence
+  end
+
+  def sanitize_customer_name(name)
+    cleaned = name.to_s.strip
+    cleaned.length >= 3 ? cleaned : "#{cleaned} Cliente".strip
   end
 end

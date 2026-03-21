@@ -30,6 +30,7 @@ class WebhookListener < BaseListener
 
     payload = message.webhook_data.merge(event: __method__.to_s)
     deliver_webhook_payloads(payload, inbox)
+    dispatch_socialwise_lead_sync_for_message(message, __method__.to_s)
   end
 
   def message_updated(event)
@@ -40,6 +41,7 @@ class WebhookListener < BaseListener
 
     payload = message.webhook_data.merge(event: __method__.to_s)
     deliver_webhook_payloads(payload, inbox)
+    dispatch_socialwise_lead_sync_for_message(message, __method__.to_s)
   end
 
   def webwidget_triggered(event)
@@ -55,6 +57,7 @@ class WebhookListener < BaseListener
     contact, account = extract_contact_and_account(event)
     payload = contact.webhook_data.merge(event: __method__.to_s)
     deliver_account_webhooks(payload, account)
+    dispatch_socialwise_lead_sync_for_contact(contact, __method__.to_s)
   end
 
   def contact_updated(event)
@@ -64,6 +67,7 @@ class WebhookListener < BaseListener
 
     payload = contact.webhook_data.merge(event: __method__.to_s, changed_attributes: changed_attributes)
     deliver_account_webhooks(payload, account)
+    dispatch_socialwise_lead_sync_for_contact(contact, __method__.to_s)
   end
 
   def inbox_created(event)
@@ -105,6 +109,14 @@ class WebhookListener < BaseListener
       is_private: event.data[:is_private] || false
     }
     deliver_webhook_payloads(payload, inbox)
+  end
+
+  def dispatch_socialwise_lead_sync_for_contact(contact, event_name)
+    Integrations::Socialwise::LeadSyncDispatcherService.dispatch_contact_event(contact: contact, event_name: event_name)
+  end
+
+  def dispatch_socialwise_lead_sync_for_message(message, event_name)
+    Integrations::Socialwise::LeadSyncDispatcherService.dispatch_message_event(message: message, event_name: event_name)
   end
 
   def deliver_account_webhooks(payload, account)

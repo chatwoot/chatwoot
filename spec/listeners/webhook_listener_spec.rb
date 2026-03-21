@@ -80,6 +80,57 @@ describe WebhookListener do
         listener.message_created(api_event)
       end
     end
+
+    context 'when socialwise lead sync is configured' do
+      let!(:message) do
+        create(
+          :message,
+          :with_attachment,
+          message_type: 'incoming',
+          account: account,
+          inbox: inbox,
+          conversation: conversation
+        )
+      end
+
+      it 'enqueues the dedicated lead sync job for incoming attachments' do
+        with_modified_env SOCIALWISE_WEBHOOK_URL: 'https://socialwise.example.com' do
+          clear_enqueued_jobs
+
+          expect { listener.message_created(message_created_event) }
+            .to have_enqueued_job(Integrations::Socialwise::LeadSyncJob)
+
+          payload = enqueued_jobs.last[:args].first.deep_symbolize_keys
+          expect(payload[:integration]).to eq('socialwise_lead_sync')
+          expect(payload[:event]).to eq('lead_files_sync')
+          expect(payload[:source_event]).to eq('message_created')
+          expect(payload[:message_type]).to eq('incoming')
+          expect(payload[:attachments].length).to eq(1)
+        end
+      end
+    end
+
+    context 'when socialwise lead sync is configured for outgoing messages' do
+      let!(:message) do
+        create(
+          :message,
+          :with_attachment,
+          message_type: 'outgoing',
+          account: account,
+          inbox: inbox,
+          conversation: conversation
+        )
+      end
+
+      it 'does not enqueue the dedicated lead sync job' do
+        with_modified_env SOCIALWISE_WEBHOOK_URL: 'https://socialwise.example.com' do
+          clear_enqueued_jobs
+
+          expect { listener.message_created(message_created_event) }
+            .not_to have_enqueued_job(Integrations::Socialwise::LeadSyncJob)
+        end
+      end
+    end
   end
 
   describe '#conversation_created' do
@@ -194,6 +245,22 @@ describe WebhookListener do
           secret: webhook.secret, delivery_id: instance_of(String)
         ).once
         listener.contact_created(contact_event)
+      end
+    end
+
+    context 'when socialwise lead sync is configured' do
+      it 'enqueues the dedicated lead sync job' do
+        with_modified_env SOCIALWISE_WEBHOOK_URL: 'https://socialwise.example.com' do
+          clear_enqueued_jobs
+
+          expect { listener.contact_created(contact_event) }
+            .to have_enqueued_job(Integrations::Socialwise::LeadSyncJob)
+
+          payload = enqueued_jobs.last[:args].first.deep_symbolize_keys
+          expect(payload[:integration]).to eq('socialwise_lead_sync')
+          expect(payload[:event]).to eq('contact_created')
+          expect(payload[:contact][:id]).to eq(contact.id)
+        end
       end
     end
   end

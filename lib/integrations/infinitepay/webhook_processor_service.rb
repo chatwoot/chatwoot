@@ -244,41 +244,55 @@ class Integrations::Infinitepay::WebhookProcessorService
     contact_name = conversation.contact&.name || 'Cliente'
     installments = @payload['installments'].to_i
     capture_detail = if @payload['capture_method'] == 'pix'
-                       'PIX'
+                       'PIX 🏦'
                      elsif installments > 1
-                       "Cartao #{installments}x"
+                       "Cartão #{installments}x 💳"
                      else
-                       'Cartao de Credito'
+                       'Cartão de Crédito 💳'
                      end
-    amount_formatted = format('R$ %.2f', (@payload['paid_amount'] || payment_link.amount_cents) / 100.0)
+    amount_formatted = format_brl((@payload['amount'] || payment_link.amount_cents) / 100.0)
     transaction_code = @payload['transaction_nsu'].presence || payment_link.transaction_nsu.presence || payment_link.order_nsu
     receipt_url = @payload['receipt_url'].presence || payment_link.receipt_url
     title = 'Pagamento Confirmado!'
-    body = <<~BODY.strip
-      Ola #{contact_name}, seu pagamento foi recebido com sucesso!
+    body = "Olá, #{contact_name}! Pagamento de #{amount_formatted} recebido com sucesso."
 
-      Detalhes da transacao:
-      Descricao: #{payment_link.description}
-      Valor: #{amount_formatted}
-      Forma de pagamento: #{capture_detail}
-      Codigo: #{transaction_code}
+    content = <<~MSG.strip
+      ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+      ┃ 🎉 **PAGAMENTO CONFIRMADO!**   ┃
+      ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
-      Comprovante: #{receipt_url}
+      Olá, **#{contact_name}**! 👋
+       Seu pagamento foi recebido com sucesso. ✅
 
-      Obrigado pela confianca!
-    BODY
+      \\> 📄 **Detalhes da transação**
+      \\> • **Descrição:** #{payment_link.description}
+      \\> • **Valor:** #{amount_formatted} 💰
+      \\> • **Pagamento:** #{capture_detail}
+      \\> • **Código:** #{transaction_code}
+
+      🧾 **Comprovante**
+      #{receipt_url}
+
+       🙏 Obrigado pela confiança!
+       Qualquer dúvida, estamos à disposição.
+
+      ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+    MSG
 
     {
       title: title,
       body: body,
-      content: <<~CONTENT.strip,
-        *#{title}*
-
-        #{body}
-      CONTENT
+      content: content,
       tag: "infinitepay_payment_confirmed_#{payment_link.id}",
       url: conversation_url(conversation)
     }
+  end
+
+  def format_brl(value)
+    formatted = format('%.2f', value)
+    integer_part, decimal_part = formatted.split('.')
+    integer_with_dots = integer_part.reverse.gsub(/(\d{3})(?=\d)/, '\\1.').reverse
+    "R$ #{integer_with_dots},#{decimal_part}"
   end
 
   def conversation_url(conversation)
