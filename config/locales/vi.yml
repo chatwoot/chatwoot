@@ -34,6 +34,9 @@ vi:
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Yêu cầu xoá hộp thư của bạn sẽ được xử lý.
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
     validations:
       presence: không được để trống
     webhook:

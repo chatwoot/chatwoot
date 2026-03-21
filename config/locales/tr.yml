@@ -34,6 +34,9 @@ tr:
     saml_not_available: SAML kimlik doğrulaması bu kurulumda mevcut değildir.
     inbox_deletetion_response: Gelen kutusu silme isteğiniz bir süre sonra işleme alınacaktır.
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
     validations:
       presence: boş bırakılmamalı
     webhook:
