@@ -46,6 +46,7 @@
     "ANNOUNCEMENT_MODE_BANNER": "Only administrators are allowed to send messages in this group",
     "GROUP_LEFT_BANNER": "You are no longer part of this group and cannot send messages in it",
     "GROUPS_DISABLED_BANNER": "Group messages are disabled. Enable full group support (free) to view and send messages.",
+    "GROUPS_DISABLED_BANNER_NON_ADMIN": "Group messages are disabled. Contact your administrator to enable full group support.",
     "GROUPS_DISABLED_CTA": "Learn how to enable (free)",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "You are replying to:",

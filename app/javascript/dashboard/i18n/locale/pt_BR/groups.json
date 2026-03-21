@@ -32,6 +32,7 @@
       "SUCCESS_MESSAGE": "Grupo criado com sucesso.",
       "ERROR_MESSAGE": "Falha ao criar grupo. Por favor, tente novamente.",
       "GROUPS_DISABLED": "A criação de grupos está desativada. Ative o suporte a grupos do WhatsApp (gratuito) para criar grupos.",
+      "GROUPS_DISABLED_NON_ADMIN": "A criação de grupos está desativada. Entre em contato com o administrador para ativar o suporte a grupos do WhatsApp.",
       "GROUPS_DISABLED_CTA": "Saiba como ativar (gratuito)"
     },
     "METADATA": {

@@ -46,6 +46,7 @@
     "ANNOUNCEMENT_MODE_BANNER": "Apenas administradores têm permissão para enviar mensagens neste grupo",
     "GROUP_LEFT_BANNER": "Você não faz mais parte deste grupo e não pode enviar mensagens nele",
     "GROUPS_DISABLED_BANNER": "As mensagens de grupo estão desativadas. Ative o suporte completo a grupos (gratuito) para ver e enviar mensagens.",
+    "GROUPS_DISABLED_BANNER_NON_ADMIN": "As mensagens de grupo estão desativadas. Entre em contato com o administrador para ativar o suporte completo a grupos.",
     "GROUPS_DISABLED_CTA": "Saiba como ativar (gratuito)",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta conta do Instagram foi migrada para a nova caixa de entrada do canal do Instagram. Todas as novas mensagens serão mostradas lá. Você não poderá mais enviar mensagens desta conversa.",
     "REPLYING_TO": "Você está respondendo a:",

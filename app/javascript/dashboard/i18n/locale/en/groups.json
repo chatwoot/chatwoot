@@ -32,6 +32,7 @@
       "SUCCESS_MESSAGE": "Group created successfully.",
       "ERROR_MESSAGE": "Failed to create group. Please try again.",
       "GROUPS_DISABLED": "Group creation is disabled. Enable WhatsApp group support (free) to create groups.",
+      "GROUPS_DISABLED_NON_ADMIN": "Group creation is disabled. Contact your administrator to enable WhatsApp group support.",
       "GROUPS_DISABLED_CTA": "Learn how to enable (free)"
     },
     "METADATA": {

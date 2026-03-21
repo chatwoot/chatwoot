@@ -99,6 +99,7 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       currentUserId: 'getCurrentUserID',
+      currentUser: 'getCurrentUser',
       listLoadingStatus: 'getAllMessagesLoaded',
       currentAccountId: 'getCurrentAccountId',
       globalConfig: 'globalConfig/get',
@@ -319,6 +320,9 @@ export default {
         this.isGroupConversation &&
         !this.globalConfig.baileysWhatsappGroupsEnabled
       );
+    },
+    isSuperAdmin() {
+      return this.currentUser.type === 'SuperAdmin';
     },
     inboxProviderConnection() {
       return this.currentInbox.provider_connection?.connection;
@@ -659,13 +663,19 @@ export default {
       :banner-message="$t('CONVERSATION.ANNOUNCEMENT_MODE_BANNER')"
     />
     <Banner
-      v-if="isGroupsDisabled"
+      v-if="isGroupsDisabled && isSuperAdmin"
       color-scheme="warning"
       class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="$t('CONVERSATION.GROUPS_DISABLED_BANNER')"
       has-action-button
       :action-button-label="$t('CONVERSATION.GROUPS_DISABLED_CTA')"
       @primary-action="onOpenGroupsEnabledLink"
+    />
+    <Banner
+      v-else-if="isGroupsDisabled"
+      color-scheme="warning"
+      class="mx-2 mt-2 overflow-hidden rounded-lg"
+      :banner-message="$t('CONVERSATION.GROUPS_DISABLED_BANNER_NON_ADMIN')"
     />
     <MessageList
       ref="conversationPanelRef"

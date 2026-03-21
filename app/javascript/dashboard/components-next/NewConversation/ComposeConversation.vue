@@ -104,6 +104,7 @@ const hasGroupInboxes = computed(() => groupCreationInboxes.value.length > 0);
 const isGroupsDisabled = computed(
   () => !globalConfig.value.baileysWhatsappGroupsEnabled
 );
+const isSuperAdmin = computed(() => currentUser.value.type === 'SuperAdmin');
 
 const resetContacts = () => {
   contacts.value = [];
@@ -475,6 +476,7 @@ useKeyboardEvents(keyboardEvents);
           :inboxes="groupCreationInboxes"
           :is-creating="groupUiFlags.isCreating"
           :is-groups-disabled="isGroupsDisabled"
+          :is-super-admin="isSuperAdmin"
           @create-group="createGroup"
           @discard="discardCompose"
         />

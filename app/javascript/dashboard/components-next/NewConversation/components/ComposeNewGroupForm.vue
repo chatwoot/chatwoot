@@ -13,6 +13,7 @@ const props = defineProps({
   inboxes: { type: Array, default: () => [] },
   isCreating: { type: Boolean, default: false },
   isGroupsDisabled: { type: Boolean, default: false },
+  isSuperAdmin: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['createGroup', 'discard']);
@@ -169,7 +170,7 @@ defineExpose({ resetForm });
         class="flex items-center gap-2 mx-4 mt-3 px-3 py-2 rounded-lg text-sm text-n-amber-11 bg-n-amber-2"
       >
         <span class="i-lucide-triangle-alert text-base flex-shrink-0" />
-        <span>
+        <span v-if="isSuperAdmin">
           {{ t('GROUP.CREATE.GROUPS_DISABLED') }}
           <a
             :href="wootConstants.FAZER_AI_GUIDES_URL"
@@ -179,6 +180,9 @@ defineExpose({ resetForm });
           >
             {{ t('GROUP.CREATE.GROUPS_DISABLED_CTA') }}
           </a>
+        </span>
+        <span v-else>
+          {{ t('GROUP.CREATE.GROUPS_DISABLED_NON_ADMIN') }}
         </span>
       </div>
       <div
