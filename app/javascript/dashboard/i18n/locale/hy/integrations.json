@@ -65,7 +65,7 @@
           "PLACEHOLDER": "Enter the name of the webhook"
         },
         "END_POINT": {
-          "LABEL": "Webhook URL",
+          "LABEL": "URL Webhook",
           "PLACEHOLDER": "Օրինակ՝ {webhookExampleURL}",
           "ERROR": "Խնդրում ենք մուտքագրել վավեր URL"
         },
@@ -527,7 +527,7 @@
           "TITLE": "Հատկություններ",
           "ALLOW_CONVERSATION_FAQS": "Ստեղծել ՀՏՀ-ներ լուծված զրույցներից",
           "ALLOW_MEMORIES": "Հաճախորդների հետ փոխգործակցություններից կարևոր մանրամասներ պահպանել հիշողություններում։",
-          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CITATIONS": "Sertakan petikan sumber dalam jawapan",
           "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
@@ -721,16 +721,16 @@
         "SEARCH_EMPTY_MESSAGE": "Այս որոնման համար սցենարներ չեն գտնվել։",
         "API": {
           "ADD": {
-            "SUCCESS": "Scenarios added successfully",
-            "ERROR": "There was an error adding scenarios, please try again."
+            "SUCCESS": "Senario berjaya ditambah",
+            "ERROR": "Terdapat ralat semasa menambah senario, sila cuba lagi."
           },
           "UPDATE": {
-            "SUCCESS": "Scenarios updated successfully",
-            "ERROR": "There was an error updating scenarios, please try again."
+            "SUCCESS": "Senario berjaya dikemas kini",
+            "ERROR": "Terdapat ralat semasa mengemas kini senario, sila cuba lagi."
           },
           "DELETE": {
-            "SUCCESS": "Scenarios deleted successfully",
-            "ERROR": "There was an error deleting scenarios, please try again."
+            "SUCCESS": "Senario berjaya dipadam",
+            "ERROR": "Terdapat ralat semasa memadam senario, sila cuba lagi."
           }
         }
       }
@@ -750,9 +750,9 @@
       },
       "FORM": {
         "TYPE": {
-          "LABEL": "Document Type",
+          "LABEL": "Jenis Dokumen",
           "URL": "URL",
-          "PDF": "PDF File"
+          "PDF": "Fail PDF"
         },
         "URL": {
           "LABEL": "URL",
@@ -760,16 +760,16 @@
           "ERROR": "Խնդրում ենք տրամադրել փաստաթղթի վավեր URL"
         },
         "PDF_FILE": {
-          "LABEL": "PDF File",
-          "CHOOSE_FILE": "Choose PDF file",
-          "ERROR": "Please select a PDF file",
-          "HELP_TEXT": "Maximum file size: 10MB",
-          "INVALID_TYPE": "Please select a valid PDF file",
-          "TOO_LARGE": "File size exceeds 10MB limit"
+          "LABEL": "Fail PDF",
+          "CHOOSE_FILE": "Pilih fail PDF",
+          "ERROR": "Sila pilih fail PDF",
+          "HELP_TEXT": "Saiz fail maksimum: 10MB",
+          "INVALID_TYPE": "Sila pilih fail PDF yang sah",
+          "TOO_LARGE": "Saiz fail melebihi had 10MB"
         },
         "NAME": {
-          "LABEL": "Document Name (Optional)",
-          "PLACEHOLDER": "Enter a name for the document"
+          "LABEL": "Nama Dokumen (Pilihan)",
+          "PLACEHOLDER": "Masukkan nama untuk dokumen"
         }
       },
       "DELETE": {
@@ -793,84 +793,84 @@
       }
     },
     "CUSTOM_TOOLS": {
-      "HEADER": "Tools",
-      "ADD_NEW": "Create a new tool",
+      "HEADER": "Alat",
+      "ADD_NEW": "Cipta alat baru",
       "EMPTY_STATE": {
-        "TITLE": "No custom tools available",
-        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "TITLE": "Tiada alat khusus tersedia",
+        "SUBTITLE": "Cipta alat khusus untuk menghubungkan pembantu anda dengan API dan perkhidmatan luaran, membolehkan ia mendapatkan data dan melaksanakan tindakan bagi pihak anda.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Custom Tools",
-          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+          "TITLE": "Alat Khusus",
+          "NOTE": "Alat khusus membolehkan pembantu anda berinteraksi dengan API dan perkhidmatan luaran. Cipta alat untuk mendapatkan data, melaksanakan tindakan, atau mengintegrasi dengan sistem sedia ada anda bagi meningkatkan keupayaan pembantu anda."
         }
       },
-      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "FORM_DESCRIPTION": "Konfigurasikan alat khusus anda untuk berhubung dengan API luaran",
       "OPTIONS": {
-        "EDIT_TOOL": "Edit tool",
-        "DELETE_TOOL": "Delete tool"
+        "EDIT_TOOL": "Sunting alat",
+        "DELETE_TOOL": "Padam alat"
       },
       "CREATE": {
-        "TITLE": "Create Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool created successfully",
-        "ERROR_MESSAGE": "Failed to create custom tool"
+        "TITLE": "Cipta Alat Khusus",
+        "SUCCESS_MESSAGE": "Alat khusus berjaya dicipta",
+        "ERROR_MESSAGE": "Gagal mencipta alat khusus"
       },
       "EDIT": {
-        "TITLE": "Edit Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool updated successfully",
-        "ERROR_MESSAGE": "Failed to update custom tool"
+        "TITLE": "Sunting Alat Tersuai",
+        "SUCCESS_MESSAGE": "Alat tersuai berjaya dikemas kini",
+        "ERROR_MESSAGE": "Gagal mengemas kini alat tersuai"
       },
       "DELETE": {
-        "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete custom tool"
+        "TITLE": "Padam Alat Tersuai",
+        "DESCRIPTION": "Adakah anda pasti mahu memadam alat tersuai ini? Tindakan ini tidak boleh dibatalkan.",
+        "CONFIRM": "Ya, padam",
+        "SUCCESS_MESSAGE": "Alat tersuai berjaya dipadam",
+        "ERROR_MESSAGE": "Gagal memadam alat tersuai"
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Tool Name",
-          "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "LABEL": "Nama Alat",
+          "PLACEHOLDER": "Carian Pesanan",
+          "ERROR": "Nama alat diperlukan"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Looks up order details by order ID"
+          "LABEL": "Penerangan",
+          "PLACEHOLDER": "Mencari butiran pesanan mengikut ID pesanan"
         },
         "HTTP_METHOD": {
-          "LABEL": "Method"
+          "LABEL": "Kaedah"
         },
         "ENDPOINT_URL": {
-          "LABEL": "Endpoint URL",
+          "LABEL": "URL Titik Akhir",
           "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
-          "ERROR": "Valid URL is required"
+          "ERROR": "URL yang sah diperlukan"
         },
         "AUTH_TYPE": {
-          "LABEL": "Authentication Type"
+          "LABEL": "Jenis Pengesahan"
         },
         "AUTH_TYPES": {
-          "NONE": "None",
-          "BEARER": "Bearer Token",
-          "BASIC": "Basic Auth",
-          "API_KEY": "API Key"
+          "NONE": "Tiada",
+          "BEARER": "Token Bearer",
+          "BASIC": "Pengesahan Asas",
+          "API_KEY": "Kunci API"
         },
         "AUTH_CONFIG": {
-          "BEARER_TOKEN": "Bearer Token",
-          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
-          "USERNAME": "Username",
-          "USERNAME_PLACEHOLDER": "Enter username",
-          "PASSWORD": "Password",
-          "PASSWORD_PLACEHOLDER": "Enter password",
-          "API_KEY": "Header Name",
+          "BEARER_TOKEN": "Token Bearer",
+          "BEARER_TOKEN_PLACEHOLDER": "Masukkan token bearer anda",
+          "USERNAME": "Nama Pengguna",
+          "USERNAME_PLACEHOLDER": "Masukkan nama pengguna",
+          "PASSWORD": "Kata Laluan",
+          "PASSWORD_PLACEHOLDER": "Masukkan kata laluan",
+          "API_KEY": "Nama Header",
           "API_KEY_PLACEHOLDER": "X-API-Key",
-          "API_VALUE": "Header Value",
-          "API_VALUE_PLACEHOLDER": "Enter API key value"
+          "API_VALUE": "Nilai Header",
+          "API_VALUE_PLACEHOLDER": "Masukkan nilai kunci API"
         },
         "PARAMETERS": {
-          "LABEL": "Parameters",
-          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+          "LABEL": "Parameter",
+          "HELP_TEXT": "Tentukan parameter yang akan diambil dari pertanyaan pengguna"
         },
-        "ADD_PARAMETER": "Add Parameter",
+        "ADD_PARAMETER": "Tambah Parameter",
         "PARAM_NAME": {
-          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+          "PLACEHOLDER": "Nama parameter (contoh: order_id)"
         },
         "PARAM_TYPE": {
           "PLACEHOLDER": "Type"
@@ -911,7 +911,7 @@
       "SELECTED": "{count} ընտրված",
       "SELECT_ALL": "Ընտրել բոլորը ({count})",
       "UNSELECT_ALL": "Չընտրել բոլորը ({count})",
-      "SEARCH_PLACEHOLDER": "Search FAQs...",
+      "SEARCH_PLACEHOLDER": "Cari Soalan Lazim...",
       "BULK_APPROVE_BUTTON": "Հաստատել",
       "BULK_DELETE_BUTTON": "Ջնջել",
       "BULK_APPROVE": {
