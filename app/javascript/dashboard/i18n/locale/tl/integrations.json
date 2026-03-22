@@ -3,34 +3,34 @@
     "SHOPIFY": {
       "HEADER": "Shopify",
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "Shopify ইন্টিগ্রেশন মুছুন",
+        "MESSAGE": "আপনি কি নিশ্চিতভাবে Shopify ইন্টিগ্রেশন মুছতে চান?"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
+        "TITLE": "Shopify স্টোর সংযুক্ত করুন",
         "LABEL": "URL ng Tindahan",
         "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "HELP": "আপনার Shopify স্টোরের myshopify.com URL দিন",
         "CANCEL": "Kanselahin",
-        "SUBMIT": "Connect Store"
+        "SUBMIT": "স্টোর সংযুক্ত করুন"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "Shopify-তে সংযোগ করতে সমস্যা হয়েছে। আবার চেষ্টা করুন অথবা সমস্যা থাকলে সাপোর্টে যোগাযোগ করুন।"
     },
     "HEADER": "Mga Integrasyon",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "DESCRIPTION": "Chatwoot বিভিন্ন টুল ও সার্ভিসের সাথে সংযুক্ত হয়ে আপনার টিমের দক্ষতা বাড়ায়। আপনার পছন্দের অ্যাপ কনফিগার করতে নিচের তালিকা দেখুন।",
     "LEARN_MORE": "Alamin pa tungkol sa mga integrasyon",
     "LOADING": "Kinuha ang mga integrasyon",
     "SEARCH_PLACEHOLDER": "Search integrations...",
     "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
-      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "DISABLED": "আপনার অ্যাকাউন্টে Captain সক্রিয় নয়।",
+      "CLICK_HERE_TO_CONFIGURE": "কনফিগার করতে এখানে ক্লিক করুন",
+      "LOADING_CONSOLE": "Captain কনসোল লোড হচ্ছে...",
+      "FAILED_TO_LOAD_CONSOLE": "Captain কনসোল লোড করতে ব্যর্থ হয়েছে। দয়া করে রিফ্রেশ করে আবার চেষ্টা করুন।"
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Mga Nakalistang Kaganapan",
-      "LEARN_MORE": "Learn more about webhooks",
+      "LEARN_MORE": "ওয়েবহুক সম্পর্কে আরও জানুন",
       "SECRET": {
         "LABEL": "Lihim",
         "COPY": "Copy secret to clipboard",
@@ -52,10 +52,10 @@
             "CONVERSATION_STATUS_CHANGED": "Nagbago ang Katayuan ng Usapan",
             "CONVERSATION_UPDATED": "Na-update ang Usapan",
             "MESSAGE_CREATED": "Nalikha ang mensahe",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
+            "MESSAGE_UPDATED": "বার্তা আপডেট হয়েছে",
+            "WEBWIDGET_TRIGGERED": "ব্যবহারকারী লাইভ চ্যাট উইজেট খুলেছে",
             "CONTACT_CREATED": "Nalikha ang kontak",
-            "CONTACT_UPDATED": "Contact updated",
+            "CONTACT_UPDATED": "কন্টাক্ট আপডেট হয়েছে",
             "CONVERSATION_TYPING_ON": "Nagsusulat sa Pag-uusap On",
             "CONVERSATION_TYPING_OFF": "Nagsusulat sa Pag-uusap Off"
           }
@@ -65,52 +65,52 @@
           "PLACEHOLDER": "Enter the name of the webhook"
         },
         "END_POINT": {
-          "LABEL": "Webhook URL",
+          "LABEL": "ওয়েবহুক URL",
           "PLACEHOLDER": "Halimbawa: {webhookExampleURL}",
           "ERROR": "Mangyaring maglagay ng wastong URL"
         },
-        "EDIT_SUBMIT": "Update webhook",
-        "ADD_SUBMIT": "Create webhook"
+        "EDIT_SUBMIT": "Webhook আপডেট করুন",
+        "ADD_SUBMIT": "Webhook তৈরি করুন"
       },
-      "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
+      "TITLE": "ওয়েবহুক",
+      "CONFIGURE": "কনফিগার করুন",
+      "HEADER": "Webhook সেটিংস",
+      "HEADER_BTN_TXT": "নতুন webhook যোগ করুন",
+      "LOADING": "সংযুক্ত webhook গুলো আনা হচ্ছে",
+      "SEARCH_404": "এই অনুসন্ধানে কোনো আইটেম নেই",
       "SIDEBAR_TXT": "<p><b>Mga Webhook</b> </p> <p>Ang mga webhook ay mga HTTP callback na maaaring idefine para sa bawat account. Ito ay na-trigger ng mga pangyayari tulad ng paglikha ng mensahe sa Chatwoot. Maaari kang gumawa ng higit sa isang webhook para sa account na ito. <br /><br /> Para gumawa ng <b>webhook</b>, i-click ang <b>Magdagdag ng bagong webhook</b> na button. Maaari mo ring alisin ang anumang umiiral na webhook sa pamamagitan ng pag-click sa Delete na button.</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "এই অ্যাকাউন্টে কোনো webhook কনফিগার করা নেই।",
+        "TITLE": "Webhook ব্যবস্থাপনা করুন",
         "TABLE_HEADER": {
-          "WEBHOOK_ENDPOINT": "Webhook endpoint",
+          "WEBHOOK_ENDPOINT": "ওয়েবহুক এন্ডপয়েন্ট",
           "ACTIONS": "Mga aksyon"
         }
       },
       "EDIT": {
-        "BUTTON_TEXT": "Edit",
-        "TITLE": "Edit webhook",
+        "BUTTON_TEXT": "সম্পাদনা",
+        "TITLE": "ওয়েবহুক সম্পাদনা করুন",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook কনফিগারেশন সফলভাবে আপডেট হয়েছে",
+          "ERROR_MESSAGE": "Woot Server-এ সংযোগ করা যায়নি, পরে আবার চেষ্টা করুন"
         }
       },
       "ADD": {
         "CANCEL": "Kanselahin",
-        "TITLE": "Add new webhook",
+        "TITLE": "নতুন webhook যোগ করুন",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook কনফিগারেশন সফলভাবে যোগ হয়েছে",
+          "ERROR_MESSAGE": "Woot Server-এ সংযোগ করা যায়নি, অনুগ্রহ করে পরে আবার চেষ্টা করুন"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Tanggalin",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "ওয়েবহুক সফলভাবে মুছে ফেলা হয়েছে",
+          "ERROR_MESSAGE": "Woot Server-এ সংযোগ করা যায়নি, পরে আবার চেষ্টা করুন"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
+          "TITLE": "মুছে ফেলা নিশ্চিত করুন",
           "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
           "YES": "Oo, Tanggalin ",
           "NO": "Hindi, Panatilihin"
@@ -125,27 +125,27 @@
         "MESSAGE": "Sigurado ka bang gusto mong tanggalin ang integrasyon? Kapag ginawa mo ito, mawawala ang kakayahan mong tingnan ang mga pag-uusap sa iyong Slack account."
       },
       "HELP_TEXT": {
-        "TITLE": "How to use the Slack Integration?",
+        "TITLE": "Slack ইন্টিগ্রেশন কীভাবে ব্যবহার করবেন?",
         "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "napili"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
+        "OPTION_LABEL": "একটি চ্যানেল নির্বাচন করুন",
         "UPDATE": "I-update",
-        "BUTTON_TEXT": "Connect channel",
+        "BUTTON_TEXT": "চ্যানেল সংযুক্ত করুন",
         "DESCRIPTION": "Ang iyong Slack account ay naka-link na sa Chatwoot. Gayunpaman, kasalukuyang hindi aktibo ang integrasyon. Upang paganahin ang integrasyon at ikonekta ang isang channel sa Chatwoot, pakiklik ang button sa ibaba.\n\n**Tandaan:** Kung sinusubukan mong ikonekta ang isang pribadong channel, idagdag muna ang Chatwoot app sa Slack channel bago magpatuloy sa hakbang na ito.",
         "ATTENTION_REQUIRED": "Kinakailangan ang pansin",
         "EXPIRED": "Nag-expire na ang iyong Slack integration. Upang magpatuloy sa pagtanggap ng mga mensahe sa Slack, pakitanggal ang integrasyon at ikonekta muli ang iyong Slack account."
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "ইন্টিগ্রেশন আপডেট করতে সমস্যা হয়েছে, আবার চেষ্টা করুন",
+      "UPDATE_SUCCESS": "চ্যানেল সফলভাবে সংযুক্ত হয়েছে",
+      "FAILED_TO_FETCH_CHANNELS": "Slack থেকে চ্যানেল আনতে সমস্যা হয়েছে, আবার চেষ্টা করুন"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Pindutin dito upang sumali",
       "LEAVE_THE_ROOM": "Umalis sa silid",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "START_VIDEO_CALL_HELP_TEXT": "গ্রাহকের সাথে নতুন ভিডিও কল শুরু করুন",
+      "JOIN_ERROR": "কল-এ যোগ দিতে সমস্যা হয়েছে, দয়া করে আবার চেষ্টা করুন",
       "CREATE_ERROR": "Nagkaroon ng error sa paglikha ng link ng meeting, pakisubukang muli"
     },
     "OPEN_AI": {
@@ -153,14 +153,14 @@
       "WITH_AI": " {option} gamit ang AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Mungkahi ng sagot",
-        "SUMMARIZE": "Summarize",
+        "SUMMARIZE": "সারাংশ করুন",
         "REPHRASE": "Pagandahin ang pagsulat",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
+        "FIX_SPELLING_GRAMMAR": "বানান ও ব্যাকরণ ঠিক করুন",
+        "SHORTEN": "সংক্ষিপ্ত করুন",
         "EXPAND": "Palawakin",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FRIENDLY": "বার্তার টোন বন্ধুত্বপূর্ণ করুন",
         "MAKE_FORMAL": "Gamitin ang pormal na tono",
-        "SIMPLIFY": "Simplify",
+        "SIMPLIFY": "সহজ করুন",
         "CONFIDENT": "Use confident tone",
         "PROFESSIONAL": "Gamitin ang propesyonal na tono",
         "CASUAL": "Gamitin ang kaswal na tono",
@@ -185,9 +185,9 @@
         "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
+        "DRAFT_TITLE": "খসড়া কনটেন্ট",
         "GENERATED_TITLE": "Nilikha na nilalaman",
-        "AI_WRITING": "AI is writing",
+        "AI_WRITING": "AI লিখছে",
         "BUTTONS": {
           "APPLY": "Gamitin ang mungkahing ito",
           "CANCEL": "Kanselahin"
@@ -195,25 +195,25 @@
       },
       "CTA_MODAL": {
         "TITLE": "Isama sa OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "DESC": "OpenAI-এর GPT মডেলের মাধ্যমে আপনার ড্যাশবোর্ডে উন্নত AI ফিচার যুক্ত করুন। শুরু করতে, আপনার OpenAI অ্যাকাউন্ট থেকে API কী দিন।",
+        "KEY_PLACEHOLDER": "আপনার OpenAI API কী লিখুন",
         "BUTTONS": {
           "NEED_HELP": "Kailangan ng tulong?",
           "DISMISS": "Isara",
-          "FINISH": "Finish Setup"
+          "FINISH": "সেটআপ সম্পন্ন করুন"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "আপনি পরে যেকোনো সময় OpenAI ইন্টিগ্রেশন সেটআপ করতে পারবেন।",
+        "SUCCESS_MESSAGE": "OpenAI ইন্টিগ্রেশন সফলভাবে সম্পন্ন হয়েছে"
       },
       "TITLE": "Pagbutihin Gamit ang AI",
       "SUMMARY_TITLE": "Buod gamit ang AI",
       "REPLY_TITLE": "Mungkahi ng sagot gamit ang AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "SUBTITLE": "আপনার বর্তমান খসড়ার উপর ভিত্তি করে AI আরও উন্নত উত্তর তৈরি করবে।",
       "TONE": {
         "TITLE": "Tono",
         "OPTIONS": {
           "PROFESSIONAL": "Propesyonal",
-          "FRIENDLY": "Friendly"
+          "FRIENDLY": "বন্ধুসুলভ"
         }
       },
       "BUTTONS": {
@@ -221,7 +221,7 @@
         "GENERATING": "Gumagawa...",
         "CANCEL": "Kanselahin"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please verify your OpenAI API key and try again"
+      "GENERATE_ERROR": "কনটেন্ট প্রসেস করতে সমস্যা হয়েছে, অনুগ্রহ করে আপনার OpenAI API কী যাচাই করে আবার চেষ্টা করুন"
     },
     "DELETE": {
       "BUTTON_TEXT": "Tanggalin",
@@ -230,79 +230,79 @@
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "সংযোগ করুন"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
+      "TITLE": "ড্যাশবোর্ড অ্যাপ",
+      "HEADER_BTN_TXT": "নতুন ড্যাশবোর্ড অ্যাপ যোগ করুন",
       "SIDEBAR_TXT": "<p><b>Mga App sa Dashboard</b></p><p>Pinapayagan ng Mga App sa Dashboard ang mga organisasyon na isama ang isang aplikasyon sa loob ng Chatwoot dashboard upang magbigay ng konteksto para sa mga ahente ng suporta sa customer. Pinapayagan ka ng tampok na ito na gumawa ng isang aplikasyon nang nakapag-iisa at isama ito sa dashboard upang magbigay ng impormasyon tungkol sa gumagamit, kanilang mga order, o kanilang nakaraang kasaysayan ng pagbabayad.</p><p>Kapag isinama mo ang iyong aplikasyon gamit ang dashboard sa Chatwoot, makukuha ng iyong aplikasyon ang konteksto ng pag-uusap at kontak bilang isang window event. Magpatupad ng tagapakinig para sa message event sa iyong pahina upang matanggap ang konteksto.</p><p>Upang magdagdag ng bagong app sa dashboard, i-click ang button na 'Magdagdag ng bagong app sa dashboard'.</p>",
       "DESCRIPTION": "Pinapayagan ng Mga App sa Dashboard ang mga organisasyon na isama ang isang aplikasyon sa loob ng dashboard upang magbigay ng konteksto para sa mga ahente ng suporta sa customer. Pinapayagan ka ng tampok na ito na gumawa ng isang aplikasyon nang nakapag-iisa at isama ito upang magbigay ng impormasyon tungkol sa gumagamit, kanilang mga order, o kanilang nakaraang kasaysayan ng pagbabayad.",
-      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "LEARN_MORE": "ড্যাশবোর্ড অ্যাপ সম্পর্কে আরও জানুন",
       "COUNT": "{n} dashboard app | {n} dashboard apps",
       "SEARCH_PLACEHOLDER": "Search dashboard apps...",
       "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Wala pang naka-configure na mga dashboard app sa account na ito",
-        "LOADING": "Fetching dashboard apps...",
+        "LOADING": "ড্যাশবোর্ড অ্যাপ লোড হচ্ছে...",
         "TABLE_HEADER": {
           "NAME": "Pangalan",
-          "ENDPOINT": "Endpoint",
+          "ENDPOINT": "এন্ডপয়েন্ট",
           "ACTIONS": "Mga Aksyon"
         },
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "অ্যাপ সম্পাদনা করুন",
+        "DELETE_TOOLTIP": "অ্যাপ মুছে ফেলুন"
       },
       "FORM": {
         "TITLE_LABEL": "Pangalan",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
+        "TITLE_PLACEHOLDER": "আপনার ড্যাশবোর্ড অ্যাপের জন্য একটি নাম লিখুন",
+        "TITLE_ERROR": "ড্যাশবোর্ড অ্যাপের জন্য একটি নাম আবশ্যক",
+        "URL_LABEL": "এন্ডপয়েন্ট",
+        "URL_PLACEHOLDER": "আপনার অ্যাপ যেখানে হোস্ট করা আছে সেই এন্ডপয়েন্ট URL লিখুন",
         "URL_ERROR": "Kinakailangan ang isang wastong URL"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "নতুন ড্যাশবোর্ড অ্যাপ যোগ করুন",
         "FORM_SUBMIT": "Isumite",
         "FORM_CANCEL": "Kanselahin",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "ড্যাশবোর্ড অ্যাপ সফলভাবে কনফিগার হয়েছে",
+        "API_ERROR": "অ্যাপ তৈরি করা যায়নি। অনুগ্রহ করে পরে আবার চেষ্টা করুন"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "ড্যাশবোর্ড অ্যাপ সম্পাদনা করুন",
         "FORM_SUBMIT": "I-update",
         "FORM_CANCEL": "Kanselahin",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "ড্যাশবোর্ড অ্যাপ সফলভাবে আপডেট হয়েছে",
+        "API_ERROR": "অ্যাপ আপডেট করা যায়নি। অনুগ্রহ করে পরে আবার চেষ্টা করুন"
       },
       "DELETE": {
         "CONFIRM_YES": "Oo, tanggalin ito",
         "CONFIRM_NO": "Hindi, panatilihin ito",
-        "TITLE": "Confirm deletion",
+        "TITLE": "মুছে ফেলা নিশ্চিত করুন",
         "MESSAGE": "Sigurado ka bang tatanggalin ang app - {appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "API_SUCCESS": "ড্যাশবোর্ড অ্যাপ সফলভাবে মুছে ফেলা হয়েছে",
+        "API_ERROR": "অ্যাপটি মুছে ফেলা যায়নি। পরে আবার চেষ্টা করুন"
       }
     },
     "LINEAR": {
       "HEADER": "Linear",
-      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "ADD_OR_LINK_BUTTON": "Linear ইস্যু তৈরি/লিঙ্ক করুন",
+      "LOADING": "Linear ইস্যু আনা হচ্ছে...",
+      "LOADING_ERROR": "Linear ইস্যুগুলি আনতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
       "CREATE": "Gumawa",
       "LINK": {
         "SEARCH": "Maghanap ng mga isyu",
         "SELECT": "Piliin ang isyu",
-        "TITLE": "Link",
-        "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
-        "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "TITLE": "লিঙ্ক",
+        "EMPTY_LIST": "কোনো Linear ইস্যু পাওয়া যায়নি",
+        "LOADING": "লোড হচ্ছে",
+        "ERROR": "Linear ইস্যুগুলি আনতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
+        "LINK_SUCCESS": "ইস্যুটি সফলভাবে লিঙ্ক হয়েছে",
+        "LINK_ERROR": "ইস্যুটি লিঙ্ক করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
         "LINK_TITLE": "Usapan (#{conversationId}) kasama si {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Gumawa/mag-link ng linear na isyu",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "DESCRIPTION": "কথোপকথন থেকে Linear ইস্যু তৈরি করুন, অথবা বিদ্যমান ইস্যু লিঙ্ক করুন সহজ ট্র্যাকিংয়ের জন্য।",
         "FORM": {
           "TITLE": {
             "LABEL": "Pamagat",
@@ -310,8 +310,8 @@
             "REQUIRED_ERROR": "Kinakailangan ang pamagat"
           },
           "DESCRIPTION": {
-            "LABEL": "Description",
-            "PLACEHOLDER": "Enter description"
+            "LABEL": "বর্ণনা",
+            "PLACEHOLDER": "বর্ণনা লিখুন"
           },
           "TEAM": {
             "LABEL": "Koponan",
@@ -321,8 +321,8 @@
           },
           "ASSIGNEE": {
             "LABEL": "Inatasan",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "PLACEHOLDER": "অ্যাসাইনি নির্বাচন করুন",
+            "SEARCH": "অ্যাসাইনি খুঁজুন"
           },
           "PRIORITY": {
             "LABEL": "Prayoridad",
@@ -330,14 +330,14 @@
             "SEARCH": "Maghanap ng prayoridad"
           },
           "LABEL": {
-            "LABEL": "Label",
-            "PLACEHOLDER": "Select label",
-            "SEARCH": "Search label"
+            "LABEL": "লেবেল",
+            "PLACEHOLDER": "লেবেল নির্বাচন করুন",
+            "SEARCH": "লেবেল খুঁজুন"
           },
           "STATUS": {
             "LABEL": "Katayuan",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "PLACEHOLDER": "স্ট্যাটাস নির্বাচন করুন",
+            "SEARCH": "স্ট্যাটাস খুঁজুন"
           },
           "PROJECT": {
             "LABEL": "Proyekto",
@@ -348,15 +348,15 @@
         "CREATE": "Gumawa",
         "CANCEL": "Kanselahin",
         "CREATE_SUCCESS": "Matagumpay na nagawa ang isyu",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE_ERROR": "সমস্যাটি তৈরি করতে ত্রুটি হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
+        "LOADING_TEAM_ERROR": "টিমগুলি আনতে ত্রুটি হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
+        "LOADING_TEAM_ENTITIES_ERROR": "টিম এন্টিটিগুলি আনতে ত্রুটি হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
       },
       "ISSUE": {
         "STATUS": "Katayuan",
         "PRIORITY": "Prayoridad",
         "ASSIGNEE": "Inatasan",
-        "LABELS": "Labels",
+        "LABELS": "লেবেলসমূহ",
         "CREATED_AT": "Nilikha noong {createdAt}"
       },
       "UNLINK": {
@@ -372,16 +372,16 @@
         "CANCEL": "Kanselahin"
       },
       "CTA": {
-        "TITLE": "Connect to Linear",
-        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
+        "TITLE": "Linear-এ সংযোগ করুন",
+        "AGENT_DESCRIPTION": "Linear ওয়ার্কস্পেস সংযুক্ত নয়। এই ইন্টিগ্রেশনটি ব্যবহার করতে অ্যাডমিনকে ওয়ার্কস্পেস সংযুক্ত করতে বলুন।",
         "DESCRIPTION": "Hindi nakakonekta ang Linear workspace. I-click ang button sa ibaba upang ikonekta ang iyong workspace para magamit ang integrasyong ito.",
-        "BUTTON_TEXT": "Connect Linear workspace"
+        "BUTTON_TEXT": "Linear ওয়ার্কস্পেস সংযুক্ত করুন"
       }
     },
     "NOTION": {
       "HEADER": "Notion",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
+        "TITLE": "আপনি কি নিশ্চিত যে Notion ইন্টিগ্রেশন মুছে ফেলতে চান?",
         "MESSAGE": "Ang pagtanggal sa integrasyong ito ay mag-aalis ng kakayahan mong gamitin ang iyong Notion account at hihinto ang lahat ng kaugnay na functionality.",
         "CONFIRM": "Oo, tanggalin",
         "CANCEL": "Kanselahin"
@@ -399,24 +399,24 @@
     },
     "COPILOT": {
       "TITLE": "Copilot",
-      "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
+      "TRY_THESE_PROMPTS": "এই প্রম্পটগুলো চেষ্টা করুন",
+      "PANEL_TITLE": "Copilot দিয়ে শুরু করুন",
       "KICK_OFF_MESSAGE": "Kailangan ng mabilis na buod, nais tingnan ang mga nakaraang pag-uusap, o gumawa ng mas magandang sagot? Narito ang Copilot para pabilisin ang mga bagay.",
       "SEND_MESSAGE": "Magpadala ng mensahe...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
+      "EMPTY_MESSAGE": "উত্তর তৈরি করতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।",
+      "LOADER": "Captain ভাবছে",
       "YOU": "Ikaw",
       "USE": "Gamitin ito",
-      "RESET": "Reset",
+      "RESET": "রিসেট",
       "SHOW_STEPS": "Ipakita ang mga hakbang",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "SELECT_ASSISTANT": "সহায়ক নির্বাচন করুন",
       "PROMPTS": {
         "SUMMARIZE": {
           "LABEL": "Ibuod ang pag-uusap na ito",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "CONTENT": "গ্রাহক ও সাপোর্ট এজেন্টের মধ্যে আলোচিত মূল বিষয়গুলো সংক্ষেপে লিখুন, যেখানে গ্রাহকের উদ্বেগ, প্রশ্ন এবং এজেন্টের দেওয়া সমাধান বা উত্তর অন্তর্ভুক্ত থাকবে।"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
+          "LABEL": "উত্তরের পরামর্শ দিন",
           "CONTENT": "Suriin ang tanong ng customer, at gumawa ng draft ng sagot na epektibong tinutugunan ang kanilang mga alalahanin o tanong. Siguraduhing malinaw, maikli, at nagbibigay ng kapaki-pakinabang na impormasyon ang sagot."
         },
         "RATE": {
@@ -428,7 +428,7 @@
           "CONTENT": "Bigyan ako ng buod ng lahat ng mataas na prayoridad na bukas na pag-uusap. Isama ang conversation ID, pangalan ng customer (kung mayroon), nilalaman ng huling mensahe, at naka-assign na ahente. I-grupo ayon sa status kung naaangkop."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
+          "LABEL": "যোগাযোগের তালিকা",
           "CONTENT": "Ipakita sa akin ang listahan ng nangungunang 10 mga contact. Isama ang pangalan, email o numero ng telepono (kung mayroon), huling oras na nakita, mga tag (kung mayroon)."
         }
       }
@@ -436,21 +436,21 @@
     "PLAYGROUND": {
       "USER": "Ikaw",
       "ASSISTANT": "Katulong",
-      "MESSAGE_PLACEHOLDER": "Type your message...",
+      "MESSAGE_PLACEHOLDER": "আপনার বার্তা লিখুন...",
       "HEADER": "Palaruan",
       "DESCRIPTION": "Gamitin ang playground na ito upang magpadala ng mga mensahe sa iyong assistant at suriin kung ito ay tumutugon nang tumpak, mabilis, at sa inaasahang tono.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "CREDIT_NOTE": "এখানে পাঠানো বার্তাগুলো আপনার Captain ক্রেডিটের মধ্যে গণনা হবে।"
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "UPGRADE_NOW": "Upgrade now",
+      "TITLE": "Captain AI ব্যবহারের জন্য আপগ্রেড করুন",
+      "AVAILABLE_ON": "Captain ফ্রি প্ল্যানে উপলব্ধ নয়।",
+      "UPGRADE_PROMPT": "সহকারী, কপাইলট ও আরও সুবিধা পেতে আপনার প্ল্যান আপগ্রেড করুন।",
+      "UPGRADE_NOW": "এখনই আপগ্রেড করুন",
       "CANCEL_ANYTIME": "Maaari mong baguhin o kanselahin ang iyong plano anumang oras"
     },
     "ENTERPRISE_PAYWALL": {
       "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "UPGRADE_PROMPT": "সহায়ক, কপাইলট ও আরও অনেক ফিচার পেতে আপনার প্ল্যান আপগ্রেড করুন।",
       "ASK_ADMIN": "Mangyaring makipag-ugnayan sa iyong administrator para sa pag-upgrade."
     },
     "BANNER": {
@@ -471,13 +471,13 @@
         "DESCRIPTION": "Pangmatagalang aksyon ito. Ang pagtanggal sa katulong na ito ay aalisin ito mula sa lahat ng nakakonektang kahon ng mensahe at permanenteng aalisin ang lahat ng nabuong kaalaman.",
         "CONFIRM": "Oo, tanggalin",
         "SUCCESS_MESSAGE": "Matagumpay na natanggal ang katulong",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "ERROR_MESSAGE": "সহকারী মুছে ফেলতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "আপনার সহকারীর নাম, উদ্দেশ্য এবং কোন পণ্যকে সহায়তা করবে তা নিচের তথ্যগুলো পূরণ করুন।",
       "CREATE": {
         "TITLE": "Gumawa ng katulong",
         "SUCCESS_MESSAGE": "Matagumpay na nagawa ang katulong",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "ERROR_MESSAGE": "সহকারী তৈরি করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
       },
       "FORM": {
         "UPDATE": "I-update",
@@ -490,7 +490,7 @@
         },
         "NAME": {
           "LABEL": "Pangalan",
-          "PLACEHOLDER": "Enter assistant name",
+          "PLACEHOLDER": "সহকারীর নাম লিখুন",
           "ERROR": "Kinakailangan ang pangalan"
         },
         "TEMPERATURE": {
@@ -499,7 +499,7 @@
         },
         "DESCRIPTION": {
           "LABEL": "Paglalarawan",
-          "PLACEHOLDER": "Enter assistant description",
+          "PLACEHOLDER": "সহকারীর বিবরণ লিখুন",
           "ERROR": "Kinakailangan ang paglalarawan"
         },
         "PRODUCT_NAME": {
@@ -521,30 +521,30 @@
         },
         "INSTRUCTIONS": {
           "LABEL": "Mga Tagubilin",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "PLACEHOLDER": "সহকারীর জন্য নির্দেশনা লিখুন"
         },
         "FEATURES": {
           "TITLE": "Mga Tampok",
-          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
+          "ALLOW_CONVERSATION_FAQS": "সমাধানকৃত কথোপকথন থেকে FAQ তৈরি করুন",
           "ALLOW_MEMORIES": "Kuhain ang mahahalagang detalye bilang mga alaala mula sa mga interaksyon ng customer.",
           "ALLOW_CITATIONS": "Isama ang mga sanggunian ng pinagmulan sa mga sagot",
           "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
-        "TITLE": "Update the assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "TITLE": "সহকারী আপডেট করুন",
+        "SUCCESS_MESSAGE": "সহকারী সফলভাবে আপডেট হয়েছে",
+        "ERROR_MESSAGE": "সহকারী আপডেট করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।",
+        "NOT_FOUND": "সহকারী খুঁজে পাওয়া যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।"
       },
       "SETTINGS": {
         "HEADER": "Mga Setting",
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
+          "TITLE": "মৌলিক সেটিংস",
           "DESCRIPTION": "I-customize kung ano ang sinasabi ng assistant kapag nagtatapos ng pag-uusap o naglilipat sa isang tao."
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
+          "TITLE": "সিস্টেম সেটিংস",
           "DESCRIPTION": "I-customize kung ano ang sinasabi ng assistant kapag nagtatapos ng pag-uusap o naglilipat sa isang tao."
         },
         "CONTROL_ITEMS": {
@@ -568,15 +568,15 @@
         }
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Edit Assistant",
+        "EDIT_ASSISTANT": "সহকারী সম্পাদনা করুন",
         "DELETE_ASSISTANT": "Tanggalin ang Katulong",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "VIEW_CONNECTED_INBOXES": "সংযুক্ত ইনবক্সগুলো দেখুন"
       },
       "EMPTY_STATE": {
         "TITLE": "Walang mga assistant na magagamit",
         "SUBTITLE": "Gumawa ng assistant upang magbigay ng mabilis at tumpak na mga tugon sa iyong mga user. Maaari itong matuto mula sa iyong mga help article at mga nakaraang pag-uusap.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
+          "TITLE": "Captain সহায়ক",
           "NOTE": "Direktang nakikipag-ugnayan ang Captain Assistant sa mga customer, natututo mula sa iyong mga dokumento ng tulong at mga nakaraang usapan, at nagbibigay ng agarang, tumpak na mga sagot. Hinahawakan nito ang mga unang tanong, nagbibigay ng mabilis na solusyon bago ilipat sa isang ahente kung kinakailangan."
         }
       },
@@ -594,14 +594,14 @@
             "TITLE": "Mga halimbawa ng pananggalang",
             "ADD": "Idagdag lahat",
             "ADD_SINGLE": "Idagdag ito",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "SAVE": "যোগ করুন ও সংরক্ষণ করুন (↵)",
+            "PLACEHOLDER": "আরও একটি গার্ডরেল লিখুন..."
           },
           "NEW": {
             "TITLE": "Magdagdag ng pananggalang",
             "CREATE": "Gumawa",
             "CANCEL": "Kanselahin",
-            "PLACEHOLDER": "Type in another guardrail...",
+            "PLACEHOLDER": "আরও একটি গার্ডরেল লিখুন...",
             "TEST_ALL": "Subukan lahat"
           }
         },
@@ -612,16 +612,16 @@
         "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "গার্ডরেইল সফলভাবে যোগ হয়েছে",
+            "ERROR": "গার্ডরেইল যোগ করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।"
           },
           "UPDATE": {
-            "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "SUCCESS": "গার্ডরেইল সফলভাবে আপডেট হয়েছে",
+            "ERROR": "গার্ডরেইল আপডেট করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।"
           },
           "DELETE": {
             "SUCCESS": "Matagumpay na natanggal ang mga pananggalang",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "ERROR": "গার্ডরেইল মুছে ফেলতে সমস্যা হয়েছে, আবার চেষ্টা করুন।"
           }
         }
       },
@@ -639,14 +639,14 @@
             "TITLE": "Mga halimbawa ng patnubay sa tugon",
             "ADD": "Idagdag lahat",
             "ADD_SINGLE": "Idagdag ito",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another response guideline..."
+            "SAVE": "যোগ করুন ও সংরক্ষণ করুন (↵)",
+            "PLACEHOLDER": "আরও একটি উত্তর নির্দেশিকা লিখুন..."
           },
           "NEW": {
             "TITLE": "Magdagdag ng patnubay sa tugon",
             "CREATE": "Gumawa",
             "CANCEL": "Kanselahin",
-            "PLACEHOLDER": "Type in another response guideline...",
+            "PLACEHOLDER": "আরও একটি উত্তর নির্দেশিকা লিখুন...",
             "TEST_ALL": "Subukan lahat"
           }
         },
@@ -657,8 +657,8 @@
         "SEARCH_EMPTY_MESSAGE": "Walang natagpuang patnubay sa tugon para sa paghahanap na ito.",
         "API": {
           "ADD": {
-            "SUCCESS": "Response Guidelines added successfully",
-            "ERROR": "There was an error adding response guidelines, please try again."
+            "SUCCESS": "উত্তর নির্দেশিকা সফলভাবে যোগ হয়েছে",
+            "ERROR": "উত্তর নির্দেশিকা যোগ করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।"
           },
           "UPDATE": {
             "SUCCESS": "Response Guidelines updated successfully",
@@ -742,11 +742,11 @@
         "TITLE": "Mga Kaugnay na FAQ",
         "DESCRIPTION": "Ang mga FAQ na ito ay direktang ginawa mula sa dokumento."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "FORM_DESCRIPTION": "নথির URL দিন, এটি জ্ঞানভাণ্ডারে যোগ করুন এবং সংশ্লিষ্ট সহকারী নির্বাচন করুন।",
       "CREATE": {
         "TITLE": "Magdagdag ng dokumento",
         "SUCCESS_MESSAGE": "Matagumpay na nagawa ang dokumento",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "ERROR_MESSAGE": "নথি তৈরি করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
       },
       "FORM": {
         "TYPE": {
@@ -777,7 +777,7 @@
         "DESCRIPTION": "Pangmatagalang aksyon ito. Ang pagtanggal sa dokumentong ito ay permanenteng aalisin ang lahat ng nabuong kaalaman.",
         "CONFIRM": "Oo, tanggalin",
         "SUCCESS_MESSAGE": "Matagumpay na natanggal ang dokumento",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "ERROR_MESSAGE": "নথি মুছে ফেলতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
       },
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "Tingnan ang mga Kaugnay na Tugon",
@@ -785,10 +785,10 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Walang magagamit na mga dokumento",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "SUBTITLE": "আপনার সহায়ক FAQ তৈরি করতে ডকুমেন্ট ব্যবহার করে। সহায়ককে প্রাসঙ্গিক তথ্য দিতে ডকুমেন্ট ইম্পোর্ট করতে পারেন।",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "TITLE": "Captain ডকুমেন্ট",
+          "NOTE": "Captain-এ একটি ডকুমেন্ট সহায়কের জন্য জ্ঞানের উৎস হিসেবে কাজ করে। আপনার হেল্প সেন্টার বা গাইড সংযুক্ত করলে Captain কনটেন্ট বিশ্লেষণ করে গ্রাহকের প্রশ্নের সঠিক উত্তর দিতে পারে।"
         }
       }
     },
@@ -916,21 +916,21 @@
       "BULK_DELETE_BUTTON": "Tanggalin",
       "BULK_APPROVE": {
         "SUCCESS_MESSAGE": "Matagumpay na naaprubahan ang mga FAQ",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "ERROR_MESSAGE": "FAQ অনুমোদনে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
       },
       "BULK_DELETE": {
         "TITLE": "Tanggalin ang mga FAQ?",
         "DESCRIPTION": "Sigurado ka bang gusto mong tanggalin ang mga napiling FAQ? Hindi na ito maaaring bawiin.",
         "CONFIRM": "Oo, tanggalin lahat",
         "SUCCESS_MESSAGE": "Matagumpay na natanggal ang mga FAQ",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "ERROR_MESSAGE": "FAQ মুছতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
       },
       "DELETE": {
         "TITLE": "Sigurado ka bang tatanggalin ang FAQ?",
         "DESCRIPTION": "",
         "CONFIRM": "Oo, tanggalin",
         "SUCCESS_MESSAGE": "Matagumpay na natanggal ang FAQ",
-        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+        "ERROR_MESSAGE": "FAQ মুছে ফেলতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
       },
       "FILTER": {
         "ASSISTANT": "Katulong: {selected}",
@@ -947,11 +947,11 @@
         "TITLE": "Nakakita ang Captain ng ilang FAQ na hinahanap ng iyong mga customer.",
         "ACTION": "Pindutin dito upang suriin"
       },
-      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "FORM_DESCRIPTION": "প্রশ্ন ও উত্তর জ্ঞানভাণ্ডারে যোগ করুন এবং সংশ্লিষ্ট সহকারী নির্বাচন করুন।",
       "CREATE": {
         "TITLE": "Magdagdag ng FAQ",
-        "SUCCESS_MESSAGE": "The response has been added successfully.",
-        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+        "SUCCESS_MESSAGE": "উত্তরটি সফলভাবে যোগ হয়েছে।",
+        "ERROR_MESSAGE": "উত্তর যোগ করতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।"
       },
       "FORM": {
         "QUESTION": {
@@ -966,9 +966,9 @@
         }
       },
       "EDIT": {
-        "TITLE": "Update the FAQ",
-        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
+        "TITLE": "FAQ আপডেট করুন",
+        "SUCCESS_MESSAGE": "FAQ সফলভাবে আপডেট হয়েছে",
+        "ERROR_MESSAGE": "FAQ আপডেট করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
         "APPROVE_SUCCESS_MESSAGE": "Naaprubahan ang FAQ"
       },
       "OPTIONS": {
@@ -988,34 +988,34 @@
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "সংযুক্ত ইনবক্সসমূহ",
+      "ADD_NEW": "নতুন ইনবক্স সংযুক্ত করুন",
       "OPTIONS": {
-        "DISCONNECT": "Disconnect"
+        "DISCONNECT": "সংযোগ বিচ্ছিন্ন করুন"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "আপনি কি ইনবক্সটি সংযোগ বিচ্ছিন্ন করতে চান?",
         "DESCRIPTION": "",
         "CONFIRM": "Oo, tanggalin",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "SUCCESS_MESSAGE": "ইনবক্সটি সফলভাবে সংযোগ বিচ্ছিন্ন হয়েছে।",
+        "ERROR_MESSAGE": "ইনবক্স সংযোগ বিচ্ছিন্ন করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "সহকারীর সাথে সংযোগ করতে একটি ইনবক্স নির্বাচন করুন।",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
-        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+        "TITLE": "ইনবক্স সংযুক্ত করুন",
+        "SUCCESS_MESSAGE": "ইনবক্সটি সফলভাবে সংযুক্ত হয়েছে।",
+        "ERROR_MESSAGE": "ইনবক্স সংযুক্ত করতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।"
       },
       "FORM": {
         "INBOX": {
-          "LABEL": "Inbox",
+          "LABEL": "ইনবক্স",
           "PLACEHOLDER": "Piliin ang inbox kung saan ide-deploy ang assistant.",
-          "ERROR": "An inbox selection is required."
+          "ERROR": "একটি ইনবক্স নির্বাচন করা আবশ্যক।"
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "TITLE": "কোনো সংযুক্ত ইনবক্স নেই",
+        "SUBTITLE": "ইনবক্স সংযুক্ত করলে সহায়ক প্রথমে গ্রাহকের প্রশ্নের উত্তর দেবে, পরে আপনাকে হস্তান্তর করবে।"
       }
     }
   }
