@@ -6,21 +6,21 @@
       "CREATE_PORTAL_BUTTON": "Create Portal"
     },
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
+      "FILTER": "Filtrovanje po",
+      "SORT": "Sortiraj po",
       "LOCALE": "Locale",
-      "SETTINGS_BUTTON": "Settings",
-      "NEW_BUTTON": "New Article",
+      "SETTINGS_BUTTON": "Podešavanja",
+      "NEW_BUTTON": "Novi članak",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "Objavljeno",
+        "DRAFT": "Nacrt",
+        "ARCHIVED": "Arhivirano"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "Të gjitha artikujt",
+        "MINE": "Artikujt e mi",
+        "DRAFT": "Artikujt në draft",
+        "ARCHIVED": "Artikujt e arkivuar"
       },
       "LOCALE_SELECT": {
         "TITLE": "Select locale",
@@ -30,15 +30,15 @@
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
+      "ALL_ARTICLES": "Të gjithë članci",
+      "PUBLISH_BUTTON": "Objavi",
       "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "PREVIEW": "Pregled",
+      "ADD_TRANSLATION": "Dodaj prevod",
+      "OPEN_SIDEBAR": "Otvori bočnu traku",
+      "CLOSE_SIDEBAR": "Zatvori bočnu traku",
+      "SAVING": "Čuvanje...",
+      "SAVED": "Sačuvano"
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
@@ -53,38 +53,38 @@
       }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "Cilësimet e artikullit",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "Kategoria",
+          "TITLE": "Zgjidhni kategoriju",
+          "PLACEHOLDER": "Zgjidhni kategoriju",
+          "NO_RESULT": "Nuk u gjet kategoria",
+          "SEARCH_PLACEHOLDER": "Pretraži kategoriju"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "Autor",
+          "TITLE": "Zgjidhni autora",
+          "PLACEHOLDER": "Zgjidhni autora",
+          "NO_RESULT": "Nuk u gjetën autori",
+          "SEARCH_PLACEHOLDER": "Pretraži autora"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "Meta titulli",
+          "PLACEHOLDER": "Shto meta titull"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "Meta përshkrimi",
+          "PLACEHOLDER": "Shto përshkrimin tënd meta për rezultate më të mira SEO..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "Meta etiketat",
+          "PLACEHOLDER": "Shto meta etiketat të ndara me presje..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "Arkivo artikullin",
+        "DELETE": "Fshi artikullin"
       }
     },
     "ARTICLE_SEARCH_RESULT": {
@@ -99,52 +99,52 @@
       "PREVIEW_LINK": "Preview article"
     },
     "PORTAL": {
-      "HEADER": "Portals",
+      "HEADER": "Portale",
       "DEFAULT": "Default",
-      "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "NEW_BUTTON": "Portal i ri",
+      "ACTIVE_BADGE": "aktivan",
+      "CHOOSE_LOCALE_LABEL": "Izaberi lokalizaciju",
+      "LOADING_MESSAGE": "Duke ngarkuar portalet...",
+      "ARTICLES_LABEL": "članci",
+      "NO_PORTALS_MESSAGE": "Nuk ka portale në dispozicion",
+      "ADD_NEW_LOCALE": "Dodaj novu lokalizaciju",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
-        "CANCEL_BUTTON_LABEL": "Cancel",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "TITLE": "Portali",
+        "PORTAL_SETTINGS": "Cilësimet e portalit",
+        "SUBTITLE": "Imate više portala i možete imati različite lokalizacije za svaki portal.",
+        "CANCEL_BUTTON_LABEL": "Otkaži",
+        "CHOOSE_LOCALE_BUTTON": "Izaberi lokalizaciju"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
-            "SETTINGS": "Settings",
+            "COUNT_LABEL": "artikuj",
+            "ADD": "Shto gjuhë",
+            "VISIT": "Vizito faqen",
+            "SETTINGS": "Cilësimet",
             "DELETE": "Delete"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "Konfigurimet e portalit",
             "ITEMS": {
-              "NAME": "Name",
-              "DOMAIN": "Custom domain",
+              "NAME": "Emri",
+              "DOMAIN": "Domain i personalizuar",
               "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "TITLE": "Titulli i portalit",
+              "THEME": "Ngjyra e temës",
+              "SUB_TEXT": "Nëntitulli i portalit"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "Gjuhët në dispozicion",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
-              "DELETE": "Delete",
-              "DEFAULT_LOCALE": "Default"
+              "NAME": "Emri i gjuhës",
+              "CODE": "Kodi i gjuhës",
+              "ARTICLE_COUNT": "Numri i artikujve",
+              "CATEGORIES": "Numri i kategorive",
+              "SWAP": "Ndërrim",
+              "DELETE": "Fshi",
+              "DEFAULT_LOCALE": "Parazgjedhur"
             }
           }
         },
@@ -216,69 +216,69 @@
           }
         },
         "CREATE_FLOW_PAGE": {
-          "BACK_BUTTON": "Back",
+          "BACK_BUTTON": "Nazad",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "Krijo Portal",
+            "TITLE": "Informacioni centar za pomoć",
+            "CREATE_BASIC_SETTING_BUTTON": "Krijo osnovne postavke portala"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "Prilagođavanje portala",
+            "TITLE": "Prilagođavanje centra za pomoć",
+            "UPDATE_PORTAL_BUTTON": "Ažuriraj postavke portala"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "Voila!🎉 Sve je spremno!",
+            "MESSAGE": "Sada možete videti ovaj kreirani portal na stranici svih portala.",
+            "FINISH": "Idi na stranicu svih portala"
           }
         },
         "LOGO": {
           "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header.",
+          "UPLOAD_BUTTON": "Otpremi logo",
+          "HELP_TEXT": "Ovaj logo će biti prikazan u zaglavlju portala.",
           "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
           "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
           "IMAGE_DELETE_ERROR": "Error while deleting logo"
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
-          "ERROR": "Name is required"
+          "LABEL": "Emri",
+          "PLACEHOLDER": "Emri i portalit",
+          "HELP_TEXT": "Ime će se koristiti interno u javnom portalu.",
+          "ERROR": "Emri është i nevojshëm"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-          "ERROR": "Slug is required"
+          "PLACEHOLDER": "Slug portali për URL-të",
+          "ERROR": "Slug është i nevojshëm"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
+          "LABEL": "Domain i personalizuar",
+          "PLACEHOLDER": "Domain i personalizuar i portalit",
           "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Enter a valid domain URL"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
+          "LABEL": "Lidhja e faqes kryesore",
+          "PLACEHOLDER": "Lidhja e faqes kryesore të portalit",
           "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Enter a valid home page URL"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
+          "LABEL": "Boja teme portala",
           "HELP_TEXT": "This color will show as the theme color for the portal."
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
+          "LABEL": "Titulli i faqes",
+          "PLACEHOLDER": "Titulli i faqes së portalit",
           "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "ERROR": "Titulli i faqes është i nevojshëm"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
+          "LABEL": "Teksti i kokës",
+          "PLACEHOLDER": "Teksti i kokës së portalit",
           "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "ERROR": "Teksti i kokës së portalit është i nevojshëm"
         },
         "API": {
           "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
@@ -319,27 +319,27 @@
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "Duke ngarkuar artikuj...",
+      "404": "Asnjë artikull nuk përputhet me kërkimin tuaj 🔍",
+      "NO_ARTICLES": "Nuk ka artikuj të disponueshëm",
       "HEADERS": {
-        "TITLE": "Title",
-        "CATEGORY": "Category",
+        "TITLE": "Titulli",
+        "CATEGORY": "Kategoria",
         "READ_COUNT": "Views",
-        "STATUS": "Status",
-        "LAST_EDITED": "Last edited"
+        "STATUS": "Statusi",
+        "LAST_EDITED": "I redaktuar së fundmi"
       },
       "COLUMNS": {
-        "BY": "by",
+        "BY": "nga",
         "AUTHOR_NOT_AVAILABLE": "Author is not available"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "Učitavanje članka...",
+      "TITLE_PLACEHOLDER": "Titulli i artikullit shkruhet këtu",
+      "CONTENT_PLACEHOLDER": "Shkruani artikullin tuaj këtu",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "Greška prilikom čuvanja članka"
       }
     },
     "PUBLISH_ARTICLE": {
@@ -389,39 +389,39 @@
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "Kërko për artikuj"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "Krijo një kategori",
+        "SUB_TITLE": "Kategoria do të përdoret në portalin publik për të kategorizuar artikujt.",
+        "PORTAL": "Portali",
+        "LOCALE": "Gjuha",
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Category name",
+          "LABEL": "Emri",
+          "PLACEHOLDER": "Emri i kategorisë",
           "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "ERROR": "Emri është i nevojshëm"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "Slug i kategorisë për url-të",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "Slug është i nevojshëm"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "LABEL": "Përshkrimi",
+          "PLACEHOLDER": "Jepni një përshkrim të shkurtër për kategorinë.",
+          "ERROR": "Përshkrimi është i nevojshëm"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
-          "CANCEL": "Cancel"
+          "CREATE": "Krijo kategori",
+          "CANCEL": "Anulo"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "Kategoria u krijua me sukses",
+          "ERROR_MESSAGE": "Nuk mund të krijohet kategoria"
         }
       },
       "EDIT": {
