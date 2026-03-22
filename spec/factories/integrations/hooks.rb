@@ -19,7 +19,14 @@ FactoryBot.define do
 
     trait :google_translate do
       app_id { 'google_translate' }
-      settings { { project_id: 'test', credentials: {} } }
+      settings do
+        {
+          project_id: 'test',
+          credentials: {},
+          auto_translate_incoming: true,
+          auto_translate_outgoing: false
+        }
+      end
     end
 
     trait :openai do

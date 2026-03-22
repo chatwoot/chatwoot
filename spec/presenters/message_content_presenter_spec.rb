@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe MessageContentPresenter do
   let(:conversation) { create(:conversation) }
-  let(:message) { create(:message, conversation: conversation, content_type: content_type, content: content) }
+  let(:message) { create(:message, :bot_message, conversation: conversation, content_type: content_type, content: content) }
   let(:presenter) { described_class.new(message) }
 
   describe '#outgoing_content' do
@@ -11,6 +11,46 @@ RSpec.describe MessageContentPresenter do
       let(:content) { 'Regular message' }
 
       it 'returns content transformed for channel (HTML for WebWidget)' do
+        expect(presenter.outgoing_content).to eq("<p>Regular message</p>\n")
+      end
+    end
+
+    context 'when outgoing translation is available' do
+      let(:content_type) { 'text' }
+      let(:content) { 'Regular message' }
+
+      before do
+        conversation.update!(additional_attributes: { conversation_language: 'es' })
+        create(:integrations_hook, :google_translate, account: message.account, settings: {
+                 project_id: 'test',
+                 credentials: {},
+                 auto_translate_incoming: true,
+                 auto_translate_outgoing: true
+               })
+        message.update!(translations: { 'es' => 'Mensaje traducido' })
+      end
+
+      it 'uses translated content for outgoing delivery' do
+        expect(presenter.outgoing_content).to eq("<p>Mensaje traducido</p>\n")
+      end
+    end
+
+    context 'when outgoing translation is available but auto translate is disabled' do
+      let(:content_type) { 'text' }
+      let(:content) { 'Regular message' }
+
+      before do
+        conversation.update!(additional_attributes: { conversation_language: 'es' })
+        create(:integrations_hook, :google_translate, account: message.account, settings: {
+                 project_id: 'test',
+                 credentials: {},
+                 auto_translate_incoming: true,
+                 auto_translate_outgoing: false
+               })
+        message.update!(translations: { 'es' => 'Mensaje traducido' })
+      end
+
+      it 'falls back to original content' do
         expect(presenter.outgoing_content).to eq("<p>Regular message</p>\n")
       end
     end
