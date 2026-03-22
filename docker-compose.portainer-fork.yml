@@ -1,0 +1,143 @@
+version: "3.7"
+
+services:
+  chatwoot_fork_app:
+    image: saymon7dev/chatwoot-fork:latest
+    command: bundle exec rails s -p 3000 -b 0.0.0.0
+    entrypoint: docker/entrypoints/rails.sh
+    volumes:
+      - chatwoot_fork_data:/app/storage
+    networks:
+      - network_public
+    environment:
+      - DATABASE_URL=postgresql://postgres:4fXQy69Y4C0G@pgdb:5432/chatwoot_fork
+      - REDIS_URL=redis://redis:6379
+
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+
+      - SECRET_KEY_BASE=30e8fee31443b1d4f6dad933433ac750364724d49247abdb236bd50cbc43b50c7c46899e745c36bee58982d8388ad2c05d0d4497e4549bdc95ce910b6378e141
+      - FRONTEND_URL=https://gruposol.saymon.space
+      - INSTALLATION_NAME=Sol Materiais
+      - DEFAULT_LOCALE=pt_BR
+      - FORCE_SSL=true
+      - ENABLE_ACCOUNT_SIGNUP=false
+
+      - ACTIVE_STORAGE_SERVICE=local
+      - RAILS_LOG_TO_STDOUT=true
+      - USE_INBOX_AVATAR_FOR_BOT=true
+
+      # Integração GROQ
+      - GROQ_API_KEY=${GROQ_API_KEY}
+
+      # Performance
+      - SIDEKIQ_CONCURRENCY=10
+      - RACK_TIMEOUT_SERVICE_TIMEOUT=0
+      - RAILS_MAX_THREADS=5
+      - WEB_CONCURRENCY=2
+      - ENABLE_RACK_ATTACK=false
+      - WEBHOOKS_TRIGGER_TIMEOUT=40
+
+      # Email (Gmail)
+      - MAILER_SENDER_EMAIL=Chatwoot <dev.saymon7@gmail.com>
+      - SMTP_DOMAIN=gmail.com
+      - SMTP_ADDRESS=smtp.gmail.com
+      - SMTP_PORT=587
+      - SMTP_USERNAME=dev.saymon7@gmail.com
+      - SMTP_PASSWORD=hhxdbfmsqwsjkykq
+      - SMTP_AUTHENTICATION=login
+      - SMTP_ENABLE_STARTTLS_AUTO=true
+      - SMTP_OPENSSL_VERIFY_MODE=peer
+      - MAILER_INBOUND_EMAIL_DOMAIN=dev.saymon7@gmail.com
+
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: "1"
+          memory: 2048M
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.chatwoot_fork_app.rule=Host(`gruposol.saymon.space`)
+        - traefik.http.routers.chatwoot_fork_app.entrypoints=websecure
+        - traefik.http.routers.chatwoot_fork_app.tls.certresolver=letsencryptresolver
+        - traefik.http.routers.chatwoot_fork_app.priority=1
+        - traefik.http.routers.chatwoot_fork_app.service=chatwoot_fork_app
+        - traefik.http.services.chatwoot_fork_app.loadbalancer.server.port=3000
+        - traefik.http.services.chatwoot_fork_app.loadbalancer.passhostheader=true
+        - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
+        - traefik.http.routers.chatwoot_fork_app.middlewares=sslheader@docker
+
+  chatwoot_fork_sidekiq:
+    image: saymon7dev/chatwoot-fork:latest
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    volumes:
+      - chatwoot_fork_data:/app/storage
+    networks:
+      - network_public
+    environment:
+      - DATABASE_URL=postgresql://postgres:4fXQy69Y4C0G@pgdb:5432/chatwoot_fork
+      - REDIS_URL=redis://redis:6379
+
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+
+      - SECRET_KEY_BASE=30e8fee31443b1d4f6dad933433ac750364724d49247abdb236bd50cbc43b50c7c46899e745c36bee58982d8388ad2c05d0d4497e4549bdc95ce910b6378e141
+      - FRONTEND_URL=https://gruposol.saymon.space
+      - INSTALLATION_NAME=Sol Materiais
+      - DEFAULT_LOCALE=pt_BR
+      - FORCE_SSL=true
+      - ENABLE_ACCOUNT_SIGNUP=false
+
+      - ACTIVE_STORAGE_SERVICE=local
+      - RAILS_LOG_TO_STDOUT=true
+      - USE_INBOX_AVATAR_FOR_BOT=true
+
+      # Integração GROQ
+      - GROQ_API_KEY=${GROQ_API_KEY}
+
+      # Performance
+      - SIDEKIQ_CONCURRENCY=10
+      - RACK_TIMEOUT_SERVICE_TIMEOUT=0
+      - RAILS_MAX_THREADS=5
+      - WEB_CONCURRENCY=2
+      - ENABLE_RACK_ATTACK=false
+      - WEBHOOKS_TRIGGER_TIMEOUT=40
+
+      # Email (Gmail)
+      - MAILER_SENDER_EMAIL=Chatwoot <dev.saymon7@gmail.com>
+      - SMTP_DOMAIN=gmail.com
+      - SMTP_ADDRESS=smtp.gmail.com
+      - SMTP_PORT=587
+      - SMTP_USERNAME=dev.saymon7@gmail.com
+      - SMTP_PASSWORD=hhxdbfmsqwsjkykq
+      - SMTP_AUTHENTICATION=login
+      - SMTP_ENABLE_STARTTLS_AUTO=true
+      - SMTP_OPENSSL_VERIFY_MODE=peer
+      - MAILER_INBOUND_EMAIL_DOMAIN=dev.saymon7@gmail.com
+
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: "1"
+          memory: 2048M
+
+volumes:
+  chatwoot_fork_data:
+    driver: local
+
+networks:
+  network_public:
+    external: true
+    name: network_public

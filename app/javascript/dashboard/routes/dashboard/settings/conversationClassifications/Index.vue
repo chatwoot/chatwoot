@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onBeforeMount, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
@@ -16,6 +17,7 @@ import {
 const store = useStore();
 const getters = useStoreGetters();
 const { t } = useI18n();
+const route = useRoute();
 
 const newName = ref('');
 const editingId = ref(null);
@@ -29,7 +31,10 @@ const uiFlags = computed(
   () => getters['conversationClassifications/getUIFlags'].value
 );
 
-const currentAccount = computed(() => getters.getCurrentAccount.value);
+const currentAccount = computed(
+  () =>
+    getters['accounts/getAccount'].value(Number(route.params.accountId)) || {}
+);
 
 const requireClassification = computed(
   () =>
@@ -96,7 +101,7 @@ const deleteClassification = async id => {
 
 const updateSetting = async (key, value) => {
   try {
-    await store.dispatch('updateAccount', { [key]: value });
+    await store.dispatch('accounts/update', { [key]: value });
   } catch {
     useAlert(t('GENERAL_SETTINGS.UPDATE.ERROR'));
   }

@@ -76,3 +76,11 @@ remove_orphan_conversations_job:
   cron: '0 */12 * * *'
   class: 'Internal::RemoveOrphanConversationsJob'
   queue: housekeeping
+
+# executed every 30 minutes
+# marks open conversations as abandoned when customer stopped responding
+# and no agent has replied since waiting_since
+detect_abandoned_conversations_job:
+  cron: '*/30 * * * *'
+  class: 'Conversations::DetectAbandonedJob'
+  queue: scheduled_jobs
