@@ -1,13 +1,13 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Postkastid",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
+    "DESCRIPTION": "একটি চ্যানেল হলো যোগাযোগের মাধ্যম যা আপনার গ্রাহক আপনাকে যোগাযোগের জন্য বেছে নেয়। ইনবক্স হলো নির্দিষ্ট চ্যানেলের জন্য যোগাযোগ ব্যবস্থাপনা করার স্থান। এটি ইমেইল, লাইভ চ্যাট, সোশ্যাল মিডিয়া সহ বিভিন্ন উৎস থেকে আসা বার্তা অন্তর্ভুক্ত করতে পারে।",
+    "LEARN_MORE": "ইনবক্স সম্পর্কে আরও জানুন",
     "COUNT": "{n} inbox | {n} inboxes",
     "SEARCH_PLACEHOLDER": "Search inboxes...",
     "NO_RESULTS": "No inboxes found matching your search",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
-    "CLICK_TO_RECONNECT": "Click here to reconnect.",
+    "RECONNECTION_REQUIRED": "আপনার ইনবক্স সংযোগ বিচ্ছিন্ন হয়েছে। পুনরায় অনুমোদন না করা পর্যন্ত নতুন বার্তা পাবেন না।",
+    "CLICK_TO_RECONNECT": "পুনরায় সংযোগ করতে এখানে ক্লিক করুন।",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
     "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
@@ -15,20 +15,20 @@
     },
     "CREATE_FLOW": {
       "CHANNEL": {
-        "TITLE": "Choose Channel",
-        "BODY": "Choose the provider you want to integrate with Chatwoot."
+        "TITLE": "চ্যানেল নির্বাচন করুন",
+        "BODY": "Chatwoot-এর সাথে সংযোগ করতে একটি প্রদানকারী নির্বাচন করুন।"
       },
       "INBOX": {
-        "TITLE": "Create Inbox",
-        "BODY": "Authenticate your account and create an inbox."
+        "TITLE": "ইনবক্স তৈরি করুন",
+        "BODY": "আপনার অ্যাকাউন্ট যাচাই করুন এবং একটি ইনবক্স তৈরি করুন।"
       },
       "AGENT": {
-        "TITLE": "Add Agents",
-        "BODY": "Add agents to the created inbox."
+        "TITLE": "এজেন্ট যোগ করুন",
+        "BODY": "তৈরিকৃত ইনবক্সে এজেন্ট যোগ করুন।"
       },
       "FINISH": {
-        "TITLE": "Voilà!",
-        "BODY": "You are all set to go!"
+        "TITLE": "সম্পন্ন!",
+        "BODY": "সব প্রস্তুত!"
       }
     },
     "ADD": {
@@ -47,18 +47,18 @@
         "CHOOSE_PLACEHOLDER": "Valige nimekirjast leht",
         "INBOX_NAME": "Postkasti nimi",
         "ADD_NAME": "Lisa oma postkastile nimi",
-        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_NAME": "আপনার ইনবক্সের জন্য একটি নাম দিন",
         "PICK_A_VALUE": "Vali väärtus",
-        "CREATE_INBOX": "Create Inbox"
+        "CREATE_INBOX": "ইনবক্স তৈরি করুন"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "CONTINUE_WITH_INSTAGRAM": "Instagram দিয়ে চালিয়ে যান",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "আপনার Instagram প্রোফাইল সংযুক্ত করুন",
+        "HELP": "আপনার Instagram প্রোফাইল চ্যানেল হিসেবে যোগ করতে, 'Instagram দিয়ে চালিয়ে যান' ক্লিক করে প্রোফাইলটি অনুমোদন করুন। ",
+        "ERROR_MESSAGE": "Instagram-এ সংযোগ করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
+        "ERROR_AUTH": "Instagram-এ সংযোগ করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
+        "NEW_INBOX_SUGGESTION": "এই Instagram অ্যাকাউন্টটি আগে অন্য ইনবক্সের সাথে যুক্ত ছিল এবং এখন এখানে স্থানান্তরিত হয়েছে। সব নতুন বার্তা এখানে দেখা যাবে। পুরনো ইনবক্স থেকে আর কোনো বার্তা পাঠানো বা গ্রহণ করা যাবে না।",
+        "DUPLICATE_INBOX_BANNER": "এই Instagram অ্যাকাউন্টটি নতুন Instagram চ্যানেল ইনবক্সে স্থানান্তরিত হয়েছে। এই ইনবক্স থেকে আর Instagram বার্তা পাঠানো বা গ্রহণ করা যাবে না।"
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
@@ -83,7 +83,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Veebikonksu URL",
-          "PLACEHOLDER": "Please enter your Webhook URL",
+          "PLACEHOLDER": "আপনার Webhook URL লিখুন",
           "ERROR": "Palun sisesta kehtiv URL"
         },
         "CHANNEL_DOMAIN": {
@@ -164,7 +164,7 @@
           "ERROR": "See väli on kohustuslik"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone Number",
+          "LABEL": "ফোন নম্বর",
           "PLACEHOLDER": "Palun sisestage telefoninumber, millest sõnum saadetakse.",
           "ERROR": "Palun sisestage kehtiv telefoninumber, mis algab märgiga `+` ja ei sisalda tühikuid."
         },
@@ -196,12 +196,12 @@
           },
           "API_KEY": {
             "LABEL": "API võti",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
+            "PLACEHOLDER": "আপনার Bandwidth API Key লিখুন",
             "ERROR": "See väli on kohustuslik"
           },
           "API_SECRET": {
             "LABEL": "API saladus",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
+            "PLACEHOLDER": "আপনার Bandwidth API Secret লিখুন",
             "ERROR": "See väli on kohustuslik"
           },
           "APPLICATION_ID": {
@@ -267,7 +267,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook kinnituse token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
+          "PLACEHOLDER": "Facebook webhooks-এর জন্য আপনি যে verify token কনফিগার করতে চান তা লিখুন।",
           "ERROR": "Palun sisesta kehtiv väärtus."
         },
         "API_KEY": {
@@ -366,7 +366,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "SUBTITLE": "ইভেন্টের callback পেতে আপনি যে URL কনফিগার করতে চান সেটি নির্ধারণ করুন।",
           "PLACEHOLDER": "Webhook URL"
         },
         "SUBMIT_BUTTON": "Loo API kanal",
@@ -376,7 +376,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "E-posti kanal",
-        "DESC": "Integrate your email inbox.",
+        "DESC": "আপনার ইমেইল ইনবক্স সংযুক্ত করুন।",
         "CHANNEL_NAME": {
           "LABEL": "Kanali nimi",
           "PLACEHOLDER": "Palun sisesta kanali nimi",
@@ -494,7 +494,7 @@
       "AGENTS": {
         "TITLE": "Agendid",
         "DESC": "Siin saate lisada agente, kes haldavad teie äsja loodud postkasti. Ainult valitud agendid pääsevad teie postkastile ligi. Agendid, kes ei kuulu sellesse postkasti, ei näe ega saa vastata selle postkasti sõnumitele, kui nad sisse logivad. <br> <b>PS:</b> Administraatorina, kui vajate ligipääsu kõigile postkastidele, peaksite lisama end agentideks kõigisse loodud postkastidesse.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
+        "VALIDATION_ERROR": "নতুন ইনবক্সে অন্তত একজন এজেন্ট যোগ করুন",
         "PICK_AGENTS": "Vali postkasti agendid"
       },
       "DETAILS": {
@@ -513,23 +513,23 @@
         "TITLE": "Microsofti e-post",
         "DESCRIPTION": "Alustamiseks klõpsake nuppu Logi sisse Microsoftiga. Teid suunatakse e-posti sisselogimise lehele. Kui aktsepteerite nõutud õigused, suunatakse teid tagasi postkasti loomise sammu juurde.",
         "EMAIL_PLACEHOLDER": "Sisestage e-posti aadress",
-        "SIGN_IN": "Sign in with Microsoft",
+        "SIGN_IN": "Microsoft দিয়ে সাইন ইন করুন",
         "ERROR_MESSAGE": "Microsoftiga ühendamisel tekkis viga, palun proovige uuesti"
       },
       "GOOGLE": {
-        "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+        "TITLE": "Google ইমেইল",
+        "DESCRIPTION": "শুরু করতে Sign in with Google বোতামে ক্লিক করুন। আপনাকে ইমেইল সাইন ইন পৃষ্ঠায় নিয়ে যাওয়া হবে। অনুরোধকৃত অনুমতিগুলো গ্রহণ করলে আপনাকে ইনবক্স তৈরির ধাপে ফিরিয়ে আনা হবে।",
+        "SIGN_IN": "Google দিয়ে সাইন ইন করুন",
+        "EMAIL_PLACEHOLDER": "ইমেইল ঠিকানা লিখুন",
+        "ERROR_MESSAGE": "Google-এ সংযোগ করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Autendime teid Facebookiga...",
-      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
+      "ERROR_FB_LOADING": "Facebook SDK লোড করতে সমস্যা হয়েছে। দয়া করে যেকোনো বিজ্ঞাপন-ব্লকার বন্ধ করুন এবং অন্য ব্রাউজার থেকে আবার চেষ্টা করুন।",
       "ERROR_FB_AUTH": "Midagi läks valesti, palun värskendage lehte...",
       "ERROR_FB_UNAUTHORIZED": "Teil ei ole selle toimingu tegemiseks õigusi. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
+      "ERROR_FB_UNAUTHORIZED_HELP": "অনুগ্রহ করে নিশ্চিত করুন যে আপনার কাছে Facebook পেজের সম্পূর্ণ নিয়ন্ত্রণে প্রবেশাধিকার আছে। Facebook-এ বিভিন্ন ভূমিকা সম্পর্কে আরও জানতে <a href=\" https://www.facebook.com/help/187316341316631\">এখানে</a> পড়ুন।",
       "CREATING_CHANNEL": "Loomas teie postkasti...",
       "TITLE": "Seadista postkasti üksikasjad",
       "DESC": ""
@@ -566,7 +566,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Saatja nimi",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
+        "SUB_TEXT": "আপনার এজেন্টদের পাঠানো ইমেইলে গ্রাহকের কাছে যে নামটি দেখাবে, সেটি নির্বাচন করুন।",
         "FOR_EG": "Näiteks:",
         "FRIENDLY": {
           "TITLE": "Sõbralik",
@@ -755,7 +755,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Luba sõnumid pärast vestluse lahendamist",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Luba lõppkasutajatel saata sõnumeid ka pärast vestluse lahendamist.",
       "WHATSAPP_SECTION_SUBHEADER": "Seda API võtit kasutatakse WhatsApp API-dega integreerimiseks.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "WhatsApp API-র সাথে সংযোগের জন্য নতুন API কী দিন।",
       "WHATSAPP_SECTION_TITLE": "API võti",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Uuenda API-võtit",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Sisesta siia uus API-võti",
@@ -775,7 +775,7 @@
       "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
       "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
       "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook যাচাইকরণ টোকেন",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Seda märki kasutatakse veebikonksu lõpp-punkti autentsuse kontrollimiseks.",
       "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
@@ -876,14 +876,14 @@
       }
     },
     "CSAT": {
-      "TITLE": "Enable CSAT",
-      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "TITLE": "CSAT চালু করুন",
+      "SUBTITLE": "কথোপকথনের শেষে স্বয়ংক্রিয়ভাবে CSAT জরিপ চালু করুন, যাতে গ্রাহকরা তাদের সহায়তা অভিজ্ঞতা সম্পর্কে কেমন অনুভব করছেন তা বোঝা যায়। সন্তুষ্টির প্রবণতা ট্র্যাক করুন এবং সময়ের সাথে উন্নতির ক্ষেত্র চিহ্নিত করুন।",
       "DISPLAY_TYPE": {
-        "LABEL": "Display type"
+        "LABEL": "প্রদর্শন ধরন"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter a message to show users with the form"
+        "LABEL": "বার্তা",
+        "PLACEHOLDER": "ফর্মের সাথে ব্যবহারকারীদের দেখানোর জন্য একটি বার্তা লিখুন"
       },
       "BUTTON_TEXT": {
         "LABEL": "Button text",
@@ -929,14 +929,14 @@
         }
       },
       "SURVEY_RULE": {
-        "LABEL": "Survey rule",
-        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
-        "DESCRIPTION_SUFFIX": "any of the labels",
+        "LABEL": "জরিপের নিয়ম",
+        "DESCRIPTION_PREFIX": "যদি কথোপকথন",
+        "DESCRIPTION_SUFFIX": "যেকোনো লেবেল",
         "OPERATOR": {
-          "CONTAINS": "contains",
-          "DOES_NOT_CONTAINS": "does not contain"
+          "CONTAINS": "অন্তর্ভুক্ত",
+          "DOES_NOT_CONTAINS": "অন্তর্ভুক্ত নয়"
         },
-        "SELECT_PLACEHOLDER": "select labels"
+        "SELECT_PLACEHOLDER": "লেবেল নির্বাচন করুন"
       },
       "NOTE": "Note: CSAT surveys are sent only once per conversation",
       "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
@@ -953,7 +953,7 @@
       "UPDATE": "Uuenda tööaja seadeid",
       "TOGGLE_AVAILABILITY": "Luba selle postkasti tööaja kättesaadavus",
       "UNAVAILABLE_MESSAGE_LABEL": "Külastajatele saadetav teade, kui pole saadaval",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TOGGLE_HELP": "ব্যবসার সময় সক্রিয় করলে লাইভ চ্যাট উইজেটে উপলব্ধ সময় দেখাবে, এমনকি সব এজেন্ট অফলাইনে থাকলেও। নির্ধারিত সময়ের বাইরে ভিজিটরদের বার্তা ও প্রি-চ্যাট ফর্মের মাধ্যমে সতর্ক করা যাবে।",
       "DAY": {
         "DAY": "Day",
         "AVAILABILITY": "Availability",
@@ -971,7 +971,7 @@
       "NOTE_TEXT": "SMTP lubamiseks seadistage palun IMAP.",
       "UPDATE": "Uuenda IMAP seadeid",
       "TOGGLE_AVAILABILITY": "Luba IMAP konfiguratsioon selle sissetuleva postkasti jaoks",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "TOGGLE_HELP": "IMAP চালু করলে ব্যবহারকারী ইমেইল পেতে পারবেন",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP seaded uuendati edukalt",
         "ERROR_MESSAGE": "IMAP seadete uuendamine ebaõnnestus"
@@ -981,8 +981,8 @@
         "PLACE_HOLDER": "Aadress (nt imap.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "পোর্ট",
+        "PLACE_HOLDER": "পোর্ট"
       },
       "LOGIN": {
         "LABEL": "Sisselogimine",
@@ -1013,8 +1013,8 @@
         "PLACE_HOLDER": "Aadress (nt smtp.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "পোর্ট",
+        "PLACE_HOLDER": "পোর্ট"
       },
       "LOGIN": {
         "LABEL": "Logi sisse",
@@ -1134,15 +1134,15 @@
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
-      "WEB_WIDGET": "Website",
+      "WEB_WIDGET": "ওয়েবসাইট",
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
       "SMS": "SMS",
-      "EMAIL": "Email",
+      "EMAIL": "ইমেইল",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Channel",
+      "API": "API চ্যানেল",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
       "VOICE": "Voice"
