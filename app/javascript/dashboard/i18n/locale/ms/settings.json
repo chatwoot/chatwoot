@@ -3,918 +3,918 @@
     "LINK": "Tetapan akaun profil",
     "TITLE": "Tetapan profil pengguna",
     "BTN_TEXT": "Kemas kini profil",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
+    "DELETE_AVATAR": "অ্যাভাটার মুছুন",
+    "AVATAR_DELETE_SUCCESS": "অ্যাভাটার সফলভাবে মুছে ফেলা হয়েছে",
+    "AVATAR_DELETE_FAILED": "অ্যাভাটার মুছতে সমস্যা হয়েছে, আবার চেষ্টা করুন",
+    "UPDATE_SUCCESS": "আপনার প্রোফাইল সফলভাবে আপডেট হয়েছে",
+    "PASSWORD_UPDATE_SUCCESS": "আপনার পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে",
     "AFTER_EMAIL_CHANGED": "Profil anda telah berjaya dikemas kini. Sila log masuk semula kerana kelayakan log masuk anda telah berubah.",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "প্রোফাইল ছবি",
       "AVATAR": "Imej profil",
       "ERROR": "Sila baiki ralat borang",
       "REMOVE_IMAGE": "Padam",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "UPLOAD_IMAGE": "ছবি আপলোড করুন",
+      "UPDATE_IMAGE": "ছবি পরিবর্তন করুন",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "TITLE": "প্রোফাইল",
+        "NOTE": "আপনার ইমেইল ঠিকানাই আপনার পরিচয় এবং এটি লগইনের জন্য ব্যবহৃত হয়।"
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "বার্তা পাঠানোর শর্টকাট",
+        "NOTE": "আপনার লেখার পছন্দ অনুযায়ী (Enter অথবা Cmd/Ctrl+Enter) শর্টকাট নির্বাচন করতে পারেন।",
+        "UPDATE_SUCCESS": "আপনার সেটিংস সফলভাবে আপডেট হয়েছে",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "Send বোতামে ক্লিক না করে Enter চেপে বার্তা পাঠান।"
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "Send বোতামে ক্লিক না করে Cmd/Ctrl + Enter চেপে বার্তা পাঠান।"
           }
         }
       },
       "INTERFACE_SECTION": {
-        "TITLE": "Interface",
+        "TITLE": "ইন্টারফেস",
         "NOTE": "Sesuaikan rupa dan rasa papan pemuka Chatwoot anda.",
         "FONT_SIZE": {
-          "TITLE": "Font size",
-          "NOTE": "Adjust the text size across the dashboard based on your preference.",
-          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "TITLE": "ফন্ট সাইজ",
+          "NOTE": "আপনার পছন্দ অনুযায়ী ড্যাশবোর্ডের লেখার আকার ঠিক করুন।",
+          "UPDATE_SUCCESS": "Tetapan profil",
+          "UPDATE_ERROR": "Simpan perubahan",
           "OPTIONS": {
-            "SMALLER": "Smaller",
-            "SMALL": "Small",
-            "DEFAULT": "Default",
-            "LARGE": "Large",
-            "LARGER": "Larger",
-            "EXTRA_LARGE": "Extra Large"
+            "SMALLER": "Sila semak e-mel anda untuk mengesahkan perubahan alamat e-mel.",
+            "SMALL": "Avatar",
+            "DEFAULT": "Muat naik imej yang sah",
+            "LARGE": "Buang imej",
+            "LARGER": "Muat naik imej",
+            "EXTRA_LARGE": "অতিরিক্ত বড়"
           }
         },
         "LANGUAGE": {
-          "TITLE": "Preferred Language",
-          "NOTE": "Choose the language you want to use.",
-          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
-          "USE_ACCOUNT_DEFAULT": "Use account default"
+          "TITLE": "পছন্দের ভাষা",
+          "NOTE": "আপনি যে ভাষা ব্যবহার করতে চান তা নির্বাচন করুন।",
+          "UPDATE_SUCCESS": "আপনার ভাষা সেটিংস সফলভাবে আপডেট হয়েছে",
+          "UPDATE_ERROR": "ভাষা সেটিংস আপডেট করতে সমস্যা হয়েছে, আবার চেষ্টা করুন",
+          "USE_ACCOUNT_DEFAULT": "অ্যাকাউন্টের ডিফল্ট ব্যবহার করুন"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "TITLE": "ব্যক্তিগত বার্তার স্বাক্ষর",
+        "NOTE": "প্রতি ইনবক্স থেকে পাঠানো প্রতিটি বার্তার শেষে দেখানোর জন্য একটি ইউনিক বার্তা স্বাক্ষর তৈরি করুন। আপনি ইনলাইন ছবি যোগ করতে পারেন, যা লাইভ-চ্যাট, ইমেইল ও API ইনবক্সে সমর্থিত।",
+        "BTN_TEXT": "বার্তার স্বাক্ষর সংরক্ষণ করুন",
+        "API_ERROR": "স্বাক্ষর সংরক্ষণ করা যায়নি! আবার চেষ্টা করুন",
+        "API_SUCCESS": "স্বাক্ষর সফলভাবে সংরক্ষিত হয়েছে",
+        "IMAGE_UPLOAD_ERROR": "ছবি আপলোড করা যায়নি! আবার চেষ্টা করুন",
+        "IMAGE_UPLOAD_SUCCESS": "ছবি সফলভাবে যোগ হয়েছে। স্বাক্ষর সংরক্ষণ করতে সেভ ক্লিক করুন",
         "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "বার্তার স্বাক্ষর",
+        "ERROR": "বার্তার স্বাক্ষর খালি রাখা যাবে না",
+        "PLACEHOLDER": "এখানে আপনার ব্যক্তিগত বার্তার স্বাক্ষর লিখুন।"
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
-        "NOTE": "Updating your password would reset your logins in multiple devices.",
-        "BTN_TEXT": "Change password"
+        "TITLE": "পাসওয়ার্ড",
+        "NOTE": "পাসওয়ার্ড পরিবর্তন করলে একাধিক ডিভাইসে আপনার লগইন রিসেট হবে।",
+        "BTN_TEXT": "পাসওয়ার্ড পরিবর্তন করুন"
       },
       "SECURITY_SECTION": {
-        "TITLE": "Security",
-        "NOTE": "Manage additional security features for your account.",
-        "MFA_BUTTON": "Manage Two-Factor Authentication"
+        "TITLE": "নিরাপত্তা",
+        "NOTE": "আপনার অ্যাকাউন্টের জন্য অতিরিক্ত নিরাপত্তা ফিচার পরিচালনা করুন।",
+        "MFA_BUTTON": "টু-ফ্যাক্টর অথেন্টিকেশন পরিচালনা করুন"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration",
-        "COPY": "Copy",
-        "RESET": "Reset",
-        "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "NOTE": "API ভিত্তিক ইন্টিগ্রেশনের জন্য এই টোকেন ব্যবহার করা যেতে পারে",
+        "COPY": "কপি করুন",
+        "RESET": "রিসেট করুন",
+        "CONFIRM_RESET": "আপনি কি নিশ্চিত?",
+        "CONFIRM_HINT": "নিশ্চিত করতে আবার ক্লিক করুন",
+        "RESET_SUCCESS": "অ্যাক্সেস টোকেন সফলভাবে পুনর্জন্ম হয়েছে",
+        "RESET_ERROR": "অ্যাক্সেস টোকেন পুনর্জন্ম করা যায়নি। আবার চেষ্টা করুন"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Alerts",
-        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
+        "TITLE": "অডিও সতর্কতা",
+        "NOTE": "ড্যাশবোর্ডে নতুন বার্তা ও কথোপকথনের জন্য অডিও সতর্কতা চালু করুন।",
+        "PLAY": "সাউন্ড চালান",
         "ALERT_TYPES": {
           "NONE": "Tiada",
-          "MINE": "Assigned",
-          "ALL": "All",
-          "ASSIGNED": "My assigned conversations",
-          "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
+          "MINE": "অর্পিত",
+          "ALL": "সব",
+          "ASSIGNED": "আমার নির্ধারিত কথোপকথন",
+          "UNASSIGNED": "অনির্ধারিত কথোপকথন",
+          "NOTME": "অন্যদের নির্ধারিত খোলা কথোপকথন"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
-          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+          "NONE": "আপনি কোনো অপশন নির্বাচন করেননি, আপনি কোনো অডিও সতর্কতা পাবেন না।",
+          "ASSIGNED": "আপনার কাছে অ্যাসাইন করা কথোপকথনের জন্য আপনি সতর্কতা পাবেন।",
+          "UNASSIGNED": "যে কোনো অনির্ধারিত কথোপকথনের জন্য আপনি সতর্কতা পাবেন।",
+          "NOTME": "অন্যদের কাছে অ্যাসাইন করা কথোপকথনের জন্য আপনি সতর্কতা পাবেন।",
+          "ASSIGNED+UNASSIGNED": "আপনার অ্যাসাইন করা ও অনির্ধারিত কথোপকথনের জন্য আপনি সতর্কতা পাবেন।",
+          "ASSIGNED+NOTME": "আপনার ও অন্যদের কাছে অ্যাসাইন করা কথোপকথনের জন্য আপনি সতর্কতা পাবেন, তবে অনির্ধারিতগুলোর জন্য নয়।",
+          "NOTME+UNASSIGNED": "অনির্ধারিত ও অন্যদের কাছে অ্যাসাইন করা কথোপকথনের জন্য আপনি সতর্কতা পাবেন।",
+          "ASSIGNED+NOTME+UNASSIGNED": "সব কথোপকথনের জন্য আপনি সতর্কতা পাবেন।"
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations",
+          "TITLE": "কথোপকথনের সতর্কতা ইভেন্ট",
           "NONE": "Tiada",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "ASSIGNED": "বরাদ্দকৃত কথোপকথন",
+          "ALL_CONVERSATIONS": "সব কথোপকথন"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "সতর্কতা সুর:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "সতর্কতার শর্তাবলী:",
+          "CONDITION_ONE": "শুধুমাত্র যখন ব্রাউজার উইন্ডো সক্রিয় নয় তখন অডিও সতর্কতা পাঠান",
+          "CONDITION_TWO": "নিয়োজিত সব কথোপকথন পড়া না হওয়া পর্যন্ত প্রতি ৩০ সেকেন্ডে সতর্কতা পাঠান"
         },
-        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
-        "READ_MORE": "Read more"
+        "SOUND_PERMISSION_ERROR": "আপনার ব্রাউজারে অটোপ্লে নিষ্ক্রিয় আছে। স্বয়ংক্রিয়ভাবে সতর্কতা শুনতে, ব্রাউজার সেটিংসে সাউন্ড অনুমতি দিন অথবা পৃষ্ঠার সাথে ইন্টারঅ্যাক্ট করুন।",
+        "READ_MORE": "আরও জানুন"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "TITLE": "ইমেইল নোটিফিকেশন",
+        "NOTE": "এখানে আপনার ইমেইল নোটিফিকেশন পছন্দসমূহ আপডেট করুন",
+        "CONVERSATION_ASSIGNMENT": "কোনো কথোপকথন আমাকে বরাদ্দ করা হলে ইমেইল নোটিফিকেশন পাঠান",
+        "CONVERSATION_CREATION": "নতুন কথোপকথন তৈরি হলে ইমেইল নোটিফিকেশন পাঠান",
+        "CONVERSATION_MENTION": "আপনাকে কোনো কথোপকথনে উল্লেখ করা হলে ইমেইল নোটিফিকেশন পাঠান",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "নিয়োজিত কথোপকথনে নতুন বার্তা এলে ইমেইল নোটিফিকেশন পাঠান",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "অংশগ্রহণ করা কথোপকথনে নতুন বার্তা এলে ইমেইল নোটিফিকেশন পাঠান",
+        "SLA_MISSED_FIRST_RESPONSE": "কোনো কথোপকথন প্রথম সাড়া SLA মিস করলে ইমেইল নোটিফিকেশন পাঠান",
+        "SLA_MISSED_NEXT_RESPONSE": "কোনো কথোপকথন পরবর্তী সাড়া SLA মিস করলে ইমেইল নোটিফিকেশন পাঠান",
+        "SLA_MISSED_RESOLUTION": "কোনো কথোপকথন রেজল্যুশন SLA মিস করলে ইমেইল নোটিফিকেশন পাঠান"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
-        "EMAIL": "Email",
-        "PUSH": "Push notification",
+        "TITLE": "নোটিফিকেশন পছন্দ",
+        "TYPE_TITLE": "নোটিফিকেশন ধরন",
+        "EMAIL": "ইমেইল",
+        "PUSH": "পুশ নোটিফিকেশন",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "CONVERSATION_CREATED": "নতুন কথোপকথন তৈরি হয়েছে",
+          "CONVERSATION_ASSIGNED": "আপনার কাছে কথোপকথন অ্যাসাইন করা হয়েছে",
+          "CONVERSATION_MENTION": "আপনাকে কথোপকথনে উল্লেখ করা হয়েছে",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "অ্যাসাইনকৃত কথোপকথনে নতুন বার্তা এসেছে",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "আপনি অংশগ্রহণ করছেন এমন কথোপকথনে নতুন বার্তা এসেছে",
+          "SLA_MISSED_FIRST_RESPONSE": "কথোপকথন প্রথম সাড়া দেওয়ার SLA মিস করেছে",
+          "SLA_MISSED_NEXT_RESPONSE": "কোনো কথোপকথন পরবর্তী উত্তর SLA মিস করেছে",
+          "SLA_MISSED_RESOLUTION": "কোনো কথোপকথন সমাধান SLA মিস করেছে"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "আপনার ব্রাউজারে পুশ নোটিফিকেশন চালু করুন যাতে আপনি নোটিফিকেশন পেতে পারেন"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "আপনার বিজ্ঞপ্তি পছন্দসমূহ সফলভাবে আপডেট হয়েছে",
+        "UPDATE_ERROR": "পছন্দসমূহ আপডেট করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "TITLE": "পুশ নোটিফিকেশন",
+        "NOTE": "এখানে আপনার পুশ নোটিফিকেশন পছন্দসমূহ আপডেট করুন",
+        "CONVERSATION_ASSIGNMENT": "কোনো কথোপকথন আমাকে অ্যাসাইন হলে পুশ নোটিফিকেশন পাঠান",
+        "CONVERSATION_CREATION": "নতুন কথোপকথন তৈরি হলে পুশ নোটিফিকেশন পাঠান",
+        "CONVERSATION_MENTION": "আপনাকে কোনো কথোপকথনে উল্লেখ করা হলে পুশ নোটিফিকেশন পাঠান",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "নিয়োজিত কথোপকথনে নতুন বার্তা এলে পুশ নোটিফিকেশন পাঠান",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "অংশগ্রহণ করা কথোপকথনে নতুন বার্তা এলে পুশ নোটিফিকেশন পাঠান",
+        "HAS_ENABLED_PUSH": "আপনি এই ব্রাউজারে পুশ সক্রিয় করেছেন।",
+        "REQUEST_PUSH": "পুশ নোটিফিকেশন চালু করুন",
+        "SLA_MISSED_FIRST_RESPONSE": "কোনো কথোপকথন প্রথম সাড়া SLA মিস করলে পুশ নোটিফিকেশন পাঠান",
+        "SLA_MISSED_NEXT_RESPONSE": "কোনো কথোপকথন পরবর্তী সাড়া SLA মিস করলে পুশ নোটিফিকেশন পাঠান",
+        "SLA_MISSED_RESOLUTION": "কোনো কথোপকথন রেজল্যুশন SLA মিস করলে পুশ নোটিফিকেশন পাঠান"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "প্রোফাইল ছবি"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "আপনার পূর্ণ নাম",
+        "ERROR": "একটি বৈধ পূর্ণ নাম লিখুন",
+        "PLACEHOLDER": "আপনার পূর্ণ নাম লিখুন"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "ডিসপ্লে নাম",
+        "ERROR": "একটি বৈধ ডিসপ্লে নাম লিখুন",
+        "PLACEHOLDER": "একটি ডিসপ্লে নাম লিখুন, এটি কথোপকথনে দেখানো হবে"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "উপস্থিতি",
         "STATUS": {
-          "ONLINE": "Online",
-          "BUSY": "Busy",
-          "OFFLINE": "Offline"
+          "ONLINE": "অনলাইনে",
+          "BUSY": "ব্যস্ত",
+          "OFFLINE": "অফলাইনে"
         },
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
-        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+        "SET_AVAILABILITY_SUCCESS": "উপস্থিতি সফলভাবে নির্ধারণ করা হয়েছে",
+        "SET_AVAILABILITY_ERROR": "উপস্থিতি নির্ধারণ করা যায়নি, আবার চেষ্টা করুন",
+        "IMPERSONATING_ERROR": "ইউজার ইম্পারসনেট করার সময় অ্যাভেইলেবিলিটি পরিবর্তন করা যাবে না"
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "আপনার ইমেইল ঠিকানা",
+        "ERROR": "একটি বৈধ ইমেইল ঠিকানা দিন",
+        "PLACEHOLDER": "আপনার ইমেইল ঠিকানা লিখুন, এটি কথোপকথনে দেখানো হবে"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "বর্তমান পাসওয়ার্ড",
+        "ERROR": "অনুগ্রহ করে বর্তমান পাসওয়ার্ড দিন",
+        "PLACEHOLDER": "বর্তমান পাসওয়ার্ড লিখুন"
       },
       "PASSWORD": {
-        "LABEL": "New password",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "LABEL": "নতুন পাসওয়ার্ড",
+        "ERROR": "কমপক্ষে ৬ অক্ষরের একটি পাসওয়ার্ড দিন",
+        "PLACEHOLDER": "নতুন পাসওয়ার্ড লিখুন"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "LABEL": "নতুন পাসওয়ার্ড নিশ্চিত করুন",
+        "ERROR": "পাসওয়ার্ড নিশ্চিতকরণ পাসওয়ার্ডের সাথে মিলতে হবে",
+        "PLACEHOLDER": "অনুগ্রহ করে আপনার নতুন পাসওয়ার্ড আবার দিন"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
-    "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_ACCOUNT": "Switch account",
-    "CONTACT_SUPPORT": "Contact support",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile settings",
-    "YEAR_IN_REVIEW": "Year in Review",
-    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
-    "APPEARANCE": "Change appearance",
-    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
-    "DOCS": "Read documentation",
+    "CHANGE_AVAILABILITY_STATUS": "পরিবর্তন করুন",
+    "CHANGE_ACCOUNTS": "অ্যাকাউন্ট পরিবর্তন করুন",
+    "SWITCH_ACCOUNT": "অ্যাকাউন্ট পরিবর্তন করুন",
+    "CONTACT_SUPPORT": "সাপোর্টে যোগাযোগ করুন",
+    "SELECTOR_SUBTITLE": "নিচের তালিকা থেকে একটি অ্যাকাউন্ট নির্বাচন করুন",
+    "PROFILE_SETTINGS": "প্রোফাইল সেটিংস",
+    "YEAR_IN_REVIEW": "বছরের পর্যালোচনা",
+    "KEYBOARD_SHORTCUTS": "কীবোর্ড শর্টকাট",
+    "APPEARANCE": "রূপ পরিবর্তন করুন",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin কনসোল",
+    "DOCS": "ডকুমেন্টেশন পড়ুন",
     "CHANGELOG": "Changelog",
-    "LOGOUT": "Log out"
+    "LOGOUT": "লগ আউট"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now",
-    "DELETED_USER": "Deleted User",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "TRIAL_MESSAGE": "দিন বাকি ট্রায়াল।",
+    "TRAIL_BUTTON": "এখনই কিনুন",
+    "DELETED_USER": "মুছে ফেলা ব্যবহারকারী",
+    "EMAIL_VERIFICATION_PENDING": "আপনি এখনো আপনার ইমেইল ঠিকানা যাচাই করেননি। দয়া করে যাচাইকরণ ইমেইলের জন্য আপনার ইনবক্স চেক করুন।",
+    "RESEND_VERIFICATION_MAIL": "যাচাইকরণ ইমেইল পুনরায় পাঠান",
+    "EMAIL_VERIFICATION_SENT": "যাচাইকরণ ইমেইল পাঠানো হয়েছে। দয়া করে আপনার ইনবক্স চেক করুন।",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "অ্যাকাউন্ট স্থগিত করা হয়েছে",
+      "MESSAGE": "আপনার অ্যাকাউন্ট স্থগিত করা হয়েছে। আরও তথ্যের জন্য সহায়তা টিমের সাথে যোগাযোগ করুন।"
     },
     "NO_ACCOUNTS": {
-      "TITLE": "No account found",
-      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
-      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
-      "LOGOUT": "Log out"
+      "TITLE": "কোনো অ্যাকাউন্ট পাওয়া যায়নি",
+      "MESSAGE_CLOUD": "আপনি বর্তমানে কোনো অ্যাকাউন্টের অংশ নন। যদি এটি ভুল হয়ে থাকে, অনুগ্রহ করে আমাদের সাপোর্ট টিমের সাথে যোগাযোগ করুন।",
+      "MESSAGE_SELF_HOSTED": "আপনি বর্তমানে কোনো অ্যাকাউন্টের অংশ নন। অনুগ্রহ করে আপনার অ্যাডমিনিস্ট্রেটরের সাথে যোগাযোগ করুন।",
+      "LOGOUT": "লগ আউট"
     }
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "CODEPEN": "Open in CodePen",
+      "BUTTON_TEXT": "কপি করুন",
+      "CODEPEN": "CodePen-এ খুলুন",
       "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "আরও দেখান",
+      "SHOW_LESS": "কম দেখান"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available.",
-      "INSTAGRAM_STORY_REPLY": "Replied to your story:"
+      "DOWNLOAD": "ডাউনলোড",
+      "UPLOADING": "আপলোড হচ্ছে...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "এই স্টোরিটি আর দেখা যাচ্ছে না।",
+      "INSTAGRAM_STORY_REPLY": "আপনার স্টোরিতে উত্তর দিয়েছে:"
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "মানচিত্রে দেখুন"
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "জমা দিন"
     },
     "MEDIA": {
-      "IMAGE_UNAVAILABLE": "This image is no longer available.",
-      "LOADING_FAILED": "Loading failed"
+      "IMAGE_UNAVAILABLE": "এই ছবিটি আর উপলব্ধ নেই।",
+      "LOADING_FAILED": "লোড করতে ব্যর্থ হয়েছে"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "যাচাই করা হচ্ছে...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "ইনবক্স যোগ করুন"
     }
   },
   "SIDEBAR": {
-    "NO_ITEMS": "No items",
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
-    "INBOX_VIEW": "Inbox View",
-    "CONVERSATIONS": "Conversations",
-    "INBOX": "My Inbox",
-    "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
-    "REPORTS": "Reports",
-    "SETTINGS": "Settings",
-    "CONTACTS": "Contacts",
-    "ACTIVE": "Active",
-    "COMPANIES": "Companies",
-    "ALL_COMPANIES": "All Companies",
+    "NO_ITEMS": "কোনো আইটেম নেই",
+    "CURRENTLY_VIEWING_ACCOUNT": "বর্তমানে দেখছেন:",
+    "SWITCH": "পরিবর্তন করুন",
+    "INBOX_VIEW": "ইনবক্স ভিউ",
+    "CONVERSATIONS": "কথোপকথন",
+    "INBOX": "আমার ইনবক্স",
+    "ALL_CONVERSATIONS": "সব কথোপকথন",
+    "MENTIONED_CONVERSATIONS": "উল্লেখসমূহ",
+    "PARTICIPATING_CONVERSATIONS": "অংশগ্রহণ",
+    "UNATTENDED_CONVERSATIONS": "অযত্নে থাকা",
+    "REPORTS": "রিপোর্ট",
+    "SETTINGS": "সেটিংস",
+    "CONTACTS": "যোগাযোগসমূহ",
+    "ACTIVE": "সক্রিয়",
+    "COMPANIES": "কোম্পানি",
+    "ALL_COMPANIES": "সব কোম্পানি",
     "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
-    "CAPTAIN_TOOLS": "Tools",
-    "CAPTAIN_SCENARIOS": "Scenarios",
-    "CAPTAIN_PLAYGROUND": "Playground",
-    "CAPTAIN_INBOXES": "Inboxes",
-    "CAPTAIN_SETTINGS": "Settings",
-    "HOME": "Home",
+    "CAPTAIN_ASSISTANTS": "সহায়কগণ",
+    "CAPTAIN_DOCUMENTS": "ডকুমেন্ট",
+    "CAPTAIN_RESPONSES": "প্রশ্নোত্তর",
+    "CAPTAIN_TOOLS": "টুলস",
+    "CAPTAIN_SCENARIOS": "সিনারিও",
+    "CAPTAIN_PLAYGROUND": "প্লেগ্রাউন্ড",
+    "CAPTAIN_INBOXES": "ইনবক্স",
+    "CAPTAIN_SETTINGS": "সেটিংস",
+    "HOME": "হোম",
     "AGENTS": "Ejen",
-    "AGENT_BOTS": "Bots",
-    "AUDIT_LOGS": "Audit Logs",
-    "INBOXES": "Inboxes",
-    "NOTIFICATIONS": "Notifications",
-    "CANNED_RESPONSES": "Canned Responses",
-    "INTEGRATIONS": "Integrations",
-    "PROFILE_SETTINGS": "Profile Settings",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "APPLICATIONS": "Applications",
-    "LABELS": "Labels",
-    "CUSTOM_ATTRIBUTES": "Custom Attributes",
-    "AUTOMATION": "Automation",
-    "MACROS": "Macros",
-    "TEAMS": "Teams",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
-    "REPORTS_CONVERSATION": "Conversations",
+    "AGENT_BOTS": "বট",
+    "AUDIT_LOGS": "অডিট লগ",
+    "INBOXES": "ইনবক্স",
+    "NOTIFICATIONS": "নোটিফিকেশন",
+    "CANNED_RESPONSES": "সংরক্ষিত উত্তর",
+    "INTEGRATIONS": "ইন্টিগ্রেশন",
+    "PROFILE_SETTINGS": "প্রোফাইল সেটিংস",
+    "ACCOUNT_SETTINGS": "অ্যাকাউন্ট সেটিংস",
+    "APPLICATIONS": "অ্যাপ্লিকেশন",
+    "LABELS": "লেবেল",
+    "CUSTOM_ATTRIBUTES": "কাস্টম অ্যাট্রিবিউট",
+    "AUTOMATION": "স্বয়ংক্রিয়তা",
+    "MACROS": "ম্যাক্রো",
+    "TEAMS": "টিম",
+    "BILLING": "বিলিং",
+    "CUSTOM_VIEWS_FOLDER": "ফোল্ডার",
+    "CUSTOM_VIEWS_SEGMENTS": "সেগমেন্ট",
+    "ALL_CONTACTS": "সব কন্টাক্ট",
+    "TAGGED_WITH": "ট্যাগ করা হয়েছে",
+    "NEW_LABEL": "নতুন লেবেল",
+    "NEW_TEAM": "নতুন টিম",
+    "NEW_INBOX": "নতুন ইনবক্স",
+    "REPORTS_CONVERSATION": "আলাপ",
     "CSAT": "CSAT",
-    "LIVE_CHAT": "Live Chat",
+    "LIVE_CHAT": "লাইভ চ্যাট",
     "SMS": "SMS",
     "WHATSAPP": "WhatsApp",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "CAMPAIGNS": "ক্যাম্পেইন",
+    "ONGOING": "চলমান",
+    "ONE_OFF": "একবারের",
     "REPORTS_SLA": "SLA",
-    "REPORTS_BOT": "Bot",
+    "REPORTS_BOT": "বট",
     "REPORTS_AGENT": "Ejen",
-    "REPORTS_LABEL": "Labels",
-    "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team",
-    "AGENT_ASSIGNMENT": "Agent Assignment",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "SET_YOUR_AVAILABILITY": "Set your availability",
+    "REPORTS_LABEL": "লেবেল",
+    "REPORTS_INBOX": "ইনবক্স",
+    "REPORTS_TEAM": "টিম",
+    "AGENT_ASSIGNMENT": "এজেন্ট বরাদ্দ",
+    "SET_AVAILABILITY_TITLE": "নিজেকে সেট করুন",
+    "SET_YOUR_AVAILABILITY": "আপনার উপস্থিতি নির্ধারণ করুন",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
+    "CUSTOM_ROLES": "কাস্টম ভূমিকা",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
+    "REPORTS_OVERVIEW": "সংক্ষিপ্ত বিবরণ",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
-      "TITLE": "Help Center",
-      "ARTICLES": "Articles",
-      "CATEGORIES": "Categories",
-      "LOCALES": "Locales",
-      "SETTINGS": "Settings"
+      "TITLE": "হেল্প সেন্টার",
+      "ARTICLES": "প্রবন্ধ",
+      "CATEGORIES": "বিভাগ",
+      "LOCALES": "ভাষাসমূহ",
+      "SETTINGS": "সেটিংস"
     },
-    "CHANNELS": "Channels",
+    "CHANNELS": "চ্যানেলসমূহ",
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
-      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+      "TEXT": "স্বয়ংক্রিয়ভাবে অফলাইনে চিহ্নিত করুন",
+      "INFO_TEXT": "আপনি অ্যাপ বা ড্যাশবোর্ড ব্যবহার না করলে সিস্টেম আপনাকে স্বয়ংক্রিয়ভাবে অফলাইনে চিহ্নিত করবে।",
+      "INFO_SHORT": "অ্যাপটি ব্যবহার না করলে স্বয়ংক্রিয়ভাবে অফলাইনে চিহ্নিত করুন।"
     },
-    "DOCS": "Read docs",
-    "SECURITY": "Security",
+    "DOCS": "ডকুমেন্টেশন পড়ুন",
+    "SECURITY": "নিরাপত্তা",
     "CAPTAIN_AI": "Captain",
-    "CONVERSATION_WORKFLOW": "Conversation Workflow"
+    "CONVERSATION_WORKFLOW": "কনভার্সেশন ওয়ার্কফ্লো"
   },
   "CAPTAIN_SETTINGS": {
-    "TITLE": "Captain Settings",
-    "DESCRIPTION": "Configure your AI models and features for Captain. Captain follows a credit based billing, you will be charged credits for every action Captain takes based on the model selected.",
-    "LOADING": "Loading Captain configuration...",
-    "LINK_TEXT": "Learn more about Captain Credits",
-    "NOT_ENABLED": "Captain is not enabled for your account. Please upgrade your plan to access Captain features.",
+    "TITLE": "Captain সেটিংস",
+    "DESCRIPTION": "আপনার Captain-এর জন্য AI মডেল ও ফিচার কনফিগার করুন। Captain-এ ক্রেডিট-ভিত্তিক বিলিং প্রযোজ্য, নির্বাচিত মডেল অনুযায়ী Captain-এর প্রতিটি অ্যাকশনের জন্য ক্রেডিট কাটা হবে।",
+    "LOADING": "Captain কনফিগারেশন লোড হচ্ছে...",
+    "LINK_TEXT": "Captain Credits সম্পর্কে আরও জানুন",
+    "NOT_ENABLED": "আপনার অ্যাকাউন্টে Captain সক্রিয় নয়। Captain ফিচার ব্যবহারের জন্য প্ল্যান আপগ্রেড করুন।",
     "MODEL_CONFIG": {
-      "TITLE": "Model Configuration",
-      "DESCRIPTION": "Select AI models for different features.",
-      "SELECT_MODEL": "Select model",
+      "TITLE": "মডেল কনফিগারেশন",
+      "DESCRIPTION": "বিভিন্ন ফিচারের জন্য AI মডেল নির্বাচন করুন।",
+      "SELECT_MODEL": "মডেল নির্বাচন করুন",
       "CREDITS_PER_MESSAGE": "{credits} credit/message",
-      "COMING_SOON": "Coming soon",
+      "COMING_SOON": "শীঘ্রই আসছে",
       "EDITOR": {
-        "TITLE": "Editor Features",
-        "DESCRIPTION": "Powers smart compose, grammar corrections, tone adjustments, and content enhancement in your message editor."
+        "TITLE": "এডিটর ফিচারসমূহ",
+        "DESCRIPTION": "আপনার মেসেজ এডিটরে স্মার্ট কম্পোজ, ব্যাকরণ সংশোধন, টোন ঠিককরণ ও কনটেন্ট উন্নতকরণ সক্রিয় করে।"
       },
       "ASSISTANT": {
-        "TITLE": "Assistant",
-        "DESCRIPTION": "Handles automated responses, conversation summaries, and intelligent reply suggestions for customer interactions."
+        "TITLE": "সহকারী",
+        "DESCRIPTION": "স্বয়ংক্রিয় উত্তর, কথোপকথনের সারাংশ এবং গ্রাহক ইন্টারঅ্যাকশনের জন্য বুদ্ধিমান রিপ্লাই সাজেশন পরিচালনা করে।"
       },
       "COPILOT": {
-        "TITLE": "Co-pilot",
-        "DESCRIPTION": "Provides real-time contextual suggestions, knowledge base recommendations, and proactive insights during conversations."
+        "TITLE": "কো-পাইলট",
+        "DESCRIPTION": "কথোপকথনের সময় রিয়েল-টাইম প্রাসঙ্গিক সাজেশন, নলেজ বেস সুপারিশ এবং সক্রিয় ইনসাইট প্রদান করে।"
       }
     },
     "FEATURES": {
-      "TITLE": "Features",
-      "DESCRIPTION": "Enable or disable AI-powered features.",
+      "TITLE": "ফিচারসমূহ",
+      "DESCRIPTION": "এআই-চালিত ফিচারসমূহ চালু বা বন্ধ করুন।",
       "AUDIO_TRANSCRIPTION": {
-        "TITLE": "Audio Transcription",
-        "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts."
+        "TITLE": "অডিও ট্রান্সক্রিপশন",
+        "DESCRIPTION": "স্বয়ংক্রিয়ভাবে ভয়েস মেসেজ ও কল রেকর্ডিংকে অনুসন্ধানযোগ্য টেক্সটে রূপান্তর করুন।"
       },
       "HELP_CENTER_SEARCH": {
-        "TITLE": "Help Center Search Indexing",
-        "DESCRIPTION": "Use AI for context aware search inside your help center articles."
+        "TITLE": "হেল্প সেন্টার অনুসন্ধান সূচীকরণ",
+        "DESCRIPTION": "আপনার হেল্প সেন্টার আর্টিকেলে প্রসঙ্গভিত্তিক অনুসন্ধানের জন্য AI ব্যবহার করুন।"
       },
       "LABEL_SUGGESTION": {
-        "TITLE": "Label Suggestion",
-        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
-        "MODEL_TITLE": "Label Suggestion Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
+        "TITLE": "লেবেল সাজেশন",
+        "DESCRIPTION": "কনটেন্ট বিশ্লেষণ ও প্রসঙ্গ অনুযায়ী স্বয়ংক্রিয়ভাবে প্রাসঙ্গিক লেবেল ও ট্যাগ সাজেস্ট করুন।",
+        "MODEL_TITLE": "লেবেল সাজেশন মডেল",
+        "MODEL_DESCRIPTION": "কথোপকথন বিশ্লেষণ ও উপযুক্ত লেবেল সাজেস্ট করার জন্য AI মডেল নির্বাচন করুন"
       }
     },
     "API": {
-      "SUCCESS": "Captain settings updated successfully.",
-      "ERROR": "Failed to update Captain settings. Please try again."
+      "SUCCESS": "ক্যাপ্টেন সেটিংস সফলভাবে আপডেট হয়েছে।",
+      "ERROR": "ক্যাপ্টেন সেটিংস আপডেট করতে ব্যর্থ হয়েছে। আবার চেষ্টা করুন।"
     }
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
-    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "TITLE": "বিলিং",
+    "DESCRIPTION": "এখানে আপনার সাবস্ক্রিপশন পরিচালনা করুন, প্ল্যান আপগ্রেড করুন এবং টিমের জন্য আরও সুবিধা নিন।",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
+      "TITLE": "বর্তমান প্ল্যান",
       "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
-      "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "SEAT_COUNT": "আসনের সংখ্যা",
+      "RENEWS_ON": "নবায়ন হবে"
     },
-    "VIEW_PRICING": "View Pricing",
+    "VIEW_PRICING": "মূল্য তালিকা দেখুন",
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "আপনার সাবস্ক্রিপশন পরিচালনা করুন",
+      "DESCRIPTION": "আপনার পূর্ববর্তী ইনভয়েস দেখুন, বিলিং তথ্য সম্পাদনা করুন অথবা সাবস্ক্রিপশন বাতিল করুন।",
+      "BUTTON_TXT": "বিলিং পোর্টালে যান"
     },
     "CAPTAIN": {
       "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
-      "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
+      "DESCRIPTION": "Captain AI-এর ব্যবহার ও ক্রেডিট পরিচালনা করুন।",
+      "BUTTON_TXT": "আরও ক্রেডিট কিনুন",
+      "DOCUMENTS": "ডকুমেন্ট",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
-      "REFRESH_CREDITS": "Refresh"
+      "UPGRADE": "Captain ফ্রি প্ল্যানে নেই, অ্যাসিস্ট্যান্ট, কপাইলট ও আরও সুবিধা পেতে এখনই আপগ্রেড করুন।",
+      "REFRESH_CREDITS": "রিফ্রেশ"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
-      "BUTTON_TXT": "Chat with us"
+      "TITLE": "সাহায্য দরকার?",
+      "DESCRIPTION": "বিলিং সংক্রান্ত কোনো সমস্যা হচ্ছে? আমরা সাহায্য করতে প্রস্তুত।",
+      "BUTTON_TXT": "আমাদের সাথে চ্যাট করুন"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
+    "NO_BILLING_USER": "আপনার বিলিং অ্যাকাউন্ট কনফিগার করা হচ্ছে। দয়া করে পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।",
     "TOPUP": {
-      "BUY_CREDITS": "Buy more credits",
-      "MODAL_TITLE": "Buy AI Credits",
-      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "BUY_CREDITS": "আরও ক্রেডিট কিনুন",
+      "MODAL_TITLE": "AI ক্রেডিট কিনুন",
+      "MODAL_DESCRIPTION": "Captain AI-এর জন্য অতিরিক্ত ক্রেডিট কিনুন।",
       "CREDITS": "CREDITS",
-      "ONE_TIME": "one-time",
-      "POPULAR": "Most Popular",
-      "NOTE_TITLE": "Note:",
-      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "ONE_TIME": "একবার",
+      "POPULAR": "সবচেয়ে জনপ্রিয়",
+      "NOTE_TITLE": "নোট:",
+      "NOTE_DESCRIPTION": "ক্রেডিট সঙ্গে সঙ্গে যোগ হবে এবং ৬ মাস পর মেয়াদ শেষ হবে। ক্রেডিট ব্যবহারের জন্য সক্রিয় সাবস্ক্রিপশন প্রয়োজন। কেনা ক্রেডিট আপনার মাসিক প্ল্যানের ক্রেডিট শেষ হওয়ার পর ব্যবহার হবে।",
       "CANCEL": "Batalkan",
-      "PURCHASE": "Purchase Credits",
-      "LOADING": "Loading options...",
-      "FETCH_ERROR": "Failed to load credit options. Please try again.",
-      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
+      "PURCHASE": "ক্রেডিট কিনুন",
+      "LOADING": "অপশন লোড হচ্ছে...",
+      "FETCH_ERROR": "ক্রেডিট অপশন লোড করতে ব্যর্থ। আবার চেষ্টা করুন।",
+      "PURCHASE_ERROR": "ক্রয় সম্পন্ন করতে ব্যর্থ। আবার চেষ্টা করুন।",
       "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
       "CONFIRM": {
-        "TITLE": "Confirm Purchase",
+        "TITLE": "ক্রয় নিশ্চিত করুন",
         "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
-        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
-        "GO_BACK": "Go Back",
-        "CONFIRM_PURCHASE": "Confirm Purchase"
+        "INSTANT_DEDUCTION_NOTE": "নিশ্চিত করার সাথে সাথেই আপনার সংরক্ষিত কার্ড থেকে টাকা কাটা হবে।",
+        "GO_BACK": "পেছনে যান",
+        "CONFIRM_PURCHASE": "ক্রয় নিশ্চিত করুন"
       }
     }
   },
   "SECURITY_SETTINGS": {
-    "TITLE": "Security",
-    "DESCRIPTION": "Manage your account security settings.",
-    "LINK_TEXT": "Learn more about SAML SSO",
-    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "TITLE": "নিরাপত্তা",
+    "DESCRIPTION": "আপনার অ্যাকাউন্টের নিরাপত্তা সেটিংস পরিচালনা করুন।",
+    "LINK_TEXT": "SAML SSO সম্পর্কে আরও জানুন",
+    "SAML_DISABLED_MESSAGE": "SAML SSO বর্তমানে নিষ্ক্রিয়। এই ফিচারটি চালু করতে আপনার অ্যাডমিনের সাথে যোগাযোগ করুন।",
     "SAML": {
       "TITLE": "SAML SSO",
-      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "NOTE": "আপনার অ্যাকাউন্টের জন্য SAML সিঙ্গেল সাইন-অন কনফিগার করুন। ব্যবহারকারীরা ইমেইল/পাসওয়ার্ডের পরিবর্তে আপনার আইডেন্টিটি প্রোভাইডার দিয়ে লগইন করবেন।",
       "ACS_URL": {
         "LABEL": "ACS URL",
-        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+        "TOOLTIP": "Assertion Consumer Service URL - এই URL টি আপনার IdP-তে SAML রেসপন্সের গন্তব্য হিসেবে কনফিগার করুন"
       },
       "SSO_URL": {
         "LABEL": "SSO URL",
-        "HELP": "The URL where SAML authentication requests will be sent",
+        "HELP": "এই URL-এ SAML অথেন্টিকেশন অনুরোধ পাঠানো হবে",
         "PLACEHOLDER": "https://your-idp.com/saml/sso"
       },
       "CERTIFICATE": {
-        "LABEL": "Signing certificate in PEM format",
-        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "LABEL": "PEM ফরম্যাটে সাইনিং সার্টিফিকেট",
+        "HELP": "আপনার পরিচয় প্রদানকারীর পাবলিক সার্টিফিকেট, যা SAML প্রতিক্রিয়া যাচাই করতে ব্যবহৃত হয়",
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
       "FINGERPRINT": {
-        "LABEL": "Fingerprint",
-        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+        "LABEL": "ফিঙ্গারপ্রিন্ট",
+        "TOOLTIP": "সার্টিফিকেটের SHA-1 ফিঙ্গারপ্রিন্ট - এটি আপনার IdP কনফিগারেশনে সার্টিফিকেট যাচাই করতে ব্যবহার করুন"
       },
       "COPY_SUCCESS": "Code copied to clipboard successfully",
       "SP_ENTITY_ID": {
         "LABEL": "SP Entity ID",
-        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
-        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+        "HELP": "এই অ্যাপ্লিকেশনের জন্য অনন্য সেবা প্রদানকারী শনাক্তকারী (স্বয়ংক্রিয়ভাবে তৈরি)।",
+        "TOOLTIP": "Chatwoot-এর জন্য অনন্য সেবা প্রদানকারী শনাক্তকারী - এটি আপনার IdP সেটিংসে কনফিগার করুন"
       },
       "IDP_ENTITY_ID": {
-        "LABEL": "Identity Provider Entity ID",
-        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "LABEL": "আইডেন্টিটি প্রোভাইডার Entity ID",
+        "HELP": "আপনার পরিচয় প্রদানকারীর অনন্য শনাক্তকারী (সাধারণত IdP কনফিগারেশনে পাওয়া যায়)",
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
-      "UPDATE_BUTTON": "Update SAML Settings",
+      "UPDATE_BUTTON": "SAML সেটিংস আপডেট করুন",
       "API": {
-        "SUCCESS": "SAML settings updated successfully",
-        "ERROR": "Failed to update SAML settings",
-        "ERROR_LOADING": "Failed to load SAML settings",
-        "DISABLED": "SAML settings disabled successfully"
+        "SUCCESS": "SAML সেটিংস সফলভাবে আপডেট হয়েছে",
+        "ERROR": "SAML সেটিংস আপডেট করতে ব্যর্থ হয়েছে",
+        "ERROR_LOADING": "SAML সেটিংস লোড করতে ব্যর্থ হয়েছে",
+        "DISABLED": "SAML সেটিংস সফলভাবে নিষ্ক্রিয় করা হয়েছে"
       },
       "VALIDATION": {
-        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
-        "SSO_URL_ERROR": "Please enter a valid SSO URL",
-        "CERTIFICATE_ERROR": "Certificate is required",
-        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID এবং Certificate আবশ্যক",
+        "SSO_URL_ERROR": "একটি বৈধ SSO URL দিন",
+        "CERTIFICATE_ERROR": "Certificate আবশ্যক",
+        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID আবশ্যক"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
-        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+        "AVAILABLE_ON": "SAML SSO ফিচারটি শুধুমাত্র Enterprise প্ল্যানে উপলব্ধ।",
+        "UPGRADE_PROMPT": "SAML single sign-on এবং অন্যান্য উন্নত নিরাপত্তা ফিচার ব্যবহারের জন্য Enterprise প্ল্যানে আপগ্রেড করুন।",
+        "ASK_ADMIN": "আপগ্রেডের জন্য আপনার অ্যাডমিনিস্ট্রেটরের সাথে যোগাযোগ করুন।"
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to enable SAML SSO",
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
-        "UPGRADE_NOW": "Upgrade now",
-        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+        "TITLE": "SAML SSO সক্রিয় করতে আপগ্রেড করুন",
+        "AVAILABLE_ON": "SAML SSO ফিচারটি শুধুমাত্র এন্টারপ্রাইজ প্ল্যানে উপলব্ধ।",
+        "UPGRADE_PROMPT": "SAML সিঙ্গেল সাইন-অন ও অন্যান্য উন্নত ফিচার পেতে আপনার প্ল্যান আপগ্রেড করুন।",
+        "UPGRADE_NOW": "এখনই আপগ্রেড করুন",
+        "CANCEL_ANYTIME": "আপনি যেকোনো সময় আপনার প্ল্যান পরিবর্তন বা বাতিল করতে পারেন"
       },
       "ATTRIBUTE_MAPPING": {
-        "TITLE": "SAML Attribute Setup",
-        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+        "TITLE": "SAML অ্যাট্রিবিউট সেটআপ",
+        "DESCRIPTION": "আপনার আইডেন্টিটি প্রোভাইডারে নিচের অ্যাট্রিবিউট ম্যাপিংগুলো কনফিগার করতে হবে"
       },
       "INFO_SECTION": {
-        "TITLE": "Service Provider Information",
-        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+        "TITLE": "সার্ভিস প্রোভাইডার তথ্য",
+        "TOOLTIP": "এসএএমএল সংযোগ স্থাপনের জন্য এই মানগুলো কপি করে আপনার আইডেন্টিটি প্রোভাইডারে কনফিগার করুন"
       }
     }
   },
   "CONVERSATION_WORKFLOW": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "Conversation Workflows",
-        "DESCRIPTION": "Configure rules and required fields for conversation resolution."
+        "TITLE": "কনভার্সেশন ওয়ার্কফ্লো",
+        "DESCRIPTION": "কনভার্সেশন সমাধানের জন্য নিয়ম ও প্রয়োজনীয় ক্ষেত্র কনফিগার করুন।"
       }
     },
     "REQUIRED_ATTRIBUTES": {
-      "TITLE": "Attributes required on resolution",
-      "DESCRIPTION": "When resolving a conversation, agents will be prompted to fill these attributes if they haven't yet.",
-      "NO_ATTRIBUTES": "No attributes added yet",
+      "TITLE": "সমাধানের জন্য প্রয়োজনীয় অ্যাট্রিবিউট",
+      "DESCRIPTION": "কনভার্সেশন সমাধানের সময়, এজেন্টদের এই অ্যাট্রিবিউটগুলো পূরণ করতে বলা হবে যদি এখনো না করে থাকে।",
+      "NO_ATTRIBUTES": "এখনো কোনো অ্যাট্রিবিউট যোগ করা হয়নি",
       "ADD": {
-        "TITLE": "Add Attributes",
-        "SEARCH_PLACEHOLDER": "Search attributes"
+        "TITLE": "অ্যাট্রিবিউট যোগ করুন",
+        "SEARCH_PLACEHOLDER": "অ্যাট্রিবিউট খুঁজুন"
       },
       "SAVE": {
-        "SUCCESS": "Required attributes updated",
-        "ERROR": "Could not update required attributes, please try again"
+        "SUCCESS": "প্রয়োজনীয় অ্যাট্রিবিউট আপডেট হয়েছে",
+        "ERROR": "প্রয়োজনীয় অ্যাট্রিবিউট আপডেট করা যায়নি, দয়া করে আবার চেষ্টা করুন"
       },
       "MODAL": {
-        "TITLE": "Resolve conversation",
-        "DESCRIPTION": "Please fill in the following custom attributes before resolving this conversation",
+        "TITLE": "কনভার্সেশন সমাধান করুন",
+        "DESCRIPTION": "এই কথোপকথন সমাধান করার আগে দয়া করে নিচের কাস্টম অ্যাট্রিবিউটগুলো পূরণ করুন",
         "ACTIONS": {
-          "RESOLVE": "Resolve conversation",
+          "RESOLVE": "কথোপকথন সমাধান করুন",
           "CANCEL": "Batalkan"
         },
         "PLACEHOLDERS": {
-          "TEXT": "Write a note...",
-          "NUMBER": "Enter a number",
-          "LINK": "Add a link",
-          "DATE": "Pick a date",
-          "LIST": "Select an option"
+          "TEXT": "একটি নোট লিখুন...",
+          "NUMBER": "একটি সংখ্যা লিখুন",
+          "LINK": "একটি লিংক যোগ করুন",
+          "DATE": "তারিখ নির্বাচন করুন",
+          "LIST": "একটি অপশন নির্বাচন করুন"
         },
         "CHECKBOX": {
-          "YES": "Yes",
-          "NO": "No"
+          "YES": "হ্যাঁ",
+          "NO": "না"
         }
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to use required attributes",
-        "AVAILABLE_ON": "The required conversation attributes feature is available on the Business and Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade your plan to prompt agents to fill required attributes before conversation resolution.",
-        "UPGRADE_NOW": "Upgrade now",
-        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+        "TITLE": "প্রয়োজনীয় অ্যাট্রিবিউট ব্যবহারের জন্য আপগ্রেড করুন",
+        "AVAILABLE_ON": "প্রয়োজনীয় কথোপকথন বৈশিষ্ট্য শুধুমাত্র Business এবং Enterprise প্ল্যানে উপলব্ধ।",
+        "UPGRADE_PROMPT": "কথোপকথন সমাধানের আগে এজেন্টদের প্রয়োজনীয় বৈশিষ্ট্য পূরণে উৎসাহিত করতে প্ল্যান আপগ্রেড করুন।",
+        "UPGRADE_NOW": "এখনই আপগ্রেড করুন",
+        "CANCEL_ANYTIME": "আপনি যেকোনো সময় আপনার প্ল্যান পরিবর্তন বা বাতিল করতে পারেন"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The required conversation attributes feature is available on the paid plans.",
-        "UPGRADE_PROMPT": "Upgrade to a paid plan to enforce required attributes before conversation resolution.",
-        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+        "AVAILABLE_ON": "প্রয়োজনীয় কথোপকথন বৈশিষ্ট্য শুধুমাত্র পেইড প্ল্যানে উপলব্ধ।",
+        "UPGRADE_PROMPT": "কথোপকথন সমাধানের আগে প্রয়োজনীয় বৈশিষ্ট্য বাধ্যতামূলক করতে পেইড প্ল্যানে আপগ্রেড করুন।",
+        "ASK_ADMIN": "আপগ্রেডের জন্য অনুগ্রহ করে আপনার অ্যাডমিনিস্ট্রেটরের সাথে যোগাযোগ করুন।"
       }
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NO_ACCOUNT_WARNING": "ওহ! কোনো Chatwoot অ্যাকাউন্ট পাওয়া যায়নি। চালিয়ে যেতে নতুন অ্যাকাউন্ট তৈরি করুন।",
+    "NEW_ACCOUNT": "নতুন অ্যাকাউন্ট",
+    "SELECTOR_SUBTITLE": "নতুন অ্যাকাউন্ট তৈরি করুন",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
+      "SUCCESS_MESSAGE": "অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে",
+      "EXIST_MESSAGE": "অ্যাকাউন্ট ইতিমধ্যে আছে",
       "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Company Name",
+        "LABEL": "কোম্পানির নাম",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Submit",
+      "SUBMIT": "জমা দিন",
       "CANCEL": "Batalkan"
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "সব শর্টকাট দেখুন",
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "কথোপকথন খুলুন",
+      "RESOLVE_AND_NEXT": "সমাধান করুন এবং পরবর্তীটিতে যান",
+      "NAVIGATE_DROPDOWN": "ড্রপডাউন আইটেমে নেভিগেট করুন",
+      "RESOLVE_CONVERSATION": "কনভার্সেশন সমাধান করুন",
+      "GO_TO_CONVERSATION_DASHBOARD": "কনভার্সেশন ড্যাশবোর্ডে যান",
+      "ADD_ATTACHMENT": "সংযুক্তি যোগ করুন",
+      "GO_TO_CONTACTS_DASHBOARD": "কন্টাক্টস ড্যাশবোর্ডে যান",
+      "TOGGLE_SIDEBAR": "সাইডবার টগল করুন",
+      "GO_TO_REPORTS_SIDEBAR": "রিপোর্টস সাইডবারে যান",
+      "MOVE_TO_NEXT_TAB": "কনভার্সেশন তালিকায় পরবর্তী ট্যাবে যান",
+      "GO_TO_SETTINGS": "সেটিংসে যান",
+      "SWITCH_TO_PRIVATE_NOTE": "প্রাইভেট নোটে সুইচ করুন",
+      "SWITCH_TO_REPLY": "উত্তরে যান",
+      "TOGGLE_SNOOZE_DROPDOWN": "স্নুজ ড্রপডাউন টগল করুন"
     }
   },
   "ASSIGNMENT_POLICY": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "Agent assignment",
-        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+        "TITLE": "এজেন্ট বরাদ্দ",
+        "DESCRIPTION": "ইনবক্স ও এজেন্টের চাহিদা অনুযায়ী কাজ ভাগ ও কথোপকথন পরিচালনার নীতিমালা নির্ধারণ করুন। আরও জানুন এখানে"
       },
       "ASSIGNMENT_POLICY": {
-        "TITLE": "Assignment policy",
-        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "TITLE": "বরাদ্দ নীতিমালা",
+        "DESCRIPTION": "ইনবক্সে কথোপকথন কীভাবে বরাদ্দ হবে তা পরিচালনা করুন।",
         "FEATURES": [
-          "Assign by conversations evenly or by available capacity",
-          "Add fair distribution rules to avoid overloading any agent",
-          "Add inboxes to a policy - one policy per inbox"
+          "সমানভাবে বা উপলব্ধ সক্ষমতা অনুযায়ী কথোপকথন বরাদ্দ করুন",
+          "কোনো এজেন্টকে অতিরিক্ত চাপ এড়াতে ন্যায্য বণ্টন নিয়ম যোগ করুন",
+          "একটি নীতিতে ইনবক্স যোগ করুন - প্রতি ইনবক্সে একটি নীতি"
         ]
       },
       "AGENT_CAPACITY_POLICY": {
-        "TITLE": "Agent capacity policy",
-        "DESCRIPTION": "Manage workload for agents.",
+        "TITLE": "এজেন্ট সক্ষমতা নীতিমালা",
+        "DESCRIPTION": "এজেন্টদের কাজের চাপ নিয়ন্ত্রণ করুন।",
         "FEATURES": [
-          "Define maximum conversations per inbox",
-          "Create exceptions based on labels and time",
-          "Add agents to a policy - one policy per agent"
+          "প্রতি ইনবক্সে সর্বাধিক কথোপকথন নির্ধারণ করুন",
+          "লেবেল ও সময় অনুযায়ী ব্যতিক্রম তৈরি করুন",
+          "একজন এজেন্টের জন্য একটি নীতিতে এজেন্ট যোগ করুন"
         ]
       }
     },
     "AGENT_ASSIGNMENT_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Assignment policy",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "অ্যাসাইনমেন্ট নীতি",
+          "CREATE_POLICY": "নতুন নীতি"
         },
         "CARD": {
-          "ORDER": "Order",
-          "PRIORITY": "Priority",
-          "ACTIVE": "Active",
-          "INACTIVE": "Inactive",
-          "POPOVER": "Added inboxes",
-          "EDIT": "Edit"
+          "ORDER": "ক্রম",
+          "PRIORITY": "অগ্রাধিকার",
+          "ACTIVE": "সক্রিয়",
+          "INACTIVE": "নিষ্ক্রিয়",
+          "POPOVER": "যোগ করা ইনবক্স",
+          "EDIT": "সম্পাদনা"
         },
-        "NO_RECORDS_FOUND": "No assignment policies found"
+        "NO_RECORDS_FOUND": "কোনো অ্যাসাইনমেন্ট নীতি পাওয়া যায়নি"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create assignment policy"
+          "TITLE": "অ্যাসাইনমেন্ট নীতি তৈরি করুন"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "নীতি তৈরি করুন",
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy created successfully",
-          "ERROR_MESSAGE": "Failed to create assignment policy",
-          "INBOX_LINKED": "Inbox has been linked to the policy"
+          "SUCCESS_MESSAGE": "অ্যাসাইনমেন্ট নীতি সফলভাবে তৈরি হয়েছে",
+          "ERROR_MESSAGE": "অ্যাসাইনমেন্ট নীতি তৈরি করতে ব্যর্থ হয়েছে",
+          "INBOX_LINKED": "ইনবক্সটি নীতির সাথে সংযুক্ত হয়েছে"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit assignment policy"
+          "TITLE": "অ্যাসাইনমেন্ট নীতি সম্পাদনা করুন"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "নীতি আপডেট করুন",
         "CONFIRM_ADD_INBOX_DIALOG": {
-          "TITLE": "Add inbox",
+          "TITLE": "ইনবক্স যোগ করুন",
           "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CONFIRM_BUTTON_LABEL": "চালিয়ে যান",
           "CANCEL_BUTTON_LABEL": "Batalkan"
         },
         "INBOX_LINK_PROMPT": {
-          "TITLE": "Link inbox to policy",
-          "DESCRIPTION": "Would you like to link this inbox to the assignment policy?",
-          "LINK_BUTTON": "Link inbox",
-          "CANCEL_BUTTON": "Skip"
+          "TITLE": "নীতির সাথে ইনবক্স সংযুক্ত করুন",
+          "DESCRIPTION": "আপনি কি এই ইনবক্সটি অ্যাসাইনমেন্ট নীতির সাথে যুক্ত করতে চান?",
+          "LINK_BUTTON": "ইনবক্স যুক্ত করুন",
+          "CANCEL_BUTTON": "এড়িয়ে যান"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update assignment policy"
+          "SUCCESS_MESSAGE": "অ্যাসাইনমেন্ট নীতি সফলভাবে আপডেট হয়েছে",
+          "ERROR_MESSAGE": "অ্যাসাইনমেন্ট নীতি আপডেট করতে ব্যর্থ হয়েছে"
         },
         "INBOX_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "নীতি-তে ইনবক্স সফলভাবে যোগ হয়েছে",
+            "ERROR_MESSAGE": "নীতি-তে ইনবক্স যোগ করতে ব্যর্থ হয়েছে"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+            "SUCCESS_MESSAGE": "নীতি থেকে ইনবক্স সফলভাবে সরানো হয়েছে",
+            "ERROR_MESSAGE": "নীতি থেকে ইনবক্স সরাতে ব্যর্থ হয়েছে"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "নীতির নাম:",
+          "PLACEHOLDER": "নীতির নাম লিখুন"
         },
         "DESCRIPTION": {
-          "LABEL": "Description:",
-          "PLACEHOLDER": "Enter description"
+          "LABEL": "বর্ণনা:",
+          "PLACEHOLDER": "বর্ণনা লিখুন"
         },
         "STATUS": {
-          "LABEL": "Status:",
-          "PLACEHOLDER": "Select status",
-          "ACTIVE": "Policy is active",
-          "INACTIVE": "Policy is inactive"
+          "LABEL": "স্ট্যাটাস:",
+          "PLACEHOLDER": "স্ট্যাটাস নির্বাচন করুন",
+          "ACTIVE": "নীতি সক্রিয় আছে",
+          "INACTIVE": "নীতি নিষ্ক্রিয়"
         },
         "ASSIGNMENT_ORDER": {
-          "LABEL": "Assignment order",
+          "LABEL": "বরাদ্দের ক্রম",
           "ROUND_ROBIN": {
-            "LABEL": "Round robin",
-            "DESCRIPTION": "Assign conversations evenly among agents."
+            "LABEL": "রাউন্ড রবিন",
+            "DESCRIPTION": "এজেন্টদের মধ্যে সমানভাবে কথোপকথন বরাদ্দ করুন।"
           },
           "BALANCED": {
-            "LABEL": "Balanced",
-            "DESCRIPTION": "Assign conversations based on available capacity.",
-            "PREMIUM_MESSAGE": "Upgrade to access balanced assignment and agent capacity management.",
-            "PREMIUM_BADGE": "Premium"
+            "LABEL": "সুষম",
+            "DESCRIPTION": "উপলব্ধ সক্ষমতার ভিত্তিতে কথোপকথন বরাদ্দ করুন।",
+            "PREMIUM_MESSAGE": "ব্যালান্সড অ্যাসাইনমেন্ট ও এজেন্ট ক্যাপাসিটি ব্যবস্থাপনায় অ্যাক্সেস পেতে আপগ্রেড করুন।",
+            "PREMIUM_BADGE": "প্রিমিয়াম"
           }
         },
         "ASSIGNMENT_PRIORITY": {
-          "LABEL": "Assignment priority",
+          "LABEL": "বরাদ্দের অগ্রাধিকার",
           "EARLIEST_CREATED": {
-            "LABEL": "Earliest created",
-            "DESCRIPTION": "The conversation that was created first gets assigned first."
+            "LABEL": "সর্বপ্রথম তৈরি",
+            "DESCRIPTION": "যে কথোপকথনটি প্রথম তৈরি হয়েছে, সেটিই আগে বরাদ্দ হবে।"
           },
           "LONGEST_WAITING": {
-            "LABEL": "Longest waiting",
-            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+            "LABEL": "সর্বাধিক অপেক্ষমাণ",
+            "DESCRIPTION": "সবচেয়ে বেশি সময় অপেক্ষমাণ কথোপকথনটি আগে বরাদ্দ করা হবে।"
           }
         },
         "FAIR_DISTRIBUTION": {
-          "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
-          "INPUT_MAX": "Assign max",
-          "DURATION": "Conversations per agent in every"
+          "LABEL": "ন্যায্য বণ্টন নীতি",
+          "DESCRIPTION": "একজন এজেন্টকে নির্দিষ্ট সময়ের মধ্যে সর্বাধিক কতটি কথোপকথন বরাদ্দ করা যাবে তা নির্ধারণ করুন, যাতে কোনো এজেন্ট অতিরিক্ত চাপ না পায়। এই আবশ্যিক ক্ষেত্রের ডিফল্ট মান প্রতি ঘণ্টায় ১০০টি কথোপকথন।",
+          "INPUT_MAX": "সর্বাধিক বরাদ্দ",
+          "DURATION": "প্রতি এজেন্টে কথোপকথন"
         },
         "INBOXES": {
-          "LABEL": "Added inboxes",
-          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "যোগ করা ইনবক্স",
+          "DESCRIPTION": "যেসব ইনবক্সে এই নীতি প্রযোজ্য হবে, সেগুলো যোগ করুন।",
+          "ADD_BUTTON": "ইনবক্স যোগ করুন",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
-            "ADD_BUTTON": "Add"
+            "SEARCH_PLACEHOLDER": "যোগ করার জন্য ইনবক্স খুঁজুন ও নির্বাচন করুন",
+            "ADD_BUTTON": "যোগ করুন"
           },
-          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "EMPTY_STATE": "এই নীতিতে কোনো ইনবক্স যোগ করা হয়নি, শুরু করতে একটি ইনবক্স যোগ করুন",
           "API": {
-            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "নীতিতে ইনবক্স সফলভাবে যোগ হয়েছে",
+            "ERROR_MESSAGE": "নীতিতে ইনবক্স যোগ করতে ব্যর্থ হয়েছে"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete assignment policy"
+        "SUCCESS_MESSAGE": "অ্যাসাইনমেন্ট নীতি সফলভাবে মুছে ফেলা হয়েছে",
+        "ERROR_MESSAGE": "অ্যাসাইনমেন্ট নীতি মুছে ফেলা যায়নি"
       }
     },
     "AGENT_CAPACITY_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Agent capacity",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "এজেন্টের সক্ষমতা",
+          "CREATE_POLICY": "নতুন নীতি"
         },
         "CARD": {
-          "POPOVER": "Added agents",
-          "EDIT": "Edit"
+          "POPOVER": "যোগ করা এজেন্ট",
+          "EDIT": "সম্পাদনা"
         },
-        "NO_RECORDS_FOUND": "No agent capacity policies found"
+        "NO_RECORDS_FOUND": "কোনো এজেন্ট সক্ষমতা নীতি পাওয়া যায়নি"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create agent capacity policy"
+          "TITLE": "এজেন্ট সক্ষমতা নীতি তৈরি করুন"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "নীতি তৈরি করুন",
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
-          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+          "SUCCESS_MESSAGE": "এজেন্ট সক্ষমতা নীতি সফলভাবে তৈরি হয়েছে",
+          "ERROR_MESSAGE": "এজেন্ট সক্ষমতা নীতি তৈরি করতে ব্যর্থ হয়েছে"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit agent capacity policy"
+          "TITLE": "এজেন্ট সক্ষমতা নীতি সম্পাদনা করুন"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "নীতি আপডেট করুন",
         "CONFIRM_ADD_AGENT_DIALOG": {
-          "TITLE": "Add agent",
+          "TITLE": "এজেন্ট যোগ করুন",
           "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CONFIRM_BUTTON_LABEL": "চালিয়ে যান",
           "CANCEL_BUTTON_LABEL": "Batalkan"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+          "SUCCESS_MESSAGE": "এজেন্ট ধারণক্ষমতা নীতি সফলভাবে আপডেট হয়েছে",
+          "ERROR_MESSAGE": "এজেন্ট ধারণক্ষমতা নীতি আপডেট করতে ব্যর্থ হয়েছে"
         },
         "AGENT_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Agent added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "নীতি-তে এজেন্ট সফলভাবে যোগ হয়েছে",
+            "ERROR_MESSAGE": "নীতি-তে এজেন্ট যোগ করতে ব্যর্থ হয়েছে"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove agent from policy"
+            "SUCCESS_MESSAGE": "নীতি-থেকে এজেন্ট সফলভাবে সরানো হয়েছে",
+            "ERROR_MESSAGE": "নীতি-থেকে এজেন্ট সরাতে ব্যর্থ হয়েছে"
           }
         },
         "INBOX_LIMIT_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Inbox limit added successfully",
-            "ERROR_MESSAGE": "Failed to add inbox limit"
+            "SUCCESS_MESSAGE": "ইনবক্স সীমা সফলভাবে যোগ হয়েছে",
+            "ERROR_MESSAGE": "ইনবক্স সীমা যোগ করতে ব্যর্থ হয়েছে"
           },
           "UPDATE": {
-            "SUCCESS_MESSAGE": "Inbox limit updated successfully",
-            "ERROR_MESSAGE": "Failed to update inbox limit"
+            "SUCCESS_MESSAGE": "ইনবক্স সীমা সফলভাবে আপডেট হয়েছে",
+            "ERROR_MESSAGE": "ইনবক্স সীমা আপডেট করতে ব্যর্থ হয়েছে"
           },
           "DELETE": {
-            "SUCCESS_MESSAGE": "Inbox limit deleted successfully",
-            "ERROR_MESSAGE": "Failed to delete inbox limit"
+            "SUCCESS_MESSAGE": "ইনবক্স সীমা সফলভাবে মুছে ফেলা হয়েছে",
+            "ERROR_MESSAGE": "ইনবক্স সীমা মুছে ফেলা যায়নি"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "নীতির নাম:",
+          "PLACEHOLDER": "নীতির নাম লিখুন"
         },
         "DESCRIPTION": {
-          "LABEL": "Description:",
-          "PLACEHOLDER": "Enter description"
+          "LABEL": "বর্ণনা:",
+          "PLACEHOLDER": "বর্ণনা লিখুন"
         },
         "INBOX_CAPACITY_LIMIT": {
-          "LABEL": "Inbox capacity limits",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "ইনবক্স সীমা",
+          "ADD_BUTTON": "ইনবক্স যোগ করুন",
           "FIELD": {
-            "SELECT_INBOX": "Select inbox",
-            "MAX_CONVERSATIONS": "Max conversations",
-            "SET_LIMIT": "Set limit"
+            "SELECT_INBOX": "ইনবক্স নির্বাচন করুন",
+            "MAX_CONVERSATIONS": "সর্বোচ্চ কথোপকথন",
+            "SET_LIMIT": "সীমা নির্ধারণ করুন"
           },
-          "EMPTY_STATE": "No inbox limit set"
+          "EMPTY_STATE": "কোনো ইনবক্স সীমা নির্ধারিত নেই"
         },
         "EXCLUSION_RULES": {
-          "LABEL": "Exclusion rules",
-          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "LABEL": "বর্জন নীতি",
+          "DESCRIPTION": "নিম্নোক্ত শর্ত পূরণ করলে কথোপকথনগুলো এজেন্টের সীমায় গণ্য হবে না",
           "TAGS": {
-            "LABEL": "Exclude conversations tagged with specific labels",
-            "ADD_TAG": "add tag",
+            "LABEL": "নির্দিষ্ট ট্যাগযুক্ত কথোপকথন বাদ দিন",
+            "ADD_TAG": "ট্যাগ যোগ করুন",
             "DROPDOWN": {
-              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+              "SEARCH_PLACEHOLDER": "ট্যাগ খুঁজে যোগ করুন"
             },
-            "EMPTY_STATE": "No tags added to this policy."
+            "EMPTY_STATE": "এই নীতিতে কোনো ট্যাগ যোগ করা হয়নি।"
           },
           "DURATION": {
-            "LABEL": "Exclude conversations older than a specified duration",
-            "PLACEHOLDER": "Set time"
+            "LABEL": "নির্দিষ্ট সময়ের চেয়ে পুরনো কথোপকথন বাদ দিন",
+            "PLACEHOLDER": "সময় নির্ধারণ করুন"
           }
         },
         "USERS": {
-          "LABEL": "Assigned agents",
-          "DESCRIPTION": "Add agents for which this policy will be applicable.",
-          "ADD_BUTTON": "Add agent",
+          "LABEL": "নিযুক্ত এজেন্ট",
+          "DESCRIPTION": "এই নীতির জন্য যেসব এজেন্ট প্রযোজ্য, তাদের যোগ করুন।",
+          "ADD_BUTTON": "এজেন্ট যোগ করুন",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select agents to add",
-            "ADD_BUTTON": "Add"
+            "SEARCH_PLACEHOLDER": "এজেন্ট খুঁজে যোগ করুন",
+            "ADD_BUTTON": "যোগ করুন"
           },
-          "EMPTY_STATE": "No agents added",
+          "EMPTY_STATE": "কোনো এজেন্ট যোগ করা হয়নি",
           "API": {
-            "SUCCESS_MESSAGE": "Agent successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "এজেন্ট সফলভাবে নীতিতে যুক্ত হয়েছে",
+            "ERROR_MESSAGE": "এজেন্ট নীতিতে যোগ করতে ব্যর্থ হয়েছে"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+        "SUCCESS_MESSAGE": "এজেন্ট সক্ষমতা নীতি সফলভাবে মুছে ফেলা হয়েছে",
+        "ERROR_MESSAGE": "এজেন্ট সক্ষমতা নীতি মুছে ফেলতে ব্যর্থ হয়েছে"
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "Delete policy",
-      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "TITLE": "নীতি মুছুন",
+      "DESCRIPTION": "আপনি কি নিশ্চিতভাবে এই নীতি মুছতে চান? এই কাজটি বাতিল করা যাবে না।",
       "CONFIRM_BUTTON_LABEL": "Padamkan",
       "CANCEL_BUTTON_LABEL": "Batalkan"
     }
