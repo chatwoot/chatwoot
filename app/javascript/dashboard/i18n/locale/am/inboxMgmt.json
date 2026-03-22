@@ -128,7 +128,7 @@
         "TITLE": "Twilio SMS/WhatsApp ቻናል",
         "DESC": "Միացրեք Twilio-ն և սկսեք աջակցել Ձեր հաճախորդներին SMS կամ WhatsApp միջոցով։",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
+          "LABEL": "አካውንት SID",
           "PLACEHOLDER": "እባክዎ የTwilio መለያ መለያዎን ያስገቡ",
           "ERROR": "ይህ መስክ አስፈላጊ ነው"
         },
@@ -169,7 +169,7 @@
           "ERROR": "እባክዎ በ`+` ምልክት የሚጀምር እና ቦታ ያልያዘ ትክክለኛ የስልክ ቁጥር ያቀርቡ።."
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
+          "TITLE": "ካልባክ URL",
           "SUBTITLE": "Twilio-ում պետք է կարգավորեք հաղորդագրության պատասխան URL-ը՝ օգտագործելով այստեղ նշված հասցեն։"
         },
         "SUBMIT_BUTTON": "የTwilio ቻናል ይፍጠሩ",
