@@ -132,6 +132,11 @@ class Rack::Attack
     end
   end
 
+  ## Resend confirmation throttling (authenticated)
+  throttle('resend_confirmation_auth/ip', limit: 5, period: 30.minutes) do |req|
+    req.ip if req.path_without_extentions == '/api/v1/profile/resend_confirmation' && req.post?
+  end
+
   ## MFA throttling - prevent brute force attacks
   throttle('mfa_verification/ip', limit: 5, period: 1.minute) do |req|
     if req.path_without_extentions == '/api/v1/profile/mfa'

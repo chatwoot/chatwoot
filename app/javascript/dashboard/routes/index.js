@@ -18,11 +18,6 @@ export const validateAuthenticateRoutePermission = (to, next) => {
     return '';
   }
 
-  if (!user.confirmed) {
-    window.location.assign('/app/auth/verify-email');
-    return '';
-  }
-
   const { accounts = [], account_id: accountId } = user;
 
   if (!accounts.length) {
