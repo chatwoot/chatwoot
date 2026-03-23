@@ -144,6 +144,20 @@ RSpec.describe 'Accounts API', type: :request do
         end
       end
     end
+
+    context 'when CW_API_ONLY_SERVER is true' do
+      it 'returns auth headers and full response' do
+        params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true', CW_API_ONLY_SERVER: 'true' do
+          post api_v1_accounts_url,
+               params: params,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+        end
+      end
+    end
   end
 
   describe 'GET /api/v1/accounts/{account.id}' do
