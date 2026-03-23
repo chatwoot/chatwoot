@@ -1,6 +1,6 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "받은 메시지함",
+    "HEADER": "받은 편지함",
     "DESCRIPTION": "채널은 고객이 귀하와 상호작용하기 위해 선택하는 커뮤니케이션 방식입니다. 받은 메시지함은 특정 채널에 대한 상호작용을 관리하는 곳입니다. 이메일, 라이브 채팅, 소셜 미디어 등 다양한 소스의 커뮤니케이션을 포함할 수 있습니다.",
     "LEARN_MORE": "받은 메시지함에 대해 자세히 알아보기",
     "COUNT": "{n}개의 받은 메시지함 | {n}개의 받은 메시지함",
@@ -710,8 +710,20 @@
       "MESSENGER_SUB_HEAD": "이 버튼을 body 태그 안에 넣으십시오.",
       "ALLOWED_DOMAINS": {
         "TITLE": "허용된 도메인",
-        "SUBTITLE": "쉼표로 구분된 와일드카드 또는 일반 도메인을 추가하십시오 (모두 허용하려면 비워 두십시오). 예: *.chatwoot.dev, chatwoot.com.",
+        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
         "PLACEHOLDER": "example.com, www.example.com, app.example.com"
+      },
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Enable widget in mobile apps",
+        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Identity Validation",
+        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "SECRET_KEY": "비밀 키",
+        "VIEW_DOCS": "View documentation",
+        "REQUIRE_LABEL": "Require identity validation for all conversations",
+        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
       },
       "INBOX_AGENTS": "에이전트",
       "INBOX_AGENTS_SUB_TEXT": "받은 메시지함에서 에이전트 추가 또는 제거",
