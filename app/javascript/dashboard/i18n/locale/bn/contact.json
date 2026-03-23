@@ -483,28 +483,28 @@
       "DELETE_CONTACT": "যোগাযোগ মুছুন",
       "DELETE_DIALOG": {
         "TITLE": "মুছে ফেলার নিশ্চিতকরণ",
-        "DESCRIPTION": "Are you sure you want to delete this contact?",
-        "CONFIRM": "Yes, Delete",
+        "DESCRIPTION": "আপনি কি নিশ্চিত যে আপনি এই যোগাযোগটি মুছে ফেলতে চান?",
+        "CONFIRM": "হ্যাঁ, মুছে ফেলুন",
         "API": {
-          "SUCCESS_MESSAGE": "Contact deleted successfully",
-          "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+          "SUCCESS_MESSAGE": "যোগাযোগ সফলভাবে মুছে ফেলা হয়েছে",
+          "ERROR_MESSAGE": "যোগাযোগ মুছে ফেলা যায়নি। অনুগ্রহ করে পরে আবার চেষ্টা করুন।"
         }
       },
       "AVATAR": {
         "UPLOAD": {
-          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
-          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+          "ERROR_MESSAGE": "অবতার আপলোড করা যায়নি। অনুগ্রহ করে পরে আবার চেষ্টা করুন।",
+          "SUCCESS_MESSAGE": "অবতার সফলভাবে আপলোড হয়েছে"
         },
         "DELETE": {
-          "SUCCESS_MESSAGE": "Avatar deleted successfully",
-          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+          "SUCCESS_MESSAGE": "অবতার সফলভাবে মুছে ফেলা হয়েছে",
+          "ERROR_MESSAGE": "অবতার মুছে ফেলা যায়নি। অনুগ্রহ করে পরে আবার চেষ্টা করুন।"
         }
       }
     },
     "SIDEBAR": {
       "TABS": {
-        "ATTRIBUTES": "Attributes",
-        "HISTORY": "History",
+        "ATTRIBUTES": "বৈশিষ্ট্যসমূহ",
+        "HISTORY": "ইতিহাস",
         "NOTES": "Notes",
         "MERGE": "Merge"
       },
