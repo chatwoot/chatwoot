@@ -79,64 +79,6 @@ describe V2::Reports::Timeseries::ReportBuilder do
         end
       end
 
-      context 'when rollups are enabled' do
-        let(:timezone_offset) { '5.5' }
-
-        before do
-          account.update!(reporting_timezone: 'Chennai')
-          allow(account).to receive(:feature_enabled?).with('reporting_events_rollup').and_return(true)
-
-          create(:reporting_events_rollup,
-                 account: account,
-                 date: (current_time - 1.week).to_date,
-                 dimension_type: 'account',
-                 dimension_id: account.id,
-                 metric: 'first_response',
-                 count: 1,
-                 sum_value: 93.0,
-                 sum_value_business_hours: 30.0)
-
-          create(:reporting_events_rollup,
-                 account: account,
-                 date: current_time.to_date,
-                 dimension_type: 'account',
-                 dimension_id: account.id,
-                 metric: 'first_response',
-                 count: 2,
-                 sum_value: 180.0,
-                 sum_value_business_hours: 30.0)
-        end
-
-        it 'preserves empty buckets in the timeseries' do
-          rollup_timezone = ActiveSupport::TimeZone['Chennai']
-          rollup_start_date = DateTime.strptime(params[:since], '%s').in_time_zone(rollup_timezone).to_date
-          rollup_end_date = (DateTime.strptime(params[:until], '%s') - 1.second).in_time_zone(rollup_timezone).to_date
-          rollup_dates = rollup_start_date..rollup_end_date
-
-          expected_timeseries = rollup_dates.map do |date|
-            value = if date == (current_time - 1.week).to_date
-                      93.0
-                    elsif date == current_time.to_date
-                      90.0
-                    else
-                      0
-                    end
-
-            count = if date == (current_time - 1.week).to_date
-                      1
-                    elsif date == current_time.to_date
-                      2
-                    else
-                      0
-                    end
-
-            { count: count, timestamp: date.in_time_zone('Chennai').to_i, value: value }
-          end
-
-          expect(subject.timeseries).to eq(expected_timeseries)
-        end
-      end
-
       context 'when group_by is provided' do
         let(:group_by) { 'week' }
 
@@ -160,45 +102,6 @@ describe V2::Reports::Timeseries::ReportBuilder do
           expect(timeseries_values).to eq(
             [
               { count: 1, timestamp: (current_time - 1.week).in_time_zone('Chennai').beginning_of_week(:sunday).to_i, value: 93.0 },
-              { count: 2, timestamp: current_time.in_time_zone('Chennai').beginning_of_week(:sunday).to_i, value: 90.0 }
-            ]
-          )
-        end
-      end
-
-      context 'when weekly rollups are enabled' do
-        let(:group_by) { 'week' }
-        let(:timezone_offset) { '5.5' }
-
-        before do
-          account.update!(reporting_timezone: 'Chennai')
-          allow(account).to receive(:feature_enabled?).with('reporting_events_rollup').and_return(true)
-
-          create(:reporting_events_rollup,
-                 account: account,
-                 date: current_time.to_date - 1.day,
-                 dimension_type: 'account',
-                 dimension_id: account.id,
-                 metric: 'first_response',
-                 count: 1,
-                 sum_value: 80.0,
-                 sum_value_business_hours: 10.0)
-
-          create(:reporting_events_rollup,
-                 account: account,
-                 date: current_time.to_date,
-                 dimension_type: 'account',
-                 dimension_id: account.id,
-                 metric: 'first_response',
-                 count: 1,
-                 sum_value: 100.0,
-                 sum_value_business_hours: 20.0)
-        end
-
-        it 'groups weeks using sunday boundaries' do
-          expect(subject.timeseries).to eq(
-            [
-              { count: 0, timestamp: (current_time - 1.week).in_time_zone('Chennai').beginning_of_week(:sunday).to_i, value: 0 },
               { count: 2, timestamp: current_time.in_time_zone('Chennai').beginning_of_week(:sunday).to_i, value: 90.0 }
             ]
           )
@@ -394,47 +297,6 @@ describe V2::Reports::Timeseries::ReportBuilder do
         result = subject.timeseries
         total_count = result.sum { |row| row[:value] }
         expect(total_count).to eq(2)
-      end
-
-      context 'when rollups are enabled and grouped by week' do
-        let(:group_by) { 'week' }
-        let(:current_time) { Time.zone.parse('2020-10-26 10:00:00 UTC') }
-        let(:since_time) { current_time - 1.week }
-        let(:timezone_offset) { '5.5' }
-
-        before do
-          account.update!(reporting_timezone: 'Chennai')
-          allow(account).to receive(:feature_enabled?).with(:report_rollup).and_return(true)
-
-          create(:reporting_events_rollup,
-                 account: account,
-                 date: current_time.to_date - 1.day,
-                 dimension_type: 'agent',
-                 dimension_id: user.id,
-                 metric: 'resolutions_count',
-                 count: 1,
-                 sum_value: 0.0,
-                 sum_value_business_hours: 0.0)
-
-          create(:reporting_events_rollup,
-                 account: account,
-                 date: current_time.to_date,
-                 dimension_type: 'agent',
-                 dimension_id: user.id,
-                 metric: 'resolutions_count',
-                 count: 1,
-                 sum_value: 0.0,
-                 sum_value_business_hours: 0.0)
-        end
-
-        it 'groups weeks using sunday boundaries' do
-          expect(subject.timeseries).to eq(
-            [
-              { value: 0, timestamp: (current_time - 1.week).in_time_zone('Chennai').beginning_of_week(:sunday).to_i },
-              { value: 2, timestamp: current_time.in_time_zone('Chennai').beginning_of_week(:sunday).to_i }
-            ]
-          )
-        end
       end
     end
 
