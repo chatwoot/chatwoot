@@ -17,38 +17,23 @@ module TwilioSignatureVerifyConcern
       )
       return head :forbidden
     end
-    return if skip_signature_validation?(channel)
+
+    if channel.api_key_sid.present?
+      Rails.logger.warn(
+        '[TWILIO] Signature validation skipped: channel uses API key authentication. ' \
+        "account_sid=#{params[:AccountSid]} channel_id=#{channel.id}"
+      )
+      return
+    end
 
     signature = request.headers['X-Twilio-Signature']
-    return head :forbidden if reject_blank_signature?(signature)
+    if signature.blank?
+      Rails.logger.warn("[TWILIO] Missing X-Twilio-Signature header account_sid=#{params[:AccountSid]}")
+      return head :forbidden
+    end
 
-    validate_signature!(channel, signature)
-  end
-
-  def skip_signature_validation?(channel)
-    return false if channel.api_key_sid.blank?
-
-    Rails.logger.warn(
-      '[TWILIO] Signature validation skipped: channel uses API key authentication. ' \
-      "account_sid=#{params[:AccountSid]} channel_id=#{channel.id}"
-    )
-    true
-  end
-
-  def reject_blank_signature?(signature)
-    return false if signature.present?
-
-    Rails.logger.warn("[TWILIO] Missing X-Twilio-Signature header account_sid=#{params[:AccountSid]}")
-    true
-  end
-
-  def validate_signature!(channel, signature)
-    auth_token = resolve_auth_token(channel)
-    return head :forbidden if auth_token.nil?
-
-    validator = Twilio::Security::RequestValidator.new(auth_token)
+    validator = Twilio::Security::RequestValidator.new(channel.auth_token)
     request_url = reconstruct_url
-
     return if validator.validate(request_url, request.request_parameters, signature)
 
     Rails.logger.warn(
@@ -59,24 +44,6 @@ module TwilioSignatureVerifyConcern
       "ip=#{request.remote_ip}"
     )
     head :forbidden
-  end
-
-  def resolve_auth_token(channel)
-    token = channel.auth_token
-    if token.blank?
-      Rails.logger.error(
-        '[TWILIO] Cannot validate signature: auth_token is blank. ' \
-        "account_sid=#{params[:AccountSid]} channel_id=#{channel.id}"
-      )
-      return nil
-    end
-    token
-  rescue ActiveRecord::Encryption::Errors::Decryption => e
-    Rails.logger.error(
-      '[TWILIO] Failed to decrypt auth_token for signature validation. ' \
-      "account_sid=#{params[:AccountSid]} channel_id=#{channel.id} error=#{e.message}"
-    )
-    nil
   end
 
   def find_twilio_channel
