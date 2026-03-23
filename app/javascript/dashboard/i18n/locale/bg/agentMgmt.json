@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "Администратор",
       "AGENT": "Агент"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "Няма асоцирани агенти към този акаунт",
       "TITLE": "Управлявайте агентите в екипа си",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
       }
     },
+    "SEARCH_PLACEHOLDER": "Търсете агенти...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "Няма намерени резултати."
     },

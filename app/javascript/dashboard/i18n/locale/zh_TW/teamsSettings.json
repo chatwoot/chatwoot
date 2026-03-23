@@ -5,6 +5,9 @@
     "LOADING": "Fetching teams",
     "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
     "LEARN_MORE": "Learn more about teams",
+    "COUNT": "{n} team | {n} teams",
+    "SEARCH_PLACEHOLDER": "搜尋團隊...",
+    "NO_RESULTS": "No teams found matching your search",
     "LIST": {
       "404": "There are no teams created on this account.",
       "EDIT_TEAM": "編輯團隊",
@@ -65,7 +68,7 @@
     },
     "AGENTS": {
       "AGENT": "客服",
-      "EMAIL": "電子信箱",
+      "EMAIL": "Email",
       "BUTTON_TEXT": "新增客服",
       "ADD_AGENTS": "正在將客服加入到你的團隊...",
       "SELECT": "選擇",
