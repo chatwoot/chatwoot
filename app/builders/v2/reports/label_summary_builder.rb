@@ -7,7 +7,8 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
     @account = account
     @params = params
 
-    @timezone = timezone_name_from_params(params[:timezone], params[:timezone_offset])
+    timezone_offset = (params[:timezone_offset] || 0).to_f
+    @timezone = ActiveSupport::TimeZone[timezone_offset]&.name
   end
   # rubocop:enable Lint/MissingSuper
 

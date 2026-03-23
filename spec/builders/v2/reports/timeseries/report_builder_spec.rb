@@ -15,7 +15,6 @@ describe V2::Reports::Timeseries::ReportBuilder do
       {
         type: filter_type,
         business_hours: business_hours,
-        timezone: timezone,
         timezone_offset: timezone_offset,
         group_by: group_by,
         metric: metric,
@@ -24,7 +23,6 @@ describe V2::Reports::Timeseries::ReportBuilder do
         id: filter_id
       }
     end
-    let(:timezone) { nil }
     let(:timezone_offset) { nil }
     let(:group_by) { 'day' }
     let(:metric) { 'avg_first_response_time' }
@@ -168,21 +166,6 @@ describe V2::Reports::Timeseries::ReportBuilder do
         end
       end
 
-      context 'when timezone is provided' do
-        let(:timezone) { 'Asia/Kolkata' }
-        let(:timezone_offset) { '0' }
-        let(:group_by) { 'week' }
-
-        it 'uses the timezone name instead of the offset for timestamps' do
-          expect(subject.timeseries).to eq(
-            [
-              { count: 1, timestamp: (current_time - 1.week).in_time_zone('Asia/Kolkata').beginning_of_week(:sunday).to_i, value: 93.0 },
-              { count: 2, timestamp: current_time.in_time_zone('Asia/Kolkata').beginning_of_week(:sunday).to_i, value: 90.0 }
-            ]
-          )
-        end
-      end
-
       context 'when weekly rollups are enabled' do
         let(:group_by) { 'week' }
         let(:timezone_offset) { '5.5' }
@@ -317,7 +300,6 @@ describe V2::Reports::Timeseries::ReportBuilder do
         metric: 'resolutions_count',
         since: since_time.beginning_of_day.to_i.to_s,
         until: current_time.end_of_day.to_i.to_s,
-        timezone: timezone,
         timezone_offset: timezone_offset,
         group_by: group_by,
         id: user.id.to_s
@@ -325,7 +307,6 @@ describe V2::Reports::Timeseries::ReportBuilder do
     end
     let(:group_by) { 'day' }
     let(:since_time) { current_time - 1.day }
-    let(:timezone) { nil }
     let(:timezone_offset) { nil }
 
     before do

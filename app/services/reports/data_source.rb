@@ -1,7 +1,9 @@
 class Reports::DataSource
+  include TimezoneHelper
+
   attr_reader :account, :metric, :dimension_type, :dimension_id,
-              :scope, :range, :group_by, :timezone,
-              :timezone_offset, :business_hours
+              :scope, :range, :group_by, :timezone_offset,
+              :business_hours
 
   class << self
     def for(**context)
@@ -18,7 +20,6 @@ class Reports::DataSource
     @scope = context[:scope]
     @range = context[:range]
     @group_by = context[:group_by].to_s.presence || 'day'
-    @timezone = context[:timezone]
     @timezone_offset = context[:timezone_offset]
     @business_hours = context[:business_hours]
   end
@@ -51,6 +52,10 @@ class Reports::DataSource
 
   def summary_metrics
     @summary_metrics ||= Reports::ReportMetricRegistry.summary_metrics
+  end
+
+  def timezone
+    @timezone ||= timezone_name_from_offset(timezone_offset)
   end
 
   def use_business_hours?

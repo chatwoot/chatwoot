@@ -30,7 +30,6 @@ class V2::Reports::Timeseries::BaseTimeseriesBuilder
       scope: scope,
       range: range,
       group_by: group_by,
-      timezone: timezone,
       timezone_offset: params[:timezone_offset],
       business_hours: params[:business_hours]
     )
@@ -57,7 +56,7 @@ class V2::Reports::Timeseries::BaseTimeseriesBuilder
   end
 
   def timezone
-    @timezone ||= timezone_name_from_params(params[:timezone], params[:timezone_offset])
+    @timezone ||= timezone_name_from_offset(params[:timezone_offset])
   end
 
   private

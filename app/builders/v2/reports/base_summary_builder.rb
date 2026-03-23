@@ -1,6 +1,5 @@
 class V2::Reports::BaseSummaryBuilder
   include DateRangeHelper
-  include TimezoneHelper
 
   def build
     load_data
@@ -36,7 +35,6 @@ class V2::Reports::BaseSummaryBuilder
       scope: nil,
       range: range,
       group_by: 'day',
-      timezone: timezone_name_from_params(params[:timezone], params[:timezone_offset]),
       timezone_offset: params[:timezone_offset],
       business_hours: params[:business_hours]
     )
