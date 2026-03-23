@@ -114,9 +114,12 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def api_only_signup?
-    # Read raw value from InstallationConfig because GlobalConfig.get
-    # typecasts ENABLE_ACCOUNT_SIGNUP to boolean, coercing 'api_only' to true.
-    InstallationConfig.find_by(name: 'ENABLE_ACCOUNT_SIGNUP')&.value.to_s == 'api_only'
+    # CW_API_ONLY_SERVER is the canonical flag for API-only deployments.
+    # ENABLE_ACCOUNT_SIGNUP='api_only' is a legacy sentinel for the same purpose.
+    # Read ENABLE_ACCOUNT_SIGNUP raw from InstallationConfig because GlobalConfig.get
+    # typecasts it to boolean, coercing 'api_only' to true.
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false)) ||
+      InstallationConfig.find_by(name: 'ENABLE_ACCOUNT_SIGNUP')&.value.to_s == 'api_only'
   end
 
   def validate_captcha
