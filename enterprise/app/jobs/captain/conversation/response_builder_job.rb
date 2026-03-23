@@ -45,11 +45,9 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_response
-    return unless conversation_pending?
-
     if handoff_requested?
       process_action('handoff')
-    else
+    elsif conversation_pending?
       ActiveRecord::Base.transaction do
         create_messages
         Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
@@ -85,7 +83,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def handoff_requested?
-    @response['response'] == 'conversation_handoff'
+    @response['response'] == 'conversation_handoff' || @response['handoff_tool_called']
   end
 
   def process_action(action)
@@ -93,8 +91,9 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     when 'handoff'
       I18n.with_locale(@assistant.account.locale) do
         create_handoff_message
-        @conversation.bot_handoff!
-        send_out_of_office_message_if_applicable
+        was_pending = conversation_pending?
+        @conversation.bot_handoff! if was_pending
+        send_out_of_office_message_if_applicable if was_pending
       end
     end
   end
