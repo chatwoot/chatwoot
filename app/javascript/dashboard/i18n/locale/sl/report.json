@@ -2,32 +2,32 @@
   "REPORT": {
     "HEADER": "Conversations",
     "LOADING_CHART": "চার্ট ডেটা লোড হচ্ছে...",
-    "NO_ENOUGH_DATA": "আমরা রিপোর্ট তৈরি করার জন্য পর্যাপ্ত তথ্য পয়েন্ট পাইনি, অনুগ্রহ করে পরে আবার চেষ্টা করুন।",
+    "NO_ENOUGH_DATA": "Nismo prejeli dovolj podatkov za ustvarjanje poročila. Poskusite znova pozneje.",
     "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "আলাপচারিতা",
-        "DESC": "( মোট )"
+        "DESC": "(Skupaj)"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Messages received",
-        "DESC": "( মোট )"
+        "DESC": "(Skupaj)"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Messages sent",
-        "DESC": "( মোট )"
+        "DESC": "(Skupaj)"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
-        "DESC": "( গড় )",
+        "DESC": "(Povprečje)",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas rešitve",
-        "DESC": "( গড় )",
+        "DESC": "(Povprečje)",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
