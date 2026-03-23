@@ -1,7 +1,7 @@
 {
   "CONTACT_PANEL": {
     "NOT_AVAILABLE": "Hindi magagamit",
-    "EMAIL_ADDRESS": "ইমেইল ঠিকানা",
+    "EMAIL_ADDRESS": "Email Address",
     "PHONE_NUMBER": "Numero ng Telepono",
     "IDENTIFIER": "Tagakilala",
     "COPY_SUCCESSFUL": "Matagumpay na nakopya sa clipboard",
@@ -10,11 +10,11 @@
     "BROWSER_LANGUAGE": "Wika ng browser",
     "CONVERSATION_TITLE": "Mga Detalye ng Usapan",
     "VIEW_PROFILE": "Tingnan ang profile",
-    "BROWSER": "ব্রাউজার",
-    "OS": "অপারেটিং সিস্টেম",
+    "BROWSER": "Browser",
+    "OS": "Operating System",
     "INITIATED_FROM": "Nagsimula mula sa",
     "INITIATED_AT": "Nagsimula noong",
-    "IP_ADDRESS": "আইপি ঠিকানা",
+    "IP_ADDRESS": "IP Address",
     "CREATED_AT_LABEL": "Nilikha",
     "NEW_MESSAGE": "Bagong mensahe",
     "CALL": "Tawagan",
@@ -95,7 +95,7 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Ilagay ang email address ng contact",
-        "LABEL": "ইমেইল ঠিকানা",
+        "LABEL": "Email Address",
         "DUPLICATE": "Ang email address na ito ay ginagamit na para sa ibang kontak.",
         "ERROR": "Mangyaring maglagay ng wastong email address."
       },
@@ -319,7 +319,7 @@
           "TITLE": "Mag-import ng mga kontak",
           "DESCRIPTION": "Mag-import ng mga kontak gamit ang isang CSV file.",
           "DOWNLOAD_LABEL": "I-download ang isang halimbawang csv.",
-          "LABEL": "CSV ফাইল:",
+          "LABEL": "CSV File:",
           "CHOOSE_FILE": "Pumili ng file",
           "CHANGE": "Palitan",
           "CANCEL": "Kanselahin",
@@ -338,7 +338,7 @@
           "LABEL": "Ayusin ayon sa",
           "OPTIONS": {
             "NAME": "Pangalan",
-            "EMAIL": "ইমেইল",
+            "EMAIL": "Email",
             "PHONE_NUMBER": "Numero ng telepono",
             "COMPANY": "Kumpanya",
             "COUNTRY": "Bansa",
@@ -380,7 +380,7 @@
     },
     "FILTER": {
       "NAME": "Pangalan",
-      "EMAIL": "ইমেইল",
+      "EMAIL": "Email",
       "PHONE_NUMBER": "Numero ng telepono",
       "IDENTIFIER": "Tagakilanlan",
       "COUNTRY": "Bansa",
