@@ -1,14 +1,19 @@
 module Concerns::Toolable
   extend ActiveSupport::Concern
 
-  def tool(assistant)
+  def tool(assistant, base_class: Captain::Tools::HttpTool)
     custom_tool_record = self
     # Convert slug to valid Ruby constant name (replace hyphens with underscores, then camelize)
     class_name = custom_tool_record.slug.underscore.camelize
 
     # Always create a fresh class to reflect current metadata
-    tool_class = Class.new(Captain::Tools::HttpTool) do
+    tool_slug = custom_tool_record.slug
+    tool_class = Class.new(base_class) do
       description custom_tool_record.description
+
+      # Override name to use the slug directly, avoiding the Captain::Tools:: namespace prefix
+      # that RubyLLM's default normalization would produce (e.g., "captain--tools--custom_dog_facts").
+      define_method(:name) { tool_slug }
 
       custom_tool_record.param_schema.each do |param_def|
         param param_def['name'].to_sym,

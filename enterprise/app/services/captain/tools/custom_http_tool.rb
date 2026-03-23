@@ -1,0 +1,28 @@
+# V1-compatible wrapper for custom HTTP tools.
+#
+# V2's HttpTool inherits from Agents::Tool which overrides execute(tool_context, **params),
+# making it incompatible with V1's RubyLLM pipeline that calls execute(**keyword_args).
+#
+# This class bridges the gap: it inherits from BaseTool (RubyLLM::Tool) for V1 compatibility
+# and delegates the actual HTTP execution to HttpTool#perform.
+class Captain::Tools::CustomHttpTool < Captain::Tools::BaseTool
+  # BaseTool prepends Instrumentation, but our execute() shadows it in the MRO.
+  # Re-prepend so Langfuse captures tool call input/output/timing.
+  prepend Captain::Tools::Instrumentation
+
+  attr_reader :custom_tool
+
+  def initialize(assistant, custom_tool)
+    @custom_tool = custom_tool
+    super(assistant)
+  end
+
+  def active?
+    @custom_tool.enabled?
+  end
+
+  def execute(**params)
+    http_tool = Captain::Tools::HttpTool.new(assistant, @custom_tool)
+    http_tool.perform(nil, **params)
+  end
+end

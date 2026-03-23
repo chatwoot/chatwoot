@@ -11,6 +11,8 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
 
   def create
     @custom_tool = account_custom_tools.create!(custom_tool_params)
+  rescue Captain::CustomTool::LimitExceededError => e
+    render_could_not_create_error(e.message)
   end
 
   def update

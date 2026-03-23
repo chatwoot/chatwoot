@@ -24,6 +24,10 @@
 #  index_captain_custom_tools_on_account_id_and_slug  (account_id,slug) UNIQUE
 #
 class Captain::CustomTool < ApplicationRecord
+  class LimitExceededError < StandardError; end
+
+  MAX_PER_ACCOUNT = 5
+
   include Concerns::Toolable
   include Concerns::SafeEndpointValidatable
 
@@ -52,6 +56,7 @@ class Captain::CustomTool < ApplicationRecord
   enum :auth_type, %w[none bearer basic api_key].index_by(&:itself), default: :none, validate: true, prefix: :auth
 
   before_validation :generate_slug
+  before_create :ensure_within_limit
 
   validates :slug, presence: true, uniqueness: { scope: :account_id }
   validates :title, presence: true
@@ -72,6 +77,12 @@ class Captain::CustomTool < ApplicationRecord
   end
 
   private
+
+  def ensure_within_limit
+    return if account.captain_custom_tools.count < MAX_PER_ACCOUNT
+
+    raise LimitExceededError, I18n.t('captain.custom_tool.limit_exceeded', limit: MAX_PER_ACCOUNT)
+  end
 
   def generate_slug
     return if slug.present?

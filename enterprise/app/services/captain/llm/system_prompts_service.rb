@@ -152,7 +152,7 @@ class Captain::Llm::SystemPromptsService
     # rubocop:enable Metrics/MethodLength
 
     # rubocop:disable Metrics/MethodLength
-    def assistant_response_generator(assistant_name, product_name, config = {}, contact: nil)
+    def assistant_response_generator(assistant_name, product_name, config = {}, contact: nil, custom_tools: [])
       assistant_citation_guidelines = if config['feature_citation']
                                         <<~CITATION_TEXT
                                           - Always include citations for any information provided, referencing the specific source (document only - skip if it was derived from a conversation).
@@ -187,7 +187,7 @@ class Captain::Llm::SystemPromptsService
         #{assistant_citation_guidelines}
 
         #{build_contact_context(contact)}[Task]
-        Start by introducing yourself. Then, ask the user to share their question. When they answer, call the search_documentation function. Give a helpful response based on the steps written below.
+        Start by introducing yourself. Then, ask the user to share their question. When they answer, #{build_tools_instruction(custom_tools)} Give a helpful response based on the steps written below.
 
         - Provide the user with the steps required to complete the action one by one.
         - Do not return list numbers in the steps, just the plain text is enough.
@@ -290,6 +290,19 @@ class Captain::Llm::SystemPromptsService
     # rubocop:enable Metrics/MethodLength
 
     private
+
+    def build_tools_instruction(custom_tools)
+      return 'call the search_documentation function.' if custom_tools.blank?
+
+      tools_list = custom_tools.map { |t| "- #{t[:name]}: #{t[:description]}" }.join("\n")
+      <<~TOOLS.strip
+        use the most appropriate tool to find information.
+
+        [Available Tools]
+        - search_documentation: Search and retrieve documentation from knowledge base
+        #{tools_list}
+      TOOLS
+    end
 
     def build_contact_context(contact)
       return '' if contact.nil?
