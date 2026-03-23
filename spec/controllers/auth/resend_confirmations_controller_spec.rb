@@ -5,7 +5,7 @@ RSpec.describe 'Resend Confirmations API', type: :request do
     let(:email) { 'unconfirmed@example.com' }
 
     context 'when the user exists and is unconfirmed' do
-      let!(:user) { create(:user, email: email, skip_confirmation: false) }
+      before { create(:user, email: email, skip_confirmation: false) }
 
       it 'sends confirmation instructions and returns 200' do
         expect do
@@ -17,7 +17,7 @@ RSpec.describe 'Resend Confirmations API', type: :request do
     end
 
     context 'when the user exists and is already confirmed' do
-      let!(:user) { create(:user, email: email) }
+      before { create(:user, email: email) }
 
       it 'returns 200 without sending confirmation' do
         expect do
@@ -37,9 +37,8 @@ RSpec.describe 'Resend Confirmations API', type: :request do
     end
 
     context 'when hCaptcha is configured' do
-      let!(:user) { create(:user, email: email, skip_confirmation: false) }
-
       before do
+        create(:user, email: email, skip_confirmation: false)
         allow(ChatwootCaptcha).to receive(:new).and_return(captcha)
       end
 
