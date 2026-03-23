@@ -31,7 +31,15 @@ class Api::V1::AccountsController < Api::BaseController
       user: current_user
     ).perform
     if @user
-      render json: { email: @user.email }
+      # Authenticated users adding a second account from the dashboard need
+      # the full response (account_id etc.) to redirect correctly.
+      # Unauthenticated signup returns only the email — no session is created
+      # until the user confirms via the email link.
+      if current_user
+        render 'api/v1/accounts/create', format: :json, locals: { resource: @user }
+      else
+        render json: { email: @user.email }
+      end
     else
       render_error_response(CustomExceptions::Account::SignupFailed.new({}))
     end
