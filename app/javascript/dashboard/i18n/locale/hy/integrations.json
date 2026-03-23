@@ -20,8 +20,8 @@
     "DESCRIPTION": "Chatwoot ինտեգրվում է բազմաթիվ գործիքների և ծառայությունների հետ՝ բարելավելու ձեր թիմի արդյունավետությունը։ Ստորև դիտեք ցանկը՝ ձեր սիրելի հավելվածները կարգավորելու համար։",
     "LEARN_MORE": "Իմացեք ավելին ինտեգրացիաների մասին",
     "LOADING": "Ինտեգրացիաները բեռնվում են",
-    "SEARCH_PLACEHOLDER": "Search integrations...",
-    "NO_RESULTS": "No integrations found matching your search",
+    "SEARCH_PLACEHOLDER": "Որոնել ինտեգրացիաներ...",
+    "NO_RESULTS": "Ձեր որոնմանը համապատասխան ինտեգրացիաներ չեն գտնվել",
     "CAPTAIN": {
       "DISABLED": "Captain-ը ձեր հաշվում ակտիվացված չէ։",
       "CLICK_HERE_TO_CONFIGURE": "Սեղմեք այստեղ կարգավորելու համար",
@@ -32,16 +32,16 @@
       "SUBSCRIBED_EVENTS": "Բաժանորդագրված իրադարձություններ",
       "LEARN_MORE": "Իմացեք ավելին webhook-ների մասին",
       "SECRET": {
-        "LABEL": "Secret",
-        "COPY": "Copy secret to clipboard",
-        "COPY_SUCCESS": "Secret copied to clipboard",
-        "TOGGLE": "Toggle secret visibility",
-        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
-        "DONE": "Done"
+        "LABEL": "Գաղտնաբառ",
+        "COPY": "Պատճենել գաղտնաբառը",
+        "COPY_SUCCESS": "Գաղտնաբառը պատճենվել է",
+        "TOGGLE": "Ցուցադրել/թաքցնել գաղտնաբառը",
+        "CREATED_DESC": "Ձեր webhook-ը ստեղծվել է։ Օգտագործեք ներքևի գաղտնաբառը՝ webhook-ի ստորագրությունները ստուգելու համար։ Խնդրում ենք այն պատճենել հիմա՝ այն կարող եք գտնել նաև webhook-ի խմբագրման ձևում։",
+        "DONE": "Պատրաստ է"
       },
       "COUNT": "{n} webhook | {n} webhooks",
-      "SEARCH_PLACEHOLDER": "Search webhooks...",
-      "NO_RESULTS": "No webhooks found matching your search",
+      "SEARCH_PLACEHOLDER": "Որոնել webhook-ներ...",
+      "NO_RESULTS": "Ձեր որոնմանը համապատասխան webhook-ներ չեն գտնվել",
       "FORM": {
         "CANCEL": "Չեղարկել",
         "DESC": "Webhook իրադարձությունները ձեզ տրամադրում են իրական ժամանակի տեղեկություններ այն մասին, թե ինչ է տեղի ունենում ձեր Chatwoot հաշվում։ Խնդրում ենք մուտքագրել վավեր URL՝ callback կարգավորելու համար։",
@@ -61,8 +61,8 @@
           }
         },
         "NAME": {
-          "LABEL": "Webhook Name",
-          "PLACEHOLDER": "Enter the name of the webhook"
+          "LABEL": "Webhook-ի անունը",
+          "PLACEHOLDER": "Մուտքագրեք webhook-ի անունը"
         },
         "END_POINT": {
           "LABEL": "URL Webhook",
@@ -72,7 +72,7 @@
         "EDIT_SUBMIT": "Թարմացնել webhook-ը",
         "ADD_SUBMIT": "Ստեղծել webhook"
       },
-      "TITLE": "Webhook",
+      "TITLE": "Վեբհուք",
       "CONFIGURE": "Կարգավորել",
       "HEADER": "Webhook կարգավորումներ",
       "HEADER_BTN_TXT": "Ավելացնել նոր webhook",
@@ -126,7 +126,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "Այս ինտեգրացիայի միջոցով ձեր բոլոր մուտք գործող զրույցները կհամաժամեցվեն ***{selectedChannelName}*** Slack ալիքում ձեր Slack workspace-ում։ Դուք կարող եք կառավարել ձեր հաճախորդների բոլոր զրույցները հենց այդ ալիքում և երբեք բաց չթողնել հաղորդագրություն։\n\nԱհա ինտեգրացիայի հիմնական հնարավորությունները.\n\n**Պատասխանեք զրույցներին Slack-ում:** Որպեսզի պատասխանեք ***{selectedChannelName}*** Slack ալիքում զրույցին, պարզապես գրեք ձեր հաղորդագրությունը և ուղարկեք այն որպես թել։ Սա կստեղծի պատասխան հաճախորդին Chatwoot-ի միջոցով։ Դա շատ պարզ է։\n\n **Ստեղծեք մասնավոր նշումներ:** Եթե ցանկանում եք ստեղծել մասնավոր նշումներ փոխարենը պատասխանների, ձեր հաղորդագրությունը սկսեք ***`note:`***-ով։ Սա կապահովի, որ ձեր հաղորդագրությունը կմնա մասնավոր և հաճախորդը չի տեսնի այն։\n\n**Կցեք գործակալի պրոֆիլ:** Եթե Slack-ում պատասխանող անձը ունի գործակալի պրոֆիլ Chatwoot-ում նույն էլ․ հասցեով, պատասխանները ինքնաբար կկցվեն այդ գործակալի պրոֆիլին։ Սա նշանակում է, որ հեշտությամբ կարող եք հետևել՝ ով, ինչ և երբ է ասել։ Մյուս կողմից, եթե պատասխանողը չունի կցված գործակալի պրոֆիլ, պատասխանները հաճախորդին կերևան բոտի պրոֆիլից։",
         "SELECTED": "ընտրված"
       },
       "SELECT_CHANNEL": {
@@ -161,28 +161,28 @@
         "MAKE_FRIENDLY": "Փոխել հաղորդագրության տոնը ընկերական",
         "MAKE_FORMAL": "Օգտվել պաշտոնական տոնից",
         "SIMPLIFY": "Պարզեցնել",
-        "CONFIDENT": "Use confident tone",
-        "PROFESSIONAL": "Use professional tone",
-        "CASUAL": "Use casual tone",
-        "STRAIGHTFORWARD": "Use straightforward tone"
+        "CONFIDENT": "Օգտագործել վստահ տոն",
+        "PROFESSIONAL": "Օգտագործել պրոֆեսիոնալ տոն",
+        "CASUAL": "Օգտագործել առօրյա տոն",
+        "STRAIGHTFORWARD": "Օգտագործել պարզ տոն"
       },
       "REPLY_OPTIONS": {
-        "IMPROVE_REPLY": "Improve reply",
-        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "IMPROVE_REPLY": "Բարելավել պատասխանը",
+        "IMPROVE_REPLY_SELECTION": "Բարելավել ընտրությունը",
         "CHANGE_TONE": {
-          "TITLE": "Change tone",
+          "TITLE": "Փոխել տոնը",
           "OPTIONS": {
-            "PROFESSIONAL": "Professional",
-            "CASUAL": "Casual",
-            "STRAIGHTFORWARD": "Straightforward",
-            "CONFIDENT": "Confident",
-            "FRIENDLY": "Friendly"
+            "PROFESSIONAL": "Պրոֆեսիոնալ",
+            "CASUAL": "Անպաշտոնական",
+            "STRAIGHTFORWARD": "Պարզ ու հստակ",
+            "CONFIDENT": "Վստահ",
+            "FRIENDLY": "Բարեկամական"
           }
         },
-        "GRAMMAR": "Fix grammar & spelling",
-        "SUGGESTION": "Suggest a reply",
-        "SUMMARIZE": "Summarize the conversation",
-        "ASK_COPILOT": "Ask Copilot"
+        "GRAMMAR": "Ուղղել քերականությունն ու ուղղագրությունը",
+        "SUGGESTION": "Առաջարկել պատասխան",
+        "SUMMARIZE": "Ամփոփել զրույցը",
+        "ASK_COPILOT": "Հարցնել Copilot-ին"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Սևրագիր",
@@ -239,15 +239,15 @@
       "DESCRIPTION": "Վահանակի հավելվածները թույլ են տալիս կազմակերպություններին տեղադրել հավելված վահանակի ներսում՝ հաճախորդների աջակցության գործակալների համար համատեքստ տրամադրելու նպատակով։ Այս ֆունկցիան թույլ է տալիս անկախ ստեղծել հավելված և տեղադրել այն՝ օգտատիրոջ տեղեկություններ, նրանց պատվերներ կամ նախորդ վճարումների պատմություն տրամադրելու համար։",
       "LEARN_MORE": "Իմացեք ավելին Dashboard հավելվածների մասին",
       "COUNT": "{n} dashboard app | {n} dashboard apps",
-      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
-      "NO_RESULTS": "No dashboard apps found matching your search",
+      "SEARCH_PLACEHOLDER": "Որոնել վահանակի հավելվածներ...",
+      "NO_RESULTS": "Ձեր որոնմանը համապատասխան վահանակի հավելվածներ չեն գտնվել",
       "LIST": {
         "404": "Այս հաշվի վրա դեռևս վահանակի հավելվածներ չեն կարգավորվել",
         "LOADING": "Բեռնվում են վահանակի հավելվածները...",
         "TABLE_HEADER": {
           "NAME": "Անուն",
           "ENDPOINT": "Վերջնակետ",
-          "ACTIONS": "Actions"
+          "ACTIONS": "Գործողություններ"
         },
         "EDIT_TOOLTIP": "Խմբագրել հավելվածը",
         "DELETE_TOOLTIP": "Հեռացնել հավելվածը"
@@ -392,10 +392,10 @@
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Իմանալ ավելին",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "Օգնականներ",
+      "SWITCH_ASSISTANT": "Փոխել օգնականը",
+      "NEW_ASSISTANT": "Ստեղծել օգնական",
+      "EMPTY_LIST": "Օգնականներ չեն գտնվել, ստեղծեք նոր՝ սկսելու համար"
     },
     "COPILOT": {
       "TITLE": "Կոպիլոտ",
@@ -449,7 +449,7 @@
       "CANCEL_ANYTIME": "Դուք կարող եք ցանկացած պահի փոխել կամ չեղարկել ձեր պլանը"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
+      "AVAILABLE_ON": "Captain AI-ը հասանելի է միայն Enterprise փաթեթներում։",
       "UPGRADE_PROMPT": "Թարմացրեք ձեր պլանը՝ ստանալու համար մեր օգնականներին, copilot-ին և ավելին։",
       "ASK_ADMIN": "Խնդրում ենք դիմել ձեր ադմինիստրատորին թարմացման համար։"
     },
@@ -528,7 +528,7 @@
           "ALLOW_CONVERSATION_FAQS": "Ստեղծել ՀՏՀ-ներ լուծված զրույցներից",
           "ALLOW_MEMORIES": "Հաճախորդների հետ փոխգործակցություններից կարևոր մանրամասներ պահպանել հիշողություններում։",
           "ALLOW_CITATIONS": "Sertakan petikan sumber dalam jawapan",
-          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
+          "ALLOW_CONTACT_ATTRIBUTES": "Թույլատրել մուտք կոնտակտային տվյալներին"
         }
       },
       "EDIT": {
@@ -538,7 +538,7 @@
         "NOT_FOUND": "Օգնականը չի գտնվել։ Խնդրում ենք փորձել կրկին։"
       },
       "SETTINGS": {
-        "HEADER": "Settings",
+        "HEADER": "Կարգավորումներ",
         "BASIC_SETTINGS": {
           "TITLE": "Հիմնական կարգավորումներ",
           "DESCRIPTION": "Անհատականացրեք, թե ինչ է ասում օգնականը զրույցը ավարտելիս կամ մարդուն փոխանցելիս։"
@@ -562,8 +562,8 @@
           }
         },
         "DELETE": {
-          "TITLE": "Delete Assistant",
-          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+          "TITLE": "Ջնջել օգնականը",
+          "DESCRIPTION": "Այս գործողությունը անդառնալի է։ Օգնականը ջնջելու դեպքում այն կհեռացվի բոլոր միացված մուտքային արկղերից և ամբողջությամբ կջնջվի ստեղծված գիտելիքը։",
           "BUTTON_TEXT": "Delete {assistantName}"
         }
       },
@@ -722,15 +722,15 @@
         "API": {
           "ADD": {
             "SUCCESS": "Senario berjaya ditambah",
-            "ERROR": "Terdapat ralat semasa menambah senario, sila cuba lagi."
+            "ERROR": "Սցենարներ ավելացնելիս սխալ առաջացավ, խնդրում ենք փորձել կրկին։"
           },
           "UPDATE": {
             "SUCCESS": "Senario berjaya dikemas kini",
-            "ERROR": "Terdapat ralat semasa mengemas kini senario, sila cuba lagi."
+            "ERROR": "Սցենարներ թարմացնելիս սխալ առաջացավ, խնդրում ենք փորձել կրկին։"
           },
           "DELETE": {
             "SUCCESS": "Senario berjaya dipadam",
-            "ERROR": "Terdapat ralat semasa memadam senario, sila cuba lagi."
+            "ERROR": "Սցենարներ ջնջելիս սխալ առաջացավ, խնդրում ենք փորձել կրկին։"
           }
         }
       }
@@ -797,10 +797,10 @@
       "ADD_NEW": "Cipta alat baru",
       "EMPTY_STATE": {
         "TITLE": "Tiada alat khusus tersedia",
-        "SUBTITLE": "Cipta alat khusus untuk menghubungkan pembantu anda dengan API dan perkhidmatan luaran, membolehkan ia mendapatkan data dan melaksanakan tindakan bagi pihak anda.",
+        "SUBTITLE": "Ստեղծեք անհատական գործիքներ՝ ձեր օգնականին արտաքին API-ների և ծառայությունների հետ կապելու համար՝ հնարավորություն տալով նրան ստանալ տվյալներ և կատարել գործողություններ ձեր անունից։",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Alat Khusus",
-          "NOTE": "Alat khusus membolehkan pembantu anda berinteraksi dengan API dan perkhidmatan luaran. Cipta alat untuk mendapatkan data, melaksanakan tindakan, atau mengintegrasi dengan sistem sedia ada anda bagi meningkatkan keupayaan pembantu anda."
+          "NOTE": "Անհատական գործիքները թույլ են տալիս ձեր օգնականին աշխատել արտաքին API-ների և ծառայությունների հետ։ Ստեղծեք գործիքներ՝ տվյալներ ստանալու, գործողություններ կատարելու կամ ձեր առկա համակարգերի հետ ինտեգրվելու համար՝ ձեր օգնականի հնարավորությունները ընդլայնելու համար։"
         }
       },
       "FORM_DESCRIPTION": "Konfigurasikan alat khusus anda untuk berhubung dengan API luaran",
@@ -820,7 +820,7 @@
       },
       "DELETE": {
         "TITLE": "Padam Alat Tersuai",
-        "DESCRIPTION": "Adakah anda pasti mahu memadam alat tersuai ini? Tindakan ini tidak boleh dibatalkan.",
+        "DESCRIPTION": "Վստա՞հ եք, որ ցանկանում եք ջնջել այս անհատական գործիքը։ Այս գործողությունը հնարավոր չէ վերականգնել։",
         "CONFIRM": "Ya, padam",
         "SUCCESS_MESSAGE": "Alat tersuai berjaya dipadam",
         "ERROR_MESSAGE": "Gagal memadam alat tersuai"
@@ -873,37 +873,37 @@
           "PLACEHOLDER": "Nama parameter (contoh: order_id)"
         },
         "PARAM_TYPE": {
-          "PLACEHOLDER": "Type"
+          "PLACEHOLDER": "Տեսակ"
         },
         "PARAM_TYPES": {
-          "STRING": "String",
-          "NUMBER": "Number",
-          "BOOLEAN": "Boolean",
-          "ARRAY": "Array",
-          "OBJECT": "Object"
+          "STRING": "Տող",
+          "NUMBER": "Թիվ",
+          "BOOLEAN": "Բուլյան",
+          "ARRAY": "Զանգված",
+          "OBJECT": "Օբյեկտ"
         },
         "PARAM_DESCRIPTION": {
-          "PLACEHOLDER": "Description of the parameter"
+          "PLACEHOLDER": "Պարամետրի նկարագրություն"
         },
         "PARAM_REQUIRED": {
-          "LABEL": "Required"
+          "LABEL": "Պարտադիր"
         },
         "REQUEST_TEMPLATE": {
-          "LABEL": "Request Body Template (Optional)",
+          "LABEL": "Հարցման մարմնի ձևանմուշ (ըստ ցանկության)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "Response Template (Optional)",
+          "LABEL": "Պատասխանի ձևանմուշ (ըստ ցանկության)",
           "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
         },
         "ERRORS": {
-          "PARAM_NAME_REQUIRED": "Parameter name is required"
+          "PARAM_NAME_REQUIRED": "Պարամետրի անունը պարտադիր է"
         }
       }
     },
     "RESPONSES": {
       "HEADER": "ՀՏՀ-ներ",
-      "PENDING_FAQS": "Pending FAQs",
+      "PENDING_FAQS": "Սպասող ՀՏՀ-ներ",
       "ADD_NEW": "Ստեղծել նոր FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Զրույց #{id}"
@@ -944,8 +944,8 @@
         "ALL": "Բոլորը"
       },
       "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+        "TITLE": "Captain-ը գտել է հաճախորդների փնտրած ՀՏՀ-ները։",
+        "ACTION": "Սեղմեք այստեղ՝ դիտարկելու համար"
       },
       "FORM_DESCRIPTION": "Ավելացրեք հարց և նրա համապատասխան պատասխան գիտելիքների բազայում և ընտրեք օգնականին, որի հետ այն պետք է կապվի։",
       "CREATE": {
@@ -972,15 +972,15 @@
         "APPROVE_SUCCESS_MESSAGE": "ՀՏՀ-ն նշվել է որպես հաստատված"
       },
       "OPTIONS": {
-        "APPROVE": "Approve",
-        "EDIT_RESPONSE": "Edit",
-        "DELETE_RESPONSE": "Delete"
+        "APPROVE": "Հաստատել",
+        "EDIT_RESPONSE": "Խմբագրել",
+        "DELETE_RESPONSE": "Ջնջել"
       },
       "EMPTY_STATE": {
         "TITLE": "ՀՏՀ-ներ չեն գտնվել",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
+        "NO_PENDING_TITLE": "Վերանայման սպասող ՀՏՀ-ներ չկան",
         "SUBTITLE": "ՀՏՀ-ները օգնում են ձեր օգնականին արագ և ճշգրիտ պատասխաններ տրամադրել ձեր հաճախորդների հարցերին։ Դրանք կարող են ավտոմատ կերպով ստեղծվել ձեր բովանդակությունից կամ ձեռքով ավելացվել։",
-        "CLEAR_SEARCH": "Clear active filters",
+        "CLEAR_SEARCH": "Մաքրել ակտիվ ֆիլտրերը",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Կապտեն Հաճախ տրվող հարցեր",
           "NOTE": "Կապտեն Հաճախ տրվող հարցերը հայտնաբերում են հաճախորդների ընդհանուր հարցերը՝ անկախ նրանից, թե դրանք բացակայում են ձեր գիտելիքների բազայում, թե հաճախ են տրվում, և ստեղծում են համապատասխան ՀՏՀ-ներ՝ աջակցությունը բարելավելու համար։ Դուք կարող եք վերանայել յուրաքանչյուր առաջարկ և որոշել՝ հաստատել կամ մերժել այն։"
