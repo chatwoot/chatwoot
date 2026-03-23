@@ -87,6 +87,71 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         described_class.perform_now(conversation, assistant)
       end
 
+      it 'collects only messages after a single resolution event using event_end_time' do
+        conversation.messages.destroy_all
+
+        # Message before resolution
+        create(:message, conversation: conversation, content: 'Old message', message_type: :incoming, created_at: 2.hours.ago)
+        create(:message, conversation: conversation, content: 'Handoff message', message_type: :outgoing, created_at: 1.5.hours.ago)
+
+        # Resolution event — event_end_time is the canonical resolution timestamp
+        create(:reporting_event, name: 'conversation_resolved', conversation_id: conversation.id,
+                                 account_id: account.id, event_end_time: 1.hour.ago)
+
+        # Message after resolution
+        create(:message, conversation: conversation, content: 'New message', message_type: :incoming, created_at: 30.minutes.ago)
+
+        expected_messages = [
+          { content: 'New message', role: 'user' }
+        ]
+
+        expect(mock_agent_runner_service).to receive(:generate_response).with(
+          message_history: expected_messages
+        )
+
+        described_class.perform_now(conversation, assistant)
+      end
+
+      it 'collects only messages after the most recent event_end_time across multiple resolutions' do
+        conversation.messages.destroy_all
+        create(:message, conversation: conversation, content: 'Oldest message', message_type: :incoming, created_at: 3.hours.ago)
+        create(:reporting_event, name: 'conversation_resolved', conversation_id: conversation.id,
+                                 account_id: account.id, event_end_time: 2.5.hours.ago)
+
+        create(:message, conversation: conversation, content: 'Old message', message_type: :incoming, created_at: 2.hours.ago)
+        create(:reporting_event, name: 'conversation_resolved', conversation_id: conversation.id,
+                                 account_id: account.id, event_end_time: 1.hour.ago)
+
+        create(:message, conversation: conversation, content: 'New message', message_type: :incoming, created_at: 30.minutes.ago)
+
+        expected_messages = [
+          { content: 'New message', role: 'user' }
+        ]
+
+        expect(mock_agent_runner_service).to receive(:generate_response).with(
+          message_history: expected_messages
+        )
+
+        described_class.perform_now(conversation, assistant)
+      end
+
+      it 'collects all messages when no resolution event exists' do
+        conversation.messages.destroy_all
+        create(:message, conversation: conversation, content: 'Old message', message_type: :incoming, created_at: 2.hours.ago)
+        create(:message, conversation: conversation, content: 'New message', message_type: :incoming, created_at: 30.minutes.ago)
+
+        expected_messages = [
+          { content: 'Old message', role: 'user' },
+          { content: 'New message', role: 'user' }
+        ]
+
+        expect(mock_agent_runner_service).to receive(:generate_response).with(
+          message_history: expected_messages
+        )
+
+        described_class.perform_now(conversation, assistant)
+      end
+
       it 'generates and processes response' do
         described_class.perform_now(conversation, assistant)
         expect(conversation.messages.count).to eq(2)
