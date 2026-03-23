@@ -6,23 +6,6 @@ export const hasAuthCookie = () => {
   return !!Cookies.get('cw_d_session_info');
 };
 
-export const getAuthData = () => {
-  const cookie = Cookies.get('cw_d_session_info');
-  return cookie ? JSON.parse(cookie) : null;
-};
-
-export const getAuthHeaders = () => {
-  const data = getAuthData();
-  if (!data) return {};
-  return {
-    'access-token': data['access-token'],
-    'token-type': data['token-type'],
-    client: data.client,
-    expiry: data.expiry,
-    uid: data.uid,
-  };
-};
-
 const getSSOAccountPath = ({ ssoAccountId, user }) => {
   const { accounts = [], account_id = null } = user || {};
   const ssoAccount = accounts.find(
