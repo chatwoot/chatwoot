@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'devise_overrides/omniauth_callbacks'
   }, via: [:get, :post]
 
+  post 'resend_confirmation', to: 'auth/resend_confirmations#create'
+
   ## renders the frontend paths only if its not an api only server
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))
     root to: 'api#index'
@@ -376,7 +378,6 @@ Rails.application.routes.draw do
           post :availability
           post :auto_offline
           put :set_active_account
-          post :resend_confirmation
           post :reset_access_token
         end
 
