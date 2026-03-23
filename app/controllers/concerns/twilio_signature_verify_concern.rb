@@ -9,41 +9,44 @@ module TwilioSignatureVerifyConcern
 
   def verify_twilio_signature!
     channel = find_twilio_channel
-    if channel.blank?
-      Rails.logger.warn(
-        '[TWILIO] Channel not found for webhook ' \
-        "account_sid=#{params[:AccountSid]} messaging_service_sid=#{params[:MessagingServiceSid]} " \
-        "to=#{params[:To]} from=#{params[:From]}"
-      )
-      return head :forbidden
-    end
+    return log_and_reject_missing_channel if channel.blank?
+    return if channel.api_key_sid.present? && log_api_key_skip(channel)
 
-    if channel.api_key_sid.present?
-      Rails.logger.warn(
-        '[TWILIO] Signature validation skipped: channel uses API key authentication. ' \
-        "account_sid=#{params[:AccountSid]} channel_id=#{channel.id}"
-      )
-      return
-    end
+    head :forbidden unless valid_signature?(channel)
+  end
 
+  def log_and_reject_missing_channel
+    Rails.logger.warn(
+      '[TWILIO] Channel not found for webhook ' \
+      "account_sid=#{params[:AccountSid]} messaging_service_sid=#{params[:MessagingServiceSid]} " \
+      "to=#{params[:To]} from=#{params[:From]}"
+    )
+    head :forbidden
+  end
+
+  def log_api_key_skip(channel)
+    Rails.logger.warn(
+      '[TWILIO] Signature validation skipped: channel uses API key authentication. ' \
+      "account_sid=#{params[:AccountSid]} channel_id=#{channel.id}"
+    )
+  end
+
+  def valid_signature?(channel)
     signature = request.headers['X-Twilio-Signature']
     if signature.blank?
       Rails.logger.warn("[TWILIO] Missing X-Twilio-Signature header account_sid=#{params[:AccountSid]}")
-      return head :forbidden
+      return false
     end
 
     validator = Twilio::Security::RequestValidator.new(channel.auth_token)
     request_url = reconstruct_url
-    return if validator.validate(request_url, request.request_parameters, signature)
+    return true if validator.validate(request_url, request.request_parameters, signature)
 
     Rails.logger.warn(
       '[TWILIO] Signature validation failed ' \
-      "account_sid=#{params[:AccountSid]} " \
-      "channel_id=#{channel.id} " \
-      "url=#{request_url} " \
-      "ip=#{request.remote_ip}"
+      "account_sid=#{params[:AccountSid]} channel_id=#{channel.id} url=#{request_url} ip=#{request.remote_ip}"
     )
-    head :forbidden
+    false
   end
 
   def find_twilio_channel
