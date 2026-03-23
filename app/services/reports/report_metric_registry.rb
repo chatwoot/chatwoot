@@ -14,7 +14,7 @@ module Reports::ReportMetricRegistry
     :summary_key,
     :raw_count_strategy
   ) do
-    def initialize(name:, aggregate:, raw_event_name: nil, rollup_metric: nil, summary_key: nil, raw_count_strategy: nil)
+    def initialize(name:, aggregate:, raw_event_name: nil, rollup_metric: nil, summary_key: nil, raw_count_strategy: nil) # rubocop:disable Metrics/ParameterLists
       super
     end
 
