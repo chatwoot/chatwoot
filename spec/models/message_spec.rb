@@ -271,6 +271,15 @@ RSpec.describe Message do
     end
   end
 
+  describe '#mark_pending_conversation_as_open_for_human_response' do
+    let(:conversation) { create(:conversation, status: :pending) }
+
+    it 'does not mark the conversation open when pending is used without captain' do
+      create(:message, message_type: :outgoing, conversation: conversation)
+      expect(conversation.reload.pending?).to be true
+    end
+  end
+
   describe '#waiting since' do
     let(:conversation) { create(:conversation) }
     let(:agent) { create(:user, account: conversation.account) }
@@ -355,6 +364,25 @@ RSpec.describe Message do
 
         conversation.reload
         expect(conversation.waiting_since).to be_nil
+      end
+    end
+
+    context 'when bot response should preserve waiting_since' do
+      let(:agent_bot) { create(:agent_bot, account: conversation.account) }
+
+      it 'does not clear waiting_since when preserve_waiting_since is set' do
+        original_waiting_since = 45.minutes.ago
+        conversation.update!(waiting_since: original_waiting_since)
+
+        create(
+          :message,
+          conversation: conversation,
+          message_type: :outgoing,
+          sender: agent_bot,
+          preserve_waiting_since: true
+        )
+
+        expect(conversation.reload.waiting_since).to be_within(1.second).of(original_waiting_since)
       end
     end
   end

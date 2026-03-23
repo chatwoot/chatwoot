@@ -70,6 +70,8 @@ platform_account:
   $ref: ./resource/platform_account.yml
 team:
   $ref: ./resource/team.yml
+label:
+  $ref: ./resource/label.yml
 integrations_app:
   $ref: ./resource/integrations/app.yml
 integrations_hook:
@@ -80,10 +82,16 @@ audit_log:
 ## public resources
 public_contact:
   $ref: ./resource/public/contact.yml
+public_contact_record:
+  $ref: ./resource/public/contact_record.yml
 public_conversation:
   $ref: ./resource/public/conversation.yml
 public_message:
   $ref: ./resource/public/message.yml
+public_message_attachment:
+  $ref: ./resource/public/message_attachment.yml
+public_message_sender:
+  $ref: ./resource/public/message_sender.yml
 public_inbox:
   $ref: ./resource/public/inbox.yml
 
@@ -141,6 +149,10 @@ inbox_update_payload:
 # Team
 team_create_update_payload:
   $ref: ./request/team/create_update_payload.yml
+
+# Label
+label_create_update_payload:
+  $ref: ./request/label/create_update_payload.yml
 
 # Custom Filter
 custom_filter_create_update_payload:
