@@ -68,6 +68,23 @@ RSpec.describe 'Accounts API', type: :request do
       end
     end
 
+    context 'when an authenticated user creates a second account' do
+      let(:existing_user) { create(:user, password: 'Password1!') }
+
+      it 'returns the full response with account_id' do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          post api_v1_accounts_url,
+               params: { account_name: 'Second Account', email: existing_user.email,
+                         user_full_name: existing_user.name, password: 'Password1!' },
+               headers: existing_user.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body.dig('data', 'account_id')).to be_present
+        end
+      end
+    end
+
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to false' do
       it 'responds 404 on requests' do
         params = { account_name: 'test', email: email, user_full_name: user_full_name }
