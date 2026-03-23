@@ -31,7 +31,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   delegate :account, :inbox, to: :@conversation
 
   def generate_and_process_response
-    @response = Captain::Llm::AssistantChatService.new(assistant: @assistant, conversation_id: @conversation.display_id).generate_response(
+    @response = Captain::Llm::AssistantChatService.new(assistant: @assistant, conversation: @conversation).generate_response(
       message_history: collect_previous_messages
     )
     process_response
@@ -138,7 +138,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def handle_error(error)
     log_error(error)
-    process_action('handoff')
+    process_action('handoff') if conversation_pending?
     true
   end
 
@@ -151,7 +151,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def conversation_pending?
-    status = Conversation.where(id: @conversation.id).pick(:status)
+    status = Conversation.uncached { Conversation.where(id: @conversation.id).pick(:status) }
     status == 'pending' || status == Conversation.statuses[:pending]
   end
 end

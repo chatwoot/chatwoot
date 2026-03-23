@@ -34,6 +34,9 @@ es:
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Su solicitud de eliminación de la bandeja de entrada será procesada en algún tiempo.
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
     validations:
       presence: no debe estar en blanco
     webhook:

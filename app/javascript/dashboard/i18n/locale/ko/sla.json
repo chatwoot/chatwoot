@@ -5,7 +5,12 @@
     "ADD_ACTION_LONG": "새 SLA 정책 생성",
     "DESCRIPTION": "서비스 수준 계약(SLA)은 팀과 고객 간의 명확한 기대치를 정의하는 계약입니다. 응답 및 해결 시간에 대한 기준을 설정하여 책임성을 위한 프레임워크를 만들고 일관되고 고품질의 경험을 보장합니다.",
     "LEARN_MORE": "SLA에 대해 자세히 알아보기",
+    "COUNT": "{n}개의 SLA | {n}개의 SLA",
     "LOADING": "SLA를 불러오는 중",
+    "SEARCH_PLACEHOLDER": "SLA 검색...",
+    "SEARCH": {
+      "NO_RESULTS": "검색과 일치하는 SLA가 없습니다"
+    },
     "PAYWALL": {
       "TITLE": "SLA를 생성하려면 업그레이드하십시오",
       "AVAILABLE_ON": "SLA 기능은 Business 및 Enterprise 플랜에서만 사용할 수 있습니다.",
@@ -20,6 +25,10 @@
     },
     "LIST": {
       "404": "이 계정에 사용 가능한 SLA가 없습니다.",
+      "TABLE_HEADER": {
+        "SLA": "SLA",
+        "BUSINESS_HOURS": "영업시간"
+      },
       "EMPTY": {
         "TITLE_1": "Enterprise P0",
         "DESC_1": "Enterprise 고객이 제기한 즉각적인 대응이 필요한 이슈입니다.",
@@ -37,10 +46,6 @@
           "NRT": "NRT",
           "RT": "RT"
         }
-      },
-      "TABLE_HEADER": {
-        "SLA": "SLA",
-        "BUSINESS_HOURS": "영업시간"
       }
     },
     "FORM": {
@@ -107,11 +112,6 @@
       "RT": "해결 시간",
       "SHOW_MORE": "{count}개 더 보기",
       "HIDE": "{count}개 행 숨기기"
-    },
-    "COUNT": "{n}개의 SLA | {n}개의 SLA",
-    "SEARCH_PLACEHOLDER": "SLA 검색...",
-    "SEARCH": {
-      "NO_RESULTS": "검색과 일치하는 SLA가 없습니다"
     }
   }
 }

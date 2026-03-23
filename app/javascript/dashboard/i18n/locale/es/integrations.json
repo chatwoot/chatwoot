@@ -527,7 +527,8 @@
           "TITLE": "Características",
           "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
@@ -540,11 +541,11 @@
         "HEADER": "Ajustes",
         "BASIC_SETTINGS": {
           "TITLE": "Configuraciones básicas",
-          "DESCRIPTION": ""
+          "DESCRIPTION": "Personaliza lo que dice el asistente al finalizar una conversación o al transferirla a una persona."
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
-          "DESCRIPTION": ""
+          "DESCRIPTION": "Personaliza lo que dice el asistente al finalizar una conversación o al transferirla a una persona."
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",
