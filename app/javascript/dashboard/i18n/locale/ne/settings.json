@@ -1,84 +1,84 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "LINK": "प्रोफाइल सेटिङ",
+    "TITLE": "प्रोफाइल सेटिङ",
+    "BTN_TEXT": "प्रोफाइल अपडेट गर्नुहोस्",
+    "DELETE_AVATAR": "अवतार मेटाउनुहोस्",
+    "AVATAR_DELETE_SUCCESS": "अवतार सफलतापूर्वक मेटाइयो",
+    "AVATAR_DELETE_FAILED": "अवतार मेटाउँदा त्रुटि भयो, कृपया पुन: प्रयास गर्नुहोस्",
+    "UPDATE_SUCCESS": "तपाईंको प्रोफाइल सफलतापूर्वक अपडेट भयो",
+    "PASSWORD_UPDATE_SUCCESS": "तपाईंको पासवर्ड सफलतापूर्वक परिवर्तन भयो",
+    "AFTER_EMAIL_CHANGED": "तपाईंको प्रोफाइल सफलतापूर्वक अपडेट भयो, कृपया पुनः लगइन गर्नुहोस् किनभने तपाईंको लगइन प्रमाणपत्रहरू परिवर्तन भएका छन्",
     "FORM": {
-      "PICTURE": "Profile Picture",
-      "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "PICTURE": "प्रोफाइल फोटो",
+      "AVATAR": "प्रोफाइल छवि",
+      "ERROR": "कृपया फारमका त्रुटिहरू सच्याउनुहोस्",
+      "REMOVE_IMAGE": "हटाउनुहोस्",
+      "UPLOAD_IMAGE": "छवि अपलोड गर्नुहोस्",
+      "UPDATE_IMAGE": "छवि अपडेट गर्नुहोस्",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "TITLE": "प्रोफाइल",
+        "NOTE": "तपाईंको इमेल ठेगाना तपाईंको पहिचान हो र लगइन गर्न प्रयोग गरिन्छ।"
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "सन्देश पठाउन हटकी",
+        "NOTE": "तपाईं आफ्नो लेखन प्राथमिकताअनुसार हटकी (Enter वा Cmd/Ctrl+Enter) चयन गर्न सक्नुहुन्छ।",
+        "UPDATE_SUCCESS": "तपाईंका सेटिङहरू सफलतापूर्वक अपडेट गरियो",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "पठाउन बटन क्लिक नगरी Enter कुञ्जी थिचेर सन्देश पठाउनुहोस्।"
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "पठाउन बटन क्लिक नगरी Cmd/Ctrl + Enter कुञ्जी थिचेर सन्देश पठाउनुहोस्।"
           }
         }
       },
       "INTERFACE_SECTION": {
-        "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "TITLE": "इन्टरफेस",
+        "NOTE": "तपाईंको Chatwoot ड्यासबोर्डको देखावट र अनुभव अनुकूलित गर्नुहोस्।",
         "FONT_SIZE": {
-          "TITLE": "Font size",
-          "NOTE": "Adjust the text size across the dashboard based on your preference.",
-          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "TITLE": "फन्ट आकार",
+          "NOTE": "तपाईंको प्राथमिकताअनुसार ड्यासबोर्डभरि पाठको आकार समायोजन गर्नुहोस्।",
+          "UPDATE_SUCCESS": "तपाईंको फन्ट सेटिङहरू सफलतापूर्वक अपडेट गरियो।",
+          "UPDATE_ERROR": "फन्ट सेटिङहरू अपडेट गर्दा त्रुटि भयो। कृपया पुन: प्रयास गर्नुहोस्।",
           "OPTIONS": {
-            "SMALLER": "Smaller",
-            "SMALL": "Small",
-            "DEFAULT": "Default",
-            "LARGE": "Large",
-            "LARGER": "Larger",
-            "EXTRA_LARGE": "Extra Large"
+            "SMALLER": "सानो",
+            "SMALL": "सानो",
+            "DEFAULT": "पूर्वनिर्धारित",
+            "LARGE": "ठूलो",
+            "LARGER": "अझै ठूलो",
+            "EXTRA_LARGE": "अति ठूलो"
           }
         },
         "LANGUAGE": {
-          "TITLE": "Preferred Language",
-          "NOTE": "Choose the language you want to use.",
-          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
-          "USE_ACCOUNT_DEFAULT": "Use account default"
+          "TITLE": "रुचाइएको भाषा",
+          "NOTE": "तपाईं प्रयोग गर्न चाहनुभएको भाषा छान्नुहोस्।",
+          "UPDATE_SUCCESS": "तपाईंको भाषा सेटिङहरू सफलतापूर्वक अपडेट गरियो।",
+          "UPDATE_ERROR": "भाषा सेटिङहरू अपडेट गर्दा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।",
+          "USE_ACCOUNT_DEFAULT": "खाता पूर्वनिर्धारित प्रयोग गर्नुहोस्"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+        "TITLE": "व्यक्तिगत सन्देश हस्ताक्षर",
+        "NOTE": "प्रत्येक सन्देशको अन्त्यमा देखिने अनौठो सन्देश हस्ताक्षर सिर्जना गर्नुहोस् जुन तपाईंले कुनै पनि इनबक्सबाट पठाउनुहुन्छ। तपाईंले इनलाइन छवि पनि समावेश गर्न सक्नुहुन्छ, जुन लाइभ-च्याट, इमेल, र API इनबक्सहरूमा समर्थित छ।",
+        "BTN_TEXT": "सन्देश हस्ताक्षर सुरक्षित गर्नु",
+        "API_ERROR": "हस्ताक्षर सुरक्षित गर्न सकेन! पुनः प्रयास गर्नुहोस्",
+        "API_SUCCESS": "हस्ताक्षर सफलतापूर्वक सुरक्षित भयो",
+        "IMAGE_UPLOAD_ERROR": "छवि अपलोड गर्न सकिएन! फेरि प्रयास गर्नु",
+        "IMAGE_UPLOAD_SUCCESS": "छवि सफलतापूर्वक थपियो। कृपया हस्ताक्षर बचत गर्न सेभमा क्लिक गर्नु",
+        "IMAGE_UPLOAD_SIZE_ERROR": "छवि आकार {size}MB भन्दा कम हुनुपर्छ"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "सन्देश हस्ताक्षर",
+        "ERROR": "सन्देश हस्ताक्षर खाली हुन सक्दैन",
+        "PLACEHOLDER": "यहाँ आफ्नो व्यक्तिगत सन्देश हस्ताक्षर राख्नुहोस्।"
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
-        "NOTE": "Updating your password would reset your logins in multiple devices.",
-        "BTN_TEXT": "Change password"
+        "TITLE": "पासवर्ड",
+        "NOTE": "पासवर्ड अपडेट गर्दा तपाईंका लगइनहरू धेरै उपकरणहरूमा रिसेट हुनेछ।",
+        "BTN_TEXT": "पासवर्ड परिवर्तन गर्नुहोस्"
       },
       "SECURITY_SECTION": {
         "TITLE": "Security",
@@ -87,171 +87,171 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration",
-        "COPY": "Copy",
-        "RESET": "Reset",
-        "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "NOTE": "यदि तपाईं API आधारित एकीकरण निर्माण गर्दै हुनुहुन्छ भने यो टोकन प्रयोग गर्न सकिन्छ",
+        "COPY": "प्रतिलिपि गर्नु",
+        "RESET": "रिसेट गर्नुहोस्",
+        "CONFIRM_RESET": "पक्का हो?",
+        "CONFIRM_HINT": "पुष्टि गर्न फेरि क्लिक गर्नुहोस्",
+        "RESET_SUCCESS": "पहुँच टोकन सफलतापूर्वक पुनःनिर्मित भयो।",
+        "RESET_ERROR": "पहुँच टोकन पुनःनिर्माण गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Alerts",
-        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
+        "TITLE": "अडियो सूचनाहरू",
+        "NOTE": "नयाँ सन्देश र कुराकानीहरूको लागि ड्यासबोर्डमा अडियो सूचनाहरू सक्षम गर्नुहोस्।",
+        "PLAY": "ध्वनि बजाउनु",
         "ALERT_TYPES": {
-          "NONE": "None",
-          "MINE": "Assigned",
-          "ALL": "All",
-          "ASSIGNED": "My assigned conversations",
-          "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
+          "NONE": "कुनै पनि छैन",
+          "MINE": "सौंपिएको",
+          "ALL": "सबै",
+          "ASSIGNED": "मेरो तोकिएका कुराकानीहरू",
+          "UNASSIGNED": "असाइन नभएका कुराकानीहरू",
+          "NOTME": "अरूलाई तोकिएका खुला कुराकानीहरू"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
-          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+          "NONE": "तपाईंले कुनै विकल्प चयन गर्नुभएको छैन। तपाईंले कुनै पनि ध्वनि सूचनाहरू प्राप्त गर्नुहुने छैन।",
+          "ASSIGNED": "तपाईंलाई तोकिएका कुराकानीहरूको सूचनाहरू प्राप्त हुनेछ।",
+          "UNASSIGNED": "तपाईंलाई कुनै पनि असाइन नभएका कुराकानीहरूको सूचनाहरू प्राप्त हुनेछ।",
+          "NOTME": "तपाईंलाई अरूलाई तोकिएका कुराकानीहरूको सूचनाहरू प्राप्त हुनेछ।",
+          "ASSIGNED+UNASSIGNED": "तपाईंलाई तोकिएका कुराकानीहरू र कुनै पनि असाइन नभएका कुराकानीहरूको सूचनाहरू प्राप्त हुनेछ।",
+          "ASSIGNED+NOTME": "तपाईंलाई तपाईंलाई र अरूलाई तोकिएका कुराकानीहरूको सूचनाहरू प्राप्त हुनेछ, तर असाइन नभएका कुराकानीहरूको लागि होइन।",
+          "NOTME+UNASSIGNED": "तपाईंलाई असाइन नभएका र अरूलाई तोकिएका कुराकानीहरूको सूचनाहरू प्राप्त हुनेछ।",
+          "ASSIGNED+NOTME+UNASSIGNED": "तपाईंलाई सबै कुराकानीहरूको सूचनाहरू प्राप्त हुनेछ।"
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations",
-          "NONE": "None",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "TITLE": "कुराकानीहरूको लागि सूचनाका घटनाहरू",
+          "NONE": "कुनै पनि छैन",
+          "ASSIGNED": "सौंपिएका कुराकानीहरू",
+          "ALL_CONVERSATIONS": "सबै कुराकानीहरू"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "सूचना टोन:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "सूचना सर्तहरू:",
+          "CONDITION_ONE": "ब्राउजर विन्डो सक्रिय नभएको अवस्थामा मात्र अडियो सूचनाहरू पठाउनु",
+          "CONDITION_TWO": "सबै सौंपिएका कुराकानीहरू पढिएसम्म प्रत्येक ३० सेकेन्डमा सूचनाहरू पठाउनु"
         },
-        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
-        "READ_MORE": "Read more"
+        "SOUND_PERMISSION_ERROR": "तपाईंको ब्राउजरमा स्वतः प्ले अक्षम छ। सूचनाहरू स्वचालित रूपमा सुन्नको लागि, तपाईंको ब्राउजर सेटिङहरूमा ध्वनि अनुमति सक्षम गर्नुहोस् वा पृष्ठसँग अन्तरक्रिया गर्नुहोस्।",
+        "READ_MORE": "थप पढ्नुहोस्"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "TITLE": "इमेल सूचनाहरू",
+        "NOTE": "यहाँ तपाईंको इमेल सूचना प्राथमिकताहरू अपडेट गर्नुहोस्",
+        "CONVERSATION_ASSIGNMENT": "जब कुनै कुराकानी मलाई असाइन गरिन्छ तब इमेल सूचनाहरू पठाउनुहोस्",
+        "CONVERSATION_CREATION": "जब नयाँ कुराकानी सिर्जना हुन्छ तब इमेल सूचनाहरू पठाउनुहोस्",
+        "CONVERSATION_MENTION": "संवादमा तपाईंलाई उल्लेख गर्दा इमेल सूचनाहरू पठाउनुहोस्",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "जिम्मेवारीमा रहेको संवादमा नयाँ सन्देश आएको बेला इमेल सूचनाहरू पठाउनुहोस्",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "सहभागी कुराकानीमा नयाँ सन्देश सिर्जना हुँदा इमेल सूचनाहरू पठाउनु",
+        "SLA_MISSED_FIRST_RESPONSE": "कुनै कुराकानीले पहिलो प्रतिक्रिया SLA छुटाउँदा इमेल सूचनाहरू पठाउनु",
+        "SLA_MISSED_NEXT_RESPONSE": "कुनै कुराकानीले अर्को प्रतिक्रिया SLA छुटाउँदा इमेल सूचनाहरू पठाउनु",
+        "SLA_MISSED_RESOLUTION": "कुनै कुराकानीले समाधान SLA छुटाउँदा इमेल सूचनाहरू पठाउनु"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
-        "EMAIL": "Email",
-        "PUSH": "Push notification",
+        "TITLE": "सूचना प्राथमिकताहरू",
+        "TYPE_TITLE": "सूचना प्रकार",
+        "EMAIL": "इमेल",
+        "PUSH": "पुष सूचना",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "CONVERSATION_CREATED": "नयाँ कुराकानी सिर्जना भयो",
+          "CONVERSATION_ASSIGNED": "तपाईंलाई कुराकानी तोकिएको छ",
+          "CONVERSATION_MENTION": "तपाईंलाई कुराकानीमा उल्लेख गरिएको छ",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "तोकेको कुराकानीमा नयाँ सन्देश सिर्जना भयो",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "भाग लिइरहेको कुराकानीमा नयाँ सन्देश सिर्जना भयो",
+          "SLA_MISSED_FIRST_RESPONSE": "कुराकानीले पहिलो प्रतिक्रिया SLA छुटायो",
+          "SLA_MISSED_NEXT_RESPONSE": "कुराकानीले अर्को प्रतिक्रिया SLA छुटायो",
+          "SLA_MISSED_RESOLUTION": "कुराकानीले समाधान SLA छुटायो"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "तपाईंको ब्राउजरका लागि पुश सूचनाहरू सक्षम गर्नुहोस् ताकि तपाईं तिनीहरू प्राप्त गर्न सक्नुहुन्छ"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "तपाईंका सूचना प्राथमिकताहरू सफलतापूर्वक अपडेट गरियो",
+        "UPDATE_ERROR": "प्राथमिकताहरू अपडेट गर्दा त्रुटि भयो, कृपया पुनः प्रयास गर्नुहोस्"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "TITLE": "पुष सूचनाहरू",
+        "NOTE": "यहाँ तपाईंका पुष सूचना प्राथमिकताहरू अपडेट गर्नुहोस्",
+        "CONVERSATION_ASSIGNMENT": "जब कुनै कुराकानी मलाई असाइन गरिन्छ तब पुष सूचनाहरू पठाउनुहोस्",
+        "CONVERSATION_CREATION": "जब नयाँ कुराकानी सिर्जना हुन्छ तब पुष सूचनाहरू पठाउनुहोस्",
+        "CONVERSATION_MENTION": "संवादमा तपाईंलाई उल्लेख गर्दा पुश सूचनाहरू पठाउनुहोस्",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "जिम्मेवारीमा रहेको संवादमा नयाँ सन्देश आएको बेला पुश सूचनाहरू पठाउनुहोस्",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "सहभागी कुराकानीमा नयाँ सन्देश सिर्जना हुँदा पुश सूचनाहरू पठाउनु",
+        "HAS_ENABLED_PUSH": "तपाईंले यस ब्राउजरका लागि पुष सक्षम गर्नुभएको छ।",
+        "REQUEST_PUSH": "पुष सूचनाहरू सक्षम गर्नुहोस्",
+        "SLA_MISSED_FIRST_RESPONSE": "कुनै कुराकानीले पहिलो प्रतिक्रिया SLA छुटाउँदा पुश सूचनाहरू पठाउनु",
+        "SLA_MISSED_NEXT_RESPONSE": "कुनै कुराकानीले अर्को प्रतिक्रिया SLA छुटाउँदा पुश सूचनाहरू पठाउनु",
+        "SLA_MISSED_RESOLUTION": "कुनै कुराकानीले समाधान SLA छुटाउँदा पुश सूचनाहरू पठाउनु"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "प्रोफाइल छवि"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "तपाईंको पूरा नाम",
+        "ERROR": "कृपया मान्य पूरा नाम लेख्नुहोस्",
+        "PLACEHOLDER": "कृपया तपाईंको पूरा नाम लेख्नुहोस्"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "प्रदर्शन नाम",
+        "ERROR": "कृपया मान्य प्रदर्शन नाम लेख्नुहोस्",
+        "PLACEHOLDER": "कृपया प्रदर्शन नाम लेख्नुहोस्, यो संवादहरूमा देखाइनेछ"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "उपलब्धता",
         "STATUS": {
-          "ONLINE": "Online",
-          "BUSY": "Busy",
-          "OFFLINE": "Offline"
+          "ONLINE": "अनलाइन",
+          "BUSY": "व्यस्त",
+          "OFFLINE": "अफलाइन"
         },
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
-        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+        "SET_AVAILABILITY_SUCCESS": "उपलब्धता सफलतापूर्वक सेट भयो",
+        "SET_AVAILABILITY_ERROR": "उपलब्धता सेट गर्न सकिएन, कृपया पुनः प्रयास गर्नुहोस्",
+        "IMPERSONATING_ERROR": "प्रयोगकर्ताको नक्कल गर्दा उपलब्धता परिवर्तन गर्न सकिँदैन"
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "तपाईंको इमेल ठेगाना",
+        "ERROR": "कृपया मान्य इमेल ठेगाना प्रविष्ट गर्नुहोस्",
+        "PLACEHOLDER": "कृपया तपाईंको इमेल ठेगाना प्रविष्ट गर्नुहोस्, यो कुराकानीहरूमा देखाइनेछ"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "हालको पासवर्ड",
+        "ERROR": "कृपया हालको पासवर्ड लेख्नुहोस्",
+        "PLACEHOLDER": "कृपया हालको पासवर्ड लेख्नुहोस्"
       },
       "PASSWORD": {
-        "LABEL": "New password",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "LABEL": "नयाँ पासवर्ड",
+        "ERROR": "कृपया 6 वा सो भन्दा लामो पासवर्ड प्रविष्ट गर्नुहोस्",
+        "PLACEHOLDER": "कृपया नयाँ पासवर्ड प्रविष्ट गर्नुहोस्"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "LABEL": "नयाँ पासवर्ड पुष्टि गर्नुहोस्",
+        "ERROR": "पासवर्ड पुष्टि पासवर्डसँग मेल खानुपर्छ",
+        "PLACEHOLDER": "कृपया आफ्नो नयाँ पासवर्ड फेरि प्रविष्ट गर्नुहोस्"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
-    "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_ACCOUNT": "Switch account",
-    "CONTACT_SUPPORT": "Contact support",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile settings",
+    "CHANGE_AVAILABILITY_STATUS": "परिवर्तन गर्नुहोस्",
+    "CHANGE_ACCOUNTS": "खाता परिवर्तन गर्नु",
+    "SWITCH_ACCOUNT": "खाता परिवर्तन गर्नुहोस्",
+    "CONTACT_SUPPORT": "समर्थन सम्पर्क गर्नु",
+    "SELECTOR_SUBTITLE": "तलको सूचीबाट एउटा खाता चयन गर्नुहोस्",
+    "PROFILE_SETTINGS": "प्रोफाइल सेटिङ",
     "YEAR_IN_REVIEW": "Year in Review",
-    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
-    "APPEARANCE": "Change appearance",
-    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
-    "DOCS": "Read documentation",
-    "CHANGELOG": "Changelog",
-    "LOGOUT": "Log out"
+    "KEYBOARD_SHORTCUTS": "किबोर्ड सर्टकट",
+    "APPEARANCE": "देखावट परिवर्तन गर्नु",
+    "SUPER_ADMIN_CONSOLE": "सुपरएडमिन कन्सोल",
+    "DOCS": "कागजात पढ्नु",
+    "CHANGELOG": "परिवर्तन विवरण",
+    "LOGOUT": "लगआउट"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now",
-    "DELETED_USER": "Deleted User",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "TRIAL_MESSAGE": "दिनको परीक्षण बाँकी छ।",
+    "TRAIL_BUTTON": "अहिले किन्नुहोस्",
+    "DELETED_USER": "मेटाइएको प्रयोगकर्ता",
+    "EMAIL_VERIFICATION_PENDING": "तपाईंले अझै आफ्नो इमेल ठेगाना प्रमाणित गर्नुभएको छैन जस्तो देखिन्छ। कृपया प्रमाणिकरण इमेलको लागि आफ्नो इनबक्स जाँच गर्नुहोस्।",
+    "RESEND_VERIFICATION_MAIL": "प्रमाणिकरण इमेल पुन: पठाउनु",
+    "EMAIL_VERIFICATION_SENT": "प्रमाणिकरण इमेल पठाइएको छ। कृपया आफ्नो इनबक्स जाँच गर्नुहोस्।",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "खाता निलम्बित",
+      "MESSAGE": "तपाईंको खाता निलम्बित गरिएको छ। थप जानकारीका लागि कृपया समर्थन टोलीलाई सम्पर्क गर्नुहोस्।"
     },
     "NO_ACCOUNTS": {
       "TITLE": "No account found",
@@ -262,123 +262,123 @@
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "CODEPEN": "Open in CodePen",
+      "BUTTON_TEXT": "प्रतिलिपि गर्नुहोस्",
+      "CODEPEN": "CodePen मा खोल्नु",
       "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "थप देखाउनु",
+      "SHOW_LESS": "कम देखाउनु"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "डाउनलोड",
       "UPLOADING": "अपलोड गर्दै...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available.",
+      "INSTAGRAM_STORY_UNAVAILABLE": "यो कथा अब उपलब्ध छैन।",
       "INSTAGRAM_STORY_REPLY": "Replied to your story:"
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "नक्सामा हेर्नु"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "बुझाउनुहोस्"
     },
     "MEDIA": {
-      "IMAGE_UNAVAILABLE": "This image is no longer available.",
-      "LOADING_FAILED": "Loading failed"
+      "IMAGE_UNAVAILABLE": "यो छवि अब उपलब्ध छैन।",
+      "LOADING_FAILED": "लोड गर्न असफल भयो"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "पुष्टि हुँदैछ...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "इनबक्स थप्नुहोस्"
     }
   },
   "SIDEBAR": {
-    "NO_ITEMS": "No items",
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
-    "INBOX_VIEW": "Inbox View",
-    "CONVERSATIONS": "Conversations",
-    "INBOX": "My Inbox",
-    "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
-    "REPORTS": "Reports",
-    "SETTINGS": "Settings",
-    "CONTACTS": "Contacts",
-    "ACTIVE": "Active",
+    "NO_ITEMS": "कुनै वस्तु छैन",
+    "CURRENTLY_VIEWING_ACCOUNT": "हाल हेर्दै हुनुहुन्छ:",
+    "SWITCH": "स्विच गर्नु",
+    "INBOX_VIEW": "इनबक्स दृश्य",
+    "CONVERSATIONS": "संवादहरू",
+    "INBOX": "मेरो इनबक्स",
+    "ALL_CONVERSATIONS": "सबै संवादहरू",
+    "MENTIONED_CONVERSATIONS": "उल्लेख",
+    "PARTICIPATING_CONVERSATIONS": "सहभागी",
+    "UNATTENDED_CONVERSATIONS": "अटेन्ड नगरिएका",
+    "REPORTS": "प्रतिवेदनहरू",
+    "SETTINGS": "सेटिङ",
+    "CONTACTS": "सम्पर्कहरू",
+    "ACTIVE": "सक्रिय",
     "COMPANIES": "Companies",
     "ALL_COMPANIES": "All Companies",
-    "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
+    "CAPTAIN": "क्याप्टेन",
+    "CAPTAIN_ASSISTANTS": "सहायकहरू",
+    "CAPTAIN_DOCUMENTS": "कागजातहरू",
+    "CAPTAIN_RESPONSES": "सोधिने प्रश्नहरू",
     "CAPTAIN_TOOLS": "Tools",
     "CAPTAIN_SCENARIOS": "Scenarios",
     "CAPTAIN_PLAYGROUND": "Playground",
     "CAPTAIN_INBOXES": "Inboxes",
     "CAPTAIN_SETTINGS": "Settings",
-    "HOME": "Home",
-    "AGENTS": "Agents",
-    "AGENT_BOTS": "Bots",
-    "AUDIT_LOGS": "Audit Logs",
-    "INBOXES": "Inboxes",
-    "NOTIFICATIONS": "Notifications",
-    "CANNED_RESPONSES": "Canned Responses",
-    "INTEGRATIONS": "Integrations",
-    "PROFILE_SETTINGS": "Profile Settings",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "APPLICATIONS": "Applications",
-    "LABELS": "Labels",
-    "CUSTOM_ATTRIBUTES": "Custom Attributes",
-    "AUTOMATION": "Automation",
-    "MACROS": "Macros",
-    "TEAMS": "Teams",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
-    "REPORTS_CONVERSATION": "Conversations",
+    "HOME": "गृहपृष्ठ",
+    "AGENTS": "एजेन्टहरू",
+    "AGENT_BOTS": "बोटहरू",
+    "AUDIT_LOGS": "अडिट लग",
+    "INBOXES": "इनबक्सहरू",
+    "NOTIFICATIONS": "सूचनाहरू",
+    "CANNED_RESPONSES": "तयार जवाफहरू",
+    "INTEGRATIONS": "एकीकरणहरू",
+    "PROFILE_SETTINGS": "प्रोफाइल सेटिङहरू",
+    "ACCOUNT_SETTINGS": "खाता सेटिङ",
+    "APPLICATIONS": "अनुप्रयोगहरू",
+    "LABELS": "लेबलहरू",
+    "CUSTOM_ATTRIBUTES": "अनुकूलित विशेषताहरू",
+    "AUTOMATION": "स्वचालन",
+    "MACROS": "म्याक्रोहरू",
+    "TEAMS": "टोलीहरू",
+    "BILLING": "बिलिङ",
+    "CUSTOM_VIEWS_FOLDER": "फोल्डरहरू",
+    "CUSTOM_VIEWS_SEGMENTS": "सेगमेन्टहरू",
+    "ALL_CONTACTS": "सबै सम्पर्कहरू",
+    "TAGGED_WITH": "ट्याग गरिएको",
+    "NEW_LABEL": "नयाँ लेबल",
+    "NEW_TEAM": "नयाँ टोली",
+    "NEW_INBOX": "नयाँ इनबक्स",
+    "REPORTS_CONVERSATION": "संवादहरू",
     "CSAT": "CSAT",
-    "LIVE_CHAT": "Live Chat",
-    "SMS": "SMS",
+    "LIVE_CHAT": "प्रत्यक्ष च्याट",
+    "SMS": "एसएमएस",
     "WHATSAPP": "WhatsApp",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "CAMPAIGNS": "अभियानहरू",
+    "ONGOING": "चालु",
+    "ONE_OFF": "एक पटकको",
     "REPORTS_SLA": "SLA",
-    "REPORTS_BOT": "Bot",
-    "REPORTS_AGENT": "Agents",
-    "REPORTS_LABEL": "Labels",
-    "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team",
-    "AGENT_ASSIGNMENT": "Agent Assignment",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "SET_YOUR_AVAILABILITY": "Set your availability",
+    "REPORTS_BOT": "बोट",
+    "REPORTS_AGENT": "एजेन्टहरू",
+    "REPORTS_LABEL": "लेबलहरू",
+    "REPORTS_INBOX": "इनबक्स",
+    "REPORTS_TEAM": "टोली",
+    "AGENT_ASSIGNMENT": "एजेन्ट नियुक्ति",
+    "SET_AVAILABILITY_TITLE": "आफ्नो स्थिति सेट गर्नुहोस्",
+    "SET_YOUR_AVAILABILITY": "तपाईंको उपलब्धता सेट गर्नु",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
-    "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "CUSTOM_ROLES": "अनुकूलित भूमिका",
+    "BETA": "बीटा",
+    "REPORTS_OVERVIEW": "सारांश",
+    "REAUTHORIZE": "तपाईंको इनबक्स जडान समाप्त भयो, कृपया पुन: जडान गर्नुहोस्\nसन्देशहरू प्राप्त र पठाउन जारी राख्न",
     "HELP_CENTER": {
-      "TITLE": "Help Center",
-      "ARTICLES": "Articles",
-      "CATEGORIES": "Categories",
-      "LOCALES": "Locales",
-      "SETTINGS": "Settings"
+      "TITLE": "मद्दत केन्द्र",
+      "ARTICLES": "लेखहरू",
+      "CATEGORIES": "श्रेणीहरू",
+      "LOCALES": "स्थानहरू",
+      "SETTINGS": "सेटिङ"
     },
-    "CHANNELS": "Channels",
+    "CHANNELS": "च्यानलहरू",
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
-      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+      "TEXT": "स्वचालित रूपमा अफलाइन मार्क गर्नु",
+      "INFO_TEXT": "तपाईंले एप वा ड्यासबोर्ड प्रयोग नगर्दा प्रणालीले तपाईंलाई स्वचालित रूपमा अफलाइन मार्क गर्न दिनुहोस्।",
+      "INFO_SHORT": "एप प्रयोग नगर्दा स्वचालित रूपमा अफलाइन मार्क गर्नुहोस्।"
     },
-    "DOCS": "Read docs",
+    "DOCS": "डक्स पढ्नु",
     "SECURITY": "Security",
     "CAPTAIN_AI": "Captain",
     "CONVERSATION_WORKFLOW": "Conversation Workflow"
@@ -432,35 +432,35 @@
     }
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
-    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "TITLE": "बिलिङ",
+    "DESCRIPTION": "यहाँ तपाईंको सदस्यता व्यवस्थापन गर्नुहोस्, योजना अपग्रेड गर्नुहोस् र तपाईंको टिमका लागि थप प्राप्त गर्नुहोस्।",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
-      "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "TITLE": "हालको योजना",
+      "PLAN_NOTE": "तपाईं हाल **{plan}** योजना र **{quantity}** लाइसेन्सहरूसँग सदस्यता लिनुभएको छ",
+      "SEAT_COUNT": "सिटहरूको संख्या",
+      "RENEWS_ON": "नवीकरण मिति"
     },
-    "VIEW_PRICING": "View Pricing",
+    "VIEW_PRICING": "मूल्य निर्धारण हेर्नुहोस्",
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "आफ्नो सदस्यता व्यवस्थापन गर्नु",
+      "DESCRIPTION": "तपाईंका अघिल्ला बिलहरू हेर्नुहोस्, बिलिङ विवरण सम्पादन गर्नुहोस्, वा सदस्यता रद्द गर्नुहोस्।",
+      "BUTTON_TXT": "बिलिङ पोर्टलमा जानु"
     },
     "CAPTAIN": {
-      "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
-      "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
+      "TITLE": "क्याप्टेन",
+      "DESCRIPTION": "क्याप्टेन AI को प्रयोग र क्रेडिटहरू व्यवस्थापन गर्नुहोस्।",
+      "BUTTON_TXT": "थप क्रेडिटहरू किन्नुहोस्",
+      "DOCUMENTS": "कागजातहरू",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
+      "UPGRADE": "क्याप्टेन निःशुल्क योजनामा उपलब्ध छैन। सहायकहरू, कोपाइलट र थप पहुँचका लागि अहिले नै अपग्रेड गर्नुहोस्।",
       "REFRESH_CREDITS": "Refresh"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "मद्दत चाहिन्छ?",
+      "DESCRIPTION": "के तपाईंलाई बिलिङमा कुनै समस्या छ? हामी यहाँ मद्दत गर्न तयार छौं।",
       "BUTTON_TXT": "हामीसँग कुराकानी गर्नुहोस्"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
+    "NO_BILLING_USER": "तपाईंको बिलिङ खाता सेटअप हुँदैछ। कृपया पृष्ठ रिफ्रेस गरेर पुनः प्रयास गर्नुहोस्।",
     "TOPUP": {
       "BUY_CREDITS": "Buy more credits",
       "MODAL_TITLE": "Buy AI Credits",
@@ -610,104 +610,104 @@
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NO_ACCOUNT_WARNING": "उफ! हामीले कुनै Chatwoot खाता फेला पार्न सकेनौं। कृपया जारी राख्न नयाँ खाता सिर्जना गर्नुहोस्।",
+    "NEW_ACCOUNT": "नयाँ खाता",
+    "SELECTOR_SUBTITLE": "नयाँ खाता सिर्जना गर्नुहोस्",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "खाता सफलतापूर्वक सिर्जना गरियो",
+      "EXIST_MESSAGE": "खाता पहिले नै अवस्थित छ",
+      "ERROR_MESSAGE": "Woot सर्भरसँग जडान गर्न सकिएन, कृपया पछि पुन: प्रयास गर्नुहोस्"
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Company Name",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "LABEL": "कम्पनी नाम",
+        "PLACEHOLDER": "वेयन इन्टरप्राइजेज"
       },
       "SUBMIT": "बुझाउनुहोस्",
-      "CANCEL": "Cancel"
+      "CANCEL": "रद्द गर्नुहोस्"
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "सबै सर्टकटहरू हेर्नु",
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "संवाद खोल्नुहोस्",
+      "RESOLVE_AND_NEXT": "समाधान गरी अर्कोमा जानुहोस्",
+      "NAVIGATE_DROPDOWN": "ड्रपडाउन वस्तुहरूमा नेभिगेट गर्नुहोस्",
+      "RESOLVE_CONVERSATION": "संवाद समाधान गर्नुहोस्",
+      "GO_TO_CONVERSATION_DASHBOARD": "संवाद ड्यासबोर्डमा जानुहोस्",
+      "ADD_ATTACHMENT": "संलग्नक थप्नुहोस्",
+      "GO_TO_CONTACTS_DASHBOARD": "सम्पर्क ड्यासबोर्डमा जानुहोस्",
+      "TOGGLE_SIDEBAR": "साइडबार टगल गर्नुहोस्",
+      "GO_TO_REPORTS_SIDEBAR": "रिपोर्ट साइडबारमा जानुहोस्",
+      "MOVE_TO_NEXT_TAB": "संवाद सूचीमा अर्को ट्याबमा जानुहोस्",
+      "GO_TO_SETTINGS": "सेटिङहरूमा जानुहोस्",
+      "SWITCH_TO_PRIVATE_NOTE": "प्राइभेट नोटमा स्विच गर्नुहोस्",
+      "SWITCH_TO_REPLY": "उत्तरमा स्विच गर्नुहोस्",
+      "TOGGLE_SNOOZE_DROPDOWN": "स्नूज ड्रपडाउन टगल गर्नुहोस्"
     }
   },
   "ASSIGNMENT_POLICY": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "Agent assignment",
-        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+        "TITLE": "एजेन्ट नियुक्ति",
+        "DESCRIPTION": "इनबक्स र एजेन्टहरूको आवश्यकताअनुसार कार्यभार प्रभावकारी रूपमा व्यवस्थापन गर्न र कुराकानीहरू मार्गनिर्देशन गर्न नीतिहरू परिभाषित गर्नुहोस्। यहाँ थप जान्नुहोस्।"
       },
       "ASSIGNMENT_POLICY": {
-        "TITLE": "Assignment policy",
-        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "TITLE": "नियुक्ति नीति",
+        "DESCRIPTION": "कसरी कुराकानीहरू इनबक्सहरूमा नियुक्त हुन्छन् व्यवस्थापन गर्नुहोस्।",
         "FEATURES": [
-          "Assign by conversations evenly or by available capacity",
-          "Add fair distribution rules to avoid overloading any agent",
-          "Add inboxes to a policy - one policy per inbox"
+          "कुराकानीहरू समान रूपमा वा उपलब्ध क्षमताअनुसार नियुक्त गर्नुहोस्।",
+          "कुनै पनि एजेन्टलाई अत्यधिक भार नपरोस् भनेर निष्पक्ष वितरण नियमहरू थप्नुहोस्।",
+          "नीतिमा इनबक्सहरू थप्नुहोस् - एक नीतिमा एक इनबक्स।"
         ]
       },
       "AGENT_CAPACITY_POLICY": {
-        "TITLE": "Agent capacity policy",
-        "DESCRIPTION": "Manage workload for agents.",
+        "TITLE": "एजेन्ट क्षमता नीति",
+        "DESCRIPTION": "एजेन्टहरूको कार्यभार व्यवस्थापन गर्नुहोस्।",
         "FEATURES": [
-          "Define maximum conversations per inbox",
-          "Create exceptions based on labels and time",
-          "Add agents to a policy - one policy per agent"
+          "प्रति इनबक्स अधिकतम कुराकानीहरू परिभाषित गर्नुहोस्।",
+          "लेबल र समयको आधारमा अपवादहरू सिर्जना गर्नुहोस्",
+          "नीतिमा एजेन्टहरू थप्नुहोस् - प्रति एजेन्ट एक नीति"
         ]
       }
     },
     "AGENT_ASSIGNMENT_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Assignment policy",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "नियुक्ति नीति",
+          "CREATE_POLICY": "नयाँ नीति"
         },
         "CARD": {
-          "ORDER": "Order",
-          "PRIORITY": "Priority",
-          "ACTIVE": "Active",
-          "INACTIVE": "Inactive",
-          "POPOVER": "Added inboxes",
-          "EDIT": "Edit"
+          "ORDER": "क्रम",
+          "PRIORITY": "प्राथमिकता",
+          "ACTIVE": "सक्रिय",
+          "INACTIVE": "निष्क्रिय",
+          "POPOVER": "थप गरिएका इनबक्सहरू",
+          "EDIT": "सम्पादन गर्नुहोस्"
         },
-        "NO_RECORDS_FOUND": "No assignment policies found"
+        "NO_RECORDS_FOUND": "कुनै नियुक्ति नीति फेला परेन"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create assignment policy"
+          "TITLE": "असाइनमेन्ट नीति सिर्जना गर्नुहोस्"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "नीति सिर्जना गर्नुहोस्",
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy created successfully",
-          "ERROR_MESSAGE": "Failed to create assignment policy",
+          "SUCCESS_MESSAGE": "असाइनमेन्ट नीति सफलतापूर्वक सिर्जना गरियो",
+          "ERROR_MESSAGE": "असाइनमेन्ट नीति सिर्जना गर्न असफल",
           "INBOX_LINKED": "Inbox has been linked to the policy"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit assignment policy"
+          "TITLE": "असाइनमेन्ट नीति सम्पादन गर्नुहोस्"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "नीति अपडेट गर्नुहोस्",
         "CONFIRM_ADD_INBOX_DIALOG": {
-          "TITLE": "Add inbox",
-          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
-          "CANCEL_BUTTON_LABEL": "Cancel"
+          "TITLE": "इनबक्स थप्नुहोस्",
+          "DESCRIPTION": "{inboxName} इनबक्स पहिले नै अर्को नीतिसँग जोडिएको छ। के तपाईं यसलाई यो नीतिसँग जोड्न निश्चित हुनुहुन्छ? यसले अर्को नीतिबाट अनजोडिनेछ।",
+          "CONFIRM_BUTTON_LABEL": "जारी राख्नुहोस्",
+          "CANCEL_BUTTON_LABEL": "रद्द गर्नुहोस्"
         },
         "INBOX_LINK_PROMPT": {
           "TITLE": "Link inbox to policy",
@@ -716,64 +716,64 @@
           "CANCEL_BUTTON": "Skip"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update assignment policy"
+          "SUCCESS_MESSAGE": "असाइनमेन्ट नीति सफलतापूर्वक अपडेट गरियो",
+          "ERROR_MESSAGE": "असाइनमेन्ट नीति अपडेट गर्न असफल"
         },
         "INBOX_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "नीतिमा इनबक्स सफलतापूर्वक थपियो",
+            "ERROR_MESSAGE": "नीतिमा इनबक्स थप्न असफल"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+            "SUCCESS_MESSAGE": "नीतिबाट इनबक्स सफलतापूर्वक हटाइयो",
+            "ERROR_MESSAGE": "नीतिबाट इनबक्स हटाउन असफल"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "नीतिको नाम:",
+          "PLACEHOLDER": "नीतिको नाम प्रविष्ट गर्नुहोस्"
         },
         "DESCRIPTION": {
-          "LABEL": "Description:",
-          "PLACEHOLDER": "Enter description"
+          "LABEL": "विवरण:",
+          "PLACEHOLDER": "विवरण प्रविष्ट गर्नुहोस्"
         },
         "STATUS": {
-          "LABEL": "Status:",
-          "PLACEHOLDER": "Select status",
-          "ACTIVE": "Policy is active",
-          "INACTIVE": "Policy is inactive"
+          "LABEL": "स्थिति:",
+          "PLACEHOLDER": "स्थिति चयन गर्नुहोस्",
+          "ACTIVE": "नीति सक्रिय छ",
+          "INACTIVE": "नीति निष्क्रिय छ"
         },
         "ASSIGNMENT_ORDER": {
-          "LABEL": "Assignment order",
+          "LABEL": "असाइनमेन्ट क्रम",
           "ROUND_ROBIN": {
-            "LABEL": "Round robin",
-            "DESCRIPTION": "Assign conversations evenly among agents."
+            "LABEL": "राउन्ड रोबिन",
+            "DESCRIPTION": "एजेन्टहरू बीच समान रूपमा कुराकानीहरू असाइन गर्नुहोस्।"
           },
           "BALANCED": {
-            "LABEL": "Balanced",
-            "DESCRIPTION": "Assign conversations based on available capacity.",
+            "LABEL": "सन्तुलित",
+            "DESCRIPTION": "उपलब्ध क्षमता अनुसार कुराकानीहरू असाइन गर्नुहोस्।",
             "PREMIUM_MESSAGE": "Upgrade to access balanced assignment and agent capacity management.",
             "PREMIUM_BADGE": "Premium"
           }
         },
         "ASSIGNMENT_PRIORITY": {
-          "LABEL": "Assignment priority",
+          "LABEL": "असाइनमेन्ट प्राथमिकता",
           "EARLIEST_CREATED": {
-            "LABEL": "Earliest created",
-            "DESCRIPTION": "The conversation that was created first gets assigned first."
+            "LABEL": "सबैभन्दा पहिले सिर्जना गरिएको",
+            "DESCRIPTION": "सबैभन्दा पहिले सिर्जना गरिएको कुराकानीलाई पहिलो असाइन गरिन्छ।"
           },
           "LONGEST_WAITING": {
-            "LABEL": "Longest waiting",
-            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+            "LABEL": "सबैभन्दा लामो समयदेखि पर्खिरहेको",
+            "DESCRIPTION": "सबैभन्दा लामो समयदेखि पर्खिरहेको कुराकानीलाई पहिलो असाइन गरिन्छ।"
           }
         },
         "FAIR_DISTRIBUTION": {
-          "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
-          "INPUT_MAX": "Assign max",
-          "DURATION": "Conversations per agent in every"
+          "LABEL": "न्यायपूर्ण वितरण नीति",
+          "DESCRIPTION": "कुनै पनि एजेन्टलाई अत्यधिक भार नपरोस् भनेर समय विन्डो भित्र प्रति एजेन्ट अधिकतम 100 कुराकानीहरू असाइन गर्न सकिने संख्या सेट गर्नुहोस्। यो आवश्यक फिल्डले डिफल्ट रूपमा प्रति घण्टा 100 कुराकानीहरू सेट गर्दछ।",
+          "INPUT_MAX": "अधिकतम तोक्नुहोस्",
+          "DURATION": "प्रति एजेन्ट प्रत्येक"
         },
         "INBOXES": {
           "LABEL": "Added inboxes",
@@ -791,8 +791,8 @@
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete assignment policy"
+        "SUCCESS_MESSAGE": "असाइनमेन्ट नीति सफलतापूर्वक मेटाइयो",
+        "ERROR_MESSAGE": "असाइनमेन्ट नीति मेटाउन असफल"
       }
     },
     "AGENT_CAPACITY_POLICY": {

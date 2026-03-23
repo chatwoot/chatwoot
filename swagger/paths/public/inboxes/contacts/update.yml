@@ -16,7 +16,7 @@ responses:
     content:
       application/json:
         schema:
-          $ref: '#/components/schemas/public_contact'
+          $ref: '#/components/schemas/public_contact_record'
   '401':
     description: Unauthorized
     content:

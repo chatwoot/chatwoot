@@ -34,6 +34,9 @@ fr:
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Votre demande de suppression de la boîte de réception sera traitée dans un certain délai.
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
     validations:
       presence: Ne peut être vide
     webhook:
