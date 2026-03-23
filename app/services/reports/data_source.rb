@@ -1,59 +1,12 @@
 class Reports::DataSource
-  SUPPORTED_ROLLUP_DIMENSIONS = %w[account agent inbox].freeze
-
   attr_reader :account, :metric, :dimension_type, :dimension_id,
               :scope, :range, :group_by, :timezone,
               :timezone_offset, :business_hours
 
   class << self
     def for(**context)
-      adapter_class_for(**context).new(**context)
-    end
-
-    def rollup_eligible?(**context)
-      account = context[:account]
-
-      rollup_enabled_for_account?(account) &&
-        !hourly_grouping?(context[:group_by]) &&
-        supported_dimension?(context[:dimension_type]) &&
-        timezone_matches_account?(account, context[:timezone], context[:timezone_offset]) &&
-        supported_metric?(context[:metric])
-    end
-
-    def timezone_matches_account?(account, timezone, timezone_offset)
-      return normalized_timezone_identifier(timezone) == normalized_timezone_identifier(account.reporting_timezone) if timezone.present?
-
-      return false if timezone_offset.blank?
-
-      offset_in_seconds = timezone_offset.to_f * 3600
-      account_zone = ActiveSupport::TimeZone[account.reporting_timezone]
-      account_zone&.now&.utc_offset == offset_in_seconds
-    end
-
-    private
-
-    def adapter_class_for(**context)
-      rollup_eligible?(**context) ? Reports::RollupDataSource : Reports::RawDataSource
-    end
-
-    def rollup_enabled_for_account?(account)
-      account.reporting_timezone.present? && account.feature_enabled?(:report_rollup)
-    end
-
-    def hourly_grouping?(group_by)
-      group_by.to_s == 'hour'
-    end
-
-    def supported_dimension?(dimension_type)
-      SUPPORTED_ROLLUP_DIMENSIONS.include?((dimension_type.presence || 'account').to_s)
-    end
-
-    def supported_metric?(metric)
-      metric.blank? || Reports::ReportMetricRegistry.rollup_supported?(metric)
-    end
-
-    def normalized_timezone_identifier(timezone)
-      ActiveSupport::TimeZone[timezone]&.tzinfo&.name
+      # TODO: Route to Reports::RollupDataSource when rollup reads are implemented
+      Reports::RawDataSource.new(**context)
     end
   end
 
