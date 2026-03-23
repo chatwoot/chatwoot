@@ -1,53 +1,70 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { getAuthData, getAuthHeaders } from '../../../helpers/AuthHelper';
+import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import wootAPI from '../../../api/apiClient';
+import { resendConfirmation } from '../../../api/auth';
+
+const props = defineProps({
+  email: {
+    type: String,
+    default: '',
+  },
+});
 
 const { t } = useI18n();
 const router = useRouter();
+const store = useStore();
 
-const authData = getAuthData();
-
-if (!authData) {
+if (!props.email) {
   router.push({ name: 'login' });
 }
 
-const email = authData?.uid || '';
+const globalConfig = computed(() => store.getters['globalConfig/get']);
 const isResendingEmail = ref(false);
+const hCaptcha = ref(null);
+let captchaToken = '';
 
-onMounted(async () => {
-  try {
-    const { data } = await wootAPI.get('/api/v1/profile', {
-      headers: getAuthHeaders(),
-    });
-    if (data.confirmed) {
-      window.location = '/app/';
-    }
-  } catch {
-    // if profile fetch fails, stay on the page
-  }
-});
-
-const handleResendEmail = async () => {
+const performResend = async () => {
   isResendingEmail.value = true;
   try {
-    await wootAPI.post(
-      '/api/v1/profile/resend_confirmation',
-      {},
-      { headers: getAuthHeaders() }
-    );
+    await resendConfirmation({
+      email: props.email,
+      hCaptchaClientResponse: captchaToken,
+    });
     useAlert(t('REGISTER.VERIFY_EMAIL.RESEND_SUCCESS'));
-  } catch (error) {
-    const errorMessage =
-      error?.message || t('REGISTER.VERIFY_EMAIL.RESEND_ERROR');
-    useAlert(errorMessage);
+  } catch {
+    useAlert(t('REGISTER.VERIFY_EMAIL.RESEND_ERROR'));
   } finally {
     isResendingEmail.value = false;
+    captchaToken = '';
+    if (globalConfig.value.hCaptchaSiteKey) {
+      hCaptcha.value.reset();
+    }
   }
+};
+
+const handleResendEmail = () => {
+  if (isResendingEmail.value) return;
+  if (globalConfig.value.hCaptchaSiteKey) {
+    hCaptcha.value.execute();
+  } else {
+    performResend();
+  }
+};
+
+const onCaptchaVerified = token => {
+  captchaToken = token;
+  performResend();
+};
+
+const onCaptchaError = () => {
+  isResendingEmail.value = false;
+  captchaToken = '';
+  hCaptcha.value.reset();
 };
 </script>
 
@@ -67,6 +84,17 @@ const handleResendEmail = async () => {
         </p>
       </div>
       <div class="space-y-4">
+        <VueHcaptcha
+          v-if="globalConfig.hCaptchaSiteKey"
+          ref="hCaptcha"
+          size="invisible"
+          :sitekey="globalConfig.hCaptchaSiteKey"
+          @verify="onCaptchaVerified"
+          @error="onCaptchaError"
+          @expired="onCaptchaError"
+          @challenge-expired="onCaptchaError"
+          @closed="onCaptchaError"
+        />
         <NextButton
           lg
           type="button"

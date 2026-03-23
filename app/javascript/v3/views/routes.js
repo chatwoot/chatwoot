@@ -54,6 +54,9 @@ export default [
     name: 'auth_verify_email',
     component: VerifyEmail,
     meta: { ignoreSession: true },
+    props: route => ({
+      email: route.query.email,
+    }),
   },
   {
     path: frontendURL('auth/password/edit'),
