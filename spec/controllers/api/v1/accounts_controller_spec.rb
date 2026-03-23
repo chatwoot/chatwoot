@@ -105,7 +105,17 @@ RSpec.describe 'Accounts API', type: :request do
     end
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to api_only' do
-      it 'does not respond 404 on requests' do
+      before do
+        GlobalConfig.clear_cache
+        InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+      end
+
+      after do
+        InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+        GlobalConfig.clear_cache
+      end
+
+      it 'returns auth headers and full response for api_only signup' do
         params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'api_only' do
           post api_v1_accounts_url,
@@ -113,6 +123,7 @@ RSpec.describe 'Accounts API', type: :request do
                as: :json
 
           expect(response).to have_http_status(:success)
+          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
         end
       end
     end

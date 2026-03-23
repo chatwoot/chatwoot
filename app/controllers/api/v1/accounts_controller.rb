@@ -31,11 +31,14 @@ class Api::V1::AccountsController < Api::BaseController
       user: current_user
     ).perform
     if @user
-      # Authenticated users adding a second account from the dashboard need
-      # the full response (account_id etc.) to redirect correctly.
-      # Unauthenticated signup returns only the email — no session is created
-      # until the user confirms via the email link.
-      if current_user
+      # Authenticated users (dashboard "add account") and api_only signups
+      # need the full response with account_id. API-only deployments have no
+      # frontend to handle the email confirmation flow, so they need auth
+      # tokens to proceed.
+      # Unauthenticated web signup returns only the email — no session is
+      # created until the user confirms via the email link.
+      if current_user || api_only_signup?
+        send_auth_headers(@user)
         render 'api/v1/accounts/create', format: :json, locals: { resource: @user }
       else
         render json: { email: @user.email }
@@ -108,6 +111,12 @@ class Api::V1::AccountsController < Api::BaseController
 
   def check_signup_enabled
     raise ActionController::RoutingError, 'Not Found' unless GlobalConfigService.account_signup_enabled?
+  end
+
+  def api_only_signup?
+    # Read raw value from InstallationConfig because GlobalConfig.get
+    # typecasts ENABLE_ACCOUNT_SIGNUP to boolean, coercing 'api_only' to true.
+    InstallationConfig.find_by(name: 'ENABLE_ACCOUNT_SIGNUP')&.value.to_s == 'api_only'
   end
 
   def validate_captcha
