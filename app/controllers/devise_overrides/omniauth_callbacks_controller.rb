@@ -10,8 +10,12 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   private
 
   def sign_in_user
+    # Capture before skip_confirmation! sets confirmed_at, which would
+    # make oauth_user_needs_password_reset? return false and skip the
+    # password reset for persisted unconfirmed users.
+    needs_password_reset = oauth_user_needs_password_reset?
     @resource.skip_confirmation! if confirmable_enabled?
-    set_random_password_if_oauth_user if oauth_user_needs_password_reset?
+    set_random_password_if_oauth_user if needs_password_reset
 
     # once the resource is found and verified
     # we can just send them to the login page again with the SSO params
@@ -21,8 +25,10 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def sign_in_user_on_mobile
+    # See comment in sign_in_user for why this is captured before skip_confirmation!
+    needs_password_reset = oauth_user_needs_password_reset?
     @resource.skip_confirmation! if confirmable_enabled?
-    set_random_password_if_oauth_user if oauth_user_needs_password_reset?
+    set_random_password_if_oauth_user if needs_password_reset
 
     # once the resource is found and verified
     # we can just send them to the login page again with the SSO params
@@ -89,7 +95,8 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def set_random_password_if_oauth_user
-    @resource.update(password: SecureRandom.random_bytes(32).unpack1('H*')) if @resource.persisted?
+    # Password must satisfy secure_password requirements (uppercase, lowercase, number, special char)
+    @resource.update(password: "#{SecureRandom.hex(16)}aA1!") if @resource.persisted?
   end
 
   def default_devise_mapping
