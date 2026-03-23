@@ -161,7 +161,7 @@
           "SLA_MISSED_NEXT_RESPONSE": "Una conversazione manca il tempo di risposta successiva SLA",
           "SLA_MISSED_RESOLUTION": "Una conversazione manca il tempo di risoluzione SLA"
         },
-        "BROWSER_PERMISSION": "Abilita le notifiche push per il browser in modo da poterle ricevere"
+        "BROWSER_PERMISSION": "Abilita le notifiche push per il browser"
       },
       "API": {
         "UPDATE_SUCCESS": "Le preferenze per le notifiche sono state aggiornate con successo",
