@@ -142,6 +142,20 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(conversation.messages.template.count).to eq(0)
       end
 
+      it 'preserves waiting_since when HandoffTool already called bot_handoff!' do
+        original_waiting_since = 5.minutes.ago
+        conversation.update!(waiting_since: original_waiting_since)
+
+        allow(mock_agent_runner_service).to receive(:generate_response) do
+          conversation.update!(status: :open, waiting_since: original_waiting_since)
+          { 'response' => 'Let me connect you', 'handoff_tool_called' => true }
+        end
+
+        described_class.perform_now(conversation, assistant)
+
+        expect(conversation.reload.waiting_since).to be_within(1.second).of(original_waiting_since)
+      end
+
       it 'does not hand off when handoff_tool_called is false' do
         allow(mock_agent_runner_service).to receive(:generate_response).and_return({
                                                                                      'response' => 'Hi! How can I help you?',

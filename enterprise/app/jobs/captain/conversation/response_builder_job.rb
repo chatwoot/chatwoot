@@ -108,7 +108,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def create_handoff_message
     create_outgoing_message(
-      @assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff')
+      @assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff'),
+      preserve_waiting_since: true
     )
   end
 
@@ -121,7 +122,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     raise ArgumentError, 'Message content cannot be blank' if content.blank?
   end
 
-  def create_outgoing_message(message_content, agent_name: nil)
+  def create_outgoing_message(message_content, agent_name: nil, preserve_waiting_since: false)
     additional_attrs = {}
     additional_attrs[:agent_name] = agent_name if agent_name.present?
 
@@ -131,7 +132,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       inbox_id: inbox.id,
       sender: @assistant,
       content: message_content,
-      additional_attributes: additional_attrs
+      additional_attributes: additional_attrs,
+      preserve_waiting_since: preserve_waiting_since
     )
   end
 
