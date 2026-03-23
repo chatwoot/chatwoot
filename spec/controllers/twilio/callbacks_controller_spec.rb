@@ -133,14 +133,30 @@ RSpec.describe 'Twilio::CallbacksController', type: :request do
         }
       end
 
-      it 'falls back to account and phone number lookup' do
+      it 'returns forbidden without falling back to phone number lookup' do
         url = twilio_callback_index_url
+        post_with_signature(url, params: params)
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
 
-        expect do
-          post_with_signature(url, params: params)
-        end.to have_enqueued_job(Webhooks::TwilioEventsJob)
+    context 'when MessagingServiceSid matches a channel but AccountSid does not' do
+      let(:other_channel) { create(:channel_twilio_sms, account: account, account_sid: 'AC_OTHER') }
+      let(:params) do
+        {
+          'From' => '+1234567890',
+          'To' => twilio_channel.phone_number,
+          'Body' => 'Test message',
+          'AccountSid' => 'AC123',
+          'SmsSid' => 'SM123',
+          'MessagingServiceSid' => other_channel.messaging_service_sid
+        }
+      end
 
-        expect(response).to have_http_status(:no_content)
+      it 'returns forbidden without falling back to phone number lookup' do
+        url = twilio_callback_index_url
+        post_with_signature(url, params: params)
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end

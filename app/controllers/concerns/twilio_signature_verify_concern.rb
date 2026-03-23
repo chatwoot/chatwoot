@@ -83,6 +83,8 @@ module TwilioSignatureVerifyConcern
     if params[:MessagingServiceSid].present?
       channel = ::Channel::TwilioSms.find_by(messaging_service_sid: params[:MessagingServiceSid])
       return channel if channel.present? && (params[:AccountSid].blank? || channel.account_sid == params[:AccountSid])
+
+      return nil
     end
     return if params[:AccountSid].blank?
 
