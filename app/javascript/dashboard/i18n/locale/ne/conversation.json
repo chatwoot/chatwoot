@@ -1,15 +1,15 @@
 {
   "CONVERSATION": {
-    "SELECT_A_CONVERSATION": "Please select a conversation from left pane",
-    "CSAT_REPLY_MESSAGE": "Please rate the conversation",
+    "SELECT_A_CONVERSATION": "कृपया बाँया प्यानबाट एउटा कुराकानी छान्नुहोस्",
+    "CSAT_REPLY_MESSAGE": "कृपया कुराकानीको मूल्याङ्कन गर्नु",
     "404": "Sorry, we cannot find the conversation. Please try again",
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
-    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
-    "NO_MESSAGE_2": " to send a message to your page!",
-    "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
-    "NO_INBOX_2": " to get started",
+    "DASHBOARD_APP_TAB_MESSAGES": "सन्देशहरू",
+    "UNVERIFIED_SESSION": "यस प्रयोगकर्ताको पहिचान प्रमाणित गरिएको छैन",
+    "NO_MESSAGE_1": "उफ! तपाईंको इनबक्समा ग्राहकबाट कुनै सन्देश छैन।",
+    "NO_MESSAGE_2": " तपाईँको पृष्ठमा सन्देश पठाउन!",
+    "NO_INBOX_1": "होल्ला! तपाईंले अहिलेसम्म कुनै इनबक्स थप्नुभएको छैन।",
+    "NO_INBOX_2": " सुरु गर्न",
     "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
     "SEARCH_MESSAGES": "Search for messages in conversations",
     "VIEW_ORIGINAL": "View original",
@@ -20,35 +20,35 @@
     },
     "SEARCH": {
       "TITLE": "Search messages",
-      "RESULT_TITLE": "Search Results",
-      "LOADING_MESSAGE": "Crunching data...",
+      "RESULT_TITLE": "खोज परिणामहरू",
+      "LOADING_MESSAGE": "डाटा प्रशोधन हुँदैछ...",
       "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "No results found."
+      "NO_MATCHING_RESULTS": "कुनै परिणाम फेला परेन।"
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "पढ्न बाँकी सन्देशहरू",
+    "UNREAD_MESSAGE": "पढ्न बाँकी सन्देश",
     "CLICK_HERE": "Click here",
     "LOADING_INBOXES": "Loading inboxes",
-    "LOADING_CONVERSATIONS": "Loading Conversations",
+    "LOADING_CONVERSATIONS": "संवादहरू लोड हुँदैछ",
     "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "48_HOURS_WINDOW": "48 hour message window restriction",
+    "24_HOURS_WINDOW": "२४ घण्टे सन्देश विन्डो प्रतिबन्ध",
+    "48_HOURS_WINDOW": "48 घण्टे सन्देश विन्डो प्रतिबन्ध",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "NOT_ASSIGNED_TO_YOU": "यो कुराकानी तपाईंलाई सौंपिएको छैन। के तपाईं यो कुराकानी आफैंलाई सौंप्न चाहनुहुन्छ?",
     "ASSIGN_TO_ME": "Assign to me",
-    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
-    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
-    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_MESSAGE": "तपाईं अहिले सहायक वा बोटले ह्यान्डल गरिरहेको कुराकानीमा जवाफ दिइरहनुभएको छ।",
+    "BOT_HANDOFF_ACTION": "खोलिएको मार्क गर्नुहोस् र तपाईंलाई सौंप्नुहोस्",
+    "BOT_HANDOFF_REOPEN_ACTION": "कुराकानी खोलिएको मार्क गर्नुहोस्",
     "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
-    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
+    "BOT_HANDOFF_ERROR": "कुराकानी सम्हाल्न सकेन। कृपया फेरि प्रयास गर्नुहोस्।",
+    "TWILIO_WHATSAPP_CAN_REPLY": "२४ घण्टे सन्देश विन्डो प्रतिबन्धका कारण तपाईंले यस कुराकानीमा टेम्प्लेट सन्देश प्रयोग गरेर मात्र जवाफ दिन सक्नुहुन्छ",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "२४ घण्टे सन्देश विन्डो प्रतिबन्ध",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "यो Instagram खाता नयाँ Instagram च्यानल इनबक्समा सारिएको छ। सबै नयाँ सन्देशहरू त्यहाँ देखिनेछन्। तपाईं अब यस कुराकानीबाट सन्देश पठाउन सक्नुहुन्न।",
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "डाउनलोड",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
-    "SAVE_CONTACT": "Save Contact",
+    "UNKNOWN_FILE_TYPE": "अज्ञात फाइल",
+    "SAVE_CONTACT": "सम्पर्क बचत गर्नु",
     "NO_CONTENT": "No content to display",
     "SHARED_ATTACHMENT": {
       "CONTACT": "{sender} has shared a contact",
@@ -59,28 +59,29 @@
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "REPLIED_TO_STORY": "Replied to your story",
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
-    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
-    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "यो सन्देश समर्थन गरिएको छैन। तपाईं यो सन्देश Facebook Messenger एपमा हेर्न सक्नुहुन्छ।",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "यो सन्देश समर्थन गरिएको छैन। तपाईं यो सन्देश Instagram एपमा हेर्न सक्नुहुन्छ।",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "यो सन्देश समर्थन गरिएको छैन। तपाईंले यो सन्देश TikTok एपमा हेर्न सक्नुहुन्छ।",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "No response",
-    "RESPONSE": "Response",
+    "NO_RESPONSE": "कुनै प्रतिक्रिया छैन",
+    "RESPONSE": "प्रतिक्रिया",
     "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "FEEDBACK_TITLE": "प्रतिक्रिया",
+    "REPLY_MESSAGE_NOT_FOUND": "सन्देश उपलब्ध छैन",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
     },
     "VOICE_CALL": {
-      "INCOMING_CALL": "Incoming call",
-      "OUTGOING_CALL": "Outgoing call",
-      "CALL_IN_PROGRESS": "Call in progress",
-      "NO_ANSWER": "No answer",
-      "MISSED_CALL": "Missed call",
-      "CALL_ENDED": "Call ended",
-      "NOT_ANSWERED_YET": "Not answered yet",
-      "THEY_ANSWERED": "They answered",
+      "INCOMING_CALL": "आउँदै गरेको कल",
+      "OUTGOING_CALL": "जाने कल",
+      "CALL_IN_PROGRESS": "कल जारी छ",
+      "NO_ANSWER": "उत्तर छैन",
+      "MISSED_CALL": "छुटेको कल",
+      "CALL_ENDED": "कल समाप्त भयो",
+      "NOT_ANSWERED_YET": "अझै जवाफ दिइएको छैन",
+      "THEY_ANSWERED": "उनीहरूले जवाफ दिए",
       "YOU_ANSWERED": "You answered"
     },
     "HEADER": {
@@ -88,19 +89,19 @@
       "REOPEN_ACTION": "Reopen",
       "OPEN_ACTION": "Open",
       "MORE_ACTIONS": "More actions",
-      "OPEN": "More",
+      "OPEN": "थप",
       "CLOSE": "बन्दा गार्नुहोस्",
-      "DETAILS": "details",
+      "DETAILS": "विवरणहरू",
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply",
+      "SNOOZED_UNTIL_NEXT_WEEK": "अर्को हप्ता सम्म सुताइएको",
+      "SNOOZED_UNTIL_NEXT_REPLY": "अर्को जवाफ सम्म सुताइएको",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "MISSED": "missed",
-        "DUE": "due"
+        "MISSED": "छुट्यो",
+        "DUE": "म्याद"
       }
     },
     "RESOLVE_DROPDOWN": {
@@ -108,14 +109,14 @@
       "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "NEXT_REPLY": "अर्को जवाफ",
+        "TOMORROW": "भोलि",
+        "NEXT_WEEK": "अर्को हप्ता"
       }
     },
     "MENTION": {
-      "AGENTS": "Agents",
-      "TEAMS": "Teams"
+      "AGENTS": "एजेन्टहरू",
+      "TEAMS": "टोलीहरू"
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Snooze until",
@@ -123,25 +124,25 @@
       "CANCEL": "Cancel"
     },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "प्राथमिकता",
       "OPTIONS": {
-        "NONE": "None",
-        "URGENT": "Urgent",
-        "HIGH": "High",
-        "MEDIUM": "Medium",
-        "LOW": "Low"
+        "NONE": "कुनै पनि छैन",
+        "URGENT": "तात्कालिक",
+        "HIGH": "उच्च",
+        "MEDIUM": "मध्यम",
+        "LOW": "तल्लो"
       },
       "CHANGE_PRIORITY": {
-        "SELECT_PLACEHOLDER": "None",
+        "SELECT_PLACEHOLDER": "कुनै छैन",
         "INPUT_PLACEHOLDER": "Select priority",
-        "NO_RESULTS": "No results found",
+        "NO_RESULTS": "कुनै परिणाम फेला परेन",
         "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
-        "FAILED": "Couldn't change priority. Please try again."
+        "FAILED": "प्राथमिकता परिवर्तन गर्न सकेन। कृपया फेरि प्रयास गर्नुहोस्।"
       }
     },
     "DELETE_CONVERSATION": {
       "TITLE": "Delete conversation #{conversationId}",
-      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "DESCRIPTION": "के तपाईं पक्का यो कुराकानी मेटाउन चाहनुहुन्छ?",
       "CONFIRM": "Delete"
     },
     "CARD_CONTEXT_MENU": {
@@ -154,11 +155,11 @@
         "TITLE": "Snooze",
         "NEXT_REPLY": "Until next reply",
         "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+        "NEXT_WEEK": "अर्को हप्ता सम्म"
       },
       "ASSIGN_AGENT": "Assign agent",
       "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
+      "AGENTS_LOADING": "एजेन्टहरू लोड हुँदैछ...",
       "ASSIGN_TEAM": "Assign team",
       "DELETE": "Delete conversation",
       "OPEN_IN_NEW_TAB": "Open in new tab",
@@ -167,56 +168,64 @@
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "FAILED": "एजेन्ट सौंप्न सकेन। कृपया फेरि प्रयास गर्नुहोस्।"
         },
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
+          "FAILED": "लेबल सौंप्न सकेन। कृपया फेरि प्रयास गर्नुहोस्।"
+        },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "लेबल हटाउन सकेन। कृपया फेरि प्रयास गर्नुहोस्।"
         },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
+          "FAILED": "टिम सौंप्न सकेन। कृपया फेरि प्रयास गर्नुहोस्।"
         }
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "MESSAGE_SIGN_TOOLTIP": "सन्देश हस्ताक्षर",
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
-      "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
+      "MSG_INPUT": "Shift + enter नयाँ लाइनको लागि। क्यान्ड रिस्पोन्स छान्न '/' बाट सुरु गर्नुहोस्।",
       "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "MESSAGING_RESTRICTED": "तपाईं यस कुराकानीमा जवाफ दिन सक्नुहुन्न",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "सन्देश हस्ताक्षर कन्फिगर गरिएको छैन, कृपया प्रोफाइल सेटिङहरूमा कन्फिगर गर्नुहोस्।",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Click here to update",
       "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
-      "REPLY": "Reply",
-      "PRIVATE_NOTE": "Private Note",
+      "REPLY": "जवाफ दिनु",
+      "PRIVATE_NOTE": "निजी नोट",
       "SEND": "Send",
       "CREATE": "Add Note",
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
-      "REPLYING_TO": "Replying to:",
+      "REPLYING_TO": "जवाफ दिँदै:",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
       "TIP_AUDIORECORDER_ICON": "Record audio",
       "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
-      "DRAG_DROP": "Drag and drop here to attach",
+      "TIP_AUDIORECORDER_ERROR": "अडियो खोल्न सकिएन",
+      "DRAG_DROP": "यहाँ तान्नुहोस् र छोड्नुहोस् संलग्न गर्न",
       "START_AUDIO_RECORDING": "Start audio recording",
       "STOP_AUDIO_RECORDING": "Stop audio recording",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
-        "TO": "TO",
-        "ADD_BCC": "Add bcc",
+        "TO": "प्रति",
+        "ADD_BCC": "Bcc थप्नुहोस्",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
+          "PLACEHOLDER": "इमेलहरू अल्पविरामले छुट्याइएको",
           "ERROR": "Please enter valid email addresses"
         },
         "BCC": {
           "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
+          "PLACEHOLDER": "इमेलहरू अल्पविरामले छुट्याइएको",
           "ERROR": "Please enter valid email addresses"
         }
       },
@@ -236,51 +245,54 @@
         "EXPAND": "Expand preview"
       }
     },
-    "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
-    "CHANGE_STATUS": "Conversation status changed",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
-    "CHANGE_AGENT": "Conversation Assignee changed",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "VISIBLE_TO_AGENTS": "निजी नोट: केवल तपाईं र तपाईंको टिमलाई देखिन्छ",
+    "CHANGE_STATUS": "संवाद स्थिति परिवर्तन भयो",
+    "CHANGE_STATUS_FAILED": "संवाद स्थिति परिवर्तन असफल भयो",
+    "CHANGE_AGENT": "संवाद जिम्मेवार परिवर्तन गरियो",
+    "CHANGE_AGENT_FAILED": "जिम्मेवारी परिवर्तन असफल भयो",
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
-    "CHANGE_TEAM": "Conversation team changed",
+    "ASSIGN_LABEL_FAILED": "लेबल तोक्न असफल भयो",
+    "CHANGE_TEAM": "कुराकानी टोली परिवर्तन गरियो",
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_TYPE_NOT_SUPPORTED": "यो {fileName} फाइल प्रकार यस कुराकानीमा समर्थित छैन",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
-    "SENT_BY": "Sent by:",
-    "BOT": "Bot",
-    "SEND_FAILED": "Couldn't send message! Try again",
+    "SENT_BY": "पठाउने:",
+    "BOT": "बोट",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "यो सन्देश नेटिभ एपबाट पठाइएको हो। सन्देश विन्डो कायम राख्न Chatwoot बाट जवाफ दिनुहोस्।",
+    "SEND_FAILED": "सन्देश पठाउन सकेन! फेरि प्रयास गर्नु",
     "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Select Agent",
-      "REMOVE": "Remove",
+      "REMOVE": "हटाउनुहोस्",
       "ASSIGN": "Assign"
     },
     "CONTEXT_MENU": {
-      "COPY": "Copy",
+      "COPY": "प्रतिलिपि गर्नुहोस्",
       "REPLY_TO": "Reply to this message",
       "DELETE": "Delete",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",
       "COPY_PERMALINK": "Copy link to the message",
-      "LINK_COPIED": "Message URL copied to the clipboard",
+      "LINK_COPIED": "सन्देश URL क्लिपबोर्डमा प्रतिलिपि गरियो",
       "DELETE_CONFIRMATION": {
         "TITLE": "Are you sure you want to delete this message?",
-        "MESSAGE": "You cannot undo this action",
+        "MESSAGE": "यो कार्य फिर्ता गर्न सकिँदैन",
         "DELETE": "Delete",
         "CANCEL": "Cancel"
       }
     },
     "SIDEBAR": {
-      "CONTACT": "Contact",
+      "CONTACT": "सम्पर्क",
       "COPILOT": "Copilot"
     },
     "VOICE_WIDGET": {
-      "INCOMING_CALL": "Incoming call",
-      "OUTGOING_CALL": "Outgoing call",
-      "CALL_IN_PROGRESS": "Call in progress",
-      "NOT_ANSWERED_YET": "Not answered yet",
+      "INCOMING_CALL": "आउँदै गरेको कल",
+      "OUTGOING_CALL": "जाने कल",
+      "CALL_IN_PROGRESS": "कल प्रगतिको अवस्थामा छ",
+      "NOT_ANSWERED_YET": "अझै जवाफ दिइएको छैन",
       "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
       "REJECT_CALL": "Reject",
       "JOIN_CALL": "Join call",
@@ -294,86 +306,87 @@
     "CANCEL": "Cancel",
     "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
     "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "तपाईंको वर्तमान योजनामा इमेल ट्रान्सक्रिप्ट उपलब्ध छैन। कृपया यो सुविधा प्रयोग गर्न योजना अपग्रेड गर्नुहोस्।",
     "FORM": {
       "SEND_TO_CONTACT": "Send the transcript to the customer",
       "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
       "EMAIL": {
         "PLACEHOLDER": "Enter an email address",
-        "ERROR": "Please enter a valid email address"
+        "ERROR": "कृपया मान्य इमेल ठेगाना प्रविष्ट गर्नुहोस्"
       }
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to {installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of {installationName}. Here are a few things you can do in {installationName} to make the experience delightful.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "TITLE": "नमस्ते 👋, {installationName} मा स्वागत छ!",
+    "DESCRIPTION": "साइन अप गर्नुभएकोमा धन्यवाद। हामी चाहन्छौं तपाईंले {installationName} बाट सबैभन्दा राम्रो अनुभव लिनुहोस्। यहाँ {installationName} मा तपाईंले रमाइलो अनुभव बनाउन सक्ने केही कुराहरू छन्।",
+    "GREETING_MORNING": "👋 शुभ प्रभात, {name}. {installationName} मा स्वागत छ।",
+    "GREETING_AFTERNOON": "👋 शुभ अपराह्न, {name}. {installationName} मा स्वागत छ।",
+    "GREETING_EVENING": "👋 शुभ साँझ, {name}. {installationName} मा स्वागत छ।",
     "READ_LATEST_UPDATES": "Read our latest updates",
     "ALL_CONVERSATION": {
       "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status.",
+      "DESCRIPTION": "तपाईंका ग्राहकका सबै कुराकानीहरू एउटै ड्यासबोर्डमा हेर्नुहोस्। तपाईं इनकमिङ च्यानल, लेबल र स्थिति अनुसार कुराकानीहरू फिल्टर गर्न सक्नुहुन्छ।",
       "NEW_LINK": "Click here to create an inbox"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "DESCRIPTION": "तपाईं ग्राहकसँग कुरा गर्न तयार हुँदै हुनुहुन्छ, त्यसैले सहयोगका लागि तपाईंका टिम सदस्यहरूलाई ल्याउनुहोस्। तपाईं एजेन्ट सूचीमा उनीहरूको इमेल ठेगाना थपेर टिम सदस्यहरूलाई निमन्त्रणा गर्न सक्नुहुन्छ।",
       "NEW_LINK": "Click here to invite a team member"
     },
     "LABELS": {
       "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
+      "DESCRIPTION": "लेबलहरूले तपाईंको कुराकानी वर्गीकरण गर्न सजिलो बनाउँछन्। #support-enquiry, #billing-question जस्ता केही लेबलहरू बनाउनुहोस्, जसलाई तपाईं पछि कुराकानीमा प्रयोग गर्न सक्नुहुन्छ।",
       "NEW_LINK": "Click here to create tags"
     },
     "CANNED_RESPONSES": {
       "TITLE": "Create canned responses",
-      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "DESCRIPTION": "पूर्व-लेखित छिटो जवाफ टेम्प्लेटहरूले तपाईंलाई छिटो कुराकानीमा जवाफ दिन मद्दत गर्छ। एजेन्टहरूले '/' क्यारेक्टर टाइप गरी त्यसपछि छोटो कोड टाइप गरेर जवाफ समावेश गर्न सक्छन्।",
       "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Assigned Agent",
     "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "TEAM_LABEL": "सुम्पिएको टोली",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "कुनै छैन"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "सम्पर्क विवरण",
+      "CONVERSATION_ACTIONS": "संवाद क्रियाहरू",
       "CONVERSATION_LABELS": "Conversation Labels",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_NOTES": "Contact Notes",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Previous Conversations",
+      "CONVERSATION_INFO": "संवाद जानकारी",
+      "CONTACT_NOTES": "सम्पर्क नोटहरू",
+      "CONTACT_ATTRIBUTES": "सम्पर्क विशेषताहरू",
+      "PREVIOUS_CONVERSATION": "अघिल्ला कुराकानीहरू",
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {
-      "ORDER_ID": "Order #{id}",
+      "ORDER_ID": "अर्डर #{id}",
       "ERROR": "Error loading orders",
-      "NO_SHOPIFY_ORDERS": "No orders found",
+      "NO_SHOPIFY_ORDERS": "कुनै अर्डर फेला परेन",
       "FINANCIAL_STATUS": {
         "PENDING": "Pending",
-        "AUTHORIZED": "Authorized",
+        "AUTHORIZED": "अधिकृत",
         "PARTIALLY_PAID": "Partially Paid",
-        "PAID": "Paid",
-        "PARTIALLY_REFUNDED": "Partially Refunded",
-        "REFUNDED": "Refunded",
-        "VOIDED": "Voided"
+        "PAID": "तिरिएको",
+        "PARTIALLY_REFUNDED": "आंशिक रूपमा फिर्ता गरिएको",
+        "REFUNDED": "फिर्ता गरिएको",
+        "VOIDED": "रद्द गरिएको"
       },
       "FULFILLMENT_STATUS": {
-        "FULFILLED": "Fulfilled",
-        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "FULFILLED": "पूरा गरिएको",
+        "PARTIALLY_FULFILLED": "आंशिक रूपमा पूरा गरिएको",
         "UNFULFILLED": "Unfulfilled"
       }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Create attribute",
-    "NO_RECORDS_FOUND": "No attributes found",
+    "NO_RECORDS_FOUND": "कुनै विशेषता फेला परेन",
     "UPDATE": {
       "SUCCESS": "Attribute updated successfully",
       "ERROR": "Unable to update attribute. Please try again later"
@@ -390,43 +403,43 @@
     "ATTRIBUTE_SELECT": {
       "TITLE": "Add attributes",
       "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "NO_RESULT": "कुनै विशेषता फेला परेन"
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
-    "TO": "To",
+    "FROM": "बाट",
+    "TO": "लाई",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Subject",
+    "SUBJECT": "विषय",
     "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "Participating",
+    "SIDEBAR_MENU_TITLE": "सहभागी हुँदै",
     "SIDEBAR_TITLE": "Conversation participants",
-    "NO_RECORDS_FOUND": "No results found",
+    "NO_RECORDS_FOUND": "कुनै परिणाम फेला परेन",
     "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} अन्य",
+    "REMANING_PARTICIPANT_TEXT": "+{count} अर्को",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} जना मानिसहरू सहभागी छन्।",
+    "TOTAL_PARTICIPANT_TEXT": "{count} व्यक्ति सहभागी छन्।",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",
     "API": {
-      "ERROR_MESSAGE": "Could not update, try again!",
+      "ERROR_MESSAGE": "अद्यावधिक गर्न सकेन, फेरि प्रयास गर्नुहोस्!",
       "SUCCESS_MESSAGE": "Participants updated!"
     }
   },
   "TRANSLATE_MODAL": {
     "TITLE": "View translated content",
     "DESC": "You can view the translated content in each langauge.",
-    "ORIGINAL_CONTENT": "Original Content",
-    "TRANSLATED_CONTENT": "Translated Content",
-    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+    "ORIGINAL_CONTENT": "मूल सामग्री",
+    "TRANSLATED_CONTENT": "अनुवादित सामग्री",
+    "NO_TRANSLATIONS_AVAILABLE": "यस सामग्रीका लागि कुनै अनुवाद उपलब्ध छैन"
   },
   "TYPING": {
-    "ONE": "{user} is typing",
+    "ONE": "{user} टाइप गर्दैछ",
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
   },

@@ -374,6 +374,16 @@
         "ERROR_MESSAGE": "Eroare la ștergerea articolului"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "Vă rugăm să adăugați titlul articolului și conținutul pentru a putea actualiza setările"
     },
