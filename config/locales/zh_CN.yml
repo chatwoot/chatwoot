@@ -34,6 +34,9 @@ zh_CN:
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: 您的收件箱删除请求将在一段时间内处理。
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
     validations:
       presence: 不能为空
     webhook:
