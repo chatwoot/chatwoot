@@ -33,7 +33,7 @@
       },
       "RESOLUTION_COUNT": {
         "NAME": "የመፍትሄ ብዛት",
-        "DESC": "( Total )"
+        "DESC": "( ጠቅላላ )"
       },
       "BOT_RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -61,8 +61,8 @@
       "CUSTOM_DATE_RANGE": "Custom date range"
     },
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "አተግባር ላይ አውርድ",
+      "PLACEHOLDER": "የቀን ክልል ይምረጡ"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
     "DURATION_FILTER_LABEL": "Duration",
@@ -127,12 +127,12 @@
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "የወኪሎች እይታ",
     "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "LOADING_CHART": "የቅርጸ ቁምፊ ውሂብ በመጫን ላይ...",
+    "NO_ENOUGH_DATA": "ሪፖርት ለማቅረብ በቂ ውሂብ አልደረሰንም፣ እባክዎ በኋላ ደግመው ይሞክሩ።.",
+    "DOWNLOAD_AGENT_REPORTS": "የAgent ሪፖርቶችን አውርድ",
+    "FILTER_DROPDOWN_LABEL": "Agent ይምረጡ",
     "FILTERS": {
       "INPUT_PLACEHOLDER": {
         "AGENTS": "Search agents"
@@ -140,20 +140,20 @@
     },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "ውይይቶች",
+        "DESC": "( ጠቅላላ )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "የመጣ መልእክቶች",
+        "DESC": "( ጠቅላላ )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "የሚያልኩ መልእክቶች",
+        "DESC": "( ጠቅላላ )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
-        "DESC": "( Avg )",
+        "DESC": "( አማካይ )",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
@@ -424,7 +424,7 @@
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
+    "HEADER": "CSAT ሪፖርቶች",
     "NO_RECORDS": "No responses yet",
     "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
     "DOWNLOAD": "Download CSAT Reports",
@@ -454,10 +454,10 @@
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
+        "CONTACT_NAME": "እውቂያ",
         "AGENT_NAME": "Agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment",
+        "RATING": "እምነት ደረጃ",
+        "FEEDBACK_TEXT": "አስተያየት አስተያየት",
         "CONVERSATION": "Conversation",
         "CUSTOMER": "Customer",
         "RESPONSE": "Response",
@@ -469,16 +469,16 @@
     "NO_FEEDBACK": "No feedback provided",
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "ጠቅላላ ምላሾች",
+        "TOOLTIP": "የተሰበሰበው ምላሾች ጠቅላላ ብዛት"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "የደስታ ነጥብ",
+        "TOOLTIP": "አጠቃላይ የአዎንታዊ ምላሾች ብዛት / አጠቃላይ የምላሾች ብዛት * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "የምላሽ ተመን",
+        "TOOLTIP": "አጠቃላይ የምላሾች ብዛት / አጠቃላይ የተላኩ የCSAT እቅድ መልእክቶች ብዛት * 100"
       },
       "RATING_DISTRIBUTION": "Rating distribution"
     },
