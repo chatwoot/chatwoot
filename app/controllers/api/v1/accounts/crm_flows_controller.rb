@@ -105,6 +105,24 @@ class Api::V1::Accounts::CrmFlowsController < Api::V1::Accounts::BaseController
     render json: { executions: execs.map { |e| serialize_execution(e) } }
   end
 
+  # GET /api/v1/accounts/:account_id/crm_flows/status?idempotency_key=xxx
+  def status
+    idempotency_key = params[:idempotency_key]
+    return render json: { error: 'idempotency_key is required' }, status: :bad_request unless idempotency_key
+
+    result = CrmFlows::IdempotencyService.check(idempotency_key)
+    return render json: { status: 'not_found' }, status: :not_found unless result
+
+    case result['status']
+    when 'pending'
+      render json: { status: 'pending' }
+    when 'completed'
+      render json: { status: 'completed', result: result['response'] }
+    when 'failed'
+      render json: { status: 'failed', error: result['error'] }
+    end
+  end
+
   private
 
   def set_crm_flow

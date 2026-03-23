@@ -161,7 +161,13 @@ class CrmFlows::ActionExecutor
     if result[:success]
       eid = result[:lead_id] || result[:contact_id] || result[:call_id] ||
             result[:task_id] || result[:event_id] || result[:opportunity_id] || result[:note_id] || result[:ticket_id]
-      { action: action['action'], crm: crm_name, status: 'success', external_id: eid, type: 'crm' }
+
+      response = { action: action['action'], crm: crm_name, status: 'success', external_id: eid, type: 'crm' }
+
+      # Add ticket number if available (for Zoho Desk tickets)
+      response[:ticket_number] = result[:ticket_number] if result[:ticket_number].present?
+
+      response
     else
       { action: action['action'], crm: crm_name, status: 'failed', error: result[:error], type: 'crm' }
     end
