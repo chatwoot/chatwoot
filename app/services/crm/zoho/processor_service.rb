@@ -709,9 +709,12 @@ module Crm
 
         if response && response['id'].present?
           ticket_id = response['id']
-          ticket_number = response['ticketNumber']
-          Rails.logger.info "Ticket created successfully in Zoho Desk: #{ticket_id} (#{ticket_number})"
-          { success: true, ticket_id: ticket_id, ticket_number: ticket_number, response: response }
+          ticket_number = response['ticketNumber'] || response['number'] || response['ticket_number']
+          Rails.logger.info "Ticket created successfully in Zoho Desk: #{ticket_id}#{ticket_number ? " (#{ticket_number})" : ''}"
+
+          result = { success: true, ticket_id: ticket_id, response: response }
+          result[:ticket_number] = ticket_number if ticket_number.present?
+          result
         else
           { success: false, error: 'Failed to create ticket', response: response }
         end
