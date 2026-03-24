@@ -245,6 +245,19 @@ const onCopySecret = async value => {
   useAlert(t('AGENT_BOTS.SECRET.COPY_SUCCESS'));
 };
 
+const onResetSecret = async () => {
+  const response = await store.dispatch(
+    'agentBots/resetSecret',
+    props.selectedBot.id
+  );
+  if (response) {
+    botSecret.value = response.secret;
+    useAlert(t('AGENT_BOTS.SECRET.RESET_SUCCESS'));
+  } else {
+    useAlert(t('AGENT_BOTS.SECRET.RESET_ERROR'));
+  }
+};
+
 const onResetToken = async () => {
   const response = await store.dispatch(
     'agentBots/resetAccessToken',
@@ -342,8 +355,8 @@ defineExpose({ dialogRef });
         </label>
         <AccessToken
           :value="botSecret"
-          :show-reset-button="false"
           @on-copy="onCopySecret"
+          @on-reset="onResetSecret"
         />
       </div>
 

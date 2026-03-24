@@ -38,6 +38,7 @@ import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import ColorPicker from 'dashboard/components-next/colorpicker/ColorPicker.vue';
 import SelectInput from 'dashboard/components-next/select/Select.vue';
 import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
+import AccessToken from 'dashboard/routes/dashboard/settings/profile/AccessToken.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 export default {
@@ -70,6 +71,7 @@ export default {
     SelectInput,
     AccountHealth,
     Widget,
+    AccessToken,
   },
   mixins: [inboxMixin],
   setup() {
@@ -90,7 +92,6 @@ export default {
       selectedInboxName: '',
       channelWebsiteUrl: '',
       webhookUrl: '',
-      secretVisible: false,
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
       selectedFeatureFlags: [],
@@ -364,13 +365,32 @@ export default {
     this.fetchSharedData();
   },
   methods: {
-    async copyWebhookSecret() {
-      await copyTextToClipboard(this.inbox.secret);
+    async copyWebhookSecret(value) {
+      await copyTextToClipboard(value);
       useAlert(
         this.$t(
           'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_SECRET.COPY_SUCCESS'
         )
       );
+    },
+    async resetWebhookSecret() {
+      const response = await this.$store.dispatch(
+        'inboxes/resetSecret',
+        this.inbox.id
+      );
+      if (response) {
+        useAlert(
+          this.$t(
+            'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_SECRET.RESET_SUCCESS'
+          )
+        );
+      } else {
+        useAlert(
+          this.$t(
+            'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_SECRET.RESET_ERROR'
+          )
+        );
+      }
     },
     fetchSharedData() {
       this.$store.dispatch('agents/get');
@@ -732,42 +752,11 @@ export default {
                 )
               "
             >
-              <div class="flex items-center gap-2">
-                <input
-                  :value="
-                    secretVisible
-                      ? inbox.secret
-                      : '••••••••••••••••••••••••••••••••'
-                  "
-                  type="text"
-                  readonly
-                  class="!mb-0 font-mono"
-                />
-                <NextButton
-                  v-tooltip.top="
-                    $t(
-                      'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_SECRET.TOGGLE'
-                    )
-                  "
-                  type="button"
-                  :icon="secretVisible ? 'i-lucide-eye-off' : 'i-lucide-eye'"
-                  slate
-                  faded
-                  @click="secretVisible = !secretVisible"
-                />
-                <NextButton
-                  v-tooltip.top="
-                    $t(
-                      'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_SECRET.COPY'
-                    )
-                  "
-                  type="button"
-                  icon="i-lucide-copy"
-                  slate
-                  faded
-                  @click="copyWebhookSecret"
-                />
-              </div>
+              <AccessToken
+                :value="inbox.secret"
+                @on-copy="copyWebhookSecret"
+                @on-reset="resetWebhookSecret"
+              />
             </SettingsFieldSection>
 
             <SettingsFieldSection
