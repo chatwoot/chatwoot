@@ -4,7 +4,7 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   before_action :set_custom_tool, only: [:show, :update, :destroy]
 
   def index
-    @custom_tools = account_custom_tools.enabled
+    @custom_tools = account_custom_tools
   end
 
   def show; end

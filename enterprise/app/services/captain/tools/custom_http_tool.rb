@@ -23,6 +23,13 @@ class Captain::Tools::CustomHttpTool < Captain::Tools::BaseTool
 
   def execute(**params)
     http_tool = Captain::Tools::HttpTool.new(assistant, @custom_tool)
-    http_tool.perform(nil, **params)
+    http_tool.perform(build_tool_context, **params)
+  end
+
+  private
+
+  def build_tool_context
+    state = { account_id: assistant.account_id, assistant_id: assistant.id }
+    OpenStruct.new(state: state)
   end
 end
