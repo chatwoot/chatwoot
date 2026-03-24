@@ -34,11 +34,11 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Emri i kutisë postare",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
+        "PLACEHOLDER": "Shkruani emrin e inbox-it tuaj (p.sh.: Acme Inc)",
         "ERROR": "Ju lutemi shkruani një emër të vlefshëm për kutinë postare"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
+        "LABEL": "Emri i faqes së internetit",
         "PLACEHOLDER": "Shkruani emrin e faqes suaj (p.sh. : Acme Inc)"
       },
       "FB": {
@@ -69,17 +69,17 @@
       },
       "TWITTER": {
         "HELP": "Për të shtuar profilin tuaj në Twitter si kanal, duhet të autentikoni profilin tuaj në Twitter duke klikuar në 'Kyçu me Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "ERROR_MESSAGE": "Ndodhi një gabim gjatë lidhjes me Twitter, ju lutem provoni sërish",
         "TWEETS": {
           "ENABLE": "Create conversations from mentioned Tweets"
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
+        "TITLE": "Kanal i faqes së internetit",
+        "DESC": "Krijo një kanal për faqen tënde dhe fillo të ndihmosh klientët përmes widget-it tonë.",
         "LOADING_MESSAGE": "Duke krijuar kanalin e mbështetjes së faqes së internetit",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Avatar i kanalit"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
@@ -116,8 +116,8 @@
           "HELP_TEXT": "Kjo kohë përgjigjeje do të shfaqet në widget-in e chat-it live"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "Ngjyra e widget-it",
+          "PLACEHOLDER": "Përditëso ngjyrën e widget-it"
         },
         "SUBMIT_BUTTON": "Krijo kutinë postare",
         "API": {
@@ -129,7 +129,7 @@
         "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID i Llogarisë",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
+          "PLACEHOLDER": "Ju lutem vendosni Twilio Account SID",
           "ERROR": "Kjo fushë është e detyrueshme"
         },
         "API_KEY": {
@@ -155,7 +155,7 @@
         },
         "AUTH_TOKEN": {
           "LABEL": "Auth Token",
-          "PLACEHOLDER": "Please enter your Twilio Auth Token",
+          "PLACEHOLDER": "Ju lutem vendosni Twilio Auth Token",
           "ERROR": "Kjo fushë është e detyrueshme"
         },
         "CHANNEL_NAME": {
@@ -170,11 +170,11 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "SUBTITLE": "Duhet të konfiguroni URL-në e callback të mesazheve në Twilio me URL-në e dhënë këtu."
         },
-        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "SUBMIT_BUTTON": "Krijo Kanal Twilio",
         "API": {
-          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+          "ERROR_MESSAGE": "Nuk mundëm të verifikojmë kredencialet e Twilio, ju lutem provoni sërish"
         }
       },
       "SMS": {
@@ -371,11 +371,11 @@
         },
         "SUBMIT_BUTTON": "Krijo Kanal API",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "Nuk mundëm të ruajmë kanalin API"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
+        "TITLE": "Kanal Email-i",
         "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Emri i Kanalit",
@@ -387,9 +387,9 @@
           "SUBTITLE": "Provide the email address where your customers send support requests.",
           "PLACEHOLDER": "Email"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "Krijo Kanal Email-i",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "Nuk mundëm të ruajmë kanalin e email-it"
         },
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address.",
         "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
@@ -423,7 +423,7 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "SUBTITLE": "Duhet të konfiguroni webhook URL në aplikacionin LINE me URL-në e dhënë këtu."
         }
       },
       "TELEGRAM_CHANNEL": {
@@ -431,7 +431,7 @@
         "DESC": "Integroni me kanalin Telegram dhe filloni të mbështesni klientët tuaj.",
         "BOT_TOKEN": {
           "LABEL": "Token-i i Botit",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "SUBTITLE": "Konfiguro token-in e bot-it që keni marrë nga Telegram BotFather.",
           "PLACEHOLDER": "Token i Botit"
         },
         "SUBMIT_BUTTON": "Krijo Kanal Telegrami",
@@ -493,13 +493,13 @@
       },
       "AGENTS": {
         "TITLE": "Agjentë",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
+        "DESC": "Këtu mund të shtoni agjentë për të menaxhuar inbox-in e ri. Vetëm këta agjentë të zgjedhur do të kenë qasje në inbox-in tuaj. Agjentët që nuk janë pjesë e këtij inbox-i nuk do të mund të shohin ose t’u përgjigjen mesazheve në këtë inbox kur të kyçen. <br> <b>PS:</b> Si administrator, nëse keni nevojë për qasje në të gjitha inbox-et, duhet të shtoni veten si agjent në të gjitha inbox-et që krijoni.",
         "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "PICK_AGENTS": "Zgjidh agjentët për inbox-in"
       },
       "DETAILS": {
         "TITLE": "Detajet e Postës",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "DESC": "Zgjidhni nga lista më poshtë faqen e Facebook që dëshironi të lidhni me Chatwoot. Mund t’i vendosni edhe një emër të personalizuar inbox-it për identifikim më të lehtë."
       },
       "FINISH": {
         "TITLE": "E arritëm!",
@@ -525,7 +525,7 @@
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
+      "LOADING_FB": "Po autentifikoheni me Facebook...",
       "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Diçka shkoi keq, ju lutem rifreskoni faqen...",
       "ERROR_FB_UNAUTHORIZED": "Nuk jeni i autorizuar të kryeni këtë veprim. ",
@@ -552,8 +552,8 @@
     "VIEW": "Shiko",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
+        "SUCCESS_MESSAGE": "Cilësimet e inbox-it u përditësuan me sukses",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Caktimi automatik u përditësua me sukses",
         "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
@@ -603,7 +603,7 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "Fshij",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "Fshi Avatarin",
       "CONFIRM": {
         "TITLE": "Konfirmo Fshirjen",
         "MESSAGE": "A jeni i sigurt që dëshironi të fshini ",
@@ -614,8 +614,8 @@
       "API": {
         "SUCCESS_MESSAGE": "Kutia e postës u fshi me sukses",
         "ERROR_MESSAGE": "Nuk mund të fshihej kutia e postës. Ju lutemi provoni përsëri më vonë.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "AVATAR_SUCCESS_MESSAGE": "Avatari i inbox-it u fshi me sukses",
+        "AVATAR_ERROR_MESSAGE": "Nuk mund të fshihet avatari i inbox-it. Ju lutem provoni më vonë."
       }
     },
     "TABS": {
@@ -700,14 +700,14 @@
     "SETTINGS": "Cilësimet",
     "FEATURES": {
       "LABEL": "Karakteristikat",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
+      "DISPLAY_FILE_PICKER": "Shfaq përzgjedhësin e skedarëve në widget",
+      "DISPLAY_EMOJI_PICKER": "Shfaq përzgjedhësin e emoji-ve në widget",
       "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
       "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
+      "MESSENGER_SUB_HEAD": "Vendoseni këtë buton brenda tag-ut body",
       "ALLOWED_DOMAINS": {
         "TITLE": "Domenet e Lejuara",
         "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
@@ -730,8 +730,8 @@
       "AGENT_ASSIGNMENT": "Caktimi i Bisedës",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Përditësoni cilësimet e caktimit të bisedës",
       "UPDATE": "Përditëso",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "Aktivo kutinë për mbledhjen e email-it",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktivizo ose çaktivizo kutinë për mbledhjen e email-it në biseda të reja",
       "AUTO_ASSIGNMENT": "Aktivizo caktimin automatik",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
@@ -741,7 +741,7 @@
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Konfiguro krijimin e bisedave për kontaktet ekzistuese",
       "INBOX_UPDATE_TITLE": "Cilësimet e Postës",
       "INBOX_UPDATE_SUB_TEXT": "Përditësoni cilësimet e postës suaj",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivizoni ose çaktivizoni caktimin automatik të bisedave të reja te agjentët e shtuar në këtë inbox.",
       "HMAC_VERIFICATION": "Verifikimi i Identitetit të Përdoruesit",
       "HMAC_DESCRIPTION": "Me këtë çelës mund të gjeneroni një token sekret që mund të përdoret për të verifikuar identitetin e përdoruesve tuaj.",
       "HMAC_LINK_TO_DOCS": "Mund të lexoni më shumë këtu.",
@@ -749,8 +749,8 @@
       "HMAC_MANDATORY_DESCRIPTION": "Nëse është aktivizuar, kërkesat që nuk mund të verifikohen do të refuzohen.",
       "INBOX_IDENTIFIER": "Identifikuesi i Postës",
       "INBOX_IDENTIFIER_SUB_TEXT": "Përdorni tokenin `inbox_identifier` të shfaqur këtu për të autentikuar klientët tuaj API.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
+      "FORWARD_EMAIL_TITLE": "Dërgo te Email-i",
+      "FORWARD_EMAIL_SUB_TEXT": "Filloni të dërgoni email-et tuaja te kjo adresë email-i.",
       "FORWARD_EMAIL_NOT_CONFIGURED": "Përparësimi i email-eve në inbox-in tuaj aktualisht është çaktivizuar në këtë instalim. Për të përdorur këtë funksion, duhet të aktivizohet nga administratori juaj. Ju lutemi kontaktoni ata për të vazhduar.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Lejo mesazhet pasi biseda të jetë zgjidhur",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Lejo përdoruesit përfundimtarë të dërgojnë mesazhe edhe pasi biseda të jetë zgjidhur.",
@@ -846,7 +846,7 @@
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Ri-autorizo",
       "SUBTITLE": "Lidhja juaj me Facebook ka skaduar, ju lutemi lidhni përsëri faqen tuaj në Facebook për të vazhduar shërbimet",
-      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_SUCCESS": "Rilidhja u krye me sukses",
       "MESSAGE_ERROR": "Ndodhi një gabim, ju lutemi provoni përsëri"
     },
     "PRE_CHAT_FORM": {
@@ -872,7 +872,7 @@
         "PLACEHOLDER": "Ky mesazh do të jetë i dukshëm për përdoruesit së bashku me formularin"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "Vizitorët duhet të japin emrin dhe email-in para se të fillojnë bisedën"
       }
     },
     "CSAT": {
@@ -946,19 +946,19 @@
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
+      "TITLE": "Cakto disponueshmërinë",
+      "SUBTITLE": "Cakto orarin e disponueshmërisë në widget-in e livechat",
       "WEEKLY_TITLE": "Vendos oraret tuaja javore",
       "TIMEZONE_LABEL": "Zgjidh zonën kohore",
       "UPDATE": "Përditëso cilësimet e orarit të punës",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
+      "TOGGLE_AVAILABILITY": "Aktivo orarin e biznesit për këtë inbox",
       "UNAVAILABLE_MESSAGE_LABEL": "Mesazh i papërfshirë për vizitorët",
       "TOGGLE_HELP": "Aktivizimi i disponueshmërisë së biznesit do të shfaqë oraret e disponueshme në widget-in e chat-it live edhe nëse të gjithë agjentët janë jashtë linje. Jashtë orarit të disponueshëm, vizitorët mund të paralajmërohen me një mesazh dhe një formular para-chat.",
       "DAY": {
         "DAY": "Ditë",
         "AVAILABILITY": "Availability",
         "HOURS": "Orë",
-        "ENABLE": "Enable availability for this day",
+        "ENABLE": "Aktivo disponueshmërinë për këtë ditë",
         "UNAVAILABLE": "I papërfshirë",
         "VALIDATION_ERROR": "Koha e fillimit duhet të jetë para kohës së mbylljes.",
         "CHOOSE": "Zgjidh"
