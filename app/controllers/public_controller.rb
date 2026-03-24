@@ -22,7 +22,12 @@ class PublicController < ActionController::Base
     check_portal_plan_access
   end
 
-  def check_portal_plan_access; end
+  def check_portal_plan_access
+    current_portal = current_portal_for_public_access
+    return if current_portal.blank? || current_portal.account.feature_enabled?('help_center')
+
+    render 'public/api/v1/portals/not_active', status: :payment_required
+  end
 
   def current_portal_for_public_access
     return @portal if @portal.present?
@@ -34,5 +39,3 @@ class PublicController < ActionController::Base
     nil
   end
 end
-
-PublicController.prepend_mod_with('PublicController')
