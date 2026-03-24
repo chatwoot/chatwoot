@@ -233,8 +233,8 @@
 - name: captain_tasks
   display_name: Captain Tasks
   enabled: true
-- name: captain_custom_tools
-  display_name: Captain Custom Tools
+- name: captain_v1_custom_tools
+  display_name: Captain V1 Custom Tools
   enabled: false
   premium: true
 - name: conversation_required_attributes

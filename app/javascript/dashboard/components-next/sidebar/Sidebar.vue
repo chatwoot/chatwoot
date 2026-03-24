@@ -63,6 +63,24 @@ const hasAdvancedAssignment = computed(() => {
   );
 });
 
+const hasV1CustomTools = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.CAPTAIN_V1_CUSTOM_TOOLS
+  );
+});
+
+const hasV2Captain = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.CAPTAIN_V2
+  );
+});
+
+const showCaptainTools = computed(
+  () => hasV2Captain.value || hasV1CustomTools.value
+);
+
 const toggleShortcutModalFn = show => {
   if (show) {
     emit('openKeyShortcutModal');
@@ -364,7 +382,7 @@ const menuItems = computed(() => {
             navigationPath: 'captain_assistants_inboxes_index',
           }),
         },
-        {
+        showCaptainTools.value && {
           name: 'Tools',
           label: t('SIDEBAR.CAPTAIN_TOOLS'),
           activeOn: ['captain_tools_index'],
@@ -384,7 +402,7 @@ const menuItems = computed(() => {
             navigationPath: 'captain_assistants_settings_index',
           }),
         },
-      ],
+      ].filter(Boolean),
     },
     {
       name: 'Contacts',
