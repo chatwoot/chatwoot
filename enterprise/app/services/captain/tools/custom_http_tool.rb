@@ -37,9 +37,6 @@ class Captain::Tools::CustomHttpTool < Captain::Tools::BaseTool
 
   def add_conversation_state(state)
     state[:conversation] = { id: @conversation.id, display_id: @conversation.display_id }
-
-    return unless assistant.feature_contact_attributes
-
     state[:contact] = slice_record_attrs(@conversation.contact, :id, :email, :phone_number)
     state[:contact_inbox] = slice_record_attrs(@conversation.contact_inbox, :id, :hmac_verified)
   end
