@@ -46,7 +46,7 @@ services:
       - command:
         - sh
         - '-c'
-        - 'bundle exec rails db:chatwoot_prepare && bundle exec rails branding:update && if [ -n "$${BRAND_ASSETS_URL}" ]; then deployment/extract_brand_assets.sh "$${BRAND_ASSETS_URL}"; fi'
+        - 'bundle exec rails branding:update && if [ -n "$${BRAND_ASSETS_URL}" ]; then deployment/extract_brand_assets.sh "$${BRAND_ASSETS_URL}"; fi'
     healthcheck:
       test:
         - CMD-SHELL
@@ -61,8 +61,12 @@ services:
     volumes:
       - 'storage:/app/storage'
     depends_on:
-      - postgres
-      - redis
+      rails:
+        condition: service_healthy
+      postgres:
+        condition: service_started
+      redis:
+        condition: service_started
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
