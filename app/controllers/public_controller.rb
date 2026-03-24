@@ -23,19 +23,8 @@ class PublicController < ActionController::Base
   end
 
   def check_portal_plan_access
-    current_portal = current_portal_for_public_access
-    return if current_portal.blank? || current_portal.account.feature_enabled?('help_center')
+    return if @portal.account.feature_enabled?('help_center')
 
     render 'public/api/v1/portals/not_active', status: :payment_required
-  end
-
-  def current_portal_for_public_access
-    return @portal if @portal.present?
-    return unless respond_to?(:portal, true)
-
-    portal
-    @portal
-  rescue ActiveRecord::RecordNotFound
-    nil
   end
 end

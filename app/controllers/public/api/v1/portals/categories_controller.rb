@@ -1,6 +1,5 @@
 class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals::BaseController
-  before_action :ensure_custom_domain_request, only: [:show, :index]
-  before_action :portal
+  prepend_before_action :ensure_custom_domain_request, only: [:show, :index]
   before_action :set_category, only: [:show]
   layout 'portal'
 
