@@ -12,8 +12,9 @@ class Captain::Tools::CustomHttpTool < Captain::Tools::BaseTool
 
   attr_reader :custom_tool
 
-  def initialize(assistant, custom_tool)
+  def initialize(assistant, custom_tool, conversation: nil)
     @custom_tool = custom_tool
+    @conversation = conversation
     super(assistant)
   end
 
@@ -30,6 +31,20 @@ class Captain::Tools::CustomHttpTool < Captain::Tools::BaseTool
 
   def build_tool_context
     state = { account_id: assistant.account_id, assistant_id: assistant.id }
+    add_conversation_state(state) if @conversation
     OpenStruct.new(state: state)
+  end
+
+  def add_conversation_state(state)
+    state[:conversation] = { id: @conversation.id, display_id: @conversation.display_id }
+
+    return unless assistant.feature_contact_attributes
+
+    state[:contact] = slice_record_attrs(@conversation.contact, :id, :email, :phone_number)
+    state[:contact_inbox] = slice_record_attrs(@conversation.contact_inbox, :id, :hmac_verified)
+  end
+
+  def slice_record_attrs(record, *keys)
+    record&.attributes&.symbolize_keys&.slice(*keys)
   end
 end
