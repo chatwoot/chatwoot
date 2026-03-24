@@ -79,6 +79,8 @@ class Captain::CustomTool < ApplicationRecord
   private
 
   def ensure_within_limit
+    # Lock the account row to serialize concurrent creates and prevent exceeding the cap
+    Account.lock.find(account_id)
     return if account.captain_custom_tools.count < MAX_PER_ACCOUNT
 
     raise LimitExceededError, I18n.t('captain.custom_tool.limit_exceeded', limit: MAX_PER_ACCOUNT)
