@@ -41,8 +41,8 @@
 :active_admin: false
 :command:
 :debug: false
-:hide_default_column_types: ''
-:hide_limit_column_types: ''
+:hide_default_column_types: json,jsonb,hstore
+:hide_limit_column_types: integer,bigint,boolean
 :timestamp_columns:
 - created_at
 - updated_at
