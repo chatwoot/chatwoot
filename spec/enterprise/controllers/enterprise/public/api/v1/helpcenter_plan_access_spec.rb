@@ -10,8 +10,13 @@ RSpec.describe 'Public Help Center Access', type: :request do
 
   around do |example|
     with_modified_env FRONTEND_URL: 'https://app.chatwoot.com', HELPCENTER_URL: 'https://help.chatwoot.com' do
+      previous_deployment_env = InstallationConfig.find_by(name: 'DEPLOYMENT_ENV')&.value
+      InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_initialize.update!(value: 'cloud')
+
       example.run
     ensure
+      config = InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_initialize
+      previous_deployment_env.present? ? config.update!(value: previous_deployment_env) : config.destroy!
       host! 'www.example.com'
     end
   end

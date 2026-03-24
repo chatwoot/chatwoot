@@ -144,25 +144,27 @@ RSpec.describe 'Public Articles API', type: :request do
 
   describe 'GET /public/api/v1/portals/:slug/articles/:slug.png (tracking pixel)' do
     it 'serves a PNG image and increments view count for published article' do
-      get "/hc/#{portal.slug}/articles/#{article.slug}.png"
+      expect do
+        get "/hc/#{portal.slug}/articles/#{article.slug}.png"
+      end.to change { article.reload.views }.by(1)
 
       expect(response).to have_http_status(:success)
       expect(response.headers['Content-Type']).to eq('image/png')
       expect(response.headers['Cache-Control']).to include('max-age=86400')
       expect(response.headers['Cache-Control']).to include('private')
-      expect(article.reload.views).to eq 1
     end
 
     it 'serves a PNG image but does not increment view count for draft article' do
       draft_article = create(:article, category: category, status: :draft, portal: portal, account_id: account.id, author_id: agent.id, views: 0)
 
-      get "/hc/#{portal.slug}/articles/#{draft_article.slug}.png"
+      expect do
+        get "/hc/#{portal.slug}/articles/#{draft_article.slug}.png"
+      end.not_to(change { draft_article.reload.views })
 
       expect(response).to have_http_status(:success)
       expect(response.headers['Content-Type']).to eq('image/png')
       expect(response.headers['Cache-Control']).to include('max-age=86400')
       expect(response.headers['Cache-Control']).to include('private')
-      expect(draft_article.reload.views).to eq 0
     end
 
     it 'returns 404 if article does not exist' do

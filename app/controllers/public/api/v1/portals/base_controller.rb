@@ -24,8 +24,8 @@ class Public::Api::V1::Portals::BaseController < PublicController
   end
 
   def set_locale(&)
-    switch_locale_with_portal(&) if params[:locale].present?
-    switch_locale_with_article(&) if params[:article_slug].present?
+    return switch_locale_with_portal(&) if params[:locale].present?
+    return switch_locale_with_article(&) if params[:article_slug].present?
 
     yield
   end
