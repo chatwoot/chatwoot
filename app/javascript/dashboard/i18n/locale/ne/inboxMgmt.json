@@ -4,8 +4,8 @@
     "DESCRIPTION": "च्यानल भनेको तपाईंको ग्राहकले तपाईं सँग अन्तरक्रिया गर्न रोजेको सञ्चार माध्यम हो। इनबक्स भनेको एउटा विशेष च्यानलका लागि अन्तरक्रियाहरू व्यवस्थापन गर्ने ठाउँ हो। यसमा इमेल, प्रत्यक्ष च्याट, र सामाजिक मिडिया जस्ता विभिन्न स्रोतहरूबाट सञ्चारहरू समावेश हुन सक्छ।।",
     "LEARN_MORE": "इनबक्सहरू बारे थप जान्नुहोस्",
     "COUNT": "{n} inbox | {n} inboxes",
-    "SEARCH_PLACEHOLDER": "Search inboxes...",
-    "NO_RESULTS": "No inboxes found matching your search",
+    "SEARCH_PLACEHOLDER": "इनबक्स खोज्नुहोस्...",
+    "NO_RESULTS": "तपाईंको खोजसँग मेल खाने इनबक्स फेला परेन",
     "RECONNECTION_REQUIRED": "तपाईंको इनबक्स डिस्कनेक्ट भएको छ। पुनः अधिकृत नगरेसम्म तपाईं नयाँ सन्देशहरू प्राप्त गर्नुहुने छैन।",
     "CLICK_TO_RECONNECT": "पुनः जडान गर्न यहाँ क्लिक गर्नुहोस्।",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "तपाईंको WhatsApp व्यवसाय दर्ता पूरा भएको छैन। पुन: जडान गर्नु अघि कृपया Meta Business Manager मा तपाईंको प्रदर्शन नाम स्थिति जाँच गर्नुहोस्।",
@@ -578,7 +578,7 @@
           "SUBTITLE": "इमेल हेडरमा प्रेषक नामको रूपमा केवल कन्फिगर गरिएको व्यवसाय नाम प्रयोग गर्नुहोस्।"
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "Configure your business name",
+          "BUTTON_TEXT": "आफ्नो व्यवसाय नाम सेट गर्नुहोस्",
           "PLACEHOLDER": "तपाईंको व्यवसाय नाम प्रविष्ट गर्नुहोस्",
           "SAVE_BUTTON_TEXT": "सेभ गर्नुहोस्"
         }
@@ -594,7 +594,7 @@
       "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Reopen same conversation",
         "DISABLED": "Create new conversations",
-        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "ENABLED_DESCRIPTION": "सम्पर्कले फेरि सन्देश पठाउँदा, अघिल्लो कुराकानी पुन: खोलिनेछ।",
         "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
@@ -630,7 +630,7 @@
       "ACCOUNT_HEALTH": "खाता स्वास्थ्य",
       "CSAT": "CSAT"
     },
-    "CHANNEL_PREFERENCES": "Channel Preferences",
+    "CHANNEL_PREFERENCES": "च्यानल प्राथमिकता",
     "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
       "TITLE": "तपाईंको WhatsApp खाता व्यवस्थापन गर्नुहोस्",
@@ -687,14 +687,14 @@
         }
       },
       "WEBHOOK": {
-        "TITLE": "Webhook Configuration",
-        "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
-        "ACTION_REQUIRED": "Webhook not configured",
-        "REGISTER_BUTTON": "Register Webhook",
-        "REGISTER_SUCCESS": "Webhook registered successfully",
-        "REGISTER_ERROR": "Failed to register webhook. Please try again.",
-        "CONFIGURED_SUCCESS": "Webhook configured successfully",
-        "URL_MISMATCH": "Webhook URL mismatch"
+        "TITLE": "Webhook कन्फिगरेसन",
+        "DESCRIPTION": "ग्राहकबाट सन्देश प्राप्त गर्न तपाईंको WhatsApp Business Account मा Webhook URL आवश्यक छ",
+        "ACTION_REQUIRED": "Webhook कन्फिगर गरिएको छैन",
+        "REGISTER_BUTTON": "Webhook दर्ता गर्नुहोस्",
+        "REGISTER_SUCCESS": "Webhook सफलतापूर्वक दर्ता भयो",
+        "REGISTER_ERROR": "Webhook दर्ता गर्न असफल भयो। कृपया फेरि प्रयास गर्नुहोस्।",
+        "CONFIGURED_SUCCESS": "Webhook सफलतापूर्वक कन्फिगर गरियो",
+        "URL_MISMATCH": "Webhook URL मेल खाएन"
       }
     },
     "SETTINGS": "सेटिङहरू",
@@ -710,20 +710,20 @@
       "MESSENGER_SUB_HEAD": "यो बटनलाई तपाईंको body ट्याग भित्र राख्नुहोस्",
       "ALLOWED_DOMAINS": {
         "TITLE": "अनुमत डोमेनहरू",
-        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
+        "DESCRIPTION": "कुन वेबसाइटहरूले तपाईंको च्याट विजेट एम्बेड गर्न सक्छन् भन्ने सीमित गर्नुहोस्। सुरक्षाका लागि, केवल तपाईंले स्वामित्व लिएका र विश्वास गर्ने डोमेनहरू मात्र थप्नुहोस्। कमा छुट्याएर एक वा बढी डोमेनहरू थप्नुहोस्। सबै डोमेनहरूलाई अनुमति दिन खाली छोड्नुहोस् (उत्पादनका लागि सिफारिस गरिएको छैन)।",
         "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
       "ALLOW_MOBILE_WEBVIEW": {
-        "LABEL": "Enable widget in mobile apps",
-        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+        "LABEL": "मोबाइल एपहरूमा विजेट सक्षम गर्नुहोस्",
+        "SUBTITLE": "यदि तपाईंले विजेटलाई iOS वा Android एपहरूमा राख्नुभएको छ भने यो जाँच गर्नुहोस्। मोबाइल एपहरूले डोमेन जानकारी पठाउँदैनन्, त्यसैले यो सक्षम नगरेसम्म डोमेन प्रतिबन्धले ब्लक गर्छ।"
       },
       "IDENTITY_VALIDATION": {
-        "TITLE": "Identity Validation",
-        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
-        "SECRET_KEY": "Secret Key",
-        "VIEW_DOCS": "View documentation",
-        "REQUIRE_LABEL": "Require identity validation for all conversations",
-        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
+        "TITLE": "पहिचान प्रमाणीकरण",
+        "DESCRIPTION": "सुरक्षित टोकनहरू सिर्जना गरेर प्रयोगकर्ताको वास्तविकता प्रमाणित गर्नुहोस्। यसले अनधिकृत प्रयोगकर्ताहरूलाई तपाईंको च्याटमा अरूको नक्कल गर्नबाट रोक्छ।",
+        "SECRET_KEY": "गोप्य कुञ्जी",
+        "VIEW_DOCS": "डोक्युमेन्टेसन हेर्नुहोस्",
+        "REQUIRE_LABEL": "सबै संवादका लागि पहिचान प्रमाणीकरण आवश्यक बनाउनुहोस्",
+        "REQUIRE_DESCRIPTION": "यो सक्षम गर्दा, प्रयोगकर्ताले संवाद सुरु गर्न मान्य पहिचान टोकन दिनुपर्छ। मान्य टोकन बिना अनुरोधहरू अस्वीकृत गरिनेछन्।"
       },
       "INBOX_AGENTS": "एजेन्टहरू",
       "INBOX_AGENTS_SUB_TEXT": "यस इनबक्सबाट एजेन्टहरू थप्नुहोस् वा हटाउनुहोस्",
@@ -737,8 +737,8 @@
       "SENDER_NAME_SECTION_TEXT": "एजेन्टको नाम इमेलमा देखाउने/नदेखाउने सक्षम/अक्षम गर्नुहोस्, यदि अक्षम गरिएको छ भने व्यवसाय नाम देखाइनेछ",
       "ENABLE_CONTINUITY_VIA_EMAIL": "इमेल मार्फत कुराकानी निरन्तरता सक्षम गर्नुहोस्",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "यदि सम्पर्क इमेल ठेगाना उपलब्ध छ भने कुराकानी इमेल मार्फत जारी रहनेछ।",
-      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
+      "LOCK_TO_SINGLE_CONVERSATION": "कुराकानी मार्गनिर्देशन",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "अस्तित्वमा रहेका सम्पर्कहरूको लागि संवाद सिर्जना कन्फिगर गर्नुहोस्",
       "INBOX_UPDATE_TITLE": "इनबक्स सेटिङहरू",
       "INBOX_UPDATE_SUB_TEXT": "तपाईंको इनबक्स सेटिङहरू अपडेट गर्नु",
       "AUTO_ASSIGNMENT_SUB_TEXT": "यस इनबक्समा थपिएका एजेन्टहरूलाई नयाँ संवादहरू स्वचालित रूपमा असाइन गर्ने सुविधा सक्षम वा अक्षम गर्नु।",
@@ -787,7 +787,7 @@
       "LABEL": "मद्दत केन्द्र",
       "PLACEHOLDER": "मद्दत केन्द्र चयन गर्नुहोस्",
       "SELECT_PLACEHOLDER": "मद्दत केन्द्र चयन गर्नुहोस्",
-      "NONE": "None",
+      "NONE": "कुनै छैन",
       "REMOVE": "मद्दत केन्द्र हटाउनुहोस्",
       "SUB_TEXT": "इनबक्ससँग मद्दत केन्द्र संलग्न गर्नुहोस्"
     },
@@ -827,19 +827,19 @@
       "UPGRADE_TO_BUSINESS": "व्यवसाय योजना मा अपग्रेड गर्नुहोस्",
       "DEFAULT_POLICY_LINKED": "पूर्वनिर्धारित नीति जडान गरिएको",
       "DEFAULT_POLICY_DESCRIPTION": "यस इनबक्समा एजेन्टहरूलाई संवाद कसरी असाइन गर्ने अनुकूलन गर्न अनुकूलित असाइनमेन्ट नीति जडान गर्नुहोस्।",
-      "LINK_EXISTING_POLICY": "Link existing policy",
+      "LINK_EXISTING_POLICY": "अस्तित्वमा रहेको नीति जडान गर्नुहोस्",
       "CREATE_NEW_POLICY": "Create new policy",
       "NO_POLICIES": "No assignment policies found",
-      "VIEW_ALL_POLICIES": "View all policies",
-      "CURRENT_BEHAVIOR": "Currently using default assignment behavior:",
-      "LINK_SUCCESS": "Assignment policy linked successfully",
-      "LINK_ERROR": "Failed to link assignment policy"
+      "VIEW_ALL_POLICIES": "सबै नीति हेर्नुहोस्",
+      "CURRENT_BEHAVIOR": "हाल डिफल्ट असाइनमेन्ट व्यवहार प्रयोग भइरहेको छ:",
+      "LINK_SUCCESS": "असाइनमेन्ट नीति सफलतापूर्वक जडान भयो",
+      "LINK_ERROR": "असाइनमेन्ट नीति जडान गर्न असफल"
     },
     "ASSIGNMENT_POLICY": {
-      "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
-      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
+      "DELETE_CONFIRM_TITLE": "असाइनमेन्ट नीति हटाउने हो?",
+      "DELETE_CONFIRM_MESSAGE": "के तपाईं यो इनबक्सबाट असाइनमेन्ट नीति हटाउन निश्चित हुनुहुन्छ? इनबक्स डिफल्ट असाइनमेन्ट नियममा फर्किनेछ।",
       "CANCEL": "Cancel",
-      "CONFIRM_DELETE": "Delete",
+      "CONFIRM_DELETE": "हटाउनुहोस्",
       "DELETE_SUCCESS": "Assignment policy removed successfully",
       "DELETE_ERROR": "Failed to remove assignment policy"
     },
@@ -915,17 +915,17 @@
         "CANCEL": "फिर्ता जानुहोस्"
       },
       "UTILITY_ANALYZER": {
-        "ACTION": "Check utility fit",
-        "HELPER_NOTE": "Check this message before submission to improve Utility fit. The system creates a dedicated CSAT template with buttons for reporting and submits it as Utility; Meta may still reclassify it as Marketing based on content.",
-        "RESULT_LABEL": "Meta category prediction",
-        "GUIDANCE_NOTE": "This is a guidance check, not a guarantee of Meta approval.",
-        "SUGGESTION_LABEL": "Suggested utility-safe rewrite",
+        "ACTION": "युटिलिटी उपयुक्तता जाँच्नुहोस्",
+        "HELPER_NOTE": "युटिलिटी उपयुक्तता सुधार गर्न पठाउनु अघि यो सन्देश जाँच्नुहोस्। प्रणालीले रिपोर्टिङका लागि बटनसहित छुट्टै CSAT टेम्प्लेट बनाउँछ र यसलाई युटिलिटीको रूपमा पेश गर्छ; सामग्रीका आधारमा Meta ले यसलाई मार्केटिङको रूपमा पुनः वर्गीकरण गर्न सक्छ।",
+        "RESULT_LABEL": "Meta श्रेणी पूर्वानुमान",
+        "GUIDANCE_NOTE": "यो मार्गदर्शन जाँच मात्र हो, Meta को स्वीकृतिको ग्यारेन्टी होइन।",
+        "SUGGESTION_LABEL": "सुझाव गरिएको युटिलिटी-मैत्री पुनर्लेखन",
         "APPLY": "Use this rewrite",
-        "ERROR_MESSAGE": "Couldn't analyze the message. Please try again.",
+        "ERROR_MESSAGE": "सन्देश विश्लेषण गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।",
         "CLASSIFICATION": {
-          "LIKELY_UTILITY": "Likely Utility",
+          "LIKELY_UTILITY": "संभावित युटिलिटी",
           "LIKELY_MARKETING": "Likely Marketing",
-          "UNCLEAR": "Needs clarification"
+          "UNCLEAR": "स्पष्टता आवश्यक छ"
         }
       },
       "SURVEY_RULE": {
@@ -939,7 +939,7 @@
         "SELECT_PLACEHOLDER": "लेबलहरू छान्नुहोस्"
       },
       "NOTE": "सूचना: CSAT सर्वेक्षणहरू प्रत्येक संवादमा केवल एक पटक मात्र पठाइन्छ।",
-      "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
+      "WHATSAPP_NOTE": "नोट: तपाईंले सुरक्षित गरेपछि, प्रणालीले WhatsApp मा CSAT टेम्प्लेट बनाउँछ (रिपोर्टमा रेटिङ र प्रतिक्रिया संकलन गर्न प्रयोग हुने) र स्वीकृतिका लागि Utility रूपमा पेश गर्छ। Meta ले सामग्रीका आधारमा यसलाई Marketing पनि वर्गीकृत गर्न सक्छ। स्वीकृति पछि, सर्वेक्षण नियम अनुसार प्रत्येक कुराकानीमा एकपटक मात्र सर्वेक्षण पठाइन्छ।",
       "API": {
         "SUCCESS_MESSAGE": "CSAT सेटिङहरू सफलतापूर्वक अपडेट गरियो",
         "ERROR_MESSAGE": "हामीले CSAT सेटिङहरू अपडेट गर्न सकेनौं। कृपया पछि फेरि प्रयास गर्नुहोस्।"
@@ -957,7 +957,7 @@
       "DAY": {
         "DAY": "Day",
         "AVAILABILITY": "Availability",
-        "HOURS": "Hours",
+        "HOURS": "समय",
         "ENABLE": "यस दिनको लागि उपलब्धता सक्षम गर्नुहोस्",
         "UNAVAILABLE": "उपलब्ध छैन",
         "VALIDATION_ERROR": "सुरु समय बन्द हुने समय भन्दा पहिले हुनुपर्छ।",
@@ -1071,7 +1071,7 @@
         "WIDGET_BUBBLE_TYPE_LABEL": "Type:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "हामीसँग कुराकानी गर्नुहोस्",
-          "LABEL": "Launcher Title",
+          "LABEL": "लञ्चर शीर्षक",
           "PLACE_HOLDER": "हामीसँग कुराकानी गर्नुहोस्"
         },
         "UPDATE": {
