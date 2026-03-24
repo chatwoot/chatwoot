@@ -104,10 +104,10 @@
   display_name: Audit Logs
   enabled: false
   premium: true
-- name: captain_v1_custom_tools
-  display_name: Captain V1 Custom Tools
+- name: response_bot
+  display_name: Response Bot
   enabled: false
-  premium: true
+  deprecated: true
 - name: message_reply_to
   display_name: Message Reply To
   enabled: false
