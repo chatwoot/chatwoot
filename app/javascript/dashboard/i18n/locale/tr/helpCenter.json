@@ -47,7 +47,7 @@
         "SUCCESS": "Resim başarıyla yüklendi",
         "ERROR": "Resim yüklenirken hata oluştu",
         "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Resim boyutu %{size}MB'dan küçük olmalıdır",
+        "ERROR_FILE_SIZE": "Resim boyutu {size}MB'dan küçük olmalıdır",
         "ERROR_FILE_FORMAT": "Resim formatı jpg, jpeg veya png olmalıdır",
         "ERROR_FILE_DIMENSIONS": "Resim boyutları 2000 x 2000'den küçük olmalıdır"
       }
@@ -724,7 +724,7 @@
           "IMAGE_UPLOAD_SUCCESS": "Resim başarıyla eklendi. Logoyu kaydetmek için lütfen 'Değişiklikleri Kaydet' butonuna tıklayın",
           "IMAGE_DELETE_SUCCESS": "Logo başarıyla silindi",
           "IMAGE_DELETE_ERROR": "Unable to delete logo",
-          "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu %{size}MB'dan küçük olmalıdır"
+          "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu {size}MB'dan küçük olmalıdır"
         },
         "NAME": {
           "LABEL": "İsim",

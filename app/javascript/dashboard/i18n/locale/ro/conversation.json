@@ -179,7 +179,7 @@
           "FAILED": "Couldn't remove label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Echipa atribuită #{team} la conversația cu id {conversationId}",
+          "SUCCESFUL": "Echipa atribuită \"{team}\" la conversația cu id {conversationId}",
           "FAILED": "Nu s-a putut atribui echipa. Vă rugăm să încercaţi din nou."
         }
       }

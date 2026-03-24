@@ -179,7 +179,7 @@
           "FAILED": "Couldn't remove label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Призначено команду \"#{team}\" до ID розмови {conversationId}",
+          "SUCCESFUL": "Призначено команду \"{team}\" до ID розмови {conversationId}",
           "FAILED": "Не вдалося призначити команду. Будь ласка, спробуйте ще раз."
         }
       }

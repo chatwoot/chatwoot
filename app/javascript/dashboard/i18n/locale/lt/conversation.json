@@ -179,7 +179,7 @@
           "FAILED": "Couldn't remove label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Priskirta komanda #{team} pokalbiui id {conversationId}",
+          "SUCCESFUL": "Priskirta komanda \"{team}\" pokalbiui id {conversationId}",
           "FAILED": "Nepavyko priskirti komandos. Prašau, pabandykite dar kartą."
         }
       }
