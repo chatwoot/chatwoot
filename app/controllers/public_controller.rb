@@ -19,7 +19,7 @@ class PublicController < ActionController::Base
     }, status: :unauthorized and return
   end
 
-  def check_portal_plan_access
+  def ensure_portal_feature_enabled
     return unless ChatwootApp.chatwoot_cloud?
     return if @portal.account.feature_enabled?('help_center')
 

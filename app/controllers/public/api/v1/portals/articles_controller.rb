@@ -1,7 +1,7 @@
 class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::BaseController
   before_action :ensure_custom_domain_request, only: [:show, :index]
   before_action :portal
-  before_action :check_portal_plan_access, only: [:show, :index, :tracking_pixel]
+  before_action :ensure_portal_feature_enabled, only: [:show, :index, :tracking_pixel]
   before_action :set_category, except: [:index, :show, :tracking_pixel]
   before_action :set_article, only: [:show]
   layout 'portal'
