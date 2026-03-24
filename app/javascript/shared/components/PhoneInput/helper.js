@@ -4,10 +4,14 @@ import ct from 'countries-and-timezones';
 const getTimezone = () => Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 export const getActiveDialCode = () => {
-  return getPhoneCodeByTimezone(getTimezone()) || '';
+  const code = getPhoneCodeByTimezone(getTimezone()) || '';
+  if (code === '+52') return '+52 1';
+  return code;
 };
 
 export const getActiveCountryCode = () => {
   const country = ct.getCountryForTimezone(getTimezone()) || {};
-  return country.id || '';
+  const id = country.id || '';
+  if (id === 'MX') return 'MX1';
+  return id;
 };

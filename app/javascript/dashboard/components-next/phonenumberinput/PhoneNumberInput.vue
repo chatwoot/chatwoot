@@ -113,7 +113,7 @@ const phoneNumberError = computed(() => {
 });
 
 const emitPhoneNumber = value => {
-  const newValue = value ? `${activeDialCode.value}${value}` : '';
+  const newValue = value ? `${activeDialCode.value}${value}`.replace(/\s/g, '') : '';
   modelValue.value = newValue;
 };
 
@@ -198,7 +198,7 @@ watch(
             </Button>
             <span
               v-if="activeCountry"
-              class="text-sm left-[38px] top-2.5 text-n-slate-11 ltr:!pl-1 rtl:!pr-1"
+              class="text-sm left-[38px] top-2.5 text-n-slate-11 ltr:!pl-1 rtl:!pr-1 whitespace-nowrap"
             >
               {{ activeDialCode }}
             </span>

@@ -48,7 +48,7 @@ const setPhoneNumber = computed(() => {
     return '';
   }
   return activeDialCode.value
-    ? `${activeDialCode.value}${agentPhoneNumber.value}`
+    ? `${activeDialCode.value}${agentPhoneNumber.value}`.replace(/\s/g, '')
     : '';
 });
 
@@ -272,7 +272,7 @@ const addAgent = async () => {
               $t('AGENT_MGMT.ADD.FORM.RESPONSIBLE.SEARCH_PLACEHOLDER')
             "
             :empty-state="$t('AGENT_MGMT.ADD.FORM.RESPONSIBLE.EMPTY_STATE')"
-            class="[&_button]:!bg-n-alpha-black2"
+            class="[&_button]:!bg-n-alpha-black2 mb-4"
           />
         </label>
       </div>
@@ -288,12 +288,12 @@ const addAgent = async () => {
               $t('AGENT_MGMT.ADD.FORM.LOCATION.SEARCH_PLACEHOLDER')
             "
             :empty-state="$t('AGENT_MGMT.ADD.FORM.LOCATION.EMPTY_STATE')"
-            class="[&_button]:!bg-n-alpha-black2"
+            class="[&_button]:!bg-n-alpha-black2 mb-4"
           />
         </label>
       </div>
 
-      <div>
+      <div class="w-full">
         <WeeklyAvailabilitySection
           ref="childRef"
           :user="{}"

@@ -94,21 +94,14 @@ const setPhoneCode = code => {
   activeDialCode.value = code;
 };
 
-// Initialize phone number from props
+// Initialize phone number from props — pass the full number so PhoneInput
+// can correctly detect the country flag from the +XX prefix.
 if (props.phoneNumber) {
   const parsed = parsePhoneNumber(props.phoneNumber);
   if (parsed && parsed.countryCallingCode) {
-    // Set dial code
     activeDialCode.value = `+${parsed.countryCallingCode}`;
-    // Extract number without country code for the input
-    agentPhoneNumber.value = props.phoneNumber.replace(
-      `+${parsed.countryCallingCode}`,
-      ''
-    );
-  } else {
-    // If not parseable, use the raw value
-    agentPhoneNumber.value = props.phoneNumber;
   }
+  agentPhoneNumber.value = props.phoneNumber;
 }
 
 const parsedPhoneNumber = computed(() => {
@@ -123,7 +116,7 @@ const setPhoneNumber = computed(() => {
     return '';
   }
   return activeDialCode.value
-    ? `${activeDialCode.value}${agentPhoneNumber.value}`
+    ? `${activeDialCode.value}${agentPhoneNumber.value}`.replace(/\s/g, '')
     : '';
 });
 
@@ -351,7 +344,7 @@ const resetPassword = async () => {
               $t('AGENT_MGMT.EDIT.FORM.RESPONSIBLE.SEARCH_PLACEHOLDER')
             "
             :empty-state="$t('AGENT_MGMT.EDIT.FORM.RESPONSIBLE.EMPTY_STATE')"
-            class="[&_button]:!bg-n-alpha-black2"
+            class="[&_button]:!bg-n-alpha-black2 mb-4"
           />
         </label>
       </div>
@@ -367,12 +360,12 @@ const resetPassword = async () => {
               $t('AGENT_MGMT.EDIT.FORM.LOCATION.SEARCH_PLACEHOLDER')
             "
             :empty-state="$t('AGENT_MGMT.EDIT.FORM.LOCATION.EMPTY_STATE')"
-            class="[&_button]:!bg-n-alpha-black2"
+            class="[&_button]:!bg-n-alpha-black2 mb-4"
           />
         </label>
       </div>
 
-      <div>
+      <div class="w-full">
         <WeeklyAvailabilitySection
           ref="childRef"
           :user="agent"

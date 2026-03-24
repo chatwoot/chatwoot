@@ -136,7 +136,7 @@ export default {
 <template>
   <div>
     <div class="mb-6">
-      <div class="timezone-input-wrap">
+      <div class="timezone-input-wrap w-full">
         <label>
           {{ $t('INBOX_MGMT.BUSINESS_HOURS.TIMEZONE_LABEL') }}
         </label>
@@ -172,7 +172,7 @@ export default {
 <style lang="scss" scoped>
 .timezone-input-wrap {
   &::v-deep .multiselect {
-    @apply mt-2;
+    @apply mt-0;
   }
 }
 

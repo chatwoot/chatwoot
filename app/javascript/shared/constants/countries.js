@@ -834,6 +834,12 @@ const countries = [
     id: 'MX',
   },
   {
+    name: 'Mexico (Mobile)',
+    dial_code: '+52 1',
+    emoji: '🇲🇽',
+    id: 'MX1',
+  },
+  {
     name: 'Micronesia, Federated States of Micronesia',
     dial_code: '+691',
     emoji: '🇫🇲',

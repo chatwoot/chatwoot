@@ -148,11 +148,12 @@ export default {
     },
     setActiveCountry() {
       const { phoneNumber } = this;
-      if (!phoneNumber) return;
+      if (!phoneNumber || !phoneNumber.startsWith('+')) return;
       const number = parsePhoneNumber(phoneNumber);
       if (number) {
         this.activeCountryCode = number.country;
-        this.activeDialCode = number.countryCallingCode;
+        this.activeDialCode = `+${number.countryCallingCode}`;
+        this.phoneNumber = phoneNumber.replace(`+${number.countryCallingCode}`, '');
       }
     },
     toggleCountryDropdown() {
@@ -194,7 +195,7 @@ export default {
       </div>
       <span
         v-if="activeDialCode"
-        class="flex py-2 ltr:pl-2 rtl:pr-2 text-base font-normal leading-normal text-n-slate-12"
+        class="flex py-2 ltr:pl-2 rtl:pr-2 text-base font-normal leading-normal text-n-slate-12 whitespace-nowrap"
       >
         {{ activeDialCode }}
       </span>

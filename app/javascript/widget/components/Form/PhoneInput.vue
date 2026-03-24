@@ -70,7 +70,7 @@ function setContextValue(code) {
   const safeCode = unref(code);
   // This function is used to set the context value.
   // The context value is used to set the value of the phone number field in the pre-chat form.
-  localValue.value = `${safeCode}${phoneNumber.value}`;
+  localValue.value = `${safeCode}${phoneNumber.value}`.replace(/\s/g, '');
   context.node.input(localValue.value);
 }
 
@@ -185,7 +185,7 @@ function onSelect() {
       </div>
       <span
         v-if="activeDialCode"
-        class="py-2 ltr:pl-2 rtl:pr-2 text-base text-n-slate-11"
+        class="py-2 ltr:pl-2 rtl:pr-2 text-base text-n-slate-11 whitespace-nowrap"
       >
         {{ activeDialCode }}
       </span>
