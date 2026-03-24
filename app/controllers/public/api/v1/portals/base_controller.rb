@@ -4,8 +4,6 @@ class Public::Api::V1::Portals::BaseController < PublicController
   before_action :show_plain_layout
   before_action :set_color_scheme
   before_action :set_global_config
-  before_action :portal
-  before_action :check_portal_plan_access
   around_action :set_locale
   after_action :allow_iframe_requests
 
@@ -24,8 +22,8 @@ class Public::Api::V1::Portals::BaseController < PublicController
   end
 
   def set_locale(&)
-    return switch_locale_with_portal(&) if params[:locale].present?
-    return switch_locale_with_article(&) if params[:article_slug].present?
+    switch_locale_with_portal(&) if params[:locale].present?
+    switch_locale_with_article(&) if params[:article_slug].present?
 
     yield
   end
