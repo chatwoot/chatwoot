@@ -21,8 +21,7 @@ class AgentBot < ApplicationRecord
   include AccessTokenable
   include Avatarable
 
-  has_secure_token :secret
-  encrypts :secret if Chatwoot.encryption_configured?
+  include WebhookSecretable
 
   scope :accessible_to, lambda { |account|
     account_id = account&.id

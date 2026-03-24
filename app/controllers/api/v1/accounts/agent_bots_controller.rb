@@ -35,8 +35,7 @@ class Api::V1::Accounts::AgentBotsController < Api::V1::Accounts::BaseController
   end
 
   def reset_secret
-    @agent_bot.regenerate_secret
-    @agent_bot.reload
+    @agent_bot.reset_secret!
   end
 
   private

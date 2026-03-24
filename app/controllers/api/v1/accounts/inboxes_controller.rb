@@ -69,8 +69,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def reset_secret
     return head :not_found unless @inbox.api?
 
-    @inbox.channel.regenerate_secret
-    @inbox.channel.reload
+    @inbox.channel.reset_secret!
   end
 
   def destroy
