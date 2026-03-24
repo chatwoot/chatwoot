@@ -32,7 +32,7 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
   def build_tools
     tools = [Captain::Tools::SearchDocumentationService.new(@assistant, user: nil)]
     tools + @assistant.account.captain_custom_tools.enabled.map do |ct|
-      ct.tool(@assistant, base_class: Captain::Tools::CustomHttpTool)
+      ct.tool(@assistant, base_class: Captain::Tools::CustomHttpTool, conversation: @conversation)
     end
   end
 
