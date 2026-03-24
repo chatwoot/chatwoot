@@ -128,7 +128,7 @@
         "TITLE": "Twilio SMS/WhatsApp ቻናል",
         "DESC": "Միացրեք Twilio-ն և սկսեք աջակցել Ձեր հաճախորդներին SMS կամ WhatsApp միջոցով։",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
+          "LABEL": "አካውንት SID",
           "PLACEHOLDER": "እባክዎ የTwilio መለያ መለያዎን ያስገቡ",
           "ERROR": "ይህ መስክ አስፈላጊ ነው"
         },
@@ -169,7 +169,7 @@
           "ERROR": "እባክዎ በ`+` ምልክት የሚጀምር እና ቦታ ያልያዘ ትክክለኛ የስልክ ቁጥር ያቀርቡ።."
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
+          "TITLE": "ካልባክ URL",
           "SUBTITLE": "Twilio-ում պետք է կարգավորեք հաղորդագրության պատասխան URL-ը՝ օգտագործելով այստեղ նշված հասցեն։"
         },
         "SUBMIT_BUTTON": "የTwilio ቻናል ይፍጠሩ",
@@ -450,11 +450,11 @@
             "DESCRIPTION": "ቀጥታ የሚነጋገር ቪጅት ይፍጠሩ"
           },
           "FACEBOOK": {
-            "TITLE": "Facebook",
+            "TITLE": "ፌስቡክ",
             "DESCRIPTION": "የFacebook ገጽዎን ያገናኙ"
           },
           "WHATSAPP": {
-            "TITLE": "WhatsApp",
+            "TITLE": "ዋትስአፕ",
             "DESCRIPTION": "በWhatsApp ላይ ደንበኞችዎን ድጋፍ ያድርጉ"
           },
           "EMAIL": {
@@ -470,15 +470,15 @@
             "DESCRIPTION": "በAPI ቻናል ለራስዎ ተለዋዋጭ ቻናል ይፍጠሩ"
           },
           "TELEGRAM": {
-            "TITLE": "Telegram",
+            "TITLE": "ቴሌግራም",
             "DESCRIPTION": "በBot ቶክን የTelegram ቻናል ያቀናብሩ"
           },
           "LINE": {
-            "TITLE": "Line",
+            "TITLE": "ላይን",
             "DESCRIPTION": "የLine ቻናልዎን ያካተቱ"
           },
           "INSTAGRAM": {
-            "TITLE": "Instagram",
+            "TITLE": "ኢንስታግራም",
             "DESCRIPTION": "የInstagram አካውንትዎን ያገናኙ"
           },
           "TIKTOK": {
@@ -628,7 +628,7 @@
       "WIDGET_BUILDER": "የዊጅት አሰራር መሣሪያ",
       "BOT_CONFIGURATION": "የቦት ቅንብሮች",
       "ACCOUNT_HEALTH": "የመለያ ጤና",
-      "CSAT": "CSAT"
+      "CSAT": "የደንበኞች ደህንነት ግምገማ (CSAT)"
     },
     "CHANNEL_PREFERENCES": "የቻናል ቅድሚያዎች",
     "WIDGET_FEATURES": "የዊጅት ባህሪያት",
@@ -710,7 +710,7 @@
       "MESSENGER_SUB_HEAD": "ይህን አዝራር በbody ታግ ውስጥ ያቀርቡ",
       "ALLOWED_DOMAINS": {
         "TITLE": "የተፈቀዱ ድር ስፍራዎች",
-        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
+        "DESCRIPTION": "የቻት ዊጅትዎን ማን እንደሚጨምር ድር ጣቢያዎችን ያገዙ። ለደህንነት፣ ብቻ የእርስዎን እና የሚታመኑትን ድር ጣቢያዎች ያክሉ። አንድ ወይም ከዚያ በላይ ድር ጣቢያዎችን በኮማ በመለያየት ያክሉ። ሁሉንም ድር ጣቢያዎች ለመፍቀድ ቦታውን ባዶ ተው (ለምርት አይመከርም)።.",
         "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
       "ALLOW_MOBILE_WEBVIEW": {
@@ -1138,12 +1138,12 @@
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
-      "SMS": "SMS",
+      "SMS": "ኤስኤምኤስ",
       "EMAIL": "ኢሜል",
-      "TELEGRAM": "Telegram",
-      "LINE": "Line",
+      "TELEGRAM": "ቴሌግራም",
+      "LINE": "ላይን",
       "API": "API ቻናል",
-      "INSTAGRAM": "Instagram",
+      "INSTAGRAM": "ኢንስታግራም",
       "TIKTOK": "TikTok",
       "VOICE": "ድምጽ"
     }

@@ -2,37 +2,37 @@
   "REPORT": {
     "HEADER": "Conversations",
     "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "NO_ENOUGH_DATA": "Nismo prejeli dovolj podatkov za ustvarjanje poročila. Poskusite znova pozneje.",
     "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
-        "DESC": "( Total )"
+        "DESC": "(Skupaj)"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Messages received",
-        "DESC": "( Total )"
+        "DESC": "(Skupaj)"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Messages sent",
-        "DESC": "( Total )"
+        "DESC": "(Skupaj)"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
-        "DESC": "( Avg )",
+        "DESC": "(Povprečje)",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
+        "NAME": "Čas rešitve",
+        "DESC": "(Povprečje)",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
+        "NAME": "Število rešitev",
         "DESC": "( Total )"
       },
       "BOT_RESOLUTION_COUNT": {
