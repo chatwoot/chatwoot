@@ -1,9 +1,9 @@
 {
   "REPORT": {
     "HEADER": "संवादहरू",
-    "LOADING_CHART": "Loading chart data...",
+    "LOADING_CHART": "चार्ट डेटा लोड हुँदैछ...",
     "NO_ENOUGH_DATA": "रिपोर्ट बनाउन पर्याप्त डेटा बिन्दुहरू प्राप्त भएका छैनन्, कृपया पछि पुन: प्रयास गर्नुहोस्।",
-    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
+    "DOWNLOAD_CONVERSATION_REPORTS": "वार्तालाप रिपोर्टहरू डाउनलोड गर्नुहोस्",
     "DATA_FETCHING_FAILED": "डेटा ल्याउन असफल, कृपया पछि पुन: प्रयास गर्नुहोस्।",
     "SUMMARY_FETCHING_FAILED": "सारांश ल्याउन असफल, कृपया पछि पुन: प्रयास गर्नुहोस्।",
     "METRICS": {
@@ -40,7 +40,7 @@
         "DESC": "( कुल )"
       },
       "BOT_HANDOFF_COUNT": {
-        "NAME": "Handoff Count",
+        "NAME": "ह्यान्डअफ संख्या",
         "DESC": "( कुल )"
       },
       "REPLY_TIME": {
@@ -61,8 +61,8 @@
       "CUSTOM_DATE_RANGE": "अनुकूलित मिति दायरा"
     },
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "लागू गर्नुहोस्",
+      "PLACEHOLDER": "मिति दायरा छान्नुहोस्"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "समूह अनुसार",
     "DURATION_FILTER_LABEL": "अवधि",
@@ -118,7 +118,7 @@
     ],
     "BUSINESS_HOURS": "व्यावसायिक समय",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_FILTER": "फिल्टर हटाउनुहोस्",
       "EMPTY_LIST": "कुनै परिणाम फेला परेन"
     },
     "PAGINATION": {
@@ -129,13 +129,13 @@
   "AGENT_REPORTS": {
     "HEADER": "एजेन्टहरूको अवलोकन",
     "DESCRIPTION": "कुराकानीहरू, प्रतिक्रिया समयहरू, समाधान समयहरू, र समाधान भएका केसहरू जस्ता मुख्य मेट्रिक्सहरूसँग एजेन्ट प्रदर्शन सजिलै ट्र्याक गर्नुहोस्। थप जान्न एजेन्टको नाममा क्लिक गर्नुहोस्।",
-    "LOADING_CHART": "Loading chart data...",
+    "LOADING_CHART": "चार्ट डेटा लोड हुँदैछ...",
     "NO_ENOUGH_DATA": "रिपोर्ट बनाउन पर्याप्त डेटा बिन्दुहरू प्राप्त भएका छैनन्, कृपया पछि पुन: प्रयास गर्नुहोस्।",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "DOWNLOAD_AGENT_REPORTS": "एजेन्ट प्रतिवेदन डाउनलोड गर्नुहोस्",
+    "FILTER_DROPDOWN_LABEL": "एजेन्ट छान्नुहोस्",
     "FILTERS": {
       "INPUT_PLACEHOLDER": {
-        "AGENTS": "Search agents"
+        "AGENTS": "एजेन्ट खोज्नुहोस्"
       }
     },
     "METRICS": {
@@ -195,20 +195,20 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "लागू गर्नुहोस्",
+      "PLACEHOLDER": "मिति दायरा छान्नुहोस्"
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "लेबलहरूको संक्षिप्त विवरण",
     "DESCRIPTION": "मुख्य मेट्रिक्सहरू सहित लेबल प्रदर्शन ट्र्याक गर्नुहोस् जस्तै कुराकानीहरू, प्रतिक्रिया समयहरू, समाधान समयहरू, र समाधान भएका केसहरू। विस्तृत जानकारीका लागि लेबल नाममा क्लिक गर्नुहोस्।",
-    "LOADING_CHART": "Loading chart data...",
+    "LOADING_CHART": "चार्ट डेटा लोड हुँदैछ...",
     "NO_ENOUGH_DATA": "रिपोर्ट बनाउन पर्याप्त डेटा बिन्दुहरू प्राप्त भएका छैनन्, कृपया पछि पुन: प्रयास गर्नुहोस्।",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "DOWNLOAD_LABEL_REPORTS": "लेबल रिपोर्ट डाउनलोड गर्नुहोस्",
+    "FILTER_DROPDOWN_LABEL": "लेबल छान्नुहोस्",
     "FILTERS": {
       "INPUT_PLACEHOLDER": {
-        "LABELS": "Search labels"
+        "LABELS": "लेबल खोज्नुहोस्"
       }
     },
     "METRICS": {
@@ -268,22 +268,22 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "लागू गर्नुहोस्",
+      "PLACEHOLDER": "मिति दायरा छान्नुहोस्"
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
+    "HEADER": "इनबक्सको संक्षिप्त विवरण",
     "DESCRIPTION": "छिटो रूपमा तपाईंको इनबक्स प्रदर्शन हेर्नुहोस् मुख्य मेट्रिक्सहरू जस्तै कुराकानीहरू, प्रतिक्रिया समयहरू, समाधान समयहरू, र समाधान भएका केसहरू—all एउटै ठाउँमा। थप विवरणका लागि इनबक्स नाममा क्लिक गर्नुहोस्।",
-    "LOADING_CHART": "Loading chart data...",
+    "LOADING_CHART": "चार्ट डेटा लोड हुँदैछ...",
     "NO_ENOUGH_DATA": "रिपोर्ट बनाउन पर्याप्त डेटा बिन्दुहरू प्राप्त भएका छैनन्, कृपया पछि पुन: प्रयास गर्नुहोस्।",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
-    "ALL_INBOXES": "All Inboxes",
-    "SEARCH_INBOX": "Search Inbox",
+    "DOWNLOAD_INBOX_REPORTS": "इनबक्स रिपोर्ट डाउनलोड गर्नुहोस्",
+    "FILTER_DROPDOWN_LABEL": "इनबक्स छान्नुहोस्",
+    "ALL_INBOXES": "सबै इनबक्सहरू",
+    "SEARCH_INBOX": "इनबक्स खोज्नुहोस्",
     "FILTERS": {
       "INPUT_PLACEHOLDER": {
-        "INBOXES": "Search inboxes"
+        "INBOXES": "इनबक्स खोज्नुहोस्"
       }
     },
     "METRICS": {
@@ -343,23 +343,23 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "लागू गर्नुहोस्",
+      "PLACEHOLDER": "मिति दायरा छान्नुहोस्"
     }
   },
   "TEAM_REPORTS": {
     "HEADER": "टोली अवलोकन",
     "DESCRIPTION": "आवश्यक मेट्रिक्सहरूसहित तपाईंको टीमको प्रदर्शनको झलक पाउनुहोस्, जस्तै कुराकानीहरू, प्रतिक्रिया समयहरू, समाधान समयहरू, र समाधान भएका केसहरू। थप विवरणका लागि टीम नाममा क्लिक गर्नुहोस्।",
-    "LOADING_CHART": "Loading chart data...",
+    "LOADING_CHART": "चार्ट डेटा लोड हुँदैछ...",
     "NO_ENOUGH_DATA": "रिपोर्ट बनाउन पर्याप्त डेटा बिन्दुहरू प्राप्त भएका छैनन्, कृपया पछि पुन: प्रयास गर्नुहोस्।",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "DOWNLOAD_TEAM_REPORTS": "टोली प्रतिवेदन डाउनलोड गर्नुहोस्",
+    "FILTER_DROPDOWN_LABEL": "टोली छान्नुहोस्",
     "FILTERS": {
-      "ADD_FILTER": "Add filter",
-      "CLEAR_ALL": "Clear all",
+      "ADD_FILTER": "फिल्टर थप्नुहोस्",
+      "CLEAR_ALL": "सबै हटाउनुहोस्",
       "NO_FILTER": "फिल्टरहरू उपलब्ध छैनन्",
       "INPUT_PLACEHOLDER": {
-        "TEAMS": "Search teams"
+        "TEAMS": "टोली खोज्नुहोस्"
       }
     },
     "METRICS": {
@@ -419,49 +419,49 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "लागू गर्नुहोस्",
+      "PLACEHOLDER": "मिति दायरा छान्नुहोस्"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
+    "HEADER": "CSAT प्रतिवेदनहरू",
     "NO_RECORDS": "अझै कुनै प्रतिक्रिया छैन",
     "NO_RECORDS_DESCRIPTION": "ग्राहकहरूले प्रतिक्रिया दिन थालेपछि CSAT सर्वेक्षण प्रतिक्रियाहरू यहाँ देखिनेछन्।",
-    "DOWNLOAD": "Download CSAT Reports",
-    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "DOWNLOAD": "CSAT प्रतिवेदन डाउनलोड गर्नुहोस्",
+    "DOWNLOAD_FAILED": "CSAT प्रतिवेदन डाउनलोड गर्न असफल",
     "FILTERS": {
-      "ADD_FILTER": "Add filter",
-      "CLEAR_ALL": "Clear all",
+      "ADD_FILTER": "फिल्टर थप्नुहोस्",
+      "CLEAR_ALL": "सबै हटाउनुहोस्",
       "NO_FILTER": "फिल्टर उपलब्ध छैनन्",
       "INPUT_PLACEHOLDER": {
-        "AGENTS": "Search agents",
-        "INBOXES": "Search inboxes",
-        "TEAMS": "Search teams",
-        "RATINGS": "Search ratings"
+        "AGENTS": "एजेन्टहरू खोज्नुहोस्",
+        "INBOXES": "इनबक्सहरू खोज्नुहोस्",
+        "TEAMS": "टोलीहरू खोज्नुहोस्",
+        "RATINGS": "रेटिङहरू खोज्नुहोस्"
       },
       "AGENTS": {
         "LABEL": "एजेन्ट"
       },
       "INBOXES": {
-        "LABEL": "Inbox"
+        "LABEL": "इनबक्स"
       },
       "TEAMS": {
         "LABEL": "टोली"
       },
       "RATINGS": {
-        "LABEL": "Rating"
+        "LABEL": "रेटिङ"
       }
     },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "सम्पर्क",
         "AGENT_NAME": "एजेन्ट",
-        "RATING": "Rating",
+        "RATING": "मूल्याङ्कन",
         "FEEDBACK_TEXT": "प्रतिक्रिया टिप्पणी",
         "CONVERSATION": "संवाद",
         "CUSTOMER": "ग्राहक",
         "RESPONSE": "प्रतिक्रिया",
-        "HANDLED_BY": "Handled by"
+        "HANDLED_BY": "कसले ह्यान्डल गरे"
       },
       "UNKNOWN_CUSTOMER": "अज्ञात ग्राहक"
     },
@@ -480,33 +480,33 @@
         "LABEL": "प्रतिक्रिया दर",
         "TOOLTIP": "प्रतिक्रियाहरूको कुल संख्या / पठाइएका CSAT सर्वेक्षण सन्देशहरूको कुल संख्या * 100"
       },
-      "RATING_DISTRIBUTION": "Rating distribution"
+      "RATING_DISTRIBUTION": "रेटिङ वितरण"
     },
     "REVIEW_NOTES": {
       "TITLE": "समीक्षा नोटहरू",
-      "PLACEHOLDER": "Add review notes about this rating...",
+      "PLACEHOLDER": "यो रेटिङको समीक्षा नोटहरू थप्नुहोस्...",
       "SAVE": "सेभ गर्नुहोस्",
-      "CANCEL": "Cancel",
+      "CANCEL": "रद्द गर्नुहोस्",
       "SAVING": "सेभ हुँदैछ...",
       "SAVED": "नोटहरू सफलतापूर्वक सेभ गरियो",
       "SAVE_ERROR": "नोटहरू सेभ गर्न असफल",
       "UPDATED_BY": "Updated by {name} {time}",
-      "UPDATED_BY_LABEL": "Updated by",
+      "UPDATED_BY_LABEL": "अपडेट गर्ने",
       "PAYWALL": {
-        "TITLE": "Upgrade to add review notes",
+        "TITLE": "समीक्षा नोटहरू थप्न अपग्रेड गर्नुहोस्",
         "AVAILABLE_ON": "समीक्षा नोट्स सुविधा केवल बिजनेस र एंटरप्राइज योजनाहरूमा उपलब्ध छ।",
         "UPGRADE_PROMPT": "प्रत्येक CSAT प्रतिक्रियामा आन्तरिक सन्दर्भ समीक्षा नोट्ससँग थप्नुहोस्। साँच्चिकै के भयो समात्नुहोस्, ढाँचाहरू छिटो पत्ता लगाउनुहोस्, र तपाईंको प्रतिक्रिया बाट राम्रो निर्णयहरू लिनुहोस्।",
-        "UPGRADE_NOW": "Upgrade now",
+        "UPGRADE_NOW": "अहिले अपग्रेड गर्नुहोस्",
         "CANCEL_ANYTIME": "तपाईं आफ्नो योजना कहिले पनि परिवर्तन वा रद्द गर्न सक्नुहुन्छ"
       }
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
+    "HEADER": "बोट प्रतिवेदनहरू",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
         "LABEL": "संवाद संख्या",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "TOOLTIP": "बोटले सम्हालेका कुल संवादहरूको संख्या"
       },
       "TOTAL_RESPONSES": {
         "LABEL": "कुल प्रतिक्रिया",
@@ -514,11 +514,11 @@
       },
       "RESOLUTION_RATE": {
         "LABEL": "समाधान दर",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "TOOLTIP": "बोटले समाधान गरेका कुल संवाद / बोटले सम्हालेका कुल संवाद * १००"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "LABEL": "ह्यान्डअफ दर",
+        "TOOLTIP": "एजेन्टलाई हस्तान्तरण गरिएका कुल संवाद / बोटले सम्हालेका कुल संवाद * १००"
       }
     }
   },
@@ -527,33 +527,33 @@
     "LIVE": "प्रत्यक्ष",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "खुला कुराकानीहरू",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "LOADING_MESSAGE": "वार्ता मेट्रिक्स लोड हुँदैछ...",
       "OPEN": "खुला",
       "UNATTENDED": "नजरअन्दाज गरिएको",
       "UNASSIGNED": "असाइन गरिएको छैन",
-      "PENDING": "Pending"
+      "PENDING": "पेन्डिङ"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "संवाद ट्राफिक",
       "NO_CONVERSATIONS": "कुनै संवाद छैन",
       "CONVERSATION": "{count} कुराकानी",
       "CONVERSATIONS": "{count} कुराकानीहरू",
-      "DOWNLOAD_REPORT": "Download report"
+      "DOWNLOAD_REPORT": "रिपोर्ट डाउनलोड गर्नुहोस्"
     },
     "RESOLUTION_HEATMAP": {
       "HEADER": "समाधानहरू",
       "NO_CONVERSATIONS": "कुनै कुराकानी छैन",
       "CONVERSATION": "{count} कुराकानी",
       "CONVERSATIONS": "{count} कुराकानीहरू",
-      "DOWNLOAD_REPORT": "Download report"
+      "DOWNLOAD_REPORT": "रिपोर्ट डाउनलोड गर्नुहोस्"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "एजेन्टहरूद्वारा गरिएको कुराकानीहरू",
-      "LOADING_MESSAGE": "Loading agent metrics...",
+      "LOADING_MESSAGE": "एजेन्ट मेट्रिक्स लोड हुँदैछ...",
       "NO_AGENTS": "एजेन्टहरूद्वारा कुनै कुराकानी छैन",
       "TABLE_HEADER": {
         "AGENT": "एजेन्ट",
-        "OPEN": "Open",
+        "OPEN": "खुला",
         "UNATTENDED": "नजरअन्दाज गरिएको",
         "STATUS": "स्थिति"
       }
@@ -561,7 +561,7 @@
     "TEAM_CONVERSATIONS": {
       "ALL_TEAMS": "सबै टिमहरू",
       "HEADER": "टिमहरू अनुसार संवादहरू",
-      "LOADING_MESSAGE": "Loading team metrics...",
+      "LOADING_MESSAGE": "टिम मेट्रिक्स लोड हुँदैछ...",
       "NO_TEAMS": "कुनै डाटा उपलब्ध छैन",
       "TABLE_HEADER": {
         "TEAM": "टोली",
@@ -580,47 +580,47 @@
   "DAYS_OF_WEEK": {
     "SUNDAY": "आइतबार",
     "MONDAY": "सोमबार",
-    "TUESDAY": "Tuesday",
+    "TUESDAY": "मंगलबार",
     "WEDNESDAY": "बुधबार",
     "THURSDAY": "बिहीबार",
     "FRIDAY": "शुक्रबार",
     "SATURDAY": "शनिबार"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
+    "HEADER": "SLA प्रतिवेदनहरू",
     "NO_RECORDS": "SLA लागू गरिएका कुराकानीहरू उपलब्ध छैनन्।",
-    "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "LOADING": "SLA डेटा लोड हुँदैछ...",
+    "DOWNLOAD_SLA_REPORTS": "SLA रिपोर्टहरू डाउनलोड गर्नुहोस्",
+    "DOWNLOAD_FAILED": "SLA रिपोर्टहरू डाउनलोड गर्न असफल",
     "DROPDOWN": {
-      "ADD_FIlTER": "Add filter",
-      "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
+      "ADD_FIlTER": "फिल्टर थप्नुहोस्",
+      "CLEAR_ALL": "सबै हटाउनुहोस्",
+      "CLEAR_FILTER": "फिल्टर हटाउनुहोस्",
       "EMPTY_LIST": "कुनै परिणाम फेला परेन",
       "NO_FILTER": "कुनै फिल्टर उपलब्ध छैन",
-      "SEARCH": "Search filter",
+      "SEARCH": "फिल्टर खोज्नुहोस्",
       "INPUT_PLACEHOLDER": {
         "SLA": "SLA नाम",
         "AGENTS": "एजेन्ट नाम",
-        "INBOXES": "Inbox name",
+        "INBOXES": "इनबक्स नाम",
         "LABELS": "लेबल नाम",
         "TEAMS": "टोलीको नाम"
       },
       "SLA": "SLA नीति",
-      "INBOXES": "Inbox",
+      "INBOXES": "इनबक्स",
       "AGENTS": "एजेन्ट",
       "LABELS": "लेबल",
       "TEAMS": "टोली"
     },
-    "WITH": "with",
+    "WITH": "संग",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "हिट दर",
-        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+        "TOOLTIP": "बनाइएका SLA हरू सफलतापूर्वक पूरा भएको प्रतिशत"
       },
       "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
-        "TOOLTIP": "Total SLA misses in a certain period"
+        "LABEL": "मिस भएको संख्या",
+        "TOOLTIP": "एक निश्चित अवधिमा कुल SLA मिस"
       },
       "NO_OF_CONVERSATIONS": {
         "LABEL": "संवादहरूको संख्या",
@@ -633,11 +633,11 @@
         "CONVERSATION": "संवाद",
         "AGENT": "एजेन्ट"
       },
-      "VIEW_DETAILS": "View Details"
+      "VIEW_DETAILS": "विवरण हेर्नुहोस्"
     }
   },
   "SUMMARY_REPORTS": {
-    "INBOX": "Inbox",
+    "INBOX": "इनबक्स",
     "AGENT": "एजेन्ट",
     "TEAM": "टोली",
     "LABEL": "लेबल",

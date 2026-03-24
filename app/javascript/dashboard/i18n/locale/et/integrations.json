@@ -3,18 +3,18 @@
     "SHOPIFY": {
       "HEADER": "Shopify",
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "Kustuta Shopify integratsioon",
+        "MESSAGE": "Kas oled kindel, et soovid Shopify integratsiooni kustutada?"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
-        "LABEL": "Store URL",
+        "TITLE": "Ühenda Shopify pood",
+        "LABEL": "Poekeskkonna URL",
         "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
-        "CANCEL": "Cancel",
-        "SUBMIT": "Connect Store"
+        "HELP": "Sisesta oma Shopify poe myshopify.com URL",
+        "CANCEL": "Tühista",
+        "SUBMIT": "Ühenda pood"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "Shopifyga ühendamisel tekkis viga. Palun proovi uuesti või võta ühendust klienditoega, kui probleem püsib."
     },
     "HEADER": "Integratsioonid",
     "DESCRIPTION": "Chatwoot integreerub mitmete tööriistade ja teenustega, et parandada teie meeskonna efektiivsust. Uuri allolevat nimekirja, et seadistada oma lemmikrakendused.",
@@ -56,8 +56,8 @@
             "WEBWIDGET_TRIGGERED": "Kasutaja avas reaalajas vestluse vidina",
             "CONTACT_CREATED": "Kontakt loodud",
             "CONTACT_UPDATED": "Kontakt uuendatud",
-            "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_TYPING_ON": "Vestluses kirjutamise alustamine",
+            "CONVERSATION_TYPING_OFF": "Vestluses kirjutamise lõpetamine"
           }
         },
         "NAME": {
@@ -72,7 +72,7 @@
         "EDIT_SUBMIT": "Uuenda webhooki",
         "ADD_SUBMIT": "Loo webhook"
       },
-      "TITLE": "Webhook",
+      "TITLE": "Veebikonks",
       "CONFIGURE": "Seadista",
       "HEADER": "Webhooki sätted",
       "HEADER_BTN_TXT": "Lisa uus webhook",
@@ -126,7 +126,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Kuidas kasutada Slack integratsiooni?",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "Selle integratsiooni abil sünkroonitakse kõik teie saabuvad vestlused Slacki tööruumi kanali ***{selectedChannelName}*** alla. Saate hallata kõiki kliendivestlusi otse selles kanalis ega jää kunagi sõnumist ilma.\n\nPeamised integratsiooni funktsioonid on järgmised:\n\n**Vastake vestlustele otse Slackis:** Vestlusele vastamiseks kanalis ***{selectedChannelName}*** tippige lihtsalt oma sõnum ja saatke see lõimena. See saadab vastuse kliendile Chatwooti kaudu. Nii lihtne see ongi!\n\n**Looge privaatmärkmeid:** Kui soovite vastuste asemel luua privaatseid märkmeid, alustage oma sõnumit ***`note:`***-ga. See tagab, et teie sõnum jääb privaatseks ega ole kliendi jaoks nähtav.\n\n**Seostage agendi profiil:** Kui Slackis vastanud isikul on Chatwootis sama e-posti aadressiga agendi profiil, seostatakse vastused automaatselt selle profiiliga. Nii saate hõlpsasti jälgida, kes mida ja millal ütles. Kui vastajal puudub seotud agendi profiil, kuvatakse vastused kliendile boti profiililt.",
         "SELECTED": "valitud"
       },
       "SELECT_CHANNEL": {
@@ -364,7 +364,7 @@
         "SUCCESS": "Probleem edukalt lahti ühendatud",
         "ERROR": "Probleemi lahtiühendamisel tekkis viga, palun proovi uuesti"
       },
-      "NO_LINKED_ISSUES": "No linked issues found",
+      "NO_LINKED_ISSUES": "Seotud probleeme ei leitud",
       "DELETE": {
         "TITLE": "Kas olete kindel, et soovite integratsiooni kustutada?",
         "MESSAGE": "Kas olete kindel, et soovite integratsiooni kustutada?",
@@ -372,19 +372,19 @@
         "CANCEL": "Tühista"
       },
       "CTA": {
-        "TITLE": "Connect to Linear",
-        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
-        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
-        "BUTTON_TEXT": "Connect Linear workspace"
+        "TITLE": "Ühenda Lineariga",
+        "AGENT_DESCRIPTION": "Linear töökeskkond pole ühendatud. Palu administraatoril töökeskkond ühendada, et seda integratsiooni kasutada.",
+        "DESCRIPTION": "Linear töökeskkond pole ühendatud. Ühenda oma töökeskkond selle integratsiooni kasutamiseks, vajutades allolevat nuppu.",
+        "BUTTON_TEXT": "Ühenda Linear workspace"
       }
     },
     "NOTION": {
       "HEADER": "Notion",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
-        "CONFIRM": "Yes, delete",
-        "CANCEL": "Cancel"
+        "TITLE": "Kas oled kindel, et soovid Notioni integratsiooni kustutada?",
+        "MESSAGE": "Integratsiooni kustutamine eemaldab juurdepääsu sinu Notioni workspace'ile ja peatab kõik seotud funktsioonid.",
+        "CONFIRM": "Jah, kustuta",
+        "CANCEL": "Tühista"
       }
     }
   },
@@ -398,48 +398,48 @@
       "EMPTY_LIST": "No assistants found, please create one to get started"
     },
     "COPILOT": {
-      "TITLE": "Copilot",
-      "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "TITLE": "Kaaslane",
+      "TRY_THESE_PROMPTS": "Proovi neid soovitusi",
+      "PANEL_TITLE": "Alusta Copilotiga",
+      "KICK_OFF_MESSAGE": "Vajad kiiret kokkuvõtet, soovid vaadata varasemaid vestlusi või koostada paremat vastust? Copilot aitab sul asju kiiremini teha.",
       "SEND_MESSAGE": "Saada sõnum...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
+      "EMPTY_MESSAGE": "Vastus ei õnnestunud genereerida. Palun proovi uuesti.",
       "LOADER": "Captain mõtleb",
       "YOU": "Sina",
       "USE": "Kasuta seda",
       "RESET": "Lähtesta",
-      "SHOW_STEPS": "Show steps",
+      "SHOW_STEPS": "Näita samme",
       "SELECT_ASSISTANT": "Vali assistent",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Kokkuvõte vestlusest",
+          "CONTENT": "Võta kokku kliendi ja klienditoe vahel arutatud peamised punktid, sealhulgas kliendi mured, küsimused ning klienditoe pakutud lahendused või vastused."
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Paku vastust",
+          "CONTENT": "Analüüsi kliendi päringut ja koostage vastus, mis lahendab tema mured või küsimused. Veendu, et vastus oleks selge, lühike ja abistav."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Hinda vestlust",
+          "CONTENT": "Vaata vestlust üle, et hinnata, kui hästi see vastab kliendi vajadustele. Anna hinnang viiepallisüsteemis, arvestades tooni, selgust ja tulemuslikkust."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "Kõrge prioriteediga vestlused",
+          "CONTENT": "Koosta kokkuvõte kõigist kõrge prioriteediga avatud vestlustest. Lisa vestluse ID, kliendi nimi (kui on), viimase sõnumi sisu ja määratud agent. Vajadusel grupeerida staatuse järgi."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "Kuva kontaktid",
+          "CONTENT": "Näita mulle 10 parima kontakti nimekirja. Lisa nimi, e-post või telefoninumber (kui on), viimane nähtud aeg, sildid (kui on)."
         }
       }
     },
     "PLAYGROUND": {
-      "USER": "You",
-      "ASSISTANT": "Assistant",
-      "MESSAGE_PLACEHOLDER": "Type your message...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "USER": "Sina",
+      "ASSISTANT": "Assistent",
+      "MESSAGE_PLACEHOLDER": "Sisesta oma sõnum...",
+      "HEADER": "Mänguväljak",
+      "DESCRIPTION": "Kasuta seda mänguväljakut, et saata assistendile sõnumeid ja kontrollida, kas ta vastab täpselt, kiiresti ja soovitud tooniga.",
+      "CREDIT_NOTE": "Siin saadetud sõnumid arvestatakse Captaini krediitide hulka."
     },
     "PAYWALL": {
       "TITLE": "Uuenda, et kasutada Captain AI-d",
@@ -464,7 +464,7 @@
     },
     "ASSISTANTS": {
       "HEADER": "Abilised",
-      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
+      "NO_ASSISTANTS_AVAILABLE": "Sinu kontol pole ühtegi assistenti saadaval.",
       "ADD_NEW": "Loo uus abiline",
       "DELETE": {
         "TITLE": "Kas oled kindel, et soovid abilise kustutada?",
@@ -480,48 +480,48 @@
         "ERROR_MESSAGE": "Abilise loomisel tekkis viga, palun proovi uuesti."
       },
       "FORM": {
-        "UPDATE": "Update",
+        "UPDATE": "Uuenda",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
-          "FEATURES": "Features",
-          "TOOLS": "Tools "
+          "BASIC_INFO": "Põhiandmed",
+          "SYSTEM_MESSAGES": "Süsteemisõnumid",
+          "INSTRUCTIONS": "Juhised",
+          "FEATURES": "Funktsioonid",
+          "TOOLS": "Tööriistad "
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "LABEL": "Nimi",
+          "PLACEHOLDER": "Sisesta assistendi nimi",
+          "ERROR": "Nimi on kohustuslik"
         },
         "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
+          "LABEL": "Vastuse loovus",
+          "DESCRIPTION": "Reguleeri, kui loomingulised või piiratud peaksid assistendi vastused olema. Madalam väärtus annab täpsemaid ja ennustatavamaid vastuseid, kõrgem väärtus võimaldab loomingulisemaid ja mitmekesisemaid tulemusi."
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter assistant description",
-          "ERROR": "The description is required"
+          "LABEL": "Kirjeldus",
+          "PLACEHOLDER": "Sisesta assistendi kirjeldus",
+          "ERROR": "Kirjeldus on kohustuslik"
         },
         "PRODUCT_NAME": {
           "LABEL": "Toote nimi",
-          "PLACEHOLDER": "Enter product name",
-          "ERROR": "The product name is required"
+          "PLACEHOLDER": "Sisesta toote nimi",
+          "ERROR": "Tootenimi on kohustuslik"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "Tervitussõnum",
+          "PLACEHOLDER": "Sisesta tervitussõnum"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "Üleandmise sõnum",
+          "PLACEHOLDER": "Sisesta üleandmise sõnum"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "Lahenduse sõnum",
+          "PLACEHOLDER": "Sisesta lahenduse sõnum"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "LABEL": "Juhised",
+          "PLACEHOLDER": "Sisesta assistendile juhised"
         },
         "FEATURES": {
           "TITLE": "Funktsioonid",
@@ -535,29 +535,29 @@
         "TITLE": "Uuenda abilist",
         "SUCCESS_MESSAGE": "Abiline on edukalt uuendatud",
         "ERROR_MESSAGE": "Abilise uuendamisel tekkis viga, palun proovi uuesti.",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "NOT_FOUND": "Assistenti ei leitud. Palun proovi uuesti."
       },
       "SETTINGS": {
         "HEADER": "Settings",
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "Põhiseaded",
+          "DESCRIPTION": "Kohanda, mida assistent ütleb vestluse lõpetamisel või inimesele suunamisel."
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "Süsteemiseaded",
+          "DESCRIPTION": "Kohanda, mida assistent ütleb vestluse lõpetamisel või inimesele suunamisel."
         },
         "CONTROL_ITEMS": {
-          "TITLE": "The Fun Stuff",
-          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "TITLE": "Lõbusad valikud",
+          "DESCRIPTION": "Lisa assistendile rohkem kontrolli. (Visuaalsem, nagu lugu: Päringu piirang → stsenaariumid → väljund) Suunab kasutajat neid tegelikult kasutama.",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Guardrails",
-              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+              "TITLE": "Piirangud",
+              "DESCRIPTION": "Hoiab fookust—assistent vastab ainult soovitud küsimustele, kõik muu on välistatud."
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "TITLE": "Vastamisjuhised",
+              "DESCRIPTION": "Assistentide vastuste stiil ja ülesehitus—selge ja sõbralik? Lühike ja konkreetne? Põhjalik ja ametlik?"
             }
           }
         },
@@ -581,52 +581,52 @@
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "TITLE": "Piirangud",
+        "DESCRIPTION": "Hoiab fookust – assistent vastab ainult soovitud küsimustele, mitte kõrvalistele ega keelatud teemadele.",
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
           "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "BULK_DELETE_BUTTON": "Kustuta"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "TITLE": "Näidispiirangud",
+            "ADD": "Lisa kõik",
+            "ADD_SINGLE": "Lisa see",
+            "SAVE": "Lisa ja salvesta (↵)",
+            "PLACEHOLDER": "Sisesta veel üks piirang..."
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
-            "CREATE": "Create",
-            "CANCEL": "Cancel",
-            "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "TITLE": "Lisa piirang",
+            "CREATE": "Loo",
+            "CANCEL": "Tühista",
+            "PLACEHOLDER": "Sisesta veel üks piirang...",
+            "TEST_ALL": "Testi kõiki"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Otsi..."
         },
-        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
+        "EMPTY_MESSAGE": "Piiranguid ei leitud. Alustamiseks loo või lisa näiteid.",
         "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "Piirangud lisatud edukalt",
+            "ERROR": "Piirangute lisamisel tekkis viga, proovi uuesti."
           },
           "UPDATE": {
-            "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "SUCCESS": "Reeglid on edukalt uuendatud",
+            "ERROR": "Reeglite uuendamisel tekkis viga, palun proovi uuesti."
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "SUCCESS": "Reeglid on edukalt kustutatud",
+            "ERROR": "Reeglite kustutamisel tekkis viga, palun proovi uuesti."
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
+        "TITLE": "Vastamise juhised",
         "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
@@ -788,7 +788,7 @@
         "SUBTITLE": "Dokumente kasutab teie assistent KKK-de genereerimiseks. Saate dokumente importida, et pakkuda assistendile konteksti.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "NOTE": "Dokument Captainis on abimehe teadmiste allikas. Ühendades oma abikeskuse või juhendid, saab Captain sisu analüüsida ja pakkuda täpseid vastuseid kliendipäringutele."
         }
       }
     },
@@ -982,8 +982,8 @@
         "SUBTITLE": "KKK-d aitavad teie assistendil pakkuda klientide küsimustele kiireid ja täpseid vastuseid. Neid saab automaatselt teie sisu põhjal genereerida või käsitsi lisada.",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "TITLE": "Captain KKK",
+          "NOTE": "Captain KKK tuvastab levinud kliendiküsimused—nii need, mis puuduvad teadmistebaasist kui ka korduma kippuvad—ja loob asjakohased KKK-d toe parandamiseks. Saad iga ettepaneku üle vaadata ja otsustada, kas see kinnitada või tagasi lükata."
         }
       }
     },

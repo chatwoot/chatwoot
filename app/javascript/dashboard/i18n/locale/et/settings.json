@@ -4,7 +4,7 @@
     "TITLE": "Profiili seaded",
     "BTN_TEXT": "Uuenda profiili",
     "DELETE_AVATAR": "Kustuta avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
+    "AVATAR_DELETE_SUCCESS": "Avatar on edukalt kustutatud",
     "AVATAR_DELETE_FAILED": "Avatari kustutamisel tekkis viga, palun proovi uuesti",
     "UPDATE_SUCCESS": "Teie profiil on edukalt uuendatud",
     "PASSWORD_UPDATE_SUCCESS": "Teie parool on edukalt muudetud",
@@ -18,7 +18,7 @@
       "UPDATE_IMAGE": "Uuenda pilti",
       "PROFILE_SECTION": {
         "TITLE": "Profiil",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "NOTE": "Sinu e-posti aadress on sinu identiteet ja seda kasutatakse sisselogimiseks."
       },
       "SEND_MESSAGE": {
         "TITLE": "Kiirklahv sõnumite saatmiseks",
@@ -27,17 +27,17 @@
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Sisesta (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "Saada sõnum Enter-klahviga, mitte saatmisnuppu vajutades."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "Sõnumite saatmine Cmd/Ctrl + Enter klahviga, mitte saatmisnuppu vajutades."
           }
         }
       },
       "INTERFACE_SECTION": {
         "TITLE": "Liides",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Kohanda Chatwoot juhtpaneeli välimust ja kasutuskogemust.",
         "FONT_SIZE": {
           "TITLE": "Fondi suurus",
           "NOTE": "Reguleeri teksti suurust kogu armatuurlaual vastavalt oma eelistustele.",
@@ -77,7 +77,7 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Parool",
-        "NOTE": "Updating your password would reset your logins in multiple devices.",
+        "NOTE": "Parooli uuendamine logib sind välja kõigis seadmetes.",
         "BTN_TEXT": "Muuda parooli"
       },
       "SECURITY_SECTION": {
@@ -86,8 +86,8 @@
         "MFA_BUTTON": "Manage Two-Factor Authentication"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration",
+        "TITLE": "Juurdepääsu token",
+        "NOTE": "Seda tokenit saab kasutada API-põhise integratsiooni loomisel.",
         "COPY": "Kopeeri",
         "RESET": "Lähtesta",
         "CONFIRM_RESET": "Oled kindel?",
@@ -128,29 +128,29 @@
         },
         "CONDITIONS": {
           "TITLE": "Hoiatusseisundid:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_ONE": "Helimärguanded ainult siis, kui brauseri aken pole aktiivne",
           "CONDITION_TWO": "Saada teavitusi iga 30 sekundi järel, kuni kõik määratud vestlused on loetud"
         },
         "SOUND_PERMISSION_ERROR": "Automaatsel mängimisel on sinu brauseris keelatud. Et kuulda teavitusi automaatselt, luba heliõigused brauseri seadetes või suhtle lehega.",
         "READ_MORE": "Loe rohkem"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "TITLE": "E-posti teavitused",
+        "NOTE": "Muuda siin oma e-posti teavituste eelistusi",
+        "CONVERSATION_ASSIGNMENT": "Saada e-posti teavitus, kui mulle määratakse vestlus",
+        "CONVERSATION_CREATION": "Saada e-posti teavitus, kui luuakse uus vestlus",
+        "CONVERSATION_MENTION": "Saada e-kirjaga teavitus, kui sind vestluses mainitakse",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Saada e-kirjaga teavitus, kui määratud vestlusesse lisatakse uus sõnum",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Saada e-posti teavitus, kui osalevas vestluses luuakse uus sõnum",
+        "SLA_MISSED_FIRST_RESPONSE": "Saada e-kiri, kui vestlusel jääb esimese vastuse SLA täitmata",
+        "SLA_MISSED_NEXT_RESPONSE": "Saada e-kiri, kui vestlusel jääb järgmise vastuse SLA täitmata",
+        "SLA_MISSED_RESOLUTION": "Saada e-kiri, kui vestlusel jääb lahenduse SLA täitmata"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
+        "TITLE": "Teavituste eelistused",
+        "TYPE_TITLE": "Teavituse tüüp",
         "EMAIL": "E-post",
-        "PUSH": "Push notification",
+        "PUSH": "Push-teavitus",
         "TYPES": {
           "CONVERSATION_CREATED": "Luuakse uus vestlus",
           "CONVERSATION_ASSIGNED": "Vestlus määratakse sulle",
@@ -161,25 +161,25 @@
           "SLA_MISSED_NEXT_RESPONSE": "Vestlus ei vasta järgmisele SLA vastusele",
           "SLA_MISSED_RESOLUTION": "Vestlus ei vasta lahenduse SLA nõuetele"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Luba brauseri tõuketeavitused, et neid vastu võtta"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
+        "UPDATE_SUCCESS": "Teavituste eelistused on edukalt uuendatud",
         "UPDATE_ERROR": "Eelistuste uuendamisel tekkis viga, palun proovige uuesti"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "TITLE": "Push-teavitused",
+        "NOTE": "Muuda siin oma tõukemärguannete eelistusi",
+        "CONVERSATION_ASSIGNMENT": "Saada tõukemärguanne, kui vestlus määratakse mulle",
+        "CONVERSATION_CREATION": "Saada tõukemärguanne, kui luuakse uus vestlus",
+        "CONVERSATION_MENTION": "Saada tõuketeavitusi, kui sind vestluses mainitakse",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Saada tõukemärguanne, kui määratud vestlusesse lisatakse uus sõnum",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Saada push-teavitus, kui osalevas vestluses luuakse uus sõnum",
+        "HAS_ENABLED_PUSH": "Tõukemärguanded on selles brauseris lubatud.",
+        "REQUEST_PUSH": "Luba tõukemärguanded",
+        "SLA_MISSED_FIRST_RESPONSE": "Saada push-teavitus, kui vestlusel jääb esimese vastuse SLA täitmata",
+        "SLA_MISSED_NEXT_RESPONSE": "Saada push-teavitus, kui vestlusel jääb järgmise vastuse SLA täitmata",
+        "SLA_MISSED_RESOLUTION": "Saada push-teavitus, kui vestlusel jääb lahenduse SLA täitmata"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profiilipilt"
@@ -237,7 +237,7 @@
     "YEAR_IN_REVIEW": "Aasta ülevaade",
     "KEYBOARD_SHORTCUTS": "Klaviatuuri otseteed",
     "APPEARANCE": "Muuda välimust",
-    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmini konsool",
     "DOCS": "Loe dokumentatsiooni",
     "CHANGELOG": "Muudatuste logi",
     "LOGOUT": "Logi välja"
@@ -263,7 +263,7 @@
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopeeri",
-      "CODEPEN": "Open in CodePen",
+      "CODEPEN": "Ava CodePenis",
       "COPY_SUCCESSFUL": "Kopeeritud lõikelauale"
     },
     "SHOW_MORE_BLOCK": {
@@ -321,10 +321,10 @@
     "CAPTAIN_SETTINGS": "Seaded",
     "HOME": "Avaleht",
     "AGENTS": "Agendid",
-    "AGENT_BOTS": "Bots",
-    "AUDIT_LOGS": "Audit Logs",
+    "AGENT_BOTS": "Botid",
+    "AUDIT_LOGS": "Auditilogid",
     "INBOXES": "Postkastid",
-    "NOTIFICATIONS": "Notifications",
+    "NOTIFICATIONS": "Teavitused",
     "CANNED_RESPONSES": "Eelmääratud vastused",
     "INTEGRATIONS": "Integratsioonid",
     "PROFILE_SETTINGS": "Profiili seaded",
@@ -337,7 +337,7 @@
     "TEAMS": "Meeskonnad",
     "BILLING": "Arveldamine",
     "CUSTOM_VIEWS_FOLDER": "Kaustad",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmendid",
     "ALL_CONTACTS": "Kõik kontaktid",
     "TAGGED_WITH": "Sildistatud",
     "NEW_LABEL": "Uus silt",
@@ -438,7 +438,7 @@
       "TITLE": "Praegune plaan",
       "PLAN_NOTE": "Oled hetkel tellinud **{plan}** plaani **{quantity}** litsentsiga",
       "SEAT_COUNT": "Istmete arv",
-      "RENEWS_ON": "Renews on"
+      "RENEWS_ON": "Uueneb kuupäeval"
     },
     "VIEW_PRICING": "Vaata hindu",
     "MANAGE_SUBSCRIPTION": {
@@ -448,7 +448,7 @@
     },
     "CAPTAIN": {
       "TITLE": "Kapten",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "DESCRIPTION": "Halda Captain AI kasutust ja krediite.",
       "BUTTON_TXT": "Osta rohkem krediite",
       "DOCUMENTS": "Dokumendid",
       "RESPONSES": "Responses",
@@ -610,7 +610,7 @@
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Oih! Ühtegi Chatwoot kontot ei leitud. Jätkamiseks loo uus konto.",
     "NEW_ACCOUNT": "Uus konto",
     "SELECTOR_SUBTITLE": "Loo uus konto",
     "API": {
