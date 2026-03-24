@@ -201,15 +201,13 @@ const toggleAutoResolve = async () => {
         :help-message="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.HELP')"
       >
         <TextArea
-          v-if="!splitReasons"
-          v-model="message"
-          class="w-full"
-          :placeholder="
-            t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.PLACEHOLDER')
-          "
-        />
+        v-if="!splitReasons"
+        v-model="message"
+        class="w-full"
+        :placeholder="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.PLACEHOLDER')"
+      />
 
-        <div v-if="splitReasons" class="flex flex-col gap-4 w-full mt-3">
+      <div v-if="splitReasons" class="flex flex-col gap-4 w-full mt-3">
           <div class="flex flex-col gap-1">
             <span class="text-sm font-medium text-n-slate-12">
               {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.AGENT_LABEL') }}
@@ -217,11 +215,7 @@ const toggleAutoResolve = async () => {
             <TextArea
               v-model="messageAgent"
               class="w-full"
-              :placeholder="
-                t(
-                  'GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.AGENT.PLACEHOLDER'
-                )
-              "
+              :placeholder="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.AGENT.PLACEHOLDER')"
             />
           </div>
 
@@ -232,11 +226,7 @@ const toggleAutoResolve = async () => {
             <TextArea
               v-model="messageClient"
               class="w-full"
-              :placeholder="
-                t(
-                  'GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.CLIENT.PLACEHOLDER'
-                )
-              "
+              :placeholder="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.CLIENT.PLACEHOLDER')"
             />
           </div>
         </div>

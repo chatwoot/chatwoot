@@ -374,6 +374,16 @@
         "ERROR_MESSAGE": "Terjadi kesalahan saat menghapus artikel"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "Harap tambahkan tajuk artikel dan konten maka hanya Anda yang dapat memperbarui pengaturan"
     },

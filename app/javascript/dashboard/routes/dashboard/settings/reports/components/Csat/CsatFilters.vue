@@ -22,6 +22,17 @@ const emit = defineEmits(['filterChange']);
 
 const { t } = useI18n();
 const store = useStore();
+const route = useRoute();
+const router = useRouter();
+
+// Initialize from URL params immediately
+const urlParams = parseReportURLParams(route.query);
+const urlFilters = parseFilterURLParams(route.query);
+
+const initialDateRange =
+  urlParams.from && urlParams.to
+    ? [fromUnixTime(urlParams.from), fromUnixTime(urlParams.to)]
+    : [subDays(new Date(), 6), new Date()];
 
 const showDropdownMenu = ref(false);
 const from = ref(0);
@@ -174,6 +185,7 @@ const hasActiveFilters = computed(() =>
 );
 
 const emitChange = () => {
+  updateURLParams();
   emit('filterChange', {
     from: from.value,
     to: to.value,

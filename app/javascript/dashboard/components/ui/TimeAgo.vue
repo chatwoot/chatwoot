@@ -24,6 +24,10 @@ export default {
       type: [String, Date, Number],
       default: '',
     },
+    conversationId: {
+      type: [String, Number],
+      default: '',
+    },
   },
   data() {
     return {
@@ -65,6 +69,15 @@ export default {
   watch: {
     createdAtTimestamp() {
       this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
+    },
+    conversationId() {
+      // Reset display values and timer when the row is recycled to a different conversation.
+      this.lastActivityAtTimeAgo = dynamicTime(this.lastActivityTimestamp);
+      this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
+      if (this.isAutoRefreshEnabled) {
+        clearTimeout(this.timer);
+        this.createTimer();
+      }
     },
   },
   mounted() {
@@ -126,7 +139,6 @@ export default {
     v-tooltip.top="{
       content: tooltipText,
       delay: { show: 1000, hide: 0 },
-      hideOnClick: true,
     }"
     class="ml-auto leading-4 text-xs text-n-slate-10 hover:text-n-slate-11"
   >

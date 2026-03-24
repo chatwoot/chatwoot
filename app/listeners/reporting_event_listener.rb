@@ -72,6 +72,7 @@ class ReportingEventListener < BaseListener
 
   def conversation_bot_handoff(event)
     conversation = extract_conversation_and_account(event)[0]
+    event_end_time = event.timestamp
 
     service = bot_service(conversation)
     return if service.bot_handoff_event_exists?
@@ -86,8 +87,8 @@ class ReportingEventListener < BaseListener
     last_resolved_event = service.find_last_resolved_event
 
     if last_resolved_event
-      time_since_resolved = conversation.updated_at.to_i - last_resolved_event.event_end_time.to_i
-      business_hours_value = business_hours(conversation.inbox, last_resolved_event.event_end_time, conversation.updated_at)
+      time_since_resolved = event_end_time.to_i - last_resolved_event.event_end_time.to_i
+      business_hours_value = business_hours(conversation.inbox, last_resolved_event.event_end_time, event_end_time)
       start_time = last_resolved_event.event_end_time
     else
       time_since_resolved = 0

@@ -17,7 +17,7 @@ export default {
     BotMetrics,
     BotSummaryTable,
     ReportHeader,
-    ReportFilterSelector,
+    ReportFilters,
     ReportContainer,
     DownloadDropdown,
   },

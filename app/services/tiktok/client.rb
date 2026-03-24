@@ -3,7 +3,7 @@ class Tiktok::Client
   pattr_initialize [:business_id!, :access_token!]
 
   def business_account_details
-    endpoint = 'https://business-api.tiktok.com/open_api/v1.3/business/get/'
+    endpoint = "#{api_base_url}/business/get/"
     headers = { 'Access-Token': access_token }
     params = { business_id: business_id, fields: %w[username display_name profile_image].to_s }
     response = HTTParty.get(endpoint, query: params, headers: headers)
@@ -17,7 +17,7 @@ class Tiktok::Client
   end
 
   def file_download_url(conversation_id, message_id, media_id, media_type = 'IMAGE')
-    endpoint = 'https://business-api.tiktok.com/open_api/v1.3/business/message/media/download/'
+    endpoint = "#{api_base_url}/business/message/media/download/"
     headers = { 'Access-Token': access_token, 'Content-Type': 'application/json', Accept: 'application/json' }
     body = { business_id: business_id,
              conversation_id: conversation_id,
@@ -45,7 +45,7 @@ class Tiktok::Client
 
   def send_message(conversation_id, type, payload, referenced_message_id: nil)
     # https://business-api.tiktok.com/portal/docs?id=1832184403754242
-    endpoint ='https://business-api.tiktok.com/open_api/v1.3/business/message/send/'
+    endpoint = "#{api_base_url}/business/message/send/"
     headers = { 'Access-Token': access_token, 'Content-Type': 'application/json' }
     body = {
       business_id: business_id,
@@ -70,7 +70,7 @@ class Tiktok::Client
   end
 
   def upload_media(file, media_type = 'IMAGE')
-    endpoint = 'https://business-api.tiktok.com/open_api/v1.3/business/message/media/upload/'
+    endpoint = "#{api_base_url}/business/message/media/upload/"
     headers = { 'Access-Token': access_token, 'Content-Type': 'multipart/form-data' }
 
     file.open do |temp_file|
@@ -84,6 +84,10 @@ class Tiktok::Client
       json = process_json_response(response, 'Failed to upload TikTok media')
       json['data']['media_id']
     end
+  end
+
+  def api_base_url
+    "https://business-api.tiktok.com/open_api/#{GlobalConfigService.load('TIKTOK_API_VERSION', 'v1.3')}"
   end
 
   def process_json_response(response, error_prefix)

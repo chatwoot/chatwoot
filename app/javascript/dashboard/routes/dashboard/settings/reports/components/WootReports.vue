@@ -1,11 +1,10 @@
 <script>
 import V4Button from 'dashboard/components-next/button/Button.vue';
-import { useAlert, useTrack } from 'dashboard/composables';
+import { useAlert } from 'dashboard/composables';
 import ReportFilters from './ReportFilters.vue';
 import ReportContainer from '../ReportContainer.vue';
 import { GROUP_BY_FILTER } from '../constants';
 import { generateFileName } from '../../../../../helper/downloadHelper';
-import { REPORTS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 import ReportHeader from './ReportHeader.vue';
 
 const GROUP_BY_OPTIONS = {
@@ -70,12 +69,19 @@ export default {
       to: 0,
       selectedFilter: this.selectedItem,
       groupBy: GROUP_BY_FILTER[1],
-      groupByfilterItemsList: GROUP_BY_OPTIONS.DAY.map(this.translateOptions),
-      selectedGroupByFilter: null,
       businessHours: false,
     };
   },
   computed: {
+    filterType() {
+      const pluralMap = {
+        agent: 'agents',
+        team: 'teams',
+        inbox: 'inboxes',
+        label: 'labels',
+      };
+      return pluralMap[this.type] || this.type;
+    },
     filterItemsList() {
       return this.$store.getters[this.getterKey] || [];
     },
@@ -159,27 +165,13 @@ export default {
 
       this.from = from;
       this.to = to;
-      this.groupByfilterItemsList = this.fetchFilterItems(groupBy);
-      const filterItems = this.groupByfilterItemsList.filter(
-        item => item.id === this.groupBy.id
-      );
-      if (filterItems.length > 0) {
-        this.selectedGroupByFilter = filterItems[0];
+      this.businessHours = businessHours;
+
+      if (groupBy) {
+        this.groupBy = groupBy;
       } else {
-        this.selectedGroupByFilter = this.groupByfilterItemsList[0];
-        this.groupBy = GROUP_BY_FILTER[this.selectedGroupByFilter.id];
+        this.groupBy = GROUP_BY_FILTER[1];
       }
-      this.fetchAllData();
-    },
-    onFilterChange(payload) {
-      if (payload) {
-        this.selectedFilter = payload;
-        this.fetchAllData();
-      }
-    },
-    onGroupByFilterChange(payload) {
-      this.groupBy = GROUP_BY_FILTER[payload.id];
-      this.fetchAllData();
 
       useTrack(REPORTS_EVENTS.FILTER_REPORT, {
         filterType: 'groupBy',
@@ -221,11 +213,7 @@ export default {
       this.businessHours = value;
       this.fetchAllData();
 
-      useTrack(REPORTS_EVENTS.FILTER_REPORT, {
-        filterType: 'businessHours',
-        filterValue: value,
-        reportType: this.type,
-      });
+      this.fetchAllData();
     },
   },
 };
@@ -240,17 +228,12 @@ export default {
       @click="downloadReports"
     />
   </ReportHeader>
+
   <ReportFilters
     v-if="filterItemsList"
-    :type="type"
-    :filter-items-list="filterItemsList"
-    :group-by-filter-items-list="groupByfilterItemsList"
-    :selected-group-by-filter="selectedGroupByFilter"
-    :current-filter="selectedFilter"
-    @date-range-change="onDateRangeChange"
+    :filter-type="filterType"
+    :selected-item="selectedFilter"
     @filter-change="onFilterChange"
-    @group-by-filter-change="onGroupByFilterChange"
-    @business-hours-toggle="onBusinessHoursToggle"
   />
   <ReportContainer
     v-if="filterItemsList.length"

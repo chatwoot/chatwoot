@@ -88,7 +88,10 @@ export default {
       },
       set(agent) {
         const agentId = agent ? agent.id : null;
-        this.$store.dispatch('setCurrentChatAssignee', agent);
+        this.$store.dispatch('setCurrentChatAssignee', {
+          conversationId: this.currentChat.id,
+          assignee: agent,
+        });
         this.$store
           .dispatch('assignAgent', {
             conversationId: this.currentChat.id,
@@ -244,8 +247,8 @@ export default {
 </script>
 
 <template>
-  <div class="bg-n-background">
-    <div class="multiselect-wrap--small">
+  <div>
+    <div>
       <ContactDetailsItem
         compact
         :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
@@ -276,7 +279,7 @@ export default {
         @select="onClickAssignAgent"
       />
     </div>
-    <div class="multiselect-wrap--small">
+    <div>
       <ContactDetailsItem
         compact
         :title="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
@@ -295,7 +298,7 @@ export default {
         @select="onClickAssignTeam"
       />
     </div>
-    <div class="multiselect-wrap--small">
+    <div>
       <ContactDetailsItem compact :title="$t('CONVERSATION.PRIORITY.TITLE')" />
       <MultiselectDropdown
         :options="priorityOptions"

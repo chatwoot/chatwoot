@@ -30,11 +30,13 @@ class Company < ApplicationRecord
 
   belongs_to :account
   has_many :contacts, dependent: :nullify
+  after_create_commit :fetch_favicon, if: -> { domain.present? }
 
   scope :ordered_by_name, -> { order(:name) }
   scope :search_by_name_or_domain, lambda { |query|
     where('name ILIKE :search OR domain ILIKE :search', search: "%#{query.strip}%")
   }
+
   scope :order_on_contacts_count, lambda { |direction|
     order(
       Arel::Nodes::SqlLiteral.new(
@@ -42,4 +44,10 @@ class Company < ApplicationRecord
       )
     )
   }
+
+  private
+
+  def fetch_favicon
+    Avatar::AvatarFromFaviconJob.set(wait: 5.seconds).perform_later(self)
+  end
 end

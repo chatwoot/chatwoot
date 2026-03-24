@@ -348,10 +348,7 @@ export default {
       />
     </div>
 
-    <div
-      v-if="showGroupByFilter"
-      class="multiselect-wrap--small order-4 md:order-5"
-    >
+    <div v-if="showGroupByFilter" class="multiselect-wrap--small order-4 md:order-5">
       <p class="mb-2 text-xs font-medium">
         {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
       </p>

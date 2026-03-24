@@ -18,6 +18,11 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
   end
   let(:builder) { described_class.new(account: account, params: params) }
 
+  def stub_avatar_requests
+    stub_request(:get, %r{\Ahttps://www\.gravatar\.com.*}).to_return(status: 404)
+    stub_request(:get, %r{\Ahttps://www\.google\.com/s2/favicons.*}).to_return(status: 404)
+  end
+
   describe '#initialize' do
     let(:business_hours) { false }
 
@@ -64,8 +69,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
           inbox = create(:inbox, account: account)
           create(:inbox_member, user: user, inbox: inbox)
 
-          gravatar_url = 'https://www.gravatar.com'
-          stub_request(:get, /#{gravatar_url}.*/).to_return(status: 404)
+          stub_avatar_requests
 
           perform_enqueued_jobs do
             # Create conversations with label_1
@@ -202,8 +206,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
           inbox = create(:inbox, account: account)
           create(:inbox_member, user: user, inbox: inbox)
 
-          gravatar_url = 'https://www.gravatar.com'
-          stub_request(:get, /#{gravatar_url}.*/).to_return(status: 404)
+          stub_avatar_requests
 
           perform_enqueued_jobs do
             # Conversation within range
@@ -264,8 +267,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
           inbox = create(:inbox, account: account)
           create(:inbox_member, user: user, inbox: inbox)
 
-          gravatar_url = 'https://www.gravatar.com'
-          stub_request(:get, /#{gravatar_url}.*/).to_return(status: 404)
+          stub_avatar_requests
 
           perform_enqueued_jobs do
             conversation = create(:conversation, account: account,
@@ -325,8 +327,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
           inbox = create(:inbox, account: account2)
           create(:inbox_member, user: user, inbox: inbox)
 
-          gravatar_url = 'https://www.gravatar.com'
-          stub_request(:get, /#{gravatar_url}.*/).to_return(status: 404)
+          stub_avatar_requests
 
           perform_enqueued_jobs do
             conversation = create(:conversation, account: account2,
@@ -336,14 +337,11 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
             conversation.label_list
             conversation.save!
 
-            # First resolution
             conversation.resolved!
             create(:reporting_event, account: account2, conversation: conversation, name: 'conversation_resolved', created_at: test_date)
 
             # Reopen conversation
             conversation.open!
-
-            # Second resolution
             conversation.resolved!
             create(:reporting_event, account: account2, conversation: conversation, name: 'conversation_resolved',
                                      created_at: test_date + 1.hour)
