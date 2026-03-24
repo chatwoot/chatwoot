@@ -1,4 +1,4 @@
-class RepurposeResponseBotFlagForCaptainV1CustomTools < ActiveRecord::Migration[7.0]
+class RepurposeResponseBotFlagForCaptainV1CustomTools < ActiveRecord::Migration[7.1]
   def up
     # The response_bot flag (deprecated) has been renamed to captain_v1_custom_tools.
     # Disable it on any accounts that had response_bot enabled so the repurposed
