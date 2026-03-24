@@ -19,34 +19,27 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
 
   BUSINESS_PLAN_FEATURES = %w[sla custom_roles csat_review_notes conversation_required_attributes advanced_assignment].freeze
   ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
+  PREMIUM_PLAN_FEATURES = (STARTUP_PLAN_FEATURES + BUSINESS_PLAN_FEATURES + ENTERPRISE_PLAN_FEATURES).freeze
 
   pattr_initialize [:account!]
 
   def perform
-    default_plan? ? disable_all_premium_features : enable_features_for_current_plan
-    enable_account_manually_managed_features
+    account.disable_features(*PREMIUM_PLAN_FEATURES)
+    account.enable_features(*current_plan_features)
+    account.enable_features(*manually_managed_features)
     account.save!
   end
 
   private
 
-  def disable_all_premium_features
-    account.disable_features(*STARTUP_PLAN_FEATURES)
-    account.disable_features(*BUSINESS_PLAN_FEATURES)
-    account.disable_features(*ENTERPRISE_PLAN_FEATURES)
-  end
-
-  def enable_features_for_current_plan
-    # Reset the premium feature set first so downgrades don't leave stale flags behind.
-    disable_all_premium_features
+  def current_plan_features
+    return [] if default_plan?
 
     case account.custom_attributes['plan_name']
-    when 'Startups'
-      account.enable_features(*STARTUP_PLAN_FEATURES)
-    when 'Business'
-      account.enable_features(*STARTUP_PLAN_FEATURES, *BUSINESS_PLAN_FEATURES)
-    when 'Enterprise'
-      account.enable_features(*STARTUP_PLAN_FEATURES, *BUSINESS_PLAN_FEATURES, *ENTERPRISE_PLAN_FEATURES)
+    when 'Startups' then STARTUP_PLAN_FEATURES
+    when 'Business' then STARTUP_PLAN_FEATURES + BUSINESS_PLAN_FEATURES
+    when 'Enterprise' then PREMIUM_PLAN_FEATURES
+    else []
     end
   end
 
@@ -62,10 +55,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     @cloud_plans ||= InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG)&.value || []
   end
 
-  def enable_account_manually_managed_features
-    service = Internal::Accounts::InternalAttributesService.new(account)
-    features = service.manually_managed_features
-
-    account.enable_features(*features) if features.present?
+  def manually_managed_features
+    @manually_managed_features ||= Internal::Accounts::InternalAttributesService.new(account).manually_managed_features
   end
 end

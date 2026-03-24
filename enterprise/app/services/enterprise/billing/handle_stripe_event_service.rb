@@ -29,7 +29,7 @@ class Enterprise::Billing::HandleStripeEventService
 
     previous_usage = capture_previous_usage
     update_account_attributes(subscription, plan)
-    update_plan_features
+    Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
 
     if billing_period_renewed?
       ActiveRecord::Base.transaction do
@@ -72,10 +72,6 @@ class Enterprise::Billing::HandleStripeEventService
     return if account.blank?
 
     Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
-  end
-
-  def update_plan_features
-    Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
   end
 
   def handle_subscription_credits(plan, previous_usage)
