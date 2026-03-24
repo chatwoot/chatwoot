@@ -366,8 +366,8 @@
       },
       "NO_LINKED_ISSUES": "No linked issues found",
       "DELETE": {
-        "TITLE": "আপনি কি নিশ্চিত যে আপনি ইন্টিগ্রেশনটি মুছে ফেলতে চান?",
-        "MESSAGE": "আপনি কি নিশ্চিত যে আপনি ইন্টিগ্রেশনটি মুছে ফেলতে চান?",
+        "TITLE": "Are you sure you want to delete the integration?",
+        "MESSAGE": "Are you sure you want to delete the integration?",
         "CONFIRM": "Da, izbriši",
         "CANCEL": "Prekliči"
       },

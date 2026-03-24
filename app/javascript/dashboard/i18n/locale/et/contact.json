@@ -7,14 +7,14 @@
     "COPY_SUCCESSFUL": "Kopeerimine lõikelauale õnnestus",
     "COMPANY": "Ettevõte",
     "LOCATION": "Asukoht",
-    "BROWSER_LANGUAGE": "ব্রাউজার ভাষা",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Vestluse üksikasjad",
     "VIEW_PROFILE": "Vaata profiili",
     "BROWSER": "Brauser",
     "OS": "Operatsioonisüsteem",
     "INITIATED_FROM": "Algatatud kohast",
     "INITIATED_AT": "Algatatud ajal",
-    "IP_ADDRESS": "আইপি ঠিকানা",
+    "IP_ADDRESS": "IP Address",
     "CREATED_AT_LABEL": "Loodud",
     "NEW_MESSAGE": "Uus sõnum",
     "CALL": "Helista",
@@ -91,7 +91,7 @@
       },
       "BIO": {
         "PLACEHOLDER": "Sisesta kontakti elulugu",
-        "LABEL": "জীবনবৃত্তান্ত"
+        "LABEL": "Bio"
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Sisesta kontakti e-posti aadress",
@@ -128,19 +128,19 @@
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Facebook ব্যবহারকারীর নাম লিখুন",
+          "PLACEHOLDER": "Enter the Facebook username",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Twitter ব্যবহারকারীর নাম লিখুন",
+          "PLACEHOLDER": "Enter the Twitter username",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "LinkedIn ব্যবহারকারীর নাম লিখুন",
+          "PLACEHOLDER": "Enter the LinkedIn username",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Github ব্যবহারকারীর নাম লিখুন",
+          "PLACEHOLDER": "Enter the Github username",
           "LABEL": "Github"
         }
       }
@@ -192,7 +192,7 @@
   "CONTACTS_PAGE": {
     "LIST": {
       "TABLE_HEADER": {
-        "SOCIAL_PROFILES": "সামাজিক প্রোফাইল"
+        "SOCIAL_PROFILES": "Social Profiles"
       }
     }
   },
@@ -215,7 +215,7 @@
       "CANCEL": "Tühista",
       "NAME": {
         "LABEL": "Kohandatud atribuudi nimi",
-        "PLACEHOLDER": "যেমন: shopify id",
+        "PLACEHOLDER": "Eg: shopify id",
         "ERROR": "Vigane kohandatud atribuudi nimi"
       },
       "VALUE": {
@@ -317,9 +317,9 @@
         "UNBLOCK_ERROR_MESSAGE": "Kontakti blokeeringust vabaks tegemine ebaõnnestus. Palun proovi hiljem uuesti.",
         "IMPORT_CONTACT": {
           "TITLE": "Impordi kontaktid",
-          "DESCRIPTION": "CSV ফাইলের মাধ্যমে কন্টাক্ট আমদানি করুন।",
-          "DOWNLOAD_LABEL": "নমুনা CSV ডাউনলোড করুন।",
-          "LABEL": "CSV ফাইল:",
+          "DESCRIPTION": "Import contacts through a CSV file.",
+          "DOWNLOAD_LABEL": "Download a sample csv.",
+          "LABEL": "CSV File:",
           "CHOOSE_FILE": "Vali fail",
           "CHANGE": "Muuda",
           "CANCEL": "Tühista",
@@ -435,7 +435,7 @@
             "PLACEHOLDER": "Vali riik"
           },
           "BIO": {
-            "PLACEHOLDER": "বায়ো লিখুন"
+            "PLACEHOLDER": "Enter the bio"
           },
           "COMPANY_NAME": {
             "PLACEHOLDER": "Sisesta ettevõtte nimi"
@@ -446,28 +446,28 @@
         "ERROR_MESSAGE": "Kontakti ei õnnestunud uuendada. Palun proovi hiljem uuesti."
       },
       "SOCIAL_MEDIA": {
-        "TITLE": "সোশ্যাল লিংক সম্পাদনা করুন",
+        "TITLE": "Edit social links",
         "FORM": {
           "FACEBOOK": {
-            "PLACEHOLDER": "Facebook যোগ করুন"
+            "PLACEHOLDER": "Add Facebook"
           },
           "GITHUB": {
-            "PLACEHOLDER": "Github যোগ করুন"
+            "PLACEHOLDER": "Add Github"
           },
           "INSTAGRAM": {
-            "PLACEHOLDER": "Instagram যোগ করুন"
+            "PLACEHOLDER": "Add Instagram"
           },
           "TELEGRAM": {
-            "PLACEHOLDER": "Telegram যোগ করুন"
+            "PLACEHOLDER": "Add Telegram"
           },
           "TIKTOK": {
-            "PLACEHOLDER": "TikTok যোগ করুন"
+            "PLACEHOLDER": "Add TikTok"
           },
           "LINKEDIN": {
-            "PLACEHOLDER": "LinkedIn যোগ করুন"
+            "PLACEHOLDER": "Add LinkedIn"
           },
           "TWITTER": {
-            "PLACEHOLDER": "Twitter যোগ করুন"
+            "PLACEHOLDER": "Add Twitter"
           }
         }
       },
@@ -492,12 +492,12 @@
       },
       "AVATAR": {
         "UPLOAD": {
-          "ERROR_MESSAGE": "অ্যাভাটার আপলোড করা যায়নি। পরে আবার চেষ্টা করুন।",
+          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
           "SUCCESS_MESSAGE": "Avatar üles laaditud edukalt"
         },
         "DELETE": {
           "SUCCESS_MESSAGE": "Avatar kustutatud edukalt",
-          "ERROR_MESSAGE": "অ্যাভাটার মুছে ফেলা যায়নি। পরে আবার চেষ্টা করুন।"
+          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
         }
       }
     },
@@ -538,7 +538,7 @@
       },
       "MERGE": {
         "TITLE": "Ühenda kontakt",
-        "DESCRIPTION": "দুইটি প্রোফাইল একত্রিত করুন, সব বৈশিষ্ট্য ও কথোপকথনসহ। কোনো দ্বন্দ্ব হলে, প্রধান কন্টাক্টের বৈশিষ্ট্য অগ্রাধিকার পাবে।",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
         "PRIMARY": "Peamine kontakt",
         "PRIMARY_HELP_LABEL": "Salvestamiseks",
         "PRIMARY_REQUIRED_ERROR": "Palun valige ühendamiseks kontakt enne jätkamist",
