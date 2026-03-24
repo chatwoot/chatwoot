@@ -104,8 +104,8 @@
   display_name: Audit Logs
   enabled: false
   premium: true
-- name: captain_v1_custom_tools
-  display_name: Captain V1 Custom Tools
+- name: custom_tools
+  display_name: Custom Tools
   enabled: false
   premium: true
 - name: message_reply_to
