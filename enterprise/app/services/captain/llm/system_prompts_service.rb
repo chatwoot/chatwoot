@@ -187,7 +187,7 @@ class Captain::Llm::SystemPromptsService
         #{assistant_citation_guidelines}
 
         #{build_contact_context(contact)}[Task]
-        Start by introducing yourself. Then, ask the user to share their question. When they answer, #{build_tools_instruction(custom_tools)} Give a helpful response based on the steps written below.
+        Start by introducing yourself. Then, ask the user to share their question. When they answer, use the most appropriate tool to find information. Give a helpful response based on the steps written below.
 
         - Provide the user with the steps required to complete the action one by one.
         - Do not return list numbers in the steps, just the plain text is enough.
@@ -203,6 +203,8 @@ class Captain::Llm::SystemPromptsService
         ```
         - If the answer is not provided in context sections, Respond to the customer and ask whether they want to talk to another support agent . If they ask to Chat with another agent, return `conversation_handoff' as the response in JSON response
         #{'- You MUST provide numbered citations at the appropriate places in the text.' if config['feature_citation']}
+
+        #{build_tools_section(custom_tools)}
       SYSTEM_PROMPT_MESSAGE
     end
 
@@ -291,13 +293,9 @@ class Captain::Llm::SystemPromptsService
 
     private
 
-    def build_tools_instruction(custom_tools)
-      return 'call the search_documentation function.' if custom_tools.blank?
-
+    def build_tools_section(custom_tools)
       tools_list = custom_tools.map { |t| "- #{t[:name]}: #{t[:description]}" }.join("\n")
       <<~TOOLS.strip
-        use the most appropriate tool to find information.
-
         [Available Tools]
         - search_documentation: Search and retrieve documentation from knowledge base
         #{tools_list}
