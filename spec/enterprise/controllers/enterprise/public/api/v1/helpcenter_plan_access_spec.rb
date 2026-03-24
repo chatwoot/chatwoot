@@ -4,7 +4,7 @@ RSpec.describe 'Public Help Center Access', type: :request do
   let(:plan_name) { 'Startups' }
   let!(:account) { create(:account, custom_attributes: { 'plan_name' => plan_name }) }
   let!(:agent) { create(:user, account: account, role: :agent) }
-  let!(:portal) { create(:portal, slug: 'test-portal', account: account, custom_domain: 'docs.example.com') }
+  let!(:portal) { create(:portal, account: account, custom_domain: 'docs-helpcenter.example.com') }
   let!(:category) { create(:category, portal: portal, account: account, locale: 'en', slug: 'category-slug') }
   let!(:article) { create(:article, category: category, portal: portal, account: account, author: agent, status: :published) }
 
