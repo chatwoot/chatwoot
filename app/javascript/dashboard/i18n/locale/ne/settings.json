@@ -26,11 +26,11 @@
         "UPDATE_SUCCESS": "तपाईंका सेटिङहरू सफलतापूर्वक अपडेट गरियो",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
+            "HEADING": "इन्टर (↵)",
             "CONTENT": "पठाउन बटन क्लिक नगरी Enter कुञ्जी थिचेर सन्देश पठाउनुहोस्।"
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "HEADING": "Cmd/Ctrl + इन्टर (⌘ + ↵)",
             "CONTENT": "पठाउन बटन क्लिक नगरी Cmd/Ctrl + Enter कुञ्जी थिचेर सन्देश पठाउनुहोस्।"
           }
         }
@@ -81,9 +81,9 @@
         "BTN_TEXT": "पासवर्ड परिवर्तन गर्नुहोस्"
       },
       "SECURITY_SECTION": {
-        "TITLE": "Security",
-        "NOTE": "Manage additional security features for your account.",
-        "MFA_BUTTON": "Manage Two-Factor Authentication"
+        "TITLE": "सुरक्षा",
+        "NOTE": "आफ्नो खाताका लागि थप सुरक्षा सुविधाहरू व्यवस्थापन गर्नुहोस्।",
+        "MFA_BUTTON": "दुई-चरण प्रमाणीकरण व्यवस्थापन गर्नुहोस्"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
@@ -234,7 +234,7 @@
     "CONTACT_SUPPORT": "समर्थन सम्पर्क गर्नु",
     "SELECTOR_SUBTITLE": "तलको सूचीबाट एउटा खाता चयन गर्नुहोस्",
     "PROFILE_SETTINGS": "प्रोफाइल सेटिङ",
-    "YEAR_IN_REVIEW": "Year in Review",
+    "YEAR_IN_REVIEW": "वर्षको समीक्षा",
     "KEYBOARD_SHORTCUTS": "किबोर्ड सर्टकट",
     "APPEARANCE": "देखावट परिवर्तन गर्नु",
     "SUPER_ADMIN_CONSOLE": "सुपरएडमिन कन्सोल",
@@ -254,10 +254,10 @@
       "MESSAGE": "तपाईंको खाता निलम्बित गरिएको छ। थप जानकारीका लागि कृपया समर्थन टोलीलाई सम्पर्क गर्नुहोस्।"
     },
     "NO_ACCOUNTS": {
-      "TITLE": "No account found",
-      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
-      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
-      "LOGOUT": "Log out"
+      "TITLE": "खाता फेला परेन",
+      "MESSAGE_CLOUD": "तपाईं अहिले कुनै खातामा सहभागी हुनुहुन्न। यदि यो गल्ती हो जस्तो लाग्छ भने, कृपया हाम्रो समर्थन टोलीलाई सम्पर्क गर्नुहोस्।",
+      "MESSAGE_SELF_HOSTED": "तपाईं अहिले कुनै खातामा सहभागी हुनुहुन्न। कृपया आफ्नो प्रशासकलाई सम्पर्क गर्नुहोस्।",
+      "LOGOUT": "लगआउट"
     }
   },
   "COMPONENTS": {
@@ -274,7 +274,7 @@
       "DOWNLOAD": "डाउनलोड",
       "UPLOADING": "अपलोड गर्दै...",
       "INSTAGRAM_STORY_UNAVAILABLE": "यो कथा अब उपलब्ध छैन।",
-      "INSTAGRAM_STORY_REPLY": "Replied to your story:"
+      "INSTAGRAM_STORY_REPLY": "तपाईंको स्टोरीमा जवाफ दिइयो:"
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "नक्सामा हेर्नु"
@@ -308,17 +308,17 @@
     "SETTINGS": "सेटिङ",
     "CONTACTS": "सम्पर्कहरू",
     "ACTIVE": "सक्रिय",
-    "COMPANIES": "Companies",
-    "ALL_COMPANIES": "All Companies",
+    "COMPANIES": "कम्पनीहरू",
+    "ALL_COMPANIES": "सबै कम्पनीहरू",
     "CAPTAIN": "क्याप्टेन",
     "CAPTAIN_ASSISTANTS": "सहायकहरू",
     "CAPTAIN_DOCUMENTS": "कागजातहरू",
     "CAPTAIN_RESPONSES": "सोधिने प्रश्नहरू",
-    "CAPTAIN_TOOLS": "Tools",
-    "CAPTAIN_SCENARIOS": "Scenarios",
-    "CAPTAIN_PLAYGROUND": "Playground",
-    "CAPTAIN_INBOXES": "Inboxes",
-    "CAPTAIN_SETTINGS": "Settings",
+    "CAPTAIN_TOOLS": "उपकरणहरू",
+    "CAPTAIN_SCENARIOS": "परिदृश्यहरू",
+    "CAPTAIN_PLAYGROUND": "प्लेग्राउन्ड",
+    "CAPTAIN_INBOXES": "इनबक्सहरू",
+    "CAPTAIN_SETTINGS": "सेटिङहरू",
     "HOME": "गृहपृष्ठ",
     "AGENTS": "एजेन्टहरू",
     "AGENT_BOTS": "बोटहरू",
@@ -379,56 +379,56 @@
       "INFO_SHORT": "एप प्रयोग नगर्दा स्वचालित रूपमा अफलाइन मार्क गर्नुहोस्।"
     },
     "DOCS": "डक्स पढ्नु",
-    "SECURITY": "Security",
+    "SECURITY": "सुरक्षा",
     "CAPTAIN_AI": "Captain",
-    "CONVERSATION_WORKFLOW": "Conversation Workflow"
+    "CONVERSATION_WORKFLOW": "वार्ता कार्यप्रवाह"
   },
   "CAPTAIN_SETTINGS": {
-    "TITLE": "Captain Settings",
-    "DESCRIPTION": "Configure your AI models and features for Captain. Captain follows a credit based billing, you will be charged credits for every action Captain takes based on the model selected.",
-    "LOADING": "Loading Captain configuration...",
-    "LINK_TEXT": "Learn more about Captain Credits",
-    "NOT_ENABLED": "Captain is not enabled for your account. Please upgrade your plan to access Captain features.",
+    "TITLE": "Captain सेटिङहरू",
+    "DESCRIPTION": "Captain का लागि तपाईंका AI मोडेल र सुविधाहरू कन्फिगर गर्नुहोस्। Captain क्रेडिटमा आधारित बिलिङमा चल्छ, चयन गरिएको मोडेलअनुसार Captain ले प्रत्येक कार्य गर्दा तपाईंको क्रेडिट कटौती हुनेछ।",
+    "LOADING": "Captain कन्फिगरेसन लोड हुँदैछ...",
+    "LINK_TEXT": "Captain क्रेडिटबारे थप जान्नुहोस्",
+    "NOT_ENABLED": "तपाईंको खातामा Captain सक्षम गरिएको छैन। Captain सुविधाहरू प्रयोग गर्न योजना स्तरोन्नति गर्नुहोस्।",
     "MODEL_CONFIG": {
-      "TITLE": "Model Configuration",
-      "DESCRIPTION": "Select AI models for different features.",
-      "SELECT_MODEL": "Select model",
+      "TITLE": "मोडेल कन्फिगरेसन",
+      "DESCRIPTION": "विभिन्न सुविधाहरूका लागि AI मोडेलहरू छान्नुहोस्।",
+      "SELECT_MODEL": "मोडेल छान्नुहोस्",
       "CREDITS_PER_MESSAGE": "{credits} credit/message",
-      "COMING_SOON": "Coming soon",
+      "COMING_SOON": "छिट्टै आउँदैछ",
       "EDITOR": {
-        "TITLE": "Editor Features",
-        "DESCRIPTION": "Powers smart compose, grammar corrections, tone adjustments, and content enhancement in your message editor."
+        "TITLE": "सम्पादक सुविधाहरू",
+        "DESCRIPTION": "तपाईंको सन्देश सम्पादकमा स्मार्ट कम्पोज, व्याकरण सुधार, टोन मिलाउने र सामग्री सुधारको लागि प्रयोग हुन्छ।"
       },
       "ASSISTANT": {
-        "TITLE": "Assistant",
-        "DESCRIPTION": "Handles automated responses, conversation summaries, and intelligent reply suggestions for customer interactions."
+        "TITLE": "सहायक",
+        "DESCRIPTION": "ग्राहक संवादका लागि स्वचालित जवाफ, संवाद सारांश, र बुद्धिमान सुझावहरू व्यवस्थापन गर्छ।"
       },
       "COPILOT": {
-        "TITLE": "Co-pilot",
-        "DESCRIPTION": "Provides real-time contextual suggestions, knowledge base recommendations, and proactive insights during conversations."
+        "TITLE": "को-पाइलट",
+        "DESCRIPTION": "संवादको क्रममा वास्तविक समय सन्दर्भ सुझाव, ज्ञान आधार सिफारिस, र सक्रिय जानकारी प्रदान गर्छ।"
       }
     },
     "FEATURES": {
-      "TITLE": "Features",
-      "DESCRIPTION": "Enable or disable AI-powered features.",
+      "TITLE": "फिचरहरू",
+      "DESCRIPTION": "एआई-सञ्चालित फिचरहरू सक्षम वा अक्षम गर्नुहोस्।",
       "AUDIO_TRANSCRIPTION": {
-        "TITLE": "Audio Transcription",
-        "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts."
+        "TITLE": "अडियो ट्रान्सक्रिप्सन",
+        "DESCRIPTION": "आवाज सन्देश र कल रेकर्डिङलाई स्वचालित रूपमा खोज्न मिल्ने पाठमा रूपान्तरण गर्नुहोस्।"
       },
       "HELP_CENTER_SEARCH": {
-        "TITLE": "Help Center Search Indexing",
-        "DESCRIPTION": "Use AI for context aware search inside your help center articles."
+        "TITLE": "हेल्प सेन्टर खोज अनुक्रमणिका",
+        "DESCRIPTION": "तपाईंका हेल्प सेन्टर लेखहरूमा सन्दर्भअनुसार खोजका लागि एआई प्रयोग गर्नुहोस्।"
       },
       "LABEL_SUGGESTION": {
-        "TITLE": "Label Suggestion",
-        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
-        "MODEL_TITLE": "Label Suggestion Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
+        "TITLE": "लेबल सुझाव",
+        "DESCRIPTION": "सामग्री विश्लेषण र सन्दर्भका आधारमा संवादका लागि उपयुक्त लेबल र ट्यागहरू स्वचालित रूपमा सुझाव दिनुहोस्।",
+        "MODEL_TITLE": "लेबल सुझाव मोडेल",
+        "MODEL_DESCRIPTION": "संवाद विश्लेषण र उपयुक्त लेबल सुझावका लागि प्रयोग हुने एआई मोडेल चयन गर्नुहोस्"
       }
     },
     "API": {
-      "SUCCESS": "Captain settings updated successfully.",
-      "ERROR": "Failed to update Captain settings. Please try again."
+      "SUCCESS": "Captain सेटिङहरू सफलतापूर्वक अद्यावधिक गरियो।",
+      "ERROR": "Captain सेटिङहरू अद्यावधिक गर्न असफल। कृपया फेरि प्रयास गर्नुहोस्।"
     }
   },
   "BILLING_SETTINGS": {
@@ -453,7 +453,7 @@
       "DOCUMENTS": "कागजातहरू",
       "RESPONSES": "Responses",
       "UPGRADE": "क्याप्टेन निःशुल्क योजनामा उपलब्ध छैन। सहायकहरू, कोपाइलट र थप पहुँचका लागि अहिले नै अपग्रेड गर्नुहोस्।",
-      "REFRESH_CREDITS": "Refresh"
+      "REFRESH_CREDITS": "रिफ्रेश"
     },
     "CHAT_WITH_US": {
       "TITLE": "मद्दत चाहिन्छ?",
@@ -462,150 +462,150 @@
     },
     "NO_BILLING_USER": "तपाईंको बिलिङ खाता सेटअप हुँदैछ। कृपया पृष्ठ रिफ्रेस गरेर पुनः प्रयास गर्नुहोस्।",
     "TOPUP": {
-      "BUY_CREDITS": "Buy more credits",
-      "MODAL_TITLE": "Buy AI Credits",
-      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "BUY_CREDITS": "थप क्रेडिट किन्नुहोस्",
+      "MODAL_TITLE": "AI क्रेडिट किन्नुहोस्",
+      "MODAL_DESCRIPTION": "Captain AI का लागि थप क्रेडिट किन्नुहोस्।",
       "CREDITS": "CREDITS",
-      "ONE_TIME": "one-time",
-      "POPULAR": "Most Popular",
-      "NOTE_TITLE": "Note:",
-      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
-      "CANCEL": "Cancel",
-      "PURCHASE": "Purchase Credits",
-      "LOADING": "Loading options...",
-      "FETCH_ERROR": "Failed to load credit options. Please try again.",
-      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
+      "ONE_TIME": "एक पटकको",
+      "POPULAR": "सबैभन्दा लोकप्रिय",
+      "NOTE_TITLE": "नोट:",
+      "NOTE_DESCRIPTION": "क्रेडिटहरू तुरुन्तै थपिन्छन् र ६ महिनामा सकिन्छन्। क्रेडिट प्रयोग गर्न सक्रिय सदस्यता आवश्यक छ। किनेका क्रेडिटहरू तपाईंको मासिक योजनाका क्रेडिट सकिएपछि मात्र प्रयोग हुन्छन्।",
+      "CANCEL": "रद्द गर्नुहोस्",
+      "PURCHASE": "क्रेडिट किन्नुहोस्",
+      "LOADING": "विकल्पहरू लोड हुँदैछन्...",
+      "FETCH_ERROR": "क्रेडिट विकल्पहरू लोड गर्न असफल भयो। कृपया फेरि प्रयास गर्नुहोस्।",
+      "PURCHASE_ERROR": "किनमेल प्रक्रिया असफल भयो। कृपया फेरि प्रयास गर्नुहोस्।",
       "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
       "CONFIRM": {
-        "TITLE": "Confirm Purchase",
+        "TITLE": "किनमेल पुष्टि गर्नुहोस्",
         "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
-        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
-        "GO_BACK": "Go Back",
-        "CONFIRM_PURCHASE": "Confirm Purchase"
+        "INSTANT_DEDUCTION_NOTE": "पुष्टि गरेपछि तपाईंको सुरक्षित कार्डबाट तुरुन्तै रकम काटिनेछ।",
+        "GO_BACK": "फिर्ता जानुहोस्",
+        "CONFIRM_PURCHASE": "किनमेल पुष्टि गर्नुहोस्"
       }
     }
   },
   "SECURITY_SETTINGS": {
-    "TITLE": "Security",
-    "DESCRIPTION": "Manage your account security settings.",
-    "LINK_TEXT": "Learn more about SAML SSO",
-    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "TITLE": "सुरक्षा",
+    "DESCRIPTION": "आफ्नो खाताको सुरक्षा सेटिङहरू व्यवस्थापन गर्नुहोस्।",
+    "LINK_TEXT": "SAML SSO को बारेमा थप जान्नुहोस्",
+    "SAML_DISABLED_MESSAGE": "SAML SSO हाल असक्षम छ। कृपया यो सुविधा सक्षम गर्न आफ्नो प्रशासकलाई सम्पर्क गर्नुहोस्।",
     "SAML": {
       "TITLE": "SAML SSO",
-      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "NOTE": "आफ्नो खाताका लागि SAML सिंगल साइन-इन कन्फिगर गर्नुहोस्। प्रयोगकर्ताहरूले इमेल/पासवर्डको सट्टा तपाईंको आइडेन्टिटी प्रोभाइडरमार्फत प्रमाणिकरण गर्नेछन्।",
       "ACS_URL": {
         "LABEL": "ACS URL",
-        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+        "TOOLTIP": "Assertion Consumer Service URL - SAML प्रतिक्रिया प्राप्त गर्नका लागि यो URL तपाईंको IdP मा गन्तव्यको रूपमा कन्फिगर गर्नुहोस्"
       },
       "SSO_URL": {
         "LABEL": "SSO URL",
-        "HELP": "The URL where SAML authentication requests will be sent",
+        "HELP": "SAML प्रमाणीकरण अनुरोधहरू पठाइने URL",
         "PLACEHOLDER": "https://your-idp.com/saml/sso"
       },
       "CERTIFICATE": {
-        "LABEL": "Signing certificate in PEM format",
-        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "LABEL": "PEM ढाँचामा हस्ताक्षर प्रमाणपत्र",
+        "HELP": "SAML प्रतिक्रिया प्रमाणित गर्न तपाईंको आइडेन्टिटी प्रोभाइडरबाट प्राप्त सार्वजनिक प्रमाणपत्र",
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
       "FINGERPRINT": {
-        "LABEL": "Fingerprint",
-        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+        "LABEL": "फिङ्गरप्रिन्ट",
+        "TOOLTIP": "प्रमाणपत्रको SHA-1 फिङ्गरप्रिन्ट - IdP कन्फिगरेसनमा प्रमाणपत्र प्रमाणित गर्न प्रयोग गर्नुहोस्"
       },
       "COPY_SUCCESS": "Code copied to clipboard successfully",
       "SP_ENTITY_ID": {
         "LABEL": "SP Entity ID",
-        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
-        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+        "HELP": "यो एप्लिकेसनको सेवा प्रदायकको रूपमा अद्वितीय परिचायक (स्वतः-उत्पन्न)।",
+        "TOOLTIP": "Chatwoot लाई सेवा प्रदायकको रूपमा अद्वितीय परिचायक - IdP सेटिङमा यो कन्फिगर गर्नुहोस्"
       },
       "IDP_ENTITY_ID": {
-        "LABEL": "Identity Provider Entity ID",
-        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "LABEL": "आइडेन्टिटी प्रोभाइडर Entity ID",
+        "HELP": "तपाईंको आइडेन्टिटी प्रोभाइडरको अद्वितीय परिचायक (सामान्यतया IdP कन्फिगरेसनमा पाइन्छ)",
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
-      "UPDATE_BUTTON": "Update SAML Settings",
+      "UPDATE_BUTTON": "SAML सेटिङहरू अद्यावधिक गर्नुहोस्",
       "API": {
-        "SUCCESS": "SAML settings updated successfully",
-        "ERROR": "Failed to update SAML settings",
-        "ERROR_LOADING": "Failed to load SAML settings",
-        "DISABLED": "SAML settings disabled successfully"
+        "SUCCESS": "SAML सेटिङहरू सफलतापूर्वक अद्यावधिक गरियो",
+        "ERROR": "SAML सेटिङहरू अद्यावधिक गर्न असफल भयो",
+        "ERROR_LOADING": "SAML सेटिङहरू लोड गर्न असफल भयो",
+        "DISABLED": "SAML सेटिङहरू सफलतापूर्वक निष्क्रिय गरियो"
       },
       "VALIDATION": {
-        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
-        "SSO_URL_ERROR": "Please enter a valid SSO URL",
-        "CERTIFICATE_ERROR": "Certificate is required",
-        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, र Certificate अनिवार्य फिल्डहरू हुन्",
+        "SSO_URL_ERROR": "कृपया मान्य SSO URL प्रविष्ट गर्नुहोस्",
+        "CERTIFICATE_ERROR": "Certificate आवश्यक छ",
+        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID आवश्यक छ"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
-        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+        "AVAILABLE_ON": "SAML SSO सुविधा Enterprise योजनाहरूमा मात्र उपलब्ध छ।",
+        "UPGRADE_PROMPT": "SAML सिंगल साइन-इन र अन्य उन्नत सुरक्षा सुविधाहरू प्रयोग गर्न Enterprise योजना अपग्रेड गर्नुहोस्।",
+        "ASK_ADMIN": "अपग्रेडका लागि कृपया आफ्नो प्रशासकलाई सम्पर्क गर्नुहोस्।"
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to enable SAML SSO",
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
-        "UPGRADE_NOW": "Upgrade now",
-        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+        "TITLE": "SAML SSO सक्षम गर्न अपग्रेड गर्नुहोस्",
+        "AVAILABLE_ON": "SAML SSO सुविधा केवल Enterprise योजनामा उपलब्ध छ।",
+        "UPGRADE_PROMPT": "SAML सिंगल साइन-इन र अन्य उन्नत सुविधाहरूको पहुँचका लागि आफ्नो योजना अपग्रेड गर्नुहोस्।",
+        "UPGRADE_NOW": "अहिले नै अपग्रेड गर्नुहोस्",
+        "CANCEL_ANYTIME": "तपाईंले आफ्नो योजना जुनसुकै बेला परिवर्तन वा रद्द गर्न सक्नुहुन्छ"
       },
       "ATTRIBUTE_MAPPING": {
-        "TITLE": "SAML Attribute Setup",
-        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+        "TITLE": "SAML एट्रिब्युट सेटअप",
+        "DESCRIPTION": "तपाईंको आइडेन्टिटी प्रोभाइडरमा निम्न एट्रिब्युट म्यापिङहरू कन्फिगर गर्नुपर्छ"
       },
       "INFO_SECTION": {
         "TITLE": "Service Provider Information",
-        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+        "TOOLTIP": "यी मानहरू प्रतिलिपि गरी आफ्नो Identity Provider मा कन्फिगर गर्नुहोस् SAML जडानका लागि"
       }
     }
   },
   "CONVERSATION_WORKFLOW": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "Conversation Workflows",
-        "DESCRIPTION": "Configure rules and required fields for conversation resolution."
+        "TITLE": "वार्ता कार्यप्रवाहहरू",
+        "DESCRIPTION": "वार्ता समाधानका लागि नियम र आवश्यक फिल्डहरू सेट गर्नुहोस्।"
       }
     },
     "REQUIRED_ATTRIBUTES": {
-      "TITLE": "Attributes required on resolution",
-      "DESCRIPTION": "When resolving a conversation, agents will be prompted to fill these attributes if they haven't yet.",
-      "NO_ATTRIBUTES": "No attributes added yet",
+      "TITLE": "समाधानमा आवश्यक विशेषताहरू",
+      "DESCRIPTION": "वार्ता समाधान गर्दा, यी विशेषताहरू नभरिएको भए एजेन्टलाई भर्न अनुरोध गरिनेछ।",
+      "NO_ATTRIBUTES": "अहिलेसम्म कुनै विशेषता थपिएको छैन",
       "ADD": {
-        "TITLE": "Add Attributes",
-        "SEARCH_PLACEHOLDER": "Search attributes"
+        "TITLE": "विशेषता थप्नुहोस्",
+        "SEARCH_PLACEHOLDER": "विशेषता खोज्नुहोस्"
       },
       "SAVE": {
-        "SUCCESS": "Required attributes updated",
-        "ERROR": "Could not update required attributes, please try again"
+        "SUCCESS": "आवश्यक विवरणहरू अपडेट गरियो",
+        "ERROR": "आवश्यक विवरणहरू अपडेट गर्न सकिएन, कृपया फेरि प्रयास गर्नुहोस्"
       },
       "MODAL": {
-        "TITLE": "Resolve conversation",
-        "DESCRIPTION": "Please fill in the following custom attributes before resolving this conversation",
+        "TITLE": "संवाद समाधान गर्नुहोस्",
+        "DESCRIPTION": "यो संवाद समाधान गर्नु अघि तलका अनुकूल विवरणहरू भर्नुहोस्",
         "ACTIONS": {
-          "RESOLVE": "Resolve conversation",
-          "CANCEL": "Cancel"
+          "RESOLVE": "संवाद समाधान गर्नुहोस्",
+          "CANCEL": "रद्द गर्नुहोस्"
         },
         "PLACEHOLDERS": {
-          "TEXT": "Write a note...",
-          "NUMBER": "Enter a number",
-          "LINK": "Add a link",
-          "DATE": "Pick a date",
-          "LIST": "Select an option"
+          "TEXT": "नोट लेख्नुहोस्...",
+          "NUMBER": "संख्या लेख्नुहोस्",
+          "LINK": "लिङ्क थप्नुहोस्",
+          "DATE": "मिति छान्नुहोस्",
+          "LIST": "विकल्प छान्नुहोस्"
         },
         "CHECKBOX": {
-          "YES": "Yes",
-          "NO": "No"
+          "YES": "हो",
+          "NO": "होइन"
         }
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to use required attributes",
-        "AVAILABLE_ON": "The required conversation attributes feature is available on the Business and Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade your plan to prompt agents to fill required attributes before conversation resolution.",
-        "UPGRADE_NOW": "Upgrade now",
-        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+        "TITLE": "आवश्यक विशेषता प्रयोग गर्न योजना स्तरोन्नति गर्नुहोस्",
+        "AVAILABLE_ON": "आवश्यक संवाद विशेषता सुविधा Business र Enterprise योजनामा उपलब्ध छ।",
+        "UPGRADE_PROMPT": "संवाद टुंग्याउनु अघि एजेन्टलाई आवश्यक विशेषता भर्न अनुरोध गर्न योजना स्तरोन्नति गर्नुहोस्।",
+        "UPGRADE_NOW": "अहिले स्तरोन्नति गर्नुहोस्",
+        "CANCEL_ANYTIME": "तपाईंले आफ्नो योजना जुनसुकै बेला परिवर्तन वा रद्द गर्न सक्नुहुन्छ"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The required conversation attributes feature is available on the paid plans.",
-        "UPGRADE_PROMPT": "Upgrade to a paid plan to enforce required attributes before conversation resolution.",
-        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+        "AVAILABLE_ON": "आवश्यक संवाद विशेषता सुविधा भुक्तानी योजना मा उपलब्ध छ।",
+        "UPGRADE_PROMPT": "संवाद टुंग्याउनु अघि आवश्यक विशेषता लागू गर्न भुक्तानी योजना मा स्तरोन्नति गर्नुहोस्।",
+        "ASK_ADMIN": "अपग्रेडका लागि कृपया आफ्नो प्रशासकलाई सम्पर्क गर्नुहोस्।"
       }
     }
   },
@@ -695,7 +695,7 @@
         "API": {
           "SUCCESS_MESSAGE": "असाइनमेन्ट नीति सफलतापूर्वक सिर्जना गरियो",
           "ERROR_MESSAGE": "असाइनमेन्ट नीति सिर्जना गर्न असफल",
-          "INBOX_LINKED": "Inbox has been linked to the policy"
+          "INBOX_LINKED": "इनबक्स नीति सँग जडान गरिएको छ"
         }
       },
       "EDIT": {
@@ -710,10 +710,10 @@
           "CANCEL_BUTTON_LABEL": "रद्द गर्नुहोस्"
         },
         "INBOX_LINK_PROMPT": {
-          "TITLE": "Link inbox to policy",
-          "DESCRIPTION": "Would you like to link this inbox to the assignment policy?",
-          "LINK_BUTTON": "Link inbox",
-          "CANCEL_BUTTON": "Skip"
+          "TITLE": "इनबक्सलाई नीतिसँग जडान गर्नुहोस्",
+          "DESCRIPTION": "के तपाईं यो इनबक्सलाई असाइनमेन्ट नीतिसँग जडान गर्न चाहनुहुन्छ?",
+          "LINK_BUTTON": "इनबक्स जडान गर्नुहोस्",
+          "CANCEL_BUTTON": "छोड्नुहोस्"
         },
         "API": {
           "SUCCESS_MESSAGE": "असाइनमेन्ट नीति सफलतापूर्वक अपडेट गरियो",
@@ -754,8 +754,8 @@
           "BALANCED": {
             "LABEL": "सन्तुलित",
             "DESCRIPTION": "उपलब्ध क्षमता अनुसार कुराकानीहरू असाइन गर्नुहोस्।",
-            "PREMIUM_MESSAGE": "Upgrade to access balanced assignment and agent capacity management.",
-            "PREMIUM_BADGE": "Premium"
+            "PREMIUM_MESSAGE": "सन्तुलित असाइनमेन्ट र एजेन्ट क्षमता व्यवस्थापन पहुँच गर्न अपग्रेड गर्नुहोस्।",
+            "PREMIUM_BADGE": "प्रिमियम"
           }
         },
         "ASSIGNMENT_PRIORITY": {
@@ -776,17 +776,17 @@
           "DURATION": "प्रति एजेन्ट प्रत्येक"
         },
         "INBOXES": {
-          "LABEL": "Added inboxes",
-          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
+          "LABEL": "थपिएका इनबक्सहरू",
+          "DESCRIPTION": "यो नीति लागू हुने इनबक्सहरू थप्नुहोस्।",
           "ADD_BUTTON": "Add inbox",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
-            "ADD_BUTTON": "Add"
+            "SEARCH_PLACEHOLDER": "थप्न इनबक्स खोज्नुहोस् र चयन गर्नुहोस्",
+            "ADD_BUTTON": "थप्नुहोस्"
           },
           "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
           "API": {
-            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "इनबक्स सफलतापूर्वक नीति मा थपियो",
+            "ERROR_MESSAGE": "इनबक्स नीति मा थप्न असफल भयो"
           }
         }
       },
@@ -802,19 +802,19 @@
           "CREATE_POLICY": "New policy"
         },
         "CARD": {
-          "POPOVER": "Added agents",
+          "POPOVER": "थपिएका एजेन्टहरू",
           "EDIT": "Edit"
         },
-        "NO_RECORDS_FOUND": "No agent capacity policies found"
+        "NO_RECORDS_FOUND": "एजेन्ट क्षमता सम्बन्धी कुनै नीति फेला परेन"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create agent capacity policy"
+          "TITLE": "एजेन्ट क्षमता नीति बनाउनुहोस्"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "नीति बनाउनुहोस्",
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
-          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+          "SUCCESS_MESSAGE": "एजेन्ट क्षमता नीति सफलतापूर्वक बन्यो",
+          "ERROR_MESSAGE": "एजेन्ट क्षमता नीति बनाउन असफल भयो"
         }
       },
       "EDIT": {
@@ -829,92 +829,92 @@
           "CANCEL_BUTTON_LABEL": "Cancel"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+          "SUCCESS_MESSAGE": "एजेन्ट क्षमता नीति सफलतापूर्वक अद्यावधिक गरियो",
+          "ERROR_MESSAGE": "एजेन्ट क्षमता नीति अद्यावधिक गर्न असफल भयो"
         },
         "AGENT_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Agent added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "एजेन्ट नीति मा सफलतापूर्वक थपियो",
+            "ERROR_MESSAGE": "एजेन्ट नीति मा थप्न असफल भयो"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove agent from policy"
+            "SUCCESS_MESSAGE": "एजेन्ट नीति बाट सफलतापूर्वक हटाइयो",
+            "ERROR_MESSAGE": "एजेन्ट नीति बाट हटाउन असफल भयो"
           }
         },
         "INBOX_LIMIT_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Inbox limit added successfully",
-            "ERROR_MESSAGE": "Failed to add inbox limit"
+            "SUCCESS_MESSAGE": "इनबक्स सीमा सफलतापूर्वक थपियो",
+            "ERROR_MESSAGE": "इनबक्स सीमा थप्न असफल भयो"
           },
           "UPDATE": {
-            "SUCCESS_MESSAGE": "Inbox limit updated successfully",
-            "ERROR_MESSAGE": "Failed to update inbox limit"
+            "SUCCESS_MESSAGE": "इनबक्स सीमा सफलतापूर्वक अद्यावधिक गरियो",
+            "ERROR_MESSAGE": "इनबक्स सीमा अद्यावधिक गर्न असफल भयो"
           },
           "DELETE": {
-            "SUCCESS_MESSAGE": "Inbox limit deleted successfully",
-            "ERROR_MESSAGE": "Failed to delete inbox limit"
+            "SUCCESS_MESSAGE": "इनबक्स सीमा सफलतापूर्वक हटाइयो",
+            "ERROR_MESSAGE": "इनबक्स सीमा हटाउन असफल भयो"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "नीतिको नाम:",
+          "PLACEHOLDER": "नीतिको नाम लेख्नुहोस्"
         },
         "DESCRIPTION": {
-          "LABEL": "Description:",
-          "PLACEHOLDER": "Enter description"
+          "LABEL": "विवरण:",
+          "PLACEHOLDER": "विवरण लेख्नुहोस्"
         },
         "INBOX_CAPACITY_LIMIT": {
-          "LABEL": "Inbox capacity limits",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "इनबक्स सीमा",
+          "ADD_BUTTON": "इनबक्स थप्नुहोस्",
           "FIELD": {
-            "SELECT_INBOX": "Select inbox",
-            "MAX_CONVERSATIONS": "Max conversations",
-            "SET_LIMIT": "Set limit"
+            "SELECT_INBOX": "इनबक्स छान्नुहोस्",
+            "MAX_CONVERSATIONS": "अधिकतम संवादहरू",
+            "SET_LIMIT": "सीमा सेट गर्नुहोस्"
           },
-          "EMPTY_STATE": "No inbox limit set"
+          "EMPTY_STATE": "इनबक्स सीमा सेट गरिएको छैन"
         },
         "EXCLUSION_RULES": {
-          "LABEL": "Exclusion rules",
-          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "LABEL": "बहिष्करण नियमहरू",
+          "DESCRIPTION": "निम्न सर्तहरू पूरा गर्ने संवादहरू एजेन्ट क्षमतामा गणना हुँदैनन्",
           "TAGS": {
-            "LABEL": "Exclude conversations tagged with specific labels",
-            "ADD_TAG": "add tag",
+            "LABEL": "विशेष ट्याग भएका संवादहरू हटाउनुहोस्",
+            "ADD_TAG": "ट्याग थप्नुहोस्",
             "DROPDOWN": {
-              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+              "SEARCH_PLACEHOLDER": "ट्याग खोज्नुहोस् र चयन गर्नुहोस्"
             },
-            "EMPTY_STATE": "No tags added to this policy."
+            "EMPTY_STATE": "यस नीतिमा कुनै ट्याग थपिएको छैन।"
           },
           "DURATION": {
-            "LABEL": "Exclude conversations older than a specified duration",
-            "PLACEHOLDER": "Set time"
+            "LABEL": "निर्दिष्ट समयभन्दा पुराना संवादहरू हटाउनुहोस्",
+            "PLACEHOLDER": "समय सेट गर्नुहोस्"
           }
         },
         "USERS": {
-          "LABEL": "Assigned agents",
-          "DESCRIPTION": "Add agents for which this policy will be applicable.",
-          "ADD_BUTTON": "Add agent",
+          "LABEL": "नियुक्त एजेन्टहरू",
+          "DESCRIPTION": "यो नीति लागू हुने एजेन्टहरू थप्नुहोस्।",
+          "ADD_BUTTON": "एजेन्ट थप्नुहोस्",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select agents to add",
-            "ADD_BUTTON": "Add"
+            "SEARCH_PLACEHOLDER": "एजेन्ट खोज्नुहोस् र चयन गर्नुहोस्",
+            "ADD_BUTTON": "थप्नुहोस्"
           },
-          "EMPTY_STATE": "No agents added",
+          "EMPTY_STATE": "कुनै एजेन्ट थपिएको छैन",
           "API": {
-            "SUCCESS_MESSAGE": "Agent successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "एजेन्ट नीति मा सफलतापूर्वक थपियो",
+            "ERROR_MESSAGE": "एजेन्ट नीति मा थप्न असफल भयो"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+        "SUCCESS_MESSAGE": "एजेन्ट क्षमता नीति सफलतापूर्वक हटाइयो",
+        "ERROR_MESSAGE": "एजेन्ट क्षमता नीति हटाउन असफल भयो"
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "Delete policy",
-      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "TITLE": "नीति हटाउनुहोस्",
+      "DESCRIPTION": "के तपाईं यो नीति मेटाउन निश्चित हुनुहुन्छ? यो कार्य पूर्ववत गर्न सकिँदैन।",
       "CONFIRM_BUTTON_LABEL": "Delete",
       "CANCEL_BUTTON_LABEL": "Cancel"
     }
