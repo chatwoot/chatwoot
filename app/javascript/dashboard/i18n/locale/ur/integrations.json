@@ -527,7 +527,8 @@
           "TITLE": "Features",
           "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
