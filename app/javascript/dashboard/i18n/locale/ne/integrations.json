@@ -527,7 +527,7 @@
           "TITLE": "विशेषताहरू",
           "ALLOW_CONVERSATION_FAQS": "समाधान भएका कुराकानीबाट FAQ उत्पन्न गर्नुहोस्",
           "ALLOW_MEMORIES": "ग्राहक अन्तरक्रियाबाट मुख्य विवरणहरू सम्झनाहरूको रूपमा समात्नुहोस्।",
-          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CITATIONS": "उत्तरहरूमा स्रोत उद्धरणहरू समावेश गर्नुहोस्",
           "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
@@ -557,7 +557,7 @@
             },
             "RESPONSE_GUIDELINES": {
               "TITLE": "प्रतिक्रिया मार्गनिर्देशनहरू",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "DESCRIPTION": "तपाईंको सहायकका जवाफको शैली र संरचना—स्पष्ट र मैत्रीपूर्ण? छोटो र छरितो? विस्तृत र औपचारिक?"
             }
           }
         },
@@ -581,156 +581,156 @@
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "TITLE": "सीमाहरू",
+        "DESCRIPTION": "सबै कुरा ट्र्याकमा राख्छ—सहायकले तपाईंले चाहेका प्रश्नहरू मात्र जवाफ दिन्छ, अरू कुनै विषय वा सीमा बाहिर जाँदैन।",
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
           "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "BULK_DELETE_BUTTON": "हटाउनुहोस्"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "TITLE": "उदाहरण सीमाहरू",
+            "ADD": "सबै थप्नुहोस्",
+            "ADD_SINGLE": "यो थप्नुहोस्",
+            "SAVE": "थप्नुहोस् र सुरक्षित गर्नुहोस् (↵)",
+            "PLACEHOLDER": "अर्को सीमा टाइप गर्नुहोस्..."
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
-            "CREATE": "Create",
-            "CANCEL": "Cancel",
-            "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "TITLE": "नयाँ गार्डरेल थप्नुहोस्",
+            "CREATE": "सिर्जना गर्नुहोस्",
+            "CANCEL": "रद्द गर्नुहोस्",
+            "PLACEHOLDER": "अर्को गार्डरेल टाइप गर्नुहोस्...",
+            "TEST_ALL": "सबै परीक्षण गर्नुहोस्"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "खोज्नुहोस्..."
         },
-        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "EMPTY_MESSAGE": "कुनै गार्डरेल भेटिएन। सुरु गर्न उदाहरणहरू सिर्जना वा थप्नुहोस्।",
+        "SEARCH_EMPTY_MESSAGE": "यो खोजमा कुनै गार्डरेल भेटिएन।",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "गार्डरेलहरू सफलतापूर्वक थपियो",
+            "ERROR": "गार्डरेल थप्दा त्रुटि आयो, कृपया पुन: प्रयास गर्नुहोस्।"
           },
           "UPDATE": {
-            "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "SUCCESS": "गार्डरेलहरू सफलतापूर्वक अद्यावधिक गरियो",
+            "ERROR": "गार्डरेल्स अद्यावधिक गर्दा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।"
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "SUCCESS": "गार्डरेल्स सफलतापूर्वक हटाइयो",
+            "ERROR": "गार्डरेल्स हटाउँदा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।"
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
-        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "TITLE": "उत्तर दिने निर्देशिका",
+        "DESCRIPTION": "तपाईंको सहायकका उत्तरहरूको शैली र संरचना—स्पष्ट र मैत्रीपूर्ण? छोटो र छरितो? विस्तृत र औपचारिक?",
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
           "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "BULK_DELETE_BUTTON": "हटाउनुहोस्"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example response guidelines",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another response guideline..."
+            "TITLE": "उत्तर निर्देशिकाका उदाहरणहरू",
+            "ADD": "सबै थप्नुहोस्",
+            "ADD_SINGLE": "यो थप्नुहोस्",
+            "SAVE": "थप्नुहोस् र सुरक्षित गर्नुहोस् (↵)",
+            "PLACEHOLDER": "अर्को प्रतिक्रिया मार्गनिर्देशन टाइप गर्नुहोस्..."
           },
           "NEW": {
-            "TITLE": "Add a response guideline",
-            "CREATE": "Create",
-            "CANCEL": "Cancel",
-            "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "TITLE": "प्रतिक्रिया मार्गनिर्देशन थप्नुहोस्",
+            "CREATE": "सिर्जना गर्नुहोस्",
+            "CANCEL": "रद्द गर्नुहोस्",
+            "PLACEHOLDER": "अर्को प्रतिक्रिया मार्गनिर्देशन टाइप गर्नुहोस्...",
+            "TEST_ALL": "सबै परीक्षण गर्नुहोस्"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "खोज्नुहोस्..."
         },
-        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "EMPTY_MESSAGE": "प्रतिक्रिया मार्गनिर्देशन फेला परेन। सुरु गर्न उदाहरणहरू सिर्जना वा थप्नुहोस्।",
+        "SEARCH_EMPTY_MESSAGE": "यो खोजमा कुनै उत्तर निर्देशनहरू भेटिएन।",
         "API": {
           "ADD": {
-            "SUCCESS": "Response Guidelines added successfully",
-            "ERROR": "There was an error adding response guidelines, please try again."
+            "SUCCESS": "प्रतिक्रिया मार्गनिर्देशन सफलतापूर्वक थपियो",
+            "ERROR": "प्रतिक्रिया मार्गनिर्देशन थप्दा त्रुटि आयो, कृपया पुन: प्रयास गर्नुहोस्।"
           },
           "UPDATE": {
-            "SUCCESS": "Response Guidelines updated successfully",
-            "ERROR": "There was an error updating response guidelines, please try again."
+            "SUCCESS": "उत्तर निर्देशनहरू सफलतापूर्वक अद्यावधिक गरियो",
+            "ERROR": "उत्तर निर्देशनहरू अद्यावधिक गर्दा त्रुटि आयो, कृपया फेरि प्रयास गर्नुहोस्।"
           },
           "DELETE": {
-            "SUCCESS": "Response Guidelines deleted successfully",
-            "ERROR": "There was an error deleting response guidelines, please try again."
+            "SUCCESS": "उत्तर निर्देशनहरू सफलतापूर्वक हटाइयो",
+            "ERROR": "उत्तर निर्देशनहरू हटाउँदा त्रुटि आयो, कृपया फेरि प्रयास गर्नुहोस्।"
           }
         }
       },
       "SCENARIOS": {
-        "TITLE": "Scenarios",
-        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "TITLE": "परिदृश्यहरू",
+        "DESCRIPTION": "आफ्नो सहायकलाई केही सन्दर्भ दिनुहोस्—जस्तै “प्रयोगकर्ता अल्झिएको बेला के गर्ने”, वा “रिफन्ड अनुरोधमा कसरी व्यवहार गर्ने।”",
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
           "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "BULK_DELETE_BUTTON": "हटाउनुहोस्"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example scenarios",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "TOOLS_USED": "Tools used :"
+            "TITLE": "उदाहरण परिदृश्यहरू",
+            "ADD": "सबै थप्नुहोस्",
+            "ADD_SINGLE": "यो थप्नुहोस्",
+            "TOOLS_USED": "प्रयोग गरिएका उपकरणहरू :"
           },
           "NEW": {
-            "CREATE": "Add a scenario",
-            "TITLE": "Create a scenario",
+            "CREATE": "परिदृश्य थप्नुहोस्",
+            "TITLE": "परिदृश्य सिर्जना गर्नुहोस्",
             "FORM": {
               "TITLE": {
-                "LABEL": "Title",
-                "PLACEHOLDER": "Enter a name for the scenario",
-                "ERROR": "Scenario name is required"
+                "LABEL": "शीर्षक",
+                "PLACEHOLDER": "परिदृश्यको नाम लेख्नुहोस्",
+                "ERROR": "परिदृश्यको नाम आवश्यक छ"
               },
               "DESCRIPTION": {
-                "LABEL": "Description",
-                "PLACEHOLDER": "Describe how and where this scenario will be used",
-                "ERROR": "Scenario description is required"
+                "LABEL": "विवरण",
+                "PLACEHOLDER": "यो परिदृश्य कसरी र कहाँ प्रयोग हुन्छ वर्णन गर्नुहोस्",
+                "ERROR": "परिदृश्य विवरण आवश्यक छ"
               },
               "INSTRUCTION": {
-                "LABEL": "How to handle",
-                "PLACEHOLDER": "Describe how and where this scenario will be handled",
-                "ERROR": "Scenario content is required"
+                "LABEL": "कसरी व्यवस्थापन गर्ने",
+                "PLACEHOLDER": "यो परिदृश्य कसरी र कहाँ व्यवस्थापन हुन्छ वर्णन गर्नुहोस्",
+                "ERROR": "परिदृश्य सामग्री आवश्यक छ"
               },
-              "CREATE": "Create",
-              "CANCEL": "Cancel"
+              "CREATE": "सिर्जना गर्नुहोस्",
+              "CANCEL": "रद्द गर्नुहोस्"
             }
           }
         },
         "UPDATE": {
-          "CANCEL": "Cancel",
-          "UPDATE": "Update changes"
+          "CANCEL": "रद्द गर्नुहोस्",
+          "UPDATE": "परिवर्तनहरू अद्यावधिक गर्नुहोस्"
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "खोज्नुहोस्..."
         },
-        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "EMPTY_MESSAGE": "कुनै परिदृश्य फेला परेन। सुरु गर्न नयाँ सिर्जना वा उदाहरणहरू थप्नुहोस्।",
+        "SEARCH_EMPTY_MESSAGE": "यो खोजीमा कुनै परिदृश्य भेटिएन।",
         "API": {
           "ADD": {
-            "SUCCESS": "Scenarios added successfully",
-            "ERROR": "There was an error adding scenarios, please try again."
+            "SUCCESS": "परिदृश्यहरू सफलतापूर्वक थपियो",
+            "ERROR": "परिदृश्यहरू थप्दा त्रुटि आयो, कृपया फेरि प्रयास गर्नुहोस्।"
           },
           "UPDATE": {
-            "SUCCESS": "Scenarios updated successfully",
-            "ERROR": "There was an error updating scenarios, please try again."
+            "SUCCESS": "परिदृश्यहरू सफलतापूर्वक अद्यावधिक गरियो",
+            "ERROR": "परिदृश्यहरू अद्यावधिक गर्दा त्रुटि आयो, कृपया फेरि प्रयास गर्नुहोस्।"
           },
           "DELETE": {
-            "SUCCESS": "Scenarios deleted successfully",
-            "ERROR": "There was an error deleting scenarios, please try again."
+            "SUCCESS": "परिदृश्यहरू सफलतापूर्वक हटाइयो",
+            "ERROR": "परिदृश्यहरू हटाउँदा त्रुटि आयो, कृपया फेरि प्रयास गर्नुहोस्।"
           }
         }
       }
@@ -750,9 +750,9 @@
       },
       "FORM": {
         "TYPE": {
-          "LABEL": "Document Type",
+          "LABEL": "कागजात प्रकार",
           "URL": "URL",
-          "PDF": "PDF File"
+          "PDF": "PDF फाइल"
         },
         "URL": {
           "LABEL": "URL",
@@ -760,16 +760,16 @@
           "ERROR": "कृपया कागजातको लागि मान्य URL प्रदान गर्नुहोस्"
         },
         "PDF_FILE": {
-          "LABEL": "PDF File",
-          "CHOOSE_FILE": "Choose PDF file",
-          "ERROR": "Please select a PDF file",
-          "HELP_TEXT": "Maximum file size: 10MB",
-          "INVALID_TYPE": "Please select a valid PDF file",
-          "TOO_LARGE": "File size exceeds 10MB limit"
+          "LABEL": "PDF फाइल",
+          "CHOOSE_FILE": "PDF फाइल छान्नुहोस्",
+          "ERROR": "कृपया PDF फाइल चयन गर्नुहोस्",
+          "HELP_TEXT": "अधिकतम फाइल साइज: १०MB",
+          "INVALID_TYPE": "कृपया मान्य PDF फाइल चयन गर्नुहोस्",
+          "TOO_LARGE": "फाइल साइज १०MB भन्दा बढी छ"
         },
         "NAME": {
-          "LABEL": "Document Name (Optional)",
-          "PLACEHOLDER": "Enter a name for the document"
+          "LABEL": "डोकुमेन्ट नाम (वैकल्पिक)",
+          "PLACEHOLDER": "डोकुमेन्टको नाम लेख्नुहोस्"
         }
       },
       "DELETE": {
@@ -793,107 +793,107 @@
       }
     },
     "CUSTOM_TOOLS": {
-      "HEADER": "Tools",
-      "ADD_NEW": "Create a new tool",
+      "HEADER": "उपकरणहरू",
+      "ADD_NEW": "नयाँ उपकरण बनाउनुहोस्",
       "EMPTY_STATE": {
-        "TITLE": "No custom tools available",
-        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "TITLE": "कुनै कस्टम उपकरण उपलब्ध छैन",
+        "SUBTITLE": "आफ्नो सहायकलाई बाह्य API र सेवासँग जडान गर्न कस्टम उपकरणहरू बनाउनुहोस्, जसले तपाईंको लागि डेटा ल्याउन र कार्यहरू गर्न सक्षम बनाउँछ।",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Custom Tools",
-          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+          "TITLE": "कस्टम उपकरणहरू",
+          "NOTE": "कस्टम उपकरणहरूले तपाईंको सहायकलाई बाह्य API र सेवासँग अन्तरक्रिया गर्न अनुमति दिन्छ। डेटा ल्याउन, कार्यहरू गर्न, वा तपाईंको प्रणालीसँग एकीकृत गर्न उपकरणहरू बनाउनुहोस् र सहायकको क्षमता बढाउनुहोस्।"
         }
       },
-      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "FORM_DESCRIPTION": "बाह्य API सँग जडान गर्न आफ्नो कस्टम उपकरण कन्फिगर गर्नुहोस्",
       "OPTIONS": {
-        "EDIT_TOOL": "Edit tool",
-        "DELETE_TOOL": "Delete tool"
+        "EDIT_TOOL": "उपकरण सम्पादन गर्नुहोस्",
+        "DELETE_TOOL": "उपकरण हटाउनुहोस्"
       },
       "CREATE": {
-        "TITLE": "Create Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool created successfully",
-        "ERROR_MESSAGE": "Failed to create custom tool"
+        "TITLE": "कस्टम उपकरण बनाउनुहोस्",
+        "SUCCESS_MESSAGE": "कस्टम उपकरण सफलतापूर्वक बनाइयो",
+        "ERROR_MESSAGE": "कस्टम टुल बनाउन असफल भयो"
       },
       "EDIT": {
-        "TITLE": "Edit Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool updated successfully",
-        "ERROR_MESSAGE": "Failed to update custom tool"
+        "TITLE": "कस्टम टुल सम्पादन गर्नुहोस्",
+        "SUCCESS_MESSAGE": "कस्टम टुल सफलतापूर्वक अपडेट भयो",
+        "ERROR_MESSAGE": "कस्टम टुल अपडेट गर्न असफल भयो"
       },
       "DELETE": {
-        "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete custom tool"
+        "TITLE": "कस्टम टुल मेटाउनुहोस्",
+        "DESCRIPTION": "के तपाईं यो कस्टम टुल मेटाउन निश्चित हुनुहुन्छ? यो कार्य पूर्ववत गर्न सकिँदैन।",
+        "CONFIRM": "हो, मेटाउनुहोस्",
+        "SUCCESS_MESSAGE": "कस्टम टुल सफलतापूर्वक मेटाइयो",
+        "ERROR_MESSAGE": "कस्टम टुल मेटाउन असफल भयो"
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Tool Name",
-          "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "LABEL": "टुलको नाम",
+          "PLACEHOLDER": "अर्डर खोज्नुहोस्",
+          "ERROR": "टुलको नाम आवश्यक छ"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Looks up order details by order ID"
+          "LABEL": "विवरण",
+          "PLACEHOLDER": "अर्डर ID द्वारा अर्डर विवरण खोज्छ"
         },
         "HTTP_METHOD": {
-          "LABEL": "Method"
+          "LABEL": "विधि"
         },
         "ENDPOINT_URL": {
-          "LABEL": "Endpoint URL",
+          "LABEL": "एन्डपोइन्ट URL",
           "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
-          "ERROR": "Valid URL is required"
+          "ERROR": "मान्य URL आवश्यक छ"
         },
         "AUTH_TYPE": {
-          "LABEL": "Authentication Type"
+          "LABEL": "प्रमाणीकरण प्रकार"
         },
         "AUTH_TYPES": {
-          "NONE": "None",
+          "NONE": "कुनै होइन",
           "BEARER": "Bearer Token",
-          "BASIC": "Basic Auth",
+          "BASIC": "बेसिक प्रमाणीकरण",
           "API_KEY": "API Key"
         },
         "AUTH_CONFIG": {
           "BEARER_TOKEN": "Bearer Token",
-          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
-          "USERNAME": "Username",
-          "USERNAME_PLACEHOLDER": "Enter username",
-          "PASSWORD": "Password",
-          "PASSWORD_PLACEHOLDER": "Enter password",
-          "API_KEY": "Header Name",
+          "BEARER_TOKEN_PLACEHOLDER": "आफ्नो bearer token प्रविष्ट गर्नुहोस्",
+          "USERNAME": "प्रयोगकर्ता नाम",
+          "USERNAME_PLACEHOLDER": "प्रयोगकर्ता नाम लेख्नुहोस्",
+          "PASSWORD": "पासवर्ड",
+          "PASSWORD_PLACEHOLDER": "पासवर्ड लेख्नुहोस्",
+          "API_KEY": "हेडर नाम",
           "API_KEY_PLACEHOLDER": "X-API-Key",
-          "API_VALUE": "Header Value",
-          "API_VALUE_PLACEHOLDER": "Enter API key value"
+          "API_VALUE": "हेडर मान",
+          "API_VALUE_PLACEHOLDER": "API कुञ्जी मान प्रविष्ट गर्नुहोस्"
         },
         "PARAMETERS": {
-          "LABEL": "Parameters",
-          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+          "LABEL": "प्यारामिटरहरू",
+          "HELP_TEXT": "प्रयोगकर्ताका प्रश्नबाट निकालिने प्यारामिटरहरू परिभाषित गर्नुहोस्"
         },
-        "ADD_PARAMETER": "Add Parameter",
+        "ADD_PARAMETER": "प्यारामिटर थप्नुहोस्",
         "PARAM_NAME": {
-          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+          "PLACEHOLDER": "प्यारामिटर नाम (जस्तै, order_id)"
         },
         "PARAM_TYPE": {
-          "PLACEHOLDER": "Type"
+          "PLACEHOLDER": "प्रकार"
         },
         "PARAM_TYPES": {
-          "STRING": "String",
-          "NUMBER": "Number",
-          "BOOLEAN": "Boolean",
-          "ARRAY": "Array",
-          "OBJECT": "Object"
+          "STRING": "स्ट्रिङ",
+          "NUMBER": "संख्या",
+          "BOOLEAN": "बुलियन",
+          "ARRAY": "एरे",
+          "OBJECT": "वस्तु"
         },
         "PARAM_DESCRIPTION": {
-          "PLACEHOLDER": "Description of the parameter"
+          "PLACEHOLDER": "प्यारामिटरको विवरण"
         },
         "PARAM_REQUIRED": {
-          "LABEL": "Required"
+          "LABEL": "आवश्यक"
         },
         "REQUEST_TEMPLATE": {
-          "LABEL": "Request Body Template (Optional)",
+          "LABEL": "अनुरोध बडी टेम्प्लेट (वैकल्पिक)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "Response Template (Optional)",
+          "LABEL": "प्रतिक्रिया टेम्प्लेट (वैकल्पिक)",
           "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
         },
         "ERRORS": {
@@ -911,7 +911,7 @@
       "SELECTED": "{count} चयन गरियो",
       "SELECT_ALL": "सबै चयन गर्नुहोस् ({count})",
       "UNSELECT_ALL": "सबै चयन हटाउनुहोस् ({count})",
-      "SEARCH_PLACEHOLDER": "Search FAQs...",
+      "SEARCH_PLACEHOLDER": "FAQs खोज्नुहोस्...",
       "BULK_APPROVE_BUTTON": "स्वीकृत गर्नु",
       "BULK_DELETE_BUTTON": "मेटाउनु",
       "BULK_APPROVE": {
