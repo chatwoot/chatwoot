@@ -238,13 +238,16 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.LOCATIONS'),
           icon: 'i-lucide-map-pin',
           activeOn: ['conversations_through_location'],
-          children: userLocations.value.map(location => ({
-            name: `${location.name}-${location.id}`,
-            label: location.name,
-            to: accountScopedRoute('location_conversations', {
-              locationId: location.id,
-            }),
-          })),
+          children: userLocations.value
+            .slice()
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map(location => ({
+              name: `${location.name}-${location.id}`,
+              label: location.name,
+              to: accountScopedRoute('location_conversations', {
+                locationId: location.id,
+              }),
+            })),
         },
       ],
     },

@@ -14,8 +14,12 @@ class Api::V1::Accounts::LocationsController < Api::V1::Accounts::BaseController
   end
 
   def user_locations
-    user_location = Current.account_user&.location
-    @locations = user_location ? user_location.with_descendants.includes(:address, :parent_locations) : []
+    @locations = if Current.account_user&.administrator?
+                   Current.account.locations.includes(:address, :parent_locations)
+                 else
+                   user_location = Current.account_user&.location
+                   user_location ? user_location.with_descendants.includes(:address, :parent_locations) : []
+                 end
     render :index
   end
 

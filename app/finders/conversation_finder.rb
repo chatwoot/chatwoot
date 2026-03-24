@@ -181,7 +181,8 @@ class ConversationFinder
   def filter_by_location
     return unless @location
 
-    user_ids = current_account.account_users.where(location_id: @location.id).pluck(:user_id)
+    location_ids = @location.with_descendants.pluck(:id)
+    user_ids = current_account.account_users.where(location_id: location_ids).pluck(:user_id)
     @conversations = @conversations.where(assignee_id: user_ids)
   end
 
