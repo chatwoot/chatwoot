@@ -10,7 +10,7 @@ RSpec.describe ChatwootMarkdownRenderer do
   let(:html_content) { '<p>This is a <em>test</em> content with <sup>markdown</sup></p>' }
 
   before do
-    allow(CommonMarker).to receive(:render_doc).with(markdown_content, :DEFAULT, [:strikethrough]).and_return(doc)
+    allow(CommonMarker).to receive(:render_doc).with(markdown_content, :DEFAULT, [:strikethrough, :autolink]).and_return(doc)
     allow(CustomMarkdownRenderer).to receive(:new).and_return(markdown_renderer)
     allow(markdown_renderer).to receive(:render).with(doc).and_return(html_content)
   end
