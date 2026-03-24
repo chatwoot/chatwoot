@@ -10,7 +10,7 @@ class AgentBots::WebhookJob < WebhookJob
   def perform(url, payload, webhook_type = :agent_bot_webhook, secret: nil, delivery_id: nil)
     super(url, payload, webhook_type, secret: secret, delivery_id: delivery_id)
   rescue RestClient::TooManyRequests, RestClient::InternalServerError => e
-    Rails.logger.warn("[AgentBots::WebhookJob] attempt #{executions} failed #{e.class.name}")
+    Rails.logger.warn("[AgentBots::WebhookJob] attempt #{executions} failed #{e.class.name} payload=#{payload.to_json}")
     raise
   end
 end
