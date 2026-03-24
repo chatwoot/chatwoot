@@ -297,11 +297,12 @@ Rails.application.routes.draw do
             resource :authorization, only: [:create]
           end
 
-          resources :whatsapp_calls, only: [] do
+          resources :whatsapp_calls, only: [:show] do
             member do
               post :accept
               post :reject
               post :terminate
+              post :upload_recording
             end
             collection do
               post :initiate

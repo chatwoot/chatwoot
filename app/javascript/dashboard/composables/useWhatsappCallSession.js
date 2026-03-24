@@ -5,18 +5,258 @@ import {
   getOutboundCallState,
 } from 'dashboard/stores/whatsappCalls';
 import WhatsappCallsAPI from 'dashboard/api/whatsappCalls';
+import Auth from 'dashboard/api/auth';
 import Timer from 'dashboard/helper/Timer';
 
+// ── Module-level WebRTC state for inbound calls accepted from anywhere ──
+// Kept at module scope so both the composable and acceptWhatsappCallById share it.
+let inboundPc = null;
+let inboundStream = null;
+let inboundAudio = null;
+
+// ── Module-level recording state ──
+let mediaRecorder = null;
+let recordedChunks = [];
+let recordingCallId = null;
+
+function cleanupInboundWebRTC() {
+  if (inboundStream) {
+    inboundStream.getTracks().forEach(track => track.stop());
+    inboundStream = null;
+  }
+  if (inboundPc) {
+    inboundPc.close();
+    inboundPc = null;
+  }
+  if (inboundAudio) {
+    inboundAudio.srcObject = null;
+    if (inboundAudio.parentNode) {
+      inboundAudio.parentNode.removeChild(inboundAudio);
+    }
+    inboundAudio = null;
+  }
+}
+
+/**
+ * Start recording both local and remote audio tracks via MediaRecorder.
+ * Mixes them into a single stream using AudioContext.
+ */
+export function startCallRecording(pc, localStream, callId) {
+  try {
+    const ctx = new AudioContext();
+    const dest = ctx.createMediaStreamDestination();
+
+    // Add local mic track
+    if (localStream) {
+      const localSource = ctx.createMediaStreamSource(localStream);
+      localSource.connect(dest);
+    }
+
+    // Add remote tracks from peer connection
+    pc.getReceivers().forEach(receiver => {
+      if (receiver.track && receiver.track.kind === 'audio') {
+        const remoteStream = new MediaStream([receiver.track]);
+        const remoteSource = ctx.createMediaStreamSource(remoteStream);
+        remoteSource.connect(dest);
+      }
+    });
+
+    recordedChunks = [];
+    recordingCallId = callId;
+    const recorder = new MediaRecorder(dest.stream, {
+      mimeType: 'audio/webm;codecs=opus',
+    });
+
+    recorder.ondataavailable = e => {
+      if (e.data.size > 0) recordedChunks.push(e.data);
+    };
+
+    mediaRecorder = recorder;
+    recorder.start(1000);
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('[WhatsApp Call] Failed to start recording:', err);
+  }
+}
+
+/**
+ * Stop recording and upload the audio blob to the backend.
+ */
+function stopAndUploadRecording(callId) {
+  if (!mediaRecorder || mediaRecorder.state === 'inactive') return;
+
+  const id = callId || recordingCallId;
+
+  mediaRecorder.onstop = () => {
+    if (recordedChunks.length === 0 || !id) return;
+
+    const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+    recordedChunks = [];
+    recordingCallId = null;
+
+    WhatsappCallsAPI.uploadRecording(id, blob).catch(err => {
+      // eslint-disable-next-line no-console
+      console.error('[WhatsApp Call] Failed to upload recording:', err);
+    });
+  };
+
+  mediaRecorder.stop();
+  mediaRecorder = null;
+}
+
+function waitForIceGatheringComplete(pc) {
+  return new Promise((resolve, reject) => {
+    if (pc.iceGatheringState === 'complete') {
+      resolve();
+      return;
+    }
+    const timeout = setTimeout(() => {
+      // eslint-disable-next-line no-console
+      console.warn(
+        '[WhatsApp Call] ICE gathering timed out, sending partial SDP'
+      );
+      resolve();
+    }, 10000);
+
+    pc.onicegatheringstatechange = () => {
+      if (pc.iceGatheringState === 'complete') {
+        clearTimeout(timeout);
+        resolve();
+      }
+    };
+    pc.oniceconnectionstatechange = () => {
+      if (pc.iceConnectionState === 'failed') {
+        clearTimeout(timeout);
+        reject(new Error('ICE connection failed'));
+      }
+    };
+  });
+}
+
+/**
+ * Core accept logic: creates WebRTC session and posts SDP to backend.
+ * Can be called from anywhere — composable, widget, or bubble.
+ * Returns { success: true } or { success: false, error }.
+ */
+async function doAcceptCall(call) {
+  cleanupInboundWebRTC();
+
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  inboundStream = stream;
+
+  const iceServers = call.iceServers?.length
+    ? call.iceServers
+    : [{ urls: 'stun:stun.l.google.com:19302' }];
+
+  const pc = new RTCPeerConnection({ iceServers });
+  inboundPc = pc;
+
+  stream.getTracks().forEach(track => pc.addTrack(track, stream));
+
+  pc.ontrack = event => {
+    const [remoteStream] = event.streams;
+    if (!remoteStream) return;
+    if (!inboundAudio) {
+      const audio = document.createElement('audio');
+      audio.autoplay = true;
+      document.body.appendChild(audio);
+      inboundAudio = audio;
+    }
+    inboundAudio.srcObject = remoteStream;
+    inboundAudio.play().catch(() => {});
+
+    // Start recording once remote audio is available
+    startCallRecording(pc, stream, call.id);
+  };
+
+  await pc.setRemoteDescription({ type: 'offer', sdp: call.sdpOffer });
+  const answer = await pc.createAnswer();
+  await pc.setLocalDescription(answer);
+  await waitForIceGatheringComplete(pc);
+
+  const completeSdp = pc.localDescription.sdp;
+  await WhatsappCallsAPI.accept(call.id, completeSdp);
+
+  return { success: true };
+}
+
+/**
+ * Standalone function callable from VoiceCall bubble.
+ * Fetches call data if needed, runs WebRTC accept, updates store.
+ */
+export async function acceptWhatsappCallById(waCallId) {
+  const callsStore = useWhatsappCallsStore();
+
+  if (callsStore.hasActiveCall) {
+    return { success: false, error: 'active_call_exists' };
+  }
+
+  // 1. Check if the call is already in the incoming store
+  let call = callsStore.incomingCalls.find(
+    c => c.id === waCallId || c.waCallId === waCallId
+  );
+
+  // 2. Not in store (page was refreshed) → fetch from API
+  if (!call) {
+    const { data } = await WhatsappCallsAPI.show(waCallId);
+    if (data.status !== 'ringing') {
+      return { success: false, error: 'not_ringing' };
+    }
+    call = {
+      id: data.id,
+      callId: data.call_id,
+      waCallId: data.id,
+      direction: data.direction,
+      inboxId: data.inbox_id,
+      conversationId: data.conversation_id,
+      sdpOffer: data.sdp_offer,
+      iceServers: data.ice_servers,
+      caller: data.caller,
+    };
+    callsStore.addIncomingCall(call);
+  }
+
+  // 3. Run the WebRTC accept
+  await doAcceptCall(call);
+
+  // 4. Move from incoming to active
+  callsStore.removeIncomingCall(call.callId);
+  callsStore.setActiveCall({ ...call });
+
+  return { success: true, call };
+}
+
+/**
+ * Fire-and-forget terminate request using fetch + keepalive.
+ * Works reliably inside beforeunload / pagehide where axios won't complete.
+ */
+function terminateCallOnUnload(callId) {
+  const authData = Auth.hasAuthCookie() ? Auth.getAuthData() : {};
+  const accountId =
+    window.location.pathname.includes('/app/accounts') &&
+    window.location.pathname.split('/')[3];
+  if (!accountId) return;
+
+  const url = `/api/v1/accounts/${accountId}/whatsapp_calls/${callId}/terminate`;
+  fetch(url, {
+    method: 'POST',
+    keepalive: true,
+    headers: {
+      'Content-Type': 'application/json',
+      'access-token': authData['access-token'] || '',
+      'token-type': authData['token-type'] || '',
+      client: authData.client || '',
+      expiry: authData.expiry || '',
+      uid: authData.uid || '',
+    },
+  }).catch(() => {});
+}
+
+// ── Composable (used by WhatsappCallWidget for floating UI + timer) ──
 export function useWhatsappCallSession() {
   const { t } = useI18n();
   const callsStore = useWhatsappCallsStore();
 
-  // WebRTC internals
-  let peerConnection = null;
-  let localStream = null;
-  const remoteAudio = ref(null);
-
-  // UI state
   const isAccepting = ref(false);
   const isMuted = ref(false);
   const callError = ref(null);
@@ -44,33 +284,25 @@ export function useWhatsappCallSession() {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   });
 
-  const cleanupWebRTC = () => {
-    if (localStream) {
-      localStream.getTracks().forEach(track => track.stop());
-      localStream = null;
-    }
-    if (peerConnection) {
-      peerConnection.close();
-      peerConnection = null;
-    }
-    if (remoteAudio.value) {
-      remoteAudio.value.srcObject = null;
-      // Remove dynamically created audio element from DOM
-      if (remoteAudio.value.parentNode) {
-        remoteAudio.value.parentNode.removeChild(remoteAudio.value);
-      }
-      remoteAudio.value = null;
-    }
-  };
-
-  // Register cleanup callback so store can trigger WebRTC teardown on external events
+  // Register cleanup so external call-end events can teardown WebRTC
   callsStore.registerCleanupCallback(() => {
-    cleanupWebRTC();
+    stopAndUploadRecording();
+    cleanupInboundWebRTC();
     durationTimer.stop();
     callDuration.value = 0;
   });
 
-  // Start timer when an outbound call becomes connected (SDP answer received)
+  // Terminate active call on page close / reload
+  const handleBeforeUnload = () => {
+    const call = callsStore.activeCall;
+    if (call?.id) {
+      terminateCallOnUnload(call.id);
+      cleanupInboundWebRTC();
+    }
+  };
+  window.addEventListener('beforeunload', handleBeforeUnload);
+
+  // Start timer when outbound call becomes connected
   watch(activeCall, call => {
     if (
       call?.direction === 'outbound' &&
@@ -82,49 +314,8 @@ export function useWhatsappCallSession() {
   });
 
   /**
-   * Waits for ICE candidate gathering to complete so the SDP contains all candidates.
-   * Meta's REST API doesn't support trickle ICE — the full SDP must be sent at once.
-   */
-  const waitForIceGatheringComplete = pc =>
-    new Promise((resolve, reject) => {
-      if (pc.iceGatheringState === 'complete') {
-        resolve();
-        return;
-      }
-
-      const timeout = setTimeout(() => {
-        // If gathering hasn't finished in 10s, send what we have
-        // eslint-disable-next-line no-console
-        console.warn(
-          '[WhatsApp Call] ICE gathering timed out, sending partial SDP'
-        );
-        resolve();
-      }, 10000);
-
-      pc.onicegatheringstatechange = () => {
-        if (pc.iceGatheringState === 'complete') {
-          clearTimeout(timeout);
-          resolve();
-        }
-      };
-
-      // Also reject if connection fails during gathering
-      pc.oniceconnectionstatechange = () => {
-        if (pc.iceConnectionState === 'failed') {
-          clearTimeout(timeout);
-          reject(new Error('ICE connection failed'));
-        }
-      };
-    });
-
-  /**
-   * Accepts an incoming WhatsApp call:
-   * 1. Requests mic access
-   * 2. Creates RTCPeerConnection with ICE servers from the call payload
-   * 3. Sets remote description (the SDP offer from Meta)
-   * 4. Creates an SDP answer
-   * 5. Waits for ICE gathering to complete (Meta needs full SDP, no trickle ICE)
-   * 6. Posts the complete SDP answer to Chatwoot backend → Meta API
+   * Accept an incoming call — used by the floating widget buttons.
+   * Uses the same doAcceptCall core + starts the timer.
    */
   const acceptCall = async call => {
     if (isAccepting.value) return;
@@ -132,74 +323,9 @@ export function useWhatsappCallSession() {
     callError.value = null;
 
     try {
-      // 1. Get microphone access
-      localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
-      // 2. Build ICE config
-      const iceServers = call.iceServers?.length
-        ? call.iceServers
-        : [{ urls: 'stun:stun.l.google.com:19302' }];
-
-      // 3. Create RTCPeerConnection
-      peerConnection = new RTCPeerConnection({ iceServers });
-
-      // 4. Add local audio tracks
-      localStream.getTracks().forEach(track => {
-        peerConnection.addTrack(track, localStream);
-      });
-
-      // 5. Handle remote audio stream → play via <audio> element
-      peerConnection.ontrack = event => {
-        const [stream] = event.streams;
-        if (!stream) return;
-
-        if (remoteAudio.value) {
-          remoteAudio.value.srcObject = stream;
-          remoteAudio.value.play().catch(e => {
-            // eslint-disable-next-line no-console
-            console.warn('[WhatsApp Call] Audio autoplay blocked:', e);
-          });
-        } else {
-          const audio = document.createElement('audio');
-          audio.srcObject = stream;
-          audio.autoplay = true;
-          document.body.appendChild(audio);
-          remoteAudio.value = audio;
-        }
-      };
-
-      // 6. Monitor ICE connection state for debugging
-      peerConnection.oniceconnectionstatechange = () => {
-        // eslint-disable-next-line no-console
-        console.log(
-          '[WhatsApp Call] ICE state:',
-          peerConnection?.iceConnectionState
-        );
-      };
-
-      // 7. Set remote description from Meta's SDP offer
-      await peerConnection.setRemoteDescription({
-        type: 'offer',
-        sdp: call.sdpOffer,
-      });
-
-      // 8. Create SDP answer
-      const answer = await peerConnection.createAnswer();
-      await peerConnection.setLocalDescription(answer);
-
-      // 9. Wait for ICE gathering to complete so SDP has all candidates
-      await waitForIceGatheringComplete(peerConnection);
-
-      // 10. Post the COMPLETE SDP answer (with all ICE candidates) to backend
-      const completeSdp = peerConnection.localDescription.sdp;
-      await WhatsappCallsAPI.accept(call.id, completeSdp);
-
-      // 11. Mark as active in store
+      await doAcceptCall(call);
       callsStore.removeIncomingCall(call.callId);
-      callsStore.setActiveCall({
-        ...call,
-      });
-
+      callsStore.setActiveCall({ ...call });
       durationTimer.start();
     } catch (err) {
       callError.value =
@@ -208,7 +334,7 @@ export function useWhatsappCallSession() {
           : t('WHATSAPP_CALL.CALL_FAILED');
       // eslint-disable-next-line no-console
       console.error('[WhatsApp Call] acceptCall error:', err);
-      cleanupWebRTC();
+      cleanupInboundWebRTC();
     } finally {
       isAccepting.value = false;
     }
@@ -228,14 +354,14 @@ export function useWhatsappCallSession() {
     const call = activeCall.value;
     if (!call) return;
 
+    stopAndUploadRecording(call.id);
+
     try {
       await WhatsappCallsAPI.terminate(call.id);
     } catch {
-      // Best effort — always cleanup locally
+      // Best effort
     } finally {
-      // For inbound calls, cleanup composable-managed WebRTC
-      cleanupWebRTC();
-      // For outbound calls, cleanup module-scoped WebRTC via store
+      cleanupInboundWebRTC();
       callsStore.handleCallEnded(call.callId);
       callsStore.clearActiveCall();
       durationTimer.stop();
@@ -244,9 +370,7 @@ export function useWhatsappCallSession() {
   };
 
   const toggleMute = () => {
-    // For inbound calls, localStream is managed by this composable.
-    // For outbound calls, the stream is in module-scoped outbound state.
-    const stream = localStream || getOutboundCallState().stream;
+    const stream = inboundStream || getOutboundCallState().stream;
     if (!stream) return;
     const audioTrack = stream.getAudioTracks()[0];
     if (!audioTrack) return;
@@ -259,6 +383,7 @@ export function useWhatsappCallSession() {
   };
 
   onUnmounted(() => {
+    window.removeEventListener('beforeunload', handleBeforeUnload);
     durationTimer.stop();
   });
 

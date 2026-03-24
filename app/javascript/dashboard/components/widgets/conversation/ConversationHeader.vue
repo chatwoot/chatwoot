@@ -20,6 +20,7 @@ import {
   useWhatsappCallsStore,
   setOutboundCallProperty,
 } from 'dashboard/stores/whatsappCalls';
+import { startCallRecording } from 'dashboard/composables/useWhatsappCallSession';
 
 const props = defineProps({
   chat: {
@@ -128,6 +129,7 @@ const initiateWhatsappCall = async () => {
   isInitiatingCall.value = true;
   let pc = null;
   let localStream = null;
+  let waCallId = null;
   try {
     localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
     pc = new RTCPeerConnection({
@@ -146,6 +148,8 @@ const initiateWhatsappCall = async () => {
       setOutboundCallProperty('audio', audio);
       // Remote audio arrived — callee picked up, transition from ringing to connected
       whatsappCallsStore.markActiveCallConnected();
+      // Start recording both local + remote audio
+      if (waCallId) startCallRecording(pc, localStream, waCallId);
     };
 
     pc.oniceconnectionstatechange = () => {
@@ -186,6 +190,7 @@ const initiateWhatsappCall = async () => {
     });
 
     const outboundCallId = response.data?.call_id;
+    waCallId = response.data?.id;
     setOutboundCallProperty('pc', pc);
     setOutboundCallProperty('stream', localStream);
     setOutboundCallProperty('callId', outboundCallId);

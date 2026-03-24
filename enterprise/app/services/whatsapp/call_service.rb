@@ -24,6 +24,8 @@ class Whatsapp::CallService
       )
     end
 
+    Whatsapp::CallMessageBuilder.update_status!(wa_call: wa_call, status: 'accepted', agent: agent)
+    update_conversation_call_status('in-progress')
     broadcast_accepted
     wa_call
   end
@@ -37,6 +39,8 @@ class Whatsapp::CallService
     Rails.logger.error "[WHATSAPP CALL] reject_call API returned false for call #{wa_call.call_id}" unless success
 
     wa_call.update!(status: 'rejected')
+    Whatsapp::CallMessageBuilder.update_status!(wa_call: wa_call, status: 'rejected')
+    update_conversation_call_status('failed')
     broadcast_call_ended
     wa_call
   end
@@ -49,6 +53,8 @@ class Whatsapp::CallService
     Rails.logger.error "[WHATSAPP CALL] terminate_call API returned false for call #{wa_call.call_id}" unless success
 
     wa_call.update!(status: 'ended')
+    Whatsapp::CallMessageBuilder.update_status!(wa_call: wa_call, status: 'ended')
+    update_conversation_call_status('completed')
     broadcast_call_ended
     wa_call
   end
@@ -65,6 +71,12 @@ class Whatsapp::CallService
 
   def fix_sdp_setup(sdp)
     sdp.gsub('a=setup:actpass', 'a=setup:active')
+  end
+
+  def update_conversation_call_status(mapped_status)
+    conversation = wa_call.conversation
+    attrs = (conversation.additional_attributes || {}).merge('call_status' => mapped_status)
+    conversation.update!(additional_attributes: attrs)
   end
 
   def broadcast_accepted

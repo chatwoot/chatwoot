@@ -6,6 +6,10 @@ class WhatsappCallsAPI extends ApiClient {
     super('whatsapp_calls', { accountScoped: true });
   }
 
+  show(callId) {
+    return axios.get(`${this.url}/${callId}`);
+  }
+
   accept(callId, sdpAnswer) {
     return axios.post(`${this.url}/${callId}/accept`, {
       sdp_answer: sdpAnswer,
@@ -24,6 +28,14 @@ class WhatsappCallsAPI extends ApiClient {
     return axios.post(`${this.url}/initiate`, {
       conversation_id: conversationId,
       sdp_offer: sdpOffer,
+    });
+  }
+
+  uploadRecording(callId, blob) {
+    const formData = new FormData();
+    formData.append('recording', blob, `call-${callId}.webm`);
+    return axios.post(`${this.url}/${callId}/upload_recording`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
   }
 }

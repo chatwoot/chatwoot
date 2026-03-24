@@ -6,6 +6,9 @@ class WhatsappCall < ApplicationRecord
   belongs_to :inbox
   belongs_to :conversation
   belongs_to :accepted_by_agent, class_name: 'User', optional: true
+  belongs_to :message, optional: true
+
+  has_one_attached :recording
 
   validates :call_id, presence: true, uniqueness: true
   validates :direction, inclusion: { in: DIRECTIONS }
@@ -32,5 +35,11 @@ class WhatsappCall < ApplicationRecord
 
   def ice_servers
     meta['ice_servers'] || []
+  end
+
+  def recording_url
+    return unless recording.attached?
+
+    Rails.application.routes.url_helpers.rails_blob_path(recording, only_path: true)
   end
 end

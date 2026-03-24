@@ -33,6 +33,8 @@ class Whatsapp::IncomingCallService
       Rails.logger.info "[WHATSAPP CALL] call_connect for existing call #{call_id} (direction=#{direction})"
       sdp_answer = fix_sdp_setup(call_payload.dig(:session, :sdp))
       existing_call.update!(status: 'accepted', meta: existing_call.meta.merge('sdp_answer' => sdp_answer))
+      Whatsapp::CallMessageBuilder.update_status!(wa_call: existing_call, status: 'accepted')
+      update_conversation_call_status(existing_call.conversation, 'in-progress', direction)
       broadcast_outbound_call_connected(existing_call, sdp_answer)
       return
     end
@@ -44,10 +46,18 @@ class Whatsapp::IncomingCallService
     return unless conversation
 
     wa_call = create_call_record(call_payload, conversation, direction)
-    create_call_activity_message(conversation, 'incoming_call', direction)
+    create_voice_call_message(conversation, wa_call)
+    update_conversation_call_status(conversation, 'ringing', direction)
     broadcast_incoming_call(wa_call, contact, call_payload.dig(:session, :sdp))
   rescue ActiveRecord::RecordNotUnique
     Rails.logger.warn "[WHATSAPP CALL] Duplicate call_id received: #{call_id}"
+  end
+
+  def create_voice_call_message(conversation, wa_call, user: nil)
+    message = Whatsapp::CallMessageBuilder.create!(conversation: conversation, wa_call: wa_call, user: user)
+    wa_call.update!(message_id: message.id)
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP CALL] Failed to create voice_call message: #{e.message}"
   end
 
   def create_call_record(call_payload, conversation, direction)
@@ -70,15 +80,20 @@ class Whatsapp::IncomingCallService
     wa_call = WhatsappCall.find_by(call_id: call_id)
     return unless wa_call
 
-    final_status = wa_call.accepted? ? 'ended' : 'missed'
+    # Determine if the call was answered: check accepted status, duration > 0,
+    # or accepted_by_agent_id presence (handles webhook race conditions)
+    was_answered = wa_call.accepted? || duration.to_i.positive? || wa_call.accepted_by_agent_id.present?
+    final_status = was_answered ? 'ended' : 'missed'
     wa_call.update!(
       status: final_status,
       duration_seconds: duration,
       end_reason: end_reason
     )
 
-    call_event = duration.to_i.positive? ? 'call_ended' : 'call_missed'
-    create_call_activity_message(wa_call.conversation, call_event, wa_call.direction, duration: duration)
+    agent = wa_call.accepted_by_agent if wa_call.accepted_by_agent_id.present?
+    Whatsapp::CallMessageBuilder.update_status!(wa_call: wa_call, status: final_status, agent: agent, duration_seconds: duration)
+    mapped = Whatsapp::CallMessageBuilder::WHATSAPP_TO_VOICE_STATUS[final_status] || final_status
+    update_conversation_call_status(wa_call.conversation, mapped, wa_call.direction)
     broadcast_call_ended(wa_call)
   end
 
@@ -113,36 +128,12 @@ class Whatsapp::IncomingCallService
     )
   end
 
-  def create_call_activity_message(conversation, event, direction, duration: nil)
-    content = call_activity_content(event, direction, duration)
-    conversation.messages.create!(
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      message_type: :activity,
-      content: content,
-      content_attributes: {
-        call_event: event,
-        call_direction: direction,
-        call_duration_seconds: duration
-      }
+  def update_conversation_call_status(conversation, call_status, direction)
+    attrs = (conversation.additional_attributes || {}).merge(
+      'call_status' => call_status,
+      'call_direction' => direction
     )
-  end
-
-  def call_activity_content(event, direction, duration)
-    case event
-    when 'incoming_call'
-      direction == 'inbound' ? 'Incoming WhatsApp call' : 'Outgoing WhatsApp call'
-    when 'call_ended' then "WhatsApp call ended — #{format_duration(duration)}"
-    when 'call_missed' then 'Missed WhatsApp call'
-    else 'WhatsApp call'
-    end
-  end
-
-  def format_duration(seconds)
-    return '0s' if seconds.nil? || seconds.zero?
-
-    mins, secs = seconds.divmod(60)
-    mins.positive? ? "#{mins}m #{secs}s" : "#{secs}s"
+    conversation.update!(additional_attributes: attrs)
   end
 
   def broadcast_incoming_call(wa_call, contact, sdp_offer)

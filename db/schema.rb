@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_20_074636) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_23_110000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1289,9 +1289,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_20_074636) do
     t.jsonb "meta", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "message_id"
+    t.text "transcript"
     t.index ["account_id", "conversation_id"], name: "index_whatsapp_calls_on_account_id_and_conversation_id"
     t.index ["call_id"], name: "index_whatsapp_calls_on_call_id", unique: true
     t.index ["inbox_id", "status"], name: "index_whatsapp_calls_on_inbox_id_and_status"
+    t.index ["message_id"], name: "index_whatsapp_calls_on_message_id"
   end
 
   create_table "working_hours", force: :cascade do |t|
@@ -1313,6 +1316,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_20_074636) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "whatsapp_calls", "messages"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
