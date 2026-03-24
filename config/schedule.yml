@@ -2,10 +2,12 @@
 # use https://crontab.guru/ to validate
 # validations for this file exist in /spec/configs/schedule_spec.rb
 
-# executed At 12:00 on every day-of-month.
+# executed daily at 0000 UTC
+# schedules daily deferred jobs at stable times for each installation
+# keep the existing schedule key while the cron loader still uses load_from_hash
 internal_check_new_versions_job:
-  cron: '0 12 */1 * *'
-  class: 'Internal::CheckNewVersionsJob'
+  cron: '0 0 * * *'
+  class: 'Internal::TriggerDailyScheduledItemsJob'
   queue: scheduled_jobs
 # # executed At every 5th minute..
 trigger_scheduled_items_job:
@@ -33,12 +35,13 @@ remove_stale_redis_keys_job.rb:
   class: 'Internal::RemoveStaleRedisKeysJob'
   queue: scheduled_jobs
 
-#executed daily at 0430 UTC
-# which will be IST 10:00 AM
-process_stale_contacts_job:
-  cron: '30 04 * * *'
-  class: 'Internal::ProcessStaleContactsJob'
-  queue: housekeeping
+# DISABLED: investigating if this job is the source of orphan conversations
+# #executed daily at 0430 UTC
+# # which will be IST 10:00 AM
+# process_stale_contacts_job:
+#   cron: '30 04 * * *'
+#   class: 'Internal::ProcessStaleContactsJob'
+#   queue: housekeeping
 
 # executed daily at 0100 UTC
 # to delete accounts marked for deletion
@@ -59,3 +62,17 @@ periodic_assignment_job:
   cron: '*/30 * * * *'
   class: 'AutoAssignment::PeriodicAssignmentJob'
   queue: scheduled_jobs
+
+# executed daily at 2230 UTC
+# removes old notifications (>1 month) and trims to 300 per user
+remove_old_notification_job:
+  cron: '30 22 * * *'
+  class: 'Notification::RemoveOldNotificationJob'
+  queue: purgable
+
+# executed every 12 hours
+# to remove orphan conversations without contact
+remove_orphan_conversations_job:
+  cron: '0 */12 * * *'
+  class: 'Internal::RemoveOrphanConversationsJob'
+  queue: housekeeping

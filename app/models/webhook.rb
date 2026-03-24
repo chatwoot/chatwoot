@@ -5,7 +5,7 @@
 #  id            :bigint           not null, primary key
 #  name          :string
 #  subscriptions :jsonb
-#  url           :string
+#  url           :text
 #  webhook_type  :integer          default("account_type")
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -20,6 +20,9 @@
 class Webhook < ApplicationRecord
   belongs_to :account
   belongs_to :inbox, optional: true
+
+  has_secure_token :secret
+  encrypts :secret if Chatwoot.encryption_configured?
 
   validates :account_id, presence: true
   validates :url, uniqueness: { scope: [:account_id] }, format: URI::DEFAULT_PARSER.make_regexp(%w[http https])

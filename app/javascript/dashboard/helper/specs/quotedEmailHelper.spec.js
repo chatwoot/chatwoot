@@ -33,6 +33,26 @@ describe('quotedEmailHelper', () => {
       expect(result).toContain('Line 1');
       expect(result).toContain('Line 2');
     });
+
+    it('sanitizes onerror handlers from img tags', () => {
+      const html = '<p>Hello</p><img src="x" onerror="alert(1)">';
+      const result = extractPlainTextFromHtml(html);
+      expect(result).toBe('Hello');
+    });
+
+    it('sanitizes script tags', () => {
+      const html = '<p>Safe</p><script>alert(1)</script><p>Content</p>';
+      const result = extractPlainTextFromHtml(html);
+      expect(result).toContain('Safe');
+      expect(result).toContain('Content');
+      expect(result).not.toContain('alert');
+    });
+
+    it('sanitizes onclick handlers', () => {
+      const html = '<p onclick="alert(1)">Click me</p>';
+      const result = extractPlainTextFromHtml(html);
+      expect(result).toBe('Click me');
+    });
   });
 
   describe('getEmailSenderName', () => {

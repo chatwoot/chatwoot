@@ -6,7 +6,8 @@
       "OPTIONS": {
         "NAME": "പേര്",
         "DOMAIN": "Domain",
-        "CREATED_AT": "എന്ന സ്ഥലത്ത് സൃഷ്ടിച്ചു"
+        "CREATED_AT": "എന്ന സ്ഥലത്ത് സൃഷ്ടിച്ചു",
+        "CONTACTS_COUNT": "Contacts count"
       }
     },
     "ORDER": {

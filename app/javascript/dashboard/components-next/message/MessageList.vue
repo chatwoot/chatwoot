@@ -42,7 +42,10 @@ const props = defineProps({
 const emit = defineEmits(['retry']);
 
 const allMessages = computed(() => {
-  return useCamelCase(props.messages, { deep: true });
+  return useCamelCase(props.messages, {
+    deep: true,
+    stopPaths: ['content_attributes.translations'],
+  });
 });
 
 const currentChat = useMapGetter('getSelectedChat');
@@ -160,7 +163,7 @@ const getInReplyToMessage = parentMessage => {
 </script>
 
 <template>
-  <ul class="px-4 bg-n-background">
+  <ul class="px-4 bg-n-surface-1">
     <slot name="beforeAll" />
     <template v-for="(message, index) in allMessages" :key="message.id">
       <slot

@@ -78,7 +78,6 @@ const getValueFromConversation = (conversation, attributeKey) => {
     case 'team_id':
       return conversation.meta?.team?.id;
     case 'browser_language':
-    case 'country_code':
     case 'referer':
       return conversation.additional_attributes?.[attributeKey];
     default:

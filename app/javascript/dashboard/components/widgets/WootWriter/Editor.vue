@@ -16,16 +16,22 @@ import KeyboardEmojiSelector from './keyboardEmojiSelector.vue';
 import TagAgents from '../conversation/TagAgents.vue';
 import VariableList from '../conversation/VariableList.vue';
 import TagTools from '../conversation/TagTools.vue';
+import CopilotMenuBar from './CopilotMenuBar.vue';
 
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useI18n } from 'vue-i18n';
+import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useTrack } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
+import { vOnClickOutside } from '@vueuse/components';
 
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import {
+  CONVERSATION_EVENTS,
+  CAPTAIN_EVENTS,
+} from 'dashboard/helper/AnalyticsHelper/events';
 import { MESSAGE_EDITOR_IMAGE_RESIZES } from 'dashboard/constants/editor';
 
 import {
@@ -55,6 +61,7 @@ import {
   getSelectionCoords,
   calculateMenuPosition,
   getEffectiveChannelType,
+  stripUnsupportedFormatting,
 } from 'dashboard/helper/editorHelper';
 import {
   hasPressedEnterAndNotCmdOrShift,
@@ -82,6 +89,7 @@ const props = defineProps({
   // are triggered except when this flag is true
   allowSignature: { type: Boolean, default: false },
   channelType: { type: String, default: '' },
+  conversationId: { type: Number, default: null },
   medium: { type: String, default: '' },
   showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
   focusOnMount: { type: Boolean, default: true },
@@ -99,13 +107,16 @@ const emit = defineEmits([
   'focus',
   'input',
   'update:modelValue',
+  'executeCopilotAction',
 ]);
 
 const { t } = useI18n();
+const { captainTasksEnabled } = useCaptain();
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const DEFAULT_FORMATTING = 'Context::Default';
+const PRIVATE_NOTE_FORMATTING = 'Context::PrivateNote';
 
 const effectiveChannelType = computed(() =>
   getEffectiveChannelType(props.channelType, props.medium)
@@ -115,24 +126,33 @@ const editorSchema = computed(() => {
   if (!props.channelType) return messageSchema;
 
   const formatType = props.isPrivate
-    ? DEFAULT_FORMATTING
+    ? PRIVATE_NOTE_FORMATTING
     : effectiveChannelType.value;
-  const formatting = getFormattingForEditor(formatType);
+  const formatting = getFormattingForEditor(
+    formatType,
+    captainTasksEnabled.value
+  );
   return buildMessageSchema(formatting.marks, formatting.nodes);
 });
 
 const editorMenuOptions = computed(() => {
   const formatType = props.isPrivate
-    ? DEFAULT_FORMATTING
+    ? PRIVATE_NOTE_FORMATTING
     : effectiveChannelType.value || DEFAULT_FORMATTING;
-  const formatting = getFormattingForEditor(formatType);
+  const formatting = getFormattingForEditor(
+    formatType,
+    captainTasksEnabled.value
+  );
+
   return formatting.menu;
 });
 
 const createState = (content, placeholder, plugins = [], methods = {}) => {
   const schema = editorSchema.value;
+  // Strip unsupported formatting before parsing to prevent "Token type not supported" errors
+  const sanitizedContent = stripUnsupportedFormatting(content, schema);
   return EditorState.create({
-    doc: new MessageMarkdownTransformer(schema).parse(content),
+    doc: new MessageMarkdownTransformer(schema).parse(sanitizedContent),
     plugins: buildEditor({
       schema,
       placeholder,
@@ -181,6 +201,26 @@ const sizes = MESSAGE_EDITOR_IMAGE_RESIZES;
 const editorRoot = useTemplateRef('editorRoot');
 const imageUpload = useTemplateRef('imageUpload');
 const editor = useTemplateRef('editor');
+
+const isEditorMenuPopover = computed(
+  () =>
+    editorRoot.value?.classList.contains('popover-prosemirror-menu') ?? false
+);
+
+const handleCopilotAction = actionKey => {
+  if (actionKey === 'improve_selection' && editorView?.state) {
+    const { from, to } = editorView.state.selection;
+    const selectedText = editorView.state.doc.textBetween(from, to).trim();
+
+    if (from !== to && selectedText) {
+      emit('executeCopilotAction', 'improve', selectedText);
+    }
+  } else {
+    emit('executeCopilotAction', actionKey, props.modelValue);
+  }
+
+  showSelectionMenu.value = false;
+};
 
 const contentFromEditor = () => {
   return MessageMarkdownSerializer.serialize(editorView.state.doc);
@@ -364,13 +404,30 @@ function openFileBrowser() {
   imageUpload.value.click();
 }
 
+function handleCopilotClick() {
+  const isOpening = !showSelectionMenu.value;
+  if (isOpening) {
+    useTrack(CAPTAIN_EVENTS.EDITOR_AI_MENU_OPENED, {
+      conversationId: props.conversationId,
+      entryPoint: 'inline',
+    });
+  }
+  showSelectionMenu.value = isOpening;
+}
+
+function handleClickOutside(event) {
+  // Check if the clicked element or its parents have the ignored class
+  if (event.target.closest('.ProseMirror-copilot')) return;
+  showSelectionMenu.value = false;
+}
+
 function reloadState(content = props.modelValue) {
   const unrefContent = unref(content);
   state = createState(
     unrefContent,
     props.placeholder,
     plugins.value,
-    { onImageUpload: openFileBrowser },
+    { onImageUpload: openFileBrowser, onCopilotClick: handleCopilotClick },
     editorMenuOptions.value
   );
 
@@ -432,6 +489,7 @@ function setToolbarPosition() {
 function setMenubarPosition({ selection } = {}) {
   const wrapper = editorRoot.value;
   if (!selection || !wrapper) return;
+  if (!isEditorMenuPopover.value) return;
 
   const rect = wrapper.getBoundingClientRect();
   const isRtl = getComputedStyle(wrapper).direction === 'rtl';
@@ -592,7 +650,12 @@ function insertContentIntoEditor(content, defaultFrom = 0) {
   const from = defaultFrom || editorView.state.selection.from || 0;
   // Use the editor's current schema to ensure compatibility with buildMessageSchema
   const currentSchema = editorView.state.schema;
-  let node = new MessageMarkdownTransformer(currentSchema).parse(content);
+  // Strip unsupported formatting before parsing to ensure content can be inserted
+  // into channels that don't support certain markdown features (e.g., API channels)
+  const sanitizedContent = stripUnsupportedFormatting(content, currentSchema);
+  let node = new MessageMarkdownTransformer(currentSchema).parse(
+    sanitizedContent
+  );
 
   insertNodeIntoEditor(node, from, undefined);
 }
@@ -754,7 +817,7 @@ onMounted(() => {
     props.modelValue,
     props.placeholder,
     plugins.value,
-    { onImageUpload: openFileBrowser },
+    { onImageUpload: openFileBrowser, onCopilotClick: handleCopilotClick },
     editorMenuOptions.value
   );
 
@@ -765,6 +828,8 @@ onMounted(() => {
   }
 });
 
+defineExpose({ focusEditorInputField });
+
 // BUS Event to insert text or markdown into the editor at the
 // current cursor position.
 // Components using this
@@ -773,7 +838,13 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 </script>
 
 <template>
-  <div ref="editorRoot" class="relative w-full">
+  <div
+    ref="editorRoot"
+    class="relative w-full"
+    :class="{
+      'opacity-50 cursor-not-allowed pointer-events-none': disabled,
+    }"
+  >
     <TagAgents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
@@ -798,6 +869,18 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       v-if="showToolsMenu"
       :search-key="toolSearchKey"
       @select-tool="content => insertSpecialContent('tool', content)"
+    />
+    <CopilotMenuBar
+      v-if="showSelectionMenu"
+      v-on-click-outside="handleClickOutside"
+      :has-selection="isTextSelected"
+      :is-editor-menu-popover="isEditorMenuPopover"
+      :editor-content="modelValue"
+      :conversation-id="conversationId"
+      :show-selection-menu="showSelectionMenu"
+      :show-general-menu="false"
+      class="copilot-editor-menu"
+      @execute-copilot-action="handleCopilotAction"
     />
     <input
       ref="imageUpload"
@@ -852,6 +935,10 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
           @apply size-full;
         }
       }
+
+      .ProseMirror-copilot svg {
+        @apply fill-n-violet-9 text-n-violet-9 stroke-none;
+      }
     }
   }
 
@@ -859,6 +946,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     max-height: none !important;
     min-height: 0 !important;
     padding: 0 !important;
+    display: none !important;
   }
 
   > .ProseMirror {
@@ -892,11 +980,15 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
   @apply overflow-auto min-h-[5rem] max-h-[7.5rem];
 }
 
+.ProseMirror-prompt-backdrop::backdrop {
+  @apply bg-n-alpha-black1 backdrop-blur-[4px];
+}
+
 .ProseMirror-prompt {
-  @apply z-[9999] bg-n-alpha-3 backdrop-blur-[100px] border border-n-strong p-6 shadow-xl rounded-xl;
+  @apply bg-n-alpha-3 border border-n-strong p-6 shadow-xl rounded-xl w-96 !important;
 
   h5 {
-    @apply text-n-slate-12 mb-1.5;
+    @apply text-n-slate-12 mb-3;
   }
 
   .ProseMirror-prompt-buttons {
@@ -950,6 +1042,17 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
   @apply text-n-ruby-9 dark:text-n-ruby-9 font-normal text-sm pt-1 pb-0 px-0;
 }
 
+// Default copilot menu position (non-popover editors like components-next/Editor)
+// When popover-prosemirror-menu is NOT on the wrapper, anchor below the menubar
+:not(.popover-prosemirror-menu) > .copilot-editor-menu {
+  top: 1.5rem !important;
+
+  [dir='rtl'] & {
+    left: auto !important;
+    right: 0 !important;
+  }
+}
+
 // Float editor menu
 .popover-prosemirror-menu {
   position: relative;
@@ -989,6 +1092,10 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 
         .ProseMirror-icon {
           @apply p-0.5 flex-shrink-0;
+        }
+
+        .ProseMirror-copilot svg {
+          @apply fill-n-violet-9 text-n-violet-9 stroke-none;
         }
       }
 

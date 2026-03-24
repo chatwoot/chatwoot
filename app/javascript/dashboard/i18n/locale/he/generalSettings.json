@@ -30,7 +30,7 @@
       "SCHEDULED_DELETION": {
         "TITLE": "החשבון מתוזמן למחיקה",
         "MESSAGE_MANUAL": "חשבון זה מתוזמן למחיקה ב- {deletionDate}. הדבר התבקש על ידי מנהל מערכת. תוכל לבטל את המחיקה לפני תאריך זה.",
-        "MESSAGE_INACTIVITY": ".",
+        "MESSAGE_INACTIVITY": "חשבון זה מתוזמן למחיקה ב- {deletionDate} עקב חוסר פעילות בחשבון. תוכל לבטל את המחיקה לפני תאריך זה.",
         "CLEAR_BUTTON": "בטל מחיקה מתוזמנת"
       }
     },
@@ -182,6 +182,7 @@
   },
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "חפש או קפוץ ל",
+    "SNOOZE_PLACEHOLDER": "Type a time e.g. tomorrow, 2 hours, next friday, jan 15...",
     "SECTIONS": {
       "GENERAL": "כללי",
       "REPORTS": "דוחות",

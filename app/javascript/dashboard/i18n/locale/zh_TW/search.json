@@ -1,32 +1,68 @@
 {
   "SEARCH": {
     "TABS": {
-      "ALL": "所有的",
+      "ALL": "所有結果",
       "CONTACTS": "聯絡人",
       "CONVERSATIONS": "對話",
       "MESSAGES": "訊息",
-      "ARTICLES": "Articles"
+      "ARTICLES": "文章"
     },
     "SECTION": {
       "CONTACTS": "聯絡人",
       "CONVERSATIONS": "對話",
       "MESSAGES": "訊息",
-      "ARTICLES": "Articles"
+      "ARTICLES": "文章"
     },
-    "VIEW_MORE": "View more",
-    "LOAD_MORE": "Load more",
-    "SEARCHING_DATA": "Searching",
-    "LOADING_DATA": "Loading",
-    "EMPTY_STATE": "No {item} found for query '{query}'",
+    "VIEW_MORE": "檢視更多",
+    "LOAD_MORE": "載入更多",
+    "SEARCHING_DATA": "搜尋中",
+    "LOADING_DATA": "載入中",
+    "EMPTY_STATE": "未找到與查詢 '{query}' 相關的 {item}",
     "EMPTY_STATE_FULL": "查無 {query} 條件的結果",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "PLACEHOLDER_KEYBINDING": "/聚焦搜尋框",
+    "INPUT_PLACEHOLDER": "輸入 3 個或更多字元以進行搜尋",
+    "RECENT_SEARCHES": "最近搜尋",
+    "CLEAR_ALL": "清除全部",
+    "MOST_RECENT": "最新",
+    "EMPTY_STATE_DEFAULT": "透過會話 Id、電子郵件、電話號碼、訊息等進行搜尋以獲得更好的搜尋結果。 ",
     "BOT_LABEL": "機器人",
-    "READ_MORE": "Read more",
-    "WROTE": "wrote:",
-    "FROM": "from",
-    "EMAIL": "email",
-    "EMAIL_SUBJECT": "主旨"
+    "READ_MORE": "檢視更多",
+    "READ_LESS": "少讀",
+    "WROTE": "寫道：",
+    "FROM": "來自",
+    "EMAIL": "電子郵件",
+    "EMAIL_SUBJECT": "主旨",
+    "PRIVATE": "私人備註",
+    "TRANSCRIPT": "對話記錄",
+    "CREATED_AT": "建立於 {time}",
+    "UPDATED_AT": "更新於 {time}",
+    "SORT_BY": {
+      "RELEVANCE": "相關性"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "最近7天",
+      "LAST_30_DAYS": "最近30天",
+      "LAST_60_DAYS": "最近60天",
+      "LAST_90_DAYS": "最近90天",
+      "CUSTOM_RANGE": "自訂範圍：",
+      "CREATED_BETWEEN": "建立於以下期間",
+      "AND": "和",
+      "APPLY": "套用",
+      "BEFORE_DATE": "{date}",
+      "AFTER_DATE": "{date}之後",
+      "TIME_RANGE": "按時間篩選",
+      "CLEAR_FILTER": "清除篩選條件"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "篩選郵件的依據：",
+      "FROM": "發送者",
+      "IN": "收件匣",
+      "AGENTS": "客服",
+      "CONTACTS": "聯絡人",
+      "INBOXES": "收件匣",
+      "NO_AGENTS": "查無客服",
+      "NO_CONTACTS": "透過搜尋開始查看結果",
+      "NO_INBOXES": "未找到收件匣"
+    }
   }
 }

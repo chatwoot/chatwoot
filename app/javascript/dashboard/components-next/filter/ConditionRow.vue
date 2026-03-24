@@ -50,12 +50,12 @@ const currentFilter = computed(() =>
 );
 
 const getOperator = (filter, selectedOperator) => {
-  const operatorFromOptions = filter.filterOperators.find(
+  const operatorFromOptions = filter?.filterOperators?.find(
     operator => operator.value === selectedOperator
   );
 
   if (!operatorFromOptions) {
-    return filter.filterOperators[0];
+    return filter?.filterOperators?.[0];
   }
 
   return operatorFromOptions;
@@ -77,12 +77,12 @@ const queryOperatorOptions = computed(() => {
     {
       label: t(`FILTER.QUERY_DROPDOWN_LABELS.AND`),
       value: 'and',
-      icon: h('span', { class: 'i-lucide-ampersands !text-n-blue-text' }),
+      icon: h('span', { class: 'i-lucide-ampersands !text-n-blue-11' }),
     },
     {
       label: t(`FILTER.QUERY_DROPDOWN_LABELS.OR`),
       value: 'or',
-      icon: h('span', { class: 'i-woot-logic-or !text-n-blue-text' }),
+      icon: h('span', { class: 'i-woot-logic-or !text-n-blue-11' }),
     },
   ];
 });
@@ -138,7 +138,11 @@ const validate = () => {
   return !validationError.value;
 };
 
-defineExpose({ validate });
+const resetValidation = () => {
+  showErrors.value = false;
+};
+
+defineExpose({ validate, resetValidation });
 </script>
 
 <template>
@@ -166,18 +170,20 @@ defineExpose({ validate });
       <FilterSelect
         v-model="filterOperator"
         variant="ghost"
-        :options="currentFilter.filterOperators"
+        :options="currentFilter?.filterOperators"
       />
-      <template v-if="currentOperator.hasInput">
+      <template v-if="currentOperator?.hasInput">
         <MultiSelect
           v-if="inputType === 'multiSelect'"
           v-model="values"
           :options="currentFilter.options"
+          dropdown-max-height="max-h-72"
         />
         <SingleSelect
           v-else-if="inputType === 'searchSelect'"
           v-model="values"
           :options="currentFilter.options"
+          dropdown-max-height="max-h-64"
         />
         <SingleSelect
           v-else-if="inputType === 'booleanSelect'"
