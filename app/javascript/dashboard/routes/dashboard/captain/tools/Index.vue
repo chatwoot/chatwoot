@@ -19,7 +19,7 @@ const toolsFeatureFlag = computed(() =>
   isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2) ||
   isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V1_CUSTOM_TOOLS)
     ? ''
-    : FEATURE_FLAGS.CAPTAIN_V2
+    : FEATURE_FLAGS.CAPTAIN_V1_CUSTOM_TOOLS
 );
 
 const uiFlags = useMapGetter('captainCustomTools/getUIFlags');
