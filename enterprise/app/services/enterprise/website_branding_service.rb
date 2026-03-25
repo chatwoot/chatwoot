@@ -178,7 +178,7 @@ class Enterprise::WebsiteBrandingService
     phone = uri.path.to_s.delete_prefix('/').delete_suffix('/') if phone.blank?
     return nil if phone.blank?
 
-    phone.tr('+', '')
+    phone.gsub(/[^\d]/, '')
   end
   private_class_method :parse_whatsapp
   private_class_method :parse_handle
