@@ -39,7 +39,6 @@ export const FEATURE_FLAGS = {
   CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
   CAPTAIN_V2: 'captain_integration_v2',
   CAPTAIN_TASKS: 'captain_tasks',
-  CAPTAIN_V1_CUSTOM_TOOLS: 'captain_v1_custom_tools',
   SAML: 'saml',
   QUOTED_EMAIL_REPLY: 'quoted_email_reply',
   COMPANIES: 'companies',
@@ -56,5 +55,4 @@ export const PREMIUM_FEATURES = [
   FEATURE_FLAGS.SAML,
   FEATURE_FLAGS.CONVERSATION_REQUIRED_ATTRIBUTES,
   FEATURE_FLAGS.ADVANCED_ASSIGNMENT,
-  FEATURE_FLAGS.CAPTAIN_V1_CUSTOM_TOOLS,
 ];

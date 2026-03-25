@@ -2,7 +2,6 @@
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { usePolicy } from 'dashboard/composables/usePolicy';
 
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
@@ -12,15 +11,6 @@ import CustomToolCard from 'dashboard/components-next/captain/pageComponents/cus
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 
 const store = useStore();
-const { isFeatureFlagEnabled } = usePolicy();
-
-// Show paywall only when account has neither V2 nor the V1 custom tools flag
-const toolsFeatureFlag = computed(() =>
-  isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2) ||
-  isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V1_CUSTOM_TOOLS)
-    ? ''
-    : FEATURE_FLAGS.CAPTAIN_V1_CUSTOM_TOOLS
-);
 
 const uiFlags = useMapGetter('captainCustomTools/getUIFlags');
 const customTools = useMapGetter('captainCustomTools/getRecords');
@@ -96,7 +86,7 @@ onMounted(() => {
     :show-pagination-footer="!isFetching && !!customTools.length"
     :is-fetching="isFetching"
     :is-empty="!customTools.length"
-    :feature-flag="toolsFeatureFlag"
+    :feature-flag="FEATURE_FLAGS.CAPTAIN"
     :show-know-more="false"
     @update:current-page="onPageChange"
     @click="openCreateDialog"
