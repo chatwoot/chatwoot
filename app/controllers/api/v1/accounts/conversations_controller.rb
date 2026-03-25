@@ -2,6 +2,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include Events::Types
   include DateRangeHelper
   include HmacConcern
+  include ConversationNotificationReadHelper
 
   before_action :conversation, except: [:index, :meta, :search, :create, :filter]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
@@ -153,18 +154,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def attachment_params
     params.permit(:page)
-  end
-
-  def mark_conversation_notifications_read
-    return unless Current.user.is_a?(User)
-
-    current_user.notifications.where(
-      account_id: Current.account.id,
-      primary_actor: @conversation,
-      read_at: nil
-    ).find_each do |notification|
-      notification.update!(read_at: Time.current)
-    end
   end
 
   def update_last_seen_on_conversation(last_seen_at, update_assignee)
