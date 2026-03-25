@@ -527,7 +527,8 @@
           "TITLE": "Özellikleri",
           "ALLOW_CONVERSATION_FAQS": "Çözümlenmiş konuşmalardan SSS oluştur",
           "ALLOW_MEMORIES": "Müşteri etkileşimlerinden önemli detayları anı olarak yakala.",
-          "ALLOW_CITATIONS": "Yanıtlara kaynak alıntıları ekle"
+          "ALLOW_CITATIONS": "Yanıtlara kaynak alıntıları ekle",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
