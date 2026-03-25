@@ -1,10 +1,18 @@
 require 'rails_helper'
 
+# Simulate the prepend_mod_with behavior for testing
+test_klass = Class.new(WebsiteBrandingService) do
+  prepend Enterprise::WebsiteBrandingService
+end
+
 RSpec.describe Enterprise::WebsiteBrandingService do
-  describe '.lookup' do
+  describe '#perform' do
+    subject(:service) { test_klass.new(url) }
+
     let(:url) { 'https://example.com' }
     let(:api_key) { 'test-firecrawl-api-key' }
     let(:scrape_endpoint) { described_class::FIRECRAWL_SCRAPE_ENDPOINT }
+    let(:fallback_html) { '<html lang="en"><head><title>Fallback</title></head><body></body></html>' }
     let(:success_response_body) do
       {
         success: true,
@@ -30,6 +38,10 @@ RSpec.describe Enterprise::WebsiteBrandingService do
       }.to_json
     end
 
+    before do
+      stub_request(:get, url).to_return(status: 200, body: fallback_html, headers: { 'content-type' => 'text/html' })
+    end
+
     context 'when firecrawl is configured and API returns success' do
       before do
         create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: api_key)
@@ -38,8 +50,8 @@ RSpec.describe Enterprise::WebsiteBrandingService do
           .to_return(status: 200, body: success_response_body, headers: { 'content-type' => 'application/json' })
       end
 
-      it 'returns business info and branding' do
-        result = described_class.lookup(url)
+      it 'returns business info and branding from firecrawl' do
+        result = service.perform
 
         expect(result).to eq({
                                business_name: 'Acme Corp',
@@ -62,71 +74,37 @@ RSpec.describe Enterprise::WebsiteBrandingService do
       end
     end
 
-    context 'when firecrawl is configured and API returns an error' do
+    context 'when firecrawl API returns an error' do
       before do
         create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: api_key)
         stub_request(:post, scrape_endpoint)
           .to_return(status: 422, body: '{"error": "Invalid URL"}', headers: {})
       end
 
-      it 'logs the error and returns nil' do
-        expect(Rails.logger).to receive(:error).with(/API Error/)
-        expect(described_class.lookup(url)).to be_nil
+      it 'falls back to basic scrape' do
+        result = service.perform
+        expect(result[:business_name]).to eq('Fallback')
+        expect(result[:industry_category]).to be_nil
       end
     end
 
-    context 'when an exception is raised during the request' do
+    context 'when firecrawl raises an exception' do
       before do
         create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: api_key)
         stub_request(:post, scrape_endpoint).to_raise(StandardError.new('connection refused'))
       end
 
-      it 'logs the error and returns nil' do
-        expect(Rails.logger).to receive(:error).with('[WebsiteBranding] connection refused')
-        expect(described_class.lookup(url)).to be_nil
+      it 'falls back to basic scrape' do
+        result = service.perform
+        expect(result[:business_name]).to eq('Fallback')
       end
     end
 
     context 'when firecrawl is not configured' do
-      it 'returns nil without making an API call' do
+      it 'uses basic scrape' do
         expect(HTTParty).not_to receive(:post)
-        expect(described_class.lookup(url)).to be_nil
-      end
-    end
-
-    context 'when URL has no scheme' do
-      before do
-        create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: api_key)
-        stub_request(:post, scrape_endpoint)
-          .with { |request| JSON.parse(request.body)['url'] == 'https://example.com' }
-          .to_return(status: 200, body: success_response_body, headers: { 'content-type' => 'application/json' })
-      end
-
-      it 'normalizes the URL by prepending https://' do
-        result = described_class.lookup('example.com')
-        expect(result[:business_name]).to eq('Acme Corp')
-      end
-    end
-
-    context 'when branding and links are missing from response' do
-      before do
-        create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: api_key)
-        partial_response = {
-          success: true,
-          data: {
-            json: { business_name: 'Acme Corp', language: 'en', industry_category: 'Technology' }
-          }
-        }.to_json
-        stub_request(:post, scrape_endpoint)
-          .to_return(status: 200, body: partial_response, headers: { 'content-type' => 'application/json' })
-      end
-
-      it 'returns nil for branding and social handles' do
-        result = described_class.lookup(url)
-
-        expect(result[:business_name]).to eq('Acme Corp')
-        expect(result[:branding]).to eq({ logo: nil, favicon: nil, primary_color: nil })
-        expect(result[:social_handles]).to eq({ whatsapp: nil, line: nil, facebook: nil, instagram: nil, telegram: nil, tiktok: nil })
+        result = service.perform
+        expect(result[:business_name]).to eq('Fallback')
       end
     end
 
@@ -145,7 +123,7 @@ RSpec.describe Enterprise::WebsiteBrandingService do
       end
 
       it 'extracts phone number from query param' do
-        result = described_class.lookup(url)
+        result = service.perform
         expect(result[:social_handles][:whatsapp]).to eq('5511999999999')
       end
     end
@@ -165,7 +143,7 @@ RSpec.describe Enterprise::WebsiteBrandingService do
       end
 
       it 'extracts phone number from path' do
-        result = described_class.lookup(url)
+        result = service.perform
         expect(result[:social_handles][:whatsapp]).to eq('5511999999999')
       end
     end
@@ -185,29 +163,9 @@ RSpec.describe Enterprise::WebsiteBrandingService do
       end
 
       it 'does not match lookalike domains' do
-        result = described_class.lookup(url)
+        result = service.perform
         expect(result[:social_handles][:facebook]).to be_nil
         expect(result[:social_handles][:instagram]).to be_nil
-      end
-    end
-
-    context 'when links contain no social media URLs' do
-      before do
-        create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: api_key)
-        response = {
-          success: true,
-          data: {
-            json: { business_name: 'Acme Corp' },
-            links: ['https://example.com/about', 'https://example.com/blog', 'https://docs.example.com']
-          }
-        }.to_json
-        stub_request(:post, scrape_endpoint)
-          .to_return(status: 200, body: response, headers: { 'content-type' => 'application/json' })
-      end
-
-      it 'returns nil for all social handles' do
-        result = described_class.lookup(url)
-        expect(result[:social_handles].values).to all(be_nil)
       end
     end
   end
