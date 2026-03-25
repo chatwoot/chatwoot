@@ -146,10 +146,13 @@ class Enterprise::WebsiteBrandingService
   def self.extract_social_from_links(links)
     handles = {}
     SOCIAL_DOMAIN_MAP.each do |platform, domains|
-      link = links.find { |l| domains.any? { |d| match_domain?(URI.parse(l).host, d) } }
+      link = links.find do |l|
+        uri = URI.parse(l)
+        domains.any? { |d| match_domain?(uri.host, d) }
+      rescue URI::InvalidURIError
+        false
+      end
       handles[platform] = link ? parse_handle(platform, link) : nil
-    rescue URI::InvalidURIError
-      next
     end
     handles
   end
