@@ -15,6 +15,7 @@ TimeoutStopSec=30
 KillMode=mixed
 StandardInput=null
 SyslogIdentifier=%p
+LimitNOFILE=65536
 
 MemoryMax=1.2G
 MemoryHigh=infinity
