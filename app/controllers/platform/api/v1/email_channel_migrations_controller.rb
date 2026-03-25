@@ -28,13 +28,19 @@ class Platform::Api::V1::EmailChannelMigrationsController < PlatformController
   end
 
   def validate_params
-    render json: { error: 'Missing migrations parameter' }, status: :unprocessable_entity if migration_params.blank?
+    return render json: { error: 'Missing migrations parameter' }, status: :unprocessable_entity if migration_params.blank?
+
+    return unless migration_params.size > MAX_MIGRATIONS
+
+    return render json: { error: "Too many migrations (max #{MAX_MIGRATIONS})" },
+                  status: :unprocessable_entity
   end
 
   def migrate_email_channels
     migration_params.map { |entry| migrate_single(entry) }
   end
 
+  MAX_MIGRATIONS = 25
   SUPPORTED_PROVIDERS = %w[google microsoft].freeze
 
   def migrate_single(entry)
