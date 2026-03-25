@@ -34,6 +34,9 @@ he:
     saml_not_available: אימות SAML אינו זמין בהתקנה זו.
     inbox_deletetion_response: בקשת מחיקת תיבת הדואר הנכנס שלך תעובד בקרוב.
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
     validations:
       presence: לא יכול להיות ריק
     webhook:
