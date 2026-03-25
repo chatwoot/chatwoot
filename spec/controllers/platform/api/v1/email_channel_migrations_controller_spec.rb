@@ -25,6 +25,7 @@ RSpec.describe 'Platform Email Channel Migrations API', type: :request do
 
   before do
     create(:platform_app_permissible, platform_app: platform_app, permissible: account)
+    account.enable_features!('email_channel_migration')
   end
 
   describe 'POST /platform/api/v1/accounts/:account_id/email_channel_migrations' do
@@ -47,6 +48,16 @@ RSpec.describe 'Platform Email Channel Migrations API', type: :request do
       it 'returns unauthorized' do
         post other_url, params: valid_migration_params, headers: headers, as: :json
         expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when feature flag is disabled' do
+      before { account.disable_features!('email_channel_migration') }
+
+      it 'returns forbidden' do
+        post base_url, params: valid_migration_params, headers: headers, as: :json
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq('Email channel migration is not enabled for this account')
       end
     end
 
@@ -189,6 +200,18 @@ RSpec.describe 'Platform Email Channel Migrations API', type: :request do
       it 'returns unprocessable entity when migrations param is missing' do
         post base_url, params: {}, headers: headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns error for unsupported provider' do
+        params = {
+          migrations: [{ email: 'test@example.com', provider: 'Yahoo', provider_config: google_provider_config }]
+        }
+
+        post base_url, params: params, headers: headers, as: :json
+
+        result = response.parsed_body['results'].first
+        expect(result['status']).to eq('error')
+        expect(result['message']).to include("Unsupported provider 'Yahoo'")
       end
 
       it 'returns error for duplicate email' do

@@ -1,6 +1,7 @@
 class Platform::Api::V1::EmailChannelMigrationsController < PlatformController
   before_action :set_account
   before_action :validate_account_permissible
+  before_action :validate_feature_flag
   before_action :validate_params
 
   def create
@@ -20,6 +21,12 @@ class Platform::Api::V1::EmailChannelMigrationsController < PlatformController
     render json: { error: 'Non permissible resource' }, status: :unauthorized
   end
 
+  def validate_feature_flag
+    return if @account.feature_enabled?('email_channel_migration')
+
+    render json: { error: 'Email channel migration is not enabled for this account' }, status: :forbidden
+  end
+
   def validate_params
     render json: { error: 'Missing migrations parameter' }, status: :unprocessable_entity if migration_params.blank?
   end
@@ -28,11 +35,14 @@ class Platform::Api::V1::EmailChannelMigrationsController < PlatformController
     migration_params.map { |entry| migrate_single(entry) }
   end
 
+  SUPPORTED_PROVIDERS = %w[google microsoft].freeze
+
   def migrate_single(entry)
+    validate_provider!(entry[:provider])
+
     ActiveRecord::Base.transaction do
       channel = create_channel(entry)
       inbox = create_inbox(channel, entry)
-      channel.reauthorized! if channel.respond_to?(:reauthorized!)
 
       { email: entry[:email], inbox_id: inbox.id, channel_id: channel.id, status: 'success' }
     end
@@ -59,6 +69,12 @@ class Platform::Api::V1::EmailChannelMigrationsController < PlatformController
       name: entry[:inbox_name] || "Migrated #{entry[:provider]&.capitalize}: #{entry[:email]}",
       channel: channel
     )
+  end
+
+  def validate_provider!(provider)
+    return if SUPPORTED_PROVIDERS.include?(provider)
+
+    raise ArgumentError, "Unsupported provider '#{provider}'. Must be one of: #{SUPPORTED_PROVIDERS.join(', ')}"
   end
 
   def default_imap_address(provider)

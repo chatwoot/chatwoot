@@ -104,10 +104,10 @@
   display_name: Audit Logs
   enabled: false
   premium: true
-- name: response_bot
-  display_name: Response Bot
+- name: email_channel_migration
+  display_name: Email Channel Migration
   enabled: false
-  deprecated: true
+  chatwoot_internal: true
 - name: message_reply_to
   display_name: Message Reply To
   enabled: false
