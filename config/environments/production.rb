@@ -66,8 +66,16 @@ Rails.application.configure do
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
-  # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  # Use JSON formatter.
+  config.log_formatter = proc do |severity, time, _progname, msg|
+    entry = {
+      severity: severity,
+      timestamp: time.utc.iso8601(3),
+      message: msg.is_a?(String) ? msg.strip : msg.inspect,
+      request_id: Thread.current[:request_id]
+    }.compact
+    "#{entry.to_json}\n"
+  end
 
   # Use a different logger for distributed setups.
   # require 'syslog/logger'

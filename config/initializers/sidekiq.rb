@@ -27,6 +27,15 @@ Sidekiq.configure_server do |config|
   # skip the default start stop logging
   if Rails.env.production?
     config.logger.formatter = Sidekiq::Logger::Formatters::JSON.new
+    config.logger.formatter = proc do |severity, time, _progname, msg|
+      entry = {
+        severity: severity,
+        timestamp: time.utc.iso8601(3),
+        message: msg.is_a?(String) ? msg.strip : msg.inspect,
+        thread_id: Thread.current.object_id.to_s(36)
+      }.to_json
+      "#{entry}\n"
+    end
     config[:skip_default_job_logging] = true
     config.logger.level = Logger.const_get(ENV.fetch('LOG_LEVEL', 'info').upcase.to_s)
   end
