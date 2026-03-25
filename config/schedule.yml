@@ -4,7 +4,6 @@
 
 # executed daily at 0000 UTC
 # schedules daily deferred jobs at stable times for each installation
-# keep the existing schedule key while the cron loader still uses load_from_hash
 internal_check_new_versions_job:
   cron: '0 0 * * *'
   class: 'Internal::TriggerDailyScheduledItemsJob'
