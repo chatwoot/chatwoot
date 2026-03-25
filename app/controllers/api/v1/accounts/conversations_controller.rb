@@ -116,6 +116,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     # High-traffic accounts generate excessive DB writes when agents frequently switch between conversations.
     # Throttle last_seen updates to once per hour when there are no unread messages to reduce DB load.
     # Always update immediately if there are unread messages to maintain accurate read/unread state.
+    mark_conversation_notifications_read
     return update_last_seen_on_conversation(DateTime.now.utc, true) if assignee? && @conversation.assignee_unread_messages.any?
     return update_last_seen_on_conversation(DateTime.now.utc, false) if !assignee? && @conversation.unread_messages.any?
 
@@ -151,6 +152,18 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def attachment_params
     params.permit(:page)
+  end
+
+  def mark_conversation_notifications_read
+    return unless Current.user.is_a?(User)
+
+    current_user.notifications.where(
+      account_id: Current.account.id,
+      primary_actor: @conversation,
+      read_at: nil
+    ).find_each do |notification|
+      notification.update!(read_at: Time.current)
+    end
   end
 
   def update_last_seen_on_conversation(last_seen_at, update_assignee)
