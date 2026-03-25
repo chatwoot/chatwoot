@@ -14,6 +14,8 @@ A conversation is COMPLETE only if ALL of these are true:
 - The assistant's answer fully addressed the customer's question or issue and is self-contained — it requires no further action from the customer
 - There are no unanswered questions, unmet requests, or outstanding follow-ups from either side
 - Note: customers often do not explicitly say thanks or confirm resolution. If the assistant gave a complete, self-contained answer and the customer had no follow-up, that is sufficient. Do not require explicit gratitude or confirmation.
+- If the customer sent only one or two short messages (single words, names, phone numbers, or gibberish) with no recognizable question or request across the entire conversation, and the
+  assistant has responded asking for clarification, the conversation is COMPLETE.
 
 Analyze the conversation and respond with ONLY a JSON object (no other text):
 {"complete": true, "reason": "brief explanation"}

@@ -255,6 +255,21 @@ RSpec.describe Account do
         expect(described_class.with_auto_resolve.pluck(:id)).not_to include(account.id)
       end
     end
+
+    context 'when reporting_timezone is set' do
+      it 'allows valid timezone names' do
+        account.reporting_timezone = 'America/New_York'
+
+        expect(account).to be_valid
+      end
+
+      it 'rejects invalid timezone names' do
+        account.reporting_timezone = 'Invalid/Timezone'
+
+        expect(account).not_to be_valid
+        expect(account.errors[:reporting_timezone]).to include(I18n.t('errors.account.reporting_timezone.invalid'))
+      end
+    end
   end
 
   describe 'captain_preferences' do

@@ -1,11 +1,12 @@
 class Captain::Llm::AssistantChatService < Llm::BaseAiService
   include Captain::ChatHelper
 
-  def initialize(assistant: nil, conversation_id: nil, source: nil)
+  def initialize(assistant: nil, conversation: nil, source: nil)
     super()
 
     @assistant = assistant
-    @conversation_id = conversation_id
+    @conversation = conversation
+    @conversation_id = conversation&.display_id
     @source = source
 
     @messages = [system_message]
@@ -35,8 +36,20 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
   def system_message
     {
       role: 'system',
-      content: Captain::Llm::SystemPromptsService.assistant_response_generator(@assistant.name, @assistant.config['product_name'], @assistant.config)
+      content: Captain::Llm::SystemPromptsService.assistant_response_generator(
+        @assistant.name, @assistant.config['product_name'], @assistant.config,
+        contact: contact_attributes
+      )
     }
+  end
+
+  def contact_attributes
+    return nil unless @conversation&.contact
+    return nil unless @assistant&.feature_contact_attributes
+
+    @conversation.contact.attributes.symbolize_keys.slice(
+      :id, :name, :email, :phone_number, :identifier, :custom_attributes
+    )
   end
 
   def persist_message(message, message_type = 'assistant')

@@ -34,6 +34,9 @@ lv:
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Jūsu iesūtnes dzēšanas pieprasījums pēc kāda laika tiks apstrādāts.
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
     validations:
       presence: nedrīkst būt tukšs
     webhook:

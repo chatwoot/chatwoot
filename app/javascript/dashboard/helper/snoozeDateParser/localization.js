@@ -166,6 +166,8 @@ const TOD_TO_MERIDIEM = {
   evening: 'pm',
   night: 'pm',
 };
+const CJK_CHAR_RE =
+  /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u;
 
 // ─── Translation Cache ──────────────────────────────────────────────────────
 
@@ -278,8 +280,13 @@ const escapeRegex = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const substituteLocalTokens = (text, pairs) => {
   let r = text;
   pairs.forEach(([local, en]) => {
-    const re = new RegExp(`(?<=^|\\s)${escapeRegex(local)}(?=\\s|$)`, 'g');
-    r = r.replace(re, en);
+    if (CJK_CHAR_RE.test(local)) {
+      const re = new RegExp(escapeRegex(local), 'g');
+      r = r.replace(re, ` ${en} `);
+    } else {
+      const re = new RegExp(`(?<=^|\\s)${escapeRegex(local)}(?=\\s|$)`, 'g');
+      r = r.replace(re, en);
+    }
   });
   return r;
 };

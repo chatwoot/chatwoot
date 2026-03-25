@@ -34,6 +34,9 @@ hu:
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: A beérkező üzeneteid törlésére vonatkozó kérésed nem sokára feldolgozásra kerül.
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
     validations:
       presence: nem lehet üres
     webhook:

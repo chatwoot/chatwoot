@@ -34,6 +34,9 @@ ro:
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Solicitarea de ștergere a inboxului va fi procesată într-un anumit timp.
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
     validations:
       presence: nu trebuie să fie gol
     webhook:

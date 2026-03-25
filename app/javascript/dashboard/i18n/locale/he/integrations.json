@@ -527,7 +527,8 @@
           "TITLE": "מאפיינים",
           "ALLOW_CONVERSATION_FAQS": "צור שאלות נפוצות משיחות שנסגרו",
           "ALLOW_MEMORIES": "לכוד פרטים מרכזיים כזיכרונות מאינטראקציות עם לקוחות.",
-          "ALLOW_CITATIONS": "כלול ציטוטים של מקורות בתגובות"
+          "ALLOW_CITATIONS": "כלול ציטוטים של מקורות בתגובות",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {

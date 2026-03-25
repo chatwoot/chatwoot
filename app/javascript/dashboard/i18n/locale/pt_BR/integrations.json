@@ -527,7 +527,8 @@
           "TITLE": "Funcionalidades",
           "ALLOW_CONVERSATION_FAQS": "Gerar perguntas frequentes a partir de conversas resolvidas",
           "ALLOW_MEMORIES": "Capture os principais detalhes como memórias de interações do cliente.",
-          "ALLOW_CITATIONS": "Incluir fonte de citações nas respostas"
+          "ALLOW_CITATIONS": "Incluir fonte de citações nas respostas",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
