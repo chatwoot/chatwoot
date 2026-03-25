@@ -225,6 +225,17 @@ RSpec.describe 'Platform Email Channel Migrations API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
+      it 'returns unprocessable entity when migrations exceed max batch size' do
+        params = {
+          migrations: Array.new(26) { |i| { email: "user#{i}@example.com", provider: 'google', provider_config: google_provider_config } }
+        }
+
+        post base_url, params: params, headers: headers, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to include('Too many migrations')
+      end
+
       it 'returns error for unsupported provider' do
         params = {
           migrations: [{ email: 'test@example.com', provider: 'Yahoo', provider_config: google_provider_config }]
