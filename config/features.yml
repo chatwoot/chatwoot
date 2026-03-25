@@ -108,10 +108,10 @@
   display_name: Response Bot
   enabled: false
   deprecated: true
-- name: email_channel_migration
-  display_name: Email Channel Migration
+- name: message_reply_to
+  display_name: Message Reply To
   enabled: false
-  chatwoot_internal: true
+  deprecated: true
 - name: insert_article_in_reply
   display_name: Insert Article in Reply
   enabled: false

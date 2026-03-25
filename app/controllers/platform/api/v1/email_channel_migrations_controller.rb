@@ -22,9 +22,9 @@ class Platform::Api::V1::EmailChannelMigrationsController < PlatformController
   end
 
   def validate_feature_flag
-    return if @account.feature_enabled?('email_channel_migration')
+    return if ActiveModel::Type::Boolean.new.cast(ENV.fetch('EMAIL_CHANNEL_MIGRATION', false))
 
-    render json: { error: 'Email channel migration is not enabled for this account' }, status: :forbidden
+    render json: { error: 'Email channel migration is not enabled' }, status: :forbidden
   end
 
   def validate_params

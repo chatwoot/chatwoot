@@ -25,19 +25,22 @@ RSpec.describe 'Platform Email Channel Migrations API', type: :request do
 
   before do
     create(:platform_app_permissible, platform_app: platform_app, permissible: account)
-    account.enable_features!('email_channel_migration')
   end
 
   describe 'POST /platform/api/v1/accounts/:account_id/email_channel_migrations' do
     context 'when unauthenticated' do
       it 'returns unauthorized without token' do
-        post base_url, as: :json
-        expect(response).to have_http_status(:unauthorized)
+        with_modified_env EMAIL_CHANNEL_MIGRATION: 'true' do
+          post base_url, as: :json
+          expect(response).to have_http_status(:unauthorized)
+        end
       end
 
       it 'returns unauthorized with invalid token' do
-        post base_url, params: valid_migration_params, headers: { api_access_token: 'invalid' }, as: :json
-        expect(response).to have_http_status(:unauthorized)
+        with_modified_env EMAIL_CHANNEL_MIGRATION: 'true' do
+          post base_url, params: valid_migration_params, headers: { api_access_token: 'invalid' }, as: :json
+          expect(response).to have_http_status(:unauthorized)
+        end
       end
     end
 
@@ -46,22 +49,30 @@ RSpec.describe 'Platform Email Channel Migrations API', type: :request do
       let(:other_url) { "/platform/api/v1/accounts/#{other_account.id}/email_channel_migrations" }
 
       it 'returns unauthorized' do
-        post other_url, params: valid_migration_params, headers: headers, as: :json
-        expect(response).to have_http_status(:unauthorized)
+        with_modified_env EMAIL_CHANNEL_MIGRATION: other_account.id.to_s do
+          post other_url, params: valid_migration_params, headers: headers, as: :json
+          expect(response).to have_http_status(:unauthorized)
+        end
       end
     end
 
-    context 'when feature flag is disabled' do
-      before { account.disable_features!('email_channel_migration') }
-
+    context 'when account is not in allowed list' do
       it 'returns forbidden' do
-        post base_url, params: valid_migration_params, headers: headers, as: :json
-        expect(response).to have_http_status(:forbidden)
-        expect(response.parsed_body['error']).to eq('Email channel migration is not enabled for this account')
+        with_modified_env EMAIL_CHANNEL_MIGRATION: '' do
+          post base_url, params: valid_migration_params, headers: headers, as: :json
+          expect(response).to have_http_status(:forbidden)
+          expect(response.parsed_body['error']).to eq('Email channel migration is not enabled')
+        end
       end
     end
 
     context 'when authenticated with permissible account' do
+      around do |example|
+        with_modified_env EMAIL_CHANNEL_MIGRATION: 'true' do
+          example.run
+        end
+      end
+
       it 'creates a google email channel and inbox' do
         expect do
           post base_url, params: valid_migration_params, headers: headers, as: :json
@@ -158,6 +169,12 @@ RSpec.describe 'Platform Email Channel Migrations API', type: :request do
     end
 
     context 'when migrating multiple channels' do
+      around do |example|
+        with_modified_env EMAIL_CHANNEL_MIGRATION: 'true' do
+          example.run
+        end
+      end
+
       let(:bulk_params) do
         {
           migrations: [
@@ -197,6 +214,12 @@ RSpec.describe 'Platform Email Channel Migrations API', type: :request do
     end
 
     context 'when params are invalid' do
+      around do |example|
+        with_modified_env EMAIL_CHANNEL_MIGRATION: 'true' do
+          example.run
+        end
+      end
+
       it 'returns unprocessable entity when migrations param is missing' do
         post base_url, params: {}, headers: headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
