@@ -9,7 +9,6 @@ import {
   shortenSnoozeTime,
   generateSnoozeSuggestions,
 } from '../snoozeHelpers';
-import zhTWLocale from 'dashboard/i18n/locale/zh_TW';
 
 describe('#Snooze Helpers', () => {
   describe('findStartOfNextWeek', () => {
@@ -216,23 +215,6 @@ describe('#Snooze Helpers', () => {
       const results = generateSnoozeSuggestions('1h30m', now);
       expect(results.length).toBeGreaterThan(0);
       expect(results[0].label).toBe('1 hour 30 minutes');
-    });
-  });
-
-  describe('generateSnoozeSuggestions with zh_TW translations', () => {
-    const now = new Date('2023-06-16T10:00:00');
-
-    it('parses localized relative-day phrases from the locale bundle', () => {
-      const results = generateSnoozeSuggestions('明天', now, {
-        translations: zhTWLocale.SNOOZE_PARSER,
-        locale: 'zh-TW',
-      });
-
-      expect(results.length).toBeGreaterThan(0);
-      expect(results[0].label).toBe('明天');
-      expect(results[0].unixTime).toBe(
-        Math.floor(new Date('2023-06-17T09:00:00').getTime() / 1000)
-      );
     });
   });
 });

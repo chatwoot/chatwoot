@@ -89,6 +89,9 @@ const RELATIVE_DAY_ONLY_RE = new RegExp(`^(${RELATIVE_DAYS})$`);
 const RELATIVE_DAY_TOD_RE = new RegExp(
   `^(${RELATIVE_DAYS})\\s+(?:at\\s+)?(${TIME_OF_DAY_NAMES})$`
 );
+const RELATIVE_DAY_MERIDIEM_RE = new RegExp(
+  `^(${RELATIVE_DAYS})\\s+(?:at\\s+)?(am|pm)$`
+);
 const RELATIVE_DAY_TOD_TIME_RE = new RegExp(
   `^(${RELATIVE_DAYS})\\s+(?:at\\s+)?(${TIME_OF_DAY_NAMES})\\s+(\\d{1,2}(?::\\d{2})?)$`
 );
@@ -301,6 +304,13 @@ const matchRelativeDay = (text, now) => {
       minutes,
       now
     );
+  }
+
+  const dayMeridiemMatch = text.match(RELATIVE_DAY_MERIDIEM_RE);
+  if (dayMeridiemMatch) {
+    const [, dayKey, meridiem] = dayMeridiemMatch;
+    const hours = meridiem === 'am' ? 9 : 14;
+    return applyTimeWithRollover(RELATIVE_DAY_MAP[dayKey], hours, 0, now);
   }
 
   const dayAtTimeMatch = text.match(RELATIVE_DAY_AT_TIME_RE);
