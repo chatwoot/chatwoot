@@ -102,7 +102,6 @@ module Enterprise::WebsiteBrandingService
 
   def extract_firecrawl_branding(brand)
     {
-      logo: url_or_nil(brand.dig('images', 'logo')),
       favicon: url_or_nil(brand.dig('images', 'favicon')),
       primary_color: brand.dig('colors', 'primary')
     }

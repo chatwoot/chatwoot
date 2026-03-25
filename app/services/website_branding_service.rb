@@ -64,7 +64,6 @@ class WebsiteBrandingService
 
   def extract_branding(doc)
     {
-      logo: nil,
       favicon: extract_favicon(doc),
       primary_color: extract_theme_color(doc)
     }

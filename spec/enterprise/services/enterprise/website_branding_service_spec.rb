@@ -66,7 +66,6 @@ RSpec.describe Enterprise::WebsiteBrandingService do
                                  tiktok: '@acmetok'
                                },
                                branding: {
-                                 logo: 'https://example.com/logo.png',
                                  favicon: 'https://example.com/favicon.png',
                                  primary_color: '#FF5733'
                                }
