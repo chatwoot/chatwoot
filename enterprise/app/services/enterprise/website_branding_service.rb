@@ -98,8 +98,7 @@ class Enterprise::WebsiteBrandingService
     return handle_error(response) unless response.success?
 
     data = response.parsed_response
-    colors = data.dig('data', 'branding', 'colors')
-    puts "[WebsiteBranding] Colors: #{colors.inspect}" if colors
+    data.dig('data', 'branding', 'colors')
 
     format_response(response)
   end
