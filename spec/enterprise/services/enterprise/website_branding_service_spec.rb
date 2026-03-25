@@ -130,6 +130,67 @@ RSpec.describe Enterprise::WebsiteBrandingService do
       end
     end
 
+    context 'when WhatsApp link uses api.whatsapp.com format' do
+      before do
+        create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: api_key)
+        response = {
+          success: true,
+          data: {
+            json: { business_name: 'Acme Corp' },
+            links: ['https://api.whatsapp.com/send?phone=5511999999999&text=Hello']
+          }
+        }.to_json
+        stub_request(:post, scrape_endpoint)
+          .to_return(status: 200, body: response, headers: { 'content-type' => 'application/json' })
+      end
+
+      it 'extracts phone number from query param' do
+        result = described_class.lookup(url)
+        expect(result[:social_handles][:whatsapp]).to eq('5511999999999')
+      end
+    end
+
+    context 'when WhatsApp link uses wa.me format' do
+      before do
+        create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: api_key)
+        response = {
+          success: true,
+          data: {
+            json: { business_name: 'Acme Corp' },
+            links: ['https://wa.me/+5511999999999']
+          }
+        }.to_json
+        stub_request(:post, scrape_endpoint)
+          .to_return(status: 200, body: response, headers: { 'content-type' => 'application/json' })
+      end
+
+      it 'extracts phone number from path' do
+        result = described_class.lookup(url)
+        expect(result[:social_handles][:whatsapp]).to eq('5511999999999')
+      end
+    end
+
+    context 'when links contain lookalike domains' do
+      before do
+        create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: api_key)
+        response = {
+          success: true,
+          data: {
+            json: { business_name: 'Acme Corp' },
+            links: ['https://notfacebook.com/page', 'https://fakeinstagram.com/user']
+          }
+        }.to_json
+        stub_request(:post, scrape_endpoint)
+          .to_return(status: 200, body: response, headers: { 'content-type' => 'application/json' })
+      end
+
+      it 'does not match lookalike domains' do
+        result = described_class.lookup(url)
+        expect(result[:social_handles][:facebook]).to be_nil
+        expect(result[:social_handles][:instagram]).to be_nil
+      end
+    end
+
     context 'when links contain no social media URLs' do
       before do
         create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: api_key)
