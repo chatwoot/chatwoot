@@ -7,6 +7,8 @@ import { useAccount } from 'dashboard/composables/useAccount';
 
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCard.vue';
+import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
+import BulkDeleteDialog from 'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import RelatedResponses from 'dashboard/components-next/captain/pageComponents/document/RelatedResponses.vue';
@@ -14,9 +16,11 @@ import CreateDocumentDialog from 'dashboard/components-next/captain/pageComponen
 import DocumentPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/DocumentPageEmptyState.vue';
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/document/LimitBanner.vue';
+import { useI18n } from 'vue-i18n';
 
 const route = useRoute();
 const store = useStore();
+const { t } = useI18n();
 
 const { isOnChatwootCloud } = useAccount();
 const uiFlags = useMapGetter('captainDocuments/getUIFlags');
@@ -28,6 +32,9 @@ const selectedAssistantId = computed(() => Number(route.params.assistantId));
 
 const selectedDocument = ref(null);
 const deleteDocumentDialog = ref(null);
+const bulkDeleteDialog = ref(null);
+const bulkSelectedIds = ref(new Set());
+const hoveredCard = ref(null);
 
 const handleDelete = () => {
   deleteDocumentDialog.value.dialogRef.open();
@@ -78,12 +85,61 @@ const fetchDocuments = (page = 1) => {
   store.dispatch('captainDocuments/get', filterParams);
 };
 
-const onPageChange = page => fetchDocuments(page);
+const onPageChange = page => {
+  const hadSelection = bulkSelectedIds.value.size > 0;
+  fetchDocuments(page);
+
+  if (hadSelection) {
+    bulkSelectedIds.value = new Set();
+  }
+};
 
 const onDeleteSuccess = () => {
   if (documents.value?.length === 0 && documentsMeta.value?.page > 1) {
     onPageChange(documentsMeta.value.page - 1);
   }
+};
+
+const buildSelectedCountLabel = computed(() => {
+  const count = documents.value?.length || 0;
+  const isAllSelected = bulkSelectedIds.value.size === count && count > 0;
+  return isAllSelected
+    ? t('CAPTAIN.DOCUMENTS.UNSELECT_ALL', { count })
+    : t('CAPTAIN.DOCUMENTS.SELECT_ALL', { count });
+});
+
+const selectedCountLabel = computed(() => {
+  return t('CAPTAIN.DOCUMENTS.SELECTED', {
+    count: bulkSelectedIds.value.size,
+  });
+});
+
+const handleCardHover = (isHovered, id) => {
+  hoveredCard.value = isHovered ? id : null;
+};
+
+const handleCardSelect = id => {
+  const selected = new Set(bulkSelectedIds.value);
+  selected[selected.has(id) ? 'delete' : 'add'](id);
+  bulkSelectedIds.value = selected;
+};
+
+const fetchDocumentsAfterBulkAction = () => {
+  const hasNoDocumentsLeft = documents.value?.length === 0;
+  const currentPage = documentsMeta.value?.page;
+
+  if (hasNoDocumentsLeft) {
+    const pageToFetch = currentPage > 1 ? currentPage - 1 : currentPage;
+    fetchDocuments(pageToFetch);
+  } else {
+    fetchDocuments(currentPage);
+  }
+
+  bulkSelectedIds.value = new Set();
+};
+
+const onBulkDeleteSuccess = () => {
+  fetchDocumentsAfterBulkAction();
 };
 
 onMounted(() => {
@@ -106,6 +162,19 @@ onMounted(() => {
     @update:current-page="onPageChange"
     @click="handleCreateDocument"
   >
+    <template #subHeader>
+      <BulkSelectBar
+        v-model="bulkSelectedIds"
+        :all-items="documents"
+        :select-all-label="buildSelectedCountLabel"
+        :selected-count-label="selectedCountLabel"
+        :delete-label="$t('CAPTAIN.DOCUMENTS.BULK_DELETE_BUTTON')"
+        class="w-fit"
+        :class="{ 'mb-2': bulkSelectedIds.size > 0 }"
+        @bulk-delete="bulkDeleteDialog.dialogRef.open()"
+      />
+    </template>
+
     <template #knowMore>
       <FeatureSpotlightPopover
         :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
@@ -138,7 +207,12 @@ onMounted(() => {
           :external-link="doc.external_link"
           :assistant="doc.assistant"
           :created-at="doc.created_at"
+          :is-selected="bulkSelectedIds.has(doc.id)"
+          :selectable="hoveredCard === doc.id || bulkSelectedIds.size > 0"
+          :show-menu="!bulkSelectedIds.has(doc.id)"
           @action="handleAction"
+          @select="handleCardSelect"
+          @hover="isHovered => handleCardHover(isHovered, doc.id)"
         />
       </div>
     </template>
@@ -161,6 +235,13 @@ onMounted(() => {
       :entity="selectedDocument"
       type="Documents"
       @delete-success="onDeleteSuccess"
+    />
+    <BulkDeleteDialog
+      v-if="bulkSelectedIds"
+      ref="bulkDeleteDialog"
+      :bulk-ids="bulkSelectedIds"
+      type="AssistantDocument"
+      @delete-success="onBulkDeleteSuccess"
     />
   </PageLayout>
 </template>
