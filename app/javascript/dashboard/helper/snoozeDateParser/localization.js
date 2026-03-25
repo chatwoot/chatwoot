@@ -168,8 +168,6 @@ const TOD_TO_MERIDIEM = {
 };
 const CJK_CHAR_RE =
   /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u;
-const DURATION_AFTER_RE =
-  /^(?<amount>\d+(?:\.\d+)?|[a-z]+)\s+(?<unit>minutes?|hours?|days?|weeks?|months?|years?)\s+after$/i;
 
 // ─── Translation Cache ──────────────────────────────────────────────────────
 
@@ -326,11 +324,7 @@ const repositionNextYear = text => {
 const replaceTokens = (text, pairs) => {
   const substituted = substituteLocalTokens(text, pairs);
   const filtered = filterToEnglishVocab(substituted);
-  const normalized = filtered.replace(
-    DURATION_AFTER_RE,
-    '$<amount> $<unit> from now'
-  );
-  const fixed = normalized.replace(
+  const fixed = filtered.replace(
     NUM_TOD_RE,
     (_, t, tod) => `${t}${TOD_TO_MERIDIEM[tod]}`
   );

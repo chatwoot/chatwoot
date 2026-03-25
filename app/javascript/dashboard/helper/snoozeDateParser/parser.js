@@ -82,6 +82,9 @@ const ORDINAL_RE = `(\\d{1,2}(?:st|nd|rd|th)?|${ORDINAL_WORDS})`;
 
 const HALF_UNIT_RE = /^(?:in\s+)?half\s+(?:an?\s+)?(hour|day|week|month|year)$/;
 const RELATIVE_DURATION_RE = new RegExp(`^(?:in\\s+)?${NUM_RE}\\s+${UNIT_RE}$`);
+const RELATIVE_DURATION_AFTER_RE = new RegExp(
+  `^(?:in\\s+)?${NUM_RE}\\s+${UNIT_RE}\\s+after$`
+);
 const DURATION_FROM_NOW_RE = new RegExp(
   `^${NUM_RE}\\s+${UNIT_RE}\\s+from\\s+now$`
 );
@@ -248,6 +251,7 @@ const matchDuration = (text, now) => {
 
   return (
     parseDuration(text.match(DURATION_FROM_NOW_RE), now) ||
+    parseDuration(text.match(RELATIVE_DURATION_AFTER_RE), now) ||
     parseDuration(text.match(RELATIVE_DURATION_RE), now)
   );
 };
