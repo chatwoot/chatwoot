@@ -146,7 +146,7 @@ class Enterprise::WebsiteBrandingService
   def self.extract_social_from_links(links)
     handles = {}
     SOCIAL_DOMAIN_MAP.each do |platform, domains|
-      link = links.find { |l| domains.any? { |d| URI.parse(l).host&.end_with?(d) } }
+      link = links.find { |l| domains.any? { |d| match_domain?(URI.parse(l).host, d) } }
       handles[platform] = link ? parse_handle(platform, link) : nil
     rescue URI::InvalidURIError
       next
@@ -154,6 +154,13 @@ class Enterprise::WebsiteBrandingService
     handles
   end
   private_class_method :extract_social_from_links
+
+  def self.match_domain?(host, domain)
+    return false if host.blank?
+
+    host == domain || host.end_with?(".#{domain}")
+  end
+  private_class_method :match_domain?
 
   def self.parse_handle(platform, link)
     uri = URI.parse(link)
