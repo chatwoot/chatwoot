@@ -45,31 +45,20 @@ describe Webhooks::Trigger do
 
     it 'updates message status if webhook fails for message-created event' do
       payload = { event: 'message_created', conversation: { id: conversation.id }, id: message.id }
+      error = RestClient::ExceptionWithResponse.new('error', 500)
 
-      expect(RestClient::Request).to receive(:execute)
-        .with(
-          method: :post,
-          url: url,
-          payload: payload.to_json,
-          headers: { content_type: :json, accept: :json },
-          timeout: webhook_timeout
-        ).and_raise(RestClient::ExceptionWithResponse.new('error', 500)).once
-
-      expect { trigger.execute(url, payload, webhook_type) }.to change { message.reload.status }.from('sent').to('failed')
+      expect do
+        described_class.new(url, payload, webhook_type).handle_error(error)
+      end.to change { message.reload.status }.from('sent').to('failed')
     end
 
     it 'updates message status if webhook fails for message-updated event' do
       payload = { event: 'message_updated', conversation: { id: conversation.id }, id: message.id }
+      error = RestClient::ExceptionWithResponse.new('error', 500)
 
-      expect(RestClient::Request).to receive(:execute)
-        .with(
-          method: :post,
-          url: url,
-          payload: payload.to_json,
-          headers: { content_type: :json, accept: :json },
-          timeout: webhook_timeout
-        ).and_raise(RestClient::ExceptionWithResponse.new('error', 500)).once
-      expect { trigger.execute(url, payload, webhook_type) }.to change { message.reload.status }.from('sent').to('failed')
+      expect do
+        described_class.new(url, payload, webhook_type).handle_error(error)
+      end.to change { message.reload.status }.from('sent').to('failed')
     end
 
     context 'when webhook type is agent bot' do
@@ -79,19 +68,11 @@ describe Webhooks::Trigger do
 
       it 'reopens conversation and enqueues activity message if pending' do
         payload = { event: 'message_created', id: pending_message.id }
-
-        expect(RestClient::Request).to receive(:execute)
-          .with(
-            method: :post,
-            url: url,
-            payload: payload.to_json,
-            headers: { content_type: :json, accept: :json },
-            timeout: webhook_timeout
-          ).and_raise(RestClient::ExceptionWithResponse.new('error', 500)).once
+        error = RestClient::ExceptionWithResponse.new('error', 500)
 
         expect do
           perform_enqueued_jobs do
-            trigger.execute(url, payload, webhook_type)
+            described_class.new(url, payload, webhook_type).handle_error(error)
           end
         end.not_to(change { pending_message.reload.status })
 
@@ -104,18 +85,10 @@ describe Webhooks::Trigger do
 
       it 'does not change message status or enqueue activity when conversation is not pending' do
         payload = { event: 'message_created', conversation: { id: conversation.id }, id: message.id }
-
-        expect(RestClient::Request).to receive(:execute)
-          .with(
-            method: :post,
-            url: url,
-            payload: payload.to_json,
-            headers: { content_type: :json, accept: :json },
-            timeout: webhook_timeout
-          ).and_raise(RestClient::ExceptionWithResponse.new('error', 500)).once
+        error = RestClient::ExceptionWithResponse.new('error', 500)
 
         expect do
-          trigger.execute(url, payload, webhook_type)
+          described_class.new(url, payload, webhook_type).handle_error(error)
         end.not_to(change { message.reload.status })
 
         expect(Conversations::ActivityMessageJob).not_to have_been_enqueued
@@ -125,17 +98,9 @@ describe Webhooks::Trigger do
       it 'keeps conversation pending when keep_pending_on_bot_failure setting is enabled' do
         account.update(keep_pending_on_bot_failure: true)
         payload = { event: 'message_created', id: pending_message.id }
+        error = RestClient::ExceptionWithResponse.new('error', 500)
 
-        expect(RestClient::Request).to receive(:execute)
-          .with(
-            method: :post,
-            url: url,
-            payload: payload.to_json,
-            headers: { content_type: :json, accept: :json },
-            timeout: webhook_timeout
-          ).and_raise(RestClient::ExceptionWithResponse.new('error', 500)).once
-
-        trigger.execute(url, payload, webhook_type)
+        described_class.new(url, payload, webhook_type).handle_error(error)
 
         expect(Conversations::ActivityMessageJob).not_to have_been_enqueued
         expect(pending_conversation.reload.status).to eq('pending')
@@ -144,18 +109,11 @@ describe Webhooks::Trigger do
       it 'reopens conversation when keep_pending_on_bot_failure setting is disabled' do
         account.update(keep_pending_on_bot_failure: false)
         payload = { event: 'message_created', id: pending_message.id }
+        error = RestClient::ExceptionWithResponse.new('error', 500)
 
-        expect(RestClient::Request).to receive(:execute)
-          .with(
-            method: :post,
-            url: url,
-            payload: payload.to_json,
-            headers: { content_type: :json, accept: :json },
-            timeout: webhook_timeout
-          ).and_raise(RestClient::ExceptionWithResponse.new('error', 500)).once
         expect do
           perform_enqueued_jobs do
-            trigger.execute(url, payload, webhook_type)
+            described_class.new(url, payload, webhook_type).handle_error(error)
           end
         end.not_to(change { pending_message.reload.status })
 
@@ -170,17 +128,11 @@ describe Webhooks::Trigger do
 
   it 'does not update message status if webhook fails for other events' do
     payload = { event: 'conversation_created', conversation: { id: conversation.id }, id: message.id }
+    error = RestClient::ExceptionWithResponse.new('error', 500)
 
-    expect(RestClient::Request).to receive(:execute)
-      .with(
-        method: :post,
-        url: url,
-        payload: payload.to_json,
-        headers: { content_type: :json, accept: :json },
-        timeout: webhook_timeout
-      ).and_raise(RestClient::ExceptionWithResponse.new('error', 500)).once
-
-    expect { trigger.execute(url, payload, webhook_type) }.not_to(change { message.reload.status })
+    expect do
+      described_class.new(url, payload, webhook_type).handle_error(error)
+    end.not_to(change { message.reload.status })
   end
 
   context 'when webhook timeout configuration is blank' do

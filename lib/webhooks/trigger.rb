@@ -14,20 +14,8 @@ class Webhooks::Trigger
   def execute
     perform_request
   rescue StandardError => e
-    handle_error(e)
     Rails.logger.warn "Exception: Invalid webhook URL #{@url} : #{e.message}"
-  end
-
-  private
-
-  def perform_request
-    RestClient::Request.execute(
-      method: :post,
-      url: @url,
-      payload: @payload.to_json,
-      headers: { content_type: :json, accept: :json },
-      timeout: webhook_timeout
-    )
+    raise
   end
 
   def handle_error(error)
@@ -40,6 +28,18 @@ class Webhooks::Trigger
     when :api_inbox_webhook
       update_message_status(error)
     end
+  end
+
+  private
+
+  def perform_request
+    RestClient::Request.execute(
+      method: :post,
+      url: @url,
+      payload: @payload.to_json,
+      headers: { content_type: :json, accept: :json },
+      timeout: webhook_timeout
+    )
   end
 
   def update_conversation_status(message)

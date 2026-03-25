@@ -168,6 +168,7 @@ describe V2::ReportBuilder do
           }
 
           create(:agent_bot_inbox, inbox: account.inboxes.first)
+          allow(RestClient::Request).to receive(:execute)
           conversations = account.conversations.where('created_at < ?', 1.day.ago)
           conversations.each do |conversation|
             conversation.messages.outgoing.all.update(sender: nil)
@@ -202,6 +203,7 @@ describe V2::ReportBuilder do
           }
 
           create(:agent_bot_inbox, inbox: account.inboxes.first)
+          allow(RestClient::Request).to receive(:execute)
           conversations = account.conversations.where('created_at < ?', 1.day.ago)
           conversations.each do |conversation|
             conversation.pending!
