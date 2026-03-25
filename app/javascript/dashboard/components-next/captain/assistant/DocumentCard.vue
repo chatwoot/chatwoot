@@ -43,6 +43,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showSelectionControl: {
+    type: Boolean,
+    default: false,
+  },
   showMenu: {
     type: Boolean,
     default: true,
@@ -97,12 +101,15 @@ const handleAction = ({ action, value }) => {
 
 <template>
   <CardLayout
-    selectable
+    :selectable="selectable"
     class="relative"
     @mouseenter="emit('hover', true)"
     @mouseleave="emit('hover', false)"
   >
-    <div v-show="selectable" class="absolute top-7 ltr:left-3 rtl:right-3">
+    <div
+      v-show="showSelectionControl"
+      class="absolute top-7 ltr:left-3 rtl:right-3"
+    >
       <Checkbox v-model="modelValue" />
     </div>
     <div class="flex gap-1 justify-between w-full">

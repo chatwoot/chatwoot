@@ -4,11 +4,13 @@ import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCard.vue';
 import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
 import BulkDeleteDialog from 'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue';
+import Policy from 'dashboard/components/policy.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import RelatedResponses from 'dashboard/components-next/captain/pageComponents/document/RelatedResponses.vue';
@@ -21,6 +23,7 @@ import { useI18n } from 'vue-i18n';
 const route = useRoute();
 const store = useStore();
 const { t } = useI18n();
+const { checkPermissions } = usePolicy();
 
 const { isOnChatwootCloud } = useAccount();
 const uiFlags = useMapGetter('captainDocuments/getUIFlags');
@@ -29,6 +32,7 @@ const isFetching = computed(() => uiFlags.value.fetchingList);
 const documentsMeta = useMapGetter('captainDocuments/getMeta');
 
 const selectedAssistantId = computed(() => Number(route.params.assistantId));
+const canManageDocuments = computed(() => checkPermissions(['administrator']));
 
 const selectedDocument = ref(null);
 const deleteDocumentDialog = ref(null);
@@ -119,6 +123,7 @@ const handleCardHover = (isHovered, id) => {
 };
 
 const handleCardSelect = id => {
+  if (!canManageDocuments.value) return;
   const selected = new Set(bulkSelectedIds.value);
   selected[selected.has(id) ? 'delete' : 'add'](id);
   bulkSelectedIds.value = selected;
@@ -163,16 +168,18 @@ onMounted(() => {
     @click="handleCreateDocument"
   >
     <template #subHeader>
-      <BulkSelectBar
-        v-model="bulkSelectedIds"
-        :all-items="documents"
-        :select-all-label="buildSelectedCountLabel"
-        :selected-count-label="selectedCountLabel"
-        :delete-label="$t('CAPTAIN.DOCUMENTS.BULK_DELETE_BUTTON')"
-        class="w-fit"
-        :class="{ 'mb-2': bulkSelectedIds.size > 0 }"
-        @bulk-delete="bulkDeleteDialog.dialogRef.open()"
-      />
+      <Policy :permissions="['administrator']">
+        <BulkSelectBar
+          v-model="bulkSelectedIds"
+          :all-items="documents"
+          :select-all-label="buildSelectedCountLabel"
+          :selected-count-label="selectedCountLabel"
+          :delete-label="$t('CAPTAIN.DOCUMENTS.BULK_DELETE_BUTTON')"
+          class="w-fit"
+          :class="{ 'mb-2': bulkSelectedIds.size > 0 }"
+          @bulk-delete="bulkDeleteDialog.dialogRef.open()"
+        />
+      </Policy>
     </template>
 
     <template #knowMore>
@@ -207,8 +214,12 @@ onMounted(() => {
           :external-link="doc.external_link"
           :assistant="doc.assistant"
           :created-at="doc.created_at"
-          :is-selected="bulkSelectedIds.has(doc.id)"
-          :selectable="hoveredCard === doc.id || bulkSelectedIds.size > 0"
+          :is-selected="canManageDocuments && bulkSelectedIds.has(doc.id)"
+          :selectable="canManageDocuments"
+          :show-selection-control="
+            canManageDocuments &&
+            (hoveredCard === doc.id || bulkSelectedIds.size > 0)
+          "
           :show-menu="!bulkSelectedIds.has(doc.id)"
           @action="handleAction"
           @select="handleCardSelect"
