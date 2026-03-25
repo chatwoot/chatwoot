@@ -15,15 +15,24 @@ module SocialLinkParser
   def extract_social_from_links(links)
     handles = {}
     SOCIAL_DOMAIN_MAP.each do |platform, domains|
-      link = links.find do |l|
-        uri = URI.parse(l)
-        domains.any? { |d| match_social_domain?(uri.host, d) }
-      rescue URI::InvalidURIError
-        false
-      end
-      handles[platform] = link ? parse_social_handle(platform, link) : nil
+      handles[platform] = find_social_handle(links, platform, domains)
     end
     handles
+  end
+
+  def find_social_handle(links, platform, domains)
+    matching_links = links.select do |l|
+      uri = URI.parse(l)
+      domains.any? { |d| match_social_domain?(uri.host, d) }
+    rescue URI::InvalidURIError
+      false
+    end
+
+    matching_links.each do |link|
+      handle = parse_social_handle(platform, link)
+      return handle if handle.present?
+    end
+    nil
   end
 
   def match_social_domain?(host, domain)
