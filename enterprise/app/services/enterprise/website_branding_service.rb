@@ -164,12 +164,22 @@ class Enterprise::WebsiteBrandingService
 
   def self.parse_handle(platform, link)
     uri = URI.parse(link)
-    path = uri.path.to_s.delete_prefix('/').delete_suffix('/')
-    return nil if path.blank?
+    return parse_whatsapp(uri) if platform == :whatsapp
 
-    platform == :whatsapp ? path.tr('+', '') : path
+    path = uri.path.to_s.delete_prefix('/').delete_suffix('/')
+    path.presence
   rescue URI::InvalidURIError
     nil
   end
+
+  # wa.me/1234567890 or api.whatsapp.com/send?phone=1234567890
+  def self.parse_whatsapp(uri)
+    phone = CGI.parse(uri.query.to_s)['phone']&.first
+    phone = uri.path.to_s.delete_prefix('/').delete_suffix('/') if phone.blank?
+    return nil if phone.blank?
+
+    phone.tr('+', '')
+  end
+  private_class_method :parse_whatsapp
   private_class_method :parse_handle
 end
