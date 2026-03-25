@@ -36,8 +36,6 @@ class Platform::Api::V1::EmailChannelMigrationsController < PlatformController
 
       { email: entry[:email], inbox_id: inbox.id, channel_id: channel.id, status: 'success' }
     end
-  rescue ActiveRecord::RecordInvalid => e
-    { email: entry[:email], status: 'error', message: e.message }
   rescue StandardError => e
     { email: entry[:email], status: 'error', message: e.message }
   end

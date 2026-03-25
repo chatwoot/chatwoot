@@ -57,23 +57,29 @@ RSpec.describe 'Platform Email Channel Migrations API', type: :request do
         end.to change(Channel::Email, :count).by(1).and change(Inbox, :count).by(1)
 
         expect(response).to have_http_status(:ok)
-        json = response.parsed_body
-        result = json['results'].first
-
+        result = response.parsed_body['results'].first
         expect(result['status']).to eq('success')
         expect(result['email']).to eq('support@example.com')
         expect(result['inbox_id']).to be_present
         expect(result['channel_id']).to be_present
+      end
 
-        channel = Channel::Email.find(result['channel_id'])
+      it 'sets correct google channel attributes' do
+        post base_url, params: valid_migration_params, headers: headers, as: :json
+
+        channel = Channel::Email.find(response.parsed_body['results'].first['channel_id'])
         expect(channel.provider).to eq('google')
         expect(channel.imap_enabled).to be(true)
         expect(channel.imap_address).to eq('imap.gmail.com')
         expect(channel.imap_port).to eq(993)
         expect(channel.imap_login).to eq('support@example.com')
         expect(channel.provider_config['refresh_token']).to eq('1//test-refresh-token')
+      end
 
-        inbox = Inbox.find(result['inbox_id'])
+      it 'sets correct inbox attributes' do
+        post base_url, params: valid_migration_params, headers: headers, as: :json
+
+        inbox = Inbox.find(response.parsed_body['results'].first['inbox_id'])
         expect(inbox.name).to eq('Migrated Support')
         expect(inbox.account_id).to eq(account.id)
       end
