@@ -21,13 +21,13 @@
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Abiertas"
+        "TEXT": "Abierta"
       },
       "resolved": {
-        "TEXT": "Resueltas"
+        "TEXT": "Resuelta"
       },
       "pending": {
-        "TEXT": "Pendientes"
+        "TEXT": "Pendiente"
       },
       "snoozed": {
         "TEXT": "Postpuestas"
