@@ -8,6 +8,7 @@ class Enterprise::WebsiteBrandingService
     'Education',
     'Finance',
     'Real Estate',
+    'Marketing',
     'Travel & Hospitality',
     'Food & Beverage',
     'Media & Entertainment',
@@ -15,6 +16,15 @@ class Enterprise::WebsiteBrandingService
     'Non-profit',
     'Other'
   ].freeze
+
+  SOCIAL_DOMAIN_MAP = {
+    whatsapp: %w[wa.me api.whatsapp.com],
+    line: %w[line.me],
+    facebook: %w[facebook.com fb.com fb.me],
+    instagram: %w[instagram.com],
+    telegram: %w[t.me telegram.me],
+    tiktok: %w[tiktok.com]
+  }.freeze
 
   def self.lookup(url)
     return nil unless firecrawl_enabled?
@@ -57,15 +67,15 @@ class Enterprise::WebsiteBrandingService
   def self.scrape_payload(url)
     {
       url: url,
+      onlyMainContent: false,
       formats: [
         {
           type: 'json',
           schema: extract_schema,
-          prompt: 'Extract business information from this website. Look in the header, footer, contact page, ' \
-                  'and about sections for social media handles and contact information. ' \
-                  'For social handles, extract just the handle/username, not the full URL.'
+          prompt: 'Extract the business name, primary language, and industry category from this website.'
         },
-        'branding'
+        'branding',
+        'links'
       ]
     }
   end
@@ -81,13 +91,7 @@ class Enterprise::WebsiteBrandingService
           type: 'string',
           enum: INDUSTRY_CATEGORIES,
           description: 'The industry category that best describes this business'
-        },
-        whatsapp_number: { type: 'string', description: 'WhatsApp phone number including country code, if available' },
-        line_handle: { type: 'string', description: 'LINE messaging handle or ID, if available' },
-        facebook_handle: { type: 'string', description: 'Facebook page handle or username, if available' },
-        instagram_handle: { type: 'string', description: 'Instagram handle or username, if available' },
-        telegram_handle: { type: 'string', description: 'Telegram handle or username, if available' },
-        tiktok_handle: { type: 'string', description: 'TikTok channel handle or username, if available' }
+        }
       },
       required: %w[business_name]
     }
@@ -96,9 +100,6 @@ class Enterprise::WebsiteBrandingService
 
   def self.process_response(response)
     return handle_error(response) unless response.success?
-
-    data = response.parsed_response
-    data.dig('data', 'branding', 'colors')
 
     format_response(response)
   end
@@ -114,12 +115,13 @@ class Enterprise::WebsiteBrandingService
     data = response.parsed_response
     extract = data.dig('data', 'json') || {}
     brand = data.dig('data', 'branding') || {}
+    links = data.dig('data', 'links') || []
 
     {
       business_name: extract['business_name'],
       language: extract['language'],
       industry_category: extract['industry_category'],
-      social_handles: extract_social_handles(extract),
+      social_handles: extract_social_from_links(links),
       branding: extract_branding(brand)
     }
   end
@@ -132,24 +134,35 @@ class Enterprise::WebsiteBrandingService
       primary_color: brand.dig('colors', 'primary')
     }
   end
+  private_class_method :extract_branding
 
   def self.url_or_nil(value)
     return nil if value.blank? || !value.start_with?('http')
 
     value
   end
-  private_class_method :extract_branding
   private_class_method :url_or_nil
 
-  def self.extract_social_handles(extract)
-    {
-      whatsapp: extract['whatsapp_number'],
-      line: extract['line_handle'],
-      facebook: extract['facebook_handle'],
-      instagram: extract['instagram_handle'],
-      telegram: extract['telegram_handle'],
-      tiktok: extract['tiktok_handle']
-    }.transform_values(&:presence)
+  def self.extract_social_from_links(links)
+    handles = {}
+    SOCIAL_DOMAIN_MAP.each do |platform, domains|
+      link = links.find { |l| domains.any? { |d| URI.parse(l).host&.end_with?(d) } }
+      handles[platform] = link ? parse_handle(platform, link) : nil
+    rescue URI::InvalidURIError
+      next
+    end
+    handles
   end
-  private_class_method :extract_social_handles
+  private_class_method :extract_social_from_links
+
+  def self.parse_handle(platform, link)
+    uri = URI.parse(link)
+    path = uri.path.to_s.delete_prefix('/').delete_suffix('/')
+    return nil if path.blank?
+
+    platform == :whatsapp ? path.tr('+', '') : path
+  rescue URI::InvalidURIError
+    nil
+  end
+  private_class_method :parse_handle
 end

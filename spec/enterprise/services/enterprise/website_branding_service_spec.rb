@@ -12,23 +12,20 @@ RSpec.describe Enterprise::WebsiteBrandingService do
           json: {
             business_name: 'Acme Corp',
             language: 'en',
-            industry_category: 'Technology',
-            whatsapp_number: '+1234567890',
-            line_handle: nil,
-            facebook_handle: 'acmecorp',
-            instagram_handle: 'acme_corp',
-            telegram_handle: nil,
-            tiktok_handle: ''
+            industry_category: 'Technology'
           },
           branding: {
-            images: {
-              logo: 'https://example.com/logo.png',
-              favicon: 'https://example.com/favicon.png'
-            },
-            colors: {
-              primary: '#FF5733'
-            }
-          }
+            images: { logo: 'https://example.com/logo.png', favicon: 'https://example.com/favicon.png' },
+            colors: { primary: '#FF5733' }
+          },
+          links: [
+            'https://example.com/about',
+            'https://facebook.com/acmecorp',
+            'https://instagram.com/acme_corp',
+            'https://wa.me/1234567890',
+            'https://t.me/acmecorp',
+            'https://tiktok.com/@acmetok'
+          ]
         }
       }.to_json
     end
@@ -49,12 +46,12 @@ RSpec.describe Enterprise::WebsiteBrandingService do
                                language: 'en',
                                industry_category: 'Technology',
                                social_handles: {
-                                 whatsapp: '+1234567890',
+                                 whatsapp: '1234567890',
                                  line: nil,
                                  facebook: 'acmecorp',
                                  instagram: 'acme_corp',
-                                 telegram: nil,
-                                 tiktok: nil
+                                 telegram: 'acmecorp',
+                                 tiktok: '@acmetok'
                                },
                                branding: {
                                  logo: 'https://example.com/logo.png',
@@ -111,28 +108,45 @@ RSpec.describe Enterprise::WebsiteBrandingService do
       end
     end
 
-    context 'when brand_identity is missing from response' do
+    context 'when branding and links are missing from response' do
       before do
         create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: api_key)
         partial_response = {
           success: true,
           data: {
-            json: {
-              business_name: 'Acme Corp',
-              language: 'en',
-              industry_category: 'Technology'
-            }
+            json: { business_name: 'Acme Corp', language: 'en', industry_category: 'Technology' }
           }
         }.to_json
         stub_request(:post, scrape_endpoint)
           .to_return(status: 200, body: partial_response, headers: { 'content-type' => 'application/json' })
       end
 
-      it 'returns nil for branding values but populates the rest' do
+      it 'returns nil for branding and social handles' do
         result = described_class.lookup(url)
 
         expect(result[:business_name]).to eq('Acme Corp')
         expect(result[:branding]).to eq({ logo: nil, favicon: nil, primary_color: nil })
+        expect(result[:social_handles]).to eq({ whatsapp: nil, line: nil, facebook: nil, instagram: nil, telegram: nil, tiktok: nil })
+      end
+    end
+
+    context 'when links contain no social media URLs' do
+      before do
+        create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: api_key)
+        response = {
+          success: true,
+          data: {
+            json: { business_name: 'Acme Corp' },
+            links: ['https://example.com/about', 'https://example.com/blog', 'https://docs.example.com']
+          }
+        }.to_json
+        stub_request(:post, scrape_endpoint)
+          .to_return(status: 200, body: response, headers: { 'content-type' => 'application/json' })
+      end
+
+      it 'returns nil for all social handles' do
+        result = described_class.lookup(url)
+        expect(result[:social_handles].values).to all(be_nil)
       end
     end
   end
