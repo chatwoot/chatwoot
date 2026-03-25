@@ -1,5 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 . "$(dirname "$0")/_/husky.sh"
+
+# Source nvm to make npm/npx available in git hooks
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # lint js and vue files
 npx --no-install lint-staged

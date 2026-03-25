@@ -1,0 +1,57 @@
+# Docker Compose para Dependências de Desenvolvimento
+# Use este arquivo para PostgreSQL, Redis e MailHog
+# Execute com: docker-compose -f docker-compose.dev.yaml up -d
+
+version: '3.8'
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: chatwoot-postgres-dev
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-dev:/data/postgres
+    environment:
+      POSTGRES_DB: chatwoot_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_INITDB_ARGS: '-c max_connections=200'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    container_name: chatwoot-redis-dev
+    restart: always
+    ports:
+      - '6380:6379'
+    volumes:
+      - redis-dev:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: chatwoot-mailhog-dev
+    restart: always
+    ports:
+      - '1025:1025' # SMTP
+      - '8025:8025' # Web UI
+    environment:
+      MH_HOSTNAME: localhost
+      MH_AUTH_FILE: ''
+
+volumes:
+  postgres-dev:
+    driver: local
+  redis-dev:
+    driver: local

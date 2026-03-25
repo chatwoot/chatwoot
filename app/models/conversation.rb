@@ -28,7 +28,6 @@
 #  contact_inbox_id       :bigint
 #  display_id             :integer          not null
 #  inbox_id               :integer          not null
-#  kanban_task_id         :bigint
 #  sla_policy_id          :bigint
 #  team_id                :bigint
 #
@@ -47,17 +46,12 @@
 #  index_conversations_on_identifier_and_account_id   (identifier,account_id)
 #  index_conversations_on_inbox_id                    (inbox_id)
 #  index_conversations_on_inbox_id_and_group_type     (inbox_id,group_type)
-#  index_conversations_on_kanban_task_id              (kanban_task_id)
 #  index_conversations_on_priority                    (priority)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_status_and_priority         (status,priority)
 #  index_conversations_on_team_id                     (team_id)
 #  index_conversations_on_uuid                        (uuid) UNIQUE
 #  index_conversations_on_waiting_since               (waiting_since)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (kanban_task_id => kanban_tasks.id)
 #
 
 class Conversation < ApplicationRecord

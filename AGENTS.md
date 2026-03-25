@@ -1,7 +1,6 @@
 # Chatwoot Development Guidelines
 
 ## Build / Test / Lint
-
 - **Setup**: `bundle install && pnpm install`
 - **Run Dev**: `pnpm dev` or `overmind start -f ./Procfile.dev`
 - **Seed Local Test Data**: `bundle exec rails db:seed` (quickly populates minimal data for standard feature verification)
@@ -19,7 +18,6 @@
 - Always prefer `bundle exec` for Ruby CLI tasks (rspec, rake, rubocop, etc.)
 
 ## Code Style
-
 - **Ruby**: Follow RuboCop rules (150 character max line length)
 - **Vue/JS**: Use ESLint (Airbnb base + Vue 3 recommended)
 - **Vue Components**: Use PascalCase
@@ -32,16 +30,14 @@
 - **Vue API**: Always use Composition API with `<script setup>` at the top
 
 ## Styling
-
-- **Tailwind Only**:  
-  - Do not write custom CSS  
-  - Do not use scoped CSS  
-  - Do not use inline styles  
-  - Always use Tailwind utility classes  
+- **Tailwind Only**:
+  - Do not write custom CSS
+  - Do not use scoped CSS
+  - Do not use inline styles
+  - Always use Tailwind utility classes
 - **Colors**: Refer to `tailwind.config.js` for color definitions
 
 ## General Guidelines
-
 - MVP focus: Least code change, happy-path only
 - No unnecessary defensive programming
 - Ship the happy path first: limit guards/fallbacks to what production has proven necessary, then iterate
@@ -55,20 +51,17 @@
 - Specs in parallel/reloading environments: prefer comparing `error.class.name` over constant class equality when asserting raised errors
 
 ## Codex Worktree Workflow
-
 - Use a separate git worktree + branch per task to keep changes isolated.
 - Keep Codex-specific local setup under `.codex/` and use `Procfile.worktree` for worktree process orchestration.
 - The setup workflow in `.codex/environments/environment.toml` should dynamically generate per-worktree DB/port values (Rails, Vite, Redis DB index) to avoid collisions.
 - Start each worktree with its own Overmind socket/title so multiple instances can run at the same time.
 
 ## Commit Messages
-
 - Prefer Conventional Commits: `type(scope): subject` (scope optional)
 - Example: `feat(auth): add user authentication`
 - Don't reference Claude in commit messages
 
 ## PR Description Format
-
 - Start with a short, user-facing paragraph describing the product change.
 - Add a `Closes` section with relevant issue links (GitHub, Linear, etc.).
 - For feature PRs, add `How to test` from a product/UX standpoint.
@@ -77,7 +70,6 @@
 - Do not add a `How this was tested` section listing specs/commands.
 
 ## Project-Specific
-
 - **Translations**:
   - Only update `en.yml` and `en.json`
   - Other languages are handled by the community
@@ -86,11 +78,9 @@
   - Use `components-next/` for message bubbles (the rest is being deprecated)
 
 ## Ruby Best Practices
-
 - Use compact `module/class` definitions; avoid nested styles
 
 ## Enterprise Edition Notes
-
 - Chatwoot has an Enterprise overlay under `enterprise/` that extends/overrides OSS code.
 - When you add or modify core functionality, always check for corresponding files in `enterprise/` and keep behavior compatible.
 - Follow the Enterprise development practices documented here:
@@ -108,5 +98,4 @@ Practical checklist for any change impacting core logic or public APIs
 - When modifying existing OSS features for Enterprise-only behavior, add an Enterprise module (via `prepend_mod_with`/`include_mod_with`) instead of editing OSS files directly—especially for policies, controllers, and services. For Enterprise-exclusive features, place code directly under `enterprise/`.
 
 ## Branding / White-labeling note
-
 - For user-facing strings that currently contain "Chatwoot" but should adapt to branded/self-hosted installs, prefer applying `replaceInstallationName` from `shared/composables/useBranding` in the UI layer (for example tooltip and suggestion labels) instead of adding hardcoded brand-specific copy.
