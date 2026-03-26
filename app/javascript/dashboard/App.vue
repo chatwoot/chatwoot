@@ -107,8 +107,17 @@ export default {
       this.$store.dispatch('setActiveAccount', {
         accountId: this.currentAccountId,
       });
+      const account = this.getAccount(this.currentAccountId);
+      const onboardingStep = account?.custom_attributes?.onboarding_step;
+      if (onboardingStep && !isOnOnboardingView(this.$route)) {
+        this.router.replace({
+          name: 'onboarding_account_details',
+          params: { accountId: this.currentAccountId },
+        });
+        return;
+      }
       const { locale, latest_chatwoot_version: latestChatwootVersion } =
-        this.getAccount(this.currentAccountId);
+        account;
       const { pubsub_token: pubsubToken } = this.currentUser || {};
       // If user locale is set, use it; otherwise use account locale
       this.setLocale(this.uiSettings?.locale || locale);
