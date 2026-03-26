@@ -65,7 +65,10 @@ class Messages::MessageBuilder
   def process_reusable_attachments
     return if @attachment_ids.blank?
 
-    @account.reusable_attachments.where(id: @attachment_ids).in_order_of(:id, @attachment_ids).each do |ra|
+    resolved = @account.reusable_attachments.where(id: @attachment_ids).in_order_of(:id, @attachment_ids)
+    raise ActiveRecord::RecordNotFound, "No reusable attachments found for provided ids" if resolved.empty?
+
+    resolved.each do |ra|
       next unless ra.file.attached?
 
       att = @message.attachments.build(account_id: @message.account_id, file: ra.file.blob)

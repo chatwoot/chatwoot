@@ -2,7 +2,7 @@ class Api::V1::Accounts::ReusableAttachmentsController < Api::V1::Accounts::Base
   before_action :set_reusable_attachment, only: [:show, :update, :destroy]
 
   def index
-    @reusable_attachments = Current.account.reusable_attachments.order(created_at: :desc)
+    @reusable_attachments = Current.account.reusable_attachments.order(created_at: :desc).with_attached_file
   end
 
   def show; end
