@@ -9,14 +9,16 @@ RSpec.describe Twilio::VoiceWebhookSetupService do
   let(:api_key_secret) { 'api_key_secret_123' }
   let(:phone_number) { '+15551230001' }
   let(:frontend_url) { 'https://app.chatwoot.test' }
+  let(:account) { create(:account) }
 
   let(:channel) do
-    build(:channel_voice, phone_number: phone_number, provider_config: {
-            account_sid: account_sid,
-            auth_token: auth_token,
-            api_key_sid: api_key_sid,
-            api_key_secret: api_key_secret
-          })
+    build(:channel_twilio_sms, :with_voice,
+          account: account,
+          phone_number: phone_number,
+          account_sid: account_sid,
+          auth_token: auth_token,
+          api_key_sid: api_key_sid,
+          api_key_secret: api_key_secret)
   end
 
   let(:twilio_base_url) { "https://api.twilio.com/2010-04-01/Accounts/#{account_sid}" }
