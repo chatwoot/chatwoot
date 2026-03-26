@@ -14,6 +14,8 @@ import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 const props = defineProps({
   phone: { type: String, default: '' },
   contactId: { type: [String, Number], required: true },
+  fixedInboxId: { type: [String, Number], default: null },
+  navigateOnSuccess: { type: Boolean, default: true },
   label: { type: String, default: '' },
   icon: { type: [String, Object, Function], default: '' },
   size: { type: String, default: 'sm' },
@@ -39,9 +41,14 @@ const voiceInboxes = computed(() =>
   )
 );
 const hasVoiceInboxes = computed(() => voiceInboxes.value.length > 0);
+const hasFixedInbox = computed(
+  () => props.fixedInboxId !== null && props.fixedInboxId !== undefined
+);
 
 // Unified behavior: hide when no phone
-const shouldRender = computed(() => hasVoiceInboxes.value && !!props.phone);
+const shouldRender = computed(
+  () => !!props.phone && (hasFixedInbox.value || hasVoiceInboxes.value)
+);
 
 const isInitiatingCall = computed(() => {
   return contactsUiFlags.value?.isInitiatingCall || false;
@@ -80,7 +87,9 @@ const startCall = async inboxId => {
     });
 
     useAlert(t('CONTACT_PANEL.CALL_INITIATED'));
-    navigateToConversation(response?.conversation_id);
+    if (props.navigateOnSuccess) {
+      navigateToConversation(response?.conversation_id);
+    }
   } catch (error) {
     const apiError = error?.message;
     useAlert(apiError || t('CONTACT_PANEL.CALL_FAILED'));
@@ -88,6 +97,11 @@ const startCall = async inboxId => {
 };
 
 const onClick = async () => {
+  if (hasFixedInbox.value) {
+    await startCall(props.fixedInboxId);
+    return;
+  }
+
   if (voiceInboxes.value.length > 1) {
     dialogRef.value?.open();
     return;
