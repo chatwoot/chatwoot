@@ -24,7 +24,7 @@ class Whatsapp::EmbeddedSignupService
     # Skip health check during reauthorization — phone numbers in pending provisioning state
     # (platform_type: NOT_APPLICABLE) would incorrectly trigger a disconnect email right after
     # a successful reauth. Only run health check for new channel creation.
-    check_channel_health_and_prompt_reauth(channel) unless @inbox_id.present?
+    check_channel_health_and_prompt_reauth(channel) if @inbox_id.blank?
     channel
 
   rescue StandardError => e
