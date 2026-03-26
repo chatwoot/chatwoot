@@ -83,7 +83,6 @@ class WebsiteBrandingService
   def resolve_url(url)
     return nil if url.blank?
     return url if url.start_with?('http')
-    return nil unless url.start_with?('/')
 
     URI.join(@url, url).to_s
   rescue URI::InvalidURIError

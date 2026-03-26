@@ -133,5 +133,24 @@ RSpec.describe WebsiteBrandingService do
         expect(result[:social_handles][:instagram]).to be_nil
       end
     end
+
+    context 'when favicon uses a relative path without leading slash' do
+      let(:html_body) do
+        <<~HTML
+          <html lang="en">
+          <head>
+            <title>Test</title>
+            <link rel="icon" href="favicon.ico" />
+          </head>
+          <body></body>
+          </html>
+        HTML
+      end
+
+      it 'resolves the relative favicon URL' do
+        result = described_class.new(url).perform
+        expect(result[:branding][:favicon]).to eq('https://example.com/favicon.ico')
+      end
+    end
   end
 end
