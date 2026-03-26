@@ -2,6 +2,7 @@ require 'google/cloud/dialogflow/v2'
 
 class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorService
   SUPPORTED_LANGUAGE_CODES = %w[
+    ar
     en-US
     en-GB
     es-ES
@@ -16,7 +17,6 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
     zh-CN
     zh-TW
     hi-IN
-    ar-SA
     ru-RU
     nl-NL
     pl-PL
@@ -26,7 +26,7 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
     id-ID
   ].freeze
   AUTO_LANGUAGE_CODE_MAP = {
-    'ar' => 'ar-SA',
+    'ar' => 'ar',
     'de' => 'de-DE',
     'en' => 'en-US',
     'es' => 'es-ES',
@@ -157,7 +157,7 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
     return if canonicalized_language_code.blank?
     return canonicalized_language_code if SUPPORTED_LANGUAGE_CODES.include?(canonicalized_language_code)
 
-    AUTO_LANGUAGE_CODE_MAP[canonicalized_language_code]
+    AUTO_LANGUAGE_CODE_MAP[canonicalized_language_code] || AUTO_LANGUAGE_CODE_MAP[canonicalized_language_code.split('-', 2).first]
   end
 
   def canonical_language_code(language_code)

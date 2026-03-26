@@ -286,9 +286,23 @@ describe Integrations::Dialogflow::ProcessorService do
         expect(processor.send(:dialogflow_language_code)).to eq('es-ES')
       end
 
+      it 'maps unsupported spanish regional variants through the base language' do
+        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        conversation.contact.update(additional_attributes: { 'language_code' => 'es-MX' })
+
+        expect(processor.send(:dialogflow_language_code)).to eq('es-ES')
+      end
+
       it 'maps portuguese short codes to the preferred locale' do
         hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
         conversation.contact.update(additional_attributes: { 'language_code' => 'pt' })
+
+        expect(processor.send(:dialogflow_language_code)).to eq('pt-BR')
+      end
+
+      it 'maps unsupported portuguese regional variants through the base language' do
+        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        conversation.contact.update(additional_attributes: { 'language_code' => 'pt-AO' })
 
         expect(processor.send(:dialogflow_language_code)).to eq('pt-BR')
       end
@@ -304,7 +318,7 @@ describe Integrations::Dialogflow::ProcessorService do
         hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
         conversation.contact.update(additional_attributes: { 'language_code' => 'ar' })
 
-        expect(processor.send(:dialogflow_language_code)).to eq('ar-SA')
+        expect(processor.send(:dialogflow_language_code)).to eq('ar')
       end
 
       it 'normalizes contact language formatting before checking supported locales' do

@@ -149,7 +149,7 @@ dialogflow:
           { 'label': 'Chinese (Simplified)', 'value': 'zh-CN' },
           { 'label': 'Chinese (Traditional)', 'value': 'zh-TW' },
           { 'label': 'Hindi', 'value': 'hi-IN' },
-          { 'label': 'Arabic', 'value': 'ar-SA' },
+          { 'label': 'Arabic', 'value': 'ar' },
           { 'label': 'Russian', 'value': 'ru-RU' },
           { 'label': 'Dutch', 'value': 'nl-NL' },
           { 'label': 'Polish', 'value': 'pl-PL' },
