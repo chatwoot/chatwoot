@@ -1,13 +1,13 @@
 {
   "CSAT": {
-    "TITLE": "Rate your conversation",
+    "TITLE": "評價您的對話",
     "PLACEHOLDER": "告訴我們更多...",
     "RATINGS": {
-      "POOR": "😞 Poor",
-      "FAIR": "😑 Fair",
-      "AVERAGE": "😐 Average",
-      "GOOD": "😀 Good",
-      "EXCELLENT": "😍 Excellent"
+      "POOR": "😞 差",
+      "FAIR": "😑 一般",
+      "AVERAGE": "😐 中等",
+      "GOOD": "😀 好",
+      "EXCELLENT": "😍 非常好"
     }
   }
 }

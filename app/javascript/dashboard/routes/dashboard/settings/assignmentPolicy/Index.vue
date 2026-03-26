@@ -93,7 +93,7 @@ const handleClick = key => {
     </template>
 
     <template #body>
-      <div class="grid grid-cols-1 2xl:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 2xl:grid-cols-2 gap-6 mt-4">
         <AssignmentCard
           v-for="item in agentAssignments"
           :key="item.key"
