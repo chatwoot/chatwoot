@@ -8,7 +8,6 @@ import { useConfig } from 'dashboard/composables/useConfig';
 import { useMapGetter } from 'dashboard/composables/store';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import NextButton from 'dashboard/components-next/button/Button.vue';
 import OnboardingLayout from './OnboardingLayout.vue';
 import OnboardingSection from './OnboardingSection.vue';
 import OnboardingFormRow from './OnboardingFormRow.vue';
@@ -100,6 +99,8 @@ const handleSubmit = async () => {
     <OnboardingLayout
       :greeting="t('ONBOARDING.GREETING', { name: userName })"
       :subtitle="t('ONBOARDING.SUBTITLE')"
+      :continue-label="t('ONBOARDING.CONTINUE')"
+      :is-loading="isSubmitting"
     >
       <OnboardingSection
         :title="t('ONBOARDING.YOUR_DETAILS')"
@@ -209,17 +210,6 @@ const handleSubmit = async () => {
           />
         </OnboardingFormRow>
       </OnboardingSection>
-
-      <template #footer>
-        <NextButton
-          type="submit"
-          blue
-          :is-loading="isSubmitting"
-          class="w-full justify-center"
-        >
-          {{ t('ONBOARDING.CONTINUE') }}
-        </NextButton>
-      </template>
     </OnboardingLayout>
   </form>
 </template>
