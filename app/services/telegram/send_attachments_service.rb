@@ -88,7 +88,8 @@ class Telegram::SendAttachmentsService
 
   def document_request(chat_id, attachment, reply_to_message_id)
     temp_file_path = save_attachment_to_tempfile(attachment[:attachment])
-    response = send_file(chat_id, temp_file_path, reply_to_message_id)
+    content_type = attachment[:attachment].file.content_type || 'application/octet-stream'
+    response = send_file(chat_id, temp_file_path, reply_to_message_id, content_type)
     File.delete(temp_file_path)
     response
   end
@@ -109,22 +110,22 @@ class Telegram::SendAttachmentsService
     temp_file_path
   end
 
-  def send_file(chat_id, file_path, reply_to_message_id)
+  def send_file(chat_id, file_path, reply_to_message_id, content_type)
     # Using Faraday for multipart upload as HTTParty doesn't handle file uploads correctly
     # See: https://github.com/jnunemaker/httparty/issues/600
     require 'faraday'
     require 'faraday/multipart'
 
-    response = faraday_upload(chat_id, file_path, reply_to_message_id)
+    response = faraday_upload(chat_id, file_path, reply_to_message_id, content_type)
     build_response(response)
   end
 
-  def faraday_upload(chat_id, file_path, reply_to_message_id)
+  def faraday_upload(chat_id, file_path, reply_to_message_id, content_type)
     conn = Faraday.new do |f|
       f.request :multipart
       f.adapter Faraday.default_adapter
     end
-    payload = { chat_id: chat_id, document: Faraday::Multipart::FilePart.new(file_path, 'application/pdf') }
+    payload = { chat_id: chat_id, document: Faraday::Multipart::FilePart.new(file_path, content_type) }
     payload[:reply_to_message_id] = reply_to_message_id if reply_to_message_id.present?
     payload[:business_connection_id] = business_connection_id if business_connection_id.present?
     conn.post("#{channel.telegram_api_url}/sendDocument", payload)
