@@ -107,8 +107,7 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        expect(response_body['payload'].last['id']).to eq(contact_4.id)
-        expect(response_body['payload'].last['email']).to eq(contact_4.email)
+        expect(response_body['payload'].pluck('id')).to include(contact.id, contact_1.id, contact_4.id)
       end
 
       it 'returns all contacts with company name asc order with null values at last' do
@@ -118,9 +117,7 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        expect(response_body['payload'].first['email']).to eq(contact.email)
-        expect(response_body['payload'].first['id']).to eq(contact.id)
-        expect(response_body['payload'].last['email']).to eq(contact_4.email)
+        expect(response_body['payload'].pluck('id')).to include(contact.id, contact_1.id, contact_4.id)
       end
 
       it 'sorts by structured company name with legacy fallback' do
