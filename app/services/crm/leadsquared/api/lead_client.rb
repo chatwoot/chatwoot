@@ -54,7 +54,7 @@ class Crm::Leadsquared::Api::LeadClient < Crm::Leadsquared::Api::BaseClient
   end
 
   def duplicate_phone_error?(error)
-    return false unless error.response.present?
+    return false if error.response.blank?
 
     parsed = error.response.parsed_response
     parsed.is_a?(Hash) && parsed['ExceptionType'] == 'MXDuplicateEntryException'
