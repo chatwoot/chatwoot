@@ -245,6 +245,7 @@ export default {
       this.fetchAllAttachmentsFromCurrentChat();
       this.fetchSuggestions();
       this.messageSentSinceOpened = false;
+      this.resetReplyEditorHeight();
     },
   },
 
@@ -430,6 +431,9 @@ export default {
     },
     toggleReplyEditorSize() {
       this.resizableEditorWrapperRef?.toggleEditorExpand?.();
+    },
+    resetReplyEditorHeight() {
+      this.resizableEditorWrapperRef?.resetEditorHeight?.();
     },
   },
 };
