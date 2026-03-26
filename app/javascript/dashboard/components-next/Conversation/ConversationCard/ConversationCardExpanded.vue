@@ -98,7 +98,6 @@ const selectedModel = computed({
           :size="14"
           :status="assignee.availability_status"
           hide-offline-status
-          rounded-full
         />
         <Icon
           v-else
