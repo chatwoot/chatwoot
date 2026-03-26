@@ -2,7 +2,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include Events::Types
   include DateRangeHelper
   include HmacConcern
-  include ConversationNotificationReadHelper
 
   before_action :conversation, except: [:index, :meta, :search, :create, :filter]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
@@ -118,7 +117,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     # Throttle last_seen updates to once per hour when there are no unread messages to reduce DB load.
     # Always update immediately if there are unread messages to maintain accurate read/unread state.
     # Visiting a conversation should clear any unread inbox notifications for this conversation.
-    mark_conversation_notifications_read
+    Notification::MarkConversationReadService.new(user: current_user, account: current_account, conversation: @conversation).perform
     return update_last_seen_on_conversation(DateTime.now.utc, true) if assignee? && @conversation.assignee_unread_messages.any?
     return update_last_seen_on_conversation(DateTime.now.utc, false) if !assignee? && @conversation.unread_messages.any?
 
