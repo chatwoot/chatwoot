@@ -76,7 +76,7 @@ class ReusableAttachment < ApplicationRecord
 
     # Always detect file_type from content_type when file is attached
     self.file_type = detect_file_type(file.content_type)
-    self.extension = file.filename.extension if extension.blank?
+    self.extension = file.filename.extension
   end
 
   def detect_file_type(content_type)
