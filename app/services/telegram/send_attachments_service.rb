@@ -123,6 +123,8 @@ class Telegram::SendAttachmentsService
   def faraday_upload(chat_id, file_path, reply_to_message_id, content_type)
     conn = Faraday.new do |f|
       f.request :multipart
+      f.options.timeout = 300
+      f.options.open_timeout = 60
       f.adapter Faraday.default_adapter
     end
     payload = { chat_id: chat_id, document: Faraday::Multipart::FilePart.new(file_path, content_type) }
