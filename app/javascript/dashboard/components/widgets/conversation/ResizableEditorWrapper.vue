@@ -102,6 +102,10 @@ onMounted(() => {
 onBeforeUnmount(() => {
   emitter.off(BUS_EVENTS.MESSAGE_SENT, handleMessageSent);
   if (resetTimeoutId) clearTimeout(resetTimeoutId);
+
+  // Ensure global drag styles are always cleaned up,
+  isResizing.value = false;
+  Object.assign(document.body.style, { cursor: '', userSelect: '' });
 });
 
 useEventListener(document, 'mousemove', onResizeMove);
