@@ -16,5 +16,9 @@ FactoryBot.define do
     trait :with_phone_number do
       phone_number { Faker::PhoneNumber.cell_phone_in_e164 }
     end
+
+    trait :with_twenty_id do
+      sequence(:twenty_id) { |n| "person-#{n}" }
+    end
   end
 end

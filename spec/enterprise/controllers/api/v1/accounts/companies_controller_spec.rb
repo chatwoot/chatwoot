@@ -211,7 +211,7 @@ RSpec.describe 'Companies API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let(:company) { create(:company, account: account) }
+      let(:company) { create(:company, account: account, twenty_id: 'company-123') }
 
       it 'returns the company' do
         get "/api/v1/accounts/#{account.id}/companies/#{company.id}",
@@ -221,6 +221,7 @@ RSpec.describe 'Companies API', type: :request do
         response_body = response.parsed_body
         expect(response_body['payload']['name']).to eq(company.name)
         expect(response_body['payload']['id']).to eq(company.id)
+        expect(response_body['payload']['twenty_id']).to eq('company-123')
       end
     end
   end
