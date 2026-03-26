@@ -31,6 +31,7 @@ const store = useStore();
 const { t } = useI18n();
 
 const dialogRef = ref(null);
+const isStartingCall = ref(false);
 
 const inboxesList = useMapGetter('inboxes/getInboxes');
 const contactsUiFlags = useMapGetter('contacts/getUIFlags');
@@ -54,6 +55,10 @@ const isInitiatingCall = computed(() => {
   return contactsUiFlags.value?.isInitiatingCall || false;
 });
 
+const isCallBusy = computed(
+  () => isInitiatingCall.value || isStartingCall.value
+);
+
 const navigateToConversation = conversationId => {
   const accountId = route.params.accountId;
   if (conversationId && accountId) {
@@ -68,7 +73,9 @@ const navigateToConversation = conversationId => {
 };
 
 const startCall = async inboxId => {
-  if (isInitiatingCall.value) return;
+  if (isCallBusy.value) return;
+
+  isStartingCall.value = true;
 
   try {
     const response = await store.dispatch('contacts/initiateCall', {
@@ -77,8 +84,12 @@ const startCall = async inboxId => {
     });
     const { call_sid: callSid, conversation_id: conversationId } = response;
 
+    let shouldNavigateToConversation = props.navigateOnSuccess;
+
     if (!props.navigateOnSuccess && conversationId) {
       await store.dispatch('getConversation', conversationId);
+      shouldNavigateToConversation =
+        !store.getters.getConversationById?.(conversationId);
     }
 
     // Add call to store immediately so widget shows
@@ -91,12 +102,14 @@ const startCall = async inboxId => {
     });
 
     useAlert(t('CONTACT_PANEL.CALL_INITIATED'));
-    if (props.navigateOnSuccess) {
-      navigateToConversation(response?.conversation_id);
+    if (shouldNavigateToConversation) {
+      navigateToConversation(conversationId);
     }
   } catch (error) {
     const apiError = error?.message;
     useAlert(apiError || t('CONTACT_PANEL.CALL_FAILED'));
+  } finally {
+    isStartingCall.value = false;
   }
 };
 
@@ -126,8 +139,8 @@ const onPickInbox = async inbox => {
       v-if="shouldRender"
       v-tooltip.top-end="tooltipLabel || null"
       v-bind="attrs"
-      :disabled="isInitiatingCall"
-      :is-loading="isInitiatingCall"
+      :disabled="isCallBusy"
+      :is-loading="isCallBusy"
       :label="label"
       :icon="icon"
       :size="size"

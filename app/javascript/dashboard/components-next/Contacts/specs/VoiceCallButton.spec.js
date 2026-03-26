@@ -77,6 +77,9 @@ vi.mock('vue-i18n', () => ({
 describe('VoiceCallButton.vue', () => {
   const store = {
     dispatch: vi.fn(),
+    getters: {
+      getConversationById: vi.fn(() => undefined),
+    },
   };
   const router = {
     push: vi.fn(),
@@ -90,6 +93,7 @@ describe('VoiceCallButton.vue', () => {
     contactId = 41,
     fixedInboxId = null,
     navigateOnSuccess = true,
+    conversationById = vi.fn(() => undefined),
     inboxes = [
       { id: 7, channel_type: 'Channel::Voice', name: 'Voice 1' },
       { id: 8, channel_type: 'Channel::Voice', name: 'Voice 2' },
@@ -111,6 +115,7 @@ describe('VoiceCallButton.vue', () => {
     mocks.useCallsStore.mockReturnValue(callsStore);
     mocks.useAlert.mockImplementation(() => {});
     mocks.useI18n.mockReturnValue({ t: key => key });
+    store.getters.getConversationById = conversationById;
     router.push.mockReset();
     dialogOpen.mockReset();
     dialogClose.mockReset();
@@ -134,6 +139,8 @@ describe('VoiceCallButton.vue', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    store.getters.getConversationById.mockReset();
+    store.getters.getConversationById.mockReturnValue(undefined);
     store.dispatch.mockResolvedValue({
       call_sid: 'CS-123',
       conversation_id: 77,
@@ -141,30 +148,77 @@ describe('VoiceCallButton.vue', () => {
   });
 
   it('dispatches the fixed inbox call directly and skips the picker', async () => {
-    const events = [];
-    store.dispatch.mockImplementation(async (action, payload) => {
-      events.push(action);
+    const hydration = {};
+    hydration.promise = new Promise(resolve => {
+      hydration.resolve = resolve;
+    });
 
+    store.dispatch.mockImplementation(action => {
       if (action === 'contacts/initiateCall') {
-        expect(payload).toEqual({
-          contactId: 41,
-          inboxId: 12,
-        });
-        return {
+        return Promise.resolve({
           call_sid: 'CS-123',
           conversation_id: 77,
-        };
+        });
       }
 
-      return undefined;
-    });
-    callsStore.addCall.mockImplementation(() => {
-      events.push('addCall');
+      if (action === 'getConversation') {
+        return hydration.promise;
+      }
+
+      return Promise.resolve();
     });
 
     const wrapper = mountSubject({
       fixedInboxId: 12,
       navigateOnSuccess: false,
+      conversationById: vi.fn(() => ({ id: 77 })),
+    });
+
+    await wrapper.find('[data-test-id="voice-call-button"]').trigger('click');
+    await flushPromises();
+    await wrapper.find('[data-test-id="voice-call-button"]').trigger('click');
+
+    expect(store.dispatch).toHaveBeenNthCalledWith(1, 'contacts/initiateCall', {
+      contactId: 41,
+      inboxId: 12,
+    });
+    expect(store.dispatch).toHaveBeenNthCalledWith(2, 'getConversation', 77);
+    expect(store.dispatch).toHaveBeenCalledTimes(2);
+    expect(
+      wrapper.find('[data-test-id="voice-call-button"]').attributes('disabled')
+    ).toBeDefined();
+    expect(dialogOpen).not.toHaveBeenCalled();
+    hydration.resolve();
+    await flushPromises();
+    expect(callsStore.addCall).toHaveBeenCalledWith({
+      callSid: 'CS-123',
+      conversationId: 77,
+      inboxId: 12,
+      callDirection: 'outbound',
+    });
+    expect(router.push).not.toHaveBeenCalled();
+  });
+
+  it('falls back to navigation when the hydrated conversation is missing', async () => {
+    store.dispatch.mockImplementation(action => {
+      if (action === 'contacts/initiateCall') {
+        return Promise.resolve({
+          call_sid: 'CS-123',
+          conversation_id: 77,
+        });
+      }
+
+      if (action === 'getConversation') {
+        return Promise.resolve();
+      }
+
+      return Promise.resolve();
+    });
+
+    const wrapper = mountSubject({
+      fixedInboxId: 12,
+      navigateOnSuccess: false,
+      conversationById: vi.fn(() => undefined),
     });
 
     await wrapper.find('[data-test-id="voice-call-button"]').trigger('click');
@@ -175,19 +229,14 @@ describe('VoiceCallButton.vue', () => {
       inboxId: 12,
     });
     expect(store.dispatch).toHaveBeenNthCalledWith(2, 'getConversation', 77);
-    expect(dialogOpen).not.toHaveBeenCalled();
-    expect(events).toEqual([
-      'contacts/initiateCall',
-      'getConversation',
-      'addCall',
-    ]);
+    expect(router.push).toHaveBeenCalledTimes(1);
+    expect(router.push.mock.calls[0][0].path).toContain('/conversations/77');
     expect(callsStore.addCall).toHaveBeenCalledWith({
       callSid: 'CS-123',
       conversationId: 77,
       inboxId: 12,
       callDirection: 'outbound',
     });
-    expect(router.push).not.toHaveBeenCalled();
   });
 
   it('reuses the alert behavior when fixed inbox call initiation fails', async () => {
