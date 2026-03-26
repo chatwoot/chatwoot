@@ -10,6 +10,7 @@ import CardPriorityIcon from 'dashboard/components-next/Conversation/Conversatio
 import UnreadBadge from 'dashboard/components-next/Conversation/ConversationCard/UnreadBadge.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import VoiceCallStatus from './VoiceCallStatus.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 const props = defineProps({
   chat: { type: Object, required: true },
@@ -79,17 +80,22 @@ const onSelectConversation = checked => {
     emit('deSelectConversation', props.chat.id, props.inbox.id);
   }
 };
+
+const selectedModel = computed({
+  get: () => props.selected,
+  set: value => onSelectConversation(value),
+});
 </script>
 
 <template>
   <div
     class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 cursor-pointer conversation border-b border-n-slate-3 hover:border-n-surface-1 hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group hover:z-[1] before:content-[none] before:absolute before:-top-px before:inset-x-0 before:h-px before:bg-n-surface-1 before:pointer-events-none hover:before:content-['']"
     :class="{
-      'active animate-card-select bg-n-background !border-n-surface-1 rounded-lg':
+      'active animate-card-select bg-n-background !border-n-surface-1':
         isActiveChat,
-      'selected bg-n-slate-2 !border-n-surface-1 rounded-lg': selected,
+      'selected bg-n-slate-2 !border-n-surface-1': selected,
       'px-0': compact,
-      'px-2 hover:rounded-lg': !compact,
+      'px-3': !compact,
     }"
     @click="$emit('click', $event)"
     @contextmenu="$emit('contextmenu', $event)"
@@ -107,7 +113,6 @@ const onSelectConversation = checked => {
         :status="currentContact.availability_status"
         :class="!showInboxName ? 'mt-4' : 'mt-8'"
         hide-offline-status
-        rounded-full
       >
         <template #overlay="{ size }">
           <label
@@ -116,13 +121,7 @@ const onSelectConversation = checked => {
             :style="{ width: `${size}px`, height: `${size}px` }"
             @click.stop
           >
-            <input
-              :value="selected"
-              :checked="selected"
-              class="!m-0 cursor-pointer"
-              type="checkbox"
-              @change="onSelectConversation($event.target.checked)"
-            />
+            <Checkbox v-model="selectedModel" />
           </label>
         </template>
       </Avatar>

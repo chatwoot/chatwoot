@@ -75,6 +75,9 @@ const showInboxName = computed(
   () => !activeInbox.value && inboxesList.value.length > 1
 );
 const isInboxView = computed(() => !!activeInbox.value);
+const showAssigneeForExpandedCard = computed(
+  () => props.showExpanded || props.showAssignee
+);
 
 const conversationPath = computed(() =>
   frontendURL(
@@ -185,7 +188,7 @@ const onDeleteConversation = () => {
     :inbox="inbox"
     :selected="isConversationSelected(source.id)"
     :is-active-chat="isActiveChat"
-    :show-assignee="showAssignee"
+    :show-assignee="showAssigneeForExpandedCard"
     :show-inbox-name="showInboxName"
     :is-inbox-view="isInboxView"
     @select-conversation="onExpandedSelect"
