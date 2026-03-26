@@ -131,8 +131,11 @@ if resource.whatsapp?
 end
 
 ## Voice attributes for TwilioSms
-if resource.twilio? && resource.channel.respond_to?(:voice_enabled?) && resource.channel.voice_enabled?
-  json.voice_enabled true
-  json.voice_call_webhook_url resource.channel.try(:voice_call_webhook_url)
-  json.voice_status_webhook_url resource.channel.try(:voice_status_webhook_url)
+if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
+  json.voice_enabled resource.channel.voice_enabled?
+  json.voice_configured resource.channel.try(:twiml_app_sid).present?
+  if resource.channel.try(:twiml_app_sid).present?
+    json.voice_call_webhook_url resource.channel.try(:voice_call_webhook_url)
+    json.voice_status_webhook_url resource.channel.try(:voice_status_webhook_url)
+  end
 end

@@ -31,6 +31,12 @@ module Enterprise::Api::V1::Accounts::InboxesController
     super
   end
 
+  def get_channel_attributes(channel_type)
+    attrs = super
+    attrs += [:voice_enabled, :api_key_sid, :api_key_secret] if channel_type == 'Channel::TwilioSms'
+    attrs
+  end
+
   def create_voice_channel
     voice_params = params.require(:channel).permit(
       :phone_number, :provider,
