@@ -527,7 +527,8 @@
           "TITLE": "기능",
           "ALLOW_CONVERSATION_FAQS": "해결된 대화에서 FAQ 생성",
           "ALLOW_MEMORIES": "고객 상호작용에서 주요 세부 정보를 기억으로 캡처합니다.",
-          "ALLOW_CITATIONS": "응답에 출처 인용을 포함합니다"
+          "ALLOW_CITATIONS": "응답에 출처 인용을 포함합니다",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
