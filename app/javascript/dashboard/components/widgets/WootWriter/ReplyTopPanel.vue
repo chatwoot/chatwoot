@@ -54,7 +54,7 @@ export default {
       default: undefined,
     },
   },
-  emits: ['setReplyMode', 'togglePopout', 'executeCopilotAction'],
+  emits: ['setReplyMode', 'toggleEditorSize', 'executeCopilotAction'],
   setup(props, { emit }) {
     const setReplyMode = mode => {
       emit('setReplyMode', mode);
@@ -189,7 +189,7 @@ export default {
         class="text-n-slate-11"
         sm
         icon="i-lucide-maximize-2"
-        @click="$emit('togglePopout')"
+        @click="$emit('toggleEditorSize')"
       />
     </div>
   </div>

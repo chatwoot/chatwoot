@@ -1,7 +1,6 @@
 <script>
 import { ref, provide } from 'vue';
 // composable
-import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 
@@ -11,6 +10,7 @@ import MessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import ResizableEditorWrapper from './ResizableEditorWrapper.vue';
 
 // stores and apis
 import { mapGetters } from 'vuex';
@@ -43,21 +43,12 @@ export default {
     Banner,
     ConversationLabelSuggestion,
     Spinner,
+    ResizableEditorWrapper,
   },
   mixins: [inboxMixin],
   setup() {
-    const isPopOutReplyBox = ref(false);
     const conversationPanelRef = ref(null);
-
-    const keyboardEvents = {
-      Escape: {
-        action: () => {
-          isPopOutReplyBox.value = false;
-        },
-      },
-    };
-
-    useKeyboardEvents(keyboardEvents);
+    const resizableEditorWrapperRef = ref(null);
 
     const {
       captainTasksEnabled,
@@ -68,11 +59,11 @@ export default {
     provide('contextMenuElementTarget', conversationPanelRef);
 
     return {
-      isPopOutReplyBox,
       captainTasksEnabled,
       getLabelSuggestions,
       isLabelSuggestionFeatureEnabled,
       conversationPanelRef,
+      resizableEditorWrapperRef,
     };
   },
   data() {
@@ -437,6 +428,9 @@ export default {
       const payload = useSnakeCase(message);
       await this.$store.dispatch('sendMessageWithData', payload);
     },
+    toggleReplyEditorSize() {
+      this.resizableEditorWrapperRef?.toggleEditorExpand?.();
+    },
   },
 };
 </script>
@@ -498,13 +492,7 @@ export default {
         />
       </template>
     </MessageList>
-    <div
-      class="flex relative flex-col"
-      :class="{
-        'modal-mask': isPopOutReplyBox,
-        'bg-n-surface-1': !isPopOutReplyBox,
-      }"
-    >
+    <div class="flex relative flex-col bg-n-surface-1">
       <div
         v-if="isAnyoneTyping"
         class="absolute flex items-center w-full h-0 -top-7"
@@ -520,42 +508,9 @@ export default {
           />
         </div>
       </div>
-      <ReplyBox
-        :pop-out-reply-box="isPopOutReplyBox"
-        @update:pop-out-reply-box="isPopOutReplyBox = $event"
-      />
+      <ResizableEditorWrapper ref="resizableEditorWrapperRef">
+        <ReplyBox @toggle-editor-size="toggleReplyEditorSize" />
+      </ResizableEditorWrapper>
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.modal-mask {
-  @apply fixed;
-
-  &::v-deep {
-    .ProseMirror-woot-style {
-      @apply max-h-[25rem];
-    }
-
-    .reply-box {
-      @apply border border-n-weak max-w-[75rem] w-[70%];
-
-      &.is-private {
-        @apply dark:border-n-amber-3/30 border-n-amber-12/5;
-      }
-    }
-
-    .reply-box .reply-box__top {
-      @apply relative min-h-[27.5rem];
-    }
-
-    .reply-box__top .input {
-      @apply min-h-[27.5rem];
-    }
-
-    .emoji-dialog {
-      @apply absolute ltr:left-auto rtl:right-auto bottom-1;
-    }
-  }
-}
-</style>

@@ -82,13 +82,7 @@ export default {
     CopilotReplyBottomPanel,
   },
   mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
-  props: {
-    popOutReplyBox: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['update:popOutReplyBox'],
+  emits: ['toggleEditorSize'],
   setup() {
     const {
       uiSettings,
@@ -785,7 +779,6 @@ export default {
 
         this.clearMessage();
         this.hideEmojiPicker();
-        this.$emit('update:popOutReplyBox', false);
       }
     },
     sendMessageAsMultipleMessages(message, copilotAcceptedMessage = '') {
@@ -1231,8 +1224,8 @@ export default {
         file => !file?.isRecordedAudio
       );
     },
-    togglePopout() {
-      this.$emit('update:popOutReplyBox', !this.popOutReplyBox);
+    toggleEditorSize() {
+      this.$emit('toggleEditorSize');
     },
     onSubmitCopilotReply() {
       const acceptedMessage = this.copilot.accept();
@@ -1258,9 +1251,8 @@ export default {
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :editor-content="message"
-      :popout-reply-box="popOutReplyBox"
       @set-reply-mode="setReplyMode"
-      @toggle-popout="togglePopout"
+      @toggle-editor-size="toggleEditorSize"
       @toggle-copilot="copilot.toggleEditor"
       @execute-copilot-action="executeCopilotAction"
     />
@@ -1289,7 +1281,7 @@ export default {
           v-if="showEmojiPicker"
           v-on-clickaway="hideEmojiPicker"
           :class="{
-            'emoji-dialog--expanded': isOnExpandedLayout || popOutReplyBox,
+            'emoji-dialog--expanded': isOnExpandedLayout,
           }"
           :on-click="addIntoEditor"
         />
@@ -1313,7 +1305,6 @@ export default {
           :show-copilot-editor="copilot.showEditor.value"
           :is-generating-content="copilot.isGenerating.value"
           :generated-content="copilot.generatedContent.value"
-          :is-popout="popOutReplyBox"
           :placeholder="$t('CONVERSATION.FOOTER.COPILOT_MSG_INPUT')"
           @focus="onFocus"
           @blur="onBlur"
