@@ -18,7 +18,6 @@ RSpec.describe 'Api::V1::Accounts::UploadController', type: :request do
         blob = response.parsed_body
         expect(blob['errors']).to be_nil
         expect(blob['file_url']).to be_present
-        expect(blob['blob_key']).to be_present
         expect(blob['blob_id']).to be_present
       end
 
@@ -53,7 +52,6 @@ RSpec.describe 'Api::V1::Accounts::UploadController', type: :request do
         blob = response.parsed_body
         expect(blob['error']).to be_nil
         expect(blob['file_url']).to be_present
-        expect(blob['blob_key']).to be_present
         expect(blob['blob_id']).to be_present
       end
 

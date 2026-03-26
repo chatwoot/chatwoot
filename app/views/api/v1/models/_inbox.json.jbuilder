@@ -60,6 +60,9 @@ end
 json.reauthorization_required resource.channel.try(:reauthorization_required?) if resource.instagram?
 json.instagram_id resource.channel.try(:instagram_id) if resource.instagram?
 
+## Tiktok Attributes
+json.reauthorization_required resource.channel.try(:reauthorization_required?) if resource.tiktok?
+
 ## Twilio Attributes
 json.messaging_service_sid resource.channel.try(:messaging_service_sid)
 json.phone_number resource.channel.try(:phone_number)
@@ -74,8 +77,9 @@ end
 
 if resource.email?
   ## Email Channel Attributes
-  json.forward_to_email resource.channel.try(:forward_to_email)
   json.email resource.channel.try(:email)
+  json.forwarding_enabled ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', '').present?
+  json.forward_to_email resource.channel.try(:forward_to_email) if ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', '').present?
 
   ## IMAP
   if Current.account_user&.administrator?

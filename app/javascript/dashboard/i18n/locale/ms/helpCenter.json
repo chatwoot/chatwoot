@@ -6,11 +6,11 @@
       "CREATE_PORTAL_BUTTON": "Create Portal"
     },
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
+      "FILTER": "Tapis mengikut",
+      "SORT": "Susun mengikut",
       "LOCALE": "Locale",
-      "SETTINGS_BUTTON": "Settings",
-      "NEW_BUTTON": "New Article",
+      "SETTINGS_BUTTON": "Tetapan",
+      "NEW_BUTTON": "Artikel Baru",
       "DROPDOWN_OPTIONS": {
         "PUBLISHED": "Published",
         "DRAFT": "Draft",
@@ -31,12 +31,12 @@
     },
     "EDIT_HEADER": {
       "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
+      "PUBLISH_BUTTON": "Terbitkan",
       "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
+      "PREVIEW": "Pratonton",
+      "ADD_TRANSLATION": "Tambah terjemahan",
+      "OPEN_SIDEBAR": "Buka bar sisi",
+      "CLOSE_SIDEBAR": "Tutup bar sisi",
       "SAVING": "Saving...",
       "SAVED": "Saved"
     },
@@ -102,7 +102,7 @@
       "HEADER": "Portals",
       "DEFAULT": "Default",
       "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
+      "ACTIVE_BADGE": "aktif",
       "CHOOSE_LOCALE_LABEL": "Choose a locale",
       "LOADING_MESSAGE": "Loading portals...",
       "ARTICLES_LABEL": "articles",
@@ -372,6 +372,16 @@
       "API": {
         "SUCCESS_MESSAGE": "Article deleted successfully",
         "ERROR_MESSAGE": "Error while deleting article"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
       }
     },
     "CREATE_ARTICLE": {

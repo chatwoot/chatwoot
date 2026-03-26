@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "会話データを読み込んでいます",
     "CANNOT_REPLY": "以下の理由で返信できません：",
     "24_HOURS_WINDOW": "24時間以内のメッセージウィンドウの制限",
+    "48_HOURS_WINDOW": "48時間以内のメッセージウィンドウの制限",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "この会話はあなたに割り当てられていません。自分に割り当てますか？",
     "ASSIGN_TO_ME": "自分に割り当て",
@@ -60,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "このメッセージはサポートされていません。Facebook / Instagram で表示できます。",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "このメッセージはサポートされていません。Facebook Messengerでこのメッセージを表示できます。",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "このメッセージはサポートされていません。このメッセージは Instagram で表示できます。",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "メッセージの削除に成功",
     "FAIL_DELETE_MESSSAGE": "メッセージを削除できませんでした！もう一度お試しください",
     "NO_RESPONSE": "返信なし",
@@ -172,6 +174,10 @@
           "SUCCESFUL": "会話ID {conversationId} に ラベル #{labelName} を割り当てました",
           "FAILED": "ラベルを割り当てることができませんでした。もう一度やり直してください。"
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "会話ID {conversationId} に \"{team}\" チームを割り当てました",
           "FAILED": "チームを割り当てることができませんでした。もう一度お試しください。"
@@ -184,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "署名を無効化",
       "MSG_INPUT": "Shift + Enter で新しい行を作成します。「/」で開始すると、定型文回答を選択できます。",
       "PRIVATE_MSG_INPUT": "Shift + Enter で新しい行を作成します。これは担当者にのみ表示されます。",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "メッセージ署名が構成されていません。プロフィール設定で構成してください。",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "ここをクリックして更新",
       "WHATSAPP_TEMPLATES": "Whatsapp テンプレート"
     },
@@ -196,7 +206,6 @@
       "INSERT_READ_MORE": "続きを読む",
       "DISMISS_REPLY": "返信を却下",
       "REPLYING_TO": "返信対象：",
-      "TIP_FORMAT_ICON": "リッチテキストエディタを表示",
       "TIP_EMOJI_ICON": "絵文字セレクタを表示",
       "TIP_ATTACH_ICON": "ファイルを添付",
       "TIP_AUDIORECORDER_ICON": "音声を録音",
@@ -205,7 +214,7 @@
       "DRAG_DROP": "添付するにはここにドラッグ＆ドロップ",
       "START_AUDIO_RECORDING": "音声録音を開始",
       "STOP_AUDIO_RECORDING": "音声録音を停止",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "宛先",
         "ADD_BCC": "Bcc を追加",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "ファイルが {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB の添付ファイル制限を超えています",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "このメッセージを送信できません。後でもう一度お試しください",
     "SENT_BY": "送信者：",
     "BOT": "ボット",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "メッセージを送信できませんでした！再試行してください",
     "TRY_AGAIN": "再試行",
     "ASSIGNMENT": {
@@ -275,6 +287,16 @@
     "SIDEBAR": {
       "CONTACT": "連絡先",
       "COPILOT": "コパイロット"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -284,6 +306,7 @@
     "CANCEL": "キャンセル",
     "SEND_EMAIL_SUCCESS": "チャットの記録は正常に送信されました",
     "SEND_EMAIL_ERROR": "エラーが発生しました。もう一度お試しください。",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "顧客に会話の記録を転送する",
       "SEND_TO_AGENT": "担当者に記録を送信する",

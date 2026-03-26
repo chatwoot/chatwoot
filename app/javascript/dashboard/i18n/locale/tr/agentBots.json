@@ -3,7 +3,10 @@
     "HEADER": "Botlar",
     "LOADING_EDITOR": "Editör Yükleniyor...",
     "DESCRIPTION": "Temsilci botları ekibinizin en harika üyeleri gibidir. Küçük işleri halledebilirler, böylece önemli işlere odaklanabilirsiniz. Onları deneyin. Botlarınızı bu sayfadan yönetebilir veya 'Bot Ekle' butonunu kullanarak yenilerini oluşturabilirsiniz.",
-    "LEARN_MORE": "Learn about agent bots",
+    "LEARN_MORE": "Temsilci botları hakkında bilgi edinin",
+    "COUNT": "{n} bot | {n} bots",
+    "SEARCH_PLACEHOLDER": "Search bots...",
+    "NO_RESULTS": "No bots found matching your search",
     "GLOBAL_BOT": "Sistem botu",
     "GLOBAL_BOT_BADGE": "Sistem",
     "AVATAR": {
@@ -14,7 +17,7 @@
       "TITLE": "Bir temsilci botu seçin",
       "DESC": "Gelen kutunuza bir temsilci Botu atayın. Küçük konuşmaları ele alabilir ve gerekli olduğunda canlı bir temsilciın devralmasını sağlayabilirler.",
       "SUBMIT": "Güncelle",
-      "DISCONNECT": "Botu bağlantısını kes",
+      "DISCONNECT": "Botun bağlantısını kes",
       "SUCCESS_MESSAGE": "Temsilci botu başarıyla güncellendi.",
       "DISCONNECTED_SUCCESS_MESSAGE": "Temsilci botu başarıyla bağlantısı kesildi.",
       "ERROR_MESSAGE": "Temsilci botu güncellenemedi. Lütfen tekrar deneyin.",
@@ -34,7 +37,8 @@
       "LOADING": "Botlar alınıyor...",
       "TABLE_HEADER": {
         "DETAILS": "Bot Detayları",
-        "URL": "Webhook URL'si"
+        "URL": "Webhook URL'si",
+        "ACTIONS": "Hareketler"
       }
     },
     "DELETE": {
@@ -94,7 +98,7 @@
       "UPDATE": "Botu Güncelle"
     },
     "WEBHOOK": {
-      "DESCRIPTION": "Webhook botunu özel hizmetlerinizle entegre etmek için yapılandırın. Bot, sohbetlerden gelen olayları alacak ve işleyebilecek."
+      "DESCRIPTION": "Webhook botunu özel hizmetlerinizle entegre etmek için yapılandırın. Bot, sohbetlerden gelen etkinlikleri alacak ve işleyebilecek."
     },
     "TYPES": {
       "WEBHOOK": "Webhook botu"

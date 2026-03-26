@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch, computed, nextTick } from 'vue';
 import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 const props = defineProps({
   items: {
@@ -14,6 +15,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['mentionSelect']);
+
+const { getPlainText } = useMessageFormatter();
 
 const mentionsListContainerRef = ref(null);
 const selectedIndex = ref(0);
@@ -94,7 +97,7 @@ const variableKey = (item = {}) => {
                 'text-n-slate-12': index === selectedIndex,
               }"
             >
-              {{ item.description }}
+              {{ getPlainText(item.description) }}
             </p>
             <p
               class="max-w-full min-w-0 mb-0 overflow-hidden text-xs text-n-slate-11 group-hover:text-n-slate-12 text-ellipsis whitespace-nowrap"

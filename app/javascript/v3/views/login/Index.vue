@@ -2,7 +2,6 @@
 // utils and composables
 import { login } from '../../api/auth';
 import { mapGetters } from 'vuex';
-import { parseBoolean } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
@@ -85,14 +84,20 @@ export default {
   },
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
+    allowedLoginMethods() {
+      return window.chatwootConfig.allowedLoginMethods || ['email'];
+    },
     showGoogleOAuth() {
-      return Boolean(window.chatwootConfig.googleOAuthClientId);
+      return (
+        this.allowedLoginMethods.includes('google_oauth') &&
+        Boolean(window.chatwootConfig.googleOAuthClientId)
+      );
     },
     showSignupLink() {
-      return parseBoolean(window.chatwootConfig.signupEnabled);
+      return window.chatwootConfig.signupEnabled === 'true';
     },
     showSamlLogin() {
-      return this.globalConfig.isEnterprise;
+      return this.allowedLoginMethods.includes('saml');
     },
   },
   created() {
@@ -259,9 +264,9 @@ export default {
       }"
     >
       <div v-if="!email">
-        <div class="flex flex-col">
+        <div class="flex flex-col gap-4">
           <GoogleOAuthButton v-if="showGoogleOAuth" />
-          <div v-if="showSamlLogin" class="mt-4 text-center">
+          <div v-if="showSamlLogin" class="text-center">
             <router-link
               to="/app/login/sso"
               class="inline-flex justify-center w-full px-4 py-3 items-center bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"

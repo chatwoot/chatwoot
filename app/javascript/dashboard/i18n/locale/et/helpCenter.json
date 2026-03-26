@@ -1,0 +1,875 @@
+{
+  "HELP_CENTER": {
+    "TITLE": "Abi keskus",
+    "NEW_PAGE": {
+      "DESCRIPTION": "Loo kliendile eneseabikeskuse portaale. Aita neil vastuseid kiiresti leida, ilma ootamiseta. Sujuvenda päringuid, tõsta agendi efektiivsust ja paranda kliendituge.",
+      "CREATE_PORTAL_BUTTON": "Loo portaal"
+    },
+    "HEADER": {
+      "FILTER": "Filtreeri",
+      "SORT": "Sorteeri",
+      "LOCALE": "Keel",
+      "SETTINGS_BUTTON": "Seaded",
+      "NEW_BUTTON": "Uus artikkel",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "Avaldatud",
+        "DRAFT": "Mustand",
+        "ARCHIVED": "Arhiveeritud"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "Kõik artiklid",
+        "MINE": "Minu artiklid",
+        "DRAFT": "Mustandid",
+        "ARCHIVED": "Arhiveeritud artiklid"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Vali keel",
+        "PLACEHOLDER": "Vali keel",
+        "NO_RESULT": "Keelt ei leitud",
+        "SEARCH_PLACEHOLDER": "Otsi keelevalikut"
+      }
+    },
+    "EDIT_HEADER": {
+      "ALL_ARTICLES": "Kõik artiklid",
+      "PUBLISH_BUTTON": "Avalda",
+      "MOVE_TO_ARCHIVE_BUTTON": "Liiguta arhiivi",
+      "PREVIEW": "Eelvaade",
+      "ADD_TRANSLATION": "Lisa tõlge",
+      "OPEN_SIDEBAR": "Ava külgriba",
+      "CLOSE_SIDEBAR": "Sulge külgriba",
+      "SAVING": "Salvestamine...",
+      "SAVED": "Salvestatud"
+    },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "Laadi pilt üles",
+        "UPLOADING": "Laadimine...",
+        "SUCCESS": "Pilt edukalt üles laaditud",
+        "ERROR": "Pildi üleslaadimisel tekkis viga",
+        "UN_AUTHORIZED_ERROR": "Teil pole õigust pilte üles laadida",
+        "ERROR_FILE_SIZE": "Pildi suurus peab olema väiksem kui {size}MB",
+        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
+        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+      }
+    },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Artikli seaded",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "Kategooria",
+          "TITLE": "Vali kategooria",
+          "PLACEHOLDER": "Vali kategooria",
+          "NO_RESULT": "Kategooriat ei leitud",
+          "SEARCH_PLACEHOLDER": "Otsi kategooriat"
+        },
+        "AUTHOR": {
+          "LABEL": "Autor",
+          "TITLE": "Vali autor",
+          "PLACEHOLDER": "Vali autor",
+          "NO_RESULT": "Autoreid ei leitud",
+          "SEARCH_PLACEHOLDER": "Otsi autorit"
+        },
+        "META_TITLE": {
+          "LABEL": "Meta pealkiri",
+          "PLACEHOLDER": "Lisa meta pealkiri"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Meta kirjeldus",
+          "PLACEHOLDER": "Lisa oma meta kirjeldus paremate SEO tulemuste jaoks..."
+        },
+        "META_TAGS": {
+          "LABEL": "Meta sildid",
+          "PLACEHOLDER": "Lisa meta sildid, eraldatud komadega..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Arhiveeri artikkel",
+        "DELETE": "Kustuta artikkel"
+      }
+    },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Kategooriata",
+      "SEARCH_RESULTS": "Otsingutulemused päringu jaoks {query}",
+      "EMPTY_TEXT": "Otsi artikleid, mida vastustesse lisada.",
+      "SEARCH_LOADER": "Otsin...",
+      "INSERT_ARTICLE": "Lisa",
+      "NO_RESULT": "Artikleid ei leitud",
+      "COPY_LINK": "Kopeeri artikli link lõikelauale",
+      "OPEN_LINK": "Ava artikkel uuel vahelehel",
+      "PREVIEW_LINK": "Eelvaade artiklist"
+    },
+    "PORTAL": {
+      "HEADER": "Portaalid",
+      "DEFAULT": "Vaikimisi",
+      "NEW_BUTTON": "Uus portaal",
+      "ACTIVE_BADGE": "aktiivne",
+      "CHOOSE_LOCALE_LABEL": "Vali keel",
+      "LOADING_MESSAGE": "Portaalid laaditakse...",
+      "ARTICLES_LABEL": "artiklid",
+      "NO_PORTALS_MESSAGE": "Saadaval pole ühtegi portaali",
+      "ADD_NEW_LOCALE": "Lisa uus keel",
+      "POPOVER": {
+        "TITLE": "Portaalid",
+        "PORTAL_SETTINGS": "Portaali seaded",
+        "SUBTITLE": "Sul on mitu portaali ja iga portaal võib kasutada erinevat keelt.",
+        "CANCEL_BUTTON_LABEL": "Tühista",
+        "CHOOSE_LOCALE_BUTTON": "Vali keel"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "artiklid",
+            "ADD": "Lisa keel",
+            "VISIT": "Visit site",
+            "SETTINGS": "Seaded",
+            "DELETE": "Kustuta"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "Portaali konfiguratsioonid",
+            "ITEMS": {
+              "NAME": "Nimi",
+              "DOMAIN": "Kohandatud domeen",
+              "SLUG": "Lühike nimi",
+              "TITLE": "Portaali pealkiri",
+              "THEME": "Teema värv",
+              "SUB_TEXT": "Portaali alapealkiri"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "Saadaval olevad keeleversioonid",
+            "TABLE": {
+              "NAME": "Keele nimi",
+              "CODE": "Keelekood",
+              "ARTICLE_COUNT": "Artiklite arv",
+              "CATEGORIES": "Kategooriate arv",
+              "SWAP": "Vaheta",
+              "DELETE": "Kustuta",
+              "DEFAULT_LOCALE": "Vaikimisi"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "Kustuta portaal",
+          "MESSAGE": "Kas olete kindel, et soovite selle portaali kustutada",
+          "YES": "Jah, kustuta portaal",
+          "NO": "Ei, säilita portaal",
+          "API": {
+            "DELETE_SUCCESS": "Portaal kustutati edukalt",
+            "DELETE_ERROR": "Portaali kustutamisel tekkis viga"
+          }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME juhised saadetud edukalt",
+            "ERROR_MESSAGE": "Viga CNAME juhiste saatmisel"
+          }
+        }
+      },
+      "EDIT": {
+        "HEADER_TEXT": "Muuda portaali",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "Põhiandmed"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "Portaali kohandamine"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "Kategooriad"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "Keeled"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "Kategooriad keeles",
+          "NEW_CATEGORY": "Uus kategooria",
+          "TABLE": {
+            "NAME": "Nimi",
+            "DESCRIPTION": "Kirjeldus",
+            "LOCALE": "Keel",
+            "ARTICLE_COUNT": "Artiklite arv",
+            "ACTION_BUTTON": {
+              "EDIT": "Muuda kategooriat",
+              "DELETE": "Kustuta kategooria"
+            },
+            "EMPTY_TEXT": "Kategooriaid ei leitud"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "Uuenda põhiseadeid"
+        }
+      },
+      "ADD": {
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Klienditoe keskuse info",
+            "BODY": "Põhiinfo portaalist"
+          },
+          "CUSTOMIZATION": {
+            "TITLE": "Klienditoe keskuse kohandamine",
+            "BODY": "Kohanda portaali"
+          },
+          "FINISH": {
+            "TITLE": "Valmis! 🎉",
+            "BODY": "Kõik valmis!"
+          }
+        },
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "Tagasi",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "Loo portaal",
+            "TITLE": "Klienditoe keskuse info",
+            "CREATE_BASIC_SETTING_BUTTON": "Loo portaali põhiseaded"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "Portaali kohandamine",
+            "TITLE": "Abikeskuse kohandamine",
+            "UPDATE_PORTAL_BUTTON": "Uuenda portaali seadeid"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "Voila!🎉 You're all set up!",
+            "MESSAGE": "Nüüd näed loodud portaali kõigi portaalide lehel.",
+            "FINISH": "Mine kõigi portaalide lehele"
+          }
+        },
+        "LOGO": {
+          "LABEL": "Logo",
+          "UPLOAD_BUTTON": "Laadi logo üles",
+          "HELP_TEXT": "See logo kuvatakse portaali päises.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo üleslaadimine õnnestus",
+          "IMAGE_UPLOAD_ERROR": "Logo kustutamine õnnestus",
+          "IMAGE_DELETE_ERROR": "Viga logo kustutamisel"
+        },
+        "NAME": {
+          "LABEL": "Nimi",
+          "PLACEHOLDER": "Portaali nimi",
+          "HELP_TEXT": "Nimi kasutatakse avalikus portaalis sisemiselt.",
+          "ERROR": "Nimi on kohustuslik"
+        },
+        "SLUG": {
+          "LABEL": "Lühilink",
+          "PLACEHOLDER": "Portal slug for urls",
+          "ERROR": "Lühilink on nõutud"
+        },
+        "DOMAIN": {
+          "LABEL": "Kohandatud domeen",
+          "PLACEHOLDER": "Portaali kohandatud domeen",
+          "HELP_TEXT": "Lisa ainult siis, kui soovid kasutada oma portaalide jaoks kohandatud domeeni. Nt: {exampleURL}",
+          "ERROR": "Sisesta kehtiv domeeni URL"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Avalehe link",
+          "PLACEHOLDER": "Portaali avalehe link",
+          "HELP_TEXT": "Link, mida kasutatakse portaalist avalehele naasmiseks. Nt: {exampleURL}",
+          "ERROR": "Sisesta kehtiv avalehe URL"
+        },
+        "THEME_COLOR": {
+          "LABEL": "Portaali teema värv",
+          "HELP_TEXT": "See värv kuvatakse portaali teema värvina."
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Lehe pealkiri",
+          "PLACEHOLDER": "Portaali lehe pealkiri",
+          "HELP_TEXT": "Lehe pealkiri kuvatakse avalikus portaalis.",
+          "ERROR": "Lehe pealkiri on kohustuslik"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Päise tekst",
+          "PLACEHOLDER": "Portaali päise tekst",
+          "HELP_TEXT": "Portaali päise tekst kuvatakse avalikus portaalis.",
+          "ERROR": "Portaali päise tekst on nõutud"
+        },
+        "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portaal loodud edukalt.",
+          "ERROR_MESSAGE_FOR_BASIC": "Portaali loomine ebaõnnestus. Proovi uuesti.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portaal uuendatud edukalt.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Portaali uuendamine ebaõnnestus. Proovi uuesti."
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "Lisa uus keel",
+        "SUB_TITLE": "See lisab teie saadavalolevate tõlgete nimekirja uue keele.",
+        "PORTAL": "Portaal",
+        "LOCALE": {
+          "LABEL": "Keel",
+          "PLACEHOLDER": "Vali keel",
+          "ERROR": "Keel on kohustuslik"
+        },
+        "BUTTONS": {
+          "CREATE": "Loo keel",
+          "CANCEL": "Tühista"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Keel lisatud edukalt",
+          "ERROR_MESSAGE": "Keelt ei õnnestunud lisada. Proovi uuesti."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Vaikimisi keel on edukalt uuendatud",
+          "ERROR_MESSAGE": "Vaikimisi keele uuendamine ebaõnnestus. Proovi uuesti."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Keel on portaalist edukalt eemaldatud",
+          "ERROR_MESSAGE": "Keelt ei õnnestunud portaalist eemaldada. Proovi uuesti."
+        }
+      }
+    },
+    "TABLE": {
+      "LOADING_MESSAGE": "Artiklite laadimine...",
+      "404": "Otsingule ei vastanud ühtegi artiklit 🔍",
+      "NO_ARTICLES": "Saadaval pole ühtegi artiklit",
+      "HEADERS": {
+        "TITLE": "Pealkiri",
+        "CATEGORY": "Kategooria",
+        "READ_COUNT": "Vaated",
+        "STATUS": "Staatus",
+        "LAST_EDITED": "Viimati muudetud"
+      },
+      "COLUMNS": {
+        "BY": "autor",
+        "AUTHOR_NOT_AVAILABLE": "Autor pole saadaval"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "LOADING": "Artikkel laaditakse...",
+      "TITLE_PLACEHOLDER": "Artikli pealkiri",
+      "CONTENT_PLACEHOLDER": "Kirjutage siia oma artikkel",
+      "API": {
+        "ERROR": "Viga artikli salvestamisel"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "Viga artikli avaldamisel",
+        "SUCCESS": "Artikkel avaldati edukalt"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "Viga artikli arhiveerimisel",
+        "SUCCESS": "Artikkel arhiveeriti edukalt"
+      }
+    },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "Viga artikli mustandi koostamisel",
+        "SUCCESS": "Artikkel on edukalt mustandina salvestatud"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "Kustutamise kinnitamine",
+          "MESSAGE": "Kas olete kindel, et soovite artikli kustutada?",
+          "YES": "Jah, kustuta",
+          "NO": "Ei, säilita"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Artikkel kustutati edukalt",
+        "ERROR_MESSAGE": "Viga artikli kustutamisel"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Artiklite järjekorda ei õnnestunud muuta. Palun proovige uuesti."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Kategooriate järjekorda ei õnnestunud muuta. Palun proovige uuesti."
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "Palun lisa artikli pealkiri ja sisu, alles siis saad seadeid uuendada"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Otsi artikleid"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "Loo kategooria",
+        "SUB_TITLE": "Kategooriat kasutatakse avalikus portaalis artiklite kategoriseerimiseks.",
+        "PORTAL": "Portaal",
+        "LOCALE": "Keel",
+        "NAME": {
+          "LABEL": "Nimi",
+          "PLACEHOLDER": "Kategooria nimi",
+          "HELP_TEXT": "Kategooria nimi ja ikoon kuvatakse avalikus portaalis artiklite kategoriseerimiseks.",
+          "ERROR": "Nimi on kohustuslik"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Category slug for urls",
+          "HELP_TEXT": "app.chatwoot.com/hc/minu-portaal/et-EE/kategooriad/minu-slug",
+          "ERROR": "Lühinimi on kohustuslik"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Kirjeldus",
+          "PLACEHOLDER": "Anna kategooria kohta lühike kirjeldus.",
+          "ERROR": "Kirjeldus on kohustuslik"
+        },
+        "BUTTONS": {
+          "CREATE": "Loo kategooria",
+          "CANCEL": "Tühista"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Kategooria loodud edukalt",
+          "ERROR_MESSAGE": "Kategooriat ei õnnestunud luua"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Muuda kategooriat",
+        "SUB_TITLE": "Kategooria muutmine värskendab kategooriat avalikus portaalis.",
+        "PORTAL": "Portaal",
+        "LOCALE": "Keel",
+        "NAME": {
+          "LABEL": "Nimi",
+          "PLACEHOLDER": "Kategooria nimi",
+          "HELP_TEXT": "Kategooria nimi ja ikoon kuvatakse avalikus portaalis artiklite kategoriseerimiseks.",
+          "ERROR": "Nimi on kohustuslik"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Category slug for urls",
+          "HELP_TEXT": "app.chatwoot.com/hc/minu-portaal/et-EE/kategooriad/minu-slug",
+          "ERROR": "Lühinimi on kohustuslik"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Kirjeldus",
+          "PLACEHOLDER": "Anna kategooria kohta lühike kirjeldus.",
+          "ERROR": "Kirjeldus on kohustuslik"
+        },
+        "BUTTONS": {
+          "CREATE": "Uuenda kategooriat",
+          "CANCEL": "Tühista"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Kategooria uuendati edukalt",
+          "ERROR_MESSAGE": "Kategooriat ei õnnestunud uuendada"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Kategooria kustutati edukalt",
+          "ERROR_MESSAGE": "Kategooriat ei õnnestunud kustutada"
+        }
+      }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Otsi artikleid",
+      "PLACEHOLDER": "Otsi artikleid",
+      "NO_RESULT": "Artikleid ei leitud",
+      "SEARCHING": "Otsitakse...",
+      "SEARCH_BUTTON": "Otsi",
+      "INSERT_ARTICLE": "Lisa link",
+      "IFRAME_ERROR": "URL on tühi või vigane. Sisu kuvamine ei õnnestu.",
+      "OPEN_ARTICLE_SEARCH": "Lisa artikkel abikeskusest",
+      "SUCCESS_ARTICLE_INSERTED": "Artikkel lisatud edukalt",
+      "PREVIEW_LINK": "Vaata artiklit eelvaates",
+      "CANCEL": "Sulge",
+      "BACK": "Tagasi",
+      "BACK_RESULTS": "Tagasi tulemuste juurde"
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Abi keskus",
+      "DESCRIPTION": "Loo kasutajasõbralikud iseteenindusportaalid. Aita oma kasutajatel artiklitele ligi pääseda ja saada tuge 24/7. Telli uuendus, et see funktsioon aktiveerida.",
+      "SELF_HOSTED_DESCRIPTION": "Loo kasutajasõbralikud iseteenindusportaalid. Aita oma kasutajatel artiklitele ligi pääseda ja saada tuge 24/7. Palun võta ühendust oma administraatoriga, et see funktsioon aktiveerida.",
+      "BUTTON": {
+        "LEARN_MORE": "Loe lisaks",
+        "UPGRADE": "Uuenda"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Mitmed portaalid",
+          "DESCRIPTION": "Loo mitu abikeskuse portaali erinevate toodete jaoks, kasutades sama kontot."
+        },
+        "LOCALES": {
+          "TITLE": "Täielik tugi keeleseadetele",
+          "DESCRIPTION": "Lokaliseeri portaal oma keeles. Toetame kõiki keeleseadeid ja võimaldame tõlkeid iga artikli jaoks."
+        },
+        "SEO": {
+          "TITLE": "SEO-sõbralik disain",
+          "DESCRIPTION": "Kohanda oma meta-silte, et parandada nähtavust otsingumootorites meie SEO-sõbralike lehtedega."
+        },
+        "API": {
+          "TITLE": "Täielik API tugi",
+          "DESCRIPTION": "Kasuta portaali peata CMS-ina koos kolmandate osapoolte front-end raamistikuga, kasutades meie API-sid"
+        }
+      }
+    },
+    "LOADING": "Laadimine...",
+    "ARTICLES_PAGE": {
+      "ARTICLE_CARD": {
+        "CARD": {
+          "VIEWS": "{count} vaatamine | {count} vaatamist",
+          "DROPDOWN_MENU": {
+            "PUBLISH": "Avalda",
+            "DRAFT": "Mustand",
+            "ARCHIVE": "Arhiveeri",
+            "DELETE": "Kustuta"
+          },
+          "STATUS": {
+            "DRAFT": "Mustand",
+            "PUBLISHED": "Avaldatud",
+            "ARCHIVED": "Arhiveeritud"
+          },
+          "CATEGORY": {
+            "UNCATEGORISED": "Kategooriata"
+          }
+        }
+      },
+      "ARTICLES_HEADER": {
+        "TABS": {
+          "ALL": "Kõik artiklid",
+          "MINE": "Minu omad",
+          "DRAFT": "Mustand",
+          "PUBLISHED": "Avaldatud",
+          "ARCHIVED": "Arhiveeritud"
+        },
+        "CATEGORY": {
+          "ALL": "Kõik kategooriad"
+        },
+        "LOCALE": {
+          "ALL": "Kõik keeled"
+        },
+        "NEW_ARTICLE": "Uus artikkel"
+      },
+      "EMPTY_STATE": {
+        "ALL": {
+          "TITLE": "Kirjuta artikkel",
+          "SUBTITLE": "Kirjuta põhjalik artikkel, alustame!",
+          "BUTTON_LABEL": "Uus artikkel"
+        },
+        "MINE": {
+          "TITLE": "Sa pole siin veel ühtegi artiklit kirjutanud",
+          "SUBTITLE": "Kõik sinu kirjutatud artiklid kuvatakse siin kiireks ligipääsuks."
+        },
+        "DRAFT": {
+          "TITLE": "Mustandites pole artikleid",
+          "SUBTITLE": "Mustandid kuvatakse siin"
+        },
+        "PUBLISHED": {
+          "TITLE": "Avaldatud artikleid pole",
+          "SUBTITLE": "Avaldatud artiklid kuvatakse siin"
+        },
+        "ARCHIVED": {
+          "TITLE": "Arhiivis pole artikleid",
+          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+        },
+        "CATEGORY": {
+          "TITLE": "Selles kategoorias pole artikleid",
+          "SUBTITLE": "Selles kategoorias olevad artiklid kuvatakse siin"
+        }
+      }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_HEADER": {
+        "NEW_CATEGORY": "Uus kategooria",
+        "EDIT_CATEGORY": "Muuda kategooriat",
+        "CATEGORIES_COUNT": "{n} kategooria | {n} kategooriat",
+        "BREADCRUMB": {
+          "CATEGORY_LOCALE": "Kategooriad ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} artiklit) | {categoryName} ({categoryCount} artikkel)"
+        }
+      },
+      "CATEGORY_EMPTY_STATE": {
+        "TITLE": "Kategooriaid ei leitud",
+        "SUBTITLE": "Kategooriad kuvatakse siin. Kategooria lisamiseks klõpsake nuppu „Uus kategooria“."
+      },
+      "CATEGORY_CARD": {
+        "ARTICLES_COUNT": "{count} artikkel | {count} artiklit"
+      },
+      "CATEGORY_DIALOG": {
+        "CREATE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Kategooria loodud edukalt",
+            "ERROR_MESSAGE": "Kategooriat ei õnnestunud luua"
+          }
+        },
+        "EDIT": {
+          "API": {
+            "SUCCESS_MESSAGE": "Kategooria uuendatud edukalt",
+            "ERROR_MESSAGE": "Kategooriat ei õnnestunud uuendada"
+          }
+        },
+        "DELETE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Kategooria kustutatud edukalt",
+            "ERROR_MESSAGE": "Kategooriat ei õnnestunud kustutada"
+          }
+        },
+        "HEADER": {
+          "CREATE": "Loo kategooria",
+          "EDIT": "Muuda kategooriat",
+          "DESCRIPTION": "Kategooria muutmine uuendab kategooriat avalikus portaalis.",
+          "PORTAL": "Portaal",
+          "LOCALE": "Lokaal"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "Nimi",
+            "PLACEHOLDER": "Kategooria nimi",
+            "ERROR": "Nimi on kohustuslik"
+          },
+          "SLUG": {
+            "LABEL": "Lühilink",
+            "PLACEHOLDER": "Category slug for urls",
+            "ERROR": "Lühinimi on kohustuslik",
+            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Kirjeldus",
+            "PLACEHOLDER": "Anna kategooria kohta lühike kirjeldus.",
+            "ERROR": "Kirjeldus on kohustuslik"
+          }
+        },
+        "BUTTONS": {
+          "CREATE": "Loo",
+          "EDIT": "Uuenda",
+          "CANCEL": "Tühista"
+        }
+      }
+    },
+    "LOCALES_PAGE": {
+      "LOCALES_COUNT": "Ühtegi keelt pole saadaval | {n} keel | {n} keelt",
+      "NEW_LOCALE_BUTTON_TEXT": "Uus keel",
+      "LOCALE_CARD": {
+        "ARTICLES_COUNT": "{count} artikkel | {count} artiklit",
+        "CATEGORIES_COUNT": "{count} kategooria | {count} kategooriat",
+        "DEFAULT": "Vaikimisi",
+        "DROPDOWN_MENU": {
+          "MAKE_DEFAULT": "Määra vaikimisi",
+          "DELETE": "Kustuta"
+        }
+      },
+      "ADD_LOCALE_DIALOG": {
+        "TITLE": "Lisa uus keel",
+        "DESCRIPTION": "Vali keel, milles see artikkel kirjutatakse. See lisatakse sinu tõlkelisti ja hiljem saad lisada veel.",
+        "COMBOBOX": {
+          "PLACEHOLDER": "Vali keel..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Keel lisatud edukalt",
+          "ERROR_MESSAGE": "Keelt ei õnnestunud lisada. Proovi uuesti."
+        }
+      }
+    },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "STATUS": {
+          "SAVING": "Salvestamine...",
+          "SAVED": "Salvestatud"
+        },
+        "PREVIEW": "Eelvaade",
+        "PUBLISH": "Avalda",
+        "DRAFT": "Mustand",
+        "ARCHIVE": "Arhiiv",
+        "BACK_TO_ARTICLES": "Tagasi artiklite juurde"
+      },
+      "EDIT_ARTICLE": {
+        "MORE_PROPERTIES": "Rohkem omadusi",
+        "UNCATEGORIZED": "Kategooriata",
+        "EDITOR_PLACEHOLDER": "Kirjuta midagi..."
+      },
+      "ARTICLE_PROPERTIES": {
+        "ARTICLE_PROPERTIES": "Artikli omadused",
+        "META_DESCRIPTION": "Meta kirjeldus",
+        "META_DESCRIPTION_PLACEHOLDER": "Lisa meta kirjeldus",
+        "META_TITLE": "Meta pealkiri",
+        "META_TITLE_PLACEHOLDER": "Lisa meta pealkiri",
+        "META_TAGS": "Meta sildid",
+        "META_TAGS_PLACEHOLDER": "Lisa meta sildid"
+      },
+      "API": {
+        "ERROR": "Viga artikli salvestamisel"
+      }
+    },
+    "PORTAL_SWITCHER": {
+      "NEW_PORTAL": "Uus portaal",
+      "PORTALS": "Portaalid",
+      "CREATE_PORTAL": "Loo ja halda mitut portaali",
+      "ARTICLES": "artiklid",
+      "DOMAIN": "domeen",
+      "PORTAL_NAME": "Portaali nimi"
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "TITLE": "Loo uus portaali",
+      "DESCRIPTION": "Anna oma portaalile nimi ja loo kasutajasõbralik URL-lühinimi. Mõlemaid saab hiljem seadetes muuta.",
+      "CONFIRM_BUTTON_LABEL": "Loo",
+      "NAME": {
+        "LABEL": "Nimi",
+        "PLACEHOLDER": "User Guide | Chatwoot",
+        "MESSAGE": "Vali oma portaalile nimi.",
+        "ERROR": "Nimi on kohustuslik"
+      },
+      "SLUG": {
+        "LABEL": "Lühend",
+        "PLACEHOLDER": "kasutusjuhend",
+        "ERROR": "Lühinimi on kohustuslik",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+      }
+    },
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "AVATAR": {
+          "LABEL": "Logo",
+          "IMAGE_UPLOAD_ERROR": "Pildi üleslaadimine ebaõnnestus! Proovi uuesti",
+          "IMAGE_UPLOAD_SUCCESS": "Pilt lisatud edukalt. Palun klõpsa muudatuste salvestamiseks",
+          "IMAGE_DELETE_SUCCESS": "Logo kustutati edukalt",
+          "IMAGE_DELETE_ERROR": "Logo kustutamine ebaõnnestus",
+          "IMAGE_UPLOAD_SIZE_ERROR": "Pildi suurus peab olema väiksem kui {size}MB"
+        },
+        "NAME": {
+          "LABEL": "Nimi",
+          "PLACEHOLDER": "Portaali nimi",
+          "ERROR": "Nimi on nõutud"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Päise tekst",
+          "PLACEHOLDER": "Portaali päise tekst"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Lehe pealkiri",
+          "PLACEHOLDER": "Portaali lehe pealkiri"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Avalehe link",
+          "PLACEHOLDER": "Portaali avalehe link",
+          "ERROR": "Sisestage kehtiv URL. Avalehe link peab algama 'http://' või 'https://'."
+        },
+        "SLUG": {
+          "LABEL": "Lühinimi",
+          "PLACEHOLDER": "Portaali lühinimi"
+        },
+        "LIVE_CHAT_WIDGET": {
+          "LABEL": "Otsevestluse vidin",
+          "PLACEHOLDER": "Vali otsevestluse vidin",
+          "HELP_TEXT": "Valige vestluse vidin, mis kuvatakse teie abikeskuses",
+          "NONE_OPTION": "Ühtegi vidinat"
+        },
+        "BRAND_COLOR": {
+          "LABEL": "Brändi värv"
+        },
+        "SAVE_CHANGES": "Salvesta muudatused"
+      },
+      "CONFIGURATION_FORM": {
+        "CUSTOM_DOMAIN": {
+          "HEADER": "Kohandatud domeen",
+          "LABEL": "Kohandatud domeen:",
+          "DESCRIPTION": "Saate oma portaali majutada kohandatud domeenil. Näiteks, kui teie veebisait on yourdomain.com ja soovite, et teie portaal oleks saadaval aadressil docs.yourdomain.com, sisestage see lihtsalt siia.",
+          "STATUS_DESCRIPTION": "Sinu kohandatud portaal hakkab tööle kohe, kui see on kinnitatud.",
+          "PLACEHOLDER": "Portaali kohandatud domeen",
+          "EDIT_BUTTON": "Muuda",
+          "ADD_BUTTON": "Lisa kohandatud domeen",
+          "STATUS": {
+            "LIVE": "Otseülekanne",
+            "PENDING": "Ootab kinnitamist",
+            "ERROR": "Kinnitus ebaõnnestus"
+          },
+          "DIALOG": {
+            "ADD_HEADER": "Lisa kohandatud domeen",
+            "EDIT_HEADER": "Muuda kohandatud domeeni",
+            "ADD_CONFIRM_BUTTON_LABEL": "Lisa domeen",
+            "EDIT_CONFIRM_BUTTON_LABEL": "Uuenda domeeni",
+            "LABEL": "Kohandatud domeen",
+            "PLACEHOLDER": "Portaali kohandatud domeen",
+            "ERROR": "Kohandatud domeen on nõutud",
+            "FORMAT_ERROR": "Sisestage kehtiv domeeni URL, nt docs.yourdomeen.com"
+          },
+          "DNS_CONFIGURATION_DIALOG": {
+            "HEADER": "DNS configuration",
+            "DESCRIPTION": "Logi sisse oma DNS-teenusepakkuja kontole ja lisa alamdomeeni jaoks CNAME kirje, mis osutab chatwoot.help",
+            "COPY": "CNAME edukalt kopeeritud",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Saada juhised",
+              "DESCRIPTION": "Kui soovite, et teie arendusmeeskonna keegi tegeleks selle sammuga, võite allpool sisestada e-posti aadressi ja me saadame neile vajalikud juhised.",
+              "PLACEHOLDER": "Sisestage nende e-post",
+              "ERROR": "Sisestage kehtiv e-posti aadress",
+              "SEND_BUTTON": "Saada"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "BUTTON": "Kustuta {portalName}",
+          "HEADER": "Kustuta portaal",
+          "DESCRIPTION": "Kustuta see portaal jäädavalt. Seda toimingut ei saa tagasi võtta",
+          "DIALOG": {
+            "HEADER": "Oled kindel, et soovid kustutada {portalName}?",
+            "DESCRIPTION": "See on pöördumatu toiming.",
+            "CONFIRM_BUTTON_LABEL": "Kustuta"
+          }
+        },
+        "EDIT_CONFIGURATION": "Muuda seadistust"
+      },
+      "API": {
+        "CREATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Portaal loodud edukalt",
+          "ERROR_MESSAGE": "Portaali loomine ebaõnnestus"
+        },
+        "UPDATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Portaal uuendatud edukalt",
+          "ERROR_MESSAGE": "Portaali uuendamine ebaõnnestus"
+        }
+      }
+    },
+    "PDF_UPLOAD": {
+      "TITLE": "Upload PDF Document",
+      "DESCRIPTION": "Laadi üles PDF dokument, et automaatselt AI abil genereerida KKK",
+      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
+      "SELECT_FILE": "Select PDF File",
+      "ADDITIONAL_CONTEXT_LABEL": "Täiendav kontekst (valikuline)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Lisa täiendav kontekst või juhised KKK genereerimiseks...",
+      "UPLOADING": "Laadimine...",
+      "UPLOAD": "Laadi üles ja töötle",
+      "CANCEL": "Tühista",
+      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
+      "ERROR_FILE_TOO_LARGE": "Faili suurus peab olema väiksem kui 512MB",
+      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+    },
+    "PDF_DOCUMENTS": {
+      "TITLE": "PDF dokumendid",
+      "DESCRIPTION": "Halda üleslaaditud PDF dokumente ja loo neist korduma kippuvad küsimused",
+      "UPLOAD_PDF": "Laadi PDF üles",
+      "UPLOAD_FIRST_PDF": "Laadi üles oma esimene PDF",
+      "UPLOADED_BY": "Üles laadinud",
+      "GENERATE_FAQS": "Loo korduma kippuvad küsimused",
+      "GENERATING": "Luuakse...",
+      "CONFIRM_DELETE": "Oled kindel, et soovid kustutada faili {filename}?",
+      "EMPTY_STATE": {
+        "TITLE": "No PDF documents yet",
+        "DESCRIPTION": "Laadi üles PDF dokumendid, et automaatselt AI abil genereerida KKK"
+      },
+      "STATUS": {
+        "UPLOADED": "Valmis",
+        "PROCESSING": "Töötlemisel",
+        "PROCESSED": "Valminud",
+        "FAILED": "Ebaõnnestus"
+      }
+    },
+    "CONTENT_GENERATION": {
+      "TITLE": "Sisu genereerimine",
+      "DESCRIPTION": "Laadi üles PDF dokumendid, et automaatselt AI abil genereerida KKK sisu",
+      "UPLOAD_TITLE": "Upload PDF Document",
+      "DRAG_DROP": "Lohista siia oma PDF fail või klõpsa valimiseks",
+      "SELECT_FILE": "Select PDF File",
+      "UPLOADING": "Dokumendi töötlemine...",
+      "UPLOAD_SUCCESS": "Dokument töödeldud edukalt!",
+      "UPLOAD_ERROR": "Dokumendi üleslaadimine ebaõnnestus. Palun proovi uuesti.",
+      "INVALID_FILE_TYPE": "Please select a valid PDF file",
+      "FILE_TOO_LARGE": "Faili suurus peab olema väiksem kui 512MB",
+      "GENERATED_CONTENT": "Genereeritud KKK sisu",
+      "PUBLISH_SELECTED": "Avalda valitud",
+      "PUBLISHING": "Avaldamine...",
+      "FROM_DOCUMENT": "Dokumendist",
+      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
+      "LOADING": "Genereeritud sisu laadimine..."
+    }
+  }
+}

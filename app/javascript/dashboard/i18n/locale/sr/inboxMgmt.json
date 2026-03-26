@@ -3,6 +3,9 @@
     "HEADER": "Prijemni sandučići",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",
+    "COUNT": "{n} inbox | {n} inboxes",
+    "SEARCH_PLACEHOLDER": "Search inboxes...",
+    "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
@@ -56,6 +59,13 @@
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
         "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
         "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+      },
+      "TIKTOK": {
+        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
+        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
+        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
+        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
         "HELP": "Da bi ste dodali Tviter profil kao kanal, morate da autentifikujete vaš Tviter profil klikom na 'Prijavi se sa Tviterom' ",
@@ -381,7 +391,11 @@
         "API": {
           "ERROR_MESSAGE": "Nisamo uspeli da sačuvamo kanal e-pošte"
         },
-        "FINISH_MESSAGE": "Započnite preusmerenje vaših e-poruka na sledeću adresu e-pošte."
+        "FINISH_MESSAGE": "Započnite preusmerenje vaših e-poruka na sledeću adresu e-pošte.",
+        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
+        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
+        "CONFIGURE_SMTP_IMAP_LINK": "Kliknite ovde",
+        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
       },
       "LINE_CHANNEL": {
         "TITLE": "LINE kanal",
@@ -466,6 +480,10 @@
           "INSTAGRAM": {
             "TITLE": "Instagram",
             "DESCRIPTION": "Connect your instagram account"
+          },
+          "TIKTOK": {
+            "TITLE": "TikTok",
+            "DESCRIPTION": "Connect your TikTok account"
           },
           "VOICE": {
             "TITLE": "Voice",
@@ -560,7 +578,7 @@
           "SUBTITLE": "Use only the configured business name as the sender name in the email header."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
+          "BUTTON_TEXT": "Configure your business name",
           "PLACEHOLDER": "Enter your business name",
           "SAVE_BUTTON_TEXT": "Save"
         }
@@ -574,8 +592,10 @@
         "DISABLED": "Onemogućeno"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Omogućeno",
-        "DISABLED": "Onemogućeno"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "Omogućeno"
@@ -610,6 +630,8 @@
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "Izveštaj o zadovoljstvu"
     },
+    "CHANNEL_PREFERENCES": "Channel Preferences",
+    "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
       "TITLE": "Manage your WhatsApp account",
       "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
@@ -663,6 +685,16 @@
           "SANDBOX": "Sandbox",
           "LIVE": "Uživo"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Webhook Configuration",
+        "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
+        "ACTION_REQUIRED": "Webhook not configured",
+        "REGISTER_BUTTON": "Register Webhook",
+        "REGISTER_SUCCESS": "Webhook registered successfully",
+        "REGISTER_ERROR": "Failed to register webhook. Please try again.",
+        "CONFIGURED_SUCCESS": "Webhook configured successfully",
+        "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
     "SETTINGS": "Podešavanja",
@@ -678,8 +710,20 @@
       "MESSENGER_SUB_HEAD": "Postavite ovo dugme unutar body oznake",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
+      },
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Enable widget in mobile apps",
+        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Identity Validation",
+        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "SECRET_KEY": "Secret Key",
+        "VIEW_DOCS": "View documentation",
+        "REQUIRE_LABEL": "Require identity validation for all conversations",
+        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
       },
       "INBOX_AGENTS": "Agenti",
       "INBOX_AGENTS_SUB_TEXT": "Dodajte ili uklonite agente iz ovog prijemnog sandučeta",
@@ -693,8 +737,8 @@
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Omogući nastavljanje razgovora putem e-pošte",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Razgovori će se nastaviti putem e-pošte ako je dostupna adresa e-pošte kontakta.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Podešavanja prijemnog sandučeta",
       "INBOX_UPDATE_SUB_TEXT": "Izmenite podešavanja vašeg prijemnog sandučeta",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Omogući ili onemogući automatsku dodelu novih razgovora agentima dodatih ovom prijemnom sandučetu.",
@@ -707,6 +751,7 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "Koristite `inbox_identifier` token prikazan ovde za autentifikaciju vaših API klijenata.",
       "FORWARD_EMAIL_TITLE": "Prosledi na e-poštu",
       "FORWARD_EMAIL_SUB_TEXT": "Započnite preusmerenje vaših e-poruka na sledeću adresu e-pošte.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Dozvoli poruke nakon rešavanja razgovora",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Dozvolite krajnjim korisnicima da šalju poruke čak i kada je razgovor rešen.",
       "WHATSAPP_SECTION_SUBHEADER": "Ovaj API ključ se koristi za integraciju sa WhatsApp API-jima.",
@@ -742,6 +787,7 @@
       "LABEL": "Help Center",
       "PLACEHOLDER": "Select Help Center",
       "SELECT_PLACEHOLDER": "Select Help Center",
+      "NONE": "Niko",
       "REMOVE": "Remove Help Center",
       "SUB_TEXT": "Attach a Help Center with the inbox"
     },
@@ -749,6 +795,53 @@
       "MAX_ASSIGNMENT_LIMIT": "Ograničenje automatskog dodeljivanja",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Molim vas unesite vrednost veću od 0",
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Ograničite maksimalni broj razgovora u ovom prijemnom sandučetu koja mogu biti automatski dodeljena agentu"
+    },
+    "ASSIGNMENT": {
+      "TITLE": "Dodeljivanje razgovoru",
+      "DESCRIPTION": "Automatically assign incoming conversations to available agents based on assignment policies",
+      "ENABLE_AUTO_ASSIGNMENT": "Enable automatic conversation assignment",
+      "DEFAULT_RULES_TITLE": "Default assignment rules",
+      "DEFAULT_RULES_DESCRIPTION": "Using the default assignment behavior for all conversations",
+      "DEFAULT_RULE_1": "Earliest created conversations first",
+      "DEFAULT_RULE_2": "Round robin distribution",
+      "CUSTOMIZE_WITH_POLICY": "Customize with assignment policy",
+      "USING_POLICY": "Using custom assignment policy for this inbox",
+      "CUSTOMIZE_POLICY": "Customize with assignment policy",
+      "DELETE_POLICY": "Delete policy",
+      "POLICY_LABEL": "Assignment policy",
+      "ASSIGNMENT_ORDER_LABEL": "Assignment Order",
+      "ASSIGNMENT_METHOD_LABEL": "Assignment Method",
+      "POLICY_STATUS": {
+        "ACTIVE": "Aktivno",
+        "INACTIVE": "Inactive"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "Earliest created",
+        "LONGEST_WAITING": "Longest waiting"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "Round robin",
+        "BALANCED": "Balanced assignment"
+      },
+      "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
+      "UPGRADE_TO_BUSINESS": "Upgrade to Business",
+      "DEFAULT_POLICY_LINKED": "Default policy linked",
+      "DEFAULT_POLICY_DESCRIPTION": "Link a custom assignment policy to customize how conversations are assigned to agents in this inbox.",
+      "LINK_EXISTING_POLICY": "Link existing policy",
+      "CREATE_NEW_POLICY": "Create new policy",
+      "NO_POLICIES": "No assignment policies found",
+      "VIEW_ALL_POLICIES": "View all policies",
+      "CURRENT_BEHAVIOR": "Currently using default assignment behavior:",
+      "LINK_SUCCESS": "Assignment policy linked successfully",
+      "LINK_ERROR": "Failed to link assignment policy"
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
+      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
+      "CANCEL": "Otkaži",
+      "CONFIRM_DELETE": "Izbriši",
+      "DELETE_SUCCESS": "Assignment policy removed successfully",
+      "DELETE_ERROR": "Failed to remove assignment policy"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Ponovna autorizacija",
@@ -792,6 +885,49 @@
         "LABEL": "Poruka",
         "PLACEHOLDER": "Please enter a message to show users with the form"
       },
+      "BUTTON_TEXT": {
+        "LABEL": "Button text",
+        "PLACEHOLDER": "Please rate us"
+      },
+      "LANGUAGE": {
+        "LABEL": "Jezik",
+        "PLACEHOLDER": "Select template language"
+      },
+      "MESSAGE_PREVIEW": {
+        "LABEL": "Message preview",
+        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+      },
+      "TEMPLATE_STATUS": {
+        "APPROVED": "Approved by WhatsApp",
+        "PENDING": "Pending WhatsApp approval",
+        "REJECTED": "Meta rejected the template",
+        "DEFAULT": "Needs WhatsApp approval",
+        "NOT_FOUND": "The template does not exist in the Meta platform."
+      },
+      "TEMPLATE_CREATION": {
+        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
+        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+      },
+      "TEMPLATE_UPDATE_DIALOG": {
+        "TITLE": "Edit survey details",
+        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
+        "CONFIRM": "Create new template",
+        "CANCEL": "Povratak"
+      },
+      "UTILITY_ANALYZER": {
+        "ACTION": "Check utility fit",
+        "HELPER_NOTE": "Check this message before submission to improve Utility fit. The system creates a dedicated CSAT template with buttons for reporting and submits it as Utility; Meta may still reclassify it as Marketing based on content.",
+        "RESULT_LABEL": "Meta category prediction",
+        "GUIDANCE_NOTE": "This is a guidance check, not a guarantee of Meta approval.",
+        "SUGGESTION_LABEL": "Suggested utility-safe rewrite",
+        "APPLY": "Use this rewrite",
+        "ERROR_MESSAGE": "Couldn't analyze the message. Please try again.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "Likely Utility",
+          "LIKELY_MARKETING": "Likely Marketing",
+          "UNCLEAR": "Needs clarification"
+        }
+      },
       "SURVEY_RULE": {
         "LABEL": "Survey rule",
         "DESCRIPTION_PREFIX": "Send the survey if the conversation",
@@ -803,6 +939,7 @@
         "SELECT_PLACEHOLDER": "select labels"
       },
       "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
       "API": {
         "SUCCESS_MESSAGE": "CSAT settings updated successfully",
         "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
@@ -818,9 +955,11 @@
       "UNAVAILABLE_MESSAGE_LABEL": "Poruka nedostupnosti za posetioce",
       "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
+        "DAY": "Dan",
+        "AVAILABILITY": "Dostupnost",
+        "HOURS": "Hours",
         "ENABLE": "Omogućite dostupnost za ovaj dan",
         "UNAVAILABLE": "Nedostupan",
-        "HOURS": "sati",
         "VALIDATION_ERROR": "Vreme početka bi trebalo biti pre vremena završetka.",
         "CHOOSE": "Izaberite"
       },
@@ -927,11 +1066,12 @@
           "IN_A_DAY": "Za dan"
         },
         "WIDGET_COLOR_LABEL": "Boja vidžeta",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Pozicija vidžet balončića",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Vrsta vidžet balončića",
+        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Tip:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Razgovarajte sa nama",
-          "LABEL": "Naslov pokretača vidžet balončića",
+          "LABEL": "Launcher Title",
           "PLACE_HOLDER": "Razgovarajte sa nama"
         },
         "UPDATE": {
@@ -956,7 +1096,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "Predefinisano",
-        "CHAT": "Ćaskanje"
+        "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Obično odgovaramo u roku od nekoliko minuta",
@@ -1004,6 +1144,7 @@
       "LINE": "Line",
       "API": "API kanal",
       "INSTAGRAM": "Instagram",
+      "TIKTOK": "TikTok",
       "VOICE": "Voice"
     }
   }

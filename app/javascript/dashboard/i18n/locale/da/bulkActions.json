@@ -22,9 +22,13 @@
       "UPDATE_SUCCESFUL": "Samtalens status blev opdateret.",
       "UPDATE_FAILED": "Failed to update conversations. Please try again."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Assign labels",
-      "NO_LABELS_FOUND": "Ingen etiketter fundet for",
+      "NO_LABELS_FOUND": "Ingen labels fundet",
       "ASSIGN_SELECTED_LABELS": "Tildel valgte etiketter",
       "ASSIGN_SUCCESFUL": "Etiketter tildelt med succes.",
       "ASSIGN_FAILED": "Failed to assign labels. Please try again."

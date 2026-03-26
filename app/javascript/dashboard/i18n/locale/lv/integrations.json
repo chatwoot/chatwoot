@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot integrējas ar vairākiem rīkiem un pakalpojumiem, lai uzlabotu jūsu komandas efektivitāti. Izpētiet tālāk esošo sarakstu, lai konfigurētu savas iecienītākās lietotnes.",
     "LEARN_MORE": "Uzzināt vairāk par integrācijām",
     "LOADING": "Integrāciju iegūšana",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captain jūsu kontā nav iespējots.",
       "CLICK_HERE_TO_CONFIGURE": "Noklikšķiniet šeit, lai konfigurētu",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abonētie Notikumi",
       "LEARN_MORE": "Uzzināt vairāk par webhooks",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Atcelt",
         "DESC": "Webhook notikumi sniedz Jums reāllaika informāciju par to, kas notiek jūsu Chatwoot kontā. Lūdzu, ievadiet derīgu URL, lai nokonfigurētu atzvanīšanu.",
@@ -45,6 +59,10 @@
             "CONVERSATION_TYPING_ON": "Conversation Typing On",
             "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
+        },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
         },
         "END_POINT": {
           "LABEL": "Webhook URL",
@@ -100,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Dzēst",
       "DELETE_CONFIRMATION": {
         "TITLE": "Dzēst integrāciju",
@@ -141,7 +160,29 @@
         "EXPAND": "Izvērst",
         "MAKE_FRIENDLY": "Mainīt ziņojuma toni uz draudzīgu",
         "MAKE_FORMAL": "Izmantot formālu toni",
-        "SIMPLIFY": "Vienkāršot"
+        "SIMPLIFY": "Vienkāršot",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Profesionāls",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Draudzīgs"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Melnraksta saturs",
@@ -197,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>Informācijas Paneļa Lietotnes</b></p><p>Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu Chatwoot informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums izveidot lietojumprogrammu neatkarīgi un iegult to informācijas panelī, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai viņu iepriekšējo maksājumu vēsturi.</p><p>Kad iegulsiet lietojumprogrammu, izmantojot Chatwoot informācijas paneli, Jūsu lietojumprogramma iegūs sarunas un kontaktpersonas kontekstu kā loga notikumu. Ieviesiet savā lapā ziņojuma notikuma uztvērēju, lai saņemtu kontekstu.</p><p>Lai pievienotu jaunu informācijas paneļa lietotni, noklikšķiniet uz pogas 'Pievienot jaunu informācijas paneļa lietotni'.</p>",
       "DESCRIPTION": "Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums neatkarīgi izveidot lietojumprogrammu un iegult to, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai iepriekšējo maksājumu vēsturi.",
       "LEARN_MORE": "Uzzināt vairāk par Informācijas paneļa Lietotnēm",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Šajā kontā vēl nav nokonfigurēta neviena informācijas paneļa lietotne",
         "LOADING": "Notiek informācijas paneļa lietotņu iegūšana...",
         "TABLE_HEADER": {
           "NAME": "Nosaukums",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Darbības"
         },
         "EDIT_TOOLTIP": "Rediģēt lietotni",
         "DELETE_TOOLTIP": "Dzēst lietotni"
@@ -239,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Lineārs",
       "ADD_OR_LINK_BUTTON": "Izveidot/Saistīt lineāru problēmu",
       "LOADING": "Notiek lineāru problēmu iegūšana...",
       "LOADING_ERROR": "Lineāru problēmu iegūšanas laikā radās kļūda. Lūdzu, mēģiniet vēlreiz",
@@ -333,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
@@ -344,6 +391,12 @@
   "CAPTAIN": {
     "NAME": "Kapteinis",
     "HEADER_KNOW_MORE": "Know more",
+    "ASSISTANT_SWITCHER": {
+      "ASSISTANTS": "Asistenti",
+      "SWITCH_ASSISTANT": "Switch between assistants",
+      "NEW_ASSISTANT": "Create Assistant",
+      "EMPTY_LIST": "No assistants found, please create one to get started"
+    },
     "COPILOT": {
       "TITLE": "Kopilots",
       "TRY_THESE_PROMPTS": "Pamēģiniet",
@@ -396,6 +449,7 @@
       "CANCEL_ANYTIME": "Jūs varat jebkurā laikā mainīt vai atcelt savu versiju"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
       "UPGRADE_PROMPT": "Modernizējiet savu abonementu, lai iegūtu piekļuvi viruālajiem asistentiem un copilot.",
       "ASK_ADMIN": "Lai pārietu uz maksas versiju, lūdzu sazinieties ar savu administratoru."
     },
@@ -473,7 +527,8 @@
           "TITLE": "Īpašības",
           "ALLOW_CONVERSATION_FAQS": "Ģenerēt bieži uzdotos jautājumus no atrisinātajām sarunām",
           "ALLOW_MEMORIES": "Pārtvert galvenās nianses kā atmiņas no klientu mijiedarbībām.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
@@ -483,9 +538,7 @@
         "NOT_FOUND": "Could not find the assistant. Please try again."
       },
       "SETTINGS": {
-        "BREADCRUMB": {
-          "ASSISTANT": "Asistents"
-        },
+        "HEADER": "Iestatījumi",
         "BASIC_SETTINGS": {
           "TITLE": "Basic settings",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
@@ -502,15 +555,16 @@
               "TITLE": "Guardrails",
               "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
             },
-            "SCENARIOS": {
-              "TITLE": "Scenarios",
-              "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”"
-            },
             "RESPONSE_GUIDELINES": {
               "TITLE": "Response guidelines",
               "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
             }
           }
+        },
+        "DELETE": {
+          "TITLE": "Dzēst Asistentu",
+          "DESCRIPTION": "Šī darbība ir pastāvīga. Dzēšot šo asistentu, tas tiks noņemts no visām pievienotajām iesūtnēm un neatgriezeniski dzēstas visas ģenerētās zināšanas.",
+          "BUTTON_TEXT": "Dzēst {assistantName}"
         }
       },
       "OPTIONS": {
@@ -529,9 +583,6 @@
       "GUARDRAILS": {
         "TITLE": "Guardrails",
         "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
-        "BREADCRUMB": {
-          "TITLE": "Guardrails"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -577,9 +628,6 @@
       "RESPONSE_GUIDELINES": {
         "TITLE": "Response Guidelines",
         "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
-        "BREADCRUMB": {
-          "TITLE": "Response Guidelines"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -625,9 +673,6 @@
       "SCENARIOS": {
         "TITLE": "Scenarios",
         "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
-        "BREADCRUMB": {
-          "TITLE": "Scenarios"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -725,11 +770,6 @@
         "NAME": {
           "LABEL": "Document Name (Optional)",
           "PLACEHOLDER": "Enter a name for the document"
-        },
-        "ASSISTANT": {
-          "LABEL": "Asistents",
-          "PLACEHOLDER": "Izvēlēties asistentu",
-          "ERROR": "Asistenta lauks ir obligāti jāaizpilda"
         }
       },
       "DELETE": {
@@ -863,6 +903,7 @@
     },
     "RESPONSES": {
       "HEADER": "Bieži uzdotie jautājumi",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Izveidot jaunu sarakstu ar bieži uzdotiem jautājumiem",
       "DOCUMENTABLE": {
         "CONVERSATION": "Saruna #{id}"
@@ -902,6 +943,10 @@
         "APPROVED": "Apstiprināts",
         "ALL": "Visi"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "Pievienot jautājumu un tā atbildi zināšanu bāzei, kā arī izvēlēties asistentu, ar kuru tas būs saistīts.",
       "CREATE": {
         "TITLE": "Pievienot bieži uzdotos jautājumus",
@@ -918,11 +963,6 @@
           "LABEL": "Atbilde",
           "PLACEHOLDER": "Ievadiet atbildi šeit",
           "ERROR": "Lūdzu, ievadiet derīgu atbildi."
-        },
-        "ASSISTANT": {
-          "LABEL": "Asistents",
-          "PLACEHOLDER": "Izvēlieties asistentu",
-          "ERROR": "Lūdzu, izvēlieties asistentu."
         }
       },
       "EDIT": {
@@ -932,13 +972,15 @@
         "APPROVE_SUCCESS_MESSAGE": "Bieži uzdotie jautājumi tika atzīmēti kā apstiprināti"
       },
       "OPTIONS": {
-        "APPROVE": "Atzīmēt kā apstiprinātu",
-        "EDIT_RESPONSE": "Rediģēt bieži uzdotos jautājumus",
-        "DELETE_RESPONSE": "Dzēst bieži uzdotos jautājumus"
+        "APPROVE": "Apstiprināt",
+        "EDIT_RESPONSE": "Rediģēt",
+        "DELETE_RESPONSE": "Dzēst"
       },
       "EMPTY_STATE": {
         "TITLE": "Bieži uzdoto jautājumu saraksti nav atrasti",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "Bieži uzdotie jautājumi palīdz Jūsu asistentam sniegt ātras un precīzas atbildes uz Jūsu klientu jautājumiem. Tos var ģenerēt automātiski no jūsu satura vai pievienot manuāli.",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."

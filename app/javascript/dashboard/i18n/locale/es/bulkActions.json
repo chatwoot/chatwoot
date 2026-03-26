@@ -22,9 +22,13 @@
       "UPDATE_SUCCESFUL": "El estado de la conversación se actualizó con éxito.",
       "UPDATE_FAILED": "No se han podido actualizar las conversaciones. Inténtalo de nuevo."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "No se pueden resolver las conversaciones debido a la falta de atributos requeridos",
+      "PARTIAL_SUCCESS": "Algunas conversaciones requieren atributos obligatorios antes de resolverse y se omitieron"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Asignar etiqueta",
-      "NO_LABELS_FOUND": "No se encontraron etiquetas para",
+      "NO_LABELS_FOUND": "No se encontraron etiquetas",
       "ASSIGN_SELECTED_LABELS": "Asignar etiquetas seleccionadas",
       "ASSIGN_SUCCESFUL": "Etiquetas asignadas correctamente.",
       "ASSIGN_FAILED": "Error al asignar etiquetas, inténtalo de nuevo."

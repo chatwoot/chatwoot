@@ -1,5 +1,5 @@
 import CopilotMessagesAPI from 'dashboard/api/captain/copilotMessages';
-import { createStore } from './storeFactory';
+import { createStore } from '../storeFactory';
 
 export default createStore({
   name: 'CopilotMessages',

@@ -15,11 +15,11 @@ class Captain::Tools::SimplePageCrawlParserJob < ApplicationJob
     page_title = crawler.page_title || ''
     content = crawler.body_text_content || ''
 
-    document = assistant.documents.find_or_initialize_by(
-      external_link: page_link
-    )
+    normalized_link = normalize_link(page_link)
+    document = assistant.documents.find_or_initialize_by(external_link: normalized_link)
 
     document.update!(
+      external_link: normalized_link,
       name: page_title[0..254], content: content[0..14_999], status: :available
     )
   rescue StandardError => e
@@ -27,6 +27,10 @@ class Captain::Tools::SimplePageCrawlParserJob < ApplicationJob
   end
 
   private
+
+  def normalize_link(raw_link)
+    raw_link.to_s.delete_suffix('/')
+  end
 
   def limit_exceeded?(account)
     limits = account.usage_limits[:captain][:documents]

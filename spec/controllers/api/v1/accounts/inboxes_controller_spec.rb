@@ -32,6 +32,7 @@ RSpec.describe 'Inboxes API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(JSON.parse(response.body, symbolize_names: true)[:payload].size).to eq(2)
       end
 
@@ -95,6 +96,7 @@ RSpec.describe 'Inboxes API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(inbox.id)
       end
 
@@ -383,6 +385,7 @@ RSpec.describe 'Inboxes API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(response.body).to include('test.com')
       end
 
@@ -478,6 +481,7 @@ RSpec.describe 'Inboxes API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(inbox.reload.enable_auto_assignment).to be_falsey
         expect(inbox.reload.portal_id).to eq(portal.id)
         expect(response.parsed_body['name']).to eq 'new test inbox'
@@ -631,6 +635,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
       it 'updates smtp configuration with starttls encryption' do
         smtp_connection = double
+        allow(smtp_connection).to receive(:open_timeout=).and_return(10)
         allow(smtp_connection).to receive(:start).and_return(true)
         allow(smtp_connection).to receive(:finish).and_return(true)
         allow(smtp_connection).to receive(:respond_to?).and_return(true)
@@ -661,6 +666,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
       it 'updates smtp configuration with ssl/tls encryption' do
         smtp_connection = double
+        allow(smtp_connection).to receive(:open_timeout=).and_return(10)
         allow(smtp_connection).to receive(:start).and_return(true)
         allow(smtp_connection).to receive(:finish).and_return(true)
         allow(smtp_connection).to receive(:respond_to?).and_return(true)
@@ -691,6 +697,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
       it 'updates smtp configuration with authentication mechanism' do
         smtp_connection = double
+        allow(smtp_connection).to receive(:open_timeout=).and_return(10)
         allow(smtp_connection).to receive(:start).and_return(true)
         allow(smtp_connection).to receive(:finish).and_return(true)
         allow(smtp_connection).to receive(:respond_to?).and_return(true)
@@ -803,6 +810,101 @@ RSpec.describe 'Inboxes API', type: :request do
           expect(found_inbox['csat_config']).to be_present
           expect(found_inbox['csat_config']['display_type']).to eq('emoji')
         end
+      end
+
+      it 'successfully updates inbox with template configuration' do
+        csat_config_with_template = csat_config.merge({
+                                                        'template' => {
+                                                          'name' => 'custom_survey_template',
+                                                          'template_id' => '123456789',
+                                                          'language' => 'en',
+                                                          'created_at' => Time.current.iso8601
+                                                        }
+                                                      })
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              params: {
+                csat_survey_enabled: true,
+                csat_config: csat_config_with_template
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+
+        inbox.reload
+        template_config = inbox.csat_config['template']
+        expect(template_config).to be_present
+        expect(template_config['name']).to eq('custom_survey_template')
+        expect(template_config['template_id']).to eq('123456789')
+        expect(template_config['language']).to eq('en')
+      end
+
+      it 'returns template configuration in inbox details' do
+        csat_config_with_template = csat_config.merge({
+                                                        'template' => {
+                                                          'name' => 'custom_survey_template',
+                                                          'template_id' => '123456789',
+                                                          'language' => 'en',
+                                                          'created_at' => Time.current.iso8601
+                                                        }
+                                                      })
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              params: {
+                csat_survey_enabled: true,
+                csat_config: csat_config_with_template
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        template_config = json_response['csat_config']['template']
+
+        expect(template_config).to be_present
+        expect(template_config['name']).to eq('custom_survey_template')
+        expect(template_config['template_id']).to eq('123456789')
+        expect(template_config['language']).to eq('en')
+        expect(template_config['created_at']).to be_present
+      end
+
+      it 'removes template configuration when not provided in update' do
+        # First set up template configuration
+        csat_config_with_template = csat_config.merge({
+                                                        'template' => {
+                                                          'name' => 'custom_survey_template',
+                                                          'template_id' => '123456789'
+                                                        }
+                                                      })
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              params: {
+                csat_survey_enabled: true,
+                csat_config: csat_config_with_template
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        # Then update without template
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              params: {
+                csat_survey_enabled: true,
+                csat_config: csat_config.merge({ 'message' => 'Updated message' })
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+
+        inbox.reload
+        config = inbox.csat_config
+        expect(config['message']).to eq('Updated message')
+        expect(config['template']).to be_nil # Template should be removed when not provided
       end
     end
   end

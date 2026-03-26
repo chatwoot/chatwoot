@@ -1,15 +1,17 @@
-require 'openai'
-
-class Captain::Llm::AssistantChatService < Llm::BaseOpenAiService
+class Captain::Llm::AssistantChatService < Llm::BaseAiService
   include Captain::ChatHelper
 
-  def initialize(assistant: nil)
+  def initialize(assistant: nil, conversation: nil, source: nil)
     super()
 
     @assistant = assistant
+    @conversation = conversation
+    @conversation_id = conversation&.display_id
+    @source = source
+
     @messages = [system_message]
     @response = ''
-    register_tools
+    @tools = build_tools
   end
 
   # additional_message: A single message (String) from the user that should be appended to the chat.
@@ -27,19 +29,34 @@ class Captain::Llm::AssistantChatService < Llm::BaseOpenAiService
 
   private
 
-  def register_tools
-    @tool_registry = Captain::ToolRegistryService.new(@assistant, user: nil)
-    @tool_registry.register_tool(Captain::Tools::SearchDocumentationService)
+  def build_tools
+    [Captain::Tools::SearchDocumentationService.new(@assistant, user: nil)]
   end
 
   def system_message
     {
       role: 'system',
-      content: Captain::Llm::SystemPromptsService.assistant_response_generator(@assistant.name, @assistant.config['product_name'], @assistant.config)
+      content: Captain::Llm::SystemPromptsService.assistant_response_generator(
+        @assistant.name, @assistant.config['product_name'], @assistant.config,
+        contact: contact_attributes
+      )
     }
+  end
+
+  def contact_attributes
+    return nil unless @conversation&.contact
+    return nil unless @assistant&.feature_contact_attributes
+
+    @conversation.contact.attributes.symbolize_keys.slice(
+      :id, :name, :email, :phone_number, :identifier, :custom_attributes
+    )
   end
 
   def persist_message(message, message_type = 'assistant')
     # No need to implement
+  end
+
+  def feature_name
+    'assistant'
   end
 end

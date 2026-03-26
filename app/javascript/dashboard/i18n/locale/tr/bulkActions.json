@@ -22,9 +22,13 @@
       "UPDATE_SUCCESFUL": "Konuşma durumu başarıyla güncellendi.",
       "UPDATE_FAILED": "Görüşmeler güncellenirken bir hata oluştu. Lütfen tekrar deneyin."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Etiket atama",
-      "NO_LABELS_FOUND": "İçin etiket bulunamadı",
+      "NO_LABELS_FOUND": "Etiket bulunamadı",
       "ASSIGN_SELECTED_LABELS": "Seçili etiketleri atama",
       "ASSIGN_SUCCESFUL": "Etiketler başarıyla atandı.",
       "ASSIGN_FAILED": "Etiketler atanırken bir hata oluştu. Lütfen tekrar deneyin."

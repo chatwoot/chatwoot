@@ -1,0 +1,452 @@
+{
+  "CONVERSATION": {
+    "SELECT_A_CONVERSATION": "Palun vali vestlus vasakpoolsest paneelist",
+    "CSAT_REPLY_MESSAGE": "Palun hinda vestlust",
+    "404": "Vabandame, vestlust ei leitud. Palun proovi uuesti",
+    "SWITCH_VIEW_LAYOUT": "Vaheta paigutust",
+    "DASHBOARD_APP_TAB_MESSAGES": "Sõnumid",
+    "UNVERIFIED_SESSION": "Selle kasutaja isikusamasus ei ole kinnitatud",
+    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
+    "NO_MESSAGE_2": " et saata sõnum oma lehele!",
+    "NO_INBOX_1": "Tere! Tundub, et te pole veel ühtegi postkasti lisanud.",
+    "NO_INBOX_2": " et alustada",
+    "NO_INBOX_AGENT": "Ups! Tundub, et sa ei kuulu ühtegi postkasti. Palun võta ühendust oma administraatoriga",
+    "SEARCH_MESSAGES": "Otsi sõnumeid vestlustest",
+    "VIEW_ORIGINAL": "Vaata originaali",
+    "VIEW_TRANSLATED": "Vaata tõlgitud",
+    "EMPTY_STATE": {
+      "CMD_BAR": "käskluste menüü avamiseks",
+      "KEYBOARD_SHORTCUTS": "kiirklahvide vaatamiseks"
+    },
+    "SEARCH": {
+      "TITLE": "Otsi sõnumeid",
+      "RESULT_TITLE": "Otsingutulemused",
+      "LOADING_MESSAGE": "Andmete töötlemine...",
+      "PLACEHOLDER": "Tippige sõnumite otsimiseks suvaline tekst",
+      "NO_MATCHING_RESULTS": "Tulemusi ei leitud."
+    },
+    "UNREAD_MESSAGES": "Lugemata sõnumid",
+    "UNREAD_MESSAGE": "Lugemata sõnum",
+    "CLICK_HERE": "Klõpsake siia",
+    "LOADING_INBOXES": "Laaditakse postkaste",
+    "LOADING_CONVERSATIONS": "Laaditakse vestlusi",
+    "CANNOT_REPLY": "Te ei saa vastata, sest",
+    "24_HOURS_WINDOW": "24-tunnine sõnumi akna piirang",
+    "48_HOURS_WINDOW": "48-tunnine sõnumi akna piirang",
+    "API_HOURS_WINDOW": "Sellele vestlusele saate vastata ainult {hours} tunni jooksul",
+    "NOT_ASSIGNED_TO_YOU": "See vestlus ei ole sulle määratud. Kas soovid selle vestluse endale määrata?",
+    "ASSIGN_TO_ME": "Määra mulle",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Märgi avatud ja määra endale",
+    "BOT_HANDOFF_REOPEN_ACTION": "Märgi vestlus avatuks",
+    "BOT_HANDOFF_SUCCESS": "Vestlus on teile üle antud",
+    "BOT_HANDOFF_ERROR": "Vestluse üle võtmine ebaõnnestus. Palun proovi uuesti.",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Sellele vestlusele saate vastata ainult mallisõnumi abil, sest",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-tunnine sõnumiakna piirang",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "See Instagram konto on üle viidud uude Instagrami kanalipostkasti. Kõik uued sõnumid kuvatakse seal. Sa ei saa enam sellest vestlusest sõnumeid saata.",
+    "REPLYING_TO": "Vastate sellele:",
+    "REMOVE_SELECTION": "Eemalda valik",
+    "DOWNLOAD": "Laadi alla",
+    "UNKNOWN_FILE_TYPE": "Tundmatu fail",
+    "SAVE_CONTACT": "Salvesta kontakt",
+    "NO_CONTENT": "Kuvatavat sisu pole",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} jagas kontakti",
+      "LOCATION": "{sender} jagas asukohta",
+      "FILE": "{sender} jagas faili",
+      "MEETING": "{sender} alustas koosolekut"
+    },
+    "UPLOADING_ATTACHMENTS": "Manuste üleslaadimine...",
+    "REPLIED_TO_STORY": "Vastas teie loole",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "See sõnum ei ole toetatud. Sa saad seda vaadata Facebook Messenger rakenduses.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "See sõnum ei ole toetatud. Sa saad seda vaadata Instagram rakenduses.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "See sõnum ei ole toetatud. Sa saad seda vaadata TikTok rakenduses.",
+    "SUCCESS_DELETE_MESSAGE": "Sõnum kustutati edukalt",
+    "FAIL_DELETE_MESSSAGE": "Sõnumit ei õnnestunud kustutada! Proovi uuesti",
+    "NO_RESPONSE": "Vastust pole",
+    "RESPONSE": "Vastus",
+    "RATING_TITLE": "Hinnang",
+    "FEEDBACK_TITLE": "Tagasiside",
+    "REPLY_MESSAGE_NOT_FOUND": "Sõnum pole saadaval",
+    "CARD": {
+      "SHOW_LABELS": "Näita silte",
+      "HIDE_LABELS": "Peida sildid"
+    },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Sissetulev kõne",
+      "OUTGOING_CALL": "Väljaminev kõne",
+      "CALL_IN_PROGRESS": "Kõne käib",
+      "NO_ANSWER": "Vastamata",
+      "MISSED_CALL": "Vastamata kõne",
+      "CALL_ENDED": "Kõne lõppenud",
+      "NOT_ANSWERED_YET": "Veel vastamata",
+      "THEY_ANSWERED": "Nad vastasid",
+      "YOU_ANSWERED": "Sa vastasid"
+    },
+    "HEADER": {
+      "RESOLVE_ACTION": "Lahenda",
+      "REOPEN_ACTION": "Ava uuesti",
+      "OPEN_ACTION": "Ava",
+      "MORE_ACTIONS": "Veel toiminguid",
+      "OPEN": "Rohkem",
+      "CLOSE": "Sulge",
+      "DETAILS": "üksikasjad",
+      "SNOOZED_UNTIL": "Vaigistatud kuni",
+      "SNOOZED_UNTIL_TOMORROW": "Edasilükatud homseni",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Edasilükatud järgmise nädalani",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Edasilükatud järgmise vastuseni",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "tähtaeg"
+      }
+    },
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "Märgi ootel olevaks",
+      "SNOOZE_UNTIL": "Vaigista",
+      "SNOOZE": {
+        "TITLE": "Edasi lükka kuni",
+        "NEXT_REPLY": "Järgmine vastus",
+        "TOMORROW": "Homme",
+        "NEXT_WEEK": "Järgmine nädal"
+      }
+    },
+    "MENTION": {
+      "AGENTS": "Agentuurid",
+      "TEAMS": "Meeskonnad"
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Vaigista kuni",
+      "APPLY": "Vaigista",
+      "CANCEL": "Tühista"
+    },
+    "PRIORITY": {
+      "TITLE": "Prioriteet",
+      "OPTIONS": {
+        "NONE": "Puudub",
+        "URGENT": "Kiireloomuline",
+        "HIGH": "Kõrge",
+        "MEDIUM": "Keskmine",
+        "LOW": "Madal"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Puudub",
+        "INPUT_PLACEHOLDER": "Vali prioriteet",
+        "NO_RESULTS": "Tulemusi ei leitud",
+        "SUCCESSFUL": "Muudeti vestluse ID {conversationId} prioriteet {priority}-ks",
+        "FAILED": "Prioriteeti ei õnnestunud muuta. Palun proovi uuesti."
+      }
+    },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Kustuta vestlus #{conversationId}",
+      "DESCRIPTION": "Kas oled kindel, et soovid selle vestluse kustutada?",
+      "CONFIRM": "Kustuta"
+    },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Märgi ootel olevaks",
+      "RESOLVED": "Märgi lahendatuks",
+      "MARK_AS_UNREAD": "Märgi lugemata",
+      "MARK_AS_READ": "Märgi loetuks",
+      "REOPEN": "Ava vestlus uuesti",
+      "SNOOZE": {
+        "TITLE": "Edasilükkamine",
+        "NEXT_REPLY": "Järgmise vastuseni",
+        "TOMORROW": "Homme hommikuni",
+        "NEXT_WEEK": "Järgmise nädalani"
+      },
+      "ASSIGN_AGENT": "Määra agent",
+      "ASSIGN_LABEL": "Määra silt",
+      "AGENTS_LOADING": "Agendid laaditakse...",
+      "ASSIGN_TEAM": "Määra meeskond",
+      "DELETE": "Kustuta vestlus",
+      "OPEN_IN_NEW_TAB": "Ava uuel vahelehel",
+      "COPY_LINK": "Kopeeri vestluse link",
+      "COPY_LINK_SUCCESS": "Vestluse link kopeeritud lõikelauale",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
+          "FAILED": "Agendi määramine ebaõnnestus. Palun proovi uuesti."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "FAILED": "Sildi määramine ebaõnnestus. Palun proovi uuesti."
+        },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Märgistust ei õnnestunud eemaldada. Palun proovige uuesti."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
+          "FAILED": "Meeskonna määramine ebaõnnestus. Palun proovi uuesti."
+        }
+      }
+    },
+    "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Sõnumi allkiri",
+      "ENABLE_SIGN_TOOLTIP": "Luba allkiri",
+      "DISABLE_SIGN_TOOLTIP": "Keela allkiri",
+      "MSG_INPUT": "Shift + enter uue rea jaoks. Alusta '/'-ga, et valida eelseadistatud vastus.",
+      "PRIVATE_MSG_INPUT": "Shift + enter uue rea jaoks. Seda näevad ainult agendid",
+      "MESSAGING_RESTRICTED": "Te ei saa sellele vestlusele vastata",
+      "MESSAGING_RESTRICTED_WHATSAPP": "Võite vastata ainult mallisõnumi abil 24-tunnise sõnumiakna piirangu tõttu",
+      "MESSAGING_RESTRICTED_API": "Võite vastata ainult mallisõnumi abil sõnumiakna piirangu tõttu",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Sõnumi allkiri ei ole seadistatud, palun seadista see profiili seadetes.",
+      "COPILOT_MSG_INPUT": "Anna copiloti täiendavaid juhiseid või küsi midagi muud... Vajuta enter, et saata järgnev sõnum",
+      "CLICK_HERE": "Värskendamiseks klõpsa siia",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
+    },
+    "REPLYBOX": {
+      "REPLY": "Vasta",
+      "PRIVATE_NOTE": "Privaatne märkus",
+      "SEND": "Saada",
+      "CREATE": "Lisa märkus",
+      "INSERT_READ_MORE": "Loe rohkem",
+      "DISMISS_REPLY": "Lõpeta vastamine",
+      "REPLYING_TO": "Vastan sõnumile:",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Lisa failid",
+      "TIP_AUDIORECORDER_ICON": "Salvesta heli",
+      "TIP_AUDIORECORDER_PERMISSION": "Luba juurdepääs helile",
+      "TIP_AUDIORECORDER_ERROR": "Heli avamine ebaõnnestus",
+      "DRAG_DROP": "Lohista siia manusena lisamiseks",
+      "START_AUDIO_RECORDING": "Alusta heli salvestamist",
+      "STOP_AUDIO_RECORDING": "Peata heli salvestamine",
+      "COPILOT_THINKING": "Copilot is thinking",
+      "EMAIL_HEAD": {
+        "TO": "SAJALE",
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "E-posti aadressid, eraldatud komadega",
+          "ERROR": "Palun sisestage kehtivad e-posti aadressid"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "E-kirjad, eraldatud komadega",
+          "ERROR": "Palun sisestage kehtivad e-posti aadressid"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Määratlemata muutujad",
+        "MESSAGE": "Sinu sõnumis on {undefinedVariablesCount} määratlemata muutujat: {undefinedVariables}. Kas soovid sõnumi ikkagi saata?",
+        "CONFIRM": {
+          "YES": "Saada",
+          "CANCEL": "Tühista"
+        }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Lisa tsitaat e-kirja vestlusest",
+        "DISABLE_TOOLTIP": "Ära lisa tsitaati e-kirja vestlusest",
+        "REMOVE_PREVIEW": "Eemalda tsitaat e-kirja vestlusest",
+        "COLLAPSE": "Eelvaate kokkupakkimine",
+        "EXPAND": "Eelvaate laiendamine"
+      }
+    },
+    "VISIBLE_TO_AGENTS": "Privaatne märkus: nähtav ainult teile ja teie meeskonnale",
+    "CHANGE_STATUS": "Vestluse olek muudetud",
+    "CHANGE_STATUS_FAILED": "Vestluse oleku muutmine ebaõnnestus",
+    "CHANGE_AGENT": "Vestluse vastutaja muudetud",
+    "CHANGE_AGENT_FAILED": "Määratud isiku muutmine ebaõnnestus",
+    "ASSIGN_LABEL_SUCCESFUL": "Silt määratud edukalt",
+    "ASSIGN_LABEL_FAILED": "Sildi määramine ebaõnnestus",
+    "CHANGE_TEAM": "Vestluse meeskond vahetatud",
+    "SUCCESS_DELETE_CONVERSATION": "Vestlus kustutati edukalt",
+    "FAIL_DELETE_CONVERSATION": "Vestlust ei õnnestunud kustutada! Proovi uuesti",
+    "FILE_SIZE_LIMIT": "Fail ületab {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB manuspiiri",
+    "FILE_TYPE_NOT_SUPPORTED": "Seda {fileName} failitüüpi selles vestluses ei toetata",
+    "MESSAGE_ERROR": "Sõnumi saatmine ebaõnnestus, palun proovi hiljem uuesti",
+    "SENT_BY": "Saadetud:",
+    "BOT": "Bot",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "SEND_FAILED": "Sõnumi saatmine ebaõnnestus! Proovi uuesti",
+    "TRY_AGAIN": "proovi uuesti",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Vali agent",
+      "REMOVE": "Eemalda",
+      "ASSIGN": "Määra"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Kopeeri",
+      "REPLY_TO": "Vasta sellele sõnumile",
+      "DELETE": "Kustuta",
+      "CREATE_A_CANNED_RESPONSE": "Lisa eelseadistatud vastustesse",
+      "TRANSLATE": "Tõlgi",
+      "COPY_PERMALINK": "Kopeeri sõnumi link",
+      "LINK_COPIED": "Sõnumi URL on lõikelauale kopeeritud",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Kas oled kindel, et soovid selle sõnumi kustutada?",
+        "MESSAGE": "Seda toimingut ei saa tagasi võtta",
+        "DELETE": "Kustuta",
+        "CANCEL": "Tühista"
+      }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Kontakt",
+      "COPILOT": "Kaassõitja"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Sissetulev kõne",
+      "OUTGOING_CALL": "Väljaminev kõne",
+      "CALL_IN_PROGRESS": "Kõne käib",
+      "NOT_ANSWERED_YET": "Veel ei ole vastatud",
+      "HANDLED_IN_ANOTHER_TAB": "Käsitletakse teises vahekaardis",
+      "REJECT_CALL": "Keeldu",
+      "JOIN_CALL": "Liitu kõnega",
+      "END_CALL": "Lõpeta kõne"
+    }
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Saada vestluse transkriptsioon",
+    "DESC": "Saada vestluse transkriptsiooni koopia määratud e-posti aadressile",
+    "SUBMIT": "Esita",
+    "CANCEL": "Tühista",
+    "SEND_EMAIL_SUCCESS": "Vestluse transkriptsioon saadeti edukalt",
+    "SEND_EMAIL_ERROR": "Tekkis viga, palun proovi uuesti",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "E-kirja vestluse koopia ei ole teie praeguses paketis saadaval. Palun uuendage, et seda funktsiooni kasutada.",
+    "FORM": {
+      "SEND_TO_CONTACT": "Saada transkriptsioon kliendile",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Saada transkriptsioon teisele e-posti aadressile",
+      "EMAIL": {
+        "PLACEHOLDER": "Sisesta e-posti aadress",
+        "ERROR": "Palun sisesta kehtiv e-posti aadress"
+      }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Tere 👋, tere tulemast {installationName}!",
+    "DESCRIPTION": "Aitäh registreerumise eest. Soovime, et saaksid {installationName} kasutamisest maksimaalselt kasu. Siin on mõned asjad, mida saad {installationName} abil teha, et kogemus oleks meeldiv.",
+    "GREETING_MORNING": "👋 Tere hommikust, {name}. Tere tulemast {installationName}.",
+    "GREETING_AFTERNOON": "👋 Tere päevast, {name}. Tere tulemast {installationName}.",
+    "GREETING_EVENING": "👋 Tere õhtust, {name}. Tere tulemast {installationName}.",
+    "READ_LATEST_UPDATES": "Loe meie viimaseid uuendusi",
+    "ALL_CONVERSATION": {
+      "TITLE": "Kõik sinu vestlused ühes kohas",
+      "DESCRIPTION": "Vaata kõiki oma klientide vestlusi ühes juhtpaneelis. Saad vestlusi filtreerida saabuvate kanalite, siltide ja staatuse järgi.",
+      "NEW_LINK": "Klõpsake siin, et luua postkast"
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Kutsu oma meeskonnaliikmed",
+      "DESCRIPTION": "Kuna valmistud kliendiga suhtlema, too oma meeskonnakaaslased appi. Saad kutsuda meeskonnaliikmeid, lisades nende e-posti aadressid agendi nimekirja.",
+      "NEW_LINK": "Klõpsa siia, et kutsuda meeskonnaliige"
+    },
+    "LABELS": {
+      "TITLE": "Korralda vestlusi siltidega",
+      "DESCRIPTION": "Sildid pakuvad lihtsamat viisi vestluste kategoriseerimiseks. Loo mõned sildid nagu #toetus-päring, #arvelduse-küsimus jne, et saaksid neid hiljem vestluses kasutada.",
+      "NEW_LINK": "Klõpsa siia, et luua silte"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Loo valmis vastused",
+      "DESCRIPTION": "Eelnevalt kirjutatud kiirvastuse mallid aitavad sul vestlusele kiiresti vastata. Agendid saavad sisestada vastuse, tippides esmalt '/' ja seejärel lühikoodi.",
+      "NEW_LINK": "Klõpsa siia, et luua kiirvastus"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "ASSIGNEE_LABEL": "Määratud agent",
+    "SELF_ASSIGN": "Määra mulle",
+    "TEAM_LABEL": "Määratud meeskond",
+    "SELECT": {
+      "PLACEHOLDER": "Mitte ükski"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Kontaktandmed",
+      "CONVERSATION_ACTIONS": "Vestluse toimingud",
+      "CONVERSATION_LABELS": "Vestluse sildid",
+      "CONVERSATION_INFO": "Vestluse teave",
+      "CONTACT_NOTES": "Kontaktimärkmed",
+      "CONTACT_ATTRIBUTES": "Kontakti atribuudid",
+      "PREVIOUS_CONVERSATION": "Eelnevad vestlused",
+      "MACROS": "Makrod",
+      "LINEAR_ISSUES": "Linked Linear Issues",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Tellimus #{id}",
+      "ERROR": "Tellimuste laadimisel tekkis viga",
+      "NO_SHOPIFY_ORDERS": "Tellimusi ei leitud",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Ootel",
+        "AUTHORIZED": "Autoriseeritud",
+        "PARTIALLY_PAID": "Osaliselt tasutud",
+        "PAID": "Makstud",
+        "PARTIALLY_REFUNDED": "Osaliselt tagastatud",
+        "REFUNDED": "Tagastatud",
+        "VOIDED": "Tühistatud"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Täidetud",
+        "PARTIALLY_FULFILLED": "Osaliselt täidetud",
+        "UNFULFILLED": "Täitamata"
+      }
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Loo atribuut",
+    "NO_RECORDS_FOUND": "Atribuute ei leitud",
+    "UPDATE": {
+      "SUCCESS": "Atribuut uuendatud edukalt",
+      "ERROR": "Atribuudi värskendamine ebaõnnestus. Palun proovi hiljem uuesti"
+    },
+    "ADD": {
+      "TITLE": "Lisa",
+      "SUCCESS": "Atribuut lisati edukalt",
+      "ERROR": "Atribuudi lisamine ebaõnnestus. Palun proovi hiljem uuesti"
+    },
+    "DELETE": {
+      "SUCCESS": "Atribuut kustutati edukalt",
+      "ERROR": "Atribuuti kustutamine ebaõnnestus. Palun proovi hiljem uuesti"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Lisa atribuute",
+      "PLACEHOLDER": "Otsi atribuute",
+      "NO_RESULT": "Atribuute ei leitud"
+    }
+  },
+  "EMAIL_HEADER": {
+    "FROM": "Saatja",
+    "TO": "Saaja",
+    "BCC": "Pime koopia",
+    "CC": "Koopia",
+    "SUBJECT": "Teema",
+    "EXPAND": "Laienda e-kiri"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Osalejad",
+    "SIDEBAR_TITLE": "Vestluse osalejad",
+    "NO_RECORDS_FOUND": "Tulemusi ei leitud",
+    "ADD_PARTICIPANTS": "Vali osalejad",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} teised",
+    "REMANING_PARTICIPANT_TEXT": "+{count} teine",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} inimest osaleb.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} inimene osaleb.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "WATCH_CONVERSATION": "Liitu vestlusega",
+    "YOU_ARE_WATCHING": "Sa osaled",
+    "API": {
+      "ERROR_MESSAGE": "Ei õnnestunud uuendada, proovi uuesti!",
+      "SUCCESS_MESSAGE": "Osalejad uuendatud!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "Vaata tõlgitud sisu",
+    "DESC": "You can view the translated content in each langauge.",
+    "ORIGINAL_CONTENT": "Originaalne sisu",
+    "TRANSLATED_CONTENT": "Tõlgitud sisu",
+    "NO_TRANSLATIONS_AVAILABLE": "Selle sisu jaoks tõlkeid pole saadaval"
+  },
+  "TYPING": {
+    "ONE": "{user} kirjutab",
+    "TWO": "{user} ja {secondUser} kirjutavad",
+    "MULTIPLE": "{user} ja veel {count} kirjutavad"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Proovi neid juhiseid"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Manuse allalaadimine ebaõnnestus. Palun proovi uuesti"
+  }
+}

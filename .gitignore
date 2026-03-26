@@ -94,8 +94,13 @@ yarn-debug.log*
 .vscode
 .claude/settings.local.json
 .cursor
+.codex/
+.claude/
 CLAUDE.local.md
 
 # Histoire deployment
 .netlify
 .histoire
+.pnpm-store/*
+local/
+Procfile.worktree

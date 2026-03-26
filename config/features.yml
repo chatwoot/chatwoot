@@ -74,10 +74,9 @@
 - name: voice_recorder
   display_name: Voice Recorder
   enabled: true
-- name: mobile_v2
-  display_name: Mobile App V2
+- name: report_rollup
+  display_name: Report Rollup
   enabled: false
-  deprecated: true
 - name: channel_website
   display_name: Website Channel
   enabled: true
@@ -108,12 +107,10 @@
 - name: response_bot
   display_name: Response Bot
   enabled: false
-  premium: true
   deprecated: true
 - name: message_reply_to
   display_name: Message Reply To
   enabled: false
-  help_url: https://chwt.app/hc/reply-to
   deprecated: true
 - name: insert_article_in_reply
   display_name: Insert Article in Reply
@@ -149,7 +146,7 @@
   enabled: true
 - name: report_v4
   display_name: Report V4
-  enabled: true
+  enabled: false
   deprecated: true
 - name: contact_chatwoot_support_team
   display_name: Contact Chatwoot Support Team
@@ -172,7 +169,7 @@
 - name: channel_voice
   display_name: Voice Channel
   enabled: false
-  chatwoot_internal: true
+  premium: true
 - name: notion_integration
   display_name: Notion Integration
   enabled: false
@@ -180,7 +177,6 @@
   display_name: Captain V2
   enabled: false
   premium: true
-  chatwoot_internal: true
 - name: whatsapp_embedded_signup
   display_name: WhatsApp Embedded Signup
   enabled: false
@@ -195,7 +191,6 @@
 - name: assignment_v2
   display_name: Assignment V2
   enabled: false
-  chatwoot_internal: true
 - name: twilio_content_templates
   display_name: Twilio Content Templates
   enabled: false
@@ -223,3 +218,26 @@
 - name: quoted_email_reply
   display_name: Quoted Email Reply
   enabled: false
+- name: companies
+  display_name: Companies
+  enabled: false
+  premium: true
+  chatwoot_internal: true
+- name: channel_tiktok
+  display_name: TikTok Channel
+  enabled: true
+- name: csat_review_notes
+  display_name: CSAT Review Notes
+  enabled: false
+  premium: true
+- name: captain_tasks
+  display_name: Captain Tasks
+  enabled: true
+- name: conversation_required_attributes
+  display_name: Required Conversation Attributes
+  enabled: false
+  premium: true
+- name: advanced_assignment
+  display_name: Advanced Assignment
+  enabled: false
+  premium: true

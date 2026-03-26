@@ -31,6 +31,7 @@ const tailwindConfig = {
     './app/javascript/survey/**/*.vue',
     './app/javascript/dashboard/components-next/**/*.vue',
     './app/javascript/dashboard/helper/**/*.js',
+    './app/javascript/dashboard/composables/**/*.js',
     './app/javascript/dashboard/components-next/**/*.js',
     './app/javascript/dashboard/routes/dashboard/**/**/*.js',
     './app/views/**/*.html.erb',
@@ -40,7 +41,13 @@ const tailwindConfig = {
       fontFamily: {
         sans: defaultSansFonts,
         inter: ['Inter', ...defaultSansFonts],
-        interDisplay: ['Inter Display', ...defaultSansFonts],
+        interDisplay: ['InterDisplay', ...defaultSansFonts],
+      },
+      fontWeight: {
+        420: '420',
+        440: '440',
+        460: '460',
+        520: '520',
       },
       typography: {
         bubble: {
@@ -186,6 +193,7 @@ const tailwindConfig = {
       lg: '1024px',
       xl: '1280px',
       '2xl': '1536px',
+      '3xl': '1900px',
     },
     fontSize: {
       ...defaultTheme.fontSize,
@@ -258,6 +266,7 @@ const tailwindConfig = {
           'ph',
           'material-symbols',
           'teenyicons',
+          'fluent',
         ]),
       },
     }),

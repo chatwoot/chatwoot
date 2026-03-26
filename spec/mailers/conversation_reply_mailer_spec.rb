@@ -243,8 +243,8 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.decoded).to include message.content
       end
 
-      it 'updates the source_id' do
-        expect(mail.message_id).to eq message.source_id
+      it 'builds messageID properly' do
+        expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{conversation.account.domain}")
       end
 
       context 'when message is a CSAT survey' do
@@ -333,6 +333,118 @@ RSpec.describe ConversationReplyMailer do
           expect(mail.body.encoded).to match(%r{<a [^>]*>large_file\.pdf</a>})
           # Small file should not be rendered as a link in the body
           expect(mail.body.encoded).not_to match(%r{<a [^>]*>avatar\.png</a>})
+        end
+      end
+
+      context 'with custom email content' do
+        it 'uses custom HTML content when available and creates multipart email' do
+          message_with_custom_content = create(:message,
+                                               conversation: conversation,
+                                               account: account,
+                                               message_type: 'outgoing',
+                                               content: 'Regular message content',
+                                               content_attributes: {
+                                                 email: {
+                                                   html_content: {
+                                                     reply: '<p>Custom <strong>HTML</strong> content for email</p>'
+                                                   },
+                                                   text_content: {
+                                                     reply: 'Custom text content for email'
+                                                   }
+                                                 }
+                                               })
+
+          mail = described_class.email_reply(message_with_custom_content).deliver_now
+
+          # Check HTML part contains custom HTML content
+          html_part = mail.html_part || mail
+          expect(html_part.body.encoded).to include('<p>Custom <strong>HTML</strong> content for email</p>')
+          expect(html_part.body.encoded).not_to include('Regular message content')
+
+          # Check text part contains custom text content
+          text_part = mail.text_part
+          if text_part
+            expect(text_part.body.encoded).to include('Custom text content for email')
+            expect(text_part.body.encoded).not_to include('Regular message content')
+          end
+        end
+
+        it 'falls back to markdown rendering when custom HTML content is not available' do
+          message_without_custom_content = create(:message,
+                                                  conversation: conversation,
+                                                  account: account,
+                                                  message_type: 'outgoing',
+                                                  content: 'Regular **markdown** content')
+
+          mail = described_class.email_reply(message_without_custom_content).deliver_now
+
+          html_part = mail.html_part || mail
+          expect(html_part.body.encoded).to include('<strong>markdown</strong>')
+          expect(html_part.body.encoded).to include('Regular')
+        end
+
+        it 'handles empty custom HTML content gracefully' do
+          message_with_empty_content = create(:message,
+                                              conversation: conversation,
+                                              account: account,
+                                              message_type: 'outgoing',
+                                              content: 'Regular **markdown** content',
+                                              content_attributes: {
+                                                email: {
+                                                  html_content: {
+                                                    reply: ''
+                                                  }
+                                                }
+                                              })
+
+          mail = described_class.email_reply(message_with_empty_content).deliver_now
+
+          html_part = mail.html_part || mail
+          expect(html_part.body.encoded).to include('<strong>markdown</strong>')
+          expect(html_part.body.encoded).to include('Regular')
+        end
+
+        it 'handles nil custom HTML content gracefully' do
+          message_with_nil_content = create(:message,
+                                            conversation: conversation,
+                                            account: account,
+                                            message_type: 'outgoing',
+                                            content: 'Regular **markdown** content',
+                                            content_attributes: {
+                                              email: {
+                                                html_content: {
+                                                  reply: nil
+                                                }
+                                              }
+                                            })
+
+          mail = described_class.email_reply(message_with_nil_content).deliver_now
+
+          expect(mail.body.encoded).to include('<strong>markdown</strong>')
+          expect(mail.body.encoded).to include('Regular')
+        end
+
+        it 'uses custom text content in text part when only text is provided' do
+          message_with_text_only = create(:message,
+                                          conversation: conversation,
+                                          account: account,
+                                          message_type: 'outgoing',
+                                          content: 'Regular message content',
+                                          content_attributes: {
+                                            email: {
+                                              text_content: {
+                                                reply: 'Custom text content only'
+                                              }
+                                            }
+                                          })
+
+          mail = described_class.email_reply(message_with_text_only).deliver_now
+
+          text_part = mail.text_part
+          if text_part
+            expect(text_part.body.encoded).to include('Custom text content only')
+            expect(text_part.body.encoded).not_to include('Regular message content')
+          end
         end
       end
     end
@@ -478,6 +590,30 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.delivery_method.settings.empty?).to be false
         expect(mail.delivery_method.settings[:address]).to eq 'smtp.gmail.com'
         expect(mail.delivery_method.settings[:port]).to eq 587
+      end
+
+      it 'uses inbox oauth smtp when global smtp config is unavailable' do
+        allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(false)
+
+        mail = described_class.email_reply(message)
+
+        expect(mail).not_to be_nil
+        expect(mail.delivery_method.settings[:address]).to eq 'smtp.gmail.com'
+        expect(mail.delivery_method.settings[:port]).to eq 587
+      end
+    end
+
+    context 'when oauth provider is set but imap is disabled' do
+      let(:google_channel) do
+        create(:channel_email, imap_enabled: false, account: account, provider: 'google', provider_config: { access_token: 'access_token' })
+      end
+      let(:conversation) { create(:conversation, assignee: agent, inbox: google_channel.inbox, account: account).reload }
+      let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
+
+      it 'does not build the mail without global smtp' do
+        allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(false)
+
+        expect(described_class.email_reply(message).deliver_now).to be_nil
       end
     end
 

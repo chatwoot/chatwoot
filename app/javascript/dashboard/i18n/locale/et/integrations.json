@@ -1,0 +1,1022 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "SHOPIFY": {
+      "HEADER": "Shopify",
+      "DELETE": {
+        "TITLE": "Kustuta Shopify integratsioon",
+        "MESSAGE": "Kas oled kindel, et soovid Shopify integratsiooni kustutada?"
+      },
+      "STORE_URL": {
+        "TITLE": "Ühenda Shopify pood",
+        "LABEL": "Poekeskkonna URL",
+        "PLACEHOLDER": "your-store.myshopify.com",
+        "HELP": "Sisesta oma Shopify poe myshopify.com URL",
+        "CANCEL": "Tühista",
+        "SUBMIT": "Ühenda pood"
+      },
+      "ERROR": "Shopifyga ühendamisel tekkis viga. Palun proovi uuesti või võta ühendust klienditoega, kui probleem püsib."
+    },
+    "HEADER": "Integratsioonid",
+    "DESCRIPTION": "Chatwoot integreerub mitmete tööriistade ja teenustega, et parandada teie meeskonna efektiivsust. Uuri allolevat nimekirja, et seadistada oma lemmikrakendused.",
+    "LEARN_MORE": "Lisateave integratsioonide kohta",
+    "LOADING": "Laaditakse integratsioone",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
+    "CAPTAIN": {
+      "DISABLED": "Captain ei ole teie kontol aktiveeritud.",
+      "CLICK_HERE_TO_CONFIGURE": "Klõpsake siin seadistamiseks",
+      "LOADING_CONSOLE": "Laaditakse Captain Console’i...",
+      "FAILED_TO_LOAD_CONSOLE": "Captain Console’i laadimine ebaõnnestus. Palun värskenda lehte ja proovi uuesti."
+    },
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Tellitud sündmused",
+      "LEARN_MORE": "Lisateave veebikonksude kohta",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
+      "FORM": {
+        "CANCEL": "Tühista",
+        "DESC": "Webhooki sündmused annavad teile reaalajas teavet selle kohta, mis teie Chatwoot kontol toimub. Palun sisestage kehtiv URL, et seadistada tagasikutsumine.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Sündmused",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Vestlus loodud",
+            "CONVERSATION_STATUS_CHANGED": "Vestluse olek muudetud",
+            "CONVERSATION_UPDATED": "Vestlus uuendatud",
+            "MESSAGE_CREATED": "Sõnum loodud",
+            "MESSAGE_UPDATED": "Sõnum uuendatud",
+            "WEBWIDGET_TRIGGERED": "Kasutaja avas reaalajas vestluse vidina",
+            "CONTACT_CREATED": "Kontakt loodud",
+            "CONTACT_UPDATED": "Kontakt uuendatud",
+            "CONVERSATION_TYPING_ON": "Vestluses kirjutamise alustamine",
+            "CONVERSATION_TYPING_OFF": "Vestluses kirjutamise lõpetamine"
+          }
+        },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
+        },
+        "END_POINT": {
+          "LABEL": "Webhooki URL",
+          "PLACEHOLDER": "Näide: {webhookExampleURL}",
+          "ERROR": "Palun sisesta kehtiv URL"
+        },
+        "EDIT_SUBMIT": "Uuenda webhooki",
+        "ADD_SUBMIT": "Loo webhook"
+      },
+      "TITLE": "Veebikonks",
+      "CONFIGURE": "Seadista",
+      "HEADER": "Webhooki sätted",
+      "HEADER_BTN_TXT": "Lisa uus webhook",
+      "LOADING": "Laaditakse seotud webhooke",
+      "SEARCH_404": "Ühtegi selle päringuga sobivat elementi ei leitud",
+      "SIDEBAR_TXT": "<p><b>Webhookid</b> </p> <p>Webhookid on HTTP tagasikutsed, mida saab määratleda iga konto jaoks. Neid käivitavad sündmused, nagu sõnumi loomine Chatwootis. Selle konto jaoks saab luua rohkem kui ühe webhooki. <br /><br /> Uue <b>webhooki</b> loomiseks klõpsake nuppu <b>Lisa uus webhook</b>. Olemasoleva webhooki saate kustutada, klõpsates nuppu Kustuta.</p>",
+      "LIST": {
+        "404": "Selle konto jaoks pole ühtegi webhooki seadistatud.",
+        "TITLE": "Halda webhooke",
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Veebikonksu lõpp-punkt",
+          "ACTIONS": "Tegevused"
+        }
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Muuda",
+        "TITLE": "Muuda webhooki",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhooki seadistus uuendatud edukalt",
+          "ERROR_MESSAGE": "Ei õnnestunud ühenduda Woot serveriga, palun proovi hiljem uuesti"
+        }
+      },
+      "ADD": {
+        "CANCEL": "Tühista",
+        "TITLE": "Lisa uus webhook",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhooki seadistus lisatud edukalt",
+          "ERROR_MESSAGE": "Ei õnnestunud ühenduda Woot serveriga, palun proovi hiljem uuesti"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Kustuta",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook edukalt kustutatud",
+          "ERROR_MESSAGE": "Ei õnnestunud ühenduda Woot serveriga, palun proovi hiljem uuesti"
+        },
+        "CONFIRM": {
+          "TITLE": "Kustutamise kinnitamine",
+          "MESSAGE": "Kas oled kindel, et soovid veebikonksu kustutada? ({webhookURL})",
+          "YES": "Jah, kustuta ",
+          "NO": "Ei, säilita see"
+        }
+      }
+    },
+    "SLACK": {
+      "HEADER": "Slack",
+      "DELETE": "Kustuta",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Kustuta integratsioon",
+        "MESSAGE": "Kas oled kindel, et soovid integratsiooni kustutada? Seda tehes kaotad ligipääsu vestlustele oma Slack töölaual."
+      },
+      "HELP_TEXT": {
+        "TITLE": "Kuidas kasutada Slack integratsiooni?",
+        "BODY": "Selle integratsiooni abil sünkroonitakse kõik teie saabuvad vestlused Slacki tööruumi kanali ***{selectedChannelName}*** alla. Saate hallata kõiki kliendivestlusi otse selles kanalis ega jää kunagi sõnumist ilma.\n\nPeamised integratsiooni funktsioonid on järgmised:\n\n**Vastake vestlustele otse Slackis:** Vestlusele vastamiseks kanalis ***{selectedChannelName}*** tippige lihtsalt oma sõnum ja saatke see lõimena. See saadab vastuse kliendile Chatwooti kaudu. Nii lihtne see ongi!\n\n**Looge privaatmärkmeid:** Kui soovite vastuste asemel luua privaatseid märkmeid, alustage oma sõnumit ***`note:`***-ga. See tagab, et teie sõnum jääb privaatseks ega ole kliendi jaoks nähtav.\n\n**Seostage agendi profiil:** Kui Slackis vastanud isikul on Chatwootis sama e-posti aadressiga agendi profiil, seostatakse vastused automaatselt selle profiiliga. Nii saate hõlpsasti jälgida, kes mida ja millal ütles. Kui vastajal puudub seotud agendi profiil, kuvatakse vastused kliendile boti profiililt.",
+        "SELECTED": "valitud"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Vali kanal",
+        "UPDATE": "Uuenda",
+        "BUTTON_TEXT": "Ühenda kanal",
+        "DESCRIPTION": "Sinu Slack töölaua ühendus on nüüd Chatwootiga loodud. Kuid integratsioon on hetkel inaktiivne. Integratsiooni aktiveerimiseks ja kanali ühendamiseks Chatwootiga palun klõpsa alloleval nupul.\n\n**Märkus:** Kui üritad ühendada privaatset kanalit, lisa Chatwoot rakendus Slacki kanalile enne selle sammu jätkamist.",
+        "ATTENTION_REQUIRED": "Nõuab tähelepanu",
+        "EXPIRED": "Sinu Slack integratsioon on aegunud. Et jätkata sõnumite vastuvõtmist Slackis, palun kustuta integratsioon ja ühenda oma töölaua uuesti."
+      },
+      "UPDATE_ERROR": "Integratsiooni uuendamisel tekkis viga, palun proovi uuesti",
+      "UPDATE_SUCCESS": "Kanal on edukalt ühendatud",
+      "FAILED_TO_FETCH_CHANNELS": "Slackist kanalite toomisel tekkis viga, palun proovi uuesti"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Klõpsa siia, et liituda",
+      "LEAVE_THE_ROOM": "Lahku toast",
+      "START_VIDEO_CALL_HELP_TEXT": "Alusta uut videokõnet kliendiga",
+      "JOIN_ERROR": "Kõnega liitumisel tekkis viga, palun proovi uuesti",
+      "CREATE_ERROR": "Koosoleku lingi loomisel tekkis viga, palun proovi uuesti"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "Tehisintellekti abi",
+      "WITH_AI": " {option} tehisintellektiga ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Vastuse soovitus",
+        "SUMMARIZE": "Kokkuvõtte tegemine",
+        "REPHRASE": "Kirjutise parandamine",
+        "FIX_SPELLING_GRAMMAR": "Paranda õigekiri ja grammatika",
+        "SHORTEN": "Lühenda",
+        "EXPAND": "Pikenda",
+        "MAKE_FRIENDLY": "Muuda sõnumi toon sõbralikuks",
+        "MAKE_FORMAL": "Kasuta ametlikku tooni",
+        "SIMPLIFY": "Lihtsusta",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Professional",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Friendly"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Mustandi sisu",
+        "GENERATED_TITLE": "Genereeritud sisu",
+        "AI_WRITING": "Tehisintellekt kirjutab",
+        "BUTTONS": {
+          "APPLY": "Kasuta seda soovitust",
+          "CANCEL": "Tühista"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Integreeru OpenAI-ga",
+        "DESC": "Too oma juhtpaneelile täiustatud tehisintellekti funktsioonid OpenAI GPT mudelite abil. Alustamiseks sisesta oma OpenAI konto API võti.",
+        "KEY_PLACEHOLDER": "Sisesta oma OpenAI API võti",
+        "BUTTONS": {
+          "NEED_HELP": "Vajad abi?",
+          "DISMISS": "Sulge",
+          "FINISH": "Lõpeta seadistamine"
+        },
+        "DISMISS_MESSAGE": "Saad OpenAI integratsiooni seadistada hiljem, millal iganes soovid.",
+        "SUCCESS_MESSAGE": "OpenAI integratsiooni seadistamine õnnestus"
+      },
+      "TITLE": "Paranda tehisintellektiga",
+      "SUMMARY_TITLE": "Kokkuvõte tehisintellektiga",
+      "REPLY_TITLE": "Vastuse soovitus tehisintellektiga",
+      "SUBTITLE": "Parem vastus genereeritakse tehisintellekti abil, lähtudes teie praegusest mustandist.",
+      "TONE": {
+        "TITLE": "Toon",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professionaalne",
+          "FRIENDLY": "Sõbralik"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Genereeri",
+        "GENERATING": "Genereeritakse...",
+        "CANCEL": "Tühista"
+      },
+      "GENERATE_ERROR": "Sisu töötlemisel tekkis viga, palun kontrolli oma OpenAI API võtit ja proovi uuesti"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Kustuta",
+      "API": {
+        "SUCCESS_MESSAGE": "Integratsioon edukalt kustutatud"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Ühenda"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Töölaudade rakendused",
+      "HEADER_BTN_TXT": "Lisa uus töölauda rakendus",
+      "SIDEBAR_TXT": "<p><b>Töölauda rakendused</b></p><p>Töölauda rakendused võimaldavad organisatsioonidel manustada rakenduse Chatwoot töölauda, et pakkuda klienditoe agentidele konteksti. See funktsioon võimaldab teil luua rakenduse iseseisvalt ja manustada selle töölauda, et kuvada kasutajaandmeid, nende tellimusi või varasemaid makseajalugu.</p><p>Kui manustate oma rakenduse Chatwoot töölauda, saab teie rakendus vestluse ja kontakti konteksti aknasündmusena. Rakendusel tuleb lehel rakendada sõnumisündmuse kuulaja, et konteksti vastu võtta.</p><p>Uue töölauda rakenduse lisamiseks klõpsake nuppu 'Lisa uus töölauda rakendus'.</p>",
+      "DESCRIPTION": "Töölauda rakendused võimaldavad organisatsioonidel manustada rakenduse töölauda, et pakkuda klienditoe agentidele konteksti. See funktsioon võimaldab teil luua rakenduse iseseisvalt ja manustada selle, et kuvada kasutajaandmeid, nende tellimusi või varasemaid makseajalugu.",
+      "LEARN_MORE": "Lisateave Dashboardi rakenduste kohta",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
+      "LIST": {
+        "404": "Sellel kontol pole veel ühtegi töölauda rakendust seadistatud",
+        "LOADING": "Laaditakse töölauda rakendusi...",
+        "TABLE_HEADER": {
+          "NAME": "Nimi",
+          "ENDPOINT": "Lõpp-punkt",
+          "ACTIONS": "Actions"
+        },
+        "EDIT_TOOLTIP": "Muuda rakendust",
+        "DELETE_TOOLTIP": "Kustuta rakendus"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Nimi",
+        "TITLE_PLACEHOLDER": "Sisesta oma töölauda rakenduse nimi",
+        "TITLE_ERROR": "Töölauda rakenduse nimi on kohustuslik",
+        "URL_LABEL": "Lõpp-punkt",
+        "URL_PLACEHOLDER": "Sisesta lõpp-punkti URL, kus su rakendus asub",
+        "URL_ERROR": "Kehtiv URL on kohustuslik"
+      },
+      "CREATE": {
+        "HEADER": "Lisa uus töölauda rakendus",
+        "FORM_SUBMIT": "Esita",
+        "FORM_CANCEL": "Tühista",
+        "API_SUCCESS": "Töölauda rakendus seadistatud edukalt",
+        "API_ERROR": "Rakendust ei õnnestunud luua. Palun proovi hiljem uuesti"
+      },
+      "UPDATE": {
+        "HEADER": "Muuda töölauda rakendust",
+        "FORM_SUBMIT": "Uuenda",
+        "FORM_CANCEL": "Tühista",
+        "API_SUCCESS": "Töölauda rakendus uuendatud edukalt",
+        "API_ERROR": "Rakendust ei õnnestunud uuendada. Palun proovi hiljem uuesti"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Jah, kustuta see",
+        "CONFIRM_NO": "Ei, säilita see",
+        "TITLE": "Kustutamise kinnitamine",
+        "MESSAGE": "Kas oled kindel, et soovid rakenduse {appName} kustutada?",
+        "API_SUCCESS": "Töölauda rakendus kustutatud edukalt",
+        "API_ERROR": "Rakendust ei õnnestunud kustutada. Palun proovi hiljem uuesti"
+      }
+    },
+    "LINEAR": {
+      "HEADER": "Linear",
+      "ADD_OR_LINK_BUTTON": "Loo/Ühenda Linear probleem",
+      "LOADING": "Laaditakse Linear probleeme...",
+      "LOADING_ERROR": "Linear probleemide toomisel tekkis viga, palun proovi uuesti",
+      "CREATE": "Loo",
+      "LINK": {
+        "SEARCH": "Otsi probleeme",
+        "SELECT": "Vali probleem",
+        "TITLE": "Ühenda",
+        "EMPTY_LIST": "Linear probleeme ei leitud",
+        "LOADING": "Laadimine",
+        "ERROR": "Linear probleemide toomisel tekkis viga, palun proovi uuesti",
+        "LINK_SUCCESS": "Probleem edukalt ühendatud",
+        "LINK_ERROR": "Probleemi ühendamisel tekkis viga, palun proovi uuesti",
+        "LINK_TITLE": "Vestlus (#{conversationId}) kasutajaga {name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Loo/ühenda Linear probleem",
+        "DESCRIPTION": "Loo Linear probleeme vestlustest või ühenda olemasolevad sujuvaks jälgimiseks.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Pealkiri",
+            "PLACEHOLDER": "Sisesta pealkiri",
+            "REQUIRED_ERROR": "Pealkiri on kohustuslik"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Kirjeldus",
+            "PLACEHOLDER": "Sisesta kirjeldus"
+          },
+          "TEAM": {
+            "LABEL": "Meeskond",
+            "PLACEHOLDER": "Vali meeskond",
+            "SEARCH": "Otsi meeskonda",
+            "REQUIRED_ERROR": "Meeskond on kohustuslik"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Vastutaja",
+            "PLACEHOLDER": "Vali vastutaja",
+            "SEARCH": "Otsi vastutajat"
+          },
+          "PRIORITY": {
+            "LABEL": "Prioriteet",
+            "PLACEHOLDER": "Vali prioriteet",
+            "SEARCH": "Otsi prioriteeti"
+          },
+          "LABEL": {
+            "LABEL": "Silt",
+            "PLACEHOLDER": "Vali silt",
+            "SEARCH": "Otsi silti"
+          },
+          "STATUS": {
+            "LABEL": "Staatus",
+            "PLACEHOLDER": "Vali olek",
+            "SEARCH": "Otsi olekut"
+          },
+          "PROJECT": {
+            "LABEL": "Projekt",
+            "PLACEHOLDER": "Vali projekt",
+            "SEARCH": "Otsi projekti"
+          }
+        },
+        "CREATE": "Loo",
+        "CANCEL": "Tühista",
+        "CREATE_SUCCESS": "Probleem edukalt loodud",
+        "CREATE_ERROR": "Probleemi loomisel tekkis viga, palun proovi uuesti",
+        "LOADING_TEAM_ERROR": "Meeskondade toomisel tekkis viga, palun proovi uuesti",
+        "LOADING_TEAM_ENTITIES_ERROR": "Meeskonna üksuste toomisel tekkis viga, palun proovi uuesti"
+      },
+      "ISSUE": {
+        "STATUS": "Staatus",
+        "PRIORITY": "Prioriteet",
+        "ASSIGNEE": "Vastutaja",
+        "LABELS": "Sildid",
+        "CREATED_AT": "Loodud {createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Ühenda lahti",
+        "SUCCESS": "Probleem edukalt lahti ühendatud",
+        "ERROR": "Probleemi lahtiühendamisel tekkis viga, palun proovi uuesti"
+      },
+      "NO_LINKED_ISSUES": "Seotud probleeme ei leitud",
+      "DELETE": {
+        "TITLE": "Kas olete kindel, et soovite integratsiooni kustutada?",
+        "MESSAGE": "Kas olete kindel, et soovite integratsiooni kustutada?",
+        "CONFIRM": "Jah, kustuta",
+        "CANCEL": "Tühista"
+      },
+      "CTA": {
+        "TITLE": "Ühenda Lineariga",
+        "AGENT_DESCRIPTION": "Linear töökeskkond pole ühendatud. Palu administraatoril töökeskkond ühendada, et seda integratsiooni kasutada.",
+        "DESCRIPTION": "Linear töökeskkond pole ühendatud. Ühenda oma töökeskkond selle integratsiooni kasutamiseks, vajutades allolevat nuppu.",
+        "BUTTON_TEXT": "Ühenda Linear workspace"
+      }
+    },
+    "NOTION": {
+      "HEADER": "Notion",
+      "DELETE": {
+        "TITLE": "Kas oled kindel, et soovid Notioni integratsiooni kustutada?",
+        "MESSAGE": "Integratsiooni kustutamine eemaldab juurdepääsu sinu Notioni workspace'ile ja peatab kõik seotud funktsioonid.",
+        "CONFIRM": "Jah, kustuta",
+        "CANCEL": "Tühista"
+      }
+    }
+  },
+  "CAPTAIN": {
+    "NAME": "Kapten",
+    "HEADER_KNOW_MORE": "Lisateave",
+    "ASSISTANT_SWITCHER": {
+      "ASSISTANTS": "Assistants",
+      "SWITCH_ASSISTANT": "Switch between assistants",
+      "NEW_ASSISTANT": "Create Assistant",
+      "EMPTY_LIST": "No assistants found, please create one to get started"
+    },
+    "COPILOT": {
+      "TITLE": "Kaaslane",
+      "TRY_THESE_PROMPTS": "Proovi neid soovitusi",
+      "PANEL_TITLE": "Alusta Copilotiga",
+      "KICK_OFF_MESSAGE": "Vajad kiiret kokkuvõtet, soovid vaadata varasemaid vestlusi või koostada paremat vastust? Copilot aitab sul asju kiiremini teha.",
+      "SEND_MESSAGE": "Saada sõnum...",
+      "EMPTY_MESSAGE": "Vastus ei õnnestunud genereerida. Palun proovi uuesti.",
+      "LOADER": "Captain mõtleb",
+      "YOU": "Sina",
+      "USE": "Kasuta seda",
+      "RESET": "Lähtesta",
+      "SHOW_STEPS": "Näita samme",
+      "SELECT_ASSISTANT": "Vali assistent",
+      "PROMPTS": {
+        "SUMMARIZE": {
+          "LABEL": "Kokkuvõte vestlusest",
+          "CONTENT": "Võta kokku kliendi ja klienditoe vahel arutatud peamised punktid, sealhulgas kliendi mured, küsimused ning klienditoe pakutud lahendused või vastused."
+        },
+        "SUGGEST": {
+          "LABEL": "Paku vastust",
+          "CONTENT": "Analüüsi kliendi päringut ja koostage vastus, mis lahendab tema mured või küsimused. Veendu, et vastus oleks selge, lühike ja abistav."
+        },
+        "RATE": {
+          "LABEL": "Hinda vestlust",
+          "CONTENT": "Vaata vestlust üle, et hinnata, kui hästi see vastab kliendi vajadustele. Anna hinnang viiepallisüsteemis, arvestades tooni, selgust ja tulemuslikkust."
+        },
+        "HIGH_PRIORITY": {
+          "LABEL": "Kõrge prioriteediga vestlused",
+          "CONTENT": "Koosta kokkuvõte kõigist kõrge prioriteediga avatud vestlustest. Lisa vestluse ID, kliendi nimi (kui on), viimase sõnumi sisu ja määratud agent. Vajadusel grupeerida staatuse järgi."
+        },
+        "LIST_CONTACTS": {
+          "LABEL": "Kuva kontaktid",
+          "CONTENT": "Näita mulle 10 parima kontakti nimekirja. Lisa nimi, e-post või telefoninumber (kui on), viimane nähtud aeg, sildid (kui on)."
+        }
+      }
+    },
+    "PLAYGROUND": {
+      "USER": "Sina",
+      "ASSISTANT": "Assistent",
+      "MESSAGE_PLACEHOLDER": "Sisesta oma sõnum...",
+      "HEADER": "Mänguväljak",
+      "DESCRIPTION": "Kasuta seda mänguväljakut, et saata assistendile sõnumeid ja kontrollida, kas ta vastab täpselt, kiiresti ja soovitud tooniga.",
+      "CREDIT_NOTE": "Siin saadetud sõnumid arvestatakse Captaini krediitide hulka."
+    },
+    "PAYWALL": {
+      "TITLE": "Uuenda, et kasutada Captain AI-d",
+      "AVAILABLE_ON": "Captain ei ole tasuta plaanis saadaval.",
+      "UPGRADE_PROMPT": "Uuendage oma plaani, et saada ligipääs meie assistentidele, copiloti ja muule.",
+      "UPGRADE_NOW": "Uuenda kohe",
+      "CANCEL_ANYTIME": "Saate oma plaani igal ajal muuta või tühistada"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
+      "UPGRADE_PROMPT": "Uuendage oma plaani, et saada ligipääs meie assistentidele, copiloti ja muule.",
+      "ASK_ADMIN": "Palun pöörduge uuenduse saamiseks oma administraatori poole."
+    },
+    "BANNER": {
+      "RESPONSES": "Olete kasutanud üle 80% oma vastuste piirist. Captain AI kasutamise jätkamiseks palun uuendage.",
+      "DOCUMENTS": "Dokumendi limiit on täis. Captain AI kasutamise jätkamiseks uuendage."
+    },
+    "FORM": {
+      "CANCEL": "Tühista",
+      "CREATE": "Loo",
+      "EDIT": "Uuenda"
+    },
+    "ASSISTANTS": {
+      "HEADER": "Abilised",
+      "NO_ASSISTANTS_AVAILABLE": "Sinu kontol pole ühtegi assistenti saadaval.",
+      "ADD_NEW": "Loo uus abiline",
+      "DELETE": {
+        "TITLE": "Kas oled kindel, et soovid abilise kustutada?",
+        "DESCRIPTION": "See toiming on pöördumatu. Abilise kustutamine eemaldab selle kõigist ühendatud postkastidest ja kustutab jäädavalt kogu loodud teadmistebaasi.",
+        "CONFIRM": "Jah, kustuta",
+        "SUCCESS_MESSAGE": "Abiline on edukalt kustutatud",
+        "ERROR_MESSAGE": "Abilise kustutamisel tekkis viga, palun proovi uuesti."
+      },
+      "FORM_DESCRIPTION": "Täida allolevad andmed, et nimetada oma abiline, kirjeldada selle eesmärki ja määrata toode, mida ta toetab.",
+      "CREATE": {
+        "TITLE": "Loo abiline",
+        "SUCCESS_MESSAGE": "Abiline on edukalt loodud",
+        "ERROR_MESSAGE": "Abilise loomisel tekkis viga, palun proovi uuesti."
+      },
+      "FORM": {
+        "UPDATE": "Uuenda",
+        "SECTIONS": {
+          "BASIC_INFO": "Põhiandmed",
+          "SYSTEM_MESSAGES": "Süsteemisõnumid",
+          "INSTRUCTIONS": "Juhised",
+          "FEATURES": "Funktsioonid",
+          "TOOLS": "Tööriistad "
+        },
+        "NAME": {
+          "LABEL": "Nimi",
+          "PLACEHOLDER": "Sisesta assistendi nimi",
+          "ERROR": "Nimi on kohustuslik"
+        },
+        "TEMPERATURE": {
+          "LABEL": "Vastuse loovus",
+          "DESCRIPTION": "Reguleeri, kui loomingulised või piiratud peaksid assistendi vastused olema. Madalam väärtus annab täpsemaid ja ennustatavamaid vastuseid, kõrgem väärtus võimaldab loomingulisemaid ja mitmekesisemaid tulemusi."
+        },
+        "DESCRIPTION": {
+          "LABEL": "Kirjeldus",
+          "PLACEHOLDER": "Sisesta assistendi kirjeldus",
+          "ERROR": "Kirjeldus on kohustuslik"
+        },
+        "PRODUCT_NAME": {
+          "LABEL": "Toote nimi",
+          "PLACEHOLDER": "Sisesta toote nimi",
+          "ERROR": "Tootenimi on kohustuslik"
+        },
+        "WELCOME_MESSAGE": {
+          "LABEL": "Tervitussõnum",
+          "PLACEHOLDER": "Sisesta tervitussõnum"
+        },
+        "HANDOFF_MESSAGE": {
+          "LABEL": "Üleandmise sõnum",
+          "PLACEHOLDER": "Sisesta üleandmise sõnum"
+        },
+        "RESOLUTION_MESSAGE": {
+          "LABEL": "Lahenduse sõnum",
+          "PLACEHOLDER": "Sisesta lahenduse sõnum"
+        },
+        "INSTRUCTIONS": {
+          "LABEL": "Juhised",
+          "PLACEHOLDER": "Sisesta assistendile juhised"
+        },
+        "FEATURES": {
+          "TITLE": "Funktsioonid",
+          "ALLOW_CONVERSATION_FAQS": "Loo KKK-d lahendatud vestlustest",
+          "ALLOW_MEMORIES": "Salvesta kliendisuhtlustest olulised detailid mälestustena.",
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Uuenda abilist",
+        "SUCCESS_MESSAGE": "Abiline on edukalt uuendatud",
+        "ERROR_MESSAGE": "Abilise uuendamisel tekkis viga, palun proovi uuesti.",
+        "NOT_FOUND": "Assistenti ei leitud. Palun proovi uuesti."
+      },
+      "SETTINGS": {
+        "HEADER": "Settings",
+        "BASIC_SETTINGS": {
+          "TITLE": "Põhiseaded",
+          "DESCRIPTION": "Kohanda, mida assistent ütleb vestluse lõpetamisel või inimesele suunamisel."
+        },
+        "SYSTEM_SETTINGS": {
+          "TITLE": "Süsteemiseaded",
+          "DESCRIPTION": "Kohanda, mida assistent ütleb vestluse lõpetamisel või inimesele suunamisel."
+        },
+        "CONTROL_ITEMS": {
+          "TITLE": "Lõbusad valikud",
+          "DESCRIPTION": "Lisa assistendile rohkem kontrolli. (Visuaalsem, nagu lugu: Päringu piirang → stsenaariumid → väljund) Suunab kasutajat neid tegelikult kasutama.",
+          "OPTIONS": {
+            "GUARDRAILS": {
+              "TITLE": "Piirangud",
+              "DESCRIPTION": "Hoiab fookust—assistent vastab ainult soovitud küsimustele, kõik muu on välistatud."
+            },
+            "RESPONSE_GUIDELINES": {
+              "TITLE": "Vastamisjuhised",
+              "DESCRIPTION": "Assistentide vastuste stiil ja ülesehitus—selge ja sõbralik? Lühike ja konkreetne? Põhjalik ja ametlik?"
+            }
+          }
+        },
+        "DELETE": {
+          "TITLE": "Delete Assistant",
+          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+          "BUTTON_TEXT": "Delete {assistantName}"
+        }
+      },
+      "OPTIONS": {
+        "EDIT_ASSISTANT": "Muuda abilist",
+        "DELETE_ASSISTANT": "Kustuta abiline",
+        "VIEW_CONNECTED_INBOXES": "Vaata ühendatud postkaste"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Assistente pole saadaval",
+        "SUBTITLE": "Looge assistent, kes pakub teie kasutajatele kiireid ja täpseid vastuseid. See saab õppida teie abimaterjalidest ja varasematest vestlustest.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Assistent",
+          "NOTE": "Captain Assistent suhtleb otse klientidega, õpib teie abidokumentidest ja varasematest vestlustest ning pakub koheseid ja täpseid vastuseid. See käsitleb esialgseid päringuid, pakkudes kiireid lahendusi enne vajadusel agendile suunamist."
+        }
+      },
+      "GUARDRAILS": {
+        "TITLE": "Piirangud",
+        "DESCRIPTION": "Hoiab fookust – assistent vastab ainult soovitud küsimustele, mitte kõrvalistele ega keelatud teemadele.",
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Select all ({count})",
+          "UNSELECT_ALL": "Unselect all ({count})",
+          "BULK_DELETE_BUTTON": "Kustuta"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Näidispiirangud",
+            "ADD": "Lisa kõik",
+            "ADD_SINGLE": "Lisa see",
+            "SAVE": "Lisa ja salvesta (↵)",
+            "PLACEHOLDER": "Sisesta veel üks piirang..."
+          },
+          "NEW": {
+            "TITLE": "Lisa piirang",
+            "CREATE": "Loo",
+            "CANCEL": "Tühista",
+            "PLACEHOLDER": "Sisesta veel üks piirang...",
+            "TEST_ALL": "Testi kõiki"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Otsi..."
+        },
+        "EMPTY_MESSAGE": "Piiranguid ei leitud. Alustamiseks loo või lisa näiteid.",
+        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Piirangud lisatud edukalt",
+            "ERROR": "Piirangute lisamisel tekkis viga, proovi uuesti."
+          },
+          "UPDATE": {
+            "SUCCESS": "Reeglid on edukalt uuendatud",
+            "ERROR": "Reeglite uuendamisel tekkis viga, palun proovi uuesti."
+          },
+          "DELETE": {
+            "SUCCESS": "Reeglid on edukalt kustutatud",
+            "ERROR": "Reeglite kustutamisel tekkis viga, palun proovi uuesti."
+          }
+        }
+      },
+      "RESPONSE_GUIDELINES": {
+        "TITLE": "Vastamise juhised",
+        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Select all ({count})",
+          "UNSELECT_ALL": "Unselect all ({count})",
+          "BULK_DELETE_BUTTON": "Delete"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example response guidelines",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "SAVE": "Add and save (↵)",
+            "PLACEHOLDER": "Type in another response guideline..."
+          },
+          "NEW": {
+            "TITLE": "Add a response guideline",
+            "CREATE": "Create",
+            "CANCEL": "Cancel",
+            "PLACEHOLDER": "Type in another response guideline...",
+            "TEST_ALL": "Test all"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Search..."
+        },
+        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Response Guidelines added successfully",
+            "ERROR": "There was an error adding response guidelines, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Response Guidelines updated successfully",
+            "ERROR": "There was an error updating response guidelines, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Response Guidelines deleted successfully",
+            "ERROR": "There was an error deleting response guidelines, please try again."
+          }
+        }
+      },
+      "SCENARIOS": {
+        "TITLE": "Scenarios",
+        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Select all ({count})",
+          "UNSELECT_ALL": "Unselect all ({count})",
+          "BULK_DELETE_BUTTON": "Delete"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example scenarios",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "TOOLS_USED": "Tools used :"
+          },
+          "NEW": {
+            "CREATE": "Add a scenario",
+            "TITLE": "Create a scenario",
+            "FORM": {
+              "TITLE": {
+                "LABEL": "Title",
+                "PLACEHOLDER": "Enter a name for the scenario",
+                "ERROR": "Scenario name is required"
+              },
+              "DESCRIPTION": {
+                "LABEL": "Description",
+                "PLACEHOLDER": "Describe how and where this scenario will be used",
+                "ERROR": "Scenario description is required"
+              },
+              "INSTRUCTION": {
+                "LABEL": "How to handle",
+                "PLACEHOLDER": "Describe how and where this scenario will be handled",
+                "ERROR": "Scenario content is required"
+              },
+              "CREATE": "Create",
+              "CANCEL": "Cancel"
+            }
+          }
+        },
+        "UPDATE": {
+          "CANCEL": "Cancel",
+          "UPDATE": "Update changes"
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Search..."
+        },
+        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Scenarios added successfully",
+            "ERROR": "There was an error adding scenarios, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Scenarios updated successfully",
+            "ERROR": "There was an error updating scenarios, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Scenarios deleted successfully",
+            "ERROR": "There was an error deleting scenarios, please try again."
+          }
+        }
+      }
+    },
+    "DOCUMENTS": {
+      "HEADER": "Dokumendid",
+      "ADD_NEW": "Loo uus dokument",
+      "RELATED_RESPONSES": {
+        "TITLE": "Seotud KKK-d",
+        "DESCRIPTION": "Need KKK-d on loodud otse dokumendist."
+      },
+      "FORM_DESCRIPTION": "Sisesta dokumendi URL, et lisada see teadmiste allikana ja vali abiline, kellega see seostada.",
+      "CREATE": {
+        "TITLE": "Lisa dokument",
+        "SUCCESS_MESSAGE": "Dokument on edukalt loodud",
+        "ERROR_MESSAGE": "Dokumendi loomisel tekkis viga, palun proovi uuesti."
+      },
+      "FORM": {
+        "TYPE": {
+          "LABEL": "Document Type",
+          "URL": "URL",
+          "PDF": "PDF File"
+        },
+        "URL": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "Sisesta dokumendi URL",
+          "ERROR": "Palun sisesta dokumendi jaoks kehtiv URL"
+        },
+        "PDF_FILE": {
+          "LABEL": "PDF File",
+          "CHOOSE_FILE": "Choose PDF file",
+          "ERROR": "Please select a PDF file",
+          "HELP_TEXT": "Maximum file size: 10MB",
+          "INVALID_TYPE": "Please select a valid PDF file",
+          "TOO_LARGE": "File size exceeds 10MB limit"
+        },
+        "NAME": {
+          "LABEL": "Document Name (Optional)",
+          "PLACEHOLDER": "Enter a name for the document"
+        }
+      },
+      "DELETE": {
+        "TITLE": "Kas oled kindel, et soovid dokumendi kustutada?",
+        "DESCRIPTION": "See toiming on pöördumatu. Dokumendi kustutamine kustutab jäädavalt kogu loodud teadmistebaasi.",
+        "CONFIRM": "Jah, kustuta",
+        "SUCCESS_MESSAGE": "Dokument on edukalt kustutatud",
+        "ERROR_MESSAGE": "Dokumendi kustutamisel tekkis viga, palun proovi uuesti."
+      },
+      "OPTIONS": {
+        "VIEW_RELATED_RESPONSES": "Vaata seotud vastuseid",
+        "DELETE_DOCUMENT": "Kustuta dokument"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Dokumente pole saadaval",
+        "SUBTITLE": "Dokumente kasutab teie assistent KKK-de genereerimiseks. Saate dokumente importida, et pakkuda assistendile konteksti.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Document",
+          "NOTE": "Dokument Captainis on abimehe teadmiste allikas. Ühendades oma abikeskuse või juhendid, saab Captain sisu analüüsida ja pakkuda täpseid vastuseid kliendipäringutele."
+        }
+      }
+    },
+    "CUSTOM_TOOLS": {
+      "HEADER": "Tools",
+      "ADD_NEW": "Create a new tool",
+      "EMPTY_STATE": {
+        "TITLE": "No custom tools available",
+        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Custom Tools",
+          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+        }
+      },
+      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "OPTIONS": {
+        "EDIT_TOOL": "Edit tool",
+        "DELETE_TOOL": "Delete tool"
+      },
+      "CREATE": {
+        "TITLE": "Create Custom Tool",
+        "SUCCESS_MESSAGE": "Custom tool created successfully",
+        "ERROR_MESSAGE": "Failed to create custom tool"
+      },
+      "EDIT": {
+        "TITLE": "Edit Custom Tool",
+        "SUCCESS_MESSAGE": "Custom tool updated successfully",
+        "ERROR_MESSAGE": "Failed to update custom tool"
+      },
+      "DELETE": {
+        "TITLE": "Delete Custom Tool",
+        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
+        "CONFIRM": "Yes, delete",
+        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete custom tool"
+      },
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Tool Name",
+          "PLACEHOLDER": "Order Lookup",
+          "ERROR": "Tool name is required"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Looks up order details by order ID"
+        },
+        "HTTP_METHOD": {
+          "LABEL": "Method"
+        },
+        "ENDPOINT_URL": {
+          "LABEL": "Endpoint URL",
+          "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
+          "ERROR": "Valid URL is required"
+        },
+        "AUTH_TYPE": {
+          "LABEL": "Authentication Type"
+        },
+        "AUTH_TYPES": {
+          "NONE": "None",
+          "BEARER": "Bearer Token",
+          "BASIC": "Basic Auth",
+          "API_KEY": "API Key"
+        },
+        "AUTH_CONFIG": {
+          "BEARER_TOKEN": "Bearer Token",
+          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
+          "USERNAME": "Username",
+          "USERNAME_PLACEHOLDER": "Enter username",
+          "PASSWORD": "Password",
+          "PASSWORD_PLACEHOLDER": "Enter password",
+          "API_KEY": "Header Name",
+          "API_KEY_PLACEHOLDER": "X-API-Key",
+          "API_VALUE": "Header Value",
+          "API_VALUE_PLACEHOLDER": "Enter API key value"
+        },
+        "PARAMETERS": {
+          "LABEL": "Parameters",
+          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+        },
+        "ADD_PARAMETER": "Add Parameter",
+        "PARAM_NAME": {
+          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+        },
+        "PARAM_TYPE": {
+          "PLACEHOLDER": "Type"
+        },
+        "PARAM_TYPES": {
+          "STRING": "String",
+          "NUMBER": "Number",
+          "BOOLEAN": "Boolean",
+          "ARRAY": "Array",
+          "OBJECT": "Object"
+        },
+        "PARAM_DESCRIPTION": {
+          "PLACEHOLDER": "Description of the parameter"
+        },
+        "PARAM_REQUIRED": {
+          "LABEL": "Required"
+        },
+        "REQUEST_TEMPLATE": {
+          "LABEL": "Request Body Template (Optional)",
+          "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
+        },
+        "RESPONSE_TEMPLATE": {
+          "LABEL": "Response Template (Optional)",
+          "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
+        },
+        "ERRORS": {
+          "PARAM_NAME_REQUIRED": "Parameter name is required"
+        }
+      }
+    },
+    "RESPONSES": {
+      "HEADER": "KKK-d",
+      "PENDING_FAQS": "Pending FAQs",
+      "ADD_NEW": "Loo uus KKK",
+      "DOCUMENTABLE": {
+        "CONVERSATION": "Vestlus #{id}"
+      },
+      "SELECTED": "{count} valitud",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "SEARCH_PLACEHOLDER": "Search FAQs...",
+      "BULK_APPROVE_BUTTON": "Kinnita",
+      "BULK_DELETE_BUTTON": "Kustuta",
+      "BULK_APPROVE": {
+        "SUCCESS_MESSAGE": "KKK-d kinnitati edukalt",
+        "ERROR_MESSAGE": "KKK-de kinnitamisel tekkis viga, palun proovige uuesti."
+      },
+      "BULK_DELETE": {
+        "TITLE": "Kustutada KKK-d?",
+        "DESCRIPTION": "Kas olete kindel, et soovite valitud KKK-d kustutada? Seda toimingut ei saa tagasi võtta.",
+        "CONFIRM": "Jah, kustuta kõik",
+        "SUCCESS_MESSAGE": "KKK-d kustutati edukalt",
+        "ERROR_MESSAGE": "KKK-de kustutamisel tekkis viga, palun proovige uuesti."
+      },
+      "DELETE": {
+        "TITLE": "Kas olete kindel, et soovite KKK kustutada?",
+        "DESCRIPTION": "",
+        "CONFIRM": "Jah, kustuta",
+        "SUCCESS_MESSAGE": "KKK kustutati edukalt",
+        "ERROR_MESSAGE": "KKK kustutamisel tekkis viga, palun proovige uuesti."
+      },
+      "FILTER": {
+        "ASSISTANT": "Assistent: {selected}",
+        "STATUS": "Staatus: {selected}",
+        "ALL_ASSISTANTS": "Kõik"
+      },
+      "STATUS": {
+        "TITLE": "Staatus",
+        "PENDING": "Ootel",
+        "APPROVED": "Kinnitatud",
+        "ALL": "Kõik"
+      },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
+      "FORM_DESCRIPTION": "Lisage küsimus ja sellele vastav vastus teadmistebaasi ning valige assistent, kellega see peaks olema seotud.",
+      "CREATE": {
+        "TITLE": "Lisa KKK",
+        "SUCCESS_MESSAGE": "Vastus lisati edukalt.",
+        "ERROR_MESSAGE": "Vastuse lisamisel tekkis viga. Palun proovige uuesti."
+      },
+      "FORM": {
+        "QUESTION": {
+          "LABEL": "Küsimus",
+          "PLACEHOLDER": "Sisestage küsimus siia",
+          "ERROR": "Palun esitage kehtiv küsimus."
+        },
+        "ANSWER": {
+          "LABEL": "Vastus",
+          "PLACEHOLDER": "Sisestage vastus siia",
+          "ERROR": "Palun esitage kehtiv vastus."
+        }
+      },
+      "EDIT": {
+        "TITLE": "Uuenda KKK-d",
+        "SUCCESS_MESSAGE": "KKK uuendati edukalt",
+        "ERROR_MESSAGE": "KKK uuendamisel tekkis viga, palun proovige uuesti",
+        "APPROVE_SUCCESS_MESSAGE": "KKK märgiti kinnitatuks"
+      },
+      "OPTIONS": {
+        "APPROVE": "Approve",
+        "EDIT_RESPONSE": "Edit",
+        "DELETE_RESPONSE": "Delete"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "KKK-sid ei leitud",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
+        "SUBTITLE": "KKK-d aitavad teie assistendil pakkuda klientide küsimustele kiireid ja täpseid vastuseid. Neid saab automaatselt teie sisu põhjal genereerida või käsitsi lisada.",
+        "CLEAR_SEARCH": "Clear active filters",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain KKK",
+          "NOTE": "Captain KKK tuvastab levinud kliendiküsimused—nii need, mis puuduvad teadmistebaasist kui ka korduma kippuvad—ja loob asjakohased KKK-d toe parandamiseks. Saad iga ettepaneku üle vaadata ja otsustada, kas see kinnitada või tagasi lükata."
+        }
+      }
+    },
+    "INBOXES": {
+      "HEADER": "Ühendatud postkastid",
+      "ADD_NEW": "Ühenda uus postkast",
+      "OPTIONS": {
+        "DISCONNECT": "Ühenda lahti"
+      },
+      "DELETE": {
+        "TITLE": "Kas olete kindel, et soovite postkasti lahti ühendada?",
+        "DESCRIPTION": "",
+        "CONFIRM": "Jah, kustuta",
+        "SUCCESS_MESSAGE": "Postkast ühendati edukalt lahti.",
+        "ERROR_MESSAGE": "Postkasti lahtiühendamisel tekkis viga, palun proovige uuesti."
+      },
+      "FORM_DESCRIPTION": "Valige postkast, millega assistenti ühendada.",
+      "CREATE": {
+        "TITLE": "Ühenda postkast",
+        "SUCCESS_MESSAGE": "Postkast ühendati edukalt.",
+        "ERROR_MESSAGE": "Postkasti ühendamisel tekkis viga. Palun proovige uuesti."
+      },
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Postkast",
+          "PLACEHOLDER": "Valige postkast, kuhu assistent paigutada.",
+          "ERROR": "Postkasti valik on kohustuslik."
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Ühendatud postkaste pole",
+        "SUBTITLE": "Postkasti ühendamine võimaldab assistendil käsitleda klientide esialgseid küsimusi enne nende teie juurde suunamist."
+      }
+    }
+  }
+}

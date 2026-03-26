@@ -1,0 +1,659 @@
+{
+  "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Pole saadaval",
+    "EMAIL_ADDRESS": "E-posti aadress",
+    "PHONE_NUMBER": "Telefoninumber",
+    "IDENTIFIER": "Identifikaator",
+    "COPY_SUCCESSFUL": "Kopeerimine lõikelauale õnnestus",
+    "COMPANY": "Ettevõte",
+    "LOCATION": "Asukoht",
+    "BROWSER_LANGUAGE": "Browser Language",
+    "CONVERSATION_TITLE": "Vestluse üksikasjad",
+    "VIEW_PROFILE": "Vaata profiili",
+    "BROWSER": "Brauser",
+    "OS": "Operatsioonisüsteem",
+    "INITIATED_FROM": "Algatatud kohast",
+    "INITIATED_AT": "Algatatud ajal",
+    "IP_ADDRESS": "IP Address",
+    "CREATED_AT_LABEL": "Loodud",
+    "NEW_MESSAGE": "Uus sõnum",
+    "CALL": "Helista",
+    "CALL_INITIATED": "Helistatakse kontaktile…",
+    "CALL_FAILED": "Kõne alustamine ebaõnnestus. Palun proovi uuesti.",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Vali häälpostkast"
+    },
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Selle kontaktiga seotud varasemaid vestlusi ei leitud.",
+      "TITLE": "Varasemad vestlused"
+    },
+    "LABELS": {
+      "CONTACT": {
+        "TITLE": "Kontaktimärgendid",
+        "ERROR": "Märgiste värskendamine ebaõnnestus"
+      },
+      "CONVERSATION": {
+        "TITLE": "Vestluse sildid",
+        "ADD_BUTTON": "Lisa silte"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "Lisa sildid",
+        "PLACEHOLDER": "Otsi silte",
+        "NO_RESULT": "Silte ei leitud",
+        "CREATE_LABEL": "Loo uus silt"
+      }
+    },
+    "MERGE_CONTACT": "Kontaktide ühendamine",
+    "CONTACT_ACTIONS": "Kontakttegevused",
+    "MUTE_CONTACT": "Blokeeri kontakt",
+    "UNMUTE_CONTACT": "Eemalda kontakti blokeering",
+    "MUTED_SUCCESS": "See kontakt on edukalt blokeeritud. Sa ei saa teateid tulevaste vestluste kohta.",
+    "UNMUTED_SUCCESS": "See kontakt on edukalt blokeeringust vabastatud.",
+    "SEND_TRANSCRIPT": "Saada vestlusajalugu",
+    "EDIT_LABEL": "Muuda",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Kohandatud atribuudid",
+      "CONTACT_LABELS": "Kontaktimärgendid",
+      "PREVIOUS_CONVERSATIONS": "Eelnevad vestlused",
+      "NO_RECORDS_FOUND": "Atribuute ei leitud"
+    }
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Muuda kontakti",
+    "TITLE": "Muuda kontakti",
+    "DESC": "Muuda kontakti andmeid"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Kustuta kontakt",
+    "TITLE": "Kustuta kontakt",
+    "DESC": "Kustuta kontakti andmed",
+    "CONFIRM": {
+      "TITLE": "Kustutamise kinnitamine",
+      "MESSAGE": "Kas olete kindel, et soovite kustutada ",
+      "YES": "Jah, kustuta",
+      "NO": "Ei, säilita"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Kontakt kustutati edukalt",
+      "ERROR_MESSAGE": "Kontaktide kustutamine ebaõnnestus. Palun proovige hiljem uuesti."
+    }
+  },
+  "CONTACT_FORM": {
+    "FORM": {
+      "SUBMIT": "Esita",
+      "CANCEL": "Tühista",
+      "AVATAR": {
+        "LABEL": "Kontakti avatar"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Sisesta kontakti täielik nimi",
+        "LABEL": "Täisnimi"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Sisesta kontakti elulugu",
+        "LABEL": "Bio"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Sisesta kontakti e-posti aadress",
+        "LABEL": "E-posti aadress",
+        "DUPLICATE": "See e-posti aadress on juba teise kontakti jaoks kasutusel.",
+        "ERROR": "Palun sisestage kehtiv e-posti aadress."
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Sisesta kontakti telefoninumber",
+        "LABEL": "Telefoninumber",
+        "HELP": "Telefoninumber peaks olema E.164 formaadis, nt: +1415555555 [+][riigikood][suunakood][kohalik telefoninumber]. Saad valida suunakoodi rippmenüüst.",
+        "ERROR": "Telefoninumber peab olema kas tühi või E.164 formaadis",
+        "DIAL_CODE_ERROR": "Palun vali nimekirjast suunakood",
+        "DUPLICATE": "See telefoninumber on juba teise kontakti jaoks kasutusel."
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Sisesta kontakti asukoht",
+        "LABEL": "Asukoht"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Sisesta ettevõtte nimi",
+        "LABEL": "Ettevõtte nimi"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Sisesta riigi nimi",
+        "LABEL": "Riigi nimi",
+        "SELECT_PLACEHOLDER": "Vali",
+        "REMOVE": "Eemalda",
+        "SELECT_COUNTRY": "Vali riik"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Sisesta linna nimi",
+        "LABEL": "Linna nimi"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Enter the Facebook username",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Enter the Twitter username",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Enter the LinkedIn username",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Enter the Github username",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Kontakti avatar kustutati edukalt",
+        "ERROR_MESSAGE": "Kontaktisiku avatari ei õnnestunud kustutada. Palun proovige hiljem uuesti."
+      }
+    },
+    "SUCCESS_MESSAGE": "Kontakt edukalt salvestatud",
+    "ERROR_MESSAGE": "Tekkis viga, palun proovi uuesti"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Alusta vestlust",
+    "TITLE": "Uus vestlus",
+    "DESC": "Alusta uut vestlust, saates uue sõnumi.",
+    "NO_INBOX": "Selle kontakti jaoks uut vestlust alustamiseks ei leitud postkasti.",
+    "FORM": {
+      "TO": {
+        "LABEL": "Saaja"
+      },
+      "INBOX": {
+        "LABEL": "Postkastist",
+        "PLACEHOLDER": "Vali allikapostkast",
+        "ERROR": "Vali postkast"
+      },
+      "SUBJECT": {
+        "LABEL": "Teema",
+        "PLACEHOLDER": "Teema",
+        "ERROR": "Teema ei tohi olla tühi"
+      },
+      "MESSAGE": {
+        "LABEL": "Sõnum",
+        "PLACEHOLDER": "Kirjuta siia oma sõnum",
+        "ERROR": "Sõnum ei tohi olla tühi"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Vali failid",
+        "HELP_TEXT": "Lohista failid siia või vali failid lisamiseks"
+      },
+      "SUBMIT": "Saada sõnum",
+      "CANCEL": "Tühista",
+      "SUCCESS_MESSAGE": "Sõnum saadetud!",
+      "GO_TO_CONVERSATION": "Vaata",
+      "ERROR_MESSAGE": "Saatmine ebaõnnestus! proovi uuesti"
+    }
+  },
+  "CONTACTS_PAGE": {
+    "LIST": {
+      "TABLE_HEADER": {
+        "SOCIAL_PROFILES": "Social Profiles"
+      }
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "BUTTON": "Lisa kohandatud atribuut",
+    "COPY_SUCCESSFUL": "Kopeerimine lõikelauale õnnestus",
+    "SHOW_MORE": "Näita kõiki atribuute",
+    "SHOW_LESS": "Näita vähem atribuute",
+    "ACTIONS": {
+      "COPY": "Kopeeri atribuut",
+      "DELETE": "Kustuta atribuut",
+      "EDIT": "Muuda atribuuti"
+    },
+    "ADD": {
+      "TITLE": "Loo kohandatud atribuut",
+      "DESC": "Lisa selle kontakti kohandatud teave."
+    },
+    "FORM": {
+      "CREATE": "Lisa atribuut",
+      "CANCEL": "Tühista",
+      "NAME": {
+        "LABEL": "Kohandatud atribuudi nimi",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Vigane kohandatud atribuudi nimi"
+      },
+      "VALUE": {
+        "LABEL": "Atribuudi väärtus",
+        "PLACEHOLDER": "Näiteks: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Loo uus atribuut ",
+        "SUCCESS": "Atribuut lisatud edukalt",
+        "ERROR": "Atribuuti ei õnnestunud lisada. Palun proovige hiljem uuesti"
+      },
+      "UPDATE": {
+        "SUCCESS": "Atribuut uuendatud edukalt",
+        "ERROR": "Atribuuti ei õnnestunud uuendada. Palun proovige hiljem uuesti"
+      },
+      "DELETE": {
+        "SUCCESS": "Atribuut kustutatud edukalt",
+        "ERROR": "Atribuuti kustutamine ebaõnnestus. Palun proovige hiljem uuesti"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Lisa atribuute",
+        "PLACEHOLDER": "Otsi atribuute",
+        "NO_RESULT": "Atribuute ei leitud"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Vali väärtus",
+          "SEARCH_INPUT_PLACEHOLDER": "Otsi väärtust",
+          "NO_RESULT": "Tulemust ei leitud"
+        }
+      }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Nõutav on kehtiv väärtus",
+      "INVALID_URL": "Kehtetu URL",
+      "INVALID_INPUT": "Vigane sisend"
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Kontaktide ühendamine",
+    "DESCRIPTION": "Ühenda kontaktid, et kombineerida kaks profiili üheks, kaasa arvatud kõik atribuudid ja vestlused. Konflikti korral on esmane kontakti atribuutidel eelis.",
+    "PRIMARY": {
+      "TITLE": "Põhikontakt",
+      "HELP_LABEL": "Kustutamiseks"
+    },
+    "PARENT": {
+      "TITLE": "Kontakt, mida ühendada",
+      "PLACEHOLDER": "Otsi kontakti",
+      "HELP_LABEL": "Säilitamiseks"
+    },
+    "SUMMARY": {
+      "TITLE": "Kokkuvõte",
+      "DELETE_WARNING": "Kontakt <strong>{primaryContactName}</strong> kustutatakse.",
+      "ATTRIBUTE_WARNING": "Kontaktandmed <strong>{primaryContactName}</strong> kopeeritakse kontaktile <strong>{parentContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR_MESSAGE": "Midagi läks valesti. Palun proovi hiljem uuesti."
+    },
+    "FORM": {
+      "SUBMIT": " Ühenda kontaktid",
+      "CANCEL": "Tühista",
+      "CHILD_CONTACT": {
+        "ERROR": "Vali ühendamiseks alamkontakt"
+      },
+      "SUCCESS_MESSAGE": "Kontakt edukalt ühendatud",
+      "ERROR_MESSAGE": "Kontaktide ühendamine ebaõnnestus, proovi uuesti!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
+    }
+  },
+  "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Kontaktid",
+      "SEARCH_TITLE": "Otsi kontakte",
+      "ACTIVE_TITLE": "Aktiivsed kontaktid",
+      "SEARCH_PLACEHOLDER": "Otsi...",
+      "MESSAGE_BUTTON": "Sõnum",
+      "SEND_MESSAGE": "Saada sõnum",
+      "BLOCK_CONTACT": "Blokeeri kontakt",
+      "UNBLOCK_CONTACT": "Loo kontakt blokeeringust vabaks",
+      "BREADCRUMB": {
+        "CONTACTS": "Kontaktid"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Lisa kontakt",
+          "EXPORT_CONTACT": "Ekspordi kontaktid",
+          "IMPORT_CONTACT": "Impordi kontaktid",
+          "SAVE_CONTACT": "Salvesta kontakt",
+          "EMAIL_ADDRESS_DUPLICATE": "See e-posti aadress on juba kasutusel teise kontakti jaoks.",
+          "PHONE_NUMBER_DUPLICATE": "See telefoninumber on juba kasutusel teise kontakti jaoks.",
+          "SUCCESS_MESSAGE": "Kontakt salvestatud edukalt",
+          "ERROR_MESSAGE": "Kontaktide salvestamine ebaõnnestus. Palun proovige hiljem uuesti."
+        },
+        "BLOCK_SUCCESS_MESSAGE": "See kontakt on edukalt blokeeritud",
+        "BLOCK_ERROR_MESSAGE": "Kontakti blokeerimine ebaõnnestus. Palun proovi hiljem uuesti.",
+        "UNBLOCK_SUCCESS_MESSAGE": "See kontakt on edukalt blokeeringust vabaks tehtud",
+        "UNBLOCK_ERROR_MESSAGE": "Kontakti blokeeringust vabaks tegemine ebaõnnestus. Palun proovi hiljem uuesti.",
+        "IMPORT_CONTACT": {
+          "TITLE": "Impordi kontaktid",
+          "DESCRIPTION": "Import contacts through a CSV file.",
+          "DOWNLOAD_LABEL": "Download a sample csv.",
+          "LABEL": "CSV File:",
+          "CHOOSE_FILE": "Vali fail",
+          "CHANGE": "Muuda",
+          "CANCEL": "Tühista",
+          "IMPORT": "Impordi",
+          "SUCCESS_MESSAGE": "Saadame teile e-kirja, kui importimine on lõpetatud.",
+          "ERROR_MESSAGE": "Tekkis viga, palun proovi uuesti"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Ekspordi kontaktid",
+          "DESCRIPTION": "Ekspordi kiiresti CSV-fail, mis sisaldab põhjalikku teavet sinu kontaktide kohta",
+          "CONFIRM": "Ekspordi",
+          "SUCCESS_MESSAGE": "Ekspordiprotsess on käimas. Saadame sulle e-kirja, kui ekspordifail on allalaadimiseks valmis.",
+          "ERROR_MESSAGE": "Tekkis viga, palun proovi uuesti"
+        },
+        "SORT_BY": {
+          "LABEL": "Sorteeri",
+          "OPTIONS": {
+            "NAME": "Nimi",
+            "EMAIL": "E-post",
+            "PHONE_NUMBER": "Telefoninumber",
+            "COMPANY": "Ettevõte",
+            "COUNTRY": "Riik",
+            "CITY": "Linn",
+            "LAST_ACTIVITY": "Viimane tegevus",
+            "CREATED_AT": "Loodud kuupäeval"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Järjestamine",
+          "OPTIONS": {
+            "ASCENDING": "Kasvav",
+            "DESCENDING": "Kahanev"
+          }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "Kas soovite selle filtri salvestada?",
+            "CONFIRM": "Salvesta filter",
+            "LABEL": "Nimi",
+            "PLACEHOLDER": "Sisesta filtri nimi",
+            "ERROR": "Sisesta kehtiv nimi",
+            "SUCCESS_MESSAGE": "Filter salvestati edukalt",
+            "ERROR_MESSAGE": "Filtri salvestamine ebaõnnestus. Palun proovi hiljem uuesti."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "Kustutamise kinnitamine",
+            "DESCRIPTION": "Kas olete kindel, et soovite selle filtri kustutada?",
+            "CONFIRM": "Jah, kustuta",
+            "CANCEL": "Ei, tühista",
+            "SUCCESS_MESSAGE": "Filter kustutati edukalt",
+            "ERROR_MESSAGE": "Filtrit ei õnnestunud kustutada. Palun proovige hiljem uuesti."
+          }
+        }
+      }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+    },
+    "FILTER": {
+      "NAME": "Nimi",
+      "EMAIL": "E-post",
+      "PHONE_NUMBER": "Telefoninumber",
+      "IDENTIFIER": "Identifikaator",
+      "COUNTRY": "Riik",
+      "CITY": "Linn",
+      "CREATED_AT": "Loodud",
+      "LAST_ACTIVITY": "Viimane tegevus",
+      "REFERER_LINK": "Viitaja link",
+      "BLOCKED": "Blokeeritud",
+      "BLOCKED_TRUE": "Tõene",
+      "BLOCKED_FALSE": "Väär",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Tühjenda filtrid",
+        "UPDATE_SEGMENT": "Uuenda segmenti",
+        "APPLY_FILTERS": "Rakenda filtrid",
+        "ADD_FILTER": "Lisa filter"
+      },
+      "TITLE": "Filtreeri kontakte",
+      "EDIT_SEGMENT": "Muuda segmenti",
+      "SEGMENT": {
+        "LABEL": "Segmendi nimi",
+        "INPUT_PLACEHOLDER": "Sisesta segmendi nimi"
+      },
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} rohkem filtreid",
+        "CLEAR_FILTERS": "Tühjenda filtrid"
+      }
+    },
+    "CARD": {
+      "OF": "st",
+      "VIEW_DETAILS": "Vaata üksikasju",
+      "EDIT_DETAILS_FORM": {
+        "TITLE": "Muuda kontaktandmeid",
+        "FORM": {
+          "FIRST_NAME": {
+            "PLACEHOLDER": "Sisesta eesnimi"
+          },
+          "LAST_NAME": {
+            "PLACEHOLDER": "Sisesta perekonnanimi"
+          },
+          "EMAIL_ADDRESS": {
+            "PLACEHOLDER": "Sisesta e-posti aadress",
+            "DUPLICATE": "See e-posti aadress on juba teise kontakti jaoks kasutusel."
+          },
+          "PHONE_NUMBER": {
+            "PLACEHOLDER": "Sisesta telefoninumber",
+            "DUPLICATE": "See telefoninumber on juba teise kontakti jaoks kasutusel."
+          },
+          "CITY": {
+            "PLACEHOLDER": "Sisesta linna nimi"
+          },
+          "COUNTRY": {
+            "PLACEHOLDER": "Vali riik"
+          },
+          "BIO": {
+            "PLACEHOLDER": "Enter the bio"
+          },
+          "COMPANY_NAME": {
+            "PLACEHOLDER": "Sisesta ettevõtte nimi"
+          }
+        },
+        "UPDATE_BUTTON": "Uuenda kontakti",
+        "SUCCESS_MESSAGE": "Kontakt uuendatud edukalt",
+        "ERROR_MESSAGE": "Kontakti ei õnnestunud uuendada. Palun proovi hiljem uuesti."
+      },
+      "SOCIAL_MEDIA": {
+        "TITLE": "Edit social links",
+        "FORM": {
+          "FACEBOOK": {
+            "PLACEHOLDER": "Add Facebook"
+          },
+          "GITHUB": {
+            "PLACEHOLDER": "Add Github"
+          },
+          "INSTAGRAM": {
+            "PLACEHOLDER": "Add Instagram"
+          },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Add Telegram"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
+          "LINKEDIN": {
+            "PLACEHOLDER": "Add LinkedIn"
+          },
+          "TWITTER": {
+            "PLACEHOLDER": "Add Twitter"
+          }
+        }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "See toiming on püsiv ja pöördumatu.",
+        "BUTTON": "Kustuta kohe"
+      }
+    },
+    "DETAILS": {
+      "CREATED_AT": "Loodud {date}",
+      "LAST_ACTIVITY": "Viimati aktiivne {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Kustuta see kontakt jäädavalt. Seda toimingut ei saa tagasi võtta",
+      "DELETE_CONTACT": "Kustuta kontakt",
+      "DELETE_DIALOG": {
+        "TITLE": "Kustutamise kinnitamine",
+        "DESCRIPTION": "Kas olete kindel, et soovite selle kontakti kustutada?",
+        "CONFIRM": "Jah, kustuta",
+        "API": {
+          "SUCCESS_MESSAGE": "Kontakt kustutati edukalt",
+          "ERROR_MESSAGE": "Kontakti ei õnnestunud kustutada. Palun proovige hiljem uuesti."
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+          "SUCCESS_MESSAGE": "Avatar üles laaditud edukalt"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Avatar kustutatud edukalt",
+          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+        }
+      }
+    },
+    "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Atribuudid",
+        "HISTORY": "Ajalugu",
+        "NOTES": "Märkmed",
+        "MERGE": "Ühenda"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "Selle kontaktiga seotud varasemaid vestlusi ei ole"
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Otsi atribuute",
+        "UNUSED_ATTRIBUTES": "{count} Kasutatud atribuut | {count} Kasutamata atribuudid",
+        "EMPTY_STATE": "Selles kontos pole ühtegi kohandatud kontakti atribuuti. Saate luua kohandatud atribuudi seadetes.",
+        "YES": "Jah",
+        "NO": "Ei",
+        "TRIGGER": {
+          "SELECT": "Vali väärtus",
+          "INPUT": "Sisesta väärtus"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Vigane number",
+          "REQUIRED": "Nõutav on kehtiv väärtus",
+          "INVALID_INPUT": "Vigane sisend",
+          "INVALID_URL": "Vigane URL",
+          "INVALID_DATE": "Vigane kuupäev"
+        },
+        "NO_ATTRIBUTES": "Atribuute ei leitud",
+        "API": {
+          "SUCCESS_MESSAGE": "Atribuut uuendati edukalt",
+          "DELETE_SUCCESS_MESSAGE": "Atribuut kustutati edukalt",
+          "UPDATE_ERROR": "Atribuuti ei õnnestunud uuendada. Palun proovi hiljem uuesti",
+          "DELETE_ERROR": "Atribuuti ei õnnestunud kustutada. Palun proovi hiljem uuesti"
+        }
+      },
+      "MERGE": {
+        "TITLE": "Ühenda kontakt",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "Peamine kontakt",
+        "PRIMARY_HELP_LABEL": "Salvestamiseks",
+        "PRIMARY_REQUIRED_ERROR": "Palun valige ühendamiseks kontakt enne jätkamist",
+        "PARENT": "Ühendamiseks",
+        "PARENT_HELP_LABEL": "Kustutamiseks",
+        "EMPTY_STATE": "Kontaktid puuduvad",
+        "PLACEHOLDER": "Otsi esmase kontakti järgi",
+        "SEARCH_PLACEHOLDER": "Otsi kontakti",
+        "SEARCH_ERROR_MESSAGE": "Kontaktide otsimine ebaõnnestus. Palun proovi hiljem uuesti.",
+        "SUCCESS_MESSAGE": "Kontakt edukalt ühendatud",
+        "ERROR_MESSAGE": "Kontaktide ühendamine ebaõnnestus, proovi uuesti!",
+        "IS_SEARCHING": "Otsitakse...",
+        "BUTTONS": {
+          "CANCEL": "Tühista",
+          "CONFIRM": "Ühenda kontakt"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Lisa märge",
+        "WROTE": "kirjutas",
+        "YOU": "Sina",
+        "SAVE": "Salvesta märge",
+        "ADD_NOTE": "Lisa kontakti märge",
+        "EXPAND": "Laienda",
+        "COLLAPSE": "Ahenda",
+        "NO_NOTES": "Märkmeid pole, saad märkmeid lisada kontaktide detailide lehel.",
+        "EMPTY_STATE": "Selle kontaktiga ei ole seotud ühtegi märget. Saad lisada märge, kirjutades ülalolevasse kasti.",
+        "CONVERSATION_EMPTY_STATE": "Märkmikke pole veel. Kasuta nuppu Lisa märge, et luua uus."
+      }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "Selles kontos kontakte ei leitud",
+      "SUBTITLE": "Alusta uute kontaktide lisamist, klõpsates alloleval nupul",
+      "BUTTON_LABEL": "Lisa kontakt",
+      "SEARCH_EMPTY_STATE_TITLE": "Otsingule ei vastanud ühtegi kontakti 🔍",
+      "LIST_EMPTY_STATE_TITLE": "Selles vaates pole kontakte saadaval 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "Hetkel pole ühtegi aktiivset kontakti 🌙"
+    },
+    "LOAD_MORE": "Laadi veel"
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Märgendite määramine",
+    "ASSIGN_LABELS_SUCCESS": "Märgendid määrati edukalt.",
+    "ASSIGN_LABELS_FAILED": "Märgendite määramine ebaõnnestus",
+    "DESCRIPTION": "Valige sildid, mida soovite valitud kontaktidele lisada.",
+    "NO_LABELS_FOUND": "Silte pole veel saadaval.",
+    "SELECTED_COUNT": "{count} valitud",
+    "CLEAR_SELECTION": "Tühjenda valik",
+    "SELECT_ALL": "Vali kõik ({count})",
+    "DELETE_CONTACTS": "Kustuta",
+    "DELETE_SUCCESS": "Kontaktid kustutati edukalt.",
+    "DELETE_FAILED": "Kontaktide kustutamine ebaõnnestus.",
+    "DELETE_DIALOG": {
+      "TITLE": "Kustuta valitud kontaktid",
+      "SINGULAR_TITLE": "Kustuta valitud kontakt",
+      "DESCRIPTION": "See kustutab jäädavalt {count} valitud kontakti. Seda toimingut ei saa tagasi võtta.",
+      "SINGULAR_DESCRIPTION": "See kustutab jäädavalt valitud kontakti. Seda toimingut ei saa tagasi võtta.",
+      "CONFIRM_MULTIPLE": "Kustuta kontaktid",
+      "CONFIRM_SINGLE": "Kustuta kontakt"
+    }
+  },
+  "COMPOSE_NEW_CONVERSATION": {
+    "CONTACT_SEARCH": {
+      "ERROR_MESSAGE": "Otsingut ei õnnestunud lõpule viia. Palun proovi uuesti."
+    },
+    "FORM": {
+      "GO_TO_CONVERSATION": "Vaata",
+      "SUCCESS_MESSAGE": "Sõnum saadeti edukalt!",
+      "ERROR_MESSAGE": "Vestluse loomisel tekkis viga. Palun proovi hiljem uuesti.",
+      "NO_INBOX_ALERT": "Selle kontakti jaoks pole saadaval ühtegi postkasti, millega vestlust alustada.",
+      "CONTACT_SELECTOR": {
+        "LABEL": "Saaja:",
+        "TAG_INPUT_PLACEHOLDER": "Sisesta vähemalt 2 märki, et otsida nime, e-posti või telefoninumbri järgi",
+        "CONTACT_CREATING": "Kontakt luuakse..."
+      },
+      "INBOX_SELECTOR": {
+        "LABEL": "Kaudu:",
+        "BUTTON": "Näita postkaste"
+      },
+      "EMAIL_OPTIONS": {
+        "SUBJECT_LABEL": "Teema :",
+        "SUBJECT_PLACEHOLDER": "Sisestage siia oma e-kirja teema",
+        "CC_LABEL": "Koopia:",
+        "CC_PLACEHOLDER": "Sisesta vähemalt 2 märki, et otsida e-posti aadressi järgi",
+        "BCC_LABEL": "Pimekoopia:",
+        "BCC_PLACEHOLDER": "Sisesta vähemalt 2 märki, et otsida e-posti aadressi järgi",
+        "BCC_BUTTON": "Pimekoopia"
+      },
+      "MESSAGE_EDITOR": {
+        "PLACEHOLDER": "Kirjutage siia oma sõnum..."
+      },
+      "WHATSAPP_OPTIONS": {
+        "LABEL": "Vali mall",
+        "SEARCH_PLACEHOLDER": "Otsi malle",
+        "EMPTY_STATE": "Malle ei leitud",
+        "TEMPLATE_PARSER": {
+          "TEMPLATE_NAME": "WhatsApp template: {templateName}",
+          "VARIABLES": "Muutujad",
+          "BACK": "Tagasi",
+          "SEND_MESSAGE": "Saada sõnum"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Vali mall",
+        "SEARCH_PLACEHOLDER": "Otsi malle",
+        "EMPTY_STATE": "Malle ei leitud",
+        "TEMPLATE_PARSER": {
+          "BACK": "Mine tagasi",
+          "SEND_MESSAGE": "Saada sõnum"
+        }
+      },
+      "ACTION_BUTTONS": {
+        "DISCARD": "Hülga",
+        "SEND": "Saada ({keyCode})"
+      }
+    }
+  }
+}

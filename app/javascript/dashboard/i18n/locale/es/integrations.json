@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot se integra con múltiples herramientas y servicios para mejorar la eficiencia de tu equipo. Explora la lista de abajo para configurar tus aplicaciones favoritas.",
     "LEARN_MORE": "Más información acerca de integraciones",
     "LOADING": "Obteniendo integraciones",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "El capitán no está habilitado en tu cuenta.",
       "CLICK_HERE_TO_CONFIGURE": "Haz clic aquí para configurar",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos suscritos",
       "LEARN_MORE": "Aprenda más sobre webhooks",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Cancelar",
         "DESC": "Los eventos Webhook te proporcionan la información en tiempo real sobre lo que está sucediendo en tu cuenta de Chatwoot. Por favor, introduce una URL válida para configurar un callback.",
@@ -45,6 +59,10 @@
             "CONVERSATION_TYPING_ON": "Conversation Typing On",
             "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
+        },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
         },
         "END_POINT": {
           "LABEL": "URL de Webhook",
@@ -100,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Eliminar",
       "DELETE_CONFIRMATION": {
         "TITLE": "Eliminar la integración",
@@ -141,7 +160,29 @@
         "EXPAND": "Expandir",
         "MAKE_FRIENDLY": "Cambiar tono de mensaje a amigable",
         "MAKE_FORMAL": "Usar tono formal",
-        "SIMPLIFY": "Simplificar"
+        "SIMPLIFY": "Simplificar",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Profesional",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Amigable"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Contenido de borrador",
@@ -197,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>Aplicaciones de panel</b></p><p>Aplicaciones de panel de control permiten a las organizaciones incrustar una aplicación dentro del panel de control de Chatwoot para proporcionar el contexto para los agentes de atención al cliente. Esta característica le permite crear una aplicación de forma independiente e incrustarla dentro del panel de control para proporcionar información de usuario, sus pedidos, o su historial de pagos anterior.</p><p>Cuando incrustas tu aplicación usando el panel de control en Chatwoot, tu aplicación obtendrá el contexto de la conversación y el contacto como un evento de ventana. Implementa un oyente para el evento del mensaje en tu página para recibir el contexto.</p><p>Para añadir una nueva aplicación de panel, haga clic en el botón 'Añadir una nueva aplicación de panel'.</p>",
       "DESCRIPTION": "Las aplicaciones de panel permiten a las organizaciones incrustar una aplicación dentro del panel de control para proporcionar el contexto para los agentes de soporte al cliente. Esta función le permite crear una aplicación de forma independiente e incrustada para proporcionar información de usuario, sus pedidos o su historial de pagos anterior.",
       "LEARN_MORE": "Aprende más sobre el panel de aplicaciones",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Todavía no hay aplicaciones configuradas en esta cuenta",
         "LOADING": "Obteniendo aplicaciones del tablero...",
         "TABLE_HEADER": {
           "NAME": "Nombre",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Acciones"
         },
         "EDIT_TOOLTIP": "Editar aplicación",
         "DELETE_TOOLTIP": "Eliminar aplicación"
@@ -239,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Lineal",
       "ADD_OR_LINK_BUTTON": "Crear/Enlazar Problema Linear",
       "LOADING": "Cargando problemas lineales...",
       "LOADING_ERROR": "Hubo un error al recuperar los problemas lineales, por favor inténtalo de nuevo",
@@ -333,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
@@ -344,6 +391,12 @@
   "CAPTAIN": {
     "NAME": "Capitán",
     "HEADER_KNOW_MORE": "Know more",
+    "ASSISTANT_SWITCHER": {
+      "ASSISTANTS": "Assistants",
+      "SWITCH_ASSISTANT": "Switch between assistants",
+      "NEW_ASSISTANT": "Create Assistant",
+      "EMPTY_LIST": "No assistants found, please create one to get started"
+    },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Prueba estas sugerencias",
@@ -396,6 +449,7 @@
       "CANCEL_ANYTIME": "Puede cambiar o cancelar su plan en cualquier momento"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
       "ASK_ADMIN": "Por favor, comuníquese con su administrador para la actualización."
     },
@@ -473,7 +527,8 @@
           "TITLE": "Características",
           "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
@@ -483,16 +538,14 @@
         "NOT_FOUND": "Could not find the assistant. Please try again."
       },
       "SETTINGS": {
-        "BREADCRUMB": {
-          "ASSISTANT": "Assistant"
-        },
+        "HEADER": "Ajustes",
         "BASIC_SETTINGS": {
           "TITLE": "Configuraciones básicas",
-          "DESCRIPTION": ""
+          "DESCRIPTION": "Personaliza lo que dice el asistente al finalizar una conversación o al transferirla a una persona."
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
-          "DESCRIPTION": ""
+          "DESCRIPTION": "Personaliza lo que dice el asistente al finalizar una conversación o al transferirla a una persona."
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",
@@ -502,15 +555,16 @@
               "TITLE": "Guardrails",
               "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
             },
-            "SCENARIOS": {
-              "TITLE": "Scenarios",
-              "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”"
-            },
             "RESPONSE_GUIDELINES": {
               "TITLE": "Response guidelines",
               "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
             }
           }
+        },
+        "DELETE": {
+          "TITLE": "Delete Assistant",
+          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+          "BUTTON_TEXT": "Delete {assistantName}"
         }
       },
       "OPTIONS": {
@@ -529,9 +583,6 @@
       "GUARDRAILS": {
         "TITLE": "Guardrails",
         "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
-        "BREADCRUMB": {
-          "TITLE": "Guardrails"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -577,9 +628,6 @@
       "RESPONSE_GUIDELINES": {
         "TITLE": "Response Guidelines",
         "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
-        "BREADCRUMB": {
-          "TITLE": "Response Guidelines"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -625,9 +673,6 @@
       "SCENARIOS": {
         "TITLE": "Scenarios",
         "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
-        "BREADCRUMB": {
-          "TITLE": "Scenarios"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -725,11 +770,6 @@
         "NAME": {
           "LABEL": "Document Name (Optional)",
           "PLACEHOLDER": "Enter a name for the document"
-        },
-        "ASSISTANT": {
-          "LABEL": "Assistant",
-          "PLACEHOLDER": "Select the assistant",
-          "ERROR": "The assistant field is required"
         }
       },
       "DELETE": {
@@ -863,6 +903,7 @@
     },
     "RESPONSES": {
       "HEADER": "Preguntas frecuentes",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Create new FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
@@ -902,6 +943,10 @@
         "APPROVED": "Approved",
         "ALL": "Todos"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
         "TITLE": "Add an FAQ",
@@ -918,11 +963,6 @@
           "LABEL": "Answer",
           "PLACEHOLDER": "Enter the answer here",
           "ERROR": "Please provide a valid answer."
-        },
-        "ASSISTANT": {
-          "LABEL": "Assistant",
-          "PLACEHOLDER": "Select an assistant",
-          "ERROR": "Please select an assistant."
         }
       },
       "EDIT": {
@@ -932,13 +972,15 @@
         "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
       },
       "OPTIONS": {
-        "APPROVE": "Mark as approved",
-        "EDIT_RESPONSE": "Edit FAQ",
-        "DELETE_RESPONSE": "Delete FAQ"
+        "APPROVE": "Approve",
+        "EDIT_RESPONSE": "Editar",
+        "DELETE_RESPONSE": "Eliminar"
       },
       "EMPTY_STATE": {
         "TITLE": "No FAQs Found",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
