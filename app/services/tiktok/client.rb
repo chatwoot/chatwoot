@@ -75,20 +75,21 @@ class Tiktok::Client
     require 'faraday'
     require 'faraday/multipart'
 
+    content_type = file.content_type
     file.open do |temp_file|
-      response = upload_media_with_faraday(temp_file, media_type)
+      response = upload_media_with_faraday(temp_file, media_type, content_type)
       json = process_json_response(wrap_faraday_response(response), 'Failed to upload TikTok media')
       json['data']['media_id']
     end
   end
 
-  def upload_media_with_faraday(temp_file, media_type)
+  def upload_media_with_faraday(temp_file, media_type, content_type)
     conn = Faraday.new do |f|
       f.request :multipart
       f.adapter Faraday.default_adapter
     end
     endpoint = 'https://business-api.tiktok.com/open_api/v1.3/business/message/media/upload/'
-    payload = { business_id: business_id, media_type: media_type, file: Faraday::Multipart::FilePart.new(temp_file.path, 'image/jpeg') }
+    payload = { business_id: business_id, media_type: media_type, file: Faraday::Multipart::FilePart.new(temp_file.path, content_type) }
     conn.post(endpoint) do |req|
       req.headers['Access-Token'] = access_token
       req.body = payload

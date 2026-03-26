@@ -1301,7 +1301,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_20_074636) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
-  add_foreign_key "reusable_attachments", "accounts"
+  add_foreign_key "reusable_attachments", "accounts", on_delete: :cascade
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

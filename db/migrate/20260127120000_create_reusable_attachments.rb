@@ -1,7 +1,7 @@
 class CreateReusableAttachments < ActiveRecord::Migration[7.0]
   def change
     create_table :reusable_attachments do |t|
-      t.references :account, null: false, foreign_key: true, index: true
+      t.references :account, null: false, foreign_key: { on_delete: :cascade }, index: true
       t.string :name, null: false
       t.integer :file_type, default: 0, null: false
       t.string :extension
