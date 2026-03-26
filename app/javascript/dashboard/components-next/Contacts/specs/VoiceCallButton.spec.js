@@ -112,7 +112,6 @@ describe('VoiceCallButton.vue', () => {
     mocks.useAlert.mockImplementation(() => {});
     mocks.useI18n.mockReturnValue({ t: key => key });
     router.push.mockReset();
-    callsStore.addCall.mockReset();
     dialogOpen.mockReset();
     dialogClose.mockReset();
 
@@ -142,6 +141,27 @@ describe('VoiceCallButton.vue', () => {
   });
 
   it('dispatches the fixed inbox call directly and skips the picker', async () => {
+    const events = [];
+    store.dispatch.mockImplementation(async (action, payload) => {
+      events.push(action);
+
+      if (action === 'contacts/initiateCall') {
+        expect(payload).toEqual({
+          contactId: 41,
+          inboxId: 12,
+        });
+        return {
+          call_sid: 'CS-123',
+          conversation_id: 77,
+        };
+      }
+
+      return undefined;
+    });
+    callsStore.addCall.mockImplementation(() => {
+      events.push('addCall');
+    });
+
     const wrapper = mountSubject({
       fixedInboxId: 12,
       navigateOnSuccess: false,
@@ -150,11 +170,17 @@ describe('VoiceCallButton.vue', () => {
     await wrapper.find('[data-test-id="voice-call-button"]').trigger('click');
     await flushPromises();
 
-    expect(store.dispatch).toHaveBeenCalledWith('contacts/initiateCall', {
+    expect(store.dispatch).toHaveBeenNthCalledWith(1, 'contacts/initiateCall', {
       contactId: 41,
       inboxId: 12,
     });
+    expect(store.dispatch).toHaveBeenNthCalledWith(2, 'getConversation', 77);
     expect(dialogOpen).not.toHaveBeenCalled();
+    expect(events).toEqual([
+      'contacts/initiateCall',
+      'getConversation',
+      'addCall',
+    ]);
     expect(callsStore.addCall).toHaveBeenCalledWith({
       callSid: 'CS-123',
       conversationId: 77,

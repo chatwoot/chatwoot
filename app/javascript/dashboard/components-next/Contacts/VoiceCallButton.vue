@@ -77,6 +77,10 @@ const startCall = async inboxId => {
     });
     const { call_sid: callSid, conversation_id: conversationId } = response;
 
+    if (!props.navigateOnSuccess && conversationId) {
+      await store.dispatch('getConversation', conversationId);
+    }
+
     // Add call to store immediately so widget shows
     const callsStore = useCallsStore();
     callsStore.addCall({

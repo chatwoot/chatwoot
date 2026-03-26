@@ -1,4 +1,6 @@
+/* eslint-disable vue/no-unused-properties */
 import { createStore } from 'vuex';
+import { defineComponent } from 'vue';
 import { shallowMount } from '@vue/test-utils';
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 import ConversationHeader from '../ConversationHeader.vue';
@@ -43,6 +45,18 @@ describe('ConversationHeader.vue', () => {
     channel_type: 'Channel::Email',
     name: 'Email inbox',
   };
+  const VoiceCallButtonStub = defineComponent({
+    name: 'VoiceCallButton',
+    props: {
+      phone: { type: String, default: '' },
+      contactId: { type: [String, Number], default: null },
+      fixedInboxId: { type: [String, Number], default: null },
+      navigateOnSuccess: { type: Boolean, default: true },
+      label: { type: String, default: '' },
+      icon: { type: [String, Object, Function], default: '' },
+    },
+    template: '<div data-test-id="voice-call-button-stub" />',
+  });
 
   const createSubject = ({
     inbox = voiceInbox,
@@ -118,7 +132,7 @@ describe('ConversationHeader.vue', () => {
           InboxName: true,
           MoreActions: true,
           SLACardLabel: true,
-          VoiceCallButton: true,
+          VoiceCallButton: VoiceCallButtonStub,
           'fluent-icon': true,
         },
       },
@@ -132,9 +146,16 @@ describe('ConversationHeader.vue', () => {
   it('renders the voice call action for a Voice inbox contact with a phone number', () => {
     const wrapper = createSubject();
 
-    expect(wrapper.findComponent({ name: 'VoiceCallButton' }).exists()).toBe(
-      true
-    );
+    const callButton = wrapper.getComponent(VoiceCallButtonStub);
+
+    expect(callButton.exists()).toBe(true);
+    expect(callButton.props()).toMatchObject({
+      phone: '+15555550100',
+      contactId: 91,
+      fixedInboxId: voiceInbox.id,
+      navigateOnSuccess: false,
+      label: 'CONTACT_PANEL.CALL',
+    });
   });
 
   it('hides the voice call action for non-voice inboxes', () => {

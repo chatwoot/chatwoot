@@ -164,7 +164,7 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
         :contact-id="currentContact.id"
         :fixed-inbox-id="inbox.id"
         :navigate-on-success="false"
-        label="Call"
+        :label="t('CONTACT_PANEL.CALL')"
         icon="i-ri-phone-fill"
       />
       <SLACardLabel
