@@ -138,7 +138,7 @@ const onSelectConversation = checked => {
       >
         <InboxName v-if="showInboxName" :inbox="inbox" class="flex-1 min-w-0" />
         <div
-          class="flex items-center gap-2 flex-shrink-0"
+          class="flex items-baseline gap-2 flex-shrink-0"
           :class="{
             'flex-1 justify-between': !showInboxName,
           }"
