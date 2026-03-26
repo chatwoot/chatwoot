@@ -38,6 +38,7 @@ class ChatwootHub
 
   def self.pricing_plan
     return 'community' unless ChatwootApp.enterprise?
+    return 'enterprise' if ChatwootApp.self_hosted_enterprise?
 
     InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN')&.value || 'community'
   end

@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   base: &base
     build:
@@ -19,7 +17,12 @@ services:
     <<: *base
     build:
       context: .
-      dockerfile: ./docker/dockerfiles/rails.Dockerfile
+      dockerfile: ./docker/Dockerfile
+      args:
+        BUNDLE_WITHOUT: ''
+        EXECJS_RUNTIME: 'Node'
+        RAILS_ENV: 'development'
+        RAILS_SERVE_STATIC_FILES: 'false'
     image: chatwoot-rails:development
     volumes:
       - ./:/app:delegated
@@ -65,7 +68,12 @@ services:
     <<: *base
     build:
       context: .
-      dockerfile: ./docker/dockerfiles/vite.Dockerfile
+      dockerfile: ./docker/Dockerfile
+      args:
+        BUNDLE_WITHOUT: ''
+        EXECJS_RUNTIME: 'Node'
+        RAILS_ENV: 'development'
+        RAILS_SERVE_STATIC_FILES: 'false'
     image: chatwoot-vite:development
     volumes:
       - ./:/app:delegated
@@ -85,14 +93,15 @@ services:
   postgres:
     image: pgvector/pgvector:pg16
     restart: always
+    env_file: .env
     ports:
       - '5432:5432'
     volumes:
-      - postgres:/data/postgres
+      - postgres:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
+      - POSTGRES_DB=${POSTGRES_DATABASE:-chatwoot_dev}
+      - POSTGRES_USER=${POSTGRES_USERNAME:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
 
   redis:
     image: redis:alpine

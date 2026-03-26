@@ -13,7 +13,7 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
-/tmp/*
+/tmp/
 !/log/.keep
 !/tmp/.keep
 *.mmdb

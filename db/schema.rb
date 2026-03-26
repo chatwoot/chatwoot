@@ -589,8 +589,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_26_120000) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "contacts_count"
     t.string "twenty_id"
+    t.integer "contacts_count", default: 0, null: false
     t.index ["account_id", "domain"], name: "index_companies_on_account_and_domain", unique: true, where: "(domain IS NOT NULL)"
     t.index ["account_id", "twenty_id"], name: "index_companies_on_account_id_and_twenty_id", unique: true, where: "(twenty_id IS NOT NULL)"
     t.index ["account_id"], name: "index_companies_on_account_id"

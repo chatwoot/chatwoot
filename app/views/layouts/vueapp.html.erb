@@ -48,7 +48,7 @@
         isEnterprise: '<%= @global_config['IS_ENTERPRISE'] %>',
         isMfaEnabled: '<%= Chatwoot.mfa_enabled? %>',
         <% if @global_config['IS_ENTERPRISE'] %>
-        enterprisePlanName: '<%= @global_config['INSTALLATION_PRICING_PLAN'] %>',
+        enterprisePlanName: '<%= ChatwootHub.pricing_plan %>',
         <% end %>
         <% if @global_config['VAPID_PUBLIC_KEY'] %>
         vapidPublicKey: new Uint8Array(<%= Base64.urlsafe_decode64(@global_config['VAPID_PUBLIC_KEY']).bytes %>),

@@ -11,15 +11,9 @@ module Enterprise::Concerns::Contact
   private
 
   def should_associate_company?
-    # Only trigger if:
-    # 1. Contact has an email
-    # 2. Contact doesn't have a compan yet
-    # 3. Email was just set/changed
-    # 4. Email was previously nil (first time getting email)
-    email.present? &&
-      company_id.nil? &&
-      saved_change_to_email? &&
-      saved_change_to_email.first.nil?
+    return false if email.blank? || company_id.present?
+
+    saved_change_to_email? || saved_change_to_additional_attributes? || saved_change_to_phone_number?
   end
 
   def associate_company_from_email

@@ -1,5 +1,8 @@
 class GlobalConfigService
   def self.load(config_key, default_value)
+    env_config_value = ENV[config_key]
+    return env_config_value if env_config_value.present?
+
     config = GlobalConfig.get(config_key)[config_key]
     return config if config.present?
 
