@@ -28,6 +28,7 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
   AUTO_LANGUAGE_CODE_MAP = {
     'de' => 'de-DE',
     'en' => 'en-US',
+    'es' => 'es-ES',
     'fr' => 'fr-FR',
     'hi' => 'hi-IN',
     'id' => 'id-ID',
@@ -36,6 +37,7 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
     'ko' => 'ko-KR',
     'nl' => 'nl-NL',
     'pl' => 'pl-PL',
+    'pt' => 'pt-BR',
     'ru' => 'ru-RU',
     'th' => 'th-TH',
     'tr' => 'tr-TR',
