@@ -101,13 +101,9 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
 
   def dialogflow_language_code
     configured_language = hook.settings['language_code'].to_s.strip
-    return configured_language if configured_language.present? && configured_language != 'auto'
+    return 'en-US' if configured_language.blank?
+    return configured_language if configured_language != 'auto'
 
-    # Auto-detect: try to get language from contact's additional_attributes
-    contact_language = conversation&.contact&.additional_attributes&.dig('language_code')
-    return contact_language if contact_language.present?
-
-    # Fallback to default
-    'en-US'
+    conversation&.contact&.additional_attributes&.dig('language_code').presence || 'en-US'
   end
 end

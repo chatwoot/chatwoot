@@ -281,6 +281,10 @@ describe Integrations::Dialogflow::ProcessorService do
     end
 
     context 'when language_code is not configured' do
+      before do
+        conversation.contact.update(additional_attributes: { 'language_code' => 'pt-BR' })
+      end
+
       it 'falls back to en-US' do
         hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {} })
 
@@ -289,6 +293,10 @@ describe Integrations::Dialogflow::ProcessorService do
     end
 
     context 'when language_code is empty or blank' do
+      before do
+        conversation.contact.update(additional_attributes: { 'language_code' => 'pt-BR' })
+      end
+
       it 'falls back to en-US for empty string' do
         hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => '' })
 
