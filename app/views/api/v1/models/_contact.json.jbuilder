@@ -8,6 +8,14 @@ json.blocked resource.blocked
 json.identifier resource.identifier
 json.thumbnail resource.avatar_url
 json.custom_attributes resource.custom_attributes
+json.company_id resource.company_id
+json.twenty_id resource.twenty_id
+json.company do
+  json.id resource.company.id
+  json.name resource.company.name
+  json.domain resource.company.domain
+  json.twenty_id resource.company.twenty_id
+end if resource.company.present?
 json.last_activity_at resource.last_activity_at.to_i if resource[:last_activity_at].present?
 json.created_at resource.created_at.to_i if resource[:created_at].present?
 # we only want to output contact inbox when its /contacts endpoints

@@ -8,6 +8,7 @@
 #  domain         :string
 #  name           :string           not null
 #  created_at     :datetime         not null
+#  twenty_id      :string
 #  updated_at     :datetime         not null
 #  account_id     :bigint           not null
 #
@@ -15,6 +16,7 @@
 #
 #  index_companies_on_account_and_domain   (account_id,domain) UNIQUE WHERE (domain IS NOT NULL)
 #  index_companies_on_account_id           (account_id)
+#  index_companies_on_account_id_and_twenty_id  (account_id,twenty_id) UNIQUE WHERE (twenty_id IS NOT NULL)
 #  index_companies_on_name_and_account_id  (name,account_id)
 #
 class Company < ApplicationRecord
@@ -27,6 +29,7 @@ class Company < ApplicationRecord
   }
   validates :domain, uniqueness: { scope: :account_id }, if: -> { domain.present? }
   validates :description, length: { maximum: Limits::COMPANY_DESCRIPTION_LENGTH_LIMIT }
+  validates :twenty_id, allow_nil: true, uniqueness: { scope: :account_id }
 
   belongs_to :account
   has_many :contacts, dependent: :nullify

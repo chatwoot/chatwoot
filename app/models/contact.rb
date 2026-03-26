@@ -22,12 +22,14 @@
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
 #  company_id            :bigint
+#  twenty_id             :string
 #
 # Indexes
 #
 #  index_contacts_on_account_id                          (account_id)
 #  index_contacts_on_account_id_and_contact_type         (account_id,contact_type)
 #  index_contacts_on_account_id_and_last_activity_at     (account_id,last_activity_at DESC NULLS LAST)
+#  index_contacts_on_account_id_and_twenty_id            (account_id,twenty_id) UNIQUE WHERE (twenty_id IS NOT NULL)
 #  index_contacts_on_blocked                             (blocked)
 #  index_contacts_on_company_id                          (company_id)
 #  index_contacts_on_lower_email_account_id              (lower((email)::text), account_id)
@@ -54,6 +56,7 @@ class Contact < ApplicationRecord
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
+  validates :twenty_id, allow_nil: true, uniqueness: { scope: [:account_id] }
 
   belongs_to :account
   has_many :conversations, dependent: :destroy_async
@@ -63,6 +66,7 @@ class Contact < ApplicationRecord
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
   before_validation :prepare_contact_attributes
+  validate :company_belongs_to_account
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
@@ -90,11 +94,11 @@ class Contact < ApplicationRecord
     order(
       Arel::Nodes::SqlLiteral.new(
         sanitize_sql_for_order(
-          "\"contacts\".\"additional_attributes\"->>'company_name' #{direction}
+          "COALESCE(\"companies\".\"name\", \"contacts\".\"additional_attributes\"->>'company_name') #{direction}
           NULLS LAST"
         )
       )
-    )
+    ).left_outer_joins(:company)
   }
   scope :order_on_city, lambda { |direction|
     order(
@@ -226,6 +230,13 @@ class Contact < ApplicationRecord
   def prepare_jsonb_attributes
     self.additional_attributes = {} if additional_attributes.blank?
     self.custom_attributes = {} if custom_attributes.blank?
+  end
+
+  def company_belongs_to_account
+    return if company_id.blank?
+    return if company.present? && company.account_id == account_id
+
+    errors.add(:company_id, 'must belong to the current account')
   end
 
   def sync_contact_attributes
