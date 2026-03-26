@@ -23,6 +23,7 @@ RSpec.describe AccountEmailRateLimitable do
 
   describe '#within_email_rate_limit?' do
     before do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
       account.update!(limits: { 'emails' => 2 })
     end
 
