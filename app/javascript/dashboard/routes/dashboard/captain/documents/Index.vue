@@ -118,6 +118,15 @@ const selectedCountLabel = computed(() => {
   });
 });
 
+const hasBulkSelection = computed(() => bulkSelectedIds.value.size > 0);
+
+const shouldShowSelectionControl = docId => {
+  return (
+    canManageDocuments.value &&
+    (hoveredCard.value === docId || hasBulkSelection.value)
+  );
+};
+
 const handleCardHover = (isHovered, id) => {
   hoveredCard.value = isHovered ? id : null;
 };
@@ -216,10 +225,7 @@ onMounted(() => {
           :created-at="doc.created_at"
           :is-selected="canManageDocuments && bulkSelectedIds.has(doc.id)"
           :selectable="canManageDocuments"
-          :show-selection-control="
-            canManageDocuments &&
-            (hoveredCard === doc.id || bulkSelectedIds.size > 0)
-          "
+          :show-selection-control="shouldShowSelectionControl(doc.id)"
           :show-menu="!bulkSelectedIds.has(doc.id)"
           @action="handleAction"
           @select="handleCardSelect"
