@@ -164,6 +164,22 @@ describe('VoiceCallButton.vue', () => {
     expect(router.push).not.toHaveBeenCalled();
   });
 
+  it('reuses the alert behavior when fixed inbox call initiation fails', async () => {
+    store.dispatch.mockRejectedValueOnce(new Error('Call failed'));
+
+    const wrapper = mountSubject({
+      fixedInboxId: 12,
+      navigateOnSuccess: false,
+    });
+
+    await wrapper.find('[data-test-id="voice-call-button"]').trigger('click');
+    await flushPromises();
+
+    expect(mocks.useAlert).toHaveBeenCalledWith('Call failed');
+    expect(router.push).not.toHaveBeenCalled();
+    expect(callsStore.addCall).not.toHaveBeenCalled();
+  });
+
   it('keeps the loading state wired to the button', () => {
     const wrapper = mountSubject({ isInitiatingCall: true });
 
