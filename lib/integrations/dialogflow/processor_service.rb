@@ -1,6 +1,47 @@
 require 'google/cloud/dialogflow/v2'
 
 class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorService
+  SUPPORTED_LANGUAGE_CODES = %w[
+    en-US
+    en-GB
+    es-ES
+    es-419
+    fr-FR
+    de-DE
+    pt-BR
+    pt-PT
+    it-IT
+    ja-JP
+    ko-KR
+    zh-CN
+    zh-TW
+    hi-IN
+    ar-SA
+    ru-RU
+    nl-NL
+    pl-PL
+    tr-TR
+    th-TH
+    vi-VN
+    id-ID
+  ].freeze
+  AUTO_LANGUAGE_CODE_MAP = {
+    'de' => 'de-DE',
+    'en' => 'en-US',
+    'fr' => 'fr-FR',
+    'hi' => 'hi-IN',
+    'id' => 'id-ID',
+    'it' => 'it-IT',
+    'ja' => 'ja-JP',
+    'ko' => 'ko-KR',
+    'nl' => 'nl-NL',
+    'pl' => 'pl-PL',
+    'ru' => 'ru-RU',
+    'th' => 'th-TH',
+    'tr' => 'tr-TR',
+    'vi' => 'vi-VN'
+  }.freeze
+
   pattr_initialize [:event_name!, :hook!, :event_data!]
 
   private
@@ -104,6 +145,24 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
     return 'en-US' if configured_language.blank?
     return configured_language if configured_language != 'auto'
 
-    conversation&.contact&.additional_attributes&.dig('language_code').presence || 'en-US'
+    normalized_contact_language_code(conversation&.contact&.additional_attributes&.dig('language_code')) || 'en-US'
+  end
+
+  def normalized_contact_language_code(language_code)
+    canonical_language_code = canonical_language_code(language_code)
+    return if canonical_language_code.blank?
+    return canonical_language_code if SUPPORTED_LANGUAGE_CODES.include?(canonical_language_code)
+
+    AUTO_LANGUAGE_CODE_MAP[canonical_language_code]
+  end
+
+  def canonical_language_code(language_code)
+    normalized_language_code = language_code.to_s.tr('_', '-').strip
+    return if normalized_language_code.blank?
+
+    language, region = normalized_language_code.split('-', 2)
+    return language.downcase if region.blank?
+
+    "#{language.downcase}-#{region.upcase}"
   end
 end

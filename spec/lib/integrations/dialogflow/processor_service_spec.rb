@@ -272,6 +272,27 @@ describe Integrations::Dialogflow::ProcessorService do
         expect(processor.send(:dialogflow_language_code)).to eq('pt-BR')
       end
 
+      it 'normalizes short contact language codes to supported Dialogflow locales' do
+        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        conversation.contact.update(additional_attributes: { 'language_code' => 'en' })
+
+        expect(processor.send(:dialogflow_language_code)).to eq('en-US')
+      end
+
+      it 'normalizes contact language formatting before checking supported locales' do
+        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        conversation.contact.update(additional_attributes: { 'language_code' => 'pt_br' })
+
+        expect(processor.send(:dialogflow_language_code)).to eq('pt-BR')
+      end
+
+      it 'falls back to en-US for ambiguous or unsupported contact language codes' do
+        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        conversation.contact.update(additional_attributes: { 'language_code' => 'es' })
+
+        expect(processor.send(:dialogflow_language_code)).to eq('en-US')
+      end
+
       it 'falls back to en-US when contact has no language' do
         hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
         conversation.contact.update(additional_attributes: {})
