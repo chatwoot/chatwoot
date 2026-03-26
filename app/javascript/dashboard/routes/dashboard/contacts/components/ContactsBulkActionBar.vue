@@ -94,7 +94,7 @@ const handleAssignLabels = labels => {
 
 <template>
   <div
-    class="sticky top-0 z-10 bg-gradient-to-b from-n-background from-90% to-transparent px-6 pt-1 pb-2"
+    class="sticky top-0 z-10 bg-gradient-to-b from-n-surface-1 from-90% to-transparent pt-1 pb-2"
   >
     <BulkSelectBar
       v-model="selectionModel"
