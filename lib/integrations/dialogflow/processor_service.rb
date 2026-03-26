@@ -26,6 +26,7 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
     id-ID
   ].freeze
   AUTO_LANGUAGE_CODE_MAP = {
+    'ar' => 'ar-SA',
     'de' => 'de-DE',
     'en' => 'en-US',
     'es' => 'es-ES',
@@ -41,7 +42,8 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
     'ru' => 'ru-RU',
     'th' => 'th-TH',
     'tr' => 'tr-TR',
-    'vi' => 'vi-VN'
+    'vi' => 'vi-VN',
+    'zh' => 'zh-CN'
   }.freeze
 
   pattr_initialize [:event_name!, :hook!, :event_data!]
@@ -151,11 +153,11 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
   end
 
   def normalized_contact_language_code(language_code)
-    canonical_language_code = canonical_language_code(language_code)
-    return if canonical_language_code.blank?
-    return canonical_language_code if SUPPORTED_LANGUAGE_CODES.include?(canonical_language_code)
+    canonicalized_language_code = canonical_language_code(language_code)
+    return if canonicalized_language_code.blank?
+    return canonicalized_language_code if SUPPORTED_LANGUAGE_CODES.include?(canonicalized_language_code)
 
-    AUTO_LANGUAGE_CODE_MAP[canonical_language_code]
+    AUTO_LANGUAGE_CODE_MAP[canonicalized_language_code]
   end
 
   def canonical_language_code(language_code)
