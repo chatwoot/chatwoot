@@ -4,6 +4,7 @@
 #
 #  id            :bigint           not null, primary key
 #  name          :string
+#  secret        :string
 #  subscriptions :jsonb
 #  url           :text
 #  webhook_type  :integer          default("account_type")
