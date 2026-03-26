@@ -54,11 +54,12 @@ bulk_auto_assignment_job:
   class: 'Inboxes::BulkAutoAssignmentJob'
   queue: scheduled_jobs
 
-# executed every 20 minutes
-# to retry failed WhatsApp template messages
+# executed every hour
+# to retry failed WhatsApp template messages (up to 7 attempts over 7 days)
 retry_whatsapp_template_messages_job:
-  cron: '/20 * * * *'
+  cron: '0 * * * *'
   class: 'RetryWhatsappTemplateMessagesJob'
+  queue: scheduled_jobs
 
 # executed every 30 minutes for assignment_v2
 periodic_assignment_job:
