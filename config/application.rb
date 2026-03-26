@@ -69,6 +69,12 @@ module Chatwoot
     # Disable PDF/video preview generation as we don't use them
     config.active_storage.previewers = []
 
+    # Restrict content types served inline to prevent XSS via uploaded files (e.g. PDFs with embedded JavaScript).
+    config.active_storage.content_types_allowed_inline = %w[
+      image/png image/gif image/jpeg image/tiff image/vnd.adobe.photoshop
+      image/vnd.microsoft.icon image/webp image/avif image/heic image/heif
+    ]
+
     # Active Record Encryption configuration
     # Required for MFA/2FA features - skip if not using encryption
     if ENV['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY'].present?
