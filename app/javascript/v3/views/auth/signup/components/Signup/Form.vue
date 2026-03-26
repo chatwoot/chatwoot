@@ -79,7 +79,7 @@ const performRegistration = async () => {
     await register(credentials);
     router.push({
       name: 'auth_verify_email',
-      query: { email: credentials.email },
+      state: { email: credentials.email },
     });
   } catch (error) {
     const errorMessage = error?.message || t('REGISTER.API.ERROR_MESSAGE');

@@ -54,8 +54,8 @@ export default [
     name: 'auth_verify_email',
     component: VerifyEmail,
     meta: { ignoreSession: true },
-    props: route => ({
-      email: route.query.email,
+    props: () => ({
+      email: window.history.state?.email || '',
     }),
   },
   {
