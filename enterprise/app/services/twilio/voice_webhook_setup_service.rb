@@ -58,17 +58,11 @@ class Twilio::VoiceWebhookSetupService
   end
 
   def api_key_client
-    @api_key_client ||= begin
-      cfg = channel.provider_config.with_indifferent_access
-      ::Twilio::REST::Client.new(cfg[:api_key_sid], cfg[:api_key_secret], cfg[:account_sid])
-    end
+    @api_key_client ||= ::Twilio::REST::Client.new(channel.api_key_sid, channel.api_key_secret, channel.account_sid)
   end
 
   def token_client
-    @token_client ||= begin
-      cfg = channel.provider_config.with_indifferent_access
-      ::Twilio::REST::Client.new(cfg[:account_sid], cfg[:auth_token])
-    end
+    @token_client ||= ::Twilio::REST::Client.new(channel.account_sid, channel.auth_token)
   end
 
   def log_twilio_error(context, error)
@@ -80,11 +74,10 @@ class Twilio::VoiceWebhookSetupService
   end
 
   def build_error_details(context, error)
-    cfg = channel.provider_config.with_indifferent_access
     {
       context: context,
       phone_number: channel.phone_number,
-      account_sid: cfg[:account_sid],
+      account_sid: channel.account_sid,
       error_class: error.class.to_s,
       message: error.message
     }

@@ -130,8 +130,9 @@ if resource.whatsapp?
   json.reauthorization_required resource.channel.try(:reauthorization_required?)
 end
 
-## Voice Channel Attributes
-if resource.channel_type == 'Channel::Voice'
+## Voice attributes for TwilioSms
+if resource.twilio? && resource.channel.respond_to?(:voice_enabled?) && resource.channel.voice_enabled?
+  json.voice_enabled true
   json.voice_call_webhook_url resource.channel.try(:voice_call_webhook_url)
   json.voice_status_webhook_url resource.channel.try(:voice_status_webhook_url)
 end

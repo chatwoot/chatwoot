@@ -142,7 +142,7 @@ export default {
         },
       ];
 
-      if (!this.isAVoiceChannel) {
+      if (!this.voiceCallEnabled) {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
           {
@@ -170,7 +170,7 @@ export default {
         this.isATwilioChannel ||
         this.isALineChannel ||
         this.isAPIInbox ||
-        this.isAVoiceChannel ||
+        this.voiceCallEnabled ||
         (this.isAnEmailChannel && !this.inbox.provider) ||
         this.shouldShowWhatsAppConfiguration ||
         this.isAWebWidgetInbox
@@ -742,7 +742,7 @@ export default {
             </SettingsFieldSection>
 
             <SettingsFieldSection
-              v-if="!isAVoiceChannel"
+              v-if="!voiceCallEnabled"
               :label="$t('INBOX_MGMT.HELP_CENTER.LABEL')"
               :help-text="$t('INBOX_MGMT.HELP_CENTER.SUB_TEXT')"
             >

@@ -33,14 +33,9 @@ class Voice::Provider::Twilio::ConferenceService
   end
 
   def twilio_client
-    @twilio_client ||= ::Twilio::REST::Client.new(account_sid, auth_token)
-  end
-
-  def account_sid
-    @account_sid ||= conversation.inbox.channel.provider_config_hash['account_sid']
-  end
-
-  def auth_token
-    @auth_token ||= conversation.inbox.channel.provider_config_hash['auth_token']
+    @twilio_client ||= begin
+      channel = conversation.inbox.channel
+      ::Twilio::REST::Client.new(channel.account_sid, channel.auth_token)
+    end
   end
 end

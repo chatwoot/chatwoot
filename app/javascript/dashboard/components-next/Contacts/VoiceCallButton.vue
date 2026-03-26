@@ -3,7 +3,7 @@ import { computed, ref, useAttrs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { isVoiceCallEnabled } from 'dashboard/helper/inbox';
 import { useAlert } from 'dashboard/composables';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import { useCallsStore } from 'dashboard/stores/calls';
@@ -34,9 +34,7 @@ const inboxesList = useMapGetter('inboxes/getInboxes');
 const contactsUiFlags = useMapGetter('contacts/getUIFlags');
 
 const voiceInboxes = computed(() =>
-  (inboxesList.value || []).filter(
-    inbox => inbox.channel_type === INBOX_TYPES.VOICE
-  )
+  (inboxesList.value || []).filter(isVoiceCallEnabled)
 );
 const hasVoiceInboxes = computed(() => voiceInboxes.value.length > 0);
 
