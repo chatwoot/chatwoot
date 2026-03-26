@@ -260,6 +260,17 @@ RSpec.describe 'Companies API', type: :request do
         expect(response_body['payload']['domain']).to eq('newcompany.com')
       end
 
+      it 'creates a new company with twenty_id' do
+        post "/api/v1/accounts/#{account.id}/companies",
+             params: valid_params.deep_merge(company: { twenty_id: 'company-123' }),
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']['twenty_id']).to eq('company-123')
+        expect(Company.last.twenty_id).to eq('company-123')
+      end
+
       it 'returns error for invalid params' do
         invalid_params = { company: { name: '' } }
 
@@ -302,6 +313,17 @@ RSpec.describe 'Companies API', type: :request do
         response_body = response.parsed_body
         expect(response_body['payload']['name']).to eq('Updated Company Name')
         expect(response_body['payload']['domain']).to eq('updated.com')
+      end
+
+      it 'updates the company twenty_id' do
+        patch "/api/v1/accounts/#{account.id}/companies/#{company.id}",
+              params: update_params.deep_merge(company: { twenty_id: 'company-456' }),
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']['twenty_id']).to eq('company-456')
+        expect(company.reload.twenty_id).to eq('company-456')
       end
     end
   end

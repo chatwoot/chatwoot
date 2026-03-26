@@ -101,6 +101,6 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAcco
   end
 
   def company_params
-    params.require(:company).permit(:name, :domain, :description, :avatar)
+    params.require(:company).permit(:name, :domain, :description, :avatar, :twenty_id)
   end
 end
