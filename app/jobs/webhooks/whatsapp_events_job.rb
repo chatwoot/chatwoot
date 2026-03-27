@@ -93,10 +93,27 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   end
 
   def get_channel_from_wb_payload(wb_params)
-    phone_number = "+#{wb_params[:entry].first[:changes].first.dig(:value, :metadata, :display_phone_number)}"
+    display_phone_number = wb_params[:entry].first[:changes].first.dig(:value, :metadata, :display_phone_number)
     phone_number_id = wb_params[:entry].first[:changes].first.dig(:value, :metadata, :phone_number_id)
-    channel = Channel::Whatsapp.find_by(phone_number: phone_number)
+
+    channel = Channel::Whatsapp.find_by(phone_number: "+#{display_phone_number}")
+    # If not found, try with normalized number to handle country-specific format variations
+    # e.g., Brazil's missing 9-digit mobile prefix in display_phone_number
+    channel ||= find_channel_with_normalized_number(display_phone_number)
+
     # validate to ensure the phone number id matches the whatsapp channel
     return channel if channel && channel.provider_config['phone_number_id'] == phone_number_id
+  end
+
+  def find_channel_with_normalized_number(display_phone_number)
+    return if display_phone_number.blank?
+
+    normalizer = Whatsapp::PhoneNumberNormalizationService::NORMALIZERS.lazy.filter_map do |klass|
+      n = klass.new
+      n if n.handles_country?(display_phone_number)
+    end.first
+    return unless normalizer
+
+    Channel::Whatsapp.find_by(phone_number: "+#{normalizer.normalize(display_phone_number)}")
   end
 end
