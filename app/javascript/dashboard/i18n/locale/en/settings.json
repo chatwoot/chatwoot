@@ -291,6 +291,219 @@
   "SETTINGS": {
     "INBOXES": {
       "NEW_INBOX": "Add Inbox"
+    },
+    "TEMPLATES": {
+      "HEADER": {
+        "TITLE": "Templates",
+        "DESCRIPTION": "Create and manage message templates to streamline your customer support responses."
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No templates yet",
+        "DESCRIPTION": "Get started by creating your first template. Templates help you respond faster with consistent messaging."
+      },
+      "ACTIONS": {
+        "CREATE_TEMPLATE": "Create Template",
+        "NEW_TEMPLATE": "New template",
+        "DELETE": "Delete template"
+      },
+      "FILTERS": {
+        "CONTENT": "Content",
+        "CHANNEL": "Channel",
+        "ALL_STATUSES": "All Statuses",
+        "APPROVED": "Approved",
+        "PENDING": "Pending",
+        "REJECTED": "Rejected",
+        "ALL_CHANNELS": "All Channels",
+        "ALL_LANGUAGES": "All Languages"
+      },
+      "LIST": {
+        "404": "No templates found",
+        "PAGINATION": "Showing {start} - {end} of {total} items",
+        "TABLE_HEADER": {
+          "NAME": "Name",
+          "CATEGORY": "Category",
+          "CHANNEL": "Channel",
+          "STATUS": "Status",
+          "ACTIONS": "Actions"
+        }
+      },
+      "ADD": {
+        "TITLE": "Create a content template",
+        "DESC": "Create reusable message templates for faster customer communication.",
+        "CANCEL": "Cancel",
+        "CREATE": "Create",
+        "CONTINUE": "Continue",
+        "BACK": "Back",
+        "STEPS": {
+          "BASIC": "Basic Info",
+          "BUILDER": "Template Builder"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "Template name",
+            "PLACEHOLDER": "Enter template name",
+            "HELP": "Use lowercase letters, numbers, and underscores only",
+            "VALIDATION": {
+              "PATTERN": "Template name can only contain lowercase letters, numbers, and underscores",
+              "NO_LEADING_UNDERSCORE": "Template name cannot start with underscore",
+              "NO_TRAILING_UNDERSCORE": "Template name cannot end with underscore"
+            }
+          },
+          "LANGUAGE": {
+            "LABEL": "Language"
+          },
+          "CHANNEL_TYPE": {
+            "LABEL": "Channel"
+          },
+          "CATEGORY": {
+            "LABEL": "Category",
+            "PLACEHOLDER": "Select category",
+            "ERROR": "Please select a category",
+            "OPTIONS": {
+              "MARKETING": "Marketing",
+              "UTILITY": "Utility",
+              "AUTHENTICATION": "Authentication - Coming Soon"
+            }
+          },
+          "INBOX": {
+            "LABEL": "WhatsApp Inbox",
+            "PLACEHOLDER": "Select a WhatsApp inbox",
+            "ERROR": "Please select a WhatsApp inbox",
+            "NO_WHATSAPP_INBOX": "No WhatsApp inboxes found. Create a WhatsApp inbox first."
+          }
+        }
+      },
+      "DELETE": {
+        "CONFIRM": {
+          "TITLE": "Delete {templateName}",
+          "MESSAGE": "Are you sure you want to delete this template? This action cannot be undone.",
+          "YES": "Delete",
+          "NO": "Cancel",
+          "PLACE_HOLDER": "Type {templateName} to confirm"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Template deleted successfully",
+          "ERROR_MESSAGE": "Failed to delete template"
+        }
+      },
+      "BUILDER": {
+        "TITLE": "Template Builder",
+        "DESC": "Design your WhatsApp template with headers, body text, footers, and buttons.",
+        "NEW_TITLE": "Create New Template",
+        "EDIT_TITLE": "Edit Template",
+        "BUILD_TEMPLATE": "Build template",
+        "EDIT_TEMPLATE": "Edit template",
+        "CREATE": "Create Template",
+        "UPDATE": "Update Template",
+        "OPTIONAL": "Optional",
+        "REQUIRED": "Required",
+        "HEADER": {
+          "TITLE": "Header",
+          "TYPE": "Header Type",
+          "TEXT_LABEL": "Header Text",
+          "TEXT_PLACEHOLDER": "Enter header text",
+          "TEXT_HELP": "Keep it short and engaging (max 60 characters)",
+          "MEDIA_UPLOAD": "Upload your file",
+          "DISABLED_TEXT": "Add an optional header to make your template more engaging"
+        },
+        "BODY": {
+          "TITLE": "Body",
+          "TEXT_LABEL": "Message Text",
+          "TEXT_PLACEHOLDER": "Enter your message text here...",
+          "TEXT_HELP": "Use *bold* and _italic_ formatting. Add variables with {{1}}, {{2}}, etc.",
+          "VARIABLES_TITLE": "Variable Examples",
+          "VARIABLE_PLACEHOLDER": "Example value",
+          "VARIABLES_HELP": "Provide example values for variables to help with template approval",
+          "INSERT_VARIABLE_HELP": "Click the + button to insert variables like {{1}}, {{2}} for dynamic content"
+        },
+        "FOOTER": {
+          "TITLE": "Footer",
+          "TEXT_LABEL": "Footer Text",
+          "TEXT_PLACEHOLDER": "Enter footer text",
+          "TEXT_HELP": "Additional context or disclaimer (max 60 characters)",
+          "GUIDELINES": "Footer text cannot contain variables or formatting",
+          "DISABLED_TEXT": "Add an optional footer with additional context"
+        },
+        "BUTTONS": {
+          "TITLE": "Call-to-Action Buttons",
+          "TYPE": "Button Type",
+          "BUTTONS_LABEL": "Buttons",
+          "ADD_BUTTON": "Add Button",
+          "BUTTON_TEXT": "Button Text",
+          "TEXT_PLACEHOLDER": "Enter button text",
+          "PHONE_NUMBER": "Phone Number",
+          "PHONE_PLACEHOLDER": "+1234567890",
+          "URL": "Website URL",
+          "URL_PLACEHOLDER": "https://example.com",
+          "DESCRIPTION": "Create buttons that let customers respond to your message or take action. You can add up to ten buttons. If you add more than three buttons, they will appear in a list.",
+          "SEE_ALL_OPTIONS": "See all options",
+          "TYPE_LABEL": "Type",
+          "EXAMPLE_CODE_LABEL": "Example code",
+          "EXAMPLE_CODE_PLACEHOLDER": "SAVE20",
+          "DROPDOWN": {
+            "VISIT_WEBSITE": "Visit website",
+            "CALL_PHONE": "Call phone number",
+            "QUICK_REPLY": "Quick reply",
+            "COPY_CODE": "Copy offer code"
+          },
+          "PLACEHOLDERS": {
+            "PHONE_NUMBER": "Enter the phone number",
+            "BUTTON_TEXT": "Button text",
+            "QUICK_REPLY": "Quick Reply"
+          },
+          "QUICK_REPLY_HELP": "Quick reply buttons let customers respond with preset options (max 3 buttons)",
+          "CALL_TO_ACTION_HELP": "Call-to-action buttons let customers call your business (max 2 buttons)",
+          "URL_HELP": "URL buttons let customers visit your website (max 2 buttons)",
+          "DISABLED_TEXT": "Add optional buttons to encourage customer action"
+        },
+        "VARIABLES": {
+          "TITLE": "Variables",
+          "POSITIONAL_HELP": "Provide example values for positional parameters ({example1}, {example2}, etc.)",
+          "NAMED_HELP": "Provide example values for named parameters ({example_param})",
+          "EXAMPLE_PLACEHOLDER": "Example {index}",
+          "NAMED_EXAMPLE_PLACEHOLDER": "Example for {name}",
+          "ERRORS": {
+            "NAMED_IN_POSITIONAL": "Named variables are not allowed",
+            "POSITIONAL_IN_NAMED": "Positional variables are not allowed",
+            "DUPLICATE_VARIABLES": "Text cannot contain duplicate variables",
+            "MAX_VARIABLES_EXCEEDED": "Maximum {count} variables allowed"
+          }
+        },
+        "PREVIEW": {
+          "TITLE": "Preview",
+          "NO_CONTENT": "Start building your template to see a preview",
+          "IMAGE_HEADER": "Image header preview",
+          "VIDEO_HEADER": "Video header preview",
+          "DOCUMENT_HEADER": "Document header preview"
+        },
+        "PARAMETER_TYPES": {
+          "TITLE": "Type of parameter",
+          "OPTIONS": {
+            "POSITIONAL": "Positional",
+            "NAMED": "Named"
+          }
+        }
+      },
+      "MEDIA": {
+        "UPLOAD_LABEL": "Choose file",
+        "UPLOADING": "Uploading...",
+        "UPLOADED": "Uploaded",
+        "UPLOAD_ERROR": "Upload failed",
+        "IMAGE": "Image",
+        "VIDEO": "Video",
+        "DOCUMENT": "Document",
+        "SIZE_ERROR": "File size exceeds {size}MB limit",
+        "TYPE_ERROR": "Invalid file type",
+        "UPLOAD_FAILED": "Upload failed. Please try again.",
+        "HINT": "Max file size: {size}MB"
+      },
+      "LOADING": "Loading templates...",
+      "API": {
+        "FETCH_ERROR": "Failed to load templates. Please try again.",
+        "SUCCESS_MESSAGE": "Template created successfully",
+        "UPDATE_SUCCESS": "Template updated successfully",
+        "ERROR_MESSAGE": "Failed to save template. Please try again."
+      }
     }
   },
   "SIDEBAR": {
@@ -326,6 +539,7 @@
     "INBOXES": "Inboxes",
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Canned Responses",
+    "TEMPLATES": "Templates",
     "INTEGRATIONS": "Integrations",
     "PROFILE_SETTINGS": "Profile Settings",
     "ACCOUNT_SETTINGS": "Account Settings",
