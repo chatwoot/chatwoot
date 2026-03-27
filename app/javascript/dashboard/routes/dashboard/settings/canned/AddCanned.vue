@@ -6,6 +6,7 @@ import { useAlert } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Modal from '../../../../components/Modal.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import { uploadFile } from 'dashboard/helper/uploadHelper';
 
 export default {
   name: 'AddCanned',
@@ -31,6 +32,7 @@ export default {
     return {
       shortCode: '',
       content: this.responseContent || '',
+      attachments: [],
       addCanned: {
         showLoading: false,
         message: '',
@@ -48,9 +50,23 @@ export default {
     },
   },
   methods: {
+    async handleFileUpload(event) {
+      const files = Array.from(event.target.files);
+      if (files.length === 0) return;
+
+      try {
+        const uploadPromises = files.map(file => uploadFile(file));
+        const results = await Promise.all(uploadPromises);
+        const blobIds = results.map(result => result.blobId);
+        this.attachments = [...this.attachments, ...blobIds];
+      } catch (error) {
+        useAlert(this.$t('CANNED_MGMT.ADD.FORM.ATTACHMENTS.UPLOAD_ERROR'));
+      }
+    },
     resetForm() {
       this.shortCode = '';
       this.content = '';
+      this.attachments = [];
       this.v$.shortCode.$reset();
       this.v$.content.$reset();
     },
@@ -62,6 +78,7 @@ export default {
         .dispatch('createCannedResponse', {
           short_code: this.shortCode,
           content: this.content,
+          attachments: this.attachments,
         })
         .then(() => {
           // Reset Form, Show success message
@@ -118,6 +135,26 @@ export default {
             />
           </div>
         </div>
+
+        <div class="w-full">
+          <label>
+            {{ $t('CANNED_MGMT.ADD.FORM.ATTACHMENTS.LABEL') }}
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              @change="handleFileUpload"
+            />
+          </label>
+          <p v-if="attachments.length > 0" class="text-xs text-n-default mt-1">
+            {{
+              $t('CANNED_MGMT.ADD.FORM.ATTACHMENTS.FILES_SELECTED', {
+                count: attachments.length,
+              })
+            }}
+          </p>
+        </div>
+
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <NextButton
             faded
