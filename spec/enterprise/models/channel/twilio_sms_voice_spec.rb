@@ -60,4 +60,39 @@ RSpec.describe Channel::TwilioSms do
       expect(channel.twiml_app_sid).to eq(twiml_app_sid)
     end
   end
+
+  describe 'teardown on disable' do
+    let(:channel) { create(:channel_twilio_sms, :with_voice, account: account) }
+    let(:app_context) { double('app_context') }
+    let(:twilio_client) { instance_double(Twilio::REST::Client) }
+
+    before do
+      allow(Twilio::REST::Client).to receive(:new).and_return(twilio_client)
+      allow(twilio_client).to receive(:applications).with(channel.twiml_app_sid).and_return(app_context)
+      allow(app_context).to receive(:delete)
+    end
+
+    it 'deletes the TwiML app and clears voice credentials' do
+      original_twiml_sid = channel.twiml_app_sid
+      channel.update!(voice_enabled: false)
+
+      expect(twilio_client).to have_received(:applications).with(original_twiml_sid)
+      expect(app_context).to have_received(:delete)
+      expect(channel.reload.twiml_app_sid).to be_nil
+      expect(channel.reload.api_key_secret).to be_nil
+    end
+
+    it 'preserves api_key_sid' do
+      channel.update!(voice_enabled: false)
+      expect(channel.reload.api_key_sid).to be_present
+    end
+
+    it 'does not fail if Twilio API errors' do
+      allow(app_context).to receive(:delete).and_raise(Twilio::REST::RestError.new('Not found', double(status_code: 404, body: {})))
+
+      expect { channel.update!(voice_enabled: false) }.not_to raise_error
+      expect(channel.reload.twiml_app_sid).to be_nil
+      expect(channel.reload.api_key_secret).to be_nil
+    end
+  end
 end

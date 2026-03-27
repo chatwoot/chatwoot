@@ -23,6 +23,7 @@ export default {
       voiceEnabled: this.inbox.voice_enabled || false,
       apiKeySid: this.inbox.api_key_sid || '',
       apiKeySecret: '',
+      isUpdating: false,
     };
   },
   computed: {
@@ -57,6 +58,7 @@ export default {
   },
   methods: {
     async updateVoiceSettings() {
+      this.isUpdating = true;
       try {
         const channelPayload = { voice_enabled: this.voiceEnabled };
 
@@ -72,9 +74,12 @@ export default {
           formData: false,
           channel: channelPayload,
         });
+        this.apiKeySecret = '';
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      } finally {
+        this.isUpdating = false;
       }
     },
   },
@@ -135,6 +140,7 @@ export default {
     <div>
       <NextButton
         :disabled="isSubmitDisabled"
+        :is-loading="isUpdating"
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
         @click="updateVoiceSettings"
       />
