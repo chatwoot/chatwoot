@@ -9,7 +9,7 @@ class WebhookJob < ApplicationJob
     Webhooks::Trigger.new(url, payload, type).handle_error(error)
   end
 
-  def perform(url, payload, webhook_type = :account_webhook)
-    Webhooks::Trigger.execute(url, payload, webhook_type)
+  def perform(url, payload, webhook_type = :account_webhook, secret: nil, delivery_id: nil)
+    Webhooks::Trigger.execute(url, payload, webhook_type, secret: secret, delivery_id: delivery_id)
   end
 end

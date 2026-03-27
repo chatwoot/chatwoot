@@ -61,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "הודעה זו אינה נתמכת. תוכל לצפות בהודעה זו באפליקציית Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "הודעה זו אינה נתמכת. תוכל לצפות בהודעה זו באפליקציית Instagram.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "ההודעה נמחקה בהצלחה",
     "FAIL_DELETE_MESSSAGE": "לא ניתן למחוק את ההודעה! נסה שוב",
     "NO_RESPONSE": "אין תגובה",
@@ -173,6 +174,10 @@
           "SUCCESFUL": "הוקצתה תווית #{labelName} לשיחה מזהה {conversationId}",
           "FAILED": "לא ניתן לקשר שורה. אנא נסו שנית"
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "הצוות {team} קושר לשיחה מספר {conversationId}",
           "FAILED": "השמה לצוות לא הצליחה, בבקשה נסה שנית."
@@ -185,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "נטרל חתימה",
       "MSG_INPUT": "Shift + Enter עבור שורה חדשה. התחל עם '/' כדי לבחור תגובה מוכנה.",
       "PRIVATE_MSG_INPUT": "Shift + Enter עבור שורה חדשה. זה יהיה גלוי רק לסוכנים",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "חתימת הודעה אינה מוגדרת, נא הגדר אותה בהגדרות הפרופיל.",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "לחץ כאן כדי לעדכן",
       "WHATSAPP_TEMPLATES": "תבניות וואטסאפ"
     },
@@ -205,7 +214,7 @@
       "DRAG_DROP": "גרור ושחרר כאן להוספת קובץ מצורף",
       "START_AUDIO_RECORDING": "התחל הקלטת אודיו",
       "STOP_AUDIO_RECORDING": "עצור הקלטת אודיו",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "אל",
         "ADD_BCC": "הוסף bcc",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "השיחה נמחקה בהצלחה",
     "FAIL_DELETE_CONVERSATION": "לא ניתן למחוק את השיחה! נסה שוב",
     "FILE_SIZE_LIMIT": "הקובץ גדול מ{MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE}MB מגבלת העלאה",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "לא ניתן לשלוח הודעה, אנא נסה שוב מאוחר יותר",
     "SENT_BY": "נשלח על ידי:",
     "BOT": "בוט",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "לא ניתן לשלוח הודעה! נסה שוב",
     "TRY_AGAIN": "נסה שוב",
     "ASSIGNMENT": {
@@ -294,6 +306,7 @@
     "CANCEL": "ביטול",
     "SEND_EMAIL_SUCCESS": "תמליל השיחה נשלח בהצלחה",
     "SEND_EMAIL_ERROR": "היתה שגיאה, בקשה נסה שוב",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "שלח תמליל ללקוח",
       "SEND_TO_AGENT": "שלח תמליל לסוכן המשוייך לשיחה",

@@ -374,6 +374,16 @@
         "ERROR_MESSAGE": "Erreur lors de la suppression de l’article"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "Veuillez ajouter le titre et le contenu de l'article puis vous seul pouvez mettre à jour les paramètres"
     },

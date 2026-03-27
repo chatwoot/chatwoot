@@ -67,6 +67,9 @@ const isSent = computed(() => {
     return sourceId.value && status.value === MESSAGE_STATUS.SENT;
   }
 
+  // API inbox messages use real sent/delivered/read status values from the external system.
+  if (isAPIInbox.value) return status.value === MESSAGE_STATUS.SENT;
+
   // All messages will be mark as sent for the Line channel, as there is no source ID.
   if (isALineChannel.value) return true;
 
@@ -81,12 +84,15 @@ const isDelivered = computed(() => {
     isATwilioChannel.value ||
     isASmsInbox.value ||
     isAFacebookInbox.value ||
+    isAnInstagramChannel.value ||
     isATiktokChannel.value
   ) {
     return sourceId.value && status.value === MESSAGE_STATUS.DELIVERED;
   }
-  // All messages marked as delivered for the web widget inbox and API inbox once they are sent.
-  if (isAWebWidgetInbox.value || isAPIInbox.value) {
+  // API inbox messages use real delivered status from the external system.
+  if (isAPIInbox.value) return status.value === MESSAGE_STATUS.DELIVERED;
+  // All messages marked as delivered for the web widget inbox once they are sent.
+  if (isAWebWidgetInbox.value) {
     return status.value === MESSAGE_STATUS.SENT;
   }
   if (isALineChannel.value) {

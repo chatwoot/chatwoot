@@ -374,6 +374,16 @@
         "ERROR_MESSAGE": "Σφάλμα κατά τη διαγραφή άρθρου"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "Παρακαλώ προσθέστε την επικεφαλίδα και το περιεχόμενο του άρθρου για να μπορείτε να ενημερώσετε τις ρυθμίσεις"
     },

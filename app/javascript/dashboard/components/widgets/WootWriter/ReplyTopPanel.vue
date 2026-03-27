@@ -45,6 +45,10 @@ export default {
       type: Number,
       default: () => 0,
     },
+    editorContent: {
+      type: String,
+      default: undefined,
+    },
   },
   emits: ['setReplyMode', 'togglePopout', 'executeCopilotAction'],
   setup(props, { emit }) {
@@ -69,8 +73,8 @@ export default {
     const { captainTasksEnabled } = useCaptain();
     const showCopilotMenu = ref(false);
 
-    const handleCopilotAction = actionKey => {
-      emit('executeCopilotAction', actionKey);
+    const handleCopilotAction = (actionKey, data) => {
+      emit('executeCopilotAction', actionKey, data || props.editorContent);
       showCopilotMenu.value = false;
     };
 
@@ -170,6 +174,8 @@ export default {
           v-if="showCopilotMenu"
           v-on-click-outside="handleClickOutside"
           :has-selection="false"
+          :editor-content="editorContent"
+          :conversation-id="conversationId"
           class="ltr:right-0 rtl:left-0 bottom-full mb-2"
           @execute-copilot-action="handleCopilotAction"
         />

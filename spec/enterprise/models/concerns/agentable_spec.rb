@@ -89,6 +89,7 @@ RSpec.describe Concerns::Agentable do
       context_double = instance_double(Agents::RunContext,
                                        context: {
                                          state: {
+                                           assistant_config: { 'feature_contact_attributes' => true },
                                            conversation: { id: 123 },
                                            contact: { name: 'John' }
                                          }
@@ -97,12 +98,33 @@ RSpec.describe Concerns::Agentable do
       expected_context = {
         base_key: 'base_value',
         conversation: { id: 123 },
-        contact: { name: 'John' }
+        contact: { name: 'John' },
+        campaign: {}
       }
 
       expect(Captain::PromptRenderer).to receive(:render).with(
         'dummy_class',
         hash_including(expected_context)
+      )
+
+      dummy_instance.agent_instructions(context_double)
+    end
+
+    it 'merges campaign data from context state' do
+      context_double = instance_double(Agents::RunContext,
+                                       context: {
+                                         state: {
+                                           conversation: { id: 123 },
+                                           contact: { name: 'John' },
+                                           campaign: { id: 10, title: 'Summer Sale', message: 'Check it out' }
+                                         }
+                                       })
+
+      expect(Captain::PromptRenderer).to receive(:render).with(
+        'dummy_class',
+        hash_including(
+          campaign: { id: 10, title: 'Summer Sale', message: 'Check it out' }
+        )
       )
 
       dummy_instance.agent_instructions(context_double)
@@ -116,7 +138,8 @@ RSpec.describe Concerns::Agentable do
         hash_including(
           base_key: 'base_value',
           conversation: {},
-          contact: {}
+          contact: nil,
+          campaign: {}
         )
       )
 

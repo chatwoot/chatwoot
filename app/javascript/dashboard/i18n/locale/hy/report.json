@@ -1,105 +1,105 @@
 {
   "REPORT": {
-    "HEADER": "Conversations",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
-    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "HEADER": "Զրույցներ",
+    "LOADING_CHART": "Գրաֆիկի տվյալները բեռնվում են...",
+    "NO_ENOUGH_DATA": "Հաշվետվություն կազմելու համար բավարար տվյալներ չկան, փորձեք ավելի ուշ։",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Ներբեռնել զրույցների հաշվետվությունները",
+    "DATA_FETCHING_FAILED": "Տվյալները բեռնելը ձախողվեց, խնդրում ենք փորձել ավելի ուշ։",
+    "SUMMARY_FETCHING_FAILED": "Հաշվետվության ամփոփումը բեռնելը ձախողվեց, խնդրում ենք փորձել ավելի ուշ։",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Զրույցներ",
+        "DESC": "(Ընդամենը)"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "DESC": "(Ընդամենը)"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "DESC": "(Ընդամենը)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Առաջին արձագանքի ժամանակ",
+        "DESC": "(Միջին)",
+        "INFO_TEXT": "Հաշվարկի համար օգտագործված զրույցների ընդհանուր քանակը՝",
+        "TOOLTIP_TEXT": "Առաջին պատասխանման ժամանակը {metricValue} է (հիմնված է {conversationCount} զրույցների վրա)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Լուծման ժամանակ",
+        "DESC": "(Միջին)",
+        "INFO_TEXT": "Հաշվարկի համար օգտագործված զրույցների ընդհանուր քանակը՝",
+        "TOOLTIP_TEXT": "Լուծման ժամանակը {metricValue} է (հիմնված է {conversationCount} զրույցների վրա)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Լուծվածների քանակ",
+        "DESC": "( Ընդհանուր )"
       },
       "BOT_RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Լուծումների քանակ",
+        "DESC": "(Ընդհանուր)"
       },
       "BOT_HANDOFF_COUNT": {
-        "NAME": "Handoff Count",
-        "DESC": "( Total )"
+        "NAME": "Հանձման քանակ",
+        "DESC": "(Ընդհանուր)"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "NAME": "Հաճախորդի սպասման ժամանակ",
+        "TOOLTIP_TEXT": "Սպասման ժամանակը {metricValue} է (հիմնված է {conversationCount} պատասխանների վրա)",
         "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
-      "LAST_7_DAYS": "Last 7 days",
-      "LAST_14_DAYS": "Last 14 days",
-      "LAST_30_DAYS": "Last 30 days",
-      "THIS_MONTH": "This month",
-      "LAST_MONTH": "Last month",
-      "LAST_3_MONTHS": "Last 3 months",
-      "LAST_6_MONTHS": "Last 6 months",
-      "LAST_YEAR": "Last year",
-      "CUSTOM_DATE_RANGE": "Custom date range"
+      "LAST_7_DAYS": "Վերջին 7 օրերը",
+      "LAST_14_DAYS": "Վերջին 14 օրերը",
+      "LAST_30_DAYS": "Վերջին 30 օրերը",
+      "THIS_MONTH": "Այս ամիս",
+      "LAST_MONTH": "Նախորդ ամիս",
+      "LAST_3_MONTHS": "Վերջին 3 ամիսները",
+      "LAST_6_MONTHS": "Վերջին 6 ամիսները",
+      "LAST_YEAR": "Վերջին տարին",
+      "CUSTOM_DATE_RANGE": "Ընտրված ամսաթվի միջակայք"
     },
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Կիրառել",
+      "PLACEHOLDER": "Ընտրեք ամսաթվերի միջակայքը"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
-    "DURATION_FILTER_LABEL": "Duration",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Խմբավորել ըստ",
+    "DURATION_FILTER_LABEL": "Տևողություն",
     "GROUPING_OPTIONS": {
-      "DAY": "Day",
-      "WEEK": "Week",
-      "MONTH": "Month",
+      "DAY": "Օր",
+      "WEEK": "Շաբաթ",
+      "MONTH": "Ամիս",
       "YEAR": "Month"
     },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Օր"
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Օր"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Շաբաթ"
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Օր"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Շաբաթ"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Ամիս"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
@@ -116,467 +116,535 @@
         "groupBy": "Month"
       }
     ],
-    "BUSINESS_HOURS": "Business Hours",
+    "BUSINESS_HOURS": "Աշխատանքային ժամեր",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
-      "EMPTY_LIST": "No results found"
+      "CLEAR_FILTER": "Մաքրել ֆիլտրը",
+      "EMPTY_LIST": "Արդյունքներ չեն գտնվել"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results",
-      "PER_PAGE_TEMPLATE": "{size} / page"
+      "RESULTS": "Ցուցադրվում է {start}-ից {end}-ը՝ ընդհանուր {total} արդյունքներից",
+      "PER_PAGE_TEMPLATE": "{size} / էջ"
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "HEADER": "Գործակալների ամփոփում",
+    "DESCRIPTION": "Հեշտությամբ հետևեք գործակալի արդյունավետությանը հիմնական չափանիշներով, ինչպիսիք են զրույցները, պատասխանման ժամանակները, լուծման ժամանակները և լուծված դեպքերը։ Սեղմեք գործակալի անունը՝ ավելին իմանալու համար։",
+    "LOADING_CHART": "Գրաֆիկի տվյալները բեռնվում են...",
+    "NO_ENOUGH_DATA": "Հաշվետվություն կազմելու համար բավարար տվյալներ չունենք, փորձեք ավելի ուշ։",
+    "DOWNLOAD_AGENT_REPORTS": "Ներբեռնել գործակալների հաշվետվությունները",
+    "FILTER_DROPDOWN_LABEL": "Ընտրեք գործակալին",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Որոնել գործակալների մեջ"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Զրույցներ",
+        "DESC": "( Ընդհանուր )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Մուտքային հաղորդագրություններ",
+        "DESC": "( Ընդամենը )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Ելքային հաղորդագրություններ",
+        "DESC": "( Ընդամենը )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Առաջին արձագանքի ժամանակ",
+        "DESC": "( Միջին )",
+        "INFO_TEXT": "Հաշվարկի համար օգտագործված զրույցների ընդհանուր քանակը՝",
+        "TOOLTIP_TEXT": "Առաջին պատասխանման ժամանակը {metricValue} է (հիմնված է {conversationCount} զրույցների վրա)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Լուծման ժամանակ",
+        "DESC": "( Միջին )",
+        "INFO_TEXT": "Հաշվարկի համար օգտագործված զրույցների ընդհանուր քանակը՝",
+        "TOOLTIP_TEXT": "Լուծման ժամանակը {metricValue} է (հիմնված է {conversationCount} զրույցների վրա)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Լուծված դեպքերի քանակ",
+        "DESC": "( Ընդամենը )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Վերջին 7 օրը"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Վերջին 30 օրը"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Վերջին 3 ամիսը"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Վերջին 6 ամիսը"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Վերջին տարին"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Անհատական ժամանակահատված"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Կիրառել",
+      "PLACEHOLDER": "Ընտրեք ժամանակահատվածը"
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
-    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "HEADER": "Պիտակների ակնարկ",
+    "DESCRIPTION": "Հետևեք պիտակի արդյունավետությանը հիմնական չափանիշներով՝ ներառյալ զրույցները, պատասխանման ժամանակները, լուծման ժամանակները և լուծված դեպքերը։ Սեղմեք պիտակի անվան վրա՝ մանրամասն տեղեկությունների համար։",
+    "LOADING_CHART": "Գծապատկերի տվյալները բեռնվում են...",
+    "NO_ENOUGH_DATA": "Հաշվետվություն կազմելու համար բավարար տվյալներ չկան, փորձեք ավելի ուշ։",
+    "DOWNLOAD_LABEL_REPORTS": "Ներբեռնել պիտակների հաշվետվությունները",
+    "FILTER_DROPDOWN_LABEL": "Ընտրեք պիտակը",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Որոնել պիտակները"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Զրույցներ",
+        "DESC": "( Ընդամենը )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Մուտքային հաղորդագրություններ",
+        "DESC": "( Ընդամենը )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Ելքային հաղորդագրություններ",
+        "DESC": "( Ընդամենը )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Առաջին արձագանքի ժամանակը",
+        "DESC": "( Միջին )",
+        "INFO_TEXT": "Հաշվարկի համար օգտագործված զրույցների ընդհանուր քանակը՝",
+        "TOOLTIP_TEXT": "Առաջին պատասխանման ժամանակը {metricValue} է (հիմնված {conversationCount} զրույցների վրա)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Լուծման ժամանակ",
+        "DESC": "( միջին )",
+        "INFO_TEXT": "Հաշվարկի համար օգտագործված զրույցների ընդհանուր քանակը՝",
+        "TOOLTIP_TEXT": "Լուծման ժամանակը {metricValue} է (հիմնված {conversationCount} զրույցների վրա)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Լուծված դեպքերի քանակ",
+        "DESC": "( ընդհանուր )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Վերջին 7 օրը"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Վերջին 30 օրը"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Վերջին 3 ամիսը"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Վերջին 6 ամիսը"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Վերջին տարին"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Անհատական ժամանակահատված"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Կիրառել",
+      "PLACEHOLDER": "Ընտրեք ամսաթվերի միջակայքը"
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
-    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
-    "ALL_INBOXES": "All Inboxes",
-    "SEARCH_INBOX": "Search Inbox",
+    "HEADER": "Զրույցների ամփոփում",
+    "DESCRIPTION": "Արագ դիտեք ձեր մուտքի արկղի կատարողականը հիմնական չափանիշներով՝ զրույցներ, պատասխանների ժամանակներ, լուծման ժամանակներ և լուծված դեպքեր՝ բոլորը մեկ վայրում։ Սեղմեք մուտքի արկղի անվան վրա՝ մանրամասների համար։",
+    "LOADING_CHART": "Գրաֆիկի տվյալները բեռնվում են...",
+    "NO_ENOUGH_DATA": "Հաշվետվություն կազմելու համար բավարար տվյալներ չկան, փորձեք ավելի ուշ։",
+    "DOWNLOAD_INBOX_REPORTS": "Ներբեռնել զրույցների հաշվետվությունները",
+    "FILTER_DROPDOWN_LABEL": "Ընտրեք զրույցների արկղը",
+    "ALL_INBOXES": "Բոլոր մուտքերը",
+    "SEARCH_INBOX": "Որոնել Նամակների Պատյանում",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Որոնել մուտքային տուփերը"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Զրույցներ",
+        "DESC": "( Ընդամենը )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Մուտքային հաղորդագրություններ",
+        "DESC": "( Ընդամենը )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Ելքային հաղորդագրություններ",
+        "DESC": "( Ընդամենը )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Առաջին արձագանքի ժամանակը",
+        "DESC": "( Միջին )",
+        "INFO_TEXT": "Հաշվարկի համար օգտագործված զրույցների ընդհանուր քանակը՝",
+        "TOOLTIP_TEXT": "Առաջին պատասխանման ժամանակը {metricValue} է (հիմնված {conversationCount} զրույցների վրա)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Լուծման ժամանակ",
+        "DESC": "( Միջին )",
+        "INFO_TEXT": "Հաշվարկի համար օգտագործված զրույցների ընդհանուր քանակը՝",
+        "TOOLTIP_TEXT": "Լուծման ժամանակը {metricValue} է (հիմնված {conversationCount} զրույցների վրա)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Լուծված դեպքերի քանակ",
+        "DESC": "( Ընդամենը )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Վերջին 7 օրը"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Վերջին 30 օրը"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Վերջին 3 ամիսը"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Վերջին 6 ամիսը"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Վերջին տարին"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Անհատական ժամանակահատված"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Կիրառել",
+      "PLACEHOLDER": "Ընտրեք ժամանակահատվածը"
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "HEADER": "Թիմի ակնարկ",
+    "DESCRIPTION": "Ստացեք ձեր թիմի արդյունավետության ակնարկ՝ կարևոր չափանիշներով, ներառյալ զրույցները, պատասխանման ժամանակները, լուծման ժամանակները և լուծված դեպքերը։ Սեղմեք թիմի անունը՝ մանրամասների համար։",
+    "LOADING_CHART": "Գծապատկերի տվյալները բեռնվում են...",
+    "NO_ENOUGH_DATA": "Հաշվետվություն կազմելու համար բավարար տվյալներ չկան, փորձեք ավելի ուշ։",
+    "DOWNLOAD_TEAM_REPORTS": "Ներբեռնել թիմի հաշվետվությունները",
+    "FILTER_DROPDOWN_LABEL": "Ընտրեք թիմը",
+    "FILTERS": {
+      "ADD_FILTER": "Ավելացնել ֆիլտր",
+      "CLEAR_ALL": "Մաքրել բոլորը",
+      "NO_FILTER": "Ֆիլտրեր չկան",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Որոնել թիմերը"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Զրույցներ",
+        "DESC": "( Ընդամենը )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Մուտքային հաղորդագրություններ",
+        "DESC": "( Ընդամենը )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Ելքային հաղորդագրություններ",
+        "DESC": "( Ընդամենը )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Առաջին արձագանքի ժամանակը",
+        "DESC": "( Միջին )",
+        "INFO_TEXT": "Հաշվարկի համար օգտագործված զրույցների ընդհանուր քանակը՝",
+        "TOOLTIP_TEXT": "Առաջին պատասխանման ժամանակը {metricValue} է (հիմնված {conversationCount} զրույցների վրա)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Լուծման ժամանակ",
+        "DESC": "( Միջին )",
+        "INFO_TEXT": "Ընդհանուր զրույցների քանակը հաշվարկի համար՝:",
+        "TOOLTIP_TEXT": "Լուծման ժամանակը {metricValue} է (հիմնված է {conversationCount} զրույցների վրա)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Լուծվածների քանակ",
+        "DESC": "( Ընդհանուր )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Վերջին 7 օրը"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Վերջին 30 օրը"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Վերջին 3 ամիսը"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Վերջին 6 ամիսը"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Վերջին տարին"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Անհատական ժամանակահատված"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Կիրառել",
+      "PLACEHOLDER": "Ընտրեք ժամանակահատվածը"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
-    "DOWNLOAD": "Download CSAT Reports",
-    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "HEADER": "CSAT հաշվետվություններ",
+    "NO_RECORDS": "Դեռ պատասխաններ չկան",
+    "NO_RECORDS_DESCRIPTION": "CSAT հարցման պատասխանները կհայտնվեն այստեղ, երբ հաճախորդները սկսեն տրամադրել կարծիք։",
+    "DOWNLOAD": "Ներբեռնել CSAT հաշվետվությունները",
+    "DOWNLOAD_FAILED": "Չհաջողվեց ներբեռնել CSAT հաշվետվությունները",
     "FILTERS": {
+      "ADD_FILTER": "Ավելացնել ֆիլտր",
+      "CLEAR_ALL": "Մաքրել բոլորը",
+      "NO_FILTER": "Ֆիլտրեր չկան",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Փնտրել գործակալներ",
+        "INBOXES": "Որոնել մուտքային արկղերը",
+        "TEAMS": "Որոնել թիմերը",
+        "RATINGS": "Որոնել գնահատականները"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "LABEL": "Գործակալ"
+      },
+      "INBOXES": {
+        "LABEL": "Մուտքային արկղ"
+      },
+      "TEAMS": {
+        "LABEL": "Թիմ"
+      },
+      "RATINGS": {
+        "LABEL": "Գնահատական"
       }
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
-      }
+        "CONTACT_NAME": "Կոնտակտ",
+        "AGENT_NAME": "Գործակալ",
+        "RATING": "Վարկանիշ",
+        "FEEDBACK_TEXT": "Մեկնաբանություն",
+        "CONVERSATION": "Հաղորդակցություն",
+        "CUSTOMER": "Հաճախորդ",
+        "RESPONSE": "Պատասխան",
+        "HANDLED_BY": "Կատարել է"
+      },
+      "UNKNOWN_CUSTOMER": "Անհայտ հաճախորդ"
     },
+    "NO_AGENT": "Չկա նշանակված գործակալ",
+    "NO_FEEDBACK": "Հետադարձ կապ չի տրամադրվել",
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Ընդհանուր պատասխաններ",
+        "TOOLTIP": "Հավաքագրված պատասխանների ընդհանուր քանակը"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Բավարարվածության միավոր",
+        "TOOLTIP": "Դրական պատասխանների ընդհանուր թիվը / Պատասխանների ընդհանուր թիվը * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "Պատասխանների տոկոսը",
+        "TOOLTIP": "Պատասխանների ընդհանուր թիվը / Ուղարկված CSAT հարցումների ընդհանուր թիվը * 100"
+      },
+      "RATING_DISTRIBUTION": "Գնահատման բաշխում"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "Վերանայման նշումներ",
+      "PLACEHOLDER": "Ավելացնել վերանայման նշումներ այս գնահատման մասին...",
+      "SAVE": "Պահպանել",
+      "CANCEL": "Չեղարկել",
+      "SAVING": "Պահպանում...",
+      "SAVED": "Նշումները հաջողությամբ պահպանվեցին",
+      "SAVE_ERROR": "Չհաջողվեց պահպանել նշումները",
+      "UPDATED_BY": "Թարմացվել է {name} կողմից {time}",
+      "UPDATED_BY_LABEL": "Թարմացվել է",
+      "PAYWALL": {
+        "TITLE": "Թարմացրեք՝ ավելացնելու համար վերանայման նշումներ",
+        "AVAILABLE_ON": "Վերանայման նշումների ֆունկցիան հասանելի է միայն Բիզնես և Էնթերպրայզ պլաններում։",
+        "UPGRADE_PROMPT": "Ավելացրեք ներքին կոնտեքստ յուրաքանչյուր CSAT պատասխանին վերանայման նշումների միջոցով։ Պահեք, թե ինչ է իրականում տեղի ունեցել, ավելի արագ հայտնաբերեք նմուշները և ավելի լավ որոշումներ կայացրեք ձեր հետադարձ կապից։",
+        "UPGRADE_NOW": "Թարմացրեք հիմա",
+        "CANCEL_ANYTIME": "Դուք կարող եք ցանկացած պահի փոխել կամ չեղարկել ձեր պլանը"
       }
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
+    "HEADER": "Բոտի հաշվետվություններ",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "LABEL": "Խոսակցությունների քանակը",
+        "TOOLTIP": "Բոտի կողմից մշակված ընդհանուր խոսակցությունների քանակը"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
+        "LABEL": "Ընդհանուր պատասխաններ",
+        "TOOLTIP": "Բոտի կողմից ուղարկված ընդհանուր պատասխանների քանակը"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "LABEL": "Լուծման տոկոսադրույք",
+        "TOOLTIP": "Բոտի կողմից լուծված զրույցների ընդհանուր քանակը / Բոտի կողմից մշակված զրույցների ընդհանուր քանակը * 100"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "LABEL": "Հանձման տոկոսադրույք",
+        "TOOLTIP": "Բոտից գործակալներին հանձնարարված զրույցների ընդհանուր քանակը / Բոտի կողմից մշակված զրույցների ընդհանուր քանակը * 100"
       }
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
-    "LIVE": "Live",
+    "HEADER": "Ընդհանուր տեսք",
+    "LIVE": "Ուղիղ",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Open",
-      "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Unassigned",
-      "PENDING": "Pending"
+      "HEADER": "Բաց զրույցներ",
+      "LOADING_MESSAGE": "Բեռնվում են զրույցի չափանիշները...",
+      "OPEN": "Բաց",
+      "UNATTENDED": "Անհետաքրքրված",
+      "UNASSIGNED": "Չհատկացված",
+      "PENDING": "Սպասման մեջ"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "{count} conversation",
-      "CONVERSATIONS": "{count} conversations",
-      "DOWNLOAD_REPORT": "Download report"
+      "HEADER": "Հաղորդակցության հոսք",
+      "NO_CONVERSATIONS": "Հաղորդակցություններ չկան",
+      "CONVERSATION": "{count} զրույց",
+      "CONVERSATIONS": "{count} զրույցներ",
+      "DOWNLOAD_REPORT": "Ներբեռնել հաշվետվությունը"
     },
     "RESOLUTION_HEATMAP": {
-      "HEADER": "Resolutions",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "{count} conversation",
-      "CONVERSATIONS": "{count} conversations",
-      "DOWNLOAD_REPORT": "Download report"
+      "HEADER": "Լուծումներ",
+      "NO_CONVERSATIONS": "Չկան զրույցներ",
+      "CONVERSATION": "{count} զրույց",
+      "CONVERSATIONS": "{count} զրույցներ",
+      "DOWNLOAD_REPORT": "Ներբեռնել հաշվետվությունը"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "HEADER": "Զրույցներ գործակալների կողմից",
+      "LOADING_MESSAGE": "Բեռնվում են գործակալի չափանիշները...",
+      "NO_AGENTS": "Գործակալների կողմից զրույցներ չկան",
       "TABLE_HEADER": {
-        "AGENT": "Agent",
-        "OPEN": "Open",
-        "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+        "AGENT": "Գործակալ",
+        "OPEN": "Բացել",
+        "UNATTENDED": "Անհետաքրքրված",
+        "STATUS": "Կարգավիճակ"
       }
     },
     "TEAM_CONVERSATIONS": {
-      "ALL_TEAMS": "All Teams",
-      "HEADER": "Conversations by teams",
-      "LOADING_MESSAGE": "Loading team metrics...",
-      "NO_TEAMS": "There is no data available",
+      "ALL_TEAMS": "Բոլոր թիմերը",
+      "HEADER": "Խոսակցություններ ըստ թիմերի",
+      "LOADING_MESSAGE": "Բեռնվում են թիմի չափանիշները...",
+      "NO_TEAMS": "Տվյալներ չեն հասանելի",
       "TABLE_HEADER": {
-        "TEAM": "Team",
-        "OPEN": "Open",
-        "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+        "TEAM": "Թիմ",
+        "OPEN": "Բաց",
+        "UNATTENDED": "Անհետաքրքրված",
+        "STATUS": "Կարգավիճակ"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "Online",
-      "BUSY": "Busy",
-      "OFFLINE": "Offline"
+      "HEADER": "Գործակցի կարգավիճակ",
+      "ONLINE": "Առցանց",
+      "BUSY": "Աշխատասեր",
+      "OFFLINE": "Անհասանելի"
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "Կիրակի",
+    "MONDAY": "Երկուշաբթի",
+    "TUESDAY": "Երեքշաբթի",
+    "WEDNESDAY": "Չորեքշաբթի",
+    "THURSDAY": "Հինգշաբթի",
+    "FRIDAY": "Ուրբաթ",
+    "SATURDAY": "Շաբաթ"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
-    "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "HEADER": "SLA հաշվետվություններ",
+    "NO_RECORDS": "SLA կիրառված զրույցները հասանելի չեն։",
+    "LOADING": "Բեռնվում է SLA տվյալը...",
+    "DOWNLOAD_SLA_REPORTS": "Ներբեռնել SLA հաշվետվությունները",
+    "DOWNLOAD_FAILED": "Չհաջողվեց ներբեռնել SLA հաշվետվությունները",
     "DROPDOWN": {
-      "ADD_FIlTER": "Add filter",
-      "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
-      "EMPTY_LIST": "No results found",
-      "NO_FILTER": "No filters available",
-      "SEARCH": "Search filter",
+      "ADD_FIlTER": "Ավելացնել ֆիլտր",
+      "CLEAR_ALL": "Մաքրել բոլորը",
+      "CLEAR_FILTER": "Մաքրել ֆիլտրը",
+      "EMPTY_LIST": "Արդյունքներ չեն գտնվել",
+      "NO_FILTER": "Ֆիլտրեր չկան",
+      "SEARCH": "Փնտրման ֆիլտր",
       "INPUT_PLACEHOLDER": {
-        "SLA": "SLA name",
-        "AGENTS": "Agent name",
-        "INBOXES": "Inbox name",
-        "LABELS": "Label name",
-        "TEAMS": "Team name"
+        "SLA": "SLA-ի անուն",
+        "AGENTS": "Գործակալի անուն",
+        "INBOXES": "Փոստարկղի անուն",
+        "LABELS": "Պիտակի անուն",
+        "TEAMS": "Թիմի անունը"
       },
-      "SLA": "SLA Policy",
-      "INBOXES": "Inbox",
-      "AGENTS": "Agent",
-      "LABELS": "Label",
-      "TEAMS": "Team"
+      "SLA": "SLA քաղաքականություն",
+      "INBOXES": "Նամակապանակ",
+      "AGENTS": "Գործակալ",
+      "LABELS": "Պիտակ",
+      "TEAMS": "Թիմ"
     },
-    "WITH": "with",
+    "WITH": "հետ",
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Hit Rate",
-        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+        "LABEL": "Հարվածի տոկոսադրույք",
+        "TOOLTIP": "Ստեղծված SLA-ների տոկոսը, որոնք հաջողությամբ ավարտվել են"
       },
       "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
-        "TOOLTIP": "Total SLA misses in a certain period"
+        "LABEL": "Բացթողումների քանակը",
+        "TOOLTIP": "Ընդհանուր SLA բացթողումները որոշակի ժամանակահատվածում"
       },
       "NO_OF_CONVERSATIONS": {
-        "LABEL": "Number of Conversations",
-        "TOOLTIP": "Total number of conversations with SLA"
+        "LABEL": "Հաղորդակցությունների քանակ",
+        "TOOLTIP": "Ընդհանուր հաղորդակցությունների քանակը SLA-ով"
       }
     },
     "TABLE": {
       "HEADER": {
-        "POLICY": "Policy",
-        "CONVERSATION": "Conversation",
-        "AGENT": "Agent"
+        "POLICY": "Քաղաքականություն",
+        "CONVERSATION": "Հաղորդակցություն",
+        "AGENT": "Գործակալ"
       },
-      "VIEW_DETAILS": "View Details"
+      "VIEW_DETAILS": "Դիտել մանրամասները"
     }
   },
   "SUMMARY_REPORTS": {
-    "INBOX": "Inbox",
-    "AGENT": "Agent",
-    "TEAM": "Team",
-    "LABEL": "Label",
-    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
-    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
-    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
-    "RESOLUTION_COUNT": "Resolution Count",
-    "CONVERSATIONS": "No. of conversations"
+    "INBOX": "Մուտքի արկղ",
+    "AGENT": "Գործակալ",
+    "TEAM": "Խումբ",
+    "LABEL": "Պիտակ",
+    "AVG_RESOLUTION_TIME": "Միջին լուծման ժամանակ",
+    "AVG_FIRST_RESPONSE_TIME": "Միջին առաջին պատասխանման ժամանակ",
+    "AVG_REPLY_TIME": "Միջին հաճախորդի սպասման ժամանակ",
+    "RESOLUTION_COUNT": "Լուծումների քանակ",
+    "CONVERSATIONS": "Խոսակցությունների քանակ"
   }
 }

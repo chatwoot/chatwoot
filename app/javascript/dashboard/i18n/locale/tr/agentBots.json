@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "Editör Yükleniyor...",
     "DESCRIPTION": "Temsilci botları ekibinizin en harika üyeleri gibidir. Küçük işleri halledebilirler, böylece önemli işlere odaklanabilirsiniz. Onları deneyin. Botlarınızı bu sayfadan yönetebilir veya 'Bot Ekle' butonunu kullanarak yenilerini oluşturabilirsiniz.",
     "LEARN_MORE": "Temsilci botları hakkında bilgi edinin",
+    "COUNT": "{n} bot | {n} bots",
+    "SEARCH_PLACEHOLDER": "Search bots...",
+    "NO_RESULTS": "No bots found matching your search",
     "GLOBAL_BOT": "Sistem botu",
     "GLOBAL_BOT_BADGE": "Sistem",
     "AVATAR": {
@@ -34,7 +37,8 @@
       "LOADING": "Botlar alınıyor...",
       "TABLE_HEADER": {
         "DETAILS": "Bot Detayları",
-        "URL": "Webhook URL'si"
+        "URL": "Webhook URL'si",
+        "ACTIONS": "Hareketler"
       }
     },
     "DELETE": {

@@ -60,23 +60,19 @@ const handleFetchInboxes = () => {
     <div class="flex flex-col gap-2 relative justify-between w-full">
       <div class="flex items-center gap-3 justify-between w-full">
         <div class="flex items-center gap-3">
-          <h3 class="text-base font-medium text-n-slate-12 line-clamp-1">
+          <h3 class="text-heading-2 text-n-slate-12 line-clamp-1">
             {{ name }}
           </h3>
-          <div class="flex items-center gap-2">
-            <CardPopover
-              :title="
-                t(
-                  'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.INDEX.CARD.POPOVER'
-                )
-              "
-              icon="i-lucide-inbox"
-              :count="assignedInboxCount"
-              :items="inboxes"
-              :is-fetching="isFetchingInboxes"
-              @fetch="handleFetchInboxes"
-            />
-          </div>
+          <CardPopover
+            :title="
+              t('ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.INDEX.CARD.POPOVER')
+            "
+            icon="i-lucide-inbox"
+            :count="assignedInboxCount"
+            :items="inboxes"
+            :is-fetching="isFetchingInboxes"
+            @fetch="handleFetchInboxes"
+          />
         </div>
         <div class="flex items-center gap-2">
           <Button
@@ -93,18 +89,18 @@ const handleFetchInboxes = () => {
           <Button icon="i-lucide-trash" sm slate ghost @click="handleDelete" />
         </div>
       </div>
-      <p class="text-n-slate-11 text-sm line-clamp-1 mb-0 py-1">
+      <p class="text-n-slate-11 text-body-para line-clamp-1 mb-0 py-1">
         {{ description }}
       </p>
       <div class="flex items-center gap-3 py-1.5">
-        <span v-if="order" class="text-n-slate-11 text-sm">
+        <span v-if="order" class="text-n-slate-11 text-body-para">
           {{
             `${t('ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.INDEX.CARD.ORDER')}:`
           }}
           <span class="text-n-slate-12">{{ order }}</span>
         </span>
         <div v-if="order" class="w-px h-3 bg-n-strong" />
-        <span v-if="priority" class="text-n-slate-11 text-sm">
+        <span v-if="priority" class="text-n-slate-11 text-body-para">
           {{
             `${t('ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.INDEX.CARD.PRIORITY')}:`
           }}

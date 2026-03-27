@@ -111,7 +111,9 @@ class WebhookListener < BaseListener
     account.webhooks.account_type.each do |webhook|
       next unless webhook.subscriptions.include?(payload[:event])
 
-      WebhookJob.perform_later(webhook.url, payload)
+      WebhookJob.perform_later(webhook.url, payload, :account_webhook,
+                               secret: webhook.secret,
+                               delivery_id: SecureRandom.uuid)
     end
   end
 
@@ -119,7 +121,8 @@ class WebhookListener < BaseListener
     return unless inbox.channel_type == 'Channel::Api'
     return if inbox.channel.webhook_url.blank?
 
-    WebhookJob.perform_later(inbox.channel.webhook_url, payload, :api_inbox_webhook)
+    WebhookJob.perform_later(inbox.channel.webhook_url, payload, :api_inbox_webhook,
+                             delivery_id: SecureRandom.uuid)
   end
 
   def deliver_webhook_payloads(payload, inbox)

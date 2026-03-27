@@ -3,8 +3,9 @@ class Linear
   REVOKE_URL = 'https://api.linear.app/oauth/revoke'.freeze
   PRIORITY_LEVELS = (0..4).to_a
 
-  def initialize(access_token)
+  def initialize(access_token, refresh_token: nil)
     @access_token = access_token
+    @refresh_token = refresh_token
     raise ArgumentError, 'Missing Credentials' if access_token.blank?
   end
 
@@ -79,9 +80,13 @@ class Linear
   end
 
   def revoke_token
+    token = @refresh_token.presence || @access_token
+    token_type_hint = @refresh_token.present? ? 'refresh_token' : 'access_token'
+
     response = HTTParty.post(
       REVOKE_URL,
-      headers: { 'Authorization' => "Bearer #{@access_token}", 'Content-Type' => 'application/json' }
+      headers: { 'Content-Type' => 'application/x-www-form-urlencoded' },
+      body: { token: token, token_type_hint: token_type_hint }
     )
     response.success?
   end

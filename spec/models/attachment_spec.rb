@@ -155,6 +155,30 @@ RSpec.describe Attachment do
     end
   end
 
+  describe 'push_event_data for ig_reel attachments' do
+    it 'returns external_url as data_url when no file is attached' do
+      attachment = message.attachments.create!(
+        account_id: message.account_id,
+        file_type: :ig_reel,
+        external_url: 'https://www.facebook.com/reel/123456'
+      )
+
+      event_data = attachment.push_event_data
+      expect(event_data[:data_url]).to eq('https://www.facebook.com/reel/123456')
+      expect(event_data[:thumb_url]).to eq('')
+    end
+
+    it 'returns file_url as data_url when file is attached' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :ig_reel,
+                                           external_url: 'https://www.instagram.com/reel/123')
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      attachment.save!
+
+      event_data = attachment.push_event_data
+      expect(event_data[:data_url]).to be_present
+    end
+  end
+
   describe 'push_event_data for embed attachments' do
     it 'returns external url as data_url' do
       attachment = message.attachments.create!(account_id: message.account_id, file_type: :embed, external_url: 'https://example.com/embed')

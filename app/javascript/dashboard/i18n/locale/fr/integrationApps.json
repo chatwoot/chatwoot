@@ -3,6 +3,9 @@
     "FETCHING": "Récupération des intégrations",
     "NO_HOOK_CONFIGURED": "Aucune intégration {integrationId} n'est configurée dans ce compte.",
     "HEADER": "Applications",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Activé",
       "DISABLED": "Désactivé"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Récupération des webhooks de l'intégration",
       "INBOX": "Boîte de réception",
+      "ACTIONS": "Actions",
       "DELETE": {
         "BUTTON_TEXT": "Supprimer"
       }

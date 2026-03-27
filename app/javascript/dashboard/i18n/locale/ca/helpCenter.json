@@ -374,6 +374,16 @@
         "ERROR_MESSAGE": "S'ha produït un error en suprimir l'article"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "Afegiu l'encapçalament i el contingut de l'article i llavors pots actualitzar la configuració"
     },

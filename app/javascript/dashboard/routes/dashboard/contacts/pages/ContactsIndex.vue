@@ -493,7 +493,7 @@ onMounted(async () => {
             {{ emptyStateMessage }}
           </span>
         </div>
-        <div v-else class="flex flex-col gap-4 px-6 pt-4 pb-6">
+        <div v-else class="flex flex-col gap-4 pt-4 pb-6">
           <ContactsList
             :contacts="contacts"
             :selected-contact-ids="selectedContactIds"

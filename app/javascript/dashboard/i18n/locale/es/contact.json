@@ -457,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Agregar Instagram"
           },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Add Telegram"
+          },
           "TIKTOK": {
             "PLACEHOLDER": "Añadir TikTok"
           },
@@ -573,7 +576,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "No hay contactos que coincidan con tu búsqueda 🔍",
       "LIST_EMPTY_STATE_TITLE": "No hay contactos disponibles en esta vista 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No hay contactos activos por el momento 🌙"
-    }
+    },
+    "LOAD_MORE": "Cargar más"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Asignar etiquetas",
@@ -607,7 +611,7 @@
       "NO_INBOX_ALERT": "No hay bandejas de entrada disponibles para iniciar una conversación con este contacto.",
       "CONTACT_SELECTOR": {
         "LABEL": "Para:",
-        "TAG_INPUT_PLACEHOLDER": "Buscar un contacto con nombre, correo electrónico o número de teléfono",
+        "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
         "CONTACT_CREATING": "Creando contacto..."
       },
       "INBOX_SELECTOR": {
@@ -618,9 +622,9 @@
         "SUBJECT_LABEL": "Asunto :",
         "SUBJECT_PLACEHOLDER": "Introduzca el asunto de correo electrónico aquí",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Buscar un contacto con su dirección de correo electrónico",
+        "CC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_LABEL": "Bcc:",
-        "BCC_PLACEHOLDER": "Buscar un contacto con su dirección de correo electrónico",
+        "BCC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {

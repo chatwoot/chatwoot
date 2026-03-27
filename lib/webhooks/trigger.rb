@@ -1,33 +1,23 @@
 class Webhooks::Trigger
   SUPPORTED_ERROR_HANDLE_EVENTS = %w[message_created message_updated].freeze
 
-  def initialize(url, payload, webhook_type)
+  def initialize(url, payload, webhook_type, secret: nil, delivery_id: nil)
     @url = url
     @payload = payload
     @webhook_type = webhook_type
+    @secret = secret
+    @delivery_id = delivery_id
   end
 
-  def self.execute(url, payload, webhook_type)
-    new(url, payload, webhook_type).execute
+  def self.execute(url, payload, webhook_type, secret: nil, delivery_id: nil)
+    new(url, payload, webhook_type, secret: secret, delivery_id: delivery_id).execute
   end
 
   def execute
     perform_request
   rescue StandardError => e
-    Rails.logger.warn "Exception: Invalid webhook URL #{@url} : #{e.message}"
+    Rails.logger.warn "Exception: Webhook URL #{@url} : #{e.message}"
     raise
-  end
-
-  def handle_error(error)
-    return unless SUPPORTED_ERROR_HANDLE_EVENTS.include?(@payload[:event])
-    return unless message
-
-    case @webhook_type
-    when :agent_bot_webhook
-      update_conversation_status(message)
-    when :api_inbox_webhook
-      update_message_status(error)
-    end
   end
 
   private
@@ -40,6 +30,29 @@ class Webhooks::Trigger
       headers: { content_type: :json, accept: :json },
       timeout: webhook_timeout
     )
+  end
+
+  def request_headers(body)
+    headers = { content_type: :json, accept: :json }
+    headers['X-Chatwoot-Delivery'] = @delivery_id if @delivery_id.present?
+    if @secret.present?
+      ts = Time.now.to_i.to_s
+      headers['X-Chatwoot-Timestamp'] = ts
+      headers['X-Chatwoot-Signature'] = "sha256=#{OpenSSL::HMAC.hexdigest('SHA256', @secret, "#{ts}.#{body}")}"
+    end
+    headers
+  end
+
+  def handle_error(error)
+    return unless SUPPORTED_ERROR_HANDLE_EVENTS.include?(@payload[:event])
+    return unless message
+
+    case @webhook_type
+    when :agent_bot_webhook
+      update_conversation_status(message)
+    when :api_inbox_webhook
+      update_message_status(error)
+    end
   end
 
   def update_conversation_status(message)
@@ -72,7 +85,11 @@ class Webhooks::Trigger
   def message
     return if message_id.blank?
 
-    @message ||= Message.find_by(id: message_id)
+    if defined?(@message)
+      @message
+    else
+      @message = Message.find_by(id: message_id)
+    end
   end
 
   def message_id

@@ -374,6 +374,16 @@
         "ERROR_MESSAGE": "שגיאה בעת מחיקת מאמר"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "אנא הוסף את כותרת המאמר והתוכן ואז רק אתה יכול לעדכן את ההגדרות"
     },

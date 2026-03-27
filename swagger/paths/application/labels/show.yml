@@ -1,0 +1,26 @@
+tags:
+  - Labels
+operationId: get-details-of-a-single-label
+summary: Get a label
+security:
+  - userApiKey: []
+description: Get the details of a label in the account
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/label'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: The given label ID does not exist in the account
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

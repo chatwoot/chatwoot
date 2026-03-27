@@ -106,6 +106,26 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
       end
     end
 
+    it 'blocks signup if config is stored as boolean false' do
+      GlobalConfig.clear_cache
+      InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+      InstallationConfig.create!(name: 'ENABLE_ACCOUNT_SIGNUP', value: false, locked: false)
+
+      with_modified_env FRONTEND_URL: 'http://www.example.com' do
+        set_omniauth_config('does-not-exist-for-sure@example.com')
+        allow(email_validation_service).to receive(:perform).and_return(true)
+
+        get '/omniauth/google_oauth2/callback'
+
+        expect(response).to redirect_to('http://www.example.com/auth/google_oauth2/callback')
+        follow_redirect!
+        expect(response).to redirect_to(%r{/app/login\?error=no-account-found$})
+      end
+    ensure
+      InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+      GlobalConfig.clear_cache
+    end
+
     it 'allows login' do
       with_modified_env FRONTEND_URL: 'http://www.example.com' do
         create(:user, email: 'test@example.com')

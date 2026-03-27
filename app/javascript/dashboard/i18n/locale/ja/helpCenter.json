@@ -374,6 +374,16 @@
         "ERROR_MESSAGE": "記事の削除中にエラーが発生しました"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "記事の見出しと内容を追加してから設定を更新してください"
     },

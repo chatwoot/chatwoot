@@ -76,6 +76,9 @@
       },
       "waiting_since_desc": {
         "TEXT": "Resposta pendente: Curtas primeiro"
+      },
+      "priority_desc_created_at_asc": {
+        "TEXT": "Prioridade: Maior primeiro, Criação: Mais antiga primeiro"
       }
     },
     "ATTACHMENTS": {

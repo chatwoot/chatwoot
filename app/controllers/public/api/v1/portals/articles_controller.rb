@@ -6,6 +6,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   layout 'portal'
 
   def index
+    @search_query = list_params[:query]
     @articles = @portal.articles.published.includes(:category, :author)
 
     @articles = @articles.where(locale: permitted_params[:locale]) if permitted_params[:locale].present?
@@ -73,7 +74,9 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def list_params
-    params.permit(:query, :locale, :sort, :status, :page, :per_page)
+    @list_params ||= params.permit(:query, :locale, :sort, :status, :page, :per_page).tap do |permitted|
+      permitted[:query] = permitted[:query].to_s.strip.presence
+    end
   end
 
   def permitted_params

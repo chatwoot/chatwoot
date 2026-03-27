@@ -374,6 +374,16 @@
         "ERROR_MESSAGE": "Ошибка при удалении статьи"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "Пожалуйста, добавьте заголовок статьи и контент, а затем только вы можете обновить настройки"
     },

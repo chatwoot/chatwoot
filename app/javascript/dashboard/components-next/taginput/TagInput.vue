@@ -72,7 +72,7 @@ const isNewTagInValidType = computed(() =>
 
 const showInput = computed(() =>
   props.mode === MODE.SINGLE
-    ? isFocused.value && !tags.value.length
+    ? !tags.value.length
     : isFocused.value || !tags.value.length
 );
 
