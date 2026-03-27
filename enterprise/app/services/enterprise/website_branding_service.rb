@@ -77,10 +77,7 @@ module Enterprise::WebsiteBrandingService
   end
 
   def process_firecrawl_response(response)
-    unless response.success?
-      Rails.logger.error "[WebsiteBranding] API Error: #{response.message} (Status: #{response.code})"
-      return super
-    end
+    raise "API Error: #{response.message} (Status: #{response.code})" unless response.success?
 
     format_firecrawl_response(response)
   end
