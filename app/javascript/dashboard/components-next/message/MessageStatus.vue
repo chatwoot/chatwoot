@@ -2,7 +2,8 @@
 import { computed, ref } from 'vue';
 import { useIntervalFn } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import { MESSAGE_STATUS } from './constants';
+import { MESSAGE_STATUS, MESSAGE_VARIANTS } from './constants';
+import { useMessageContext } from './provider.js';
 
 import Icon from 'next/icon/Icon.vue';
 
@@ -15,6 +16,19 @@ const { status } = defineProps({
 });
 
 const { t } = useI18n();
+const { variant } = useMessageContext();
+
+const variantPrefix = computed(() => {
+  const prefixMap = {
+    [MESSAGE_VARIANTS.AGENT]: 'agent',
+    [MESSAGE_VARIANTS.USER]: 'user',
+    [MESSAGE_VARIANTS.PRIVATE]: 'private',
+    [MESSAGE_VARIANTS.BOT]: 'bot',
+    [MESSAGE_VARIANTS.TEMPLATE]: 'bot',
+    [MESSAGE_VARIANTS.EMAIL]: 'agent',
+  };
+  return prefixMap[variant.value] || 'agent';
+});
 
 const progresIconSequence = [
   'i-lucide-clock-1',
@@ -54,14 +68,44 @@ const statusIcon = computed(() => {
   return statusIconMap[status];
 });
 
-const statusColor = computed(() => {
-  const statusIconMap = {
-    [MESSAGE_STATUS.SENT]: 'text-n-slate-10',
-    [MESSAGE_STATUS.DELIVERED]: 'text-n-slate-10',
-    [MESSAGE_STATUS.READ]: 'text-[#7EB6FF]',
-  };
+const statusColorMap = {
+  agent: {
+    [MESSAGE_STATUS.SENT]: 'text-[rgb(var(--bubble-agent-status))]',
+    [MESSAGE_STATUS.DELIVERED]: 'text-[rgb(var(--bubble-agent-status))]',
+    [MESSAGE_STATUS.READ]: 'text-[rgb(var(--bubble-agent-status-read))]',
+  },
+  user: {
+    [MESSAGE_STATUS.SENT]: 'text-[rgb(var(--bubble-user-status))]',
+    [MESSAGE_STATUS.DELIVERED]: 'text-[rgb(var(--bubble-user-status))]',
+    [MESSAGE_STATUS.READ]: 'text-[rgb(var(--bubble-user-status-read))]',
+  },
+  private: {
+    [MESSAGE_STATUS.SENT]: 'text-[rgb(var(--bubble-private-status))]',
+    [MESSAGE_STATUS.DELIVERED]: 'text-[rgb(var(--bubble-private-status))]',
+    [MESSAGE_STATUS.READ]: 'text-[rgb(var(--bubble-private-status-read))]',
+  },
+  bot: {
+    [MESSAGE_STATUS.SENT]: 'text-[rgb(var(--bubble-bot-status))]',
+    [MESSAGE_STATUS.DELIVERED]: 'text-[rgb(var(--bubble-bot-status))]',
+    [MESSAGE_STATUS.READ]: 'text-[rgb(var(--bubble-bot-status-read))]',
+  },
+};
 
-  return statusIconMap[status];
+const statusColor = computed(() => {
+  const variantMap =
+    statusColorMap[variantPrefix.value] || statusColorMap.agent;
+  return variantMap[status];
+});
+
+const progressColorMap = {
+  agent: 'text-[rgb(var(--bubble-agent-status))]',
+  user: 'text-[rgb(var(--bubble-user-status))]',
+  private: 'text-[rgb(var(--bubble-private-status))]',
+  bot: 'text-[rgb(var(--bubble-bot-status))]',
+};
+
+const progressColor = computed(() => {
+  return progressColorMap[variantPrefix.value] || progressColorMap.agent;
 });
 
 const tooltipText = computed(() => {
@@ -81,7 +125,7 @@ const tooltipText = computed(() => {
     v-if="status === MESSAGE_STATUS.PROGRESS"
     v-tooltip.top-start="tooltipText"
     :icon="progessIcon"
-    class="text-n-slate-10"
+    :class="progressColor"
   />
   <Icon
     v-else

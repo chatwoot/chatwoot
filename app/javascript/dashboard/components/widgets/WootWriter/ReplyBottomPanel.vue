@@ -114,6 +114,11 @@ export default {
       type: String,
       default: '',
     },
+    allowSignature: { type: Boolean, default: false },
+    allowEmoji: { type: Boolean, default: false },
+    allowVideoCall: { type: Boolean, default: false },
+    allowFileUpload: { type: Boolean, default: false },
+    allowAudioRecorder: { type: Boolean, default: false },
     showQuotedReplyToggle: {
       type: Boolean,
       default: false,
@@ -291,7 +296,7 @@ export default {
   <div class="flex justify-between p-3" :class="wrapClass">
     <div class="left-wrap">
       <NextButton
-        v-if="!isEditorDisabled"
+        v-if="allowEmoji && !isEditorDisabled"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
         icon="i-ph-smiley-sticker"
         slate
@@ -300,7 +305,7 @@ export default {
         @click="toggleEmojiPicker"
       />
       <FileUpload
-        v-if="showAttachButton"
+        v-if="showAttachButton && allowFileUpload"
         ref="uploadRef"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
         input-id="conversationAttachment"
@@ -325,7 +330,7 @@ export default {
         />
       </FileUpload>
       <NextButton
-        v-if="showAudioRecorderButton"
+        v-if="allowAudioRecorder && showAudioRecorderButton"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
         :icon="!isRecordingAudio ? 'i-ph-microphone' : 'i-ph-microphone-slash'"
         slate
@@ -334,7 +339,7 @@ export default {
         @click="toggleAudioRecorder"
       />
       <NextButton
-        v-if="showAudioPlayStopButton"
+        v-if="allowAudioRecorder && showAudioPlayStopButton"
         :icon="audioRecorderPlayStopIcon"
         slate
         faded
@@ -343,7 +348,7 @@ export default {
         @click="toggleAudioRecorderPlayPause"
       />
       <NextButton
-        v-if="showMessageSignatureButton"
+        v-if="showMessageSignatureButton && allowSignature"
         v-tooltip.top-end="signatureToggleTooltip"
         icon="i-ph-signature"
         slate
@@ -381,6 +386,7 @@ export default {
       />
       <VideoCallButton
         v-if="
+          allowVideoCall &&
           (isAWebWidgetInbox || isAPIInbox) &&
           !isOnPrivateNote &&
           !isEditorDisabled

@@ -89,6 +89,7 @@ const props = defineProps({
   // are triggered except when this flag is true
   allowSignature: { type: Boolean, default: false },
   channelType: { type: String, default: '' },
+  forceSignature: { type: Boolean, default: false },
   conversationId: { type: Number, default: null },
   medium: { type: String, default: '' },
   showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
@@ -313,6 +314,10 @@ const plugins = computed(() => {
 const sendWithSignature = computed(() => {
   // this is considered the source of truth, we watch this property
   // on change, we toggle the signature in the editor
+  if (props.forceSignature && props.allowSignature && !props.isPrivate) {
+    return true;
+  }
+
   if (props.allowSignature && !props.isPrivate && props.channelType) {
     return fetchSignatureFlagFromUISettings(props.channelType);
   }
@@ -564,10 +569,14 @@ function updateImgToolbarOnDelete() {
 }
 
 function isEnterToSendEnabled() {
+  // eslint-disable-next-line no-underscore-dangle
+  if (window.__WOOT_ISOLATED_SHELL__) return false;
   return isEditorHotKeyEnabled('enter');
 }
 
 function isCmdPlusEnterToSendEnabled() {
+  // eslint-disable-next-line no-underscore-dangle
+  if (window.__WOOT_ISOLATED_SHELL__) return true;
   return isEditorHotKeyEnabled('cmd_enter');
 }
 
@@ -811,7 +820,7 @@ watch(sendWithSignature, newValue => {
   }
 });
 
-onMounted(() => {
+onMounted(async () => {
   // [VITE] state assignment was done in created before
   state = createState(
     props.modelValue,
@@ -823,7 +832,10 @@ onMounted(() => {
 
   createEditorView();
   editorView.updateState(state);
-  if (props.focusOnMount) {
+  // TODO: test this in the main app
+  if (sendWithSignature.value) {
+    addSignature();
+  } else if (props.focusOnMount) {
     focusEditorInputField();
   }
 });
@@ -916,6 +928,10 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 
 .ProseMirror-menubar-wrapper {
   @apply flex flex-col gap-3;
+
+  .ProseMirror-menubar:empty {
+    display: none;
+  }
 
   .ProseMirror-menubar {
     min-height: 1.25rem !important;

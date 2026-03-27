@@ -6,6 +6,7 @@ import { useLoadWithRetry } from 'dashboard/composables/loadWithRetry';
 import BaseBubble from './Base.vue';
 import Button from 'next/button/Button.vue';
 import Icon from 'next/icon/Icon.vue';
+import { useGallery } from '../useGallery';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useMessageContext } from '../provider.js';
 import { downloadFile } from '@chatwoot/utils';
@@ -22,8 +23,8 @@ const attachment = computed(() => {
 
 const { isLoaded, hasError, loadWithRetry } = useLoadWithRetry();
 
-const showGallery = ref(false);
 const isDownloading = ref(false);
+const { showGallery, isGalleryAllowed, toggleGallery } = useGallery();
 
 onMounted(() => {
   if (attachment.value?.dataUrl) {
@@ -50,13 +51,16 @@ const handleImageError = () => {
 
 <template>
   <BaseBubble
-    class="overflow-hidden p-3"
+    class="overflow-hidden p-[var(--bubble-padding-y)]"
     data-bubble-name="image"
-    @click="showGallery = true"
+    @click="toggleGallery(true)"
   >
-    <div v-if="hasError" class="flex items-center gap-1 text-center rounded-lg">
-      <Icon icon="i-lucide-circle-off" class="text-n-slate-11" />
-      <p class="mb-0 text-n-slate-11">
+    <div
+      v-if="hasError"
+      class="flex items-center gap-1 text-center rounded-lg text-[rgb(var(--bubble-error-meta))]"
+    >
+      <Icon icon="i-lucide-circle-off" />
+      <p class="mb-0">
         {{ $t('COMPONENTS.MEDIA.IMAGE_UNAVAILABLE') }}
       </p>
     </div>
@@ -86,7 +90,7 @@ const handleImageError = () => {
     </div>
   </BaseBubble>
   <GalleryView
-    v-if="showGallery"
+    v-if="showGallery && isGalleryAllowed"
     v-model:show="showGallery"
     :attachment="useSnakeCase(attachment)"
     :all-attachments="filteredCurrentChatAttachments"
