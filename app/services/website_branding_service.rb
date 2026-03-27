@@ -44,7 +44,7 @@ class WebsiteBrandingService
     return og_site_name.strip if og_site_name.present?
 
     title = doc.at_xpath('//title')&.text
-    title&.strip&.split(/\s*[^a-zA-Z0-9\s]+\s*/)&.first
+    title&.strip&.split(/\s*[|\-–—·:]+\s*/)&.first
   end
 
   def extract_language(doc)
