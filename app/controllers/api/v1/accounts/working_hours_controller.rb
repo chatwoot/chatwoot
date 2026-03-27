@@ -1,6 +1,6 @@
 class Api::V1::Accounts::WorkingHoursController < Api::V1::Accounts::BaseController
   before_action :check_authorization
-  before_action :fetch_webhook, only: [:update]
+  before_action :fetch_working_hour, only: [:update]
 
   def update
     @working_hour.update!(working_hour_params)
