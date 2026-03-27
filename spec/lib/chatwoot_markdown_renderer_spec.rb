@@ -68,7 +68,6 @@ RSpec.describe ChatwootMarkdownRenderer do
     let(:rendered_message) { renderer.render_message }
 
     before do
-      allow(CommonMarker).to receive(:render_html).with(markdown_content).and_return(message_html_content)
       allow(BaseMarkdownRenderer).to receive(:new).and_return(base_markdown_renderer)
       allow(base_markdown_renderer).to receive(:render).with(doc).and_return(message_html_content)
     end
@@ -79,6 +78,19 @@ RSpec.describe ChatwootMarkdownRenderer do
 
     it 'returns an html safe string' do
       expect(rendered_message).to be_html_safe
+    end
+
+    context 'with bare URLs' do
+      let(:markdown_content) { 'Visit https://example.com for details' }
+
+      before do
+        allow(CommonMarker).to receive(:render_doc).with(markdown_content, :DEFAULT, [:strikethrough, :autolink]).and_call_original
+        allow(BaseMarkdownRenderer).to receive(:new).and_call_original
+      end
+
+      it 'converts bare URLs to links' do
+        expect(renderer.render_message.to_s).to include('<a href="https://example.com">https://example.com</a>')
+      end
     end
   end
 
