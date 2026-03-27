@@ -625,7 +625,6 @@ export default {
       }
     },
     toggleSignatureForDraft(message) {
-      if (this.isEditorDisabled) return '';
       if (this.isPrivate) {
         return message;
       }
@@ -934,7 +933,7 @@ export default {
     clearMessage() {
       this.message = '';
       this.clearCopilotAcceptedMessage();
-      if (this.sendWithSignature && !this.isPrivate && !this.isEditorDisabled) {
+      if (this.sendWithSignature && !this.isPrivate) {
         // if signature is enabled, append it to the message
         const effectiveChannelType = getEffectiveChannelType(
           this.channelType,
