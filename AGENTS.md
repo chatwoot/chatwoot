@@ -136,10 +136,12 @@ app/controllers/api/v1/accounts/integrations/socialwise_*.rb  # Controllers
 - **rbenv setup**: Before running any `bundle` or `rspec` commands, init rbenv in your shell (`eval "$(rbenv init -)"`) so the correct Ruby/Bundler versions are used
 - Always prefer `bundle exec` for Ruby CLI tasks (rspec, rake, rubocop, etc.)
 - **Test env**: Specs should run without `.env`. If present, temporarily rename it (e.g., `.env` -> `.env.bak`) while running specs and restore afterward.
+- **Validação após mudanças (obrigatória)**: depois de qualquer modificação, rode pelo menos a validação mais específica do stack alterado antes de concluir o trabalho. Prefira checks focados nos arquivos tocados (`pnpm eslint path/to/file.vue`, `bundle exec rubocop path/to/file.rb`, `bundle exec rspec spec/path/to/file_spec.rb`) e só escale para suites maiores quando necessário.
+- **Host validation**: com `pnpm install` e `bundle install` já feitos, `eslint`, `vitest`, `rubocop` e `rspec` podem rodar no host. Para Ruby/test use `rbenv`, rode sem `.env` e aponte para a infra Docker compartilhada publicada no host (`POSTGRES_HOST=127.0.0.1`, `POSTGRES_PORT=5432`, `POSTGRES_USERNAME=postgres`, `POSTGRES_PASSWORD=postgres`; Redis em `redis://127.0.0.1:6379/0` quando necessário).
 
-### Testes Ruby (IMPORTANTE: rodar dentro do Docker)
+### Testes Ruby (preferir Docker, host permitido com infra compartilhada)
 
-Os testes Ruby **devem ser executados dentro do container Docker** (host não tem acesso ao PostgreSQL).
+Os testes Ruby continuam **preferencialmente** no container Docker para manter o fluxo do time consistente. Porém, neste ambiente, o host também pode rodar `rspec`/`rails` em `RAILS_ENV=test` usando o PostgreSQL/Redis publicados pela infra compartilhada em `127.0.0.1`.
 
 ```bash
 docker ps                                    # Verificar containers
@@ -149,7 +151,7 @@ bundle exec rspec spec/path/to/file_spec.rb  # Rodar testes
 bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER  # Teste individual
 ```
 
-> Se aparecer `PG::ConnectionBad`, você está fora do container.
+> Se rodar no host, use `rbenv`, remova `.env` temporariamente e aponte o banco para `127.0.0.1:5432` com `POSTGRES_USERNAME=postgres` e `POSTGRES_PASSWORD=postgres`. Se aparecer `PG::ConnectionBad`, verifique se os containers `postgres`/`redis` estão ativos e se o banco de teste já foi preparado.
 
 ## Code Style
 

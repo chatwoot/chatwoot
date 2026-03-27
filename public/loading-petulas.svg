@@ -1,0 +1,12 @@
+<svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(50, 50)">
+    <line y1="-34" y2="-16" stroke="#5F6368" stroke-width="8" stroke-linecap="round" />
+    <line y1="-34" y2="-16" stroke="#5F6368" stroke-width="8" stroke-linecap="round" transform="rotate(45)" />
+    <line y1="-34" y2="-16" stroke="#5F6368" stroke-width="8" stroke-linecap="round" transform="rotate(90)" />
+    <line y1="-34" y2="-16" stroke="#5F6368" stroke-width="8" stroke-linecap="round" transform="rotate(135)" />
+    <line y1="-34" y2="-16" stroke="#5F6368" stroke-width="8" stroke-linecap="round" transform="rotate(180)" />
+    <line y1="-34" y2="-16" stroke="#5F6368" stroke-width="8" stroke-linecap="round" transform="rotate(225)" />
+    <line y1="-34" y2="-16" stroke="#5F6368" stroke-width="8" stroke-linecap="round" transform="rotate(270)" />
+    <line y1="-34" y2="-16" stroke="#5F6368" stroke-width="8" stroke-linecap="round" transform="rotate(315)" />
+  </g>
+</svg>

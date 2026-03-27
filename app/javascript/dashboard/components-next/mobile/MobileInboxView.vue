@@ -55,7 +55,7 @@ const stateInbox = inboxId => inboxById.value(inboxId);
 const fetchNotifications = () => {
   page.value = 1;
   store.dispatch('notifications/clear');
-  store.dispatch('notifications/index', inboxFilters.value);
+  return store.dispatch('notifications/index', inboxFilters.value);
 };
 
 const loadMoreNotifications = () => {
@@ -128,7 +128,7 @@ const markAllRead = async () => {
   try {
     await store.dispatch('notifications/readAll');
     useAlert(t('INBOX.ALERTS.MARK_ALL_READ'));
-    fetchNotifications();
+    await fetchNotifications();
   } catch {
     // error
   }
@@ -144,9 +144,16 @@ onMounted(() => {
 <template>
   <div class="flex flex-col w-full h-full">
     <MobileInboxHeader @mark-all-read="markAllRead" />
-    <MobilePullToRefresh @refresh="onRefresh">
-      <div ref="listRef" class="flex-1 overflow-y-auto px-2">
-        <div v-if="uiFlags.isFetching && !notifications.length" class="flex items-center justify-center py-8">
+    <MobilePullToRefresh :refresh-action="onRefresh">
+      <div
+        ref="listRef"
+        data-mobile-pull-scroll
+        class="flex-1 overflow-y-auto px-2"
+      >
+        <div
+          v-if="uiFlags.isFetching && !notifications.length"
+          class="flex items-center justify-center py-8"
+        >
           <Spinner class="text-n-brand" />
         </div>
         <div

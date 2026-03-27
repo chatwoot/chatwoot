@@ -1,74 +1,176 @@
 <script setup>
-import { ref } from 'vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import { computed, ref } from 'vue';
 import { useHaptics } from 'dashboard/composables/useHaptics';
+import MobilePetalLoader from './MobilePetalLoader.vue';
+
+const props = defineProps({
+  refreshAction: {
+    type: Function,
+    default: null,
+  },
+});
 
 const emit = defineEmits(['refresh']);
 
 const isRefreshing = ref(false);
 const pullDistance = ref(0);
 const isPulling = ref(false);
+const pullRootRef = ref(null);
 
 const { medium } = useHaptics();
 
-const PULL_THRESHOLD = 60;
+const MAX_PULL_DISTANCE = 96;
+const PULL_THRESHOLD = 72;
+const MIN_REFRESH_DURATION = 550;
 let startY = 0;
+let startX = 0;
 let thresholdTriggered = false;
+let directionLocked = false;
+let isVerticalGesture = false;
+
+const pullProgress = computed(() => {
+  return Math.min(pullDistance.value / PULL_THRESHOLD, 1);
+});
+
+const indicatorHeight = computed(() => {
+  if (isRefreshing.value) return 52;
+  return pullDistance.value;
+});
+
+const getScrollTarget = () => {
+  return (
+    pullRootRef.value?.querySelector('[data-mobile-pull-scroll]') ||
+    pullRootRef.value
+  );
+};
+
+const isAtTop = () => {
+  const scrollTarget = getScrollTarget();
+  return (scrollTarget?.scrollTop || 0) <= 0;
+};
+
+const resetPullState = () => {
+  isPulling.value = false;
+  pullDistance.value = 0;
+  thresholdTriggered = false;
+  directionLocked = false;
+  isVerticalGesture = false;
+};
 
 const onTouchStart = event => {
-  const scrollTop = event.currentTarget.scrollTop;
-  if (scrollTop === 0) {
-    startY = event.touches[0].clientY;
-    isPulling.value = true;
-    thresholdTriggered = false;
-  }
+  if (isRefreshing.value || !isAtTop()) return;
+
+  const touch = event.touches[0];
+  startY = touch.clientY;
+  startX = touch.clientX;
+  isPulling.value = true;
+  thresholdTriggered = false;
+  directionLocked = false;
+  isVerticalGesture = false;
 };
 
 const onTouchMove = event => {
   if (!isPulling.value) return;
-  const currentY = event.touches[0].clientY;
-  const delta = currentY - startY;
-  if (delta > 0) {
-    pullDistance.value = Math.min(delta * 0.5, 80);
-    if (!thresholdTriggered && pullDistance.value >= PULL_THRESHOLD) {
-      medium();
-      thresholdTriggered = true;
+
+  const touch = event.touches[0];
+  const deltaY = touch.clientY - startY;
+  const deltaX = touch.clientX - startX;
+
+  if (!directionLocked && (Math.abs(deltaY) > 6 || Math.abs(deltaX) > 6)) {
+    directionLocked = true;
+    isVerticalGesture = deltaY > 0 && Math.abs(deltaY) > Math.abs(deltaX) * 1.1;
+    if (!isVerticalGesture) {
+      resetPullState();
+      return;
     }
+  }
+
+  if (!isVerticalGesture) return;
+
+  if (deltaY <= 0 || !isAtTop()) {
+    pullDistance.value = 0;
+    thresholdTriggered = false;
+    return;
+  }
+
+  pullDistance.value = Math.min(deltaY * 0.42, MAX_PULL_DISTANCE);
+
+  if (!thresholdTriggered && pullDistance.value >= PULL_THRESHOLD) {
+    medium();
+    thresholdTriggered = true;
+  } else if (thresholdTriggered && pullDistance.value < PULL_THRESHOLD) {
+    thresholdTriggered = false;
+  }
+};
+
+const triggerRefresh = async () => {
+  isRefreshing.value = true;
+
+  try {
+    const refreshStartedAt = Date.now();
+
+    if (props.refreshAction) {
+      await props.refreshAction();
+    } else {
+      emit('refresh');
+      await new Promise(resolve => {
+        setTimeout(resolve, 800);
+      });
+    }
+
+    const remainingDuration =
+      MIN_REFRESH_DURATION - (Date.now() - refreshStartedAt);
+
+    if (remainingDuration > 0) {
+      await new Promise(resolve => {
+        setTimeout(resolve, remainingDuration);
+      });
+    }
+  } finally {
+    isRefreshing.value = false;
   }
 };
 
 const onTouchEnd = async () => {
   if (!isPulling.value) return;
-  isPulling.value = false;
 
-  if (pullDistance.value >= PULL_THRESHOLD) {
-    isRefreshing.value = true;
-    emit('refresh');
-    await new Promise(resolve => setTimeout(resolve, 800));
-    isRefreshing.value = false;
+  isPulling.value = false;
+  directionLocked = false;
+  isVerticalGesture = false;
+
+  const shouldRefresh = pullDistance.value >= PULL_THRESHOLD;
+  thresholdTriggered = false;
+
+  if (shouldRefresh) {
+    pullDistance.value = PULL_THRESHOLD;
+    await triggerRefresh();
   }
+
   pullDistance.value = 0;
+};
+
+const onTouchCancel = () => {
+  if (!isRefreshing.value) {
+    resetPullState();
+  }
 };
 </script>
 
 <template>
   <div
-    class="flex flex-col flex-1 overflow-y-auto relative"
+    ref="pullRootRef"
+    class="relative flex flex-1 flex-col overflow-hidden"
     @touchstart.passive="onTouchStart"
     @touchmove.passive="onTouchMove"
     @touchend="onTouchEnd"
+    @touchcancel="onTouchCancel"
   >
     <div
-      v-if="pullDistance > 0 || isRefreshing"
-      class="flex items-center justify-center transition-all duration-150"
-      :style="{ height: `${isRefreshing ? 40 : pullDistance}px` }"
+      v-if="pullDistance > 2 || isRefreshing"
+      class="pointer-events-none flex items-center justify-center overflow-hidden transition-all duration-200"
+      :style="{ height: `${indicatorHeight}px` }"
     >
-      <Spinner v-if="isRefreshing" class="text-n-brand" />
-      <span
-        v-else
-        class="i-lucide-arrow-down size-5 text-n-slate-10 transition-transform"
-        :class="{ 'rotate-180': pullDistance >= PULL_THRESHOLD }"
-      />
+      <MobilePetalLoader :progress="pullProgress" :spinning="isRefreshing" />
     </div>
     <slot />
   </div>

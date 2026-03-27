@@ -223,6 +223,17 @@ All under `app/javascript/dashboard/components-next/mobile/`:
 
 ## Changelog
 
+### 2026-03-26 — Mobile Pull-To-Refresh Petal Loader
+
+Implemented in the mobile inbox shell only:
+
+- Replaced the old pull-to-refresh arrow in `components-next/mobile/MobilePullToRefresh.vue` with a dedicated petal loader that progressively fills as the downward swipe advances.
+- Switched the refreshing state to the Chatwit petal asset in `public/loading-petulas.svg`, keeping all petals filled while the refresh stays active.
+- Tightened gesture detection so pull-to-refresh only arms when the mobile list is actually at the top and the gesture is vertical, reducing accidental triggers during normal scrolling and row swipes.
+- Kept the existing notifications fetch flow intact by reusing the same mobile inbox refresh action and haptic threshold feedback.
+
+Desktop behavior remains unchanged because the change is isolated to `components-next/mobile/` and the dedicated mobile inbox list wrapper.
+
 ### 2026-03-16 — Mobile Web Push Duplicate Guard
 
 Problem observed in the mobile PWA flow:
