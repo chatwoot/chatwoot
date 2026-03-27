@@ -357,6 +357,7 @@ Rails.application.routes.draw do
             end
           end
 
+          resources :reusable_attachments, only: [:index, :show, :create, :update, :destroy]
           resources :upload, only: [:create]
         end
       end

@@ -1,5 +1,3 @@
-require 'faraday/multipart'
-
 # Telegram Attachment APIs: ref: https://core.telegram.org/bots/api#inputfile
 
 # Media attachments like photos, videos can be clubbed together and sent as a media group
@@ -90,7 +88,8 @@ class Telegram::SendAttachmentsService
 
   def document_request(chat_id, attachment, reply_to_message_id)
     temp_file_path = save_attachment_to_tempfile(attachment[:attachment])
-    response = send_file(chat_id, temp_file_path, reply_to_message_id)
+    content_type = attachment[:attachment].file.content_type || 'application/octet-stream'
+    response = send_file(chat_id, temp_file_path, reply_to_message_id, content_type)
     File.delete(temp_file_path)
     response
   end
@@ -111,33 +110,36 @@ class Telegram::SendAttachmentsService
     temp_file_path
   end
 
-  def send_file(chat_id, file_path, reply_to_message_id)
-    File.open(file_path, 'rb') do |file|
-      file_name = File.basename(file_path)
-      mime_type = Marcel::MimeType.for(name: file_name) || 'application/octet-stream'
+  def send_file(chat_id, file_path, reply_to_message_id, content_type)
+    # Using Faraday for multipart upload as HTTParty doesn't handle file uploads correctly
+    # See: https://github.com/jnunemaker/httparty/issues/600
+    require 'faraday'
+    require 'faraday/multipart'
 
-      payload = { chat_id: chat_id, document: Faraday::Multipart::FilePart.new(file, mime_type, file_name) }
-      payload[:reply_to_message_id] = reply_to_message_id if reply_to_message_id
-      payload.merge!(business_connection_body)
-
-      response = multipart_post_connection.post("#{channel.telegram_api_url}/sendDocument", payload)
-      parse_faraday_response(response)
-    end
+    response = faraday_upload(chat_id, file_path, reply_to_message_id, content_type)
+    build_response(response)
   end
 
-  def multipart_post_connection
-    @multipart_post_connection ||= Faraday.new do |f|
+  def faraday_upload(chat_id, file_path, reply_to_message_id, content_type)
+    conn = Faraday.new do |f|
       f.request :multipart
       f.options.timeout = 300
       f.options.open_timeout = 60
+      f.adapter Faraday.default_adapter
     end
+    payload = { chat_id: chat_id, document: Faraday::Multipart::FilePart.new(file_path, content_type) }
+    payload[:reply_to_message_id] = reply_to_message_id if reply_to_message_id.present?
+    payload[:business_connection_id] = business_connection_id if business_connection_id.present?
+    conn.post("#{channel.telegram_api_url}/sendDocument", payload)
   end
 
-  def parse_faraday_response(response)
-    parsed = JSON.parse(response.body)
-    OpenStruct.new(success?: response.success?, parsed_response: parsed)
-  rescue JSON::ParserError
-    OpenStruct.new(success?: false, parsed_response: { 'ok' => false, 'error_code' => response.status, 'description' => response.reason_phrase })
+  def build_response(response)
+    response_body = begin
+      JSON.parse(response.body)
+    rescue JSON::ParserError
+      {}
+    end
+    OpenStruct.new(success?: response.success?, code: response.status, parsed_response: response_body, body: response.body)
   end
 
   def handle_response(response)

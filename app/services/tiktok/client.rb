@@ -3,7 +3,7 @@ class Tiktok::Client
   pattr_initialize [:business_id!, :access_token!]
 
   def business_account_details
-    endpoint = "#{api_base_url}/business/get/"
+    endpoint = 'https://business-api.tiktok.com/open_api/v1.3/business/get/'
     headers = { 'Access-Token': access_token }
     params = { business_id: business_id, fields: %w[username display_name profile_image].to_s }
     response = HTTParty.get(endpoint, query: params, headers: headers)
@@ -17,7 +17,7 @@ class Tiktok::Client
   end
 
   def file_download_url(conversation_id, message_id, media_id, media_type = 'IMAGE')
-    endpoint = "#{api_base_url}/business/message/media/download/"
+    endpoint = 'https://business-api.tiktok.com/open_api/v1.3/business/message/media/download/'
     headers = { 'Access-Token': access_token, 'Content-Type': 'application/json', Accept: 'application/json' }
     body = { business_id: business_id,
              conversation_id: conversation_id,
@@ -45,7 +45,7 @@ class Tiktok::Client
 
   def send_message(conversation_id, type, payload, referenced_message_id: nil)
     # https://business-api.tiktok.com/portal/docs?id=1832184403754242
-    endpoint = "#{api_base_url}/business/message/send/"
+    endpoint ='https://business-api.tiktok.com/open_api/v1.3/business/message/send/'
     headers = { 'Access-Token': access_token, 'Content-Type': 'application/json' }
     body = {
       business_id: business_id,
@@ -70,24 +70,34 @@ class Tiktok::Client
   end
 
   def upload_media(file, media_type = 'IMAGE')
-    endpoint = "#{api_base_url}/business/message/media/upload/"
-    headers = { 'Access-Token': access_token, 'Content-Type': 'multipart/form-data' }
+    # Using Faraday for multipart upload as HTTParty doesn't handle file uploads correctly
+    # See: https://github.com/jnunemaker/httparty/issues/600
+    require 'faraday'
+    require 'faraday/multipart'
 
+    content_type = file.content_type
     file.open do |temp_file|
-      body = {
-        business_id: business_id,
-        media_type: media_type,
-        file: temp_file
-      }
-
-      response = HTTParty.post(endpoint, body: body, headers: headers)
-      json = process_json_response(response, 'Failed to upload TikTok media')
+      response = upload_media_with_faraday(temp_file, media_type, content_type)
+      json = process_json_response(wrap_faraday_response(response), 'Failed to upload TikTok media')
       json['data']['media_id']
     end
   end
 
-  def api_base_url
-    "https://business-api.tiktok.com/open_api/#{GlobalConfigService.load('TIKTOK_API_VERSION', 'v1.3')}"
+  def upload_media_with_faraday(temp_file, media_type, content_type)
+    conn = Faraday.new do |f|
+      f.request :multipart
+      f.adapter Faraday.default_adapter
+    end
+    endpoint = 'https://business-api.tiktok.com/open_api/v1.3/business/message/media/upload/'
+    payload = { business_id: business_id, media_type: media_type, file: Faraday::Multipart::FilePart.new(temp_file.path, content_type) }
+    conn.post(endpoint) do |req|
+      req.headers['Access-Token'] = access_token
+      req.body = payload
+    end
+  end
+
+  def wrap_faraday_response(response)
+    OpenStruct.new(success?: response.success?, code: response.status, body: response.body)
   end
 
   def process_json_response(response, error_prefix)

@@ -13,6 +13,7 @@ class Messages::MessageBuilder
     @account = conversation.account
     @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
+    @attachment_ids = params[:attachment_ids]
     @automation_rule = content_attributes&.dig(:automation_rule_id)
     return unless params.instance_of?(ActionController::Parameters)
 
@@ -48,21 +49,31 @@ class Messages::MessageBuilder
   end
 
   def process_attachments
+    process_regular_attachments
+    process_reusable_attachments
+  end
+
+  def process_regular_attachments
     return if @attachments.blank?
 
-    @attachments.each do |uploaded_attachment|
-      attachment = @message.attachments.build(
-        account_id: @message.account_id,
-        file: uploaded_attachment
-      )
+    @attachments.each do |att|
+      type = att.is_a?(String) ? file_type_by_signed_id(att) : file_type(att&.content_type)
+      @message.attachments.build(account_id: @message.account_id, file: att).file_type = type
+    end
+  end
 
-      attachment.file_type = if uploaded_attachment.is_a?(String)
-                               file_type_by_signed_id(
-                                 uploaded_attachment
-                               )
-                             else
-                               file_type(uploaded_attachment&.content_type)
-                             end
+  def process_reusable_attachments
+    return if @attachment_ids.blank?
+
+    resolved = @account.reusable_attachments.where(id: @attachment_ids).in_order_of(:id, @attachment_ids)
+    raise ActiveRecord::RecordNotFound, 'No reusable attachments found for provided ids' if resolved.empty?
+
+    resolved.each do |ra|
+      next unless ra.file.attached?
+
+      att = @message.attachments.build(account_id: @message.account_id, file: ra.file.blob)
+      att.file_type = ra.file_type
+      att.extension = ra.extension
     end
   end
 
