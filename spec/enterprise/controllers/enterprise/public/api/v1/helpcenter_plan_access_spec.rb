@@ -28,7 +28,7 @@ RSpec.describe 'Public Help Center Access', type: :request do
     get "/hc/#{portal.slug}/en"
 
     expect(response).to have_http_status(:payment_required)
-    expect(response.body).to include('Help Center Not Active')
+    expect(response.body).to include('Help Center Unavailable')
   end
 
   context 'when the account is on the default plan' do
