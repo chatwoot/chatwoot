@@ -49,6 +49,19 @@ RSpec.describe Macros::ExecutionService, type: :service do
     end
   end
 
+  describe '#assign_team' do
+    let(:team) { create(:team, account: account) }
+
+    context 'when team_id is nil' do
+      it 'unassigns the team from the conversation' do
+        # Directly set the team_id to avoid auto-assignment logic
+        conversation.update_column(:team_id, team.id)
+        service.send(:assign_team, ['nil'])
+        expect(conversation.reload.team).to be_nil
+      end
+    end
+  end
+
   describe '#assign_agent' do
     context 'when agent_ids contains self' do
       it 'updates the conversation assignee to the current user' do
@@ -67,6 +80,14 @@ RSpec.describe Macros::ExecutionService, type: :service do
       it 'calls the super method' do
         service.send(:assign_agent, [other_user.id])
         expect(conversation.reload.assignee).to eq(other_user)
+      end
+    end
+
+    context 'when agent_ids contains nil' do
+      it 'unassigns the conversation' do
+        conversation.update!(assignee: user)
+        service.send(:assign_agent, ['nil'])
+        expect(conversation.reload.assignee).to be_nil
       end
     end
   end
