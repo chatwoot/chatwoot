@@ -115,6 +115,7 @@ useEventListener(document, 'mousemove', onResizeMove);
 useEventListener(document, 'mouseup', onResizeEnd);
 useEventListener(document, 'touchmove', onResizeMove, { passive: false });
 useEventListener(document, 'touchend', onResizeEnd);
+useEventListener(document, 'touchcancel', onResizeEnd);
 
 defineExpose({ toggleEditorExpand, resetEditorHeight });
 </script>
