@@ -75,11 +75,19 @@ module Enterprise::Channel::TwilioSms
   end
 
   def provision_twiml_app
+    validate_voice_capability!
     service = ::Twilio::VoiceWebhookSetupService.new(channel: self)
     self.twiml_app_sid = service.perform
   rescue StandardError => e
     Rails.logger.error("TWILIO_VOICE_SETUP_ERROR: #{e.class} #{e.message} phone=#{phone_number} account=#{account_id}")
     errors.add(:base, "Twilio voice setup failed: #{e.message}")
+  end
+
+  def validate_voice_capability!
+    twilio_client = Twilio::REST::Client.new(account_sid, auth_token)
+    number = twilio_client.incoming_phone_numbers.list(phone_number: phone_number).first
+    raise 'Phone number not found in Twilio account' unless number
+    raise 'This phone number does not support voice calls' unless number.capabilities['voice']
   end
 
   alias provision_twiml_app_on_update provision_twiml_app
