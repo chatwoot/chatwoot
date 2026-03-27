@@ -131,7 +131,7 @@ export default {
   <div
     v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
     id="app"
-    class="flex flex-col w-full h-screen min-h-0"
+    class="flex flex-col w-full h-screen min-h-0 bg-n-background"
     :dir="isRTL ? 'rtl' : 'ltr'"
   >
     <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" />
@@ -164,10 +164,4 @@ export default {
 .v-popper--theme-tooltip .v-popper__arrow-container {
   display: none;
 }
-
-.multiselect__input {
-  margin-bottom: 0px !important;
-}
 </style>
-
-<style src="vue-multiselect/dist/vue-multiselect.css"></style>
