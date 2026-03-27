@@ -4,13 +4,15 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   before_action :set_custom_tool, only: [:show, :update, :destroy]
 
   def index
-    @custom_tools = account_custom_tools.enabled
+    @custom_tools = account_custom_tools
   end
 
   def show; end
 
   def create
     @custom_tool = account_custom_tools.create!(custom_tool_params)
+  rescue Captain::CustomTool::LimitExceededError => e
+    render_could_not_create_error(e.message)
   end
 
   def update
