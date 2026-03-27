@@ -45,11 +45,9 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_response
-    return unless conversation_pending?
-
     if handoff_requested?
       process_action('handoff')
-    else
+    elsif conversation_pending?
       ActiveRecord::Base.transaction do
         create_messages
         Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
@@ -85,7 +83,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def handoff_requested?
-    @response['response'] == 'conversation_handoff'
+    @response['response'] == 'conversation_handoff' || @response['handoff_tool_called']
   end
 
   def process_action(action)
@@ -93,8 +91,9 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     when 'handoff'
       I18n.with_locale(@assistant.account.locale) do
         create_handoff_message
-        @conversation.bot_handoff!
-        send_out_of_office_message_if_applicable
+        was_pending = conversation_pending?
+        @conversation.bot_handoff! if was_pending
+        send_out_of_office_message_if_applicable if was_pending
       end
     end
   end
@@ -109,7 +108,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def create_handoff_message
     create_outgoing_message(
-      @assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff')
+      @assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff'),
+      preserve_waiting_since: true
     )
   end
 
@@ -122,7 +122,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     raise ArgumentError, 'Message content cannot be blank' if content.blank?
   end
 
-  def create_outgoing_message(message_content, agent_name: nil)
+  def create_outgoing_message(message_content, agent_name: nil, preserve_waiting_since: false)
     additional_attrs = {}
     additional_attrs[:agent_name] = agent_name if agent_name.present?
 
@@ -132,7 +132,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       inbox_id: inbox.id,
       sender: @assistant,
       content: message_content,
-      additional_attributes: additional_attrs
+      additional_attributes: additional_attrs,
+      preserve_waiting_since: preserve_waiting_since
     )
   end
 
