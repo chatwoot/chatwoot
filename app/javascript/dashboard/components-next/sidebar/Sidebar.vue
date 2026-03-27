@@ -730,7 +730,7 @@ const menuItems = computed(() => {
       closeMobileSidebar,
       { ignore: ['#mobile-sidebar-launcher'] },
     ]"
-    class="bg-n-background flex flex-col text-sm pb-px fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[200px] md:w-auto md:relative md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:translate-x-0 ltr:border-r rtl:border-l border-n-weak"
+    class="bg-[#eef7fa] text-[#1E1E1E] dark:bg-[#034d66] dark:text-white flex flex-col text-sm pb-px fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[200px] md:w-auto md:relative md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:translate-x-0 ltr:border-r rtl:border-l border-[#d6ebf1] dark:border-white/10"
     :class="[
       {
         'shadow-lg md:shadow-none': isMobileSidebarOpen,
@@ -778,12 +778,14 @@ const menuItems = computed(() => {
           :to="{ name: 'search' }"
           class="flex gap-2 items-center px-2 py-1 w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out"
         >
-          <span class="flex-shrink-0 i-lucide-search size-4 text-n-slate-10" />
-          <span class="flex-grow text-start text-n-slate-10">
+          <span
+            class="flex-shrink-0 i-lucide-search size-4 text-[#5f6b72] dark:text-white/70"
+          />
+          <span class="flex-grow text-start text-[#5f6b72] dark:text-white/70">
             {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
           </span>
           <span
-            class="hidden tracking-wide pointer-events-none select-none text-n-slate-10"
+            class="hidden tracking-wide pointer-events-none select-none text-[#5f6b72] dark:text-white/70"
           >
             {{ searchShortcut }}
           </span>
@@ -800,9 +802,9 @@ const menuItems = computed(() => {
           <template #trigger="{ toggle, isOpen }">
             <Button
               icon="i-lucide-pen-line"
-              color="slate"
+              color="blue"
               size="sm"
-              class="dark:hover:!bg-n-slate-9/30"
+              class="!bg-[#034d66] !text-white hover:!bg-[#023e52] dark:!bg-[#034d66] dark:hover:!bg-[#023e52]"
               :class="[
                 isEffectivelyCollapsed
                   ? '!size-8 !outline-n-weak !text-n-slate-11'
@@ -816,7 +818,7 @@ const menuItems = computed(() => {
       </div>
     </section>
     <nav
-      class="grid overflow-y-scroll flex-grow gap-2 pb-5 no-scrollbar min-w-0"
+      class="grid overflow-y-scroll flex-grow gap-2 pb-5 no-scrollbar min-w-0 text-white"
       :class="isEffectivelyCollapsed ? 'px-1' : 'px-2'"
     >
       <ul
@@ -834,7 +836,7 @@ const menuItems = computed(() => {
       class="flex relative flex-col flex-shrink-0 gap-1 justify-between items-center"
     >
       <div
-        class="pointer-events-none absolute inset-x-0 -top-[1.938rem] h-8 bg-gradient-to-t from-n-background to-transparent"
+        class="pointer-events-none absolute inset-x-0 -top-[1.938rem] h-8 bg-gradient-to-t from-[#034d66] to-transparent"
       />
       <SidebarChangelogCard
         v-if="
@@ -851,7 +853,7 @@ const menuItems = computed(() => {
         "
       />
       <div
-        class="px-1 py-1.5 flex-shrink-0 flex w-full z-50 gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
+        class="px-1 py-1.5 flex-shrink-0 flex w-full z-50 gap-2 items-center border-t border-[#d6ebf1] dark:border-white/10 shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
         :class="isEffectivelyCollapsed ? 'justify-center' : 'justify-between'"
       >
         <SidebarProfileMenu
@@ -868,8 +870,8 @@ const menuItems = computed(() => {
       @dblclick="onResizeHandleDoubleClick"
     >
       <div
-        class="absolute top-0 h-full w-px ltr:right-0 rtl:left-0 bg-transparent group-hover:bg-n-brand transition-colors"
-        :class="{ 'bg-n-brand': isResizing }"
+        class="absolute top-0 h-full w-px ltr:right-0 rtl:left-0 bg-transparent group-hover:bg-[#FF914D] transition-colors"
+        :class="{ 'bg-[#FF914D]': isResizing }"
       />
     </div>
   </aside>

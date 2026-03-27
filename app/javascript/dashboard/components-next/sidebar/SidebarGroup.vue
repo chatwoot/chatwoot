@@ -233,10 +233,12 @@ watch(
           ref="triggerRef"
           :to="to && !hasChildren ? to : undefined"
           type="button"
-          class="flex items-center justify-center size-10 rounded-lg"
+          class="flex items-center justify-center size-10 rounded-lg transition-all"
           :class="{
-            'text-n-slate-12 bg-n-alpha-2': isActive || hasActiveChild,
-            'text-n-slate-11 hover:bg-n-alpha-2': !isActive && !hasActiveChild,
+            'bg-[#034d66] text-white dark:bg-white/20 dark:text-white':
+              isActive || hasActiveChild,
+            'text-[#5f6b72] hover:bg-[#d6ebf1] dark:text-white/70 dark:hover:bg-white/10':
+              !isActive && !hasActiveChild,
           }"
           :title="label"
           @click="hasChildren ? handleCollapsedClick() : undefined"
@@ -258,10 +260,10 @@ watch(
     <!-- Expanded State -->
     <template v-else>
       <SidebarGroupHeader
-        :icon
-        :name
-        :label
-        :to
+        :icon="icon"
+        :name="name"
+        :label="label"
+        :to="to"
         :getter-keys="getterKeys"
         :is-active="isActive"
         :has-active-child="hasActiveChild"
@@ -305,6 +307,8 @@ watch(
   width: 0.125rem;
   /* 0.5px */
   height: 100%;
+  background-color: #ff914d;
+  opacity: 0.3;
 }
 
 .sidebar-group-children .child-item:first-child::before {
@@ -337,6 +341,8 @@ watch(
   border-top-width: 0px;
   border-radius: 0 0 0 4px;
   left: 0;
+  border-color: #ff914d;
+  opacity: 0.4;
 }
 
 #app[dir='rtl'] .sidebar-group-children > .child-item:last-child::after,

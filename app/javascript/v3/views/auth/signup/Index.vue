@@ -4,7 +4,6 @@ import { useStore } from 'vuex';
 import SignupForm from './components/Signup/Form.vue';
 import Testimonials from './components/Testimonials/Index.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import signupBg from 'assets/images/auth/signup-bg.jpg';
 
 const store = useStore();
 
@@ -25,15 +24,14 @@ const resizeContainers = () => {
 
 <template>
   <div
-    class="relative w-full h-full min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat p-4"
-    :style="{ backgroundImage: `url(${signupBg})` }"
+    class="relative w-full min-h-screen flex items-center justify-center p-4 bg-[#f2f2f2]"
   >
     <div
-      class="absolute inset-0 bg-n-gray-12/60 dark:bg-n-gray-1/80 backdrop-blur-sm"
+      class="absolute inset-0 bg-[#034d66]/75 dark:bg-[#012f3d]/85 backdrop-blur-sm"
     />
     <div
       v-show="!isLoading"
-      class="relative flex max-w-[960px] bg-white dark:bg-n-solid-2 rounded-lg outline outline-1 outline-n-container shadow-sm"
+      class="relative flex max-w-[960px] bg-white dark:bg-n-solid-2 rounded-2xl border border-[#d6ebf1] shadow-xl overflow-hidden"
       :class="{ 'w-auto xl:w-full': isAChatwootInstance }"
     >
       <div class="flex-1 flex items-center justify-center py-10 px-10">
