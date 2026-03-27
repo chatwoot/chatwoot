@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'boot'
+require_relative '../lib/chatwoot_app'
 
 require 'rails/all'
 
@@ -50,6 +51,19 @@ module Chatwoot
     # Load enterprise initializers alongside standard initializers
     enterprise_initializers = Rails.root.join('enterprise/config/initializers')
     Dir[enterprise_initializers.join('**/*.rb')].each { |f| require f } if enterprise_initializers.exist?
+
+    # ------------------------------------------------------------------
+    # custom/ overlay — código local nunca sobrescrito por updates upstream
+    # Espelha o mesmo padrão de carregamento do enterprise/ acima.
+    if ChatwootApp.custom?
+      config.eager_load_paths << Rails.root.join('custom/lib') if Rails.root.join('custom/lib').exist?
+      # rubocop:disable Rails/FilePath
+      config.eager_load_paths += Dir["#{Rails.root}/custom/app/**"]
+      # rubocop:enable Rails/FilePath
+      config.paths['app/views'].unshift('custom/app/views') if Rails.root.join('custom/app/views').exist?
+      custom_initializers = Rails.root.join('custom/config/initializers')
+      Dir[custom_initializers.join('**/*.rb')].sort.each { |f| require f } if custom_initializers.exist?
+    end
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
