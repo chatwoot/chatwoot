@@ -59,11 +59,19 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def collect_previous_messages
-    @conversation
-      .messages
-      .where(message_type: [:incoming, :outgoing])
-      .where(private: false)
-      .map do |message|
+    last_resolution_at = account.reporting_events
+                                .where(conversation_id: @conversation.id, name: 'conversation_resolved')
+                                .order(event_end_time: :desc)
+                                .pick(:event_end_time)
+
+    scope = @conversation
+            .messages
+            .where(message_type: [:incoming, :outgoing])
+            .where(private: false)
+
+    scope = scope.where('created_at > ?', last_resolution_at) if last_resolution_at
+
+    scope.map do |message|
       message_hash = {
         content: prepare_multimodal_message_content(message),
         role: determine_role(message)
