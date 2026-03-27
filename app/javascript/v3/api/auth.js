@@ -57,12 +57,18 @@ export const register = async creds => {
       password: creds.password,
       h_captcha_client_response: creds.hCaptchaClientResponse,
     });
-    setAuthCredentials(response);
     return response.data;
   } catch (error) {
     throwErrorMessage(error);
   }
   return null;
+};
+
+export const resendConfirmation = async ({ email, hCaptchaClientResponse }) => {
+  return wootAPI.post('resend_confirmation', {
+    email,
+    h_captcha_client_response: hCaptchaClientResponse,
+  });
 };
 
 export const verifyPasswordToken = async ({ confirmationToken }) => {
