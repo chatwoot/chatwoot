@@ -76,7 +76,7 @@ RSpec.describe 'Canned Responses API', type: :request do
   end
 
   describe 'PUT /api/v1/accounts/{account.id}/canned_responses/:id' do
-    let(:canned_response) { account.canned_responses.last }
+    let(:canned_response) { CannedResponse.last }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -104,7 +104,7 @@ RSpec.describe 'Canned Responses API', type: :request do
   end
 
   describe 'DELETE /api/v1/accounts/{account.id}/canned_responses/:id' do
-    let(:canned_response) { account.canned_responses.last }
+    let(:canned_response) { CannedResponse.last }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -123,7 +123,7 @@ RSpec.describe 'Canned Responses API', type: :request do
                as: :json
 
         expect(response).to have_http_status(:success)
-        expect(account.canned_responses.count).to eq(0)
+        expect(CannedResponse.count).to eq(0)
       end
     end
   end

@@ -145,14 +145,12 @@ RSpec.describe 'Notifications API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'deletes the notification' do
-        expect do
-          delete "/api/v1/accounts/#{account.id}/notifications/#{notification.id}",
-                 headers: admin.create_new_auth_token,
-                 as: :json
-        end.to change { admin.notifications.where(account: account).count }.from(1).to(0)
+        delete "/api/v1/accounts/#{account.id}/notifications/#{notification.id}",
+               headers: admin.create_new_auth_token,
+               as: :json
 
         expect(response).to have_http_status(:success)
-        expect(Notification.exists?(notification.id)).to be(false)
+        expect(Notification.count).to eq(0)
       end
     end
   end

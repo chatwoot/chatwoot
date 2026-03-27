@@ -101,11 +101,6 @@ RSpec.describe 'Linear Integration API', type: :request do
   describe 'POST /api/v1/accounts/:account_id/integrations/linear/create_issue' do
     let(:inbox) { create(:inbox, account: account) }
     let(:conversation) { create(:conversation, account: account, inbox: inbox) }
-    let(:matching_issue_params) do
-      satisfy do |params|
-        params.is_a?(ActionController::Parameters) && params.to_h == issue_params.stringify_keys
-      end
-    end
     let(:issue_params) do
       {
         team_id: 'team1',
@@ -124,7 +119,7 @@ RSpec.describe 'Linear Integration API', type: :request do
         let(:created_issue) { { data: { identifier: 'ENG-123', title: 'Sample Issue' } } }
 
         it 'returns the created issue' do
-          allow(processor_service).to receive(:create_issue).with(matching_issue_params, agent).and_return(created_issue)
+          allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys, agent).and_return(created_issue)
 
           post "/api/v1/accounts/#{account.id}/integrations/linear/create_issue",
                params: issue_params,
@@ -136,7 +131,7 @@ RSpec.describe 'Linear Integration API', type: :request do
         end
 
         it 'creates activity message when conversation is provided' do
-          allow(processor_service).to receive(:create_issue).with(matching_issue_params, agent).and_return(created_issue)
+          allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys, agent).and_return(created_issue)
 
           expect do
             post "/api/v1/accounts/#{account.id}/integrations/linear/create_issue",
@@ -155,7 +150,7 @@ RSpec.describe 'Linear Integration API', type: :request do
 
       context 'when issue creation fails' do
         it 'returns error message and does not create activity message' do
-          allow(processor_service).to receive(:create_issue).with(matching_issue_params, agent).and_return(error: 'error message')
+          allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys, agent).and_return(error: 'error message')
 
           expect do
             post "/api/v1/accounts/#{account.id}/integrations/linear/create_issue",

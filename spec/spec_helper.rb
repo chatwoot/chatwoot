@@ -14,9 +14,6 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
   def with_modified_env(options, &)
-    GlobalConfig.clear_cache if defined?(GlobalConfig)
     ClimateControl.modify(options, &)
-  ensure
-    GlobalConfig.clear_cache if defined?(GlobalConfig)
   end
 end
