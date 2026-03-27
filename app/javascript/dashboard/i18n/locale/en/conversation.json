@@ -64,6 +64,7 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "DELETE_NOT_SUPPORTED": "This inbox does not support message deletion",
     "NO_RESPONSE": "No response",
     "RESPONSE": "Response",
     "RATING_TITLE": "Rating",

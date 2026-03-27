@@ -43,6 +43,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    canDeleteOnChannel: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['open', 'close', 'replyTo'],
   setup() {
@@ -134,6 +138,11 @@ export default {
       this.handleClose();
     },
     openDeleteModal() {
+      if (!this.canDeleteOnChannel) {
+        useAlert(this.$t('CONVERSATION.DELETE_NOT_SUPPORTED'));
+        this.handleClose();
+        return;
+      }
       this.handleClose();
       this.showDeleteModal = true;
     },
