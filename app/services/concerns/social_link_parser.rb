@@ -41,11 +41,17 @@ module SocialLinkParser
     host == domain || host.end_with?(".#{domain}")
   end
 
+  SHARE_PATH_PREFIXES = %w[sharer share intent dialog].freeze
+
   def parse_social_handle(platform, link)
     uri = URI.parse(link)
     return extract_whatsapp_phone(uri) if platform == :whatsapp
 
-    uri.path.to_s.delete_prefix('/').delete_suffix('/').presence
+    handle = uri.path.to_s.delete_prefix('/').delete_suffix('/')
+    return nil if handle.blank?
+    return nil if SHARE_PATH_PREFIXES.any? { |prefix| handle.start_with?(prefix) }
+
+    handle.presence
   rescue URI::InvalidURIError
     nil
   end
