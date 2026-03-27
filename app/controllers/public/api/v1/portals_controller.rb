@@ -1,7 +1,7 @@
 class Public::Api::V1::PortalsController < Public::Api::V1::Portals::BaseController
   before_action :ensure_custom_domain_request, only: [:show]
-  before_action :redirect_to_portal_with_locale, only: [:show]
   before_action :portal
+  before_action :redirect_to_portal_with_locale, only: [:show]
   before_action :ensure_portal_feature_enabled, only: [:show, :sitemap]
   layout 'portal'
 
