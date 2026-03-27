@@ -210,7 +210,11 @@ export default {
       if (
         this.isATwilioChannel &&
         this.inbox.phone_number &&
-        this.inbox.medium === 'sms'
+        this.inbox.medium === 'sms' &&
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.CHANNEL_VOICE
+        )
       ) {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
