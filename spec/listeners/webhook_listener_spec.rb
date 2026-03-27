@@ -59,7 +59,7 @@ describe WebhookListener do
         api_event = Events::Base.new(event_name, Time.zone.now, message: api_message)
         expect(WebhookJob).to receive(:perform_later).with(
           channel_api.webhook_url, api_message.webhook_data.merge(event: 'message_created'),
-          :api_inbox_webhook, delivery_id: instance_of(String)
+          :api_inbox_webhook, secret: channel_api.secret, delivery_id: instance_of(String)
         ).once
         listener.message_created(api_event)
       end
@@ -112,7 +112,7 @@ describe WebhookListener do
         expect(WebhookJob).to receive(:perform_later).with(
           channel_api.webhook_url,
           api_conversation.webhook_data.merge(event: 'conversation_created'),
-          :api_inbox_webhook, delivery_id: instance_of(String)
+          :api_inbox_webhook, secret: channel_api.secret, delivery_id: instance_of(String)
         ).once
         listener.conversation_created(api_event)
       end
@@ -348,7 +348,7 @@ describe WebhookListener do
 
         expect(WebhookJob).to receive(:perform_later).with(
           channel_api.webhook_url, payload, :api_inbox_webhook,
-          delivery_id: instance_of(String)
+          secret: channel_api.secret, delivery_id: instance_of(String)
         ).once
         listener.conversation_typing_on(api_event)
       end
