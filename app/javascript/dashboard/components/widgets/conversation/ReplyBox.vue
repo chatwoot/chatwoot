@@ -625,7 +625,7 @@ export default {
       }
     },
     toggleSignatureForDraft(message) {
-      if (this.isPrivate) {
+      if (this.isPrivate || this.isEditorDisabled) {
         return message;
       }
 
