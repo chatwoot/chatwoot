@@ -25,17 +25,26 @@ export default createStore({
       }
     },
 
-    handleBulkDelete: async function handleBulkDelete({ dispatch }, ids) {
+    handleBulkDelete: async function handleBulkDelete(
+      { dispatch },
+      { type = 'AssistantResponse', ids }
+    ) {
       const response = await dispatch('processBulkAction', {
-        type: 'AssistantResponse',
+        type,
         actionType: 'delete',
         ids,
       });
 
-      // Update the response store after successful API call
-      await dispatch('captainResponses/removeBulkResponses', ids, {
-        root: true,
-      });
+      if (type === 'AssistantResponse') {
+        // Update the response store after successful API call
+        await dispatch('captainResponses/removeBulkResponses', ids, {
+          root: true,
+        });
+      } else if (type === 'AssistantDocument') {
+        await dispatch('captainDocuments/removeBulkRecords', ids, {
+          root: true,
+        });
+      }
       return response;
     },
 
