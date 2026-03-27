@@ -57,6 +57,7 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
     permitted = params.require(:assistant).permit(:name, :description,
                                                   config: [
                                                     :product_name, :feature_faq, :feature_memory, :feature_citation,
+                                                    :feature_contact_attributes,
                                                     :welcome_message, :handoff_message, :resolution_message,
                                                     :instructions, :temperature
                                                   ])

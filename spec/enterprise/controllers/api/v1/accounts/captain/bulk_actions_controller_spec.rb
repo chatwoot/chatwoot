@@ -14,6 +14,14 @@ RSpec.describe 'Api::V1::Accounts::Captain::BulkActions', type: :request do
       status: 'pending'
     )
   end
+  let!(:documents) do
+    create_list(
+      :captain_document,
+      2,
+      assistant: assistant,
+      account: account
+    )
+  end
 
   def json_response
     JSON.parse(response.body, symbolize_names: true)
@@ -95,6 +103,28 @@ RSpec.describe 'Api::V1::Accounts::Captain::BulkActions', type: :request do
         pending_responses.each do |response|
           expect(response.reload.status).to eq('pending')
         end
+      end
+    end
+
+    context 'when deleting documents' do
+      let(:document_delete_params) do
+        {
+          type: 'AssistantDocument',
+          ids: documents.map(&:id),
+          fields: { status: 'delete' }
+        }
+      end
+
+      it 'deletes the documents and returns an empty array' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/bulk_actions",
+               params: document_delete_params,
+               headers: admin.create_new_auth_token,
+               as: :json
+        end.to change(Captain::Document, :count).by(-2)
+
+        expect(response).to have_http_status(:ok)
+        expect(json_response).to eq([])
       end
     end
 
