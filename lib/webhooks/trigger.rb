@@ -20,14 +20,19 @@ class Webhooks::Trigger
     raise
   end
 
+  def handle_failure(error)
+    handle_error(error)
+  end
+
   private
 
   def perform_request
+    body = @payload.to_json
     RestClient::Request.execute(
       method: :post,
       url: @url,
-      payload: @payload.to_json,
-      headers: { content_type: :json, accept: :json },
+      payload: body,
+      headers: request_headers(body),
       timeout: webhook_timeout
     )
   end

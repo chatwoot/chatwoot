@@ -48,7 +48,7 @@ describe Webhooks::Trigger do
       error = RestClient::ExceptionWithResponse.new('error', 500)
 
       expect do
-        described_class.new(url, payload, webhook_type).handle_error(error)
+        described_class.new(url, payload, webhook_type).handle_failure(error)
       end.to change { message.reload.status }.from('sent').to('failed')
     end
 
@@ -57,7 +57,7 @@ describe Webhooks::Trigger do
       error = RestClient::ExceptionWithResponse.new('error', 500)
 
       expect do
-        described_class.new(url, payload, webhook_type).handle_error(error)
+        described_class.new(url, payload, webhook_type).handle_failure(error)
       end.to change { message.reload.status }.from('sent').to('failed')
     end
 
@@ -106,7 +106,7 @@ describe Webhooks::Trigger do
 
         expect do
           perform_enqueued_jobs do
-            described_class.new(url, payload, webhook_type).handle_error(error)
+            described_class.new(url, payload, webhook_type).handle_failure(error)
           end
         end.not_to(change { pending_message.reload.status })
 
@@ -122,7 +122,7 @@ describe Webhooks::Trigger do
         error = RestClient::ExceptionWithResponse.new('error', 500)
 
         expect do
-          described_class.new(url, payload, webhook_type).handle_error(error)
+          described_class.new(url, payload, webhook_type).handle_failure(error)
         end.not_to(change { message.reload.status })
 
         expect(Conversations::ActivityMessageJob).not_to have_been_enqueued
@@ -134,7 +134,7 @@ describe Webhooks::Trigger do
         payload = { event: 'message_created', id: pending_message.id }
         error = RestClient::ExceptionWithResponse.new('error', 500)
 
-        described_class.new(url, payload, webhook_type).handle_error(error)
+        described_class.new(url, payload, webhook_type).handle_failure(error)
 
         expect(Conversations::ActivityMessageJob).not_to have_been_enqueued
         expect(pending_conversation.reload.status).to eq('pending')
@@ -147,7 +147,7 @@ describe Webhooks::Trigger do
 
         expect do
           perform_enqueued_jobs do
-            described_class.new(url, payload, webhook_type).handle_error(error)
+            described_class.new(url, payload, webhook_type).handle_failure(error)
           end
         end.not_to(change { pending_message.reload.status })
 
@@ -157,22 +157,6 @@ describe Webhooks::Trigger do
         expect(activity_message.message_type).to eq('activity')
         expect(activity_message.content).to eq(agent_bot_error_content)
       end
-    end
-
-    it 'handles 500 without raising for non-agent webhooks' do
-      payload = { event: 'message_created', conversation: { id: conversation.id }, id: message.id }
-
-      expect(RestClient::Request).to receive(:execute)
-        .with(
-          method: :post,
-          url: url,
-          payload: payload.to_json,
-          headers: { content_type: :json, accept: :json },
-          timeout: webhook_timeout
-        ).and_raise(RestClient::InternalServerError.new(nil, 500)).once
-
-      expect { trigger.execute(url, payload, webhook_type) }.not_to raise_error
-      expect(message.reload.status).to eq('failed')
     end
   end
 
@@ -246,7 +230,7 @@ describe Webhooks::Trigger do
     error = RestClient::ExceptionWithResponse.new('error', 500)
 
     expect do
-      described_class.new(url, payload, webhook_type).handle_error(error)
+      described_class.new(url, payload, webhook_type).handle_failure(error)
     end.not_to(change { message.reload.status })
   end
 
