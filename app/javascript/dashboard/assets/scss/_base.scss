@@ -106,7 +106,7 @@ select {
     @apply field-disabled;
   }
 
-  option {
+    option:not(:disabled) {
     @apply bg-n-solid-2 text-n-slate-12;
   }
 }
