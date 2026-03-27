@@ -8,7 +8,7 @@ const DEFAULT_HEIGHT = 120;
 const SMALL_SCREEN_DEFAULT_HEIGHT = 96;
 const MIN_HEIGHT = 80;
 const SMALL_SCREEN_MIN_HEIGHT = 72;
-const MAX_HEIGHT = 500;
+const MAX_HEIGHT = 600;
 const SMALL_SCREEN_MAX_HEIGHT = 170;
 const SMALL_SCREEN_BREAKPOINT = 768;
 const SAFE_TOP_OFFSET = 320;
@@ -91,7 +91,10 @@ const toggleEditorExpand = () => {
   isResizing.value = false;
   Object.assign(document.body.style, { cursor: '', userSelect: '' });
   const { max, default: defaultHeight } = sizeBounds.value;
-  const isExpanded = Math.abs(editorHeight.value - max) < 2;
+  // Sync stored height to current bounds before expanded check
+  const clamped = clampToBounds(editorHeight.value);
+  editorHeight.value = clamped;
+  const isExpanded = Math.abs(clamped - max) < 2;
   editorHeight.value = isExpanded ? defaultHeight : max;
 };
 
