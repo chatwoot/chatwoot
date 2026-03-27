@@ -625,7 +625,13 @@ export default {
       }
     },
     toggleSignatureForDraft(message) {
-      if (this.isPrivate || this.isEditorDisabled) {
+      if (this.isPrivate) {
+        return message;
+      }
+
+      // Even when editor is disabled (e.g. WhatsApp/API can't reply), we must
+      // still normalize stale signatures out of drafts when signature is off.
+      if (this.isEditorDisabled && this.sendWithSignature) {
         return message;
       }
 
