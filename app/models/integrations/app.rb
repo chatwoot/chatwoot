@@ -43,6 +43,8 @@ class Integrations::App
       "#{params[:action]}&client_id=#{client_id}&redirect_uri=#{self.class.slack_integration_url}"
     when 'linear'
       build_linear_action
+    when 'shopify'
+      GlobalConfigService.load('SHOPIFY_APP_STORE_URL', nil)
     else
       params[:action]
     end

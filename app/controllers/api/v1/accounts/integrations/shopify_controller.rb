@@ -1,25 +1,8 @@
 class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::BaseController
   include Shopify::IntegrationHelper
   before_action :setup_shopify_context, only: [:orders]
-  before_action :fetch_hook, except: [:auth]
+  before_action :fetch_hook, except: [:complete_install]
   before_action :validate_contact, only: [:orders]
-
-  def auth
-    shop_domain = params[:shop_domain]
-    return render json: { error: 'Shop domain is required' }, status: :unprocessable_entity if shop_domain.blank?
-
-    state = generate_shopify_token(Current.account.id)
-
-    auth_url = "https://#{shop_domain}/admin/oauth/authorize?"
-    auth_url += URI.encode_www_form(
-      client_id: client_id,
-      scope: REQUIRED_SCOPES.join(','),
-      redirect_uri: redirect_uri,
-      state: state
-    )
-
-    render json: { redirect_url: auth_url }
-  end
 
   def orders
     customers = fetch_customers
@@ -31,6 +14,23 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
+  def complete_install
+    token_key = "shopify_pending_install:#{params[:pending_install_token]}"
+    data = claim_pending_install_token(token_key, Current.account.id)
+    return render json: { error: data[:error] }, status: :unprocessable_entity if data[:error]
+
+    Current.account.hooks.create!(
+      app_id: 'shopify',
+      access_token: data['access_token'],
+      status: 'enabled',
+      reference_id: data['shop'],
+      settings: { scope: data['scope'] }
+    )
+
+    ::Redis::Alfred.delete(token_key)
+    head :ok
+  end
+
   def destroy
     @hook.destroy!
     head :ok
@@ -39,10 +39,6 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
   end
 
   private
-
-  def redirect_uri
-    "#{ENV.fetch('FRONTEND_URL', '')}/shopify/callback"
-  end
 
   def contact
     @contact ||= Current.account.contacts.find_by(id: params[:contact_id])
@@ -107,5 +103,32 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
 
     render json: { error: 'Contact information missing' },
            status: :unprocessable_entity
+  end
+
+  def claim_pending_install_token(token_key, account_id)
+    json_data = Redis::SecureStorage.get(token_key)
+    return { error: 'Invalid or expired install token' } if json_data.blank?
+
+    begin
+      data = JSON.parse(json_data)
+    rescue JSON::ParserError
+      return { error: 'Invalid or corrupted install token' }
+    end
+
+    if data['claimed']
+      Redis::SecureStorage.delete(token_key)
+      return { error: 'Install token already used' }
+    end
+
+    # Check if already bound to a different account (prevents token theft)
+    return { error: 'Install token cannot be used by this account' } if data['account_id'].present? && data['account_id'] != account_id
+
+    # Bind to this account and mark as claimed to prevent replay
+    data['claimed'] = true
+    data['account_id'] = account_id
+    ttl = ::Redis::Alfred.ttl(token_key)
+    Redis::SecureStorage.set(token_key, data, [ttl, 60].max) if ttl.positive?
+
+    data
   end
 end
