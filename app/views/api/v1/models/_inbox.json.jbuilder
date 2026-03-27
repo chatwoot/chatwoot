@@ -72,6 +72,7 @@ if resource.twilio?
   if Current.account_user&.administrator?
     json.auth_token resource.channel.try(:auth_token)
     json.account_sid resource.channel.try(:account_sid)
+    json.api_key_sid resource.channel.try(:api_key_sid)
   end
 end
 

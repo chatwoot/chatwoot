@@ -29,15 +29,30 @@ export default {
     isVoiceConfigured() {
       return !!this.inbox.voice_configured;
     },
+    hasApiKeySid() {
+      return !!this.inbox.api_key_sid;
+    },
     needsCredentials() {
       return this.voiceEnabled && !this.isVoiceConfigured;
+    },
+    needsApiKeySid() {
+      return this.needsCredentials && !this.hasApiKeySid;
     },
     isSubmitDisabled() {
       if (!this.voiceEnabled) return false;
       if (this.needsCredentials) {
-        return !this.apiKeySid || !this.apiKeySecret;
+        if (this.needsApiKeySid && !this.apiKeySid) return true;
+        return !this.apiKeySecret;
       }
       return false;
+    },
+  },
+  watch: {
+    'inbox.voice_enabled'(val) {
+      this.voiceEnabled = val || false;
+    },
+    'inbox.api_key_sid'(val) {
+      this.apiKeySid = val || '';
     },
   },
   methods: {
@@ -46,7 +61,9 @@ export default {
         const channelPayload = { voice_enabled: this.voiceEnabled };
 
         if (this.needsCredentials) {
-          channelPayload.api_key_sid = this.apiKeySid;
+          if (this.needsApiKeySid) {
+            channelPayload.api_key_sid = this.apiKeySid;
+          }
           channelPayload.api_key_secret = this.apiKeySecret;
         }
 
@@ -79,6 +96,7 @@ export default {
         {{ $t('INBOX_MGMT.VOICE_CONFIGURATION.CREDENTIALS.DESCRIPTION') }}
       </p>
       <NextInput
+        v-if="needsApiKeySid"
         v-model="apiKeySid"
         :label="$t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.LABEL')"
         :placeholder="$t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.PLACEHOLDER')"
