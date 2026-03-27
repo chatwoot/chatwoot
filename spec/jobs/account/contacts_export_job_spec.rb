@@ -85,6 +85,19 @@ RSpec.describe Account::ContactsExportJob do
       expect(phone_numbers).to include('+910808080818', '+910808080808')
     end
 
+    it 'exports contact labels with pipe delimiter' do
+      contact_with_labels = account.contacts.first
+      contact_with_labels.add_labels(%w[vip support])
+
+      described_class.perform_now(account.id, user.id, [], {})
+
+      csv_data = CSV.parse(account.contacts_export.download, headers: true)
+      row = csv_data.find { |r| r['email'] == contact_with_labels.email }
+
+      expect(csv_data.headers).to include('labels')
+      expect(row['labels'].split(described_class::LABELS_DELIMITER)).to match_array(%w[vip support])
+    end
+
     it 'returns all resolved contacts as results when filter is not prvoided' do
       create(:contact, account: account, email: nil, phone_number: nil)
       described_class.perform_now(account.id, user.id, %w[id name email column_not_present], {})
