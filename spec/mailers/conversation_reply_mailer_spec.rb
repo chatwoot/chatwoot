@@ -247,6 +247,20 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{conversation.account.domain}")
       end
 
+      context 'with recap messages' do
+        let!(:previous_message) do
+          create(:message,
+                 conversation: conversation,
+                 account: account,
+                 message_type: 'incoming',
+                 content: 'Previous recap message')
+        end
+
+        it 'includes previous messages in the email body' do
+          expect(mail.body.encoded).to include(previous_message.content)
+        end
+      end
+
       context 'when message is a CSAT survey' do
         let(:csat_message) do
           create(:message, conversation: conversation, account: account, message_type: 'template',
