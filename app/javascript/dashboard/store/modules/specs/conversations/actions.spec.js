@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { createPinia, setActivePinia } from 'pinia';
 import actions, {
   hasMessageFailedWithExternalError,
 } from '../../conversations/actions';
@@ -56,6 +57,11 @@ describe('#hasMessageFailedWithExternalError', () => {
 });
 
 describe('#actions', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia());
+    vi.clearAllMocks();
+  });
+
   describe('#getConversation', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({

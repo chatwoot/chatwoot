@@ -32,12 +32,29 @@ describe Voice::Provider::Twilio::ConferenceService do
   describe '#mark_agent_joined' do
     it 'stores agent join metadata' do
       agent = create(:user, account: account)
+      message = create(
+        :message,
+        account: account,
+        conversation: conversation,
+        inbox: channel.inbox,
+        sender: conversation.contact,
+        content_type: 'voice_call',
+        content_attributes: {
+          'data' => {
+            'status' => 'ringing',
+            'meta' => {}
+          }
+        }
+      )
 
       service.mark_agent_joined(user: agent)
 
       attrs = conversation.reload.additional_attributes
       expect(attrs['agent_joined']).to be true
       expect(attrs['joined_by']['id']).to eq(agent.id)
+      expect(message.reload.content_attributes.dig('data', 'meta', 'joined_by')).to eq(
+        { 'id' => agent.id, 'name' => agent.name }
+      )
     end
   end
 

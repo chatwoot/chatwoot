@@ -78,8 +78,9 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(body['conference_sid']).to be_present
         conversation.reload
         expect(conversation.identifier).to eq('CALL123')
+        expect(conversation.assignee).to eq(agent)
         expect(conference_service).to have_received(:ensure_conference_sid)
-        expect(conference_service).to have_received(:mark_agent_joined)
+        expect(conference_service).to have_received(:mark_agent_joined).with(user: agent)
       end
 
       it 'does not allow accessing conversations from inboxes without access' do
@@ -101,6 +102,39 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
              params: { conversation_id: conversation.display_id }
 
         expect(response).to have_http_status(:unprocessable_content)
+      end
+
+      it 'returns conflict when another agent is already assigned' do
+        other_agent = create(:user, account: account, role: :agent, name: 'Jane Agent')
+        create(:inbox_member, inbox: voice_inbox, user: other_agent)
+        conversation.update!(assignee: other_agent)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+             headers: agent.create_new_auth_token,
+             params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+        expect(response).to have_http_status(:conflict)
+        expect(response.parsed_body['error']).to eq('Jane Agent is already handling the call.')
+        conversation.reload
+        expect(conversation.assignee).to eq(other_agent)
+        expect(conversation.identifier).to be_nil
+        expect(conference_service).not_to have_received(:ensure_conference_sid)
+        expect(conference_service).not_to have_received(:mark_agent_joined)
+      end
+
+      it 'allows the assigned agent to rejoin' do
+        conversation.update!(assignee: agent)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+             headers: agent.create_new_auth_token,
+             params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+        expect(response).to have_http_status(:ok)
+        conversation.reload
+        expect(conversation.assignee).to eq(agent)
+        expect(conversation.identifier).to eq('CALL123')
+        expect(conference_service).to have_received(:ensure_conference_sid)
+        expect(conference_service).to have_received(:mark_agent_joined).with(user: agent)
       end
     end
   end

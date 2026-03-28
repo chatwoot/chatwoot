@@ -21,6 +21,7 @@ class Voice::StatusUpdateService
 
     conversation = account.conversations.find_by(identifier: call_sid)
     return unless conversation
+    return if ignore_premature_in_progress?(conversation, normalized_status)
 
     Voice::CallStatus::Manager.new(
       conversation: conversation,
@@ -56,5 +57,11 @@ class Voice::StatusUpdateService
     Time.zone.parse(ts).to_i
   rescue ArgumentError
     nil
+  end
+
+  def ignore_premature_in_progress?(conversation, normalized_status)
+    normalized_status == 'in-progress' &&
+      conversation.additional_attributes&.dig('call_direction') == 'inbound' &&
+      !conversation.additional_attributes&.dig('agent_joined')
   end
 end
