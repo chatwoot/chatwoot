@@ -113,4 +113,20 @@ export const mutations = {
     const { id } = lastMessage;
     $state.lastMessageId = id;
   },
+
+  setPendingCustomAttributes($state, data) {
+    $state.pendingCustomAttributes = {
+      ...$state.pendingCustomAttributes,
+      ...data,
+    };
+  },
+
+  setPendingLabels($state, label) {
+    $state.pendingLabels = [...new Set([...$state.pendingLabels, label])];
+  },
+
+  clearPendingConversationMetadata($state) {
+    $state.pendingCustomAttributes = {};
+    $state.pendingLabels = [];
+  },
 };

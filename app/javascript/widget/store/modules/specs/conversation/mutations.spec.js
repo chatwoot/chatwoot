@@ -176,6 +176,43 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#setPendingCustomAttributes', () => {
+    it('merges custom attributes into pending state', () => {
+      const state = { pendingCustomAttributes: { existing: 'value' } };
+      mutations.setPendingCustomAttributes(state, { plan: 'enterprise' });
+      expect(state.pendingCustomAttributes).toEqual({
+        existing: 'value',
+        plan: 'enterprise',
+      });
+    });
+  });
+
+  describe('#setPendingLabels', () => {
+    it('adds label to pending state', () => {
+      const state = { pendingLabels: [] };
+      mutations.setPendingLabels(state, 'vip');
+      expect(state.pendingLabels).toEqual(['vip']);
+    });
+
+    it('does not add duplicate labels', () => {
+      const state = { pendingLabels: ['vip'] };
+      mutations.setPendingLabels(state, 'vip');
+      expect(state.pendingLabels).toEqual(['vip']);
+    });
+  });
+
+  describe('#clearPendingConversationMetadata', () => {
+    it('clears pending custom attributes and labels', () => {
+      const state = {
+        pendingCustomAttributes: { plan: 'enterprise' },
+        pendingLabels: ['vip'],
+      };
+      mutations.clearPendingConversationMetadata(state);
+      expect(state.pendingCustomAttributes).toEqual({});
+      expect(state.pendingLabels).toEqual([]);
+    });
+  });
+
   describe('#deleteMessage', () => {
     it('delete the message from conversation', () => {
       const state = { conversations: { 1: { id: 1 } } };
