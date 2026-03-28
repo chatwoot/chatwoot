@@ -1,7 +1,8 @@
 class Public::Api::V1::PortalsController < Public::Api::V1::Portals::BaseController
   before_action :ensure_custom_domain_request, only: [:show]
-  before_action :portal
   before_action :redirect_to_portal_with_locale, only: [:show]
+  before_action :portal
+  before_action :ensure_portal_feature_enabled
   layout 'portal'
 
   def show
@@ -24,6 +25,7 @@ class Public::Api::V1::PortalsController < Public::Api::V1::Portals::BaseControl
   def redirect_to_portal_with_locale
     return if params[:locale].present?
 
+    portal
     redirect_to "/hc/#{@portal.slug}/#{@portal.default_locale}"
   end
 end
