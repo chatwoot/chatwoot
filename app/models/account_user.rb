@@ -6,6 +6,7 @@
 #  active_at                :datetime
 #  auto_offline             :boolean          default(TRUE), not null
 #  availability             :integer          default("online"), not null
+#  participating_only       :boolean          default(FALSE), not null
 #  role                     :integer          default("agent")
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
@@ -20,6 +21,7 @@
 #  index_account_users_on_account_id                (account_id)
 #  index_account_users_on_agent_capacity_policy_id  (agent_capacity_policy_id)
 #  index_account_users_on_custom_role_id            (custom_role_id)
+#  index_account_users_on_participating_only        (participating_only)
 #  index_account_users_on_user_id                   (user_id)
 #  uniq_user_id_per_account_id                      (account_id,user_id) UNIQUE
 #
@@ -54,7 +56,24 @@ class AccountUser < ApplicationRecord
   end
 
   def permissions
-    administrator? ? ['administrator'] : ['agent']
+    return ['administrator'] if administrator?
+
+    # Return permissions array including participating_only flag if enabled
+    permissions_array = ['agent']
+    permissions_array << 'participating_only' if participating_only?
+    permissions_array
+  end
+
+  # Check if agent has participating_only restriction enabled
+  # When true, agent can only see conversations they are assigned to or participated in
+  def participating_only?
+    agent? && participating_only
+  end
+
+  # Check if agent has restricted conversation access
+  # Admins always have full access
+  def restricted_conversation_access?
+    participating_only?
   end
 
   def push_event_data

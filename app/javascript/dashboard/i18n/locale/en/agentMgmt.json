@@ -82,6 +82,10 @@
           "PLACEHOLDER": "Please select an availability status",
           "ERROR": "Availability is required"
         },
+        "PARTICIPATING_ONLY": {
+          "LABEL": "Restrict to Participating Conversations Only",
+          "HELP_TEXT": "When enabled, this agent can only see conversations they are assigned to or have participated in by sending messages."
+        },
         "SUBMIT": "Edit Agent"
       },
       "BUTTON_TEXT": "Edit",
