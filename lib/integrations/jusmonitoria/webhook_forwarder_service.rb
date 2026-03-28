@@ -13,25 +13,9 @@ class Integrations::Jusmonitoria::WebhookForwarderService
       endpoint = jusmonitoria_endpoint
       return if endpoint.blank?
 
-      body = {
-        event_type: event_type,
-        data: payload,
-        metadata: build_metadata(account)
-      }
-
-      json_body = body.to_json
-
+      json_body = build_request_body(event_type, payload, account).to_json
       Rails.logger.info "[JUSMONITORIA-FORWARD] Sending #{event_type} to #{endpoint}"
-
-      response = HTTParty.post(
-        "#{endpoint}/webhooks/chatwit",
-        headers: request_headers(json_body),
-        body: json_body,
-        timeout: TIMEOUT
-      )
-
-      Rails.logger.info "[JUSMONITORIA-FORWARD] Response: #{response.code}"
-      response
+      post_event(endpoint, json_body)
     rescue StandardError => e
       Rails.logger.error "[JUSMONITORIA-FORWARD] Failed to forward #{event_type}: #{e.class}: #{e.message}"
       nil
@@ -41,6 +25,25 @@ class Integrations::Jusmonitoria::WebhookForwarderService
 
     def jusmonitoria_endpoint
       ENV.fetch('JUSMONITORIA_WEBHOOK_URL', 'https://api.witdev.com.br')
+    end
+
+    def build_request_body(event_type, payload, account)
+      {
+        event_type: event_type,
+        data: payload,
+        metadata: build_metadata(account)
+      }
+    end
+
+    def post_event(endpoint, json_body)
+      response = HTTParty.post(
+        "#{endpoint}/webhooks/chatwit",
+        headers: request_headers(json_body),
+        body: json_body,
+        timeout: TIMEOUT
+      )
+      Rails.logger.info "[JUSMONITORIA-FORWARD] Response: #{response.code}"
+      response
     end
 
     def request_headers(body)

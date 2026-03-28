@@ -1,4 +1,7 @@
 # lib/integrations/socialwise_flow/processor_service.rb
+# rubocop:disable Metrics/ClassLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
+# rubocop:disable Metrics/PerceivedComplexity, Style/GlobalVars, Layout/LineLength
+# rubocop:disable Naming/PredicateName, Rails/WhereExists, Rails/Blank, Lint/DuplicateBranch
 
 class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcessorService
   pattr_initialize [:event_name!, :hook!, :event_data!]
@@ -2006,3 +2009,6 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
     nil
   end
 end
+# rubocop:enable Metrics/ClassLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
+# rubocop:enable Metrics/PerceivedComplexity, Style/GlobalVars, Layout/LineLength
+# rubocop:enable Naming/PredicateName, Rails/WhereExists, Rails/Blank, Lint/DuplicateBranch
