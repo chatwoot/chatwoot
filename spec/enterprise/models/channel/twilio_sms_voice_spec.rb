@@ -7,6 +7,7 @@ RSpec.describe Channel::TwilioSms do
   let(:twiml_app_sid) { 'AP1234567890abcdef' }
 
   before do
+    allow_any_instance_of(described_class).to receive(:validate_voice_capability!) # rubocop:disable RSpec/AnyInstance
     allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: twiml_app_sid))
   end
 
@@ -63,7 +64,7 @@ RSpec.describe Channel::TwilioSms do
 
   describe 'teardown on disable' do
     let(:channel) { create(:channel_twilio_sms, :with_voice, account: account) }
-    let(:app_context) { double('app_context') }
+    let(:app_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::ApplicationContext) }
     let(:twilio_client) { instance_double(Twilio::REST::Client) }
 
     before do
@@ -88,7 +89,8 @@ RSpec.describe Channel::TwilioSms do
     end
 
     it 'does not fail if Twilio API errors' do
-      allow(app_context).to receive(:delete).and_raise(Twilio::REST::RestError.new('Not found', double(status_code: 404, body: {})))
+      error_response = instance_double(Twilio::HTTP::Response, status_code: 404, body: {})
+      allow(app_context).to receive(:delete).and_raise(Twilio::REST::RestError.new('Not found', error_response))
 
       expect { channel.update!(voice_enabled: false) }.not_to raise_error
       expect(channel.reload.twiml_app_sid).to be_nil

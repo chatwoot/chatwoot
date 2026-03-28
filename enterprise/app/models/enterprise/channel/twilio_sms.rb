@@ -8,7 +8,7 @@ module Enterprise::Channel::TwilioSms
       validate :voice_requires_phone_number, if: :voice_enabled?
       before_validation :provision_twiml_app, on: :create, if: :voice_enabled?
       before_validation :provision_twiml_app_on_update, on: :update, if: :voice_enabled_changed_to_true?
-      after_update :teardown_voice, if: :voice_disabled?
+      after_commit :teardown_voice, if: :voice_disabled?
     end
   end
 
@@ -62,16 +62,7 @@ module Enterprise::Channel::TwilioSms
   end
 
   def teardown_voice
-    delete_twiml_app if twiml_app_sid.present?
-  rescue StandardError => e
-    Rails.logger.error("TWILIO_VOICE_TEARDOWN_ERROR: #{e.class} #{e.message} phone=#{phone_number} account=#{account_id}")
-  ensure
-    update_columns(twiml_app_sid: nil, api_key_secret: nil)
-  end
-
-  def delete_twiml_app
-    twilio_client = Twilio::REST::Client.new(account_sid, auth_token)
-    twilio_client.applications(twiml_app_sid).delete
+    Twilio::VoiceTeardownService.new(channel: self).perform
   end
 
   def provision_twiml_app
