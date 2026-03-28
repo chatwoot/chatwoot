@@ -1,15 +1,7 @@
 <script setup>
 // [TODO] This componet is too big and bulky to be in the same file, we can consider splitting this into multiple
 // composables and components, useVirtualChatList, useChatlistFilters
-import {
-  ref,
-  unref,
-  provide,
-  computed,
-  watch,
-  onMounted,
-  defineEmits,
-} from 'vue';
+import { ref, unref, provide, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import {

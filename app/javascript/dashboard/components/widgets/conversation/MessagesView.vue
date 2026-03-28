@@ -532,30 +532,28 @@ export default {
 .modal-mask {
   @apply fixed;
 
-  &::v-deep {
-    .ProseMirror-woot-style {
-      @apply max-h-[25rem];
-    }
+  :deep(.ProseMirror-woot-style) {
+    @apply max-h-[25rem];
+  }
 
-    .reply-box {
-      @apply border border-n-weak max-w-[75rem] w-[70%];
+  :deep(.reply-box) {
+    @apply border border-n-weak max-w-[75rem] w-[70%];
 
-      &.is-private {
-        @apply dark:border-n-amber-3/30 border-n-amber-12/5;
-      }
+    &.is-private {
+      @apply dark:border-n-amber-3/30 border-n-amber-12/5;
     }
+  }
 
-    .reply-box .reply-box__top {
-      @apply relative min-h-[27.5rem];
-    }
+  :deep(.reply-box .reply-box__top) {
+    @apply relative min-h-[27.5rem];
+  }
 
-    .reply-box__top .input {
-      @apply min-h-[27.5rem];
-    }
+  :deep(.reply-box__top .input) {
+    @apply min-h-[27.5rem];
+  }
 
-    .emoji-dialog {
-      @apply absolute ltr:left-auto rtl:right-auto bottom-1;
-    }
+  :deep(.emoji-dialog) {
+    @apply absolute ltr:left-auto rtl:right-auto bottom-1;
   }
 }
 </style>
