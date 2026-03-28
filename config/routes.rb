@@ -475,6 +475,8 @@ Rails.application.routes.draw do
               post :checkout
               post :subscription
               get :limits
+              get :billing_details
+              post :confirm_billing_details
               post :toggle_deletion
               post :topup_checkout
             end

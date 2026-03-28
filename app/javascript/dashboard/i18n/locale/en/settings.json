@@ -483,6 +483,31 @@
         "GO_BACK": "Go Back",
         "CONFIRM_PURCHASE": "Confirm Purchase"
       }
+    },
+    "CONFIRM_BUSINESS": {
+      "TITLE": "Confirm Business Details",
+      "DESCRIPTION": "Please confirm your business information before accessing the billing portal.",
+      "PREFILLED_BANNER": "We found your existing business details. Review and update if needed, or continue to proceed.",
+      "BUSINESS_NAME": {
+        "LABEL": "Business Name",
+        "PLACEHOLDER": "Enter your business name",
+        "REQUIRED": "Business name is required"
+      },
+      "BUSINESS_ADDRESS": {
+        "LABEL": "Business Address",
+        "PLACEHOLDER": "Enter your business address",
+        "REQUIRED": "Business address is required"
+      },
+      "BILLING_EMAIL": {
+        "LABEL": "Billing Email",
+        "PLACEHOLDER": "Enter your billing email",
+        "REQUIRED": "Billing email is required",
+        "INVALID": "Please enter a valid email address",
+        "HELP_TEXT": "All billing-related emails will be sent to this address"
+      },
+      "CANCEL": "Cancel",
+      "CONTINUE": "Continue to Billing Portal",
+      "ERROR": "Failed to update business details. Please try again."
     }
   },
   "SECURITY_SETTINGS": {

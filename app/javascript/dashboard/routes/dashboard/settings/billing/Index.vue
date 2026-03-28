@@ -12,6 +12,7 @@ import BillingCard from './components/BillingCard.vue';
 import BillingHeader from './components/BillingHeader.vue';
 import DetailItem from './components/DetailItem.vue';
 import PurchaseCreditsModal from './components/PurchaseCreditsModal.vue';
+import ConfirmBusinessDetailsModal from './components/ConfirmBusinessDetailsModal.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ButtonV4 from 'next/button/Button.vue';
@@ -35,9 +36,14 @@ const BILLING_REFRESH_ATTEMPTED = 'billing_refresh_attempted';
 // State for handling refresh attempts and loading
 const isWaitingForBilling = ref(false);
 const purchaseCreditsModalRef = ref(null);
+const confirmBusinessDetailsModalRef = ref(null);
 
 const customAttributes = computed(() => {
   return currentAccount.value.custom_attributes || {};
+});
+
+const billingDetailsConfirmed = computed(() => {
+  return customAttributes.value.billing_details_confirmed;
 });
 
 /**
@@ -119,7 +125,15 @@ const handleBillingPageLogic = async () => {
 };
 
 const onClickBillingPortal = () => {
-  store.dispatch('accounts/checkout');
+  if (billingDetailsConfirmed.value) {
+    store.dispatch('accounts/checkout');
+  } else {
+    confirmBusinessDetailsModalRef.value?.open();
+  }
+};
+
+const onBusinessDetailsConfirmed = redirectUrl => {
+  window.location = redirectUrl;
 };
 
 const onToggleChatWindow = () => {
@@ -262,6 +276,10 @@ onMounted(handleBillingPageLogic);
       <PurchaseCreditsModal
         ref="purchaseCreditsModalRef"
         @success="handleTopupSuccess"
+      />
+      <ConfirmBusinessDetailsModal
+        ref="confirmBusinessDetailsModalRef"
+        @confirmed="onBusinessDetailsConfirmed"
       />
     </template>
   </SettingsLayout>

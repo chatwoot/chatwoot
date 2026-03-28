@@ -4,6 +4,32 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   before_action :check_authorization
   before_action :check_cloud_env, only: [:limits, :toggle_deletion]
 
+  def billing_details
+    return render json: { billing_details_confirmed: false }, status: :ok if stripe_customer_id.blank?
+
+    customer = Stripe::Customer.retrieve(stripe_customer_id)
+    render json: {
+      billing_details_confirmed: @account.custom_attributes['billing_details_confirmed'] || false,
+      business_name: customer.name,
+      billing_email: customer.email,
+      business_address: format_stripe_address(customer.address)
+    }, status: :ok
+  end
+
+  def confirm_billing_details
+    return render_invalid_billing_details if stripe_customer_id.blank?
+
+    Stripe::Customer.update(stripe_customer_id, {
+                              name: params[:business_name],
+                              email: params[:billing_email],
+                              address: { line1: params[:business_address] }
+                            })
+
+    @account.update!(custom_attributes: @account.custom_attributes.merge('billing_details_confirmed' => true))
+
+    create_stripe_billing_session(stripe_customer_id)
+  end
+
   def subscription
     if stripe_customer_id.blank? && @account.custom_attributes['is_creating_customer'].blank?
       @account.update(custom_attributes: { is_creating_customer: true })
@@ -116,6 +142,12 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     else
       render json: { message: @account.errors.full_messages.join(', ') }, status: :unprocessable_entity
     end
+  end
+
+  def format_stripe_address(address)
+    return '' if address.blank?
+
+    [address.line1, address.line2, address.city, address.state, address.postal_code, address.country].compact_blank.join(', ')
   end
 
   def render_invalid_billing_details

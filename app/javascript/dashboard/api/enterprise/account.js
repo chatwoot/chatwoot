@@ -27,6 +27,18 @@ class EnterpriseAccountAPI extends ApiClient {
   createTopupCheckout(credits) {
     return axios.post(`${this.url}topup_checkout`, { credits });
   }
+
+  getBillingDetails() {
+    return axios.get(`${this.url}billing_details`);
+  }
+
+  confirmBillingDetails({ businessName, businessAddress, billingEmail }) {
+    return axios.post(`${this.url}confirm_billing_details`, {
+      business_name: businessName,
+      business_address: businessAddress,
+      billing_email: billingEmail,
+    });
+  }
 }
 
 export default new EnterpriseAccountAPI();
