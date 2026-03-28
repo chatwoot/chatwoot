@@ -26,17 +26,17 @@ class Whatsapp::WebhookTeardownService
   end
 
   def webhook_config_present?
-    @channel.provider_config['business_account_id'].present? &&
+    @channel.provider_config['phone_number_id'].present? &&
       @channel.provider_config['api_key'].present?
   end
 
   def teardown_webhook
-    waba_id = @channel.provider_config['business_account_id']
+    phone_number_id = @channel.provider_config['phone_number_id']
     access_token = @channel.provider_config['api_key']
     api_client = Whatsapp::FacebookApiClient.new(access_token)
 
-    api_client.unsubscribe_waba_webhook(waba_id)
-    Rails.logger.info "[WHATSAPP] Webhook unsubscribed successfully for channel #{@channel.id}"
+    api_client.clear_phone_number_callback_override(phone_number_id)
+    Rails.logger.info "[WHATSAPP] Phone number webhook override cleared for channel #{@channel.id}"
   end
 
   def handle_webhook_teardown_error(error)
