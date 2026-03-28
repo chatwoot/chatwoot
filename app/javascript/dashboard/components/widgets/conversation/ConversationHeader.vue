@@ -6,9 +6,11 @@ import { useElementSize } from '@vueuse/core';
 import BackButton from '../BackButton.vue';
 import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
+import VoiceCallButton from 'dashboard/components-next/Contacts/VoiceCallButton.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import wootConstants from 'dashboard/constants/globals';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { useInbox } from 'dashboard/composables/useInbox';
@@ -85,6 +87,18 @@ const inbox = computed(() => {
   return store.getters['inboxes/getInbox'](inboxId);
 });
 
+const isVoiceInbox = computed(
+  () => inbox.value?.channel_type === INBOX_TYPES.VOICE
+);
+
+const hasCallableContactPhone = computed(
+  () => !!currentContact.value?.phone_number
+);
+
+const shouldShowVoiceCallAction = computed(
+  () => isVoiceInbox.value && hasCallableContactPhone.value
+);
+
 const hasMultipleInboxes = computed(
   () => store.getters['inboxes/getInboxes'].length > 1
 );
@@ -144,6 +158,15 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
     <div
       class="flex flex-row items-center justify-start xl:justify-end flex-shrink-0 gap-2 w-full xl:w-auto header-actions-wrap"
     >
+      <VoiceCallButton
+        v-if="shouldShowVoiceCallAction"
+        :phone="currentContact.phone_number"
+        :contact-id="currentContact.id"
+        :fixed-inbox-id="inbox.id"
+        :navigate-on-success="false"
+        :label="t('CONTACT_PANEL.CALL')"
+        icon="i-ri-phone-fill"
+      />
       <SLACardLabel
         v-if="hasSlaPolicyId"
         :chat="chat"
