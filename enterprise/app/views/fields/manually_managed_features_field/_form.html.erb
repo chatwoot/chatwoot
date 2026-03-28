@@ -2,9 +2,8 @@
   # Get all feature names and their display names
   all_feature_display_names = SuperAdmin::AccountFeaturesHelper.feature_display_names
   
-  # Business and Enterprise plan features only
-  premium_features = Enterprise::Billing::HandleStripeEventService::BUSINESS_PLAN_FEATURES + 
-                     Enterprise::Billing::HandleStripeEventService::ENTERPRISE_PLAN_FEATURES
+  # Features that can be manually managed
+  premium_features = Internal::Accounts::InternalAttributesService.new(field.resource).valid_feature_list
   
   # Get only premium features with display names
   premium_features_with_display = premium_features.map do |feature|
