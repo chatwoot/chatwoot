@@ -15,5 +15,9 @@
   "CHOICE_TOGGLE": {
     "YES": "Yes",
     "NO": "No"
+  },
+  "PLATFORM_SWITCHER": {
+    "TITLE": "Platforms",
+    "CURRENT": "CURRENT"
   }
 }

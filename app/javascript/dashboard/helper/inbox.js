@@ -57,7 +57,7 @@ export const getInboxSource = (type, phoneNumber, inbox) => {
       return '';
   }
 };
-export const getReadableInboxByType = (type, phoneNumber) => {
+export const getReadableInboxByType = type => {
   switch (type) {
     case INBOX_TYPES.WEB:
       return 'livechat';
@@ -86,7 +86,7 @@ export const getReadableInboxByType = (type, phoneNumber) => {
   }
 };
 
-export const getInboxClassByType = (type, phoneNumber) => {
+export const getInboxClassByType = type => {
   switch (type) {
     case INBOX_TYPES.WEB:
       return 'globe-desktop';

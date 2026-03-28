@@ -43,6 +43,10 @@ const currentContactStatus = computed(
   () => currentContact.value?.availabilityStatus
 );
 
+const isGroup = computed(
+  () => props.conversation?.additional_attributes?.is_group === true
+);
+
 const inbox = computed(() => props.stateInbox);
 
 const inboxName = computed(() => inbox.value?.name);
@@ -100,6 +104,12 @@ const onCardClick = e => {
     <div class="flex flex-col w-full gap-1 min-w-0">
       <div class="flex items-center justify-between h-6 gap-2">
         <h4 class="text-base font-medium truncate text-n-slate-12">
+          <Icon
+            v-if="isGroup"
+            v-tooltip="$t('CONVERSATION.GROUP_CHAT')"
+            icon="i-lucide-users"
+            class="inline-block mr-1 text-n-slate-11 size-4 align-text-bottom"
+          />
           {{ currentContactName }}
         </h4>
         <div class="flex items-center gap-2">

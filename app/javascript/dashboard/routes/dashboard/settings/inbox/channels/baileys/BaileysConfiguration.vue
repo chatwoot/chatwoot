@@ -2,11 +2,10 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import SettingsFieldSection from '../../settingsPage/../../SettingsSubPageHeader.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import BaileysChannel from 'dashboard/api/channel/baileysChannel';
-
-const POLL_INTERVAL = 5000;
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
 
 const props = defineProps({
   inbox: {
@@ -14,6 +13,8 @@ const props = defineProps({
     default: () => ({}),
   },
 });
+
+const POLL_INTERVAL = 5000;
 
 const { t } = useI18n();
 
@@ -64,11 +65,11 @@ async function reconnect() {
       qrCodeData.value = data.qr_code;
       sessionStatus.value = 'qr_pending';
     }
-    startPolling();
   } catch {
     useAlert(t('INBOX_MGMT.SETTINGS_POPUP.BAILEYS.RECONNECT_ERROR'));
   } finally {
     isLoading.value = false;
+    startPolling();
   }
 }
 
@@ -87,12 +88,21 @@ async function disconnect() {
   }
 }
 
+function onBaileysQrCode(data) {
+  if (data.inbox_id === props.inbox.id) {
+    qrCodeData.value = data.qr_code;
+    sessionStatus.value = 'qr_pending';
+  }
+}
+
 onMounted(() => {
   fetchStatus();
+  emitter.on(BUS_EVENTS.BAILEYS_QR_CODE, onBaileysQrCode);
 });
 
 onBeforeUnmount(() => {
   stopPolling();
+  emitter.off(BUS_EVENTS.BAILEYS_QR_CODE, onBaileysQrCode);
 });
 </script>
 

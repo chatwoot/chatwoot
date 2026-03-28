@@ -5,11 +5,10 @@ module Igaralead::DashboardExtension
 
   private
 
-  # When Hub OAuth is configured, disable email/password login and only expose
-  # the Hub SSO provider.  This keeps the change merge-safe — the original
-  # method lives in the upstream controller and is left untouched.
+  # When Hub OAuth is configured, expose Hub SSO as the primary login method
+  # plus social logins (Google/Facebook) routed through Hub, and email/password.
   def allowed_login_methods
-    return ['igarahub'] if ENV['HUB_OAUTH_CLIENT_ID'].present?
+    return ['igarahub', 'google_oauth', 'facebook_oauth', 'email'] if ENV['HUB_OAUTH_CLIENT_ID'].present?
 
     super
   end

@@ -21,13 +21,7 @@ const platforms = computed(() => {
 
 <template>
   <div
-    class="fixed top-0 left-0 right-0 h-10 flex items-center px-4 gap-1 z-[60]"
-    style="
-      background: rgba(14, 17, 28, 0.95);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(45, 56, 71, 0.3);
-    "
+    class="fixed top-0 left-0 right-0 h-10 flex items-center px-4 gap-1 z-[60] bg-[rgba(14,17,28,0.95)] backdrop-blur-xl border-b border-[rgba(45,56,71,0.3)]"
   >
     <a
       v-for="p in platforms"

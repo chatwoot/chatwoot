@@ -1,8 +1,3 @@
-import * as types from '../../mutation-types';
-import InboxesAPI from '../../../api/inboxes';
-import AnalyticsHelper from '../../../helper/AnalyticsHelper';
-import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
-
 export const buildInboxData = inboxParams => {
   const formData = new FormData();
   const { channel = {}, ...inboxProperties } = inboxParams;
@@ -24,12 +19,6 @@ export const buildInboxData = inboxParams => {
     formData.append(`channel[${key}]`, channel[key]);
   });
   return formData;
-};
-
-const sendAnalyticsEvent = channelType => {
-  AnalyticsHelper.track(ACCOUNT_EVENTS.ADDED_AN_INBOX, {
-    channelType,
-  });
 };
 
 export const channelActions = {};

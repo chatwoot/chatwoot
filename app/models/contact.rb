@@ -78,6 +78,8 @@ class Contact < ApplicationRecord
       )
     )
   }
+
+  scope :without_groups, -> { where.not("contacts.identifier LIKE ?", '%@g.us') }
   scope :order_on_created_at, lambda { |direction|
     order(
       Arel::Nodes::SqlLiteral.new(

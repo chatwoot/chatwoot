@@ -28,9 +28,7 @@ const showIntegrations = computed(() => {
 
 const contactName = computed(() => props.contact?.name || '');
 const contactEmail = computed(() => props.contact?.email || '');
-const contactPhone = computed(
-  () => props.contact?.phone_number || ''
-);
+const contactPhone = computed(() => props.contact?.phone_number || '');
 const companyName = computed(
   () => props.contact?.additional_attributes?.company_name || ''
 );
@@ -50,17 +48,14 @@ async function createOpportunity() {
       source: 'nexus',
     };
 
-    const response = await fetch(
-      `${action.target_url}${action.endpoint}`,
-      {
-        method: action.method,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Api-Key': window.chatwootConfig?.hubApiKey || '',
-        },
-        body: JSON.stringify(payload),
-      }
-    );
+    const response = await fetch(`${action.target_url}${action.endpoint}`, {
+      method: action.method,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Api-Key': window.chatwootConfig?.hubApiKey || '',
+      },
+      body: JSON.stringify(payload),
+    });
 
     if (response.ok) {
       const data = await response.json();
@@ -80,9 +75,7 @@ async function createOpportunity() {
 }
 
 async function enrichCnpj() {
-  const action = actions.value.find(
-    a => a.key === 'enrich_contact_cnpj'
-  );
+  const action = actions.value.find(a => a.key === 'enrich_contact_cnpj');
   if (!action) return;
 
   const cnpj =
@@ -97,21 +90,18 @@ async function enrichCnpj() {
 
   isEnrichingCnpj.value = true;
   try {
-    const response = await fetch(
-      `${action.target_url}${action.endpoint}`,
-      {
-        method: action.method,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Api-Key': window.chatwootConfig?.hubApiKey || '',
-        },
-        body: JSON.stringify({
-          cnpj,
-          source: 'nexus',
-          source_id: String(props.contact?.id || ''),
-        }),
-      }
-    );
+    const response = await fetch(`${action.target_url}${action.endpoint}`, {
+      method: action.method,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Api-Key': window.chatwootConfig?.hubApiKey || '',
+      },
+      body: JSON.stringify({
+        cnpj,
+        source: 'nexus',
+        source_id: String(props.contact?.id || ''),
+      }),
+    });
 
     if (response.ok) {
       useAlert(t('INTEGRATION_ACTIONS.CNPJ_ENRICHED'));

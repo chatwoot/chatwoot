@@ -68,6 +68,10 @@ Todo código específico fica isolado para evitar conflitos com upstream Chatwoo
 | `POST /igaralead/api/contacts/import` | Entity | Importar contatos enriquecidos |
 | `POST /igaralead/api/contacts/enrich` | Entity | Enriquecer contato existente |
 
+## Política de API
+
+**Sem APIs abertas.** O Nexus não expõe endpoints para consumo externo ou por terceiros. Os endpoints de integração (`/igaralead/api/*`) são de uso exclusivamente interno entre as plataformas do ecossistema, protegidos por `X-Api-Key`. Clientes acessam o Nexus apenas via interface web.
+
 ## Baileys (WhatsApp)
 
 - Baileys roda como sidecar Node.js

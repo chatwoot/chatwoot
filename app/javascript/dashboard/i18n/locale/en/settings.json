@@ -336,6 +336,7 @@
     "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Billing",
+    "ABOUT": "About Nexus",
     "CUSTOM_VIEWS_FOLDER": "Folders",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
@@ -918,5 +919,23 @@
       "CONFIRM_BUTTON_LABEL": "Delete",
       "CANCEL_BUTTON_LABEL": "Cancel"
     }
+  },
+  "ABOUT_PAGE": {
+    "TITLE": "About Nexus",
+    "SUBTITLE": "IgaraLead's customer communication platform",
+    "VERSION_LABEL": "Version",
+    "BUILT_ON": "Built on Chatwoot",
+    "DESCRIPTION": "Nexus is an open-source fork of Chatwoot, customized by the IgaraLead team to deliver an integrated omnichannel experience across the IgaraLead ecosystem.",
+    "CREDITS_TITLE": "Credits & Open Source",
+    "CREDITS_BODY": "Nexus is proudly built on top of Chatwoot, an open-source customer support platform. We are grateful to the Chatwoot community for their incredible work.",
+    "CHATWOOT_LINK_LABEL": "Visit Chatwoot",
+    "LICENSE_LABEL": "Licensed under the MIT License.",
+    "ECOSYSTEM_TITLE": "IgaraLead Ecosystem",
+    "HUB_LABEL": "Hub",
+    "HUB_DESC": "Identity, authentication and billing",
+    "AMPLEX_LABEL": "Amplex",
+    "AMPLEX_DESC": "WhatsApp channel manager",
+    "ENTITY_LABEL": "Entity",
+    "ENTITY_DESC": "Brazilian business data platform"
   }
 }

@@ -6,7 +6,6 @@ import {
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
 import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import camelcaseKeys from 'camelcase-keys';
 
 /**
@@ -141,7 +140,7 @@ export function findSignatureInBody(body, signature) {
  * @param {string} medium - Optional. The medium for Twilio channels (sms/whatsapp)
  * @returns {string} - The effective channel type for formatting
  */
-export function getEffectiveChannelType(channelType, medium) {
+export function getEffectiveChannelType(channelType) {
   return channelType;
 }
 

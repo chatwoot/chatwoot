@@ -9,6 +9,7 @@ module Igaralead
       checks = {
         api: 'ok',
         database: check_database,
+        shared_database: check_shared_database,
         redis: check_redis,
         sidekiq: check_sidekiq
       }
@@ -27,6 +28,13 @@ module Igaralead
 
     def check_database
       ActiveRecord::Base.connection.execute('SELECT 1')
+      'ok'
+    rescue StandardError
+      'error'
+    end
+
+    def check_shared_database
+      Igaralead::SharedRecord.connection.execute('SELECT 1')
       'ok'
     rescue StandardError
       'error'

@@ -161,7 +161,7 @@ const automationRuleEvents = computed(() =>
 const hasAutomationMutated = computed(() => {
   return Boolean(
     automation.value?.conditions[0]?.values ||
-      automation.value?.actions[0]?.action_params?.length
+    automation.value?.actions[0]?.action_params?.length
   );
 });
 

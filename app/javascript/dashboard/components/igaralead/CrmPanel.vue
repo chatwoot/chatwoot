@@ -15,7 +15,7 @@ const props = defineProps({
   },
 });
 
-const { actions, loaded, hasAction, getAction } = useHubIntegrations();
+const { loaded, hasAction, getAction } = useHubIntegrations();
 
 const leads = ref([]);
 const loadingLeads = ref(false);
@@ -30,11 +30,15 @@ const companyName = computed(
 );
 
 const showPanel = computed(() => {
-  return loaded.value && (hasAction('create_opportunity') || hasAction('advance_opportunity'));
+  return (
+    loaded.value &&
+    (hasAction('create_opportunity') || hasAction('advance_opportunity'))
+  );
 });
 
 const amplexBaseUrl = computed(() => {
-  const action = getAction('create_opportunity') || getAction('advance_opportunity');
+  const action =
+    getAction('create_opportunity') || getAction('advance_opportunity');
   return action?.target_url || '';
 });
 
@@ -84,20 +88,17 @@ async function createOpportunity() {
       source: 'nexus',
     };
 
-    const response = await fetch(
-      `${action.target_url}${action.endpoint}`,
-      {
-        method: action.method,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Api-Key': window.chatwootConfig?.hubApiKey || '',
-        },
-        body: JSON.stringify(payload),
-      }
-    );
+    const response = await fetch(`${action.target_url}${action.endpoint}`, {
+      method: action.method,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Api-Key': window.chatwootConfig?.hubApiKey || '',
+      },
+      body: JSON.stringify(payload),
+    });
 
     if (response.ok) {
-      const data = await response.json();
+      await response.json();
       useAlert('Oportunidade criada no CRM');
       // Refresh leads list
       await searchLeads();
@@ -140,7 +141,7 @@ watch(
   <div v-if="showPanel" class="px-1">
     <!-- Loading -->
     <div v-if="loadingLeads" class="text-xs text-n-slate-11 text-center py-3">
-      Buscando oportunidades...
+      {{ $t('CRM_PANEL.SEARCHING') }}
     </div>
 
     <!-- Leads found -->
@@ -155,13 +156,20 @@ watch(
           <span class="text-xs font-semibold text-n-slate-12 truncate">
             {{ lead.name }}
           </span>
-          <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-n-brand-alpha-1 text-n-brand-11 font-medium">
+          <span
+            class="text-[10px] px-1.5 py-0.5 rounded-full bg-n-brand-alpha-1 text-n-brand-11 font-medium"
+          >
             {{ lead.stage_name }}
           </span>
         </div>
-        <div class="flex items-center justify-between text-[11px] text-n-slate-11">
+        <div
+          class="flex items-center justify-between text-[11px] text-n-slate-11"
+        >
           <span>{{ lead.contact_name || lead.email }}</span>
-          <span v-if="lead.expected_revenue" class="font-medium text-n-slate-12">
+          <span
+            v-if="lead.expected_revenue"
+            class="font-medium text-n-slate-12"
+          >
             {{ formatCurrency(lead.expected_revenue) }}
           </span>
         </div>
@@ -186,7 +194,7 @@ watch(
     <!-- No leads found -->
     <div v-else-if="leadsFetched" class="text-center py-2">
       <p class="text-xs text-n-slate-11 mb-2">
-        Nenhuma oportunidade encontrada
+        {{ $t('CRM_PANEL.NO_LEADS') }}
       </p>
       <NextButton
         v-if="hasAction('create_opportunity')"
@@ -202,7 +210,7 @@ watch(
 
     <!-- No contact info to search -->
     <div v-else class="text-xs text-n-slate-11 text-center py-2">
-      Sem telefone/email para buscar no CRM
+      {{ $t('CRM_PANEL.NO_CONTACT_INFO') }}
     </div>
   </div>
 </template>

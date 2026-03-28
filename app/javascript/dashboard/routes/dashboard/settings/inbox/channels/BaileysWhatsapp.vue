@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStore } from 'dashboard/composables/store';
@@ -7,6 +7,8 @@ import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import BaileysChannel from 'dashboard/api/channel/baileysChannel';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
 
 const POLL_INTERVAL = 3000;
 const SESSION_STATES = {
@@ -21,7 +23,7 @@ const SESSION_STATES = {
 const { t } = useI18n();
 const router = useRouter();
 const store = useStore();
-const { accountId } = useAccount();
+useAccount();
 
 const inboxName = ref('');
 const sessionState = ref(SESSION_STATES.IDLE);
@@ -32,7 +34,6 @@ const isCreating = ref(false);
 const pollTimer = ref(null);
 const errorMessage = ref('');
 
-const uiFlags = computed(() => store.getters['inboxes/getUIFlags']);
 const isFormValid = computed(() => inboxName.value.trim().length > 0);
 
 const isQrVisible = computed(
@@ -43,8 +44,7 @@ const isConnected = computed(
   () => sessionState.value === SESSION_STATES.CONNECTED
 );
 const isLoading = computed(
-  () =>
-    isCreating.value || sessionState.value === SESSION_STATES.CONNECTING
+  () => isCreating.value || sessionState.value === SESSION_STATES.CONNECTING
 );
 const showQrSection = computed(
   () =>
@@ -101,14 +101,15 @@ async function createChannelAndRequestQr() {
       qrCodeData.value = data.qr_code;
       sessionState.value = SESSION_STATES.QR_PENDING;
     }
-    startPolling();
   } catch (error) {
-    sessionState.value = SESSION_STATES.ERROR;
     errorMessage.value =
       error.message || t('INBOX_MGMT.ADD.BAILEYS.API.ERROR_MESSAGE');
     useAlert(errorMessage.value);
   } finally {
     isCreating.value = false;
+    if (createdInboxId.value) {
+      startPolling();
+    }
   }
 }
 
@@ -119,8 +120,20 @@ function goToAgents() {
   });
 }
 
+function onBaileysQrCode(data) {
+  if (data.inbox_id === createdInboxId.value) {
+    qrCodeData.value = data.qr_code;
+    sessionState.value = SESSION_STATES.QR_PENDING;
+  }
+}
+
+onMounted(() => {
+  emitter.on(BUS_EVENTS.BAILEYS_QR_CODE, onBaileysQrCode);
+});
+
 onBeforeUnmount(() => {
   stopPolling();
+  emitter.off(BUS_EVENTS.BAILEYS_QR_CODE, onBaileysQrCode);
 });
 </script>
 
@@ -166,10 +179,7 @@ onBeforeUnmount(() => {
           {{ $t('INBOX_MGMT.ADD.BAILEYS.QR.INSTRUCTIONS') }}
         </p>
 
-        <div
-          v-if="isQrVisible"
-          class="p-4 bg-white rounded-xl shadow-sm"
-        >
+        <div v-if="isQrVisible" class="p-4 bg-white rounded-xl shadow-sm">
           <img
             :src="qrCodeData"
             alt="WhatsApp QR Code"
@@ -183,7 +193,9 @@ onBeforeUnmount(() => {
           v-else
           class="flex items-center justify-center w-64 h-64 rounded-xl bg-n-alpha-black2"
         >
-          <span class="i-lucide-loader-2 animate-spin text-2xl text-n-slate-11" />
+          <span
+            class="i-lucide-loader-2 animate-spin text-2xl text-n-slate-11"
+          />
         </div>
 
         <p class="mt-4 text-xs text-n-slate-10">
@@ -191,7 +203,10 @@ onBeforeUnmount(() => {
         </p>
       </div>
 
-      <div v-if="errorMessage" class="mt-4 p-3 rounded-lg bg-r-50 text-r-700 text-sm">
+      <div
+        v-if="errorMessage"
+        class="mt-4 p-3 rounded-lg bg-r-50 text-r-700 text-sm"
+      >
         {{ errorMessage }}
       </div>
     </div>
@@ -206,7 +221,9 @@ onBeforeUnmount(() => {
           {{ $t('INBOX_MGMT.ADD.BAILEYS.CONNECTED.TITLE') }}
         </h2>
         <p v-if="phoneNumber" class="mb-4 text-sm text-n-slate-11">
-          {{ $t('INBOX_MGMT.ADD.BAILEYS.CONNECTED.PHONE', { phone: phoneNumber }) }}
+          {{
+            $t('INBOX_MGMT.ADD.BAILEYS.CONNECTED.PHONE', { phone: phoneNumber })
+          }}
         </p>
         <NextButton @click="goToAgents">
           {{ $t('INBOX_MGMT.ADD.BAILEYS.CONNECTED.NEXT') }}

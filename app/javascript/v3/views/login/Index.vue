@@ -13,6 +13,7 @@ import { useBranding } from 'shared/composables/useBranding';
 import SimpleDivider from '../../components/Divider/SimpleDivider.vue';
 import FormInput from '../../components/Form/Input.vue';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
+import FacebookOAuthButton from '../../components/FacebookOauth/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -31,6 +32,7 @@ export default {
   components: {
     FormInput,
     GoogleOAuthButton,
+    FacebookOAuthButton,
     Spinner,
     NextButton,
     SimpleDivider,
@@ -98,6 +100,12 @@ export default {
     },
     showSamlLogin() {
       return this.allowedLoginMethods.includes('saml');
+    },
+    showFacebookOAuth() {
+      return (
+        this.allowedLoginMethods.includes('facebook_oauth') &&
+        Boolean(window.chatwootConfig.hubUrl)
+      );
     },
     showHubLogin() {
       return this.allowedLoginMethods.includes('igarahub');
@@ -272,15 +280,13 @@ export default {
       <div v-if="!email">
         <div class="flex flex-col gap-4">
           <GoogleOAuthButton v-if="showGoogleOAuth" />
+          <FacebookOAuthButton v-if="showFacebookOAuth" />
           <a
             v-if="showHubLogin"
             href="/auth/igarahub"
             class="inline-flex justify-center w-full px-4 py-3 items-center bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
           >
-            <Icon
-              icon="i-lucide-log-in"
-              class="size-5 text-n-slate-11"
-            />
+            <Icon icon="i-lucide-log-in" class="size-5 text-n-slate-11" />
             <span class="ml-2 text-base font-medium text-n-slate-12">
               {{ replaceInstallationName($t('LOGIN.HUB_SSO.LABEL')) }}
             </span>
@@ -300,12 +306,22 @@ export default {
             </router-link>
           </div>
           <SimpleDivider
-            v-if="(showGoogleOAuth || showSamlLogin || showHubLogin) && showEmailLogin"
+            v-if="
+              (showGoogleOAuth ||
+                showFacebookOAuth ||
+                showSamlLogin ||
+                showHubLogin) &&
+              showEmailLogin
+            "
             :label="$t('COMMON.OR')"
             class="uppercase"
           />
         </div>
-        <form v-if="showEmailLogin" class="space-y-5" @submit.prevent="submitFormLogin">
+        <form
+          v-if="showEmailLogin"
+          class="space-y-5"
+          @submit.prevent="submitFormLogin"
+        >
           <FormInput
             v-model="credentials.email"
             name="email_address"

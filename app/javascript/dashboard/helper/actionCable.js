@@ -34,6 +34,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
       'copilot.message.created': this.onCopilotMessageCreated,
+      'baileys.qr_code': this.onBaileysQrCode,
     };
   }
 
@@ -199,6 +200,11 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('labels/revalidate', { newKey: keys.label });
     this.app.$store.dispatch('inboxes/revalidate', { newKey: keys.inbox });
     this.app.$store.dispatch('teams/revalidate', { newKey: keys.team });
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  onBaileysQrCode = data => {
+    emitter.emit(BUS_EVENTS.BAILEYS_QR_CODE, data);
   };
 }
 

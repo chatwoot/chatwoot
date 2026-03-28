@@ -100,6 +100,10 @@ const voiceCallData = computed(() => ({
   direction: props.chat.additional_attributes?.call_direction,
 }));
 
+const isGroup = computed(
+  () => props.chat.additional_attributes?.is_group === true
+);
+
 const inboxId = computed(() => props.chat.inbox_id);
 
 const inbox = computed(() => {
@@ -324,6 +328,13 @@ const deleteConversation = () => {
         class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap flex-1 min-w-0 ltr:pr-16 rtl:pl-16 text-n-slate-12"
         :class="hasUnread ? 'font-semibold' : 'font-medium'"
       >
+        <fluent-icon
+          v-if="isGroup"
+          v-tooltip="$t('CONVERSATION.GROUP_CHAT')"
+          icon="people-team"
+          size="14"
+          class="inline-block mr-1 text-n-slate-11 align-text-bottom"
+        />
         {{ currentContact.name }}
       </h4>
       <VoiceCallStatus

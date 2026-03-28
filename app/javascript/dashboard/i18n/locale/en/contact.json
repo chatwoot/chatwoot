@@ -9,6 +9,7 @@
     "LOCATION": "Location",
     "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Conversation Details",
+    "CRM_TITLE": "CRM",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "Browser",
     "OS": "Operating System",
@@ -664,5 +665,11 @@
     "CNPJ_ENRICHED": "CNPJ data loaded successfully",
     "CNPJ_ERROR": "Failed to load CNPJ data",
     "NO_CNPJ": "No CNPJ found for this contact"
+  },
+  "CRM_PANEL": {
+    "SEARCHING": "Searching for opportunities...",
+    "NO_LEADS": "No opportunities found",
+    "LABEL_CREATE": "Create opportunity",
+    "NO_CONTACT_INFO": "No phone/email to search in CRM"
   }
 }

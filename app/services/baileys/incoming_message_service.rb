@@ -78,12 +78,10 @@ module Baileys
                       end
       return if @conversation
 
-      @conversation = ::Conversation.create!(
-        account_id: inbox.account_id,
-        inbox_id: inbox.id,
-        contact_id: @contact.id,
-        contact_inbox_id: @contact_inbox.id
-      )
+      attrs = { account_id: inbox.account_id, inbox_id: inbox.id, contact_id: @contact.id, contact_inbox_id: @contact_inbox.id }
+      attrs[:additional_attributes] = { 'is_group' => true } if group_message?
+
+      @conversation = ::Conversation.create!(attrs)
     end
 
     def create_message

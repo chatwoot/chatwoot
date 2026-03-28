@@ -108,6 +108,17 @@ services:
       - 1025:1025
       - 8025:8025
 
+  react-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: nexus-react-frontend:development
+    restart: unless-stopped
+    ports:
+      - '3004:3004'
+    depends_on:
+      - rails
+
   baileys:
     build:
       context: ../Baileys

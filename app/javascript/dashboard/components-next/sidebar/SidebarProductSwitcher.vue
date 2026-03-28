@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 
-const props = defineProps({
+defineProps({
   isCollapsed: { type: Boolean, default: false },
 });
 
@@ -16,10 +16,22 @@ const products = computed(() => {
   const entityUrl = config.value.entityUrl || '';
 
   return [
-    { key: 'hub', name: 'Hub', desc: 'Painel Central', url: hubUrl, icon: '🏠' },
+    {
+      key: 'hub',
+      name: 'Hub',
+      desc: 'Painel Central',
+      url: hubUrl,
+      icon: '🏠',
+    },
     { key: 'amplex', name: 'Amplex', desc: 'CRM', url: amplexUrl, icon: '📊' },
     { key: 'nexus', name: 'Nexus', desc: 'Atendimento', url: '', icon: '💬' },
-    { key: 'entity', name: 'Entity', desc: 'Dados CNPJ', url: entityUrl, icon: '🔍' },
+    {
+      key: 'entity',
+      name: 'Entity',
+      desc: 'Dados CNPJ',
+      url: entityUrl,
+      icon: '🔍',
+    },
   ].filter(p => p.key === 'nexus' || p.key === 'hub' || p.url);
 });
 
@@ -68,14 +80,12 @@ onBeforeUnmount(() =>
     <Teleport to="body">
       <div
         v-if="isOpen"
-        class="fixed z-[999] w-60 p-1.5 bg-n-solid-2 border border-n-weak rounded-xl shadow-lg"
-        :style="{
-          bottom: '3.5rem',
-          left: isCollapsed ? '0.5rem' : '0.5rem',
-        }"
+        class="fixed z-[999] w-60 p-1.5 bg-n-solid-2 border border-n-weak rounded-xl shadow-lg bottom-14 left-2"
       >
-        <p class="px-2.5 pt-1.5 pb-1 text-[0.625rem] font-semibold uppercase tracking-wider text-n-slate-9">
-          Plataformas
+        <p
+          class="px-2.5 pt-1.5 pb-1 text-[0.625rem] font-semibold uppercase tracking-wider text-n-slate-9"
+        >
+          {{ $t('PLATFORM_SWITCHER.TITLE') }}
         </p>
         <a
           v-for="p in products"
@@ -96,7 +106,9 @@ onBeforeUnmount(() =>
             }
           "
         >
-          <span class="flex items-center justify-center w-8 h-8 rounded-lg text-lg bg-n-alpha-1 flex-shrink-0">
+          <span
+            class="flex items-center justify-center w-8 h-8 rounded-lg text-lg bg-n-alpha-1 flex-shrink-0"
+          >
             {{ p.icon }}
           </span>
           <div class="min-w-0">
@@ -109,7 +121,7 @@ onBeforeUnmount(() =>
             v-if="p.key === 'nexus'"
             class="ml-auto text-[0.6rem] font-semibold text-n-brand bg-n-brand/10 px-1.5 py-0.5 rounded"
           >
-            ATUAL
+            {{ $t('PLATFORM_SWITCHER.CURRENT') }}
           </span>
         </a>
       </div>

@@ -45,8 +45,6 @@ const { t } = useI18n();
 const isACustomBrandedInstance = useMapGetter(
   'globalConfig/isACustomBrandedInstance'
 );
-const isRTL = useMapGetter('accounts/isRTL');
-
 const { width: windowWidth } = useWindowSize();
 const isMobile = computed(() => windowWidth.value < 768);
 
@@ -70,7 +68,9 @@ const { MIN_WIDTH } = useSidebarResize();
 
 const HOVER_EXPANDED_WIDTH = 240;
 const isHovered = ref(false);
-const sidebarWidth = computed(() => isHovered.value ? HOVER_EXPANDED_WIDTH : MIN_WIDTH);
+const sidebarWidth = computed(() =>
+  isHovered.value ? HOVER_EXPANDED_WIDTH : MIN_WIDTH
+);
 const isCollapsed = computed(() => !isHovered.value);
 
 // On mobile, sidebar is always expanded (flyout mode)
@@ -447,6 +447,12 @@ const menuItems = computed(() => {
           icon: 'i-lucide-blocks',
           to: accountScopedRoute('settings_applications'),
         },
+        {
+          name: 'Settings About',
+          label: t('SIDEBAR.ABOUT'),
+          icon: 'i-lucide-info',
+          to: accountScopedRoute('about_nexus'),
+        },
       ],
     },
   ];
@@ -459,18 +465,17 @@ const menuItems = computed(() => {
       closeMobileSidebar,
       { ignore: ['#mobile-sidebar-launcher'] },
     ]"
-    class="flex flex-col text-sm pb-px fixed top-10 ltr:left-0 rtl:right-0 bottom-0 z-40 w-[200px] ltr:border-r rtl:border-l border-[rgba(45,56,71,0.3)] transition-all duration-200 ease-out"
+    class="flex flex-col text-sm pb-px fixed top-10 ltr:left-0 rtl:right-0 bottom-0 z-40 w-[200px] ltr:border-r rtl:border-l border-[rgba(45,56,71,0.3)] transition-all duration-200 ease-out bg-[rgba(14,17,28,0.92)] backdrop-blur-xl [backdrop-filter:blur(20px)] [-webkit-backdrop-filter:blur(20px)]"
     :class="[
       {
         'shadow-lg': isMobileSidebarOpen,
-        'shadow-[4px_0_20px_rgba(0,0,0,0.3)]': !isMobile && !isEffectivelyCollapsed,
-        'ltr:-translate-x-full rtl:translate-x-full md:ltr:translate-x-0 md:rtl:translate-x-0': !isMobileSidebarOpen,
+        'shadow-[4px_0_20px_rgba(0,0,0,0.3)]':
+          !isMobile && !isEffectivelyCollapsed,
+        'ltr:-translate-x-full rtl:translate-x-full md:ltr:translate-x-0 md:rtl:translate-x-0':
+          !isMobileSidebarOpen,
       },
     ]"
-    :style="[
-      { background: 'rgba(14,17,28,0.92)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' },
-      isMobile ? undefined : { width: sidebarWidth + 'px' },
-    ]"
+    :style="isMobile ? undefined : { width: sidebarWidth + 'px' }"
     @mouseenter="isHovered = true"
     @mouseleave="isHovered = false"
   >

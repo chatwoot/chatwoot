@@ -303,17 +303,12 @@ onMounted(() => {
 
       <!-- CRM Integration Panel (non-draggable, always at bottom) -->
       <AccordionItem
-        title="CRM"
+        :title="$t('CONTACT_PANEL.CRM_TITLE')"
         :is-open="isContactSidebarItemOpen('is_crm_panel_open')"
         compact
-        @toggle="
-          value => toggleSidebarUIState('is_crm_panel_open', value)
-        "
+        @toggle="value => toggleSidebarUIState('is_crm_panel_open', value)"
       >
-        <CrmPanel
-          :contact="contact"
-          :conversation-id="conversationId"
-        />
+        <CrmPanel :contact="contact" :conversation-id="conversationId" />
       </AccordionItem>
     </div>
   </div>

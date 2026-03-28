@@ -6,6 +6,9 @@
 # Health check (ecosystem-standard)
 get 'igaralead/health', to: 'igaralead/health#show'
 
+# Hub cookie-based auto-SSO (user already logged in at Hub, arrives with hub_access cookie)
+get 'igaralead/sso', to: 'igaralead/hub_cookie_sessions#create', as: :igaralead_hub_sso
+
 # IgaraHub webhook
 post 'webhooks/hub', to: 'igaralead/webhooks#receive'
 

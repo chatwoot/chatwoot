@@ -28,6 +28,7 @@ module Igaralead
       return render json: { error: 'Channel not found' }, status: :not_found unless channel
 
       channel.update!(session_status: 'qr_pending', provider_config: channel.provider_config.merge('qr_code' => params[:qr]))
+      broadcast_qr_code(channel, params[:qr])
       render json: { status: 'ok' }
     end
 
@@ -58,10 +59,15 @@ module Igaralead
     private
 
     def authenticate_sidecar!
-      api_key = request.headers['X-Api-Key']
       expected = ENV.fetch('BAILEYS_SIDECAR_API_KEY', '')
+      unless expected.present?
+        Rails.logger.error('[BaileysWebhook] BAILEYS_SIDECAR_API_KEY is not configured — rejecting all requests')
+        render json: { error: 'Webhook auth not configured' }, status: :forbidden
+        return
+      end
 
-      return if expected.present? && ActiveSupport::SecurityUtils.secure_compare(api_key.to_s, expected)
+      api_key = request.headers['X-Api-Key']
+      return if ActiveSupport::SecurityUtils.secure_compare(api_key.to_s, expected)
 
       render json: { error: 'Unauthorized' }, status: :unauthorized
     end
@@ -70,8 +76,22 @@ module Igaralead
       Channel::BaileysWhatsapp.find_by(session_id: params[:session_id])
     end
 
+    def broadcast_qr_code(channel, qr_data)
+      account = channel.inbox.account
+      ActionCable.server.broadcast(
+        "account_#{account.id}",
+        { event: 'baileys.qr_code', data: { inbox_id: channel.inbox.id, qr_code: qr_data, account_id: account.id } }
+      )
+    end
+
     def baileys_params
-      params.permit!.to_h.deep_symbolize_keys
+      params.permit(
+        :session_id, :timestamp, :status, :connection, :phone_number, :qr,
+        :push_name, :profile_picture, :group_subject, :group_description,
+        key: [:id, :remoteJid, :fromMe, :participant],
+        message: {},
+        quoted_message: {}
+      ).to_h.deep_symbolize_keys
     end
 
     def handle_status_update(channel)
