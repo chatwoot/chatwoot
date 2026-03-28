@@ -2,7 +2,8 @@
 
 # lib/integrations/jusmonitoria/webhook_forwarder_service.rb
 # Fire-and-forget HTTP forwarder to JusMonitorIA.
-# POSTs events to the unified endpoint POST /api/v1/integrations/chatwit.
+# POSTs events to POST /webhooks/chatwit on the platform API (api.witdev.com.br).
+# Auth: HMAC-SHA256 signature in X-Chatwit-Signature header.
 
 class Integrations::Jusmonitoria::WebhookForwarderService
   TIMEOUT = 15
@@ -18,12 +19,14 @@ class Integrations::Jusmonitoria::WebhookForwarderService
         metadata: build_metadata(account)
       }
 
+      json_body = body.to_json
+
       Rails.logger.info "[JUSMONITORIA-FORWARD] Sending #{event_type} to #{endpoint}"
 
       response = HTTParty.post(
-        "#{endpoint}/api/v1/integrations/chatwit",
-        headers: request_headers,
-        body: body.to_json,
+        "#{endpoint}/webhooks/chatwit",
+        headers: request_headers(json_body),
+        body: json_body,
         timeout: TIMEOUT
       )
 
@@ -37,13 +40,16 @@ class Integrations::Jusmonitoria::WebhookForwarderService
     private
 
     def jusmonitoria_endpoint
-      ENV.fetch('JUSMONITORIA_WEBHOOK_URL', 'https://jusmonitoria.witdev.com.br')
+      ENV.fetch('JUSMONITORIA_WEBHOOK_URL', 'https://api.witdev.com.br')
     end
 
-    def request_headers
+    def request_headers(body)
       headers = { 'Content-Type' => 'application/json' }
       secret = ENV.fetch('CHATWIT_WEBHOOK_SECRET', nil)
-      headers['X-Chatwit-Secret'] = secret if secret.present?
+      if secret.present?
+        signature = OpenSSL::HMAC.hexdigest('SHA256', secret, body)
+        headers['X-Chatwit-Signature'] = signature
+      end
       headers
     end
 

@@ -64,7 +64,7 @@ Rails.application.config.to_prepare do
     Chatwit::SocialwiseBot.reset!
 
     # Registrar token no Socialwise para campanhas em massa (não depende de webhook)
-    socialwise_webhook_url = ENV.fetch('SOCIALWISE_WEBHOOK_URL', nil)
+    socialwise_webhook_url = ENV.fetch('SOCIALWISE_WEBHOOK_URL', 'https://api.witdev.com.br')
     chatwit_webhook_secret = ENV.fetch('CHATWIT_WEBHOOK_SECRET', nil)
     bot_token = bot.access_token&.token
 

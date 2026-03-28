@@ -23,6 +23,7 @@ const swipeOpenRowId = ref(null);
 provide('swipeOpenRowId', swipeOpenRowId);
 
 const listRef = ref(null);
+const isPullRefreshing = ref(false);
 const page = ref(1);
 const status = ref('');
 const type = ref('');
@@ -46,15 +47,35 @@ const showEndOfList = computed(
   () => uiFlags.value.isAllNotificationsLoaded && !uiFlags.value.isFetching
 );
 
+const showInitialLoader = computed(() => {
+  return (
+    uiFlags.value.isFetching &&
+    !notifications.value.length &&
+    !isPullRefreshing.value
+  );
+});
+
+const showPaginationLoader = computed(() => {
+  return (
+    uiFlags.value.isFetching &&
+    !!notifications.value.length &&
+    !isPullRefreshing.value
+  );
+});
+
 const showEmptyState = computed(
   () => !uiFlags.value.isFetching && !notifications.value.length
 );
 
 const stateInbox = inboxId => inboxById.value(inboxId);
 
-const fetchNotifications = () => {
+const fetchNotifications = ({ preserveRecords = false } = {}) => {
   page.value = 1;
-  store.dispatch('notifications/clear');
+
+  if (!preserveRecords) {
+    store.dispatch('notifications/clear');
+  }
+
   return store.dispatch('notifications/index', inboxFilters.value);
 };
 
@@ -128,13 +149,21 @@ const markAllRead = async () => {
   try {
     await store.dispatch('notifications/readAll');
     useAlert(t('INBOX.ALERTS.MARK_ALL_READ'));
-    await fetchNotifications();
+    await fetchNotifications({ preserveRecords: true });
   } catch {
     // error
   }
 };
 
-const onRefresh = () => fetchNotifications();
+const onRefreshStart = () => {
+  isPullRefreshing.value = true;
+};
+
+const onRefreshEnd = () => {
+  isPullRefreshing.value = false;
+};
+
+const onRefresh = () => fetchNotifications({ preserveRecords: true });
 
 onMounted(() => {
   fetchNotifications();
@@ -144,14 +173,18 @@ onMounted(() => {
 <template>
   <div class="flex flex-col w-full h-full">
     <MobileInboxHeader @mark-all-read="markAllRead" />
-    <MobilePullToRefresh :refresh-action="onRefresh">
+    <MobilePullToRefresh
+      :refresh-action="onRefresh"
+      @refresh-start="onRefreshStart"
+      @refresh-end="onRefreshEnd"
+    >
       <div
         ref="listRef"
         data-mobile-pull-scroll
-        class="flex-1 overflow-y-auto px-2"
+        class="flex-1 overflow-y-auto overscroll-y-contain px-2"
       >
         <div
-          v-if="uiFlags.isFetching && !notifications.length"
+          v-if="showInitialLoader"
           class="flex items-center justify-center py-8"
         >
           <Spinner class="text-n-brand" />
@@ -178,7 +211,7 @@ onMounted(() => {
               @click="openConversation(item)"
             />
           </MobileSwipeableRow>
-          <div v-if="uiFlags.isFetching" class="flex justify-center py-4">
+          <div v-if="showPaginationLoader" class="flex justify-center py-4">
             <Spinner class="text-n-brand" />
           </div>
           <IntersectionObserver

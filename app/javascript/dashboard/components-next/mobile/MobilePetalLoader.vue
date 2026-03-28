@@ -21,8 +21,13 @@ const normalizedProgress = computed(() => {
   return Math.min(Math.max(props.progress, 0), 1);
 });
 
+const displayedProgress = computed(() => {
+  if (props.spinning) return 1;
+  return normalizedProgress.value ** 1.65;
+});
+
 const spokeStates = computed(() => {
-  const filledSpokes = normalizedProgress.value * SPOKE_ANGLES.length;
+  const filledSpokes = displayedProgress.value * SPOKE_ANGLES.length;
 
   return SPOKE_ANGLES.map((angle, index) => {
     const fillAmount = props.spinning

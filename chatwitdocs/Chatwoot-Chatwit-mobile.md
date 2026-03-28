@@ -231,6 +231,9 @@ Implemented in the mobile inbox shell only:
 - Switched the refreshing state to the Chatwit petal asset in `public/loading-petulas.svg`, keeping all petals filled while the refresh stays active.
 - Tightened gesture detection so pull-to-refresh only arms when the mobile list is actually at the top and the gesture is vertical, reducing accidental triggers during normal scrolling and row swipes.
 - Kept the existing notifications fetch flow intact by reusing the same mobile inbox refresh action and haptic threshold feedback.
+- Refined the pull motion so the inbox content is translated instead of being pushed down by a temporary spacer, which removes the visible jump during drag/release.
+- Delayed the arm state so the petals only fully fill, vibrate, and start spinning after a deliberate pull; fast flicks no longer trigger refresh as easily.
+- Suppressed the duplicate inbox loading spinner during pull refresh and preserved the current list while re-fetching, avoiding the double-loader state in mobile.
 
 Desktop behavior remains unchanged because the change is isolated to `components-next/mobile/` and the dedicated mobile inbox list wrapper.
 

@@ -242,7 +242,7 @@ socialwise_flow:
         'label': 'Endpoint',
         'type': 'text',
         'name': 'endpoint',
-        'help': 'Ex.: https://socialwise.witdev.com.br/api/integrations/webhooks/socialwiseflow',
+        'help': 'Ex.: https://api.witdev.com.br/api/integrations/webhooks/socialwiseflow',
       },
       {
         'label': 'Access Token (opcional)',
@@ -282,7 +282,7 @@ jusmonitoria:
         'label': 'Endpoint (opcional)',
         'type': 'text',
         'name': 'endpoint',
-        'help': 'Ex.: https://jusmonitoria.witdev.com.br — deixe vazio para usar o padrão',
+        'help': 'Ex.: https://api.witdev.com.br — deixe vazio para usar o padrão',
       },
       {
         'label': 'Prefixo da label de monitoramento',

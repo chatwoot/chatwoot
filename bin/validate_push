@@ -1,13 +1,23 @@
 #!/bin/sh
 
-# script prevents pushing to develop and master by mistake
+# script prevents pushing protected branches to upstream by mistake
 
 branch="$(git rev-parse --abbrev-ref HEAD)"
+remote_name="$1"
+remote_url="$2"
 
-if [ "$branch" = "master" ]; then
-  echo "You can't push directly to master branch"
+is_upstream_remote=false
+
+if [ "$remote_name" = "upstream" ]; then
+  is_upstream_remote=true
+elif [ "$remote_url" = "https://github.com/chatwoot/chatwoot.git" ]; then
+  is_upstream_remote=true
+fi
+
+if [ "$is_upstream_remote" = "true" ] && [ "$branch" = "master" ]; then
+  echo "You can't push directly to master on upstream"
   exit 1
-elif [ "$branch" = "develop" ]; then
-  echo "You can't push directly to develop branch"
+elif [ "$is_upstream_remote" = "true" ] && [ "$branch" = "develop" ]; then
+  echo "You can't push directly to develop on upstream"
   exit 1
 fi

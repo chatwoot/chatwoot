@@ -1,4 +1,15 @@
-# Contrato Chatwit: Respostas Assíncronas Além de 30 Segundos
+> **DEPRECADO** — Este documento foi substituido pelo contrato unificado da plataforma.
+>
+> **Fonte de verdade:** `/home/wital/witdev-platform-core/docs/contrato-plataforma-unificada.md`
+>
+> Este arquivo permanece como registro historico. Todas as URLs, payloads e contratos atualizados estao na doc da plataforma.
+> Nao use este documento para implementacao — ele referencia `socialwise.witdev.com.br`, `route.ts` e outros artefatos legados ja removidos.
+>
+> Data de deprecacao: 2026-03-27
+
+---
+
+# (HISTORICO) Contrato Chatwit: Respostas Assíncronas Além de 30 Segundos
 
 > **Versão**: 2.0.0
 > **Data**: 23 de Fevereiro de 2026

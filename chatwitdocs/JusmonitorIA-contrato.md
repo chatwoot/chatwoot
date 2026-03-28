@@ -1,8 +1,18 @@
-# Contrato de Integração Chatwit ↔ JusMonitorIA
+> **DEPRECADO** — Este documento foi substituido pelo contrato unificado da plataforma.
+>
+> **Fonte de verdade:** `/home/wital/witdev-platform-core/docs/contrato-plataforma-unificada.md`
+>
+> Este arquivo permanece como registro historico. As URLs e paths foram atualizados na doc da plataforma.
+>
+> Data de deprecacao: 2026-03-27
+
+---
+
+# (HISTORICO) Contrato de Integração Chatwit ↔ JusMonitorIA
 
 > **Versão:** 1.0
 > **Data:** 2026-03-09
-> **Status:** Em implementação
+> **Status:** Deprecado — ver contrato unificado
 
 ---
 

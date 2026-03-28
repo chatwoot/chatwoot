@@ -1,4 +1,4 @@
-#Chatwit 4.10
+#Chatwit
 SERVIDOR DE PRODUÇÃO ssh -i ~/.ssh/keys/production-server.key root@49.13.155.94 "docker exec... docker service principal: chatwoot_app_chatwoot_sidekiq
 
 POSTGRES SHARED INFRA LOCAL docker exec postgres psql -U postgres -lqt
@@ -28,33 +28,50 @@ Chatwit tem um **módulo mobile PWA completo** em `components-next/mobile/`. Reg
 
 ## Regras Arquiteturais Criticas (LEITURA OBRIGATORIA)
 
-1. **SOCIALWISE = CEREBRO | CHATWIT = CARTEIRO:** O Socialwise detém 100% da inteligência, processamento e lógica de fluxo. O Chatwit é estritamente o "carteiro" — apenas entrega e recebe mensagens via WhatsApp/Instagram/Facebook. Garanta essa separação em qualquer código gerado. O Chatwit NUNCA processa lógica de negócio do Socialwise.
+1. **WITDEV PLATFORM = CÉREBRO | CHATWIT = CARTEIRO E FONTE DE LEADS:** A Witdev Platform Core (`witdev-platform-core`) detém 100% da inteligência, processamento, lógica de fluxo, IA, classificação e monitoramento jurídico. O Chatwit é estritamente o **carteiro** — recebe mensagens dos canais (WhatsApp, Instagram, Facebook), encaminha para a plataforma, e entrega as respostas de volta ao lead. O Chatwit também é a **fonte primária de leads e contatos** da plataforma: todo lead entra pelo Chatwit e é sincronizado com a plataforma via webhook dedicado (Lead Sync). O Chatwit **NUNCA** processa lógica de negócio.
+2. **Dois produtos, um carteiro:** O Chatwit serve dois produtos da plataforma simultaneamente:
+   - **Socialwise** — automação de atendimento, flows, campanhas em massa, templates WhatsApp
+   - **JusMonitorIA** — monitoramento jurídico de processos, notificações proativas a advogados
+   Cada produto tem seu próprio bot auto-provisionado, webhook e contrato de integração, mas ambos passam pelo Chatwit como canal de entrega.
+3. **Duas vias de comunicação:**
+   - **Sync (webhook):** Chatwit envia à plataforma e mantém ponte aberta por até 30s. Resposta volta na mesma request.
+   - **Async (Agent Bot API):** Plataforma envia de volta ao Chatwit via bot token (campanhas, respostas que ultrapassam 30s, flows, notificações jurídicas).
+4. **Contrato unificado (FONTE DE VERDADE):** O contrato que governa toda a comunicação entre Chatwit e a plataforma está em **`witdev-platform-core/docs/contrato-plataforma-unificada.md`** (caminho local: `/home/wital/witdev-platform-core/docs/contrato-plataforma-unificada.md`). Este documento substitui os contratos legados (`chatwitdocs/chatwit-contrato-async-30s.md` e `chatwitdocs/JusmonitorIA-contrato.md`, ambos deprecados). Leia o contrato unificado ANTES de implementar qualquer integração nova.
+5. **NUNCA** modifique código nativo do Chatwoot sem necessidade. **PREFIRA** criar novos arquivos/métodos a modificar existentes. **MANTENHA** compatibilidade com atualizações futuras do Chatwoot.
+6. **SEMPRE** documente alterações em `chatwitdocs/`.
+
 SERVIDOR DE PRODUÇÃO ssh -i /home/wital/Chatwit-Social-dev/id_rsa.v3 root@49.13.155.94 "docker service ls"
-2. **Duas vias de comunicação:**
-   - **Sync (webhook):** Chatwit envia ao Socialwise e mantém ponte aberta por 30s. Resposta volta na mesma request.
-   - **Async (Agent Bot API):** Socialwise envia de volta ao Chatwit via bot token (campanhas, respostas que ultrapassam 30s, flows).
-3. **Contrato com o Socialwise:** Se o Socialwise precisa que o Chatwit modifique algo, a necessidade vem documentada em `chatwitdocs/chatwit-contrato-async-30s.md`. Leia o contrato ANTES de implementar qualquer integração nova. Ao implementar, marque como IMPLEMENTADO no changelog do contrato.
-4. **NUNCA** modifique código nativo do Chatwoot sem necessidade. **PREFIRA** criar novos arquivos/métodos a modificar existentes. **MANTENHA** compatibilidade com atualizações futuras do Chatwoot.
-5. **SEMPRE** documente alterações em `chatwitdocs/`.
 
 ---
 
-## Dinâmica Socialwise <> Chatwit (Contrato via Documentação)
+## Dinâmica Witdev Platform <> Chatwit (Contrato Unificado)
 
-O Socialwise é mantido por uma **equipe separada**. Mudanças na integração são feitas via **contrato documentado**, não por gambiarras.
+A Witdev Platform Core é mantida por uma **equipe separada**. Mudanças na integração são feitas via **contrato documentado**, não por gambiarras.
+
+### Contrato unificado (fonte de verdade)
+
+**`witdev-platform-core/docs/contrato-plataforma-unificada.md`**
+(caminho local: `/home/wital/witdev-platform-core/docs/contrato-plataforma-unificada.md`)
+
+Este documento cobre TODOS os contratos de integração:
+- **Contrato 1: Socialwise Flow** — webhook de mensagens, botões, flows, dual-mode sync/async
+- **Contrato 2: JusMonitorIA** — webhook de eventos (contato, mensagem, tag), monitoramento jurídico
+- **Contrato 3: Payment (InfinitePay)** — confirmação de pagamento, auto-create PaymentLink
+- **Contrato 4: Lead Sync** — sincronização de leads e arquivos da plataforma
+- **API: Plataforma → Chatwit (Agent Bot)** — entregas async, templates, mídia, contatos
+
+> **Deprecados:** `chatwitdocs/chatwit-contrato-async-30s.md` e `chatwitdocs/JusmonitorIA-contrato.md` foram substituídos pelo contrato unificado. Consulte-os apenas como referência histórica.
 
 ### Como funciona
-1. O Socialwise documenta a necessidade em `chatwitdocs/chatwit-contrato-async-30s.md` com: contexto, payload, código Ruby proposto, complexidade
+1. A plataforma documenta a necessidade no contrato unificado com: contexto, payload, código Ruby proposto, complexidade
 2. A equipe Chatwit lê o contrato e implementa
-3. Ao implementar, marca como IMPLEMENTADO no changelog com data
+3. Ao implementar, marca como IMPLEMENTADO no changelog do contrato
 
 ### Tokens e credenciais
-- **Agent Bot token** (global, `account_id=NULL`): auto-provisionado no startup (`config/initializers/socialwise_bot.rb`), registrado no Socialwise via `/init`. Usado para todas as operações async (campanhas, flows, mensagens).
-- **ENVs:** `SOCIALWISE_WEBHOOK_URL`, `CHATWIT_WEBHOOK_SECRET`, `FRONTEND_URL`
+- **Socialwise Bot token** (global, `account_id=NULL`): auto-provisionado no startup (`config/initializers/socialwise_bot.rb`), registrado na plataforma via `/init`.
+- **JusMonitorIA Bot token** (global, `account_id=NULL`): auto-provisionado no startup (`config/initializers/jusmonitoria_bot.rb`), registrado na plataforma via `/init`.
+- **ENVs:** `SOCIALWISE_WEBHOOK_URL`, `JUSMONITORIA_WEBHOOK_URL`, `CHATWIT_WEBHOOK_SECRET`, `FRONTEND_URL`
 - **User token** (`chatwitAccessToken`): apenas para operações específicas do usuário, **nunca** para operações de sistema/campanha.
-
-### Arquivo do contrato
-`chatwitdocs/chatwit-contrato-async-30s.md` — índice no topo, seções numeradas, changelog no final.
 
 ---
 

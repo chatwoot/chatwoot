@@ -10,31 +10,68 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['refresh']);
+const emit = defineEmits(['refresh', 'refreshStart', 'refreshEnd']);
 
 const isRefreshing = ref(false);
-const pullDistance = ref(0);
 const isPulling = ref(false);
+const isArmed = ref(false);
+const pullDistance = ref(0);
 const pullRootRef = ref(null);
 
 const { medium } = useHaptics();
 
-const MAX_PULL_DISTANCE = 96;
-const PULL_THRESHOLD = 72;
+const MAX_PULL_DISTANCE = 132;
+const PULL_THRESHOLD = 104;
+const REFRESH_HOLD_DISTANCE = 56;
+const RESISTANCE_DISTANCE = 140;
+const MIN_ARM_DURATION = 140;
 const MIN_REFRESH_DURATION = 550;
+const DIRECTION_LOCK_DISTANCE = 8;
+
 let startY = 0;
 let startX = 0;
-let thresholdTriggered = false;
+let gestureStartedAt = 0;
 let directionLocked = false;
 let isVerticalGesture = false;
 
-const pullProgress = computed(() => {
+const now = () => {
+  return typeof performance !== 'undefined' ? performance.now() : Date.now();
+};
+
+const armProgress = computed(() => {
   return Math.min(pullDistance.value / PULL_THRESHOLD, 1);
 });
 
-const indicatorHeight = computed(() => {
-  if (isRefreshing.value) return 52;
+const visualProgress = computed(() => {
+  if (isArmed.value || isRefreshing.value) return 1;
+  return armProgress.value;
+});
+
+const isIndicatorVisible = computed(() => {
+  return pullDistance.value > 0 || isRefreshing.value;
+});
+
+const contentOffset = computed(() => {
+  if (isRefreshing.value) return REFRESH_HOLD_DISTANCE;
   return pullDistance.value;
+});
+
+const indicatorStyle = computed(() => {
+  const translateY = Math.min(contentOffset.value * 0.42, 24);
+  const opacity = isRefreshing.value
+    ? 1
+    : Math.min(0.16 + armProgress.value * 0.9, 1);
+
+  return {
+    opacity,
+    transform: `translate3d(0, ${translateY}px, 0)`,
+  };
+});
+
+const contentStyle = computed(() => {
+  return {
+    transform: `translate3d(0, ${contentOffset.value}px, 0)`,
+  };
 });
 
 const getScrollTarget = () => {
@@ -49,12 +86,25 @@ const isAtTop = () => {
   return (scrollTarget?.scrollTop || 0) <= 0;
 };
 
-const resetPullState = () => {
+const applyResistance = deltaY => {
+  if (deltaY <= 0) return 0;
+
+  return Math.min(
+    MAX_PULL_DISTANCE * (1 - Math.exp(-deltaY / RESISTANCE_DISTANCE)),
+    MAX_PULL_DISTANCE
+  );
+};
+
+const resetPullState = ({ keepDistance = false } = {}) => {
   isPulling.value = false;
-  pullDistance.value = 0;
-  thresholdTriggered = false;
+  isArmed.value = false;
   directionLocked = false;
   isVerticalGesture = false;
+  gestureStartedAt = 0;
+
+  if (!keepDistance) {
+    pullDistance.value = 0;
+  }
 };
 
 const onTouchStart = event => {
@@ -63,8 +113,9 @@ const onTouchStart = event => {
   const touch = event.touches[0];
   startY = touch.clientY;
   startX = touch.clientX;
+  gestureStartedAt = now();
   isPulling.value = true;
-  thresholdTriggered = false;
+  isArmed.value = false;
   directionLocked = false;
   isVerticalGesture = false;
 };
@@ -76,9 +127,15 @@ const onTouchMove = event => {
   const deltaY = touch.clientY - startY;
   const deltaX = touch.clientX - startX;
 
-  if (!directionLocked && (Math.abs(deltaY) > 6 || Math.abs(deltaX) > 6)) {
+  if (
+    !directionLocked &&
+    (Math.abs(deltaY) > DIRECTION_LOCK_DISTANCE ||
+      Math.abs(deltaX) > DIRECTION_LOCK_DISTANCE)
+  ) {
     directionLocked = true;
-    isVerticalGesture = deltaY > 0 && Math.abs(deltaY) > Math.abs(deltaX) * 1.1;
+    isVerticalGesture =
+      deltaY > 0 && Math.abs(deltaY) > Math.abs(deltaX) * 1.15;
+
     if (!isVerticalGesture) {
       resetPullState();
       return;
@@ -89,22 +146,27 @@ const onTouchMove = event => {
 
   if (deltaY <= 0 || !isAtTop()) {
     pullDistance.value = 0;
-    thresholdTriggered = false;
+    isArmed.value = false;
     return;
   }
 
-  pullDistance.value = Math.min(deltaY * 0.42, MAX_PULL_DISTANCE);
+  pullDistance.value = applyResistance(deltaY);
 
-  if (!thresholdTriggered && pullDistance.value >= PULL_THRESHOLD) {
+  const canArm =
+    pullDistance.value >= PULL_THRESHOLD &&
+    now() - gestureStartedAt >= MIN_ARM_DURATION;
+
+  if (canArm && !isArmed.value) {
+    isArmed.value = true;
     medium();
-    thresholdTriggered = true;
-  } else if (thresholdTriggered && pullDistance.value < PULL_THRESHOLD) {
-    thresholdTriggered = false;
+  } else if (!canArm && isArmed.value) {
+    isArmed.value = false;
   }
 };
 
 const triggerRefresh = async () => {
   isRefreshing.value = true;
+  emit('refreshStart');
 
   try {
     const refreshStartedAt = Date.now();
@@ -128,25 +190,25 @@ const triggerRefresh = async () => {
     }
   } finally {
     isRefreshing.value = false;
+    isArmed.value = false;
+    pullDistance.value = 0;
+    emit('refreshEnd');
   }
 };
 
 const onTouchEnd = async () => {
   if (!isPulling.value) return;
 
-  isPulling.value = false;
-  directionLocked = false;
-  isVerticalGesture = false;
+  const shouldRefresh = isArmed.value;
+  resetPullState({ keepDistance: shouldRefresh });
 
-  const shouldRefresh = pullDistance.value >= PULL_THRESHOLD;
-  thresholdTriggered = false;
-
-  if (shouldRefresh) {
-    pullDistance.value = PULL_THRESHOLD;
-    await triggerRefresh();
+  if (!shouldRefresh) {
+    pullDistance.value = 0;
+    return;
   }
 
-  pullDistance.value = 0;
+  pullDistance.value = REFRESH_HOLD_DISTANCE;
+  await triggerRefresh();
 };
 
 const onTouchCancel = () => {
@@ -166,12 +228,26 @@ const onTouchCancel = () => {
     @touchcancel="onTouchCancel"
   >
     <div
-      v-if="pullDistance > 2 || isRefreshing"
-      class="pointer-events-none flex items-center justify-center overflow-hidden transition-all duration-200"
-      :style="{ height: `${indicatorHeight}px` }"
+      v-if="isIndicatorVisible"
+      class="pointer-events-none absolute inset-x-0 top-0 z-10 flex justify-center"
+      :style="indicatorStyle"
     >
-      <MobilePetalLoader :progress="pullProgress" :spinning="isRefreshing" />
+      <MobilePetalLoader
+        :progress="visualProgress"
+        :spinning="isArmed || isRefreshing"
+      />
     </div>
-    <slot />
+
+    <div
+      class="flex min-h-0 flex-1 flex-col will-change-transform"
+      :class="
+        isPulling
+          ? 'transition-none'
+          : 'transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]'
+      "
+      :style="contentStyle"
+    >
+      <slot />
+    </div>
   </div>
 </template>

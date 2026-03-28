@@ -299,7 +299,7 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
   def process_content(message)
     content = message_content(message)
     if content.present?
-      # Note: typing indicator is sent earlier in perform() before debounce
+      # NOTE: typing indicator is sent earlier in perform() before debounce
       response = get_response(conversation.contact_inbox.source_id, content)
     end
     process_response(message, response) if response.present?
@@ -323,7 +323,7 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
   end
 
   def get_response(session_id, message_content)
-    url = hook.settings['endpoint'].presence || 'https://socialwise.witdev.com.br/api/integrations/webhooks/socialwiseflow'
+    url = hook.settings['endpoint'].presence || 'https://api.witdev.com.br/api/integrations/webhooks/socialwiseflow'
 
     payload = build_request_payload(session_id, message_content)
 

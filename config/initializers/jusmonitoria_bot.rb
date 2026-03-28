@@ -84,14 +84,14 @@ Rails.application.config.to_prepare do
     end
 
     # Registrar token no JusMonitorIA
-    jusmonitoria_url = ENV.fetch('JUSMONITORIA_WEBHOOK_URL', 'https://jusmonitoria.witdev.com.br')
+    jusmonitoria_url = ENV.fetch('JUSMONITORIA_WEBHOOK_URL', 'https://api.witdev.com.br')
     chatwit_webhook_secret = ENV.fetch('CHATWIT_WEBHOOK_SECRET', nil)
     bot_token = bot.access_token&.token
 
     if jusmonitoria_url.present? && bot_token.present?
       begin
         response = HTTParty.post(
-          "#{jusmonitoria_url}/v1/integrations/chatwit/init",
+          "#{jusmonitoria_url}/api/v1/jusmonitoria/integrations/chatwit/init",
           headers: { 'Content-Type' => 'application/json' },
           body: {
             agent_bot_token: bot_token,
