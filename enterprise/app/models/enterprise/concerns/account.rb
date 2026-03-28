@@ -19,5 +19,18 @@ module Enterprise::Concerns::Account
     has_many :voice_channels, dependent: :destroy_async, class_name: '::Channel::Voice'
 
     has_one :saml_settings, dependent: :destroy_async, class_name: 'AccountSamlSettings'
+
+    after_commit :migrate_assignment_policies, if: :assignment_v2_just_enabled?
+  end
+
+  private
+
+  def assignment_v2_just_enabled?
+    !!@assignment_v2_just_enabled
+  end
+
+  def migrate_assignment_policies
+    @assignment_v2_just_enabled = false
+    Migration::AccountAssignmentPolicyJob.perform_later(self)
   end
 end
