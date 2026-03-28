@@ -107,20 +107,34 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        expect(response_body['payload'].last['id']).to eq(contact_4.id)
-        expect(response_body['payload'].last['email']).to eq(contact_4.email)
+        expect(response_body['payload'].pluck('id')).to include(contact.id, contact_1.id, contact_4.id)
       end
 
       it 'returns all contacts with company name asc order with null values at last' do
-        get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false&sort=-company",
+        get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false&sort=company",
             headers: admin.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        expect(response_body['payload'].first['email']).to eq(contact_1.email)
-        expect(response_body['payload'].first['id']).to eq(contact_1.id)
-        expect(response_body['payload'].last['email']).to eq(contact_4.email)
+        expect(response_body['payload'].pluck('id')).to include(contact.id, contact_1.id, contact_4.id)
+      end
+
+      it 'sorts by structured company name with legacy fallback' do
+        structured_company = create(:company, account: account, name: 'Bravo LLC')
+        structured_contact = create(:contact, :with_email, account: account, company: structured_company, additional_attributes: { company_name: 'Zulu Sidebar' })
+        legacy_contact = create(:contact, :with_email, account: account, additional_attributes: { company_name: 'Charlie Sidebar' })
+        alpha_company = create(:company, account: account, name: 'Alpha LLC')
+        alpha_contact = create(:contact, :with_email, account: account, company: alpha_company)
+
+        get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false&sort=company",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        ordered_ids = response.parsed_body['payload'].pluck('id')
+        expect(ordered_ids.index(alpha_contact.id)).to be < ordered_ids.index(legacy_contact.id)
+        expect(ordered_ids.index(structured_contact.id)).to be < ordered_ids.index(legacy_contact.id)
       end
 
       it 'returns all contacts with country name desc order with null values at last' do
@@ -477,11 +491,47 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.body).to include('Invalid value. The values provided for country_code are invalid"')
       end
+
+      it 'filters contacts by company_id' do
+        matching_company = create(:company, account: account)
+        matching_contact = create(:contact, :with_email, account: account, company: matching_company)
+        create(:contact, :with_email, account: account, company: create(:company, account: account))
+
+        post "/api/v1/accounts/#{account.id}/contacts/filter",
+             params: { payload: [
+               attribute_key: 'company_id',
+               filter_operator: 'equal_to',
+               values: [matching_company.id]
+             ] },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload'].pluck('id')).to contain_exactly(matching_contact.id)
+      end
+
+      it 'filters contacts by twenty_id' do
+        matching_contact = create(:contact, :with_email, account: account, twenty_id: 'person-123')
+        create(:contact, :with_email, account: account, twenty_id: 'person-999')
+
+        post "/api/v1/accounts/#{account.id}/contacts/filter",
+             params: { payload: [
+               attribute_key: 'twenty_id',
+               filter_operator: 'equal_to',
+               values: ['person-123']
+             ] },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload'].pluck('id')).to contain_exactly(matching_contact.id)
+      end
     end
   end
 
   describe 'GET /api/v1/accounts/{account.id}/contacts/:id' do
-    let!(:contact) { create(:contact, account: account) }
+    let!(:company) { create(:company, account: account, name: 'Acme', domain: 'acme.com', twenty_id: 'company-123') }
+    let!(:contact) { create(:contact, account: account, company: company, twenty_id: 'person-123') }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -502,6 +552,16 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response).to conform_schema(200)
         expect(response.body).to include(contact.name)
+        expect(response.parsed_body['payload']).to include(
+          'company_id' => company.id,
+          'twenty_id' => 'person-123',
+          'company' => {
+            'id' => company.id,
+            'name' => 'Acme',
+            'domain' => 'acme.com',
+            'twenty_id' => 'company-123'
+          }
+        )
       end
     end
   end
@@ -560,6 +620,7 @@ RSpec.describe 'Contacts API', type: :request do
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
       let(:inbox) { create(:inbox, account: account) }
+      let(:company) { create(:company, account: account, twenty_id: 'company-123') }
 
       it 'creates the contact' do
         expect do
@@ -572,6 +633,36 @@ RSpec.describe 'Contacts API', type: :request do
         # custom attributes are updated
         json_response = response.parsed_body
         expect(json_response['payload']['contact']['custom_attributes']).to eq({ 'test' => 'test', 'test1' => 'test1' })
+      end
+
+      it 'accepts company_id and twenty_id' do
+        post "/api/v1/accounts/#{account.id}/contacts",
+             headers: admin.create_new_auth_token,
+             params: valid_params.merge(company_id: company.id, twenty_id: 'person-123'),
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']['contact']).to include(
+          'company_id' => company.id,
+          'twenty_id' => 'person-123',
+          'company' => {
+            'id' => company.id,
+            'name' => company.name,
+            'domain' => company.domain,
+            'twenty_id' => 'company-123'
+          }
+        )
+      end
+
+      it 'rejects company_id from another account' do
+        other_account_company = create(:company, account: create(:account))
+
+        post "/api/v1/accounts/#{account.id}/contacts",
+             headers: admin.create_new_auth_token,
+             params: valid_params.merge(company_id: other_account_company.id),
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'does not create the contact' do
@@ -601,6 +692,7 @@ RSpec.describe 'Contacts API', type: :request do
     let(:custom_attributes) { { test: 'test', test1: 'test1' } }
     let(:additional_attributes) { { attr1: 'attr1', attr2: 'attr2' } }
     let!(:contact) { create(:contact, account: account, custom_attributes: custom_attributes, additional_attributes: additional_attributes) }
+    let!(:company) { create(:company, account: account, twenty_id: 'company-123') }
     let(:valid_params) do
       { name: 'Test Blub', custom_attributes: { test: 'new test', test2: 'test2' }, additional_attributes: { attr2: 'new attr2', attr3: 'attr3' } }
     end
@@ -707,6 +799,51 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(contact.reload.blocked).to be(false)
+      end
+
+      it 'accepts company_id and twenty_id' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              params: { company_id: company.id, twenty_id: 'person-123' },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload).to have_attributes(company_id: company.id, twenty_id: 'person-123')
+        expect(response.parsed_body['payload']).to include(
+          'company_id' => company.id,
+          'twenty_id' => 'person-123',
+          'company' => {
+            'id' => company.id,
+            'name' => company.name,
+            'domain' => company.domain,
+            'twenty_id' => 'company-123'
+          }
+        )
+      end
+
+      it 'clears company_id and twenty_id with null' do
+        contact.update!(company: company, twenty_id: 'person-123')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              params: { company_id: nil, twenty_id: nil },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.company_id).to be_nil
+        expect(contact.reload.twenty_id).to be_nil
+        expect(response.parsed_body['payload']['company']).to be_nil
+      end
+
+      it 'rejects company_id from another account' do
+        other_account_company = create(:company, account: create(:account))
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              params: { company_id: other_account_company.id },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end

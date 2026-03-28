@@ -17,6 +17,26 @@ RSpec.describe Company, type: :model do
     end
   end
 
+  describe 'twenty_id uniqueness' do
+    let(:account) { create(:account) }
+
+    it 'enforces account-scoped uniqueness' do
+      create(:company, account: account, twenty_id: 'company-123')
+
+      duplicate = build(:company, account: account, twenty_id: 'company-123')
+
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:twenty_id]).to include('has already been taken')
+    end
+
+    it 'allows the same twenty_id in another account' do
+      create(:company, account: account, twenty_id: 'company-123')
+      other_account_company = build(:company, account: create(:account), twenty_id: 'company-123')
+
+      expect(other_account_company).to be_valid
+    end
+  end
+
   context 'with associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to have_many(:contacts).dependent(:nullify) }

@@ -85,6 +85,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def create
     ActiveRecord::Base.transaction do
       @contact = Current.account.contacts.new(permitted_params.except(:avatar_url))
+      validate_company_scope!(@contact)
       @contact.save!
       @contact_inbox = build_contact_inbox
       process_avatar_from_url
@@ -93,6 +94,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def update
     @contact.assign_attributes(contact_update_params)
+    validate_company_scope!(@contact)
     @contact.save!
     process_avatar_from_url
   end
@@ -132,7 +134,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def fetch_contacts(contacts)
     # Build includes hash to avoid separate query when contact_inboxes are needed
-    includes_hash = { avatar_attachment: [:blob] }
+    includes_hash = { avatar_attachment: [:blob], company: [] }
     includes_hash[:contact_inboxes] = { inbox: :channel } if @include_contact_inboxes
 
     filtrate(contacts)
@@ -142,7 +144,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contacts_with_has_more(contacts)
-    includes_hash = { avatar_attachment: [:blob] }
+    includes_hash = { avatar_attachment: [:blob], company: [] }
     includes_hash[:contact_inboxes] = { inbox: :channel } if @include_contact_inboxes
 
     # Calculate offset manually to fetch one extra record for has_more check
@@ -171,7 +173,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url, additional_attributes: {}, custom_attributes: {})
+    params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url, :company_id, :twenty_id,
+                  additional_attributes: {}, custom_attributes: {})
   end
 
   def contact_custom_attributes
@@ -202,8 +205,17 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def fetch_contact
     contact_scope = Current.account.contacts
+    contact_scope = contact_scope.includes(:company)
     contact_scope = contact_scope.includes(contact_inboxes: [:inbox]) if @include_contact_inboxes
     @contact = contact_scope.find(params[:id])
+  end
+
+  def validate_company_scope!(contact)
+    return unless params.key?(:company_id) && permitted_params[:company_id].present?
+    return if Current.account.companies.exists?(id: permitted_params[:company_id])
+
+    contact.errors.add(:company_id, 'must belong to the current account')
+    raise ActiveRecord::RecordInvalid, contact
   end
 
   def process_avatar_from_url

@@ -9,6 +9,26 @@ RSpec.describe Contact do
     it { is_expected.to validate_presence_of(:account_id) }
   end
 
+  describe 'twenty_id uniqueness' do
+    let(:account) { create(:account) }
+
+    it 'enforces account-scoped uniqueness' do
+      create(:contact, account: account, twenty_id: 'person-123')
+
+      duplicate = build(:contact, account: account, twenty_id: 'person-123')
+
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:twenty_id]).to include('has already been taken')
+    end
+
+    it 'allows the same twenty_id in another account' do
+      create(:contact, account: account, twenty_id: 'person-123')
+      other_account_contact = build(:contact, account: create(:account), twenty_id: 'person-123')
+
+      expect(other_account_contact).to be_valid
+    end
+  end
+
   context 'with associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to have_many(:conversations).dependent(:destroy_async) }
@@ -194,6 +214,22 @@ RSpec.describe Contact do
         expect(resolved_new).to include(lead_with_email, lead_without_email)
         expect(resolved_new).not_to include(visitor_contact, customer_contact)
       end
+    end
+  end
+
+  describe '.order_on_company_name' do
+    let(:account) { create(:account) }
+
+    it 'sorts by structured company name before falling back to legacy company_name' do
+      zebra = create(:company, account: account, name: 'Zebra LLC')
+      bravo = create(:company, account: account, name: 'Bravo LLC')
+      zebra_contact = create(:contact, :with_email, account: account, company: zebra)
+      bravo_contact = create(:contact, :with_email, account: account, company: bravo, additional_attributes: { company_name: 'Zulu Sidebar' })
+      legacy_contact = create(:contact, :with_email, account: account, additional_attributes: { company_name: 'Charlie Sidebar' })
+
+      ordered_ids = described_class.where(account: account).order_on_company_name('asc').pluck(:id)
+
+      expect(ordered_ids).to eq([bravo_contact.id, legacy_contact.id, zebra_contact.id])
     end
   end
 end

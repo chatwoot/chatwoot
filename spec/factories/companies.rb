@@ -16,5 +16,9 @@ FactoryBot.define do
     trait :with_long_description do
       description { 'A' * 500 }
     end
+
+    trait :with_twenty_id do
+      sequence(:twenty_id) { |n| "company-#{n}" }
+    end
   end
 end

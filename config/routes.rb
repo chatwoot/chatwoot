@@ -170,6 +170,9 @@ Rails.application.routes.draw do
             collection do
               get :search
             end
+            member do
+              get :contacts
+            end
           end
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do
             collection do
