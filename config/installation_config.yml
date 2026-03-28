@@ -96,6 +96,19 @@
   locked: false
 # ------- End of Account Related Config ------- #
 
+# ------- Transient Error Backoff Config ------- #
+- name: BACKOFF_MAX_INTERVAL_MINUTES
+  display_title: 'Backoff Max Interval (minutes)'
+  description: 'Maximum wait time in minutes between retry attempts before the backoff plateaus'
+  value: 5
+  locked: false
+- name: BACKOFF_MAX_INTERVAL_COUNT
+  display_title: 'Backoff Max Retry Count'
+  description: 'Number of additional retries at the maximum interval before prompting reauthorization'
+  value: 10
+  locked: false
+# ------- End of Transient Error Backoff Config ------- #
+
 # ------- Email Related Config ------- #
 - name: MAILER_INBOUND_EMAIL_DOMAIN
   display_title: 'Inbound Email Domain'
