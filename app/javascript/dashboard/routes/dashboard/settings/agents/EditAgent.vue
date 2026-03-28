@@ -38,6 +38,10 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  participatingOnly: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['close']);
@@ -51,6 +55,7 @@ const agentName = ref(props.name);
 const agentAvailability = ref(props.availability);
 const selectedRoleId = ref(props.customRoleId || props.type);
 const agentCredentials = ref({ email: props.email });
+const participatingOnly = ref(props.participatingOnly);
 
 const rules = {
   agentName: { required, minLength: minLength(1) },
@@ -117,6 +122,11 @@ const availabilityStatuses = computed(() =>
   }))
 );
 
+// Show participating_only checkbox only for agents, not for administrators
+const showParticipatingOnly = computed(() => {
+  return selectedRoleId.value === 'agent';
+});
+
 const editAgent = async () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
@@ -133,6 +143,11 @@ const editAgent = async () => {
     } else {
       payload.role = selectedRole.value.name;
       payload.custom_role_id = null;
+    }
+
+    // Include participating_only for agents only
+    if (selectedRole.value.name === 'agent') {
+      payload.participating_only = participatingOnly.value;
     }
 
     await store.dispatch('agents/update', payload);
@@ -202,6 +217,23 @@ const resetPassword = async () => {
             {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
           </span>
         </label>
+      </div>
+
+      <!-- Participating Only checkbox - only visible for agents -->
+      <div v-if="showParticipatingOnly" class="w-full">
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input
+            v-model="participatingOnly"
+            type="checkbox"
+            class="w-4 h-4 text-woot-600 border-slate-300 rounded focus:ring-woot-500"
+          />
+          <span class="text-sm text-slate-700 dark:text-slate-200">
+            {{ $t('AGENT_MGMT.EDIT.FORM.PARTICIPATING_ONLY.LABEL') }}
+          </span>
+        </label>
+        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+          {{ $t('AGENT_MGMT.EDIT.FORM.PARTICIPATING_ONLY.HELP_TEXT') }}
+        </p>
       </div>
 
       <div class="flex flex-row justify-start w-full gap-2 px-0 py-2">

@@ -56,7 +56,24 @@ class AccountUser < ApplicationRecord
   end
 
   def permissions
-    administrator? ? ['administrator'] : ['agent']
+    return ['administrator'] if administrator?
+
+    # Return permissions array including participating_only flag if enabled
+    permissions_array = ['agent']
+    permissions_array << 'participating_only' if participating_only?
+    permissions_array
+  end
+
+  # Check if agent has participating_only restriction enabled
+  # When true, agent can only see conversations they are assigned to or participated in
+  def participating_only?
+    agent? && participating_only
+  end
+
+  # Check if agent has restricted conversation access
+  # Admins always have full access
+  def restricted_conversation_access?
+    participating_only?
   end
 
   def push_event_data

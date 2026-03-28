@@ -1,0 +1,199 @@
+# docker-compose.override.yaml.example
+#
+# Use este arquivo para customizações locais sem modificar docker-compose.yaml
+#
+# Uso:
+#   cp docker-compose.override.yaml.example docker-compose.override.yaml
+#   # Edite docker-compose.override.yaml conforme necessário
+#   docker-compose up -d
+#
+# O Docker Compose automaticamente mescla docker-compose.yaml + docker-compose.override.yaml
+
+version: '3'
+
+services:
+  # Exemplo: Adicionar debugger no Rails
+  rails:
+    # Portas adicionais para debugger
+    # ports:
+    #   - "1234:1234"  # ruby-debug-ide
+    #   - "26162:26162"  # rdebug-ide
+
+    # Variáveis de ambiente extras
+    # environment:
+    #   - DEBUG=true
+    #   - RUBY_DEBUG_OPEN=true
+
+    # Comando customizado (ex: com debugger)
+    # command: ["bundle", "exec", "rdebug-ide", "--host", "0.0.0.0", "--port", "1234", "--", "rails", "s", "-b", "0.0.0.0"]
+
+  # Exemplo: Usar PostgreSQL de outra versão
+  # postgres:
+  #   image: postgres:15-alpine
+  #   # ou usar banco externo removendo o serviço:
+  #   # profiles: ["disabled"]
+
+  # Exemplo: Adicionar Elasticsearch
+  # elasticsearch:
+  #   image: elasticsearch:8.11.0
+  #   environment:
+  #     - discovery.type=single-node
+  #     - xpack.security.enabled=false
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #   ports:
+  #     - "9200:9200"
+  #   volumes:
+  #     - elasticsearch:/usr/share/elasticsearch/data
+
+  # Exemplo: Adicionar MinIO (S3-compatible storage)
+  # minio:
+  #   image: minio/minio
+  #   ports:
+  #     - "9000:9000"
+  #     - "9001:9001"
+  #   environment:
+  #     - MINIO_ROOT_USER=minioadmin
+  #     - MINIO_ROOT_PASSWORD=minioadmin
+  #   command: server /data --console-address ":9001"
+  #   volumes:
+  #     - minio:/data
+
+  # Exemplo: Adicionar pgAdmin (PostgreSQL web UI)
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   ports:
+  #     - "5050:80"
+  #   environment:
+  #     - PGADMIN_DEFAULT_EMAIL=admin@example.com
+  #     - PGADMIN_DEFAULT_PASSWORD=admin
+  #   volumes:
+  #     - pgadmin:/var/lib/pgadmin
+
+  # Exemplo: Redis Commander (Redis web UI)
+  # redis-commander:
+  #   image: rediscommander/redis-commander
+  #   ports:
+  #     - "8081:8081"
+  #   environment:
+  #     - REDIS_HOSTS=local:redis:6379
+
+  # Exemplo: Ajustar recursos do Sidekiq
+  # sidekiq:
+  #   environment:
+  #     - SIDEKIQ_CONCURRENCY=20  # Mais workers
+  #     - SIDEKIQ_TIMEOUT=25
+
+  # Exemplo: Customizar Vite
+  # vite:
+  #   environment:
+  #     - VITE_PORT=3036
+  #     - VITE_HMR_PROTOCOL=ws
+  #     - VITE_HMR_HOST=localhost
+
+# Exemplo: Volumes adicionais
+# volumes:
+#   elasticsearch:
+#   minio:
+#   pgadmin:
+
+# =============================================================================
+# EXEMPLOS DE USO COMUM
+# =============================================================================
+
+# 1. AUMENTAR RECURSOS
+# --------------------
+# services:
+#   rails:
+#     deploy:
+#       resources:
+#         limits:
+#           cpus: '2'
+#           memory: 4G
+
+# 2. MOUNT DE CÓDIGO APENAS LEITURA (performance no macOS/Windows)
+# ---------------------------------------------------------------
+# services:
+#   rails:
+#     volumes:
+#       - ./:/app:ro,delegated  # read-only
+#       - /app/tmp  # writable
+#       - /app/log  # writable
+
+# 3. USAR BANCO DE DADOS EXTERNO
+# -----------------------------
+# services:
+#   postgres:
+#     profiles: ["disabled"]  # Desabilita serviço
+#
+# No .env:
+#   POSTGRES_HOST=seu-host.com
+#   POSTGRES_PASSWORD=sua-senha
+
+# 4. ADICIONAR SERVIÇO DE DESENVOLVIMENTO
+# --------------------------------------
+# services:
+#   ngrok:  # Expor localhost publicamente
+#     image: ngrok/ngrok
+#     command: http rails:3000
+#     ports:
+#       - "4040:4040"  # Web UI
+#     environment:
+#       - NGROK_AUTHTOKEN=seu-token
+
+# 5. HABILITAR PROFILING
+# ---------------------
+# services:
+#   rails:
+#     environment:
+#       - RACK_MINI_PROFILER=1
+#       - RUBY_PROF=1
+
+# 6. CUSTOMIZAR PORTAS (evitar conflitos)
+# --------------------------------------
+# services:
+#   rails:
+#     ports:
+#       - "3001:3000"  # Usar porta 3001 no host
+#   postgres:
+#     ports:
+#       - "5433:5432"  # Usar porta 5433 no host
+
+# 7. ADICIONAR HEALTHCHECKS
+# ------------------------
+# services:
+#   rails:
+#     healthcheck:
+#       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+#       interval: 30s
+#       timeout: 10s
+#       retries: 3
+#       start_period: 40s
+
+# 8. LOGS ESTRUTURADOS
+# ------------------
+# services:
+#   rails:
+#     logging:
+#       driver: "json-file"
+#       options:
+#         max-size: "10m"
+#         max-file: "3"
+
+# =============================================================================
+# DICAS
+# =============================================================================
+#
+# - docker-compose.override.yaml é automaticamente carregado
+# - Não commite este arquivo (já está em .gitignore)
+# - Use para ajustes locais sem modificar docker-compose.yaml principal
+# - Para desabilitar um serviço: use profiles: ["disabled"]
+# - Para merge de arrays (ports, volumes): Docker Compose usa append
+# - Para override de strings/maps: último valor ganha
+#
+# Ver configuração final mesclada:
+#   docker-compose config
+#
+# Validar sintaxe:
+#   docker-compose config --quiet
+#
+# =============================================================================

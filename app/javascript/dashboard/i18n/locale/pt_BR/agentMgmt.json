@@ -82,6 +82,10 @@
           "PLACEHOLDER": "Por favor, selecione a disponibilidade do agente",
           "ERROR": "A disponibilidade é necessária"
         },
+        "PARTICIPATING_ONLY": {
+          "LABEL": "Restringir Apenas a Conversas Atribuídas",
+          "HELP_TEXT": "Quando habilitado, este agente só poderá ver conversas que estão atribuídas a ele. Perde acesso quando a conversa é reatribuída para outro agente."
+        },
         "SUBMIT": "Editar agente"
       },
       "BUTTON_TEXT": "Alterar",

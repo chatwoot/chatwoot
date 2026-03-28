@@ -30,6 +30,9 @@ master.key
 # Ignore env files
 .env
 
+# Ignore Docker override files (local customizations)
+docker-compose.override.yaml
+
 public/uploads
 public/packs*
 public/assets/administrate*

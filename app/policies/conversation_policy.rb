@@ -14,7 +14,15 @@ class ConversationPolicy < ApplicationPolicy
   private
 
   def agent_can_view_conversation?
-    inbox_access? || team_access?
+    # Check if agent has inbox or team access first
+    has_basic_access = inbox_access? || team_access?
+    return false unless has_basic_access
+
+    # If agent has participating_only restriction, only allow if currently assigned
+    return assigned_to_user? if account_user&.participating_only?
+
+    # Default: if agent has inbox/team access, they can view
+    true
   end
 
   def administrator?
@@ -41,6 +49,11 @@ class ConversationPolicy < ApplicationPolicy
 
   def participant?
     record.conversation_participants.exists?(user_id: user.id)
+  end
+
+  # Check if user has sent at least one message in this conversation
+  def participated?
+    record.messages.exists?(sender_id: user.id, sender_type: 'User')
   end
 end
 
