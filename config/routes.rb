@@ -322,6 +322,12 @@ Rails.application.routes.draw do
                 get :orders
               end
             end
+            resource :tiendanube, controller: 'tiendanube', only: [:destroy] do
+              collection do
+                post :auth
+                get :orders
+              end
+            end
             resource :linear, controller: 'linear', only: [] do
               collection do
                 delete :destroy
@@ -584,6 +590,10 @@ Rails.application.routes.draw do
     resource :callback, only: [:show]
   end
 
+  namespace :tiendanube do
+    resource :callback, only: [:show]
+  end
+
   namespace :twilio do
     resources :callback, only: [:create]
     resources :delivery_status, only: [:create]
@@ -600,6 +610,7 @@ Rails.application.routes.draw do
   get 'instagram/callback', to: 'instagram/callbacks#show'
   get 'tiktok/callback', to: 'tiktok/callbacks#show'
   get 'notion/callback', to: 'notion/callbacks#show'
+  get 'tiendanube/callback', to: 'tiendanube/callbacks#show'
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'
