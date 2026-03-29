@@ -172,9 +172,22 @@ class Rack::Attack
       req.ip if req.path_without_extentions == '/api/v1/widget/contacts' && (req.patch? || req.put?)
     end
 
-    ## Prevent Conversation Bombing through multiple sessions
-    throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}', limit: 5, period: 1.hour) do |req|
-      req.ip if req.path_without_extentions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
+    ## Aggregate per-IP cap on GET /widget (higher than per-token limit so shared egress /
+    ## NATEd clients with different website_token values are not all cut off at the stricter
+    ## per-(token, IP) ceiling; rotating tokens still cannot bypass this bucket).
+    throttle('widget:get:ip', limit: 180, period: 1.minute) do |req|
+      req.ip if req.path_without_extentions == '/widget' && req.get?
+    end
+
+    ## Per (website_token, IP): stricter than aggregate so one widget embed does not absorb
+    ## the full IP budget; multiple tokens from same IP can each use this headroom up to :ip.
+    throttle('widget:get', limit: 60, period: 1.minute) do |req|
+      next unless req.path_without_extentions == '/widget' && req.get?
+
+      token = ActionDispatch::Request.new(req.env).params['website_token'].presence
+      next if token.blank?
+
+      "#{token}:#{req.ip}"
     end
   end
 
