@@ -28,7 +28,7 @@ export default {
     }),
     sender() {
       const [firstMessage] = this.messages;
-      return firstMessage.sender || {};
+      return firstMessage?.sender || {};
     },
     isBackgroundLighter() {
       return isWidgetColorLighter(this.widgetColor);
@@ -68,7 +68,7 @@ export default {
     <div class="unread-messages">
       <UnreadMessage
         v-for="(message, index) in messages"
-        :key="message.id"
+        :key="message.id ?? message.campaignId ?? index"
         :message-type="message.messageType"
         :message-id="message.id"
         :show-sender="!index"

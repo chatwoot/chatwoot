@@ -63,7 +63,9 @@ class ActionCableConnector extends BaseActionCableConnector {
 
     this.app.$store
       .dispatch('conversation/addOrUpdateMessage', data)
-      .then(() => emitter.emit(ON_AGENT_MESSAGE_RECEIVED));
+      .then(() =>
+        emitter.emit(ON_AGENT_MESSAGE_RECEIVED, { source: 'created' })
+      );
 
     IFrameHelper.sendMessage({
       event: 'onEvent',
@@ -88,7 +90,11 @@ class ActionCableConnector extends BaseActionCableConnector {
       });
     }
 
-    this.app.$store.dispatch('conversation/addOrUpdateMessage', data);
+    this.app.$store
+      .dispatch('conversation/addOrUpdateMessage', data)
+      .then(() =>
+        emitter.emit(ON_AGENT_MESSAGE_RECEIVED, { source: 'updated' })
+      );
   };
 
   onConversationCreated = () => {

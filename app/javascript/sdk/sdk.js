@@ -189,7 +189,15 @@ export const SDK_CSS = `
 }
 
 .woot-widget--without-bubble {
-  bottom: 20px !important;
+  bottom: 62px !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .woot-widget-holder.has-unread-view.woot-widget--without-bubble {
+    --woot-unread-bottom-offset: clamp(0px, calc(100vh - 464px), 76px);
+    bottom: var(--woot-unread-bottom-offset) !important;
+    max-height: calc(100vh - var(--woot-unread-bottom-offset)) !important;
+  }
 }
 .woot-widget-holder.woot--hide{
   transform: translateY(40px);
