@@ -123,10 +123,10 @@
 }
 
 .unread-messages {
-  @apply flex flex-col flex-nowrap mt-0 overflow-y-auto w-full pb-2;
+  @apply flex flex-col flex-nowrap mt-0 overflow-hidden w-full min-w-0 pb-2;
 
   .chat-bubble-wrap {
-    @apply mb-1;
+    @apply mb-1 min-w-0 max-w-full;
 
     &:first-child {
       margin-top: auto;
