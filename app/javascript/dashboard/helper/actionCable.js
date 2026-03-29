@@ -4,6 +4,10 @@ import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotifi
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { useImpersonation } from 'dashboard/composables/useImpersonation';
+import {
+  useWhatsappCallsStore,
+  getOutboundCallState,
+} from 'dashboard/stores/whatsappCalls';
 
 const { isImpersonating } = useImpersonation();
 
@@ -34,6 +38,11 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
       'copilot.message.created': this.onCopilotMessageCreated,
+      'whatsapp_call.incoming': this.onWhatsappCallIncoming,
+      'whatsapp_call.accepted': this.onWhatsappCallAccepted,
+      'whatsapp_call.ended': this.onWhatsappCallEnded,
+      'whatsapp_call.outbound_connected': this.onWhatsappCallOutboundConnected,
+      'whatsapp_call.permission_granted': this.onWhatsappCallPermissionGranted,
     };
   }
 
@@ -199,6 +208,60 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('labels/revalidate', { newKey: keys.label });
     this.app.$store.dispatch('inboxes/revalidate', { newKey: keys.inbox });
     this.app.$store.dispatch('teams/revalidate', { newKey: keys.team });
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  onWhatsappCallIncoming = data => {
+    const whatsappCallsStore = useWhatsappCallsStore();
+    whatsappCallsStore.addIncomingCall({
+      id: data.id,
+      callId: data.call_id,
+      direction: data.direction,
+      inboxId: data.inbox_id,
+      conversationId: data.conversation_id,
+      caller: data.caller,
+      sdpOffer: data.sdp_offer,
+      iceServers: data.ice_servers,
+    });
+  };
+
+  onWhatsappCallAccepted = data => {
+    const whatsappCallsStore = useWhatsappCallsStore();
+    const currentUserId = this.app.$store.getters.getCurrentUserID;
+    // If accepted by a different agent, remove from incoming list for this agent
+    if (data.accepted_by_agent_id !== currentUserId) {
+      whatsappCallsStore.handleCallAcceptedByOther(data.call_id);
+    }
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  onWhatsappCallEnded = data => {
+    const whatsappCallsStore = useWhatsappCallsStore();
+    whatsappCallsStore.handleCallEnded(data.call_id);
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  onWhatsappCallOutboundConnected = data => {
+    const { pc, callId } = getOutboundCallState();
+    if (pc && callId === data.call_id && data.sdp_answer) {
+      pc.setRemoteDescription({ type: 'answer', sdp: data.sdp_answer }).catch(
+        err => {
+          // eslint-disable-next-line no-console
+          console.error(
+            '[WhatsApp Call] Failed to set remote SDP answer:',
+            err
+          );
+        }
+      );
+    }
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  onWhatsappCallPermissionGranted = data => {
+    emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+      message: `${data.contact_name} approved the call permission request. You can now call them.`,
+      type: 'success',
+    });
   };
 }
 

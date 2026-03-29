@@ -82,7 +82,13 @@
       "CALL_ENDED": "Call ended",
       "NOT_ANSWERED_YET": "Not answered yet",
       "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "YOU_ANSWERED": "You answered",
+      "ANSWERED_BY": "Answered by {name}",
+      "DURATION": "{duration}",
+      "ACCEPT_CALL": "Accept",
+      "JOIN_CALL": "Join",
+      "TRANSCRIPT": "Transcript",
+      "AUDIO_NOT_SUPPORTED": "Your browser does not support audio playback."
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",
