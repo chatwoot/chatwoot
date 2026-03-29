@@ -19,10 +19,15 @@ class Rack::Attack
   Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(redis: $velma, pool: false)
 
   class Request < ::Rack::Request
-    # You many need to specify a method to fetch the correct remote IP address
-    # if the web server is behind a load balancer.
+    # Prefer the client IP resolved by ActionDispatch::RemoteIp (uses X-Forwarded-For when
+    # trusted_proxies includes your load balancer). Falls back to Rack::Request#ip (REMOTE_ADDR).
+    # Configure extra proxy CIDRs via TRUSTED_PROXY_CIDRS — see config/initializers/trusted_proxies.rb.
+    def ip
+      (env['action_dispatch.remote_ip'] || super).to_s
+    end
+
     def remote_ip
-      @remote_ip ||= (env['action_dispatch.remote_ip'] || ip).to_s
+      @remote_ip ||= ip
     end
 
     def allowed_ip?
