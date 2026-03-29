@@ -316,6 +316,8 @@ export default {
           this.setBubbleLabel();
         } else if (message.event === 'set-color-scheme') {
           this.setColorScheme(message.darkMode);
+        } else if (message.event === 'set-widget-color') {
+          this.setWidgetColor(message.color);
         } else if (message.event === 'toggle-open') {
           this.$store.dispatch('appConfig/toggleWidgetOpen', message.isOpen);
 
