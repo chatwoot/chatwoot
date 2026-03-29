@@ -43,7 +43,7 @@ LANGUAGES_CONFIG = {
   38 => { name: 'lietuvių (lt)', iso_639_3_code: 'lit', iso_639_1_code: 'lt', enabled: true },
   39 => { name: 'Српски (sr)', iso_639_3_code: 'srp', iso_639_1_code: 'sr', enabled: true },
   40 => { name: 'български (bg)', iso_639_3_code: 'bul', iso_639_1_code: 'bg', enabled: true },
-  41 => { name: 'Eesti (et)', iso_639_3_code: 'est', iso_639_1_code: 'et', enabled: true }
+  41 => { name: 'Eesti keel (et)', iso_639_3_code: 'est', iso_639_1_code: 'et', enabled: true }
 }.filter { |_key, val| val[:enabled] }.freeze
 
 Rails.configuration.i18n.available_locales = LANGUAGES_CONFIG.map { |_index, lang| lang[:iso_639_1_code].to_sym }
