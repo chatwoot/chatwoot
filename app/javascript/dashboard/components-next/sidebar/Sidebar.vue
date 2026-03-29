@@ -522,6 +522,12 @@ const menuItems = computed(() => {
       ],
     },
     {
+      name: 'Scheduler',
+      label: t('SIDEBAR.SCHEDULER'),
+      icon: 'i-lucide-calendar-clock',
+      to: accountScopedRoute('schedulers_index'),
+    },
+    {
       name: 'Portals',
       label: t('SIDEBAR.HELP_CENTER.TITLE'),
       icon: 'i-lucide-library-big',

@@ -1,0 +1,80 @@
+{
+  "SCHEDULER": {
+    "HEADER_TITLE": "Schedulers",
+    "NEW_SCHEDULER": "Create scheduler",
+    "MESSAGE_TYPES": {
+      "d1_reminder": "D-1 Reminder",
+      "visit_guidance": "Visit Guidance",
+      "happy_call_same_day": "Happy Call (Same Day)",
+      "happy_call_2weeks": "Happy Call (2 Weeks)"
+    },
+    "STATUS": {
+      "active": "Active",
+      "paused": "Paused"
+    },
+    "CARD": {
+      "INBOX": "Inbox",
+      "MESSAGE_TYPE": "Type",
+      "STATUS": "Status"
+    },
+    "EMPTY_STATE": {
+      "TITLE": "No schedulers configured",
+      "SUBTITLE": "Set up automated appointment messages by creating a scheduler. Click 'Create scheduler' to get started."
+    },
+    "CREATE": {
+      "TITLE": "Create a scheduler",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Title",
+          "PLACEHOLDER": "Enter a name for this scheduler",
+          "ERROR": "Title is required"
+        },
+        "MESSAGE_TYPE": {
+          "LABEL": "Message type",
+          "PLACEHOLDER": "Select message type",
+          "ERROR": "Message type is required"
+        },
+        "INBOX": {
+          "LABEL": "WhatsApp inbox",
+          "PLACEHOLDER": "Select a WhatsApp inbox",
+          "ERROR": "Inbox is required"
+        },
+        "TEMPLATE": {
+          "LABEL": "WhatsApp template",
+          "PLACEHOLDER": "Select a template",
+          "ERROR": "Template is required",
+          "INFO": "Only approved templates from Meta are shown."
+        },
+        "DESCRIPTION": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Describe what this scheduler does"
+        },
+        "BUTTONS": {
+          "CANCEL": "Cancel",
+          "CREATE": "Create scheduler"
+        }
+      },
+      "SUCCESS_MESSAGE": "Scheduler created successfully",
+      "ERROR_MESSAGE": "Failed to create scheduler"
+    },
+    "DELETE": {
+      "TITLE": "Delete scheduler",
+      "DESCRIPTION": "Are you sure you want to delete this scheduler? This will also remove all scheduled messages associated with it.",
+      "CONFIRM": "Yes, delete",
+      "CANCEL": "Cancel",
+      "SUCCESS_MESSAGE": "Scheduler deleted successfully",
+      "ERROR_MESSAGE": "Failed to delete scheduler"
+    },
+    "DETAIL": {
+      "TITLE": "Scheduled messages",
+      "COLUMNS": {
+        "CUSTOMER": "Customer",
+        "PHONE": "Phone",
+        "SCHEDULED_AT": "Scheduled at",
+        "SENT_AT": "Sent at",
+        "STATUS": "Status"
+      },
+      "EMPTY": "No scheduled messages yet"
+    }
+  }
+}

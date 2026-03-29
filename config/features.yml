@@ -241,3 +241,6 @@
   display_name: Advanced Assignment
   enabled: false
   premium: true
+- name: scheduler
+  display_name: Scheduler
+  enabled: false
