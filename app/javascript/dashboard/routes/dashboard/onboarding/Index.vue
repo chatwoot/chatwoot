@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, nextTick, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
@@ -33,6 +33,8 @@ const companySize = ref('');
 const industry = ref('');
 const referralSource = ref('');
 const isSubmitting = ref(false);
+const isEditingWebsite = ref(false);
+const websiteInput = ref(null);
 
 const userName = computed(() => currentUser.value?.name || '');
 const userEmail = computed(() => currentUser.value?.email || '');
@@ -42,7 +44,7 @@ const companyLogo = computed(
 );
 
 const languageOptions = computed(() => {
-  const langs = [...(enabledLanguages.value || [])];
+  const langs = [...(enabledLanguages || [])];
   return langs
     .sort((a, b) => a.iso_639_1_code.localeCompare(b.iso_639_1_code))
     .map(l => ({ value: l.iso_639_1_code, label: l.name }));
@@ -77,6 +79,11 @@ onMounted(() => {
       currentAccount.value.custom_attributes?.referral_source || '';
   }
 });
+
+const enableWebsiteEditing = () => {
+  isEditingWebsite.value = true;
+  nextTick(() => websiteInput.value?.focus());
+};
 
 const handleSubmit = async () => {
   isSubmitting.value = true;
@@ -147,7 +154,12 @@ const handleSubmit = async () => {
         icon="i-lucide-briefcase-business"
       >
         <div class="flex items-center gap-4 px-3 py-3">
-          <Avatar :name="accountName" :src="companyLogo" :size="16" />
+          <img
+            v-if="companyLogo"
+            :src="companyLogo"
+            :alt="accountName"
+            class="size-4 object-contain"
+          />
           <span class="text-sm font-medium text-n-slate-12">
             {{ accountName }}
           </span>
@@ -158,15 +170,26 @@ const handleSubmit = async () => {
         >
           <div class="flex items-center justify-end gap-1.5">
             <input
+              ref="websiteInput"
               v-model="website"
               type="text"
+              :readonly="!isEditingWebsite"
               :placeholder="t('ONBOARDING.PLACEHOLDERS.ENTER_WEBSITE')"
-              class="reset-base text-sm text-right bg-transparent border-0 p-0 m-0 w-full text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-0"
+              class="reset-base text-sm text-right border-0 p-0 m-0 w-full text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-0 rounded"
+              :class="
+                isEditingWebsite
+                  ? 'bg-n-alpha-black1 px-2 py-0.5'
+                  : 'bg-transparent cursor-default'
+              "
+              @blur="isEditingWebsite = false"
             />
-            <Icon
-              icon="i-lucide-pencil"
-              class="size-3.5 text-n-slate-9 flex-shrink-0"
-            />
+            <button
+              type="button"
+              class="flex-shrink-0"
+              @click="enableWebsiteEditing"
+            >
+              <Icon icon="i-lucide-pencil" class="size-3.5 text-n-slate-9" />
+            </button>
           </div>
         </OnboardingFormRow>
         <OnboardingFormRow
