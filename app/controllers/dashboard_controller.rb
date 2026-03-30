@@ -86,7 +86,7 @@ class DashboardController < ActionController::Base
   end
 
   def active_platform_banners
-    return [] unless ENV.fetch('ENABLE_PLATFORM_BANNERS', 'false') == 'true'
+    return [] unless ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_PLATFORM_BANNERS', false))
 
     PlatformBanner.active.as_json(only: %i[id banner_message banner_type])
   end
