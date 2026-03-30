@@ -1068,7 +1068,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_27_065119) do
   create_table "platform_banners", force: :cascade do |t|
     t.text "banner_message", null: false
     t.integer "banner_type", default: 0, null: false
-    t.boolean "active", default: true
+    t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -88,7 +88,7 @@ class DashboardController < ActionController::Base
   def active_platform_banners
     return [] unless ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_PLATFORM_BANNERS', false))
 
-    PlatformBanner.active.as_json(only: %i[id banner_message banner_type])
+    PlatformBanner.active.order(created_at: :desc).as_json(only: %i[id banner_message banner_type updated_at])
   end
 
   def allowed_login_methods

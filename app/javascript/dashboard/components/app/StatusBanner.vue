@@ -8,9 +8,11 @@ import MessageFormatter from 'shared/helpers/MessageFormatter';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const BANNER_COLOR_CLASSES = {
-  info: 'bg-n-brand text-white dark:text-white [&_.link]:text-white',
-  warning: 'bg-n-amber-5 text-n-amber-12 [&_.link]:text-n-amber-12',
-  error: 'bg-n-ruby-3 text-n-ruby-12 [&_.link]:text-n-ruby-12',
+  info: 'bg-n-brand text-white dark:text-white [&_.link]:text-sm [&_.link]:text-white',
+  warning:
+    'bg-n-amber-5 text-n-amber-12 [&_.link]:text-sm [&_.link]:text-n-amber-12',
+  error:
+    'bg-n-ruby-3 text-n-ruby-12 [&_.link]:text-sm [&_.link]:text-n-ruby-12',
 };
 
 const BUTTON_COLOR_MAP = {
@@ -26,10 +28,12 @@ const dismissedBannerIds = ref(
   LocalStorage.get(LOCAL_STORAGE_KEYS.DISMISSED_PLATFORM_BANNERS) || []
 );
 
+const dismissKey = banner => `${banner.id}-${banner.updated_at}`;
+
 const visibleBanners = computed(() => {
   const banners = globalConfig.value?.activePlatformBanners || [];
   return banners.filter(
-    banner => !dismissedBannerIds.value.includes(banner.id)
+    banner => !dismissedBannerIds.value.includes(dismissKey(banner))
   );
 });
 
@@ -41,8 +45,11 @@ const formattedMessage = message =>
 
 const buttonColor = bannerType => BUTTON_COLOR_MAP[bannerType] || 'amber';
 
-const dismissBanner = bannerId => {
-  dismissedBannerIds.value.push(bannerId);
+const dismissBanner = banner => {
+  const key = dismissKey(banner);
+  if (dismissedBannerIds.value.includes(key)) return;
+
+  dismissedBannerIds.value.push(key);
   LocalStorage.set(
     LOCAL_STORAGE_KEYS.DISMISSED_PLATFORM_BANNERS,
     dismissedBannerIds.value
@@ -67,7 +74,7 @@ const dismissBanner = bannerId => {
         icon="i-lucide-circle-x"
         :color="buttonColor(banner.banner_type)"
         :label="t('GENERAL_SETTINGS.DISMISS')"
-        @click="dismissBanner(banner.id)"
+        @click="dismissBanner(banner)"
       />
     </div>
   </div>
