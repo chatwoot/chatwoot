@@ -1,7 +1,7 @@
 class Api::V1::Accounts::FaqItemsController < Api::V1::Accounts::BaseController
   before_action :faq_item, only: %i[show update destroy toggle_visibility move]
   before_action :check_authorization
-  before_action :check_rate_limit, only: %i[create]
+  before_action :check_rate_limit, only: %i[create import]
 
   def index
     page = params[:page] || 1
@@ -84,6 +84,58 @@ class Api::V1::Accounts::FaqItemsController < Api::V1::Accounts::BaseController
 
     deleted_count = Current.account.faq_items.where(id: ids).destroy_all.count
     render json: { deleted_count: deleted_count }
+  end
+
+  def template
+    template_data = Faq::ExcelTemplateService.new.generate
+    send_data template_data,
+              filename: 'faq_template.xlsx',
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  end
+
+  def import
+    file = params[:file]
+    return render json: { error: 'No file provided' }, status: :unprocessable_entity unless file
+
+    # Save temp file
+    temp_file = Tempfile.new(['faq_import', '.xlsx'])
+    temp_file.binmode
+    temp_file.write(file.read)
+    temp_file.rewind
+
+    result = Faq::ExcelProcessorService.new(
+      file_path: temp_file.path,
+      account: Current.account,
+      user: current_user
+    ).process
+
+    temp_file.close
+    temp_file.unlink
+
+    if result[:success]
+      render json: {
+        success: true,
+        created: result[:created],
+        updated: result[:updated],
+        errors: result[:errors]
+      }
+    else
+      render json: {
+        success: false,
+        created: result[:created] || 0,
+        updated: result[:updated] || 0,
+        errors: result[:errors]
+      }, status: :unprocessable_entity
+    end
+  end
+
+  def export
+    faq_items = Current.account.faq_items.includes(:faq_category)
+    exporter = Faq::ExcelExporterService.new(faq_items)
+
+    send_data exporter.export,
+              filename: "faqs_export_#{Date.current}.xlsx",
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   end
 
   private

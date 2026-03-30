@@ -188,6 +188,9 @@ Rails.application.routes.draw do
             end
             collection do
               post :bulk_delete
+              get :template
+              post :import
+              get :export
             end
           end
           resources :kb_resources, only: [:index, :show, :create, :update, :destroy] do

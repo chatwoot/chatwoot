@@ -30,4 +30,16 @@ class FaqItemPolicy < ApplicationPolicy
   def bulk_delete?
     @account_user.administrator?
   end
+
+  def template?
+    @account_user.administrator?
+  end
+
+  def import?
+    @account_user.administrator?
+  end
+
+  def export?
+    @account_user.administrator?
+  end
 end

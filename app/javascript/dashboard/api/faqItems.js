@@ -36,6 +36,23 @@ class FaqItemsAPI extends ApiClient {
   move(id, direction) {
     return axios.post(`${this.url}/${id}/move`, { direction });
   }
+
+  downloadTemplate() {
+    return axios.get(`${this.url}/template`, { responseType: 'blob' });
+  }
+
+  importFaqs(file, onProgress) {
+    const formData = new FormData();
+    formData.append('file', file);
+    return axios.post(`${this.url}/import`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      onUploadProgress: onProgress,
+    });
+  }
+
+  exportFaqs() {
+    return axios.get(`${this.url}/export`, { responseType: 'blob' });
+  }
 }
 
 export default new FaqItemsAPI();

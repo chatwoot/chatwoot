@@ -11,6 +11,7 @@ import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import FaqItemsAPI from 'dashboard/api/faqItems';
 
 // Sample data for empty state preview
 const sampleCategories = [
@@ -59,6 +60,14 @@ const getDefaultDisplayLanguage = () => {
 const showCategoryForm = ref(false);
 const showFaqForm = ref(false);
 const showDeleteModal = ref(false);
+const showImportDialog = ref(false);
+
+// Import/Export state
+const isDownloadingTemplate = ref(false);
+const isImporting = ref(false);
+const isExporting = ref(false);
+const importFile = ref(null);
+const importResult = ref(null);
 
 const editingCategory = ref(null);
 const editingFaq = ref(null);
@@ -104,6 +113,7 @@ const isDeleting = computed(() =>
 );
 
 const isEmpty = computed(() => !isLoading.value && categories.value.length === 0 && !searchQuery.value);
+const hasFaqs = computed(() => faqItems.value.length > 0);
 
 // Computed getters/setters for translation form fields (fixes reactivity with dynamic keys)
 const currentQuestion = computed({
@@ -445,6 +455,92 @@ const canMoveDown = (faq, categoryId) => {
   return index < faqs.length - 1;
 };
 
+// Import/Export functions
+const handleDownloadTemplate = async () => {
+  isDownloadingTemplate.value = true;
+  try {
+    const response = await FaqItemsAPI.downloadTemplate();
+    const blob = new Blob([response.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'faq_template.xlsx';
+    link.click();
+    window.URL.revokeObjectURL(url);
+    useAlert(t('KNOWLEDGE_BASE.FAQ.TEMPLATE_DOWNLOADED'));
+  } catch (error) {
+    useAlert(t('KNOWLEDGE_BASE.FAQ.TEMPLATE_DOWNLOAD_ERROR'));
+  } finally {
+    isDownloadingTemplate.value = false;
+  }
+};
+
+const handleExport = async () => {
+  isExporting.value = true;
+  try {
+    const response = await FaqItemsAPI.exportFaqs();
+    const blob = new Blob([response.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `faqs_export_${new Date().toISOString().split('T')[0]}.xlsx`;
+    link.click();
+    window.URL.revokeObjectURL(url);
+    useAlert(t('KNOWLEDGE_BASE.FAQ.EXPORT_SUCCESS'));
+  } catch (error) {
+    useAlert(t('KNOWLEDGE_BASE.FAQ.EXPORT_ERROR'));
+  } finally {
+    isExporting.value = false;
+  }
+};
+
+const handleFileSelect = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    importFile.value = file;
+    importResult.value = null;
+  }
+};
+
+const processImport = async () => {
+  if (!importFile.value) return;
+
+  isImporting.value = true;
+  importResult.value = null;
+
+  try {
+    const response = await FaqItemsAPI.importFaqs(importFile.value);
+    importResult.value = response.data;
+
+    if (response.data.success) {
+      useAlert(t('KNOWLEDGE_BASE.FAQ.IMPORT_DIALOG.SUCCESS'));
+      await refreshData();
+      closeImportDialog();
+    }
+  } catch (error) {
+    const errorData = error.response?.data;
+    importResult.value = {
+      success: false,
+      created: errorData?.created || 0,
+      updated: errorData?.updated || 0,
+      errors: errorData?.errors || [{ error: error.message }],
+    };
+    useAlert(t('KNOWLEDGE_BASE.FAQ.IMPORT_DIALOG.ERROR'));
+  } finally {
+    isImporting.value = false;
+  }
+};
+
+const closeImportDialog = () => {
+  showImportDialog.value = false;
+  importFile.value = null;
+  importResult.value = null;
+};
+
 // Marquee animation with constant speed (50px/s)
 const SCROLL_SPEED = 50; // pixels per second
 const WAIT_START = 4000; // ms to wait at start
@@ -595,6 +691,37 @@ onUnmounted(() => {
       </template>
 
       <template #header-actions>
+        <!-- Export Button -->
+        <button
+          class="h-8 px-3 bg-n-slate-3 text-n-slate-12 rounded-lg hover:bg-n-slate-4 transition-colors text-sm font-medium flex items-center gap-2"
+          :disabled="isExporting || !hasFaqs"
+          @click="handleExport"
+        >
+          <Spinner v-if="isExporting" class="!w-4 !h-4" />
+          <i v-else class="i-lucide-file-down w-4 h-4 flex-shrink-0" />
+          <span class="hidden sm:inline">{{ t('KNOWLEDGE_BASE.FAQ.EXPORT') }}</span>
+        </button>
+
+        <!-- Download Template Button -->
+        <button
+          class="h-8 px-3 bg-n-slate-3 text-n-slate-12 rounded-lg hover:bg-n-slate-4 transition-colors text-sm font-medium flex items-center gap-2"
+          :disabled="isDownloadingTemplate"
+          @click="handleDownloadTemplate"
+        >
+          <Spinner v-if="isDownloadingTemplate" class="!w-4 !h-4" />
+          <i v-else class="i-lucide-download w-4 h-4 flex-shrink-0" />
+          <span class="hidden sm:inline">{{ t('KNOWLEDGE_BASE.FAQ.DOWNLOAD_TEMPLATE') }}</span>
+        </button>
+
+        <!-- Import Button -->
+        <button
+          class="h-8 px-3 bg-n-green-9 text-white rounded-lg hover:bg-n-green-10 transition-colors text-sm font-medium flex items-center gap-2"
+          @click="showImportDialog = true"
+        >
+          <i class="i-lucide-upload w-4 h-4 flex-shrink-0" />
+          <span class="hidden sm:inline">{{ t('KNOWLEDGE_BASE.FAQ.IMPORT') }}</span>
+        </button>
+
         <!-- New FAQ Button -->
         <button
           class="h-8 px-3 bg-n-blue-9 text-white rounded-lg hover:bg-n-blue-10 transition-colors text-sm font-medium flex items-center gap-2"
@@ -603,6 +730,77 @@ onUnmounted(() => {
           <i class="i-lucide-plus w-4 h-4" />
           {{ t('KNOWLEDGE_BASE.FAQ.NEW_FAQ') }}
         </button>
+
+        <!-- Import Dialog Modal -->
+        <Teleport to="body">
+          <div
+            v-if="showImportDialog"
+            class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+            @click.self="closeImportDialog"
+          >
+            <div
+              class="w-full max-w-md bg-n-alpha-3 backdrop-blur-[100px] rounded-xl border border-n-weak shadow-md flex flex-col max-h-[90vh] overflow-hidden"
+              @click.stop
+            >
+              <div class="flex items-center justify-between p-4 sm:p-6 shrink-0">
+                <h3 class="text-base font-medium text-n-slate-12">
+                  {{ t('KNOWLEDGE_BASE.FAQ.IMPORT_DIALOG.TITLE') }}
+                </h3>
+                <button class="p-1 text-n-slate-11 hover:text-n-slate-12 hover:bg-n-alpha-2 rounded-lg" @click="closeImportDialog">
+                  <i class="i-lucide-x w-5 h-5" />
+                </button>
+              </div>
+              <div class="px-4 sm:px-6 pb-4 flex flex-col gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-n-slate-12 mb-2">
+                    {{ t('KNOWLEDGE_BASE.FAQ.IMPORT_DIALOG.SELECT_FILE') }}
+                  </label>
+                  <input
+                    type="file"
+                    accept=".xlsx"
+                    class="w-full text-sm text-n-slate-11 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-n-blue-9 file:text-white hover:file:bg-n-blue-10 file:cursor-pointer cursor-pointer"
+                    @change="handleFileSelect"
+                  />
+                </div>
+                <div v-if="importResult" class="p-3 bg-n-alpha-2 rounded-lg text-sm">
+                  <p class="flex justify-between">
+                    <span>{{ t('KNOWLEDGE_BASE.FAQ.IMPORT_DIALOG.CREATED') }}:</span>
+                    <span class="font-medium text-n-green-11">{{ importResult.created }}</span>
+                  </p>
+                  <p class="flex justify-between mt-1">
+                    <span>{{ t('KNOWLEDGE_BASE.FAQ.IMPORT_DIALOG.UPDATED') }}:</span>
+                    <span class="font-medium text-n-blue-11">{{ importResult.updated }}</span>
+                  </p>
+                  <p v-if="importResult.errors && importResult.errors.length > 0" class="flex justify-between mt-1">
+                    <span>{{ t('KNOWLEDGE_BASE.FAQ.IMPORT_DIALOG.ERRORS') }}:</span>
+                    <span class="font-medium text-n-ruby-11">{{ importResult.errors.length }}</span>
+                  </p>
+                  <div v-if="importResult.errors && importResult.errors.length > 0" class="mt-2 pt-2 border-t border-n-weak">
+                    <p class="text-xs text-n-slate-10 mb-1">{{ t('KNOWLEDGE_BASE.FAQ.IMPORT_DIALOG.ERROR_DETAILS') }}:</p>
+                    <ul class="text-xs text-n-ruby-11 space-y-1 max-h-24 overflow-y-auto">
+                      <li v-for="(err, idx) in importResult.errors.slice(0, 5)" :key="idx">
+                        {{ err.row ? `Row ${err.row}: ` : '' }}{{ err.error }}
+                      </li>
+                      <li v-if="importResult.errors.length > 5" class="text-n-slate-10">
+                        ... {{ t('KNOWLEDGE_BASE.FAQ.IMPORT_DIALOG.AND_MORE', { count: importResult.errors.length - 5 }) }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="flex gap-3 p-4 sm:p-6 border-t border-n-weak shrink-0">
+                <Button variant="outline" :label="t('KNOWLEDGE_BASE.FAQ.CANCEL')" class="flex-1" @click="closeImportDialog" />
+                <Button
+                  :label="isImporting ? t('KNOWLEDGE_BASE.FAQ.IMPORT_DIALOG.PROCESSING') : t('KNOWLEDGE_BASE.FAQ.IMPORT_DIALOG.PROCESS')"
+                  :is-loading="isImporting"
+                  :disabled="!importFile || isImporting"
+                  class="flex-1"
+                  @click="processImport"
+                />
+              </div>
+            </div>
+          </div>
+        </Teleport>
 
         <!-- FAQ Form Modal -->
         <Teleport to="body">
