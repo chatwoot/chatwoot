@@ -40,12 +40,11 @@ Rails.application.reloader.to_prepare do
   if File.exist?(schedule_file) && Sidekiq.server?
     schedule = YAML.load_file(schedule_file)
 
-    # load_from_hash! only cleans up entries with source:'schedule'.
-    # Purge legacy entries (source:'dynamic') that predate the source tag
-    # and are no longer in the YAML, so they don't linger in Redis.
-    Sidekiq::Cron::Job.all.each do |job|
-      job.destroy if job.source == 'dynamic' && !schedule.key?(job.name)
-    end
+    # Cron entries removed from schedule.yml but possibly still in Redis
+    # with source:'dynamic' (predating the source tag). load_from_hash!
+    # only cleans up source:'schedule' entries, so these need explicit removal.
+    # Remove names from this list once they've been through a deploy cycle.
+    %w[bulk_auto_assignment_job].each { |name| Sidekiq::Cron::Job.destroy(name) }
 
     Sidekiq::Cron::Job.load_from_hash!(schedule, source: 'schedule')
   end
