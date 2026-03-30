@@ -1,5 +1,7 @@
 <script setup>
 import { ref, computed, nextTick, onMounted, watch } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
@@ -36,6 +38,25 @@ const referralSource = ref('');
 const isSubmitting = ref(false);
 const isEditingWebsite = ref(false);
 const websiteInput = ref(null);
+const shakeFields = ref(false);
+
+const validationRules = {
+  userRole: { required },
+  locale: { required },
+  timezone: { required },
+  companySize: { required },
+  industry: { required },
+  referralSource: { required },
+};
+
+const v$ = useVuelidate(validationRules, {
+  userRole,
+  locale,
+  timezone,
+  companySize,
+  industry,
+  referralSource,
+});
 
 const userName = computed(() => currentUser.value?.name || '');
 const userEmail = computed(() => currentUser.value?.email || '');
@@ -97,6 +118,16 @@ const enableWebsiteEditing = () => {
 };
 
 const handleSubmit = async () => {
+  v$.value.$touch();
+  if (v$.value.$invalid) {
+    useAlert(t('ONBOARDING.VALIDATION_ERROR'));
+    shakeFields.value = true;
+    setTimeout(() => {
+      shakeFields.value = false;
+    }, 600);
+    return;
+  }
+
   isSubmitting.value = true;
   try {
     await updateAccount({
@@ -155,6 +186,7 @@ const handleSubmit = async () => {
         >
           <OnboardingFormSelect
             v-model="userRole"
+            :has-error="shakeFields && v$.userRole.$error"
             :options="USER_ROLE_OPTIONS"
             :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_ROLE')"
           />
@@ -219,7 +251,11 @@ const handleSubmit = async () => {
             :title="t('ONBOARDING.FIELDS.LANGUAGE')"
             icon="i-lucide-languages"
           >
-            <OnboardingFormSelect v-model="locale" :options="languageOptions" />
+            <OnboardingFormSelect
+              v-model="locale"
+              :has-error="shakeFields && v$.locale.$error"
+              :options="languageOptions"
+            />
           </OnboardingFormRow>
           <OnboardingFormRow
             :title="t('ONBOARDING.FIELDS.TIMEZONE')"
@@ -227,6 +263,7 @@ const handleSubmit = async () => {
           >
             <OnboardingFormSelect
               v-model="timezone"
+              :has-error="shakeFields && v$.timezone.$error"
               :options="timezoneOptions"
               :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_TIMEZONE')"
             />
@@ -237,6 +274,7 @@ const handleSubmit = async () => {
           >
             <OnboardingFormSelect
               v-model="companySize"
+              :has-error="shakeFields && v$.companySize.$error"
               :options="COMPANY_SIZE_OPTIONS"
               :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_COMPANY_SIZE')"
             />
@@ -247,6 +285,7 @@ const handleSubmit = async () => {
           >
             <OnboardingFormSelect
               v-model="industry"
+              :has-error="shakeFields && v$.industry.$error"
               :options="INDUSTRY_OPTIONS"
               :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_INDUSTRY')"
             />
@@ -257,6 +296,7 @@ const handleSubmit = async () => {
           >
             <OnboardingFormSelect
               v-model="referralSource"
+              :has-error="shakeFields && v$.referralSource.$error"
               :options="REFERRAL_SOURCE_OPTIONS"
               :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_REFERRAL_SOURCE')"
             />

@@ -27,6 +27,7 @@
     "SETTING_UP": "Setting up your account...",
     "CONTINUE": "Continue",
     "SAVING": "Saving...",
+    "VALIDATION_ERROR": "Please fill in all required fields",
     "SUCCESS": "Details saved successfully",
     "ERROR": "Could not save details. Please try again."
   }
