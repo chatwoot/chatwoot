@@ -30,6 +30,7 @@ class Api::V1::AccountsController < Api::BaseController
       locale: account_params[:locale],
       user: current_user
     ).perform
+    Account::BrandingEnrichmentJob.perform_later(@account.id, account_params[:email])
     if @user
       # Authenticated users (dashboard "add account") and api_only signups
       # need the full response with account_id. API-only deployments have no

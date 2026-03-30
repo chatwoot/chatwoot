@@ -11,6 +11,9 @@ if resource.custom_attributes.present?
     json.timezone resource.custom_attributes['timezone'] if resource.custom_attributes['timezone'].present?
     json.logo resource.custom_attributes['logo'] if resource.custom_attributes['logo'].present?
     json.referral_source resource.custom_attributes['referral_source'] if resource.custom_attributes['referral_source'].present?
+    json.website resource.custom_attributes['website'] if resource.custom_attributes['website'].present?
+    json.branding resource.custom_attributes['branding'] if resource.custom_attributes['branding'].present?
+    json.social_handles resource.custom_attributes['social_handles'] if resource.custom_attributes['social_handles'].present?
     json.onboarding_step resource.custom_attributes['onboarding_step'] if resource.custom_attributes['onboarding_step'].present?
     json.marked_for_deletion_at resource.custom_attributes['marked_for_deletion_at'] if resource.custom_attributes['marked_for_deletion_at'].present?
     if resource.custom_attributes['marked_for_deletion_reason'].present?
