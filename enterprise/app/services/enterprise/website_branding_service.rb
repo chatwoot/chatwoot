@@ -52,6 +52,7 @@ module Enterprise::WebsiteBrandingService
     {
       url: @url,
       onlyMainContent: false,
+      maxAge: 604_800_000,
       formats: [
         {
           type: 'json',
