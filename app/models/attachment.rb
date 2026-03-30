@@ -37,6 +37,7 @@ class Attachment < ApplicationRecord
   belongs_to :account
   belongs_to :message
   has_one_attached :file
+  before_save :set_extension
   validate :acceptable_file
   validates :external_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
   enum file_type: { :image => 0, :audio => 1, :video => 2, :file => 3, :location => 4, :fallback => 5, :share => 6, :story_mention => 7,
@@ -111,6 +112,7 @@ class Attachment < ApplicationRecord
   def file_metadata
     metadata = {
       extension: extension,
+      content_type: file.content_type,
       data_url: file_url,
       thumb_url: thumb_url,
       file_size: file.byte_size,
@@ -152,6 +154,12 @@ class Attachment < ApplicationRecord
       fallback_title: fallback_title,
       meta: meta || {}
     }
+  end
+
+  def set_extension
+    return unless file.attached?
+
+    self.extension ||= File.extname(file.filename.to_s).delete_prefix('.').presence
   end
 
   def should_validate_file?
