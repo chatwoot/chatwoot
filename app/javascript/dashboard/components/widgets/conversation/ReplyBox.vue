@@ -545,7 +545,10 @@ export default {
     },
     setCopilotAcceptedMessage(message, replyType = this.replyType) {
       const key = this.getDraftKey(this.conversationIdByRoute, replyType);
-      this.copilotAcceptedMessages[key] = trimContent(message || '');
+      this.copilotAcceptedMessages[key] = trimContent(
+        message || '',
+        this.maxLength
+      );
     },
     clearCopilotAcceptedMessage(replyType = this.replyType) {
       const key = this.getDraftKey(this.conversationIdByRoute, replyType);
@@ -603,7 +606,7 @@ export default {
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
         const key = this.getDraftKey(conversationId, replyType);
-        const draftToSave = trimContent(this.message || '');
+        const draftToSave = trimContent(this.message || '', this.maxLength);
 
         this.$store.dispatch('draftMessages/set', {
           key,
