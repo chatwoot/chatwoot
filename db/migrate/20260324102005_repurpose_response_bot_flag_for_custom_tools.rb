@@ -7,5 +7,16 @@ class RepurposeResponseBotFlagForCustomTools < ActiveRecord::Migration[7.1]
       account.disable_features(:custom_tools)
       account.save!(validate: false)
     end
+
+    # Remove the stale response_bot entry from ACCOUNT_LEVEL_FEATURE_DEFAULTS.
+    # ConfigLoader only adds new flags; it never removes renamed ones.
+    # Leaving it would cause NoMethodError in enable_default_features when
+    # creating new accounts (feature_response_bot= no longer exists).
+    config = InstallationConfig.find_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS')
+    return unless config&.value.present?
+
+    config.value = config.value.reject { |f| f['name'] == 'response_bot' }
+    config.save!
+    GlobalConfig.clear_cache
   end
 end
