@@ -23,6 +23,7 @@
       "SELECT_INDUSTRY": "Select industry",
       "SELECT_REFERRAL_SOURCE": "Select source"
     },
+    "EMAIL_VERIFIED": "Email verified",
     "CONTINUE": "Continue",
     "SAVING": "Saving...",
     "SUCCESS": "Details saved successfully",

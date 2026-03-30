@@ -119,7 +119,7 @@ const handleSubmit = async () => {
         :title="t('ONBOARDING.YOUR_DETAILS')"
         icon="i-lucide-user"
       >
-        <div class="flex items-center gap-4 px-3 py-3">
+        <div class="flex items-center gap-2 px-3 py-3">
           <Avatar :name="userName" :size="16" rounded-full />
           <span class="text-sm font-medium text-n-slate-12">
             {{ userName }}
@@ -132,6 +132,7 @@ const handleSubmit = async () => {
           <div class="flex items-center justify-end gap-1.5">
             <span class="text-sm text-n-slate-12">{{ userEmail }}</span>
             <Icon
+              v-tooltip="t('ONBOARDING.EMAIL_VERIFIED')"
               icon="i-lucide-circle-check"
               class="size-4 text-n-teal-11 flex-shrink-0"
             />
@@ -153,7 +154,7 @@ const handleSubmit = async () => {
         :title="t('ONBOARDING.COMPANY_DETAILS')"
         icon="i-lucide-briefcase-business"
       >
-        <div class="flex items-center gap-4 px-3 py-3">
+        <div class="flex items-center gap-2 px-3 py-3">
           <img
             v-if="companyLogo"
             :src="companyLogo"
