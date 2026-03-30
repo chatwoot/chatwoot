@@ -160,7 +160,8 @@ class Attachment < ApplicationRecord
     return unless file.attached?
     return if extension.present?
 
-    update_column(:extension, File.extname(file.filename.to_s).delete_prefix('.').presence) # rubocop:disable Rails/SkipsModelValidations
+    ext = File.extname(file.filename.to_s).delete_prefix('.').presence
+    update(extension: ext) if ext.present?
   end
 
   def should_validate_file?
