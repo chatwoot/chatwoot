@@ -2,9 +2,16 @@
 # that touches swagger definitions. Posts an advisory comment — does not block merges.
 # ref: https://github.com/chatwoot/chatwoot/issues/13871
 #
-# Note: This diffs the source-of-truth files under swagger/ directly.
-# If swagger/swagger.json is generated from the fragments in definitions/
-# and paths/, consider adding a build step to regenerate it before the diff.
+# Build process: Chatwoot compiles swagger/swagger.json from YAML fragments
+# (swagger/index.yml, swagger/paths/, swagger/definitions/) using the json_refs
+# gem: `bundle exec rake swagger:build`. Contributors must run this locally
+# before committing so that swagger.json stays in sync with the fragments.
+#
+# This workflow diffs swagger.json between the base and PR branches, so it will
+# catch breaking changes whenever contributors follow the existing convention of
+# regenerating swagger.json before pushing. If the team wants to enforce
+# regeneration in CI, add a Ruby + bundle install + rake swagger:build step
+# before the delimit-action step below.
 
 name: API Schema Check
 
