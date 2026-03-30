@@ -93,6 +93,7 @@ module Enterprise::WebsiteBrandingService
       business_name: extract['business_name'],
       language: extract['language'],
       industry_category: extract['industry_category'],
+      website: @url,
       social_handles: extract_social_from_links(links),
       branding: extract_firecrawl_branding(brand)
     }

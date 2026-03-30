@@ -15,6 +15,7 @@ class WebsiteBrandingService
       business_name: extract_business_name(doc),
       language: extract_language(doc),
       industry_category: nil,
+      website: @url,
       social_handles: extract_social_from_links(links),
       branding: extract_branding(doc)
     }
