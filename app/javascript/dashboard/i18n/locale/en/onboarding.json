@@ -24,6 +24,7 @@
       "SELECT_REFERRAL_SOURCE": "Select source"
     },
     "EMAIL_VERIFIED": "Email verified",
+    "SETTING_UP": "Setting up your account...",
     "CONTINUE": "Continue",
     "SAVING": "Saving...",
     "SUCCESS": "Details saved successfully",

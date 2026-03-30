@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, nextTick, onMounted } from 'vue';
+import { ref, computed, nextTick, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
@@ -12,6 +12,7 @@ import OnboardingLayout from './OnboardingLayout.vue';
 import OnboardingSection from './OnboardingSection.vue';
 import OnboardingFormRow from './OnboardingFormRow.vue';
 import OnboardingFormSelect from './OnboardingFormSelect.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import {
   COMPANY_SIZE_OPTIONS,
   INDUSTRY_OPTIONS,
@@ -39,6 +40,10 @@ const websiteInput = ref(null);
 const userName = computed(() => currentUser.value?.name || '');
 const userEmail = computed(() => currentUser.value?.email || '');
 const accountName = computed(() => currentAccount.value?.name || '');
+const isEnriching = computed(
+  () =>
+    currentAccount.value?.custom_attributes?.onboarding_step === 'enrichment'
+);
 const companyLogo = computed(
   () => currentAccount.value?.custom_attributes?.branding?.favicon || ''
 );
@@ -61,23 +66,29 @@ const timezoneOptions = computed(() => {
   }
 });
 
-onMounted(() => {
-  if (currentAccount.value) {
-    locale.value = currentAccount.value.locale || 'en';
-    website.value =
-      currentAccount.value.domain ||
-      currentAccount.value.custom_attributes?.website ||
-      '';
-    timezone.value =
-      currentAccount.value.custom_attributes?.timezone ||
-      Intl.DateTimeFormat().resolvedOptions().timeZone ||
-      '';
-    companySize.value =
-      currentAccount.value.custom_attributes?.company_size || '';
-    industry.value = currentAccount.value.custom_attributes?.industry || '';
-    referralSource.value =
-      currentAccount.value.custom_attributes?.referral_source || '';
-  }
+const populateFormFields = () => {
+  if (!currentAccount.value) return;
+
+  locale.value = currentAccount.value.locale || 'en';
+  website.value =
+    currentAccount.value.domain ||
+    currentAccount.value.custom_attributes?.website ||
+    '';
+  timezone.value =
+    currentAccount.value.custom_attributes?.timezone ||
+    Intl.DateTimeFormat().resolvedOptions().timeZone ||
+    '';
+  companySize.value =
+    currentAccount.value.custom_attributes?.company_size || '';
+  industry.value = currentAccount.value.custom_attributes?.industry || '';
+  referralSource.value =
+    currentAccount.value.custom_attributes?.referral_source || '';
+};
+
+onMounted(populateFormFields);
+
+watch(isEnriching, newVal => {
+  if (!newVal) populateFormFields();
 });
 
 const enableWebsiteEditing = () => {
@@ -154,92 +165,103 @@ const handleSubmit = async () => {
         :title="t('ONBOARDING.COMPANY_DETAILS')"
         icon="i-lucide-briefcase-business"
       >
-        <div class="flex items-center gap-2 px-3 py-3">
-          <img
-            v-if="companyLogo"
-            :src="companyLogo"
-            :alt="accountName"
-            class="size-4 object-contain"
-          />
-          <span class="text-sm font-medium text-n-slate-12">
-            {{ accountName }}
+        <div
+          v-if="isEnriching"
+          class="flex items-center justify-center gap-3 py-8"
+        >
+          <Spinner :size="16" class="text-n-blue-10" />
+          <span class="text-sm text-n-slate-11">
+            {{ t('ONBOARDING.SETTING_UP') }}
           </span>
         </div>
-        <OnboardingFormRow
-          :title="t('ONBOARDING.FIELDS.WEBSITE')"
-          icon="i-lucide-globe"
-        >
-          <div class="flex items-center justify-end gap-2">
-            <input
-              ref="websiteInput"
-              v-model="website"
-              type="text"
-              :readonly="!isEditingWebsite"
-              :placeholder="t('ONBOARDING.PLACEHOLDERS.ENTER_WEBSITE')"
-              class="reset-base w-auto text-sm text-right border-0 px-1 py-0.5 -my-0.5 mx-0 text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-0 rounded"
-              :class="
-                isEditingWebsite
-                  ? 'bg-n-slate-3'
-                  : 'bg-transparent cursor-default'
-              "
-              @keydown.enter.prevent="websiteInput?.blur()"
-              @blur="isEditingWebsite = false"
+        <template v-else>
+          <div class="flex items-center gap-2 px-3 py-3">
+            <img
+              v-if="companyLogo"
+              :src="companyLogo"
+              :alt="accountName"
+              class="size-4 object-contain"
             />
-            <button
-              type="button"
-              class="flex-shrink-0 p-0 flex items-center"
-              @click="enableWebsiteEditing"
-            >
-              <Icon icon="i-lucide-pencil" class="size-3.5 text-n-slate-9" />
-            </button>
+            <span class="text-sm font-medium text-n-slate-12">
+              {{ accountName }}
+            </span>
           </div>
-        </OnboardingFormRow>
-        <OnboardingFormRow
-          :title="t('ONBOARDING.FIELDS.LANGUAGE')"
-          icon="i-lucide-languages"
-        >
-          <OnboardingFormSelect v-model="locale" :options="languageOptions" />
-        </OnboardingFormRow>
-        <OnboardingFormRow
-          :title="t('ONBOARDING.FIELDS.TIMEZONE')"
-          icon="i-lucide-clock"
-        >
-          <OnboardingFormSelect
-            v-model="timezone"
-            :options="timezoneOptions"
-            :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_TIMEZONE')"
-          />
-        </OnboardingFormRow>
-        <OnboardingFormRow
-          :title="t('ONBOARDING.FIELDS.COMPANY_SIZE')"
-          icon="i-lucide-users"
-        >
-          <OnboardingFormSelect
-            v-model="companySize"
-            :options="COMPANY_SIZE_OPTIONS"
-            :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_COMPANY_SIZE')"
-          />
-        </OnboardingFormRow>
-        <OnboardingFormRow
-          :title="t('ONBOARDING.FIELDS.INDUSTRY')"
-          icon="i-lucide-factory"
-        >
-          <OnboardingFormSelect
-            v-model="industry"
-            :options="INDUSTRY_OPTIONS"
-            :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_INDUSTRY')"
-          />
-        </OnboardingFormRow>
-        <OnboardingFormRow
-          :title="t('ONBOARDING.FIELDS.REFERRAL_SOURCE')"
-          icon="i-lucide-megaphone"
-        >
-          <OnboardingFormSelect
-            v-model="referralSource"
-            :options="REFERRAL_SOURCE_OPTIONS"
-            :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_REFERRAL_SOURCE')"
-          />
-        </OnboardingFormRow>
+          <OnboardingFormRow
+            :title="t('ONBOARDING.FIELDS.WEBSITE')"
+            icon="i-lucide-globe"
+          >
+            <div class="flex items-center justify-end gap-2">
+              <input
+                ref="websiteInput"
+                v-model="website"
+                type="text"
+                :readonly="!isEditingWebsite"
+                :placeholder="t('ONBOARDING.PLACEHOLDERS.ENTER_WEBSITE')"
+                class="reset-base w-auto text-sm text-right border-0 px-1 py-0.5 -my-0.5 mx-0 text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-0 rounded"
+                :class="
+                  isEditingWebsite
+                    ? 'bg-n-slate-3'
+                    : 'bg-transparent cursor-default'
+                "
+                @keydown.enter.prevent="websiteInput?.blur()"
+                @blur="isEditingWebsite = false"
+              />
+              <button
+                type="button"
+                class="flex-shrink-0 p-0 flex items-center"
+                @click="enableWebsiteEditing"
+              >
+                <Icon icon="i-lucide-pencil" class="size-3.5 text-n-slate-9" />
+              </button>
+            </div>
+          </OnboardingFormRow>
+          <OnboardingFormRow
+            :title="t('ONBOARDING.FIELDS.LANGUAGE')"
+            icon="i-lucide-languages"
+          >
+            <OnboardingFormSelect v-model="locale" :options="languageOptions" />
+          </OnboardingFormRow>
+          <OnboardingFormRow
+            :title="t('ONBOARDING.FIELDS.TIMEZONE')"
+            icon="i-lucide-clock"
+          >
+            <OnboardingFormSelect
+              v-model="timezone"
+              :options="timezoneOptions"
+              :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_TIMEZONE')"
+            />
+          </OnboardingFormRow>
+          <OnboardingFormRow
+            :title="t('ONBOARDING.FIELDS.COMPANY_SIZE')"
+            icon="i-lucide-users"
+          >
+            <OnboardingFormSelect
+              v-model="companySize"
+              :options="COMPANY_SIZE_OPTIONS"
+              :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_COMPANY_SIZE')"
+            />
+          </OnboardingFormRow>
+          <OnboardingFormRow
+            :title="t('ONBOARDING.FIELDS.INDUSTRY')"
+            icon="i-lucide-factory"
+          >
+            <OnboardingFormSelect
+              v-model="industry"
+              :options="INDUSTRY_OPTIONS"
+              :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_INDUSTRY')"
+            />
+          </OnboardingFormRow>
+          <OnboardingFormRow
+            :title="t('ONBOARDING.FIELDS.REFERRAL_SOURCE')"
+            icon="i-lucide-megaphone"
+          >
+            <OnboardingFormSelect
+              v-model="referralSource"
+              :options="REFERRAL_SOURCE_OPTIONS"
+              :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_REFERRAL_SOURCE')"
+            />
+          </OnboardingFormRow>
+        </template>
       </OnboardingSection>
     </OnboardingLayout>
   </form>

@@ -13,6 +13,8 @@ class Account::BrandingEnrichmentJob < ApplicationJob
   rescue CustomExceptions::Account::InvalidEmail
     # Skip enrichment for invalid/disposable/blocked emails
     nil
+  ensure
+    finish_enrichment(account_id)
   end
 
   private
@@ -50,5 +52,20 @@ class Account::BrandingEnrichmentJob < ApplicationJob
     return if account.custom_attributes[key].present?
 
     account.custom_attributes[key] = value
+  end
+
+  def finish_enrichment(account_id)
+    Redis::Alfred.delete(format(Redis::Alfred::ACCOUNT_ONBOARDING_ENRICHMENT, account_id: account_id))
+
+    account = Account.find(account_id)
+    if account.custom_attributes['onboarding_step'] == 'enrichment'
+      account.custom_attributes['onboarding_step'] = 'account_details'
+      account.save!
+    end
+
+    user = account.administrators.first
+    return unless user
+
+    ActionCableBroadcastJob.perform_later([user.pubsub_token], 'account.enrichment_completed', { account_id: account_id })
   end
 end

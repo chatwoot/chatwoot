@@ -108,14 +108,6 @@ export default {
         accountId: this.currentAccountId,
       });
       const account = this.getAccount(this.currentAccountId);
-      const onboardingStep = account?.custom_attributes?.onboarding_step;
-      if (onboardingStep && !isOnOnboardingView(this.$route)) {
-        this.router.replace({
-          name: 'onboarding_account_details',
-          params: { accountId: this.currentAccountId },
-        });
-        return;
-      }
       const { locale, latest_chatwoot_version: latestChatwootVersion } =
         account;
       const { pubsub_token: pubsubToken } = this.currentUser || {};
@@ -125,6 +117,15 @@ export default {
       vueActionCable.init(this.store, pubsubToken);
       this.reconnectService = new ReconnectService(this.store, this.router);
       window.reconnectService = this.reconnectService;
+
+      const onboardingStep = account?.custom_attributes?.onboarding_step;
+      if (onboardingStep && !isOnOnboardingView(this.$route)) {
+        this.router.replace({
+          name: 'onboarding_account_details',
+          params: { accountId: this.currentAccountId },
+        });
+        return;
+      }
 
       verifyServiceWorkerExistence(registration =>
         registration.pushManager.getSubscription().then(subscription => {
