@@ -182,6 +182,7 @@ const handleSubmit = async () => {
                   ? 'bg-n-slate-3'
                   : 'bg-transparent cursor-default'
               "
+              @keydown.enter.prevent="websiteInput?.blur()"
               @blur="isEditingWebsite = false"
             />
             <button
