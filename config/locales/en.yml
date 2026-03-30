@@ -48,6 +48,9 @@ en:
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
 
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
     validations:
       presence: must not be blank
     webhook:
@@ -420,6 +423,10 @@ en:
       title: Page not found
       description: We couldn't find the page you were looking for.
       back_to_home: Go to home page
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
       name: Name

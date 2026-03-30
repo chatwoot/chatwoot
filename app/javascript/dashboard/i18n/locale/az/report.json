@@ -1,188 +1,193 @@
 {
   "REPORT": {
-    "HEADER": "Conversations",
+    "HEADER": "Söhbətlər",
     "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
-    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "NO_ENOUGH_DATA": "Hesabat yaratmaq üçün kifayət qədər məlumat nöqtəsi alınmayıb, zəhmət olmasa bir az sonra yenidən cəhd edin.",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
+    "DATA_FETCHING_FAILED": "Məlumatları əldə etmək mümkün olmadı, zəhmət olmasa bir az sonra yenidən cəhd edin.",
+    "SUMMARY_FETCHING_FAILED": "Yekunu əldə etmək mümkün olmadı, zəhmət olmasa bir az sonra yenidən cəhd edin.",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Söhbətlər",
+        "DESC": "( Ümumi )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Messages received",
-        "DESC": "( Total )"
+        "DESC": "( Ümumi )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Messages sent",
-        "DESC": "( Total )"
+        "DESC": "( Ümumi )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "İlk Cavab Vaxtı",
+        "DESC": "( Orta )",
+        "INFO_TEXT": "Hesablama üçün istifadə olunan ümumi söhbət sayı:",
+        "TOOLTIP_TEXT": "İlkin cavab vaxtı {metricValue}-dir ({conversationCount} söhbət əsasında)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Həll Vaxtı",
+        "DESC": "( Orta )",
+        "INFO_TEXT": "Hesablama üçün istifadə olunan ümumi söhbət sayı:",
+        "TOOLTIP_TEXT": "Həll vaxtı {metricValue}-dir ({conversationCount} söhbət əsasında)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Həll Sayı",
+        "DESC": "( Ümumi )"
       },
       "BOT_RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Həll sayı",
+        "DESC": "( Ümumi )"
       },
       "BOT_HANDOFF_COUNT": {
-        "NAME": "Handoff Count",
-        "DESC": "( Total )"
+        "NAME": "Təslim Sayı",
+        "DESC": "( Ümumi )"
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "TOOLTIP_TEXT": "Gözləmə vaxtı {metricValue}-dir ({conversationCount} cavab əsasında)",
         "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
-      "LAST_7_DAYS": "Last 7 days",
-      "LAST_14_DAYS": "Last 14 days",
-      "LAST_30_DAYS": "Last 30 days",
-      "THIS_MONTH": "This month",
-      "LAST_MONTH": "Last month",
-      "LAST_3_MONTHS": "Last 3 months",
-      "LAST_6_MONTHS": "Last 6 months",
-      "LAST_YEAR": "Last year",
+      "LAST_7_DAYS": "Son 7 gün",
+      "LAST_14_DAYS": "Son 14 gün",
+      "LAST_30_DAYS": "Son 30 gün",
+      "THIS_MONTH": "Bu ay",
+      "LAST_MONTH": "Keçən ay",
+      "LAST_3_MONTHS": "Son 3 ay",
+      "LAST_6_MONTHS": "Son 6 ay",
+      "LAST_YEAR": "Keçən il",
       "CUSTOM_DATE_RANGE": "Custom date range"
     },
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Tətbiq et",
       "PLACEHOLDER": "Select date range"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
-    "DURATION_FILTER_LABEL": "Duration",
+    "DURATION_FILTER_LABEL": "Müddət",
     "GROUPING_OPTIONS": {
-      "DAY": "Day",
-      "WEEK": "Week",
-      "MONTH": "Month",
-      "YEAR": "Year"
+      "DAY": "Gün",
+      "WEEK": "Həftə",
+      "MONTH": "Ay",
+      "YEAR": "İl"
     },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Gün"
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Gün"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Həftə"
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Gün"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Həftə"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Ay"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Həftə"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Ay"
       },
       {
         "id": 4,
-        "groupBy": "Year"
+        "groupBy": "İl"
       }
     ],
-    "BUSINESS_HOURS": "Business Hours",
+    "BUSINESS_HOURS": "İş Saatları",
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
-      "EMPTY_LIST": "No results found"
+      "EMPTY_LIST": "Nəticə tapılmadı"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results",
-      "PER_PAGE_TEMPLATE": "{size} / page"
+      "RESULTS": "{total} nəticədən {start} - {end} göstərilir",
+      "PER_PAGE_TEMPLATE": "{size} / səhifə"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
     "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "NO_ENOUGH_DATA": "Hesabat yaratmaq üçün kifayət qədər məlumat nöqtəsi almamışıq, zəhmət olmasa sonra yenidən cəhd edin.",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "FILTER_DROPDOWN_LABEL": "Agent seçin",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Search agents"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Söhbətlər",
+        "DESC": "( Ümumi )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "DESC": "( Ümumi )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "DESC": "( Ümumi )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "İlk Cavab Vaxtı",
+        "DESC": "( Orta )",
+        "INFO_TEXT": "Hesablama üçün istifadə olunan ümumi söhbət sayı:",
+        "TOOLTIP_TEXT": "İlk cavab vaxtı {metricValue}-dir ({conversationCount} söhbət əsasında)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Həll Vaxtı",
+        "DESC": "( Orta )",
+        "INFO_TEXT": "Hesablama üçün istifadə olunan ümumi söhbət sayı:",
+        "TOOLTIP_TEXT": "Həll vaxtı {metricValue}-dir ({conversationCount} söhbət əsasında)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Həll Sayı",
+        "DESC": "( Cəmi )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Son 7 gün"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Son 30 gün"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Son 3 ay"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Son 6 ay"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Keçən il"
       },
       {
         "id": 5,
@@ -190,75 +195,80 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Tətbiq et",
       "PLACEHOLDER": "Select date range"
     }
   },
   "LABEL_REPORTS": {
     "HEADER": "Labels Overview",
-    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
+    "DESCRIPTION": "Nişan nəticələrini söhbətlər, cavab müddəti, həll müddəti və həll olunmuş hallar üzrə yoxlayın. Ətraflı məlumat üçün nişan adını açın.",
     "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "NO_ENOUGH_DATA": "Hesabat yaratmaq üçün kifayət qədər məlumat nöqtəsi almamışıq, zəhmət olmasa bir az sonra yenidən cəhd edin.",
     "DOWNLOAD_LABEL_REPORTS": "Download label reports",
     "FILTER_DROPDOWN_LABEL": "Select Label",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Search labels"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Söhbətlər",
+        "DESC": "( Ümumi )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "DESC": "( Cəmi )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "DESC": "( Cəmi )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "İlk Cavab Vaxtı",
+        "DESC": "( Orta )",
+        "INFO_TEXT": "Hesablama üçün istifadə olunan ümumi söhbət sayı:",
+        "TOOLTIP_TEXT": "İlk cavab vaxtı {metricValue}-dir ({conversationCount} söhbət əsasında)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Həll Vaxtı",
+        "DESC": "( Orta )",
+        "INFO_TEXT": "Hesablama üçün istifadə olunan ümumi söhbət sayı:",
+        "TOOLTIP_TEXT": "Həll vaxtı {metricValue}-dir ({conversationCount} söhbətə əsaslanır)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Həll Sayı",
+        "DESC": "( Cəmi )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Son 7 gün"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Son 30 gün"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Son 3 ay"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Son 6 ay"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Keçən il"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Xüsusi tarix aralığı"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Tətbiq et",
       "PLACEHOLDER": "Select date range"
     }
   },
@@ -266,129 +276,142 @@
     "HEADER": "Inbox Overview",
     "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "NO_ENOUGH_DATA": "Hesabat yaratmaq üçün kifayət qədər məlumat nöqtəsi almamışıq, zəhmət olmasa bir az sonra yenidən cəhd edin.",
     "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
-    "ALL_INBOXES": "All Inboxes",
-    "SEARCH_INBOX": "Search Inbox",
+    "FILTER_DROPDOWN_LABEL": "Qutu seçin",
+    "ALL_INBOXES": "Bütün Qutular",
+    "SEARCH_INBOX": "Qutu üzrə axtarış",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Qutuları axtar"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Söhbətlər",
+        "DESC": "( Ümumi )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "DESC": "( Ümumi )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "DESC": "( Ümumi )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "İlk Cavab Vaxtı",
+        "DESC": "( Orta )",
+        "INFO_TEXT": "Hesablama üçün istifadə olunan ümumi söhbət sayı:",
+        "TOOLTIP_TEXT": "İlk cavab vaxtı {metricValue}-dir ({conversationCount} söhbətə əsaslanır)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Həll Vaxtı",
+        "DESC": "( Orta )",
+        "INFO_TEXT": "Hesablama üçün istifadə olunan ümumi söhbət sayı:",
+        "TOOLTIP_TEXT": "Həll vaxtı {metricValue}-dir ({conversationCount} söhbətə əsaslanır)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Həll Sayı",
+        "DESC": "( Cəmi )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Son 7 gün"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Son 30 gün"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Son 3 ay"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Son 6 ay"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Keçən il"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Xüsusi tarix aralığı"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Tətbiq et",
       "PLACEHOLDER": "Select date range"
     }
   },
   "TEAM_REPORTS": {
     "HEADER": "Team Overview",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "DESCRIPTION": "Komanda nəticələrini söhbətlər, cavab müddəti, həll müddəti və həll olunmuş hallar üzrə yoxlayın. Ətraflı məlumat üçün komanda adını açın.",
     "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "NO_ENOUGH_DATA": "Hesabat yaratmaq üçün kifayət qədər məlumat nöqtəsi almamışıq, zəhmət olmasa sonra yenidən cəhd edin.",
     "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "FILTER_DROPDOWN_LABEL": "Komandanı seçin",
+    "FILTERS": {
+      "ADD_FILTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "NO_FILTER": "No filters available",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Search teams"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Söhbətlər",
+        "DESC": "( Ümumi )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "DESC": "( Cəmi )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "DESC": "( Cəmi )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "İlk Cavab Vaxtı",
+        "DESC": "( Orta )",
+        "INFO_TEXT": "Hesablama üçün istifadə olunan ümumi söhbət sayı:",
+        "TOOLTIP_TEXT": "İlk cavab vaxtı {metricValue}-dir ({conversationCount} söhbətə əsaslanır)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Həll Vaxtı",
+        "DESC": "( Orta )",
+        "INFO_TEXT": "Hesablama üçün istifadə olunan ümumi söhbət sayı:",
+        "TOOLTIP_TEXT": "Həll vaxtı {metricValue}-dir ({conversationCount} söhbətə əsaslanır)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Həll Sayı",
+        "DESC": "( Ümumi )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Son 7 gün"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Son 30 gün"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Son 3 ay"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Son 6 ay"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Keçən il"
       },
       {
         "id": 5,
@@ -396,40 +419,85 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Tətbiq et",
       "PLACEHOLDER": "Select date range"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "HEADER": "CSAT Hesabatları",
+    "NO_RECORDS": "Hələ cavab yoxdur",
+    "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
     "DOWNLOAD": "Download CSAT Reports",
     "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
+      "ADD_FILTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "NO_FILTER": "No filters available",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Search agents",
+        "INBOXES": "Qutuları axtar",
+        "TEAMS": "Search teams",
+        "RATINGS": "Search ratings"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "LABEL": "Agent"
+      },
+      "INBOXES": {
+        "LABEL": "Gələn qutu"
+      },
+      "TEAMS": {
+        "LABEL": "Komanda"
+      },
+      "RATINGS": {
+        "LABEL": "Qiymətləndirmə"
       }
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
-      }
+        "CONTACT_NAME": "Əlaqə",
+        "AGENT_NAME": "Agent",
+        "RATING": "Qiymətləndirmə",
+        "FEEDBACK_TEXT": "Feedback comment",
+        "CONVERSATION": "Söhbət",
+        "CUSTOMER": "Müştəri",
+        "RESPONSE": "Cavab",
+        "HANDLED_BY": "Tərəfindən idarə olunur"
+      },
+      "UNKNOWN_CUSTOMER": "Naməlum müştəri"
     },
+    "NO_AGENT": "Təyin olunmuş agent yoxdur",
+    "NO_FEEDBACK": "Rəy verilməyib",
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Cəmi cavablar",
+        "TOOLTIP": "Toplanmış cavabların ümumi sayı"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Məmnunluq balı",
+        "TOOLTIP": "Müsbət cavabların ümumi sayı / Cavabların ümumi sayı * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
+        "LABEL": "Cavab faizi",
         "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+      },
+      "RATING_DISTRIBUTION": "Qiymətləndirmə paylanması"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "Rəy qeydləri",
+      "PLACEHOLDER": "Bu qiymətləndirmə haqqında rəy qeydləri əlavə edin...",
+      "SAVE": "Yadda saxla",
+      "CANCEL": "Ləğv et",
+      "SAVING": "Yadda saxlanılır...",
+      "SAVED": "Notes saved successfully",
+      "SAVE_ERROR": "Qeydləri yadda saxlamaq mümkün olmadı",
+      "UPDATED_BY": "Updated by {name} {time}",
+      "UPDATED_BY_LABEL": "Updated by",
+      "PAYWALL": {
+        "TITLE": "Upgrade to add review notes",
+        "AVAILABLE_ON": "The review notes feature is only available in the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Add internal context to every CSAT response with review notes. Capture what really happened, spot patterns faster, and make better decisions from your feedback.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
       }
     }
   },
@@ -441,42 +509,42 @@
         "TOOLTIP": "Total number of conversations handled by the bot"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
+        "LABEL": "Ümumi Cavablar",
         "TOOLTIP": "Total number of responses sent by the bot"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
+        "LABEL": "Həll Faizi",
         "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
+        "LABEL": "Təyinat Faizi",
         "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
       }
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
-    "LIVE": "Live",
+    "HEADER": "Ümumi Baxış",
+    "LIVE": "Canlı",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
+      "HEADER": "Açıq Söhbətlər",
       "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Open",
+      "OPEN": "Açıq",
       "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Unassigned",
-      "PENDING": "Pending"
+      "UNASSIGNED": "Təyin olunmamış",
+      "PENDING": "Gözləyir"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "{count} conversation",
-      "CONVERSATIONS": "{count} conversations",
+      "NO_CONVERSATIONS": "Söhbət yoxdur",
+      "CONVERSATION": "{count} söhbət",
+      "CONVERSATIONS": "{count} söhbət",
       "DOWNLOAD_REPORT": "Download report"
     },
     "RESOLUTION_HEATMAP": {
       "HEADER": "Resolutions",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "{count} conversation",
-      "CONVERSATIONS": "{count} conversations",
+      "NO_CONVERSATIONS": "Söhbət yoxdur",
+      "CONVERSATION": "{count} söhbət",
+      "CONVERSATIONS": "{count} söhbət",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
@@ -485,42 +553,42 @@
       "NO_AGENTS": "There are no conversations by agents",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "Open",
+        "OPEN": "Açıq",
         "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+        "STATUS": "Vəziyyət"
       }
     },
     "TEAM_CONVERSATIONS": {
       "ALL_TEAMS": "All Teams",
       "HEADER": "Conversations by teams",
       "LOADING_MESSAGE": "Loading team metrics...",
-      "NO_TEAMS": "There is no data available",
+      "NO_TEAMS": "Məlumat mövcud deyil",
       "TABLE_HEADER": {
-        "TEAM": "Team",
-        "OPEN": "Open",
+        "TEAM": "Komanda",
+        "OPEN": "Açıq",
         "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+        "STATUS": "Vəziyyət"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "Online",
-      "BUSY": "Busy",
+      "HEADER": "Agent vəziyyəti",
+      "ONLINE": "Onlayn",
+      "BUSY": "Məşğul",
       "OFFLINE": "Offline"
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "Bazar günü",
+    "MONDAY": "Bazar ertəsi",
+    "TUESDAY": "Çərşənbə axşamı",
+    "WEDNESDAY": "Çərşənbə",
+    "THURSDAY": "Cümə axşamı",
+    "FRIDAY": "Cümə",
+    "SATURDAY": "Şənbə"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
-    "NO_RECORDS": "SLA applied conversations are not available.",
+    "HEADER": "SLA Hesabatları",
+    "NO_RECORDS": "Tətbiq edilmiş SLA söhbətləri mövcud deyil.",
     "LOADING": "Loading SLA data...",
     "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
     "DOWNLOAD_FAILED": "Failed to download SLA Reports",
@@ -528,7 +596,7 @@
       "ADD_FIlTER": "Add filter",
       "CLEAR_ALL": "Clear all",
       "CLEAR_FILTER": "Clear filter",
-      "EMPTY_LIST": "No results found",
+      "EMPTY_LIST": "Nəticə tapılmadı",
       "NO_FILTER": "No filters available",
       "SEARCH": "Search filter",
       "INPUT_PLACEHOLDER": {
@@ -538,16 +606,16 @@
         "LABELS": "Label name",
         "TEAMS": "Team name"
       },
-      "SLA": "SLA Policy",
-      "INBOXES": "Inbox",
+      "SLA": "SLA Siyasəti",
+      "INBOXES": "Gələn qutu",
       "AGENTS": "Agent",
-      "LABELS": "Label",
-      "TEAMS": "Team"
+      "LABELS": "Etiket",
+      "TEAMS": "Komanda"
     },
-    "WITH": "with",
+    "WITH": "ilə",
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Hit Rate",
+        "LABEL": "Uğur Faizi",
         "TOOLTIP": "Percentage of SLAs created were completed successfully"
       },
       "NO_OF_MISSES": {
@@ -556,27 +624,27 @@
       },
       "NO_OF_CONVERSATIONS": {
         "LABEL": "Number of Conversations",
-        "TOOLTIP": "Total number of conversations with SLA"
+        "TOOLTIP": "SLA ilə ümumi söhbət sayı"
       }
     },
     "TABLE": {
       "HEADER": {
-        "POLICY": "Policy",
-        "CONVERSATION": "Conversation",
+        "POLICY": "Siyasət",
+        "CONVERSATION": "Söhbət",
         "AGENT": "Agent"
       },
-      "VIEW_DETAILS": "View Details"
+      "VIEW_DETAILS": "Ətraflı Bax"
     }
   },
   "SUMMARY_REPORTS": {
-    "INBOX": "Inbox",
+    "INBOX": "Gələnlər",
     "AGENT": "Agent",
-    "TEAM": "Team",
-    "LABEL": "Label",
-    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
-    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
-    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
-    "RESOLUTION_COUNT": "Resolution Count",
+    "TEAM": "Komanda",
+    "LABEL": "Etiket",
+    "AVG_RESOLUTION_TIME": "Orta Həll Vaxtı",
+    "AVG_FIRST_RESPONSE_TIME": "Orta İlk Cavab Vaxtı",
+    "AVG_REPLY_TIME": "Orta Müştəri Gözləmə Vaxtı",
+    "RESOLUTION_COUNT": "Həll Sayı",
     "CONVERSATIONS": "No. of conversations"
   }
 }
