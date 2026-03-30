@@ -40,6 +40,9 @@ export const validateAuthenticateRoutePermission = (to, next) => {
   if (onboardingStep && !isOnOnboardingView(to)) {
     return next(frontendURL(`accounts/${routeAccountId}/onboarding`));
   }
+  if (!onboardingStep && isOnOnboardingView(to)) {
+    return next(frontendURL(`accounts/${routeAccountId}/dashboard`));
+  }
 
   const nextRoute = validateLoggedInRoutes(to, store.getters.getCurrentUser);
   return nextRoute ? next(frontendURL(nextRoute)) : next();
