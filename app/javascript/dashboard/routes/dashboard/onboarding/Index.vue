@@ -37,6 +37,9 @@ const isSubmitting = ref(false);
 const userName = computed(() => currentUser.value?.name || '');
 const userEmail = computed(() => currentUser.value?.email || '');
 const accountName = computed(() => currentAccount.value?.name || '');
+const companyLogo = computed(
+  () => currentAccount.value?.custom_attributes?.branding?.favicon || ''
+);
 
 const languageOptions = computed(() => {
   const langs = [...(enabledLanguages.value || [])];
@@ -59,7 +62,10 @@ const timezoneOptions = computed(() => {
 onMounted(() => {
   if (currentAccount.value) {
     locale.value = currentAccount.value.locale || 'en';
-    website.value = currentAccount.value.domain || '';
+    website.value =
+      currentAccount.value.domain ||
+      currentAccount.value.custom_attributes?.website ||
+      '';
     timezone.value =
       currentAccount.value.custom_attributes?.timezone ||
       Intl.DateTimeFormat().resolvedOptions().timeZone ||
@@ -141,7 +147,7 @@ const handleSubmit = async () => {
         icon="i-lucide-briefcase-business"
       >
         <div class="flex items-center gap-4 px-3 py-3">
-          <Avatar :name="accountName" :size="16" rounded-full />
+          <Avatar :name="accountName" :src="companyLogo" :size="16" />
           <span class="text-sm font-medium text-n-slate-12">
             {{ accountName }}
           </span>
