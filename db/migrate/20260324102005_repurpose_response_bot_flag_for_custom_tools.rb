@@ -13,7 +13,7 @@ class RepurposeResponseBotFlagForCustomTools < ActiveRecord::Migration[7.1]
     # Leaving it would cause NoMethodError in enable_default_features when
     # creating new accounts (feature_response_bot= no longer exists).
     config = InstallationConfig.find_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS')
-    return unless config&.value.present?
+    return if config&.value.blank?
 
     config.value = config.value.reject { |f| f['name'] == 'response_bot' }
     config.save!
