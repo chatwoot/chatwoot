@@ -196,7 +196,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onEnrichmentCompleted = () => {
-    this.app.$store.dispatch('accounts/get');
+    this.app.$store.dispatch('accounts/get', { silent: true });
   };
 
   onCacheInvalidate = data => {
