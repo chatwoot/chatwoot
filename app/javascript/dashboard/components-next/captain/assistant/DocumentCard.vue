@@ -12,6 +12,7 @@ import {
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 const props = defineProps({
   id: {
@@ -34,14 +35,34 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  isSelected: {
+    type: Boolean,
+    default: false,
+  },
+  selectable: {
+    type: Boolean,
+    default: false,
+  },
+  showSelectionControl: {
+    type: Boolean,
+    default: false,
+  },
+  showMenu: {
+    type: Boolean,
+    default: true,
+  },
 });
 
-const emit = defineEmits(['action']);
+const emit = defineEmits(['action', 'select', 'hover']);
 const { checkPermissions } = usePolicy();
 
 const { t } = useI18n();
 
 const [showActionsDropdown, toggleDropdown] = useToggle();
+const modelValue = computed({
+  get: () => props.isSelected,
+  set: () => emit('select', props.id),
+});
 
 const menuItems = computed(() => {
   const allOptions = [
@@ -79,12 +100,23 @@ const handleAction = ({ action, value }) => {
 </script>
 
 <template>
-  <CardLayout>
+  <CardLayout
+    :selectable="selectable"
+    class="relative"
+    @mouseenter="emit('hover', true)"
+    @mouseleave="emit('hover', false)"
+  >
+    <div
+      v-show="showSelectionControl"
+      class="absolute top-7 ltr:left-3 rtl:right-3"
+    >
+      <Checkbox v-model="modelValue" />
+    </div>
     <div class="flex gap-1 justify-between w-full">
       <span class="text-base text-n-slate-12 line-clamp-1">
         {{ name }}
       </span>
-      <div class="flex gap-2 items-center">
+      <div v-if="showMenu" class="flex gap-2 items-center">
         <div
           v-on-clickaway="() => toggleDropdown(false)"
           class="flex relative items-center group"
