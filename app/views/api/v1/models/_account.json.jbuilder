@@ -14,7 +14,10 @@ if resource.custom_attributes.present?
     json.website resource.custom_attributes['website'] if resource.custom_attributes['website'].present?
     json.branding resource.custom_attributes['branding'] if resource.custom_attributes['branding'].present?
     json.social_handles resource.custom_attributes['social_handles'] if resource.custom_attributes['social_handles'].present?
-    json.onboarding_step resource.custom_attributes['onboarding_step'] if resource.custom_attributes['onboarding_step'].present?
+    if resource.custom_attributes['onboarding_step'].present?
+      enrichment_key = format(Redis::Alfred::ACCOUNT_ONBOARDING_ENRICHMENT, account_id: resource.id)
+      json.onboarding_step Redis::Alfred.exists?(enrichment_key) ? 'enrichment' : resource.custom_attributes['onboarding_step']
+    end
     json.marked_for_deletion_at resource.custom_attributes['marked_for_deletion_at'] if resource.custom_attributes['marked_for_deletion_at'].present?
     if resource.custom_attributes['marked_for_deletion_reason'].present?
       json.marked_for_deletion_reason resource.custom_attributes['marked_for_deletion_reason']
