@@ -34,6 +34,9 @@ th:
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
     validations:
       presence: must not be blank
     webhook:
@@ -417,12 +420,16 @@ th:
     button: เปิดดูการสนทนา
   time_units:
     days:
+      one: '%{count} days'
       other: '%{count} days'
     hours:
+      one: '%{count} hours'
       other: '%{count} hours'
     minutes:
+      one: '%{count} minutes'
       other: '%{count} minutes'
     seconds:
+      one: '%{count} seconds'
       other: '%{count} seconds'
   auto_assignment:
     default_policy_name: 'Default Policy'
