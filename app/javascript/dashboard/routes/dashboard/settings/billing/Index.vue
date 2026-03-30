@@ -1,11 +1,14 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { format } from 'date-fns';
+import { useAlert } from 'dashboard/composables';
+import { useI18n } from 'vue-i18n';
 import sessionStorage from 'shared/helpers/sessionStorage';
+import EnterpriseAccountAPI from 'dashboard/api/enterprise/account';
 
 import BillingMeter from './components/BillingMeter.vue';
 import BillingCard from './components/BillingCard.vue';
@@ -28,6 +31,7 @@ const {
   isFetchingLimits,
 } = useCaptain();
 
+const { t } = useI18n();
 const uiFlags = useMapGetter('accounts/getUIFlags');
 const store = useStore();
 
@@ -124,11 +128,25 @@ const handleBillingPageLogic = async () => {
   }
 };
 
-const onClickBillingPortal = () => {
+const billingDetails = ref({});
+const isFetchingBillingDetails = ref(false);
+
+const onClickBillingPortal = async () => {
   if (billingDetailsConfirmed.value) {
     store.dispatch('accounts/checkout');
-  } else {
+    return;
+  }
+
+  isFetchingBillingDetails.value = true;
+  try {
+    const { data } = await EnterpriseAccountAPI.getBillingDetails();
+    billingDetails.value = data;
+    await nextTick();
     confirmBusinessDetailsModalRef.value?.open();
+  } catch {
+    useAlert(t('BILLING_SETTINGS.CONFIRM_BUSINESS.ERROR'));
+  } finally {
+    isFetchingBillingDetails.value = false;
   }
 };
 
@@ -279,6 +297,7 @@ onMounted(handleBillingPageLogic);
       />
       <ConfirmBusinessDetailsModal
         ref="confirmBusinessDetailsModalRef"
+        :billing-details="billingDetails"
         @confirmed="onBusinessDetailsConfirmed"
       />
     </template>

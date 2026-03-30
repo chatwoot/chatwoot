@@ -10,13 +10,26 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import EnterpriseAccountAPI from 'dashboard/api/enterprise/account';
 
+const props = defineProps({
+  billingDetails: {
+    type: Object,
+    default: () => ({}),
+  },
+});
+
 const emit = defineEmits(['confirmed']);
 const { t } = useI18n();
 
 const dialogRef = ref(null);
 const isLoading = ref(false);
-const isFetchingDetails = ref(false);
-const hasPreExistingData = ref(false);
+
+const hasPreExistingData = computed(() => {
+  return Boolean(
+    props.billingDetails.business_name ||
+      props.billingDetails.business_address ||
+      props.billingDetails.billing_email
+  );
+});
 
 const formValues = reactive({
   businessName: '',
@@ -53,31 +66,12 @@ const getErrorMessage = field => {
   return '';
 };
 
-const fetchBillingDetails = async () => {
-  isFetchingDetails.value = true;
-  try {
-    const { data } = await EnterpriseAccountAPI.getBillingDetails();
-    if (data.business_name || data.business_address || data.billing_email) {
-      formValues.businessName = data.business_name || '';
-      formValues.businessAddress = data.business_address || '';
-      formValues.billingEmail = data.billing_email || '';
-      hasPreExistingData.value = true;
-    }
-  } catch {
-    // Silently fail - user can still fill in details manually
-  } finally {
-    isFetchingDetails.value = false;
-  }
-};
-
 const open = () => {
   v$.value.$reset();
-  formValues.businessName = '';
-  formValues.businessAddress = '';
-  formValues.billingEmail = '';
-  hasPreExistingData.value = false;
+  formValues.businessName = props.billingDetails.business_name || '';
+  formValues.businessAddress = props.billingDetails.business_address || '';
+  formValues.billingEmail = props.billingDetails.billing_email || '';
   dialogRef.value?.open();
-  fetchBillingDetails();
 };
 
 const close = () => {
@@ -119,9 +113,13 @@ defineExpose({ open, close });
     <div class="flex flex-col gap-4">
       <div
         v-if="hasPreExistingData"
-        class="flex items-center gap-2 p-3 rounded-lg bg-n-teal-2 border border-n-teal-6"
+        class="flex items-center gap-3 p-3 rounded-lg bg-n-teal-2 border border-n-teal-6"
       >
-        <fluent-icon icon="checkmark-circle" size="16" class="text-n-teal-11" />
+        <fluent-icon
+          icon="checkmark-circle"
+          size="18"
+          class="text-n-teal-11 shrink-0"
+        />
         <p class="text-sm text-n-teal-11">
           {{ $t('BILLING_SETTINGS.CONFIRM_BUSINESS.PREFILLED_BANNER') }}
         </p>
