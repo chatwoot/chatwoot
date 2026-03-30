@@ -170,6 +170,14 @@ class Message < ApplicationRecord
     data
   end
 
+  # Same as #push_event_data but with content fields normalized for webhook payloads.
+  def webhook_push_event_data
+    push_event_data.merge(
+      content: MessageContentPresenter.new(self).webhook_content,
+      processed_message_content: Messages::WebhookContentNormalizer.normalize(processed_message_content)
+    )
+  end
+
   def webhook_data
     data = {
       account: account.webhook_data,
