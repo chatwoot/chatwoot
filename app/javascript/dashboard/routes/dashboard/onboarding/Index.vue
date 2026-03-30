@@ -169,24 +169,24 @@ const handleSubmit = async () => {
           :title="t('ONBOARDING.FIELDS.WEBSITE')"
           icon="i-lucide-globe"
         >
-          <div class="flex items-center justify-end gap-1.5">
+          <div class="flex items-center justify-end gap-2">
             <input
               ref="websiteInput"
               v-model="website"
               type="text"
               :readonly="!isEditingWebsite"
               :placeholder="t('ONBOARDING.PLACEHOLDERS.ENTER_WEBSITE')"
-              class="reset-base text-sm text-right border-0 p-0 m-0 w-full text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-0 rounded"
+              class="reset-base w-auto text-sm text-right border-0 px-1 py-0.5 -my-0.5 mx-0 text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-0 rounded"
               :class="
                 isEditingWebsite
-                  ? 'bg-n-alpha-black1 px-2 py-0.5'
+                  ? 'bg-n-slate-3'
                   : 'bg-transparent cursor-default'
               "
               @blur="isEditingWebsite = false"
             />
             <button
               type="button"
-              class="flex-shrink-0"
+              class="flex-shrink-0 p-0 flex items-center"
               @click="enableWebsiteEditing"
             >
               <Icon icon="i-lucide-pencil" class="size-3.5 text-n-slate-9" />
