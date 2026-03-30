@@ -1,0 +1,20 @@
+{
+  "WHATSAPP_CALL": {
+    "INCOMING_WHATSAPP_CALL": "Incoming WhatsApp Call",
+    "OUTGOING_WHATSAPP_CALL": "Outgoing WhatsApp Call",
+    "ACCEPT": "Accept",
+    "REJECT": "Reject",
+    "HANG_UP": "Hang Up",
+    "MUTE": "Mute",
+    "UNMUTE": "Unmute",
+    "INITIATE_CALL": "Call via WhatsApp",
+    "CALLING": "Calling…",
+    "RINGING": "Ringing…",
+    "CALL_FAILED": "Call failed. Please try again.",
+    "PERMISSION_REQUESTED": "Call permission request sent to the contact. You can call once they approve.",
+    "PERMISSION_PENDING": "Waiting for the contact to approve the call permission request. Please try again shortly.",
+    "UNKNOWN_CALLER": "Unknown caller",
+    "MIC_DENIED": "Microphone access denied. Please allow mic access and try again.",
+    "CALL_TAKEN": "Call accepted by another agent"
+  }
+}

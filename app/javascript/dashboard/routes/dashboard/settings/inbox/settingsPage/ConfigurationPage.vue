@@ -43,6 +43,7 @@ export default {
       isSyncingTemplates: false,
       allowedDomains: '',
       isUpdatingAllowedDomains: false,
+      callingEnabled: false,
       isSettingDefaults: false,
     };
   },
@@ -83,6 +84,8 @@ export default {
         this.inbox.selected_feature_flags || []
       ).includes('allow_mobile_webview');
       this.allowedDomains = this.inbox.allowed_domains || '';
+      this.callingEnabled =
+        this.inbox.provider_config?.calling_enabled || false;
       this.$nextTick(() => {
         this.isSettingDefaults = false;
       });
@@ -169,6 +172,23 @@ export default {
     async handleReconfigure() {
       if (this.$refs.whatsappReauth) {
         await this.$refs.whatsappReauth.requestAuthorization();
+      }
+    },
+    async updateCallingEnabled() {
+      try {
+        await this.$store.dispatch('inboxes/updateInbox', {
+          id: this.inbox.id,
+          formData: false,
+          channel: {
+            provider_config: {
+              ...this.inbox.provider_config,
+              calling_enabled: this.callingEnabled,
+            },
+          },
+        });
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
     },
     async syncTemplates() {
@@ -451,6 +471,22 @@ export default {
         <NextButton :disabled="isSyncingTemplates" @click="syncTemplates">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_BUTTON') }}
         </NextButton>
+      </SettingsFieldSection>
+      <SettingsFieldSection
+        :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_CALLING_TITLE')"
+        :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_CALLING_SUBHEADER')"
+      >
+        <div class="flex gap-2 items-center">
+          <input
+            id="callingEnabled"
+            v-model="callingEnabled"
+            type="checkbox"
+            @change="updateCallingEnabled"
+          />
+          <label for="callingEnabled" class="text-body-main text-n-slate-12">
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_CALLING_LABEL') }}
+          </label>
+        </div>
       </SettingsFieldSection>
     </div>
     <WhatsappReauthorize

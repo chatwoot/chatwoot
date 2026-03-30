@@ -100,3 +100,5 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     return channel if channel && channel.provider_config['phone_number_id'] == phone_number_id
   end
 end
+
+Webhooks::WhatsappEventsJob.prepend_mod_with('Webhooks::WhatsappEventsJob')
