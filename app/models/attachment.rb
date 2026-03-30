@@ -37,7 +37,7 @@ class Attachment < ApplicationRecord
   belongs_to :account
   belongs_to :message
   has_one_attached :file
-  before_save :set_extension
+  after_commit :set_extension, on: [:create, :update]
   validate :acceptable_file
   validates :external_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
   enum file_type: { :image => 0, :audio => 1, :video => 2, :file => 3, :location => 4, :fallback => 5, :share => 6, :story_mention => 7,
@@ -158,8 +158,9 @@ class Attachment < ApplicationRecord
 
   def set_extension
     return unless file.attached?
+    return if extension.present?
 
-    self.extension ||= File.extname(file.filename.to_s).delete_prefix('.').presence
+    update_column(:extension, File.extname(file.filename.to_s).delete_prefix('.').presence) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def should_validate_file?
