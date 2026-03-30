@@ -37,5 +37,16 @@ Rails.application.reloader.to_prepare do
   # load_from_hash! upserts jobs from the YAML and removes any Redis-persisted
   # jobs that share the same source tag but are no longer in the file.
   # This ensures deleted schedule entries are cleaned up on deploy.
-  Sidekiq::Cron::Job.load_from_hash!(YAML.load_file(schedule_file), source: 'schedule') if File.exist?(schedule_file) && Sidekiq.server?
+  if File.exist?(schedule_file) && Sidekiq.server?
+    schedule = YAML.load_file(schedule_file)
+
+    # load_from_hash! only cleans up entries with source:'schedule'.
+    # Purge legacy entries (source:'dynamic') that predate the source tag
+    # and are no longer in the YAML, so they don't linger in Redis.
+    Sidekiq::Cron::Job.all.each do |job|
+      job.destroy if job.source == 'dynamic' && !schedule.key?(job.name)
+    end
+
+    Sidekiq::Cron::Job.load_from_hash!(schedule, source: 'schedule')
+  end
 end
