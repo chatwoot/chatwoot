@@ -244,7 +244,40 @@ export default {
       return type || '';
     },
     maxLength() {
-      return this.maxLengthForReplyType(this.replyType);
+      if (this.isPrivate) {
+        return MESSAGE_MAX_LENGTH.GENERAL;
+      }
+      if (this.isAFacebookInbox) {
+        return MESSAGE_MAX_LENGTH.FACEBOOK;
+      }
+      if (this.isAnInstagramChannel) {
+        return MESSAGE_MAX_LENGTH.INSTAGRAM;
+      }
+      if (this.isATelegramChannel) {
+        return MESSAGE_MAX_LENGTH.TELEGRAM;
+      }
+      if (this.isATiktokChannel) {
+        return MESSAGE_MAX_LENGTH.TIKTOK;
+      }
+      if (this.isATwilioWhatsAppChannel) {
+        return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
+      }
+      if (this.isAWhatsAppCloudChannel) {
+        return MESSAGE_MAX_LENGTH.WHATSAPP_CLOUD;
+      }
+      if (this.isASmsInbox) {
+        return MESSAGE_MAX_LENGTH.TWILIO_SMS;
+      }
+      if (this.isAnEmailChannel) {
+        return MESSAGE_MAX_LENGTH.EMAIL;
+      }
+      if (this.isATwilioSMSChannel) {
+        return MESSAGE_MAX_LENGTH.TWILIO_SMS;
+      }
+      if (this.isAWhatsAppChannel) {
+        return MESSAGE_MAX_LENGTH.WHATSAPP_CLOUD;
+      }
+      return MESSAGE_MAX_LENGTH.GENERAL;
     },
     showFileUpload() {
       return (
@@ -503,23 +536,6 @@ export default {
     emitter.off(CMD_AI_ASSIST, this.executeCopilotAction);
   },
   methods: {
-    maxLengthForReplyType(replyType) {
-      const isPrivateNote = replyType === REPLY_EDITOR_MODES.NOTE;
-      if (isPrivateNote) return MESSAGE_MAX_LENGTH.GENERAL;
-      if (this.isAFacebookInbox) return MESSAGE_MAX_LENGTH.FACEBOOK;
-      if (this.isAnInstagramChannel) return MESSAGE_MAX_LENGTH.INSTAGRAM;
-      if (this.isATelegramChannel) return MESSAGE_MAX_LENGTH.TELEGRAM;
-      if (this.isATiktokChannel) return MESSAGE_MAX_LENGTH.TIKTOK;
-      if (this.isATwilioWhatsAppChannel)
-        return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
-      if (this.isAWhatsAppCloudChannel)
-        return MESSAGE_MAX_LENGTH.WHATSAPP_CLOUD;
-      if (this.isASmsInbox) return MESSAGE_MAX_LENGTH.TWILIO_SMS;
-      if (this.isAnEmailChannel) return MESSAGE_MAX_LENGTH.EMAIL;
-      if (this.isATwilioSMSChannel) return MESSAGE_MAX_LENGTH.TWILIO_SMS;
-      if (this.isAWhatsAppChannel) return MESSAGE_MAX_LENGTH.WHATSAPP_CLOUD;
-      return MESSAGE_MAX_LENGTH.GENERAL;
-    },
     getDraftKey(
       conversationId = this.conversationIdByRoute,
       replyType = this.replyType
@@ -534,7 +550,7 @@ export default {
       const key = this.getDraftKey(this.conversationIdByRoute, replyType);
       this.copilotAcceptedMessages[key] = trimContent(
         message || '',
-        this.maxLengthForReplyType(replyType)
+        this.maxLength
       );
     },
     clearCopilotAcceptedMessage(replyType = this.replyType) {
@@ -593,10 +609,7 @@ export default {
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
         const key = this.getDraftKey(conversationId, replyType);
-        const draftToSave = trimContent(
-          this.message || '',
-          this.maxLengthForReplyType(replyType)
-        );
+        const draftToSave = trimContent(this.message || '', this.maxLength);
 
         this.$store.dispatch('draftMessages/set', {
           key,
