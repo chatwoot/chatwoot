@@ -1,3 +1,11 @@
+# Checks for breaking changes in the OpenAPI/Swagger schema on every PR
+# that touches swagger definitions. Posts an advisory comment — does not block merges.
+# ref: https://github.com/chatwoot/chatwoot/issues/13871
+#
+# Note: This diffs the source-of-truth files under swagger/ directly.
+# If swagger/swagger.json is generated from the fragments in definitions/
+# and paths/, consider adding a build step to regenerate it before the diff.
+
 name: API Schema Check
 
 on:
