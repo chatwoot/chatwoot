@@ -54,17 +54,10 @@ Required variables in `.env`:
 
 ```json
 {
-  "baseUrl": "http://localhost:3000",
-  "apiBaseUrl": "http://localhost:3000",
-  "email": "admin@chatwoot.com",
-  "password": "Password123@#",
-  "dbUser": "postgres",
-  "dbPassword": "postgres",
-  "dbHost": "127.0.0.1",
-  "dbPort": "5432",
-  "dbName": "chatwoot",
-  "dbToken": "your_encrypted_token_here",
-  "urlToken": "your_plain_token_here"
+  "BASE_URL": "http://localhost:3000",
+  "TEST_USER_EMAIL": "admin@chatwoot.com",
+  "TEST_USER_PASSWORD": "Password123@#",
+
 }
 ```
 
