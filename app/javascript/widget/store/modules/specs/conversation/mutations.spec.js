@@ -169,10 +169,16 @@ describe('#mutations', () => {
   });
 
   describe('#clearConversations', () => {
-    it('clears the state', () => {
-      const state = { conversations: { 1: { id: 1 } } };
+    it('clears conversations and pending metadata', () => {
+      const state = {
+        conversations: { 1: { id: 1 } },
+        pendingCustomAttributes: { plan: 'enterprise' },
+        pendingLabels: ['vip'],
+      };
       mutations.clearConversations(state);
       expect(state.conversations).toEqual({});
+      expect(state.pendingCustomAttributes).toEqual({});
+      expect(state.pendingLabels).toEqual([]);
     });
   });
 
@@ -197,6 +203,30 @@ describe('#mutations', () => {
     it('does not add duplicate labels', () => {
       const state = { pendingLabels: ['vip'] };
       mutations.setPendingLabels(state, 'vip');
+      expect(state.pendingLabels).toEqual(['vip']);
+    });
+  });
+
+  describe('#removePendingCustomAttribute', () => {
+    it('removes a single key from pending custom attributes', () => {
+      const state = {
+        pendingCustomAttributes: { plan: 'enterprise', region: 'us' },
+      };
+      mutations.removePendingCustomAttribute(state, 'plan');
+      expect(state.pendingCustomAttributes).toEqual({ region: 'us' });
+    });
+  });
+
+  describe('#removePendingLabel', () => {
+    it('removes a label from pending labels', () => {
+      const state = { pendingLabels: ['vip', 'premium'] };
+      mutations.removePendingLabel(state, 'vip');
+      expect(state.pendingLabels).toEqual(['premium']);
+    });
+
+    it('does nothing if label not present', () => {
+      const state = { pendingLabels: ['vip'] };
+      mutations.removePendingLabel(state, 'premium');
       expect(state.pendingLabels).toEqual(['vip']);
     });
   });
