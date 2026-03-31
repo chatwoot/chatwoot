@@ -841,7 +841,8 @@
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Description",

@@ -2,7 +2,7 @@
 import { reactive, computed, useTemplateRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+import { required, maxLength } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
 
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -72,8 +72,12 @@ const DEFAULT_PARAM = {
   required: false,
 };
 
+// OpenAI enforces a 64-char limit on function names. The backend slug is
+// "custom_" (7 chars) + parameterized title, so cap the title conservatively.
+const MAX_TOOL_NAME_LENGTH = 55;
+
 const validationRules = {
-  title: { required },
+  title: { required, maxLength: maxLength(MAX_TOOL_NAME_LENGTH) },
   endpoint_url: { required },
   http_method: { required },
   auth_type: { required },
@@ -103,9 +107,15 @@ const isLoading = computed(() =>
 );
 
 const getErrorMessage = (field, errorKey) => {
-  return v$.value[field].$error
-    ? t(`CAPTAIN.CUSTOM_TOOLS.FORM.${errorKey}.ERROR`)
-    : '';
+  if (!v$.value[field].$error) return '';
+
+  const failedRule = v$.value[field].$errors[0]?.$validator;
+  if (failedRule === 'maxLength') {
+    return t(`CAPTAIN.CUSTOM_TOOLS.FORM.${errorKey}.MAX_LENGTH_ERROR`, {
+      max: MAX_TOOL_NAME_LENGTH,
+    });
+  }
+  return t(`CAPTAIN.CUSTOM_TOOLS.FORM.${errorKey}.ERROR`);
 };
 
 const formErrors = computed(() => ({
