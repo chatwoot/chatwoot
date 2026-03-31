@@ -26,7 +26,7 @@
 class Captain::CustomTool < ApplicationRecord
   class LimitExceededError < StandardError; end
 
-  MAX_PER_ACCOUNT = 5
+  MAX_PER_ACCOUNT = 15
 
   include Concerns::Toolable
   include Concerns::SafeEndpointValidatable

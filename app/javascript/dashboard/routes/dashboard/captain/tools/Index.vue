@@ -10,10 +10,16 @@ import DeleteDialog from 'dashboard/components-next/captain/pageComponents/Delet
 
 const store = useStore();
 
+const SOFT_LIMIT = 10;
+
 const uiFlags = useMapGetter('captainCustomTools/getUIFlags');
 const customTools = useMapGetter('captainCustomTools/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 const customToolsMeta = useMapGetter('captainCustomTools/getMeta');
+
+const showSoftLimitWarning = computed(
+  () => customToolsMeta.value.totalCount > SOFT_LIMIT
+);
 
 const createDialogRef = ref(null);
 const deleteDialogRef = ref(null);
@@ -94,6 +100,13 @@ onMounted(() => {
 
     <template #body>
       <div class="flex flex-col gap-4">
+        <div
+          v-if="showSoftLimitWarning"
+          class="flex items-center gap-2 px-4 py-3 text-sm rounded-lg bg-n-amber-2 text-n-amber-11"
+        >
+          <span class="i-lucide-triangle-alert size-4 shrink-0" />
+          {{ $t('CAPTAIN.CUSTOM_TOOLS.SOFT_LIMIT_WARNING') }}
+        </div>
         <CustomToolCard
           v-for="tool in customTools"
           :id="tool.id"
