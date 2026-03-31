@@ -49,10 +49,6 @@ class Email::BaseBuilder
   end
 
   def parse_email(email_string)
-    Mail::Address.new(email_string).address.presence || default_sender_email_address
-  end
-
-  def default_sender_email_address
-    Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')).address
+    Mail::Address.new(email_string).address
   end
 end
