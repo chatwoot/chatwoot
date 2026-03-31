@@ -76,7 +76,7 @@ class RetryWhatsappTemplateMessagesJob < ApplicationJob
 
   def attempt_retry(message, retry_count)
     service = Whatsapp::SendOnWhatsappService.new(message: message)
-    service.perform_reply
+    service.perform
 
     # Success: if the message status was updated by perform_reply (e.g. source_id set),
     # we still ensure it is marked as sent and retry metadata is cleaned up.
