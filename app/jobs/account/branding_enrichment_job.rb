@@ -2,17 +2,11 @@ class Account::BrandingEnrichmentJob < ApplicationJob
   queue_as :low
 
   def perform(account_id, email)
-    Account::SignUpEmailValidationService.new(email).perform
-
-    domain = email.split('@').last&.downcase
-    result = WebsiteBrandingService.new(domain).perform
+    result = WebsiteBrandingService.new(email).perform
     return if result.blank?
 
     account = Account.find(account_id)
     update_account(account, result)
-  rescue CustomExceptions::Account::InvalidEmail
-    # Skip enrichment for invalid/disposable/blocked emails
-    nil
   ensure
     finish_enrichment(account_id)
   end
@@ -20,12 +14,12 @@ class Account::BrandingEnrichmentJob < ApplicationJob
   private
 
   def update_account(account, data)
-    set_account_name(account, data[:business_name])
-    set_account_locale(account, data[:language])
-    set_custom_attr(account, 'website', data[:website])
-    set_custom_attr(account, 'industry', data[:industry_category])
-    set_custom_attr(account, 'social_handles', data[:social_handles]) if data[:social_handles]&.values&.any?(&:present?)
+    set_account_name(account, data[:title])
+    set_custom_attr(account, 'website', data[:domain])
+    set_custom_attr(account, 'industry', data.dig(:industries, 0, :industry))
+    set_social_handles(account, data[:socials])
     set_branding(account, data)
+    set_custom_attr(account, 'brand_info', data)
 
     account.save! if account.changed?
   end
@@ -34,17 +28,18 @@ class Account::BrandingEnrichmentJob < ApplicationJob
     account.name = name if name.present?
   end
 
-  def set_account_locale(account, language)
-    return if language.blank? || account.locale != 'en'
-
-    account.locale = language if LANGUAGES_CONFIG.any? { |_k, v| v[:iso_639_1_code] == language }
-  end
-
   def set_branding(account, data)
     branding = {}
-    branding[:website] = data[:website] if data[:website].present?
-    branding.merge!(data[:branding]) if data[:branding]&.values&.any?(&:present?)
-    set_custom_attr(account, 'branding', branding) if branding.present?
+    branding[:favicon] = data.dig(:logos, 0, :url) if data[:logos]&.any?
+    branding[:primary_color] = data.dig(:colors, 0, :hex) if data[:colors]&.any?
+    set_custom_attr(account, 'branding', branding) if branding.values.any?(&:present?)
+  end
+
+  def set_social_handles(account, socials)
+    return if socials.blank?
+
+    handles = socials.each_with_object({}) { |s, h| h[s[:type]] = s[:url] }
+    set_custom_attr(account, 'social_handles', handles) if handles.values.any?(&:present?)
   end
 
   def set_custom_attr(account, key, value)
@@ -57,7 +52,13 @@ class Account::BrandingEnrichmentJob < ApplicationJob
   def finish_enrichment(account_id)
     Redis::Alfred.delete(format(Redis::Alfred::ACCOUNT_ONBOARDING_ENRICHMENT, account_id: account_id))
 
-    user = Account.find(account_id).administrators.first
+    account = Account.find(account_id)
+    if account.custom_attributes['onboarding_step'] == 'enrichment'
+      account.custom_attributes['onboarding_step'] = 'account_details'
+      account.save!
+    end
+
+    user = account.administrators.first
     return unless user
 
     ActionCableBroadcastJob.perform_later([user.pubsub_token], 'account.enrichment_completed', { account_id: account_id })
