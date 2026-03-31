@@ -15,7 +15,10 @@ class Api::V1::Accounts::AgentBotsController < Api::V1::Accounts::BaseController
   end
 
   def update
-    @agent_bot.update!(permitted_params.except(:avatar_url))
+    update_params = permitted_params.except(:avatar_url)
+    update_params.delete(:openai_api_key) if update_params[:openai_api_key].blank?
+    update_params.delete(:google_api_key) if update_params[:google_api_key].blank?
+    @agent_bot.update!(update_params)
     process_avatar_from_url
   end
 
@@ -42,7 +45,10 @@ class Api::V1::Accounts::AgentBotsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :description, :outgoing_url, :avatar, :avatar_url, :bot_type, bot_config: {})
+    permitted = params.permit(:name, :description, :outgoing_url, :avatar, :avatar_url, :bot_type, :openai_api_key, :google_api_key, bot_config: {})
+    permitted[:assistant_config] = params[:assistant_config].to_unsafe_h if params[:assistant_config].present?
+    permitted[:agent_behavior_config] = params[:agent_behavior_config].to_unsafe_h if params[:agent_behavior_config].present?
+    permitted
   end
 
   def process_avatar_from_url

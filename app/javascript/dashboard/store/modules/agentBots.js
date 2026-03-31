@@ -173,6 +173,20 @@ export const actions = {
     }
   },
 
+  updateConfig: async ({ commit }, { id, data }) => {
+    commit(types.SET_AGENT_BOT_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await AgentBotsAPI.updateConfig(id, data);
+      commit(types.EDIT_AGENT_BOT, response.data);
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      return null;
+    } finally {
+      commit(types.SET_AGENT_BOT_UI_FLAG, { isUpdating: false });
+    }
+  },
+
   resetAccessToken: async ({ commit }, botId) => {
     try {
       const response = await AgentBotsAPI.resetAccessToken(botId);

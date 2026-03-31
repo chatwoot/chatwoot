@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -18,6 +19,7 @@ const MODAL_TYPES = {
 
 const store = useStore();
 const { t } = useI18n();
+const router = useRouter();
 
 const agentBots = useMapGetter('agentBots/getBots');
 const uiFlags = useMapGetter('agentBots/getUIFlags');
@@ -44,9 +46,7 @@ const openAddModal = () => {
 };
 
 const openEditModal = bot => {
-  modalType.value = MODAL_TYPES.EDIT;
-  selectedBot.value = bot;
-  agentBotModalRef.value.dialogRef.open();
+  router.push({ name: 'ai_agent_config', params: { botId: bot.id } });
 };
 
 const openDeletePopup = bot => {

@@ -34,6 +34,7 @@ class AccountDashboard < Administrate::BaseDashboard
     locale: Field::Select.with_options(collection: LANGUAGES_CONFIG.map { |_x, y| y[:iso_639_1_code] }),
     status: Field::Select.with_options(collection: [%w[Active active], %w[Suspended suspended]]),
     pinecone_index: Field::String,
+    pinecone_api_key: Field::String,
     account_users: Field::HasMany,
     account_addresses: AccountAddressesField,
     custom_attributes: Field::String
@@ -71,6 +72,7 @@ class AccountDashboard < Administrate::BaseDashboard
     locale
     status
     pinecone_index
+    pinecone_api_key
     conversations
     account_users
     account_addresses
@@ -92,6 +94,7 @@ class AccountDashboard < Administrate::BaseDashboard
     locale
     status
     pinecone_index
+    pinecone_api_key
     account_addresses
   ] + enterprise_form_attributes).freeze
 

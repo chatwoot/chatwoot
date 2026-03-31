@@ -36,7 +36,14 @@ class AgentBot < ApplicationRecord
   belongs_to :account, optional: true
   enum bot_type: { webhook: 0 }
 
+  encrypts :openai_api_key, :google_api_key
+
   validates :outgoing_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
+
+  before_save :strip_api_keys_from_behavior_config
+
+  def has_openai_api_key? = openai_api_key.present?
+  def has_google_api_key? = google_api_key.present?
 
   def available_name
     name
@@ -61,5 +68,17 @@ class AgentBot < ApplicationRecord
 
   def system_bot?
     account.nil?
+  end
+
+  private
+
+  def strip_api_keys_from_behavior_config
+    return if agent_behavior_config.blank?
+
+    response = agent_behavior_config['response']
+    return unless response.is_a?(Hash)
+
+    response.delete('openai_api_key')
+    response.delete('google_api_key')
   end
 end

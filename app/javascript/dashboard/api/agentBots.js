@@ -22,6 +22,10 @@ class AgentBotsAPI extends ApiClient {
     return axios.delete(`${this.url}/${botId}/avatar`);
   }
 
+  updateConfig(id, data) {
+    return axios.patch(`${this.url}/${id}`, data);
+  }
+
   resetAccessToken(botId) {
     return axios.post(`${this.url}/${botId}/reset_access_token`);
   }

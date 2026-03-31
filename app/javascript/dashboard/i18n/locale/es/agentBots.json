@@ -2,46 +2,45 @@
   "AGENT_BOTS": {
     "HEADER": "Agentes IA",
     "LOADING_EDITOR": "Cargando el editor...",
-    "DESCRIPTION": "AI Agent are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your AI agents from this page or create new ones using the 'Add AI agent' button.",
-    "LEARN_MORE": "Learn about agent AI agents",
-    "GLOBAL_BOT": "System AI agent",
+    "DESCRIPTION": "Los agentes IA son como los miembros más brillantes de tu equipo. Pueden encargarse de lo rutinario para que tú te concentres en lo que importa. Gestiona tus agentes desde esta página o crea nuevos con el botón 'Agregar agente IA'.",
+    "LEARN_MORE": "Aprende sobre los agentes IA",
+    "GLOBAL_BOT": "Agente IA del sistema",
     "GLOBAL_BOT_BADGE": "Sistema",
     "AVATAR": {
-      "SUCCESS_DELETE": "AI agent avatar deleted successfully",
-      "ERROR_DELETE": "Error deleting AI agent avatar, please try again"
+      "SUCCESS_DELETE": "Avatar del agente IA eliminado correctamente.",
+      "ERROR_DELETE": "Error al eliminar el avatar del agente IA. Inténtalo de nuevo."
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "Seleccione un agente IA",
-      "DESC": "Asigne un agente IA a su bandeja de entrada. Pueden manejar conversaciones iniciales y transferirlas a un agente en vivo cuando sea necesario.",
+      "TITLE": "Selecciona un agente IA",
+      "DESC": "Asigna un agente IA a tu bandeja de entrada. Puede gestionar conversaciones iniciales y transferirlas a un agente humano cuando sea necesario.",
       "SUBMIT": "Actualizar",
       "DISCONNECT": "Desconectar agente IA",
-      "SUCCESS_MESSAGE": "El agente IA se ha actualizado con éxito.",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Desconectado correctamente el agente IA.",
-      "ERROR_MESSAGE": "No se pudo actualizar el agente IA, por favor inténtalo de nuevo más tarde.",
-      "DISCONNECTED_ERROR_MESSAGE": "No se pudo desconectar el agente IA, por favor inténtalo de nuevo más tarde.",
+      "SUCCESS_MESSAGE": "El agente IA se actualizó correctamente.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "El agente IA se desconectó correctamente.",
+      "ERROR_MESSAGE": "No se pudo actualizar el agente IA. Inténtalo de nuevo.",
+      "DISCONNECTED_ERROR_MESSAGE": "No se pudo desconectar el agente IA. Inténtalo de nuevo.",
       "SELECT_PLACEHOLDER": "Seleccionar agente IA"
     },
     "SURVEY": {
-      "TITLE": "Asigne una encuesta",
-      "DESC": "Asigne una encuesta a su bandeja de entrada. Pueden manejar conversaciones iniciales y transferirlas a un agente en vivo cuando sea necesario.",
-      "SUBMIT": "Actualizar",
+      "TITLE": "Asignar encuesta",
+      "DESC": "Selecciona una encuesta para enviar a los clientes al finalizar sus conversaciones en esta bandeja.",
+      "SELECT_PLACEHOLDER": "Seleccionar encuesta",
       "SUCCESS_MESSAGE": "Encuesta asignada correctamente.",
-      "ERROR_MESSAGE": "No se pudo asignar la encuesta, por favor inténtalo de nuevo más tarde.",
-      "SELECT_PLACEHOLDER": "Seleccionar encuesta"
+      "ERROR_MESSAGE": "No se pudo asignar la encuesta. Inténtalo de nuevo."
     },
     "ADD": {
-      "TITLE": "Add AI agent",
+      "TITLE": "Agregar agente IA",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
-        "SUCCESS_MESSAGE": "Agente IA añadido correctamente.",
-        "ERROR_MESSAGE": "No se pudo agregar el agente IA, Inténtalo de nuevo más tarde."
+        "SUCCESS_MESSAGE": "Agente IA agregado correctamente.",
+        "ERROR_MESSAGE": "No se pudo agregar el agente IA. Inténtalo de nuevo."
       }
     },
     "LIST": {
-      "404": "No AI agents found. You can create a AI agent by clicking the 'Add AI agent' button.",
-      "LOADING": "Obteniendo agetes IA...",
+      "404": "No se encontraron agentes IA. Puedes crear uno con el botón 'Agregar agente IA'.",
+      "LOADING": "Cargando agentes IA...",
       "TABLE_HEADER": {
-        "DETAILS": "AI agent Details",
+        "DETAILS": "Detalles del agente IA",
         "URL": "URL de Webhook"
       }
     },
@@ -50,13 +49,13 @@
       "TITLE": "Eliminar agente IA",
       "CONFIRM": {
         "TITLE": "Confirmar eliminación",
-        "MESSAGE": "¿Está seguro que desea borrar {name}?",
+        "MESSAGE": "¿Estás seguro de que deseas eliminar {name}?",
         "YES": "Sí, eliminar",
-        "NO": "No, mantenerlo"
+        "NO": "No, conservar"
       },
       "API": {
         "SUCCESS_MESSAGE": "Agente IA eliminado correctamente.",
-        "ERROR_MESSAGE": "No se pudo eliminar el agente IA. Por favor, inténtalo de nuevo."
+        "ERROR_MESSAGE": "No se pudo eliminar el agente IA. Inténtalo de nuevo."
       }
     },
     "EDIT": {
@@ -64,24 +63,24 @@
       "TITLE": "Editar agente IA",
       "API": {
         "SUCCESS_MESSAGE": "Agente IA actualizado correctamente.",
-        "ERROR_MESSAGE": "No se pudo actualizar el agente IA, por favor inténtalo de nuevo más tarde."
+        "ERROR_MESSAGE": "No se pudo actualizar el agente IA. Inténtalo de nuevo."
       }
     },
     "ACCESS_TOKEN": {
       "TITLE": "Token de acceso",
-      "DESCRIPTION": "Copie el código de acceso y guardarlo seguro",
-      "COPY_SUCCESSFUL": "Código de acceso copiado en el portapapeles",
-      "RESET_SUCCESS": "Código de acceso regenerado exitosamente",
-      "RESET_ERROR": "Dirección del webhook es requerida"
+      "DESCRIPTION": "Copia el token de acceso y guárdalo en un lugar seguro.",
+      "COPY_SUCCESSFUL": "Token de acceso copiado al portapapeles.",
+      "RESET_SUCCESS": "Token de acceso regenerado correctamente.",
+      "RESET_ERROR": "No se pudo regenerar el token de acceso. Inténtalo de nuevo."
     },
     "FORM": {
       "AVATAR": {
-        "LABEL": "Agente IA avatar"
+        "LABEL": "Avatar del agente IA"
       },
       "NAME": {
         "LABEL": "Nombre del agente IA",
-        "PLACEHOLDER": "Enter agente IA name",
-        "REQUIRED": "El nombre del agente IA es obligatorio"
+        "PLACEHOLDER": "Ingresa el nombre del agente IA",
+        "REQUIRED": "El nombre del agente IA es obligatorio."
       },
       "DESCRIPTION": {
         "LABEL": "Descripción",
@@ -89,23 +88,291 @@
       },
       "WEBHOOK_URL": {
         "LABEL": "URL de Webhook",
-        "PLACEHOLDER": "https://example.com/webhook",
-        "REQUIRED": "Dirección del webhook es requerida"
+        "PLACEHOLDER": "https://ejemplo.com/webhook",
+        "REQUIRED": "La URL del webhook es obligatoria."
       },
       "ERRORS": {
-        "NAME": "El nombre del agente IA es obligatorio",
-        "URL": "Webhook URL is required",
-        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+        "NAME": "El nombre del agente IA es obligatorio.",
+        "URL": "La URL del webhook es obligatoria.",
+        "VALID_URL": "Ingresa una URL válida que comience con http:// o https://"
       },
       "CANCEL": "Cancelar",
-      "CREATE": "Create Agente IA",
-      "UPDATE": "Update Agente IA"
+      "CREATE": "Crear agente IA",
+      "UPDATE": "Actualizar agente IA"
     },
     "WEBHOOK": {
-      "DESCRIPTION": "Configure a webhook agente IA to integrate with your custom services. The agente IA will receive and process events from conversations and can respond to them."
+      "DESCRIPTION": "Configura un agente IA webhook para integrarlo con tus servicios personalizados. El agente recibirá y procesará eventos de conversaciones y podrá responder a ellos."
     },
     "TYPES": {
-      "WEBHOOK": "Webhook Agente IA"
+      "WEBHOOK": "Agente IA Webhook"
+    },
+    "CONFIG": {
+      "TITLE": "Configurar agente: \"{name}\"",
+      "BACK_TO_LIST": "Volver a agentes de IA",
+      "SAVE": "Guardar",
+      "SAVING": "Guardando...",
+      "SUCCESS_MESSAGE": "Configuración del agente guardada correctamente.",
+      "ERROR_MESSAGE": "No se pudo guardar la configuración. Inténtalo de nuevo.",
+      "CONTINUE_TO_CONFIG": "Continuar a configuración",
+      "TABS": {
+        "GENERAL": "General",
+        "ASSISTANT": "Asistente",
+        "MODEL": "Modelo",
+        "CAPABILITIES": "Capacidades",
+        "TOOLS": "Herramientas",
+        "CONTENT": "Contenido"
+      },
+      "GENERAL": {
+        "SECTION_IDENTITY": "Identidad y configuración",
+        "SECTION_IDENTITY_DESC": "Información básica sobre este agente: nombre, descripción y endpoint de webhook.",
+        "SECTION_INDUSTRY": "Industria / Sector",
+        "SECTION_INDUSTRY_DESC": "Determina las herramientas habilitadas por defecto y los ejemplos del catálogo.",
+        "NAME_LABEL": "Nombre del agente",
+        "NAME_PLACEHOLDER": "Ej. Toyota Polanco WhatsApp",
+        "DESCRIPTION_LABEL": "Descripción del agente de IA",
+        "DESCRIPTION_PLACEHOLDER": "Agencia automotriz Toyota ubicada en Polanco, CDMX. Vendemos vehículos nuevos y seminuevos...",
+        "DESCRIPTION_HINT": "Se inyecta como {agency_summary} en el prompt del agente.",
+        "WEBHOOK_LABEL": "URL de Webhook",
+        "WEBHOOK_PLACEHOLDER": "https://api.ejemplo.com/webhook",
+        "INDUSTRY_LABEL": "Industria / Sector",
+        "INDUSTRY_HINT": "Determina las herramientas habilitadas por defecto y los ejemplos del catálogo.",
+        "INDUSTRY_PLACEHOLDER": "Buscar o escribir industria...",
+        "INDUSTRY_CREATE": "Crear industria \"{value}\"",
+        "INDUSTRIES": {
+          "automotive": "Automotriz",
+          "health": "Salud / Clínica",
+          "retail": "Retail / Tienda",
+          "restaurant": "Restaurante",
+          "legal": "Legal",
+          "financial": "Financiero / Bancario",
+          "real_estate": "Bienes Raíces",
+          "education": "Educación",
+          "custom": "Otro"
+        }
+      },
+      "ASSISTANT": {
+        "SECTION_PRESET": "Preset de personalidad",
+        "SECTION_PRESET_DESC": "Aplica una personalidad predefinida para configurar tu asistente rápidamente.",
+        "SECTION_IDENTITY": "Identidad",
+        "SECTION_IDENTITY_DESC": "Nombre y rol que usa el asistente al interactuar con los clientes.",
+        "SECTION_CHARACTER": "Carácter",
+        "SECTION_CHARACTER_DESC": "Define la personalidad, el tono de comunicación y el objetivo principal del asistente.",
+        "SECTION_STYLE": "Estilo de comunicación",
+        "SECTION_STYLE_DESC": "Frases de ejemplo y referentes que guían cómo se comunica el asistente.",
+        "PRESET_LABEL": "Personalidad base (preset rápido)",
+        "PRESET_PLACEHOLDER": "Seleccionar preset...",
+        "PRESET_HINT": "Al seleccionar un preset se rellenan los campos de abajo.",
+        "PRESETS": {
+          "vektor": "Vektor",
+          "lala": "Lala",
+          "sol": "Sol",
+          "nova": "Nova",
+          "custom": "Personalizado"
+        },
+        "NAME_LABEL": "Nombre del asistente",
+        "NAME_PLACEHOLDER": "Ej. Lala",
+        "TITLE_LABEL": "Título / Rol",
+        "TITLE_PLACEHOLDER": "Ej. Tu asesora de ventas Toyota",
+        "PERSONALITY_LABEL": "Personalidad (cómo ES el asistente)",
+        "PERSONALITY_PLACEHOLDER": "Ej. Amable, empática, súper resolutiva",
+        "TONE_LABEL": "Tono de comunicación",
+        "TONE_PLACEHOLDER": "Ej. Cercano, cálido, positivo sin ser exagerado",
+        "GOAL_LABEL": "Objetivo principal",
+        "GOAL_PLACEHOLDER": "Ej. Acompañar y facilitar la decisión de compra del cliente",
+        "SPEAKING_STYLE_LABEL": "Estilo de comunicación (con ejemplos de frases)",
+        "SPEAKING_STYLE_PLACEHOLDER": "Ej. ¡Claro que sí! Para una familia de 4, te recomendaría el Corolla Cross. ¿Tienes niños pequeños?",
+        "INSPIRATION_LABEL": "Inspiración / Referente (guía interna para el modelo)",
+        "INSPIRATION_PLACEHOLDER": "Ej. Michelle Obama + Alegría de Intensamente",
+        "INSPIRATION_HINT": "Este campo no se muestra al cliente. Orienta el tono de actuación del asistente."
+      },
+      "MODEL": {
+        "SECTION_MODEL": "Modelo de lenguaje",
+        "SECTION_MODEL_DESC": "Selecciona el modelo de IA que procesará las conversaciones de este agente.",
+        "SECTION_TEMPERATURE": "Creatividad de respuestas",
+        "SECTION_TEMPERATURE_DESC": "Controla qué tan deterministas o creativas son las respuestas del modelo.",
+        "SECTION_WORD_LIMIT": "Extensión de mensajes",
+        "SECTION_WORD_LIMIT_DESC": "Define qué tan largas deben ser las respuestas del agente al cliente.",
+        "SECTION_CONTEXT": "Ventana de contexto",
+        "SECTION_CONTEXT_DESC": "Historial máximo de conversación enviado al modelo en cada interacción.",
+        "MODEL_LABEL": "Modelo de lenguaje",
+        "MODELS": {
+          "gpt-4o-mini": "gpt-4o-mini — Balanceado · Recomendado para producción",
+          "gpt-5-nano": "GPT-5 nano — Más rápido · Menor costo",
+          "gpt-5-mini": "GPT-5 mini — Balanceado · Próxima generación",
+          "gemini-2_5-flash": "gemini-2.5-flash — Google · Rápido con soporte de tools"
+        },
+        "TEMPERATURE_LABEL": "Temperatura",
+        "TEMPERATURE_HINT_LOW": "Preciso / Consistente",
+        "TEMPERATURE_HINT_HIGH": "Creativo / Variable",
+        "TEMPERATURE_DESC": "Valores bajos = respuestas más factuales y reproducibles. Valores altos = más variación y naturalidad conversacional.",
+        "WORD_LIMIT_LABEL": "Extensión de mensajes al cliente",
+        "WORD_LIMIT_HINT": "Se inyecta como {response_word_limit} en el prompt de formato de respuesta de WhatsApp.",
+        "WORD_LIMIT_OPTIONS": {
+          "short": "Corto — 20-40 palabras — Respuestas muy concisas (SMS, Telegram)",
+          "standard": "Estándar — 50-70 palabras — Recomendado para WhatsApp",
+          "detailed": "Detallado — 80-120 palabras — Para clientes que prefieren más contexto",
+          "unlimited": "Libre — Sin límite — Para canales web o email"
+        },
+        "MAX_TOKENS_LABEL": "Tokens máximos en historial (message trimmer)",
+        "MAX_TOKENS_HINT": "Controla cuánto historial previo recibe el LLM en cada turno.",
+        "SECTION_API_KEYS": "API keys de proveedores",
+        "SECTION_API_KEYS_DESC": "Reemplaza las API keys por defecto de cada proveedor. Déjalo en blanco para usar la clave por defecto de la plataforma.",
+        "OPENAI_API_KEY_LABEL": "API key de OpenAI",
+        "OPENAI_API_KEY_PLACEHOLDER": "sk-...",
+        "OPENAI_API_KEY_HINT": "Usada para modelos GPT. Reemplaza la clave por defecto de la plataforma.",
+        "OPENAI_API_KEY_SET_HINT": "Ya hay una clave guardada. Ingresa un nuevo valor para reemplazarla.",
+        "GOOGLE_API_KEY_LABEL": "API key de Google",
+        "GOOGLE_API_KEY_PLACEHOLDER": "AIza...",
+        "GOOGLE_API_KEY_HINT": "Usada para modelos Gemini. Reemplaza la clave por defecto de la plataforma.",
+        "GOOGLE_API_KEY_SET_HINT": "Ya hay una clave guardada. Ingresa un nuevo valor para reemplazarla."
+      },
+      "CAPABILITIES": {
+        "SECTION_MODULES": "Módulos del agente",
+        "SECTION_LEAD_WARMING": "Lead Warming",
+        "SECTION_LEAD_WARMING_DESC": "Sugiere proactivamente conectar con un asesor humano cuando se detecta alto interés de compra.",
+        "MODULES_TITLE": "Módulos del agente",
+        "MODULES_HINT": "Define qué flujos puede tomar el evaluador de intención.",
+        "MODULES": {
+          "general_response": {
+            "LABEL": "Respuesta General",
+            "DESC": "Responde sobre productos, servicios, FAQs y la empresa."
+          },
+          "transfer_chat": {
+            "LABEL": "Transferir a Asesor",
+            "DESC": "Conecta al cliente con un agente humano disponible."
+          },
+          "appointments": {
+            "LABEL": "Agendar Cita",
+            "DESC": "Flujo de agendamiento integrado con CRM.",
+            "ACTIONS_LABEL": "Acciones",
+            "ACTION_CREATE": "Crear",
+            "ACTION_RESCHEDULE": "Reprogramar",
+            "ACTION_CANCEL": "Cancelar",
+            "FALLBACK_TITLE": "Cuando esté desactivado, si el cliente quiere agendar, el agente debe:",
+            "FALLBACK_PHONE": "Proporcionar un teléfono para agendar",
+            "FALLBACK_PHONE_PLACEHOLDER": "+52 55 1234 5678",
+            "FALLBACK_TRANSFER": "Transferir a un asesor humano",
+            "FALLBACK_HOURS": "Mostrar horario de atención y pedir que llamen",
+            "FALLBACK_CUSTOM": "Instrucción personalizada",
+            "FALLBACK_CUSTOM_PLACEHOLDER": "Informa que las citas se gestionan directamente en sucursal..."
+          },
+          "send_documents": {
+            "LABEL": "Enviar Documentos",
+            "DESC": "Envía archivos del catálogo al cliente vía chat (PDFs, imágenes, fichas técnicas, manuales).",
+            "TYPES_LABEL": "Tipos de archivos habilitados",
+            "TYPE_PDF": "PDFs / Documentos",
+            "TYPE_IMAGE": "Imágenes",
+            "TYPE_VIDEO": "Videos"
+          },
+          "out_of_scope": {
+            "LABEL": "Fuera de Alcance",
+            "DESC": "Maneja consultas que no corresponden al negocio.",
+            "ATTEMPTS_LABEL": "Intentos antes de escalar"
+          }
+        },
+        "SECTION_REENGAGEMENT": "Reengagement proactivo",
+        "SECTION_REENGAGEMENT_DESC": "Retoma automáticamente la conversación cuando un cliente deja de responder.",
+        "REENGAGEMENT_ENABLED": "Activar reengagement proactivo",
+        "REENGAGEMENT_ATTEMPTS_LABEL": "Secuencia de intentos",
+        "REENGAGEMENT_ATTEMPT_N": "Intento {n}",
+        "REENGAGEMENT_ATTEMPTS_HINT": "Los tiempos son absolutos desde el último mensaje del agente. Intento 1 a los 5 min, intento 2 a los 15 min, etc.",
+        "REENGAGEMENT_ADD_ATTEMPT": "+ Agregar intento (máx 5)",
+        "REENGAGEMENT_UNIT_MINUTES": "minutos",
+        "REENGAGEMENT_UNIT_HOURS": "horas",
+        "REENGAGEMENT_UNIT_DAYS": "días",
+        "REENGAGEMENT_STOP_LABEL": "Cuándo detener",
+        "REENGAGEMENT_STOP_ON_ANY_REPLY": "Si el cliente responde con cualquier mensaje",
+        "REENGAGEMENT_STOP_ON_RESOLVED": "Si la conversación se resuelve",
+        "REENGAGEMENT_STOP_ON_AGENT_ASSIGNED": "Si se asigna un agente humano",
+        "REENGAGEMENT_KEYWORDS_LABEL": "Palabras / frases de detención",
+        "REENGAGEMENT_KEYWORDS_HINT": "Si el cliente escribe alguna de estas frases, el reengagement se cancela permanentemente en esta conversación.",
+        "REENGAGEMENT_KEYWORD_PLACEHOLDER": "Ej. STOP",
+        "REENGAGEMENT_ADD_KEYWORD": "+ Agregar frase",
+        "REENGAGEMENT_CASE_INSENSITIVE": "Ignorar mayúsculas/minúsculas",
+        "REENGAGEMENT_REACTIVATION_LABEL": "Reactivación",
+        "REENGAGEMENT_REACTIVATION_ON_BOT_REPLY": "Reiniciar secuencia cuando el agente envía un nuevo mensaje",
+        "REENGAGEMENT_REACTIVATION_EXCLUDE_LABEL": "No reiniciar si fue cancelado por:",
+        "REENGAGEMENT_EXCLUDE_KEYWORD": "Palabra / frase de detención",
+        "REENGAGEMENT_EXCLUDE_API_CANCEL": "El agente IA llamó al endpoint de cancelación",
+        "REENGAGEMENT_API_TITLE": "Endpoint de cancelación",
+        "REENGAGEMENT_API_DESC": "Tu agente IA puede cancelar un reengagement activo llamando a:",
+        "LEAD_WARMING_TITLE": "Lead Warming",
+        "LEAD_WARMING_ENABLED": "Habilitar sugerencia proactiva de asesor",
+        "LEAD_WARMING_TURNS_LABEL": "Sugerir asesor después de N turnos con interés alto",
+        "LEAD_WARMING_PHRASES_LABEL": "Frases de cierre a detectar (una por línea)"
+      },
+      "TOOLS": {
+        "SECTION_TITLE": "Herramientas del agente",
+        "SECTION_DESC": "Configura las herramientas disponibles para este agente y su comportamiento.",
+        "EXPAND": "Expandir",
+        "COLLAPSE": "Colapsar",
+        "PARAMS_LABEL": "Parámetros",
+        "EXAMPLES_LABEL": "Ejemplos de activación",
+        "EXAMPLES_HINT": "Frases del cliente que disparan esta herramienta.",
+        "EXAMPLES_ADD": "+ Agregar ejemplo",
+        "EXAMPLES_MAX": "(máx 5)",
+        "INSTRUCTIONS_LABEL": "Instrucciones personalizadas (opcional)",
+        "INSTRUCTIONS_PLACEHOLDER": "vacío = usa instrucciones globales del sistema",
+        "TOOLS_LIST": {
+          "search_product_info": {
+            "LABEL": "Búsqueda en base de conocimiento",
+            "DESC": "Búsqueda semántica en productos, servicios y documentos indexados.",
+            "THRESHOLD_LABEL": "Umbral de similitud",
+            "TOPK_LABEL": "Resultados máximos"
+          },
+          "get_all_products": {
+            "LABEL": "Catálogo de productos",
+            "DESC": "Lista los productos o servicios disponibles en el catálogo.",
+            "MODE_LABEL": "Modo de listado",
+            "MODE_ALL": "Mostrar todos",
+            "MODE_LIMITED": "Limitado — máx",
+            "MODE_SUMMARY": "Resumen",
+            "PRICES_LABEL": "Mostrar precios sin que los pidan"
+          },
+          "get_faqs": {
+            "LABEL": "Preguntas frecuentes (FAQs)",
+            "DESC": "Recupera FAQs relevantes para la consulta del cliente.",
+            "PER_PAGE_LABEL": "FAQs por búsqueda"
+          },
+          "get_marketing_campaigns": {
+            "LABEL": "Campañas de marketing",
+            "DESC": "Retorna promociones y campañas activas.",
+            "NO_PARAMS": "Sin parámetros configurables."
+          },
+          "get_kb_resources": {
+            "LABEL": "Índice de base de conocimiento",
+            "DESC": "Permite al agente explorar documentos indexados antes de buscar en el vectorstore. Útil cuando el catálogo tiene muchos documentos diversos.",
+            "NO_PARAMS": "Sin parámetros configurables."
+          },
+          "send_document": {
+            "LABEL": "Enviar documento al cliente",
+            "DESC": "Envía archivos del catálogo de productos al cliente.",
+            "SOURCE_LABEL": "Fuente de documentos",
+            "SOURCE_CATALOG": "Catálogo de productos",
+            "SOURCE_API": "Catálogo + Nauto API (solo automotriz)",
+            "TYPES_LABEL": "Tipos habilitados",
+            "TYPE_PDF": "PDFs",
+            "TYPE_IMAGE": "Imágenes",
+            "TYPE_VIDEO": "Videos"
+          },
+          "transfer_chat": {
+            "LABEL": "Transferir conversación",
+            "DESC": "Transfiere la conversación a un asesor humano disponible.",
+            "NO_PARAMS": "Sin parámetros configurables."
+          }
+        }
+      },
+      "CONTENT": {
+        "SECTION_QUESTIONS": "Preguntas de calificación del lead",
+        "SECTION_INSTRUCTIONS": "Instrucciones adicionales",
+        "QUESTIONS_TITLE": "Preguntas de calificación del lead",
+        "QUESTIONS_HINT": "El agente usa estas preguntas para descubrir necesidades cuando el cliente no tiene una intención clara. Una pregunta a la vez.",
+        "QUESTIONS_ADD": "+ Agregar pregunta",
+        "QUESTION_PLACEHOLDER": "Ej. ¿Qué tipo de vehículo te interesa: compacto, SUV o camioneta?",
+        "INSTRUCTIONS_TITLE": "Instrucciones adicionales para el agente",
+        "INSTRUCTIONS_HINT": "Texto libre que se añade al final del system prompt. Úsalo para reglas de negocio específicas, restricciones o contexto que no encaja en los otros campos.",
+        "INSTRUCTIONS_PLACEHOLDER": "Ej. No menciones a la competencia. Si preguntan por otras marcas, redirige amablemente hacia los beneficios de Toyota."
+      }
     }
   }
 }

@@ -18,6 +18,12 @@ process_lead_follow_ups_job:
   class: 'ProcessLeadFollowUpsJob'
   queue: scheduled_jobs
 
+# executed every minute to dispatch proactive reengagement attempts
+process_reengagements_job:
+  cron: '*/1 * * * *'
+  class: 'ProcessReengagementsJob'
+  queue: scheduled_jobs
+
 reactivate_completed_follow_ups_job:
   cron: '*/5 * * * *'
   class: 'ReactivateCompletedFollowUpsJob'

@@ -133,5 +133,21 @@ class LeadFollowUpListener < BaseListener
     end
 
     Rails.logger.info "Follow-up stopped for conversation #{conversation_id} (follow_up #{follow_up.id}): #{reason}"
+
+    reactivate_suppressed_reengagement(follow_up.conversation)
+  end
+
+  # When a Copilot sequence finishes, resume any suppressed reengagement
+  def reactivate_suppressed_reengagement(conversation)
+    reengagement = conversation.conversation_reengagement
+    return unless reengagement&.status == 'suppressed'
+
+    last_bot_message_at = conversation.messages
+                                      .where(message_type: :outgoing)
+                                      .maximum(:created_at)
+    return unless last_bot_message_at
+
+    reengagement.reactivate!(trigger_started_at: last_bot_message_at)
+    Rails.logger.info "Reengagement reactivated for conversation #{conversation.id} after sequence completion"
   end
 end

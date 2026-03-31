@@ -105,6 +105,273 @@
     },
     "TYPES": {
       "WEBHOOK": "Webhook AI agent"
+    },
+    "CONFIG": {
+      "TITLE": "Configure agent: \"{name}\"",
+      "BACK_TO_LIST": "Back to AI agents",
+      "SAVE": "Save",
+      "SAVING": "Saving...",
+      "SUCCESS_MESSAGE": "Agent configuration saved successfully.",
+      "ERROR_MESSAGE": "Could not save agent configuration. Please try again.",
+      "TABS": {
+        "GENERAL": "General",
+        "ASSISTANT": "Assistant",
+        "MODEL": "Model",
+        "CAPABILITIES": "Capabilities",
+        "TOOLS": "Tools",
+        "CONTENT": "Content"
+      },
+      "GENERAL": {
+        "SECTION_IDENTITY": "Identity & Configuration",
+        "SECTION_IDENTITY_DESC": "Basic information about this agent: name, description and webhook endpoint.",
+        "SECTION_INDUSTRY": "Industry / Sector",
+        "SECTION_INDUSTRY_DESC": "Determines the default tools and catalogue examples for this agent.",
+        "NAME_LABEL": "Agent name",
+        "NAME_PLACEHOLDER": "e.g. Toyota Polanco WhatsApp",
+        "DESCRIPTION_LABEL": "AI agent description",
+        "DESCRIPTION_PLACEHOLDER": "Automotive agency located in Polanco, CDMX. We sell new and pre-owned vehicles...",
+        "DESCRIPTION_HINT": "Injected as {agency_summary} in the agent's prompt.",
+        "WEBHOOK_LABEL": "Webhook URL",
+        "WEBHOOK_PLACEHOLDER": "https://api.example.com/webhook",
+        "INDUSTRY_LABEL": "Industry / Sector",
+        "INDUSTRY_HINT": "Determines the default tools and catalogue examples.",
+        "INDUSTRY_PLACEHOLDER": "Search or type industry...",
+        "INDUSTRY_CREATE": "Create industry \"{value}\"",
+        "INDUSTRIES": {
+          "automotive": "Automotive",
+          "health": "Health / Clinic",
+          "retail": "Retail / Store",
+          "restaurant": "Restaurant",
+          "legal": "Legal",
+          "financial": "Financial / Banking",
+          "real_estate": "Real Estate",
+          "education": "Education",
+          "custom": "Other"
+        }
+      },
+      "ASSISTANT": {
+        "SECTION_PRESET": "Personality Preset",
+        "SECTION_PRESET_DESC": "Apply a predefined personality to quickly configure your assistant.",
+        "SECTION_IDENTITY": "Identity",
+        "SECTION_IDENTITY_DESC": "Name and role that the assistant uses when interacting with customers.",
+        "SECTION_CHARACTER": "Character",
+        "SECTION_CHARACTER_DESC": "Define the personality, communication tone and main objective of the assistant.",
+        "SECTION_STYLE": "Speaking Style",
+        "SECTION_STYLE_DESC": "Example phrases and references that guide how the assistant communicates.",
+        "PRESET_LABEL": "Base personality (quick preset)",
+        "PRESET_PLACEHOLDER": "Select preset...",
+        "PRESET_HINT": "Selecting a preset fills the fields below.",
+        "PRESETS": {
+          "vektor": "Vektor",
+          "lala": "Lala",
+          "sol": "Sol",
+          "nova": "Nova",
+          "custom": "Custom"
+        },
+        "NAME_LABEL": "Assistant name",
+        "NAME_PLACEHOLDER": "e.g. Lala",
+        "TITLE_LABEL": "Title / Role",
+        "TITLE_PLACEHOLDER": "e.g. Your Toyota sales advisor",
+        "PERSONALITY_LABEL": "Personality (how the assistant IS)",
+        "PERSONALITY_PLACEHOLDER": "e.g. Friendly, empathetic, highly resourceful",
+        "TONE_LABEL": "Communication tone",
+        "TONE_PLACEHOLDER": "e.g. Warm, close, positive without being excessive",
+        "GOAL_LABEL": "Main goal",
+        "GOAL_PLACEHOLDER": "e.g. Accompany and facilitate the customer's purchase decision",
+        "SPEAKING_STYLE_LABEL": "Speaking style (example phrases)",
+        "SPEAKING_STYLE_PLACEHOLDER": "e.g. Of course! For a family of 4, I'd recommend the Corolla Cross. Do you have young children?",
+        "INSPIRATION_LABEL": "Inspiration / Reference (internal model guide)",
+        "INSPIRATION_PLACEHOLDER": "e.g. Michelle Obama + Joy from Inside Out",
+        "INSPIRATION_HINT": "This field is not shown to the customer. It guides the tone of performance."
+      },
+      "MODEL": {
+        "SECTION_MODEL": "Language Model",
+        "SECTION_MODEL_DESC": "Select the AI model that will process conversations for this agent.",
+        "SECTION_TEMPERATURE": "Response Creativity",
+        "SECTION_TEMPERATURE_DESC": "Controls how deterministic or creative the model's responses are.",
+        "SECTION_WORD_LIMIT": "Message Length",
+        "SECTION_WORD_LIMIT_DESC": "Set how long the agent's responses to customers should be.",
+        "SECTION_CONTEXT": "Context Window",
+        "SECTION_CONTEXT_DESC": "Maximum conversation history sent to the model in each interaction.",
+        "MODEL_LABEL": "Language model",
+        "MODELS": {
+          "gpt-4o-mini": "gpt-4o-mini — Balanced · Recommended for production",
+          "gpt-5-nano": "GPT-5 nano — Fastest · Lowest cost",
+          "gpt-5-mini": "GPT-5 mini — Balanced · Next-gen",
+          "gemini-2_5-flash": "gemini-2.5-flash — Google · Fast with tool support"
+        },
+        "TEMPERATURE_LABEL": "Temperature",
+        "TEMPERATURE_HINT_LOW": "Precise / Consistent",
+        "TEMPERATURE_HINT_HIGH": "Creative / Variable",
+        "TEMPERATURE_DESC": "Low values = more factual and reproducible responses. High values = more variation and conversational naturalness.",
+        "WORD_LIMIT_LABEL": "Message length to customer",
+        "WORD_LIMIT_HINT": "Injected as {response_word_limit} in the WhatsApp response format prompt.",
+        "WORD_LIMIT_OPTIONS": {
+          "short": "Short — 20-40 words — Very concise (SMS, Telegram)",
+          "standard": "Standard — 50-70 words — Recommended for WhatsApp",
+          "detailed": "Detailed — 80-120 words — For customers who prefer more context",
+          "unlimited": "Unlimited — No limit — For web or email channels"
+        },
+        "MAX_TOKENS_LABEL": "Maximum context tokens (message trimmer)",
+        "MAX_TOKENS_HINT": "Controls how much previous history the LLM receives per turn.",
+        "SECTION_API_KEYS": "Provider API Keys",
+        "SECTION_API_KEYS_DESC": "Override the default API keys for each provider. Leave blank to use the platform default.",
+        "OPENAI_API_KEY_LABEL": "OpenAI API key",
+        "OPENAI_API_KEY_PLACEHOLDER": "sk-...",
+        "OPENAI_API_KEY_HINT": "Used for GPT models. Overrides the platform default.",
+        "OPENAI_API_KEY_SET_HINT": "A key is already saved. Enter a new value to replace it.",
+        "GOOGLE_API_KEY_LABEL": "Google API key",
+        "GOOGLE_API_KEY_PLACEHOLDER": "AIza...",
+        "GOOGLE_API_KEY_HINT": "Used for Gemini models. Overrides the platform default.",
+        "GOOGLE_API_KEY_SET_HINT": "A key is already saved. Enter a new value to replace it."
+      },
+      "CAPABILITIES": {
+        "SECTION_MODULES": "Agent Modules",
+        "SECTION_LEAD_WARMING": "Lead Warming",
+        "SECTION_LEAD_WARMING_DESC": "Proactively suggest connecting with a human advisor when high purchase intent is detected.",
+        "MODULES_TITLE": "Agent modules",
+        "MODULES_HINT": "Defines which flows the intent evaluator can take.",
+        "MODULES": {
+          "general_response": {
+            "LABEL": "General Response",
+            "DESC": "Responds about products, services, FAQs and the company."
+          },
+          "transfer_chat": {
+            "LABEL": "Transfer to Advisor",
+            "DESC": "Connects the customer with an available human agent."
+          },
+          "appointments": {
+            "LABEL": "Schedule Appointment",
+            "DESC": "Appointment scheduling flow integrated with CRM.",
+            "ACTIONS_LABEL": "Actions",
+            "ACTION_CREATE": "Create",
+            "ACTION_RESCHEDULE": "Reschedule",
+            "ACTION_CANCEL": "Cancel",
+            "FALLBACK_TITLE": "When disabled, when the customer wants to schedule, the agent should:",
+            "FALLBACK_PHONE": "Provide a phone number to schedule",
+            "FALLBACK_PHONE_PLACEHOLDER": "+52 55 1234 5678",
+            "FALLBACK_TRANSFER": "Transfer to a human advisor",
+            "FALLBACK_HOURS": "Show business hours and ask them to call",
+            "FALLBACK_CUSTOM": "Custom instruction",
+            "FALLBACK_CUSTOM_PLACEHOLDER": "Inform that appointments are managed directly at the branch..."
+          },
+          "send_documents": {
+            "LABEL": "Send Documents",
+            "DESC": "Sends files from the catalogue to the customer via chat (PDFs, images, technical sheets, manuals).",
+            "TYPES_LABEL": "Enabled file types",
+            "TYPE_PDF": "PDFs / Documents",
+            "TYPE_IMAGE": "Images",
+            "TYPE_VIDEO": "Videos"
+          },
+          "out_of_scope": {
+            "LABEL": "Out of Scope",
+            "DESC": "Handles queries that don't correspond to the business.",
+            "ATTEMPTS_LABEL": "Attempts before escalating"
+          }
+        },
+        "SECTION_REENGAGEMENT": "Proactive Reengagement",
+        "SECTION_REENGAGEMENT_DESC": "Automatically follow up when a customer stops responding mid-conversation.",
+        "REENGAGEMENT_ENABLED": "Enable proactive reengagement",
+        "REENGAGEMENT_ATTEMPTS_LABEL": "Attempt sequence",
+        "REENGAGEMENT_ATTEMPT_N": "Attempt {n}",
+        "REENGAGEMENT_ATTEMPTS_HINT": "Delays are absolute from the last agent message. Attempt 1 fires at 5 min, attempt 2 at 15 min, etc.",
+        "REENGAGEMENT_ADD_ATTEMPT": "+ Add attempt (max 5)",
+        "REENGAGEMENT_UNIT_MINUTES": "minutes",
+        "REENGAGEMENT_UNIT_HOURS": "hours",
+        "REENGAGEMENT_UNIT_DAYS": "days",
+        "REENGAGEMENT_STOP_LABEL": "When to stop",
+        "REENGAGEMENT_STOP_ON_ANY_REPLY": "If the customer responds with any message",
+        "REENGAGEMENT_STOP_ON_RESOLVED": "If the conversation is resolved",
+        "REENGAGEMENT_STOP_ON_AGENT_ASSIGNED": "If a human agent is assigned",
+        "REENGAGEMENT_KEYWORDS_LABEL": "Stop words / phrases",
+        "REENGAGEMENT_KEYWORDS_HINT": "If the customer writes any of these phrases, the reengagement is permanently cancelled for this conversation.",
+        "REENGAGEMENT_KEYWORD_PLACEHOLDER": "e.g. STOP",
+        "REENGAGEMENT_ADD_KEYWORD": "+ Add phrase",
+        "REENGAGEMENT_CASE_INSENSITIVE": "Case insensitive",
+        "REENGAGEMENT_REACTIVATION_LABEL": "Reactivation",
+        "REENGAGEMENT_REACTIVATION_ON_BOT_REPLY": "Restart sequence when the agent sends a new message",
+        "REENGAGEMENT_REACTIVATION_EXCLUDE_LABEL": "Do not restart if cancelled by:",
+        "REENGAGEMENT_EXCLUDE_KEYWORD": "Stop word / phrase",
+        "REENGAGEMENT_EXCLUDE_API_CANCEL": "The AI agent called the cancel endpoint",
+        "REENGAGEMENT_API_TITLE": "Cancel endpoint",
+        "REENGAGEMENT_API_DESC": "Your AI agent can cancel an active reengagement by calling:",
+        "LEAD_WARMING_TITLE": "Lead Warming",
+        "LEAD_WARMING_ENABLED": "Enable proactive advisor suggestion",
+        "LEAD_WARMING_TURNS_LABEL": "Suggest advisor after N turns with high interest",
+        "LEAD_WARMING_PHRASES_LABEL": "Closing phrases to detect (one per line)"
+      },
+      "TOOLS": {
+        "SECTION_TITLE": "Agent Tools",
+        "SECTION_DESC": "Configure the tools available to this agent and how they behave.",
+        "EXPAND": "Expand",
+        "COLLAPSE": "Collapse",
+        "PARAMS_LABEL": "Parameters",
+        "EXAMPLES_LABEL": "Activation examples",
+        "EXAMPLES_HINT": "Customer phrases that trigger this tool.",
+        "EXAMPLES_ADD": "+ Add example",
+        "EXAMPLES_MAX": "(max 5)",
+        "INSTRUCTIONS_LABEL": "Custom instructions (optional)",
+        "INSTRUCTIONS_PLACEHOLDER": "empty = uses global system instructions",
+        "TOOLS_LIST": {
+          "search_product_info": {
+            "LABEL": "Knowledge base search",
+            "DESC": "Semantic search across indexed products, services and documents.",
+            "THRESHOLD_LABEL": "Similarity threshold",
+            "TOPK_LABEL": "Max results"
+          },
+          "get_all_products": {
+            "LABEL": "Product catalogue",
+            "DESC": "Lists available products or services from the catalogue.",
+            "MODE_LABEL": "Listing mode",
+            "MODE_ALL": "Show all",
+            "MODE_LIMITED": "Limited — max",
+            "MODE_SUMMARY": "Summary",
+            "PRICES_LABEL": "Show prices without being asked"
+          },
+          "get_faqs": {
+            "LABEL": "Frequently asked questions (FAQs)",
+            "DESC": "Retrieves FAQs relevant to the customer's query.",
+            "PER_PAGE_LABEL": "FAQs per search"
+          },
+          "get_marketing_campaigns": {
+            "LABEL": "Marketing campaigns",
+            "DESC": "Returns active promotions and campaigns.",
+            "NO_PARAMS": "No configurable parameters."
+          },
+          "get_kb_resources": {
+            "LABEL": "Knowledge base index",
+            "DESC": "Lets the agent explore indexed documents before searching the vector store. Useful when the catalogue has many diverse documents.",
+            "NO_PARAMS": "No configurable parameters."
+          },
+          "send_document": {
+            "LABEL": "Send document to customer",
+            "DESC": "Sends files from the product catalogue to the customer.",
+            "SOURCE_LABEL": "Document source",
+            "SOURCE_CATALOG": "Product catalogue",
+            "SOURCE_API": "Catalogue + Nauto API (automotive only)",
+            "TYPES_LABEL": "Enabled types",
+            "TYPE_PDF": "PDFs",
+            "TYPE_IMAGE": "Images",
+            "TYPE_VIDEO": "Videos"
+          },
+          "transfer_chat": {
+            "LABEL": "Transfer conversation",
+            "DESC": "Transfers the conversation to an available human advisor.",
+            "NO_PARAMS": "No configurable parameters."
+          }
+        }
+      },
+      "CONTENT": {
+        "SECTION_QUESTIONS": "Lead Qualification Questions",
+        "SECTION_INSTRUCTIONS": "Additional Instructions",
+        "QUESTIONS_TITLE": "Lead qualification questions",
+        "QUESTIONS_HINT": "The agent uses these questions to discover needs when the customer has no clear intent. One question at a time.",
+        "QUESTIONS_ADD": "+ Add question",
+        "QUESTION_PLACEHOLDER": "e.g. What type of vehicle are you looking for: compact, SUV...?",
+        "INSTRUCTIONS_TITLE": "Additional instructions for the agent",
+        "INSTRUCTIONS_HINT": "Free text added to the end of the system prompt. Use this for specific business rules, restrictions or context that doesn't fit in the other fields.",
+        "INSTRUCTIONS_PLACEHOLDER": "e.g. Do not mention competitors. If asked about other brands, gently redirect to Toyota's benefits."
+      }
     }
   }
 }
