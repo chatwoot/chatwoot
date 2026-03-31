@@ -52,6 +52,8 @@ export default {
     return {
       showEditModal: false,
       showDeleteModal: false,
+      isEditingName: false,
+      editName: '',
     };
   },
   computed: {
@@ -173,6 +175,38 @@ export default {
     openMergeModal() {
       this.$refs.mergeModal?.open();
     },
+    startEditingName() {
+      this.editName = this.contact.name || '';
+      this.isEditingName = true;
+      this.$nextTick(() => {
+        this.$refs.nameInput?.focus();
+      });
+    },
+    saveNameEdit() {
+      if (!this.isEditingName) return;
+      this.isEditingName = false;
+      const trimmed = this.editName.trim();
+      if (trimmed && trimmed !== this.contact.name) {
+        this.updateContactField({ name: trimmed });
+      }
+    },
+    cancelNameEdit() {
+      this.isEditingName = false;
+    },
+    onFieldUpdate(field, value) {
+      this.updateContactField({ [field]: value });
+    },
+    async updateContactField(attrs) {
+      try {
+        await this.$store.dispatch('contacts/update', {
+          id: this.contact.id,
+          ...attrs,
+        });
+        useAlert(this.$t('CONTACT_FORM.SUCCESS_MESSAGE'));
+      } catch (error) {
+        useAlert(error.message || this.$t('CONTACT_FORM.ERROR_MESSAGE'));
+      }
+    },
   },
 };
 </script>
@@ -194,10 +228,26 @@ export default {
 
       <div class="flex flex-col items-start gap-1.5 min-w-0 w-full">
         <div v-if="showAvatar" class="flex items-center w-full min-w-0 gap-3">
+          <input
+            v-if="isEditingName"
+            ref="nameInput"
+            v-model="editName"
+            type="text"
+            class="!mb-0 !h-7 !text-base !py-0 !px-1.5 !rounded !min-w-0 flex-shrink max-w-full w-full"
+            @keydown.enter="saveNameEdit"
+            @keydown.escape="cancelNameEdit"
+            @blur="saveNameEdit"
+          />
           <h3
-            class="flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-n-slate-12"
+            v-else
+            class="group/name flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-n-slate-12 cursor-pointer hover:text-n-slate-12/80"
+            :title="$t('CONTACT_PANEL.CLICK_TO_EDIT')"
+            @click="startEditingName"
           >
             {{ contact.name }}
+            <span
+              class="i-lucide-pencil text-xs text-n-slate-10 opacity-0 group-hover/name:opacity-100 transition-opacity ml-1 align-middle"
+            />
           </h3>
           <div class="flex flex-row items-center gap-2">
             <span
@@ -231,6 +281,8 @@ export default {
             emoji="✉️"
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
             show-copy
+            editable
+            @update="value => onFieldUpdate('email', value)"
           />
           <ContactInfoRow
             :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
@@ -239,6 +291,8 @@ export default {
             emoji="📞"
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
             show-copy
+            editable
+            @update="value => onFieldUpdate('phone_number', value)"
           />
           <ContactInfoRow
             v-if="contact.identifier"
@@ -252,6 +306,16 @@ export default {
             icon="building-bank"
             emoji="🏢"
             :title="$t('CONTACT_PANEL.COMPANY')"
+            editable
+            @update="
+              value =>
+                updateContactField({
+                  additional_attributes: {
+                    ...additionalAttributes,
+                    company_name: value,
+                  },
+                })
+            "
           />
           <ContactInfoRow
             v-if="location || additionalAttributes.location"
