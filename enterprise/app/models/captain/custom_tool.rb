@@ -35,6 +35,10 @@ class Captain::CustomTool < ApplicationRecord
 
   NAME_PREFIX = 'custom'.freeze
   NAME_SEPARATOR = '_'.freeze
+  # OpenAI enforces a 64-char limit on function names. The slug is used
+  # verbatim as the tool name in LLM requests, so it must fit within this limit.
+  MAX_SLUG_LENGTH = 64
+  COLLISION_SUFFIX_LENGTH = 7 # "_" + 6 random alphanumeric chars
   PARAM_SCHEMA_VALIDATION = {
     'type': 'array',
     'items': {
@@ -58,7 +62,7 @@ class Captain::CustomTool < ApplicationRecord
   before_validation :generate_slug
   before_create :ensure_within_limit
 
-  validates :slug, presence: true, uniqueness: { scope: :account_id }
+  validates :slug, presence: true, uniqueness: { scope: :account_id }, length: { maximum: MAX_SLUG_LENGTH }
   validates :title, presence: true
   validates :endpoint_url, presence: true
   validates_with JsonSchemaValidator,
@@ -90,17 +94,17 @@ class Captain::CustomTool < ApplicationRecord
     return if slug.present?
     return if title.blank?
 
-    paramterized_title = title.parameterize(separator: NAME_SEPARATOR)
-
-    base_slug = "#{NAME_PREFIX}#{NAME_SEPARATOR}#{paramterized_title}"
+    parameterized_title = title.parameterize(separator: NAME_SEPARATOR)
+    base_slug = "#{NAME_PREFIX}#{NAME_SEPARATOR}#{parameterized_title}".truncate(MAX_SLUG_LENGTH, omission: '')
     self.slug = find_unique_slug(base_slug)
   end
 
   def find_unique_slug(base_slug)
     return base_slug unless slug_exists?(base_slug)
 
+    truncated = base_slug.truncate(MAX_SLUG_LENGTH - COLLISION_SUFFIX_LENGTH, omission: '')
     5.times do
-      slug_candidate = "#{base_slug}#{NAME_SEPARATOR}#{SecureRandom.alphanumeric(6).downcase}"
+      slug_candidate = "#{truncated}#{NAME_SEPARATOR}#{SecureRandom.alphanumeric(6).downcase}"
       return slug_candidate unless slug_exists?(slug_candidate)
     end
 
