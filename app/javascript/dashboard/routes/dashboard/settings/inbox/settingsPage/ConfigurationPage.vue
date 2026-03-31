@@ -324,6 +324,39 @@ export default {
     <ImapSettings :inbox="inbox" />
     <SmtpSettings v-if="inbox.imap_enabled" :inbox="inbox" />
   </div>
+  <div v-else-if="isEvolutionGoWhatsAppChannel">
+    <SettingsFieldSection
+      :label="$t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.INSTANCE_NAME')"
+      :help-text="
+        $t('INBOX_MGMT.SETTINGS_POPUP.EVOLUTION_GO_INSTANCE_NAME_SUBTITLE')
+      "
+    >
+      <woot-code :script="inbox.provider_config.instance_name" />
+    </SettingsFieldSection>
+    <SettingsFieldSection
+      :label="$t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.WEBHOOK_URL')"
+      :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.EVOLUTION_GO_WEBHOOK_SUBTITLE')"
+    >
+      <woot-code :script="inbox.callback_webhook_url" lang="html" />
+    </SettingsFieldSection>
+    <SettingsFieldSection
+      :label="$t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.CONNECTION_STATUS')"
+      :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.EVOLUTION_GO_STATUS_SUBTITLE')"
+    >
+      <woot-code
+        :script="
+          inbox.provider_config.connection_status ||
+          $t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.STATUS.disconnected')
+        "
+      />
+    </SettingsFieldSection>
+    <SettingsFieldSection
+      v-if="inbox.phone_number"
+      :label="$t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.CONNECTED_NUMBER')"
+    >
+      <woot-code :script="inbox.phone_number" />
+    </SettingsFieldSection>
+  </div>
   <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
     <div v-if="inbox.provider_config">
       <!-- Embedded Signup Section -->

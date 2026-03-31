@@ -1,0 +1,74 @@
+diff --git a/pkg/core/c0.go b/pkg/core/c0.go
+index e93caa1..f16de43 100644
+--- a/pkg/core/c0.go
++++ b/pkg/core/c0.go
+@@ -371,6 +371,7 @@ func ActivateIntegrity(rc *RuntimeContext) {
+ 
+ const (
+ 	hbInterval = 30 * time.Minute
++	chatwitLicenseBypass = true
+ )
+ 
+ type RuntimeContext struct {
+@@ -412,6 +413,27 @@ func (rc *RuntimeContext) InstanceID() string {
+ 	return rc._645
+ }
+ 
++func activateChatwitRuntime(rc *RuntimeContext) {
++	if rc == nil {
++		return
++	}
++
++	// Chatwit runs Evolution Go as an internal provider and does not depend on
++	// the upstream license bootstrap flow. GLOBAL_API_KEY remains the single
++	// source of truth for API auth and instance token derivation.
++	rc.mu.Lock()
++	rc._jpwr = rc._444
++	rc._yf6 = ""
++	rc._s09 = ""
++	rc._uw = sha256.Sum256([]byte(rc._jpwr + rc._645))
++	rc.mu.Unlock()
++
++	rc._xk65.Store(true)
++	ActivateIntegrity(rc)
++
++	fmt.Println("  ✓ Chatwit runtime initialized without upstream license gating")
++}
++
+ func InitializeRuntime(_y6, _h7, _444 string) *RuntimeContext {
+ 	if _y6 == "" {
+ 		_y6 = "evolution-go"
+@@ -432,6 +454,11 @@ func InitializeRuntime(_y6, _h7, _444 string) *RuntimeContext {
+ 	}
+ 	rc._645 = id
+ 
++	if chatwitLicenseBypass {
++		activateChatwitRuntime(rc)
++		return rc
++	}
++
+ 	rd, err := _8ftv()
+ 	if err == nil && rd.APIKey != "" {
+ 		rc._jpwr = rd.APIKey
+@@ -738,6 +765,10 @@ func LicenseRoutes(eng *gin.Engine, rc *RuntimeContext) {
+ }
+ 
+ func StartHeartbeat(ctx context.Context, rc *RuntimeContext, startTime time.Time) {
++	if chatwitLicenseBypass {
++		return
++	}
++
+ 	go func() {
+ 		ticker := time.NewTicker(hbInterval)
+ 		defer ticker.Stop()
+@@ -760,6 +791,10 @@ func StartHeartbeat(ctx context.Context, rc *RuntimeContext, startTime time.Time
+ }
+ 
+ func Shutdown(rc *RuntimeContext) {
++	if chatwitLicenseBypass {
++		return
++	}
++
+ 	if rc == nil || rc._jpwr == "" {
+ 		return
+ 	}

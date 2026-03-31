@@ -20,6 +20,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 COMPOSE_FILE="$SCRIPT_DIR/docker-compose.dev.yaml"
 ENV_FILE="$SCRIPT_DIR/.env"
 ENV_EXAMPLE="$SCRIPT_DIR/.env.example"
+EVOLUTION_PATCH_SCRIPT="$SCRIPT_DIR/scripts/evolution-go/apply-chatwit-patches.sh"
 SHARED_INFRA_DIR="/home/wital/shared-infra"
 SHARED_INFRA_COMPOSE="$SHARED_INFRA_DIR/docker-compose.yml"
 SHARED_NETWORK="minha_rede"
@@ -43,6 +44,20 @@ log_warn()    { echo -e "${YELLOW}⚠${NC}  $1"; }
 log_error()   { echo -e "${RED}✖${NC}  $1"; }
 log_header()  { echo -e "\n${BOLD}${CYAN}═══ $1 ═══${NC}\n"; }
 
+ensure_env_var() {
+  local key="$1"
+  local value="$2"
+
+  if grep -q "^${key}=" "$ENV_FILE"; then
+    if grep -q "^${key}=$" "$ENV_FILE"; then
+      sed -i "s|^${key}=.*|${key}=${value}|" "$ENV_FILE"
+    fi
+    return
+  fi
+
+  printf '\n%s=%s\n' "$key" "$value" >> "$ENV_FILE"
+}
+
 # Verifica se .env existe, caso contrário cria a partir do .env.example
 ensure_env_file() {
   if [ ! -f "$ENV_FILE" ]; then
@@ -63,6 +78,33 @@ ensure_env_file() {
       exit 1
     fi
   fi
+
+  ensure_env_var "EVOLUTION_GO_BASE_URL" "http://evolution-go:8080"
+  ensure_env_var "EVOLUTION_GO_GLOBAL_API_KEY" "dev-evolution-key"
+  ensure_env_var "EVOLUTION_GO_IMAGE" "witroch4/evolution-go:latest"
+  ensure_env_var "EVOLUTION_GO_POSTGRES_AUTH_DB" "postgresql://postgres:postgres@postgres:5432/evolution_go_auth?sslmode=disable"
+  ensure_env_var "EVOLUTION_GO_POSTGRES_USERS_DB" "postgresql://postgres:postgres@postgres:5432/evolution_go_users?sslmode=disable"
+  ensure_env_var "EVOLUTION_GO_DATABASE_SAVE_MESSAGES" "false"
+  ensure_env_var "EVOLUTION_GO_WEBHOOK_URL" "http://rails:3000/webhooks/evolution_go"
+  ensure_env_var "EVOLUTION_GO_CLIENT_NAME" "chatwit-evolution"
+  ensure_env_var "EVOLUTION_GO_SERVER_PORT" "8080"
+  ensure_env_var "EVOLUTION_GO_QRCODE_MAX_COUNT" "20"
+  ensure_env_var "EVOLUTION_GO_WADEBUG" "INFO"
+  ensure_env_var "EVOLUTION_GO_LOGTYPE" "console"
+  ensure_env_var "DISABLE_TELEMETRY" "true"
+}
+
+ensure_evolution_submodule() {
+  if [ -f "$SCRIPT_DIR/evolution-go/Dockerfile" ]; then
+    if [ -x "$EVOLUTION_PATCH_SCRIPT" ]; then
+      "$EVOLUTION_PATCH_SCRIPT" "$SCRIPT_DIR/evolution-go"
+    fi
+    return
+  fi
+
+  log_error "Submodule evolution-go não está inicializado."
+  log_info "Execute: git submodule update --init --recursive evolution-go"
+  exit 1
 }
 
 # Verifica dependências necessárias
@@ -175,6 +217,7 @@ cmd_up() {
   log_header "Subindo ambiente de desenvolvimento completo"
 
   ensure_env_file
+  ensure_evolution_submodule
   ensure_shared_infra
 
   dc up -d
@@ -185,6 +228,9 @@ cmd_up() {
   echo -e "  ${CYAN}🌐 Aplicação${NC}  → ${BOLD}http://localhost:3000${NC}"
   echo -e "  ${CYAN}⚡ Vite HMR${NC}   → http://localhost:3036"
   echo -e "  ${CYAN}📧 MailHog${NC}    → http://localhost:8025"
+  echo -e "  ${CYAN}🧩 Evolution${NC}  → http://localhost:${EVOLUTION_GO_SERVER_PORT:-8080}"
+  echo -e "  ${CYAN}🔐 Manager${NC}    → http://localhost:${EVOLUTION_GO_SERVER_PORT:-8080}/manager/login (opcional)"
+  echo -e "  ${CYAN}📚 Swagger${NC}    → http://localhost:${EVOLUTION_GO_SERVER_PORT:-8080}/swagger/index.html"
   if [ "$NGROK_MODE" = true ]; then
     echo -e "  ${CYAN}🔗 Ngrok${NC}      → ${BOLD}https://${NGROK_DOMAIN:-beagle-great-awfully.ngrok-free.app}${NC}"
     echo -e "  ${CYAN}🔗 Ngrok UI${NC}   → http://localhost:4040"
@@ -197,7 +243,9 @@ cmd_up() {
   echo -e "  ${BOLD}Comandos úteis:${NC}"
   echo -e "    ./dev.sh logs          Ver logs de todos os serviços"
   echo -e "    ./dev.sh logs rails    Ver logs apenas do Rails"
+  echo -e "    ./dev.sh logs evolution-go  Ver logs da Evolution Go"
   echo -e "    ./dev.sh shell         Abrir shell no container Rails"
+  echo -e "    ./dev.sh shell evolution-go Abrir shell no container Evolution Go"
   echo -e "    ./dev.sh console       Abrir Rails console"
   echo ""
 
@@ -211,6 +259,7 @@ cmd_up() {
 cmd_build() {
   log_header "Rebuild das imagens"
   ensure_env_file
+  ensure_evolution_submodule
   ensure_shared_infra
 
   log_info "Parando containers..."
@@ -246,8 +295,9 @@ cmd_status() {
 }
 
 cmd_shell() {
-  log_info "Abrindo shell no container Rails..."
-  dc exec rails sh
+  local service="${1:-rails}"
+  log_info "Abrindo shell no container ${service}..."
+  dc exec "$service" sh
 }
 
 cmd_console() {
@@ -316,7 +366,7 @@ cmd_help() {
   echo -e "    ${GREEN}status${NC}            Mostra status dos containers"
   echo ""
   echo -e "  ${BOLD}Acesso:${NC}"
-  echo -e "    ${GREEN}shell${NC}             Abre shell no container Rails"
+  echo -e "    ${GREEN}shell [serviço]${NC}   Abre shell (padrão: rails)"
   echo -e "    ${GREEN}console${NC}           Abre o Rails console"
   echo ""
   echo -e "  ${BOLD}Banco de dados:${NC}"
@@ -331,6 +381,9 @@ cmd_help() {
   echo -e "    🌐 Aplicação   → ${BOLD}http://localhost:3000${NC}"
   echo -e "    ⚡ Vite HMR    → http://localhost:3036"
   echo -e "    📧 MailHog     → http://localhost:8025"
+  echo -e "    🧩 Evolution   → http://localhost:8080"
+  echo -e "    🔐 Manager     → http://localhost:8080/manager/login (opcional)"
+  echo -e "    📚 Swagger     → http://localhost:8080/swagger/index.html"
   echo -e "    🐘 PostgreSQL  → localhost:5432 (compartilhado)"
   echo -e "    🔴 Redis       → localhost:6379 (compartilhado)"
   echo -e "    🔗 Ngrok       → ./dev.sh -n (túnel público)"
@@ -357,7 +410,7 @@ case "${1:-}" in
   restart)     cmd_restart ;;
   logs)        shift; cmd_logs "$@" ;;
   status)      cmd_status ;;
-  shell)       cmd_shell ;;
+  shell)       shift; cmd_shell "$@" ;;
   console)     cmd_console ;;
   db:setup)    cmd_db_setup ;;
   db:reset)    cmd_db_reset ;;

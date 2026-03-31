@@ -1638,7 +1638,7 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
         # Dual-Mode Async: URL base para o SocialWise chamar a API do Chatwit
         chatwit_base_url: ENV.fetch('FRONTEND_URL', nil),
         # Dual-Mode Async: Token do Agent Bot global para entrega assíncrona
-        chatwit_agent_bot_token: Chatwit::SocialwiseBot.token
+        chatwit_agent_bot_token: Chatwit::PlatformBot.token
       }
     }
 

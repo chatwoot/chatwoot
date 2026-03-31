@@ -1,0 +1,3 @@
+[submodule "evolution-go"]
+	path = evolution-go
+	url = https://github.com/Witroch4/evolution-go.git

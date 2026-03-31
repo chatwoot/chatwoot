@@ -287,7 +287,7 @@ bundle exec rails db:migrate
 | `SOCIALWISE_DEBOUNCE_MS` | Tempo de debounce em milissegundos (apenas para texto, cliques de botão são sempre imediatos) | `0` (desabilitado) |
 | `SOCIALWISE_DEBOUNCE_MAX_MS` | Timeout máximo do debounce em ms | `30000` |
 | `SKIP_SOCIALWISE_CACHE` | Desabilita preload de cache | `false` |
-| `DISABLE_TELEMETRY` | Desabilita telemetria e comunicação com hub | `false` |
+| `DISABLE_TELEMETRY` | Desabilita telemetria externa e comunicação com hub | `true` |
 
 > **Nota:** Cliques de botão e seleções de lista **NUNCA** passam por debounce, independente do valor de `SOCIALWISE_DEBOUNCE_MS`. Isso garante resposta imediata para ações deliberadas do usuário.
 

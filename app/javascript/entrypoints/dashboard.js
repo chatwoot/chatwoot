@@ -50,7 +50,7 @@ app.use(pinia);
 app.use(router);
 
 // [VITE] Disabled this, need to renable later
-if (window.errorLoggingConfig) {
+if (!window.telemetryDisabled && window.errorLoggingConfig) {
   Sentry.init({
     app,
     dsn: window.errorLoggingConfig,

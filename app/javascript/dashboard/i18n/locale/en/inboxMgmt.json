@@ -239,7 +239,9 @@
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
           "TWILIO_DESC": "Connect via Twilio credentials",
-          "360_DIALOG": "360Dialog"
+          "360_DIALOG": "360Dialog",
+          "EVOLUTION_GO": "Evolution",
+          "EVOLUTION_GO_DESC": "QR pairing with Evolution Go"
         },
         "SELECT_PROVIDER": {
           "TITLE": "Select your API provider",
@@ -310,6 +312,38 @@
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
           "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "manual setup flow"
+        },
+        "EVOLUTION_GO": {
+          "HELP_TEXT": "Create the inbox first. Chatwit will provision the Evolution Go instance and keep polling until the WhatsApp device is paired.",
+          "CREATE_BUTTON": "Create Evolution Inbox",
+          "START_BUTTON": "Start pairing",
+          "CANCEL_BUTTON": "Cancel pairing",
+          "START_SUCCESS": "A new pairing session has started.",
+          "CANCEL_SUCCESS": "The pairing session was cancelled.",
+          "SETUP_TITLE": "Connect your WhatsApp device",
+          "SETUP_DESCRIPTION": "Scan the QR code below in WhatsApp. Once the device is paired, Chatwit will continue to the agent step automatically.",
+          "INSTANCE_NAME": "Evolution instance",
+          "CONNECTION_STATUS": "Connection status",
+          "WEBHOOK_URL": "Webhook URL",
+          "QR_HELP": "Scan this QR code from WhatsApp on your phone.",
+          "WAITING_TITLE": "Waiting for QR code",
+          "WAITING_DESCRIPTION": "Evolution Go is preparing the pairing session. This page refreshes automatically.",
+          "START_REQUIRED_TITLE": "Pairing session stopped",
+          "START_REQUIRED_DESCRIPTION": "This pairing session is no longer active. Start a new session to generate another QR code.",
+          "LOADING_STATE": "Refreshing connection status...",
+          "CONNECTED_NUMBER": "Connected phone number",
+          "CONTINUE_BUTTON": "Continue",
+          "STATUS": {
+            "connected": "Connected",
+            "awaiting_qr": "Waiting for QR code",
+            "pairing": "Pairing",
+            "disconnected": "Disconnected",
+            "logged_out": "Logged out",
+            "temporarily_banned": "Temporarily banned",
+            "connect_failure": "Connection failed",
+            "qr_timeout": "QR code expired",
+            "not_created": "Instance not created"
+          }
         },
         "API": {
           "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
@@ -759,6 +793,9 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
+      "EVOLUTION_GO_INSTANCE_NAME_SUBTITLE": "This is the Evolution Go instance created for this inbox.",
+      "EVOLUTION_GO_WEBHOOK_SUBTITLE": "Use this callback URL if you need to reconnect the instance manually in Evolution Go.",
+      "EVOLUTION_GO_STATUS_SUBTITLE": "Chatwit stores the latest known Evolution Go connection state here.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "HELP_CENTER": {

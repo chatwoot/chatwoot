@@ -12,7 +12,7 @@ class ChatwootExceptionTracker
   end
 
   def capture_exception
-    capture_exception_with_sentry if ENV['SENTRY_DSN'].present?
+    capture_exception_with_sentry if ENV['SENTRY_DSN'].present? && ENV['DISABLE_TELEMETRY'].to_s.downcase != 'true'
     Rails.logger.error @exception
   end
 

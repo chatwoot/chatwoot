@@ -33,6 +33,18 @@ class Inboxes extends CacheEnabledApiClient {
     return axios.post(`${this.url}/${inboxId}/sync_templates`);
   }
 
+  getEvolutionGoState(inboxId) {
+    return axios.get(`${this.url}/${inboxId}/evolution_go`);
+  }
+
+  startEvolutionGoPairing(inboxId) {
+    return axios.post(`${this.url}/${inboxId}/evolution_go`);
+  }
+
+  cancelEvolutionGoPairing(inboxId) {
+    return axios.delete(`${this.url}/${inboxId}/evolution_go`);
+  }
+
   createCSATTemplate(inboxId, template) {
     return axios.post(`${this.url}/${inboxId}/csat_template`, {
       template,

@@ -33,7 +33,7 @@ app.use(router);
 // Vue.prototype.$emitter = emitter;
 app.component('fluent-icon', FluentIcon);
 
-if (window.errorLoggingConfig) {
+if (!window.telemetryDisabled && window.errorLoggingConfig) {
   Sentry.init({
     app,
     dsn: window.errorLoggingConfig,

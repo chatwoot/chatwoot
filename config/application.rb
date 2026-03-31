@@ -21,7 +21,7 @@ if ENV.fetch('NEW_RELIC_LICENSE_KEY', false).present?
   require 'newrelic_rpm'
 end
 
-if ENV.fetch('SENTRY_DSN', false).present?
+if ENV.fetch('SENTRY_DSN', false).present? && ENV['DISABLE_TELEMETRY'].to_s.downcase != 'true'
   require 'sentry-ruby'
   require 'sentry-rails'
   require 'sentry-sidekiq'

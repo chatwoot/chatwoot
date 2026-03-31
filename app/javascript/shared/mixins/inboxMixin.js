@@ -101,6 +101,12 @@ export default {
         this.whatsAppAPIProvider === 'default'
       );
     },
+    isEvolutionGoWhatsAppChannel() {
+      return (
+        this.channelType === INBOX_TYPES.WHATSAPP &&
+        this.whatsAppAPIProvider === 'evolution_go'
+      );
+    },
     chatAdditionalAttributes() {
       const { additional_attributes: additionalAttributes } = this.chat || {};
       return additionalAttributes || {};

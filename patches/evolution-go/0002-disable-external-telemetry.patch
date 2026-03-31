@@ -1,0 +1,65 @@
+diff --git a/pkg/telemetry/telemetry.go b/pkg/telemetry/telemetry.go
+index 067a543..65ce926 100644
+--- a/pkg/telemetry/telemetry.go
++++ b/pkg/telemetry/telemetry.go
+@@ -1,27 +1,11 @@
+ package telemetry
+ 
+-import (
+-	"bytes"
+-	"encoding/json"
+-	"log"
+-	"net/http"
+-	"time"
+-
+-	"github.com/gin-gonic/gin"
+-)
+-
+-type TelemetryData struct {
+-	Route      string    `json:"route"`
+-	APIVersion string    `json:"apiVersion"`
+-	Timestamp  time.Time `json:"timestamp"`
+-}
++import "github.com/gin-gonic/gin"
+ 
+ type telemetryService struct{}
+ 
+ func (t *telemetryService) TelemetryMiddleware() gin.HandlerFunc {
+ 	return func(c *gin.Context) {
+-		route := c.FullPath()
+-		go SendTelemetry(route)
+ 		c.Next()
+ 	}
+ }
+@@ -31,30 +15,7 @@ type TelemetryService interface {
+ }
+ 
+ func SendTelemetry(route string) {
+-	if route == "/" {
+-		return
+-	}
+-
+-	telemetry := TelemetryData{
+-		Route:      route,
+-		APIVersion: "evo-go",
+-		Timestamp:  time.Now(),
+-	}
+-
+-	url := "https://log.evolution-api.com/telemetry"
+-
+-	data, err := json.Marshal(telemetry)
+-	if err != nil {
+-		log.Println("Erro ao serializar telemetria:", err)
+-		return
+-	}
+-
+-	resp, err := http.Post(url, "application/json", bytes.NewBuffer(data))
+-	if err != nil {
+-		log.Println("Erro ao enviar telemetria:", err)
+-		return
+-	}
+-	defer resp.Body.Close()
++	_ = route
+ }
+ 
+ func NewTelemetryService() TelemetryService {

@@ -33,6 +33,7 @@
     <% end %>
     <link rel="icon" type="image/png" sizes="512x512" href="<%= @global_config['LOGO_THUMBNAIL'] %>">
     <%= csrf_meta_tags %>
+    <% telemetry_disabled = ActiveModel::Type::Boolean.new.cast(ENV['DISABLE_TELEMETRY']) %>
     <script>
       window.chatwootConfig = {
         hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
@@ -64,9 +65,10 @@
       window.browserConfig = {
         browser_name: '<%= browser.name %>',
       }
-      window.errorLoggingConfig = '<%= ENV.fetch('SENTRY_FRONTEND_DSN', '') || ENV.fetch('SENTRY_DSN', '') %>'
+      window.telemetryDisabled = <%= telemetry_disabled.to_json %>
+      window.errorLoggingConfig = '<%= telemetry_disabled ? '' : (ENV.fetch('SENTRY_FRONTEND_DSN', '').presence || ENV.fetch('SENTRY_DSN', '')) %>'
     </script>
-    <% if @global_config['CLOUD_ANALYTICS_TOKEN'].present? %>
+    <% if @global_config['CLOUD_ANALYTICS_TOKEN'].present? && !telemetry_disabled %>
     <script>
       window.analyticsConfig = {
         token: '<%= @global_config['CLOUD_ANALYTICS_TOKEN'] %>',

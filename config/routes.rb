@@ -221,6 +221,7 @@ Rails.application.routes.draw do
             post :sync_templates, on: :member
             get :health, on: :member
             resources :whatsapp_templates, only: [:create], module: 'inboxes'
+            resource :evolution_go, only: [:show, :create, :destroy], controller: 'inboxes/evolution_go'
             if ChatwootApp.enterprise?
               resource :conference, only: %i[create destroy], controller: 'conference' do
                 get :token, on: :member
@@ -574,6 +575,7 @@ Rails.application.routes.draw do
   post 'webhooks/sms/:phone_number', to: 'webhooks/sms#process_payload'
   get 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#verify'
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
+  post 'webhooks/evolution_go', to: 'webhooks/evolution_go#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'

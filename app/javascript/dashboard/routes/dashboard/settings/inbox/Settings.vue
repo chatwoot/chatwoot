@@ -115,11 +115,17 @@ export default {
       return this.tabs[this.selectedTabIndex]?.key;
     },
     shouldShowWhatsAppConfiguration() {
+      return this.isAWhatsAppCloudChannel || this.isEvolutionGoWhatsAppChannel;
+    },
+    shouldShowWhatsAppHealth() {
       return this.isAWhatsAppCloudChannel;
     },
     whatsAppAPIProviderName() {
       if (this.isAWhatsAppCloudChannel) {
         return this.$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD');
+      }
+      if (this.isEvolutionGoWhatsAppChannel) {
+        return this.$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.EVOLUTION_GO');
       }
       if (this.is360DialogWhatsAppChannel) {
         return this.$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.360_DIALOG');
@@ -194,7 +200,7 @@ export default {
           },
         ];
       }
-      if (this.shouldShowWhatsAppConfiguration) {
+      if (this.shouldShowWhatsAppHealth) {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
           {
@@ -235,7 +241,11 @@ export default {
         })`;
       }
       if (this.isAWhatsAppChannel) {
-        return `${this.inbox.name} (${this.inbox.phone_number})`;
+        const identifier =
+          this.inbox.phone_number || this.inbox.provider_config?.instance_name;
+        return identifier
+          ? `${this.inbox.name} (${identifier})`
+          : this.inbox.name;
       }
       if (this.isAnEmailChannel) {
         return `${this.inbox.name} (${this.inbox.email})`;

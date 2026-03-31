@@ -180,8 +180,12 @@ export default {
       return this.isATwilioWhatsAppChannel && !this.isPrivate;
     },
     showPaymentLink() {
-      const account = this.$store.getters['accounts/getAccount'](this.accountId);
-      return !!account?.custom_attributes?.infinitepay_handle && !this.isPrivate;
+      const account = this.$store.getters['accounts/getAccount'](
+        this.accountId
+      );
+      return (
+        !!account?.custom_attributes?.infinitepay_handle && !this.isPrivate
+      );
     },
     isPrivate() {
       if (
@@ -768,7 +772,8 @@ export default {
         const isOnWhatsApp =
           this.isATwilioWhatsAppChannel ||
           this.isAWhatsAppCloudChannel ||
-          this.is360DialogWhatsAppChannel;
+          this.is360DialogWhatsAppChannel ||
+          this.isEvolutionGoWhatsAppChannel;
         // Instagram and TikTok do not support sending text and attachments in the same message.
         // For Instagram, combining them causes duplicate messages due to separate echo events per component.
         // For TikTok, the API rejects messages that mix text and media.

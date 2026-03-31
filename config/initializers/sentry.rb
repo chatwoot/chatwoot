@@ -1,6 +1,6 @@
-if ENV['SENTRY_DSN'].present?
+if ENV['SENTRY_DSN'].present? && ENV['DISABLE_TELEMETRY'].to_s.downcase != 'true'
   Sentry.init do |config|
-    config.dsn = ENV['SENTRY_DSN']
+    config.dsn = ENV.fetch('SENTRY_DSN', nil)
     config.enabled_environments = %w[staging production]
 
     # To activate performance monitoring, set one of these options.

@@ -61,7 +61,7 @@ class Integrations::Jusmonitoria::WebhookForwarderService
         account_id: account&.id,
         account_name: account&.name,
         chatwit_base_url: ENV.fetch('FRONTEND_URL', 'https://chatwit.witdev.com.br'),
-        chatwit_agent_bot_token: Chatwit::JusmonitoriaBot.token,
+        chatwit_agent_bot_token: Chatwit::PlatformBot.token,
         timestamp: Time.current.iso8601
       }
     end

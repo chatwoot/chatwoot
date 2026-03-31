@@ -5,7 +5,11 @@ set -euo pipefail
 # Configurações padrão
 REGISTRY="witrocha"
 IMAGE_NAME="chatwit"
+EVOLUTION_IMAGE="${EVOLUTION_IMAGE:-witrocha/evolution-go}"
+EVOLUTION_CONTEXT="${EVOLUTION_CONTEXT:-./evolution-go}"
+EVOLUTION_PATCH_SCRIPT="${EVOLUTION_PATCH_SCRIPT:-./scripts/evolution-go/apply-chatwit-patches.sh}"
 LATEST=true
+BUILD_EVOLUTION=true
 NO_ENTERPRISE=false
 DISABLE_TELEMETRY=true
 NO_CACHE=false
@@ -30,6 +34,77 @@ generate_default_tag() {
     else
         date +%Y%m%d%H%M%S
     fi
+}
+
+normalize_image_repo() {
+    local image="$1"
+    local image_without_digest="${image%@*}"
+
+    if [[ "${image_without_digest##*/}" == *:* ]]; then
+        echo "${image_without_digest%:*}"
+    else
+        echo "${image_without_digest}"
+    fi
+}
+
+build_image_with_tags() {
+    local full_image="$1"
+    local dockerfile="$2"
+    local context="$3"
+    shift 3
+
+    local docker_build_cmd=(docker build -f "$dockerfile")
+
+    if [ "$NO_CACHE" = true ]; then
+        docker_build_cmd+=(--no-cache)
+    fi
+
+    if [ $# -gt 0 ]; then
+        docker_build_cmd+=("$@")
+    fi
+
+    docker_build_cmd+=(-t "${full_image}:${PRIMARY_TAG}" "$context")
+
+    echo -e "\033[33m[BUILD] Building ${full_image}:${PRIMARY_TAG}...\033[0m"
+    echo -e "\033[36m[EXEC] ${docker_build_cmd[*]}\033[0m"
+    "${docker_build_cmd[@]}"
+
+    if [ ${#TAGS[@]} -gt 1 ]; then
+        for ((i=1; i<${#TAGS[@]}; i++)); do
+            local additional_tag="${TAGS[$i]}"
+            docker tag "${full_image}:${PRIMARY_TAG}" "${full_image}:${additional_tag}"
+            echo -e "\033[32m[TAG] ${full_image}:${additional_tag}\033[0m"
+        done
+    fi
+}
+
+PUSHED_DEPLOY_IMAGE=""
+push_image_tags() {
+    local full_image="$1"
+    local deploy_image="${full_image}:${PRIMARY_TAG}"
+    local push_out
+    local primary_digest
+
+    for tag in "${TAGS[@]}"; do
+        echo -e "\033[36m[PUSH] Enviando ${full_image}:${tag}...\033[0m"
+        if push_out=$(docker push "${full_image}:${tag}" 2>&1); then
+            echo "${push_out}"
+
+            if [ "${tag}" = "${PRIMARY_TAG}" ]; then
+                primary_digest=$(echo "${push_out}" | awk '/digest:/ {print $3; exit}')
+                if [ -n "${primary_digest}" ]; then
+                    deploy_image="${full_image}:${PRIMARY_TAG}@${primary_digest}"
+                fi
+            fi
+            echo -e "\033[32m[SUCCESS] Push da tag ${tag} concluído.\033[0m"
+        else
+            echo "${push_out}"
+            echo -e "\033[31m[ERROR] Falha no push da tag ${tag}!\033[0m"
+            exit 1
+        fi
+    done
+
+    PUSHED_DEPLOY_IMAGE="${deploy_image}"
 }
 
 force_update_service() {
@@ -95,14 +170,17 @@ OPTIONS:
     -v, --version VERSION     Tag da imagem (padrão: git sha curto)
     -r, --registry REGISTRY  Nome do registry (padrão: witrocha)
     -i, --image IMAGE         Nome da imagem (padrão: chatwit)
+        --evolution-image REPO  Repositório da imagem Evolution Go (padrão: witrocha/evolution-go)
+        --evolution-context PATH Contexto do build do Evolution Go (padrão: ./evolution-go)
     -l, --latest              Mantém a tag 'latest' habilitada
         --no-latest           Não adiciona a tag 'latest'
+        --skip-evolution      Não builda/pusha/deploya a imagem Evolution Go
     --no-enterprise           Usa Dockerfile padrão em vez do enterprise
     --enable-telemetry        Habilita telemetria (padrão: desabilitada)
     --no-cache                Build sem cache
     --no-push                 Não faz push para o registry
     --no-deploy               Não faz deploy automático no Swarm
-    --stack-name NAME         Nome da stack no Swarm/Portainer (padrão: chatwit-production)
+    --stack-name NAME         Nome da stack no Swarm/Portainer (padrão: chatwoot_app)
     -h, --help                Mostra esta ajuda
 
 EXAMPLES:
@@ -110,6 +188,7 @@ EXAMPLES:
     ./build.sh -v v5.0.0
     ./build.sh --no-latest --no-push
     ./build.sh --no-enterprise
+    ./build.sh --skip-evolution
 
 DEPLOY AUTOMÁTICO:
     Defina PORTAINER_URL, PORTAINER_API_KEY e opcionalmente PORTAINER_ENDPOINT_ID
@@ -133,12 +212,24 @@ while [[ $# -gt 0 ]]; do
             IMAGE_NAME="$2"
             shift 2
             ;;
+        --evolution-image)
+            EVOLUTION_IMAGE="$2"
+            shift 2
+            ;;
+        --evolution-context)
+            EVOLUTION_CONTEXT="$2"
+            shift 2
+            ;;
         -l|--latest)
             LATEST=true
             shift
             ;;
         --no-latest)
             LATEST=false
+            shift
+            ;;
+        --skip-evolution)
+            BUILD_EVOLUTION=false
             shift
             ;;
         --no-enterprise)
@@ -178,6 +269,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 VERSION="${VERSION:-$(generate_default_tag)}"
+EVOLUTION_IMAGE="$(normalize_image_repo "$EVOLUTION_IMAGE")"
 
 # Construir array de tags
 TAGS=("$VERSION")
@@ -187,7 +279,6 @@ fi
 
 FULL_IMAGE="$REGISTRY/$IMAGE_NAME"
 PRIMARY_TAG="${TAGS[0]}"
-FULL_PRIMARY_IMAGE="${FULL_IMAGE}:${PRIMARY_TAG}"
 CAN_DEPLOY=false
 
 if [ "$NO_PUSH" = false ] && [ "$NO_DEPLOY" = false ] && [ -n "$PORTAINER_URL" ] && [ -n "$PORTAINER_API_KEY" ]; then
@@ -203,6 +294,21 @@ else
     echo -e "\033[36m[INFO] Usando: Dockerfile.enterprise\033[0m"
 fi
 
+if [ "$BUILD_EVOLUTION" = true ] && [ ! -f "${EVOLUTION_CONTEXT}/Dockerfile" ]; then
+    echo -e "\033[31m[ERROR] Evolution Go não encontrado em ${EVOLUTION_CONTEXT}.\033[0m"
+    echo -e "\033[33m[INFO] Execute: git submodule update --init --recursive evolution-go\033[0m"
+    exit 1
+fi
+
+if [ "$BUILD_EVOLUTION" = true ]; then
+    if [ ! -x "${EVOLUTION_PATCH_SCRIPT}" ]; then
+        echo -e "\033[31m[ERROR] Script de patch do Evolution Go não encontrado em ${EVOLUTION_PATCH_SCRIPT}.\033[0m"
+        exit 1
+    fi
+
+    "${EVOLUTION_PATCH_SCRIPT}" "${EVOLUTION_CONTEXT}"
+fi
+
 echo -e "\033[32m[BUILD] Building ${FULL_IMAGE} with tags: ${TAGS[*]}\033[0m"
 if [ "$CAN_DEPLOY" = true ]; then
     echo -e "\033[36m[DEPLOY] Autodeploy ativo para a stack ${STACK_NAME}.\033[0m"
@@ -212,120 +318,97 @@ else
     echo -e "\033[33m[DEPLOY] Autodeploy indisponível; defina PORTAINER_URL e PORTAINER_API_KEY.\033[0m"
 fi
 
+if [ "$BUILD_EVOLUTION" = true ]; then
+    echo -e "\033[36m[BUILD] Evolution Go incluído: ${EVOLUTION_IMAGE}\033[0m"
+else
+    echo -e "\033[33m[BUILD] Evolution Go ignorado via --skip-evolution.\033[0m"
+fi
+
 # Preparar argumentos de build
 BUILD_ARGS=()
 if [ "$DISABLE_TELEMETRY" = true ]; then
     echo -e "\033[32m[PRIVACY] Desabilitando telemetria na imagem...\033[0m"
     BUILD_ARGS+=(--build-arg DISABLE_TELEMETRY=true)
-    BUILD_ARGS+=(--build-arg ANALYTICS_TOKEN=)
-    BUILD_ARGS+=(--build-arg CHATWOOT_HUB_URL=http://localhost:9999)
 fi
 
-echo -e "\033[33m[BUILD] Building ${FULL_IMAGE}:${PRIMARY_TAG}...\033[0m"
+build_image_with_tags "$FULL_IMAGE" "$DOCKERFILE" "." "${BUILD_ARGS[@]}"
 
-# Preparar comando de build
-DOCKER_BUILD_CMD=(docker build -f "$DOCKERFILE")
-
-if [ "$NO_CACHE" = true ]; then
-    DOCKER_BUILD_CMD+=(--no-cache)
-    echo -e "\033[33m[INFO] Build sem cache habilitado\033[0m"
+if [ "$BUILD_EVOLUTION" = true ]; then
+    build_image_with_tags "$EVOLUTION_IMAGE" "${EVOLUTION_CONTEXT}/Dockerfile" "$EVOLUTION_CONTEXT" --build-arg "VERSION=${PRIMARY_TAG}"
 fi
 
-if [ ${#BUILD_ARGS[@]} -gt 0 ]; then
-    DOCKER_BUILD_CMD+=("${BUILD_ARGS[@]}")
-fi
-
-DOCKER_BUILD_CMD+=(-t "${FULL_IMAGE}:${PRIMARY_TAG}" .)
-
-# Executar comando de build
-echo -e "\033[36m[EXEC] ${DOCKER_BUILD_CMD[*]}\033[0m"
-"${DOCKER_BUILD_CMD[@]}"
-
-# Verificar se o build foi bem-sucedido
-if [ $? -eq 0 ]; then
-    echo -e "\033[32m[SUCCESS] Build successful!\033[0m"
-    
-    # Tag com as tags adicionais
-    if [ ${#TAGS[@]} -gt 1 ]; then
-        for ((i=1; i<${#TAGS[@]}; i++)); do
-            ADDITIONAL_TAG="${TAGS[$i]}"
-            docker tag "${FULL_IMAGE}:${PRIMARY_TAG}" "${FULL_IMAGE}:${ADDITIONAL_TAG}"
-            echo -e "\033[32m[TAG] Tagged as ${ADDITIONAL_TAG}\033[0m"
-        done
+echo -e "\033[32m[COMPLETE] Imagens criadas com sucesso:\033[0m"
+for tag in "${TAGS[@]}"; do
+    echo -e "\033[36m  -> ${FULL_IMAGE}:${tag}\033[0m"
+    if [ "$BUILD_EVOLUTION" = true ]; then
+        echo -e "\033[36m  -> ${EVOLUTION_IMAGE}:${tag}\033[0m"
     fi
-    
-    echo -e "\033[32m[COMPLETE] Imagem criada com sucesso:\033[0m"
-    for tag in "${TAGS[@]}"; do
-        echo -e "\033[36m  -> ${FULL_IMAGE}:${tag}\033[0m"
-    done
-    
-    # Push para o registry
-    if [ "$NO_PUSH" = false ]; then
-        echo -e "\033[33m[PUSH] Iniciando push para o registro (padrão)...\033[0m"
-        echo -e "\033[36m[INFO] Para desabilitar, use a flag --no-push.\033[0m"
-        
-        DEPLOY_IMAGE="${FULL_PRIMARY_IMAGE}"
+done
 
-        for tag in "${TAGS[@]}"; do
-            echo -e "\033[36m[PUSH] Enviando ${FULL_IMAGE}:${tag}...\033[0m"
-            if PUSH_OUT=$(docker push "${FULL_IMAGE}:${tag}" 2>&1); then
-                echo "${PUSH_OUT}"
+# Push para o registry
+if [ "$NO_PUSH" = false ]; then
+    echo -e "\033[33m[PUSH] Iniciando push para o registro (padrão)...\033[0m"
+    echo -e "\033[36m[INFO] Para desabilitar, use a flag --no-push.\033[0m"
 
-                if [ "${tag}" = "${PRIMARY_TAG}" ]; then
-                    PRIMARY_DIGEST=$(echo "${PUSH_OUT}" | awk '/digest:/ {print $3; exit}')
-                    if [ -n "${PRIMARY_DIGEST}" ]; then
-                        DEPLOY_IMAGE="${FULL_PRIMARY_IMAGE}@${PRIMARY_DIGEST}"
-                    fi
-                fi
-                echo -e "\033[32m[SUCCESS] Push da tag ${tag} concluído.\033[0m"
-            else
-                echo "${PUSH_OUT}"
-                echo -e "\033[31m[ERROR] Falha no push da tag ${tag}!\033[0m"
-                exit 1
-            fi
-        done
-        
-        echo -e "\033[32m[COMPLETE] Todas as tags foram enviadas para o registro.\033[0m"
+    push_image_tags "$FULL_IMAGE"
+    DEPLOY_IMAGE="${PUSHED_DEPLOY_IMAGE}"
 
-        if [ "$CAN_DEPLOY" = true ]; then
-            echo -e "\033[33m[DEPLOY] Aguardando 5s para propagação da imagem no registry...\033[0m"
-            sleep 5
+    if [ "$BUILD_EVOLUTION" = true ]; then
+        push_image_tags "$EVOLUTION_IMAGE"
+        EVOLUTION_DEPLOY_IMAGE="${PUSHED_DEPLOY_IMAGE}"
+    fi
 
-            deploy_ok=0
-            deploy_fail=0
+    echo -e "\033[32m[COMPLETE] Todas as tags foram enviadas para o registro.\033[0m"
 
-            for service in chatwoot_sidekiq chatwoot_app; do
-                if force_update_service "$service" "$DEPLOY_IMAGE"; then
-                    deploy_ok=$((deploy_ok + 1))
-                    if [ "$service" = "chatwoot_sidekiq" ]; then
-                        sleep 1
-                    fi
-                else
-                    deploy_fail=$((deploy_fail + 1))
-                fi
-            done
+    if [ "$CAN_DEPLOY" = true ]; then
+        echo -e "\033[33m[DEPLOY] Aguardando 5s para propagação da imagem no registry...\033[0m"
+        sleep 5
 
-            if [ "$deploy_fail" -eq 0 ]; then
-                echo -e "\033[32m[DEPLOY] ${deploy_ok} serviço(s) atualizado(s) com sucesso.\033[0m"
-            else
-                echo -e "\033[31m[DEPLOY] ${deploy_ok} serviço(s) atualizados, ${deploy_fail} falha(s).\033[0m"
-                exit 1
-            fi
+        deploy_ok=0
+        deploy_fail=0
+
+        DEPLOY_TARGETS=(
+            "chatwoot_sidekiq|${DEPLOY_IMAGE}"
+            "chatwoot_app|${DEPLOY_IMAGE}"
+        )
+
+        if [ "$BUILD_EVOLUTION" = true ]; then
+            DEPLOY_TARGETS+=("evolution_go|${EVOLUTION_DEPLOY_IMAGE}")
         fi
-    else
-        echo -e "\033[33m[INFO] Push automático desabilitado pela flag --no-push.\033[0m"
-        echo -e "\033[33m[INFO] Para fazer push manualmente:\033[0m"
-        for tag in "${TAGS[@]}"; do
-            echo -e "\033[37m  docker push ${FULL_IMAGE}:${tag}\033[0m"
+
+        for target in "${DEPLOY_TARGETS[@]}"; do
+            service="${target%%|*}"
+            image="${target#*|}"
+
+            if force_update_service "$service" "$image"; then
+                deploy_ok=$((deploy_ok + 1))
+                if [ "$service" = "chatwoot_sidekiq" ]; then
+                    sleep 1
+                fi
+            else
+                deploy_fail=$((deploy_fail + 1))
+            fi
         done
+
+        if [ "$deploy_fail" -eq 0 ]; then
+            echo -e "\033[32m[DEPLOY] ${deploy_ok} serviço(s) atualizado(s) com sucesso.\033[0m"
+        else
+            echo -e "\033[31m[DEPLOY] ${deploy_ok} serviço(s) atualizados, ${deploy_fail} falha(s).\033[0m"
+            exit 1
+        fi
     fi
-    
-    if [ "$DISABLE_TELEMETRY" = true ]; then
-        echo ""
-        echo -e "\033[32m[PRIVACY] TELEMETRIA DESABILITADA NA IMAGEM!\033[0m"
-    fi
-    
 else
-    echo -e "\033[31m[ERROR] Build failed!\033[0m"
-    exit 1
+    echo -e "\033[33m[INFO] Push automático desabilitado pela flag --no-push.\033[0m"
+    echo -e "\033[33m[INFO] Para fazer push manualmente:\033[0m"
+    for tag in "${TAGS[@]}"; do
+        echo -e "\033[37m  docker push ${FULL_IMAGE}:${tag}\033[0m"
+        if [ "$BUILD_EVOLUTION" = true ]; then
+            echo -e "\033[37m  docker push ${EVOLUTION_IMAGE}:${tag}\033[0m"
+        fi
+    done
+fi
+
+if [ "$DISABLE_TELEMETRY" = true ]; then
+    echo ""
+    echo -e "\033[32m[PRIVACY] TELEMETRIA DESABILITADA NA IMAGEM!\033[0m"
 fi

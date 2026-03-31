@@ -234,8 +234,10 @@
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "EVOLUTION_GO": "Evolution",
           "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
           "TWILIO_DESC": "Connect via Twilio credentials",
+          "EVOLUTION_GO_DESC": "Pareamento por QR com Evolution Go",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
@@ -307,6 +309,38 @@
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
           "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "manual setup flow"
+        },
+        "EVOLUTION_GO": {
+          "HELP_TEXT": "Crie a caixa primeiro. O Chatwit vai provisionar a instância Evolution Go e acompanhar o pareamento até o dispositivo conectar.",
+          "CREATE_BUTTON": "Criar caixa Evolution",
+          "START_BUTTON": "Iniciar pareamento",
+          "CANCEL_BUTTON": "Cancelar pareamento",
+          "START_SUCCESS": "Uma nova sessão de pareamento foi iniciada.",
+          "CANCEL_SUCCESS": "A sessão de pareamento foi cancelada.",
+          "SETUP_TITLE": "Conecte seu dispositivo WhatsApp",
+          "SETUP_DESCRIPTION": "Escaneie o QR code abaixo no WhatsApp. Quando o dispositivo for pareado, o Chatwit seguirá automaticamente para a etapa de agentes.",
+          "INSTANCE_NAME": "Instância Evolution",
+          "CONNECTION_STATUS": "Status da conexão",
+          "WEBHOOK_URL": "URL do webhook",
+          "QR_HELP": "Escaneie este QR code pelo WhatsApp no celular.",
+          "WAITING_TITLE": "Aguardando QR code",
+          "WAITING_DESCRIPTION": "O Evolution Go está preparando a sessão de pareamento. Esta página atualiza automaticamente.",
+          "START_REQUIRED_TITLE": "Sessão de pareamento encerrada",
+          "START_REQUIRED_DESCRIPTION": "Esta sessão não está mais ativa. Inicie uma nova sessão para gerar outro QR code.",
+          "LOADING_STATE": "Atualizando o status da conexão...",
+          "CONNECTED_NUMBER": "Número conectado",
+          "CONTINUE_BUTTON": "Continuar",
+          "STATUS": {
+            "connected": "Conectado",
+            "awaiting_qr": "Aguardando QR code",
+            "pairing": "Pareando",
+            "disconnected": "Desconectado",
+            "logged_out": "Desconectado da conta",
+            "temporarily_banned": "Banido temporariamente",
+            "connect_failure": "Falha na conexão",
+            "qr_timeout": "QR code expirado",
+            "not_created": "Instância não criada"
+          }
         },
         "API": {
           "ERROR_MESSAGE": "Não foi possível gravar o canal do WhatsApp"

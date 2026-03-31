@@ -36,6 +36,10 @@ class ChatwootHub
     "#{billing_base_url}?installation_identifier=#{installation_identifier}"
   end
 
+  def self.telemetry_disabled?
+    ENV['DISABLE_TELEMETRY'].to_s.downcase == 'true'
+  end
+
   def self.pricing_plan
     return 'community' unless ChatwootApp.enterprise?
 
@@ -84,11 +88,11 @@ class ChatwootHub
 
   def self.sync_with_hub
     # CHATWIT: Block all hub communication when telemetry is disabled
-    return {} if ENV['DISABLE_TELEMETRY'].to_s.downcase == 'true'
+    return {} if telemetry_disabled?
 
     begin
       info = instance_config
-      info = info.merge(instance_metrics) unless ENV['DISABLE_TELEMETRY']
+      info = info.merge(instance_metrics) unless telemetry_disabled?
       response = RestClient.post(ping_url, info.to_json, { content_type: :json, accept: :json })
       parsed_response = JSON.parse(response)
     rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
@@ -101,7 +105,7 @@ class ChatwootHub
 
   def self.register_instance(company_name, owner_name, owner_email)
     # CHATWIT: Block registration when telemetry is disabled
-    return if ENV['DISABLE_TELEMETRY'].to_s.downcase == 'true'
+    return if telemetry_disabled?
 
     info = { company_name: company_name, owner_name: owner_name, owner_email: owner_email, subscribed_to_mailers: true }
     RestClient.post(registration_url, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
@@ -121,7 +125,7 @@ class ChatwootHub
   end
 
   def self.emit_event(event_name, event_data)
-    return if ENV['DISABLE_TELEMETRY']
+    return if telemetry_disabled?
 
     info = { event_name: event_name, event_data: event_data }
     RestClient.post(events_url, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
