@@ -36,11 +36,17 @@ class Webhooks::Trigger
 
     case @webhook_type
     when :agent_bot_webhook
-      conversation = message.conversation
-      return unless conversation&.pending?
-
-      conversation.open!
-      create_agent_bot_error_activity(conversation)
+      # FIXME: Temporariamente desabilitado. Quando o webhook do agent bot falha,
+      # o comportamento original era mover a conversa de pending para open.
+      # Isso causa perda de leads porque o bot para de responder na conversa.
+      # Mantemos comentado até identificar a causa raiz das falhas de webhook
+      # e implementar uma solução que não interrompa o fluxo do bot.
+      #
+      # conversation = message.conversation
+      # return unless conversation&.pending?
+      # conversation.open!
+      # create_agent_bot_error_activity(conversation)
+      nil
     when :api_inbox_webhook
       update_message_status(error)
     end
