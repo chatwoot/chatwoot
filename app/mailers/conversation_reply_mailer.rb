@@ -140,7 +140,11 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def parse_email(email_string)
-    Mail::Address.new(email_string).address
+    Mail::Address.new(email_string).address.presence || default_sender_email_address
+  end
+
+  def default_sender_email_address
+    Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')).address
   end
 
   def inbox_from_email_address
