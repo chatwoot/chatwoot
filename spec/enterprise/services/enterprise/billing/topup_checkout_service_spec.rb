@@ -24,6 +24,7 @@ describe Enterprise::Billing::TopupCheckoutService do
     allow(Stripe::Invoice).to receive(:create).and_return(stripe_invoice)
     allow(Stripe::InvoiceItem).to receive(:create)
     allow(Stripe::Invoice).to receive(:finalize_invoice)
+    allow(Stripe::Invoice).to receive(:retrieve).and_return(Struct.new(:status).new('open'))
     allow(Stripe::Invoice).to receive(:pay)
     allow(Stripe::Billing::CreditGrant).to receive(:create)
   end
@@ -57,6 +58,20 @@ describe Enterprise::Billing::TopupCheckoutService do
         expect(error.class.name).to eq('Enterprise::Billing::TopupCheckoutService::Error')
         expect(error.message).to eq(I18n.t('errors.topup.plan_not_eligible'))
       end
+    end
+
+    it 'calls pay when invoice is open after finalization' do
+      service.create_checkout_session(credits: 1000)
+
+      expect(Stripe::Invoice).to have_received(:pay).with('inv_test123')
+    end
+
+    it 'skips pay when invoice is already paid via Stripe credits' do
+      allow(Stripe::Invoice).to receive(:retrieve).and_return(Struct.new(:status).new('paid'))
+
+      service.create_checkout_session(credits: 1000)
+
+      expect(Stripe::Invoice).not_to have_received(:pay)
     end
   end
 end
