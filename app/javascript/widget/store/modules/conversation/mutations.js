@@ -124,7 +124,9 @@ export const mutations = {
   },
 
   setPendingLabels($state, label) {
-    $state.pendingLabels = [...new Set([...$state.pendingLabels, label])];
+    if (!$state.pendingLabels.includes(label)) {
+      $state.pendingLabels.push(label);
+    }
   },
 
   removePendingCustomAttribute($state, key) {
