@@ -16,7 +16,11 @@ export const actions = {
       // Ignore error
     }
   },
-  destroy: async (_, label) => {
+  destroy: async ({ commit, rootGetters }, label) => {
+    if (!rootGetters['conversationAttributes/getConversationParams']?.id) {
+      commit('conversation/removePendingLabel', label, { root: true });
+      return;
+    }
     try {
       await conversationLabels.destroy(label);
     } catch (error) {

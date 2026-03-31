@@ -227,7 +227,11 @@ export const actions = {
     }
   },
 
-  deleteCustomAttribute: async (_, customAttribute) => {
+  deleteCustomAttribute: async ({ commit, rootGetters }, customAttribute) => {
+    if (!rootGetters['conversationAttributes/getConversationParams']?.id) {
+      commit('removePendingCustomAttribute', customAttribute);
+      return;
+    }
     try {
       await deleteCustomAttribute(customAttribute);
     } catch (error) {

@@ -236,6 +236,28 @@ describe('#actions', () => {
     });
   });
 
+  describe('#deleteCustomAttribute', () => {
+    it('removes from pending state when no conversation exists', async () => {
+      const rootGetters = {
+        'conversationAttributes/getConversationParams': { id: '' },
+      };
+      await actions.deleteCustomAttribute({ commit, rootGetters }, 'plan');
+      expect(commit).toBeCalledWith('removePendingCustomAttribute', 'plan');
+    });
+
+    it('calls API when conversation exists', async () => {
+      API.post.mockResolvedValue({ data: {} });
+      const rootGetters = {
+        'conversationAttributes/getConversationParams': { id: 123 },
+      };
+      await actions.deleteCustomAttribute({ commit, rootGetters }, 'plan');
+      expect(commit).not.toBeCalledWith(
+        'removePendingCustomAttribute',
+        expect.anything()
+      );
+    });
+  });
+
   describe('#clearConversations', () => {
     it('sends correct mutations', () => {
       actions.clearConversations({ commit });
