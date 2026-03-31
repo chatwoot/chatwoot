@@ -31,6 +31,8 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
 
   def build_tools
     tools = [Captain::Tools::SearchDocumentationService.new(@assistant, user: nil)]
+    return tools unless custom_tools_enabled?
+
     tools + @assistant.account.captain_custom_tools.enabled.map do |ct|
       ct.tool(@assistant, base_class: Captain::Tools::CustomHttpTool, conversation: @conversation)
     end
@@ -48,9 +50,15 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
   end
 
   def custom_tools_metadata
+    return [] unless custom_tools_enabled?
+
     @assistant.account.captain_custom_tools.enabled.map do |ct|
       { name: ct.slug, description: ct.description }
     end
+  end
+
+  def custom_tools_enabled?
+    @assistant.account.feature_enabled?('custom_tools')
   end
 
   def contact_attributes
