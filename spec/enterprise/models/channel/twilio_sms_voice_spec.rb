@@ -57,7 +57,7 @@ RSpec.describe Channel::TwilioSms do
 
   describe 'provisioning on create' do
     it 'stores twiml_app_sid from the webhook setup service' do
-      stub_request(:get, %r{api.twilio.com/2010-04-01/Accounts/.*/IncomingPhoneNumbers.json})
+      stub_request(:get, %r{api\.twilio\.com/2010-04-01/Accounts/.*/IncomingPhoneNumbers\.json})
         .to_return(status: 200, body: { incoming_phone_numbers: [{ capabilities: { 'voice' => true } }] }.to_json,
                    headers: { 'Content-Type' => 'application/json' })
       channel = create(:channel_twilio_sms, :with_voice, twiml_app_sid: nil)
