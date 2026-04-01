@@ -6,9 +6,11 @@ import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 import NewHook from './NewHook.vue';
 import SingleIntegrationHooks from './SingleIntegrationHooks.vue';
 import MultipleIntegrationHooks from './MultipleIntegrationHooks.vue';
+import ConfirmDialog from 'dashboard/components-next/dialog/Dialog.vue';
 
 export default {
   components: {
+    ConfirmDialog,
     NewHook,
     SingleIntegrationHooks,
     MultipleIntegrationHooks,
@@ -39,7 +41,6 @@ export default {
     return {
       loading: {},
       showAddHookModal: false,
-      showDeleteConfirmationPopup: false,
       selectedHook: {},
       alertMessage: '',
     };
@@ -79,13 +80,13 @@ export default {
       this.showAddHookModal = false;
     },
     openDeletePopup(response) {
-      this.showDeleteConfirmationPopup = true;
       this.selectedHook = response;
-    },
-    closeDeletePopup() {
-      this.showDeleteConfirmationPopup = false;
+      this.$nextTick(() => {
+        this.$refs.hookDeleteDialog?.open();
+      });
     },
     async confirmDeletion() {
+      this.$refs.hookDeleteDialog?.close();
       try {
         await this.$store.dispatch('integrations/deleteHook', {
           hookId: this.selectedHook.id,
@@ -94,7 +95,6 @@ export default {
         this.alertMessage = this.$t(
           'INTEGRATION_APPS.DELETE.API.SUCCESS_MESSAGE'
         );
-        this.closeDeletePopup();
       } catch (error) {
         const errorMessage = error?.response?.data?.message;
         this.alertMessage =
@@ -132,14 +132,14 @@ export default {
       <NewHook :integration-id="integrationId" @close="hideAddHookModal" />
     </woot-modal>
 
-    <woot-delete-modal
-      v-model:show="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
+    <ConfirmDialog
+      ref="hookDeleteDialog"
+      type="alert"
       :title="deleteTitle"
-      :message="deleteMessage"
-      :confirm-text="confirmText"
-      :reject-text="cancelText"
+      :description="deleteMessage"
+      :confirm-button-label="confirmText"
+      :cancel-button-label="cancelText"
+      @confirm="confirmDeletion"
     />
   </div>
 </template>

@@ -40,9 +40,9 @@ const handleSubmit = campaignDetails => {
 
 <template>
   <div
-    class="w-[25rem] z-50 min-w-0 absolute top-10 ltr:right-0 rtl:left-0 bg-n-alpha-3 backdrop-blur-[100px] p-6 rounded-xl border border-n-weak shadow-md flex flex-col gap-6 max-h-[85vh] overflow-y-auto"
+    class="absolute top-10 z-50 flex max-h-[85vh] min-w-0 w-[25rem] flex-col gap-6 overflow-y-auto rounded-xl border border-outline-variant/10 bg-surface-container-low/95 p-6 shadow-lg backdrop-blur-md ltr:right-0 rtl:left-0"
   >
-    <h3 class="text-base font-medium text-n-slate-12">
+    <h3 class="text-base font-semibold text-on-surface">
       {{ t(`CAMPAIGN.LIVE_CHAT.CREATE.TITLE`) }}
     </h3>
     <LiveChatCampaignForm

@@ -27,25 +27,27 @@ const getFormattedPermissions = role => {
 </script>
 
 <template>
-  <tbody class="divide-y divide-n-weak text-n-slate-11">
-    <tr v-for="(customRole, index) in roles" :key="index">
+  <tbody
+    class="divide-y divide-surface-container-high/30 text-on-surface-variant [&>tr]:transition-colors [&>tr]:duration-150 [&>tr]:hover:bg-surface-container-high/20"
+  >
+    <tr v-for="customRole in roles" :key="customRole.id">
       <td
-        class="max-w-xs py-4 ltr:pr-4 rtl:pl-4 font-medium truncate align-baseline"
+        class="max-w-xs px-6 py-4 text-sm font-medium text-on-surface truncate align-baseline"
         :title="customRole.name"
       >
         {{ customRole.name }}
       </td>
       <td
-        class="py-4 ltr:pr-4 rtl:pl-4 whitespace-normal align-baseline md:break-words"
+        class="px-6 py-4 text-sm align-baseline whitespace-normal md:break-words"
       >
         {{ customRole.description }}
       </td>
       <td
-        class="py-4 ltr:pr-4 rtl:pl-4 whitespace-normal align-baseline md:break-words"
+        class="px-6 py-4 text-sm align-baseline whitespace-normal md:break-words"
       >
         {{ getFormattedPermissions(customRole) }}
       </td>
-      <td class="flex justify-end gap-1 py-4">
+      <td class="flex justify-end gap-1 px-6 py-4">
         <Button
           v-tooltip.top="$t('CUSTOM_ROLE.EDIT.BUTTON_TEXT')"
           icon="i-lucide-pen"

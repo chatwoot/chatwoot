@@ -37,18 +37,22 @@ watch(
 <template>
   <div
     ref="toolsDropdownRef"
-    class="w-[22.5rem] p-2 flex flex-col gap-1 z-50 absolute rounded-xl bg-n-alpha-3 shadow outline outline-1 outline-n-weak backdrop-blur-[50px] max-h-[20rem] overflow-y-auto"
+    class="absolute z-50 flex max-h-[20rem] w-[22.5rem] flex-col gap-1 overflow-y-auto rounded-xl border border-outline-variant/10 bg-surface-container-high/95 p-2 shadow-lg backdrop-blur-md"
   >
     <div
       v-for="(tool, idx) in items"
       :id="`tool-item-${idx}`"
       :key="tool.id || idx"
-      :class="{ 'bg-n-alpha-black2': idx === selectedIndex }"
-      class="flex flex-col gap-1 rounded-md py-2 px-2 cursor-pointer hover:bg-n-alpha-black2"
+      :class="{
+        'bg-surface-container-highest': idx === selectedIndex,
+      }"
+      class="flex cursor-pointer flex-col gap-1 rounded-md px-2 py-2 hover:bg-surface-container-highest"
       @click="onItemClick(idx)"
     >
-      <span class="text-n-slate-12 font-medium text-sm">{{ tool.title }}</span>
-      <span class="text-n-slate-11 text-sm">{{ tool.description }}</span>
+      <span class="text-sm font-medium text-on-surface">{{ tool.title }}</span>
+      <span class="text-sm text-on-surface-variant">{{
+        tool.description
+      }}</span>
     </div>
   </div>
 </template>

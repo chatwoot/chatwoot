@@ -15,7 +15,7 @@ const goToBillingSettings = () => {
 </script>
 
 <template>
-  <div class="py-4 px-5 bg-n-background">
+  <div class="py-4 px-5 bg-surface">
     <div class="flex justify-center">
       <BasePaywallModal
         feature-prefix="CSAT_REPORTS.REVIEW_NOTES"

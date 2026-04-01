@@ -80,7 +80,7 @@ export default {
     <div class="w-full">
       <table v-if="hasConnectedHooks">
         <thead
-          class="[&>th]:font-semibold [&>th]:tracking-[1px] ltr:[&>th]:text-left rtl:[&>th]:text-right [&>th]:px-2.5 [&>th]:uppercase [&>th]:text-n-slate-12"
+          class="[&>th]:font-semibold [&>th]:tracking-[1px] ltr:[&>th]:text-left rtl:[&>th]:text-right [&>th]:px-2.5 [&>th]:uppercase [&>th]:text-on-surface"
         >
           <th
             v-for="hookHeader in hookHeaders"
@@ -97,7 +97,7 @@ export default {
           <tr
             v-for="hook in hooks"
             :key="hook.id"
-            class="border-b border-n-weak [&>td]:p-2.5 [&>td]:text-n-slate-12"
+            class="border-b border-outline-variant/15 [&>td]:p-2.5 [&>td]:text-on-surface"
           >
             <td
               v-for="property in hook.properties"

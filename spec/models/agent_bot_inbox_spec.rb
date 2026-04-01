@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: agent_bot_inboxes
+#
+#  id           :bigint           not null, primary key
+#  status       :integer          default("active")
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  account_id   :integer
+#  agent_bot_id :integer
+#  inbox_id     :integer
+#
 require 'rails_helper'
 
 RSpec.describe AgentBotInbox do

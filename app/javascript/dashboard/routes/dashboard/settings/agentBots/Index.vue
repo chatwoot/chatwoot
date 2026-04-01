@@ -4,10 +4,13 @@ import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 
+import CustomBrandPolicyWrapper from 'dashboard/components/CustomBrandPolicyWrapper.vue';
+import { getHelpUrlForFeature } from 'dashboard/helper/featureHelper';
 import SettingsLayout from '../SettingsLayout.vue';
-import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import AgentBotModal from './components/AgentBotModal.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
@@ -28,12 +31,7 @@ const modalType = ref(MODAL_TYPES.CREATE);
 const agentBotModalRef = ref(null);
 const agentBotDeleteDialogRef = ref(null);
 
-const tableHeaders = computed(() => {
-  return [
-    t('AGENT_BOTS.LIST.TABLE_HEADER.DETAILS'),
-    t('AGENT_BOTS.LIST.TABLE_HEADER.URL'),
-  ];
-});
+const helpURL = computed(() => getHelpUrlForFeature('agent_bots'));
 
 const selectedBotName = computed(() => selectedBot.value?.name || '');
 
@@ -72,6 +70,9 @@ const confirmDeletion = () => {
   agentBotDeleteDialogRef.value.close();
 };
 
+const botWebhookDisplay = bot =>
+  bot.outgoing_url || bot.bot_config?.webhook_url || '';
+
 onMounted(() => {
   store.dispatch('agentBots/get');
 });
@@ -85,88 +86,130 @@ onMounted(() => {
     :no-records-message="t('AGENT_BOTS.LIST.404')"
   >
     <template #header>
-      <BaseSettingsHeader
-        :title="t('AGENT_BOTS.HEADER')"
-        :description="t('AGENT_BOTS.DESCRIPTION')"
-        :link-text="t('AGENT_BOTS.LEARN_MORE')"
-        feature-name="agent_bots"
+      <div
+        class="flex flex-col gap-6 pb-2 sm:flex-row sm:items-end sm:justify-between"
       >
-        <template #actions>
-          <Button
-            icon="i-lucide-circle-plus"
-            :label="$t('AGENT_BOTS.ADD.TITLE')"
-            @click="openAddModal"
-          />
-        </template>
-      </BaseSettingsHeader>
+        <div class="min-w-0 space-y-2">
+          <h2 class="text-3xl font-bold tracking-tight text-on-surface mb-0">
+            {{ t('AGENT_BOTS.HEADER') }}
+          </h2>
+          <p class="text-on-primary-container max-w-2xl text-base mb-0">
+            {{ t('AGENT_BOTS.PAGE_SUBTITLE') }}
+          </p>
+          <CustomBrandPolicyWrapper :show-on-custom-branded-instance="false">
+            <a
+              v-if="helpURL"
+              :href="helpURL"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1 text-sm font-medium text-secondary hover:underline"
+            >
+              {{ t('AGENT_BOTS.LEARN_MORE') }}
+              <Icon icon="i-lucide-chevron-right" class="size-4 shrink-0" />
+            </a>
+          </CustomBrandPolicyWrapper>
+        </div>
+        <Button
+          solid
+          teal
+          lg
+          icon="i-lucide-plus"
+          :label="$t('AGENT_BOTS.ADD.TITLE')"
+          class="w-full shrink-0 font-bold rounded-xl shadow-none hover:shadow-[0_0_20px_rgba(4,190,153,0.4)] active:scale-[0.98] sm:w-auto"
+          @click="openAddModal"
+        />
+      </div>
     </template>
     <template #body>
-      <table class="min-w-full overflow-x-auto divide-y divide-n-strong">
-        <thead>
-          <th
-            v-for="thHeader in tableHeaders"
-            :key="thHeader"
-            class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11"
+      <div
+        class="overflow-x-auto rounded-2xl shadow-xl border border-outline-variant/10"
+      >
+        <div class="min-w-[44rem] bg-surface-container-low">
+          <div
+            class="grid grid-cols-12 px-6 py-4 bg-surface-container-high/30 border-b border-surface-container-high/50"
           >
-            {{ thHeader }}
-          </th>
-        </thead>
-        <tbody class="flex-1 divide-y divide-n-weak text-n-slate-12">
-          <tr v-for="bot in agentBots" :key="bot.id">
-            <td class="py-4 ltr:pr-4 rtl:pl-4">
-              <div class="flex flex-row items-center gap-4">
-                <Avatar
-                  :name="bot.name"
-                  :src="bot.thumbnail"
-                  :size="40"
-                  rounded-full
-                />
-                <div>
-                  <span class="block font-medium break-words">
+            <div
+              class="col-span-5 text-[11px] font-bold uppercase tracking-widest text-tertiary/60"
+            >
+              {{ t('AGENT_BOTS.LIST.TABLE_HEADER.DETAILS') }}
+            </div>
+            <div
+              class="col-span-5 text-[11px] font-bold uppercase tracking-widest text-tertiary/60"
+            >
+              {{ t('AGENT_BOTS.LIST.TABLE_HEADER.URL') }}
+            </div>
+            <div
+              class="col-span-2 text-right text-[11px] font-bold uppercase tracking-widest text-tertiary/60"
+            >
+              {{ t('AGENT_BOTS.LIST.TABLE_HEADER.ACTIONS') }}
+            </div>
+          </div>
+          <div class="divide-y divide-surface-container-high/30">
+            <div
+              v-for="bot in agentBots"
+              :key="bot.id"
+              class="grid grid-cols-12 items-center px-6 py-4 transition-all duration-200 hover:bg-surface-container-high/40"
+            >
+              <div class="col-span-5 flex min-w-0 items-center gap-4">
+                <Avatar :name="bot.name" :src="bot.thumbnail" :size="40" />
+                <div class="min-w-0">
+                  <span
+                    class="block text-sm font-bold break-words text-on-surface"
+                  >
                     {{ bot.name }}
                     <span
                       v-if="bot.system_bot"
-                      class="text-xs text-n-slate-12 bg-n-blue-5 inline-block rounded-md py-0.5 px-1 ltr:ml-1 rtl:mr-1"
+                      class="ms-1 inline-block rounded-md bg-surface-container-high px-2.5 py-1 text-xs font-medium text-tertiary/70 align-middle"
                     >
                       {{ $t('AGENT_BOTS.GLOBAL_BOT_BADGE') }}
                     </span>
                   </span>
-                  <span class="text-sm text-n-slate-11">
+                  <span
+                    class="mt-0.5 block text-xs text-on-primary-container line-clamp-2"
+                  >
                     {{ bot.description }}
                   </span>
                 </div>
               </div>
-            </td>
-            <td class="py-4 ltr:pr-4 rtl:pl-4 text-sm">
-              {{ bot.outgoing_url || bot.bot_config?.webhook_url }}
-            </td>
-            <td class="py-4 min-w-xs">
-              <div class="flex gap-1 justify-end">
-                <Button
+              <div class="col-span-5 min-w-0 px-2 ltr:pl-0 rtl:pr-0">
+                <p
+                  class="mb-0 truncate font-mono text-xs text-on-primary-container"
+                  :title="botWebhookDisplay(bot)"
+                >
+                  {{ botWebhookDisplay(bot) || '—' }}
+                </p>
+              </div>
+              <div class="col-span-2 flex justify-end gap-1">
+                <button
                   v-if="!bot.system_bot"
                   v-tooltip.top="t('AGENT_BOTS.EDIT.BUTTON_TEXT')"
-                  icon="i-lucide-pen"
-                  slate
-                  xs
-                  faded
-                  :is-loading="loading[bot.id]"
+                  type="button"
+                  :disabled="loading[bot.id]"
+                  class="rounded-lg p-2 text-tertiary opacity-70 outline-none transition-all hover:bg-surface-container-high hover:text-secondary hover:opacity-100 focus-visible:ring-2 focus-visible:ring-secondary/40 disabled:pointer-events-none disabled:opacity-40"
                   @click="openEditModal(bot)"
-                />
-                <Button
+                >
+                  <Spinner v-if="loading[bot.id]" class="size-5" />
+                  <Icon v-else icon="i-lucide-pen" class="size-5" />
+                </button>
+                <button
                   v-if="!bot.system_bot"
                   v-tooltip.top="t('AGENT_BOTS.DELETE.BUTTON_TEXT')"
-                  icon="i-lucide-trash-2"
-                  xs
-                  ruby
-                  faded
-                  :is-loading="loading[bot.id]"
+                  type="button"
+                  :disabled="loading[bot.id]"
+                  class="rounded-lg p-2 text-tertiary opacity-70 outline-none transition-all hover:bg-surface-container-high hover:text-error hover:opacity-100 focus-visible:ring-2 focus-visible:ring-error/40 disabled:pointer-events-none disabled:opacity-40"
                   @click="openDeletePopup(bot)"
-                />
+                >
+                  <Spinner v-if="loading[bot.id]" class="size-5" />
+                  <Icon v-else icon="i-lucide-trash-2" class="size-5" />
+                </button>
               </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="mt-6 text-xs font-medium text-on-primary-container">
+        {{ t('AGENT_BOTS.LIST.SHOWING_COUNT', { count: agentBots.length }) }}
+      </p>
     </template>
 
     <AgentBotModal

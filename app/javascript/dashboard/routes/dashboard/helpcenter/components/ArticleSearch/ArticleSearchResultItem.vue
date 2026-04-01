@@ -50,18 +50,18 @@ const handleCopy = async e => {
 
 <template>
   <button
-    class="flex flex-col w-full gap-1 px-2 py-1 border border-transparent border-solid rounded-md cursor-pointer hover:bg-n-slate-3 group focus:outline-none focus:bg-n-slate-3"
+    class="group flex w-full cursor-pointer flex-col gap-1 rounded-md border border-transparent border-solid px-2 py-1 hover:bg-surface-container-high/60 focus:bg-surface-container-high/60 focus:outline-none"
     @click="handlePreview"
   >
     <h4
-      class="w-full mb-0 -mx-1 text-sm rounded-sm ltr:text-left rtl:text-right text-n-slate-12 hover:underline group-hover:underline"
+      class="-mx-1 mb-0 w-full rounded-sm text-sm text-on-surface hover:underline group-hover:underline ltr:text-left rtl:text-right"
     >
       {{ title }}
     </h4>
 
     <div class="flex content-between items-center gap-0.5 w-full">
       <p
-        class="w-full mb-0 text-sm ltr:text-left rtl:text-right text-n-slate-11"
+        class="mb-0 w-full text-sm text-on-surface-variant ltr:text-left rtl:text-right"
       >
         {{ locale }}
         {{ ` / ` }}

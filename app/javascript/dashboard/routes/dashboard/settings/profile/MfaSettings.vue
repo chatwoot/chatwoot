@@ -135,10 +135,10 @@ const regenerateBackupCodes = async ({ otpCode }) => {
   >
     <!-- Page Header -->
     <div class="flex flex-col gap-6">
-      <h2 class="text-2xl font-medium text-n-slate-12">
+      <h2 class="text-2xl font-medium text-on-surface">
         {{ $t('MFA_SETTINGS.TITLE') }}
       </h2>
-      <p class="text-sm text-n-slate-11">
+      <p class="text-sm text-on-surface-variant">
         {{ $t('MFA_SETTINGS.SUBTITLE') }}
       </p>
     </div>

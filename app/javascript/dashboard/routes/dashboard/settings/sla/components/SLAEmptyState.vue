@@ -12,8 +12,11 @@ const primaryAction = () => emit('primaryAction');
       {{ $t('SLA.LIST.404') }}
     </p>
     <NextButton
+      solid
+      teal
+      lg
       icon="i-lucide-plus"
-      class="mt-4"
+      class="mt-4 rounded-xl font-bold shadow-none hover:shadow-[0_0_20px_rgba(4,190,153,0.4)] active:scale-[0.98]"
       :label="$t('SLA.ADD_ACTION_LONG')"
       @click="primaryAction"
     />

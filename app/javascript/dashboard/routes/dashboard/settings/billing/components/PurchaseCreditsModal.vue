@@ -145,9 +145,11 @@ defineExpose({ open, close });
         />
       </div>
 
-      <div class="p-4 mt-6 rounded-lg bg-n-solid-2 border border-n-weak">
-        <p class="text-sm text-n-slate-11">
-          <span class="font-semibold text-n-slate-12">{{
+      <div
+        class="p-4 mt-6 rounded-lg bg-surface-container-low border border-outline-variant/15"
+      >
+        <p class="text-sm text-on-surface-variant">
+          <span class="font-semibold text-on-surface">{{
             $t('BILLING_SETTINGS.TOPUP.NOTE_TITLE')
           }}</span>
           {{ $t('BILLING_SETTINGS.TOPUP.NOTE_DESCRIPTION') }}
@@ -158,7 +160,7 @@ defineExpose({ open, close });
     <!-- Step 2: Confirm Purchase -->
     <template v-else>
       <div class="flex flex-col gap-4">
-        <p class="text-sm text-n-slate-11">
+        <p class="text-sm text-on-surface-variant">
           {{
             $t('BILLING_SETTINGS.TOPUP.CONFIRM.DESCRIPTION', {
               credits: formattedCredits,

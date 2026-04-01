@@ -4,7 +4,7 @@ import { useAlert } from 'dashboard/composables';
 
 import TeamForm from '../TeamForm.vue';
 import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader.vue';
+import PageHeader from '../components/TeamWizardPageHeader.vue';
 import Spinner from 'shared/components/Spinner.vue';
 
 export default {
@@ -57,7 +57,7 @@ export default {
 </script>
 
 <template>
-  <div class="h-full w-full p-8 col-span-6">
+  <div class="h-full w-full p-6 lg:p-8">
     <PageHeader
       :header-title="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.TITLE')"
       :header-content="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.DESC')"

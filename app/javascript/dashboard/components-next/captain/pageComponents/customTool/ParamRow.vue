@@ -63,23 +63,23 @@ defineExpose({ validate });
 <template>
   <li class="list-none">
     <div
-      class="flex items-start gap-2 p-3 rounded-lg border border-n-weak bg-n-alpha-2"
+      class="flex items-start gap-2 rounded-lg border border-outline-variant/10 bg-surface-container-lowest p-3"
       :class="{
-        'animate-wiggle border-n-ruby-9': showErrors && validationError,
+        'animate-wiggle border-error': showErrors && validationError,
       }"
     >
-      <div class="flex flex-col flex-1 gap-3">
-        <div class="grid grid-cols-3 gap-2">
+      <div class="flex min-w-0 flex-1 flex-col gap-3">
+        <div class="grid grid-cols-1 gap-2 sm:grid-cols-3">
           <Input
             v-model="name"
             :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_NAME.PLACEHOLDER')"
-            class="col-span-2"
+            class="min-w-0 sm:col-span-2"
           />
           <ComboBox
             v-model="type"
             :options="paramTypeOptions"
             :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_TYPE.PLACEHOLDER')"
-            class="[&>div>button]:bg-n-alpha-black2"
+            class="min-w-0"
           />
         </div>
         <Input
@@ -88,24 +88,26 @@ defineExpose({ validate });
             t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_DESCRIPTION.PLACEHOLDER')
           "
         />
-        <label class="flex items-center gap-2 cursor-pointer">
+        <label class="flex cursor-pointer items-center gap-2">
           <Checkbox v-model="required" />
-          <span class="text-sm text-n-slate-11">
+          <span class="text-sm text-on-surface-variant">
             {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_REQUIRED.LABEL') }}
           </span>
         </label>
       </div>
       <Button
-        solid
-        slate
+        type="button"
+        ghost
+        ruby
+        xs
         icon="i-lucide-trash"
-        class="flex-shrink-0"
+        class="mt-0.5 shrink-0 rounded-md"
         @click.stop="emit('remove')"
       />
     </div>
     <span
       v-if="showErrors && validationError"
-      class="block mt-1 text-sm text-n-ruby-11"
+      class="mt-1 block text-sm text-error"
     >
       {{ t(`CAPTAIN.CUSTOM_TOOLS.FORM.ERRORS.${validationError}`) }}
     </span>

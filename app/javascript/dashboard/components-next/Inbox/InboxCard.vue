@@ -36,10 +36,10 @@ const contextMenuPosition = ref({ x: null, y: null });
 const slaCardLabel = ref(null);
 
 const getMessageClasses = {
-  emphasis: 'text-sm font-medium text-n-slate-11',
-  emphasisUnread: 'text-sm font-medium text-n-slate-12',
-  normal: 'text-sm font-normal text-n-slate-11',
-  normalUnread: 'text-sm text-n-slate-12',
+  emphasis: 'text-sm font-medium text-on-primary-container',
+  emphasisUnread: 'text-sm font-medium text-on-surface',
+  normal: 'text-sm font-normal text-on-primary-container',
+  normalUnread: 'text-sm text-on-surface',
 };
 
 const primaryActor = computed(() => props.inboxItem?.primaryActor);

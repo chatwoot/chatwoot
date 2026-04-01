@@ -78,7 +78,7 @@ const showPagination = computed(() => {
 
 <template>
   <section
-    class="flex w-full h-full gap-4 overflow-hidden justify-evenly bg-n-surface-1"
+    class="flex w-full h-full gap-4 overflow-hidden justify-evenly bg-surface"
   >
     <div class="flex flex-col w-full h-full transition-all duration-300">
       <ContactListHeaderWrapper
@@ -114,7 +114,10 @@ const showPagination = computed(() => {
           />
         </div>
       </main>
-      <footer v-if="showPagination" class="sticky bottom-0 z-0 px-4 pb-4">
+      <footer
+        v-if="showPagination"
+        class="sticky bottom-0 z-0 px-4 pb-4 bg-surface/80 backdrop-blur-sm"
+      >
         <PaginationFooter
           current-page-info="CONTACTS_LAYOUT.PAGINATION_FOOTER.SHOWING"
           :current-page="currentPage"

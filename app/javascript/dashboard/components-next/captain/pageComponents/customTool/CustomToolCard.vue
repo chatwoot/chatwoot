@@ -76,20 +76,21 @@ const authTypeLabel = computed(() => {
 <template>
   <CardLayout class="relative">
     <div class="flex relative justify-between w-full gap-1">
-      <span class="text-base text-n-slate-12 line-clamp-1 font-medium">
+      <span class="line-clamp-1 text-base font-medium text-on-surface">
         {{ title }}
       </span>
       <div class="flex items-center gap-2">
         <Policy
           v-on-clickaway="() => toggleDropdown(false)"
           :permissions="['administrator']"
-          class="relative flex items-center group"
+          class="group relative flex items-center"
         >
           <Button
             icon="i-lucide-ellipsis-vertical"
-            color="slate"
-            size="xs"
-            class="rounded-md group-hover:bg-n-alpha-2"
+            ghost
+            slate
+            xs
+            class="rounded-md text-on-surface-variant group-hover:bg-surface-container-highest"
             @click="toggleDropdown()"
           />
           <DropdownMenu
@@ -101,23 +102,23 @@ const authTypeLabel = computed(() => {
         </Policy>
       </div>
     </div>
-    <div class="flex items-center justify-between w-full gap-4">
-      <div class="flex items-center gap-3 flex-1">
+    <div class="flex w-full items-center justify-between gap-4">
+      <div class="flex flex-1 items-center gap-3">
         <span
           v-if="description"
-          class="text-sm truncate text-n-slate-11 flex-1"
+          class="flex-1 truncate text-sm text-on-surface-variant"
         >
           {{ description }}
         </span>
         <span
           v-if="authType !== 'none'"
-          class="text-sm shrink-0 text-n-slate-11 inline-flex items-center gap-1"
+          class="inline-flex shrink-0 items-center gap-1 text-sm text-on-surface-variant"
         >
           <i class="i-lucide-lock text-base" />
           {{ authTypeLabel }}
         </span>
       </div>
-      <span class="text-sm text-n-slate-11 line-clamp-1 shrink-0">
+      <span class="line-clamp-1 shrink-0 text-sm text-on-surface-variant">
         {{ timestamp }}
       </span>
     </div>

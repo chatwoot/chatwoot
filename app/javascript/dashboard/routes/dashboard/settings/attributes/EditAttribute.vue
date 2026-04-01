@@ -166,18 +166,15 @@ export default {
         useAlert(this.alertMessage);
       }
     },
-    toggleRegexEnabled() {
-      this.regexEnabled = !this.regexEnabled;
-    },
   },
 };
 </script>
 
 <template>
-  <div class="flex flex-col h-auto overflow-auto">
+  <div class="flex h-auto flex-col overflow-auto">
     <woot-modal-header :header-title="pageTitle" />
-    <form class="flex flex-col w-full" @submit.prevent="editAttributes">
-      <div class="w-full">
+    <form class="flex w-full flex-col" @submit.prevent="editAttributes">
+      <div class="flex w-full flex-col gap-4 px-1 pb-1 pt-2">
         <woot-input
           v-model="displayName"
           :label="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.LABEL')"
@@ -214,8 +211,12 @@ export default {
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.ERROR') }}
           </span>
         </label>
-        <label :class="{ error: v$.attributeType.$error }">
-          {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LABEL') }}
+        <label class="block" :class="{ error: v$.attributeType.$error }">
+          <span
+            class="mb-2 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant"
+          >
+            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LABEL') }}
+          </span>
           <select v-model="attributeType" disabled>
             <option v-for="type in types" :key="type.id" :value="type.id">
               {{ type.option }}
@@ -226,7 +227,9 @@ export default {
           </span>
         </label>
         <div v-if="isAttributeTypeList" class="multiselect--wrap">
-          <label>
+          <label
+            class="mb-2 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant"
+          >
             {{ $t('ATTRIBUTES_MGMT.EDIT.TYPE.LIST.LABEL') }}
           </label>
           <multiselect
@@ -243,18 +246,27 @@ export default {
           />
           <label
             v-show="isMultiselectInvalid"
-            class="text-n-ruby-9 dark:text-n-ruby-9 text-sm font-normal mt-1"
+            class="mt-1 text-sm font-normal text-error"
           >
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
           </label>
         </div>
-        <div v-if="isAttributeTypeText">
+        <div
+          v-if="isAttributeTypeText"
+          class="flex w-full items-start gap-3 rounded-lg border border-outline-variant/20 bg-surface-container-lowest/60 p-3"
+        >
           <input
+            id="attr-edit-regex"
             v-model="regexEnabled"
             type="checkbox"
-            @input="toggleRegexEnabled"
+            class="mt-0.5 size-4 shrink-0 rounded border-outline-variant/40 text-secondary focus:ring-secondary"
           />
-          {{ $t('ATTRIBUTES_MGMT.ADD.FORM.ENABLE_REGEX.LABEL') }}
+          <label
+            for="attr-edit-regex"
+            class="cursor-pointer text-sm leading-snug text-on-surface"
+          >
+            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.ENABLE_REGEX.LABEL') }}
+          </label>
         </div>
         <woot-input
           v-if="isAttributeTypeText && isRegexEnabled"
@@ -273,7 +285,9 @@ export default {
           :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
         />
       </div>
-      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
+      <div
+        class="mt-2 flex w-full flex-row justify-end gap-2 border-t border-outline-variant/15 pt-4"
+      >
         <NextButton
           faded
           slate
@@ -282,6 +296,8 @@ export default {
           @click.prevent="onClose"
         />
         <NextButton
+          solid
+          teal
           type="submit"
           :label="$t('ATTRIBUTES_MGMT.EDIT.UPDATE_BUTTON_TEXT')"
           :is-loading="isUpdating"

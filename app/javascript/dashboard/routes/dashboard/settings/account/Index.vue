@@ -9,23 +9,20 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import NextInput from 'next/input/Input.vue';
-import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import AccountId from './components/AccountId.vue';
 import BuildInfo from './components/BuildInfo.vue';
 import AccountDelete from './components/AccountDelete.vue';
 import AudioTranscription from './components/AudioTranscription.vue';
-import SectionLayout from './components/SectionLayout.vue';
-
 export default {
   components: {
-    BaseSettingsHeader,
     NextButton,
+    Icon,
     AccountId,
     BuildInfo,
     AccountDelete,
     AudioTranscription,
-    SectionLayout,
     WithLabel,
     NextInput,
   },
@@ -146,96 +143,185 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col max-w-2xl mx-auto w-full">
-    <BaseSettingsHeader :title="$t('GENERAL_SETTINGS.TITLE')" />
-    <div class="flex-grow flex-shrink min-w-0 mt-3">
-      <SectionLayout
-        :title="$t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.TITLE')"
-        :description="$t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.NOTE')"
-      >
-        <form
-          v-if="!uiFlags.isFetchingItem"
-          class="grid gap-4"
-          @submit.prevent="updateAccount"
+  <div
+    class="account-settings-page flex flex-col w-full mx-auto space-y-10 text-on-surface antialiased selection:bg-secondary/30"
+  >
+    <header class="space-y-1">
+      <h1 class="text-3xl font-bold tracking-tight text-on-surface">
+        {{ $t('GENERAL_SETTINGS.TITLE') }}
+      </h1>
+      <p class="text-on-primary-container text-lg mb-0">
+        {{ $t('GENERAL_SETTINGS.PAGE_SUBTITLE') }}
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="md:col-span-2 space-y-8">
+        <section
+          class="p-6 bg-surface-container-low rounded-xl border border-outline-variant/5 shadow-sm"
         >
-          <WithLabel
-            :has-error="v$.name.$error"
-            :label="$t('GENERAL_SETTINGS.FORM.NAME.LABEL')"
-            :error-message="$t('GENERAL_SETTINGS.FORM.NAME.ERROR')"
+          <h3
+            class="text-lg font-semibold text-on-surface mb-6 flex items-center gap-2"
           >
-            <NextInput
-              v-model="name"
-              type="text"
-              class="w-full"
-              :placeholder="$t('GENERAL_SETTINGS.FORM.NAME.PLACEHOLDER')"
-              @blur="v$.name.$touch"
+            <Icon
+              icon="i-lucide-sliders-horizontal"
+              class="size-5 text-secondary shrink-0"
             />
-          </WithLabel>
-          <WithLabel
-            :has-error="v$.locale.$error"
-            :label="$t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL')"
-            :error-message="$t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR')"
-          >
-            <select v-model="locale" class="!mb-0 text-sm">
-              <option
-                v-for="lang in languagesSortedByCode"
-                :key="lang.iso_639_1_code"
-                :value="lang.iso_639_1_code"
+            {{ $t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.TITLE') }}
+          </h3>
+          <woot-loading-state v-if="uiFlags.isFetchingItem" />
+          <form v-else class="space-y-6" @submit.prevent="updateAccount">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <WithLabel
+                name="account-settings-name"
+                :has-error="v$.name.$error"
+                :label="$t('GENERAL_SETTINGS.FORM.NAME.LABEL')"
+                :error-message="$t('GENERAL_SETTINGS.FORM.NAME.ERROR')"
               >
-                {{ lang.name }}
-              </option>
-            </select>
-          </WithLabel>
-          <WithLabel
-            v-if="featureCustomReplyDomainEnabled"
-            :label="$t('GENERAL_SETTINGS.FORM.DOMAIN.LABEL')"
-          >
-            <NextInput
-              v-model="domain"
-              type="text"
-              class="w-full"
-              :placeholder="$t('GENERAL_SETTINGS.FORM.DOMAIN.PLACEHOLDER')"
-            />
-            <template #help>
-              {{
-                featureInboundEmailEnabled &&
-                $t('GENERAL_SETTINGS.FORM.FEATURES.INBOUND_EMAIL_ENABLED')
-              }}
+                <NextInput
+                  v-model="name"
+                  type="text"
+                  custom-input-class="!px-4"
+                  class="w-full"
+                  :placeholder="$t('GENERAL_SETTINGS.FORM.NAME.PLACEHOLDER')"
+                  @blur="v$.name.$touch"
+                />
+                <template #help>
+                  {{ $t('GENERAL_SETTINGS.FORM.NAME.HELP') }}
+                </template>
+              </WithLabel>
+              <WithLabel
+                v-if="featureCustomReplyEmailEnabled"
+                name="account-settings-support-email"
+                :label="$t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.LABEL')"
+              >
+                <NextInput
+                  v-model="supportEmail"
+                  type="text"
+                  custom-input-class="!px-4"
+                  class="w-full"
+                  :placeholder="
+                    $t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.PLACEHOLDER')
+                  "
+                />
+              </WithLabel>
+            </div>
+            <WithLabel
+              name="account-settings-locale"
+              :has-error="v$.locale.$error"
+              :label="$t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL')"
+              :error-message="$t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR')"
+            >
+              <div class="relative">
+                <select
+                  v-model="locale"
+                  class="w-full bg-surface-container-lowest !bg-none border border-outline-variant/30 rounded-lg py-2.5 ltr:pl-4 ltr:!pr-10 rtl:!pl-10 rtl:pr-4 text-on-surface appearance-none cursor-pointer text-sm !mb-0 !outline-none hover:!outline-none focus:!outline-none focus-visible:!outline-none ring-0 focus:ring-0 ring-offset-0"
+                >
+                  <option
+                    v-for="lang in languagesSortedByCode"
+                    :key="lang.iso_639_1_code"
+                    :value="lang.iso_639_1_code"
+                  >
+                    {{ lang.name }}
+                  </option>
+                </select>
+                <Icon
+                  icon="i-lucide-chevron-down"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-on-primary-container pointer-events-none"
+                />
+              </div>
+              <template #help>
+                <span class="italic">
+                  {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.HELP') }}
+                </span>
+              </template>
+            </WithLabel>
+            <WithLabel
+              v-if="featureCustomReplyDomainEnabled"
+              name="account-settings-domain"
+              :label="$t('GENERAL_SETTINGS.FORM.DOMAIN.LABEL')"
+            >
+              <NextInput
+                v-model="domain"
+                type="text"
+                custom-input-class="!px-4"
+                class="w-full"
+                :placeholder="$t('GENERAL_SETTINGS.FORM.DOMAIN.PLACEHOLDER')"
+              />
+              <template #help>
+                {{
+                  featureInboundEmailEnabled &&
+                  $t('GENERAL_SETTINGS.FORM.FEATURES.INBOUND_EMAIL_ENABLED')
+                }}
+                {{
+                  featureCustomReplyDomainEnabled &&
+                  $t(
+                    'GENERAL_SETTINGS.FORM.FEATURES.CUSTOM_EMAIL_DOMAIN_ENABLED'
+                  )
+                }}
+              </template>
+            </WithLabel>
+            <div
+              class="pt-4 border-t border-outline-variant/15 flex justify-end"
+            >
+              <NextButton
+                type="submit"
+                solid
+                teal
+                md
+                trailing-icon
+                icon="i-lucide-save"
+                :is-loading="isUpdating"
+                class="font-bold hover:shadow-[0_0_15px_rgba(4,190,153,0.4)]"
+              >
+                {{ $t('GENERAL_SETTINGS.SUBMIT') }}
+              </NextButton>
+            </div>
+          </form>
+        </section>
 
-              {{
-                featureCustomReplyDomainEnabled &&
-                $t('GENERAL_SETTINGS.FORM.FEATURES.CUSTOM_EMAIL_DOMAIN_ENABLED')
-              }}
-            </template>
-          </WithLabel>
-          <WithLabel
-            v-if="featureCustomReplyEmailEnabled"
-            :label="$t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.LABEL')"
-          >
-            <NextInput
-              v-model="supportEmail"
-              type="text"
-              class="w-full"
-              :placeholder="
-                $t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.PLACEHOLDER')
-              "
+        <AudioTranscription v-if="showAudioTranscriptionConfig" />
+        <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
+          <AccountDelete />
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <AccountId />
+        <div
+          class="p-6 bg-surface-container-low rounded-xl border border-outline-variant/5"
+        >
+          <div class="flex items-center gap-3 mb-4">
+            <Icon
+              icon="i-lucide-alert-triangle"
+              class="size-5 text-amber-400 shrink-0"
             />
-          </WithLabel>
-          <div>
-            <NextButton blue :is-loading="isUpdating" type="submit">
-              {{ $t('GENERAL_SETTINGS.SUBMIT') }}
-            </NextButton>
+            <h4
+              class="text-xs font-bold text-on-surface uppercase tracking-wider mb-0"
+            >
+              {{ $t('GENERAL_SETTINGS.SYSTEM_ALERT.TITLE') }}
+            </h4>
           </div>
-        </form>
-      </SectionLayout>
-
-      <woot-loading-state v-if="uiFlags.isFetchingItem" />
+          <p class="text-xs text-on-primary-container leading-relaxed mb-0">
+            {{ $t('GENERAL_SETTINGS.SYSTEM_ALERT.MESSAGE') }}
+          </p>
+        </div>
+        <BuildInfo />
+      </div>
     </div>
-    <AudioTranscription v-if="showAudioTranscriptionConfig" />
-    <AccountId />
-    <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
-      <AccountDelete />
-    </div>
-    <BuildInfo />
   </div>
 </template>
+
+<style scoped>
+.account-settings-page :deep(.space-y-1 > label:not(.text-n-ruby-12)) {
+  @apply !text-xs !font-semibold !text-on-surface-variant uppercase tracking-wider;
+}
+
+.account-settings-page :deep(.space-y-1 > label.text-n-ruby-12) {
+  @apply !text-xs !font-semibold uppercase tracking-wider;
+}
+
+.account-settings-page :deep(.space-y-1 .text-n-slate-10) {
+  @apply !text-[11px] !text-on-primary-container;
+}
+</style>

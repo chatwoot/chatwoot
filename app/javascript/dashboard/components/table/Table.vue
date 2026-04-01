@@ -28,7 +28,9 @@ const headerClass = computed(() =>
 
 <template>
   <table :class="{ 'table-fixed': fixed }">
-    <thead class="sticky top-0 z-10 bg-n-slate-1">
+    <thead
+      class="sticky top-0 z-10 border-b border-outline-variant/15 bg-surface-container"
+    >
       <tr
         v-for="headerGroup in table.getHeaderGroups()"
         :key="headerGroup.id"
@@ -40,7 +42,7 @@ const headerClass = computed(() =>
           :style="{
             width: `${header.getSize()}px`,
           }"
-          class="text-left py-3 px-5 font-medium text-sm text-n-slate-12"
+          class="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-on-surface-variant ltr:text-left rtl:text-right"
           :class="headerClass"
           @click="header.column.getCanSort() && header.column.toggleSorting()"
         >
@@ -58,8 +60,12 @@ const headerClass = computed(() =>
       </tr>
     </thead>
 
-    <tbody class="divide-y divide-n-slate-2">
-      <tr v-for="row in table.getRowModel().rows" :key="row.id">
+    <tbody class="divide-y divide-outline-variant/10">
+      <tr
+        v-for="row in table.getRowModel().rows"
+        :key="row.id"
+        class="transition-colors hover:bg-surface-container-low/50"
+      >
         <td
           v-for="cell in row.getVisibleCells()"
           :key="cell.id"

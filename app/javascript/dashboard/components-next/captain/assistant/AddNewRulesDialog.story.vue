@@ -8,7 +8,7 @@ import AddNewRulesDialog from './AddNewRulesDialog.vue';
     :layout="{ type: 'grid', width: '800px' }"
   >
     <Variant title="Default">
-      <div class="px-4 py-4 bg-n-background h-[200px]">
+      <div class="h-[200px] bg-surface px-4 py-4">
         <AddNewRulesDialog
           button-label="Add a guardrail"
           placeholder="Type in another guardrail..."

@@ -57,10 +57,10 @@ export default {
 <template>
   <div>
     <div
-      class="min-w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 p-6"
+      class="min-w-full rounded-xl border border-outline-variant/10 bg-surface-container p-6 shadow-lg"
     >
       <div
-        class="grid content-center h-12 grid-cols-12 gap-4 px-6 py-0 bg-n-slate-2 rounded-md"
+        class="grid h-12 grid-cols-12 content-center gap-4 rounded-lg border-b border-outline-variant/15 bg-surface-container px-6 py-0"
       >
         <TableHeaderCell
           :span="6"
@@ -77,7 +77,10 @@ export default {
         <TableHeaderCell :span="1" label="" />
       </div>
 
-      <div v-if="isLoading" class="flex items-center justify-center h-32">
+      <div
+        v-if="isLoading"
+        class="flex h-32 items-center justify-center gap-2 text-on-surface-variant"
+      >
         <Spinner />
         <span>{{ $t('SLA_REPORTS.LOADING') }}</span>
       </div>
@@ -91,7 +94,10 @@ export default {
           :sla-events="slaReport.sla_events"
         />
       </div>
-      <div v-else class="flex items-center justify-center h-32">
+      <div
+        v-else
+        class="flex h-32 items-center justify-center text-sm text-on-surface-variant"
+      >
         {{ $t('SLA_REPORTS.NO_RECORDS') }}
       </div>
     </div>

@@ -81,7 +81,7 @@ const handleAction = ({ action, value }) => {
 <template>
   <CardLayout>
     <div class="flex gap-1 justify-between w-full">
-      <span class="text-base text-n-slate-12 line-clamp-1">
+      <span class="line-clamp-1 text-base text-on-surface">
         {{ name }}
       </span>
       <div class="flex gap-2 items-center">
@@ -91,9 +91,10 @@ const handleAction = ({ action, value }) => {
         >
           <Button
             icon="i-lucide-ellipsis-vertical"
-            color="slate"
-            size="xs"
-            class="rounded-md group-hover:bg-n-alpha-2"
+            ghost
+            slate
+            xs
+            class="rounded-md text-on-surface-variant group-hover:bg-surface-container-highest"
             @click="toggleDropdown()"
           />
           <DropdownMenu
@@ -107,18 +108,18 @@ const handleAction = ({ action, value }) => {
     </div>
     <div class="flex gap-4 justify-between items-center w-full">
       <span
-        class="flex gap-1 items-center text-sm truncate shrink-0 text-n-slate-11"
+        class="flex shrink-0 items-center gap-1 truncate text-sm text-on-surface-variant"
       >
         <i class="i-woot-captain" />
         {{ assistant?.name || '' }}
       </span>
       <span
-        class="flex flex-1 gap-1 justify-start items-center text-sm truncate text-n-slate-11"
+        class="flex flex-1 items-center justify-start gap-1 truncate text-sm text-on-surface-variant"
       >
         <i :class="linkIcon" class="shrink-0" />
         <span class="truncate">{{ displayLink }}</span>
       </span>
-      <div class="text-sm shrink-0 text-n-slate-11 line-clamp-1">
+      <div class="line-clamp-1 shrink-0 text-sm text-on-surface-variant">
         {{ createdAt }}
       </div>
     </div>

@@ -26,17 +26,18 @@ watch(
 <template>
   <div class="flex flex-col gap-2">
     <button
-      class="group flex items-center gap-2 text-xs text-n-slate-10 hover:text-n-slate-11 transition-colors duration-200 -ml-3"
+      type="button"
+      class="group -ml-1 flex items-center gap-2 text-xs text-on-surface-variant transition-colors duration-200 hover:text-on-surface"
       @click="isExpanded = !isExpanded"
     >
       <Icon
         :icon="isExpanded ? 'i-lucide-chevron-down' : 'i-lucide-chevron-right'"
-        class="w-4 h-4 transition-transform duration-200 group-hover:scale-110"
+        class="size-4 transition-transform duration-200 group-hover:scale-110"
       />
       <span class="flex items-center gap-2">
         {{ t('CAPTAIN.COPILOT.SHOW_STEPS') }}
         <span
-          class="inline-flex items-center justify-center h-4 min-w-4 px-1 text-xs font-medium rounded-full bg-n-solid-3 text-n-slate-11"
+          class="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-surface-container-high px-1.5 text-xs font-semibold text-on-surface-variant"
         >
           {{ thinkingCount }}
         </span>

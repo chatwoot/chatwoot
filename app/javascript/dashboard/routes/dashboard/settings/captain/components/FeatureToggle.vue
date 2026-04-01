@@ -112,7 +112,7 @@ const handleModelChange = ({ feature, model }) => {
 
 <template>
   <div
-    class="p-4 rounded-xl border border-n-weak bg-n-solid-1 flex"
+    class="p-4 rounded-xl border border-outline-variant/15 bg-surface-container flex"
     :class="{
       'flex-col gap-3': showModelSelector,
       'items-center justify-between gap-4': !showModelSelector,
@@ -121,8 +121,8 @@ const handleModelChange = ({ feature, model }) => {
   >
     <div class="flex items-center justify-between gap-4 flex-1">
       <div class="flex-1 min-w-0">
-        <h4 class="text-sm font-medium text-n-slate-12">{{ title }}</h4>
-        <p class="text-sm text-n-slate-11 mt-0.5">{{ description }}</p>
+        <h4 class="text-sm font-medium text-on-surface">{{ title }}</h4>
+        <p class="text-sm text-on-surface-variant mt-0.5">{{ description }}</p>
       </div>
       <div v-if="isAllowed" class="flex-shrink-0">
         <Switch v-model="isEnabled" @change="toggleFeature" />
@@ -130,11 +130,13 @@ const handleModelChange = ({ feature, model }) => {
     </div>
     <div
       v-if="showModelSelector && isAllowed"
-      class="flex gap-2 ps-8 relative before:content-[''] before:absolute before:w-0.5 before:h-1/2 before:top-0 before:start-3 before:bg-n-weak after:content-[''] after:absolute after:w-2.5 after:h-3 after:top-[calc(50%-6px)] after:start-3 after:border-b-[0.125rem] after:border-s-[0.125rem] after:rounded-es after:border-n-weak"
+      class="flex gap-2 ps-8 relative before:content-[''] before:absolute before:w-0.5 before:h-1/2 before:top-0 before:start-3 before:bg-outline-variant/15 after:content-[''] after:absolute after:w-2.5 after:h-3 after:top-[calc(50%-6px)] after:start-3 after:border-b-[0.125rem] after:border-s-[0.125rem] after:rounded-es after:border-outline-variant/15"
     >
       <div class="flex-1 min-w-0">
-        <h4 class="text-sm font-medium text-n-slate-12">{{ modelTitle }}</h4>
-        <p class="text-sm text-n-slate-11 mt-0.5">{{ modelDescription }}</p>
+        <h4 class="text-sm font-medium text-on-surface">{{ modelTitle }}</h4>
+        <p class="text-sm text-on-surface-variant mt-0.5">
+          {{ modelDescription }}
+        </p>
       </div>
       <div class="flex justify-end">
         <ModelDropdown :feature-key="featureKey" @change="handleModelChange" />

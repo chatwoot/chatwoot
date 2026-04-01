@@ -7,6 +7,11 @@
       "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
     },
     "TITLE": "Account settings",
+    "PAGE_SUBTITLE": "Manage your organizational profile and system localization settings.",
+    "SYSTEM_ALERT": {
+      "TITLE": "System alert",
+      "MESSAGE": "Changes to your site language may take a few minutes to apply for all team members."
+    },
     "SUBMIT": "Update settings",
     "BACK": "Back",
     "DISMISS": "Dismiss",
@@ -37,11 +42,13 @@
     "FORM": {
       "ERROR": "Please fix form errors",
       "GENERAL_SECTION": {
-        "TITLE": "General settings",
+        "TITLE": "Profile information",
         "NOTE": ""
       },
       "ACCOUNT_ID": {
         "TITLE": "Account ID",
+        "CARD_TITLE": "Core identifier",
+        "LABEL": "Account ID",
         "NOTE": "This ID is required if you are building an API based integration"
       },
       "AUTO_RESOLVE": {
@@ -75,11 +82,13 @@
       "NAME": {
         "LABEL": "Account name",
         "PLACEHOLDER": "Your account name",
+        "HELP": "Publicly visible name for this workspace.",
         "ERROR": "Please enter a valid account name"
       },
       "LANGUAGE": {
         "LABEL": "Site language",
         "PLACEHOLDER": "Your account name",
+        "HELP": "Adjusts the UI localization and date formatting for users who follow the account default.",
         "ERROR": ""
       },
       "DOMAIN": {

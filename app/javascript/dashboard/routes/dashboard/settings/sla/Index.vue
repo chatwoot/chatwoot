@@ -6,6 +6,7 @@ import SLAHeader from './components/SLAHeader.vue';
 import SLAListItem from './components/SLAListItem.vue';
 import SLAListItemLoading from './components/SLAListItemLoading.vue';
 import SLAPaywallEnterprise from './components/SLAPaywallEnterprise.vue';
+import ConfirmDialog from 'dashboard/components-next/dialog/Dialog.vue';
 
 import { mapGetters } from 'vuex';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
@@ -20,12 +21,12 @@ export default {
     SLAListItem,
     SLAListItemLoading,
     SLAPaywallEnterprise,
+    ConfirmDialog,
   },
   data() {
     return {
       loading: {},
       showAddPopup: false,
-      showDeleteConfirmationPopup: false,
       selectedResponse: {},
     };
   },
@@ -38,14 +39,10 @@ export default {
       accountId: 'getCurrentAccountId',
       uiFlags: 'sla/getUIFlags',
     }),
-    deleteConfirmText() {
-      return this.$t('SLA.DELETE.CONFIRM.YES');
-    },
-    deleteRejectText() {
-      return this.$t('SLA.DELETE.CONFIRM.NO');
-    },
-    deleteMessage() {
-      return ` ${this.selectedResponse.name}`;
+    deleteDescription() {
+      return this.$t('SLA.DELETE.CONFIRM.MESSAGE', {
+        name: this.selectedResponse?.name || '',
+      });
     },
     isBehindAPaywall() {
       return !this.isFeatureEnabledonAccount(this.accountId, 'sla');
@@ -68,16 +65,16 @@ export default {
       this.showAddPopup = false;
     },
     openDeletePopup(response) {
-      this.showDeleteConfirmationPopup = true;
       this.selectedResponse = response;
-    },
-    closeDeletePopup() {
-      this.showDeleteConfirmationPopup = false;
+      this.$nextTick(() => {
+        this.$refs.deleteSlaDialog?.open();
+      });
     },
     confirmDeletion() {
-      this.loading[this.selectedResponse.id] = true;
-      this.closeDeletePopup();
-      this.deleteSla(this.selectedResponse.id);
+      const id = this.selectedResponse.id;
+      this.loading[id] = true;
+      this.$refs.deleteSlaDialog?.close();
+      this.deleteSla(id);
     },
     deleteSla(id) {
       this.$store
@@ -89,7 +86,7 @@ export default {
           useAlert(this.$t('SLA.DELETE.API.ERROR_MESSAGE'));
         })
         .finally(() => {
-          this.loading[this.selectedResponse.id] = false;
+          this.loading[id] = false;
         });
     },
     displayTime(threshold) {
@@ -114,13 +111,19 @@ export default {
 <template>
   <SettingsLayout
     :is-loading="uiFlags.isFetching"
-    :loading-message="$t('SLA.LOADING')"
+    :loading-message="$t('SLA.LIST.LOADING')"
   >
     <template #header>
-      <SLAHeader :show-actions="records.length > 0" @add="openAddPopup" />
+      <SLAHeader :show-actions="!isBehindAPaywall" @add="openAddPopup" />
     </template>
     <template #loading>
-      <SLAListItemLoading v-for="ii in 2" :key="ii" class="mb-3" />
+      <div
+        class="overflow-x-auto rounded-2xl border border-outline-variant/10 shadow-xl"
+      >
+        <div class="flex flex-col gap-3 bg-surface-container-low p-4 sm:p-6">
+          <SLAListItemLoading v-for="ii in 2" :key="ii" />
+        </div>
+      </div>
     </template>
     <template #body>
       <SLAPaywallEnterprise
@@ -133,34 +136,42 @@ export default {
         v-else-if="!records.length"
         @primary-action="openAddPopup"
       />
-      <div v-else class="flex flex-col w-full h-full gap-3">
-        <SLAListItem
-          v-for="sla in records"
-          :key="sla.title"
-          :sla-name="sla.name"
-          :description="sla.description"
-          :first-response="displayTime(sla.first_response_time_threshold)"
-          :next-response="displayTime(sla.next_response_time_threshold)"
-          :resolution-time="displayTime(sla.resolution_time_threshold)"
-          :has-business-hours="sla.only_during_business_hours"
-          :is-loading="loading[sla.id]"
-          @delete="openDeletePopup(sla)"
-        />
+      <div
+        v-else
+        class="overflow-x-auto rounded-2xl border border-outline-variant/10 shadow-xl"
+      >
+        <div class="flex flex-col gap-3 bg-surface-container-low p-4 sm:p-6">
+          <SLAListItem
+            v-for="sla in records"
+            :key="sla.id"
+            :sla-name="sla.name"
+            :description="sla.description"
+            :first-response="displayTime(sla.first_response_time_threshold)"
+            :next-response="displayTime(sla.next_response_time_threshold)"
+            :resolution-time="displayTime(sla.resolution_time_threshold)"
+            :has-business-hours="sla.only_during_business_hours"
+            :is-loading="loading[sla.id]"
+            @delete="openDeletePopup(sla)"
+          />
+        </div>
       </div>
 
-      <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
-        <AddSLA @close="hideAddPopup" />
+      <woot-modal
+        v-model:show="showAddPopup"
+        size="medium"
+        :on-close="hideAddPopup"
+      >
+        <AddSLA v-if="showAddPopup" @close="hideAddPopup" />
       </woot-modal>
 
-      <woot-delete-modal
-        v-model:show="showDeleteConfirmationPopup"
-        :on-close="closeDeletePopup"
-        :on-confirm="confirmDeletion"
+      <ConfirmDialog
+        ref="deleteSlaDialog"
+        type="alert"
         :title="$t('SLA.DELETE.CONFIRM.TITLE')"
-        :message="$t('SLA.DELETE.CONFIRM.MESSAGE')"
-        :message-value="deleteMessage"
-        :confirm-text="deleteConfirmText"
-        :reject-text="deleteRejectText"
+        :description="deleteDescription"
+        :confirm-button-label="$t('SLA.DELETE.CONFIRM.YES')"
+        :cancel-button-label="$t('SLA.DELETE.CONFIRM.NO')"
+        @confirm="confirmDeletion"
       />
     </template>
   </SettingsLayout>

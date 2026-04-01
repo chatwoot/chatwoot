@@ -62,7 +62,9 @@ function onClick(emailProvider) {
       :header-title="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.DESCRIPTION')"
     />
-    <div class="grid max-w-3xl grid-cols-4 gap-6 mx-0 mt-6">
+    <div
+      class="mx-0 mt-6 grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+    >
       <ChannelSelector
         v-for="emailProvider in emailProviderList"
         :key="emailProvider.key"

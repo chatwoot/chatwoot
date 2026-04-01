@@ -30,7 +30,7 @@ defineProps({
       </slot>
       <p
         v-else-if="noRecordsFound"
-        class="flex-1 py-20 text-n-slate-12 flex items-center justify-center text-base"
+        class="flex-1 py-20 text-on-surface flex items-center justify-center text-base"
       >
         {{ noRecordsMessage }}
       </p>

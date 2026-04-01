@@ -31,11 +31,16 @@ const shouldRenderComponent = computed(() => {
       :is="to ? 'router-link' : 'div'"
       :to="to"
       :title="label"
-      class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg hover:bg-gradient-to-r from-transparent via-n-slate-3/70 to-n-slate-3/70 group min-w-0"
+      class="relative flex h-8 items-center gap-2 px-2 py-1 rounded-lg hover:bg-surface-container-low group min-w-0"
       :class="{
-        'text-n-slate-12 bg-n-alpha-2 active': active,
+        'text-secondary bg-surface-bright/60 backdrop-blur-xl border border-white/5 active font-semibold shadow-[inset_0_0_12px_rgba(4,190,153,0.15)] !pl-4':
+          active,
       }"
     >
+      <span
+        v-if="active"
+        class="absolute ltr:left-0 rtl:right-0 top-1.5 bottom-1.5 w-1 rounded-r-full bg-secondary"
+      />
       <component
         :is="component"
         v-if="shouldRenderComponent"

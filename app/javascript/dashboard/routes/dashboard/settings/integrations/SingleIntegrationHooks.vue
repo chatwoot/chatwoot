@@ -1,8 +1,7 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 import { useBranding } from 'shared/composables/useBranding';
-import Button from 'dashboard/components-next/button/Button.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   integrationId: {
@@ -22,46 +21,51 @@ const { replaceInstallationName } = useBranding();
 
 <template>
   <div
-    class="outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow flex-grow overflow-auto p-4"
+    class="flex w-full flex-col gap-6 rounded-2xl border border-outline-variant/10 bg-surface-container-low p-6 shadow-xl lg:flex-row lg:items-center lg:justify-between"
   >
-    <div class="flex items-center justify-center">
-      <div class="flex h-16 w-16 items-center justify-center">
+    <div
+      class="flex min-w-0 flex-1 flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6"
+    >
+      <div class="flex h-16 w-16 shrink-0 items-center justify-center">
         <img
           :src="`/dashboard/images/integrations/${integrationId}.png`"
-          class="max-w-full rounded-md border border-n-weak shadow-sm block dark:hidden bg-n-alpha-3 dark:bg-n-alpha-2"
+          class="block max-w-full rounded-lg border border-outline-variant/15 bg-surface-container-lowest shadow-sm dark:hidden"
         />
         <img
           :src="`/dashboard/images/integrations/${integrationId}-dark.png`"
-          class="max-w-full rounded-md border border-n-weak shadow-sm hidden dark:block bg-n-alpha-3 dark:bg-n-alpha-2"
+          class="hidden max-w-full rounded-lg border border-outline-variant/15 bg-surface-container-lowest shadow-sm dark:block"
         />
       </div>
-      <div class="flex flex-col justify-center m-0 mx-4 flex-1">
-        <h3 class="mb-1 text-xl font-medium text-n-slate-12">
+      <div class="min-w-0 flex-1">
+        <h3 class="mb-1 text-xl font-bold tracking-tight text-on-surface">
           {{ integration.name }}
         </h3>
-        <p class="text-n-slate-11 text-sm leading-6">
+        <p class="mb-0 text-sm leading-relaxed text-on-surface-variant">
           {{ replaceInstallationName(integration.description) }}
         </p>
       </div>
-      <div class="flex justify-center items-center mb-0 w-[15%]">
-        <div v-if="hasConnectedHooks">
-          <div @click="$emit('delete', integration.hooks[0])">
-            <Button
-              ruby
-              faded
-              :label="$t('INTEGRATION_APPS.DISCONNECT.BUTTON_TEXT')"
-            />
-          </div>
-        </div>
-        <div v-else>
-          <Button
-            blue
-            faded
-            :label="$t('INTEGRATION_APPS.CONNECT.BUTTON_TEXT')"
-            @click="$emit('add')"
-          />
-        </div>
-      </div>
+    </div>
+    <div
+      class="flex w-full shrink-0 justify-stretch sm:justify-end lg:w-auto lg:justify-center"
+    >
+      <NextButton
+        v-if="hasConnectedHooks && integration.hooks?.[0]"
+        ruby
+        faded
+        lg
+        class="w-full font-semibold sm:w-auto"
+        :label="$t('INTEGRATION_APPS.DISCONNECT.BUTTON_TEXT')"
+        @click="$emit('delete', integration.hooks[0])"
+      />
+      <NextButton
+        v-else
+        teal
+        faded
+        lg
+        class="w-full font-semibold sm:w-auto"
+        :label="$t('INTEGRATION_APPS.CONNECT.BUTTON_TEXT')"
+        @click="$emit('add')"
+      />
     </div>
   </div>
 </template>

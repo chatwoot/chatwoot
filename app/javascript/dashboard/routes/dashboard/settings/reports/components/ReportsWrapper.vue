@@ -1,5 +1,5 @@
 <template>
-  <div class="reports--wrapper overflow-auto bg-n-surface-1 w-full px-6">
+  <div class="reports--wrapper overflow-auto bg-surface w-full px-6">
     <div class="max-w-[60rem] mx-auto pb-12">
       <router-view />
     </div>
@@ -10,23 +10,23 @@
 .reports--wrapper {
   :deep() {
     .multiselect--disabled {
-      @apply opacity-50 border border-n-weak rounded-md cursor-not-allowed;
+      @apply opacity-50 border border-outline-variant/15 rounded-md cursor-not-allowed;
     }
 
     .multiselect__content-wrapper {
-      @apply bg-n-solid-2 border border-n-weak text-n-slate-12;
+      @apply bg-surface-container-low border border-outline-variant/15 text-on-surface;
     }
 
     .multiselect__tags {
-      @apply bg-n-slate-1 border border-n-weak m-0 min-h-[2.875rem] pt-0;
+      @apply bg-surface-container-lowest border border-outline-variant/15 m-0 min-h-[2.875rem] pt-0;
 
       input[type='text'] {
-        @apply bg-n-alpha-3 border-n-weak placeholder:text-n-slate-11 min-h-[2.375rem] h-[2.375rem] px-0.5 py-0 text-sm;
+        @apply bg-surface-container-lowest border-outline-variant/15 placeholder:text-on-surface-variant min-h-[2.375rem] h-[2.375rem] px-0.5 py-0 text-sm;
       }
     }
 
     .multiselect__placeholder {
-      @apply text-n-slate-11;
+      @apply text-on-surface-variant;
     }
 
     .multiselect__select {
@@ -34,7 +34,7 @@
     }
 
     .multiselect__single {
-      @apply bg-n-alpha-3 text-n-slate-11;
+      @apply bg-surface-container-lowest text-on-surface-variant;
     }
 
     .multiselect__input {
@@ -44,14 +44,14 @@
     .multiselect__tags,
     .multiselect__input,
     .multiselect {
-      @apply bg-n-alpha-3 !border-n-weak text-n-slate-12 rounded-lg text-sm min-h-[2.5rem];
+      @apply bg-surface-container-lowest !border-outline-variant/15 text-on-surface rounded-lg text-sm min-h-[2.5rem];
     }
 
     .mx-input-wrapper {
-      @apply bg-n-alpha-3 border-n-weak text-n-slate-12 rounded-lg text-sm;
+      @apply bg-surface-container-lowest border-outline-variant/15 text-on-surface rounded-lg text-sm;
 
       input {
-        @apply border-n-weak text-sm;
+        @apply border-outline-variant/15 text-sm;
       }
     }
 
@@ -65,11 +65,11 @@
       }
 
       .mx-input-wrapper input::placeholder {
-        @apply text-n-slate-11;
+        @apply text-on-surface-variant;
       }
 
       .mx-input-wrapper input {
-        @apply text-n-slate-11;
+        @apply text-on-surface-variant;
       }
     }
 

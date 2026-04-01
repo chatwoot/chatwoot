@@ -1,6 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 defineProps({
   controlItem: {
@@ -19,24 +20,31 @@ const onClick = name => {
 <template>
   <div
     :key="controlItem.name"
-    class="pt-3 ltr:pl-4 rtl:pr-4 ltr:pr-2 rtl:pl-2 pb-5 gap-2 flex flex-col w-full shadow outline-1 outline outline-n-container rounded-2xl bg-n-solid-2 cursor-pointer"
+    class="flex w-full cursor-pointer flex-col gap-3 rounded-xl border border-outline-variant/10 bg-surface-container-low p-4 shadow-sm transition-all duration-200 hover:border-secondary/30 hover:bg-surface-container hover:shadow-md"
     @click="onClick(controlItem.routeName)"
   >
-    <div class="flex items-center justify-between w-full gap-1 h-8">
-      <span class="text-sm font-medium text-n-slate-12 line-clamp-1">
-        {{ controlItem.name }}
+    <div class="flex h-8 w-full items-center justify-between gap-2">
+      <span class="flex min-w-0 items-center gap-2">
+        <Icon
+          v-if="controlItem.icon"
+          :icon="controlItem.icon"
+          class="size-4 shrink-0 text-secondary"
+        />
+        <span class="line-clamp-1 text-sm font-semibold text-on-surface">
+          {{ controlItem.name }}
+        </span>
       </span>
       <div class="flex items-center gap-2">
         <Button
           icon="i-lucide-chevron-right"
-          slate
-          ghost
+          faded
+          teal
           xs
           @click="onClick(controlItem.routeName)"
         />
       </div>
     </div>
-    <span class="text-n-slate-11 text-sm leading-[21px] line-clamp-5">
+    <span class="line-clamp-4 text-sm leading-[1.45] text-on-surface-variant">
       {{ controlItem.description }}
     </span>
   </div>

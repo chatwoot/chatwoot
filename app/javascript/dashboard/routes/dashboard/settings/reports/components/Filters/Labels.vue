@@ -44,7 +44,7 @@ export default {
             :style="{ backgroundColor: props.option.color }"
             class="w-5 h-5 rounded-full"
           />
-          <span class="my-0 text-n-slate-12">
+          <span class="my-0 text-on-surface">
             {{ props.option.title }}
           </span>
         </div>
@@ -53,10 +53,10 @@ export default {
         <div class="flex items-center gap-2">
           <div
             :style="{ backgroundColor: props.option.color }"
-            class="flex-shrink-0 w-5 h-5 border border-solid rounded-full border-n-weak"
+            class="flex-shrink-0 w-5 h-5 border border-solid rounded-full border-outline-variant/15"
           />
 
-          <span class="my-0 text-n-slate-12 truncate min-w-0">
+          <span class="my-0 text-on-surface truncate min-w-0">
             {{ props.option.title }}
           </span>
         </div>

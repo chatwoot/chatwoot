@@ -118,13 +118,13 @@ const hasNoUsedAttributes = computed(() => usedAttributes.value.length === 0);
       />
     </div>
     <div v-if="!hasNoUnusedAttributes" class="flex items-center gap-3">
-      <div class="flex-1 h-[1px] bg-n-slate-5" />
+      <div class="flex-1 h-[1px] bg-outline-variant/20" />
       <span class="text-sm font-medium text-n-slate-10">{{
         t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.UNUSED_ATTRIBUTES', {
           count: unusedAttributesCount,
         })
       }}</span>
-      <div class="flex-1 h-[1px] bg-n-slate-5" />
+      <div class="flex-1 h-[1px] bg-outline-variant/20" />
     </div>
     <div class="flex flex-col gap-3">
       <div v-if="!hasNoUnusedAttributes" class="relative">
@@ -135,7 +135,7 @@ const hasNoUsedAttributes = computed(() => usedAttributes.value.length === 0);
           :placeholder="
             t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.SEARCH_PLACEHOLDER')
           "
-          class="w-full h-8 py-2 pl-10 pr-2 text-sm reset-base outline-none border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
+          class="w-full h-8 py-2 pl-10 pr-2 text-sm reset-base outline-none border-none rounded-lg bg-surface-container-lowest dark:bg-surface-container-lowest text-n-slate-12"
         />
       </div>
       <div

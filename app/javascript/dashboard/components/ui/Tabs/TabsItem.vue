@@ -50,8 +50,8 @@ const onTabClick = event => {
       class="flex items-center flex-row select-none cursor-pointer relative after:absolute after:bottom-px after:left-0 after:right-0 after:h-[2px] after:rounded-full after:transition-all after:duration-200 text-button"
       :class="[
         active
-          ? 'text-n-blue-11 after:bg-n-brand after:opacity-100'
-          : 'text-n-slate-11 after:bg-transparent after:opacity-0',
+          ? 'text-secondary after:bg-secondary after:opacity-100'
+          : 'text-on-surface-variant after:bg-transparent after:opacity-0 hover:text-on-surface',
         isCompact ? 'py-2.5' : '!text-base py-3',
       ]"
       @click="onTabClick"
@@ -62,8 +62,8 @@ const onTabClick = event => {
         class="rounded-full h-5 flex items-center justify-center text-xs font-medium my-0 ltr:ml-1 rtl:mr-1 px-1.5 py-0 min-w-[20px]"
         :class="[
           active
-            ? 'bg-n-blue-3 text-n-blue-11'
-            : 'bg-n-alpha-1 text-n-slate-10',
+            ? 'bg-secondary/15 text-secondary'
+            : 'bg-n-alpha-1 text-on-surface-variant',
         ]"
       >
         <span>

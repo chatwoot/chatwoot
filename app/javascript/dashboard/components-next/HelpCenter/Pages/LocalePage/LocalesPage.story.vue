@@ -44,7 +44,7 @@ const locales = [
 <template>
   <Story title="Pages/HelpCenter/LocalePage" :layout="{ type: 'single' }">
     <Variant title="All Locales">
-      <div class="w-full min-h-screen bg-n-background">
+      <div class="w-full min-h-screen bg-surface">
         <LocalesPage :locales="locales" />
       </div>
     </Variant>

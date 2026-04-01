@@ -75,12 +75,12 @@ const saveEdit = () => {
       focus-on-mount
       @keyup.enter="saveEdit"
     />
-    <span v-else class="flex items-center gap-2 text-sm text-n-slate-12">
+    <span v-else class="flex items-center gap-2 text-sm text-on-surface">
       {{ localContent }}
     </span>
     <div class="flex items-center gap-2">
       <Button icon="i-lucide-pen" slate xs ghost @click="startEdit" />
-      <span class="w-px h-4 bg-n-weak" />
+      <span class="h-4 w-px bg-outline-variant" />
       <Button
         icon="i-lucide-trash"
         slate

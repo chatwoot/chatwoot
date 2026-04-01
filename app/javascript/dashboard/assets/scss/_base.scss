@@ -63,18 +63,18 @@ textarea {
   outline: none;
 }
 
-// Field base styles (Input, TextArea, Select)
+// Field base styles (Input, TextArea, Select) — align with account settings / Stitch tokens
 @layer components {
   .field-base {
-    @apply block box-border w-full transition-colors duration-[0.25s] ease-[ease-in-out] focus:outline-n-brand dark:focus:outline-n-brand appearance-none mx-0 mt-0 mb-4 py-2 px-3 rounded-lg text-base font-normal bg-n-alpha-black2 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 text-n-slate-12 border-none outline outline-1 outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6;
+    @apply block box-border w-full appearance-none mx-0 mt-0 mb-4 rounded-lg border border-solid border-outline-variant/30 bg-surface-container-lowest py-2 px-3 text-base font-normal text-on-surface placeholder:text-on-primary-container/70 transition-colors duration-[0.25s] ease-[ease-in-out] outline-none hover:border-outline-variant/50 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary focus:ring-offset-0;
   }
 
   .field-disabled {
-    @apply opacity-50 outline-n-weak dark:outline-n-weak cursor-not-allowed;
+    @apply cursor-not-allowed border-outline-variant/15 opacity-50;
   }
 
   .field-error {
-    @apply outline outline-1 outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8;
+    @apply border-error hover:border-error focus:border-error focus:ring-1 focus:ring-error disabled:border-error/80;
   }
 }
 

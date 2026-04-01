@@ -64,46 +64,71 @@ export default {
 </script>
 
 <template>
-  <div class="flex-shrink-0 w-full">
-    <form class="mx-0 grid gap-4" @submit.prevent="handleSubmit">
-      <FormInput
-        v-model="state.title"
-        name="title"
-        spacing="compact"
-        :label="$t('TEAMS_SETTINGS.FORM.NAME.LABEL')"
-        :placeholder="$t('TEAMS_SETTINGS.FORM.NAME.PLACEHOLDER')"
-        :has-error="v$.title.$error"
-        :error-message="v$.title.$error ? v$.title.$errors[0].$message : ''"
-        @blur="v$.title.$touch"
-      />
-      <FormInput
-        v-model="state.description"
-        name="description"
-        spacing="compact"
-        :label="$t('TEAMS_SETTINGS.FORM.DESCRIPTION.LABEL')"
-        :placeholder="$t('TEAMS_SETTINGS.FORM.DESCRIPTION.PLACEHOLDER')"
-        :has-error="v$.description.$error"
-        :error-message="
-          v$.description.$error ? v$.description.$errors[0].$message : ''
-        "
-        @blur="v$.description.$touch"
-      />
-      <div class="w-full flex items-center gap-2">
-        <input v-model="state.allowAutoAssign" type="checkbox" :value="true" />
-        <label for="conversation_creation">
-          {{ $t('TEAMS_SETTINGS.FORM.AUTO_ASSIGN.LABEL') }}
-        </label>
-      </div>
-      <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
-        <div class="w-full">
+  <div class="team-form-card w-full shrink-0">
+    <section
+      class="rounded-xl border border-outline-variant/5 bg-surface-container-low p-6 shadow-sm"
+    >
+      <form class="mx-0 grid gap-6" @submit.prevent="handleSubmit">
+        <FormInput
+          v-model="state.title"
+          name="title"
+          spacing="compact"
+          :label="$t('TEAMS_SETTINGS.FORM.NAME.LABEL')"
+          :placeholder="$t('TEAMS_SETTINGS.FORM.NAME.PLACEHOLDER')"
+          :has-error="v$.title.$error"
+          :error-message="v$.title.$error ? v$.title.$errors[0].$message : ''"
+          @blur="v$.title.$touch"
+        />
+        <FormInput
+          v-model="state.description"
+          name="description"
+          spacing="compact"
+          :label="$t('TEAMS_SETTINGS.FORM.DESCRIPTION.LABEL')"
+          :placeholder="$t('TEAMS_SETTINGS.FORM.DESCRIPTION.PLACEHOLDER')"
+          :has-error="v$.description.$error"
+          :error-message="
+            v$.description.$error ? v$.description.$errors[0].$message : ''
+          "
+          @blur="v$.description.$touch"
+        />
+        <div
+          class="flex items-start gap-3 rounded-lg border border-outline-variant/20 bg-surface-container-highest/40 p-4"
+        >
+          <input
+            id="team-form-auto-assign"
+            v-model="state.allowAutoAssign"
+            type="checkbox"
+            class="mt-1 size-4 shrink-0 rounded border-outline-variant/40 bg-surface-container-lowest text-secondary focus:ring-secondary"
+            :value="true"
+          />
+          <label
+            for="team-form-auto-assign"
+            class="mb-0 cursor-pointer text-sm leading-snug text-on-surface"
+          >
+            {{ $t('TEAMS_SETTINGS.FORM.AUTO_ASSIGN.LABEL') }}
+          </label>
+        </div>
+        <div
+          class="flex w-full flex-row justify-end gap-2 border-t border-outline-variant/15 pt-6"
+        >
           <NextButton
             type="submit"
+            solid
+            teal
+            md
             :label="submitButtonText"
             :disabled="v$.title.$invalid || submitInProgress"
             :is-loading="submitInProgress"
+            class="w-full font-bold shadow-none hover:shadow-[0_0_20px_rgba(4,190,153,0.35)] sm:w-auto sm:min-w-[10rem] rounded-xl"
           />
         </div>
-      </div>
-    </form>
+      </form>
+    </section>
   </div>
 </template>
+
+<style scoped>
+.team-form-card :deep(.space-y-1 > label) {
+  @apply text-xs font-semibold uppercase tracking-wider text-on-surface-variant;
+}
+</style>

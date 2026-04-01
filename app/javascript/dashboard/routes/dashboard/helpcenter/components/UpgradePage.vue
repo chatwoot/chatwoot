@@ -68,17 +68,17 @@ export default {
 
 <template>
   <div
-    class="flex flex-col gap-12 sm:gap-16 items-center justify-center py-0 px-4 w-full min-h-screen max-w-full overflow-auto bg-n-surface-1"
+    class="flex min-h-screen w-full max-w-full flex-col items-center justify-center gap-12 overflow-auto bg-surface px-4 py-0 text-on-surface antialiased selection:bg-secondary/30 sm:gap-16"
   >
     <div class="flex flex-col justify-start sm:justify-center gap-6">
       <div class="flex flex-col gap-1.5 items-start sm:items-center">
         <h1
-          class="text-n-slate-12 text-left sm:text-center text-4xl sm:text-5xl mb-6 font-semibold"
+          class="mb-6 text-left text-4xl font-semibold tracking-tight text-on-surface sm:text-center sm:text-5xl"
         >
           {{ $t('HELP_CENTER.UPGRADE_PAGE.TITLE') }}
         </h1>
         <p
-          class="max-w-2xl text-base font-normal leading-6 text-left sm:text-center text-n-slate-11"
+          class="max-w-2xl text-left text-base font-normal leading-6 text-on-surface-variant sm:text-center"
         >
           {{
             isOnChatwootCloud
@@ -116,14 +116,14 @@ export default {
               :icon="feature.icon"
               icon-lib="lucide"
               :size="26"
-              class="mt-px text-n-slate-12"
+              class="mt-px text-secondary"
             />
           </div>
           <div>
-            <h5 class="font-semibold text-lg text-n-slate-12">
+            <h5 class="text-lg font-semibold text-on-surface">
               {{ feature.title }}
             </h5>
-            <p class="text-sm leading-6 text-n-slate-12">
+            <p class="text-sm leading-6 text-on-surface-variant">
               {{ feature.description }}
             </p>
           </div>

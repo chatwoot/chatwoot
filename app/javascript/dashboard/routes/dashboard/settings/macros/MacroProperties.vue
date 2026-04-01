@@ -20,8 +20,8 @@ export default {
   methods: {
     isActive(key) {
       return this.macroVisibility === key
-        ? 'bg-n-blue-2 dark:bg-n-blue-1 border-n-blue-3 dark:border-n-blue-4'
-        : 'bg-white dark:bg-n-solid-2 border-n-weak dark:border-n-strong';
+        ? 'border-secondary bg-secondary/10 ring-1 ring-secondary/25'
+        : 'border-outline-variant/30 bg-surface-container-lowest/80';
     },
     onUpdateName(value) {
       this.$emit('update:name', value);
@@ -35,7 +35,7 @@ export default {
 
 <template>
   <div
-    class="p-4 bg-n-solid-2 border border-n-weak rounded-lg shadow-sm h-full flex flex-col"
+    class="flex h-full flex-col rounded-xl border border-outline-variant/15 bg-surface-container-low p-4 shadow-sm"
   >
     <div>
       <woot-input
@@ -48,12 +48,13 @@ export default {
       />
     </div>
     <div class="mt-2">
-      <p class="block m-0 text-sm font-medium leading-[1.8] text-n-slate-12">
+      <p class="block m-0 text-sm font-medium leading-[1.8] text-on-surface">
         {{ $t('MACROS.EDITOR.VISIBILITY.LABEL') }}
       </p>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
         <button
-          class="p-2 relative rounded-md border border-solid text-left cursor-default"
+          type="button"
+          class="relative cursor-pointer rounded-lg border border-solid p-2 text-left transition-colors"
           :class="isActive('global')"
           @click="onUpdateVisibility('global')"
         >
@@ -61,19 +62,20 @@ export default {
             v-if="macroVisibility === 'global'"
             icon="checkmark-circle"
             type="solid"
-            class="absolute text-n-brand top-2 right-2"
+            class="absolute right-2 top-2 text-secondary"
           />
           <p
-            class="block m-0 text-sm font-medium leading-[1.8] text-n-slate-12"
+            class="block m-0 text-sm font-medium leading-[1.8] text-on-surface"
           >
             {{ $t('MACROS.EDITOR.VISIBILITY.GLOBAL.LABEL') }}
           </p>
-          <p class="text-xs text-n-slate-11">
+          <p class="text-xs text-on-surface-variant">
             {{ $t('MACROS.EDITOR.VISIBILITY.GLOBAL.DESCRIPTION') }}
           </p>
         </button>
         <button
-          class="p-2 relative rounded-md border border-solid text-left cursor-default"
+          type="button"
+          class="relative cursor-pointer rounded-lg border border-solid p-2 text-left transition-colors"
           :class="isActive('personal')"
           @click="onUpdateVisibility('personal')"
         >
@@ -81,33 +83,33 @@ export default {
             v-if="macroVisibility === 'personal'"
             icon="checkmark-circle"
             type="solid"
-            class="absolute text-n-brand top-2 right-2"
+            class="absolute right-2 top-2 text-secondary"
           />
           <p
-            class="block m-0 text-sm font-medium leading-[1.8] text-n-slate-12"
+            class="block m-0 text-sm font-medium leading-[1.8] text-on-surface"
           >
             {{ $t('MACROS.EDITOR.VISIBILITY.PERSONAL.LABEL') }}
           </p>
-          <p class="text-xs text-n-slate-11">
+          <p class="text-xs text-on-surface-variant">
             {{ $t('MACROS.EDITOR.VISIBILITY.PERSONAL.DESCRIPTION') }}
           </p>
         </button>
       </div>
       <div
-        class="mt-2 flex items-start p-2 bg-n-slate-3 dark:bg-n-solid-3 rounded-md"
+        class="mt-2 flex items-start rounded-md bg-surface-container-high/50 p-2"
       >
-        <fluent-icon icon="info" size="16" class="flex-shrink-0 mt-0.5" />
-        <p class="ml-2 rtl:ml-0 rtl:mr-2 mb-0 text-n-slate-11">
+        <fluent-icon icon="info" size="16" class="mt-0.5 shrink-0" />
+        <p class="ml-2 rtl:ml-0 rtl:mr-2 mb-0 text-on-surface-variant">
           {{ $t('MACROS.ORDER_INFO') }}
         </p>
       </div>
     </div>
-    <div class="mt-auto w-full">
+    <div class="mt-auto w-full border-t border-outline-variant/15 pt-4">
       <NextButton
-        blue
         solid
+        teal
         :label="$t('MACROS.HEADER_BTN_TXT_SAVE')"
-        class="w-full"
+        class="w-full rounded-xl font-bold shadow-none hover:shadow-[0_0_20px_rgba(4,190,153,0.35)]"
         @click="$emit('submit')"
       />
     </div>

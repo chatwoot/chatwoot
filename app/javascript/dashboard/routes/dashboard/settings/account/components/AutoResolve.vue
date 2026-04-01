@@ -125,18 +125,18 @@ const toggleAutoResolve = async () => {
 
 <template>
   <div
-    class="flex flex-col w-full outline-1 outline outline-n-container rounded-xl bg-n-solid-2 divide-y divide-n-weak"
+    class="flex w-full flex-col divide-y divide-surface-container-high/30 rounded-2xl border border-outline-variant/10 bg-surface-container-low shadow-xl"
   >
     <div class="flex flex-col gap-2 items-start px-5 py-4">
       <div class="flex justify-between items-center w-full">
-        <h3 class="text-base font-medium text-n-slate-12">
+        <h3 class="text-base font-semibold tracking-tight text-on-surface">
           {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.TITLE') }}
         </h3>
         <div class="flex justify-end">
           <Switch v-model="isEnabled" @change="toggleAutoResolve" />
         </div>
       </div>
-      <p class="mb-0 text-sm text-n-slate-11">
+      <p class="mb-0 text-sm text-on-surface-variant">
         {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.NOTE') }}
       </p>
     </div>
@@ -172,7 +172,7 @@ const toggleAutoResolve = async () => {
         </WithLabel>
         <WithLabel :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.PREFERENCES')">
           <div
-            class="rounded-xl border border-n-weak bg-n-solid-1 w-full text-sm text-n-slate-12 divide-y divide-n-weak"
+            class="rounded-xl border border-outline-variant/15 bg-surface-container w-full text-sm text-on-surface divide-y divide-outline-variant/15"
           >
             <div class="p-3 h-12 flex items-center justify-between">
               <span>
@@ -201,7 +201,8 @@ const toggleAutoResolve = async () => {
         </WithLabel>
         <div class="flex gap-2">
           <NextButton
-            blue
+            solid
+            teal
             type="submit"
             :is-loading="isSubmitting"
             :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.UPDATE_BUTTON')"

@@ -483,7 +483,7 @@ export default {
           class="list-none flex justify-center items-center"
         >
           <span
-            class="shadow-lg rounded-full bg-n-brand text-white text-xs font-medium my-2.5 mx-auto px-2.5 py-1.5"
+            class="shadow-[0_4px_12px_rgba(5,20,39,0.4)] rounded-full bg-secondary text-on-secondary text-xs font-medium my-2.5 mx-auto px-2.5 py-1.5"
           >
             {{ unreadMessageLabel }}
           </span>
@@ -502,7 +502,7 @@ export default {
       class="flex relative flex-col"
       :class="{
         'modal-mask': isPopOutReplyBox,
-        'bg-n-surface-1': !isPopOutReplyBox,
+        'bg-surface': !isPopOutReplyBox,
       }"
     >
       <div
@@ -510,7 +510,7 @@ export default {
         class="absolute flex items-center w-full h-0 -top-7"
       >
         <div
-          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-n-solid-3 text-n-slate-11 text-xs font-semibold my-2.5 mx-auto"
+          class="flex py-2 pr-4 pl-5 shadow-[0_4px_12px_rgba(5,20,39,0.4)] rounded-full bg-surface-container-highest text-on-surface-variant text-xs font-semibold my-2.5 mx-auto"
         >
           {{ typingUserNames }}
           <img
@@ -538,7 +538,7 @@ export default {
     }
 
     .reply-box {
-      @apply border border-n-weak max-w-[75rem] w-[70%];
+      @apply border border-outline-variant/[.15] max-w-[75rem] w-[70%];
 
       &.is-private {
         @apply dark:border-n-amber-3/30 border-n-amber-12/5;

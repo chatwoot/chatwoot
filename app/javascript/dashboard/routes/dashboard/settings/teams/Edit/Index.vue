@@ -27,15 +27,18 @@ export default {
 </script>
 
 <template>
-  <div class="mx-2 flex flex-col gap-6 mb-8">
+  <div class="mx-0 mb-8 flex flex-col gap-6">
     <div
-      class="grid grid-cols-1 lg:grid-cols-8 lg:divide-x lg:divide-n-weak rounded-xl border border-n-weak min-h-[43rem]"
+      class="grid min-h-[43rem] grid-cols-1 overflow-hidden rounded-2xl border border-outline-variant/10 bg-surface-container-low shadow-xl lg:grid-cols-8 lg:divide-x lg:divide-outline-variant/15"
     >
-      <woot-wizard
-        class="hidden lg:block col-span-2 h-fit py-8 px-6"
-        :items="items"
-      />
-      <router-view />
+      <div
+        class="hidden h-full bg-surface-container-high/25 py-8 px-6 lg:col-span-2 lg:block"
+      >
+        <woot-wizard class="h-fit" :items="items" />
+      </div>
+      <div class="min-w-0 lg:col-span-6">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>

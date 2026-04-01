@@ -255,7 +255,7 @@ const addAllExample = async () => {
                 @add="addGuideline"
               />
               <!-- Will enable this feature in future -->
-              <!-- <div class="h-4 w-px bg-n-strong" />
+              <!-- <div class="h-4 w-px" />
               <Button
                 :label="
                   t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.TEST_ALL')

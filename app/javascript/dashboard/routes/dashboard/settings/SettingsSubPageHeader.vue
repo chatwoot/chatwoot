@@ -9,12 +9,12 @@ export default {
 
 <template>
   <div class="flex flex-col w-full items-start mb-4">
-    <h2 class="text-xl font-medium mb-1 text-n-slate-12 break-words">
+    <h2 class="text-xl font-medium mb-1 text-on-surface break-words">
       {{ headerTitle }}
     </h2>
     <p
       v-dompurify-html="headerContent"
-      class="text-sm w-full text-n-slate-11"
+      class="text-sm w-full text-on-surface-variant"
     />
   </div>
 </template>

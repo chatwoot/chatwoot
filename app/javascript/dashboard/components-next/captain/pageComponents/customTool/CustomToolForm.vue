@@ -9,6 +9,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import ParamRow from './ParamRow.vue';
 import AuthConfig from './AuthConfig.vue';
 
@@ -144,7 +145,7 @@ const handleSubmit = async () => {
 
 <template>
   <form
-    class="flex flex-col px-4 -mx-4 gap-4 max-h-[calc(100vh-200px)] overflow-y-scroll"
+    class="-mx-4 flex max-h-[calc(100vh-200px)] flex-col gap-4 overflow-y-auto px-4"
     @submit.prevent="handleSubmit"
   >
     <Input
@@ -163,15 +164,11 @@ const handleSubmit = async () => {
     />
 
     <div class="flex gap-2">
-      <div class="flex flex-col gap-1 w-28">
-        <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+      <div class="flex w-28 flex-col gap-1">
+        <label class="mb-0.5 text-sm font-medium text-on-surface">
           {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.HTTP_METHOD.LABEL') }}
         </label>
-        <ComboBox
-          v-model="state.http_method"
-          :options="httpMethodOptions"
-          class="[&>div>button]:bg-n-alpha-black2 [&_li]:font-mono [&_button]:font-mono [&>div>button]:outline-offset-[-1px]"
-        />
+        <ComboBox v-model="state.http_method" :options="httpMethodOptions" />
       </div>
       <Input
         v-model="state.endpoint_url"
@@ -184,14 +181,10 @@ const handleSubmit = async () => {
     </div>
 
     <div class="flex flex-col gap-1">
-      <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+      <label class="mb-0.5 text-sm font-medium text-on-surface">
         {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_TYPE.LABEL') }}
       </label>
-      <ComboBox
-        v-model="state.auth_type"
-        :options="authTypeOptions"
-        class="[&>div>button]:bg-n-alpha-black2"
-      />
+      <ComboBox v-model="state.auth_type" :options="authTypeOptions" />
     </div>
 
     <AuthConfig
@@ -199,35 +192,37 @@ const handleSubmit = async () => {
       :auth-type="state.auth_type"
     />
 
-    <div class="flex flex-col gap-2">
-      <label class="text-sm font-medium text-n-slate-12">
-        {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.LABEL') }}
-      </label>
-      <p class="text-xs text-n-slate-11 -mt-1">
-        {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.HELP_TEXT') }}
-      </p>
-      <ul v-if="state.param_schema.length > 0" class="grid gap-2 list-none">
-        <ParamRow
-          v-for="(param, index) in state.param_schema"
-          :key="index"
-          ref="paramsRef"
-          v-model:name="param.name"
-          v-model:type="param.type"
-          v-model:description="param.description"
-          v-model:required="param.required"
-          @remove="removeParam(index)"
+    <CardLayout>
+      <div class="flex w-full flex-col gap-2">
+        <label class="text-sm font-medium text-on-surface">
+          {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.LABEL') }}
+        </label>
+        <p class="-mt-1 text-xs text-on-surface-variant">
+          {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.HELP_TEXT') }}
+        </p>
+        <ul v-if="state.param_schema.length > 0" class="grid list-none gap-2">
+          <ParamRow
+            v-for="(param, index) in state.param_schema"
+            :key="index"
+            ref="paramsRef"
+            v-model:name="param.name"
+            v-model:type="param.type"
+            v-model:description="param.description"
+            v-model:required="param.required"
+            @remove="removeParam(index)"
+          />
+        </ul>
+        <Button
+          type="button"
+          sm
+          outline
+          teal
+          icon="i-lucide-plus"
+          :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.ADD_PARAMETER')"
+          @click="addParam"
         />
-      </ul>
-      <Button
-        type="button"
-        sm
-        ghost
-        blue
-        icon="i-lucide-plus"
-        :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.ADD_PARAMETER')"
-        @click="addParam"
-      />
-    </div>
+      </div>
+    </CardLayout>
 
     <TextArea
       v-if="state.http_method === 'POST'"
@@ -248,21 +243,22 @@ const handleSubmit = async () => {
       class="[&_textarea]:font-mono"
     />
 
-    <div class="flex gap-3 justify-between items-center w-full">
+    <div class="flex w-full items-center justify-between gap-3">
       <Button
         type="button"
-        variant="faded"
-        color="slate"
+        faded
+        slate
+        class="w-full"
         :label="t('CAPTAIN.FORM.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
         @click="handleCancel"
       />
       <Button
         type="submit"
+        teal
+        class="w-full"
         :label="
           t(mode === 'edit' ? 'CAPTAIN.FORM.EDIT' : 'CAPTAIN.FORM.CREATE')
         "
-        class="w-full"
         :is-loading="isLoading"
         :disabled="isLoading"
       />

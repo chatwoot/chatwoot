@@ -25,7 +25,7 @@ import SLAListItem from './SLAListItem.vue';
       />
     </div>
     <div
-      class="absolute inset-0 flex flex-col items-center justify-center w-full h-full bg-gradient-to-t from-white dark:from-slate-900 to-transparent"
+      class="absolute inset-0 flex flex-col items-center justify-center w-full h-full bg-gradient-to-t from-surface to-transparent"
     >
       <slot />
     </div>

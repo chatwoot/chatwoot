@@ -133,9 +133,6 @@ export default {
     onDisplayNameChange() {
       this.attributeKey = convertToAttributeSlug(this.displayName);
     },
-    toggleRegexEnabled() {
-      this.regexEnabled = !this.regexEnabled;
-    },
     async addAttributes() {
       this.v$.$touch();
       if (this.v$.$invalid) {
@@ -174,13 +171,17 @@ export default {
 
 <template>
   <woot-modal v-model:show="show" :on-close="onClose">
-    <div class="flex flex-col h-auto overflow-auto">
+    <div class="flex h-auto flex-col overflow-auto">
       <woot-modal-header :header-title="$t('ATTRIBUTES_MGMT.ADD.TITLE')" />
 
-      <form class="flex w-full" @submit.prevent="addAttributes">
-        <div class="w-full">
-          <label :class="{ error: v$.attributeModel.$error }">
-            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.LABEL') }}
+      <form class="flex w-full flex-col" @submit.prevent="addAttributes">
+        <div class="flex w-full flex-col gap-4 px-1 pb-1 pt-2">
+          <label class="block" :class="{ error: v$.attributeModel.$error }">
+            <span
+              class="mb-2 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant"
+            >
+              {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.LABEL') }}
+            </span>
             <select v-model="attributeModel">
               <option v-for="model in models" :key="model.id" :value="model.id">
                 {{ model.option }}
@@ -213,8 +214,12 @@ export default {
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.PLACEHOLDER')"
             @blur="v$.attributeKey.$touch"
           />
-          <label :class="{ error: v$.description.$error }">
-            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.LABEL') }}
+          <label class="block" :class="{ error: v$.description.$error }">
+            <span
+              class="mb-2 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant"
+            >
+              {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.LABEL') }}
+            </span>
             <textarea
               v-model="description"
               rows="3"
@@ -226,8 +231,12 @@ export default {
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.ERROR') }}
             </span>
           </label>
-          <label :class="{ error: v$.attributeType.$error }">
-            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LABEL') }}
+          <label class="block" :class="{ error: v$.attributeType.$error }">
+            <span
+              class="mb-2 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant"
+            >
+              {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LABEL') }}
+            </span>
             <select v-model="attributeType">
               <option v-for="type in types" :key="type.id" :value="type.id">
                 {{ type.option }}
@@ -238,7 +247,9 @@ export default {
             </span>
           </label>
           <div v-if="isAttributeTypeList" class="multiselect--wrap">
-            <label>
+            <label
+              class="mb-2 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant"
+            >
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.LABEL') }}
             </label>
             <multiselect
@@ -258,18 +269,27 @@ export default {
             />
             <label
               v-show="isMultiselectInvalid"
-              class="text-n-ruby-9 dark:text-n-ruby-9 text-sm font-normal mt-1"
+              class="mt-1 text-sm font-normal text-error"
             >
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
             </label>
           </div>
-          <div v-if="isAttributeTypeText">
+          <div
+            v-if="isAttributeTypeText"
+            class="flex w-full items-start gap-3 rounded-lg border border-outline-variant/20 bg-surface-container-lowest/60 p-3"
+          >
             <input
+              id="attr-add-regex"
               v-model="regexEnabled"
               type="checkbox"
-              @input="toggleRegexEnabled"
+              class="mt-0.5 size-4 shrink-0 rounded border-outline-variant/40 text-secondary focus:ring-secondary"
             />
-            {{ $t('ATTRIBUTES_MGMT.ADD.FORM.ENABLE_REGEX.LABEL') }}
+            <label
+              for="attr-add-regex"
+              class="cursor-pointer text-sm leading-snug text-on-surface"
+            >
+              {{ $t('ATTRIBUTES_MGMT.ADD.FORM.ENABLE_REGEX.LABEL') }}
+            </label>
           </div>
           <woot-input
             v-if="isAttributeTypeText && isRegexEnabled"
@@ -287,7 +307,9 @@ export default {
             type="text"
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
           />
-          <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
+          <div
+            class="mt-2 flex w-full flex-row justify-end gap-2 border-t border-outline-variant/15 pt-4"
+          >
             <NextButton
               faded
               slate
@@ -296,6 +318,8 @@ export default {
               @click.prevent="onClose"
             />
             <NextButton
+              solid
+              teal
               type="submit"
               :label="$t('ATTRIBUTES_MGMT.ADD.SUBMIT')"
               :disabled="isButtonDisabled"

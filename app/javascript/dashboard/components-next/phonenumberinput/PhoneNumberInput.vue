@@ -88,21 +88,14 @@ const activeCountry = computed(() =>
     : ''
 );
 
-const inputBorderClass = computed(() => {
-  const errorClass =
-    'outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8';
-  const focusClass =
-    'has-[:focus]:outline-n-brand dark:has-[:focus]:outline-n-brand';
-
-  if (!props.showBorder) {
-    if (hasError.value) return errorClass;
-    return `outline-transparent ${focusClass}`;
-  }
-
+const wrapperBorderClass = computed(() => {
   if (hasError.value) {
-    return errorClass;
+    return 'border-error';
   }
-  return `${focusClass} outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 disabled:outline-n-weak dark:disabled:outline-n-weak`;
+  if (!props.showBorder) {
+    return 'border-outline-variant/25 hover:border-outline-variant/40 focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary/25';
+  }
+  return 'border-outline-variant/30 hover:border-outline-variant/50 focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary/25';
 });
 
 const phoneNumberError = computed(() => {
@@ -163,42 +156,45 @@ watch(
   <div>
     <div
       v-on-clickaway="() => closeCountryDropdown()"
-      class="relative flex items-center h-8 transition-all duration-500 ease-in-out outline outline-1 outline-offset-[-1px] rounded-lg bg-n-alpha-black2"
-      :class="[inputBorderClass, { 'cursor-not-allowed opacity-50': disabled }]"
+      class="relative flex h-10 items-center rounded-lg border border-solid bg-surface-container-lowest transition-all duration-200"
+      :class="[
+        wrapperBorderClass,
+        { 'cursor-not-allowed opacity-50': disabled },
+      ]"
     >
       <Input
         v-model="phoneNumber"
         type="tel"
         :placeholder="placeholder"
         :disabled="disabled"
-        custom-input-class="!border-0 !outline-none h-8 !py-0.5 !bg-transparent ltr:!pl-1 rtl:!pr-1"
+        custom-input-class="!h-10 !border-0 !bg-transparent !py-0 !outline-none ltr:!pl-1 rtl:!pr-1"
         class="w-full !flex-row"
       >
         <template #prefix>
-          <div class="flex items-center flex-shrink-0">
+          <div class="flex shrink-0 items-center">
             <Button
-              :label="activeCountry?.emoji || ''"
-              color="slate"
-              size="sm"
+              ghost
+              slate
+              sm
               :icon="
                 !activeCountry ? 'i-lucide-globe' : 'i-lucide-chevron-down'
               "
               trailing-icon
               :disabled="disabled"
               type="button"
-              class="!h-[1.875rem] top-1 ltr:ml-px rtl:mr-px !px-2 outline-0 !outline-none !rounded-lg border-0 ltr:!rounded-r-none rtl:!rounded-l-none"
+              class="!h-9 shrink-0 !rounded-lg border-0 border-r border-outline-variant/15 !px-2 ltr:!rounded-r-none rtl:!rounded-l-none rtl:!border-l rtl:!border-r-0"
               @click="toggleCountryDropdown"
             >
               <span
                 v-if="activeCountry"
-                class="inline-flex justify-center text-sm whitespace-nowrap"
+                class="inline-flex justify-center whitespace-nowrap text-sm leading-none"
               >
-                {{ activeCountry?.emoji }}
+                {{ activeCountry.emoji }}
               </span>
             </Button>
             <span
               v-if="activeCountry"
-              class="text-sm left-[38px] top-2.5 text-n-slate-11 ltr:!pl-1 rtl:!pr-1"
+              class="text-sm text-on-surface-variant ltr:!pl-2 rtl:!pr-2"
             >
               {{ activeDialCode }}
             </span>
@@ -216,7 +212,7 @@ watch(
     <template v-if="phoneNumberError">
       <p
         v-if="phoneNumberError"
-        class="min-w-0 mt-1 mb-0 text-xs truncate transition-all duration-500 ease-in-out text-n-ruby-9 dark:text-n-ruby-9"
+        class="mb-0 mt-1 min-w-0 truncate text-xs text-error transition-all duration-200"
       >
         {{ phoneNumberError }}
       </p>

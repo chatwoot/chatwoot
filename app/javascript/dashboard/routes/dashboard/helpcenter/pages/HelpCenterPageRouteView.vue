@@ -64,12 +64,12 @@ watch(
 </script>
 
 <template>
-  <div class="flex w-full h-full min-h-0">
+  <div class="flex h-full min-h-0 w-full font-inter text-on-surface">
     <section
       v-if="isHelpCenterEnabled"
-      class="flex flex-1 h-full px-0 overflow-hidden bg-n-surface-1"
+      class="flex h-full min-h-0 flex-1 overflow-hidden px-0"
     >
-      <router-view />
+      <router-view class="flex min-h-0 min-w-0 flex-1 flex-col" />
     </section>
     <UpgradePage v-else />
   </div>

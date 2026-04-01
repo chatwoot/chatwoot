@@ -127,7 +127,7 @@ onMounted(() => {
 
 <template>
   <div
-    class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-surface-1"
+    class="m-0 flex h-full flex-1 flex-col justify-between overflow-auto bg-surface text-on-surface antialiased selection:bg-secondary/30"
   >
     <ContactsDetailsLayout
       :button-label="$t('CONTACTS_LAYOUT.HEADER.SEND_MESSAGE')"
@@ -140,7 +140,7 @@ onMounted(() => {
     >
       <div
         v-if="showSpinner"
-        class="flex items-center justify-center py-10 text-n-slate-11"
+        class="flex items-center justify-center py-10 text-on-surface-variant"
       >
         <Spinner />
       </div>
@@ -154,13 +154,13 @@ onMounted(() => {
           <TabBar
             :tabs="tabs"
             :initial-active-tab="activeTabIndex"
-            class="w-full [&>button]:w-full bg-n-alpha-black2"
+            class="w-full rounded-lg border border-outline-variant/10 bg-surface-container-low [&>button]:w-full"
             @tab-changed="handleTabChange"
           />
         </div>
         <div
           v-if="isFetchingItem"
-          class="flex items-center justify-center py-10 text-n-slate-11"
+          class="flex items-center justify-center py-10 text-on-surface-variant"
         >
           <Spinner />
         </div>

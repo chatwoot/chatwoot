@@ -79,43 +79,59 @@ export default {
 </script>
 
 <template>
-  <div class="flex items-center justify-between w-full gap-1 h-12 px-3">
-    <div class="flex items-center gap-2 min-w-0 flex-1">
-      <h1 class="min-w-0 text-base font-medium truncate text-n-slate-12">
-        {{ $t('INBOX.LIST.TITLE') }}
-      </h1>
-      <div class="relative">
+  <div
+    class="flex w-full flex-col gap-3 border-b border-outline-variant/10 px-3 pb-3 pt-4"
+  >
+    <div class="min-w-0 space-y-1">
+      <span
+        class="block text-[11px] font-semibold uppercase tracking-widest text-secondary"
+      >
+        {{ $t('INBOX.LIST.SECTION_EYEBROW') }}
+      </span>
+      <p class="mb-0 text-xs leading-snug text-on-primary-container">
+        {{ $t('INBOX.LIST.NOTE') }}
+      </p>
+    </div>
+    <div class="flex h-10 items-center justify-between gap-1">
+      <div class="flex min-w-0 flex-1 items-center gap-2">
+        <h1
+          class="min-w-0 truncate text-lg font-bold tracking-tight text-on-surface"
+        >
+          {{ $t('INBOX.LIST.TITLE') }}
+        </h1>
+        <div class="relative shrink-0">
+          <NextButton
+            :label="$t('INBOX.LIST.DISPLAY_DROPDOWN')"
+            icon="i-lucide-chevron-down"
+            trailing-icon
+            slate
+            xs
+            faded
+            @click="openInboxDisplayMenu"
+          />
+          <InboxDisplayMenu
+            v-if="showInboxDisplayMenu"
+            v-on-clickaway="openInboxDisplayMenu"
+            class="absolute top-full mt-1 ltr:left-0 rtl:right-0"
+            @filter="onFilterChange"
+          />
+        </div>
+      </div>
+      <div class="relative flex shrink-0 items-center gap-1">
         <NextButton
-          :label="$t('INBOX.LIST.DISPLAY_DROPDOWN')"
-          icon="i-lucide-chevron-down"
-          trailing-icon
+          icon="i-lucide-sliders-vertical"
           slate
           xs
           faded
-          @click="openInboxDisplayMenu"
+          @click="openInboxOptionsMenu"
         />
-        <InboxDisplayMenu
-          v-if="showInboxDisplayMenu"
-          v-on-clickaway="openInboxDisplayMenu"
-          class="absolute mt-1 top-full ltr:left-0 rtl:right-0"
-          @filter="onFilterChange"
+        <InboxOptionMenu
+          v-if="showInboxOptionMenu"
+          v-on-clickaway="openInboxOptionsMenu"
+          class="absolute top-full mt-1 ltr:right-0 ltr:lg:right-[unset] rtl:left-0 rtl:lg:left-[unset]"
+          @option-click="onInboxOptionMenuClick"
         />
       </div>
-    </div>
-    <div class="relative flex items-center gap-1">
-      <NextButton
-        icon="i-lucide-sliders-vertical"
-        slate
-        xs
-        faded
-        @click="openInboxOptionsMenu"
-      />
-      <InboxOptionMenu
-        v-if="showInboxOptionMenu"
-        v-on-clickaway="openInboxOptionsMenu"
-        class="absolute top-full mt-1 ltr:right-0 ltr:lg:right-[unset] rtl:left-0 rtl:lg:left-[unset]"
-        @option-click="onInboxOptionMenuClick"
-      />
     </div>
   </div>
 </template>

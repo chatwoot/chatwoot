@@ -36,11 +36,11 @@ const subscribedEvents = computed(() => {
 
 <template>
   <tr>
-    <td class="py-4 ltr:pr-4 rtl:pl-4">
-      <div class="flex gap-2 font-medium break-words text-n-slate-12">
+    <td class="px-6 py-4 ltr:pr-4 rtl:pl-4">
+      <div class="flex gap-2 font-medium break-words text-on-surface">
         <template v-if="webhook.name">
           {{ webhook.name }}
-          <span class="text-n-slate-11">
+          <span class="text-on-surface-variant">
             {{ webhook.url }}
           </span>
         </template>
@@ -48,14 +48,14 @@ const subscribedEvents = computed(() => {
           {{ webhook.url }}
         </template>
       </div>
-      <div class="block mt-1 text-sm text-n-slate-11">
+      <div class="block mt-1 text-sm text-on-surface-variant">
         <span class="font-medium">
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.SUBSCRIBED_EVENTS') }}:
         </span>
         <ShowMore :text="subscribedEvents" :limit="60" />
       </div>
     </td>
-    <td class="py-4 min-w-xs">
+    <td class="min-w-xs px-6 py-4">
       <div class="flex justify-end gap-1">
         <Button
           v-tooltip.top="$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.BUTTON_TEXT')"

@@ -9,6 +9,7 @@ import { useAlert } from 'dashboard/composables';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   assistantId: {
@@ -134,7 +135,7 @@ const handleSubmit = async () => {
     <div class="flex flex-col gap-1">
       <label
         for="documentType"
-        class="mb-0.5 text-sm font-medium text-n-slate-12"
+        class="mb-0.5 text-sm font-medium text-on-surface"
       >
         {{ t('CAPTAIN.DOCUMENTS.FORM.TYPE.LABEL') }}
       </label>
@@ -142,7 +143,6 @@ const handleSubmit = async () => {
         id="documentType"
         v-model="state.documentType"
         :options="documentTypeOptions"
-        class="[&>div>button]:bg-n-alpha-black2"
       />
     </div>
 
@@ -156,7 +156,7 @@ const handleSubmit = async () => {
     />
 
     <div v-if="state.documentType === 'pdf'" class="flex flex-col gap-2">
-      <label class="text-sm font-medium text-n-slate-12">
+      <label class="text-sm font-medium text-on-surface">
         {{ t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.LABEL') }}
       </label>
       <div class="relative">
@@ -167,43 +167,48 @@ const handleSubmit = async () => {
           class="hidden"
           @change="handleFileChange"
         />
-        <Button
+        <button
           type="button"
-          :color="hasPdfFileError ? 'ruby' : 'slate'"
-          :variant="hasPdfFileError ? 'outline' : 'solid'"
-          class="!w-full !h-auto !justify-between !py-4"
+          class="flex w-full items-center justify-between gap-3 rounded-lg border border-solid bg-surface-container-lowest px-3 py-3 text-left outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-secondary/25 focus-visible:ring-offset-0"
+          :class="
+            hasPdfFileError
+              ? 'border-error hover:border-error'
+              : state.pdfFile
+                ? 'border-secondary/40 hover:border-secondary/60'
+                : 'border-outline-variant/30 hover:border-outline-variant/50'
+          "
           @click="openFileDialog"
         >
-          <template #default>
-            <div class="flex gap-2 items-center">
-              <div
-                class="flex justify-center items-center w-10 h-10 rounded-lg bg-n-slate-3"
-              >
-                <i class="text-xl i-ph-file-pdf text-n-slate-11" />
-              </div>
-              <div class="flex flex-col flex-1 gap-1 items-start">
-                <p class="m-0 text-sm font-medium text-n-slate-12">
-                  {{
-                    state.pdfFile
-                      ? state.pdfFile.name
-                      : t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.CHOOSE_FILE')
-                  }}
-                </p>
-                <p class="m-0 text-xs text-n-slate-11">
-                  {{
-                    state.pdfFile
-                      ? `${(state.pdfFile.size / 1024 / 1024).toFixed(2)} MB`
-                      : t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.HELP_TEXT')
-                  }}
-                </p>
-              </div>
+          <div class="flex min-w-0 flex-1 items-center gap-3">
+            <div
+              class="flex size-10 shrink-0 items-center justify-center rounded-lg border border-outline-variant/10 bg-surface-container-high"
+            >
+              <Icon icon="i-ph-file-pdf" class="size-5 text-secondary" />
             </div>
-
-            <i class="i-lucide-upload text-n-slate-11" />
-          </template>
-        </Button>
+            <div class="flex min-w-0 flex-1 flex-col gap-0.5">
+              <p class="m-0 truncate text-sm font-medium text-on-surface">
+                {{
+                  state.pdfFile
+                    ? state.pdfFile.name
+                    : t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.CHOOSE_FILE')
+                }}
+              </p>
+              <p class="m-0 text-xs text-on-surface-variant">
+                {{
+                  state.pdfFile
+                    ? `${(state.pdfFile.size / 1024 / 1024).toFixed(2)} MB`
+                    : t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.HELP_TEXT')
+                }}
+              </p>
+            </div>
+          </div>
+          <Icon
+            icon="i-lucide-upload"
+            class="size-5 shrink-0 text-on-surface-variant"
+          />
+        </button>
       </div>
-      <p v-if="formErrors.pdfFile" class="text-xs text-n-ruby-9">
+      <p v-if="formErrors.pdfFile" class="text-xs text-error">
         {{ formErrors.pdfFile }}
       </p>
     </div>
@@ -214,19 +219,20 @@ const handleSubmit = async () => {
       :placeholder="t('CAPTAIN.DOCUMENTS.FORM.NAME.PLACEHOLDER')"
     />
 
-    <div class="flex gap-3 justify-between items-center w-full">
+    <div class="flex w-full items-center justify-between gap-3">
       <Button
         type="button"
-        variant="faded"
-        color="slate"
+        faded
+        slate
+        class="w-full"
         :label="t('CAPTAIN.FORM.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
         @click="handleCancel"
       />
       <Button
         type="submit"
-        :label="t('CAPTAIN.FORM.CREATE')"
+        teal
         class="w-full"
+        :label="t('CAPTAIN.FORM.CREATE')"
         :is-loading="isLoading"
         :disabled="isLoading"
       />

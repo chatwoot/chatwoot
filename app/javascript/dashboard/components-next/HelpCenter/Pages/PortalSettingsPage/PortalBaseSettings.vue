@@ -15,6 +15,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import ColorPicker from 'dashboard/components-next/colorpicker/ColorPicker.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   activePortal: {
@@ -199,150 +200,167 @@ const handleAvatarDelete = () => {
 </script>
 
 <template>
-  <div class="flex flex-col w-full gap-4">
-    <div class="flex flex-col w-full gap-2">
-      <label class="mb-0.5 text-sm font-medium text-gray-900 dark:text-gray-50">
-        {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.LABEL') }}
-      </label>
-      <Avatar
-        :src="state.logoUrl"
-        :name="state.name"
-        :size="72"
-        allow-upload
-        icon-name="i-lucide-building-2"
-        @upload="handleAvatarUpload"
-        @delete="handleAvatarDelete"
-      />
-    </div>
-    <div class="flex flex-col w-full gap-4">
-      <div
-        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
-      >
-        <label
-          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
-        >
-          {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.NAME.LABEL') }}
+  <section
+    class="rounded-xl border border-outline-variant/5 bg-surface-container-low p-6 shadow-sm"
+  >
+    <h3
+      class="mb-6 flex items-center gap-2 text-lg font-semibold text-on-surface"
+    >
+      <Icon icon="i-lucide-palette" class="size-5 shrink-0 text-secondary" />
+      {{ t('HELP_CENTER.PORTAL_SETTINGS.SECTIONS.APPEARANCE_TITLE') }}
+    </h3>
+    <div class="flex w-full flex-col gap-6">
+      <div class="flex w-full flex-col gap-2">
+        <label class="mb-0.5 text-sm font-medium text-on-surface">
+          {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.LABEL') }}
         </label>
-        <Input
-          v-model="state.name"
-          :placeholder="t('HELP_CENTER.PORTAL_SETTINGS.FORM.NAME.PLACEHOLDER')"
-          :message-type="nameError ? 'error' : 'info'"
-          :message="nameError"
-          custom-input-class="!bg-transparent dark:!bg-transparent"
-          @input="v$.name.$touch()"
-          @blur="v$.name.$touch()"
+        <Avatar
+          :src="state.logoUrl"
+          :name="state.name"
+          :size="72"
+          allow-upload
+          icon-name="i-lucide-building-2"
+          @upload="handleAvatarUpload"
+          @delete="handleAvatarDelete"
         />
       </div>
-      <div
-        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
-      >
-        <label
-          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
+      <div class="flex w-full flex-col gap-4">
+        <div
+          class="grid w-full grid-cols-1 items-start gap-4 md:grid-cols-[minmax(0,12rem),1fr] md:gap-6"
         >
-          {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.HEADER_TEXT.LABEL') }}
-        </label>
-        <Input
-          v-model="state.headerText"
-          :placeholder="
-            t('HELP_CENTER.PORTAL_SETTINGS.FORM.HEADER_TEXT.PLACEHOLDER')
-          "
-          custom-input-class="!bg-transparent dark:!bg-transparent"
-        />
-      </div>
-      <div
-        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
-      >
-        <label
-          class="text-sm font-medium whitespace-nowrap text-n-slate-12 py-2.5"
+          <label
+            class="py-2.5 text-xs font-semibold uppercase tracking-wider text-on-surface-variant md:whitespace-nowrap"
+          >
+            {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.NAME.LABEL') }}
+          </label>
+          <Input
+            v-model="state.name"
+            :placeholder="
+              t('HELP_CENTER.PORTAL_SETTINGS.FORM.NAME.PLACEHOLDER')
+            "
+            :message-type="nameError ? 'error' : 'info'"
+            :message="nameError"
+            @input="v$.name.$touch()"
+            @blur="v$.name.$touch()"
+          />
+        </div>
+        <div
+          class="grid w-full grid-cols-1 items-start gap-4 md:grid-cols-[minmax(0,12rem),1fr] md:gap-6"
         >
-          {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.PAGE_TITLE.LABEL') }}
-        </label>
-        <Input
-          v-model="state.pageTitle"
-          :placeholder="
-            t('HELP_CENTER.PORTAL_SETTINGS.FORM.PAGE_TITLE.PLACEHOLDER')
-          "
-          custom-input-class="!bg-transparent dark:!bg-transparent"
-        />
-      </div>
-      <div
-        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
-      >
-        <label
-          class="text-sm font-medium whitespace-nowrap text-n-slate-12 py-2.5"
+          <label
+            class="py-2.5 text-xs font-semibold uppercase tracking-wider text-on-surface-variant md:whitespace-nowrap"
+          >
+            {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.HEADER_TEXT.LABEL') }}
+          </label>
+          <Input
+            v-model="state.headerText"
+            :placeholder="
+              t('HELP_CENTER.PORTAL_SETTINGS.FORM.HEADER_TEXT.PLACEHOLDER')
+            "
+          />
+        </div>
+        <div
+          class="grid w-full grid-cols-1 items-start gap-4 md:grid-cols-[minmax(0,12rem),1fr] md:gap-6"
         >
-          {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.HOME_PAGE_LINK.LABEL') }}
-        </label>
-        <Input
-          v-model="state.homePageLink"
-          :placeholder="
-            t('HELP_CENTER.PORTAL_SETTINGS.FORM.HOME_PAGE_LINK.PLACEHOLDER')
-          "
-          :message-type="homePageLinkError ? 'error' : 'info'"
-          :message="homePageLinkError"
-          custom-input-class="!bg-transparent dark:!bg-transparent"
-          @input="v$.homePageLink.$touch()"
-          @blur="v$.homePageLink.$touch()"
-        />
-      </div>
-      <div
-        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
-      >
-        <label
-          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
+          <label
+            class="py-2.5 text-xs font-semibold uppercase tracking-wider text-on-surface-variant md:whitespace-nowrap"
+          >
+            {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.PAGE_TITLE.LABEL') }}
+          </label>
+          <Input
+            v-model="state.pageTitle"
+            :placeholder="
+              t('HELP_CENTER.PORTAL_SETTINGS.FORM.PAGE_TITLE.PLACEHOLDER')
+            "
+          />
+        </div>
+        <div
+          class="grid w-full grid-cols-1 items-start gap-4 md:grid-cols-[minmax(0,12rem),1fr] md:gap-6"
         >
-          {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.SLUG.LABEL') }}
-        </label>
-        <Input
-          v-model="state.slug"
-          :placeholder="t('HELP_CENTER.PORTAL_SETTINGS.FORM.SLUG.PLACEHOLDER')"
-          :message-type="slugError ? 'error' : 'info'"
-          :message="slugError || buildPortalURL(state.slug)"
-          custom-input-class="!bg-transparent dark:!bg-transparent"
-          @input="v$.slug.$touch()"
-          @blur="v$.slug.$touch()"
-        />
-      </div>
-      <div
-        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
-      >
-        <label
-          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
+          <label
+            class="py-2.5 text-xs font-semibold uppercase tracking-wider text-on-surface-variant md:whitespace-nowrap"
+          >
+            {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.HOME_PAGE_LINK.LABEL') }}
+          </label>
+          <Input
+            v-model="state.homePageLink"
+            :placeholder="
+              t('HELP_CENTER.PORTAL_SETTINGS.FORM.HOME_PAGE_LINK.PLACEHOLDER')
+            "
+            :message-type="homePageLinkError ? 'error' : 'info'"
+            :message="homePageLinkError"
+            @input="v$.homePageLink.$touch()"
+            @blur="v$.homePageLink.$touch()"
+          />
+        </div>
+        <div
+          class="grid w-full grid-cols-1 items-start gap-4 md:grid-cols-[minmax(0,12rem),1fr] md:gap-6"
         >
-          {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.LABEL') }}
-        </label>
-        <ComboBox
-          v-model="state.liveChatWidgetInboxId"
-          :options="liveChatWidgets"
-          :placeholder="
-            t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.PLACEHOLDER')
-          "
-          :message="
-            t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.HELP_TEXT')
-          "
-          class="[&>div>button:not(.focused)]:!outline-n-weak"
-        />
-      </div>
-      <div
-        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
-      >
-        <label
-          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
+          <label
+            class="py-2.5 text-xs font-semibold uppercase tracking-wider text-on-surface-variant md:whitespace-nowrap"
+          >
+            {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.SLUG.LABEL') }}
+          </label>
+          <Input
+            v-model="state.slug"
+            :placeholder="
+              t('HELP_CENTER.PORTAL_SETTINGS.FORM.SLUG.PLACEHOLDER')
+            "
+            :message-type="slugError ? 'error' : 'info'"
+            :message="slugError || buildPortalURL(state.slug)"
+            @input="v$.slug.$touch()"
+            @blur="v$.slug.$touch()"
+          />
+        </div>
+        <div
+          class="grid w-full grid-cols-1 items-start gap-4 md:grid-cols-[minmax(0,12rem),1fr] md:gap-6"
         >
-          {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.BRAND_COLOR.LABEL') }}
-        </label>
-        <div class="w-[432px] justify-start">
-          <ColorPicker v-model="state.widgetColor" />
+          <label
+            class="py-2.5 text-xs font-semibold uppercase tracking-wider text-on-surface-variant md:whitespace-nowrap"
+          >
+            {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.LABEL') }}
+          </label>
+          <ComboBox
+            v-model="state.liveChatWidgetInboxId"
+            :options="liveChatWidgets"
+            :placeholder="
+              t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.PLACEHOLDER')
+            "
+            :message="
+              t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.HELP_TEXT')
+            "
+            class="w-full"
+          />
+        </div>
+        <div
+          class="grid w-full grid-cols-1 items-start gap-4 md:grid-cols-[minmax(0,12rem),1fr] md:gap-6"
+        >
+          <label
+            class="py-2.5 text-xs font-semibold uppercase tracking-wider text-on-surface-variant md:whitespace-nowrap"
+          >
+            {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.BRAND_COLOR.LABEL') }}
+          </label>
+          <div class="max-w-[27rem] justify-start">
+            <ColorPicker v-model="state.widgetColor" />
+          </div>
+        </div>
+        <div
+          class="flex w-full justify-end gap-2 border-t border-outline-variant/15 pt-4"
+        >
+          <Button
+            solid
+            teal
+            md
+            trailing-icon
+            icon="i-lucide-save"
+            class="font-semibold"
+            :label="t('HELP_CENTER.PORTAL_SETTINGS.FORM.SAVE_CHANGES')"
+            :disabled="!hasChanges || isUpdatingPortal || v$.$invalid"
+            :is-loading="isUpdatingPortal"
+            @click="handleUpdatePortal"
+          />
         </div>
       </div>
-      <div class="flex justify-end w-full gap-2">
-        <Button
-          :label="t('HELP_CENTER.PORTAL_SETTINGS.FORM.SAVE_CHANGES')"
-          :disabled="!hasChanges || isUpdatingPortal || v$.$invalid"
-          :is-loading="isUpdatingPortal"
-          @click="handleUpdatePortal"
-        />
-      </div>
     </div>
-  </div>
+  </section>
 </template>

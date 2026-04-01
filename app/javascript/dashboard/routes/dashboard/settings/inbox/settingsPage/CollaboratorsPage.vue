@@ -165,7 +165,7 @@ export default {
           </label>
         </div>
 
-        <p class="pb-1 text-sm not-italic text-n-slate-11">
+        <p class="pb-1 text-sm not-italic text-on-surface-variant">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT') }}
         </p>
       </label>
@@ -180,7 +180,7 @@ export default {
           @blur="v$.maxAssignmentLimit.$touch"
         />
 
-        <p class="pb-1 text-sm not-italic text-n-slate-11">
+        <p class="pb-1 text-sm not-italic text-on-surface-variant">
           {{ $t('INBOX_MGMT.AUTO_ASSIGNMENT.MAX_ASSIGNMENT_LIMIT_SUB_TEXT') }}
         </p>
 

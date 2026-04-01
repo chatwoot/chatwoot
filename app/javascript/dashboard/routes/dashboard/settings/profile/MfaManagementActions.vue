@@ -92,18 +92,20 @@ defineExpose({
     <!-- Actions Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <!-- Regenerate Backup Codes -->
-      <div class="bg-n-solid-1 rounded-xl outline-1 outline-n-weak outline p-5">
+      <div
+        class="bg-surface-container rounded-xl outline-1 outline-outline-variant/15 outline p-5"
+      >
         <div class="flex-1 flex flex-col gap-2">
           <div class="flex items-center gap-2">
             <Icon
               icon="i-lucide-key"
-              class="size-4 flex-shrink-0 text-n-slate-11"
+              class="size-4 flex-shrink-0 text-on-surface-variant"
             />
-            <h4 class="font-medium text-n-slate-12">
+            <h4 class="font-medium text-on-surface">
               {{ $t('MFA_SETTINGS.MANAGEMENT.BACKUP_CODES') }}
             </h4>
           </div>
-          <p class="text-sm text-n-slate-11">
+          <p class="text-sm text-on-surface-variant">
             {{ $t('MFA_SETTINGS.MANAGEMENT.BACKUP_CODES_DESC') }}
           </p>
           <Button
@@ -116,18 +118,20 @@ defineExpose({
       </div>
 
       <!-- Disable MFA -->
-      <div class="bg-n-solid-1 rounded-xl outline-1 outline-n-weak outline p-5">
+      <div
+        class="bg-surface-container rounded-xl outline-1 outline-outline-variant/15 outline p-5"
+      >
         <div class="flex-1 flex flex-col gap-2">
           <div class="flex items-center gap-2">
             <Icon
               icon="i-lucide-lock-keyhole-open"
-              class="size-4 flex-shrink-0 text-n-slate-11"
+              class="size-4 flex-shrink-0 text-on-surface-variant"
             />
-            <h4 class="font-medium text-n-slate-12">
+            <h4 class="font-medium text-on-surface">
               {{ $t('MFA_SETTINGS.MANAGEMENT.DISABLE_MFA') }}
             </h4>
           </div>
-          <p class="text-sm text-n-slate-11">
+          <p class="text-sm text-on-surface-variant">
             {{ $t('MFA_SETTINGS.MANAGEMENT.DISABLE_MFA_DESC') }}
           </p>
           <Button
@@ -198,26 +202,26 @@ defineExpose({
     >
       <!-- Warning Alert -->
       <div
-        class="flex items-start gap-2 p-4 bg-n-solid-1 outline outline-n-weak rounded-xl outline-1"
+        class="flex items-start gap-2 p-4 bg-surface-container outline outline-outline-variant/15 rounded-xl outline-1"
       >
         <Icon
           icon="i-lucide-alert-circle"
-          class="size-4 text-n-slate-10 flex-shrink-0 mt-0.5"
+          class="size-4 text-on-surface-variant/60 flex-shrink-0 mt-0.5"
         />
-        <p class="text-sm text-n-slate-11">
+        <p class="text-sm text-on-surface-variant">
           <strong>{{ $t('MFA_SETTINGS.BACKUP.IMPORTANT') }}</strong>
           {{ $t('MFA_SETTINGS.BACKUP.IMPORTANT_NOTE') }}
         </p>
       </div>
 
       <div
-        class="bg-n-solid-1 rounded-xl outline-1 outline-n-weak outline flex flex-col gap-6 p-6"
+        class="bg-surface-container rounded-xl outline-1 outline-outline-variant/15 outline flex flex-col gap-6 p-6"
       >
         <div class="grid grid-cols-2 xs:grid-cols-4 sm:grid-cols-5 gap-3">
           <span
             v-for="(code, index) in backupCodes"
             :key="index"
-            class="px-1 py-2 font-mono text-base text-center text-n-slate-12"
+            class="px-1 py-2 font-mono text-base text-center text-on-surface"
           >
             {{ code }}
           </span>

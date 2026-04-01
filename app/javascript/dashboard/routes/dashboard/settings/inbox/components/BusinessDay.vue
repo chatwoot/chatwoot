@@ -136,7 +136,7 @@ export default {
 
 <template>
   <div
-    class="day-wrap flex py-2 gap-1 items-center px-0 min-h-[3rem] box-content border-b border-solid border-n-weak"
+    class="day-wrap flex py-2 gap-1 items-center px-0 min-h-[3rem] box-content border-b border-solid border-outline-variant/15"
   >
     <div class="checkbox-wrap flex items-center">
       <input
@@ -201,7 +201,7 @@ export default {
     </div>
     <div
       v-else
-      class="flex items-center flex-shrink-0 flex-grow text-sm text-n-slate-11"
+      class="flex items-center flex-shrink-0 flex-grow text-sm text-on-surface-variant"
     >
       <span>
         {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.UNAVAILABLE') }}

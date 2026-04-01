@@ -13,6 +13,8 @@ import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useFontSize } from 'dashboard/composables/useFontSize';
+import { LocalStorage } from 'shared/helpers/localStorage';
+import { LOCAL_STORAGE_KEYS } from './constants/localStorage';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -91,11 +93,13 @@ export default {
   },
   methods: {
     initializeColorTheme() {
-      setColorTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
+      // Force a single dark-only experience for dashboard.
+      LocalStorage.set(LOCAL_STORAGE_KEYS.COLOR_SCHEME, 'dark');
+      setColorTheme(true);
     },
     listenToThemeChanges() {
-      const mql = window.matchMedia('(prefers-color-scheme: dark)');
-      mql.onchange = e => setColorTheme(e.matches);
+      // Theme is fixed to dark mode; ignore OS theme changes.
+      return null;
     },
     setLocale(locale) {
       this.$root.$i18n.locale = locale;
@@ -131,7 +135,7 @@ export default {
   <div
     v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
     id="app"
-    class="flex flex-col w-full h-screen min-h-0 bg-n-background"
+    class="flex flex-col w-full h-screen min-h-0 bg-surface-container-low"
     :dir="isRTL ? 'rtl' : 'ltr'"
   >
     <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" />

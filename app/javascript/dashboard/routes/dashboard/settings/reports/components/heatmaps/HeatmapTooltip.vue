@@ -43,7 +43,7 @@ const tooltipText = computed(() => {
 <!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <div
-    class="fixed z-50 px-2 py-1 text-xs font-medium text-n-slate-6 bg-n-slate-12 rounded shadow-lg pointer-events-none transition-[opacity,transform] duration-75"
+    class="pointer-events-none fixed z-50 rounded-md border border-outline-variant/20 bg-surface-container-low px-2 py-1 text-xs font-medium text-on-surface shadow-lg transition-[opacity,transform] duration-75"
     :class="{ 'opacity-100': visible, 'opacity-0': !visible }"
     :style="{
       left: `${x}px`,

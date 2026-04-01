@@ -12,19 +12,9 @@ const handleUpdate = updatedData => {
     title="Components/Contacts/ContactsForm"
     :layout="{ type: 'grid', width: '600px' }"
   >
-    <Variant title="Default without border">
+    <Variant title="With contact data">
       <div class="p-6 border rounded-lg border-n-strong">
         <ContactsForm :contact-data="contactData" @update="handleUpdate" />
-      </div>
-    </Variant>
-
-    <Variant title="Details View with border">
-      <div class="p-6 border rounded-lg border-n-strong">
-        <ContactsForm
-          :contact-data="contactData"
-          is-details-view
-          @update="handleUpdate"
-        />
       </div>
     </Variant>
 

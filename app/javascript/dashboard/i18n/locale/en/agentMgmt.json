@@ -1,6 +1,7 @@
 {
   "AGENT_MGMT": {
     "HEADER": "Agents",
+    "PAGE_SUBTITLE": "Deploy, configure, and monitor team members who handle conversations across your account.",
     "HEADER_BTN_TXT": "Add Agent",
     "LOADING": "Fetching Agent List",
     "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
@@ -13,6 +14,13 @@
       "404": "There are no agents associated to this account",
       "TITLE": "Manage agents in your team",
       "DESC": "You can add/remove agents to/in your team.",
+      "SHOWING_COUNT": "Showing {count} agents",
+      "TABLE_HEADER": {
+        "IDENTITY": "Identity",
+        "ROLE": "Role",
+        "STATUS": "Status",
+        "ACTIONS": "Actions"
+      },
       "NAME": "Name",
       "EMAIL": "EMAIL",
       "STATUS": "Status",

@@ -39,6 +39,7 @@ const handleDelete = campaign => {
 <template>
   <CampaignLayout
     :header-title="t('CAMPAIGN.WHATSAPP.HEADER_TITLE')"
+    :header-subtitle="t('CAMPAIGN.WHATSAPP.PAGE_SUBTITLE')"
     :button-label="t('CAMPAIGN.WHATSAPP.NEW_CAMPAIGN')"
     @click="toggleWhatsAppCampaignDialog()"
     @close="toggleWhatsAppCampaignDialog(false)"
@@ -51,7 +52,7 @@ const handleDelete = campaign => {
     </template>
     <div
       v-if="isFetchingCampaigns"
-      class="flex items-center justify-center py-10 text-n-slate-11"
+      class="flex items-center justify-center gap-2 py-10 text-on-surface-variant"
     >
       <Spinner />
     </div>
@@ -64,7 +65,7 @@ const handleDelete = campaign => {
       v-else
       :title="t('CAMPAIGN.WHATSAPP.EMPTY_STATE.TITLE')"
       :subtitle="t('CAMPAIGN.WHATSAPP.EMPTY_STATE.SUBTITLE')"
-      class="pt-14"
+      class="pt-8"
     />
     <ConfirmDeleteCampaignDialog
       ref="confirmDeleteCampaignDialogRef"

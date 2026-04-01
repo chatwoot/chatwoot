@@ -57,8 +57,8 @@ const isActive = computed(() =>
 );
 
 const statusTextColor = computed(() => ({
-  'text-n-teal-11': isActive.value,
-  'text-n-slate-12': !isActive.value,
+  'text-secondary': isActive.value,
+  'text-on-surface-variant': !isActive.value,
 }));
 
 const campaignStatus = computed(() => {
@@ -86,12 +86,12 @@ const inboxIcon = computed(() => {
     <div class="flex flex-col items-start justify-between flex-1 min-w-0 gap-2">
       <div class="flex justify-between gap-3 w-fit">
         <span
-          class="text-base font-medium capitalize text-n-slate-12 line-clamp-1"
+          class="line-clamp-1 text-base font-medium capitalize text-on-surface"
         >
           {{ title }}
         </span>
         <span
-          class="text-xs font-medium inline-flex items-center h-6 px-2 py-0.5 rounded-md bg-n-alpha-2"
+          class="inline-flex h-6 items-center rounded-md bg-surface-container-high px-2 py-0.5 text-xs font-medium ring-1 ring-inset ring-outline-variant/15"
           :class="statusTextColor"
         >
           {{ campaignStatus }}
@@ -99,7 +99,7 @@ const inboxIcon = computed(() => {
       </div>
       <div
         v-dompurify-html="formatMessage(message, false, false, false)"
-        class="text-sm text-n-slate-11 line-clamp-1 [&>p]:mb-0 h-6"
+        class="line-clamp-1 h-6 text-sm text-on-surface-variant [&>p]:mb-0"
       />
       <div class="flex items-center w-full h-6 gap-2 overflow-hidden">
         <LiveChatCampaignDetails

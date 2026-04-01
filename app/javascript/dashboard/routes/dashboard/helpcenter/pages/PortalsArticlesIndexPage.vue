@@ -14,7 +14,6 @@ const pageNumber = ref(1);
 const articles = useMapGetter('articles/allArticles');
 const categories = useMapGetter('categories/allCategories');
 const meta = useMapGetter('articles/getMeta');
-const portalMeta = useMapGetter('portals/getMeta');
 const currentUserId = useMapGetter('getCurrentUserID');
 const getPortalBySlug = useMapGetter('portals/portalBySlug');
 
@@ -103,11 +102,9 @@ watch(
     <ArticlesPage
       v-if="portal"
       :articles="articles"
-      :portal-name="portal.name"
       :categories="categories"
       :allowed-locales="allowedLocales"
       :meta="meta"
-      :portal-meta="portalMeta"
       :is-category-articles="isCategoryArticles"
       @page-change="onPageChange"
       @fetch-portal="fetchPortalAndItsCategories"

@@ -72,7 +72,7 @@ const handleAction = ({ action, value }) => {
   <CardLayout>
     <div class="flex justify-between w-full gap-1">
       <span
-        class="text-base text-n-slate-12 line-clamp-1 flex items-center gap-2"
+        class="flex items-center gap-2 line-clamp-1 text-base text-on-surface"
       >
         <span :class="icon" />
         {{ inboxName }}
@@ -85,9 +85,10 @@ const handleAction = ({ action, value }) => {
         >
           <Button
             icon="i-lucide-ellipsis-vertical"
-            color="slate"
-            size="xs"
-            class="rounded-md group-hover:bg-n-alpha-2"
+            ghost
+            slate
+            xs
+            class="rounded-md text-on-surface-variant group-hover:bg-surface-container-highest"
             @click="toggleDropdown()"
           />
           <DropdownMenu

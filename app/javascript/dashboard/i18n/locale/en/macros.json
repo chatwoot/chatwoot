@@ -1,6 +1,8 @@
 {
   "MACROS": {
     "HEADER": "Macros",
+    "PAGE_EYEBROW": "Agent productivity",
+    "PAGE_SUBTITLE": "Save reusable action sequences—labels, assignments, messages, and more—so agents can run them in one click from the conversation.",
     "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
     "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "Add a new macro",
@@ -25,18 +27,23 @@
       }
     },
     "LIST": {
+      "LOADING": "Fetching macros…",
+      "SHOWING_COUNT": "Showing {count} macros",
+      "EMPTY_PLACEHOLDER": "—",
       "TABLE_HEADER": {
         "NAME": "Name",
         "CREATED BY": "Created by",
         "LAST_UPDATED_BY": "Last updated by",
-        "VISIBILITY": "Visibility"
+        "VISIBILITY": "Visibility",
+        "ACTIONS": "Actions"
       },
       "404": "No macros found"
     },
     "DELETE": {
       "TOOLTIP": "Delete macro",
       "CONFIRM": {
-        "MESSAGE": "Are you sure to delete ",
+        "TITLE": "Delete macro",
+        "MESSAGE": "Are you sure you want to delete ",
         "YES": "Yes, Delete",
         "NO": "No"
       },

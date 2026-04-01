@@ -4,18 +4,18 @@
 
 <template>
   <div class="flex justify-start">
-    <div class="flex items-center space-x-2">
-      <span class="text-n-iris-11 font-medium">
+    <div class="flex items-center gap-2">
+      <span class="font-medium text-secondary">
         {{ $t('CAPTAIN.COPILOT.LOADER') }}
       </span>
-      <div class="flex space-x-1">
+      <div class="flex gap-1">
         <div
-          class="w-2 h-2 rounded-full bg-n-iris-9 animate-bounce [animation-delay:-0.3s]"
+          class="size-2 animate-bounce rounded-full bg-secondary [animation-delay:-0.3s]"
         />
         <div
-          class="w-2 h-2 rounded-full bg-n-iris-9 animate-bounce [animation-delay:-0.15s]"
+          class="size-2 animate-bounce rounded-full bg-secondary [animation-delay:-0.15s]"
         />
-        <div class="w-2 h-2 rounded-full bg-n-iris-9 animate-bounce" />
+        <div class="size-2 animate-bounce rounded-full bg-secondary" />
       </div>
     </div>
   </div>

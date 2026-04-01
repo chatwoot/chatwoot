@@ -6,6 +6,10 @@ defineProps({
     type: String,
     default: '',
   },
+  headerSubtitle: {
+    type: String,
+    default: '',
+  },
   buttonLabel: {
     type: String,
     default: '',
@@ -20,22 +24,36 @@ const handleButtonClick = () => {
 </script>
 
 <template>
-  <section class="flex flex-col w-full h-full overflow-hidden bg-n-surface-1">
-    <header class="sticky top-0 z-10 px-6 lg:px-0">
-      <div class="w-full max-w-[60rem] mx-auto">
-        <div class="flex items-center justify-between w-full h-20 gap-2">
-          <span class="text-xl font-medium text-n-slate-12">
-            {{ headerTitle }}
-          </span>
+  <section
+    class="flex h-full w-full flex-col overflow-hidden text-on-surface antialiased selection:bg-secondary/30"
+  >
+    <header class="sticky top-0 z-10 px-6 pb-3 lg:px-0">
+      <div class="mx-auto w-full max-w-[60rem] lg:px-6">
+        <div
+          class="flex min-h-20 flex-col gap-3 pt-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4"
+        >
+          <div class="min-w-0 flex-1 space-y-1">
+            <h1 class="text-3xl font-bold tracking-tight text-on-surface">
+              {{ headerTitle }}
+            </h1>
+            <p
+              v-if="headerSubtitle"
+              class="mb-0 text-lg text-on-primary-container"
+            >
+              {{ headerSubtitle }}
+            </p>
+          </div>
           <div
             v-on-clickaway="() => emit('close')"
-            class="relative group/campaign-button"
+            class="group/campaign-button relative shrink-0"
           >
             <Button
+              solid
+              teal
+              sm
               :label="buttonLabel"
               icon="i-lucide-plus"
-              size="sm"
-              class="group-hover/campaign-button:brightness-110"
+              class="font-semibold"
               @click="handleButtonClick"
             />
             <slot name="action" />
@@ -43,9 +61,9 @@ const handleButtonClick = () => {
         </div>
       </div>
     </header>
-    <main class="flex-1 px-6 overflow-y-auto lg:px-0">
-      <div class="w-full max-w-[60rem] mx-auto py-4">
-        <slot name="default" />
+    <main class="flex-1 overflow-y-auto px-6 lg:px-0">
+      <div class="mx-auto w-full max-w-[60rem] py-4 lg:px-6">
+        <slot />
       </div>
     </main>
   </section>

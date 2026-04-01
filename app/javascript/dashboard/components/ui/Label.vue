@@ -113,7 +113,7 @@ export default {
 
 <style scoped lang="scss">
 .label {
-  @apply items-center font-medium text-xs rounded-[4px] gap-1 p-1 bg-n-slate-3 text-n-slate-12 border border-solid border-n-strong h-6;
+  @apply items-center font-semibold text-[10px] uppercase tracking-wider rounded gap-1 p-1 bg-secondary/15 text-secondary border-none h-5;
 
   &.small {
     @apply text-xs py-0.5 px-1 leading-tight h-5;
@@ -184,11 +184,11 @@ export default {
   }
 
   &.smooth {
-    @apply bg-transparent text-n-slate-11 dark:text-n-slate-12 border border-solid border-n-strong;
+    @apply bg-secondary/10 text-secondary border-none;
   }
 
   &.dashed {
-    @apply bg-transparent text-n-slate-11 dark:text-n-slate-12 border border-dashed border-n-strong;
+    @apply bg-transparent text-on-surface-variant border border-dashed border-outline-variant/30;
   }
 }
 

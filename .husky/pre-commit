@@ -2,7 +2,8 @@
 . "$(dirname "$0")/_/husky.sh"
 
 # lint js and vue files
-npx --no-install lint-staged
+# Chunk argv so eslint is not invoked with hundreds of paths at once (avoids OOM / SIGKILL).
+npx --no-install lint-staged --max-arg-length 16384
 
 # lint only staged ruby files that still exist (not deleted)
 git diff --name-only --cached | xargs -I {} sh -c 'test -f "{}" && echo "{}"' | grep '\.rb$' | xargs -I {} bundle exec rubocop --force-exclusion -a "{}" || true

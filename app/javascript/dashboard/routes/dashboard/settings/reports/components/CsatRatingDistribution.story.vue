@@ -42,7 +42,7 @@ const emptyRatingCount = {
     :layout="{ type: 'grid', width: '800px' }"
   >
     <Variant title="With Data">
-      <div class="p-4 bg-n-background">
+      <div class="p-4 bg-surface">
         <CsatRatingDistribution
           :rating-percentage="sampleRatingPercentage"
           :rating-count="sampleRatingCount"
@@ -52,7 +52,7 @@ const emptyRatingCount = {
     </Variant>
 
     <Variant title="Empty State">
-      <div class="p-4 bg-n-background">
+      <div class="p-4 bg-surface">
         <CsatRatingDistribution
           :rating-percentage="emptyRatingPercentage"
           :rating-count="emptyRatingCount"
@@ -62,7 +62,7 @@ const emptyRatingCount = {
     </Variant>
 
     <Variant title="Loading State">
-      <div class="p-4 bg-n-background">
+      <div class="p-4 bg-surface">
         <CsatRatingDistribution
           :rating-percentage="emptyRatingPercentage"
           :rating-count="emptyRatingCount"

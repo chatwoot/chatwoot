@@ -16,7 +16,7 @@ onMounted(() => {
 
 <template>
   <div
-    class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-surface-1 px-6"
+    class="m-0 flex h-full flex-1 flex-col justify-between overflow-auto bg-surface px-6 font-inter text-on-surface antialiased"
   >
     <router-view v-slot="{ Component }">
       <keep-alive v-if="keepAlive">

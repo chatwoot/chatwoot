@@ -43,7 +43,7 @@ export default {
     @end="onDragEnd"
   >
     <template #item="{ element: item }">
-      <tr class="border-b border-n-weak">
+      <tr class="border-b border-outline-variant/15">
         <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
         <td class="pre-chat-field">
           <ToggleSwitch
@@ -99,14 +99,14 @@ export default {
 
 <style scoped lang="scss">
 .pre-chat-field {
-  @apply py-4 px-2 text-n-slate-12;
+  @apply py-4 px-2 text-on-surface;
 
   svg {
     @apply flex items-center;
   }
 }
 .disabled-text {
-  @apply text-n-slate-11;
+  @apply text-on-surface-variant;
 }
 
 table {

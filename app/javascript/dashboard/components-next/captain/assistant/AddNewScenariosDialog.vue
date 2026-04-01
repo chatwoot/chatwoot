@@ -81,16 +81,17 @@ const onClickCancel = () => {
     <Button
       :label="t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.CREATE')"
       sm
-      slate
+      outline
+      teal
       class="flex-shrink-0"
       @click="togglePopover(!showPopover)"
     />
 
     <div
       v-if="showPopover"
-      class="w-[31.25rem] absolute top-10 ltr:left-0 rtl:right-0 bg-n-alpha-3 backdrop-blur-[100px] p-6 rounded-xl border border-n-weak shadow-md flex flex-col gap-6 z-50"
+      class="absolute top-10 z-50 flex w-[31.25rem] flex-col gap-6 rounded-xl border border-outline-variant/10 bg-surface-container-high/95 p-6 shadow-lg backdrop-blur-md ltr:left-0 rtl:right-0"
     >
-      <h3 class="text-base font-medium text-n-slate-12">
+      <h3 class="text-base font-medium text-on-surface">
         {{ t(`CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.TITLE`) }}
       </h3>
 
@@ -138,15 +139,16 @@ const onClickCancel = () => {
 
       <div class="flex items-center justify-between w-full gap-3">
         <Button
-          variant="faded"
-          color="slate"
+          faded
+          slate
+          class="w-full"
           :label="t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.CANCEL')"
-          class="w-full bg-n-alpha-2 !text-n-blue-11 hover:bg-n-alpha-3"
           @click="onClickCancel"
         />
         <Button
-          :label="t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.CREATE')"
+          teal
           class="w-full"
+          :label="t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.CREATE')"
           @click="onClickAdd"
         />
       </div>

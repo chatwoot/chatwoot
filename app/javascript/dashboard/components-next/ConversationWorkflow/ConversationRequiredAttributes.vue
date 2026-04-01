@@ -123,22 +123,26 @@ const handleDelete = attribute => {
 <template>
   <div
     v-if="isEnabled || showPaywall"
-    class="flex flex-col w-full outline-1 outline outline-n-container rounded-xl bg-n-solid-2 divide-y divide-n-weak"
+    class="flex w-full flex-col divide-y divide-surface-container-high/30 rounded-2xl border border-outline-variant/10 bg-surface-container-low shadow-xl"
     @click="handleClick"
   >
     <div class="flex flex-col gap-2 items-start px-5 py-4">
       <div class="flex justify-between items-center w-full">
         <div class="flex flex-col gap-2">
-          <h3 class="text-base font-medium text-n-slate-12">
+          <h3 class="text-base font-semibold tracking-tight text-on-surface">
             {{ $t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.TITLE') }}
           </h3>
-          <p class="mb-0 text-sm text-n-slate-11">
+          <p class="mb-0 text-sm text-on-surface-variant">
             {{ $t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.DESCRIPTION') }}
           </p>
         </div>
         <div v-if="isEnabled" v-on-clickaway="closeDropdown" class="relative">
           <Button
-            icon="i-lucide-circle-plus"
+            solid
+            teal
+            lg
+            icon="i-lucide-plus"
+            class="rounded-xl font-semibold shadow-none hover:shadow-[0_0_20px_rgba(4,190,153,0.4)] active:scale-[0.98]"
             :label="$t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.ADD.TITLE')"
             :is-loading="isSaving"
             :disabled="isSaving || attributeOptions.length === 0"

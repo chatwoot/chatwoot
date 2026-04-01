@@ -220,7 +220,7 @@ export default {
 
 <template>
   <main
-    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
+    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-background sm:px-6 lg:px-8"
   >
     <section class="max-w-5xl mx-auto">
       <img
@@ -234,12 +234,20 @@ export default {
         :alt="globalConfig.installationName"
         class="hidden w-auto h-8 mx-auto dark:block"
       />
-      <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
+      <h2
+        class="mt-6 text-3xl font-medium text-center text-n-slate-12 dark:text-on-surface"
+      >
         {{ replaceInstallationName($t('LOGIN.TITLE')) }}
       </h2>
-      <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
+      <p
+        v-if="showSignupLink"
+        class="mt-3 text-sm text-center text-n-slate-11 dark:text-on-surface-variant"
+      >
         {{ $t('COMMON.OR') }}
-        <router-link to="auth/signup" class="lowercase text-link text-n-brand">
+        <router-link
+          to="auth/signup"
+          class="lowercase text-link text-n-brand dark:text-secondary"
+        >
           {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
         </router-link>
       </p>
@@ -257,7 +265,7 @@ export default {
     <!-- Regular Login Section -->
     <section
       v-else
-      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
+      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg p-11 sm:shadow-lg sm:rounded-lg dark:rounded-xl dark:bg-surface-container dark:border dark:border-white/5 dark:shadow-2xl dark:shadow-black/40"
       :class="{
         'mb-8 mt-15': !showGoogleOAuth,
         'animate-wiggle': loginApi.hasErrored,
@@ -314,7 +322,7 @@ export default {
             <p v-if="!globalConfig.disableUserProfileUpdate">
               <router-link
                 to="auth/reset/password"
-                class="text-sm text-link"
+                class="text-sm text-link dark:text-secondary"
                 tabindex="4"
               >
                 {{ $t('LOGIN.FORGOT_PASSWORD') }}

@@ -1,5 +1,6 @@
 <script setup>
-import Icon from '../../components-next/icon/Icon.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+
 defineProps({
   content: {
     type: String,
@@ -10,14 +11,14 @@ defineProps({
 
 <template>
   <div
-    class="flex flex-col gap-2 p-3 rounded-lg bg-n-background/50 border border-n-weak hover:bg-n-background/80 transition-colors duration-200"
+    class="flex flex-col gap-2 rounded-lg border border-outline-variant/15 bg-surface-container-low/80 p-3 transition-colors duration-200 hover:border-outline-variant/25 hover:bg-surface-container"
   >
     <div class="flex items-start gap-2">
       <Icon
         icon="i-lucide-sparkles"
-        class="w-4 h-4 mt-0.5 flex-shrink-0 text-n-slate-9"
+        class="mt-0.5 size-4 shrink-0 text-secondary"
       />
-      <div class="text-sm text-n-slate-12">
+      <div class="text-sm text-on-surface">
         {{ content }}
       </div>
     </div>

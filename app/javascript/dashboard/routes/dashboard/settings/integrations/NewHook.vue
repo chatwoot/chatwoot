@@ -172,7 +172,7 @@ export default {
 }
 
 .formkit-form .formkit-help {
-  @apply text-n-slate-10 text-sm font-normal mt-2 w-full;
+  @apply text-on-surface-variant/60 text-sm font-normal mt-2 w-full;
 }
 
 /* equivalent of .reset-base */

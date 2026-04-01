@@ -2,7 +2,6 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { useMapGetter } from 'dashboard/composables/store';
 import { useBranding } from 'shared/composables/useBranding';
 
 import PageHeader from '../SettingsSubPageHeader.vue';
@@ -10,8 +9,6 @@ import PageHeader from '../SettingsSubPageHeader.vue';
 const { t } = useI18n();
 const route = useRoute();
 const { replaceInstallationName } = useBranding();
-
-const globalConfig = useMapGetter('globalConfig/get');
 
 const createFlowSteps = computed(() => {
   const steps = ['CHANNEL', 'INBOX', 'AGENT', 'FINISH'];
@@ -42,7 +39,7 @@ const isFinishStep = computed(() => {
 
 const pageTitle = computed(() => {
   if (isFirstStep.value) {
-    return t('INBOX_MGMT.ADD.AUTH.TITLE');
+    return t('INBOX_MGMT.CREATE_FLOW.CONNECT.TITLE');
   }
   if (isFinishStep.value) {
     return t('INBOX_MGMT.ADD.AUTH.TITLE_FINISH');
@@ -59,17 +56,24 @@ const items = computed(() => {
 </script>
 
 <template>
-  <div class="mx-2 flex flex-col gap-6 mb-8">
-    <PageHeader class="block lg:hidden !mb-0" :header-title="pageTitle" />
-    <div
-      class="grid grid-cols-1 lg:grid-cols-8 lg:divide-x lg:divide-n-weak rounded-xl border border-n-weak min-h-[52rem]"
-    >
-      <woot-wizard
-        class="hidden lg:block col-span-2 h-fit py-8 px-6"
-        :global-config="globalConfig"
-        :items="items"
-      />
-      <div class="col-span-6 overflow-hidden">
+  <div
+    class="mx-auto mb-8 flex w-full max-w-7xl flex-col gap-8 px-4 pb-4 pt-2 lg:px-6"
+  >
+    <PageHeader
+      class="mb-0 block lg:!mb-0 lg:hidden"
+      :header-title="pageTitle"
+    />
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-12">
+      <aside class="hidden lg:col-span-3 lg:block">
+        <div class="sticky top-24">
+          <woot-wizard
+            :items="items"
+            show-step-index
+            step-label-key="INBOX_MGMT.CREATE_FLOW.STEP_LABEL"
+          />
+        </div>
+      </aside>
+      <div class="min-w-0 lg:col-span-9">
         <router-view />
       </div>
     </div>

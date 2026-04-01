@@ -62,16 +62,16 @@ const handleCopy = async text => {
 <template>
   <div class="space-y-4">
     <div class="flex items-center gap-2">
-      <h3 class="text-sm font-medium text-n-slate-12">
+      <h3 class="text-sm font-medium text-on-surface">
         {{ t('SECURITY_SETTINGS.SAML.INFO_SECTION.TITLE') }}
       </h3>
       <i
         v-tooltip.top="t('SECURITY_SETTINGS.SAML.INFO_SECTION.TOOLTIP')"
-        class="i-lucide-info text-n-slate-10 w-4 h-4 cursor-help"
+        class="i-lucide-info text-on-surface-variant/60 w-4 h-4 cursor-help"
       />
     </div>
     <section
-      class="rounded-xl border border-n-weak bg-n-solid-1 w-full text-sm text-n-slate-12 divide-y divide-n-weak"
+      class="rounded-xl border border-outline-variant/15 bg-surface-container w-full text-sm text-on-surface divide-y divide-outline-variant/15"
     >
       <div
         v-for="item in visibleInfoItems"
@@ -79,11 +79,11 @@ const handleCopy = async text => {
         class="ps-4 pe-1 py-1 flex justify-between items-center"
       >
         <div class="flex items-center gap-2">
-          <span class="text-n-slate-11 w-32 flex items-center gap-1">
+          <span class="text-on-surface-variant w-32 flex items-center gap-1">
             {{ item.label }}
             <i
               v-tooltip.top="item.tooltip"
-              class="i-lucide-info text-n-slate-9 w-3 h-3 cursor-help"
+              class="i-lucide-info text-on-surface-variant/40 w-3 h-3 cursor-help"
             />
           </span>
           <span class="flex-1">{{ item.value }}</span>
