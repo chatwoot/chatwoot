@@ -90,12 +90,27 @@ const timezoneOptions = computed(() => {
   }
 });
 
+// Best-effort match browser language to enabled Chatwoot locales.
+// Tries exact match first (e.g. 'pt_BR'), then base language (e.g. 'pt'),
+// falls back to account locale or 'en'.
+const detectBestLocale = () => {
+  const codes = (enabledLanguages || []).map(l => l.iso_639_1_code);
+  const browserLang = navigator.language?.replace('-', '_');
+  if (!browserLang) return 'en';
+
+  if (codes.includes(browserLang)) return browserLang;
+  const base = browserLang.split('_')[0];
+  if (codes.includes(base)) return base;
+
+  return 'en';
+};
+
 const populateFormFields = () => {
   if (!currentAccount.value) return;
 
   const brandInfo = currentAccount.value.custom_attributes?.brand_info;
 
-  locale.value = currentAccount.value.locale || 'en';
+  locale.value = detectBestLocale();
   website.value = currentAccount.value.domain || brandInfo?.domain || '';
   timezone.value =
     currentAccount.value.custom_attributes?.timezone ||
