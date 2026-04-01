@@ -91,6 +91,7 @@ export default {
       webhookUrl: '',
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
+      channelWidgetTitle: '',
       selectedFeatureFlags: [],
       replyTime: '',
       selectedTabIndex: 0,
@@ -385,6 +386,7 @@ export default {
       this.channelWebsiteUrl = this.inbox.website_url;
       this.channelWelcomeTitle = this.inbox.welcome_title;
       this.channelWelcomeTagline = this.inbox.welcome_tagline || '';
+      this.channelWidgetTitle = this.inbox.widget_title || '';
       this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
       this.replyTime = this.inbox.reply_time;
       this.locktoSingleConversation = this.inbox.lock_to_single_conversation;
@@ -510,6 +512,7 @@ export default {
             webhook_url: this.webhookUrl,
             welcome_title: this.channelWelcomeTitle || '',
             welcome_tagline: this.channelWelcomeTagline || '',
+            widget_title: this.channelWidgetTitle || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
             continuity_via_email: this.continuityViaEmail,
@@ -724,6 +727,22 @@ export default {
                 :placeholder="
                   $t(
                     'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER'
+                  )
+                "
+              />
+            </SettingsFieldSection>
+
+            <SettingsFieldSection
+              v-if="isAWebWidgetInbox"
+              :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_TITLE.LABEL')"
+              :help-text="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_TITLE.HINT')"
+            >
+              <woot-input
+                v-model="channelWidgetTitle"
+                class="[&>input]:!mb-0"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_TITLE.PLACEHOLDER'
                   )
                 "
               />
@@ -1146,7 +1165,7 @@ export default {
               <Widget
                 :welcome-heading="channelWelcomeTitle"
                 :welcome-tagline="channelWelcomeTagline"
-                :website-name="selectedInboxName"
+                :website-name="channelWidgetTitle || selectedInboxName"
                 :logo="avatarUrl"
                 is-online
                 :reply-time="replyTime"
