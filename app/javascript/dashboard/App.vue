@@ -59,8 +59,14 @@ export default {
       isRTL: 'accounts/isRTL',
       currentUser: 'getCurrentUser',
       authUIFlags: 'getAuthUIFlags',
-      accountUIFlags: 'accounts/getUIFlags',
     }),
+    // Prevent dashboard from flashing before onboarding redirect.
+    // The account store is empty until accounts/get completes, so we hold
+    // rendering until account data is available and we know which route to show.
+    isAccountReady() {
+      if (!this.currentAccountId) return true;
+      return Object.keys(this.getAccount(this.currentAccountId)).length > 0;
+    },
     hideOnOnboardingView() {
       return !isOnOnboardingView(this.$route);
     },
@@ -141,7 +147,7 @@ export default {
 
 <template>
   <div
-    v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
+    v-if="!authUIFlags.isFetching && isAccountReady"
     id="app"
     class="flex flex-col w-full h-screen min-h-0 bg-n-background"
     :dir="isRTL ? 'rtl' : 'ltr'"
