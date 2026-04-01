@@ -20,11 +20,11 @@ const excludedLabels = defineModel('excludedLabels', {
 
 const excludeOlderThanMinutes = defineModel('excludeOlderThanMinutes', {
   type: Number,
-  default: 10,
+  default: null,
 });
 
-// Duration limits: 10 minutes to 999 days (in minutes)
-const MIN_DURATION_MINUTES = 10;
+// Duration limits: 1 minute to 999 days (in minutes)
+const MIN_DURATION_MINUTES = 1;
 const MAX_DURATION_MINUTES = 1438560; // 999 days * 24 hours * 60 minutes
 
 const { t } = useI18n();
