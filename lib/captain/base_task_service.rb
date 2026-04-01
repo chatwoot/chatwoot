@@ -55,7 +55,9 @@ class Captain::BaseTaskService
   end
 
   def execute_ruby_llm_request(model:, messages:, schema: nil, tools: [])
-    Llm::Config.with_api_key(api_key, api_base: api_base) do |context|
+    current_llm_config = llm_config
+
+    Llm::Config.with_api_key(current_llm_config[:api_key], api_base: api_base) do |context|
       chat = build_chat(context, model: model, messages: messages, schema: schema, tools: tools)
 
       conversation_messages = messages.reject { |m| m[:role] == 'system' }
@@ -65,7 +67,7 @@ class Captain::BaseTaskService
       build_ruby_llm_response(chat.ask(conversation_messages.last[:content]), messages)
     end
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: account).capture_exception
+    capture_llm_exception(e, source: current_llm_config[:source])
     { error: e.message, request_messages: messages }
   end
 
@@ -147,11 +149,32 @@ class Captain::BaseTaskService
   end
 
   def api_key_configured?
-    api_key.present?
+    llm_config.present?
   end
 
   def api_key
-    @api_key ||= openai_hook&.settings&.dig('api_key') || system_api_key
+    llm_config[:api_key]
+  end
+
+  def api_key_source
+    llm_config[:source]
+  end
+
+  def llm_config
+    @llm_config ||= hook_llm_config || system_llm_config
+  end
+
+  def hook_llm_config
+    hook_api_key = openai_hook&.settings&.dig('api_key').presence
+    return if hook_api_key.blank?
+
+    { api_key: hook_api_key, source: :hook }
+  end
+
+  def system_llm_config
+    return if system_api_key.blank?
+
+    { api_key: system_api_key, source: :system }
   end
 
   def openai_hook
@@ -160,6 +183,12 @@ class Captain::BaseTaskService
 
   def system_api_key
     @system_api_key ||= InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
+  end
+
+  def capture_llm_exception(error, source:)
+    return unless source == :system
+
+    ChatwootExceptionTracker.new(error, account: account).capture_exception
   end
 
   def prompt_from_file(file_name)

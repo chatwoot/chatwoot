@@ -100,13 +100,14 @@ class Integrations::LlmBaseService
   def execute_ruby_llm_request(parsed_body)
     messages = parsed_body['messages']
     model = parsed_body['model']
+    current_llm_config = llm_config
 
-    Llm::Config.with_api_key(hook.settings['api_key'], api_base: api_base) do |context|
+    Llm::Config.with_api_key(current_llm_config[:api_key], api_base: api_base) do |context|
       chat = context.chat(model: model)
       setup_chat_with_messages(chat, messages)
     end
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: hook.account).capture_exception
+    capture_llm_exception(e, source: current_llm_config[:source])
     build_error_response_from_exception(e, messages)
   end
 
@@ -162,6 +163,16 @@ class Integrations::LlmBaseService
       messages: parsed_body['messages'],
       temperature: parsed_body['temperature']
     }
+  end
+
+  def llm_config
+    @llm_config ||= { api_key: hook.settings['api_key'], source: :hook }
+  end
+
+  def capture_llm_exception(error, source:)
+    return unless source == :system
+
+    ChatwootExceptionTracker.new(error, account: hook.account).capture_exception
   end
 
   def build_error_response_from_exception(error, messages)
