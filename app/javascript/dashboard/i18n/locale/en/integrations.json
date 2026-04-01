@@ -841,7 +841,8 @@
       "TEST": {
         "BUTTON": "Test connection",
         "SUCCESS": "Endpoint returned HTTP {status}",
-        "ERROR": "Connection failed"
+        "ERROR": "Connection failed",
+        "TEMPLATED_URL_HINT": "Testing is not available for URLs with template variables."
       },
       "FORM": {
         "TITLE": {

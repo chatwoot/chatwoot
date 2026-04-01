@@ -154,6 +154,7 @@ const handleSubmit = async () => {
 
 const isTesting = ref(false);
 const testResult = ref(null);
+const hasTemplatedUrl = computed(() => state.endpoint_url.includes('{{'));
 
 const handleTest = async () => {
   if (!state.endpoint_url) return;
@@ -288,9 +289,12 @@ const handleTest = async () => {
         icon="i-lucide-play"
         :label="t('CAPTAIN.CUSTOM_TOOLS.TEST.BUTTON')"
         :is-loading="isTesting"
-        :disabled="isTesting || !state.endpoint_url"
+        :disabled="isTesting || !state.endpoint_url || hasTemplatedUrl"
         @click="handleTest"
       />
+      <p v-if="hasTemplatedUrl" class="text-xs text-n-slate-11">
+        {{ t('CAPTAIN.CUSTOM_TOOLS.TEST.TEMPLATED_URL_HINT') }}
+      </p>
       <div
         v-if="testResult"
         class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg"
