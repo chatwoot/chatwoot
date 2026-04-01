@@ -1,9 +1,10 @@
 <script setup>
-import { reactive, computed, useTemplateRef, watch } from 'vue';
+import { reactive, computed, ref, useTemplateRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, maxLength } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
+import CustomToolsAPI from 'dashboard/api/captain/customTools';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
@@ -150,6 +151,27 @@ const handleSubmit = async () => {
 
   emit('submit', state);
 };
+
+const isTesting = ref(false);
+const testResult = ref(null);
+
+const handleTest = async () => {
+  if (!state.endpoint_url) return;
+
+  isTesting.value = true;
+  testResult.value = null;
+  try {
+    const { data } = await CustomToolsAPI.test(state);
+    const isOk = data.status >= 200 && data.status < 300;
+    testResult.value = { success: isOk, status: data.status };
+  } catch (e) {
+    const message =
+      e.response?.data?.error || t('CAPTAIN.CUSTOM_TOOLS.TEST.ERROR');
+    testResult.value = { success: false, message };
+  } finally {
+    isTesting.value = false;
+  }
+};
 </script>
 
 <template>
@@ -257,6 +279,42 @@ const handleSubmit = async () => {
       :rows="4"
       class="[&_textarea]:font-mono"
     />
+
+    <div class="flex flex-col gap-2">
+      <Button
+        type="button"
+        variant="faded"
+        color="slate"
+        icon="i-lucide-play"
+        :label="t('CAPTAIN.CUSTOM_TOOLS.TEST.BUTTON')"
+        :is-loading="isTesting"
+        :disabled="isTesting || !state.endpoint_url"
+        @click="handleTest"
+      />
+      <div
+        v-if="testResult"
+        class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg"
+        :class="
+          testResult.success
+            ? 'bg-n-teal-2 text-n-teal-11'
+            : 'bg-n-ruby-2 text-n-ruby-11'
+        "
+      >
+        <span
+          :class="
+            testResult.success ? 'i-lucide-check-circle' : 'i-lucide-x-circle'
+          "
+          class="size-3.5 shrink-0"
+        />
+        {{
+          testResult.status
+            ? t('CAPTAIN.CUSTOM_TOOLS.TEST.SUCCESS', {
+                status: testResult.status,
+              })
+            : testResult.message
+        }}
+      </div>
+    </div>
 
     <div class="flex gap-3 justify-between items-center w-full">
       <Button
