@@ -735,15 +735,15 @@ export default {
             <SettingsFieldSection
               v-if="isAWebWidgetInbox"
               :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_TITLE.LABEL')"
-              :help-text="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_TITLE.HINT')"
+              :help-text="
+                $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_TITLE.HINT')
+              "
             >
               <woot-input
                 v-model="channelWidgetTitle"
                 class="[&>input]:!mb-0"
                 :placeholder="
-                  $t(
-                    'INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_TITLE.PLACEHOLDER'
-                  )
+                  $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_TITLE.PLACEHOLDER')
                 "
               />
             </SettingsFieldSection>
