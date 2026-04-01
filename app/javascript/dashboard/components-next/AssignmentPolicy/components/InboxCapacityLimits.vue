@@ -27,7 +27,7 @@ const { t } = useI18n();
 
 const BASE_KEY = 'ASSIGNMENT_POLICY.AGENT_CAPACITY_POLICY';
 const DEFAULT_CONVERSATION_LIMIT = 10;
-const MIN_CONVERSATION_LIMIT = 1;
+const MIN_CONVERSATION_LIMIT = 0;
 const MAX_CONVERSATION_LIMIT = 100000;
 
 const selectedInboxIds = computed(
