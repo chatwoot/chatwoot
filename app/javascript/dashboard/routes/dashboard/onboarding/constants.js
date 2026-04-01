@@ -7,18 +7,42 @@ export const COMPANY_SIZE_OPTIONS = [
 ];
 
 export const INDUSTRY_OPTIONS = [
-  { value: 'Technology', label: 'Technology' },
-  { value: 'E-commerce', label: 'E-commerce' },
-  { value: 'Healthcare', label: 'Healthcare' },
+  { value: 'Aerospace & Defense', label: 'Aerospace & Defense' },
+  { value: 'Agriculture & Food', label: 'Agriculture & Food' },
+  {
+    value: 'Automotive & Transportation',
+    label: 'Automotive & Transportation',
+  },
+  { value: 'Chemicals & Materials', label: 'Chemicals & Materials' },
+  {
+    value: 'Construction & Built Environment',
+    label: 'Construction & Built Environment',
+  },
+  {
+    value: 'Consumer Packaged Goods (CPG)',
+    label: 'Consumer Packaged Goods (CPG)',
+  },
   { value: 'Education', label: 'Education' },
+  { value: 'Entertainment', label: 'Entertainment' },
   { value: 'Finance', label: 'Finance' },
-  { value: 'Real Estate', label: 'Real Estate' },
-  { value: 'Marketing', label: 'Marketing' },
-  { value: 'Travel & Hospitality', label: 'Travel & Hospitality' },
-  { value: 'Food & Beverage', label: 'Food & Beverage' },
-  { value: 'Media & Entertainment', label: 'Media & Entertainment' },
-  { value: 'Professional Services', label: 'Professional Services' },
-  { value: 'Non-profit', label: 'Non-profit' },
+  { value: 'Government & Nonprofit', label: 'Government & Nonprofit' },
+  { value: 'Healthcare', label: 'Healthcare' },
+  { value: 'Hospitality & Tourism', label: 'Hospitality & Tourism' },
+  { value: 'Industrial & Energy', label: 'Industrial & Energy' },
+  { value: 'Legal & Compliance', label: 'Legal & Compliance' },
+  { value: 'Lifestyle & Leisure', label: 'Lifestyle & Leisure' },
+  { value: 'Logistics & Supply Chain', label: 'Logistics & Supply Chain' },
+  { value: 'Luxury & Fashion', label: 'Luxury & Fashion' },
+  { value: 'News & Media', label: 'News & Media' },
+  {
+    value: 'Professional Services & Agencies',
+    label: 'Professional Services & Agencies',
+  },
+  { value: 'Real Estate & PropTech', label: 'Real Estate & PropTech' },
+  { value: 'Retail & E-commerce', label: 'Retail & E-commerce' },
+  { value: 'Sports', label: 'Sports' },
+  { value: 'Technology', label: 'Technology' },
+  { value: 'Telecommunications', label: 'Telecommunications' },
   { value: 'Other', label: 'Other' },
 ];
 
