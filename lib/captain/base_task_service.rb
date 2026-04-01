@@ -157,10 +157,6 @@ class Captain::BaseTaskService
     llm_credential&.api_key
   end
 
-  def api_key_source
-    llm_credential&.source
-  end
-
   def llm_credential
     @llm_credential ||= hook_llm_credential || system_llm_credential
   end
