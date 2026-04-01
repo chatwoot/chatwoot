@@ -288,6 +288,16 @@ RSpec.describe Captain::BaseTaskService do
         expect(service.send(:api_key)).to eq('test-key')
       end
     end
+
+    context 'when no API key is configured' do
+      before do
+        InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.destroy
+      end
+
+      it 'returns nil' do
+        expect(service.send(:api_key)).to be_nil
+      end
+    end
   end
 
   describe '#api_key_source' do
@@ -304,6 +314,16 @@ RSpec.describe Captain::BaseTaskService do
     context 'when openai hook is not configured' do
       it 'marks the key as coming from the system config' do
         expect(service.send(:api_key_source)).to eq(:system)
+      end
+    end
+
+    context 'when no API key is configured' do
+      before do
+        InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.destroy
+      end
+
+      it 'returns nil' do
+        expect(service.send(:api_key_source)).to be_nil
       end
     end
   end

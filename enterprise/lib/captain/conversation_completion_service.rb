@@ -58,8 +58,8 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
 
   # This is an internal operational evaluation, not a customer-triggered feature,
   # so it should always use the installation key.
-  def llm_config
-    @llm_config ||= system_llm_config
+  def llm_credential
+    @llm_credential ||= system_llm_credential
   end
 
   def event_name

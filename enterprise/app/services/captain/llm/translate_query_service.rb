@@ -28,8 +28,8 @@ class Captain::Llm::TranslateQueryService < Captain::BaseTaskService
 
   # Translation is an internal operation, not customer-initiated.
   # It should always use the installation key.
-  def llm_config
-    @llm_config ||= system_llm_config
+  def llm_credential
+    @llm_credential ||= system_llm_credential
   end
 
   def query_in_target_language?(query)

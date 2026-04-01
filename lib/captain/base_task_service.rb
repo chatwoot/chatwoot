@@ -1,6 +1,7 @@
 class Captain::BaseTaskService
   include Integrations::LlmInstrumentation
   include Captain::ToolInstrumentation
+  include Llm::ExceptionTrackable
 
   # gpt-4o-mini supports 128,000 tokens
   # 1 token is approx 4 characters
@@ -55,9 +56,10 @@ class Captain::BaseTaskService
   end
 
   def execute_ruby_llm_request(model:, messages:, schema: nil, tools: [])
-    current_llm_config = llm_config
+    credential = nil
+    credential = llm_credential
 
-    Llm::Config.with_api_key(current_llm_config[:api_key], api_base: api_base) do |context|
+    Llm::Config.with_api_key(credential.api_key, api_base: api_base) do |context|
       chat = build_chat(context, model: model, messages: messages, schema: schema, tools: tools)
 
       conversation_messages = messages.reject { |m| m[:role] == 'system' }
@@ -67,7 +69,7 @@ class Captain::BaseTaskService
       build_ruby_llm_response(chat.ask(conversation_messages.last[:content]), messages)
     end
   rescue StandardError => e
-    capture_llm_exception(e, source: current_llm_config[:source])
+    capture_llm_exception(e, credential: credential)
     { error: e.message, request_messages: messages }
   end
 
@@ -149,32 +151,32 @@ class Captain::BaseTaskService
   end
 
   def api_key_configured?
-    llm_config.present?
+    llm_credential.present?
   end
 
   def api_key
-    llm_config[:api_key]
+    llm_credential&.api_key
   end
 
   def api_key_source
-    llm_config[:source]
+    llm_credential&.source
   end
 
-  def llm_config
-    @llm_config ||= hook_llm_config || system_llm_config
+  def llm_credential
+    @llm_credential ||= hook_llm_credential || system_llm_credential
   end
 
-  def hook_llm_config
+  def hook_llm_credential
     hook_api_key = openai_hook&.settings&.dig('api_key').presence
     return if hook_api_key.blank?
 
-    { api_key: hook_api_key, source: :hook }
+    Llm::Credential.new(api_key: hook_api_key, source: :hook)
   end
 
-  def system_llm_config
+  def system_llm_credential
     return if system_api_key.blank?
 
-    { api_key: system_api_key, source: :system }
+    Llm::Credential.new(api_key: system_api_key, source: :system)
   end
 
   def openai_hook
@@ -185,10 +187,8 @@ class Captain::BaseTaskService
     @system_api_key ||= InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
   end
 
-  def capture_llm_exception(error, source:)
-    return unless source == :system
-
-    ChatwootExceptionTracker.new(error, account: account).capture_exception
+  def exception_tracking_account
+    account
   end
 
   def prompt_from_file(file_name)
