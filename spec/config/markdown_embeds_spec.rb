@@ -21,7 +21,7 @@ describe 'Markdown Embeds Configuration' do
     end
 
     it 'contains expected embed types' do
-      expected_types = %w[youtube loom vimeo mp4 arcade_tab arcade wistia bunny codepen github_gist]
+      expected_types = %w[youtube loom vimeo mp4 arcade_tab arcade wistia bunny codepen guidejar github_gist]
       expect(config.keys).to match_array(expected_types)
     end
   end
@@ -72,6 +72,12 @@ describe 'Markdown Embeds Configuration' do
         'codepen' => [
           { url: 'https://codepen.io/username/pen/abcdef', expected: { 'user' => 'username', 'pen_id' => 'abcdef' } },
           { url: 'https://www.codepen.io/testuser/pen/xyz123', expected: { 'user' => 'testuser', 'pen_id' => 'xyz123' } }
+        ],
+        'guidejar' => [
+          { url: 'https://www.guidejar.com/embed/i2qMQRp26rtRxpZczmaA', expected: { 'guide_id' => 'i2qMQRp26rtRxpZczmaA' } },
+          { url: 'https://guidejar.com/guides/i2qMQRp26rtRxpZczmaA', expected: { 'guide_id' => 'i2qMQRp26rtRxpZczmaA' } },
+          { url: 'https://guidejar.com/guides/d6a6fdc2-4812-4777-897e-ec1b0c64238f',
+            expected: { 'guide_id' => 'd6a6fdc2-4812-4777-897e-ec1b0c64238f' } }
         ],
         'github_gist' => [
           { url: 'https://gist.github.com/username/1234567890abcdef1234567890abcdef',

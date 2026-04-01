@@ -509,6 +509,7 @@ Rails.application.routes.draw do
               delete :destroy
             end
           end
+          resources :email_channel_migrations, only: [:create]
         end
       end
     end
