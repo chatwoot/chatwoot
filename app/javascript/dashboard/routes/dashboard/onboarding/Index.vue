@@ -289,17 +289,6 @@ const handleSubmit = async () => {
             />
           </OnboardingFormRow>
           <OnboardingFormRow
-            :title="t('ONBOARDING.FIELDS.COMPANY_SIZE')"
-            icon="i-lucide-users"
-          >
-            <OnboardingFormSelect
-              v-model="companySize"
-              :has-error="shakeFields && v$.companySize.$error"
-              :options="COMPANY_SIZE_OPTIONS"
-              :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_COMPANY_SIZE')"
-            />
-          </OnboardingFormRow>
-          <OnboardingFormRow
             :title="t('ONBOARDING.FIELDS.INDUSTRY')"
             icon="i-lucide-factory"
           >
@@ -308,6 +297,17 @@ const handleSubmit = async () => {
               :has-error="shakeFields && v$.industry.$error"
               :options="INDUSTRY_OPTIONS"
               :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_INDUSTRY')"
+            />
+          </OnboardingFormRow>
+          <OnboardingFormRow
+            :title="t('ONBOARDING.FIELDS.COMPANY_SIZE')"
+            icon="i-lucide-users"
+          >
+            <OnboardingFormSelect
+              v-model="companySize"
+              :has-error="shakeFields && v$.companySize.$error"
+              :options="COMPANY_SIZE_OPTIONS"
+              :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_COMPANY_SIZE')"
             />
           </OnboardingFormRow>
           <OnboardingFormRow
