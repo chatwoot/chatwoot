@@ -33,8 +33,15 @@ export default {
     hasApiKeySid() {
       return !!this.inbox.api_key_sid;
     },
+    hasExistingCredentials() {
+      return this.hasApiKeySid;
+    },
     needsCredentials() {
-      return this.voiceEnabled && !this.isVoiceConfigured;
+      return (
+        this.voiceEnabled &&
+        !this.isVoiceConfigured &&
+        !this.hasExistingCredentials
+      );
     },
     needsApiKeySid() {
       return this.needsCredentials && !this.hasApiKeySid;

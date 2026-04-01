@@ -16,7 +16,7 @@ class Twilio::VoiceTeardownService
   end
 
   def clear_voice_credentials
-    channel.update!(twiml_app_sid: nil, api_key_secret: nil)
+    channel.update!(twiml_app_sid: nil)
   end
 
   def twilio_client

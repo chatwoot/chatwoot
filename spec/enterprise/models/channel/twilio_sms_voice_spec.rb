@@ -73,19 +73,19 @@ RSpec.describe Channel::TwilioSms do
       allow(app_context).to receive(:delete)
     end
 
-    it 'deletes the TwiML app and clears voice credentials' do
+    it 'deletes the TwiML app and clears twiml_app_sid' do
       original_twiml_sid = channel.twiml_app_sid
       channel.update!(voice_enabled: false)
 
       expect(twilio_client).to have_received(:applications).with(original_twiml_sid)
       expect(app_context).to have_received(:delete)
       expect(channel.reload.twiml_app_sid).to be_nil
-      expect(channel.reload.api_key_secret).to be_nil
     end
 
-    it 'preserves api_key_sid' do
+    it 'preserves api_key_sid and api_key_secret' do
       channel.update!(voice_enabled: false)
       expect(channel.reload.api_key_sid).to be_present
+      expect(channel.reload.api_key_secret).to be_present
     end
 
     it 'does not fail if Twilio API errors' do
@@ -94,7 +94,6 @@ RSpec.describe Channel::TwilioSms do
 
       expect { channel.update!(voice_enabled: false) }.not_to raise_error
       expect(channel.reload.twiml_app_sid).to be_nil
-      expect(channel.reload.api_key_secret).to be_nil
     end
   end
 end
