@@ -38,6 +38,8 @@ module Enterprise::Api::V1::Accounts::InboxesController
   end
 
   def create_voice_channel
+    raise Pundit::NotAuthorizedError unless Current.account.feature_enabled?('channel_voice')
+
     voice_params = params.require(:channel).permit(
       :phone_number, :provider,
       provider_config: [:account_sid, :auth_token, :api_key_sid, :api_key_secret]

@@ -21,7 +21,10 @@ export const VOICE_CALL_PROVIDERS = {
 export const getVoiceCallProvider = inbox => {
   if (!inbox) return null;
 
-  if (inbox.channel_type === INBOX_TYPES.TWILIO && inbox.voice_enabled) {
+  const channelType = inbox.channel_type || inbox.channelType;
+  const voiceEnabled = inbox.voice_enabled || inbox.voiceEnabled;
+
+  if (channelType === INBOX_TYPES.TWILIO && voiceEnabled) {
     return VOICE_CALL_PROVIDERS.TWILIO;
   }
 

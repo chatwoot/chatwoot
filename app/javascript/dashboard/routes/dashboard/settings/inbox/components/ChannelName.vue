@@ -12,7 +12,7 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  voiceCallEnabled: {
+  voiceEnabled: {
     type: Boolean,
     default: false,
   },
@@ -48,7 +48,7 @@ const readableChannelName = computed(() => {
     return globalConfig.value.apiChannelName || t('INBOX_MGMT.CHANNELS.API');
   }
   if (props.channelType === 'Channel::TwilioSms') {
-    if (props.voiceCallEnabled) {
+    if (props.voiceEnabled) {
       return t('INBOX_MGMT.CHANNELS.VOICE');
     }
     return twilioChannelName();

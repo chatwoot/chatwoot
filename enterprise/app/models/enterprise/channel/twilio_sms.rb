@@ -75,8 +75,7 @@ module Enterprise::Channel::TwilioSms
   end
 
   def validate_voice_capability!
-    twilio_client = Twilio::REST::Client.new(account_sid, auth_token)
-    number = twilio_client.incoming_phone_numbers.list(phone_number: phone_number).first
+    number = client.incoming_phone_numbers.list(phone_number: phone_number).first
     raise 'Phone number not found in Twilio account' unless number
     raise 'This phone number does not support voice calls' unless number.capabilities['voice']
   end
