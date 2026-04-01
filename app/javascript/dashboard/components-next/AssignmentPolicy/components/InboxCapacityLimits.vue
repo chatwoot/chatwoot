@@ -42,6 +42,7 @@ const availableInboxes = computed(() =>
 
 const isLimitValid = limit => {
   return (
+    Number.isInteger(limit.conversationLimit) &&
     limit.conversationLimit >= MIN_CONVERSATION_LIMIT &&
     limit.conversationLimit <= MAX_CONVERSATION_LIMIT
   );
