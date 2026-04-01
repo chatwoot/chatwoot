@@ -57,10 +57,9 @@ class Whatsapp::WebhookSetupService
 
   def setup_webhook
     callback_url = build_callback_url
-    verify_token = @channel.provider_config['webhook_verify_token']
+    verify_token = resolve_verify_token
 
     @api_client.subscribe_waba_webhook(@waba_id, callback_url, verify_token)
-
   rescue StandardError => e
     Rails.logger.error("[WHATSAPP] Webhook setup failed: #{e.message}")
     raise "Webhook setup failed: #{e.message}"
@@ -68,9 +67,31 @@ class Whatsapp::WebhookSetupService
 
   def build_callback_url
     frontend_url = ENV.fetch('FRONTEND_URL', nil)
-    phone_number = @channel.phone_number
 
-    "#{frontend_url}/webhooks/whatsapp/#{phone_number}"
+    "#{frontend_url}/webhooks/whatsapp"
+  end
+
+  def resolve_verify_token
+    sibling = find_waba_sibling
+    return @channel.provider_config['webhook_verify_token'] unless sibling
+
+    sibling_token = sibling.provider_config['webhook_verify_token']
+    persist_verify_token(sibling_token)
+    sibling_token
+  end
+
+  def persist_verify_token(token)
+    return if @channel.provider_config['webhook_verify_token'] == token
+
+    @channel.provider_config['webhook_verify_token'] = token
+    @channel.save!
+  end
+
+  def find_waba_sibling
+    Channel::Whatsapp.where(provider: 'whatsapp_cloud')
+                     .where("provider_config->>'business_account_id' = ?", @waba_id)
+                     .where.not(id: @channel.id)
+                     .first
   end
 
   def phone_number_verified?
