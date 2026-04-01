@@ -104,10 +104,10 @@
   display_name: Audit Logs
   enabled: false
   premium: true
-- name: response_bot
-  display_name: Response Bot
+- name: custom_tools
+  display_name: Custom Tools
   enabled: false
-  deprecated: true
+  premium: true
 - name: message_reply_to
   display_name: Message Reply To
   enabled: false
