@@ -842,7 +842,7 @@
         "BUTTON": "Test connection",
         "SUCCESS": "Endpoint returned HTTP {status}",
         "ERROR": "Connection failed",
-        "TEMPLATED_URL_HINT": "Testing is not available for URLs with template variables."
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
       },
       "FORM": {
         "TITLE": {
