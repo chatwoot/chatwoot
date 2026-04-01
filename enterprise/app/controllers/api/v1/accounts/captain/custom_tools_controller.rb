@@ -50,18 +50,8 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   end
 
   def execute_test_request(tool)
-    uri = URI.parse(tool.endpoint_url)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = uri.scheme == 'https'
-    http.read_timeout = 10
-    http.open_timeout = 5
-
-    request = tool.http_method == 'POST' ? Net::HTTP::Post.new(uri.request_uri) : Net::HTTP::Get.new(uri.request_uri)
-    tool.build_auth_headers.each { |key, value| request[key] = value }
-    credentials = tool.build_basic_auth_credentials
-    request.basic_auth(*credentials) if credentials
-
-    http.request(request)
+    http_tool = Captain::Tools::HttpTool.new(nil, tool)
+    http_tool.send(:execute_http_request, tool.endpoint_url, nil, nil)
   end
 
   def custom_tool_params
