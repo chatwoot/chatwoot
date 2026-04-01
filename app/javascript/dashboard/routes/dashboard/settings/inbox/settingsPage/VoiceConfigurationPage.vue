@@ -34,7 +34,7 @@ export default {
       return !!this.inbox.api_key_sid;
     },
     hasExistingCredentials() {
-      return this.hasApiKeySid;
+      return this.hasApiKeySid && !!this.inbox.has_api_key_secret;
     },
     needsCredentials() {
       return (
