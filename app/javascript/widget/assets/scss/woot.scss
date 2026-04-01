@@ -7,7 +7,7 @@
 
 html,
 body {
-  @apply antialiased h-full;
+  @apply antialiased h-full bg-n-slate-2 dark:bg-n-solid-1;
 }
 
 .is-mobile {
