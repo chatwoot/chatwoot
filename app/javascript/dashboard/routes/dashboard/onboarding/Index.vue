@@ -65,9 +65,12 @@ const isEnriching = computed(
   () =>
     currentAccount.value?.custom_attributes?.onboarding_step === 'enrichment'
 );
-const companyLogo = computed(
-  () => currentAccount.value?.custom_attributes?.branding?.favicon || ''
-);
+const companyLogo = computed(() => {
+  const logos = currentAccount.value?.custom_attributes?.brand_info?.logos;
+  if (!logos?.length) return '';
+  const square = logos.find(l => l.resolution?.aspect_ratio === 1);
+  return (square || logos[0])?.url || '';
+});
 
 const languageOptions = computed(() => {
   const langs = [...(enabledLanguages || [])];
@@ -90,18 +93,20 @@ const timezoneOptions = computed(() => {
 const populateFormFields = () => {
   if (!currentAccount.value) return;
 
+  const brandInfo = currentAccount.value.custom_attributes?.brand_info;
+
   locale.value = currentAccount.value.locale || 'en';
-  website.value =
-    currentAccount.value.domain ||
-    currentAccount.value.custom_attributes?.website ||
-    '';
+  website.value = currentAccount.value.domain || brandInfo?.domain || '';
   timezone.value =
     currentAccount.value.custom_attributes?.timezone ||
     Intl.DateTimeFormat().resolvedOptions().timeZone ||
     '';
   companySize.value =
     currentAccount.value.custom_attributes?.company_size || '';
-  industry.value = currentAccount.value.custom_attributes?.industry || '';
+  industry.value =
+    currentAccount.value.custom_attributes?.industry ||
+    brandInfo?.industries?.[0]?.industry ||
+    '';
   referralSource.value =
     currentAccount.value.custom_attributes?.referral_source || '';
 };

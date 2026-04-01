@@ -11,9 +11,6 @@ if resource.custom_attributes.present?
     json.timezone resource.custom_attributes['timezone'] if resource.custom_attributes['timezone'].present?
     json.logo resource.custom_attributes['logo'] if resource.custom_attributes['logo'].present?
     json.referral_source resource.custom_attributes['referral_source'] if resource.custom_attributes['referral_source'].present?
-    json.website resource.custom_attributes['website'] if resource.custom_attributes['website'].present?
-    json.branding resource.custom_attributes['branding'] if resource.custom_attributes['branding'].present?
-    json.social_handles resource.custom_attributes['social_handles'] if resource.custom_attributes['social_handles'].present?
     json.brand_info resource.custom_attributes['brand_info'] if resource.custom_attributes['brand_info'].present?
     if resource.custom_attributes['onboarding_step'].present?
       enrichment_key = format(Redis::Alfred::ACCOUNT_ONBOARDING_ENRICHMENT, account_id: resource.id)
