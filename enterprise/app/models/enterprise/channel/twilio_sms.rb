@@ -66,6 +66,8 @@ module Enterprise::Channel::TwilioSms
   end
 
   def provision_twiml_app
+    return if twiml_app_sid.present?
+
     validate_voice_capability!
     service = ::Twilio::VoiceWebhookSetupService.new(channel: self)
     self.twiml_app_sid = service.perform
