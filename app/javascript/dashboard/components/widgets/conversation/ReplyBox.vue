@@ -1340,10 +1340,18 @@ export default {
 }
 
 .reply-box {
-  @apply relative mb-2 mx-2 border border-n-weak rounded-xl bg-n-solid-1;
+  @apply relative mb-2 mx-2 border border-outline-variant/[.15] rounded-xl bg-surface-container-lowest;
+
+  &:focus-within {
+    @apply border-secondary shadow-[0_0_15px_rgba(4,190,153,0.1)];
+  }
 
   &.is-private {
-    @apply bg-n-solid-amber dark:border-n-amber-3/10 border-n-amber-12/5;
+    @apply bg-n-amber-2 border-n-amber-8/20;
+
+    &:focus-within {
+      @apply border-n-amber-9/40 shadow-[0_0_15px_rgba(255,197,61,0.08)];
+    }
   }
 }
 

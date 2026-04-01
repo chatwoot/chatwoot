@@ -1,7 +1,6 @@
 <script setup>
-import { useI18n } from 'vue-i18n';
 import { ref, watch, nextTick } from 'vue';
-import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import { useI18n } from 'vue-i18n';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 const props = defineProps({
@@ -28,15 +27,17 @@ const getMessageAlignment = sender =>
 const getMessageDirection = sender =>
   isUserMessage(sender) ? 'flex-row-reverse' : 'flex-row';
 
-const getAvatarName = sender =>
-  isUserMessage(sender)
-    ? t('CAPTAIN.PLAYGROUND.USER')
-    : t('CAPTAIN.PLAYGROUND.ASSISTANT');
-
 const getMessageStyle = sender =>
   isUserMessage(sender)
-    ? 'bg-n-solid-blue text-n-slate-12 rounded-br-sm rounded-bl-xl rounded-t-xl'
-    : 'bg-n-solid-iris text-n-slate-12 rounded-bl-sm rounded-br-xl rounded-t-xl';
+    ? 'bg-secondary text-on-secondary rounded-2xl rounded-tr-md shadow-[0_8px_20px_rgba(6,190,153,0.25)]'
+    : 'bg-surface-container text-on-surface rounded-2xl rounded-tl-md border border-outline-variant/10';
+
+const getAvatarInitial = sender => {
+  const label = isUserMessage(sender)
+    ? t('CAPTAIN.PLAYGROUND.USER')
+    : t('CAPTAIN.PLAYGROUND.ASSISTANT');
+  return label.charAt(0).toUpperCase();
+};
 
 const scrollToBottom = async () => {
   await nextTick();
@@ -51,7 +52,7 @@ watch(() => props.messages.length, scrollToBottom);
 <template>
   <div
     ref="messageContainer"
-    class="flex-1 overflow-y-auto mb-4 px-6 space-y-6"
+    class="scrollbar-thin flex-1 space-y-14 overflow-y-auto px-6 pb-6 pt-2"
   >
     <div
       v-for="(message, index) in messages"
@@ -60,17 +61,21 @@ watch(() => props.messages.length, scrollToBottom);
       :class="getMessageAlignment(message.sender)"
     >
       <div
-        class="flex items-end gap-1.5 max-w-[90%] md:max-w-[60%]"
+        class="flex items-center gap-2 max-w-[90%] md:max-w-[45%]"
         :class="getMessageDirection(message.sender)"
       >
-        <Avatar
-          :name="getAvatarName(message.sender)"
-          rounded-full
-          :size="24"
-          class="shrink-0"
-        />
+        <span
+          class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold uppercase"
+          :class="
+            isUserMessage(message.sender)
+              ? 'bg-surface-container-low text-secondary'
+              : 'bg-secondary/10 text-secondary'
+          "
+        >
+          {{ getAvatarInitial(message.sender) }}
+        </span>
         <div
-          class="px-4 py-3 text-sm [overflow-wrap:break-word]"
+          class="px-4 py-3 text-[1.05rem] leading-tight [overflow-wrap:break-word]"
           :class="getMessageStyle(message.sender)"
         >
           <div v-html="formatMessage(message.content)" />
@@ -78,18 +83,22 @@ watch(() => props.messages.length, scrollToBottom);
       </div>
     </div>
     <div v-if="isLoading" class="flex justify-start">
-      <div class="flex items-start gap-1.5">
-        <Avatar :name="getAvatarName('assistant')" rounded-full :size="24" />
+      <div class="flex items-center gap-2">
+        <span
+          class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-secondary/10 text-[10px] font-semibold uppercase text-secondary"
+        >
+          {{ getAvatarInitial('assistant') }}
+        </span>
         <div
-          class="max-w-sm rounded-lg p-3 text-sm bg-n-solid-iris text-n-slate-12"
+          class="max-w-sm rounded-2xl rounded-tl-md border border-outline-variant/10 bg-surface-container p-3 text-sm text-on-surface"
         >
           <div class="flex gap-1">
-            <div class="w-2 h-2 rounded-full bg-n-iris-10 animate-bounce" />
+            <div class="h-2 w-2 animate-bounce rounded-full bg-secondary" />
             <div
-              class="w-2 h-2 rounded-full bg-n-iris-10 animate-bounce [animation-delay:0.2s]"
+              class="h-2 w-2 animate-bounce rounded-full bg-secondary [animation-delay:0.2s]"
             />
             <div
-              class="w-2 h-2 rounded-full bg-n-iris-10 animate-bounce [animation-delay:0.4s]"
+              class="h-2 w-2 animate-bounce rounded-full bg-secondary [animation-delay:0.4s]"
             />
           </div>
         </div>

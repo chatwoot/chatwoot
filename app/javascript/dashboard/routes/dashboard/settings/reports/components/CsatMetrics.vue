@@ -25,7 +25,7 @@ const formatPercent = value => (value ? `${value}%` : '0%');
 <template>
   <div class="flex flex-col gap-4">
     <div
-      class="flex sm:flex-row flex-col w-full gap-4 sm:gap-14 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-5"
+      class="flex sm:flex-row flex-col w-full gap-4 sm:gap-14 shadow outline-1 outline outline-outline-variant/15 rounded-xl bg-surface-container-low px-6 py-5"
     >
       <CsatMetricCard
         :label="$t('CSAT_REPORTS.METRIC.TOTAL_RESPONSES.LABEL')"
@@ -34,7 +34,7 @@ const formatPercent = value => (value ? `${value}%` : '0%');
         :is-loading="isLoading"
       />
 
-      <div class="w-full sm:w-px bg-n-strong" />
+      <div class="w-full sm:w-px bg-outline-variant/20" />
 
       <CsatMetricCard
         :label="$t('CSAT_REPORTS.METRIC.SATISFACTION_SCORE.LABEL')"
@@ -43,7 +43,7 @@ const formatPercent = value => (value ? `${value}%` : '0%');
         :is-loading="isLoading"
       />
 
-      <div class="w-full sm:w-px bg-n-strong" />
+      <div class="w-full sm:w-px bg-outline-variant/20" />
 
       <CsatMetricCard
         :label="$t('CSAT_REPORTS.METRIC.RESPONSE_RATE.LABEL')"

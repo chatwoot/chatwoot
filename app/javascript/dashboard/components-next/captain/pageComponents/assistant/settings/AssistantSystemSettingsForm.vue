@@ -8,6 +8,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   assistant: {
@@ -101,7 +102,9 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col gap-6">
+  <div
+    class="flex flex-col gap-6 rounded-xl border border-outline-variant/10 bg-surface-container-low p-6 shadow-sm"
+  >
     <Editor
       v-model="state.handoffMessage"
       :label="t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.LABEL')"
@@ -131,10 +134,20 @@ watch(
       class="z-0"
     />
 
-    <div class="flex flex-col gap-2">
-      <label class="text-sm font-medium text-n-slate-12">
-        {{ t('CAPTAIN.ASSISTANTS.FORM.TEMPERATURE.LABEL') }}
-      </label>
+    <div
+      class="flex flex-col gap-3 rounded-xl border border-outline-variant/10 bg-surface-container px-4 py-3"
+    >
+      <div class="flex items-center gap-2">
+        <Icon
+          icon="i-lucide-thermometer"
+          class="size-4 shrink-0 text-secondary"
+        />
+        <label
+          class="mb-0 text-xs font-semibold uppercase tracking-wider text-on-surface-variant"
+        >
+          {{ t('CAPTAIN.ASSISTANTS.FORM.TEMPERATURE.LABEL') }}
+        </label>
+      </div>
       <div class="flex items-center gap-4">
         <input
           v-model="state.temperature"
@@ -142,18 +155,26 @@ watch(
           min="0"
           max="1"
           step="0.1"
-          class="w-full"
+          class="mb-0 w-full accent-secondary"
         />
-        <span class="text-sm text-n-slate-12">{{ state.temperature }}</span>
+        <span class="min-w-10 text-sm font-medium text-on-surface">
+          {{ state.temperature }}
+        </span>
       </div>
-      <p class="text-sm text-n-slate-11 italic">
+      <p class="mb-0 text-sm italic text-on-surface-variant">
         {{ t('CAPTAIN.ASSISTANTS.FORM.TEMPERATURE.DESCRIPTION') }}
       </p>
     </div>
 
-    <div>
+    <div class="flex justify-end border-t border-outline-variant/15 pt-4">
       <Button
+        solid
+        teal
+        md
+        trailing-icon
+        icon="i-lucide-save"
         :label="t('CAPTAIN.ASSISTANTS.FORM.UPDATE')"
+        class="font-semibold"
         @click="handleSystemMessagesUpdate"
       />
     </div>

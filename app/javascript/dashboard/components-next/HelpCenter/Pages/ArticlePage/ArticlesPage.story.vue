@@ -64,7 +64,7 @@ const articles = [
 <template>
   <Story title="Pages/HelpCenter/ArticlesPage" :layout="{ type: 'single' }">
     <Variant title="All Articles">
-      <div class="w-full min-h-screen bg-n-background">
+      <div class="w-full min-h-screen bg-surface">
         <ArticlesPage :articles="articles" />
       </div>
     </Variant>

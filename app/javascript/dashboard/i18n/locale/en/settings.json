@@ -487,6 +487,8 @@
   },
   "SECURITY_SETTINGS": {
     "TITLE": "Security",
+    "PAGE_EYEBROW": "Authentication",
+    "PAGE_SUBTITLE": "Connect SAML single sign-on so agents use your corporate identity provider instead of managing a separate password for Chatwoot.",
     "DESCRIPTION": "Manage your account security settings.",
     "LINK_TEXT": "Learn more about SAML SSO",
     "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
@@ -560,8 +562,11 @@
   "CONVERSATION_WORKFLOW": {
     "INDEX": {
       "HEADER": {
+        "PAGE_EYEBROW": "Resolution & closure",
+        "PAGE_SUBTITLE": "Control auto-resolve timing and require custom attributes before agents mark conversations resolved—so closure stays consistent and auditable.",
         "TITLE": "Conversation Workflows",
-        "DESCRIPTION": "Configure rules and required fields for conversation resolution."
+        "DESCRIPTION": "Configure rules and required fields for conversation resolution.",
+        "LEARN_MORE": "Learn more about conversation workflow"
       }
     },
     "REQUIRED_ATTRIBUTES": {

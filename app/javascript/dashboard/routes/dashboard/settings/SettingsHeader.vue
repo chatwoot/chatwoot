@@ -41,9 +41,9 @@ export default {
 
 <template>
   <div
-    class="flex justify-between items-center h-20 min-h-[3.5rem] px-4 py-2 bg-n-surface-1"
+    class="flex justify-between items-center h-20 min-h-[3.5rem] px-4 py-2 bg-surface"
   >
-    <h1 class="flex items-center mb-0 text-2xl text-n-slate-12">
+    <h1 class="flex items-center mb-0 text-2xl text-on-surface">
       <BackButton
         v-if="showBackButton"
         :button-label="backButtonLabel"
@@ -52,7 +52,7 @@ export default {
       />
 
       <slot />
-      <span class="text-xl font-medium text-n-slate-12">
+      <span class="text-xl font-medium text-on-surface">
         {{ headerTitle }}
       </span>
     </h1>

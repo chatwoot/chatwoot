@@ -181,7 +181,7 @@ watch(
     />
 
     <div class="flex flex-col gap-1">
-      <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">
+      <label for="inbox" class="mb-0.5 text-sm font-medium text-on-surface">
         {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.INBOX.LABEL') }}
       </label>
       <ComboBox
@@ -191,12 +191,12 @@ watch(
         :has-error="!!formErrors.inbox"
         :placeholder="t('CAMPAIGN.WHATSAPP.CREATE.FORM.INBOX.PLACEHOLDER')"
         :message="formErrors.inbox"
-        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
+        class="w-full"
       />
     </div>
 
     <div class="flex flex-col gap-1">
-      <label for="template" class="mb-0.5 text-sm font-medium text-n-slate-12">
+      <label for="template" class="mb-0.5 text-sm font-medium text-on-surface">
         {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.TEMPLATE.LABEL') }}
       </label>
       <ComboBox
@@ -206,9 +206,9 @@ watch(
         :has-error="!!formErrors.template"
         :placeholder="t('CAMPAIGN.WHATSAPP.CREATE.FORM.TEMPLATE.PLACEHOLDER')"
         :message="formErrors.template"
-        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
+        class="w-full"
       />
-      <p class="mt-1 text-xs text-n-slate-11">
+      <p class="mt-1 text-xs text-on-surface-variant">
         {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.TEMPLATE.INFO') }}
       </p>
     </div>
@@ -221,7 +221,7 @@ watch(
     />
 
     <div class="flex flex-col gap-1">
-      <label for="audience" class="mb-0.5 text-sm font-medium text-n-slate-12">
+      <label for="audience" class="mb-0.5 text-sm font-medium text-on-surface">
         {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.AUDIENCE.LABEL') }}
       </label>
       <TagMultiSelectComboBox
@@ -231,7 +231,7 @@ watch(
         :placeholder="t('CAMPAIGN.WHATSAPP.CREATE.FORM.AUDIENCE.PLACEHOLDER')"
         :has-error="!!formErrors.audience"
         :message="formErrors.audience"
-        class="[&>div>button]:bg-n-alpha-black2"
+        class="w-full"
       />
     </div>
 
@@ -245,18 +245,22 @@ watch(
       :message-type="formErrors.scheduledAt ? 'error' : 'info'"
     />
 
-    <div class="flex gap-3 justify-between items-center w-full">
+    <div class="flex w-full items-center justify-between gap-3">
       <Button
-        variant="faded"
-        color="slate"
+        outline
+        slate
+        sm
         type="button"
         :label="t('CAMPAIGN.WHATSAPP.CREATE.FORM.BUTTONS.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
+        class="w-full"
         @click="handleCancel"
       />
       <Button
+        solid
+        teal
+        sm
         :label="t('CAMPAIGN.WHATSAPP.CREATE.FORM.BUTTONS.CREATE')"
-        class="w-full"
+        class="w-full font-semibold"
         type="submit"
         :is-loading="isCreating"
         :disabled="isCreating || isSubmitDisabled"

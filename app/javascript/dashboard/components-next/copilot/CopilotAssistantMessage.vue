@@ -56,15 +56,19 @@ const useCopilotResponse = () => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-1 text-n-slate-12">
-    <div class="font-medium">{{ $t('CAPTAIN.NAME') }}</div>
-    <span v-if="hasEmptyMessageContent" class="text-n-ruby-11">
+  <div class="flex flex-col gap-1 text-on-surface">
+    <div
+      class="text-xs font-semibold uppercase tracking-wider text-on-surface-variant"
+    >
+      {{ $t('CAPTAIN.NAME') }}
+    </div>
+    <span v-if="hasEmptyMessageContent" class="text-sm text-error">
       {{ $t('CAPTAIN.COPILOT.EMPTY_MESSAGE') }}
     </span>
     <div
       v-else
       v-dompurify-html="messageContent"
-      class="prose-sm break-words"
+      class="prose-sm prose-invert max-w-none break-words text-on-surface"
     />
     <div class="flex flex-row mt-1">
       <Button

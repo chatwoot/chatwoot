@@ -148,18 +148,17 @@ onMounted(() => {
       {{ label }}
     </label>
     <div
-      class="flex flex-col gap-2 px-3 pt-3 pb-3 transition-all duration-500 ease-in-out border rounded-lg bg-n-alpha-black2"
+      class="flex flex-col gap-2 rounded-lg border border-solid bg-surface-container-lowest px-3 pb-3 pt-3 ring-0 transition-colors duration-200 ease-in-out"
       :class="[
-        customTextAreaWrapperClass,
         {
-          'cursor-not-allowed opacity-50 !bg-n-alpha-black2 disabled:border-n-weak dark:disabled:border-n-weak':
+          'cursor-not-allowed border-outline-variant/20 bg-surface-container-high/20 opacity-60':
             disabled,
-          'border-n-brand dark:border-n-brand': isFocused,
-          'hover:border-n-slate-6 dark:hover:border-n-slate-6 border-n-weak dark:border-n-weak':
-            !isFocused && messageType !== 'error',
-          'border-n-ruby-8 dark:border-n-ruby-8 hover:border-n-ruby-9 dark:hover:border-n-ruby-9':
-            messageType === 'error' && !isFocused,
+          'border-ruby-9': messageType === 'error' && !disabled,
+          'border-secondary': isFocused && messageType !== 'error' && !disabled,
+          'border-outline-variant/35 hover:border-outline-variant/55':
+            !isFocused && messageType !== 'error' && !disabled,
         },
+        customTextAreaWrapperClass,
       ]"
     >
       <slot /><!-- Slot for adding popover -->
@@ -181,7 +180,7 @@ onMounted(() => {
         }"
         :disabled="disabled"
         rows="1"
-        class="flex w-full reset-base text-sm p-0 !rounded-none !bg-transparent dark:!bg-transparent !border-0 !outline-0 !mb-0 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 text-n-slate-12 dark:text-n-slate-12 disabled:cursor-not-allowed disabled:opacity-50"
+        class="reset-base mb-0 flex w-full border-0 bg-transparent p-0 text-sm !outline-none !ring-0 text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-transparent !rounded-none"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"

@@ -20,17 +20,18 @@ const { variant, orientation, inReplyTo, shouldGroupWithNext } =
 const { t } = useI18n();
 
 const varaintBaseMap = {
-  [MESSAGE_VARIANTS.AGENT]: 'bg-n-solid-blue text-n-slate-12',
+  [MESSAGE_VARIANTS.AGENT]:
+    'bg-surface-container-low border border-secondary/25 text-on-surface',
   [MESSAGE_VARIANTS.PRIVATE]:
-    'bg-n-solid-amber text-n-amber-12 [&_.prosemirror-mention-node]:font-semibold',
-  [MESSAGE_VARIANTS.USER]: 'bg-n-slate-4 text-n-slate-12',
-  [MESSAGE_VARIANTS.ACTIVITY]: 'bg-n-alpha-1 text-n-slate-11 text-sm',
-  [MESSAGE_VARIANTS.BOT]: 'bg-n-solid-iris text-n-slate-12',
-  [MESSAGE_VARIANTS.TEMPLATE]: 'bg-n-solid-iris text-n-slate-12',
+    'bg-n-amber-2 border border-n-amber-8/20 text-n-amber-12 [&_.prosemirror-mention-node]:font-semibold',
+  [MESSAGE_VARIANTS.USER]: 'bg-surface-container-high text-on-surface',
+  [MESSAGE_VARIANTS.ACTIVITY]: 'bg-n-alpha-1 text-on-surface-variant text-sm',
+  [MESSAGE_VARIANTS.BOT]: 'bg-surface-container text-on-surface',
+  [MESSAGE_VARIANTS.TEMPLATE]: 'bg-surface-container text-on-surface',
   [MESSAGE_VARIANTS.ERROR]: 'bg-n-ruby-4 text-n-ruby-12',
   [MESSAGE_VARIANTS.EMAIL]: 'w-full',
   [MESSAGE_VARIANTS.UNSUPPORTED]:
-    'bg-n-solid-amber/70 border border-dashed border-n-amber-12 text-n-amber-12',
+    'bg-n-amber-2/70 border border-dashed border-n-amber-8 text-n-amber-12',
 };
 
 const orientationMap = {
@@ -121,7 +122,7 @@ const replyToPreview = computed(() => {
         variant === MESSAGE_VARIANTS.EMAIL ? 'px-3 pb-3' : '',
         variant === MESSAGE_VARIANTS.PRIVATE
           ? 'text-n-amber-12/50'
-          : 'text-n-slate-11',
+          : 'text-on-surface-variant/60',
       ]"
       class="mt-2"
     />

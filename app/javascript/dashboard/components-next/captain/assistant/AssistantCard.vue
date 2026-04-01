@@ -77,7 +77,7 @@ const handleAction = ({ action, value }) => {
   <CardLayout>
     <div class="flex justify-between w-full gap-1">
       <h6
-        class="text-base font-normal text-n-slate-12 line-clamp-1 hover:underline transition-colors"
+        class="line-clamp-1 text-base font-normal text-on-surface transition-colors hover:underline"
       >
         {{ name }}
       </h6>
@@ -88,9 +88,10 @@ const handleAction = ({ action, value }) => {
         >
           <Button
             icon="i-lucide-ellipsis-vertical"
-            color="slate"
-            size="xs"
-            class="rounded-md group-hover:bg-n-alpha-2"
+            ghost
+            slate
+            xs
+            class="rounded-md text-on-surface-variant group-hover:bg-surface-container-highest"
             @click="toggleDropdown()"
           />
           <DropdownMenu
@@ -103,10 +104,10 @@ const handleAction = ({ action, value }) => {
       </div>
     </div>
     <div class="flex items-center justify-between w-full gap-4">
-      <span class="text-sm truncate text-n-slate-11">
-        {{ description || 'Description not available' }}
+      <span class="truncate text-sm text-on-surface-variant">
+        {{ description || t('CAPTAIN.ASSISTANTS.CARD_DESCRIPTION_FALLBACK') }}
       </span>
-      <span class="text-sm text-n-slate-11 line-clamp-1 shrink-0">
+      <span class="line-clamp-1 shrink-0 text-sm text-on-surface-variant">
         {{ lastUpdatedAt }}
       </span>
     </div>

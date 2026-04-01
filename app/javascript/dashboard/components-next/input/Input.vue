@@ -50,12 +50,12 @@ const messageClass = computed(() => {
   }
 });
 
-const inputOutlineClass = computed(() => {
+const inputBorderClass = computed(() => {
   switch (props.messageType) {
     case 'error':
-      return 'outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8';
+      return 'border-error hover:border-error focus:border-error focus:ring-error disabled:border-error/80';
     default:
-      return 'outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 disabled:outline-n-weak dark:disabled:outline-n-weak focus:outline-n-brand dark:focus:outline-n-brand';
+      return 'border-outline-variant/30 hover:border-outline-variant/50 focus:border-secondary focus:ring-secondary disabled:border-outline-variant/20';
   }
 });
 
@@ -121,7 +121,7 @@ onMounted(() => {
       :value="modelValue"
       :class="[
         customInputClass,
-        inputOutlineClass,
+        inputBorderClass,
         sizeClass,
         {
           error: messageType === 'error',
@@ -137,7 +137,7 @@ onMounted(() => {
           ? max
           : undefined
       "
-      class="block w-full reset-base text-sm !mb-0 outline outline-1 border-none border-0 outline-offset-[-1px] rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+      class="reset-base block w-full rounded-lg border border-solid bg-surface-container-lowest text-sm !mb-0 text-on-surface outline-none transition-all duration-200 ease-in-out file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-on-primary-container/70 focus:outline-none focus:ring-1 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
       @input="handleInput"
       @focus="handleFocus"
       @blur="handleBlur"

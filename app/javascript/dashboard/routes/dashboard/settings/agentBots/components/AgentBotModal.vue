@@ -276,7 +276,7 @@ defineExpose({ dialogRef });
         class="flex flex-col gap-4"
       >
         <div class="mb-2 flex flex-col items-start">
-          <span class="mb-2 text-sm font-medium text-n-slate-12">
+          <span class="mb-2 text-sm font-medium text-on-surface">
             {{ $t('AGENT_BOTS.FORM.AVATAR.LABEL') }}
           </span>
           <Avatar
@@ -321,7 +321,7 @@ defineExpose({ dialogRef });
       <div v-if="showAccessTokenInput" class="flex flex-col gap-1">
         <label
           v-if="type === MODAL_TYPES.EDIT"
-          class="mb-0.5 text-sm font-medium text-n-slate-12"
+          class="mb-0.5 text-sm font-medium text-on-surface"
         >
           {{ $t('AGENT_BOTS.ACCESS_TOKEN.TITLE') }}
         </label>

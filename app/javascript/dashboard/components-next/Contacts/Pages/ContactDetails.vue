@@ -121,7 +121,9 @@ const handleAvatarDelete = async () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-start gap-8 pb-6">
+  <div
+    class="flex flex-col items-start gap-8 pb-6 text-on-surface antialiased selection:bg-secondary/30"
+  >
     <div class="flex flex-col items-start gap-3">
       <Avatar
         :src="avatarSrc || ''"
@@ -132,21 +134,23 @@ const handleAvatarDelete = async () => {
         @delete="handleAvatarDelete"
       />
       <div class="flex flex-col gap-1">
-        <h3 class="text-base font-medium text-n-slate-12">
+        <h3 class="text-base font-medium text-on-surface">
           {{ selectedContact?.name }}
         </h3>
         <div class="flex flex-col gap-1.5">
           <span
             v-if="selectedContact?.identifier"
-            class="inline-flex items-center gap-1 text-sm text-n-slate-11"
+            class="inline-flex items-center gap-1 text-sm text-on-surface-variant"
           >
-            <span class="i-ph-user-gear text-n-slate-10 size-4" />
+            <span class="i-ph-user-gear text-on-surface-variant/60 size-4" />
             {{ selectedContact?.identifier }}
           </span>
-          <span class="inline-flex items-center gap-1 text-sm text-n-slate-11">
+          <span
+            class="inline-flex items-center gap-1 text-sm text-on-surface-variant"
+          >
             <span
               v-if="selectedContact?.identifier"
-              class="i-ph-activity text-n-slate-10 size-4"
+              class="i-ph-activity text-on-surface-variant/60 size-4"
             />
             {{ $t('CONTACTS_LAYOUT.DETAILS.CREATED_AT', { date: createdAt }) }}
             •
@@ -160,30 +164,38 @@ const handleAvatarDelete = async () => {
       </div>
       <ContactLabels :contact-id="selectedContact?.id" />
     </div>
-    <div class="flex flex-col items-start gap-6">
+    <div class="flex w-full flex-col items-start gap-6">
       <ContactsForm
         ref="contactsFormRef"
         :contact-data="contactData"
-        is-details-view
         @update="handleFormUpdate"
       />
-      <Button
-        :label="t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')"
-        size="sm"
-        :is-loading="isUpdating"
-        :disabled="isUpdating || isFormInvalid"
-        @click="updateContact"
-      />
+      <div
+        class="flex w-full justify-end border-t border-outline-variant/15 pt-4"
+      >
+        <Button
+          :label="t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')"
+          solid
+          teal
+          md
+          trailing-icon
+          icon="i-lucide-save"
+          :is-loading="isUpdating"
+          :disabled="isUpdating || isFormInvalid"
+          class="font-semibold hover:shadow-[0_0_15px_rgba(4,190,153,0.35)]"
+          @click="updateContact"
+        />
+      </div>
     </div>
     <Policy :permissions="['administrator']">
       <div
-        class="flex flex-col items-start w-full gap-4 pt-6 border-t border-n-strong"
+        class="flex w-full flex-col items-start gap-4 rounded-xl border border-outline-variant/10 bg-surface-container-low p-6 shadow-sm"
       >
         <div class="flex flex-col gap-2">
-          <h6 class="text-base font-medium text-n-slate-12">
+          <h6 class="text-base font-medium text-on-surface">
             {{ t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT') }}
           </h6>
-          <span class="text-sm text-n-slate-11">
+          <span class="text-sm text-on-surface-variant">
             {{ t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT_DESCRIPTION') }}
           </span>
         </div>

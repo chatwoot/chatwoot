@@ -123,12 +123,12 @@ defineExpose({
   >
     <OnClickOutside @trigger="open = false">
       <div
-        class="flex flex-wrap w-full gap-2 px-3 py-2.5 border rounded-lg cursor-pointer bg-n-alpha-black2 min-h-[42px] transition-all duration-500 ease-in-out"
+        class="flex min-h-[42px] w-full cursor-pointer flex-wrap gap-2 rounded-lg border border-solid bg-surface-container-lowest px-3 py-2.5 transition-all duration-200 ease-in-out"
         :class="{
-          'border-n-ruby-8': hasError,
-          'border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6':
+          'border-error hover:border-error': hasError && !open,
+          'border-outline-variant/30 hover:border-outline-variant/50':
             !hasError && !open,
-          'border-n-brand': open,
+          'border-secondary ring-1 ring-secondary': open,
           'cursor-not-allowed pointer-events-none opacity-50': disabled,
         }"
         @click="toggleDropdown"
@@ -136,20 +136,20 @@ defineExpose({
         <div
           v-for="tag in selectedTags"
           :key="tag.value"
-          class="flex items-center justify-center max-w-full gap-1 px-2 py-0.5 rounded-lg bg-n-alpha-black1"
+          class="flex max-w-full items-center justify-center gap-1 rounded-lg bg-surface-container-high px-2 py-0.5 ring-1 ring-inset ring-outline-variant/20"
           @click.stop
         >
-          <span class="flex-grow min-w-0 text-sm truncate text-n-slate-12">
+          <span class="min-w-0 flex-grow truncate text-sm text-on-surface">
             {{ tag.label }}
           </span>
           <span
-            class="flex-shrink-0 cursor-pointer i-lucide-x size-3 text-n-slate-11"
+            class="i-lucide-x size-3 flex-shrink-0 cursor-pointer text-on-surface-variant hover:text-on-surface"
             @click="removeTag(tag.value)"
           />
         </div>
         <span
           v-if="selectedTags.length === 0"
-          class="flex items-center text-sm text-n-slate-11"
+          class="flex items-center text-sm text-on-primary-container/70"
         >
           {{ selectPlaceholder }}
         </span>
@@ -170,10 +170,10 @@ defineExpose({
 
       <p
         v-if="message"
-        class="mt-2 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
+        class="mb-0 mt-1 min-w-0 truncate text-xs transition-all duration-500 ease-in-out"
         :class="{
-          'text-n-ruby-9': hasError,
-          'text-n-slate-11': !hasError,
+          'text-n-ruby-9 dark:text-n-ruby-9': hasError,
+          'text-n-slate-11 dark:text-n-slate-11': !hasError,
         }"
       >
         {{ message }}

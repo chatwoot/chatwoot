@@ -15,10 +15,6 @@ const props = defineProps({
     type: Object,
     default: null,
   },
-  isDetailsView: {
-    type: Boolean,
-    default: false,
-  },
   isNewContact: {
     type: Boolean,
     default: false,
@@ -238,42 +234,41 @@ defineExpose({
 </script>
 
 <template>
-  <div class="flex flex-col gap-6">
-    <div class="flex flex-col items-start gap-2">
-      <span class="py-1 text-sm font-medium text-n-slate-12">
+  <div class="flex flex-col gap-8">
+    <section
+      class="space-y-6 rounded-xl border border-outline-variant/5 bg-surface-container-low p-6 shadow-sm"
+    >
+      <h3
+        class="mb-0 flex items-center gap-2 text-lg font-semibold text-on-surface"
+      >
+        <Icon
+          icon="i-lucide-user-round"
+          class="size-5 shrink-0 text-secondary"
+        />
         {{ t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.TITLE') }}
-      </span>
-      <div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
+      </h3>
+      <div class="grid w-full grid-cols-1 gap-6 sm:grid-cols-2">
         <template v-for="item in editDetailsForm" :key="item.key">
           <ComboBox
             v-if="item.key === 'COUNTRY'"
             v-model="state.additionalAttributes.countryCode"
             :options="countryOptions"
             :placeholder="item.placeholder"
-            class="[&>div>button]:h-8"
-            :class="{
-              '[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:!outline-transparent':
-                !isDetailsView,
-              '[&>div>button]:!bg-n-alpha-black2': isDetailsView,
-            }"
+            class="w-full"
             @update:model-value="handleCountrySelection"
           />
           <PhoneNumberInput
             v-else-if="item.key === 'PHONE_NUMBER'"
             v-model="getFormBinding(item.key).value"
             :placeholder="item.placeholder"
-            :show-border="isDetailsView"
+            show-border
           />
           <Input
             v-else
             v-model="getFormBinding(item.key).value"
             :placeholder="item.placeholder"
             :message-type="getMessageType(item.key)"
-            :custom-input-class="`h-8 !pt-1 !pb-1 ${
-              !isDetailsView
-                ? '[&:not(.error,.focus)]:!outline-transparent'
-                : ''
-            }`"
+            custom-input-class="!px-4"
             class="w-full"
             @input="
               isValidationField(item.key) &&
@@ -286,36 +281,37 @@ defineExpose({
           />
         </template>
       </div>
-    </div>
-    <div class="flex flex-col items-start gap-2">
-      <span class="py-1 text-sm font-medium text-n-slate-12">
+    </section>
+    <section
+      class="space-y-4 rounded-xl border border-outline-variant/5 bg-surface-container-low p-6 shadow-sm"
+    >
+      <h3
+        class="mb-0 flex items-center gap-2 text-lg font-semibold text-on-surface"
+      >
+        <Icon icon="i-lucide-link-2" class="size-5 shrink-0 text-secondary" />
         {{ t('CONTACTS_LAYOUT.CARD.SOCIAL_MEDIA.TITLE') }}
-      </span>
+      </h3>
       <div class="flex flex-wrap gap-2">
         <div
           v-for="item in socialProfilesForm"
           :key="item.key"
-          class="flex items-center h-8 gap-2 px-2 rounded-lg"
-          :class="{
-            'bg-n-alpha-2 dark:bg-n-solid-2': isDetailsView,
-            'bg-n-alpha-2 dark:bg-n-solid-3': !isDetailsView,
-          }"
+          class="flex h-9 items-center gap-2 rounded-lg border border-outline-variant/10 bg-surface-container-lowest px-2.5"
         >
           <Icon
             :icon="item.icon"
-            class="flex-shrink-0 text-n-slate-11 size-4"
+            class="size-4 shrink-0 text-on-surface-variant"
           />
           <input
             v-model="
               state.additionalAttributes.socialProfiles[item.key.toLowerCase()]
             "
-            class="w-auto min-w-[100px] text-sm bg-transparent outline-none reset-base text-n-slate-12 dark:text-n-slate-12 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10"
+            class="reset-base min-w-[100px] w-auto bg-transparent text-sm text-on-surface outline-none placeholder:text-on-surface-variant/70"
             :placeholder="item.placeholder"
             :size="item.placeholder.length"
             @input="emit('update', state)"
           />
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>

@@ -1,5 +1,24 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: channel_api
+#
+#  id                    :bigint           not null, primary key
+#  additional_attributes :jsonb
+#  hmac_mandatory        :boolean          default(FALSE)
+#  hmac_token            :string
+#  identifier            :string
+#  webhook_url           :string
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  account_id            :integer          not null
+#
+# Indexes
+#
+#  index_channel_api_on_hmac_token  (hmac_token) UNIQUE
+#  index_channel_api_on_identifier  (identifier) UNIQUE
+#
 require 'rails_helper'
 
 RSpec.describe Channel::Api do

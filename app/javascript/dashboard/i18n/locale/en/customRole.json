@@ -1,6 +1,8 @@
 {
   "CUSTOM_ROLE": {
     "HEADER": "Custom Roles",
+    "PAGE_EYEBROW": "Access control",
+    "PAGE_SUBTITLE": "Create roles with specific permissions so you can give agents exactly the access they need—without sharing full administrator rights.",
     "LEARN_MORE": "Learn more about custom roles",
     "DESCRIPTION": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
     "HEADER_BTN_TXT": "Add custom role",
@@ -19,6 +21,8 @@
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "LIST": {
+      "LOADING": "Fetching custom roles…",
+      "SHOWING_COUNT": "Showing {count} custom roles",
       "404": "There are no custom roles available in this account.",
       "TITLE": "Manage custom roles",
       "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
@@ -81,10 +85,10 @@
         "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
       },
       "CONFIRM": {
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, delete ",
-        "NO": "No, keep "
+        "TITLE": "Delete custom role",
+        "MESSAGE": "Are you sure you want to delete \"{name}\"? Agents assigned this role may lose access until you assign another role.",
+        "YES": "Delete",
+        "NO": "Cancel"
       }
     }
   }

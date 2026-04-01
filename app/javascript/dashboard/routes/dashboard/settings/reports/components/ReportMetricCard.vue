@@ -26,19 +26,21 @@ defineProps({
       'grayscale pointer-events-none opacity-30': disabled,
     }"
   >
-    <h3 class="flex items-center m-0 text-sm font-medium text-n-slate-11">
+    <h3
+      class="flex items-center m-0 text-sm font-medium text-on-surface-variant"
+    >
       <span data-test-id="reportMetricLabel">{{ label }}</span>
       <fluent-icon
         v-tooltip="infoText"
         data-test-id="reportMetricInfo"
         size="14"
         icon="info"
-        class="text-n-slate-11 my-0 mx-1 mt-0.5"
+        class="text-on-surface-variant my-0 mx-1 mt-0.5"
       />
     </h3>
     <h4
       data-test-id="reportMetricValue"
-      class="mt-1 mb-0 text-2xl text-n-slate-12"
+      class="mt-1 mb-0 text-2xl text-on-surface"
     >
       {{ value }}
     </h4>

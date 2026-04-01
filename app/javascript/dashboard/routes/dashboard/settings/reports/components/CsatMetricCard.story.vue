@@ -10,7 +10,7 @@ import CsatMetricCard from './CsatMetricCard.vue';
     :layout="{ type: 'grid', width: '400px' }"
   >
     <Variant title="Default">
-      <div class="p-4 bg-n-background">
+      <div class="p-4 bg-surface">
         <CsatMetricCard
           label="Total Responses"
           tooltip="Total number of responses received"
@@ -20,7 +20,7 @@ import CsatMetricCard from './CsatMetricCard.vue';
     </Variant>
 
     <Variant title="Percentage Value">
-      <div class="p-4 bg-n-background">
+      <div class="p-4 bg-surface">
         <CsatMetricCard
           label="Satisfaction Score"
           tooltip="Percentage of positive responses"
@@ -30,7 +30,7 @@ import CsatMetricCard from './CsatMetricCard.vue';
     </Variant>
 
     <Variant title="Loading State">
-      <div class="p-4 bg-n-background">
+      <div class="p-4 bg-surface">
         <CsatMetricCard
           label="Response Rate"
           tooltip="Percentage of conversations with responses"
@@ -41,7 +41,7 @@ import CsatMetricCard from './CsatMetricCard.vue';
     </Variant>
 
     <Variant title="Zero Value">
-      <div class="p-4 bg-n-background">
+      <div class="p-4 bg-surface">
         <CsatMetricCard
           label="Total Responses"
           tooltip="Total number of responses received"

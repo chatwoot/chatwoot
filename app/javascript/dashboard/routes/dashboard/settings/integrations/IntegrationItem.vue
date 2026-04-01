@@ -6,6 +6,7 @@ import { frontendURL } from 'dashboard/helper/URLHelper';
 import { useBranding } from 'shared/composables/useBranding';
 
 import Button from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   id: {
@@ -38,10 +39,6 @@ const integrationStatus = computed(() =>
     : t('INTEGRATION_APPS.STATUS.DISABLED')
 );
 
-const integrationStatusColor = computed(() =>
-  props.enabled ? 'bg-n-teal-9' : 'bg-n-slate-8'
-);
-
 const actionURL = computed(() =>
   frontendURL(`accounts/${accountId.value}/settings/integrations/${props.id}`)
 );
@@ -49,37 +46,44 @@ const actionURL = computed(() =>
 
 <template>
   <div
-    class="flex flex-col flex-1 p-6 m-[1px] outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow"
+    class="flex flex-col rounded-xl border border-outline-variant/15 bg-surface-container-lowest/80 p-5 shadow-sm transition-shadow hover:shadow-md"
   >
-    <div class="flex items-start justify-between">
-      <div class="flex h-12 w-12 mb-4">
+    <div class="flex items-start justify-between gap-3">
+      <div class="flex h-12 w-12 shrink-0">
         <img
           :src="`/dashboard/images/integrations/${id}.png`"
-          class="max-w-full rounded-md border border-n-weak shadow-sm block dark:hidden bg-n-alpha-3 dark:bg-n-alpha-2"
+          class="max-w-full rounded-lg border border-outline-variant/15 bg-surface-container-lowest shadow-sm block dark:hidden"
         />
         <img
           :src="`/dashboard/images/integrations/${id}-dark.png`"
-          class="max-w-full rounded-md border border-n-weak shadow-sm hidden dark:block bg-n-alpha-3 dark:bg-n-alpha-2"
+          class="max-w-full rounded-lg border border-outline-variant/15 bg-surface-container-lowest shadow-sm hidden dark:block"
         />
       </div>
       <span
         v-tooltip="integrationStatus"
-        class="text-white p-0.5 rounded-full w-5 h-5 flex items-center justify-center"
-        :class="integrationStatusColor"
+        class="inline-flex size-8 shrink-0 items-center justify-center rounded-full"
+        :class="
+          enabled
+            ? 'bg-secondary/15 text-secondary'
+            : 'bg-on-surface-variant/10 text-on-surface-variant'
+        "
       >
-        <i class="i-ph-check-bold text-sm" />
+        <Icon
+          :icon="enabled ? 'i-lucide-check' : 'i-lucide-minus'"
+          class="size-4"
+        />
       </span>
     </div>
-    <div class="flex flex-col m-0 flex-1">
-      <div
-        class="font-medium mb-2 text-n-slate-12 flex justify-between items-center"
-      >
-        <span class="text-base font-semibold">{{ name }}</span>
-        <router-link :to="actionURL">
-          <Button :label="$t('INTEGRATION_APPS.CONFIGURE')" link />
+    <div class="mt-4 flex min-h-0 flex-1 flex-col gap-2">
+      <div class="flex items-start justify-between gap-2">
+        <h3 class="mb-0 text-base font-semibold leading-snug text-on-surface">
+          {{ name }}
+        </h3>
+        <router-link :to="actionURL" class="shrink-0">
+          <Button :label="$t('INTEGRATION_APPS.CONFIGURE')" link teal />
         </router-link>
       </div>
-      <p class="text-n-slate-11">
+      <p class="mb-0 text-sm leading-relaxed text-on-surface-variant">
         {{ replaceInstallationName(description) }}
       </p>
     </div>

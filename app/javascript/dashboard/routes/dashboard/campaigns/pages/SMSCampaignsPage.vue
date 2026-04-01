@@ -37,6 +37,7 @@ const handleDelete = campaign => {
 <template>
   <CampaignLayout
     :header-title="t('CAMPAIGN.SMS.HEADER_TITLE')"
+    :header-subtitle="t('CAMPAIGN.SMS.PAGE_SUBTITLE')"
     :button-label="t('CAMPAIGN.SMS.NEW_CAMPAIGN')"
     @click="toggleSMSCampaignDialog()"
     @close="toggleSMSCampaignDialog(false)"
@@ -49,7 +50,7 @@ const handleDelete = campaign => {
     </template>
     <div
       v-if="isFetchingCampaigns"
-      class="flex items-center justify-center py-10 text-n-slate-11"
+      class="flex items-center justify-center gap-2 py-10 text-on-surface-variant"
     >
       <Spinner />
     </div>
@@ -62,7 +63,7 @@ const handleDelete = campaign => {
       v-else
       :title="t('CAMPAIGN.SMS.EMPTY_STATE.TITLE')"
       :subtitle="t('CAMPAIGN.SMS.EMPTY_STATE.SUBTITLE')"
-      class="pt-14"
+      class="pt-8"
     />
     <ConfirmDeleteCampaignDialog
       ref="confirmDeleteCampaignDialogRef"

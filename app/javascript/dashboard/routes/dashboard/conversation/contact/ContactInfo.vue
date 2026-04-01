@@ -179,23 +179,23 @@ export default {
 
 <template>
   <div class="relative items-center w-full p-4">
-    <div class="flex flex-col w-full gap-2 text-left rtl:text-right">
+    <div class="flex flex-col w-full gap-3 text-left rtl:text-right">
       <div class="flex flex-row justify-between">
         <Avatar
           v-if="showAvatar"
           :src="contact.thumbnail"
           :name="contact.name"
           :status="contact.availability_status"
-          :size="48"
+          :size="52"
           hide-offline-status
           rounded-full
         />
       </div>
 
-      <div class="flex flex-col items-start gap-1.5 min-w-0 w-full">
+      <div class="flex flex-col items-start gap-2 min-w-0 w-full">
         <div v-if="showAvatar" class="flex items-center w-full min-w-0 gap-3">
           <h3
-            class="flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-n-slate-12"
+            class="flex-shrink max-w-full min-w-0 my-0 text-base font-semibold capitalize break-words text-on-surface"
           >
             {{ contact.name }}
           </h3>
@@ -207,7 +207,7 @@ export default {
                   contact.created_at
                 )}`
               "
-              class="i-lucide-info text-sm text-n-slate-10"
+              class="i-lucide-info text-sm text-on-surface-variant"
             />
             <a
               :href="contactProfileLink"
@@ -215,7 +215,9 @@ export default {
               rel="noopener nofollow noreferrer"
               class="leading-3"
             >
-              <span class="i-lucide-external-link text-sm text-n-slate-10" />
+              <span
+                class="i-lucide-external-link text-sm text-on-surface-variant hover:text-secondary transition-colors"
+              />
             </a>
           </div>
         </div>
@@ -263,7 +265,7 @@ export default {
           <SocialIcons :social-profiles="socialProfiles" />
         </div>
       </div>
-      <div class="flex items-center w-full mt-0.5 gap-2">
+      <div class="flex items-center w-full mt-1 gap-2">
         <ComposeConversation
           :contact-id="String(contact.id)"
           is-modal

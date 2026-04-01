@@ -435,7 +435,7 @@ onMounted(async () => {
 
 <template>
   <div
-    class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-surface-1"
+    class="m-0 flex h-full flex-1 flex-col justify-between overflow-auto bg-surface text-on-surface antialiased selection:bg-secondary/30"
   >
     <ContactsListLayout
       :search-value="searchValue"
@@ -461,7 +461,7 @@ onMounted(async () => {
     >
       <div
         v-if="isFetchingList && !(isSearchView && hasContacts)"
-        class="flex items-center justify-center py-10 text-n-slate-11"
+        class="flex items-center justify-center py-10 text-on-surface-variant"
       >
         <Spinner />
       </div>
@@ -489,7 +489,7 @@ onMounted(async () => {
           v-else-if="showEmptyText"
           class="flex items-center justify-center py-10"
         >
-          <span class="text-base text-n-slate-11">
+          <span class="text-base text-on-surface-variant">
             {{ emptyStateMessage }}
           </span>
         </div>

@@ -1,12 +1,16 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Canned Responses",
+    "PAGE_EYEBROW": "Quick replies",
+    "PAGE_SUBTITLE": "Save message templates with short codes so agents can insert them from the composer with “/” and spend less time typing the same answers.",
     "LEARN_MORE": "Learn more about canned responses",
     "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
     "HEADER_BTN_TXT": "Add canned response",
     "LOADING": "Fetching canned responses...",
     "SEARCH_404": "There are no items matching this query.",
     "LIST": {
+      "LOADING": "Fetching canned responses…",
+      "SHOWING_COUNT": "Showing {count} canned responses",
       "404": "There are no canned responses available in this account.",
       "TITLE": "Manage canned responses",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
@@ -67,10 +71,10 @@
         "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
       },
       "CONFIRM": {
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, delete ",
-        "NO": "No, keep "
+        "TITLE": "Delete canned response",
+        "MESSAGE": "Are you sure you want to delete the short code ",
+        "YES": "Delete",
+        "NO": "Cancel"
       }
     }
   }

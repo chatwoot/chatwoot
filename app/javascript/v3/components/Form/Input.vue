@@ -76,12 +76,10 @@ const currentInputType = computed(() => {
       v-model="model"
       :name="name"
       :type="currentInputType"
-      class="block w-full border-none rounded-md shadow-sm bg-n-alpha-black2 appearance-none outline outline-1 focus:outline focus:outline-1 text-n-slate-12 placeholder:text-n-slate-10 sm:text-sm sm:leading-6 px-3 py-3"
+      class="block w-full appearance-none rounded-lg border border-solid border-outline-variant/30 bg-surface-container-lowest px-3 py-3 text-on-surface shadow-none outline-none transition-colors duration-200 placeholder:text-on-primary-container/70 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary focus:ring-offset-0 hover:border-outline-variant/50 sm:text-sm sm:leading-6"
       :class="{
-        'error outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8':
+        'border-error hover:border-error focus:border-error focus:ring-error disabled:border-error/80':
           hasError,
-        'outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 focus:outline-n-brand dark:focus:outline-n-brand':
-          !hasError,
         'px-3 py-3': spacing === 'base',
         'px-3 py-2 mb-0': spacing === 'compact',
         'pl-9': icon,

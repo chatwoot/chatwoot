@@ -30,7 +30,7 @@ const sampleScenarios = [
       <div
         v-for="scenario in sampleScenarios"
         :key="scenario.id"
-        class="px-4 py-4 bg-n-background"
+        class="bg-surface px-4 py-4"
       >
         <ScenariosCard
           :id="scenario.id"

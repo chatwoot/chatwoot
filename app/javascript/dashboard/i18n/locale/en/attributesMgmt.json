@@ -3,6 +3,8 @@
     "HEADER": "Custom Attributes",
     "HEADER_BTN_TXT": "Add Custom Attribute",
     "LOADING": "Fetching custom attributes",
+    "PAGE_EYEBROW": "Data model",
+    "PAGE_SUBTITLE": "Capture structured fields on conversations and contacts—plans, dates, links, and more—so your team sees the right context in the sidebar.",
     "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
     "LEARN_MORE": "Learn more about custom attributes",
     "ATTRIBUTE_MODELS": {
@@ -108,6 +110,8 @@
       "CONTACT": "Contact"
     },
     "LIST": {
+      "LOADING": "Fetching custom attributes…",
+      "SHOWING_COUNT": "Showing {count} attributes",
       "TABLE_HEADER": {
         "NAME": "Name",
         "DESCRIPTION": "Description",

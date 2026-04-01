@@ -2,11 +2,17 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Create new team",
     "HEADER": "Teams",
+    "PAGE_SUBTITLE": "Organize agents into groups, assign conversations, and collaborate by responsibility.",
     "LOADING": "Fetching teams",
     "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
     "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "There are no teams created on this account.",
+      "SHOWING_COUNT": "Showing {count} teams",
+      "TABLE_HEADER": {
+        "TEAM": "Team",
+        "ACTIONS": "Actions"
+      },
       "EDIT_TEAM": "Edit team",
       "NONE": "None"
     },

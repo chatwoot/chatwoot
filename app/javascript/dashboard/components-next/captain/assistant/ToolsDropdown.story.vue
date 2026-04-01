@@ -29,7 +29,7 @@ const selectedIndex = ref(0);
     :layout="{ type: 'grid', width: '600px' }"
   >
     <Variant title="Default">
-      <div class="relative h-80 bg-n-background p-4">
+      <div class="relative h-80 bg-surface p-4">
         <ToolsDropdown :items="items" :selected-index="selectedIndex" />
       </div>
     </Variant>

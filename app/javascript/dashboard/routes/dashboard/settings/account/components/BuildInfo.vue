@@ -34,23 +34,33 @@ const copyGitSha = () => {
 </script>
 
 <template>
-  <div class="p-4 text-sm text-center">
-    <div v-if="hasAnUpdateAvailable && globalConfig.displayManifest">
+  <div
+    class="p-6 bg-surface-container-low rounded-xl border border-outline-variant/5 text-[10px] text-on-primary-container leading-relaxed"
+  >
+    <div
+      v-if="hasAnUpdateAvailable && globalConfig.displayManifest"
+      class="mb-3 text-xs text-amber-400 text-left"
+    >
       {{
         t('GENERAL_SETTINGS.UPDATE_CHATWOOT', {
           latestChatwootVersion: latestChatwootVersion,
         })
       }}
     </div>
-    <div class="divide-x divide-n-slate-9">
-      <span class="px-2">{{ `v${globalConfig.appVersion}` }}</span>
-      <span
-        v-tooltip="t('COMPONENTS.CODE.BUTTON_TEXT')"
-        class="px-2 build-id cursor-pointer"
-        @click="copyGitSha"
-      >
-        {{ `Build ${gitSha}` }}
-      </span>
+    <div class="space-y-1 font-medium uppercase tracking-wide">
+      <p class="mb-0">
+        {{ `v${globalConfig.appVersion}` }}
+      </p>
+      <p class="mb-0">
+        <button
+          v-tooltip="t('COMPONENTS.CODE.BUTTON_TEXT')"
+          type="button"
+          class="text-left w-full hover:text-on-surface-variant transition-colors cursor-pointer bg-transparent border-0 p-0 font-inherit"
+          @click="copyGitSha"
+        >
+          {{ `Build ${gitSha}` }}
+        </button>
+      </p>
     </div>
   </div>
 </template>

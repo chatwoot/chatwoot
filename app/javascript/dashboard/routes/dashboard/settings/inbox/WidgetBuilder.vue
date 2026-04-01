@@ -277,7 +277,7 @@ export default {
         <div class="min-h-full py-4 overflow-y-scroll px-px">
           <form @submit.prevent="updateWidget">
             <div class="flex flex-col mb-4 items-start gap-1 w-full">
-              <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+              <label class="mb-0.5 text-sm font-medium text-on-surface">
                 {{
                   $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.LABEL')
                 }}
@@ -416,7 +416,7 @@ export default {
         />
         <div
           v-if="isWidgetPreview"
-          class="flex flex-col items-center justify-end min-h-[40.625rem] mx-5 mb-5 p-2.5 bg-n-slate-3 rounded-lg"
+          class="flex flex-col items-center justify-end min-h-[40.625rem] mx-5 mb-5 p-2.5 bg-surface-container-high rounded-lg"
         >
           <Widget
             :welcome-heading="welcomeHeading"
@@ -433,7 +433,7 @@ export default {
         </div>
         <div
           v-else
-          class="mx-5 p-2.5 bg-n-slate-3 rounded-lg dark:bg-n-solid-3"
+          class="mx-5 p-2.5 bg-surface-container-high rounded-lg bg-surface-container-high"
         >
           <woot-code :script="widgetScript" />
         </div>

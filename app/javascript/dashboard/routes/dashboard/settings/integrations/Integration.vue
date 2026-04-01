@@ -62,26 +62,26 @@ const confirmDeletion = () => {
 
 <template>
   <div
-    class="flex flex-col items-start justify-between lg:flex-row lg:items-center p-6 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow gap-6"
+    class="flex flex-col items-start justify-between gap-6 rounded-2xl border border-outline-variant/10 bg-surface-container-low p-6 shadow-xl lg:flex-row lg:items-center"
   >
     <div
       class="flex items-start lg:items-center justify-start flex-1 m-0 gap-6 flex-col lg:flex-row"
     >
-      <div class="flex h-16 w-16 items-center justify-center flex-shrink-0">
+      <div class="flex h-16 w-16 shrink-0 items-center justify-center">
         <img
           :src="`/dashboard/images/integrations/${integrationId}.png`"
-          class="max-w-full rounded-md border border-n-weak shadow-sm block dark:hidden bg-n-alpha-3 dark:bg-n-alpha-2"
+          class="max-w-full rounded-lg border border-outline-variant/15 bg-surface-container-lowest shadow-sm block dark:hidden"
         />
         <img
           :src="`/dashboard/images/integrations/${integrationId}-dark.png`"
-          class="max-w-full rounded-md border border-n-weak shadow-sm hidden dark:block bg-n-alpha-3 dark:bg-n-alpha-2"
+          class="max-w-full rounded-lg border border-outline-variant/15 bg-surface-container-lowest shadow-sm hidden dark:block"
         />
       </div>
       <div>
-        <h3 class="mb-1 text-xl font-medium text-n-slate-12">
+        <h3 class="mb-1 text-xl font-bold tracking-tight text-on-surface">
           {{ integrationName }}
         </h3>
-        <p class="text-n-slate-11 text-sm leading-6">
+        <p class="text-on-surface-variant text-sm leading-6">
           {{ replaceInstallationName(integrationDescription) }}
         </p>
       </div>
@@ -109,7 +109,7 @@ const confirmDeletion = () => {
           <div v-else>
             <Button
               faded
-              blue
+              teal
               :label="t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE')"
             />
           </div>
@@ -120,7 +120,7 @@ const confirmDeletion = () => {
           <a :href="integrationAction">
             <Button
               faded
-              blue
+              teal
               :label="t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT')"
             />
           </a>

@@ -1,9 +1,9 @@
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref } from 'vue';
 import { Chrome } from '@lk77/vue3-color';
 import { OnClickOutside } from '@vueuse/components';
 
-import Button from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 defineProps({
   modelValue: {
@@ -36,21 +36,37 @@ const pickerRef = ref(null);
 <template>
   <div ref="pickerRef" class="relative w-fit">
     <OnClickOutside @trigger="closeTogglePicker">
-      <Button
-        color="slate"
-        icon="i-lucide-pipette"
-        trailing-icon
-        class="!px-3 !py-3 [&>svg]:w-4 [&>svg]:h-4"
+      <button
+        type="button"
+        class="inline-flex h-10 min-w-[12rem] items-center gap-2 rounded-lg border border-solid bg-surface-container-lowest px-3 py-2.5 text-left text-sm text-on-surface outline-none transition-all duration-200 ease-in-out focus:outline-none focus:ring-1 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
+        :class="
+          isPickerOpen
+            ? 'border-secondary ring-1 ring-secondary'
+            : 'border-outline-variant/30 hover:border-outline-variant/50 focus:border-secondary focus:ring-secondary'
+        "
         @click="toggleColorPicker"
       >
-        <div class="flex items-center flex-grow gap-2">
+        <Icon
+          icon="i-lucide-pipette"
+          class="size-4 shrink-0 text-on-primary-container"
+        />
+        <div class="flex min-w-0 flex-1 items-center gap-2">
           <span
-            class="rounded-md size-4"
-            :style="{ backgroundColor: modelValue }"
+            class="size-4 shrink-0 rounded-md ring-1 ring-inset ring-outline-variant/40"
+            :style="{ backgroundColor: modelValue || 'transparent' }"
           />
-          <span class="min-w-0 truncate">{{ modelValue }}</span>
+          <span
+            class="min-w-0 truncate font-normal"
+            :class="!modelValue && 'text-on-primary-container/70'"
+          >
+            {{ modelValue }}
+          </span>
         </div>
-      </Button>
+        <Icon
+          :icon="isPickerOpen ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
+          class="size-4 shrink-0 text-on-primary-container"
+        />
+      </button>
       <Chrome
         v-if="isPickerOpen"
         disable-alpha
@@ -64,7 +80,7 @@ const pickerRef = ref(null);
 
 <style scoped lang="scss">
 .colorpicker--chrome.vc-chrome {
-  @apply shadow-lg absolute bg-n-background z-[9999] border border-n-weak dark:border-n-weak rounded-[8px];
+  @apply absolute z-[9999] rounded-lg border border-outline-variant/20 bg-surface-container-low shadow-lg;
 
   :deep() {
     .vc-chrome-saturation-wrap {
@@ -76,25 +92,44 @@ const pickerRef = ref(null);
     }
 
     .vc-chrome-body {
-      @apply rounded-b-[7px] bg-n-alpha-3;
+      @apply rounded-b-[7px] bg-surface-container-low;
 
       .vc-chrome-toggle-btn {
         .vc-chrome-toggle-icon svg {
-          @apply [&>path]:fill-n-slate-10 dark:[&>path]:fill-n-slate-10 left-3 relative;
+          @apply relative left-3 [&>path]:fill-on-primary-container;
         }
+
         .vc-chrome-toggle-icon-highlight {
-          @apply bg-n-background;
+          @apply bg-surface-container-high;
         }
       }
     }
 
+    .vc-chrome-active-color {
+      @apply ring-2 ring-secondary ring-offset-2 ring-offset-surface-container-low;
+    }
+
+    .vc-hue-picker {
+      @apply rounded-sm bg-surface-container-highest ring-2 ring-secondary #{!important};
+      width: 6px !important;
+      height: 10px !important;
+      margin-top: 0 !important;
+      box-shadow: none !important;
+      transform: translateX(-3px) !important;
+    }
+
+    .vc-saturation-circle {
+      box-shadow: none !important;
+      @apply ring-2 ring-secondary;
+    }
+
     input,
     .vc-input__input {
-      @apply bg-n-background text-n-slate-12 rounded-md shadow-none;
+      @apply rounded-md border border-outline-variant/30 bg-surface-container-lowest text-on-surface shadow-none;
     }
 
     .vc-input__label {
-      @apply text-n-slate-11 dark:text-n-slate-11;
+      @apply text-on-surface-variant;
     }
   }
 }

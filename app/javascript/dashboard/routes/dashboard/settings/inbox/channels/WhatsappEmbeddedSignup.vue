@@ -233,16 +233,19 @@ onBeforeUnmount(() => {
       <div class="flex flex-col items-start mb-6 text-start">
         <div class="flex justify-start mb-6">
           <div
-            class="flex size-11 items-center justify-center rounded-full bg-n-alpha-2"
+            class="flex size-11 items-center justify-center rounded-full bg-surface-container-lowest"
           >
-            <Icon icon="i-woot-whatsapp" class="text-n-slate-10 size-6" />
+            <Icon
+              icon="i-woot-whatsapp"
+              class="text-on-surface-variant/60 size-6"
+            />
           </div>
         </div>
 
-        <h3 class="mb-2 text-base font-medium text-n-slate-12">
+        <h3 class="mb-2 text-base font-medium text-on-surface">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.TITLE') }}
         </h3>
-        <p class="text-sm leading-[24px] text-n-slate-12">
+        <p class="text-sm leading-[24px] text-on-surface">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.DESC') }}
         </p>
       </div>
@@ -251,9 +254,9 @@ onBeforeUnmount(() => {
         <div
           v-for="benefit in benefits"
           :key="benefit.key"
-          class="flex gap-2 items-center text-sm text-n-slate-11"
+          class="flex gap-2 items-center text-sm text-on-surface-variant"
         >
-          <Icon icon="i-lucide-check" class="text-n-slate-11 size-4" />
+          <Icon icon="i-lucide-check" class="text-on-surface-variant size-4" />
           {{ benefit.text }}
         </div>
       </div>
@@ -262,7 +265,7 @@ onBeforeUnmount(() => {
         <I18nT
           keypath="INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LEARN_MORE.TEXT"
           tag="span"
-          class="text-sm text-n-slate-11"
+          class="text-sm text-on-surface-variant"
         >
           <template #link>
             <a

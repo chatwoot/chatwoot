@@ -496,6 +496,8 @@
     },
     "LOADING": "Loading...",
     "ARTICLES_PAGE": {
+      "PAGE_TITLE": "Articles",
+      "PAGE_SUBTITLE": "Browse, filter, and manage help center articles for this portal.",
       "ARTICLE_CARD": {
         "CARD": {
           "VIEWS": "{count} view | {count} views",
@@ -628,6 +630,8 @@
       }
     },
     "LOCALES_PAGE": {
+      "PAGE_TITLE": "Locales",
+      "PAGE_SUBTITLE": "Add and manage languages for this help center portal. Set a default locale and track content per language.",
       "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
       "NEW_LOCALE_BUTTON_TEXT": "New locale",
       "LOCALE_CARD": {
@@ -707,6 +711,11 @@
       }
     },
     "PORTAL_SETTINGS": {
+      "PAGE_TITLE": "Portal settings",
+      "PAGE_SUBTITLE": "Customize branding, URLs, your live chat widget, custom domains, and other portal options.",
+      "SECTIONS": {
+        "APPEARANCE_TITLE": "Appearance & branding"
+      },
       "FORM": {
         "AVATAR": {
           "LABEL": "Logo",

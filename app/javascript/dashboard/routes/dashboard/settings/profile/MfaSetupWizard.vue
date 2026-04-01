@@ -152,19 +152,19 @@ defineExpose({
     <!-- Step 1: QR Code -->
     <div v-if="setupStep === 'qr'" class="space-y-6">
       <div
-        class="bg-n-solid-1 rounded-xl outline-1 outline-n-weak outline p-10 flex flex-col gap-4"
+        class="bg-surface-container rounded-xl outline-1 outline-outline-variant/15 outline p-10 flex flex-col gap-4"
       >
         <div class="text-center">
-          <h3 class="text-lg font-medium text-n-slate-12 mb-2">
+          <h3 class="text-lg font-medium text-on-surface mb-2">
             {{ $t('MFA_SETTINGS.SETUP.STEP1_TITLE') }}
           </h3>
-          <p class="text-sm text-n-slate-11">
+          <p class="text-sm text-on-surface-variant">
             {{ $t('MFA_SETTINGS.SETUP.STEP1_DESCRIPTION') }}
           </p>
         </div>
         <div class="flex justify-center">
           <div
-            class="bg-n-background p-4 rounded-lg outline outline-1 outline-n-weak"
+            class="bg-surface p-4 rounded-lg outline outline-1 outline-outline-variant/15"
           >
             <img
               v-if="qrCodeUrl"
@@ -174,23 +174,23 @@ defineExpose({
             />
             <div
               v-else
-              class="w-48 h-48 flex items-center justify-center bg-n-slate-2 dark:bg-n-slate-3"
+              class="w-48 h-48 flex items-center justify-center bg-surface-container-low bg-surface-container-high"
             >
-              <span class="text-n-slate-10">
+              <span class="text-on-surface-variant/60">
                 {{ $t('MFA_SETTINGS.SETUP.LOADING_QR') }}
               </span>
             </div>
           </div>
         </div>
 
-        <details class="border border-n-slate-4 rounded-lg">
+        <details class="border border-outline-variant/15 rounded-lg">
           <summary
-            class="px-4 py-3 cursor-pointer hover:bg-n-slate-2 dark:hover:bg-n-slate-3 text-sm font-medium text-n-slate-11"
+            class="px-4 py-3 cursor-pointer hover:bg-surface-container-low hover:bg-surface-container-high text-sm font-medium text-on-surface-variant"
           >
             {{ $t('MFA_SETTINGS.SETUP.MANUAL_ENTRY') }}
           </summary>
           <div class="px-4 pb-4">
-            <label class="block text-xs text-n-slate-10 mb-2">
+            <label class="block text-xs text-on-surface-variant/60 mb-2">
               {{ $t('MFA_SETTINGS.SETUP.SECRET_KEY') }}
             </label>
             <div class="flex items-center gap-2">
@@ -242,23 +242,23 @@ defineExpose({
     <!-- Step 2: Backup Codes -->
     <div v-if="setupStep === 'backup'" class="space-y-6">
       <div class="text-start">
-        <h3 class="text-lg font-medium text-n-slate-12 mb-2">
+        <h3 class="text-lg font-medium text-on-surface mb-2">
           {{ $t('MFA_SETTINGS.BACKUP.TITLE') }}
         </h3>
-        <p class="text-sm text-n-slate-11">
+        <p class="text-sm text-on-surface-variant">
           {{ $t('MFA_SETTINGS.BACKUP.DESCRIPTION') }}
         </p>
       </div>
 
       <!-- Warning Alert -->
       <div
-        class="flex items-start gap-2 p-4 bg-n-solid-1 outline outline-n-weak rounded-xl outline-1"
+        class="flex items-start gap-2 p-4 bg-surface-container outline outline-outline-variant/15 rounded-xl outline-1"
       >
         <Icon
           icon="i-lucide-alert-circle"
-          class="size-4 text-n-slate-10 flex-shrink-0 mt-0.5"
+          class="size-4 text-on-surface-variant/60 flex-shrink-0 mt-0.5"
         />
-        <p class="text-sm text-n-slate-11">
+        <p class="text-sm text-on-surface-variant">
           <strong>{{ $t('MFA_SETTINGS.BACKUP.IMPORTANT') }}</strong>
           {{ $t('MFA_SETTINGS.BACKUP.IMPORTANT_NOTE') }}
         </p>
@@ -266,13 +266,13 @@ defineExpose({
 
       <!-- Backup Codes Grid -->
       <div
-        class="bg-n-solid-1 rounded-xl outline-1 outline-n-weak outline flex flex-col gap-6 p-6"
+        class="bg-surface-container rounded-xl outline-1 outline-outline-variant/15 outline flex flex-col gap-6 p-6"
       >
         <div class="grid grid-cols-2 xs:grid-cols-4 sm:grid-cols-5 gap-3">
           <span
             v-for="(code, index) in backupCodes"
             :key="index"
-            class="px-1 py-2 font-mono text-base text-center text-n-slate-12"
+            class="px-1 py-2 font-mono text-base text-center text-on-surface"
           >
             {{ code }}
           </span>
@@ -304,9 +304,9 @@ defineExpose({
           <input
             v-model="backupCodesConfirmed"
             type="checkbox"
-            class="mt-1 rounded border-n-slate-4 text-n-blue-9 focus:ring-n-blue-8"
+            class="mt-1 rounded border-outline-variant/15 text-n-blue-9 focus:ring-n-blue-8"
           />
-          <span class="text-sm text-n-slate-11">
+          <span class="text-sm text-on-surface-variant">
             {{ $t('MFA_SETTINGS.BACKUP.CONFIRM') }}
           </span>
         </label>

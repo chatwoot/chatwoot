@@ -10,6 +10,7 @@ import PortalConfigurationSettings from './PortalConfigurationSettings.vue';
 import ConfirmDeletePortalDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/ConfirmDeletePortalDialog.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   portals: {
@@ -79,59 +80,84 @@ const handleDeletePortal = () => {
     <template #content>
       <div
         v-if="isLoading"
-        class="flex items-center justify-center py-10 pt-2 pb-8 text-n-slate-11"
+        class="flex items-center justify-center gap-2 py-10 pb-8 pt-2 text-on-surface-variant"
       >
         <Spinner />
       </div>
       <div
         v-else-if="activePortal"
-        class="flex flex-col w-full gap-4 max-w-[40rem] pb-8"
+        class="portal-settings-page mx-auto flex w-full max-w-[60rem] flex-col space-y-10 pb-8 text-on-surface antialiased selection:bg-secondary/30"
       >
-        <PortalBaseSettings
-          :active-portal="activePortal"
-          :is-fetching="isFetching"
-          @update-portal="handleUpdatePortal"
-        />
-        <div class="w-full h-px bg-n-weak" />
-        <PortalConfigurationSettings
-          :active-portal="activePortal"
-          :is-fetching="isFetching"
-          :is-fetching-status="isFetchingSSLStatus"
-          @update-portal-configuration="handleUpdatePortalConfiguration"
-          @refresh-status="fetchSSLStatus"
-          @send-cname-instructions="handleSendCnameInstructions"
-        />
-        <div class="w-full h-px bg-n-weak" />
-        <div class="flex items-end justify-between w-full gap-4">
-          <div class="flex flex-col gap-2">
-            <h6 class="text-base font-medium text-n-slate-12">
-              {{
-                t(
-                  'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.DELETE_PORTAL.HEADER'
-                )
-              }}
-            </h6>
-            <span class="text-sm text-n-slate-11">
-              {{
-                t(
-                  'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.DELETE_PORTAL.DESCRIPTION'
-                )
-              }}
-            </span>
-          </div>
-          <Button
-            :label="
-              t(
-                'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.DELETE_PORTAL.BUTTON',
-                {
-                  portalName: activePortalName,
-                }
-              )
-            "
-            color="ruby"
-            class="max-w-56 !w-fit"
-            @click="openConfirmDeletePortalDialog"
+        <header class="space-y-1">
+          <h1 class="text-3xl font-bold tracking-tight text-on-surface">
+            {{ t('HELP_CENTER.PORTAL_SETTINGS.PAGE_TITLE') }}
+          </h1>
+          <p class="mb-0 text-lg text-on-primary-container">
+            {{ t('HELP_CENTER.PORTAL_SETTINGS.PAGE_SUBTITLE') }}
+          </p>
+        </header>
+
+        <div class="space-y-8">
+          <PortalBaseSettings
+            :active-portal="activePortal"
+            :is-fetching="isFetching"
+            @update-portal="handleUpdatePortal"
           />
+
+          <PortalConfigurationSettings
+            :active-portal="activePortal"
+            :is-fetching="isFetching"
+            :is-fetching-status="isFetchingSSLStatus"
+            @update-portal-configuration="handleUpdatePortalConfiguration"
+            @refresh-status="fetchSSLStatus"
+            @send-cname-instructions="handleSendCnameInstructions"
+          />
+
+          <section
+            class="rounded-xl border border-outline-variant/5 bg-surface-container-low p-6 shadow-sm"
+          >
+            <div
+              class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"
+            >
+              <div class="flex gap-3">
+                <Icon
+                  icon="i-lucide-alert-triangle"
+                  class="mt-0.5 size-5 shrink-0 text-error"
+                />
+                <div class="min-w-0 space-y-1">
+                  <h3 class="text-base font-semibold text-on-surface">
+                    {{
+                      t(
+                        'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.DELETE_PORTAL.HEADER'
+                      )
+                    }}
+                  </h3>
+                  <p class="mb-0 text-sm text-on-surface-variant">
+                    {{
+                      t(
+                        'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.DELETE_PORTAL.DESCRIPTION'
+                      )
+                    }}
+                  </p>
+                </div>
+              </div>
+              <div class="shrink-0 sm:pt-0.5">
+                <Button
+                  :label="
+                    t(
+                      'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.DELETE_PORTAL.BUTTON',
+                      {
+                        portalName: activePortalName,
+                      }
+                    )
+                  "
+                  color="ruby"
+                  class="max-w-56 !w-fit"
+                  @click="openConfirmDeletePortalDialog"
+                />
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </template>

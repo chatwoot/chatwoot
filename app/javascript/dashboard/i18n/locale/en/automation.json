@@ -1,6 +1,8 @@
 {
   "AUTOMATION": {
     "HEADER": "Automation",
+    "PAGE_EYEBROW": "Workflow automation",
+    "PAGE_SUBTITLE": "Run rules on conversation events—assign teams, add labels, send webhooks, and more—so routine work happens automatically.",
     "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
     "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Add Automation Rule",
@@ -40,13 +42,17 @@
       }
     },
     "LIST": {
+      "LOADING": "Fetching automation rules…",
+      "SHOWING_COUNT": "Showing {count} rules",
       "TABLE_HEADER": {
         "NAME": "Name",
         "DESCRIPTION": "Description",
         "ACTIVE": "Active",
-        "CREATED_ON": "Created on"
+        "CREATED_ON": "Created on",
+        "ACTIONS": "Actions"
       },
-      "404": "No automation rules found"
+      "404": "No automation rules found",
+      "EMPTY_PLACEHOLDER": "—"
     },
     "DELETE": {
       "TITLE": "Delete Automation Rule",

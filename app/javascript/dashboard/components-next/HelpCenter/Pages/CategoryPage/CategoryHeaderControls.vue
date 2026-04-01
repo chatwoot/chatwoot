@@ -131,11 +131,13 @@ const handleBreadcrumbClick = () => {
       <div class="relative group">
         <OnClickOutside @trigger="isLocaleMenuOpen = false">
           <Button
+            ghost
+            slate
+            sm
             :label="activeLocaleName"
-            size="sm"
             trailing-icon
             icon="i-lucide-chevron-down"
-            color="slate"
+            class="!border !border-outline-variant/30 !bg-surface-container-low !text-on-surface hover:!bg-surface-container-high focus-visible:!bg-surface-container-high"
             @click="isLocaleMenuOpen = !isLocaleMenuOpen"
           />
           <DropdownMenu
@@ -147,8 +149,8 @@ const handleBreadcrumbClick = () => {
           />
         </OnClickOutside>
       </div>
-      <div class="w-px h-3.5 rounded my-auto bg-n-weak" />
-      <span class="min-w-0 text-sm font-medium truncate text-n-slate-12">
+      <div class="my-auto h-3.5 w-px rounded bg-outline-variant/35" />
+      <span class="min-w-0 truncate text-sm font-medium text-on-surface">
         {{
           t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.CATEGORIES_COUNT', {
             n: categoriesCount,
@@ -182,9 +184,10 @@ const handleBreadcrumbClick = () => {
     <div v-else class="relative">
       <OnClickOutside @trigger="isEditCategoryDialogOpen = false">
         <Button
+          outline
+          slate
+          sm
           :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.EDIT_CATEGORY')"
-          color="slate"
-          size="sm"
           @click="isEditCategoryDialogOpen = !isEditCategoryDialogOpen"
         />
         <CategoryDialog

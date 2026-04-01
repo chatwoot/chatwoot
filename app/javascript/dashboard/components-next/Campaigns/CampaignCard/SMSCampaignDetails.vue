@@ -22,20 +22,20 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <span class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap">
+  <span class="flex-shrink-0 whitespace-nowrap text-sm text-on-surface-variant">
     {{ t('CAMPAIGN.SMS.CARD.CAMPAIGN_DETAILS.SENT_FROM') }}
   </span>
   <div class="flex items-center gap-1.5 flex-shrink-0">
-    <Icon :icon="inboxIcon" class="flex-shrink-0 text-n-slate-12 size-3" />
-    <span class="text-sm font-medium text-n-slate-12">
+    <Icon :icon="inboxIcon" class="size-3 flex-shrink-0 text-on-surface" />
+    <span class="text-sm font-medium text-on-surface">
       {{ inboxName }}
     </span>
   </div>
 
-  <span class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap">
+  <span class="flex-shrink-0 whitespace-nowrap text-sm text-on-surface-variant">
     {{ t('CAMPAIGN.SMS.CARD.CAMPAIGN_DETAILS.ON') }}
   </span>
-  <span class="flex-1 text-sm font-medium truncate text-n-slate-12">
+  <span class="flex-1 truncate text-sm font-medium text-on-surface">
     {{ messageStamp(new Date(scheduledAt), 'LLL d, h:mm a') }}
   </span>
 </template>

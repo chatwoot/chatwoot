@@ -38,19 +38,17 @@ export default {
 </script>
 
 <template>
-  <div
-    class="flex justify-end h-full gap-1 py-4 overflow-y-auto bg-n-background"
-  >
+  <div class="flex h-full justify-end gap-1 overflow-y-auto bg-surface py-4">
     <div class="flex flex-col w-full gap-1">
       <div
         v-if="isLoading"
-        class="text-center flex items-center justify-center px-4 py-8 text-n-slate-10 text-sm"
+        class="flex items-center justify-center px-4 py-8 text-center text-sm text-on-surface-variant"
       >
         {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.SEARCH_LOADER') }}
       </div>
       <div
         v-else-if="showNoResults"
-        class="text-center flex items-center justify-center px-4 py-8 text-n-slate-10 text-sm"
+        class="flex items-center justify-center px-4 py-8 text-center text-sm text-on-surface-variant"
       >
         {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.NO_RESULT') }}
       </div>

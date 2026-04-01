@@ -14,7 +14,7 @@ const sampleRules = [
     :layout="{ type: 'grid', width: '800px' }"
   >
     <Variant title="Selectable List">
-      <div class="flex flex-col gap-4 px-20 py-4 bg-n-background">
+      <div class="flex flex-col gap-4 bg-surface px-20 py-4">
         <RuleCard
           v-for="rule in sampleRules"
           :id="rule.id"
@@ -29,7 +29,7 @@ const sampleRules = [
     </Variant>
 
     <Variant title="Non-Selectable">
-      <div class="flex flex-col gap-4 px-20 py-4 bg-n-background">
+      <div class="flex flex-col gap-4 bg-surface px-20 py-4">
         <RuleCard id="4" content="Replies should be friendly and clear." />
       </div>
     </Variant>

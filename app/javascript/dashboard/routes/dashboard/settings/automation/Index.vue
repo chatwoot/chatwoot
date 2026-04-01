@@ -2,23 +2,26 @@
 import { useAlert } from 'dashboard/composables';
 import AddAutomationRule from './AddAutomationRule.vue';
 import EditAutomationRule from './EditAutomationRule.vue';
-import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import AutomationRuleRow from './AutomationRuleRow.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import CustomBrandPolicyWrapper from 'dashboard/components/CustomBrandPolicyWrapper.vue';
+import { getHelpUrlForFeature } from 'dashboard/helper/featureHelper';
 
 const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
 const confirmDialog = ref(null);
+const deleteDialogRef = ref(null);
 
 const loading = ref({});
 const showAddPopup = ref(false);
 const showEditPopup = ref(false);
-const showDeleteConfirmationPopup = ref(false);
 const selectedAutomation = ref({});
 const toggleModalTitle = ref(t('AUTOMATION.TOGGLE.ACTIVATION_TITLE'));
 const toggleModalDescription = ref(
@@ -28,16 +31,12 @@ const toggleModalDescription = ref(
 const records = computed(() => getters['automations/getAutomations'].value);
 const uiFlags = computed(() => getters['automations/getUIFlags'].value);
 const accountId = computed(() => getters.getCurrentAccountId.value);
+const helpURL = computed(() => getHelpUrlForFeature('automations'));
 
-const deleteConfirmText = computed(
-  () => `${t('AUTOMATION.DELETE.CONFIRM.YES')} ${selectedAutomation.value.name}`
-);
-
-const deleteRejectText = computed(
-  () => `${t('AUTOMATION.DELETE.CONFIRM.NO')} ${selectedAutomation.value.name}`
-);
-
-const deleteMessage = computed(() => ` ${selectedAutomation.value.name}?`);
+const deleteDescription = computed(() => {
+  const name = selectedAutomation.value?.name || '';
+  return `${t('AUTOMATION.DELETE.CONFIRM.MESSAGE')}${name}?`;
+});
 
 const isSLAEnabled = computed(() =>
   getters['accounts/isFeatureEnabledonAccount'].value(accountId.value, 'sla')
@@ -71,12 +70,9 @@ const hideEditPopup = () => {
   showEditPopup.value = false;
 };
 
-const openDeletePopup = response => {
-  showDeleteConfirmationPopup.value = true;
-  selectedAutomation.value = response;
-};
-const closeDeletePopup = () => {
-  showDeleteConfirmationPopup.value = false;
+const openDeletePopup = automation => {
+  selectedAutomation.value = automation;
+  deleteDialogRef.value?.open();
 };
 
 const deleteAutomation = async id => {
@@ -86,15 +82,20 @@ const deleteAutomation = async id => {
   } catch (error) {
     useAlert(t('AUTOMATION.DELETE.API.ERROR_MESSAGE'));
   } finally {
-    loading.value[selectedAutomation.value.id] = false;
+    loading.value[id] = false;
   }
 };
+
 const confirmDeletion = () => {
-  loading.value[selectedAutomation.value.id] = true;
-  closeDeletePopup();
-  deleteAutomation(selectedAutomation.value.id);
+  const id = selectedAutomation.value.id;
+  loading.value[id] = true;
+  deleteDialogRef.value?.close();
+  deleteAutomation(id);
 };
-const cloneAutomation = async ({ id }) => {
+
+const cloneAutomation = async automation => {
+  const id = automation.id;
+  loading.value[id] = true;
   try {
     await store.dispatch('automations/clone', id);
     useAlert(t('AUTOMATION.CLONE.API.SUCCESS_MESSAGE'));
@@ -102,7 +103,7 @@ const cloneAutomation = async ({ id }) => {
   } catch (error) {
     useAlert(t('AUTOMATION.CLONE.API.ERROR_MESSAGE'));
   } finally {
-    loading.value[selectedAutomation.value.id] = false;
+    loading.value[id] = false;
   }
 };
 
@@ -126,6 +127,7 @@ const submitAutomation = async (payload, mode) => {
     useAlert(errorMessage);
   }
 };
+
 const toggleAutomation = async ({ id, name, status }) => {
   try {
     if (status) {
@@ -161,64 +163,106 @@ const toggleAutomation = async ({ id, name, status }) => {
     useAlert(t('AUTOMATION.EDIT.API.ERROR_MESSAGE'));
   }
 };
-
-const tableHeaders = computed(() => {
-  return [
-    t('AUTOMATION.LIST.TABLE_HEADER.NAME'),
-    t('AUTOMATION.LIST.TABLE_HEADER.DESCRIPTION'),
-    t('AUTOMATION.LIST.TABLE_HEADER.ACTIVE'),
-    t('AUTOMATION.LIST.TABLE_HEADER.CREATED_ON'),
-  ];
-});
 </script>
 
 <template>
   <SettingsLayout
     :is-loading="uiFlags.isFetching"
-    :loading-message="$t('AUTOMATION.LOADING')"
+    :loading-message="t('AUTOMATION.LIST.LOADING')"
     :no-records-found="!records.length"
-    :no-records-message="$t('AUTOMATION.LIST.404')"
+    :no-records-message="t('AUTOMATION.LIST.404')"
   >
     <template #header>
-      <BaseSettingsHeader
-        :title="$t('AUTOMATION.HEADER')"
-        :description="$t('AUTOMATION.DESCRIPTION')"
-        :link-text="$t('AUTOMATION.LEARN_MORE')"
-        feature-name="automation"
+      <div
+        class="flex flex-col gap-6 pb-2 sm:flex-row sm:items-end sm:justify-between"
       >
-        <template #actions>
-          <Button
-            icon="i-lucide-circle-plus"
-            :label="$t('AUTOMATION.HEADER_BTN_TXT')"
-            @click="openAddPopup"
-          />
-        </template>
-      </BaseSettingsHeader>
+        <div class="min-w-0 space-y-2">
+          <p
+            class="mb-0 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant/70"
+          >
+            {{ t('AUTOMATION.PAGE_EYEBROW') }}
+          </p>
+          <h2 class="mb-0 text-3xl font-bold tracking-tight text-on-surface">
+            {{ t('AUTOMATION.HEADER') }}
+          </h2>
+          <p class="mb-0 max-w-2xl text-base text-on-primary-container">
+            {{ t('AUTOMATION.PAGE_SUBTITLE') }}
+          </p>
+          <CustomBrandPolicyWrapper :show-on-custom-branded-instance="false">
+            <a
+              v-if="helpURL"
+              :href="helpURL"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1 text-sm font-medium text-secondary hover:underline"
+            >
+              {{ t('AUTOMATION.LEARN_MORE') }}
+              <Icon icon="i-lucide-chevron-right" class="size-4 shrink-0" />
+            </a>
+          </CustomBrandPolicyWrapper>
+        </div>
+        <Button
+          solid
+          teal
+          lg
+          icon="i-lucide-plus"
+          :label="t('AUTOMATION.HEADER_BTN_TXT')"
+          class="w-full shrink-0 rounded-xl font-bold shadow-none hover:shadow-[0_0_20px_rgba(4,190,153,0.4)] active:scale-[0.98] sm:w-auto"
+          @click="openAddPopup"
+        />
+      </div>
     </template>
     <template #body>
-      <table class="min-w-full divide-y divide-n-weak">
-        <thead>
-          <th
-            v-for="thHeader in tableHeaders"
-            :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 rtl:text-right ltr:text-left font-semibold text-n-slate-11"
+      <div
+        class="overflow-x-auto rounded-2xl border border-outline-variant/10 shadow-xl"
+      >
+        <div class="min-w-[56rem] bg-surface-container-low">
+          <div
+            class="grid grid-cols-12 border-b border-surface-container-high/50 bg-surface-container-high/30 px-6 py-4"
           >
-            {{ thHeader }}
-          </th>
-        </thead>
-        <tbody class="divide-y divide-n-weak text-n-slate-11">
-          <AutomationRuleRow
-            v-for="automation in records"
-            :key="automation.id"
-            :automation="automation"
-            :loading="loading[automation.id]"
-            @clone="cloneAutomation"
-            @toggle="toggleAutomation"
-            @edit="openEditPopup"
-            @delete="openDeletePopup"
-          />
-        </tbody>
-      </table>
+            <div
+              class="col-span-3 text-[11px] font-bold uppercase tracking-widest text-tertiary/60"
+            >
+              {{ t('AUTOMATION.LIST.TABLE_HEADER.NAME') }}
+            </div>
+            <div
+              class="col-span-4 text-[11px] font-bold uppercase tracking-widest text-tertiary/60"
+            >
+              {{ t('AUTOMATION.LIST.TABLE_HEADER.DESCRIPTION') }}
+            </div>
+            <div
+              class="col-span-2 text-[11px] font-bold uppercase tracking-widest text-tertiary/60"
+            >
+              {{ t('AUTOMATION.LIST.TABLE_HEADER.ACTIVE') }}
+            </div>
+            <div
+              class="col-span-2 text-[11px] font-bold uppercase tracking-widest text-tertiary/60"
+            >
+              {{ t('AUTOMATION.LIST.TABLE_HEADER.CREATED_ON') }}
+            </div>
+            <div
+              class="col-span-1 text-end text-[11px] font-bold uppercase tracking-widest text-tertiary/60"
+            >
+              {{ t('AUTOMATION.LIST.TABLE_HEADER.ACTIONS') }}
+            </div>
+          </div>
+          <div class="divide-y divide-surface-container-high/30">
+            <AutomationRuleRow
+              v-for="automation in records"
+              :key="automation.id"
+              :automation="automation"
+              :loading="loading[automation.id]"
+              @clone="cloneAutomation"
+              @toggle="toggleAutomation"
+              @edit="openEditPopup"
+              @delete="openDeletePopup"
+            />
+          </div>
+        </div>
+      </div>
+      <p class="mt-6 text-xs font-medium text-on-primary-container">
+        {{ t('AUTOMATION.LIST.SHOWING_COUNT', { count: records.length }) }}
+      </p>
     </template>
 
     <woot-modal
@@ -233,15 +277,14 @@ const tableHeaders = computed(() => {
       />
     </woot-modal>
 
-    <woot-delete-modal
-      v-model:show="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
-      :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="$t('AUTOMATION.DELETE.CONFIRM.MESSAGE')"
-      :message-value="deleteMessage"
-      :confirm-text="deleteConfirmText"
-      :reject-text="deleteRejectText"
+    <Dialog
+      ref="deleteDialogRef"
+      type="alert"
+      :title="t('AUTOMATION.DELETE.CONFIRM.TITLE')"
+      :description="deleteDescription"
+      :confirm-button-label="t('AUTOMATION.DELETE.SUBMIT')"
+      :cancel-button-label="t('AUTOMATION.DELETE.CANCEL_BUTTON_TEXT')"
+      @confirm="confirmDeletion"
     />
 
     <woot-modal

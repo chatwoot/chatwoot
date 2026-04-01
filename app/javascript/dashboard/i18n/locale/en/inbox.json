@@ -1,6 +1,7 @@
 {
   "INBOX": {
     "LIST": {
+      "SECTION_EYEBROW": "Notifications",
       "TITLE": "My Inbox",
       "DISPLAY_DROPDOWN": "Display",
       "LOADING": "Fetching notifications",

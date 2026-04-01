@@ -72,11 +72,11 @@ const articleMenuItems = computed(() => {
 const statusTextColor = computed(() => {
   switch (props.status) {
     case 'archived':
-      return 'text-n-slate-12';
+      return 'text-on-surface-variant';
     case 'draft':
-      return 'text-n-amber-11';
+      return 'text-amber-11';
     default:
-      return 'text-n-teal-11';
+      return 'text-secondary';
   }
 });
 
@@ -126,14 +126,14 @@ const handleClick = id => {
   <CardLayout>
     <div class="flex justify-between w-full gap-1">
       <span
-        class="text-base cursor-pointer hover:underline underline-offset-2 hover:text-n-blue-11 text-n-slate-12 line-clamp-1"
+        class="line-clamp-1 cursor-pointer text-base text-on-surface underline-offset-2 hover:text-secondary hover:underline"
         @click="handleClick(id)"
       >
         {{ title }}
       </span>
       <div class="flex items-center gap-2">
         <span
-          class="text-xs font-medium inline-flex items-center h-6 px-2 py-0.5 rounded-md bg-n-alpha-2"
+          class="inline-flex h-6 items-center rounded-md bg-surface-container-high px-2 py-0.5 text-xs font-medium ring-1 ring-inset ring-outline-variant/15"
           :class="statusTextColor"
         >
           {{ statusText }}
@@ -143,10 +143,11 @@ const handleClick = id => {
           class="relative flex items-center group"
         >
           <Button
+            ghost
+            slate
             icon="i-lucide-ellipsis-vertical"
-            color="slate"
             size="xs"
-            class="rounded-md group-hover:bg-n-alpha-2"
+            class="rounded-md !text-on-surface-variant hover:!bg-surface-container-high focus-visible:!bg-surface-container-high"
             @click="toggleDropdown()"
           />
           <DropdownMenu
@@ -167,15 +168,15 @@ const handleClick = id => {
             :size="16"
             rounded-full
           />
-          <span class="text-sm truncate text-n-slate-11">
+          <span class="truncate text-sm text-on-surface-variant">
             {{ authorName || '-' }}
           </span>
         </div>
-        <span class="block text-sm whitespace-nowrap text-n-slate-11">
+        <span class="block whitespace-nowrap text-sm text-on-surface-variant">
           {{ categoryName }}
         </span>
         <div
-          class="inline-flex items-center gap-1 text-n-slate-11 whitespace-nowrap"
+          class="inline-flex items-center gap-1 whitespace-nowrap text-on-surface-variant"
         >
           <Icon icon="i-lucide-eye" class="size-4" />
           <span class="text-sm">
@@ -187,7 +188,7 @@ const handleClick = id => {
           </span>
         </div>
       </div>
-      <span class="text-sm text-n-slate-11 line-clamp-1">
+      <span class="line-clamp-1 text-sm text-on-surface-variant">
         {{ lastUpdatedAt }}
       </span>
     </div>

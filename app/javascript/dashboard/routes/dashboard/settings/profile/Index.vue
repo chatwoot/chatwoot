@@ -205,7 +205,7 @@ export default {
 <template>
   <div class="grid py-16 px-5 font-inter mx-auto gap-16 sm:max-w-screen-md">
     <div class="flex flex-col gap-6">
-      <h2 class="text-2xl font-medium text-n-slate-12">
+      <h2 class="text-2xl font-medium text-on-surface">
         {{ $t('PROFILE_SETTINGS.TITLE') }}
       </h2>
       <UserProfilePicture
@@ -268,7 +268,7 @@ export default {
           :class="
             isEditorHotKeyEnabled(hotKey.key)
               ? 'outline-n-brand/30'
-              : 'outline-n-weak'
+              : 'outline-outline-variant/15'
           "
         >
           <HotKeyCard

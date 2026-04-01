@@ -55,9 +55,9 @@ defineExpose({ dialogRef, contactsFormRef, onSuccess });
       <div class="flex items-center justify-between w-full gap-3">
         <Button
           :label="t('DIALOG.BUTTONS.CANCEL')"
-          variant="link"
+          link
           type="reset"
-          class="h-10 hover:!no-underline hover:text-n-brand"
+          class="h-10 text-on-surface-variant hover:!no-underline hover:text-on-surface"
           @click="closeDialog"
         />
         <Button
@@ -65,7 +65,9 @@ defineExpose({ dialogRef, contactsFormRef, onSuccess });
           :label="
             t('CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION.SAVE_CONTACT')
           "
-          color="blue"
+          teal
+          trailing-icon
+          icon="i-lucide-save"
           :disabled="contactsFormRef?.isFormInvalid"
           :is-loading="isCreatingContact"
         />

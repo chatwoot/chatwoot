@@ -129,7 +129,7 @@ const handleSubmit = async () => {
     />
 
     <div class="flex flex-col gap-1">
-      <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">
+      <label for="inbox" class="mb-0.5 text-sm font-medium text-on-surface">
         {{ t('CAMPAIGN.SMS.CREATE.FORM.INBOX.LABEL') }}
       </label>
       <ComboBox
@@ -139,12 +139,12 @@ const handleSubmit = async () => {
         :has-error="!!formErrors.inbox"
         :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.INBOX.PLACEHOLDER')"
         :message="formErrors.inbox"
-        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
+        class="w-full"
       />
     </div>
 
     <div class="flex flex-col gap-1">
-      <label for="audience" class="mb-0.5 text-sm font-medium text-n-slate-12">
+      <label for="audience" class="mb-0.5 text-sm font-medium text-on-surface">
         {{ t('CAMPAIGN.SMS.CREATE.FORM.AUDIENCE.LABEL') }}
       </label>
       <TagMultiSelectComboBox
@@ -154,7 +154,7 @@ const handleSubmit = async () => {
         :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.AUDIENCE.PLACEHOLDER')"
         :has-error="!!formErrors.audience"
         :message="formErrors.audience"
-        class="[&>div>button]:bg-n-alpha-black2"
+        class="w-full"
       />
     </div>
 
@@ -168,18 +168,22 @@ const handleSubmit = async () => {
       :message-type="formErrors.scheduledAt ? 'error' : 'info'"
     />
 
-    <div class="flex items-center justify-between w-full gap-3">
+    <div class="flex w-full items-center justify-between gap-3">
       <Button
-        variant="faded"
-        color="slate"
+        outline
+        slate
+        sm
         type="button"
         :label="t('CAMPAIGN.SMS.CREATE.FORM.BUTTONS.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
+        class="w-full"
         @click="handleCancel"
       />
       <Button
+        solid
+        teal
+        sm
         :label="t('CAMPAIGN.SMS.CREATE.FORM.BUTTONS.CREATE')"
-        class="w-full"
+        class="w-full font-semibold"
         type="submit"
         :is-loading="isCreating"
         :disabled="isCreating || isSubmitDisabled"

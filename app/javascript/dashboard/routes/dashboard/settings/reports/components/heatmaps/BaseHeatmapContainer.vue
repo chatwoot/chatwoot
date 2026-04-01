@@ -280,7 +280,7 @@ onMounted(() => {
             slate
             faded
             :label="selectedInboxFilter.label"
-            class="rounded-md group-hover:bg-n-alpha-2 max-w-[200px]"
+            class="rounded-md group-hover:bg-surface-container-lowest max-w-[200px]"
             @click="toggleInboxDropdown()"
           />
           <DropdownMenu
@@ -298,7 +298,7 @@ onMounted(() => {
           slate
           faded
           icon="i-lucide-download"
-          class="rounded-md group-hover:bg-n-alpha-2"
+          class="rounded-md group-hover:bg-surface-container-lowest"
           @click="downloadHeatmapData"
         />
       </template>

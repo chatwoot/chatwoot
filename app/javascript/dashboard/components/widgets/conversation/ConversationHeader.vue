@@ -95,7 +95,7 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
 <template>
   <div
     ref="conversationHeader"
-    class="flex flex-col gap-3 items-center justify-between flex-1 w-full min-w-0 xl:flex-row px-3 pt-3 pb-2 h-24 xl:h-12"
+    class="flex flex-col gap-3 items-center justify-between flex-1 w-full min-w-0 xl:flex-row px-4 pt-3 pb-2 h-24 xl:h-14 bg-surface-container-low border-b border-outline-variant/[.15]"
   >
     <div
       class="flex items-center justify-start w-full xl:w-auto max-w-full min-w-0 xl:flex-1"
@@ -108,17 +108,17 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
       <Avatar
         :name="currentContact.name"
         :src="currentContact.thumbnail"
-        :size="32"
+        :size="36"
         :status="currentContact.availability_status"
         hide-offline-status
         rounded-full
       />
       <div
-        class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2"
+        class="flex flex-col items-start min-w-0 ml-3 overflow-hidden rtl:ml-0 rtl:mr-3"
       >
-        <div class="flex flex-row items-center max-w-full gap-1 p-0 m-0">
+        <div class="flex flex-row items-center max-w-full gap-1.5 p-0 m-0">
           <span
-            class="text-sm font-medium truncate leading-tight text-n-slate-12"
+            class="text-sm font-semibold truncate leading-tight text-on-surface"
           >
             {{ currentContact.name }}
           </span>
@@ -132,9 +132,13 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
         </div>
 
         <div
-          class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
+          class="flex items-center gap-2 overflow-hidden text-xs text-ellipsis whitespace-nowrap"
         >
-          <InboxName v-if="hasMultipleInboxes" :inbox="inbox" class="!mx-0" />
+          <InboxName
+            v-if="hasMultipleInboxes"
+            :inbox="inbox"
+            class="!mx-0 text-secondary"
+          />
           <span v-if="isSnoozed" class="font-medium text-n-amber-10">
             {{ snoozedDisplayText }}
           </span>

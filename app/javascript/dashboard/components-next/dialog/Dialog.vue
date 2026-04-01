@@ -105,16 +105,19 @@ defineExpose({ open, close });
       <OnClickOutside @trigger="close">
         <form
           ref="dialogContentRef"
-          class="flex flex-col w-full h-auto gap-6 p-6 overflow-visible text-left align-middle transition-all duration-300 ease-in-out transform bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl"
+          class="flex h-auto w-full transform flex-col gap-6 overflow-visible rounded-xl border border-outline-variant/10 bg-surface-container-high/95 p-6 text-left align-middle shadow-xl backdrop-blur-md transition-all duration-300 ease-in-out"
           @submit.prevent="confirm"
           @click.stop
         >
           <div v-if="title || description" class="flex flex-col gap-2">
-            <h3 class="text-base font-medium leading-6 text-n-slate-12">
+            <h3 class="text-base font-medium leading-6 text-on-surface">
               {{ title }}
             </h3>
             <slot name="description">
-              <p v-if="description" class="mb-0 text-sm text-n-slate-11">
+              <p
+                v-if="description"
+                class="mb-0 text-sm text-on-surface-variant"
+              >
                 {{ description }}
               </p>
             </slot>
@@ -154,6 +157,6 @@ defineExpose({ open, close });
 
 <style scoped>
 dialog::backdrop {
-  @apply bg-n-alpha-black1 backdrop-blur-[4px];
+  @apply bg-modal-backdrop-light backdrop-blur-sm dark:bg-modal-backdrop-dark;
 }
 </style>

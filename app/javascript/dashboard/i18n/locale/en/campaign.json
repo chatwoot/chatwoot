@@ -2,6 +2,7 @@
   "CAMPAIGN": {
     "LIVE_CHAT": {
       "HEADER_TITLE": "Live chat campaigns",
+      "PAGE_SUBTITLE": "Create and manage proactive website messages that trigger from URLs, time on page, and your widget rules.",
       "NEW_CAMPAIGN": "Create campaign",
       "CARD": {
         "STATUS": {
@@ -61,6 +62,7 @@
           },
           "BUTTONS": {
             "CREATE": "Create",
+            "EDIT": "Save",
             "CANCEL": "Cancel"
           },
           "API": {
@@ -81,6 +83,7 @@
     },
     "SMS": {
       "HEADER_TITLE": "SMS campaigns",
+      "PAGE_SUBTITLE": "Schedule one-off SMS campaigns to labeled audiences from your SMS inboxes.",
       "NEW_CAMPAIGN": "Create campaign",
       "EMPTY_STATE": {
         "TITLE": "No SMS campaigns are available",
@@ -139,6 +142,7 @@
     },
     "WHATSAPP": {
       "HEADER_TITLE": "WhatsApp campaigns",
+      "PAGE_SUBTITLE": "Schedule one-off WhatsApp template campaigns to labeled audiences from your WhatsApp inboxes.",
       "NEW_CAMPAIGN": "Create campaign",
       "EMPTY_STATE": {
         "TITLE": "No WhatsApp campaigns are available",

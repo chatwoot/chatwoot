@@ -1,8 +1,8 @@
 <script setup>
-import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import AttributeBadge from 'dashboard/components-next/CustomAttributes/AttributeBadge.vue';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   attribute: {
@@ -16,6 +16,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['edit', 'delete']);
+
+const { t } = useI18n();
 
 const iconByType = {
   text: 'i-lucide-align-justify',
@@ -34,55 +36,68 @@ const attributeIcon = computed(() => {
 
 <template>
   <div
-    class="flex flex-col gap-2 p-4 bg-n-solid-1 rounded-2xl outline outline-1 outline-n-container"
+    class="flex flex-col gap-3 px-4 py-5 transition-colors duration-200 hover:bg-surface-container-high/40 sm:px-6"
   >
-    <div class="flex flex-wrap gap-2 justify-between items-center">
-      <div class="flex flex-wrap gap-2 items-center min-w-0">
-        <h4 class="text-sm font-medium truncate text-n-slate-12">
-          {{ attribute.label }}
-        </h4>
-        <div class="w-px h-3 bg-n-strong" />
-        <div class="flex gap-2 items-center text-sm text-n-slate-11">
-          <div class="flex items-center gap-1.5 text-n-slate-11">
-            <Icon :icon="attributeIcon" class="size-4" />
-            <span class="text-sm">{{ attribute.type }}</span>
+    <div class="flex flex-wrap items-start justify-between gap-3">
+      <div class="flex min-w-0 flex-1 flex-col gap-2">
+        <div class="flex flex-wrap items-center gap-2">
+          <h4 class="mb-0 truncate text-sm font-bold text-on-surface">
+            {{ attribute.label }}
+          </h4>
+          <div v-if="badges.length" class="flex flex-wrap items-center gap-2">
+            <AttributeBadge
+              v-for="badge in badges"
+              :key="badge.type"
+              :type="badge.type"
+            />
           </div>
-          <div class="w-px h-3 bg-n-weak" />
-          <div class="flex items-center gap-1.5 text-n-slate-11">
-            <Icon icon="i-lucide-key-round" class="size-4" />
-            <span class="line-clamp-1 text-sm">{{ attribute.value }}</span>
+        </div>
+        <div
+          class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-on-primary-container"
+        >
+          <div class="flex items-center gap-1.5">
+            <Icon :icon="attributeIcon" class="size-4 shrink-0 text-tertiary" />
+            <span>{{ attribute.type }}</span>
+          </div>
+          <span
+            class="hidden h-3 w-px bg-outline-variant/30 sm:inline-block"
+            aria-hidden="true"
+          />
+          <div class="flex min-w-0 items-center gap-1.5">
+            <Icon
+              icon="i-lucide-key-round"
+              class="size-4 shrink-0 text-tertiary"
+            />
+            <span class="line-clamp-1 font-mono text-xs">{{
+              attribute.value
+            }}</span>
           </div>
         </div>
       </div>
-      <div class="flex gap-2 items-center">
-        <AttributeBadge
-          v-for="badge in badges"
-          :key="badge.type"
-          :type="badge.type"
-        />
-        <div
-          v-if="badges.length > 0"
-          class="w-px h-3 bg-n-strong ltr:ml-1.5 rtl:mr-1.5"
-        />
-        <Button
-          icon="i-lucide-pencil-line"
-          size="sm"
-          color="slate"
-          ghost
+      <div class="flex shrink-0 items-center gap-1">
+        <button
+          v-tooltip.top="t('ATTRIBUTES_MGMT.LIST.BUTTONS.EDIT')"
+          type="button"
+          class="rounded-lg p-2 text-tertiary opacity-70 outline-none transition-all hover:bg-surface-container-high hover:text-secondary hover:opacity-100 focus-visible:ring-2 focus-visible:ring-secondary/40"
           @click="emit('edit', attribute)"
-        />
-        <div class="w-px h-3 bg-n-strong" />
-        <Button
-          icon="i-lucide-trash"
-          size="sm"
-          color="slate"
-          ghost
+        >
+          <Icon icon="i-lucide-pen" class="size-5" />
+        </button>
+        <button
+          v-tooltip.top="t('ATTRIBUTES_MGMT.LIST.BUTTONS.DELETE')"
+          type="button"
+          class="rounded-lg p-2 text-tertiary opacity-70 outline-none transition-all hover:bg-surface-container-high hover:text-error hover:opacity-100 focus-visible:ring-2 focus-visible:ring-error/40"
           @click="emit('delete', attribute)"
-        />
+        >
+          <Icon icon="i-lucide-trash-2" class="size-5" />
+        </button>
       </div>
     </div>
-    <p class="mb-0 text-sm text-n-slate-11">
-      {{ attribute.attribute_description || attribute.description || '' }}
+    <p
+      v-if="attribute.attribute_description || attribute.description"
+      class="mb-0 text-sm leading-relaxed text-on-surface-variant"
+    >
+      {{ attribute.attribute_description || attribute.description }}
     </p>
   </div>
 </template>

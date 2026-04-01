@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store.js';
 
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
@@ -19,6 +20,8 @@ const props = defineProps({
   },
 });
 
+const { t } = useI18n();
+
 const addLocaleDialogRef = ref(null);
 
 const isSwitchingPortal = useMapGetter('portals/isSwitchingPortal');
@@ -33,28 +36,46 @@ const localeCount = computed(() => props.locales?.length);
 <template>
   <HelpCenterLayout :show-pagination-footer="false">
     <template #header-actions>
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-4">
-          <span class="text-sm font-medium text-n-slate-12">
-            {{ $t('HELP_CENTER.LOCALES_PAGE.LOCALES_COUNT', localeCount) }}
+      <div
+        class="w-full rounded-xl border border-outline-variant/5 bg-surface-container-low p-4 shadow-sm"
+      >
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <span class="text-sm font-medium text-on-surface">
+            {{ t('HELP_CENTER.LOCALES_PAGE.LOCALES_COUNT', localeCount) }}
           </span>
+          <Button
+            solid
+            teal
+            sm
+            :label="t('HELP_CENTER.LOCALES_PAGE.NEW_LOCALE_BUTTON_TEXT')"
+            icon="i-lucide-plus"
+            class="shrink-0 font-semibold"
+            @click="openAddLocaleDialog"
+          />
         </div>
-        <Button
-          :label="$t('HELP_CENTER.LOCALES_PAGE.NEW_LOCALE_BUTTON_TEXT')"
-          icon="i-lucide-plus"
-          size="sm"
-          @click="openAddLocaleDialog"
-        />
       </div>
     </template>
     <template #content>
       <div
         v-if="isSwitchingPortal"
-        class="flex items-center justify-center py-10 text-n-slate-11"
+        class="flex items-center justify-center gap-2 py-10 text-on-surface-variant"
       >
         <Spinner />
       </div>
-      <LocaleList v-else :locales="locales" :portal="portal" />
+      <div
+        v-else
+        class="help-center-locales-page flex w-full flex-col space-y-6 text-on-surface antialiased selection:bg-secondary/30"
+      >
+        <header class="space-y-1">
+          <h1 class="text-3xl font-bold tracking-tight text-on-surface">
+            {{ t('HELP_CENTER.LOCALES_PAGE.PAGE_TITLE') }}
+          </h1>
+          <p class="mb-0 text-lg text-on-primary-container">
+            {{ t('HELP_CENTER.LOCALES_PAGE.PAGE_SUBTITLE') }}
+          </p>
+        </header>
+        <LocaleList :locales="locales" :portal="portal" />
+      </div>
     </template>
     <AddLocaleDialog ref="addLocaleDialogRef" :portal="portal" />
   </HelpCenterLayout>

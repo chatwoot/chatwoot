@@ -192,7 +192,7 @@ export default {
               hide-offline-status
               rounded-full
             />
-            <span class="my-0 text-n-slate-12 truncate">{{
+            <span class="my-0 text-on-surface truncate">{{
               props.option.name
             }}</span>
           </div>
@@ -207,7 +207,7 @@ export default {
               hide-offline-status
               rounded-full
             />
-            <p class="my-0 text-n-slate-12">
+            <p class="my-0 text-on-surface">
               {{ props.option.name }}
             </p>
           </div>
@@ -236,7 +236,7 @@ export default {
               class="w-5 h-5 rounded-full"
             />
 
-            <span class="my-0 text-n-slate-12 truncate">
+            <span class="my-0 text-on-surface truncate">
               {{ props.option.title }}
             </span>
           </div>
@@ -245,10 +245,10 @@ export default {
           <div class="flex items-center min-w-0 gap-2">
             <div
               :style="{ backgroundColor: props.option.color }"
-              class="flex-shrink-0 w-5 h-5 border border-solid rounded-full border-n-weak"
+              class="flex-shrink-0 w-5 h-5 border border-solid rounded-full border-outline-variant/15"
             />
 
-            <span class="my-0 text-n-slate-12 truncate">
+            <span class="my-0 text-on-surface truncate">
               {{ props.option.title }}
             </span>
           </div>

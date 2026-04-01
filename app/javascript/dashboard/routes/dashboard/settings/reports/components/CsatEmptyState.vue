@@ -18,14 +18,14 @@ defineProps({
 <template>
   <div class="flex flex-col items-center justify-center py-16 px-6 text-center">
     <div
-      class="size-16 rounded-full bg-n-alpha-2 flex items-center justify-center mb-4"
+      class="size-16 rounded-full bg-surface-container-lowest flex items-center justify-center mb-4"
     >
-      <i :class="icon" class="size-8 text-n-slate-10" />
+      <i :class="icon" class="size-8 text-on-surface-variant/60" />
     </div>
-    <h3 class="text-base font-medium text-n-slate-12 mb-1">
+    <h3 class="text-base font-medium text-on-surface mb-1">
       {{ title }}
     </h3>
-    <p v-if="description" class="text-sm text-n-slate-10 max-w-sm">
+    <p v-if="description" class="text-sm text-on-surface-variant/60 max-w-sm">
       {{ description }}
     </p>
   </div>

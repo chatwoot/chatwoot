@@ -136,22 +136,28 @@ const handleTabChange = value => {
 </script>
 
 <template>
-  <div class="flex flex-col items-start w-full gap-2 lg:flex-row">
+  <div
+    class="flex w-full flex-col items-stretch gap-3 lg:flex-row lg:items-center"
+  >
     <TabBar
       :tabs="tabs"
       :initial-active-tab="activeTabIndex"
       @tab-changed="handleTabChange"
     />
-    <div class="flex items-start justify-between w-full gap-2">
-      <div class="flex items-center gap-2">
+    <div
+      class="flex w-full flex-wrap items-center justify-between gap-2 lg:flex-1"
+    >
+      <div class="flex flex-wrap items-center gap-2">
         <div class="relative group">
           <OnClickOutside @trigger="isLocaleMenuOpen = false">
             <Button
+              ghost
+              slate
+              sm
               :label="activeLocaleName"
-              size="sm"
               icon="i-lucide-chevron-down"
-              color="slate"
               trailing-icon
+              class="!border !border-outline-variant/30 !bg-surface-container-low !text-on-surface hover:!bg-surface-container-high focus-visible:!bg-surface-container-high"
               @click="isLocaleMenuOpen = !isLocaleMenuOpen"
             />
 
@@ -167,12 +173,13 @@ const handleTabChange = value => {
         <div v-if="hasCategoryMenuItems" class="relative group">
           <OnClickOutside @trigger="isCategoryMenuOpen = false">
             <Button
+              ghost
+              slate
+              sm
               :label="activeCategoryName"
               icon="i-lucide-chevron-down"
-              size="sm"
-              color="slate"
               trailing-icon
-              class="max-w-48"
+              class="max-w-48 !border !border-outline-variant/30 !bg-surface-container-low !text-on-surface hover:!bg-surface-container-high focus-visible:!bg-surface-container-high"
               @click="isCategoryMenuOpen = !isCategoryMenuOpen"
             />
 
@@ -187,9 +194,12 @@ const handleTabChange = value => {
         </div>
       </div>
       <Button
+        solid
+        teal
+        sm
         :label="t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.NEW_ARTICLE')"
         icon="i-lucide-plus"
-        size="sm"
+        class="shrink-0 font-semibold"
         @click="handleNewArticle"
       />
     </div>

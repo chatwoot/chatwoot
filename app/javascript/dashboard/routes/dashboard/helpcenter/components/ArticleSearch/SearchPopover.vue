@@ -137,7 +137,7 @@ export default {
   >
     <div
       v-on-clickaway="onClose"
-      class="flex flex-col px-4 pb-4 rounded-md shadow-md border border-solid border-n-weak bg-n-background z-[1000] max-w-[720px] md:w-[20rem] lg:w-[24rem] xl:w-[28rem] 2xl:w-[32rem] h-[calc(100vh-20rem)] max-h-[40rem]"
+      class="z-[1000] flex h-[calc(100vh-20rem)] max-h-[40rem] max-w-[720px] flex-col overflow-hidden rounded-xl border border-outline-variant/20 bg-surface-container-low px-4 pb-4 shadow-xl md:w-[20rem] lg:w-[24rem] xl:w-[28rem] 2xl:w-[32rem]"
     >
       <SearchHeader
         :title="$t('HELP_CENTER.ARTICLE_SEARCH.TITLE')"

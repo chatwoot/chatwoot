@@ -3,7 +3,7 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 
 import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader.vue';
+import PageHeader from '../components/TeamWizardPageHeader.vue';
 import AgentSelector from '../AgentSelector.vue';
 import { useVuelidate } from '@vuelidate/core';
 
@@ -88,7 +88,7 @@ export default {
 </script>
 
 <template>
-  <div class="h-full w-full p-6 col-span-6">
+  <div class="h-full w-full p-6 lg:p-8">
     <form
       class="flex flex-wrap mx-0 overflow-x-auto"
       @submit.prevent="addAgents"
@@ -101,8 +101,10 @@ export default {
       </div>
 
       <div class="w-full">
-        <div v-if="v$.selectedAgents.$error">
-          <p class="error-message pb-2">
+        <div v-if="v$.selectedAgents.$error" class="mb-4">
+          <p
+            class="mb-0 rounded-lg border border-error/30 bg-error/10 px-3 py-2 text-sm text-error"
+          >
             {{ $t('TEAMS_SETTINGS.ADD.AGENT_VALIDATION_ERROR') }}
           </p>
         </div>

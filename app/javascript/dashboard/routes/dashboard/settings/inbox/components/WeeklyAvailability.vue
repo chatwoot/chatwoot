@@ -136,7 +136,7 @@ export default {
           />
           {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_AVAILABILITY') }}
         </label>
-        <p class="mb-4 text-n-slate-11">
+        <p class="mb-4 text-on-surface-variant">
           {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_HELP') }}
         </p>
         <div v-if="isBusinessHoursEnabled" class="mb-6">
@@ -146,7 +146,7 @@ export default {
             </label>
             <div
               v-if="isRichEditorEnabled"
-              class="px-4 py-0 mx-0 mt-0 mb-4 rounded-lg outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 bg-n-alpha-black2"
+              class="px-4 py-0 mx-0 mt-0 mb-4 rounded-lg outline outline-1 outline-outline-variant/15 hover:outline-outline-variant/30 hover:outline-outline-variant/30 bg-surface-container-lowest"
             >
               <WootMessageEditor
                 v-model="unavailableMessage"

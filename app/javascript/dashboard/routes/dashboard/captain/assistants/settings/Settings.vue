@@ -8,6 +8,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAccount } from 'dashboard/composables/useAccount';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import SettingsHeader from 'dashboard/components-next/captain/pageComponents/settings/SettingsHeader.vue';
 import AssistantBasicSettingsForm from 'dashboard/components-next/captain/pageComponents/assistant/settings/AssistantBasicSettingsForm.vue';
@@ -45,6 +46,7 @@ const controlItems = computed(() => {
         'CAPTAIN.ASSISTANTS.SETTINGS.CONTROL_ITEMS.OPTIONS.GUARDRAILS.DESCRIPTION'
       ),
       routeName: 'captain_assistants_guardrails_index',
+      icon: 'i-lucide-shield-check',
     },
     {
       name: t(
@@ -54,6 +56,7 @@ const controlItems = computed(() => {
         'CAPTAIN.ASSISTANTS.SETTINGS.CONTROL_ITEMS.OPTIONS.RESPONSE_GUIDELINES.DESCRIPTION'
       ),
       routeName: 'captain_assistants_guidelines_index',
+      icon: 'i-lucide-book-open',
     },
   ];
 });
@@ -114,12 +117,19 @@ const handleDeleteSuccess = () => {
   >
     <template #body>
       <div
-        class="gap-6 lg:gap-16 pb-8"
-        :class="{ 'grid grid-cols-2': isCaptainV2Enabled }"
+        class="assistant-settings-page mx-auto w-full max-w-[80rem] space-y-10 pb-8 text-on-surface antialiased selection:bg-secondary/30"
+        :class="{
+          'grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-12':
+            isCaptainV2Enabled,
+        }"
       >
-        <div class="flex flex-col gap-6">
-          <div class="flex flex-col gap-6">
+        <div
+          class="flex flex-col space-y-10"
+          :class="{ 'lg:col-span-2': isCaptainV2Enabled }"
+        >
+          <section class="space-y-4">
             <SettingsHeader
+              icon="i-lucide-sliders-horizontal"
               :heading="t('CAPTAIN.ASSISTANTS.SETTINGS.BASIC_SETTINGS.TITLE')"
               :description="
                 t('CAPTAIN.ASSISTANTS.SETTINGS.BASIC_SETTINGS.DESCRIPTION')
@@ -129,10 +139,13 @@ const handleDeleteSuccess = () => {
               :assistant="assistant"
               @submit="handleSubmit"
             />
-          </div>
-          <span class="h-px w-full bg-n-weak mt-2" />
-          <div class="flex flex-col gap-6">
+          </section>
+
+          <div class="border-t border-outline-variant/15" />
+
+          <section class="space-y-4">
             <SettingsHeader
+              icon="i-lucide-messages-square"
               :heading="t('CAPTAIN.ASSISTANTS.SETTINGS.SYSTEM_SETTINGS.TITLE')"
               :description="
                 t('CAPTAIN.ASSISTANTS.SETTINGS.SYSTEM_SETTINGS.DESCRIPTION')
@@ -142,46 +155,65 @@ const handleDeleteSuccess = () => {
               :assistant="assistant"
               @submit="handleSubmit"
             />
-          </div>
-          <span class="h-px w-full bg-n-weak mt-2" />
-          <div class="flex items-end justify-between w-full gap-4">
-            <div class="flex flex-col gap-2">
-              <h6 class="text-n-slate-12 text-base font-medium">
-                {{ t('CAPTAIN.ASSISTANTS.SETTINGS.DELETE.TITLE') }}
-              </h6>
-              <span class="text-n-slate-11 text-sm">
-                {{ t('CAPTAIN.ASSISTANTS.SETTINGS.DELETE.DESCRIPTION') }}
-              </span>
+          </section>
+
+          <div class="border-t border-outline-variant/15" />
+
+          <section
+            class="rounded-xl border border-outline-variant/10 bg-surface-container-low p-6 shadow-sm"
+          >
+            <div
+              class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"
+            >
+              <div class="flex gap-3">
+                <Icon
+                  icon="i-lucide-alert-triangle"
+                  class="mt-0.5 size-5 shrink-0 text-error"
+                />
+                <div class="min-w-0 space-y-1">
+                  <h3 class="text-base font-semibold text-on-surface">
+                    {{ t('CAPTAIN.ASSISTANTS.SETTINGS.DELETE.TITLE') }}
+                  </h3>
+                  <p class="mb-0 text-sm text-on-surface-variant">
+                    {{ t('CAPTAIN.ASSISTANTS.SETTINGS.DELETE.DESCRIPTION') }}
+                  </p>
+                </div>
+              </div>
+              <div class="shrink-0 sm:pt-0.5">
+                <Button
+                  :label="
+                    t('CAPTAIN.ASSISTANTS.SETTINGS.DELETE.BUTTON_TEXT', {
+                      assistantName: assistant.name,
+                    })
+                  "
+                  color="ruby"
+                  class="max-w-56 !w-fit"
+                  @click="handleDelete"
+                />
+              </div>
             </div>
-            <div class="flex-shrink-0">
-              <Button
-                :label="
-                  t('CAPTAIN.ASSISTANTS.SETTINGS.DELETE.BUTTON_TEXT', {
-                    assistantName: assistant.name,
-                  })
-                "
-                color="ruby"
-                class="max-w-56 !w-fit"
-                @click="handleDelete"
-              />
-            </div>
-          </div>
+          </section>
         </div>
-        <div v-if="isCaptainV2Enabled" class="flex flex-col gap-6">
+
+        <aside
+          v-if="isCaptainV2Enabled"
+          class="flex flex-col space-y-4 lg:col-span-1"
+        >
           <SettingsHeader
+            icon="i-lucide-layout-grid"
             :heading="t('CAPTAIN.ASSISTANTS.SETTINGS.CONTROL_ITEMS.TITLE')"
             :description="
               t('CAPTAIN.ASSISTANTS.SETTINGS.CONTROL_ITEMS.DESCRIPTION')
             "
           />
-          <div class="flex flex-col gap-6">
+          <div class="flex flex-col gap-4">
             <AssistantControlItems
               v-for="item in controlItems"
               :key="item.name"
               :control-item="item"
             />
           </div>
-        </div>
+        </aside>
       </div>
     </template>
     <DeleteDialog

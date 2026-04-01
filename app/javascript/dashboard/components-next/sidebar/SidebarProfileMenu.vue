@@ -73,16 +73,6 @@ const menuItems = computed(() => {
     },
     {
       show: true,
-      showOnCustomBrandedInstance: true,
-      label: t('SIDEBAR_ITEMS.APPEARANCE'),
-      icon: 'i-lucide-palette',
-      click: () => {
-        const ninja = document.querySelector('ninja-keys');
-        ninja.open({ parent: 'appearance_settings' });
-      },
-    },
-    {
-      show: true,
       showOnCustomBrandedInstance: false,
       label: t('SIDEBAR_ITEMS.DOCS'),
       icon: 'i-lucide-book',
@@ -131,10 +121,13 @@ const allowedMenuItems = computed(() => {
   >
     <template #trigger="{ toggle, isOpen }">
       <button
-        class="flex gap-2 items-center p-1 text-left rounded-lg cursor-pointer hover:bg-n-alpha-1"
+        type="button"
+        class="flex cursor-pointer items-center gap-2 rounded-lg border border-outline-variant/15 bg-surface-container-high/55 p-1.5 text-left shadow-sm backdrop-blur-md transition-[background-color,border-color,box-shadow] duration-200 hover:border-outline-variant/30 hover:bg-surface-container-high/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/35 focus-visible:ring-offset-0"
         :class="[
-          { 'bg-n-alpha-1': isOpen },
           isCollapsed ? 'justify-center' : 'w-full',
+          isOpen
+            ? 'border-secondary/35 bg-surface-container-high/85 shadow-md ring-1 ring-secondary/15'
+            : '',
         ]"
         :title="isCollapsed ? currentUser.available_name : undefined"
         @click="toggle"
@@ -148,10 +141,10 @@ const allowedMenuItems = computed(() => {
           rounded-full
         />
         <div v-if="!isCollapsed" class="min-w-0">
-          <div class="text-sm font-medium leading-4 truncate text-n-slate-12">
+          <div class="truncate text-sm font-medium leading-4 text-on-surface">
             {{ currentUser.available_name }}
           </div>
-          <div class="text-xs truncate text-n-slate-11">
+          <div class="truncate text-xs text-on-surface-variant">
             {{ currentUser.email }}
           </div>
         </div>

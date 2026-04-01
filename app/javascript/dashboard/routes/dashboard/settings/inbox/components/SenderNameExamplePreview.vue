@@ -73,7 +73,7 @@ export default {
     <button
       v-for="keyOption in senderNameKeyOptions"
       :key="keyOption.key"
-      class="text-n-slate-12 cursor-pointer p-0"
+      class="text-on-surface cursor-pointer p-0"
       @click="toggleSenderNameType(keyOption.key)"
     >
       <PreviewCard

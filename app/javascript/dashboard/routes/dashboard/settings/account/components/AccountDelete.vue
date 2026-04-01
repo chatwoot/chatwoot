@@ -101,9 +101,9 @@ async function clearDeletionMark() {
 
 <template>
   <SectionLayout
+    as-card
     :title="t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.TITLE')"
     :description="t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.NOTE')"
-    with-border
   >
     <div v-if="isMarkedForDeletion">
       <div class="p-4 flex-grow-0 flex-shrink-0 flex-[50%] bg-n-ruby-4 rounded">

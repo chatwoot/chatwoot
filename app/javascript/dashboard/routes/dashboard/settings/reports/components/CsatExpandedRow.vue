@@ -70,12 +70,12 @@ const saveReviewNotes = async () => {
 </script>
 
 <template>
-  <div class="py-4 px-5 border-t border-n-container bg-n-background">
+  <div class="py-4 px-5 border-t border-outline-variant/15 bg-surface">
     <CsatReviewNotesPaywall v-if="showPaywall" />
     <div v-else-if="isFeatureEnabled" class="flex flex-col gap-3">
       <div class="flex items-start gap-4">
         <div
-          class="flex items-center gap-1.5 text-n-slate-11 shrink-0 w-36 pt-3"
+          class="flex items-center gap-1.5 text-on-surface-variant shrink-0 w-36 pt-3"
         >
           <i class="i-lucide-notebook-pen size-4" />
           <span class="text-sm font-medium">
@@ -86,15 +86,15 @@ const saveReviewNotes = async () => {
         <div class="flex-1 max-w-2xl">
           <div
             v-if="hasExistingReviewNotes && !isEditing"
-            class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-n-slate-2 dark:hover:bg-n-solid-3 cursor-pointer transition-colors"
+            class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-surface-container-high cursor-pointer transition-colors"
             @click.stop="startEditing"
           >
             <p
               v-dompurify-html="formatMessage(response.csat_review_notes || '')"
-              class="flex-1 text-sm text-n-slate-12 prose-sm prose-p:text-sm prose-p:leading-relaxed prose-p:mb-1 prose-p:mt-0"
+              class="flex-1 text-sm text-on-surface prose-sm prose-p:text-sm prose-p:leading-relaxed prose-p:mb-1 prose-p:mt-0"
             />
             <i
-              class="i-lucide-pencil size-4 text-n-slate-10 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 mt-0.5"
+              class="i-lucide-pencil size-4 text-on-surface-variant/60 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 mt-0.5"
             />
           </div>
 
@@ -141,18 +141,20 @@ const saveReviewNotes = async () => {
         "
         class="flex items-center gap-4"
       >
-        <div class="flex items-center gap-1.5 text-n-slate-11 shrink-0 w-36">
+        <div
+          class="flex items-center gap-1.5 text-on-surface-variant shrink-0 w-36"
+        >
           <i class="i-lucide-user-pen size-4" />
           <span class="text-sm font-medium">
             {{ $t('CSAT_REPORTS.REVIEW_NOTES.UPDATED_BY_LABEL') }}
           </span>
         </div>
         <div class="flex items-center gap-1 flex-1 max-w-2xl px-3">
-          <span class="text-sm text-n-slate-12">
+          <span class="text-sm text-on-surface">
             {{ response.review_notes_updated_by.name }}
           </span>
-          <span class="text-n-slate-10">·</span>
-          <span class="text-sm text-n-slate-10">
+          <span class="text-on-surface-variant/60">·</span>
+          <span class="text-sm text-on-surface-variant/60">
             {{ dynamicTime(response.review_notes_updated_at) }}
           </span>
         </div>

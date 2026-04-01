@@ -32,14 +32,16 @@ const colorClass = computed(() => {
 
 <template>
   <div
-    class="flex gap-5 items-center justify-between text-xs uppercase text-n-slate-10"
+    class="flex gap-5 items-center justify-between text-xs uppercase text-on-surface-variant/60"
   >
     <div class="font-medium tracking-wider">
       {{ title }}
     </div>
     <div class="tabular-nums">{{ consumed }} / {{ totalCount }}</div>
   </div>
-  <div class="rounded-full overflow-hidden h-2 w-full bg-n-slate-4 mt-2">
+  <div
+    class="rounded-full overflow-hidden h-2 w-full bg-surface-container-high mt-2"
+  >
     <div class="h-2" :class="colorClass" :style="{ width: `${percent}%` }" />
   </div>
 </template>

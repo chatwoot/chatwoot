@@ -13,10 +13,10 @@ defineProps({
 
 <template>
   <div class="px-5">
-    <span class="text-n-slate-11 text-xs">
+    <span class="text-on-surface-variant text-xs">
       {{ label }}
     </span>
-    <div class="mt-2 text-xl font-medium text-n-slate-12">
+    <div class="mt-2 text-xl font-medium text-on-surface">
       {{ value }}
     </div>
   </div>

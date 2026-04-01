@@ -91,10 +91,11 @@ export default {
     },
     hasAutomationMutated() {
       if (
-        this.automation.conditions[0].values ||
-        this.automation.actions[0].action_params.length
-      )
+        this.automation?.conditions?.[0]?.values ||
+        this.automation?.actions?.[0]?.action_params?.length
+      ) {
         return true;
+      }
       return false;
     },
     automationActionTypes() {
@@ -161,10 +162,12 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="flex h-auto max-h-[min(85vh,48rem)] flex-col overflow-hidden">
     <woot-modal-header :header-title="$t('AUTOMATION.EDIT.TITLE')" />
-    <div class="flex flex-col modal-content">
-      <div v-if="automation" class="w-full">
+    <div
+      class="modal-content flex min-h-0 flex-1 flex-col overflow-y-auto px-1 pb-1 pt-2"
+    >
+      <div v-if="automation" class="flex w-full flex-col gap-5">
         <woot-input
           v-model="automation.name"
           :label="$t('AUTOMATION.ADD.FORM.NAME.LABEL')"
@@ -183,11 +186,16 @@ export default {
           "
           :placeholder="$t('AUTOMATION.ADD.FORM.DESC.PLACEHOLDER')"
         />
-        <div class="event_wrapper">
-          <label :class="{ error: errors.event_name }">
-            {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
+        <div class="mb-0">
+          <label class="block" :class="{ error: errors.event_name }">
+            <span
+              class="mb-2 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant"
+            >
+              {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
+            </span>
             <select
               v-model="automation.event_name"
+              class="!m-0"
               @change="onEventChange(automation)"
             >
               <option
@@ -202,14 +210,22 @@ export default {
               {{ $t('AUTOMATION.ADD.FORM.EVENT.ERROR') }}
             </span>
           </label>
+          <p
+            v-if="hasAutomationMutated"
+            class="mb-0 pt-2 text-end text-xs text-secondary"
+          >
+            {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
+          </p>
         </div>
         <!-- // Conditions Start -->
-        <section>
-          <label>
+        <section class="mb-0">
+          <span
+            class="mb-2 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant"
+          >
             {{ $t('AUTOMATION.ADD.FORM.CONDITIONS.LABEL') }}
-          </label>
+          </span>
           <div
-            class="w-full p-4 mb-4 border border-solid rounded-lg bg-n-slate-2 dark:bg-n-solid-2 border-n-strong"
+            class="mb-0 w-full rounded-xl border border-outline-variant/20 bg-surface-container-lowest/50 p-4 shadow-sm"
           >
             <FilterInputBox
               v-for="(condition, i) in automation.conditions"
@@ -259,7 +275,7 @@ export default {
             <div class="mt-4">
               <NextButton
                 icon="i-lucide-plus"
-                blue
+                teal
                 faded
                 sm
                 :label="$t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL')"
@@ -270,12 +286,14 @@ export default {
         </section>
         <!-- // Conditions End -->
         <!-- // Actions Start -->
-        <section>
-          <label>
+        <section class="mb-0">
+          <span
+            class="mb-2 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant"
+          >
             {{ $t('AUTOMATION.ADD.FORM.ACTIONS.LABEL') }}
-          </label>
+          </span>
           <div
-            class="w-full p-4 mb-4 border border-solid rounded-lg bg-n-slate-2 dark:bg-n-solid-2 border-n-strong"
+            class="mb-0 w-full rounded-xl border border-outline-variant/20 bg-surface-container-lowest/50 p-4 shadow-sm"
           >
             <AutomationActionInput
               v-for="(action, i) in automation.actions"
@@ -298,7 +316,7 @@ export default {
             <div class="mt-4">
               <NextButton
                 icon="i-lucide-plus"
-                blue
+                teal
                 faded
                 sm
                 :label="$t('AUTOMATION.ADD.ACTION_BUTTON_LABEL')"
@@ -308,38 +326,25 @@ export default {
           </div>
         </section>
         <!-- // Actions End -->
-        <div class="w-full">
-          <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-            <NextButton
-              faded
-              slate
-              type="reset"
-              :label="$t('AUTOMATION.EDIT.CANCEL_BUTTON_TEXT')"
-              @click.prevent="onClose"
-            />
-            <NextButton
-              solid
-              blue
-              type="submit"
-              :label="$t('AUTOMATION.EDIT.SUBMIT')"
-              @click="emitSaveAutomation"
-            />
-          </div>
+        <div
+          class="mt-2 flex w-full flex-row justify-end gap-2 border-t border-outline-variant/15 pt-4"
+        >
+          <NextButton
+            faded
+            slate
+            type="reset"
+            :label="$t('AUTOMATION.EDIT.CANCEL_BUTTON_TEXT')"
+            @click.prevent="onClose"
+          />
+          <NextButton
+            solid
+            teal
+            type="submit"
+            :label="$t('AUTOMATION.EDIT.SUBMIT')"
+            @click="emitSaveAutomation"
+          />
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.event_wrapper {
-  select {
-    @apply m-0;
-  }
-  .info-message {
-    @apply text-xs text-n-teal-10  text-right;
-  }
-
-  @apply mb-6;
-}
-</style>

@@ -55,19 +55,19 @@ const handleAction = ({ action, value }) => {
   <CardLayout>
     <div class="flex justify-between gap-2">
       <div class="flex items-center justify-start gap-2">
-        <span class="text-sm font-medium text-n-slate-12 line-clamp-1">
+        <span class="line-clamp-1 text-sm font-medium text-on-surface">
           {{ locale }} ({{ localeCode }})
         </span>
         <span
           v-if="isDefault"
-          class="bg-n-alpha-2 h-6 inline-flex items-center justify-center rounded-md text-xs border-px border-transparent text-n-blue-11 px-2 py-0.5"
+          class="inline-flex h-6 items-center justify-center rounded-md bg-secondary/15 px-2 py-0.5 text-xs font-medium text-secondary ring-1 ring-inset ring-secondary/25"
         >
           {{ $t('HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DEFAULT') }}
         </span>
       </div>
       <div class="flex items-center justify-end gap-4">
         <div class="flex items-center gap-4">
-          <span class="text-sm text-n-slate-11 whitespace-nowrap">
+          <span class="whitespace-nowrap text-sm text-on-surface-variant">
             {{
               $t(
                 'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.ARTICLES_COUNT',
@@ -75,8 +75,8 @@ const handleAction = ({ action, value }) => {
               )
             }}
           </span>
-          <div class="w-px h-3 bg-n-weak" />
-          <span class="text-sm text-n-slate-11 whitespace-nowrap">
+          <div class="h-3 w-px bg-outline-variant/40" />
+          <span class="whitespace-nowrap text-sm text-on-surface-variant">
             {{
               $t(
                 'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.CATEGORIES_COUNT',
@@ -87,13 +87,14 @@ const handleAction = ({ action, value }) => {
         </div>
         <div
           v-on-clickaway="() => toggleDropdown(false)"
-          class="relative group"
+          class="group relative"
         >
           <Button
+            ghost
+            slate
             icon="i-lucide-ellipsis-vertical"
-            color="slate"
             size="xs"
-            class="rounded-md group-hover:bg-n-alpha-2"
+            class="rounded-md !text-on-surface-variant hover:!bg-surface-container-high focus-visible:!bg-surface-container-high"
             @click="toggleDropdown()"
           />
 

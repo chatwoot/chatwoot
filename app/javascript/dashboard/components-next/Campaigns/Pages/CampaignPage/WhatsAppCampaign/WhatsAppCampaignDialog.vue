@@ -38,10 +38,10 @@ const handleClose = () => emit('close');
 
 <template>
   <div
-    class="w-[25rem] z-50 min-w-0 absolute top-10 ltr:right-0 rtl:left-0 bg-n-alpha-3 backdrop-blur-[100px] rounded-xl border border-n-weak shadow-md max-h-[80vh] overflow-y-auto"
+    class="absolute top-10 z-50 min-w-0 w-[25rem] max-h-[80vh] overflow-y-auto rounded-xl border border-outline-variant/10 bg-surface-container-low/95 shadow-lg backdrop-blur-md ltr:right-0 rtl:left-0"
   >
-    <div class="p-6 flex flex-col gap-6">
-      <h3 class="text-base font-medium text-n-slate-12 flex-shrink-0">
+    <div class="flex flex-col gap-6 p-6">
+      <h3 class="flex-shrink-0 text-base font-semibold text-on-surface">
         {{ t(`CAMPAIGN.WHATSAPP.CREATE.TITLE`) }}
       </h3>
       <WhatsAppCampaignForm @submit="handleSubmit" @cancel="handleClose" />

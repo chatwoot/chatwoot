@@ -2,7 +2,7 @@
 import { useAlert } from 'dashboard/composables';
 import TeamForm from '../TeamForm.vue';
 import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader.vue';
+import PageHeader from '../components/TeamWizardPageHeader.vue';
 
 export default {
   components: {
@@ -37,7 +37,7 @@ export default {
 </script>
 
 <template>
-  <div class="h-full w-full p-6 col-span-6">
+  <div class="h-full w-full p-6 lg:p-8">
     <PageHeader
       :header-title="$t('TEAMS_SETTINGS.CREATE_FLOW.CREATE.TITLE')"
       :header-content="$t('TEAMS_SETTINGS.CREATE_FLOW.CREATE.DESC')"

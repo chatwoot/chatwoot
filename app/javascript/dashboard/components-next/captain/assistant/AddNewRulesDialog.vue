@@ -52,13 +52,14 @@ const onClickCancel = () => {
     <Button
       :label="buttonLabel"
       sm
-      slate
+      outline
+      teal
       class="flex-shrink-0"
       @click="togglePopover(!showPopover)"
     />
     <div
       v-if="showPopover"
-      class="absolute w-[26.5rem] top-9 z-50 ltr:left-0 rtl:right-0 flex flex-col gap-5 bg-n-alpha-3 backdrop-blur-[100px] p-4 rounded-xl border border-n-weak shadow-md"
+      class="absolute w-[26.5rem] top-9 z-50 ltr:left-0 rtl:right-0 flex flex-col gap-5 rounded-xl border border-outline-variant/10 bg-surface-container-high/95 p-4 shadow-lg backdrop-blur-md"
     >
       <InlineInput
         v-model="modelValue"
@@ -70,11 +71,10 @@ const onClickCancel = () => {
           :label="cancelLabel"
           sm
           link
-          slate
-          class="h-10 hover:!no-underline"
+          class="h-10 text-on-surface-variant hover:!no-underline"
           @click="onClickCancel"
         />
-        <Button :label="confirmLabel" sm @click="onClickAdd" />
+        <Button :label="confirmLabel" sm teal @click="onClickAdd" />
       </div>
     </div>
   </div>

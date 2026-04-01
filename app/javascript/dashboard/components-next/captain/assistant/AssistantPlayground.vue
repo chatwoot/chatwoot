@@ -75,48 +75,56 @@ const sendMessage = async () => {
 
 <template>
   <div
-    class="flex flex-col h-full rounded-xl border py-6 border-n-weak text-n-slate-11"
+    class="group/cardLayout relative flex h-full flex-col overflow-hidden rounded-xl border border-outline-variant/10 bg-surface-container-low shadow-sm"
   >
-    <div class="mb-8 px-6">
-      <div class="flex justify-between items-center mb-1">
-        <h3 class="text-lg font-medium">
+    <div
+      class="pointer-events-none absolute inset-0 bg-gradient-to-b from-surface-container-low/40 via-surface to-surface"
+    />
+    <div
+      class="relative mx-6 mt-4 mb-2 flex items-start justify-between rounded-xl border border-outline-variant/10 bg-surface/40 px-4 py-3"
+    >
+      <div>
+        <h3 class="text-lg font-semibold tracking-tight text-on-surface">
           {{ t('CAPTAIN.PLAYGROUND.HEADER') }}
         </h3>
+        <p class="mt-0.5 text-xs text-on-surface-variant">
+          {{ t('CAPTAIN.PLAYGROUND.DESCRIPTION') }}
+        </p>
+      </div>
+      <NextButton
+        xs
+        outline
+        teal
+        icon="i-lucide-rotate-ccw"
+        :label="t('CAPTAIN.COPILOT.RESET')"
+        @click="resetConversation"
+      />
+    </div>
+
+    <MessageList
+      :messages="messages"
+      :is-loading="isLoading"
+      class="relative"
+    />
+
+    <div class="relative px-6 pb-5 pt-2">
+      <div
+        class="flex items-center gap-3 rounded-2xl border border-secondary/35 bg-surface-container-lowest/90 px-4 py-2 shadow-lg shadow-black/20 focus-within:border-secondary/80 focus-within:ring-2 focus-within:ring-secondary/25"
+      >
+        <input
+          v-model="newMessage"
+          class="mb-0 min-w-0 flex-1 border-none bg-transparent text-base text-on-surface placeholder:text-on-surface-variant/70 focus:!outline-none focus:!ring-0"
+          :placeholder="t('CAPTAIN.PLAYGROUND.MESSAGE_PLACEHOLDER')"
+          @keyup.enter="sendMessage"
+        />
         <NextButton
-          ghost
           sm
-          slate
-          icon="i-lucide-rotate-ccw"
-          @click="resetConversation"
+          teal
+          :disabled="!newMessage.trim()"
+          icon="i-lucide-send"
+          @click="sendMessage"
         />
       </div>
-      <p class="text-sm text-n-slate-11">
-        {{ t('CAPTAIN.PLAYGROUND.DESCRIPTION') }}
-      </p>
     </div>
-
-    <MessageList :messages="messages" :is-loading="isLoading" />
-
-    <div
-      class="flex items-center mx-6 bg-n-background outline outline-1 outline-n-weak rounded-xl p-3"
-    >
-      <input
-        v-model="newMessage"
-        class="flex-1 bg-transparent border-none focus:outline-none text-sm mb-0 text-n-slate-12 placeholder:text-n-slate-10"
-        :placeholder="t('CAPTAIN.PLAYGROUND.MESSAGE_PLACEHOLDER')"
-        @keyup.enter="sendMessage"
-      />
-      <NextButton
-        ghost
-        sm
-        :disabled="!newMessage.trim()"
-        icon="i-lucide-send"
-        @click="sendMessage"
-      />
-    </div>
-
-    <p class="text-xs text-n-slate-11 pt-2 text-center">
-      {{ t('CAPTAIN.PLAYGROUND.CREDIT_NOTE') }}
-    </p>
   </div>
 </template>

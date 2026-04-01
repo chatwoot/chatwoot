@@ -68,16 +68,19 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col h-auto overflow-auto">
+  <div class="flex h-auto flex-col overflow-auto">
     <woot-modal-header
       :header-title="$t('LABEL_MGMT.ADD.TITLE')"
       :header-content="$t('LABEL_MGMT.ADD.DESC')"
     />
-    <form class="flex flex-wrap mx-0" @submit.prevent="addLabel">
+    <form
+      class="mx-0 flex w-full flex-col gap-5 px-1 pb-1 pt-2"
+      @submit.prevent="addLabel"
+    >
       <woot-input
         v-model="title"
         :class="{ error: v$.title.$error }"
-        class="w-full label-name--input"
+        class="label-name--input w-full"
         :label="$t('LABEL_MGMT.FORM.NAME.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.NAME.PLACEHOLDER')"
         :error="labelTitleErrorMessage"
@@ -98,18 +101,33 @@ export default {
       />
 
       <div class="w-full">
-        <label>
+        <span
+          class="mb-2 block text-xs font-semibold uppercase tracking-wider text-on-surface-variant"
+        >
           {{ $t('LABEL_MGMT.FORM.COLOR.LABEL') }}
-          <woot-color-picker v-model="color" />
-        </label>
+        </span>
+        <woot-color-picker v-model="color" />
       </div>
-      <div class="flex items-center w-full gap-2">
-        <input v-model="showOnSidebar" type="checkbox" :value="true" />
-        <label for="conversation_creation">
+      <div
+        class="flex w-full items-start gap-3 rounded-lg border border-outline-variant/20 bg-surface-container-lowest/60 p-3"
+      >
+        <input
+          id="label-add-show-sidebar"
+          v-model="showOnSidebar"
+          type="checkbox"
+          class="mt-0.5 size-4 shrink-0 rounded border-outline-variant/40 text-secondary focus:ring-secondary"
+          :value="true"
+        />
+        <label
+          for="label-add-show-sidebar"
+          class="cursor-pointer text-sm leading-snug text-on-surface"
+        >
           {{ $t('LABEL_MGMT.FORM.SHOW_ON_SIDEBAR.LABEL') }}
         </label>
       </div>
-      <div class="flex items-center justify-end w-full gap-2 px-0 py-2">
+      <div
+        class="mt-1 flex w-full items-center justify-end gap-2 border-t border-outline-variant/15 pt-4"
+      >
         <NextButton
           faded
           slate
@@ -118,6 +136,8 @@ export default {
           @click.prevent="onClose"
         />
         <NextButton
+          solid
+          teal
           type="submit"
           data-testid="label-submit"
           :label="$t('LABEL_MGMT.FORM.CREATE')"

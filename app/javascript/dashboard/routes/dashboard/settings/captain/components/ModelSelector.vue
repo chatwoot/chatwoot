@@ -29,14 +29,14 @@ const handleModelChange = ({ feature, model }) => {
 
 <template>
   <div
-    class="flex items-center justify-between gap-4 p-4 rounded-xl border border-n-weak bg-n-solid-1"
+    class="flex items-center justify-between gap-4 p-4 rounded-xl border border-outline-variant/15 bg-surface-container"
     :class="{ 'opacity-60 pointer-events-none relative': !isAllowed }"
   >
     <div class="flex-1 min-w-0">
-      <h4 class="text-sm font-medium text-n-slate-12">
+      <h4 class="text-sm font-medium text-on-surface">
         {{ title }}
       </h4>
-      <p class="text-sm text-n-slate-11 mt-0.5">{{ description }}</p>
+      <p class="text-sm text-on-surface-variant mt-0.5">{{ description }}</p>
     </div>
     <ModelDropdown
       v-if="isAllowed"

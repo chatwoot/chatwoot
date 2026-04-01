@@ -110,16 +110,30 @@ const initChannelAuth = channel => {
   router.push({ name: 'settings_inboxes_page_channel', params });
 };
 
+const goBackToInboxList = () => {
+  router.push({
+    name: 'settings_inbox_list',
+    params: { accountId: accountId.value },
+  });
+};
+
 onMounted(() => {
   initializeEnabledFeatures();
 });
 </script>
 
 <template>
-  <div class="w-full p-8 overflow-auto">
-    <div
-      class="grid max-w-3xl grid-cols-1 xs:grid-cols-2 mx-0 gap-6 sm:grid-cols-3"
-    >
+  <div class="flex w-full flex-col overflow-auto pb-4">
+    <div class="mb-10">
+      <h2 class="mb-2 text-2xl font-bold tracking-tight text-on-surface">
+        {{ t('INBOX_MGMT.CREATE_FLOW.CONNECT.TITLE') }}
+      </h2>
+      <p class="text-lg leading-relaxed text-on-surface-variant">
+        {{ t('INBOX_MGMT.CREATE_FLOW.CONNECT.SUBTITLE') }}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
       <ChannelItem
         v-for="channel in channelList"
         :key="channel.key"
@@ -127,6 +141,16 @@ onMounted(() => {
         :enabled-features="enabledFeatures"
         @channel-item-click="initChannelAuth"
       />
+    </div>
+
+    <div class="mt-12 flex justify-end border-t border-outline-variant/15 pt-8">
+      <button
+        type="button"
+        class="px-6 py-2.5 text-sm font-medium text-on-surface-variant transition-colors hover:text-on-surface"
+        @click="goBackToInboxList"
+      >
+        {{ t('INBOX_MGMT.CREATE_FLOW.CONNECT.CANCEL') }}
+      </button>
     </div>
   </div>
 </template>

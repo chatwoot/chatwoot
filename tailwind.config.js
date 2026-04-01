@@ -42,6 +42,15 @@ const tailwindConfig = {
         sans: defaultSansFonts,
         inter: ['Inter', ...defaultSansFonts],
         interDisplay: ['InterDisplay', ...defaultSansFonts],
+        headline: ['Inter', ...defaultSansFonts],
+        body: ['Inter', ...defaultSansFonts],
+        label: ['Inter', ...defaultSansFonts],
+      },
+      borderRadius: {
+        DEFAULT: '0.25rem',
+        lg: '0.5rem',
+        xl: '0.75rem',
+        full: '9999px',
       },
       fontWeight: {
         420: '420',

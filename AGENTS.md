@@ -10,79 +10,64 @@
 - **Test Ruby**: `bundle exec rspec spec/path/to/file_spec.rb`
 - **Single Test**: `bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER`
 - **Run Project**: `overmind start -f Procfile.dev`
-- **Ruby Version**: Manage Ruby via `rbenv` and install the version listed in `.ruby-version` (e.g., `rbenv install $(cat .ruby-version)`)
-- **rbenv setup**: Before running any `bundle` or `rspec` commands, init rbenv in your shell (`eval "$(rbenv init -)"`) so the correct Ruby/Bundler versions are used
-- Always prefer `bundle exec` for Ruby CLI tasks (rspec, rake, rubocop, etc.)
+- **Ruby Version**: Manage Ruby via `rbenv` and install the version listed in `.ruby-version`
+- **rbenv setup**: Before running any `bundle` or `rspec` commands, run `eval "$(rbenv init -)"`
+- Always use `bundle exec` for Ruby CLI tasks.
 
-## Code Style
+## Design System (Mandatory)
 
-- **Ruby**: Follow RuboCop rules (150 character max line length)
-- **Vue/JS**: Use ESLint (Airbnb base + Vue 3 recommended)
-- **Vue Components**: Use PascalCase
-- **Events**: Use camelCase
-- **I18n**: No bare strings in templates; use i18n
-- **Error Handling**: Use custom exceptions (`lib/custom_exceptions/`)
-- **Models**: Validate presence/uniqueness, add proper indexes
-- **Type Safety**: Use PropTypes in Vue, strong params in Rails
-- **Naming**: Use clear, descriptive names with consistent casing
-- **Vue API**: Always use Composition API with `<script setup>` at the top
+- **Primary Source**: Stitch project `Design Tokens & Typography` (`15998668293997990973`).
+- **Current Baseline Screen**: `Buttons & Forms Components (Updated)` (`95d53b034f554b0c8512b877fdb7d4a7`).
+- **Theme Direction**: Dark-first Cybros visual system.
+- **Typography**: Use `Inter` for headline/body/label.
+- **Token Source of Truth**:
+  - Tailwind semantic tokens in `theme/colors.js`
+  - Tailwind setup in `tailwind.config.js`
+  - CSS variable bridge in `app/javascript/dashboard/assets/scss/_next-colors.scss`
+- **Do not invent colors ad-hoc** in components. Use semantic tokens (e.g. `secondary`, `surface-container-low`, `on-surface`).
+- **Radii scale**:
+  - default: `4px`
+  - `lg`: `8px`
+  - `xl`: `12px`
+  - `full`: `9999px`
 
-## Styling
+## Styling Rules
 
-- **Tailwind Only**:  
-  - Do not write custom CSS  
-  - Do not use scoped CSS  
-  - Do not use inline styles  
-  - Always use Tailwind utility classes  
-- **Colors**: Refer to `tailwind.config.js` for color definitions
+- Prefer Tailwind utility classes in Vue templates.
+- If SCSS is needed, consume existing CSS variables; do not hardcode random hex values.
+- No inline styles unless absolutely unavoidable.
+- Keep visual language consistent with Stitch tokens across dashboard screens.
 
-## General Guidelines
+## Implementation Guidelines
 
-- MVP focus: Least code change, happy-path only
-- No unnecessary defensive programming
-- Ship the happy path first: limit guards/fallbacks to what production has proven necessary, then iterate
-- Prefer minimal, readable code over elaborate abstractions; clarity beats cleverness
-- Break down complex tasks into small, testable units
-- Iterate after confirmation
-- Avoid writing specs unless explicitly asked
-- Remove dead/unreachable/unused code
-- Don’t write multiple versions or backups for the same logic — pick the best approach and implement it
-- Prefer `with_modified_env` (from spec helpers) over stubbing `ENV` directly in specs
-- Specs in parallel/reloading environments: prefer comparing `error.class.name` over constant class equality when asserting raised errors
+- MVP first with minimal, readable changes.
+- Avoid unnecessary abstractions and defensive code.
+- Break larger UI migrations into small, testable slices.
+- Avoid writing specs unless explicitly requested.
+- Remove dead/unused code during touched-area refactors.
+
+## i18n and Frontend
+
+- No bare strings in templates; use i18n.
+- Only update `en.yml` and `en.json` for translations.
+- Use `components-next/` for new dashboard UI work.
+- Use Vue Composition API with `<script setup>`.
+
+## Ruby and Backend
+
+- Follow RuboCop rules (150 char max line length).
+- Use compact module/class definitions.
+- Use strong params and model validations/indexes where applicable.
+
+## Enterprise Compatibility
+
+- Check matching paths in `enterprise/` when changing shared behavior.
+- Prefer extension points (`prepend_mod_with`/`include_mod_with`) for Enterprise-specific changes.
+- Keep request/response contracts aligned between OSS and Enterprise.
+- Reference: https://chatwoot.help/hc/handbook/articles/developing-enterprise-edition-features-38
 
 ## Commit Messages
 
-- Prefer Conventional Commits: `type(scope): subject` (scope optional)
-- Example: `feat(auth): add user authentication`
-- Don't reference Claude in commit messages
-
-## Project-Specific
-
-- **Translations**:
-  - Only update `en.yml` and `en.json`
-  - Other languages are handled by the community
-  - Backend i18n → `en.yml`, Frontend i18n → `en.json`
-- **Frontend**:
-  - Use `components-next/` for message bubbles (the rest is being deprecated)
-
-## Ruby Best Practices
-
-- Use compact `module/class` definitions; avoid nested styles
-
-## Enterprise Edition Notes
-
-- Chatwoot has an Enterprise overlay under `enterprise/` that extends/overrides OSS code.
-- When you add or modify core functionality, always check for corresponding files in `enterprise/` and keep behavior compatible.
-- Follow the Enterprise development practices documented here:
-  - https://chatwoot.help/hc/handbook/articles/developing-enterprise-edition-features-38
-
-Practical checklist for any change impacting core logic or public APIs
-- Search for related files in both trees before editing (e.g., `rg -n "FooService|ControllerName|ModelName" app enterprise`).
-- If adding new endpoints, services, or models, consider whether Enterprise needs:
-  - An override (e.g., `enterprise/app/...`), or
-  - An extension point (e.g., `prepend_mod_with`, hooks, configuration) to avoid hard forks.
-- Avoid hardcoding instance- or plan-specific behavior in OSS; prefer configuration, feature flags, or extension points consumed by Enterprise.
-- Keep request/response contracts stable across OSS and Enterprise; update both sets of routes/controllers when introducing new APIs.
-- When renaming/moving shared code, mirror the change in `enterprise/` to prevent drift.
-- Tests: Add Enterprise-specific specs under `spec/enterprise`, mirroring OSS spec layout where applicable.
-- When modifying existing OSS features for Enterprise-only behavior, add an Enterprise module (via `prepend_mod_with`/`include_mod_with`) instead of editing OSS files directly—especially for policies, controllers, and services. For Enterprise-exclusive features, place code directly under `enterprise/`.
+- Prefer Conventional Commits: `type(scope): subject`
+- Example: `feat(ui): align dashboard with stitch design tokens`
+- Do not reference Claude in commit messages.

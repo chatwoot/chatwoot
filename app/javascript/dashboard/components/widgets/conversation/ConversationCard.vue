@@ -234,12 +234,13 @@ const deleteConversation = () => {
 
 <template>
   <div
-    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 border-t-0 border-b-0 border-l-0 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group"
+    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 cursor-pointer conversation hover:bg-surface-container-high/50 group transition-colors duration-150 ltr:border-l-2 rtl:border-r-2 border-transparent"
     :class="{
-      'active animate-card-select bg-n-background border-n-weak': isActiveChat,
-      'bg-n-slate-2': selected,
+      'active animate-card-select bg-surface-container-high !border-secondary':
+        isActiveChat,
+      'bg-surface-variant/30': selected,
       'px-0': compact,
-      'px-3': !compact,
+      'ltr:pl-2.5 ltr:pr-3 rtl:pr-2.5 rtl:pl-3': !compact,
     }"
     @click="onCardClick"
     @contextmenu="openContextMenu($event)"
@@ -278,7 +279,7 @@ const deleteConversation = () => {
       </Avatar>
     </div>
     <div
-      class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-n-slate-3 min-w-0"
+      class="px-0 py-3 border-b border-outline-variant/[.08] group-hover:border-transparent flex-1 min-w-0"
     >
       <div
         v-if="showMetaSection"
@@ -344,14 +345,14 @@ const deleteConversation = () => {
         class="absolute flex flex-col ltr:right-3 rtl:left-3"
         :class="showMetaSection ? 'top-8' : 'top-4'"
       >
-        <span class="ml-auto font-normal leading-4 text-xxs">
+        <span class="ml-auto font-normal leading-4 text-xxs text-secondary">
           <TimeAgo
             :last-activity-timestamp="chat.timestamp"
             :created-at-timestamp="chat.created_at"
           />
         </span>
         <span
-          class="shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
+          class="rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-on-secondary bg-secondary"
           :class="hasUnread ? 'block' : 'hidden'"
         >
           {{ unreadCount > 9 ? '9+' : unreadCount }}

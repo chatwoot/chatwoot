@@ -3,17 +3,23 @@
     "HEADER": "Labels",
     "HEADER_BTN_TXT": "Add label",
     "LOADING": "Fetching labels",
+    "PAGE_EYEBROW": "Conversation setup",
+    "PAGE_SUBTITLE": "Define labels to categorize conversations and contacts. Agents can apply them from the conversation sidebar.",
     "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
     "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "There are no items matching this query",
     "LIST": {
       "404": "There are no labels available in this account.",
+      "LOADING": "Fetching labels…",
+      "SHOWING_COUNT": "Showing {count} labels",
+      "SIDEBAR_BADGE": "Sidebar",
       "TITLE": "Manage labels",
       "DESC": "Labels let you group the conversations together.",
       "TABLE_HEADER": {
         "NAME": "Name",
         "DESCRIPTION": "Description",
-        "COLOR": "Color"
+        "COLOR": "Color",
+        "ACTIONS": "Actions"
       }
     },
     "FORM": {

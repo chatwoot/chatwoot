@@ -130,7 +130,7 @@ const templateApprovalStatus = computed(() => {
   return {
     text: t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.DEFAULT'),
     icon: 'i-lucide-stamp',
-    color: 'text-n-slate-11',
+    color: 'text-on-surface-variant',
   };
 });
 
@@ -492,10 +492,10 @@ const handleConfirmTemplateUpdate = async () => {
             </div>
 
             <div
-              class="flex flex-col flex-shrink-0 justify-start items-center p-6 mt-1 rounded-xl basis-2/5 bg-n-slate-2 outline outline-1 outline-n-weak"
+              class="flex flex-col flex-shrink-0 justify-start items-center p-6 mt-1 rounded-xl basis-2/5 bg-surface-container-low outline outline-1 outline-outline-variant/15"
             >
               <p
-                class="inline-flex items-center text-sm font-medium text-n-slate-11"
+                class="inline-flex items-center text-sm font-medium text-on-surface-variant"
               >
                 {{ $t('INBOX_MGMT.CSAT.MESSAGE_PREVIEW.LABEL') }}
                 <Icon
@@ -536,7 +536,7 @@ const handleConfirmTemplateUpdate = async () => {
         >
           <div class="mb-4">
             <span
-              class="inline-flex flex-wrap gap-1.5 items-center text-sm text-n-slate-12"
+              class="inline-flex flex-wrap gap-1.5 items-center text-sm text-on-surface"
             >
               {{ $t('INBOX_MGMT.CSAT.SURVEY_RULE.DESCRIPTION_PREFIX') }}
               <FilterSelect
@@ -572,7 +572,7 @@ const handleConfirmTemplateUpdate = async () => {
             </span>
           </div>
         </WithLabel>
-        <p class="text-sm italic text-n-slate-11">
+        <p class="text-sm italic text-on-surface-variant">
           {{
             isAnyWhatsAppChannel
               ? $t('INBOX_MGMT.CSAT.WHATSAPP_NOTE')

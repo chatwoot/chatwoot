@@ -19,6 +19,6 @@ const isRTL = useMapGetter('accounts/isRTL');
     <slot v-if="$slots.default || content">
       <template v-if="content">{{ content }}</template>
     </slot>
-    <span v-else class="text-n-slate-10"> --- </span>
+    <span v-else class="text-on-surface-variant"> --- </span>
   </div>
 </template>

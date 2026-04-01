@@ -25,10 +25,6 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  portalName: {
-    type: String,
-    required: true,
-  },
   meta: {
     type: Object,
     required: true,
@@ -135,53 +131,70 @@ const navigateToNewArticlePage = () => {
     :current-page="Number(meta.currentPage)"
     :total-items="articlesCount"
     :items-per-page="25"
-    :header="portalName"
     :show-pagination-footer="shouldShowPaginationFooter"
     @update:current-page="handlePageChange"
   >
     <template #header-actions>
-      <div class="flex items-end justify-between">
-        <ArticleHeaderControls
-          v-if="showArticleHeaderControls"
-          :categories="categories"
-          :allowed-locales="allowedLocales"
-          :meta="meta"
-          @tab-change="handleTabChange"
-          @locale-change="handleLocaleAction"
-          @category-change="handleCategoryAction"
-          @new-article="navigateToNewArticlePage"
-        />
-        <CategoryHeaderControls
-          v-else-if="showCategoryHeaderControls"
-          :categories="categories"
-          :allowed-locales="allowedLocales"
-          :has-selected-category="isCategoryArticles"
-        />
+      <div
+        class="w-full rounded-xl border border-outline-variant/5 bg-surface-container-low p-4 shadow-sm"
+      >
+        <div class="flex items-end justify-between gap-4">
+          <ArticleHeaderControls
+            v-if="showArticleHeaderControls"
+            :categories="categories"
+            :allowed-locales="allowedLocales"
+            :meta="meta"
+            @tab-change="handleTabChange"
+            @locale-change="handleLocaleAction"
+            @category-change="handleCategoryAction"
+            @new-article="navigateToNewArticlePage"
+          />
+          <CategoryHeaderControls
+            v-else-if="showCategoryHeaderControls"
+            :categories="categories"
+            :allowed-locales="allowedLocales"
+            :has-selected-category="isCategoryArticles"
+          />
+        </div>
       </div>
     </template>
     <template #content>
       <div
         v-if="isLoading"
-        class="flex items-center justify-center py-10 text-n-slate-11"
+        class="flex items-center justify-center gap-2 py-10 text-on-surface-variant"
       >
         <Spinner />
       </div>
-      <ArticleList
-        v-else-if="!hasNoArticles"
-        :articles="articles"
-        :is-category-articles="isCategoryArticles"
-      />
-      <ArticleEmptyState
+      <div
         v-else
-        class="pt-14"
-        :title="getEmptyStateTitle"
-        :subtitle="getEmptyStateSubtitle"
-        :show-button="hasNoArticlesInPortal"
-        :button-label="
-          t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.ALL.BUTTON_LABEL')
-        "
-        @click="navigateToNewArticlePage"
-      />
+        class="help-center-articles-page flex w-full flex-col text-on-surface antialiased selection:bg-secondary/30"
+        :class="hasNoArticles ? '' : 'space-y-6'"
+      >
+        <header v-if="!isCategoryArticles" class="space-y-1">
+          <h1 class="text-3xl font-bold tracking-tight text-on-surface">
+            {{ t('HELP_CENTER.ARTICLES_PAGE.PAGE_TITLE') }}
+          </h1>
+          <p class="mb-0 text-lg text-on-primary-container">
+            {{ t('HELP_CENTER.ARTICLES_PAGE.PAGE_SUBTITLE') }}
+          </p>
+        </header>
+        <ArticleList
+          v-if="!hasNoArticles"
+          :articles="articles"
+          :is-category-articles="isCategoryArticles"
+        />
+        <ArticleEmptyState
+          v-else
+          class="pt-8"
+          :title="getEmptyStateTitle"
+          :subtitle="getEmptyStateSubtitle"
+          :show-button="hasNoArticlesInPortal"
+          :button-label="
+            t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.ALL.BUTTON_LABEL')
+          "
+          @click="navigateToNewArticlePage"
+        />
+      </div>
     </template>
   </HelpCenterLayout>
 </template>

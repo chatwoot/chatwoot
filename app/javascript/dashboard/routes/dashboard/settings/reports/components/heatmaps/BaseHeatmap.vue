@@ -93,7 +93,7 @@ const COLOR_SCHEMES = {
 const getHeatmapLevelClass = useMemoize(
   (value, quantileRangeArray, colorScheme) => {
     if (!value)
-      return 'border border-n-container bg-n-slate-2 dark:bg-n-slate-1/30';
+      return 'border border-outline-variant/15 bg-surface-container-lowest/30';
     let level = [...quantileRangeArray, Infinity].findIndex(
       range => value <= range && value > 0
     );
@@ -101,7 +101,7 @@ const getHeatmapLevelClass = useMemoize(
     if (level > 6) level = 5;
 
     if (level === 0) {
-      return 'border border-n-container bg-n-slate-2 dark:bg-n-slate-1/30';
+      return 'border border-outline-variant/15 bg-surface-container-lowest/30';
     }
 
     return COLOR_SCHEMES[colorScheme][level - 1];
@@ -126,7 +126,7 @@ const tooltip = useHeatmapTooltip();
         <div
           v-for="ii in numberOfRows"
           :key="ii"
-          class="w-full rounded-sm bg-n-slate-3 dark:bg-n-slate-1 animate-loader-pulse h-8 min-w-[70px]"
+          class="w-full rounded-sm bg-surface-container-high bg-surface-container-lowest animate-loader-pulse h-8 min-w-[70px]"
         />
       </div>
       <div class="grid gap-[5px] w-full min-w-[700px]">
@@ -138,13 +138,13 @@ const tooltip = useHeatmapTooltip();
           <div
             v-for="jj in 24"
             :key="jj"
-            class="w-full h-8 rounded-sm bg-n-slate-3 dark:bg-n-slate-1 animate-loader-pulse"
+            class="w-full h-8 rounded-sm bg-surface-container-high bg-surface-container-lowest animate-loader-pulse"
           />
         </div>
       </div>
       <div />
       <div
-        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-n-slate-11"
+        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-on-surface-variant"
       >
         <div
           v-for="ii in 24"
@@ -161,10 +161,10 @@ const tooltip = useHeatmapTooltip();
           v-for="row in dataRows"
           :key="row.dateKey"
           v-memo="[row.dateKey]"
-          class="h-8 min-w-[70px] text-n-slate-12 text-[10px] font-semibold flex flex-col items-end justify-center"
+          class="h-8 min-w-[70px] text-on-surface text-[10px] font-semibold flex flex-col items-end justify-center"
         >
           {{ getDayOfTheWeek(new Date(row.dateKey)) }}
-          <time class="font-normal text-n-slate-11">
+          <time class="font-normal text-on-surface-variant">
             {{ formatDate(row.dateKey) }}
           </time>
         </div>
@@ -192,7 +192,7 @@ const tooltip = useHeatmapTooltip();
       </div>
       <div />
       <div
-        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-n-slate-12"
+        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-on-surface"
       >
         <div
           v-for="ii in 24"

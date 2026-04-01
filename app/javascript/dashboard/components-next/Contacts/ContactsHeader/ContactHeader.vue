@@ -32,11 +32,13 @@ const emit = defineEmits([
 </script>
 
 <template>
-  <header class="sticky top-0 z-10">
+  <header
+    class="sticky top-0 z-10 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/15"
+  >
     <div
       class="flex items-start sm:items-center justify-between w-full py-6 px-6 gap-2 mx-auto max-w-[60rem]"
     >
-      <span class="text-xl font-medium truncate text-n-slate-12">
+      <span class="text-xl font-semibold truncate text-on-surface">
         {{ headerTitle }}
       </span>
       <div class="flex items-center flex-col sm:flex-row flex-shrink-0 gap-4">
@@ -46,7 +48,7 @@ const emit = defineEmits([
             type="search"
             :placeholder="$t('CONTACTS_LAYOUT.HEADER.SEARCH_PLACEHOLDER')"
             :custom-input-class="[
-              'h-8 [&:not(.focus)]:!border-transparent bg-n-alpha-2 dark:bg-n-solid-1 ltr:!pl-8 !py-1 rtl:!pr-8',
+              'h-8 [&:not(.focus)]:!border-transparent bg-surface-container-lowest dark:bg-surface-container-lowest ltr:!pl-8 !py-1 rtl:!pr-8',
             ]"
             class="w-full"
             @input="emit('search', $event.target.value)"
@@ -112,7 +114,7 @@ const emit = defineEmits([
               @export="emit('export')"
             />
           </div>
-          <div class="w-px h-4 bg-n-strong" />
+          <div class="w-px h-4 bg-outline-variant/20" />
           <ComposeConversation>
             <template #trigger="{ toggle }">
               <Button :label="buttonLabel" size="sm" @click="toggle" />

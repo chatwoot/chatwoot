@@ -194,6 +194,6 @@ watch(
 
 <style lang="scss" scoped>
 .article-ghost-class {
-  @apply opacity-50 bg-n-solid-1;
+  @apply bg-surface-container-high opacity-60 ring-2 ring-outline-variant/25;
 }
 </style>

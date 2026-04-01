@@ -3,7 +3,7 @@ import PortalEmptyState from 'dashboard/components-next/HelpCenter/EmptyState/Po
 </script>
 
 <template>
-  <div class="w-full h-full bg-n-background">
+  <div class="h-full w-full bg-surface">
     <PortalEmptyState />
   </div>
 </template>

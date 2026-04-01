@@ -1,6 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Inboxes",
+    "PAGE_EYEBROW": "System configuration",
+    "PAGE_SUBTITLE": "Configure and manage multi-channel communication pipelines for your workspace.",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
@@ -8,9 +10,19 @@
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
     "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "There are no inboxes attached to this account.",
+      "LOADING": "Fetching inboxes…",
+      "STATUS_ACTIVE": "Active",
+      "STATUS_DISCONNECTED": "Disconnected",
+      "SHOWING_COUNT": "Showing {count} inboxes"
     },
     "CREATE_FLOW": {
+      "STEP_LABEL": "Step {n}",
+      "CONNECT": {
+        "TITLE": "Connect a new channel",
+        "SUBTITLE": "Select the platform where you want to engage with your customers. You can add more channels later.",
+        "CANCEL": "Cancel"
+      },
       "CHANNEL": {
         "TITLE": "Choose Channel",
         "BODY": "Choose the provider you want to integrate with Chatwoot."

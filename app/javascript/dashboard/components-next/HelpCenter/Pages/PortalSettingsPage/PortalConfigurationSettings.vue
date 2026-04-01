@@ -6,6 +6,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import AddCustomDomainDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/AddCustomDomainDialog.vue';
 import DNSConfigurationDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/DNSConfigurationDialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   activePortal: {
@@ -100,10 +101,19 @@ const statusText = computed(() => {
 
 const statusColors = computed(() => {
   if (isLive.value)
-    return { text: 'text-n-teal-11', bubble: 'outline-n-teal-6 bg-n-teal-9' };
+    return {
+      text: 'text-secondary',
+      bubble: 'bg-secondary/30 ring-2 ring-secondary/45',
+    };
   if (isError.value)
-    return { text: 'text-n-ruby-11', bubble: 'outline-n-ruby-6 bg-n-ruby-9' };
-  return { text: 'text-n-amber-11', bubble: 'outline-n-amber-6 bg-n-amber-9' };
+    return {
+      text: 'text-error',
+      bubble: 'bg-error/25 ring-2 ring-error/40',
+    };
+  return {
+    text: 'text-amber-11',
+    bubble: 'bg-amber-9/60 ring-2 ring-amber-7/50',
+  };
 });
 
 const updatePortalConfiguration = customDomain => {
@@ -137,41 +147,44 @@ const onClickSend = email => {
 </script>
 
 <template>
-  <div class="flex flex-col w-full gap-6">
-    <div class="flex flex-col gap-2">
-      <h6 class="text-base font-medium text-n-slate-12">
-        {{
-          t(
-            'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.HEADER'
-          )
-        }}
-      </h6>
-      <span class="text-sm text-n-slate-11">
-        {{
-          t(
-            'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DESCRIPTION'
-          )
-        }}
-      </span>
-    </div>
-    <div class="flex flex-col w-full gap-4">
-      <div class="flex items-center justify-between w-full gap-2">
+  <section
+    class="rounded-xl border border-outline-variant/5 bg-surface-container-low p-6 shadow-sm"
+  >
+    <h3
+      class="mb-6 flex items-center gap-2 text-lg font-semibold text-on-surface"
+    >
+      <Icon icon="i-lucide-globe" class="size-5 shrink-0 text-secondary" />
+      {{
+        t('HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.HEADER')
+      }}
+    </h3>
+    <p class="mb-6 text-sm text-on-primary-container">
+      {{
+        t(
+          'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DESCRIPTION'
+        )
+      }}
+    </p>
+    <div class="flex w-full flex-col gap-4">
+      <div class="flex w-full items-center justify-between gap-2">
         <div v-if="customDomainAddress" class="flex flex-col gap-1">
-          <div class="flex items-center w-full h-8 gap-4">
-            <label class="text-sm font-medium text-n-slate-12">
+          <div class="flex h-8 w-full items-center gap-4">
+            <label
+              class="text-xs font-semibold uppercase tracking-wider text-on-surface-variant"
+            >
               {{
                 t(
                   'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.LABEL'
                 )
               }}
             </label>
-            <span class="text-sm text-n-slate-12">
+            <span class="text-sm text-on-surface">
               {{ customDomainAddress }}
             </span>
           </div>
           <span
             v-if="!isLive && isOnChatwootCloud"
-            class="text-sm text-n-slate-11"
+            class="text-sm text-on-surface-variant"
           >
             {{
               t(
@@ -185,22 +198,22 @@ const onClickSend = email => {
             <div
               v-if="statusText && isOnChatwootCloud"
               v-tooltip="verificationErrors"
-              class="flex items-center gap-3 flex-shrink-0"
+              class="flex flex-shrink-0 items-center gap-3"
             >
               <span
-                class="size-1.5 rounded-full outline outline-2 block flex-shrink-0"
+                class="block size-1.5 flex-shrink-0 rounded-full"
                 :class="statusColors.bubble"
               />
               <span
                 :class="statusColors.text"
-                class="text-sm leading-[16px] font-medium"
+                class="text-sm font-medium leading-4"
               >
                 {{ statusText }}
               </span>
             </div>
             <div
               v-if="statusText && isOnChatwootCloud"
-              class="w-px h-3 bg-n-weak"
+              class="h-3 w-px bg-outline-variant/40"
             />
             <Button
               slate
@@ -211,10 +224,13 @@ const onClickSend = email => {
                   'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.EDIT_BUTTON'
                 )
               "
-              class="hover:!no-underline flex-shrink-0"
+              class="flex-shrink-0 hover:!no-underline"
               @click="addCustomDomainDialogRef.dialogRef.open()"
             />
-            <div v-if="isOnChatwootCloud" class="w-px h-3 bg-n-weak" />
+            <div
+              v-if="isOnChatwootCloud"
+              class="h-3 w-px bg-outline-variant/40"
+            />
             <Button
               v-if="isOnChatwootCloud"
               slate
@@ -250,5 +266,5 @@ const onClickSend = email => {
       @close="closeDNSConfigurationDialog"
       @send="onClickSend"
     />
-  </div>
+  </section>
 </template>

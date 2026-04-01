@@ -3,31 +3,38 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useBranding } from 'shared/composables/useBranding';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import ConfirmDialog from 'dashboard/components-next/dialog/Dialog.vue';
+import CustomBrandPolicyWrapper from 'dashboard/components/CustomBrandPolicyWrapper.vue';
+import BackButton from 'dashboard/components/widgets/BackButton.vue';
 import NewWebhook from './NewWebHook.vue';
 import EditWebhook from './EditWebHook.vue';
 import WebhookRow from './WebhookRow.vue';
-import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../../SettingsLayout.vue';
+import { getHelpUrlForFeature } from 'dashboard/helper/featureHelper';
 
 export default {
   components: {
     SettingsLayout,
     NextButton,
-    BaseSettingsHeader,
+    Icon,
+    ConfirmDialog,
+    CustomBrandPolicyWrapper,
+    BackButton,
     NewWebhook,
     EditWebhook,
     WebhookRow,
   },
   setup() {
     const { replaceInstallationName } = useBranding();
-    return { replaceInstallationName };
+    const webhookHelpURL = getHelpUrlForFeature('webhook');
+    return { replaceInstallationName, webhookHelpURL };
   },
   data() {
     return {
       loading: {},
       showAddPopup: false,
       showEditPopup: false,
-      showDeleteConfirmationPopup: false,
       selectedWebHook: {},
     };
   },
@@ -47,6 +54,17 @@ export default {
         this.$t('INTEGRATION_SETTINGS.WEBHOOK.LIST.TABLE_HEADER.ACTIONS'),
       ];
     },
+    deleteDescription() {
+      const url = this.selectedWebHook?.url || '';
+      const base = this.$t(
+        'INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.MESSAGE'
+      );
+      if (!url) return base;
+      const label = this.$t(
+        'INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.URL_LABEL'
+      );
+      return `${base}\n\n${label}: ${url}`;
+    },
   },
   mounted() {
     this.$store.dispatch('webhooks/get');
@@ -59,11 +77,10 @@ export default {
       this.showAddPopup = false;
     },
     openDeletePopup(response) {
-      this.showDeleteConfirmationPopup = true;
       this.selectedWebHook = response;
-    },
-    closeDeletePopup() {
-      this.showDeleteConfirmationPopup = false;
+      this.$nextTick(() => {
+        this.$refs.deleteWebhookDialog?.open();
+      });
     },
     openEditPopup(webhook) {
       this.showEditPopup = true;
@@ -73,9 +90,10 @@ export default {
       this.showEditPopup = false;
     },
     confirmDeletion() {
-      this.loading[this.selectedWebHook.id] = true;
-      this.closeDeletePopup();
-      this.deleteWebhook(this.selectedWebHook.id);
+      const id = this.selectedWebHook.id;
+      this.loading[id] = true;
+      this.$refs.deleteWebhookDialog?.close();
+      this.deleteWebhook(id);
     },
     async deleteWebhook(id) {
       try {
@@ -87,6 +105,8 @@ export default {
         useAlert(
           this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE')
         );
+      } finally {
+        this.loading[id] = false;
       }
     },
   },
@@ -94,59 +114,121 @@ export default {
 </script>
 
 <template>
-  <SettingsLayout
-    :is-loading="uiFlags.fetchingList"
-    :loading-message="$t('INTEGRATION_SETTINGS.WEBHOOK.LOADING')"
-    :no-records-message="$t('INTEGRATION_SETTINGS.WEBHOOK.LIST.404')"
-    :no-records-found="!records.length"
-  >
-    <template #header>
-      <BaseSettingsHeader
-        v-if="integration.name"
-        :title="integration.name"
-        :description="replaceInstallationName(integration.description)"
-        :link-text="$t('INTEGRATION_SETTINGS.WEBHOOK.LEARN_MORE')"
-        feature-name="webhook"
-        :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
-      >
-        <template #actions>
+  <div>
+    <SettingsLayout
+      :is-loading="uiFlags.fetchingList"
+      :loading-message="$t('INTEGRATION_SETTINGS.WEBHOOK.LOADING')"
+      :no-records-message="$t('INTEGRATION_SETTINGS.WEBHOOK.LIST.404')"
+      :no-records-found="!records.length"
+    >
+      <template #header>
+        <div
+          class="flex flex-col gap-6 pb-2 sm:flex-row sm:items-end sm:justify-between"
+        >
+          <div class="min-w-0 space-y-2">
+            <BackButton
+              compact
+              :button-label="$t('INTEGRATION_SETTINGS.HEADER')"
+            />
+            <template v-if="integration.name">
+              <p
+                class="mb-0 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant/70"
+              >
+                {{ $t('INTEGRATION_SETTINGS.WEBHOOK.PAGE_EYEBROW') }}
+              </p>
+              <h2
+                class="mb-0 text-3xl font-bold tracking-tight text-on-surface"
+              >
+                {{ integration.name }}
+              </h2>
+              <p class="mb-0 max-w-2xl text-base text-on-primary-container">
+                {{ replaceInstallationName(integration.description) }}
+              </p>
+              <CustomBrandPolicyWrapper
+                :show-on-custom-branded-instance="false"
+              >
+                <a
+                  v-if="webhookHelpURL"
+                  :href="webhookHelpURL"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1 text-sm font-medium text-secondary hover:underline"
+                >
+                  {{ $t('INTEGRATION_SETTINGS.WEBHOOK.LEARN_MORE') }}
+                  <Icon icon="i-lucide-chevron-right" class="size-4 shrink-0" />
+                </a>
+              </CustomBrandPolicyWrapper>
+            </template>
+          </div>
           <NextButton
-            blue
-            icon="i-lucide-circle-plus"
+            v-if="integration.name"
+            solid
+            teal
+            lg
+            icon="i-lucide-plus"
             :label="$t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT')"
+            class="w-full shrink-0 rounded-xl font-bold shadow-none hover:shadow-[0_0_20px_rgba(4,190,153,0.4)] active:scale-[0.98] sm:w-auto"
             @click="openAddPopup"
           />
-        </template>
-      </BaseSettingsHeader>
-    </template>
-    <template #body>
-      <table class="min-w-full divide-y divide-n-weak">
-        <thead>
-          <th
-            v-for="thHeader in tableHeaders"
-            :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-n-slate-11 last:text-right last:pr-4"
-          >
-            {{ thHeader }}
-          </th>
-        </thead>
-        <tbody class="divide-y divide-n-weak flex-1 text-n-slate-12">
-          <WebhookRow
-            v-for="(webHookItem, index) in records"
-            :key="webHookItem.id"
-            :index="index"
-            :webhook="webHookItem"
-            @edit="openEditPopup"
-            @delete="openDeletePopup"
-          />
-        </tbody>
-      </table>
-    </template>
-    <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
+        </div>
+      </template>
+      <template #body>
+        <div
+          class="overflow-x-auto rounded-2xl border border-outline-variant/10 shadow-xl"
+        >
+          <div class="min-w-[36rem] bg-surface-container-low">
+            <table class="min-w-full divide-y divide-surface-container-high/30">
+              <thead>
+                <tr
+                  class="border-b border-surface-container-high/50 bg-surface-container-high/30"
+                >
+                  <th
+                    v-for="thHeader in tableHeaders"
+                    :key="thHeader"
+                    class="px-6 py-4 text-start text-[11px] font-bold uppercase tracking-widest text-tertiary/60 last:text-end"
+                  >
+                    {{ thHeader }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class="divide-y divide-surface-container-high/30 text-on-surface [&>tr]:transition-colors [&>tr]:duration-150 [&>tr]:hover:bg-surface-container-high/20"
+              >
+                <WebhookRow
+                  v-for="(webHookItem, index) in records"
+                  :key="webHookItem.id"
+                  :index="index"
+                  :webhook="webHookItem"
+                  @edit="openEditPopup"
+                  @delete="openDeletePopup"
+                />
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="mt-6 text-xs font-medium text-on-primary-container">
+          {{
+            $t('INTEGRATION_SETTINGS.WEBHOOK.LIST.SHOWING_COUNT', {
+              count: records.length,
+            })
+          }}
+        </p>
+      </template>
+    </SettingsLayout>
+
+    <woot-modal
+      v-model:show="showAddPopup"
+      size="medium"
+      :on-close="hideAddPopup"
+    >
       <NewWebhook v-if="showAddPopup" :on-close="hideAddPopup" />
     </woot-modal>
 
-    <woot-modal v-model:show="showEditPopup" :on-close="hideEditPopup">
+    <woot-modal
+      v-model:show="showEditPopup"
+      size="medium"
+      :on-close="hideEditPopup"
+    >
       <EditWebhook
         v-if="showEditPopup"
         :id="selectedWebHook.id"
@@ -154,18 +236,19 @@ export default {
         :on-close="hideEditPopup"
       />
     </woot-modal>
-    <woot-delete-modal
-      v-model:show="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
+
+    <ConfirmDialog
+      ref="deleteWebhookDialog"
+      type="alert"
       :title="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.TITLE')"
-      :message="
-        $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.MESSAGE', {
-          webhookURL: selectedWebHook.url,
-        })
+      :description="deleteDescription"
+      :confirm-button-label="
+        $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.YES')
       "
-      :confirm-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.YES')"
-      :reject-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.NO')"
+      :cancel-button-label="
+        $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.NO')
+      "
+      @confirm="confirmDeletion"
     />
-  </SettingsLayout>
+  </div>
 </template>

@@ -3,7 +3,6 @@ import { ref, computed, watch, nextTick } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
 
-import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBoxDropdown from 'dashboard/components-next/combobox/ComboBoxDropdown.vue';
 
 const props = defineProps({
@@ -90,22 +89,33 @@ watch(
     @click.prevent
   >
     <OnClickOutside @trigger="open = false">
-      <Button
-        variant="outline"
-        :color="hasError && !open ? 'ruby' : open ? 'blue' : 'slate'"
-        :label="selectedLabel"
-        trailing-icon
+      <button
+        type="button"
         :disabled="disabled"
-        no-animation
-        class="justify-between w-full !px-3 !py-2.5 text-n-slate-12 font-normal group-hover/combobox:border-n-slate-6 focus:outline-n-brand"
-        :class="{
-          focused: open,
-          '[&:not(.focused)]:dark:outline-n-weak [&:not(.focused)]:hover:enabled:outline-n-slate-6 [&:not(.focused)]:dark:hover:enabled:outline-n-slate-6':
-            !hasError,
-        }"
-        :icon="open ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
+        class="inline-flex h-10 w-full items-center justify-between gap-2 rounded-lg border border-solid bg-surface-container-lowest px-3 py-2.5 text-sm font-normal text-on-surface outline-none transition-all duration-200 ease-in-out focus:ring-1 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
+        :class="[
+          open
+            ? 'border-secondary ring-1 ring-secondary'
+            : hasError
+              ? 'border-error hover:border-error'
+              : 'border-outline-variant/30 hover:border-outline-variant/50',
+          { focused: open },
+        ]"
         @click="toggleDropdown"
-      />
+      >
+        <span
+          class="min-w-0 truncate"
+          :class="
+            selectedValue ? 'text-on-surface' : 'text-on-primary-container/70'
+          "
+        >
+          {{ selectedLabel }}
+        </span>
+        <span
+          :class="open ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
+          class="size-4 shrink-0 text-on-primary-container"
+        />
+      </button>
 
       <ComboBoxDropdown
         ref="dropdownRef"
@@ -121,10 +131,10 @@ watch(
 
       <p
         v-if="message"
-        class="mt-2 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
+        class="mb-0 mt-1 min-w-0 truncate text-xs transition-all duration-500 ease-in-out"
         :class="{
-          'text-n-ruby-9': hasError,
-          'text-n-slate-11': !hasError,
+          'text-n-ruby-9 dark:text-n-ruby-9': hasError,
+          'text-n-slate-11 dark:text-n-slate-11': !hasError,
         }"
       >
         {{ message }}

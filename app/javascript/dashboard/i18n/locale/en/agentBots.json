@@ -1,6 +1,7 @@
 {
   "AGENT_BOTS": {
     "HEADER": "Bots",
+    "PAGE_SUBTITLE": "Deploy, configure, and monitor webhook bots across your workspaces.",
     "LOADING_EDITOR": "Loading editor...",
     "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
     "LEARN_MORE": "Learn about agent bots",
@@ -34,8 +35,10 @@
       "LOADING": "Fetching bots...",
       "TABLE_HEADER": {
         "DETAILS": "Bot Details",
-        "URL": "Webhook URL"
-      }
+        "URL": "Webhook URL",
+        "ACTIONS": "Actions"
+      },
+      "SHOWING_COUNT": "Showing {count} bots"
     },
     "DELETE": {
       "BUTTON_TEXT": "Delete",

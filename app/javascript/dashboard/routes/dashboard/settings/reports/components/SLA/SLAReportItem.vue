@@ -36,18 +36,18 @@ const routerParams = computed(() => ({
 
 <template>
   <div
-    class="grid items-center content-center w-full h-16 grid-cols-12 gap-4 px-6 py-0 border-b last:border-b-0 last:rounded-b-xl border-n-weak"
+    class="grid items-center content-center w-full h-16 grid-cols-12 gap-4 px-6 py-0 border-b last:border-b-0 last:rounded-b-xl border-outline-variant/15"
   >
     <div
-      class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] text-n-slate-12 rtl:text-right"
+      class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] text-on-surface rtl:text-right"
     >
-      <router-link :to="routerParams" class="text-n-slate-12 hover:underline">
+      <router-link :to="routerParams" class="text-on-surface hover:underline">
         {{ `#${conversationId}` }}
       </router-link>
-      <span class="text-n-slate-11">
+      <span class="text-on-surface-variant">
         {{ $t('SLA_REPORTS.WITH') }}
       </span>
-      <span class="capitalize truncate text-n-slate-12">{{
+      <span class="capitalize truncate text-on-surface">{{
         conversation.contact.name
       }}</span>
       <CardLabels
@@ -58,7 +58,7 @@ const routerParams = computed(() => ({
       />
     </div>
     <div
-      class="flex items-center capitalize py-2 px-0 text-sm tracking-[0.5] text-n-slate-12 text-left rtl:text-right col-span-2"
+      class="flex items-center capitalize py-2 px-0 text-sm tracking-[0.5] text-on-surface text-left rtl:text-right col-span-2"
     >
       {{ slaName }}
     </div>
@@ -67,7 +67,7 @@ const routerParams = computed(() => ({
         v-if="conversation.assignee"
         :user="conversation.assignee"
       />
-      <span v-else class="text-n-slate-11"> --- </span>
+      <span v-else class="text-on-surface-variant"> --- </span>
     </div>
     <SLAViewDetails :sla-events="slaEvents" />
   </div>

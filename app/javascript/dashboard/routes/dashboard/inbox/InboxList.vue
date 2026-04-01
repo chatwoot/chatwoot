@@ -222,29 +222,30 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="flex w-full h-full bg-n-surface-1">
+  <section class="flex h-full w-full bg-surface">
     <div
-      class="flex flex-col h-full w-full lg:min-w-[340px] lg:max-w-[340px] ltr:border-r rtl:border-l border-n-weak"
+      class="flex h-full min-h-0 w-full flex-col lg:min-w-[340px] lg:max-w-[340px] ltr:border-r rtl:border-l border-outline-variant/15"
       :class="!currentConversationId ? 'flex' : 'hidden xl:flex'"
     >
       <InboxListHeader
         :is-context-menu-open="isInboxContextMenuOpen"
+        class="shrink-0"
         @filter="onFilterChange"
         @redirect="redirectToInbox"
       />
       <div
         ref="notificationList"
-        class="flex flex-col gap-0.5 w-full h-[calc(100%-56px)] pb-4 overflow-x-hidden px-2 overflow-y-auto divide-y divide-n-weak [&>*:hover]:!border-y-transparent [&>*.active]:!border-y-transparent [&>*:hover+*]:!border-t-transparent [&>*.active+*]:!border-t-transparent"
+        class="inbox-notification-scroll flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto overflow-x-hidden px-3 pb-6 pt-2"
       >
         <InboxCard
           v-for="notificationItem in notifications"
           :key="notificationItem.id"
           :inbox-item="notificationItem"
           :state-inbox="stateInbox(notificationItem.primaryActor?.inboxId)"
-          class="inbox-card rounded-none hover:rounded-lg hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3"
+          class="inbox-card rounded-xl border border-transparent bg-surface-container-low transition-all duration-300 hover:border-outline-variant/20 hover:bg-surface-container-high/40"
           :class="
             currentConversationId === notificationItem.primaryActor?.id
-              ? 'bg-n-alpha-1 dark:bg-n-alpha-3 !rounded-lg active'
+              ? 'active border-secondary/30 bg-secondary/10 shadow-[0_0_20px_rgba(4,190,153,0.12)]'
               : ''
           "
           @mark-notification-as-read="markNotificationAsRead"
@@ -254,12 +255,12 @@ onMounted(() => {
           @context-menu-close="isInboxContextMenuOpen = false"
           @click="openConversation(notificationItem)"
         />
-        <div v-if="uiFlags.isFetching" class="flex justify-center my-4">
-          <Spinner class="text-n-brand" />
+        <div v-if="uiFlags.isFetching" class="my-4 flex justify-center">
+          <Spinner class="text-secondary" />
         </div>
         <p
           v-if="showEmptyState"
-          class="p-4 text-sm font-medium text-center text-n-slate-10"
+          class="p-4 text-center text-sm font-medium text-on-primary-container"
         >
           {{ $t('INBOX.LIST.NO_NOTIFICATIONS') }}
         </p>

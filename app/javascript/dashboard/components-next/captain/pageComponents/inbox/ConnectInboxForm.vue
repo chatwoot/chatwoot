@@ -80,33 +80,33 @@ const handleSubmit = async () => {
 <template>
   <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
     <div class="flex flex-col gap-1">
-      <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">
+      <label for="inbox" class="mb-0.5 text-sm font-medium text-on-surface">
         {{ t('CAPTAIN.INBOXES.FORM.INBOX.LABEL') }}
       </label>
       <ComboBox
         id="inbox"
         v-model="state.inboxId"
         :options="inboxList"
-        :has-error="!!formErrors.inboxId"
+        :has-error="Boolean(formErrors.inboxId)"
         :placeholder="t('CAPTAIN.INBOXES.FORM.INBOX.PLACEHOLDER')"
-        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
         :message="formErrors.inboxId"
       />
     </div>
 
-    <div class="flex items-center justify-between w-full gap-3">
+    <div class="flex w-full items-center justify-between gap-3">
       <Button
         type="button"
-        variant="faded"
-        color="slate"
+        faded
+        slate
+        class="w-full"
         :label="t('CAPTAIN.FORM.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
         @click="handleCancel"
       />
       <Button
         type="submit"
-        :label="t('CAPTAIN.FORM.CREATE')"
+        teal
         class="w-full"
+        :label="t('CAPTAIN.FORM.CREATE')"
         :is-loading="isLoading"
         :disabled="isLoading"
       />

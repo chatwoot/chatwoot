@@ -45,6 +45,7 @@ const handleDelete = campaign => {
 <template>
   <CampaignLayout
     :header-title="t('CAMPAIGN.LIVE_CHAT.HEADER_TITLE')"
+    :header-subtitle="t('CAMPAIGN.LIVE_CHAT.PAGE_SUBTITLE')"
     :button-label="t('CAMPAIGN.LIVE_CHAT.NEW_CAMPAIGN')"
     @click="toggleLiveChatCampaignDialog()"
     @close="toggleLiveChatCampaignDialog(false)"
@@ -58,7 +59,7 @@ const handleDelete = campaign => {
 
     <div
       v-if="isFetchingCampaigns"
-      class="flex justify-center items-center py-10 text-n-slate-11"
+      class="flex items-center justify-center gap-2 py-10 text-on-surface-variant"
     >
       <Spinner />
     </div>
@@ -73,7 +74,7 @@ const handleDelete = campaign => {
       v-else
       :title="t('CAMPAIGN.LIVE_CHAT.EMPTY_STATE.TITLE')"
       :subtitle="t('CAMPAIGN.LIVE_CHAT.EMPTY_STATE.SUBTITLE')"
-      class="pt-14"
+      class="pt-8"
     />
     <EditLiveChatCampaignDialog
       ref="editLiveChatCampaignDialogRef"

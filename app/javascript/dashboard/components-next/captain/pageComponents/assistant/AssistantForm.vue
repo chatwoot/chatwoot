@@ -50,17 +50,19 @@ const v$ = useVuelidate(validationRules, state);
 
 const isLoading = computed(() => formState.uiFlags.value.creatingItem);
 
-const getErrorMessage = (field, errorKey) => {
-  return v$.value[field].$error
-    ? t(`CAPTAIN.ASSISTANTS.FORM.${errorKey}.ERROR`)
-    : '';
-};
-
 const formErrors = computed(() => ({
-  name: getErrorMessage('name', 'NAME'),
-  description: getErrorMessage('description', 'DESCRIPTION'),
-  productName: getErrorMessage('productName', 'PRODUCT_NAME'),
+  name: v$.value.name.$error ? t('CAPTAIN.ASSISTANTS.FORM.NAME.ERROR') : '',
+  description: v$.value.description.$error
+    ? t('CAPTAIN.ASSISTANTS.FORM.DESCRIPTION.ERROR')
+    : '',
+  productName: v$.value.productName.$error
+    ? t('CAPTAIN.ASSISTANTS.FORM.PRODUCT_NAME.ERROR')
+    : '',
 }));
+
+const submitLabel = computed(() =>
+  props.mode === 'create' ? t('CAPTAIN.FORM.CREATE') : t('CAPTAIN.FORM.EDIT')
+);
 
 const handleCancel = () => emit('cancel');
 
@@ -111,14 +113,27 @@ watch(
 </script>
 
 <template>
-  <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
-    <Input
-      v-model="state.name"
-      :label="t('CAPTAIN.ASSISTANTS.FORM.NAME.LABEL')"
-      :placeholder="t('CAPTAIN.ASSISTANTS.FORM.NAME.PLACEHOLDER')"
-      :message="formErrors.name"
-      :message-type="formErrors.name ? 'error' : 'info'"
-    />
+  <form
+    class="flex flex-col gap-6 rounded-xl border border-outline-variant/10 bg-surface-container-low p-5"
+    @submit.prevent="handleSubmit"
+  >
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+      <Input
+        v-model="state.name"
+        :label="t('CAPTAIN.ASSISTANTS.FORM.NAME.LABEL')"
+        :placeholder="t('CAPTAIN.ASSISTANTS.FORM.NAME.PLACEHOLDER')"
+        :message="formErrors.name"
+        :message-type="formErrors.name ? 'error' : 'info'"
+      />
+
+      <Input
+        v-model="state.productName"
+        :label="t('CAPTAIN.ASSISTANTS.FORM.PRODUCT_NAME.LABEL')"
+        :placeholder="t('CAPTAIN.ASSISTANTS.FORM.PRODUCT_NAME.PLACEHOLDER')"
+        :message="formErrors.productName"
+        :message-type="formErrors.productName ? 'error' : 'info'"
+      />
+    </div>
 
     <Editor
       v-model="state.description"
@@ -126,55 +141,64 @@ watch(
       :placeholder="t('CAPTAIN.ASSISTANTS.FORM.DESCRIPTION.PLACEHOLDER')"
       :message="formErrors.description"
       :message-type="formErrors.description ? 'error' : 'info'"
+      class="z-0"
     />
 
-    <Input
-      v-model="state.productName"
-      :label="t('CAPTAIN.ASSISTANTS.FORM.PRODUCT_NAME.LABEL')"
-      :placeholder="t('CAPTAIN.ASSISTANTS.FORM.PRODUCT_NAME.PLACEHOLDER')"
-      :message="formErrors.productName"
-      :message-type="formErrors.productName ? 'error' : 'info'"
-    />
-
-    <fieldset class="flex flex-col gap-2.5">
-      <legend class="mb-3 text-sm font-medium text-n-slate-12">
+    <fieldset
+      class="space-y-2 rounded-xl border border-outline-variant/10 bg-surface-container px-4 py-3"
+    >
+      <legend
+        class="px-1 text-xs font-semibold uppercase tracking-wider text-on-surface-variant"
+      >
         {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.TITLE') }}
       </legend>
 
-      <label class="flex items-center gap-2">
-        <input v-model="state.featureFaq" type="checkbox" />
-        <span class="text-sm font-medium text-n-slate-12">
-          {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CONVERSATION_FAQS') }}
-        </span>
+      <label class="flex items-center gap-2 text-sm text-on-surface">
+        <input
+          v-model="state.featureFaq"
+          type="checkbox"
+          class="!mb-0 rounded border-outline-variant/40"
+        />
+        <span>{{
+          t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CONVERSATION_FAQS')
+        }}</span>
       </label>
 
-      <label class="flex items-center gap-2">
-        <input v-model="state.featureMemory" type="checkbox" />
-        <span class="text-sm font-medium text-n-slate-12">
-          {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_MEMORIES') }}
-        </span>
+      <label class="flex items-center gap-2 text-sm text-on-surface">
+        <input
+          v-model="state.featureMemory"
+          type="checkbox"
+          class="!mb-0 rounded border-outline-variant/40"
+        />
+        <span>{{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_MEMORIES') }}</span>
       </label>
 
-      <label class="flex items-center gap-2">
-        <input v-model="state.featureCitation" type="checkbox" />
-        <span class="text-sm font-medium text-n-slate-12">
-          {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CITATIONS') }}
-        </span>
+      <label class="flex items-center gap-2 text-sm text-on-surface">
+        <input
+          v-model="state.featureCitation"
+          type="checkbox"
+          class="!mb-0 rounded border-outline-variant/40"
+        />
+        <span>{{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CITATIONS') }}</span>
       </label>
     </fieldset>
 
-    <div class="flex items-center justify-between w-full gap-3">
+    <div
+      class="flex w-full items-center justify-between gap-3 border-t border-outline-variant/15 pt-4"
+    >
       <Button
         type="button"
-        variant="faded"
-        color="slate"
+        faded
+        slate
         :label="t('CAPTAIN.FORM.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
+        class="w-full"
         @click="handleCancel"
       />
       <Button
         type="submit"
-        :label="t(`CAPTAIN.FORM.${mode.toUpperCase()}`)"
+        solid
+        teal
+        :label="submitLabel"
         class="w-full"
         :is-loading="isLoading"
         :disabled="isLoading"

@@ -15,12 +15,12 @@ const { t } = useI18n();
 
 const attributeConfig = {
   'pre-chat': {
-    colorClass: 'text-n-blue-11',
+    colorClass: 'text-on-tertiary-container',
     icon: 'i-lucide-message-circle',
     labelKey: 'ATTRIBUTES_MGMT.BADGES.PRE_CHAT',
   },
   resolution: {
-    colorClass: 'text-n-teal-11',
+    colorClass: 'text-secondary',
     icon: 'i-lucide-circle-check-big',
     labelKey: 'ATTRIBUTES_MGMT.BADGES.RESOLUTION',
   },
@@ -32,7 +32,7 @@ const config = computed(
 
 <template>
   <div
-    class="flex gap-1 justify-center items-center px-1.5 py-1 rounded-md shadow outline-1 outline outline-n-container bg-n-solid-2"
+    class="flex items-center justify-center gap-1 rounded-md border border-outline-variant/25 bg-surface-container-high/50 px-2 py-1"
   >
     <Icon :icon="config.icon" class="size-4" :class="config.colorClass" />
     <span class="text-xs" :class="config.colorClass">{{

@@ -547,7 +547,7 @@ export default {
           :show-border="false"
         >
           <div class="flex flex-col gap-1 items-start mb-4">
-            <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+            <label class="mb-0.5 text-sm font-medium text-on-surface">
               {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL') }}
             </label>
             <Avatar
@@ -663,7 +663,7 @@ export default {
                 }}
               </option>
             </select>
-            <p class="pb-1 text-sm not-italic text-n-slate-11">
+            <p class="pb-1 text-sm not-italic text-on-surface-variant">
               {{
                 $t(
                   'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.HELP_TEXT'
@@ -707,7 +707,7 @@ export default {
               </option>
             </select>
 
-            <p class="pb-1 text-sm not-italic text-n-slate-11">
+            <p class="pb-1 text-sm not-italic text-on-surface-variant">
               {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.HELP_TEXT') }}
             </p>
           </label>
@@ -722,7 +722,7 @@ export default {
                 {{ $t('INBOX_MGMT.EDIT.EMAIL_COLLECT_BOX.DISABLED') }}
               </option>
             </select>
-            <p class="pb-1 text-sm not-italic text-n-slate-11">
+            <p class="pb-1 text-sm not-italic text-on-surface-variant">
               {{
                 $t(
                   'INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT'
@@ -745,7 +745,7 @@ export default {
                 }}
               </option>
             </select>
-            <p class="pb-1 text-sm not-italic text-n-slate-11">
+            <p class="pb-1 text-sm not-italic text-on-surface-variant">
               {{
                 $t(
                   'INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT'
@@ -764,7 +764,7 @@ export default {
                 {{ $t('INBOX_MGMT.EDIT.ENABLE_CONTINUITY_VIA_EMAIL.DISABLED') }}
               </option>
             </select>
-            <p class="pb-1 text-sm not-italic text-n-slate-11">
+            <p class="pb-1 text-sm not-italic text-on-surface-variant">
               {{
                 $t(
                   'INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT'
@@ -784,7 +784,7 @@ export default {
                 {{ p.name }}
               </option>
             </select>
-            <p class="pb-1 text-sm not-italic text-n-slate-11">
+            <p class="pb-1 text-sm not-italic text-on-surface-variant">
               {{ $t('INBOX_MGMT.HELP_CENTER.SUB_TEXT') }}
             </p>
           </div>
@@ -798,7 +798,7 @@ export default {
                 {{ $t('INBOX_MGMT.EDIT.LOCK_TO_SINGLE_CONVERSATION.DISABLED') }}
               </option>
             </select>
-            <p class="pb-1 text-sm not-italic text-n-slate-11">
+            <p class="pb-1 text-sm not-italic text-on-surface-variant">
               {{
                 $t(
                   'INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT'

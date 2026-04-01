@@ -26,7 +26,7 @@ const emit = defineEmits(['upgrade']);
 
 <template>
   <div
-    class="flex flex-col max-w-md px-6 py-6 border shadow bg-n-solid-1 rounded-xl border-n-weak"
+    class="flex flex-col max-w-md px-6 py-6 border shadow bg-surface-container rounded-xl border-outline-variant/15"
   >
     <div class="flex items-center w-full gap-2 mb-4">
       <span
@@ -37,15 +37,15 @@ const emit = defineEmits(['upgrade']);
           icon="i-lucide-lock-keyhole"
         />
       </span>
-      <span class="text-base font-medium text-n-slate-12">
+      <span class="text-base font-medium text-on-surface">
         {{ $t(`${featurePrefix}.PAYWALL.TITLE`) }}
       </span>
     </div>
     <p
       v-dompurify-html="$t(`${featurePrefix}.${i18nKey}.AVAILABLE_ON`)"
-      class="text-sm font-normal text-n-slate-11"
+      class="text-sm font-normal text-on-surface-variant"
     />
-    <p class="text-sm font-normal text-n-slate-11">
+    <p class="text-sm font-normal text-on-surface-variant">
       {{ $t(`${featurePrefix}.${i18nKey}.UPGRADE_PROMPT`) }}
       <span v-if="!isOnChatwootCloud && !isSuperAdmin">
         {{ $t(`${featurePrefix}.ENTERPRISE_PAYWALL.ASK_ADMIN`) }}
@@ -55,7 +55,9 @@ const emit = defineEmits(['upgrade']);
       <ButtonV4 blue solid md @click="emit('upgrade')">
         {{ $t(`${featurePrefix}.PAYWALL.UPGRADE_NOW`) }}
       </ButtonV4>
-      <span class="mt-2 text-xs tracking-tight text-center text-n-slate-11">
+      <span
+        class="mt-2 text-xs tracking-tight text-center text-on-surface-variant"
+      >
         {{ $t(`${featurePrefix}.PAYWALL.CANCEL_ANYTIME`) }}
       </span>
     </template>

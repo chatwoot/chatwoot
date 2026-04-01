@@ -12,7 +12,7 @@ import { documentsList } from 'dashboard/components-next/captain/pageComponents/
       <div
         v-for="(doc, index) in documentsList"
         :key="index"
-        class="px-20 py-4 bg-n-background"
+        class="bg-surface px-20 py-4"
       >
         <DocumentCard
           :id="doc.id"

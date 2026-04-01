@@ -79,19 +79,19 @@ watch(
 
 <template>
   <div class="flex flex-col min-w-0 gap-1">
-    <label v-if="label" class="mb-0.5 text-sm font-medium text-n-slate-12">
+    <label v-if="label" class="mb-0.5 text-sm font-medium text-on-surface">
       {{ label }}
     </label>
     <div
-      class="flex flex-col w-full gap-2 px-3 py-3 transition-all duration-500 ease-in-out border rounded-lg editor-wrapper bg-n-alpha-black2"
+      class="editor-wrapper flex w-full flex-col gap-2 rounded-lg border border-solid bg-surface-container-lowest px-3 py-3 transition-all duration-200 ease-in-out"
       :class="[
         {
-          'cursor-not-allowed opacity-50 pointer-events-none !bg-n-alpha-black2 disabled:border-n-weak dark:disabled:border-n-weak':
+          'cursor-not-allowed opacity-50 pointer-events-none border-outline-variant/20':
             disabled,
-          'border-n-brand dark:border-n-brand': isFocused,
-          'hover:border-n-slate-6 dark:hover:border-n-slate-6 border-n-weak dark:border-n-weak':
+          'border-secondary ring-1 ring-secondary ring-offset-0': isFocused,
+          'border-outline-variant/30 hover:border-outline-variant/50':
             !isFocused && messageType !== 'error',
-          'border-n-ruby-8 dark:border-n-ruby-8 hover:border-n-ruby-9 dark:hover:border-n-ruby-9':
+          'border-error hover:border-error':
             messageType === 'error' && !isFocused,
         },
       ]"
@@ -120,7 +120,7 @@ watch(
       >
         <span
           v-if="showCharacterCount && !slots.actions"
-          class="text-xs tabular-nums text-n-slate-10"
+          class="text-xs tabular-nums text-on-surface-variant"
         >
           {{ characterCount }} / {{ maxLength }}
         </span>

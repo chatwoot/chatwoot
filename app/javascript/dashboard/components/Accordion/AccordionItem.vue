@@ -35,19 +35,21 @@ const onToggle = () => {
 <template>
   <div class="text-sm">
     <button
-      class="flex items-center select-none w-full rounded-lg bg-n-slate-2 outline outline-1 outline-n-weak m-0 cursor-grab justify-between py-2 px-4 drag-handle"
-      :class="{ 'rounded-bl-none rounded-br-none': isOpen }"
+      class="flex items-center select-none w-full rounded-lg bg-surface-container-high/60 border border-outline-variant/[.12] m-0 cursor-grab justify-between py-2.5 px-4 drag-handle transition-colors hover:bg-surface-container-high"
+      :class="{
+        'rounded-bl-none rounded-br-none border-b-transparent': isOpen,
+      }"
       @click.stop="onToggle"
     >
       <div class="flex justify-between">
         <EmojiOrIcon class="inline-block w-5" :icon="icon" :emoji="emoji" />
-        <h5 class="text-n-slate-12 text-sm mb-0 py-0 pr-2 pl-0">
+        <h5 class="text-on-surface text-sm font-medium mb-0 py-0 pr-2 pl-0">
           {{ title }}
         </h5>
       </div>
       <div class="flex flex-row">
         <slot name="button" />
-        <div class="flex justify-end w-3 text-n-blue-11 cursor-pointer">
+        <div class="flex justify-end w-3 text-secondary cursor-pointer">
           <fluent-icon v-if="isOpen" size="24" icon="subtract" type="solid" />
           <fluent-icon v-else size="24" icon="add" type="solid" />
         </div>
@@ -55,7 +57,7 @@ const onToggle = () => {
     </button>
     <div
       v-if="isOpen"
-      class="outline outline-1 outline-n-weak -mt-[-1px] border-t-0 rounded-br-lg rounded-bl-lg"
+      class="border border-outline-variant/[.12] border-t-0 rounded-br-lg rounded-bl-lg bg-surface-container-low/40"
       :class="compact ? 'p-0' : 'px-2 py-4'"
     >
       <slot />

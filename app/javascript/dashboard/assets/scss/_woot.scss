@@ -35,6 +35,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
+  @apply bg-surface !important;
 }
 
 .tooltip {
@@ -56,8 +57,43 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='%23343434' stroke-width='2' stroke-dasharray='6, 8' stroke-dashoffset='0' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
+@layer base {
+  /*
+   * Themed scrollbars: semantic RGB from _next-colors.scss
+   * (--border-strong ≈ outline-variant, --surface-active on hover).
+   */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--border-strong) / 0.45) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    background-color: rgb(var(--border-strong) / 0.55);
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(var(--surface-active) / 0.85);
+  }
+
+  *::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
 @layer utilities {
-  /* Hide scrollbar for Chrome, Safari and Opera */
+  /* Hide scrollbar for Chrome, Safari, Opera */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -65,5 +101,11 @@ body {
   .no-scrollbar {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+  }
+
+  /* Narrow bar; thumb colors from @layer base */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
   }
 }

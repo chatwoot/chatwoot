@@ -14,18 +14,20 @@ defineEmits(['edit', 'delete']);
 <template>
   <tr class="max-w-full py-1">
     <td
-      class="py-4 ltr:pr-4 rtl:pl-4 text-sm w-40 max-w-[10rem] truncate"
+      class="px-6 py-4 text-sm w-40 max-w-[10rem] truncate ltr:pr-4 rtl:pl-4"
       :title="app.title"
     >
       {{ app.title }}
     </td>
     <td
-      class="max-w-lg py-4 ltr:pr-4 rtl:pl-4 text-sm truncate"
+      class="max-w-lg px-6 py-4 text-sm truncate ltr:pr-4 rtl:pl-4"
       :title="app.content[0].url"
     >
       {{ app.content[0].url }}
     </td>
-    <td class="flex gap-1 py-4 ltr:pr-4 rtl:pl-4 text-sm sm:pr-0 justify-end">
+    <td
+      class="flex justify-end gap-1 px-6 py-4 text-sm ltr:pr-4 rtl:pl-4 sm:pr-0"
+    >
       <Button
         v-tooltip.top="
           $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.EDIT_TOOLTIP')

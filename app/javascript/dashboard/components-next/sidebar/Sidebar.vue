@@ -686,7 +686,7 @@ const menuItems = computed(() => {
       closeMobileSidebar,
       { ignore: ['#mobile-sidebar-launcher'] },
     ]"
-    class="bg-n-background flex flex-col text-sm pb-0.5 fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[200px] md:w-auto md:relative md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:translate-x-0 ltr:border-r rtl:border-l border-n-weak"
+    class="bg-surface-container flex flex-col text-sm pb-0.5 fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[200px] md:w-auto md:relative md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:translate-x-0 ltr:border-r rtl:border-l border-outline-variant/20"
     :class="[
       {
         'shadow-lg md:shadow-none': isMobileSidebarOpen,
@@ -705,7 +705,8 @@ const menuItems = computed(() => {
         class="flex gap-2 items-center min-w-0"
         :class="{
           'justify-center px-1': isEffectivelyCollapsed,
-          'px-2': !isEffectivelyCollapsed,
+          'mx-1 px-2 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest transition-colors':
+            !isEffectivelyCollapsed,
         }"
       >
         <template v-if="isEffectivelyCollapsed">
@@ -718,7 +719,7 @@ const menuItems = computed(() => {
           <div class="grid flex-shrink-0 place-content-center size-6">
             <Logo class="size-4" />
           </div>
-          <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
+          <div class="flex-shrink-0 w-px h-3 bg-outline-variant/60" />
           <SidebarAccountSwitcher
             class="flex-grow -mx-1 min-w-0"
             @show-create-account-modal="emit('showCreateAccountModal')"
@@ -732,14 +733,16 @@ const menuItems = computed(() => {
         <RouterLink
           v-if="!isEffectivelyCollapsed"
           :to="{ name: 'search' }"
-          class="flex gap-2 items-center px-2 py-1 w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out"
+          class="flex gap-2 items-center px-3 py-2 w-full h-9 rounded-lg border border-outline-variant/20 bg-surface-container-lowest transition-all duration-100 ease-out"
         >
-          <span class="flex-shrink-0 i-lucide-search size-4 text-n-slate-10" />
-          <span class="flex-grow text-start text-n-slate-10">
+          <span
+            class="flex-shrink-0 i-lucide-search size-4 text-on-surface-variant"
+          />
+          <span class="flex-grow text-start text-on-surface-variant">
             {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
           </span>
           <span
-            class="hidden tracking-wide pointer-events-none select-none text-n-slate-10"
+            class="hidden tracking-wide pointer-events-none select-none text-[10px] rounded border border-white/5 bg-surface-container-high px-1.5 py-0.5 text-on-surface-variant"
           >
             {{ searchShortcut }}
           </span>
@@ -747,10 +750,10 @@ const menuItems = computed(() => {
         <RouterLink
           v-else
           :to="{ name: 'search' }"
-          class="flex items-center justify-center size-8 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out hover:bg-n-alpha-2 dark:hover:bg-n-slate-9/30"
+          class="flex items-center justify-center size-8 rounded-lg border border-outline-variant/20 bg-surface-container-lowest transition-all duration-100 ease-out hover:bg-surface-container-high"
           :title="t('COMBOBOX.SEARCH_PLACEHOLDER')"
         >
-          <span class="i-lucide-search size-4 text-n-slate-11" />
+          <span class="i-lucide-search size-4 text-on-surface-variant" />
         </RouterLink>
         <ComposeConversation align-position="right" @close="onComposeClose">
           <template #trigger="{ toggle, isOpen }">
@@ -758,12 +761,12 @@ const menuItems = computed(() => {
               icon="i-lucide-pen-line"
               color="slate"
               size="sm"
-              class="dark:hover:!bg-n-slate-9/30"
+              class="hover:!bg-surface-container-high"
               :class="[
                 isEffectivelyCollapsed
-                  ? '!size-8 !outline-n-weak !text-n-slate-11'
-                  : '!h-7 !outline-n-weak !text-n-slate-11',
-                { '!bg-n-alpha-2 dark:!bg-n-slate-9/30': isOpen },
+                  ? '!size-8 !border !border-outline-variant/20 !bg-surface-container-lowest !text-on-surface-variant'
+                  : '!h-9 !border !border-outline-variant/20 !bg-surface-container-lowest !text-on-surface-variant',
+                { '!bg-surface-container-high !border-secondary/50': isOpen },
               ]"
               @click="onComposeOpen(toggle)"
             />
@@ -789,9 +792,6 @@ const menuItems = computed(() => {
     <section
       class="flex relative flex-col flex-shrink-0 gap-1 justify-between items-center"
     >
-      <div
-        class="pointer-events-none absolute inset-x-0 -top-[1.938rem] h-8 bg-gradient-to-t from-n-background to-transparent"
-      />
       <SidebarChangelogCard
         v-if="
           isOnChatwootCloud &&
@@ -807,7 +807,7 @@ const menuItems = computed(() => {
         "
       />
       <div
-        class="p-1 flex-shrink-0 flex w-full z-50 gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
+        class="z-50 flex w-full flex-shrink-0 items-center gap-2 border-t border-outline-variant/20 bg-transparent p-1"
         :class="isEffectivelyCollapsed ? 'justify-center' : 'justify-between'"
       >
         <SidebarProfileMenu
@@ -824,8 +824,8 @@ const menuItems = computed(() => {
       @dblclick="onResizeHandleDoubleClick"
     >
       <div
-        class="absolute top-0 h-full w-px ltr:right-0 rtl:left-0 bg-transparent group-hover:bg-n-brand transition-colors"
-        :class="{ 'bg-n-brand': isResizing }"
+        class="absolute top-0 h-full w-px ltr:right-0 rtl:left-0 bg-transparent group-hover:bg-secondary transition-colors"
+        :class="{ 'bg-secondary': isResizing }"
       />
     </div>
   </aside>

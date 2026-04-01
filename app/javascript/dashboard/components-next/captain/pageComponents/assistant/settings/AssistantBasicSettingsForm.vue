@@ -7,6 +7,7 @@ import { required, minLength } from '@vuelidate/validators';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   assistant: {
@@ -95,22 +96,26 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col gap-6">
-    <Input
-      v-model="state.name"
-      :label="t('CAPTAIN.ASSISTANTS.FORM.NAME.LABEL')"
-      :placeholder="t('CAPTAIN.ASSISTANTS.FORM.NAME.PLACEHOLDER')"
-      :message="formErrors.name"
-      :message-type="formErrors.name ? 'error' : 'info'"
-    />
+  <div
+    class="flex flex-col gap-6 rounded-xl border border-outline-variant/10 bg-surface-container-low p-6 shadow-sm"
+  >
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <Input
+        v-model="state.name"
+        :label="t('CAPTAIN.ASSISTANTS.FORM.NAME.LABEL')"
+        :placeholder="t('CAPTAIN.ASSISTANTS.FORM.NAME.PLACEHOLDER')"
+        :message="formErrors.name"
+        :message-type="formErrors.name ? 'error' : 'info'"
+      />
 
-    <Input
-      v-model="state.productName"
-      :label="t('CAPTAIN.ASSISTANTS.FORM.PRODUCT_NAME.LABEL')"
-      :placeholder="t('CAPTAIN.ASSISTANTS.FORM.PRODUCT_NAME.PLACEHOLDER')"
-      :message="formErrors.productName"
-      :message-type="formErrors.productName ? 'error' : 'info'"
-    />
+      <Input
+        v-model="state.productName"
+        :label="t('CAPTAIN.ASSISTANTS.FORM.PRODUCT_NAME.LABEL')"
+        :placeholder="t('CAPTAIN.ASSISTANTS.FORM.PRODUCT_NAME.PLACEHOLDER')"
+        :message="formErrors.productName"
+        :message-type="formErrors.productName ? 'error' : 'info'"
+      />
+    </div>
 
     <Editor
       v-model="state.description"
@@ -121,29 +126,54 @@ watch(
       class="z-0"
     />
 
-    <div class="flex flex-col gap-2">
-      <label class="text-sm font-medium text-n-slate-12">
-        {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.TITLE') }}
-      </label>
+    <div
+      class="flex flex-col gap-3 rounded-xl border border-outline-variant/10 bg-surface-container px-4 py-3"
+    >
+      <div class="flex items-center gap-2">
+        <Icon icon="i-lucide-sparkles" class="size-4 shrink-0 text-secondary" />
+        <label
+          class="mb-0 text-xs font-semibold uppercase tracking-wider text-on-surface-variant"
+        >
+          {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.TITLE') }}
+        </label>
+      </div>
       <div class="flex flex-col gap-2">
-        <label class="flex items-center gap-2">
-          <input v-model="state.features.conversationFaqs" type="checkbox" />
+        <label class="flex items-center gap-2 text-sm text-on-surface">
+          <input
+            v-model="state.features.conversationFaqs"
+            type="checkbox"
+            class="!mb-0 rounded border-outline-variant/40"
+          />
           {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CONVERSATION_FAQS') }}
         </label>
-        <label class="flex items-center gap-2">
-          <input v-model="state.features.memories" type="checkbox" />
+        <label class="flex items-center gap-2 text-sm text-on-surface">
+          <input
+            v-model="state.features.memories"
+            type="checkbox"
+            class="!mb-0 rounded border-outline-variant/40"
+          />
           {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_MEMORIES') }}
         </label>
-        <label class="flex items-center gap-2">
-          <input v-model="state.features.citations" type="checkbox" />
+        <label class="flex items-center gap-2 text-sm text-on-surface">
+          <input
+            v-model="state.features.citations"
+            type="checkbox"
+            class="!mb-0 rounded border-outline-variant/40"
+          />
           {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CITATIONS') }}
         </label>
       </div>
     </div>
 
-    <div>
+    <div class="flex justify-end border-t border-outline-variant/15 pt-4">
       <Button
+        solid
+        teal
+        md
+        trailing-icon
+        icon="i-lucide-save"
         :label="t('CAPTAIN.ASSISTANTS.FORM.UPDATE')"
+        class="font-semibold"
         @click="handleBasicInfoUpdate"
       />
     </div>

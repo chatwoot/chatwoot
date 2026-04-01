@@ -57,7 +57,7 @@ useKeyboardEvents(keyboardEvents);
 
 <template>
   <ButtonGroup
-    class="flex flex-col justify-center items-center absolute top-36 xl:top-24 ltr:right-2 rtl:left-2 bg-n-solid-2/90 backdrop-blur-lg border border-n-weak/50 rounded-full gap-1.5 p-1.5 shadow-sm transition-shadow duration-200 hover:shadow"
+    class="flex flex-col justify-center items-center absolute top-36 xl:top-24 ltr:right-2 rtl:left-2 bg-surface-bright/60 backdrop-blur-[12px] border border-outline-variant/[.15] rounded-full gap-1.5 p-1.5 shadow-[0_4px_12px_rgba(5,20,39,0.4),0_16px_40px_rgba(5,20,39,0.2)] transition-shadow duration-200 hover:shadow-[0_4px_16px_rgba(5,20,39,0.5),0_20px_48px_rgba(5,20,39,0.25)]"
   >
     <Button
       v-tooltip.top="$t('CONVERSATION.SIDEBAR.CONTACT')"
