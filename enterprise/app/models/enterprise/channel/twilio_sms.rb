@@ -8,7 +8,7 @@ module Enterprise::Channel::TwilioSms
       validate :voice_requires_phone_number, if: :voice_enabled?
       before_validation :provision_twiml_app, on: :create, if: :voice_enabled?
       before_validation :provision_twiml_app_on_update, on: :update, if: :voice_enabled_changed_to_true?
-      after_commit :teardown_voice, if: :voice_disabled?
+      after_commit :teardown_voice, on: :update, if: :voice_disabled?
     end
   end
 
