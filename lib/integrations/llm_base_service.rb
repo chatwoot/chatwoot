@@ -101,7 +101,6 @@ class Integrations::LlmBaseService
   def execute_ruby_llm_request(parsed_body)
     messages = parsed_body['messages']
     model = parsed_body['model']
-    credential = nil
     credential = llm_credential
 
     Llm::Config.with_api_key(credential.api_key, api_base: api_base) do |context|

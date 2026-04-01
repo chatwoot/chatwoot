@@ -56,7 +56,6 @@ class Captain::BaseTaskService
   end
 
   def execute_ruby_llm_request(model:, messages:, schema: nil, tools: [])
-    credential = nil
     credential = llm_credential
 
     Llm::Config.with_api_key(credential.api_key, api_base: api_base) do |context|
@@ -167,16 +166,12 @@ class Captain::BaseTaskService
   end
 
   def hook_llm_credential
-    hook_api_key = openai_hook&.settings&.dig('api_key').presence
-    return if hook_api_key.blank?
-
-    Llm::Credential.new(api_key: hook_api_key, source: :hook)
+    key = openai_hook&.settings&.dig('api_key').presence
+    Llm::Credential.new(api_key: key, source: :hook) if key
   end
 
   def system_llm_credential
-    return if system_api_key.blank?
-
-    Llm::Credential.new(api_key: system_api_key, source: :system)
+    Llm::Credential.new(api_key: system_api_key, source: :system) if system_api_key.present?
   end
 
   def openai_hook
