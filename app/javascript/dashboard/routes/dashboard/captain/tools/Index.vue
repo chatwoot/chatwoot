@@ -1,6 +1,8 @@
 <script setup>
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CustomToolsPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/CustomToolsPageEmptyState.vue';
@@ -9,8 +11,10 @@ import CustomToolCard from 'dashboard/components-next/captain/pageComponents/cus
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 
 const store = useStore();
+const { isFeatureFlagEnabled } = usePolicy();
 
 const SOFT_LIMIT = 10;
+const isV2 = computed(() => isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2));
 
 const uiFlags = useMapGetter('captainCustomTools/getUIFlags');
 const customTools = useMapGetter('captainCustomTools/getRecords');
@@ -18,7 +22,7 @@ const isFetching = computed(() => uiFlags.value.fetchingList);
 const customToolsMeta = useMapGetter('captainCustomTools/getMeta');
 
 const showSoftLimitWarning = computed(
-  () => customToolsMeta.value.totalCount > SOFT_LIMIT
+  () => !isV2.value && customToolsMeta.value.totalCount > SOFT_LIMIT
 );
 
 const createDialogRef = ref(null);
