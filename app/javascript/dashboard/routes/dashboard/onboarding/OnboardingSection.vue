@@ -16,7 +16,7 @@ defineProps({
           <path d="M3 0L6 5H0L3 0Z" fill="rgb(var(--border-weak))" />
         </svg>
         <div
-          class="flex items-center justify-center w-8 h-8 rounded-lg bg-white border border-n-container"
+          class="flex items-center justify-center w-8 h-8 rounded-lg bg-n-solid-1 border border-n-weak"
         >
           <Icon :icon="icon" class="size-4 text-n-slate-11" />
         </div>
@@ -30,9 +30,7 @@ defineProps({
     </div>
 
     <!-- Card -->
-    <div
-      class="border border-n-container rounded-xl overflow-hidden bg-n-surface-1"
-    >
+    <div class="border border-n-weak rounded-xl overflow-hidden bg-n-surface-1">
       <slot />
     </div>
   </div>

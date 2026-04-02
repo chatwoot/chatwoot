@@ -13,7 +13,7 @@ defineEmits(['continue']);
 
 <template>
   <div
-    class="relative flex text-body-main items-start justify-center w-full min-h-screen bg-white py-12 px-4 overflow-hidden"
+    class="relative flex text-body-main items-start justify-center w-full min-h-screen bg-n-surface-2 py-12 px-4 overflow-hidden"
   >
     <!-- Grid background with corner fade -->
     <div
@@ -33,7 +33,7 @@ defineEmits(['continue']);
             y1="0"
             x2="0"
             y2="100%"
-            stroke="rgb(var(--border-weak))"
+            stroke="rgb(var(--slate-5))"
             stroke-width="1"
             stroke-dasharray="4 4"
           />
@@ -45,7 +45,7 @@ defineEmits(['continue']);
             class="flex items-center justify-center w-8 h-8 z-10 flex-shrink-0"
           >
             <slot name="greeting-icon">
-              <span class="i-woot-onboarding-greeting size-4 text-n-slate-3" />
+              <span class="i-woot-onboarding-greeting size-4 text-n-slate-7" />
             </slot>
           </div>
           <div>
@@ -81,8 +81,8 @@ defineEmits(['continue']);
               y2="20"
               gradientUnits="userSpaceOnUse"
             >
-              <stop offset="0%" stop-color="rgb(var(--border-weak))" />
-              <stop offset="100%" stop-color="#2781F6" />
+              <stop offset="0%" stop-color="rgb(var(--slate-5))" />
+              <stop offset="100%" stop-color="rgb(var(--blue-9))" />
             </linearGradient>
           </defs>
           <path
@@ -101,7 +101,7 @@ defineEmits(['continue']);
           fill="none"
           class="absolute left-[41px] top-1/2 -translate-y-1/2 z-10"
         >
-          <path d="M6 0L0 3L6 6Z" fill="#2781F6" />
+          <path d="M6 0L0 3L6 6Z" fill="rgb(var(--blue-9))" />
         </svg>
         <NextButton
           type="submit"
