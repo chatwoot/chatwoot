@@ -7,7 +7,7 @@ class Account::BrandingEnrichmentJob < ApplicationJob
 
     account = Account.find(account_id)
     account.name = result[:title] if result[:title].present?
-    account.custom_attributes['brand_info'] = result unless account.custom_attributes['brand_info'].present?
+    account.custom_attributes['brand_info'] = result if account.custom_attributes['brand_info'].blank?
     account.save! if account.changed?
   ensure
     finish_enrichment(account_id)

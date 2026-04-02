@@ -62,6 +62,6 @@ module Enterprise::WebsiteBrandingService
   end
 
   def deep_symbolize_array(arr)
-    (arr || []).map { |item| item.deep_symbolize_keys }
+    (arr || []).map(&:deep_symbolize_keys)
   end
 end

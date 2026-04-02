@@ -3,6 +3,8 @@ class WebsiteBrandingService
 
   attr_reader :http_status
 
+  DATA_DEFAULTS = { description: nil, slogan: nil, phone: nil, address: nil, links: nil, stock: nil, industries: [], is_nsfw: false }.freeze
+
   def initialize(email)
     @email = email
     @domain = email.split('@').last&.downcase&.strip
@@ -16,22 +18,14 @@ class WebsiteBrandingService
 
     links = extract_links(doc)
 
-    {
-      domain: @domain,
-      title: extract_title(doc),
-      description: nil,
-      slogan: nil,
-      phone: nil,
-      address: nil,
-      colors: extract_colors(doc),
-      logos: extract_logos(doc),
-      socials: build_socials(links),
-      links: nil,
-      email: @email,
-      industries: [],
-      stock: nil,
-      is_nsfw: false
-    }
+    DATA_DEFAULTS.merge({
+                          domain: @domain,
+                          title: extract_title(doc),
+                          colors: extract_colors(doc),
+                          logos: extract_logos(doc),
+                          socials: build_socials(links),
+                          email: @email
+                        })
   rescue StandardError => e
     Rails.logger.error "[WebsiteBranding] #{e.message}"
     nil
