@@ -255,7 +255,7 @@ export default {
         'animate-wiggle': loginApi.hasErrored,
       }"
     >
-      <div v-if="!email">
+      <div v-if="!email" class="mb-10">
         <h1
           class="mb-2 text-[2rem] font-bold leading-[1.15] tracking-tight text-balance text-n-slate-12 dark:text-on-surface sm:text-[2.125rem]"
         >

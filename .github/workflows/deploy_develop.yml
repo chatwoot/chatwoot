@@ -37,7 +37,13 @@ jobs:
           script: |
             set -e
             cd /var/www/chatwoot
-            bash deploy.sh
+            echo "--- Git sync ---"
+            git fetch origin develop
+            git checkout develop
+            git reset --hard origin/develop
+            git clean -fd
+            echo "--- Deploy (worker runs after sync; avoids self-replacing script bug) ---"
+            bash deploy_worker.sh
 
       - name: Notify Slack – Deployment Succeeded
         if: success()
