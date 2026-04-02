@@ -3,6 +3,31 @@
 set -e  # Exit on any error
 export RACK_TIMEOUT_SERVICE_TIMEOUT=120
 
+# Non-interactive SSH (e.g. GitHub Actions appleboy/ssh-action) does not source
+# ~/.bash_profile — rbenv/nvm are missing from PATH, so `bundle`/`pnpm` fail.
+if [[ -x "$HOME/.rbenv/bin/rbenv" ]]; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init - bash)"
+elif command -v rbenv >/dev/null 2>&1; then
+  eval "$(rbenv init - bash)"
+fi
+
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$NVM_DIR/nvm.sh"
+fi
+
+if [[ -f "$HOME/.asdf/asdf.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$HOME/.asdf/asdf.sh"
+fi
+
+if [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
+  # shellcheck source=/dev/null
+  source "$HOME/.rvm/scripts/rvm"
+fi
+
 echo "🚀 Starting deployment..."
 
 # Step 1: Pull latest code from develop branch
