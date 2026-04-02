@@ -256,6 +256,29 @@ RSpec.describe Account do
       end
     end
 
+    context 'when support_email is set' do
+      it 'allows a plain email address' do
+        account.support_email = 'support@example.com'
+        expect(account).to be_valid
+      end
+
+      it 'allows display-name format' do
+        account.support_email = 'Support Team <support@example.com>'
+        expect(account).to be_valid
+      end
+
+      it 'allows blank values' do
+        account.support_email = ''
+        expect(account).to be_valid
+      end
+
+      it 'rejects malformed strings with no email part' do
+        account.support_email = 'Smith Smith'
+        expect(account).not_to be_valid
+        expect(account.errors[:support_email]).to include(I18n.t('errors.account.support_email.invalid'))
+      end
+    end
+
     context 'when reporting_timezone is set' do
       it 'allows valid timezone names' do
         account.reporting_timezone = 'America/New_York'
