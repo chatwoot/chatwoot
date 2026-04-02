@@ -205,6 +205,10 @@ export default {
           ...attrs,
         });
         useAlert(this.$t('CONTACT_FORM.SUCCESS_MESSAGE'));
+        await this.$store.dispatch(
+          'contacts/fetchContactableInbox',
+          this.contact.id
+        );
       } catch (error) {
         useAlert(error.message || this.$t('CONTACT_FORM.ERROR_MESSAGE'));
       }
