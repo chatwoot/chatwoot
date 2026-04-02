@@ -57,11 +57,6 @@ RSpec.describe Attachment do
       }.to_json, headers: {})
     end
 
-    it 'returns external url as data and thumb urls when message is incoming' do
-      external_url = instagram_message.attachments.first.external_url
-      expect(instagram_message.attachments.first.push_event_data[:data_url]).to eq external_url
-    end
-
     it 'returns original attachment url as data url if the message is outgoing' do
       message = create(:message, :instagram_story_mention, message_type: :outgoing)
       expect(message.attachments.first.push_event_data[:data_url]).not_to eq message.attachments.first.external_url
@@ -151,6 +146,66 @@ RSpec.describe Attachment do
 
       it 'preserves meta data with file attachments' do
         expect(image_attachment.meta['description']).to eq('Test image')
+      end
+    end
+  end
+
+  describe 'push_event_data for instagram direct message attachments' do
+    let(:account) { create(:account) }
+    let(:instagram_inbox) do
+      create(:inbox, account: account,
+                     channel: create(:channel_instagram_fb_page, account: account, instagram_id: 'instagram-dm-test'))
+    end
+
+    context 'when conversation type is instagram_direct_message' do
+      let(:conversation) do
+        create(:conversation, account: account, inbox: instagram_inbox,
+                              additional_attributes: { 'type' => 'instagram_direct_message' })
+      end
+      let(:instagram_message) { create(:message, account: account, inbox: instagram_inbox, conversation: conversation, message_type: :incoming) }
+
+      it 'uses external_url for data_url and thumb_url' do
+        attachment = instagram_message.attachments.new(account_id: account.id, file_type: :image, external_url: 'https://instagram.com/image.jpg')
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        attachment.save!
+
+        event_data = attachment.push_event_data
+        expect(event_data[:data_url]).to eq('https://instagram.com/image.jpg')
+        expect(event_data[:thumb_url]).to eq('https://instagram.com/image.jpg')
+      end
+    end
+
+    context 'when conversation type is not instagram_direct_message' do
+      let(:conversation) do
+        create(:conversation, account: account, inbox: instagram_inbox,
+                              additional_attributes: { 'type' => 'other_type' })
+      end
+      let(:instagram_message) { create(:message, account: account, inbox: instagram_inbox, conversation: conversation, message_type: :incoming) }
+
+      it 'uses file_url for data_url instead of external_url' do
+        attachment = instagram_message.attachments.new(account_id: account.id, file_type: :image, external_url: 'https://instagram.com/image.jpg')
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        attachment.save!
+
+        event_data = attachment.push_event_data
+        expect(event_data[:data_url]).not_to eq('https://instagram.com/image.jpg')
+      end
+    end
+
+    context 'when message is outgoing on instagram DM conversation' do
+      let(:conversation) do
+        create(:conversation, account: account, inbox: instagram_inbox,
+                              additional_attributes: { 'type' => 'instagram_direct_message' })
+      end
+      let(:outgoing_message) { create(:message, account: account, inbox: instagram_inbox, conversation: conversation, message_type: :outgoing) }
+
+      it 'does not override data_url with external_url' do
+        attachment = outgoing_message.attachments.new(account_id: account.id, file_type: :image, external_url: 'https://instagram.com/image.jpg')
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        attachment.save!
+
+        event_data = attachment.push_event_data
+        expect(event_data[:data_url]).not_to eq('https://instagram.com/image.jpg')
       end
     end
   end
