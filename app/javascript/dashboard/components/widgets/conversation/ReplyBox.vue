@@ -280,6 +280,10 @@ export default {
       return MESSAGE_MAX_LENGTH.GENERAL;
     },
     showFileUpload() {
+      const { image_send: imageSend } =
+        this.currentChat?.additional_attributes?.tiktok_capabilities ?? {};
+      const tiktokAttachmentSupported = imageSend ?? true;
+
       return (
         this.isAWebWidgetInbox ||
         this.isAFacebookInbox ||
@@ -290,7 +294,7 @@ export default {
         this.isATelegramChannel ||
         this.isALineChannel ||
         this.isAnInstagramChannel ||
-        this.isATiktokChannel
+        (this.isATiktokChannel && tiktokAttachmentSupported)
       );
     },
     replyButtonLabel() {
@@ -706,6 +710,7 @@ export default {
 
       // Don't handle paste if editor is disabled
       if (this.isEditorDisabled) return;
+      if (!this.showFileUpload && !this.isOnPrivateNote) return;
 
       // Filter valid files (non-zero size)
       Array.from(e.clipboardData.files)
@@ -1052,6 +1057,8 @@ export default {
       });
     },
     attachFile({ blob, file }) {
+      if (!this.showFileUpload && !this.isOnPrivateNote) return;
+
       const reader = new FileReader();
       reader.readAsDataURL(file.file);
       reader.onloadend = () => {
