@@ -635,6 +635,7 @@ Rails.application.routes.draw do
         delete :avatar, on: :member, action: :destroy_avatar
       end
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
+      resources :platform_banners if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_PLATFORM_BANNERS', false))
       resource :instance_status, only: [:show]
 
       resource :settings, only: [:show] do
