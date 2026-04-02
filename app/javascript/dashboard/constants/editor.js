@@ -182,6 +182,7 @@ export const ARTICLE_EDITOR_MENU_OPTIONS = [
   'h3',
   'imageUpload',
   'code',
+  'insertTable',
 ];
 
 /**
