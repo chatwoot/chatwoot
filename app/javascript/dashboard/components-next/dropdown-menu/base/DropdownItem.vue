@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, useAttrs } from 'vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { useDropdownContext } from './provider.js';
 
@@ -17,6 +17,7 @@ defineOptions({
 });
 
 const { closeMenu } = useDropdownContext();
+const attrs = useAttrs();
 
 const componentIs = computed(() => {
   if (props.link) {
@@ -30,6 +31,18 @@ const componentIs = computed(() => {
 
   return 'div';
 });
+
+const hasForwardedClick = computed(() => {
+  const listener = attrs.onClick;
+  if (typeof listener === 'function') return true;
+  return Array.isArray(listener) && listener.some(l => typeof l === 'function');
+});
+
+const isInteractive = computed(
+  () =>
+    ['button', 'a', 'router-link'].includes(componentIs.value) ||
+    hasForwardedClick.value
+);
 
 const triggerClick = () => {
   if (props.click) {
@@ -47,6 +60,7 @@ const triggerClick = () => {
       class="flex text-left rtl:text-right items-center p-2 reset-base text-sm text-n-slate-12 w-full border-0"
       :class="{
         'hover:bg-n-alpha-2 rounded-lg w-full gap-3': !$slots.default,
+        'cursor-pointer': isInteractive,
       }"
       :href="componentIs === 'a' ? props.link : null"
       :to="componentIs === 'router-link' ? props.link : null"
