@@ -18,6 +18,7 @@ const onClick = () => {
     fallback-thumbnail-dark="/assets/images/dashboard/captain/assistant-dark.svg"
     learn-more-url="https://chwt.app/hc/captain-tools"
     class="mb-8"
+    :hide-actions="!isOnChatwootCloud"
   />
   <EmptyStateLayout
     :title="$t('CAPTAIN.CUSTOM_TOOLS.EMPTY_STATE.TITLE')"
