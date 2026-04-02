@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed, watchEffect } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 
 const isDarkModeAuto = mode => mode === 'auto';
@@ -22,6 +22,10 @@ export function useDarkMode() {
   const prefersDarkMode = computed(() =>
     calculatePrefersDarkMode(darkMode.value, systemPreference.value)
   );
+
+  watchEffect(() => {
+    document.documentElement.classList.toggle('dark', prefersDarkMode.value);
+  });
 
   return {
     darkMode,
