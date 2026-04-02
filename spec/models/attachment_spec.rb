@@ -208,6 +208,23 @@ RSpec.describe Attachment do
         expect(event_data[:data_url]).not_to eq('https://instagram.com/image.jpg')
       end
     end
+
+    context 'when inbox is Channel::Instagram (direct login)' do
+      let(:instagram_channel) { create(:channel_instagram, account: account) }
+      let(:direct_inbox) { instagram_channel.inbox }
+      let(:conversation) { create(:conversation, account: account, inbox: direct_inbox) }
+      let(:incoming_message) { create(:message, account: account, inbox: direct_inbox, conversation: conversation, message_type: :incoming) }
+
+      it 'uses external_url for data_url and thumb_url' do
+        attachment = incoming_message.attachments.new(account_id: account.id, file_type: :image, external_url: 'https://instagram.com/image.jpg')
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        attachment.save!
+
+        event_data = attachment.push_event_data
+        expect(event_data[:data_url]).to eq('https://instagram.com/image.jpg')
+        expect(event_data[:thumb_url]).to eq('https://instagram.com/image.jpg')
+      end
+    end
   end
 
   describe 'push_event_data for ig_reel attachments' do
