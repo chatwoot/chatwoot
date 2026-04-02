@@ -22,23 +22,30 @@ const createConversation = params => {
   };
 };
 
-const sendMessage = (content, replyTo) => {
+const sendMessage = (content, replyTo, { customAttributes, labels } = {}) => {
   const referrerURL = window.referrerURL || '';
   const search = buildSearchParamsWithLocale(window.location.search);
-  return {
-    url: `/api/v1/widget/messages${search}`,
-    params: {
-      message: {
-        content,
-        reply_to: replyTo,
-        timestamp: new Date().toString(),
-        referer_url: referrerURL,
-      },
+  const params = {
+    message: {
+      content,
+      reply_to: replyTo,
+      timestamp: new Date().toString(),
+      referer_url: referrerURL,
     },
   };
+  if (customAttributes && Object.keys(customAttributes).length > 0) {
+    params.custom_attributes = customAttributes;
+  }
+  if (labels && labels.length > 0) {
+    params.labels = labels;
+  }
+  return { url: `/api/v1/widget/messages${search}`, params };
 };
 
-const sendAttachment = ({ attachment, replyTo = null }) => {
+const sendAttachment = (
+  { attachment, replyTo = null },
+  { customAttributes, labels } = {}
+) => {
   const { referrerURL = '' } = window;
   const timestamp = new Date().toString();
   const { file } = attachment;
@@ -54,6 +61,16 @@ const sendAttachment = ({ attachment, replyTo = null }) => {
   formData.append('message[timestamp]', timestamp);
   if (replyTo !== null) {
     formData.append('message[reply_to]', replyTo);
+  }
+  if (customAttributes && Object.keys(customAttributes).length > 0) {
+    Object.entries(customAttributes).forEach(([key, value]) => {
+      formData.append(`custom_attributes[${key}]`, value);
+    });
+  }
+  if (labels && labels.length > 0) {
+    labels.forEach(label => {
+      formData.append('labels[]', label);
+    });
   }
   return {
     url: `/api/v1/widget/messages${window.location.search}`,
