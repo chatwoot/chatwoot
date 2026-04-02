@@ -107,7 +107,7 @@ export default {
       </div>
       <div
         v-dompurify-html="formatMessage(message, false)"
-        class="message-content"
+        class="message-content line-clamp-3 break-words overflow-hidden"
       />
     </button>
   </div>
