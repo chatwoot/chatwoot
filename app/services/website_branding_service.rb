@@ -1,8 +1,15 @@
 class WebsiteBrandingService
   include SocialLinkParser
 
-  def initialize(url)
-    @url = normalize_url(url)
+  attr_reader :http_status
+
+  DATA_DEFAULTS = { description: nil, slogan: nil, phone: nil, address: nil, links: nil, stock: nil, industries: [], is_nsfw: false }.freeze
+
+  def initialize(email)
+    @email = email
+    @domain = email.split('@').last&.downcase&.strip
+    @url = "https://#{@domain}"
+    @http_status = nil
   end
 
   def perform
@@ -11,13 +18,14 @@ class WebsiteBrandingService
 
     links = extract_links(doc)
 
-    {
-      business_name: extract_business_name(doc),
-      language: extract_language(doc),
-      industry_category: nil,
-      social_handles: extract_social_from_links(links),
-      branding: extract_branding(doc)
-    }
+    DATA_DEFAULTS.merge({
+                          domain: @domain,
+                          title: extract_title(doc),
+                          colors: extract_colors(doc),
+                          logos: extract_logos(doc),
+                          socials: build_socials(links),
+                          email: @email
+                        })
   rescue StandardError => e
     Rails.logger.error "[WebsiteBranding] #{e.message}"
     nil
@@ -25,12 +33,9 @@ class WebsiteBrandingService
 
   private
 
-  def normalize_url(url)
-    url.match?(%r{\Ahttps?://}) ? url : "https://#{url}"
-  end
-
   def fetch_page
     response = HTTParty.get(@url, follow_redirects: true, timeout: 15)
+    @http_status = response.code
     return nil unless response.success?
 
     Nokogiri::HTML(response.body)
@@ -39,7 +44,7 @@ class WebsiteBrandingService
     nil
   end
 
-  def extract_business_name(doc)
+  def extract_title(doc)
     og_site_name = doc.at_css('meta[property="og:site_name"]')&.[]('content')
     return og_site_name.strip if og_site_name.present?
 
@@ -47,8 +52,37 @@ class WebsiteBrandingService
     title&.strip&.split(/\s*[|\-–—·:]+\s*/)&.first
   end
 
-  def extract_language(doc)
-    doc.at_css('html')&.[]('lang')&.split('-')&.first&.downcase
+  def extract_colors(doc)
+    color = doc.at_css('meta[name="theme-color"]')&.[]('content')
+    return [] if color.blank?
+
+    [{ hex: color, name: nil }]
+  end
+
+  def extract_logos(doc)
+    favicon = doc.at_css('link[rel*="icon"]')&.[]('href')
+    return [] if favicon.blank?
+
+    url = resolve_url(favicon)
+    return [] if url.blank?
+
+    [{ url: url, type: nil, mode: nil, colors: [], resolution: { aspect_ratio: 1 } }]
+  end
+
+  def build_socials(links)
+    handles = extract_social_from_links(links)
+    handles.filter_map do |platform, handle|
+      next if handle.blank?
+
+      url = reconstruct_social_url(platform, handle)
+      { type: platform.to_s, url: url }
+    end
+  end
+
+  def reconstruct_social_url(platform, handle)
+    base_urls = { whatsapp: 'https://wa.me/', line: 'https://line.me/', facebook: 'https://facebook.com/',
+                  instagram: 'https://instagram.com/', telegram: 'https://t.me/', tiktok: 'https://tiktok.com/' }
+    "#{base_urls[platform]}#{handle}"
   end
 
   def extract_links(doc)
@@ -60,24 +94,6 @@ class WebsiteBrandingService
     rescue URI::InvalidURIError
       nil
     end.uniq
-  end
-
-  def extract_branding(doc)
-    {
-      favicon: extract_favicon(doc),
-      primary_color: extract_theme_color(doc)
-    }
-  end
-
-  def extract_favicon(doc)
-    favicon = doc.at_css('link[rel*="icon"]')&.[]('href')
-    return nil if favicon.blank?
-
-    resolve_url(favicon)
-  end
-
-  def extract_theme_color(doc)
-    doc.at_css('meta[name="theme-color"]')&.[]('content')
   end
 
   def resolve_url(url)
