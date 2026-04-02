@@ -90,6 +90,11 @@
           "LABEL": "Website Domain",
           "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
         },
+        "WIDGET_TITLE": {
+          "LABEL": "Widget Title",
+          "PLACEHOLDER": "Enter the title displayed in the chat widget",
+          "HINT": "If not set, the inbox name will be used as the widget title"
+        },
         "CHANNEL_WELCOME_TITLE": {
           "LABEL": "Welcome Heading",
           "PLACEHOLDER": "Hi there !"

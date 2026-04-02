@@ -90,6 +90,11 @@
           "LABEL": "Domínio do website",
           "PLACEHOLDER": "Informe o domínio do seu site (por exemplo: acme.com)"
         },
+        "WIDGET_TITLE": {
+          "LABEL": "Título do Widget",
+          "PLACEHOLDER": "Informe o título exibido no widget de chat",
+          "HINT": "Se não preenchido, o nome da caixa de entrada será usado como título do widget"
+        },
         "CHANNEL_WELCOME_TITLE": {
           "LABEL": "Seja bem-vindo",
           "PLACEHOLDER": "Olá !"
