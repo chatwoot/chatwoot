@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chatwoot",
+    "TITLE": "Login to Converso",
     "EMAIL": {
       "LABEL": "E-pasts",
       "PLACEHOLDER": "piemers{'@'}firmasnosaukums.com",
@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Pieteikšanās veiksmīga",
-      "ERROR_MESSAGE": "Nevarēja izveidot savienojumu ar Woot serveri. Lūdzu mēģiniet vēlreiz.",
+      "ERROR_MESSAGE": "Nevarēja izveidot savienojumu ar Converso serveri. Lūdzu mēģiniet vēlreiz.",
       "UNAUTH": "Lietotājvārds vai parole ir nepareiza. Lūdzu mēģiniet vēlreiz."
     },
     "OAUTH": {

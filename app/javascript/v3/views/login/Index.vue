@@ -7,8 +7,6 @@ import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
 import SessionStorage from 'shared/helpers/sessionStorage';
-import { useBranding } from 'shared/composables/useBranding';
-
 // components
 import SimpleDivider from '../../components/Divider/SimpleDivider.vue';
 import FormInput from '../../components/Form/Input.vue';
@@ -45,9 +43,7 @@ export default {
     authError: { type: String, default: '' },
   },
   setup() {
-    const { replaceInstallationName } = useBranding();
     return {
-      replaceInstallationName,
       v$: useVuelidate(),
     };
   },
@@ -220,41 +216,29 @@ export default {
 
 <template>
   <main
-    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-background sm:px-6 lg:px-8"
+    class="flex min-h-screen w-full flex-col bg-n-brand/5 py-16 dark:bg-background sm:px-6 sm:py-20 md:py-24 lg:px-8"
   >
-    <section class="max-w-5xl mx-auto">
-      <img
-        :src="globalConfig.logo"
-        :alt="globalConfig.installationName"
-        class="block w-auto h-8 mx-auto dark:hidden"
-      />
-      <img
-        v-if="globalConfig.logoDark"
-        :src="globalConfig.logoDark"
-        :alt="globalConfig.installationName"
-        class="hidden w-auto h-8 mx-auto dark:block"
-      />
-      <h2
-        class="mt-6 text-3xl font-medium text-center text-n-slate-12 dark:text-on-surface"
-      >
-        {{ replaceInstallationName($t('LOGIN.TITLE')) }}
-      </h2>
-      <p
-        v-if="showSignupLink"
-        class="mt-3 text-sm text-center text-n-slate-11 dark:text-on-surface-variant"
-      >
-        {{ $t('COMMON.OR') }}
-        <router-link
-          to="auth/signup"
-          class="lowercase text-link text-n-brand dark:text-secondary"
+    <section class="mx-auto w-full max-w-5xl px-4 sm:px-0">
+      <div class="flex flex-col items-center justify-center">
+        <img
+          :src="globalConfig.logoThumbnail"
+          :alt="globalConfig.installationName"
+          class="block h-24 w-auto shrink-0 sm:h-28 md:h-32"
+        />
+        <div
+          class="flex flex-col items-center gap-0.5 text-center sm:items-start sm:text-left"
         >
-          {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
-        </router-link>
-      </p>
+          <span
+            class="font-inter text-4xl font-bold uppercase leading-none tracking-tight text-transparent bg-gradient-to-r from-woot-500 via-secondary to-green-200 bg-clip-text sm:text-5xl"
+          >
+            {{ globalConfig.installationName }}
+          </span>
+        </div>
+      </div>
     </section>
 
     <!-- MFA Verification Section -->
-    <section v-if="mfaRequired" class="mt-11">
+    <section v-if="mfaRequired" class="mt-12 sm:mt-14">
       <MfaVerification
         :mfa-token="mfaToken"
         @verified="handleMfaVerified"
@@ -265,25 +249,41 @@ export default {
     <!-- Regular Login Section -->
     <section
       v-else
-      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg p-11 sm:shadow-lg sm:rounded-lg dark:rounded-xl dark:bg-surface-container dark:border dark:border-white/5 dark:shadow-2xl dark:shadow-black/40"
+      class="mt-12 overflow-hidden rounded-xl bg-white px-8 pb-0 pt-8 shadow-sm ring-1 ring-n-container dark:bg-surface-container dark:ring-0 dark:shadow-xl sm:mx-auto sm:mt-14 sm:w-full sm:max-w-lg sm:px-10 sm:pt-10"
       :class="{
-        'mb-8 mt-15': !showGoogleOAuth,
+        'mb-10 sm:mb-12': !showGoogleOAuth,
         'animate-wiggle': loginApi.hasErrored,
       }"
     >
       <div v-if="!email">
-        <div class="flex flex-col gap-4">
+        <h1
+          class="mb-2 text-[2rem] font-bold leading-[1.15] tracking-tight text-balance text-n-slate-12 dark:text-on-surface sm:text-[2.125rem]"
+        >
+          {{ $t('LOGIN.WELCOME_BACK') }}
+        </h1>
+        <p
+          class="max-w-md text-sm leading-relaxed text-n-slate-11 dark:text-on-surface-variant"
+        >
+          {{
+            $t('LOGIN.SIGN_IN_SUBTITLE', {
+              productName: globalConfig.installationName,
+            })
+          }}
+        </p>
+        <div class="mb-6 flex flex-col gap-3 sm:mb-8 sm:gap-4">
           <GoogleOAuthButton v-if="showGoogleOAuth" />
           <div v-if="showSamlLogin" class="text-center">
             <router-link
               to="/app/login/sso"
-              class="inline-flex justify-center w-full px-4 py-3 items-center bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
+              class="inline-flex w-full items-center justify-center rounded-lg bg-n-background px-4 py-3 shadow-sm ring-1 ring-inset ring-n-container transition-colors duration-200 hover:bg-n-alpha-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary dark:bg-n-solid-3 dark:ring-n-container dark:hover:bg-n-alpha-2"
             >
               <Icon
                 icon="i-lucide-lock-keyhole"
-                class="size-5 text-n-slate-11"
+                class="size-5 text-n-slate-11 dark:text-on-surface-variant"
               />
-              <span class="ml-2 text-base font-medium text-n-slate-12">
+              <span
+                class="ml-2 text-base font-medium text-n-slate-12 dark:text-on-surface"
+              >
                 {{ $t('LOGIN.SAML.LABEL') }}
               </span>
             </router-link>
@@ -294,7 +294,7 @@ export default {
             class="uppercase"
           />
         </div>
-        <form class="space-y-5" @submit.prevent="submitFormLogin">
+        <form class="space-y-6" @submit.prevent="submitFormLogin">
           <FormInput
             v-model="credentials.email"
             name="email_address"
@@ -322,7 +322,7 @@ export default {
             <p v-if="!globalConfig.disableUserProfileUpdate">
               <router-link
                 to="auth/reset/password"
-                class="text-sm text-link dark:text-secondary"
+                class="text-sm text-link underline-offset-2 transition-opacity hover:opacity-90 dark:text-secondary"
                 tabindex="4"
               >
                 {{ $t('LOGIN.FORGOT_PASSWORD') }}
@@ -333,7 +333,7 @@ export default {
             lg
             type="submit"
             data-testid="submit_button"
-            class="w-full"
+            class="mt-1 w-full"
             :tabindex="3"
             :label="$t('LOGIN.SUBMIT')"
             :disabled="loginApi.showLoading"
@@ -341,8 +341,27 @@ export default {
           />
         </form>
       </div>
-      <div v-else class="flex items-center justify-center">
+      <div v-else class="flex items-center justify-center pb-10">
         <Spinner color-scheme="primary" size="" />
+      </div>
+      <div
+        v-if="showSignupLink && !email"
+        class="mt-8 pb-8 pt-1 text-center text-xs leading-relaxed text-n-slate-11 dark:text-on-surface-variant sm:mt-10 sm:pb-10 sm:pt-2 sm:text-sm"
+      >
+        <div
+          aria-hidden="true"
+          class="mx-auto mb-5 h-px w-[min(10rem,62%)] max-w-full bg-gradient-to-r from-transparent via-n-container to-transparent opacity-80 dark:via-outline-variant sm:mb-6 sm:w-[min(12rem,58%)]"
+        />
+        <span class="text-n-slate-11 dark:text-on-surface-variant">
+          {{ $t('LOGIN.NO_ACCOUNT_PROMPT') }}
+        </span>
+        {{ ' ' }}
+        <router-link
+          to="auth/signup"
+          class="font-semibold text-n-brand underline-offset-4 transition-opacity hover:opacity-90 hover:underline dark:text-secondary"
+        >
+          {{ $t('LOGIN.SIGN_UP') }}
+        </router-link>
       </div>
     </section>
   </main>

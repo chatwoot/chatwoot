@@ -58,7 +58,7 @@ class AccountSamlSettings < ApplicationRecord
   end
 
   def installation_name
-    GlobalConfigService.load('INSTALLATION_NAME', 'Chatwoot')
+    GlobalConfigService.load('INSTALLATION_NAME', 'Converso')
   end
 
   def update_account_users_provider

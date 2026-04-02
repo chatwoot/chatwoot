@@ -41,7 +41,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registrazione Riuscita",
-      "ERROR_MESSAGE": "Impossibile connettersi al server Woot. Riprova."
+      "ERROR_MESSAGE": "Impossibile connettersi al server Converso. Riprova."
     },
     "SUBMIT": "Crea account",
     "HAVE_AN_ACCOUNT": "Hai già un account?"

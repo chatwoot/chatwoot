@@ -2,6 +2,9 @@ class GlobalConfig
   VERSION = 'V1'.freeze
   KEY_PREFIX = 'GLOBAL_CONFIG'.freeze
   DEFAULT_EXPIRY = 1.day
+  REBRAND_DISPLAY_KEYS = %w[INSTALLATION_NAME BRAND_NAME].freeze
+  LEGACY_PRODUCT_NAME = 'Chatwoot'.freeze
+  DISPLAY_PRODUCT_NAME = 'Converso'.freeze
 
   class << self
     def get(*args)
@@ -47,11 +50,19 @@ class GlobalConfig
         $alfred.with { |conn| conn.set(cache_key, cached_value, { ex: DEFAULT_EXPIRY }) }
       end
 
-      JSON.parse(cached_value)['value']
+      raw_value = JSON.parse(cached_value)['value']
+      normalize_rebrand_display_value(config_key, raw_value)
     end
 
     def db_fallback(config_key)
       InstallationConfig.find_by(name: config_key)&.value
+    end
+
+    def normalize_rebrand_display_value(config_key, value)
+      return value unless REBRAND_DISPLAY_KEYS.include?(config_key.to_s)
+      return DISPLAY_PRODUCT_NAME if value.to_s == LEGACY_PRODUCT_NAME
+
+      value
     end
   end
 end

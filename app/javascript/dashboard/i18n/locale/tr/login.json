@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Chatwoot'ta oturum açın",
+    "TITLE": "Converso'ta oturum açın",
     "EMAIL": {
       "LABEL": "E-Posta",
       "PLACEHOLDER": "ornek{'@'}sirketadi.com",
@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Oturum açma başarılı",
-      "ERROR_MESSAGE": "Woot sunucusuna bağlanılamadı. Lütfen tekrar deneyin.",
+      "ERROR_MESSAGE": "Converso sunucusuna bağlanılamadı. Lütfen tekrar deneyin.",
       "UNAUTH": "Kullanıcı adı veya parola yanlış. Lütfen tekrar deneyin."
     },
     "OAUTH": {

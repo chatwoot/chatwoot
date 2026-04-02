@@ -11,6 +11,7 @@ const globalConfig = useMapGetter('globalConfig/get');
     v-if="globalConfig.logoThumbnail"
     v-bind="attrs"
     :src="globalConfig.logoThumbnail"
+    class="w-auto h-[30px]"
   />
   <svg
     v-else

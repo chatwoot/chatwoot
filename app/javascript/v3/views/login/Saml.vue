@@ -69,21 +69,28 @@ onMounted(async () => {
 
 <template>
   <main
-    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
+    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-background sm:px-6 lg:px-8"
   >
     <section class="max-w-5xl mx-auto">
-      <img
-        :src="globalConfig.logo"
-        :alt="globalConfig.installationName"
-        class="block w-auto h-8 mx-auto dark:hidden"
-      />
-      <img
-        v-if="globalConfig.logoDark"
-        :src="globalConfig.logoDark"
-        :alt="globalConfig.installationName"
-        class="hidden w-auto h-8 mx-auto dark:block"
-      />
-      <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
+      <div class="flex flex-col items-center justify-center sm:flex-row">
+        <img
+          :src="globalConfig.logoThumbnail"
+          :alt="globalConfig.installationName"
+          class="block h-24 w-auto shrink-0 sm:h-32 md:h-36"
+        />
+        <div
+          class="flex flex-col items-center gap-1 text-center sm:items-start sm:text-left"
+        >
+          <span
+            class="font-inter text-4xl font-bold uppercase tracking-tight text-transparent bg-gradient-to-r from-woot-500 via-secondary to-green-200 bg-clip-text sm:text-5xl"
+          >
+            {{ globalConfig.installationName }}
+          </span>
+        </div>
+      </div>
+      <h2
+        class="mt-6 text-3xl font-medium text-center text-n-slate-12 dark:text-on-surface"
+      >
         {{ t('LOGIN.SAML.TITLE') }}
       </h2>
     </section>

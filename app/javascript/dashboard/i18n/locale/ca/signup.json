@@ -41,7 +41,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registration Successful",
-      "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+      "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Converso. Torna-ho a provar més endavant"
     },
     "SUBMIT": "Crear un compte",
     "HAVE_AN_ACCOUNT": "Ja tens un compte?"

@@ -10,6 +10,10 @@ as defined by the routes in the `admin/` namespace
 <%= vite_client_tag %>
 <%= vite_javascript_tag 'superadmin_pages' %>
 
+<% branding = GlobalConfig.get('INSTALLATION_NAME', 'LOGO_THUMBNAIL')
+   installation_name = branding['INSTALLATION_NAME'].presence || 'Converso'
+   logo_thumbnail = branding['LOGO_THUMBNAIL'].presence || '/brand-assets/converso/logo.png'
+%>
 <%
   sidebar_icons = {
     accounts: 'icon-building-4-line',
@@ -21,11 +25,14 @@ as defined by the routes in the `admin/` namespace
 
 <div class="border-slate-100 border-r w-56 flex-shrink-0 justify-between h-full flex flex-col" role="navigation">
   <div>
-    <div class="flex mx-4 mb-4 border-slate-100 border-b py-6">
-      <%= link_to image_tag('/brand-assets/logo_thumbnail.svg', alt: 'Chatwoot Admin Dashboard', class: 'h-10'), super_admin_root_url %>
-      <div class="flex flex-col ml-3">
-        <div class="text-sm">Chatwoot <%= Chatwoot.config[:version] %></div>
-        <div class="text-xs text-slate-700 mt-0.5">Super Admin Console</div>
+    <div class="flex items-center mx-4 mb-4 border-slate-100 border-b py-6 gap-3">
+      <%= link_to image_tag(logo_thumbnail, alt: "#{installation_name} Admin", class: 'h-10 w-auto shrink-0'), super_admin_root_url %>
+      <div class="flex flex-col min-w-0">
+        <span class="font-inter text-sm font-bold uppercase tracking-tight text-transparent bg-gradient-to-r from-woot-500 via-secondary to-green-200 bg-clip-text truncate">
+          <%= installation_name %>
+        </span>
+        <div class="text-xs text-slate-600 dark:text-slate-400 mt-0.5"><%= Chatwoot.config[:version] %></div>
+        <div class="text-xs text-slate-700 dark:text-slate-300 mt-0.5">Super Admin Console</div>
       </div>
     </div>
 

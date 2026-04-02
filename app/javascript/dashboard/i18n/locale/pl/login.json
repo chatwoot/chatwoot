@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Zaloguj się do Chatwoot",
+    "TITLE": "Zaloguj się do Converso",
     "EMAIL": {
       "LABEL": "E-mail",
       "PLACEHOLDER": "example{'@'}companyname.com",
@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Logowanie udane",
-      "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot. Spróbuj ponownie.",
+      "ERROR_MESSAGE": "Nie można połączyć się z serwerem Converso. Spróbuj ponownie.",
       "UNAUTH": "Nazwa użytkownika lub hasło jest nieprawidłowe. Spróbuj ponownie."
     },
     "OAUTH": {

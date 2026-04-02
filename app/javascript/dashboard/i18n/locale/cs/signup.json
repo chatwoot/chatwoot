@@ -41,7 +41,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registration Successful",
-      "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+      "ERROR_MESSAGE": "Nelze se připojit k Converso serveru, opakujte akci později"
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Máte již účet?"

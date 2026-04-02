@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Melden Sie sich bei Chatwoot an",
+    "TITLE": "Melden Sie sich bei Converso an",
     "EMAIL": {
       "LABEL": "E-Mail",
       "PLACEHOLDER": "example{'@'}companyname.com",
@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Anmeldung erfolgreich",
-      "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut",
+      "ERROR_MESSAGE": "Es konnte keine Verbindung zum Converso Server hergestellt werden. Bitte versuchen Sie es später erneut",
       "UNAUTH": "Benutzername / Passwort falsch. Bitte versuche es erneut"
     },
     "OAUTH": {

@@ -41,7 +41,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registration Successful",
-      "ERROR_MESSAGE": "Wootサーバーに接続できませんでした。後でもう一度お試しください。"
+      "ERROR_MESSAGE": "Conversoサーバーに接続できませんでした。後でもう一度お試しください。"
     },
     "SUBMIT": "アカウントを作成",
     "HAVE_AN_ACCOUNT": "すでにアカウントをお持ちですか？"

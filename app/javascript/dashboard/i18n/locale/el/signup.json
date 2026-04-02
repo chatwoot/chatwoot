@@ -41,7 +41,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registration Successful",
-      "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+      "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Converso Server, Παρακαλώ προσπαθήστε αργότερα"
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Έχετε ήδη ένα λογαριασμό?"

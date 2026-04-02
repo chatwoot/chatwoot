@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SuperAdmin | Chatwoot</title>
+    <title>SuperAdmin | Converso</title>
     <%= vite_client_tag %>
     <%= vite_javascript_tag 'superadmin' %>
   </head>
   <body>
+    <% branding = GlobalConfig.get('INSTALLATION_NAME', 'LOGO_THUMBNAIL')
+       installation_name = branding['INSTALLATION_NAME'].presence || 'Converso'
+       logo_thumbnail = branding['LOGO_THUMBNAIL'].presence || '/brand-assets/converso/logo.png'
+    %>
     <div class="h-full w-full antialiased">
-      <main class="flex flex-col bg-woot-25 min-h-screen w-full py-20 sm:px-6 lg:px-8 dark:bg-slate-900">
+      <main class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-background sm:px-6 lg:px-8">
         <section class="max-w-5xl mx-auto">
-          <img src="/brand-assets/logo.svg" alt="Chatwoot" class="mx-auto h-8 w-auto block dark:hidden">
-          <img src="/brand-assets/logo_dark.svg" alt="Chatwoot" class="mx-auto h-8 w-auto hidden dark:block">
-          <h2 class="mt-6 text-center text-3xl font-medium text-slate-900 dark:text-woot-50">
+          <div class="flex flex-col items-center justify-center sm:flex-row">
+            <img src="<%= logo_thumbnail %>" alt="<%= installation_name %>" class="block h-24 w-auto shrink-0 sm:h-32 md:h-36">
+            <div class="flex flex-col items-center gap-1 text-center sm:items-start sm:text-left">
+              <span class="font-inter text-4xl font-bold uppercase tracking-tight text-transparent bg-gradient-to-r from-woot-500 via-secondary to-green-200 bg-clip-text sm:text-5xl">
+                <%= installation_name %>
+              </span>
+            </div>
+          </div>
+          <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12 dark:text-on-surface">
             Howdy, admin 👋
           </h2>
         </section>
