@@ -1,0 +1,1 @@
+json.partial! 'message_template', formats: [:json], message_template: @message_template
