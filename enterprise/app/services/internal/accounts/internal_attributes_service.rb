@@ -52,9 +52,9 @@ class Internal::Accounts::InternalAttributesService
 
   # Get list of valid features that can be manually managed
   def valid_feature_list
-    # Business and Enterprise plan features only
     Enterprise::Billing::ReconcilePlanFeaturesService::BUSINESS_PLAN_FEATURES +
-      Enterprise::Billing::ReconcilePlanFeaturesService::ENTERPRISE_PLAN_FEATURES
+      Enterprise::Billing::ReconcilePlanFeaturesService::ENTERPRISE_PLAN_FEATURES +
+      %w[inbound_emails]
   end
 
   # Account notes functionality removed for now
