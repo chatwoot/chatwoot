@@ -6,13 +6,26 @@ const createConversationAPI = async content => {
   return API.post(urlData.url, urlData.params);
 };
 
-const sendMessageAPI = async (content, replyTo = null) => {
-  const urlData = endPoints.sendMessage(content, replyTo);
+const sendMessageAPI = async (
+  content,
+  replyTo = null,
+  { customAttributes, labels } = {}
+) => {
+  const urlData = endPoints.sendMessage(content, replyTo, {
+    customAttributes,
+    labels,
+  });
   return API.post(urlData.url, urlData.params);
 };
 
-const sendAttachmentAPI = async (attachment, replyTo = null) => {
-  const urlData = endPoints.sendAttachment(attachment, replyTo);
+const sendAttachmentAPI = async (
+  attachment,
+  { customAttributes, labels } = {}
+) => {
+  const urlData = endPoints.sendAttachment(attachment, {
+    customAttributes,
+    labels,
+  });
   return API.post(urlData.url, urlData.params);
 };
 
