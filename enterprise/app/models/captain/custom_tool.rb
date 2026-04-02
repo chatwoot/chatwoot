@@ -24,6 +24,10 @@
 #  index_captain_custom_tools_on_account_id_and_slug  (account_id,slug) UNIQUE
 #
 class Captain::CustomTool < ApplicationRecord
+  class LimitExceededError < StandardError; end
+
+  MAX_PER_ACCOUNT = 15
+
   include Concerns::Toolable
   include Concerns::SafeEndpointValidatable
 
@@ -31,6 +35,10 @@ class Captain::CustomTool < ApplicationRecord
 
   NAME_PREFIX = 'custom'.freeze
   NAME_SEPARATOR = '_'.freeze
+  # OpenAI enforces a 64-char limit on function names. The slug is used
+  # verbatim as the tool name in LLM requests, so it must fit within this limit.
+  MAX_SLUG_LENGTH = 64
+  COLLISION_SUFFIX_LENGTH = 7 # "_" + 6 random alphanumeric chars
   PARAM_SCHEMA_VALIDATION = {
     'type': 'array',
     'items': {
@@ -52,8 +60,9 @@ class Captain::CustomTool < ApplicationRecord
   enum :auth_type, %w[none bearer basic api_key].index_by(&:itself), default: :none, validate: true, prefix: :auth
 
   before_validation :generate_slug
+  before_create :ensure_within_limit
 
-  validates :slug, presence: true, uniqueness: { scope: :account_id }
+  validates :slug, presence: true, uniqueness: { scope: :account_id }, length: { maximum: MAX_SLUG_LENGTH }
   validates :title, presence: true
   validates :endpoint_url, presence: true
   validates_with JsonSchemaValidator,
@@ -73,21 +82,29 @@ class Captain::CustomTool < ApplicationRecord
 
   private
 
+  def ensure_within_limit
+    # Lock the account row to serialize concurrent creates and prevent exceeding the cap
+    Account.lock.find(account_id)
+    return if account.captain_custom_tools.count < MAX_PER_ACCOUNT
+
+    raise LimitExceededError, I18n.t('captain.custom_tool.limit_exceeded', limit: MAX_PER_ACCOUNT)
+  end
+
   def generate_slug
     return if slug.present?
     return if title.blank?
 
-    paramterized_title = title.parameterize(separator: NAME_SEPARATOR)
-
-    base_slug = "#{NAME_PREFIX}#{NAME_SEPARATOR}#{paramterized_title}"
+    parameterized_title = title.parameterize(separator: NAME_SEPARATOR)
+    base_slug = "#{NAME_PREFIX}#{NAME_SEPARATOR}#{parameterized_title}".truncate(MAX_SLUG_LENGTH, omission: '')
     self.slug = find_unique_slug(base_slug)
   end
 
   def find_unique_slug(base_slug)
     return base_slug unless slug_exists?(base_slug)
 
+    truncated = base_slug.truncate(MAX_SLUG_LENGTH - COLLISION_SUFFIX_LENGTH, omission: '')
     5.times do
-      slug_candidate = "#{base_slug}#{NAME_SEPARATOR}#{SecureRandom.alphanumeric(6).downcase}"
+      slug_candidate = "#{truncated}#{NAME_SEPARATOR}#{SecureRandom.alphanumeric(6).downcase}"
       return slug_candidate unless slug_exists?(slug_candidate)
     end
 

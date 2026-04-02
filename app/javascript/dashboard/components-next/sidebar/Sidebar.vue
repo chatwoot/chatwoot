@@ -63,6 +63,16 @@ const hasAdvancedAssignment = computed(() => {
   );
 });
 
+const hasCustomTools = computed(() => {
+  return (
+    isFeatureEnabledonAccount.value(
+      accountId.value,
+      FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS
+    ) ||
+    isFeatureEnabledonAccount.value(accountId.value, FEATURE_FLAGS.CAPTAIN_V2)
+  );
+});
+
 const toggleShortcutModalFn = show => {
   if (show) {
     emit('openKeyShortcutModal');
@@ -364,14 +374,18 @@ const menuItems = computed(() => {
             navigationPath: 'captain_assistants_inboxes_index',
           }),
         },
-        {
-          name: 'Tools',
-          label: t('SIDEBAR.CAPTAIN_TOOLS'),
-          activeOn: ['captain_tools_index'],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_tools_index',
-          }),
-        },
+        ...(hasCustomTools.value
+          ? [
+              {
+                name: 'Tools',
+                label: t('SIDEBAR.CAPTAIN_TOOLS'),
+                activeOn: ['captain_tools_index'],
+                to: accountScopedRoute('captain_assistants_index', {
+                  navigationPath: 'captain_tools_index',
+                }),
+              },
+            ]
+          : []),
         {
           name: 'Settings',
           label: t('SIDEBAR.CAPTAIN_SETTINGS'),
