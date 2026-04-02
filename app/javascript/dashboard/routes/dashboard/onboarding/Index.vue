@@ -161,7 +161,7 @@ const enableWebsiteEditing = () => {
 const handleSubmit = async () => {
   v$.value.$touch();
   if (v$.value.$invalid) {
-    useAlert(t('ONBOARDING.VALIDATION_ERROR'));
+    useAlert(t('ONBOARDING_NEXT.VALIDATION_ERROR'));
     showErrorOnFields.value = true;
     setTimeout(() => {
       showErrorOnFields.value = false;
@@ -206,10 +206,10 @@ const handleSubmit = async () => {
       referral_source: referralSource.value,
     });
 
-    useAlert(t('ONBOARDING.SUCCESS'));
+    useAlert(t('ONBOARDING_NEXT.SUCCESS'));
     router.push({ name: 'home', params: { accountId: accountId.value } });
   } catch {
-    useAlert(t('ONBOARDING.ERROR'));
+    useAlert(t('ONBOARDING_NEXT.ERROR'));
   } finally {
     isSubmitting.value = false;
   }
@@ -219,13 +219,13 @@ const handleSubmit = async () => {
 <template>
   <form @submit.prevent="handleSubmit">
     <OnboardingLayout
-      :greeting="t('ONBOARDING.GREETING', { name: userName })"
-      :subtitle="t('ONBOARDING.SUBTITLE')"
-      :continue-label="t('ONBOARDING.CONTINUE')"
+      :greeting="t('ONBOARDING_NEXT.GREETING', { name: userName })"
+      :subtitle="t('ONBOARDING_NEXT.SUBTITLE')"
+      :continue-label="t('ONBOARDING_NEXT.CONTINUE')"
       :is-loading="isSubmitting"
     >
       <OnboardingSection
-        :title="t('ONBOARDING.YOUR_DETAILS')"
+        :title="t('ONBOARDING_NEXT.YOUR_DETAILS')"
         icon="i-lucide-user"
       >
         <div class="flex items-center gap-2 px-3 py-3">
@@ -235,33 +235,33 @@ const handleSubmit = async () => {
           </span>
         </div>
         <OnboardingFormRow
-          :title="t('ONBOARDING.FIELDS.EMAIL')"
+          :title="t('ONBOARDING_NEXT.FIELDS.EMAIL')"
           icon="i-lucide-mail"
         >
           <div class="flex items-center justify-end gap-1.5">
             <span class="text-sm text-n-slate-12">{{ userEmail }}</span>
             <Icon
-              v-tooltip="t('ONBOARDING.EMAIL_VERIFIED')"
+              v-tooltip="t('ONBOARDING_NEXT.EMAIL_VERIFIED')"
               icon="i-lucide-circle-check"
               class="size-4 text-n-teal-11 flex-shrink-0"
             />
           </div>
         </OnboardingFormRow>
         <OnboardingFormRow
-          :title="t('ONBOARDING.FIELDS.YOUR_ROLE')"
+          :title="t('ONBOARDING_NEXT.FIELDS.YOUR_ROLE')"
           icon="i-lucide-user"
         >
           <OnboardingFormSelect
             v-model="userRole"
             :has-error="showErrorOnFields && v$.userRole.$error"
             :options="USER_ROLE_OPTIONS"
-            :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_ROLE')"
+            :placeholder="t('ONBOARDING_NEXT.PLACEHOLDERS.SELECT_ROLE')"
           />
         </OnboardingFormRow>
       </OnboardingSection>
 
       <OnboardingSection
-        :title="t('ONBOARDING.COMPANY_DETAILS')"
+        :title="t('ONBOARDING_NEXT.COMPANY_DETAILS')"
         icon="i-lucide-briefcase-business"
       >
         <div
@@ -270,7 +270,7 @@ const handleSubmit = async () => {
         >
           <Spinner :size="16" class="text-n-blue-10" />
           <span class="text-sm text-n-slate-11">
-            {{ t('ONBOARDING.SETTING_UP') }}
+            {{ t('ONBOARDING_NEXT.SETTING_UP') }}
           </span>
         </div>
         <template v-else>
@@ -286,7 +286,7 @@ const handleSubmit = async () => {
             </span>
           </div>
           <OnboardingFormRow
-            :title="t('ONBOARDING.FIELDS.WEBSITE')"
+            :title="t('ONBOARDING_NEXT.FIELDS.WEBSITE')"
             icon="i-lucide-globe"
           >
             <div class="flex items-center justify-end gap-2">
@@ -295,7 +295,7 @@ const handleSubmit = async () => {
                 v-model="website"
                 type="text"
                 :readonly="!isEditingWebsite"
-                :placeholder="t('ONBOARDING.PLACEHOLDERS.ENTER_WEBSITE')"
+                :placeholder="t('ONBOARDING_NEXT.PLACEHOLDERS.ENTER_WEBSITE')"
                 class="reset-base w-auto text-sm text-right border-0 px-1 py-0.5 -my-0.5 mx-0 text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-0 rounded"
                 :class="[
                   isEditingWebsite
@@ -316,7 +316,7 @@ const handleSubmit = async () => {
             </div>
           </OnboardingFormRow>
           <OnboardingFormRow
-            :title="t('ONBOARDING.FIELDS.LANGUAGE')"
+            :title="t('ONBOARDING_NEXT.FIELDS.LANGUAGE')"
             icon="i-lucide-languages"
           >
             <OnboardingFormSelect
@@ -326,47 +326,51 @@ const handleSubmit = async () => {
             />
           </OnboardingFormRow>
           <OnboardingFormRow
-            :title="t('ONBOARDING.FIELDS.TIMEZONE')"
+            :title="t('ONBOARDING_NEXT.FIELDS.TIMEZONE')"
             icon="i-lucide-clock"
           >
             <OnboardingFormSelect
               v-model="timezone"
               :has-error="showErrorOnFields && v$.timezone.$error"
               :options="timezoneOptions"
-              :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_TIMEZONE')"
+              :placeholder="t('ONBOARDING_NEXT.PLACEHOLDERS.SELECT_TIMEZONE')"
             />
           </OnboardingFormRow>
           <OnboardingFormRow
-            :title="t('ONBOARDING.FIELDS.INDUSTRY')"
+            :title="t('ONBOARDING_NEXT.FIELDS.INDUSTRY')"
             icon="i-lucide-factory"
           >
             <OnboardingFormSelect
               v-model="industry"
               :has-error="showErrorOnFields && v$.industry.$error"
               :options="INDUSTRY_OPTIONS"
-              :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_INDUSTRY')"
+              :placeholder="t('ONBOARDING_NEXT.PLACEHOLDERS.SELECT_INDUSTRY')"
             />
           </OnboardingFormRow>
           <OnboardingFormRow
-            :title="t('ONBOARDING.FIELDS.COMPANY_SIZE')"
+            :title="t('ONBOARDING_NEXT.FIELDS.COMPANY_SIZE')"
             icon="i-lucide-users"
           >
             <OnboardingFormSelect
               v-model="companySize"
               :has-error="showErrorOnFields && v$.companySize.$error"
               :options="COMPANY_SIZE_OPTIONS"
-              :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_COMPANY_SIZE')"
+              :placeholder="
+                t('ONBOARDING_NEXT.PLACEHOLDERS.SELECT_COMPANY_SIZE')
+              "
             />
           </OnboardingFormRow>
           <OnboardingFormRow
-            :title="t('ONBOARDING.FIELDS.REFERRAL_SOURCE')"
+            :title="t('ONBOARDING_NEXT.FIELDS.REFERRAL_SOURCE')"
             icon="i-lucide-megaphone"
           >
             <OnboardingFormSelect
               v-model="referralSource"
               :has-error="showErrorOnFields && v$.referralSource.$error"
               :options="REFERRAL_SOURCE_OPTIONS"
-              :placeholder="t('ONBOARDING.PLACEHOLDERS.SELECT_REFERRAL_SOURCE')"
+              :placeholder="
+                t('ONBOARDING_NEXT.PLACEHOLDERS.SELECT_REFERRAL_SOURCE')
+              "
             />
           </OnboardingFormRow>
         </template>
