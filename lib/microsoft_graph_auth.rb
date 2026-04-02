@@ -11,7 +11,7 @@ require 'omniauth-oauth2'
 class MicrosoftGraphAuth < OmniAuth::Strategies::OAuth2
   option :name, :microsoft_graph_auth
 
-  DEFAULT_SCOPE = 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send'
+  DEFAULT_SCOPE = 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://graph.microsoft.com/Mail.Send https://graph.microsoft.com/Mail.ReadWrite'
 
   # Configure the Microsoft identity platform endpoints
   option :client_options,
