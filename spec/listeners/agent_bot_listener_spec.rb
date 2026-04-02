@@ -57,6 +57,30 @@ describe AgentBotListener do
     end
   end
 
+  describe '#assignee_changed' do
+    let(:event_name) { 'assignee.changed' }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
+
+    context 'when conversation is assigned to an agent bot' do
+      before do
+        conversation.update!(assignee_agent_bot: agent_bot, assignee: nil)
+      end
+
+      it 'sends webhook to the assigned agent bot' do
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(agent_bot.outgoing_url,
+                                                                      conversation.webhook_data.merge(event: 'assignee_changed')).once
+        listener.assignee_changed(event)
+      end
+    end
+
+    context 'when conversation is not assigned to an agent bot' do
+      it 'does not send webhook' do
+        expect(AgentBots::WebhookJob).not_to receive(:perform_later)
+        listener.assignee_changed(event)
+      end
+    end
+  end
+
   describe '#webwidget_triggered' do
     let(:event_name) { 'webwidget.triggered' }
 

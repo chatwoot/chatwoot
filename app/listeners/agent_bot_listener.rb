@@ -15,6 +15,15 @@ class AgentBotListener < BaseListener
     agent_bots_for(inbox, conversation).each { |agent_bot| process_webhook_bot_event(agent_bot, payload) }
   end
 
+  def assignee_changed(event)
+    conversation = extract_conversation_and_account(event)[0]
+    return unless conversation.assignee_agent_bot.present?
+
+    conversation.inbox
+    payload = conversation.webhook_data.merge(event: __method__.to_s)
+    process_webhook_bot_event(conversation.assignee_agent_bot, payload)
+  end
+
   def message_created(event)
     message = extract_message_and_account(event)[0]
     inbox = message.inbox

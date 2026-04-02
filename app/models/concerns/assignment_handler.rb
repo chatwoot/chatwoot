@@ -29,7 +29,7 @@ module AssignmentHandler
 
   def notify_assignment_change
     {
-      ASSIGNEE_CHANGED => -> { saved_change_to_assignee_id? },
+      ASSIGNEE_CHANGED => -> { saved_change_to_assignee_id? || saved_change_to_assignee_agent_bot_id? },
       TEAM_CHANGED => -> { saved_change_to_team_id? }
     }.each do |event, condition|
       condition.call && dispatcher_dispatch(event, previous_changes)
