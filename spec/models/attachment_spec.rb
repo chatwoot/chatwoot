@@ -187,6 +187,44 @@ RSpec.describe Attachment do
     end
   end
 
+  describe 'set_extension' do
+    it 'sets extension from filename on save' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
+      attachment.file.attach(io: StringIO.new('fake pdf'), filename: 'test.pdf', content_type: 'application/pdf')
+      attachment.save!
+
+      expect(attachment.extension).to eq('pdf')
+    end
+
+    it 'does not overwrite extension if already set' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :file, extension: 'doc')
+      attachment.file.attach(io: StringIO.new('fake pdf'), filename: 'test.pdf', content_type: 'application/pdf')
+      attachment.save!
+
+      expect(attachment.extension).to eq('doc')
+    end
+
+    it 'handles filenames without extension' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
+      attachment.file.attach(io: StringIO.new('fake data'), filename: 'README', content_type: 'text/plain')
+      attachment.save!
+
+      expect(attachment.extension).to be_nil
+    end
+  end
+
+  describe 'push_event_data includes extension and content_type' do
+    it 'returns extension and content_type for file attachments' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
+      attachment.file.attach(io: StringIO.new('fake pdf'), filename: 'test.pdf', content_type: 'application/pdf')
+      attachment.save!
+
+      event_data = attachment.push_event_data
+      expect(event_data[:extension]).to eq('pdf')
+      expect(event_data[:content_type]).to eq('application/pdf')
+    end
+  end
+
   describe 'file size validation' do
     let(:attachment) { message.attachments.new(account_id: message.account_id, file_type: :image) }
 
