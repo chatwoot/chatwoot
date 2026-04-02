@@ -33,6 +33,25 @@ export function extractTextFromMarkdown(markdown) {
 }
 
 /**
+ * Removes inline base64 markdown images from signature content.
+ *
+ * @param {string} content
+ * @returns {{ sanitizedContent: string, hasInlineImages: boolean }}
+ */
+export function stripInlineBase64Images(content) {
+  if (!content || typeof content !== 'string') {
+    return { sanitizedContent: content || '', hasInlineImages: false };
+  }
+
+  const markdownInlineBase64ImageRegex =
+    /!\[[^\]]*]\(\s*data:image\/[a-zA-Z0-9.+-]+;base64,[^)]+\s*\)/gi;
+  const sanitizedContent = content.replace(markdownInlineBase64ImageRegex, '');
+  const hasInlineImages = sanitizedContent !== content;
+
+  return { sanitizedContent, hasInlineImages };
+}
+
+/**
  * Strip unsupported markdown formatting based on channel capabilities.
  * Uses MARKDOWN_PATTERNS from editor constants.
  *

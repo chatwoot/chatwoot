@@ -27,7 +27,6 @@ import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import {
   getMessageVariables,
   getUndefinedVariablesInMessage,
-  replaceVariablesInMessage,
 } from '@chatwoot/utils';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import ContentTemplates from './ContentTemplates/ContentTemplatesModal.vue';
@@ -636,10 +635,17 @@ export default {
         return message;
       }
 
+      // Even when editor is disabled (e.g. WhatsApp/API can't reply), we must
+      // still normalize stale signatures out of drafts when signature is off.
+      if (this.isEditorDisabled && this.sendWithSignature) {
+        return message;
+      }
+
       const effectiveChannelType = getEffectiveChannelType(
         this.channelType,
         this.inbox?.medium || ''
       );
+
       return this.sendWithSignature
         ? appendSignature(message, this.messageSignature, effectiveChannelType)
         : removeSignature(message, this.messageSignature, effectiveChannelType);
@@ -910,32 +916,6 @@ export default {
         ...messagePayload,
       });
       this.hideContentTemplatesModal();
-    },
-    replaceText(message) {
-      if (this.sendWithSignature && !this.private) {
-        // if signature is enabled, append it to the message
-        // appendSignature ensures that the signature is not duplicated
-        // so we don't need to check if the signature is already present
-        const effectiveChannelType = getEffectiveChannelType(
-          this.channelType,
-          this.inbox?.medium || ''
-        );
-        message = appendSignature(
-          message,
-          this.messageSignature,
-          effectiveChannelType
-        );
-      }
-
-      const updatedMessage = replaceVariablesInMessage({
-        message,
-        variables: this.messageVariables,
-      });
-
-      setTimeout(() => {
-        useTrack(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
-        this.message = updatedMessage;
-      }, 100);
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       // Clear attachments when switching between private note and reply modes
@@ -1435,7 +1415,6 @@ export default {
         :new-conversation-modal-active="newConversationModalActive"
         @select-whatsapp-template="openWhatsappTemplateModal"
         @select-content-template="openContentTemplateModal"
-        @replace-text="replaceText"
         @toggle-insert-article="toggleInsertArticle"
         @toggle-quoted-reply="toggleQuotedReply"
       />
