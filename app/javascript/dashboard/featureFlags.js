@@ -37,6 +37,7 @@ export const FEATURE_FLAGS = {
   CHANNEL_INSTAGRAM: 'channel_instagram',
   CHANNEL_TIKTOK: 'channel_tiktok',
   CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
+  CAPTAIN_CUSTOM_TOOLS: 'custom_tools',
   CAPTAIN_V2: 'captain_integration_v2',
   CAPTAIN_TASKS: 'captain_tasks',
   SAML: 'saml',

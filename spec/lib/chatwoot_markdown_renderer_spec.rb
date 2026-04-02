@@ -6,11 +6,9 @@ RSpec.describe ChatwootMarkdownRenderer do
   let(:doc) { instance_double(CommonMarker::Node) }
   let(:renderer) { described_class.new(markdown_content) }
   let(:markdown_renderer) { instance_double(CustomMarkdownRenderer) }
-  let(:base_markdown_renderer) { instance_double(BaseMarkdownRenderer) }
   let(:html_content) { '<p>This is a <em>test</em> content with <sup>markdown</sup></p>' }
 
   before do
-    allow(CommonMarker).to receive(:render_doc).with(markdown_content, :DEFAULT, [:strikethrough]).and_return(doc)
     allow(CustomMarkdownRenderer).to receive(:new).and_return(markdown_renderer)
     allow(markdown_renderer).to receive(:render).with(doc).and_return(html_content)
   end
@@ -64,21 +62,27 @@ RSpec.describe ChatwootMarkdownRenderer do
   end
 
   describe '#render_message' do
-    let(:message_html_content) { '<p>This is a <em>test</em> content with ^markdown^</p>' }
     let(:rendered_message) { renderer.render_message }
 
     before do
-      allow(CommonMarker).to receive(:render_html).with(markdown_content).and_return(message_html_content)
-      allow(BaseMarkdownRenderer).to receive(:new).and_return(base_markdown_renderer)
-      allow(base_markdown_renderer).to receive(:render).with(doc).and_return(message_html_content)
+      allow(CommonMarker).to receive(:render_doc).and_call_original
+      allow(BaseMarkdownRenderer).to receive(:new).and_call_original
     end
 
     it 'renders the markdown message to html' do
-      expect(rendered_message.to_s).to eq(message_html_content)
+      expect(rendered_message.to_s).to eq("<p>This is a <em>test</em> content with ^markdown^</p>\n")
     end
 
     it 'returns an html safe string' do
       expect(rendered_message).to be_html_safe
+    end
+
+    context 'with bare URLs' do
+      let(:markdown_content) { 'Visit https://example.com for details' }
+
+      it 'converts bare URLs to links' do
+        expect(renderer.render_message.to_s).to eq("<p>Visit <a href=\"https://example.com\">https://example.com</a> for details</p>\n")
+      end
     end
   end
 
