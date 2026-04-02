@@ -1,6 +1,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import {
+  DuplicateContactException,
+  ExceptionWithMessage,
+} from 'shared/helpers/CustomErrors';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
@@ -210,7 +214,17 @@ export default {
           this.contact.id
         );
       } catch (error) {
-        useAlert(error.message || this.$t('CONTACT_FORM.ERROR_MESSAGE'));
+        if (error instanceof DuplicateContactException) {
+          if (error.data.includes('email')) {
+            useAlert(this.$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.DUPLICATE'));
+          } else if (error.data.includes('phone_number')) {
+            useAlert(this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DUPLICATE'));
+          }
+        } else if (error instanceof ExceptionWithMessage) {
+          useAlert(error.data);
+        } else {
+          useAlert(error.message || this.$t('CONTACT_FORM.ERROR_MESSAGE'));
+        }
       }
     },
   },
