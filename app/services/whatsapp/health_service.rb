@@ -90,6 +90,6 @@ class Whatsapp::HealthService
     frontend_url = ENV.fetch('FRONTEND_URL', nil)
     return nil if frontend_url.blank?
 
-    "#{frontend_url}/webhooks/whatsapp/#{@channel.phone_number}"
+    "#{frontend_url}/webhooks/whatsapp"
   end
 end

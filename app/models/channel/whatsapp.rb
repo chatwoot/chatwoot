@@ -54,6 +54,19 @@ class Channel::Whatsapp < ApplicationRecord
     # rubocop:enable Rails/SkipsModelValidations
   end
 
+  def waba_sibling_exists?
+    return false unless provider == 'whatsapp_cloud'
+
+    waba_id = provider_config['business_account_id']
+    return false if waba_id.blank?
+
+    self.class
+        .where(provider: 'whatsapp_cloud')
+        .where("provider_config->>'business_account_id' = ?", waba_id)
+        .where.not(id: id)
+        .exists?
+  end
+
   delegate :send_message, to: :provider_service
   delegate :send_template, to: :provider_service
   delegate :sync_templates, to: :provider_service
