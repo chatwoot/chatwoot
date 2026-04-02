@@ -5,6 +5,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   include ConversationReplyMailerHelper
   include ReferencesHeaderBuilder
+  include EmailAddressParseable
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
   layout :choose_layout
 
@@ -137,16 +138,6 @@ class ConversationReplyMailer < ApplicationMailer
 
   def channel_email_with_name
     sender_name(@channel.email)
-  end
-
-  def parse_email(email_string)
-    Mail::Address.new(email_string).address.presence || default_sender_email_address
-  rescue Mail::Field::IncompleteParseError
-    default_sender_email_address
-  end
-
-  def default_sender_email_address
-    Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')).address
   end
 
   def inbox_from_email_address
