@@ -98,6 +98,7 @@ class Captain::Assistant::AgentRunnerService
     output = result.output
     response = output.is_a?(Hash) ? output.with_indifferent_access : { 'response' => output.to_s, 'reasoning' => 'Processed by agent' }
     response['agent_name'] = result.context&.dig(:current_agent)
+    response['handoff_tool_called'] = result.context&.dig(:captain_v2_handoff_tool_called) || false
     response
   end
 
@@ -175,16 +176,16 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def add_usage_metadata_callback(runner)
-    return runner unless ChatwootApp.otel_enabled?
-
     handoff_tool_name = Captain::Tools::HandoffTool.new(@assistant).name
 
     runner.on_tool_complete do |tool_name, _tool_result, context_wrapper|
       track_handoff_usage(tool_name, handoff_tool_name, context_wrapper)
     end
 
-    runner.on_run_complete do |_agent_name, _result, context_wrapper|
-      write_credits_used_metadata(context_wrapper)
+    if ChatwootApp.otel_enabled?
+      runner.on_run_complete do |_agent_name, _result, context_wrapper|
+        write_credits_used_metadata(context_wrapper)
+      end
     end
     runner
   end
