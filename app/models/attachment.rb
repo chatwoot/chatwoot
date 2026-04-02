@@ -120,7 +120,7 @@ class Attachment < ApplicationRecord
       height: file.metadata[:height]
     }
 
-    metadata[:data_url] = metadata[:thumb_url] = external_url if message.inbox.instagram? && message.incoming?
+    metadata[:data_url] = metadata[:thumb_url] = external_url if instagram_incoming_message?
     metadata
   end
 
@@ -154,6 +154,14 @@ class Attachment < ApplicationRecord
       fallback_title: fallback_title,
       meta: meta || {}
     }
+  end
+
+  def instagram_incoming_message?
+    return false unless message.incoming?
+
+    return true if message.inbox.instagram_direct?
+
+    message.inbox.instagram? && message.conversation&.additional_attributes&.dig('type') == 'instagram_direct_message'
   end
 
   def set_extension
