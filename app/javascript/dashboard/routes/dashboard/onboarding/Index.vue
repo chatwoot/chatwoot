@@ -113,11 +113,8 @@ const initialValues = ref({});
 const snapshotInitialValues = () => {
   initialValues.value = {
     website: website.value,
-    locale: locale.value,
-    timezone: timezone.value,
-    companySize: companySize.value,
+    company_size: companySize.value,
     industry: industry.value,
-    referralSource: referralSource.value,
   };
 };
 
@@ -146,7 +143,7 @@ const populateFormFields = () => {
 
 onMounted(() => {
   populateFormFields();
-  useTrack(ONBOARDING_EVENTS.VISITED);
+  useTrack(ONBOARDING_EVENTS.ACCOUNT_DETAILS_VISITED);
 });
 
 watch(isEnriching, newVal => {
@@ -181,25 +178,20 @@ const handleSubmit = async () => {
       referral_source: referralSource.value,
     });
 
-    const enrichedFields = ['website', 'companySize', 'industry'];
-    const allFields = {
-      website,
-      locale,
-      timezone,
-      companySize,
-      industry,
-      referralSource,
-    };
     const init = initialValues.value;
+    const enrichableFields = {
+      website: website.value,
+      company_size: companySize.value,
+      industry: industry.value,
+    };
 
-    useTrack(ONBOARDING_EVENTS.COMPLETED, {
+    useTrack(ONBOARDING_EVENTS.ACCOUNT_DETAILS_COMPLETED, {
       has_enriched_data: Boolean(
         currentAccount.value?.custom_attributes?.brand_info
       ),
-      fields_changed: enrichedFields.filter(f => allFields[f].value !== init[f])
-        .length,
-      fields_filled: Object.values(allFields).filter(f => f.value).length,
-      website_edited: website.value !== init.website,
+      fields_changed: Object.entries(enrichableFields)
+        .filter(([key, val]) => val !== init[key])
+        .map(([key]) => key),
       user_role: userRole.value,
       company_size: companySize.value,
       industry: industry.value,
