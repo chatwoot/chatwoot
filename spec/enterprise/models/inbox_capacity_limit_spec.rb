@@ -9,8 +9,20 @@ RSpec.describe InboxCapacityLimit, type: :model do
     subject { create(:inbox_capacity_limit, agent_capacity_policy: policy, inbox: inbox) }
 
     it { is_expected.to validate_presence_of(:conversation_limit) }
-    it { is_expected.to validate_numericality_of(:conversation_limit).is_greater_than(0).only_integer }
+    it { is_expected.to validate_numericality_of(:conversation_limit).is_greater_than_or_equal_to(0).only_integer }
     it { is_expected.to validate_uniqueness_of(:inbox_id).scoped_to(:agent_capacity_policy_id) }
+  end
+
+  describe 'zero conversation limit (exclusion policy)' do
+    it 'allows conversation_limit of 0' do
+      limit = build(:inbox_capacity_limit, agent_capacity_policy: policy, inbox: inbox, conversation_limit: 0)
+      expect(limit).to be_valid
+    end
+
+    it 'rejects negative conversation_limit' do
+      limit = build(:inbox_capacity_limit, agent_capacity_policy: policy, inbox: inbox, conversation_limit: -1)
+      expect(limit).not_to be_valid
+    end
   end
 
   describe 'uniqueness constraint' do
