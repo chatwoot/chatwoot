@@ -23,7 +23,7 @@ defineEmits(['continue']);
       <div class="relative pl-12">
         <!-- Timeline dotted line -->
         <svg
-          class="absolute left-[15px] top-10 bottom-10 overflow-visible"
+          class="absolute left-[16px] top-10 bottom-20 overflow-visible text-n-slate-5"
           width="1"
           height="100%"
           preserveAspectRatio="none"
@@ -32,10 +32,10 @@ defineEmits(['continue']);
             x1="0"
             y1="0"
             x2="0"
-            y2="100%"
-            stroke="rgb(var(--slate-5))"
+            y2="97%"
+            stroke="currentColor"
             stroke-width="1"
-            stroke-dasharray="4 4"
+            stroke-dasharray="3 3"
           />
         </svg>
 
@@ -68,7 +68,7 @@ defineEmits(['continue']);
         <svg
           width="48"
           height="40"
-          viewBox="0 0 48 40"
+          viewBox="0 0 47 40"
           fill="none"
           class="absolute left-0 top-0 overflow-visible"
         >
@@ -89,7 +89,7 @@ defineEmits(['continue']);
             d="M15.5 0 C15.5 24, 15.5 20, 48 20"
             stroke="url(#line-gradient)"
             stroke-width="1"
-            stroke-dasharray="4 4"
+            stroke-dasharray="3 3"
             fill="none"
           />
         </svg>
@@ -99,7 +99,7 @@ defineEmits(['continue']);
           height="6"
           viewBox="0 0 6 6"
           fill="none"
-          class="absolute left-[41px] top-1/2 -translate-y-1/2 z-10"
+          class="absolute left-[42px] top-1/2 -translate-y-1/2 z-10"
         >
           <path d="M6 0L0 3L6 6Z" fill="rgb(var(--blue-9))" />
         </svg>
