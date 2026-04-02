@@ -1,9 +1,11 @@
 <script setup>
+import { useAccount } from 'dashboard/composables/useAccount';
 import EmptyStateLayout from 'dashboard/components-next/EmptyStateLayout.vue';
 import FeatureSpotlight from 'dashboard/components-next/feature-spotlight/FeatureSpotlight.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const emit = defineEmits(['click']);
+const { isOnChatwootCloud } = useAccount();
 
 const onClick = () => {
   emit('click');
