@@ -10,8 +10,6 @@ import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useWindowSize, useEventListener } from '@vueuse/core';
-import { emitter } from 'shared/helpers/mitt';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
@@ -192,15 +190,6 @@ const sortedInboxes = computed(() =>
 const closeMobileSidebar = () => {
   if (!props.isMobileSidebarOpen) return;
   emit('closeMobileSidebar');
-};
-
-const onComposeOpen = toggleFn => {
-  toggleFn();
-  emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, true);
-};
-
-const onComposeClose = () => {
-  emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, false);
 };
 
 const newReportRoutes = () => [
@@ -810,8 +799,8 @@ const menuItems = computed(() => {
         >
           <span class="i-lucide-search size-4 text-n-slate-11" />
         </RouterLink>
-        <ComposeConversation align-position="right" @close="onComposeClose">
-          <template #trigger="{ toggle, isOpen }">
+        <ComposeConversation align="start">
+          <template #trigger="{ isOpen }">
             <Button
               icon="i-lucide-pen-line"
               color="slate"
@@ -823,7 +812,6 @@ const menuItems = computed(() => {
                   : '!h-7 !outline-n-weak !text-n-slate-11',
                 { '!bg-n-alpha-2 dark:!bg-n-slate-9/30': isOpen },
               ]"
-              @click="onComposeOpen(toggle)"
             />
           </template>
         </ComposeConversation>
