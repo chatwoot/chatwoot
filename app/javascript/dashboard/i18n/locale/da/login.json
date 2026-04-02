@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Log ind på Chatwoot",
+    "TITLE": "Log ind på Converso",
     "EMAIL": {
       "LABEL": "E-mail",
       "PLACEHOLDER": "navn{'@'}example.dk",
@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Login Lykkedes",
-      "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere.",
+      "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Converso Server, Prøv igen senere.",
       "UNAUTH": "Brugernavn / adgangskode forkert. Prøv igen."
     },
     "OAUTH": {

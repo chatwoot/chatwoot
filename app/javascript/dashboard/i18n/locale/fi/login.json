@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Kirjaudu sisään Chatwootiin",
+    "TITLE": "Kirjaudu sisään Conversoiin",
     "EMAIL": {
       "LABEL": "Sähköposti",
       "PLACEHOLDER": "example{'@'}companyname.com",
@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Kirjautuminen Onnistui",
-      "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen",
+      "ERROR_MESSAGE": "Yhteyden muodostaminen Converso-palvelimelle ei onnistunut, yritä myöhemmin uudelleen",
       "UNAUTH": "Käyttäjätunnus / salasana virheellinen. Yritä uudelleen"
     },
     "OAUTH": {

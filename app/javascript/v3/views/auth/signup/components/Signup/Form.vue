@@ -181,7 +181,7 @@ const onCaptchaError = () => {
       {{ $t('REGISTER.OAUTH.GOOGLE_SIGNUP') }}
     </GoogleOAuthButton>
     <p
-      class="text-sm mt-5 mb-0 text-n-slate-11 [&>a]:text-n-blue-10 [&>a]:font-medium [&>a]:hover:text-n-blue-11"
+      class="mb-0 mt-5 text-sm text-n-slate-11 dark:text-on-surface-variant [&>a]:font-semibold [&>a]:text-n-brand [&>a]:underline-offset-2 [&>a]:transition-opacity [&>a]:hover:opacity-90 dark:[&>a]:text-secondary"
       v-html="termsLink"
     />
   </div>

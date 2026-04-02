@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "登录到Chatwoot",
+    "TITLE": "登录到Converso",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "实例 {'@'}companyname.com",
@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "登录成功",
-      "ERROR_MESSAGE": "无法连接Woot服务器，请稍后再试",
+      "ERROR_MESSAGE": "无法连接Converso服务器，请稍后再试",
       "UNAUTH": "用户名或密码不正确，请重试。"
     },
     "OAUTH": {

@@ -2,6 +2,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
+import { mapGetters } from 'vuex';
 import FormInput from '../../../components/Form/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
@@ -32,6 +33,9 @@ export default {
       },
       error: '',
     };
+  },
+  computed: {
+    ...mapGetters({ globalConfig: 'globalConfig/get' }),
   },
   mounted() {
     // If url opened without token
@@ -87,10 +91,28 @@ export default {
 
 <template>
   <div
-    class="flex flex-col justify-center w-full min-h-screen py-12 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
+    class="flex flex-col justify-center w-full min-h-screen py-12 bg-n-brand/5 dark:bg-background sm:px-6 lg:px-8"
   >
+    <section class="max-w-5xl mx-auto w-full">
+      <div class="flex flex-col items-center justify-center sm:flex-row">
+        <img
+          :src="globalConfig.logoThumbnail"
+          :alt="globalConfig.installationName"
+          class="block h-24 w-auto shrink-0 sm:h-32 md:h-36"
+        />
+        <div
+          class="flex flex-col items-center gap-1 text-center sm:items-start sm:text-left"
+        >
+          <span
+            class="font-inter text-4xl font-bold uppercase tracking-tight text-transparent bg-gradient-to-r from-woot-500 via-secondary to-green-200 bg-clip-text sm:text-5xl"
+          >
+            {{ globalConfig.installationName }}
+          </span>
+        </div>
+      </div>
+    </section>
     <form
-      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
+      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
       @submit.prevent="submitForm"
     >
       <h1

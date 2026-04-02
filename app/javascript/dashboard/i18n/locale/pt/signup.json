@@ -41,7 +41,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registration Successful",
-      "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      "ERROR_MESSAGE": "Não foi possível conectar ao servidor Converso, por favor tente novamente mais tarde"
     },
     "SUBMIT": "Criar conta",
     "HAVE_AN_ACCOUNT": "Já tem uma conta?"

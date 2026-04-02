@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "התחבר ל Woot",
+    "TITLE": "התחבר ל Converso",
     "EMAIL": {
       "LABEL": "אימייל",
       "PLACEHOLDER": "example@companyname.com",
@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "נכנסת בהצלחה",
-      "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר",
+      "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Converso, נסה שוב מאוחר יותר",
       "UNAUTH": "שם משתמש / סיסמה שגויים. נסה שוב"
     },
     "OAUTH": {

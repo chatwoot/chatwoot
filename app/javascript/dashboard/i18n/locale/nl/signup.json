@@ -41,7 +41,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registration Successful",
-      "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      "ERROR_MESSAGE": "Kan geen verbinding maken met Converso Server, probeer het later opnieuw"
     },
     "SUBMIT": "Account aanmaken",
     "HAVE_AN_ACCOUNT": "Heeft u al een account?"

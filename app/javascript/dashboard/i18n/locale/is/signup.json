@@ -41,7 +41,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registration Successful",
-      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Converso, vinsamlegast reynið aftur"
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Ertu nú þegar með aðgang?"

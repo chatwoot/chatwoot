@@ -41,7 +41,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registration Successful",
-      "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+      "ERROR_MESSAGE": "Yhteyden muodostaminen Converso-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Onko sinulla jo tili?"

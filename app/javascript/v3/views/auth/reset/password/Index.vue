@@ -2,7 +2,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
 import { required, minLength, email } from '@vuelidate/validators';
-import { useBranding } from 'shared/composables/useBranding';
+import { mapGetters } from 'vuex';
 import FormInput from '../../../../components/Form/Input.vue';
 import { resetPassword } from '../../../../api/auth';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -10,8 +10,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 export default {
   components: { FormInput, NextButton },
   setup() {
-    const { replaceInstallationName } = useBranding();
-    return { v$: useVuelidate(), replaceInstallationName };
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -22,6 +21,9 @@ export default {
       },
       error: '',
     };
+  },
+  computed: {
+    ...mapGetters({ globalConfig: 'globalConfig/get' }),
   },
   validations() {
     return {
@@ -36,7 +38,6 @@ export default {
   },
   methods: {
     showAlertMessage(message) {
-      // Reset loading, current selected agent
       this.resetPassword.showLoading = false;
       useAlert(message);
     },
@@ -63,48 +64,83 @@ export default {
 </script>
 
 <template>
-  <div
-    class="flex flex-col justify-center w-full min-h-screen py-12 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
+  <main
+    class="flex min-h-screen w-full flex-col bg-n-brand/5 py-16 dark:bg-background sm:px-6 sm:py-20 md:py-24 lg:px-8"
   >
-    <form
-      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
-      @submit.prevent="submit"
-    >
-      <h1
-        class="mb-1 text-2xl font-medium tracking-tight text-left text-n-slate-12"
-      >
-        {{ $t('RESET_PASSWORD.TITLE') }}
-      </h1>
-      <p
-        class="mb-4 text-sm font-normal leading-6 tracking-normal text-n-slate-11"
-      >
-        {{ replaceInstallationName($t('RESET_PASSWORD.DESCRIPTION')) }}
-      </p>
-      <div class="space-y-5">
-        <FormInput
-          v-model="credentials.email"
-          name="email_address"
-          :has-error="v$.credentials.email.$error"
-          :error-message="$t('RESET_PASSWORD.EMAIL.ERROR')"
-          :placeholder="$t('RESET_PASSWORD.EMAIL.PLACEHOLDER')"
-          @input="v$.credentials.email.$touch"
+    <section class="mx-auto w-full max-w-5xl px-4 sm:px-0">
+      <div class="flex flex-col items-center justify-center">
+        <img
+          :src="globalConfig.logoThumbnail"
+          :alt="globalConfig.installationName"
+          class="block h-24 w-auto shrink-0 sm:h-28 md:h-32"
         />
-        <NextButton
-          lg
-          type="submit"
-          data-testid="submit_button"
-          class="w-full"
-          :label="$t('RESET_PASSWORD.SUBMIT')"
-          :disabled="v$.credentials.email.$invalid || resetPassword.showLoading"
-          :is-loading="resetPassword.showLoading"
-        />
+        <div
+          class="flex flex-col items-center gap-0.5 text-center sm:items-start sm:text-left"
+        >
+          <span
+            class="font-inter text-4xl font-bold uppercase leading-none tracking-tight text-transparent bg-gradient-to-r from-woot-500 via-secondary to-green-200 bg-clip-text sm:text-5xl"
+          >
+            {{ globalConfig.installationName }}
+          </span>
+        </div>
       </div>
-      <p class="mt-4 -mb-1 text-sm text-n-slate-11">
-        {{ $t('RESET_PASSWORD.GO_BACK_TO_LOGIN') }}
-        <router-link to="/auth/login" class="text-link text-n-brand">
-          {{ $t('COMMON.CLICK_HERE') }}.
+    </section>
+
+    <section
+      class="mt-12 mb-10 overflow-hidden rounded-xl bg-white px-8 pb-0 pt-8 shadow-sm ring-1 ring-n-container dark:bg-surface-container dark:ring-0 dark:shadow-xl sm:mx-auto sm:mt-14 sm:mb-12 sm:w-full sm:max-w-lg sm:px-10 sm:pt-10"
+    >
+      <div>
+        <h1
+          class="mb-2 text-[2rem] font-bold leading-[1.15] tracking-tight text-balance text-n-slate-12 dark:text-on-surface sm:text-[2.125rem]"
+        >
+          {{ $t('RESET_PASSWORD.TITLE') }}
+        </h1>
+        <p
+          class="mb-6 max-w-md text-sm leading-relaxed text-n-slate-11 dark:text-on-surface-variant sm:mb-8"
+        >
+          {{ $t('RESET_PASSWORD.DESCRIPTION') }}
+        </p>
+        <form class="space-y-6" @submit.prevent="submit">
+          <FormInput
+            v-model="credentials.email"
+            name="email_address"
+            :label="$t('RESET_PASSWORD.EMAIL.LABEL')"
+            :has-error="v$.credentials.email.$error"
+            :error-message="$t('RESET_PASSWORD.EMAIL.ERROR')"
+            :placeholder="$t('RESET_PASSWORD.EMAIL.PLACEHOLDER')"
+            @input="v$.credentials.email.$touch"
+          />
+          <NextButton
+            lg
+            type="submit"
+            data-testid="submit_button"
+            class="mt-1 w-full"
+            :label="$t('RESET_PASSWORD.SUBMIT')"
+            :disabled="
+              v$.credentials.email.$invalid || resetPassword.showLoading
+            "
+            :is-loading="resetPassword.showLoading"
+          />
+        </form>
+      </div>
+      <div
+        class="mt-8 pb-8 pt-1 text-center text-xs leading-relaxed text-n-slate-11 dark:text-on-surface-variant sm:mt-10 sm:pb-10 sm:pt-2 sm:text-sm"
+      >
+        <div
+          aria-hidden="true"
+          class="mx-auto mb-5 h-px w-[min(10rem,62%)] max-w-full bg-gradient-to-r from-transparent via-n-container to-transparent opacity-80 dark:via-outline-variant sm:mb-6 sm:w-[min(12rem,58%)]"
+        />
+        <span class="text-n-slate-11 dark:text-on-surface-variant">
+          {{ $t('RESET_PASSWORD.GO_BACK_TO_LOGIN') }}
+        </span>
+        {{ ' ' }}
+        <router-link
+          to="/app/login"
+          class="font-semibold text-n-brand underline-offset-4 transition-opacity hover:opacity-90 hover:underline dark:text-secondary"
+        >
+          {{ $t('RESET_PASSWORD.BACK_TO_LOGIN_LINK') }}
         </router-link>
-      </p>
-    </form>
-  </div>
+      </div>
+    </section>
+  </main>
 </template>

@@ -1,6 +1,8 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chatwoot",
+    "WELCOME_BACK": "Welcome back",
+    "SIGN_IN_SUBTITLE": "Please enter your details to sign in to {productName}.",
+    "BRAND_TAGLINE": "< Customer conversations, simplified />",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "example{'@'}companyname.com",
@@ -12,7 +14,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Login successful",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
+      "ERROR_MESSAGE": "Could not connect to Converso server. Please try again.",
       "UNAUTH": "Username or password is incorrect. Please try again."
     },
     "OAUTH": {
@@ -21,6 +23,8 @@
       "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
     "FORGOT_PASSWORD": "Forgot your password?",
+    "NO_ACCOUNT_PROMPT": "Don't have an account?",
+    "SIGN_UP": "Sign up",
     "CREATE_NEW_ACCOUNT": "Create a new account",
     "SUBMIT": "Login",
     "SAML": {
