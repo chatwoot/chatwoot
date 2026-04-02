@@ -40,11 +40,14 @@ class Microsoft::SendMailService
     @graph_token_service ||= Microsoft::GraphTokenService.new(channel: channel)
   end
 
+  MAX_ATTACHMENT_SIZE = 20.megabytes
+
   def build_mime_message
     mail = Mail.new
     apply_mail_headers(mail)
     apply_threading_headers(mail)
     apply_mail_body(mail)
+    apply_attachments(mail)
     mail.to_s
   end
 
@@ -79,6 +82,22 @@ class Microsoft::SendMailService
     mail.text_part = Mail::Part.new do
       content_type 'text/plain; charset=UTF-8'
       body text_content
+    end
+  end
+
+  def apply_attachments(mail)
+    return if message.attachments.blank?
+
+    total_size = 0
+    message.attachments.each do |attachment|
+      blob = attachment.file.blob
+      next if blob.blank?
+      next if (total_size + blob.byte_size) > MAX_ATTACHMENT_SIZE
+
+      total_size += blob.byte_size
+      blob.open do |file|
+        mail.add_file filename: attachment.file.filename.to_s, content: file.read
+      end
     end
   end
 
