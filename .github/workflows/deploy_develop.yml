@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+  workflow_dispatch:
 
 concurrency:
   group: deploy-develop
@@ -13,7 +14,7 @@ jobs:
   deploy:
     name: Deploy to Server
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
 
     steps:
       - name: Notify Slack – Start Deployment
@@ -21,7 +22,7 @@ jobs:
         with:
           payload: |
             {
-              "text": ":rocket: *Starting Chatwoot deployment* on branch `${{ github.ref_name }}` by `${{ github.actor }}`"
+              "text": ":rocket: *Starting Converso deployment* on branch `${{ github.ref_name }}` by `${{ github.actor }}`"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -44,7 +45,7 @@ jobs:
         with:
           payload: |
             {
-              "text": ":white_check_mark: *Chatwoot deployment to Develop successful!* :tada:\nRepository: `${{ github.repository }}`\nBranch: `${{ github.ref_name }}`\nTriggered by: `${{ github.actor }}`\nRun: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View workflow run>\nVerify Deployment: <https://chatwoot.cybroscloud.com/|chatwoot.cybroscloud.com>"
+              "text": ":white_check_mark: *Converso deployment to Develop successful!* :tada:\nRepository: `${{ github.repository }}`\nBranch: `${{ github.ref_name }}`\nTriggered by: `${{ github.actor }}`\nRun: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View workflow run>\nVerify Deployment: <https://chatwoot.cybroscloud.com/|chatwoot.cybroscloud.com>"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -55,7 +56,7 @@ jobs:
         with:
           payload: |
             {
-              "text": ":x: *Chatwoot deployment to Develop failed!* :warning:\nPlease review the workflow logs.\nRepository: `${{ github.repository }}`\nBranch: `${{ github.ref_name }}`\nTriggered by: `${{ github.actor }}`\nRun: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View workflow run>"
+              "text": ":x: *Converso deployment to Develop failed!* :warning:\nPlease review the workflow logs.\nRepository: `${{ github.repository }}`\nBranch: `${{ github.ref_name }}`\nTriggered by: `${{ github.actor }}`\nRun: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View workflow run>"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
