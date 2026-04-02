@@ -57,11 +57,6 @@ RSpec.describe Attachment do
       }.to_json, headers: {})
     end
 
-    it 'returns external url as data and thumb urls when message is incoming' do
-      external_url = instagram_message.attachments.first.external_url
-      expect(instagram_message.attachments.first.push_event_data[:data_url]).to eq external_url
-    end
-
     it 'returns original attachment url as data url if the message is outgoing' do
       message = create(:message, :instagram_story_mention, message_type: :outgoing)
       expect(message.attachments.first.push_event_data[:data_url]).not_to eq message.attachments.first.external_url
@@ -155,11 +150,150 @@ RSpec.describe Attachment do
     end
   end
 
+  describe 'push_event_data for instagram direct message attachments' do
+    let(:account) { create(:account) }
+    let(:instagram_inbox) do
+      create(:inbox, account: account,
+                     channel: create(:channel_instagram_fb_page, account: account, instagram_id: 'instagram-dm-test'))
+    end
+
+    context 'when conversation type is instagram_direct_message' do
+      let(:conversation) do
+        create(:conversation, account: account, inbox: instagram_inbox,
+                              additional_attributes: { 'type' => 'instagram_direct_message' })
+      end
+      let(:instagram_message) { create(:message, account: account, inbox: instagram_inbox, conversation: conversation, message_type: :incoming) }
+
+      it 'uses external_url for data_url and thumb_url' do
+        attachment = instagram_message.attachments.new(account_id: account.id, file_type: :image, external_url: 'https://instagram.com/image.jpg')
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        attachment.save!
+
+        event_data = attachment.push_event_data
+        expect(event_data[:data_url]).to eq('https://instagram.com/image.jpg')
+        expect(event_data[:thumb_url]).to eq('https://instagram.com/image.jpg')
+      end
+    end
+
+    context 'when conversation type is not instagram_direct_message' do
+      let(:conversation) do
+        create(:conversation, account: account, inbox: instagram_inbox,
+                              additional_attributes: { 'type' => 'other_type' })
+      end
+      let(:instagram_message) { create(:message, account: account, inbox: instagram_inbox, conversation: conversation, message_type: :incoming) }
+
+      it 'uses file_url for data_url instead of external_url' do
+        attachment = instagram_message.attachments.new(account_id: account.id, file_type: :image, external_url: 'https://instagram.com/image.jpg')
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        attachment.save!
+
+        event_data = attachment.push_event_data
+        expect(event_data[:data_url]).not_to eq('https://instagram.com/image.jpg')
+      end
+    end
+
+    context 'when message is outgoing on instagram DM conversation' do
+      let(:conversation) do
+        create(:conversation, account: account, inbox: instagram_inbox,
+                              additional_attributes: { 'type' => 'instagram_direct_message' })
+      end
+      let(:outgoing_message) { create(:message, account: account, inbox: instagram_inbox, conversation: conversation, message_type: :outgoing) }
+
+      it 'does not override data_url with external_url' do
+        attachment = outgoing_message.attachments.new(account_id: account.id, file_type: :image, external_url: 'https://instagram.com/image.jpg')
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        attachment.save!
+
+        event_data = attachment.push_event_data
+        expect(event_data[:data_url]).not_to eq('https://instagram.com/image.jpg')
+      end
+    end
+
+    context 'when inbox is Channel::Instagram (direct login)' do
+      let(:instagram_channel) { create(:channel_instagram, account: account) }
+      let(:direct_inbox) { instagram_channel.inbox }
+      let(:conversation) { create(:conversation, account: account, inbox: direct_inbox) }
+      let(:incoming_message) { create(:message, account: account, inbox: direct_inbox, conversation: conversation, message_type: :incoming) }
+
+      it 'uses external_url for data_url and thumb_url' do
+        attachment = incoming_message.attachments.new(account_id: account.id, file_type: :image, external_url: 'https://instagram.com/image.jpg')
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        attachment.save!
+
+        event_data = attachment.push_event_data
+        expect(event_data[:data_url]).to eq('https://instagram.com/image.jpg')
+        expect(event_data[:thumb_url]).to eq('https://instagram.com/image.jpg')
+      end
+    end
+  end
+
+  describe 'push_event_data for ig_reel attachments' do
+    it 'returns external_url as data_url when no file is attached' do
+      attachment = message.attachments.create!(
+        account_id: message.account_id,
+        file_type: :ig_reel,
+        external_url: 'https://www.facebook.com/reel/123456'
+      )
+
+      event_data = attachment.push_event_data
+      expect(event_data[:data_url]).to eq('https://www.facebook.com/reel/123456')
+      expect(event_data[:thumb_url]).to eq('')
+    end
+
+    it 'returns file_url as data_url when file is attached' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :ig_reel,
+                                           external_url: 'https://www.instagram.com/reel/123')
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      attachment.save!
+
+      event_data = attachment.push_event_data
+      expect(event_data[:data_url]).to be_present
+    end
+  end
+
   describe 'push_event_data for embed attachments' do
     it 'returns external url as data_url' do
       attachment = message.attachments.create!(account_id: message.account_id, file_type: :embed, external_url: 'https://example.com/embed')
 
       expect(attachment.push_event_data[:data_url]).to eq('https://example.com/embed')
+    end
+  end
+
+  describe 'set_extension' do
+    it 'sets extension from filename on save' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
+      attachment.file.attach(io: StringIO.new('fake pdf'), filename: 'test.pdf', content_type: 'application/pdf')
+      attachment.save!
+
+      expect(attachment.extension).to eq('pdf')
+    end
+
+    it 'does not overwrite extension if already set' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :file, extension: 'doc')
+      attachment.file.attach(io: StringIO.new('fake pdf'), filename: 'test.pdf', content_type: 'application/pdf')
+      attachment.save!
+
+      expect(attachment.extension).to eq('doc')
+    end
+
+    it 'handles filenames without extension' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
+      attachment.file.attach(io: StringIO.new('fake data'), filename: 'README', content_type: 'text/plain')
+      attachment.save!
+
+      expect(attachment.extension).to be_nil
+    end
+  end
+
+  describe 'push_event_data includes extension and content_type' do
+    it 'returns extension and content_type for file attachments' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
+      attachment.file.attach(io: StringIO.new('fake pdf'), filename: 'test.pdf', content_type: 'application/pdf')
+      attachment.save!
+
+      event_data = attachment.push_event_data
+      expect(event_data[:extension]).to eq('pdf')
+      expect(event_data[:content_type]).to eq('application/pdf')
     end
   end
 

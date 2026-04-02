@@ -1,306 +1,319 @@
 {
   "CONVERSATION": {
-    "SELECT_A_CONVERSATION": "Please select a conversation from left pane",
-    "CSAT_REPLY_MESSAGE": "Please rate the conversation",
-    "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
-    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
-    "NO_MESSAGE_2": " to send a message to your page!",
-    "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
-    "NO_INBOX_2": " to get started",
-    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
-    "VIEW_ORIGINAL": "View original",
-    "VIEW_TRANSLATED": "View translated",
+    "SELECT_A_CONVERSATION": "বাম পাশ থেকে একটি কনভার্সেশন নির্বাচন করুন",
+    "CSAT_REPLY_MESSAGE": "অনুগ্রহ করে কথোপকথনের মূল্যায়ন করুন",
+    "404": "দুঃখিত, আমরা কনভার্সেশনটি খুঁজে পাচ্ছি না। আবার চেষ্টা করুন",
+    "SWITCH_VIEW_LAYOUT": "লেআউট পরিবর্তন করুন",
+    "DASHBOARD_APP_TAB_MESSAGES": "বার্তা",
+    "UNVERIFIED_SESSION": "এই ব্যবহারকারীর পরিচয় যাচাই করা হয়নি",
+    "NO_MESSAGE_1": "ওহ! আপনার ইনবক্সে কোনো গ্রাহকের বার্তা নেই।",
+    "NO_MESSAGE_2": " আপনার পেজে বার্তা পাঠাতে!",
+    "NO_INBOX_1": "হ্যালো! আপনি এখনো কোনো ইনবক্স যোগ করেননি।",
+    "NO_INBOX_2": " শুরু করতে",
+    "NO_INBOX_AGENT": "ওহ! আপনি কোনো ইনবক্সের সদস্য নন। অনুগ্রহ করে আপনার অ্যাডমিনের সাথে যোগাযোগ করুন।",
+    "SEARCH_MESSAGES": "কথোপকথনে বার্তা অনুসন্ধান করুন",
+    "VIEW_ORIGINAL": "মূল দেখুন",
+    "VIEW_TRANSLATED": "অনুবাদ দেখুন",
     "EMPTY_STATE": {
-      "CMD_BAR": "to open command menu",
-      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+      "CMD_BAR": "কমান্ড মেনু খুলতে",
+      "KEYBOARD_SHORTCUTS": "কীবোর্ড শর্টকাট দেখতে"
     },
     "SEARCH": {
-      "TITLE": "Search messages",
-      "RESULT_TITLE": "Search Results",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "No results found."
+      "TITLE": "বার্তা অনুসন্ধান",
+      "RESULT_TITLE": "অনুসন্ধান ফলাফল",
+      "LOADING_MESSAGE": "ডেটা বিশ্লেষণ হচ্ছে...",
+      "PLACEHOLDER": "বার্তা খুঁজতে যেকোনো লেখা টাইপ করুন",
+      "NO_MATCHING_RESULTS": "কোন ফলাফল পাওয়া যায়নি।"
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
-    "CLICK_HERE": "Click here",
-    "LOADING_INBOXES": "Loading inboxes",
-    "LOADING_CONVERSATIONS": "Loading Conversations",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "48_HOURS_WINDOW": "48 hour message window restriction",
+    "UNREAD_MESSAGES": "অপঠিত বার্তা",
+    "UNREAD_MESSAGE": "অপঠিত বার্তা",
+    "CLICK_HERE": "এখানে ক্লিক করুন",
+    "LOADING_INBOXES": "ইনবক্স লোড হচ্ছে",
+    "LOADING_CONVERSATIONS": "কথোপকথন লোড হচ্ছে",
+    "CANNOT_REPLY": "আপনি উত্তর দিতে পারবেন না কারণ",
+    "24_HOURS_WINDOW": "২৪ ঘণ্টার মেসেজ সীমাবদ্ধতা",
+    "48_HOURS_WINDOW": "৪৮ ঘণ্টার মেসেজ সীমাবদ্ধতা",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
-    "ASSIGN_TO_ME": "Assign to me",
-    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
-    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
-    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
-    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
-    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
-    "DOWNLOAD": "Download",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
-    "SAVE_CONTACT": "Save Contact",
-    "NO_CONTENT": "No content to display",
+    "NOT_ASSIGNED_TO_YOU": "এই কথোপকথনটি আপনার কাছে বরাদ্দ নয়। আপনি কি এটি নিজের কাছে বরাদ্দ করতে চান?",
+    "ASSIGN_TO_ME": "নিজের কাছে বরাদ্দ করুন",
+    "BOT_HANDOFF_MESSAGE": "আপনি এমন একটি কথোপকথনে উত্তর দিচ্ছেন যা বর্তমানে সহকারী বা বট দ্বারা পরিচালিত হচ্ছে।",
+    "BOT_HANDOFF_ACTION": "ওপেন করুন এবং নিজের কাছে অ্যাসাইন করুন",
+    "BOT_HANDOFF_REOPEN_ACTION": "কথোপকথন ওপেন করুন",
+    "BOT_HANDOFF_SUCCESS": "কথোপকথনটি আপনার কাছে হস্তান্তর করা হয়েছে",
+    "BOT_HANDOFF_ERROR": "কথোপকথনটি নেওয়া যায়নি। আবার চেষ্টা করুন।",
+    "TWILIO_WHATSAPP_CAN_REPLY": "আপনি শুধুমাত্র টেমপ্লেট বার্তা ব্যবহার করে এই আলাপে উত্তর দিতে পারবেন কারণ",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "২৪ ঘণ্টার বার্তা সীমাবদ্ধতা",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "এই Instagram অ্যাকাউন্টটি নতুন Instagram চ্যানেল ইনবক্সে স্থানান্তরিত হয়েছে। সব নতুন বার্তা সেখানে দেখা যাবে। আপনি আর এই কথোপকথন থেকে বার্তা পাঠাতে পারবেন না।",
+    "REPLYING_TO": "আপনি যাকে উত্তর দিচ্ছেন:",
+    "REMOVE_SELECTION": "নির্বাচন সরান",
+    "DOWNLOAD": "ডাউনলোড",
+    "UNKNOWN_FILE_TYPE": "অজানা ফাইল",
+    "SAVE_CONTACT": "যোগাযোগ সংরক্ষণ করুন",
+    "NO_CONTENT": "দেখানোর জন্য কোনো বিষয়বস্তু নেই",
     "SHARED_ATTACHMENT": {
       "CONTACT": "{sender} has shared a contact",
       "LOCATION": "{sender} has shared a location",
       "FILE": "{sender} has shared a file",
       "MEETING": "{sender} has started a meeting"
     },
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "REPLIED_TO_STORY": "Replied to your story",
+    "UPLOADING_ATTACHMENTS": "সংযুক্তি আপলোড হচ্ছে...",
+    "REPLIED_TO_STORY": "আপনার স্টোরিতে উত্তর দিয়েছে",
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
-    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
-    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "No response",
-    "RESPONSE": "Response",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "এই বার্তাটি সমর্থিত নয়। আপনি Facebook Messenger অ্যাপে এই বার্তাটি দেখতে পারেন।",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "এই বার্তাটি সমর্থিত নয়। আপনি Instagram অ্যাপে এই বার্তাটি দেখতে পারেন।",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "এই বার্তাটি সমর্থিত নয়। TikTok অ্যাপে এই বার্তাটি দেখতে পারেন।",
+    "SUCCESS_DELETE_MESSAGE": "বার্তা সফলভাবে মুছে ফেলা হয়েছে",
+    "FAIL_DELETE_MESSSAGE": "বার্তা মুছে ফেলা যায়নি! আবার চেষ্টা করুন",
+    "NO_RESPONSE": "কোনো উত্তর নেই",
+    "RESPONSE": "উত্তর",
+    "RATING_TITLE": "রেটিং",
+    "FEEDBACK_TITLE": "মতামত",
+    "REPLY_MESSAGE_NOT_FOUND": "বার্তাটি পাওয়া যায়নি",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "লেবেল দেখান",
+      "HIDE_LABELS": "লেবেল লুকান"
     },
     "VOICE_CALL": {
-      "INCOMING_CALL": "Incoming call",
-      "OUTGOING_CALL": "Outgoing call",
-      "CALL_IN_PROGRESS": "Call in progress",
-      "NO_ANSWER": "No answer",
-      "MISSED_CALL": "Missed call",
-      "CALL_ENDED": "Call ended",
-      "NOT_ANSWERED_YET": "Not answered yet",
-      "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "INCOMING_CALL": "ইনকামিং কল",
+      "OUTGOING_CALL": "আউটগোয়িং কল",
+      "CALL_IN_PROGRESS": "কল চলছে",
+      "NO_ANSWER": "উত্তর নেই",
+      "MISSED_CALL": "মিসড কল",
+      "CALL_ENDED": "কল শেষ হয়েছে",
+      "NOT_ANSWERED_YET": "এখনও উত্তর পাওয়া যায়নি",
+      "THEY_ANSWERED": "তারা উত্তর দিয়েছে",
+      "YOU_ANSWERED": "আপনি উত্তর দিয়েছেন"
     },
     "HEADER": {
-      "RESOLVE_ACTION": "Resolve",
-      "REOPEN_ACTION": "Reopen",
-      "OPEN_ACTION": "Open",
-      "MORE_ACTIONS": "More actions",
-      "OPEN": "More",
-      "CLOSE": "Close",
-      "DETAILS": "details",
-      "SNOOZED_UNTIL": "Snoozed until",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply",
+      "RESOLVE_ACTION": "সমাধান করুন",
+      "REOPEN_ACTION": "পুনরায় খুলুন",
+      "OPEN_ACTION": "খুলুন",
+      "MORE_ACTIONS": "আরও অপশন",
+      "OPEN": "আরও",
+      "CLOSE": "বন্ধ করুন",
+      "DETAILS": "বিস্তারিত",
+      "SNOOZED_UNTIL": "স্নুজ করা হয়েছে পর্যন্ত",
+      "SNOOZED_UNTIL_TOMORROW": "আগামীকাল পর্যন্ত স্থগিত",
+      "SNOOZED_UNTIL_NEXT_WEEK": "পরবর্তী সপ্তাহ পর্যন্ত স্থগিত",
+      "SNOOZED_UNTIL_NEXT_REPLY": "পরবর্তী উত্তর পর্যন্ত স্থগিত",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "MISSED": "missed",
-        "DUE": "due"
+        "MISSED": "মিস হয়েছে",
+        "DUE": "বাকি"
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
-      "SNOOZE_UNTIL": "Snooze",
+      "MARK_PENDING": "পেন্ডিং হিসেবে চিহ্নিত করুন",
+      "SNOOZE_UNTIL": "স্নুজ",
       "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TITLE": "স্নুজ করুন যতক্ষণ না",
+        "NEXT_REPLY": "পরবর্তী উত্তর",
+        "TOMORROW": "আগামীকাল",
+        "NEXT_WEEK": "পরবর্তী সপ্তাহ"
       }
     },
     "MENTION": {
-      "AGENTS": "Agents",
-      "TEAMS": "Teams"
+      "AGENTS": "এজেন্টরা",
+      "TEAMS": "টিমসমূহ"
     },
     "CUSTOM_SNOOZE": {
-      "TITLE": "Snooze until",
-      "APPLY": "Snooze",
-      "CANCEL": "Cancel"
+      "TITLE": "স্নুজ করা হবে পর্যন্ত",
+      "APPLY": "স্নুজ",
+      "CANCEL": "বাতিল"
     },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "অগ্রাধিকার",
       "OPTIONS": {
-        "NONE": "None",
-        "URGENT": "Urgent",
-        "HIGH": "High",
-        "MEDIUM": "Medium",
-        "LOW": "Low"
+        "NONE": "কিছুই না",
+        "URGENT": "জরুরি",
+        "HIGH": "উচ্চ",
+        "MEDIUM": "মাঝারি",
+        "LOW": "নিম্ন"
       },
       "CHANGE_PRIORITY": {
-        "SELECT_PLACEHOLDER": "None",
-        "INPUT_PLACEHOLDER": "Select priority",
-        "NO_RESULTS": "No results found",
+        "SELECT_PLACEHOLDER": "কিছুই না",
+        "INPUT_PLACEHOLDER": "অগ্রাধিকার নির্বাচন করুন",
+        "NO_RESULTS": "কোন ফলাফল পাওয়া যায়নি",
         "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
-        "FAILED": "Couldn't change priority. Please try again."
+        "FAILED": "প্রাধান্য পরিবর্তন করা যায়নি। আবার চেষ্টা করুন।"
       }
     },
     "DELETE_CONVERSATION": {
       "TITLE": "Delete conversation #{conversationId}",
-      "DESCRIPTION": "Are you sure you want to delete this conversation?",
-      "CONFIRM": "Delete"
+      "DESCRIPTION": "আপনি কি নিশ্চিতভাবে এই কথোপকথনটি মুছে ফেলতে চান?",
+      "CONFIRM": "মুছে ফেলুন"
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Mark as pending",
-      "RESOLVED": "Mark as resolved",
-      "MARK_AS_UNREAD": "Mark as unread",
-      "MARK_AS_READ": "Mark as read",
-      "REOPEN": "Reopen conversation",
+      "PENDING": "বিচারাধীন হিসেবে চিহ্নিত করুন",
+      "RESOLVED": "সমাধান হয়েছে হিসেবে চিহ্নিত করুন",
+      "MARK_AS_UNREAD": "অপঠিত হিসেবে চিহ্নিত করুন",
+      "MARK_AS_READ": "পড়া হয়েছে হিসেবে চিহ্নিত করুন",
+      "REOPEN": "আলোচনা পুনরায় খুলুন",
       "SNOOZE": {
-        "TITLE": "Snooze",
-        "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+        "TITLE": "স্নুজ",
+        "NEXT_REPLY": "পরবর্তী উত্তর পর্যন্ত",
+        "TOMORROW": "আগামীকাল পর্যন্ত",
+        "NEXT_WEEK": "পরবর্তী সপ্তাহ পর্যন্ত"
       },
-      "ASSIGN_AGENT": "Assign agent",
-      "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
-      "ASSIGN_TEAM": "Assign team",
-      "DELETE": "Delete conversation",
-      "OPEN_IN_NEW_TAB": "Open in new tab",
-      "COPY_LINK": "Copy conversation link",
-      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "ASSIGN_AGENT": "এজেন্ট নির্ধারণ করুন",
+      "ASSIGN_LABEL": "লেবেল নির্ধারণ করুন",
+      "AGENTS_LOADING": "এজেন্ট লোড হচ্ছে...",
+      "ASSIGN_TEAM": "টিম নির্ধারণ করুন",
+      "DELETE": "কথোপকথন মুছে ফেলুন",
+      "OPEN_IN_NEW_TAB": "নতুন ট্যাবে খুলুন",
+      "COPY_LINK": "কথোপকথনের লিংক কপি করুন",
+      "COPY_LINK_SUCCESS": "কথোপকথনের লিংক ক্লিপবোর্ডে কপি হয়েছে",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "FAILED": "এজেন্ট নির্ধারণ করা যায়নি। আবার চেষ্টা করুন।"
         },
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
+          "FAILED": "লেবেল নির্ধারণ করা যায়নি। আবার চেষ্টা করুন।"
+        },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "লেবেল সরানো যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।"
         },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
+          "FAILED": "টিম নির্ধারণ করা যায়নি। আবার চেষ্টা করুন।"
         }
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
-      "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
-      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update",
-      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
+      "MESSAGE_SIGN_TOOLTIP": "বার্তার স্বাক্ষর",
+      "ENABLE_SIGN_TOOLTIP": "স্বাক্ষর চালু করুন",
+      "DISABLE_SIGN_TOOLTIP": "স্বাক্ষর বন্ধ করুন",
+      "MSG_INPUT": "নতুন লাইনের জন্য Shift + Enter চাপুন। Canned Response বাছাই করতে '/' দিয়ে শুরু করুন।",
+      "PRIVATE_MSG_INPUT": "নতুন লাইনের জন্য Shift + Enter চাপুন। এটি শুধু এজেন্টদের জন্য দৃশ্যমান হবে",
+      "MESSAGING_RESTRICTED": "আপনি এই কথোপকথনে উত্তর দিতে পারবেন না",
+      "MESSAGING_RESTRICTED_WHATSAPP": "২৪ ঘণ্টার বার্তা সীমাবদ্ধতার কারণে শুধু টেমপ্লেট বার্তা দিয়ে উত্তর দিতে পারবেন",
+      "MESSAGING_RESTRICTED_API": "বার্তা উইন্ডো সীমাবদ্ধতার কারণে শুধু টেমপ্লেট বার্তা দিয়ে উত্তর দিতে পারবেন",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "বার্তার স্বাক্ষর কনফিগার করা হয়নি, প্রোফাইল সেটিংসে কনফিগার করুন।",
+      "COPILOT_MSG_INPUT": "Copilot-কে আরও নির্দেশ দিন বা অন্য কিছু জিজ্ঞাসা করুন... ফলো-আপ পাঠাতে এন্টার চাপুন",
+      "CLICK_HERE": "আপডেট করতে এখানে ক্লিক করুন",
+      "WHATSAPP_TEMPLATES": "Whatsapp টেমপ্লেট"
     },
     "REPLYBOX": {
-      "REPLY": "Reply",
-      "PRIVATE_NOTE": "Private Note",
-      "SEND": "Send",
-      "CREATE": "Add Note",
-      "INSERT_READ_MORE": "Read more",
-      "DISMISS_REPLY": "Dismiss reply",
-      "REPLYING_TO": "Replying to:",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
-      "DRAG_DROP": "Drag and drop here to attach",
-      "START_AUDIO_RECORDING": "Start audio recording",
-      "STOP_AUDIO_RECORDING": "Stop audio recording",
-      "": "",
+      "REPLY": "উত্তর দিন",
+      "PRIVATE_NOTE": "ব্যক্তিগত নোট",
+      "SEND": "পাঠান",
+      "CREATE": "নোট যোগ করুন",
+      "INSERT_READ_MORE": "আরও পড়ুন",
+      "DISMISS_REPLY": "উত্তর বাতিল করুন",
+      "REPLYING_TO": "উত্তর দিচ্ছেন:",
+      "TIP_EMOJI_ICON": "ইমোজি সিলেক্টর দেখান",
+      "TIP_ATTACH_ICON": "ফাইল সংযুক্ত করুন",
+      "TIP_AUDIORECORDER_ICON": "অডিও রেকর্ড করুন",
+      "TIP_AUDIORECORDER_PERMISSION": "অডিও অ্যাক্সেসের অনুমতি দিন",
+      "TIP_AUDIORECORDER_ERROR": "অডিও খোলা যায়নি",
+      "DRAG_DROP": "সংযুক্ত করতে এখানে ড্র্যাগ ও ড্রপ করুন",
+      "START_AUDIO_RECORDING": "অডিও রেকর্ডিং শুরু করুন",
+      "STOP_AUDIO_RECORDING": "অডিও রেকর্ডিং বন্ধ করুন",
+      "COPILOT_THINKING": "Copilot ভাবছে",
       "EMAIL_HEAD": {
         "TO": "TO",
-        "ADD_BCC": "Add bcc",
+        "ADD_BCC": "বিসিসি যোগ করুন",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "কমা দিয়ে আলাদা ইমেইল",
+          "ERROR": "সঠিক ইমেইল ঠিকানা দিন"
         },
         "BCC": {
           "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "কমা দিয়ে আলাদা ইমেইল",
+          "ERROR": "বৈধ ইমেইল ঠিকানা দিন"
         }
       },
       "UNDEFINED_VARIABLES": {
-        "TITLE": "Undefined variables",
+        "TITLE": "অনির্ধারিত ভেরিয়েবল",
         "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
         "CONFIRM": {
-          "YES": "Send",
-          "CANCEL": "Cancel"
+          "YES": "পাঠান",
+          "CANCEL": "বাতিল"
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
-        "COLLAPSE": "Collapse preview",
-        "EXPAND": "Expand preview"
+        "ENABLE_TOOLTIP": "উদ্ধৃত ইমেইল থ্রেড যুক্ত করুন",
+        "DISABLE_TOOLTIP": "উদ্ধৃত ইমেইল থ্রেড যুক্ত করবেন না",
+        "REMOVE_PREVIEW": "উদ্ধৃত ইমেইল থ্রেড সরান",
+        "COLLAPSE": "প্রিভিউ সংকুচিত করুন",
+        "EXPAND": "প্রিভিউ বড় করুন"
       }
     },
-    "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
-    "CHANGE_STATUS": "Conversation status changed",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
-    "CHANGE_AGENT": "Conversation Assignee changed",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
-    "CHANGE_TEAM": "Conversation team changed",
-    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
-    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
+    "VISIBLE_TO_AGENTS": "ব্যক্তিগত নোট: শুধু আপনি ও আপনার টিম দেখতে পারবেন",
+    "CHANGE_STATUS": "কথোপকথনের অবস্থা পরিবর্তিত হয়েছে",
+    "CHANGE_STATUS_FAILED": "কনভার্সেশনের স্ট্যাটাস পরিবর্তন ব্যর্থ হয়েছে",
+    "CHANGE_AGENT": "কথোপকথনের দায়িত্বপ্রাপ্ত ব্যক্তি পরিবর্তিত হয়েছে",
+    "CHANGE_AGENT_FAILED": "অ্যাসাইনি পরিবর্তন ব্যর্থ হয়েছে",
+    "ASSIGN_LABEL_SUCCESFUL": "লেবেল সফলভাবে নির্ধারণ হয়েছে",
+    "ASSIGN_LABEL_FAILED": "লেবেল নির্ধারণ ব্যর্থ হয়েছে",
+    "CHANGE_TEAM": "আলাপের টিম পরিবর্তন হয়েছে",
+    "SUCCESS_DELETE_CONVERSATION": "কথোপকথন সফলভাবে মুছে ফেলা হয়েছে",
+    "FAIL_DELETE_CONVERSATION": "কথোপকথন মুছে ফেলা যায়নি! আবার চেষ্টা করুন",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
-    "SENT_BY": "Sent by:",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
+    "MESSAGE_ERROR": "বার্তাটি পাঠানো যায়নি, পরে আবার চেষ্টা করুন",
+    "SENT_BY": "প্রেরক:",
     "BOT": "Bot",
-    "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
+    "NATIVE_APP": "নেটিভ অ্যাপ",
+    "NATIVE_APP_ADVISORY": "এই বার্তাটি নেটিভ অ্যাপ থেকে পাঠানো হয়েছে। বার্তা উইন্ডো বজায় রাখতে Chatwoot থেকে উত্তর দিন।",
+    "SEND_FAILED": "বার্তা পাঠানো যায়নি! আবার চেষ্টা করুন",
+    "TRY_AGAIN": "পুনরায় চেষ্টা করুন",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
-      "REMOVE": "Remove",
-      "ASSIGN": "Assign"
+      "SELECT_AGENT": "এজেন্ট নির্বাচন করুন",
+      "REMOVE": "সরান",
+      "ASSIGN": "নিয়োগ করুন"
     },
     "CONTEXT_MENU": {
-      "COPY": "Copy",
-      "REPLY_TO": "Reply to this message",
-      "DELETE": "Delete",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
-      "TRANSLATE": "Translate",
-      "COPY_PERMALINK": "Copy link to the message",
-      "LINK_COPIED": "Message URL copied to the clipboard",
+      "COPY": "কপি করুন",
+      "REPLY_TO": "এই বার্তায় উত্তর দিন",
+      "DELETE": "মুছুন",
+      "CREATE_A_CANNED_RESPONSE": "ক্যানড রেসপন্সে যোগ করুন",
+      "TRANSLATE": "অনুবাদ করুন",
+      "COPY_PERMALINK": "বার্তার লিঙ্ক কপি করুন",
+      "LINK_COPIED": "বার্তার URL ক্লিপবোর্ডে কপি হয়েছে",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Are you sure you want to delete this message?",
-        "MESSAGE": "You cannot undo this action",
-        "DELETE": "Delete",
-        "CANCEL": "Cancel"
+        "TITLE": "আপনি কি নিশ্চিত এই বার্তাটি মুছে ফেলতে চান?",
+        "MESSAGE": "এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না",
+        "DELETE": "মুছে ফেলুন",
+        "CANCEL": "বাতিল করুন"
       }
     },
     "SIDEBAR": {
-      "CONTACT": "Contact",
+      "CONTACT": "যোগাযোগ",
       "COPILOT": "Copilot"
     },
     "VOICE_WIDGET": {
-      "INCOMING_CALL": "Incoming call",
-      "OUTGOING_CALL": "Outgoing call",
-      "CALL_IN_PROGRESS": "Call in progress",
-      "NOT_ANSWERED_YET": "Not answered yet",
-      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
-      "REJECT_CALL": "Reject",
-      "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "INCOMING_CALL": "আসন্ন কল",
+      "OUTGOING_CALL": "প্রেরিত কল",
+      "CALL_IN_PROGRESS": "কল চলছে",
+      "NOT_ANSWERED_YET": "এখনও উত্তর পাওয়া যায়নি",
+      "HANDLED_IN_ANOTHER_TAB": "অন্য ট্যাবে পরিচালিত হচ্ছে",
+      "REJECT_CALL": "প্রত্যাখ্যান করুন",
+      "JOIN_CALL": "কলে যোগ দিন",
+      "END_CALL": "কল শেষ করুন"
     }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
-    "SUBMIT": "Submit",
-    "CANCEL": "Cancel",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "TITLE": "কথোপকথনের ট্রান্সক্রিপ্ট পাঠান",
+    "DESC": "নির্দিষ্ট ইমেইল ঠিকানায় কথোপকথনের ট্রান্সক্রিপ্ট পাঠান",
+    "SUBMIT": "জমা দিন",
+    "CANCEL": "বাতিল করুন",
+    "SEND_EMAIL_SUCCESS": "চ্যাট ট্রান্সক্রিপ্ট সফলভাবে পাঠানো হয়েছে",
+    "SEND_EMAIL_ERROR": "একটি ত্রুটি হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "আপনার বর্তমান প্ল্যানে ইমেইল ট্রান্সক্রিপ্ট সুবিধা নেই। এই ফিচারটি ব্যবহার করতে প্ল্যান আপগ্রেড করুন।",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "গ্রাহককে ট্রান্সক্রিপ্ট পাঠান",
+      "SEND_TO_AGENT": "নিয়োজিত এজেন্টকে ট্রান্সক্রিপ্ট পাঠান",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "অন্য ইমেইল ঠিকানায় ট্রান্সক্রিপ্ট পাঠান",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
-        "ERROR": "Please enter a valid email address"
+        "PLACEHOLDER": "ইমেইল ঠিকানা লিখুন",
+        "ERROR": "একটি বৈধ ইমেইল ঠিকানা লিখুন"
       }
     }
   },
@@ -310,120 +323,120 @@
     "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
     "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
     "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "READ_LATEST_UPDATES": "আমাদের সর্বশেষ আপডেট পড়ুন",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "আপনার সব কথোপকথন এক জায়গায়",
+      "DESCRIPTION": "একটি ড্যাশবোর্ডে আপনার গ্রাহকদের সব কথোপকথন দেখুন। আপনি চ্যানেল, লেবেল ও স্ট্যাটাস অনুযায়ী ফিল্টার করতে পারবেন।",
+      "NEW_LINK": "ইনবক্স তৈরি করতে এখানে ক্লিক করুন"
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "আপনার টিম সদস্যদের আমন্ত্রণ জানান",
+      "DESCRIPTION": "আপনি যখন গ্রাহকের সাথে কথা বলার জন্য প্রস্তুতি নিচ্ছেন, তখন সহায়তার জন্য আপনার টিমমেটদের যুক্ত করুন। এজেন্ট তালিকায় তাদের ইমেইল ঠিকানা যোগ করে আমন্ত্রণ জানাতে পারেন।",
+      "NEW_LINK": "টিম সদস্য আমন্ত্রণ জানাতে এখানে ক্লিক করুন"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "লেবেল দিয়ে কথোপকথন সাজান",
+      "DESCRIPTION": "লেবেল ব্যবহার করে সহজেই কথোপকথন শ্রেণিবদ্ধ করুন। যেমন #support-enquiry, #billing-question ইত্যাদি লেবেল তৈরি করুন, পরে কথোপকথনে ব্যবহার করতে পারবেন।",
+      "NEW_LINK": "ট্যাগ তৈরি করতে এখানে ক্লিক করুন"
     },
     "CANNED_RESPONSES": {
-      "TITLE": "Create canned responses",
-      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
-      "NEW_LINK": "Click here to create a canned response"
+      "TITLE": "ক্যানড রেসপন্স তৈরি করুন",
+      "DESCRIPTION": "আগে থেকে লেখা দ্রুত উত্তর টেমপ্লেট দিয়ে সহজেই কথোপকথনে উত্তর দিন। এজেন্টরা '/' চিহ্ন ও শর্টকোড লিখে দ্রুত উত্তর যোগ করতে পারেন।",
+      "NEW_LINK": "ক্যানড রেসপন্স তৈরি করতে এখানে ক্লিক করুন"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "নিযুক্ত এজেন্ট",
+    "SELF_ASSIGN": "নিজেকে নির্ধারণ করুন",
+    "TEAM_LABEL": "নিযুক্ত টিম",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "কিছুই না"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
-      "CONVERSATION_LABELS": "Conversation Labels",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_NOTES": "Contact Notes",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Previous Conversations",
-      "MACROS": "Macros",
-      "LINEAR_ISSUES": "Linked Linear Issues",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "CONTACT_DETAILS": "যোগাযোগের বিবরণ",
+      "CONVERSATION_ACTIONS": "আলোচনার কার্যক্রম",
+      "CONVERSATION_LABELS": "আলোচনার লেবেল",
+      "CONVERSATION_INFO": "আলোচনার তথ্য",
+      "CONTACT_NOTES": "যোগাযোগ নোট",
+      "CONTACT_ATTRIBUTES": "যোগাযোগের বৈশিষ্ট্য",
+      "PREVIOUS_CONVERSATION": "পূর্বের আলোচনা",
+      "MACROS": "ম্যাক্রো",
+      "LINEAR_ISSUES": "সংযুক্ত Linear সমস্যা",
+      "SHOPIFY_ORDERS": "Shopify অর্ডার"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",
-      "ERROR": "Error loading orders",
-      "NO_SHOPIFY_ORDERS": "No orders found",
+      "ERROR": "অর্ডার লোড করতে সমস্যা হয়েছে",
+      "NO_SHOPIFY_ORDERS": "কোনো অর্ডার পাওয়া যায়নি",
       "FINANCIAL_STATUS": {
-        "PENDING": "Pending",
-        "AUTHORIZED": "Authorized",
-        "PARTIALLY_PAID": "Partially Paid",
-        "PAID": "Paid",
-        "PARTIALLY_REFUNDED": "Partially Refunded",
-        "REFUNDED": "Refunded",
-        "VOIDED": "Voided"
+        "PENDING": "অপেক্ষমাণ",
+        "AUTHORIZED": "অনুমোদিত",
+        "PARTIALLY_PAID": "আংশিক পরিশোধিত",
+        "PAID": "পরিশোধিত",
+        "PARTIALLY_REFUNDED": "আংশিক ফেরত",
+        "REFUNDED": "ফেরত",
+        "VOIDED": "বাতিল"
       },
       "FULFILLMENT_STATUS": {
-        "FULFILLED": "Fulfilled",
-        "PARTIALLY_FULFILLED": "Partially Fulfilled",
-        "UNFULFILLED": "Unfulfilled"
+        "FULFILLED": "সম্পন্ন",
+        "PARTIALLY_FULFILLED": "আংশিক সম্পন্ন",
+        "UNFULFILLED": "অসম্পন্ন"
       }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
-    "NO_RECORDS_FOUND": "No attributes found",
+    "ADD_BUTTON_TEXT": "অ্যাট্রিবিউট তৈরি করুন",
+    "NO_RECORDS_FOUND": "কোনো অ্যাট্রিবিউট পাওয়া যায়নি",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "SUCCESS": "অ্যাট্রিবিউট সফলভাবে আপডেট হয়েছে",
+      "ERROR": "অ্যাট্রিবিউট আপডেট করা যায়নি। পরে আবার চেষ্টা করুন"
     },
     "ADD": {
-      "TITLE": "Add",
-      "SUCCESS": "Attribute added successfully",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "TITLE": "যোগ করুন",
+      "SUCCESS": "অ্যাট্রিবিউট সফলভাবে যোগ হয়েছে",
+      "ERROR": "অ্যাট্রিবিউট যোগ করা যায়নি। পরে আবার চেষ্টা করুন"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "SUCCESS": "অ্যাট্রিবিউট সফলভাবে মুছে ফেলা হয়েছে",
+      "ERROR": "অ্যাট্রিবিউট মুছে ফেলা যায়নি। পরে আবার চেষ্টা করুন"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "অ্যাট্রিবিউট যোগ করুন",
+      "PLACEHOLDER": "অ্যাট্রিবিউট অনুসন্ধান করুন",
+      "NO_RESULT": "কোনো অ্যাট্রিবিউট পাওয়া যায়নি"
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
-    "TO": "To",
-    "BCC": "Bcc",
-    "CC": "Cc",
-    "SUBJECT": "Subject",
-    "EXPAND": "Expand email"
+    "FROM": "প্রেরক",
+    "TO": "প্রাপক",
+    "BCC": "বিসিসি",
+    "CC": "সিসি",
+    "SUBJECT": "বিষয়",
+    "EXPAND": "ইমেইল প্রসারিত করুন"
   },
   "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "Participating",
-    "SIDEBAR_TITLE": "Conversation participants",
-    "NO_RECORDS_FOUND": "No results found",
-    "ADD_PARTICIPANTS": "Select participants",
+    "SIDEBAR_MENU_TITLE": "অংশগ্রহণকারী",
+    "SIDEBAR_TITLE": "আলোচনার অংশগ্রহণকারীরা",
+    "NO_RECORDS_FOUND": "কোনো ফলাফল পাওয়া যায়নি",
+    "ADD_PARTICIPANTS": "অংশগ্রহণকারী নির্বাচন করুন",
     "REMANING_PARTICIPANTS_TEXT": "+{count} others",
     "REMANING_PARTICIPANT_TEXT": "+{count} other",
     "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
     "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
-    "WATCH_CONVERSATION": "Join conversation",
-    "YOU_ARE_WATCHING": "You are participating",
+    "WATCH_CONVERSATION": "আলাপচারিতায় যোগ দিন",
+    "YOU_ARE_WATCHING": "আপনি অংশগ্রহণ করছেন",
     "API": {
-      "ERROR_MESSAGE": "Could not update, try again!",
-      "SUCCESS_MESSAGE": "Participants updated!"
+      "ERROR_MESSAGE": "আপডেট করা যায়নি, আবার চেষ্টা করুন!",
+      "SUCCESS_MESSAGE": "অংশগ্রহণকারীরা আপডেট হয়েছে!"
     }
   },
   "TRANSLATE_MODAL": {
-    "TITLE": "View translated content",
+    "TITLE": "অনুবাদিত বিষয়বস্তু দেখুন",
     "DESC": "You can view the translated content in each langauge.",
-    "ORIGINAL_CONTENT": "Original Content",
-    "TRANSLATED_CONTENT": "Translated Content",
-    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+    "ORIGINAL_CONTENT": "মূল বিষয়বস্তু",
+    "TRANSLATED_CONTENT": "অনুবাদিত বিষয়বস্তু",
+    "NO_TRANSLATIONS_AVAILABLE": "এই বিষয়বস্তুর জন্য কোনো অনুবাদ নেই"
   },
   "TYPING": {
     "ONE": "{user} is typing",
@@ -431,9 +444,9 @@
     "MULTIPLE": "{user} and {count} others are typing"
   },
   "COPILOT": {
-    "TRY_THESE_PROMPTS": "Try these prompts"
+    "TRY_THESE_PROMPTS": "এই পরামর্শগুলো চেষ্টা করুন"
   },
   "GALLERY_VIEW": {
-    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+    "ERROR_DOWNLOADING": "সংযুক্তি ডাউনলোড করা যাচ্ছে না। আবার চেষ্টা করুন"
   }
 }

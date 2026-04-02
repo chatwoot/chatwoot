@@ -103,7 +103,10 @@ export default {
         const { name, locale, id, domain, support_email, features } =
           this.getAccount(this.accountId);
 
-        this.$root.$i18n.locale = this.uiSettings?.locale || locale;
+        const effectiveLocale = this.uiSettings?.locale || locale;
+        if (effectiveLocale) {
+          this.$root.$i18n.locale = effectiveLocale;
+        }
         this.name = name;
         this.locale = locale;
         this.id = id;
@@ -129,11 +132,9 @@ export default {
           support_email: this.supportEmail,
         });
         // If user locale is set, update the locale with user locale
-        if (this.uiSettings?.locale) {
-          this.$root.$i18n.locale = this.uiSettings?.locale;
-        } else {
-          // If user locale is not set, update the locale with account locale
-          this.$root.$i18n.locale = this.locale;
+        const updatedLocale = this.uiSettings?.locale || this.locale;
+        if (updatedLocale) {
+          this.$root.$i18n.locale = updatedLocale;
         }
         this.getAccount(this.id).locale = this.locale;
         useAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
@@ -160,6 +161,7 @@ export default {
           @submit.prevent="updateAccount"
         >
           <WithLabel
+            name="account-name"
             :has-error="v$.name.$error"
             :label="$t('GENERAL_SETTINGS.FORM.NAME.LABEL')"
             :error-message="$t('GENERAL_SETTINGS.FORM.NAME.ERROR')"
@@ -173,6 +175,7 @@ export default {
             />
           </WithLabel>
           <WithLabel
+            name="site-language"
             :has-error="v$.locale.$error"
             :label="$t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL')"
             :error-message="$t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR')"
@@ -189,6 +192,7 @@ export default {
           </WithLabel>
           <WithLabel
             v-if="featureCustomReplyDomainEnabled"
+            name="custom-domain"
             :label="$t('GENERAL_SETTINGS.FORM.DOMAIN.LABEL')"
           >
             <NextInput
@@ -211,6 +215,7 @@ export default {
           </WithLabel>
           <WithLabel
             v-if="featureCustomReplyEmailEnabled"
+            name="support-email"
             :label="$t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.LABEL')"
           >
             <NextInput
