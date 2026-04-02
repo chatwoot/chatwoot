@@ -3,7 +3,8 @@ import { ref, computed, nextTick, onMounted, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
+import { ONBOARDING_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -106,6 +107,20 @@ const detectBestLocale = () => {
   return 'en';
 };
 
+// Snapshot of auto-populated values to detect user edits at submit time
+const initialValues = ref({});
+
+const snapshotInitialValues = () => {
+  initialValues.value = {
+    website: website.value,
+    locale: locale.value,
+    timezone: timezone.value,
+    companySize: companySize.value,
+    industry: industry.value,
+    referralSource: referralSource.value,
+  };
+};
+
 const populateFormFields = () => {
   if (!currentAccount.value) return;
 
@@ -125,9 +140,14 @@ const populateFormFields = () => {
     '';
   referralSource.value =
     currentAccount.value.custom_attributes?.referral_source || '';
+
+  snapshotInitialValues();
 };
 
-onMounted(populateFormFields);
+onMounted(() => {
+  populateFormFields();
+  useTrack(ONBOARDING_EVENTS.VISITED);
+});
 
 watch(isEnriching, newVal => {
   if (!newVal) populateFormFields();
@@ -160,6 +180,32 @@ const handleSubmit = async () => {
       timezone: timezone.value,
       referral_source: referralSource.value,
     });
+
+    const enrichedFields = ['website', 'companySize', 'industry'];
+    const allFields = {
+      website,
+      locale,
+      timezone,
+      companySize,
+      industry,
+      referralSource,
+    };
+    const init = initialValues.value;
+
+    useTrack(ONBOARDING_EVENTS.COMPLETED, {
+      has_enriched_data: Boolean(
+        currentAccount.value?.custom_attributes?.brand_info
+      ),
+      fields_changed: enrichedFields.filter(f => allFields[f].value !== init[f])
+        .length,
+      fields_filled: Object.values(allFields).filter(f => f.value).length,
+      website_edited: website.value !== init.website,
+      user_role: userRole.value,
+      company_size: companySize.value,
+      industry: industry.value,
+      referral_source: referralSource.value,
+    });
+
     useAlert(t('ONBOARDING.SUCCESS'));
     router.push({ name: 'home', params: { accountId: accountId.value } });
   } catch {
