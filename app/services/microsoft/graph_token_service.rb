@@ -15,28 +15,31 @@ class Microsoft::GraphTokenService
   private
 
   def refresh_for_graph_api
-    uri = URI(TOKEN_URL)
+    response = Net::HTTP.post_form(URI(TOKEN_URL), token_params)
 
-    response = Net::HTTP.post_form(uri, {
+    raise_token_error(response) unless response.code.to_i == 200
+
+    JSON.parse(response.body)['access_token']
+  end
+
+  def token_params
+    {
       client_id: GlobalConfigService.load('AZURE_APP_ID', ''),
       client_secret: GlobalConfigService.load('AZURE_APP_SECRET', ''),
       refresh_token: provider_config['refresh_token'],
       grant_type: 'refresh_token',
       scope: GRAPH_SCOPE
-    })
+    }
+  end
 
-    if response.code.to_i == 200
-      token_data = JSON.parse(response.body)
-      token_data['access_token']
-    else
-      error_data = begin
-        JSON.parse(response.body)
-      rescue JSON::ParserError
-        { 'error_description' => response.body }
-      end
-      Rails.logger.error("Microsoft Graph token refresh failed: #{error_data['error_description']}")
-      raise StandardError, "Failed to get Graph API token: #{error_data['error_description']}"
+  def raise_token_error(response)
+    error_data = begin
+      JSON.parse(response.body)
+    rescue JSON::ParserError
+      { 'error_description' => response.body }
     end
+    Rails.logger.error("Microsoft Graph token refresh failed: #{error_data['error_description']}")
+    raise StandardError, "Failed to get Graph API token: #{error_data['error_description']}"
   end
 
   def provider_config

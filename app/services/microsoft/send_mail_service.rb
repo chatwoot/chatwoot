@@ -42,13 +42,13 @@ class Microsoft::SendMailService
 
   def build_mime_message
     mail = Mail.new
-    set_mail_headers(mail)
-    set_mail_threading_headers(mail)
-    set_mail_body(mail)
+    apply_mail_headers(mail)
+    apply_threading_headers(mail)
+    apply_mail_body(mail)
     mail.to_s
   end
 
-  def set_mail_headers(mail)
+  def apply_mail_headers(mail)
     mail.to = Array(to_emails).compact
     mail.from = channel.email
     mail.subject = subject
@@ -58,14 +58,14 @@ class Microsoft::SendMailService
   end
 
   # Graph API blocks In-Reply-To/References via internetMessageHeaders, but MIME allows them
-  def set_mail_threading_headers(mail)
-    return unless in_reply_to.present?
+  def apply_threading_headers(mail)
+    return if in_reply_to.blank?
 
     mail.in_reply_to = ensure_angle_brackets(in_reply_to)
     mail.references = ensure_angle_brackets(references || in_reply_to)
   end
 
-  def set_mail_body(mail)
+  def apply_mail_body(mail)
     html_content = html_body
     text_content = text_body
 
@@ -74,7 +74,7 @@ class Microsoft::SendMailService
       body html_content
     end
 
-    return unless text_content.present?
+    return if text_content.blank?
 
     mail.text_part = Mail::Part.new do
       content_type 'text/plain; charset=UTF-8'
