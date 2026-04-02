@@ -15,7 +15,7 @@ class AgentBotListener < BaseListener
     agent_bots_for(inbox, conversation).each { |agent_bot| process_webhook_bot_event(agent_bot, payload) }
   end
 
-  def assignee_changed(event)
+  def conversation_updated(event)
     conversation = extract_conversation_and_account(event)[0]
     return if conversation.assignee_agent_bot.blank?
 
