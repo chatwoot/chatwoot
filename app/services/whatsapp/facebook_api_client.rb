@@ -3,7 +3,7 @@ class Whatsapp::FacebookApiClient
 
   def initialize(access_token = nil)
     @access_token = access_token
-    @api_version = GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0')
+    @api_version = GlobalConfigService.load('WHATSAPP_API_VERSION', 'v24.0')
   end
 
   def exchange_code_for_token(code)
