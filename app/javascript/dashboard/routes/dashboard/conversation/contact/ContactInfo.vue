@@ -352,7 +352,6 @@ export default {
         </ContactDeleteModal>
       </div>
       <EditContact
-        v-if="showEditModal"
         :show="showEditModal"
         :contact="contact"
         @cancel="toggleEditModal"
