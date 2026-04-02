@@ -3,11 +3,13 @@ import { useAlert } from 'dashboard/composables';
 import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
 
 export default {
   components: {
     EmojiOrIcon,
     NextButton,
+    InlineInput,
   },
   props: {
     href: {
@@ -85,14 +87,13 @@ export default {
         icon-size="14"
         class="flex-shrink-0 ltr:ml-1 rtl:mr-1"
       />
-      <input
+      <InlineInput
         ref="editInput"
         v-model="editValue"
-        type="text"
         :placeholder="title"
-        class="!mb-0 !h-6 !text-sm !py-0 !px-1.5 !rounded !min-w-0 w-full"
-        @keydown.enter="saveEdit"
-        @keydown.escape="cancelEdit"
+        class="!w-fit"
+        @enter-press="saveEdit"
+        @escape-press="cancelEdit"
         @blur="saveEdit"
       />
     </div>

@@ -12,6 +12,7 @@ import ComposeConversation from 'dashboard/components-next/NewConversation/Compo
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import VoiceCallButton from 'dashboard/components-next/Contacts/VoiceCallButton.vue';
+import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
 
 import {
   isAConversationRoute,
@@ -30,6 +31,7 @@ export default {
     SocialIcons,
     ContactMergeModal,
     VoiceCallButton,
+    InlineInput,
   },
   props: {
     contact: {
@@ -228,14 +230,14 @@ export default {
 
       <div class="flex flex-col items-start gap-1.5 min-w-0 w-full">
         <div v-if="showAvatar" class="flex items-center w-full min-w-0 gap-3">
-          <input
+          <InlineInput
             v-if="isEditingName"
             ref="nameInput"
             v-model="editName"
-            type="text"
-            class="!mb-0 !h-7 !text-base !py-0 !px-1.5 !rounded !min-w-0 flex-shrink max-w-full w-full"
-            @keydown.enter="saveNameEdit"
-            @keydown.escape="cancelNameEdit"
+            custom-input-class="!text-base !font-medium"
+            class="!w-fit"
+            @enter-press="saveNameEdit"
+            @escape-press="cancelNameEdit"
             @blur="saveNameEdit"
           />
           <h3

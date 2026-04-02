@@ -36,7 +36,13 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['enterPress', 'input', 'blur', 'focus']);
+const emit = defineEmits([
+  'enterPress',
+  'escapePress',
+  'input',
+  'blur',
+  'focus',
+]);
 
 const modelValue = defineModel({
   type: [String, Number],
@@ -47,6 +53,10 @@ const inlineInputRef = ref(null);
 
 const onEnterPress = () => {
   emit('enterPress');
+};
+
+const onEscapePress = () => {
+  emit('escapePress');
 };
 
 const handleInput = event => {
@@ -102,6 +112,7 @@ defineExpose({
       @focus="handleFocus"
       @blur="handleBlur"
       @keydown.enter.prevent="onEnterPress"
+      @keydown.escape.prevent="onEscapePress"
     />
   </div>
 </template>
