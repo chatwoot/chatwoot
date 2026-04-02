@@ -61,6 +61,22 @@ describe AgentBotListener do
     let(:event_name) { 'conversation.updated' }
     let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
 
+    context 'when agent bot is not configured' do
+      it 'does not send webhook' do
+        expect(AgentBots::WebhookJob).not_to receive(:perform_later)
+        listener.conversation_updated(event)
+      end
+    end
+
+    context 'when agent bot is configured on inbox' do
+      it 'sends webhook to the inbox agent bot' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(agent_bot.outgoing_url,
+                                                                      conversation.webhook_data.merge(event: 'conversation_updated')).once
+        listener.conversation_updated(event)
+      end
+    end
+
     context 'when conversation is assigned to an agent bot' do
       before do
         conversation.update!(assignee_agent_bot: agent_bot, assignee: nil)
@@ -69,13 +85,6 @@ describe AgentBotListener do
       it 'sends webhook to the assigned agent bot' do
         expect(AgentBots::WebhookJob).to receive(:perform_later).with(agent_bot.outgoing_url,
                                                                       conversation.webhook_data.merge(event: 'conversation_updated')).once
-        listener.conversation_updated(event)
-      end
-    end
-
-    context 'when conversation is not assigned to an agent bot' do
-      it 'does not send webhook' do
-        expect(AgentBots::WebhookJob).not_to receive(:perform_later)
         listener.conversation_updated(event)
       end
     end

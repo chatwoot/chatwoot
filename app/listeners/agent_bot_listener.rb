@@ -17,10 +17,10 @@ class AgentBotListener < BaseListener
 
   def conversation_updated(event)
     conversation = extract_conversation_and_account(event)[0]
-    return if conversation.assignee_agent_bot.blank?
-
-    payload = conversation.webhook_data.merge(event: __method__.to_s)
-    process_webhook_bot_event(conversation.assignee_agent_bot, payload)
+    inbox = conversation.inbox
+    event_name = __method__.to_s
+    payload = conversation.webhook_data.merge(event: event_name)
+    agent_bots_for(inbox, conversation).each { |agent_bot| process_webhook_bot_event(agent_bot, payload) }
   end
 
   def message_created(event)
