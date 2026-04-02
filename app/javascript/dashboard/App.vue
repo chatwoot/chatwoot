@@ -59,8 +59,14 @@ export default {
       isRTL: 'accounts/isRTL',
       currentUser: 'getCurrentUser',
       authUIFlags: 'getAuthUIFlags',
-      accountUIFlags: 'accounts/getUIFlags',
     }),
+    // Prevent dashboard from flashing before onboarding redirect.
+    // The account store is empty until accounts/get completes, so we hold
+    // rendering until account data is available and we know which route to show.
+    isAccountReady() {
+      if (!this.currentAccountId) return true;
+      return Object.keys(this.getAccount(this.currentAccountId)).length > 0;
+    },
     hideOnOnboardingView() {
       return !isOnOnboardingView(this.$route);
     },
@@ -107,8 +113,9 @@ export default {
       this.$store.dispatch('setActiveAccount', {
         accountId: this.currentAccountId,
       });
+      const account = this.getAccount(this.currentAccountId);
       const { locale, latest_chatwoot_version: latestChatwootVersion } =
-        this.getAccount(this.currentAccountId);
+        account;
       const { pubsub_token: pubsubToken } = this.currentUser || {};
       // If user locale is set, use it; otherwise use account locale
       this.setLocale(this.uiSettings?.locale || locale);
@@ -116,6 +123,15 @@ export default {
       vueActionCable.init(this.store, pubsubToken);
       this.reconnectService = new ReconnectService(this.store, this.router);
       window.reconnectService = this.reconnectService;
+
+      const onboardingStep = account?.custom_attributes?.onboarding_step;
+      if (onboardingStep && !isOnOnboardingView(this.$route)) {
+        this.router.replace({
+          name: 'onboarding_account_details',
+          params: { accountId: this.currentAccountId },
+        });
+        return;
+      }
 
       verifyServiceWorkerExistence(registration =>
         registration.pushManager.getSubscription().then(subscription => {
@@ -131,7 +147,7 @@ export default {
 
 <template>
   <div
-    v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
+    v-if="!authUIFlags.isFetching && isAccountReady"
     id="app"
     class="flex flex-col w-full h-screen min-h-0 bg-n-background"
     :dir="isRTL ? 'rtl' : 'ltr'"

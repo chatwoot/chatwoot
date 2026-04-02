@@ -4,6 +4,7 @@ import { frontendURL } from '../helper/URLHelper';
 import dashboard from './dashboard/dashboard.routes';
 import store from 'dashboard/store';
 import { validateLoggedInRoutes } from '../helper/routeHelpers';
+import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import AnalyticsHelper from '../helper/AnalyticsHelper';
 
 const routes = [...dashboard.routes];
@@ -29,6 +30,18 @@ export const validateAuthenticateRoutePermission = (to, next) => {
 
   if (to.name === 'no_accounts' || !to.name) {
     return next(frontendURL(`accounts/${accountId}/dashboard`));
+  }
+
+  // Check if account has a pending onboarding step (from accounts store).
+  // On initial load the store may not be populated yet — App.vue handles that case.
+  const routeAccountId = Number(to.params?.accountId || accountId);
+  const account = store.getters['accounts/getAccount'](routeAccountId);
+  const onboardingStep = account?.custom_attributes?.onboarding_step;
+  if (onboardingStep && !isOnOnboardingView(to)) {
+    return next(frontendURL(`accounts/${routeAccountId}/onboarding`));
+  }
+  if (!onboardingStep && isOnOnboardingView(to)) {
+    return next(frontendURL(`accounts/${routeAccountId}/dashboard`));
   }
 
   const nextRoute = validateLoggedInRoutes(to, store.getters.getCurrentUser);

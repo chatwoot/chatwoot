@@ -153,3 +153,8 @@ export const YEAR_IN_REVIEW_EVENTS = Object.freeze({
   NEXT_CLICKED: 'Year in Review: Next clicked',
   SHARE_CLICKED: 'Year in Review: Share clicked',
 });
+
+export const ONBOARDING_EVENTS = Object.freeze({
+  ACCOUNT_DETAILS_VISITED: 'Onboarding: Account details visited',
+  ACCOUNT_DETAILS_COMPLETED: 'Onboarding: Account details completed',
+});
