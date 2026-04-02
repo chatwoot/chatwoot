@@ -42,25 +42,30 @@ class Microsoft::SendMailService
 
   def build_mime_message
     mail = Mail.new
+    set_mail_headers(mail)
+    set_mail_threading_headers(mail)
+    set_mail_body(mail)
+    mail.to_s
+  end
 
-    # Basic email headers
+  def set_mail_headers(mail)
     mail.to = Array(to_emails).compact
     mail.from = channel.email
     mail.subject = subject
     mail.message_id = generate_message_id
-
-    # CC and BCC
     mail.cc = Array(cc_emails).compact if cc_emails.present?
     mail.bcc = Array(bcc_emails).compact if bcc_emails.present?
+  end
 
-    # Threading headers - Graph API blocks these via internetMessageHeaders, but MIME allows them
-    if in_reply_to.present?
-      mail.in_reply_to = ensure_angle_brackets(in_reply_to)
-      mail.references = ensure_angle_brackets(references || in_reply_to)
-    end
+  # Graph API blocks In-Reply-To/References via internetMessageHeaders, but MIME allows them
+  def set_mail_threading_headers(mail)
+    return unless in_reply_to.present?
 
-    # Email body - HTML with text fallback
-    # Capture variables for block scope
+    mail.in_reply_to = ensure_angle_brackets(in_reply_to)
+    mail.references = ensure_angle_brackets(references || in_reply_to)
+  end
+
+  def set_mail_body(mail)
     html_content = html_body
     text_content = text_body
 
@@ -69,14 +74,12 @@ class Microsoft::SendMailService
       body html_content
     end
 
-    if text_content.present?
-      mail.text_part = Mail::Part.new do
-        content_type 'text/plain; charset=UTF-8'
-        body text_content
-      end
-    end
+    return unless text_content.present?
 
-    mail.to_s
+    mail.text_part = Mail::Part.new do
+      content_type 'text/plain; charset=UTF-8'
+      body text_content
+    end
   end
 
   def ensure_angle_brackets(value)
@@ -99,7 +102,11 @@ class Microsoft::SendMailService
     when 403
       raise_auth_error('Permission denied - Mail.Send scope may be missing')
     else
-      error_body = JSON.parse(response.body) rescue { 'error' => { 'message' => response.body } }
+      error_body = begin
+        JSON.parse(response.body)
+      rescue JSON::ParserError
+        { 'error' => { 'message' => response.body } }
+      end
       error_message = error_body.dig('error', 'message') || 'Unknown error'
       raise StandardError, "Microsoft Graph API error (#{response.code}): #{error_message}"
     end

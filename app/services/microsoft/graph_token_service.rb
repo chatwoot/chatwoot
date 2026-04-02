@@ -29,7 +29,11 @@ class Microsoft::GraphTokenService
       token_data = JSON.parse(response.body)
       token_data['access_token']
     else
-      error_data = JSON.parse(response.body) rescue { 'error_description' => response.body }
+      error_data = begin
+        JSON.parse(response.body)
+      rescue JSON::ParserError
+        { 'error_description' => response.body }
+      end
       Rails.logger.error("Microsoft Graph token refresh failed: #{error_data['error_description']}")
       raise StandardError, "Failed to get Graph API token: #{error_data['error_description']}"
     end
