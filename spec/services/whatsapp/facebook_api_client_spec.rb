@@ -154,14 +154,15 @@ describe Whatsapp::FacebookApiClient do
     end
   end
 
-  describe '#subscribe_waba_webhook' do
+  describe '#subscribe_phone_number_webhook' do
     let(:waba_id) { 'test_waba_id' }
+    let(:phone_number_id) { 'test_phone_id' }
     let(:callback_url) { 'https://example.com/webhook' }
     let(:verify_token) { 'test_verify_token' }
 
     context 'when successful' do
       before do
-        # Step 1: Subscribe app to WABA (no body)
+        # Step 1: Subscribe app to WABA
         stub_request(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' }
@@ -172,12 +173,11 @@ describe Whatsapp::FacebookApiClient do
             headers: { 'Content-Type' => 'application/json' }
           )
 
-        # Step 2: Override callback URL (with body)
-        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
+        # Step 2: Override callback at phone number level
+        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}")
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
-            body: { override_callback_uri: callback_url, verify_token: verify_token,
-                    subscribed_fields: %w[messages smb_message_echoes] }.to_json
+            body: { webhook_configuration: { override_callback_uri: callback_url, verify_token: verify_token } }.to_json
           )
           .to_return(
             status: 200,
@@ -187,7 +187,7 @@ describe Whatsapp::FacebookApiClient do
       end
 
       it 'returns success response' do
-        result = api_client.subscribe_waba_webhook(waba_id, callback_url, verify_token)
+        result = api_client.subscribe_phone_number_webhook(waba_id, phone_number_id, callback_url, verify_token)
         expect(result['success']).to be(true)
       end
     end
@@ -202,11 +202,13 @@ describe Whatsapp::FacebookApiClient do
       end
 
       it 'raises an error' do
-        expect { api_client.subscribe_waba_webhook(waba_id, callback_url, verify_token) }.to raise_error(/App subscription to WABA failed/)
+        expect do
+          api_client.subscribe_phone_number_webhook(waba_id, phone_number_id, callback_url, verify_token)
+        end.to raise_error(/App subscription to WABA failed/)
       end
     end
 
-    context 'when callback override fails' do
+    context 'when phone number callback override fails' do
       before do
         # Step 1 succeeds
         stub_request(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
@@ -220,29 +222,31 @@ describe Whatsapp::FacebookApiClient do
           )
 
         # Step 2 fails
-        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
+        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}")
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
-            body: { override_callback_uri: callback_url, verify_token: verify_token,
-                    subscribed_fields: %w[messages smb_message_echoes] }.to_json
+            body: { webhook_configuration: { override_callback_uri: callback_url, verify_token: verify_token } }.to_json
           )
-          .to_return(status: 400, body: { error: 'Webhook callback override failed' }.to_json)
+          .to_return(status: 400, body: { error: 'Phone number webhook callback override failed' }.to_json)
       end
 
       it 'raises an error' do
-        expect { api_client.subscribe_waba_webhook(waba_id, callback_url, verify_token) }.to raise_error(/Webhook callback override failed/)
+        expect do
+          api_client.subscribe_phone_number_webhook(waba_id, phone_number_id, callback_url, verify_token)
+        end.to raise_error(/Phone number webhook callback override failed/)
       end
     end
   end
 
-  describe '#unsubscribe_waba_webhook' do
-    let(:waba_id) { 'test_waba_id' }
+  describe '#clear_phone_number_callback_override' do
+    let(:phone_number_id) { 'test_phone_id' }
 
     context 'when successful' do
       before do
-        stub_request(:delete, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
+        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}")
           .with(
-            headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' }
+            headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
+            body: { webhook_configuration: { override_callback_uri: '' } }.to_json
           )
           .to_return(
             status: 200,
@@ -252,22 +256,23 @@ describe Whatsapp::FacebookApiClient do
       end
 
       it 'returns success response' do
-        result = api_client.unsubscribe_waba_webhook(waba_id)
+        result = api_client.clear_phone_number_callback_override(phone_number_id)
         expect(result['success']).to be(true)
       end
     end
 
     context 'when failed' do
       before do
-        stub_request(:delete, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
+        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}")
           .with(
-            headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' }
+            headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
+            body: { webhook_configuration: { override_callback_uri: '' } }.to_json
           )
-          .to_return(status: 400, body: { error: 'Webhook unsubscription failed' }.to_json)
+          .to_return(status: 400, body: { error: 'Phone number webhook callback clear failed' }.to_json)
       end
 
       it 'raises an error' do
-        expect { api_client.unsubscribe_waba_webhook(waba_id) }.to raise_error(/Webhook unsubscription failed/)
+        expect { api_client.clear_phone_number_callback_override(phone_number_id) }.to raise_error(/Phone number webhook callback clear failed/)
       end
     end
   end
