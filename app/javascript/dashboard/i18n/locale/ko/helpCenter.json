@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "포털에서 로케일이 성공적으로 제거되었습니다",
           "ERROR_MESSAGE": "포털에서 로케일을 제거할 수 없습니다. 다시 시도하십시오."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -644,8 +656,11 @@
         "ARTICLES_COUNT": "{count}개 게시물 | {count}개 게시물",
         "CATEGORIES_COUNT": "{count}개 카테고리 | {count}개 카테고리",
         "DEFAULT": "기본값",
+        "DRAFT": "임시 저장",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "기본값으로 설정",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "삭제"
         }
       },
@@ -654,6 +669,13 @@
         "DESCRIPTION": "이 게시물이 작성될 언어를 선택하십시오. 번역 목록에 추가되며 나중에 더 추가할 수 있습니다.",
         "COMBOBOX": {
           "PLACEHOLDER": "로케일 선택..."
+        },
+        "STATUS": {
+          "LABEL": "상태",
+          "OPTIONS": {
+            "LIVE": "게시됨",
+            "DRAFT": "임시 저장"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "로케일이 성공적으로 추가되었습니다",
