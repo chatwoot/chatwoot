@@ -1,0 +1,39 @@
+type: object
+properties:
+  event:
+    type: string
+    example: csat_survey_response_created
+  id:
+    type: integer
+  rating:
+    type: integer
+    minimum: 1
+    maximum: 5
+  feedback_message:
+    type: string
+    nullable: true
+  created_at:
+    type: string
+    format: date-time
+  account_id:
+    type: integer
+  conversation:
+    $ref: '#/definitions/conversation'
+  contact:
+    $ref: '#/definitions/contact'
+  assigned_agent:
+    allOf:
+      - $ref: '#/definitions/agent'
+    nullable: true
+  message_id:
+    type: integer
+required:
+  - event
+  - id
+  - rating
+  - created_at
+  - account_id
+  - conversation
+  - contact
+  - message_id
+
