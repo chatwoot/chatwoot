@@ -258,6 +258,18 @@ RSpec.describe Captain::BaseTaskService do
       expect(result[:error]).to eq('API Error')
       expect(result[:request_messages]).to eq(messages)
     end
+
+    it 'does not track exceptions for account hook failures' do
+      create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'hook-key' })
+
+      expect(Llm::Config).to receive(:with_api_key).with('hook-key', api_base: anything).and_raise(error)
+      expect(ChatwootExceptionTracker).not_to receive(:new)
+
+      result = service.send(:make_api_call, model: model, messages: messages)
+
+      expect(result[:error]).to eq('API Error')
+      expect(result[:request_messages]).to eq(messages)
+    end
   end
 
   describe '#api_key' do
@@ -274,6 +286,16 @@ RSpec.describe Captain::BaseTaskService do
     context 'when openai hook is not configured' do
       it 'uses system api key' do
         expect(service.send(:api_key)).to eq('test-key')
+      end
+    end
+
+    context 'when no API key is configured' do
+      before do
+        InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.destroy
+      end
+
+      it 'returns nil' do
+        expect(service.send(:api_key)).to be_nil
       end
     end
   end
