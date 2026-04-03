@@ -21,6 +21,8 @@ class AgentBot < ApplicationRecord
   include AccessTokenable
   include Avatarable
 
+  include WebhookSecretable
+
   scope :accessible_to, lambda { |account|
     account_id = account&.id
     where(account_id: [nil, account_id])
@@ -63,3 +65,5 @@ class AgentBot < ApplicationRecord
     account.nil?
   end
 end
+
+AgentBot.include_mod_with('Audit::AgentBot')

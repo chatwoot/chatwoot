@@ -88,6 +88,7 @@ Rails.application.routes.draw do
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member
+            post :reset_secret, on: :member
           end
           resources :contact_inboxes, only: [] do
             collection do
@@ -221,6 +222,7 @@ Rails.application.routes.draw do
             post :sync_templates, on: :member
             get :health, on: :member
             post :register_webhook, on: :member
+            post :reset_secret, on: :member
             if ChatwootApp.enterprise?
               resource :conference, only: %i[create destroy], controller: 'conference' do
                 get :token, on: :member
