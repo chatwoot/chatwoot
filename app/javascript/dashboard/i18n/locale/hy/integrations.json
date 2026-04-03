@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Փաստաթղթեր",
       "ADD_NEW": "Ստեղծել նոր փաստաթուղթ",
+      "SELECTED": "{count} ընտրված",
+      "SELECT_ALL": "Ընտրել բոլորը ({count})",
+      "UNSELECT_ALL": "Չընտրել բոլորը ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Այո, ջնջել բոլորը",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Համապատասխան ՀՏՀ-ներ",
         "DESCRIPTION": "Այս ՀՏՀ-ները ստեղծվել են ուղղակիորեն փաստաթղթից։"
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Alat",
       "ADD_NEW": "Cipta alat baru",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "Tiada alat khusus tersedia",
         "SUBTITLE": "Ստեղծեք անհատական գործիքներ՝ ձեր օգնականին արտաքին API-ների և ծառայությունների հետ կապելու համար՝ հնարավորություն տալով նրան ստանալ տվյալներ և կատարել գործողություններ ձեր անունից։",
@@ -825,11 +837,18 @@
         "SUCCESS_MESSAGE": "Alat tersuai berjaya dipadam",
         "ERROR_MESSAGE": "Gagal memadam alat tersuai"
       },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Nama Alat",
           "PLACEHOLDER": "Carian Pesanan",
-          "ERROR": "Nama alat diperlukan"
+          "ERROR": "Nama alat diperlukan",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Penerangan",
