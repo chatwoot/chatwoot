@@ -3,12 +3,15 @@
 require 'rails_helper'
 
 RSpec.describe 'Twilio::VoiceController', type: :request do
+  include ActiveJob::TestHelper
+
   let(:account) { create(:account) }
   let(:channel) { create(:channel_voice, account: account, phone_number: '+15551230003') }
   let(:inbox) { channel.inbox }
   let(:digits) { channel.phone_number.delete_prefix('+') }
 
   before do
+    clear_enqueued_jobs
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)
       .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(16)}"))
   end
@@ -39,6 +42,8 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('<Response>')
       expect(response.body).to include('<Dial>')
+      expect(response.body).to include('record="record-from-start"')
+      expect(response.body).to include("/twilio/voice/recording_status/#{digits}")
     end
 
     it 'syncs an existing outbound conversation when Twilio sends the PSTN leg' do
@@ -141,6 +146,76 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         'CallStatus' => 'busy'
       }
       expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  describe 'POST /twilio/voice/conference_status/:phone' do
+    let(:call_sid) { 'CA_conference_status_sid_456' }
+    let!(:conversation) do
+      create(
+        :conversation,
+        account: account,
+        inbox: inbox,
+        identifier: call_sid,
+        additional_attributes: { 'conference_sid' => 'friendly-conference-name' }
+      )
+    end
+
+    it 'persists the Twilio conference SID from the callback' do
+      manager_double = instance_double(Voice::Conference::Manager, process: nil)
+      allow(Voice::Conference::Manager).to receive(:new).and_return(manager_double)
+
+      post "/twilio/voice/conference_status/#{digits}", params: {
+        'CallSid' => call_sid,
+        'FriendlyName' => 'friendly-conference-name',
+        'ConferenceSid' => 'CF123456789',
+        'StatusCallbackEvent' => 'conference-start',
+        'ParticipantLabel' => 'contact'
+      }
+
+      expect(response).to have_http_status(:no_content)
+      expect(conversation.reload.additional_attributes['twilio_conference_sid']).to eq('CF123456789')
+      expect(manager_double).to have_received(:process)
+    end
+  end
+
+  describe 'POST /twilio/voice/recording_status/:phone' do
+    let!(:conversation) do
+      create(
+        :conversation,
+        account: account,
+        inbox: inbox,
+        identifier: 'CA_recording_sid_456',
+        additional_attributes: { 'twilio_conference_sid' => 'CF999' }
+      )
+    end
+
+    it 'enqueues recording attachment when recording completes' do
+      expect do
+        post "/twilio/voice/recording_status/#{digits}", params: {
+          'ConferenceSid' => 'CF999',
+          'RecordingSid' => 'RE123',
+          'RecordingUrl' => 'https://api.twilio.com/recordings/RE123',
+          'RecordingDuration' => '42',
+          'RecordingStatus' => 'completed'
+        }
+      end.to have_enqueued_job(Voice::Provider::Twilio::RecordingAttachmentJob)
+        .with(conversation.id, 'RE123', 'https://api.twilio.com/recordings/RE123', '42')
+
+      expect(response).to have_http_status(:no_content)
+    end
+
+    it 'ignores non-completed recording events' do
+      expect do
+        post "/twilio/voice/recording_status/#{digits}", params: {
+          'ConferenceSid' => 'CF999',
+          'RecordingSid' => 'RE123',
+          'RecordingUrl' => 'https://api.twilio.com/recordings/RE123',
+          'RecordingStatus' => 'in-progress'
+        }
+      end.not_to have_enqueued_job(Voice::Provider::Twilio::RecordingAttachmentJob)
+
+      expect(response).to have_http_status(:no_content)
     end
   end
 end

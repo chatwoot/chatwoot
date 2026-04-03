@@ -4,6 +4,7 @@ import {
   dynamicTime,
   dateFormat,
   shortTimestamp,
+  formatDuration,
   getDayDifferenceFromNow,
   hasOneDayPassed,
 } from 'shared/helpers/timeHelper';
@@ -91,6 +92,24 @@ describe('#shortTimestamp', () => {
     expect(shortTimestamp('a year ago', true)).toEqual('1y ago');
     expect(shortTimestamp('1 year ago', true)).toEqual('1y ago');
     expect(shortTimestamp('4 years ago', true)).toEqual('4y ago');
+  });
+});
+
+describe('#formatDuration', () => {
+  it('returns empty string for invalid values', () => {
+    expect(formatDuration(null)).toEqual('');
+    expect(formatDuration(undefined)).toEqual('');
+    expect(formatDuration(-1)).toEqual('');
+    expect(formatDuration('abc')).toEqual('');
+  });
+
+  it('formats short durations as mm:ss', () => {
+    expect(formatDuration(0)).toEqual('00:00');
+    expect(formatDuration(133)).toEqual('02:13');
+  });
+
+  it('formats long durations as hh:mm:ss', () => {
+    expect(formatDuration(3733)).toEqual('01:02:13');
   });
 });
 

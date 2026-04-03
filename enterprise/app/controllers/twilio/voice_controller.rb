@@ -39,6 +39,7 @@ class Twilio::VoiceController < ApplicationController
       friendly_name: params[:FriendlyName],
       call_sid: twilio_call_sid
     )
+    persist_twilio_conference_sid!(conversation, params[:ConferenceSid])
 
     Voice::Conference::Manager.new(
       conversation: conversation,
@@ -47,6 +48,14 @@ class Twilio::VoiceController < ApplicationController
       participant_label: participant_label
     ).process
 
+    head :no_content
+  end
+
+  def recording_status
+    Voice::RecordingStatusService.new(
+      account: current_account,
+      payload: params.to_unsafe_h
+    ).perform
     head :no_content
   end
 
@@ -139,6 +148,10 @@ class Twilio::VoiceController < ApplicationController
       response.dial do |dial|
         dial.conference(
           conference_sid,
+          record: 'record-from-start',
+          recording_status_callback: recording_status_callback_url,
+          recording_status_callback_event: 'completed',
+          recording_status_callback_method: 'POST',
           start_conference_on_enter: agent_leg,
           end_conference_on_exit: false,
           status_callback: conference_status_callback_url,
@@ -155,6 +168,11 @@ class Twilio::VoiceController < ApplicationController
     Rails.application.routes.url_helpers.twilio_voice_conference_status_url(phone: phone_digits)
   end
 
+  def recording_status_callback_url
+    phone_digits = inbox_channel.phone_number.delete_prefix('+')
+    Rails.application.routes.url_helpers.twilio_voice_recording_status_url(phone: phone_digits)
+  end
+
   def find_conversation_for_conference!(friendly_name:, call_sid:)
     name = friendly_name.to_s
     scope = current_account.conversations
@@ -165,6 +183,14 @@ class Twilio::VoiceController < ApplicationController
     end
 
     scope.find_by!(identifier: call_sid)
+  end
+
+  def persist_twilio_conference_sid!(conversation, conference_sid)
+    return if conference_sid.blank?
+    return if conversation.additional_attributes&.dig('twilio_conference_sid') == conference_sid
+
+    attrs = (conversation.additional_attributes || {}).merge('twilio_conference_sid' => conference_sid)
+    conversation.update!(additional_attributes: attrs)
   end
 
   def set_inbox!

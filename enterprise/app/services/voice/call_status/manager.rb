@@ -9,6 +9,7 @@ class Voice::CallStatus::Manager
 
     current_status = conversation.additional_attributes&.dig('call_status')
     return if current_status == status
+    return if preserve_existing_terminal_status?(current_status, status)
 
     apply_status(status, duration: duration, timestamp: timestamp)
     update_message(status)
@@ -43,17 +44,10 @@ class Voice::CallStatus::Manager
   end
 
   def update_message(status)
-    message = conversation.messages
-                          .where(content_type: 'voice_call')
-                          .order(created_at: :desc)
-                          .first
+    message = latest_voice_call_message
     return unless message
 
-    data = (message.content_attributes || {}).dup
-    data['data'] ||= {}
-    data['data']['status'] = status
-
-    message.update!(content_attributes: data)
+    message.update!(content_attributes: updated_message_attributes(message, status))
   end
 
   def now_seconds
@@ -62,5 +56,36 @@ class Voice::CallStatus::Manager
 
   def current_time
     @current_time ||= Time.zone.now
+  end
+
+  def latest_voice_call_message
+    conversation.messages
+                .where(content_type: 'voice_call')
+                .order(created_at: :desc)
+                .first
+  end
+
+  def updated_message_attributes(message, status)
+    data = (message.content_attributes || {}).deep_dup
+    call_data = data['data'] ||= {}
+    call_data['status'] = status
+    call_data['meta'] ||= {}
+    update_duration_meta(data, status)
+    data
+  end
+
+  def update_duration_meta(data, status)
+    duration = conversation.additional_attributes['call_duration']
+
+    if status == 'completed' && duration.present?
+      data['data']['meta']['duration'] = duration
+    else
+      data['data']['meta'].delete('duration')
+    end
+  end
+
+  def preserve_existing_terminal_status?(current_status, next_status)
+    TERMINAL_STATUSES.include?(current_status) &&
+      TERMINAL_STATUSES.include?(next_status)
   end
 end

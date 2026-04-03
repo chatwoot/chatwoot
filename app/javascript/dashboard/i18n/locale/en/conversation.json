@@ -81,8 +81,11 @@
       "MISSED_CALL": "Missed call",
       "CALL_ENDED": "Call ended",
       "NOT_ANSWERED_YET": "Not answered yet",
+      "AGENT_ANSWERED": "{agentName} answered",
       "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "YOU_ANSWERED": "You answered",
+      "JOIN_CALL": "Join call",
+      "REJOIN_CALL": "Rejoin call"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",

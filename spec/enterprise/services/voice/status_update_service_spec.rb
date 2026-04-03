@@ -37,7 +37,7 @@ RSpec.describe Voice::StatusUpdateService do
       .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(16)}"))
   end
 
-  it 'updates conversation and last voice message with call status' do
+  it 'updates conversation and last voice message with call status and duration' do
     # Ensure records are created after stub setup
     conversation
     message
@@ -45,14 +45,17 @@ RSpec.describe Voice::StatusUpdateService do
     described_class.new(
       account: account,
       call_sid: call_sid,
-      call_status: 'completed'
+      call_status: 'completed',
+      payload: { 'CallDuration' => '133' }
     ).perform
 
     conversation.reload
     message.reload
 
     expect(conversation.additional_attributes['call_status']).to eq('completed')
+    expect(conversation.additional_attributes['call_duration']).to eq(133)
     expect(message.content_attributes.dig('data', 'status')).to eq('completed')
+    expect(message.content_attributes.dig('data', 'meta', 'duration')).to eq(133)
   end
 
   it 'normalizes busy to no-answer' do
@@ -70,6 +73,43 @@ RSpec.describe Voice::StatusUpdateService do
 
     expect(conversation.additional_attributes['call_status']).to eq('no-answer')
     expect(message.content_attributes.dig('data', 'status')).to eq('no-answer')
+  end
+
+  it 'does not overwrite no-answer with a later completed callback' do
+    conversation.update!(additional_attributes: { 'call_direction' => 'inbound', 'call_status' => 'no-answer' })
+    message.update!(content_attributes: { data: { call_sid: call_sid, status: 'no-answer' } })
+
+    described_class.new(
+      account: account,
+      call_sid: call_sid,
+      call_status: 'completed',
+      payload: { 'CallDuration' => '4' }
+    ).perform
+
+    conversation.reload
+    message.reload
+
+    expect(conversation.additional_attributes['call_status']).to eq('no-answer')
+    expect(message.content_attributes.dig('data', 'status')).to eq('no-answer')
+    expect(message.content_attributes.dig('data', 'meta', 'duration')).to be_nil
+  end
+
+  it 'ignores inbound in-progress callbacks before any agent joins' do
+    conversation
+    message
+
+    described_class.new(
+      account: account,
+      call_sid: call_sid,
+      call_status: 'in-progress'
+    ).perform
+
+    conversation.reload
+    message.reload
+
+    expect(conversation.additional_attributes['call_status']).to eq('ringing')
+    expect(conversation.additional_attributes['call_started_at']).to be_nil
+    expect(message.content_attributes.dig('data', 'status')).to eq('ringing')
   end
 
   it 'no-ops when conversation not found' do

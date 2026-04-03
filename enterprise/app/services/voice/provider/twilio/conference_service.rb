@@ -11,11 +11,15 @@ class Voice::Provider::Twilio::ConferenceService
   end
 
   def mark_agent_joined(user:)
+    joined_by = { id: user.id, name: user.name }
+
     merge_attributes(
       'agent_joined' => true,
       'joined_at' => Time.current.to_i,
-      'joined_by' => { id: user.id, name: user.name }
+      'joined_by' => joined_by
     )
+
+    sync_message_join_metadata!(joined_by)
   end
 
   def end_conference
@@ -30,6 +34,18 @@ class Voice::Provider::Twilio::ConferenceService
   def merge_attributes(attrs)
     current = conversation.additional_attributes || {}
     conversation.update!(additional_attributes: current.merge(attrs))
+  end
+
+  def sync_message_join_metadata!(joined_by)
+    message = conversation.messages.voice_calls.order(created_at: :desc).first
+    return unless message
+
+    content_attributes = (message.content_attributes || {}).deep_dup
+    content_attributes['data'] ||= {}
+    content_attributes['data']['meta'] ||= {}
+    content_attributes['data']['meta']['joined_by'] = joined_by
+
+    message.update!(content_attributes: content_attributes)
   end
 
   def twilio_client
