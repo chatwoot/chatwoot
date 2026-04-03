@@ -144,46 +144,44 @@ const previewArticle = () => {
 </template>
 
 <style lang="scss" scoped>
-::v-deep {
-  .ProseMirror .empty-node::before {
-    @apply text-n-slate-10 text-base;
-  }
+:deep(.ProseMirror .empty-node::before) {
+  @apply text-n-slate-10 text-base;
+}
 
-  .ProseMirror-menubar-wrapper {
-    .ProseMirror-woot-style {
-      @apply min-h-[15rem] max-h-full;
-    }
+:deep(.ProseMirror-menubar-wrapper) {
+  .ProseMirror-woot-style {
+    @apply min-h-[15rem] max-h-full;
   }
+}
 
+:deep(.ProseMirror-menubar) {
+  display: none; // Hide by default
+}
+
+:deep(.editor-root .has-selection) {
   .ProseMirror-menubar {
-    display: none; // Hide by default
-  }
+    @apply h-8 rounded-lg !px-2 z-50 bg-n-solid-3 items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
+    display: flex;
+    top: var(--selection-top, auto) !important;
+    left: var(--selection-left, 0) !important;
+    width: fit-content !important;
+    position: absolute !important;
 
-  .editor-root .has-selection {
-    .ProseMirror-menubar {
-      @apply h-8 rounded-lg !px-2 z-50 bg-n-solid-3 items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
-      display: flex;
-      top: var(--selection-top, auto) !important;
-      left: var(--selection-left, 0) !important;
-      width: fit-content !important;
-      position: absolute !important;
+    .ProseMirror-menuitem {
+      @apply mr-0;
 
-      .ProseMirror-menuitem {
-        @apply mr-0;
+      .ProseMirror-icon {
+        @apply p-0 mt-0 !mr-0;
 
-        .ProseMirror-icon {
-          @apply p-0 mt-0 !mr-0;
-
-          svg {
-            width: 20px !important;
-            height: 20px !important;
-          }
+        svg {
+          width: 20px !important;
+          height: 20px !important;
         }
       }
+    }
 
-      .ProseMirror-menu-active {
-        @apply bg-n-slate-3;
-      }
+    .ProseMirror-menu-active {
+      @apply bg-n-slate-3;
     }
   }
 }
