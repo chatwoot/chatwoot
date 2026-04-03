@@ -5,8 +5,10 @@ module Enterprise::Account
 
   # Auto-sync advanced_assignment with assignment_v2 when features are bulk-updated via admin UI
   def selected_feature_flags=(features)
+    was_assignment_v2 = feature_enabled?('assignment_v2')
     super
     sync_assignment_features
+    @assignment_v2_just_enabled = !was_assignment_v2 && feature_enabled?('assignment_v2')
   end
 
   def mark_for_deletion(reason = 'manual_deletion')
