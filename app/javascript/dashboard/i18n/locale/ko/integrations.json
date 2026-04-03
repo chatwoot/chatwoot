@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "문서",
       "ADD_NEW": "새 문서 만들기",
+      "SELECTED": "{count}개 선택됨",
+      "SELECT_ALL": "전체 선택 ({count})",
+      "UNSELECT_ALL": "전체 선택 해제 ({count})",
+      "BULK_DELETE_BUTTON": "삭제",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "예, 모두 삭제합니다",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "관련 FAQ",
         "DESCRIPTION": "이 FAQ는 문서에서 직접 생성되었습니다."
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "도구",
       "ADD_NEW": "새 도구 만들기",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "사용 가능한 사용자 정의 도구가 없습니다",
         "SUBTITLE": "사용자 정의 도구를 만들어 어시스턴트를 외부 API 및 서비스와 연결하고, 데이터를 가져오거나 사용자를 대신하여 작업을 수행할 수 있도록 하십시오.",
@@ -825,11 +837,18 @@
         "SUCCESS_MESSAGE": "사용자 정의 도구가 성공적으로 삭제되었습니다",
         "ERROR_MESSAGE": "사용자 정의 도구를 삭제하지 못했습니다"
       },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "도구 이름",
           "PLACEHOLDER": "주문 조회",
-          "ERROR": "도구 이름은 필수입니다"
+          "ERROR": "도구 이름은 필수입니다",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "설명",
