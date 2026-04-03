@@ -8,6 +8,7 @@ import {
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { useMediaQuery } from '@vueuse/core';
 
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from './ContactConversations.vue';
@@ -34,6 +35,8 @@ const props = defineProps({
     default: undefined,
   },
 });
+
+const isMobile = useMediaQuery('(max-width: 767px)');
 
 const {
   updateUISettings,
@@ -140,6 +143,7 @@ onMounted(() => {
     <div class="px-2 pb-8 list-group">
       <Draggable
         :list="conversationSidebarItems"
+        :disabled="isMobile"
         animation="200"
         ghost-class="ghost"
         handle=".drag-handle"
