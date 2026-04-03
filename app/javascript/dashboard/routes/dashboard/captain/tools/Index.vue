@@ -5,16 +5,20 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
+import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import CustomToolsPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/CustomToolsPageEmptyState.vue';
 import CreateCustomToolDialog from 'dashboard/components-next/captain/pageComponents/customTool/CreateCustomToolDialog.vue';
 import CustomToolCard from 'dashboard/components-next/captain/pageComponents/customTool/CustomToolCard.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 
 const store = useStore();
-const { isFeatureFlagEnabled } = usePolicy();
+const { isFeatureFlagEnabled, shouldShowPaywall } = usePolicy();
 
 const SOFT_LIMIT = 10;
 const isV2 = computed(() => isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2));
+const toolsFeatureFlag = computed(() =>
+  isV2.value ? '' : FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS
+);
 
 const uiFlags = useMapGetter('captainCustomTools/getUIFlags');
 const customTools = useMapGetter('captainCustomTools/getRecords');
@@ -80,7 +84,9 @@ const onDeleteSuccess = () => {
 };
 
 onMounted(() => {
-  fetchCustomTools();
+  if (!shouldShowPaywall(toolsFeatureFlag.value)) {
+    fetchCustomTools();
+  }
 });
 </script>
 
@@ -89,6 +95,7 @@ onMounted(() => {
     :header-title="$t('CAPTAIN.CUSTOM_TOOLS.HEADER')"
     :button-label="$t('CAPTAIN.CUSTOM_TOOLS.ADD_NEW')"
     :button-policy="['administrator']"
+    :feature-flag="toolsFeatureFlag"
     :total-count="customToolsMeta.totalCount"
     :current-page="customToolsMeta.page"
     :show-pagination-footer="!isFetching && !!customTools.length"
@@ -98,6 +105,10 @@ onMounted(() => {
     @update:current-page="onPageChange"
     @click="openCreateDialog"
   >
+    <template #paywall>
+      <CaptainPaywall feature-prefix="CAPTAIN.CUSTOM_TOOLS" />
+    </template>
+
     <template #emptyState>
       <CustomToolsPageEmptyState @click="openCreateDialog" />
     </template>
