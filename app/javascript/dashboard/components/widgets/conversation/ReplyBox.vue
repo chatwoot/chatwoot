@@ -366,7 +366,10 @@ export default {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
     audioRecordFormat() {
-      if (this.isAWhatsAppChannel || this.isATelegramChannel) {
+      if (this.isAWhatsAppChannel) {
+        return AUDIO_FORMATS.OGG;
+      }
+      if (this.isATelegramChannel) {
         return AUDIO_FORMATS.MP3;
       }
       if (this.isAPIInbox) {
@@ -1029,13 +1032,17 @@ export default {
     onFinishRecorder(file) {
       this.recordingAudioState = 'stopped';
       this.hasRecordedAudio = true;
-      // Added a new key isRecordedAudio to the file to find it's and recorded audio
+      // Added a new key isVoiceMessage to the file to identify recorded audio
       // Because to filter and show only non recorded audio and other attachments
       const autoRecordedFile = {
         ...file,
-        isRecordedAudio: true,
+        isVoiceMessage: true,
       };
       return file && this.onFileUpload(autoRecordedFile);
+    },
+    onRecordError() {
+      this.toggleAudioRecorder();
+      useAlert(this.$t('CONVERSATION.REPLYBOX.AUDIO_CONVERSION_FAILED'));
     },
     toggleTyping(status) {
       const conversationId = this.currentChat.id;
@@ -1061,7 +1068,7 @@ export default {
           isPrivate: this.isPrivate,
           thumb: reader.result,
           blobSignedId: blob ? blob.signed_id : undefined,
-          isRecordedAudio: file?.isRecordedAudio || false,
+          isVoiceMessage: file?.isVoiceMessage || false,
         });
       };
     },
@@ -1097,6 +1104,7 @@ export default {
             private: false,
             message: caption,
             sender: this.sender,
+            isVoiceMessage: attachment.isVoiceMessage || false,
           };
 
           attachmentPayload = this.setReplyToInPayload(attachmentPayload);
@@ -1146,6 +1154,9 @@ export default {
         this.attachedFiles.forEach(attachment => {
           if (this.globalConfig.directUploadsEnabled) {
             messagePayload.files.push(attachment.blobSignedId);
+            if (attachment.isVoiceMessage) {
+              messagePayload.isVoiceMessage = true;
+            }
           } else {
             messagePayload.files.push(attachment.resource.file);
           }
@@ -1234,7 +1245,7 @@ export default {
       this.hasRecordedAudio = false;
       // Only clear the recorded audio when we click toggle button.
       this.attachedFiles = this.attachedFiles.filter(
-        file => !file?.isRecordedAudio
+        file => !file?.isVoiceMessage
       );
     },
     togglePopout() {
@@ -1311,6 +1322,7 @@ export default {
           :audio-record-format="audioRecordFormat"
           @recorder-progress-changed="onRecordProgressChanged"
           @finish-record="onFinishRecorder"
+          @record-error="onRecordError"
           @play="recordingAudioState = 'playing'"
           @pause="recordingAudioState = 'paused'"
         />

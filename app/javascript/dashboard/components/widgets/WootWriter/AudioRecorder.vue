@@ -4,7 +4,7 @@ import { ref, onMounted, onUnmounted, defineEmits, defineExpose } from 'vue';
 import WaveSurfer from 'wavesurfer.js';
 import RecordPlugin from 'wavesurfer.js/dist/plugins/record.js';
 import { format, intervalToDuration } from 'date-fns';
-import { convertAudio } from './utils/mp3ConversionUtils';
+import { convertAudio } from './utils/audioConversionUtils';
 
 const props = defineProps({
   audioRecordFormat: {
@@ -18,6 +18,7 @@ const emit = defineEmits([
   'finishRecord',
   'pause',
   'play',
+  'recordError',
 ]);
 
 const waveformContainer = ref(null);
@@ -26,6 +27,7 @@ const record = ref(null);
 const isRecording = ref(false);
 const isPlaying = ref(false);
 const hasRecording = ref(false);
+const recordedAudioUrl = ref(null);
 
 const formatTimeProgress = time => {
   const duration = intervalToDuration({ start: 0, end: time });
@@ -33,6 +35,28 @@ const formatTimeProgress = time => {
     new Date(0, 0, 0, 0, duration.minutes, duration.seconds),
     'mm:ss'
   );
+};
+
+const AUDIO_EXTENSION_MAP = {
+  'audio/ogg': 'ogg',
+  'audio/mp3': 'mp3',
+  'audio/mpeg': 'mp3',
+  'audio/wav': 'wav',
+  'audio/webm': 'webm',
+};
+
+const getRecordPluginOptions = audioFormat => {
+  const options = {
+    scrollingWaveform: true,
+    renderRecordedAudio: false,
+  };
+  if (
+    audioFormat === 'audio/ogg' &&
+    MediaRecorder.isTypeSupported('audio/ogg;codecs=opus')
+  ) {
+    options.mimeType = 'audio/ogg;codecs=opus';
+  }
+  return options;
 };
 
 const initWaveSurfer = () => {
@@ -45,10 +69,7 @@ const initWaveSurfer = () => {
     barGap: 1,
     barRadius: 2,
     plugins: [
-      RecordPlugin.create({
-        scrollingWaveform: true,
-        renderRecordedAudio: false,
-      }),
+      RecordPlugin.create(getRecordPluginOptions(props.audioRecordFormat)),
     ],
   });
 
@@ -62,21 +83,29 @@ const initWaveSurfer = () => {
   });
 
   record.value.on('record-end', async blob => {
-    const audioUrl = URL.createObjectURL(blob);
-    const audioBlob = await convertAudio(blob, props.audioRecordFormat);
-    const fileName = `${getUuid()}.mp3`;
-    const file = new File([audioBlob], fileName, {
-      type: props.audioRecordFormat,
-    });
-    wavesurfer.value.load(audioUrl);
-    emit('finishRecord', {
-      name: file.name,
-      type: file.type,
-      size: file.size,
-      file,
-    });
-    hasRecording.value = true;
-    isRecording.value = false;
+    try {
+      const audioBlob = await convertAudio(blob, props.audioRecordFormat);
+      const ext = AUDIO_EXTENSION_MAP[props.audioRecordFormat] || 'mp3';
+      const fileName = `${getUuid()}.${ext}`;
+      const file = new File([audioBlob], fileName, {
+        type: props.audioRecordFormat,
+      });
+      if (recordedAudioUrl.value) URL.revokeObjectURL(recordedAudioUrl.value);
+      recordedAudioUrl.value = URL.createObjectURL(audioBlob);
+      wavesurfer.value.load(recordedAudioUrl.value);
+      emit('finishRecord', {
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        file,
+      });
+      hasRecording.value = true;
+      isRecording.value = false;
+    } catch (error) {
+      isRecording.value = false;
+      hasRecording.value = false;
+      emit('recordError', { error });
+    }
   });
 
   record.value.on('record-progress', time => {
@@ -109,6 +138,10 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  if (recordedAudioUrl.value) {
+    URL.revokeObjectURL(recordedAudioUrl.value);
+    recordedAudioUrl.value = null;
+  }
   if (wavesurfer.value) {
     wavesurfer.value.destroy();
   }

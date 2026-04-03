@@ -13,6 +13,7 @@ class Messages::MessageBuilder
     @account = conversation.account
     @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
+    @is_voice_message = ActiveModel::Type::Boolean.new.cast(params[:is_voice_message])
     @automation_rule = content_attributes&.dig(:automation_rule_id)
     return unless params.instance_of?(ActionController::Parameters)
 
@@ -63,6 +64,7 @@ class Messages::MessageBuilder
                              else
                                file_type(uploaded_attachment&.content_type)
                              end
+      attachment.meta = (attachment.meta || {}).merge('is_voice_message' => true) if @is_voice_message
     end
   end
 
