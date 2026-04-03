@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "ข้อความลายเซ็นต์ไม่ได้ถูกตั้งค่า โปรดปรับแต่งในหน้าตั้งค่าข้อมูลส่วนตัว",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "ให้ Copilot คำสั่งเพิ่มเติม หรือถามอย่างอื่น... กด enter เพื่อส่งข้อความติดตาม",
       "CLICK_HERE": "คลิกที่นี่เพื่ออัปเดต",
       "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
@@ -214,7 +214,7 @@
       "DRAG_DROP": "ลากเเละปล่อยที่นี่เพื่อเพิ่ม",
       "START_AUDIO_RECORDING": "เริ่มบันทึกเสียง",
       "STOP_AUDIO_RECORDING": "หยุดบันทึกเสียง",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot กำลังคิด",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "เพิ่ม BCC",
