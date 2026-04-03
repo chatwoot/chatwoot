@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Tanda tangan pesan tidak dikonfigurasi, harap konfigurasikan di pengaturan profil.",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "Berikan copilot perintah tambahan, atau tanyakan hal lain... Tekan enter untuk mengirim tindak lanjut",
       "CLICK_HERE": "Klik di sini untuk memperbarui",
       "WHATSAPP_TEMPLATES": "Templat Whatsapp"
     },
@@ -214,7 +214,7 @@
       "DRAG_DROP": "Seret dan letakkan di sini untuk melampirkan",
       "START_AUDIO_RECORDING": "Mulai merekam audio",
       "STOP_AUDIO_RECORDING": "Berhenti merekam audio",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot sedang berpikir",
       "EMAIL_HEAD": {
         "TO": "KEPADA",
         "ADD_BCC": "Tambahkan bcc",
