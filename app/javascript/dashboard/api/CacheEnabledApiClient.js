@@ -14,7 +14,8 @@ class CacheEnabledApiClient extends ApiClient {
   }
 
   get(cache = false) {
-    if (cache) {
+    // eslint-disable-next-line no-underscore-dangle
+    if (cache && !window.__WOOT_ISOLATED_SHELL__) {
       return this.getFromCache();
     }
 

@@ -4,11 +4,11 @@ import BaseBubble from 'next/message/bubbles/Base.vue';
 import FormattedContent from './FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
-import { MESSAGE_TYPES } from '../../constants';
+import { MESSAGE_TYPES, MESSAGE_VARIANTS } from '../../constants';
 import { useMessageContext } from '../../provider.js';
 import { useTranslations } from 'dashboard/composables/useTranslations';
 
-const { content, attachments, contentAttributes, messageType } =
+const { content, attachments, contentAttributes, messageType, variant } =
   useMessageContext();
 
 const { hasTranslations, translationContent } =
@@ -36,15 +36,29 @@ const isEmpty = computed(() => {
   return !content.value && !attachments.value?.length;
 });
 
+const emptyTextClass = computed(() => {
+  const metaClassMap = {
+    [MESSAGE_VARIANTS.AGENT]: 'text-[rgb(var(--bubble-agent-meta))]',
+    [MESSAGE_VARIANTS.USER]: 'text-[rgb(var(--bubble-user-meta))]',
+    [MESSAGE_VARIANTS.PRIVATE]: 'text-[rgb(var(--bubble-private-meta))]',
+    [MESSAGE_VARIANTS.BOT]: 'text-[rgb(var(--bubble-bot-meta))]',
+    [MESSAGE_VARIANTS.TEMPLATE]: 'text-[rgb(var(--bubble-bot-meta))]',
+  };
+  return metaClassMap[variant.value] || 'text-[rgb(var(--bubble-agent-meta))]';
+});
+
 const handleSeeOriginal = () => {
   renderOriginal.value = !renderOriginal.value;
 };
 </script>
 
 <template>
-  <BaseBubble class="px-4 py-3" data-bubble-name="text">
+  <BaseBubble
+    class="px-[var(--bubble-padding-x)] py-[var(--bubble-padding-y)]"
+    data-bubble-name="text"
+  >
     <div class="gap-3 flex flex-col">
-      <span v-if="isEmpty" class="text-n-slate-11">
+      <span v-if="isEmpty" :class="emptyTextClass">
         {{ $t('CONVERSATION.NO_CONTENT') }}
       </span>
       <FormattedContent v-if="renderContent" :content="renderContent" />
