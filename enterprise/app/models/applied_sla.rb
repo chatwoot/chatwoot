@@ -55,8 +55,40 @@ class AppliedSla < ApplicationRecord
       sla_first_response_time_threshold: sla_policy.first_response_time_threshold,
       sla_next_response_time_threshold: sla_policy.next_response_time_threshold,
       sla_only_during_business_hours: sla_policy.only_during_business_hours,
-      sla_resolution_time_threshold: sla_policy.resolution_time_threshold
+      sla_resolution_time_threshold: sla_policy.resolution_time_threshold,
+      sla_frt_due_at: frt_due_at,
+      sla_nrt_due_at: nrt_due_at,
+      sla_rt_due_at: rt_due_at
     }
+  end
+
+  def frt_due_at
+    return nil if sla_policy.first_response_time_threshold.blank?
+
+    calculate_due_at(conversation.created_at, sla_policy.first_response_time_threshold)
+  end
+
+  def nrt_due_at
+    return nil if sla_policy.next_response_time_threshold.blank?
+    return nil if conversation.waiting_since.blank?
+
+    calculate_due_at(conversation.waiting_since, sla_policy.next_response_time_threshold)
+  end
+
+  def rt_due_at
+    return nil if sla_policy.resolution_time_threshold.blank?
+
+    calculate_due_at(conversation.created_at, sla_policy.resolution_time_threshold)
+  end
+
+  def calculate_due_at(start_time, threshold_seconds)
+    return (start_time + threshold_seconds.to_i.seconds).to_i unless sla_policy.only_during_business_hours?
+
+    Sla::BusinessHoursService.new(
+      inbox: conversation.inbox,
+      start_time: start_time,
+      threshold_seconds: threshold_seconds
+    ).deadline.to_i
   end
 
   private
