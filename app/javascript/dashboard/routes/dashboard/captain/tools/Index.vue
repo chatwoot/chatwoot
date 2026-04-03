@@ -12,7 +12,7 @@ import CustomToolCard from 'dashboard/components-next/captain/pageComponents/cus
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 
 const store = useStore();
-const { isFeatureFlagEnabled } = usePolicy();
+const { isFeatureFlagEnabled, shouldShowPaywall } = usePolicy();
 
 const SOFT_LIMIT = 10;
 const isV2 = computed(() => isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2));
@@ -81,7 +81,9 @@ const onDeleteSuccess = () => {
 };
 
 onMounted(() => {
-  fetchCustomTools();
+  if (!shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)) {
+    fetchCustomTools();
+  }
 });
 </script>
 
