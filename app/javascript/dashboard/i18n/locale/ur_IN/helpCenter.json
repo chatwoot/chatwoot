@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "زبان پورٹل سے کامیابی سے ہٹا دی گئی",
           "ERROR_MESSAGE": "پورٹل سے لوکیل ہٹانے میں ناکامی۔ دوبارہ کوشش کریں۔."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -644,8 +656,11 @@
         "ARTICLES_COUNT": "{count} مضمون | {count} مضامین",
         "CATEGORIES_COUNT": "{count} زمرہ | {count} زمرے",
         "DEFAULT": "ڈیفالٹ",
+        "DRAFT": "مسودہ",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "ڈیفالٹ بنائیں",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "حذف کریں"
         }
       },
@@ -654,6 +669,13 @@
         "DESCRIPTION": "اس زبان کا انتخاب کریں جس میں یہ مضمون لکھا جائے گا۔ یہ آپ کی ترجمہ کی فہرست میں شامل ہو جائے گا، اور آپ بعد میں مزید شامل کر سکتے ہیں۔.",
         "COMBOBOX": {
           "PLACEHOLDER": "زبان منتخب کریں..."
+        },
+        "STATUS": {
+          "LABEL": "Status",
+          "OPTIONS": {
+            "LIVE": "شائع شدہ",
+            "DRAFT": "مسودہ"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "مقامی زبان کامیابی سے شامل کی گئی",
