@@ -1,7 +1,7 @@
 {
   "CONTACT_PANEL": {
     "NOT_AVAILABLE": "Hindi magagamit",
-    "EMAIL_ADDRESS": "Email Address",
+    "EMAIL_ADDRESS": "Alamat ng email",
     "PHONE_NUMBER": "Numero ng Telepono",
     "IDENTIFIER": "Tagakilala",
     "COPY_SUCCESSFUL": "Matagumpay na nakopya sa clipboard",
@@ -11,7 +11,7 @@
     "CONVERSATION_TITLE": "Mga Detalye ng Usapan",
     "VIEW_PROFILE": "Tingnan ang profile",
     "BROWSER": "Browser",
-    "OS": "Operating System",
+    "OS": "Sistema ng pagpapatakbo",
     "INITIATED_FROM": "Nagsimula mula sa",
     "INITIATED_AT": "Nagsimula noong",
     "IP_ADDRESS": "IP Address",
@@ -95,7 +95,7 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Ilagay ang email address ng contact",
-        "LABEL": "Email Address",
+        "LABEL": "Alamat ng email",
         "DUPLICATE": "Ang email address na ito ay ginagamit na para sa ibang kontak.",
         "ERROR": "Mangyaring maglagay ng wastong email address."
       },
