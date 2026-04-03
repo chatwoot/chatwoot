@@ -1,82 +1,82 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
-    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
-    "LEARN_MORE": "Learn more about labels",
+    "HEADER": "লেবেলসমূহ",
+    "HEADER_BTN_TXT": "লেবেল যোগ করুন",
+    "LOADING": "লেবেল আনা হচ্ছে",
+    "DESCRIPTION": "লেবেল আপনাকে কথোপকথন ও লিডগুলো শ্রেণিবদ্ধ ও অগ্রাধিকার দিতে সাহায্য করে। সাইড প্যানেল থেকে আপনি কোনো কথোপকথন বা কন্টাক্টে লেবেল যুক্ত করতে পারেন।",
+    "LEARN_MORE": "লেবেল সম্পর্কে আরও জানুন",
     "COUNT": "{n} label | {n} labels",
-    "SEARCH_PLACEHOLDER": "Search labels...",
-    "NO_RESULTS": "No labels found matching your search",
-    "SEARCH_404": "There are no items matching this query",
+    "SEARCH_PLACEHOLDER": "লেবেল খুঁজুন...",
+    "NO_RESULTS": "আপনার অনুসন্ধানের সাথে মিলে যাওয়া কোনো লেবেল পাওয়া যায়নি",
+    "SEARCH_404": "এই অনুসন্ধানে কোনো আইটেম নেই",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "এই অ্যাকাউন্টে কোনো লেবেল নেই।",
+      "TITLE": "লেবেল ব্যবস্থাপনা",
+      "DESC": "লেবেল দিয়ে কথোপকথনগুলো একত্রিত করতে পারেন।",
       "TABLE_HEADER": {
         "NAME": "Nama",
-        "DESCRIPTION": "Description",
-        "COLOR": "Color",
+        "DESCRIPTION": "বর্ণনা",
+        "COLOR": "রং",
         "ACTION": "Tindakan-tindakan"
       }
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "LABEL": "লেবেলের নাম",
+        "PLACEHOLDER": "লেবেলের নাম",
+        "REQUIRED_ERROR": "লেবেলের নাম আবশ্যক",
+        "MINIMUM_LENGTH_ERROR": "কমপক্ষে ২ অক্ষর প্রয়োজন",
+        "VALID_ERROR": "শুধুমাত্র বর্ণ, সংখ্যা, হাইফেন ও আন্ডারস্কোর অনুমোদিত"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "বর্ণনা",
+        "PLACEHOLDER": "লেবেলের বিবরণ"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "রং"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "সাইডবারে লেবেল দেখান"
       },
-      "EDIT": "Edit",
-      "CREATE": "Create",
+      "EDIT": "সম্পাদনা",
+      "CREATE": "তৈরি করুন",
       "DELETE": "Padamkan",
       "CANCEL": "Batalkan"
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
-        "MULTIPLE_SUGGESTION": "Select this label",
-        "DESELECT": "Deselect label",
-        "DISMISS": "Dismiss suggestion"
+        "SINGLE_SUGGESTION": "কথোপকথনে লেবেল যোগ করুন",
+        "MULTIPLE_SUGGESTION": "এই লেবেলটি নির্বাচন করুন",
+        "DESELECT": "লেবেল নির্বাচন বাতিল করুন",
+        "DISMISS": "পরামর্শ বাতিল করুন"
       },
       "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "Dismiss",
-      "ADD_SELECTED_LABELS": "Add selected labels",
-      "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels",
-      "SUGGESTED_LABELS": "Suggested labels"
+      "DISMISS": "বাতিল করুন",
+      "ADD_SELECTED_LABELS": "নির্বাচিত লেবেলগুলো যোগ করুন",
+      "ADD_SELECTED_LABEL": "নির্বাচিত লেবেল যোগ করুন",
+      "ADD_ALL_LABELS": "সব লেবেল যোগ করুন",
+      "SUGGESTED_LABELS": "প্রস্তাবিত লেবেল"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "লেবেল যোগ করুন",
+      "DESC": "লেবেল ব্যবহার করে আপনি কথোপকথনগুলো একত্রিত করতে পারেন।",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "লেবেল সফলভাবে যোগ হয়েছে",
+        "ERROR_MESSAGE": "একটি সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "লেবেল সম্পাদনা করুন",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "লেবেল সফলভাবে আপডেট হয়েছে",
+        "ERROR_MESSAGE": "একটি সমস্যা হয়েছে, আবার চেষ্টা করুন"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Padamkan",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "লেবেল সফলভাবে মুছে ফেলা হয়েছে",
+        "ERROR_MESSAGE": "একটি সমস্যা হয়েছে, আবার চেষ্টা করুন"
       },
       "CONFIRM": {
         "TITLE": "Pasti Padamkan",
