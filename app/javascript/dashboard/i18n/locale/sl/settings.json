@@ -352,7 +352,7 @@
     "ONGOING": "V teku",
     "ONE_OFF": "Enkratno",
     "REPORTS_SLA": "SLA",
-    "REPORTS_BOT": "Bot",
+    "REPORTS_BOT": "Boti",
     "REPORTS_AGENT": "Agentje",
     "REPORTS_LABEL": "Oznake",
     "REPORTS_INBOX": "Prejeto",
@@ -805,13 +805,13 @@
           "POPOVER": "Dodani agenti",
           "EDIT": "Uredi"
         },
-        "NO_RECORDS_FOUND": "No agent capacity policies found"
+        "NO_RECORDS_FOUND": "Ni najdenih pravilnikov o zmogljivosti agentov"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create agent capacity policy"
+          "TITLE": "Ustvari politiko zmogljivosti agenta"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "Ustvari politiko",
         "API": {
           "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
           "ERROR_MESSAGE": "Failed to create agent capacity policy"
@@ -908,15 +908,15 @@
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+        "SUCCESS_MESSAGE": "Pravilnik o zmogljivosti agenta je bil uspešno izbrisan",
+        "ERROR_MESSAGE": "Brisanje pravilnika o zmogljivosti agenta ni uspelo"
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "Delete policy",
-      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
-      "CONFIRM_BUTTON_LABEL": "Delete",
-      "CANCEL_BUTTON_LABEL": "Cancel"
+      "TITLE": "Izbriši pravilnik",
+      "DESCRIPTION": "Ali ste prepričani, da želite izbrisati to politiko? Tega dejanja ni mogoče razveljaviti.",
+      "CONFIRM_BUTTON_LABEL": "Izbriši",
+      "CANCEL_BUTTON_LABEL": "Prekliči"
     }
   }
 }
