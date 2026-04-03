@@ -16,6 +16,9 @@ const { isFeatureFlagEnabled, shouldShowPaywall } = usePolicy();
 
 const SOFT_LIMIT = 10;
 const isV2 = computed(() => isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2));
+const toolsFeatureFlag = computed(() =>
+  isV2.value ? '' : FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS
+);
 
 const uiFlags = useMapGetter('captainCustomTools/getUIFlags');
 const customTools = useMapGetter('captainCustomTools/getRecords');
@@ -81,7 +84,7 @@ const onDeleteSuccess = () => {
 };
 
 onMounted(() => {
-  if (!shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)) {
+  if (!shouldShowPaywall(toolsFeatureFlag.value)) {
     fetchCustomTools();
   }
 });
@@ -92,7 +95,7 @@ onMounted(() => {
     :header-title="$t('CAPTAIN.CUSTOM_TOOLS.HEADER')"
     :button-label="$t('CAPTAIN.CUSTOM_TOOLS.ADD_NEW')"
     :button-policy="['administrator']"
-    :feature-flag="FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS"
+    :feature-flag="toolsFeatureFlag"
     :total-count="customToolsMeta.totalCount"
     :current-page="customToolsMeta.page"
     :show-pagination-footer="!isFetching && !!customTools.length"
