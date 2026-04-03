@@ -343,14 +343,14 @@ ml:
     copilot_message_required: സന്ദേശം ആവശ്യമാണ്
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
-    upgrade: 'Upgrade your plan to enable Captain AI'
-    disabled: 'Captain AI is disabled for this account.'
-    api_key_missing: 'Captain AI API key is not configured.'
+    upgrade: 'Captain AI സജീവമാക്കാൻ നിങ്ങളുടെ പ്ലാൻ അപ്ഗ്രേഡ് ചെയ്യുക'
+    disabled: 'ഈ അക്കൗണ്ടിനായി Captain AI പ്രവർത്തനരഹിതമാണ്.'
+    api_key_missing: 'Captain AI API കീ ക്രമീകരിച്ചിട്ടില്ല.'
     copilot:
-      using_tool: 'Using tool %{function_name}'
-      completed_tool_call: 'Completed %{function_name} tool call'
-      invalid_tool_call: 'Invalid tool call'
-      tool_not_available: 'Tool not available'
+      using_tool: '%{function_name} ഉപകരണം ഉപയോഗിക്കുന്നു'
+      completed_tool_call: '%{function_name} ഉപകരണ കോൾ പൂർത്തിയായി'
+      invalid_tool_call: 'അസാധുവായ ഉപകരണ കോൾ'
+      tool_not_available: 'ഉപകരണം ലഭ്യമല്ല'
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
@@ -373,6 +373,7 @@ ml:
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -409,6 +410,10 @@ ml:
       title: Page not found
       description: We couldn't find the page you were looking for.
       back_to_home: Go to home page
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
       name: പേര്
