@@ -23,10 +23,9 @@ export const getHeadingsfromTheArticle = () => {
     permalink.className = 'permalink text-slate-600 ml-3';
     permalink.href = `#${slug}`;
     permalink.title = headingText;
-    permalink.dataset.turbolinks = 'false';
+    permalink.dataset.turbo = 'false';
     permalink.textContent = '#';
     element.appendChild(permalink);
-
     rows.push({
       slug,
       title: headingText,
@@ -155,7 +154,7 @@ export const InitializationHelpers = {
 
       const a = document.createElement('a');
       a.href = window.location.hash;
-      a['data-turbolinks'] = false;
+      a['data-turbo'] = false;
       a.click();
     }
   },
