@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "Gjuha u hoq nga portali me sukses",
           "ERROR_MESSAGE": "Nuk mund të hiqet gjuha nga portali. Provoni përsëri."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -644,8 +656,11 @@
         "ARTICLES_COUNT": "{count} artikull | {count} artikuj",
         "CATEGORIES_COUNT": "{count} kategori | {count} kategori",
         "DEFAULT": "Parazgjedhje",
+        "DRAFT": "Nismë",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Bëje parazgjedhje",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "Fshi"
         }
       },
@@ -654,6 +669,13 @@
         "DESCRIPTION": "Zgjidhni gjuhën në të cilën do të shkruhet ky artikull. Kjo do të shtohet në listën tuaj të përkthimeve, dhe mund të shtoni më shumë më vonë.",
         "COMBOBOX": {
           "PLACEHOLDER": "Zgjidhni gjuhën..."
+        },
+        "STATUS": {
+          "LABEL": "Status",
+          "OPTIONS": {
+            "LIVE": "Botuar",
+            "DRAFT": "Nismë"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Gjuha u shtua me sukses",
