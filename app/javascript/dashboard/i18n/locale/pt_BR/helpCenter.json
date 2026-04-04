@@ -319,14 +319,14 @@
       },
       "DRAFT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
-          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+          "SUCCESS_MESSAGE": "Localidade movida para rascunho com sucesso",
+          "ERROR_MESSAGE": "Não foi possível mover a localidade para rascunho. Tente novamente."
         }
       },
       "PUBLISH_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale published successfully",
-          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+          "SUCCESS_MESSAGE": "Localidade publicada com sucesso",
+          "ERROR_MESSAGE": "Não foi possível publicar a localidade. Tente novamente."
         }
       }
     },
@@ -659,8 +659,8 @@
         "DRAFT": "Rascunho",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Tornar padrão",
-          "MOVE_TO_DRAFT": "Move to draft",
-          "PUBLISH_LOCALE": "Publish locale",
+          "MOVE_TO_DRAFT": "Mover para rascunho",
+          "PUBLISH_LOCALE": "Publicar localidade",
           "DELETE": "Excluir"
         }
       },
