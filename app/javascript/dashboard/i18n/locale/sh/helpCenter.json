@@ -17,10 +17,10 @@
         "ARCHIVED": "Arhivirano"
       },
       "TITLES": {
-        "ALL_ARTICLES": "Të gjitha artikujt",
-        "MINE": "Artikujt e mi",
-        "DRAFT": "Artikujt në draft",
-        "ARCHIVED": "Artikujt e arkivuar"
+        "ALL_ARTICLES": "All Articles",
+        "MINE": "My Articles",
+        "DRAFT": "Draft Articles",
+        "ARCHIVED": "Archived Articles"
       },
       "LOCALE_SELECT": {
         "TITLE": "Izaberi jezik",
@@ -30,7 +30,7 @@
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "Të gjithë članci",
+      "ALL_ARTICLES": "All Articles",
       "PUBLISH_BUTTON": "Objavi",
       "MOVE_TO_ARCHIVE_BUTTON": "Premesti u arhivu",
       "PREVIEW": "Pregled",
