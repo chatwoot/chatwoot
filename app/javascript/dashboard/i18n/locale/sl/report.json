@@ -1,14 +1,14 @@
 {
   "REPORT": {
     "HEADER": "Conversations",
-    "LOADING_CHART": "চার্ট ডেটা লোড হচ্ছে...",
+    "LOADING_CHART": "Nalaganje podatkov grafa...",
     "NO_ENOUGH_DATA": "Nismo prejeli dovolj podatkov za ustvarjanje poročila. Poskusite znova pozneje.",
     "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "আলাপচারিতা",
+        "NAME": "Pogovori",
         "DESC": "(Skupaj)"
       },
       "INCOMING_MESSAGES": {
