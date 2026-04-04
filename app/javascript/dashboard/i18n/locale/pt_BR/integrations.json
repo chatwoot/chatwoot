@@ -743,11 +743,11 @@
       "UNSELECT_ALL": "Desmarcar todos ({count})",
       "BULK_DELETE_BUTTON": "Excluir",
       "BULK_DELETE": {
-        "TITLE": "Delete documents?",
-        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "TITLE": "Excluir documentos?",
+        "DESCRIPTION": "Você tem certeza que deseja excluir os documentos selecionados? Esta ação não pode ser desfeita.",
         "CONFIRM": "Sim, excluir todas",
-        "SUCCESS_MESSAGE": "Documents deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+        "SUCCESS_MESSAGE": "Documentos excluídos com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro ao excluir os documentos, por favor novamente."
       },
       "RELATED_RESPONSES": {
         "TITLE": "FAQs Relacionadas",
@@ -806,7 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Ferramentas",
       "ADD_NEW": "Criar ferramenta",
-      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
+      "SOFT_LIMIT_WARNING": "Ter mais de 10 ferramentas pode reduzir a confiabilidade do assistente na seleção da ferramenta certa. Considere remover ferramentas não utilizadas para melhores resultados.",
       "EMPTY_STATE": {
         "TITLE": "Não há ferramentas personalizadas disponíveis",
         "SUBTITLE": "Crie ferramentas personalizadas para conectar com APIs e serviços externos, permitindo obter dados e agir por você.",
@@ -838,17 +838,17 @@
         "ERROR_MESSAGE": "Falha ao excluir a ferramenta personalizada"
       },
       "TEST": {
-        "BUTTON": "Test connection",
-        "SUCCESS": "Endpoint returned HTTP {status}",
-        "ERROR": "Connection failed",
-        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+        "BUTTON": "Testar conexão",
+        "SUCCESS": "Endpoint retornou HTTP {status}",
+        "ERROR": "Conexão falhou",
+        "DISABLED_HINT": "Testes estão disponíveis apenas para endpoints que não possuem modelos ou corpos de requisição."
       },
       "FORM": {
         "TITLE": {
           "LABEL": "Nome da Ferramenta",
           "PLACEHOLDER": "Consulta de pedido",
           "ERROR": "Nome da ferramente obrigatória",
-          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
+          "MAX_LENGTH_ERROR": "O nome da ferramenta deve ter {max} caracteres ou menos"
         },
         "DESCRIPTION": {
           "LABEL": "Descrição",
