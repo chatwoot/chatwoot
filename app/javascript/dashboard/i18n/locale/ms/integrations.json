@@ -3,40 +3,40 @@
     "SHOPIFY": {
       "HEADER": "Shopify",
       "DELETE": {
-        "TITLE": "Shopify ইন্টিগ্রেশন মুছে ফেলুন",
-        "MESSAGE": "আপনি কি নিশ্চিতভাবে Shopify ইন্টিগ্রেশন মুছে ফেলতে চান?"
+        "TITLE": "Padam Integrasi Shopify",
+        "MESSAGE": "Adakah anda pasti ingin memadam integrasi Shopify?"
       },
       "STORE_URL": {
-        "TITLE": "Shopify স্টোর সংযোগ করুন",
+        "TITLE": "Sambungkan Kedai Shopify",
         "LABEL": "URL Kedai",
         "PLACEHOLDER": "kedai-anda.myshopify.com",
-        "HELP": "আপনার Shopify স্টোরের myshopify.com URL দিন",
+        "HELP": "Masukkan URL myshopify.com kedai Shopify anda",
         "CANCEL": "Batalkan",
         "SUBMIT": "Sambungkan Kedai"
       },
-      "ERROR": "Shopify-তে সংযোগ করতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন অথবা সমস্যা স্থায়ী হলে সাপোর্টে যোগাযোগ করুন।"
+      "ERROR": "Terdapat ralat semasa menyambung ke Shopify. Sila cuba lagi atau hubungi sokongan jika masalah berterusan."
     },
     "HEADER": "Integrasi",
-    "DESCRIPTION": "Chatwoot বিভিন্ন টুল ও সার্ভিসের সাথে সংযুক্ত হয়ে আপনার টিমের দক্ষতা বাড়ায়। আপনার পছন্দের অ্যাপ কনফিগার করতে নিচের তালিকা দেখুন।",
+    "DESCRIPTION": "Chatwoot berintegrasi dengan pelbagai alat dan perkhidmatan untuk meningkatkan kecekapan pasukan anda. Terokai senarai di bawah untuk mengkonfigurasi aplikasi kegemaran anda.",
     "LEARN_MORE": "Ketahui lebih lanjut mengenai integrasi",
     "LOADING": "Mengambil integrasi",
     "SEARCH_PLACEHOLDER": "Cari integrasi...",
     "NO_RESULTS": "Tiada integrasi ditemui yang sepadan dengan carian anda",
     "CAPTAIN": {
-      "DISABLED": "আপনার অ্যাকাউন্টে Captain সক্রিয় নেই।",
+      "DISABLED": "Captain tidak diaktifkan pada akaun anda.",
       "CLICK_HERE_TO_CONFIGURE": "Klik di sini untuk konfigurasi",
-      "LOADING_CONSOLE": "Captain Console লোড হচ্ছে...",
-      "FAILED_TO_LOAD_CONSOLE": "Captain Console লোড করতে ব্যর্থ হয়েছে। দয়া করে রিফ্রেশ করে আবার চেষ্টা করুন।"
+      "LOADING_CONSOLE": "Memuatkan Konsol Captain...",
+      "FAILED_TO_LOAD_CONSOLE": "Gagal memuatkan Konsol Captain. Sila muat semula dan cuba lagi."
     },
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "সাবস্ক্রাইব করা ইভেন্ট",
-      "LEARN_MORE": "ওয়েবহুক সম্পর্কে আরও জানুন",
+      "SUBSCRIBED_EVENTS": "Acara Langganan",
+      "LEARN_MORE": "Ketahui lebih lanjut tentang webhook",
       "SECRET": {
         "LABEL": "Rahsia",
         "COPY": "Salin rahsia ke papan klip",
         "COPY_SUCCESS": "Rahsia disalin ke papan klip",
-        "TOGGLE": "গোপনীয়তা দেখান/লুকান",
-        "CREATED_DESC": "আপনার ওয়েবহুক তৈরি হয়েছে। ওয়েবহুক স্বাক্ষর যাচাই করতে নিচের গোপন কোডটি ব্যবহার করুন। দয়া করে এখনই কপি করুন — পরে ওয়েবহুক সম্পাদনা ফর্মেও এটি পাবেন।",
+        "TOGGLE": "Togol keterlihatan rahsia",
+        "CREATED_DESC": "Webhook anda telah dibuat. Gunakan rahsia di bawah untuk mengesahkan tandatangan webhook. Sila salin sekarang — anda juga boleh menemuinya kemudian dalam borang suntingan webhook.",
         "DONE": "Selesai"
       },
       "COUNT": "{n} webhook | {n} webhooks",
@@ -53,7 +53,7 @@
             "CONVERSATION_UPDATED": "Perbualan Dikemas Kini",
             "MESSAGE_CREATED": "Mesej dicipta",
             "MESSAGE_UPDATED": "Mesej dikemas kini",
-            "WEBWIDGET_TRIGGERED": "ইউজার লাইভ চ্যাট উইজেট খুলেছে",
+            "WEBWIDGET_TRIGGERED": "Widget sembang langsung dibuka oleh pengguna",
             "CONTACT_CREATED": "Kenalan dicipta",
             "CONTACT_UPDATED": "Kenalan dikemas kini",
             "CONVERSATION_TYPING_ON": "Perbualan Mengetik Aktif",
@@ -69,8 +69,8 @@
           "PLACEHOLDER": "Contoh: {webhookExampleURL}",
           "ERROR": "Sila masukkan URL yang sah"
         },
-        "EDIT_SUBMIT": "ওয়েবহুক আপডেট করুন",
-        "ADD_SUBMIT": "ওয়েবহুক তৈরি করুন"
+        "EDIT_SUBMIT": "Kemas kini webhook",
+        "ADD_SUBMIT": "Buat webhook"
       },
       "TITLE": "ওয়েবহুক",
       "CONFIGURE": "Konfigurasi",
@@ -83,7 +83,7 @@
         "404": "Tiada webhook dikonfigurasikan untuk akaun ini.",
         "TITLE": "Urus webhook",
         "TABLE_HEADER": {
-          "WEBHOOK_ENDPOINT": "ওয়েবহুক এন্ডপয়েন্ট",
+          "WEBHOOK_ENDPOINT": "Titik akhir webhook",
           "ACTIONS": "Tindakan-tindakan"
         }
       },
@@ -91,7 +91,7 @@
         "BUTTON_TEXT": "Sunting",
         "TITLE": "Sunting webhook",
         "API": {
-          "SUCCESS_MESSAGE": "ওয়েবহুক কনফিগারেশন সফলভাবে আপডেট হয়েছে",
+          "SUCCESS_MESSAGE": "Konfigurasi webhook berjaya dikemas kini",
           "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
         }
       },
@@ -99,7 +99,7 @@
         "CANCEL": "Batalkan",
         "TITLE": "Tambah webhook baharu",
         "API": {
-          "SUCCESS_MESSAGE": "ওয়েবহুক কনফিগারেশন সফলভাবে যোগ হয়েছে",
+          "SUCCESS_MESSAGE": "Konfigurasi webhook berjaya ditambah",
           "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
         }
       },
@@ -122,7 +122,7 @@
       "DELETE": "Padamkan",
       "DELETE_CONFIRMATION": {
         "TITLE": "Padam integrasi",
-        "MESSAGE": "আপনি কি নিশ্চিতভাবে ইন্টিগ্রেশনটি মুছে ফেলতে চান? এটি করলে আপনার Slack ওয়ার্কস্পেসের কথোপকথনে প্রবেশাধিকার হারাবেন।"
+        "MESSAGE": "Adakah anda pasti mahu memadam integrasi ini? Melakukannya akan menyebabkan kehilangan akses ke perbualan di ruang kerja Slack anda."
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
@@ -135,11 +135,11 @@
         "BUTTON_TEXT": "Sambungkan saluran",
         "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
         "ATTENTION_REQUIRED": "Perhatian diperlukan",
-        "EXPIRED": "আপনার Slack ইন্টিগ্রেশনের মেয়াদ শেষ হয়েছে। Slack-এ বার্তা পেতে চাইলে ইন্টিগ্রেশনটি মুছে দিয়ে আবার ওয়ার্কস্পেস সংযুক্ত করুন।"
+        "EXPIRED": "Integrasi Slack anda telah tamat tempoh. Untuk terus menerima mesej di Slack, sila padam integrasi dan sambungkan ruang kerja anda semula."
       },
       "UPDATE_ERROR": "Terdapat ralat semasa mengemas kini integrasi, sila cuba lagi",
       "UPDATE_SUCCESS": "Saluran berjaya disambungkan",
-      "FAILED_TO_FETCH_CHANNELS": "Slack থেকে চ্যানেল আনতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
+      "FAILED_TO_FETCH_CHANNELS": "Terdapat ralat semasa mendapatkan saluran dari Slack, sila cuba lagi"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Klik di sini untuk sertai",
@@ -154,7 +154,7 @@
       "OPTIONS": {
         "REPLY_SUGGESTION": "Cadangan Balasan",
         "SUMMARIZE": "Ringkaskan",
-        "REPHRASE": "লেখা উন্নত করুন",
+        "REPHRASE": "Perbaiki Penulisan",
         "FIX_SPELLING_GRAMMAR": "Betulkan Ejaan dan Tatabahasa",
         "SHORTEN": "Pendekkan",
         "EXPAND": "Kembangkan",
@@ -167,8 +167,8 @@
         "STRAIGHTFORWARD": "Gunakan nada terus-terang"
       },
       "REPLY_OPTIONS": {
-        "IMPROVE_REPLY": "উত্তর উন্নত করুন",
-        "IMPROVE_REPLY_SELECTION": "নির্বাচন উন্নত করুন",
+        "IMPROVE_REPLY": "Perbaiki balasan",
+        "IMPROVE_REPLY_SELECTION": "Perbaiki pilihan",
         "CHANGE_TONE": {
           "TITLE": "Tukar nada",
           "OPTIONS": {
@@ -182,7 +182,7 @@
         "GRAMMAR": "Betulkan tatabahasa & ejaan",
         "SUGGESTION": "Cadangkan balasan",
         "SUMMARIZE": "Ringkaskan perbualan",
-        "ASK_COPILOT": "Copilot-কে জিজ্ঞাসা করুন"
+        "ASK_COPILOT": "Tanya Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Draf kandungan",
@@ -194,16 +194,16 @@
         }
       },
       "CTA_MODAL": {
-        "TITLE": "OpenAI-এর সাথে ইন্টিগ্রেট করুন",
-        "DESC": "OpenAI-এর GPT মডেলের মাধ্যমে আপনার ড্যাশবোর্ডে উন্নত AI ফিচার যুক্ত করুন। শুরু করতে, আপনার OpenAI অ্যাকাউন্টের API কী দিন।",
-        "KEY_PLACEHOLDER": "আপনার OpenAI API কী দিন",
+        "TITLE": "Integrasi dengan OpenAI",
+        "DESC": "Bawa ciri AI canggih ke papan pemuka anda dengan model GPT OpenAI. Untuk memulakan, masukkan kunci API dari akaun OpenAI anda.",
+        "KEY_PLACEHOLDER": "Masukkan kunci API OpenAI anda",
         "BUTTONS": {
           "NEED_HELP": "Perlukan bantuan?",
           "DISMISS": "Tutup",
           "FINISH": "Selesai Persediaan"
         },
-        "DISMISS_MESSAGE": "আপনি চাইলে পরে OpenAI ইন্টিগ্রেশন সেটআপ করতে পারবেন।",
-        "SUCCESS_MESSAGE": "OpenAI ইন্টিগ্রেশন সফলভাবে সম্পন্ন হয়েছে"
+        "DISMISS_MESSAGE": "Anda boleh menyediakan integrasi OpenAI kemudian bila-bila masa anda mahu.",
+        "SUCCESS_MESSAGE": "Integrasi OpenAI berjaya disediakan"
       },
       "TITLE": "Tingkatkan Dengan AI",
       "SUMMARY_TITLE": "Ringkasan dengan AI",
@@ -233,8 +233,8 @@
       "BUTTON_TEXT": "Sambung"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "ড্যাশবোর্ড অ্যাপ",
-      "HEADER_BTN_TXT": "নতুন ড্যাশবোর্ড অ্যাপ যোগ করুন",
+      "TITLE": "Apl Papan Pemuka",
+      "HEADER_BTN_TXT": "Tambah apl papan pemuka baru",
       "SIDEBAR_TXT": "<p><b>Aplikasi Papan Pemuka</b></p><p>Aplikasi Papan Pemuka membolehkan organisasi menyematkan aplikasi di dalam papan pemuka Chatwoot untuk menyediakan konteks bagi ejen sokongan pelanggan. Ciri ini membolehkan anda mencipta aplikasi secara bebas dan menyematkannya di dalam papan pemuka untuk menyediakan maklumat pengguna, pesanan mereka, atau sejarah pembayaran mereka sebelum ini.</p><p>Apabila anda menyematkan aplikasi anda menggunakan papan pemuka dalam Chatwoot, aplikasi anda akan menerima konteks perbualan dan kenalan sebagai acara tetingkap. Laksanakan pendengar untuk acara mesej pada halaman anda untuk menerima konteks tersebut.</p><p>Untuk menambah aplikasi papan pemuka baru, klik pada butang 'Tambah aplikasi papan pemuka baru'.</p>",
       "DESCRIPTION": "Aplikasi Papan Pemuka membolehkan organisasi menyematkan aplikasi di dalam papan pemuka untuk menyediakan konteks bagi ejen sokongan pelanggan. Ciri ini membolehkan anda mencipta aplikasi secara bebas dan menyematkannya untuk menyediakan maklumat pengguna, pesanan mereka, atau sejarah pembayaran mereka sebelum ini.",
       "LEARN_MORE": "Ketahui lebih lanjut mengenai Aplikasi Papan Pemuka",
@@ -242,7 +242,7 @@
       "SEARCH_PLACEHOLDER": "Cari aplikasi papan pemuka...",
       "NO_RESULTS": "Tiada aplikasi papan pemuka ditemui yang sepadan dengan carian anda",
       "LIST": {
-        "404": "এই অ্যাকাউন্টে এখনও কোনো ড্যাশবোর্ড অ্যাপ কনফিগার করা হয়নি",
+        "404": "Tiada apl papan pemuka yang dikonfigurasikan pada akaun ini lagi",
         "LOADING": "Sedang mengambil aplikasi papan pemuka...",
         "TABLE_HEADER": {
           "NAME": "Nama",
@@ -257,14 +257,14 @@
         "TITLE_PLACEHOLDER": "Masukkan nama untuk aplikasi papan pemuka anda",
         "TITLE_ERROR": "Nama untuk aplikasi papan pemuka diperlukan",
         "URL_LABEL": "Titik akhir",
-        "URL_PLACEHOLDER": "আপনার অ্যাপ হোস্ট করা এন্ডপয়েন্ট URL দিন",
+        "URL_PLACEHOLDER": "Masukkan URL titik akhir di mana apl anda dihoskan",
         "URL_ERROR": "URL yang sah diperlukan"
       },
       "CREATE": {
         "HEADER": "Tambah aplikasi papan pemuka baru",
         "FORM_SUBMIT": "Hantar",
         "FORM_CANCEL": "Batalkan",
-        "API_SUCCESS": "ড্যাশবোর্ড অ্যাপ সফলভাবে কনফিগার হয়েছে",
+        "API_SUCCESS": "Apl papan pemuka berjaya dikonfigurasikan",
         "API_ERROR": "Kami tidak dapat mencipta aplikasi. Sila cuba lagi kemudian"
       },
       "UPDATE": {
@@ -296,13 +296,13 @@
         "EMPTY_LIST": "Tiada isu linear ditemui",
         "LOADING": "Memuat",
         "ERROR": "Terdapat ralat semasa mendapatkan isu linear, sila cuba lagi",
-        "LINK_SUCCESS": "ইস্যু সফলভাবে লিঙ্ক করা হয়েছে",
+        "LINK_SUCCESS": "Isu berjaya dipautkan",
         "LINK_ERROR": "Terdapat ralat semasa memautkan isu, sila cuba lagi",
         "LINK_TITLE": "Perbualan (#{conversationId}) dengan {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Cipta/pautkan isu linear",
-        "DESCRIPTION": "কথোপকথন থেকে Linear ইস্যু তৈরি করুন, অথবা বিদ্যমান ইস্যু লিঙ্ক করুন সহজ ট্র্যাকিংয়ের জন্য।",
+        "DESCRIPTION": "Cipta isu Linear dari perbualan, atau pautkan yang sedia ada untuk penjejakan yang lancar.",
         "FORM": {
           "TITLE": {
             "LABEL": "Tajuk",
@@ -360,9 +360,9 @@
         "CREATED_AT": "Dicipta pada {createdAt}"
       },
       "UNLINK": {
-        "TITLE": "আনলিঙ্ক",
-        "SUCCESS": "ইস্যু সফলভাবে আনলিঙ্ক করা হয়েছে",
-        "ERROR": "ইস্যু আনলিঙ্ক করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
+        "TITLE": "Nyahpaut",
+        "SUCCESS": "Isu berjaya dinyahpaut",
+        "ERROR": "Terdapat ralat semasa menyahpaut isu, sila cuba lagi"
       },
       "NO_LINKED_ISSUES": "Tiada isu berkaitan ditemui",
       "DELETE": {
@@ -381,8 +381,8 @@
     "NOTION": {
       "HEADER": "Notion",
       "DELETE": {
-        "TITLE": "আপনি কি নিশ্চিত যে আপনি Notion ইন্টিগ্রেশন মুছে ফেলতে চান?",
-        "MESSAGE": "এই ইন্টিগ্রেশন মুছে ফেললে আপনার Notion ওয়ার্কস্পেসে প্রবেশাধিকার এবং সংশ্লিষ্ট সব কার্যকারিতা বন্ধ হয়ে যাবে।",
+        "TITLE": "Adakah anda pasti mahu memadam integrasi Notion?",
+        "MESSAGE": "Memadam integrasi ini akan mengalih keluar akses ke ruang kerja Notion anda dan menghentikan semua fungsi berkaitan.",
         "CONFIRM": "Ya, padam",
         "CANCEL": "Batalkan"
       }
@@ -400,10 +400,10 @@
     "COPILOT": {
       "TITLE": "Kopilot",
       "TRY_THESE_PROMPTS": "Cuba arahan ini",
-      "PANEL_TITLE": "Copilot দিয়ে শুরু করুন",
-      "KICK_OFF_MESSAGE": "দ্রুত সারাংশ দরকার, আগের কথোপকথন দেখতে চান, বা আরও ভালো উত্তর খসড়া করতে চান? Copilot দ্রুত কাজ শেষ করতে সাহায্য করবে।",
+      "PANEL_TITLE": "Mulakan dengan Copilot",
+      "KICK_OFF_MESSAGE": "Perlukan ringkasan cepat, mahu semak perbualan lalu, atau draf balasan yang lebih baik? Copilot di sini untuk mempercepatkan semuanya.",
       "SEND_MESSAGE": "Hantar mesej...",
-      "EMPTY_MESSAGE": "উত্তর তৈরি করতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।",
+      "EMPTY_MESSAGE": "Terdapat ralat semasa menjana respons. Sila cuba lagi.",
       "LOADER": "Kapten sedang berfikir",
       "YOU": "Anda",
       "USE": "Gunakan ini",
@@ -429,7 +429,7 @@
         },
         "LIST_CONTACTS": {
           "LABEL": "Senaraikan kenalan",
-          "CONTENT": "শীর্ষ ১০টি কন্টাক্টের তালিকা দেখাও। নাম, ইমেইল বা ফোন নম্বর (যদি থাকে), সর্বশেষ দেখা সময়, ট্যাগ (যদি থাকে) অন্তর্ভুক্ত করো।"
+          "CONTENT": "Tunjukkan saya senarai 10 kenalan teratas. Sertakan nama, emel atau nombor telefon (jika ada), masa terakhir dilihat, tag (jika ada)."
         }
       }
     },
@@ -439,23 +439,23 @@
       "MESSAGE_PLACEHOLDER": "Taip mesej anda...",
       "HEADER": "Tempat Permainan",
       "DESCRIPTION": "Gunakan ruang ujian ini untuk menghantar mesej kepada pembantu anda dan periksa sama ada ia memberi respons dengan tepat, pantas, dan dalam nada yang anda jangkakan.",
-      "CREDIT_NOTE": "এখানে পাঠানো বার্তাগুলো আপনার Captain ক্রেডিট থেকে কাটা হবে।"
+      "CREDIT_NOTE": "Mesej yang dihantar di sini akan dikira ke arah kredit Captain anda."
     },
     "PAYWALL": {
-      "TITLE": "Captain AI ব্যবহারের জন্য আপগ্রেড করুন",
-      "AVAILABLE_ON": "Captain ফ্রি প্ল্যানে উপলব্ধ নয়।",
-      "UPGRADE_PROMPT": "সহকারী, কপাইলট ও আরও সুবিধা পেতে আপনার প্ল্যান আপগ্রেড করুন।",
+      "TITLE": "Tingkat taraf untuk menggunakan Captain AI",
+      "AVAILABLE_ON": "Captain tidak tersedia pada pelan percuma.",
+      "UPGRADE_PROMPT": "Tingkatkan pelan anda untuk mendapatkan akses kepada pembantu kami, copilot dan banyak lagi.",
       "UPGRADE_NOW": "Tingkatkan sekarang",
       "CANCEL_ANYTIME": "Anda boleh menukar atau membatalkan pelan anda bila-bila masa"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI শুধুমাত্র এন্টারপ্রাইজ প্ল্যানে উপলব্ধ।",
-      "UPGRADE_PROMPT": "সহকারী, কপাইলট ও আরও সুবিধা পেতে আপনার প্ল্যান আপগ্রেড করুন।",
+      "AVAILABLE_ON": "Captain AI hanya tersedia dalam pelan Enterprise.",
+      "UPGRADE_PROMPT": "Tingkatkan pelan anda untuk mendapatkan akses kepada pembantu kami, copilot dan banyak lagi.",
       "ASK_ADMIN": "Sila hubungi pentadbir anda untuk peningkatan."
     },
     "BANNER": {
-      "RESPONSES": "আপনি আপনার রেসপন্স সীমার ৮০% এর বেশি ব্যবহার করেছেন। Captain AI চালিয়ে যেতে প্ল্যান আপগ্রেড করুন।",
-      "DOCUMENTS": "ডকুমেন্ট সীমা অতিক্রম হয়েছে। Captain AI ব্যবহার চালিয়ে যেতে আপগ্রেড করুন।"
+      "RESPONSES": "Anda telah menggunakan lebih daripada 80% had respons anda. Untuk terus menggunakan Captain AI, sila tingkatkan pelan anda.",
+      "DOCUMENTS": "Had dokumen telah dicapai. Tingkatkan pelan untuk terus menggunakan Captain AI."
     },
     "FORM": {
       "CANCEL": "Batalkan",
@@ -494,8 +494,8 @@
           "ERROR": "Nama diperlukan"
         },
         "TEMPERATURE": {
-          "LABEL": "রেসপন্স টেম্পারেচার",
-          "DESCRIPTION": "সহকারীর উত্তর কতটা সৃজনশীল বা সীমাবদ্ধ হবে তা ঠিক করুন। কম মানে আরও নির্দিষ্ট ও পূর্বনির্ধারিত উত্তর, বেশি মানে আরও সৃজনশীল ও বৈচিত্র্যময় উত্তর।"
+          "LABEL": "Suhu Respons",
+          "DESCRIPTION": "Laraskan sejauh mana kreativiti atau kekangan dalam respons pembantu. Nilai yang lebih rendah menghasilkan respons yang lebih fokus dan deterministik, manakala nilai yang lebih tinggi membenarkan output yang lebih kreatif dan pelbagai."
         },
         "DESCRIPTION": {
           "LABEL": "Penerangan",
@@ -528,7 +528,7 @@
           "ALLOW_CONVERSATION_FAQS": "Hasilkan Soalan Lazim daripada perbualan yang diselesaikan",
           "ALLOW_MEMORIES": "Tangkap butiran penting sebagai memori daripada interaksi pelanggan.",
           "ALLOW_CITATIONS": "Sertakan petikan sumber dalam jawapan",
-          "ALLOW_CONTACT_ATTRIBUTES": "যোগাযোগের তথ্য দেখার অনুমতি দিন"
+          "ALLOW_CONTACT_ATTRIBUTES": "Benarkan akses kepada maklumat kenalan"
         }
       },
       "EDIT": {
@@ -549,14 +549,14 @@
         },
         "CONTROL_ITEMS": {
           "TITLE": "Perkara yang Menghiburkan",
-          "DESCRIPTION": "সহকারীর উপর আরও নিয়ন্ত্রণ যোগ করুন। (আরও গল্পের মতো ভিজ্যুয়াল: Query guardrail → scenarios → output) ব্যবহারকারীকে এগুলো ব্যবহার করতে উৎসাহিত করে।",
+          "DESCRIPTION": "Tambah lebih kawalan kepada pembantu. (sedikit lebih visual seperti cerita: Kawalan pertanyaan → senario → output) Menggalakkan pengguna untuk benar-benar menggunakan ini.",
           "OPTIONS": {
             "GUARDRAILS": {
               "TITLE": "Panduan keselamatan",
               "DESCRIPTION": "Menjaga agar semuanya berjalan lancar—hanya jenis soalan yang anda mahu pembantu anda jawab, tiada yang terlarang atau di luar topik."
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "রেসপন্স নির্দেশিকা",
+              "TITLE": "Garis panduan respons",
               "DESCRIPTION": "Gaya dan struktur balasan pembantu anda—jelas dan mesra? Pendek dan padat? Terperinci dan formal?"
             }
           }
@@ -574,7 +574,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Tiada pembantu tersedia",
-        "SUBTITLE": "দ্রুত ও নির্ভুল উত্তর দিতে একটি সহকারী তৈরি করুন। এটি আপনার সহায়তা নিবন্ধ ও পূর্ববর্তী কথোপকথন থেকে শিখতে পারে।",
+        "SUBTITLE": "Cipta pembantu untuk memberikan respons yang pantas dan tepat kepada pengguna anda. Ia boleh belajar daripada artikel bantuan dan perbualan lalu anda.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Assistant",
           "NOTE": "Pembantu Captain berinteraksi terus dengan pelanggan, belajar dari dokumen bantuan dan perbualan lalu anda, dan memberikan respons segera dan tepat. Ia mengendalikan pertanyaan awal, menyediakan penyelesaian pantas sebelum menyerahkan kepada ejen jika perlu."
@@ -609,24 +609,24 @@
           "SEARCH_PLACEHOLDER": "Cari..."
         },
         "EMPTY_MESSAGE": "Tiada garispanduan ditemui. Cipta atau tambah contoh untuk bermula.",
-        "SEARCH_EMPTY_MESSAGE": "এই অনুসন্ধানে কোনো গার্ডরেইল পাওয়া যায়নি।",
+        "SEARCH_EMPTY_MESSAGE": "Tiada kawalan ditemui untuk carian ini.",
         "API": {
           "ADD": {
-            "SUCCESS": "গার্ডরেইল সফলভাবে যোগ হয়েছে",
-            "ERROR": "গার্ডরেইল যোগ করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
+            "SUCCESS": "Kawalan berjaya ditambah",
+            "ERROR": "Ralat berlaku semasa menambah kawalan, sila cuba lagi."
           },
           "UPDATE": {
-            "SUCCESS": "গার্ডরেইল সফলভাবে আপডেট হয়েছে",
-            "ERROR": "গার্ডরেইল আপডেট করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
+            "SUCCESS": "Kawalan berjaya dikemas kini",
+            "ERROR": "Ralat berlaku semasa mengemas kini kawalan, sila cuba lagi."
           },
           "DELETE": {
-            "SUCCESS": "গার্ডরেইল সফলভাবে মুছে ফেলা হয়েছে",
-            "ERROR": "গার্ডরেইল মুছে ফেলতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
+            "SUCCESS": "Kawalan berjaya dipadam",
+            "ERROR": "Ralat berlaku semasa memadam kawalan, sila cuba lagi."
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "প্রতিক্রিয়া নির্দেশিকা",
+        "TITLE": "Garis Panduan Respons",
         "DESCRIPTION": "Suasana dan struktur balasan pembantu anda—jelas dan mesra? Pendek dan padat? Terperinci dan formal?",
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
@@ -636,37 +636,37 @@
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "উদাহরণ প্রতিক্রিয়া নির্দেশিকা",
+            "TITLE": "Contoh garis panduan respons",
             "ADD": "Tambah semua",
             "ADD_SINGLE": "Tambah ini",
             "SAVE": "Tambah dan simpan (↵)",
-            "PLACEHOLDER": "আরও একটি প্রতিক্রিয়া নির্দেশিকা লিখুন..."
+            "PLACEHOLDER": "Taip panduan respons lain..."
           },
           "NEW": {
-            "TITLE": "নতুন প্রতিক্রিয়া নির্দেশিকা যোগ করুন",
+            "TITLE": "Tambah panduan respons",
             "CREATE": "Cipta",
             "CANCEL": "Batalkan",
-            "PLACEHOLDER": "আরও একটি প্রতিক্রিয়া নির্দেশিকা লিখুন...",
+            "PLACEHOLDER": "Taip panduan respons lain...",
             "TEST_ALL": "Uji semua"
           }
         },
         "LIST": {
           "SEARCH_PLACEHOLDER": "Cari..."
         },
-        "EMPTY_MESSAGE": "কোনো প্রতিক্রিয়া নির্দেশিকা পাওয়া যায়নি। শুরু করতে উদাহরণ তৈরি বা যোগ করুন।",
-        "SEARCH_EMPTY_MESSAGE": "এই অনুসন্ধানে কোনো রেসপন্স গাইডলাইন পাওয়া যায়নি।",
+        "EMPTY_MESSAGE": "Tiada panduan respons dijumpai. Cipta atau tambah contoh untuk mula.",
+        "SEARCH_EMPTY_MESSAGE": "Tiada panduan respons dijumpai untuk carian ini.",
         "API": {
           "ADD": {
-            "SUCCESS": "প্রতিক্রিয়া নির্দেশিকা সফলভাবে যোগ হয়েছে",
-            "ERROR": "প্রতিক্রিয়া নির্দেশিকা যোগ করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
+            "SUCCESS": "Panduan Respons berjaya ditambah",
+            "ERROR": "Ralat berlaku semasa menambah panduan respons, sila cuba lagi."
           },
           "UPDATE": {
-            "SUCCESS": "প্রতিক্রিয়া নির্দেশিকা সফলভাবে আপডেট হয়েছে",
-            "ERROR": "রেসপন্স গাইডলাইন আপডেট করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
+            "SUCCESS": "Panduan Respons berjaya dikemas kini",
+            "ERROR": "Ralat berlaku semasa mengemas kini panduan respons, sila cuba lagi."
           },
           "DELETE": {
-            "SUCCESS": "রেসপন্স গাইডলাইন সফলভাবে মুছে ফেলা হয়েছে",
-            "ERROR": "রেসপন্স গাইডলাইন মুছে ফেলতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।"
+            "SUCCESS": "Panduan Respons berjaya dipadam",
+            "ERROR": "Ralat berlaku semasa memadam panduan respons, sila cuba lagi."
           }
         }
       },
@@ -753,7 +753,7 @@
         "TITLE": "Soalan Lazim Berkaitan",
         "DESCRIPTION": "Soalan Lazim ini dijana terus daripada dokumen."
       },
-      "FORM_DESCRIPTION": "নলেজ সোর্স হিসেবে যোগ করতে ডকুমেন্টের URL দিন এবং কোন অ্যাসিস্ট্যান্টের সাথে যুক্ত করবেন তা নির্বাচন করুন।",
+      "FORM_DESCRIPTION": "Masukkan URL dokumen untuk menambahnya sebagai sumber pengetahuan dan pilih pembantu untuk dikaitkan dengannya.",
       "CREATE": {
         "TITLE": "Tambah dokumen",
         "SUCCESS_MESSAGE": "Dokumen telah berjaya dicipta",
@@ -791,7 +791,7 @@
         "ERROR_MESSAGE": "Terdapat ralat semasa memadam dokumen, sila cuba lagi."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "সম্পর্কিত উত্তর দেখুন",
+        "VIEW_RELATED_RESPONSES": "Lihat Respons Berkaitan",
         "DELETE_DOCUMENT": "Padam Dokumen"
       },
       "EMPTY_STATE": {
@@ -808,34 +808,34 @@
       "ADD_NEW": "Cipta alat baru",
       "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
-        "TITLE": "কোনো কাস্টম টুল নেই",
+        "TITLE": "Tiada alat tersuai tersedia",
         "SUBTITLE": "Cipta alat khusus untuk menyambungkan pembantu anda dengan API dan perkhidmatan luaran, membolehkannya mendapatkan data dan melaksanakan tindakan bagi pihak anda.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "কাস্টম টুল",
+          "TITLE": "Alat Tersuai",
           "NOTE": "Alat khusus membolehkan pembantu anda berinteraksi dengan API dan perkhidmatan luaran. Cipta alat untuk mendapatkan data, melaksanakan tindakan, atau mengintegrasi dengan sistem sedia ada anda untuk meningkatkan keupayaan pembantu anda."
         }
       },
-      "FORM_DESCRIPTION": "এক্সটার্নাল API-র সাথে সংযোগ করতে আপনার কাস্টম টুল কনফিগার করুন",
+      "FORM_DESCRIPTION": "Konfigurasikan alat tersuai anda untuk berhubung dengan API luaran",
       "OPTIONS": {
         "EDIT_TOOL": "Sunting alat",
         "DELETE_TOOL": "Padam alat"
       },
       "CREATE": {
-        "TITLE": "কাস্টম টুল তৈরি করুন",
-        "SUCCESS_MESSAGE": "কাস্টম টুল সফলভাবে তৈরি হয়েছে",
-        "ERROR_MESSAGE": "কাস্টম টুল তৈরি করতে ব্যর্থ হয়েছে"
+        "TITLE": "Cipta Alat Tersuai",
+        "SUCCESS_MESSAGE": "Alat tersuai berjaya dicipta",
+        "ERROR_MESSAGE": "Gagal mencipta alat tersuai"
       },
       "EDIT": {
-        "TITLE": "কাস্টম টুল সম্পাদনা করুন",
-        "SUCCESS_MESSAGE": "কাস্টম টুল সফলভাবে আপডেট হয়েছে",
-        "ERROR_MESSAGE": "কাস্টম টুল আপডেট করতে ব্যর্থ হয়েছে"
+        "TITLE": "Sunting Alat Tersuai",
+        "SUCCESS_MESSAGE": "Alat tersuai berjaya dikemas kini",
+        "ERROR_MESSAGE": "Gagal mengemas kini alat tersuai"
       },
       "DELETE": {
-        "TITLE": "কাস্টম টুল মুছুন",
-        "DESCRIPTION": "আপনি কি নিশ্চিতভাবে এই কাস্টম টুলটি মুছে ফেলতে চান? এই কাজটি আর ফিরিয়ে আনা যাবে না।",
+        "TITLE": "Padam Alat Tersuai",
+        "DESCRIPTION": "Adakah anda pasti mahu memadam alat tersuai ini? Tindakan ini tidak boleh dibatalkan.",
         "CONFIRM": "Ya, padam",
-        "SUCCESS_MESSAGE": "কাস্টম টুল সফলভাবে মুছে ফেলা হয়েছে",
-        "ERROR_MESSAGE": "কাস্টম টুল মুছতে ব্যর্থ হয়েছে"
+        "SUCCESS_MESSAGE": "Alat tersuai berjaya dipadam",
+        "ERROR_MESSAGE": "Gagal memadam alat tersuai"
       },
       "TEST": {
         "BUTTON": "Test connection",
@@ -873,14 +873,14 @@
         },
         "AUTH_CONFIG": {
           "BEARER_TOKEN": "Bearer Token",
-          "BEARER_TOKEN_PLACEHOLDER": "আপনার bearer token লিখুন",
+          "BEARER_TOKEN_PLACEHOLDER": "Masukkan token bearer anda",
           "USERNAME": "Nama pengguna",
           "USERNAME_PLACEHOLDER": "Masukkan nama pengguna",
           "PASSWORD": "Kata laluan",
           "PASSWORD_PLACEHOLDER": "Masukkan kata laluan",
-          "API_KEY": "হেডার নাম",
+          "API_KEY": "Nama Header",
           "API_KEY_PLACEHOLDER": "X-API-Key",
-          "API_VALUE": "হেডার মান",
+          "API_VALUE": "Nilai Header",
           "API_VALUE_PLACEHOLDER": "Masukkan nilai kunci API"
         },
         "PARAMETERS": {
@@ -908,11 +908,11 @@
           "LABEL": "Diperlukan"
         },
         "REQUEST_TEMPLATE": {
-          "LABEL": "রিকোয়েস্ট বডি টেমপ্লেট (ঐচ্ছিক)",
+          "LABEL": "Templat Badan Permintaan (Pilihan)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "রেসপন্স টেমপ্লেট (ঐচ্ছিক)",
+          "LABEL": "Templat Respons (Pilihan)",
           "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
         },
         "ERRORS": {
@@ -963,14 +963,14 @@
         "ALL": "Semua"
       },
       "PENDING_BANNER": {
-        "TITLE": "ক্যাপ্টেন কিছু FAQ খুঁজে পেয়েছে যা আপনার গ্রাহকরা খুঁজছিলেন।",
+        "TITLE": "Captain telah menemui beberapa FAQ yang dicari oleh pelanggan anda.",
         "ACTION": "Klik di sini untuk semak"
       },
       "FORM_DESCRIPTION": "Tambah soalan dan jawapan yang sepadan ke dalam pangkalan pengetahuan dan pilih pembantu yang sepatutnya dikaitkan dengannya.",
       "CREATE": {
         "TITLE": "Tambah Soalan Lazim",
-        "SUCCESS_MESSAGE": "উত্তরটি সফলভাবে যোগ হয়েছে।",
-        "ERROR_MESSAGE": "উত্তর যোগ করার সময় একটি সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।"
+        "SUCCESS_MESSAGE": "Respons telah berjaya ditambah.",
+        "ERROR_MESSAGE": "Ralat berlaku semasa menambah respons. Sila cuba lagi."
       },
       "FORM": {
         "QUESTION": {
@@ -1007,7 +1007,7 @@
       }
     },
     "INBOXES": {
-      "HEADER": "সংযুক্ত ইনবক্স",
+      "HEADER": "Petibek Bersambung",
       "ADD_NEW": "Sambungkan peti masuk baru",
       "OPTIONS": {
         "DISCONNECT": "Putuskan sambungan"
