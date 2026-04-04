@@ -72,7 +72,7 @@
         "EDIT_SUBMIT": "Kemas kini webhook",
         "ADD_SUBMIT": "Buat webhook"
       },
-      "TITLE": "ওয়েবহুক",
+      "TITLE": "Webhook",
       "CONFIGURE": "Konfigurasi",
       "HEADER": "Tetapan webhook",
       "HEADER_BTN_TXT": "Tambah webhook baharu",
@@ -330,7 +330,7 @@
             "SEARCH": "Cari keutamaan"
           },
           "LABEL": {
-            "LABEL": "লেবেল",
+            "LABEL": "Label",
             "PLACEHOLDER": "Pilih label",
             "SEARCH": "Label carian"
           },
@@ -897,8 +897,8 @@
         "PARAM_TYPES": {
           "STRING": "Rentetan",
           "NUMBER": "Nombor",
-          "BOOLEAN": "বুলিয়ান",
-          "ARRAY": "অ্যারে",
+          "BOOLEAN": "Boolean",
+          "ARRAY": "Array",
           "OBJECT": "Objek"
         },
         "PARAM_DESCRIPTION": {
