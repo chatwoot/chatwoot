@@ -85,7 +85,8 @@ export const getCapitalizedNameFromEmail = email => {
 export const processContactableInboxes = inboxes => {
   return inboxes.map(inbox => ({
     ...inbox.inbox,
-    sourceId: inbox.sourceId,
+    // Contact API embeds contact_inboxes as snake_case; contactable_inboxes + camelcaseKeys uses sourceId.
+    sourceId: inbox.sourceId ?? inbox.source_id,
   }));
 };
 

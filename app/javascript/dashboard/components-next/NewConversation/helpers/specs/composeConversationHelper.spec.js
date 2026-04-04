@@ -108,6 +108,18 @@ describe('composeConversationHelper', () => {
         sourceId: 'source1',
       });
     });
+
+    it('maps snake_case source_id from embedded contact_inboxes (Contacts page)', () => {
+      const inboxes = [
+        {
+          inbox: { id: 2, name: 'Telegram' },
+          source_id: '987654321',
+        },
+      ];
+
+      const result = helpers.processContactableInboxes(inboxes);
+      expect(result[0].sourceId).toBe('987654321');
+    });
   });
 
   describe('mergeInboxDetails', () => {
