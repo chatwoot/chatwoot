@@ -352,7 +352,7 @@
     "ONGOING": "Sedang Berlangsung",
     "ONE_OFF": "Sekali sahaja",
     "REPORTS_SLA": "SLA",
-    "REPORTS_BOT": "বট",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Ejen",
     "REPORTS_LABEL": "Label",
     "REPORTS_INBOX": "Petibek",
@@ -404,7 +404,7 @@
         "DESCRIPTION": "Mengendalikan respons automatik, ringkasan perbualan, dan cadangan balasan pintar untuk interaksi pelanggan."
       },
       "COPILOT": {
-        "TITLE": "কো-পাইলট",
+        "TITLE": "Co-pilot",
         "DESCRIPTION": "Menyediakan cadangan kontekstual masa nyata, saranan pangkalan pengetahuan, dan pandangan proaktif semasa perbualan."
       }
     },
@@ -740,7 +740,7 @@
           "PLACEHOLDER": "Masukkan penerangan"
         },
         "STATUS": {
-          "LABEL": "স্ট্যাটাস:",
+          "LABEL": "Status:",
           "PLACEHOLDER": "Pilih status",
           "ACTIVE": "Polisi aktif",
           "INACTIVE": "Polisi tidak aktif"
@@ -748,14 +748,14 @@
         "ASSIGNMENT_ORDER": {
           "LABEL": "Susunan tugasan",
           "ROUND_ROBIN": {
-            "LABEL": "রাউন্ড রবিন",
+            "LABEL": "Round robin",
             "DESCRIPTION": "Agihkan perbualan secara sama rata antara ejen."
           },
           "BALANCED": {
             "LABEL": "Seimbang",
             "DESCRIPTION": "Agihkan perbualan berdasarkan kapasiti yang tersedia.",
             "PREMIUM_MESSAGE": "Tingkatkan untuk mengakses pengagihan seimbang dan pengurusan kapasiti ejen.",
-            "PREMIUM_BADGE": "প্রিমিয়াম"
+            "PREMIUM_BADGE": "Premium"
           }
         },
         "ASSIGNMENT_PRIORITY": {
