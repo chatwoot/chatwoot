@@ -127,7 +127,11 @@ json.bot_name resource.channel.try(:bot_name) if resource.telegram?
 if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
   json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
-  json.reauthorization_required resource.channel.try(:reauthorization_required?)
+  # Only show reauthorization for embedded signup; manual flow uses API keys, not OAuth
+  json.reauthorization_required(
+    (resource.channel.try(:provider_config) || {}).to_h['source'] == 'embedded_signup' &&
+    resource.channel.try(:reauthorization_required?)
+  )
 end
 
 ## Voice Channel Attributes
