@@ -585,9 +585,9 @@
         "DESCRIPTION": "İşləri yolunda saxlayır — yalnız köməkçinizin cavablandırmasını istədiyiniz sual növləri, mövzudan kənar və ya qadağan olunmuş heç nə yoxdur.",
         "BULK_ACTION": {
           "SELECTED": "{count} element seçildi | {count} element seçildi",
-          "SELECT_ALL": "Zgjidh të gjitha ({count})",
+          "SELECT_ALL": "Hamısını seç ({count})",
           "UNSELECT_ALL": "Hamısının seçimini ləğv et ({count})",
-          "BULK_DELETE_BUTTON": "Fshij"
+          "BULK_DELETE_BUTTON": "Sil"
         },
         "ADD": {
           "SUGGESTED": {
