@@ -437,7 +437,7 @@
       "USER": "Tu",
       "ASSISTANT": "Assistente",
       "MESSAGE_PLACEHOLDER": "Scrivi il tuo messaggio...",
-      "HEADER": "Playground",
+      "HEADER": "Area di prova",
       "DESCRIPTION": "Usa questo playground per inviare messaggi al tuo assistente e controllare se risponde correttamente, rapidamente e con il tono che ti aspetti.",
       "CREDIT_NOTE": "I messaggi inviati qui vengono scalati dai crediti Captain."
     },
