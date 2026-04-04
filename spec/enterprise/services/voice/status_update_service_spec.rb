@@ -27,7 +27,7 @@ RSpec.describe Voice::StatusUpdateService do
       content_attributes: { data: { call_sid: call_sid, status: 'ringing' } }
     )
   end
-  let(:channel) { create(:channel_voice, account: account, phone_number: '+15551230002') }
+  let(:channel) { create(:channel_twilio_sms, :with_voice, account: account, phone_number: '+15551230002') }
   let(:inbox) { channel.inbox }
   let(:from_number) { '+15550002222' }
   let(:call_sid) { 'CATESTSTATUS123' }

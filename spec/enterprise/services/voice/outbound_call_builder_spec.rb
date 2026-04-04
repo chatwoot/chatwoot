@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Voice::OutboundCallBuilder do
   let(:account) { create(:account) }
-  let(:channel) { create(:channel_voice, account: account, phone_number: '+15551230000') }
+  let(:channel) { create(:channel_twilio_sms, :with_voice, account: account, phone_number: '+15551230000') }
   let(:inbox) { channel.inbox }
   let(:user) { create(:user, account: account) }
   let(:contact) { create(:contact, account: account, phone_number: '+15550001111') }

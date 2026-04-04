@@ -170,7 +170,9 @@ class Twilio::VoiceController < ApplicationController
   def set_inbox!
     digits = params[:phone].to_s.gsub(/\D/, '')
     e164 = "+#{digits}"
-    channel = Channel::Voice.find_by!(phone_number: e164)
+    channel = Channel::TwilioSms.find_by!(phone_number: e164)
+    raise ActiveRecord::RecordNotFound, "Voice not enabled for #{e164}" unless channel.voice_enabled?
+
     @inbox = channel.inbox
   end
 

@@ -4,6 +4,7 @@
 #
 #  id                             :bigint           not null, primary key
 #  account_sid                    :string           not null
+#  api_key_secret                 :string
 #  api_key_sid                    :string
 #  auth_token                     :string           not null
 #  content_templates              :jsonb
@@ -11,6 +12,8 @@
 #  medium                         :integer          default("sms")
 #  messaging_service_sid          :string
 #  phone_number                   :string
+#  twiml_app_sid                  :string
+#  voice_enabled                  :boolean          default(FALSE), not null
 #  created_at                     :datetime         not null
 #  updated_at                     :datetime         not null
 #  account_id                     :integer          not null
@@ -76,3 +79,5 @@ class Channel::TwilioSms < ApplicationRecord
     end
   end
 end
+
+Channel::TwilioSms.prepend_mod_with('Channel::TwilioSms')
