@@ -259,7 +259,7 @@
     "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Tidak dapat menghantar mesej ini, sila cuba lagi kemudian",
     "SENT_BY": "Dihantar oleh:",
-    "BOT": "বট",
+    "BOT": "Bot",
     "NATIVE_APP": "Aplikasi asli",
     "NATIVE_APP_ADVISORY": "Mesej ini dihantar dari aplikasi asli. Balas dari Chatwoot untuk mengekalkan tetingkap mesej.",
     "SEND_FAILED": "Tidak dapat menghantar mesej! Sila cuba lagi",
