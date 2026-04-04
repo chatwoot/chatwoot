@@ -69,7 +69,19 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def chat_id(message)
-    message.conversation[:additional_attributes]['chat_id']
+    conversation = message.conversation
+    attrs = conversation.additional_attributes || {}
+    explicit = attrs['chat_id'].presence || attrs[:chat_id].presence
+    return explicit if explicit.present?
+
+    # Conversations created from Contacts use ConversationBuilder, which does not copy Telegram
+    # chat_id into additional_attributes. For private chats, contact_inbox.source_id matches Telegram chat id.
+    ci = conversation.contact_inbox
+    return ci.source_id if ci&.source_id.present?
+
+    contact = conversation.contact
+    contact&.additional_attributes&.dig('social_telegram_user_id').presence ||
+      contact&.identifier.presence
   end
 
   def business_connection_id(message)

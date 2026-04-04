@@ -22,7 +22,16 @@ class Contacts::ContactableInboxesService
       api_contactable_inbox(inbox)
     when 'Channel::WebWidget'
       website_contactable_inbox(inbox)
+    when 'Channel::Telegram'
+      telegram_contactable_inbox(inbox)
     end
+  end
+
+  def telegram_contactable_inbox(inbox)
+    latest_contact_inbox = inbox.contact_inboxes.where(contact: @contact).last
+    return unless latest_contact_inbox&.source_id.present?
+
+    { source_id: latest_contact_inbox.source_id, inbox: inbox }
   end
 
   def website_contactable_inbox(inbox)
