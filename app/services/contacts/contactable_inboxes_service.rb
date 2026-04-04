@@ -1,4 +1,14 @@
 class Contacts::ContactableInboxesService
+  CONTACTABLE_INBOX_BY_CHANNEL = {
+    'Channel::TwilioSms' => :twilio_contactable_inbox,
+    'Channel::Whatsapp' => :whatsapp_contactable_inbox,
+    'Channel::Sms' => :sms_contactable_inbox,
+    'Channel::Email' => :email_contactable_inbox,
+    'Channel::Api' => :api_contactable_inbox,
+    'Channel::WebWidget' => :website_contactable_inbox,
+    'Channel::Telegram' => :telegram_contactable_inbox
+  }.freeze
+
   pattr_initialize [:contact!]
 
   def get
@@ -9,27 +19,13 @@ class Contacts::ContactableInboxesService
   private
 
   def get_contactable_inbox(inbox)
-    case inbox.channel_type
-    when 'Channel::TwilioSms'
-      twilio_contactable_inbox(inbox)
-    when 'Channel::Whatsapp'
-      whatsapp_contactable_inbox(inbox)
-    when 'Channel::Sms'
-      sms_contactable_inbox(inbox)
-    when 'Channel::Email'
-      email_contactable_inbox(inbox)
-    when 'Channel::Api'
-      api_contactable_inbox(inbox)
-    when 'Channel::WebWidget'
-      website_contactable_inbox(inbox)
-    when 'Channel::Telegram'
-      telegram_contactable_inbox(inbox)
-    end
+    method = CONTACTABLE_INBOX_BY_CHANNEL[inbox.channel_type]
+    send(method, inbox) if method
   end
 
   def telegram_contactable_inbox(inbox)
     latest_contact_inbox = inbox.contact_inboxes.where(contact: @contact).last
-    return unless latest_contact_inbox&.source_id.present?
+    return if latest_contact_inbox&.source_id.blank?
 
     { source_id: latest_contact_inbox.source_id, inbox: inbox }
   end
