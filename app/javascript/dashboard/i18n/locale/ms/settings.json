@@ -3,44 +3,44 @@
     "LINK": "Tetapan akaun profil",
     "TITLE": "Tetapan profil pengguna",
     "BTN_TEXT": "Kemas kini profil",
-    "DELETE_AVATAR": "অ্যাভাটার মুছুন",
-    "AVATAR_DELETE_SUCCESS": "অ্যাভাটার সফলভাবে মুছে ফেলা হয়েছে",
-    "AVATAR_DELETE_FAILED": "অ্যাভাটার মুছতে সমস্যা হয়েছে, আবার চেষ্টা করুন",
-    "UPDATE_SUCCESS": "আপনার প্রোফাইল সফলভাবে আপডেট হয়েছে",
-    "PASSWORD_UPDATE_SUCCESS": "আপনার পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে",
+    "DELETE_AVATAR": "Padam Avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar telah berjaya dipadam",
+    "AVATAR_DELETE_FAILED": "Terdapat ralat semasa memadam avatar, sila cuba lagi",
+    "UPDATE_SUCCESS": "Profil anda telah berjaya dikemas kini",
+    "PASSWORD_UPDATE_SUCCESS": "Katalaluan anda telah berjaya ditukar",
     "AFTER_EMAIL_CHANGED": "Profil anda telah berjaya dikemas kini. Sila log masuk semula kerana kelayakan log masuk anda telah berubah.",
     "FORM": {
-      "PICTURE": "প্রোফাইল ছবি",
+      "PICTURE": "Gambar Profil",
       "AVATAR": "Imej profil",
       "ERROR": "Sila baiki ralat borang",
       "REMOVE_IMAGE": "Padam",
-      "UPLOAD_IMAGE": "ছবি আপলোড করুন",
-      "UPDATE_IMAGE": "ছবি পরিবর্তন করুন",
+      "UPLOAD_IMAGE": "Muat naik imej",
+      "UPDATE_IMAGE": "Kemas kini imej",
       "PROFILE_SECTION": {
-        "TITLE": "প্রোফাইল",
-        "NOTE": "আপনার ইমেইল ঠিকানাই আপনার পরিচয় এবং এটি লগইনের জন্য ব্যবহৃত হয়।"
+        "TITLE": "Profil",
+        "NOTE": "Alamat emel anda adalah identiti anda dan digunakan untuk log masuk."
       },
       "SEND_MESSAGE": {
-        "TITLE": "বার্তা পাঠানোর শর্টকাট",
-        "NOTE": "আপনার লেখার পছন্দ অনুযায়ী (Enter অথবা Cmd/Ctrl+Enter) শর্টকাট নির্বাচন করতে পারেন।",
-        "UPDATE_SUCCESS": "আপনার সেটিংস সফলভাবে আপডেট হয়েছে",
+        "TITLE": "Kekunci pintas untuk hantar mesej",
+        "NOTE": "Anda boleh memilih kekunci pintas (sama ada Enter atau Cmd/Ctrl+Enter) berdasarkan keutamaan menulis anda.",
+        "UPDATE_SUCCESS": "Tetapan anda telah berjaya dikemas kini",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send বোতামে ক্লিক না করে Enter চেপে বার্তা পাঠান।"
+            "CONTENT": "Hantar mesej dengan menekan kekunci Enter dan bukannya klik butang hantar."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send বোতামে ক্লিক না করে Cmd/Ctrl + Enter চেপে বার্তা পাঠান।"
+            "CONTENT": "Hantar mesej dengan menekan kekunci Cmd/Ctrl + Enter dan bukannya klik butang hantar."
           }
         }
       },
       "INTERFACE_SECTION": {
-        "TITLE": "ইন্টারফেস",
+        "TITLE": "Antara Muka",
         "NOTE": "Sesuaikan rupa dan rasa papan pemuka Chatwoot anda.",
         "FONT_SIZE": {
-          "TITLE": "ফন্ট সাইজ",
-          "NOTE": "আপনার পছন্দ অনুযায়ী ড্যাশবোর্ডের লেখার আকার ঠিক করুন।",
+          "TITLE": "Saiz fon",
+          "NOTE": "Laraskan saiz teks di seluruh papan pemuka mengikut keutamaan anda.",
           "UPDATE_SUCCESS": "Tetapan profil",
           "UPDATE_ERROR": "Simpan perubahan",
           "OPTIONS": {
@@ -49,872 +49,872 @@
             "DEFAULT": "Muat naik imej yang sah",
             "LARGE": "Buang imej",
             "LARGER": "Muat naik imej",
-            "EXTRA_LARGE": "অতিরিক্ত বড়"
+            "EXTRA_LARGE": "Sangat Besar"
           }
         },
         "LANGUAGE": {
-          "TITLE": "পছন্দের ভাষা",
-          "NOTE": "আপনি যে ভাষা ব্যবহার করতে চান তা নির্বাচন করুন।",
-          "UPDATE_SUCCESS": "আপনার ভাষা সেটিংস সফলভাবে আপডেট হয়েছে",
-          "UPDATE_ERROR": "ভাষা সেটিংস আপডেট করতে সমস্যা হয়েছে, আবার চেষ্টা করুন",
-          "USE_ACCOUNT_DEFAULT": "অ্যাকাউন্টের ডিফল্ট ব্যবহার করুন"
+          "TITLE": "Bahasa Pilihan",
+          "NOTE": "Pilih bahasa yang anda ingin gunakan.",
+          "UPDATE_SUCCESS": "Tetapan Bahasa anda telah berjaya dikemas kini",
+          "UPDATE_ERROR": "Terdapat ralat semasa mengemas kini tetapan bahasa, sila cuba lagi",
+          "USE_ACCOUNT_DEFAULT": "Gunakan tetapan akaun lalai"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "ব্যক্তিগত বার্তার স্বাক্ষর",
-        "NOTE": "প্রতি ইনবক্স থেকে পাঠানো প্রতিটি বার্তার শেষে দেখানোর জন্য একটি ইউনিক বার্তা স্বাক্ষর তৈরি করুন। আপনি ইনলাইন ছবি যোগ করতে পারেন, যা লাইভ-চ্যাট, ইমেইল ও API ইনবক্সে সমর্থিত।",
-        "BTN_TEXT": "বার্তার স্বাক্ষর সংরক্ষণ করুন",
-        "API_ERROR": "স্বাক্ষর সংরক্ষণ করা যায়নি! আবার চেষ্টা করুন",
-        "API_SUCCESS": "স্বাক্ষর সফলভাবে সংরক্ষিত হয়েছে",
-        "IMAGE_UPLOAD_ERROR": "ছবি আপলোড করা যায়নি! আবার চেষ্টা করুন",
-        "IMAGE_UPLOAD_SUCCESS": "ছবি সফলভাবে যোগ হয়েছে। স্বাক্ষর সংরক্ষণ করতে সেভ ক্লিক করুন",
+        "TITLE": "Tandatangan mesej peribadi",
+        "NOTE": "Cipta tandatangan mesej unik yang akan muncul di akhir setiap mesej yang anda hantar dari mana-mana peti masuk. Anda juga boleh memasukkan imej sebaris, yang disokong dalam peti masuk sembang langsung, e-mel, dan API.",
+        "BTN_TEXT": "Simpan tandatangan mesej",
+        "API_ERROR": "Tidak dapat menyimpan tandatangan! Sila cuba lagi",
+        "API_SUCCESS": "Tandatangan berjaya disimpan",
+        "IMAGE_UPLOAD_ERROR": "Tidak dapat memuat naik imej! Sila cuba lagi",
+        "IMAGE_UPLOAD_SUCCESS": "Imej berjaya ditambah. Sila klik simpan untuk menyimpan tandatangan",
         "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "বার্তার স্বাক্ষর",
-        "ERROR": "বার্তার স্বাক্ষর খালি রাখা যাবে না",
-        "PLACEHOLDER": "এখানে আপনার ব্যক্তিগত বার্তার স্বাক্ষর লিখুন।"
+        "LABEL": "Tandatangan Mesej",
+        "ERROR": "Tandatangan Mesej tidak boleh kosong",
+        "PLACEHOLDER": "Masukkan tandatangan mesej peribadi anda di sini."
       },
       "PASSWORD_SECTION": {
-        "TITLE": "পাসওয়ার্ড",
-        "NOTE": "পাসওয়ার্ড পরিবর্তন করলে একাধিক ডিভাইসে আপনার লগইন রিসেট হবে।",
-        "BTN_TEXT": "পাসওয়ার্ড পরিবর্তন করুন"
+        "TITLE": "Kata Laluan",
+        "NOTE": "Mengemas kini kata laluan anda akan menetapkan semula log masuk anda pada pelbagai peranti.",
+        "BTN_TEXT": "Tukar kata laluan"
       },
       "SECURITY_SECTION": {
-        "TITLE": "নিরাপত্তা",
-        "NOTE": "আপনার অ্যাকাউন্টের জন্য অতিরিক্ত নিরাপত্তা ফিচার পরিচালনা করুন।",
-        "MFA_BUTTON": "টু-ফ্যাক্টর অথেন্টিকেশন পরিচালনা করুন"
+        "TITLE": "Keselamatan",
+        "NOTE": "Urus ciri keselamatan tambahan untuk akaun anda.",
+        "MFA_BUTTON": "Urus Pengesahan Dua Faktor"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
-        "NOTE": "API ভিত্তিক ইন্টিগ্রেশনের জন্য এই টোকেন ব্যবহার করা যেতে পারে",
-        "COPY": "কপি করুন",
-        "RESET": "রিসেট করুন",
-        "CONFIRM_RESET": "আপনি কি নিশ্চিত?",
-        "CONFIRM_HINT": "নিশ্চিত করতে আবার ক্লিক করুন",
-        "RESET_SUCCESS": "অ্যাক্সেস টোকেন সফলভাবে পুনর্জন্ম হয়েছে",
-        "RESET_ERROR": "অ্যাক্সেস টোকেন পুনর্জন্ম করা যায়নি। আবার চেষ্টা করুন"
+        "NOTE": "Token ini boleh digunakan jika anda membina integrasi berasaskan API",
+        "COPY": "Salin",
+        "RESET": "Tetapkan Semula",
+        "CONFIRM_RESET": "Adakah anda pasti?",
+        "CONFIRM_HINT": "Klik sekali lagi untuk mengesahkan",
+        "RESET_SUCCESS": "Token akses berjaya dijana semula",
+        "RESET_ERROR": "Tidak dapat menjana semula token akses. Sila cuba lagi"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "অডিও সতর্কতা",
-        "NOTE": "ড্যাশবোর্ডে নতুন বার্তা ও কথোপকথনের জন্য অডিও সতর্কতা চালু করুন।",
-        "PLAY": "সাউন্ড চালান",
+        "TITLE": "Amaran Audio",
+        "NOTE": "Dayakan amaran audio di papan pemuka untuk mesej dan perbualan baru.",
+        "PLAY": "Mainkan bunyi",
         "ALERT_TYPES": {
           "NONE": "Tiada",
-          "MINE": "অর্পিত",
-          "ALL": "সব",
-          "ASSIGNED": "আমার নির্ধারিত কথোপকথন",
-          "UNASSIGNED": "অনির্ধারিত কথোপকথন",
-          "NOTME": "অন্যদের নির্ধারিত খোলা কথোপকথন"
+          "MINE": "Ditugaskan",
+          "ALL": "Semua",
+          "ASSIGNED": "Perbualan yang ditugaskan kepada saya",
+          "UNASSIGNED": "Perbualan yang tidak ditugaskan",
+          "NOTME": "Perbualan terbuka yang ditugaskan kepada orang lain"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "আপনি কোনো অপশন নির্বাচন করেননি, আপনি কোনো অডিও সতর্কতা পাবেন না।",
-          "ASSIGNED": "আপনার কাছে অ্যাসাইন করা কথোপকথনের জন্য আপনি সতর্কতা পাবেন।",
-          "UNASSIGNED": "যে কোনো অনির্ধারিত কথোপকথনের জন্য আপনি সতর্কতা পাবেন।",
-          "NOTME": "অন্যদের কাছে অ্যাসাইন করা কথোপকথনের জন্য আপনি সতর্কতা পাবেন।",
-          "ASSIGNED+UNASSIGNED": "আপনার অ্যাসাইন করা ও অনির্ধারিত কথোপকথনের জন্য আপনি সতর্কতা পাবেন।",
-          "ASSIGNED+NOTME": "আপনার ও অন্যদের কাছে অ্যাসাইন করা কথোপকথনের জন্য আপনি সতর্কতা পাবেন, তবে অনির্ধারিতগুলোর জন্য নয়।",
-          "NOTME+UNASSIGNED": "অনির্ধারিত ও অন্যদের কাছে অ্যাসাইন করা কথোপকথনের জন্য আপনি সতর্কতা পাবেন।",
-          "ASSIGNED+NOTME+UNASSIGNED": "সব কথোপকথনের জন্য আপনি সতর্কতা পাবেন।"
+          "NONE": "Anda belum memilih sebarang pilihan, anda tidak akan menerima sebarang amaran audio.",
+          "ASSIGNED": "Anda akan menerima amaran untuk perbualan yang ditugaskan kepada anda.",
+          "UNASSIGNED": "Anda akan menerima amaran untuk sebarang perbualan yang tidak ditugaskan.",
+          "NOTME": "Anda akan menerima amaran untuk perbualan yang ditugaskan kepada orang lain.",
+          "ASSIGNED+UNASSIGNED": "Anda akan menerima amaran untuk perbualan yang ditugaskan kepada anda dan juga yang tidak dihadiri.",
+          "ASSIGNED+NOTME": "Anda akan menerima amaran untuk perbualan yang ditugaskan kepada anda dan orang lain, tetapi tidak untuk yang tidak ditugaskan.",
+          "NOTME+UNASSIGNED": "Anda akan menerima amaran untuk perbualan yang tidak dijaga dan yang ditugaskan kepada orang lain.",
+          "ASSIGNED+NOTME+UNASSIGNED": "Anda akan menerima amaran untuk semua perbualan."
         },
         "ALERT_TYPE": {
-          "TITLE": "কথোপকথনের সতর্কতা ইভেন্ট",
+          "TITLE": "Peristiwa amaran untuk perbualan",
           "NONE": "Tiada",
-          "ASSIGNED": "বরাদ্দকৃত কথোপকথন",
-          "ALL_CONVERSATIONS": "সব কথোপকথন"
+          "ASSIGNED": "Perbualan Ditugaskan",
+          "ALL_CONVERSATIONS": "Semua Perbualan"
         },
         "DEFAULT_TONE": {
-          "TITLE": "সতর্কতা সুর:"
+          "TITLE": "Nada amaran:"
         },
         "CONDITIONS": {
-          "TITLE": "সতর্কতার শর্তাবলী:",
-          "CONDITION_ONE": "শুধুমাত্র যখন ব্রাউজার উইন্ডো সক্রিয় নয় তখন অডিও সতর্কতা পাঠান",
-          "CONDITION_TWO": "নিয়োজিত সব কথোপকথন পড়া না হওয়া পর্যন্ত প্রতি ৩০ সেকেন্ডে সতর্কতা পাঠান"
+          "TITLE": "Syarat amaran:",
+          "CONDITION_ONE": "Hantar amaran audio hanya jika tetingkap pelayar tidak aktif",
+          "CONDITION_TWO": "Hantar amaran setiap 30 saat sehingga semua perbualan yang ditugaskan dibaca"
         },
-        "SOUND_PERMISSION_ERROR": "আপনার ব্রাউজারে অটোপ্লে নিষ্ক্রিয় আছে। স্বয়ংক্রিয়ভাবে সতর্কতা শুনতে, ব্রাউজার সেটিংসে সাউন্ড অনুমতি দিন অথবা পৃষ্ঠার সাথে ইন্টারঅ্যাক্ট করুন।",
-        "READ_MORE": "আরও জানুন"
+        "SOUND_PERMISSION_ERROR": "Autoplay dinyahaktifkan dalam pelayar anda. Untuk mendengar amaran secara automatik, aktifkan kebenaran bunyi dalam tetapan pelayar anda atau berinteraksi dengan halaman.",
+        "READ_MORE": "Baca lebih lanjut"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "ইমেইল নোটিফিকেশন",
-        "NOTE": "এখানে আপনার ইমেইল নোটিফিকেশন পছন্দসমূহ আপডেট করুন",
-        "CONVERSATION_ASSIGNMENT": "কোনো কথোপকথন আমাকে বরাদ্দ করা হলে ইমেইল নোটিফিকেশন পাঠান",
-        "CONVERSATION_CREATION": "নতুন কথোপকথন তৈরি হলে ইমেইল নোটিফিকেশন পাঠান",
-        "CONVERSATION_MENTION": "আপনাকে কোনো কথোপকথনে উল্লেখ করা হলে ইমেইল নোটিফিকেশন পাঠান",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "নিয়োজিত কথোপকথনে নতুন বার্তা এলে ইমেইল নোটিফিকেশন পাঠান",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "অংশগ্রহণ করা কথোপকথনে নতুন বার্তা এলে ইমেইল নোটিফিকেশন পাঠান",
-        "SLA_MISSED_FIRST_RESPONSE": "কোনো কথোপকথন প্রথম সাড়া SLA মিস করলে ইমেইল নোটিফিকেশন পাঠান",
-        "SLA_MISSED_NEXT_RESPONSE": "কোনো কথোপকথন পরবর্তী সাড়া SLA মিস করলে ইমেইল নোটিফিকেশন পাঠান",
-        "SLA_MISSED_RESOLUTION": "কোনো কথোপকথন রেজল্যুশন SLA মিস করলে ইমেইল নোটিফিকেশন পাঠান"
+        "TITLE": "Pemberitahuan Emel",
+        "NOTE": "Kemas kini pilihan pemberitahuan emel anda di sini",
+        "CONVERSATION_ASSIGNMENT": "Hantar pemberitahuan emel apabila perbualan ditugaskan kepada saya",
+        "CONVERSATION_CREATION": "Hantar pemberitahuan emel apabila perbualan baru dibuat",
+        "CONVERSATION_MENTION": "Hantar pemberitahuan emel apabila anda disebut dalam perbualan",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Hantar pemberitahuan emel apabila mesej baru dibuat dalam perbualan yang ditugaskan",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Hantar pemberitahuan emel apabila mesej baru dibuat dalam perbualan yang disertai",
+        "SLA_MISSED_FIRST_RESPONSE": "Hantar pemberitahuan emel apabila perbualan terlepas SLA tindak balas pertama",
+        "SLA_MISSED_NEXT_RESPONSE": "Hantar notifikasi emel apabila perbualan terlepas SLA tindak balas seterusnya",
+        "SLA_MISSED_RESOLUTION": "Hantar notifikasi emel apabila perbualan terlepas SLA penyelesaian"
       },
       "NOTIFICATIONS": {
-        "TITLE": "নোটিফিকেশন পছন্দ",
-        "TYPE_TITLE": "নোটিফিকেশন ধরন",
-        "EMAIL": "ইমেইল",
-        "PUSH": "পুশ নোটিফিকেশন",
+        "TITLE": "Keutamaan notifikasi",
+        "TYPE_TITLE": "Jenis notifikasi",
+        "EMAIL": "Emel",
+        "PUSH": "Notifikasi tolak",
         "TYPES": {
-          "CONVERSATION_CREATED": "নতুন কথোপকথন তৈরি হয়েছে",
-          "CONVERSATION_ASSIGNED": "আপনার কাছে কথোপকথন অ্যাসাইন করা হয়েছে",
-          "CONVERSATION_MENTION": "আপনাকে কথোপকথনে উল্লেখ করা হয়েছে",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "অ্যাসাইনকৃত কথোপকথনে নতুন বার্তা এসেছে",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "আপনি অংশগ্রহণ করছেন এমন কথোপকথনে নতুন বার্তা এসেছে",
-          "SLA_MISSED_FIRST_RESPONSE": "কথোপকথন প্রথম সাড়া দেওয়ার SLA মিস করেছে",
-          "SLA_MISSED_NEXT_RESPONSE": "কোনো কথোপকথন পরবর্তী উত্তর SLA মিস করেছে",
-          "SLA_MISSED_RESOLUTION": "কোনো কথোপকথন সমাধান SLA মিস করেছে"
+          "CONVERSATION_CREATED": "Perbualan baru telah dibuat",
+          "CONVERSATION_ASSIGNED": "Perbualan telah ditugaskan kepada anda",
+          "CONVERSATION_MENTION": "Anda disebut dalam perbualan",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Mesej baru telah dibuat dalam perbualan yang ditugaskan",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Mesej baru telah dibuat dalam perbualan yang anda sertai",
+          "SLA_MISSED_FIRST_RESPONSE": "Perbualan terlepas SLA tindak balas pertama",
+          "SLA_MISSED_NEXT_RESPONSE": "Perbualan terlepas SLA tindak balas seterusnya",
+          "SLA_MISSED_RESOLUTION": "Perbualan terlepas SLA penyelesaian"
         },
-        "BROWSER_PERMISSION": "আপনার ব্রাউজারে পুশ নোটিফিকেশন চালু করুন যাতে আপনি নোটিফিকেশন পেতে পারেন"
+        "BROWSER_PERMISSION": "Dayakan notifikasi tolak untuk pelayar anda supaya anda boleh menerimanya"
       },
       "API": {
-        "UPDATE_SUCCESS": "আপনার বিজ্ঞপ্তি পছন্দসমূহ সফলভাবে আপডেট হয়েছে",
-        "UPDATE_ERROR": "পছন্দসমূহ আপডেট করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
+        "UPDATE_SUCCESS": "Keutamaan notifikasi anda berjaya dikemas kini",
+        "UPDATE_ERROR": "Terdapat ralat semasa mengemas kini keutamaan, sila cuba lagi"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "পুশ নোটিফিকেশন",
-        "NOTE": "এখানে আপনার পুশ নোটিফিকেশন পছন্দসমূহ আপডেট করুন",
-        "CONVERSATION_ASSIGNMENT": "কোনো কথোপকথন আমাকে অ্যাসাইন হলে পুশ নোটিফিকেশন পাঠান",
-        "CONVERSATION_CREATION": "নতুন কথোপকথন তৈরি হলে পুশ নোটিফিকেশন পাঠান",
-        "CONVERSATION_MENTION": "আপনাকে কোনো কথোপকথনে উল্লেখ করা হলে পুশ নোটিফিকেশন পাঠান",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "নিয়োজিত কথোপকথনে নতুন বার্তা এলে পুশ নোটিফিকেশন পাঠান",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "অংশগ্রহণ করা কথোপকথনে নতুন বার্তা এলে পুশ নোটিফিকেশন পাঠান",
-        "HAS_ENABLED_PUSH": "আপনি এই ব্রাউজারে পুশ সক্রিয় করেছেন।",
-        "REQUEST_PUSH": "পুশ নোটিফিকেশন চালু করুন",
-        "SLA_MISSED_FIRST_RESPONSE": "কোনো কথোপকথন প্রথম সাড়া SLA মিস করলে পুশ নোটিফিকেশন পাঠান",
-        "SLA_MISSED_NEXT_RESPONSE": "কোনো কথোপকথন পরবর্তী সাড়া SLA মিস করলে পুশ নোটিফিকেশন পাঠান",
-        "SLA_MISSED_RESOLUTION": "কোনো কথোপকথন রেজল্যুশন SLA মিস করলে পুশ নোটিফিকেশন পাঠান"
+        "TITLE": "Notifikasi Tolak",
+        "NOTE": "Kemas kini keutamaan notifikasi tolak anda di sini",
+        "CONVERSATION_ASSIGNMENT": "Hantar notifikasi tolak apabila perbualan ditugaskan kepada saya",
+        "CONVERSATION_CREATION": "Hantar pemberitahuan push apabila perbualan baru dibuat",
+        "CONVERSATION_MENTION": "Hantar pemberitahuan push apabila anda disebut dalam perbualan",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Hantar pemberitahuan push apabila mesej baru dibuat dalam perbualan yang ditugaskan",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Hantar pemberitahuan push apabila mesej baru dibuat dalam perbualan yang disertai",
+        "HAS_ENABLED_PUSH": "Anda telah mengaktifkan push untuk pelayar ini.",
+        "REQUEST_PUSH": "Aktifkan pemberitahuan push",
+        "SLA_MISSED_FIRST_RESPONSE": "Hantar pemberitahuan push apabila perbualan terlepas SLA respons pertama",
+        "SLA_MISSED_NEXT_RESPONSE": "Hantar pemberitahuan push apabila perbualan terlepas SLA respons seterusnya",
+        "SLA_MISSED_RESOLUTION": "Hantar pemberitahuan push apabila perbualan terlepas SLA penyelesaian"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "প্রোফাইল ছবি"
+        "LABEL": "Imej Profil"
       },
       "NAME": {
-        "LABEL": "আপনার পূর্ণ নাম",
-        "ERROR": "একটি বৈধ পূর্ণ নাম লিখুন",
-        "PLACEHOLDER": "আপনার পূর্ণ নাম লিখুন"
+        "LABEL": "Nama penuh anda",
+        "ERROR": "Sila masukkan nama penuh yang sah",
+        "PLACEHOLDER": "Sila masukkan nama penuh anda"
       },
       "DISPLAY_NAME": {
-        "LABEL": "ডিসপ্লে নাম",
-        "ERROR": "একটি বৈধ ডিসপ্লে নাম লিখুন",
-        "PLACEHOLDER": "একটি ডিসপ্লে নাম লিখুন, এটি কথোপকথনে দেখানো হবে"
+        "LABEL": "Nama paparan",
+        "ERROR": "Sila masukkan nama paparan yang sah",
+        "PLACEHOLDER": "Sila masukkan nama paparan, ini akan dipaparkan dalam perbualan"
       },
       "AVAILABILITY": {
-        "LABEL": "উপস্থিতি",
+        "LABEL": "Ketersediaan",
         "STATUS": {
-          "ONLINE": "অনলাইনে",
-          "BUSY": "ব্যস্ত",
-          "OFFLINE": "অফলাইনে"
+          "ONLINE": "Dalam Talian",
+          "BUSY": "Bersibuk",
+          "OFFLINE": "Luar Talian"
         },
-        "SET_AVAILABILITY_SUCCESS": "উপস্থিতি সফলভাবে নির্ধারণ করা হয়েছে",
-        "SET_AVAILABILITY_ERROR": "উপস্থিতি নির্ধারণ করা যায়নি, আবার চেষ্টা করুন",
-        "IMPERSONATING_ERROR": "ইউজার ইম্পারসনেট করার সময় অ্যাভেইলেবিলিটি পরিবর্তন করা যাবে না"
+        "SET_AVAILABILITY_SUCCESS": "Ketersediaan telah ditetapkan dengan jayanya",
+        "SET_AVAILABILITY_ERROR": "Tidak dapat menetapkan ketersediaan, sila cuba lagi",
+        "IMPERSONATING_ERROR": "Tidak boleh menukar ketersediaan semasa menyamar sebagai pengguna"
       },
       "EMAIL": {
-        "LABEL": "আপনার ইমেইল ঠিকানা",
-        "ERROR": "একটি বৈধ ইমেইল ঠিকানা দিন",
-        "PLACEHOLDER": "আপনার ইমেইল ঠিকানা লিখুন, এটি কথোপকথনে দেখানো হবে"
+        "LABEL": "Alamat emel anda",
+        "ERROR": "Sila masukkan alamat emel yang sah",
+        "PLACEHOLDER": "Sila masukkan alamat emel anda, ini akan dipaparkan dalam perbualan"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "বর্তমান পাসওয়ার্ড",
-        "ERROR": "অনুগ্রহ করে বর্তমান পাসওয়ার্ড দিন",
-        "PLACEHOLDER": "বর্তমান পাসওয়ার্ড লিখুন"
+        "LABEL": "Kata laluan semasa",
+        "ERROR": "Sila masukkan kata laluan semasa",
+        "PLACEHOLDER": "Sila masukkan kata laluan semasa"
       },
       "PASSWORD": {
-        "LABEL": "নতুন পাসওয়ার্ড",
-        "ERROR": "কমপক্ষে ৬ অক্ষরের একটি পাসওয়ার্ড দিন",
-        "PLACEHOLDER": "নতুন পাসওয়ার্ড লিখুন"
+        "LABEL": "Kata laluan baru",
+        "ERROR": "Sila masukkan kata laluan dengan panjang 6 atau lebih",
+        "PLACEHOLDER": "Sila masukkan kata laluan baru"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "নতুন পাসওয়ার্ড নিশ্চিত করুন",
-        "ERROR": "পাসওয়ার্ড নিশ্চিতকরণ পাসওয়ার্ডের সাথে মিলতে হবে",
-        "PLACEHOLDER": "অনুগ্রহ করে আপনার নতুন পাসওয়ার্ড আবার দিন"
+        "LABEL": "Sahkan kata laluan baru",
+        "ERROR": "Sahkan kata laluan mesti sama dengan kata laluan",
+        "PLACEHOLDER": "Sila masukkan semula kata laluan baru anda"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "পরিবর্তন করুন",
-    "CHANGE_ACCOUNTS": "অ্যাকাউন্ট পরিবর্তন করুন",
-    "SWITCH_ACCOUNT": "অ্যাকাউন্ট পরিবর্তন করুন",
-    "CONTACT_SUPPORT": "সাপোর্টে যোগাযোগ করুন",
-    "SELECTOR_SUBTITLE": "নিচের তালিকা থেকে একটি অ্যাকাউন্ট নির্বাচন করুন",
-    "PROFILE_SETTINGS": "প্রোফাইল সেটিংস",
-    "YEAR_IN_REVIEW": "বছরের পর্যালোচনা",
-    "KEYBOARD_SHORTCUTS": "কীবোর্ড শর্টকাট",
-    "APPEARANCE": "রূপ পরিবর্তন করুন",
-    "SUPER_ADMIN_CONSOLE": "SuperAdmin কনসোল",
-    "DOCS": "ডকুমেন্টেশন পড়ুন",
+    "CHANGE_AVAILABILITY_STATUS": "Tukar",
+    "CHANGE_ACCOUNTS": "Tukar akaun",
+    "SWITCH_ACCOUNT": "Tukar akaun",
+    "CONTACT_SUPPORT": "Hubungi sokongan",
+    "SELECTOR_SUBTITLE": "Pilih akaun dari senarai berikut",
+    "PROFILE_SETTINGS": "Tetapan profil",
+    "YEAR_IN_REVIEW": "Tahun dalam Ulasan",
+    "KEYBOARD_SHORTCUTS": "Pintasan papan kekunci",
+    "APPEARANCE": "Tukar penampilan",
+    "SUPER_ADMIN_CONSOLE": "Konsol SuperAdmin",
+    "DOCS": "Baca dokumentasi",
     "CHANGELOG": "Changelog",
-    "LOGOUT": "লগ আউট"
+    "LOGOUT": "Log keluar"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "দিন বাকি ট্রায়াল।",
-    "TRAIL_BUTTON": "এখনই কিনুন",
-    "DELETED_USER": "মুছে ফেলা ব্যবহারকারী",
-    "EMAIL_VERIFICATION_PENDING": "আপনি এখনো আপনার ইমেইল ঠিকানা যাচাই করেননি। দয়া করে যাচাইকরণ ইমেইলের জন্য আপনার ইনবক্স চেক করুন।",
-    "RESEND_VERIFICATION_MAIL": "যাচাইকরণ ইমেইল পুনরায় পাঠান",
-    "EMAIL_VERIFICATION_SENT": "যাচাইকরণ ইমেইল পাঠানো হয়েছে। দয়া করে আপনার ইনবক্স চেক করুন।",
+    "TRIAL_MESSAGE": "hari percubaan tinggal.",
+    "TRAIL_BUTTON": "Beli Sekarang",
+    "DELETED_USER": "Pengguna Dipadam",
+    "EMAIL_VERIFICATION_PENDING": "Nampaknya anda belum mengesahkan alamat emel anda. Sila semak peti masuk anda untuk emel pengesahan.",
+    "RESEND_VERIFICATION_MAIL": "Hantar semula emel pengesahan",
+    "EMAIL_VERIFICATION_SENT": "Emel pengesahan telah dihantar. Sila semak peti masuk anda.",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "অ্যাকাউন্ট স্থগিত করা হয়েছে",
-      "MESSAGE": "আপনার অ্যাকাউন্ট স্থগিত করা হয়েছে। আরও তথ্যের জন্য সহায়তা টিমের সাথে যোগাযোগ করুন।"
+      "TITLE": "Akaun Digantung",
+      "MESSAGE": "Akaun anda digantung. Sila hubungi pasukan sokongan untuk maklumat lanjut."
     },
     "NO_ACCOUNTS": {
-      "TITLE": "কোনো অ্যাকাউন্ট পাওয়া যায়নি",
-      "MESSAGE_CLOUD": "আপনি বর্তমানে কোনো অ্যাকাউন্টের অংশ নন। যদি এটি ভুল হয়ে থাকে, অনুগ্রহ করে আমাদের সাপোর্ট টিমের সাথে যোগাযোগ করুন।",
-      "MESSAGE_SELF_HOSTED": "আপনি বর্তমানে কোনো অ্যাকাউন্টের অংশ নন। অনুগ্রহ করে আপনার অ্যাডমিনিস্ট্রেটরের সাথে যোগাযোগ করুন।",
-      "LOGOUT": "লগ আউট"
+      "TITLE": "Tiada akaun ditemui",
+      "MESSAGE_CLOUD": "Anda tidak tergolong dalam mana-mana akaun sekarang. Jika anda rasa ini satu kesilapan, sila hubungi pasukan sokongan kami.",
+      "MESSAGE_SELF_HOSTED": "Anda tidak tergolong dalam mana-mana akaun sekarang. Sila hubungi pentadbir anda.",
+      "LOGOUT": "Log keluar"
     }
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "কপি করুন",
-      "CODEPEN": "CodePen-এ খুলুন",
+      "BUTTON_TEXT": "Salin",
+      "CODEPEN": "Buka di CodePen",
       "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "আরও দেখান",
-      "SHOW_LESS": "কম দেখান"
+      "SHOW_MORE": "Tunjukkan Lagi",
+      "SHOW_LESS": "Tunjukkan Kurang"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "ডাউনলোড",
-      "UPLOADING": "আপলোড হচ্ছে...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "এই স্টোরিটি আর দেখা যাচ্ছে না।",
-      "INSTAGRAM_STORY_REPLY": "আপনার স্টোরিতে উত্তর দিয়েছে:"
+      "DOWNLOAD": "Muat Turun",
+      "UPLOADING": "Memuat naik...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Cerita ini tidak lagi tersedia.",
+      "INSTAGRAM_STORY_REPLY": "Membalas cerita anda:"
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "মানচিত্রে দেখুন"
+      "SEE_ON_MAP": "Lihat pada peta"
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "জমা দিন"
+      "SUBMIT": "Hantar"
     },
     "MEDIA": {
-      "IMAGE_UNAVAILABLE": "এই ছবিটি আর উপলব্ধ নেই।",
-      "LOADING_FAILED": "লোড করতে ব্যর্থ হয়েছে"
+      "IMAGE_UNAVAILABLE": "Imej ini tidak lagi tersedia.",
+      "LOADING_FAILED": "Muat turun gagal"
     }
   },
-  "CONFIRM_EMAIL": "যাচাই করা হচ্ছে...",
+  "CONFIRM_EMAIL": "Mengesahkan...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "ইনবক্স যোগ করুন"
+      "NEW_INBOX": "Tambah Peti Masuk"
     }
   },
   "SIDEBAR": {
-    "NO_ITEMS": "কোনো আইটেম নেই",
-    "CURRENTLY_VIEWING_ACCOUNT": "বর্তমানে দেখছেন:",
-    "SWITCH": "পরিবর্তন করুন",
-    "INBOX_VIEW": "ইনবক্স ভিউ",
-    "CONVERSATIONS": "কথোপকথন",
-    "INBOX": "আমার ইনবক্স",
-    "ALL_CONVERSATIONS": "সব কথোপকথন",
-    "MENTIONED_CONVERSATIONS": "উল্লেখসমূহ",
-    "PARTICIPATING_CONVERSATIONS": "অংশগ্রহণ",
-    "UNATTENDED_CONVERSATIONS": "অযত্নে থাকা",
-    "REPORTS": "রিপোর্ট",
-    "SETTINGS": "সেটিংস",
-    "CONTACTS": "যোগাযোগসমূহ",
-    "ACTIVE": "সক্রিয়",
-    "COMPANIES": "কোম্পানি",
-    "ALL_COMPANIES": "সব কোম্পানি",
+    "NO_ITEMS": "Tiada item",
+    "CURRENTLY_VIEWING_ACCOUNT": "Sedang melihat:",
+    "SWITCH": "Tukar",
+    "INBOX_VIEW": "Paparan Peti Masuk",
+    "CONVERSATIONS": "Perbualan",
+    "INBOX": "Peti Masuk Saya",
+    "ALL_CONVERSATIONS": "Semua Perbualan",
+    "MENTIONED_CONVERSATIONS": "Sebutan",
+    "PARTICIPATING_CONVERSATIONS": "Menyertai",
+    "UNATTENDED_CONVERSATIONS": "Tidak Dijaga",
+    "REPORTS": "Laporan",
+    "SETTINGS": "Tetapan",
+    "CONTACTS": "Kenalan",
+    "ACTIVE": "Aktif",
+    "COMPANIES": "Syarikat",
+    "ALL_COMPANIES": "Semua Syarikat",
     "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "সহায়কগণ",
-    "CAPTAIN_DOCUMENTS": "ডকুমেন্ট",
-    "CAPTAIN_RESPONSES": "প্রশ্নোত্তর",
-    "CAPTAIN_TOOLS": "টুলস",
-    "CAPTAIN_SCENARIOS": "সিনারিও",
-    "CAPTAIN_PLAYGROUND": "প্লেগ্রাউন্ড",
-    "CAPTAIN_INBOXES": "ইনবক্স",
-    "CAPTAIN_SETTINGS": "সেটিংস",
-    "HOME": "হোম",
+    "CAPTAIN_ASSISTANTS": "Pembantu",
+    "CAPTAIN_DOCUMENTS": "Dokumen",
+    "CAPTAIN_RESPONSES": "Soalan Lazim",
+    "CAPTAIN_TOOLS": "Alat",
+    "CAPTAIN_SCENARIOS": "Senario",
+    "CAPTAIN_PLAYGROUND": "Padang Permainan",
+    "CAPTAIN_INBOXES": "Petak Masuk",
+    "CAPTAIN_SETTINGS": "Tetapan",
+    "HOME": "Laman Utama",
     "AGENTS": "Ejen",
-    "AGENT_BOTS": "বট",
-    "AUDIT_LOGS": "অডিট লগ",
-    "INBOXES": "ইনবক্স",
-    "NOTIFICATIONS": "নোটিফিকেশন",
-    "CANNED_RESPONSES": "সংরক্ষিত উত্তর",
-    "INTEGRATIONS": "ইন্টিগ্রেশন",
-    "PROFILE_SETTINGS": "প্রোফাইল সেটিংস",
-    "ACCOUNT_SETTINGS": "অ্যাকাউন্ট সেটিংস",
-    "APPLICATIONS": "অ্যাপ্লিকেশন",
-    "LABELS": "লেবেল",
-    "CUSTOM_ATTRIBUTES": "কাস্টম অ্যাট্রিবিউট",
-    "AUTOMATION": "স্বয়ংক্রিয়তা",
-    "MACROS": "ম্যাক্রো",
-    "TEAMS": "টিম",
-    "BILLING": "বিলিং",
-    "CUSTOM_VIEWS_FOLDER": "ফোল্ডার",
-    "CUSTOM_VIEWS_SEGMENTS": "সেগমেন্ট",
-    "ALL_CONTACTS": "সব কন্টাক্ট",
-    "TAGGED_WITH": "ট্যাগ করা হয়েছে",
-    "NEW_LABEL": "নতুন লেবেল",
-    "NEW_TEAM": "নতুন টিম",
-    "NEW_INBOX": "নতুন ইনবক্স",
-    "REPORTS_CONVERSATION": "আলাপ",
+    "AGENT_BOTS": "Bot",
+    "AUDIT_LOGS": "Log Audit",
+    "INBOXES": "Peti Masuk",
+    "NOTIFICATIONS": "Pemberitahuan",
+    "CANNED_RESPONSES": "Respons Sedia Ada",
+    "INTEGRATIONS": "Integrasi",
+    "PROFILE_SETTINGS": "Tetapan Profil",
+    "ACCOUNT_SETTINGS": "Tetapan Akaun",
+    "APPLICATIONS": "Aplikasi",
+    "LABELS": "Label",
+    "CUSTOM_ATTRIBUTES": "Atribut Tersuai",
+    "AUTOMATION": "Automasi",
+    "MACROS": "Makro",
+    "TEAMS": "Pasukan",
+    "BILLING": "Pengebilan",
+    "CUSTOM_VIEWS_FOLDER": "Folder",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmen",
+    "ALL_CONTACTS": "Semua Kenalan",
+    "TAGGED_WITH": "Ditandai dengan",
+    "NEW_LABEL": "Label baru",
+    "NEW_TEAM": "Pasukan baru",
+    "NEW_INBOX": "Peti masuk baru",
+    "REPORTS_CONVERSATION": "Perbualan",
     "CSAT": "CSAT",
-    "LIVE_CHAT": "লাইভ চ্যাট",
+    "LIVE_CHAT": "Sembang Langsung",
     "SMS": "SMS",
     "WHATSAPP": "WhatsApp",
-    "CAMPAIGNS": "ক্যাম্পেইন",
-    "ONGOING": "চলমান",
-    "ONE_OFF": "একবারের",
+    "CAMPAIGNS": "Kempen",
+    "ONGOING": "Sedang Berlangsung",
+    "ONE_OFF": "Sekali sahaja",
     "REPORTS_SLA": "SLA",
     "REPORTS_BOT": "বট",
     "REPORTS_AGENT": "Ejen",
-    "REPORTS_LABEL": "লেবেল",
-    "REPORTS_INBOX": "ইনবক্স",
-    "REPORTS_TEAM": "টিম",
-    "AGENT_ASSIGNMENT": "এজেন্ট বরাদ্দ",
-    "SET_AVAILABILITY_TITLE": "নিজেকে সেট করুন",
-    "SET_YOUR_AVAILABILITY": "আপনার উপস্থিতি নির্ধারণ করুন",
+    "REPORTS_LABEL": "Label",
+    "REPORTS_INBOX": "Petibek",
+    "REPORTS_TEAM": "Pasukan",
+    "AGENT_ASSIGNMENT": "Penugasan Ejen",
+    "SET_AVAILABILITY_TITLE": "Tetapkan diri anda sebagai",
+    "SET_YOUR_AVAILABILITY": "Tetapkan ketersediaan anda",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "কাস্টম ভূমিকা",
+    "CUSTOM_ROLES": "Peranan Tersuai",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "সংক্ষিপ্ত বিবরণ",
+    "REPORTS_OVERVIEW": "Gambaran Keseluruhan",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
-      "TITLE": "হেল্প সেন্টার",
-      "ARTICLES": "প্রবন্ধ",
-      "CATEGORIES": "বিভাগ",
-      "LOCALES": "ভাষাসমূহ",
-      "SETTINGS": "সেটিংস"
+      "TITLE": "Pusat Bantuan",
+      "ARTICLES": "Artikel",
+      "CATEGORIES": "Kategori",
+      "LOCALES": "Lokal",
+      "SETTINGS": "Tetapan"
     },
-    "CHANNELS": "চ্যানেলসমূহ",
+    "CHANNELS": "Saluran",
     "SET_AUTO_OFFLINE": {
-      "TEXT": "স্বয়ংক্রিয়ভাবে অফলাইনে চিহ্নিত করুন",
-      "INFO_TEXT": "আপনি অ্যাপ বা ড্যাশবোর্ড ব্যবহার না করলে সিস্টেম আপনাকে স্বয়ংক্রিয়ভাবে অফলাইনে চিহ্নিত করবে।",
-      "INFO_SHORT": "অ্যাপটি ব্যবহার না করলে স্বয়ংক্রিয়ভাবে অফলাইনে চিহ্নিত করুন।"
+      "TEXT": "Tandakan luar talian secara automatik",
+      "INFO_TEXT": "Biarkan sistem menandakan anda luar talian secara automatik apabila anda tidak menggunakan aplikasi atau papan pemuka.",
+      "INFO_SHORT": "Tandakan luar talian secara automatik apabila anda tidak menggunakan aplikasi."
     },
-    "DOCS": "ডকুমেন্টেশন পড়ুন",
-    "SECURITY": "নিরাপত্তা",
+    "DOCS": "Baca dokumen",
+    "SECURITY": "Keselamatan",
     "CAPTAIN_AI": "Captain",
-    "CONVERSATION_WORKFLOW": "কনভার্সেশন ওয়ার্কফ্লো"
+    "CONVERSATION_WORKFLOW": "Aliran Kerja Perbualan"
   },
   "CAPTAIN_SETTINGS": {
-    "TITLE": "Captain সেটিংস",
-    "DESCRIPTION": "আপনার Captain-এর জন্য AI মডেল ও ফিচার কনফিগার করুন। Captain-এ ক্রেডিট-ভিত্তিক বিলিং প্রযোজ্য, নির্বাচিত মডেল অনুযায়ী Captain-এর প্রতিটি অ্যাকশনের জন্য ক্রেডিট কাটা হবে।",
-    "LOADING": "Captain কনফিগারেশন লোড হচ্ছে...",
-    "LINK_TEXT": "Captain Credits সম্পর্কে আরও জানুন",
-    "NOT_ENABLED": "আপনার অ্যাকাউন্টে Captain সক্রিয় নয়। Captain ফিচার ব্যবহারের জন্য প্ল্যান আপগ্রেড করুন।",
+    "TITLE": "Tetapan Captain",
+    "DESCRIPTION": "Konfigurasikan model AI dan ciri untuk Captain anda. Captain menggunakan pengebilan berasaskan kredit, anda akan dikenakan kredit untuk setiap tindakan yang diambil Captain berdasarkan model yang dipilih.",
+    "LOADING": "Memuatkan konfigurasi Captain...",
+    "LINK_TEXT": "Ketahui lebih lanjut tentang Kredit Captain",
+    "NOT_ENABLED": "Captain tidak diaktifkan untuk akaun anda. Sila naik taraf pelan anda untuk mengakses ciri Captain.",
     "MODEL_CONFIG": {
-      "TITLE": "মডেল কনফিগারেশন",
-      "DESCRIPTION": "বিভিন্ন ফিচারের জন্য AI মডেল নির্বাচন করুন।",
-      "SELECT_MODEL": "মডেল নির্বাচন করুন",
+      "TITLE": "Konfigurasi Model",
+      "DESCRIPTION": "Pilih model AI untuk ciri yang berbeza.",
+      "SELECT_MODEL": "Pilih model",
       "CREDITS_PER_MESSAGE": "{credits} credit/message",
-      "COMING_SOON": "শীঘ্রই আসছে",
+      "COMING_SOON": "Akan datang",
       "EDITOR": {
-        "TITLE": "এডিটর ফিচারসমূহ",
-        "DESCRIPTION": "আপনার মেসেজ এডিটরে স্মার্ট কম্পোজ, ব্যাকরণ সংশোধন, টোন ঠিককরণ ও কনটেন্ট উন্নতকরণ সক্রিয় করে।"
+        "TITLE": "Ciri Penyunting",
+        "DESCRIPTION": "Menguatkuasakan penulisan pintar, pembetulan tatabahasa, pelarasan nada, dan penambahbaikan kandungan dalam penyunting mesej anda."
       },
       "ASSISTANT": {
-        "TITLE": "সহকারী",
-        "DESCRIPTION": "স্বয়ংক্রিয় উত্তর, কথোপকথনের সারাংশ এবং গ্রাহক ইন্টারঅ্যাকশনের জন্য বুদ্ধিমান রিপ্লাই সাজেশন পরিচালনা করে।"
+        "TITLE": "Pembantu",
+        "DESCRIPTION": "Mengendalikan respons automatik, ringkasan perbualan, dan cadangan balasan pintar untuk interaksi pelanggan."
       },
       "COPILOT": {
         "TITLE": "কো-পাইলট",
-        "DESCRIPTION": "কথোপকথনের সময় রিয়েল-টাইম প্রাসঙ্গিক সাজেশন, নলেজ বেস সুপারিশ এবং সক্রিয় ইনসাইট প্রদান করে।"
+        "DESCRIPTION": "Menyediakan cadangan kontekstual masa nyata, saranan pangkalan pengetahuan, dan pandangan proaktif semasa perbualan."
       }
     },
     "FEATURES": {
-      "TITLE": "ফিচারসমূহ",
-      "DESCRIPTION": "এআই-চালিত ফিচারসমূহ চালু বা বন্ধ করুন।",
+      "TITLE": "Ciri-ciri",
+      "DESCRIPTION": "Dayakan atau nyahdayakan ciri yang dikuasakan AI.",
       "AUDIO_TRANSCRIPTION": {
-        "TITLE": "অডিও ট্রান্সক্রিপশন",
-        "DESCRIPTION": "স্বয়ংক্রিয়ভাবে ভয়েস মেসেজ ও কল রেকর্ডিংকে অনুসন্ধানযোগ্য টেক্সটে রূপান্তর করুন।"
+        "TITLE": "Transkripsi Audio",
+        "DESCRIPTION": "Secara automatik menukar mesej suara dan rakaman panggilan kepada transkrip teks yang boleh dicari."
       },
       "HELP_CENTER_SEARCH": {
-        "TITLE": "হেল্প সেন্টার অনুসন্ধান সূচীকরণ",
-        "DESCRIPTION": "আপনার হেল্প সেন্টার আর্টিকেলে প্রসঙ্গভিত্তিক অনুসন্ধানের জন্য AI ব্যবহার করুন।"
+        "TITLE": "Pengindeksan Carian Pusat Bantuan",
+        "DESCRIPTION": "Gunakan AI untuk carian yang peka konteks dalam artikel pusat bantuan anda."
       },
       "LABEL_SUGGESTION": {
-        "TITLE": "লেবেল সাজেশন",
-        "DESCRIPTION": "কনটেন্ট বিশ্লেষণ ও প্রসঙ্গ অনুযায়ী স্বয়ংক্রিয়ভাবে প্রাসঙ্গিক লেবেল ও ট্যাগ সাজেস্ট করুন।",
-        "MODEL_TITLE": "লেবেল সাজেশন মডেল",
-        "MODEL_DESCRIPTION": "কথোপকথন বিশ্লেষণ ও উপযুক্ত লেবেল সাজেস্ট করার জন্য AI মডেল নির্বাচন করুন"
+        "TITLE": "Cadangan Label",
+        "DESCRIPTION": "Secara automatik mencadangkan label dan tag yang relevan untuk perbualan berdasarkan analisis kandungan dan konteks.",
+        "MODEL_TITLE": "Model Cadangan Label",
+        "MODEL_DESCRIPTION": "Pilih model AI untuk menganalisis perbualan dan mencadangkan label yang sesuai"
       }
     },
     "API": {
-      "SUCCESS": "ক্যাপ্টেন সেটিংস সফলভাবে আপডেট হয়েছে।",
-      "ERROR": "ক্যাপ্টেন সেটিংস আপডেট করতে ব্যর্থ হয়েছে। আবার চেষ্টা করুন।"
+      "SUCCESS": "Tetapan Captain berjaya dikemas kini.",
+      "ERROR": "Gagal mengemas kini tetapan Captain. Sila cuba lagi."
     }
   },
   "BILLING_SETTINGS": {
-    "TITLE": "বিলিং",
-    "DESCRIPTION": "এখানে আপনার সাবস্ক্রিপশন পরিচালনা করুন, প্ল্যান আপগ্রেড করুন এবং টিমের জন্য আরও সুবিধা নিন।",
+    "TITLE": "Pengebilan",
+    "DESCRIPTION": "Urus langganan anda di sini, naik taraf pelan anda dan dapatkan lebih untuk pasukan anda.",
     "CURRENT_PLAN": {
-      "TITLE": "বর্তমান প্ল্যান",
+      "TITLE": "Pelan Semasa",
       "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
-      "SEAT_COUNT": "আসনের সংখ্যা",
-      "RENEWS_ON": "নবায়ন হবে"
+      "SEAT_COUNT": "Bilangan tempat duduk",
+      "RENEWS_ON": "Diperbaharui pada"
     },
-    "VIEW_PRICING": "মূল্য তালিকা দেখুন",
+    "VIEW_PRICING": "Lihat Harga",
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "আপনার সাবস্ক্রিপশন পরিচালনা করুন",
-      "DESCRIPTION": "আপনার পূর্ববর্তী ইনভয়েস দেখুন, বিলিং তথ্য সম্পাদনা করুন অথবা সাবস্ক্রিপশন বাতিল করুন।",
-      "BUTTON_TXT": "বিলিং পোর্টালে যান"
+      "TITLE": "Urus langganan anda",
+      "DESCRIPTION": "Lihat invois anda sebelum ini, sunting butiran bil anda, atau batalkan langganan anda.",
+      "BUTTON_TXT": "Pergi ke portal bil"
     },
     "CAPTAIN": {
       "TITLE": "Captain",
-      "DESCRIPTION": "Captain AI-এর ব্যবহার ও ক্রেডিট পরিচালনা করুন।",
-      "BUTTON_TXT": "আরও ক্রেডিট কিনুন",
-      "DOCUMENTS": "ডকুমেন্ট",
+      "DESCRIPTION": "Urus penggunaan dan kredit untuk Captain AI.",
+      "BUTTON_TXT": "Beli lebih banyak kredit",
+      "DOCUMENTS": "Dokumen",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain ফ্রি প্ল্যানে নেই, অ্যাসিস্ট্যান্ট, কপাইলট ও আরও সুবিধা পেতে এখনই আপগ্রেড করুন।",
-      "REFRESH_CREDITS": "রিফ্রেশ"
+      "UPGRADE": "Captain tidak tersedia dalam pelan percuma, naik taraf sekarang untuk mendapatkan akses kepada pembantu, copilot dan lain-lain.",
+      "REFRESH_CREDITS": "Segarkan"
     },
     "CHAT_WITH_US": {
-      "TITLE": "সাহায্য দরকার?",
-      "DESCRIPTION": "বিলিং সংক্রান্ত কোনো সমস্যা হচ্ছে? আমরা সাহায্য করতে প্রস্তুত।",
-      "BUTTON_TXT": "আমাদের সাথে চ্যাট করুন"
+      "TITLE": "Perlukan bantuan?",
+      "DESCRIPTION": "Adakah anda menghadapi sebarang masalah dalam pengebilan? Kami sedia membantu.",
+      "BUTTON_TXT": "Bual dengan kami"
     },
-    "NO_BILLING_USER": "আপনার বিলিং অ্যাকাউন্ট কনফিগার করা হচ্ছে। দয়া করে পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।",
+    "NO_BILLING_USER": "Akaun pengebilan anda sedang dikonfigurasikan. Sila segarkan halaman dan cuba lagi.",
     "TOPUP": {
-      "BUY_CREDITS": "আরও ক্রেডিট কিনুন",
-      "MODAL_TITLE": "AI ক্রেডিট কিনুন",
-      "MODAL_DESCRIPTION": "Captain AI-এর জন্য অতিরিক্ত ক্রেডিট কিনুন।",
+      "BUY_CREDITS": "Beli lebih banyak kredit",
+      "MODAL_TITLE": "Beli Kredit AI",
+      "MODAL_DESCRIPTION": "Beli kredit tambahan untuk Captain AI.",
       "CREDITS": "CREDITS",
-      "ONE_TIME": "একবার",
-      "POPULAR": "সবচেয়ে জনপ্রিয়",
-      "NOTE_TITLE": "নোট:",
-      "NOTE_DESCRIPTION": "ক্রেডিট সঙ্গে সঙ্গে যোগ হবে এবং ৬ মাস পর মেয়াদ শেষ হবে। ক্রেডিট ব্যবহারের জন্য সক্রিয় সাবস্ক্রিপশন প্রয়োজন। কেনা ক্রেডিট আপনার মাসিক প্ল্যানের ক্রেডিট শেষ হওয়ার পর ব্যবহার হবে।",
+      "ONE_TIME": "sekali sahaja",
+      "POPULAR": "Paling Popular",
+      "NOTE_TITLE": "Nota:",
+      "NOTE_DESCRIPTION": "Kredit ditambah serta-merta dan tamat tempoh dalam 6 bulan. Langganan aktif diperlukan untuk menggunakan kredit. Kredit yang dibeli akan digunakan selepas kredit pelan bulanan anda.",
       "CANCEL": "Batalkan",
-      "PURCHASE": "ক্রেডিট কিনুন",
-      "LOADING": "অপশন লোড হচ্ছে...",
-      "FETCH_ERROR": "ক্রেডিট অপশন লোড করতে ব্যর্থ। আবার চেষ্টা করুন।",
-      "PURCHASE_ERROR": "ক্রয় সম্পন্ন করতে ব্যর্থ। আবার চেষ্টা করুন।",
+      "PURCHASE": "Beli Kredit",
+      "LOADING": "Memuatkan pilihan...",
+      "FETCH_ERROR": "Gagal memuatkan pilihan kredit. Sila cuba lagi.",
+      "PURCHASE_ERROR": "Gagal memproses pembelian. Sila cuba lagi.",
       "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
       "CONFIRM": {
-        "TITLE": "ক্রয় নিশ্চিত করুন",
+        "TITLE": "Sahkan Pembelian",
         "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
-        "INSTANT_DEDUCTION_NOTE": "নিশ্চিত করার সাথে সাথেই আপনার সংরক্ষিত কার্ড থেকে টাকা কাটা হবে।",
-        "GO_BACK": "পেছনে যান",
-        "CONFIRM_PURCHASE": "ক্রয় নিশ্চিত করুন"
+        "INSTANT_DEDUCTION_NOTE": "Kad yang disimpan akan dikenakan caj serta-merta selepas pengesahan.",
+        "GO_BACK": "Kembali",
+        "CONFIRM_PURCHASE": "Sahkan Pembelian"
       }
     }
   },
   "SECURITY_SETTINGS": {
-    "TITLE": "নিরাপত্তা",
-    "DESCRIPTION": "আপনার অ্যাকাউন্টের নিরাপত্তা সেটিংস পরিচালনা করুন।",
-    "LINK_TEXT": "SAML SSO সম্পর্কে আরও জানুন",
-    "SAML_DISABLED_MESSAGE": "SAML SSO বর্তমানে নিষ্ক্রিয়। এই ফিচারটি চালু করতে আপনার অ্যাডমিনের সাথে যোগাযোগ করুন।",
+    "TITLE": "Keselamatan",
+    "DESCRIPTION": "Urus tetapan keselamatan akaun anda.",
+    "LINK_TEXT": "Ketahui lebih lanjut tentang SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO kini dinyahaktifkan. Sila hubungi pentadbir anda untuk mengaktifkan ciri ini.",
     "SAML": {
       "TITLE": "SAML SSO",
-      "NOTE": "আপনার অ্যাকাউন্টের জন্য SAML সিঙ্গেল সাইন-অন কনফিগার করুন। ব্যবহারকারীরা ইমেইল/পাসওয়ার্ডের পরিবর্তে আপনার আইডেন্টিটি প্রোভাইডার দিয়ে লগইন করবেন।",
+      "NOTE": "Konfigurasikan log masuk tunggal SAML untuk akaun anda. Pengguna akan mengesahkan identiti melalui penyedia identiti anda dan bukannya menggunakan emel/kata laluan.",
       "ACS_URL": {
         "LABEL": "ACS URL",
-        "TOOLTIP": "Assertion Consumer Service URL - এই URL টি আপনার IdP-তে SAML রেসপন্সের গন্তব্য হিসেবে কনফিগার করুন"
+        "TOOLTIP": "URL Perkhidmatan Pengguna Pengesahan - Konfigurasikan URL ini dalam IdP anda sebagai destinasi untuk respons SAML"
       },
       "SSO_URL": {
         "LABEL": "SSO URL",
-        "HELP": "এই URL-এ SAML অথেন্টিকেশন অনুরোধ পাঠানো হবে",
+        "HELP": "URL di mana permintaan pengesahan SAML akan dihantar",
         "PLACEHOLDER": "https://your-idp.com/saml/sso"
       },
       "CERTIFICATE": {
-        "LABEL": "PEM ফরম্যাটে সাইনিং সার্টিফিকেট",
-        "HELP": "আপনার পরিচয় প্রদানকারীর পাবলিক সার্টিফিকেট, যা SAML প্রতিক্রিয়া যাচাই করতে ব্যবহৃত হয়",
+        "LABEL": "Sijil tandatangan dalam format PEM",
+        "HELP": "Sijil awam dari penyedia identiti anda yang digunakan untuk mengesahkan respons SAML",
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
       "FINGERPRINT": {
-        "LABEL": "ফিঙ্গারপ্রিন্ট",
-        "TOOLTIP": "সার্টিফিকেটের SHA-1 ফিঙ্গারপ্রিন্ট - এটি আপনার IdP কনফিগারেশনে সার্টিফিকেট যাচাই করতে ব্যবহার করুন"
+        "LABEL": "Cap jari",
+        "TOOLTIP": "Cap jari SHA-1 sijil - Gunakan ini untuk mengesahkan sijil dalam konfigurasi IdP anda"
       },
       "COPY_SUCCESS": "Code copied to clipboard successfully",
       "SP_ENTITY_ID": {
         "LABEL": "SP Entity ID",
-        "HELP": "এই অ্যাপ্লিকেশনের জন্য অনন্য সেবা প্রদানকারী শনাক্তকারী (স্বয়ংক্রিয়ভাবে তৈরি)।",
-        "TOOLTIP": "Chatwoot-এর জন্য অনন্য সেবা প্রদানকারী শনাক্তকারী - এটি আপনার IdP সেটিংসে কনফিগার করুন"
+        "HELP": "Pengecam unik untuk aplikasi ini sebagai penyedia perkhidmatan (auto-dihasilkan).",
+        "TOOLTIP": "Pengecam unik untuk Chatwoot sebagai Penyedia Perkhidmatan - Konfigurasikan ini dalam tetapan IdP anda"
       },
       "IDP_ENTITY_ID": {
-        "LABEL": "আইডেন্টিটি প্রোভাইডার Entity ID",
-        "HELP": "আপনার পরিচয় প্রদানকারীর অনন্য শনাক্তকারী (সাধারণত IdP কনফিগারেশনে পাওয়া যায়)",
+        "LABEL": "ID Entiti Penyedia Identiti",
+        "HELP": "Pengenal unik untuk penyedia identiti anda (biasanya ditemui dalam konfigurasi IdP)",
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
-      "UPDATE_BUTTON": "SAML সেটিংস আপডেট করুন",
+      "UPDATE_BUTTON": "Kemas kini Tetapan SAML",
       "API": {
-        "SUCCESS": "SAML সেটিংস সফলভাবে আপডেট হয়েছে",
-        "ERROR": "SAML সেটিংস আপডেট করতে ব্যর্থ হয়েছে",
-        "ERROR_LOADING": "SAML সেটিংস লোড করতে ব্যর্থ হয়েছে",
-        "DISABLED": "SAML সেটিংস সফলভাবে নিষ্ক্রিয় করা হয়েছে"
+        "SUCCESS": "Tetapan SAML berjaya dikemas kini",
+        "ERROR": "Gagal mengemas kini tetapan SAML",
+        "ERROR_LOADING": "Gagal memuatkan tetapan SAML",
+        "DISABLED": "Tetapan SAML berjaya dinyahaktifkan"
       },
       "VALIDATION": {
-        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID এবং Certificate আবশ্যক",
-        "SSO_URL_ERROR": "একটি বৈধ SSO URL দিন",
-        "CERTIFICATE_ERROR": "Certificate আবশ্যক",
-        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID আবশ্যক"
+        "REQUIRED_FIELDS": "URL SSO, ID Entiti Penyedia Identiti, dan Sijil adalah medan wajib",
+        "SSO_URL_ERROR": "Sila masukkan URL SSO yang sah",
+        "CERTIFICATE_ERROR": "Sijil diperlukan",
+        "IDP_ENTITY_ID_ERROR": "ID Entiti Penyedia Identiti diperlukan"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "SAML SSO ফিচারটি শুধুমাত্র Enterprise প্ল্যানে উপলব্ধ।",
-        "UPGRADE_PROMPT": "SAML single sign-on এবং অন্যান্য উন্নত নিরাপত্তা ফিচার ব্যবহারের জন্য Enterprise প্ল্যানে আপগ্রেড করুন।",
-        "ASK_ADMIN": "আপগ্রেডের জন্য আপনার অ্যাডমিনিস্ট্রেটরের সাথে যোগাযোগ করুন।"
+        "AVAILABLE_ON": "Ciri SAML SSO hanya tersedia dalam pelan Enterprise.",
+        "UPGRADE_PROMPT": "Tingkatkan ke pelan Enterprise untuk mengakses SAML single sign-on dan ciri keselamatan lanjutan lain.",
+        "ASK_ADMIN": "Sila hubungi pentadbir anda untuk peningkatan."
       },
       "PAYWALL": {
-        "TITLE": "SAML SSO সক্রিয় করতে আপগ্রেড করুন",
-        "AVAILABLE_ON": "SAML SSO ফিচারটি শুধুমাত্র এন্টারপ্রাইজ প্ল্যানে উপলব্ধ।",
-        "UPGRADE_PROMPT": "SAML সিঙ্গেল সাইন-অন ও অন্যান্য উন্নত ফিচার পেতে আপনার প্ল্যান আপগ্রেড করুন।",
-        "UPGRADE_NOW": "এখনই আপগ্রেড করুন",
-        "CANCEL_ANYTIME": "আপনি যেকোনো সময় আপনার প্ল্যান পরিবর্তন বা বাতিল করতে পারেন"
+        "TITLE": "Tingkatkan untuk mengaktifkan SAML SSO",
+        "AVAILABLE_ON": "Ciri SAML SSO hanya tersedia dalam pelan Enterprise.",
+        "UPGRADE_PROMPT": "Tingkatkan pelan anda untuk mendapatkan akses kepada SAML single sign-on dan ciri lanjutan lain.",
+        "UPGRADE_NOW": "Tingkatkan sekarang",
+        "CANCEL_ANYTIME": "Anda boleh menukar atau membatalkan pelan anda bila-bila masa"
       },
       "ATTRIBUTE_MAPPING": {
-        "TITLE": "SAML অ্যাট্রিবিউট সেটআপ",
-        "DESCRIPTION": "আপনার আইডেন্টিটি প্রোভাইডারে নিচের অ্যাট্রিবিউট ম্যাপিংগুলো কনফিগার করতে হবে"
+        "TITLE": "Tetapan Atribut SAML",
+        "DESCRIPTION": "Pemetaan atribut berikut mesti dikonfigurasikan dalam penyedia identiti anda"
       },
       "INFO_SECTION": {
-        "TITLE": "সার্ভিস প্রোভাইডার তথ্য",
-        "TOOLTIP": "এসএএমএল সংযোগ স্থাপনের জন্য এই মানগুলো কপি করে আপনার আইডেন্টিটি প্রোভাইডারে কনফিগার করুন"
+        "TITLE": "Maklumat Penyedia Perkhidmatan",
+        "TOOLTIP": "Salin nilai ini dan konfigurasikan dalam Penyedia Identiti anda untuk mewujudkan sambungan SAML"
       }
     }
   },
   "CONVERSATION_WORKFLOW": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "কনভার্সেশন ওয়ার্কফ্লো",
-        "DESCRIPTION": "কনভার্সেশন সমাধানের জন্য নিয়ম ও প্রয়োজনীয় ক্ষেত্র কনফিগার করুন।"
+        "TITLE": "Aliran Kerja Perbualan",
+        "DESCRIPTION": "Konfigurasikan peraturan dan medan yang diperlukan untuk penyelesaian perbualan."
       }
     },
     "REQUIRED_ATTRIBUTES": {
-      "TITLE": "সমাধানের জন্য প্রয়োজনীয় অ্যাট্রিবিউট",
-      "DESCRIPTION": "কনভার্সেশন সমাধানের সময়, এজেন্টদের এই অ্যাট্রিবিউটগুলো পূরণ করতে বলা হবে যদি এখনো না করে থাকে।",
-      "NO_ATTRIBUTES": "এখনো কোনো অ্যাট্রিবিউট যোগ করা হয়নি",
+      "TITLE": "Atribut yang diperlukan semasa penyelesaian",
+      "DESCRIPTION": "Apabila menyelesaikan perbualan, ejen akan diminta untuk mengisi atribut ini jika belum diisi.",
+      "NO_ATTRIBUTES": "Tiada atribut ditambah lagi",
       "ADD": {
-        "TITLE": "অ্যাট্রিবিউট যোগ করুন",
-        "SEARCH_PLACEHOLDER": "অ্যাট্রিবিউট খুঁজুন"
+        "TITLE": "Tambah Atribut",
+        "SEARCH_PLACEHOLDER": "Cari atribut"
       },
       "SAVE": {
-        "SUCCESS": "প্রয়োজনীয় অ্যাট্রিবিউট আপডেট হয়েছে",
-        "ERROR": "প্রয়োজনীয় অ্যাট্রিবিউট আপডেট করা যায়নি, দয়া করে আবার চেষ্টা করুন"
+        "SUCCESS": "Atribut yang diperlukan telah dikemas kini",
+        "ERROR": "Tidak dapat mengemas kini atribut yang diperlukan, sila cuba lagi"
       },
       "MODAL": {
-        "TITLE": "কনভার্সেশন সমাধান করুন",
-        "DESCRIPTION": "এই কথোপকথন সমাধান করার আগে দয়া করে নিচের কাস্টম অ্যাট্রিবিউটগুলো পূরণ করুন",
+        "TITLE": "Selesaikan perbualan",
+        "DESCRIPTION": "Sila isi atribut tersuai berikut sebelum menyelesaikan perbualan ini",
         "ACTIONS": {
-          "RESOLVE": "কথোপকথন সমাধান করুন",
+          "RESOLVE": "Selesaikan perbualan",
           "CANCEL": "Batalkan"
         },
         "PLACEHOLDERS": {
-          "TEXT": "একটি নোট লিখুন...",
-          "NUMBER": "একটি সংখ্যা লিখুন",
-          "LINK": "একটি লিংক যোগ করুন",
-          "DATE": "তারিখ নির্বাচন করুন",
-          "LIST": "একটি অপশন নির্বাচন করুন"
+          "TEXT": "Tulis nota...",
+          "NUMBER": "Masukkan nombor",
+          "LINK": "Tambah pautan",
+          "DATE": "Pilih tarikh",
+          "LIST": "Pilih pilihan"
         },
         "CHECKBOX": {
-          "YES": "হ্যাঁ",
-          "NO": "না"
+          "YES": "Ya",
+          "NO": "Tidak"
         }
       },
       "PAYWALL": {
-        "TITLE": "প্রয়োজনীয় অ্যাট্রিবিউট ব্যবহারের জন্য আপগ্রেড করুন",
-        "AVAILABLE_ON": "প্রয়োজনীয় কথোপকথন বৈশিষ্ট্য শুধুমাত্র Business এবং Enterprise প্ল্যানে উপলব্ধ।",
-        "UPGRADE_PROMPT": "কথোপকথন সমাধানের আগে এজেন্টদের প্রয়োজনীয় বৈশিষ্ট্য পূরণে উৎসাহিত করতে প্ল্যান আপগ্রেড করুন।",
-        "UPGRADE_NOW": "এখনই আপগ্রেড করুন",
-        "CANCEL_ANYTIME": "আপনি যেকোনো সময় আপনার প্ল্যান পরিবর্তন বা বাতিল করতে পারেন"
+        "TITLE": "Tingkatkan untuk menggunakan atribut wajib",
+        "AVAILABLE_ON": "Ciri atribut perbualan wajib tersedia pada pelan Perniagaan dan Perusahaan.",
+        "UPGRADE_PROMPT": "Tingkatkan pelan anda untuk menggesa ejen mengisi atribut wajib sebelum penyelesaian perbualan.",
+        "UPGRADE_NOW": "Tingkatkan sekarang",
+        "CANCEL_ANYTIME": "Anda boleh menukar atau membatalkan pelan anda bila-bila masa"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "প্রয়োজনীয় কথোপকথন বৈশিষ্ট্য শুধুমাত্র পেইড প্ল্যানে উপলব্ধ।",
-        "UPGRADE_PROMPT": "কথোপকথন সমাধানের আগে প্রয়োজনীয় বৈশিষ্ট্য বাধ্যতামূলক করতে পেইড প্ল্যানে আপগ্রেড করুন।",
-        "ASK_ADMIN": "আপগ্রেডের জন্য অনুগ্রহ করে আপনার অ্যাডমিনিস্ট্রেটরের সাথে যোগাযোগ করুন।"
+        "AVAILABLE_ON": "Ciri atribut perbualan wajib tersedia pada pelan berbayar.",
+        "UPGRADE_PROMPT": "Tingkatkan ke pelan berbayar untuk menguatkuasakan atribut wajib sebelum penyelesaian perbualan.",
+        "ASK_ADMIN": "Sila hubungi pentadbir anda untuk peningkatan."
       }
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "ওহ! কোনো Chatwoot অ্যাকাউন্ট পাওয়া যায়নি। চালিয়ে যেতে নতুন অ্যাকাউন্ট তৈরি করুন।",
-    "NEW_ACCOUNT": "নতুন অ্যাকাউন্ট",
-    "SELECTOR_SUBTITLE": "নতুন অ্যাকাউন্ট তৈরি করুন",
+    "NO_ACCOUNT_WARNING": "Uh oh! Kami tidak dapat menemui sebarang akaun Chatwoot. Sila buat akaun baru untuk meneruskan.",
+    "NEW_ACCOUNT": "Akaun Baru",
+    "SELECTOR_SUBTITLE": "Buat akaun baru",
     "API": {
-      "SUCCESS_MESSAGE": "অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে",
-      "EXIST_MESSAGE": "অ্যাকাউন্ট ইতিমধ্যে আছে",
+      "SUCCESS_MESSAGE": "Akaun berjaya dibuat",
+      "EXIST_MESSAGE": "Akaun sudah wujud",
       "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
     },
     "FORM": {
       "NAME": {
-        "LABEL": "কোম্পানির নাম",
+        "LABEL": "Nama Syarikat",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "জমা দিন",
+      "SUBMIT": "Hantar",
       "CANCEL": "Batalkan"
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "সব শর্টকাট দেখুন",
+    "TOGGLE_MODAL": "Lihat semua pintasan",
     "TITLE": {
-      "OPEN_CONVERSATION": "কথোপকথন খুলুন",
-      "RESOLVE_AND_NEXT": "সমাধান করুন এবং পরবর্তীটিতে যান",
-      "NAVIGATE_DROPDOWN": "ড্রপডাউন আইটেমে নেভিগেট করুন",
-      "RESOLVE_CONVERSATION": "কনভার্সেশন সমাধান করুন",
-      "GO_TO_CONVERSATION_DASHBOARD": "কনভার্সেশন ড্যাশবোর্ডে যান",
-      "ADD_ATTACHMENT": "সংযুক্তি যোগ করুন",
-      "GO_TO_CONTACTS_DASHBOARD": "কন্টাক্টস ড্যাশবোর্ডে যান",
-      "TOGGLE_SIDEBAR": "সাইডবার টগল করুন",
-      "GO_TO_REPORTS_SIDEBAR": "রিপোর্টস সাইডবারে যান",
-      "MOVE_TO_NEXT_TAB": "কনভার্সেশন তালিকায় পরবর্তী ট্যাবে যান",
-      "GO_TO_SETTINGS": "সেটিংসে যান",
-      "SWITCH_TO_PRIVATE_NOTE": "প্রাইভেট নোটে সুইচ করুন",
-      "SWITCH_TO_REPLY": "উত্তরে যান",
-      "TOGGLE_SNOOZE_DROPDOWN": "স্নুজ ড্রপডাউন টগল করুন"
+      "OPEN_CONVERSATION": "Buka perbualan",
+      "RESOLVE_AND_NEXT": "Selesaikan dan terus ke seterusnya",
+      "NAVIGATE_DROPDOWN": "Navigasi item dropdown",
+      "RESOLVE_CONVERSATION": "Selesaikan Perbualan",
+      "GO_TO_CONVERSATION_DASHBOARD": "Pergi ke Papan Pemuka Perbualan",
+      "ADD_ATTACHMENT": "Tambah Lampiran",
+      "GO_TO_CONTACTS_DASHBOARD": "Pergi ke Papan Pemuka Kenalan",
+      "TOGGLE_SIDEBAR": "Togol Bar Sisi",
+      "GO_TO_REPORTS_SIDEBAR": "Pergi ke bar sisi Laporan",
+      "MOVE_TO_NEXT_TAB": "Berpindah ke tab seterusnya dalam senarai perbualan",
+      "GO_TO_SETTINGS": "Pergi ke Tetapan",
+      "SWITCH_TO_PRIVATE_NOTE": "Beralih ke Nota Peribadi",
+      "SWITCH_TO_REPLY": "Beralih ke Balasan",
+      "TOGGLE_SNOOZE_DROPDOWN": "Togol menu lungsur snooze"
     }
   },
   "ASSIGNMENT_POLICY": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "এজেন্ট বরাদ্দ",
-        "DESCRIPTION": "ইনবক্স ও এজেন্টের চাহিদা অনুযায়ী কাজ ভাগ ও কথোপকথন পরিচালনার নীতিমালা নির্ধারণ করুন। আরও জানুন এখানে"
+        "TITLE": "Penugasan ejen",
+        "DESCRIPTION": "Tentukan polisi untuk menguruskan beban kerja dengan berkesan dan menghala perbualan berdasarkan keperluan peti masuk dan ejen. Ketahui lebih lanjut di sini"
       },
       "ASSIGNMENT_POLICY": {
-        "TITLE": "বরাদ্দ নীতিমালা",
-        "DESCRIPTION": "ইনবক্সে কথোপকথন কীভাবে বরাদ্দ হবে তা পরিচালনা করুন।",
+        "TITLE": "Polisi penugasan",
+        "DESCRIPTION": "Urus cara perbualan ditugaskan dalam peti masuk.",
         "FEATURES": [
-          "সমানভাবে বা উপলব্ধ সক্ষমতা অনুযায়ী কথোপকথন বরাদ্দ করুন",
-          "কোনো এজেন্টকে অতিরিক্ত চাপ এড়াতে ন্যায্য বণ্টন নিয়ম যোগ করুন",
-          "একটি নীতিতে ইনবক্স যোগ করুন - প্রতি ইনবক্সে একটি নীতি"
+          "Tugaskan mengikut perbualan secara seimbang atau mengikut kapasiti tersedia",
+          "Tambah peraturan pengagihan adil untuk mengelakkan beban berlebihan pada mana-mana ejen",
+          "Tambah peti masuk ke dalam polisi - satu polisi bagi setiap peti masuk"
         ]
       },
       "AGENT_CAPACITY_POLICY": {
-        "TITLE": "এজেন্ট সক্ষমতা নীতিমালা",
-        "DESCRIPTION": "এজেন্টদের কাজের চাপ নিয়ন্ত্রণ করুন।",
+        "TITLE": "Polisi kapasiti ejen",
+        "DESCRIPTION": "Urus beban kerja untuk ejen.",
         "FEATURES": [
-          "প্রতি ইনবক্সে সর্বাধিক কথোপকথন নির্ধারণ করুন",
-          "লেবেল ও সময় অনুযায়ী ব্যতিক্রম তৈরি করুন",
-          "একজন এজেন্টের জন্য একটি নীতিতে এজেন্ট যোগ করুন"
+          "Tentukan maksimum perbualan setiap peti masuk",
+          "Buat pengecualian berdasarkan label dan masa",
+          "Tambah ejen ke polisi - satu polisi setiap ejen"
         ]
       }
     },
     "AGENT_ASSIGNMENT_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "অ্যাসাইনমেন্ট নীতি",
-          "CREATE_POLICY": "নতুন নীতি"
+          "TITLE": "Polisi penugasan",
+          "CREATE_POLICY": "Polisi baru"
         },
         "CARD": {
-          "ORDER": "ক্রম",
-          "PRIORITY": "অগ্রাধিকার",
-          "ACTIVE": "সক্রিয়",
-          "INACTIVE": "নিষ্ক্রিয়",
-          "POPOVER": "যোগ করা ইনবক্স",
-          "EDIT": "সম্পাদনা"
+          "ORDER": "Susunan",
+          "PRIORITY": "Keutamaan",
+          "ACTIVE": "Aktif",
+          "INACTIVE": "Tidak aktif",
+          "POPOVER": "Peti masuk yang ditambah",
+          "EDIT": "Sunting"
         },
-        "NO_RECORDS_FOUND": "কোনো অ্যাসাইনমেন্ট নীতি পাওয়া যায়নি"
+        "NO_RECORDS_FOUND": "Tiada polisi penugasan ditemui"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "অ্যাসাইনমেন্ট নীতি তৈরি করুন"
+          "TITLE": "Buat polisi penugasan"
         },
-        "CREATE_BUTTON": "নীতি তৈরি করুন",
+        "CREATE_BUTTON": "Buat polisi",
         "API": {
-          "SUCCESS_MESSAGE": "অ্যাসাইনমেন্ট নীতি সফলভাবে তৈরি হয়েছে",
-          "ERROR_MESSAGE": "অ্যাসাইনমেন্ট নীতি তৈরি করতে ব্যর্থ হয়েছে",
-          "INBOX_LINKED": "ইনবক্সটি নীতির সাথে সংযুক্ত হয়েছে"
+          "SUCCESS_MESSAGE": "Polisi penugasan berjaya dibuat",
+          "ERROR_MESSAGE": "Gagal membuat polisi penugasan",
+          "INBOX_LINKED": "Peti masuk telah dipautkan ke polisi"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "অ্যাসাইনমেন্ট নীতি সম্পাদনা করুন"
+          "TITLE": "Sunting polisi penugasan"
         },
-        "EDIT_BUTTON": "নীতি আপডেট করুন",
+        "EDIT_BUTTON": "Kemas kini polisi",
         "CONFIRM_ADD_INBOX_DIALOG": {
-          "TITLE": "ইনবক্স যোগ করুন",
+          "TITLE": "Tambah peti masuk",
           "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "চালিয়ে যান",
+          "CONFIRM_BUTTON_LABEL": "Teruskan",
           "CANCEL_BUTTON_LABEL": "Batalkan"
         },
         "INBOX_LINK_PROMPT": {
-          "TITLE": "নীতির সাথে ইনবক্স সংযুক্ত করুন",
-          "DESCRIPTION": "আপনি কি এই ইনবক্সটি অ্যাসাইনমেন্ট নীতির সাথে যুক্ত করতে চান?",
-          "LINK_BUTTON": "ইনবক্স যুক্ত করুন",
-          "CANCEL_BUTTON": "এড়িয়ে যান"
+          "TITLE": "Pautkan peti masuk ke polisi",
+          "DESCRIPTION": "Adakah anda ingin pautkan peti masuk ini ke polisi tugasan?",
+          "LINK_BUTTON": "Pautkan peti masuk",
+          "CANCEL_BUTTON": "Langkau"
         },
         "API": {
-          "SUCCESS_MESSAGE": "অ্যাসাইনমেন্ট নীতি সফলভাবে আপডেট হয়েছে",
-          "ERROR_MESSAGE": "অ্যাসাইনমেন্ট নীতি আপডেট করতে ব্যর্থ হয়েছে"
+          "SUCCESS_MESSAGE": "Polisi tugasan berjaya dikemas kini",
+          "ERROR_MESSAGE": "Gagal mengemas kini polisi tugasan"
         },
         "INBOX_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "নীতি-তে ইনবক্স সফলভাবে যোগ হয়েছে",
-            "ERROR_MESSAGE": "নীতি-তে ইনবক্স যোগ করতে ব্যর্থ হয়েছে"
+            "SUCCESS_MESSAGE": "Peti masuk berjaya ditambah ke polisi",
+            "ERROR_MESSAGE": "Gagal menambah peti masuk ke polisi"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "নীতি থেকে ইনবক্স সফলভাবে সরানো হয়েছে",
-            "ERROR_MESSAGE": "নীতি থেকে ইনবক্স সরাতে ব্যর্থ হয়েছে"
+            "SUCCESS_MESSAGE": "Peti masuk berjaya dikeluarkan dari polisi",
+            "ERROR_MESSAGE": "Gagal mengeluarkan peti masuk dari polisi"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "নীতির নাম:",
-          "PLACEHOLDER": "নীতির নাম লিখুন"
+          "LABEL": "Nama polisi:",
+          "PLACEHOLDER": "Masukkan nama polisi"
         },
         "DESCRIPTION": {
-          "LABEL": "বর্ণনা:",
-          "PLACEHOLDER": "বর্ণনা লিখুন"
+          "LABEL": "Penerangan:",
+          "PLACEHOLDER": "Masukkan penerangan"
         },
         "STATUS": {
           "LABEL": "স্ট্যাটাস:",
-          "PLACEHOLDER": "স্ট্যাটাস নির্বাচন করুন",
-          "ACTIVE": "নীতি সক্রিয় আছে",
-          "INACTIVE": "নীতি নিষ্ক্রিয়"
+          "PLACEHOLDER": "Pilih status",
+          "ACTIVE": "Polisi aktif",
+          "INACTIVE": "Polisi tidak aktif"
         },
         "ASSIGNMENT_ORDER": {
-          "LABEL": "বরাদ্দের ক্রম",
+          "LABEL": "Susunan tugasan",
           "ROUND_ROBIN": {
             "LABEL": "রাউন্ড রবিন",
-            "DESCRIPTION": "এজেন্টদের মধ্যে সমানভাবে কথোপকথন বরাদ্দ করুন।"
+            "DESCRIPTION": "Agihkan perbualan secara sama rata antara ejen."
           },
           "BALANCED": {
-            "LABEL": "সুষম",
-            "DESCRIPTION": "উপলব্ধ সক্ষমতার ভিত্তিতে কথোপকথন বরাদ্দ করুন।",
-            "PREMIUM_MESSAGE": "ব্যালান্সড অ্যাসাইনমেন্ট ও এজেন্ট ক্যাপাসিটি ব্যবস্থাপনায় অ্যাক্সেস পেতে আপগ্রেড করুন।",
+            "LABEL": "Seimbang",
+            "DESCRIPTION": "Agihkan perbualan berdasarkan kapasiti yang tersedia.",
+            "PREMIUM_MESSAGE": "Tingkatkan untuk mengakses pengagihan seimbang dan pengurusan kapasiti ejen.",
             "PREMIUM_BADGE": "প্রিমিয়াম"
           }
         },
         "ASSIGNMENT_PRIORITY": {
-          "LABEL": "বরাদ্দের অগ্রাধিকার",
+          "LABEL": "Keutamaan penugasan",
           "EARLIEST_CREATED": {
-            "LABEL": "সর্বপ্রথম তৈরি",
-            "DESCRIPTION": "যে কথোপকথনটি প্রথম তৈরি হয়েছে, সেটিই আগে বরাদ্দ হবে।"
+            "LABEL": "Dicipta paling awal",
+            "DESCRIPTION": "Perbualan yang dicipta terlebih dahulu akan diberikan tugasan terlebih dahulu."
           },
           "LONGEST_WAITING": {
-            "LABEL": "সর্বাধিক অপেক্ষমাণ",
-            "DESCRIPTION": "সবচেয়ে বেশি সময় অপেক্ষমাণ কথোপকথনটি আগে বরাদ্দ করা হবে।"
+            "LABEL": "Menunggu paling lama",
+            "DESCRIPTION": "Perbualan yang menunggu paling lama akan diberikan tugasan terlebih dahulu."
           }
         },
         "FAIR_DISTRIBUTION": {
-          "LABEL": "ন্যায্য বণ্টন নীতি",
-          "DESCRIPTION": "একজন এজেন্টকে নির্দিষ্ট সময়ের মধ্যে সর্বাধিক কতটি কথোপকথন বরাদ্দ করা যাবে তা নির্ধারণ করুন, যাতে কোনো এজেন্ট অতিরিক্ত চাপ না পায়। এই আবশ্যিক ক্ষেত্রের ডিফল্ট মান প্রতি ঘণ্টায় ১০০টি কথোপকথন।",
-          "INPUT_MAX": "সর্বাধিক বরাদ্দ",
-          "DURATION": "প্রতি এজেন্টে কথোপকথন"
+          "LABEL": "Polisi pengagihan adil",
+          "DESCRIPTION": "Tetapkan bilangan maksimum perbualan yang boleh diberikan kepada setiap ejen dalam jangka masa tertentu untuk mengelakkan beban berlebihan pada mana-mana ejen. Medan wajib ini ditetapkan secara lalai kepada 100 perbualan setiap jam.",
+          "INPUT_MAX": "Agihkan maksima",
+          "DURATION": "Perbualan setiap ejen dalam setiap"
         },
         "INBOXES": {
-          "LABEL": "যোগ করা ইনবক্স",
-          "DESCRIPTION": "যেসব ইনবক্সে এই নীতি প্রযোজ্য হবে, সেগুলো যোগ করুন।",
-          "ADD_BUTTON": "ইনবক্স যোগ করুন",
+          "LABEL": "Petibuk yang ditambah",
+          "DESCRIPTION": "Tambah petibuk yang mana polisi ini akan digunakan.",
+          "ADD_BUTTON": "Tambah petibuk",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "যোগ করার জন্য ইনবক্স খুঁজুন ও নির্বাচন করুন",
-            "ADD_BUTTON": "যোগ করুন"
+            "SEARCH_PLACEHOLDER": "Cari dan pilih petibuk untuk ditambah",
+            "ADD_BUTTON": "Tambah"
           },
-          "EMPTY_STATE": "এই নীতিতে কোনো ইনবক্স যোগ করা হয়নি, শুরু করতে একটি ইনবক্স যোগ করুন",
+          "EMPTY_STATE": "Tiada peti masuk ditambah ke dasar ini, tambah peti masuk untuk memulakan",
           "API": {
-            "SUCCESS_MESSAGE": "নীতিতে ইনবক্স সফলভাবে যোগ হয়েছে",
-            "ERROR_MESSAGE": "নীতিতে ইনবক্স যোগ করতে ব্যর্থ হয়েছে"
+            "SUCCESS_MESSAGE": "Peti masuk berjaya ditambah ke dasar",
+            "ERROR_MESSAGE": "Gagal menambah peti masuk ke dasar"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "অ্যাসাইনমেন্ট নীতি সফলভাবে মুছে ফেলা হয়েছে",
-        "ERROR_MESSAGE": "অ্যাসাইনমেন্ট নীতি মুছে ফেলা যায়নি"
+        "SUCCESS_MESSAGE": "Dasar penugasan berjaya dipadam",
+        "ERROR_MESSAGE": "Gagal memadam dasar penugasan"
       }
     },
     "AGENT_CAPACITY_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "এজেন্টের সক্ষমতা",
-          "CREATE_POLICY": "নতুন নীতি"
+          "TITLE": "Kapasiti ejen",
+          "CREATE_POLICY": "Dasar baru"
         },
         "CARD": {
-          "POPOVER": "যোগ করা এজেন্ট",
-          "EDIT": "সম্পাদনা"
+          "POPOVER": "Ejen yang ditambah",
+          "EDIT": "Sunting"
         },
-        "NO_RECORDS_FOUND": "কোনো এজেন্ট সক্ষমতা নীতি পাওয়া যায়নি"
+        "NO_RECORDS_FOUND": "Tiada dasar kapasiti ejen ditemui"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "এজেন্ট সক্ষমতা নীতি তৈরি করুন"
+          "TITLE": "Cipta dasar kapasiti ejen"
         },
-        "CREATE_BUTTON": "নীতি তৈরি করুন",
+        "CREATE_BUTTON": "Cipta dasar",
         "API": {
-          "SUCCESS_MESSAGE": "এজেন্ট সক্ষমতা নীতি সফলভাবে তৈরি হয়েছে",
-          "ERROR_MESSAGE": "এজেন্ট সক্ষমতা নীতি তৈরি করতে ব্যর্থ হয়েছে"
+          "SUCCESS_MESSAGE": "Dasar kapasiti ejen berjaya dicipta",
+          "ERROR_MESSAGE": "Gagal mencipta dasar kapasiti ejen"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "এজেন্ট সক্ষমতা নীতি সম্পাদনা করুন"
+          "TITLE": "Sunting dasar kapasiti ejen"
         },
-        "EDIT_BUTTON": "নীতি আপডেট করুন",
+        "EDIT_BUTTON": "Kemas kini dasar",
         "CONFIRM_ADD_AGENT_DIALOG": {
-          "TITLE": "এজেন্ট যোগ করুন",
+          "TITLE": "Tambah ejen",
           "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "চালিয়ে যান",
+          "CONFIRM_BUTTON_LABEL": "Teruskan",
           "CANCEL_BUTTON_LABEL": "Batalkan"
         },
         "API": {
-          "SUCCESS_MESSAGE": "এজেন্ট ধারণক্ষমতা নীতি সফলভাবে আপডেট হয়েছে",
-          "ERROR_MESSAGE": "এজেন্ট ধারণক্ষমতা নীতি আপডেট করতে ব্যর্থ হয়েছে"
+          "SUCCESS_MESSAGE": "Dasar kapasiti ejen berjaya dikemas kini",
+          "ERROR_MESSAGE": "Gagal mengemas kini dasar kapasiti ejen"
         },
         "AGENT_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "নীতি-তে এজেন্ট সফলভাবে যোগ হয়েছে",
-            "ERROR_MESSAGE": "নীতি-তে এজেন্ট যোগ করতে ব্যর্থ হয়েছে"
+            "SUCCESS_MESSAGE": "Ejen berjaya ditambah ke polisi",
+            "ERROR_MESSAGE": "Gagal menambah ejen ke polisi"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "নীতি-থেকে এজেন্ট সফলভাবে সরানো হয়েছে",
-            "ERROR_MESSAGE": "নীতি-থেকে এজেন্ট সরাতে ব্যর্থ হয়েছে"
+            "SUCCESS_MESSAGE": "Ejen berjaya dikeluarkan dari polisi",
+            "ERROR_MESSAGE": "Gagal mengeluarkan ejen dari polisi"
           }
         },
         "INBOX_LIMIT_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "ইনবক্স সীমা সফলভাবে যোগ হয়েছে",
-            "ERROR_MESSAGE": "ইনবক্স সীমা যোগ করতে ব্যর্থ হয়েছে"
+            "SUCCESS_MESSAGE": "Had peti masuk berjaya ditambah",
+            "ERROR_MESSAGE": "Gagal menambah had peti masuk"
           },
           "UPDATE": {
-            "SUCCESS_MESSAGE": "ইনবক্স সীমা সফলভাবে আপডেট হয়েছে",
-            "ERROR_MESSAGE": "ইনবক্স সীমা আপডেট করতে ব্যর্থ হয়েছে"
+            "SUCCESS_MESSAGE": "Had peti masuk berjaya dikemas kini",
+            "ERROR_MESSAGE": "Gagal mengemas kini had peti masuk"
           },
           "DELETE": {
-            "SUCCESS_MESSAGE": "ইনবক্স সীমা সফলভাবে মুছে ফেলা হয়েছে",
-            "ERROR_MESSAGE": "ইনবক্স সীমা মুছে ফেলা যায়নি"
+            "SUCCESS_MESSAGE": "Had peti masuk berjaya dipadam",
+            "ERROR_MESSAGE": "Gagal memadam had peti masuk"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "নীতির নাম:",
-          "PLACEHOLDER": "নীতির নাম লিখুন"
+          "LABEL": "Nama polisi:",
+          "PLACEHOLDER": "Masukkan nama polisi"
         },
         "DESCRIPTION": {
-          "LABEL": "বর্ণনা:",
-          "PLACEHOLDER": "বর্ণনা লিখুন"
+          "LABEL": "Penerangan:",
+          "PLACEHOLDER": "Masukkan penerangan"
         },
         "INBOX_CAPACITY_LIMIT": {
-          "LABEL": "ইনবক্স সীমা",
-          "ADD_BUTTON": "ইনবক্স যোগ করুন",
+          "LABEL": "Had kapasiti peti masuk",
+          "ADD_BUTTON": "Tambah peti masuk",
           "FIELD": {
-            "SELECT_INBOX": "ইনবক্স নির্বাচন করুন",
-            "MAX_CONVERSATIONS": "সর্বোচ্চ কথোপকথন",
-            "SET_LIMIT": "সীমা নির্ধারণ করুন"
+            "SELECT_INBOX": "Pilih peti masuk",
+            "MAX_CONVERSATIONS": "Perbualan maksimum",
+            "SET_LIMIT": "Tetapkan had"
           },
-          "EMPTY_STATE": "কোনো ইনবক্স সীমা নির্ধারিত নেই"
+          "EMPTY_STATE": "Tiada had peti masuk ditetapkan"
         },
         "EXCLUSION_RULES": {
-          "LABEL": "বর্জন নীতি",
-          "DESCRIPTION": "নিম্নোক্ত শর্ত পূরণ করলে কথোপকথনগুলো এজেন্টের সীমায় গণ্য হবে না",
+          "LABEL": "Peraturan pengecualian",
+          "DESCRIPTION": "Perbualan yang memenuhi syarat berikut tidak akan dikira dalam kapasiti ejen",
           "TAGS": {
-            "LABEL": "নির্দিষ্ট ট্যাগযুক্ত কথোপকথন বাদ দিন",
-            "ADD_TAG": "ট্যাগ যোগ করুন",
+            "LABEL": "Kecualikan perbualan yang ditandai dengan label tertentu",
+            "ADD_TAG": "tambah tag",
             "DROPDOWN": {
-              "SEARCH_PLACEHOLDER": "ট্যাগ খুঁজে যোগ করুন"
+              "SEARCH_PLACEHOLDER": "Cari dan pilih tag untuk ditambah"
             },
-            "EMPTY_STATE": "এই নীতিতে কোনো ট্যাগ যোগ করা হয়নি।"
+            "EMPTY_STATE": "Tiada tag ditambah pada polisi ini."
           },
           "DURATION": {
-            "LABEL": "নির্দিষ্ট সময়ের চেয়ে পুরনো কথোপকথন বাদ দিন",
-            "PLACEHOLDER": "সময় নির্ধারণ করুন"
+            "LABEL": "Kecualikan perbualan yang lebih lama daripada tempoh yang ditetapkan",
+            "PLACEHOLDER": "Tetapkan masa"
           }
         },
         "USERS": {
-          "LABEL": "নিযুক্ত এজেন্ট",
-          "DESCRIPTION": "এই নীতির জন্য যেসব এজেন্ট প্রযোজ্য, তাদের যোগ করুন।",
-          "ADD_BUTTON": "এজেন্ট যোগ করুন",
+          "LABEL": "Ejen yang ditugaskan",
+          "DESCRIPTION": "Tambah ejen yang polisi ini akan digunakan.",
+          "ADD_BUTTON": "Tambah ejen",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "এজেন্ট খুঁজে যোগ করুন",
-            "ADD_BUTTON": "যোগ করুন"
+            "SEARCH_PLACEHOLDER": "Cari dan pilih ejen untuk ditambah",
+            "ADD_BUTTON": "Tambah"
           },
-          "EMPTY_STATE": "কোনো এজেন্ট যোগ করা হয়নি",
+          "EMPTY_STATE": "Tiada ejen ditambah",
           "API": {
-            "SUCCESS_MESSAGE": "এজেন্ট সফলভাবে নীতিতে যুক্ত হয়েছে",
-            "ERROR_MESSAGE": "এজেন্ট নীতিতে যোগ করতে ব্যর্থ হয়েছে"
+            "SUCCESS_MESSAGE": "Ejen berjaya ditambah ke polisi",
+            "ERROR_MESSAGE": "Gagal menambah ejen ke polisi"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "এজেন্ট সক্ষমতা নীতি সফলভাবে মুছে ফেলা হয়েছে",
-        "ERROR_MESSAGE": "এজেন্ট সক্ষমতা নীতি মুছে ফেলতে ব্যর্থ হয়েছে"
+        "SUCCESS_MESSAGE": "Polisi kapasiti ejen berjaya dipadam",
+        "ERROR_MESSAGE": "Gagal memadam polisi kapasiti ejen"
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "নীতি মুছুন",
-      "DESCRIPTION": "আপনি কি নিশ্চিতভাবে এই নীতি মুছতে চান? এই কাজটি বাতিল করা যাবে না।",
+      "TITLE": "Padam polisi",
+      "DESCRIPTION": "Adakah anda pasti mahu memadam polisi ini? Tindakan ini tidak boleh dibatalkan.",
       "CONFIRM_BUTTON_LABEL": "Padamkan",
       "CANCEL_BUTTON_LABEL": "Batalkan"
     }
