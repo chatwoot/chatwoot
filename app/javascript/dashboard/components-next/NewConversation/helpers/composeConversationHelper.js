@@ -200,10 +200,13 @@ export const createContactSearcher = () => {
 
       const camelCasedPayload = camelcaseKeys(payload, { deep: true });
       // Filter contacts that can be used to start a conversation.
-      // whatsappUsername is needed for BSUID-only WhatsApp contacts.
+      // whatsappBsuid/whatsappUsername are needed for BSUID-only WhatsApp contacts.
       const filteredPayload = camelCasedPayload?.filter(
         contact =>
-          contact.phoneNumber || contact.email || contact.whatsappUsername
+          contact.phoneNumber ||
+          contact.email ||
+          contact.whatsappUsername ||
+          contact.whatsappBsuid
       );
       return filteredPayload || [];
     } catch (error) {

@@ -62,8 +62,7 @@ class ContactInbox < ApplicationRecord
     if inbox.channel.medium == 'sms' && !TWILIO_CHANNEL_SMS_REGEX.match?(source_id)
       errors.add(:source_id, "invalid source id for twilio sms inbox. valid Regex #{TWILIO_CHANNEL_SMS_REGEX}")
     elsif inbox.channel.medium == 'whatsapp'
-      bsuid_part = source_id.delete_prefix('whatsapp:')
-      return if WHATSAPP_BSUID_REGEX.match?(bsuid_part)
+      return if twilio_whatsapp_bsuid_source_id?
       return if TWILIO_CHANNEL_WHATSAPP_REGEX.match?(source_id)
 
       errors.add(:source_id, "invalid source id for twilio whatsapp inbox. valid Regex #{TWILIO_CHANNEL_WHATSAPP_REGEX}")
@@ -80,5 +79,11 @@ class ContactInbox < ApplicationRecord
   def valid_source_id_format?
     validate_twilio_source_id if inbox.channel_type == 'Channel::TwilioSms'
     validate_whatsapp_source_id if inbox.channel_type == 'Channel::Whatsapp'
+  end
+
+  def twilio_whatsapp_bsuid_source_id?
+    return false unless source_id.start_with?('whatsapp:')
+
+    WHATSAPP_BSUID_REGEX.match?(source_id.delete_prefix('whatsapp:'))
   end
 end
