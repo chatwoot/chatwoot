@@ -104,9 +104,9 @@
       "NEW_BUTTON": "Portal i ri",
       "ACTIVE_BADGE": "aktivan",
       "CHOOSE_LOCALE_LABEL": "Izaberi lokalizaciju",
-      "LOADING_MESSAGE": "Duke ngarkuar portalet...",
+      "LOADING_MESSAGE": "Učitavanje portala...",
       "ARTICLES_LABEL": "članci",
-      "NO_PORTALS_MESSAGE": "Nuk ka portale në dispozicion",
+      "NO_PORTALS_MESSAGE": "Nema dostupnih portala",
       "ADD_NEW_LOCALE": "Dodaj novu lokalizaciju",
       "POPOVER": {
         "TITLE": "Portali",
