@@ -140,11 +140,9 @@ class Contact < ApplicationRecord
   # 2. Have no conversations
   # 3. Are older than the specified time period
   scope :stale_without_conversations, lambda { |time_period|
-    where('contacts.email IS NULL OR contacts.email = ?', '')
-      .where('contacts.phone_number IS NULL OR contacts.phone_number = ?', '')
-      .where('contacts.identifier IS NULL OR contacts.identifier = ?', '')
-      .where('contacts.created_at < ?', time_period)
-      .where.missing(:conversations)
+    where('contacts.email IS NULL OR contacts.email = ?', '').where('contacts.phone_number IS NULL OR contacts.phone_number = ?', '')
+                                                             .where('contacts.identifier IS NULL OR contacts.identifier = ?', '')
+                                                             .where('contacts.created_at < ?', time_period).where.missing(:conversations)
   }
 
   def get_source_id(inbox_id)
@@ -210,30 +208,22 @@ class Contact < ApplicationRecord
   end
 
   def phone_number_format
-    return if phone_number.blank?
-
-    self.phone_number = phone_number_was unless phone_number.match?(/\+[1-9]\d{1,14}\z/)
+    self.phone_number = phone_number_was if phone_number.present? && !phone_number.match?(/\+[1-9]\d{1,14}\z/)
   end
 
   def email_format
-    return if email.blank?
-
-    self.email = email_was unless email.match(Devise.email_regexp)
+    self.email = email_was if email.present? && !email.match(Devise.email_regexp)
   end
 
   def prepare_contact_attributes
     prepare_email_attribute
-    prepare_whatsapp_username_attribute
+    self.whatsapp_username = whatsapp_username.to_s.sub(/\A@+/, '').presence
     prepare_jsonb_attributes
   end
 
   def prepare_email_attribute
     # So that the db unique constraint won't throw error when email is ''
     self.email = email.present? ? email.downcase : nil
-  end
-
-  def prepare_whatsapp_username_attribute
-    self.whatsapp_username = whatsapp_username.to_s.sub(/\A@+/, '').presence
   end
 
   def prepare_jsonb_attributes

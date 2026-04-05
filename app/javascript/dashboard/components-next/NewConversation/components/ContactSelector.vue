@@ -59,7 +59,7 @@ const inputType = ref(INPUT_TYPES.EMAIL);
 
 const maskPhoneNumber = phone => {
   if (!phone) return '';
-  if (phone.length <= 6) return phone;
+  if (phone.length <= 8) return phone;
 
   return `${phone.slice(0, 5)}${'•'.repeat(phone.length - 8)}${phone.slice(-3)}`;
 };

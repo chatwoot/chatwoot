@@ -224,10 +224,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def capture_bsuid_from_response(response, message)
     bsuid = response.parsed_response&.dig('contacts', 0, 'user_id')
-    return if bsuid.blank?
-
     contact = message&.conversation&.contact
-    return if contact.blank? || contact.whatsapp_bsuid.present?
+    return unless should_capture_bsuid?(contact, bsuid)
 
     contact.update!(whatsapp_bsuid: bsuid)
   rescue StandardError => e
@@ -236,5 +234,9 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def bsuid_identifier?(identifier)
     identifier.to_s.match?(/\A[A-Za-z]{2}\.(?:ENT\.)?[A-Za-z0-9]{1,128}\z/)
+  end
+
+  def should_capture_bsuid?(contact, bsuid)
+    bsuid.present? && contact.present? && contact.whatsapp_bsuid.blank?
   end
 end

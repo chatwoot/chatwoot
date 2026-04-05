@@ -209,9 +209,51 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(whatsapp_channel.inbox.messages.last.content).to eq('Hello from username user')
       end
     end
+
+    context 'when BSUID belongs to a different contact in same account' do
+      let(:conflict_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{
+                  profile: { name: 'Phone Contact', username: '@phonecontact' },
+                  wa_id: '16315551181',
+                  user_id: 'US.CONFLICT.123'
+                }],
+                messages: [{
+                  from: '16315551181',
+                  from_user_id: 'US.CONFLICT.123',
+                  id: 'wamid.CONFLICT_MESSAGE_ID',
+                  timestamp: '1770407829',
+                  text: { body: 'Conflict merge test' },
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'merges BSUID owner into phone contact and processes message' do
+        phone_contact = create(:contact, account: whatsapp_channel.account, phone_number: '+16315551181', name: '+16315551181')
+        create(:contact_inbox, contact: phone_contact, inbox: whatsapp_channel.inbox, source_id: '16315551181')
+        bsuid_contact = create(:contact, account: whatsapp_channel.account, whatsapp_bsuid: 'US.CONFLICT.123', name: 'BSUID Contact')
+
+        expect do
+          described_class.new(inbox: whatsapp_channel.inbox, params: conflict_params).perform
+        end.not_to raise_error
+
+        expect(Contact.where(account: whatsapp_channel.account).find_by(id: bsuid_contact.id)).to be_nil
+        expect(phone_contact.reload.whatsapp_bsuid).to eq('US.CONFLICT.123')
+        expect(whatsapp_channel.inbox.messages.find_by(source_id: 'wamid.CONFLICT_MESSAGE_ID')&.content).to eq('Conflict merge test')
+      end
+    end
   end
 
-  # Métodos auxiliares para reduzir o tamanho do exemplo
+  # Helper methods to keep examples concise
 
   def stub_media_url_request
     stub_request(

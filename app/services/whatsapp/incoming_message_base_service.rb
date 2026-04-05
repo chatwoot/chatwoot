@@ -1,6 +1,7 @@
 # Mostly modeled after the intial implementation of the service based on 360 Dialog
 # https://docs.360dialog.com/whatsapp-api/whatsapp-api/media
 # https://developers.facebook.com/docs/whatsapp/api/media/
+# rubocop:disable Metrics/ClassLength
 class Whatsapp::IncomingMessageBaseService
   include ::Whatsapp::IncomingMessageServiceHelpers
 
@@ -103,59 +104,38 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def set_contact_from_echo
-    # For echo messages, recipient can be either phone number ('to')
-    # or business-scoped user id ('to_user_id').
-    source_identifier = messages_data.first[:to] || messages_data.first[:to_user_id]
+    source_identifier = echo_source_identifier
     return if source_identifier.blank?
 
     waid = processed_waid(source_identifier)
     phone_number = extract_phone_number(messages_data.first[:to])
     contact_name = phone_number.present? ? "+#{phone_number}" : waid
 
-    contact_inbox = ::ContactInboxWithContactBuilder.new(
+    @contact_inbox = build_contact_inbox(
       source_id: waid,
-      inbox: inbox,
       contact_attributes: {
         name: contact_name,
         phone_number: phone_number.present? ? "+#{phone_number}" : nil,
         whatsapp_bsuid: messages_data.first[:to_user_id]
       }
-    ).perform
-
-    @contact_inbox = contact_inbox
-    @contact = contact_inbox.contact
+    )
+    @contact = @contact_inbox.contact
     update_contact_whatsapp_bsuid(messages_data.first[:to_user_id])
   end
 
   def set_contact_from_message
-    contact_params = @processed_params[:contacts]&.first
-    message = messages_data.first
-    source_identifier = contact_params&.[](:wa_id) || contact_params&.[](:user_id) || message[:from] || message[:from_user_id]
+    contact_params = incoming_contact_params
+    message = incoming_message
+    source_identifier = source_identifier_from_message(contact_params, message)
     return if source_identifier.blank?
 
-    waid = processed_waid(source_identifier)
-    phone_number = extract_phone_number(message[:from] || contact_params&.[](:wa_id))
-    profile_name = contact_params&.dig(:profile, :name)
-    username = normalize_whatsapp_username(contact_params&.dig(:profile, :username))
-    bsuid = contact_params&.[](:user_id) || message[:from_user_id]
+    @contact_inbox = build_contact_inbox_for_incoming(source_identifier, contact_params, message)
+    @contact = @contact_inbox.contact
 
-    contact_inbox = ::ContactInboxWithContactBuilder.new(
-      source_id: waid,
-      inbox: inbox,
-      contact_attributes: {
-        name: profile_name.presence || username.presence || waid,
-        phone_number: phone_number.present? ? "+#{phone_number}" : nil,
-        whatsapp_bsuid: bsuid,
-        whatsapp_username: username
-      }
-    ).perform
-
-    @contact_inbox = contact_inbox
-    @contact = contact_inbox.contact
-
+    bsuid = contact_bsuid(contact_params, message)
+    username = contact_username(contact_params)
     update_contact_whatsapp_bsuid(bsuid)
     update_contact_whatsapp_username(username)
-    # Update existing contact name if ProfileName is available and current name is just phone number
     update_contact_with_profile_name(contact_params)
   end
 
@@ -266,33 +246,103 @@ class Whatsapp::IncomingMessageBaseService
     value.to_s.match?(/\A\d{1,15}\z/) ? value.to_s : nil
   end
 
-  def update_contact_whatsapp_bsuid(bsuid)
-    return if @contact.blank? || bsuid.blank?
-    return if @contact.whatsapp_bsuid == bsuid
+  def update_contact_whatsapp_bsuid(bsuid, contact: @contact)
+    return if contact.blank? || bsuid.blank?
+    return if contact.whatsapp_bsuid == bsuid
 
-    @contact.update!(whatsapp_bsuid: bsuid)
+    existing_contact = account.contacts.find_by(whatsapp_bsuid: bsuid)
+    if existing_contact.present? && existing_contact.id != contact.id
+      ContactMergeAction.new(account: account, base_contact: contact, mergee_contact: existing_contact).perform
+      contact.reload
+      return
+    end
+
+    contact.update!(whatsapp_bsuid: bsuid)
   end
 
-  def update_contact_whatsapp_username(username)
-    return if @contact.blank? || username.blank?
-    return if @contact.whatsapp_username == username
+  def update_contact_whatsapp_username(username, contact: @contact)
+    return if contact.blank? || username.blank?
+    return if contact.whatsapp_username == username
 
-    @contact.update!(whatsapp_username: username)
+    contact.update!(whatsapp_username: username)
   end
 
   def enrich_contact_from_status_webhook
     contact = @message.conversation&.contact
     return if contact.blank?
 
-    updates = {}
-    bsuid = @processed_params.dig(:statuses, 0, :recipient_user_id) || @processed_params.dig(:contacts, 0, :user_id)
-    username = normalize_whatsapp_username(@processed_params.dig(:contacts, 0, :profile, :username))
-    updates[:whatsapp_bsuid] = bsuid if bsuid.present? && contact.whatsapp_bsuid.blank?
-    updates[:whatsapp_username] = username if username.present? && contact.whatsapp_username.blank?
-    contact.update!(updates) if updates.present?
+    sync_status_whatsapp_bsuid(contact)
+    sync_status_whatsapp_username(contact)
   end
 
   def normalize_whatsapp_username(username)
     username.to_s.sub(/\A@+/, '').presence
   end
+
+  def build_contact_inbox(source_id:, contact_attributes:)
+    ::ContactInboxWithContactBuilder.new(
+      source_id: source_id,
+      inbox: inbox,
+      contact_attributes: contact_attributes
+    ).perform
+  end
+
+  def echo_source_identifier
+    messages_data.first[:to] || messages_data.first[:to_user_id]
+  end
+
+  def incoming_contact_params
+    @processed_params[:contacts]&.first
+  end
+
+  def incoming_message
+    messages_data.first
+  end
+
+  def source_identifier_from_message(contact_params, message)
+    contact_params&.[](:wa_id) || contact_params&.[](:user_id) || message[:from] || message[:from_user_id]
+  end
+
+  def contact_profile_name(contact_params)
+    contact_params&.dig(:profile, :name)
+  end
+
+  def contact_username(contact_params)
+    normalize_whatsapp_username(contact_params&.dig(:profile, :username))
+  end
+
+  def contact_bsuid(contact_params, message)
+    contact_params&.[](:user_id) || message[:from_user_id]
+  end
+
+  def build_contact_inbox_for_incoming(source_identifier, contact_params, message)
+    waid = processed_waid(source_identifier)
+    phone_number = extract_phone_number(message[:from] || contact_params&.[](:wa_id))
+    username = contact_username(contact_params)
+
+    build_contact_inbox(
+      source_id: waid,
+      contact_attributes: {
+        name: contact_profile_name(contact_params).presence || username.presence || waid,
+        phone_number: phone_number.present? ? "+#{phone_number}" : nil,
+        whatsapp_bsuid: contact_bsuid(contact_params, message),
+        whatsapp_username: username
+      }
+    )
+  end
+
+  def sync_status_whatsapp_bsuid(contact)
+    bsuid = @processed_params.dig(:statuses, 0, :recipient_user_id) || @processed_params.dig(:contacts, 0, :user_id)
+    return if bsuid.blank? || contact.whatsapp_bsuid == bsuid
+
+    update_contact_whatsapp_bsuid(bsuid, contact: contact)
+  end
+
+  def sync_status_whatsapp_username(contact)
+    username = normalize_whatsapp_username(@processed_params.dig(:contacts, 0, :profile, :username))
+    return if username.blank? || contact.whatsapp_username.present?
+
+    update_contact_whatsapp_username(username, contact: contact)
+  end
 end
+# rubocop:enable Metrics/ClassLength
