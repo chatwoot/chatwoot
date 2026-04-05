@@ -3,16 +3,16 @@
     "SHOPIFY": {
       "HEADER": "Shopify",
       "DELETE": {
-        "TITLE": "Fshi Integrimin Shopify",
-        "MESSAGE": "A jeni i sigurt që dëshironi të fshini integrimin Shopify?"
+        "TITLE": "Shopify İnteqrasiyasını Sil",
+        "MESSAGE": "Shopify inteqrasiyasını silmək istədiyinizə əminsiniz?"
       },
       "STORE_URL": {
-        "TITLE": "Lidhu me Dyqanin Shopify",
-        "LABEL": "URL e Dyqanit",
-        "PLACEHOLDER": "dyqani-juaj.myshopify.com",
-        "HELP": "Futni URL-në myshopify.com të dyqanit tuaj Shopify",
+        "TITLE": "Shopify Mağazasını Bağla",
+        "LABEL": "Mağaza URL-i",
+        "PLACEHOLDER": "your-store.myshopify.com",
+        "HELP": "Shopify mağazanızın myshopify.com URL-ni daxil edin",
         "CANCEL": "Ləğv et",
-        "SUBMIT": "Lidhu me Dyqanin"
+        "SUBMIT": "Mağazanı Bağla"
       },
       "ERROR": "Shopify-a qoşularkən xəta baş verdi. Zəhmət olmasa yenidən cəhd edin və ya problem davam edərsə dəstək xidməti ilə əlaqə saxlayın."
     },
@@ -372,10 +372,10 @@
         "CANCEL": "Ləğv et"
       },
       "CTA": {
-        "TITLE": "Lidhu me Linear",
-        "AGENT_DESCRIPTION": "Hapësira e punës Linear nuk është e lidhur. Kërkoni nga administratori juaj të lidhë një hapësirë pune për të përdorur këtë integrim.",
+        "TITLE": "Linear-a qoşul",
+        "AGENT_DESCRIPTION": "Linear iş sahəsi qoşulmayıb. Bu inteqrasiyadan istifadə etmək üçün administratorunuzdan bir iş sahəsi qoşmasını xahiş edin.",
         "DESCRIPTION": "Linear iş sahəsi qoşulmayıb. Bu inteqrasiyadan istifadə etmək üçün iş sahənizi qoşmaq məqsədilə aşağıdakı düyməyə klikləyin.",
-        "BUTTON_TEXT": "Lidhu me hapësirën e punës Linear"
+        "BUTTON_TEXT": "Linear iş sahəsini qoşun"
       }
     },
     "NOTION": {
@@ -389,375 +389,375 @@
     }
   },
   "CAPTAIN": {
-    "NAME": "Kapitan",
-    "HEADER_KNOW_MORE": "Daha çox məlumat",
+    "NAME": "Captain",
+    "HEADER_KNOW_MORE": "Daha ətraflı",
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Köməkçilər",
       "SWITCH_ASSISTANT": "Köməkçilər arasında keçid edin",
       "NEW_ASSISTANT": "Köməkçi yaradın",
-      "EMPTY_LIST": "Heç bir köməkçi tapılmadı, başlamaq üçün birini yaradın"
+      "EMPTY_LIST": "Assistent tapılmadı, başlamaq üçün birini yaradın"
     },
     "COPILOT": {
       "TITLE": "Copilot",
-      "TRY_THESE_PROMPTS": "Bu təklifləri sınayın",
-      "PANEL_TITLE": "Filloni me Copilot",
-      "KICK_OFF_MESSAGE": "Keni nevojë për një përmbledhje të shpejtë, dëshironi të kontrolloni bisedat e kaluara, apo të hartoni një përgjigje më të mirë? Copilot është këtu për të përshpejtuar gjërat.",
-      "SEND_MESSAGE": "Mesaj göndər...",
+      "TRY_THESE_PROMPTS": "Bu təklifləri yoxlayın",
+      "PANEL_TITLE": "Copilot ilə başlayın",
+      "KICK_OFF_MESSAGE": "Qısa xülasəyə ehtiyacınız var, əvvəlki söhbətlərə baxmaq istəyirsiniz, yoxsa daha yaxşı cavab hazırlamaq istəyirsiniz? Copilot işləri sürətləndirmək üçün buradadır.",
+      "SEND_MESSAGE": "Mesaj göndərin...",
       "EMPTY_MESSAGE": "Cavab yaradılarkən xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.",
       "LOADER": "Captain düşünür",
       "YOU": "Siz",
       "USE": "Bunu istifadə et",
-      "RESET": "Rivendos",
+      "RESET": "Sıfırla",
       "SHOW_STEPS": "Addımları göstər",
       "SELECT_ASSISTANT": "Köməkçini seçin",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Përmbledh këtë bisedë",
-          "CONTENT": "Müştəri ilə dəstək agenti arasında müzakirə olunan əsas məqamları ümumiləşdirin, o cümlədən müştərinin narahatlıqları, sualları və dəstək agentinin təqdim etdiyi həllər və ya cavablar"
+          "LABEL": "Bu söhbəti xülasə et",
+          "CONTENT": "Müştəri və dəstək agenti arasında müzakirə olunan əsas məqamları xülasə et, müştərinin narahatlıqları, sualları və agentin verdiyi həll və ya cavabları daxil et"
         },
         "SUGGEST": {
-          "LABEL": "Cavab təklif edin",
-          "CONTENT": "Müştərinin sorğusunu təhlil edin və narahatlıqlarını və ya suallarını effektiv şəkildə əhatə edən cavab layihələndirin. Cavabın aydın, qısa və faydalı məlumat verdiyinə əmin olun."
+          "LABEL": "Cavab təklif et",
+          "CONTENT": "Müştərinin sorğusunu analiz et və onların narahatlıqlarını və ya suallarını effektiv şəkildə cavablandıran bir cavab hazırla. Cavabın aydın, qısa və faydalı məlumat verdiyinə əmin ol."
         },
         "RATE": {
-          "LABEL": "Vlerëso këtë bisedë",
-          "CONTENT": "Müştərinin ehtiyaclarını nə dərəcədə qarşıladığını görmək üçün söhbəti nəzərdən keçirin. Ton, aydınlıq və effektivlik əsasında 5 ballıq qiymətləndirmə paylaşın."
+          "LABEL": "Bu söhbəti qiymətləndir",
+          "CONTENT": "Söhbəti nəzərdən keçir və müştərinin ehtiyaclarını nə dərəcədə qarşıladığını yoxla. Ton, aydınlıq və effektivliyə əsaslanaraq 5 üzərindən qiymət ver."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "Biseda me prioritet të lartë",
-          "CONTENT": "Më jep një përmbledhje të të gjitha bisedave të hapura me prioritet të lartë. Përfshi ID-në e bisedës, emrin e klientit (nëse është i disponueshëm), përmbajtjen e mesazhit të fundit dhe agjentin e caktuar. Grupohu sipas statusit nëse është e rëndësishme."
+          "LABEL": "Yüksək prioritetli söhbətlər",
+          "CONTENT": "Bütün yüksək prioritetli açıq söhbətlərin xülasəsini ver. Söhbət ID-si, müştərinin adı (əgər varsa), son mesajın məzmunu və təyin olunmuş agenti daxil et. Əgər uyğun olarsa, statusa görə qrupla."
         },
         "LIST_CONTACTS": {
-          "LABEL": "Listo kontaktet",
-          "CONTENT": "Mənə ən yaxşı 10 əlaqə siyahısını göstərin. Ad, e-poçt və ya telefon nömrəsi (mövcuddursa), son görülmə vaxtı, etiketlər (əgər varsa) daxil edin."
+          "LABEL": "Əlaqələri siyahıla",
+          "CONTENT": "Ən yaxşı 10 əlaqənin siyahısını göstər. Ad, e-poçt və ya telefon nömrəsi (əgər varsa), son görülmə vaxtı, etiketlər (əgər varsa) daxil et."
         }
       }
     },
     "PLAYGROUND": {
       "USER": "Siz",
-      "ASSISTANT": "Köməkçi",
-      "MESSAGE_PLACEHOLDER": "Shkruani mesazhin tuaj...",
-      "HEADER": "Oyun Sahəsi",
-      "DESCRIPTION": "Bu meydançadan köməkçinizə mesajlar göndərmək və onun dəqiq, sürətli və gözlədiyiniz tonda cavab verib-vermədiyini yoxlamaq üçün istifadə edin.",
-      "CREDIT_NOTE": "Mesazhet e dërguara këtu do të llogariten në kreditë tuaja Captain."
+      "ASSISTANT": "Assistent",
+      "MESSAGE_PLACEHOLDER": "Mesajınızı yazın...",
+      "HEADER": "Sınaq sahəsi",
+      "DESCRIPTION": "Bu sınaq sahəsində köməkçinizə mesaj göndərin və cavabların dəqiq, sürətli və istədiyiniz tonda olub-olmadığını yoxlayın.",
+      "CREDIT_NOTE": "Burada göndərilən mesajlar Captain kreditlərinizdən çıxılacaq."
     },
     "PAYWALL": {
-      "TITLE": "Përmirëso për të përdorur Captain AI",
-      "AVAILABLE_ON": "Captain nuk është i disponueshëm në planin falas.",
-      "UPGRADE_PROMPT": "Köməkçilərimizə, copilot və daha çoxuna giriş üçün planınızı yüksəldin.",
-      "UPGRADE_NOW": "Përmirëso tani",
-      "CANCEL_ANYTIME": "Mund të ndryshoni ose anuloni planin tuaj në çdo kohë"
+      "TITLE": "Captain AI istifadə etmək üçün yüksəldin",
+      "AVAILABLE_ON": "Captain pulsuz planda mövcud deyil.",
+      "UPGRADE_PROMPT": "Assistentlərimizə, copilot və daha çoxuna çıxış əldə etmək üçün planınızı yüksəldin.",
+      "UPGRADE_NOW": "İndi yüksəlt",
+      "CANCEL_ANYTIME": "Planınızı istənilən vaxt dəyişə və ya ləğv edə bilərsiniz"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI yalnız Korporativ planlarda mövcuddur.",
-      "UPGRADE_PROMPT": "Köməkçilərimizə, copilot və daha çoxuna giriş üçün planınızı yüksəldin.",
+      "AVAILABLE_ON": "Captain AI yalnız Enterprise planlarında mövcuddur.",
+      "UPGRADE_PROMPT": "Assistentlərimizə, copilot və daha çoxuna çıxış əldə etmək üçün planınızı yüksəldin.",
       "ASK_ADMIN": "Təkmilləşdirmə üçün administratorunuzla əlaqə saxlayın."
     },
     "BANNER": {
-      "RESPONSES": "Keni përdorur mbi 80% të kufirit tuaj të përgjigjeve. Për të vazhduar përdorimin e Captain AI, ju lutemi përmirësoni.",
-      "DOCUMENTS": "Kufiri i dokumenteve është arritur. Përmirëso për të vazhduar përdorimin e Captain AI."
+      "RESPONSES": "Cavab limitinizin 80%-dən çoxunu istifadə etmisiniz. Captain AI-dan istifadə etməyə davam etmək üçün zəhmət olmasa tarifinizi yüksəldin.",
+      "DOCUMENTS": "Sənəd limiti çatdı. Captain AI-dan istifadəni davam etdirmək üçün yüksəldin."
     },
     "FORM": {
       "CANCEL": "Ləğv et",
-      "CREATE": "Krijo",
+      "CREATE": "Yarat",
       "EDIT": "Yenilə"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
-      "NO_ASSISTANTS_AVAILABLE": "Nuk ka asistentë të disponueshëm në llogarinë tuaj.",
+      "HEADER": "Köməkçilər",
+      "NO_ASSISTANTS_AVAILABLE": "Hesabınızda heç bir köməkçi yoxdur.",
       "ADD_NEW": "Yeni köməkçi yaradın",
       "DELETE": {
-        "TITLE": "A jeni i sigurt që dëshironi të fshini asistentin?",
-        "DESCRIPTION": "Bu əməliyyat geri dönməzdir. Bu köməkçi silindikdə, o, bütün əlaqəli qutulardan silinəcək və yaradılmış bütün biliklər daimi olaraq silinəcək.",
-        "CONFIRM": "Po, fshi",
-        "SUCCESS_MESSAGE": "Asistenti u fshi me sukses",
-        "ERROR_MESSAGE": "Ndodhi një gabim gjatë fshirjes së asistentit, ju lutemi provoni përsëri."
+        "TITLE": "Assistent silinsin?",
+        "DESCRIPTION": "Bu əməliyyat geri qaytarıla bilməz. Bu assistenti silmək onu bütün bağlı poçt qutularından siləcək və yaradılmış bütün bilikləri daimi olaraq siləcək.",
+        "CONFIRM": "Bəli, sil",
+        "SUCCESS_MESSAGE": "Assistent uğurla silindi",
+        "ERROR_MESSAGE": "Köməkçi silinərkən xəta baş verdi, zəhmət olmasa yenidən cəhd edin."
       },
-      "FORM_DESCRIPTION": "Plotësoni detajet më poshtë për të emëruar asistentin tuaj, përshkruani qëllimin e tij dhe specifikoni produktin që do të mbështesë.",
+      "FORM_DESCRIPTION": "Aşağıdakı detalları doldurun: assistentinizin adını, məqsədini və dəstək verəcəyi məhsulu qeyd edin.",
       "CREATE": {
-        "TITLE": "Köməkçi yaradın",
-        "SUCCESS_MESSAGE": "Köməkçi uğurla yaradıldı",
-        "ERROR_MESSAGE": "Ndodhi një gabim gjatë krijimit të asistentit, ju lutemi provoni përsëri."
+        "TITLE": "Assistent yarat",
+        "SUCCESS_MESSAGE": "Assistent uğurla yaradıldı",
+        "ERROR_MESSAGE": "Köməkçi yaradılarkən xəta baş verdi, zəhmət olmasa yenidən cəhd edin."
       },
       "FORM": {
         "UPDATE": "Yenilə",
         "SECTIONS": {
           "BASIC_INFO": "Əsas Məlumat",
-          "SYSTEM_MESSAGES": "Mesazhet e Sistemit",
-          "INSTRUCTIONS": "Udhëzime",
+          "SYSTEM_MESSAGES": "Sistem Mesajları",
+          "INSTRUCTIONS": "Təlimatlar",
           "FEATURES": "Xüsusiyyətlər",
-          "TOOLS": "Alətlər "
+          "TOOLS": "Alətlər"
         },
         "NAME": {
           "LABEL": "Ad",
-          "PLACEHOLDER": "Köməkçi adını daxil edin",
+          "PLACEHOLDER": "Assistent adını daxil edin",
           "ERROR": "Ad tələb olunur"
         },
         "TEMPERATURE": {
-          "LABEL": "Cavabın Temperaturu",
-          "DESCRIPTION": "Rregulloni se sa krijuese ose kufizuese duhet të jenë përgjigjet e asistentit. Vlerat më të ulëta prodhojnë përgjigje më të fokusuara dhe deterministike, ndërsa vlerat më të larta lejojnë rezultate më krijuese dhe të ndryshme."
+          "LABEL": "Cavab Temperaturu",
+          "DESCRIPTION": "Assistentin cavablarının nə qədər yaradıcı və ya məhdud olacağını tənzimləyin. Aşağı dəyərlər daha fokuslanmış və deterministik cavablar verir, yüksək dəyərlər isə daha yaradıcı və müxtəlif nəticələr verir."
         },
         "DESCRIPTION": {
           "LABEL": "Təsvir",
-          "PLACEHOLDER": "Shkruani përshkrimin e asistentit",
+          "PLACEHOLDER": "Assistent təsvirini daxil edin",
           "ERROR": "Təsvir tələb olunur"
         },
         "PRODUCT_NAME": {
-          "LABEL": "Emri i Produktit",
+          "LABEL": "Məhsulun Adı",
           "PLACEHOLDER": "Məhsul adını daxil edin",
-          "ERROR": "Emri i produktit është i nevojshëm"
+          "ERROR": "Məhsulun adı tələb olunur"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Mesazhi i Mirëseardhjes",
-          "PLACEHOLDER": "Shkruani mesazhin e mirëseardhjes"
+          "LABEL": "Salamlaşma Mesajı",
+          "PLACEHOLDER": "Salamlaşma mesajını daxil edin"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Mesazhi i Dorëzimit",
-          "PLACEHOLDER": "Shkruani mesazhin e dorëzimit"
+          "LABEL": "Transfer Mesajı",
+          "PLACEHOLDER": "Transfer mesajını daxil edin"
         },
         "RESOLUTION_MESSAGE": {
           "LABEL": "Həll mesajı",
-          "PLACEHOLDER": "Shkruani mesazhin e zgjidhjes"
+          "PLACEHOLDER": "Həll mesajını daxil edin"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Udhëzime",
-          "PLACEHOLDER": "Shkruani udhëzimet për asistentin"
+          "LABEL": "Təlimatlar",
+          "PLACEHOLDER": "Assistent üçün təlimatları daxil edin"
         },
         "FEATURES": {
           "TITLE": "Xüsusiyyətlər",
-          "ALLOW_CONVERSATION_FAQS": "Gjeneroni FAQ nga bisedat e zgjidhura",
-          "ALLOW_MEMORIES": "Müştəri qarşılıqlı əlaqələrindən əsas detalları yaddaş kimi tutun.",
-          "ALLOW_CITATIONS": "Përfshij citime burimesh në përgjigje",
-          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
+          "ALLOW_CONVERSATION_FAQS": "Həll olunmuş söhbətlərdən FAQ yaradın",
+          "ALLOW_MEMORIES": "Müştəri ilə ünsiyyətdən əsas detalları yadda saxla.",
+          "ALLOW_CITATIONS": "Cavablarda mənbə istinadlarını daxil et",
+          "ALLOW_CONTACT_ATTRIBUTES": "Əlaqə məlumatlarına çıxışa icazə ver"
         }
       },
       "EDIT": {
-        "TITLE": "Përditëso asistentin",
-        "SUCCESS_MESSAGE": "Asistenti u përditësua me sukses",
-        "ERROR_MESSAGE": "Ndodhi një gabim gjatë përditësimit të asistentit, ju lutemi provoni përsëri.",
+        "TITLE": "Assistenti yenilə",
+        "SUCCESS_MESSAGE": "Assistent uğurla yeniləndi",
+        "ERROR_MESSAGE": "Köməkçi yenilənərkən xəta baş verdi, zəhmət olmasa yenidən cəhd edin.",
         "NOT_FOUND": "Köməkçi tapılmadı. Zəhmət olmasa yenidən cəhd edin."
       },
       "SETTINGS": {
-        "HEADER": "Parametrlər",
+        "HEADER": "Ayarlar",
         "BASIC_SETTINGS": {
-          "TITLE": "Cilësimet bazë",
-          "DESCRIPTION": "Personalizo atë që thotë asistenti kur përfundon një bisedë ose kur e transferon te një njeri."
+          "TITLE": "Əsas ayarlar",
+          "DESCRIPTION": "Assistentin söhbəti bitirərkən və ya insana ötürərkən nə deyəcəyini fərdiləşdirin."
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "Cilësimet e sistemit",
-          "DESCRIPTION": "Personalizo atë që thotë asistenti kur përfundon një bisedë ose kur e transferon te një njeri."
+          "TITLE": "Sistem ayarları",
+          "DESCRIPTION": "Assistentin söhbəti bitirərkən və ya insana ötürərkən nə deyəcəyini fərdiləşdirin."
         },
         "CONTROL_ITEMS": {
-          "TITLE": "Gjërat Argëtuese",
-          "DESCRIPTION": "Köməkçiyə daha çox nəzarət əlavə edin. (bir az daha vizual, məsələn, hekayə kimi: Sorğu qoruyucusu → ssenarilər → çıxış) İstifadəçini bunlardan istifadə etməyə təşviq edir.",
+          "TITLE": "Əyləncəli Hissə",
+          "DESCRIPTION": "Assistentə daha çox nəzarət əlavə edin. (vizual olaraq bir hekayə kimi: Sorğu məhdudiyyəti → ssenarilər → nəticə) İstifadəçini bunlardan istifadə etməyə təşviq edir.",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Rregullat mbrojtëse",
-              "DESCRIPTION": "İşləri yolunda saxlayır — yalnız köməkçinizin cavablandırmasını istədiyiniz sual növləri, mövzudan kənar və ya qadağan olunmuş heç nə yoxdur."
+              "TITLE": "Məhdudiyyətlər",
+              "DESCRIPTION": "Hər şeyin nəzarətdə qalmasını təmin edir—assistentinizin yalnız istədiyiniz suallara cavab verməsini təmin edir, mövzudan kənar və ya icazəsiz heç nə yoxdur."
             },
             "RESPONSE_GUIDELINES": {
               "TITLE": "Cavab qaydaları",
-              "DESCRIPTION": "Stili dhe struktura e përgjigjeve të asistentit tuaj—të qarta dhe miqësore? Të shkurtra dhe të gjalla? Të detajuara dhe formale?"
+              "DESCRIPTION": "Assistentinizin cavablarının tərzi və quruluşu—aydın və dostcasına? Qısa və yığcam? Ətraflı və rəsmi?"
             }
           }
         },
         "DELETE": {
-          "TITLE": "Delete Assistant",
-          "DESCRIPTION": "Bu əməliyyat geri dönməzdir. Bu köməkçi silindikdə, o, bütün əlaqəli qutulardan silinəcək və yaradılmış bütün biliklər daimi olaraq silinəcək.",
-          "BUTTON_TEXT": "Delete {assistantName}"
+          "TITLE": "Assistenti Sil",
+          "DESCRIPTION": "Bu əməliyyat geri qaytarıla bilməz. Bu assistenti silmək onu bütün bağlı poçt qutularından siləcək və yaradılmış bütün bilikləri daimi olaraq siləcək.",
+          "BUTTON_TEXT": "{assistantName} sil"
         }
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Ndrysho Asistentin",
-        "DELETE_ASSISTANT": "Fshi Asistentin",
-        "VIEW_CONNECTED_INBOXES": "Əlaqəli qutuları göstər"
+        "EDIT_ASSISTANT": "Assistenti redaktə et",
+        "DELETE_ASSISTANT": "Assistenti sil",
+        "VIEW_CONNECTED_INBOXES": "Bağlı poçt qutularına bax"
       },
       "EMPTY_STATE": {
-        "TITLE": "Heç bir köməkçi mövcud deyil",
+        "TITLE": "Assistent yoxdur",
         "SUBTITLE": "İstifadəçilərinizə sürətli və dəqiq cavablar vermək üçün köməkçi yaradın. O, yardım məqalələrinizdən və əvvəlki söhbətlərdən öyrənə bilər.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Asistenti Captain",
-          "NOTE": "Asistenti Captain angazhohet drejtpërdrejt me klientët, mëson nga dokumentet tuaja të ndihmës dhe bisedat e kaluara, dhe ofron përgjigje të menjëhershme dhe të sakta. Ai trajton pyetjet fillestare, duke siguruar zgjidhje të shpejta para se t’i transferojë ato te një agjent kur është e nevojshme."
+          "TITLE": "Captain Assistent",
+          "NOTE": "Captain Assistent birbaşa müştərilərlə ünsiyyət qurur, kömək sənədlərinizdən və keçmiş söhbətlərdən öyrənir və dərhal, dəqiq cavablar verir. O, ilkin sorğuları idarə edir və lazım olduqda agentə ötürür."
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Rregullat mbrojtëse",
-        "DESCRIPTION": "İşləri yolunda saxlayır — yalnız köməkçinizin cavablandırmasını istədiyiniz sual növləri, mövzudan kənar və ya qadağan olunmuş heç nə yoxdur.",
+        "TITLE": "Məhdudiyyətlər",
+        "DESCRIPTION": "Hər şeyin nəzarətdə qalmasını təmin edir—assistentinizin yalnız istədiyiniz suallara cavab verməsini təmin edir, mövzudan kənar və ya icazəsiz heç nə yoxdur.",
         "BULK_ACTION": {
           "SELECTED": "{count} element seçildi | {count} element seçildi",
           "SELECT_ALL": "Hamısını seç ({count})",
-          "UNSELECT_ALL": "Hamısının seçimini ləğv et ({count})",
+          "UNSELECT_ALL": "Hamısını seçmə ({count})",
           "BULK_DELETE_BUTTON": "Sil"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Shembuj rregullash mbrojtëse",
+            "TITLE": "Məhdudiyyət nümunələri",
             "ADD": "Hamısını əlavə et",
             "ADD_SINGLE": "Bunu əlavə et",
             "SAVE": "Əlavə et və yadda saxla (↵)",
-            "PLACEHOLDER": "Shkruaj një rregull mbrojtës tjetër..."
+            "PLACEHOLDER": "Başqa bir məhdudiyyət yazın..."
           },
           "NEW": {
-            "TITLE": "Shto një rregull mbrojtës",
-            "CREATE": "Krijo",
+            "TITLE": "Məhdudiyyət əlavə et",
+            "CREATE": "Yarat",
             "CANCEL": "Ləğv et",
-            "PLACEHOLDER": "Shkruaj një rregull mbrojtës tjetër...",
-            "TEST_ALL": "Testo të gjitha"
-          }
-        },
-        "LIST": {
-          "SEARCH_PLACEHOLDER": "Axtarış..."
-        },
-        "EMPTY_MESSAGE": "Nuk u gjetën rregulla mbrojtëse. Krijo ose shto shembuj për të filluar.",
-        "SEARCH_EMPTY_MESSAGE": "Nuk u gjetën kufizime për këtë kërkim.",
-        "API": {
-          "ADD": {
-            "SUCCESS": "Rregullat mbrojtëse u shtuan me sukses",
-            "ERROR": "Ndodhi një gabim gjatë shtimit të rregullave mbrojtëse, ju lutemi provoni përsëri."
-          },
-          "UPDATE": {
-            "SUCCESS": "Rregullat mbrojtëse u përditësuan me sukses",
-            "ERROR": "Ndodhi një gabim gjatë përditësimit të rregullave mbrojtëse, ju lutemi provoni përsëri."
-          },
-          "DELETE": {
-            "SUCCESS": "Rregullat mbrojtëse u fshinë me sukses",
-            "ERROR": "Ndodhi një gabim gjatë fshirjes së rregullave mbrojtëse, ju lutemi provoni përsëri."
-          }
-        }
-      },
-      "RESPONSE_GUIDELINES": {
-        "TITLE": "Udhëzimet e Përgjigjes",
-        "DESCRIPTION": "Stili dhe struktura e përgjigjeve të asistentit tuaj—të qarta dhe miqësore? Të shkurtra dhe të gjalla? Të detajuara dhe formale?",
-        "BULK_ACTION": {
-          "SELECTED": "{count} element seçildi | {count} element seçildi",
-          "SELECT_ALL": "Hamısını seç ({count})",
-          "UNSELECT_ALL": "Hamısının seçimini götür ({count})",
-          "BULK_DELETE_BUTTON": "Sil"
-        },
-        "ADD": {
-          "SUGGESTED": {
-            "TITLE": "Nümunə cavab qaydaları",
-            "ADD": "Hamısını əlavə et",
-            "ADD_SINGLE": "Bunu əlavə et",
-            "SAVE": "Əlavə et və yadda saxla (↵)",
-            "PLACEHOLDER": "Başqa cavab qaydasını yazın..."
-          },
-          "NEW": {
-            "TITLE": "Cavab qaydası əlavə et",
-            "CREATE": "Krijo",
-            "CANCEL": "Ləğv et",
-            "PLACEHOLDER": "Başqa cavab qaydasını yazın...",
-            "TEST_ALL": "Testo të gjitha"
+            "PLACEHOLDER": "Başqa bir məhdudiyyət yazın...",
+            "TEST_ALL": "Hamısını yoxla"
           }
         },
         "LIST": {
           "SEARCH_PLACEHOLDER": "Axtar..."
         },
-        "EMPTY_MESSAGE": "Nuk u gjetën udhëzime përgjigjeje. Krijoni ose shtoni shembuj për të filluar.",
-        "SEARCH_EMPTY_MESSAGE": "Nuk u gjetën udhëzime përgjigjeje për këtë kërkim.",
+        "EMPTY_MESSAGE": "Məhdudiyyət tapılmadı. Başlamaq üçün yaradın və ya nümunələr əlavə edin.",
+        "SEARCH_EMPTY_MESSAGE": "Axtarış üçün məhdudiyyət tapılmadı.",
         "API": {
           "ADD": {
-            "SUCCESS": "Cavab qaydaları uğurla əlavə edildi",
-            "ERROR": "Ndodhi një gabim gjatë shtimit të udhëzimeve të përgjigjes, ju lutemi provoni përsëri."
+            "SUCCESS": "Məhdudiyyətlər uğurla əlavə olundu",
+            "ERROR": "Məhdudiyyətlər əlavə olunarkən xəta baş verdi, yenidən cəhd edin."
           },
           "UPDATE": {
-            "SUCCESS": "Udhëzimet e përgjigjes u përditësuan me sukses",
-            "ERROR": "Ndodhi një gabim gjatë përditësimit të udhëzimeve të përgjigjes, ju lutemi provoni përsëri."
+            "SUCCESS": "Məhdudiyyətlər uğurla yeniləndi",
+            "ERROR": "Məhdudiyyətlər yenilənərkən xəta baş verdi, yenidən cəhd edin."
           },
           "DELETE": {
-            "SUCCESS": "Udhëzimet e përgjigjes u fshinë me sukses",
-            "ERROR": "Ndodhi një gabim gjatë fshirjes së udhëzimeve të përgjigjes, ju lutemi provoni përsëri."
+            "SUCCESS": "Məhdudiyyətlər uğurla silindi",
+            "ERROR": "Məhdudiyyətlər silinərkən xəta baş verdi, yenidən cəhd edin."
+          }
+        }
+      },
+      "RESPONSE_GUIDELINES": {
+        "TITLE": "Cavab qaydaları",
+        "DESCRIPTION": "Assistentinizin cavablarının tərzi və quruluşu—aydın və dostcasına? Qısa və yığcam? Ətraflı və rəsmi?",
+        "BULK_ACTION": {
+          "SELECTED": "{count} element seçildi | {count} element seçildi",
+          "SELECT_ALL": "Hamısını seç ({count})",
+          "UNSELECT_ALL": "Hamısını seçmə ({count})",
+          "BULK_DELETE_BUTTON": "Sil"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Cavab qaydası nümunələri",
+            "ADD": "Hamısını əlavə et",
+            "ADD_SINGLE": "Bunu əlavə et",
+            "SAVE": "Əlavə et və yadda saxla (↵)",
+            "PLACEHOLDER": "Başqa bir cavab qaydası yazın..."
+          },
+          "NEW": {
+            "TITLE": "Cavab qaydası əlavə et",
+            "CREATE": "Yarat",
+            "CANCEL": "Ləğv et",
+            "PLACEHOLDER": "Başqa bir cavab qaydası yazın...",
+            "TEST_ALL": "Hamısını yoxla"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Axtar..."
+        },
+        "EMPTY_MESSAGE": "Cavab qaydası tapılmadı. Başlamaq üçün yaradın və ya nümunələr əlavə edin.",
+        "SEARCH_EMPTY_MESSAGE": "Axtarış üçün cavab qaydası tapılmadı.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Cavab qaydaları uğurla əlavə olundu",
+            "ERROR": "Cavab qaydaları əlavə olunarkən xəta baş verdi, yenidən cəhd edin."
+          },
+          "UPDATE": {
+            "SUCCESS": "Cavab qaydaları uğurla yeniləndi",
+            "ERROR": "Cavab qaydaları yenilənərkən xəta baş verdi, yenidən cəhd edin."
+          },
+          "DELETE": {
+            "SUCCESS": "Cavab qaydaları uğurla silindi",
+            "ERROR": "Cavab qaydaları silinərkən xəta baş verdi, yenidən cəhd edin."
           }
         }
       },
       "SCENARIOS": {
-        "TITLE": "Skenarë",
-        "DESCRIPTION": "Köməkçinizə müəyyən kontekst verin — məsələn, “istifadəçi qaldıqda nə etməli” və ya “geri ödəmə tələbi zamanı necə davranmalı.”",
+        "TITLE": "Ssenarilər",
+        "DESCRIPTION": "Assistentinizə bir az kontekst verin—məsələn, “istifadəçi ilişibsə nə etməli”, ya da “geri qaytarma sorğusu zamanı necə davranmalı.”",
         "BULK_ACTION": {
           "SELECTED": "{count} element seçildi | {count} element seçildi",
           "SELECT_ALL": "Hamısını seç ({count})",
-          "UNSELECT_ALL": "Hamısının seçimini ləğv et ({count})",
-          "BULK_DELETE_BUTTON": "Fshi"
+          "UNSELECT_ALL": "Hamısını seçmə ({count})",
+          "BULK_DELETE_BUTTON": "Sil"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Skenarë shembull",
+            "TITLE": "Ssenari nümunələri",
             "ADD": "Hamısını əlavə et",
             "ADD_SINGLE": "Bunu əlavə et",
             "TOOLS_USED": "İstifadə olunan alətlər :"
           },
           "NEW": {
-            "CREATE": "Shto një skenar",
-            "TITLE": "Krijo një skenar",
+            "CREATE": "Ssenari əlavə et",
+            "TITLE": "Ssenari yarat",
             "FORM": {
               "TITLE": {
                 "LABEL": "Başlıq",
-                "PLACEHOLDER": "Shkruani një emër për skenarin",
-                "ERROR": "Emri i skenarit është i nevojshëm"
+                "PLACEHOLDER": "Ssenari üçün ad daxil edin",
+                "ERROR": "Ssenari adı tələb olunur"
               },
               "DESCRIPTION": {
                 "LABEL": "Təsvir",
-                "PLACEHOLDER": "Përshkruani se si dhe ku do të përdoret ky skenar",
-                "ERROR": "Përshkrimi i skenarit është i nevojshëm"
+                "PLACEHOLDER": "Bu ssenarinin necə və harada istifadə olunacağını təsvir edin",
+                "ERROR": "Ssenari təsviri tələb olunur"
               },
               "INSTRUCTION": {
                 "LABEL": "Necə idarə olunacaq",
-                "PLACEHOLDER": "Përshkruani se si dhe ku do të trajtohet ky skenar",
-                "ERROR": "Përmbajtja e skenarit është e nevojshme"
+                "PLACEHOLDER": "Bu ssenarinin necə və harada idarə olunacağını təsvir edin",
+                "ERROR": "Ssenari məzmunu tələb olunur"
               },
-              "CREATE": "Krijo",
+              "CREATE": "Yarat",
               "CANCEL": "Ləğv et"
             }
           }
         },
         "UPDATE": {
           "CANCEL": "Ləğv et",
-          "UPDATE": "Përditëso ndryshimet"
+          "UPDATE": "Dəyişiklikləri yenilə"
         },
         "LIST": {
           "SEARCH_PLACEHOLDER": "Axtar..."
         },
-        "EMPTY_MESSAGE": "Nuk u gjetën skenarë. Krijo ose shto shembuj për të filluar.",
-        "SEARCH_EMPTY_MESSAGE": "Nuk u gjetën skenarë për këtë kërkim.",
+        "EMPTY_MESSAGE": "Ssenari tapılmadı. Başlamaq üçün yaradın və ya nümunələr əlavə edin.",
+        "SEARCH_EMPTY_MESSAGE": "Axtarış üçün ssenari tapılmadı.",
         "API": {
           "ADD": {
-            "SUCCESS": "Skenarët u shtuan me sukses",
-            "ERROR": "Ndodhi një gabim gjatë shtimit të skenarëve, ju lutemi provoni përsëri."
+            "SUCCESS": "Ssenarilər uğurla əlavə olundu",
+            "ERROR": "Ssenarilər əlavə olunarkən xəta baş verdi, yenidən cəhd edin."
           },
           "UPDATE": {
-            "SUCCESS": "Skenarët u përditësuan me sukses",
-            "ERROR": "Ndodhi një gabim gjatë përditësimit të skenarëve, ju lutemi provoni përsëri."
+            "SUCCESS": "Ssenarilər uğurla yeniləndi",
+            "ERROR": "Ssenarilər yenilənərkən xəta baş verdi, yenidən cəhd edin."
           },
           "DELETE": {
-            "SUCCESS": "Skenarët u fshinë me sukses",
-            "ERROR": "Ndodhi një gabim gjatë fshirjes së skenarëve, ju lutemi provoni përsëri."
+            "SUCCESS": "Ssenarilər uğurla silindi",
+            "ERROR": "Ssenarilər silinərkən xəta baş verdi, yenidən cəhd edin."
           }
         }
       }
     },
     "DOCUMENTS": {
       "HEADER": "Sənədlər",
-      "ADD_NEW": "Yeni sənəd yaradın",
+      "ADD_NEW": "Yeni sənəd yarat",
       "SELECTED": "{count} seçildi",
       "SELECT_ALL": "Hamısını seç ({count})",
-      "UNSELECT_ALL": "Hamısının seçimini götür ({count})",
-      "BULK_DELETE_BUTTON": "Delete",
+      "UNSELECT_ALL": "Hamısını seçmə ({count})",
+      "BULK_DELETE_BUTTON": "Sil",
       "BULK_DELETE": {
-        "TITLE": "Delete documents?",
-        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
-        "CONFIRM": "Po, fshij të gjitha",
-        "SUCCESS_MESSAGE": "Documents deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+        "TITLE": "Sənədlər silinsin?",
+        "DESCRIPTION": "Seçilmiş sənədləri silmək istədiyinizə əminsiniz? Bu əməliyyat geri qaytarıla bilməz.",
+        "CONFIRM": "Bəli, hamısını sil",
+        "SUCCESS_MESSAGE": "Sənədlər uğurla silindi",
+        "ERROR_MESSAGE": "Sənədlər silinərkən xəta baş verdi, yenidən cəhd edin."
       },
       "RELATED_RESPONSES": {
-        "TITLE": "FAQ të lidhura",
-        "DESCRIPTION": "Këto FAQ janë gjeneruar direkt nga dokumenti."
+        "TITLE": "Əlaqəli FAQ-lar",
+        "DESCRIPTION": "Bu FAQ-lar birbaşa sənəddən yaradılıb."
       },
-      "FORM_DESCRIPTION": "Sənədi bilik mənbəyi kimi əlavə etmək üçün URL-ni daxil edin və onu əlaqələndirmək istədiyiniz köməkçini seçin.",
+      "FORM_DESCRIPTION": "Sənədi bilik mənbəyi kimi əlavə etmək üçün onun URL-ni daxil edin və əlaqələndiriləcək assistenti seçin.",
       "CREATE": {
         "TITLE": "Sənəd əlavə et",
         "SUCCESS_MESSAGE": "Sənəd uğurla yaradıldı",
-        "ERROR_MESSAGE": "Ndodhi një gabim gjatë krijimit të dokumentit, ju lutemi provoni përsëri."
+        "ERROR_MESSAGE": "Sənəd yaradılarkən xəta baş verdi, zəhmət olmasa yenidən cəhd edin."
       },
       "FORM": {
         "TYPE": {
@@ -767,129 +767,129 @@
         },
         "URL": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Sənədin URL ünvanını daxil edin",
-          "ERROR": "Zəhmət olmasa sənəd üçün düzgün URL təqdim edin"
+          "PLACEHOLDER": "Sənədin URL-ni daxil edin",
+          "ERROR": "Sənəd üçün düzgün URL daxil edin"
         },
         "PDF_FILE": {
           "LABEL": "PDF Faylı",
           "CHOOSE_FILE": "PDF faylını seçin",
-          "ERROR": "Zəhmət olmasa PDF faylı seçin",
-          "HELP_TEXT": "Madhësia maksimale e skedarit: 10MB",
-          "INVALID_TYPE": "Zəhmət olmasa, düzgün PDF faylı seçin",
-          "TOO_LARGE": "Madhësia e skedarit tejkalon kufirin prej 10MB"
+          "ERROR": "PDF fayl seçin",
+          "HELP_TEXT": "Maksimum fayl ölçüsü: 10MB",
+          "INVALID_TYPE": "Düzgün PDF fayl seçin",
+          "TOO_LARGE": "Fayl ölçüsü 10MB limiti aşır"
         },
         "NAME": {
-          "LABEL": "Emri i dokumentit (Opsionale)",
+          "LABEL": "Sənədin Adı (İstəyə bağlı)",
           "PLACEHOLDER": "Sənəd üçün ad daxil edin"
         }
       },
       "DELETE": {
-        "TITLE": "A jeni i sigurt që dëshironi të fshini dokumentin?",
-        "DESCRIPTION": "Bu əməliyyat geri dönməzdir. Bu sənəd silindikdə, yaradılmış bütün biliklər daimi olaraq silinəcək.",
-        "CONFIRM": "Po, fshi",
-        "SUCCESS_MESSAGE": "Dokumenti është fshirë me sukses",
-        "ERROR_MESSAGE": "Ndodhi një gabim gjatë fshirjes së dokumentit, ju lutemi provoni përsëri."
+        "TITLE": "Sənəd silinsin?",
+        "DESCRIPTION": "Bu əməliyyat geri qaytarıla bilməz. Bu sənədi silmək bütün yaradılmış bilikləri daimi olaraq siləcək.",
+        "CONFIRM": "Bəli, sil",
+        "SUCCESS_MESSAGE": "Sənəd uğurla silindi",
+        "ERROR_MESSAGE": "Sənəd silinərkən xəta baş verdi, zəhmət olmasa yenidən cəhd edin."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "Əlaqəli cavabları göstər",
-        "DELETE_DOCUMENT": "Fshi Dokumentin"
+        "VIEW_RELATED_RESPONSES": "Əlaqəli cavablara bax",
+        "DELETE_DOCUMENT": "Sənədi sil"
       },
       "EMPTY_STATE": {
-        "TITLE": "Heç bir sənəd mövcud deyil",
-        "SUBTITLE": "Dokumentet përdoren nga asistenti juaj për të gjeneruar FAQ. Mund të importoni dokumente për të siguruar kontekst për asistentin tuaj.",
+        "TITLE": "Sənəd yoxdur",
+        "SUBTITLE": "Sənədlər assistentiniz tərəfindən FAQ-lar yaratmaq üçün istifadə olunur. Assistentinizə kontekst vermək üçün sənədləri əlavə edə bilərsiniz.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Dokumenti Captain",
-          "NOTE": "Captain-da sənəd köməkçi üçün bilik mənbəyi kimi xidmət edir. Köməkçi yardım mərkəzinizə və ya bələdçilərinizə qoşularaq məzmunu təhlil edə və müştəri sorğularına dəqiq cavablar verə bilər."
+          "TITLE": "Captain Sənəd",
+          "NOTE": "Captain-da sənəd assistent üçün bilik mənbəyi rolunu oynayır. Kömək mərkəzinizi və ya təlimatları bağlayaraq, Captain məzmunu analiz edə və müştəri sorğuları üçün dəqiq cavablar verə bilər."
         }
       }
     },
     "CUSTOM_TOOLS": {
       "HEADER": "Alətlər",
-      "ADD_NEW": "Yeni alət yaradın",
-      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
+      "ADD_NEW": "Yeni alət yarat",
+      "SOFT_LIMIT_WARNING": "10-dan çox alət olması assistentin düzgün alət seçmə ehtimalını azalda bilər. Daha yaxşı nəticə üçün istifadə olunmayan alətləri silməyi düşünün.",
       "EMPTY_STATE": {
-        "TITLE": "Fərdi alətlər mövcud deyil",
-        "SUBTITLE": "Köməkçinizi xarici API-lər və xidmətlərlə qoşmaq üçün xüsusi alətlər yaradın, beləliklə o, məlumatları əldə edə və sizin adınıza əməliyyatlar apara bilsin.",
+        "TITLE": "Xüsusi alət yoxdur",
+        "SUBTITLE": "Assistentinizi xarici API və servislərlə birləşdirmək üçün xüsusi alətlər yaradın, beləliklə məlumat əldə edə və sizin adınızdan əməliyyatlar yerinə yetirə bilər.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Xüsusi Alətlər",
-          "NOTE": "Mjetet e personalizuara i lejojnë asistentit tuaj të ndërveprojë me API dhe shërbime të jashtme. Krijoni mjete për të marrë të dhëna, për të kryer veprime, ose për t'u integruar me sistemet ekzistuese për të përmirësuar aftësitë e asistentit tuaj."
+          "NOTE": "Xüsusi alətlər assistentinizə xarici API və servislərlə qarşılıqlı əlaqə qurmağa imkan verir. Məlumat əldə etmək, əməliyyatlar yerinə yetirmək və ya mövcud sistemlərinizlə inteqrasiya etmək üçün alətlər yaradın və assistentin imkanlarını artırın."
         }
       },
-      "FORM_DESCRIPTION": "Konfiguro mjetin tënd të personalizuar për t'u lidhur me API të jashtme",
+      "FORM_DESCRIPTION": "Xüsusi alətinizi xarici API-lərlə birləşdirmək üçün konfiqurasiya edin",
       "OPTIONS": {
         "EDIT_TOOL": "Aləti redaktə et",
-        "DELETE_TOOL": "Fshi mjetin"
+        "DELETE_TOOL": "Aləti sil"
       },
       "CREATE": {
-        "TITLE": "Krijo Mjet të Përshtatur",
+        "TITLE": "Xüsusi Alət Yarat",
         "SUCCESS_MESSAGE": "Xüsusi alət uğurla yaradıldı",
-        "ERROR_MESSAGE": "Xüsusi alət yaratmaq mümkün olmadı"
+        "ERROR_MESSAGE": "Xüsusi alət yaradılmadı"
       },
       "EDIT": {
         "TITLE": "Xüsusi Aləti Redaktə Et",
-        "SUCCESS_MESSAGE": "Mjeti i përshtatur u përditësua me sukses",
-        "ERROR_MESSAGE": "Dështoi përditësimi i mjetit të përshtatur"
+        "SUCCESS_MESSAGE": "Xüsusi alət uğurla yeniləndi",
+        "ERROR_MESSAGE": "Xüsusi alət yenilənmədi"
       },
       "DELETE": {
-        "TITLE": "Fshi Mjetin e Përshtatur",
-        "DESCRIPTION": "A jeni i sigurt që dëshironi të fshini këtë mjet të përshtatur? Kjo veprim nuk mund të zhbëhet.",
-        "CONFIRM": "Po, fshi",
-        "SUCCESS_MESSAGE": "Mjeti i përshtatur u fshi me sukses",
-        "ERROR_MESSAGE": "Xüsusi aləti silmək mümkün olmadı"
+        "TITLE": "Xüsusi Aləti Sil",
+        "DESCRIPTION": "Bu xüsusi aləti silmək istədiyinizə əminsiniz? Bu əməliyyat geri qaytarıla bilməz.",
+        "CONFIRM": "Bəli, sil",
+        "SUCCESS_MESSAGE": "Xüsusi alət uğurla silindi",
+        "ERROR_MESSAGE": "Xüsusi alət silinmədi"
       },
       "TEST": {
-        "BUTTON": "Test connection",
-        "SUCCESS": "Endpoint returned HTTP {status}",
-        "ERROR": "Connection failed",
-        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+        "BUTTON": "Bağlantını yoxla",
+        "SUCCESS": "Endpoint HTTP {status} qaytardı",
+        "ERROR": "Bağlantı uğursuz oldu",
+        "DISABLED_HINT": "Test yalnız şablonsuz və ya sorğu gövdəsi olmayan endpoint-lər üçün mümkündür."
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Emri i Mjetit",
-          "PLACEHOLDER": "Kërkimi i Porosisë",
-          "ERROR": "Emri i mjetit është i nevojshëm",
-          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
+          "LABEL": "Alətin Adı",
+          "PLACEHOLDER": "Sifariş axtarışı",
+          "ERROR": "Alət adı tələb olunur",
+          "MAX_LENGTH_ERROR": "Alət adı maksimum {max} simvol olmalıdır"
         },
         "DESCRIPTION": {
           "LABEL": "Təsvir",
-          "PLACEHOLDER": "Kërkon detajet e porosisë sipas ID-së së porosisë"
+          "PLACEHOLDER": "Sifariş ID-si ilə sifariş detalları axtarılır"
         },
         "HTTP_METHOD": {
           "LABEL": "Metod"
         },
         "ENDPOINT_URL": {
-          "LABEL": "URL e Pikës së Fundit",
+          "LABEL": "Endpoint URL",
           "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
           "ERROR": "Düzgün URL tələb olunur"
         },
         "AUTH_TYPE": {
-          "LABEL": "Lloji i Autentifikimit"
+          "LABEL": "Avtorizasiya növü"
         },
         "AUTH_TYPES": {
           "NONE": "Heç biri",
-          "BEARER": "Token Bearer",
-          "BASIC": "Autentifikim Bazik",
+          "BEARER": "Bearer Token",
+          "BASIC": "Basic Auth",
           "API_KEY": "API Açarı"
         },
         "AUTH_CONFIG": {
-          "BEARER_TOKEN": "Token Bearer",
-          "BEARER_TOKEN_PLACEHOLDER": "Shkruani tokenin tuaj bearer",
-          "USERNAME": "Emri i përdoruesit",
+          "BEARER_TOKEN": "Bearer Token",
+          "BEARER_TOKEN_PLACEHOLDER": "Bearer tokeninizi daxil edin",
+          "USERNAME": "İstifadəçi adı",
           "USERNAME_PLACEHOLDER": "İstifadəçi adını daxil edin",
-          "PASSWORD": "Fjalëkalimi",
-          "PASSWORD_PLACEHOLDER": "Enter password",
-          "API_KEY": "Header Name",
+          "PASSWORD": "Şifrə",
+          "PASSWORD_PLACEHOLDER": "Şifrəni daxil edin",
+          "API_KEY": "Başlıq Adı",
           "API_KEY_PLACEHOLDER": "X-API-Key",
-          "API_VALUE": "Başlıq dəyəri",
+          "API_VALUE": "Başlıq Dəyəri",
           "API_VALUE_PLACEHOLDER": "API açar dəyərini daxil edin"
         },
         "PARAMETERS": {
-          "LABEL": "Parameters",
-          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+          "LABEL": "Parametrlər",
+          "HELP_TEXT": "İstifadəçi sorğularından çıxarılacaq parametrləri müəyyən edin"
         },
-        "ADD_PARAMETER": "Add Parameter",
+        "ADD_PARAMETER": "Parametr əlavə et",
         "PARAM_NAME": {
-          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+          "PLACEHOLDER": "Parametr adı (məs., order_id)"
         },
         "PARAM_TYPE": {
           "PLACEHOLDER": "Növ"
@@ -902,139 +902,139 @@
           "OBJECT": "Obyekt"
         },
         "PARAM_DESCRIPTION": {
-          "PLACEHOLDER": "Description of the parameter"
+          "PLACEHOLDER": "Parametrin təsviri"
         },
         "PARAM_REQUIRED": {
           "LABEL": "Tələb olunur"
         },
         "REQUEST_TEMPLATE": {
-          "LABEL": "Sorğu Bədəninin Şablonu (İxtiyari)",
+          "LABEL": "Sorğu Gövdəsi Şablonu (İstəyə bağlı)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "Response Template (Optional)",
-          "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
+          "LABEL": "Cavab Şablonu (İstəyə bağlı)",
+          "PLACEHOLDER": "Sifariş {'{{'} order_id {'}}'} statusu: {'{{'} status {'}}'}"
         },
         "ERRORS": {
-          "PARAM_NAME_REQUIRED": "Parameter name is required"
+          "PARAM_NAME_REQUIRED": "Parametr adı tələb olunur"
         }
       }
     },
     "RESPONSES": {
-      "HEADER": "Tez-tez verilən suallar",
-      "PENDING_FAQS": "Gözləyən tez-tez verilən suallar",
-      "ADD_NEW": "Yeni FAQ yaradın",
+      "HEADER": "FAQ-lar",
+      "PENDING_FAQS": "Gözləyən FAQ-lar",
+      "ADD_NEW": "Yeni FAQ yarat",
       "DOCUMENTABLE": {
         "CONVERSATION": "Söhbət #{id}"
       },
       "SELECTED": "{count} seçildi",
       "SELECT_ALL": "Hamısını seç ({count})",
-      "UNSELECT_ALL": "Hamısının seçimini götür ({count})",
-      "SEARCH_PLACEHOLDER": "Kërko në Pyetjet e Shpeshta...",
-      "BULK_APPROVE_BUTTON": "Mirato",
-      "BULK_DELETE_BUTTON": "Fshi",
+      "UNSELECT_ALL": "Hamısını seçmə ({count})",
+      "SEARCH_PLACEHOLDER": "FAQ-larda axtar...",
+      "BULK_APPROVE_BUTTON": "Təsdiqlə",
+      "BULK_DELETE_BUTTON": "Sil",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQ u miratuan me sukses",
-        "ERROR_MESSAGE": "Ndodhi një gabim gjatë miratimit të FAQ, ju lutemi provoni përsëri."
+        "SUCCESS_MESSAGE": "FAQ-lar uğurla təsdiqləndi",
+        "ERROR_MESSAGE": "FAQ-lar təsdiqlənərkən xəta baş verdi, zəhmət olmasa yenidən cəhd edin."
       },
       "BULK_DELETE": {
-        "TITLE": "Tez-tez verilən sualları silmək?",
-        "DESCRIPTION": "A jeni i sigurt që dëshironi të fshini FAQ-të e përzgjedhura? Kjo veprim nuk mund të zhbëhet.",
-        "CONFIRM": "Po, fshij të gjitha",
-        "SUCCESS_MESSAGE": "FAQ-të u fshinë me sukses",
-        "ERROR_MESSAGE": "Ndodhi një gabim gjatë fshirjes së FAQ-ve, ju lutemi provoni përsëri."
+        "TITLE": "FAQ-lar silinsin?",
+        "DESCRIPTION": "Seçilmiş FAQ-ları silmək istədiyinizə əminsiniz? Bu əməliyyat geri qaytarıla bilməz.",
+        "CONFIRM": "Bəli, hamısını sil",
+        "SUCCESS_MESSAGE": "FAQ-lar uğurla silindi",
+        "ERROR_MESSAGE": "FAQ-lar silinərkən xəta baş verdi, zəhmət olmasa yenidən cəhd edin."
       },
       "DELETE": {
-        "TITLE": "A jeni i sigurt që dëshironi të fshini FAQ?",
+        "TITLE": "FAQ silinsin?",
         "DESCRIPTION": "",
-        "CONFIRM": "Po, fshi",
-        "SUCCESS_MESSAGE": "FAQ u fshi me sukses",
-        "ERROR_MESSAGE": "Ndodhi një gabim gjatë fshirjes së FAQ, ju lutemi provoni përsëri."
+        "CONFIRM": "Bəli, sil",
+        "SUCCESS_MESSAGE": "FAQ uğurla silindi",
+        "ERROR_MESSAGE": "FAQ silinərkən xəta baş verdi, zəhmət olmasa yenidən cəhd edin."
       },
       "FILTER": {
-        "ASSISTANT": "Köməkçi: {selected}",
-        "STATUS": "Vəziyyət: {selected}",
+        "ASSISTANT": "Assistent: {selected}",
+        "STATUS": "Status: {selected}",
         "ALL_ASSISTANTS": "Hamısı"
       },
       "STATUS": {
-        "TITLE": "Vəziyyət",
+        "TITLE": "Status",
         "PENDING": "Gözləyir",
         "APPROVED": "Təsdiqlənib",
         "ALL": "Hamısı"
       },
       "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Nəzərdən keçirmək üçün buraya klikləyin"
+        "TITLE": "Captain müştərilərinizin axtardığı bəzi FAQ-ları tapdı.",
+        "ACTION": "Baxmaq üçün bura klikləyin"
       },
-      "FORM_DESCRIPTION": "Shto një pyetje dhe përgjigjen përkatëse në bazën e njohurive dhe zgjidh asistentin me të cilin duhet të lidhet.",
+      "FORM_DESCRIPTION": "Bilik bazasına sual və ona uyğun cavabı əlavə edin, sonra onun əlaqələndiriləcəyi köməkçini seçin.",
       "CREATE": {
-        "TITLE": "Tez-tez verilən sual əlavə et",
-        "SUCCESS_MESSAGE": "Cavab uğurla əlavə edildi.",
-        "ERROR_MESSAGE": "Cavab əlavə edilərkən xəta baş verdi. Zəhmət olmasa, yenidən cəhd edin."
+        "TITLE": "FAQ əlavə et",
+        "SUCCESS_MESSAGE": "Cavab uğurla əlavə olundu.",
+        "ERROR_MESSAGE": "Cavab əlavə olunarkən xəta baş verdi. Yenidən cəhd edin."
       },
       "FORM": {
         "QUESTION": {
           "LABEL": "Sual",
           "PLACEHOLDER": "Sualı buraya daxil edin",
-          "ERROR": "Zəhmət olmasa, düzgün sual daxil edin."
+          "ERROR": "Düzgün sual daxil edin."
         },
         "ANSWER": {
           "LABEL": "Cavab",
           "PLACEHOLDER": "Cavabı buraya daxil edin",
-          "ERROR": "Zəhmət olmasa, düzgün cavab daxil edin."
+          "ERROR": "Düzgün cavab daxil edin."
         }
       },
       "EDIT": {
-        "TITLE": "Përditëso FAQ",
-        "SUCCESS_MESSAGE": "FAQ është përditësuar me sukses",
-        "ERROR_MESSAGE": "Ndodhi një gabim gjatë përditësimit të FAQ, ju lutemi provoni përsëri",
-        "APPROVE_SUCCESS_MESSAGE": "FAQ u shënua si i miratuar"
+        "TITLE": "FAQ-ı yenilə",
+        "SUCCESS_MESSAGE": "FAQ uğurla yeniləndi",
+        "ERROR_MESSAGE": "FAQ yenilənərkən xəta baş verdi, zəhmət olmasa yenidən cəhd edin.",
+        "APPROVE_SUCCESS_MESSAGE": "FAQ təsdiqləndi"
       },
       "OPTIONS": {
-        "APPROVE": "Approve",
+        "APPROVE": "Təsdiqlə",
         "EDIT_RESPONSE": "Redaktə et",
-        "DELETE_RESPONSE": "Delete"
+        "DELETE_RESPONSE": "Sil"
       },
       "EMPTY_STATE": {
-        "TITLE": "Nuk u gjetën FAQ",
-        "NO_PENDING_TITLE": "Yoxlanılacaq daha çox gözləyən FAQ yoxdur",
-        "SUBTITLE": "FAQ ndihmojnë asistentin tuaj të ofrojë përgjigje të shpejta dhe të sakta për pyetjet nga klientët tuaj. Ato mund të gjenerohen automatikisht nga përmbajtja juaj ose mund të shtohen manualisht.",
-        "CLEAR_SEARCH": "Clear active filters",
+        "TITLE": "FAQ tapılmadı",
+        "NO_PENDING_TITLE": "Baxılacaq başqa gözləyən FAQ yoxdur",
+        "SUBTITLE": "FAQ-lar köməkçinizə müştərilərinizdən gələn suallara sürətli və dəqiq cavablar verməyə kömək edir. Onlar məzmununuzdan avtomatik yaradına və ya əl ilə əlavə edilə bilər.",
+        "CLEAR_SEARCH": "Aktiv filtrləri təmizlə",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "FAQ Captain",
-          "NOTE": "Captain FAQ-ları ümumi müştəri suallarını aşkar edir — bilik bazanızda olmayan və ya tez-tez verilən — və dəstəyi yaxşılaşdırmaq üçün müvafiq FAQ-lar yaradır. Hər təklifi nəzərdən keçirə və təsdiqləyib-təsdiqləməməyə qərar verə bilərsiniz."
+          "TITLE": "Captain FAQ",
+          "NOTE": "Captain FAQ tez-tez verilən və ya bilik bazasında olmayan müştəri suallarını aşkar edir və uyğun FAQ-lar yaradır. Hər təklifi nəzərdən keçirə və təsdiqləyə və ya rədd edə bilərsiniz."
         }
       }
     },
     "INBOXES": {
-      "HEADER": "Qoşulmuş poçt qutuları",
-      "ADD_NEW": "Yeni qutu qoşun",
+      "HEADER": "Bağlı Poçt Qutuları",
+      "ADD_NEW": "Yeni gələn qutu qoşun",
       "OPTIONS": {
-        "DISCONNECT": "Çaktivizo"
+        "DISCONNECT": "Bağlantını kəs"
       },
       "DELETE": {
-        "TITLE": "A jeni i sigurt që dëshironi të çaktivizoni kutinë hyrëse?",
+        "TITLE": "Gələn qutunu ayırmaq istədiyinizə əminsiniz?",
         "DESCRIPTION": "",
-        "CONFIRM": "Po, fshi",
-        "SUCCESS_MESSAGE": "Qutu uğurla qoşulması kəsildi.",
-        "ERROR_MESSAGE": "Ndodhi një gabim gjatë çaktivizimit të kutisë hyrëse, ju lutemi provoni përsëri."
+        "CONFIRM": "Bəli, sil",
+        "SUCCESS_MESSAGE": "Poçt qutusu uğurla bağlantıdan çıxarıldı.",
+        "ERROR_MESSAGE": "Gələn qutu ayrılarkən xəta baş verdi, zəhmət olmasa yenidən cəhd edin."
       },
-      "FORM_DESCRIPTION": "Köməkçi ilə əlaqələndirmək üçün qutu seçin.",
+      "FORM_DESCRIPTION": "Köməkçi ilə əlaqələndirmək üçün gələn qutunu seçin.",
       "CREATE": {
-        "TITLE": "Qutu qoşun",
-        "SUCCESS_MESSAGE": "Qutu uğurla qoşuldu.",
+        "TITLE": "Poçt qutusu qoş",
+        "SUCCESS_MESSAGE": "Poçt qutusu uğurla qoşuldu.",
         "ERROR_MESSAGE": "Gələn qutu qoşularkən xəta baş verdi. Zəhmət olmasa yenidən cəhd edin."
       },
       "FORM": {
         "INBOX": {
-          "LABEL": "Qutu",
+          "LABEL": "Gələn qutu",
           "PLACEHOLDER": "Köməkçini yerləşdirmək üçün gələn qutunu seçin.",
-          "ERROR": "Qutu seçimi tələb olunur."
+          "ERROR": "Poçt qutusu seçimi tələb olunur."
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "Əlaqəli qutular tapılmadı",
-        "SUBTITLE": "Qutu qoşmaq köməkçiyə müştərilərinizdən gələn ilkin sualları cavablandırmağa və onları sizə yönləndirmədən əvvəl idarə etməyə imkan verir."
+        "TITLE": "Bağlı poçt qutusu yoxdur",
+        "SUBTITLE": "Poçt qutusu qoşmaq assistentin müştərilərinizin ilkin suallarını idarə etməsinə imkan verir və sonra sizi işə cəlb edir."
       }
     }
   }
