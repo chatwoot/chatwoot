@@ -44,11 +44,11 @@
           "UPDATE_SUCCESS": "Tetapan profil",
           "UPDATE_ERROR": "Simpan perubahan",
           "OPTIONS": {
-            "SMALLER": "Sila semak e-mel anda untuk mengesahkan perubahan alamat e-mel.",
-            "SMALL": "Avatar",
-            "DEFAULT": "Muat naik imej yang sah",
-            "LARGE": "Buang imej",
-            "LARGER": "Muat naik imej",
+            "SMALLER": "Lebih Kecil",
+            "SMALL": "Kecil",
+            "DEFAULT": "Lalai",
+            "LARGE": "Besar",
+            "LARGER": "Lebih Besar",
             "EXTRA_LARGE": "Sangat Besar"
           }
         },
