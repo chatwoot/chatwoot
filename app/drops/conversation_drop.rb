@@ -24,7 +24,39 @@ class ConversationDrop < BaseDrop
     custom_attributes.transform_keys(&:to_s)
   end
 
+  def queue_position
+    return 0 if @obj.assignee_id.present?
+
+    @obj.inbox.conversations.open.unassigned.count
+  end
+
+  def avg_wait_time_seconds
+    avg_first_response_seconds
+  end
+
+  def avg_wait_time_minutes
+    secs = avg_first_response_seconds
+    return 0 if secs.zero?
+
+    (secs / 60.0).ceil
+  end
+
   private
+
+  def avg_first_response_seconds
+    @avg_first_response_seconds ||= fetch_avg_first_response_seconds
+  end
+
+  def fetch_avg_first_response_seconds
+    result = @obj.account.reporting_events
+                 .where(
+                   name: 'first_response',
+                   inbox_id: @obj.inbox_id,
+                   created_at: Time.zone.now.beginning_of_day..Time.zone.now
+                 )
+                 .average(:value)
+    (result || 0).to_i
+  end
 
   def message_sender_name(sender)
     return 'Bot' if sender.blank?

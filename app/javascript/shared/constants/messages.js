@@ -149,6 +149,18 @@ export const MESSAGE_VARIABLES = [
     label: 'Inbox id',
     key: 'inbox.id',
   },
+  {
+    label: 'Conversation queue position',
+    key: 'conversation.queue_position',
+  },
+  {
+    label: 'Average wait time (seconds, today)',
+    key: 'conversation.avg_wait_time_seconds',
+  },
+  {
+    label: 'Average wait time (minutes, today, rounded up)',
+    key: 'conversation.avg_wait_time_minutes',
+  },
 ];
 
 export const ATTACHMENT_ICONS = {

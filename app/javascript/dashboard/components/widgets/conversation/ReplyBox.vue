@@ -21,7 +21,7 @@ import QuotedEmailPreview from './QuotedEmailPreview.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
-import { AUDIO_FORMATS } from 'shared/constants/messages';
+import { AUDIO_FORMATS, MESSAGE_VARIABLES } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import {
@@ -851,10 +851,11 @@ export default {
           });
     },
     async onSendReply() {
+      const knownVariableKeys = new Set(MESSAGE_VARIABLES.map(v => v.key));
       const undefinedVariables = getUndefinedVariablesInMessage({
         message: this.message,
         variables: this.messageVariables,
-      });
+      }).filter(v => !knownVariableKeys.has(v));
       if (undefinedVariables.length > 0) {
         const undefinedVariablesCount =
           undefinedVariables.length > 1 ? undefinedVariables.length : 1;
