@@ -32,8 +32,15 @@ class Whatsapp::IncomingMessageBaseService
     # misconfigurations in the Meta business manager account.
     # We use an atomic Redis SET NX to prevent concurrent workers from both
     # processing the same message simultaneously.
-    return if find_message_by_source_id(messages_data.first[:id])
-    return unless lock_message_source_id!
+    if find_message_by_source_id(messages_data.first[:id])
+      Rails.logger.info("Skipping WhatsApp webhook: message already persisted source_id=#{messages_data.first[:id]}")
+      return
+    end
+
+    unless lock_message_source_id!
+      Rails.logger.info("Skipping WhatsApp webhook: duplicate delivery lock active source_id=#{messages_data.first[:id]}")
+      return
+    end
 
     set_contact
     return unless @contact
@@ -48,6 +55,7 @@ class Whatsapp::IncomingMessageBaseService
     return unless find_message_by_source_id(@processed_params[:statuses].first[:id])
 
     update_message_with_status(@message, @processed_params[:statuses].first)
+    enrich_contact_from_status_webhook
   rescue ArgumentError => e
     Rails.logger.error "Error while processing whatsapp status update #{e.message}"
   end
@@ -95,35 +103,58 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def set_contact_from_echo
-    # For echo messages, contact phone is in the 'to' field
-    phone_number = messages_data.first[:to]
-    waid = processed_waid(phone_number)
+    # For echo messages, recipient can be either phone number ('to')
+    # or business-scoped user id ('to_user_id').
+    source_identifier = messages_data.first[:to] || messages_data.first[:to_user_id]
+    return if source_identifier.blank?
+
+    waid = processed_waid(source_identifier)
+    phone_number = extract_phone_number(messages_data.first[:to])
+    contact_name = phone_number.present? ? "+#{phone_number}" : waid
 
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: waid,
       inbox: inbox,
-      contact_attributes: { name: "+#{phone_number}", phone_number: "+#{phone_number}" }
+      contact_attributes: {
+        name: contact_name,
+        phone_number: phone_number.present? ? "+#{phone_number}" : nil,
+        whatsapp_bsuid: messages_data.first[:to_user_id]
+      }
     ).perform
 
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
+    update_contact_whatsapp_bsuid(messages_data.first[:to_user_id])
   end
 
   def set_contact_from_message
     contact_params = @processed_params[:contacts]&.first
-    return if contact_params.blank?
+    message = messages_data.first
+    source_identifier = contact_params&.[](:wa_id) || contact_params&.[](:user_id) || message[:from] || message[:from_user_id]
+    return if source_identifier.blank?
 
-    waid = processed_waid(contact_params[:wa_id])
+    waid = processed_waid(source_identifier)
+    phone_number = extract_phone_number(message[:from] || contact_params&.[](:wa_id))
+    profile_name = contact_params&.dig(:profile, :name)
+    username = normalize_whatsapp_username(contact_params&.dig(:profile, :username))
+    bsuid = contact_params&.[](:user_id) || message[:from_user_id]
 
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: waid,
       inbox: inbox,
-      contact_attributes: { name: contact_params.dig(:profile, :name), phone_number: "+#{messages_data.first[:from]}" }
+      contact_attributes: {
+        name: profile_name.presence || username.presence || waid,
+        phone_number: phone_number.present? ? "+#{phone_number}" : nil,
+        whatsapp_bsuid: bsuid,
+        whatsapp_username: username
+      }
     ).perform
 
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
 
+    update_contact_whatsapp_bsuid(bsuid)
+    update_contact_whatsapp_username(username)
     # Update existing contact name if ProfileName is available and current name is just phone number
     update_contact_with_profile_name(contact_params)
   end
@@ -223,8 +254,45 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def contact_name_matches_phone_number?
-    phone_number = "+#{messages_data.first[:from]}"
+    extracted_phone_number = extract_phone_number(messages_data.first[:from])
+    return false if extracted_phone_number.blank?
+
+    phone_number = "+#{extracted_phone_number}"
     formatted_phone_number = TelephoneNumber.parse(phone_number).international_number
     @contact.name == phone_number || @contact.name == formatted_phone_number
+  end
+
+  def extract_phone_number(value)
+    value.to_s.match?(/\A\d{1,15}\z/) ? value.to_s : nil
+  end
+
+  def update_contact_whatsapp_bsuid(bsuid)
+    return if @contact.blank? || bsuid.blank?
+    return if @contact.whatsapp_bsuid == bsuid
+
+    @contact.update!(whatsapp_bsuid: bsuid)
+  end
+
+  def update_contact_whatsapp_username(username)
+    return if @contact.blank? || username.blank?
+    return if @contact.whatsapp_username == username
+
+    @contact.update!(whatsapp_username: username)
+  end
+
+  def enrich_contact_from_status_webhook
+    contact = @message.conversation&.contact
+    return if contact.blank?
+
+    updates = {}
+    bsuid = @processed_params.dig(:statuses, 0, :recipient_user_id) || @processed_params.dig(:contacts, 0, :user_id)
+    username = normalize_whatsapp_username(@processed_params.dig(:contacts, 0, :profile, :username))
+    updates[:whatsapp_bsuid] = bsuid if bsuid.present? && contact.whatsapp_bsuid.blank?
+    updates[:whatsapp_username] = username if username.present? && contact.whatsapp_username.blank?
+    contact.update!(updates) if updates.present?
+  end
+
+  def normalize_whatsapp_username(username)
+    username.to_s.sub(/\A@+/, '').presence
   end
 end

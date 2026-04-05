@@ -18,6 +18,8 @@
 #  middle_name           :string           default("")
 #  name                  :string           default("")
 #  phone_number          :string
+#  whatsapp_bsuid        :string
+#  whatsapp_username     :string
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
@@ -34,6 +36,7 @@
 #  index_contacts_on_name_email_phone_number_identifier  (name,email,phone_number,identifier) USING gin
 #  index_contacts_on_nonempty_fields                     (account_id,email,phone_number,identifier) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
 #  index_contacts_on_phone_number_and_account_id         (phone_number,account_id)
+#  index_contacts_on_account_id_and_whatsapp_bsuid       (account_id,whatsapp_bsuid) UNIQUE WHERE (whatsapp_bsuid IS NOT NULL)
 #  index_resolved_contact_account_id                     (account_id) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
 #  uniq_email_per_account_contact                        (email,account_id) UNIQUE
 #  uniq_identifier_per_account_contact                   (identifier,account_id) UNIQUE
@@ -54,6 +57,7 @@ class Contact < ApplicationRecord
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
+  validates :whatsapp_bsuid, allow_blank: true, uniqueness: { scope: [:account_id] }
 
   belongs_to :account
   has_many :conversations, dependent: :destroy_async
@@ -156,6 +160,8 @@ class Contact < ApplicationRecord
       identifier: identifier,
       name: name,
       phone_number: phone_number,
+      whatsapp_bsuid: whatsapp_bsuid,
+      whatsapp_username: whatsapp_username,
       thumbnail: avatar_url,
       blocked: blocked,
       type: 'contact'
@@ -173,6 +179,8 @@ class Contact < ApplicationRecord
       identifier: identifier,
       name: name,
       phone_number: phone_number,
+      whatsapp_bsuid: whatsapp_bsuid,
+      whatsapp_username: whatsapp_username,
       thumbnail: avatar_url,
       blocked: blocked
     }
@@ -181,7 +189,7 @@ class Contact < ApplicationRecord
   def self.resolved_contacts(use_crm_v2: false)
     return where(contact_type: 'lead') if use_crm_v2
 
-    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
+    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> '' OR contacts.whatsapp_bsuid IS NOT NULL")
   end
 
   def discard_invalid_attrs
@@ -215,12 +223,17 @@ class Contact < ApplicationRecord
 
   def prepare_contact_attributes
     prepare_email_attribute
+    prepare_whatsapp_username_attribute
     prepare_jsonb_attributes
   end
 
   def prepare_email_attribute
     # So that the db unique constraint won't throw error when email is ''
     self.email = email.present? ? email.downcase : nil
+  end
+
+  def prepare_whatsapp_username_attribute
+    self.whatsapp_username = whatsapp_username.to_s.sub(/\A@+/, '').presence
   end
 
   def prepare_jsonb_attributes

@@ -12,6 +12,8 @@ class Whatsapp::PhoneNumberNormalizationService
   # @param provider [Symbol] :cloud or :twilio
   # @return [String] Normalized source_id in provider format or original if not found
   def normalize_and_find_contact_by_provider(raw_number, provider)
+    return raw_number if raw_number.blank? || !phone_number_identifier?(raw_number, provider)
+
     # Extract clean number based on provider format
     clean_number = extract_clean_number(raw_number, provider)
 
@@ -60,6 +62,11 @@ class Whatsapp::PhoneNumberNormalizationService
     else
       clean_number # Default for :cloud and unknown providers: "5541988887777"
     end
+  end
+
+  def phone_number_identifier?(raw_number, provider)
+    candidate = extract_clean_number(raw_number, provider)
+    candidate.match?(/\A\d{1,15}\z/)
   end
 
   NORMALIZERS = [

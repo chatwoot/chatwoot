@@ -106,6 +106,10 @@ export default {
   },
   methods: {
     dynamicTime,
+    formatWhatsappUsername(username) {
+      const cleanUsername = (username || '').replace(/^@+/, '');
+      return cleanUsername ? `@${cleanUsername}` : '';
+    },
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
     },
@@ -246,6 +250,14 @@ export default {
             icon="contact-identify"
             emoji="🪪"
             :title="$t('CONTACT_PANEL.IDENTIFIER')"
+          />
+          <ContactInfoRow
+            v-if="contact.whatsapp_username"
+            :value="formatWhatsappUsername(contact.whatsapp_username)"
+            icon="brand-whatsapp"
+            emoji="💬"
+            :title="$t('CONTACT_PANEL.WHATSAPP_USERNAME')"
+            show-copy
           />
           <ContactInfoRow
             :value="additionalAttributes.company_name"

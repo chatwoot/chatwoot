@@ -70,6 +70,17 @@ class Twilio::IncomingMessageService
   end
 
   def set_contact
+    if twilio_channel.whatsapp? && bsuid_value.present?
+      set_whatsapp_contact_with_bsuid
+    else
+      set_contact_standard
+    end
+
+    # Update existing contact name if ProfileName is available and current name is just phone number
+    update_contact_name_if_needed
+  end
+
+  def set_contact_standard
     source_id = twilio_channel.whatsapp? ? normalized_phone_number : params[:From]
 
     contact_inbox = ::ContactInboxWithContactBuilder.new(
@@ -80,9 +91,51 @@ class Twilio::IncomingMessageService
 
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
+  end
 
-    # Update existing contact name if ProfileName is available and current name is just phone number
-    update_contact_name_if_needed
+  # Supports Twilio pass-through fields from Meta usernames rollout.
+  # If BSUID is present we keep contacts linked even when phone isn't available.
+  def set_whatsapp_contact_with_bsuid
+    username = params[:ProfileUsername] || params[:Username]
+    normalized = normalized_phone_number
+    phone_is_present = normalized.present? && normalized.match?(/\Awhatsapp:\+\d{1,15}\z/)
+
+    if phone_is_present
+      existing = account.contacts.find_by(whatsapp_bsuid: bsuid_value)
+      if existing && existing.phone_number.blank?
+        existing.update!(phone_number: phone_number)
+        ci = existing.contact_inboxes.find_by(inbox_id: inbox.id)
+        ci&.update!(source_id: normalized) if ci && ci.source_id != normalized
+        @contact_inbox = ci || ContactInboxBuilder.new(contact: existing, inbox: inbox, source_id: normalized).perform
+        @contact = existing
+      else
+        attrs = contact_attributes.merge(whatsapp_bsuid: bsuid_value, whatsapp_username: username.presence).compact
+        contact_inbox = ::ContactInboxWithContactBuilder.new(
+          source_id: normalized,
+          inbox: inbox,
+          contact_attributes: attrs
+        ).perform
+        @contact_inbox = contact_inbox
+        @contact = contact_inbox.contact
+      end
+    else
+      source_id = "whatsapp:#{bsuid_value}"
+      attrs = {
+        name: params[:ProfileName].presence || username.presence || bsuid_value,
+        whatsapp_bsuid: bsuid_value,
+        whatsapp_username: username.presence
+      }.compact
+      contact_inbox = ::ContactInboxWithContactBuilder.new(
+        source_id: source_id,
+        inbox: inbox,
+        contact_attributes: attrs
+      ).perform
+      @contact_inbox = contact_inbox
+      @contact = contact_inbox.contact
+    end
+
+    @contact.update!(whatsapp_bsuid: bsuid_value) if bsuid_value.present? && @contact.whatsapp_bsuid != bsuid_value
+    @contact.update!(whatsapp_username: username) if username.present? && @contact.whatsapp_username != username
   end
 
   def conversation_params
@@ -207,6 +260,12 @@ class Twilio::IncomingMessageService
   end
 
   def contact_name_matches_phone_number?
+    return false unless phone_number.present? && phone_number.match?(/\A\+?\d{1,15}\z/)
+
     @contact.name == phone_number || @contact.name == formatted_phone_number
+  end
+
+  def bsuid_value
+    @bsuid_value ||= params[:UserId] || params[:user_id] || params[:WaUserId]
   end
 end
