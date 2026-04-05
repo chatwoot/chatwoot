@@ -56,10 +56,10 @@
       "TITLE": "Cilësimet e artikullit",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Kategoria",
+          "LABEL": "Kategorija",
           "TITLE": "Izaberite kategoriju",
           "PLACEHOLDER": "Izaberite kategoriju",
-          "NO_RESULT": "Nuk u gjet kategoria",
+          "NO_RESULT": "Kategorija nije pronađena",
           "SEARCH_PLACEHOLDER": "Pretraži kategoriju"
         },
         "AUTHOR": {
@@ -218,9 +218,9 @@
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Nazad",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Krijo Portal",
+            "HEADER": "Kreiraj portal",
             "TITLE": "Informacioni centar za pomoć",
-            "CREATE_BASIC_SETTING_BUTTON": "Krijo osnovne postavke portala"
+            "CREATE_BASIC_SETTING_BUTTON": "Kreiraj osnovna podešavanja portala"
           },
           "CUSTOMIZATION_PAGE": {
             "HEADER": "Prilagođavanje portala",
@@ -336,7 +336,7 @@
       "NO_ARTICLES": "Nuk ka artikuj të disponueshëm",
       "HEADERS": {
         "TITLE": "Titulli",
-        "CATEGORY": "Kategoria",
+        "CATEGORY": "Kategorija",
         "READ_COUNT": "Pregledi",
         "STATUS": "Statusi",
         "LAST_EDITED": "I redaktuar së fundmi"
@@ -349,7 +349,7 @@
     "EDIT_ARTICLE": {
       "LOADING": "Učitavanje članka...",
       "TITLE_PLACEHOLDER": "Titulli i artikullit shkruhet këtu",
-      "CONTENT_PLACEHOLDER": "Shkruani artikullin tuaj këtu",
+      "CONTENT_PLACEHOLDER": "Napišite svoj članak ovde",
       "API": {
         "ERROR": "Greška prilikom čuvanja članka"
       }
@@ -406,7 +406,7 @@
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Krijo një kategori",
+        "TITLE": "Kreiraj kategoriju",
         "SUB_TITLE": "Kategorija će se koristiti na javnom portalu za kategorizaciju članaka.",
         "PORTAL": "Portali",
         "LOCALE": "Gjuha",
@@ -428,12 +428,12 @@
           "ERROR": "Përshkrimi është i nevojshëm"
         },
         "BUTTONS": {
-          "CREATE": "Krijo kategori",
+          "CREATE": "Kreiraj kategoriju",
           "CANCEL": "Anulo"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Kategoria u krijua me sukses",
-          "ERROR_MESSAGE": "Nuk mund të krijohet kategoria"
+          "SUCCESS_MESSAGE": "Kategorija je uspešno kreirana",
+          "ERROR_MESSAGE": "Nije moguće kreirati kategoriju"
         }
       },
       "EDIT": {
