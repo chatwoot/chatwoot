@@ -14,7 +14,7 @@
         "CANCEL": "Ləğv et",
         "SUBMIT": "Lidhu me Dyqanin"
       },
-      "ERROR": "Ndodhi një gabim gjatë lidhjes me Shopify. Ju lutemi provoni përsëri ose kontaktoni mbështetjen nëse problemi vazhdon."
+      "ERROR": "Shopify-a qoşularkən xəta baş verdi. Zəhmət olmasa yenidən cəhd edin və ya problem davam edərsə dəstək xidməti ilə əlaqə saxlayın."
     },
     "HEADER": "İnteqrasiyalar",
     "DESCRIPTION": "Chatwoot komandamızın səmərəliliyini artırmaq üçün bir neçə alət və xidmətlə inteqrasiya olunur. Sevdiyiniz tətbiqləri konfiqurasiya etmək üçün aşağıdakı siyahını araşdırın.",
@@ -374,7 +374,7 @@
       "CTA": {
         "TITLE": "Lidhu me Linear",
         "AGENT_DESCRIPTION": "Hapësira e punës Linear nuk është e lidhur. Kërkoni nga administratori juaj të lidhë një hapësirë pune për të përdorur këtë integrim.",
-        "DESCRIPTION": "Hapësira e punës Linear nuk është e lidhur. Klikoni butonin më poshtë për të lidhur hapësirën tuaj të punës dhe për të përdorur këtë integrim.",
+        "DESCRIPTION": "Linear iş sahəsi qoşulmayıb. Bu inteqrasiyadan istifadə etmək üçün iş sahənizi qoşmaq məqsədilə aşağıdakı düyməyə klikləyin.",
         "BUTTON_TEXT": "Lidhu me hapësirën e punës Linear"
       }
     },
@@ -403,13 +403,13 @@
       "PANEL_TITLE": "Filloni me Copilot",
       "KICK_OFF_MESSAGE": "Keni nevojë për një përmbledhje të shpejtë, dëshironi të kontrolloni bisedat e kaluara, apo të hartoni një përgjigje më të mirë? Copilot është këtu për të përshpejtuar gjërat.",
       "SEND_MESSAGE": "Mesaj göndər...",
-      "EMPTY_MESSAGE": "Ndodhi një gabim gjatë gjenerimit të përgjigjes. Ju lutemi provoni përsëri.",
+      "EMPTY_MESSAGE": "Cavab yaradılarkən xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.",
       "LOADER": "Captain düşünür",
       "YOU": "Siz",
       "USE": "Bunu istifadə et",
       "RESET": "Rivendos",
       "SHOW_STEPS": "Addımları göstər",
-      "SELECT_ASSISTANT": "Zgjidh Asistentin",
+      "SELECT_ASSISTANT": "Köməkçini seçin",
       "PROMPTS": {
         "SUMMARIZE": {
           "LABEL": "Përmbledh këtë bisedë",
@@ -451,7 +451,7 @@
     "ENTERPRISE_PAYWALL": {
       "AVAILABLE_ON": "Captain AI yalnız Korporativ planlarda mövcuddur.",
       "UPGRADE_PROMPT": "Köməkçilərimizə, copilot və daha çoxuna giriş üçün planınızı yüksəldin.",
-      "ASK_ADMIN": "Ju lutemi kontaktoni administratorin tuaj për përmirësimin."
+      "ASK_ADMIN": "Təkmilləşdirmə üçün administratorunuzla əlaqə saxlayın."
     },
     "BANNER": {
       "RESPONSES": "Keni përdorur mbi 80% të kufirit tuaj të përgjigjeve. Për të vazhduar përdorimin e Captain AI, ju lutemi përmirësoni.",
@@ -516,7 +516,7 @@
           "PLACEHOLDER": "Shkruani mesazhin e dorëzimit"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Mesazhi i Zgjidhjes",
+          "LABEL": "Həll mesajı",
           "PLACEHOLDER": "Shkruani mesazhin e zgjidhjes"
         },
         "INSTRUCTIONS": {
@@ -535,7 +535,7 @@
         "TITLE": "Përditëso asistentin",
         "SUCCESS_MESSAGE": "Asistenti u përditësua me sukses",
         "ERROR_MESSAGE": "Ndodhi një gabim gjatë përditësimit të asistentit, ju lutemi provoni përsëri.",
-        "NOT_FOUND": "Asistenti nuk u gjet. Ju lutemi provoni përsëri."
+        "NOT_FOUND": "Köməkçi tapılmadı. Zəhmət olmasa yenidən cəhd edin."
       },
       "SETTINGS": {
         "HEADER": "Parametrlər",
@@ -574,7 +574,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Heç bir köməkçi mövcud deyil",
-        "SUBTITLE": "Krijoni një asistent për të ofruar përgjigje të shpejta dhe të sakta për përdoruesit tuaj. Ai mund të mësojë nga artikujt tuaj të ndihmës dhe bisedat e kaluara.",
+        "SUBTITLE": "İstifadəçilərinizə sürətli və dəqiq cavablar vermək üçün köməkçi yaradın. O, yardım məqalələrinizdən və əvvəlki söhbətlərdən öyrənə bilər.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Asistenti Captain",
           "NOTE": "Asistenti Captain angazhohet drejtpërdrejt me klientët, mëson nga dokumentet tuaja të ndihmës dhe bisedat e kaluara, dhe ofron përgjigje të menjëhershme dhe të sakta. Ai trajton pyetjet fillestare, duke siguruar zgjidhje të shpejta para se t’i transferojë ato te një agjent kur është e nevojshme."
@@ -630,9 +630,9 @@
         "DESCRIPTION": "Stili dhe struktura e përgjigjeve të asistentit tuaj—të qarta dhe miqësore? Të shkurtra dhe të gjalla? Të detajuara dhe formale?",
         "BULK_ACTION": {
           "SELECTED": "{count} element seçildi | {count} element seçildi",
-          "SELECT_ALL": "Zgjidh të gjitha ({count})",
+          "SELECT_ALL": "Hamısını seç ({count})",
           "UNSELECT_ALL": "Hamısının seçimini götür ({count})",
-          "BULK_DELETE_BUTTON": "Fshij"
+          "BULK_DELETE_BUTTON": "Sil"
         },
         "ADD": {
           "SUGGESTED": {
@@ -675,7 +675,7 @@
         "DESCRIPTION": "Köməkçinizə müəyyən kontekst verin — məsələn, “istifadəçi qaldıqda nə etməli” və ya “geri ödəmə tələbi zamanı necə davranmalı.”",
         "BULK_ACTION": {
           "SELECTED": "{count} element seçildi | {count} element seçildi",
-          "SELECT_ALL": "Zgjidh të gjitha ({count})",
+          "SELECT_ALL": "Hamısını seç ({count})",
           "UNSELECT_ALL": "Hamısının seçimini ləğv et ({count})",
           "BULK_DELETE_BUTTON": "Fshi"
         },
@@ -739,7 +739,7 @@
       "HEADER": "Sənədlər",
       "ADD_NEW": "Yeni sənəd yaradın",
       "SELECTED": "{count} seçildi",
-      "SELECT_ALL": "Zgjidh të gjitha ({count})",
+      "SELECT_ALL": "Hamısını seç ({count})",
       "UNSELECT_ALL": "Hamısının seçimini götür ({count})",
       "BULK_DELETE_BUTTON": "Delete",
       "BULK_DELETE": {
@@ -772,7 +772,7 @@
         },
         "PDF_FILE": {
           "LABEL": "PDF Faylı",
-          "CHOOSE_FILE": "Zgjidh skedarin PDF",
+          "CHOOSE_FILE": "PDF faylını seçin",
           "ERROR": "Zəhmət olmasa PDF faylı seçin",
           "HELP_TEXT": "Madhësia maksimale e skedarit: 10MB",
           "INVALID_TYPE": "Zəhmət olmasa, düzgün PDF faylı seçin",
@@ -928,7 +928,7 @@
         "CONVERSATION": "Söhbət #{id}"
       },
       "SELECTED": "{count} seçildi",
-      "SELECT_ALL": "Zgjidh të gjitha ({count})",
+      "SELECT_ALL": "Hamısını seç ({count})",
       "UNSELECT_ALL": "Hamısının seçimini götür ({count})",
       "SEARCH_PLACEHOLDER": "Kërko në Pyetjet e Shpeshta...",
       "BULK_APPROVE_BUTTON": "Mirato",
@@ -1023,12 +1023,12 @@
       "CREATE": {
         "TITLE": "Qutu qoşun",
         "SUCCESS_MESSAGE": "Qutu uğurla qoşuldu.",
-        "ERROR_MESSAGE": "Ndodhi një gabim gjatë lidhjes së kutisë hyrëse. Ju lutemi provoni përsëri."
+        "ERROR_MESSAGE": "Gələn qutu qoşularkən xəta baş verdi. Zəhmət olmasa yenidən cəhd edin."
       },
       "FORM": {
         "INBOX": {
           "LABEL": "Qutu",
-          "PLACEHOLDER": "Zgjidhni kutinë hyrëse për të vendosur asistentin.",
+          "PLACEHOLDER": "Köməkçini yerləşdirmək üçün gələn qutunu seçin.",
           "ERROR": "Qutu seçimi tələb olunur."
         }
       },
