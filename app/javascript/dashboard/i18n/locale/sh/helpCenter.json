@@ -57,15 +57,15 @@
       "FORM": {
         "CATEGORY": {
           "LABEL": "Kategoria",
-          "TITLE": "Zgjidhni kategoriju",
-          "PLACEHOLDER": "Zgjidhni kategoriju",
+          "TITLE": "Izaberite kategoriju",
+          "PLACEHOLDER": "Izaberite kategoriju",
           "NO_RESULT": "Nuk u gjet kategoria",
           "SEARCH_PLACEHOLDER": "Pretraži kategoriju"
         },
         "AUTHOR": {
           "LABEL": "Autor",
-          "TITLE": "Zgjidhni autora",
-          "PLACEHOLDER": "Zgjidhni autora",
+          "TITLE": "Izaberite autora",
+          "PLACEHOLDER": "Izaberite autora",
           "NO_RESULT": "Nuk u gjetën autori",
           "SEARCH_PLACEHOLDER": "Pretraži autora"
         },
@@ -407,7 +407,7 @@
     "CATEGORY": {
       "ADD": {
         "TITLE": "Krijo një kategori",
-        "SUB_TITLE": "Kategoria do të përdoret në portalin publik për të kategorizuar artikujt.",
+        "SUB_TITLE": "Kategorija će se koristiti na javnom portalu za kategorizaciju članaka.",
         "PORTAL": "Portali",
         "LOCALE": "Gjuha",
         "NAME": {
