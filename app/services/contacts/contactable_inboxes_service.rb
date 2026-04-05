@@ -1,5 +1,6 @@
 class Contacts::ContactableInboxesService
   pattr_initialize [:contact!]
+  BSUID_CAPABLE_PROVIDERS = %w[whatsapp_cloud].freeze
 
   def get
     account = contact.account
@@ -48,10 +49,15 @@ class Contacts::ContactableInboxesService
   end
 
   def whatsapp_contactable_inbox(inbox)
-    return if @contact.phone_number.blank?
+    source_id = if @contact.phone_number.present?
+                  @contact.phone_number.delete('+')
+                elsif @contact.whatsapp_bsuid.present? && BSUID_CAPABLE_PROVIDERS.include?(inbox.channel&.provider)
+                  @contact.whatsapp_bsuid
+                end
+    return if source_id.blank?
 
     # Remove the plus since thats the format 360 dialog uses
-    { source_id: @contact.phone_number.delete('+'), inbox: inbox }
+    { source_id: source_id, inbox: inbox }
   end
 
   def sms_contactable_inbox(inbox)
@@ -61,13 +67,20 @@ class Contacts::ContactableInboxesService
   end
 
   def twilio_contactable_inbox(inbox)
-    return if @contact.phone_number.blank?
-
     case inbox.channel.medium
     when 'sms'
+      return if @contact.phone_number.blank?
+
       { source_id: @contact.phone_number, inbox: inbox }
     when 'whatsapp'
-      { source_id: "whatsapp:#{@contact.phone_number}", inbox: inbox }
+      source_id = if @contact.phone_number.present?
+                    "whatsapp:#{@contact.phone_number}"
+                  elsif @contact.whatsapp_bsuid.present?
+                    "whatsapp:#{@contact.whatsapp_bsuid}"
+                  end
+      return if source_id.blank?
+
+      { source_id: source_id, inbox: inbox }
     end
   end
 end

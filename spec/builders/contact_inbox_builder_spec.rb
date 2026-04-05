@@ -117,7 +117,7 @@ describe ContactInboxBuilder do
             contact: contact,
             inbox: twilio_inbox
           ).perform
-        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number')
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number or whatsapp_bsuid')
       end
     end
 
@@ -174,7 +174,7 @@ describe ContactInboxBuilder do
             contact: contact,
             inbox: whatsapp_inbox
           ).perform
-        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number')
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number or whatsapp_bsuid')
       end
     end
 

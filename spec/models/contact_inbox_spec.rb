@@ -56,16 +56,21 @@ RSpec.describe ContactInbox do
         whatsapp_inbox = create(:channel_whatsapp, sync_templates: false, validate_provider_config: false).inbox
         contact = create(:contact)
         valid_source_id = build(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: '1234567890')
-        ci_character_in_source_id = build(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: '1234567890aaa')
+        valid_bsuid_source_id = build(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'US.13491208655302741918')
+        valid_parent_bsuid_source_id = build(:contact_inbox, contact: contact, inbox: whatsapp_inbox,
+                                                             source_id: 'US.ENT.11815799212886844830')
+        ci_character_in_source_id = build(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'invalid@id')
         ci_plus_in_source_id = build(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: '+1234567890')
         expect(valid_source_id.valid?).to be(true)
+        expect(valid_bsuid_source_id.valid?).to be(true)
+        expect(valid_parent_bsuid_source_id.valid?).to be(true)
         expect(ci_character_in_source_id.valid?).to be(false)
         expect(ci_character_in_source_id.errors.full_messages).to eq(
-          ['Source invalid source id for whatsapp inbox. valid Regex (?-mix:^\\d{1,15}\\z)']
+          ['Source invalid source id for whatsapp inbox. valid Regex (?-mix:^(?:\\d{1,15}|[A-Za-z]{2}\\.(?:ENT\\.)?[A-Za-z0-9]{1,128})\\z)']
         )
         expect(ci_plus_in_source_id.valid?).to be(false)
         expect(ci_plus_in_source_id.errors.full_messages).to eq(
-          ['Source invalid source id for whatsapp inbox. valid Regex (?-mix:^\\d{1,15}\\z)']
+          ['Source invalid source id for whatsapp inbox. valid Regex (?-mix:^(?:\\d{1,15}|[A-Za-z]{2}\\.(?:ENT\\.)?[A-Za-z0-9]{1,128})\\z)']
         )
       end
 

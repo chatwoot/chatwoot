@@ -42,6 +42,14 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect_message_has_attachment
       end
 
+      it 'processes symbolized webhook params' do
+        stub_media_url_request
+        stub_sample_png_request
+        described_class.new(inbox: whatsapp_channel.inbox, params: params.deep_symbolize_keys).perform
+        expect_conversation_created
+        expect_message_content
+      end
+
       it 'increments reauthorization count if fetching attachment fails' do
         stub_request(
           :get,
@@ -163,6 +171,42 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           expect(reply_message.content_attributes['in_reply_to']).to be_nil
           expect(reply_message.content_attributes['in_reply_to_external_id']).to be_nil
         end
+      end
+    end
+
+    context 'when webhook contains BSUID without phone number' do
+      let(:bsuid_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{
+                  profile: { name: 'Sheena Nelson', username: '@realsheenanelson' },
+                  user_id: 'US.13491208655302741918'
+                }],
+                messages: [{
+                  from_user_id: 'US.13491208655302741918',
+                  id: 'wamid.BSUID_MESSAGE_ID',
+                  timestamp: '1770407829',
+                  text: { body: 'Hello from username user' },
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'creates contact inbox using BSUID source_id and without invalid phone number' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: bsuid_params).perform
+
+        contact_inbox = whatsapp_channel.inbox.contact_inboxes.last
+        expect(contact_inbox.source_id).to eq('US.13491208655302741918')
+        expect(contact_inbox.contact.phone_number).to be_nil
+        expect(contact_inbox.contact.whatsapp_username).to eq('realsheenanelson')
+        expect(whatsapp_channel.inbox.messages.last.content).to eq('Hello from username user')
       end
     end
   end

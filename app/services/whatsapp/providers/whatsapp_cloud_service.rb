@@ -17,10 +17,9 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     request_body = {
       messaging_product: 'whatsapp',
       recipient_type: 'individual', # Only individual messages supported (not group messages)
-      to: phone_number,
       type: 'template',
       template: template_body
-    }
+    }.merge(recipient_addressing(phone_number, message))
 
     response = HTTParty.post(
       "#{phone_id_path}/messages",
@@ -104,11 +103,11 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       headers: api_headers,
       body: {
         messaging_product: 'whatsapp',
+        recipient_type: 'individual',
         context: whatsapp_reply_context(message),
-        to: phone_number,
         text: { body: message.outgoing_content },
         type: 'text'
-      }.to_json
+      }.merge(recipient_addressing(phone_number, message)).to_json
     )
 
     process_response(response, message)
@@ -128,10 +127,10 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       body: {
         :messaging_product => 'whatsapp',
         :context => whatsapp_reply_context(message),
-        'to' => phone_number,
+        :recipient_type => 'individual',
         'type' => type,
         type.to_s => type_content
-      }.to_json
+      }.merge(recipient_addressing(phone_number, message)).to_json
     )
 
     process_response(response, message)
@@ -196,12 +195,46 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       headers: api_headers,
       body: {
         messaging_product: 'whatsapp',
-        to: phone_number,
+        recipient_type: 'individual',
         interactive: payload,
         type: 'interactive'
-      }.to_json
+      }.merge(recipient_addressing(phone_number, message)).to_json
     )
 
     process_response(response, message)
+  end
+
+  def recipient_addressing(identifier, message)
+    contact = message&.conversation&.contact
+    bsuid = contact&.whatsapp_bsuid
+    if bsuid_identifier?(identifier)
+      { recipient: identifier }
+    else
+      payload = { to: identifier }
+      payload[:recipient] = bsuid if bsuid.present?
+      payload
+    end
+  end
+
+  def process_response(response, message)
+    result = super
+    capture_bsuid_from_response(response, message) if response.success?
+    result
+  end
+
+  def capture_bsuid_from_response(response, message)
+    bsuid = response.parsed_response&.dig('contacts', 0, 'user_id')
+    return if bsuid.blank?
+
+    contact = message&.conversation&.contact
+    return if contact.blank? || contact.whatsapp_bsuid.present?
+
+    contact.update!(whatsapp_bsuid: bsuid)
+  rescue StandardError => e
+    Rails.logger.warn "[WhatsApp Cloud] Failed to capture BSUID from response: #{e.message}"
+  end
+
+  def bsuid_identifier?(identifier)
+    identifier.to_s.match?(/\A[A-Za-z]{2}\.(?:ENT\.)?[A-Za-z0-9]{1,128}\z/)
   end
 end

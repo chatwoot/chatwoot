@@ -61,12 +61,17 @@ class ContactInbox < ApplicationRecord
     # https://www.twilio.com/docs/glossary/what-e164#regex-matching-for-e164
     if inbox.channel.medium == 'sms' && !TWILIO_CHANNEL_SMS_REGEX.match?(source_id)
       errors.add(:source_id, "invalid source id for twilio sms inbox. valid Regex #{TWILIO_CHANNEL_SMS_REGEX}")
-    elsif inbox.channel.medium == 'whatsapp' && !TWILIO_CHANNEL_WHATSAPP_REGEX.match?(source_id)
+    elsif inbox.channel.medium == 'whatsapp'
+      bsuid_part = source_id.delete_prefix('whatsapp:')
+      return if WHATSAPP_BSUID_REGEX.match?(bsuid_part)
+      return if TWILIO_CHANNEL_WHATSAPP_REGEX.match?(source_id)
+
       errors.add(:source_id, "invalid source id for twilio whatsapp inbox. valid Regex #{TWILIO_CHANNEL_WHATSAPP_REGEX}")
     end
   end
 
   def validate_whatsapp_source_id
+    return if WHATSAPP_BSUID_REGEX.match?(source_id)
     return if WHATSAPP_CHANNEL_REGEX.match?(source_id)
 
     errors.add(:source_id, "invalid source id for whatsapp inbox. valid Regex #{WHATSAPP_CHANNEL_REGEX}")

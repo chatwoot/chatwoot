@@ -57,26 +57,71 @@ const { t } = useI18n();
 
 const inputType = ref(INPUT_TYPES.EMAIL);
 
+const maskPhoneNumber = phone => {
+  if (!phone) return '';
+  if (phone.length <= 6) return phone;
+
+  return `${phone.slice(0, 5)}${'•'.repeat(phone.length - 8)}${phone.slice(-3)}`;
+};
+
+const formatWhatsappUsername = username => {
+  const cleanUsername = (username || '').replace(/^@+/, '');
+  return cleanUsername ? `@${cleanUsername}` : '';
+};
+
 const contactsList = computed(() => {
-  return props.contacts?.map(({ name, id, thumbnail, email, ...rest }) => ({
-    id,
-    label: email ? `${name} (${email})` : name,
-    value: id,
-    thumbnail: { name, src: thumbnail },
-    ...rest,
-    name,
-    email,
-    action: 'contact',
-  }));
+  return props.contacts?.map(
+    ({
+      name,
+      id,
+      thumbnail,
+      email,
+      phoneNumber,
+      whatsappUsername,
+      ...rest
+    }) => {
+      const masked = maskPhoneNumber(phoneNumber);
+      let label = name;
+      if (email) {
+        label = `${name} (${email})`;
+      } else if (phoneNumber) {
+        label = `${name} (${masked})`;
+      } else if (whatsappUsername) {
+        label = `${name} (${formatWhatsappUsername(whatsappUsername)})`;
+      }
+
+      return {
+        id,
+        label,
+        value: id,
+        thumbnail: { name, src: thumbnail },
+        ...rest,
+        name,
+        email,
+        phoneNumber,
+        whatsappUsername,
+        maskedPhoneNumber: masked,
+        action: 'contact',
+      };
+    }
+  );
 });
 
 const selectedContactLabel = computed(() => {
-  const { name, email = '', phoneNumber = '' } = props.selectedContact || {};
+  const {
+    name,
+    email = '',
+    phoneNumber = '',
+    whatsappUsername = '',
+  } = props.selectedContact || {};
   if (email) {
     return `${name} (${email})`;
   }
   if (phoneNumber) {
-    return `${name} (${phoneNumber})`;
+    return `${name} (${maskPhoneNumber(phoneNumber)})`;
+  }
+  if (whatsappUsername) {
+    return `${name} (${formatWhatsappUsername(whatsappUsername)})`;
   }
   return name || '';
 });

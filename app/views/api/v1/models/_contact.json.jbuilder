@@ -6,6 +6,8 @@ json.name resource.name
 json.phone_number resource.phone_number
 json.blocked resource.blocked
 json.identifier resource.identifier
+json.whatsapp_bsuid resource.whatsapp_bsuid
+json.whatsapp_username resource.whatsapp_username.to_s.sub(/\A@+/, '').presence
 json.thumbnail resource.avatar_url
 json.custom_attributes resource.custom_attributes
 json.last_activity_at resource.last_activity_at.to_i if resource[:last_activity_at].present?
