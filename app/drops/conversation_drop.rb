@@ -50,7 +50,7 @@ class ConversationDrop < BaseDrop
 
   def fetch_avg_first_response_seconds
     account = @obj.account
-    tz = ActiveSupport::TimeZone[account.reporting_timezone] || Time.zone
+    tz = ActiveSupport::TimeZone[account.reporting_timezone.to_s] || Time.zone
     today_range = tz.now.beginning_of_day..tz.now
     result = account.reporting_events
                     .where(
