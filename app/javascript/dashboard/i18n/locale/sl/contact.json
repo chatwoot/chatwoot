@@ -10,7 +10,7 @@
     "BROWSER_LANGUAGE": "Jezik brskalnika",
     "CONVERSATION_TITLE": "Podrobnosti pogovora",
     "VIEW_PROFILE": "Ogled profila",
-    "BROWSER": "Browser",
+    "BROWSER": "Brskalnik",
     "OS": "Operacijski sistem",
     "INITIATED_FROM": "Začetek iz",
     "INITIATED_AT": "Začeto ob",
@@ -25,7 +25,7 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "S tem stikom ni povezanih nobenih prejšnjih pogovorov.",
-      "TITLE": "Previous Conversations"
+      "TITLE": "Prejšnji pogovori"
     },
     "LABELS": {
       "CONTACT": {
@@ -50,7 +50,7 @@
     "MUTED_SUCCESS": "Ta stik je bil uspešno blokiran. O prihodnjih pogovorih ne boste obveščeni.",
     "UNMUTED_SUCCESS": "Ta stik je bil uspešno odklenjen.",
     "SEND_TRANSCRIPT": "Pošlji prepis",
-    "EDIT_LABEL": "Edit",
+    "EDIT_LABEL": "Uredi",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Lastne lastnosti",
       "CONTACT_LABELS": "Oznake stika",

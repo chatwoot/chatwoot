@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Не налаштовано підпис повідомлення, будь ласка, налаштуйте його в налаштуваннях профілю.",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "Надайте Copilot додаткові підказки або запитайте що-небудь ще... Натисніть Enter для відправлення відповіді",
       "CLICK_HERE": "Натисніть тут для оновлення",
       "WHATSAPP_TEMPLATES": "Шаблони Whatsapp"
     },
@@ -214,7 +214,7 @@
       "DRAG_DROP": "Перетягніть сюди, щоб прикріпити",
       "START_AUDIO_RECORDING": "Почати аудіозапис",
       "STOP_AUDIO_RECORDING": "Зупинити аудіозапис",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot думає",
       "EMAIL_HEAD": {
         "TO": "На",
         "ADD_BCC": "Додати bcc",

@@ -7,14 +7,14 @@
     "COPY_SUCCESSFUL": "Kopeerimine lõikelauale õnnestus",
     "COMPANY": "Ettevõte",
     "LOCATION": "Asukoht",
-    "BROWSER_LANGUAGE": "Browser Language",
+    "BROWSER_LANGUAGE": "Brauseri keel",
     "CONVERSATION_TITLE": "Vestluse üksikasjad",
     "VIEW_PROFILE": "Vaata profiili",
     "BROWSER": "Brauser",
     "OS": "Operatsioonisüsteem",
     "INITIATED_FROM": "Algatatud kohast",
     "INITIATED_AT": "Algatatud ajal",
-    "IP_ADDRESS": "IP Address",
+    "IP_ADDRESS": "IP-aadress",
     "CREATED_AT_LABEL": "Loodud",
     "NEW_MESSAGE": "Uus sõnum",
     "CALL": "Helista",
@@ -91,7 +91,7 @@
       },
       "BIO": {
         "PLACEHOLDER": "Sisesta kontakti elulugu",
-        "LABEL": "Bio"
+        "LABEL": "Tutvustus"
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Sisesta kontakti e-posti aadress",
@@ -128,19 +128,19 @@
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Sisesta Facebooki kasutajanimi",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Sisesta Twitteri kasutajanimi",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Sisesta LinkedIni kasutajanimi",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Sisesta GitHubi kasutajanimi",
           "LABEL": "Github"
         }
       }
@@ -192,7 +192,7 @@
   "CONTACTS_PAGE": {
     "LIST": {
       "TABLE_HEADER": {
-        "SOCIAL_PROFILES": "Social Profiles"
+        "SOCIAL_PROFILES": "Sotsiaalmeedia profiilid"
       }
     }
   },
@@ -215,7 +215,7 @@
       "CANCEL": "Tühista",
       "NAME": {
         "LABEL": "Kohandatud atribuudi nimi",
-        "PLACEHOLDER": "Eg: shopify id",
+        "PLACEHOLDER": "Nt: Shopify ID",
         "ERROR": "Vigane kohandatud atribuudi nimi"
       },
       "VALUE": {
@@ -317,9 +317,9 @@
         "UNBLOCK_ERROR_MESSAGE": "Kontakti blokeeringust vabaks tegemine ebaõnnestus. Palun proovi hiljem uuesti.",
         "IMPORT_CONTACT": {
           "TITLE": "Impordi kontaktid",
-          "DESCRIPTION": "Import contacts through a CSV file.",
-          "DOWNLOAD_LABEL": "Download a sample csv.",
-          "LABEL": "CSV File:",
+          "DESCRIPTION": "Impordi kontaktid CSV-faili kaudu.",
+          "DOWNLOAD_LABEL": "Laadi alla näidis-CSV.",
+          "LABEL": "CSV-fail:",
           "CHOOSE_FILE": "Vali fail",
           "CHANGE": "Muuda",
           "CANCEL": "Tühista",
@@ -435,7 +435,7 @@
             "PLACEHOLDER": "Vali riik"
           },
           "BIO": {
-            "PLACEHOLDER": "Enter the bio"
+            "PLACEHOLDER": "Sisesta tutvustus"
           },
           "COMPANY_NAME": {
             "PLACEHOLDER": "Sisesta ettevõtte nimi"
@@ -446,28 +446,28 @@
         "ERROR_MESSAGE": "Kontakti ei õnnestunud uuendada. Palun proovi hiljem uuesti."
       },
       "SOCIAL_MEDIA": {
-        "TITLE": "Edit social links",
+        "TITLE": "Muuda sotsiaalmeedia linke",
         "FORM": {
           "FACEBOOK": {
-            "PLACEHOLDER": "Add Facebook"
+            "PLACEHOLDER": "Lisa Facebook"
           },
           "GITHUB": {
-            "PLACEHOLDER": "Add Github"
+            "PLACEHOLDER": "Lisa GitHub"
           },
           "INSTAGRAM": {
-            "PLACEHOLDER": "Add Instagram"
+            "PLACEHOLDER": "Lisa Instagram"
           },
           "TELEGRAM": {
-            "PLACEHOLDER": "Add Telegram"
+            "PLACEHOLDER": "Lisa Telegram"
           },
           "TIKTOK": {
-            "PLACEHOLDER": "Add TikTok"
+            "PLACEHOLDER": "Lisa TikTok"
           },
           "LINKEDIN": {
-            "PLACEHOLDER": "Add LinkedIn"
+            "PLACEHOLDER": "Lisa LinkedIn"
           },
           "TWITTER": {
-            "PLACEHOLDER": "Add Twitter"
+            "PLACEHOLDER": "Lisa Twitter"
           }
         }
       },
@@ -492,12 +492,12 @@
       },
       "AVATAR": {
         "UPLOAD": {
-          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+          "ERROR_MESSAGE": "Avatari üleslaadimine ebaõnnestus. Palun proovi hiljem uuesti.",
           "SUCCESS_MESSAGE": "Avatar üles laaditud edukalt"
         },
         "DELETE": {
           "SUCCESS_MESSAGE": "Avatar kustutatud edukalt",
-          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+          "ERROR_MESSAGE": "Avatari kustutamine ebaõnnestus. Palun proovi hiljem uuesti."
         }
       }
     },
@@ -538,7 +538,7 @@
       },
       "MERGE": {
         "TITLE": "Ühenda kontakt",
-        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "DESCRIPTION": "Ühenda kaks profiili üheks, sealhulgas kõik atribuudid ja vestlused. Vastuolu korral eelistatakse peamise kontakti atribuute.",
         "PRIMARY": "Peamine kontakt",
         "PRIMARY_HELP_LABEL": "Salvestamiseks",
         "PRIMARY_REQUIRED_ERROR": "Palun valige ühendamiseks kontakt enne jätkamist",

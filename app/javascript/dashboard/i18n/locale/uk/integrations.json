@@ -390,72 +390,72 @@
   },
   "CAPTAIN": {
     "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "Дізнатися більше",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "Асистенти",
+      "SWITCH_ASSISTANT": "Перемикання між асистентами",
+      "NEW_ASSISTANT": "Створити асистента",
+      "EMPTY_LIST": "Асистентів не знайдено, будь ласка, створіть одного, щоб почати"
     },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "PANEL_TITLE": "Почніть працювати з Copilot",
+      "KICK_OFF_MESSAGE": "Потрібен швидкий підсумок, хочете переглянути минулі розмови або скласти кращу відповідь? Copilot допоможе прискорити цей процес.",
       "SEND_MESSAGE": "Надіслати...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
+      "EMPTY_MESSAGE": "Виникла помилка під час генерації відповіді. Будь ласка, спробуйте ще раз.",
+      "LOADER": "Captain думає",
       "YOU": "Ви",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "USE": "Використати це",
+      "RESET": "Скинути",
+      "SHOW_STEPS": "Показати кроки",
+      "SELECT_ASSISTANT": "Вибрати асистента",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Підсумувати цю розмову",
+          "CONTENT": "Підсумуйте ключові моменти, обговорені між клієнтом і агентом підтримки, включно з занепокоєннями клієнта, питаннями та наданими агентом рішеннями чи відповідями"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Запропонувати відповідь",
+          "CONTENT": "Проаналізуйте питання клієнта і складіть відповідь, що ефективно вирішує їхні проблеми чи запитання. Відповідь має бути чіткою, лаконічною і містити корисну інформацію."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Оцініть цю розмову",
+          "CONTENT": "Перегляньте розмову, щоб оцінити, наскільки добре вона відповідає потребам клієнта. Поставте оцінку від 1 до 5, базуючись на тоні, ясності та ефективності."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "Розмови з високим пріоритетом",
+          "CONTENT": "Дайте мені підсумок усіх відкритих розмов з високим пріоритетом. Включіть ID розмови, ім’я клієнта (якщо є), зміст останнього повідомлення та призначеного агента. Групуйте за статусом, якщо це доречно."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "Список контактів",
+          "CONTENT": "Покажіть список топ-10 контактів. Включіть ім’я, електронну пошту або номер телефону (якщо є), час останнього відвідування, теги (якщо є)."
         }
       }
     },
     "PLAYGROUND": {
       "USER": "Ви",
-      "ASSISTANT": "Assistant",
+      "ASSISTANT": "Асистент",
       "MESSAGE_PLACEHOLDER": "Введіть Ваше повідомлення...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "Тестова зона",
+      "DESCRIPTION": "Використовуйте цю тестову зону, щоб надсилати повідомлення своєму асистентові і перевіряти, чи відповідає він точно, швидко і в очікуваному тоні.",
+      "CREDIT_NOTE": "Повідомлення, надіслані тут, зараховуються до ваших кредитів Captain."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "TITLE": "Оновіть план для використання Captain AI",
+      "AVAILABLE_ON": "Captain недоступний на безкоштовному плані.",
+      "UPGRADE_PROMPT": "Оновіть план, щоб отримати доступ до наших асистентів, Copilot і не тільки.",
       "UPGRADE_NOW": "Оновити зараз",
       "CANCEL_ANYTIME": "Ви можете змінити або скасувати план у будь-який час"
     },
     "ENTERPRISE_PAYWALL": {
       "AVAILABLE_ON": "Captain AI доступний тільки в планах Enterprise.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "UPGRADE_PROMPT": "Оновіть план, щоб отримати доступ до наших асистентів, Copilot і не тільки.",
       "ASK_ADMIN": "Будь ласка, зверніться до адміністратора для оновлення."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "Ви використали понад 80% ліміту відповідей. Щоб продовжити використовувати Captain AI, будь ласка, оновіть план.",
+      "DOCUMENTS": "Досягнуто ліміту документів. Оновіть план, щоб продовжити використовувати Captain AI."
     },
     "FORM": {
       "CANCEL": "Скасувати",
@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
+      "SELECTED": "{count} selected",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "BULK_DELETE_BUTTON": "Видалити",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
         "DESCRIPTION": "These FAQs are generated directly from the document."
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -825,11 +837,18 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Опис",

@@ -126,7 +126,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "இந்த ஒருங்கிணைப்புடன், உங்களுக்குள் வரும் அனைத்து உரையாடல்களும் உங்கள் Slack பணிமிடத்தில் உள்ள ***{selectedChannelName}*** சேனலுடன் ஒத்திசைக்கப்படும். அந்த சேனலுக்குள்ளேயே உங்கள் அனைத்து வாடிக்கையாளர் உரையாடல்களையும் நிர்வகிக்கலாம்; இதனால் எந்தச் செய்தியையும் தவறவிடமாட்டீர்கள்.\n\nஇந்த ஒருங்கிணைப்பின் முக்கிய அம்சங்கள் இவை:\n\n**Slack-இலிருந்தே உரையாடல்களுக்கு பதிலளிக்கவும்:** ***{selectedChannelName}*** Slack சேனலில் உள்ள ஒரு உரையாடலுக்கு பதிலளிக்க, உங்கள் செய்தியைத் தட்டச்சு செய்து அதை thread ஆக அனுப்பினால் போதும். இதனால் Chatwoot வழியாக வாடிக்கையாளருக்கு ஒரு பதில் உருவாகும். அவ்வளவுதான்!\n\n **தனிப்பட்ட குறிப்புகளை உருவாக்கவும்:** பதில்களுக்கு பதிலாக தனிப்பட்ட குறிப்புகளை உருவாக்க விரும்பினால், உங்கள் செய்தியை ***`note:`*** என்று தொடங்குங்கள். இதனால் உங்கள் செய்தி தனிப்பட்டதாகவே இருக்கும், மேலும் அது வாடிக்கையாளருக்குப் புலப்படாது.\n\n**ஒரு முகவர் சுயவிவரத்தை இணைக்கவும்:** Slack-இல் பதிலளித்த நபருக்கு, அதே மின்னஞ்சலுடன் Chatwoot-இல் ஒரு முகவர் சுயவிவரம் இருந்தால், அந்த பதில்கள் தானாகவே அந்த முகவர் சுயவிவரத்துடன் இணைக்கப்படும். இதன் மூலம் யார் என்ன, எப்போது சொன்னார் என்பதை எளிதாகக் கண்காணிக்கலாம். மறுபுறம், பதிலளிப்பவருக்கு தொடர்புடைய முகவர் சுயவிவரம் இல்லையெனில், வாடிக்கையாளருக்கு அந்த பதில்கள் bot சுயவிவரத்திலிருந்து வந்ததுபோல் தோன்றும்.",
         "SELECTED": "தேர்ந்தெடுக்கப்பட்டது"
       },
       "SELECT_CHANNEL": {
@@ -406,17 +406,17 @@
       "EMPTY_MESSAGE": "பதில் உருவாக்குவதில் பிழை ஏற்பட்டது. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
       "LOADER": "கேப்டன் யோசித்து கொண்டிருக்கிறார்",
       "YOU": "நீங்கள்",
-      "USE": "Use this",
+      "USE": "இதைப் பயன்படுத்தவும்",
       "RESET": "மீட்டமைக்கவும்",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "SHOW_STEPS": "சரண்களை காட்டு",
+      "SELECT_ASSISTANT": "உதவியாளரை தேர்வு செய்க",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
+          "LABEL": "இந்த உரையாடலை சுருக்கவும்",
           "CONTENT": "வாடிக்கையாளர் மற்றும் ஆதரவு முகவருக்கு இடையேயான முக்கிய அம்சங்களை சுருக்கவும், இதில் வாடிக்கையாளர் கவலைகள், கேள்விகள் மற்றும் ஆதரவு முகவரால் வழங்கப்பட்ட தீர்வுகள் அல்லது பதில்கள் அடங்கும்"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
+          "LABEL": "பதில் பரிந்துரைக்கவும்",
           "CONTENT": "வாடிக்கையாளர் கேள்வியை பகுப்பாய்வு செய்து, அவர்களின் கவலைகள் அல்லது கேள்விகளை விளக்கமாக, தெளிவாக மற்றும் உதவிகரமாக பதிலளிக்கும் வரைவு உருவாக்கவும்."
         },
         "RATE": {
@@ -428,7 +428,7 @@
           "CONTENT": "அனைத்து உயர் முன்னுரிமை திறந்த உரையாடல்களின் சுருக்கத்தை கொடுங்கள். உரையாடல் ஐடி, வாடிக்கையாளர் பெயர் (இருப்பின்), கடைசி செய்தி உள்ளடக்கம் மற்றும் நியமிக்கப்பட்ட முகவரையும் சேர்க்கவும். பொருத்தமானால் நிலை அடிப்படையில் குழுவாக்கவும்."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
+          "LABEL": "தொடர்புகளை பட்டியலிடு",
           "CONTENT": "மேல்தர 10 தொடர்புகளின் பட்டியலை எனக்கு காட்டவும். பெயர், மின்னஞ்சல் அல்லது தொலைபேசி எண் (இருப்பின்), கடைசியாக பார்க்கப்பட்ட நேரம், குறிச்சொற்கள் (இருப்பின்) ஆகியவற்றையும் சேர்க்கவும்."
         }
       }
@@ -436,7 +436,7 @@
     "PLAYGROUND": {
       "USER": "நீங்கள்",
       "ASSISTANT": "உதவியாளர்",
-      "MESSAGE_PLACEHOLDER": "உங்கள் செய்தியை تایப் செய்யவும்...",
+      "MESSAGE_PLACEHOLDER": "உங்கள் செய்தியை தட்டச்சு செய்யவும்...",
       "HEADER": "விளையாட்டு மைதானம்",
       "DESCRIPTION": "உங்கள் உதவியாளருக்கு செய்திகள் அனுப்பவும், அது துல்லியமாக, விரைவாக மற்றும் எதிர்பார்க்கும் தொனியில் பதிலளிக்கிறதா என சரிபார்க்க இந்த மைதானத்தை பயன்படுத்தவும்.",
       "CREDIT_NOTE": "இங்கே அனுப்பப்படும் செய்திகள் உங்கள் Captain கிரெடிட்களுக்கு சேர்க்கப்படும்."
@@ -640,7 +640,7 @@
             "ADD": "அனைத்தையும் சேர்க்கவும்",
             "ADD_SINGLE": "இதைச் சேர்க்கவும்",
             "SAVE": "சேர்க்கவும் மற்றும் சேமிக்கவும் (↵)",
-            "PLACEHOLDER": "மற்றொரு பதில் வழிகாட்டுதலை تایப்புசெய்க..."
+            "PLACEHOLDER": "மற்றொரு பதில் வழிகாட்டுதலை தட்டச்சு செய்யவும்..."
           },
           "NEW": {
             "TITLE": "ஒரு பதில் வழிகாட்டுதலைச் சேர்க்கவும்",
@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "ஆவணங்கள்",
       "ADD_NEW": "புதிய ஆவணத்தை உருவாக்கவும்",
+      "SELECTED": "{count} தேர்ந்தெடுக்கப்பட்டது",
+      "SELECT_ALL": "அனைத்தையும் தேர்ந்தெடு ({count})",
+      "UNSELECT_ALL": "அனைத்தையும் தேர்விலிருந்து நீக்கு ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "ஆம், அனைத்தையும் நீக்கவும்",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "சம்பந்தப்பட்ட அடிக்கடி கேட்கப்படும் கேள்விகள்",
         "DESCRIPTION": "இந்த அடிக்கடி கேட்கப்படும் கேள்விகள் நேரடியாக ஆவணத்திலிருந்து உருவாக்கப்பட்டவை."
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "கருவிகள்",
       "ADD_NEW": "புதிய கருவியை உருவாக்கவும்",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "தனிப்பயன் கருவிகள் இல்லை",
         "SUBTITLE": "உங்கள் உதவியாளரை வெளிப்புற APIகள் மற்றும் சேவைகளுடன் இணைக்க தனிப்பயன் கருவிகளை உருவாக்கவும், அது தரவுகளை பெறவும் மற்றும் உங்கள் சார்பாக செயல்களை செய்யவும்.",
@@ -825,11 +837,18 @@
         "SUCCESS_MESSAGE": "தனிப்பயன் கருவி வெற்றிகரமாக நீக்கப்பட்டது",
         "ERROR_MESSAGE": "தனிப்பயன் கருவியை நீக்க முடியவில்லை"
       },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "கருவி பெயர்",
           "PLACEHOLDER": "ஆர்டர் தேடல்",
-          "ERROR": "கருவி பெயர் அவசியம்"
+          "ERROR": "கருவி பெயர் அவசியம்",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "விளக்கம்",

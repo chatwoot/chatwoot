@@ -1,8 +1,8 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agents",
-    "HEADER_BTN_TXT": "Add Agent",
-    "LOADING": "Fetching Agent List",
+    "HEADER": "एजेन्टहरू",
+    "HEADER_BTN_TXT": "एजेन्ट थप गर्नुहोस्",
+    "LOADING": "एजेन्ट सूची ल्याउँदैछ",
     "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
     "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {

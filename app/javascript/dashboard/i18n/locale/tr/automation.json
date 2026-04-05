@@ -4,13 +4,13 @@
     "DESCRIPTION": "Otomasyon, etiket ekleme veya konuşmaları en uygun temsilciye atama gibi manuel çaba gerektiren mevcut süreçleri kolaylaştırabilir ve onların yerine geçebilir. Bu sayede ekip, rutin işlere harcanan zamanı azaltarak güçlü yönlerine odaklanabilir.",
     "LEARN_MORE": "Learn more about automation",
     "COUNT": "{n} automation | {n} automations",
-    "HEADER_BTN_TXT": "Create Automation",
+    "HEADER_BTN_TXT": "Otomasyon Oluştur",
     "LOADING": "Otomasyon kuralları getiriliyor",
-    "SEARCH_PLACEHOLDER": "Search automation rules...",
-    "NO_RESULTS": "No automation rules found matching your search",
+    "SEARCH_PLACEHOLDER": "Otomasyon kurallarını ara...",
+    "NO_RESULTS": "Aramanızla eşleşen otomasyon kuralı bulunamadı",
     "ADD": {
       "TITLE": "Otomasyon Kuralı Ekle",
-      "SUBMIT": "Yarat",
+      "SUBMIT": "Oluştur",
       "CANCEL_BUTTON_TEXT": "İptal Et",
       "FORM": {
         "NAME": {
@@ -84,7 +84,7 @@
     },
     "FORM": {
       "EDIT": "Düzenle",
-      "CREATE": "Yarat",
+      "CREATE": "Oluştur",
       "DELETE": "Sil",
       "CANCEL": "İptal Et",
       "RESET_MESSAGE": "Olay seçimini değiştirmek tüm koşulları ve aşağıda eklenmiş etkinlikleri değiştirecektir"

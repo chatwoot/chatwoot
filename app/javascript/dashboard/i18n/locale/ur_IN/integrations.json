@@ -392,10 +392,10 @@
     "NAME": "کپٹن",
     "HEADER_KNOW_MORE": "مزید جانیں",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "اسسٹنٹس",
+      "SWITCH_ASSISTANT": "اسسٹنٹس کے درمیان سوئچ کریں",
+      "NEW_ASSISTANT": "اسسٹنٹ بنائیں",
+      "EMPTY_LIST": "کوئی اسسٹنٹ نہیں ملا، شروع کرنے کے لیے براہ کرم ایک بنائیں"
     },
     "COPILOT": {
       "TITLE": "کوپائلٹ",
@@ -449,7 +449,7 @@
       "CANCEL_ANYTIME": "آپ کسی بھی وقت اپنا پلان تبدیل یا منسوخ کر سکتے ہیں"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
+      "AVAILABLE_ON": "Captain AI صرف انٹرپرائز پلانز میں دستیاب ہے۔",
       "UPGRADE_PROMPT": "ہمارے اسسٹنٹس، کوپائلٹ اور مزید تک رسائی کے لیے اپنا پلان اپ گریڈ کریں۔",
       "ASK_ADMIN": "براہ کرم اپ گریڈ کے لیے اپنے ایڈمنسٹریٹر سے رابطہ کریں۔"
     },
@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "دستاویزات",
       "ADD_NEW": "نئی دستاویز بنائیں",
+      "SELECTED": "{count} منتخب شدہ",
+      "SELECT_ALL": "تمام منتخب کریں ({count})",
+      "UNSELECT_ALL": "تمام غیر منتخب کریں ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "ہاں، سب کو حذف کریں",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "متعلقہ FAQs",
         "DESCRIPTION": "یہ FAQs براہ راست دستاویز سے تیار کیے گئے ہیں۔"
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -825,11 +837,18 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Description",

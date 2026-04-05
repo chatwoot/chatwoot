@@ -343,14 +343,14 @@ el:
     copilot_message_required: Το μήνυμα είναι απαραίτητο
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
-    upgrade: 'Upgrade your plan to enable Captain AI'
-    disabled: 'Captain AI is disabled for this account.'
-    api_key_missing: 'Captain AI API key is not configured.'
+    upgrade: 'Αναβαθμίστε το πακέτο σας για να ενεργοποιήσετε το Captain AI'
+    disabled: 'Το Captain AI είναι απενεργοποιημένο για αυτόν τον λογαριασμό.'
+    api_key_missing: 'Το API key του Captain AI δεν έχει ρυθμιστεί.'
     copilot:
-      using_tool: 'Using tool %{function_name}'
-      completed_tool_call: 'Completed %{function_name} tool call'
-      invalid_tool_call: 'Invalid tool call'
-      tool_not_available: 'Tool not available'
+      using_tool: 'Χρήση εργαλείου %{function_name}'
+      completed_tool_call: 'Ολοκληρώθηκε κλήση εργαλείου %{function_name}'
+      invalid_tool_call: 'Μη έγκυρη κλήση εργαλείου'
+      tool_not_available: 'Το εργαλείο δεν είναι διαθέσιμο'
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
@@ -373,6 +373,7 @@ el:
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
       search_placeholder: Αναζήτηση άρθρου με τίτλο ή περιεχόμενο...
@@ -409,6 +410,10 @@ el:
       title: Page not found
       description: We couldn't find the page you were looking for.
       back_to_home: Go to home page
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
       name: Όνομα

@@ -373,6 +373,7 @@ ru:
       page_processing_error: 'Ошибка при обработке страниц %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'Невозможно сгенерировать уникальный slug после 5 попыток'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
       search_placeholder: Поиск статьи по названию или содержанию...
@@ -409,6 +410,10 @@ ru:
       title: Страница не найдена
       description: Мы не смогли найти запрашиваемую вами страницу.
       back_to_home: Перейти на главную страницу
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
       name: Имя

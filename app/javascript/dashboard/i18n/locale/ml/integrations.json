@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "ഡോക്യുമെന്റുകൾ",
       "ADD_NEW": "ഒരു പുതിയ ഡോക്യുമെന്റ് സൃഷ്ടിക്കുക",
+      "SELECTED": "{count} തിരഞ്ഞെടുക്കപ്പെട്ടത്",
+      "SELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കുക ({count})",
+      "UNSELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കൽ ഒഴിവാക്കുക ({count})",
+      "BULK_DELETE_BUTTON": "ഇല്ലാതാക്കുക",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "അതെ, എല്ലാം ഇല്ലാതാക്കുക",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "ബന്ധപ്പെട്ട സാധാരണ ചോദിക്കപ്പെടുന്ന ചോദ്യങ്ങൾ",
         "DESCRIPTION": "ഈ സാധാരണ ചോദിക്കപ്പെടുന്ന ചോദ്യങ്ങൾ രേഖയിൽ നിന്നു നേരിട്ട് സൃഷ്ടിച്ചവയാണ്."
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "ഉപകരണങ്ങൾ",
       "ADD_NEW": "പുതിയ ഉപകരണം സൃഷ്ടിക്കുക",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "ഇവിടെ ഇഷ്ടാനുസൃത ഉപകരണങ്ങൾ ലഭ്യമല്ല",
         "SUBTITLE": "നിങ്ങളുടെ അസിസ്റ്റന്റിനെ ബാഹ്യ API-കളുമായി സേവനങ്ങളുമായി ബന്ധിപ്പിക്കാൻ ഇഷ്ടാനുസൃത ഉപകരണങ്ങൾ സൃഷ്ടിക്കുക, അതിലൂടെ അത് നിങ്ങളുടെ പക്കൽ നിന്ന് ഡാറ്റ എടുക്കുകയും പ്രവർത്തനങ്ങൾ നടത്തുകയും ചെയ്യാൻ കഴിയും.",
@@ -825,11 +837,18 @@
         "SUCCESS_MESSAGE": "കസ്റ്റം ടൂൾ വിജയകരമായി ഇല്ലാതാക്കി",
         "ERROR_MESSAGE": "കസ്റ്റം ടൂൾ ഇല്ലാതാക്കാൻ പരാജയപ്പെട്ടു"
       },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "ഉപകരണത്തിന്റെ പേര്",
           "PLACEHOLDER": "ഓർഡർ ലുക്കപ്പ്",
-          "ERROR": "ടൂൾ നാമം ആവശ്യമാണ്"
+          "ERROR": "ടൂൾ നാമം ആവശ്യമാണ്",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "വിവരണം",

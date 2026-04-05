@@ -400,14 +400,14 @@
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Isprobajte ove upite",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "PANEL_TITLE": "Započnite s Copilotom",
+      "KICK_OFF_MESSAGE": "Treba vam brz sažetak, želite provjeriti prethodne razgovore ili sastaviti bolji odgovor? Copilot je tu da ubrza stvari.",
       "SEND_MESSAGE": "Pošalji poruku...",
       "EMPTY_MESSAGE": "Došlo je do pogreške pri generiranju odgovora. Molimo pokušajte ponovno.",
       "LOADER": "Kapetan razmišlja",
       "YOU": "Ti",
       "USE": "Upotrijebi ovo",
-      "RESET": "Reset",
+      "RESET": "Resetuj",
       "SHOW_STEPS": "Prikaži korake",
       "SELECT_ASSISTANT": "Odaberi asistenta",
       "PROMPTS": {
@@ -429,7 +429,7 @@
         },
         "LIST_CONTACTS": {
           "LABEL": "Popis kontakata",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "CONTENT": "Pokaži mi listu top 10 kontakata. Uključi ime, email ili broj telefona (ako je dostupan), vrijeme zadnjeg viđenja, oznake (ako ih ima)."
         }
       }
     },
@@ -438,24 +438,24 @@
       "ASSISTANT": "Asistent",
       "MESSAGE_PLACEHOLDER": "Upišite svoju poruku...",
       "HEADER": "Igralište",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
+      "DESCRIPTION": "Koristite ovaj poligon za slanje poruka svom asistentu i provjeru hoće li odgovarati tačno, brzo i u tonu koji očekujete.",
       "CREDIT_NOTE": "Poruke poslane ovdje računaju se prema vašim Captain kreditima."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
+      "TITLE": "Nadogradite se da biste koristili Captain AI",
+      "AVAILABLE_ON": "Captain nije dostupan na besplatnom planu.",
       "UPGRADE_PROMPT": "Nadogradi svoj plan za pristup našim asistentima, kopilotu i još mnogo toga.",
       "UPGRADE_NOW": "Nadogradi sada",
       "CANCEL_ANYTIME": "Plan možete promijeniti ili otkazati u bilo kojem trenutku"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
+      "AVAILABLE_ON": "Captain AI je dostupan samo na Enterprise planovima.",
       "UPGRADE_PROMPT": "Nadogradite svoj plan kako biste dobili pristup našim asistentima, kopilotu i još mnogo toga.",
       "ASK_ADMIN": "Molimo obratite se svom administratoru za nadogradnju."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "Iskoristili ste preko 80% svog limita odgovora. Da biste nastavili koristiti Captain AI, molimo nadogradite se.",
+      "DOCUMENTS": "Dosegnut je limit dokumenata. Nadogradite se da biste nastavili koristiti Captain AI."
     },
     "FORM": {
       "CANCEL": "Otkaži",
@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Dokumenti",
       "ADD_NEW": "Kreiraj novi dokument",
+      "SELECTED": "{count} odabrano",
+      "SELECT_ALL": "Odaberi sve ({count})",
+      "UNSELECT_ALL": "Poništi odabir svih ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Da, izbriši sve",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Povezana često postavljana pitanja",
         "DESCRIPTION": "Ova često postavljana pitanja generirana su izravno iz dokumenta."
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Alati",
       "ADD_NEW": "Kreiraj novi alat",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "Nema dostupnih prilagođenih alata",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -825,11 +837,18 @@
         "SUCCESS_MESSAGE": "Prilagođeni alat je uspješno izbrisan",
         "ERROR_MESSAGE": "Brisanje prilagođenog alata nije uspjelo"
       },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Naziv alata",
           "PLACEHOLDER": "Pretraga narudžbe",
-          "ERROR": "Naziv alata je obavezan"
+          "ERROR": "Naziv alata je obavezan",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Opis",
