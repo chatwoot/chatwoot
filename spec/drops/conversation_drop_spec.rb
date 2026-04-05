@@ -131,9 +131,16 @@ RSpec.describe ConversationDrop do
                                name: 'first_response', value: 60.0,
                                created_at: 1.hour.ago)
 
-      expect(drop).to receive(:fetch_avg_first_response_seconds).once.and_call_original
+      avg_queries = []
+      subscription = ActiveSupport::Notifications.subscribe('sql.active_record') do |*, payload|
+        avg_queries << payload[:sql] if payload[:sql].to_s.include?('AVG')
+      end
+
       drop.avg_wait_time_seconds
       drop.avg_wait_time_minutes
+
+      ActiveSupport::Notifications.unsubscribe(subscription)
+      expect(avg_queries.count).to eq(1)
     end
 
     context 'when account has a reporting_timezone set' do
