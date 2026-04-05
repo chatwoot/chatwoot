@@ -364,11 +364,11 @@
         "SUCCESS": "Məsələ uğurla bağlantısı kəsildi",
         "ERROR": "Məsələnin bağlantısını kəsməkdə xəta baş verdi, zəhmət olmasa yenidən cəhd edin"
       },
-      "NO_LINKED_ISSUES": "Nuk u gjetën çështje të lidhura",
+      "NO_LINKED_ISSUES": "Bağlı məsələ tapılmadı",
       "DELETE": {
-        "TITLE": "A jeni i sigurt që dëshironi të fshini integrimin?",
-        "MESSAGE": "A jeni i sigurt që dëshironi të fshini integrimin?",
-        "CONFIRM": "Po, fshi",
+        "TITLE": "İnteqrasiyanı silmək istədiyinizə əminsiniz?",
+        "MESSAGE": "İnteqrasiyanı silmək istədiyinizə əminsiniz?",
+        "CONFIRM": "Bəli, sil",
         "CANCEL": "Ləğv et"
       },
       "CTA": {
@@ -381,9 +381,9 @@
     "NOTION": {
       "HEADER": "Notion",
       "DELETE": {
-        "TITLE": "A jeni i sigurt që dëshironi të fshini integrimin Notion?",
+        "TITLE": "Notion inteqrasiyasını silmək istədiyinizə əminsiniz?",
         "MESSAGE": "Bu inteqrasiyanı silmək Notion iş sahənizə girişinizi itirəcək və bütün əlaqəli funksionallığı dayandıracaq.",
-        "CONFIRM": "Po, fshije",
+        "CONFIRM": "Bəli, sil",
         "CANCEL": "Ləğv et"
       }
     }
