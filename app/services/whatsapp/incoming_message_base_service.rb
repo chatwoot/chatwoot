@@ -80,9 +80,10 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def create_contact_messages(message)
-    message['contacts'].each do |contact|
+    contacts = hash_value(message, :contacts) || []
+    contacts.each do |contact|
       # Pass source_id from parent message since contact objects don't have :id
-      create_message(contact, source_id: message[:id])
+      create_message(contact, source_id: hash_value(message, :id))
       attach_contact(contact)
       @message.save!
     end
@@ -173,15 +174,15 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def attach_location
-    location = messages_data.first['location']
-    location_name = location['name'] ? "#{location['name']}, #{location['address']}" : ''
+    location = hash_value(messages_data.first, :location) || {}
+    location_name = hash_value(location, :name) ? "#{hash_value(location, :name)}, #{hash_value(location, :address)}" : ''
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: file_content_type(message_type),
-      coordinates_lat: location['latitude'],
-      coordinates_long: location['longitude'],
+      coordinates_lat: hash_value(location, :latitude),
+      coordinates_long: hash_value(location, :longitude),
       fallback_title: location_name,
-      external_url: location['url']
+      external_url: hash_value(location, :url)
     )
   end
 
@@ -203,20 +204,20 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def attach_contact(contact)
-    phones = contact[:phones]
+    phones = hash_value(contact, :phones)
     phones = [{ phone: 'Phone number is not available' }] if phones.blank?
 
-    name_info = contact['name'] || {}
+    name_info = hash_value(contact, :name) || {}
     contact_meta = {
-      firstName: name_info['first_name'],
-      lastName: name_info['last_name']
+      firstName: hash_value(name_info, :first_name),
+      lastName: hash_value(name_info, :last_name)
     }.compact
 
     phones.each do |phone|
       @message.attachments.new(
         account_id: @message.account_id,
         file_type: file_content_type(message_type),
-        fallback_title: phone[:phone].to_s,
+        fallback_title: hash_value(phone, :phone).to_s,
         meta: contact_meta
       )
     end
@@ -277,6 +278,10 @@ class Whatsapp::IncomingMessageBaseService
 
   def normalize_whatsapp_username(username)
     username.to_s.sub(/\A@+/, '').presence
+  end
+
+  def hash_value(payload, key)
+    payload&.[](key) || payload&.[](key.to_s)
   end
 
   def build_contact_inbox(source_id:, contact_attributes:)

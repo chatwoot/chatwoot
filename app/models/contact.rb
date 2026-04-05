@@ -135,13 +135,11 @@ class Contact < ApplicationRecord
     )
   }
 
-  # Find contacts that:
-  # 1. Have no identification (email, phone_number, and identifier are NULL or empty string)
-  # 2. Have no conversations
-  # 3. Are older than the specified time period
+  # Find old contacts with no conversations and no identifiers (email/phone/identifier/whatsapp_bsuid)
   scope :stale_without_conversations, lambda { |time_period|
     where('contacts.email IS NULL OR contacts.email = ?', '').where('contacts.phone_number IS NULL OR contacts.phone_number = ?', '')
                                                              .where('contacts.identifier IS NULL OR contacts.identifier = ?', '')
+                                                             .where('contacts.whatsapp_bsuid IS NULL OR contacts.whatsapp_bsuid = ?', '')
                                                              .where('contacts.created_at < ?', time_period).where.missing(:conversations)
   }
 
@@ -195,9 +193,7 @@ class Contact < ApplicationRecord
     email_format
   end
 
-  def self.from_email(email)
-    find_by(email: email&.downcase)
-  end
+  def self.from_email(email) = find_by(email: email&.downcase)
 
   private
 

@@ -210,6 +210,77 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
     end
 
+    context 'when processing symbolized location payload' do
+      let(:location_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Location User' }, wa_id: '16505551234' }],
+                messages: [{
+                  from: '16505551234',
+                  id: 'wamid.LOCATION_MESSAGE_ID',
+                  timestamp: '1770407829',
+                  type: 'location',
+                  location: {
+                    latitude: '40.7128',
+                    longitude: '-74.0060',
+                    name: 'NYC',
+                    address: 'Manhattan'
+                  }
+                }]
+              }
+            }]
+          }]
+        }.deep_symbolize_keys
+      end
+
+      it 'creates location attachment successfully' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: location_params).perform
+
+        attachment = whatsapp_channel.inbox.messages.last.attachments.last
+        expect(attachment.file_type).to eq('location')
+        expect(attachment.coordinates_lat).to eq(40.7128)
+        expect(attachment.coordinates_long).to eq(-74.006)
+      end
+    end
+
+    context 'when processing symbolized contacts payload' do
+      let(:contact_card_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Contact Card User' }, wa_id: '16505550001' }],
+                messages: [{
+                  from: '16505550001',
+                  id: 'wamid.CONTACT_CARD_MESSAGE_ID',
+                  timestamp: '1770407829',
+                  type: 'contacts',
+                  contacts: [{
+                    name: { first_name: 'Jane', last_name: 'Doe' },
+                    phones: [{ phone: '+16505550002' }]
+                  }]
+                }]
+              }
+            }]
+          }]
+        }.deep_symbolize_keys
+      end
+
+      it 'creates contact card attachment successfully' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: contact_card_params).perform
+
+        attachment = whatsapp_channel.inbox.messages.last.attachments.last
+        expect(attachment.fallback_title).to eq('+16505550002')
+        expect(attachment.meta).to eq({ 'firstName' => 'Jane', 'lastName' => 'Doe' })
+      end
+    end
+
     context 'when BSUID belongs to a different contact in same account' do
       let(:conflict_params) do
         {
