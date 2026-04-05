@@ -29,9 +29,23 @@ RSpec.describe ConversationDrop do
     context 'when the conversation is assigned' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
-      before do
-        conversation.update!(assignee: agent)
+      before { conversation.update!(assignee: agent) }
+
+      it 'returns 0' do
+        expect(drop.queue_position).to eq(0)
       end
+    end
+
+    context 'when the conversation is resolved' do
+      before { conversation.update!(status: :resolved) }
+
+      it 'returns 0' do
+        expect(drop.queue_position).to eq(0)
+      end
+    end
+
+    context 'when the conversation is pending' do
+      before { conversation.update!(status: :pending) }
 
       it 'returns 0' do
         expect(drop.queue_position).to eq(0)
@@ -40,17 +54,11 @@ RSpec.describe ConversationDrop do
   end
 
   describe '#avg_wait_time_seconds and #avg_wait_time_minutes' do
-    let(:builder_instance) { instance_double(V2::Reports::AccountSummaryBuilder) }
-
-    before do
-      allow(V2::Reports::AccountSummaryBuilder).to receive(:new).and_return(builder_instance)
-    end
-
     context 'when reporting data exists for the current day' do
       before do
-        allow(builder_instance).to receive(:build).and_return(
-          [{ avg_first_response_time: 120.5 }]
-        )
+        create(:reporting_event, account: account, inbox: inbox,
+                                 name: 'first_response', value: 120.5,
+                                 created_at: 1.hour.ago)
       end
 
       it 'returns avg first response as integer seconds' do
@@ -59,12 +67,6 @@ RSpec.describe ConversationDrop do
     end
 
     context 'when there is no avg first response data' do
-      before do
-        allow(builder_instance).to receive(:build).and_return(
-          [{ avg_first_response_time: nil }]
-        )
-      end
-
       it 'returns 0 seconds' do
         expect(drop.avg_wait_time_seconds).to eq(0)
       end
@@ -74,11 +76,25 @@ RSpec.describe ConversationDrop do
       end
     end
 
+    context 'when events belong to a different inbox' do
+      let(:other_inbox) { create(:inbox, account: account) }
+
+      before do
+        create(:reporting_event, account: account, inbox: other_inbox,
+                                 name: 'first_response', value: 300.0,
+                                 created_at: 1.hour.ago)
+      end
+
+      it 'returns 0 (does not count other inbox events)' do
+        expect(drop.avg_wait_time_seconds).to eq(0)
+      end
+    end
+
     context 'when average is under one minute' do
       before do
-        allow(builder_instance).to receive(:build).and_return(
-          [{ avg_first_response_time: 45.0 }]
-        )
+        create(:reporting_event, account: account, inbox: inbox,
+                                 name: 'first_response', value: 45.0,
+                                 created_at: 1.hour.ago)
       end
 
       it 'ceil minutes to 1' do
@@ -88,9 +104,9 @@ RSpec.describe ConversationDrop do
 
     context 'when average is an exact number of minutes' do
       before do
-        allow(builder_instance).to receive(:build).and_return(
-          [{ avg_first_response_time: 300.0 }]
-        )
+        create(:reporting_event, account: account, inbox: inbox,
+                                 name: 'first_response', value: 300.0,
+                                 created_at: 1.hour.ago)
       end
 
       it 'returns that many minutes' do
@@ -100,9 +116,9 @@ RSpec.describe ConversationDrop do
 
     context 'when average spans a fractional minute' do
       before do
-        allow(builder_instance).to receive(:build).and_return(
-          [{ avg_first_response_time: 370.0 }]
-        )
+        create(:reporting_event, account: account, inbox: inbox,
+                                 name: 'first_response', value: 370.0,
+                                 created_at: 1.hour.ago)
       end
 
       it 'ceil minutes' do
@@ -110,15 +126,27 @@ RSpec.describe ConversationDrop do
       end
     end
 
-    it 'memoizes the summary so both time accessors trigger a single build' do
-      allow(builder_instance).to receive(:build).and_return(
-        [{ avg_first_response_time: 60.0 }]
-      )
+    it 'memoizes the result so both time accessors trigger a single DB query' do
+      create(:reporting_event, account: account, inbox: inbox,
+                               name: 'first_response', value: 60.0,
+                               created_at: 1.hour.ago)
 
+      expect(drop).to receive(:fetch_avg_first_response_seconds).once.and_call_original
       drop.avg_wait_time_seconds
       drop.avg_wait_time_minutes
+    end
 
-      expect(builder_instance).to have_received(:build).once
+    context 'when account has a reporting_timezone set' do
+      before do
+        account.update!(reporting_timezone: 'America/Sao_Paulo')
+        create(:reporting_event, account: account, inbox: inbox,
+                                 name: 'first_response', value: 240.0,
+                                 created_at: 1.hour.ago)
+      end
+
+      it 'scopes today using account reporting timezone' do
+        expect(drop.avg_wait_time_seconds).to eq(240)
+      end
     end
   end
 end

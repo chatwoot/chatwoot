@@ -25,6 +25,7 @@ class ConversationDrop < BaseDrop
   end
 
   def queue_position
+    return 0 unless @obj.open?
     return 0 if @obj.assignee_id.present?
 
     @obj.inbox.conversations.open.unassigned.count
@@ -48,13 +49,16 @@ class ConversationDrop < BaseDrop
   end
 
   def fetch_avg_first_response_seconds
-    result = @obj.account.reporting_events
-                 .where(
-                   name: 'first_response',
-                   inbox_id: @obj.inbox_id,
-                   created_at: Time.zone.now.beginning_of_day..Time.zone.now
-                 )
-                 .average(:value)
+    account = @obj.account
+    tz = ActiveSupport::TimeZone[account.reporting_timezone] || Time.zone
+    today_range = tz.now.beginning_of_day..tz.now
+    result = account.reporting_events
+                    .where(
+                      name: 'first_response',
+                      inbox_id: @obj.inbox_id,
+                      created_at: today_range
+                    )
+                    .average(:value)
     (result || 0).to_i
   end
 
