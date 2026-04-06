@@ -7,6 +7,7 @@
 #  hmac_mandatory        :boolean          default(FALSE)
 #  hmac_token            :string
 #  identifier            :string
+#  secret                :string
 #  webhook_url           :string
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
