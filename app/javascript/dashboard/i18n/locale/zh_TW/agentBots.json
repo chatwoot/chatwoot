@@ -63,6 +63,16 @@
         "ERROR_MESSAGE": "無法更新機器人，請稍後再試"
       }
     },
+    "SECRET": {
+      "LABEL": "Webhook Secret",
+      "COPY": "Copy secret to clipboard",
+      "COPY_SUCCESS": "Secret copied to clipboard",
+      "TOGGLE": "Toggle secret visibility",
+      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
+      "DONE": "Done",
+      "RESET_SUCCESS": "Webhook secret regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+    },
     "ACCESS_TOKEN": {
       "TITLE": "訪問 token",
       "DESCRIPTION": "複製訪問token並妥善保管",
