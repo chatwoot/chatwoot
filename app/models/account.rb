@@ -187,7 +187,7 @@ class Account < ApplicationRecord
 
     parsed = Mail::Address.new(value).address
     errors.add(:support_email, I18n.t('errors.account.support_email.invalid')) if parsed.blank?
-  rescue Mail::Field::IncompleteParseError
+  rescue Mail::Field::ParseError, Mail::Field::IncompleteParseError
     errors.add(:support_email, I18n.t('errors.account.support_email.invalid'))
   end
 

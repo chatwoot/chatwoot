@@ -5,7 +5,7 @@ module EmailAddressParseable
 
   def parse_email(email_string)
     Mail::Address.new(email_string).address.presence || default_sender_email_address
-  rescue Mail::Field::IncompleteParseError
+  rescue Mail::Field::ParseError, Mail::Field::IncompleteParseError
     default_sender_email_address
   end
 
