@@ -446,7 +446,7 @@
         "TITLE_FINISH": "Eto!",
         "CHANNEL": {
           "WEBSITE": {
-            "TITLE": "Website",
+            "TITLE": "Faqja e internetit",
             "DESCRIPTION": "Create a live-chat widget"
           },
           "FACEBOOK": {
@@ -1134,7 +1134,7 @@
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
-      "WEB_WIDGET": "Website",
+      "WEB_WIDGET": "Faqja e internetit",
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
