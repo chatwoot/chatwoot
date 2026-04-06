@@ -185,13 +185,18 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'sets waiting_since to approximately the handoff time' do
-        freeze_time do
-          described_class.perform_now(conversation, assistant)
+        # Force an explicit time gap so the assertion can distinguish "preserved original
+        # customer-wait timestamp" from "reset to handoff time". Under freeze_time the
+        # conversation's created_at (and therefore the seeded waiting_since) equals
+        # Time.current, so the assertion would pass for both behaviours and silently miss
+        # regressions where create_handoff_message stops clearing waiting_since.
+        conversation.update!(waiting_since: 10.minutes.ago)
 
-          conversation.reload
-          expect(conversation.status).to eq('open')
-          expect(conversation.waiting_since).to be_within(1.second).of(Time.current)
-        end
+        described_class.perform_now(conversation, assistant)
+
+        conversation.reload
+        expect(conversation.status).to eq('open')
+        expect(conversation.waiting_since).to be_within(5.seconds).of(Time.current)
       end
 
       it 'preserves waiting_since so a human reply consumes it for reply_time tracking' do
