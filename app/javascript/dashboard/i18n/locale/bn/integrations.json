@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "নথিপত্র",
       "ADD_NEW": "নতুন নথি তৈরি করুন",
+      "SELECTED": "{count} নির্বাচিত",
+      "SELECT_ALL": "সব নির্বাচন করুন ({count})",
+      "UNSELECT_ALL": "সব নির্বাচন বাতিল করুন ({count})",
+      "BULK_DELETE_BUTTON": "মুছে ফেলুন",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "হ্যাঁ, সব মুছে ফেলুন",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "সম্পর্কিত FAQ",
         "DESCRIPTION": "এই FAQ গুলো সরাসরি ডকুমেন্ট থেকে তৈরি হয়েছে।"
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "টুলস",
       "ADD_NEW": "নতুন টুল তৈরি করুন",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "কোনো কাস্টম টুল নেই",
         "SUBTITLE": "আপনার অ্যাসিস্ট্যান্টকে বাহ্যিক API ও সার্ভিসের সাথে সংযুক্ত করতে কাস্টম টুল তৈরি করুন, যাতে এটি আপনার পক্ষ থেকে ডেটা সংগ্রহ ও বিভিন্ন কাজ করতে পারে।.",
@@ -825,11 +837,18 @@
         "SUCCESS_MESSAGE": "কাস্টম টুল সফলভাবে মুছে ফেলা হয়েছে",
         "ERROR_MESSAGE": "কাস্টম টুল মুছে ফেলা যায়নি"
       },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "টুলের নাম",
           "PLACEHOLDER": "অর্ডার অনুসন্ধান",
-          "ERROR": "টুলের নাম আবশ্যক"
+          "ERROR": "টুলের নাম আবশ্যক",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "বর্ণনা",

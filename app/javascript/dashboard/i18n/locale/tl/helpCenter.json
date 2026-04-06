@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "Matagumpay na natanggal ang wika mula sa portal",
           "ERROR_MESSAGE": "Hindi matanggal ang wika mula sa portal. Subukang muli."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -644,8 +656,11 @@
         "ARTICLES_COUNT": "{count} artikulo | {count} mga artikulo",
         "CATEGORIES_COUNT": "{count} kategorya | {count} mga kategorya",
         "DEFAULT": "Default",
+        "DRAFT": "Burador",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Gawing default",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "Tanggalin"
         }
       },
@@ -654,6 +669,13 @@
         "DESCRIPTION": "Piliin ang wikang gagamitin sa artikulong ito. Idadagdag ito sa iyong listahan ng mga pagsasalin, at maaari kang magdagdag pa mamaya.",
         "COMBOBOX": {
           "PLACEHOLDER": "Pumili ng wika..."
+        },
+        "STATUS": {
+          "LABEL": "Status",
+          "OPTIONS": {
+            "LIVE": "Nailathala",
+            "DRAFT": "Burador"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Matagumpay na nadagdag ang wika",

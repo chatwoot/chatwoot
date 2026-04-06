@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Podpis zprávy není nakonfigurován, prosím nakonfigurujte jej v nastavení profilu.",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "Dejte copilotu další podněty nebo se zeptejte na cokoliv dalšího... Stiskněte Enter pro odeslání pokračování",
       "CLICK_HERE": "Klikněte zde pro aktualizaci",
       "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
@@ -214,7 +214,7 @@
       "DRAG_DROP": "Přetažením sem připojíte",
       "START_AUDIO_RECORDING": "Spustit nahrávání zvuku",
       "STOP_AUDIO_RECORDING": "Zastavit nahrávání zvuku",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot přemýšlí",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Přidat bcc",

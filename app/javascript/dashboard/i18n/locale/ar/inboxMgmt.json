@@ -715,7 +715,7 @@
       },
       "ALLOW_MOBILE_WEBVIEW": {
         "LABEL": "Enable widget in mobile apps",
-        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+        "SUBTITLE": "حدد هذا الخيار إذا كنت تقوم بتضمين الأداة في تطبيقات iOS أو Android. لا ترسل تطبيقات الجوال معلومات النطاق، لذا سيتم حظرها بسبب قيود النطاق ما لم يتم تفعيل هذا الخيار."
       },
       "IDENTITY_VALIDATION": {
         "TITLE": "Identity Validation",
