@@ -86,6 +86,14 @@
           "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ വെബ്‌ഹുക്ക് URL നൽകുക",
           "ERROR": "ദയവായി സാധുവായ ഒരു യുആർഎൽ നൽകുക"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "രഹസ്യം ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തുക",
+          "COPY_SUCCESS": "രഹസ്യം ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തി",
+          "TOGGLE": "രഹസ്യ ദൃശ്യത ടോഗിൾ ചെയ്യുക",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "വെബ്സൈറ്റ് ഡൊമെയ്ൻ",
           "PLACEHOLDER": "നിങ്ങളുടെ വെബ്‌സൈറ്റ് ഡൊമെയ്ൻ നൽകുക (ഉദാ: punnyalan.com)"
