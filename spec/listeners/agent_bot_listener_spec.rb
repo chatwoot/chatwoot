@@ -57,6 +57,44 @@ describe AgentBotListener do
     end
   end
 
+  describe '#conversation_status_changed' do
+    let(:event_name) { 'conversation.status_changed' }
+    let(:changed_attributes) { { status: %w[open pending] } }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, changed_attributes: changed_attributes) }
+
+    context 'when agent bot is not configured' do
+      it 'does not send webhook' do
+        expect(AgentBots::WebhookJob).not_to receive(:perform_later)
+        listener.conversation_status_changed(event)
+      end
+    end
+
+    context 'when agent bot is configured on inbox' do
+      it 'sends webhook with changed_attributes' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+          agent_bot.outgoing_url,
+          hash_including(event: 'conversation_status_changed', changed_attributes: anything)
+        ).once
+        listener.conversation_status_changed(event)
+      end
+    end
+
+    context 'when conversation is assigned to an agent bot' do
+      before do
+        conversation.update!(assignee_agent_bot: agent_bot, assignee: nil)
+      end
+
+      it 'sends webhook to the assigned agent bot' do
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+          agent_bot.outgoing_url,
+          hash_including(event: 'conversation_status_changed', changed_attributes: anything)
+        ).once
+        listener.conversation_status_changed(event)
+      end
+    end
+  end
+
   describe '#conversation_updated' do
     let(:event_name) { 'conversation.updated' }
     let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
