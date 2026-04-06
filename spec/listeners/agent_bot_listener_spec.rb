@@ -82,9 +82,11 @@ describe AgentBotListener do
 
       it 'sends webhook to the inbox agent bot with changed_attributes' do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
-        expect(AgentBots::WebhookJob).to receive(:perform_later).with(agent_bot.outgoing_url,
-                                                                      conversation.webhook_data.merge(event: 'conversation_updated',
-                                                                                                      changed_attributes: nil)).once
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+          agent_bot.outgoing_url,
+          conversation.webhook_data.merge(event: 'conversation_updated', changed_attributes: nil),
+          :agent_bot_webhook, secret: agent_bot.secret, delivery_id: instance_of(String)
+        ).once
         listener.conversation_updated(event)
       end
     end
@@ -101,11 +103,14 @@ describe AgentBotListener do
 
       it 'sends webhook with changed_attributes to the assigned agent bot' do
         expected_changed_attributes = [{ 'assignee_agent_bot_id' => { previous_value: nil, current_value: agent_bot.id } }]
-        expect(AgentBots::WebhookJob).to receive(:perform_later).with(agent_bot.outgoing_url,
-                                                                      conversation.webhook_data.merge(
-                                                                        event: 'conversation_updated',
-                                                                        changed_attributes: expected_changed_attributes
-                                                                      )).once
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+          agent_bot.outgoing_url,
+          conversation.webhook_data.merge(
+            event: 'conversation_updated',
+            changed_attributes: expected_changed_attributes
+          ),
+          :agent_bot_webhook, secret: agent_bot.secret, delivery_id: instance_of(String)
+        ).once
         listener.conversation_updated(event)
       end
     end
