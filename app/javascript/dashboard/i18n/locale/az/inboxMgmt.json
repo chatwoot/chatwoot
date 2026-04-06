@@ -86,6 +86,14 @@
           "PLACEHOLDER": "Zəhmət olmasa Webhook URL-ni daxil edin",
           "ERROR": "Zəhmət olmasa düzgün URL daxil edin"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Veb sayt Domeni",
           "PLACEHOLDER": "Veb sayt domeninizi daxil edin (məsələn: acme.com)"
