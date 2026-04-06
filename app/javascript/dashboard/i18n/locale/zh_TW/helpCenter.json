@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "語言環境從門戶中移除成功",
           "ERROR_MESSAGE": "無法從門戶中移除語言環境，請重試。"
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -644,8 +656,11 @@
         "ARTICLES_COUNT": "{count} 篇文章 | {count} 篇文章",
         "CATEGORIES_COUNT": "{count} 個類別 | {count} 個類別",
         "DEFAULT": "預設",
+        "DRAFT": "草稿",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "設為預設",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "刪除"
         }
       },
@@ -654,6 +669,13 @@
         "DESCRIPTION": "選擇此文章將使用的語言。這將新增到您的翻譯列表中，您可以稍後新增更多。",
         "COMBOBOX": {
           "PLACEHOLDER": "選擇語言環境..."
+        },
+        "STATUS": {
+          "LABEL": "狀態",
+          "OPTIONS": {
+            "LIVE": "已釋出",
+            "DRAFT": "草稿"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "語言環境新增成功",

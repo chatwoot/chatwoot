@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "Dê comandos adicionais ao copiloto ou pergunte qualquer outra coisa... Pressione enter para enviar o acompanhamento",
       "CLICK_HERE": "Clique aqui para atualizar",
       "WHATSAPP_TEMPLATES": "Template do WhatsApp"
     },
@@ -214,7 +214,7 @@
       "DRAG_DROP": "Arrastar e soltar aqui para anexar",
       "START_AUDIO_RECORDING": "Iniciar gravação de áudio",
       "STOP_AUDIO_RECORDING": "Parar gravação de áudio",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copiloto está pensando",
       "EMAIL_HEAD": {
         "TO": "PARA",
         "ADD_BCC": "Adicionar Bcc",
