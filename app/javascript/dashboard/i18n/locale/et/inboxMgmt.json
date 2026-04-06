@@ -86,6 +86,14 @@
           "PLACEHOLDER": "Palun sisestage oma webhooki URL",
           "ERROR": "Palun sisesta kehtiv URL"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Veebisaidi domeen",
           "PLACEHOLDER": "Sisestage oma veebisaidi domeen (nt acme.com)"
