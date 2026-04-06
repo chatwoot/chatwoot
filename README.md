@@ -44,7 +44,7 @@ Supercharge your support with Captain, Chatwoot’s AI agent. Captain helps auto
 
 Chatwoot centralizes all customer conversations into one powerful inbox, no matter where your customers reach out from. It supports live chat on your website, email, Facebook, Instagram, Twitter, WhatsApp, Telegram, Line, SMS etc.
 
-### 📚 Help center portal
+###  Help center portal
 
 Publish help articles, FAQs, and guides through the built-in Help Center Portal. Enable customers to find answers on their own, reduce repetitive queries, and keep your support team focused on more complex issues.
 
