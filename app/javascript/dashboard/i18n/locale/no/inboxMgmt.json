@@ -86,6 +86,14 @@
           "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Vennligst skriv inn en gyldig URL"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Nettstedets domene",
           "PLACEHOLDER": "Angi URL på nettsiden (f. eks.: acme.no)"
