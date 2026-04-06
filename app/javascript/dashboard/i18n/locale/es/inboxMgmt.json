@@ -86,6 +86,14 @@
           "PLACEHOLDER": "Por favor, introduzca su URL de Webhook",
           "ERROR": "Por favor, introduzca una URL válida"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Dominio del sitio web",
           "PLACEHOLDER": "Introduzca el dominio de su sitio web (por ejemplo: acme.com)"
