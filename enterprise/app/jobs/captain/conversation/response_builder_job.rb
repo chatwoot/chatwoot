@@ -45,8 +45,18 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_response
-    if handoff_requested?
-      process_action('handoff')
+    if classic_handoff_requested?
+      # V1 path: handoff is signalled by a string match. State has not been mutated yet,
+      # so we must still be pending — otherwise a human took over while the LLM was running
+      # and we should not post a stale handoff message.
+      return unless conversation_pending?
+
+      process_classic_handoff
+    elsif v2_tool_handoff_requested?
+      # V2 path: HandoffTool already mutated state during agent execution (private note,
+      # bot_handoff!, OOO). The conversation is no longer pending here — we only need to
+      # post the customer-visible follow-up message.
+      process_v2_tool_handoff
     elsif conversation_pending?
       ActiveRecord::Base.transaction do
         create_messages
@@ -82,19 +92,28 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     Captain::OpenAiMessageBuilderService.new(message: message).generate_content
   end
 
-  def handoff_requested?
-    @response['response'] == 'conversation_handoff' || @response['handoff_tool_called']
+  def classic_handoff_requested?
+    @response['response'] == 'conversation_handoff'
   end
 
-  def process_action(action)
-    case action
-    when 'handoff'
-      I18n.with_locale(@assistant.account.locale) do
-        create_handoff_message
-        was_pending = conversation_pending?
-        @conversation.bot_handoff! if was_pending
-        send_out_of_office_message_if_applicable if was_pending
-      end
+  def v2_tool_handoff_requested?
+    @response['handoff_tool_called']
+  end
+
+  def process_classic_handoff
+    I18n.with_locale(@assistant.account.locale) do
+      create_handoff_message
+      @conversation.bot_handoff!
+      send_out_of_office_message_if_applicable
+    end
+  end
+
+  def process_v2_tool_handoff
+    # HandoffTool already ran bot_handoff! and OOO during agent execution. We only need
+    # the customer-visible follow-up message, and we must preserve waiting_since because
+    # the original customer-wait timestamp was already consumed by HandoffTool's flow.
+    I18n.with_locale(@assistant.account.locale) do
+      create_handoff_message(preserve_waiting_since: true)
     end
   end
 
@@ -106,10 +125,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(@conversation)
   end
 
-  def create_handoff_message
+  def create_handoff_message(preserve_waiting_since: false)
     create_outgoing_message(
       @assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff'),
-      preserve_waiting_since: true
+      preserve_waiting_since: preserve_waiting_since
     )
   end
 
@@ -139,7 +158,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def handle_error(error)
     log_error(error)
-    process_action('handoff') if conversation_pending?
+    process_classic_handoff if conversation_pending?
     true
   end
 
