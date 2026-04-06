@@ -41,8 +41,8 @@
         "FONT_SIZE": {
           "TITLE": "Saiz fon",
           "NOTE": "Laraskan saiz teks di seluruh papan pemuka mengikut keutamaan anda.",
-          "UPDATE_SUCCESS": "Tetapan profil",
-          "UPDATE_ERROR": "Simpan perubahan",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
           "OPTIONS": {
             "SMALLER": "Lebih Kecil",
             "SMALL": "Kecil",
