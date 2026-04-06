@@ -79,14 +79,16 @@ export const mutations = {
   [types.UPDATE_ARTICLE]: ($state, updatedArticle) => {
     const articleId = updatedArticle.id;
     if ($state.articles.byId[articleId]) {
-      // Preserve the original position
-      const originalPosition = $state.articles.byId[articleId].position;
+      const existing = $state.articles.byId[articleId];
 
-      // Update the article, keeping the original position
-      // This is not moved out of the original position when we update the article
+      // Merge into existing article rather than replacing.
+      // This preserves local optimistic edits (content, title) that may not
+      // have been persisted yet, while still picking up server-computed fields
+      // (status, slug, updated_at, etc.).
       $state.articles.byId[articleId] = {
+        ...existing,
         ...updatedArticle,
-        position: originalPosition,
+        position: existing.position,
       };
     }
   },

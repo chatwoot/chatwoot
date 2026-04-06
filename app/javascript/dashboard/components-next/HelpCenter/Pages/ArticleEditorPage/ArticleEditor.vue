@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { debounce } from '@chatwoot/utils';
 import { useI18n } from 'vue-i18n';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
@@ -27,7 +27,6 @@ const props = defineProps({
 
 const emit = defineEmits([
   'saveArticle',
-  'saveArticleAsync',
   'goBack',
   'setAuthor',
   'setCategory',
@@ -36,50 +35,34 @@ const emit = defineEmits([
 
 const { t } = useI18n();
 
-const isNewArticle = computed(() => !props.article?.id);
+const localTitle = ref(props.article?.title ?? '');
+const localContent = ref(props.article?.content ?? '');
 
-const saveAndSync = value => {
-  emit('saveArticle', value);
-};
-
-// this will only send the data to the backend
-// but will not update the local state preventing unnecessary re-renders
-// since the data is already saved and we keep the editor text as the source of truth
-const quickSave = debounce(
-  value => emit('saveArticleAsync', value),
-  400,
-  false
+watch(
+  () => props.article?.id,
+  newId => {
+    if (newId) {
+      localTitle.value = props.article?.title ?? '';
+      localContent.value = props.article?.content ?? '';
+    }
+  }
 );
 
-// 2.5 seconds is enough to know that the user has stopped typing and is taking a pause
-// so we can save the data to the backend and retrieve the updated data
-// this will update the local state with response data
-// Only use to save for existing articles
-const saveAndSyncDebounced = debounce(saveAndSync, 2500, false);
-
-// Debounced save for new articles
-const quickSaveNewArticle = debounce(saveAndSync, 400, false);
-
-const handleSave = value => {
-  if (isNewArticle.value) {
-    quickSaveNewArticle(value);
-  } else {
-    quickSave(value);
-    saveAndSyncDebounced(value);
-  }
-};
+const debouncedSave = debounce(value => emit('saveArticle', value), 500, false);
 
 const articleTitle = computed({
-  get: () => props.article.title,
+  get: () => localTitle.value,
   set: value => {
-    handleSave({ title: value });
+    localTitle.value = value;
+    debouncedSave({ title: value });
   },
 });
 
 const articleContent = computed({
-  get: () => props.article.content,
+  get: () => localContent.value,
   set: content => {
-    handleSave({ content });
+    localContent.value = content;
+    debouncedSave({ content });
   },
 });
 
@@ -125,7 +108,7 @@ const previewArticle = () => {
         />
         <ArticleEditorControls
           :article="article"
-          @save-article="saveAndSync"
+          @save-article="values => emit('saveArticle', values)"
           @set-author="setAuthorId"
           @set-category="setCategoryId"
         />
