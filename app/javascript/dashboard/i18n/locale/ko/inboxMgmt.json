@@ -86,6 +86,14 @@
           "PLACEHOLDER": "웹훅 URL을 입력하십시오.",
           "ERROR": "올바른 URL을 입력하십시오."
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "시크릿을 클립보드에 복사",
+          "COPY_SUCCESS": "시크릿이 클립보드에 복사되었습니다",
+          "TOGGLE": "시크릿 표시 전환",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "웹사이트 도메인",
           "PLACEHOLDER": "웹사이트 도메인을 입력하십시오 (예: acme.com)"
