@@ -86,6 +86,14 @@
           "PLACEHOLDER": "Խնդրում ենք մուտքագրել ձեր Webhook URL-ը",
           "ERROR": "Խնդրում ենք մուտքագրել վավեր URL"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Պատճենել գաղտնաբառը",
+          "COPY_SUCCESS": "Գաղտնաբառը պատճենվել է",
+          "TOGGLE": "Ցուցադրել/թաքցնել գաղտնաբառը",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Վեբկայքի տիրույթ",
           "PLACEHOLDER": "Մուտքագրեք ձեր վեբկայքի տիրույթը (օրինակ՝ acme.com)"
