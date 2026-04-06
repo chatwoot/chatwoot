@@ -41,6 +41,7 @@ class Account < ApplicationRecord
         'audio_transcriptions': { 'type': %w[boolean null] },
         'auto_resolve_label': { 'type': %w[string null] },
         'keep_pending_on_bot_failure': { 'type': %w[boolean null] },
+        'autoload_conversation_history': { 'type': %w[boolean null] },
         'captain_auto_resolve_mode': { 'type': %w[string null], 'enum': ['evaluated', 'legacy', 'disabled', nil] },
         'conversation_required_attributes': {
           'type': %w[array null],
@@ -93,6 +94,7 @@ class Account < ApplicationRecord
   store_accessor :settings, :captain_models, :captain_features
   store_accessor :settings, :reporting_timezone
   store_accessor :settings, :keep_pending_on_bot_failure
+  store_accessor :settings, :autoload_conversation_history
   store_accessor :settings, :captain_auto_resolve_mode
   include AccountCaptainAutoResolve
 

@@ -96,6 +96,14 @@
         "LABEL": "Exclude unattended conversations",
         "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
       },
+      "AUTOLOAD_CONVERSATION_HISTORY": {
+        "TITLE": "Auto-load conversation history",
+        "NOTE": "When enabled, scrolling to the top of a conversation will automatically load previous conversations from the same contact, separated by a visual divider.",
+        "API": {
+          "SUCCESS": "Conversation history autoload setting updated successfully",
+          "ERROR": "Failed to update conversation history autoload setting"
+        }
+      },
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "Transcribe Audio Messages",
         "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",

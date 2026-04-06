@@ -25,6 +25,11 @@
       "PLACEHOLDER": "Type any text to search messages",
       "NO_MATCHING_RESULTS": "No results found."
     },
+    "HISTORY": {
+      "PREVIOUS_CONVERSATION": "Previous Conversation",
+      "CONVERSATION_ID": "#{id}",
+      "LOADING": "Loading previous conversation..."
+    },
     "UNREAD_MESSAGES": "Unread Messages",
     "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "Click here",
