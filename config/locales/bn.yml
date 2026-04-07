@@ -373,6 +373,7 @@ bn:
       page_processing_error: 'পৃষ্ঠা প্রক্রিয়াকরণের সময় ত্রুটি %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: '৫ বার চেষ্টা করার পরেও অনন্য স্লাগ তৈরি করা যায়নি'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
       search_placeholder: শিরোনাম বা বর্ণনা দিয়ে আর্টিকেল খুঁজুন...
@@ -409,6 +410,10 @@ bn:
       title: পৃষ্ঠা খুঁজে পাওয়া যায়নি
       description: আপনি যে পৃষ্ঠাটি খুঁজছিলেন, তা খুঁজে পাওয়া যায়নি।.
       back_to_home: হোম পৃষ্ঠায় যান
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
       name: নাম

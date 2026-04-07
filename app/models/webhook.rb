@@ -22,8 +22,7 @@ class Webhook < ApplicationRecord
   belongs_to :account
   belongs_to :inbox, optional: true
 
-  has_secure_token :secret
-  encrypts :secret if Chatwoot.encryption_configured?
+  include WebhookSecretable
 
   validates :account_id, presence: true
   validates :url, uniqueness: { scope: [:account_id] }, format: URI::DEFAULT_PARSER.make_regexp(%w[http https])
