@@ -390,26 +390,26 @@
   },
   "CAPTAIN": {
     "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "En savoir plus",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "Assistants IA",
+      "SWITCH_ASSISTANT": "Changer d’assistant",
+      "NEW_ASSISTANT": "Créer un assistant",
+      "EMPTY_LIST": "Aucun assistant trouvé, veuillez en créer un pour commencer"
     },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "PANEL_TITLE": "Commencez avec Copilot",
+      "KICK_OFF_MESSAGE": "Besoin d’un résumé rapide, de consulter les conversations passées ou de rédiger une meilleure réponse ? Copilot est là pour accélérer les choses.",
       "SEND_MESSAGE": "Envoyer un message...",
       "EMPTY_MESSAGE": "Une erreur s'est produite lors de la génération de la réponse. Veuillez réessayer.",
-      "LOADER": "Captain is thinking",
+      "LOADER": "Captain réfléchit",
       "YOU": "Vous",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "USE": "Utiliser ceci",
+      "RESET": "Réinitialiser",
+      "SHOW_STEPS": "Afficher les étapes",
+      "SELECT_ASSISTANT": "Sélectionner un assistant",
       "PROMPTS": {
         "SUMMARIZE": {
           "LABEL": "Résumer cette conversation",
@@ -424,38 +424,38 @@
           "CONTENT": "Revue de la conversation pour évaluer dans quelle mesure elle répond aux besoins du client. Partagez une note sur 5 en fonction du ton, de la clarté et de l'efficacité."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "Conversations à haute priorité",
+          "CONTENT": "Fournissez-moi un résumé de toutes les conversations ouvertes à haute priorité. Incluez l’ID de la conversation, le nom du client (si disponible), le contenu du dernier message et l’agent assigné. Regroupez par statut si pertinent."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "Lister les contacts",
+          "CONTENT": "Montrez-moi la liste des 10 contacts principaux. Incluez nom, email ou numéro de téléphone (si disponible), dernière connexion, étiquettes (le cas échéant)."
         }
       }
     },
     "PLAYGROUND": {
       "USER": "Vous",
-      "ASSISTANT": "Assistant",
+      "ASSISTANT": "Assistant IA",
       "MESSAGE_PLACEHOLDER": "Tapez votre message...",
       "HEADER": "Terrain de jeu",
       "DESCRIPTION": "Utilisez ce terrain de jeu pour envoyer des messages à votre assistant et vérifier s'il répond de manière précise, rapide et dans le ton que vous attendez.",
       "CREDIT_NOTE": "Les messages envoyés ici compteront pour vos crédits Captain."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "TITLE": "Passez à la version supérieure pour utiliser Captain AI",
+      "AVAILABLE_ON": "Captain n’est pas disponible avec le plan gratuit.",
+      "UPGRADE_PROMPT": "Passez à un plan supérieur pour accéder à nos assistants, Copilot et plus encore.",
       "UPGRADE_NOW": "Upgrade now",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "AVAILABLE_ON": "Captain AI est uniquement disponible dans les plans Entreprise.",
+      "UPGRADE_PROMPT": "Passez à un plan supérieur pour accéder à nos assistants, Copilot et plus encore.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "Vous avez utilisé plus de 80 % de votre quota de réponses. Pour continuer à utiliser Captain AI, veuillez passer à la version supérieure.",
+      "DOCUMENTS": "Limite de documents atteinte. Passez à la version supérieure pour continuer à utiliser Captain AI."
     },
     "FORM": {
       "CANCEL": "Annuler",
@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
+      "SELECTED": "{count} selected",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "BULK_DELETE_BUTTON": "Supprimer",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
         "DESCRIPTION": "These FAQs are generated directly from the document."
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Outils",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -825,11 +837,18 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Description",

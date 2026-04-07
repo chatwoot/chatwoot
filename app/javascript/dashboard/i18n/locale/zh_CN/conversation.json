@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "未设置消息签名，请在个人资料中进行设置。",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "为 Copilot 提供额外提示，或提问其他内容… 按 Enter 发送跟进",
       "CLICK_HERE": "点击此处更新",
       "WHATSAPP_TEMPLATES": "Whatsapp 模板列表"
     },
@@ -214,7 +214,7 @@
       "DRAG_DROP": "拖放到此处添加附件",
       "START_AUDIO_RECORDING": "开始录音",
       "STOP_AUDIO_RECORDING": "停止录音",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot 正在思考",
       "EMAIL_HEAD": {
         "TO": "发给",
         "ADD_BCC": "添加密送",

@@ -89,7 +89,7 @@
         "TITLE": "Pristupni token",
         "NOTE": "Ovaj token se može koristiti ako gradite integraciju temeljenu na API-ju",
         "COPY": "Kopiraj",
-        "RESET": "Reset",
+        "RESET": "Resetuj",
         "CONFIRM_RESET": "Jeste li sigurni?",
         "CONFIRM_HINT": "Kliknite ponovno za potvrdu",
         "RESET_SUCCESS": "Token za pristup je uspješno regeneriran",

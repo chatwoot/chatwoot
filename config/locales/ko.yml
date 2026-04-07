@@ -373,6 +373,7 @@ ko:
       page_processing_error: '페이지 %{start}-%{end} 처리 오류: %{error}'
     custom_tool:
       slug_generation_failed: '5회 시도 후에도 고유 슬러그를 생성할 수 없습니다'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
       search_placeholder: 게시물을 제목이나 내용으로 검색하세요...
@@ -409,6 +410,10 @@ ko:
       title: 페이지를 찾을 수 없습니다
       description: 찾고자 하는 페이지를 찾을 수 없었습니다.
       back_to_home: 홈 화면으로 이동
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
       name: 이름

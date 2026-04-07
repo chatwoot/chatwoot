@@ -843,6 +843,12 @@
         "ERROR": "連接失敗",
         "DISABLED_HINT": "測試功能僅適用於沒有範本或請求內容的端點。"
       },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "工具名稱",
