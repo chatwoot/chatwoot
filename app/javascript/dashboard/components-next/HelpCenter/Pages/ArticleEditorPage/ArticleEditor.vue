@@ -38,6 +38,7 @@ const { t } = useI18n();
 const localTitle = ref(props.article?.title ?? '');
 const localContent = ref(props.article?.content ?? '');
 
+// Sync local state when navigating to a different article or on initial fetch
 watch(
   () => props.article?.id,
   newId => {
