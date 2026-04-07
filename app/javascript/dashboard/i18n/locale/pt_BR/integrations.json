@@ -837,6 +837,18 @@
         "SUCCESS_MESSAGE": "Ferramenta personalizada excluída com sucesso",
         "ERROR_MESSAGE": "Falha ao excluir a ferramenta personalizada"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Abrir faturamento",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Entre em contato com seu administrador para fazer a atualização."
+      },
       "TEST": {
         "BUTTON": "Testar conexão",
         "SUCCESS": "Endpoint retornou HTTP {status}",
