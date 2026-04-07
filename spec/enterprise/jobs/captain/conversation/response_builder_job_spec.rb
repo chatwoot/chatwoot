@@ -168,6 +168,21 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(conversation.messages.last.content).to eq('Hi! How can I help you?')
         expect(conversation.reload.status).to eq('pending')
       end
+
+      it 'falls back to a full V1 handoff when HandoffTool fired but failed to commit' do
+        allow(mock_agent_runner_service).to receive(:generate_response).and_return({
+                                                                                     'response' => 'I tried to hand off',
+                                                                                     'handoff_tool_called' => true
+                                                                                   })
+
+        described_class.perform_now(conversation, assistant)
+
+        conversation.reload
+        expect(conversation.status).to eq('open')
+        public_messages = conversation.messages.outgoing.where(private: false)
+        expect(public_messages.count).to eq(1)
+        expect(public_messages.last.content).to eq(I18n.t('conversations.captain.handoff'))
+      end
     end
 
     # Regression (PR #13417): wrapping create_handoff_message and bot_handoff! in the
@@ -185,11 +200,8 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'sets waiting_since to approximately the handoff time' do
-        # Force an explicit time gap so the assertion can distinguish "preserved original
-        # customer-wait timestamp" from "reset to handoff time". Under freeze_time the
-        # conversation's created_at (and therefore the seeded waiting_since) equals
-        # Time.current, so the assertion would pass for both behaviours and silently miss
-        # regressions where create_handoff_message stops clearing waiting_since.
+        # Don't use freeze_time here: we need a real gap between the seeded waiting_since
+        # and Time.current, otherwise "preserved" and "reset" both look identical.
         conversation.update!(waiting_since: 10.minutes.ago)
 
         described_class.perform_now(conversation, assistant)

@@ -45,18 +45,27 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_response
-    if classic_handoff_requested?
-      # V1 path: handoff is signalled by a string match. State has not been mutated yet,
-      # so we must still be pending — otherwise a human took over while the LLM was running
-      # and we should not post a stale handoff message.
+    # Check V2 before V1: error_response can set both signals at once when HandoffTool
+    # fired before the runner errored. V2 must win — running V1 on top would duplicate
+    # OOO and re-dispatch the bot_handoff event.
+    if v2_handoff_tool_fired?
+      if conversation_pending?
+        # HandoffTool flipped the flag without committing — its perform returned a
+        # failure string (e.g. "Conversation not found") before bot_handoff! ran. Fall
+        # back to a full V1 handoff so the customer still ends up with a human.
+        process_v1_handoff
+      else
+        # HandoffTool already opened the conversation inside the agent loop. All that's
+        # left is the customer-facing follow-up message.
+        process_v2_handoff
+      end
+    elsif v1_handoff_requested?
+      # V1 only signals via the response string — no state has been touched yet. If
+      # the conversation isn't pending anymore, a human took over mid-run; bail out
+      # rather than posting a stale handoff message on top of their reply.
       return unless conversation_pending?
 
-      process_classic_handoff
-    elsif v2_tool_handoff_requested?
-      # V2 path: HandoffTool already mutated state during agent execution (private note,
-      # bot_handoff!, OOO). The conversation is no longer pending here — we only need to
-      # post the customer-visible follow-up message.
-      process_v2_tool_handoff
+      process_v1_handoff
     elsif conversation_pending?
       ActiveRecord::Base.transaction do
         create_messages
@@ -92,15 +101,15 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     Captain::OpenAiMessageBuilderService.new(message: message).generate_content
   end
 
-  def classic_handoff_requested?
+  def v1_handoff_requested?
     @response['response'] == 'conversation_handoff'
   end
 
-  def v2_tool_handoff_requested?
+  def v2_handoff_tool_fired?
     @response['handoff_tool_called']
   end
 
-  def process_classic_handoff
+  def process_v1_handoff
     I18n.with_locale(@assistant.account.locale) do
       create_handoff_message
       @conversation.bot_handoff!
@@ -108,10 +117,9 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     end
   end
 
-  def process_v2_tool_handoff
-    # HandoffTool already ran bot_handoff! and OOO during agent execution. We only need
-    # the customer-visible follow-up message, and we must preserve waiting_since because
-    # the original customer-wait timestamp was already consumed by HandoffTool's flow.
+  def process_v2_handoff
+    # HandoffTool already ran bot_handoff! + OOO inside the agent loop. Preserve
+    # waiting_since so this message doesn't clear the timestamp it left in place.
     I18n.with_locale(@assistant.account.locale) do
       create_handoff_message(preserve_waiting_since: true)
     end
@@ -158,7 +166,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def handle_error(error)
     log_error(error)
-    process_classic_handoff if conversation_pending?
+    process_v1_handoff if conversation_pending?
     true
   end
 

@@ -10,9 +10,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:scenario) { create(:captain_scenario, assistant: assistant, enabled: true) }
 
-  # rubocop:disable RSpec/VerifiedDoubles
-  let(:mock_runner) { double('Agents::Runner') }
-  # rubocop:enable RSpec/VerifiedDoubles
+  let(:mock_runner) { instance_double(Agents::AgentRunner) }
   let(:mock_agent) { instance_double(Agents::Agent) }
   let(:mock_scenario_agent) { instance_double(Agents::Agent) }
   let(:mock_result) { instance_double(Agents::RunResult, output: { 'response' => 'Test response' }, context: nil) }
@@ -236,7 +234,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
         expect(result).to eq({
                                'response' => 'conversation_handoff',
-                               'reasoning' => 'Error occurred: Test error'
+                               'reasoning' => 'Error occurred: Test error',
+                               'handoff_tool_called' => false
                              })
       end
 
@@ -257,7 +256,32 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
           expect(result).to eq({
                                  'response' => 'conversation_handoff',
-                                 'reasoning' => 'Error occurred: Test error'
+                                 'reasoning' => 'Error occurred: Test error',
+                                 'handoff_tool_called' => false
+                               })
+        end
+      end
+
+      context 'when HandoffTool fired before the runner errored' do
+        # The stubbed runner never invokes the on_tool_complete callback, so we call
+        # track_handoff_usage directly to simulate the flag being set before the raise.
+        before do
+          allow(mock_runner).to receive(:run) do
+            service.send(:track_handoff_usage,
+                         Captain::Tools::HandoffTool.new(assistant).name,
+                         Captain::Tools::HandoffTool.new(assistant).name,
+                         Struct.new(:context).new({}))
+            raise error
+          end
+        end
+
+        it 'surfaces handoff_tool_called in error_response so the job routes to the V2 path' do
+          result = service.generate_response(message_history: message_history)
+
+          expect(result).to eq({
+                                 'response' => 'conversation_handoff',
+                                 'reasoning' => 'Error occurred: Test error',
+                                 'handoff_tool_called' => true
                                })
         end
       end
