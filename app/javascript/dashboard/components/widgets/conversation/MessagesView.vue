@@ -471,6 +471,12 @@ export default {
 
     async fetchNextHistoricalConversation() {
       if (this.isLoadingHistoricalConversation) return;
+
+      const contactId = this.currentChat?.meta?.sender?.id;
+      if (contactId && !this.contactConversations.length) {
+        await this.$store.dispatch('contactConversations/get', contactId);
+      }
+
       const next = this.sortedPreviousConversations[0];
       if (!next) return;
 
@@ -577,7 +583,10 @@ export default {
               :current-user-id="currentUserId"
               data-clarity-mask="True"
             />
-            <ConversationHistorySeparator :conversation="histConv" />
+            <ConversationHistorySeparator
+              :conversation="histConv"
+              :account-id="currentAccountId"
+            />
           </template>
         </template>
         <transition name="slide-up">
