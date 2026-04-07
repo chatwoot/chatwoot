@@ -446,6 +446,13 @@ export default {
           // Ignore Error
         } finally {
           this.isLoadingPrevious = false;
+          if (
+            this.conversationPanel.scrollTop < 100 &&
+            this.listLoadingStatus &&
+            this.isAutoloadHistoryEnabled
+          ) {
+            this.fetchNextHistoricalConversation();
+          }
         }
       }
     },
@@ -484,7 +491,7 @@ export default {
       const entry = {
         id: next.id,
         createdAt: next.created_at,
-        inboxName: next.meta?.channel,
+        inbox: this.$store.getters['inboxes/getInbox'](next.inbox_id),
         messages: [],
         isLoading: true,
       };
@@ -585,6 +592,7 @@ export default {
             />
             <ConversationHistorySeparator
               :conversation="histConv"
+              :inbox="histConv.inbox"
               :account-id="currentAccountId"
             />
           </template>

@@ -9,6 +9,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  inbox: {
+    type: Object,
+    default: () => ({}),
+  },
   accountId: {
     type: Number,
     required: true,
@@ -26,10 +30,6 @@ const formattedDate = computed(() => {
   }).format(new Date(props.conversation.createdAt * 1000));
 });
 
-const inboxObject = computed(() => ({
-  channel_type: props.conversation.inboxName,
-}));
-
 const conversationLink = computed(() =>
   frontendURL(
     conversationUrl({ accountId: props.accountId, id: props.conversation.id })
@@ -46,7 +46,8 @@ const conversationLink = computed(() =>
     <span
       class="flex items-center gap-1.5 text-xs font-medium text-n-slate-11 whitespace-nowrap"
     >
-      <ChannelIcon :inbox="inboxObject" class="size-3.5 flex-shrink-0" />
+      <ChannelIcon :inbox="inbox" class="size-3.5 flex-shrink-0" />
+      <span v-if="inbox.name">{{ inbox.name }}</span>
       <span class="text-n-slate-9 select-none" aria-hidden="true">|</span>
       <a
         :href="conversationLink"
