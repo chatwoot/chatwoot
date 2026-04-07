@@ -87,7 +87,7 @@ RSpec.describe 'Api::V1::Accounts::UploadController', type: :request do
              params: { external_url: 'http://nonexistent.example.com' }
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['error']).to eq('Invalid URL provided')
+        expect(response.parsed_body['error']).to eq('Failed to fetch file from URL')
       end
 
       it 'handles HTTP errors' do
@@ -100,6 +100,34 @@ RSpec.describe 'Api::V1::Accounts::UploadController', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['error']).to start_with('Failed to fetch file from URL')
+      end
+
+      it 'rejects oversized responses with a file-size message' do
+        stub_request(:get, valid_external_url)
+          .to_return(status: 200,
+                     body: 'x' * (41 * 1024 * 1024),
+                     headers: { 'Content-Type' => 'image/png' })
+
+        post upload_url,
+             headers: user.create_new_auth_token,
+             params: { external_url: valid_external_url }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('File exceeds the maximum allowed size')
+      end
+
+      it 'rejects unsupported content types with a file-type message' do
+        stub_request(:get, valid_external_url)
+          .to_return(status: 200,
+                     body: '<html></html>',
+                     headers: { 'Content-Type' => 'text/html' })
+
+        post upload_url,
+             headers: user.create_new_auth_token,
+             params: { external_url: valid_external_url }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('File type not supported (only images and videos are allowed)')
       end
 
       context 'with SSRF attack vectors' do
