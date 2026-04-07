@@ -1,12 +1,12 @@
 require 'ssrf_filter'
 
 module SafeFetch
-  DEFAULT_MAX_BYTES = 10.megabytes
   DEFAULT_ALLOWED_CONTENT_TYPE_PREFIXES = %w[image/ video/].freeze
-  DEFAULT_OPEN_TIMEOUT = 5
-  DEFAULT_READ_TIMEOUT = 10
+  DEFAULT_OPEN_TIMEOUT = 2
+  DEFAULT_READ_TIMEOUT = 20
+  DEFAULT_MAX_BYTES_FALLBACK_MB = 40
 
-  Result = Struct.new(:tempfile, :filename, :content_type)
+  Result = Data.define(:tempfile, :filename, :content_type)
 
   class Error < StandardError; end
   class InvalidUrlError < Error; end
@@ -17,15 +17,16 @@ module SafeFetch
   class UnsupportedContentTypeError < Error; end
 
   def self.fetch(url,
-                 max_bytes: DEFAULT_MAX_BYTES,
+                 max_bytes: nil,
                  allowed_content_type_prefixes: DEFAULT_ALLOWED_CONTENT_TYPE_PREFIXES)
     raise ArgumentError, 'block required' unless block_given?
 
+    effective_max_bytes = max_bytes || default_max_bytes
     uri = parse_and_validate_url!(url)
-    filename = File.basename(uri.path).presence || 'download'
+    filename = filename_for(uri)
     tempfile = Tempfile.new('chatwoot-safe-fetch', binmode: true)
 
-    response = stream_to_tempfile(url, tempfile, max_bytes, allowed_content_type_prefixes)
+    response = stream_to_tempfile(url, tempfile, effective_max_bytes, allowed_content_type_prefixes)
     raise HttpError, "#{response.code} #{response.message}" unless response.is_a?(Net::HTTPSuccess)
 
     tempfile.rewind
@@ -67,6 +68,16 @@ module SafeFetch
       end
 
       response
+    end
+
+    def filename_for(uri)
+      File.basename(uri.path).presence || "download-#{Time.current.to_i}-#{SecureRandom.hex(4)}"
+    end
+
+    def default_max_bytes
+      limit_mb = GlobalConfigService.load('MAXIMUM_FILE_UPLOAD_SIZE', DEFAULT_MAX_BYTES_FALLBACK_MB).to_i
+      limit_mb = DEFAULT_MAX_BYTES_FALLBACK_MB if limit_mb <= 0
+      limit_mb.megabytes
     end
 
     def parse_and_validate_url!(url)

@@ -47,7 +47,7 @@ RSpec.describe SafeFetch do
         expect(captured.closed?).to be true
       end
 
-      it 'defaults the filename to "download" when the URL has no path' do
+      it 'defaults the filename to a unique "download-<timestamp>-<hex>" when the URL has no path' do
         bare_url = 'http://example.com'
         stub_request(:get, bare_url).to_return(
           status: 200,
@@ -56,7 +56,7 @@ RSpec.describe SafeFetch do
         )
 
         described_class.fetch(bare_url) do |result|
-          expect(result.filename).to eq('download')
+          expect(result.filename).to match(/\Adownload-\d+-[a-f0-9]{8}\z/)
         end
       end
 
@@ -172,8 +172,22 @@ RSpec.describe SafeFetch do
     end
 
     context 'with body size cap' do
-      it 'raises FileTooLargeError when the response exceeds the default cap' do
-        oversize = 'x' * (SafeFetch::DEFAULT_MAX_BYTES + 1)
+      it 'honours a custom max_bytes argument' do
+        stub_request(:get, url).to_return(
+          status: 200,
+          body: 'xxxxx',
+          headers: { 'Content-Type' => 'image/png' }
+        )
+
+        expect { described_class.fetch(url, max_bytes: 2) { nil } }
+          .to raise_error(SafeFetch::FileTooLargeError)
+      end
+
+      it 'reads the default cap from GlobalConfigService MAXIMUM_FILE_UPLOAD_SIZE (matching Attachment#validate_file_size)' do
+        allow(GlobalConfigService).to receive(:load).and_call_original
+        allow(GlobalConfigService).to receive(:load).with('MAXIMUM_FILE_UPLOAD_SIZE', 40).and_return('1')
+
+        oversize = 'x' * (1.megabyte + 1)
         stub_request(:get, url).to_return(
           status: 200,
           body: oversize,
@@ -184,15 +198,34 @@ RSpec.describe SafeFetch do
           .to raise_error(SafeFetch::FileTooLargeError)
       end
 
-      it 'honours a custom max_bytes argument' do
+      it 'falls back to 40 MB when GlobalConfigService returns a non-positive value' do
+        allow(GlobalConfigService).to receive(:load).and_call_original
+        allow(GlobalConfigService).to receive(:load).with('MAXIMUM_FILE_UPLOAD_SIZE', 40).and_return('-10')
+
+        # 1 MB body should pass under the 40 MB fallback
         stub_request(:get, url).to_return(
           status: 200,
-          body: 'xxxxx',
+          body: 'x' * 1.megabyte,
           headers: { 'Content-Type' => 'image/png' }
         )
 
-        expect { described_class.fetch(url, max_bytes: 2) { nil } }
-          .to raise_error(SafeFetch::FileTooLargeError)
+        expect { described_class.fetch(url) { nil } }.not_to raise_error
+      end
+
+      it 'allows uploads between the old hardcoded 10 MB and the configured limit (regression check)' do
+        # Default config is 40 MB; a 15 MB upload must succeed.
+        # This is the exact regression scenario: with the old hardcoded 10 MB cap,
+        # this would have failed even though direct file uploads of the same size succeed.
+        allow(GlobalConfigService).to receive(:load).and_call_original
+        allow(GlobalConfigService).to receive(:load).with('MAXIMUM_FILE_UPLOAD_SIZE', 40).and_return('40')
+
+        stub_request(:get, url).to_return(
+          status: 200,
+          body: 'x' * (15 * 1024 * 1024),
+          headers: { 'Content-Type' => 'image/png' }
+        )
+
+        expect { described_class.fetch(url) { nil } }.not_to raise_error
       end
     end
 
