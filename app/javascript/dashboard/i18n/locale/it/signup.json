@@ -47,11 +47,11 @@
     "SUBMIT": "Crea account",
     "HAVE_AN_ACCOUNT": "Hai già un account?",
     "VERIFY_EMAIL": {
-      "TITLE": "Check your inbox",
-      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "TITLE": "Controlla le tue email",
+      "DESCRIPTION": "Abbiamo inviato un link di verifica a {email}. Clicca sul link per verificare la tua email e iniziare.",
       "RESEND": "Invia nuovamente email di verifica",
-      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
-      "RESEND_ERROR": "Could not send verification email. Please try again."
+      "RESEND_SUCCESS": "Email di verifica inviata. Controlla la tua casella di posta.",
+      "RESEND_ERROR": "Impossibile inviare l'email di verifica. Riprova."
     }
   }
 }
