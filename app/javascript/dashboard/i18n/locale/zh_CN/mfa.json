@@ -1,7 +1,7 @@
 {
   "MFA_SETTINGS": {
     "TITLE": "两步验证",
-    "SUBTITLE": "使用TOTP身份验证来保护您的帐户",
+    "SUBTITLE": "Protect your account from unauthorized access with TOTP-based authentication. This adds an extra layer of security to your account.",
     "DESCRIPTION": "使用基于时间的一次性密码(TOTP)为您的帐户添加额外的一层安全保护",
     "STATUS_TITLE": "验证状态",
     "STATUS_DESCRIPTION": "管理您的二步验证设置和备份码",

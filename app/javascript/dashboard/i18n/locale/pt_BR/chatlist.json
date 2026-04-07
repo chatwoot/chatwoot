@@ -76,6 +76,9 @@
       },
       "waiting_since_desc": {
         "TEXT": "Resposta pendente: Curtas primeiro"
+      },
+      "priority_desc_created_at_asc": {
+        "TEXT": "Prioridade: Maior primeiro, Criação: Mais antiga primeiro"
       }
     },
     "ATTACHMENTS": {
@@ -128,7 +131,7 @@
     "RECEIVED_VIA_EMAIL": "Recebido por e-mail",
     "VIEW_TWEET_IN_TWITTER": "Ver tweet no Twitter",
     "REPLY_TO_TWEET": "Responder a este tweet",
-    "LINK_TO_STORY": "Vá para o Story do Instagram",
+    "LINK_TO_STORY": "Ir para o Story do Instagram",
     "SENT": "Enviado com sucesso",
     "READ": "Lido com sucesso",
     "DELIVERED": "Entregue com sucesso",

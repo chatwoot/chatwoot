@@ -3,8 +3,11 @@
     "HEADER": "Αυτοματισμός",
     "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
     "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "Προσθήκη Κανόνα Αυτοματισμού",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "Λήψη κανόνων αυτοματισμού",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Προσθήκη Κανόνα Αυτοματισμού",
       "SUBMIT": "Δημιουργία",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Όνομα",
-        "DESCRIPTION": "Περιγραφή",
         "ACTIVE": "Ενεργή",
-        "CREATED_ON": "Δημιουργήθηκε στις"
+        "CREATED_ON": "Δημιουργήθηκε στις",
+        "ACTIONS": "Ενέργειες"
       },
       "404": "Δεν βρέθηκαν κανόνες αυτοματισμού"
     },
@@ -150,7 +153,8 @@
       "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "Change Priority",
       "ADD_SLA": "Add SLA",
-      "OPEN_CONVERSATION": "Άνοιγμα συνομιλίας"
+      "OPEN_CONVERSATION": "Άνοιγμα συνομιλίας",
+      "PENDING_CONVERSATION": "Mark conversation as pending"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Incoming Message",

@@ -61,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "Poruka je uspešno obrisana",
     "FAIL_DELETE_MESSSAGE": "Nije bilo moguće obrisati poruku! Pokušajte ponovo",
     "NO_RESPONSE": "Nema odgovora",
@@ -173,6 +174,10 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nije bilo moguće dodeliti oznaku. Molim vas pokušajte ponovo."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Dodeljen je tim \"{team}\" razgovoru sa id {conversationId}",
           "FAILED": "Nije bilo moguće dodeliti tim. Molim vas pokušajte ponovo."
@@ -185,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "Onemogući potpis",
       "MSG_INPUT": "Shift + enter za novi red. Počni sa '/' da bi ste izabrali brzi odgovor.",
       "PRIVATE_MSG_INPUT": "Shift + enter za novi red. Ovo će biti vidljivo samo agentima",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Potpis poruke nije podešen, molim vas podesite ga u podešavanjima profila.",
+      "COPILOT_MSG_INPUT": "Dajte copilotu dodatne zahteve, ili pitajte bilo šta drugo... Pritisnite enter za slanje dopune",
       "CLICK_HERE": "Kliknite ovde da izmenite",
       "WHATSAPP_TEMPLATES": "Whatsapp šabloni"
     },
@@ -205,7 +214,7 @@
       "DRAG_DROP": "Prevuci i pusti za dodavanje",
       "START_AUDIO_RECORDING": "Pokreni snimanje zvuka",
       "STOP_AUDIO_RECORDING": "Zaustavi snimanje zvuka",
-      "": "",
+      "COPILOT_THINKING": "Copilot razmišlja",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Dodaj bcc",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Nije moguće slanje poruke, molim vas pokušajte ponovo",
     "SENT_BY": "Poslao:",
     "BOT": "Bot",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Nije bilo moguće poslati poruku! Pokušajte ponovo",
     "TRY_AGAIN": "pokušaj ponovo",
     "ASSIGNMENT": {
@@ -294,6 +306,7 @@
     "CANCEL": "Otkaži",
     "SEND_EMAIL_SUCCESS": "Transkript razgovora je uspešno poslat",
     "SEND_EMAIL_ERROR": "Pojavila se greška, molim vas pokušajte ponovo",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Pošaljite transkript potrošaču",
       "SEND_TO_AGENT": "Pošaljite transkript dodeljenom agentu",

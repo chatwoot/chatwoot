@@ -80,6 +80,12 @@ const sendMessage = async () => {
     isLoading.value = false;
   }
 };
+
+const handleEnterKey = event => {
+  if (event.isComposing) return;
+  event.preventDefault();
+  sendMessage();
+};
 </script>
 
 <template>
@@ -113,7 +119,7 @@ const sendMessage = async () => {
         v-model="newMessage"
         class="flex-1 bg-transparent border-none focus:outline-none text-sm mb-0 text-n-slate-12 placeholder:text-n-slate-10"
         :placeholder="t('CAPTAIN.PLAYGROUND.MESSAGE_PLACEHOLDER')"
-        @keyup.enter="sendMessage"
+        @keydown.enter.exact="handleEnterKey"
       />
       <NextButton
         ghost

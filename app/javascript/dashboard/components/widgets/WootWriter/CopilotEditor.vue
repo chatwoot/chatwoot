@@ -107,7 +107,8 @@ function onKeydown(view, event) {
   emit('keydown');
 
   // Handle Enter key to send message (Shift+Enter for new line)
-  if (event.key === 'Enter' && !event.shiftKey) {
+  // Skip if IME composition is active (CJK character confirmation)
+  if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) {
     event.preventDefault();
     handleSubmit();
     return true; // Prevent ProseMirror's default Enter handling

@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "منتظم",
       "AGENT": "ایجنٹ"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "اس اکاؤنٹ سے کوئی ایجنٹ منسلک نہیں ہے",
       "TITLE": "اپنی ٹیم میں ایجنٹوں کا انتظام کریں۔",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "ووٹ سرور کے ساتھ رابطہ ممکن نہی ہوسکا ، براہ کرم کچھ دیر بعد کوشش کریں"
       }
     },
+    "SEARCH_PLACEHOLDER": "Search agents...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "کوئی نتیجہ نہیں."
     },

@@ -9,6 +9,10 @@ class InboxHealthAPI extends ApiClient {
   getHealthStatus(inboxId) {
     return axios.get(`${this.url}/${inboxId}/health`);
   }
+
+  registerWebhook(inboxId) {
+    return axios.post(`${this.url}/${inboxId}/register_webhook`);
+  }
 }
 
 export default new InboxHealthAPI();

@@ -7,7 +7,7 @@
         "NAME": "Имя",
         "DOMAIN": "Домен",
         "CREATED_AT": "Дата создания",
-        "CONTACTS_COUNT": "Contacts count"
+        "CONTACTS_COUNT": "Количество контактов"
       }
     },
     "ORDER": {
@@ -20,7 +20,7 @@
     "SEARCH_PLACEHOLDER": "Поиск компаний...",
     "LOADING": "Загрузка компаний...",
     "UNNAMED": "Безымянная компания",
-    "CONTACTS_COUNT": "{n} контакт | {n} контакта(-ов)",
+    "CONTACTS_COUNT": "{n} Контакт | {n} Контакта | Контактов",
     "EMPTY_STATE": {
       "TITLE": "Компаний не найдено"
     }

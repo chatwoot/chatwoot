@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "正在加载编辑器...",
     "DESCRIPTION": "客服机器人就像您团队中最出色的成员。它们可以处理琐事，让您专注于重要的事情。试试看吧。您可以在此页面管理您的机器人，或使用“配置新机器人”按钮创建新的机器人。",
     "LEARN_MORE": "了解客服机器人",
+    "COUNT": "{n} bot | {n} bots",
+    "SEARCH_PLACEHOLDER": "Search bots...",
+    "NO_RESULTS": "No bots found matching your search",
     "GLOBAL_BOT": "系统级机器人",
     "GLOBAL_BOT_BADGE": "系统",
     "AVATAR": {
@@ -34,7 +37,8 @@
       "LOADING": "正在获取机器人...",
       "TABLE_HEADER": {
         "DETAILS": "机器人详情",
-        "URL": "Webhook 网址"
+        "URL": "Webhook 网址",
+        "ACTIONS": "操作"
       }
     },
     "DELETE": {

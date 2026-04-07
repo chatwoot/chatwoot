@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "Quản trị viên",
       "AGENT": "Nhà cung cấp"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "Không có tác nhân nào được liên kết với tài khoản này",
       "TITLE": "Quản lý các đại lý trong nhóm của bạn",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
       }
     },
+    "SEARCH_PLACEHOLDER": "Tìm kiếm nhân viên...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "Không tìm thấy kết quả."
     },

@@ -36,7 +36,7 @@ class Captain::BaseTaskService
     "#{endpoint}/v1"
   end
 
-  def make_api_call(model:, messages:, tools: [])
+  def make_api_call(model:, messages:, schema: nil, tools: [])
     # Community edition prerequisite checks
     # Enterprise module handles these with more specific error messages (cloud vs self-hosted)
     return { error: I18n.t('captain.disabled'), error_code: 403 } unless captain_tasks_enabled?
@@ -46,7 +46,7 @@ class Captain::BaseTaskService
     instrumentation_method = tools.any? ? :instrument_tool_session : :instrument_llm_call
 
     response = send(instrumentation_method, instrumentation_params) do
-      execute_ruby_llm_request(model: model, messages: messages, tools: tools)
+      execute_ruby_llm_request(model: model, messages: messages, schema: schema, tools: tools)
     end
 
     return response unless build_follow_up_context? && response[:message].present?
@@ -54,9 +54,9 @@ class Captain::BaseTaskService
     response.merge(follow_up_context: build_follow_up_context(messages, response))
   end
 
-  def execute_ruby_llm_request(model:, messages:, tools: [])
+  def execute_ruby_llm_request(model:, messages:, schema: nil, tools: [])
     Llm::Config.with_api_key(api_key, api_base: api_base) do |context|
-      chat = build_chat(context, model: model, messages: messages, tools: tools)
+      chat = build_chat(context, model: model, messages: messages, schema: schema, tools: tools)
 
       conversation_messages = messages.reject { |m| m[:role] == 'system' }
       return { error: 'No conversation messages provided', error_code: 400, request_messages: messages } if conversation_messages.empty?
@@ -69,10 +69,11 @@ class Captain::BaseTaskService
     { error: e.message, request_messages: messages }
   end
 
-  def build_chat(context, model:, messages:, tools: [])
+  def build_chat(context, model:, messages:, schema: nil, tools: [])
     chat = context.chat(model: model)
     system_msg = messages.find { |m| m[:role] == 'system' }
     chat.with_instructions(system_msg[:content]) if system_msg
+    chat.with_schema(schema) if schema
 
     if tools.any?
       tools.each { |tool| chat = chat.with_tool(tool) }
@@ -131,7 +132,8 @@ class Captain::BaseTaskService
                 .reorder('id desc')
                 .each do |message|
       content = message.content_for_llm
-      break unless content.present? && character_count + content.length <= TOKEN_LIMIT
+      next if content.blank?
+      break if character_count + content.length > TOKEN_LIMIT
 
       messages.prepend({ role: (message.incoming? ? 'user' : 'assistant'), content: content })
       character_count += content.length
