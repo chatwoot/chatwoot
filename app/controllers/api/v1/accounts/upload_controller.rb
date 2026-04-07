@@ -19,36 +19,15 @@ class Api::V1::Accounts::UploadController < Api::V1::Accounts::BaseController
   end
 
   def create_from_url
-    fetch_and_process_file_from_url(params[:external_url].to_s)
-  end
-
-  def fetch_and_process_file_from_url(url)
-    uri = URI.parse(url)
-    filename = File.basename(uri.path)
-    response = nil
-    # ActiveStorage reads the IO more than once (checksum + upload), so we need a rewindable buffer.
-    # A Tempfile gives us that without loading the full response into memory like StringIO would if we did StringIO.new(response.body)
-    tempfile = Tempfile.new('chatwoot-external-upload')
-
-    # Fetch via ssrf_filter which validates scheme/host, resolves DNS safely, and re-validates redirects.
-    SsrfFilter.get(url) do |res|
-      response = res
-      res.read_body { |chunk| tempfile.write(chunk) }
+    SafeFetch.fetch(params[:external_url].to_s) do |result|
+      create_and_save_blob(result.tempfile, result.filename, result.content_type)
     end
-
-    unless response.is_a?(Net::HTTPSuccess)
-      render_error("Failed to fetch file from URL: #{response.code} #{response.message}", :unprocessable_entity)
-      return
-    end
-
-    tempfile.rewind
-    create_and_save_blob(tempfile, filename, response['content-type'])
-  rescue SsrfFilter::Error, URI::InvalidURIError, SocketError, Resolv::ResolvError
+  rescue SafeFetch::HttpError => e
+    render_error("Failed to fetch file from URL: #{e.message}", :unprocessable_entity)
+  rescue SafeFetch::Error
     render_error('Invalid URL provided', :unprocessable_entity)
   rescue StandardError
     render_error('An unexpected error occurred', :internal_server_error)
-  ensure
-    tempfile&.close!
   end
 
   def create_and_save_blob(io, filename, content_type)
