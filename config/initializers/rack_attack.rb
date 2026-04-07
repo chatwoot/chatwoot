@@ -120,8 +120,20 @@ class Rack::Attack
     end
   end
 
-  ## Resend confirmation throttling
+  ## Resend confirmation throttling (unauthenticated)
   throttle('resend_confirmation/ip', limit: 5, period: 30.minutes) do |req|
+    req.ip if req.path_without_extentions == '/resend_confirmation' && req.post?
+  end
+
+  throttle('resend_confirmation/email', limit: 5, period: 1.hour) do |req|
+    if req.path_without_extentions == '/resend_confirmation' && req.post?
+      email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
+      email.to_s.downcase.gsub(/\s+/, '')
+    end
+  end
+
+  ## Resend confirmation throttling (authenticated)
+  throttle('resend_confirmation_auth/ip', limit: 5, period: 30.minutes) do |req|
     req.ip if req.path_without_extentions == '/api/v1/profile/resend_confirmation' && req.post?
   end
 
