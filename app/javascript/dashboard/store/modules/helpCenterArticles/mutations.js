@@ -81,10 +81,6 @@ export const mutations = {
     if ($state.articles.byId[articleId]) {
       const existing = $state.articles.byId[articleId];
 
-      // Merge into existing article rather than replacing.
-      // This preserves local optimistic edits (content, title) that may not
-      // have been persisted yet, while still picking up server-computed fields
-      // (status, slug, updated_at, etc.).
       $state.articles.byId[articleId] = {
         ...existing,
         ...updatedArticle,
