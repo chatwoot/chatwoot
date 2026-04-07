@@ -343,14 +343,14 @@ lt:
     copilot_message_required: Yra reikalingas pranešimas
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
-    upgrade: 'Upgrade your plan to enable Captain AI'
-    disabled: 'Captain AI is disabled for this account.'
-    api_key_missing: 'Captain AI API key is not configured.'
+    upgrade: 'Atnaujinkite savo planą, kad įgalintumėte Captain AI'
+    disabled: 'Captain AI šiai paskyrai išjungtas.'
+    api_key_missing: 'Captain AI API raktas nėra sukonfigūruotas.'
     copilot:
-      using_tool: 'Using tool %{function_name}'
-      completed_tool_call: 'Completed %{function_name} tool call'
-      invalid_tool_call: 'Invalid tool call'
-      tool_not_available: 'Tool not available'
+      using_tool: 'Naudojamas %{function_name} įrankis'
+      completed_tool_call: 'Įvykdytas %{function_name} įrankio kvietimas'
+      invalid_tool_call: 'Neteisingas įrankio kvietimas'
+      tool_not_available: 'Įrankis nepasiekiamas'
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
@@ -373,6 +373,7 @@ lt:
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
       search_placeholder: Ieškokite straipsnio pagal pavadinimą arba turinį...
@@ -409,6 +410,10 @@ lt:
       title: Puslapis nerastas
       description: We couldn't find the page you were looking for.
       back_to_home: Eikite į pradinį puslapį
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
       name: Vardas

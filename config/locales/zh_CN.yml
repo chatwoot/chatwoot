@@ -343,9 +343,9 @@ zh_CN:
     copilot_message_required: 消息是必填项
     copilot_error: '请为该收件箱连接一个助手以使用 Copilot'
     copilot_limit: '您的 Copilot 积分已用完。您可以从计费部分购买更多积分。'
-    upgrade: 'Upgrade your plan to enable Captain AI'
-    disabled: 'Captain AI is disabled for this account.'
-    api_key_missing: 'Captain AI API key is not configured.'
+    upgrade: '升级您的计划以启用 Captain AI'
+    disabled: '此账户已禁用 Captain AI。'
+    api_key_missing: 'Captain AI API 密钥未配置。'
     copilot:
       using_tool: '使用工具 %{function_name}'
       completed_tool_call: '%{function_name} 工具调用完成'
@@ -373,6 +373,7 @@ zh_CN:
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
       search_placeholder: 搜索文章的标题或正文...
@@ -409,6 +410,10 @@ zh_CN:
       title: 页面不存在
       description: 我们找不到您想要的页面。
       back_to_home: 前往主页
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
       name: 姓名：
