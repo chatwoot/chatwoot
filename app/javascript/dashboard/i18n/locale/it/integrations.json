@@ -437,7 +437,7 @@
       "USER": "Tu",
       "ASSISTANT": "Assistente",
       "MESSAGE_PLACEHOLDER": "Scrivi il tuo messaggio...",
-      "HEADER": "Area di prova",
+      "HEADER": "Playground",
       "DESCRIPTION": "Usa questo playground per inviare messaggi al tuo assistente e controllare se risponde correttamente, rapidamente e con il tono che ti aspetti.",
       "CREDIT_NOTE": "I messaggi inviati qui vengono scalati dai crediti Captain."
     },
@@ -738,14 +738,14 @@
     "DOCUMENTS": {
       "HEADER": "Documenti",
       "ADD_NEW": "Crea un nuovo documento",
-      "SELECTED": "{count} selezionate",
+      "SELECTED": "{count} selezionati",
       "SELECT_ALL": "Seleziona tutto ({count})",
       "UNSELECT_ALL": "Deseleziona tutto ({count})",
       "BULK_DELETE_BUTTON": "Elimina",
       "BULK_DELETE": {
         "TITLE": "Eliminare i documenti?",
         "DESCRIPTION": "Sei sicuro di voler eliminare i documenti selezionati? Questa azione non può essere annullata.",
-        "CONFIRM": "Sì, elimina tutte",
+        "CONFIRM": "Sì, elimina tutti",
         "SUCCESS_MESSAGE": "Documenti eliminati con successo",
         "ERROR_MESSAGE": "Si è verificato un errore durante l'eliminazione dei documenti, riprova."
       },
@@ -845,22 +845,22 @@
         "CANCEL_ANYTIME": ""
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
-        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "AVAILABLE_ON": "Gli strumenti Captain sono disponibili solo nei piani a pagamento.",
+        "UPGRADE_PROMPT": "Aggiorna a un piano a pagamento per utilizzare questa funzione.",
         "ASK_ADMIN": "Contatta il tuo amministratore per l'aggiornamento."
       },
       "TEST": {
-        "BUTTON": "Test connection",
-        "SUCCESS": "Endpoint returned HTTP {status}",
-        "ERROR": "Connection failed",
-        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+        "BUTTON": "Test connessione",
+        "SUCCESS": "L'endpoint ha restituito HTTP {status}",
+        "ERROR": "Connessione fallita",
+        "DISABLED_HINT": "Il test è disponibile solo per gli endpoint senza template o request body."
       },
       "FORM": {
         "TITLE": {
           "LABEL": "Nome Strumento",
           "PLACEHOLDER": "Ricerca Ordini",
           "ERROR": "Nome strumento richiesto",
-          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
+          "MAX_LENGTH_ERROR": "Il nome dello strumento deve essere di massimo {max} caratteri"
         },
         "DESCRIPTION": {
           "LABEL": "Descrizione",
