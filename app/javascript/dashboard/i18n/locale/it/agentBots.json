@@ -68,10 +68,10 @@
       "COPY": "Copia secret negli appunti",
       "COPY_SUCCESS": "Secret copiato negli appunti",
       "TOGGLE": "Cambia visibilità secret",
-      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
+      "CREATED_DESC": "Usa il secret qui sotto per verificare le signature dei webhook. Per favore copialo ora, puoi anche trovarlo in seguito nelle impostazioni del bot.",
       "DONE": "Fatto",
-      "RESET_SUCCESS": "Webhook secret regenerated successfully",
-      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+      "RESET_SUCCESS": "Webhook secret rigenerato con successo",
+      "RESET_ERROR": "Impossibile rigenerare il webhook secret. Riprova"
     },
     "ACCESS_TOKEN": {
       "TITLE": "Token di Accesso",
