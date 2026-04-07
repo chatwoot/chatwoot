@@ -47,11 +47,11 @@
     "SUBMIT": "Criar conta",
     "HAVE_AN_ACCOUNT": "Já possui uma conta?",
     "VERIFY_EMAIL": {
-      "TITLE": "Check your inbox",
-      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "TITLE": "Verifique sua caixa de entrada",
+      "DESCRIPTION": "Enviamos um link de verificação para {email}. Clique no link para verificar seu e-mail e começar.",
       "RESEND": "Reenviar e-mail de verificação",
-      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
-      "RESEND_ERROR": "Could not send verification email. Please try again."
+      "RESEND_SUCCESS": "E-mail de verificação enviado. Por favor, verifique sua caixa de entrada.",
+      "RESEND_ERROR": "Não foi possível enviar o e-mail de verificação. Por favor, tente novamente."
     }
   }
 }
