@@ -366,6 +366,16 @@ export const actions = {
     );
     return response.data;
   },
+  resetSecret: async ({ commit }, inboxId) => {
+    try {
+      const response = await InboxesAPI.resetSecret(inboxId);
+      commit(types.default.EDIT_INBOXES, response.data);
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      return null;
+    }
+  },
 };
 
 export const mutations = {

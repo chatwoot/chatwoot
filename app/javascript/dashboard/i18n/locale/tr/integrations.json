@@ -404,12 +404,12 @@
       "KICK_OFF_MESSAGE": "Hızlı bir özet mi gerekiyor, geçmiş konuşmaları mı kontrol etmek istiyorsunuz, yoksa daha iyi bir yanıt mı tasarlamak istiyorsunuz? Copilot işleri hızlandırmak için burada.",
       "SEND_MESSAGE": "Mesajı Gönder...",
       "EMPTY_MESSAGE": "Yanıt oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.",
-      "LOADER": "Captain is thinking",
+      "LOADER": "Captain düşünüyor",
       "YOU": "Sen",
-      "USE": "Use this",
-      "RESET": "Reset",
+      "USE": "Bunu kullan",
+      "RESET": "Sıfırla",
       "SHOW_STEPS": "Adımları göster",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "SELECT_ASSISTANT": "Asistanı Seç",
       "PROMPTS": {
         "SUMMARIZE": {
           "LABEL": "Bu sohbeti özetle",
@@ -435,7 +435,7 @@
     },
     "PLAYGROUND": {
       "USER": "Sen",
-      "ASSISTANT": "Assistant",
+      "ASSISTANT": "Asistan",
       "MESSAGE_PLACEHOLDER": "Mesajınızı yazın...",
       "HEADER": "Oyun Alanı",
       "DESCRIPTION": "Bu oyun alanını asistanınıza mesaj göndermek ve yanıtlarının doğru, hızlı ve beklediğiniz tonda olup olmadığını kontrol etmek için kullanın.",
@@ -443,7 +443,7 @@
     },
     "PAYWALL": {
       "TITLE": "Captain AI kullanmak için yükseltin",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
+      "AVAILABLE_ON": "Captain ücretsiz planda kullanılamaz.",
       "UPGRADE_PROMPT": "Asistanlarımıza, Copilot'a ve daha fazlasına erişim sağlamak için planınızı yükseltin.",
       "UPGRADE_NOW": "Şimdi yükselt",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
@@ -528,7 +528,7 @@
           "ALLOW_CONVERSATION_FAQS": "Çözümlenmiş konuşmalardan SSS oluştur",
           "ALLOW_MEMORIES": "Müşteri etkileşimlerinden önemli detayları anı olarak yakala.",
           "ALLOW_CITATIONS": "Yanıtlara kaynak alıntıları ekle",
-          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
+          "ALLOW_CONTACT_ATTRIBUTES": "İletişim bilgilerine erişime izin ver"
         }
       },
       "EDIT": {
@@ -570,7 +570,7 @@
       "OPTIONS": {
         "EDIT_ASSISTANT": "Edit Assistant",
         "DELETE_ASSISTANT": "Asistanı Sil",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "VIEW_CONNECTED_INBOXES": "Bağlı gelen kutularını görüntüle"
       },
       "EMPTY_STATE": {
         "TITLE": "No assistants available",
@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Belgeler",
       "ADD_NEW": "Yeni belge oluştur",
+      "SELECTED": "{count} selected",
+      "SELECT_ALL": "Tümünü seç ({count})",
+      "UNSELECT_ALL": "Tümünü kaldır ({count})",
+      "BULK_DELETE_BUTTON": "Sil",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "İlgili SSS",
         "DESCRIPTION": "Bu SSS'ler doğrudan belgeden oluşturulmuştur."
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Araçlar",
       "ADD_NEW": "Yeni bir araç oluşturun",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "Özel araçlar mevcut değil",
         "SUBTITLE": "Asistanınızın harici API'lere ve hizmetlere bağlanmasını sağlamak için özel araçlar oluşturun; böylece asistanınız sizin adınıza veri çekebilir ve işlemler gerçekleştirebilir.",
@@ -825,11 +837,18 @@
         "SUCCESS_MESSAGE": "Özel araç başarıyla silindi",
         "ERROR_MESSAGE": "Özel araç silinemedi"
       },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Araç Adı",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Araç adı zorunludur"
+          "ERROR": "Araç adı zorunludur",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Açıklama",
@@ -988,7 +1007,7 @@
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
+      "HEADER": "Bağlı Gelen Kutuları",
       "ADD_NEW": "Connect a new inbox",
       "OPTIONS": {
         "DISCONNECT": "Bağlantıyı Kes"
@@ -997,13 +1016,13 @@
         "TITLE": "Are you sure to disconnect the inbox?",
         "DESCRIPTION": "",
         "CONFIRM": "Evet, sil",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
+        "SUCCESS_MESSAGE": "Gelen kutusu başarıyla bağlantısı kesildi.",
         "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
       },
       "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
       "CREATE": {
         "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
+        "SUCCESS_MESSAGE": "Gelen kutusu başarıyla bağlandı.",
         "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
       },
       "FORM": {
@@ -1014,7 +1033,7 @@
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
+        "TITLE": "Bağlı Gelen Kutusu Yok",
         "SUBTITLE": "Bir gelen kutusunu bağlamak, asistanın müşterilerinizden gelen ilk soruları size aktarmadan önce ele almasını sağlar."
       }
     }
