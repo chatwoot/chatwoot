@@ -13,7 +13,9 @@ properties:
             type: string
             description: The availability status of the sender
           email:
-            type: string
+            type:
+              - string
+              - 'null'
             description: The email of the sender
           id:
             type: number
@@ -22,16 +24,22 @@ properties:
             type: string
             description: The name of the sender
           phone_number:
-            type: string
+            type:
+              - string
+              - 'null'
             description: The phone number of the sender
           blocked:
             type: boolean
             description: Whether the sender is blocked
           identifier:
-            type: string
+            type:
+              - string
+              - 'null'
             description: The identifier of the sender
           thumbnail:
-            type: string
+            type:
+              - string
+              - 'null'
             description: Avatar URL of the contact
           custom_attributes:
             type: object

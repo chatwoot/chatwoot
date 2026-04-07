@@ -26,8 +26,8 @@ class Tiktok::AuthClient
     end
 
     # https://business-api.tiktok.com/portal/docs?id=1832184159540418
-    def obtain_short_term_access_token(auth_code) # rubocop:disable Metrics/MethodLength
-      endpoint = 'https://business-api.tiktok.com/open_api/v1.3/tt_user/oauth2/token/'
+    def obtain_short_term_access_token(auth_code) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+      endpoint = "#{api_base_url}/tt_user/oauth2/token/"
       headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
       body = {
         client_id: client_id,
@@ -56,7 +56,7 @@ class Tiktok::AuthClient
     end
 
     def renew_short_term_access_token(refresh_token) # rubocop:disable Metrics/MethodLength
-      endpoint = 'https://business-api.tiktok.com/open_api/v1.3/tt_user/oauth2/refresh_token/'
+      endpoint = "#{api_base_url}/tt_user/oauth2/refresh_token/"
       headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
       body = {
         client_id: client_id,
@@ -82,7 +82,7 @@ class Tiktok::AuthClient
     end
 
     def webhook_callback
-      endpoint = 'https://business-api.tiktok.com/open_api/v1.3/business/webhook/list/'
+      endpoint = "#{api_base_url}/business/webhook/list/"
       headers = { Accept: 'application/json' }
       params = {
         app_id: client_id,
@@ -95,7 +95,7 @@ class Tiktok::AuthClient
     end
 
     def update_webhook_callback
-      endpoint = 'https://business-api.tiktok.com/open_api/v1.3/business/webhook/update/'
+      endpoint = "#{api_base_url}/business/webhook/update/"
       headers = { Accept: 'application/json', 'Content-Type': 'application/json' }
       body = {
         app_id: client_id,
@@ -140,6 +140,10 @@ class Tiktok::AuthClient
 
     def base_url
       ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
+    end
+
+    def api_base_url
+      "https://business-api.tiktok.com/open_api/#{GlobalConfigService.load('TIKTOK_API_VERSION', 'v1.3')}"
     end
   end
 end

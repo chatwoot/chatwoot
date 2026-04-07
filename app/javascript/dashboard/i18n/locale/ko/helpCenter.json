@@ -1,622 +1,644 @@
 {
   "HELP_CENTER": {
-    "TITLE": "Help Center",
+    "TITLE": "도움말 센터",
     "NEW_PAGE": {
-      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
-      "CREATE_PORTAL_BUTTON": "Create Portal"
+      "DESCRIPTION": "고객을 위한 셀프 서비스 도움말 센터 포털을 생성하십시오. 고객이 대기 없이 빠르게 답변을 찾을 수 있도록 도와줍니다. 문의를 간소화하고 에이전트 효율성을 높이며 고객 지원을 향상시킵니다.",
+      "CREATE_PORTAL_BUTTON": "포털 만들기"
     },
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
-      "LOCALE": "Locale",
+      "FILTER": "필터",
+      "SORT": "정렬",
+      "LOCALE": "로케일",
       "SETTINGS_BUTTON": "설정",
-      "NEW_BUTTON": "New Article",
+      "NEW_BUTTON": "새 게시물",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "게시됨",
+        "DRAFT": "임시 저장",
+        "ARCHIVED": "보관됨"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "모든 게시물",
+        "MINE": "내 게시물",
+        "DRAFT": "임시 저장 게시물",
+        "ARCHIVED": "보관된 게시물"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "로케일 선택",
+        "PLACEHOLDER": "로케일 선택",
+        "NO_RESULT": "로케일을 찾을 수 없습니다",
+        "SEARCH_PLACEHOLDER": "로케일 검색"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "모든 게시물",
+      "PUBLISH_BUTTON": "게시",
+      "MOVE_TO_ARCHIVE_BUTTON": "보관함으로 이동",
+      "PREVIEW": "미리보기",
+      "ADD_TRANSLATION": "번역 추가",
+      "OPEN_SIDEBAR": "사이드바 열기",
+      "CLOSE_SIDEBAR": "사이드바 닫기",
+      "SAVING": "저장 중...",
+      "SAVED": "저장됨"
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
         "TITLE": "이미지 업로드",
         "UPLOADING": "업로드 중...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "이미지가 성공적으로 업로드되었습니다",
+        "ERROR": "이미지 업로드 중 오류가 발생했습니다",
+        "UN_AUTHORIZED_ERROR": "이미지를 업로드할 권한이 없습니다",
+        "ERROR_FILE_SIZE": "이미지 크기는 {size}MB 미만이어야 합니다",
+        "ERROR_FILE_FORMAT": "이미지 형식은 jpg, jpeg 또는 png여야 합니다",
+        "ERROR_FILE_DIMENSIONS": "이미지 크기는 2000 x 2000 미만이어야 합니다"
       }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "게시물 설정",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "카테고리",
+          "TITLE": "카테고리 선택",
+          "PLACEHOLDER": "카테고리 선택",
+          "NO_RESULT": "카테고리를 찾을 수 없습니다",
+          "SEARCH_PLACEHOLDER": "카테고리 검색"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "작성자",
+          "TITLE": "작성자 선택",
+          "PLACEHOLDER": "작성자 선택",
+          "NO_RESULT": "작성자를 찾을 수 없습니다",
+          "SEARCH_PLACEHOLDER": "작성자 검색"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "메타 제목",
+          "PLACEHOLDER": "메타 제목을 추가하십시오"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "메타 설명",
+          "PLACEHOLDER": "더 나은 SEO 결과를 위해 메타 설명을 추가하십시오..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "메타 태그",
+          "PLACEHOLDER": "쉼표로 구분하여 메타 태그를 추가하십시오..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "게시물 보관",
+        "DELETE": "게시물 삭제"
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for {query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "UNCATEGORIZED": "미분류",
+      "SEARCH_RESULTS": "{query}에 대한 검색 결과",
+      "EMPTY_TEXT": "답장에 삽입할 게시물을 검색하십시오.",
       "SEARCH_LOADER": "검색중...",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "INSERT_ARTICLE": "삽입",
+      "NO_RESULT": "게시물을 찾을 수 없습니다",
+      "COPY_LINK": "게시물 링크를 클립보드에 복사",
+      "OPEN_LINK": "새 탭에서 게시물 열기",
+      "PREVIEW_LINK": "게시물 미리보기"
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "DEFAULT": "Default",
-      "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "HEADER": "포털",
+      "DEFAULT": "기본값",
+      "NEW_BUTTON": "새 포털",
+      "ACTIVE_BADGE": "활성",
+      "CHOOSE_LOCALE_LABEL": "로케일 선택",
+      "LOADING_MESSAGE": "포털을 불러오는 중...",
+      "ARTICLES_LABEL": "게시물",
+      "NO_PORTALS_MESSAGE": "사용 가능한 포털이 없습니다",
+      "ADD_NEW_LOCALE": "새 로케일 추가",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
+        "TITLE": "포털",
+        "PORTAL_SETTINGS": "포털 설정",
+        "SUBTITLE": "여러 포털이 있으며 각 포털에 대해 다른 로케일을 사용할 수 있습니다.",
         "CANCEL_BUTTON_LABEL": "취소",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "CHOOSE_LOCALE_BUTTON": "로케일 선택"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
+            "COUNT_LABEL": "게시물",
+            "ADD": "로케일 추가",
+            "VISIT": "사이트 방문",
             "SETTINGS": "설정",
             "DELETE": "삭제"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "포털 설정",
             "ITEMS": {
               "NAME": "이름",
-              "DOMAIN": "Custom domain",
-              "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "DOMAIN": "사용자 지정 도메인",
+              "SLUG": "슬러그",
+              "TITLE": "포털 제목",
+              "THEME": "테마 색상",
+              "SUB_TEXT": "포털 부제"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "사용 가능한 로케일",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
+              "NAME": "로케일 이름",
+              "CODE": "로케일 코드",
+              "ARTICLE_COUNT": "게시물 수",
+              "CATEGORIES": "카테고리 수",
+              "SWAP": "교환",
               "DELETE": "삭제",
-              "DEFAULT_LOCALE": "Default"
+              "DEFAULT_LOCALE": "기본값"
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "포털 삭제",
+          "MESSAGE": "이 포털을 삭제하시겠습니까?",
+          "YES": "예, 포털을 삭제합니다",
+          "NO": "아니요, 포털을 유지합니다",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "포털이 성공적으로 삭제되었습니다",
+            "DELETE_ERROR": "포털 삭제 중 오류가 발생했습니다"
           }
         },
         "SEND_CNAME_INSTRUCTIONS": {
           "API": {
-            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
-            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+            "SUCCESS_MESSAGE": "CNAME 안내가 성공적으로 전송되었습니다",
+            "ERROR_MESSAGE": "CNAME 안내 전송 중 오류가 발생했습니다"
           }
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit portal",
+        "HEADER_TEXT": "포털 수정",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": "기본 정보"
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Portal customization"
+            "TITLE": "포털 사용자 지정"
           },
           "CATEGORY_SETTINGS": {
-            "TITLE": "Categories"
+            "TITLE": "카테고리"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": "로케일"
           }
         },
         "CATEGORIES": {
-          "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "TITLE": "카테고리",
+          "NEW_CATEGORY": "새 카테고리",
           "TABLE": {
             "NAME": "이름",
-            "DESCRIPTION": "내용",
-            "LOCALE": "Locale",
-            "ARTICLE_COUNT": "No. of articles",
+            "DESCRIPTION": "설명",
+            "LOCALE": "로케일",
+            "ARTICLE_COUNT": "게시물 수",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "카테고리 수정",
+              "DELETE": "카테고리 삭제"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "카테고리를 찾을 수 없습니다"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Update basic settings"
+          "BUTTON_TEXT": "기본 설정 업데이트"
         }
       },
       "ADD": {
         "CREATE_FLOW": {
           "BASIC": {
-            "TITLE": "Help center information",
-            "BODY": "Basic information about portal"
+            "TITLE": "도움말 센터 정보",
+            "BODY": "포털에 대한 기본 정보"
           },
           "CUSTOMIZATION": {
-            "TITLE": "Help center customization",
-            "BODY": "Customize portal"
+            "TITLE": "도움말 센터 사용자 지정",
+            "BODY": "포털 사용자 지정"
           },
           "FINISH": {
             "TITLE": "Voila! 🎉",
-            "BODY": "You're all set!"
+            "BODY": "모든 설정이 완료되었습니다!"
           }
         },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "뒤로",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "포털 만들기",
+            "TITLE": "도움말 센터 정보",
+            "CREATE_BASIC_SETTING_BUTTON": "포털 기본 설정 만들기"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "포털 사용자 지정",
+            "TITLE": "도움말 센터 사용자 지정",
+            "UPDATE_PORTAL_BUTTON": "포털 설정 업데이트"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "Voila!🎉 모든 설정이 완료되었습니다!",
+            "MESSAGE": "이제 모든 포털 페이지에서 생성된 포털을 확인할 수 있습니다.",
+            "FINISH": "모든 포털 페이지로 이동"
           }
         },
         "LOGO": {
-          "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "LABEL": "로고",
+          "UPLOAD_BUTTON": "로고 업로드",
+          "HELP_TEXT": "이 로고는 포털 헤더에 표시됩니다.",
+          "IMAGE_UPLOAD_SUCCESS": "로고가 성공적으로 업로드되었습니다",
+          "IMAGE_UPLOAD_ERROR": "로고가 성공적으로 삭제되었습니다",
+          "IMAGE_DELETE_ERROR": "로고 삭제 중 오류가 발생했습니다"
         },
         "NAME": {
           "LABEL": "이름",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
+          "PLACEHOLDER": "포털 이름",
+          "HELP_TEXT": "이 이름은 내부적으로 공개 포털에 사용됩니다.",
           "ERROR": "이름이 필요합니다"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-          "ERROR": "Slug is required"
+          "LABEL": "슬러그",
+          "PLACEHOLDER": "URL용 포털 슬러그",
+          "ERROR": "슬러그가 필요합니다"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
-          "ERROR": "Enter a valid domain URL"
+          "LABEL": "사용자 지정 도메인",
+          "PLACEHOLDER": "포털 사용자 지정 도메인",
+          "HELP_TEXT": "포털에 사용자 지정 도메인을 사용하려는 경우에만 추가하십시오. 예: {exampleURL}",
+          "ERROR": "유효한 도메인 URL을 입력하십시오"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
-          "ERROR": "Enter a valid home page URL"
+          "LABEL": "홈페이지 링크",
+          "PLACEHOLDER": "포털 홈페이지 링크",
+          "HELP_TEXT": "포털에서 홈페이지로 돌아가는 데 사용되는 링크입니다. 예: {exampleURL}",
+          "ERROR": "유효한 홈페이지 URL을 입력하십시오"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "포털 테마 색상",
+          "HELP_TEXT": "이 색상이 포털의 테마 색상으로 표시됩니다."
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "LABEL": "페이지 제목",
+          "PLACEHOLDER": "포털 페이지 제목",
+          "HELP_TEXT": "페이지 제목은 공개 포털에서 사용됩니다.",
+          "ERROR": "페이지 제목이 필요합니다"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "헤더 텍스트",
+          "PLACEHOLDER": "포털 헤더 텍스트",
+          "HELP_TEXT": "포털 헤더 텍스트는 공개 포털에서 사용됩니다.",
+          "ERROR": "포털 헤더 텍스트가 필요합니다"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "포털이 성공적으로 생성되었습니다.",
+          "ERROR_MESSAGE_FOR_BASIC": "포털을 만들 수 없습니다. 다시 시도하십시오.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "포털이 성공적으로 업데이트되었습니다.",
+          "ERROR_MESSAGE_FOR_UPDATE": "포털을 업데이트할 수 없습니다. 다시 시도하십시오."
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Add a new locale",
-        "SUB_TITLE": "This adds a new locale to your available translation list.",
-        "PORTAL": "Portal",
+        "TITLE": "새 로케일 추가",
+        "SUB_TITLE": "사용 가능한 번역 목록에 새 로케일을 추가합니다.",
+        "PORTAL": "포털",
         "LOCALE": {
-          "LABEL": "Locale",
-          "PLACEHOLDER": "Choose a locale",
-          "ERROR": "Locale is required"
+          "LABEL": "로케일",
+          "PLACEHOLDER": "로케일을 선택하십시오",
+          "ERROR": "로케일이 필요합니다"
         },
         "BUTTONS": {
-          "CREATE": "Create locale",
+          "CREATE": "로케일 만들기",
           "CANCEL": "취소"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "로케일이 성공적으로 추가되었습니다",
+          "ERROR_MESSAGE": "로케일을 추가할 수 없습니다. 다시 시도하십시오."
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Default locale updated successfully",
-          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+          "SUCCESS_MESSAGE": "기본 로케일이 성공적으로 업데이트되었습니다",
+          "ERROR_MESSAGE": "기본 로케일을 업데이트할 수 없습니다. 다시 시도하십시오."
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
-          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+          "SUCCESS_MESSAGE": "포털에서 로케일이 성공적으로 제거되었습니다",
+          "ERROR_MESSAGE": "포털에서 로케일을 제거할 수 없습니다. 다시 시도하십시오."
+        }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "게시물을 불러오는 중...",
+      "404": "검색과 일치하는 게시물이 없습니다 🔍",
+      "NO_ARTICLES": "사용 가능한 게시물이 없습니다",
       "HEADERS": {
-        "TITLE": "Title",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Views",
+        "TITLE": "제목",
+        "CATEGORY": "카테고리",
+        "READ_COUNT": "조회수",
         "STATUS": "상태",
-        "LAST_EDITED": "Last edited"
+        "LAST_EDITED": "마지막 수정"
       },
       "COLUMNS": {
-        "BY": "by",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "작성자",
+        "AUTHOR_NOT_AVAILABLE": "작성자를 사용할 수 없습니다"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "게시물을 불러오는 중...",
+      "TITLE_PLACEHOLDER": "게시물 제목을 입력하십시오",
+      "CONTENT_PLACEHOLDER": "게시물을 작성하십시오",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "게시물 저장 중 오류가 발생했습니다"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article published successfully"
+        "ERROR": "게시물 게시 중 오류가 발생했습니다",
+        "SUCCESS": "게시물이 성공적으로 게시되었습니다"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "게시물 보관 중 오류가 발생했습니다",
+        "SUCCESS": "게시물이 성공적으로 보관되었습니다"
       }
     },
     "DRAFT_ARTICLE": {
       "API": {
-        "ERROR": "Error while drafting article",
-        "SUCCESS": "Article drafted successfully"
+        "ERROR": "게시물 임시 저장 중 오류가 발생했습니다",
+        "SUCCESS": "게시물이 성공적으로 임시 저장되었습니다"
       }
     },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
           "TITLE": "삭제 확인",
-          "MESSAGE": "Are you sure to delete the article?",
-          "YES": "Yes, Delete",
+          "MESSAGE": "게시물을 삭제하시겠습니까?",
+          "YES": "예, 삭제합니다",
           "NO": "아니요, 유지합니다."
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Article deleted successfully",
-        "ERROR_MESSAGE": "Error while deleting article"
+        "SUCCESS_MESSAGE": "게시물이 성공적으로 삭제되었습니다",
+        "ERROR_MESSAGE": "게시물 삭제 중 오류가 발생했습니다"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "문서 순서를 변경할 수 없습니다. 다시 시도하십시오."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "카테고리 순서를 변경할 수 없습니다. 다시 시도하십시오."
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": "게시물 제목과 내용을 추가해야 설정을 업데이트할 수 있습니다"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "게시물 검색"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "카테고리 만들기",
+        "SUB_TITLE": "카테고리는 공개 포털에서 게시물을 분류하는 데 사용됩니다.",
+        "PORTAL": "포털",
+        "LOCALE": "로케일",
         "NAME": {
           "LABEL": "이름",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "PLACEHOLDER": "카테고리 이름",
+          "HELP_TEXT": "카테고리 이름과 아이콘은 공개 포털에서 게시물을 분류하는 데 사용됩니다.",
           "ERROR": "이름이 필요합니다"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "LABEL": "슬러그",
+          "PLACEHOLDER": "URL용 카테고리 슬러그",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "슬러그가 필요합니다"
         },
         "DESCRIPTION": {
-          "LABEL": "내용",
-          "PLACEHOLDER": "Give a short description about the category.",
+          "LABEL": "설명",
+          "PLACEHOLDER": "카테고리에 대한 간단한 설명을 입력하십시오.",
           "ERROR": "설명이 필요합니다"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
+          "CREATE": "카테고리 만들기",
           "CANCEL": "취소"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "카테고리가 성공적으로 생성되었습니다",
+          "ERROR_MESSAGE": "카테고리를 생성할 수 없습니다"
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "카테고리 수정",
+        "SUB_TITLE": "카테고리를 수정하면 공개 포털의 카테고리가 업데이트됩니다.",
+        "PORTAL": "포털",
+        "LOCALE": "로케일",
         "NAME": {
           "LABEL": "이름",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "PLACEHOLDER": "카테고리 이름",
+          "HELP_TEXT": "카테고리 이름과 아이콘은 공개 포털에서 게시물을 분류하는 데 사용됩니다.",
           "ERROR": "이름이 필요합니다"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "LABEL": "슬러그",
+          "PLACEHOLDER": "URL용 카테고리 슬러그",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "슬러그가 필요합니다"
         },
         "DESCRIPTION": {
-          "LABEL": "내용",
-          "PLACEHOLDER": "Give a short description about the category.",
+          "LABEL": "설명",
+          "PLACEHOLDER": "카테고리에 대한 간단한 설명을 입력하십시오.",
           "ERROR": "설명이 필요합니다"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
+          "CREATE": "카테고리 업데이트",
           "CANCEL": "취소"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "카테고리가 성공적으로 업데이트되었습니다",
+          "ERROR_MESSAGE": "카테고리를 업데이트할 수 없습니다"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "카테고리가 성공적으로 삭제되었습니다",
+          "ERROR_MESSAGE": "카테고리를 삭제할 수 없습니다"
         }
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "No articles found",
+      "TITLE": "게시물 검색",
+      "PLACEHOLDER": "게시물 검색",
+      "NO_RESULT": "게시물을 찾을 수 없습니다",
       "SEARCHING": "검색중...",
       "SEARCH_BUTTON": "검색",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Preview article",
+      "INSERT_ARTICLE": "링크 삽입",
+      "IFRAME_ERROR": "URL이 비어 있거나 유효하지 않습니다. 콘텐츠를 표시할 수 없습니다.",
+      "OPEN_ARTICLE_SEARCH": "도움말 센터에서 게시물 삽입",
+      "SUCCESS_ARTICLE_INSERTED": "게시물이 성공적으로 삽입되었습니다",
+      "PREVIEW_LINK": "게시물 미리보기",
       "CANCEL": "닫기",
       "BACK": "뒤로",
-      "BACK_RESULTS": "Back to results"
+      "BACK_RESULTS": "결과로 돌아가기"
     },
     "UPGRADE_PAGE": {
-      "TITLE": "Help Center",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "TITLE": "도움말 센터",
+      "DESCRIPTION": "사용자 친화적인 셀프 서비스 포털을 만드십시오. 사용자가 게시물에 접근하고 연중무휴 지원을 받을 수 있도록 도와줍니다. 이 기능을 활성화하려면 구독을 업그레이드하십시오.",
+      "SELF_HOSTED_DESCRIPTION": "사용자 친화적인 셀프 서비스 포털을 만드십시오. 사용자가 게시물에 접근하고 연중무휴 지원을 받을 수 있도록 도와줍니다. 이 기능을 활성화하려면 관리자에게 문의하십시오.",
       "BUTTON": {
-        "LEARN_MORE": "Learn more",
-        "UPGRADE": "Upgrade"
+        "LEARN_MORE": "자세히 알아보기",
+        "UPGRADE": "업그레이드"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "다중 포털",
+          "DESCRIPTION": "동일한 계정을 사용하여 다양한 제품에 대한 여러 도움말 센터 포털을 만들 수 있습니다."
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "로케일 전체 지원",
+          "DESCRIPTION": "포털을 원하는 언어로 현지화할 수 있습니다. 모든 로케일을 지원하며 모든 게시물에 대해 번역을 허용합니다."
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+          "TITLE": "SEO 친화적 디자인",
+          "DESCRIPTION": "SEO 친화적 페이지를 통해 메타 태그를 사용자 지정하여 검색 엔진에서의 가시성을 높이십시오."
         },
         "API": {
-          "TITLE": "Full API support",
-          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+          "TITLE": "전체 API 지원",
+          "DESCRIPTION": "API를 사용하여 타사 프론트엔드 프레임워크와 함께 포털을 헤드리스 CMS로 사용하십시오."
         }
       }
     },
-    "LOADING": "Loading...",
+    "LOADING": "불러오는 중...",
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
-          "VIEWS": "{count} view | {count} views",
+          "VIEWS": "{count}회 조회 | {count}회 조회",
           "DROPDOWN_MENU": {
-            "PUBLISH": "Publish",
-            "DRAFT": "Draft",
-            "ARCHIVE": "Archive",
+            "PUBLISH": "게시",
+            "DRAFT": "임시 저장",
+            "ARCHIVE": "보관",
             "DELETE": "삭제"
           },
           "STATUS": {
-            "DRAFT": "Draft",
-            "PUBLISHED": "Published",
-            "ARCHIVED": "Archived"
+            "DRAFT": "임시 저장",
+            "PUBLISHED": "게시됨",
+            "ARCHIVED": "보관됨"
           },
           "CATEGORY": {
-            "UNCATEGORISED": "Uncategorised"
+            "UNCATEGORISED": "미분류"
           }
         }
       },
       "ARTICLES_HEADER": {
         "TABS": {
-          "ALL": "All articles",
+          "ALL": "모든 게시물",
           "MINE": "나에게 할당",
-          "DRAFT": "Draft",
-          "PUBLISHED": "Published",
-          "ARCHIVED": "Archived"
+          "DRAFT": "임시 저장",
+          "PUBLISHED": "게시됨",
+          "ARCHIVED": "보관됨"
         },
         "CATEGORY": {
-          "ALL": "All categories"
+          "ALL": "모든 카테고리"
         },
         "LOCALE": {
-          "ALL": "All locales"
+          "ALL": "모든 로케일"
         },
-        "NEW_ARTICLE": "New article"
+        "NEW_ARTICLE": "새 게시물"
       },
       "EMPTY_STATE": {
         "ALL": {
-          "TITLE": "Write an article",
-          "SUBTITLE": "Write a rich article, let’s get started!",
-          "BUTTON_LABEL": "New article"
+          "TITLE": "게시물 작성",
+          "SUBTITLE": "풍부한 게시물을 작성해 보세요!",
+          "BUTTON_LABEL": "새 게시물"
         },
         "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+          "TITLE": "아직 작성한 게시물이 없습니다",
+          "SUBTITLE": "작성한 모든 게시물이 여기에 빠른 액세스를 위해 표시됩니다."
         },
         "DRAFT": {
-          "TITLE": "There are no articles in drafts",
-          "SUBTITLE": "Draft articles will appear here"
+          "TITLE": "임시 저장된 게시물이 없습니다",
+          "SUBTITLE": "임시 저장된 게시물이 여기에 표시됩니다"
         },
         "PUBLISHED": {
-          "TITLE": "There are no published articles",
-          "SUBTITLE": "Published articles will appear here"
+          "TITLE": "게시된 게시물이 없습니다",
+          "SUBTITLE": "게시된 게시물이 여기에 표시됩니다"
         },
         "ARCHIVED": {
-          "TITLE": "There are no articles in the archive",
-          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+          "TITLE": "보관된 게시물이 없습니다",
+          "SUBTITLE": "보관된 게시물은 포털에 표시되지 않으며, 더 이상 사용되지 않거나 오래된 페이지를 표시하는 데 사용할 수 있습니다"
         },
         "CATEGORY": {
-          "TITLE": "There are no articles in this category",
-          "SUBTITLE": "Articles in this category will appear here"
+          "TITLE": "이 카테고리에 게시물이 없습니다",
+          "SUBTITLE": "이 카테고리의 게시물이 여기에 표시됩니다"
         }
       }
     },
     "CATEGORY_PAGE": {
       "CATEGORY_HEADER": {
-        "NEW_CATEGORY": "New category",
-        "EDIT_CATEGORY": "Edit category",
-        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "NEW_CATEGORY": "새 카테고리",
+        "EDIT_CATEGORY": "카테고리 수정",
+        "CATEGORIES_COUNT": "{n}개 카테고리 | {n}개 카테고리",
         "BREADCRUMB": {
-          "CATEGORY_LOCALE": "Categories ({localeCode})",
-          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+          "CATEGORY_LOCALE": "카테고리 ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount}개 게시물) | {categoryName} ({categoryCount}개 게시물)"
         }
       },
       "CATEGORY_EMPTY_STATE": {
-        "TITLE": "No categories found",
-        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+        "TITLE": "카테고리를 찾을 수 없습니다",
+        "SUBTITLE": "카테고리가 여기에 표시됩니다. '새 카테고리' 버튼을 클릭하여 카테고리를 추가할 수 있습니다."
       },
       "CATEGORY_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles"
+        "ARTICLES_COUNT": "{count}개 게시물 | {count}개 게시물"
       },
       "CATEGORY_DIALOG": {
         "CREATE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category created successfully",
-            "ERROR_MESSAGE": "Unable to create category"
+            "SUCCESS_MESSAGE": "카테고리가 성공적으로 생성되었습니다",
+            "ERROR_MESSAGE": "카테고리를 생성할 수 없습니다"
           }
         },
         "EDIT": {
           "API": {
-            "SUCCESS_MESSAGE": "Category updated successfully",
-            "ERROR_MESSAGE": "Unable to update category"
+            "SUCCESS_MESSAGE": "카테고리가 성공적으로 업데이트되었습니다",
+            "ERROR_MESSAGE": "카테고리를 업데이트할 수 없습니다"
           }
         },
         "DELETE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category deleted successfully",
-            "ERROR_MESSAGE": "Unable to delete category"
+            "SUCCESS_MESSAGE": "카테고리가 성공적으로 삭제되었습니다",
+            "ERROR_MESSAGE": "카테고리를 삭제할 수 없습니다"
           }
         },
         "HEADER": {
-          "CREATE": "Create category",
-          "EDIT": "Edit category",
-          "DESCRIPTION": "Editing a category will update the category in the public facing portal.",
-          "PORTAL": "Portal",
-          "LOCALE": "Locale"
+          "CREATE": "카테고리 만들기",
+          "EDIT": "카테고리 수정",
+          "DESCRIPTION": "카테고리를 수정하면 공개 포털의 카테고리가 업데이트됩니다.",
+          "PORTAL": "포털",
+          "LOCALE": "로케일"
         },
         "FORM": {
           "NAME": {
             "LABEL": "이름",
-            "PLACEHOLDER": "Category name",
+            "PLACEHOLDER": "카테고리 이름",
             "ERROR": "이름이 필요합니다"
           },
           "SLUG": {
-            "LABEL": "Slug",
-            "PLACEHOLDER": "Category slug for urls",
-            "ERROR": "Slug is required",
+            "LABEL": "슬러그",
+            "PLACEHOLDER": "URL용 카테고리 슬러그",
+            "ERROR": "슬러그가 필요합니다",
             "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
-            "LABEL": "내용",
-            "PLACEHOLDER": "Give a short description about the category.",
+            "LABEL": "설명",
+            "PLACEHOLDER": "카테고리에 대한 간단한 설명을 입력하십시오.",
             "ERROR": "설명이 필요합니다"
           }
         },
@@ -628,238 +650,248 @@
       }
     },
     "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALES_COUNT": "사용 가능한 로케일 없음 | {n}개 로케일 | {n}개 로케일",
+      "NEW_LOCALE_BUTTON_TEXT": "새 로케일",
       "LOCALE_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles",
-        "CATEGORIES_COUNT": "{count} category | {count} categories",
-        "DEFAULT": "Default",
+        "ARTICLES_COUNT": "{count}개 게시물 | {count}개 게시물",
+        "CATEGORIES_COUNT": "{count}개 카테고리 | {count}개 카테고리",
+        "DEFAULT": "기본값",
+        "DRAFT": "임시 저장",
         "DROPDOWN_MENU": {
-          "MAKE_DEFAULT": "Make default",
+          "MAKE_DEFAULT": "기본값으로 설정",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "삭제"
         }
       },
       "ADD_LOCALE_DIALOG": {
-        "TITLE": "Add a new locale",
-        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "TITLE": "새 로케일 추가",
+        "DESCRIPTION": "이 게시물이 작성될 언어를 선택하십시오. 번역 목록에 추가되며 나중에 더 추가할 수 있습니다.",
         "COMBOBOX": {
-          "PLACEHOLDER": "Select locale..."
+          "PLACEHOLDER": "로케일 선택..."
+        },
+        "STATUS": {
+          "LABEL": "상태",
+          "OPTIONS": {
+            "LIVE": "게시됨",
+            "DRAFT": "임시 저장"
+          }
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "로케일이 성공적으로 추가되었습니다",
+          "ERROR_MESSAGE": "로케일을 추가할 수 없습니다. 다시 시도하십시오."
         }
       }
     },
     "EDIT_ARTICLE_PAGE": {
       "HEADER": {
         "STATUS": {
-          "SAVING": "Saving...",
-          "SAVED": "Saved"
+          "SAVING": "저장 중...",
+          "SAVED": "저장됨"
         },
-        "PREVIEW": "Preview",
-        "PUBLISH": "Publish",
-        "DRAFT": "Draft",
-        "ARCHIVE": "Archive",
-        "BACK_TO_ARTICLES": "Back to articles"
+        "PREVIEW": "미리보기",
+        "PUBLISH": "게시",
+        "DRAFT": "임시 저장",
+        "ARCHIVE": "보관",
+        "BACK_TO_ARTICLES": "게시물로 돌아가기"
       },
       "EDIT_ARTICLE": {
-        "MORE_PROPERTIES": "More properties",
+        "MORE_PROPERTIES": "추가 속성",
         "UNCATEGORIZED": "카테고리가 지정되지 않음",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "EDITOR_PLACEHOLDER": "내용을 작성하십시오..."
       },
       "ARTICLE_PROPERTIES": {
-        "ARTICLE_PROPERTIES": "Article properties",
-        "META_DESCRIPTION": "Meta description",
-        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
-        "META_TITLE": "Meta title",
-        "META_TITLE_PLACEHOLDER": "Add meta title",
-        "META_TAGS": "Meta tags",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "ARTICLE_PROPERTIES": "게시물 속성",
+        "META_DESCRIPTION": "메타 설명",
+        "META_DESCRIPTION_PLACEHOLDER": "메타 설명 추가",
+        "META_TITLE": "메타 제목",
+        "META_TITLE_PLACEHOLDER": "메타 제목 추가",
+        "META_TAGS": "메타 태그",
+        "META_TAGS_PLACEHOLDER": "메타 태그 추가"
       },
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "게시물 저장 중 오류가 발생했습니다"
       }
     },
     "PORTAL_SWITCHER": {
-      "NEW_PORTAL": "New portal",
-      "PORTALS": "Portals",
-      "CREATE_PORTAL": "Create and manage multiple portals",
+      "NEW_PORTAL": "새 포털",
+      "PORTALS": "포털",
+      "CREATE_PORTAL": "여러 포털을 만들고 관리하십시오",
       "ARTICLES": "게시물",
-      "DOMAIN": "domain",
-      "PORTAL_NAME": "Portal name"
+      "DOMAIN": "도메인",
+      "PORTAL_NAME": "포털 이름"
     },
     "CREATE_PORTAL_DIALOG": {
-      "TITLE": "Create new portal",
-      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "TITLE": "새 포털 만들기",
+      "DESCRIPTION": "포털에 이름을 지정하고 사용자 친화적인 URL 슬러그를 만드십시오. 나중에 설정에서 둘 다 수정할 수 있습니다.",
       "CONFIRM_BUTTON_LABEL": "만들기",
       "NAME": {
         "LABEL": "이름",
-        "PLACEHOLDER": "User Guide | Chatwoot",
-        "MESSAGE": "Choose an name for your portal.",
+        "PLACEHOLDER": "사용자 가이드 | Chatwoot",
+        "MESSAGE": "포털의 이름을 선택하십시오.",
         "ERROR": "이름이 필요합니다"
       },
       "SLUG": {
-        "LABEL": "Slug",
+        "LABEL": "슬러그",
         "PLACEHOLDER": "user-guide",
-        "ERROR": "Slug is required",
-        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+        "ERROR": "슬러그가 필요합니다",
+        "FORMAT_ERROR": "유효한 슬러그를 입력하십시오. 예: user-guide"
       }
     },
     "PORTAL_SETTINGS": {
       "FORM": {
         "AVATAR": {
-          "LABEL": "Logo",
-          "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
-          "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Unable to delete logo",
-          "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+          "LABEL": "로고",
+          "IMAGE_UPLOAD_ERROR": "이미지를 업로드할 수 없습니다! 다시 시도하십시오",
+          "IMAGE_UPLOAD_SUCCESS": "이미지가 성공적으로 추가되었습니다. 로고를 저장하려면 변경사항 저장을 클릭하십시오",
+          "IMAGE_DELETE_SUCCESS": "로고가 성공적으로 삭제되었습니다",
+          "IMAGE_DELETE_ERROR": "로고를 삭제할 수 없습니다",
+          "IMAGE_UPLOAD_SIZE_ERROR": "이미지 크기는 {size}MB 미만이어야 합니다"
         },
         "NAME": {
           "LABEL": "이름",
-          "PLACEHOLDER": "Portal name",
+          "PLACEHOLDER": "포털 이름",
           "ERROR": "이름이 필요합니다"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header text",
-          "PLACEHOLDER": "Portal header text"
+          "LABEL": "헤더 텍스트",
+          "PLACEHOLDER": "포털 헤더 텍스트"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page title",
-          "PLACEHOLDER": "Portal page title"
+          "LABEL": "페이지 제목",
+          "PLACEHOLDER": "포털 페이지 제목"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home page link",
-          "PLACEHOLDER": "Portal home page link",
-          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+          "LABEL": "홈페이지 링크",
+          "PLACEHOLDER": "포털 홈페이지 링크",
+          "ERROR": "유효한 URL을 입력하십시오. 홈페이지 링크는 'http://' 또는 'https://'로 시작해야 합니다."
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug"
+          "LABEL": "슬러그",
+          "PLACEHOLDER": "포털 슬러그"
         },
         "LIVE_CHAT_WIDGET": {
-          "LABEL": "Live chat widget",
-          "PLACEHOLDER": "Select live chat widget",
-          "HELP_TEXT": "Select a live chat widget that will appear on your help center",
-          "NONE_OPTION": "No widget"
+          "LABEL": "실시간 채팅 위젯",
+          "PLACEHOLDER": "실시간 채팅 위젯 선택",
+          "HELP_TEXT": "도움말 센터에 표시될 실시간 채팅 위젯을 선택하십시오",
+          "NONE_OPTION": "위젯 없음"
         },
         "BRAND_COLOR": {
-          "LABEL": "Brand color"
+          "LABEL": "브랜드 색상"
         },
-        "SAVE_CHANGES": "Save changes"
+        "SAVE_CHANGES": "변경사항 저장"
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {
-          "HEADER": "Custom domain",
-          "LABEL": "Custom domain:",
-          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
-          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
-          "PLACEHOLDER": "Portal custom domain",
+          "HEADER": "사용자 지정 도메인",
+          "LABEL": "사용자 지정 도메인:",
+          "DESCRIPTION": "포털을 사용자 지정 도메인에서 호스팅할 수 있습니다. 예를 들어, 웹사이트가 yourdomain.com이고 포털을 docs.yourdomain.com에서 사용하려면 이 필드에 입력하십시오.",
+          "STATUS_DESCRIPTION": "사용자 지정 포털은 확인되는 즉시 작동합니다.",
+          "PLACEHOLDER": "포털 사용자 지정 도메인",
           "EDIT_BUTTON": "수정",
-          "ADD_BUTTON": "Add custom domain",
+          "ADD_BUTTON": "사용자 지정 도메인 추가",
           "STATUS": {
-            "LIVE": "Live",
-            "PENDING": "Awaiting verification",
-            "ERROR": "Verification failed"
+            "LIVE": "활성",
+            "PENDING": "확인 대기 중",
+            "ERROR": "확인 실패"
           },
           "DIALOG": {
-            "ADD_HEADER": "Add custom domain",
-            "EDIT_HEADER": "Edit custom domain",
-            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
-            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
-            "LABEL": "Custom domain",
-            "PLACEHOLDER": "Portal custom domain",
-            "ERROR": "Custom domain is required",
-            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+            "ADD_HEADER": "사용자 지정 도메인 추가",
+            "EDIT_HEADER": "사용자 지정 도메인 수정",
+            "ADD_CONFIRM_BUTTON_LABEL": "도메인 추가",
+            "EDIT_CONFIRM_BUTTON_LABEL": "도메인 업데이트",
+            "LABEL": "사용자 지정 도메인",
+            "PLACEHOLDER": "포털 사용자 지정 도메인",
+            "ERROR": "사용자 지정 도메인이 필요합니다",
+            "FORMAT_ERROR": "유효한 도메인 URL을 입력하십시오. 예: docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
-            "HEADER": "DNS configuration",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
-            "COPY": "Successfully copied CNAME",
+            "HEADER": "DNS 설정",
+            "DESCRIPTION": "DNS 공급자 계정에 로그인하여 서브도메인에 대한 CNAME 레코드를 chatwoot.help로 가리키도록 추가하십시오",
+            "COPY": "CNAME이 성공적으로 복사되었습니다",
             "SEND_INSTRUCTIONS": {
-              "HEADER": "Send instructions",
-              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
-              "PLACEHOLDER": "Enter their email",
-              "ERROR": "Enter a valid email address",
+              "HEADER": "안내 전송",
+              "DESCRIPTION": "개발 팀의 담당자가 이 단계를 처리하도록 하려면 아래에 이메일 주소를 입력하시면 필요한 안내를 보내드립니다.",
+              "PLACEHOLDER": "이메일을 입력하십시오",
+              "ERROR": "유효한 이메일 주소를 입력하십시오",
               "SEND_BUTTON": "보내기"
             }
           }
         },
         "DELETE_PORTAL": {
-          "BUTTON": "Delete {portalName}",
-          "HEADER": "Delete portal",
-          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "BUTTON": "{portalName} 삭제",
+          "HEADER": "포털 삭제",
+          "DESCRIPTION": "이 포털을 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다",
           "DIALOG": {
-            "HEADER": "Sure you want to delete {portalName}?",
-            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "HEADER": "{portalName}을(를) 삭제하시겠습니까?",
+            "DESCRIPTION": "이 작업은 되돌릴 수 없는 영구적인 작업입니다.",
             "CONFIRM_BUTTON_LABEL": "삭제"
           }
         },
-        "EDIT_CONFIGURATION": "Edit configuration"
+        "EDIT_CONFIGURATION": "설정 수정"
       },
       "API": {
         "CREATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal created successfully",
-          "ERROR_MESSAGE": "Unable to create portal"
+          "SUCCESS_MESSAGE": "포털이 성공적으로 생성되었습니다",
+          "ERROR_MESSAGE": "포털을 생성할 수 없습니다"
         },
         "UPDATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal updated successfully",
-          "ERROR_MESSAGE": "Unable to update portal"
+          "SUCCESS_MESSAGE": "포털이 성공적으로 업데이트되었습니다",
+          "ERROR_MESSAGE": "포털을 업데이트할 수 없습니다"
         }
       }
     },
     "PDF_UPLOAD": {
-      "TITLE": "Upload PDF Document",
-      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
-      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
-      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "TITLE": "PDF 문서 업로드",
+      "DESCRIPTION": "PDF 문서를 업로드하여 AI를 사용해 자동으로 FAQ를 생성합니다",
+      "DRAG_DROP_TEXT": "PDF 파일을 여기에 끌어다 놓거나 클릭하여 선택하십시오",
+      "SELECT_FILE": "PDF 파일 선택",
+      "ADDITIONAL_CONTEXT_LABEL": "추가 컨텍스트 (선택 사항)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "FAQ 생성을 위한 추가 컨텍스트 또는 지침을 제공하십시오...",
       "UPLOADING": "업로드 중...",
-      "UPLOAD": "Upload & Process",
+      "UPLOAD": "업로드 및 처리",
       "CANCEL": "취소",
-      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
-      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
-      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+      "ERROR_INVALID_TYPE": "유효한 PDF 파일을 선택하십시오",
+      "ERROR_FILE_TOO_LARGE": "파일 크기는 512MB 미만이어야 합니다",
+      "ERROR_UPLOAD_FAILED": "PDF 업로드에 실패했습니다. 다시 시도하십시오."
     },
     "PDF_DOCUMENTS": {
-      "TITLE": "PDF Documents",
-      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
-      "UPLOAD_PDF": "Upload PDF",
-      "UPLOAD_FIRST_PDF": "Upload your first PDF",
-      "UPLOADED_BY": "Uploaded by",
-      "GENERATE_FAQS": "Generate FAQs",
-      "GENERATING": "Generating...",
-      "CONFIRM_DELETE": "Are you sure you want to delete {filename}?",
+      "TITLE": "PDF 문서",
+      "DESCRIPTION": "업로드된 PDF 문서를 관리하고 FAQ를 생성합니다",
+      "UPLOAD_PDF": "PDF 업로드",
+      "UPLOAD_FIRST_PDF": "첫 번째 PDF를 업로드하십시오",
+      "UPLOADED_BY": "업로드한 사람",
+      "GENERATE_FAQS": "FAQ 생성",
+      "GENERATING": "생성 중...",
+      "CONFIRM_DELETE": "{filename}을(를) 삭제하시겠습니까?",
       "EMPTY_STATE": {
-        "TITLE": "No PDF documents yet",
-        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+        "TITLE": "아직 PDF 문서가 없습니다",
+        "DESCRIPTION": "PDF 문서를 업로드하여 AI를 사용해 자동으로 FAQ를 생성합니다"
       },
       "STATUS": {
-        "UPLOADED": "Ready",
-        "PROCESSING": "Processing",
-        "PROCESSED": "Completed",
-        "FAILED": "Failed"
+        "UPLOADED": "준비됨",
+        "PROCESSING": "처리 중",
+        "PROCESSED": "완료됨",
+        "FAILED": "실패"
       }
     },
     "CONTENT_GENERATION": {
-      "TITLE": "Content Generation",
-      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
-      "UPLOAD_TITLE": "Upload PDF Document",
-      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "UPLOADING": "Processing document...",
-      "UPLOAD_SUCCESS": "Document processed successfully!",
-      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
-      "INVALID_FILE_TYPE": "Please select a valid PDF file",
-      "FILE_TOO_LARGE": "File size must be less than 512MB",
-      "GENERATED_CONTENT": "Generated FAQ Content",
-      "PUBLISH_SELECTED": "Publish Selected",
-      "PUBLISHING": "Publishing...",
-      "FROM_DOCUMENT": "From document",
-      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
-      "LOADING": "Loading generated content..."
+      "TITLE": "콘텐츠 생성",
+      "DESCRIPTION": "PDF 문서를 업로드하여 AI를 사용해 자동으로 FAQ 콘텐츠를 생성합니다",
+      "UPLOAD_TITLE": "PDF 문서 업로드",
+      "DRAG_DROP": "PDF 파일을 여기에 끌어다 놓거나 클릭하여 선택하십시오",
+      "SELECT_FILE": "PDF 파일 선택",
+      "UPLOADING": "문서 처리 중...",
+      "UPLOAD_SUCCESS": "문서가 성공적으로 처리되었습니다!",
+      "UPLOAD_ERROR": "문서 업로드에 실패했습니다. 다시 시도하십시오.",
+      "INVALID_FILE_TYPE": "유효한 PDF 파일을 선택하십시오",
+      "FILE_TOO_LARGE": "파일 크기는 512MB 미만이어야 합니다",
+      "GENERATED_CONTENT": "생성된 FAQ 콘텐츠",
+      "PUBLISH_SELECTED": "선택 항목 게시",
+      "PUBLISHING": "게시 중...",
+      "FROM_DOCUMENT": "문서에서",
+      "NO_CONTENT": "생성된 콘텐츠가 없습니다. PDF 문서를 업로드하여 시작하십시오.",
+      "LOADING": "생성된 콘텐츠를 불러오는 중..."
     }
   }
 }

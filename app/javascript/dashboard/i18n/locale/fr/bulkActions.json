@@ -22,6 +22,10 @@
       "UPDATE_SUCCESFUL": "Le statut de la conversation a été mis à jour avec succès.",
       "UPDATE_FAILED": "Impossible de mettre à jour les conversations, veuillez réessayer."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Assigner une étiquette",
       "NO_LABELS_FOUND": "Aucune étiquette trouvée",

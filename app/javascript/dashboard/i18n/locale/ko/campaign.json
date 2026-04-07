@@ -1,8 +1,8 @@
 {
   "CAMPAIGN": {
     "LIVE_CHAT": {
-      "HEADER_TITLE": "Live chat campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "실시간 채팅 캠페인",
+      "NEW_CAMPAIGN": "캠페인 생성",
       "CARD": {
         "STATUS": {
           "ENABLED": "사용함",
@@ -16,198 +16,198 @@
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No live chat campaigns are available",
-        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+        "TITLE": "사용 가능한 실시간 채팅 캠페인이 없습니다.",
+        "SUBTITLE": "사전 메시지를 사용하여 고객과 소통하십시오. '캠페인 생성'을 클릭하여 시작하십시오."
       },
       "CREATE": {
-        "TITLE": "Create a live chat campaign",
+        "TITLE": "실시간 채팅 캠페인 생성",
         "CANCEL_BUTTON_TEXT": "취소",
         "CREATE_BUTTON_TEXT": "만들기",
         "FORM": {
           "TITLE": {
-            "LABEL": "Title",
-            "PLACEHOLDER": "Please enter the title of campaign",
-            "ERROR": "Title is required"
+            "LABEL": "제목",
+            "PLACEHOLDER": "캠페인 제목을 입력하십시오.",
+            "ERROR": "제목이 필요합니다."
           },
           "MESSAGE": {
             "LABEL": "메시지",
-            "PLACEHOLDER": "Please enter the message of campaign",
-            "ERROR": "Message is required"
+            "PLACEHOLDER": "캠페인 메시지를 입력하십시오.",
+            "ERROR": "메시지가 필요합니다."
           },
           "INBOX": {
-            "LABEL": "Select Inbox",
-            "PLACEHOLDER": "Select Inbox",
-            "ERROR": "Inbox is required"
+            "LABEL": "받은 메시지함 선택",
+            "PLACEHOLDER": "받은 메시지함 선택",
+            "ERROR": "받은 메시지함이 필요합니다."
           },
           "SENT_BY": {
             "LABEL": "보낸 사람",
-            "PLACEHOLDER": "Please select sender",
-            "ERROR": "Sender is required"
+            "PLACEHOLDER": "발신자를 선택하십시오.",
+            "ERROR": "발신자가 필요합니다."
           },
           "END_POINT": {
             "LABEL": "URL",
-            "PLACEHOLDER": "Please enter the URL",
+            "PLACEHOLDER": "URL을 입력하십시오.",
             "ERROR": "올바른 URL을 입력하십시오."
           },
           "TIME_ON_PAGE": {
-            "LABEL": "Time on page(Seconds)",
-            "PLACEHOLDER": "Please enter the time",
-            "ERROR": "Time on page is required"
+            "LABEL": "페이지 체류 시간(초)",
+            "PLACEHOLDER": "시간을 입력하십시오.",
+            "ERROR": "페이지 체류 시간이 필요합니다."
           },
           "OTHER_PREFERENCES": {
-            "TITLE": "Other preferences",
-            "ENABLED": "Enable campaign",
-            "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours"
+            "TITLE": "기타 설정",
+            "ENABLED": "캠페인 활성화",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "업무 시간에만 실행"
           },
           "BUTTONS": {
             "CREATE": "만들기",
             "CANCEL": "취소"
           },
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
-            "ERROR_MESSAGE": "There was an error. Please try again."
+            "SUCCESS_MESSAGE": "실시간 채팅 캠페인이 성공적으로 생성되었습니다.",
+            "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
           }
         }
       },
       "EDIT": {
-        "TITLE": "Edit live chat campaign",
+        "TITLE": "실시간 채팅 캠페인 수정",
         "FORM": {
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
-            "ERROR_MESSAGE": "There was an error. Please try again."
+            "SUCCESS_MESSAGE": "실시간 채팅 캠페인이 성공적으로 업데이트되었습니다.",
+            "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
           }
         }
       }
     },
     "SMS": {
-      "HEADER_TITLE": "SMS campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "SMS 캠페인",
+      "NEW_CAMPAIGN": "캠페인 생성",
       "EMPTY_STATE": {
-        "TITLE": "No SMS campaigns are available",
-        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "사용 가능한 SMS 캠페인이 없습니다.",
+        "SUBTITLE": "SMS 캠페인을 시작하여 고객에게 직접 연락하십시오. 제안을 보내거나 공지를 쉽게 할 수 있습니다. '캠페인 생성'을 클릭하여 시작하십시오."
       },
       "CARD": {
         "STATUS": {
-          "COMPLETED": "Completed",
-          "SCHEDULED": "Scheduled"
+          "COMPLETED": "완료됨",
+          "SCHEDULED": "예약됨"
         },
         "CAMPAIGN_DETAILS": {
-          "SENT_FROM": "Sent from",
-          "ON": "on"
+          "SENT_FROM": "발신",
+          "ON": "일시"
         }
       },
       "CREATE": {
-        "TITLE": "Create SMS campaign",
+        "TITLE": "SMS 캠페인 생성",
         "CANCEL_BUTTON_TEXT": "취소",
         "CREATE_BUTTON_TEXT": "만들기",
         "FORM": {
           "TITLE": {
-            "LABEL": "Title",
-            "PLACEHOLDER": "Please enter the title of campaign",
-            "ERROR": "Title is required"
+            "LABEL": "제목",
+            "PLACEHOLDER": "캠페인 제목을 입력하십시오.",
+            "ERROR": "제목이 필요합니다."
           },
           "MESSAGE": {
             "LABEL": "메시지",
-            "PLACEHOLDER": "Please enter the message of campaign",
-            "ERROR": "Message is required"
+            "PLACEHOLDER": "캠페인 메시지를 입력하십시오.",
+            "ERROR": "메시지가 필요합니다."
           },
           "INBOX": {
-            "LABEL": "Select Inbox",
-            "PLACEHOLDER": "Select Inbox",
-            "ERROR": "Inbox is required"
+            "LABEL": "받은 메시지함 선택",
+            "PLACEHOLDER": "받은 메시지함 선택",
+            "ERROR": "받은 메시지함이 필요합니다."
           },
           "AUDIENCE": {
-            "LABEL": "Audience",
-            "PLACEHOLDER": "Select the customer labels",
-            "ERROR": "Audience is required"
+            "LABEL": "대상",
+            "PLACEHOLDER": "고객 라벨을 선택하십시오.",
+            "ERROR": "대상이 필요합니다."
           },
           "SCHEDULED_AT": {
-            "LABEL": "Scheduled time",
-            "PLACEHOLDER": "Please select the time",
-            "ERROR": "Scheduled time is required"
+            "LABEL": "예약 시간",
+            "PLACEHOLDER": "시간을 선택하십시오.",
+            "ERROR": "예약 시간이 필요합니다."
           },
           "BUTTONS": {
             "CREATE": "만들기",
             "CANCEL": "취소"
           },
           "API": {
-            "SUCCESS_MESSAGE": "SMS campaign created successfully",
-            "ERROR_MESSAGE": "There was an error. Please try again."
+            "SUCCESS_MESSAGE": "SMS 캠페인이 성공적으로 생성되었습니다.",
+            "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
           }
         }
       }
     },
     "WHATSAPP": {
       "HEADER_TITLE": "WhatsApp 캠페인",
-      "NEW_CAMPAIGN": "Create campaign",
+      "NEW_CAMPAIGN": "캠페인 생성",
       "EMPTY_STATE": {
-        "TITLE": "사용 가능한 WhatsApp 캠페인 없음",
-        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "사용 가능한 WhatsApp 캠페인이 없습니다.",
+        "SUBTITLE": "WhatsApp 캠페인을 시작하여 고객에게 직접 연락하십시오. 제안을 보내거나 공지를 쉽게 할 수 있습니다. '캠페인 생성'을 클릭하여 시작하십시오."
       },
       "CARD": {
         "STATUS": {
-          "COMPLETED": "Completed",
-          "SCHEDULED": "Scheduled"
+          "COMPLETED": "완료됨",
+          "SCHEDULED": "예약됨"
         },
         "CAMPAIGN_DETAILS": {
-          "SENT_FROM": "Sent from",
-          "ON": "on"
+          "SENT_FROM": "발신",
+          "ON": "일시"
         }
       },
       "CREATE": {
-        "TITLE": "Create WhatsApp campaign",
+        "TITLE": "WhatsApp 캠페인 생성",
         "CANCEL_BUTTON_TEXT": "취소",
         "CREATE_BUTTON_TEXT": "만들기",
         "FORM": {
           "TITLE": {
-            "LABEL": "Title",
-            "PLACEHOLDER": "Please enter the title of campaign",
-            "ERROR": "Title is required"
+            "LABEL": "제목",
+            "PLACEHOLDER": "캠페인 제목을 입력하십시오.",
+            "ERROR": "제목이 필요합니다."
           },
           "INBOX": {
-            "LABEL": "Select Inbox",
-            "PLACEHOLDER": "Select Inbox",
-            "ERROR": "Inbox is required"
+            "LABEL": "받은 메시지함 선택",
+            "PLACEHOLDER": "받은 메시지함 선택",
+            "ERROR": "받은 메시지함이 필요합니다."
           },
           "TEMPLATE": {
-            "LABEL": "WhatsApp Template",
-            "PLACEHOLDER": "Select a template",
-            "INFO": "Select a template to use for this campaign.",
-            "ERROR": "Template is required",
-            "PREVIEW_TITLE": "Process {templateName}",
+            "LABEL": "WhatsApp 템플릿",
+            "PLACEHOLDER": "템플릿을 선택하십시오.",
+            "INFO": "이 캠페인에 사용할 템플릿을 선택하십시오.",
+            "ERROR": "템플릿이 필요합니다.",
+            "PREVIEW_TITLE": "{templateName} 처리",
             "LANGUAGE": "언어",
-            "CATEGORY": "Category",
-            "VARIABLES_LABEL": "Variables",
-            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+            "CATEGORY": "카테고리",
+            "VARIABLES_LABEL": "변수",
+            "VARIABLE_PLACEHOLDER": "{variable}의 값을 입력하십시오."
           },
           "AUDIENCE": {
-            "LABEL": "Audience",
-            "PLACEHOLDER": "Select the customer labels",
-            "ERROR": "Audience is required"
+            "LABEL": "대상",
+            "PLACEHOLDER": "고객 라벨을 선택하십시오.",
+            "ERROR": "대상이 필요합니다."
           },
           "SCHEDULED_AT": {
-            "LABEL": "Scheduled time",
-            "PLACEHOLDER": "Please select the time",
-            "ERROR": "Scheduled time is required"
+            "LABEL": "예약 시간",
+            "PLACEHOLDER": "시간을 선택하십시오.",
+            "ERROR": "예약 시간이 필요합니다."
           },
           "BUTTONS": {
             "CREATE": "만들기",
             "CANCEL": "취소"
           },
           "API": {
-            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
-            "ERROR_MESSAGE": "There was an error. Please try again."
+            "SUCCESS_MESSAGE": "WhatsApp 캠페인이 성공적으로 생성되었습니다.",
+            "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
           }
         }
       }
     },
     "CONFIRM_DELETE": {
-      "TITLE": "Are you sure to delete?",
-      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "TITLE": "정말로 삭제하시겠습니까?",
+      "DESCRIPTION": "삭제 작업은 영구적이며 되돌릴 수 없습니다.",
       "CONFIRM": "삭제",
       "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "There was an error. Please try again."
+        "SUCCESS_MESSAGE": "캠페인이 성공적으로 삭제되었습니다.",
+        "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
       }
     }
   }

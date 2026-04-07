@@ -1,0 +1,8 @@
+# Campaign Context
+This conversation was initiated in response to a campaign message.
+- Campaign: {{ campaign.title }}
+- Type: {{ campaign.campaign_type }}
+{% if campaign.description -%}
+- Description: {{ campaign.description }}
+{% endif -%}
+- Original Message Sent: {{ campaign.message }}

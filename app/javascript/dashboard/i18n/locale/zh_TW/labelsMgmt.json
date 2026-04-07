@@ -5,6 +5,9 @@
     "LOADING": "正在獲取標籤",
     "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
     "LEARN_MORE": "Learn more about labels",
+    "COUNT": "{n} label | {n} labels",
+    "SEARCH_PLACEHOLDER": "搜尋標籤...",
+    "NO_RESULTS": "No labels found matching your search",
     "SEARCH_404": "没有任何項目符合此查詢",
     "LIST": {
       "404": "此帳戶中没有可用的標籤。",
@@ -13,7 +16,8 @@
       "TABLE_HEADER": {
         "NAME": "姓名",
         "DESCRIPTION": "描述資訊",
-        "COLOR": "顏色"
+        "COLOR": "顏色",
+        "ACTION": "操作"
       }
     },
     "FORM": {

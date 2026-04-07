@@ -96,4 +96,58 @@ describe('EmailQuoteExtractor', () => {
   it('detects quotes for trailing blockquotes even when signatures follow text', () => {
     expect(EmailQuoteExtractor.hasQuotes(EMAIL_WITH_SIGNATURE)).toBe(true);
   });
+
+  describe('HTML sanitization', () => {
+    it('removes onerror handlers from img tags in extractQuotes', () => {
+      const maliciousHtml = '<p>Hello</p><img src="x" onerror="alert(1)">';
+      const cleanedHtml = EmailQuoteExtractor.extractQuotes(maliciousHtml);
+
+      expect(cleanedHtml).not.toContain('onerror');
+      expect(cleanedHtml).toContain('<p>Hello</p>');
+    });
+
+    it('removes onerror handlers from img tags in hasQuotes', () => {
+      const maliciousHtml = '<p>Hello</p><img src="x" onerror="alert(1)">';
+      // Should not throw and should safely check for quotes
+      const result = EmailQuoteExtractor.hasQuotes(maliciousHtml);
+      expect(result).toBe(false);
+    });
+
+    it('removes script tags in extractQuotes', () => {
+      const maliciousHtml =
+        '<p>Content</p><script>alert("xss")</script><p>More</p>';
+      const cleanedHtml = EmailQuoteExtractor.extractQuotes(maliciousHtml);
+
+      expect(cleanedHtml).not.toContain('<script');
+      expect(cleanedHtml).not.toContain('alert');
+      expect(cleanedHtml).toContain('<p>Content</p>');
+      expect(cleanedHtml).toContain('<p>More</p>');
+    });
+
+    it('removes onclick handlers in extractQuotes', () => {
+      const maliciousHtml = '<p onclick="alert(1)">Click me</p>';
+      const cleanedHtml = EmailQuoteExtractor.extractQuotes(maliciousHtml);
+
+      expect(cleanedHtml).not.toContain('onclick');
+      expect(cleanedHtml).toContain('Click me');
+    });
+
+    it('removes javascript: URLs in extractQuotes', () => {
+      const maliciousHtml = '<a href="javascript:alert(1)">Link</a>';
+      const cleanedHtml = EmailQuoteExtractor.extractQuotes(maliciousHtml);
+
+      // eslint-disable-next-line no-script-url
+      expect(cleanedHtml).not.toContain('javascript:');
+      expect(cleanedHtml).toContain('Link');
+    });
+
+    it('removes encoded payloads with event handlers in extractQuotes', () => {
+      const maliciousHtml =
+        '<img src="x" id="PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==" onerror="eval(atob(this.id))">';
+      const cleanedHtml = EmailQuoteExtractor.extractQuotes(maliciousHtml);
+
+      expect(cleanedHtml).not.toContain('onerror');
+      expect(cleanedHtml).not.toContain('eval');
+    });
+  });
 });

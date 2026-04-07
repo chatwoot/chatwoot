@@ -7,6 +7,7 @@ export const FORMATTING = {
     marks: ['strong', 'em', 'code', 'link'],
     nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote', 'image'],
     menu: [
+      'copilot',
       'strong',
       'em',
       'code',
@@ -21,6 +22,7 @@ export const FORMATTING = {
     marks: ['strong', 'em', 'code', 'link', 'strike'],
     nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote', 'image'],
     menu: [
+      'copilot',
       'strong',
       'em',
       'code',
@@ -35,12 +37,13 @@ export const FORMATTING = {
   'Channel::Api': {
     marks: ['strong', 'em'],
     nodes: [],
-    menu: ['strong', 'em', 'undo', 'redo'],
+    menu: ['copilot', 'strong', 'em', 'undo', 'redo'],
   },
   'Channel::FacebookPage': {
     marks: ['strong', 'em', 'code', 'strike'],
     nodes: ['bulletList', 'orderedList', 'codeBlock'],
     menu: [
+      'copilot',
       'strong',
       'em',
       'code',
@@ -70,6 +73,7 @@ export const FORMATTING = {
     marks: ['strong', 'em', 'code', 'strike'],
     nodes: ['bulletList', 'orderedList', 'codeBlock'],
     menu: [
+      'copilot',
       'strong',
       'em',
       'code',
@@ -83,17 +87,18 @@ export const FORMATTING = {
   'Channel::Line': {
     marks: ['strong', 'em', 'code', 'strike'],
     nodes: ['codeBlock'],
-    menu: ['strong', 'em', 'code', 'strike', 'undo', 'redo'],
+    menu: ['copilot', 'strong', 'em', 'code', 'strike', 'undo', 'redo'],
   },
   'Channel::Telegram': {
     marks: ['strong', 'em', 'link', 'code'],
     nodes: [],
-    menu: ['strong', 'em', 'link', 'code', 'undo', 'redo'],
+    menu: ['copilot', 'strong', 'em', 'link', 'code', 'undo', 'redo'],
   },
   'Channel::Instagram': {
     marks: ['strong', 'em', 'code', 'strike'],
     nodes: ['bulletList', 'orderedList'],
     menu: [
+      'copilot',
       'strong',
       'em',
       'code',
@@ -115,6 +120,22 @@ export const FORMATTING = {
     menu: [],
   },
   // Special contexts (not actual channels)
+  'Context::PrivateNote': {
+    marks: ['strong', 'em', 'code', 'link', 'strike'],
+    nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote'],
+    menu: [
+      'copilot',
+      'strong',
+      'em',
+      'code',
+      'link',
+      'strike',
+      'bulletList',
+      'orderedList',
+      'undo',
+      'redo',
+    ],
+  },
   'Context::Default': {
     marks: ['strong', 'em', 'code', 'link', 'strike'],
     nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote'],

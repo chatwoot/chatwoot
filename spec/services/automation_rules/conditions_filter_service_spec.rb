@@ -215,5 +215,25 @@ RSpec.describe AutomationRules::ConditionsFilterService do
         end
       end
     end
+
+    context 'when conditions based on contact country_code' do
+      before do
+        conversation.update(additional_attributes: { country_code: 'US' })
+        conversation.contact.update(additional_attributes: { country_code: 'IN' })
+        rule.conditions = [
+          { 'values': ['IN'], 'attribute_key': 'country_code', 'query_operator': nil, 'filter_operator': 'equal_to' }
+        ]
+        rule.save
+      end
+
+      it 'matches against the contact additional_attributes' do
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+      end
+
+      it 'returns false when the contact country_code does not match' do
+        conversation.contact.update(additional_attributes: { country_code: 'GB' })
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+      end
+    end
   end
 end

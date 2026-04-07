@@ -7,7 +7,7 @@
 #
 # For all other LLM operations, use Llm::BaseAiService with RubyLLM instead.
 class Llm::LegacyBaseOpenAiService
-  DEFAULT_MODEL = 'gpt-4o-mini'
+  DEFAULT_MODEL = 'gpt-4.1-mini'
 
   attr_reader :client, :model
 
@@ -23,6 +23,14 @@ class Llm::LegacyBaseOpenAiService
   end
 
   private
+
+  # Strips markdown code fences (```json ... ``` or ``` ... ```) that some
+  # LLM providers/gateways wrap around JSON responses despite response_format hints.
+  def sanitize_json_response(response)
+    return response if response.nil?
+
+    response.strip.sub(/\A```(?:\w*)\s*\n?/, '').sub(/\n?\s*```\s*\z/, '').strip
+  end
 
   def uri_base
     endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value

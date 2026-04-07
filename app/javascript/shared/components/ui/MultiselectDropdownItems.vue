@@ -2,6 +2,7 @@
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import Avatar from 'next/avatar/Avatar.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
@@ -9,6 +10,7 @@ export default {
     WootDropdownItem,
     WootDropdownMenu,
     Avatar,
+    Icon,
     NextButton,
   },
 
@@ -106,13 +108,18 @@ export default {
                 </span>
               </div>
               <Avatar
-                v-if="hasThumbnail"
+                v-if="hasThumbnail && !option.icon"
                 :src="option.thumbnail"
                 :name="option.name"
                 :status="option.availability_status"
                 :size="24"
                 hide-offline-status
                 rounded-full
+              />
+              <Icon
+                v-if="option.icon"
+                :icon="option.icon"
+                class="size-5 text-n-slate-11"
               />
             </NextButton>
           </WootDropdownItem>
