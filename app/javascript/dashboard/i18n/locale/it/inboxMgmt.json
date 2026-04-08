@@ -1107,9 +1107,9 @@
         "CHAT": "Modalità Chat"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Di solito risponde in pochi minuti",
-        "IN_A_FEW_HOURS": "Di solito risponde in poche ore",
-        "IN_A_DAY": "Di solito risponde entro un giorno"
+        "IN_A_FEW_MINUTES": "In genere risponde in pochi minuti",
+        "IN_A_FEW_HOURS": "In genere risponde in poche ore",
+        "IN_A_DAY": "In genere risponde in un giorno"
       },
       "FOOTER": {
         "START_CONVERSATION_BUTTON_TEXT": "Avvia Conversazione",
