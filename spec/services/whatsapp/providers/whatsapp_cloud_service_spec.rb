@@ -22,6 +22,40 @@ describe Whatsapp::Providers::WhatsappCloudService do
     stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
   end
 
+  describe '#send_typing_indicator' do
+    let(:wamid) { 'wamid.HBgLTEST' }
+
+    it 'posts read status and typing_indicator to the messages API' do
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        .with(
+          body: {
+            messaging_product: 'whatsapp',
+            status: 'read',
+            message_id: wamid,
+            typing_indicator: { type: 'text' }
+          }.to_json
+        )
+        .to_return(status: 200, body: { success: true }.to_json, headers: response_headers)
+
+      expect { service.send_typing_indicator(wamid) }.not_to raise_error
+    end
+
+    it 'does not call the API when wamid is blank' do
+      stub = stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+      service.send_typing_indicator(nil)
+      service.send_typing_indicator('')
+      expect(stub).not_to have_been_requested
+    end
+
+    it 'logs a warning when the API returns an error' do
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        .to_return(status: 400, body: { error: { message: 'oops' } }.to_json, headers: response_headers)
+      allow(Rails.logger).to receive(:warn)
+      service.send_typing_indicator(wamid)
+      expect(Rails.logger).to have_received(:warn).with(/typing_indicator failed/)
+    end
+  end
+
   describe '#send_message' do
     context 'when called' do
       it 'calls message endpoints for normal messages' do

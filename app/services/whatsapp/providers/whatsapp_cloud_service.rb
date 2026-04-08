@@ -79,6 +79,28 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     "#{api_base_path}/v13.0/#{media_id}"
   end
 
+  # https://developers.facebook.com/docs/whatsapp/cloud-api/typing-indicators/
+  def send_typing_indicator(wamid)
+    return if wamid.blank?
+
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        status: 'read',
+        message_id: wamid,
+        typing_indicator: { type: 'text' }
+      }.to_json
+    )
+
+    return if response.success? && response.parsed_response.is_a?(Hash) && response.parsed_response['error'].blank?
+
+    Rails.logger.warn(
+      "[WhatsappCloud] typing_indicator failed: #{response.code} #{response.body}"
+    )
+  end
+
   private
 
   def csat_template_service
