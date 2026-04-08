@@ -68,7 +68,8 @@
         "API_SUCCESS": "ഒപ്പ് വിജയകരമായി സംരക്ഷിച്ചു",
         "IMAGE_UPLOAD_ERROR": "ചിത്രം അപ്‌ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല! വീണ്ടും ശ്രമിക്കുക",
         "IMAGE_UPLOAD_SUCCESS": "ചിത്രം വിജയകരമായി ചേർത്തു. സിഗ്നേച്ചർ സേവ് ചെയ്യാൻ ദയവായി സേവ് ക്ലിക്ക് ചെയ്യുക",
-        "IMAGE_UPLOAD_SIZE_ERROR": "ചിത്രത്തിന്റെ വലുപ്പം {size}MB-ൽ കുറവായിരിക്കണം"
+        "IMAGE_UPLOAD_SIZE_ERROR": "ചിത്രത്തിന്റെ വലുപ്പം {size}MB-ൽ കുറവായിരിക്കണം",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "സന്ദേശ ഒപ്പ്",
