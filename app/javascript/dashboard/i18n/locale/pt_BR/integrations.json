@@ -745,7 +745,7 @@
       "BULK_DELETE": {
         "TITLE": "Excluir documentos?",
         "DESCRIPTION": "Você tem certeza que deseja excluir os documentos selecionados? Esta ação não pode ser desfeita.",
-        "CONFIRM": "Sim, excluir tudo",
+        "CONFIRM": "Sim, excluir todas",
         "SUCCESS_MESSAGE": "Documentos excluídos com sucesso",
         "ERROR_MESSAGE": "Ocorreu um erro ao excluir os documentos, por favor novamente."
       },
