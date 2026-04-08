@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe WebsiteBrandingService do
   describe '#perform' do
+    let(:email) { 'user@example.com' }
     let(:url) { 'https://example.com' }
     let(:html_body) do
       <<~HTML
@@ -9,12 +10,21 @@ RSpec.describe WebsiteBrandingService do
         <head>
           <title>Acme Corp | Home</title>
           <meta property="og:site_name" content="Acme Corp" />
-          <meta property="og:image" content="https://example.com/og-image.png" />
           <meta name="theme-color" content="#FF5733" />
           <link rel="icon" href="/favicon.ico" />
+          <link rel="shortcut icon" href="/favicon-32.png" />
+          <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+          <link rel="mask-icon" href="/safari-pinned-tab.svg" />
         </head>
         <body>
-          <header><a href="/">Home</a></header>
+          <header>
+            <a href="https://facebook.com/acmecorp">Facebook</a>
+            <a href="https://instagram.com/acme_corp">Instagram</a>
+          </header>
+          <nav>
+            <a href="https://facebook.com/acmecorp">FB</a>
+            <a href="https://t.me/acmecorp">TG</a>
+          </nav>
           <footer>
             <a href="https://facebook.com/acmecorp">Facebook</a>
             <a href="https://instagram.com/acme_corp">Instagram</a>
@@ -31,26 +41,19 @@ RSpec.describe WebsiteBrandingService do
       stub_request(:get, url).to_return(status: 200, body: html_body, headers: { 'content-type' => 'text/html' })
     end
 
-    it 'extracts business info, branding, and social handles' do
-      result = described_class.new(url).perform
+    it 'extracts basic brand info' do
+      result = described_class.new(email).perform
 
-      expect(result).to eq({
-                             business_name: 'Acme Corp',
-                             language: 'en',
-                             industry_category: nil,
-                             social_handles: {
-                               whatsapp: '1234567890',
-                               line: nil,
-                               facebook: 'acmecorp',
-                               instagram: 'acme_corp',
-                               telegram: 'acmecorp',
-                               tiktok: '@acmetok'
-                             },
-                             branding: {
-                               favicon: 'https://example.com/favicon.ico',
-                               primary_color: '#FF5733'
-                             }
-                           })
+      expect(result).to include(domain: 'example.com', title: 'Acme Corp', email: email,
+                                description: nil, slogan: nil, is_nsfw: false, industries: [])
+    end
+
+    it 'extracts colors, logos, and socials' do
+      result = described_class.new(email).perform
+
+      expect(result[:colors]).to eq([{ hex: '#FF5733', name: nil }])
+      expect(result[:logos].first[:url]).to eq('https://example.com/favicon.ico')
+      expect(result[:socials].map { |s| s[:type] }).to contain_exactly('facebook', 'instagram', 'whatsapp', 'telegram', 'tiktok')
     end
 
     context 'when og:site_name is missing' do
@@ -64,17 +67,18 @@ RSpec.describe WebsiteBrandingService do
       end
 
       it 'falls back to the first segment of the title' do
-        result = described_class.new(url).perform
-        expect(result[:business_name]).to eq('Mon Entreprise')
-        expect(result[:language]).to eq('fr')
+        result = described_class.new(email).perform
+        expect(result[:title]).to eq('Mon Entreprise')
       end
     end
 
     context 'when the page fails to load' do
       before { stub_request(:get, url).to_return(status: 500, body: '') }
 
-      it 'returns nil' do
-        expect(described_class.new(url).perform).to be_nil
+      it 'returns nil and sets http_status' do
+        service = described_class.new(email)
+        expect(service.perform).to be_nil
+        expect(service.http_status).to eq(500)
       end
     end
 
@@ -83,18 +87,7 @@ RSpec.describe WebsiteBrandingService do
 
       it 'logs the error and returns nil' do
         expect(Rails.logger).to receive(:error).with(/connection refused/)
-        expect(described_class.new(url).perform).to be_nil
-      end
-    end
-
-    context 'when URL has no scheme' do
-      before do
-        stub_request(:get, 'https://example.com').to_return(status: 200, body: html_body, headers: { 'content-type' => 'text/html' })
-      end
-
-      it 'prepends https://' do
-        result = described_class.new('example.com').perform
-        expect(result[:business_name]).to eq('Acme Corp')
+        expect(described_class.new(email).perform).to be_nil
       end
     end
 
@@ -109,8 +102,9 @@ RSpec.describe WebsiteBrandingService do
       end
 
       it 'extracts phone from query param' do
-        result = described_class.new(url).perform
-        expect(result[:social_handles][:whatsapp]).to eq('5511999999999')
+        result = described_class.new(email).perform
+        whatsapp = result[:socials].find { |s| s[:type] == 'whatsapp' }
+        expect(whatsapp[:url]).to eq('https://wa.me/5511999999999')
       end
     end
 
@@ -128,9 +122,10 @@ RSpec.describe WebsiteBrandingService do
       end
 
       it 'does not match lookalike domains' do
-        result = described_class.new(url).perform
-        expect(result[:social_handles][:facebook]).to be_nil
-        expect(result[:social_handles][:instagram]).to be_nil
+        result = described_class.new(email).perform
+        types = result[:socials].map { |s| s[:type] }
+        expect(types).not_to include('facebook')
+        expect(types).not_to include('instagram')
       end
     end
 
@@ -148,8 +143,8 @@ RSpec.describe WebsiteBrandingService do
       end
 
       it 'resolves the relative favicon URL' do
-        result = described_class.new(url).perform
-        expect(result[:branding][:favicon]).to eq('https://example.com/favicon.ico')
+        result = described_class.new(email).perform
+        expect(result[:logos].first[:url]).to eq('https://example.com/favicon.ico')
       end
     end
   end
