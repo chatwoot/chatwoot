@@ -65,7 +65,7 @@
           "PLACEHOLDER": "Enter the name of the webhook"
         },
         "END_POINT": {
-          "LABEL": "URL e Webhook",
+          "LABEL": "Webhook URL",
           "PLACEHOLDER": "Nümunə: {webhookExampleURL}",
           "ERROR": "Zəhmət olmasa düzgün URL daxil edin"
         },
