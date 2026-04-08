@@ -36,8 +36,8 @@
     "TIME_OF_DAY": {
       "MORNING": "早上",
       "AFTERNOON": "下午",
-      "EVENING": "晚上",
-      "NIGHT": "夜晚",
+      "EVENING": "傍晚",
+      "NIGHT": "晚上",
       "NOON": "中午",
       "MIDNIGHT": "午夜"
     },
@@ -65,7 +65,7 @@
       "FIFTH": "第五"
     },
     "OF": "的",
-    "AFTER": "後",
+    "AFTER": "之後",
     "WEEK": "週",
     "DAY": "天"
   }
