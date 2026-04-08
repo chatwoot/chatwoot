@@ -40,6 +40,10 @@ class ActionCableListener < BaseListener
 
   def message_created(event)
     message, account = extract_message_and_account(event)
+
+    # Skip broadcasting historical sync messages to the frontend
+    return if message.additional_attributes&.dig('whatsapp_message_type') == 'historical'
+
     conversation = message.conversation
     tokens = user_tokens(account, conversation.inbox.members) + contact_tokens(conversation.contact_inbox, message)
 

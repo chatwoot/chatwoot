@@ -9,53 +9,30 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
       return
     end
 
-    if message_echo_event?(params)
-      handle_message_echo(channel, params)
+    # Handle different webhook event types
+    if sync_event?(params)
+      handle_sync_events(channel, params)
     else
       handle_message_events(channel, params)
     end
   end
 
-  # Detects if the webhook is an SMB message echo event (message sent from WhatsApp Business app)
-  # This is part of WhatsApp coexistence feature where businesses can respond from both
-  # Chatwoot and the WhatsApp Business app, with messages synced to Chatwoot.
-  #
-  # Regular message payload (field: "messages"):
-  # {
-  #   "entry": [{
-  #     "changes": [{
-  #       "field": "messages",
-  #       "value": {
-  #         "contacts": [{ "wa_id": "919745786257", "profile": { "name": "Customer" } }],
-  #         "messages": [{ "from": "919745786257", "id": "wamid...", "text": { "body": "Hello" } }]
-  #       }
-  #     }]
-  #   }]
-  # }
-  #
-  # Echo message payload (field: "smb_message_echoes"):
-  # {
-  #   "entry": [{
-  #     "changes": [{
-  #       "field": "smb_message_echoes",
-  #       "value": {
-  #         "message_echoes": [{ "from": "971545296927", "to": "919745786257", "id": "wamid...", "text": { "body": "Hi" } }]
-  #       }
-  #     }]
-  #   }]
-  # }
-  #
-  # Key differences:
-  # - field: "smb_message_echoes" instead of "messages"
-  # - message_echoes[] instead of messages[]
-  # - "from" is the business number, "to" is the contact (reversed from regular messages)
-  # - No "contacts" array in echo payload
-  def message_echo_event?(params)
-    params.dig(:entry, 0, :changes, 0, :field) == 'smb_message_echoes'
+  private
+
+  def sync_event?(params)
+    field = params.dig(:entry, 0, :changes, 0, :field)
+    %w[smb_app_state_sync smb_message_echoes history].include?(field)
   end
 
-  def handle_message_echo(channel, params)
-    Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params, outgoing_echo: true).perform
+  def handle_sync_events(channel, params)
+    field = params.dig(:entry, 0, :changes, 0, :field)
+
+    case field
+    when 'smb_app_state_sync'
+      Whatsapp::ContactSyncService.new(inbox: channel.inbox, params: params).perform
+    when 'smb_message_echoes', 'history'
+      Whatsapp::ConversationSyncService.new(inbox: channel.inbox, params: params).perform
+    end
   end
 
   def handle_message_events(channel, params)
@@ -66,8 +43,6 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
       Whatsapp::IncomingMessageService.new(inbox: channel.inbox, params: params).perform
     end
   end
-
-  private
 
   def channel_is_inactive?(channel)
     return true if channel.blank?
