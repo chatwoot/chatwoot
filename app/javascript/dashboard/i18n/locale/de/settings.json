@@ -68,7 +68,8 @@
         "API_SUCCESS": "Signatur erfolgreich gespeichert",
         "IMAGE_UPLOAD_ERROR": "Bild konnte nicht hochgeladen werden! Versuchen Sie es erneut",
         "IMAGE_UPLOAD_SUCCESS": "Bild erfolgreich hinzugefügt. Bitte klicken Sie auf Speichern, um die Signatur zu speichern",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Bildgröße sollte kleiner als {size}MB sein"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Bildgröße sollte kleiner als {size}MB sein",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Nachrichten-Signatur",
