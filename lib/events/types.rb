@@ -57,4 +57,7 @@ module Events::Types
 
   # copilot events
   COPILOT_MESSAGE_CREATED = 'copilot.message.created'
+
+  # captain / knowledge base
+  CAPTAIN_DOCUMENT_UPDATED = 'captain.document.updated'
 end

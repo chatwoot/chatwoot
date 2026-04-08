@@ -2,13 +2,36 @@ class Captain::Documents::ResponseBuilderJob < ApplicationJob
   queue_as :low
 
   def perform(document, options = {})
+    document.merge_faq_generation_metadata!(
+      'status' => Captain::Document::FAQ_GENERATION_STATUS_PROCESSING,
+      'updated_at' => Time.current.iso8601
+    )
+
     reset_previous_responses(document)
 
     faqs = generate_faqs(document, options)
     create_responses_from_faqs(faqs, document)
+    finalize_faq_generation!(document, faqs)
+  rescue StandardError => e
+    document.merge_faq_generation_metadata!(
+      'status' => Captain::Document::FAQ_GENERATION_STATUS_FAILED,
+      'error' => e.message.to_s.truncate(500),
+      'updated_at' => Time.current.iso8601
+    )
+    raise e
   end
 
   private
+
+  def finalize_faq_generation!(document, faqs)
+    attrs = {
+      'status' => Captain::Document::FAQ_GENERATION_STATUS_COMPLETED,
+      'responses_count' => faqs.size,
+      'updated_at' => Time.current.iso8601
+    }
+    attrs['method'] = 'standard' unless should_use_pagination?(document)
+    document.merge_faq_generation_metadata!(attrs)
+  end
 
   def generate_faqs(document, options)
     if should_use_pagination?(document)
@@ -39,15 +62,11 @@ class Captain::Documents::ResponseBuilderJob < ApplicationJob
   end
 
   def store_paginated_metadata(document, service)
-    document.update!(
-      metadata: (document.metadata || {}).merge(
-        'faq_generation' => {
-          'method' => 'paginated',
-          'pages_processed' => service.total_pages_processed,
-          'iterations' => service.iterations_completed,
-          'timestamp' => Time.current.iso8601
-        }
-      )
+    document.merge_faq_generation_metadata!(
+      'method' => 'paginated',
+      'pages_processed' => service.total_pages_processed,
+      'iterations' => service.iterations_completed,
+      'timestamp' => Time.current.iso8601
     )
   end
 

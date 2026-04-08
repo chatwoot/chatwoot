@@ -138,6 +138,8 @@ onMounted(() => {
           :external-link="doc.external_link"
           :assistant="doc.assistant"
           :created-at="doc.created_at"
+          :status="doc.status"
+          :faq-generation="doc.faq_generation"
           @action="handleAction"
         />
       </div>

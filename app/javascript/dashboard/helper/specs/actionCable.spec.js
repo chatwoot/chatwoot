@@ -64,4 +64,32 @@ describe('ActionCableConnector - Copilot Tests', () => {
       );
     });
   });
+
+  describe('captain document event handlers', () => {
+    it('should handle captain.document.updated', () => {
+      const payload = {
+        id: 9,
+        assistant_id: 3,
+        status: 'available',
+        faq_generation: { status: 'processing' },
+        updated_at: 1_700_000_000,
+        account_id: 1,
+        performer: { id: 99 },
+      };
+      actionCable.onReceived({
+        event: 'captain.document.updated',
+        data: payload,
+      });
+      expect(mockDispatch).toHaveBeenCalledWith(
+        'captainDocuments/updateFromActionCable',
+        {
+          id: 9,
+          assistant_id: 3,
+          status: 'available',
+          faq_generation: { status: 'processing' },
+          updated_at: 1_700_000_000,
+        }
+      );
+    });
+  });
 });

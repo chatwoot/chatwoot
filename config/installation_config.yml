@@ -191,6 +191,10 @@
   display_title: 'OpenAI Model'
   description: 'The OpenAI model configured for use in Captain AI. Default: gpt-4.1-mini'
   locked: false
+- name: CAPTAIN_PDF_PROCESSING_MODEL
+  display_title: 'Captain PDF processing model (optional)'
+  description: 'LLM used when generating FAQs from PDF documents in Captain. Default: llama3.1:8b'
+  locked: false
 - name: CAPTAIN_OPEN_AI_ENDPOINT
   display_title: 'OpenAI API Endpoint (optional)'
   description: 'The OpenAI endpoint configured for use in Captain AI. Default: https://api.openai.com/'
@@ -198,6 +202,14 @@
 - name: CAPTAIN_EMBEDDING_MODEL
   display_title: 'Embedding Model (optional)'
   description: 'The embedding model configured for use in Captain AI. Default: text-embedding-3-small'
+  locked: false
+- name: CAPTAIN_EMBEDDING_DIMENSIONS
+  display_title: 'Embedding vector dimensions (optional)'
+  description: 'Output width for embeddings; must match the pgvector column (default 1536). Ollama accepts this on /v1/embeddings.'
+  locked: false
+- name: CAPTAIN_LLM_PROVIDER
+  display_title: 'Captain LLM provider (RubyLLM)'
+  description: 'RubyLLM backend slug for Captain chat, embeddings, and agents. Examples: ollama, openai, gemini. Default: ollama. Requires matching API keys / endpoints in RubyLLM config.'
   locked: false
 - name: CAPTAIN_FIRECRAWL_API_KEY
   display_title: 'FireCrawl API Key (optional)'

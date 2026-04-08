@@ -44,11 +44,18 @@ class Captain::Document < ApplicationRecord
     available: 1
   }
 
+  # Stored under metadata["faq_generation"]["status"] for dashboard progress UI.
+  FAQ_GENERATION_STATUS_QUEUED = 'queued'.freeze
+  FAQ_GENERATION_STATUS_PROCESSING = 'processing'.freeze
+  FAQ_GENERATION_STATUS_COMPLETED = 'completed'.freeze
+  FAQ_GENERATION_STATUS_FAILED = 'failed'.freeze
+
   before_create :ensure_within_plan_limit
   after_create_commit :enqueue_crawl_job
   after_create_commit :update_document_usage
   after_destroy :update_document_usage
   after_commit :enqueue_response_builder_job
+  after_commit :broadcast_captain_document_after_update, on: :update
   scope :ordered, -> { order(created_at: :desc) }
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
@@ -86,7 +93,64 @@ class Captain::Document < ApplicationRecord
     end
   end
 
+  # Payload for ActionCable (dashboard live document / FAQ status).
+  def push_event_data
+    {
+      id: id,
+      assistant_id: assistant_id,
+      status: status,
+      faq_generation: metadata&.dig('faq_generation'),
+      updated_at: updated_at.to_i
+    }
+  end
+
+  # Merges into metadata["faq_generation"] without callbacks (avoids re-enqueue loops).
+  def merge_faq_generation_metadata!(attrs)
+    return if destroyed?
+
+    attrs = attrs.stringify_keys
+    with_lock do
+      new_meta = (metadata || {}).deep_dup
+      current = (new_meta['faq_generation'] || {}).stringify_keys
+      new_meta['faq_generation'] = current.merge(attrs)
+      # Intentionally skip callbacks so FAQ status updates do not re-enqueue ResponseBuilderJob.
+      update_columns(metadata: new_meta, updated_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
+      reload # sync in-memory state for broadcasts
+    end
+    broadcast_captain_document_update!
+  end
+
+  def broadcast_captain_document_update!
+    return if destroyed?
+
+    Rails.configuration.dispatcher.dispatch(
+      Events::Types::CAPTAIN_DOCUMENT_UPDATED,
+      Time.zone.now,
+      captain_document: self
+    )
+  end
+
   private
+
+  # merge_faq_generation_metadata! already broadcasts; avoid duplicate / stale payloads.
+  def broadcast_captain_document_after_update
+    return if destroyed?
+
+    pc = previous_changes
+    return unless pc.keys.intersect?(%w[status content metadata name])
+    return if faq_enqueue_fired_for_this_commit?
+
+    broadcast_captain_document_update!
+  end
+
+  def faq_enqueue_fired_for_this_commit?
+    return false unless available?
+
+    pc = previous_changes
+    return pc.key?('status') if pdf_document?
+
+    (pc.key?('status') || pc.key?('content')) && content.present?
+  end
 
   def enqueue_crawl_job
     return if status != 'in_progress'
@@ -97,6 +161,10 @@ class Captain::Document < ApplicationRecord
   def enqueue_response_builder_job
     return unless should_enqueue_response_builder?
 
+    merge_faq_generation_metadata!(
+      'status' => FAQ_GENERATION_STATUS_QUEUED,
+      'updated_at' => Time.current.iso8601
+    )
     Captain::Documents::ResponseBuilderJob.perform_later(self)
   end
 

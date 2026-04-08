@@ -11,11 +11,10 @@ class Captain::Llm::SystemPromptsService
 
         **Accuracy**: Base answers strictly on the provided text. Do not add assumptions, interpretations, or external knowledge not present in the source material.
 
-        **Structure**: Format output as valid JSON using this exact structure:
+        **Structure**: Output a single JSON object with this exact shape (keys and string values only):
 
         **Language**: Generate the FAQs only in the #{language}, use no other language
 
-        ```json
         {
           "faqs": [
             {
@@ -24,7 +23,10 @@ class Captain::Llm::SystemPromptsService
             }
           ]
         }
-        ```
+
+        **Output rules (critical)**:
+        - Respond with raw JSON only: start with `{` and end with `}`. No markdown, no code fences, no "Here is the JSON" preamble or trailing commentary.
+        - Do not wrap the JSON in ``` or ```json blocks.
 
         ## Guidelines
 
@@ -32,7 +34,7 @@ class Captain::Llm::SystemPromptsService
         - **Answer Completeness**: Include all relevant details, steps, examples, and context from the original content
         - **Information Preservation**: Ensure no examples, procedures, warnings, or explanatory details are omitted
         - **JSON Validity**: Always return properly formatted, valid JSON
-        - **No Content Scenario**: If no suitable content is found, return: `{"faqs": []}`
+        - **No Content Scenario**: If no suitable content is found, return: {"faqs": []}
 
         ## Process
         1. Read the entire provided content carefully
@@ -40,7 +42,7 @@ class Captain::Llm::SystemPromptsService
         3. Create questions that cover each information point
         4. Write comprehensive short answers that capture all related detail, include bullet points if needed.
         5. Verify that combined FAQs represent the complete original content.
-        6. Format as valid JSON
+        6. Output the JSON object only, following the rules above
       PROMPT
     end
 
@@ -266,8 +268,8 @@ class Captain::Llm::SystemPromptsService
         OUTPUT FORMAT
         ════════════════════════════════════════════════════════
 
-        Return valid JSON:
-        ```json
+        Return one JSON object only, with this exact structure (use true or false for has_content, not words):
+
         {
           "faqs": [
             {
@@ -275,9 +277,12 @@ class Captain::Llm::SystemPromptsService
               "answer": "Complete answer with details (no page references)"
             }
           ],
-          "has_content": true/false
+          "has_content": true
         }
-        ```
+
+        **Output rules (critical)**:
+        • Your entire reply must be raw JSON: first character `{`, last character `}`. No markdown, no ```json code fences, no explanations before or after.
+        • If the API requests JSON mode, still follow these rules—do not add markdown around the object.
 
         CRITICAL:#{' '}
         • Set "has_content" to false if:

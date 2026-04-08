@@ -33,9 +33,20 @@ module Llm::Config
     def configure_ruby_llm
       RubyLLM.configure do |config|
         config.openai_api_key = system_api_key if system_api_key.present?
-        config.openai_api_base = openai_endpoint.chomp('/') if openai_endpoint.present?
+        if (base = captain_api_base)
+          config.openai_api_base = base
+          config.ollama_api_base = base
+        end
         config.logger = Rails.logger
       end
+    end
+
+    # OpenAI-compatible base URL (…/v1) shared by Captain chat (Ollama) and embeddings.
+    def captain_api_base
+      return if openai_endpoint.blank?
+
+      endpoint = openai_endpoint.chomp('/')
+      endpoint.end_with?('/v1') ? endpoint : "#{endpoint}/v1"
     end
 
     def system_api_key

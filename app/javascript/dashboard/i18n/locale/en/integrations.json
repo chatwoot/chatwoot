@@ -729,6 +729,12 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
+      "STATUS": {
+        "INGESTING": "Processing document…",
+        "FAQ_QUEUED": "Queued for FAQ generation…",
+        "FAQ_PROCESSING": "Generating FAQs…",
+        "FAQ_FAILED": "FAQ generation failed"
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
         "DESCRIPTION": "These FAQs are generated directly from the document."

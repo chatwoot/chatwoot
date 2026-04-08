@@ -21,4 +21,26 @@ describe ActionCableListener do
       listener.copilot_message_created(event)
     end
   end
+
+  describe '#captain_document_updated' do
+    let(:event_name) { :captain_document_updated }
+    let(:account) { create(:account) }
+    let(:user) { create(:user, :administrator, account: account) }
+    let(:assistant) { create(:captain_assistant, account: account) }
+    let(:document) { create(:captain_document, assistant: assistant, account: account, status: :available) }
+    let(:event) { Events::Base.new(event_name, Time.zone.now, captain_document: document) }
+    let(:listener) { described_class.instance }
+
+    before { user }
+
+    it 'broadcasts to account agents' do
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        array_including(user.pubsub_token),
+        'captain.document.updated',
+        document.push_event_data.merge(account_id: account.id)
+      )
+
+      listener.captain_document_updated(event)
+    end
+  end
 end

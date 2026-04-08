@@ -68,10 +68,12 @@ RSpec.describe Captain::Documents::ResponseBuilderJob, type: :job do
     context 'when processing a PDF document' do
       let(:pdf_document) do
         doc = create(:captain_document, assistant: assistant)
-        allow(doc).to receive(:pdf_document?).and_return(true)
-        allow(doc).to receive(:openai_file_id).and_return('file-123')
-        allow(doc).to receive(:update!).and_return(true)
-        allow(doc).to receive(:metadata).and_return({})
+        pdf_attachment = instance_double(ActiveStorage::Attached::One, attached?: true)
+        allow(doc).to receive_messages(
+          pdf_document?: true,
+          pdf_file: pdf_attachment,
+          openai_file_id: 'file-123'
+        )
         doc
       end
       let(:paginated_service) { instance_double(Captain::Llm::PaginatedFaqGeneratorService) }
@@ -95,9 +97,12 @@ RSpec.describe Captain::Documents::ResponseBuilderJob, type: :job do
       end
 
       it 'stores pagination metadata' do
-        expect(pdf_document).to receive(:update!).with(hash_including(metadata: hash_including('faq_generation')))
-
         described_class.new.perform(pdf_document)
+
+        pdf_document.reload
+        fg = pdf_document.metadata['faq_generation']
+        expect(fg['method']).to eq('paginated')
+        expect(fg['status']).to eq('completed')
       end
     end
   end

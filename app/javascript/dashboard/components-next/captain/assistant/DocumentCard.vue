@@ -34,6 +34,14 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  status: {
+    type: String,
+    default: 'available',
+  },
+  faqGeneration: {
+    type: Object,
+    default: null,
+  },
 });
 
 const emit = defineEmits(['action']);
@@ -72,6 +80,25 @@ const linkIcon = computed(() =>
   isPdfDocument(props.externalLink) ? 'i-ph-file-pdf' : 'i-ph-link-simple'
 );
 
+const processingStatusLabel = computed(() => {
+  if (props.status === 'in_progress') {
+    return t('CAPTAIN.DOCUMENTS.STATUS.INGESTING');
+  }
+  const st = props.faqGeneration?.status;
+  if (st === 'queued') return t('CAPTAIN.DOCUMENTS.STATUS.FAQ_QUEUED');
+  if (st === 'processing') return t('CAPTAIN.DOCUMENTS.STATUS.FAQ_PROCESSING');
+  if (st === 'failed') return t('CAPTAIN.DOCUMENTS.STATUS.FAQ_FAILED');
+  return '';
+});
+
+const showProcessingStatus = computed(() => processingStatusLabel.value !== '');
+
+const showStatusSpinner = computed(() => {
+  if (props.status === 'in_progress') return true;
+  const st = props.faqGeneration?.status;
+  return st === 'queued' || st === 'processing';
+});
+
 const handleAction = ({ action, value }) => {
   toggleDropdown(false);
   emit('action', { action, value, id: props.id });
@@ -81,10 +108,26 @@ const handleAction = ({ action, value }) => {
 <template>
   <CardLayout>
     <div class="flex gap-1 justify-between w-full">
-      <span class="line-clamp-1 text-base text-on-surface">
-        {{ name }}
-      </span>
-      <div class="flex gap-2 items-center">
+      <div class="flex flex-col gap-1 min-w-0 flex-1">
+        <span class="line-clamp-1 text-base text-on-surface">
+          {{ name }}
+        </span>
+        <span
+          v-if="showProcessingStatus"
+          class="inline-flex items-center gap-1.5 text-xs text-secondary"
+        >
+          <i
+            v-if="showStatusSpinner"
+            class="i-lucide-loader-2 size-3.5 shrink-0 animate-spin text-secondary"
+          />
+          <i
+            v-else
+            class="i-lucide-circle-alert size-3.5 shrink-0 text-warning"
+          />
+          {{ processingStatusLabel }}
+        </span>
+      </div>
+      <div class="flex gap-2 items-center shrink-0">
         <div
           v-on-clickaway="() => toggleDropdown(false)"
           class="flex relative items-center group"

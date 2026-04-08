@@ -10,12 +10,13 @@ class Llm::BaseAiService
 
   def initialize
     Llm::Config.initialize!
+    @ruby_llm_provider = LlmConstants.captain_ruby_llm_provider
     setup_model
     setup_temperature
   end
 
   def chat(model: @model, temperature: @temperature)
-    RubyLLM.chat(provider: :ollama, model: model).with_temperature(temperature)
+    RubyLLM.chat(provider: @ruby_llm_provider, model: model).with_temperature(temperature)
   end
 
   private

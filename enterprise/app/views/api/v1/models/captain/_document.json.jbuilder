@@ -11,4 +11,5 @@ json.file_size resource.file_size
 json.id resource.id
 json.name resource.name
 json.status resource.status
+json.faq_generation resource.metadata&.dig('faq_generation')
 json.updated_at resource.updated_at.to_i

@@ -15,7 +15,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
     @max_pages = options[:max_pages] # Optional limit from UI
     @total_pages_processed = 0
     @iterations_completed = 0
-    @model = LlmConstants::PDF_PROCESSING_MODEL
+    @model = LlmConstants.captain_pdf_processing_model
     @pdf_pages = []
     @total_pages = 0
   end
@@ -179,7 +179,10 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
     content = response.dig('choices', 0, 'message', 'content')
     return [] if content.nil?
 
-    JSON.parse(content.strip).fetch('faqs', [])
+    json_text = Captain::JsonPayloadExtractor.json_string_from_content(content)
+    return [] if json_text.blank?
+
+    JSON.parse(json_text).fetch('faqs', [])
   rescue JSON::ParserError => e
     Rails.logger.error "Error parsing response: #{e.message}"
     []
@@ -189,7 +192,10 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
     content = response.dig('choices', 0, 'message', 'content')
     return { 'faqs' => [], 'has_content' => false } if content.nil?
 
-    JSON.parse(content.strip)
+    json_text = Captain::JsonPayloadExtractor.json_string_from_content(content)
+    return { 'faqs' => [], 'has_content' => false } if json_text.blank?
+
+    JSON.parse(json_text)
   rescue JSON::ParserError => e
     Rails.logger.error "Error parsing chunk response: #{e.message}"
     { 'faqs' => [], 'has_content' => false }
