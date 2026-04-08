@@ -26,8 +26,8 @@ RSpec.describe 'Accounts API', type: :request do
 
           expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password]))
           expect(account_builder).to have_received(:perform)
-          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
-          expect(response.body).to include('en')
+          expect(response.headers.keys).not_to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+          expect(response.parsed_body['email']).to eq(email)
         end
       end
 
@@ -46,8 +46,8 @@ RSpec.describe 'Accounts API', type: :request do
                as: :json
 
           expect(ChatwootCaptcha).to have_received(:new).with('123')
-          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
-          expect(response.body).to include('en')
+          expect(response.headers.keys).not_to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+          expect(response.parsed_body['email']).to eq(email)
         end
       end
 
@@ -64,6 +64,23 @@ RSpec.describe 'Accounts API', type: :request do
           expect(AccountBuilder).not_to have_received(:new)
           expect(response).to have_http_status(:forbidden)
           expect(response.body).to eq({ message: I18n.t('errors.signup.invalid_params') }.to_json)
+        end
+      end
+    end
+
+    context 'when an authenticated user creates a second account' do
+      let(:existing_user) { create(:user, password: 'Password1!') }
+
+      it 'returns the full response with account_id' do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          post api_v1_accounts_url,
+               params: { account_name: 'Second Account', email: existing_user.email,
+                         user_full_name: existing_user.name, password: 'Password1!' },
+               headers: existing_user.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body.dig('data', 'account_id')).to be_present
         end
       end
     end
@@ -105,7 +122,17 @@ RSpec.describe 'Accounts API', type: :request do
     end
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to api_only' do
-      it 'does not respond 404 on requests' do
+      before do
+        GlobalConfig.clear_cache
+        InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+      end
+
+      after do
+        InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+        GlobalConfig.clear_cache
+      end
+
+      it 'returns auth headers and full response for api_only signup' do
         params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'api_only' do
           post api_v1_accounts_url,
@@ -113,6 +140,21 @@ RSpec.describe 'Accounts API', type: :request do
                as: :json
 
           expect(response).to have_http_status(:success)
+          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+        end
+      end
+    end
+
+    context 'when CW_API_ONLY_SERVER is true' do
+      it 'returns auth headers and full response' do
+        params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true', CW_API_ONLY_SERVER: 'true' do
+          post api_v1_accounts_url,
+               params: params,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
         end
       end
     end

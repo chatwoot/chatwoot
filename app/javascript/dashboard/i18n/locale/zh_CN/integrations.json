@@ -393,9 +393,9 @@
     "HEADER_KNOW_MORE": "了解更多",
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "助手",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "SWITCH_ASSISTANT": "在助手之间切换",
+      "NEW_ASSISTANT": "创建助手",
+      "EMPTY_LIST": "未找到助手，请创建一个以开始使用"
     },
     "COPILOT": {
       "TITLE": "Copilot",
@@ -449,7 +449,7 @@
       "CANCEL_ANYTIME": "您可以随时更改或取消您的计划"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
+      "AVAILABLE_ON": "Captain AI 仅适用于企业计划。",
       "UPGRADE_PROMPT": "升级您的计划以获取我们的助手、副驾驶等功能。",
       "ASK_ADMIN": "请联系您的管理员进行升级。"
     },
@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "文档",
       "ADD_NEW": "创建新文档",
+      "SELECTED": "{count} 已选择",
+      "SELECT_ALL": "全选 ({count})",
+      "UNSELECT_ALL": "取消全选({count})",
+      "BULK_DELETE_BUTTON": "删除",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "是，全部删除",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "相关常见问题",
         "DESCRIPTION": "这些常见问题直接从文档生成。"
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "工具",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -825,11 +837,18 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "描述信息",
