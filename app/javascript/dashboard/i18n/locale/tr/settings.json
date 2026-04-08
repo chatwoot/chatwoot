@@ -68,7 +68,8 @@
         "API_SUCCESS": "İmza başarıyla kaydedildi",
         "IMAGE_UPLOAD_ERROR": "Resim yüklenemedi! Tekrar deneyin",
         "IMAGE_UPLOAD_SUCCESS": "Resim başarıyla eklendi. İmzayı kaydetmek için lütfen kaydet'e tıklayın",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu {size}MB'dan küçük olmalıdır"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu {size}MB'dan küçük olmalıdır",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "İmzanız",
