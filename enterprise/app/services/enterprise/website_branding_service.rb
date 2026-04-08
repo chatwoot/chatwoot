@@ -49,19 +49,15 @@ module Enterprise::WebsiteBrandingService
       description: brand['description'],
       slogan: brand['slogan'],
       phone: brand['phone'],
-      address: brand['address']&.symbolize_keys,
-      colors: deep_symbolize_array(brand['colors']),
-      logos: deep_symbolize_array(brand['logos']),
-      socials: deep_symbolize_array(brand['socials']),
-      links: brand['links']&.symbolize_keys,
+      address: brand['address'],
+      colors: brand['colors'] || [],
+      logos: brand['logos'] || [],
+      socials: brand['socials'] || [],
+      links: brand['links'],
       email: @email,
-      industries: deep_symbolize_array(brand.dig('industries', 'eic')),
-      stock: brand['stock']&.symbolize_keys,
+      industries: brand.dig('industries', 'eic') || [],
+      stock: brand['stock'],
       is_nsfw: brand['is_nsfw'] || false
-    }
-  end
-
-  def deep_symbolize_array(arr)
-    (arr || []).map(&:deep_symbolize_keys)
+    }.deep_symbolize_keys
   end
 end
