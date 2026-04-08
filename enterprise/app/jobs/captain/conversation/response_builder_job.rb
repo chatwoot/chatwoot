@@ -10,6 +10,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
     Current.executed_by = @assistant
 
+    show_whatsapp_typing_while_ai_processes
+
     Rails.logger.info "Captain::Conversation::ResponseBuilderJob: captain_v2_enabled? #{captain_v2_enabled?}"
     if captain_v2_enabled?
       generate_response_with_v2
@@ -27,6 +29,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   private
+
+  def show_whatsapp_typing_while_ai_processes
+    Whatsapp::TypingIndicatorService.new(conversation: @conversation).perform
+  end
 
   delegate :account, :inbox, to: :@conversation
 
