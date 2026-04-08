@@ -12,8 +12,19 @@ RSpec.describe WebsiteBrandingService do
           <meta property="og:site_name" content="Acme Corp" />
           <meta name="theme-color" content="#FF5733" />
           <link rel="icon" href="/favicon.ico" />
+          <link rel="shortcut icon" href="/favicon-32.png" />
+          <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+          <link rel="mask-icon" href="/safari-pinned-tab.svg" />
         </head>
         <body>
+          <header>
+            <a href="https://facebook.com/acmecorp">Facebook</a>
+            <a href="https://instagram.com/acme_corp">Instagram</a>
+          </header>
+          <nav>
+            <a href="https://facebook.com/acmecorp">FB</a>
+            <a href="https://t.me/acmecorp">TG</a>
+          </nav>
           <footer>
             <a href="https://facebook.com/acmecorp">Facebook</a>
             <a href="https://instagram.com/acme_corp">Instagram</a>
