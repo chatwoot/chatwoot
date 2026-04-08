@@ -68,7 +68,8 @@
         "API_SUCCESS": "ፊርማው በተሳካ ሁኔታ ተቀምጧል",
         "IMAGE_UPLOAD_ERROR": "ምስሉን ማስገባት አልተቻለም! እባክዎ እንደገና ይሞክሩ",
         "IMAGE_UPLOAD_SUCCESS": "ምስሉ በተሳካ ሁኔታ ታክሏል። እባክዎ ማስቀመጫ ለማስቀመጥ ላይ ይጫኑ",
-        "IMAGE_UPLOAD_SIZE_ERROR": "የምስል መጠን ከ{size}MB በታች መሆን አለበት"
+        "IMAGE_UPLOAD_SIZE_ERROR": "የምስል መጠን ከ{size}MB በታች መሆን አለበት",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "የመልእክት ፊርማ",
