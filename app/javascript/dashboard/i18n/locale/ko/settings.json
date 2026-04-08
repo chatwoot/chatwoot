@@ -68,7 +68,8 @@
         "API_SUCCESS": "서명이 성공적으로 저장되었습니다",
         "IMAGE_UPLOAD_ERROR": "이미지를 업로드할 수 없습니다! 다시 시도하십시오",
         "IMAGE_UPLOAD_SUCCESS": "이미지가 성공적으로 추가되었습니다. 저장을 클릭하여 서명을 저장하십시오",
-        "IMAGE_UPLOAD_SIZE_ERROR": "이미지 크기는 {size}MB 미만이어야 합니다"
+        "IMAGE_UPLOAD_SIZE_ERROR": "이미지 크기는 {size}MB 미만이어야 합니다",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "메시지 서명",
