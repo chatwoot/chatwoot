@@ -52,6 +52,14 @@ ne:
       not_found: Assignment policy not found
     attachments:
       invalid: Invalid attachment
+    upload:
+      missing_input: 'No file or URL provided'
+      invalid_url: 'Invalid URL provided'
+      fetch_failed: 'Failed to fetch file from URL'
+      fetch_failed_with_message: 'Failed to fetch file from URL: %{message}'
+      file_too_large: 'File exceeds the maximum allowed size'
+      unsupported_content_type: 'File type not supported (only images and videos are allowed)'
+      unexpected: 'An unexpected error occurred'
     saml:
       feature_not_enabled: यस खाताको लागि SAML सुविधा सक्षम गरिएको छैन
       sso_not_enabled: SAML SSO is not enabled for this installation
