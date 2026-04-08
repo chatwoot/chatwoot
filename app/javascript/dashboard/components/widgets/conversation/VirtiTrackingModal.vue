@@ -42,7 +42,7 @@ const trackingFields = computed(() => {
   if (!tracking.value) return [];
   const t = tracking.value;
   const utm = t.utm || {};
-  return [
+  const fields = [
     { label: 'Referer', value: t.referer },
     { label: 'URL Atual', value: t.url_atual },
     { label: 'UTM Source', value: utm.utm_source },
@@ -52,12 +52,21 @@ const trackingFields = computed(() => {
     { label: 'UTM Term', value: utm.utm_term },
     { label: 'GCLID', value: t.gclid },
     { label: 'FBCLID', value: t.fbclid },
+    { label: 'Anúncio (URL)', value: t.source_url },
+    { label: 'Tipo de Origem', value: t.source_type },
+    { label: 'ID do Anúncio', value: t.source_id },
+    { label: 'Título do Anúncio', value: t.headline },
+    { label: 'Texto do Anúncio', value: t.body },
+    { label: 'CTWA Click ID', value: t.ctwa_clid },
+    { label: 'Tipo de Mídia', value: t.media_type },
+    { label: 'URL da Imagem', value: t.image_url },
+    { label: 'URL do Vídeo', value: t.video_url },
+    { label: 'Thumbnail', value: t.thumbnail_url },
   ];
+  return fields.filter(f => f.value);
 });
 
-const hasTrackingData = computed(() =>
-  trackingFields.value.some(f => f.value)
-);
+const hasTrackingData = computed(() => trackingFields.value.length > 0);
 
 const fetchData = async () => {
   isLoading.value = true;
