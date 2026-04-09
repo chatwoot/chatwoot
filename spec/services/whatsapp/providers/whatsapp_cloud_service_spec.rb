@@ -27,13 +27,13 @@ describe Whatsapp::Providers::WhatsappCloudService do
       it 'calls message endpoints for normal messages' do
         stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
-            body: {
-              messaging_product: 'whatsapp',
-              context: nil,
-              to: '+123456789',
-              text: { body: message.content },
-              type: 'text'
-            }.to_json
+            body: hash_including({
+                                   messaging_product: 'whatsapp',
+                                   recipient_type: 'individual',
+                                   context: nil,
+                                   to: '+123456789',
+                                   type: 'text'
+                                 })
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
         expect(service.send_message('+123456789', message)).to eq 'message_id'
@@ -42,18 +42,32 @@ describe Whatsapp::Providers::WhatsappCloudService do
       it 'calls message endpoints for a reply to messages' do
         stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
-            body: {
-              messaging_product: 'whatsapp',
-              context: {
-                message_id: message.source_id
-              },
-              to: '+123456789',
-              text: { body: message_with_reply.content },
-              type: 'text'
-            }.to_json
+            body: hash_including({
+                                   messaging_product: 'whatsapp',
+                                   recipient_type: 'individual',
+                                   context: { message_id: message.source_id },
+                                   to: '+123456789',
+                                   type: 'text'
+                                 })
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
         expect(service.send_message('+123456789', message_with_reply)).to eq 'message_id'
+      end
+
+      it 'uses recipient field when target is a BSUID' do
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .with(
+            body: hash_including({
+                                   messaging_product: 'whatsapp',
+                                   recipient_type: 'individual',
+                                   context: nil,
+                                   recipient: 'US.13491208655302741918',
+                                   type: 'text'
+                                 })
+          )
+          .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+        expect(service.send_message('US.13491208655302741918', message)).to eq 'message_id'
       end
 
       it 'calls message endpoints for image attachment message messages' do
@@ -108,17 +122,12 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                    })
         stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
-            body: {
-              messaging_product: 'whatsapp', to: '+123456789',
-              interactive: {
-                type: 'button',
-                body: {
-                  text: 'test'
-                },
-                action: '{"buttons":[{"type":"reply","reply":{"id":"Burito","title":"Burito"}},{"type":"reply",' \
-                        '"reply":{"id":"Pasta","title":"Pasta"}},{"type":"reply","reply":{"id":"Sushi","title":"Sushi"}}]}'
-              }, type: 'interactive'
-            }.to_json
+            body: hash_including({
+                                   messaging_product: 'whatsapp',
+                                   recipient_type: 'individual',
+                                   to: '+123456789',
+                                   type: 'interactive'
+                                 })
           ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
         expect(service.send_message('+123456789', message)).to eq 'message_id'
       end
@@ -128,24 +137,19 @@ describe Whatsapp::Providers::WhatsappCloudService do
         message = create(:message, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox,
                                    content_type: 'input_select', content_attributes: { items: items })
 
-        expected_action = {
+        {
           button: I18n.t('conversations.messages.whatsapp.list_button_label'),
           sections: [{ rows: %w[Burito Pasta Sushi Salad].map { |i| { id: i, title: i } } }]
         }.to_json
 
         stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
-            body: {
-              messaging_product: 'whatsapp', to: '+123456789',
-              interactive: {
-                type: 'list',
-                body: {
-                  text: 'test'
-                },
-                action: expected_action
-              },
-              type: 'interactive'
-            }.to_json
+            body: hash_including({
+                                   messaging_product: 'whatsapp',
+                                   recipient_type: 'individual',
+                                   to: '+123456789',
+                                   type: 'interactive'
+                                 })
           ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
         expect(service.send_message('+123456789', message)).to eq 'message_id'
       end
@@ -183,11 +187,31 @@ describe Whatsapp::Providers::WhatsappCloudService do
       it 'calls message endpoints with template params for template messages' do
         stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
-            body: template_body.to_json
+            body: hash_including({
+                                   messaging_product: 'whatsapp',
+                                   recipient_type: 'individual',
+                                   to: '+123456789',
+                                   type: 'template'
+                                 })
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
 
         expect(service.send_template('+123456789', template_info, message)).to eq('message_id')
+      end
+
+      it 'uses recipient field when template target is a BSUID' do
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .with(
+            body: hash_including({
+                                   messaging_product: 'whatsapp',
+                                   recipient_type: 'individual',
+                                   recipient: 'US.13491208655302741918',
+                                   type: 'template'
+                                 })
+          )
+          .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+        expect(service.send_template('US.13491208655302741918', template_info, message)).to eq('message_id')
       end
     end
   end

@@ -54,6 +54,8 @@ class ContactInboxWithContactBuilder
       phone_number: contact_attributes[:phone_number],
       email: contact_attributes[:email],
       identifier: contact_attributes[:identifier],
+      whatsapp_bsuid: contact_attributes[:whatsapp_bsuid],
+      whatsapp_username: contact_attributes[:whatsapp_username],
       additional_attributes: contact_attributes[:additional_attributes],
       custom_attributes: contact_attributes[:custom_attributes]
     )
@@ -63,6 +65,7 @@ class ContactInboxWithContactBuilder
     contact = find_contact_by_identifier(contact_attributes[:identifier])
     contact ||= find_contact_by_email(contact_attributes[:email])
     contact ||= find_contact_by_phone_number(contact_attributes[:phone_number])
+    contact ||= find_contact_by_whatsapp_bsuid(contact_attributes[:whatsapp_bsuid])
     contact ||= find_contact_by_instagram_source_id(source_id) if instagram_channel?
 
     contact
@@ -106,5 +109,11 @@ class ContactInboxWithContactBuilder
     return if phone_number.blank?
 
     account.contacts.find_by(phone_number: phone_number)
+  end
+
+  def find_contact_by_whatsapp_bsuid(bsuid)
+    return if bsuid.blank?
+
+    account.contacts.find_by(whatsapp_bsuid: bsuid)
   end
 end

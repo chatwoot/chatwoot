@@ -2,6 +2,7 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   queue_as :low
 
   def perform(params = {})
+    params = params.deep_symbolize_keys
     channel = find_channel_from_whatsapp_business_payload(params)
 
     if channel_is_inactive?(channel)
@@ -87,7 +88,16 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     # for the case where facebook cloud api support multiple numbers for a single app
     # https://github.com/chatwoot/chatwoot/issues/4712#issuecomment-1173838350
     # we will give priority to the phone_number in the payload
-    return get_channel_from_wb_payload(params) if params[:object] == 'whatsapp_business_account'
+    if params[:object] == 'whatsapp_business_account'
+      channel = get_channel_from_wb_payload(params)
+      return channel if channel.present?
+
+      # Fallback to URL phone number for environments where payload metadata
+      # can be stale/mismatched but the webhook endpoint is tied to a valid channel.
+      return find_channel_by_url_param(params) if wb_metadata_present?(params)
+
+      return
+    end
 
     find_channel_by_url_param(params)
   end
@@ -98,5 +108,10 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     channel = Channel::Whatsapp.find_by(phone_number: phone_number)
     # validate to ensure the phone number id matches the whatsapp channel
     return channel if channel && channel.provider_config['phone_number_id'] == phone_number_id
+  end
+
+  def wb_metadata_present?(params)
+    metadata = params.dig(:entry, 0, :changes, 0, :value, :metadata)
+    metadata.present? && metadata[:display_phone_number].present? && metadata[:phone_number_id].present?
   end
 end

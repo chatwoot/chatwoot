@@ -42,6 +42,14 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect_message_has_attachment
       end
 
+      it 'processes symbolized webhook params' do
+        stub_media_url_request
+        stub_sample_png_request
+        described_class.new(inbox: whatsapp_channel.inbox, params: params.deep_symbolize_keys).perform
+        expect_conversation_created
+        expect_message_content
+      end
+
       it 'increments reauthorization count if fetching attachment fails' do
         stub_request(
           :get,
@@ -165,9 +173,158 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         end
       end
     end
+
+    context 'when webhook contains BSUID without phone number' do
+      let(:bsuid_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{
+                  profile: { name: 'Sheena Nelson', username: '@realsheenanelson' },
+                  user_id: 'US.13491208655302741918'
+                }],
+                messages: [{
+                  from_user_id: 'US.13491208655302741918',
+                  id: 'wamid.BSUID_MESSAGE_ID',
+                  timestamp: '1770407829',
+                  text: { body: 'Hello from username user' },
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'creates contact inbox using BSUID source_id and without invalid phone number' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: bsuid_params).perform
+
+        contact_inbox = whatsapp_channel.inbox.contact_inboxes.last
+        expect(contact_inbox.source_id).to eq('US.13491208655302741918')
+        expect(contact_inbox.contact.phone_number).to be_nil
+        expect(contact_inbox.contact.whatsapp_username).to eq('realsheenanelson')
+        expect(whatsapp_channel.inbox.messages.last.content).to eq('Hello from username user')
+      end
+    end
+
+    context 'when processing symbolized location payload' do
+      let(:location_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Location User' }, wa_id: '16505551234' }],
+                messages: [{
+                  from: '16505551234',
+                  id: 'wamid.LOCATION_MESSAGE_ID',
+                  timestamp: '1770407829',
+                  type: 'location',
+                  location: {
+                    latitude: '40.7128',
+                    longitude: '-74.0060',
+                    name: 'NYC',
+                    address: 'Manhattan'
+                  }
+                }]
+              }
+            }]
+          }]
+        }.deep_symbolize_keys
+      end
+
+      it 'creates location attachment successfully' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: location_params).perform
+
+        attachment = whatsapp_channel.inbox.messages.last.attachments.last
+        expect(attachment.file_type).to eq('location')
+        expect(attachment.coordinates_lat).to eq(40.7128)
+        expect(attachment.coordinates_long).to eq(-74.006)
+      end
+    end
+
+    context 'when processing symbolized contacts payload' do
+      let(:contact_card_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Contact Card User' }, wa_id: '16505550001' }],
+                messages: [{
+                  from: '16505550001',
+                  id: 'wamid.CONTACT_CARD_MESSAGE_ID',
+                  timestamp: '1770407829',
+                  type: 'contacts',
+                  contacts: [{
+                    name: { first_name: 'Jane', last_name: 'Doe' },
+                    phones: [{ phone: '+16505550002' }]
+                  }]
+                }]
+              }
+            }]
+          }]
+        }.deep_symbolize_keys
+      end
+
+      it 'creates contact card attachment successfully' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: contact_card_params).perform
+
+        attachment = whatsapp_channel.inbox.messages.last.attachments.last
+        expect(attachment.fallback_title).to eq('+16505550002')
+        expect(attachment.meta).to eq({ 'firstName' => 'Jane', 'lastName' => 'Doe' })
+      end
+    end
+
+    context 'when BSUID belongs to a different contact in same account' do
+      let(:conflict_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{
+                  profile: { name: 'Phone Contact', username: '@phonecontact' },
+                  wa_id: '16315551181',
+                  user_id: 'US.CONFLICT.123'
+                }],
+                messages: [{
+                  from: '16315551181',
+                  from_user_id: 'US.CONFLICT.123',
+                  id: 'wamid.CONFLICT_MESSAGE_ID',
+                  timestamp: '1770407829',
+                  text: { body: 'Conflict merge test' },
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'merges BSUID owner into phone contact and processes message' do
+        phone_contact = create(:contact, account: whatsapp_channel.account, phone_number: '+16315551181', name: '+16315551181')
+        create(:contact_inbox, contact: phone_contact, inbox: whatsapp_channel.inbox, source_id: '16315551181')
+        bsuid_contact = create(:contact, account: whatsapp_channel.account, whatsapp_bsuid: 'US.CONFLICT.123', name: 'BSUID Contact')
+
+        expect do
+          described_class.new(inbox: whatsapp_channel.inbox, params: conflict_params).perform
+        end.not_to raise_error
+
+        expect(Contact.where(account: whatsapp_channel.account).find_by(id: bsuid_contact.id)).to be_nil
+        expect(phone_contact.reload.whatsapp_bsuid).to eq('US.CONFLICT.123')
+        expect(whatsapp_channel.inbox.messages.find_by(source_id: 'wamid.CONFLICT_MESSAGE_ID')&.content).to eq('Conflict merge test')
+      end
+    end
   end
 
-  # Métodos auxiliares para reduzir o tamanho do exemplo
+  # Helper methods to keep examples concise
 
   def stub_media_url_request
     stub_request(

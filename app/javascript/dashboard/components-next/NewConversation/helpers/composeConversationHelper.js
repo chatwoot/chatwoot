@@ -199,9 +199,14 @@ export const createContactSearcher = () => {
       } = await ContactAPI.search(trimmed, 1, 'name', '', { signal });
 
       const camelCasedPayload = camelcaseKeys(payload, { deep: true });
-      // Filter contacts that have either phone_number or email
+      // Filter contacts that can be used to start a conversation.
+      // whatsappBsuid/whatsappUsername are needed for BSUID-only WhatsApp contacts.
       const filteredPayload = camelCasedPayload?.filter(
-        contact => contact.phoneNumber || contact.email
+        contact =>
+          contact.phoneNumber ||
+          contact.email ||
+          contact.whatsappUsername ||
+          contact.whatsappBsuid
       );
       return filteredPayload || [];
     } catch (error) {

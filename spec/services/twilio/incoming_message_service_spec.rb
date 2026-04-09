@@ -170,6 +170,65 @@ describe Twilio::IncomingMessageService do
       end
     end
 
+    context 'when receiving whatsapp payload with user_id and no existing bsuid contact' do
+      let!(:whatsapp_twilio_channel) do
+        create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
+                                               inbox: create(:inbox, account: account, greeting_enabled: false))
+      end
+
+      it 'creates the contact and message without raising error' do
+        params = {
+          SmsSid: 'SMxx',
+          From: 'whatsapp:+14155552671',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+          Body: 'Hello with BSUID',
+          ProfileName: 'Test User',
+          UserId: 'US.13491208655302741918'
+        }
+
+        expect do
+          described_class.new(params: params).perform
+        end.not_to raise_error
+
+        created_contact = whatsapp_twilio_channel.inbox.contacts.last
+        expect(created_contact.phone_number).to eq('+14155552671')
+        expect(created_contact.whatsapp_bsuid).to eq('US.13491208655302741918')
+        expect(whatsapp_twilio_channel.inbox.messages.last.content).to eq('Hello with BSUID')
+      end
+    end
+
+    context 'when receiving whatsapp payload with user_id that belongs to another contact' do
+      let!(:whatsapp_twilio_channel) do
+        create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
+                                               inbox: create(:inbox, account: account, greeting_enabled: false))
+      end
+
+      it 'merges bsuid owner into phone contact and processes message' do
+        phone_contact = create(:contact, account: account, phone_number: '+14155552671', name: '+14155552671')
+        create(:contact_inbox, contact: phone_contact, inbox: whatsapp_twilio_channel.inbox, source_id: 'whatsapp:+14155552671')
+        bsuid_contact = create(:contact, account: account, whatsapp_bsuid: 'US.CONFLICT.123', name: 'BSUID Contact')
+
+        params = {
+          SmsSid: 'SMxx',
+          From: 'whatsapp:+14155552671',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+          Body: 'Conflict merge test',
+          ProfileName: 'Test User',
+          UserId: 'US.CONFLICT.123'
+        }
+
+        expect do
+          described_class.new(params: params).perform
+        end.not_to raise_error
+
+        expect(Contact.where(account: account).find_by(id: bsuid_contact.id)).to be_nil
+        expect(phone_contact.reload.whatsapp_bsuid).to eq('US.CONFLICT.123')
+        expect(whatsapp_twilio_channel.inbox.messages.last.content).to eq('Conflict merge test')
+      end
+    end
+
     context 'when a message with an attachment is received' do
       before do
         stub_request(:get, 'https://chatwoot-assets.local/sample.png')

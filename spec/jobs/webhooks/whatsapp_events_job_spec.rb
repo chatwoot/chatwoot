@@ -136,6 +136,33 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       job.perform_now(wb_params)
     end
 
+    it 'processes payloads with string keys from controller params' do
+      other_channel = create(:channel_whatsapp, phone_number: '+1987654', provider: 'whatsapp_cloud', sync_templates: false,
+                                                validate_provider_config: false)
+      wb_params = {
+        'phone_number' => channel.phone_number,
+        'object' => 'whatsapp_business_account',
+        'entry' => [
+          {
+            'changes' => [
+              {
+                'value' => {
+                  'metadata' => {
+                    'phone_number_id' => other_channel.provider_config['phone_number_id'],
+                    'display_phone_number' => other_channel.phone_number.delete('+')
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).with(inbox: other_channel.inbox,
+                                                                                  params: wb_params.deep_symbolize_keys)
+      job.perform_now(wb_params)
+    end
+
     it 'Ignore reaction type message and stop raising error' do
       other_channel = create(:channel_whatsapp, phone_number: '+1987654', provider: 'whatsapp_cloud', sync_templates: false,
                                                 validate_provider_config: false)
@@ -217,7 +244,7 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       end.not_to change(Conversation, :count)
     end
 
-    it 'will not enque Whatsapp::IncomingMessageWhatsappCloudService when invalid phone number id' do
+    it 'falls back to URL phone number when payload metadata does not resolve a channel' do
       other_channel = create(:channel_whatsapp, phone_number: '+1987654', provider: 'whatsapp_cloud', sync_templates: false,
                                                 validate_provider_config: false)
       wb_params = {
@@ -239,7 +266,33 @@ RSpec.describe Webhooks::WhatsappEventsJob do
         ]
       }
       allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
-      expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new).with(inbox: other_channel.inbox, params: wb_params)
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).with(inbox: channel.inbox, params: wb_params)
+      job.perform_now(wb_params)
+    end
+
+    it 'will not enqueue Whatsapp::IncomingMessageWhatsappCloudService when metadata and URL phone are invalid' do
+      other_channel = create(:channel_whatsapp, phone_number: '+1987654', provider: 'whatsapp_cloud', sync_templates: false,
+                                                validate_provider_config: false)
+      wb_params = {
+        phone_number: '+0000000000',
+        object: 'whatsapp_business_account',
+        entry: [
+          {
+            changes: [
+              {
+                value: {
+                  metadata: {
+                    phone_number_id: 'random phone number id',
+                    display_phone_number: other_channel.phone_number.delete('+')
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new)
       job.perform_now(wb_params)
     end
   end

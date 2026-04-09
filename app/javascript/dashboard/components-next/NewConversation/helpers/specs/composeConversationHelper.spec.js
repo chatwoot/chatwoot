@@ -422,7 +422,7 @@ describe('composeConversationHelper', () => {
         ]);
       });
 
-      it('searches contacts and returns only contacts with email or phone number', async () => {
+      it('searches contacts and returns only contacts with a usable identifier', async () => {
         const mockPayload = [
           {
             id: 1,
@@ -445,6 +445,14 @@ describe('composeConversationHelper', () => {
             phone_number: null,
             created_at: '2023-01-01',
           },
+          {
+            id: 4,
+            name: 'BSUID User',
+            email: null,
+            phone_number: null,
+            whatsapp_bsuid: 'US.13491208655302741918',
+            created_at: '2023-01-01',
+          },
         ];
 
         ContactAPI.search.mockResolvedValue({
@@ -453,7 +461,7 @@ describe('composeConversationHelper', () => {
 
         const result = await searchContacts('john');
 
-        // Should only return contacts with either email or phone number
+        // Should only return contacts with either email, phone number, username, or BSUID
         expect(result).toEqual([
           {
             id: 1,
@@ -467,6 +475,14 @@ describe('composeConversationHelper', () => {
             name: 'Bob Smith',
             email: 'bob@example.com',
             phoneNumber: null,
+            createdAt: '2023-01-01',
+          },
+          {
+            id: 4,
+            name: 'BSUID User',
+            email: null,
+            phoneNumber: null,
+            whatsappBsuid: 'US.13491208655302741918',
             createdAt: '2023-01-01',
           },
         ]);

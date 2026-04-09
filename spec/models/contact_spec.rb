@@ -196,4 +196,23 @@ RSpec.describe Contact do
       end
     end
   end
+
+  describe '.stale_without_conversations' do
+    let(:account) { create(:account) }
+
+    it 'does not include bsuid-only contacts in stale cleanup scope' do
+      stale_contact = create(:contact, account: account, email: nil, phone_number: nil, identifier: nil, whatsapp_bsuid: nil,
+                                       created_at: 40.days.ago)
+      bsuid_contact = create(:contact, account: account, email: nil, phone_number: nil, identifier: nil,
+                                       whatsapp_bsuid: 'US.13491208655302741918', created_at: 40.days.ago)
+      recent_contact = create(:contact, account: account, email: nil, phone_number: nil, identifier: nil, whatsapp_bsuid: nil,
+                                        created_at: 2.days.ago)
+
+      stale_contacts = account.contacts.stale_without_conversations(30.days.ago)
+
+      expect(stale_contacts).to include(stale_contact)
+      expect(stale_contacts).not_to include(bsuid_contact)
+      expect(stale_contacts).not_to include(recent_contact)
+    end
+  end
 end

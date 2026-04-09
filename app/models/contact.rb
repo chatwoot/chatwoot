@@ -18,6 +18,8 @@
 #  middle_name           :string           default("")
 #  name                  :string           default("")
 #  phone_number          :string
+#  whatsapp_bsuid        :string
+#  whatsapp_username     :string
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
@@ -34,6 +36,7 @@
 #  index_contacts_on_name_email_phone_number_identifier  (name,email,phone_number,identifier) USING gin
 #  index_contacts_on_nonempty_fields                     (account_id,email,phone_number,identifier) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
 #  index_contacts_on_phone_number_and_account_id         (phone_number,account_id)
+#  index_contacts_on_account_id_and_whatsapp_bsuid       (account_id,whatsapp_bsuid) UNIQUE WHERE (whatsapp_bsuid IS NOT NULL)
 #  index_resolved_contact_account_id                     (account_id) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
 #  uniq_email_per_account_contact                        (email,account_id) UNIQUE
 #  uniq_identifier_per_account_contact                   (identifier,account_id) UNIQUE
@@ -54,6 +57,7 @@ class Contact < ApplicationRecord
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
+  validates :whatsapp_bsuid, allow_blank: true, uniqueness: { scope: [:account_id] }
 
   belongs_to :account
   has_many :conversations, dependent: :destroy_async
@@ -131,16 +135,12 @@ class Contact < ApplicationRecord
     )
   }
 
-  # Find contacts that:
-  # 1. Have no identification (email, phone_number, and identifier are NULL or empty string)
-  # 2. Have no conversations
-  # 3. Are older than the specified time period
+  # Find old contacts with no conversations and no identifiers (email/phone/identifier/whatsapp_bsuid)
   scope :stale_without_conversations, lambda { |time_period|
-    where('contacts.email IS NULL OR contacts.email = ?', '')
-      .where('contacts.phone_number IS NULL OR contacts.phone_number = ?', '')
-      .where('contacts.identifier IS NULL OR contacts.identifier = ?', '')
-      .where('contacts.created_at < ?', time_period)
-      .where.missing(:conversations)
+    where('contacts.email IS NULL OR contacts.email = ?', '').where('contacts.phone_number IS NULL OR contacts.phone_number = ?', '')
+                                                             .where('contacts.identifier IS NULL OR contacts.identifier = ?', '')
+                                                             .where('contacts.whatsapp_bsuid IS NULL OR contacts.whatsapp_bsuid = ?', '')
+                                                             .where('contacts.created_at < ?', time_period).where.missing(:conversations)
   }
 
   def get_source_id(inbox_id)
@@ -156,6 +156,8 @@ class Contact < ApplicationRecord
       identifier: identifier,
       name: name,
       phone_number: phone_number,
+      whatsapp_bsuid: whatsapp_bsuid,
+      whatsapp_username: whatsapp_username,
       thumbnail: avatar_url,
       blocked: blocked,
       type: 'contact'
@@ -173,6 +175,8 @@ class Contact < ApplicationRecord
       identifier: identifier,
       name: name,
       phone_number: phone_number,
+      whatsapp_bsuid: whatsapp_bsuid,
+      whatsapp_username: whatsapp_username,
       thumbnail: avatar_url,
       blocked: blocked
     }
@@ -181,7 +185,7 @@ class Contact < ApplicationRecord
   def self.resolved_contacts(use_crm_v2: false)
     return where(contact_type: 'lead') if use_crm_v2
 
-    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
+    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> '' OR contacts.whatsapp_bsuid IS NOT NULL")
   end
 
   def discard_invalid_attrs
@@ -189,9 +193,7 @@ class Contact < ApplicationRecord
     email_format
   end
 
-  def self.from_email(email)
-    find_by(email: email&.downcase)
-  end
+  def self.from_email(email) = find_by(email: email&.downcase)
 
   private
 
@@ -202,19 +204,16 @@ class Contact < ApplicationRecord
   end
 
   def phone_number_format
-    return if phone_number.blank?
-
-    self.phone_number = phone_number_was unless phone_number.match?(/\+[1-9]\d{1,14}\z/)
+    self.phone_number = phone_number_was if phone_number.present? && !phone_number.match?(/\+[1-9]\d{1,14}\z/)
   end
 
   def email_format
-    return if email.blank?
-
-    self.email = email_was unless email.match(Devise.email_regexp)
+    self.email = email_was if email.present? && !email.match(Devise.email_regexp)
   end
 
   def prepare_contact_attributes
     prepare_email_attribute
+    self.whatsapp_username = whatsapp_username.to_s.sub(/\A@+/, '').presence
     prepare_jsonb_attributes
   end
 

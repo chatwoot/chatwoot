@@ -40,7 +40,6 @@ describe Whatsapp::SendOnWhatsappService do
         {
           messaging_product: 'whatsapp',
           recipient_type: 'individual',
-          to: '123456789',
           type: 'template',
           template: {
             name: 'ticket_status_updated',
@@ -48,7 +47,8 @@ describe Whatsapp::SendOnWhatsappService do
             components: [{ 'type': 'body',
                            'parameters': [{ 'type': 'text', parameter_name: 'last_name', 'text': 'Dale' },
                                           { 'type': 'text', parameter_name: 'ticket_id', 'text': '2332' }] }]
-          }
+          },
+          to: '123456789'
         }
       end
 

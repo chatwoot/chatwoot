@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class Twilio::IncomingMessageService
   include ::FileTypeHelper
 
@@ -70,6 +71,17 @@ class Twilio::IncomingMessageService
   end
 
   def set_contact
+    if twilio_channel.whatsapp? && bsuid_value.present?
+      set_whatsapp_contact_with_bsuid
+    else
+      set_contact_standard
+    end
+
+    # Update existing contact name if ProfileName is available and current name is just phone number
+    update_contact_name_if_needed
+  end
+
+  def set_contact_standard
     source_id = twilio_channel.whatsapp? ? normalized_phone_number : params[:From]
 
     contact_inbox = ::ContactInboxWithContactBuilder.new(
@@ -80,9 +92,19 @@ class Twilio::IncomingMessageService
 
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
+  end
 
-    # Update existing contact name if ProfileName is available and current name is just phone number
-    update_contact_name_if_needed
+  def set_whatsapp_contact_with_bsuid
+    source_id = whatsapp_phone_source_id
+    username = whatsapp_username
+
+    if source_id.present?
+      link_contact_with_phone_source(source_id, username)
+    else
+      link_contact_with_bsuid_source(username)
+    end
+
+    sync_whatsapp_identifiers(username)
   end
 
   def conversation_params
@@ -207,6 +229,105 @@ class Twilio::IncomingMessageService
   end
 
   def contact_name_matches_phone_number?
+    return false unless phone_number.present? && phone_number.match?(/\A\+?\d{1,15}\z/)
+
     @contact.name == phone_number || @contact.name == formatted_phone_number
   end
+
+  def bsuid_value
+    @bsuid_value ||= params[:UserId] || params[:user_id] || params[:WaUserId]
+  end
+
+  def whatsapp_username
+    params[:ProfileUsername] || params[:Username]
+  end
+
+  def whatsapp_phone_source_id
+    normalized = normalized_phone_number
+    return nil unless normalized.present? && normalized.match?(/\Awhatsapp:\+\d{1,15}\z/)
+
+    normalized
+  end
+
+  def link_contact_with_phone_source(source_id, username)
+    existing_contact = account.contacts.find_by(whatsapp_bsuid: bsuid_value)
+
+    if existing_contact.present? && existing_contact.phone_number.blank?
+      attach_existing_contact(existing_contact, source_id)
+      return
+    end
+
+    attrs = contact_attributes.merge(whatsapp_bsuid: bsuid_value, whatsapp_username: username.presence).compact
+    @contact_inbox = build_contact_inbox(source_id: source_id, contact_attributes: attrs)
+    @contact = @contact_inbox.contact
+  end
+
+  def link_contact_with_bsuid_source(username)
+    source_id = "whatsapp:#{bsuid_value}"
+    attrs = {
+      name: params[:ProfileName].presence || username.presence || bsuid_value,
+      whatsapp_bsuid: bsuid_value,
+      whatsapp_username: username.presence
+    }.compact
+
+    @contact_inbox = build_contact_inbox(source_id: source_id, contact_attributes: attrs)
+    @contact = @contact_inbox.contact
+  end
+
+  def attach_existing_contact(contact, source_id)
+    phone_owner_contact = account.contacts.find_by(phone_number: phone_number)
+    if phone_owner_conflict?(phone_owner_contact, contact)
+      merge_with_phone_owner(phone_owner_contact, contact)
+      assign_contact_inbox(@contact, source_id)
+      return
+    end
+
+    contact.update!(phone_number: phone_number)
+    assign_contact_inbox(contact, source_id)
+    @contact = contact
+  end
+
+  def build_contact_inbox(source_id:, contact_attributes:)
+    ::ContactInboxWithContactBuilder.new(
+      source_id: source_id,
+      inbox: inbox,
+      contact_attributes: contact_attributes
+    ).perform
+  end
+
+  def sync_whatsapp_identifiers(username)
+    sync_whatsapp_bsuid
+    return unless username.present? && @contact.whatsapp_username != username
+
+    @contact.update!(whatsapp_username: username)
+  end
+
+  def sync_whatsapp_bsuid
+    return if bsuid_value.blank? || @contact.whatsapp_bsuid == bsuid_value
+
+    existing_contact = account.contacts.find_by(whatsapp_bsuid: bsuid_value)
+    if existing_contact.present? && existing_contact.id != @contact.id
+      ContactMergeAction.new(account: account, base_contact: @contact, mergee_contact: existing_contact).perform
+      @contact.reload
+      return
+    end
+
+    @contact.update!(whatsapp_bsuid: bsuid_value)
+  end
+
+  def phone_owner_conflict?(phone_owner_contact, contact)
+    phone_owner_contact.present? && phone_owner_contact.id != contact.id
+  end
+
+  def merge_with_phone_owner(phone_owner_contact, contact)
+    ContactMergeAction.new(account: account, base_contact: phone_owner_contact, mergee_contact: contact).perform
+    @contact = phone_owner_contact.reload
+  end
+
+  def assign_contact_inbox(contact, source_id)
+    contact_inbox = contact.contact_inboxes.find_by(inbox_id: inbox.id)
+    contact_inbox&.update!(source_id: source_id) if contact_inbox && contact_inbox.source_id != source_id
+    @contact_inbox = contact_inbox || ContactInboxBuilder.new(contact: contact, inbox: inbox, source_id: source_id).perform
+  end
 end
+# rubocop:enable Metrics/ClassLength
