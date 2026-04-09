@@ -82,6 +82,83 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.last.attachments.first.file_type).to eq('image')
       end
 
+      it 'executes message_created automations for public messages and private notes' do
+        baseline_label = 'automation-baseline'
+        private_note_label = 'automation-private-note'
+        inbox.update!(enable_auto_assignment: false)
+
+        create(
+          :automation_rule,
+          account: account,
+          event_name: 'message_created',
+          conditions: [
+            {
+              'attribute_key' => 'message_type',
+              'filter_operator' => 'equal_to',
+              'values' => ['outgoing'],
+              'query_operator' => nil
+            }
+          ],
+          actions: [
+            {
+              'action_name' => 'add_label',
+              'action_params' => [baseline_label]
+            }
+          ]
+        )
+
+        create(
+          :automation_rule,
+          account: account,
+          event_name: 'message_created',
+          conditions: [
+            {
+              'attribute_key' => 'message_type',
+              'filter_operator' => 'equal_to',
+              'values' => ['outgoing'],
+              'query_operator' => 'AND'
+            },
+            {
+              'attribute_key' => 'private_note',
+              'filter_operator' => 'equal_to',
+              'values' => [true],
+              'query_operator' => nil
+            }
+          ],
+          actions: [
+            {
+              'action_name' => 'add_label',
+              'action_params' => [private_note_label]
+            }
+          ]
+        )
+
+        perform_enqueued_jobs(only: [EventDispatcherJob, SendReplyJob]) do
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { content: 'public message' },
+               headers: agent.create_new_auth_token,
+               as: :json
+        end
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.label_list).to include(baseline_label)
+        expect(conversation.label_list).not_to include(private_note_label)
+        expect(conversation.messages.last.private?).to be(false)
+
+        private_conversation = create(:conversation, inbox: inbox, account: account)
+
+        perform_enqueued_jobs(only: [EventDispatcherJob, SendReplyJob]) do
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: private_conversation.display_id),
+               params: { content: 'private note', private: true },
+               headers: agent.create_new_auth_token,
+               as: :json
+        end
+
+        expect(response).to have_http_status(:success)
+        expect(private_conversation.reload.label_list).to include(baseline_label, private_note_label)
+        expect(private_conversation.messages.last.private?).to be(true)
+      end
+
       context 'when api inbox' do
         let(:api_channel) { create(:channel_api, account: account) }
         let(:api_inbox) { create(:inbox, channel: api_channel, account: account) }
