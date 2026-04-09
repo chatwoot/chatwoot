@@ -288,6 +288,21 @@ export default {
       this.fetchSuggestions();
       this.messageSentSinceOpened = false;
     },
+    'currentChat.messages.length'(newLength, oldLength) {
+      if (newLength > oldLength) {
+        this.$nextTick(() => this.checkAndLoadHistory());
+      }
+    },
+    'currentChat.dataFetched'(newValue) {
+      if (newValue) {
+        this.$nextTick(() => this.checkAndLoadHistory());
+      }
+    },
+    listLoadingStatus(newValue) {
+      if (newValue) {
+        this.$nextTick(() => this.checkAndLoadHistory());
+      }
+    },
   },
 
   created() {
@@ -375,7 +390,10 @@ export default {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
       this.setScrollParams();
       this.conversationPanel.addEventListener('scroll', this.handleScroll);
-      this.$nextTick(() => this.scrollToBottom());
+      this.$nextTick(() => {
+        this.scrollToBottom();
+        this.$nextTick(() => this.checkAndLoadHistory());
+      });
       this.isLoadingPrevious = false;
     },
     removeScrollListener() {
@@ -476,6 +494,27 @@ export default {
       }
     },
 
+    checkAndLoadHistory() {
+      if (!this.conversationPanel || !this.isAutoloadHistoryEnabled) return;
+
+      const panel = this.conversationPanel;
+      const hasNoScroll = panel.scrollHeight <= panel.clientHeight;
+      const isAtTop = panel.scrollTop < 100;
+
+      // Only act when content fits in viewport or user is at the top
+      if (!hasNoScroll && !isAtTop) return;
+
+      if (this.listLoadingStatus) {
+        // All messages confirmed loaded — fetch historical conversation
+        this.fetchNextHistoricalConversation();
+      } else {
+        // Not yet confirmed: trigger a fetch to check if there are older messages.
+        // If the API returns empty, SET_ALL_MESSAGES_LOADED fires, listLoadingStatus
+        // becomes true, and the watcher will call checkAndLoadHistory again.
+        this.fetchPreviousMessages(0);
+      }
+    },
+
     async fetchNextHistoricalConversation() {
       if (this.isLoadingHistoricalConversation) return;
 
@@ -504,11 +543,21 @@ export default {
         });
         const messages = data?.payload || [];
 
-        entry.messages = useCamelCase(messages, {
+        const camelMessages = useCamelCase(messages, {
           deep: true,
           stopPaths: ['content_attributes.translations'],
         });
-        entry.isLoading = false;
+        // Use index-based replacement to ensure Vue 3 reactivity on the array item
+        const idx = this.historicalConversations.findIndex(
+          c => c.id === entry.id
+        );
+        if (idx !== -1) {
+          this.historicalConversations[idx] = {
+            ...this.historicalConversations[idx],
+            messages: camelMessages,
+            isLoading: false,
+          };
+        }
 
         this.$nextTick(() => {
           const heightDifference =
