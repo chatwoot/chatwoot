@@ -203,6 +203,109 @@ describe AutomationRuleListener do
     end
   end
 
+  describe 'message_created with private note conditions and label actions' do
+    let(:baseline_label) { 'automation-baseline' }
+    let(:private_note_label) { 'automation-private-note' }
+
+    before do
+      inbox.update!(enable_auto_assignment: false)
+      clear_enqueued_jobs
+      clear_performed_jobs
+    end
+
+    let!(:baseline_rule) do
+      create(:automation_rule,
+             event_name: 'message_created',
+             account: account,
+             conditions: [
+               {
+                 attribute_key: 'message_type',
+                 filter_operator: 'equal_to',
+                 values: ['outgoing'],
+                 query_operator: nil
+               }
+             ],
+             actions: [
+               {
+                 action_name: 'add_label',
+                 action_params: [baseline_label]
+               }
+             ])
+    end
+
+    let!(:private_note_rule) do
+      create(:automation_rule,
+             event_name: 'message_created',
+             account: account,
+             conditions: [
+               {
+                 attribute_key: 'message_type',
+                 filter_operator: 'equal_to',
+                 values: ['outgoing'],
+                 query_operator: 'AND'
+               },
+               {
+                 attribute_key: 'private_note',
+                 filter_operator: 'equal_to',
+                 values: [true],
+                 query_operator: nil
+               }
+             ],
+             actions: [
+               {
+                 action_name: 'add_label',
+                 action_params: [private_note_label]
+               }
+             ])
+    end
+
+    it 'keeps message_created behavior for private notes and adds private_note-specific matching' do
+      baseline_rule
+      private_note_rule
+
+      public_message = create(:message,
+                              account: account,
+                              conversation: conversation,
+                              inbox: inbox,
+                              sender: user,
+                              message_type: 'outgoing',
+                              content: 'public message')
+      clear_enqueued_jobs
+
+      listener.message_created(
+        Events::Base.new('message_created', Time.zone.now, {
+                           message: public_message,
+                           changed_attributes: { content: [nil, 'public message'] }
+                         })
+      )
+
+      expect(conversation.reload.label_list).to include(baseline_label)
+      expect(conversation.label_list).not_to include(private_note_label)
+      expect(conversation.messages.last.private?).to be(false)
+
+      private_conversation = create(:conversation, account: account, inbox: inbox)
+      private_message = create(:message,
+                               account: account,
+                               conversation: private_conversation,
+                               inbox: inbox,
+                               sender: user,
+                               message_type: 'outgoing',
+                               private: true,
+                               content: 'private note')
+      clear_enqueued_jobs
+
+      listener.message_created(
+        Events::Base.new('message_created', Time.zone.now, {
+                           message: private_message,
+                           changed_attributes: { content: [nil, 'private note'] }
+                         })
+      )
+
+      expect(private_conversation.reload.label_list).to include(baseline_label, private_note_label)
+      expect(private_conversation.messages.last.private?).to be(true)
+    end
+  end
+
   describe 'preventing infinite loops' do
     let!(:automation_rule) do
       create(:automation_rule,
