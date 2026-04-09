@@ -58,7 +58,7 @@ class Captain::BaseTaskService
   def execute_ruby_llm_request(model:, messages:, schema: nil, tools: [])
     credential = llm_credential
 
-    Llm::Config.with_api_key(credential.api_key, api_base: api_base) do |context|
+    Llm::Config.with_api_key(credential[:api_key], api_base: api_base) do |context|
       chat = build_chat(context, model: model, messages: messages, schema: schema, tools: tools)
 
       conversation_messages = messages.reject { |m| m[:role] == 'system' }
@@ -154,7 +154,7 @@ class Captain::BaseTaskService
   end
 
   def api_key
-    llm_credential&.api_key
+    llm_credential&.dig(:api_key)
   end
 
   def llm_credential
@@ -163,11 +163,11 @@ class Captain::BaseTaskService
 
   def hook_llm_credential
     key = openai_hook&.settings&.dig('api_key').presence
-    Llm::Credential.new(api_key: key, source: :hook) if key
+    { api_key: key, source: :hook } if key
   end
 
   def system_llm_credential
-    Llm::Credential.new(api_key: system_api_key, source: :system) if system_api_key.present?
+    { api_key: system_api_key, source: :system } if system_api_key.present?
   end
 
   def openai_hook

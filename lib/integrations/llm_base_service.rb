@@ -103,7 +103,7 @@ class Integrations::LlmBaseService
     model = parsed_body['model']
     credential = llm_credential
 
-    Llm::Config.with_api_key(credential.api_key, api_base: api_base) do |context|
+    Llm::Config.with_api_key(credential[:api_key], api_base: api_base) do |context|
       chat = context.chat(model: model)
       setup_chat_with_messages(chat, messages)
     end
@@ -167,7 +167,7 @@ class Integrations::LlmBaseService
   end
 
   def llm_credential
-    @llm_credential ||= Llm::Credential.new(api_key: hook.settings['api_key'], source: :hook)
+    @llm_credential ||= { api_key: hook.settings['api_key'], source: :hook }
   end
 
   def exception_tracking_account
