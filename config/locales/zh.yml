@@ -244,11 +244,11 @@ zh:
         removed: '%{user_name} 取消了优先级'
       assignee:
         self_assigned: '%{user_name} 自行分配这次会话'
-        assigned: '由 %{assignee_name} 分配给 %{user_name}'
+        assigned: '由 %{user_name} 分配给 %{assignee_name}'
         removed: '对话未被 %{user_name} 分配'
       team:
-        assigned: '由 %{team_name} 分配给 %{user_name}'
-        assigned_with_assignee: '由 %{assignee_name} 分配给 %{team_name} 团队的 %{user_name}'
+        assigned: '由 %{user_name} 分配给 %{team_name}'
+        assigned_with_assignee: '由 %{user_name} 通过 %{team_name} 团队分配给 %{assignee_name}'
         removed: '由 %{user_name} 从 %{team_name} 中取消分配'
       labels:
         added: '%{user_name} 添加 %{labels}'
