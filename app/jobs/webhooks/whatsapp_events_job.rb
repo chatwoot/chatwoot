@@ -9,7 +9,9 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
       return
     end
 
-    if message_echo_event?(params)
+    if history_sync_event?(params)
+      handle_history_sync_events(channel, params)
+    elsif message_echo_event?(params)
       handle_message_echo(channel, params)
     else
       handle_message_events(channel, params)
@@ -56,6 +58,22 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
 
   def handle_message_echo(channel, params)
     Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params, outgoing_echo: true).perform
+  end
+
+  def history_sync_event?(params)
+    field = params.dig(:entry, 0, :changes, 0, :field)
+    %w[smb_app_state_sync history].include?(field)
+  end
+
+  def handle_history_sync_events(channel, params)
+    field = params.dig(:entry, 0, :changes, 0, :field)
+
+    case field
+    when 'smb_app_state_sync'
+      Whatsapp::ContactSyncService.new(inbox: channel.inbox, params: params).perform
+    when 'history'
+      Whatsapp::ConversationSyncService.new(inbox: channel.inbox, params: params).perform
+    end
   end
 
   def handle_message_events(channel, params)

@@ -43,7 +43,8 @@ describe Whatsapp::EmbeddedSignupService do
 
       channel_creation = instance_double(Whatsapp::ChannelCreationService)
       allow(Whatsapp::ChannelCreationService).to receive(:new)
-        .with(account, { waba_id: params[:waba_id], business_name: 'Test Business' }, phone_info, access_token)
+        .with(account, { waba_id: params[:waba_id], business_name: 'Test Business' }, phone_info, access_token,
+              is_business_app_onboarding: nil)
         .and_return(channel_creation)
       allow(channel_creation).to receive(:perform).and_return(channel)
 
