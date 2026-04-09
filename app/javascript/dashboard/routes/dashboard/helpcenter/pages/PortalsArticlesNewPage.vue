@@ -39,7 +39,7 @@ const createNewArticle = async ({ title, content }) => {
   if (title) article.value.title = title;
   if (content) article.value.content = content;
 
-  if (!article.value.title || !article.value.content) return;
+  if (!article.value.title) return;
 
   isUpdating.value = true;
   try {

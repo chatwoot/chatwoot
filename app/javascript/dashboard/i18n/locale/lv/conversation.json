@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Ziņojuma paraksts nav nokonfigurēts. Lūdzu, nokonfigurējiet to profila iestatījumos.",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "Dodiet copilota papildu ierosinājumus vai uzdodiet jebko citu... Nospiediet Enter, lai nosūtītu turpinājumu",
       "CLICK_HERE": "Noklikšķiniet šeit, lai atjauninātu",
       "WHATSAPP_TEMPLATES": "WhatsApp Veidnes"
     },
@@ -214,7 +214,7 @@
       "DRAG_DROP": "Velciet un nometiet šeit, lai pievienotu",
       "START_AUDIO_RECORDING": "Sākt audio ierakstīšanu",
       "STOP_AUDIO_RECORDING": "Apturēt audio ierakstīšanu",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot domā",
       "EMAIL_HEAD": {
         "TO": "KAM",
         "ADD_BCC": "Pievienot bcc",
