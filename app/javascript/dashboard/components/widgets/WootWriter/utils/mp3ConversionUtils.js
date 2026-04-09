@@ -83,13 +83,13 @@ export const encodeToMP3 = (channels, sampleRate, samples, bitrate = 128) => {
     const mp3Buffer = encoder.encodeBuffer(sampleSlice);
 
     if (mp3Buffer.length > 0) {
-      outputBuffer.push(new Int8Array(mp3Buffer));
+      outputBuffer.push(new Uint8Array(mp3Buffer));
     }
   }
 
   const remainingData = encoder.flush();
   if (remainingData.length > 0) {
-    outputBuffer.push(new Int8Array(remainingData));
+    outputBuffer.push(new Uint8Array(remainingData));
   }
 
   return new Blob(outputBuffer, { type: 'audio/mp3' });
@@ -104,30 +104,25 @@ export const encodeToMP3 = (channels, sampleRate, samples, bitrate = 128) => {
 export const convertToMp3 = async (audioBlob, bitrate = 128) => {
   try {
     const audioBuffer = await decodeAudioData(audioBlob);
-    const samples = new Int16Array(
-      audioBuffer.length * audioBuffer.numberOfChannels
+    const targetSampleRate = 44100;
+    const sourceSamples = audioBuffer.getChannelData(0);
+    const resampleRatio = audioBuffer.sampleRate / targetSampleRate;
+    const targetLength = Math.max(
+      1,
+      Math.floor(sourceSamples.length / resampleRatio)
     );
-    let offset = 0;
-    for (let i = 0; i < audioBuffer.length; i += 1) {
-      for (
-        let channel = 0;
-        channel < audioBuffer.numberOfChannels;
-        channel += 1
-      ) {
-        const sample = Math.max(
-          -1,
-          Math.min(1, audioBuffer.getChannelData(channel)[i])
-        );
-        samples[offset] = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
-        offset += 1;
-      }
+    const monoSamples = new Int16Array(targetLength);
+
+    for (let i = 0; i < targetLength; i += 1) {
+      const sourceIndex = Math.min(
+        sourceSamples.length - 1,
+        Math.floor(i * resampleRatio)
+      );
+      const sample = Math.max(-1, Math.min(1, sourceSamples[sourceIndex]));
+      monoSamples[i] = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
     }
-    return encodeToMP3(
-      audioBuffer.numberOfChannels,
-      audioBuffer.sampleRate,
-      samples,
-      bitrate
-    );
+
+    return encodeToMP3(1, targetSampleRate, monoSamples, bitrate);
   } catch (error) {
     throw new Error('Conversion to MP3 failed.');
   }
