@@ -26,6 +26,29 @@ class ProductCatalogs::ExcelExporterService
     @products = products
     @total_count = total_count || products.count
     @logger = logger || Rails.logger
+    @metadata_keys = [] # Will be populated with unique metadata keys
+  end
+
+  # Collect all unique metadata keys from products
+  # This is called before export to determine additional columns
+  def collect_metadata_keys
+    @logger.info "[ExcelExporter] Collecting metadata keys from products..."
+
+    keys = Set.new
+    @products.where.not(metadata: nil).where.not(metadata: {}).find_each(batch_size: 1000) do |product|
+      next unless product.metadata.is_a?(Hash)
+
+      product.metadata.keys.each { |k| keys.add(k.to_s) }
+    end
+
+    @metadata_keys = keys.to_a.sort
+    @logger.info "[ExcelExporter] Found #{@metadata_keys.size} unique metadata keys: #{@metadata_keys.inspect}"
+    @metadata_keys
+  end
+
+  # Get headers including metadata columns
+  def all_headers
+    COLUMN_HEADERS + @metadata_keys
   end
 
   # Original export method for small exports (selected products)
@@ -34,13 +57,16 @@ class ProductCatalogs::ExcelExporterService
 
     @logger.info "[ExcelExporter] Starting export of #{@total_count} products (single file mode)"
 
+    # Collect metadata keys before export
+    collect_metadata_keys
+
     # Create a new workbook
     io = StringIO.new
     workbook = WriteXLSX.new(io)
     worksheet = workbook.add_worksheet('Products')
 
-    # Write headers
-    COLUMN_HEADERS.each_with_index do |header, col|
+    # Write headers (fixed + metadata columns)
+    all_headers.each_with_index do |header, col|
       worksheet.write(0, col, header)
     end
 
@@ -83,6 +109,10 @@ class ProductCatalogs::ExcelExporterService
     @logger.info "[ExcelExporter] Max products per file: #{MAX_PRODUCTS_PER_FILE}"
     @logger.info "[ExcelExporter] Estimated files: #{(@total_count.to_f / MAX_PRODUCTS_PER_FILE).ceil}"
     @logger.info "=" * 60
+
+    # Collect metadata keys before export
+    collect_metadata_keys
+    @logger.info "[ExcelExporter] Total columns: #{all_headers.size} (#{COLUMN_HEADERS.size} fixed + #{@metadata_keys.size} metadata)"
 
     file_number = 1
     row_index_in_file = 0
@@ -143,8 +173,8 @@ class ProductCatalogs::ExcelExporterService
         workbook = WriteXLSX.new(io)
         worksheet = workbook.add_worksheet('Products')
 
-        # Write headers
-        COLUMN_HEADERS.each_with_index do |header, col|
+        # Write headers (fixed + metadata columns)
+        all_headers.each_with_index do |header, col|
           worksheet.write(0, col, header)
         end
 
@@ -228,6 +258,7 @@ class ProductCatalogs::ExcelExporterService
   # Write a product row to the worksheet
   # Uses write_string for URL columns to avoid Excel's hyperlink limit (65,530 per sheet)
   def write_product_row(worksheet, row, product)
+    # Fixed columns (A-L)
     worksheet.write(row, 0, product.product_id)
     worksheet.write(row, 1, product.industry)
     worksheet.write(row, 2, product.productName)
@@ -243,5 +274,15 @@ class ProductCatalogs::ExcelExporterService
     worksheet.write_string(row, 9, product.pdfLinks.to_s)
     worksheet.write_string(row, 10, product.photoLinks.to_s)
     worksheet.write_string(row, 11, product.videoLinks.to_s)
+
+    # Metadata columns (M onwards)
+    return if @metadata_keys.empty?
+
+    metadata = product.metadata || {}
+    @metadata_keys.each_with_index do |key, index|
+      col = COLUMN_HEADERS.size + index # Start after fixed columns
+      value = metadata[key]
+      worksheet.write(row, col, value.to_s) if value.present?
+    end
   end
 end

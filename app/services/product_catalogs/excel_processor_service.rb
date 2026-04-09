@@ -20,6 +20,18 @@ class ProductCatalogs::ExcelProcessorService
 
   REQUIRED_FIELDS = %w[industry productName type payment_options].freeze
 
+  # Number of fixed columns (A-L, index 0-11)
+  FIXED_COLUMNS_COUNT = 12
+
+  # Maximum number of extra columns for metadata (M-T, columns 13-20)
+  MAX_EXTRA_COLUMNS = 8
+
+  # Maximum length for metadata key (column header)
+  MAX_METADATA_KEY_LENGTH = 50
+
+  # Maximum length for each metadata value (for AI processing efficiency)
+  MAX_METADATA_VALUE_LENGTH = 255
+
   BATCH_SIZE = 50_000 # 50k rows per batch for COPY (5x faster)
 
   def initialize(file_path:, account:, user:, bulk_request:)
@@ -28,6 +40,7 @@ class ProductCatalogs::ExcelProcessorService
     @user = user
     @bulk_request = bulk_request
     @errors = []
+    @extra_column_headers = [] # Headers for columns beyond L (index 12+)
   end
 
   def process
@@ -120,8 +133,9 @@ class ProductCatalogs::ExcelProcessorService
     conn.exec("SET work_mem TO '64MB'")             # More memory for sorting/hashing
 
     xlsx.each_row_streaming(pad_cells: true) do |row|
-      # Skip header row
+      # Process header row to capture extra column names (columns M onwards)
       if row_index == 0
+        extract_extra_column_headers(row)
         row_index += 1
         next
       end
@@ -240,6 +254,9 @@ class ProductCatalogs::ExcelProcessorService
     list_price = parse_decimal(row_data['listPrice'])
     product_id = row_data['product_id'].presence || SecureRandom.uuid
 
+    # Convert metadata hash to JSON string for COPY
+    metadata_json = row_data['metadata'].present? ? row_data['metadata'].to_json : '{}'
+
     [
       @account.id,                    # account_id
       product_id,                     # product_id
@@ -254,6 +271,7 @@ class ProductCatalogs::ExcelProcessorService
       row_data['pdfLinks'],           # pdfLinks
       row_data['photoLinks'],         # photoLinks
       row_data['videoLinks'],         # videoLinks
+      metadata_json,                  # metadata (JSON)
       @bulk_request.id,               # bulk_processing_request_id
       @user.id,                       # user_id (who created the product)
       @user.id,                       # last_updated_by_id (who last updated)
@@ -269,7 +287,7 @@ class ProductCatalogs::ExcelProcessorService
     columns = %w[
       account_id product_id industry productName type subcategory
       listPrice description payment_options link pdfLinks photoLinks
-      videoLinks bulk_processing_request_id user_id last_updated_by_id
+      videoLinks metadata bulk_processing_request_id user_id last_updated_by_id
       created_at updated_at
     ]
 
@@ -301,12 +319,16 @@ class ProductCatalogs::ExcelProcessorService
       # ON CONFLICT: update all fields except id, account_id, product_id, user_id (creator), created_at
       # Note: user_id is NOT updated on conflict (keeps original creator)
       # last_updated_by_id IS updated on conflict (tracks who made this update)
+      # metadata is merged with existing metadata on conflict (preserves existing keys, adds/updates new ones)
       update_columns = %w[
         industry productName type subcategory listPrice description
         payment_options link pdfLinks photoLinks videoLinks
         bulk_processing_request_id last_updated_by_id updated_at
       ]
       update_set = update_columns.map { |c| %("#{c}" = EXCLUDED."#{c}") }.join(', ')
+
+      # Merge metadata: existing metadata || new metadata (new values override existing keys)
+      update_set += ', "metadata" = COALESCE(product_catalogs."metadata", \'{}\') || EXCLUDED."metadata"'
 
       conn.exec(<<~SQL)
         INSERT INTO product_catalogs (#{column_list})
@@ -505,6 +527,12 @@ class ProductCatalogs::ExcelProcessorService
 
         # Find or initialize product
         product = @account.product_catalogs.find_or_initialize_by(product_id: product_id)
+
+        # Merge metadata if product exists (preserve existing keys, add/update new ones)
+        existing_metadata = product.persisted? ? (product.metadata || {}) : {}
+        new_metadata = row_data[:metadata] || row_data['metadata'] || {}
+        merged_metadata = existing_metadata.merge(new_metadata)
+
         product.assign_attributes(
           industry: row_data[:industry],
           productName: row_data[:productName],
@@ -517,6 +545,7 @@ class ProductCatalogs::ExcelProcessorService
           pdfLinks: row_data[:pdfLinks],
           photoLinks: row_data[:photoLinks],
           videoLinks: row_data[:videoLinks],
+          metadata: merged_metadata,
           bulk_processing_request: @bulk_request
         )
         products_to_import << product
@@ -541,7 +570,7 @@ class ProductCatalogs::ExcelProcessorService
         conflict_target: [:account_id, :product_id],
         columns: [:industry, :productName, :type, :subcategory, :listPrice, :description,
                   :payment_options, :link, :pdfLinks, :photoLinks, :videoLinks,
-                  :bulk_processing_request_id, :updated_at]
+                  :metadata, :bulk_processing_request_id, :updated_at]
       })
       @bulk_request.increment!(:processed_records, products_to_import.size)
     end
@@ -585,15 +614,70 @@ class ProductCatalogs::ExcelProcessorService
     @bulk_request.update!(error_details: current_errors + [error_detail])
   end
 
+  # Extract column headers for columns beyond L (index 12+)
+  # These will be used as keys in the metadata JSON
+  # Limited to MAX_EXTRA_COLUMNS (8) columns
+  def extract_extra_column_headers(header_row)
+    @extra_column_headers = []
+    header_row.each_with_index do |cell, index|
+      next if index < FIXED_COLUMNS_COUNT # Skip fixed columns A-L
+      break if @extra_column_headers.size >= MAX_EXTRA_COLUMNS # Limit to 8 extra columns
+
+      value = cell.respond_to?(:value) ? cell.value : cell
+      header_name = value.present? ? sanitize_metadata_key(value.to_s.strip) : nil
+      @extra_column_headers << header_name if header_name.present?
+    end
+    Rails.logger.info("ExcelProcessor: Found #{@extra_column_headers.size} extra columns for metadata (max #{MAX_EXTRA_COLUMNS}): #{@extra_column_headers.inspect}")
+  end
+
+  # Sanitize column header to be a valid JSON key
+  # Converts to lowercase ASCII snake_case for consistency
+  # Truncates to MAX_METADATA_KEY_LENGTH characters
+  def sanitize_metadata_key(key)
+    return nil if key.blank?
+
+    # ActiveSupport::Inflector.transliterate converts accented chars to ASCII (ñ->n, á->a)
+    sanitized = ActiveSupport::Inflector.transliterate(key.to_s)
+                   .strip
+                   .gsub(/[\r\n\t]/, ' ')       # Replace newlines/tabs with space
+                   .gsub(/\s+/, '_')             # Replace spaces with underscore
+                   .gsub(/[^a-zA-Z0-9_\-]/, '')  # Keep only alphanumeric, underscore, hyphen
+                   .gsub(/_+/, '_')              # Collapse multiple underscores
+                   .gsub(/^_|_$/, '')            # Remove leading/trailing underscores
+                   .downcase                     # Lowercase for consistency
+                   .truncate(MAX_METADATA_KEY_LENGTH, omission: '') # Limit key length
+
+    sanitized.presence
+  end
+
   def extract_row_data_roo(row)
     # Roo returns rows as an array of Cell objects with each_row_streaming
     data = {}
+
+    # Extract fixed columns (A-L)
     COLUMN_MAPPING.each do |index, col_name|
       cell = row[index]
       # cell is a Roo::Excelx::Cell object, extract value
       value = cell.respond_to?(:value) ? cell.value : cell
       data[col_name] = value.present? ? value.to_s.strip : nil
     end
+
+    # Extract extra columns into metadata (columns M onwards)
+    metadata = {}
+    @extra_column_headers.each_with_index do |header_name, header_index|
+      next if header_name.blank?
+
+      cell_index = FIXED_COLUMNS_COUNT + header_index
+      cell = row[cell_index]
+      value = cell.respond_to?(:value) ? cell.value : cell
+
+      if value.present?
+        # Store value as string, truncated to max length for AI processing efficiency
+        metadata[header_name] = value.to_s.strip.truncate(MAX_METADATA_VALUE_LENGTH, omission: '')
+      end
+    end
+
+    data['metadata'] = metadata if metadata.any?
     data
   end
 
@@ -615,6 +699,14 @@ class ProductCatalogs::ExcelProcessorService
     # Generate UUID if product_id is blank
     product_id = row_data[:product_id].presence || SecureRandom.uuid
 
+    # Upsert: find by product_id and update, or create new
+    product = @account.product_catalogs.find_or_initialize_by(product_id: product_id)
+
+    # Merge metadata if product exists (preserve existing keys, add/update new ones)
+    existing_metadata = product.persisted? ? (product.metadata || {}) : {}
+    new_metadata = row_data[:metadata] || row_data['metadata'] || {}
+    merged_metadata = existing_metadata.merge(new_metadata)
+
     # Prepare attributes
     attributes = {
       product_id: product_id,
@@ -629,11 +721,10 @@ class ProductCatalogs::ExcelProcessorService
       pdfLinks: row_data[:pdfLinks],
       photoLinks: row_data[:photoLinks],
       videoLinks: row_data[:videoLinks],
+      metadata: merged_metadata,
       bulk_processing_request: @bulk_request
     }
 
-    # Upsert: find by product_id and update, or create new
-    product = @account.product_catalogs.find_or_initialize_by(product_id: product_id)
     product.assign_attributes(attributes)
     product.save!
 
