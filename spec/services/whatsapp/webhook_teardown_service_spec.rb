@@ -7,6 +7,9 @@ RSpec.describe Whatsapp::WebhookTeardownService do
 
     context 'when channel is whatsapp_cloud with embedded_signup' do
       before do
+        # Stub webhook setup to prevent HTTP calls during channel update
+        allow(channel).to receive(:setup_webhooks).and_return(true)
+
         channel.update!(
           provider: 'whatsapp_cloud',
           provider_config: {

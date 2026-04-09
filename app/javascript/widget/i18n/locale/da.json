@@ -12,15 +12,26 @@
       "ERROR_MESSAGE": "Kunne ikke sende, prøv igen"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Vi er online",
-    "OFFLINE": "Vi er ikke tilgængelige i øjeblikket"
+    "OFFLINE": "Vi er ikke tilgængelige i øjeblikket",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Svarer typisk på et par minutter",
     "IN_A_FEW_HOURS": "Svarer typisk på et par timer",
     "IN_A_DAY": "Svarer typisk på en dag",
-    "BACK_IN": "Vi er tilbage online"
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
   },
   "DAY_NAMES": {
     "SUNDAY": "søndag",

@@ -9,6 +9,7 @@ RSpec.describe AdministratorNotifications::ChannelNotificationsMailer do
   let(:class_instance) { described_class.new }
   let!(:account) { create(:account) }
   let!(:administrator) { create(:user, :administrator, email: 'agent1@example.com', account: account) }
+  let!(:another_administrator) { create(:user, :administrator, email: 'agent2@example.com', account: account) }
 
   describe 'facebook_disconnect' do
     before do
@@ -26,7 +27,7 @@ RSpec.describe AdministratorNotifications::ChannelNotificationsMailer do
       end
 
       it 'renders the receiver email' do
-        expect(mail.to).to eq([administrator.email])
+        expect(mail.to).to contain_exactly(administrator.email, another_administrator.email)
       end
     end
   end
@@ -41,7 +42,7 @@ RSpec.describe AdministratorNotifications::ChannelNotificationsMailer do
     end
 
     it 'renders the receiver email' do
-      expect(mail.to).to eq([administrator.email])
+      expect(mail.to).to contain_exactly(administrator.email, another_administrator.email)
     end
   end
 
@@ -55,7 +56,7 @@ RSpec.describe AdministratorNotifications::ChannelNotificationsMailer do
     end
 
     it 'renders the receiver email' do
-      expect(mail.to).to eq([administrator.email])
+      expect(mail.to).to contain_exactly(administrator.email, another_administrator.email)
     end
   end
 end

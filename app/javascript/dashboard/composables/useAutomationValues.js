@@ -14,13 +14,13 @@ import {
 } from 'dashboard/constants/automation';
 
 /**
- * This is a shared composables that holds utilites used to build dropdown and file options
+ * This is a shared composables that holds utilities used to build dropdown and file options
  * @returns {Object} An object containing various automation-related functions and computed properties.
  */
 export default function useAutomationValues() {
   const getters = useStoreGetters();
   const { t } = useI18n();
-  const agents = useMapGetter('agents/getAgents');
+  const agents = useMapGetter('agents/getVerifiedAgents');
   const campaigns = useMapGetter('campaigns/getAllCampaigns');
   const contacts = useMapGetter('contacts/getContacts');
   const inboxes = useMapGetter('inboxes/getInboxes');
@@ -104,6 +104,7 @@ export default function useAutomationValues() {
       contacts: contacts.value,
       customAttributes: getters['attributes/getAttributes'].value,
       inboxes: inboxes.value,
+      labels: labels.value,
       statusFilterOptions: statusFilterOptions.value,
       priorityOptions: priorityOptions.value,
       messageTypeOptions: messageTypeOptions.value,

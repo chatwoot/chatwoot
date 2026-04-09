@@ -117,7 +117,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         portal_params = {
           portal: {
             name: 'updated_test_portal',
-            config: { 'allowed_locales' => %w[en es] }
+            config: { 'allowed_locales' => %w[en es], 'draft_locales' => ['es'], 'default_locale' => 'en' }
           }
         }
 
@@ -130,8 +130,33 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['name']).to eql(portal_params[:portal][:name])
-        expect(json_response['config']).to eql({ 'allowed_locales' => [{ 'articles_count' => 0, 'categories_count' => 0, 'code' => 'en' },
-                                                                       { 'articles_count' => 0, 'categories_count' => 0, 'code' => 'es' }] })
+        expect(json_response['config']).to eql(
+          {
+            'allowed_locales' => [
+              { 'articles_count' => 0, 'categories_count' => 0, 'code' => 'en', 'draft' => false },
+              { 'articles_count' => 0, 'categories_count' => 0, 'code' => 'es', 'draft' => true }
+            ]
+          }
+        )
+      end
+
+      it 'preserves drafted locales when draft_locales is omitted' do
+        portal.update!(config: { allowed_locales: %w[en es fr], draft_locales: ['es'], default_locale: 'en' })
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: {
+              portal: {
+                config: { allowed_locales: %w[en es fr], default_locale: 'en' }
+              }
+            },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        portal.reload
+        expect(portal.draft_locale_codes).to eq(['es'])
+        expect(response.parsed_body.dig('config', 'allowed_locales')).to include(
+          a_hash_including('code' => 'es', 'draft' => true)
+        )
       end
 
       it 'archive portal' do
@@ -153,6 +178,25 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
 
         portal.reload
         expect(portal.archived).to be_truthy
+      end
+
+      it 'clears associated web widget when inbox selection is blank' do
+        web_widget_inbox = create(:inbox, account: account)
+        portal.update!(channel_web_widget: web_widget_inbox.channel)
+
+        expect(portal.channel_web_widget_id).to eq(web_widget_inbox.channel.id)
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: {
+              portal: { name: portal.name },
+              inbox_id: ''
+            },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        portal.reload
+        expect(portal.channel_web_widget_id).to be_nil
+        expect(response.parsed_body['inbox']).to be_nil
       end
     end
   end

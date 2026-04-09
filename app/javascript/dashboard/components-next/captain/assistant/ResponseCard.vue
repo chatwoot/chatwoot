@@ -9,6 +9,7 @@ import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.v
 import Button from 'dashboard/components-next/button/Button.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Policy from 'dashboard/components/policy.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   id: {
@@ -58,6 +59,10 @@ const props = defineProps({
   showMenu: {
     type: Boolean,
     default: true,
+  },
+  showActions: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -159,72 +164,115 @@ const handleDocumentableClick = () => {
     <span class="text-n-slate-11 text-sm line-clamp-5">
       {{ answer }}
     </span>
-    <div v-if="!compact" class="items-center justify-between hidden lg:flex">
-      <div class="inline-flex items-center">
-        <span
-          class="text-sm shrink-0 truncate text-n-slate-11 inline-flex items-center gap-1"
-        >
-          <i class="i-woot-captain" />
-          {{ assistant?.name || '' }}
-        </span>
-        <div
-          v-if="documentable"
-          class="shrink-0 text-sm text-n-slate-11 inline-flex line-clamp-1 gap-1 ml-3"
-        >
+    <div
+      v-if="!compact"
+      class="flex items-start justify-between flex-col-reverse md:flex-row gap-3"
+    >
+      <Policy v-if="showActions" :permissions="['administrator']">
+        <div class="flex items-center gap-2 sm:gap-5 w-full">
+          <Button
+            v-if="status === 'pending'"
+            :label="$t('CAPTAIN.RESPONSES.OPTIONS.APPROVE')"
+            icon="i-lucide-circle-check-big"
+            sm
+            link
+            class="hover:!no-underline"
+            @click="
+              handleAssistantAction({ action: 'approve', value: 'approve' })
+            "
+          />
+          <Button
+            :label="$t('CAPTAIN.RESPONSES.OPTIONS.EDIT_RESPONSE')"
+            icon="i-lucide-pencil-line"
+            sm
+            slate
+            link
+            class="hover:!no-underline"
+            @click="
+              handleAssistantAction({
+                action: 'edit',
+                value: 'edit',
+              })
+            "
+          />
+          <Button
+            :label="$t('CAPTAIN.RESPONSES.OPTIONS.DELETE_RESPONSE')"
+            icon="i-lucide-trash"
+            sm
+            ruby
+            link
+            class="hover:!no-underline"
+            @click="
+              handleAssistantAction({ action: 'delete', value: 'delete' })
+            "
+          />
+        </div>
+      </Policy>
+      <div
+        class="flex items-center gap-3"
+        :class="{ 'justify-between w-full': !showActions }"
+      >
+        <div class="inline-flex items-center gap-3 min-w-0">
           <span
-            v-if="documentable.type === 'Captain::Document'"
-            class="inline-flex items-center gap-1 truncate over"
+            v-if="status === 'approved'"
+            class="text-sm shrink-0 truncate text-n-slate-11 inline-flex items-center gap-1"
           >
-            <i class="i-ph-files-light text-base" />
-            <span class="max-w-96 truncate" :title="documentable.name">
+            <Icon icon="i-woot-captain" class="size-3.5" />
+            {{ assistant?.name || '' }}
+          </span>
+          <div
+            v-if="documentable"
+            class="text-sm text-n-slate-11 grid grid-cols-[auto_1fr] items-center gap-1 min-w-0"
+          >
+            <Icon
+              v-if="documentable.type === 'Captain::Document'"
+              icon="i-ph-files-light"
+              class="size-3.5"
+            />
+            <Icon
+              v-else-if="documentable.type === 'User'"
+              icon="i-ph-user-circle-plus"
+              class="size-3.5"
+            />
+            <Icon
+              v-else-if="documentable.type === 'Conversation'"
+              icon="i-ph-chat-circle-dots"
+              class="size-3.5"
+            />
+            <span
+              v-if="documentable.type === 'Captain::Document'"
+              class="truncate"
+              :title="documentable.name"
+            >
               {{ documentable.name }}
             </span>
-          </span>
-          <span
-            v-if="documentable.type === 'User'"
-            class="inline-flex items-center gap-1"
-          >
-            <i class="i-ph-user-circle-plus text-base" />
             <span
-              class="max-w-96 truncate"
+              v-else-if="documentable.type === 'User'"
+              class="truncate"
               :title="documentable.available_name"
             >
               {{ documentable.available_name }}
             </span>
-          </span>
-          <span
-            v-else-if="documentable.type === 'Conversation'"
-            class="inline-flex items-center gap-1 group cursor-pointer"
-            role="button"
-            @click="handleDocumentableClick"
-          >
-            <i class="i-ph-chat-circle-dots text-base" />
-            <span class="group-hover:underline">
+            <span
+              v-else-if="documentable.type === 'Conversation'"
+              class="hover:underline truncate cursor-pointer"
+              role="button"
+              @click="handleDocumentableClick"
+            >
               {{
                 t(`CAPTAIN.RESPONSES.DOCUMENTABLE.CONVERSATION`, {
                   id: documentable.display_id,
                 })
               }}
             </span>
-          </span>
-          <span v-else />
+          </div>
         </div>
         <div
-          v-if="status !== 'approved'"
-          class="shrink-0 text-sm text-n-slate-11 line-clamp-1 inline-flex items-center gap-1 ml-3"
+          class="shrink-0 text-sm text-n-slate-11 line-clamp-1 inline-flex items-center gap-1"
         >
-          <i
-            class="i-ph-stack text-base"
-            :title="t('CAPTAIN.RESPONSES.STATUS.TITLE')"
-          />
-          {{ t(`CAPTAIN.RESPONSES.STATUS.${status.toUpperCase()}`) }}
+          <Icon icon="i-ph-calendar-dot" class="size-3.5" />
+          {{ timestamp }}
         </div>
-      </div>
-      <div
-        class="shrink-0 text-sm text-n-slate-11 line-clamp-1 inline-flex items-center gap-1 ml-3"
-      >
-        <i class="i-ph-calendar-dot" />
-        {{ timestamp }}
       </div>
     </div>
   </CardLayout>

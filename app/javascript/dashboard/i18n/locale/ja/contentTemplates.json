@@ -1,0 +1,52 @@
+{
+  "CONTENT_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Twilio Templates",
+      "SUBTITLE": "Select the Twilio template you want to send",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "テンプレートを検索",
+      "NO_TEMPLATES_FOUND": "該当するテンプレートが見つかりません:",
+      "NO_CONTENT": "コンテンツなし",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "カテゴリ",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "言語",
+        "TEMPLATE_BODY": "テンプレート本文",
+        "CATEGORY": "カテゴリ"
+      },
+      "TYPES": {
+        "MEDIA": "Media",
+        "QUICK_REPLY": "Quick Reply",
+        "CALL_TO_ACTION": "Call to Action",
+        "TEXT": "テキスト"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "変数",
+      "LANGUAGE": "言語",
+      "CATEGORY": "カテゴリ",
+      "VARIABLE_PLACEHOLDER": "{variable} の値を入力",
+      "GO_BACK_LABEL": "戻る",
+      "SEND_MESSAGE_LABEL": "メッセージを送信",
+      "FORM_ERROR_MESSAGE": "送信前に全ての変数を入力してください",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "MEDIA_URL_LABEL": "Enter full media URL",
+      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
+    },
+    "FORM": {
+      "BACK_BUTTON": "戻る",
+      "SEND_MESSAGE_BUTTON": "メッセージを送信"
+    }
+  }
+}

@@ -1,36 +1,18 @@
-class Captain::Tools::Copilot::SearchArticlesService < Captain::Tools::BaseService
-  def name
+class Captain::Tools::Copilot::SearchArticlesService < Captain::Tools::BaseTool
+  def self.name
     'search_articles'
   end
+  description 'Search articles based on parameters'
+  param :query, desc: 'Search articles by title or content (partial match)', required: false
+  param :category_id, type: :number, desc: 'Filter articles by category ID', required: false
+  param :status, type: :string, desc: 'Filter articles by status - MUST BE ONE OF: draft, published, archived', required: false
 
-  def description
-    'Search articles based on parameters'
-  end
-
-  def parameters
-    {
-      type: 'object',
-      properties: properties,
-      required: ['query']
-    }
-  end
-
-  def execute(arguments)
-    query = arguments['query']
-    category_id = arguments['category_id']
-    status = arguments['status']
-
-    Rails.logger.info "#{self.class.name}: Query: #{query}, Category ID: #{category_id}, Status: #{status}"
-
-    return 'Missing required parameters' if query.blank?
-
-    articles = fetch_articles(query, category_id, status)
-
+  def execute(query: nil, category_id: nil, status: nil)
+    articles = fetch_articles(query: query, category_id: category_id, status: status)
     return 'No articles found' unless articles.exists?
 
     total_count = articles.count
     articles = articles.limit(100)
-
     <<~RESPONSE
       #{total_count > 100 ? "Found #{total_count} articles (showing first 100)" : "Total number of articles: #{total_count}"}
       #{articles.map(&:to_llm_text).join("\n---\n")}
@@ -43,29 +25,11 @@ class Captain::Tools::Copilot::SearchArticlesService < Captain::Tools::BaseServi
 
   private
 
-  def fetch_articles(query, category_id, status)
+  def fetch_articles(query:, category_id:, status:)
     articles = Article.where(account_id: @assistant.account_id)
     articles = articles.where('title ILIKE :query OR content ILIKE :query', query: "%#{query}%") if query.present?
     articles = articles.where(category_id: category_id) if category_id.present?
     articles = articles.where(status: status) if status.present?
     articles
-  end
-
-  def properties
-    {
-      query: {
-        type: 'string',
-        description: 'Search articles by title or content (partial match)'
-      },
-      category_id: {
-        type: 'number',
-        description: 'Filter articles by category ID'
-      },
-      status: {
-        type: 'string',
-        enum: %w[draft published archived],
-        description: 'Filter articles by status'
-      }
-    }
   end
 end

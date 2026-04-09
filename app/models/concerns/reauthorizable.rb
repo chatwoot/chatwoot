@@ -76,6 +76,7 @@ module Reauthorizable
       'Integrations::Hook' => ->(obj) { obj.process_integration_hook_reauthorization_emails },
       'Channel::FacebookPage' => ->(obj) { obj.send_channel_reauthorization_email(:facebook_disconnect) },
       'Channel::Instagram' => ->(obj) { obj.send_channel_reauthorization_email(:instagram_disconnect) },
+      'Channel::Tiktok' => ->(obj) { obj.send_channel_reauthorization_email(:tiktok_disconnect) },
       'Channel::Whatsapp' => ->(obj) { obj.send_channel_reauthorization_email(:whatsapp_disconnect) },
       'Channel::Email' => ->(obj) { obj.send_channel_reauthorization_email(:email_disconnect) },
       'AutomationRule' => ->(obj) { obj.handle_automation_rule_reauthorization }

@@ -58,7 +58,7 @@ export default {
       ) {
         return 'h-full overflow-auto w-full';
       }
-      return 'flex-1 min-w-0 px-0 flex flex-col items-center justify-center h-full';
+      return 'flex-1 min-w-0 px-0 flex flex-col items-center justify-center h-full bg-n-surface-1';
     },
   },
 };

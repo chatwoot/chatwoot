@@ -68,6 +68,12 @@ export const AUTOMATIONS = {
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_6,
       },
+      {
+        key: 'labels',
+        name: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
@@ -109,6 +115,10 @@ export const AUTOMATIONS = {
       {
         key: 'open_conversation',
         name: 'OPEN_CONVERSATION',
+      },
+      {
+        key: 'pending_conversation',
+        name: 'PENDING_CONVERSATION',
       },
       {
         key: 'resolve_conversation',
@@ -186,6 +196,12 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'labels',
+        name: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
@@ -219,6 +235,10 @@ export const AUTOMATIONS = {
       {
         key: 'snooze_conversation',
         name: 'SNOOZE_CONVERSATION',
+      },
+      {
+        key: 'pending_conversation',
+        name: 'PENDING_CONVERSATION',
       },
       {
         key: 'resolve_conversation',
@@ -308,6 +328,12 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'labels',
+        name: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
@@ -341,6 +367,10 @@ export const AUTOMATIONS = {
       {
         key: 'snooze_conversation',
         name: 'SNOOZE_CONVERSATION',
+      },
+      {
+        key: 'pending_conversation',
+        name: 'PENDING_CONVERSATION',
       },
       {
         key: 'resolve_conversation',
@@ -424,6 +454,12 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'labels',
+        name: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
@@ -459,6 +495,110 @@ export const AUTOMATIONS = {
         name: 'SNOOZE_CONVERSATION',
       },
       {
+        key: 'pending_conversation',
+        name: 'PENDING_CONVERSATION',
+      },
+      {
+        key: 'send_webhook_event',
+        name: 'SEND_WEBHOOK_EVENT',
+      },
+      {
+        key: 'send_attachment',
+        name: 'SEND_ATTACHMENT',
+      },
+    ],
+  },
+  conversation_resolved: {
+    conditions: [
+      {
+        key: 'browser_language',
+        name: 'BROWSER_LANGUAGE',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'email',
+        name: 'EMAIL',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
+        key: 'mail_subject',
+        name: 'MAIL_SUBJECT',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
+        key: 'country_code',
+        name: 'COUNTRY_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'referer',
+        name: 'REFERER_LINK',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
+        key: 'assignee_id',
+        name: 'ASSIGNEE_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'phone_number',
+        name: 'PHONE_NUMBER',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_6,
+      },
+      {
+        key: 'team_id',
+        name: 'TEAM_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'inbox_id',
+        name: 'INBOX',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'conversation_language',
+        name: 'CONVERSATION_LANGUAGE',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'priority',
+        name: 'PRIORITY',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+    ],
+    actions: [
+      {
+        key: 'assign_agent',
+        name: 'ASSIGN_AGENT',
+      },
+      {
+        key: 'assign_team',
+        name: 'ASSIGN_TEAM',
+      },
+      {
+        key: 'send_email_to_team',
+        name: 'SEND_EMAIL_TO_TEAM',
+      },
+      {
+        key: 'send_message',
+        name: 'SEND_MESSAGE',
+      },
+      {
+        key: 'send_email_transcript',
+        name: 'SEND_EMAIL_TRANSCRIPT',
+      },
+      {
         key: 'send_webhook_event',
         name: 'SEND_WEBHOOK_EVENT',
       },
@@ -478,6 +618,10 @@ export const AUTOMATION_RULE_EVENTS = [
   {
     key: 'conversation_updated',
     value: 'CONVERSATION_UPDATED',
+  },
+  {
+    key: 'conversation_resolved',
+    value: 'CONVERSATION_RESOLVED',
   },
   {
     key: 'message_created',
@@ -538,6 +682,11 @@ export const AUTOMATION_ACTION_TYPES = [
   {
     key: 'open_conversation',
     label: 'OPEN_CONVERSATION',
+    inputType: null,
+  },
+  {
+    key: 'pending_conversation',
+    label: 'PENDING_CONVERSATION',
     inputType: null,
   },
   {

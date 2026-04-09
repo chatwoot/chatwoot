@@ -21,6 +21,7 @@ gem 'telephone_number'
 gem 'time_diff'
 gem 'tzinfo-data'
 gem 'valid_email2'
+gem 'email-provider-info'
 # compress javascript config.assets.js_compressor
 gem 'uglifier'
 ##-- used for single column multiple binary flags in notification settings/feature flagging --##
@@ -39,6 +40,8 @@ gem 'json_refs'
 gem 'rack-attack', '>= 6.7.0'
 # a utility tool for streaming, flexible and safe downloading of remote files
 gem 'down'
+# SSRF-safe URL fetching
+gem 'ssrf_filter', '~> 1.5'
 # authentication type to fetch and send mail over oauth2.0
 gem 'gmail_xoauth'
 # Lock net-smtp to 0.3.4 to avoid issues with gmail_xoauth2
@@ -54,6 +57,9 @@ gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby',
 gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
 
+##-- for actionmailbox --##
+gem 'aws-actionmailbox-ses', '~> 0'
+
 ##-- gems for database --#
 gem 'groupdate'
 gem 'pg'
@@ -61,6 +67,10 @@ gem 'redis'
 gem 'redis-namespace'
 # super fast record imports in bulk
 gem 'activerecord-import'
+
+gem 'searchkick'
+gem 'opensearch-ruby'
+gem 'faraday_middleware-aws-sigv4'
 
 ##--- gems for server & infra configuration ---##
 gem 'dotenv-rails', '>= 3.0.0'
@@ -74,9 +84,12 @@ gem 'barnes'
 gem 'devise', '>= 4.9.4'
 gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'
 gem 'devise_token_auth', '>= 1.2.3'
+# two-factor authentication
+gem 'devise-two-factor', '>= 5.0.0'
 # authorization
 gem 'jwt'
 gem 'pundit'
+
 # super admin
 gem 'administrate', '>= 0.20.1'
 gem 'administrate-field-active_storage', '>= 1.0.3'
@@ -89,14 +102,14 @@ gem 'wisper', '2.0.0'
 ##--- gems for channels ---##
 gem 'facebook-messenger'
 gem 'line-bot-api'
-gem 'twilio-ruby', '~> 5.66'
+gem 'twilio-ruby'
 # twitty will handle subscription of twitter account events
 # gem 'twitty', git: 'https://github.com/chatwoot/twitty'
 gem 'twitty', '~> 0.1.5'
 # facebook client
 gem 'koala'
 # slack client
-gem 'slack-ruby-client', '~> 2.5.2'
+gem 'slack-ruby-client', '~> 2.7.0'
 # for dialogflow integrations
 gem 'google-cloud-dialogflow-v2', '>= 0.24.0'
 gem 'grpc'
@@ -108,7 +121,7 @@ gem 'google-cloud-translate-v3', '>= 0.7.0'
 ##-- apm and error monitoring ---#
 # loaded only when environment variables are set.
 # ref application.rb
-gem 'ddtrace', require: false
+gem 'datadog', '~> 2.0', require: false
 gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', '>= 1.6.2', require: false
@@ -151,7 +164,7 @@ gem 'working_hours'
 gem 'pg_search'
 
 # Subscriptions, Billing
-gem 'stripe'
+gem 'stripe', '~> 18.0'
 
 ## - helper gems --##
 ## to populate db with sample data
@@ -167,6 +180,7 @@ gem 'audited', '~> 5.4', '>= 5.4.1'
 
 # need for google auth
 gem 'omniauth', '>= 2.1.2'
+gem 'omniauth-saml'
 gem 'omniauth-google-oauth2', '>= 1.1.3'
 gem 'omniauth-rails_csrf_protection', '~> 1.0', '>= 1.0.2'
 
@@ -179,7 +193,17 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
-gem 'ai-agents', '>= 0.2.1'
+gem 'ai-agents', '>= 0.9.1'
+
+# TODO: Move this gem as a dependency of ai-agents
+gem 'ruby_llm', '>= 1.8.2'
+gem 'ruby_llm-schema'
+
+gem 'cld3', '~> 3.7'
+
+# OpenTelemetry for LLM observability
+gem 'opentelemetry-sdk'
+gem 'opentelemetry-exporter-otlp'
 
 gem 'shopify_api'
 
@@ -195,7 +219,7 @@ group :production do
 end
 
 group :development do
-  gem 'annotate'
+  gem 'annotaterb'
   gem 'bullet'
   gem 'letter_opener'
   gem 'scss_lint', require: false
@@ -209,6 +233,8 @@ group :development do
   gem 'stackprof'
   # Should install the associated chrome extension to view query logs
   gem 'meta_request', '>= 0.8.3'
+
+  gem 'tidewave'
 end
 
 group :test do
@@ -218,6 +244,7 @@ group :test do
   gem 'webmock'
   # test profiling
   gem 'test-prof'
+  gem 'simplecov_json_formatter', require: false
 end
 
 group :development, :test do
@@ -242,7 +269,8 @@ group :development, :test do
   gem 'rubocop-factory_bot', require: false
   gem 'seed_dump'
   gem 'shoulda-matchers'
-  gem 'simplecov', '0.17.1', require: false
+  gem 'simplecov', '>= 0.21', require: false
+  gem 'skooma'
   gem 'spring'
   gem 'spring-watcher-listen'
 end

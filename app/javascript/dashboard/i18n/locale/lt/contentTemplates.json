@@ -1,0 +1,52 @@
+{
+  "CONTENT_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Twilio Templates",
+      "SUBTITLE": "Select the Twilio template you want to send",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Ieškoti šablonų",
+      "NO_TEMPLATES_FOUND": "Šablonų nerasta",
+      "NO_CONTENT": "No content",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "Kategorija",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "Kalba",
+        "TEMPLATE_BODY": "Šablono tekstas",
+        "CATEGORY": "Kategorija"
+      },
+      "TYPES": {
+        "MEDIA": "Media",
+        "QUICK_REPLY": "Quick Reply",
+        "CALL_TO_ACTION": "Call to Action",
+        "TEXT": "Tekstas"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Kintamieji",
+      "LANGUAGE": "Kalba",
+      "CATEGORY": "Kategorija",
+      "VARIABLE_PLACEHOLDER": "Įveskite {variable} reikšmę",
+      "GO_BACK_LABEL": "Grįžti",
+      "SEND_MESSAGE_LABEL": "Išsiųsti pranešimą",
+      "FORM_ERROR_MESSAGE": "Prieš siųsdami užpildykite visus kintamuosius",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "MEDIA_URL_LABEL": "Enter full media URL",
+      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
+    },
+    "FORM": {
+      "BACK_BUTTON": "Atgal",
+      "SEND_MESSAGE_BUTTON": "Išsiųsti pranešimą"
+    }
+  }
+}

@@ -225,4 +225,49 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/bulk_actions (contacts)' do
+    context 'when it is an authenticated user' do
+      let!(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'enqueues Contacts::BulkActionJob with permitted params' do
+        contact_one = create(:contact, account: account)
+        contact_two = create(:contact, account: account)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: {
+                 type: 'Contact',
+                 ids: [contact_one.id, contact_two.id],
+                 labels: { add: %w[vip support] },
+                 extra: 'ignored'
+               }
+        end.to have_enqueued_job(Contacts::BulkActionJob).with(
+          account.id,
+          agent.id,
+          hash_including(
+            'ids' => [contact_one.id.to_s, contact_two.id.to_s],
+            'labels' => hash_including('add' => %w[vip support])
+          )
+        )
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'returns unauthorized for delete action when user is not admin' do
+        contact = create(:contact, account: account)
+
+        post "/api/v1/accounts/#{account.id}/bulk_actions",
+             headers: agent.create_new_auth_token,
+             params: {
+               type: 'Contact',
+               ids: [contact.id],
+               action_name: 'delete'
+             }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end

@@ -22,9 +22,13 @@
       "UPDATE_SUCCESFUL": "Estado da conversa atualizado com sucesso.",
       "UPDATE_FAILED": "Falha ao atualizar conversas. Por favor, tente novamente."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Atribuir etiquetas",
-      "NO_LABELS_FOUND": "Nenhuma etiqueta encontrada para",
+      "NO_LABELS_FOUND": "Nenhuma etiqueta encontrada",
       "ASSIGN_SELECTED_LABELS": "Atribuir etiquetas selecionadas",
       "ASSIGN_SUCCESFUL": "Etiquetas atribuídas com sucesso.",
       "ASSIGN_FAILED": "Falha ao atribuir etiquetas. Por favor, tente novamente."

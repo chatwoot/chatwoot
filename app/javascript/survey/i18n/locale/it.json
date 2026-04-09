@@ -1,13 +1,13 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Caro cliente 👋, si prega di prendere qualche minuto per condividere i commenti sulla conversazione che hai avuto con {inboxName}.",
+    "DESCRIPTION": "Caro cliente 👋, ti chiediamo gentilmente di prenderti qualche minuto per condividere il tuo feedback sulla conversazione avuta con {inboxName}.",
     "RATING": {
       "LABEL": "Valuta la conversazione",
       "SUCCESS_MESSAGE": "Grazie per aver inviato la valutazione"
     },
     "FEEDBACK": {
       "LABEL": "Hai dei pensieri che vorresti condividere?",
-      "PLACEHOLDER": "Il tuo feedback (facoltativo)",
+      "PLACEHOLDER": "Il tuo feedback (opzionale)",
       "BUTTON_TEXT": "Invia feedback"
     },
     "API": {

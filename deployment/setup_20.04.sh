@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
-# Script Version: 3.4.2
+# Script Version: 3.5.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,Upgrade:,webserver,version,web-only,worker-only,convert:
 OPTIONS=cdhiI:l:rsuU:wvWK
-CWCTL_VERSION="3.3.0"
+CWCTL_VERSION="3.5.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
@@ -209,11 +209,11 @@ EOF
 function install_dependencies() {
   apt-get update && apt-get upgrade -y
   apt-get install -y curl
-  curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+  curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/redis-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
   mkdir -p /etc/apt/keyrings
-  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-  NODE_MAJOR=23
+  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor --yes -o /etc/apt/keyrings/nodesource.gpg
+  NODE_MAJOR=24
   echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
   echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg 16" > /etc/apt/sources.list.d/pgdg.list
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
@@ -430,7 +430,7 @@ function configure_systemd_services() {
 
   if [ "$DEPLOYMENT_TYPE" == "web" ]; then
     echo "Setting up web-only deployment"
-    
+
     # Stop and disable existing services if converting
     if [ "$existing_full_deployment" = true ]; then
       echo "Converting from full deployment to web-only"
@@ -449,14 +449,14 @@ function configure_systemd_services() {
 
     cp /home/chatwoot/chatwoot/deployment/chatwoot-web.1.service /etc/systemd/system/chatwoot-web.1.service
     cp /home/chatwoot/chatwoot/deployment/chatwoot-web.target /etc/systemd/system/chatwoot-web.target
-    
+
     systemctl daemon-reload
     systemctl enable chatwoot-web.target
     systemctl start chatwoot-web.target
-    
+
   elif [ "$DEPLOYMENT_TYPE" == "worker" ]; then
     echo "Setting up worker-only deployment"
-    
+
     # Stop and disable existing services if converting
     if [ "$existing_full_deployment" = true ]; then
       echo "Converting from full deployment to worker-only"
@@ -475,14 +475,14 @@ function configure_systemd_services() {
 
     cp /home/chatwoot/chatwoot/deployment/chatwoot-worker.1.service /etc/systemd/system/chatwoot-worker.1.service
     cp /home/chatwoot/chatwoot/deployment/chatwoot-worker.target /etc/systemd/system/chatwoot-worker.target
-    
+
     systemctl daemon-reload
     systemctl enable chatwoot-worker.target
     systemctl start chatwoot-worker.target
-    
+
   else
     echo "Setting up full deployment (web + worker)"
-    
+
     # Stop existing specialized deployments if converting back to full
     if [ -f "/etc/systemd/system/chatwoot-web.target" ]; then
       echo "Converting from web-only to full deployment"
@@ -494,7 +494,7 @@ function configure_systemd_services() {
       systemctl stop chatwoot-worker.target || true
       systemctl disable chatwoot-worker.target || true
     fi
-    
+
     cp /home/chatwoot/chatwoot/deployment/chatwoot-web.1.service /etc/systemd/system/chatwoot-web.1.service
     cp /home/chatwoot/chatwoot/deployment/chatwoot-worker.1.service /etc/systemd/system/chatwoot-worker.1.service
     cp /home/chatwoot/chatwoot/deployment/chatwoot.target /etc/systemd/system/chatwoot.target
@@ -538,7 +538,7 @@ function setup_ssl() {
   cd chatwoot
   sed -i "s/http:\/\/0.0.0.0:3000/https:\/\/$domain_name/g" .env
 EOF
-  
+
   # Restart the appropriate chatwoot target
   if [ -f "/etc/systemd/system/chatwoot-web.target" ]; then
     systemctl restart chatwoot-web.target
@@ -882,7 +882,7 @@ function upgrade_redis() {
 
   echo "Upgrading Redis to v7+ for Rails 7 support(Chatwoot v2.17+)"
 
-  curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+  curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/redis-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
   apt-get update -y
   apt-get upgrade redis-server -y
@@ -908,15 +908,15 @@ function upgrade_node() {
   # Parse major version number
   major_version=$(echo "$current_version" | cut -d. -f1)
 
-  if [ "$major_version" -ge 23 ]; then
-    echo "Node.js is already version $current_version (>= 23.x). Skipping Node.js upgrade."
+  if [ "$major_version" -ge 24 ]; then
+    echo "Node.js is already version $current_version (>= 24.x). Skipping Node.js upgrade."
     return
   fi
 
-  echo "Upgrading Node.js version to v23.x"
+  echo "Upgrading Node.js version to v24.x"
   mkdir -p /etc/apt/keyrings
-  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-  NODE_MAJOR=23
+  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor --yes -o /etc/apt/keyrings/nodesource.gpg
+  NODE_MAJOR=24
   echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
 
   apt-get update
@@ -1005,7 +1005,7 @@ EOF
   upgrade_redis
   upgrade_node
   get_pnpm
-  
+
   sudo -i -u chatwoot << EOF
 
   # Navigate to the Chatwoot directory
@@ -1098,16 +1098,16 @@ function restart() {
 ##############################################################################
 function convert_deployment() {
   echo "Converting Chatwoot deployment to: $DEPLOYMENT_TYPE"
-  
+
   # Check if Chatwoot is installed
   if [ ! -d "/home/chatwoot/chatwoot" ]; then
     echo "Chatwoot installation not found. Use --install first."
     exit 1
   fi
-  
+
   # Run the systemd service configuration which handles conversion logic
   configure_systemd_services
-  
+
   echo "Deployment converted successfully to: $DEPLOYMENT_TYPE"
 }
 

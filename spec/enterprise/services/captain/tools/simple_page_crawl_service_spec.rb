@@ -125,4 +125,63 @@ RSpec.describe Captain::Tools::SimplePageCrawlService do
       )
     end
   end
+
+  describe '#meta_description' do
+    context 'when meta description exists' do
+      before do
+        stub_request(:get, base_url)
+          .to_return(body: '<html><head><meta name="description" content="This is a test page description"></head></html>')
+      end
+
+      it 'returns the meta description content' do
+        expect(service.meta_description).to eq('This is a test page description')
+      end
+    end
+
+    context 'when meta description does not exist' do
+      before do
+        stub_request(:get, base_url)
+          .to_return(body: '<html><head><title>Test</title></head></html>')
+      end
+
+      it 'returns nil' do
+        expect(service.meta_description).to be_nil
+      end
+    end
+  end
+
+  describe '#favicon_url' do
+    context 'when favicon exists with relative URL' do
+      before do
+        stub_request(:get, base_url)
+          .to_return(body: '<html><head><link rel="icon" href="/favicon.ico"></head></html>')
+      end
+
+      it 'returns the resolved absolute favicon URL' do
+        expect(service.favicon_url).to eq('https://example.com/favicon.ico')
+      end
+    end
+
+    context 'when favicon exists with absolute URL' do
+      before do
+        stub_request(:get, base_url)
+          .to_return(body: '<html><head><link rel="icon" href="https://cdn.example.com/favicon.ico"></head></html>')
+      end
+
+      it 'returns the absolute favicon URL' do
+        expect(service.favicon_url).to eq('https://cdn.example.com/favicon.ico')
+      end
+    end
+
+    context 'when favicon does not exist' do
+      before do
+        stub_request(:get, base_url)
+          .to_return(body: '<html><head><title>Test</title></head></html>')
+      end
+
+      it 'returns nil' do
+        expect(service.favicon_url).to be_nil
+      end
+    end
+  end
 end

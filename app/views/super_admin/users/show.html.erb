@@ -53,6 +53,14 @@ as well as a link to its edit page.
         <% end %>
       </fieldset>
     <% end %>
+
+    <dt class="attribute-label" id="mfa_enabled">MFA</dt>
+    <dd class="attribute-data attribute-data--string">
+      <% mfa_enabled = page.resource.mfa_enabled? %>
+      <span class="<%= mfa_enabled ? 'bg-green-100/70 text-green-800' : 'bg-slate-100 text-slate-700' %> inline-flex items-center px-2 h-4 leading-4 rounded-xl text-xxs font-medium">
+        <%= mfa_enabled ? 'Enabled' : 'Disabled' %>
+      </span>
+    </dd>
   </dl>
 </section>
 

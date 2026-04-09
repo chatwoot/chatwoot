@@ -100,6 +100,8 @@ export default {
     onCmdSnoozeConversation(snoozeType) {
       if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
         this.showCustomTimeSnoozeModal = true;
+      } else if (typeof snoozeType === 'number') {
+        this.updateConversations('snoozed', snoozeType);
       } else {
         this.updateConversations('snoozed', findSnoozeTime(snoozeType) || null);
       }
@@ -263,7 +265,7 @@ export default {
 
 <style scoped lang="scss">
 .bulk-action__container {
-  @apply p-4 relative border-b border-solid border-n-strong dark:border-n-weak;
+  @apply p-3 relative border-b border-solid border-n-strong dark:border-n-weak;
 }
 
 .bulk-action__panel {

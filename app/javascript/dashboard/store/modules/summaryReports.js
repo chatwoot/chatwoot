@@ -28,15 +28,17 @@ async function fetchSummaryReports(type, params, { commit }) {
   const config = typeMap[type];
   if (!config) return;
 
+  let error = null;
   try {
     commit('setUIFlags', { [config.flagKey]: true });
     const response = await SummaryReportsAPI[config.apiMethod](params);
     commit(config.mutationKey, camelcaseKeys(response.data, { deep: true }));
-  } catch (error) {
-    // Ignore error
+  } catch (e) {
+    error = e;
   } finally {
     commit('setUIFlags', { [config.flagKey]: false });
   }
+  if (error) throw error;
 }
 
 export const initialState = {

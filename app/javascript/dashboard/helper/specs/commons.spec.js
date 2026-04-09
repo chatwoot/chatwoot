@@ -5,6 +5,7 @@ import {
   convertToCategorySlug,
   convertToPortalSlug,
   sanitizeVariableSearchKey,
+  formatToTitleCase,
 } from '../commons';
 
 describe('#getTypingUsersText', () => {
@@ -140,5 +141,53 @@ describe('sanitizeVariableSearchKey', () => {
 
   it('returns empty string for undefined input', () => {
     expect(sanitizeVariableSearchKey()).toBe('');
+  });
+});
+
+describe('formatToTitleCase', () => {
+  it('converts underscore-separated string to title case', () => {
+    expect(formatToTitleCase('round_robin')).toBe('Round Robin');
+  });
+
+  it('converts single word to title case', () => {
+    expect(formatToTitleCase('priority')).toBe('Priority');
+  });
+
+  it('converts multiple underscores to title case', () => {
+    expect(formatToTitleCase('auto_assignment_policy')).toBe(
+      'Auto Assignment Policy'
+    );
+  });
+
+  it('handles already capitalized words', () => {
+    expect(formatToTitleCase('HIGH_PRIORITY')).toBe('HIGH PRIORITY');
+  });
+
+  it('handles mixed case with underscores', () => {
+    expect(formatToTitleCase('first_Name_last')).toBe('First Name Last');
+  });
+
+  it('handles empty string', () => {
+    expect(formatToTitleCase('')).toBe('');
+  });
+
+  it('handles null input', () => {
+    expect(formatToTitleCase(null)).toBe('');
+  });
+
+  it('handles undefined input', () => {
+    expect(formatToTitleCase(undefined)).toBe('');
+  });
+
+  it('handles string without underscores', () => {
+    expect(formatToTitleCase('hello')).toBe('Hello');
+  });
+
+  it('handles string with numbers', () => {
+    expect(formatToTitleCase('priority_1_high')).toBe('Priority 1 High');
+  });
+
+  it('handles leading and trailing underscores', () => {
+    expect(formatToTitleCase('_leading_trailing_')).toBe('Leading Trailing');
   });
 });

@@ -16,6 +16,17 @@ RSpec.describe 'Public Inbox Contact Conversations API', type: :request do
       expect(data.first['uuid']).to eq contact_inbox.conversations.first.uuid
     end
 
+    it 'return the conversations when hmac_verified is true' do
+      contact_inbox.update(hmac_verified: true)
+      create(:conversation, contact: contact)
+      get "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations"
+
+      expect(response).to have_http_status(:success)
+      data = response.parsed_body
+      expect(data.length).to eq 1
+      expect(data.first['uuid']).to eq contact.conversations.first.uuid
+    end
+
     it 'does not return any private or activity message' do
       conversation = create(:conversation, contact_inbox: contact_inbox)
       create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, content: 'message-1')

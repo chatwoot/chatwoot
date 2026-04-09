@@ -145,5 +145,24 @@ describe ContactIdentifyAction do
         expect(contact.phone_number).to be_nil
       end
     end
+
+    context 'when params have not changed' do
+      it 'skips save and does not issue an UPDATE query' do
+        contact.update!(name: 'test', identifier: 'test_id', custom_attributes: { test: 'test', test1: 'test1' })
+        params = { name: 'test', identifier: 'test_id', custom_attributes: { test: 'test', test1: 'test1' } }
+
+        # any_instance is needed because merge lookup can reassign @contact to a different Ruby object
+        expect_any_instance_of(Contact).not_to receive(:save!) # rubocop:disable RSpec/AnyInstance
+        described_class.new(contact: contact, params: params).perform
+      end
+
+      it 'still enqueues avatar job even when attributes have not changed' do
+        contact.update!(name: 'test')
+        params = { name: 'test', avatar_url: 'https://chatwoot-assets.local/sample.png' }
+
+        expect(Avatar::AvatarFromUrlJob).to receive(:perform_later).with(contact, params[:avatar_url]).once
+        described_class.new(contact: contact, params: params).perform
+      end
+    end
   end
 end
