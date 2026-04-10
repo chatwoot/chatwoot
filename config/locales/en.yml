@@ -112,6 +112,8 @@ en:
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
+    openai:
+      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard and save again.'
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
