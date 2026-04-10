@@ -1,45 +1,57 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-import { useBreakpoints, useEventListener, useWindowSize } from '@vueuse/core';
+import { ref, computed, onMounted, onBeforeUnmount, useTemplateRef } from 'vue';
+import { useEventListener } from '@vueuse/core';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
+const props = defineProps({
+  containerHeight: {
+    type: Number,
+    default: 0,
+  },
+});
+
 const DEFAULT_HEIGHT = 120;
-const SMALL_SCREEN_DEFAULT_HEIGHT = 96;
 const MIN_HEIGHT = 80;
-const SMALL_SCREEN_MIN_HEIGHT = 72;
-const MAX_HEIGHT = 600;
-const SMALL_SCREEN_MAX_HEIGHT = 170;
-const SMALL_SCREEN_BREAKPOINT = 768;
-const SAFE_TOP_OFFSET = 320;
+const MIN_MESSAGES_HEIGHT = 200;
+const EXPAND_HEIGHT_RATIO = 0.5;
 const RESET_DELAY_MS = 120;
-const { height: windowHeight } = useWindowSize();
-const breakpoints = useBreakpoints({ sm: SMALL_SCREEN_BREAKPOINT });
-const isSmallScreen = breakpoints.smaller('sm');
+
+const wrapperRef = useTemplateRef('wrapperRef');
+const surroundingHeight = ref(0);
+
+const editorHeight = ref(DEFAULT_HEIGHT);
 
 const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
 
+// Measure the height of elements surrounding the editor (top panel, email fields, bottom panel)
+const measureSurroundingHeight = () => {
+  if (wrapperRef.value) {
+    surroundingHeight.value = Math.max(
+      0,
+      wrapperRef.value.offsetHeight - editorHeight.value
+    );
+  }
+};
+
 const sizeBounds = computed(() => {
-  const isSmall = isSmallScreen.value;
-  const min = isSmall ? SMALL_SCREEN_MIN_HEIGHT : MIN_HEIGHT;
-  const defaultSize = isSmall ? SMALL_SCREEN_DEFAULT_HEIGHT : DEFAULT_HEIGHT;
-  const max = Math.max(
-    min,
-    Math.min(
-      isSmall ? SMALL_SCREEN_MAX_HEIGHT : MAX_HEIGHT,
-      windowHeight.value - SAFE_TOP_OFFSET
-    )
+  const h = props.containerHeight;
+  const surrounding = surroundingHeight.value;
+  const max = Math.max(MIN_HEIGHT, h - MIN_MESSAGES_HEIGHT - surrounding);
+  const expanded = Math.max(
+    MIN_HEIGHT,
+    Math.floor(h * EXPAND_HEIGHT_RATIO) - surrounding
   );
   return {
-    min,
+    min: MIN_HEIGHT,
     max,
-    default: clamp(defaultSize, min, max),
+    expanded,
+    default: clamp(DEFAULT_HEIGHT, MIN_HEIGHT, max),
   };
 });
+
 const clampToBounds = val =>
   clamp(val, sizeBounds.value.min, sizeBounds.value.max);
-
-const editorHeight = ref(clampToBounds(sizeBounds.value.default));
 
 const isResizing = ref(false);
 const startY = ref(0);
@@ -49,6 +61,7 @@ const getClientY = event =>
   event.touches ? event.touches[0].clientY : event.clientY;
 
 const onResizeStart = event => {
+  measureSurroundingHeight();
   isResizing.value = true;
   startY.value = getClientY(event);
   startHeight.value = clampToBounds(editorHeight.value);
@@ -88,17 +101,18 @@ const handleMessageSent = () => {
 };
 
 const toggleEditorExpand = () => {
+  measureSurroundingHeight();
   isResizing.value = false;
   Object.assign(document.body.style, { cursor: '', userSelect: '' });
-  const { max, default: defaultHeight } = sizeBounds.value;
-  // Sync stored height to current bounds before expanded check
+  const { expanded, default: defaultHeight } = sizeBounds.value;
   const clamped = clampToBounds(editorHeight.value);
-  editorHeight.value = clamped;
-  const isExpanded = Math.abs(clamped - max) < 2;
-  editorHeight.value = isExpanded ? defaultHeight : max;
+  const isExpanded = Math.abs(clamped - expanded) < 2;
+  editorHeight.value = isExpanded ? defaultHeight : expanded;
 };
 
 onMounted(() => {
+  measureSurroundingHeight();
+  editorHeight.value = sizeBounds.value.default;
   emitter.on(BUS_EVENTS.MESSAGE_SENT, handleMessageSent);
 });
 
@@ -122,6 +136,7 @@ defineExpose({ toggleEditorExpand, resetEditorHeight });
 
 <template>
   <div
+    ref="wrapperRef"
     class="relative resizable-editor-wrapper"
     :style="{
       '--editor-height': editorHeight + 'px',

@@ -1,5 +1,6 @@
 <script>
-import { ref, provide } from 'vue';
+import { ref, provide, useTemplateRef } from 'vue';
+import { useElementSize } from '@vueuse/core';
 // composable
 import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
@@ -49,6 +50,8 @@ export default {
   setup() {
     const conversationPanelRef = ref(null);
     const resizableEditorWrapperRef = ref(null);
+    const messagesViewRef = useTemplateRef('messagesViewRef');
+    const { height: containerHeight } = useElementSize(messagesViewRef);
 
     const {
       captainTasksEnabled,
@@ -64,6 +67,8 @@ export default {
       isLabelSuggestionFeatureEnabled,
       conversationPanelRef,
       resizableEditorWrapperRef,
+      messagesViewRef,
+      containerHeight,
     };
   },
   data() {
@@ -440,7 +445,10 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col justify-between flex-grow h-full min-w-0 m-0">
+  <div
+    ref="messagesViewRef"
+    class="flex flex-col justify-between flex-grow h-full min-w-0 m-0"
+  >
     <Banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
@@ -512,7 +520,10 @@ export default {
           />
         </div>
       </div>
-      <ResizableEditorWrapper ref="resizableEditorWrapperRef">
+      <ResizableEditorWrapper
+        ref="resizableEditorWrapperRef"
+        :container-height="containerHeight"
+      >
         <ReplyBox @toggle-editor-size="toggleReplyEditorSize" />
       </ResizableEditorWrapper>
     </div>
