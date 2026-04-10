@@ -57,6 +57,7 @@ const clearDragStyles = () => {
 const getClientY = e => (e.touches ? e.touches[0].clientY : e.clientY);
 
 const onResizeStart = event => {
+  editorHeight.value = clampToBounds(editorHeight.value);
   measureSurroundingHeight();
   isResizing.value = true;
   startY.value = getClientY(event);
@@ -87,9 +88,10 @@ const resetEditorHeight = () => {
 };
 
 const toggleEditorExpand = () => {
+  editorHeight.value = clampToBounds(editorHeight.value);
   measureSurroundingHeight();
   const { expanded, default: defaultHeight } = sizeBounds.value;
-  const isExpanded = Math.abs(editorHeight.value - expanded) < 2;
+  const isExpanded = editorHeight.value > defaultHeight;
   editorHeight.value = isExpanded ? defaultHeight : expanded;
 };
 
