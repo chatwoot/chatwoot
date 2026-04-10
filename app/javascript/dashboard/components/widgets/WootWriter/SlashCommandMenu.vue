@@ -98,6 +98,8 @@ const items = computed(() => {
   });
 });
 
+const hasItems = computed(() => items.value.length > 0);
+
 const menuStyle = computed(() => {
   if (!props.position) return {};
   const style = { top: `${props.position.top}px` };
@@ -132,20 +134,14 @@ useKeyboardNavigableList({
   selectedIndex,
 });
 
-watch(
-  () => props.searchKey,
-  () => {
-    selectedIndex.value = 0;
-  }
-);
-
-watch(items, newItems => {
-  if (newItems.length < selectedIndex.value + 1) {
-    selectedIndex.value = 0;
-  }
+// Reset selection when items change (search narrows or searchKey resets)
+watch(items, () => {
+  selectedIndex.value = Math.min(
+    selectedIndex.value,
+    items.value.length - 1,
+    0
+  );
 });
-
-watch(selectedIndex, adjustScroll);
 
 const onHover = index => {
   selectedIndex.value = index;
@@ -155,11 +151,13 @@ const onItemClick = index => {
   selectedIndex.value = index;
   onSelect();
 };
+
+defineExpose({ hasItems });
 </script>
 
 <template>
   <div
-    v-if="items.length"
+    v-if="hasItems"
     ref="listContainerRef"
     class="bg-n-alpha-3 backdrop-blur-[100px] outline outline-1 outline-n-container absolute rounded-xl z-50 flex flex-col min-w-[10rem] shadow-lg p-2 overflow-auto max-h-[15rem]"
     :style="menuStyle"

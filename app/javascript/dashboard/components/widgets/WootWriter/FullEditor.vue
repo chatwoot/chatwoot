@@ -134,7 +134,11 @@ export default {
           return false;
         },
         onKeyDown: ({ event }) => {
-          return event.keyCode === 13 && this.showSlashMenu;
+          return (
+            event.keyCode === 13 &&
+            this.showSlashMenu &&
+            this.$refs.slashMenu?.hasItems
+          );
         },
       });
     },
@@ -427,6 +431,7 @@ export default {
     <div class="editor-root editor--article relative">
       <SlashCommandMenu
         v-if="showSlashMenu"
+        ref="slashMenu"
         :search-key="slashSearchTerm"
         :enabled-menu-options="enabledMenuOptions"
         :position="slashMenuPosition"
