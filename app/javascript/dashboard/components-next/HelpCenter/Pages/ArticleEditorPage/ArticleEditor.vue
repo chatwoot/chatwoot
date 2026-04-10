@@ -167,21 +167,16 @@ const previewArticle = () => {
     .ProseMirror-menubar {
       @apply rounded-lg !px-3 !py-1.5 z-50 bg-n-background items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
       display: flex;
-      width: fit-content !important;
-      position: absolute !important;
       top: var(--selection-top, auto) !important;
       left: var(--selection-left, 0) !important;
-
-      [dir='rtl'] & {
-        left: auto !important;
-        right: var(--selection-right, 0) !important;
-      }
+      width: fit-content !important;
+      position: absolute !important;
 
       .ProseMirror-menuitem {
-        @apply mr-0 size-4 flex items-center;
+        @apply ltr:mr-0 rtl:ml-0 size-4 flex items-center;
 
         .ProseMirror-icon {
-          @apply p-0.5 flex-shrink-0;
+          @apply p-0.5 flex-shrink-0 ltr:mr-2 rtl:ml-2;
         }
       }
 
