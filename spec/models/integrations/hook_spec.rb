@@ -111,4 +111,46 @@ RSpec.describe Integrations::Hook do
       end
     end
   end
+
+  describe 'openai api key validation' do
+    let(:account) { create(:account) }
+
+    it 'prevents saving an openai hook with an invalid key' do
+      allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(false)
+
+      hook = build(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'sk-bad' })
+
+      expect(hook).not_to be_valid
+      expect(hook.errors[:base]).to include(I18n.t('errors.openai.invalid_api_key'))
+    end
+
+    it 'allows saving an openai hook with a valid key' do
+      allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true)
+
+      hook = build(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'sk-good' })
+
+      expect(hook).to be_valid
+    end
+
+    it 'only validates when the api key actually changes' do
+      # First call (create) returns true; subsequent calls return false
+      allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true, false)
+      hook = create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'sk-good' })
+
+      # These would fail if the validator ran again (it would return false)
+      hook.update!(settings: { 'api_key' => 'sk-good', 'label_suggestion' => true })
+      expect(hook.reload.settings['label_suggestion']).to be true
+
+      hook.disable
+      expect(hook.reload).to be_disabled
+    end
+
+    it 'does not validate keys for non-openai hooks' do
+      allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(false)
+
+      hook = build(:integrations_hook, account: account, app_id: 'slack')
+
+      expect(hook).to be_valid
+    end
+  end
 end
