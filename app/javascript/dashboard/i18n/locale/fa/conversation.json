@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "امضای پیام پیکربندی نشده است، لطفاً آن را در تنظیمات نمایه پیکربندی کنید.",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "دستورهای اضافی به Copilot بدهید، یا هر سوال دیگری بپرسید... برای ارسال پاسخ بعدی اینتر بزنید",
       "CLICK_HERE": "برای به روز رسانی اینجا را کلیک کنید",
       "WHATSAPP_TEMPLATES": "قالب های واتساپ"
     },
@@ -214,7 +214,7 @@
       "DRAG_DROP": "برای ضمیمه کردن درگ و درآپ کنید",
       "START_AUDIO_RECORDING": "در حال شروع ضبط صدا",
       "STOP_AUDIO_RECORDING": "در حال توقف ضبط صدا",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot در حال فکر کردن است",
       "EMAIL_HEAD": {
         "TO": "به",
         "ADD_BCC": "افزودن رونوشت",
