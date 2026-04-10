@@ -23,6 +23,8 @@ ARG NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
 ENV NODE_OPTIONS ${NODE_OPTIONS}
 
 ENV BUNDLE_PATH="/gems"
+ENV RUBYOPT="-rrbconfig"
+
 
 RUN apk update && apk add --no-cache \
   openssl \
@@ -119,6 +121,7 @@ ENV BUNDLE_FORCE_RUBY_PLATFORM ${BUNDLE_FORCE_RUBY_PLATFORM}
 ARG RAILS_ENV=production
 ENV RAILS_ENV ${RAILS_ENV}
 ENV BUNDLE_PATH="/gems"
+ENV RUBYOPT="-rrbconfig"
 
 RUN apk update && apk add --no-cache \
   build-base \
