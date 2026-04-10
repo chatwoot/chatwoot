@@ -32,6 +32,7 @@ const emit = defineEmits([
   'setAuthor',
   'setCategory',
   'previewArticle',
+  'titleBlur',
 ]);
 
 const { t } = useI18n();
@@ -98,6 +99,10 @@ const setCategoryId = categoryId => {
 const previewArticle = () => {
   emit('previewArticle');
 };
+
+const handleBlur = () => {
+  emit('titleBlur', { title: articleTitle.value, content: '' });
+};
 </script>
 
 <template>
@@ -122,6 +127,7 @@ const previewArticle = () => {
           custom-text-area-wrapper-class="border-0 !bg-transparent dark:!bg-transparent !py-0 !px-0"
           placeholder="Title"
           autofocus
+          @blur="handleBlur"
         />
         <ArticleEditorControls
           :article="article"

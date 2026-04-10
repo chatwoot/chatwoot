@@ -86,7 +86,7 @@ const goBackToArticles = () => {
     :article="article"
     :is-updating="isUpdating"
     :is-saved="isSaved"
-    @save-article="createNewArticle"
+    @title-blur="createNewArticle"
     @go-back="goBackToArticles"
     @set-author="setAuthorId"
     @set-category="setCategoryId"
