@@ -5,26 +5,26 @@ import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 const props = defineProps({
-  containerHeight: {
-    type: Number,
-    default: 0,
-  },
+  containerHeight: { type: Number, default: 0 },
 });
 
 const DEFAULT_HEIGHT = 120;
 const MIN_HEIGHT = 80;
 const MIN_MESSAGES_HEIGHT = 200;
-const EXPAND_HEIGHT_RATIO = 0.5;
+const EXPAND_RATIO = 0.5;
 const RESET_DELAY_MS = 120;
 
 const wrapperRef = useTemplateRef('wrapperRef');
 const surroundingHeight = ref(0);
-
 const editorHeight = ref(DEFAULT_HEIGHT);
+const isResizing = ref(false);
+const startY = ref(0);
+const startHeight = ref(0);
+let resetTimeoutId = null;
 
 const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
 
-// Measure the height of elements surrounding the editor (top panel, email fields, bottom panel)
+// Measure height of elements surrounding the editor (top panel, email fields, bottom panel)
 const measureSurroundingHeight = () => {
   if (wrapperRef.value) {
     surroundingHeight.value = Math.max(
@@ -36,12 +36,9 @@ const measureSurroundingHeight = () => {
 
 const sizeBounds = computed(() => {
   const h = props.containerHeight;
-  const surrounding = surroundingHeight.value;
-  const max = Math.max(MIN_HEIGHT, h - MIN_MESSAGES_HEIGHT - surrounding);
-  const expanded = Math.max(
-    MIN_HEIGHT,
-    Math.floor(h * EXPAND_HEIGHT_RATIO) - surrounding
-  );
+  const s = surroundingHeight.value;
+  const max = Math.max(MIN_HEIGHT, h - MIN_MESSAGES_HEIGHT - s);
+  const expanded = clamp(Math.floor(h * EXPAND_RATIO) - s, MIN_HEIGHT, max);
   return {
     min: MIN_HEIGHT,
     max,
@@ -53,12 +50,11 @@ const sizeBounds = computed(() => {
 const clampToBounds = val =>
   clamp(val, sizeBounds.value.min, sizeBounds.value.max);
 
-const isResizing = ref(false);
-const startY = ref(0);
-const startHeight = ref(0);
+const clearDragStyles = () => {
+  Object.assign(document.body.style, { cursor: '', userSelect: '' });
+};
 
-const getClientY = event =>
-  event.touches ? event.touches[0].clientY : event.clientY;
+const getClientY = e => (e.touches ? e.touches[0].clientY : e.clientY);
 
 const onResizeStart = event => {
   measureSurroundingHeight();
@@ -75,39 +71,31 @@ const onResizeStart = event => {
 const onResizeMove = event => {
   if (!isResizing.value) return;
   if (event.touches) event.preventDefault();
-  const dy = startY.value - getClientY(event);
-  editorHeight.value = clampToBounds(startHeight.value + dy);
+  editorHeight.value = clampToBounds(
+    startHeight.value + startY.value - getClientY(event)
+  );
 };
 
 const onResizeEnd = () => {
   if (!isResizing.value) return;
   isResizing.value = false;
-  Object.assign(document.body.style, { cursor: '', userSelect: '' });
+  clearDragStyles();
 };
 
 const resetEditorHeight = () => {
-  isResizing.value = false;
-  Object.assign(document.body.style, { cursor: '', userSelect: '' });
   editorHeight.value = sizeBounds.value.default;
-};
-
-let resetTimeoutId = null;
-
-const handleMessageSent = () => {
-  if (resetTimeoutId) clearTimeout(resetTimeoutId);
-  resetTimeoutId = setTimeout(() => {
-    resetEditorHeight();
-  }, RESET_DELAY_MS);
 };
 
 const toggleEditorExpand = () => {
   measureSurroundingHeight();
-  isResizing.value = false;
-  Object.assign(document.body.style, { cursor: '', userSelect: '' });
   const { expanded, default: defaultHeight } = sizeBounds.value;
-  const clamped = clampToBounds(editorHeight.value);
-  const isExpanded = Math.abs(clamped - expanded) < 2;
+  const isExpanded = Math.abs(editorHeight.value - expanded) < 2;
   editorHeight.value = isExpanded ? defaultHeight : expanded;
+};
+
+const handleMessageSent = () => {
+  clearTimeout(resetTimeoutId);
+  resetTimeoutId = setTimeout(resetEditorHeight, RESET_DELAY_MS);
 };
 
 onMounted(() => {
@@ -118,11 +106,11 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   emitter.off(BUS_EVENTS.MESSAGE_SENT, handleMessageSent);
-  if (resetTimeoutId) clearTimeout(resetTimeoutId);
-
-  // Ensure global drag styles are always cleaned up,
-  isResizing.value = false;
-  Object.assign(document.body.style, { cursor: '', userSelect: '' });
+  clearTimeout(resetTimeoutId);
+  if (isResizing.value) {
+    isResizing.value = false;
+    clearDragStyles();
+  }
 });
 
 useEventListener(document, 'mousemove', onResizeMove);
