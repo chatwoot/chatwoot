@@ -100,8 +100,11 @@ const previewArticle = () => {
   emit('previewArticle');
 };
 
-const handleBlur = () => {
-  emit('titleBlur', { title: articleTitle.value, content: '' });
+const handleBlur = event => {
+  const title = event?.target?.value || '';
+  if (title.trim()) {
+    emit('titleBlur', { title });
+  }
 };
 </script>
 
