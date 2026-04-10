@@ -134,13 +134,9 @@ useKeyboardNavigableList({
   selectedIndex,
 });
 
-// Reset selection when items change (search narrows or searchKey resets)
+// Reset selection when filtered items change
 watch(items, () => {
-  selectedIndex.value = Math.min(
-    selectedIndex.value,
-    items.value.length - 1,
-    0
-  );
+  selectedIndex.value = 0;
 });
 
 const onHover = index => {
@@ -155,6 +151,7 @@ const onItemClick = index => {
 defineExpose({ hasItems });
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <div
     v-if="hasItems"
@@ -180,5 +177,4 @@ defineExpose({ hasItems });
       </span>
     </button>
   </div>
-  <template v-else />
 </template>
