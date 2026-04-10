@@ -45,24 +45,22 @@
   .article-content li > p {
     margin: 0;
   }
-  .article-content table {
-    width: 100%;
-    display: block;
+  .article-content .tableWrapper {
     overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+  .article-content table {
+    min-width: 100%;
     border: 1px solid;
     border-radius: 8px;
     border-spacing: 0;
-  }
-  .article-content thead,
-  .article-content tbody {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
+    border-collapse: separate;
+    margin: 0;
   }
   .article-content th,
   .article-content td {
     border-bottom: 1px solid;
-    border-right: 1px solid;
+    border-inline-end: 1px solid;
     border-color: inherit;
     padding: 0.5rem 0.75rem;
     text-align: start;
@@ -70,10 +68,16 @@
   }
   .article-content th:last-child,
   .article-content td:last-child {
-    border-right: none;
+    border-inline-end: none;
   }
   .article-content th {
     font-weight: 600;
+  }
+  .article-content th:first-child {
+    border-start-start-radius: 7px;
+  }
+  .article-content th:last-child {
+    border-start-end-radius: 7px;
   }
   .article-content tr:last-child td {
     border-bottom: none;
