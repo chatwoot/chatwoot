@@ -262,7 +262,8 @@ export default {
 
       // Get the editor's width
       const editorWidth = editor.offsetWidth;
-      const menubarWidth = 480; // Menubar width (adjust as needed (px))
+      const menubar = editor.querySelector('.ProseMirror-menubar');
+      const menubarWidth = menubar ? menubar.scrollWidth : 480;
 
       // Get the end position of the selection
       const { bottom: endBottom, right: endRight } = editorView.coordsAtPos(to);
