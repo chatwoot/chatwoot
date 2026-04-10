@@ -46,7 +46,9 @@ export function useEditableAutomation() {
       if (inputType === 'comma_separated_plain_text') {
         return { ...condition, values: condition.values.join(',') };
       }
-      const dropdownValues = getConditionDropdownValues(condition.attribute_key);
+      const dropdownValues = getConditionDropdownValues(
+        condition.attribute_key
+      );
       const hasBooleanOptions =
         inputType === 'search_select' &&
         dropdownValues.length &&
