@@ -90,9 +90,11 @@ const resetEditorHeight = () => {
 const toggleEditorExpand = () => {
   editorHeight.value = clampToBounds(editorHeight.value);
   measureSurroundingHeight();
-  const { expanded, default: defaultHeight } = sizeBounds.value;
+  const { expanded, max, default: defaultHeight } = sizeBounds.value;
   const isExpanded = editorHeight.value > defaultHeight;
-  editorHeight.value = isExpanded ? defaultHeight : expanded;
+  // If expanded is too close to default (large chrome), use max instead
+  const target = expanded - defaultHeight < 100 ? max - 200 : expanded;
+  editorHeight.value = isExpanded ? defaultHeight : target;
 };
 
 const handleMessageSent = () => {
