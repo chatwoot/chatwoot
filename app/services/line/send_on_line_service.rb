@@ -18,8 +18,7 @@ class Line::SendOnLineService < Base::SendOnChannelService
     if status_code == 200
       Messages::StatusUpdateService.new(message, 'delivered').perform
     else
-      parsed_json = response_body.is_a?(String) ? JSON.parse(response_body) : response_body
-      Messages::StatusUpdateService.new(message, 'failed', external_error(parsed_json)).perform
+      Messages::StatusUpdateService.new(message, 'failed', external_error(response_body)).perform
     end
   end
 
@@ -110,12 +109,35 @@ class Line::SendOnLineService < Base::SendOnChannelService
 
   # https://developers.line.biz/en/reference/messaging-api/#error-responses
   def external_error(error)
-    message = error['message']
-    details = error['details']
+    case error
+    when Line::Bot::V2::MessagingApi::ErrorResponse
+      format_external_error(error.message, error.details)
+    when String
+      parsed = begin
+        JSON.parse(error)
+      rescue JSON::ParserError
+        nil
+      end
 
+      return error unless parsed.is_a?(Hash)
+
+      format_external_error(parsed['message'], parsed['details'])
+    else
+      message = error.respond_to?(:message) ? error.message : error.to_s
+      details = error.respond_to?(:details) ? error.details : nil
+      format_external_error(message, details)
+    end
+  end
+
+  def format_external_error(message, details)
     return message if details.blank?
 
-    detail_messages = details.map { |detail| "#{detail['property']}: #{detail['message']}" }
+    detail_messages = details.map do |detail|
+      property = detail.respond_to?(:property) ? detail.property : detail['property']
+      detail_message = detail.respond_to?(:message) ? detail.message : detail['message']
+      "#{property}: #{detail_message}"
+    end
+
     [message, detail_messages].join(', ')
   end
 end

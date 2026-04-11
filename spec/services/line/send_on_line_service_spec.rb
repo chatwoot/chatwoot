@@ -165,6 +165,36 @@ RSpec.describe Line::SendOnLineService do
       end
     end
 
+    context 'when message send fails with SDK error object' do
+      let(:error_response) do
+        Line::Bot::V2::MessagingApi::ErrorResponse.new(
+          message: 'The request was invalid',
+          details: [
+            Line::Bot::V2::MessagingApi::ErrorDetail.new(
+              property: 'messages[0].text',
+              message: 'May not be empty'
+            )
+          ]
+        )
+      end
+
+      before do
+        allow(messaging_client).to receive(:push_message_with_http_info).and_return([error_response, 400, {}])
+      end
+
+      it 'updates the message status to failed' do
+        described_class.new(message: message).perform
+
+        expect(message.reload.status).to eq('failed')
+      end
+
+      it 'updates the external error from the SDK error object' do
+        described_class.new(message: message).perform
+
+        expect(message.reload.external_error).to eq('The request was invalid, messages[0].text: May not be empty')
+      end
+    end
+
     context 'when message send succeeds' do
       it 'updates the message status to delivered' do
         described_class.new(message: message).perform
