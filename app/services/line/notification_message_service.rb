@@ -59,7 +59,7 @@ class Line::NotificationMessageService
   end
 
   def resolved_phone_number
-    @resolved_phone_number ||= normalize_phone_number(explicit_phone_number || contact.phone_number)
+    @resolved_phone_number ||= normalize_phone_number(explicit_phone_number.presence || contact.phone_number)
   end
 
   def explicit_phone_number

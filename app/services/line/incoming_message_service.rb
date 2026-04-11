@@ -9,10 +9,20 @@ class Line::IncomingMessageService
   def perform
     return if params[:events].blank?
 
-    params[:events].each { |event| process_event(event) }
+    params[:events].each { |event| process_event_safely(event) }
   end
 
   private
+
+  def process_event_safely(event)
+    process_event(event)
+  rescue Line::ContactResolverService::AmbiguousContactMatchError => e
+    Rails.logger.warn(
+      '[LINE] Skipping incoming message event due to ambiguous contact match ' \
+      "inbox_id=#{inbox.id} line_user_id=#{event.dig('source', 'userId')} " \
+      "line_message_id=#{event.dig('message', 'id')} error=#{e.message}"
+    )
+  end
 
   def process_event(event)
     return unless event_type_message?(event)

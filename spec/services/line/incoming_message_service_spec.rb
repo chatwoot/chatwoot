@@ -301,6 +301,24 @@ RSpec.describe Line::IncomingMessageService do
 
         expect(line_channel.inbox.messages.count).to eq(1)
       end
+
+      it 'skips ambiguous contact matches and continues processing later events' do
+        create_list(
+          :contact,
+          2,
+          account: line_channel.inbox.account,
+          custom_attributes: { 'line_handle' => 'U4af4980629' }
+        )
+        allow(Rails.logger).to receive(:warn)
+
+        described_class.new(inbox: line_channel.inbox, params: multi_user_params).perform
+
+        expect(line_channel.inbox.messages.count).to eq(1)
+        expect(line_channel.inbox.messages.first.content).to eq('Hello, world 2')
+        expect(Rails.logger).to have_received(:warn).with(
+          a_string_matching(/\[LINE\] Skipping incoming message event due to ambiguous contact match/)
+        )
+      end
     end
 
     context 'when valid sticker message params' do

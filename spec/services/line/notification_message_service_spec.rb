@@ -159,5 +159,35 @@ RSpec.describe Line::NotificationMessageService do
         expect(message.reload.external_error).to match(/phone number/i)
       end
     end
+
+    context 'when template phone number is blank' do
+      let(:contact) { create(:contact, account: line_channel.account, phone_number: normalized_phone_number) }
+      let(:template_params) do
+        {
+          'name' => 'line-notification',
+          'type' => 'flexible',
+          'phone_number' => '',
+          'messages' => [
+            { 'type' => 'text', 'text' => 'hello from notification' }
+          ]
+        }
+      end
+
+      before do
+        allow(messaging_client).to receive(:push_messages_by_phone_with_http_info).and_return([{}, 200, { 'x-line-request-id' => 'request-blank-phone' }])
+      end
+
+      it 'falls back to the contact phone number' do
+        described_class.new(message: message).perform
+
+        expect(messaging_client).to have_received(:push_messages_by_phone_with_http_info) do |pnp_messages_request:, x_line_delivery_tag:|
+          expect(pnp_messages_request.to).to eq(hashed_phone_number)
+          expect(x_line_delivery_tag).to eq(delivery_tag)
+        end
+
+        message.reload
+        expect(message.additional_attributes['template_params']['phone_number']).to eq(normalized_phone_number)
+      end
+    end
   end
 end
