@@ -1,38 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe Webhooks::LineEventsJob do
-  subject(:job) { described_class.perform_later(params: params) }
-
   let!(:line_channel) { create(:channel_line) }
-  let!(:params) { { :line_channel_id => line_channel.line_channel_id, 'line' => { test: 'test' } } }
-  let(:post_body) { params.to_json }
-  let(:signature) { Base64.strict_encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('SHA256'), line_channel.line_channel_secret, post_body)) }
-
-  it 'enqueues the job' do
-    expect { job }.to have_enqueued_job(described_class)
-      .with(params: params)
-      .on_queue('default')
+  let(:parsed_event) { Struct.new(:type).new('message') }
+  let(:delivery_event) { Struct.new(:type).new('delivery') }
+  let(:normalized_payload) do
+    {
+      'events' => [
+        { 'type' => 'message', 'message' => { 'id' => 'mid-1', 'type' => 'text', 'text' => 'hello' }, 'source' => { 'userId' => 'U123' } },
+        { 'type' => 'delivery', 'delivery' => { 'data' => 'chatwoot-line-pnp-123' } }
+      ]
+    }
   end
 
-  context 'when invalid params' do
-    it 'returns nil when no line_channel_id' do
-      expect(described_class.perform_now(params: {})).to be_nil
-    end
+  it 'parses the webhook once and forwards normalized events to both services' do
+    inbound_service = instance_double(Line::IncomingMessageService, perform: true)
+    delivery_service = instance_double(Line::DeliveryStatusService, perform: true)
+    webhook_parser = instance_double(Line::Bot::V2::WebhookParser)
 
-    it 'returns nil when invalid bot_token' do
-      expect(described_class.perform_now(params: { 'line_channel_id' => 'invalid_id', 'line' => { test: 'test' } })).to be_nil
-    end
-  end
+    allow(Channel::Line).to receive(:find_by).with(line_channel_id: line_channel.line_channel_id).and_return(line_channel)
+    allow(line_channel).to receive(:webhook_parser).and_return(webhook_parser)
+    expect(webhook_parser).to receive(:parse).once.with(body: '{"events":[]}', signature: 'sig').and_return([parsed_event, delivery_event])
+    expect(Line::WebhookEventAdapter).to receive(:normalize).once.with([parsed_event, delivery_event]).and_return(normalized_payload)
+    allow(Line::IncomingMessageService).to receive(:new).and_return(inbound_service)
+    allow(Line::DeliveryStatusService).to receive(:new).and_return(delivery_service)
 
-  context 'when valid params' do
-    it 'calls Line::IncomingMessageService' do
-      process_service = double
-      allow(Line::IncomingMessageService).to receive(:new).and_return(process_service)
-      allow(process_service).to receive(:perform)
-      expect(Line::IncomingMessageService).to receive(:new).with(inbox: line_channel.inbox,
-                                                                 params: params['line'].with_indifferent_access)
-      expect(process_service).to receive(:perform)
-      described_class.perform_now(params: params, post_body: post_body, signature: signature)
-    end
+    described_class.perform_now(
+      params: { 'line_channel_id' => line_channel.line_channel_id },
+      post_body: '{"events":[]}',
+      signature: 'sig'
+    )
+
+    expect(Line::IncomingMessageService).to have_received(:new).with(
+      inbox: line_channel.inbox,
+      params: normalized_payload.with_indifferent_access
+    )
+    expect(Line::DeliveryStatusService).to have_received(:new).with(
+      inbox: line_channel.inbox,
+      params: normalized_payload.with_indifferent_access
+    )
   end
 end

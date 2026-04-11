@@ -7,42 +7,47 @@ class Line::IncomingMessageService
   LINE_STICKER_IMAGE_URL = 'https://stickershop.line-scdn.net/stickershop/v1/sticker/%s/android/sticker.png'.freeze
 
   def perform
-    # probably test events
     return if params[:events].blank?
 
-    parse_events
+    params[:events].each { |event| process_event(event) }
   end
 
   private
 
-  def parse_events
-    params[:events].each do |event|
-      next unless event_type_message?(event)
+  def process_event(event)
+    return unless event_type_message?(event)
+    return if duplicate_message?(event)
 
-      get_line_contact_info(event)
-      next if @line_contact_info['userId'].blank?
+    profile = fetch_profile(event)
+    return if profile.blank? || profile.user_id.blank?
 
-      set_contact
-      set_conversation
+    @contact_inbox = Line::ContactResolverService.new(inbox: inbox, profile: profile).perform
+    @contact = @contact_inbox.contact
+    @conversation = find_or_create_conversation
+    @message = build_message(event)
 
-      next unless message_created? event
-
-      attach_files event['message']
-      @message.save!
-    end
+    attach_files(event['message'])
+    @message.save!
   end
 
-  def message_created?(event)
-    @message = @conversation.messages.build(
+  def duplicate_message?(event)
+    inbox.messages.exists?(source_id: event.dig('message', 'id').to_s)
+  end
+
+  def fetch_profile(event)
+    inbox.channel.messaging_api_client.get_profile(user_id: event.dig('source', 'userId'))
+  end
+
+  def build_message(event)
+    @conversation.messages.build(
       content: message_content(event),
-      account_id: @inbox.account_id,
+      account_id: inbox.account_id,
       content_type: message_content_type(event),
-      inbox_id: @inbox.id,
+      inbox_id: inbox.id,
       message_type: :incoming,
       sender: @contact,
-      source_id: event['message']['id'].to_s
+      source_id: event.dig('message', 'id').to_s
     )
-    @message
   end
 
   def message_content(event)
@@ -73,104 +78,59 @@ class Line::IncomingMessageService
   end
 
   def attach_files(message)
-    return unless message_type_non_text?(message['type'])
+    return unless %w[video audio image file].include?(message['type'])
 
-    response = inbox.channel.client.get_message_content(message['id'])
+    body, status, headers = media_content(message['id'])
+    return unless status == 200
 
-    extension = get_file_extension(response)
-    file_name = message['fileName'] || "media-#{message['id']}.#{extension}"
-    temp_file = Tempfile.new(file_name)
-    temp_file.binmode
-    temp_file << response.body
-    temp_file.rewind
+    content_type = headers['content-type']
+    file_name = attachment_file_name(message, content_type)
+    temp_file = build_temp_file(file_name, body)
 
     @message.attachments.new(
       account_id: @message.account_id,
-      file_type: file_content_type(response),
+      file_type: file_type(content_type),
       file: {
         io: temp_file,
         filename: file_name,
-        content_type: response.content_type
+        content_type: content_type
       }
     )
   end
 
-  def get_file_extension(response)
-    if response.content_type&.include?('/')
-      response.content_type.split('/')[1]
-    else
-      'bin'
-    end
+  def media_content(message_id)
+    inbox.channel.messaging_api_blob_client.get_message_content_with_http_info(message_id: message_id)
+  end
+
+  def attachment_file_name(message, content_type)
+    extension = content_type&.split('/')&.last || 'bin'
+    message['fileName'] || "media-#{message['id']}.#{extension}"
+  end
+
+  def build_temp_file(file_name, body)
+    temp_file = Tempfile.new(file_name)
+    temp_file.binmode
+    temp_file << body
+    temp_file.rewind
+    temp_file
   end
 
   def event_type_message?(event)
-    event['type'] == 'message' || event['type'] == 'sticker'
+    event['type'] == 'message'
   end
 
-  def message_type_non_text?(type)
-    [
-      Line::Bot::Event::MessageType::Video,
-      Line::Bot::Event::MessageType::Audio,
-      Line::Bot::Event::MessageType::Image,
-      Line::Bot::Event::MessageType::File
-    ].include?(type)
-  end
+  def find_or_create_conversation
+    conversation = if inbox.lock_to_single_conversation
+                     @contact_inbox.conversations.last
+                   else
+                     @contact_inbox.conversations.where.not(status: :resolved).last
+                   end
 
-  def account
-    @account ||= inbox.account
-  end
-
-  def get_line_contact_info(event)
-    @line_contact_info = JSON.parse(inbox.channel.client.get_profile(event['source']['userId']).body)
-  end
-
-  def set_contact
-    contact_inbox = ::ContactInboxWithContactBuilder.new(
-      source_id: @line_contact_info['userId'],
-      inbox: inbox,
-      contact_attributes: contact_attributes
-    ).perform
-
-    @contact_inbox = contact_inbox
-    @contact = contact_inbox.contact
-  end
-
-  def conversation_params
-    {
-      account_id: @inbox.account_id,
-      inbox_id: @inbox.id,
+    conversation || Conversation.create!(
+      account_id: inbox.account_id,
+      inbox_id: inbox.id,
       contact_id: @contact.id,
       contact_inbox_id: @contact_inbox.id
-    }
-  end
-
-  def set_conversation
-    # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
-    @conversation = if @inbox.lock_to_single_conversation
-                      @contact_inbox.conversations.last
-                    else
-                      @contact_inbox.conversations.where.not(status: :resolved).last
-                    end
-    return if @conversation
-
-    @conversation = ::Conversation.create!(conversation_params)
-  end
-
-  def contact_attributes
-    {
-      name: @line_contact_info['displayName'],
-      avatar_url: @line_contact_info['pictureUrl'],
-      additional_attributes: additional_attributes
-    }
-  end
-
-  def additional_attributes
-    {
-      social_line_user_id: @line_contact_info['userId']
-    }
-  end
-
-  def file_content_type(file_content)
-    file_type(file_content.content_type)
+    )
   end
 end

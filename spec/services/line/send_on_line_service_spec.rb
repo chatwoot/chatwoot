@@ -1,23 +1,113 @@
 require 'rails_helper'
 
-describe Line::SendOnLineService do
+RSpec.describe Line::SendOnLineService do
   describe '#perform' do
-    let(:line_client) { double }
+    let(:messaging_client) { instance_double(Line::Bot::V2::MessagingApi::ApiClient) }
     let(:line_channel) { create(:channel_line) }
     let(:message) do
-      create(:message, message_type: :outgoing, content: 'test',
-                       conversation: create(:conversation, inbox: line_channel.inbox))
+      create(
+        :message,
+        message_type: :outgoing,
+        content: 'test',
+        conversation: create(:conversation, inbox: line_channel.inbox)
+      )
     end
 
     before do
-      allow(Line::Bot::Client).to receive(:new).and_return(line_client)
+      allow(line_channel).to receive(:messaging_api_client).and_return(messaging_client)
+      allow(messaging_client).to receive(:push_message_with_http_info).and_return([{}, 200, {}])
+    end
+
+    context 'when message carries LINE notification template params' do
+      let(:message) do
+        create(
+          :message,
+          message_type: :outgoing,
+          content: 'test',
+          additional_attributes: {
+            'template_params' => {
+              'name' => 'line-notification',
+              'type' => 'flexible',
+              'messages' => [
+                { 'type' => 'text', 'text' => 'hello from notification' }
+              ],
+              'phone_number' => '+1 (415) 555-2671'
+            }
+          },
+          conversation: create(:conversation, inbox: line_channel.inbox)
+        )
+      end
+
+      it 'routes to the notification message service' do
+        notification_service = instance_double(Line::NotificationMessageService)
+        allow(Line::NotificationMessageService).to receive(:new).and_return(notification_service)
+        allow(notification_service).to receive(:perform)
+
+        described_class.new(message: message).perform
+
+        expect(Line::NotificationMessageService).to have_received(:new).with(message: message)
+        expect(notification_service).to have_received(:perform)
+        expect(messaging_client).not_to have_received(:push_message_with_http_info)
+      end
+    end
+
+    context 'when template params are not a LINE notification payload' do
+      let(:message) do
+        create(
+          :message,
+          message_type: :outgoing,
+          content: 'test',
+          additional_attributes: {
+            'template_params' => {
+              'name' => 'line-notification',
+              'foo' => 'bar'
+            }
+          },
+          conversation: create(:conversation, inbox: line_channel.inbox)
+        )
+      end
+
+      it 'uses the regular send path' do
+        described_class.new(message: message).perform
+
+        expect(messaging_client).to have_received(:push_message_with_http_info) do |push_message_request:|
+          expect(push_message_request.messages.first.text).to eq('test')
+        end
+      end
+    end
+
+    context 'when template params include only a type without notification fields' do
+      let(:message) do
+        create(
+          :message,
+          message_type: :outgoing,
+          content: 'test',
+          additional_attributes: {
+            'template_params' => {
+              'name' => 'line-notification',
+              'type' => 'template'
+            }
+          },
+          conversation: create(:conversation, inbox: line_channel.inbox)
+        )
+      end
+
+      it 'uses the regular send path' do
+        described_class.new(message: message).perform
+
+        expect(messaging_client).to have_received(:push_message_with_http_info)
+      end
     end
 
     context 'when message send' do
-      it 'calls @channel.client.push_message' do
-        allow(line_client).to receive(:push_message)
-        expect(line_client).to receive(:push_message)
+      it 'pushes a v2 request object to the contact inbox source id' do
         described_class.new(message: message).perform
+
+        expect(messaging_client).to have_received(:push_message_with_http_info) do |push_message_request:|
+          expect(push_message_request).to be_a(Line::Bot::V2::MessagingApi::PushMessageRequest)
+          expect(push_message_request.to).to eq(message.conversation.contact_inbox.source_id)
+          expect(push_message_request.messages.first.text).to eq('test')
+        end
       end
     end
 
@@ -29,19 +119,19 @@ describe Line::SendOnLineService do
       end
 
       before do
-        allow(line_client).to receive(:push_message).and_return(OpenStruct.new(code: '400', body: error_response))
+        allow(messaging_client).to receive(:push_message_with_http_info).and_return([error_response, 400, {}])
       end
 
       it 'updates the message status to failed' do
         described_class.new(message: message).perform
-        message.reload
-        expect(message.status).to eq('failed')
+
+        expect(message.reload.status).to eq('failed')
       end
 
       it 'updates the external error without details' do
         described_class.new(message: message).perform
-        message.reload
-        expect(message.external_error).to eq('The request was invalid')
+
+        expect(message.reload.external_error).to eq('The request was invalid')
       end
     end
 
@@ -59,101 +149,61 @@ describe Line::SendOnLineService do
       end
 
       before do
-        allow(line_client).to receive(:push_message).and_return(OpenStruct.new(code: '400', body: error_response))
+        allow(messaging_client).to receive(:push_message_with_http_info).and_return([error_response, 400, {}])
       end
 
       it 'updates the message status to failed' do
         described_class.new(message: message).perform
-        message.reload
-        expect(message.status).to eq('failed')
+
+        expect(message.reload.status).to eq('failed')
       end
 
       it 'updates the external error with details' do
         described_class.new(message: message).perform
-        message.reload
-        expect(message.external_error).to eq('The request was invalid, messages[0].text: May not be empty')
+
+        expect(message.reload.external_error).to eq('The request was invalid, messages[0].text: May not be empty')
       end
     end
 
     context 'when message send succeeds' do
-      let(:success_response) do
-        {
-          'message' => 'ok'
-        }.to_json
-      end
-
-      before do
-        allow(line_client).to receive(:push_message).and_return(OpenStruct.new(code: '200', body: success_response))
-      end
-
       it 'updates the message status to delivered' do
         described_class.new(message: message).perform
-        message.reload
-        expect(message.status).to eq('delivered')
+
+        expect(message.reload.status).to eq('delivered')
       end
     end
 
     context 'with message input_select' do
-      let(:success_response) do
-        {
-          'message' => 'ok'
-        }.to_json
-      end
-
-      let(:expect_message) do
-        {
-          type: 'flex',
-          altText: 'test',
-          contents: {
-            type: 'bubble',
-            body: {
-              type: 'box',
-              layout: 'vertical',
-              contents: [
-                {
-                  type: 'text',
-                  text: 'test',
-                  wrap: true
-                },
-                {
-                  type: 'button',
-                  style: 'link',
-                  height: 'sm',
-                  action: {
-                    type: 'message',
-                    label: 'text 1',
-                    text: 'value 1'
-                  }
-                },
-                {
-                  type: 'button',
-                  style: 'link',
-                  height: 'sm',
-                  action: {
-                    type: 'message',
-                    label: 'text 2',
-                    text: 'value 2'
-                  }
-                }
-              ]
-            }
-          }
-        }
-      end
-
       it 'sends the message with input_select' do
-        message = create(
-          :message, message_type: :outgoing, content: 'test', content_type: 'input_select',
-                    content_attributes: { 'items' => [{ 'title' => 'text 1', 'value' => 'value 1' }, { 'title' => 'text 2', 'value' => 'value 2' }] },
-                    conversation: create(:conversation, inbox: line_channel.inbox)
+        input_select_message = create(
+          :message,
+          message_type: :outgoing,
+          content: 'test',
+          content_type: 'input_select',
+          content_attributes: {
+            'items' => [
+              { 'title' => 'text 1', 'value' => 'value 1' },
+              { 'title' => 'text 2', 'value' => 'value 2' }
+            ]
+          },
+          conversation: create(:conversation, inbox: line_channel.inbox)
         )
 
-        expect(line_client).to receive(:push_message).with(
-          message.conversation.contact_inbox.source_id,
-          expect_message
-        ).and_return(OpenStruct.new(code: '200', body: success_response))
+        described_class.new(message: input_select_message).perform
 
-        described_class.new(message: message).perform
+        expect(messaging_client).to have_received(:push_message_with_http_info) do |push_message_request:|
+          flex_message = push_message_request.messages.first
+          buttons = flex_message.contents.body.contents.drop(1)
+
+          aggregate_failures do
+            expect(flex_message).to be_a(Line::Bot::V2::MessagingApi::FlexMessage)
+            expect(flex_message.alt_text).to eq('test')
+            expect(flex_message.contents.body.contents.first.text).to eq('test')
+            expect(buttons.map { |button| [button.action.label, button.action.text] }).to eq(
+              [['text 1', 'value 1'], ['text 2', 'value 2']]
+            )
+          end
+        end
       end
     end
 
@@ -165,19 +215,16 @@ describe Line::SendOnLineService do
         expected_original_url_regex = %r{rails/active_storage/blobs/redirect/[a-zA-Z0-9=_\-+]+/avatar\.png}
         expected_preview_url_regex = %r{rails/active_storage/representations/redirect/[a-zA-Z0-9=_\-+]+/[a-zA-Z0-9=_\-+]+/avatar\.png}
 
-        expect(line_client).to receive(:push_message).with(
-          message.conversation.contact_inbox.source_id,
-          [
-            { type: 'text', text: message.content },
-            {
-              type: 'image',
-              originalContentUrl: match(expected_original_url_regex),
-              previewImageUrl: match(expected_preview_url_regex)
-            }
-          ]
-        )
-
         described_class.new(message: message).perform
+
+        expect(messaging_client).to have_received(:push_message_with_http_info) do |push_message_request:|
+          expect(push_message_request.messages.first.text).to eq(message.content)
+
+          image_message = push_message_request.messages.second
+          expect(image_message).to be_a(Line::Bot::V2::MessagingApi::ImageMessage)
+          expect(image_message.original_content_url).to match(expected_original_url_regex)
+          expect(image_message.preview_image_url).to match(expected_preview_url_regex)
+        end
       end
 
       it 'sends the message with attachments only' do
@@ -188,28 +235,24 @@ describe Line::SendOnLineService do
         expected_original_url_regex = %r{rails/active_storage/blobs/redirect/[a-zA-Z0-9=_\-+]+/avatar\.png}
         expected_preview_url_regex = %r{rails/active_storage/representations/redirect/[a-zA-Z0-9=_\-+]+/[a-zA-Z0-9=_\-+]+/avatar\.png}
 
-        expect(line_client).to receive(:push_message).with(
-          message.conversation.contact_inbox.source_id,
-          [
-            {
-              type: 'image',
-              originalContentUrl: match(expected_original_url_regex),
-              previewImageUrl: match(expected_preview_url_regex)
-            }
-          ]
-        )
-
         described_class.new(message: message).perform
+
+        expect(messaging_client).to have_received(:push_message_with_http_info) do |push_message_request:|
+          image_message = push_message_request.messages.first
+          expect(image_message).to be_a(Line::Bot::V2::MessagingApi::ImageMessage)
+          expect(image_message.original_content_url).to match(expected_original_url_regex)
+          expect(image_message.preview_image_url).to match(expected_preview_url_regex)
+        end
       end
 
       it 'sends the message with text only' do
         message.attachments.destroy_all
-        expect(line_client).to receive(:push_message).with(
-          message.conversation.contact_inbox.source_id,
-          { type: 'text', text: message.content }
-        )
 
         described_class.new(message: message).perform
+
+        expect(messaging_client).to have_received(:push_message_with_http_info) do |push_message_request:|
+          expect(push_message_request.messages.first.text).to eq(message.content)
+        end
       end
     end
   end

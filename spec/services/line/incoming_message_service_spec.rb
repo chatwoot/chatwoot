@@ -1,7 +1,23 @@
 require 'rails_helper'
 
-describe Line::IncomingMessageService do
+RSpec.describe Line::IncomingMessageService do
   let!(:line_channel) { create(:channel_line) }
+  let(:messaging_client) { instance_double(Line::Bot::V2::MessagingApi::ApiClient) }
+  let(:blob_client) { instance_double(Line::Bot::V2::MessagingApi::ApiBlobClient) }
+  let(:profile) do
+    Struct.new(:display_name, :user_id, :picture_url).new(
+      'LINE Test',
+      'U4af4980629',
+      'https://test.com'
+    )
+  end
+  let(:second_profile) do
+    Struct.new(:display_name, :user_id, :picture_url).new(
+      'LINE Test 2',
+      'U4af49806292',
+      'https://test.com'
+    )
+  end
   let(:params) do
     {
       'destination': '2342234234',
@@ -230,21 +246,18 @@ describe Line::IncomingMessageService do
     }.with_indifferent_access
   end
 
+  before do
+    allow(line_channel).to receive(:messaging_api_client).and_return(messaging_client)
+    allow(line_channel).to receive(:messaging_api_blob_client).and_return(blob_client)
+    allow(messaging_client).to receive(:get_profile).with(user_id: 'U4af4980629').and_return(profile)
+    allow(messaging_client).to receive(:get_profile).with(user_id: 'U4af49806292').and_return(second_profile)
+  end
+
   describe '#perform' do
     context 'when non-text message params' do
       it 'does not create conversations, messages and contacts' do
-        line_bot = double
-        line_user_profile = double
-        allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
-        allow(line_bot).to receive(:get_profile).and_return(line_user_profile)
-        allow(line_user_profile).to receive(:body).and_return(
-          {
-            'displayName': 'LINE Test',
-            'userId': 'U4af4980629',
-            'pictureUrl': 'https://test.com'
-          }.to_json
-        )
         described_class.new(inbox: line_channel.inbox, params: follow_params).perform
+
         expect(line_channel.inbox.conversations.size).to eq(0)
         expect(Contact.all.size).to eq(0)
         expect(line_channel.inbox.messages.size).to eq(0)
@@ -252,23 +265,9 @@ describe Line::IncomingMessageService do
     end
 
     context 'when valid text message params' do
-      let(:line_bot) { double }
-      let(:line_user_profile) { double }
-
-      before do
-        allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
-        allow(line_bot).to receive(:get_profile).with('U4af4980629').and_return(line_user_profile)
-        allow(line_user_profile).to receive(:body).and_return(
-          {
-            'displayName': 'LINE Test',
-            'userId': 'U4af4980629',
-            'pictureUrl': 'https://test.com'
-          }.to_json
-        )
-      end
-
       it 'creates appropriate conversations, message and contacts' do
         described_class.new(inbox: line_channel.inbox, params: params).perform
+
         expect(line_channel.inbox.conversations).not_to eq(0)
         expect(Contact.all.first.name).to eq('LINE Test')
         expect(Contact.all.first.additional_attributes['social_line_user_id']).to eq('U4af4980629')
@@ -276,16 +275,8 @@ describe Line::IncomingMessageService do
       end
 
       it 'creates appropriate conversations, message and contacts for multi user' do
-        line_user_profile2 = double
-        allow(line_bot).to receive(:get_profile).with('U4af49806292').and_return(line_user_profile2)
-        allow(line_user_profile2).to receive(:body).and_return(
-          {
-            'displayName': 'LINE Test 2',
-            'userId': 'U4af49806292',
-            'pictureUrl': 'https://test.com'
-          }.to_json
-        )
         described_class.new(inbox: line_channel.inbox, params: multi_user_params).perform
+
         expect(line_channel.inbox.conversations.size).to eq(2)
         expect(Contact.all.first.name).to eq('LINE Test')
         expect(Contact.all.first.additional_attributes['social_line_user_id']).to eq('U4af4980629')
@@ -294,49 +285,45 @@ describe Line::IncomingMessageService do
         expect(line_channel.inbox.messages.first.content).to eq('Hello, world 1')
         expect(line_channel.inbox.messages.last.content).to eq('Hello, world 2')
       end
+
+      it 'reuses an existing contact matched by line_handle' do
+        create(:contact, account: line_channel.inbox.account, custom_attributes: { 'line_handle' => 'U4af4980629' })
+
+        described_class.new(inbox: line_channel.inbox, params: params).perform
+
+        expect(line_channel.inbox.contacts.count).to eq(1)
+        expect(line_channel.inbox.contacts.first.additional_attributes['social_line_user_id']).to eq('U4af4980629')
+      end
+
+      it 'does not create a duplicate message when the same line message id is received twice' do
+        described_class.new(inbox: line_channel.inbox, params: params).perform
+        described_class.new(inbox: line_channel.inbox, params: params).perform
+
+        expect(line_channel.inbox.messages.count).to eq(1)
+      end
     end
 
     context 'when valid sticker message params' do
       it 'creates appropriate conversations, message and contacts' do
-        line_bot = double
-        line_user_profile = double
-        allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
-        allow(line_bot).to receive(:get_profile).and_return(line_user_profile)
-        allow(line_user_profile).to receive(:body).and_return(
-          {
-            'displayName': 'LINE Test',
-            'userId': 'U4af4980629',
-            'pictureUrl': 'https://test.com'
-          }.to_json
-        )
         described_class.new(inbox: line_channel.inbox, params: sticker_params).perform
+
         expect(line_channel.inbox.conversations).not_to eq(0)
         expect(Contact.all.first.name).to eq('LINE Test')
-        expect(line_channel.inbox.messages.first.content).to eq('![sticker-52002738](https://stickershop.line-scdn.net/stickershop/v1/sticker/52002738/android/sticker.png)')
+        expect(line_channel.inbox.messages.first.content).to eq(
+          '![sticker-52002738](https://stickershop.line-scdn.net/stickershop/v1/sticker/52002738/android/sticker.png)'
+        )
       end
     end
 
     context 'when valid image message params' do
       it 'creates appropriate conversations, message and contacts' do
-        line_bot = double
-        line_user_profile = double
-        allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
-        allow(line_bot).to receive(:get_profile).and_return(line_user_profile)
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
-        allow(line_bot).to receive(:get_message_content).and_return(
-          OpenStruct.new({
-                           body: Base64.encode64(file.read),
-                           content_type: 'image/png'
-                         })
+        allow(blob_client).to receive(:get_message_content_with_http_info).with(message_id: '354718').and_return(
+          [file.read, 200, { 'content-type' => 'image/png' }]
         )
-        allow(line_user_profile).to receive(:body).and_return(
-          {
-            'displayName': 'LINE Test',
-            'userId': 'U4af4980629',
-            'pictureUrl': 'https://test.com'
-          }.to_json
-        )
+
         described_class.new(inbox: line_channel.inbox, params: image_params).perform
+
         expect(line_channel.inbox.conversations).not_to eq(0)
         expect(Contact.all.first.name).to eq('LINE Test')
         expect(Contact.all.first.additional_attributes['social_line_user_id']).to eq('U4af4980629')
@@ -348,25 +335,13 @@ describe Line::IncomingMessageService do
 
     context 'when valid video message params' do
       it 'creates appropriate conversations, message and contacts' do
-        line_bot = double
-        line_user_profile = double
-        allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
-        allow(line_bot).to receive(:get_profile).and_return(line_user_profile)
         file = fixture_file_upload(Rails.root.join('spec/assets/sample.mp4'), 'video/mp4')
-        allow(line_bot).to receive(:get_message_content).and_return(
-          OpenStruct.new({
-                           body: Base64.encode64(file.read),
-                           content_type: 'video/mp4'
-                         })
+        allow(blob_client).to receive(:get_message_content_with_http_info).with(message_id: '354718').and_return(
+          [file.read, 200, { 'content-type' => 'video/mp4' }]
         )
-        allow(line_user_profile).to receive(:body).and_return(
-          {
-            'displayName': 'LINE Test',
-            'userId': 'U4af4980629',
-            'pictureUrl': 'https://test.com'
-          }.to_json
-        )
+
         described_class.new(inbox: line_channel.inbox, params: video_params).perform
+
         expect(line_channel.inbox.conversations).not_to eq(0)
         expect(Contact.all.first.name).to eq('LINE Test')
         expect(Contact.all.first.additional_attributes['social_line_user_id']).to eq('U4af4980629')
@@ -378,25 +353,13 @@ describe Line::IncomingMessageService do
 
     context 'when valid file message params' do
       it 'creates appropriate conversations, message and contacts' do
-        line_bot = double
-        line_user_profile = double
-        allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
-        allow(line_bot).to receive(:get_profile).and_return(line_user_profile)
         file = fixture_file_upload(Rails.root.join('spec/assets/contacts.csv'), 'text/csv')
-        allow(line_bot).to receive(:get_message_content).and_return(
-          OpenStruct.new({
-                           body: Base64.encode64(file.read),
-                           content_type: 'text/csv'
-                         })
+        allow(blob_client).to receive(:get_message_content_with_http_info).with(message_id: '354718').and_return(
+          [file.read, 200, { 'content-type' => 'text/csv' }]
         )
-        allow(line_user_profile).to receive(:body).and_return(
-          {
-            'displayName': 'LINE Test',
-            'userId': 'U4af4980629',
-            'pictureUrl': 'https://test.com'
-          }.to_json
-        )
+
         described_class.new(inbox: line_channel.inbox, params: file_params).perform
+
         expect(line_channel.inbox.conversations).not_to eq(0)
         expect(Contact.all.first.name).to eq('LINE Test')
         expect(Contact.all.first.additional_attributes['social_line_user_id']).to eq('U4af4980629')
@@ -412,61 +375,30 @@ describe Line::IncomingMessageService do
       end
 
       it 'creates a new conversation when all previous conversations are resolved' do
-        line_bot = double
-        line_user_profile = double
-        allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
-        allow(line_bot).to receive(:get_profile).and_return(line_user_profile)
-        allow(line_user_profile).to receive(:body).and_return(
-          {
-            'displayName': 'LINE Test',
-            'userId': 'U4af4980629',
-            'pictureUrl': 'https://test.com'
-          }.to_json
-        )
-
-        # Create a contact and a resolved conversation
         described_class.new(inbox: line_channel.inbox, params: params).perform
 
-        # Mark the conversation as resolved
         conversation = line_channel.inbox.conversations.last
         conversation.update(status: :resolved)
 
-        # Send a new message
         new_params = params.deep_dup
         new_params[:events][0][:message][:id] = '325709'
         new_params[:events][0][:message][:text] = 'Second message'
 
         described_class.new(inbox: line_channel.inbox, params: new_params).perform
 
-        # Should create a new conversation
         expect(line_channel.inbox.conversations.count).to eq(2)
         expect(line_channel.inbox.conversations.last.messages.first.content).to eq('Second message')
       end
 
       it 'uses the existing conversation when there is an unresolved conversation' do
-        line_bot = double
-        line_user_profile = double
-        allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
-        allow(line_bot).to receive(:get_profile).and_return(line_user_profile)
-        allow(line_user_profile).to receive(:body).and_return(
-          {
-            'displayName': 'LINE Test',
-            'userId': 'U4af4980629',
-            'pictureUrl': 'https://test.com'
-          }.to_json
-        )
-
-        # Create a contact and an unresolved conversation
         described_class.new(inbox: line_channel.inbox, params: params).perform
 
-        # Send a new message
         new_params = params.deep_dup
         new_params[:events][0][:message][:id] = '325709'
         new_params[:events][0][:message][:text] = 'Second message'
 
         described_class.new(inbox: line_channel.inbox, params: new_params).perform
 
-        # Should use the same conversation
         expect(line_channel.inbox.conversations.count).to eq(1)
         expect(line_channel.inbox.conversations.last.messages.count).to eq(2)
         expect(line_channel.inbox.conversations.last.messages.last.content).to eq('Second message')
@@ -479,33 +411,17 @@ describe Line::IncomingMessageService do
       end
 
       it 'uses the existing conversation even when it is resolved' do
-        line_bot = double
-        line_user_profile = double
-        allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
-        allow(line_bot).to receive(:get_profile).and_return(line_user_profile)
-        allow(line_user_profile).to receive(:body).and_return(
-          {
-            'displayName': 'LINE Test',
-            'userId': 'U4af4980629',
-            'pictureUrl': 'https://test.com'
-          }.to_json
-        )
-
-        # Create a contact and a resolved conversation
         described_class.new(inbox: line_channel.inbox, params: params).perform
 
-        # Mark the conversation as resolved
         conversation = line_channel.inbox.conversations.last
         conversation.update(status: :resolved)
 
-        # Send a new message
         new_params = params.deep_dup
         new_params[:events][0][:message][:id] = '325709'
         new_params[:events][0][:message][:text] = 'Second message'
 
         described_class.new(inbox: line_channel.inbox, params: new_params).perform
 
-        # Should use the same conversation
         expect(line_channel.inbox.conversations.count).to eq(1)
         expect(line_channel.inbox.conversations.last.messages.count).to eq(2)
         expect(line_channel.inbox.conversations.last.messages.last.content).to eq('Second message')

@@ -523,7 +523,9 @@ GEM
       ffi (~> 1.0)
     libddwaf (1.24.1.0.3-x86_64-linux)
       ffi (~> 1.0)
-    line-bot-api (1.28.0)
+    line-bot-api (2.7.0)
+      base64 (~> 0.2)
+      multipart-post (~> 2.4)
     lint_roller (1.1.0)
     liquid (5.4.0)
     listen (3.8.0)
@@ -1094,7 +1096,7 @@ DEPENDENCIES
   kaminari
   koala
   letter_opener
-  line-bot-api
+  line-bot-api (~> 2.7)
   liquid
   listen
   lograge (~> 0.14.0)
