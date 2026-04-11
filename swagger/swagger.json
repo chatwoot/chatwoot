@@ -6573,6 +6573,64 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/conversations/{conversation_id}/update_last_seen": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "$ref": "#/components/parameters/conversation_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "conversationUpdateLastSeen",
+        "summary": "Update last seen",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Updates the last-seen timestamps for a conversation and clears unread notifications for the current agent when appropriate.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conversation not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/integrations/apps": {
       "parameters": [
         {
@@ -6941,6 +6999,330 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/profile/avatar": {
+      "delete": {
+        "tags": [
+          "Profile"
+        ],
+        "operationId": "deleteProfileAvatar",
+        "summary": "Delete profile avatar",
+        "description": "Delete the current user's avatar image.",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/profile/availability": {
+      "post": {
+        "tags": [
+          "Profile"
+        ],
+        "operationId": "updateProfileAvailability",
+        "summary": "Update profile availability",
+        "description": "Update the current user's availability for an account.",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "profile"
+                ],
+                "properties": {
+                  "profile": {
+                    "type": "object",
+                    "required": [
+                      "account_id",
+                      "availability"
+                    ],
+                    "properties": {
+                      "account_id": {
+                        "type": "integer",
+                        "description": "The numeric ID of the account."
+                      },
+                      "availability": {
+                        "type": "string",
+                        "enum": [
+                          "online",
+                          "busy",
+                          "offline"
+                        ],
+                        "description": "The availability value to store for the current user in the account."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Account membership not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/profile/auto_offline": {
+      "post": {
+        "tags": [
+          "Profile"
+        ],
+        "operationId": "updateProfileAutoOffline",
+        "summary": "Update profile auto offline",
+        "description": "Update whether the current user should automatically go offline for an account.",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "profile"
+                ],
+                "properties": {
+                  "profile": {
+                    "type": "object",
+                    "required": [
+                      "account_id",
+                      "auto_offline"
+                    ],
+                    "properties": {
+                      "account_id": {
+                        "type": "integer",
+                        "description": "The numeric ID of the account."
+                      },
+                      "auto_offline": {
+                        "type": "boolean",
+                        "description": "Whether the current user should automatically switch offline when away."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Account membership not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/profile/set_active_account": {
+      "put": {
+        "tags": [
+          "Profile"
+        ],
+        "operationId": "setActiveProfileAccount",
+        "summary": "Set active account",
+        "description": "Mark one of the current user's accounts as the active account.",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "profile"
+                ],
+                "properties": {
+                  "profile": {
+                    "type": "object",
+                    "required": [
+                      "account_id"
+                    ],
+                    "properties": {
+                      "account_id": {
+                        "type": "integer",
+                        "description": "The numeric ID of the account to activate."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/profile/resend_confirmation": {
+      "post": {
+        "tags": [
+          "Profile"
+        ],
+        "operationId": "resendProfileConfirmation",
+        "summary": "Resend profile confirmation",
+        "description": "Resend email confirmation instructions for the current user when the account is unconfirmed.",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/profile/reset_access_token": {
+      "post": {
+        "tags": [
+          "Profile"
+        ],
+        "operationId": "resetProfileAccessToken",
+        "summary": "Reset profile access token",
+        "description": "Regenerate the current user's access token.",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
           }
         }
       }
@@ -11891,6 +12273,21 @@
             "type": "boolean",
             "description": "Flag to identify if it is a private note",
             "example": false
+          },
+          "cc_emails": {
+            "type": "string",
+            "description": "Comma-separated email addresses to add to CC for outbound email replies",
+            "example": "amy@example.com,ops@example.com"
+          },
+          "bcc_emails": {
+            "type": "string",
+            "description": "Comma-separated email addresses to add to BCC for outbound email replies",
+            "example": "audit@example.com"
+          },
+          "to_emails": {
+            "type": "string",
+            "description": "Comma-separated email addresses to override the primary recipient list for outbound email replies",
+            "example": "william@example.com"
           },
           "content_type": {
             "type": "string",

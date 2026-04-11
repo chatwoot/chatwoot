@@ -478,6 +478,12 @@
     - $ref: '#/components/parameters/message_id'
   delete:
     $ref: ./application/conversation/messages/delete.yml
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/update_last_seen:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/update_last_seen.yml
 
 # Integrations
 /api/v1/accounts/{account_id}/integrations/apps:
@@ -497,6 +503,24 @@
 # Profile
 /api/v1/profile:
   $ref: ./profile/index.yml
+/api/v1/profile/avatar:
+  delete:
+    $ref: ./profile/avatar.yml
+/api/v1/profile/availability:
+  post:
+    $ref: ./profile/availability.yml
+/api/v1/profile/auto_offline:
+  post:
+    $ref: ./profile/auto_offline.yml
+/api/v1/profile/set_active_account:
+  put:
+    $ref: ./profile/set_active_account.yml
+/api/v1/profile/resend_confirmation:
+  post:
+    $ref: ./profile/resend_confirmation.yml
+/api/v1/profile/reset_access_token:
+  post:
+    $ref: ./profile/reset_access_token.yml
 
 # Teams
 /api/v1/accounts/{account_id}/teams:

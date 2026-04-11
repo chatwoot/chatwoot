@@ -15,6 +15,18 @@ properties:
     type: boolean
     description: Flag to identify if it is a private note
     example: false
+  cc_emails:
+    type: string
+    description: Comma-separated email addresses to add to CC for outbound email replies
+    example: 'amy@example.com,ops@example.com'
+  bcc_emails:
+    type: string
+    description: Comma-separated email addresses to add to BCC for outbound email replies
+    example: 'audit@example.com'
+  to_emails:
+    type: string
+    description: Comma-separated email addresses to override the primary recipient list for outbound email replies
+    example: 'william@example.com'
   content_type:
     type: string
     enum: ['text', 'input_email', 'cards', 'input_select', 'form', 'article']
