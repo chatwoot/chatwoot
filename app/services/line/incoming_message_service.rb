@@ -36,7 +36,8 @@ class Line::IncomingMessageService
     @conversation = find_or_create_conversation
     @message = build_message(event)
 
-    attach_files(event['message'])
+    return unless attach_files(event['message'])
+
     @message.save!
   end
 
@@ -88,10 +89,10 @@ class Line::IncomingMessageService
   end
 
   def attach_files(message)
-    return unless %w[video audio image file].include?(message['type'])
+    return true unless media_message?(message)
 
     body, status, headers = media_content(message['id'])
-    return unless status == 200
+    return false unless status == 200
 
     content_type = headers['content-type']
     file_name = attachment_file_name(message, content_type)
@@ -106,6 +107,8 @@ class Line::IncomingMessageService
         content_type: content_type
       }
     )
+
+    true
   end
 
   def media_content(message_id)
@@ -127,6 +130,10 @@ class Line::IncomingMessageService
 
   def event_type_message?(event)
     event['type'] == 'message'
+  end
+
+  def media_message?(message)
+    %w[video audio image file].include?(message['type'])
   end
 
   def find_or_create_conversation

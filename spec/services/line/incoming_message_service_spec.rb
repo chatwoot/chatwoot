@@ -349,6 +349,26 @@ RSpec.describe Line::IncomingMessageService do
         expect(line_channel.inbox.messages.first.attachments.first.file_type).to eq('image')
         expect(line_channel.inbox.messages.first.attachments.first.file.blob.filename.to_s).to eq('media-354718.png')
       end
+
+      it 'does not persist the message when media download fails so retries can succeed' do
+        failed_download = ['', 500, {}]
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        successful_download = [file.read, 200, { 'content-type' => 'image/png' }]
+
+        allow(blob_client).to receive(:get_message_content_with_http_info).with(message_id: '354718').and_return(
+          failed_download,
+          successful_download
+        )
+
+        described_class.new(inbox: line_channel.inbox, params: image_params).perform
+
+        expect(line_channel.inbox.messages.count).to eq(0)
+
+        described_class.new(inbox: line_channel.inbox, params: image_params).perform
+
+        expect(line_channel.inbox.messages.count).to eq(1)
+        expect(line_channel.inbox.messages.first.attachments.first.file_type).to eq('image')
+      end
     end
 
     context 'when valid video message params' do
