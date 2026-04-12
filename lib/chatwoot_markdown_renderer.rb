@@ -25,8 +25,11 @@ class ChatwootMarkdownRenderer
   private
 
   def render_as_html_safe(html)
-    # rubocop:disable Rails/OutputSafety
-    html.html_safe
-    # rubocop:enable Rails/OutputSafety
+    sanitized_html = Rails::HTML5::SafeListSanitizer.new.sanitize(
+      html,
+      tags: %w[a b blockquote br caption code del dd dfn div dl dt em h1 h2 h3 h4 h5 h6 i img kbd li mark ol p pre q s samp small span strike strong sub sup table tbody td tfoot th thead tr u ul],
+      attributes: %w[href title src alt width height rel target]
+    )
+    sanitized_html.html_safe
   end
 end

@@ -28,6 +28,14 @@ RSpec.describe ChatwootMarkdownRenderer do
       expect(rendered_content).to be_html_safe
     end
 
+    context 'when html contains a script tag' do
+      let(:html_content) { '<p>Hello <script>alert("xss")</script></p>' }
+
+      it 'sanitizes the rendered html' do
+        expect(rendered_content.to_s).to eq('<p>Hello </p>')
+      end
+    end
+
     context 'when tables in markdown' do
       let(:markdown_content) do
         <<~MARKDOWN

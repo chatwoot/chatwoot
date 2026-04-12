@@ -1,5 +1,5 @@
 <script setup>
-import { computed, h, reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle, useElementSize } from '@vueuse/core';
 import { useVuelidate } from '@vuelidate/core';
@@ -116,11 +116,7 @@ const instructionError = computed(() =>
 const LINK_INSTRUCTION_CLASS =
   '[&_a[href^="tool://"]]:text-n-iris-11 [&_a:not([href^="tool://"])]:text-n-slate-12 [&_a]:pointer-events-none [&_a]:cursor-default';
 
-const renderInstruction = instruction => () =>
-  h('p', {
-    class: `text-sm text-n-slate-12 py-4 mb-0 prose prose-sm min-w-0 break-words max-w-none ${LINK_INSTRUCTION_CLASS}`,
-    innerHTML: instruction,
-  });
+
 </script>
 
 <template>
@@ -174,9 +170,11 @@ const renderInstruction = instruction => () =>
         @click="needsOverlay ? toggleInstructionExpanded() : null"
       >
         <div ref="instructionContentRef">
-          <component
-            :is="renderInstruction(formatMessage(instruction, false))"
-          />
+          <p
+            class="text-sm text-n-slate-12 py-4 prose prose-sm min-w-0 break-words max-w-none"
+            :class="LINK_INSTRUCTION_CLASS"
+            v-dompurify-html="formatMessage(instruction, false)"
+          ></p>
         </div>
 
         <div

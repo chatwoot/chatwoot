@@ -73,7 +73,7 @@ watch(() => props.messages.length, scrollToBottom);
           class="px-4 py-3 text-sm [overflow-wrap:break-word]"
           :class="getMessageStyle(message.sender)"
         >
-          <div v-html="formatMessage(message.content)" />
+          <div v-dompurify-html="formatMessage(message.content)"></div>
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, reactive } from 'vue';
+import DOMPurify from 'dompurify';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, email } from '@vuelidate/validators';
 import { useStore } from 'vuex';
@@ -60,6 +61,8 @@ const termsLink = computed(() =>
       globalConfig.value.privacyURL
     )
 );
+
+const sanitizedTermsLink = computed(() => DOMPurify.sanitize(termsLink.value));
 
 const allowedLoginMethods = computed(
   () => window.chatwootConfig.allowedLoginMethods || ['email']
@@ -186,7 +189,7 @@ const onCaptchaError = () => {
     </GoogleOAuthButton>
     <p
       class="text-sm mt-5 mb-0 text-n-slate-11 [&>a]:text-n-blue-10 [&>a]:font-medium [&>a]:hover:text-n-blue-11"
-      v-html="termsLink"
-    />
+      v-html="sanitizedTermsLink"
+    ></p>
   </div>
 </template>
