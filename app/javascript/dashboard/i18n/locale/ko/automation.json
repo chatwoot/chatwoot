@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "메시지 유형",
+      "PRIVATE_NOTE": "개인 노트",
       "MESSAGE_CONTAINS": "메시지 포함",
       "EMAIL": "이메일",
       "INBOX": "받은 메시지함",
