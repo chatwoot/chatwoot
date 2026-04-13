@@ -24,10 +24,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
-    contacts = Current.account.contacts.where(
-      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search',
-      search: "%#{params[:q].strip}%"
-    )
+    search_query = params[:q].strip
+    contacts = Current.account.contacts.left_outer_joins(:contact_emails)
+    contacts = contacts.where(search_conditions, search: "%#{search_query}%", contact_id: search_query.to_i)
+    contacts = contacts.distinct
     @contacts = fetch_contacts_with_has_more(contacts)
   end
 
@@ -84,8 +84,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def create
     ActiveRecord::Base.transaction do
-      @contact = Current.account.contacts.new(permitted_params.except(:avatar_url))
+      @contact = Current.account.contacts.new(contact_create_params)
+      assign_primary_email_from_identities(@contact)
       @contact.save!
+      replace_contact_emails if emails_param_provided?
       @contact_inbox = build_contact_inbox
       process_avatar_from_url
     end
@@ -93,7 +95,9 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def update
     @contact.assign_attributes(contact_update_params)
+    assign_primary_email_from_identities(@contact)
     @contact.save!
+    replace_contact_emails if emails_param_provided?
     process_avatar_from_url
   end
 
@@ -132,7 +136,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def fetch_contacts(contacts)
     # Build includes hash to avoid separate query when contact_inboxes are needed
-    includes_hash = { avatar_attachment: [:blob] }
+    includes_hash = { avatar_attachment: [:blob], contact_emails: [] }
     includes_hash[:contact_inboxes] = { inbox: :channel } if @include_contact_inboxes
 
     filtrate(contacts)
@@ -142,7 +146,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contacts_with_has_more(contacts)
-    includes_hash = { avatar_attachment: [:blob] }
+    includes_hash = { avatar_attachment: [:blob], contact_emails: [] }
     includes_hash[:contact_inboxes] = { inbox: :channel } if @include_contact_inboxes
 
     # Calculate offset manually to fetch one extra record for has_more check
@@ -171,7 +175,14 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url, additional_attributes: {}, custom_attributes: {})
+    params.permit(
+      :name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url,
+      emails: [], additional_attributes: {}, custom_attributes: {}
+    )
+  end
+
+  def contact_create_params
+    permitted_params.except(:avatar_url, :emails)
   end
 
   def contact_custom_attributes
@@ -187,7 +198,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def contact_update_params
-    permitted_params.except(:custom_attributes, :avatar_url)
+    permitted_params.except(:custom_attributes, :avatar_url, :emails)
                     .merge({ custom_attributes: contact_custom_attributes })
                     .merge({ additional_attributes: contact_additional_attributes })
   end
@@ -202,8 +213,42 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def fetch_contact
     contact_scope = Current.account.contacts
+    contact_scope = contact_scope.includes(:contact_emails)
     contact_scope = contact_scope.includes(contact_inboxes: [:inbox]) if @include_contact_inboxes
     @contact = contact_scope.find(params[:id])
+  end
+
+  def emails_param_provided?
+    permitted_params.key?(:emails)
+  end
+
+  def normalized_emails_param
+    @normalized_emails_param ||= Array(permitted_params[:emails]).filter_map do |email|
+      normalized_email = email.to_s.strip.downcase
+      normalized_email.presence
+    end.uniq
+  end
+
+  def assign_primary_email_from_identities(contact)
+    return unless emails_param_provided?
+
+    contact.email = normalized_emails_param.first
+  end
+
+  def replace_contact_emails
+    Contacts::ReplaceContactEmails.new(contact: @contact, emails: permitted_params[:emails], legacy_email: @contact.email).perform
+  end
+
+  def search_conditions
+    base_conditions = [
+      'contacts.name ILIKE :search',
+      'contact_emails.email ILIKE :search',
+      'contacts.phone_number ILIKE :search',
+      'contacts.identifier LIKE :search'
+    ]
+
+    base_conditions << 'contacts.id = :contact_id' if params[:q].strip.match?(/\A\d+\z/)
+    base_conditions.join(' OR ')
   end
 
   def process_avatar_from_url

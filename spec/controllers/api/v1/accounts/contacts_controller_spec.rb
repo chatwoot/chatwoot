@@ -68,6 +68,22 @@ RSpec.describe 'Contacts API', type: :request do
         expect(contact_inboxes).to eq([])
       end
 
+      it 'returns the full ordered email list for each contact' do
+        secondary_email = create(:contact_email, account: account, contact: contact, email: 'secondary@example.com')
+        tertiary_email = create(:contact_email, account: account, contact: contact, email: 'tertiary@example.com')
+
+        get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        contact_payload = response.parsed_body['payload'].find { |payload| payload['id'] == contact.id }
+
+        expect(contact_payload['email']).to eq(contact.email)
+        expect(contact_payload['emails']).to eq([contact.email, secondary_email.email, tertiary_email.email])
+      end
+
       it 'returns limited information on inboxes' do
         get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=true",
             headers: admin.create_new_auth_token,
@@ -359,6 +375,33 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response.body).not_to include(contact1.email)
       end
 
+      it 'matches the contact by an exact numeric id' do
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: contact2.id.to_s },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        payload = response.parsed_body['payload']
+        expect(payload.pluck('id')).to eq([contact2.id])
+      end
+
+      it 'matches the contact by a secondary email' do
+        create(:contact_email, account: account, contact: contact2, email: 'secondary@example.com')
+
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: 'secondary@example.com' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        payload = response.parsed_body['payload']
+        expect(payload.pluck('id')).to eq([contact2.id])
+        expect(payload.first['emails']).to eq([contact2.email, 'secondary@example.com'])
+      end
+
       it 'matches the resolved contact respecting the identifier character casing' do
         contact_normal = create(:contact, name: 'testcontact', account: account, identifier: 'testidentifer')
         contact_special = create(:contact, name: 'testcontact', account: account, identifier: 'TestIdentifier')
@@ -503,6 +546,22 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to conform_schema(200)
         expect(response.body).to include(contact.name)
       end
+
+      it 'returns the full ordered email list' do
+        contact.update!(email: 'primary@example.com')
+        create(:contact_email, account: account, contact: contact, email: 'secondary@example.com')
+        create(:contact_email, account: account, contact: contact, email: 'tertiary@example.com')
+
+        get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        payload = response.parsed_body['payload']
+        expect(payload['email']).to eq('primary@example.com')
+        expect(payload['emails']).to eq(['primary@example.com', 'secondary@example.com', 'tertiary@example.com'])
+      end
     end
   end
 
@@ -593,6 +652,25 @@ RSpec.describe 'Contacts API', type: :request do
         end.to change(ContactInbox, :count).by(1)
 
         expect(response).to have_http_status(:success)
+      end
+
+      it 'creates a contact with primary and secondary emails and returns them' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/contacts",
+               headers: admin.create_new_auth_token,
+               params: valid_params.merge({ emails: [' Primary@Example.com ', 'secondary@example.com'] }),
+               as: :json
+        end.to change(Contact, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+
+        contact = account.contacts.order(:id).last
+        payload = response.parsed_body['payload']['contact']
+
+        expect(contact.reload.email).to eq('primary@example.com')
+        expect(contact.all_emails).to eq(['primary@example.com', 'secondary@example.com'])
+        expect(payload['email']).to eq('primary@example.com')
+        expect(payload['emails']).to eq(['primary@example.com', 'secondary@example.com'])
       end
     end
   end
@@ -696,6 +774,23 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(contact.reload.blocked).to be(true)
+      end
+
+      it 'replaces the contact email list' do
+        create(:contact_email, account: account, contact: contact, email: 'secondary@example.com')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              params: { emails: ['new-primary@example.com', 'other@example.com'] },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+
+        payload = response.parsed_body['payload']
+        expect(contact.reload.email).to eq('new-primary@example.com')
+        expect(contact.all_emails).to eq(['new-primary@example.com', 'other@example.com'])
+        expect(payload['email']).to eq('new-primary@example.com')
+        expect(payload['emails']).to eq(['new-primary@example.com', 'other@example.com'])
       end
 
       it 'allows unblocking of contact' do
