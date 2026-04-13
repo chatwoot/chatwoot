@@ -4,7 +4,7 @@
     <Transition name="fade">
       <div
         v-if="product"
-        class="fixed inset-0 z-40 bg-black bg-opacity-50"
+        class="fixed inset-0 z-[70] bg-black bg-opacity-50"
         @click="emit('close')"
       />
     </Transition>
@@ -13,7 +13,7 @@
     <Transition name="slide-right">
       <div
         v-if="product"
-        class="fixed inset-y-0 right-0 z-50 w-full max-w-2xl bg-n-background border-l border-n-weak shadow-2xl flex flex-col"
+        class="fixed inset-y-0 right-0 z-[80] w-full max-w-2xl bg-n-background border-l border-n-weak shadow-2xl flex flex-col"
         @click.stop
       >
     <!-- Header -->

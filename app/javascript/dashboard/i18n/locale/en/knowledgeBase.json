@@ -391,7 +391,10 @@
         "AVAILABLE": "products available",
         "SELECT_ALL": "Select all",
         "DESELECT_ALL": "Deselect all",
-        "SELECTED": "selected"
+        "SELECTED": "selected",
+        "MODAL_TITLE": "Search Products",
+        "VIEW_DETAILS": "View details",
+        "DONE": "Done"
       },
       "VIEW": {
         "LIST": "List view",

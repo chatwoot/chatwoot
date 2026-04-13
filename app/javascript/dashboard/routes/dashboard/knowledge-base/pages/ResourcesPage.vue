@@ -12,6 +12,8 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ProductSearchSelect from 'dashboard/components-next/KnowledgeBase/ProductSearchSelect.vue';
+import ProductSearchModal from 'dashboard/components-next/KnowledgeBase/ProductSearchModal.vue';
+import MediaDrawer from 'dashboard/components-next/KnowledgeBase/Pages/ProductCatalogPage/MediaDrawer.vue';
 import ResourceDetailDrawer from 'dashboard/components-next/KnowledgeBase/ResourceDetailDrawer.vue';
 import TreeNode from 'dashboard/components-next/KnowledgeBase/TreeNode.vue';
 
@@ -27,6 +29,24 @@ const resourceToDelete = ref(null);
 
 // Drawer state
 const selectedResource = ref(null);
+
+// Product search modal state
+const showProductSearchModal = ref(false);
+const selectedProductForPreview = ref(null);
+
+const activeProductCatalogIds = computed({
+  get() {
+    if (showEditModal.value) return editForm.value.product_catalog_ids;
+    return uploadForm.value.product_catalog_ids;
+  },
+  set(val) {
+    if (showEditModal.value) {
+      editForm.value.product_catalog_ids = val;
+    } else {
+      uploadForm.value.product_catalog_ids = val;
+    }
+  },
+});
 
 // View mode: 'list' (S3-like navigation) or 'tree' (2D tree view)
 const viewMode = ref('list');
@@ -894,7 +914,7 @@ onMounted(fetchData);
             @click.self="showUploadModal = false"
           >
             <div
-              class="w-full max-w-md bg-n-alpha-3 backdrop-blur-[100px] rounded-xl border border-n-weak shadow-md flex flex-col max-h-[90vh] overflow-hidden"
+              class="w-full max-w-[95vw] sm:max-w-[40vw] sm:min-w-[500px] bg-n-alpha-3 backdrop-blur-[100px] rounded-xl border border-n-weak shadow-md flex flex-col max-h-[90vh] overflow-hidden"
               @click.stop
             >
               <div class="flex items-center justify-between p-4 sm:p-6 shrink-0">
@@ -1026,6 +1046,7 @@ onMounted(fetchData);
                           v-model="uploadForm.product_catalog_ids"
                           :products="productCatalogs"
                           :placeholder="t('KNOWLEDGE_BASE.RESOURCES.PRODUCT_SEARCH.PLACEHOLDER')"
+                          @open-search-modal="showProductSearchModal = true"
                         />
                       </div>
                     </div>
@@ -1643,7 +1664,7 @@ onMounted(fetchData);
         @click.self="showEditModal = false"
       >
         <div
-          class="w-full max-w-md bg-n-alpha-3 backdrop-blur-[100px] rounded-xl border border-n-weak shadow-md flex flex-col max-h-[90vh] overflow-hidden"
+          class="w-full max-w-[95vw] sm:max-w-[40vw] sm:min-w-[500px] bg-n-alpha-3 backdrop-blur-[100px] rounded-xl border border-n-weak shadow-md flex flex-col max-h-[90vh] overflow-hidden"
           @click.stop
         >
           <div class="flex items-center justify-between p-4 sm:p-6 shrink-0">
@@ -1740,6 +1761,7 @@ onMounted(fetchData);
                       v-model="editForm.product_catalog_ids"
                       :products="productCatalogs"
                       :placeholder="t('KNOWLEDGE_BASE.RESOURCES.PRODUCT_SEARCH.PLACEHOLDER')"
+                      @open-search-modal="showProductSearchModal = true"
                     />
                   </div>
                 </div>
@@ -1797,6 +1819,7 @@ onMounted(fetchData);
       @delete="confirmDelete"
       @toggle-visibility="toggleVisibility"
       @move="openMoveModal"
+      @preview-product="selectedProductForPreview = $event"
     />
 
     <!-- Create Folder Modal (z-60 to appear above Move modal) -->
@@ -2029,5 +2052,20 @@ onMounted(fetchData);
         </div>
       </div>
     </Teleport>
+
+    <!-- Product search modal (above upload/edit modals) -->
+    <ProductSearchModal
+      v-model="activeProductCatalogIds"
+      :products="productCatalogs"
+      :open="showProductSearchModal"
+      @update:open="showProductSearchModal = $event"
+      @preview="selectedProductForPreview = $event"
+    />
+
+    <!-- Product detail drawer (above search modal) -->
+    <MediaDrawer
+      :product="selectedProductForPreview"
+      @close="selectedProductForPreview = null"
+    />
   </div>
 </template>

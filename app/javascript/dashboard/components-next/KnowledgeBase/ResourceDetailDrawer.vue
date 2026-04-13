@@ -12,7 +12,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close', 'edit', 'delete', 'toggle-visibility', 'move']);
+const emit = defineEmits(['close', 'edit', 'delete', 'toggle-visibility', 'move', 'preview-product']);
 
 const { t } = useI18n();
 const router = useRouter();
@@ -249,12 +249,10 @@ const handleKeydown = (event) => {
 
                   <!-- Products list -->
                   <div v-else>
-                    <button
+                    <div
                       v-for="product in paginatedProducts"
                       :key="product.id"
-                      type="button"
-                      class="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-n-alpha-2 transition-colors text-left border-b border-n-weak/50 last:border-b-0"
-                      @click="navigateToProduct(product)"
+                      class="flex items-center gap-3 px-3 py-2.5 hover:bg-n-alpha-2 transition-colors text-left border-b border-n-weak/50 last:border-b-0"
                     >
                       <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-2">
@@ -269,8 +267,15 @@ const handleKeydown = (event) => {
                           {{ product.type }} <span v-if="product.industry">· {{ product.industry }}</span>
                         </div>
                       </div>
-                      <i class="i-lucide-external-link w-4 h-4 text-n-slate-10 flex-shrink-0" />
-                    </button>
+                      <button
+                        type="button"
+                        class="p-1.5 text-n-slate-10 hover:text-n-blue-11 hover:bg-n-alpha-2 rounded-lg transition-colors flex-shrink-0"
+                        :title="t('KNOWLEDGE_BASE.RESOURCES.PRODUCT_SEARCH.VIEW_DETAILS')"
+                        @click="emit('preview-product', product)"
+                      >
+                        <i class="i-lucide-eye w-4 h-4" />
+                      </button>
+                    </div>
 
                     <!-- Pagination -->
                     <div

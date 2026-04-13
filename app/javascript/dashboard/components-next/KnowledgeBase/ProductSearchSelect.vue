@@ -18,7 +18,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'open-search-modal']);
 
 const { t } = useI18n();
 
@@ -116,7 +116,13 @@ onUnmounted(() => {
     <div class="flex items-center gap-2 px-3 py-2 border-b border-n-weak bg-n-alpha-1">
       <!-- Search input -->
       <div class="flex-1 flex items-center gap-2">
-        <Icon icon="i-lucide-search" class="w-4 h-4 text-n-slate-10 shrink-0" />
+        <button
+          type="button"
+          class="shrink-0 p-0.5 hover:bg-n-alpha-2 rounded transition-colors"
+          @click.stop="emit('open-search-modal')"
+        >
+          <Icon icon="i-lucide-search" class="w-4 h-4 text-n-slate-10" />
+        </button>
         <input
           v-model="search"
           type="text"
