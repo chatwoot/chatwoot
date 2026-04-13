@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
+      "PRIVATE_NOTE": "Privat anteckning",
       "MESSAGE_CONTAINS": "Message Contains",
       "EMAIL": "E-post",
       "INBOX": "Inkorg",
