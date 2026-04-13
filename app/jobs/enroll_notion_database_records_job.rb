@@ -235,26 +235,28 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
 
     existing_conversation = contact_inbox.conversations.last
     if existing_conversation
-      Rails.logger.info "Using existing conversation #{existing_conversation.id} for contact #{contact.id}"
+      if existing_conversation.resolved?
+        Rails.logger.info "Existing conversation #{existing_conversation.id} is resolved, creating new conversation for contact #{contact.id}"
+      else
+        Rails.logger.info "Using existing conversation #{existing_conversation.id} for contact #{contact.id}"
 
-      # Solo enviamos el primer contacto si no tiene una secuencia activa actualmente
-      # Si está completada, revisamos si se permite el re-enrollment
-      follow_up = existing_conversation.conversation_follow_up
-      include_completed = sequence.trigger_conditions.dig('enrollment_filter', 'include_completed')
+        # Solo enviamos el primer contacto si no tiene una secuencia activa actualmente
+        # Si está completada, revisamos si se permite el re-enrollment
+        follow_up = existing_conversation.conversation_follow_up
+        include_completed = sequence.trigger_conditions.dig('enrollment_filter', 'include_completed')
 
-      should_send = if follow_up&.status == 'active'
-                      false
-                    elsif follow_up&.status == 'completed'
-                      include_completed
-                    else
-                      true # nil, cancelled, failed, etc.
-                    end
+        should_send = if follow_up&.status == 'active'
+                        false
+                      elsif follow_up&.status == 'completed'
+                        include_completed
+                      else
+                        true # nil, cancelled, failed, etc.
+                      end
 
-      if should_send
-        send_first_contact_message(sequence, existing_conversation, contact, record)
+        send_first_contact_message(sequence, existing_conversation, contact, record) if should_send
+
+        return existing_conversation
       end
-
-      return existing_conversation
     end
 
     # Create new conversation

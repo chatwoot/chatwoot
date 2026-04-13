@@ -78,8 +78,12 @@ class Api::V1::Accounts::AppointmentsController < Api::V1::Accounts::BaseControl
       return render_error("Appointment type '#{appointment_type}' is not enabled for this account", :unprocessable_entity)
     end
 
+    conversation = find_conversation_from_params
+    return render_error('Conversation not found', :not_found) if conversation == false
+
     @appointment = contact.appointments.build(appointment_params)
     @appointment.account = Current.account
+    @appointment.conversation = conversation if conversation
 
     if @appointment.save
       generate_qr_code_for_appointment(@appointment)
@@ -244,6 +248,14 @@ class Api::V1::Accounts::AppointmentsController < Api::V1::Accounts::BaseControl
       errors: errors.full_messages,
       details: errors.messages
     }, status: :unprocessable_entity
+  end
+
+  def find_conversation_from_params
+    if params.dig(:appointment, :conversation_display_id).present?
+      Current.account.conversations.find_by(display_id: params.dig(:appointment, :conversation_display_id)) || false
+    elsif appointment_params[:conversation_id].present?
+      Current.account.conversations.find_by(id: appointment_params[:conversation_id]) || false
+    end
   end
 
   def render_error(message, status)

@@ -7,7 +7,7 @@ class Api::V1::Accounts::Microsoft::AuthorizationsController < Api::V1::Accounts
         redirect_uri: "#{base_url}/microsoft/callback",
         scope: scope,
         state: state,
-        prompt: 'consent'
+        prompt: 'select_account'
       }
     )
     if redirect_url

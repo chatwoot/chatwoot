@@ -5,10 +5,14 @@ import { useI18n } from 'vue-i18n';
 import SettingsSection from 'dashboard/components/SettingsSection.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
+import AccessToken from 'dashboard/routes/dashboard/settings/profile/AccessToken.vue';
 
 const props = defineProps({
   form: { type: Object, required: true },
+  accessToken: { type: String, default: '' },
 });
+
+const emit = defineEmits(['copyToken', 'resetToken']);
 
 const { t } = useI18n();
 
@@ -155,6 +159,19 @@ const currentIndustryLabel = computed(() => {
           {{ $t('AGENT_BOTS.CONFIG.GENERAL.INDUSTRY_HINT') }}
         </p>
       </div>
+    </SettingsSection>
+
+    <SettingsSection
+      :title="$t('AGENT_BOTS.CONFIG.GENERAL.SECTION_ACCESS_TOKEN')"
+      :sub-title="$t('AGENT_BOTS.CONFIG.GENERAL.SECTION_ACCESS_TOKEN_DESC')"
+      :show-border="false"
+    >
+      <AccessToken
+        :value="accessToken"
+        :show-reset-button="true"
+        @on-copy="emit('copyToken', $event)"
+        @on-reset="emit('resetToken')"
+      />
     </SettingsSection>
   </div>
 </template>

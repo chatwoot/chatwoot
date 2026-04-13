@@ -7,6 +7,7 @@ import { useRoute } from 'vue-router';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.vue';
 import TabGeneral from './tabs/TabGeneral.vue';
 import TabAssistant from './tabs/TabAssistant.vue';
@@ -109,6 +110,7 @@ const formState = reactive({
   google_api_key: '',
   has_openai_api_key: false,
   has_google_api_key: false,
+  access_token: '',
 });
 
 const initForm = () => {
@@ -123,6 +125,7 @@ const initForm = () => {
   formState.has_google_api_key = b.has_google_api_key || false;
   formState.openai_api_key = '';
   formState.google_api_key = '';
+  formState.access_token = b.access_token || '';
 
   const ac = b.assistant_config || {};
   Object.assign(formState.assistant_config, defaultAssistantConfig(), ac);
@@ -191,6 +194,21 @@ const handleSave = async () => {
   else useAlert(t('AGENT_BOTS.CONFIG.ERROR_MESSAGE'));
 };
 
+const handleCopyToken = async value => {
+  await copyTextToClipboard(value);
+  useAlert(t('AGENT_BOTS.ACCESS_TOKEN.COPY_SUCCESSFUL'));
+};
+
+const handleResetToken = async () => {
+  const result = await store.dispatch('agentBots/resetAccessToken', botId.value);
+  if (result) {
+    formState.access_token = result.access_token || '';
+    useAlert(t('AGENT_BOTS.ACCESS_TOKEN.RESET_SUCCESS'));
+  } else {
+    useAlert(t('AGENT_BOTS.ACCESS_TOKEN.RESET_ERROR'));
+  }
+};
+
 onMounted(async () => {
   await store.dispatch('agentBots/show', botId.value);
   initForm();
@@ -236,7 +254,13 @@ onMounted(async () => {
 
     <section v-else class="mx-auto w-full max-w-6xl">
       <div class="mx-8">
-        <TabGeneral v-if="selectedTabIndex === 0" :form="formState" />
+        <TabGeneral
+          v-if="selectedTabIndex === 0"
+          :form="formState"
+          :access-token="formState.access_token"
+          @copy-token="handleCopyToken"
+          @reset-token="handleResetToken"
+        />
         <TabAssistant v-else-if="selectedTabIndex === 1" :form="formState" />
         <TabModel v-else-if="selectedTabIndex === 2" :form="formState" />
         <TabCapabilities v-else-if="selectedTabIndex === 3" :form="formState" />

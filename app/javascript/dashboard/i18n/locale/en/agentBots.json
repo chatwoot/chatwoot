@@ -126,6 +126,8 @@
         "SECTION_IDENTITY_DESC": "Basic information about this agent: name, description and webhook endpoint.",
         "SECTION_INDUSTRY": "Industry / Sector",
         "SECTION_INDUSTRY_DESC": "Determines the default tools and catalogue examples for this agent.",
+        "SECTION_ACCESS_TOKEN": "Access Token",
+        "SECTION_ACCESS_TOKEN_DESC": "Use this token to authenticate requests from your webhook to the agent API.",
         "NAME_LABEL": "Agent name",
         "NAME_PLACEHOLDER": "e.g. Toyota Polanco WhatsApp",
         "DESCRIPTION_LABEL": "AI agent description",

@@ -118,7 +118,8 @@ class AgentBotListener < BaseListener
     attempts = config['attempts'] || []
     return if attempts.empty?
 
-    if reengagement && !reengagement.excluded_from_reactivation?(reengagement.status)
+    if reengagement && reengagement.status.start_with?('cancelled_') &&
+       !reengagement.excluded_from_reactivation?(reengagement.status)
       reengagement.reactivate!(trigger_started_at: message.created_at)
     elsif reengagement.nil?
       ConversationReengagement.create!(
