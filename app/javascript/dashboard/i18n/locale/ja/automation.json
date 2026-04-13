@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
+      "PRIVATE_NOTE": "非公開メモ",
       "MESSAGE_CONTAINS": "Message Contains",
       "EMAIL": "Eメール",
       "INBOX": "受信トレイ",
