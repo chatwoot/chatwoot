@@ -265,7 +265,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     )
 
     contacts.reselect(Arel.sql(priority_select))
-            .order(Arel.sql('exact_match_priority ASC, contacts.id DESC'))
+            .order(Arel.sql('exact_match_priority ASC'))
   end
 
   def numeric_contact_query?(search_query)
