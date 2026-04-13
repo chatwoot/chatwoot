@@ -17,6 +17,8 @@ class Contacts::ReplaceContactEmails
         replace_with_emails(normalized_emails)
       end
     end
+
+    contact.association(:contact_emails).reset
   end
 
   private

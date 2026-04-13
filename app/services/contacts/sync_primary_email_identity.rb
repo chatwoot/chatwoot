@@ -6,8 +6,18 @@ class Contacts::SyncPrimaryEmailIdentity
   end
 
   def perform
-    return sync_blank_primary_email if contact.email.blank?
+    if contact.email.blank?
+      sync_blank_primary_email
+    else
+      sync_present_primary_email
+    end
 
+    contact.association(:contact_emails).reset
+  end
+
+  private
+
+  def sync_present_primary_email
     primary_contact_email = contact.contact_emails.find_or_initialize_by(email: contact.email)
 
     contact.contact_emails.primary.where.not(id: primary_contact_email.id).find_each do |contact_email|
@@ -18,8 +28,6 @@ class Contacts::SyncPrimaryEmailIdentity
     primary_contact_email.primary = true
     primary_contact_email.save! if primary_contact_email.changed?
   end
-
-  private
 
   def sync_blank_primary_email
     current_primary_email&.destroy!

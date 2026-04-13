@@ -212,13 +212,21 @@ class Contact < ApplicationRecord
   end
 
   def all_emails
-    emails = contact_emails.order(primary: :desc, id: :asc).pluck(:email)
-    return emails if primary_contact_email.present? || email.blank?
+    emails = ordered_contact_email_records.map(&:email)
+    return emails if emails.first == email || email.blank?
 
     [email, *emails.reject { |contact_email| contact_email == email }]
   end
 
   private
+
+  def ordered_contact_email_records
+    if association(:contact_emails).loaded?
+      contact_emails.sort_by { |contact_email| [contact_email.primary ? 0 : 1, contact_email.id] }
+    else
+      contact_emails.order(primary: :desc, id: :asc)
+    end
+  end
 
   def ip_lookup
     return unless account.feature_enabled?('ip_lookup')
