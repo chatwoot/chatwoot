@@ -1,8 +1,8 @@
 class CreateContactEmails < ActiveRecord::Migration[7.0]
   def up
     create_table :contact_emails do |t|
-      t.references :account, null: false, foreign_key: true
-      t.references :contact, null: false, foreign_key: true
+      t.references :account, null: false, foreign_key: { on_delete: :cascade }
+      t.references :contact, null: false, foreign_key: { on_delete: :cascade }
       t.string :email, null: false
       t.boolean :primary, null: false, default: false
 
@@ -18,7 +18,7 @@ class CreateContactEmails < ActiveRecord::Migration[7.0]
               name: 'index_contact_emails_on_contact_id_primary_unique'
 
     execute <<~SQL.squish
-      INSERT INTO contact_emails (account_id, contact_id, email, primary, created_at, updated_at)
+      INSERT INTO contact_emails (account_id, contact_id, email, "primary", created_at, updated_at)
       SELECT contacts.account_id, contacts.id, LOWER(contacts.email), TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
       FROM contacts
       WHERE contacts.email IS NOT NULL AND contacts.email <> ''
