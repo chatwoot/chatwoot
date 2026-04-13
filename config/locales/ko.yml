@@ -37,6 +37,8 @@ ko:
     account:
       reporting_timezone:
         invalid: is not a valid timezone
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: 비어 있을 수 없습니다
     webhook:
