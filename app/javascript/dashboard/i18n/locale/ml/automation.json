@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
+      "PRIVATE_NOTE": "സ്വകാര്യ കുറിപ്പ്",
       "MESSAGE_CONTAINS": "Message Contains",
       "EMAIL": "ഇമെയിൽ",
       "INBOX": "ഇൻബോക്സ്",
