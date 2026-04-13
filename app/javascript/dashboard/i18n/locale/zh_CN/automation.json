@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "消息类型",
+      "PRIVATE_NOTE": "私人便笺",
       "MESSAGE_CONTAINS": "消息包含",
       "EMAIL": "Email",
       "INBOX": "收件箱",
