@@ -37,6 +37,8 @@ bn:
     account:
       reporting_timezone:
         invalid: বৈধ টাইমজোন নয়
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: ফাঁকা রাখা যাবে না
     webhook:
