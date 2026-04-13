@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
+      "PRIVATE_NOTE": "إضافة ملاحظة خاصة",
       "MESSAGE_CONTAINS": "Message Contains",
       "EMAIL": "البريد الإلكتروني",
       "INBOX": "صندوق الوارد",
