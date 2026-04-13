@@ -16,20 +16,15 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   end
 
   def increment_response_usage
-    current_usage = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
-    custom_attributes[CAPTAIN_RESPONSES_USAGE] = current_usage + 1
-    save
+    increment_custom_attribute(CAPTAIN_RESPONSES_USAGE)
   end
 
   def reset_response_usage
-    custom_attributes[CAPTAIN_RESPONSES_USAGE] = 0
-    save
+    update_custom_attribute(CAPTAIN_RESPONSES_USAGE, 0)
   end
 
   def update_document_usage
-    # this will ensure that the document count is always accurate
-    custom_attributes[CAPTAIN_DOCUMENTS_USAGE] = captain_documents.count
-    save
+    update_custom_attribute(CAPTAIN_DOCUMENTS_USAGE, captain_documents.count)
   end
 
   def email_transcript_enabled?
@@ -128,6 +123,30 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
     return GlobalConfig.get(config_name)[config_name] if GlobalConfig.get(config_name)[config_name].present?
 
     ChatwootApp.max_limit
+  end
+
+  # Atomic jsonb_set to avoid clobbering concurrent writes to other custom_attributes keys.
+  def update_custom_attribute(key, value)
+    sql = <<~SQL.squish
+      UPDATE accounts
+      SET custom_attributes = jsonb_set(COALESCE(custom_attributes, '{}'), ARRAY[?], ?::jsonb)
+      WHERE id = ?
+    SQL
+    Account.connection.exec_update(Account.sanitize_sql_array([sql, key, value.to_json, id]))
+    custom_attributes[key] = value
+  end
+
+  def increment_custom_attribute(key)
+    sql = <<~SQL.squish
+      UPDATE accounts
+      SET custom_attributes = jsonb_set(
+        COALESCE(custom_attributes, '{}'), ARRAY[?],
+        (COALESCE((custom_attributes ->> ?)::int, 0) + 1)::text::jsonb
+      )
+      WHERE id = ?
+    SQL
+    Account.connection.exec_update(Account.sanitize_sql_array([sql, key, key, id]))
+    custom_attributes[key] = custom_attributes[key].to_i + 1
   end
 
   def validate_limit_keys
