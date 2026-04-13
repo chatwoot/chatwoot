@@ -84,6 +84,19 @@ describe('#ContactsAPI', () => {
       );
     });
 
+    it('#update', () => {
+      const formData = new FormData();
+      formData.append('email', 'primary@example.com');
+      formData.append('emails[]', 'primary@example.com');
+      formData.append('emails[]', 'alias@example.com');
+
+      contactAPI.update(1, formData);
+      expect(axiosMock.patch).toHaveBeenCalledWith(
+        '/api/v1/contacts/1?include_contact_inboxes=false',
+        formData
+      );
+    });
+
     it('#destroyCustomAttributes', () => {
       contactAPI.destroyCustomAttributes(1, ['cloudCustomer']);
       expect(axiosMock.post).toHaveBeenCalledWith(

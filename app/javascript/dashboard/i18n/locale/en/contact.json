@@ -425,6 +425,8 @@
           },
           "EMAIL_ADDRESS": {
             "PLACEHOLDER": "Enter the email address",
+            "ADDITIONAL_PLACEHOLDER": "Enter an additional email address",
+            "ADD": "Add email",
             "DUPLICATE": "This email address is in use for another contact."
           },
           "PHONE_NUMBER": {
@@ -549,7 +551,7 @@
         "PARENT_HELP_LABEL": "To be deleted",
         "EMPTY_STATE": "No contacts found",
         "PLACEHOLDER": "Search for primary contact",
-        "SEARCH_PLACEHOLDER": "Search for a contact",
+        "SEARCH_PLACEHOLDER": "Search by name or contact ID",
         "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
         "SUCCESS_MESSAGE": "Contact merged successfully",
         "ERROR_MESSAGE": "Could not merge contacts, try again!",

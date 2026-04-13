@@ -92,6 +92,11 @@ export default {
         telegram,
       };
     },
+    contactEmails() {
+      return (
+        this.contact.emails?.length ? this.contact.emails : [this.contact.email]
+      ).filter(Boolean);
+    },
   },
   watch: {
     'contact.id': {
@@ -238,14 +243,22 @@ export default {
         </p>
         <div class="flex flex-col items-start w-full gap-2">
           <ContactInfoRow
-            :href="contact.email ? `mailto:${contact.email}` : ''"
-            :value="contact.email"
+            v-for="email in contactEmails"
+            :key="email"
+            :href="`mailto:${email}`"
+            :value="email"
             icon="mail"
             emoji="✉️"
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
             show-copy
             editable
             @update="value => onFieldUpdate('email', value)"
+          />
+          <ContactInfoRow
+            v-if="!contactEmails.length"
+            icon="mail"
+            emoji="✉️"
+            :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
           />
           <ContactInfoRow
             :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"

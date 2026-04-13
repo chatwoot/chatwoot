@@ -1,9 +1,10 @@
 <script setup>
+import { computed } from 'vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import { useI18n } from 'vue-i18n';
 
-defineProps({
+const props = defineProps({
   selectedContact: {
     type: Object,
     required: true,
@@ -33,6 +34,13 @@ defineProps({
 const emit = defineEmits(['update:primaryContactId', 'search']);
 
 const { t } = useI18n();
+
+const selectedContactEmails = computed(() =>
+  (props.selectedContact.emails?.length
+    ? props.selectedContact.emails
+    : [props.selectedContact.email]
+  ).filter(Boolean)
+);
 </script>
 
 <template>
@@ -104,7 +112,7 @@ const { t } = useI18n();
             {{ selectedContact.name }}
           </span>
           <span class="text-sm leading-4 truncate text-n-slate-11">
-            {{ selectedContact.email }}
+            {{ selectedContactEmails.join(', ') }}
           </span>
         </div>
       </div>

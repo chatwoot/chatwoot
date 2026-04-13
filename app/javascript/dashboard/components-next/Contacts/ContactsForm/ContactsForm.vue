@@ -9,6 +9,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import PhoneNumberInput from 'dashboard/components-next/phonenumberinput/PhoneNumberInput.vue';
+import ContactEmailsInput from './ContactEmailsInput.vue';
 
 const props = defineProps({
   contactData: {
@@ -54,6 +55,7 @@ const defaultState = {
   id: 0,
   name: '',
   email: '',
+  emails: [],
   firstName: '',
   lastName: '',
   phoneNumber: '',
@@ -86,6 +88,36 @@ const v$ = useVuelidate(validationRules, state);
 
 const isFormInvalid = computed(() => v$.value.$invalid);
 
+const normalizeEmails = emails => [
+  ...new Set(
+    emails
+      .map(emailAddress => emailAddress?.trim()?.toLowerCase())
+      .filter(Boolean)
+  ),
+];
+
+const getContactEmails = contactData => {
+  const sourceEmails = contactData?.emails?.length
+    ? contactData.emails
+    : [contactData?.email];
+
+  return normalizeEmails(sourceEmails);
+};
+
+const emitUpdatedState = () => {
+  const { firstName, lastName, ...stateWithoutNames } = state;
+
+  emit('update', {
+    ...stateWithoutNames,
+    email: state.emails[0] || '',
+    emails: [...state.emails],
+    additionalAttributes: {
+      ...state.additionalAttributes,
+      socialProfiles: { ...state.additionalAttributes.socialProfiles },
+    },
+  });
+};
+
 const prepareStateBasedOnProps = () => {
   if (props.isNewContact) {
     return; // Added to prevent state update for new contact form
@@ -95,6 +127,7 @@ const prepareStateBasedOnProps = () => {
     id,
     name = '',
     email: emailAddress,
+    emails = [],
     phoneNumber,
     additionalAttributes = {},
   } = props.contactData || {};
@@ -111,13 +144,18 @@ const prepareStateBasedOnProps = () => {
 
   const telegramUsername =
     socialProfiles?.telegram || socialTelegramUserName || '';
+  const normalizedEmails = getContactEmails({
+    email: emailAddress,
+    emails,
+  });
 
   Object.assign(state, {
     id,
     name,
     firstName,
     lastName,
-    email: emailAddress,
+    email: normalizedEmails[0] || '',
+    emails: normalizedEmails,
     phoneNumber,
     additionalAttributes: {
       description,
@@ -201,10 +239,7 @@ const getFormBinding = key => {
       }
 
       const isFormValid = await v$.value.$validate();
-      if (isFormValid) {
-        const { firstName, lastName, ...stateWithoutNames } = state;
-        emit('update', stateWithoutNames);
-      }
+      if (isFormValid) emitUpdatedState();
     },
   });
 };
@@ -218,7 +253,16 @@ const getMessageType = key => {
 const handleCountrySelection = value => {
   const selectedCountry = countries.find(option => option.id === value);
   state.additionalAttributes.country = selectedCountry?.name || '';
-  emit('update', state);
+  emitUpdatedState();
+};
+
+const handleEmailsUpdate = async emails => {
+  const normalizedEmails = normalizeEmails(emails);
+  state.emails = normalizedEmails;
+  state.email = normalizedEmails[0] || '';
+
+  const isFormValid = await v$.value.$validate();
+  if (isFormValid) emitUpdatedState();
 };
 
 const resetValidation = () => {
@@ -254,8 +298,24 @@ defineExpose({
       </span>
       <div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
         <template v-for="item in editDetailsForm" :key="item.key">
+          <ContactEmailsInput
+            v-if="item.key === 'EMAIL_ADDRESS'"
+            v-model="state.emails"
+            :primary-placeholder="item.placeholder"
+            :additional-placeholder="
+              t(
+                'CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM.EMAIL_ADDRESS.ADDITIONAL_PLACEHOLDER'
+              )
+            "
+            :is-details-view="isDetailsView"
+            :message-type="getMessageType(item.key)"
+            class="sm:col-span-2"
+            @update:model-value="handleEmailsUpdate"
+            @input="v$[getValidationKey(item.key)].$touch()"
+            @blur="v$[getValidationKey(item.key)].$touch()"
+          />
           <ComboBox
-            v-if="item.key === 'COUNTRY'"
+            v-else-if="item.key === 'COUNTRY'"
             v-model="state.additionalAttributes.countryCode"
             :options="countryOptions"
             :placeholder="item.placeholder"

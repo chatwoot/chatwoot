@@ -121,6 +121,33 @@ describe('#actions', () => {
       ]);
     });
 
+    it('appends every email as emails[] for form data updates', async () => {
+      axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
+
+      await actions.update(
+        { commit },
+        {
+          id: contactList[0].id,
+          isFormData: true,
+          name: 'Fayaz',
+          email: 'primary@example.com',
+          emails: ['primary@example.com', 'alias@example.com'],
+          additionalAttributes: {
+            socialProfiles: {},
+          },
+        }
+      );
+
+      const [, formData] = axios.patch.mock.calls[0];
+
+      expect(formData).toBeInstanceOf(FormData);
+      expect(formData.getAll('emails[]')).toEqual([
+        'primary@example.com',
+        'alias@example.com',
+      ]);
+      expect(formData.get('email')).toBe('primary@example.com');
+    });
+
     it('sends correct actions if duplicate contact is found', async () => {
       axios.patch.mockRejectedValue({
         response: {
