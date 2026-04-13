@@ -12,12 +12,14 @@ import parsePhoneNumber from 'libphonenumber-js';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import ContactEmailsInput from 'dashboard/components-next/Contacts/ContactsForm/ContactEmailsInput.vue';
 
 export default {
   components: {
     NextButton,
     Avatar,
     ComboBox,
+    ContactEmailsInput,
   },
   props: {
     contact: {
@@ -43,6 +45,7 @@ export default {
       companyName: '',
       description: '',
       email: '',
+      emails: [],
       name: '',
       phoneNumber: '',
       activeDialCode: '',
@@ -126,6 +129,15 @@ export default {
     this.setDialCode();
   },
   methods: {
+    normalizeEmails(emails = []) {
+      return [
+        ...new Set(
+          emails
+            .map(emailAddress => emailAddress?.trim()?.toLowerCase())
+            .filter(Boolean)
+        ),
+      ];
+    },
     onCancel() {
       this.$emit('cancel');
     },
@@ -156,13 +168,18 @@ export default {
     setContactObject() {
       const {
         email: emailAddress,
+        emails = [],
         phone_number: phoneNumber,
         name,
       } = this.contact;
       const additionalAttributes = this.contact.additional_attributes || {};
+      const normalizedEmails = this.normalizeEmails(
+        emails.length ? emails : [emailAddress]
+      );
 
       this.name = name || '';
-      this.email = emailAddress || '';
+      this.email = normalizedEmails[0] || '';
+      this.emails = normalizedEmails;
       this.phoneNumber = phoneNumber || '';
       this.companyName = additionalAttributes.company_name || '';
       this.country = {
@@ -199,7 +216,8 @@ export default {
       const contactObject = {
         id: this.contact.id,
         name: this.name,
-        email: this.email,
+        email: this.emails[0] || '',
+        emails: this.emails,
         phone_number: this.setPhoneNumber,
         additional_attributes: {
           ...this.contact.additional_attributes,
@@ -220,6 +238,11 @@ export default {
         contactObject.isFormData = true;
       }
       return contactObject;
+    },
+    handleEmailsUpdate(emails) {
+      const normalizedEmails = this.normalizeEmails(emails);
+      this.emails = normalizedEmails;
+      this.email = normalizedEmails[0] || '';
     },
     setPhoneCode(code) {
       if (this.phoneNumber !== '' && this.parsePhoneNumber) {
@@ -318,15 +341,24 @@ export default {
 
         <label :class="{ error: v$.email.$error }">
           {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.LABEL') }}
-          <input
-            v-model="email"
-            type="text"
-            :placeholder="$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.PLACEHOLDER')"
+          <ContactEmailsInput
+            v-model="emails"
+            :primary-placeholder="
+              $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.PLACEHOLDER')
+            "
+            :additional-placeholder="
+              $t(
+                'CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM.EMAIL_ADDRESS.ADDITIONAL_PLACEHOLDER'
+              )
+            "
+            :message="
+              v$.email.$error ? $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.ERROR') : ''
+            "
+            :message-type="v$.email.$error ? 'error' : 'info'"
+            @update:model-value="handleEmailsUpdate"
             @input="v$.email.$touch"
+            @blur="v$.email.$touch"
           />
-          <span v-if="v$.email.$error" class="message">
-            {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.ERROR') }}
-          </span>
         </label>
       </div>
     </div>
