@@ -226,4 +226,18 @@ RSpec.describe Contact do
       expect(contact.all_emails).to eq(['primary@example.com', secondary_one.email, secondary_two.email])
     end
   end
+
+  describe 'email uniqueness against contact_emails' do
+    it 'fails validation cleanly when another contact uses a retained old email' do
+      account = create(:account)
+      original_contact = create(:contact, account: account, email: 'old@example.com')
+      original_contact.update!(email: 'new@example.com')
+
+      conflicting_contact = build(:contact, account: account, email: 'old@example.com')
+
+      expect(conflicting_contact).not_to be_valid
+      expect(conflicting_contact.errors[:email]).to include('has already been taken')
+      expect { conflicting_contact.save! }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
 end

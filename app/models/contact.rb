@@ -54,6 +54,7 @@ class Contact < ApplicationRecord
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
+  validate :email_uniqueness_across_contact_emails
 
   belongs_to :account
   has_many :contact_emails, dependent: :destroy_async
@@ -248,6 +249,15 @@ class Contact < ApplicationRecord
 
   def sync_contact_attributes
     ::Contacts::SyncAttributes.new(self).perform
+  end
+
+  def email_uniqueness_across_contact_emails
+    return if email.blank? || account_id.blank?
+
+    existing_contact_email = ContactEmail.where(account_id: account_id, email: email)
+                                         .where.not(contact_id: id)
+                                         .exists?
+    errors.add(:email, :taken) if existing_contact_email
   end
 
   def sync_primary_contact_email
