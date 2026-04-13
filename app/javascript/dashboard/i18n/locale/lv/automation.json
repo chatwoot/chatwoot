@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Ziņojuma Tips",
+      "PRIVATE_NOTE": "Privāta Piezīme",
       "MESSAGE_CONTAINS": "Ziņojums Satur",
       "EMAIL": "E-pasts",
       "INBOX": "Iesūtne",
