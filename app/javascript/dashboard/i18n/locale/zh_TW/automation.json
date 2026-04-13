@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "訊息類型",
+      "PRIVATE_NOTE": "私人筆記",
       "MESSAGE_CONTAINS": "訊息包含",
       "EMAIL": "電子郵件",
       "INBOX": "收件匣",
