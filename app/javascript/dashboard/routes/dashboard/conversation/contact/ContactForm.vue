@@ -74,6 +74,13 @@ export default {
     };
   },
   validations: {
+    emails: {
+      hasValidEmails(value) {
+        return (value || []).every(emailAddress =>
+          email.$validator(emailAddress)
+        );
+      },
+    },
     name: {
       required,
     },
@@ -243,6 +250,7 @@ export default {
       const normalizedEmails = this.normalizeEmails(emails);
       this.emails = normalizedEmails;
       this.email = normalizedEmails[0] || '';
+      this.v$.emails.$touch();
     },
     setPhoneCode(code) {
       if (this.phoneNumber !== '' && this.parsePhoneNumber) {
@@ -339,7 +347,7 @@ export default {
           />
         </label>
 
-        <label :class="{ error: v$.email.$error }">
+        <label :class="{ error: v$.email.$error || v$.emails.$error }">
           {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.LABEL') }}
           <ContactEmailsInput
             v-model="emails"
@@ -352,12 +360,22 @@ export default {
               )
             "
             :message="
-              v$.email.$error ? $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.ERROR') : ''
+              v$.email.$error || v$.emails.$error
+                ? $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.ERROR')
+                : ''
             "
-            :message-type="v$.email.$error ? 'error' : 'info'"
+            :message-type="
+              v$.email.$error || v$.emails.$error ? 'error' : 'info'
+            "
             @update:model-value="handleEmailsUpdate"
-            @input="v$.email.$touch"
-            @blur="v$.email.$touch"
+            @input="
+              v$.email.$touch();
+              v$.emails.$touch();
+            "
+            @blur="
+              v$.email.$touch();
+              v$.emails.$touch();
+            "
           />
         </label>
       </div>

@@ -79,9 +79,13 @@ const defaultState = {
 
 const state = reactive({ ...defaultState });
 
+const hasValidEmails = value =>
+  value.every(emailAddress => email.$validator(emailAddress));
+
 const validationRules = {
   firstName: { required },
   email: { email },
+  emails: { hasValidEmails },
 };
 
 const v$ = useVuelidate(validationRules, state);
@@ -245,9 +249,24 @@ const getFormBinding = key => {
 };
 
 const getMessageType = key => {
+  if (key === 'EMAIL_ADDRESS') {
+    return v$.value.email?.$error || v$.value.emails?.$error ? 'error' : 'info';
+  }
+
   return isValidationField(key) && v$.value[getValidationKey(key)]?.$error
     ? 'error'
     : 'info';
+};
+
+const getValidationMessage = key => {
+  if (
+    key === 'EMAIL_ADDRESS' &&
+    (v$.value.email?.$error || v$.value.emails?.$error)
+  ) {
+    return t('CONTACT_FORM.FORM.EMAIL_ADDRESS.ERROR');
+  }
+
+  return '';
 };
 
 const handleCountrySelection = value => {
@@ -260,6 +279,7 @@ const handleEmailsUpdate = async emails => {
   const normalizedEmails = normalizeEmails(emails);
   state.emails = normalizedEmails;
   state.email = normalizedEmails[0] || '';
+  v$.value.emails.$touch();
 
   const isFormValid = await v$.value.$validate();
   if (isFormValid) emitUpdatedState();
@@ -308,11 +328,18 @@ defineExpose({
               )
             "
             :is-details-view="isDetailsView"
+            :message="getValidationMessage(item.key)"
             :message-type="getMessageType(item.key)"
             class="sm:col-span-2"
             @update:model-value="handleEmailsUpdate"
-            @input="v$[getValidationKey(item.key)].$touch()"
-            @blur="v$[getValidationKey(item.key)].$touch()"
+            @input="
+              v$[getValidationKey(item.key)].$touch();
+              v$.emails.$touch();
+            "
+            @blur="
+              v$[getValidationKey(item.key)].$touch();
+              v$.emails.$touch();
+            "
           />
           <ComboBox
             v-else-if="item.key === 'COUNTRY'"
