@@ -265,6 +265,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_09_091202) do
     t.bigint "account_id", null: false
     t.bigint "inbox_id", null: false
     t.bigint "conversation_id", null: false
+    t.bigint "contact_id", null: false
     t.bigint "message_id"
     t.bigint "accepted_by_agent_id"
     t.string "provider_call_id", null: false
@@ -278,6 +279,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_09_091202) do
     t.text "transcript"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id", "contact_id"], name: "index_calls_on_account_id_and_contact_id"
     t.index ["account_id", "conversation_id"], name: "index_calls_on_account_id_and_conversation_id"
     t.index ["message_id"], name: "index_calls_on_message_id"
     t.index ["provider", "provider_call_id"], name: "index_calls_on_provider_and_provider_call_id", unique: true
