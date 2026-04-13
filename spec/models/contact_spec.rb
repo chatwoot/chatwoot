@@ -12,6 +12,7 @@ RSpec.describe Contact do
   context 'with associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to have_many(:conversations).dependent(:destroy_async) }
+    it { is_expected.to have_many(:contact_emails).dependent(:destroy_async) }
   end
 
   describe 'concerns' do
@@ -201,6 +202,28 @@ RSpec.describe Contact do
         expect(resolved_new).to include(lead_with_email, lead_without_email)
         expect(resolved_new).not_to include(visitor_contact, customer_contact)
       end
+    end
+  end
+
+  describe '.from_email' do
+    it 'finds a contact through a secondary email' do
+      account = create(:account)
+      contact = create(:contact, account: account, email: 'primary@example.com')
+      create(:contact_email, account: account, contact: contact, email: 'secondary@example.com')
+
+      expect(account.contacts.from_email('secondary@example.com')).to eq(contact)
+      expect(account.contacts.from_email('SECONDARY@EXAMPLE.COM')).to eq(contact)
+      expect(Contact.from_email('secondary@example.com')).to eq(contact)
+    end
+  end
+
+  describe '#all_emails' do
+    it 'returns primary email first and then secondary emails by id' do
+      contact = create(:contact, email: 'primary@example.com')
+      secondary_one = create(:contact_email, account: contact.account, contact: contact, email: 'second@example.com')
+      secondary_two = create(:contact_email, account: contact.account, contact: contact, email: 'third@example.com')
+
+      expect(contact.all_emails).to eq(['primary@example.com', secondary_one.email, secondary_two.email])
     end
   end
 end

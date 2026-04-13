@@ -76,6 +76,18 @@ describe ContactIdentifyAction do
         expect(result.identifier).to eq params[:identifier]
         expect(result.email).to be_nil
       end
+
+      it 'merges the current contact to a contact matched by secondary email' do
+        existing_email_contact = create(:contact, account: account, email: 'primary@test.com', name: 'old name')
+        create(:contact_email, account: account, contact: existing_email_contact, email: 'secondary@test.com')
+
+        params = { name: 'new name', email: 'secondary@test.com' }
+        result = described_class.new(contact: contact, params: params).perform
+
+        expect(result.id).to eq existing_email_contact.id
+        expect(result.name).to eq 'new name'
+        expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
 
     context 'when contact with same phone_number exists' do

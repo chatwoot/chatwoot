@@ -56,17 +56,20 @@ class Contact < ApplicationRecord
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
 
   belongs_to :account
+  has_many :contact_emails, dependent: :destroy_async
   has_many :conversations, dependent: :destroy_async
   has_many :contact_inboxes, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
   has_many :inboxes, through: :contact_inboxes
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
+  has_one :primary_contact_email, -> { primary }, class_name: 'ContactEmail'
   before_validation :prepare_contact_attributes
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
+  after_save :sync_primary_contact_email, if: :saved_change_to_email?
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -142,6 +145,14 @@ class Contact < ApplicationRecord
       .where('contacts.created_at < ?', time_period)
       .where.missing(:conversations)
   }
+  scope :matching_email, lambda { |email|
+    normalized_email = email.to_s.downcase
+    next none if normalized_email.blank?
+
+    left_outer_joins(:contact_emails)
+      .where('contacts.email = :email OR contact_emails.email = :email', email: normalized_email)
+      .distinct
+  }
 
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
@@ -190,7 +201,14 @@ class Contact < ApplicationRecord
   end
 
   def self.from_email(email)
-    find_by(email: email&.downcase)
+    matching_email(email).first
+  end
+
+  def all_emails
+    emails = contact_emails.order(primary: :desc, id: :asc).pluck(:email)
+    return emails if primary_contact_email.present? || email.blank?
+
+    [email, *emails.reject { |contact_email| contact_email == email }]
   end
 
   private
@@ -230,6 +248,18 @@ class Contact < ApplicationRecord
 
   def sync_contact_attributes
     ::Contacts::SyncAttributes.new(self).perform
+  end
+
+  def sync_primary_contact_email
+    if email.present?
+      primary_email = contact_emails.find_or_initialize_by(email: email)
+      contact_emails.primary.where.not(id: primary_email.id).update_all(primary: false, updated_at: Time.current)
+      primary_email.account = account
+      primary_email.primary = true
+      primary_email.save! if primary_email.changed?
+    else
+      contact_emails.primary.destroy_all
+    end
   end
 
   def dispatch_create_event
