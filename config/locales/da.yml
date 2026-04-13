@@ -37,6 +37,8 @@ da:
     account:
       reporting_timezone:
         invalid: is not a valid timezone
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: må ikke være tomt
     webhook:
