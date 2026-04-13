@@ -37,6 +37,8 @@ zh_TW:
     account:
       reporting_timezone:
         invalid: 不是有效的時區
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: 不能為空白
     webhook:
