@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Mesaj Türü",
+      "PRIVATE_NOTE": "Özel Not",
       "MESSAGE_CONTAINS": "Mesaj İçerir",
       "EMAIL": "E-Posta",
       "INBOX": "Gelen Kutusu",
