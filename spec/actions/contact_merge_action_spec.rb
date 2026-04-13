@@ -58,12 +58,19 @@ describe ContactMergeAction do
     end
 
     it 'avoids duplicating identities the base contact already has' do
+      connection = ActiveRecord::Base.connection
+
       create(:contact_email, account: account, contact: base_contact, email: 'shared@example.com')
-      mergee_contact.update_column(:email, 'shared@example.com')
+      connection.execute('DROP INDEX IF EXISTS index_contact_emails_on_lower_email_account_id')
+      build(:contact_email, account: account, contact: mergee_contact, email: 'shared@example.com').save!(validate: false)
 
       contact_merge
 
       expect(base_contact.reload.contact_emails.where(email: 'shared@example.com').count).to eq(1)
+    ensure
+      duplicate_ids = ContactEmail.where(account_id: account.id, email: 'shared@example.com').order(:id).offset(1).pluck(:id)
+      ContactEmail.where(id: duplicate_ids).delete_all if duplicate_ids.any?
+      connection.execute('CREATE UNIQUE INDEX IF NOT EXISTS index_contact_emails_on_lower_email_account_id ON contact_emails (lower((email)::text), account_id)')
     end
 
     context 'when base contact and merge contact are same' do
