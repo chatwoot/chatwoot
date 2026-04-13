@@ -227,6 +227,18 @@ RSpec.describe Contact do
     end
   end
 
+  describe '#push_event_data' do
+    it 'includes all email identities for realtime updates' do
+      contact = create(:contact, email: 'primary@example.com')
+      create(:contact_email, account: contact.account, contact: contact, email: 'alias@example.com')
+
+      expect(contact.push_event_data).to include(
+        email: 'primary@example.com',
+        emails: ['primary@example.com', 'alias@example.com']
+      )
+    end
+  end
+
   describe 'primary email identity sync' do
     it 'promotes an existing alias when the legacy email field is cleared' do
       contact = create(:contact, email: 'primary@example.com')

@@ -9,6 +9,17 @@ class CreateContactEmails < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
+    create_indexes
+    backfill_contact_emails
+  end
+
+  def down
+    drop_table :contact_emails
+  end
+
+  private
+
+  def create_indexes
     add_index :contact_emails, 'LOWER(email), account_id',
               unique: true,
               name: 'index_contact_emails_on_lower_email_account_id'
@@ -16,16 +27,14 @@ class CreateContactEmails < ActiveRecord::Migration[7.0]
               unique: true,
               where: '"primary" = TRUE',
               name: 'index_contact_emails_on_contact_id_primary_unique'
+  end
 
+  def backfill_contact_emails
     execute <<~SQL.squish
       INSERT INTO contact_emails (account_id, contact_id, email, "primary", created_at, updated_at)
       SELECT contacts.account_id, contacts.id, LOWER(contacts.email), TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
       FROM contacts
       WHERE contacts.email IS NOT NULL AND contacts.email <> ''
     SQL
-  end
-
-  def down
-    drop_table :contact_emails
   end
 end

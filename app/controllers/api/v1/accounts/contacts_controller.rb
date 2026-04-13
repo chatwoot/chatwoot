@@ -28,7 +28,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     search_query = params[:q].strip
     contacts = Current.account.contacts.left_outer_joins(:contact_emails)
     contacts = contacts.where(search_conditions, search: "%#{search_query}%", contact_id: search_query.to_i)
-    contacts = contacts.distinct
+    contacts = prioritize_exact_contact_id_match(contacts.distinct, search_query)
     @contacts = fetch_contacts_with_has_more(contacts)
   end
 
@@ -251,8 +251,25 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
       'contacts.identifier LIKE :search'
     ]
 
-    base_conditions << 'contacts.id = :contact_id' if params[:q].strip.match?(/\A\d+\z/)
+    base_conditions << 'contacts.id = :contact_id' if numeric_contact_query?(params[:q].to_s.strip)
     base_conditions.join(' OR ')
+  end
+
+  def prioritize_exact_contact_id_match(contacts, search_query)
+    return contacts unless numeric_contact_query?(search_query)
+
+    contact_id = search_query.to_i
+    priority_select = Contact.send(
+      :sanitize_sql_array,
+      ['contacts.*, CASE WHEN contacts.id = ? THEN 0 ELSE 1 END AS exact_match_priority', contact_id]
+    )
+
+    contacts.reselect(Arel.sql(priority_select))
+            .order(Arel.sql('exact_match_priority ASC, contacts.id DESC'))
+  end
+
+  def numeric_contact_query?(search_query)
+    search_query.match?(/\A\d+\z/)
   end
 
   def process_avatar_from_url

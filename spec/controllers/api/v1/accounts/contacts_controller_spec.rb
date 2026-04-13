@@ -387,6 +387,24 @@ RSpec.describe 'Contacts API', type: :request do
         expect(payload.pluck('id')).to eq([contact2.id])
       end
 
+      it 'prioritizes an exact id match ahead of fuzzy numeric matches' do
+        target_contact = create(:contact, :with_email, account: account, name: 'target')
+        create_list(:contact, 20, account: account, email: nil, phone_number: nil) do |fuzzy_contact, index|
+          fuzzy_contact.update!(identifier: "lookup-#{target_contact.id}-#{index}")
+        end
+
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: target_contact.id.to_s },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        payload = response.parsed_body['payload']
+        expect(payload.length).to eq(15)
+        expect(payload.first['id']).to eq(target_contact.id)
+      end
+
       it 'matches the contact by a secondary email' do
         create(:contact_email, account: account, contact: contact2, email: 'secondary@example.com')
 

@@ -170,6 +170,7 @@ class Contact < ApplicationRecord
       additional_attributes: additional_attributes,
       custom_attributes: custom_attributes,
       email: email,
+      emails: all_emails,
       id: id,
       identifier: identifier,
       name: name,
