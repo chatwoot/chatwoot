@@ -390,72 +390,72 @@
   },
   "CAPTAIN": {
     "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "Saznaj više",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "Asistenti",
+      "SWITCH_ASSISTANT": "Prebaci se između asistenata",
+      "NEW_ASSISTANT": "Kreiraj asistenta",
+      "EMPTY_LIST": "Nema pronađenih asistenata, molimo stvorite jednog za početak"
     },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "PANEL_TITLE": "Započnite s Copilotom",
+      "KICK_OFF_MESSAGE": "Trebate brzi sažetak, želite provjeriti prethodne razgovore ili nacrtati bolji odgovor? Copilot je tu da ubrza stvari.",
       "SEND_MESSAGE": "Send message...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
+      "EMPTY_MESSAGE": "Došlo je do pogreške pri generiranju odgovora. Molimo pokušajte ponovno.",
+      "LOADER": "Captain razmišlja",
       "YOU": "Vi",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "USE": "Koristi ovo",
+      "RESET": "Poništi",
+      "SHOW_STEPS": "Prikaži korake",
+      "SELECT_ASSISTANT": "Odaberi asistenta",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Sažmi ovaj razgovor",
+          "CONTENT": "Sažmi ključne točke raspravljene između kupca i agenata za podršku, uključujući brige kupca, pitanja i rješenja ili odgovore koje je dao agent za podršku."
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Predloži odgovor",
+          "CONTENT": "Analiziraj upit kupca i nacrtaj odgovor koji učinkovito rješava njihove brige ili pitanja. Osiguraj da je odgovor jasan, sažet i pruža korisne informacije."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Ocijeni ovaj razgovor",
+          "CONTENT": "Pregledajte razgovor kako biste vidjeli koliko dobro zadovoljava potrebe kupca. Podijelite ocjenu od 1 do 5 na temelju tona, jasnoće i učinkovitosti."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "Razgovori visokog prioriteta",
+          "CONTENT": "Dajte mi sažetak svih otvorenih razgovora visokog prioriteta. Uključite ID razgovora, ime kupca (ako je dostupno), sadržaj posljednje poruke i dodijeljenog agenta. Grupirajte po statusu ako je relevantno."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "Popis kontakata",
+          "CONTENT": "Pokaži mi popis top 10 kontakata. Uključi ime, e-mail ili broj telefona (ako je dostupno), vrijeme posljednjeg viđenja, oznake (ako ih ima)."
         }
       }
     },
     "PLAYGROUND": {
       "USER": "Vi",
-      "ASSISTANT": "Assistant",
+      "ASSISTANT": "Asistent",
       "MESSAGE_PLACEHOLDER": "Unesite svoju poruku...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "Poligon",
+      "DESCRIPTION": "Koristite ovaj poligon za slanje poruka svom asistentu i provjerite odgovara li točno, brzo i u očekivanom tonu.",
+      "CREDIT_NOTE": "Poruke poslane ovdje računaju se u vaše Captain kredite."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "TITLE": "Nadogradite za korištenje Captain AI",
+      "AVAILABLE_ON": "Captain nije dostupan na besplatnom planu.",
+      "UPGRADE_PROMPT": "Nadogradite svoj plan da biste dobili pristup našim asistentima, copilotu i još mnogo toga.",
       "UPGRADE_NOW": "Upgrade now",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "AVAILABLE_ON": "Captain AI dostupan je samo u Enterprise planovima.",
+      "UPGRADE_PROMPT": "Nadogradite svoj plan da biste dobili pristup našim asistentima, copilotu i još mnogo toga.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "Iskoristili ste preko 80 % svog limita odgovora. Da biste nastavili koristiti Captain AI, nadogradite plan.",
+      "DOCUMENTS": "Dosegnut je limit dokumenata. Nadogradite kako biste nastavili koristiti Captain AI."
     },
     "FORM": {
       "CANCEL": "Odustani",
@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
+      "SELECTED": "{count} selected",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "BULK_DELETE_BUTTON": "Izbriši",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
         "DESCRIPTION": "These FAQs are generated directly from the document."
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -825,11 +837,18 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Description",
