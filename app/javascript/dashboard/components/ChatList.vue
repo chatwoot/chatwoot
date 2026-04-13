@@ -315,6 +315,18 @@ const pageTitle = computed(() => {
   return t('CHAT_LIST.TAB_HEADING');
 });
 
+function filterByAssigneeTab(conversations) {
+  if (activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.ME) {
+    return conversations.filter(
+      c => c.meta?.assignee?.id === currentUser.value?.id
+    );
+  }
+  if (activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.UNASSIGNED) {
+    return conversations.filter(c => !c.meta?.assignee);
+  }
+  return [...conversations];
+}
+
 const conversationList = computed(() => {
   let localConversationList = [];
 
@@ -323,7 +335,9 @@ const conversationList = computed(() => {
     if (
       props.conversationType === wootConstants.CONVERSATION_TYPE.PARTICIPATING
     ) {
-      localConversationList = [...participatingChatsList.value(filters)];
+      localConversationList = filterByAssigneeTab(
+        participatingChatsList.value(filters)
+      );
     } else if (activeAssigneeTab.value === 'me') {
       localConversationList = [...mineChatsList.value(filters)];
     } else if (activeAssigneeTab.value === 'unassigned') {

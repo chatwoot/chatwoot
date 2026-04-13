@@ -109,7 +109,6 @@ const getters = {
       const watchers = getWatchers(conversation.id);
       // Watchers are only loaded for the conversation open in the detail
       // panel. If loaded and current user is not in them, filter it out.
-      // Otherwise trust the API fetch.
       if (watchers && !watchers.some(w => w.id === currentUserId)) {
         return false;
       }
