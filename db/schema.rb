@@ -271,6 +271,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_09_091202) do
     t.integer "provider", default: 0, null: false
     t.integer "direction", null: false
     t.string "status", default: "ringing", null: false
+    t.datetime "started_at"
     t.integer "duration_seconds"
     t.string "end_reason"
     t.jsonb "meta", default: {}
@@ -279,7 +280,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_09_091202) do
     t.datetime "updated_at", null: false
     t.index ["account_id", "conversation_id"], name: "index_calls_on_account_id_and_conversation_id"
     t.index ["message_id"], name: "index_calls_on_message_id"
-    t.index ["meta"], name: "index_calls_on_meta", using: :gin
     t.index ["provider", "provider_call_id"], name: "index_calls_on_provider_and_provider_call_id", unique: true
   end
 
