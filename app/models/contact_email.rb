@@ -54,8 +54,12 @@ class ContactEmail < ApplicationRecord
     return if email.blank? || account_id.blank?
 
     existing_contact = Contact.where(account_id: account_id, email: email)
-                              .where.not(id: contact_id)
+                              .where.not(id: conflicting_contact_ids_to_ignore)
                               .exists?
     errors.add(:email, :taken) if existing_contact
+  end
+
+  def conflicting_contact_ids_to_ignore
+    [contact_id, contact_id_in_database].compact.uniq
   end
 end

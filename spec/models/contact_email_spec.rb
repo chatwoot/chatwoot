@@ -44,5 +44,17 @@ RSpec.describe ContactEmail do
       expect(conflicting_alias).not_to be_valid
       expect(conflicting_alias.errors[:email]).to include('has already been taken')
     end
+
+    it "allows moving an existing alias onto another contact when the only legacy conflict is the row's current owner" do
+      account = create(:account)
+      base_contact = create(:contact, account: account, email: 'base@example.com')
+      mergee_contact = create(:contact, account: account, email: 'mergee@example.com')
+      moved_alias = mergee_contact.primary_contact_email
+
+      moved_alias.contact = base_contact
+      moved_alias.primary = false
+
+      expect(moved_alias).to be_valid
+    end
   end
 end

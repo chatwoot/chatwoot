@@ -59,11 +59,12 @@ class ContactMergeAction
         next
       end
 
-      if contact_email.present?
-        contact_email.update!(contact: @base_contact, primary: false)
-      else
-        @base_contact.contact_emails.create!(account: @base_contact.account, email: email, primary: false)
-      end
+      contact_email ||= @mergee_contact.contact_emails.create!(
+        account: @mergee_contact.account,
+        email: email,
+        primary: false
+      )
+      contact_email.update!(contact: @base_contact, primary: false)
 
       base_contact_email_identities << email
     end
