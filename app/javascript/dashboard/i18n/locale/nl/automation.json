@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
+      "PRIVATE_NOTE": "Privénotitie",
       "MESSAGE_CONTAINS": "Message Contains",
       "EMAIL": "E-mailadres",
       "INBOX": "Postvak In",
