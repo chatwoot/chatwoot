@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { debounce } from '@chatwoot/utils';
 import { useI18n } from 'vue-i18n';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
@@ -77,9 +77,12 @@ const articleTitle = computed({
   },
 });
 
+const localContent = ref(props.article.content || '');
+
 const articleContent = computed({
   get: () => props.article.content,
   set: content => {
+    localContent.value = content;
     handleSave({ content });
   },
 });
@@ -103,7 +106,7 @@ const previewArticle = () => {
 const handleBlur = event => {
   const title = event?.target?.value || '';
   if (title.trim()) {
-    emit('titleBlur', { title });
+    emit('titleBlur', { title, content: localContent.value });
   }
 };
 </script>
