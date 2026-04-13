@@ -94,11 +94,13 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def update
-    @contact.assign_attributes(contact_update_params)
-    assign_primary_email_from_identities(@contact)
-    @contact.save!
-    replace_contact_emails if emails_param_provided?
-    process_avatar_from_url
+    ActiveRecord::Base.transaction do
+      @contact.assign_attributes(contact_update_params)
+      assign_primary_email_from_identities(@contact)
+      @contact.save!
+      replace_contact_emails if emails_param_provided?
+      process_avatar_from_url
+    end
   end
 
   def destroy

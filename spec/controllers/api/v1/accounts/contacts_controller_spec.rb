@@ -808,6 +808,26 @@ RSpec.describe 'Contacts API', type: :request do
         expect(payload['emails']).to eq(['new-primary@example.com', 'other@example.com'])
       end
 
+      it 'rolls back contact changes when email replacement fails' do
+        contact.update!(name: 'Original Name', email: 'primary@example.com')
+        create(:contact_email, account: account, contact: contact, email: 'secondary@example.com')
+        create(:contact, account: account, email: 'taken@example.com')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              params: { name: 'Changed Name', emails: ['new-primary@example.com', 'taken@example.com'] },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to be_present
+        expect(response.parsed_body['attributes']).to include(:email).or include('email')
+
+        contact.reload
+        expect(contact.name).to eq('Original Name')
+        expect(contact.email).to eq('primary@example.com')
+        expect(contact.all_emails).to eq(['primary@example.com', 'secondary@example.com'])
+      end
+
       it 'clears all contact emails when emails is explicitly empty' do
         contact.update!(email: 'primary@example.com')
         create(:contact_email, account: account, contact: contact, email: 'secondary@example.com')
