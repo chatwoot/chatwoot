@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
+      "PRIVATE_NOTE": "Notatka prywatna",
       "MESSAGE_CONTAINS": "Message Contains",
       "EMAIL": "E-mail",
       "INBOX": "Skrzynka odbiorcza",
