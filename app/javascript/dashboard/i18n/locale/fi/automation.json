@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
+      "PRIVATE_NOTE": "Sisäinen merkintä",
       "MESSAGE_CONTAINS": "Message Contains",
       "EMAIL": "Sähköposti",
       "INBOX": "Inbox",
