@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
+      "PRIVATE_NOTE": "یادداشت خصوصی",
       "MESSAGE_CONTAINS": "Message Contains",
       "EMAIL": "ایمیل",
       "INBOX": "صندوق ورودی",
