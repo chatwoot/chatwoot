@@ -32,7 +32,7 @@ const emit = defineEmits([
   'setAuthor',
   'setCategory',
   'previewArticle',
-  'titleBlur',
+  'createArticle',
 ]);
 
 const { t } = useI18n();
@@ -97,11 +97,11 @@ const previewArticle = () => {
   emit('previewArticle');
 };
 
-const handleBlur = event => {
+const handleCreateArticle = event => {
   if (!isNewArticle.value) return;
   const title = event?.target?.value || '';
   if (title.trim()) {
-    emit('titleBlur', { title, content: localContent.value });
+    emit('createArticle', { title, content: localContent.value });
   }
 };
 </script>
@@ -128,7 +128,7 @@ const handleBlur = event => {
           custom-text-area-wrapper-class="border-0 !bg-transparent dark:!bg-transparent !py-0 !px-0"
           placeholder="Title"
           autofocus
-          @blur="handleBlur"
+          @blur="handleCreateArticle"
         />
         <ArticleEditorControls
           :article="article"
