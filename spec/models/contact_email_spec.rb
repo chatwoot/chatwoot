@@ -27,5 +27,22 @@ RSpec.describe ContactEmail do
       expect(duplicate_primary).not_to be_valid
       expect(duplicate_primary.errors[:primary]).to include('has already been taken')
     end
+
+    it "does not allow claiming another contact's legacy email when no alias row exists yet" do
+      account = create(:account)
+      legacy_owner = create(:contact, account: account)
+      legacy_owner.update_columns(email: 'legacy-only@example.com', updated_at: Time.current)
+      claiming_contact = create(:contact, account: account, email: 'other@example.com')
+
+      conflicting_alias = build(
+        :contact_email,
+        account: account,
+        contact: claiming_contact,
+        email: 'legacy-only@example.com'
+      )
+
+      expect(conflicting_alias).not_to be_valid
+      expect(conflicting_alias.errors[:email]).to include('has already been taken')
+    end
   end
 end

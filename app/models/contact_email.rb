@@ -35,6 +35,7 @@ class ContactEmail < ApplicationRecord
                     format: { with: Devise.email_regexp, message: I18n.t('errors.contacts.email.invalid') }
   validates :primary, uniqueness: { scope: :contact_id }, if: :primary?
   validate :contact_belongs_to_account
+  validate :email_uniqueness_across_contacts
 
   private
 
@@ -47,5 +48,14 @@ class ContactEmail < ApplicationRecord
     return if contact.account_id == account_id
 
     errors.add(:contact, :invalid)
+  end
+
+  def email_uniqueness_across_contacts
+    return if email.blank? || account_id.blank?
+
+    existing_contact = Contact.where(account_id: account_id, email: email)
+                              .where.not(id: contact_id)
+                              .exists?
+    errors.add(:email, :taken) if existing_contact
   end
 end
