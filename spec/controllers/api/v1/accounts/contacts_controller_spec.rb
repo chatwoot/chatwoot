@@ -402,6 +402,21 @@ RSpec.describe 'Contacts API', type: :request do
         expect(payload.first['emails']).to eq([contact2.email, 'secondary@example.com'])
       end
 
+      it 'matches the contact by the legacy contact email when identity rows are absent' do
+        legacy_contact = create(:contact, account: account)
+        legacy_contact.update_columns(email: 'legacy-only@example.com')
+
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: 'legacy-only@example.com' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        payload = response.parsed_body['payload']
+        expect(payload.pluck('id')).to include(legacy_contact.id)
+      end
+
       it 'matches the resolved contact respecting the identifier character casing' do
         contact_normal = create(:contact, name: 'testcontact', account: account, identifier: 'testidentifer')
         contact_special = create(:contact, name: 'testcontact', account: account, identifier: 'TestIdentifier')
@@ -791,6 +806,21 @@ RSpec.describe 'Contacts API', type: :request do
         expect(contact.all_emails).to eq(['new-primary@example.com', 'other@example.com'])
         expect(payload['email']).to eq('new-primary@example.com')
         expect(payload['emails']).to eq(['new-primary@example.com', 'other@example.com'])
+      end
+
+      it 'clears all contact emails when emails is explicitly empty' do
+        contact.update!(email: 'primary@example.com')
+        create(:contact_email, account: account, contact: contact, email: 'secondary@example.com')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              params: { emails: [] },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.email).to be_nil
+        expect(contact.contact_emails).to be_empty
+        expect(response.parsed_body['payload']['emails']).to eq([])
       end
 
       it 'allows unblocking of contact' do

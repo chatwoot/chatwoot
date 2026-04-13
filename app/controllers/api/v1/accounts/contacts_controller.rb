@@ -236,12 +236,13 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def replace_contact_emails
-    Contacts::ReplaceContactEmails.new(contact: @contact, emails: permitted_params[:emails], legacy_email: @contact.email).perform
+    Contacts::ReplaceContactEmails.new(contact: @contact, emails: permitted_params[:emails]).perform
   end
 
   def search_conditions
     base_conditions = [
       'contacts.name ILIKE :search',
+      'contacts.email ILIKE :search',
       'contact_emails.email ILIKE :search',
       'contacts.phone_number ILIKE :search',
       'contacts.identifier LIKE :search'
