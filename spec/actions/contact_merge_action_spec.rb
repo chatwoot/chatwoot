@@ -78,6 +78,14 @@ describe ContactMergeAction do
       expect(base_contact.reload.contact_emails.where(email: 'shared@example.com').count).to eq(1)
     end
 
+    it 'treats case-only legacy email drift as the same identity' do
+      create(:contact_email, account: account, contact: base_contact, email: 'alias@example.com')
+      mergee_contact.update_column(:email, 'Alias@Example.com')
+
+      expect { contact_merge }.not_to raise_error
+      expect(base_contact.reload.contact_emails.where(email: 'alias@example.com').count).to eq(1)
+    end
+
     context 'when base contact and merge contact are same' do
       it 'does not delete contact' do
         mergee_contact = base_contact

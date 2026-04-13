@@ -48,8 +48,8 @@ class ContactMergeAction
   end
 
   def merge_contact_emails
-    base_contact_email_identities = @base_contact.all_emails
-    mergee_contact_emails = @mergee_contact.contact_emails.index_by(&:email)
+    base_contact_email_identities = @base_contact.all_emails.filter_map { |email| normalized_email(email) }
+    mergee_contact_emails = @mergee_contact.contact_emails.index_by { |contact_email| normalized_email(contact_email.email) }
 
     mergee_email_identities.each do |email|
       contact_email = mergee_contact_emails[email]
@@ -70,7 +70,12 @@ class ContactMergeAction
   end
 
   def mergee_email_identities
-    [@mergee_contact.email, *@mergee_contact.contact_emails.pluck(:email)].compact_blank.uniq
+    [@mergee_contact.email, *@mergee_contact.contact_emails.pluck(:email)].filter_map { |email| normalized_email(email) }.uniq
+  end
+
+  def normalized_email(email)
+    normalized_email = email.to_s.strip.downcase
+    normalized_email.presence
   end
 
   def merge_and_remove_mergee_contact
