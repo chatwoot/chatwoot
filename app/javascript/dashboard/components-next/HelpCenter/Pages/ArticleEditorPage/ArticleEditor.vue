@@ -58,16 +58,10 @@ const quickSave = debounce(
 // Only use to save for existing articles
 const saveAndSyncDebounced = debounce(saveAndSync, 2500, false);
 
-// Debounced save for new articles
-const quickSaveNewArticle = debounce(saveAndSync, 400, false);
-
 const handleSave = value => {
-  if (isNewArticle.value) {
-    quickSaveNewArticle(value);
-  } else {
-    quickSave(value);
-    saveAndSyncDebounced(value);
-  }
+  if (isNewArticle.value) return;
+  quickSave(value);
+  saveAndSyncDebounced(value);
 };
 
 const articleTitle = computed({
@@ -104,6 +98,7 @@ const previewArticle = () => {
 };
 
 const handleBlur = event => {
+  if (!isNewArticle.value) return;
   const title = event?.target?.value || '';
   if (title.trim()) {
     emit('titleBlur', { title, content: localContent.value });
