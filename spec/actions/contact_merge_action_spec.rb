@@ -57,20 +57,25 @@ describe ContactMergeAction do
                                                                                                               ])
     end
 
-    it 'avoids duplicating identities the base contact already has' do
-      connection = ActiveRecord::Base.connection
+    it 'moves a unique mergee legacy email drift onto the base contact as a non-primary identity' do
+      mergee_contact.update_column(:email, 'drift@example.com')
 
+      contact_merge
+
+      expect(base_contact.reload.contact_emails.order(primary: :desc, email: :asc).pluck(:email, :primary)).to eq([
+                                                                                                                      ['old@old.com', true],
+                                                                                                                      ['drift@example.com', false],
+                                                                                                                      ['new@new.com', false]
+                                                                                                                    ])
+    end
+
+    it 'avoids duplicating identities the base contact already has' do
       create(:contact_email, account: account, contact: base_contact, email: 'shared@example.com')
-      connection.execute('DROP INDEX IF EXISTS index_contact_emails_on_lower_email_account_id')
-      build(:contact_email, account: account, contact: mergee_contact, email: 'shared@example.com').save!(validate: false)
+      mergee_contact.update_column(:email, 'shared@example.com')
 
       contact_merge
 
       expect(base_contact.reload.contact_emails.where(email: 'shared@example.com').count).to eq(1)
-    ensure
-      duplicate_ids = ContactEmail.where(account_id: account.id, email: 'shared@example.com').order(:id).offset(1).pluck(:id)
-      ContactEmail.where(id: duplicate_ids).delete_all if duplicate_ids.any?
-      connection.execute('CREATE UNIQUE INDEX IF NOT EXISTS index_contact_emails_on_lower_email_account_id ON contact_emails (lower((email)::text), account_id)')
     end
 
     context 'when base contact and merge contact are same' do

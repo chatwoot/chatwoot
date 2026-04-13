@@ -49,16 +49,28 @@ class ContactMergeAction
 
   def merge_contact_emails
     base_contact_email_identities = @base_contact.all_emails
+    mergee_contact_emails = @mergee_contact.contact_emails.index_by(&:email)
 
-    mergee_contact.contact_emails.find_each do |contact_email|
-      if base_contact_email_identities.include?(contact_email.email)
-        contact_email.destroy!
+    mergee_email_identities.each do |email|
+      contact_email = mergee_contact_emails[email]
+
+      if base_contact_email_identities.include?(email)
+        contact_email&.destroy!
         next
       end
 
-      contact_email.update!(contact: @base_contact, primary: false)
-      base_contact_email_identities << contact_email.email
+      if contact_email.present?
+        contact_email.update!(contact: @base_contact, primary: false)
+      else
+        @base_contact.contact_emails.create!(account: @base_contact.account, email: email, primary: false)
+      end
+
+      base_contact_email_identities << email
     end
+  end
+
+  def mergee_email_identities
+    [@mergee_contact.email, *@mergee_contact.contact_emails.pluck(:email)].compact_blank.uniq
   end
 
   def merge_and_remove_mergee_contact
