@@ -6,7 +6,7 @@ class Contacts::SyncPrimaryEmailIdentity
   end
 
   def perform
-    return clear_contact_emails if contact.email.blank?
+    return sync_blank_primary_email if contact.email.blank?
 
     primary_contact_email = contact.contact_emails.find_or_initialize_by(email: contact.email)
 
@@ -19,8 +19,31 @@ class Contacts::SyncPrimaryEmailIdentity
 
   private
 
-  def clear_contact_emails
-    contact.contact_emails.destroy_all
+  def sync_blank_primary_email
+    current_primary_email&.destroy!
+
+    fallback_contact_email = remaining_contact_emails.first
+
+    if fallback_contact_email.present?
+      fallback_contact_email.update!(primary: true) unless fallback_contact_email.primary?
+      mirror_legacy_email(fallback_contact_email.email)
+    else
+      mirror_legacy_email(nil)
+    end
+  end
+
+  def current_primary_email
+    contact.contact_emails.primary.first
+  end
+
+  def remaining_contact_emails
+    contact.contact_emails.order(:id)
+  end
+
+  def mirror_legacy_email(email)
+    return if contact.email == email
+
+    contact.update_columns(email: email, updated_at: Time.current)
   end
 end
 

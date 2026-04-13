@@ -70,7 +70,7 @@ class Contact < ApplicationRecord
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
-  after_commit :sync_primary_email_identity, if: :saved_change_to_email?
+  after_save :sync_primary_email_identity, if: :saved_change_to_email?
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 

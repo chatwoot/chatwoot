@@ -19,9 +19,25 @@ RSpec.describe Contacts::SyncPrimaryEmailIdentity do
                                                                                                                ])
     end
 
-    it 'removes all contact email identities when the legacy contact email field is blank' do
+    it 'preserves aliases by promoting an existing secondary when the legacy contact email field is blank' do
       contact = create(:contact, email: 'primary@example.com')
-      create(:contact_email, account: contact.account, contact: contact, email: 'secondary@example.com')
+      secondary = create(:contact_email, account: contact.account, contact: contact, email: 'secondary@example.com')
+      tertiary = create(:contact_email, account: contact.account, contact: contact, email: 'third@example.com')
+      contact.update_column(:email, nil)
+
+      described_class.new(contact: contact).perform
+
+      contact.reload
+
+      expect(contact.email).to eq(secondary.email)
+      expect(contact.contact_emails.order(primary: :desc, id: :asc).pluck(:email, :primary)).to eq([
+                                                                                                      [secondary.email, true],
+                                                                                                      [tertiary.email, false]
+                                                                                                    ])
+    end
+
+    it 'clears all identities only when no aliases remain after blanking the legacy email field' do
+      contact = create(:contact, email: 'primary@example.com')
       contact.update_column(:email, nil)
 
       described_class.new(contact: contact).perform

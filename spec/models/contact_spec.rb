@@ -227,6 +227,23 @@ RSpec.describe Contact do
     end
   end
 
+  describe 'primary email identity sync' do
+    it 'promotes an existing alias when the legacy email field is cleared' do
+      contact = create(:contact, email: 'primary@example.com')
+      secondary = create(:contact_email, account: contact.account, contact: contact, email: 'secondary@example.com')
+      create(:contact_email, account: contact.account, contact: contact, email: 'third@example.com')
+
+      contact.update!(email: nil)
+      contact.reload
+
+      expect(contact.email).to eq(secondary.email)
+      expect(contact.contact_emails.order(primary: :desc, id: :asc).pluck(:email, :primary)).to eq([
+                                                                                                      [secondary.email, true],
+                                                                                                      ['third@example.com', false]
+                                                                                                    ])
+    end
+  end
+
   describe 'email uniqueness against contact_emails' do
     it 'fails validation cleanly when another contact uses a retained old email' do
       account = create(:account)

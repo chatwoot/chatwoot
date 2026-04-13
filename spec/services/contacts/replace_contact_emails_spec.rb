@@ -10,15 +10,16 @@ RSpec.describe Contacts::ReplaceContactEmails do
 
       described_class.new(
         contact: contact,
-        emails: ['Primary@Example.com', 'secondary@example.com', 'secondary@example.com']
+        emails: ['Primary@Example.com', 'zeta@example.com', 'alpha@example.com', 'zeta@example.com']
       ).perform
 
       expect(contact.reload.email).to eq('primary@example.com')
-      expect(contact.contact_emails.order(primary: :desc, email: :asc).pluck(:email, :primary)).to eq([
-                                                                                                         ['primary@example.com', true],
-                                                                                                         ['secondary@example.com', false]
-                                                                                                       ])
-      expect(contact.all_emails).to eq(['primary@example.com', 'secondary@example.com'])
+      expect(contact.contact_emails.order(primary: :desc, id: :asc).pluck(:email, :primary)).to eq([
+                                                                                                       ['primary@example.com', true],
+                                                                                                       ['zeta@example.com', false],
+                                                                                                       ['alpha@example.com', false]
+                                                                                                     ])
+      expect(contact.all_emails).to eq(['primary@example.com', 'zeta@example.com', 'alpha@example.com'])
     end
 
     it 'clears all identities and mirrors the legacy email to nil when the replacement list is empty' do
