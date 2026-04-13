@@ -191,7 +191,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   def to_emails
     # if there is no to_emails from content_attributes, send it to @contact&.email
-    to_emails_from_content_attributes.presence || [@contact&.email]
+    to_emails_from_content_attributes.presence || [preferred_contact_reply_email || @contact&.email]
   end
 
   def inbound_email_enabled?
@@ -203,5 +203,11 @@ class ConversationReplyMailer < ApplicationMailer
     return false if action_name == 'reply_without_summary' || action_name == 'email_reply'
 
     'mailer/base'
+  end
+
+  def preferred_contact_reply_email
+    source_id = @conversation.contact_inbox&.source_id.to_s.downcase
+    return if source_id.blank?
+    return source_id if @contact.all_emails.include?(source_id)
   end
 end

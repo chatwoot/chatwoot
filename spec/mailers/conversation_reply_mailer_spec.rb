@@ -247,6 +247,29 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{conversation.account.domain}")
       end
 
+      context 'when the conversation source_id matches one of the contact email identities' do
+        before do
+          create(:contact_email, account: conversation.account, contact: conversation.contact, email: 'secondary@example.com')
+          conversation.contact_inbox.update!(source_id: 'secondary@example.com')
+        end
+
+        it 'sends the reply to that address' do
+          expect(mail.to).to eq(['secondary@example.com'])
+        end
+      end
+
+      context 'when the conversation source_id is not one of the contact email identities' do
+        before do
+          create(:contact_email, account: conversation.account, contact: conversation.contact, email: 'secondary@example.com')
+          conversation.contact.update!(email: 'primary@example.com')
+          conversation.contact_inbox.update!(source_id: 'not-an-identity@example.com')
+        end
+
+        it 'falls back to the contact primary email' do
+          expect(mail.to).to eq(['primary@example.com'])
+        end
+      end
+
       context 'when message is a CSAT survey' do
         let(:csat_message) do
           create(:message, conversation: conversation, account: account, message_type: 'template',

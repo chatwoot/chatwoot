@@ -40,6 +40,32 @@ describe ContactMergeAction do
       expect(base_contact.custom_attributes['val_empty_new']).to eq('')
     end
 
+    it 'moves unique mergee email identities onto the base contact without changing the base primary email' do
+      create(:contact_email, account: account, contact: base_contact, email: 'shared@example.com')
+      create(:contact_email, account: account, contact: mergee_contact, email: 'alias@example.com')
+
+      contact_merge
+
+      base_contact.reload
+
+      expect(base_contact.email).to eq('old@old.com')
+      expect(base_contact.contact_emails.order(primary: :desc, email: :asc).pluck(:email, :primary)).to eq([
+                                                                                                                ['old@old.com', true],
+                                                                                                                ['alias@example.com', false],
+                                                                                                                ['new@new.com', false],
+                                                                                                                ['shared@example.com', false]
+                                                                                                              ])
+    end
+
+    it 'avoids duplicating identities the base contact already has' do
+      create(:contact_email, account: account, contact: base_contact, email: 'shared@example.com')
+      mergee_contact.update_column(:email, 'shared@example.com')
+
+      contact_merge
+
+      expect(base_contact.reload.contact_emails.where(email: 'shared@example.com').count).to eq(1)
+    end
+
     context 'when base contact and merge contact are same' do
       it 'does not delete contact' do
         mergee_contact = base_contact
