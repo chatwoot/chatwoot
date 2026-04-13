@@ -70,7 +70,7 @@ class Contact < ApplicationRecord
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
-  after_save :sync_primary_contact_email, if: :saved_change_to_email?
+  after_commit :sync_primary_email_identity, if: :saved_change_to_email?
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -260,16 +260,8 @@ class Contact < ApplicationRecord
     errors.add(:email, :taken) if existing_contact_email
   end
 
-  def sync_primary_contact_email
-    if email.present?
-      primary_email = contact_emails.find_or_initialize_by(email: email)
-      contact_emails.primary.where.not(id: primary_email.id).update_all(primary: false, updated_at: Time.current)
-      primary_email.account = account
-      primary_email.primary = true
-      primary_email.save! if primary_email.changed?
-    else
-      contact_emails.primary.destroy_all
-    end
+  def sync_primary_email_identity
+    Contacts::SyncPrimaryEmailIdentity.new(contact: self).perform
   end
 
   def dispatch_create_event
