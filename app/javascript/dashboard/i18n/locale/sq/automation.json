@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Lloji i mesazhit",
+      "PRIVATE_NOTE": "Shënim Privat",
       "MESSAGE_CONTAINS": "Mesazhi përmban",
       "EMAIL": "Email",
       "INBOX": "Inbox",
