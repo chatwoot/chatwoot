@@ -52,11 +52,12 @@ const inputClass = computed(
 );
 
 const syncFieldsFromModel = emails => {
-  const normalizedModel = normalizeEmails(emails);
-  const normalizedFields = normalizeEmails(emailFields.value);
+  const modelFields = getEmailFields(emails);
+  const normalizedModel = JSON.stringify(modelFields);
+  const normalizedFields = JSON.stringify(emailFields.value);
 
-  if (JSON.stringify(normalizedModel) !== JSON.stringify(normalizedFields)) {
-    emailFields.value = getEmailFields(emails);
+  if (normalizedModel !== normalizedFields) {
+    emailFields.value = modelFields;
   }
 };
 

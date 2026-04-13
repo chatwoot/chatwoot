@@ -148,6 +148,30 @@ describe('#actions', () => {
       expect(formData.get('email')).toBe('primary@example.com');
     });
 
+    it('appends a blank emails[] value for explicit empty multipart emails', async () => {
+      axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
+
+      await actions.update(
+        { commit },
+        {
+          id: contactList[0].id,
+          isFormData: true,
+          name: 'Fayaz',
+          email: '',
+          emails: [],
+          additionalAttributes: {
+            socialProfiles: {},
+          },
+        }
+      );
+
+      const [, formData] = axios.patch.mock.calls[0];
+
+      expect(formData).toBeInstanceOf(FormData);
+      expect(formData.getAll('emails[]')).toEqual(['']);
+      expect(formData.get('email')).toBe(null);
+    });
+
     it('sends correct actions if duplicate contact is found', async () => {
       axios.patch.mockRejectedValue({
         response: {

@@ -15,8 +15,13 @@ const buildContactFormData = contactParams => {
 
   const appendFormDataValue = (key, value) => {
     if (Array.isArray(value)) {
+      if (value.length === 0 && key === 'emails') {
+        formData.append(`${key}[]`, '');
+        return;
+      }
+
       value.forEach(item => {
-        if (item) {
+        if (item || item === '') {
           formData.append(`${key}[]`, item);
         }
       });
