@@ -1,5 +1,9 @@
 <script setup>
+<<<<<<< fix/CW-6727
 import { ref, computed, watch } from 'vue';
+=======
+import { computed, ref } from 'vue';
+>>>>>>> develop
 import { debounce } from '@chatwoot/utils';
 import { useI18n } from 'vue-i18n';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
@@ -31,6 +35,7 @@ const emit = defineEmits([
   'setAuthor',
   'setCategory',
   'previewArticle',
+  'createArticle',
 ]);
 
 const { t } = useI18n();
@@ -49,7 +54,21 @@ watch(
   }
 );
 
+<<<<<<< fix/CW-6727
 const debouncedSave = debounce(value => emit('saveArticle', value), 500, false);
+=======
+// 2.5 seconds is enough to know that the user has stopped typing and is taking a pause
+// so we can save the data to the backend and retrieve the updated data
+// this will update the local state with response data
+// Only use to save for existing articles
+const saveAndSyncDebounced = debounce(saveAndSync, 2500, false);
+
+const handleSave = value => {
+  if (isNewArticle.value) return;
+  quickSave(value);
+  saveAndSyncDebounced(value);
+};
+>>>>>>> develop
 
 const articleTitle = computed({
   get: () => localTitle.value,
@@ -59,11 +78,17 @@ const articleTitle = computed({
   },
 });
 
+const localContent = ref(props.article.content || '');
+
 const articleContent = computed({
   get: () => localContent.value,
   set: content => {
     localContent.value = content;
+<<<<<<< fix/CW-6727
     debouncedSave({ content });
+=======
+    handleSave({ content });
+>>>>>>> develop
   },
 });
 
@@ -81,6 +106,14 @@ const setCategoryId = categoryId => {
 
 const previewArticle = () => {
   emit('previewArticle');
+};
+
+const handleCreateArticle = event => {
+  if (!isNewArticle.value) return;
+  const title = event?.target?.value || '';
+  if (title.trim()) {
+    emit('createArticle', { title, content: localContent.value });
+  }
 };
 </script>
 
@@ -106,6 +139,7 @@ const previewArticle = () => {
           custom-text-area-wrapper-class="border-0 !bg-transparent dark:!bg-transparent !py-0 !px-0"
           placeholder="Title"
           autofocus
+          @blur="handleCreateArticle"
         />
         <ArticleEditorControls
           :article="article"
