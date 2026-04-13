@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
+      "PRIVATE_NOTE": "தனிப்பட்ட குறிப்பு",
       "MESSAGE_CONTAINS": "Message Contains",
       "EMAIL": "இமெயில்",
       "INBOX": "Inbox",
