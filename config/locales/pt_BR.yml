@@ -53,13 +53,13 @@ pt_BR:
     attachments:
       invalid: Anexo inválido
     upload:
-      missing_input: 'No file or URL provided'
-      invalid_url: 'Invalid URL provided'
-      fetch_failed: 'Failed to fetch file from URL'
-      fetch_failed_with_message: 'Failed to fetch file from URL: %{message}'
-      file_too_large: 'File exceeds the maximum allowed size'
-      unsupported_content_type: 'File type not supported (only images and videos are allowed)'
-      unexpected: 'An unexpected error occurred'
+      missing_input: 'Nenhum arquivo ou URL fornecido'
+      invalid_url: 'URL fornecida inválida'
+      fetch_failed: 'Falha ao recuperar o arquivo da URL'
+      fetch_failed_with_message: 'Falha ao recuperar o arquivo da URL: %{message}'
+      file_too_large: 'O arquivo excede o tamanho máximo permitido'
+      unsupported_content_type: 'Tipo de arquivo não suportado (apenas imagens e vídeos são permitidos)'
+      unexpected: 'Ocorreu um erro inesperado'
     saml:
       feature_not_enabled: SAML não está habilitado para esta conta
       sso_not_enabled: O SSO via SAML não está habilitado para esta instalação
