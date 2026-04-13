@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Tipo di Messaggio",
+      "PRIVATE_NOTE": "Nota Privata",
       "MESSAGE_CONTAINS": "Il Messaggio Contiene",
       "EMAIL": "Email",
       "INBOX": "Inbox",
