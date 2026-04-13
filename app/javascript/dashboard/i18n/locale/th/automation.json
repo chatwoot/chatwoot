@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
+      "PRIVATE_NOTE": "โน้ตส่วนตัว",
       "MESSAGE_CONTAINS": "Message Contains",
       "EMAIL": "อีเมล์",
       "INBOX": "กล่องข้อความ",
