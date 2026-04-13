@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Тип сообщения",
+      "PRIVATE_NOTE": "Личная заметка",
       "MESSAGE_CONTAINS": "Сообщение содержит",
       "EMAIL": "Email",
       "INBOX": "Источник",
