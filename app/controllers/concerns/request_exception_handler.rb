@@ -3,6 +3,7 @@ module RequestExceptionHandler
 
   included do
     rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
+    rescue_from ActionDispatch::Http::Parameters::ParseError, with: :render_parse_error
   end
 
   private
@@ -54,6 +55,11 @@ module RequestExceptionHandler
   def render_error_response(exception)
     log_handled_error(exception)
     render json: exception.to_hash, status: exception.http_status
+  end
+
+  def render_parse_error(exception)
+    log_handled_error(exception)
+    render json: { error: 'Invalid request: malformed body' }, status: :bad_request
   end
 
   def log_handled_error(exception)
