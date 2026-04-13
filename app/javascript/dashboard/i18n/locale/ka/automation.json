@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "შეტყობინების ტიპი",
+      "PRIVATE_NOTE": "Private Note",
       "MESSAGE_CONTAINS": "შეტყობინება შეიცავს",
       "EMAIL": "ელფოსტა",
       "INBOX": "ინბოქსი",
