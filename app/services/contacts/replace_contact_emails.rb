@@ -28,10 +28,11 @@ class Contacts::ReplaceContactEmails
 
   def replace_with_emails(normalized_emails)
     primary_email = normalized_emails.first
-    current_time = Time.current
 
     contact.contact_emails.where.not(email: normalized_emails).destroy_all
-    contact.contact_emails.where.not(email: primary_email).update_all(primary: false, updated_at: current_time)
+    contact.contact_emails.primary.where.not(email: primary_email).find_each do |contact_email|
+      contact_email.update!(primary: false)
+    end
 
     normalized_emails.each do |email|
       contact_email = contact.contact_emails.find_or_initialize_by(email: email)
@@ -55,7 +56,8 @@ class Contacts::ReplaceContactEmails
   def mirror_legacy_email(email)
     return if contact.email == email
 
-    contact.update_columns(email: email, updated_at: Time.current)
+    # Avoid callback recursion while mirroring the already-validated primary identity.
+    contact.update_columns(email: email, updated_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
   end
 end
 

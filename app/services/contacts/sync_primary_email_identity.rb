@@ -10,7 +10,9 @@ class Contacts::SyncPrimaryEmailIdentity
 
     primary_contact_email = contact.contact_emails.find_or_initialize_by(email: contact.email)
 
-    contact.contact_emails.where.not(id: primary_contact_email.id).update_all(primary: false, updated_at: Time.current)
+    contact.contact_emails.primary.where.not(id: primary_contact_email.id).find_each do |contact_email|
+      contact_email.update!(primary: false)
+    end
 
     primary_contact_email.account = contact.account
     primary_contact_email.primary = true
@@ -43,7 +45,8 @@ class Contacts::SyncPrimaryEmailIdentity
   def mirror_legacy_email(email)
     return if contact.email == email
 
-    contact.update_columns(email: email, updated_at: Time.current)
+    # Avoid callback recursion while mirroring the selected primary identity.
+    contact.update_columns(email: email, updated_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
   end
 end
 

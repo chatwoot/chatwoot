@@ -404,7 +404,7 @@ RSpec.describe 'Contacts API', type: :request do
 
       it 'matches the contact by the legacy contact email when identity rows are absent' do
         legacy_contact = create(:contact, account: account)
-        legacy_contact.update_columns(email: 'legacy-only@example.com')
+        legacy_contact.update_columns(email: 'legacy-only@example.com') # rubocop:disable Rails/SkipsModelValidations
 
         get "/api/v1/accounts/#{account.id}/contacts/search",
             params: { q: 'legacy-only@example.com' },

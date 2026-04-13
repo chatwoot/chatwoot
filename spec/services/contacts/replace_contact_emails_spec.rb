@@ -14,11 +14,13 @@ RSpec.describe Contacts::ReplaceContactEmails do
       ).perform
 
       expect(contact.reload.email).to eq('primary@example.com')
-      expect(contact.contact_emails.order(primary: :desc, id: :asc).pluck(:email, :primary)).to eq([
-                                                                                                       ['primary@example.com', true],
-                                                                                                       ['zeta@example.com', false],
-                                                                                                       ['alpha@example.com', false]
-                                                                                                     ])
+      expect(contact.contact_emails.order(primary: :desc, id: :asc).pluck(:email, :primary)).to eq(
+        [
+          ['primary@example.com', true],
+          ['zeta@example.com', false],
+          ['alpha@example.com', false]
+        ]
+      )
       expect(contact.all_emails).to eq(['primary@example.com', 'zeta@example.com', 'alpha@example.com'])
     end
 
@@ -54,9 +56,11 @@ RSpec.describe Contacts::ReplaceContactEmails do
       described_class.new(contact: contact, emails: nil, legacy_email: ' Legacy@Example.com ').perform
 
       expect(contact.reload.email).to eq('legacy@example.com')
-      expect(contact.contact_emails.order(primary: :desc, email: :asc).pluck(:email, :primary)).to eq([
-                                                                                                         ['legacy@example.com', true]
-                                                                                                       ])
+      expect(contact.contact_emails.order(primary: :desc, email: :asc).pluck(:email, :primary)).to eq(
+        [
+          ['legacy@example.com', true]
+        ]
+      )
     end
   end
 end

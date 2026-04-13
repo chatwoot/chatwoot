@@ -31,7 +31,7 @@ RSpec.describe ContactEmail do
     it "does not allow claiming another contact's legacy email when no alias row exists yet" do
       account = create(:account)
       legacy_owner = create(:contact, account: account)
-      legacy_owner.update_columns(email: 'legacy-only@example.com', updated_at: Time.current)
+      legacy_owner.update_columns(email: 'legacy-only@example.com', updated_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
       claiming_contact = create(:contact, account: account, email: 'other@example.com')
 
       conflicting_alias = build(

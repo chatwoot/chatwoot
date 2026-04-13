@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   include Sift
   sort_on :email, type: :string
@@ -262,3 +263,4 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     render json: error, status: error_status
   end
 end
+# rubocop:enable Metrics/ClassLength

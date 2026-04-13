@@ -148,9 +148,11 @@ RSpec.describe DataImportJob do
 
           imported_contact = Contact.from_email(csv_data[0]['email'])
           expect(imported_contact).to be_present
-          expect(imported_contact.id).to eq(contact.id)
-          expect(imported_contact.phone_number).to eq("+#{csv_data[0]['phone_number']}")
-          expect(imported_contact.name).to eq(csv_data[0]['name'].to_s)
+          expect(imported_contact).to have_attributes(
+            id: contact.id,
+            phone_number: "+#{csv_data[0]['phone_number']}",
+            name: csv_data[0]['name'].to_s
+          )
           expect(imported_contact.additional_attributes['company']).to eq(csv_data[0]['company'].to_s)
         end
       end

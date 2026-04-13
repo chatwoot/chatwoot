@@ -213,7 +213,7 @@ RSpec.describe Contact do
 
       expect(account.contacts.from_email('secondary@example.com')).to eq(contact)
       expect(account.contacts.from_email('SECONDARY@EXAMPLE.COM')).to eq(contact)
-      expect(Contact.from_email('secondary@example.com')).to eq(contact)
+      expect(described_class.from_email('secondary@example.com')).to eq(contact)
     end
   end
 
@@ -237,10 +237,12 @@ RSpec.describe Contact do
       contact.reload
 
       expect(contact.email).to eq(secondary.email)
-      expect(contact.contact_emails.order(primary: :desc, id: :asc).pluck(:email, :primary)).to eq([
-                                                                                                      [secondary.email, true],
-                                                                                                      ['third@example.com', false]
-                                                                                                    ])
+      expect(contact.contact_emails.order(primary: :desc, id: :asc).pluck(:email, :primary)).to eq(
+        [
+          [secondary.email, true],
+          ['third@example.com', false]
+        ]
+      )
     end
   end
 

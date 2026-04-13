@@ -41,6 +41,7 @@
 
 # rubocop:enable Layout/LineLength
 
+# rubocop:disable Metrics/ClassLength
 class Contact < ApplicationRecord
   include Avatarable
   include AvailabilityStatusable
@@ -64,7 +65,12 @@ class Contact < ApplicationRecord
   has_many :inboxes, through: :contact_inboxes
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
-  has_one :primary_contact_email, -> { primary }, class_name: 'ContactEmail'
+  # This scoped alias points at the same rows as contact_emails, which already owns lifecycle cleanup.
+  # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_one :primary_contact_email, -> { primary },
+          class_name: 'ContactEmail',
+          inverse_of: :contact
+  # rubocop:enable Rails/HasManyOrHasOneDependent
   before_validation :prepare_contact_attributes
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
@@ -282,4 +288,5 @@ class Contact < ApplicationRecord
     )
   end
 end
+# rubocop:enable Metrics/ClassLength
 Contact.include_mod_with('Concerns::Contact')
