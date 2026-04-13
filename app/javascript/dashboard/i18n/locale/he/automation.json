@@ -169,6 +169,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "סוג הודעה",
+      "PRIVATE_NOTE": "הערה פרטית",
       "MESSAGE_CONTAINS": "ההודעה מכילה",
       "EMAIL": "דוא\"ל",
       "INBOX": "תיבת דואר נכנס",
