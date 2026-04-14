@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "Lingua rimossa dal portale con successo",
           "ERROR_MESSAGE": "Impossibile rimuovere la lingua dal portale. Riprova."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -372,6 +384,16 @@
       "API": {
         "SUCCESS_MESSAGE": "Articolo eliminato con successo",
         "ERROR_MESSAGE": "Errore durante l'eliminazione dell'articolo"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Impossibile riordinare gli articoli. Riprova."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Impossibile riordinare le categorie. Riprova."
       }
     },
     "CREATE_ARTICLE": {
@@ -634,8 +656,11 @@
         "ARTICLES_COUNT": "{count} articolo | {count} articoli",
         "CATEGORIES_COUNT": "{count} categoria | {count} categorie",
         "DEFAULT": "Predefinito",
+        "DRAFT": "Bozza",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Imposta predefinito",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "Elimina"
         }
       },
@@ -644,6 +669,13 @@
         "DESCRIPTION": "Seleziona la lingua in cui questo articolo verrà scritto. Questo sarà aggiunto alla tua lista di traduzioni e puoi aggiungerne di più in seguito.",
         "COMBOBOX": {
           "PLACEHOLDER": "Seleziona lingua..."
+        },
+        "STATUS": {
+          "LABEL": "Stato",
+          "OPTIONS": {
+            "LIVE": "Pubblicato",
+            "DRAFT": "Bozza"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Lingua aggiunta con successo",

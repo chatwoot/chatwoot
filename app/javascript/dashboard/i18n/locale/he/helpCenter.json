@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "המקום הוסר מהפורטל בהצלחה",
           "ERROR_MESSAGE": "לא ניתן להסיר את המקום מהפורטל. נסה שוב."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -372,6 +384,16 @@
       "API": {
         "SUCCESS_MESSAGE": "המאמר נמחק בהצלחה",
         "ERROR_MESSAGE": "שגיאה בעת מחיקת מאמר"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
       }
     },
     "CREATE_ARTICLE": {
@@ -634,8 +656,11 @@
         "ARTICLES_COUNT": "{count} מאמר | {count} מאמרים",
         "CATEGORIES_COUNT": "{count} קטגוריה | {count} קטגוריות",
         "DEFAULT": "ברירת מחדל",
+        "DRAFT": "טיוטה",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "הפוך לברירת מחדל",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "מחק"
         }
       },
@@ -644,6 +669,13 @@
         "DESCRIPTION": "בחר את השפה שבה מאמר זה ייכתב. זו תתווסף לרשימת התרגומים שלך, ותוכל להוסיף נוספים מאוחר יותר.",
         "COMBOBOX": {
           "PLACEHOLDER": "בחר אזור..."
+        },
+        "STATUS": {
+          "LABEL": "מצב",
+          "OPTIONS": {
+            "LIVE": "יצא לאור",
+            "DRAFT": "טיוטה"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "האזור נוסף בהצלחה",

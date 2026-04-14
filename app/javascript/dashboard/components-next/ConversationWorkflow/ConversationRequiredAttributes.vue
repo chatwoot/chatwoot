@@ -129,10 +129,10 @@ const handleDelete = attribute => {
     <div class="flex flex-col gap-2 items-start px-5 py-4">
       <div class="flex justify-between items-center w-full">
         <div class="flex flex-col gap-2">
-          <h3 class="text-base font-medium text-n-slate-12">
+          <h3 class="text-heading-2 text-n-slate-12">
             {{ $t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.TITLE') }}
           </h3>
-          <p class="mb-0 text-sm text-n-slate-11">
+          <p class="mb-0 text-body-para text-n-slate-11">
             {{ $t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.DESCRIPTION') }}
           </p>
         </div>

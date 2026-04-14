@@ -14,6 +14,14 @@ RSpec.describe 'Public Articles API', type: :request do
         get "/hc/#{portal.slug}/en/articles.json", params: { query: 'funny' }
         expect(Article).to have_received(:vector_search)
       end
+
+      it 'does not use vector search for whitespace-only queries' do
+        allow(Article).to receive(:vector_search)
+
+        get "/hc/#{portal.slug}/en/articles.json", params: { query: '   ' }
+
+        expect(Article).not_to have_received(:vector_search)
+      end
     end
   end
 end

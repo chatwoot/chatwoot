@@ -1,33 +1,55 @@
 class Webhooks::Trigger
   SUPPORTED_ERROR_HANDLE_EVENTS = %w[message_created message_updated].freeze
 
-  def initialize(url, payload, webhook_type)
+  def initialize(url, payload, webhook_type, secret: nil, delivery_id: nil)
     @url = url
     @payload = payload
     @webhook_type = webhook_type
+    @secret = secret
+    @delivery_id = delivery_id
   end
 
-  def self.execute(url, payload, webhook_type)
-    new(url, payload, webhook_type).execute
+  def self.execute(url, payload, webhook_type, secret: nil, delivery_id: nil)
+    new(url, payload, webhook_type, secret: secret, delivery_id: delivery_id).execute
   end
 
   def execute
     perform_request
+  rescue RestClient::TooManyRequests, RestClient::InternalServerError => e
+    raise if @webhook_type == :agent_bot_webhook
+
+    handle_failure(e)
   rescue StandardError => e
-    handle_error(e)
-    Rails.logger.warn "Exception: Invalid webhook URL #{@url} : #{e.message}"
+    handle_failure(e)
+  end
+
+  def handle_failure(error)
+    handle_error(error)
+    Rails.logger.warn "Exception: Invalid webhook URL #{@url} : #{error.message}"
   end
 
   private
 
   def perform_request
+    body = @payload.to_json
     RestClient::Request.execute(
       method: :post,
       url: @url,
-      payload: @payload.to_json,
-      headers: { content_type: :json, accept: :json },
+      payload: body,
+      headers: request_headers(body),
       timeout: webhook_timeout
     )
+  end
+
+  def request_headers(body)
+    headers = { content_type: :json, accept: :json }
+    headers['X-Chatwoot-Delivery'] = @delivery_id if @delivery_id.present?
+    if @secret.present?
+      ts = Time.now.to_i.to_s
+      headers['X-Chatwoot-Timestamp'] = ts
+      headers['X-Chatwoot-Signature'] = "sha256=#{OpenSSL::HMAC.hexdigest('SHA256', @secret, "#{ts}.#{body}")}"
+    end
+    headers
   end
 
   def handle_error(error)
@@ -36,14 +58,19 @@ class Webhooks::Trigger
 
     case @webhook_type
     when :agent_bot_webhook
-      conversation = message.conversation
-      return unless conversation&.pending?
-
-      conversation.open!
-      create_agent_bot_error_activity(conversation)
+      update_conversation_status(message)
     when :api_inbox_webhook
       update_message_status(error)
     end
+  end
+
+  def update_conversation_status(message)
+    conversation = message.conversation
+    return unless conversation&.pending?
+    return if conversation&.account&.keep_pending_on_bot_failure
+
+    conversation.open!
+    create_agent_bot_error_activity(conversation)
   end
 
   def create_agent_bot_error_activity(conversation)
@@ -67,7 +94,11 @@ class Webhooks::Trigger
   def message
     return if message_id.blank?
 
-    @message ||= Message.find_by(id: message_id)
+    if defined?(@message)
+      @message
+    else
+      @message = Message.find_by(id: message_id)
+    end
   end
 
   def message_id

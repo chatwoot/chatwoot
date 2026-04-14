@@ -1,9 +1,9 @@
 class Whatsapp::WebhookSetupService
-  def initialize(channel, waba_id, access_token)
+  def initialize(channel, waba_id = nil, access_token = nil)
     @channel = channel
-    @waba_id = waba_id
-    @access_token = access_token
-    @api_client = Whatsapp::FacebookApiClient.new(access_token)
+    @waba_id = waba_id || channel.provider_config['business_account_id']
+    @access_token = access_token || channel.provider_config['api_key']
+    @api_client = Whatsapp::FacebookApiClient.new(@access_token)
   end
 
   def perform
@@ -14,6 +14,11 @@ class Whatsapp::WebhookSetupService
     # 2. Phone number needs registration (pending provisioning state)
     register_phone_number if !phone_number_verified? || phone_number_needs_registration?
 
+    setup_webhook
+  end
+
+  def register_callback
+    validate_parameters!
     setup_webhook
   end
 
@@ -33,8 +38,6 @@ class Whatsapp::WebhookSetupService
     store_pin(pin)
   rescue StandardError => e
     Rails.logger.warn("[WHATSAPP] Phone registration failed but continuing: #{e.message}")
-    # Continue with webhook setup even if registration fails
-    # This is just a warning, not a blocking error
   end
 
   def fetch_or_create_pin

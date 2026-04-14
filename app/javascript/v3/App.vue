@@ -35,7 +35,9 @@ export default {
       };
     },
     setLocale(locale) {
-      this.$root.$i18n.locale = locale;
+      if (locale) {
+        this.$root.$i18n.locale = locale;
+      }
     },
   },
 };

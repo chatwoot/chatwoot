@@ -76,6 +76,9 @@
       },
       "waiting_since_desc": {
         "TEXT": "等待响应：最短在前"
+      },
+      "priority_desc_created_at_asc": {
+        "TEXT": "Priority: Highest first, Created: Oldest first"
       }
     },
     "ATTACHMENTS": {
@@ -104,7 +107,7 @@
         "CONTENT": "共享联系人"
       },
       "embed": {
-        "CONTENT": ""
+        "CONTENT": "嵌入内容"
       }
     },
     "CHAT_SORT_BY_FILTER": {

@@ -47,7 +47,9 @@ class ActionService
 
     @agent = @account.users.find_by(id: agent_ids)
 
-    @conversation.update!(assignee_id: @agent.id) if @agent.present?
+    return unless @agent.present? && @agent.confirmed?
+
+    @conversation.update!(assignee_id: @agent.id)
   end
 
   def remove_label(labels)
@@ -75,6 +77,8 @@ class ActionService
   end
 
   def send_email_transcript(emails)
+    return unless @account.email_transcript_enabled?
+
     emails = emails[0].gsub(/\s+/, '').split(',')
 
     emails.each do |email|

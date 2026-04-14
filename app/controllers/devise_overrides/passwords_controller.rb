@@ -6,12 +6,8 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
 
   def create
     @user = User.from_email(params[:email])
-    if @user
-      @user.send_reset_password_instructions
-      build_response(I18n.t('messages.reset_password_success'), 200)
-    else
-      build_response(I18n.t('messages.reset_password_failure'), 404)
-    end
+    @user&.send_reset_password_instructions
+    build_response(I18n.t('messages.reset_password'), 200)
   end
 
   def update

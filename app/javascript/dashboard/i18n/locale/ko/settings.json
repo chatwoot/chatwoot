@@ -3,14 +3,14 @@
     "LINK": "프로필 설정",
     "TITLE": "프로필 설정",
     "BTN_TEXT": "프로필 업데이트",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
-    "AFTER_EMAIL_CHANGED": "프로필이 성공적으로 업데이트되었습니다. 로그인 자격 증명이 변경된 경우 다시 로그인하십시오.",
+    "DELETE_AVATAR": "아바타 삭제",
+    "AVATAR_DELETE_SUCCESS": "아바타가 성공적으로 삭제되었습니다",
+    "AVATAR_DELETE_FAILED": "아바타 삭제 중 오류가 발생했습니다. 다시 시도하십시오",
+    "UPDATE_SUCCESS": "프로필이 성공적으로 업데이트되었습니다",
+    "PASSWORD_UPDATE_SUCCESS": "비밀번호가 성공적으로 변경되었습니다",
+    "AFTER_EMAIL_CHANGED": "프로필이 성공적으로 업데이트되었습니다. 로그인 자격 증명이 변경되었으므로 다시 로그인하십시오.",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "프로필 사진",
       "AVATAR": "프로필 이미지",
       "ERROR": "양식 오류를 수정하십시오",
       "REMOVE_IMAGE": "제거",
@@ -18,168 +18,168 @@
       "UPDATE_IMAGE": "이미지 업데이트",
       "PROFILE_SECTION": {
         "TITLE": "프로필",
-        "NOTE": "당신의 이메일 주소는 당신의 신분이고 로그인에 사용됩니다."
+        "NOTE": "이메일 주소는 사용자 식별에 사용되며 로그인에 사용됩니다."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "메시지 전송 단축키",
+        "NOTE": "작성 스타일에 따라 단축키(Enter 또는 Cmd/Ctrl+Enter)를 선택할 수 있습니다.",
+        "UPDATE_SUCCESS": "설정이 성공적으로 업데이트되었습니다",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "전송 버튼을 클릭하는 대신 Enter 키를 눌러 메시지를 전송합니다."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "전송 버튼을 클릭하는 대신 Cmd/Ctrl + Enter 키를 눌러 메시지를 전송합니다."
           }
         }
       },
       "INTERFACE_SECTION": {
-        "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "TITLE": "인터페이스",
+        "NOTE": "대시보드의 모양과 느낌을 사용자 정의합니다.",
         "FONT_SIZE": {
-          "TITLE": "Font size",
-          "NOTE": "Adjust the text size across the dashboard based on your preference.",
-          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "TITLE": "글꼴 크기",
+          "NOTE": "선호도에 따라 대시보드 전체의 텍스트 크기를 조정합니다.",
+          "UPDATE_SUCCESS": "글꼴 설정이 성공적으로 업데이트되었습니다",
+          "UPDATE_ERROR": "글꼴 설정 업데이트 중 오류가 발생했습니다. 다시 시도하십시오",
           "OPTIONS": {
-            "SMALLER": "Smaller",
-            "SMALL": "Small",
-            "DEFAULT": "Default",
-            "LARGE": "Large",
-            "LARGER": "Larger",
-            "EXTRA_LARGE": "Extra Large"
+            "SMALLER": "더 작게",
+            "SMALL": "작게",
+            "DEFAULT": "기본",
+            "LARGE": "크게",
+            "LARGER": "더 크게",
+            "EXTRA_LARGE": "매우 크게"
           }
         },
         "LANGUAGE": {
-          "TITLE": "Preferred Language",
-          "NOTE": "Choose the language you want to use.",
-          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
-          "USE_ACCOUNT_DEFAULT": "Use account default"
+          "TITLE": "선호 언어",
+          "NOTE": "사용할 언어를 선택하십시오.",
+          "UPDATE_SUCCESS": "언어 설정이 성공적으로 업데이트되었습니다",
+          "UPDATE_ERROR": "언어 설정 업데이트 중 오류가 발생했습니다. 다시 시도하십시오",
+          "USE_ACCOUNT_DEFAULT": "계정 기본값 사용"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+        "TITLE": "개인 메시지 서명",
+        "NOTE": "모든 받은 메시지함에서 보내는 모든 메시지 끝에 표시되는 고유한 메시지 서명을 만드십시오. 인라인 이미지도 포함할 수 있으며, 라이브 채팅, 이메일 및 API 받은 메시지함에서 지원됩니다.",
+        "BTN_TEXT": "메시지 서명 저장",
+        "API_ERROR": "서명을 저장할 수 없습니다! 다시 시도하십시오",
+        "API_SUCCESS": "서명이 성공적으로 저장되었습니다",
+        "IMAGE_UPLOAD_ERROR": "이미지를 업로드할 수 없습니다! 다시 시도하십시오",
+        "IMAGE_UPLOAD_SUCCESS": "이미지가 성공적으로 추가되었습니다. 저장을 클릭하여 서명을 저장하십시오",
+        "IMAGE_UPLOAD_SIZE_ERROR": "이미지 크기는 {size}MB 미만이어야 합니다"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "메시지 서명",
+        "ERROR": "메시지 서명은 비워둘 수 없습니다",
+        "PLACEHOLDER": "여기에 개인 메시지 서명을 입력하십시오."
       },
       "PASSWORD_SECTION": {
         "TITLE": "비밀번호",
-        "NOTE": "암호를 업데이트하면 여러 장치의 로그인이 재설정됩니다.",
-        "BTN_TEXT": "Change password"
+        "NOTE": "비밀번호를 업데이트하면 여러 기기의 로그인이 재설정됩니다.",
+        "BTN_TEXT": "비밀번호 변경"
       },
       "SECURITY_SECTION": {
-        "TITLE": "Security",
-        "NOTE": "Manage additional security features for your account.",
-        "MFA_BUTTON": "Manage Two-Factor Authentication"
+        "TITLE": "보안",
+        "NOTE": "계정의 추가 보안 기능을 관리합니다.",
+        "MFA_BUTTON": "2단계 인증 관리"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "엑세스 토큰",
-        "NOTE": "API 기반 통합을 구축하는 경우 이 토큰을 사용할 수 있음",
+        "TITLE": "액세스 토큰",
+        "NOTE": "API 기반 통합을 구축하는 경우 이 토큰을 사용할 수 있습니다",
         "COPY": "복사",
-        "RESET": "Reset",
-        "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "RESET": "재설정",
+        "CONFIRM_RESET": "정말로 진행하시겠습니까?",
+        "CONFIRM_HINT": "확인하려면 다시 클릭하십시오",
+        "RESET_SUCCESS": "액세스 토큰이 성공적으로 재생성되었습니다",
+        "RESET_ERROR": "액세스 토큰을 재생성할 수 없습니다. 다시 시도하십시오"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Alerts",
-        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
+        "TITLE": "오디오 알림",
+        "NOTE": "새 메시지 및 대화에 대한 대시보드 오디오 알림을 활성화합니다.",
+        "PLAY": "소리 재생",
         "ALERT_TYPES": {
           "NONE": "없음",
-          "MINE": "Assigned",
+          "MINE": "배정됨",
           "ALL": "모두",
-          "ASSIGNED": "My assigned conversations",
-          "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
+          "ASSIGNED": "내 배정된 대화",
+          "UNASSIGNED": "배정되지 않은 대화",
+          "NOTME": "다른 사람에게 배정된 열린 대화"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
-          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+          "NONE": "옵션을 선택하지 않았습니다. 오디오 알림을 받지 않습니다.",
+          "ASSIGNED": "배정된 대화에 대한 알림을 받습니다.",
+          "UNASSIGNED": "배정되지 않은 대화에 대한 알림을 받습니다.",
+          "NOTME": "다른 사람에게 배정된 대화에 대한 알림을 받습니다.",
+          "ASSIGNED+UNASSIGNED": "배정된 대화 및 미배정 대화에 대한 알림을 받습니다.",
+          "ASSIGNED+NOTME": "배정된 대화 및 다른 사람에게 배정된 대화에 대한 알림을 받지만, 미배정 대화에 대해서는 받지 않습니다.",
+          "NOTME+UNASSIGNED": "미배정 대화 및 다른 사람에게 배정된 대화에 대한 알림을 받습니다.",
+          "ASSIGNED+NOTME+UNASSIGNED": "모든 대화에 대한 알림을 받습니다."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations",
+          "TITLE": "대화 알림 이벤트",
           "NONE": "없음",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "ASSIGNED": "배정된 대화",
+          "ALL_CONVERSATIONS": "모든 대화"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "알림 소리:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "알림 조건:",
+          "CONDITION_ONE": "브라우저 창이 활성화되지 않은 경우에만 오디오 알림 전송",
+          "CONDITION_TWO": "배정된 모든 대화를 읽을 때까지 30초마다 알림 전송"
         },
-        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
-        "READ_MORE": "Read more"
+        "SOUND_PERMISSION_ERROR": "브라우저에서 자동 재생이 비활성화되어 있습니다. 알림을 자동으로 들으려면 브라우저 설정에서 소리 권한을 활성화하거나 페이지와 상호 작용하십시오.",
+        "READ_MORE": "자세히 보기"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "이메일 알림",
-        "NOTE": "여기서 이메일 알림 기본 설정 업데이트",
-        "CONVERSATION_ASSIGNMENT": "대화가 할당될 때 이메일 알림 보내기",
+        "NOTE": "여기서 이메일 알림 기본 설정을 업데이트하십시오",
+        "CONVERSATION_ASSIGNMENT": "대화가 배정될 때 이메일 알림 보내기",
         "CONVERSATION_CREATION": "새 대화가 생성될 때 이메일 알림 보내기",
         "CONVERSATION_MENTION": "대화에서 멘션될 때 이메일 알림 보내기",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "할당된 대화에서 새 메시지가 생성될 때 이메일 알림 보내기",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "배정된 대화에서 새 메시지가 생성될 때 이메일 알림 보내기",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "참여 중인 대화에서 새 메시지가 생성될 때 이메일 알림 보내기",
+        "SLA_MISSED_FIRST_RESPONSE": "대화가 첫 응답 SLA를 놓쳤을 때 이메일 알림 보내기",
+        "SLA_MISSED_NEXT_RESPONSE": "대화가 다음 응답 SLA를 놓쳤을 때 이메일 알림 보내기",
+        "SLA_MISSED_RESOLUTION": "대화가 해결 SLA를 놓쳤을 때 이메일 알림 보내기"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
+        "TITLE": "알림 기본 설정",
+        "TYPE_TITLE": "알림 유형",
         "EMAIL": "이메일",
-        "PUSH": "Push notification",
+        "PUSH": "푸시 알림",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "CONVERSATION_CREATED": "새 대화가 생성됨",
+          "CONVERSATION_ASSIGNED": "대화가 배정됨",
+          "CONVERSATION_MENTION": "대화에서 멘션됨",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "배정된 대화에서 새 메시지가 생성됨",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "참여 중인 대화에서 새 메시지가 생성됨",
+          "SLA_MISSED_FIRST_RESPONSE": "대화가 첫 응답 SLA를 놓침",
+          "SLA_MISSED_NEXT_RESPONSE": "대화가 다음 응답 SLA를 놓침",
+          "SLA_MISSED_RESOLUTION": "대화가 해결 SLA를 놓침"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "브라우저의 푸시 알림을 활성화하여 알림을 받을 수 있도록 하십시오"
       },
       "API": {
-        "UPDATE_SUCCESS": "알림 기본 설정이 성공적으로 업데이트됨",
+        "UPDATE_SUCCESS": "알림 기본 설정이 성공적으로 업데이트되었습니다",
         "UPDATE_ERROR": "기본 설정을 업데이트하는 동안 오류가 발생했습니다. 다시 시도하십시오."
       },
       "PUSH_NOTIFICATIONS_SECTION": {
         "TITLE": "푸시 알림",
-        "NOTE": "여기에서 푸시 알림 기본 설정 업데이트",
-        "CONVERSATION_ASSIGNMENT": "대화가 할당되면 푸시 알림 보내기",
-        "CONVERSATION_CREATION": "새 대화가 만들어질 때 푸시 알림 보내기",
+        "NOTE": "여기에서 푸시 알림 기본 설정을 업데이트하십시오",
+        "CONVERSATION_ASSIGNMENT": "대화가 배정될 때 푸시 알림 보내기",
+        "CONVERSATION_CREATION": "새 대화가 생성될 때 푸시 알림 보내기",
         "CONVERSATION_MENTION": "대화에서 멘션될 때 푸시 알림 보내기",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "할당된 대화에서 새 메시지가 생성될 때 푸시 알림 보내기",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
-        "HAS_ENABLED_PUSH": "이 브라우저에 대한 푸시를 사용 가능으로 설정하셨습니다.",
-        "REQUEST_PUSH": "푸시 알림 사용",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "배정된 대화에서 새 메시지가 생성될 때 푸시 알림 보내기",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "참여 중인 대화에서 새 메시지가 생성될 때 푸시 알림 보내기",
+        "HAS_ENABLED_PUSH": "이 브라우저에서 푸시 알림이 활성화되었습니다.",
+        "REQUEST_PUSH": "푸시 알림 활성화",
+        "SLA_MISSED_FIRST_RESPONSE": "대화가 첫 응답 SLA를 놓쳤을 때 푸시 알림 보내기",
+        "SLA_MISSED_NEXT_RESPONSE": "대화가 다음 응답 SLA를 놓쳤을 때 푸시 알림 보내기",
+        "SLA_MISSED_RESOLUTION": "대화가 해결 SLA를 놓쳤을 때 푸시 알림 보내기"
       },
       "PROFILE_IMAGE": {
         "LABEL": "프로필 이미지"
@@ -190,100 +190,101 @@
         "PLACEHOLDER": "전체 이름을 입력하십시오."
       },
       "DISPLAY_NAME": {
-        "LABEL": "표기 이름",
+        "LABEL": "표시 이름",
         "ERROR": "올바른 표시 이름을 입력하십시오.",
         "PLACEHOLDER": "대화에서 표시되는 표시 이름을 입력하십시오."
       },
       "AVAILABILITY": {
-        "LABEL": "유용성",
+        "LABEL": "상태",
         "STATUS": {
           "ONLINE": "온라인",
           "BUSY": "바쁨",
           "OFFLINE": "오프라인"
         },
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
-        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+        "SET_AVAILABILITY_SUCCESS": "상태가 성공적으로 설정되었습니다",
+        "SET_AVAILABILITY_ERROR": "상태를 설정할 수 없습니다. 다시 시도하십시오",
+        "IMPERSONATING_ERROR": "사용자를 대리하는 동안 상태를 변경할 수 없습니다"
       },
       "EMAIL": {
         "LABEL": "이메일 주소",
-        "ERROR": "올바른 전자 메일 주소를 입력하십시오.",
+        "ERROR": "올바른 이메일 주소를 입력하십시오.",
         "PLACEHOLDER": "대화 중에 표시되는 이메일 주소를 입력하십시오."
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "현재 비밀번호",
+        "ERROR": "현재 비밀번호를 입력하십시오",
+        "PLACEHOLDER": "현재 비밀번호를 입력하십시오"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "새 비밀번호",
         "ERROR": "6글자 이상의 비밀번호를 입력하십시오.",
         "PLACEHOLDER": "새 비밀번호를 입력하십시오."
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "새 비밀번호 확인",
-        "ERROR": "비밀번호가 비밀번호와 일치하는지 확인",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "ERROR": "확인 비밀번호가 비밀번호와 일치해야 합니다",
+        "PLACEHOLDER": "새 비밀번호를 다시 입력하십시오."
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "변경",
-    "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_ACCOUNT": "Switch account",
-    "CONTACT_SUPPORT": "Contact support",
+    "CHANGE_ACCOUNTS": "계정 전환",
+    "SWITCH_ACCOUNT": "계정 전환",
+    "CONTACT_SUPPORT": "지원 문의",
     "SELECTOR_SUBTITLE": "다음 목록에서 계정 선택",
-    "PROFILE_SETTINGS": "Profile settings",
-    "YEAR_IN_REVIEW": "Year in Review",
-    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
-    "APPEARANCE": "Change appearance",
-    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
-    "DOCS": "Read documentation",
-    "CHANGELOG": "Changelog",
-    "LOGOUT": "Log out"
+    "PROFILE_SETTINGS": "프로필 설정",
+    "YEAR_IN_REVIEW": "연간 리뷰",
+    "KEYBOARD_SHORTCUTS": "키보드 단축키",
+    "APPEARANCE": "모양 변경",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin 콘솔",
+    "DOCS": "문서 읽기",
+    "CHANGELOG": "변경 이력",
+    "LOGOUT": "로그아웃"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "일 평가판이 남아 있습니다.",
     "TRAIL_BUTTON": "지금 구입하기",
-    "DELETED_USER": "Deleted User",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "DELETED_USER": "삭제된 사용자",
+    "EMAIL_VERIFICATION_PENDING": "아직 이메일 주소를 인증하지 않은 것 같습니다. 받은 편지함에서 인증 이메일을 확인하십시오.",
+    "RESEND_VERIFICATION_MAIL": "인증 이메일 다시 보내기",
+    "EMAIL_VERIFICATION_SENT": "인증 이메일이 전송되었습니다. 받은 편지함을 확인하십시오.",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "계정 정지됨",
+      "MESSAGE": "계정이 정지되었습니다. 자세한 정보는 지원팀에 문의하십시오."
     },
     "NO_ACCOUNTS": {
-      "TITLE": "No account found",
-      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
-      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
-      "LOGOUT": "Log out"
+      "TITLE": "계정을 찾을 수 없습니다",
+      "MESSAGE_CLOUD": "현재 어떤 계정에도 속해 있지 않습니다. 오류라고 생각되시면 지원팀에 문의하십시오.",
+      "MESSAGE_SELF_HOSTED": "현재 어떤 계정에도 속해 있지 않습니다. 관리자에게 문의하십시오.",
+      "LOGOUT": "로그아웃"
     }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "복사",
-      "CODEPEN": "Open in CodePen",
-      "COPY_SUCCESSFUL": "코드가 클립보드에 복사됨"
+      "CODEPEN": "CodePen에서 열기",
+      "COPY_SUCCESSFUL": "클립보드에 복사되었습니다"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "더 보기",
+      "SHOW_LESS": "접기"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "다운로드",
       "UPLOADING": "업로드 중...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "INSTAGRAM_STORY_UNAVAILABLE": "이 스토리는 더 이상 사용할 수 없습니다.",
+      "INSTAGRAM_STORY_REPLY": "스토리에 답장:"
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "지도에서 보기"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "보내기"
     },
     "MEDIA": {
-      "IMAGE_UNAVAILABLE": "This image is no longer available.",
-      "LOADING_FAILED": "Loading failed"
+      "IMAGE_UNAVAILABLE": "이 이미지는 더 이상 사용할 수 없습니다.",
+      "LOADING_FAILED": "로딩 실패"
     }
   },
   "CONFIRM_EMAIL": "확인 중...",
@@ -293,227 +294,329 @@
     }
   },
   "SIDEBAR": {
-    "NO_ITEMS": "No items",
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
-    "INBOX_VIEW": "Inbox View",
+    "NO_ITEMS": "항목 없음",
+    "CURRENTLY_VIEWING_ACCOUNT": "현재 보기:",
+    "SWITCH": "전환",
+    "INBOX_VIEW": "받은 메시지함 보기",
     "CONVERSATIONS": "대화",
-    "INBOX": "My Inbox",
-    "ALL_CONVERSATIONS": "All Conversations",
+    "INBOX": "내 받은 메시지함",
+    "ALL_CONVERSATIONS": "모든 대화",
     "MENTIONED_CONVERSATIONS": "멘션",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "PARTICIPATING_CONVERSATIONS": "참여 중",
+    "UNATTENDED_CONVERSATIONS": "미응답",
     "REPORTS": "보고서",
     "SETTINGS": "설정",
     "CONTACTS": "연락처",
-    "ACTIVE": "Active",
-    "COMPANIES": "Companies",
-    "ALL_COMPANIES": "All Companies",
+    "ACTIVE": "활성",
+    "COMPANIES": "회사",
+    "ALL_COMPANIES": "모든 회사",
     "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
-    "CAPTAIN_TOOLS": "Tools",
-    "CAPTAIN_SCENARIOS": "Scenarios",
-    "CAPTAIN_PLAYGROUND": "Playground",
+    "CAPTAIN_ASSISTANTS": "어시스턴트",
+    "CAPTAIN_DOCUMENTS": "문서",
+    "CAPTAIN_RESPONSES": "FAQ",
+    "CAPTAIN_TOOLS": "도구",
+    "CAPTAIN_SCENARIOS": "시나리오",
+    "CAPTAIN_PLAYGROUND": "플레이그라운드",
     "CAPTAIN_INBOXES": "받은 메시지함",
     "CAPTAIN_SETTINGS": "설정",
     "HOME": "홈",
     "AGENTS": "에이전트",
     "AGENT_BOTS": "봇",
-    "AUDIT_LOGS": "Audit Logs",
+    "AUDIT_LOGS": "감사 로그",
     "INBOXES": "받은 메시지함",
     "NOTIFICATIONS": "알림",
     "CANNED_RESPONSES": "미리 준비된 답변",
     "INTEGRATIONS": "통합",
     "PROFILE_SETTINGS": "프로필 설정",
     "ACCOUNT_SETTINGS": "계정 설정",
-    "APPLICATIONS": "Applications",
+    "APPLICATIONS": "애플리케이션",
     "LABELS": "라벨",
-    "CUSTOM_ATTRIBUTES": "사용자 지정 특성",
-    "AUTOMATION": "Automation",
-    "MACROS": "Macros",
+    "CUSTOM_ATTRIBUTES": "사용자 정의 속성",
+    "AUTOMATION": "자동화",
+    "MACROS": "매크로",
     "TEAMS": "팀",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "BILLING": "청구",
+    "CUSTOM_VIEWS_FOLDER": "폴더",
+    "CUSTOM_VIEWS_SEGMENTS": "세그먼트",
+    "ALL_CONTACTS": "모든 연락처",
+    "TAGGED_WITH": "태그됨",
+    "NEW_LABEL": "새 라벨",
+    "NEW_TEAM": "새 팀",
+    "NEW_INBOX": "새 받은 메시지함",
     "REPORTS_CONVERSATION": "대화",
     "CSAT": "CSAT",
-    "LIVE_CHAT": "Live Chat",
+    "LIVE_CHAT": "라이브 채팅",
     "SMS": "SMS",
     "WHATSAPP": "WhatsApp",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "CAMPAIGNS": "캠페인",
+    "ONGOING": "진행 중",
+    "ONE_OFF": "일회성",
     "REPORTS_SLA": "SLA",
     "REPORTS_BOT": "봇",
     "REPORTS_AGENT": "에이전트",
     "REPORTS_LABEL": "라벨",
     "REPORTS_INBOX": "받은 메시지함",
-    "REPORTS_TEAM": "Team",
-    "AGENT_ASSIGNMENT": "Agent Assignment",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "SET_YOUR_AVAILABILITY": "영업시간 설정",
+    "REPORTS_TEAM": "팀",
+    "AGENT_ASSIGNMENT": "에이전트 배정",
+    "SET_AVAILABILITY_TITLE": "상태 설정",
+    "SET_YOUR_AVAILABILITY": "상태 설정",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
+    "CUSTOM_ROLES": "사용자 정의 역할",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "REPORTS_OVERVIEW": "개요",
+    "REAUTHORIZE": "받은 메시지함 연결이 만료되었습니다. 메시지를 계속 수신하고\n 발송하려면 다시 연결하십시오",
     "HELP_CENTER": {
-      "TITLE": "Help Center",
-      "ARTICLES": "Articles",
-      "CATEGORIES": "Categories",
-      "LOCALES": "Locales",
+      "TITLE": "도움말 센터",
+      "ARTICLES": "게시물",
+      "CATEGORIES": "카테고리",
+      "LOCALES": "로케일",
       "SETTINGS": "설정"
     },
     "CHANNELS": "채널",
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
-      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+      "TEXT": "자동 오프라인 표시",
+      "INFO_TEXT": "앱이나 대시보드를 사용하지 않을 때 시스템이 자동으로 오프라인으로 표시합니다.",
+      "INFO_SHORT": "앱을 사용하지 않을 때 자동으로 오프라인으로 표시합니다."
     },
-    "DOCS": "Read docs",
-    "SECURITY": "Security"
+    "DOCS": "문서 읽기",
+    "SECURITY": "보안",
+    "CAPTAIN_AI": "Captain",
+    "CONVERSATION_WORKFLOW": "대화 워크플로"
+  },
+  "CAPTAIN_SETTINGS": {
+    "TITLE": "Captain 설정",
+    "DESCRIPTION": "Captain의 AI 모델과 기능을 구성합니다. Captain은 크레딧 기반 청구를 따르며, 선택한 모델에 따라 Captain이 수행하는 모든 작업에 대해 크레딧이 청구됩니다.",
+    "LOADING": "Captain 구성 로딩 중...",
+    "LINK_TEXT": "Captain 크레딧에 대해 자세히 알아보기",
+    "NOT_ENABLED": "이 계정에서 Captain이 활성화되지 않았습니다. Captain 기능에 접근하려면 플랜을 업그레이드하십시오.",
+    "MODEL_CONFIG": {
+      "TITLE": "모델 구성",
+      "DESCRIPTION": "다양한 기능에 대한 AI 모델을 선택합니다.",
+      "SELECT_MODEL": "모델 선택",
+      "CREDITS_PER_MESSAGE": "{credits} 크레딧/메시지",
+      "COMING_SOON": "곧 출시 예정",
+      "EDITOR": {
+        "TITLE": "편집기 기능",
+        "DESCRIPTION": "메시지 편집기에서 스마트 작성, 문법 교정, 톤 조정 및 콘텐츠 개선을 지원합니다."
+      },
+      "ASSISTANT": {
+        "TITLE": "어시스턴트",
+        "DESCRIPTION": "자동 응답, 대화 요약 및 고객 상호 작용을 위한 지능형 답변 제안을 처리합니다."
+      },
+      "COPILOT": {
+        "TITLE": "Copilot",
+        "DESCRIPTION": "대화 중 실시간 맥락 제안, 지식 기반 추천 및 사전 인사이트를 제공합니다."
+      }
+    },
+    "FEATURES": {
+      "TITLE": "기능",
+      "DESCRIPTION": "AI 기반 기능을 활성화하거나 비활성화합니다.",
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "오디오 전사",
+        "DESCRIPTION": "음성 메시지와 통화 녹음을 검색 가능한 텍스트로 자동 변환합니다."
+      },
+      "HELP_CENTER_SEARCH": {
+        "TITLE": "도움말 센터 검색 인덱싱",
+        "DESCRIPTION": "도움말 센터 게시물 내에서 맥락 인식 검색을 위해 AI를 사용합니다."
+      },
+      "LABEL_SUGGESTION": {
+        "TITLE": "라벨 제안",
+        "DESCRIPTION": "콘텐츠 분석 및 맥락에 기반하여 대화에 대한 관련 라벨과 태그를 자동으로 제안합니다.",
+        "MODEL_TITLE": "라벨 제안 모델",
+        "MODEL_DESCRIPTION": "대화 분석 및 적절한 라벨 제안에 사용할 AI 모델을 선택합니다"
+      }
+    },
+    "API": {
+      "SUCCESS": "Captain 설정이 성공적으로 업데이트되었습니다.",
+      "ERROR": "Captain 설정 업데이트에 실패했습니다. 다시 시도하십시오."
+    }
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
-    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "TITLE": "청구",
+    "DESCRIPTION": "여기에서 구독을 관리하고, 플랜을 업그레이드하여 팀에 더 많은 기능을 제공하십시오.",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
-      "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "TITLE": "현재 플랜",
+      "PLAN_NOTE": "현재 **{quantity}**개의 라이선스로 **{plan}** 플랜에 구독 중입니다",
+      "SEAT_COUNT": "시트 수",
+      "RENEWS_ON": "갱신일"
     },
-    "VIEW_PRICING": "View Pricing",
+    "VIEW_PRICING": "가격 보기",
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "구독 관리",
+      "DESCRIPTION": "이전 청구서를 보거나, 청구 세부 정보를 수정하거나, 구독을 취소합니다.",
+      "BUTTON_TXT": "청구 포털로 이동"
     },
     "CAPTAIN": {
       "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
-      "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
-      "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
-      "REFRESH_CREDITS": "Refresh"
+      "DESCRIPTION": "Captain AI의 사용량과 크레딧을 관리합니다.",
+      "BUTTON_TXT": "크레딧 추가 구매",
+      "DOCUMENTS": "문서",
+      "RESPONSES": "크레딧",
+      "UPGRADE": "무료 플랜에서는 Captain을 사용할 수 없습니다. 지금 업그레이드하여 어시스턴트, Copilot 등에 접근하십시오.",
+      "REFRESH_CREDITS": "새로고침"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "도움이 필요하신가요?",
+      "DESCRIPTION": "청구에 문제가 있으신가요? 저희가 도와드리겠습니다.",
       "BUTTON_TXT": "채팅하기"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
+    "NO_BILLING_USER": "청구 계정이 구성 중입니다. 페이지를 새로고침하고 다시 시도하십시오.",
     "TOPUP": {
-      "BUY_CREDITS": "Buy more credits",
-      "MODAL_TITLE": "Buy AI Credits",
-      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
-      "CREDITS": "CREDITS",
-      "ONE_TIME": "one-time",
-      "POPULAR": "Most Popular",
-      "NOTE_TITLE": "Note:",
-      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "BUY_CREDITS": "크레딧 추가 구매",
+      "MODAL_TITLE": "AI 크레딧 구매",
+      "MODAL_DESCRIPTION": "Captain AI를 위한 추가 크레딧을 구매합니다.",
+      "CREDITS": "크레딧",
+      "ONE_TIME": "일회성",
+      "POPULAR": "가장 인기",
+      "NOTE_TITLE": "참고:",
+      "NOTE_DESCRIPTION": "크레딧은 즉시 추가되며 6개월 후 만료됩니다. 크레딧을 사용하려면 활성 구독이 필요합니다. 구매한 크레딧은 월간 플랜 크레딧 이후에 소비됩니다.",
       "CANCEL": "취소",
-      "PURCHASE": "Purchase Credits",
-      "LOADING": "Loading options...",
-      "FETCH_ERROR": "Failed to load credit options. Please try again.",
-      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
-      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "PURCHASE": "크레딧 구매",
+      "LOADING": "옵션 로딩 중...",
+      "FETCH_ERROR": "크레딧 옵션을 로드하지 못했습니다. 다시 시도하십시오.",
+      "PURCHASE_ERROR": "구매 처리에 실패했습니다. 다시 시도하십시오.",
+      "PURCHASE_SUCCESS": "{credits} 크레딧이 계정에 성공적으로 추가되었습니다",
       "CONFIRM": {
-        "TITLE": "Confirm Purchase",
-        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
-        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
-        "GO_BACK": "Go Back",
-        "CONFIRM_PURCHASE": "Confirm Purchase"
+        "TITLE": "구매 확인",
+        "DESCRIPTION": "{amount}에 {credits} 크레딧을 구매하려고 합니다.",
+        "INSTANT_DEDUCTION_NOTE": "확인 즉시 저장된 카드에서 결제됩니다.",
+        "GO_BACK": "돌아가기",
+        "CONFIRM_PURCHASE": "구매 확인"
       }
     }
   },
   "SECURITY_SETTINGS": {
-    "TITLE": "Security",
-    "DESCRIPTION": "Manage your account security settings.",
-    "LINK_TEXT": "Learn more about SAML SSO",
-    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "TITLE": "보안",
+    "DESCRIPTION": "계정 보안 설정을 관리합니다.",
+    "LINK_TEXT": "SAML SSO에 대해 자세히 알아보기",
+    "SAML_DISABLED_MESSAGE": "SAML SSO가 현재 비활성화되어 있습니다. 이 기능을 활성화하려면 관리자에게 문의하십시오.",
     "SAML": {
       "TITLE": "SAML SSO",
-      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "NOTE": "계정에 대한 SAML 싱글 사인온을 구성합니다. 사용자는 이메일/비밀번호 대신 ID 공급자를 통해 인증합니다.",
       "ACS_URL": {
         "LABEL": "ACS URL",
-        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+        "TOOLTIP": "Assertion Consumer Service URL - SAML 응답 대상으로 IdP에서 이 URL을 구성하십시오"
       },
       "SSO_URL": {
         "LABEL": "SSO URL",
-        "HELP": "The URL where SAML authentication requests will be sent",
+        "HELP": "SAML 인증 요청이 전송되는 URL",
         "PLACEHOLDER": "https://your-idp.com/saml/sso"
       },
       "CERTIFICATE": {
-        "LABEL": "Signing certificate in PEM format",
-        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "LABEL": "PEM 형식의 서명 인증서",
+        "HELP": "SAML 응답을 확인하는 데 사용되는 ID 공급자의 공개 인증서",
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
       "FINGERPRINT": {
-        "LABEL": "Fingerprint",
-        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+        "LABEL": "지문",
+        "TOOLTIP": "인증서의 SHA-1 지문 - IdP 구성에서 인증서를 확인하는 데 사용하십시오"
       },
-      "COPY_SUCCESS": "코드가 클립보드에 복사됨",
+      "COPY_SUCCESS": "클립보드에 복사되었습니다",
       "SP_ENTITY_ID": {
-        "LABEL": "SP Entity ID",
-        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
-        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+        "LABEL": "SP 엔터티 ID",
+        "HELP": "서비스 제공자로서 이 애플리케이션의 고유 식별자 (자동 생성).",
+        "TOOLTIP": "서비스 제공자로서의 Chatwoot 고유 식별자 - IdP 설정에서 이를 구성하십시오"
       },
       "IDP_ENTITY_ID": {
-        "LABEL": "Identity Provider Entity ID",
-        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "LABEL": "ID 공급자 엔터티 ID",
+        "HELP": "ID 공급자의 고유 식별자 (일반적으로 IdP 구성에서 찾을 수 있음)",
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
-      "UPDATE_BUTTON": "Update SAML Settings",
+      "UPDATE_BUTTON": "SAML 설정 업데이트",
       "API": {
-        "SUCCESS": "SAML settings updated successfully",
-        "ERROR": "Failed to update SAML settings",
-        "ERROR_LOADING": "Failed to load SAML settings",
-        "DISABLED": "SAML settings disabled successfully"
+        "SUCCESS": "SAML 설정이 성공적으로 업데이트되었습니다",
+        "ERROR": "SAML 설정 업데이트에 실패했습니다",
+        "ERROR_LOADING": "SAML 설정을 로드하지 못했습니다",
+        "DISABLED": "SAML 설정이 성공적으로 비활성화되었습니다"
       },
       "VALIDATION": {
-        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
-        "SSO_URL_ERROR": "Please enter a valid SSO URL",
-        "CERTIFICATE_ERROR": "Certificate is required",
-        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+        "REQUIRED_FIELDS": "SSO URL, ID 공급자 엔터티 ID 및 인증서는 필수 항목입니다",
+        "SSO_URL_ERROR": "올바른 SSO URL을 입력하십시오",
+        "CERTIFICATE_ERROR": "인증서가 필요합니다",
+        "IDP_ENTITY_ID_ERROR": "ID 공급자 엔터티 ID가 필요합니다"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
-        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+        "AVAILABLE_ON": "SAML SSO 기능은 Enterprise 플랜에서만 사용할 수 있습니다.",
+        "UPGRADE_PROMPT": "SAML 싱글 사인온 및 기타 고급 보안 기능에 접근하려면 Enterprise 플랜으로 업그레이드하십시오.",
+        "ASK_ADMIN": "업그레이드를 위해 관리자에게 문의하십시오."
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to enable SAML SSO",
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
-        "UPGRADE_NOW": "Upgrade now",
-        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+        "TITLE": "SAML SSO를 활성화하려면 업그레이드하십시오",
+        "AVAILABLE_ON": "SAML SSO 기능은 Enterprise 플랜에서만 사용할 수 있습니다.",
+        "UPGRADE_PROMPT": "SAML 싱글 사인온 및 기타 고급 기능에 접근하려면 플랜을 업그레이드하십시오.",
+        "UPGRADE_NOW": "지금 업그레이드",
+        "CANCEL_ANYTIME": "언제든지 플랜을 변경하거나 취소할 수 있습니다"
       },
       "ATTRIBUTE_MAPPING": {
-        "TITLE": "SAML Attribute Setup",
-        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+        "TITLE": "SAML 속성 설정",
+        "DESCRIPTION": "다음 속성 매핑은 ID 공급자에서 구성해야 합니다"
       },
       "INFO_SECTION": {
-        "TITLE": "Service Provider Information",
-        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+        "TITLE": "서비스 제공자 정보",
+        "TOOLTIP": "이 값을 복사하여 SAML 연결을 설정하기 위해 ID 공급자에서 구성하십시오"
+      }
+    }
+  },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "대화 워크플로",
+        "DESCRIPTION": "대화 해결에 대한 규칙과 필수 항목을 구성합니다."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "TITLE": "해결 시 필수 속성",
+      "DESCRIPTION": "대화를 해결할 때, 에이전트가 아직 채우지 않은 이 속성들을 입력하도록 안내됩니다.",
+      "NO_ATTRIBUTES": "아직 추가된 속성이 없습니다",
+      "ADD": {
+        "TITLE": "속성 추가",
+        "SEARCH_PLACEHOLDER": "속성 검색"
+      },
+      "SAVE": {
+        "SUCCESS": "필수 속성이 업데이트되었습니다",
+        "ERROR": "필수 속성을 업데이트할 수 없습니다. 다시 시도하십시오"
+      },
+      "MODAL": {
+        "TITLE": "대화 해결",
+        "DESCRIPTION": "이 대화를 해결하기 전에 다음 사용자 정의 속성을 입력하십시오",
+        "ACTIONS": {
+          "RESOLVE": "대화 해결",
+          "CANCEL": "취소"
+        },
+        "PLACEHOLDERS": {
+          "TEXT": "메모를 작성하십시오...",
+          "NUMBER": "숫자를 입력하십시오",
+          "LINK": "링크를 추가하십시오",
+          "DATE": "날짜를 선택하십시오",
+          "LIST": "옵션을 선택하십시오"
+        },
+        "CHECKBOX": {
+          "YES": "예",
+          "NO": "아니오"
+        }
+      },
+      "PAYWALL": {
+        "TITLE": "필수 속성을 사용하려면 업그레이드하십시오",
+        "AVAILABLE_ON": "필수 대화 속성 기능은 Business 및 Enterprise 플랜에서 사용할 수 있습니다.",
+        "UPGRADE_PROMPT": "대화 해결 전에 에이전트에게 필수 속성 입력을 요구하려면 플랜을 업그레이드하십시오.",
+        "UPGRADE_NOW": "지금 업그레이드",
+        "CANCEL_ANYTIME": "언제든지 플랜을 변경하거나 취소할 수 있습니다"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "필수 대화 속성 기능은 유료 플랜에서 사용할 수 있습니다.",
+        "UPGRADE_PROMPT": "대화 해결 전에 필수 속성을 적용하려면 유료 플랜으로 업그레이드하십시오.",
+        "ASK_ADMIN": "업그레이드를 위해 관리자에게 문의하십시오."
       }
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Chatwoot 계정을 찾을 수 없습니다. 계속하려면 새 계정을 만드십시오.",
     "NEW_ACCOUNT": "새 계정",
     "SELECTOR_SUBTITLE": "새 계정 만들기",
     "API": {
-      "SUCCESS_MESSAGE": "계정이 성공적으로 생성됨",
-      "EXIST_MESSAGE": "계정이 이미 있음",
-      "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+      "SUCCESS_MESSAGE": "계정이 성공적으로 생성되었습니다",
+      "EXIST_MESSAGE": "계정이 이미 존재합니다",
+      "ERROR_MESSAGE": "서버에 연결할 수 없습니다. 나중에 다시 시도하십시오."
     },
     "FORM": {
       "NAME": {
@@ -525,270 +628,293 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "모든 단축키 보기",
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "대화 열기",
+      "RESOLVE_AND_NEXT": "해결하고 다음으로 이동",
+      "NAVIGATE_DROPDOWN": "드롭다운 항목 탐색",
+      "RESOLVE_CONVERSATION": "대화 해결",
+      "GO_TO_CONVERSATION_DASHBOARD": "대화 대시보드로 이동",
+      "ADD_ATTACHMENT": "첨부 파일 추가",
+      "GO_TO_CONTACTS_DASHBOARD": "연락처 대시보드로 이동",
+      "TOGGLE_SIDEBAR": "사이드바 전환",
+      "GO_TO_REPORTS_SIDEBAR": "보고서 사이드바로 이동",
+      "MOVE_TO_NEXT_TAB": "대화 목록의 다음 탭으로 이동",
+      "GO_TO_SETTINGS": "설정으로 이동",
+      "SWITCH_TO_PRIVATE_NOTE": "비공개 메모로 전환",
+      "SWITCH_TO_REPLY": "답장으로 전환",
+      "TOGGLE_SNOOZE_DROPDOWN": "일시 중단 드롭다운 전환"
     }
   },
   "ASSIGNMENT_POLICY": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "Agent assignment",
-        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+        "TITLE": "에이전트 배정",
+        "DESCRIPTION": "받은 메시지함과 에이전트의 필요에 따라 작업 부하를 효과적으로 관리하고 대화를 라우팅하는 정책을 정의합니다. 자세히 알아보기"
       },
       "ASSIGNMENT_POLICY": {
-        "TITLE": "Assignment policy",
-        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "TITLE": "배정 정책",
+        "DESCRIPTION": "받은 메시지함에서 대화가 배정되는 방식을 관리합니다.",
         "FEATURES": [
-          "Assign by conversations evenly or by available capacity",
-          "Add fair distribution rules to avoid overloading any agent",
-          "Add inboxes to a policy - one policy per inbox"
+          "대화를 균등하게 또는 가용 용량에 따라 배정",
+          "에이전트 과부하를 방지하기 위한 공정 분배 규칙 추가",
+          "정책에 받은 메시지함 추가 - 받은 메시지함당 하나의 정책"
         ]
       },
       "AGENT_CAPACITY_POLICY": {
-        "TITLE": "Agent capacity policy",
-        "DESCRIPTION": "Manage workload for agents.",
+        "TITLE": "에이전트 용량 정책",
+        "DESCRIPTION": "에이전트의 작업 부하를 관리합니다.",
         "FEATURES": [
-          "Define maximum conversations per inbox",
-          "Create exceptions based on labels and time",
-          "Add agents to a policy - one policy per agent"
+          "받은 메시지함당 최대 대화 수 정의",
+          "라벨 및 시간에 기반한 예외 생성",
+          "정책에 에이전트 추가 - 에이전트당 하나의 정책"
         ]
       }
     },
     "AGENT_ASSIGNMENT_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Assignment policy",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "배정 정책",
+          "CREATE_POLICY": "새 정책"
         },
         "CARD": {
-          "ORDER": "Order",
-          "PRIORITY": "Priority",
-          "ACTIVE": "Active",
-          "INACTIVE": "Inactive",
-          "POPOVER": "Added inboxes",
+          "ORDER": "순서",
+          "PRIORITY": "우선순위",
+          "ACTIVE": "활성",
+          "INACTIVE": "비활성",
+          "POPOVER": "추가된 받은 메시지함",
           "EDIT": "수정"
         },
-        "NO_RECORDS_FOUND": "No assignment policies found"
+        "NO_RECORDS_FOUND": "배정 정책을 찾을 수 없습니다"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create assignment policy"
+          "TITLE": "배정 정책 생성"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "정책 생성",
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy created successfully",
-          "ERROR_MESSAGE": "Failed to create assignment policy"
+          "SUCCESS_MESSAGE": "배정 정책이 성공적으로 생성되었습니다",
+          "ERROR_MESSAGE": "배정 정책 생성에 실패했습니다",
+          "INBOX_LINKED": "받은 메시지함이 정책에 연결되었습니다"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit assignment policy"
+          "TITLE": "배정 정책 수정"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "정책 업데이트",
         "CONFIRM_ADD_INBOX_DIALOG": {
-          "TITLE": "Add inbox",
-          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
+          "TITLE": "받은 메시지함 추가",
+          "DESCRIPTION": "{inboxName} 받은 메시지함이 이미 다른 정책에 연결되어 있습니다. 이 정책에 연결하시겠습니까? 다른 정책에서 연결이 해제됩니다.",
+          "CONFIRM_BUTTON_LABEL": "계속",
           "CANCEL_BUTTON_LABEL": "취소"
         },
+        "INBOX_LINK_PROMPT": {
+          "TITLE": "받은 메시지함을 정책에 연결",
+          "DESCRIPTION": "이 받은 메시지함을 배정 정책에 연결하시겠습니까?",
+          "LINK_BUTTON": "받은 메시지함 연결",
+          "CANCEL_BUTTON": "건너뛰기"
+        },
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update assignment policy"
+          "SUCCESS_MESSAGE": "배정 정책이 성공적으로 업데이트되었습니다",
+          "ERROR_MESSAGE": "배정 정책 업데이트에 실패했습니다"
         },
         "INBOX_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "받은 메시지함이 정책에 성공적으로 추가되었습니다",
+            "ERROR_MESSAGE": "정책에 받은 메시지함 추가에 실패했습니다"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+            "SUCCESS_MESSAGE": "받은 메시지함이 정책에서 성공적으로 제거되었습니다",
+            "ERROR_MESSAGE": "정책에서 받은 메시지함 제거에 실패했습니다"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "정책 이름:",
+          "PLACEHOLDER": "정책 이름을 입력하십시오"
         },
         "DESCRIPTION": {
-          "LABEL": "내용:",
-          "PLACEHOLDER": "Enter description"
+          "LABEL": "설명:",
+          "PLACEHOLDER": "설명을 입력하십시오"
         },
         "STATUS": {
           "LABEL": "상태:",
-          "PLACEHOLDER": "Select status",
-          "ACTIVE": "Policy is active",
-          "INACTIVE": "Policy is inactive"
+          "PLACEHOLDER": "상태 선택",
+          "ACTIVE": "정책이 활성 상태입니다",
+          "INACTIVE": "정책이 비활성 상태입니다"
         },
         "ASSIGNMENT_ORDER": {
-          "LABEL": "Assignment order",
+          "LABEL": "배정 순서",
           "ROUND_ROBIN": {
-            "LABEL": "Round robin",
-            "DESCRIPTION": "Assign conversations evenly among agents."
+            "LABEL": "라운드 로빈",
+            "DESCRIPTION": "에이전트 간에 대화를 균등하게 배정합니다."
           },
           "BALANCED": {
-            "LABEL": "Balanced",
-            "DESCRIPTION": "Assign conversations based on available capacity."
+            "LABEL": "균형",
+            "DESCRIPTION": "가용 용량에 따라 대화를 배정합니다.",
+            "PREMIUM_MESSAGE": "균형 배정 및 에이전트 용량 관리에 접근하려면 업그레이드하십시오.",
+            "PREMIUM_BADGE": "프리미엄"
           }
         },
         "ASSIGNMENT_PRIORITY": {
-          "LABEL": "Assignment priority",
+          "LABEL": "배정 우선순위",
           "EARLIEST_CREATED": {
-            "LABEL": "Earliest created",
-            "DESCRIPTION": "The conversation that was created first gets assigned first."
+            "LABEL": "가장 먼저 생성됨",
+            "DESCRIPTION": "가장 먼저 생성된 대화가 먼저 배정됩니다."
           },
           "LONGEST_WAITING": {
-            "LABEL": "Longest waiting",
-            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+            "LABEL": "가장 오래 대기",
+            "DESCRIPTION": "가장 오래 대기한 대화가 먼저 배정됩니다."
           }
         },
         "FAIR_DISTRIBUTION": {
-          "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
-          "INPUT_MAX": "Assign max",
-          "DURATION": "Conversations per agent in every"
+          "LABEL": "공정 분배 정책",
+          "DESCRIPTION": "에이전트 과부하를 방지하기 위해 시간 창 내에서 에이전트당 배정할 수 있는 최대 대화 수를 설정합니다. 이 필수 필드의 기본값은 시간당 100개 대화입니다.",
+          "INPUT_MAX": "최대 배정",
+          "DURATION": "에이전트당 대화 수"
         },
         "INBOXES": {
-          "LABEL": "Added inboxes",
-          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "추가된 받은 메시지함",
+          "DESCRIPTION": "이 정책이 적용될 받은 메시지함을 추가합니다.",
+          "ADD_BUTTON": "받은 메시지함 추가",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
-            "ADD_BUTTON": "추가하기"
+            "SEARCH_PLACEHOLDER": "추가할 받은 메시지함을 검색하고 선택하십시오",
+            "ADD_BUTTON": "추가"
           },
-          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "EMPTY_STATE": "이 정책에 추가된 받은 메시지함이 없습니다. 시작하려면 받은 메시지함을 추가하십시오",
           "API": {
-            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "받은 메시지함이 정책에 성공적으로 추가되었습니다",
+            "ERROR_MESSAGE": "정책에 받은 메시지함 추가에 실패했습니다"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete assignment policy"
+        "SUCCESS_MESSAGE": "배정 정책이 성공적으로 삭제되었습니다",
+        "ERROR_MESSAGE": "배정 정책 삭제에 실패했습니다"
       }
     },
     "AGENT_CAPACITY_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Agent capacity",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "에이전트 용량",
+          "CREATE_POLICY": "새 정책"
         },
         "CARD": {
-          "POPOVER": "Added agents",
+          "POPOVER": "추가된 에이전트",
           "EDIT": "수정"
         },
-        "NO_RECORDS_FOUND": "No agent capacity policies found"
+        "NO_RECORDS_FOUND": "에이전트 용량 정책을 찾을 수 없습니다"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create agent capacity policy"
+          "TITLE": "에이전트 용량 정책 생성"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "정책 생성",
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
-          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+          "SUCCESS_MESSAGE": "에이전트 용량 정책이 성공적으로 생성되었습니다",
+          "ERROR_MESSAGE": "에이전트 용량 정책 생성에 실패했습니다"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit agent capacity policy"
+          "TITLE": "에이전트 용량 정책 수정"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "정책 업데이트",
         "CONFIRM_ADD_AGENT_DIALOG": {
-          "TITLE": "Add agent",
-          "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
+          "TITLE": "에이전트 추가",
+          "DESCRIPTION": "{agentName}이(가) 이미 다른 정책에 연결되어 있습니다. 이 정책에 연결하시겠습니까? 다른 정책에서 연결이 해제됩니다.",
+          "CONFIRM_BUTTON_LABEL": "계속",
           "CANCEL_BUTTON_LABEL": "취소"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+          "SUCCESS_MESSAGE": "에이전트 용량 정책이 성공적으로 업데이트되었습니다",
+          "ERROR_MESSAGE": "에이전트 용량 정책 업데이트에 실패했습니다"
         },
         "AGENT_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Agent added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "에이전트가 정책에 성공적으로 추가되었습니다",
+            "ERROR_MESSAGE": "정책에 에이전트 추가에 실패했습니다"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove agent from policy"
+            "SUCCESS_MESSAGE": "에이전트가 정책에서 성공적으로 제거되었습니다",
+            "ERROR_MESSAGE": "정책에서 에이전트 제거에 실패했습니다"
+          }
+        },
+        "INBOX_LIMIT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "받은 메시지함 제한이 성공적으로 추가되었습니다",
+            "ERROR_MESSAGE": "받은 메시지함 제한 추가에 실패했습니다"
+          },
+          "UPDATE": {
+            "SUCCESS_MESSAGE": "받은 메시지함 제한이 성공적으로 업데이트되었습니다",
+            "ERROR_MESSAGE": "받은 메시지함 제한 업데이트에 실패했습니다"
+          },
+          "DELETE": {
+            "SUCCESS_MESSAGE": "받은 메시지함 제한이 성공적으로 삭제되었습니다",
+            "ERROR_MESSAGE": "받은 메시지함 제한 삭제에 실패했습니다"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "정책 이름:",
+          "PLACEHOLDER": "정책 이름을 입력하십시오"
         },
         "DESCRIPTION": {
-          "LABEL": "내용:",
-          "PLACEHOLDER": "Enter description"
+          "LABEL": "설명:",
+          "PLACEHOLDER": "설명을 입력하십시오"
         },
         "INBOX_CAPACITY_LIMIT": {
-          "LABEL": "Inbox capacity limits",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "받은 메시지함 용량 제한",
+          "ADD_BUTTON": "받은 메시지함 추가",
           "FIELD": {
-            "SELECT_INBOX": "Select inbox",
-            "MAX_CONVERSATIONS": "Max conversations",
-            "SET_LIMIT": "Set limit"
+            "SELECT_INBOX": "받은 메시지함 선택",
+            "MAX_CONVERSATIONS": "최대 대화 수",
+            "SET_LIMIT": "제한 설정"
           },
-          "EMPTY_STATE": "No inbox limit set"
+          "EMPTY_STATE": "설정된 받은 메시지함 제한이 없습니다"
         },
         "EXCLUSION_RULES": {
-          "LABEL": "Exclusion rules",
-          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "LABEL": "제외 규칙",
+          "DESCRIPTION": "다음 조건을 만족하는 대화는 에이전트 용량에 포함되지 않습니다",
           "TAGS": {
-            "LABEL": "Exclude conversations tagged with specific labels",
-            "ADD_TAG": "add tag",
+            "LABEL": "특정 라벨이 태그된 대화 제외",
+            "ADD_TAG": "태그 추가",
             "DROPDOWN": {
-              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+              "SEARCH_PLACEHOLDER": "추가할 태그를 검색하고 선택하십시오"
             },
-            "EMPTY_STATE": "No tags added to this policy."
+            "EMPTY_STATE": "이 정책에 추가된 태그가 없습니다."
           },
           "DURATION": {
-            "LABEL": "Exclude conversations older than a specified duration",
-            "PLACEHOLDER": "Set time"
+            "LABEL": "지정된 기간보다 오래된 대화 제외",
+            "PLACEHOLDER": "시간 설정"
           }
         },
         "USERS": {
-          "LABEL": "Assigned agents",
-          "DESCRIPTION": "Add agents for which this policy will be applicable.",
-          "ADD_BUTTON": "Add agent",
+          "LABEL": "배정된 에이전트",
+          "DESCRIPTION": "이 정책이 적용될 에이전트를 추가합니다.",
+          "ADD_BUTTON": "에이전트 추가",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select agents to add",
-            "ADD_BUTTON": "추가하기"
+            "SEARCH_PLACEHOLDER": "추가할 에이전트를 검색하고 선택하십시오",
+            "ADD_BUTTON": "추가"
           },
-          "EMPTY_STATE": "No agents added",
+          "EMPTY_STATE": "추가된 에이전트가 없습니다",
           "API": {
-            "SUCCESS_MESSAGE": "Agent successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "에이전트가 정책에 성공적으로 추가되었습니다",
+            "ERROR_MESSAGE": "정책에 에이전트 추가에 실패했습니다"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+        "SUCCESS_MESSAGE": "에이전트 용량 정책이 성공적으로 삭제되었습니다",
+        "ERROR_MESSAGE": "에이전트 용량 정책 삭제에 실패했습니다"
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "Delete policy",
-      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "TITLE": "정책 삭제",
+      "DESCRIPTION": "이 정책을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
       "CONFIRM_BUTTON_LABEL": "삭제",
       "CANCEL_BUTTON_LABEL": "취소"
     }
