@@ -1212,6 +1212,7 @@ export default {
     },
     toggleEditorSize() {
       this.$emit('toggleEditorSize');
+      this.$nextTick(() => this.messageEditor?.focusEditorInputField());
     },
     onSubmitCopilotReply() {
       const acceptedMessage = this.copilot.accept();
