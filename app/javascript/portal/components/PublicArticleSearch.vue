@@ -26,8 +26,11 @@ export default {
     localeCode() {
       return window.portalConfig.localeCode;
     },
+    normalizedSearchTerm() {
+      return this.searchTerm.trim();
+    },
     shouldShowSearchBox() {
-      return this.searchTerm !== '' && this.showSearchBox;
+      return this.normalizedSearchTerm !== '' && this.showSearchBox;
     },
     searchTranslations() {
       const { searchTranslations = {} } = window.portalConfig;
@@ -52,6 +55,13 @@ export default {
         clearTimeout(this.typingTimer);
       }
 
+      if (this.normalizedSearchTerm === '') {
+        this.searchResults = [];
+        this.isLoading = false;
+        this.closeSearch();
+        return;
+      }
+
       this.openSearch();
       this.isLoading = true;
       this.typingTimer = setTimeout(() => {
@@ -74,16 +84,21 @@ export default {
       this.searchTerm = '';
     },
     async fetchArticlesByQuery() {
+      const query = this.normalizedSearchTerm;
+      if (!query) {
+        this.isLoading = false;
+        return;
+      }
+
       try {
         this.isLoading = true;
         this.searchResults = [];
         const { data } = await ArticlesAPI.searchArticles(
           this.portalSlug,
           this.localeCode,
-          this.searchTerm
+          query
         );
         this.searchResults = data.payload;
-        this.isLoading = true;
       } catch (error) {
         // Show something wrong message
       } finally {
@@ -110,7 +125,7 @@ export default {
       <SearchSuggestions
         :items="searchResults"
         :is-loading="isLoading"
-        :search-term="searchTerm"
+        :search-term="normalizedSearchTerm"
         :empty-placeholder="searchTranslations.emptyPlaceholder"
         :results-title="searchTranslations.resultsTitle"
         :loading-placeholder="searchTranslations.loadingPlaceholder"

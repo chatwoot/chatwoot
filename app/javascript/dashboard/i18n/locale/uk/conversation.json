@@ -32,9 +32,15 @@
     "LOADING_CONVERSATIONS": "Завантаження бесід",
     "CANNOT_REPLY": "Ви не можете відповісти через",
     "24_HOURS_WINDOW": "24-годинне обмеження на повідомлення",
-    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
+    "48_HOURS_WINDOW": "48-годинне обмеження на повідомлення",
+    "API_HOURS_WINDOW": "Ви можете відповідати лише в межах {hours} годин",
     "NOT_ASSIGNED_TO_YOU": "Ця розмова не призначена на вас. Ви бажаєте призначити цю розмову на себе?",
     "ASSIGN_TO_ME": "Призначити мені",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Відзначити відкритим та призначити на себе",
+    "BOT_HANDOFF_REOPEN_ACTION": "Позначити розмову відкритою",
+    "BOT_HANDOFF_SUCCESS": "Розмова була призначена на вас",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Ви можете відповісти на цю розмову тільки за допомогою шаблонного повідомлення через",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-годинне обмеження на повідомлення",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -55,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Це повідомлення не підтримується. Ви можете переглянути це повідомлення у додатку Facebook Messenger",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Це повідомлення не підтримується. Ви можете переглянути це повідомлення у додатку Instagram.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "Повідомлення успішно видалено",
     "FAIL_DELETE_MESSSAGE": "Не вдалося видалити повідомлення! Спробуйте ще раз",
     "NO_RESPONSE": "Немає відповіді",
@@ -65,6 +72,17 @@
     "CARD": {
       "SHOW_LABELS": "Показати мітки",
       "HIDE_LABELS": "Сховати мітки"
+    },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Вирішити",
@@ -156,8 +174,12 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Не вдалося призначити мітку. Будь-ласка, спробуйте ще раз."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Призначено команду \"#{team}\" до ID розмови {conversationId}",
+          "SUCCESFUL": "Призначено команду \"{team}\" до ID розмови {conversationId}",
           "FAILED": "Не вдалося призначити команду. Будь ласка, спробуйте ще раз."
         }
       }
@@ -168,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "Вимкнути підпис",
       "MSG_INPUT": "Shift + Enter для нового рядка. Для вибору швидкої відповіді, уведіть '/'.",
       "PRIVATE_MSG_INPUT": "Shift + Enter для нового рядка. Видиме лише для співробітників",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Не налаштовано підпис повідомлення, будь ласка, налаштуйте його в налаштуваннях профілю.",
+      "COPILOT_MSG_INPUT": "Надайте Copilot додаткові підказки або запитайте що-небудь ще... Натисніть Enter для відправлення відповіді",
       "CLICK_HERE": "Натисніть тут для оновлення",
       "WHATSAPP_TEMPLATES": "Шаблони Whatsapp"
     },
@@ -180,7 +206,6 @@
       "INSERT_READ_MORE": "Детальніше",
       "DISMISS_REPLY": "Відхилити відповідь",
       "REPLYING_TO": "Відповісти:",
-      "TIP_FORMAT_ICON": "Показати текстовий редактор",
       "TIP_EMOJI_ICON": "Показати емодзі",
       "TIP_ATTACH_ICON": "Прикріпити файли",
       "TIP_AUDIORECORDER_ICON": "Записати аудіо",
@@ -189,7 +214,7 @@
       "DRAG_DROP": "Перетягніть сюди, щоб прикріпити",
       "START_AUDIO_RECORDING": "Почати аудіозапис",
       "STOP_AUDIO_RECORDING": "Зупинити аудіозапис",
-      "": "",
+      "COPILOT_THINKING": "Copilot думає",
       "EMAIL_HEAD": {
         "TO": "На",
         "ADD_BCC": "Додати bcc",
@@ -211,6 +236,13 @@
           "YES": "Надіслати",
           "CANCEL": "Скасувати"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Приватна нотатка: видима тільки вам та вашій команді",
@@ -224,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Файл перевищує максимальний розмір вкладень {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} МБ",
+    "FILE_TYPE_NOT_SUPPORTED": "Тип файлу {fileName} не підтримується у цій розмові",
     "MESSAGE_ERROR": "Не вдалося надіслати повідомлення, будь ласка, повторіть спробу пізніше",
     "SENT_BY": "Надіслав:",
     "BOT": "Бот",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Не вдалося надіслати повідомлення! Повторіть спробу",
     "TRY_AGAIN": "повторити",
     "ASSIGNMENT": {
@@ -252,6 +287,16 @@
     "SIDEBAR": {
       "CONTACT": "Контакт",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Оброблюється в іншій вкладці",
+      "REJECT_CALL": "Відхилити",
+      "JOIN_CALL": "Доєднатися до виклику",
+      "END_CALL": "Завершити виклик"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -261,6 +306,7 @@
     "CANCEL": "Скасувати",
     "SEND_EMAIL_SUCCESS": "Текст розмови надісланий",
     "SEND_EMAIL_ERROR": "Сталася помилка, будь ласка, спробуйте ще раз",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Надіслати клієнту стенограму",
       "SEND_TO_AGENT": "Надіслати стенограму агенту",
@@ -311,7 +357,7 @@
       "CONVERSATION_ACTIONS": "Дії при бесіді",
       "CONVERSATION_LABELS": "Мітки бесіди",
       "CONVERSATION_INFO": "Інформація про бесіду",
-      "CONTACT_NOTES": "Contact Notes",
+      "CONTACT_NOTES": "Нотатки контакту",
       "CONTACT_ATTRIBUTES": "Атрибути контакту",
       "PREVIOUS_CONVERSATION": "Попередні бесіди",
       "MACROS": "Макрос",

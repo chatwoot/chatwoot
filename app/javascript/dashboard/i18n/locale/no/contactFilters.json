@@ -48,7 +48,8 @@
       "CREATED_AT": "Created At",
       "LAST_ACTIVITY": "Last Activity",
       "REFERER_LINK": "Referrer link",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "Etiketter"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filters",

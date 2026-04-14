@@ -51,6 +51,13 @@
             "LARGER": "Maior",
             "EXTRA_LARGE": "Muito Grande"
           }
+        },
+        "LANGUAGE": {
+          "TITLE": "Idioma preferido",
+          "NOTE": "Escolha o idioma que deseja usar.",
+          "UPDATE_SUCCESS": "Suas configurações de idioma foram atualizadas com sucesso",
+          "UPDATE_ERROR": "Ocorreu um erro ao atualizar as configurações de idioma, por favor, tente novamente",
+          "USE_ACCOUNT_DEFAULT": "Usar padrão da conta"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
@@ -72,6 +79,11 @@
         "TITLE": "Senha",
         "NOTE": "A atualização da sua senha redefiniria o seu login em vários dispositivos.",
         "BTN_TEXT": "Mudar Senha"
+      },
+      "SECURITY_SECTION": {
+        "TITLE": "Segurança",
+        "NOTE": "Gerencie recursos adicionais de segurança para sua conta.",
+        "MFA_BUTTON": "Gerenciar autenticação de dois fatores "
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token de acesso",
@@ -137,7 +149,7 @@
       "NOTIFICATIONS": {
         "TITLE": "Preferências de notificação",
         "TYPE_TITLE": "Tipo de notificação",
-        "EMAIL": "e-mail",
+        "EMAIL": "E-mail",
         "PUSH": "Notificação ",
         "TYPES": {
           "CONVERSATION_CREATED": "Uma nova conversa foi criada",
@@ -222,10 +234,12 @@
     "CONTACT_SUPPORT": "Contate o suporte",
     "SELECTOR_SUBTITLE": "Selecione uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do Perfil",
+    "YEAR_IN_REVIEW": "Retrospectiva do Ano",
     "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
     "APPEARANCE": "Alterar Tema",
     "SUPER_ADMIN_CONSOLE": "Console de Super Admin",
     "DOCS": "Ler documentação",
+    "CHANGELOG": "Notas de versão",
     "LOGOUT": "Encerrar sessão"
   },
   "APP_GLOBAL": {
@@ -238,6 +252,12 @@
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Conta Suspensa",
       "MESSAGE": "Sua conta está suspensa. Entre em contato com a equipe de suporte para obter mais informações."
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "Nenhuma conta encontrada",
+      "MESSAGE_CLOUD": "Você não faz parte de nenhuma conta no momento. Se acreditar que isso é um engano, entre em contato com nossa equipe de suporte.",
+      "MESSAGE_SELF_HOSTED": "Você não faz parte de nenhuma conta no momento. Entre em contato com o seu administrador.",
+      "LOGOUT": "Encerrar sessão"
     }
   },
   "COMPONENTS": {
@@ -253,7 +273,8 @@
     "FILE_BUBBLE": {
       "DOWNLOAD": "Baixar",
       "UPLOADING": "Enviando...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "Este story não está mais disponível."
+      "INSTAGRAM_STORY_UNAVAILABLE": "Este story não está mais disponível.",
+      "INSTAGRAM_STORY_REPLY": "Respondido ao seu story:"
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Ver Localização"
@@ -287,10 +308,17 @@
     "SETTINGS": "Configurações",
     "CONTACTS": "Contatos",
     "ACTIVE": "Ativo",
+    "COMPANIES": "Empresas",
+    "ALL_COMPANIES": "Todas as empresas",
     "CAPTAIN": "Capitão",
     "CAPTAIN_ASSISTANTS": "Assistentes",
     "CAPTAIN_DOCUMENTS": "Documentos",
     "CAPTAIN_RESPONSES": "FAQs",
+    "CAPTAIN_TOOLS": "Ferramentas",
+    "CAPTAIN_SCENARIOS": "Cenários",
+    "CAPTAIN_PLAYGROUND": "Playground",
+    "CAPTAIN_INBOXES": "Caixas de Entrada",
+    "CAPTAIN_SETTINGS": "Configurações",
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Robôs",
@@ -329,6 +357,7 @@
     "REPORTS_LABEL": "Etiquetas",
     "REPORTS_INBOX": "Caixa de Entrada",
     "REPORTS_TEAM": "Time",
+    "AGENT_ASSIGNMENT": "Atribuição de Agentes",
     "SET_AVAILABILITY_TITLE": "Defina como",
     "SET_YOUR_AVAILABILITY": "Disponibilidade",
     "SLA": "SLA",
@@ -349,7 +378,58 @@
       "INFO_TEXT": "Deixe o sistema marcar você automaticamente quando você não estiver usando o app ou o painel de controle.",
       "INFO_SHORT": "Marcar off-line automaticamente quando não estiver usando o aplicativo."
     },
-    "DOCS": "Ler documentos"
+    "DOCS": "Ler documentos",
+    "SECURITY": "Segurança",
+    "CAPTAIN_AI": "Capitão",
+    "CONVERSATION_WORKFLOW": "Fluxo de Conversa"
+  },
+  "CAPTAIN_SETTINGS": {
+    "TITLE": "Configurações do Capitão",
+    "DESCRIPTION": "Configure seus modelos e recursos de IA para o Capitão. O Capitão utiliza um modelo de cobrança baseado em créditos; você será cobrado em créditos por cada ação que o Capitão realizar, dependendo do modelo selecionado.",
+    "LOADING": "Carregando configurações do Capitão...",
+    "LINK_TEXT": "Saiba mais sobre os Créditos do Capitão",
+    "NOT_ENABLED": "O Capitão não está habilitado para a sua conta. Atualize seu plano para acessar os recursos do Capitão.",
+    "MODEL_CONFIG": {
+      "TITLE": "Configuração do Modelo",
+      "DESCRIPTION": "Selecione modelos de IA para diferentes recursos.",
+      "SELECT_MODEL": "Selecionar modelo",
+      "CREDITS_PER_MESSAGE": "{credits} crédito/mensagem",
+      "COMING_SOON": "Em breve",
+      "EDITOR": {
+        "TITLE": "Recursos do Editor",
+        "DESCRIPTION": "Potencializa a escrita inteligente, correções gramaticais, ajustes de tom e aprimoramento de conteúdo no editor de mensagens."
+      },
+      "ASSISTANT": {
+        "TITLE": "Assistente",
+        "DESCRIPTION": "Gerencia respostas automatizadas, resumos de conversas e sugestões inteligentes de resposta para interações com clientes."
+      },
+      "COPILOT": {
+        "TITLE": "Copiloto",
+        "DESCRIPTION": "Fornece sugestões contextuais em tempo real, recomendações da base de conhecimento e insights proativos durante as conversas."
+      }
+    },
+    "FEATURES": {
+      "TITLE": "Funcionalidades",
+      "DESCRIPTION": "Ative ou desative recursos com tecnologia de IA.",
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcrição de Áudio",
+        "DESCRIPTION": "Converte automaticamente mensagens de voz e gravações de chamadas em transcrições de texto pesquisáveis."
+      },
+      "HELP_CENTER_SEARCH": {
+        "TITLE": "Indexação de Pesquisa da Central de Ajuda",
+        "DESCRIPTION": "Use IA para realizar buscas com reconhecimento de contexto nos artigos da sua central de ajuda."
+      },
+      "LABEL_SUGGESTION": {
+        "TITLE": "Sugestão de Etiquetas",
+        "DESCRIPTION": "Sugere automaticamente rótulos e etiquetas relevantes para as conversas, com base na análise de conteúdo e no contexto.",
+        "MODEL_TITLE": "Modelo de Sugestão de Etiquetas",
+        "MODEL_DESCRIPTION": "Selecione o modelo de IA a ser utilizado para analisar as conversas e sugerir etiquetas apropriadas"
+      }
+    },
+    "API": {
+      "SUCCESS": "Configurações do Capitão atualizadas com sucesso.",
+      "ERROR": "Falha ao atualizar as configurações do Capitão. Por favor, tente novamente."
+    }
   },
   "BILLING_SETTINGS": {
     "TITLE": "Cobrança",
@@ -372,14 +452,162 @@
       "BUTTON_TXT": "Comprar mais créditos",
       "DOCUMENTS": "Documentos",
       "RESPONSES": "Respostas",
-      "UPGRADE": "O capitão não está disponível no plano gratuito, faça o upgrade para ter acesso aos assistentes, co-piloto e muito mais."
+      "UPGRADE": "O capitão não está disponível no plano gratuito, faça o upgrade para ter acesso aos assistentes, co-piloto e muito mais.",
+      "REFRESH_CREDITS": "Atualizar"
     },
     "CHAT_WITH_US": {
       "TITLE": "Precisa de ajuda?",
       "DESCRIPTION": "Você está com algum problema de cobrança? Nós estamos aqui para ajudar.",
       "BUTTON_TXT": "Fale conosco no chat"
     },
-    "NO_BILLING_USER": "A sua conta de cobrança está sendo configurada. Atualize a página e tente novamente."
+    "NO_BILLING_USER": "A sua conta de cobrança está sendo configurada. Atualize a página e tente novamente.",
+    "TOPUP": {
+      "BUY_CREDITS": "Comprar mais créditos",
+      "MODAL_TITLE": "Comprar Créditos de IA",
+      "MODAL_DESCRIPTION": "Comprar créditos adicionais para o Capitão IA.",
+      "CREDITS": "CRÉDITOS",
+      "ONE_TIME": "único",
+      "POPULAR": "Mais populares",
+      "NOTE_TITLE": "Nota:",
+      "NOTE_DESCRIPTION": "Créditos são adicionados imediatamente e expiram em 6 meses. Uma assinatura ativa é necessária para usar créditos. Créditos adquiridos são consumidos após seus créditos do plano mensal.",
+      "CANCEL": "Cancelar",
+      "PURCHASE": "Comprar Créditos",
+      "LOADING": "Carregando opções...",
+      "FETCH_ERROR": "Falha ao carregar opções de crédito. Por favor, tente novamente.",
+      "PURCHASE_ERROR": "Falha ao processar a compra. Por favor, tente novamente.",
+      "PURCHASE_SUCCESS": "Foram adicionados {credits} créditos com sucesso à sua conta",
+      "CONFIRM": {
+        "TITLE": "Confirmar Compra",
+        "DESCRIPTION": "Você está prestes a comprar {credits} créditos por {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Seu cartão salvo será cobrado imediatamente após a confirmação.",
+        "GO_BACK": "Voltar",
+        "CONFIRM_PURCHASE": "Confirmar Compra"
+      }
+    }
+  },
+  "SECURITY_SETTINGS": {
+    "TITLE": "Segurança",
+    "DESCRIPTION": "Gerencie as configurações de segurança da sua conta.",
+    "LINK_TEXT": "Saiba mais sobre o SAML SSO",
+    "SAML_DISABLED_MESSAGE": "O SSO via SAML está desativado no momento. Entre em contato com o administrador para habilitar esse recurso.",
+    "SAML": {
+      "TITLE": "SAML SSO",
+      "NOTE": "Configure o login único via SAML para sua conta. Os usuários se autenticarão por meio do seu provedor de identidade em vez de usar e-mail e senha.",
+      "ACS_URL": {
+        "LABEL": "ACS URL",
+        "TOOLTIP": "URL do Assertion Consumer Service - Configure esta URL no seu IdP como o destino para as respostas SAML"
+      },
+      "SSO_URL": {
+        "LABEL": "SSO URL",
+        "HELP": "A URL para onde as solicitações de autenticação SAML serão enviadas",
+        "PLACEHOLDER": "https://your-idp.com/saml/sso"
+      },
+      "CERTIFICATE": {
+        "LABEL": "Certificado de assinatura no formato PEM",
+        "HELP": "O certificado público do seu provedor de identidade, usado para verificar as respostas SAML",
+        "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
+      },
+      "FINGERPRINT": {
+        "LABEL": "Impressão digital",
+        "TOOLTIP": "Impressão digital SHA-1 do certificado - use-a para verificar o certificado na configuração do seu IdP"
+      },
+      "COPY_SUCCESS": "Código copiado para área de transferência com sucesso",
+      "SP_ENTITY_ID": {
+        "LABEL": "SP Entity ID",
+        "HELP": "Identificador exclusivo desta aplicação como provedor de serviço (gerado automaticamente).",
+        "TOOLTIP": "Identificador exclusivo do Chatwoot como Provedor de Serviço - configure-o nas configurações do seu IdP"
+      },
+      "IDP_ENTITY_ID": {
+        "LABEL": "ID da Entidade do Provedor de Identidade",
+        "HELP": "Identificador exclusivo do seu provedor de identidade (geralmente encontrado na configuração do IdP)",
+        "PLACEHOLDER": "https://seu-idp.com/saml"
+      },
+      "UPDATE_BUTTON": "Atualizar configurações de SAML",
+      "API": {
+        "SUCCESS": "Configurações de SAML atualizadas com sucesso",
+        "ERROR": "Falha ao atualizar as configurações de SAML",
+        "ERROR_LOADING": "Falha ao carregar as configurações de SAML",
+        "DISABLED": "Configurações de SAML desativadas com sucesso"
+      },
+      "VALIDATION": {
+        "REQUIRED_FIELDS": "A URL de SSO, o ID da Entidade do Provedor de Identidade e o Certificado são campos obrigatórios",
+        "SSO_URL_ERROR": "Por favor, insira uma URL de SSO válida",
+        "CERTIFICATE_ERROR": "O certificado é necessário",
+        "IDP_ENTITY_ID_ERROR": "O ID da Entidade do Provedor de Identidade é obrigatório"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "O recurso de SSO via SAML está disponível apenas nos planos Enterprise.",
+        "UPGRADE_PROMPT": "Atualize para um plano Enterprise para ter acesso ao login único via SAML e outros recursos avançados de segurança.",
+        "ASK_ADMIN": "Entre em contato com seu administrador para fazer a atualização."
+      },
+      "PAYWALL": {
+        "TITLE": "Atualizar para habilitar o SSO via SAML",
+        "AVAILABLE_ON": "O recurso de SSO via SAML está disponível apenas nos planos Enterprise.",
+        "UPGRADE_PROMPT": "Atualize seu plano para ter acesso ao login único via SAML e outros recursos avançados.",
+        "UPGRADE_NOW": "Atualizar agora",
+        "CANCEL_ANYTIME": "Você pode alterar ou cancelar seu plano a qualquer momento"
+      },
+      "ATTRIBUTE_MAPPING": {
+        "TITLE": "Configuração de Atributos SAML",
+        "DESCRIPTION": "Os seguintes mapeamentos de atributos devem ser configurados no seu provedor de identidade"
+      },
+      "INFO_SECTION": {
+        "TITLE": "Informações do Provedor de Serviço",
+        "TOOLTIP": "Copie esses valores e configure-os no seu Provedor de Identidade para estabelecer a conexão SAML"
+      }
+    }
+  },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Fluxos de Conversa",
+        "DESCRIPTION": "Configure regras e campos obrigatórios para a resolução de conversas."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "TITLE": "Atributos obrigatórios para resolução",
+      "DESCRIPTION": "Ao resolver uma conversa, os agentes serão solicitados a preencher esses atributos caso ainda não o tenham feito.",
+      "NO_ATTRIBUTES": "Nenhum atributo adicionado ainda",
+      "ADD": {
+        "TITLE": "Adicionar Atributos",
+        "SEARCH_PLACEHOLDER": "Pesquisar atributos"
+      },
+      "SAVE": {
+        "SUCCESS": "Atributos obrigatórios atualizados",
+        "ERROR": "Não foi possível atualizar os atributos obrigatórios. Por favor, tente novamente"
+      },
+      "MODAL": {
+        "TITLE": "Resolver conversa",
+        "DESCRIPTION": "Por favor, preencha os seguintes atributos personalizados antes de resolver esta conversa",
+        "ACTIONS": {
+          "RESOLVE": "Resolver conversa",
+          "CANCEL": "Cancelar"
+        },
+        "PLACEHOLDERS": {
+          "TEXT": "Escreva uma nota...",
+          "NUMBER": "Insira um número",
+          "LINK": "Adicione um link",
+          "DATE": "Selecione uma data",
+          "LIST": "Selecione uma opção"
+        },
+        "CHECKBOX": {
+          "YES": "Sim",
+          "NO": "Não"
+        }
+      },
+      "PAYWALL": {
+        "TITLE": "Atualize para usar os atributos obrigatórios",
+        "AVAILABLE_ON": "O recurso de atributos obrigatórios da conversa está disponível nos planos Business e Enterprise.",
+        "UPGRADE_PROMPT": "Atualize seu plano para solicitar que os agentes preencham os atributos obrigatórios antes da resolução da conversa.",
+        "UPGRADE_NOW": "Atualizar agora",
+        "CANCEL_ANYTIME": "Você pode alterar ou cancelar seu plano a qualquer momento"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "O recurso de atributos obrigatórios de conversa está disponível nos planos pagos.",
+        "UPGRADE_PROMPT": "Atualize para um plano pago para exigir atributos obrigatórios antes da resolução da conversa.",
+        "ASK_ADMIN": "Entre em contato com seu administrador para fazer a atualização."
+      }
+    }
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ah oh! Não conseguimos encontrar nenhuma conta. Por favor, crie uma nova conta para continuar.",
@@ -416,6 +644,279 @@
       "SWITCH_TO_PRIVATE_NOTE": "Mudar para Nota Privada",
       "SWITCH_TO_REPLY": "Mudar para resposta",
       "TOGGLE_SNOOZE_DROPDOWN": "Ativar/desativar soneca"
+    }
+  },
+  "ASSIGNMENT_POLICY": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Atribuição de agentes",
+        "DESCRIPTION": "Defina políticas para gerenciar a carga de trabalho de forma eficaz e encaminhar conversas com base nas necessidades das caixas de entrada e dos agentes. Saiba mais aqui"
+      },
+      "ASSIGNMENT_POLICY": {
+        "TITLE": "Política de atribuição",
+        "DESCRIPTION": "Gerencie como as conversas são atribuídas nas caixas de entrada.",
+        "FEATURES": [
+          "Atribuir conversas de forma uniforme ou com base na capacidade disponível",
+          "Adicione regras de distribuição justa para evitar sobrecarregar qualquer agente",
+          "Adicione caixas de entrada a uma política - uma política por caixa de entrada"
+        ]
+      },
+      "AGENT_CAPACITY_POLICY": {
+        "TITLE": "Política de capacidade dos agentes",
+        "DESCRIPTION": "Gerencie a carga de trabalho dos agentes.",
+        "FEATURES": [
+          "Defina o número máximo de conversas por caixa de entrada",
+          "Criar exceções com base em rótulos e tempo",
+          "Adicione agentes a uma política - uma política por agente"
+        ]
+      }
+    },
+    "AGENT_ASSIGNMENT_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Política de atribuição",
+          "CREATE_POLICY": "Nova política"
+        },
+        "CARD": {
+          "ORDER": "Ordem",
+          "PRIORITY": "Prioridade",
+          "ACTIVE": "Ativo",
+          "INACTIVE": "Inativa",
+          "POPOVER": "Caixas de entrada adicionadas",
+          "EDIT": "Alterar"
+        },
+        "NO_RECORDS_FOUND": "Nenhuma política de atribuição encontrada"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Criar política de atribuição"
+        },
+        "CREATE_BUTTON": "Criar política",
+        "API": {
+          "SUCCESS_MESSAGE": "Política de atribuição criada com sucesso",
+          "ERROR_MESSAGE": "Falha ao criar a política de atribuição",
+          "INBOX_LINKED": "A caixa de entrada foi vinculada à política"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Editar política de atribuição"
+        },
+        "EDIT_BUTTON": "Atualizar política",
+        "CONFIRM_ADD_INBOX_DIALOG": {
+          "TITLE": "Adicionar caixa de entrada",
+          "DESCRIPTION": "A caixa de entrada {inboxName} já está vinculada a outra política. Tem certeza de que deseja vinculá-la a esta política? Ela será desvinculada da outra.",
+          "CONFIRM_BUTTON_LABEL": "Continuar",
+          "CANCEL_BUTTON_LABEL": "Cancelar"
+        },
+        "INBOX_LINK_PROMPT": {
+          "TITLE": "Vincular caixa de entrada à política",
+          "DESCRIPTION": "Deseja vincular esta caixa de entrada à política de atribuição?",
+          "LINK_BUTTON": "Vincular caixa de entrada",
+          "CANCEL_BUTTON": "Pular"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Política de atribuição atualizada com sucesso",
+          "ERROR_MESSAGE": "Falha ao atualizar a política de atribuição"
+        },
+        "INBOX_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Caixa de entrada adicionada à política com sucesso",
+            "ERROR_MESSAGE": "Falha ao adicionar a caixa de entrada à política"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Caixa de entrada removida da política com sucesso",
+            "ERROR_MESSAGE": "Caixa de entrada removida da política com sucesso"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nome da política:",
+          "PLACEHOLDER": "Informe o nome da política"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descrição:",
+          "PLACEHOLDER": "Insira a descrição"
+        },
+        "STATUS": {
+          "LABEL": "Status:",
+          "PLACEHOLDER": "Selecionar status",
+          "ACTIVE": "Política ativa",
+          "INACTIVE": "Política inativa"
+        },
+        "ASSIGNMENT_ORDER": {
+          "LABEL": "Ordem de atribuição",
+          "ROUND_ROBIN": {
+            "LABEL": "Rodízio",
+            "DESCRIPTION": "Distribuir as conversas de forma uniforme entre os agentes."
+          },
+          "BALANCED": {
+            "LABEL": "Equilibrado",
+            "DESCRIPTION": "Atribuir conversas com base na capacidade disponível.",
+            "PREMIUM_MESSAGE": "Atualize o plano para acessar a atribuição equilibrada e o gerenciamento de capacidade dos agentes.",
+            "PREMIUM_BADGE": "Premium"
+          }
+        },
+        "ASSIGNMENT_PRIORITY": {
+          "LABEL": "Prioridade de atribuição",
+          "EARLIEST_CREATED": {
+            "LABEL": "Criado recentemente",
+            "DESCRIPTION": "A conversa criada primeiro será atribuída primeiro."
+          },
+          "LONGEST_WAITING": {
+            "LABEL": "Maior tempo de espera",
+            "DESCRIPTION": "A conversa que está aguardando há mais tempo é atribuída primeiro."
+          }
+        },
+        "FAIR_DISTRIBUTION": {
+          "LABEL": "Política de distribuição justa",
+          "DESCRIPTION": "Defina o número máximo de conversas que podem ser atribuídas por agente dentro de um período, para evitar sobrecarregar qualquer agente. Este campo obrigatório tem como padrão 100 conversas por hora.",
+          "INPUT_MAX": "Máximo de atribuições",
+          "DURATION": "Conversas por agente a cada"
+        },
+        "INBOXES": {
+          "LABEL": "Caixas de entrada adicionadas",
+          "DESCRIPTION": "Adicionar caixas de entrada às quais esta política será aplicada.",
+          "ADD_BUTTON": "Adicionar caixa de entrada",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Pesquisar e selecionar caixas de entrada para adicionar",
+            "ADD_BUTTON": "Adicionar"
+          },
+          "EMPTY_STATE": "Nenhuma caixa de entrada adicionada a esta política. Adicione uma caixa de entrada para começar",
+          "API": {
+            "SUCCESS_MESSAGE": "Caixa de entrada adicionada à política com sucesso",
+            "ERROR_MESSAGE": "Falha ao adicionar a caixa de entrada à política"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Política de atribuição excluída com sucesso",
+        "ERROR_MESSAGE": "Falha ao excluir a política de atribuição"
+      }
+    },
+    "AGENT_CAPACITY_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Capacidade do agente",
+          "CREATE_POLICY": "Nova política"
+        },
+        "CARD": {
+          "POPOVER": "Agentes adicionados",
+          "EDIT": "Alterar"
+        },
+        "NO_RECORDS_FOUND": "Nenhuma política de capacidade dos agentes encontrada"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Criar política de capacidade dos agentes"
+        },
+        "CREATE_BUTTON": "Criar política",
+        "API": {
+          "SUCCESS_MESSAGE": "Política de capacidade dos agentes criada com sucesso",
+          "ERROR_MESSAGE": "Falha ao criar a política de capacidade dos agentes"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Editar política de capacidade dos agentes"
+        },
+        "EDIT_BUTTON": "Atualizar política",
+        "CONFIRM_ADD_AGENT_DIALOG": {
+          "TITLE": "Adicionar agente",
+          "DESCRIPTION": "{agentName} já está vinculado a outra política. Tem certeza de que deseja vinculá-lo a esta política? Ele será desvinculado da outra.",
+          "CONFIRM_BUTTON_LABEL": "Continuar",
+          "CANCEL_BUTTON_LABEL": "Cancelar"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Política de capacidade dos agentes atualizada com sucesso",
+          "ERROR_MESSAGE": "Falha ao atualizar a política de capacidade dos agentes"
+        },
+        "AGENT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Agente adicionado à política com sucesso",
+            "ERROR_MESSAGE": "Falha ao adicionar o agente à política"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Agente removido da política com sucesso",
+            "ERROR_MESSAGE": "Falha ao remover o agente da política"
+          }
+        },
+        "INBOX_LIMIT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Limite de caixa de entrada adicionado com sucesso",
+            "ERROR_MESSAGE": "Falha ao adicionar limite de caixa de entrada"
+          },
+          "UPDATE": {
+            "SUCCESS_MESSAGE": "Limite de caixa de entrada atualizado com sucesso",
+            "ERROR_MESSAGE": "Falha ao atualizar limite da caixa de entrada"
+          },
+          "DELETE": {
+            "SUCCESS_MESSAGE": "Limite da caixa de entrada excluído com sucesso",
+            "ERROR_MESSAGE": "Falha ao excluir o limite da caixa de entrada"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nome da política:",
+          "PLACEHOLDER": "Informe o nome da política"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descrição:",
+          "PLACEHOLDER": "Insira a descrição"
+        },
+        "INBOX_CAPACITY_LIMIT": {
+          "LABEL": "Limites de capacidade da caixa de entrada",
+          "ADD_BUTTON": "Adicionar caixa de entrada",
+          "FIELD": {
+            "SELECT_INBOX": "Selecionar caixa de entrada",
+            "MAX_CONVERSATIONS": "Máximo de conversas",
+            "SET_LIMIT": "Definir limite"
+          },
+          "EMPTY_STATE": "Nenhum limite de caixa de entrada definido"
+        },
+        "EXCLUSION_RULES": {
+          "LABEL": "Regras de exclusão",
+          "DESCRIPTION": "Conversas que atendam às seguintes condições não serão contabilizadas na capacidade do agente",
+          "TAGS": {
+            "LABEL": "Excluir conversas marcadas com rótulos específicos",
+            "ADD_TAG": "adicionar etiqueta",
+            "DROPDOWN": {
+              "SEARCH_PLACEHOLDER": "Pesquise e selecione etiquetas para adicionar"
+            },
+            "EMPTY_STATE": "Nenhuma etiqueta adicionada a esta política."
+          },
+          "DURATION": {
+            "LABEL": "Excluir conversas mais antigas que um período especificado",
+            "PLACEHOLDER": "Definir duração"
+          }
+        },
+        "USERS": {
+          "LABEL": "Agentes atribuídos",
+          "DESCRIPTION": "Adicione os agentes aos quais esta política será aplicada.",
+          "ADD_BUTTON": "Adicionar agente",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Pesquise e selecione agentes para adicionar",
+            "ADD_BUTTON": "Adicionar"
+          },
+          "EMPTY_STATE": "Nenhum agente adicionado",
+          "API": {
+            "SUCCESS_MESSAGE": "Agente adicionado à política com sucesso",
+            "ERROR_MESSAGE": "Falha ao adicionar o agente à política"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Política de capacidade de agentes excluída com sucesso",
+        "ERROR_MESSAGE": "Falha ao excluir a política de capacidade de agentes"
+      }
+    },
+    "DELETE_POLICY": {
+      "TITLE": "Excluir política",
+      "DESCRIPTION": "Tem certeza de que deseja excluir esta política? Essa ação não pode ser desfeita.",
+      "CONFIRM_BUTTON_LABEL": "Excluir",
+      "CANCEL_BUTTON_LABEL": "Cancelar"
     }
   }
 }

@@ -48,7 +48,8 @@
       "CREATED_AT": "Kreirano",
       "LAST_ACTIVITY": "Poslednja aktivnost",
       "REFERER_LINK": "Veza preporuke",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "Oznake"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standardni filteri",

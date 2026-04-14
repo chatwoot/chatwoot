@@ -12,15 +12,26 @@
       "ERROR_MESSAGE": "Nepavyko išsiųsti! bandykite dar kartą"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Neprieinamas"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Mes prisijungę",
-    "OFFLINE": "Šiuo metu esame atsijungę"
+    "OFFLINE": "Šiuo metu esame atsijungę",
+    "BACK_AS_SOON_AS_POSSIBLE": "Grįšime kaip įmanoma greičiau"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Paprastai atsako per kelias minutes",
     "IN_A_FEW_HOURS": "Paprastai atsako per kelias valandas",
     "IN_A_DAY": "Paprastai atsako per dieną",
-    "BACK_IN": "Mes grįšime"
+    "BACK_IN_HOURS": "Būsime prisijungę po {n} valandos | Būsime prisijungę po {n} valandų",
+    "BACK_IN_MINUTES": "Būsime prisijungę po {time} minučių",
+    "BACK_AT_TIME": "Būsime prisijungę nuo {time} val.",
+    "BACK_ON_DAY": "Būsime prisijungę {day} dieną",
+    "BACK_TOMORROW": "Būsime prisijungę rytoj",
+    "BACK_IN_SOME_TIME": "Būsime prisijungę po kurio laiko"
   },
   "DAY_NAMES": {
     "SUNDAY": "Sekmadienis",
@@ -31,8 +42,8 @@
     "FRIDAY": "Penktadienis",
     "SATURDAY": "Šeštadienis"
   },
-  "START_CONVERSATION": "Pradėti Pokalbį",
-  "END_CONVERSATION": "Užbaigti Pokalbį",
+  "START_CONVERSATION": "Pradėti pokalbį",
+  "END_CONVERSATION": "Užbaigti pokalbį",
   "CONTINUE_CONVERSATION": "Tęsti pokalbį",
   "YOU": "Jūs",
   "START_NEW_CONVERSATION": "Pradėti naują pokalbį",
@@ -71,7 +82,7 @@
         "DIAL_CODE_VALID_ERROR": "Prašome pasirinkti šalies kodą",
         "VALID_ERROR": "Prašau įveskite teisingą telefono numerį",
         "DROPDOWN_EMPTY": "Nieko nerasta",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_SEARCH": "Ieškoti šalies"
       },
       "MESSAGE": {
         "LABEL": "Žinutė",
@@ -82,7 +93,7 @@
     "CAMPAIGN_HEADER": "Prieš pradėdami pokalbį nurodykite savo vardą ir el. pašto adresą",
     "IS_REQUIRED": "reikalingas",
     "REQUIRED": "Reikalingas",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REGEX_ERROR": "Pateikite teisingą lauko reikšmę"
   },
   "FILE_SIZE_LIMIT": "Failas viršija {MAXIMUM_FILE_UPLOAD_SIZE} apribojimą",
   "CHAT_FORM": {
@@ -92,8 +103,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Ieškoti emodžių",
-    "NOT_FOUND": "Jūsų paieška neatitinka jokių emodži",
-    "ARIA_LABEL": "Emoji picker"
+    "NOT_FOUND": "Jūsų paieška neatitinka jokių jaustukų",
+    "ARIA_LABEL": "Jaustukų pasirinkimas"
   },
   "CSAT": {
     "TITLE": "Įvertinkite savo pokalbį",
@@ -114,7 +125,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Populiarūs straipsniai",
     "VIEW_ALL_ARTICLES": "Žiūrėti visus straipsnius",
-    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+    "IFRAME_LOAD_ERROR": "Įkeliant straipsnį įvyko klaida. Atnaujinkite puslapį ir bandykite dar kartą."
   },
   "ATTACHMENTS": {
     "image": {

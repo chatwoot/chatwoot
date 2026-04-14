@@ -16,6 +16,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  whatsappRegistrationIncomplete: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const { t } = useI18n();
@@ -27,6 +31,20 @@ const whatsappAppId = computed(() => window.chatwootConfig.whatsappAppId);
 const whatsappConfigurationId = computed(
   () => window.chatwootConfig.whatsappConfigurationId
 );
+
+const actionLabel = computed(() => {
+  if (props.whatsappRegistrationIncomplete) {
+    return t('INBOX_MGMT.COMPLETE_REGISTRATION');
+  }
+  return '';
+});
+
+const description = computed(() => {
+  if (props.whatsappRegistrationIncomplete) {
+    return t('INBOX_MGMT.WHATSAPP_REGISTRATION_INCOMPLETE');
+  }
+  return '';
+});
 
 const reauthorizeWhatsApp = async params => {
   isRequestingAuthorization.value = true;
@@ -183,8 +201,10 @@ defineExpose({
 
 <template>
   <InboxReconnectionRequired
-    class="mx-8 mt-5"
+    class="mx-6"
     :is-loading="isRequestingAuthorization"
+    :action-label="actionLabel"
+    :description="description"
     @reauthorize="requestAuthorization"
   />
 </template>

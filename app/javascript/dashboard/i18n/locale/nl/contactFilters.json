@@ -48,7 +48,8 @@
       "CREATED_AT": "Aangemaakt op",
       "LAST_ACTIVITY": "Laatste Activiteit",
       "REFERER_LINK": "Verwijzer link",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "Labelen"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standaard Filters",

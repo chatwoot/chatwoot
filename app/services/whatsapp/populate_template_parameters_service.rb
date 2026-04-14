@@ -30,12 +30,13 @@ class Whatsapp::PopulateTemplateParametersService
     end
   end
 
-  def build_media_parameter(url, media_type)
+  def build_media_parameter(url, media_type, media_name = nil)
     return nil if url.blank?
 
     sanitized_url = sanitize_parameter(url)
-    validate_url(sanitized_url)
-    build_media_type_parameter(sanitized_url, media_type.downcase)
+    normalized_url = normalize_url(sanitized_url)
+    validate_url(normalized_url)
+    build_media_type_parameter(normalized_url, media_type.downcase, media_name)
   end
 
   def build_named_parameter(parameter_name, value)
@@ -89,14 +90,14 @@ class Whatsapp::PopulateTemplateParametersService
     }
   end
 
-  def build_media_type_parameter(sanitized_url, media_type)
+  def build_media_type_parameter(sanitized_url, media_type, media_name = nil)
     case media_type
     when 'image'
       build_image_parameter(sanitized_url)
     when 'video'
       build_video_parameter(sanitized_url)
     when 'document'
-      build_document_parameter(sanitized_url)
+      build_document_parameter(sanitized_url, media_name)
     else
       raise ArgumentError, "Unsupported media type: #{media_type}"
     end
@@ -110,8 +111,11 @@ class Whatsapp::PopulateTemplateParametersService
     { type: 'video', video: { link: url } }
   end
 
-  def build_document_parameter(url)
-    { type: 'document', document: { link: url } }
+  def build_document_parameter(url, media_name = nil)
+    document_params = { link: url }
+    document_params[:filename] = media_name if media_name.present?
+
+    { type: 'document', document: document_params }
   end
 
   def rich_formatting?(text)
@@ -135,8 +139,19 @@ class Whatsapp::PopulateTemplateParametersService
     sanitized[0...1000] # Limit length to prevent DoS
   end
 
+  def normalize_url(url)
+    # Use Addressable::URI for better URL normalization
+    # It handles spaces, special characters, and encoding automatically
+    Addressable::URI.parse(url).normalize.to_s
+  rescue Addressable::URI::InvalidURIError
+    # Fallback: simple space encoding if Addressable fails
+    url.gsub(' ', '%20')
+  end
+
   def validate_url(url)
     return if url.blank?
+
+    # url is already normalized by the caller
 
     uri = URI.parse(url)
     raise ArgumentError, "Invalid URL scheme: #{uri.scheme}. Only http and https are allowed" unless %w[http https].include?(uri.scheme)

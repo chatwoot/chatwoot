@@ -1,0 +1,25 @@
+tags:
+  - Reports
+operationId: get-inbox-label-matrix
+summary: Get inbox-label matrix report
+security:
+  - userApiKey: []
+description: |
+  Get a matrix showing the count of conversations for each inbox-label combination.
+  Returns a list of inboxes, labels, and a 2D matrix where each cell contains the count of conversations
+  in a specific inbox that have a specific label applied.
+
+  **Note:** This API endpoint is available only in Chatwoot version 4.11.0 and above.
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/inbox_label_matrix'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

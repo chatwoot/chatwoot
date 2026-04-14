@@ -11,6 +11,7 @@ import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import VoiceCallButton from 'dashboard/components-next/Contacts/VoiceCallButton.vue';
 
 import {
   isAConversationRoute,
@@ -28,6 +29,7 @@ export default {
     ComposeConversation,
     SocialIcons,
     ContactMergeModal,
+    VoiceCallButton,
   },
   props: {
     contact: {
@@ -49,7 +51,6 @@ export default {
   data() {
     return {
       showEditModal: false,
-      showMergeModal: false,
       showDeleteModal: false,
     };
   },
@@ -80,10 +81,14 @@ export default {
         screen_name: twitterScreenName,
         social_telegram_user_name: telegramUsername,
       } = this.additionalAttributes;
+
+      const telegram = socialProfiles?.telegram || telegramUsername || '';
+      const twitter = socialProfiles?.twitter || twitterScreenName || '';
+
       return {
-        twitter: twitterScreenName,
-        telegram: telegramUsername,
         ...(socialProfiles || {}),
+        twitter,
+        telegram,
       };
     },
     // Delete Modal
@@ -165,11 +170,8 @@ export default {
         );
       }
     },
-    closeMergeModal() {
-      this.showMergeModal = false;
-    },
     openMergeModal() {
-      this.showMergeModal = true;
+      this.$refs.mergeModal?.open();
     },
   },
 };
@@ -278,6 +280,15 @@ export default {
             />
           </template>
         </ComposeConversation>
+        <VoiceCallButton
+          :phone="contact.phone_number"
+          :contact-id="contact.id"
+          icon="i-ri-phone-fill"
+          size="sm"
+          :tooltip-label="$t('CONTACT_PANEL.CALL')"
+          slate
+          faded
+        />
         <NextButton
           v-tooltip.top-end="$t('EDIT_CONTACT.BUTTON_LABEL')"
           icon="i-ph-pencil-simple"
@@ -313,12 +324,7 @@ export default {
         :contact="contact"
         @cancel="toggleEditModal"
       />
-      <ContactMergeModal
-        v-if="showMergeModal"
-        :primary-contact="contact"
-        :show="showMergeModal"
-        @close="closeMergeModal"
-      />
+      <ContactMergeModal ref="mergeModal" :primary-contact="contact" />
     </div>
     <woot-delete-modal
       v-if="showDeleteModal"

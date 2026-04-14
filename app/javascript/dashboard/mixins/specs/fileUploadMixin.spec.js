@@ -6,6 +6,8 @@ import { reactive } from 'vue';
 
 vi.mock('shared/helpers/FileHelper', () => ({
   checkFileSizeLimit: vi.fn(),
+  resolveMaximumFileUploadSize: vi.fn(value => Number(value) || 40),
+  DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE: 40,
 }));
 
 vi.mock('activestorage', () => ({
@@ -27,6 +29,7 @@ describe('FileUploadMixin', () => {
   beforeEach(() => {
     mockGlobalConfig = reactive({
       directUploadsEnabled: true,
+      maximumFileUploadSize: 40,
     });
 
     mockCurrentChat = reactive({

@@ -161,10 +161,23 @@ describe Whatsapp::FacebookApiClient do
 
     context 'when successful' do
       before do
+        # Step 1: Subscribe app to WABA (no body)
+        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
+          .with(
+            headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' }
+          )
+          .to_return(
+            status: 200,
+            body: { success: true }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        # Step 2: Override callback URL (with body)
         stub_request(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
-            body: { override_callback_uri: callback_url, verify_token: verify_token }.to_json
+            body: { override_callback_uri: callback_url, verify_token: verify_token,
+                    subscribed_fields: %w[messages smb_message_echoes] }.to_json
           )
           .to_return(
             status: 200,
@@ -179,18 +192,45 @@ describe Whatsapp::FacebookApiClient do
       end
     end
 
-    context 'when failed' do
+    context 'when app subscription fails' do
       before do
         stub_request(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
           .with(
-            headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
-            body: { override_callback_uri: callback_url, verify_token: verify_token }.to_json
+            headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' }
           )
-          .to_return(status: 400, body: { error: 'Webhook subscription failed' }.to_json)
+          .to_return(status: 400, body: { error: 'App subscription to WABA failed' }.to_json)
       end
 
       it 'raises an error' do
-        expect { api_client.subscribe_waba_webhook(waba_id, callback_url, verify_token) }.to raise_error(/Webhook subscription failed/)
+        expect { api_client.subscribe_waba_webhook(waba_id, callback_url, verify_token) }.to raise_error(/App subscription to WABA failed/)
+      end
+    end
+
+    context 'when callback override fails' do
+      before do
+        # Step 1 succeeds
+        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
+          .with(
+            headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' }
+          )
+          .to_return(
+            status: 200,
+            body: { success: true }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        # Step 2 fails
+        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
+          .with(
+            headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
+            body: { override_callback_uri: callback_url, verify_token: verify_token,
+                    subscribed_fields: %w[messages smb_message_echoes] }.to_json
+          )
+          .to_return(status: 400, body: { error: 'Webhook callback override failed' }.to_json)
+      end
+
+      it 'raises an error' do
+        expect { api_client.subscribe_waba_webhook(waba_id, callback_url, verify_token) }.to raise_error(/Webhook callback override failed/)
       end
     end
   end

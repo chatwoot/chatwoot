@@ -155,7 +155,7 @@ export default {
 </script>
 
 <template>
-  <div class="relative bg-n-background">
+  <div class="relative">
     <div class="flex justify-between">
       <div class="flex justify-between w-full mb-1">
         <div>

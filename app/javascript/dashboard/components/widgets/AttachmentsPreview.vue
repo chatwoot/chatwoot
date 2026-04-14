@@ -46,11 +46,11 @@ const fileName = file => {
 </script>
 
 <template>
-  <div class="flex overflow-auto max-h-[12.5rem]">
+  <div class="flex flex-wrap gap-y-1 gap-x-2 overflow-auto max-h-[12.5rem]">
     <div
       v-for="(attachment, index) in nonRecordedAudioAttachments"
       :key="attachment.id"
-      class="flex items-center p-1 bg-n-slate-3 gap-1 rounded-md w-[15rem] mb-1"
+      class="flex items-center p-1 bg-n-slate-3 gap-1 rounded-md w-[15rem]"
     >
       <div class="max-w-[4rem] flex-shrink-0 w-6 flex items-center">
         <img

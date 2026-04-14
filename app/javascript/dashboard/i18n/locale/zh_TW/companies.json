@@ -1,0 +1,33 @@
+{
+  "COMPANIES": {
+    "HEADER": "公司",
+    "SORT_BY": {
+      "LABEL": "排序方式",
+      "OPTIONS": {
+        "NAME": "名稱",
+        "DOMAIN": "網域",
+        "CREATED_AT": "建立時間",
+        "CONTACTS_COUNT": "聯絡人數量"
+      }
+    },
+    "ORDER": {
+      "LABEL": "排列順序",
+      "OPTIONS": {
+        "ASCENDING": "遞增",
+        "DESCENDING": "遞減"
+      }
+    },
+    "SEARCH_PLACEHOLDER": "搜尋公司...",
+    "LOADING": "正在載入公司...",
+    "UNNAMED": "未命名公司",
+    "CONTACTS_COUNT": "{n} 位聯絡人 | {n} 位聯絡人",
+    "EMPTY_STATE": {
+      "TITLE": "找不到公司"
+    }
+  },
+  "COMPANIES_LAYOUT": {
+    "PAGINATION_FOOTER": {
+      "SHOWING": "顯示 {totalItems} 間公司中的第 {startItem} – {endItem} 間 | 顯示 {totalItems} 間公司中的第 {startItem} – {endItem} 間"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -100,20 +101,24 @@ const handleReset = () => {
 };
 
 const sendMessage = async message => {
-  if (selectedCopilotThreadId.value) {
-    await store.dispatch('copilotMessages/create', {
-      assistant_id: activeAssistant.value.id,
-      conversation_id: currentChat.value?.id,
-      threadId: selectedCopilotThreadId.value,
-      message,
-    });
-  } else {
-    const response = await store.dispatch('copilotThreads/create', {
-      assistant_id: activeAssistant.value.id,
-      conversation_id: currentChat.value?.id,
-      message,
-    });
-    selectedCopilotThreadId.value = response.id;
+  try {
+    if (selectedCopilotThreadId.value) {
+      await store.dispatch('copilotMessages/create', {
+        assistant_id: activeAssistant.value.id,
+        conversation_id: currentChat.value?.id,
+        threadId: selectedCopilotThreadId.value,
+        message,
+      });
+    } else {
+      const response = await store.dispatch('copilotThreads/create', {
+        assistant_id: activeAssistant.value.id,
+        conversation_id: currentChat.value?.id,
+        message,
+      });
+      selectedCopilotThreadId.value = response.id;
+    }
+  } catch (error) {
+    useAlert(error.message);
   }
 };
 
@@ -128,7 +133,7 @@ onMounted(() => {
   <div
     v-if="shouldShowCopilotPanel"
     v-on-click-outside="() => closeCopilotPanel()"
-    class="bg-n-background h-full overflow-hidden flex-col fixed top-0 ltr:right-0 rtl:left-0 z-40 w-full max-w-sm transition-transform duration-300 ease-in-out md:static md:w-[320px] md:min-w-[320px] ltr:border-l rtl:border-r border-n-weak 2xl:min-w-[360px] 2xl:w-[360px] shadow-lg md:shadow-none"
+    class="bg-n-surface-2 h-full overflow-hidden flex-col fixed top-0 ltr:right-0 rtl:left-0 z-40 w-full max-w-sm transition-transform duration-300 ease-in-out md:static md:w-[320px] md:min-w-[320px] ltr:border-l rtl:border-r border-n-weak 2xl:min-w-[360px] 2xl:w-[360px] shadow-lg md:shadow-none"
     :class="[
       {
         'md:flex': shouldShowCopilotPanel,

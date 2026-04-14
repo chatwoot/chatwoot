@@ -7,8 +7,10 @@ import SettingsLayout from '../SettingsLayout.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import { picoSearch } from '@scmmishra/pico-search';
 import AutomationRuleRow from './AutomationRuleRow.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import { BaseTable } from 'dashboard/components-next/table';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -16,16 +18,23 @@ const { t } = useI18n();
 const confirmDialog = ref(null);
 
 const loading = ref({});
-const showAddPopup = ref(false);
-const showEditPopup = ref(false);
+const addDialogRef = ref(null);
+const editDialogRef = ref(null);
 const showDeleteConfirmationPopup = ref(false);
 const selectedAutomation = ref({});
+const searchQuery = ref('');
 const toggleModalTitle = ref(t('AUTOMATION.TOGGLE.ACTIVATION_TITLE'));
 const toggleModalDescription = ref(
   t('AUTOMATION.TOGGLE.ACTIVATION_DESCRIPTION')
 );
 
 const records = computed(() => getters['automations/getAutomations'].value);
+
+const filteredRecords = computed(() => {
+  const query = searchQuery.value.trim();
+  if (!query) return records.value;
+  return picoSearch(records.value, query, ['name', 'description']);
+});
 const uiFlags = computed(() => getters['automations/getUIFlags'].value);
 const accountId = computed(() => getters.getCurrentAccountId.value);
 
@@ -57,18 +66,18 @@ onMounted(() => {
 });
 
 const openAddPopup = () => {
-  showAddPopup.value = true;
+  addDialogRef.value?.open();
 };
 const hideAddPopup = () => {
-  showAddPopup.value = false;
+  addDialogRef.value?.close();
 };
 
 const openEditPopup = response => {
-  selectedAutomation.value = response;
-  showEditPopup.value = true;
+  selectedAutomation.value = { ...response };
+  editDialogRef.value?.open();
 };
 const hideEditPopup = () => {
-  showEditPopup.value = false;
+  editDialogRef.value?.close();
 };
 
 const openDeletePopup = response => {
@@ -165,9 +174,9 @@ const toggleAutomation = async ({ id, name, status }) => {
 const tableHeaders = computed(() => {
   return [
     t('AUTOMATION.LIST.TABLE_HEADER.NAME'),
-    t('AUTOMATION.LIST.TABLE_HEADER.DESCRIPTION'),
     t('AUTOMATION.LIST.TABLE_HEADER.ACTIVE'),
     t('AUTOMATION.LIST.TABLE_HEADER.CREATED_ON'),
+    t('AUTOMATION.LIST.TABLE_HEADER.ACTIONS'),
   ];
 });
 </script>
@@ -181,34 +190,38 @@ const tableHeaders = computed(() => {
   >
     <template #header>
       <BaseSettingsHeader
+        v-model:search-query="searchQuery"
         :title="$t('AUTOMATION.HEADER')"
         :description="$t('AUTOMATION.DESCRIPTION')"
         :link-text="$t('AUTOMATION.LEARN_MORE')"
+        :search-placeholder="$t('AUTOMATION.SEARCH_PLACEHOLDER')"
         feature-name="automation"
       >
+        <template v-if="records?.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{ $t('AUTOMATION.COUNT', { n: records.length }) }}
+          </span>
+        </template>
         <template #actions>
           <Button
-            icon="i-lucide-circle-plus"
             :label="$t('AUTOMATION.HEADER_BTN_TXT')"
+            size="sm"
             @click="openAddPopup"
           />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="min-w-full divide-y divide-n-weak">
-        <thead>
-          <th
-            v-for="thHeader in tableHeaders"
-            :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 rtl:text-right ltr:text-left font-semibold text-n-slate-11"
-          >
-            {{ thHeader }}
-          </th>
-        </thead>
-        <tbody class="divide-y divide-n-weak text-n-slate-11">
+      <BaseTable
+        :headers="tableHeaders"
+        :items="filteredRecords"
+        :no-data-message="
+          searchQuery ? $t('AUTOMATION.NO_RESULTS') : $t('AUTOMATION.LIST.404')
+        "
+      >
+        <template #row="{ items }">
           <AutomationRuleRow
-            v-for="automation in records"
+            v-for="automation in items"
             :key="automation.id"
             :automation="automation"
             :loading="loading[automation.id]"
@@ -217,21 +230,11 @@ const tableHeaders = computed(() => {
             @edit="openEditPopup"
             @delete="openDeletePopup"
           />
-        </tbody>
-      </table>
+        </template>
+      </BaseTable>
     </template>
 
-    <woot-modal
-      v-model:show="showAddPopup"
-      size="medium"
-      :on-close="hideAddPopup"
-    >
-      <AddAutomationRule
-        v-if="showAddPopup"
-        :on-close="hideAddPopup"
-        @save-automation="submitAutomation"
-      />
-    </woot-modal>
+    <AddAutomationRule ref="addDialogRef" @save-automation="submitAutomation" />
 
     <woot-delete-modal
       v-model:show="showDeleteConfirmationPopup"
@@ -244,18 +247,11 @@ const tableHeaders = computed(() => {
       :reject-text="deleteRejectText"
     />
 
-    <woot-modal
-      v-model:show="showEditPopup"
-      size="medium"
-      :on-close="hideEditPopup"
-    >
-      <EditAutomationRule
-        v-if="showEditPopup"
-        :on-close="hideEditPopup"
-        :selected-response="selectedAutomation"
-        @save-automation="submitAutomation"
-      />
-    </woot-modal>
+    <EditAutomationRule
+      ref="editDialogRef"
+      :selected-response="selectedAutomation"
+      @save-automation="submitAutomation"
+    />
     <woot-confirm-modal
       ref="confirmDialog"
       :title="toggleModalTitle"

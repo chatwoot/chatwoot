@@ -291,4 +291,40 @@ describe PortalHelper do
       end
     end
   end
+
+  describe '#generate_portal_brand_url' do
+    it 'builds URL with UTM params and referer host as source (happy path)' do
+      result = helper.generate_portal_brand_url('https://brand.example.com', 'https://app.chatwoot.com/some/page')
+      uri = URI.parse(result)
+      params = Rack::Utils.parse_query(uri.query)
+      expect(uri.scheme).to eq('https')
+      expect(uri.host).to eq('brand.example.com')
+      expect(params['utm_medium']).to eq('helpcenter')
+      expect(params['utm_campaign']).to eq('branding')
+      expect(params['utm_source']).to eq('app.chatwoot.com')
+    end
+
+    it 'returns utm string when brand_url is nil or empty' do
+      expect(helper.generate_portal_brand_url(nil,
+                                              'https://app.chatwoot.com')).to eq(
+                                                '?utm_campaign=branding&utm_medium=helpcenter&utm_source=app.chatwoot.com'
+                                              )
+      expect(helper.generate_portal_brand_url('',
+                                              'https://app.chatwoot.com')).to eq(
+                                                '?utm_campaign=branding&utm_medium=helpcenter&utm_source=app.chatwoot.com'
+                                              )
+    end
+
+    it 'omits utm_source when referer is nil or invalid' do
+      r1 = helper.generate_portal_brand_url('https://brand.example.com', nil)
+      p1 = Rack::Utils.parse_query(URI.parse(r1).query)
+      expect(p1.key?('utm_source')).to be(false)
+
+      r2 = helper.generate_portal_brand_url('https://brand.example.com', '::not-a-valid-url')
+      p2 = Rack::Utils.parse_query(URI.parse(r2).query)
+      expect(p2.key?('utm_source')).to be(false)
+      expect(p2['utm_medium']).to eq('helpcenter')
+      expect(p2['utm_campaign']).to eq('branding')
+    end
+  end
 end
