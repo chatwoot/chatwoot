@@ -73,5 +73,56 @@ describe MessageFinder do
         expect(result.last.id).to be conversation.messages[-2].id
       end
     end
+
+    context 'with non-existent before id' do
+      let(:params) { { before: 0 } }
+
+      it 'returns no messages' do
+        expect(message_finder.perform).to be_empty
+      end
+    end
+
+    context 'with non-existent after id' do
+      let(:params) { { after: 0 } }
+
+      it 'returns no messages' do
+        expect(message_finder.perform).to be_empty
+      end
+    end
+
+    context 'when historical messages have higher IDs but older timestamps' do
+      # Simulates WhatsApp history sync: message inserted after live messages (higher ID)
+      # but with an old created_at
+      let!(:historical_message) do
+        create(:message, account: account, inbox: inbox, conversation: conversation,
+                         created_at: 1.year.ago)
+      end
+      let(:earliest_live_message) { conversation.messages.order(:created_at).find { |m| m.created_at > 1.month.ago } }
+
+      context 'with before pointing to earliest live message' do
+        let(:params) { { before: earliest_live_message.id } }
+
+        it 'includes historical messages despite having higher IDs' do
+          expect(message_finder.perform).to include(historical_message)
+        end
+      end
+
+      context 'with after pointing to historical message' do
+        let(:params) { { after: historical_message.id } }
+
+        it 'returns live messages with newer timestamps' do
+          expect(message_finder.perform).to include(earliest_live_message)
+        end
+      end
+
+      context 'with between range covering live messages' do
+        let!(:new_live_message) { create(:message, account: account, inbox: inbox, conversation: conversation) }
+        let(:params) { { after: earliest_live_message.id, before: new_live_message.id } }
+
+        it 'excludes historical messages outside the timestamp range' do
+          expect(message_finder.perform).not_to include(historical_message)
+        end
+      end
+    end
   end
 end
