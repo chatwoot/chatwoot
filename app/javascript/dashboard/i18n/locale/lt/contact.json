@@ -20,6 +20,7 @@
     "CALL": "Call",
     "CALL_INITIATED": "Skambinama kontaktui...",
     "CALL_FAILED": "Nepavyko pradėti skambučio. Bandykite dar kartą.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
