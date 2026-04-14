@@ -8,6 +8,7 @@ import {
   agents,
   teams,
   labels,
+  booleanFilterOptions,
   statusFilterOptions,
   messageTypeOptions,
   priorityOptions,
@@ -73,6 +74,8 @@ describe('useAutomation', () => {
           return countries;
         case 'message_type':
           return messageTypeOptions;
+        case 'private_note':
+          return booleanFilterOptions;
         case 'priority':
           return priorityOptions;
         default:
@@ -225,6 +228,9 @@ describe('useAutomation', () => {
     expect(getConditionDropdownValues('country_code')).toEqual(countries);
     expect(getConditionDropdownValues('message_type')).toEqual(
       messageTypeOptions
+    );
+    expect(getConditionDropdownValues('private_note')).toEqual(
+      booleanFilterOptions
     );
     expect(getConditionDropdownValues('priority')).toEqual(priorityOptions);
   });
