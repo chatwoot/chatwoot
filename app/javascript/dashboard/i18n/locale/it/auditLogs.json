@@ -50,7 +50,7 @@
       "SIGN_OUT": "{agentName} si è disconnesso"
     },
     "TEAM": {
-      "ADD": "{agentName} created a new team (#{id})",
+      "ADD": "{agentName} ha creato un nuovo team (#{id})",
       "EDIT": "{agentName} ha aggiornato un team (#{id})",
       "DELETE": "{agentName} ha eliminato un team (#{id})"
     },

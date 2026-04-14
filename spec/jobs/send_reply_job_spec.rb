@@ -135,5 +135,14 @@ RSpec.describe SendReplyJob do
       expect(process_service).to receive(:perform)
       described_class.perform_now(message.id)
     end
+
+    it 'calls ::Tiktok::SendOnTiktokService when its tiktok message' do
+      tiktok_channel = create(:channel_tiktok)
+      message = create(:message, conversation: create(:conversation, inbox: tiktok_channel.inbox))
+      allow(Tiktok::SendOnTiktokService).to receive(:new).with(message: message).and_return(process_service)
+      expect(Tiktok::SendOnTiktokService).to receive(:new).with(message: message)
+      expect(process_service).to receive(:perform)
+      described_class.perform_now(message.id)
+    end
   end
 end

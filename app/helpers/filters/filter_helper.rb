@@ -47,11 +47,15 @@ module Filters::FilterHelper
 
   def handle_additional_attributes(query_hash, filter_operator_value, data_type)
     if data_type == 'text_case_insensitive'
-      "LOWER(#{filter_config[:table_name]}.additional_attributes ->> '#{query_hash[:attribute_key]}') " \
-        "#{filter_operator_value} #{query_hash[:query_operator]}"
+      ActiveRecord::Base.sanitize_sql_array(
+        ["LOWER(#{filter_config[:table_name]}.additional_attributes ->> ?) #{filter_operator_value} #{query_hash[:query_operator]}",
+         query_hash[:attribute_key]]
+      )
     else
-      "#{filter_config[:table_name]}.additional_attributes ->> '#{query_hash[:attribute_key]}' " \
-        "#{filter_operator_value} #{query_hash[:query_operator]} "
+      ActiveRecord::Base.sanitize_sql_array(
+        ["#{filter_config[:table_name]}.additional_attributes ->> ? #{filter_operator_value} #{query_hash[:query_operator]} ",
+         query_hash[:attribute_key]]
+      )
     end
   end
 
@@ -70,7 +74,7 @@ module Filters::FilterHelper
 
   def date_filter(current_filter, query_hash, filter_operator_value)
     "(#{filter_config[:table_name]}.#{query_hash[:attribute_key]})::#{current_filter['data_type']} " \
-      "#{filter_operator_value}#{current_filter['data_type']} #{query_hash[:query_operator]}"
+      "#{filter_operator_value} #{query_hash[:query_operator]}"
   end
 
   def text_case_insensitive_filter(query_hash, filter_operator_value)

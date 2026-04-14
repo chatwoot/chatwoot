@@ -86,12 +86,6 @@ conversations:
     filter_operators:
       - "equal_to"
       - "not_equal_to"
-  country_code:
-    attribute_type: "additional_attributes"
-    data_type: "text"
-    filter_operators:
-      - "equal_to"
-      - "not_equal_to"
   referer:
     attribute_type: "additional_attributes"
     data_type: "link"
@@ -217,6 +211,12 @@ messages:
   message_type:
     attribute_type: "standard"
     data_type: "numeric"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+  private_note:
+    attribute_type: "standard"
+    data_type: "boolean"
     filter_operators:
       - "equal_to"
       - "not_equal_to"

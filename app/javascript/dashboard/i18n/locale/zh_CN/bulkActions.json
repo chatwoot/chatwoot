@@ -22,6 +22,10 @@
       "UPDATE_SUCCESFUL": "对话状态更新成功。",
       "UPDATE_FAILED": "更新对话失败。请再试一次。"
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "分配标签",
       "NO_LABELS_FOUND": "未找到标签",

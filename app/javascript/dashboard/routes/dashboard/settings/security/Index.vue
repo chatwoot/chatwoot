@@ -10,21 +10,28 @@ import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 const { shouldShow, shouldShowPaywall } = usePolicy();
 
-const shouldShowSaml = computed(() =>
-  shouldShow(
+const allowedLoginMethods = computed(
+  () => window.chatwootConfig.allowedLoginMethods || ['email']
+);
+
+const isSamlSsoEnabled = computed(() =>
+  allowedLoginMethods.value.includes('saml')
+);
+
+const shouldShowSaml = computed(() => {
+  const hasPermission = shouldShow(
     FEATURE_FLAGS.SAML,
     ['administrator'],
     [INSTALLATION_TYPES.CLOUD, INSTALLATION_TYPES.ENTERPRISE]
-  )
-);
+  );
+  return hasPermission && isSamlSsoEnabled.value;
+});
+
 const showPaywall = computed(() => shouldShowPaywall('saml'));
 </script>
 
 <template>
-  <SettingsLayout
-    class="max-w-2xl mx-auto"
-    :loading-message="$t('ATTRIBUTES_MGMT.LOADING')"
-  >
+  <SettingsLayout :loading-message="$t('ATTRIBUTES_MGMT.LOADING')">
     <template #header>
       <BaseSettingsHeader
         :title="$t('SECURITY_SETTINGS.TITLE')"
@@ -36,6 +43,9 @@ const showPaywall = computed(() => shouldShowPaywall('saml'));
     <template #body>
       <SamlPaywall v-if="showPaywall" />
       <SamlSettings v-else-if="shouldShowSaml" />
+      <div v-else class="mt-6 text-sm text-slate-600">
+        {{ $t('SECURITY_SETTINGS.SAML_DISABLED_MESSAGE') }}
+      </div>
     </template>
   </SettingsLayout>
 </template>

@@ -6,7 +6,7 @@
       "TEMPLATE_SELECTED_SUBTITLE": "Configura template: {templateName}"
     },
     "PICKER": {
-      "SEARCH_PLACEHOLDER": "Cerca modelli",
+      "SEARCH_PLACEHOLDER": "Cerca Modelli",
       "NO_TEMPLATES_FOUND": "Nessun modello trovato per",
       "HEADER": "Intestazione",
       "BODY": "Corpo",
@@ -21,7 +21,7 @@
       "REFRESH_ERROR": "Impossibile aggiornare i modelli. Per favore riprova.",
       "LABELS": {
         "LANGUAGE": "Lingua",
-        "TEMPLATE_BODY": "Corpo modello",
+        "TEMPLATE_BODY": "Corpo Modello",
         "CATEGORY": "Categoria"
       }
     },
@@ -30,9 +30,9 @@
       "LANGUAGE": "Lingua",
       "CATEGORY": "Categoria",
       "VARIABLE_PLACEHOLDER": "Inserisci il valore di {variable}",
-      "GO_BACK_LABEL": "Torna indietro",
-      "SEND_MESSAGE_LABEL": "Invia messaggio",
-      "FORM_ERROR_MESSAGE": "Si prega di compilare tutte le variabili prima di inviare",
+      "GO_BACK_LABEL": "Torna Indietro",
+      "SEND_MESSAGE_LABEL": "Invia Messaggio",
+      "FORM_ERROR_MESSAGE": "Inserisci tutte le variabili prima di inviare",
       "MEDIA_HEADER_LABEL": "Intestazione {type}",
       "OTP_CODE": "Inserisci OTP da 4 a 8 cifre",
       "EXPIRY_MINUTES": "Inserisci minuti di scadenza",

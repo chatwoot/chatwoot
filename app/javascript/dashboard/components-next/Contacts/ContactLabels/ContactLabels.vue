@@ -3,8 +3,8 @@ import { computed, watch, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 
-import LabelItem from 'dashboard/components-next/Label/LabelItem.vue';
-import AddLabel from 'dashboard/components-next/Label/AddLabel.vue';
+import LabelItem from 'dashboard/components-next/label/LabelItem.vue';
+import AddLabel from 'dashboard/components-next/label/AddLabel.vue';
 
 const props = defineProps({
   contactId: {

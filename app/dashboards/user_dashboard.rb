@@ -25,7 +25,7 @@ class UserDashboard < Administrate::BaseDashboard
     current_sign_in_ip: Field::String,
     last_sign_in_ip: Field::String,
     confirmation_token: Field::String,
-    confirmed_at: Field::DateTime,
+    confirmed_at: ConfirmedAtField,
     confirmation_sent_at: Field::DateTime,
     unconfirmed_email: Field::String,
     name: Field::String.with_options(searchable: true),

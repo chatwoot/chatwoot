@@ -1,0 +1,11 @@
+type: object
+properties:
+  count:
+    type: integer
+    description: Total number of reporting events
+  current_page:
+    type: integer
+    description: Current page number
+  total_pages:
+    type: integer
+    description: Total number of pages

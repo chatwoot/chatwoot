@@ -41,4 +41,82 @@ describe('#getters', () => {
   it('isFetchingArticles', () => {
     expect(getters.isFetching(state)).toEqual(true);
   });
+
+  describe('allArticlesSortedByPosition', () => {
+    it('returns articles sorted by position in ascending order', () => {
+      const stateWithPositions = {
+        ...state,
+        articles: {
+          ...state.articles,
+          byId: {
+            1: { id: 1, title: 'Article 1', position: 3 },
+            2: { id: 2, title: 'Article 2', position: 1 },
+            3: { id: 3, title: 'Article 3', position: 2 },
+          },
+          allIds: [1, 2, 3],
+        },
+      };
+      const boundGetters = {
+        articleById: getters.articleById(stateWithPositions),
+      };
+
+      const result = getters.allArticlesSortedByPosition(
+        stateWithPositions,
+        boundGetters
+      );
+
+      expect(result.map(a => a.id)).toEqual([2, 3, 1]);
+      expect(result.map(a => a.position)).toEqual([1, 2, 3]);
+    });
+
+    it('places articles with null position at the end', () => {
+      const stateWithNullPositions = {
+        ...state,
+        articles: {
+          ...state.articles,
+          byId: {
+            1: { id: 1, title: 'Article 1', position: 1 },
+            2: { id: 2, title: 'Article 2', position: null },
+            3: { id: 3, title: 'Article 3', position: 2 },
+          },
+          allIds: [1, 2, 3],
+        },
+      };
+      const boundGetters = {
+        articleById: getters.articleById(stateWithNullPositions),
+      };
+
+      const result = getters.allArticlesSortedByPosition(
+        stateWithNullPositions,
+        boundGetters
+      );
+
+      expect(result.map(a => a.id)).toEqual([1, 3, 2]);
+    });
+
+    it('handles articles with undefined position', () => {
+      const stateWithUndefinedPositions = {
+        ...state,
+        articles: {
+          ...state.articles,
+          byId: {
+            1: { id: 1, title: 'Article 1', position: 1 },
+            2: { id: 2, title: 'Article 2' },
+            3: { id: 3, title: 'Article 3', position: 2 },
+          },
+          allIds: [1, 2, 3],
+        },
+      };
+      const boundGetters = {
+        articleById: getters.articleById(stateWithUndefinedPositions),
+      };
+
+      const result = getters.allArticlesSortedByPosition(
+        stateWithUndefinedPositions,
+        boundGetters
+      );
+
+      expect(result.map(a => a.id)).toEqual([1, 3, 2]);
+    });
+  });
 });

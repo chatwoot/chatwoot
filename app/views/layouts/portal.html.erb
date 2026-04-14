@@ -34,7 +34,7 @@ By default, it renders:
     <% if content_for?(:head) %>
       <%= yield(:head) %>
     <% else %>
-      <title><%= @portal.page_title%></title>
+      <title><%= @portal.display_title %></title>
     <% end %>
     
     <% if @portal.logo.present? %>

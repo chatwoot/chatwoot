@@ -47,18 +47,24 @@ class ContactAPI extends ApiClient {
     return axios.get(`${this.url}/${contactId}/labels`);
   }
 
+  initiateCall(contactId, inboxId) {
+    return axios.post(`${this.url}/${contactId}/call`, {
+      inbox_id: inboxId,
+    });
+  }
+
   updateContactLabels(contactId, labels) {
     return axios.post(`${this.url}/${contactId}/labels`, { labels });
   }
 
-  search(search = '', page = 1, sortAttr = 'name', label = '') {
+  search(search = '', page = 1, sortAttr = 'name', label = '', options = {}) {
     let requestURL = `${this.url}/search?${buildContactParams(
       page,
       sortAttr,
       label,
       search
     )}`;
-    return axios.get(requestURL);
+    return axios.get(requestURL, { signal: options.signal });
   }
 
   active(page = 1, sortAttr = 'name') {

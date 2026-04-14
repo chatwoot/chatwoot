@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_22_152158) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_09_091202) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -131,6 +131,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_22_152158) do
     t.bigint "account_id"
     t.integer "bot_type", default: 0
     t.jsonb "bot_config", default: {}
+    t.string "secret"
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
   end
 
@@ -258,6 +259,30 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_22_152158) do
     t.datetime "updated_at", null: false
     t.boolean "active", default: true, null: false
     t.index ["account_id"], name: "index_automation_rules_on_account_id"
+  end
+
+  create_table "calls", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "inbox_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "message_id"
+    t.bigint "accepted_by_agent_id"
+    t.string "provider_call_id", null: false
+    t.integer "provider", default: 0, null: false
+    t.integer "direction", null: false
+    t.string "status", default: "ringing", null: false
+    t.datetime "started_at"
+    t.integer "duration_seconds"
+    t.string "end_reason"
+    t.jsonb "meta", default: {}
+    t.text "transcript"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "contact_id"], name: "index_calls_on_account_id_and_contact_id"
+    t.index ["account_id", "conversation_id"], name: "index_calls_on_account_id_and_conversation_id"
+    t.index ["message_id"], name: "index_calls_on_message_id"
+    t.index ["provider", "provider_call_id"], name: "index_calls_on_provider_and_provider_call_id", unique: true
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -413,6 +438,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_22_152158) do
     t.string "hmac_token"
     t.boolean "hmac_mandatory", default: false
     t.jsonb "additional_attributes", default: {}
+    t.string "secret"
     t.index ["hmac_token"], name: "index_channel_api_on_hmac_token", unique: true
     t.index ["identifier"], name: "index_channel_api_on_identifier", unique: true
   end
@@ -497,6 +523,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_22_152158) do
     t.index ["bot_token"], name: "index_channel_telegram_on_bot_token", unique: true
   end
 
+  create_table "channel_tiktok", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "business_id", null: false
+    t.string "access_token", null: false
+    t.datetime "expires_at", null: false
+    t.string "refresh_token", null: false
+    t.datetime "refresh_token_expires_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["business_id"], name: "index_channel_tiktok_on_business_id", unique: true
+  end
+
   create_table "channel_twilio_sms", force: :cascade do |t|
     t.string "phone_number"
     t.string "auth_token", null: false
@@ -577,15 +615,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_22_152158) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "contacts_count"
+    t.index ["account_id", "domain"], name: "index_companies_on_account_and_domain", unique: true, where: "(domain IS NOT NULL)"
     t.index ["account_id"], name: "index_companies_on_account_id"
-    t.index ["domain", "account_id"], name: "index_companies_on_domain_and_account_id"
     t.index ["name", "account_id"], name: "index_companies_on_name_and_account_id"
   end
 
   create_table "contact_inboxes", force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "inbox_id"
-    t.string "source_id", null: false
+    t.text "source_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "hmac_verified", default: false
@@ -667,6 +706,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_22_152158) do
     t.bigint "sla_policy_id"
     t.datetime "waiting_since"
     t.text "cached_label_list"
+    t.bigint "assignee_agent_bot_id"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
@@ -676,7 +716,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_22_152158) do
     t.index ["contact_id"], name: "index_conversations_on_contact_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
     t.index ["first_reply_created_at"], name: "index_conversations_on_first_reply_created_at"
-    t.index ["identifier", "account_id"], name: "index_conversations_on_identifier_and_account_id" 
+    t.index ["identifier", "account_id"], name: "index_conversations_on_identifier_and_account_id"
     t.index ["inbox_id"], name: "index_conversations_on_inbox_id"
     t.index ["priority"], name: "index_conversations_on_priority"
     t.index ["status", "account_id"], name: "index_conversations_on_status_and_account_id"
@@ -719,11 +759,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_22_152158) do
     t.bigint "assigned_agent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "csat_review_notes"
+    t.datetime "review_notes_updated_at"
+    t.bigint "review_notes_updated_by_id"
     t.index ["account_id"], name: "index_csat_survey_responses_on_account_id"
     t.index ["assigned_agent_id"], name: "index_csat_survey_responses_on_assigned_agent_id"
     t.index ["contact_id"], name: "index_csat_survey_responses_on_contact_id"
     t.index ["conversation_id"], name: "index_csat_survey_responses_on_conversation_id"
     t.index ["message_id"], name: "index_csat_survey_responses_on_message_id", unique: true
+    t.index ["review_notes_updated_by_id"], name: "index_csat_survey_responses_on_review_notes_updated_by_id"
   end
 
   create_table "custom_attribute_definitions", force: :cascade do |t|
@@ -952,7 +996,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_22_152158) do
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "private", default: false, null: false
     t.integer "status", default: 0
-    t.string "source_id"
+    t.text "source_id"
     t.integer "content_type", default: 0, null: false
     t.json "content_attributes", default: {}
     t.string "sender_type"
@@ -1097,12 +1141,29 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_22_152158) do
     t.datetime "event_start_time", precision: nil
     t.datetime "event_end_time", precision: nil
     t.index ["account_id", "name", "created_at"], name: "reporting_events__account_id__name__created_at"
+    t.index ["account_id", "name", "inbox_id", "created_at"], name: "index_reporting_events_for_response_distribution"
     t.index ["account_id"], name: "index_reporting_events_on_account_id"
     t.index ["conversation_id"], name: "index_reporting_events_on_conversation_id"
     t.index ["created_at"], name: "index_reporting_events_on_created_at"
     t.index ["inbox_id"], name: "index_reporting_events_on_inbox_id"
     t.index ["name"], name: "index_reporting_events_on_name"
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
+  end
+
+  create_table "reporting_events_rollups", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.date "date", null: false
+    t.string "dimension_type", null: false
+    t.bigint "dimension_id", null: false
+    t.string "metric", null: false
+    t.bigint "count", default: 0, null: false
+    t.float "sum_value", default: 0.0, null: false
+    t.float "sum_value_business_hours", default: 0.0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "date", "dimension_type", "dimension_id", "metric"], name: "index_rollup_unique_key", unique: true
+    t.index ["account_id", "dimension_type", "date"], name: "index_rollup_summary"
+    t.index ["account_id", "metric", "date"], name: "index_rollup_timeseries"
   end
 
   create_table "sla_events", force: :cascade do |t|
@@ -1225,11 +1286,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_22_152158) do
   create_table "webhooks", force: :cascade do |t|
     t.integer "account_id"
     t.integer "inbox_id"
-    t.string "url"
+    t.text "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "webhook_type", default: 0
     t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "contact_created", "contact_updated", "message_created", "message_updated", "webwidget_triggered"]
+    t.string "name"
+    t.string "secret"
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 

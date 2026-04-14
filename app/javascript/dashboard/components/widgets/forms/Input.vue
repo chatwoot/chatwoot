@@ -61,7 +61,7 @@ export default {
 
 <template>
   <label class="input-container">
-    <span v-if="label">{{ label }}</span>
+    <span v-if="label" class="text-heading-3">{{ label }}</span>
     <input
       :value="modelValue"
       :type="type"
@@ -71,7 +71,7 @@ export default {
       @input="onChange"
       @blur="onBlur"
     />
-    <p v-if="helpText" class="help-text">{{ helpText }}</p>
+    <p v-if="helpText" class="help-text text-label-small">{{ helpText }}</p>
     <span v-if="error" class="message">
       {{ error }}
     </span>
@@ -81,7 +81,7 @@ export default {
 
 <style scoped lang="scss">
 .help-text {
-  @apply mt-0.5 text-xs not-italic text-n-slate-11;
+  @apply mt-0.5 not-italic text-n-slate-11;
 }
 
 .message {

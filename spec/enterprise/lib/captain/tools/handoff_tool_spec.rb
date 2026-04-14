@@ -63,6 +63,20 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           tool.perform(tool_context, reason: 'Test reason')
         end
 
+        it 'creates a conversation_bot_handoff reporting event' do
+          create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
+          Current.executed_by = assistant
+
+          perform_enqueued_jobs do
+            tool.perform(tool_context, reason: 'Customer needs specialized support')
+          end
+
+          reporting_event = ReportingEvent.find_by(conversation_id: conversation.id, name: 'conversation_bot_handoff')
+          expect(reporting_event).to be_present
+        ensure
+          Current.reset
+        end
+
         it 'logs tool usage with reason' do
           reason = 'Customer needs help'
           expect(tool).to receive(:log_tool_usage).with(
@@ -161,6 +175,68 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
   describe '#active?' do
     it 'returns true for public tools' do
       expect(tool.active?).to be true
+    end
+  end
+
+  describe 'out of office message after handoff' do
+    context 'when outside business hours' do
+      before do
+        inbox.update!(
+          working_hours_enabled: true,
+          out_of_office_message: 'We are currently closed. Please leave your email.'
+        )
+        inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+          closed_all_day: true,
+          open_all_day: false
+        )
+      end
+
+      it 'sends out of office message after handoff' do
+        expect do
+          tool.perform(tool_context, reason: 'Customer needs help')
+        end.to change { conversation.messages.template.count }.by(1)
+
+        ooo_message = conversation.messages.template.last
+        expect(ooo_message.content).to eq('We are currently closed. Please leave your email.')
+      end
+    end
+
+    context 'when within business hours' do
+      before do
+        inbox.update!(
+          working_hours_enabled: true,
+          out_of_office_message: 'We are currently closed.'
+        )
+        inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+          open_all_day: true,
+          closed_all_day: false
+        )
+      end
+
+      it 'does not send out of office message after handoff' do
+        expect do
+          tool.perform(tool_context, reason: 'Customer needs help')
+        end.not_to(change { conversation.messages.template.count })
+      end
+    end
+
+    context 'when no out of office message is configured' do
+      before do
+        inbox.update!(
+          working_hours_enabled: true,
+          out_of_office_message: nil
+        )
+        inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+          closed_all_day: true,
+          open_all_day: false
+        )
+      end
+
+      it 'does not send out of office message' do
+        expect do
+          tool.perform(tool_context, reason: 'Customer needs help')
+        end.not_to(change { conversation.messages.template.count })
+      end
     end
   end
 end

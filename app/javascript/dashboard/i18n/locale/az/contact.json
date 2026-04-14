@@ -1,30 +1,31 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "Mövcud deyil",
     "EMAIL_ADDRESS": "Email Address",
-    "PHONE_NUMBER": "Phone number",
+    "PHONE_NUMBER": "Telefon nömrəsi",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
-    "LOCATION": "Location",
+    "COMPANY": "Şirkət",
+    "LOCATION": "Yer",
     "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Conversation Details",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "Browser",
-    "OS": "Operating System",
-    "INITIATED_FROM": "Initiated from",
-    "INITIATED_AT": "Initiated at",
-    "IP_ADDRESS": "IP Address",
-    "CREATED_AT_LABEL": "Created",
+    "OS": "Əməliyyat Sistemi",
+    "INITIATED_FROM": "Başlanğıc yeri",
+    "INITIATED_AT": "Başlanğıc vaxtı",
+    "IP_ADDRESS": "IP ünvanı",
+    "CREATED_AT_LABEL": "Yaradılıb",
     "NEW_MESSAGE": "New message",
-    "CALL": "Call",
-    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "CALL": "Zəng et",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
-      "TITLE": "Previous Conversations"
+      "NO_RECORDS_FOUND": "Bu əlaqə ilə bağlı əvvəlki söhbətlər yoxdur.",
+      "TITLE": "Əvvəlki Söhbətlər"
     },
     "LABELS": {
       "CONTACT": {
@@ -43,23 +44,23 @@
       }
     },
     "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "CONTACT_ACTIONS": "Əlaqə əməliyyatları",
     "MUTE_CONTACT": "Block Contact",
     "UNMUTE_CONTACT": "Unblock Contact",
     "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
-    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
-    "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "Edit",
+    "UNMUTED_SUCCESS": "Bu əlaqənin bloku uğurla açıldı.",
+    "SEND_TRANSCRIPT": "Mətni Göndər",
+    "EDIT_LABEL": "Redaktə et",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Custom Attributes",
       "CONTACT_LABELS": "Contact Labels",
-      "PREVIOUS_CONVERSATIONS": "Previous Conversations",
+      "PREVIOUS_CONVERSATIONS": "Əvvəlki Söhbətlər",
       "NO_RECORDS_FOUND": "No attributes found"
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
+    "BUTTON_LABEL": "Əlaqəni redaktə et",
+    "TITLE": "Əlaqəni redaktə et",
     "DESC": "Edit contact details"
   },
   "DELETE_CONTACT": {
@@ -70,23 +71,23 @@
       "TITLE": "Confirm Deletion",
       "MESSAGE": "Are you sure to delete ",
       "YES": "Yes, Delete",
-      "NO": "No, Keep"
+      "NO": "Xeyr, Saxla"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "ERROR_MESSAGE": "Əlaqəni silmək mümkün olmadı. Zəhmət olmasa, bir az sonra yenidən cəhd edin."
     }
   },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Submit",
-      "CANCEL": "Cancel",
+      "CANCEL": "Ləğv et",
       "AVATAR": {
         "LABEL": "Contact Avatar"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "Əlaqənin tam adını daxil edin",
+        "LABEL": "Tam Ad"
       },
       "BIO": {
         "PLACEHOLDER": "Enter the bio of the contact",
@@ -99,30 +100,30 @@
         "ERROR": "Please enter a valid email address."
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
-        "ERROR": "Phone number should be either empty or of E.164 format",
-        "DIAL_CODE_ERROR": "Please select a dial code from the list",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "PLACEHOLDER": "Əlaqə şəxsin telefon nömrəsini daxil edin",
+        "LABEL": "Telefon nömrəsi",
+        "HELP": "Telefon nömrəsi E.164 formatında olmalıdır, məsələn: +1415555555. Ölkə kodunu siyahıdan seçə bilərsiniz.",
+        "ERROR": "Telefon nömrəsi ya boş olmalıdır, ya da E.164 formatında olmalıdır",
+        "DIAL_CODE_ERROR": "Zəhmət olmasa siyahıdan kodu seçin",
+        "DUPLICATE": "Bu telefon nömrəsi başqa bir əlaqə üçün istifadə olunur."
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
-        "LABEL": "Location"
+        "PLACEHOLDER": "Əlaqə yerini daxil edin",
+        "LABEL": "Yer"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
+        "PLACEHOLDER": "Şirkət adını daxil edin",
         "LABEL": "Company Name"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
+        "PLACEHOLDER": "Ölkə adını daxil edin",
         "LABEL": "Country Name",
-        "SELECT_PLACEHOLDER": "Select",
-        "REMOVE": "Remove",
-        "SELECT_COUNTRY": "Select Country"
+        "SELECT_PLACEHOLDER": "Seçin",
+        "REMOVE": "Sil",
+        "SELECT_COUNTRY": "Ölkəni seçin"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
+        "PLACEHOLDER": "Şəhərin adını daxil edin",
         "LABEL": "City Name"
       },
       "SOCIAL_PROFILES": {
@@ -154,23 +155,23 @@
     "ERROR_MESSAGE": "There was an error, please try again"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
+    "BUTTON_LABEL": "Söhbətə başla",
+    "TITLE": "Yeni söhbət",
     "DESC": "Start a new conversation by sending a new message.",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "Kimə"
       },
       "INBOX": {
         "LABEL": "Via Inbox",
         "PLACEHOLDER": "Choose source inbox",
-        "ERROR": "Select an inbox"
+        "ERROR": "Bir qutu seçin"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
-        "ERROR": "Subject can't be empty"
+        "LABEL": "Mövzu",
+        "PLACEHOLDER": "Mövzu",
+        "ERROR": "Mövzu boş ola bilməz"
       },
       "MESSAGE": {
         "LABEL": "Message",
@@ -182,10 +183,10 @@
         "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "Send message",
-      "CANCEL": "Cancel",
+      "CANCEL": "Ləğv et",
       "SUCCESS_MESSAGE": "Message sent!",
-      "GO_TO_CONVERSATION": "View",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "GO_TO_CONVERSATION": "Bax",
+      "ERROR_MESSAGE": "Göndərmək mümkün olmadı! yenidən cəhd et"
     }
   },
   "CONTACTS_PAGE": {
@@ -203,7 +204,7 @@
     "ACTIONS": {
       "COPY": "Copy attribute",
       "DELETE": "Delete attribute",
-      "EDIT": "Edit attribute"
+      "EDIT": "Xüsusiyyəti redaktə et"
     },
     "ADD": {
       "TITLE": "Create custom attribute",
@@ -211,7 +212,7 @@
     },
     "FORM": {
       "CREATE": "Add attribute",
-      "CANCEL": "Cancel",
+      "CANCEL": "Ləğv et",
       "NAME": {
         "LABEL": "Custom attribute name",
         "PLACEHOLDER": "Eg: shopify id",
@@ -219,12 +220,12 @@
       },
       "VALUE": {
         "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "PLACEHOLDER": "Məsələn: 11901 "
       },
       "ADD": {
         "TITLE": "Create new attribute ",
-        "SUCCESS": "Attribute added successfully",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "SUCCESS": "Xüsusiyyət uğurla əlavə edildi",
+        "ERROR": "Xüsusiyyəti əlavə etmək mümkün olmadı. Zəhmət olmasa, bir az sonra yenidən cəhd edin"
       },
       "UPDATE": {
         "SUCCESS": "Attribute updated successfully",
@@ -235,52 +236,52 @@
         "ERROR": "Unable to delete attribute. Please try again later"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
+        "TITLE": "Xüsusiyyətlər əlavə et",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
+          "PLACEHOLDER": "Dəyəri seçin",
           "SEARCH_INPUT_PLACEHOLDER": "Search value",
           "NO_RESULT": "No result found"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL",
-      "INVALID_INPUT": "Invalid Input"
+      "REQUIRED": "Düzgün dəyər tələb olunur",
+      "INVALID_URL": "Yanlış URL",
+      "INVALID_INPUT": "Yanlış Giriş"
     }
   },
   "MERGE_CONTACTS": {
     "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’s attributes will take precedence.",
+    "DESCRIPTION": "İki profili bütün atributlar və söhbətlər daxil olmaqla birləşdirərək əlaqələri birləşdirin. Ziddiyyət olduqda, Əsas əlaqənin atributları üstünlük təşkil edəcək.",
     "PRIMARY": {
-      "TITLE": "Primary contact",
+      "TITLE": "Əsas əlaqə",
       "HELP_LABEL": "To be deleted"
     },
     "PARENT": {
       "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
+      "PLACEHOLDER": "Əlaqə axtar",
       "HELP_LABEL": "To be kept"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
+      "TITLE": "Yekun",
       "DELETE_WARNING": "Contact of <strong>{primaryContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "Contact details of <strong>{primaryContactName}</strong> will be copied to <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR_MESSAGE": "Something went wrong. Please try again later."
+      "ERROR_MESSAGE": "Nəsə səhv getdi. Zəhmət olmasa, bir az sonra yenidən cəhd edin."
     },
     "FORM": {
       "SUBMIT": " Merge contacts",
-      "CANCEL": "Cancel",
+      "CANCEL": "Ləğv et",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "Birləşdirmək üçün alt əlaqəni seçin"
       },
       "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "ERROR_MESSAGE": "Əlaqələri birləşdirmək mümkün olmadı, yenidən cəhd edin!"
     },
     "DROPDOWN_ITEM": {
       "ID": "(ID: {identifier})"
@@ -288,68 +289,68 @@
   },
   "CONTACTS_LAYOUT": {
     "HEADER": {
-      "TITLE": "Contacts",
-      "SEARCH_TITLE": "Search contacts",
-      "ACTIVE_TITLE": "Active contacts",
-      "SEARCH_PLACEHOLDER": "Search...",
+      "TITLE": "Əlaqələr",
+      "SEARCH_TITLE": "Əlaqələrdə axtarış",
+      "ACTIVE_TITLE": "Aktiv əlaqələr",
+      "SEARCH_PLACEHOLDER": "Axtarış...",
       "MESSAGE_BUTTON": "Message",
       "SEND_MESSAGE": "Send message",
       "BLOCK_CONTACT": "Block contact",
       "UNBLOCK_CONTACT": "Unblock contact",
       "BREADCRUMB": {
-        "CONTACTS": "Contacts"
+        "CONTACTS": "Əlaqələr"
       },
       "ACTIONS": {
         "CONTACT_CREATION": {
-          "ADD_CONTACT": "Add contact",
-          "EXPORT_CONTACT": "Export contacts",
-          "IMPORT_CONTACT": "Import contacts",
-          "SAVE_CONTACT": "Save contact",
+          "ADD_CONTACT": "Əlaqə əlavə et",
+          "EXPORT_CONTACT": "Əlaqələri ixrac et",
+          "IMPORT_CONTACT": "Əlaqələri idxal et",
+          "SAVE_CONTACT": "Əlaqəni yadda saxla",
           "EMAIL_ADDRESS_DUPLICATE": "This email address is in use for another contact.",
-          "PHONE_NUMBER_DUPLICATE": "This phone number is in use for another contact.",
+          "PHONE_NUMBER_DUPLICATE": "Bu telefon nömrəsi başqa bir əlaqə üçün istifadə olunur.",
           "SUCCESS_MESSAGE": "Contact saved successfully",
-          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
+          "ERROR_MESSAGE": "Əlaqəni saxlamaq mümkün olmadı. Zəhmət olmasa sonra yenidən cəhd edin."
         },
         "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
         "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
-        "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
+        "UNBLOCK_SUCCESS_MESSAGE": "Bu əlaqənin bloku uğurla açıldı",
         "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
         "IMPORT_CONTACT": {
-          "TITLE": "Import contacts",
-          "DESCRIPTION": "Import contacts through a CSV file.",
+          "TITLE": "Əlaqələri idxal et",
+          "DESCRIPTION": "Əlaqələri CSV faylı vasitəsilə idxal edin.",
           "DOWNLOAD_LABEL": "Download a sample csv.",
-          "LABEL": "CSV File:",
-          "CHOOSE_FILE": "Choose file",
-          "CHANGE": "Change",
-          "CANCEL": "Cancel",
-          "IMPORT": "Import",
-          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+          "LABEL": "CSV faylı:",
+          "CHOOSE_FILE": "Fayl seçin",
+          "CHANGE": "Dəyiş",
+          "CANCEL": "Ləğv et",
+          "IMPORT": "İdxal et",
+          "SUCCESS_MESSAGE": "İdxal bitdikdə sizə elektron bildiriş göndəriləcək.",
           "ERROR_MESSAGE": "There was an error, please try again"
         },
         "EXPORT_CONTACT": {
-          "TITLE": "Export contacts",
+          "TITLE": "Əlaqələri ixrac et",
           "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
-          "CONFIRM": "Export",
-          "SUCCESS_MESSAGE": "Export is in progress. You will be notified on email when the export file is ready to download.",
+          "CONFIRM": "İxrac et",
+          "SUCCESS_MESSAGE": "İxrac davam edir. Fayl hazır olanda sizə elektron bildiriş göndəriləcək.",
           "ERROR_MESSAGE": "There was an error, please try again"
         },
         "SORT_BY": {
-          "LABEL": "Sort by",
+          "LABEL": "Sırala",
           "OPTIONS": {
-            "NAME": "Name",
-            "EMAIL": "Email",
-            "PHONE_NUMBER": "Phone number",
-            "COMPANY": "Company",
-            "COUNTRY": "Country",
-            "CITY": "City",
-            "LAST_ACTIVITY": "Last activity",
+            "NAME": "Ad",
+            "EMAIL": "Elektron poçt",
+            "PHONE_NUMBER": "Telefon nömrəsi",
+            "COMPANY": "Şirkət",
+            "COUNTRY": "Ölkə",
+            "CITY": "Şəhər",
+            "LAST_ACTIVITY": "Son fəaliyyət",
             "CREATED_AT": "Created at"
           }
         },
         "ORDER": {
           "LABEL": "Ordering",
           "OPTIONS": {
-            "ASCENDING": "Ascending",
+            "ASCENDING": "Artan sıra ilə",
             "DESCENDING": "Descending"
           }
         },
@@ -357,17 +358,17 @@
           "CREATE_SEGMENT": {
             "TITLE": "Do you want to save this filter?",
             "CONFIRM": "Save filter",
-            "LABEL": "Name",
+            "LABEL": "Ad",
             "PLACEHOLDER": "Enter the name of the filter",
-            "ERROR": "Enter a valid name",
+            "ERROR": "Etibarlı ad daxil edin",
             "SUCCESS_MESSAGE": "Filter saved successfully",
             "ERROR_MESSAGE": "Unable to save filter. Please try again later."
           },
           "DELETE_SEGMENT": {
             "TITLE": "Confirm Deletion",
-            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "DESCRIPTION": "Bu filtrin silinməsini təsdiqləyirsiniz?",
             "CONFIRM": "Yes, Delete",
-            "CANCEL": "No, Cancel",
+            "CANCEL": "Xeyr, Ləğv et",
             "SUCCESS_MESSAGE": "Filter deleted successfully",
             "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
           }
@@ -378,18 +379,18 @@
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
     "FILTER": {
-      "NAME": "Name",
-      "EMAIL": "Email",
-      "PHONE_NUMBER": "Phone number",
+      "NAME": "Ad",
+      "EMAIL": "Elektron poçt",
+      "PHONE_NUMBER": "Telefon nömrəsi",
       "IDENTIFIER": "Identifier",
-      "COUNTRY": "Country",
-      "CITY": "City",
+      "COUNTRY": "Ölkə",
+      "CITY": "Şəhər",
       "CREATED_AT": "Created at",
-      "LAST_ACTIVITY": "Last activity",
+      "LAST_ACTIVITY": "Son fəaliyyət",
       "REFERER_LINK": "Referer link",
       "BLOCKED": "Blocked",
-      "BLOCKED_TRUE": "True",
-      "BLOCKED_FALSE": "False",
+      "BLOCKED_TRUE": "Doğru",
+      "BLOCKED_FALSE": "Yanlış",
       "BUTTONS": {
         "CLEAR_FILTERS": "Clear filters",
         "UPDATE_SEGMENT": "Update segment",
@@ -408,7 +409,7 @@
       }
     },
     "CARD": {
-      "OF": "of",
+      "OF": "də",
       "VIEW_DETAILS": "View details",
       "EDIT_DETAILS_FORM": {
         "TITLE": "Edit contact details",
@@ -417,27 +418,27 @@
             "PLACEHOLDER": "Enter the first name"
           },
           "LAST_NAME": {
-            "PLACEHOLDER": "Enter the last name"
+            "PLACEHOLDER": "Soyadı daxil edin"
           },
           "EMAIL_ADDRESS": {
             "PLACEHOLDER": "Enter the email address",
             "DUPLICATE": "This email address is in use for another contact."
           },
           "PHONE_NUMBER": {
-            "PLACEHOLDER": "Enter the phone number",
-            "DUPLICATE": "This phone number is in use for another contact."
+            "PLACEHOLDER": "Telefon nömrəsini daxil edin",
+            "DUPLICATE": "Bu telefon nömrəsi başqa bir əlaqə üçün istifadə olunur."
           },
           "CITY": {
-            "PLACEHOLDER": "Enter the city name"
+            "PLACEHOLDER": "Şəhər adını daxil edin"
           },
           "COUNTRY": {
-            "PLACEHOLDER": "Select country"
+            "PLACEHOLDER": "Ölkəni seçin"
           },
           "BIO": {
             "PLACEHOLDER": "Enter the bio"
           },
           "COMPANY_NAME": {
-            "PLACEHOLDER": "Enter the company name"
+            "PLACEHOLDER": "Şirkət adını daxil edin"
           }
         },
         "UPDATE_BUTTON": "Update contact",
@@ -456,6 +457,12 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
           },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Add Telegram"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
           "LINKEDIN": {
             "PLACEHOLDER": "Add LinkedIn"
           },
@@ -470,8 +477,8 @@
       }
     },
     "DETAILS": {
-      "CREATED_AT": "Created {date}",
-      "LAST_ACTIVITY": "Last active {date}",
+      "CREATED_AT": "Yaradılıb {date}",
+      "LAST_ACTIVITY": "Son fəaliyyət {date}",
       "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
       "DELETE_CONTACT": "Delete contact",
       "DELETE_DIALOG": {
@@ -480,7 +487,7 @@
         "CONFIRM": "Yes, Delete",
         "API": {
           "SUCCESS_MESSAGE": "Contact deleted successfully",
-          "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+          "ERROR_MESSAGE": "Əlaqəni silmək mümkün olmadı. Zəhmət olmasa sonra yenidən cəhd edin."
         }
       },
       "AVATAR": {
@@ -489,86 +496,108 @@
           "SUCCESS_MESSAGE": "Avatar uploaded successfully"
         },
         "DELETE": {
-          "SUCCESS_MESSAGE": "Avatar deleted successfully",
+          "SUCCESS_MESSAGE": "Avatar uğurla silindi",
           "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
         }
       }
     },
     "SIDEBAR": {
       "TABS": {
-        "ATTRIBUTES": "Attributes",
-        "HISTORY": "History",
-        "NOTES": "Notes",
+        "ATTRIBUTES": "Xüsusiyyətlər",
+        "HISTORY": "Tarix",
+        "NOTES": "Qeydlər",
         "MERGE": "Merge"
       },
       "HISTORY": {
-        "EMPTY_STATE": "There are no previous conversations associated to this contact"
+        "EMPTY_STATE": "Bu əlaqə ilə bağlı əvvəlki söhbətlər yoxdur"
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Search for attributes",
         "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
         "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
-        "YES": "Yes",
-        "NO": "No",
+        "YES": "Bəli",
+        "NO": "Xeyr",
         "TRIGGER": {
-          "SELECT": "Select value",
-          "INPUT": "Enter value"
+          "SELECT": "Dəyəri seçin",
+          "INPUT": "Dəyər daxil edin"
         },
         "VALIDATIONS": {
-          "INVALID_NUMBER": "Invalid number",
-          "REQUIRED": "Valid value is required",
-          "INVALID_INPUT": "Invalid input",
-          "INVALID_URL": "Invalid URL",
-          "INVALID_DATE": "Invalid date"
+          "INVALID_NUMBER": "Yanlış nömrə",
+          "REQUIRED": "Düzgün dəyər tələb olunur",
+          "INVALID_INPUT": "Yanlış giriş",
+          "INVALID_URL": "Yanlış URL",
+          "INVALID_DATE": "Yanlış tarix"
         },
         "NO_ATTRIBUTES": "No attributes found",
         "API": {
           "SUCCESS_MESSAGE": "Attribute updated successfully",
           "DELETE_SUCCESS_MESSAGE": "Attribute deleted successfully",
           "UPDATE_ERROR": "Unable to update attribute. Please try again later",
-          "DELETE_ERROR": "Unable to delete attribute. Please try again later"
+          "DELETE_ERROR": "Xüsusiyyəti silmək mümkün olmadı. Zəhmət olmasa, bir az sonra yenidən cəhd edin"
         }
       },
       "MERGE": {
         "TITLE": "Merge contact",
-        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
-        "PRIMARY": "Primary contact",
+        "DESCRIPTION": "İki profili bütün atributlar və söhbətlər daxil olmaqla birləşdirin. Ziddiyyət olduqda, əsas əlaqənin atributları üstünlük təşkil edəcək.",
+        "PRIMARY": "Əsas əlaqə",
         "PRIMARY_HELP_LABEL": "To be saved",
-        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PRIMARY_REQUIRED_ERROR": "Davam etməzdən əvvəl birləşdirmək üçün əlaqə seçin",
         "PARENT": "To be merged",
         "PARENT_HELP_LABEL": "To be deleted",
         "EMPTY_STATE": "No contacts found",
-        "PLACEHOLDER": "Search for primary contact",
-        "SEARCH_PLACEHOLDER": "Search for a contact",
+        "PLACEHOLDER": "Əsas əlaqəni axtar",
+        "SEARCH_PLACEHOLDER": "Əlaqə axtar",
         "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
         "SUCCESS_MESSAGE": "Contact merged successfully",
-        "ERROR_MESSAGE": "Could not merge contacts, try again!",
+        "ERROR_MESSAGE": "Əlaqələri birləşdirmək mümkün olmadı, yenidən cəhd edin!",
         "IS_SEARCHING": "Searching...",
         "BUTTONS": {
-          "CANCEL": "Cancel",
+          "CANCEL": "Ləğv et",
           "CONFIRM": "Merge contact"
         }
       },
       "NOTES": {
-        "PLACEHOLDER": "Add a note",
-        "WROTE": "wrote",
-        "YOU": "You",
+        "PLACEHOLDER": "Qeyd əlavə et",
+        "WROTE": "yazdı",
+        "YOU": "Siz",
         "SAVE": "Save note",
         "ADD_NOTE": "Add contact note",
-        "EXPAND": "Expand",
+        "EXPAND": "Genişləndir",
         "COLLAPSE": "Collapse",
         "NO_NOTES": "No notes, you can add notes from the contact details page.",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
-        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+        "CONVERSATION_EMPTY_STATE": "Hələ qeydlər yoxdur. Yeni qeyd yaratmaq üçün Qeyd əlavə et düyməsini istifadə edin."
       }
     },
     "EMPTY_STATE": {
       "TITLE": "No contacts found in this account",
       "SUBTITLE": "Start adding new contacts by clicking on the button below",
-      "BUTTON_LABEL": "Add contact",
+      "BUTTON_LABEL": "Əlaqə əlavə et",
       "SEARCH_EMPTY_STATE_TITLE": "No contacts matches your search 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
-      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+      "LIST_EMPTY_STATE_TITLE": "Bu baxışda əlaqə mövcud deyil 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "Hazırda aktiv əlaqə yoxdur 🌙"
+    },
+    "LOAD_MORE": "Load more"
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Assign Labels",
+    "ASSIGN_LABELS_SUCCESS": "Labels assigned successfully.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} seçildi",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})",
+    "DELETE_CONTACTS": "Delete",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Əlaqələri silmək mümkün olmadı.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Delete contact"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
@@ -576,27 +605,27 @@
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
     },
     "FORM": {
-      "GO_TO_CONVERSATION": "View",
+      "GO_TO_CONVERSATION": "Bax",
       "SUCCESS_MESSAGE": "The message was sent successfully!",
       "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
       "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
       "CONTACT_SELECTOR": {
-        "LABEL": "To:",
-        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
-        "CONTACT_CREATING": "Creating contact..."
+        "LABEL": "Kimə:",
+        "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
+        "CONTACT_CREATING": "Əlaqə yaradılır..."
       },
       "INBOX_SELECTOR": {
         "LABEL": "Via:",
-        "BUTTON": "Show inboxes"
+        "BUTTON": "Qutuları göstər"
       },
       "EMAIL_OPTIONS": {
-        "SUBJECT_LABEL": "Subject :",
+        "SUBJECT_LABEL": "Mövzu :",
         "SUBJECT_PLACEHOLDER": "Enter your email subject here",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "CC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_LABEL": "Bcc:",
-        "BCC_PLACEHOLDER": "Search for a contact with their email address",
-        "BCC_BUTTON": "Bcc"
+        "BCC_PLACEHOLDER": "Enter at least 2 characters to search by email",
+        "BCC_BUTTON": "Gizli nüsxə"
       },
       "MESSAGE_EDITOR": {
         "PLACEHOLDER": "Write your message here..."
@@ -622,8 +651,8 @@
         }
       },
       "ACTION_BUTTONS": {
-        "DISCARD": "Discard",
-        "SEND": "Send ({keyCode})"
+        "DISCARD": "İmtina et",
+        "SEND": "Göndər ({keyCode})"
       }
     }
   }

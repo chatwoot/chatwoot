@@ -3,6 +3,9 @@
     "FETCHING": "Integraties ophalen",
     "NO_HOOK_CONFIGURED": "Er zijn geen {integrationId} integraties geconfigureerd in dit account.",
     "HEADER": "Applicaties",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Ingeschakeld",
       "DISABLED": "Uitgeschakeld"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Ophalen van integratie-hooks",
       "INBOX": "Postvak In",
+      "ACTIONS": "Acties",
       "DELETE": {
         "BUTTON_TEXT": "Verwijderen"
       }
