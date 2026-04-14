@@ -4,27 +4,27 @@
     "CURRENT_PAGE_INFO": "第 {currentPage} / {totalPages} 頁 | 第 {currentPage} / {totalPages} 頁"
   },
   "COMBOBOX": {
-    "PLACEHOLDER": "請選擇一個選項……",
-    "EMPTY_SEARCH_RESULTS": "未找到與搜尋詞 `{searchTerm}` 匹配的項",
+    "PLACEHOLDER": "請選擇一個選項...",
+    "EMPTY_SEARCH_RESULTS": "找不到與搜尋詞「{searchTerm}」相符的項目",
     "EMPTY_STATE": "查無結果。",
-    "SEARCH_PLACEHOLDER": "搜尋……",
-    "MORE": "+{count} 更多"
+    "SEARCH_PLACEHOLDER": "搜尋...",
+    "MORE": "還有 {count} 個"
   },
   "DROPDOWN_MENU": {
-    "SEARCH_PLACEHOLDER": "搜尋……",
+    "SEARCH_PLACEHOLDER": "搜尋...",
     "EMPTY_STATE": "查無結果。",
-    "SEARCHING": "搜尋中……"
+    "SEARCHING": "搜尋中..."
   },
   "DIALOG": {
     "BUTTONS": {
       "CANCEL": "取消",
-      "CONFIRM": "確定"
+      "CONFIRM": "確認"
     }
   },
   "PHONE_INPUT": {
     "SEARCH_PLACEHOLDER": "搜尋國家/地區",
-    "ERROR": "電話號碼應為空或E.164格式",
-    "DIAL_CODE_ERROR": "請從列表中選擇撥號程式碼"
+    "ERROR": "電話號碼應為空或符合 E.164 格式",
+    "DIAL_CODE_ERROR": "請從列表中選擇國碼"
   },
   "THUMBNAIL": {
     "AUTHOR": {
@@ -32,7 +32,7 @@
     }
   },
   "BREADCRUMB": {
-    "ARIA_LABEL": "麵包屑導航"
+    "ARIA_LABEL": "麵包屑導覽"
   },
   "SWITCH": {
     "TOGGLE": "切換開關"
@@ -48,9 +48,9 @@
     "MINUTES": "分鐘",
     "HOURS": "小時",
     "DAYS": "天",
-    "PLACEHOLDER": "輸入耗時"
+    "PLACEHOLDER": "輸入時間長度"
   },
   "CHANNEL_SELECTOR": {
-    "COMING_SOON": "即將到來！"
+    "COMING_SOON": "即將推出！"
   }
 }
