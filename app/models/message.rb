@@ -450,3 +450,4 @@ class Message < ApplicationRecord
 end
 
 Message.prepend_mod_with('Message')
+Message.include_mod_with('Concerns::Message')
