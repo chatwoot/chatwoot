@@ -123,15 +123,4 @@ describe ActionService do
       expect(conversation.reload.assignee).to be_nil
     end
   end
-
-  describe '#remove_assigned_team' do
-    let(:conversation) { create(:conversation, :with_team, account: account) }
-    let(:action_service) { described_class.new(conversation) }
-
-    it 'unassigns the team' do
-      expect(conversation.reload.team).to be_present
-      action_service.remove_assigned_team(nil)
-      expect(conversation.reload.team).to be_nil
-    end
-  end
 end

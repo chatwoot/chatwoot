@@ -58,9 +58,7 @@ const formatMacro = macroData => {
           ),
           message: action.action_params[0].message,
         };
-      } else {
-        actionParams = [...action.action_params];
-      }
+      } else actionParams = [...action.action_params];
     }
     return {
       ...action,
