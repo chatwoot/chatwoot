@@ -69,30 +69,9 @@ export const actions = {
     }
   },
 
-  updateAsync: async ({ commit }, { portalSlug, articleId, ...articleObj }) => {
-    commit(types.UPDATE_ARTICLE_FLAG, {
-      uiFlags: { isUpdating: true },
-      articleId,
-    });
-
-    try {
-      await articlesAPI.updateArticle({ portalSlug, articleId, articleObj });
-      return articleId;
-    } catch (error) {
-      return throwErrorMessage(error);
-    } finally {
-      commit(types.UPDATE_ARTICLE_FLAG, {
-        uiFlags: { isUpdating: false },
-        articleId,
-      });
-    }
-  },
-
   update: async ({ commit }, { portalSlug, articleId, ...articleObj }) => {
     commit(types.UPDATE_ARTICLE_FLAG, {
-      uiFlags: {
-        isUpdating: true,
-      },
+      uiFlags: { isUpdating: true },
       articleId,
     });
 
@@ -110,9 +89,7 @@ export const actions = {
       return throwErrorMessage(error);
     } finally {
       commit(types.UPDATE_ARTICLE_FLAG, {
-        uiFlags: {
-          isUpdating: false,
-        },
+        uiFlags: { isUpdating: false },
         articleId,
       });
     }
