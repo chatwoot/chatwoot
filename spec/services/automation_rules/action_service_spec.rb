@@ -110,7 +110,8 @@ RSpec.describe AutomationRules::ActionService do
 
     describe '#perform with send_email_transcript action' do
       let(:account_double) do
-        double(
+        instance_double(
+          Account,
           email_transcript_enabled?: true,
           within_email_rate_limit?: true,
           increment_email_sent_count: true
