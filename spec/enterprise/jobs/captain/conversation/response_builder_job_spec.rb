@@ -101,6 +101,90 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
     end
 
+    context 'when captain_v2 handoff tool fires during agent execution' do
+      before do
+        allow(account).to receive(:feature_enabled?).and_return(false)
+        allow(account).to receive(:feature_enabled?).with('captain_integration_v2').and_return(true)
+      end
+
+      it 'creates a public handoff message visible to the customer' do
+        allow(mock_agent_runner_service).to receive(:generate_response) do
+          conversation.update!(status: :open)
+          { 'response' => 'Let me connect you', 'handoff_tool_called' => true }
+        end
+
+        described_class.perform_now(conversation, assistant)
+
+        public_messages = conversation.messages.outgoing.where(private: false)
+        expect(public_messages.count).to eq(1)
+        expect(public_messages.last.content).to eq(I18n.t('conversations.captain.handoff'))
+      end
+
+      it 'does not call bot_handoff! again when conversation is already open' do
+        allow(mock_agent_runner_service).to receive(:generate_response) do
+          conversation.update!(status: :open)
+          { 'response' => 'Let me connect you', 'handoff_tool_called' => true }
+        end
+
+        expect(conversation).not_to receive(:bot_handoff!)
+
+        described_class.perform_now(conversation, assistant)
+      end
+
+      it 'does not create a duplicate out of office message' do
+        allow(mock_agent_runner_service).to receive(:generate_response) do
+          conversation.update!(status: :open)
+          { 'response' => 'Let me connect you', 'handoff_tool_called' => true }
+        end
+
+        described_class.perform_now(conversation, assistant)
+
+        expect(conversation.messages.template.count).to eq(0)
+      end
+
+      it 'preserves waiting_since when HandoffTool already called bot_handoff!' do
+        original_waiting_since = 5.minutes.ago
+        conversation.update!(waiting_since: original_waiting_since)
+
+        allow(mock_agent_runner_service).to receive(:generate_response) do
+          conversation.update!(status: :open, waiting_since: original_waiting_since)
+          { 'response' => 'Let me connect you', 'handoff_tool_called' => true }
+        end
+
+        described_class.perform_now(conversation, assistant)
+
+        expect(conversation.reload.waiting_since).to be_within(1.second).of(original_waiting_since)
+      end
+
+      it 'does not hand off when handoff_tool_called is false' do
+        allow(mock_agent_runner_service).to receive(:generate_response).and_return({
+                                                                                     'response' => 'Hi! How can I help you?',
+                                                                                     'handoff_tool_called' => false
+                                                                                   })
+
+        described_class.perform_now(conversation, assistant)
+
+        expect(conversation.messages.outgoing.count).to eq(1)
+        expect(conversation.messages.last.content).to eq('Hi! How can I help you?')
+        expect(conversation.reload.status).to eq('pending')
+      end
+
+      it 'falls back to a full V1 handoff when HandoffTool fired but failed to commit' do
+        allow(mock_agent_runner_service).to receive(:generate_response).and_return({
+                                                                                     'response' => 'I tried to hand off',
+                                                                                     'handoff_tool_called' => true
+                                                                                   })
+
+        described_class.perform_now(conversation, assistant)
+
+        conversation.reload
+        expect(conversation.status).to eq('open')
+        public_messages = conversation.messages.outgoing.where(private: false)
+        expect(public_messages.count).to eq(1)
+        expect(public_messages.last.content).to eq(I18n.t('conversations.captain.handoff'))
+      end
+    end
+
     # Regression (PR #13417): wrapping create_handoff_message and bot_handoff! in the
     # same transaction defers the message's after_create_commit until commit, at which
     # point it clears waiting_since (bot_response). The handoff path must stay outside
@@ -116,13 +200,15 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'sets waiting_since to approximately the handoff time' do
-        freeze_time do
-          described_class.perform_now(conversation, assistant)
+        # Don't use freeze_time here: we need a real gap between the seeded waiting_since
+        # and Time.current, otherwise "preserved" and "reset" both look identical.
+        conversation.update!(waiting_since: 10.minutes.ago)
 
-          conversation.reload
-          expect(conversation.status).to eq('open')
-          expect(conversation.waiting_since).to be_within(1.second).of(Time.current)
-        end
+        described_class.perform_now(conversation, assistant)
+
+        conversation.reload
+        expect(conversation.status).to eq('open')
+        expect(conversation.waiting_since).to be_within(5.seconds).of(Time.current)
       end
 
       it 'preserves waiting_since so a human reply consumes it for reply_time tracking' do

@@ -57,7 +57,10 @@ export default {
           },
         });
       } catch (error) {
-        useAlert(this.$t('INBOX_MGMT.ADD.API_CHANNEL.API.ERROR_MESSAGE'));
+        useAlert(
+          error.message ||
+            this.$t('INBOX_MGMT.ADD.API_CHANNEL.API.ERROR_MESSAGE')
+        );
       }
     },
   },

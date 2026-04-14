@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Pranešimo parašas nesukonfigūruotas, sukonfigūruokite jį profilio nustatymuose.",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "Duokite copiloto papildomų nurodymų arba klauskite dar ko nors... Paspauskite Enter, kad išsiųstumėte papildomą žinutę",
       "CLICK_HERE": "Spausti čia kad atnaujinti",
       "WHATSAPP_TEMPLATES": "Whatsapp Šablonai"
     },
@@ -214,7 +214,7 @@
       "DRAG_DROP": "Norėdami pridėti, vilkite ir numeskite čia",
       "START_AUDIO_RECORDING": "Pradėti audio įrašymą",
       "STOP_AUDIO_RECORDING": "Baigti audio įrašymą",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot galvoja",
       "EMAIL_HEAD": {
         "TO": "Kam",
         "ADD_BCC": "Pridėti bcc",

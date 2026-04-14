@@ -390,72 +390,72 @@
   },
   "CAPTAIN": {
     "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "Meer weten",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "Assistenten",
+      "SWITCH_ASSISTANT": "Wissel tussen assistenten",
+      "NEW_ASSISTANT": "Assistent aanmaken",
+      "EMPTY_LIST": "Geen assistenten gevonden, maak er een aan om te beginnen"
     },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "PANEL_TITLE": "Aan de slag met Copilot",
+      "KICK_OFF_MESSAGE": "Snelle samenvatting nodig, eerdere gesprekken bekijken of een beter antwoord opstellen? Copilot helpt je sneller.",
       "SEND_MESSAGE": "Verstuur bericht...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
+      "EMPTY_MESSAGE": "Er is een fout opgetreden bij het genereren van het antwoord. Probeer het opnieuw.",
+      "LOADER": "Captain is aan het denken",
       "YOU": "Jij",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "USE": "Gebruik dit",
+      "RESET": "Resetten",
+      "SHOW_STEPS": "Toon stappen",
+      "SELECT_ASSISTANT": "Assistent selecteren",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Vat dit gesprek samen",
+          "CONTENT": "Vat de belangrijkste punten samen die besproken zijn tussen de klant en de ondersteuningsmedewerker, inclusief de zorgen, vragen van de klant en de oplossingen of antwoorden die de medewerker heeft gegeven"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Stel een antwoord voor",
+          "CONTENT": "Analyseer de vraag van de klant en stel een antwoord op dat hun zorgen of vragen effectief behandelt. Zorg dat het antwoord duidelijk, beknopt is en nuttige informatie biedt."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Beoordeel dit gesprek",
+          "CONTENT": "Beoordeel het gesprek om te zien hoe goed aan de behoeften van de klant wordt voldaan. Geef een beoordeling tot 5 op basis van toon, duidelijkheid en effectiviteit."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "Gesprekken met hoge prioriteit",
+          "CONTENT": "Geef me een samenvatting van alle open gesprekken met hoge prioriteit. Vermeld het gesprek-ID, klantnaam (indien beschikbaar), laatste berichtinhoud en toegewezen agent. Groepeer indien relevant op status."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "Contacten weergeven",
+          "CONTENT": "Toon mij de lijst van top 10 contacten. Vermeld naam, e-mail of telefoonnummer (indien beschikbaar), laatst gezien tijd, tags (indien aanwezig)."
         }
       }
     },
     "PLAYGROUND": {
       "USER": "Jij",
-      "ASSISTANT": "Assistant",
+      "ASSISTANT": "Assistent",
       "MESSAGE_PLACEHOLDER": "Typ uw bericht...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "Speelplaats",
+      "DESCRIPTION": "Gebruik deze speelplaats om berichten naar je assistent te sturen en te controleren of deze nauwkeurig, snel en in de verwachte toon reageert.",
+      "CREDIT_NOTE": "Berichten die hier worden verzonden, tellen mee voor je Captain-tegoed."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "TITLE": "Upgrade om Captain AI te gebruiken",
+      "AVAILABLE_ON": "Captain is niet beschikbaar op het gratis abonnement.",
+      "UPGRADE_PROMPT": "Upgrade je abonnement om toegang te krijgen tot onze assistenten, copilot en meer.",
       "UPGRADE_NOW": "Upgrade now",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "AVAILABLE_ON": "Captain AI is alleen beschikbaar in de Enterprise-abonnementen.",
+      "UPGRADE_PROMPT": "Upgrade je abonnement om toegang te krijgen tot onze assistenten, copilot en meer.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "Je hebt meer dan 80% van je antwoordlimiet gebruikt. Om Captain AI te blijven gebruiken, upgrade je jouw plan.",
+      "DOCUMENTS": "Documentlimiet bereikt. Upgrade om Captain AI te blijven gebruiken."
     },
     "FORM": {
       "CANCEL": "Annuleren",
@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
+      "SELECTED": "{count} selected",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "BULK_DELETE_BUTTON": "Verwijderen",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
         "DESCRIPTION": "These FAQs are generated directly from the document."
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -825,11 +837,18 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Beschrijving",
