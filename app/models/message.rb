@@ -439,8 +439,11 @@ class Message < ApplicationRecord
   end
 
   def set_conversation_activity
+    # Use max to avoid moving last_activity_at backwards when messages with old timestamps are saved
+    # (e.g. historical messages synced from WhatsApp history).
     # rubocop:disable Rails/SkipsModelValidations
-    conversation.update_columns(last_activity_at: created_at, updated_at: Time.current)
+    new_last_activity_at = [conversation.last_activity_at, created_at].compact.max
+    conversation.update_columns(last_activity_at: new_last_activity_at, updated_at: Time.current)
     # rubocop:enable Rails/SkipsModelValidations
   end
 

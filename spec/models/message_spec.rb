@@ -425,6 +425,18 @@ RSpec.describe Message do
       expect(message.created_at).to eq message.conversation.last_activity_at
     end
 
+    it 'does not move last_activity_at backwards when message has an old timestamp' do
+      # rubocop:disable Rails/SkipsModelValidations
+      message.conversation.update_column(:last_activity_at, Time.current)
+      # rubocop:enable Rails/SkipsModelValidations
+      recent_activity = message.conversation.last_activity_at
+
+      message.created_at = 1.year.ago
+      message.save!
+
+      expect(message.conversation.last_activity_at).to eq(recent_activity)
+    end
+
     it 'updates contact last_activity_at when created' do
       expect { message.save! }.to(change { message.sender.last_activity_at })
     end
