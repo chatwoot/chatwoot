@@ -20,6 +20,7 @@
     "CALL": "Call",
     "CALL_INITIATED": "جار الاتصال بجهة الاتصال…",
     "CALL_FAILED": "تعذر بدء المكالمة. الرجاء المحاولة مرة أخرى.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
