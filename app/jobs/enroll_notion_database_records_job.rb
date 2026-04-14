@@ -135,7 +135,16 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
 
       # Update contact with new data from Notion
       updates = {}
-      updates[:email] = contact_email if contact_email.present?
+      if contact_email.present?
+        email_taken = Contact.where(account: sequence.account, email: contact_email)
+                             .where.not(id: existing_contact.id)
+                             .exists?
+        if email_taken
+          Rails.logger.info "Skipping email update for contact #{existing_contact.id}: already taken by another contact"
+        else
+          updates[:email] = contact_email
+        end
+      end
       updates[:name] = contact_name if contact_name.present? && existing_contact.name == 'Unknown'
 
       updates[:source_type] = 'notion_import'
