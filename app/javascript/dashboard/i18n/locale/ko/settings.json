@@ -383,6 +383,54 @@
     "CAPTAIN_AI": "Captain",
     "CONVERSATION_WORKFLOW": "대화 워크플로"
   },
+  "CAPTAIN_SETTINGS": {
+    "TITLE": "Captain 설정",
+    "DESCRIPTION": "Captain의 AI 모델과 기능을 구성합니다. Captain은 크레딧 기반 청구를 따르며, 선택한 모델에 따라 Captain이 수행하는 모든 작업에 대해 크레딧이 청구됩니다.",
+    "LOADING": "Captain 구성 로딩 중...",
+    "LINK_TEXT": "Captain 크레딧에 대해 자세히 알아보기",
+    "NOT_ENABLED": "이 계정에서 Captain이 활성화되지 않았습니다. Captain 기능에 접근하려면 플랜을 업그레이드하십시오.",
+    "MODEL_CONFIG": {
+      "TITLE": "모델 구성",
+      "DESCRIPTION": "다양한 기능에 대한 AI 모델을 선택합니다.",
+      "SELECT_MODEL": "모델 선택",
+      "CREDITS_PER_MESSAGE": "{credits} 크레딧/메시지",
+      "COMING_SOON": "곧 출시 예정",
+      "EDITOR": {
+        "TITLE": "편집기 기능",
+        "DESCRIPTION": "메시지 편집기에서 스마트 작성, 문법 교정, 톤 조정 및 콘텐츠 개선을 지원합니다."
+      },
+      "ASSISTANT": {
+        "TITLE": "어시스턴트",
+        "DESCRIPTION": "자동 응답, 대화 요약 및 고객 상호 작용을 위한 지능형 답변 제안을 처리합니다."
+      },
+      "COPILOT": {
+        "TITLE": "Copilot",
+        "DESCRIPTION": "대화 중 실시간 맥락 제안, 지식 기반 추천 및 사전 인사이트를 제공합니다."
+      }
+    },
+    "FEATURES": {
+      "TITLE": "기능",
+      "DESCRIPTION": "AI 기반 기능을 활성화하거나 비활성화합니다.",
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "오디오 전사",
+        "DESCRIPTION": "음성 메시지와 통화 녹음을 검색 가능한 텍스트로 자동 변환합니다."
+      },
+      "HELP_CENTER_SEARCH": {
+        "TITLE": "도움말 센터 검색 인덱싱",
+        "DESCRIPTION": "도움말 센터 게시물 내에서 맥락 인식 검색을 위해 AI를 사용합니다."
+      },
+      "LABEL_SUGGESTION": {
+        "TITLE": "라벨 제안",
+        "DESCRIPTION": "콘텐츠 분석 및 맥락에 기반하여 대화에 대한 관련 라벨과 태그를 자동으로 제안합니다.",
+        "MODEL_TITLE": "라벨 제안 모델",
+        "MODEL_DESCRIPTION": "대화 분석 및 적절한 라벨 제안에 사용할 AI 모델을 선택합니다"
+      }
+    },
+    "API": {
+      "SUCCESS": "Captain 설정이 성공적으로 업데이트되었습니다.",
+      "ERROR": "Captain 설정 업데이트에 실패했습니다. 다시 시도하십시오."
+    }
+  },
   "BILLING_SETTINGS": {
     "TITLE": "청구",
     "DESCRIPTION": "여기에서 구독을 관리하고, 플랜을 업그레이드하여 팀에 더 많은 기능을 제공하십시오.",
@@ -509,6 +557,58 @@
       }
     }
   },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "대화 워크플로",
+        "DESCRIPTION": "대화 해결에 대한 규칙과 필수 항목을 구성합니다."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "TITLE": "해결 시 필수 속성",
+      "DESCRIPTION": "대화를 해결할 때, 에이전트가 아직 채우지 않은 이 속성들을 입력하도록 안내됩니다.",
+      "NO_ATTRIBUTES": "아직 추가된 속성이 없습니다",
+      "ADD": {
+        "TITLE": "속성 추가",
+        "SEARCH_PLACEHOLDER": "속성 검색"
+      },
+      "SAVE": {
+        "SUCCESS": "필수 속성이 업데이트되었습니다",
+        "ERROR": "필수 속성을 업데이트할 수 없습니다. 다시 시도하십시오"
+      },
+      "MODAL": {
+        "TITLE": "대화 해결",
+        "DESCRIPTION": "이 대화를 해결하기 전에 다음 사용자 정의 속성을 입력하십시오",
+        "ACTIONS": {
+          "RESOLVE": "대화 해결",
+          "CANCEL": "취소"
+        },
+        "PLACEHOLDERS": {
+          "TEXT": "메모를 작성하십시오...",
+          "NUMBER": "숫자를 입력하십시오",
+          "LINK": "링크를 추가하십시오",
+          "DATE": "날짜를 선택하십시오",
+          "LIST": "옵션을 선택하십시오"
+        },
+        "CHECKBOX": {
+          "YES": "예",
+          "NO": "아니오"
+        }
+      },
+      "PAYWALL": {
+        "TITLE": "필수 속성을 사용하려면 업그레이드하십시오",
+        "AVAILABLE_ON": "필수 대화 속성 기능은 Business 및 Enterprise 플랜에서 사용할 수 있습니다.",
+        "UPGRADE_PROMPT": "대화 해결 전에 에이전트에게 필수 속성 입력을 요구하려면 플랜을 업그레이드하십시오.",
+        "UPGRADE_NOW": "지금 업그레이드",
+        "CANCEL_ANYTIME": "언제든지 플랜을 변경하거나 취소할 수 있습니다"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "필수 대화 속성 기능은 유료 플랜에서 사용할 수 있습니다.",
+        "UPGRADE_PROMPT": "대화 해결 전에 필수 속성을 적용하려면 유료 플랜으로 업그레이드하십시오.",
+        "ASK_ADMIN": "업그레이드를 위해 관리자에게 문의하십시오."
+      }
+    }
+  },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Chatwoot 계정을 찾을 수 없습니다. 계속하려면 새 계정을 만드십시오.",
     "NEW_ACCOUNT": "새 계정",
@@ -609,6 +709,12 @@
           "CONFIRM_BUTTON_LABEL": "계속",
           "CANCEL_BUTTON_LABEL": "취소"
         },
+        "INBOX_LINK_PROMPT": {
+          "TITLE": "받은 메시지함을 정책에 연결",
+          "DESCRIPTION": "이 받은 메시지함을 배정 정책에 연결하시겠습니까?",
+          "LINK_BUTTON": "받은 메시지함 연결",
+          "CANCEL_BUTTON": "건너뛰기"
+        },
         "API": {
           "SUCCESS_MESSAGE": "배정 정책이 성공적으로 업데이트되었습니다",
           "ERROR_MESSAGE": "배정 정책 업데이트에 실패했습니다"
@@ -622,12 +728,6 @@
             "SUCCESS_MESSAGE": "받은 메시지함이 정책에서 성공적으로 제거되었습니다",
             "ERROR_MESSAGE": "정책에서 받은 메시지함 제거에 실패했습니다"
           }
-        },
-        "INBOX_LINK_PROMPT": {
-          "TITLE": "받은 메시지함을 정책에 연결",
-          "DESCRIPTION": "이 받은 메시지함을 배정 정책에 연결하시겠습니까?",
-          "LINK_BUTTON": "받은 메시지함 연결",
-          "CANCEL_BUTTON": "건너뛰기"
         }
       },
       "FORM": {
@@ -817,106 +917,6 @@
       "DESCRIPTION": "이 정책을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
       "CONFIRM_BUTTON_LABEL": "삭제",
       "CANCEL_BUTTON_LABEL": "취소"
-    }
-  },
-  "CAPTAIN_SETTINGS": {
-    "TITLE": "Captain 설정",
-    "DESCRIPTION": "Captain의 AI 모델과 기능을 구성합니다. Captain은 크레딧 기반 청구를 따르며, 선택한 모델에 따라 Captain이 수행하는 모든 작업에 대해 크레딧이 청구됩니다.",
-    "LOADING": "Captain 구성 로딩 중...",
-    "LINK_TEXT": "Captain 크레딧에 대해 자세히 알아보기",
-    "NOT_ENABLED": "이 계정에서 Captain이 활성화되지 않았습니다. Captain 기능에 접근하려면 플랜을 업그레이드하십시오.",
-    "MODEL_CONFIG": {
-      "TITLE": "모델 구성",
-      "DESCRIPTION": "다양한 기능에 대한 AI 모델을 선택합니다.",
-      "SELECT_MODEL": "모델 선택",
-      "CREDITS_PER_MESSAGE": "{credits} 크레딧/메시지",
-      "COMING_SOON": "곧 출시 예정",
-      "EDITOR": {
-        "TITLE": "편집기 기능",
-        "DESCRIPTION": "메시지 편집기에서 스마트 작성, 문법 교정, 톤 조정 및 콘텐츠 개선을 지원합니다."
-      },
-      "ASSISTANT": {
-        "TITLE": "어시스턴트",
-        "DESCRIPTION": "자동 응답, 대화 요약 및 고객 상호 작용을 위한 지능형 답변 제안을 처리합니다."
-      },
-      "COPILOT": {
-        "TITLE": "Copilot",
-        "DESCRIPTION": "대화 중 실시간 맥락 제안, 지식 기반 추천 및 사전 인사이트를 제공합니다."
-      }
-    },
-    "FEATURES": {
-      "TITLE": "기능",
-      "DESCRIPTION": "AI 기반 기능을 활성화하거나 비활성화합니다.",
-      "AUDIO_TRANSCRIPTION": {
-        "TITLE": "오디오 전사",
-        "DESCRIPTION": "음성 메시지와 통화 녹음을 검색 가능한 텍스트로 자동 변환합니다."
-      },
-      "HELP_CENTER_SEARCH": {
-        "TITLE": "도움말 센터 검색 인덱싱",
-        "DESCRIPTION": "도움말 센터 게시물 내에서 맥락 인식 검색을 위해 AI를 사용합니다."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "라벨 제안",
-        "DESCRIPTION": "콘텐츠 분석 및 맥락에 기반하여 대화에 대한 관련 라벨과 태그를 자동으로 제안합니다.",
-        "MODEL_TITLE": "라벨 제안 모델",
-        "MODEL_DESCRIPTION": "대화 분석 및 적절한 라벨 제안에 사용할 AI 모델을 선택합니다"
-      }
-    },
-    "API": {
-      "SUCCESS": "Captain 설정이 성공적으로 업데이트되었습니다.",
-      "ERROR": "Captain 설정 업데이트에 실패했습니다. 다시 시도하십시오."
-    }
-  },
-  "CONVERSATION_WORKFLOW": {
-    "INDEX": {
-      "HEADER": {
-        "TITLE": "대화 워크플로",
-        "DESCRIPTION": "대화 해결에 대한 규칙과 필수 항목을 구성합니다."
-      }
-    },
-    "REQUIRED_ATTRIBUTES": {
-      "TITLE": "해결 시 필수 속성",
-      "DESCRIPTION": "대화를 해결할 때, 에이전트가 아직 채우지 않은 이 속성들을 입력하도록 안내됩니다.",
-      "NO_ATTRIBUTES": "아직 추가된 속성이 없습니다",
-      "ADD": {
-        "TITLE": "속성 추가",
-        "SEARCH_PLACEHOLDER": "속성 검색"
-      },
-      "SAVE": {
-        "SUCCESS": "필수 속성이 업데이트되었습니다",
-        "ERROR": "필수 속성을 업데이트할 수 없습니다. 다시 시도하십시오"
-      },
-      "MODAL": {
-        "TITLE": "대화 해결",
-        "DESCRIPTION": "이 대화를 해결하기 전에 다음 사용자 정의 속성을 입력하십시오",
-        "ACTIONS": {
-          "RESOLVE": "대화 해결",
-          "CANCEL": "취소"
-        },
-        "PLACEHOLDERS": {
-          "TEXT": "메모를 작성하십시오...",
-          "NUMBER": "숫자를 입력하십시오",
-          "LINK": "링크를 추가하십시오",
-          "DATE": "날짜를 선택하십시오",
-          "LIST": "옵션을 선택하십시오"
-        },
-        "CHECKBOX": {
-          "YES": "예",
-          "NO": "아니오"
-        }
-      },
-      "PAYWALL": {
-        "TITLE": "필수 속성을 사용하려면 업그레이드하십시오",
-        "AVAILABLE_ON": "필수 대화 속성 기능은 Business 및 Enterprise 플랜에서 사용할 수 있습니다.",
-        "UPGRADE_PROMPT": "대화 해결 전에 에이전트에게 필수 속성 입력을 요구하려면 플랜을 업그레이드하십시오.",
-        "UPGRADE_NOW": "지금 업그레이드",
-        "CANCEL_ANYTIME": "언제든지 플랜을 변경하거나 취소할 수 있습니다"
-      },
-      "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "필수 대화 속성 기능은 유료 플랜에서 사용할 수 있습니다.",
-        "UPGRADE_PROMPT": "대화 해결 전에 필수 속성을 적용하려면 유료 플랜으로 업그레이드하십시오.",
-        "ASK_ADMIN": "업그레이드를 위해 관리자에게 문의하십시오."
-      }
     }
   }
 }

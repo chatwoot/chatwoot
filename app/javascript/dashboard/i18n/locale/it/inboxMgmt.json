@@ -685,6 +685,16 @@
           "SANDBOX": "Sandbox",
           "LIVE": "Live"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Configurazione Webhook",
+        "DESCRIPTION": "L'URL Webhook è necessario per il tuo account WhatsApp Business per ricevere messaggi dai clienti",
+        "ACTION_REQUIRED": "Webhook non configurato",
+        "REGISTER_BUTTON": "Registra Webhook",
+        "REGISTER_SUCCESS": "Webhook registrato correttamente",
+        "REGISTER_ERROR": "Impossibile registrare il webhook. Riprova.",
+        "CONFIGURED_SUCCESS": "Webhook configurato correttamente",
+        "URL_MISMATCH": "URL Webhook non corrisponde"
       }
     },
     "SETTINGS": "Impostazioni",
@@ -700,8 +710,20 @@
       "MESSENGER_SUB_HEAD": "Incolla questo script alla fine del tag body",
       "ALLOWED_DOMAINS": {
         "TITLE": "Domini Consentiti",
-        "SUBTITLE": "Aggiungi caratteri jolly o domini regolari separati da virgole (lasciare vuoto per consentire tutti), ad esempio *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Inserisci i domini separati da virgole (ad esempio: *.chatwoot.dev, chatwoot.com)"
+        "DESCRIPTION": "Limita quali siti web possono incorporare il widget di chat. Per sicurezza, aggiungi solo domini che possiedi e di cui ti puoi fidare. Aggiungi uno o più domini separati da virgole. Lascia vuoto per consentire tutti i domini (sconsigliato in produzione).",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
+      },
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Abilita il widget nelle app mobile",
+        "SUBTITLE": "Spunta questa opzione se hai incorporato il widget nelle app iOS o Android. Le app mobile non inviano informazioni di dominio, quindi sarebbero bloccate da restrizioni di dominio a meno che questa opzione non sia abilitata."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Convalida Identità",
+        "DESCRIPTION": "Verifica l'autenticità dell'utente generando token sicuri. Questo impedisce agli utenti non autorizzati di impersonare altri nella tua chat.",
+        "SECRET_KEY": "Chiave Segreta",
+        "VIEW_DOCS": "Visualizza documentazione",
+        "REQUIRE_LABEL": "Richiedi la convalida dell'identità per tutte le conversazioni",
+        "REQUIRE_DESCRIPTION": "Se abilitato, gli utenti devono fornire un token di identità valido per avviare le conversazioni. Le richieste senza token validi verranno respinte."
       },
       "INBOX_AGENTS": "Operatori",
       "INBOX_AGENTS_SUB_TEXT": "Aggiungi o rimuovi operatori da questa inbox",

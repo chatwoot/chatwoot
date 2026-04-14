@@ -685,6 +685,16 @@
           "SANDBOX": "Sandbox",
           "LIVE": "Canlı"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Webhook Configuration",
+        "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
+        "ACTION_REQUIRED": "Webhook not configured",
+        "REGISTER_BUTTON": "Register Webhook",
+        "REGISTER_SUCCESS": "Webhook registered successfully",
+        "REGISTER_ERROR": "Failed to register webhook. Please try again.",
+        "CONFIGURED_SUCCESS": "Webhook configured successfully",
+        "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
     "SETTINGS": "Ayarlar",
@@ -700,8 +710,20 @@
       "MESSENGER_SUB_HEAD": "Bu düğmeyi gövde etiketinizin içine yerleştirin",
       "ALLOWED_DOMAINS": {
         "TITLE": "İzin Verilen Alan Adları",
-        "SUBTITLE": "Virgülle ayrılmış joker karakterli veya normal alan adları ekleyin (hepsine izin vermek için boş bırakın), örneğin *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Virgülle ayrılmış alan adlarını girin (ör: *.chatwoot.dev, chatwoot.com)"
+        "DESCRIPTION": "Sohbet widget'ınızı hangi web sitelerinin yerleştirebileceğini kısıtlayın. Güvenlik amacıyla, yalnızca sahip olduğunuz ve güvendiğiniz alan adlarını ekleyin. Bir veya daha fazla alan adını virgülle ayırarak ekleyin. Tüm alan adlarına izin vermek için boş bırakın (canlı ortamlar için önerilmez).",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
+      },
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Mobil uygulamalarda widget'ı etkinleştir",
+        "SUBTITLE": "Widget'ı iOS veya Android uygulamalarına yerleştiriyorsanız bu seçeneği işaretleyin. Mobil uygulamalar alan adı bilgisi göndermediğinden, bu seçenek etkinleştirilmezse alan adı kısıtlamalarına takılarak engellenirler."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Kimlik Doğrulama",
+        "DESCRIPTION": "Güvenli token'lar oluşturarak kullanıcıların gerçekliğini doğrulayın. Bu işlem, yetkisiz kişilerin sohbetinizde başkalarının kimliğine bürünmesini engeller.",
+        "SECRET_KEY": "Gizli Anahtar",
+        "VIEW_DOCS": "Dokümantasyonu görüntüle",
+        "REQUIRE_LABEL": "Tüm sohbetler için kimlik doğrulamayı zorunlu kıl",
+        "REQUIRE_DESCRIPTION": "Etkinleştirildiğinde, kullanıcıların sohbet başlatabilmesi için geçerli bir kimlik token'ı sunması gerekir. Geçerli bir token içermeyen istekler reddedilecektir."
       },
       "INBOX_AGENTS": "Kullanıcılar",
       "INBOX_AGENTS_SUB_TEXT": "Bu gelen kutusuna aracı ekleyin veya aracıları kaldırın",

@@ -57,7 +57,7 @@ class Api::V1::Accounts::Captain::TasksController < Api::V1::Accounts::BaseContr
     if result.nil?
       render json: { message: nil }
     elsif result[:error]
-      render json: { error: result[:error] }, status: :unprocessable_entity
+      render json: { error: result[:error] }, status: :unprocessable_content
     else
       response_data = { message: result[:message] }
       response_data[:follow_up_context] = result[:follow_up_context] if result[:follow_up_context]
@@ -69,3 +69,5 @@ class Api::V1::Accounts::Captain::TasksController < Api::V1::Accounts::BaseContr
     authorize(:'captain/tasks')
   end
 end
+
+Api::V1::Accounts::Captain::TasksController.prepend_mod_with('Api::V1::Accounts::Captain::TasksController')

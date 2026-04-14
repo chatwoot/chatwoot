@@ -3,6 +3,7 @@
     "HEADER": "대화",
     "LOADING_CHART": "차트 데이터 불러오는 중...",
     "NO_ENOUGH_DATA": "보고서를 생성할 수 있는 데이터 포인트가 부족합니다. 나중에 다시 시도하십시오.",
+    "DOWNLOAD_CONVERSATION_REPORTS": "대화 보고서 다운로드",
     "DATA_FETCHING_FAILED": "데이터를 가져오지 못했습니다. 나중에 다시 시도하십시오.",
     "SUMMARY_FETCHING_FAILED": "요약을 가져오지 못했습니다. 나중에 다시 시도하십시오.",
     "METRICS": {
@@ -123,8 +124,7 @@
     "PAGINATION": {
       "RESULTS": "{total}개 결과 중 {start}~{end} 표시",
       "PER_PAGE_TEMPLATE": "{size} / 페이지"
-    },
-    "DOWNLOAD_CONVERSATION_REPORTS": "대화 보고서 다운로드"
+    }
   },
   "AGENT_REPORTS": {
     "HEADER": "에이전트 개요",
@@ -133,6 +133,11 @@
     "NO_ENOUGH_DATA": "보고서를 생성할 수 있는 데이터 포인트가 부족합니다. 나중에 다시 시도하십시오.",
     "DOWNLOAD_AGENT_REPORTS": "에이전트 보고서 다운로드",
     "FILTER_DROPDOWN_LABEL": "에이전트 선택",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "에이전트 검색"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "대화",
@@ -192,11 +197,6 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "적용",
       "PLACEHOLDER": "날짜 범위 선택"
-    },
-    "FILTERS": {
-      "INPUT_PLACEHOLDER": {
-        "AGENTS": "에이전트 검색"
-      }
     }
   },
   "LABEL_REPORTS": {
@@ -206,6 +206,11 @@
     "NO_ENOUGH_DATA": "보고서를 생성할 수 있는 데이터 포인트가 부족합니다. 나중에 다시 시도하십시오.",
     "DOWNLOAD_LABEL_REPORTS": "라벨 보고서 다운로드",
     "FILTER_DROPDOWN_LABEL": "라벨 선택",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "라벨 검색"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "대화",
@@ -265,11 +270,6 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "적용",
       "PLACEHOLDER": "날짜 범위 선택"
-    },
-    "FILTERS": {
-      "INPUT_PLACEHOLDER": {
-        "LABELS": "라벨 검색"
-      }
     }
   },
   "INBOX_REPORTS": {
@@ -281,6 +281,11 @@
     "FILTER_DROPDOWN_LABEL": "받은 메시지함 선택",
     "ALL_INBOXES": "모든 받은 메시지함",
     "SEARCH_INBOX": "받은 메시지함 검색",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "받은 메시지함 검색"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "대화",
@@ -340,11 +345,6 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "적용",
       "PLACEHOLDER": "날짜 범위 선택"
-    },
-    "FILTERS": {
-      "INPUT_PLACEHOLDER": {
-        "INBOXES": "받은 메시지함 검색"
-      }
     }
   },
   "TEAM_REPORTS": {
@@ -354,6 +354,14 @@
     "NO_ENOUGH_DATA": "보고서를 생성할 수 있는 데이터 포인트가 부족합니다. 나중에 다시 시도하십시오.",
     "DOWNLOAD_TEAM_REPORTS": "팀 보고서 다운로드",
     "FILTER_DROPDOWN_LABEL": "팀 선택",
+    "FILTERS": {
+      "ADD_FILTER": "필터 추가",
+      "CLEAR_ALL": "모두 지우기",
+      "NO_FILTER": "사용 가능한 필터가 없습니다",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "팀 검색"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "대화",
@@ -413,25 +421,15 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "적용",
       "PLACEHOLDER": "날짜 범위 선택"
-    },
-    "FILTERS": {
-      "ADD_FILTER": "필터 추가",
-      "CLEAR_ALL": "모두 지우기",
-      "NO_FILTER": "사용 가능한 필터가 없습니다",
-      "INPUT_PLACEHOLDER": {
-        "TEAMS": "팀 검색"
-      }
     }
   },
   "CSAT_REPORTS": {
     "HEADER": "CSAT 보고서",
     "NO_RECORDS": "아직 응답이 없습니다",
+    "NO_RECORDS_DESCRIPTION": "고객이 피드백을 제공하기 시작하면 CSAT 설문 응답이 여기에 표시됩니다.",
     "DOWNLOAD": "CSAT 보고서 다운로드",
     "DOWNLOAD_FAILED": "CSAT 보고서 다운로드에 실패했습니다",
     "FILTERS": {
-      "AGENTS": {
-        "LABEL": "에이전트"
-      },
       "ADD_FILTER": "필터 추가",
       "CLEAR_ALL": "모두 지우기",
       "NO_FILTER": "사용 가능한 필터가 없습니다",
@@ -440,6 +438,9 @@
         "INBOXES": "받은 메시지함 검색",
         "TEAMS": "팀 검색",
         "RATINGS": "평점 검색"
+      },
+      "AGENTS": {
+        "LABEL": "에이전트"
       },
       "INBOXES": {
         "LABEL": "받은 메시지함"
@@ -464,6 +465,8 @@
       },
       "UNKNOWN_CUSTOMER": "알 수 없는 고객"
     },
+    "NO_AGENT": "배정된 에이전트 없음",
+    "NO_FEEDBACK": "피드백이 제공되지 않았습니다",
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "총 응답 수",
@@ -479,9 +482,6 @@
       },
       "RATING_DISTRIBUTION": "평점 분포"
     },
-    "NO_RECORDS_DESCRIPTION": "고객이 피드백을 제공하기 시작하면 CSAT 설문 응답이 여기에 표시됩니다.",
-    "NO_AGENT": "배정된 에이전트 없음",
-    "NO_FEEDBACK": "피드백이 제공되지 않았습니다",
     "REVIEW_NOTES": {
       "TITLE": "리뷰 메모",
       "PLACEHOLDER": "이 평점에 대한 리뷰 메모를 추가하십시오...",

@@ -1,45 +1,45 @@
 {
   "CONTENT_TEMPLATES": {
     "MODAL": {
-      "TITLE": "Twilio 模板",
-      "SUBTITLE": "選擇您想要傳送的 Twilio 模板",
-      "TEMPLATE_SELECTED_SUBTITLE": "配置模板: {templateName}"
+      "TITLE": "Twilio 範本",
+      "SUBTITLE": "選擇您想要傳送的 Twilio 範本",
+      "TEMPLATE_SELECTED_SUBTITLE": "設定範本：{templateName}"
     },
     "PICKER": {
-      "SEARCH_PLACEHOLDER": "查詢模板",
-      "NO_TEMPLATES_FOUND": "沒有找到對應的模版",
+      "SEARCH_PLACEHOLDER": "搜尋範本",
+      "NO_TEMPLATES_FOUND": "找不到對應的範本",
       "NO_CONTENT": "無內容",
-      "HEADER": "頁頭",
-      "BODY": "正文內容",
+      "HEADER": "標頭",
+      "BODY": "內文",
       "FOOTER": "頁尾",
       "BUTTONS": "按鈕",
       "CATEGORY": "類別",
       "MEDIA_CONTENT": "媒體內容",
       "MEDIA_CONTENT_FALLBACK": "媒體內容",
-      "NO_TEMPLATES_AVAILABLE": "沒有可用的 Twilio 模板。單擊重新整理以同步Twilio 的模板。",
-      "REFRESH_BUTTON": "重新整理模板",
-      "REFRESH_SUCCESS": "模板重新整理已啟動。更新可能需要幾分鐘時間。",
-      "REFRESH_ERROR": "重新整理模板失敗。請重試。",
+      "NO_TEMPLATES_AVAILABLE": "沒有可用的 Twilio 範本。點擊重新整理以從 Twilio 同步範本。",
+      "REFRESH_BUTTON": "重新整理範本",
+      "REFRESH_SUCCESS": "範本重新整理已啟動，可能需要幾分鐘才能完成更新。",
+      "REFRESH_ERROR": "重新整理範本失敗，請再試一次。",
       "LABELS": {
         "LANGUAGE": "語言",
-        "TEMPLATE_BODY": "模板內容",
+        "TEMPLATE_BODY": "範本內文",
         "CATEGORY": "類別"
       },
       "TYPES": {
         "MEDIA": "媒體",
-        "QUICK_REPLY": "快速回復",
-        "CALL_TO_ACTION": "號召性用語",
+        "QUICK_REPLY": "快速回覆",
+        "CALL_TO_ACTION": "行動呼籲",
         "TEXT": "文字"
       }
     },
     "PARSER": {
-      "VARIABLES_LABEL": "引數",
+      "VARIABLES_LABEL": "變數",
       "LANGUAGE": "語言",
       "CATEGORY": "類別",
-      "VARIABLE_PLACEHOLDER": "請填寫 {variable}",
+      "VARIABLE_PLACEHOLDER": "請填寫 {variable} 的值",
       "GO_BACK_LABEL": "返回",
       "SEND_MESSAGE_LABEL": "傳送訊息",
-      "FORM_ERROR_MESSAGE": "你必須填寫所有引數才能傳送",
+      "FORM_ERROR_MESSAGE": "傳送前請先填寫所有變數",
       "MEDIA_HEADER_LABEL": "{type} 標頭",
       "MEDIA_URL_LABEL": "輸入完整媒體 URL",
       "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"

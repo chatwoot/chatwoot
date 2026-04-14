@@ -1,5 +1,8 @@
 {
   "DATE_PICKER": {
+    "PREVIOUS_PERIOD": "이전 기간",
+    "NEXT_PERIOD": "다음 기간",
+    "WEEK_NUMBER": "{weekNumber}주차",
     "APPLY_BUTTON": "적용",
     "CLEAR_BUTTON": "초기화",
     "DATE_RANGE_INPUT": {
@@ -13,12 +16,9 @@
       "LAST_3_MONTHS": "지난 3개월",
       "LAST_6_MONTHS": "지난 6개월",
       "LAST_YEAR": "지난 1년",
-      "CUSTOM_RANGE": "사용자 지정 날짜 범위",
       "THIS_WEEK": "이번 주",
-      "MONTH_TO_DATE": "이번 달"
-    },
-    "PREVIOUS_PERIOD": "이전 기간",
-    "NEXT_PERIOD": "다음 기간",
-    "WEEK_NUMBER": "{weekNumber}주차"
+      "MONTH_TO_DATE": "이번 달",
+      "CUSTOM_RANGE": "사용자 지정 날짜 범위"
+    }
   }
 }

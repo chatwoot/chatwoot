@@ -79,7 +79,7 @@ export default {
 
   created() {
     state = createState(
-      this.modelValue,
+      this.modelValue || '',
       this.placeholder,
       this.plugins,
       { onImageUpload: this.openFileBrowser },
@@ -170,7 +170,7 @@ export default {
     },
     reloadState() {
       state = createState(
-        this.modelValue,
+        this.modelValue || '',
         this.placeholder,
         this.plugins,
         { onImageUpload: this.openFileBrowser },

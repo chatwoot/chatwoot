@@ -20,7 +20,7 @@ namespace :chatwoot do
       # Preview count using the same query logic
       base = account
              .conversations
-             .where('conversations.created_at > ?', days.days.ago)
+             .where('conversations.last_activity_at > ?', days.days.ago)
              .left_outer_joins(:contact, :inbox)
       conversations = base.where(contacts: { id: nil }).or(base.where(inboxes: { id: nil }))
 

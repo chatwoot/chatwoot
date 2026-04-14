@@ -457,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Instagram 추가"
           },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Telegram 추가"
+          },
           "TIKTOK": {
             "PLACEHOLDER": "TikTok 추가"
           },
@@ -465,9 +468,6 @@
           },
           "TWITTER": {
             "PLACEHOLDER": "Twitter 추가"
-          },
-          "TELEGRAM": {
-            "PLACEHOLDER": "Telegram 추가"
           }
         }
       },

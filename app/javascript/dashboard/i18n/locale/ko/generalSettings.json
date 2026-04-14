@@ -182,6 +182,7 @@
   },
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "검색 또는 바로가기",
+    "SNOOZE_PLACEHOLDER": "시간을 입력하세요. 예: 내일, 2시간 후, 다음 금요일, 1월 15일...",
     "SECTIONS": {
       "GENERAL": "일반",
       "REPORTS": "보고서",
@@ -239,8 +240,7 @@
       "DARK_MODE": "다크",
       "SYSTEM_MODE": "시스템",
       "SNOOZE_NOTIFICATION": "알림 일시 중지"
-    },
-    "SNOOZE_PLACEHOLDER": "시간을 입력하세요. 예: 내일, 2시간 후, 다음 금요일, 1월 15일..."
+    }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "대시보드 앱을 불러오는 중..."

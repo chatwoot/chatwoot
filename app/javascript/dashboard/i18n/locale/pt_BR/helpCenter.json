@@ -255,13 +255,13 @@
         "DOMAIN": {
           "LABEL": "Domínio personalizado",
           "PLACEHOLDER": "Domínio personalizado do portal",
-          "HELP_TEXT": "Adicione somente se você quiser usar um domínio personalizado para seus portais. Por exemplo: https://example. com",
+          "HELP_TEXT": "Adicione somente se você quiser usar um domínio personalizado para seus portais. Por exemplo: {exampleURL}",
           "ERROR": "Insira uma URL de domínio válida"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Link da Página Inicial",
           "PLACEHOLDER": "Link da página inicial do portal",
-          "HELP_TEXT": "O link usado para retornar do portal para a página inicial. Ex: https://example.com",
+          "HELP_TEXT": "O link usado para retornar do portal para a página inicial. Ex: {exampleURL}",
           "ERROR": "Digite uma URL de página inicial válida"
         },
         "THEME_COLOR": {
@@ -315,6 +315,18 @@
         "API": {
           "SUCCESS_MESSAGE": "Localização removida do portal com sucesso",
           "ERROR_MESSAGE": "Não é possível remover a localidade do portal. Tente novamente."
+        }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Localidade movida para rascunho com sucesso",
+          "ERROR_MESSAGE": "Não foi possível mover a localidade para rascunho. Tente novamente."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Localidade publicada com sucesso",
+          "ERROR_MESSAGE": "Não foi possível publicar a localidade. Tente novamente."
         }
       }
     },
@@ -644,8 +656,11 @@
         "ARTICLES_COUNT": "artigo {count} | {count} artigos",
         "CATEGORIES_COUNT": "categoria {count} | {count} categorias",
         "DEFAULT": "Padrão",
+        "DRAFT": "Rascunho",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Tornar padrão",
+          "MOVE_TO_DRAFT": "Mover para rascunho",
+          "PUBLISH_LOCALE": "Publicar localidade",
           "DELETE": "Excluir"
         }
       },
@@ -654,6 +669,13 @@
         "DESCRIPTION": "Selecione o idioma em que este artigo será escrito. Isto será adicionado à sua lista de traduções, e você pode adicionar mais tarde.",
         "COMBOBOX": {
           "PLACEHOLDER": "Selecionar local..."
+        },
+        "STATUS": {
+          "LABEL": "Status",
+          "OPTIONS": {
+            "LIVE": "Publicado",
+            "DRAFT": "Rascunho"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Localidade adicionada com sucesso",

@@ -2,9 +2,9 @@
   "LOGIN": {
     "TITLE": "Entrar no Chatwoot",
     "EMAIL": {
-      "LABEL": "e-mail",
+      "LABEL": "E-mail",
       "PLACEHOLDER": "nome{'@'}empresa.com.br",
-      "ERROR": "Digite um endereço de endereço eletrônico válido"
+      "ERROR": "Por favor, insira um endereço de e-mail válido"
     },
     "PASSWORD": {
       "LABEL": "Senha",
