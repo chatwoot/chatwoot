@@ -2,10 +2,6 @@
 
 set -x
 
-# Fix for Ruby 3.4 uninitialized constant RbConfig error in bundled_gems.rb
-export RUBYOPT='-rrbconfig'
-
-
 # Remove a potentially pre-existing server.pid for Rails.
 rm -rf /app/tmp/pids/server.pid
 rm -rf /app/tmp/cache/*
