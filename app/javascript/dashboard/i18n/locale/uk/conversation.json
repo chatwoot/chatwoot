@@ -61,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Це повідомлення не підтримується. Ви можете переглянути це повідомлення у додатку Facebook Messenger",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Це повідомлення не підтримується. Ви можете переглянути це повідомлення у додатку Instagram.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "Повідомлення успішно видалено",
     "FAIL_DELETE_MESSSAGE": "Не вдалося видалити повідомлення! Спробуйте ще раз",
     "NO_RESPONSE": "Немає відповіді",
@@ -173,8 +174,12 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Не вдалося призначити мітку. Будь-ласка, спробуйте ще раз."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Призначено команду \"#{team}\" до ID розмови {conversationId}",
+          "SUCCESFUL": "Призначено команду \"{team}\" до ID розмови {conversationId}",
           "FAILED": "Не вдалося призначити команду. Будь ласка, спробуйте ще раз."
         }
       }
@@ -185,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "Вимкнути підпис",
       "MSG_INPUT": "Shift + Enter для нового рядка. Для вибору швидкої відповіді, уведіть '/'.",
       "PRIVATE_MSG_INPUT": "Shift + Enter для нового рядка. Видиме лише для співробітників",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Не налаштовано підпис повідомлення, будь ласка, налаштуйте його в налаштуваннях профілю.",
+      "COPILOT_MSG_INPUT": "Надайте Copilot додаткові підказки або запитайте що-небудь ще... Натисніть Enter для відправлення відповіді",
       "CLICK_HERE": "Натисніть тут для оновлення",
       "WHATSAPP_TEMPLATES": "Шаблони Whatsapp"
     },
@@ -205,7 +214,7 @@
       "DRAG_DROP": "Перетягніть сюди, щоб прикріпити",
       "START_AUDIO_RECORDING": "Почати аудіозапис",
       "STOP_AUDIO_RECORDING": "Зупинити аудіозапис",
-      "": "",
+      "COPILOT_THINKING": "Copilot думає",
       "EMAIL_HEAD": {
         "TO": "На",
         "ADD_BCC": "Додати bcc",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Файл перевищує максимальний розмір вкладень {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} МБ",
+    "FILE_TYPE_NOT_SUPPORTED": "Тип файлу {fileName} не підтримується у цій розмові",
     "MESSAGE_ERROR": "Не вдалося надіслати повідомлення, будь ласка, повторіть спробу пізніше",
     "SENT_BY": "Надіслав:",
     "BOT": "Бот",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Не вдалося надіслати повідомлення! Повторіть спробу",
     "TRY_AGAIN": "повторити",
     "ASSIGNMENT": {
@@ -281,10 +293,10 @@
       "OUTGOING_CALL": "Outgoing call",
       "CALL_IN_PROGRESS": "Call in progress",
       "NOT_ANSWERED_YET": "Not answered yet",
-      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
-      "REJECT_CALL": "Reject",
-      "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "HANDLED_IN_ANOTHER_TAB": "Оброблюється в іншій вкладці",
+      "REJECT_CALL": "Відхилити",
+      "JOIN_CALL": "Доєднатися до виклику",
+      "END_CALL": "Завершити виклик"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -294,6 +306,7 @@
     "CANCEL": "Скасувати",
     "SEND_EMAIL_SUCCESS": "Текст розмови надісланий",
     "SEND_EMAIL_ERROR": "Сталася помилка, будь ласка, спробуйте ще раз",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Надіслати клієнту стенограму",
       "SEND_TO_AGENT": "Надіслати стенограму агенту",

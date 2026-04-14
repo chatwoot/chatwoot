@@ -1,865 +1,897 @@
 {
   "HELP_CENTER": {
-    "TITLE": "Help Center",
+    "TITLE": "সহায়তা কেন্দ্র",
     "NEW_PAGE": {
-      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
-      "CREATE_PORTAL_BUTTON": "Create Portal"
+      "DESCRIPTION": "আপনার গ্রাহকদের জন্য স্ব-সেবা সহায়তা কেন্দ্র পোর্টাল তৈরি করুন. অপেক্ষা ছাড়াই তাদের দ্রুত উত্তর খুঁজে পেতে সাহায্য করুন. জিজ্ঞাসা পরিচালনা সহজ করুন, এজেন্টদের দক্ষতা বাড়ান এবং গ্রাহক সহায়তা উন্নত করুন.",
+      "CREATE_PORTAL_BUTTON": "পোর্টাল তৈরি করুন"
     },
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
-      "LOCALE": "Locale",
-      "SETTINGS_BUTTON": "Settings",
-      "NEW_BUTTON": "New Article",
+      "FILTER": "ফিল্টার করুন",
+      "SORT": "ক্রম সাজান",
+      "LOCALE": "লোকেল",
+      "SETTINGS_BUTTON": "সেটিংস",
+      "NEW_BUTTON": "নতুন আর্টিকেল",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "প্রকাশিত",
+        "DRAFT": "খসড়া",
+        "ARCHIVED": "আর্কাইভ করা হয়েছে"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "সমস্ত নিবন্ধ",
+        "MINE": "আমার নিবন্ধসমূহ",
+        "DRAFT": "খসড়া নিবন্ধসমূহ",
+        "ARCHIVED": "আর্কাইভ করা নিবন্ধসমূহ"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "লোকেল নির্বাচন করুন",
+        "PLACEHOLDER": "লোকেল নির্বাচন করুন",
+        "NO_RESULT": "কোন লোকেল পাওয়া যায়নি",
+        "SEARCH_PLACEHOLDER": "লোকেল অনুসন্ধান করুন"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "সমস্ত নিবন্ধ",
+      "PUBLISH_BUTTON": "প্রকাশ করুন",
+      "MOVE_TO_ARCHIVE_BUTTON": "আর্কাইভে সরান",
+      "PREVIEW": "পূর্বরূপ",
+      "ADD_TRANSLATION": "অনুবাদ যোগ করুন",
+      "OPEN_SIDEBAR": "সাইডবার খুলুন",
+      "CLOSE_SIDEBAR": "সাইডবার বন্ধ করুন",
+      "SAVING": "সংরক্ষণ হচ্ছে...",
+      "SAVED": "সংরক্ষিত"
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
-        "TITLE": "Upload image",
-        "UPLOADING": "Uploading...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "TITLE": "ছবি আপলোড করুন",
+        "UPLOADING": "আপলোড হচ্ছে...",
+        "SUCCESS": "ছবি সফলভাবে আপলোড হয়েছে",
+        "ERROR": "ছবি আপলোড করার সময় ত্রুটি হয়েছে",
+        "UN_AUTHORIZED_ERROR": "আপনি ছবি আপলোড করার অনুমোদিত নন",
+        "ERROR_FILE_SIZE": "ছবির আকার {size}MB এর কম হওয়া উচিত",
+        "ERROR_FILE_FORMAT": "ছবির ফরম্যাট jpg, jpeg অথবা png হতে হবে",
+        "ERROR_FILE_DIMENSIONS": "ছবির মাত্রা 2000 × 2000-এর কম হতে হবে"
       }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "নিবন্ধ সেটিংস",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "বিভাগ",
+          "TITLE": "বিভাগ নির্বাচন করুন",
+          "PLACEHOLDER": "বিভাগ নির্বাচন করুন",
+          "NO_RESULT": "কোন বিভাগ পাওয়া যায়নি",
+          "SEARCH_PLACEHOLDER": "বিভাগ অনুসন্ধান করুন"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "লেখক",
+          "TITLE": "লেখক নির্বাচন করুন",
+          "PLACEHOLDER": "লেখক নির্বাচন করুন",
+          "NO_RESULT": "কোন লেখক পাওয়া যায়নি",
+          "SEARCH_PLACEHOLDER": "লেখক অনুসন্ধান করুন"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "মেটা শিরোনাম",
+          "PLACEHOLDER": "একটি মেটা শিরোনাম যোগ করুন"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "মেটা বিবরণ",
+          "PLACEHOLDER": "ভালো SEO ফলাফলের জন্য আপনার মেটা বিবরণ যোগ করুন..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "মেটা ট্যাগ",
+          "PLACEHOLDER": "কমা দিয়ে পৃথক করা মেটা ট্যাগ যোগ করুন..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "নিবন্ধ আর্কাইভ করুন",
+        "DELETE": "নিবন্ধ মুছে ফেলুন"
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for {query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
-      "SEARCH_LOADER": "Searching...",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "UNCATEGORIZED": "বিভাগহীন",
+      "SEARCH_RESULTS": "{query} এর জন্য অনুসন্ধানের ফলাফল",
+      "EMPTY_TEXT": "উত্তরে যোগ করার জন্য নিবন্ধ খুঁজুন.",
+      "SEARCH_LOADER": "অনুসন্ধান চলছে...",
+      "INSERT_ARTICLE": "যোগ করুন",
+      "NO_RESULT": "কোনো নিবন্ধ পাওয়া যায়নি",
+      "COPY_LINK": "নিবন্ধের লিঙ্ক ক্লিপবোর্ডে কপি করুন",
+      "OPEN_LINK": "নতুন ট্যাবে নিবন্ধ খুলুন",
+      "PREVIEW_LINK": "নিবন্ধের পূর্বরূপ দেখুন"
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "DEFAULT": "Default",
-      "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "HEADER": "পোর্টাল",
+      "DEFAULT": "ডিফল্ট",
+      "NEW_BUTTON": "নতুন পোর্টাল",
+      "ACTIVE_BADGE": "সক্রিয়",
+      "CHOOSE_LOCALE_LABEL": "একটি লোকেল নির্বাচন করুন",
+      "LOADING_MESSAGE": "পোর্টাল লোড হচ্ছে...",
+      "ARTICLES_LABEL": "নিবন্ধ",
+      "NO_PORTALS_MESSAGE": "কোনো পোর্টাল উপলব্ধ নেই",
+      "ADD_NEW_LOCALE": "নতুন একটি লোকেল যোগ করুন",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
-        "CANCEL_BUTTON_LABEL": "Cancel",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "TITLE": "পোর্টালসমূহ",
+        "PORTAL_SETTINGS": "পোর্টাল সেটিংস",
+        "SUBTITLE": "আপনার একাধিক পোর্টাল রয়েছে এবং প্রতিটি পোর্টালের জন্য আলাদা লোকেল থাকতে পারে।.",
+        "CANCEL_BUTTON_LABEL": "বাতিল করুন",
+        "CHOOSE_LOCALE_BUTTON": "ভাষা নির্বাচন করুন"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
-            "SETTINGS": "Settings",
-            "DELETE": "Delete"
+            "COUNT_LABEL": "নিবন্ধ",
+            "ADD": "লোকেল যোগ করুন",
+            "VISIT": "সাইট পরিদর্শন করুন",
+            "SETTINGS": "সেটিংস",
+            "DELETE": "মুছে ফেলুন"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "পোর্টাল কনফিগারেশন",
             "ITEMS": {
-              "NAME": "Name",
-              "DOMAIN": "Custom domain",
-              "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "NAME": "নাম",
+              "DOMAIN": "কাস্টম ডোমেইন",
+              "SLUG": "স্লাগ",
+              "TITLE": "পোর্টাল শিরোনাম",
+              "THEME": "থিম রঙ",
+              "SUB_TEXT": "পোর্টাল উপ-লেখা"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "উপলব্ধ লোকেল",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
-              "DELETE": "Delete",
-              "DEFAULT_LOCALE": "Default"
+              "NAME": "লোকেল নাম",
+              "CODE": "লোকেল কোড",
+              "ARTICLE_COUNT": "প্রবন্ধের সংখ্যা",
+              "CATEGORIES": "বিভাগের সংখ্যা",
+              "SWAP": "অদলবদল",
+              "DELETE": "মুছে ফেলুন",
+              "DEFAULT_LOCALE": "ডিফল্ট"
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "পোর্টাল মুছে ফেলুন",
+          "MESSAGE": "আপনি কি নিশ্চিত যে আপনি এই পোর্টালটি মুছে ফেলতে চান",
+          "YES": "হ্যাঁ, পোর্টাল মুছে ফেলুন",
+          "NO": "না, পোর্টাল রাখুন",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "পোর্টাল সফলভাবে মুছে ফেলা হয়েছে",
+            "DELETE_ERROR": "পোর্টাল মুছে ফেলার সময় ত্রুটি ঘটেছে"
           }
         },
         "SEND_CNAME_INSTRUCTIONS": {
           "API": {
-            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
-            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+            "SUCCESS_MESSAGE": "CNAME নির্দেশাবলী সফলভাবে পাঠানো হয়েছে",
+            "ERROR_MESSAGE": "CNAME নির্দেশাবলী পাঠানোর সময় ত্রুটি হয়েছে"
           }
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit portal",
+        "HEADER_TEXT": "পোর্টাল সম্পাদনা করুন",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": "মৌলিক তথ্য"
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Portal customization"
+            "TITLE": "পোর্টাল কাস্টমাইজেশন"
           },
           "CATEGORY_SETTINGS": {
-            "TITLE": "Categories"
+            "TITLE": "বিভাগসমূহ"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": "অঞ্চলসমূহ"
           }
         },
         "CATEGORIES": {
-          "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "TITLE": "এ বিভাগের মধ্যে",
+          "NEW_CATEGORY": "নতুন বিভাগ",
           "TABLE": {
-            "NAME": "Name",
-            "DESCRIPTION": "Description",
-            "LOCALE": "Locale",
-            "ARTICLE_COUNT": "No. of articles",
+            "NAME": "নাম",
+            "DESCRIPTION": "বর্ণনা",
+            "LOCALE": "লোকেল",
+            "ARTICLE_COUNT": "প্রবন্ধের সংখ্যা",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "বিভাগ সম্পাদনা করুন",
+              "DELETE": "বিভাগ মুছুন"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "কোনো বিভাগ পাওয়া যায়নি"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Update basic settings"
+          "BUTTON_TEXT": "মৌলিক সেটিংস আপডেট করুন"
         }
       },
       "ADD": {
         "CREATE_FLOW": {
           "BASIC": {
-            "TITLE": "Help center information",
-            "BODY": "Basic information about portal"
+            "TITLE": "হেল্প সেন্টারের তথ্য",
+            "BODY": "পোর্টালের মৌলিক তথ্য"
           },
           "CUSTOMIZATION": {
-            "TITLE": "Help center customization",
-            "BODY": "Customize portal"
+            "TITLE": "হেল্প সেন্টার কাস্টমাইজেশন",
+            "BODY": "পোর্টাল কাস্টমাইজ করুন"
           },
           "FINISH": {
-            "TITLE": "Voila! 🎉",
-            "BODY": "You're all set!"
+            "TITLE": "ভোইলা! 🎉",
+            "BODY": "আপনি প্রস্তুত!"
           }
         },
         "CREATE_FLOW_PAGE": {
-          "BACK_BUTTON": "Back",
+          "BACK_BUTTON": "পেছনে",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "পোর্টাল তৈরি করুন",
+            "TITLE": "হেল্প সেন্টারের তথ্য",
+            "CREATE_BASIC_SETTING_BUTTON": "পোর্টালের মৌলিক সেটিংস তৈরি করুন"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "পোর্টাল কাস্টমাইজেশন",
+            "TITLE": "হেল্প সেন্টার কাস্টমাইজেশন",
+            "UPDATE_PORTAL_BUTTON": "পোর্টাল সেটিংস আপডেট করুন"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "ভোইলা!🎉 আপনি সব সেটআপ সম্পন্ন করেছেন!",
+            "MESSAGE": "এখন আপনি এই তৈরি করা পোর্টালটি আপনার সব পোর্টাল পৃষ্ঠায় দেখতে পারবেন।.",
+            "FINISH": "সমস্ত পোর্টাল পৃষ্ঠায় যান"
           }
         },
         "LOGO": {
-          "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "LABEL": "লোগো",
+          "UPLOAD_BUTTON": "লোগো আপলোড করুন",
+          "HELP_TEXT": "এই লোগোটি পোর্টাল হেডারে প্রদর্শিত হবে।.",
+          "IMAGE_UPLOAD_SUCCESS": "লোগো সফলভাবে আপলোড হয়েছে",
+          "IMAGE_UPLOAD_ERROR": "লোগো সফলভাবে মুছে ফেলা হয়েছে",
+          "IMAGE_DELETE_ERROR": "লোগো মুছে ফেলার সময় ত্রুটি"
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
-          "ERROR": "Name is required"
+          "LABEL": "নাম",
+          "PLACEHOLDER": "পোর্টাল নাম",
+          "HELP_TEXT": "নামটি অভ্যন্তরীণভাবে পাবলিক ফেসিং পোর্টালে ব্যবহৃত হবে।.",
+          "ERROR": "নাম আবশ্যক"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-          "ERROR": "Slug is required"
+          "LABEL": "স্লাগ",
+          "PLACEHOLDER": "ইউআরএল-এর জন্য পোর্টাল স্লাগ",
+          "ERROR": "স্লাগ আবশ্যক"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
-          "ERROR": "Enter a valid domain URL"
+          "LABEL": "কাস্টম ডোমেইন",
+          "PLACEHOLDER": "পোর্টালের কাস্টম ডোমেইন",
+          "HELP_TEXT": "শুধুমাত্র তখনই যোগ করুন যদি আপনি আপনার পোর্টালের জন্য একটি কাস্টম ডোমেইন ব্যবহার করতে চান। উদাহরণ: {exampleURL}",
+          "ERROR": "একটি বৈধ ডোমেইন URL লিখুন"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
-          "ERROR": "Enter a valid home page URL"
+          "LABEL": "হোম পেজ লিঙ্ক",
+          "PLACEHOLDER": "পোর্টাল হোম পেজ লিঙ্ক",
+          "HELP_TEXT": "পোর্টাল থেকে হোম পেজে ফিরে যাওয়ার জন্য ব্যবহৃত লিঙ্ক। উদাহরণ: {exampleURL}",
+          "ERROR": "একটি বৈধ হোম পেজ URL লিখুন"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "পোর্টাল থিম রঙ",
+          "HELP_TEXT": "এই রঙটি পোর্টালের থিম রঙ হিসেবে প্রদর্শিত হবে।."
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "LABEL": "পৃষ্ঠার শিরোনাম",
+          "PLACEHOLDER": "পোর্টাল পৃষ্ঠার শিরোনাম",
+          "HELP_TEXT": "পেজ শিরোনামটি পাবলিক ফেসিং পোর্টালে ব্যবহৃত হবে।.",
+          "ERROR": "পৃষ্ঠার শিরোনাম আবশ্যক"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "হেডার টেক্সট",
+          "PLACEHOLDER": "পোর্টাল হেডার টেক্সট",
+          "HELP_TEXT": "পোর্টাল হেডার টেক্সটটি পাবলিক ফেসিং পোর্টালে ব্যবহৃত হবে।.",
+          "ERROR": "পোর্টাল হেডার টেক্সট আবশ্যক"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "পোর্টাল সফলভাবে তৈরি হয়েছে।.",
+          "ERROR_MESSAGE_FOR_BASIC": "পোর্টাল তৈরি করা যায়নি। আবার চেষ্টা করুন।.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "পোর্টাল সফলভাবে আপডেট হয়েছে।.",
+          "ERROR_MESSAGE_FOR_UPDATE": "পোর্টাল আপডেট করা যায়নি। আবার চেষ্টা করুন।."
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Add a new locale",
-        "SUB_TITLE": "This adds a new locale to your available translation list.",
-        "PORTAL": "Portal",
+        "TITLE": "একটি নতুন লোকেল যোগ করুন",
+        "SUB_TITLE": "এটি আপনার উপলব্ধ অনুবাদ তালিকায় একটি নতুন লোকেল যোগ করে।.",
+        "PORTAL": "পোর্টাল",
         "LOCALE": {
-          "LABEL": "Locale",
-          "PLACEHOLDER": "Choose a locale",
-          "ERROR": "Locale is required"
+          "LABEL": "লোকেল",
+          "PLACEHOLDER": "একটি লোকেল নির্বাচন করুন",
+          "ERROR": "লোকেল আবশ্যক"
         },
         "BUTTONS": {
-          "CREATE": "Create locale",
-          "CANCEL": "Cancel"
+          "CREATE": "লোকেল তৈরি করুন",
+          "CANCEL": "বাতিল করুন"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "লোকেল সফলভাবে যোগ করা হয়েছে",
+          "ERROR_MESSAGE": "লোকেল যোগ করা যায়নি। আবার চেষ্টা করুন।."
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Default locale updated successfully",
-          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+          "SUCCESS_MESSAGE": "ডিফল্ট লোকেল সফলভাবে আপডেট হয়েছে",
+          "ERROR_MESSAGE": "ডিফল্ট লোকেল আপডেট করা যায়নি। আবার চেষ্টা করুন।."
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
-          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+          "SUCCESS_MESSAGE": "লোকেল সফলভাবে পোর্টাল থেকে সরানো হয়েছে",
+          "ERROR_MESSAGE": "লোকেল পোর্টাল থেকে সরানো যায়নি। আবার চেষ্টা করুন।."
+        }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "নিবন্ধ লোড হচ্ছে...",
+      "404": "আপনার অনুসন্ধানের সাথে কোনো নিবন্ধ মেলে নি 🔍",
+      "NO_ARTICLES": "কোনো উপলব্ধ নিবন্ধ নেই",
       "HEADERS": {
-        "TITLE": "Title",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Views",
-        "STATUS": "Status",
-        "LAST_EDITED": "Last edited"
+        "TITLE": "শিরোনাম",
+        "CATEGORY": "বিভাগ",
+        "READ_COUNT": "দর্শন",
+        "STATUS": "অবস্থা",
+        "LAST_EDITED": "সর্বশেষ সম্পাদিত"
       },
       "COLUMNS": {
-        "BY": "by",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "দ্বারা",
+        "AUTHOR_NOT_AVAILABLE": "লেখক উপলব্ধ নেই"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "নিবন্ধ লোড হচ্ছে...",
+      "TITLE_PLACEHOLDER": "নিবন্ধের শিরোনাম এখানে লিখুন",
+      "CONTENT_PLACEHOLDER": "আপনার নিবন্ধ এখানে লিখুন",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "আর্টিকেল সংরক্ষণ করার সময় ত্রুটি"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article published successfully"
+        "ERROR": "প্রবন্ধ প্রকাশ করার সময় ত্রুটি",
+        "SUCCESS": "নিবন্ধ সফলভাবে প্রকাশিত হয়েছে"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "আর্টিকেল আর্কাইভ করার সময় ত্রুটি",
+        "SUCCESS": "আর্টিকেল সফলভাবে আর্কাইভ করা হয়েছে"
       }
     },
     "DRAFT_ARTICLE": {
       "API": {
-        "ERROR": "Error while drafting article",
-        "SUCCESS": "Article drafted successfully"
+        "ERROR": "প্রবন্ধ খসড়া করার সময় ত্রুটি",
+        "SUCCESS": "নিবন্ধ সফলভাবে খসড়া হয়েছে"
       }
     },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete the article?",
-          "YES": "Yes, Delete",
-          "NO": "No, Keep it"
+          "TITLE": "মুছে ফেলা নিশ্চিত করুন",
+          "MESSAGE": "আপনি কি নিশ্চিত যে নিবন্ধটি মুছে ফেলতে চান?",
+          "YES": "হ্যাঁ, মুছে ফেলুন",
+          "NO": "না, রাখুন"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Article deleted successfully",
-        "ERROR_MESSAGE": "Error while deleting article"
+        "SUCCESS_MESSAGE": "নিবন্ধ সফলভাবে মুছে ফেলা হয়েছে",
+        "ERROR_MESSAGE": "নিবন্ধ মুছে ফেলার সময় ত্রুটি হয়েছে"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "আর্টিকেল পুনরায় সাজানো যাচ্ছে না। আবার চেষ্টা করুন।."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "বিভাগ পুনরায় সাজানো যাচ্ছে না। আবার চেষ্টা করুন।."
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": "অনুগ্রহ করে আর্টিকেল শিরোনাম এবং বিষয়বস্তু যোগ করুন, তারপরই আপনি সেটিংস আপডেট করতে পারবেন"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "নিবন্ধ অনুসন্ধান করুন"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "একটি বিভাগ তৈরি করুন",
+        "SUB_TITLE": "বিভাগটি পাবলিক ফেসিং পোর্টালে নিবন্ধগুলি শ্রেণীবদ্ধ করতে ব্যবহৃত হবে।.",
+        "PORTAL": "পোর্টাল",
+        "LOCALE": "লোকেল",
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "LABEL": "নাম",
+          "PLACEHOLDER": "বিভাগের নাম",
+          "HELP_TEXT": "নিবন্ধগুলোকে শ্রেণীবদ্ধ করতে পাবলিক পোর্টালে বিভাগের নাম ও চিহ্ন ব্যবহার করা হবে.",
+          "ERROR": "নাম আবশ্যক"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "LABEL": "স্লাগ",
+          "PLACEHOLDER": "বিভাগের ইউআরএল স্লাগ",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "স্লাগ আবশ্যক"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "LABEL": "বর্ণনা",
+          "PLACEHOLDER": "বিভাগ সম্পর্কে সংক্ষিপ্ত বর্ণনা দিন।.",
+          "ERROR": "বর্ণনা আবশ্যক"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
-          "CANCEL": "Cancel"
+          "CREATE": "বিভাগ তৈরি করুন",
+          "CANCEL": "বাতিল করুন"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "বিভাগ সফলভাবে তৈরি হয়েছে",
+          "ERROR_MESSAGE": "বিভাগ তৈরি করা যায়নি"
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "একটি বিভাগ সম্পাদনা করুন",
+        "SUB_TITLE": "একটি বিভাগ সম্পাদনা করলে পাবলিক ফেসিং পোর্টালে বিভাগটি আপডেট হবে।.",
+        "PORTAL": "পোর্টাল",
+        "LOCALE": "লোকেল",
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "LABEL": "নাম",
+          "PLACEHOLDER": "বিভাগের নাম",
+          "HELP_TEXT": "নিবন্ধগুলোকে শ্রেণীবদ্ধ করতে পাবলিক পোর্টালে বিভাগের নাম ও চিহ্ন ব্যবহার করা হবে.",
+          "ERROR": "নাম আবশ্যক"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "LABEL": "স্লাগ",
+          "PLACEHOLDER": "বিভাগের ইউআরএল স্লাগ",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "স্লাগ আবশ্যক"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "LABEL": "বর্ণনা",
+          "PLACEHOLDER": "বিভাগ সম্পর্কে সংক্ষিপ্ত বর্ণনা দিন।.",
+          "ERROR": "বর্ণনা আবশ্যক"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
-          "CANCEL": "Cancel"
+          "CREATE": "বিভাগ আপডেট করুন",
+          "CANCEL": "বাতিল করুন"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "বিভাগ সফলভাবে আপডেট হয়েছে",
+          "ERROR_MESSAGE": "বিভাগ আপডেট করতে অক্ষম"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "বিভাগ সফলভাবে মুছে ফেলা হয়েছে",
+          "ERROR_MESSAGE": "বিভাগ মুছে ফেলতে অক্ষম"
         }
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "No articles found",
-      "SEARCHING": "Searching...",
-      "SEARCH_BUTTON": "Search",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Preview article",
-      "CANCEL": "Close",
-      "BACK": "Back",
-      "BACK_RESULTS": "Back to results"
+      "TITLE": "নিবন্ধ অনুসন্ধান করুন",
+      "PLACEHOLDER": "নিবন্ধ অনুসন্ধান করুন",
+      "NO_RESULT": "কোনো নিবন্ধ পাওয়া যায়নি",
+      "SEARCHING": "অনুসন্ধান চলছে...",
+      "SEARCH_BUTTON": "অনুসন্ধান",
+      "INSERT_ARTICLE": "লিঙ্ক প্রবেশ করান",
+      "IFRAME_ERROR": "URL খালি আছে বা সঠিক নয়. বিষয়বস্তু প্রদর্শন করা যাচ্ছে না.",
+      "OPEN_ARTICLE_SEARCH": "হেল্প সেন্টার থেকে নিবন্ধ প্রবেশ করান",
+      "SUCCESS_ARTICLE_INSERTED": "নিবন্ধ সফলভাবে প্রবেশ করানো হয়েছে",
+      "PREVIEW_LINK": "নিবন্ধের পূর্বরূপ দেখুন",
+      "CANCEL": "বন্ধ করুন",
+      "BACK": "পেছনে",
+      "BACK_RESULTS": "ফলাফলের দিকে ফিরে যান"
     },
     "UPGRADE_PAGE": {
-      "TITLE": "Help Center",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "TITLE": "হেল্প সেন্টার",
+      "DESCRIPTION": "সহজে ব্যবহারযোগ্য স্ব-সেবা পোর্টাল তৈরি করুন. আপনার ব্যবহারকারীদের নিবন্ধগুলোতে প্রবেশ করতে দিন এবং ২৪/৭ সহায়তা পান. এই ফিচারটি চালু করতে আপনার সাবস্ক্রিপশন আপগ্রেড করুন.",
+      "SELF_HOSTED_DESCRIPTION": "সহজে ব্যবহারযোগ্য স্ব-সেবা পোর্টাল তৈরি করুন. আপনার ব্যবহারকারীদের নিবন্ধগুলোতে প্রবেশ করতে দিন এবং ২৪/৭ সহায়তা পেতে সাহায্য করুন. এই ফিচারটি চালু করতে আপনার প্রশাসকের সাথে যোগাযোগ করুন.",
       "BUTTON": {
-        "LEARN_MORE": "Learn more",
-        "UPGRADE": "Upgrade"
+        "LEARN_MORE": "আরও জানুন",
+        "UPGRADE": "আপগ্রেড করুন"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "একাধিক পোর্টাল",
+          "DESCRIPTION": "একই অ্যাকাউন্ট ব্যবহার করে বিভিন্ন পণ্যের জন্য একাধিক হেল্প সেন্টার পোর্টাল তৈরি করুন."
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "লোকেলগুলোর পূর্ণ সমর্থন",
+          "DESCRIPTION": "আপনার ভাষায় পোর্টালটি স্থানীয়করণ করুন. আমরা সব লোকেল সমর্থন করি এবং প্রতিটি নিবন্ধের জন্য অনুবাদের সুযোগ দিই."
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+          "TITLE": "সার্চ ইঞ্জিন-বান্ধব নকশা",
+          "DESCRIPTION": "আমাদের সার্চ ইঞ্জিন-বান্ধব পৃষ্ঠাগুলোর সাহায্যে আপনার মেটা ট্যাগ কাস্টমাইজ করে সার্চ ইঞ্জিনে দৃশ্যমানতা বাড়ান."
         },
         "API": {
-          "TITLE": "Full API support",
-          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+          "TITLE": "পূর্ণ API সমর্থন",
+          "DESCRIPTION": "আমাদের API ব্যবহার করে তৃতীয় পক্ষের ফ্রেমওয়ার্কের সঙ্গে পোর্টালটিকে হেডলেস CMS হিসেবে ব্যবহার করুন."
         }
       }
     },
-    "LOADING": "Loading...",
+    "LOADING": "লোড হচ্ছে...",
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
-          "VIEWS": "{count} view | {count} views",
+          "VIEWS": "{count} ভিউ | {count} ভিউসমূহ",
           "DROPDOWN_MENU": {
-            "PUBLISH": "Publish",
-            "DRAFT": "Draft",
-            "ARCHIVE": "Archive",
-            "DELETE": "Delete"
+            "PUBLISH": "প্রকাশ করুন",
+            "DRAFT": "খসড়া",
+            "ARCHIVE": "আর্কাইভ",
+            "DELETE": "মুছে ফেলুন"
           },
           "STATUS": {
-            "DRAFT": "Draft",
-            "PUBLISHED": "Published",
-            "ARCHIVED": "Archived"
+            "DRAFT": "খসড়া",
+            "PUBLISHED": "প্রকাশিত",
+            "ARCHIVED": "সংরক্ষিত"
           },
           "CATEGORY": {
-            "UNCATEGORISED": "Uncategorised"
+            "UNCATEGORISED": "বিভাগবিহীন"
           }
         }
       },
       "ARTICLES_HEADER": {
         "TABS": {
-          "ALL": "All articles",
-          "MINE": "Mine",
-          "DRAFT": "Draft",
-          "PUBLISHED": "Published",
-          "ARCHIVED": "Archived"
+          "ALL": "সমস্ত নিবন্ধ",
+          "MINE": "আমার",
+          "DRAFT": "খসড়া",
+          "PUBLISHED": "প্রকাশিত",
+          "ARCHIVED": "আর্কাইভ করা"
         },
         "CATEGORY": {
-          "ALL": "All categories"
+          "ALL": "সমস্ত বিভাগ"
         },
         "LOCALE": {
-          "ALL": "All locales"
+          "ALL": "সমস্ত ভাষা"
         },
-        "NEW_ARTICLE": "New article"
+        "NEW_ARTICLE": "নতুন নিবন্ধ"
       },
       "EMPTY_STATE": {
         "ALL": {
-          "TITLE": "Write an article",
-          "SUBTITLE": "Write a rich article, let’s get started!",
-          "BUTTON_LABEL": "New article"
+          "TITLE": "একটি নিবন্ধ লিখুন",
+          "SUBTITLE": "একটি সমৃদ্ধ নিবন্ধ লিখুন, চলুন শুরু করা যাক!",
+          "BUTTON_LABEL": "নতুন নিবন্ধ"
         },
         "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+          "TITLE": "আপনি এখানে কোনো নিবন্ধ লিখেননি",
+          "SUBTITLE": "আপনার লেখা সব নিবন্ধ দ্রুত ব্যবহারের জন্য এখানে দেখা যাবে."
         },
         "DRAFT": {
-          "TITLE": "There are no articles in drafts",
-          "SUBTITLE": "Draft articles will appear here"
+          "TITLE": "খসড়ায় কোনো নিবন্ধ নেই",
+          "SUBTITLE": "খসড়া নিবন্ধ এখানে প্রদর্শিত হবে"
         },
         "PUBLISHED": {
-          "TITLE": "There are no published articles",
-          "SUBTITLE": "Published articles will appear here"
+          "TITLE": "প্রকাশিত কোনো নিবন্ধ নেই",
+          "SUBTITLE": "প্রকাশিত নিবন্ধ এখানে প্রদর্শিত হবে"
         },
         "ARCHIVED": {
-          "TITLE": "There are no articles in the archive",
-          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+          "TITLE": "আর্কাইভে কোনো নিবন্ধ নেই",
+          "SUBTITLE": "আর্কাইভ করা নিবন্ধগুলি পোর্টালে প্রদর্শিত হয় না, আপনি এটি অব্যবহৃত বা পুরানো পৃষ্ঠাগুলি চিহ্নিত করতে ব্যবহার করতে পারেন"
         },
         "CATEGORY": {
-          "TITLE": "There are no articles in this category",
-          "SUBTITLE": "Articles in this category will appear here"
+          "TITLE": "এই বিভাগে কোনো নিবন্ধ নেই",
+          "SUBTITLE": "এই বিভাগের নিবন্ধগুলি এখানে প্রদর্শিত হবে"
         }
       }
     },
     "CATEGORY_PAGE": {
       "CATEGORY_HEADER": {
-        "NEW_CATEGORY": "New category",
-        "EDIT_CATEGORY": "Edit category",
-        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "NEW_CATEGORY": "নতুন বিভাগ",
+        "EDIT_CATEGORY": "বিভাগ সম্পাদনা করুন",
+        "CATEGORIES_COUNT": "{n} বিভাগ | {n} বিভাগসমূহ",
         "BREADCRUMB": {
-          "CATEGORY_LOCALE": "Categories ({localeCode})",
-          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+          "CATEGORY_LOCALE": "বিভাগসমূহ ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} নিবন্ধ) | {categoryName} ({categoryCount} নিবন্ধ)"
         }
       },
       "CATEGORY_EMPTY_STATE": {
-        "TITLE": "No categories found",
-        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+        "TITLE": "কোনো বিভাগ পাওয়া যায়নি",
+        "SUBTITLE": "বিভাগগুলো এখানে দেখানো হবে. 'নতুন বিভাগ' বোতামে ক্লিক করে আপনি একটি বিভাগ যোগ করতে পারেন."
       },
       "CATEGORY_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles"
+        "ARTICLES_COUNT": "{count} নিবন্ধ | {count} নিবন্ধসমূহ"
       },
       "CATEGORY_DIALOG": {
         "CREATE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category created successfully",
-            "ERROR_MESSAGE": "Unable to create category"
+            "SUCCESS_MESSAGE": "বিভাগ সফলভাবে তৈরি হয়েছে",
+            "ERROR_MESSAGE": "বিভাগ তৈরি করা সম্ভব হয়নি"
           }
         },
         "EDIT": {
           "API": {
-            "SUCCESS_MESSAGE": "Category updated successfully",
-            "ERROR_MESSAGE": "Unable to update category"
+            "SUCCESS_MESSAGE": "বিভাগ সফলভাবে আপডেট হয়েছে",
+            "ERROR_MESSAGE": "বিভাগ আপডেট করতে অক্ষম"
           }
         },
         "DELETE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category deleted successfully",
-            "ERROR_MESSAGE": "Unable to delete category"
+            "SUCCESS_MESSAGE": "বিভাগ সফলভাবে মুছে ফেলা হয়েছে",
+            "ERROR_MESSAGE": "বিভাগ মুছে ফেলতে অক্ষম"
           }
         },
         "HEADER": {
-          "CREATE": "Create category",
-          "EDIT": "Edit category",
-          "DESCRIPTION": "Editing a category will update the category in the public facing portal.",
-          "PORTAL": "Portal",
-          "LOCALE": "Locale"
+          "CREATE": "বিভাগ তৈরি করুন",
+          "EDIT": "বিভাগ সম্পাদনা করুন",
+          "DESCRIPTION": "একটি বিভাগ সম্পাদনা করলে তা পাবলিক পোর্টালে আপডেট হবে.",
+          "PORTAL": "পোর্টাল",
+          "LOCALE": "লোকেল"
         },
         "FORM": {
           "NAME": {
-            "LABEL": "Name",
-            "PLACEHOLDER": "Category name",
-            "ERROR": "Name is required"
+            "LABEL": "নাম",
+            "PLACEHOLDER": "বিভাগের নাম",
+            "ERROR": "নাম আবশ্যক"
           },
           "SLUG": {
-            "LABEL": "Slug",
-            "PLACEHOLDER": "Category slug for urls",
-            "ERROR": "Slug is required",
+            "LABEL": "স্লাগ",
+            "PLACEHOLDER": "বিভাগের ইউআরএল স্লাগ",
+            "ERROR": "স্লাগ আবশ্যক",
             "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
-            "LABEL": "Description",
-            "PLACEHOLDER": "Give a short description about the category.",
-            "ERROR": "Description is required"
+            "LABEL": "বর্ণনা",
+            "PLACEHOLDER": "বিভাগ সম্পর্কে একটি সংক্ষিপ্ত বিবরণ দিন.",
+            "ERROR": "বর্ণনা আবশ্যক"
           }
         },
         "BUTTONS": {
-          "CREATE": "Create",
-          "EDIT": "Update",
-          "CANCEL": "Cancel"
+          "CREATE": "তৈরি করুন",
+          "EDIT": "আপডেট করুন",
+          "CANCEL": "বাতিল করুন"
         }
       }
     },
     "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALES_COUNT": "কোনো লোকেল উপলব্ধ নেই | {n} লোকেল | {n} লোকেলসমূহ",
+      "NEW_LOCALE_BUTTON_TEXT": "নতুন লোকেল",
       "LOCALE_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles",
-        "CATEGORIES_COUNT": "{count} category | {count} categories",
-        "DEFAULT": "Default",
+        "ARTICLES_COUNT": "{count} নিবন্ধ | {count} নিবন্ধসমূহ",
+        "CATEGORIES_COUNT": "{count} বিভাগ | {count} বিভাগসমূহ",
+        "DEFAULT": "ডিফল্ট",
+        "DRAFT": "খসড়া",
         "DROPDOWN_MENU": {
-          "MAKE_DEFAULT": "Make default",
-          "DELETE": "Delete"
+          "MAKE_DEFAULT": "ডিফল্ট করুন",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
+          "DELETE": "মুছে ফেলুন"
         }
       },
       "ADD_LOCALE_DIALOG": {
-        "TITLE": "Add a new locale",
-        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "TITLE": "নতুন লোকেল যোগ করুন",
+        "DESCRIPTION": "এই নিবন্ধটি যে ভাষায় লেখা হবে তা নির্বাচন করুন. এটি আপনার অনুবাদ তালিকায় যোগ হবে, এবং পরে আপনি আরও ভাষা যোগ করতে পারবেন.",
         "COMBOBOX": {
-          "PLACEHOLDER": "Select locale..."
+          "PLACEHOLDER": "লোকেল নির্বাচন করুন..."
+        },
+        "STATUS": {
+          "LABEL": "অবস্থা",
+          "OPTIONS": {
+            "LIVE": "প্রকাশিত",
+            "DRAFT": "খসড়া"
+          }
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "লোকেল সফলভাবে যোগ করা হয়েছে",
+          "ERROR_MESSAGE": "লোকেল যোগ করা যায়নি. আবার চেষ্টা করুন."
         }
       }
     },
     "EDIT_ARTICLE_PAGE": {
       "HEADER": {
         "STATUS": {
-          "SAVING": "Saving...",
-          "SAVED": "Saved"
+          "SAVING": "সংরক্ষণ হচ্ছে...",
+          "SAVED": "সংরক্ষিত"
         },
-        "PREVIEW": "Preview",
-        "PUBLISH": "Publish",
-        "DRAFT": "Draft",
-        "ARCHIVE": "Archive",
-        "BACK_TO_ARTICLES": "Back to articles"
+        "PREVIEW": "পূর্বরূপ",
+        "PUBLISH": "প্রকাশ করুন",
+        "DRAFT": "খসড়া",
+        "ARCHIVE": "আর্কাইভ",
+        "BACK_TO_ARTICLES": "নিবন্ধগুলিতে ফিরে যান"
       },
       "EDIT_ARTICLE": {
-        "MORE_PROPERTIES": "More properties",
-        "UNCATEGORIZED": "Uncategorized",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "MORE_PROPERTIES": "আরও বৈশিষ্ট্য",
+        "UNCATEGORIZED": "বিভাগবিহীন",
+        "EDITOR_PLACEHOLDER": "কিছু লিখুন..."
       },
       "ARTICLE_PROPERTIES": {
-        "ARTICLE_PROPERTIES": "Article properties",
-        "META_DESCRIPTION": "Meta description",
-        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
-        "META_TITLE": "Meta title",
-        "META_TITLE_PLACEHOLDER": "Add meta title",
-        "META_TAGS": "Meta tags",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "ARTICLE_PROPERTIES": "নিবন্ধের বৈশিষ্ট্য",
+        "META_DESCRIPTION": "মেটা বর্ণনা",
+        "META_DESCRIPTION_PLACEHOLDER": "মেটা বর্ণনা যোগ করুন",
+        "META_TITLE": "মেটা শিরোনাম",
+        "META_TITLE_PLACEHOLDER": "মেটা শিরোনাম যোগ করুন",
+        "META_TAGS": "মেটা ট্যাগ",
+        "META_TAGS_PLACEHOLDER": "মেটা ট্যাগ যোগ করুন"
       },
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "আর্টিকেল সংরক্ষণ করার সময় ত্রুটি"
       }
     },
     "PORTAL_SWITCHER": {
-      "NEW_PORTAL": "New portal",
-      "PORTALS": "Portals",
-      "CREATE_PORTAL": "Create and manage multiple portals",
-      "ARTICLES": "articles",
-      "DOMAIN": "domain",
-      "PORTAL_NAME": "Portal name"
+      "NEW_PORTAL": "নতুন পোর্টাল",
+      "PORTALS": "পোর্টালসমূহ",
+      "CREATE_PORTAL": "একাধিক পোর্টাল তৈরি ও পরিচালনা করুন",
+      "ARTICLES": "নিবন্ধসমূহ",
+      "DOMAIN": "ডোমেইন",
+      "PORTAL_NAME": "পোর্টালের নাম"
     },
     "CREATE_PORTAL_DIALOG": {
-      "TITLE": "Create new portal",
-      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
-      "CONFIRM_BUTTON_LABEL": "Create",
+      "TITLE": "নতুন পোর্টাল তৈরি করুন",
+      "DESCRIPTION": "আপনার পোর্টালের একটি নাম দিন এবং একটি ব্যবহারকারী-বান্ধব URL স্লাগ তৈরি করুন. পরে সেটিংস থেকে দুটোই পরিবর্তন করতে পারবেন.",
+      "CONFIRM_BUTTON_LABEL": "তৈরি করুন",
       "NAME": {
-        "LABEL": "Name",
-        "PLACEHOLDER": "User Guide | Chatwoot",
-        "MESSAGE": "Choose an name for your portal.",
-        "ERROR": "Name is required"
+        "LABEL": "নাম",
+        "PLACEHOLDER": "ব্যবহারকারী গাইড | Chatwoot",
+        "MESSAGE": "আপনার পোর্টালের জন্য একটি নাম নির্বাচন করুন.",
+        "ERROR": "নাম আবশ্যক"
       },
       "SLUG": {
-        "LABEL": "Slug",
-        "PLACEHOLDER": "user-guide",
-        "ERROR": "Slug is required",
-        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+        "LABEL": "স্লাগ",
+        "PLACEHOLDER": "ব্যবহারকারী-গাইড",
+        "ERROR": "স্লাগ আবশ্যক",
+        "FORMAT_ERROR": "একটি বৈধ স্লাগ লিখুন, যেমন: user-guide"
       }
     },
     "PORTAL_SETTINGS": {
       "FORM": {
         "AVATAR": {
-          "LABEL": "Logo",
-          "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
-          "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Unable to delete logo",
-          "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+          "LABEL": "লোগো",
+          "IMAGE_UPLOAD_ERROR": "ছবি আপলোড করা যায়নি! আবার চেষ্টা করুন",
+          "IMAGE_UPLOAD_SUCCESS": "ছবি সফলভাবে যোগ করা হয়েছে। লোগো সংরক্ষণ করতে অনুগ্রহ করে পরিবর্তনগুলি সংরক্ষণ করুন ক্লিক করুন",
+          "IMAGE_DELETE_SUCCESS": "লোগো সফলভাবে মুছে ফেলা হয়েছে",
+          "IMAGE_DELETE_ERROR": "লোগো মুছে ফেলা যায়নি",
+          "IMAGE_UPLOAD_SIZE_ERROR": "ছবির আকার {size}MB এর কম হতে হবে"
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Portal name",
-          "ERROR": "Name is required"
+          "LABEL": "নাম",
+          "PLACEHOLDER": "পোর্টালের নাম",
+          "ERROR": "নাম আবশ্যক"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header text",
-          "PLACEHOLDER": "Portal header text"
+          "LABEL": "হেডার টেক্সট",
+          "PLACEHOLDER": "পোর্টাল হেডার টেক্সট"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page title",
-          "PLACEHOLDER": "Portal page title"
+          "LABEL": "পৃষ্ঠার শিরোনাম",
+          "PLACEHOLDER": "পোর্টাল পৃষ্ঠার শিরোনাম"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home page link",
-          "PLACEHOLDER": "Portal home page link",
-          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+          "LABEL": "হোম পেজ লিঙ্ক",
+          "PLACEHOLDER": "পোর্টাল হোম পেজ লিঙ্ক",
+          "ERROR": "একটি বৈধ URL লিখুন। হোম পেজ লিঙ্ক অবশ্যই 'http://' বা 'https://' দিয়ে শুরু হতে হবে।."
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug"
+          "LABEL": "স্লাগ",
+          "PLACEHOLDER": "পোর্টাল স্লাগ"
         },
         "LIVE_CHAT_WIDGET": {
-          "LABEL": "Live chat widget",
-          "PLACEHOLDER": "Select live chat widget",
-          "HELP_TEXT": "Select a live chat widget that will appear on your help center",
-          "NONE_OPTION": "No widget"
+          "LABEL": "লাইভ চ্যাট উইজেট",
+          "PLACEHOLDER": "লাইভ চ্যাট উইজেট নির্বাচন করুন",
+          "HELP_TEXT": "একটি লাইভ চ্যাট উইজেট নির্বাচন করুন যা আপনার হেল্প সেন্টারে প্রদর্শিত হবে",
+          "NONE_OPTION": "কোনো উইজেট নেই"
         },
         "BRAND_COLOR": {
-          "LABEL": "Brand color"
+          "LABEL": "ব্র্যান্ড রঙ"
         },
-        "SAVE_CHANGES": "Save changes"
+        "SAVE_CHANGES": "পরিবর্তন সংরক্ষণ করুন"
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {
-          "HEADER": "Custom domain",
-          "LABEL": "Custom domain:",
-          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
-          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
-          "PLACEHOLDER": "Portal custom domain",
-          "EDIT_BUTTON": "Edit",
-          "ADD_BUTTON": "Add custom domain",
+          "HEADER": "কাস্টম ডোমেইন",
+          "LABEL": "কাস্টম ডোমেইন:",
+          "DESCRIPTION": "আপনি আপনার পোর্টালটি একটি কাস্টম ডোমেনে হোস্ট করতে পারেন. উদাহরণস্বরূপ, আপনার ওয়েবসাইট যদি yourdomain.com হয় এবং আপনি চান পোর্টালটি docs.yourdomain.com-এ থাকুক, তাহলে এই ঘরে সেটি লিখুন.",
+          "STATUS_DESCRIPTION": "যাচাই সম্পন্ন হলেই আপনার কাস্টম পোর্টাল কাজ শুরু করবে.",
+          "PLACEHOLDER": "পোর্টালের কাস্টম ডোমেন",
+          "EDIT_BUTTON": "সম্পাদনা করুন",
+          "ADD_BUTTON": "কাস্টম ডোমেন যোগ করুন",
           "STATUS": {
-            "LIVE": "Live",
-            "PENDING": "Awaiting verification",
-            "ERROR": "Verification failed"
+            "LIVE": "লাইভ",
+            "PENDING": "যাচাইয়ের অপেক্ষায়",
+            "ERROR": "যাচাই ব্যর্থ হয়েছে"
           },
           "DIALOG": {
-            "ADD_HEADER": "Add custom domain",
-            "EDIT_HEADER": "Edit custom domain",
-            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
-            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
-            "LABEL": "Custom domain",
-            "PLACEHOLDER": "Portal custom domain",
-            "ERROR": "Custom domain is required",
-            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+            "ADD_HEADER": "কাস্টম ডোমেন যোগ করুন",
+            "EDIT_HEADER": "কাস্টম ডোমেন সম্পাদনা করুন",
+            "ADD_CONFIRM_BUTTON_LABEL": "ডোমেইন যোগ করুন",
+            "EDIT_CONFIRM_BUTTON_LABEL": "ডোমেইন আপডেট করুন",
+            "LABEL": "কাস্টম ডোমেইন",
+            "PLACEHOLDER": "পোর্টাল কাস্টম ডোমেইন",
+            "ERROR": "কাস্টম ডোমেইন আবশ্যক",
+            "FORMAT_ERROR": "একটি বৈধ ডোমেইন URL লিখুন যেমন docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
-            "HEADER": "DNS configuration",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
-            "COPY": "Successfully copied CNAME",
+            "HEADER": "DNS কনফিগারেশন",
+            "DESCRIPTION": "আপনার DNS প্রদানকারীর অ্যাকাউন্টে লগইন করুন এবং সাবডোমেইনের জন্য একটি CNAME রেকর্ড যোগ করুন যা chatwoot.help এর দিকে নির্দেশ করে",
+            "COPY": "সফলভাবে CNAME কপি হয়েছে",
             "SEND_INSTRUCTIONS": {
-              "HEADER": "Send instructions",
-              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
-              "PLACEHOLDER": "Enter their email",
-              "ERROR": "Enter a valid email address",
-              "SEND_BUTTON": "Send"
+              "HEADER": "নির্দেশনা পাঠান",
+              "DESCRIPTION": "আপনার ডেভেলপমেন্ট টিমের কেউ যদি এই ধাপটি পরিচালনা করতে চান, তাহলে নিচে একটি ইমেইল ঠিকানা লিখুন. আমরা তাদের প্রয়োজনীয় নির্দেশনা পাঠিয়ে দেব.",
+              "PLACEHOLDER": "তাদের ইমেল লিখুন",
+              "ERROR": "একটি বৈধ ইমেল ঠিকানা লিখুন",
+              "SEND_BUTTON": "পাঠান"
             }
           }
         },
         "DELETE_PORTAL": {
-          "BUTTON": "Delete {portalName}",
-          "HEADER": "Delete portal",
-          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "BUTTON": "{portalName} মুছুন",
+          "HEADER": "পোর্টাল মুছুন",
+          "DESCRIPTION": "এই পোর্টালটি স্থায়ীভাবে মুছে ফেলুন। এই ক্রিয়াটি অপরিবর্তনীয়",
           "DIALOG": {
-            "HEADER": "Sure you want to delete {portalName}?",
-            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
-            "CONFIRM_BUTTON_LABEL": "Delete"
+            "HEADER": "আপনি কি নিশ্চিত যে আপনি {portalName} মুছে ফেলতে চান?",
+            "DESCRIPTION": "এটি একটি স্থায়ী কাজ, যা আর ফিরিয়ে নেওয়া যাবে না.",
+            "CONFIRM_BUTTON_LABEL": "মুছে ফেলুন"
           }
         },
-        "EDIT_CONFIGURATION": "Edit configuration"
+        "EDIT_CONFIGURATION": "কনফিগারেশন সম্পাদনা করুন"
       },
       "API": {
         "CREATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal created successfully",
-          "ERROR_MESSAGE": "Unable to create portal"
+          "SUCCESS_MESSAGE": "পোর্টাল সফলভাবে তৈরি হয়েছে",
+          "ERROR_MESSAGE": "পোর্টাল তৈরি করা যায়নি"
         },
         "UPDATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal updated successfully",
-          "ERROR_MESSAGE": "Unable to update portal"
+          "SUCCESS_MESSAGE": "পোর্টাল সফলভাবে আপডেট হয়েছে",
+          "ERROR_MESSAGE": "পোর্টাল আপডেট করা যায়নি"
         }
       }
     },
     "PDF_UPLOAD": {
-      "TITLE": "Upload PDF Document",
-      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
-      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
-      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
-      "UPLOADING": "Uploading...",
-      "UPLOAD": "Upload & Process",
-      "CANCEL": "Cancel",
-      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
-      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
-      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+      "TITLE": "PDF ডকুমেন্ট আপলোড করুন",
+      "DESCRIPTION": "AI ব্যবহার করে স্বয়ংক্রিয়ভাবে FAQ তৈরি করতে একটি PDF ডকুমেন্ট আপলোড করুন",
+      "DRAG_DROP_TEXT": "আপনার PDF ফাইলটি এখানে টেনে আনুন, অথবা নির্বাচন করতে ক্লিক করুন",
+      "SELECT_FILE": "PDF ফাইল নির্বাচন করুন",
+      "ADDITIONAL_CONTEXT_LABEL": "অতিরিক্ত প্রেক্ষাপট (ঐচ্ছিক)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "FAQ তৈরি করার জন্য যেকোন অতিরিক্ত প্রেক্ষাপট বা নির্দেশনা প্রদান করুন...",
+      "UPLOADING": "আপলোড হচ্ছে...",
+      "UPLOAD": "আপলোড ও প্রক্রিয়াকরণ",
+      "CANCEL": "বাতিল করুন",
+      "ERROR_INVALID_TYPE": "একটি বৈধ PDF ফাইল নির্বাচন করুন",
+      "ERROR_FILE_TOO_LARGE": "ফাইলের আকার 512MB এর কম হতে হবে",
+      "ERROR_UPLOAD_FAILED": "PDF আপলোড করতে ব্যর্থ হয়েছে। আবার চেষ্টা করুন।."
     },
     "PDF_DOCUMENTS": {
-      "TITLE": "PDF Documents",
-      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
-      "UPLOAD_PDF": "Upload PDF",
-      "UPLOAD_FIRST_PDF": "Upload your first PDF",
-      "UPLOADED_BY": "Uploaded by",
-      "GENERATE_FAQS": "Generate FAQs",
-      "GENERATING": "Generating...",
-      "CONFIRM_DELETE": "Are you sure you want to delete {filename}?",
+      "TITLE": "PDF নথিপত্র",
+      "DESCRIPTION": "আপলোড করা PDF নথিপত্র পরিচালনা করুন এবং সেগুলো থেকে FAQ তৈরি করুন",
+      "UPLOAD_PDF": "PDF আপলোড করুন",
+      "UPLOAD_FIRST_PDF": "আপনার প্রথম PDF আপলোড করুন",
+      "UPLOADED_BY": "আপলোড করেছেন",
+      "GENERATE_FAQS": "প্রশ্নোত্তর তৈরি করুন",
+      "GENERATING": "তৈরি হচ্ছে...",
+      "CONFIRM_DELETE": "আপনি কি নিশ্চিত যে আপনি {filename} মুছে ফেলতে চান?",
       "EMPTY_STATE": {
-        "TITLE": "No PDF documents yet",
-        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+        "TITLE": "এখনও কোনো PDF ডকুমেন্ট নেই",
+        "DESCRIPTION": "AI ব্যবহার করে স্বয়ংক্রিয়ভাবে FAQ তৈরি করতে PDF ডকুমেন্ট আপলোড করুন"
       },
       "STATUS": {
-        "UPLOADED": "Ready",
-        "PROCESSING": "Processing",
-        "PROCESSED": "Completed",
-        "FAILED": "Failed"
+        "UPLOADED": "প্রস্তুত",
+        "PROCESSING": "প্রক্রিয়াধীন",
+        "PROCESSED": "সম্পন্ন",
+        "FAILED": "ব্যর্থ"
       }
     },
     "CONTENT_GENERATION": {
-      "TITLE": "Content Generation",
-      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
-      "UPLOAD_TITLE": "Upload PDF Document",
-      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "UPLOADING": "Processing document...",
-      "UPLOAD_SUCCESS": "Document processed successfully!",
-      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
-      "INVALID_FILE_TYPE": "Please select a valid PDF file",
-      "FILE_TOO_LARGE": "File size must be less than 512MB",
-      "GENERATED_CONTENT": "Generated FAQ Content",
-      "PUBLISH_SELECTED": "Publish Selected",
-      "PUBLISHING": "Publishing...",
-      "FROM_DOCUMENT": "From document",
-      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
-      "LOADING": "Loading generated content..."
+      "TITLE": "কন্টেন্ট তৈরি",
+      "DESCRIPTION": "AI ব্যবহার করে স্বয়ংক্রিয়ভাবে FAQ কন্টেন্ট তৈরি করতে PDF ডকুমেন্ট আপলোড করুন",
+      "UPLOAD_TITLE": "PDF ডকুমেন্ট আপলোড করুন",
+      "DRAG_DROP": "এখানে আপনার PDF ফাইল টেনে আনুন বা ক্লিক করে নির্বাচন করুন",
+      "SELECT_FILE": "PDF ফাইল নির্বাচন করুন",
+      "UPLOADING": "ডকুমেন্ট প্রক্রিয়াকরণ হচ্ছে...",
+      "UPLOAD_SUCCESS": "ডকুমেন্ট সফলভাবে প্রক্রিয়াকৃত হয়েছে!",
+      "UPLOAD_ERROR": "ডকুমেন্ট আপলোড করতে ব্যর্থ হয়েছে। আবার চেষ্টা করুন।.",
+      "INVALID_FILE_TYPE": "একটি বৈধ PDF ফাইল নির্বাচন করুন",
+      "FILE_TOO_LARGE": "ফাইলের আকার 512MB এর কম হতে হবে",
+      "GENERATED_CONTENT": "তৈরি করা FAQ কনটেন্ট",
+      "PUBLISH_SELECTED": "নির্বাচিত প্রকাশ করুন",
+      "PUBLISHING": "প্রকাশ করা হচ্ছে...",
+      "FROM_DOCUMENT": "ডকুমেন্ট থেকে",
+      "NO_CONTENT": "কোনো তৈরি করা কন্টেন্ট পাওয়া যায়নি। শুরু করতে একটি PDF ডকুমেন্ট আপলোড করুন।.",
+      "LOADING": "তৈরি করা বিষয়বস্তু লোড হচ্ছে..."
     }
   }
 }

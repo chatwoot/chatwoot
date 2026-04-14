@@ -1,125 +1,125 @@
 {
   "REPORT": {
-    "HEADER": "Conversations",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
-    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "HEADER": "কথোপকথন",
+    "LOADING_CHART": "চার্ট ডেটা লোড হচ্ছে...",
+    "NO_ENOUGH_DATA": "রিপোর্ট তৈরি করার জন্য যথেষ্ট ডেটা নেই, পরে আবার চেষ্টা করুন।",
+    "DOWNLOAD_CONVERSATION_REPORTS": "কথোপকথনের রিপোর্ট ডাউনলোড করুন",
+    "DATA_FETCHING_FAILED": "তথ্য আনতে ব্যর্থ হয়েছে, পরে আবার চেষ্টা করুন।",
+    "SUMMARY_FETCHING_FAILED": "সারাংশ আনতে ব্যর্থ হয়েছে, পরে আবার চেষ্টা করুন।",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "কনভার্সেশন",
+        "DESC": "( মোট )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Messages received",
-        "DESC": "( Total )"
+        "NAME": "প্রাপ্ত বার্তা",
+        "DESC": "( মোট )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Messages sent",
-        "DESC": "( Total )"
+        "NAME": "প্রেরিত বার্তা",
+        "DESC": "( মোট )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "প্রথম সাড়া দেওয়ার সময়",
+        "DESC": "( গড় )",
+        "INFO_TEXT": "গণনার জন্য ব্যবহৃত মোট কথোপকথনের সংখ্যা:",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "সমাধানের সময়",
+        "DESC": "( গড় )",
+        "INFO_TEXT": "গণনার জন্য ব্যবহৃত মোট কথোপকথনের সংখ্যা:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "সমাধানের সংখ্যা",
+        "DESC": "( মোট )"
       },
       "BOT_RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "সমাধানের সংখ্যা",
+        "DESC": "( মোট )"
       },
       "BOT_HANDOFF_COUNT": {
-        "NAME": "Handoff Count",
-        "DESC": "( Total )"
+        "NAME": "হস্তান্তরের সংখ্যা",
+        "DESC": "( মোট )"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
+        "NAME": "গ্রাহকের অপেক্ষার সময়",
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
-      "LAST_7_DAYS": "Last 7 days",
-      "LAST_14_DAYS": "Last 14 days",
-      "LAST_30_DAYS": "Last 30 days",
-      "THIS_MONTH": "This month",
-      "LAST_MONTH": "Last month",
-      "LAST_3_MONTHS": "Last 3 months",
-      "LAST_6_MONTHS": "Last 6 months",
-      "LAST_YEAR": "Last year",
-      "CUSTOM_DATE_RANGE": "Custom date range"
+      "LAST_7_DAYS": "গত ৭ দিন",
+      "LAST_14_DAYS": "গত ১৪ দিন",
+      "LAST_30_DAYS": "গত ৩০ দিন",
+      "THIS_MONTH": "এই মাস",
+      "LAST_MONTH": "গত মাস",
+      "LAST_3_MONTHS": "গত ৩ মাস",
+      "LAST_6_MONTHS": "গত ৬ মাস",
+      "LAST_YEAR": "গত বছর",
+      "CUSTOM_DATE_RANGE": "কাস্টম তারিখ পরিসর"
     },
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "প্রয়োগ করুন",
+      "PLACEHOLDER": "তারিখ নির্বাচন করুন"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
-    "DURATION_FILTER_LABEL": "Duration",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "গ্রুপ করুন",
+    "DURATION_FILTER_LABEL": "সময়কাল",
     "GROUPING_OPTIONS": {
-      "DAY": "Day",
-      "WEEK": "Week",
-      "MONTH": "Month",
-      "YEAR": "Year"
+      "DAY": "দিন",
+      "WEEK": "সপ্তাহ",
+      "MONTH": "মাস",
+      "YEAR": "বছর"
     },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "দিন"
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "দিন"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "সপ্তাহ"
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "দিন"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "সপ্তাহ"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "মাস"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "সপ্তাহ"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "মাস"
       },
       {
         "id": 4,
-        "groupBy": "Year"
+        "groupBy": "বছর"
       }
     ],
-    "BUSINESS_HOURS": "Business Hours",
+    "BUSINESS_HOURS": "ব্যবসায়িক সময়",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
-      "EMPTY_LIST": "No results found"
+      "CLEAR_FILTER": "ফিল্টার পরিষ্কার করুন",
+      "EMPTY_LIST": "কোনও ফলাফল পাওয়া যায়নি"
     },
     "PAGINATION": {
       "RESULTS": "Showing {start} to {end} of {total} results",
@@ -127,456 +127,524 @@
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "HEADER": "এজেন্ট সংক্ষিপ্ত বিবরণ",
+    "DESCRIPTION": "কথোপকথন, সাড়া দেওয়ার সময়, সমাধানের সময় ও সমাধানকৃত কেসসহ গুরুত্বপূর্ণ মেট্রিক্সে সহজেই এজেন্ট পারফরম্যান্স ট্র্যাক করুন। আরও জানতে এজেন্টের নাম ক্লিক করুন।",
+    "LOADING_CHART": "চার্ট ডেটা লোড হচ্ছে...",
+    "NO_ENOUGH_DATA": "রিপোর্ট তৈরি করার জন্য যথেষ্ট ডেটা নেই, পরে আবার চেষ্টা করুন।",
+    "DOWNLOAD_AGENT_REPORTS": "এজেন্ট রিপোর্ট ডাউনলোড করুন",
+    "FILTER_DROPDOWN_LABEL": "এজেন্ট নির্বাচন করুন",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "এজেন্ট খুঁজুন"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "কনভার্সেশন",
+        "DESC": "( মোট )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "আসা বার্তা",
+        "DESC": "( মোট )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "প্রেরিত বার্তা",
+        "DESC": "( মোট )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "প্রথম সাড়া দেওয়ার সময়",
+        "DESC": "( গড় )",
+        "INFO_TEXT": "গণনার জন্য ব্যবহৃত মোট কথোপকথনের সংখ্যা:",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "সমাধান সময়",
+        "DESC": "( গড় )",
+        "INFO_TEXT": "গণনার জন্য ব্যবহৃত মোট কথোপকথনের সংখ্যা:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "সমাধান সংখ্যা",
+        "DESC": "( মোট )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "গত ৭ দিন"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "গত ৩০ দিন"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "গত ৩ মাস"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "গত ৬ মাস"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "গত বছর"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "কাস্টম তারিখ পরিসর"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "প্রয়োগ করুন",
+      "PLACEHOLDER": "তারিখ পরিসর নির্বাচন করুন"
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
-    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "HEADER": "লেবেল সংক্ষিপ্তসার",
+    "DESCRIPTION": "কথোপকথন, সাড়া দেওয়ার সময়, সমাধানের সময় ও সমাধানকৃত কেসসহ মূল পরিসংখ্যান দিয়ে লেবেলের কার্যকারিতা ট্র্যাক করুন। বিস্তারিত জানতে লেবেলের নাম ক্লিক করুন।",
+    "LOADING_CHART": "চার্ট ডেটা লোড হচ্ছে...",
+    "NO_ENOUGH_DATA": "রিপোর্ট তৈরি করার জন্য যথেষ্ট ডেটা নেই, পরে আবার চেষ্টা করুন।",
+    "DOWNLOAD_LABEL_REPORTS": "লেবেল রিপোর্ট ডাউনলোড করুন",
+    "FILTER_DROPDOWN_LABEL": "লেবেল নির্বাচন করুন",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "লেবেল খুঁজুন"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "কনভার্সেশন",
+        "DESC": "( মোট )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "ইনকামিং মেসেজ",
+        "DESC": "( মোট )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "আউটগোয়িং মেসেজ",
+        "DESC": "( মোট )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "প্রথম সাড়া সময়",
+        "DESC": "( গড় )",
+        "INFO_TEXT": "গণনার জন্য ব্যবহৃত মোট কথোপকথনের সংখ্যা:",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "সমাধানের সময়",
+        "DESC": "( গড় )",
+        "INFO_TEXT": "গণনার জন্য ব্যবহৃত মোট কথোপকথনের সংখ্যা:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "সমাধান সংখ্যা",
+        "DESC": "( মোট )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "গত ৭ দিন"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "গত ৩০ দিন"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "গত ৩ মাস"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "গত ৬ মাস"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "গত বছর"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "কাস্টম তারিখ পরিসর"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "প্রয়োগ করুন",
+      "PLACEHOLDER": "তারিখের পরিসর নির্বাচন করুন"
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
-    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
-    "ALL_INBOXES": "All Inboxes",
-    "SEARCH_INBOX": "Search Inbox",
+    "HEADER": "ইনবক্স সংক্ষিপ্ত বিবরণ",
+    "DESCRIPTION": "কথোপকথন, সাড়া দেওয়ার সময়, সমাধানের সময় ও সমাধানকৃত কেসসহ গুরুত্বপূর্ণ মেট্রিক্সে আপনার ইনবক্সের পারফরম্যান্স এক জায়গায় দ্রুত দেখুন। আরও জানতে ইনবক্সের নাম ক্লিক করুন।",
+    "LOADING_CHART": "চার্ট ডেটা লোড হচ্ছে...",
+    "NO_ENOUGH_DATA": "রিপোর্ট তৈরির জন্য যথেষ্ট ডেটা নেই, পরে আবার চেষ্টা করুন।",
+    "DOWNLOAD_INBOX_REPORTS": "ইনবক্স রিপোর্ট ডাউনলোড করুন",
+    "FILTER_DROPDOWN_LABEL": "ইনবক্স নির্বাচন করুন",
+    "ALL_INBOXES": "সব ইনবক্স",
+    "SEARCH_INBOX": "ইনবক্সে খুঁজুন",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "ইনবক্স খুঁজুন"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "কনভার্সেশন",
+        "DESC": "( মোট )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "ইনকামিং মেসেজ",
+        "DESC": "( মোট )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "প্রেরিত বার্তা",
+        "DESC": "(মোট)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "প্রথম সাড়া সময়",
+        "DESC": "(গড়)",
+        "INFO_TEXT": "গণনার জন্য ব্যবহৃত মোট কথোপকথনের সংখ্যা:",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "সমাধানের সময়",
+        "DESC": "(গড়)",
+        "INFO_TEXT": "গণনার জন্য ব্যবহৃত মোট কথোপকথনের সংখ্যা:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "সমাধানের সংখ্যা",
+        "DESC": "(মোট)"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "গত ৭ দিন"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "গত ৩০ দিন"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "গত ৩ মাস"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "গত ৬ মাস"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "গত বছর"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "কাস্টম তারিখ পরিসর"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "প্রয়োগ করুন",
+      "PLACEHOLDER": "তারিখ পরিসর নির্বাচন করুন"
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "HEADER": "টিমের সারসংক্ষেপ",
+    "DESCRIPTION": "কথোপকথন, সাড়া দেওয়ার সময়, সমাধানের সময় ও সমাধানকৃত কেসসহ গুরুত্বপূর্ণ মেট্রিক্সে আপনার টিমের পারফরম্যান্সের সারসংক্ষেপ দেখুন। আরও জানতে টিমের নাম ক্লিক করুন।",
+    "LOADING_CHART": "চার্ট ডেটা লোড হচ্ছে...",
+    "NO_ENOUGH_DATA": "রিপোর্ট তৈরির জন্য যথেষ্ট ডেটা নেই, পরে আবার চেষ্টা করুন।",
+    "DOWNLOAD_TEAM_REPORTS": "টিম রিপোর্ট ডাউনলোড করুন",
+    "FILTER_DROPDOWN_LABEL": "টিম নির্বাচন করুন",
+    "FILTERS": {
+      "ADD_FILTER": "ফিল্টার যোগ করুন",
+      "CLEAR_ALL": "সব মুছুন",
+      "NO_FILTER": "কোনো ফিল্টার নেই",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "টিম খুঁজুন"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "আলোচনা",
+        "DESC": "(মোট)"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "প্রাপ্ত বার্তা",
+        "DESC": "(মোট)"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "প্রেরিত বার্তা",
+        "DESC": "(মোট)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "প্রথম সাড়া সময়",
+        "DESC": "(গড়)",
+        "INFO_TEXT": "গণনার জন্য ব্যবহৃত মোট কথোপকথনের সংখ্যা:",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "সমাধানের সময়",
+        "DESC": "(গড়)",
+        "INFO_TEXT": "গণনার জন্য ব্যবহৃত মোট কথোপকথনের সংখ্যা:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
+        "NAME": "সমাধানের সংখ্যা",
         "DESC": "( Total )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "গত ৭ দিন"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "গত ৩০ দিন"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "গত ৩ মাস"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "গত ৬ মাস"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "গত বছর"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "কাস্টম তারিখ পরিসর"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "প্রয়োগ করুন",
+      "PLACEHOLDER": "তারিখ পরিসর নির্বাচন করুন"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
-    "DOWNLOAD": "Download CSAT Reports",
-    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "HEADER": "CSAT রিপোর্ট",
+    "NO_RECORDS": "এখনও কোনো উত্তর নেই",
+    "NO_RECORDS_DESCRIPTION": "গ্রাহকরা ফিডব্যাক দিলে এখানে CSAT জরিপের উত্তর দেখা যাবে।",
+    "DOWNLOAD": "CSAT রিপোর্ট ডাউনলোড করুন",
+    "DOWNLOAD_FAILED": "CSAT রিপোর্ট ডাউনলোড ব্যর্থ হয়েছে",
     "FILTERS": {
+      "ADD_FILTER": "ফিল্টার যোগ করুন",
+      "CLEAR_ALL": "সব মুছুন",
+      "NO_FILTER": "কোনো ফিল্টার নেই",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "এজেন্ট খুঁজুন",
+        "INBOXES": "ইনবক্স খুঁজুন",
+        "TEAMS": "টিম খুঁজুন",
+        "RATINGS": "রেটিং খুঁজুন"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "LABEL": "এজেন্ট"
+      },
+      "INBOXES": {
+        "LABEL": "ইনবক্স"
+      },
+      "TEAMS": {
+        "LABEL": "টিম"
+      },
+      "RATINGS": {
+        "LABEL": "রেটিং"
       }
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
-      }
+        "CONTACT_NAME": "যোগাযোগ",
+        "AGENT_NAME": "এজেন্ট",
+        "RATING": "রেটিং",
+        "FEEDBACK_TEXT": "মতামত",
+        "CONVERSATION": "কথোপকথন",
+        "CUSTOMER": "গ্রাহক",
+        "RESPONSE": "প্রতিক্রিয়া",
+        "HANDLED_BY": "যিনি পরিচালনা করেছেন"
+      },
+      "UNKNOWN_CUSTOMER": "অজানা গ্রাহক"
     },
+    "NO_AGENT": "কোনো এজেন্ট নির্ধারিত নেই",
+    "NO_FEEDBACK": "কোনো মতামত দেওয়া হয়নি",
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "মোট উত্তর",
+        "TOOLTIP": "মোট সংগৃহীত উত্তর"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "সন্তুষ্টি স্কোর",
+        "TOOLTIP": "মোট ইতিবাচক প্রতিক্রিয়া / মোট প্রতিক্রিয়া * ১০০"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "প্রতিক্রিয়া হার",
+        "TOOLTIP": "মোট প্রতিক্রিয়া / মোট CSAT জরিপ বার্তা * ১০০"
+      },
+      "RATING_DISTRIBUTION": "রেটিং বণ্টন"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "নোটসমূহ পর্যালোচনা করুন",
+      "PLACEHOLDER": "এই রেটিং সম্পর্কে পর্যালোচনার নোট যোগ করুন...",
+      "SAVE": "সংরক্ষণ করুন",
+      "CANCEL": "বাতিল করুন",
+      "SAVING": "সংরক্ষণ করা হচ্ছে...",
+      "SAVED": "নোট সফলভাবে সংরক্ষিত হয়েছে",
+      "SAVE_ERROR": "নোট সংরক্ষণে ব্যর্থ হয়েছে",
+      "UPDATED_BY": "Updated by {name} {time}",
+      "UPDATED_BY_LABEL": "আপডেট করেছেন",
+      "PAYWALL": {
+        "TITLE": "পর্যালোচনার নোট যোগ করতে আপগ্রেড করুন",
+        "AVAILABLE_ON": "পর্যালোচনার নোট ফিচারটি শুধুমাত্র Business এবং Enterprise প্ল্যানে উপলব্ধ।",
+        "UPGRADE_PROMPT": "প্রতি CSAT প্রতিক্রিয়ায় রিভিউ নোট যোগ করে অভ্যন্তরীণ তথ্য যুক্ত করুন। কী ঘটেছিল তা ধরুন, দ্রুত প্যাটার্ন চিনুন এবং আপনার ফিডব্যাক থেকে আরও ভালো সিদ্ধান্ত নিন।",
+        "UPGRADE_NOW": "এখনই আপগ্রেড করুন",
+        "CANCEL_ANYTIME": "আপনি যেকোনো সময় আপনার প্ল্যান পরিবর্তন বা বাতিল করতে পারেন"
       }
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
+    "HEADER": "বট রিপোর্ট",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "LABEL": "কথোপকথনের সংখ্যা",
+        "TOOLTIP": "বট দ্বারা পরিচালিত মোট কথোপকথন"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
+        "LABEL": "মোট উত্তর",
+        "TOOLTIP": "বট দ্বারা পাঠানো মোট উত্তর"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "LABEL": "সমাধান হার",
+        "TOOLTIP": "বট দ্বারা সমাধানকৃত মোট কথোপকথন / বট দ্বারা পরিচালিত মোট কথোপকথন * ১০০"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "LABEL": "হ্যান্ডঅফ হার",
+        "TOOLTIP": "এজেন্টদের কাছে হ্যান্ডঅফ করা মোট কথোপকথন / বট দ্বারা পরিচালিত মোট কথোপকথন * ১০০"
       }
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
-    "LIVE": "Live",
+    "HEADER": "সংক্ষিপ্ত বিবরণ",
+    "LIVE": "লাইভ",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Open",
-      "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Unassigned",
-      "PENDING": "Pending"
+      "HEADER": "খোলা কথোপকথন",
+      "LOADING_MESSAGE": "কথোপকথনের পরিসংখ্যান লোড হচ্ছে...",
+      "OPEN": "খোলা",
+      "UNATTENDED": "অবহেলিত",
+      "UNASSIGNED": "অবরোধহীন",
+      "PENDING": "অপেক্ষমাণ"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
+      "HEADER": "কথোপকথনের ট্রাফিক",
+      "NO_CONVERSATIONS": "কোনো কথোপকথন নেই",
       "CONVERSATION": "{count} conversation",
       "CONVERSATIONS": "{count} conversations",
-      "DOWNLOAD_REPORT": "Download report"
+      "DOWNLOAD_REPORT": "রিপোর্ট ডাউনলোড করুন"
     },
     "RESOLUTION_HEATMAP": {
-      "HEADER": "Resolutions",
-      "NO_CONVERSATIONS": "No conversations",
+      "HEADER": "সমাধানসমূহ",
+      "NO_CONVERSATIONS": "কোনো কথোপকথন নেই",
       "CONVERSATION": "{count} conversation",
       "CONVERSATIONS": "{count} conversations",
-      "DOWNLOAD_REPORT": "Download report"
+      "DOWNLOAD_REPORT": "রিপোর্ট ডাউনলোড করুন"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "HEADER": "এজেন্ট অনুযায়ী কথোপকথন",
+      "LOADING_MESSAGE": "এজেন্টের পরিসংখ্যান লোড হচ্ছে...",
+      "NO_AGENTS": "এজেন্টদের কোনো কথোপকথন নেই",
       "TABLE_HEADER": {
-        "AGENT": "Agent",
-        "OPEN": "Open",
-        "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+        "AGENT": "এজেন্ট",
+        "OPEN": "খোলা",
+        "UNATTENDED": "অযত্নে",
+        "STATUS": "অবস্থা"
       }
     },
     "TEAM_CONVERSATIONS": {
-      "ALL_TEAMS": "All Teams",
-      "HEADER": "Conversations by teams",
-      "LOADING_MESSAGE": "Loading team metrics...",
-      "NO_TEAMS": "There is no data available",
+      "ALL_TEAMS": "সব টিম",
+      "HEADER": "দলের ভিত্তিতে কথোপকথন",
+      "LOADING_MESSAGE": "দলের পরিসংখ্যান লোড হচ্ছে...",
+      "NO_TEAMS": "কোনো তথ্য নেই",
       "TABLE_HEADER": {
-        "TEAM": "Team",
-        "OPEN": "Open",
-        "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+        "TEAM": "দল",
+        "OPEN": "খোলা",
+        "UNATTENDED": "অবহেলিত",
+        "STATUS": "অবস্থা"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "Online",
-      "BUSY": "Busy",
-      "OFFLINE": "Offline"
+      "HEADER": "এজেন্টের অবস্থা",
+      "ONLINE": "অনলাইন",
+      "BUSY": "ব্যস্ত",
+      "OFFLINE": "অফলাইন"
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "রবিবার",
+    "MONDAY": "সোমবার",
+    "TUESDAY": "মঙ্গলবার",
+    "WEDNESDAY": "বুধবার",
+    "THURSDAY": "বৃহস্পতিবার",
+    "FRIDAY": "শুক্রবার",
+    "SATURDAY": "শনিবার"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
-    "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "HEADER": "SLA রিপোর্ট",
+    "NO_RECORDS": "SLA প্রয়োগকৃত কোনো কথোপকথন নেই।",
+    "LOADING": "SLA ডেটা লোড হচ্ছে...",
+    "DOWNLOAD_SLA_REPORTS": "SLA রিপোর্ট ডাউনলোড করুন",
+    "DOWNLOAD_FAILED": "SLA রিপোর্ট ডাউনলোড ব্যর্থ হয়েছে",
     "DROPDOWN": {
-      "ADD_FIlTER": "Add filter",
-      "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
-      "EMPTY_LIST": "No results found",
-      "NO_FILTER": "No filters available",
-      "SEARCH": "Search filter",
+      "ADD_FIlTER": "ফিল্টার যোগ করুন",
+      "CLEAR_ALL": "সব মুছুন",
+      "CLEAR_FILTER": "ফিল্টার মুছুন",
+      "EMPTY_LIST": "কোনও ফলাফল পাওয়া যায়নি",
+      "NO_FILTER": "কোনও ফিল্টার নেই",
+      "SEARCH": "ফিল্টার অনুসন্ধান করুন",
       "INPUT_PLACEHOLDER": {
-        "SLA": "SLA name",
-        "AGENTS": "Agent name",
-        "INBOXES": "Inbox name",
-        "LABELS": "Label name",
-        "TEAMS": "Team name"
+        "SLA": "SLA নাম",
+        "AGENTS": "এজেন্টের নাম",
+        "INBOXES": "ইনবক্সের নাম",
+        "LABELS": "লেবেল নাম",
+        "TEAMS": "টিমের নাম"
       },
-      "SLA": "SLA Policy",
-      "INBOXES": "Inbox",
-      "AGENTS": "Agent",
-      "LABELS": "Label",
-      "TEAMS": "Team"
+      "SLA": "SLA নীতি",
+      "INBOXES": "ইনবক্স",
+      "AGENTS": "এজেন্ট",
+      "LABELS": "লেবেল",
+      "TEAMS": "টিম"
     },
-    "WITH": "with",
+    "WITH": "সহ",
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Hit Rate",
-        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+        "LABEL": "হিট হার",
+        "TOOLTIP": "তৈরি হওয়া SLA-র শতকরা কত সফলভাবে সম্পন্ন হয়েছে"
       },
       "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
-        "TOOLTIP": "Total SLA misses in a certain period"
+        "LABEL": "মিসের সংখ্যা",
+        "TOOLTIP": "নির্দিষ্ট সময়ে মোট SLA মিস"
       },
       "NO_OF_CONVERSATIONS": {
-        "LABEL": "Number of Conversations",
-        "TOOLTIP": "Total number of conversations with SLA"
+        "LABEL": "কথোপকথনের সংখ্যা",
+        "TOOLTIP": "SLA সহ মোট কথোপকথনের সংখ্যা"
       }
     },
     "TABLE": {
       "HEADER": {
-        "POLICY": "Policy",
-        "CONVERSATION": "Conversation",
-        "AGENT": "Agent"
+        "POLICY": "নীতি",
+        "CONVERSATION": "কথোপকথন",
+        "AGENT": "এজেন্ট"
       },
-      "VIEW_DETAILS": "View Details"
+      "VIEW_DETAILS": "বিস্তারিত দেখুন"
     }
   },
   "SUMMARY_REPORTS": {
-    "INBOX": "Inbox",
-    "AGENT": "Agent",
-    "TEAM": "Team",
-    "LABEL": "Label",
-    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
-    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
-    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
-    "RESOLUTION_COUNT": "Resolution Count",
-    "CONVERSATIONS": "No. of conversations"
+    "INBOX": "ইনবক্স",
+    "AGENT": "এজেন্ট",
+    "TEAM": "টিম",
+    "LABEL": "লেবেল",
+    "AVG_RESOLUTION_TIME": "গড় সমাধান সময়",
+    "AVG_FIRST_RESPONSE_TIME": "গড় প্রথম সাড়া সময়",
+    "AVG_REPLY_TIME": "গড় গ্রাহক অপেক্ষার সময়",
+    "RESOLUTION_COUNT": "সমাধান সংখ্যা",
+    "CONVERSATIONS": "কথোপকথনের সংখ্যা"
   }
 }

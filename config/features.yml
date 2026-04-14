@@ -104,10 +104,10 @@
   display_name: Audit Logs
   enabled: false
   premium: true
-- name: response_bot
-  display_name: Response Bot
+- name: custom_tools
+  display_name: Custom Tools
   enabled: false
-  deprecated: true
+  premium: true
 - name: message_reply_to
   display_name: Message Reply To
   enabled: false
@@ -190,8 +190,7 @@
   chatwoot_internal: true
 - name: assignment_v2
   display_name: Assignment V2
-  enabled: false
-  chatwoot_internal: true
+  enabled: true
 - name: twilio_content_templates
   display_name: Twilio Content Templates
   enabled: false

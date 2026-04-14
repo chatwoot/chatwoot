@@ -366,6 +366,25 @@ RSpec.describe Message do
         expect(conversation.waiting_since).to be_nil
       end
     end
+
+    context 'when bot response should preserve waiting_since' do
+      let(:agent_bot) { create(:agent_bot, account: conversation.account) }
+
+      it 'does not clear waiting_since when preserve_waiting_since is set' do
+        original_waiting_since = 45.minutes.ago
+        conversation.update!(waiting_since: original_waiting_since)
+
+        create(
+          :message,
+          conversation: conversation,
+          message_type: :outgoing,
+          sender: agent_bot,
+          preserve_waiting_since: true
+        )
+
+        expect(conversation.reload.waiting_since).to be_within(1.second).of(original_waiting_since)
+      end
+    end
   end
 
   context 'with webhook_data' do
@@ -382,12 +401,11 @@ RSpec.describe Message do
       expect(message.webhook_data.key?(:attachments)).to be false
     end
 
-    it 'uses outgoing_content for webhook content' do
-      message = create(:message, content: 'Test content')
-      expect(message).to receive(:outgoing_content).and_return('Outgoing test content')
+    it 'uses raw content without markdown rendering for webhook content' do
+      message = create(:message, content: 'Test **bold** content')
 
       webhook_data = message.webhook_data
-      expect(webhook_data[:content]).to eq('Outgoing test content')
+      expect(webhook_data[:content]).to eq('Test **bold** content')
     end
 
     it 'includes CSAT survey link in webhook content for input_csat messages' do
@@ -395,7 +413,6 @@ RSpec.describe Message do
       conversation = create(:conversation, inbox: inbox)
       message = create(:message, conversation: conversation, content_type: 'input_csat', content: 'Rate your experience')
 
-      expect(message.outgoing_content).to include('survey/responses/')
       expect(message.webhook_data[:content]).to include('survey/responses/')
     end
   end

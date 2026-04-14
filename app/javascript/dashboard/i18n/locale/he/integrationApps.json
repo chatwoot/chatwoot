@@ -3,6 +3,9 @@
     "FETCHING": "שליפת אינטגרציות",
     "NO_HOOK_CONFIGURED": "אין {integrationId} אינטגרציות מוגדרות בחשבון זה.",
     "HEADER": "יישומים",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "חיפוש...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "מופעל",
       "DISABLED": "כבוי"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "הוצאת קרס אינטגרציה",
       "INBOX": "תיבת הדואר הנכנס",
+      "ACTIONS": "פעולות",
       "DELETE": {
         "BUTTON_TEXT": "מחק"
       }

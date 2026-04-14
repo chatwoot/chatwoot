@@ -15,6 +15,24 @@ class AgentBotListener < BaseListener
     agent_bots_for(inbox, conversation).each { |agent_bot| process_webhook_bot_event(agent_bot, payload) }
   end
 
+  def conversation_status_changed(event)
+    conversation = extract_conversation_and_account(event)[0]
+    changed_attributes = extract_changed_attributes(event)
+    inbox = conversation.inbox
+    event_name = __method__.to_s
+    payload = conversation.webhook_data.merge(event: event_name, changed_attributes: changed_attributes)
+    agent_bots_for(inbox, conversation).each { |agent_bot| process_webhook_bot_event(agent_bot, payload) }
+  end
+
+  def conversation_updated(event)
+    conversation = extract_conversation_and_account(event)[0]
+    changed_attributes = extract_changed_attributes(event)
+    inbox = conversation.inbox
+    event_name = __method__.to_s
+    payload = conversation.webhook_data.merge(event: event_name, changed_attributes: changed_attributes)
+    agent_bots_for(inbox, conversation).each { |agent_bot| process_webhook_bot_event(agent_bot, payload) }
+  end
+
   def message_created(event)
     message = extract_message_and_account(event)[0]
     inbox = message.inbox
@@ -67,6 +85,7 @@ class AgentBotListener < BaseListener
   def process_webhook_bot_event(agent_bot, payload)
     return if agent_bot.outgoing_url.blank?
 
-    AgentBots::WebhookJob.perform_later(agent_bot.outgoing_url, payload)
+    AgentBots::WebhookJob.perform_later(agent_bot.outgoing_url, payload, :agent_bot_webhook,
+                                        secret: agent_bot.secret, delivery_id: SecureRandom.uuid)
   end
 end

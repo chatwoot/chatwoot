@@ -61,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "不支持此消息。您可以在 Facebook Messenger 应用上查看此消息。",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "不支持此消息。您可以在 Facebook Messenger 应用上查看此消息。",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "不支持此消息。您可以在 Instagram 应用上查看此消息。",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "已成功删除消息",
     "FAIL_DELETE_MESSSAGE": "无法删除消息，请重试！",
     "NO_RESPONSE": "无响应",
@@ -173,6 +174,10 @@
           "SUCCESFUL": "已为对话 Id {conversationId} 分配标签 #{labelName}",
           "FAILED": "无法分配标签。请再试。"
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "将团队 \"{team}\" 分配给对话 ID {conversationId}",
           "FAILED": "无法分配团队。请重试。"
@@ -185,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "禁用签名",
       "MSG_INPUT": "输入“/”开始选择快捷回复",
       "PRIVATE_MSG_INPUT": "Shift + 输入新行。这只对客服可见",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "未设置消息签名，请在个人资料中进行设置。",
+      "COPILOT_MSG_INPUT": "为 Copilot 提供额外提示，或提问其他内容… 按 Enter 发送跟进",
       "CLICK_HERE": "点击此处更新",
       "WHATSAPP_TEMPLATES": "Whatsapp 模板列表"
     },
@@ -205,7 +214,7 @@
       "DRAG_DROP": "拖放到此处添加附件",
       "START_AUDIO_RECORDING": "开始录音",
       "STOP_AUDIO_RECORDING": "停止录音",
-      "": "",
+      "COPILOT_THINKING": "Copilot 正在思考",
       "EMAIL_HEAD": {
         "TO": "发给",
         "ADD_BCC": "添加密送",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "对话成功删除",
     "FAIL_DELETE_CONVERSATION": "无法删除对话！请重试",
     "FILE_SIZE_LIMIT": "文件超过了 {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB 的附件限制",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "无法发送此消息，请稍后再试",
     "SENT_BY": "发送人：",
     "BOT": "机器人",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "无法发送消息，请重试！",
     "TRY_AGAIN": "重试",
     "ASSIGNMENT": {
@@ -294,6 +306,7 @@
     "CANCEL": "取消操作",
     "SEND_EMAIL_SUCCESS": "对话记录已成功发送",
     "SEND_EMAIL_ERROR": "出错了，请重试",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "发送对话记录给客户",
       "SEND_TO_AGENT": "发送对话记录给指定的代理",

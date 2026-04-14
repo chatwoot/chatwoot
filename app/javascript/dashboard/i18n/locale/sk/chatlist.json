@@ -69,13 +69,16 @@
         "TEXT": "Priority: Highest first"
       },
       "priority_asc": {
-        "TEXT": ""
+        "TEXT": "Priorita: od najnižšej"
       },
       "waiting_since_asc": {
         "TEXT": "Pending Response: Longest first"
       },
       "waiting_since_desc": {
         "TEXT": "Pending Response: Shortest first"
+      },
+      "priority_desc_created_at_asc": {
+        "TEXT": "Priority: Highest first, Created: Oldest first"
       }
     },
     "ATTACHMENTS": {

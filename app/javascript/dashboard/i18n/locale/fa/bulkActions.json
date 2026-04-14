@@ -22,6 +22,10 @@
       "UPDATE_SUCCESFUL": "وضعیت گفتگو با موفقیت به روز شد.",
       "UPDATE_FAILED": "گفتگوها به روز نشدند، لطفا دوباره امتحان کنید."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "برچسب اختصاص دهید",
       "NO_LABELS_FOUND": "هیچ برچسبی یافت نشد",

@@ -19,11 +19,12 @@ class Captain::Assistant::AgentRunnerService
   CONTACT_INBOX_STATE_ATTRIBUTES = %i[id hmac_verified].freeze
 
   CAMPAIGN_STATE_ATTRIBUTES = %i[id title message campaign_type description].freeze
-
-  def initialize(assistant:, conversation: nil, callbacks: {})
+  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil)
     @assistant = assistant
     @conversation = conversation
     @callbacks = callbacks
+    @source = source
+    @handoff_tool_called = false
   end
 
   def generate_response(message_history: [])
@@ -32,8 +33,7 @@ class Captain::Assistant::AgentRunnerService
 
     process_agent_result(result)
   rescue StandardError => e
-    # when running the agent runner service in a rake task, the conversation might not have an account associated
-    # for regular production usage, it will run just fine
+    # In rake/local runs, conversation may not be present, so account is optional here.
     ChatwootExceptionTracker.new(e, account: @conversation&.account).capture_exception
     Rails.logger.error "[Captain V2] AgentRunnerService error: #{e.message}"
     Rails.logger.error e.backtrace.join("\n")
@@ -94,31 +94,20 @@ class Captain::Assistant::AgentRunnerService
     text_parts.join(' ')
   end
 
-  # Response formatting methods
   def process_agent_result(result)
     Rails.logger.info "[Captain V2] Agent result: #{result.inspect}"
-    response = format_response(result.output)
-
-    # Extract agent name from context
+    output = result.output
+    response = output.is_a?(Hash) ? output.with_indifferent_access : { 'response' => output.to_s, 'reasoning' => 'Processed by agent' }
     response['agent_name'] = result.context&.dig(:current_agent)
-
+    response['handoff_tool_called'] = result.context&.dig(:captain_v2_handoff_tool_called) || false
     response
-  end
-
-  def format_response(output)
-    return output.with_indifferent_access if output.is_a?(Hash)
-
-    # Fallback for backwards compatibility
-    {
-      'response' => output.to_s,
-      'reasoning' => 'Processed by agent'
-    }
   end
 
   def error_response(error_message)
     {
       'response' => 'conversation_handoff',
-      'reasoning' => "Error occurred: #{error_message}"
+      'reasoning' => "Error occurred: #{error_message}",
+      'handoff_tool_called' => @handoff_tool_called
     }
   end
 
@@ -128,20 +117,22 @@ class Captain::Assistant::AgentRunnerService
       assistant_id: @assistant.id,
       assistant_config: @assistant.config
     }
+    state[:source] = @source if @source.present?
 
     build_conversation_state(state) if @conversation
     state
   end
 
   def build_conversation_state(state)
-    state[:conversation] = @conversation.attributes.symbolize_keys.slice(*CONVERSATION_STATE_ATTRIBUTES)
+    state[:conversation] = slice_attrs(@conversation, CONVERSATION_STATE_ATTRIBUTES)
     state[:channel_type] = @conversation.inbox&.channel_type
-    state[:contact] = @conversation.contact.attributes.symbolize_keys.slice(*CONTACT_STATE_ATTRIBUTES) if @conversation.contact
-    state[:campaign] = @conversation.campaign.attributes.symbolize_keys.slice(*CAMPAIGN_STATE_ATTRIBUTES) if @conversation.campaign
-    return unless @conversation.contact_inbox
+    state[:contact] = slice_attrs(@conversation.contact, CONTACT_STATE_ATTRIBUTES) if @conversation.contact
+    state[:campaign] = slice_attrs(@conversation.campaign, CAMPAIGN_STATE_ATTRIBUTES) if @conversation.campaign
+    state[:contact_inbox] = slice_attrs(@conversation.contact_inbox, CONTACT_INBOX_STATE_ATTRIBUTES) if @conversation.contact_inbox
+  end
 
-    state[:contact_inbox] =
-      @conversation.contact_inbox.attributes.symbolize_keys.slice(*CONTACT_INBOX_STATE_ATTRIBUTES)
+  def slice_attrs(record, keys)
+    record.attributes.symbolize_keys.slice(*keys)
   end
 
   def build_and_wire_agents
@@ -180,22 +171,25 @@ class Captain::Assistant::AgentRunnerService
       format(ATTR_LANGFUSE_METADATA, 'conversation_id') => conversation[:id],
       format(ATTR_LANGFUSE_METADATA, 'conversation_display_id') => conversation[:display_id],
       format(ATTR_LANGFUSE_METADATA, 'channel_type') => state[:channel_type],
+      format(ATTR_LANGFUSE_METADATA, 'source') => state[:source],
       ATTR_LANGFUSE_TRACE_INPUT => trace_input,
       ATTR_LANGFUSE_OBSERVATION_INPUT => trace_input
     }.compact.transform_values(&:to_s)
   end
 
   def add_usage_metadata_callback(runner)
-    return runner unless ChatwootApp.otel_enabled?
-
     handoff_tool_name = Captain::Tools::HandoffTool.new(@assistant).name
 
+    # Tool tracking always runs — process_response in the job consumes the resulting
+    # handoff_tool_called flag regardless of whether OTEL is enabled.
     runner.on_tool_complete do |tool_name, _tool_result, context_wrapper|
       track_handoff_usage(tool_name, handoff_tool_name, context_wrapper)
     end
 
-    runner.on_run_complete do |_agent_name, _result, context_wrapper|
-      write_credits_used_metadata(context_wrapper)
+    if ChatwootApp.otel_enabled?
+      runner.on_run_complete do |_agent_name, _result, context_wrapper|
+        write_credits_used_metadata(context_wrapper)
+      end
     end
     runner
   end
@@ -204,15 +198,17 @@ class Captain::Assistant::AgentRunnerService
     return unless context_wrapper&.context
     return unless tool_name.to_s == handoff_tool_name
 
+    # Mirror the flag onto the instance so error_response can surface it even when
+    # the runner raises before returning a result (the context is unreachable then).
     context_wrapper.context[:captain_v2_handoff_tool_called] = true
+    @handoff_tool_called = true
   end
 
   def write_credits_used_metadata(context_wrapper)
     root_span = context_wrapper&.context&.dig(:__otel_tracing, :root_span)
     return unless root_span
 
-    credit_used = !context_wrapper.context[:captain_v2_handoff_tool_called]
-    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), credit_used.to_s)
+    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), @handoff_tool_called ? 'false' : 'true')
   end
 
   def runner
