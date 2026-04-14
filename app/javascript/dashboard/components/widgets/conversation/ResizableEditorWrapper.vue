@@ -34,6 +34,8 @@ const measureSurroundingHeight = () => {
   }
 };
 
+const isContainerReady = computed(() => props.containerHeight > 0);
+
 const sizeBounds = computed(() => {
   const h = props.containerHeight;
   const s = surroundingHeight.value;
@@ -41,7 +43,7 @@ const sizeBounds = computed(() => {
   const expanded = clamp(Math.floor(h * EXPAND_RATIO - s / 2), MIN_HEIGHT, max);
   return {
     min: MIN_HEIGHT,
-    max,
+    max: isContainerReady.value ? max : DEFAULT_HEIGHT,
     expanded,
     default: clamp(DEFAULT_HEIGHT, MIN_HEIGHT, max),
   };
@@ -103,8 +105,6 @@ const handleMessageSent = () => {
 };
 
 onMounted(() => {
-  measureSurroundingHeight();
-  editorHeight.value = sizeBounds.value.default;
   emitter.on(BUS_EVENTS.MESSAGE_SENT, handleMessageSent);
 });
 
