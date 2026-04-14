@@ -164,5 +164,21 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
         expect(response).to have_http_status(:ok)
       end
     end
+
+    it 'resets password for an unconfirmed persisted user on OAuth login' do
+      with_modified_env FRONTEND_URL: 'http://www.example.com' do
+        user = create(:user, email: 'unconfirmed-oauth@example.com', skip_confirmation: false)
+        original_password_digest = user.encrypted_password
+        set_omniauth_config('unconfirmed-oauth@example.com')
+
+        get '/omniauth/google_oauth2/callback'
+        expect(response).to redirect_to('http://www.example.com/auth/google_oauth2/callback')
+        follow_redirect!
+
+        user.reload
+        expect(user).to be_confirmed
+        expect(user.encrypted_password).not_to eq(original_password_digest)
+      end
+    end
   end
 end

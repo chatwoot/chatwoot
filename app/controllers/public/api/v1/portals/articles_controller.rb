@@ -62,7 +62,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def set_article
     @article = @portal.articles.find_by(slug: permitted_params[:article_slug])
-    @parsed_content = render_article_content(@article.content)
+    @parsed_content = render_article_content(@article.content.to_s)
   end
 
   def set_category
