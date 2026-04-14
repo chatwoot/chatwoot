@@ -38,7 +38,7 @@ const sizeBounds = computed(() => {
   const h = props.containerHeight;
   const s = surroundingHeight.value;
   const max = Math.max(MIN_HEIGHT, h - MIN_MESSAGES_HEIGHT - s);
-  const expanded = clamp(Math.floor(h * EXPAND_RATIO) - s, MIN_HEIGHT, max);
+  const expanded = clamp(Math.floor(h * EXPAND_RATIO - s / 2), MIN_HEIGHT, max);
   return {
     min: MIN_HEIGHT,
     max,
@@ -92,8 +92,8 @@ const toggleEditorExpand = () => {
   measureSurroundingHeight();
   const { expanded, max, default: defaultHeight } = sizeBounds.value;
   const isExpanded = editorHeight.value > defaultHeight;
-  // If expanded is too close to default (large chrome), use max instead
-  const target = expanded - defaultHeight < 100 ? max - 200 : expanded;
+  // If expanded is too close to default, use max so the toggle is always noticeable
+  const target = expanded - defaultHeight < 100 ? max : expanded;
   editorHeight.value = isExpanded ? defaultHeight : target;
 };
 
