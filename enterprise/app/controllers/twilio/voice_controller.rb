@@ -50,6 +50,17 @@ class Twilio::VoiceController < ApplicationController
     head :no_content
   end
 
+  def recording_status
+    Voice::RecordingSyncJob.perform_later(
+      account_id: current_account.id,
+      call_sid: twilio_call_sid,
+      recording_url: params[:RecordingUrl],
+      recording_sid: params[:RecordingSid]
+    )
+
+    head :no_content
+  end
+
   private
 
   def twilio_call_sid

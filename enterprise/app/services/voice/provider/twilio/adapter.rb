@@ -13,7 +13,8 @@ class Voice::Provider::Twilio::Adapter
       call_direction: 'outbound',
       requires_agent_join: true,
       agent_id: agent_id,
-      conference_sid: conference_sid
+      conference_sid: conference_sid,
+      recording_sid: call.try(:recording_sid)
     }
   end
 
@@ -30,7 +31,10 @@ class Voice::Provider::Twilio::Adapter
       status_callback_event: %w[
         initiated ringing answered completed failed busy no-answer canceled
       ],
-      status_callback_method: 'POST'
+      status_callback_method: 'POST',
+      record: true,
+      recording_status_callback: twilio_recording_status_url(phone_digits),
+      recording_status_callback_method: 'POST'
     }
   end
 
@@ -40,6 +44,10 @@ class Voice::Provider::Twilio::Adapter
 
   def twilio_call_status_url(phone_digits)
     Rails.application.routes.url_helpers.twilio_voice_status_url(phone: phone_digits)
+  end
+
+  def twilio_recording_status_url(phone_digits)
+    Rails.application.routes.url_helpers.twilio_voice_recording_status_url(phone: phone_digits)
   end
 
   def twilio_client
