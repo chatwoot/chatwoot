@@ -1,622 +1,644 @@
 {
   "HELP_CENTER": {
-    "TITLE": "Help Center",
+    "TITLE": "幫助中心",
     "NEW_PAGE": {
-      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
-      "CREATE_PORTAL_BUTTON": "Create Portal"
+      "DESCRIPTION": "為您的客戶建立自助服務幫助中心入口。幫助他們快速找到答案，無需等待。簡化查詢流程、提升客服效率並改善客戶支援品質。",
+      "CREATE_PORTAL_BUTTON": "建立入口"
     },
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
-      "LOCALE": "Locale",
+      "FILTER": "篩選條件",
+      "SORT": "排序方式",
+      "LOCALE": "語系",
       "SETTINGS_BUTTON": "設定",
-      "NEW_BUTTON": "New Article",
+      "NEW_BUTTON": "新增文章",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "已發佈",
+        "DRAFT": "草稿",
+        "ARCHIVED": "已封存"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "所有文章",
+        "MINE": "我的文章",
+        "DRAFT": "草稿文章",
+        "ARCHIVED": "已封存的文章"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "選擇語系",
+        "PLACEHOLDER": "選擇語系",
+        "NO_RESULT": "找不到語系",
+        "SEARCH_PLACEHOLDER": "搜尋語系"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "所有文章",
+      "PUBLISH_BUTTON": "發佈",
+      "MOVE_TO_ARCHIVE_BUTTON": "移至封存",
+      "PREVIEW": "預覽",
+      "ADD_TRANSLATION": "新增翻譯",
+      "OPEN_SIDEBAR": "開啟側邊欄",
+      "CLOSE_SIDEBAR": "關閉側邊欄",
+      "SAVING": "儲存中...",
+      "SAVED": "已儲存"
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
-        "TITLE": "上傳頭像",
-        "UPLOADING": "上傳中",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "TITLE": "上傳圖片",
+        "UPLOADING": "上傳中...",
+        "SUCCESS": "圖片上傳成功",
+        "ERROR": "上傳圖片時發生錯誤",
+        "UN_AUTHORIZED_ERROR": "您沒有上傳圖片的權限",
+        "ERROR_FILE_SIZE": "圖片大小不能超過 {size}MB",
+        "ERROR_FILE_FORMAT": "圖片格式須為 jpg、jpeg 或 png",
+        "ERROR_FILE_DIMENSIONS": "圖片尺寸不能超過 2000 x 2000"
       }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "文章設定",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "分類",
+          "TITLE": "選擇分類",
+          "PLACEHOLDER": "選擇分類",
+          "NO_RESULT": "找不到分類",
+          "SEARCH_PLACEHOLDER": "搜尋分類"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "作者",
+          "TITLE": "選擇作者",
+          "PLACEHOLDER": "選擇作者",
+          "NO_RESULT": "找不到作者",
+          "SEARCH_PLACEHOLDER": "搜尋作者"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "Meta 標題",
+          "PLACEHOLDER": "新增 Meta 標題"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "Meta 描述",
+          "PLACEHOLDER": "新增 Meta 描述以獲得更好的 SEO 效果..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "Meta 標籤",
+          "PLACEHOLDER": "新增 Meta 標籤，以逗號分隔..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "封存文章",
+        "DELETE": "刪除文章"
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for {query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
-      "SEARCH_LOADER": "Searching...",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "UNCATEGORIZED": "未分類",
+      "SEARCH_RESULTS": "「{query}」的搜尋結果",
+      "EMPTY_TEXT": "搜尋文章以插入回覆。",
+      "SEARCH_LOADER": "搜尋中...",
+      "INSERT_ARTICLE": "插入",
+      "NO_RESULT": "找不到文章",
+      "COPY_LINK": "複製文章連結到剪貼簿",
+      "OPEN_LINK": "在新分頁中開啟文章",
+      "PREVIEW_LINK": "預覽文章"
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "DEFAULT": "Default",
-      "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "HEADER": "入口",
+      "DEFAULT": "預設",
+      "NEW_BUTTON": "新增入口",
+      "ACTIVE_BADGE": "啟用中",
+      "CHOOSE_LOCALE_LABEL": "選擇語系",
+      "LOADING_MESSAGE": "正在載入入口...",
+      "ARTICLES_LABEL": "文章",
+      "NO_PORTALS_MESSAGE": "沒有可用的入口",
+      "ADD_NEW_LOCALE": "新增語系",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
+        "TITLE": "入口",
+        "PORTAL_SETTINGS": "入口設定",
+        "SUBTITLE": "您有多個入口，每個入口可以有不同的語系。",
         "CANCEL_BUTTON_LABEL": "取消",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "CHOOSE_LOCALE_BUTTON": "選擇語系"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
+            "COUNT_LABEL": "文章",
+            "ADD": "新增語系",
+            "VISIT": "造訪網站",
             "SETTINGS": "設定",
             "DELETE": "刪除"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "入口設定",
             "ITEMS": {
-              "NAME": "姓名",
-              "DOMAIN": "Custom domain",
-              "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "NAME": "名稱",
+              "DOMAIN": "自訂網域",
+              "SLUG": "網址代碼",
+              "TITLE": "入口標題",
+              "THEME": "主題色彩",
+              "SUB_TEXT": "入口副標文字"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "可用語系",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
+              "NAME": "語系名稱",
+              "CODE": "語系代碼",
+              "ARTICLE_COUNT": "文章數量",
+              "CATEGORIES": "分類數量",
+              "SWAP": "交換",
               "DELETE": "刪除",
-              "DEFAULT_LOCALE": "Default"
+              "DEFAULT_LOCALE": "預設"
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "刪除入口",
+          "MESSAGE": "您確定要刪除此入口嗎？",
+          "YES": "是，刪除入口",
+          "NO": "不，保留入口",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "入口刪除成功",
+            "DELETE_ERROR": "刪除入口時發生錯誤"
           }
         },
         "SEND_CNAME_INSTRUCTIONS": {
           "API": {
-            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
-            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+            "SUCCESS_MESSAGE": "CNAME 設定說明傳送成功",
+            "ERROR_MESSAGE": "傳送 CNAME 設定說明時發生錯誤"
           }
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit portal",
+        "HEADER_TEXT": "編輯入口",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": "基本資訊"
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Portal customization"
+            "TITLE": "入口自訂"
           },
           "CATEGORY_SETTINGS": {
-            "TITLE": "Categories"
+            "TITLE": "分類"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": "語系"
           }
         },
         "CATEGORIES": {
-          "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "TITLE": "分類",
+          "NEW_CATEGORY": "新增分類",
           "TABLE": {
-            "NAME": "姓名",
-            "DESCRIPTION": "描述資訊",
-            "LOCALE": "Locale",
-            "ARTICLE_COUNT": "No. of articles",
+            "NAME": "名稱",
+            "DESCRIPTION": "描述",
+            "LOCALE": "語系",
+            "ARTICLE_COUNT": "文章數量",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "編輯分類",
+              "DELETE": "刪除分類"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "找不到分類"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Update basic settings"
+          "BUTTON_TEXT": "更新基本設定"
         }
       },
       "ADD": {
         "CREATE_FLOW": {
           "BASIC": {
-            "TITLE": "Help center information",
-            "BODY": "Basic information about portal"
+            "TITLE": "幫助中心資訊",
+            "BODY": "關於入口的基本資訊"
           },
           "CUSTOMIZATION": {
-            "TITLE": "Help center customization",
-            "BODY": "Customize portal"
+            "TITLE": "幫助中心自訂",
+            "BODY": "自訂入口"
           },
           "FINISH": {
-            "TITLE": "Voila! 🎉",
-            "BODY": "You're all set!"
+            "TITLE": "完成！🎉",
+            "BODY": "一切準備就緒！"
           }
         },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "返回",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "建立入口",
+            "TITLE": "幫助中心資訊",
+            "CREATE_BASIC_SETTING_BUTTON": "建立入口基本設定"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "入口自訂",
+            "TITLE": "幫助中心自訂",
+            "UPDATE_PORTAL_BUTTON": "更新入口設定"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "完成！🎉 一切準備就緒！",
+            "MESSAGE": "您現在可以在所有入口頁面中看到此入口。",
+            "FINISH": "前往所有入口頁面"
           }
         },
         "LOGO": {
           "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "UPLOAD_BUTTON": "上傳 Logo",
+          "HELP_TEXT": "此 Logo 將顯示在入口標頭中。",
+          "IMAGE_UPLOAD_SUCCESS": "Logo 上傳成功",
+          "IMAGE_UPLOAD_ERROR": "Logo 刪除成功",
+          "IMAGE_DELETE_ERROR": "刪除 Logo 時發生錯誤"
         },
         "NAME": {
-          "LABEL": "姓名",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
+          "LABEL": "名稱",
+          "PLACEHOLDER": "入口名稱",
+          "HELP_TEXT": "此名稱將用於對外公開的入口內部。",
           "ERROR": "名稱為必填"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-          "ERROR": "Slug is required"
+          "LABEL": "網址代碼",
+          "PLACEHOLDER": "入口的網址代碼",
+          "ERROR": "網址代碼為必填"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
-          "ERROR": "Enter a valid domain URL"
+          "LABEL": "自訂網域",
+          "PLACEHOLDER": "入口自訂網域",
+          "HELP_TEXT": "僅在您想為入口使用自訂網域時才需新增。例如：{exampleURL}",
+          "ERROR": "請輸入有效的網域 URL"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
-          "ERROR": "Enter a valid home page URL"
+          "LABEL": "首頁連結",
+          "PLACEHOLDER": "入口首頁連結",
+          "HELP_TEXT": "此連結用於從入口返回首頁。例如：{exampleURL}",
+          "ERROR": "請輸入有效的首頁 URL"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "入口主題色彩",
+          "HELP_TEXT": "此色彩將作為入口的主題色彩顯示。"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "LABEL": "頁面標題",
+          "PLACEHOLDER": "入口頁面標題",
+          "HELP_TEXT": "頁面標題將用於對外公開的入口。",
+          "ERROR": "頁面標題為必填"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "標頭文字",
+          "PLACEHOLDER": "入口標頭文字",
+          "HELP_TEXT": "入口標頭文字將用於對外公開的入口。",
+          "ERROR": "入口標頭文字為必填"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "入口建立成功。",
+          "ERROR_MESSAGE_FOR_BASIC": "無法建立入口，請再試一次。",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "入口更新成功。",
+          "ERROR_MESSAGE_FOR_UPDATE": "無法更新入口，請再試一次。"
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Add a new locale",
-        "SUB_TITLE": "This adds a new locale to your available translation list.",
-        "PORTAL": "Portal",
+        "TITLE": "新增語系",
+        "SUB_TITLE": "這將在您的可用翻譯清單中新增一個語系。",
+        "PORTAL": "入口",
         "LOCALE": {
-          "LABEL": "Locale",
-          "PLACEHOLDER": "Choose a locale",
-          "ERROR": "Locale is required"
+          "LABEL": "語系",
+          "PLACEHOLDER": "選擇語系",
+          "ERROR": "語系為必填"
         },
         "BUTTONS": {
-          "CREATE": "Create locale",
+          "CREATE": "建立語系",
           "CANCEL": "取消"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "語系新增成功",
+          "ERROR_MESSAGE": "無法新增語系，請再試一次。"
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Default locale updated successfully",
-          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+          "SUCCESS_MESSAGE": "預設語系更新成功",
+          "ERROR_MESSAGE": "無法更新預設語系，請再試一次。"
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
-          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+          "SUCCESS_MESSAGE": "語系已從入口中移除",
+          "ERROR_MESSAGE": "無法從入口中移除語系，請再試一次。"
+        }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "語系已成功移至草稿",
+          "ERROR_MESSAGE": "無法將語系移至草稿，請再試一次。"
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "語系發佈成功",
+          "ERROR_MESSAGE": "無法發佈語系，請再試一次。"
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "正在載入文章...",
+      "404": "找不到符合搜尋條件的文章 🔍",
+      "NO_ARTICLES": "沒有可用的文章",
       "HEADERS": {
         "TITLE": "標題",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Views",
+        "CATEGORY": "分類",
+        "READ_COUNT": "瀏覽次數",
         "STATUS": "狀態",
-        "LAST_EDITED": "Last edited"
+        "LAST_EDITED": "最後編輯"
       },
       "COLUMNS": {
-        "BY": "by",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "由",
+        "AUTHOR_NOT_AVAILABLE": "作者不可用"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "正在載入文章...",
+      "TITLE_PLACEHOLDER": "在此輸入文章標題",
+      "CONTENT_PLACEHOLDER": "在此撰寫您的文章",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "儲存文章時發生錯誤"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article published successfully"
+        "ERROR": "發佈文章時發生錯誤",
+        "SUCCESS": "文章發佈成功"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "封存文章時發生錯誤",
+        "SUCCESS": "文章封存成功"
       }
     },
     "DRAFT_ARTICLE": {
       "API": {
-        "ERROR": "Error while drafting article",
-        "SUCCESS": "Article drafted successfully"
+        "ERROR": "將文章移至草稿時發生錯誤",
+        "SUCCESS": "文章已成功移至草稿"
       }
     },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
           "TITLE": "確認刪除",
-          "MESSAGE": "Are you sure to delete the article?",
+          "MESSAGE": "您確定要刪除此文章嗎？",
           "YES": "是，刪除",
-          "NO": "否，保留它"
+          "NO": "不，保留"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Article deleted successfully",
-        "ERROR_MESSAGE": "Error while deleting article"
+        "SUCCESS_MESSAGE": "文章刪除成功",
+        "ERROR_MESSAGE": "刪除文章時發生錯誤"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "無法重新排序文章，請再試一次。"
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "無法重新排序分類，請再試一次。"
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": "請先新增文章標題和內容，才能更新設定"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "搜尋文章"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "建立分類",
+        "SUB_TITLE": "分類將用於公開入口中對文章進行歸類。",
+        "PORTAL": "入口",
+        "LOCALE": "語系",
         "NAME": {
-          "LABEL": "姓名",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "LABEL": "名稱",
+          "PLACEHOLDER": "分類名稱",
+          "HELP_TEXT": "分類名稱和圖示將用於對外公開的入口中對文章進行分類。",
           "ERROR": "名稱為必填"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "LABEL": "網址代碼",
+          "PLACEHOLDER": "分類的網址代碼",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "網址代碼為必填"
         },
         "DESCRIPTION": {
-          "LABEL": "描述資訊",
-          "PLACEHOLDER": "Give a short description about the category.",
+          "LABEL": "描述",
+          "PLACEHOLDER": "請簡短描述此分類。",
           "ERROR": "描述為必填"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
+          "CREATE": "建立分類",
           "CANCEL": "取消"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "分類建立成功",
+          "ERROR_MESSAGE": "無法建立分類"
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "編輯分類",
+        "SUB_TITLE": "編輯分類將更新對外公開入口中的分類。",
+        "PORTAL": "入口",
+        "LOCALE": "語系",
         "NAME": {
-          "LABEL": "姓名",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "LABEL": "名稱",
+          "PLACEHOLDER": "分類名稱",
+          "HELP_TEXT": "分類名稱和圖示將用於對外公開的入口中對文章進行分類。",
           "ERROR": "名稱為必填"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "LABEL": "網址代碼",
+          "PLACEHOLDER": "分類的網址代碼",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "網址代碼為必填"
         },
         "DESCRIPTION": {
-          "LABEL": "描述資訊",
-          "PLACEHOLDER": "Give a short description about the category.",
+          "LABEL": "描述",
+          "PLACEHOLDER": "請簡短描述此分類。",
           "ERROR": "描述為必填"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
+          "CREATE": "更新分類",
           "CANCEL": "取消"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "分類更新成功",
+          "ERROR_MESSAGE": "無法更新分類"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "分類刪除成功",
+          "ERROR_MESSAGE": "無法刪除分類"
         }
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "No articles found",
-      "SEARCHING": "Searching...",
+      "TITLE": "搜尋文章",
+      "PLACEHOLDER": "搜尋文章",
+      "NO_RESULT": "找不到文章",
+      "SEARCHING": "搜尋中...",
       "SEARCH_BUTTON": "搜尋",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Preview article",
-      "CANCEL": "取消",
+      "INSERT_ARTICLE": "插入連結",
+      "IFRAME_ERROR": "URL 為空或無效，無法顯示內容。",
+      "OPEN_ARTICLE_SEARCH": "從幫助中心插入文章",
+      "SUCCESS_ARTICLE_INSERTED": "文章插入成功",
+      "PREVIEW_LINK": "預覽文章",
+      "CANCEL": "關閉",
       "BACK": "返回",
-      "BACK_RESULTS": "Back to results"
+      "BACK_RESULTS": "返回搜尋結果"
     },
     "UPGRADE_PAGE": {
-      "TITLE": "Help Center",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "TITLE": "幫助中心",
+      "DESCRIPTION": "建立使用者友善的自助服務入口。幫助您的使用者存取文章並獲得全天候支援。升級您的訂閱以啟用此功能。",
+      "SELF_HOSTED_DESCRIPTION": "建立使用者友善的自助服務入口。幫助您的使用者存取文章並獲得全天候支援。請聯繫您的管理員以啟用此功能。",
       "BUTTON": {
-        "LEARN_MORE": "Learn more",
-        "UPGRADE": "Upgrade"
+        "LEARN_MORE": "瞭解更多",
+        "UPGRADE": "升級"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "多入口支援",
+          "DESCRIPTION": "使用同一帳戶為不同產品建立多個幫助中心入口。"
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "完整多語系支援",
+          "DESCRIPTION": "將入口本地化為您的語言。我們支援所有語系，並允許為每篇文章提供翻譯。"
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+          "TITLE": "SEO 友善設計",
+          "DESCRIPTION": "自訂您的 Meta 標籤，透過我們的 SEO 友善頁面提升搜尋引擎曝光度。"
         },
         "API": {
-          "TITLE": "Full API support",
-          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+          "TITLE": "完整 API 支援",
+          "DESCRIPTION": "透過我們的 API 將入口作為 Headless CMS 與第三方前端框架整合。"
         }
       }
     },
-    "LOADING": "Loading...",
+    "LOADING": "載入中...",
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
-          "VIEWS": "{count} view | {count} views",
+          "VIEWS": "{count} 次瀏覽 | {count} 次瀏覽",
           "DROPDOWN_MENU": {
-            "PUBLISH": "Publish",
-            "DRAFT": "Draft",
-            "ARCHIVE": "Archive",
+            "PUBLISH": "發佈",
+            "DRAFT": "草稿",
+            "ARCHIVE": "封存",
             "DELETE": "刪除"
           },
           "STATUS": {
-            "DRAFT": "Draft",
-            "PUBLISHED": "Published",
-            "ARCHIVED": "Archived"
+            "DRAFT": "草稿",
+            "PUBLISHED": "已發佈",
+            "ARCHIVED": "已封存"
           },
           "CATEGORY": {
-            "UNCATEGORISED": "Uncategorised"
+            "UNCATEGORISED": "未分類"
           }
         }
       },
       "ARTICLES_HEADER": {
         "TABS": {
-          "ALL": "All articles",
+          "ALL": "所有文章",
           "MINE": "我的",
-          "DRAFT": "Draft",
-          "PUBLISHED": "Published",
-          "ARCHIVED": "Archived"
+          "DRAFT": "草稿",
+          "PUBLISHED": "已發佈",
+          "ARCHIVED": "已封存"
         },
         "CATEGORY": {
-          "ALL": "All categories"
+          "ALL": "所有分類"
         },
         "LOCALE": {
-          "ALL": "All locales"
+          "ALL": "所有語系"
         },
-        "NEW_ARTICLE": "New article"
+        "NEW_ARTICLE": "新增文章"
       },
       "EMPTY_STATE": {
         "ALL": {
-          "TITLE": "Write an article",
-          "SUBTITLE": "Write a rich article, let’s get started!",
-          "BUTTON_LABEL": "New article"
+          "TITLE": "撰寫一篇文章",
+          "SUBTITLE": "撰寫一篇豐富的文章，讓我們開始吧！",
+          "BUTTON_LABEL": "新增文章"
         },
         "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+          "TITLE": "您尚未撰寫任何文章",
+          "SUBTITLE": "您撰寫的所有文章將顯示在此處，方便快速存取。"
         },
         "DRAFT": {
-          "TITLE": "There are no articles in drafts",
-          "SUBTITLE": "Draft articles will appear here"
+          "TITLE": "草稿中沒有文章",
+          "SUBTITLE": "草稿文章將顯示在此處"
         },
         "PUBLISHED": {
-          "TITLE": "There are no published articles",
-          "SUBTITLE": "Published articles will appear here"
+          "TITLE": "沒有已發佈的文章",
+          "SUBTITLE": "已發佈的文章將顯示在此處"
         },
         "ARCHIVED": {
-          "TITLE": "There are no articles in the archive",
-          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+          "TITLE": "封存中沒有文章",
+          "SUBTITLE": "已封存的文章不會顯示在入口上，您可以用它標記已棄用或過時的頁面"
         },
         "CATEGORY": {
-          "TITLE": "There are no articles in this category",
-          "SUBTITLE": "Articles in this category will appear here"
+          "TITLE": "此分類中沒有文章",
+          "SUBTITLE": "此分類中的文章將顯示在此處"
         }
       }
     },
     "CATEGORY_PAGE": {
       "CATEGORY_HEADER": {
-        "NEW_CATEGORY": "New category",
-        "EDIT_CATEGORY": "Edit category",
-        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "NEW_CATEGORY": "新增分類",
+        "EDIT_CATEGORY": "編輯分類",
+        "CATEGORIES_COUNT": "{n} 個分類 | {n} 個分類",
         "BREADCRUMB": {
-          "CATEGORY_LOCALE": "Categories ({localeCode})",
-          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+          "CATEGORY_LOCALE": "分類 ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName}（{categoryCount} 篇文章）| {categoryName}（{categoryCount} 篇文章）"
         }
       },
       "CATEGORY_EMPTY_STATE": {
-        "TITLE": "No categories found",
-        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+        "TITLE": "找不到分類",
+        "SUBTITLE": "分類將顯示在此處。您可以點擊「新增分類」按鈕來新增分類。"
       },
       "CATEGORY_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles"
+        "ARTICLES_COUNT": "{count} 篇文章 | {count} 篇文章"
       },
       "CATEGORY_DIALOG": {
         "CREATE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category created successfully",
-            "ERROR_MESSAGE": "Unable to create category"
+            "SUCCESS_MESSAGE": "分類建立成功",
+            "ERROR_MESSAGE": "無法建立分類"
           }
         },
         "EDIT": {
           "API": {
-            "SUCCESS_MESSAGE": "Category updated successfully",
-            "ERROR_MESSAGE": "Unable to update category"
+            "SUCCESS_MESSAGE": "分類更新成功",
+            "ERROR_MESSAGE": "無法更新分類"
           }
         },
         "DELETE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category deleted successfully",
-            "ERROR_MESSAGE": "Unable to delete category"
+            "SUCCESS_MESSAGE": "分類刪除成功",
+            "ERROR_MESSAGE": "無法刪除分類"
           }
         },
         "HEADER": {
-          "CREATE": "Create category",
-          "EDIT": "Edit category",
-          "DESCRIPTION": "Editing a category will update the category in the public facing portal.",
-          "PORTAL": "Portal",
-          "LOCALE": "Locale"
+          "CREATE": "建立分類",
+          "EDIT": "編輯分類",
+          "DESCRIPTION": "編輯分類將更新對外公開入口中的分類。",
+          "PORTAL": "入口",
+          "LOCALE": "語系"
         },
         "FORM": {
           "NAME": {
-            "LABEL": "姓名",
-            "PLACEHOLDER": "Category name",
+            "LABEL": "名稱",
+            "PLACEHOLDER": "分類名稱",
             "ERROR": "名稱為必填"
           },
           "SLUG": {
-            "LABEL": "Slug",
-            "PLACEHOLDER": "Category slug for urls",
-            "ERROR": "Slug is required",
+            "LABEL": "網址代碼",
+            "PLACEHOLDER": "分類的網址代碼",
+            "ERROR": "網址代碼為必填",
             "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
-            "LABEL": "描述資訊",
-            "PLACEHOLDER": "Give a short description about the category.",
+            "LABEL": "描述",
+            "PLACEHOLDER": "請簡短描述此分類。",
             "ERROR": "描述為必填"
           }
         },
@@ -628,238 +650,248 @@
       }
     },
     "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALES_COUNT": "沒有可用的語系 | {n} 個語系 | {n} 個語系",
+      "NEW_LOCALE_BUTTON_TEXT": "新增語系",
       "LOCALE_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles",
-        "CATEGORIES_COUNT": "{count} category | {count} categories",
-        "DEFAULT": "Default",
+        "ARTICLES_COUNT": "{count} 篇文章 | {count} 篇文章",
+        "CATEGORIES_COUNT": "{count} 個分類 | {count} 個分類",
+        "DEFAULT": "預設",
+        "DRAFT": "草稿",
         "DROPDOWN_MENU": {
-          "MAKE_DEFAULT": "Make default",
+          "MAKE_DEFAULT": "設為預設",
+          "MOVE_TO_DRAFT": "移至草稿",
+          "PUBLISH_LOCALE": "發佈語系",
           "DELETE": "刪除"
         }
       },
       "ADD_LOCALE_DIALOG": {
-        "TITLE": "Add a new locale",
-        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "TITLE": "新增語系",
+        "DESCRIPTION": "選擇此文章將使用的語言。這將新增到您的翻譯清單中，您可以稍後新增更多。",
         "COMBOBOX": {
-          "PLACEHOLDER": "Select locale..."
+          "PLACEHOLDER": "選擇語系..."
+        },
+        "STATUS": {
+          "LABEL": "狀態",
+          "OPTIONS": {
+            "LIVE": "已發佈",
+            "DRAFT": "草稿"
+          }
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "語系新增成功",
+          "ERROR_MESSAGE": "無法新增語系，請再試一次。"
         }
       }
     },
     "EDIT_ARTICLE_PAGE": {
       "HEADER": {
         "STATUS": {
-          "SAVING": "Saving...",
-          "SAVED": "Saved"
+          "SAVING": "儲存中...",
+          "SAVED": "已儲存"
         },
-        "PREVIEW": "Preview",
-        "PUBLISH": "Publish",
-        "DRAFT": "Draft",
-        "ARCHIVE": "Archive",
-        "BACK_TO_ARTICLES": "Back to articles"
+        "PREVIEW": "預覽",
+        "PUBLISH": "發佈",
+        "DRAFT": "草稿",
+        "ARCHIVE": "封存",
+        "BACK_TO_ARTICLES": "返回文章列表"
       },
       "EDIT_ARTICLE": {
-        "MORE_PROPERTIES": "More properties",
-        "UNCATEGORIZED": "Uncategorized",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "MORE_PROPERTIES": "更多屬性",
+        "UNCATEGORIZED": "未分類",
+        "EDITOR_PLACEHOLDER": "開始撰寫..."
       },
       "ARTICLE_PROPERTIES": {
-        "ARTICLE_PROPERTIES": "Article properties",
-        "META_DESCRIPTION": "Meta description",
-        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
-        "META_TITLE": "Meta title",
-        "META_TITLE_PLACEHOLDER": "Add meta title",
-        "META_TAGS": "Meta tags",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "ARTICLE_PROPERTIES": "文章屬性",
+        "META_DESCRIPTION": "Meta 描述",
+        "META_DESCRIPTION_PLACEHOLDER": "新增 Meta 描述",
+        "META_TITLE": "Meta 標題",
+        "META_TITLE_PLACEHOLDER": "新增 Meta 標題",
+        "META_TAGS": "Meta 標籤",
+        "META_TAGS_PLACEHOLDER": "新增 Meta 標籤"
       },
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "儲存文章時發生錯誤"
       }
     },
     "PORTAL_SWITCHER": {
-      "NEW_PORTAL": "New portal",
-      "PORTALS": "Portals",
-      "CREATE_PORTAL": "Create and manage multiple portals",
-      "ARTICLES": "articles",
-      "DOMAIN": "domain",
-      "PORTAL_NAME": "Portal name"
+      "NEW_PORTAL": "新增入口",
+      "PORTALS": "入口",
+      "CREATE_PORTAL": "建立和管理多個入口",
+      "ARTICLES": "文章",
+      "DOMAIN": "網域",
+      "PORTAL_NAME": "入口名稱"
     },
     "CREATE_PORTAL_DIALOG": {
-      "TITLE": "Create new portal",
-      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "TITLE": "建立新入口",
+      "DESCRIPTION": "為您的入口命名並建立一個易於使用的網址代碼。您可以稍後在設定中修改。",
       "CONFIRM_BUTTON_LABEL": "建立",
       "NAME": {
-        "LABEL": "姓名",
-        "PLACEHOLDER": "User Guide | Chatwoot",
-        "MESSAGE": "Choose an name for your portal.",
+        "LABEL": "名稱",
+        "PLACEHOLDER": "使用者指南 | Chatwoot",
+        "MESSAGE": "為您的入口選擇一個名稱。",
         "ERROR": "名稱為必填"
       },
       "SLUG": {
-        "LABEL": "Slug",
+        "LABEL": "網址代碼",
         "PLACEHOLDER": "user-guide",
-        "ERROR": "Slug is required",
-        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+        "ERROR": "網址代碼為必填",
+        "FORMAT_ERROR": "請輸入有效的網址代碼，例如：user-guide"
       }
     },
     "PORTAL_SETTINGS": {
       "FORM": {
         "AVATAR": {
           "LABEL": "Logo",
-          "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
-          "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Unable to delete logo",
-          "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+          "IMAGE_UPLOAD_ERROR": "無法上傳圖片！請再試一次",
+          "IMAGE_UPLOAD_SUCCESS": "圖片新增成功。請點擊儲存變更以儲存 Logo",
+          "IMAGE_DELETE_SUCCESS": "Logo 刪除成功",
+          "IMAGE_DELETE_ERROR": "無法刪除 Logo",
+          "IMAGE_UPLOAD_SIZE_ERROR": "圖片大小不能超過 {size}MB"
         },
         "NAME": {
-          "LABEL": "姓名",
-          "PLACEHOLDER": "Portal name",
+          "LABEL": "名稱",
+          "PLACEHOLDER": "入口名稱",
           "ERROR": "名稱為必填"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header text",
-          "PLACEHOLDER": "Portal header text"
+          "LABEL": "標頭文字",
+          "PLACEHOLDER": "入口標頭文字"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page title",
-          "PLACEHOLDER": "Portal page title"
+          "LABEL": "頁面標題",
+          "PLACEHOLDER": "入口頁面標題"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home page link",
-          "PLACEHOLDER": "Portal home page link",
-          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+          "LABEL": "首頁連結",
+          "PLACEHOLDER": "入口首頁連結",
+          "ERROR": "請輸入有效的 URL。首頁連結必須以「http://」或「https://」開頭。"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug"
+          "LABEL": "網址代碼",
+          "PLACEHOLDER": "入口網址代碼"
         },
         "LIVE_CHAT_WIDGET": {
-          "LABEL": "Live chat widget",
-          "PLACEHOLDER": "Select live chat widget",
-          "HELP_TEXT": "Select a live chat widget that will appear on your help center",
-          "NONE_OPTION": "No widget"
+          "LABEL": "即時聊天小工具",
+          "PLACEHOLDER": "選擇即時聊天小工具",
+          "HELP_TEXT": "選擇將顯示在幫助中心的即時聊天小工具",
+          "NONE_OPTION": "不使用小工具"
         },
         "BRAND_COLOR": {
-          "LABEL": "Brand color"
+          "LABEL": "品牌色彩"
         },
-        "SAVE_CHANGES": "Save changes"
+        "SAVE_CHANGES": "儲存變更"
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {
-          "HEADER": "Custom domain",
-          "LABEL": "Custom domain:",
-          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
-          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
-          "PLACEHOLDER": "Portal custom domain",
+          "HEADER": "自訂網域",
+          "LABEL": "自訂網域：",
+          "DESCRIPTION": "您可以在自訂網域上託管您的入口。例如，如果您的網站是 yourdomain.com，而您希望入口在 docs.yourdomain.com 上可用，只需在此欄位中輸入即可。",
+          "STATUS_DESCRIPTION": "您的自訂入口將在驗證通過後立即開始運作。",
+          "PLACEHOLDER": "入口自訂網域",
           "EDIT_BUTTON": "編輯",
-          "ADD_BUTTON": "Add custom domain",
+          "ADD_BUTTON": "新增自訂網域",
           "STATUS": {
-            "LIVE": "Live",
-            "PENDING": "Awaiting verification",
-            "ERROR": "Verification failed"
+            "LIVE": "已上線",
+            "PENDING": "等待驗證",
+            "ERROR": "驗證失敗"
           },
           "DIALOG": {
-            "ADD_HEADER": "Add custom domain",
-            "EDIT_HEADER": "Edit custom domain",
-            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
-            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
-            "LABEL": "Custom domain",
-            "PLACEHOLDER": "Portal custom domain",
-            "ERROR": "Custom domain is required",
-            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+            "ADD_HEADER": "新增自訂網域",
+            "EDIT_HEADER": "編輯自訂網域",
+            "ADD_CONFIRM_BUTTON_LABEL": "新增網域",
+            "EDIT_CONFIRM_BUTTON_LABEL": "更新網域",
+            "LABEL": "自訂網域",
+            "PLACEHOLDER": "入口自訂網域",
+            "ERROR": "自訂網域為必填",
+            "FORMAT_ERROR": "請輸入有效的網域 URL，例如 docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
-            "HEADER": "DNS configuration",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
-            "COPY": "Successfully copied CNAME",
+            "HEADER": "DNS 設定",
+            "DESCRIPTION": "登入您的 DNS 供應商帳戶，新增一筆指向 chatwoot.help 的子網域 CNAME 記錄",
+            "COPY": "已成功複製 CNAME",
             "SEND_INSTRUCTIONS": {
-              "HEADER": "Send instructions",
-              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
-              "PLACEHOLDER": "Enter their email",
-              "ERROR": "Enter a valid email address",
-              "SEND_BUTTON": "發送"
+              "HEADER": "傳送設定說明",
+              "DESCRIPTION": "如果您希望由開發團隊的成員來處理此步驟，可以在下方輸入電子郵件地址，我們將傳送所需的設定說明給他們。",
+              "PLACEHOLDER": "輸入電子郵件地址",
+              "ERROR": "請輸入有效的電子郵件地址",
+              "SEND_BUTTON": "傳送"
             }
           }
         },
         "DELETE_PORTAL": {
-          "BUTTON": "Delete {portalName}",
-          "HEADER": "Delete portal",
-          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "BUTTON": "刪除 {portalName}",
+          "HEADER": "刪除入口",
+          "DESCRIPTION": "永久刪除此入口。此操作無法復原",
           "DIALOG": {
-            "HEADER": "Sure you want to delete {portalName}?",
-            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "HEADER": "確定要刪除 {portalName} 嗎？",
+            "DESCRIPTION": "此為永久操作，無法復原。",
             "CONFIRM_BUTTON_LABEL": "刪除"
           }
         },
-        "EDIT_CONFIGURATION": "Edit configuration"
+        "EDIT_CONFIGURATION": "編輯設定"
       },
       "API": {
         "CREATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal created successfully",
-          "ERROR_MESSAGE": "Unable to create portal"
+          "SUCCESS_MESSAGE": "入口建立成功",
+          "ERROR_MESSAGE": "無法建立入口"
         },
         "UPDATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal updated successfully",
-          "ERROR_MESSAGE": "Unable to update portal"
+          "SUCCESS_MESSAGE": "入口更新成功",
+          "ERROR_MESSAGE": "無法更新入口"
         }
       }
     },
     "PDF_UPLOAD": {
-      "TITLE": "Upload PDF Document",
-      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
-      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
-      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
-      "UPLOADING": "上傳中",
-      "UPLOAD": "Upload & Process",
+      "TITLE": "上傳 PDF 文件",
+      "DESCRIPTION": "上傳 PDF 文件，利用 AI 自動產生常見問題",
+      "DRAG_DROP_TEXT": "將 PDF 檔案拖放到此處，或點擊選擇檔案",
+      "SELECT_FILE": "選擇 PDF 檔案",
+      "ADDITIONAL_CONTEXT_LABEL": "額外說明（選填）",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "提供產生常見問題所需的額外說明或指示...",
+      "UPLOADING": "上傳中...",
+      "UPLOAD": "上傳並處理",
       "CANCEL": "取消",
-      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
-      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
-      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+      "ERROR_INVALID_TYPE": "請選擇有效的 PDF 檔案",
+      "ERROR_FILE_TOO_LARGE": "檔案大小不能超過 512MB",
+      "ERROR_UPLOAD_FAILED": "上傳 PDF 失敗，請再試一次。"
     },
     "PDF_DOCUMENTS": {
-      "TITLE": "PDF Documents",
-      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
-      "UPLOAD_PDF": "Upload PDF",
-      "UPLOAD_FIRST_PDF": "Upload your first PDF",
-      "UPLOADED_BY": "Uploaded by",
-      "GENERATE_FAQS": "Generate FAQs",
-      "GENERATING": "Generating...",
-      "CONFIRM_DELETE": "Are you sure you want to delete {filename}?",
+      "TITLE": "PDF 文件",
+      "DESCRIPTION": "管理已上傳的 PDF 文件，並從中產生常見問題",
+      "UPLOAD_PDF": "上傳 PDF",
+      "UPLOAD_FIRST_PDF": "上傳您的第一個 PDF",
+      "UPLOADED_BY": "上傳者",
+      "GENERATE_FAQS": "產生常見問題",
+      "GENERATING": "產生中...",
+      "CONFIRM_DELETE": "您確定要刪除 {filename} 嗎？",
       "EMPTY_STATE": {
-        "TITLE": "No PDF documents yet",
-        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+        "TITLE": "尚無 PDF 文件",
+        "DESCRIPTION": "上傳 PDF 文件以使用 AI 自動產生常見問題內容"
       },
       "STATUS": {
-        "UPLOADED": "Ready",
-        "PROCESSING": "Processing",
+        "UPLOADED": "已就緒",
+        "PROCESSING": "處理中",
         "PROCESSED": "已完成",
-        "FAILED": "Failed"
+        "FAILED": "失敗"
       }
     },
     "CONTENT_GENERATION": {
-      "TITLE": "Content Generation",
-      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
-      "UPLOAD_TITLE": "Upload PDF Document",
-      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "UPLOADING": "Processing document...",
-      "UPLOAD_SUCCESS": "Document processed successfully!",
-      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
-      "INVALID_FILE_TYPE": "Please select a valid PDF file",
-      "FILE_TOO_LARGE": "File size must be less than 512MB",
-      "GENERATED_CONTENT": "Generated FAQ Content",
-      "PUBLISH_SELECTED": "Publish Selected",
-      "PUBLISHING": "Publishing...",
-      "FROM_DOCUMENT": "From document",
-      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
-      "LOADING": "Loading generated content..."
+      "TITLE": "內容產生",
+      "DESCRIPTION": "上傳 PDF 文件以使用 AI 自動產生常見問題內容",
+      "UPLOAD_TITLE": "上傳 PDF 文件",
+      "DRAG_DROP": "將 PDF 檔案拖放到此處，或點擊選擇檔案",
+      "SELECT_FILE": "選擇 PDF 檔案",
+      "UPLOADING": "正在處理文件...",
+      "UPLOAD_SUCCESS": "文件處理成功！",
+      "UPLOAD_ERROR": "上傳文件失敗，請再試一次。",
+      "INVALID_FILE_TYPE": "請選擇有效的 PDF 檔案",
+      "FILE_TOO_LARGE": "檔案大小不能超過 512MB",
+      "GENERATED_CONTENT": "已產生的常見問題內容",
+      "PUBLISH_SELECTED": "發佈已選內容",
+      "PUBLISHING": "發佈中...",
+      "FROM_DOCUMENT": "來自文件",
+      "NO_CONTENT": "沒有可用的產生內容。上傳 PDF 文件即可開始。",
+      "LOADING": "正在載入產生的內容..."
     }
   }
 }

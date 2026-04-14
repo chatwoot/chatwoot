@@ -3,6 +3,9 @@
     "FETCHING": "Caricamento Integrazioni",
     "NO_HOOK_CONFIGURED": "Non ci sono integrazioni {integrationId} configurate in questo account.",
     "HEADER": "Applicazioni",
+    "COUNT": "{n} integrazione | {n} integrazioni",
+    "SEARCH_PLACEHOLDER": "Cerca...",
+    "NO_RESULTS": "Nessun risultato trovato corrispondente alla tua ricerca",
     "STATUS": {
       "ENABLED": "Abilitato",
       "DISABLED": "Disabilitato"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Caricamento hook integrazioni",
       "INBOX": "Inbox",
+      "ACTIONS": "Azioni",
       "DELETE": {
         "BUTTON_TEXT": "Elimina"
       }

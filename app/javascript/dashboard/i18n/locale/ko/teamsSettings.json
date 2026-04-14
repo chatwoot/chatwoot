@@ -2,11 +2,14 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "팀 생성하기",
     "HEADER": "팀",
-    "LOADING": "Fetching teams",
-    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
-    "LEARN_MORE": "Learn more about teams",
+    "LOADING": "팀을 불러오는 중",
+    "DESCRIPTION": "팀을 사용하면 에이전트를 업무 담당에 따라 그룹으로 구성할 수 있습니다. 에이전트는 여러 팀에 소속될 수 있습니다. 협업 시 특정 팀에 대화를 배정할 수 있습니다.",
+    "LEARN_MORE": "팀에 대해 자세히 알아보기",
+    "COUNT": "{n}개의 팀 | {n}개의 팀",
+    "SEARCH_PLACEHOLDER": "팀 검색...",
+    "NO_RESULTS": "검색과 일치하는 팀이 없습니다",
     "LIST": {
-      "404": "계정에 연결된 에이전트가 없습니다.",
+      "404": "계정에 생성된 팀이 없습니다.",
       "EDIT_TEAM": "팀 수정하기",
       "NONE": "없음"
     },
@@ -79,7 +82,7 @@
       "SELECT_ALL": "모든 에이전트 선택",
       "SELECTED_COUNT": "{total} 에이전트 중 {selected} 선택됨.",
       "BUTTON_TEXT": "에이전트 추가",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+      "AGENT_VALIDATION_ERROR": "최소 한 명의 에이전트를 선택하십시오."
     },
     "FINISH": {
       "TITLE": "준비가 완료되었습니다!",
@@ -93,8 +96,8 @@
         "ERROR_MESSAGE": "팀을 삭제할 수 없습니다. 다시 시도해주세요."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure you want to delete the team?",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
+        "TITLE": "정말 팀을 삭제하시겠습니까?",
+        "PLACE_HOLDER": "확인하려면 {teamName}을(를) 입력하십시오",
         "MESSAGE": "팀을 삭제하면 팀에 할당된 대화들에 대한 할당이 모두 해제됩니다.",
         "YES": "삭제 ",
         "NO": "취소"
@@ -105,15 +108,15 @@
       "UPDATE": "팀 내용 업데이트",
       "CREATE": "팀 생성",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "팀 이름",
+        "PLACEHOLDER": "예: 영업, 고객 지원"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "팀 설명",
+        "PLACEHOLDER": "이 팀에 대한 간단한 설명."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "이 팀에 자동 배정을 허용합니다."
       },
       "SUBMIT_CREATE": "팀 생성"
     }

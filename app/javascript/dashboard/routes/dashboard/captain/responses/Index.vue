@@ -316,7 +316,7 @@ onMounted(() => {
       v-if="bulkSelectedIds"
       ref="bulkDeleteDialog"
       :bulk-ids="bulkSelectedIds"
-      type="Responses"
+      type="AssistantResponse"
       @delete-success="onBulkDeleteSuccess"
     />
 

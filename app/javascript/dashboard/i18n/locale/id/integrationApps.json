@@ -3,6 +3,9 @@
     "FETCHING": "Mengambil Integrasi",
     "NO_HOOK_CONFIGURED": "Tidak ada integrasi {integrationId} yang dikonfigurasi di akun ini.",
     "HEADER": "Aplikasi",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Diaktifkan",
       "DISABLED": "Nonaktif"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Mengambil hook integrasi",
       "INBOX": "Kotak masuk",
+      "ACTIONS": "Aksi",
       "DELETE": {
         "BUTTON_TEXT": "Hapus"
       }

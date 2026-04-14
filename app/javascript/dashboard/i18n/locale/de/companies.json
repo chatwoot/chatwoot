@@ -1,13 +1,13 @@
 {
   "COMPANIES": {
-    "HEADER": "Companies",
+    "HEADER": "Unternehmen",
     "SORT_BY": {
       "LABEL": "Sortieren nach",
       "OPTIONS": {
         "NAME": "Name",
         "DOMAIN": "Domain",
         "CREATED_AT": "Erstellt am",
-        "CONTACTS_COUNT": "Contacts count"
+        "CONTACTS_COUNT": "Anzahl Kontakte"
       }
     },
     "ORDER": {
@@ -17,17 +17,17 @@
         "DESCENDING": "Absteigend"
       }
     },
-    "SEARCH_PLACEHOLDER": "Search companies...",
-    "LOADING": "Loading companies...",
-    "UNNAMED": "Unnamed Company",
-    "CONTACTS_COUNT": "{n} contact | {n} contacts",
+    "SEARCH_PLACEHOLDER": "Unternehmen suchen...",
+    "LOADING": "Unternehmen werden geladen...",
+    "UNNAMED": "Unbenanntes Unternehmen",
+    "CONTACTS_COUNT": "{n} Kontakt | {n} Kontakte",
     "EMPTY_STATE": {
-      "TITLE": "No companies found"
+      "TITLE": "Keine Unternehmen gefunden"
     }
   },
   "COMPANIES_LAYOUT": {
     "PAGINATION_FOOTER": {
-      "SHOWING": "Showing {startItem} – {endItem} of {totalItems} company | Showing {startItem} – {endItem} of {totalItems} companies"
+      "SHOWING": "Zeige {startItem} – {endItem} von {totalItems} Unternehmen | Zeige {startItem} – {endItem} von {totalItems} Unternehmen"
     }
   }
 }

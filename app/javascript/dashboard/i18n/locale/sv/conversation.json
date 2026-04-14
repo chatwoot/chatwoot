@@ -61,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Detta meddelande stöds inte. Du kan se detta meddelande på Facebook Messenger-appen.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Detta meddelande stöds inte. Du kan se detta meddelande på Instagram-appen.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "Meddelandet har tagits bort",
     "FAIL_DELETE_MESSSAGE": "Det gick inte att ta bort meddelande! Försök igen",
     "NO_RESPONSE": "Inget svar",
@@ -173,6 +174,10 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Couldn't assign label. Please try again."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
           "FAILED": "Couldn't assign team. Please try again."
@@ -185,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "Inaktivera signatur",
       "MSG_INPUT": "Skift + Enter för ny rad. Börja med '/' för att välja en svarsmall.",
       "PRIVATE_MSG_INPUT": "Skift + Enter för ny rad. Detta kommer endast att vara synligt för agenter",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Meddelandesignaturen är inte konfigurerad. Konfigurera den i profilinställningarna.",
+      "COPILOT_MSG_INPUT": "Ge copilot ytterligare instruktioner, eller ställ andra frågor... Tryck enter för att skicka uppföljning",
       "CLICK_HERE": "Klicka här för att uppdatera",
       "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
@@ -205,7 +214,7 @@
       "DRAG_DROP": "Dra och släpp hit för att bifoga",
       "START_AUDIO_RECORDING": "Starta ljudinspelning",
       "STOP_AUDIO_RECORDING": "Stop audio recording",
-      "": "",
+      "COPILOT_THINKING": "Copilot tänker",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Lägg till bcc",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Det gick inte att skicka detta meddelande, försök igen senare",
     "SENT_BY": "Skickat av:",
     "BOT": "Bot",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Couldn't send message! Try again",
     "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
@@ -294,6 +306,7 @@
     "CANCEL": "Avbryt",
     "SEND_EMAIL_SUCCESS": "Chattranskriberingen har skickats",
     "SEND_EMAIL_ERROR": "Ett fel uppstod, vänligen försök igen",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Skicka transkriberingen till kunden",
       "SEND_TO_AGENT": "Skicka transkriberingen till den tilldelade agenten",

@@ -1,40 +1,40 @@
 {
   "LOGIN": {
-    "TITLE": "登入到 Chatwoot",
+    "TITLE": "登入 Chatwoot",
     "EMAIL": {
-      "LABEL": "Email",
+      "LABEL": "電子郵件",
       "PLACEHOLDER": "example{'@'}companyname.com",
-      "ERROR": "請輸入一個有效的電子信箱"
+      "ERROR": "請輸入有效的電子郵件地址"
     },
     "PASSWORD": {
       "LABEL": "密碼",
       "PLACEHOLDER": "密碼"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login successful",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
-      "UNAUTH": "Username or password is incorrect. Please try again."
+      "SUCCESS_MESSAGE": "登入成功",
+      "ERROR_MESSAGE": "無法連線至 Woot 伺服器，請稍後再試。",
+      "UNAUTH": "使用者名稱或密碼不正確，請重試。"
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+      "GOOGLE_LOGIN": "使用 Google 登入",
+      "BUSINESS_ACCOUNTS_ONLY": "請使用您的公司電子郵件地址登入",
+      "NO_ACCOUNT_FOUND": "找不到與您的電子郵件地址相關聯的帳戶。"
     },
     "FORGOT_PASSWORD": "忘記密碼了？",
     "CREATE_NEW_ACCOUNT": "建立新帳戶",
     "SUBMIT": "登入",
     "SAML": {
-      "LABEL": "Login via SSO",
-      "TITLE": "Initiate Single Sign-on (SSO)",
-      "SUBTITLE": "Enter your work email to access your organization",
-      "BACK_TO_LOGIN": "Login via Password",
+      "LABEL": "透過 SSO 登入",
+      "TITLE": "啟動單一登入 (SSO)",
+      "SUBTITLE": "輸入您的工作電子郵件以存取您的組織",
+      "BACK_TO_LOGIN": "透過密碼登入",
       "WORK_EMAIL": {
-        "LABEL": "Work Email",
-        "PLACEHOLDER": "Enter your work email"
+        "LABEL": "工作電子郵件",
+        "PLACEHOLDER": "輸入您的工作電子郵件"
       },
-      "SUBMIT": "Continue with SSO",
+      "SUBMIT": "繼續使用 SSO",
       "API": {
-        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+        "ERROR_MESSAGE": "SSO 驗證失敗。請檢查您的憑證並重試。"
       }
     }
   }

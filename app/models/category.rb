@@ -92,7 +92,7 @@ class Category < ApplicationRecord
   def allowed_locales
     return if portal.blank?
 
-    allowed_locales = portal.config['allowed_locales']
+    allowed_locales = portal.allowed_locale_codes
 
     return true if allowed_locales.include?(locale)
 

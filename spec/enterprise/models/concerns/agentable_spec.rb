@@ -89,6 +89,7 @@ RSpec.describe Concerns::Agentable do
       context_double = instance_double(Agents::RunContext,
                                        context: {
                                          state: {
+                                           assistant_config: { 'feature_contact_attributes' => true },
                                            conversation: { id: 123 },
                                            contact: { name: 'John' }
                                          }
@@ -137,7 +138,7 @@ RSpec.describe Concerns::Agentable do
         hash_including(
           base_key: 'base_value',
           conversation: {},
-          contact: {},
+          contact: nil,
           campaign: {}
         )
       )

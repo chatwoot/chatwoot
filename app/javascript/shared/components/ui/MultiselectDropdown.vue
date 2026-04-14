@@ -5,6 +5,7 @@ import { useToggle } from '@vueuse/core';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'next/avatar/Avatar.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
 
 const props = defineProps({
@@ -53,6 +54,10 @@ const hasValue = computed(() => {
   }
   return false;
 });
+
+const hasIcon = computed(() => {
+  return props.selectedItem?.icon || false;
+});
 </script>
 
 <template>
@@ -83,13 +88,18 @@ const hasValue = computed(() => {
           </h4>
         </div>
         <Avatar
-          v-if="hasValue && hasThumbnail"
+          v-if="hasValue && hasThumbnail && !hasIcon"
           :src="selectedItem.thumbnail"
           :status="selectedItem.availability_status"
           :name="selectedItem.name"
           :size="24"
           hide-offline-status
           rounded-full
+        />
+        <Icon
+          v-if="hasValue && hasIcon"
+          :icon="selectedItem.icon"
+          class="size-5 text-n-slate-11"
         />
       </Button>
       <div

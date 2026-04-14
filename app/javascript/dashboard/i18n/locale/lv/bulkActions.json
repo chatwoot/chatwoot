@@ -22,6 +22,10 @@
       "UPDATE_SUCCESFUL": "Sarunas statuss ir veiksmīgi atjaunināts.",
       "UPDATE_FAILED": "Neizdevās atjaunināt sarunas. Lūdzu mēģiniet vēlreiz."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Piešķirt etiķetes",
       "NO_LABELS_FOUND": "Etiķetes nav atrastas",
