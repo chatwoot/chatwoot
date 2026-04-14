@@ -60,7 +60,7 @@ class Whatsapp::ConversationSyncService
     return Rails.logger.warn("[WHATSAPP] Contact inbox not found for wa_id: #{wa_id}") unless contact_inbox
 
     conversation = find_or_create_conversation(contact_inbox)
-    return Rails.logger.info("[WHATSAPP] Message #{message_id} already exists, skipping") if conversation.messages.exists?(source_id: message_id)
+    return Rails.logger.info("[WHATSAPP] Message #{message_id} already exists, skipping") if already_exists?(conversation, message_item)
 
     create_historical_message(conversation, message_item)
     Rails.logger.info "[WHATSAPP] Historical message synced: #{message_id} for #{wa_id}"
@@ -184,6 +184,24 @@ class Whatsapp::ConversationSyncService
     return unless url_response.success?
 
     Down.download(url_response.parsed_response['url'], headers: inbox.channel.api_headers)
+  end
+
+  def already_exists?(conversation, message_item)
+    conversation.messages.exists?(source_id: message_item[:id]) ||
+      duplicate_text_message_exists?(conversation, message_item)
+  end
+
+  def duplicate_text_message_exists?(conversation, message_item)
+    return false unless message_item[:type] == 'text'
+    return false unless determine_message_type(message_item) == :outgoing
+
+    wa_timestamp = Time.zone.at(message_item[:timestamp].to_i)
+    content = message_item.dig(:text, :body)
+
+    conversation.messages.outgoing.exists?(
+      content: content,
+      created_at: (wa_timestamp - 5.minutes)..(wa_timestamp + 5.minutes)
+    )
   end
 
   def file_content_type(file_type)

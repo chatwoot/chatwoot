@@ -77,6 +77,51 @@ describe Whatsapp::ConversationSyncService do
         expect(inbox.messages.where(source_id: 'wamid.history_001').count).to eq(1)
       end
 
+      context 'when a live outgoing message exists with the same content and timestamp' do
+        let(:wa_timestamp) { 1_737_300_000 }
+        let(:outgoing_params) do
+          params.deep_dup.tap do |p|
+            msg = p[:entry][0][:changes][0][:value][:history][0][:threads][0][:messages][0]
+            msg[:timestamp] = wa_timestamp.to_s
+            msg[:history_context] = { from_me: true }
+          end
+        end
+
+        before do
+          contact = create(:contact, phone_number: "+#{thread_wa_id}", account: inbox.account)
+          contact_inbox = create(:contact_inbox, contact: contact, inbox: inbox, source_id: thread_wa_id)
+          conversation = create(:conversation, contact: contact, contact_inbox: contact_inbox, inbox: inbox,
+                                               account: inbox.account)
+          # Live outgoing message — different source_id due to wamid encoding mismatch
+          create(:message, conversation: conversation, inbox: inbox, account: inbox.account,
+                           message_type: :outgoing, content: 'Historical message',
+                           created_at: Time.zone.at(wa_timestamp + 10))
+        end
+
+        it 'skips the historical outgoing message as a duplicate' do
+          expect { described_class.new(inbox: inbox, params: outgoing_params).perform }
+            .not_to change(Message, :count)
+        end
+
+        it 'creates the message when the live message is outside the 5 minute window' do
+          late_params = outgoing_params.deep_dup
+          late_params[:entry][0][:changes][0][:value][:history][0][:threads][0][:messages][0][:timestamp] =
+            (wa_timestamp - 10.minutes.to_i).to_s
+
+          expect { described_class.new(inbox: inbox, params: late_params).perform }
+            .to change(Message, :count).by(1)
+        end
+
+        it 'does not apply fuzzy dedup to incoming messages' do
+          incoming_params = outgoing_params.deep_dup
+          incoming_params[:entry][0][:changes][0][:value][:history][0][:threads][0][:messages][0][:history_context] = { from_me: false }
+
+          # Incoming messages are deduped by source_id only; fuzzy check does not apply
+          expect { described_class.new(inbox: inbox, params: incoming_params).perform }
+            .to change(Message, :count).by(1)
+        end
+      end
+
       it 'skips error type messages' do
         params[:entry][0][:changes][0][:value][:history][0][:threads][0][:messages][0][:type] = 'errors'
 
