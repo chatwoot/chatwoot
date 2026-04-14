@@ -114,10 +114,21 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
     Rails.logger.info "Contact attributes - name: #{contact_name}, phone: #{cleaned_phone}, email: #{contact_email}"
 
     # Find existing contact or create new one
-    existing_contact = Contact.find_by(
-      account: sequence.account,
-      phone_number: cleaned_phone
-    )
+    existing_contact = Contact.find_by(account: sequence.account, phone_number: cleaned_phone)
+
+    # Fallback: search by email if phone lookup failed and email is present
+    if existing_contact.nil? && contact_email.present?
+      existing_contact = Contact.find_by(account: sequence.account, email: contact_email)
+
+      if existing_contact.nil?
+        soft_deleted = Contact.unscoped.find_by(account: sequence.account, email: contact_email)
+        if soft_deleted&.discarded?
+          Rails.logger.info "Found soft-deleted contact #{soft_deleted.id} by email, restoring"
+          soft_deleted.undiscard
+          existing_contact = soft_deleted
+        end
+      end
+    end
 
     if existing_contact
       Rails.logger.info "Found existing contact: #{existing_contact.id}"
