@@ -2,39 +2,43 @@
   "AGENT_BOTS": {
     "HEADER": "機器人",
     "LOADING_EDITOR": "正在載入編輯器...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
-    "LEARN_MORE": "Learn about agent bots",
-    "GLOBAL_BOT": "System bot",
-    "GLOBAL_BOT_BADGE": "System",
+    "DESCRIPTION": "機器人就像您團隊中最出色的成員。它們可以處理瑣碎的事務，讓您專注於重要的事情。試試看吧！您可以從此頁面管理機器人，或使用「新增機器人」按鈕建立新的機器人。",
+    "LEARN_MORE": "瞭解更多關於機器人",
+    "COUNT": "{n} 個機器人 | {n} 個機器人",
+    "SEARCH_PLACEHOLDER": "搜尋機器人...",
+    "NO_RESULTS": "找不到符合搜尋條件的機器人",
+    "GLOBAL_BOT": "系統機器人",
+    "GLOBAL_BOT_BADGE": "系統",
     "AVATAR": {
-      "SUCCESS_DELETE": "Bot avatar deleted successfully",
-      "ERROR_DELETE": "Error deleting bot avatar, please try again"
+      "SUCCESS_DELETE": "機器人頭像刪除成功",
+      "ERROR_DELETE": "刪除機器人頭像時發生錯誤，請再試一次"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "選擇一個機器人",
-      "DESC": "將機器人分配到您的收件匣中。它們可以處理初始對話，並在必要時轉接給真人客服",
+      "TITLE": "選擇機器人",
+      "DESC": "將機器人指派到您的收件匣。它們可以處理初始對話，並在需要時轉接給真人客服。",
       "SUBMIT": "更新",
       "DISCONNECT": "取消機器人連結",
-      "SUCCESS_MESSAGE": "成功更新機器人",
-      "DISCONNECTED_SUCCESS_MESSAGE": "成功解除機器人連結",
-      "ERROR_MESSAGE": "無法更新機器人，請再試一次",
-      "DISCONNECTED_ERROR_MESSAGE": "無法斷開機器人，請再試一次",
+      "SUCCESS_MESSAGE": "機器人更新成功。",
+      "DISCONNECTED_SUCCESS_MESSAGE": "機器人已成功解除連結。",
+      "ERROR_MESSAGE": "無法更新機器人，請再試一次。",
+      "DISCONNECTED_ERROR_MESSAGE": "無法解除機器人連結，請再試一次。",
       "SELECT_PLACEHOLDER": "選擇機器人"
     },
     "ADD": {
-      "TITLE": "Add Bot",
+      "TITLE": "新增機器人",
       "CANCEL_BUTTON_TEXT": "取消",
       "API": {
-        "SUCCESS_MESSAGE": "機器人新增成功.",
-        "ERROR_MESSAGE": "無法新增機器人，請稍後再試."
+        "SUCCESS_MESSAGE": "機器人新增成功。",
+        "ERROR_MESSAGE": "無法新增機器人，請稍後再試。"
       }
     },
     "LIST": {
-      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
+      "404": "找不到機器人。您可以點擊「新增機器人」按鈕來建立機器人。",
       "LOADING": "正在取得機器人...",
       "TABLE_HEADER": {
-        "DETAILS": "Bot Details",
-        "URL": "Webhook 網址"
+        "DETAILS": "機器人詳情",
+        "URL": "Webhook 網址",
+        "ACTIONS": "操作"
       }
     },
     "DELETE": {
@@ -42,52 +46,59 @@
       "TITLE": "刪除機器人",
       "CONFIRM": {
         "TITLE": "確認刪除",
-        "MESSAGE": "Are you sure you want to delete {name}?",
+        "MESSAGE": "您確定要刪除 {name} 嗎？",
         "YES": "是，刪除",
         "NO": "不，保留"
       },
       "API": {
-        "SUCCESS_MESSAGE": "機器人刪除成功",
-        "ERROR_MESSAGE": "無法刪除機器人，請再試一次"
+        "SUCCESS_MESSAGE": "機器人刪除成功。",
+        "ERROR_MESSAGE": "無法刪除機器人，請再試一次。"
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "編輯",
       "TITLE": "編輯機器人",
       "API": {
-        "SUCCESS_MESSAGE": "機器人更新成功.",
-        "ERROR_MESSAGE": "無法更新機器人，請稍後再試"
+        "SUCCESS_MESSAGE": "機器人更新成功。",
+        "ERROR_MESSAGE": "無法更新機器人，請再試一次。"
       }
+    },
+    "ACCESS_TOKEN": {
+      "TITLE": "存取權杖",
+      "DESCRIPTION": "複製存取權杖並妥善保管",
+      "COPY_SUCCESSFUL": "存取權杖已複製到剪貼簿",
+      "RESET_SUCCESS": "存取權杖已成功重新產生",
+      "RESET_ERROR": "無法重新產生存取權杖，請再試一次"
     },
     "FORM": {
       "AVATAR": {
-        "LABEL": "Bot avatar"
+        "LABEL": "機器人頭像"
       },
       "NAME": {
         "LABEL": "機器人名稱",
-        "PLACEHOLDER": "Enter bot name",
+        "PLACEHOLDER": "輸入機器人名稱",
         "REQUIRED": "機器人名稱為必填"
       },
       "DESCRIPTION": {
-        "LABEL": "描述資訊",
-        "PLACEHOLDER": "這個機器人的作用是什麼"
+        "LABEL": "描述",
+        "PLACEHOLDER": "這個機器人的功能是什麼？"
       },
       "WEBHOOK_URL": {
         "LABEL": "Webhook 網址",
         "PLACEHOLDER": "https://example.com/webhook",
-        "REQUIRED": "Webhook URL is required"
+        "REQUIRED": "Webhook 網址為必填"
       },
       "ERRORS": {
         "NAME": "機器人名稱為必填",
-        "URL": "Webhook URL is required",
-        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+        "URL": "Webhook 網址為必填",
+        "VALID_URL": "請輸入以 http:// 或 https:// 開頭的有效網址"
       },
       "CANCEL": "取消",
-      "CREATE": "Create Bot",
-      "UPDATE": "Update Bot"
+      "CREATE": "建立機器人",
+      "UPDATE": "更新機器人"
     },
     "WEBHOOK": {
-      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+      "DESCRIPTION": "設定 Webhook 機器人以與您的自訂服務整合。機器人將接收和處理來自對話的事件，並能對其做出回應。"
     },
     "TYPES": {
       "WEBHOOK": "Webhook 機器人"

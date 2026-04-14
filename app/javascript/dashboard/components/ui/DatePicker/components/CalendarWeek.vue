@@ -116,7 +116,7 @@ const dayClasses = day => ({
     (isInRange(day) || isHoveringInRange(day)) &&
     !isSelectedStartOrEndDate(day) &&
     isInCurrentMonth(day),
-  'outline outline-1 outline-n-blue-8 -outline-offset-1 !text-n-blue-text':
+  'outline outline-1 outline-n-blue-8 -outline-offset-1 !text-n-blue-11':
     isToday(props.currentDate, day) && !isSelectedStartOrEndDate(day),
 });
 </script>

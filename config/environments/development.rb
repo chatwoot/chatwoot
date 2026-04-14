@@ -62,6 +62,15 @@ Rails.application.configure do
 
   # Disable host check during development
   config.hosts = nil
+  
+  # GitHub Codespaces configuration
+  if ENV['CODESPACES']
+    # Allow web console access from any IP
+    config.web_console.allowed_ips = %w(0.0.0.0/0 ::/0)
+    # Allow CSRF from codespace URLs
+    config.force_ssl = false
+    config.action_controller.forgery_protection_origin_check = false
+  end
 
   # customize using the environment variables
   config.log_level = ENV.fetch('LOG_LEVEL', 'debug').to_sym

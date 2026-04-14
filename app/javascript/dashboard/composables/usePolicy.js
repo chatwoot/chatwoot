@@ -129,6 +129,7 @@ export function usePolicy() {
   return {
     checkPermissions,
     shouldShowPaywall,
+    isFeatureFlagEnabled,
     shouldShow,
   };
 }

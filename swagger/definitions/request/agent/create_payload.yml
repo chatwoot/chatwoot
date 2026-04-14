@@ -1,0 +1,28 @@
+type: object
+required:
+  - name
+  - email
+  - role
+properties:
+  name:
+    type: string
+    description: Full Name of the agent
+    example: 'John Doe'
+  email:
+    type: string
+    description: Email of the Agent
+    example: 'john.doe@acme.inc'
+  role:
+    type: string
+    enum: ['agent', 'administrator']
+    description: Whether its administrator or agent
+    example: 'agent'
+  availability_status:
+    type: string
+    enum: ['available', 'busy', 'offline']
+    description: The availability setting of the agent.
+    example: 'available'
+  auto_offline:
+    type: boolean
+    description: Whether the availability status of agent is configured to go offline automatically when away.
+    example: true

@@ -1,7 +1,9 @@
 <script setup>
-import ReportFilterSelector from './FilterSelector.vue';
+import OverviewReportFilters from './OverviewReportFilters.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import { formatTime } from '@chatwoot/utils';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
 import Table from 'dashboard/components/table/Table.vue';
 import { generateFileName } from 'dashboard/helper/downloadHelper';
 import {
@@ -42,6 +44,16 @@ const businessHours = ref(false);
 import { useI18n } from 'vue-i18n';
 import SummaryReportLink from './SummaryReportLink.vue';
 
+const flagMap = {
+  agent: 'isFetchingAgentSummaryReports',
+  inbox: 'isFetchingInboxSummaryReports',
+  team: 'isFetchingTeamSummaryReports',
+  label: 'isFetchingLabelSummaryReports',
+};
+
+const uiFlags = useMapGetter('summaryReports/getUIFlags');
+const isLoading = computed(() => uiFlags.value[flagMap[props.type]] ?? false);
+
 const rowItems = useMapGetter([props.getterKey]) || [];
 const reportMetrics = useMapGetter([props.summaryKey]) || [];
 
@@ -59,7 +71,7 @@ const defaulSpanRender = cellProps =>
     cellProps.getValue()
   );
 
-const columns = [
+const columns = computed(() => [
   columnHelper.accessor('name', {
     header: t(`SUMMARY_REPORTS.${props.type.toUpperCase()}`),
     width: 300,
@@ -90,7 +102,7 @@ const columns = [
     width: 200,
     cell: defaulSpanRender,
   }),
-];
+]);
 
 const renderAvgTime = value => (value ? formatTime(value) : '--');
 
@@ -108,7 +120,8 @@ const tableData = computed(() =>
     } = rowMetrics;
     return {
       id: row.id,
-      name: row.name,
+      // we fallback on title, label for instance does not have a name property
+      name: row.name ?? row.title,
       type: props.type,
       conversationsCount: renderCount(conversationsCount),
       avgFirstResponseTime: renderAvgTime(avgFirstResponseTime),
@@ -119,13 +132,26 @@ const tableData = computed(() =>
   })
 );
 
-const fetchAllData = () => {
-  store.dispatch(props.fetchItemsKey);
-  store.dispatch(props.actionKey, {
+const fetchReportsWithRetry = async () => {
+  const params = {
     since: from.value,
     until: to.value,
     businessHours: businessHours.value,
-  });
+  };
+  try {
+    await store.dispatch(props.actionKey, params);
+  } catch {
+    try {
+      await store.dispatch(props.actionKey, params);
+    } catch {
+      useAlert(t('REPORT.SUMMARY_FETCHING_FAILED'));
+    }
+  }
+};
+
+const fetchAllData = () => {
+  store.dispatch(props.fetchItemsKey);
+  fetchReportsWithRetry();
 };
 
 onMounted(() => fetchAllData());
@@ -141,7 +167,9 @@ const table = useVueTable({
   get data() {
     return tableData.value;
   },
-  columns,
+  get columns() {
+    return columns.value;
+  },
   enableSorting: false,
   getCoreRowModel: getCoreRowModel(),
 });
@@ -175,10 +203,28 @@ defineExpose({ downloadReports });
 </script>
 
 <template>
-  <ReportFilterSelector @filter-change="onFilterChange" />
+  <OverviewReportFilters
+    :disabled="isLoading"
+    @filter-change="onFilterChange"
+  />
   <div
-    class="flex-1 overflow-auto px-5 py-6 mt-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
+    class="relative flex-1 overflow-auto px-2 py-2 mt-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
   >
     <Table :table="table" />
+    <Transition
+      enter-active-class="transition-opacity duration-300 ease-out"
+      leave-active-class="transition-opacity duration-200 ease-in"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
+      <div
+        v-if="isLoading"
+        class="absolute inset-0 flex justify-center pt-[12.5rem] bg-n-solid-1/70 rounded-xl pointer-events-none"
+      >
+        <Spinner :size="32" class="text-n-brand" />
+      </div>
+    </Transition>
   </div>
 </template>

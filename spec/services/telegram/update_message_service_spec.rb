@@ -53,6 +53,24 @@ describe Telegram::UpdateMessageService do
         described_class.new(inbox: telegram_channel.inbox, params: caption_update_params.with_indifferent_access).perform
         expect(message.reload.content).to eq('updated caption')
       end
+
+      context 'when business message' do
+        let(:text_update_params) do
+          {
+            'update_id': 1,
+            'edited_business_message': common_message_params.merge(
+              'message_id': 48,
+              'text': 'updated message'
+            )
+          }
+        end
+
+        it 'updates the message text when text is present' do
+          message = create(:message, conversation: conversation, source_id: text_update_params[:edited_business_message][:message_id])
+          described_class.new(inbox: telegram_channel.inbox, params: text_update_params.with_indifferent_access).perform
+          expect(message.reload.content).to eq('updated message')
+        end
+      end
     end
 
     context 'when invalid update message params' do

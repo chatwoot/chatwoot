@@ -83,6 +83,27 @@ RSpec.describe AutomationRules::ConditionsFilterService do
         end
       end
 
+      context 'when filtering private notes' do
+        before do
+          rule.conditions = [
+            { 'values': [true], 'attribute_key': 'private_note', 'query_operator': nil, 'filter_operator': 'equal_to' }
+          ]
+          rule.save
+        end
+
+        it 'will return true when the message is a private note' do
+          message.update!(private: true)
+
+          expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(true)
+        end
+
+        it 'will return false when the message is not a private note' do
+          message.update!(private: false)
+
+          expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
+        end
+      end
+
       context 'when filter_operator is on processed_message_content' do
         before do
           rule.conditions = [
@@ -109,6 +130,130 @@ RSpec.describe AutomationRules::ConditionsFilterService do
 
           expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
         end
+      end
+
+      context 'when filtering messages based on conversation attributes' do
+        let(:conversation) { create(:conversation, account: account, status: :open, priority: :high) }
+        let(:message) do
+          create(:message, account: account, conversation: conversation, content: 'Test message',
+                           inbox: conversation.inbox, message_type: :incoming)
+        end
+
+        it 'will return true when conversation status matches' do
+          rule.update(conditions: [{ 'values': ['open'], 'attribute_key': 'status', 'query_operator': nil, 'filter_operator': 'equal_to' }])
+          expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(true)
+        end
+
+        it 'will return false when conversation status does not match' do
+          rule.update(conditions: [{ 'values': ['resolved'], 'attribute_key': 'status', 'query_operator': nil, 'filter_operator': 'equal_to' }])
+          expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
+        end
+
+        it 'will return true when conversation priority matches' do
+          rule.update(conditions: [{ 'values': ['high'], 'attribute_key': 'priority', 'query_operator': nil, 'filter_operator': 'equal_to' }])
+          expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(true)
+        end
+      end
+    end
+
+    context 'when conditions based on labels' do
+      before do
+        conversation.add_labels(['bug'])
+      end
+
+      context 'when filter_operator is equal_to' do
+        before do
+          rule.conditions = [
+            { 'values': ['bug'], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'equal_to' }
+          ]
+          rule.save
+        end
+
+        it 'will return true when conversation has the label' do
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+        end
+
+        it 'will return false when conversation does not have the label' do
+          rule.conditions = [
+            { 'values': ['feature'], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'equal_to' }
+          ]
+          rule.save
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+        end
+      end
+
+      context 'when filter_operator is not_equal_to' do
+        before do
+          rule.conditions = [
+            { 'values': ['feature'], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'not_equal_to' }
+          ]
+          rule.save
+        end
+
+        it 'will return true when conversation does not have the label' do
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+        end
+
+        it 'will return false when conversation has the label' do
+          conversation.add_labels(['feature'])
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+        end
+      end
+
+      context 'when filter_operator is is_present' do
+        before do
+          rule.conditions = [
+            { 'values': [], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'is_present' }
+          ]
+          rule.save
+        end
+
+        it 'will return true when conversation has any labels' do
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+        end
+
+        it 'will return false when conversation has no labels' do
+          conversation.update_labels([])
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+        end
+      end
+
+      context 'when filter_operator is is_not_present' do
+        before do
+          rule.conditions = [
+            { 'values': [], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'is_not_present' }
+          ]
+          rule.save
+        end
+
+        it 'will return false when conversation has any labels' do
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+        end
+
+        it 'will return true when conversation has no labels' do
+          conversation.update_labels([])
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+        end
+      end
+    end
+
+    context 'when conditions based on contact country_code' do
+      before do
+        conversation.update(additional_attributes: { country_code: 'US' })
+        conversation.contact.update(additional_attributes: { country_code: 'IN' })
+        rule.conditions = [
+          { 'values': ['IN'], 'attribute_key': 'country_code', 'query_operator': nil, 'filter_operator': 'equal_to' }
+        ]
+        rule.save
+      end
+
+      it 'matches against the contact additional_attributes' do
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+      end
+
+      it 'returns false when the contact country_code does not match' do
+        conversation.contact.update(additional_attributes: { country_code: 'GB' })
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
       end
     end
   end

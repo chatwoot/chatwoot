@@ -6,11 +6,11 @@ class Api::V1::Accounts::CustomRolesController < Api::V1::Accounts::EnterpriseAc
     @custom_roles = Current.account.custom_roles
   end
 
+  def show; end
+
   def create
     @custom_role = Current.account.custom_roles.create!(permitted_params)
   end
-
-  def show; end
 
   def update
     @custom_role.update!(permitted_params)

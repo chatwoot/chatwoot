@@ -1,5 +1,6 @@
 in: path
 name: id
-type: integer
+schema:
+  type: integer
 required: true
 description: The numeric ID of the user on the platform

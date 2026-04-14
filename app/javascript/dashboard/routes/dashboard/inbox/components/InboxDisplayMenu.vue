@@ -152,8 +152,7 @@ export default {
             <span
               class="text-xs font-medium hover:text-n-brand truncate min-w-0 dark:hover:text-n-brand"
               :class="{
-                'text-n-blue-text dark:text-n-blue-text':
-                  activeSort === option.key,
+                'text-n-blue-11 dark:text-n-blue-11': activeSort === option.key,
                 'text-n-slate-11': activeSort !== option.key,
               }"
             >
@@ -161,7 +160,7 @@ export default {
             </span>
             <span
               v-if="activeSort === option.key"
-              class="i-lucide-check size-2.5 flex-shrink-0 text-n-blue-text"
+              class="i-lucide-check size-2.5 flex-shrink-0 text-n-blue-11"
             />
           </div>
         </div>
@@ -182,12 +181,12 @@ export default {
             type="checkbox"
             :name="option.key"
             :checked="option.selected"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-n-brand dark:checked:bg-n-brand after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
+            class="m-0 border-[1.5px] shadow border-n-weak appearance-none rounded-[4px] w-4 h-4 dark:bg-n-background focus:ring-1 focus:ring-n-weak dark:focus:ring-n-strong checked:bg-n-brand dark:checked:bg-n-brand after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-n-blue-10 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
             @change="updateDisplayOption(option)"
           />
           <label
             :for="option.key"
-            class="text-xs font-medium text-slate-800 !ml-0 !mr-0 dark:text-slate-100"
+            class="text-xs font-medium text-n-slate-12 !ml-0 !mr-0 dark:text-n-slate-12"
           >
             {{ option.name }}
           </label>

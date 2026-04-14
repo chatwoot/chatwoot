@@ -4,6 +4,7 @@ import { useMapGetter, useStore } from 'dashboard/composables/store';
 import wootConstants from 'dashboard/constants/globals';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
+import { useImpersonation } from 'dashboard/composables/useImpersonation';
 
 import {
   DropdownContainer,
@@ -13,12 +14,15 @@ import {
 } from 'next/dropdown-menu/base';
 import Icon from 'next/icon/Icon.vue';
 import Button from 'next/button/Button.vue';
+import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 
 const { t } = useI18n();
 const store = useStore();
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
 const currentAccountId = useMapGetter('getCurrentAccountId');
 const currentUserAutoOffline = useMapGetter('getCurrentUserAutoOffline');
+
+const { isImpersonating } = useImpersonation();
 
 const { AVAILABILITY_STATUS_KEYS } = wootConstants;
 const statusList = computed(() => {
@@ -45,7 +49,21 @@ const activeStatus = computed(() => {
   return availabilityStatuses.value.find(status => status.active);
 });
 
+const autoOfflineToggle = computed({
+  get: () => currentUserAutoOffline.value,
+  set: autoOffline => {
+    store.dispatch('updateAutoOffline', {
+      accountId: currentAccountId.value,
+      autoOffline,
+    });
+  },
+});
+
 function changeAvailabilityStatus(availability) {
+  if (isImpersonating.value) {
+    useAlert(t('PROFILE_SETTINGS.FORM.AVAILABILITY.IMPERSONATING_ERROR'));
+    return;
+  }
   try {
     store.dispatch('updateAvailability', {
       availability,
@@ -55,17 +73,10 @@ function changeAvailabilityStatus(availability) {
     useAlert(t('PROFILE_SETTINGS.FORM.AVAILABILITY.SET_AVAILABILITY_ERROR'));
   }
 }
-
-function updateAutoOffline(autoOffline) {
-  store.dispatch('updateAutoOffline', {
-    accountId: currentAccountId.value,
-    autoOffline,
-  });
-}
 </script>
 
 <template>
-  <DropdownSection>
+  <DropdownSection class="[&>ul]:overflow-visible">
     <div class="grid gap-0">
       <DropdownItem preserve-open>
         <div class="flex-grow flex items-center gap-1">
@@ -111,11 +122,7 @@ function updateAutoOffline(autoOffline) {
             class="size-4 text-n-slate-10"
           />
         </div>
-        <woot-switch
-          class="flex-shrink-0"
-          :model-value="currentUserAutoOffline"
-          @input="updateAutoOffline"
-        />
+        <ToggleSwitch v-model="autoOfflineToggle" />
       </DropdownItem>
     </div>
   </DropdownSection>

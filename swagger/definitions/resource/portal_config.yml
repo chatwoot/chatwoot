@@ -1,0 +1,18 @@
+type: object
+description: Configuration settings for the portal
+properties:
+  allowed_locales:
+    type: array
+    description: List of allowed locales for the portal
+    items:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The language code
+        articles_count:
+          type: integer
+          description: Number of articles in this locale
+        categories_count:
+          type: integer
+          description: Number of categories in this locale 

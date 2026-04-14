@@ -42,12 +42,15 @@
   },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Saiba mais",
-    "WATCH_VIDEO": "Watch video"
+    "WATCH_VIDEO": "Assistir ao vídeo"
   },
   "DURATION_INPUT": {
     "MINUTES": "Minutos",
     "HOURS": "Horas",
     "DAYS": "Dias",
     "PLACEHOLDER": "Insira a duração"
+  },
+  "CHANNEL_SELECTOR": {
+    "COMING_SOON": "Em breve!"
   }
 }

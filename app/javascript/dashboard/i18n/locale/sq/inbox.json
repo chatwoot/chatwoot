@@ -72,6 +72,24 @@
       "MARK_ALL_READ": "All notifications marked as read",
       "DELETE_ALL": "All notifications deleted",
       "DELETE_ALL_READ": "All read notifications deleted"
+    },
+    "REAUTHORIZE": {
+      "TITLE": "Kërkohet riautorizim",
+      "DESCRIPTION": "Lidhja juaj me WhatsApp ka skaduar. Ju lutemi, lidhuni sërish për të vazhduar marrjen dhe dërgimin e mesazheve.",
+      "BUTTON_TEXT": "Rilidheni WhatsApp-in",
+      "LOADING_FACEBOOK": "Po ngarkohet Facebook SDK...",
+      "SUCCESS": "WhatsApp u rilidh me sukses",
+      "ERROR": "Dështoi rilidhja e WhatsApp-it. Ju lutemi, provoni sërish.",
+      "WHATSAPP_APP_ID_MISSING": "ID-ja e aplikacionit të WhatsApp-it nuk është konfiguruar. Ju lutemi, kontaktoni administratorin tuaj.",
+      "WHATSAPP_CONFIG_ID_MISSING": "ID-ja e konfigurimit të WhatsApp-it nuk është konfiguruar. Ju lutemi, kontaktoni administratorin tuaj.",
+      "CONFIGURATION_ERROR": "Ndodhi një gabim konfigurimi gjatë riautorizimit.",
+      "FACEBOOK_LOAD_ERROR": "Dështoi ngarkimi i SDK-së së Facebook-ut. Ju lutemi, provoni sërish.",
+      "TROUBLESHOOTING": {
+        "TITLE": "Zgjidhja e problemeve",
+        "POPUP_BLOCKED": "Sigurohuni që dritaret kërcyese të jenë të lejuara për këtë faqe",
+        "COOKIES": "cookie-t e palëve të treta duhet të jenë të aktivizuara",
+        "ADMIN_ACCESS": "Ju nevojitet akses si administrator te llogaria e biznesit në WhatsApp"
+      }
     }
   }
 }

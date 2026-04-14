@@ -11,7 +11,7 @@ json.account_id portal.account_id
 
 json.config do
   json.allowed_locales do
-    json.array! portal.config['allowed_locales'].each do |locale|
+    json.array! portal.allowed_locale_codes.each do |locale|
       json.partial! 'api/v1/models/portal_config', formats: [:json], locale: locale, portal: portal
     end
   end
@@ -33,4 +33,11 @@ json.meta do
   json.mine_articles_count articles.search_by_author(current_user.id).try(:size) if current_user.present? && articles.any?
   json.categories_count portal.categories.try(:size)
   json.default_locale portal.default_locale
+end
+
+if portal.ssl_settings.present?
+  json.ssl_settings do
+    json.status portal.ssl_settings['cf_status']
+    json.verification_errors portal.ssl_settings['cf_verification_errors']
+  end
 end

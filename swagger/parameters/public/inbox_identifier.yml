@@ -1,5 +1,6 @@
 in: path
 name: inbox_identifier
-type: string
+schema:
+  type: string
 required: true
 description: The identifier obtained from API inbox channel

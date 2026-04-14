@@ -23,9 +23,7 @@ export default {
       src="dashboard/assets/images/no-chat.svg"
       alt="No Chat"
     />
-    <span
-      class="text-sm text-slate-800 dark:text-slate-200 font-medium text-center"
-    >
+    <span class="text-sm text-n-slate-12 font-medium text-center">
       {{ message }}
       <br />
     </span>

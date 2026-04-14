@@ -1,0 +1,79 @@
+tags:
+  - Help Center
+operationId: get-details-of-a-single-portal
+summary: Get a portal details
+description: Get the details of a portal in the account
+security:
+  - userApiKey: []
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - $ref: '#/components/parameters/portal_id'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/portal_single'
+        example:
+          payload:
+            id: 123
+            archived: false
+            color: "#1F93FF"
+            config:
+              allowed_locales:
+                - code: "en"
+                  articles_count: 32
+                  categories_count: 9
+            custom_domain: "chatwoot.help"
+            header_text: "Handbook"
+            homepage_link: "https://www.chatwoot.com"
+            name: "Handbook"
+            slug: "handbook"
+            page_title: "Handbook"
+            account_id: 123
+            inbox:
+              id: 123
+              name: "Chatwoot"
+              website_url: "chatwoot.com"
+              channel_type: "Channel::WebWidget"
+              avatar_url: "https://example.com/avatar.png"
+              widget_color: "#1F93FF"
+              website_token: "4cWzuf9i9jxN9tbnv8K9STKU"
+              enable_auto_assignment: true
+              web_widget_script: "<script>...</script>"
+              welcome_title: "Hi there ! 🙌🏼"
+              welcome_tagline: "We make it simple to connect with us."
+              greeting_enabled: true
+              greeting_message: "Hey there 👋, Thank you for reaching out to us."
+              channel_id: 123
+              working_hours_enabled: true
+              enable_email_collect: true
+              csat_survey_enabled: true
+              timezone: "America/Los_Angeles"
+              business_name: "Chatwoot"
+              hmac_mandatory: true
+            logo:
+              id: 123
+              portal_id: 123
+              file_type: "image/png"
+              account_id: 123
+              file_url: "https://example.com/logo.png"
+              blob_id: 123
+              filename: "square.png"
+            meta:
+              all_articles_count: 32
+              categories_count: 9
+              default_locale: "en"
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: The given portal ID does not exist in the account
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error' 

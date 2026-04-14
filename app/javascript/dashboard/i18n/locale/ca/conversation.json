@@ -32,9 +32,15 @@
     "LOADING_CONVERSATIONS": "S'estan carregant les converses",
     "CANNOT_REPLY": "No pots respondre degut a",
     "24_HOURS_WINDOW": "Restricció de finestra de missatges de 24 hores",
+    "48_HOURS_WINDOW": "Restricció de finestra de missatges de 48 hores",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Aquesta conversa no està assignada a tu. Vols assignar-te-la?",
     "ASSIGN_TO_ME": "Assigna'm",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Només pots respondre a aquesta conversa mitjançant una plantilla de missatge a causa de",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricció de finestra de missatges de 24 hores",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -55,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Aquest missatge no està suportat. Pots veure aquest missatge a l'aplicació Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Aquest missatge no està suportat. Pots veure aquest missatge a l'aplicació d'Instagram.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "El missatge s'ha suprimit correctament",
     "FAIL_DELETE_MESSSAGE": "No s'ha pogut suprimir el missatge! Torna-ho a provar",
     "NO_RESPONSE": "Sense resposta",
@@ -66,10 +73,22 @@
       "SHOW_LABELS": "Mostra etiquetes",
       "HIDE_LABELS": "Amaga etiquetes"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Resoldre",
       "REOPEN_ACTION": "Tornar a obrir",
       "OPEN_ACTION": "Obrir",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Més",
       "CLOSE": "Tanca",
       "DETAILS": "detalls",
@@ -95,6 +114,10 @@
         "NEXT_WEEK": "Pròxima setmana"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agents",
+      "TEAMS": "Equips"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Posposat fins a",
       "APPLY": "Posposat",
@@ -117,6 +140,11 @@
         "FAILED": "No s'ha pogut canviar la prioritat. Si us plau, torna-ho a provar."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Esborrar"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marca com a pendent",
       "RESOLVED": "Marca com a resolt",
@@ -133,6 +161,10 @@
       "ASSIGN_LABEL": "Assigna etiqueta",
       "AGENTS_LOADING": "S'estan carregant els agents...",
       "ASSIGN_TEAM": "Assigna un equip",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Id de conversa {conversationId} assignat a \"{agentName}\"",
@@ -141,6 +173,10 @@
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "No s'ha pogut assignar l'etiqueta. Torna-ho a provar."
+        },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "S'ha assignat l'equip \"{team}\" a l'id de conversa {conversationId}",
@@ -154,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "Desactiva la signatura",
       "MSG_INPUT": "Shift + enter per a una línia nova. Comença amb '/' per seleccionar una resposta predeterminada.",
       "PRIVATE_MSG_INPUT": "Shift + enter per una línia nova. Això serà visible només per als Agents",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La signatura del missatge no està configurada, configura-la a la configuració del perfil.",
+      "COPILOT_MSG_INPUT": "Dóna instruccions addicionals a copilot o pregunta qualsevol altra cosa... Prem enter per enviar un seguiment",
       "CLICK_HERE": "Fes clic aquí per actualitzar",
       "WHATSAPP_TEMPLATES": "Plantilles de Whatsapp"
     },
@@ -166,7 +206,6 @@
       "INSERT_READ_MORE": "Llegir més",
       "DISMISS_REPLY": "Ignora la resposta",
       "REPLYING_TO": "Responent a:",
-      "TIP_FORMAT_ICON": "Mostra l'editor de text enriquit",
       "TIP_EMOJI_ICON": "Mostra la selecció d'emoticones",
       "TIP_ATTACH_ICON": "Ajuntar fitxers",
       "TIP_AUDIORECORDER_ICON": "Gravar àudio",
@@ -175,7 +214,7 @@
       "DRAG_DROP": "Arrossega i deixa anar aquí per adjuntar-lo",
       "START_AUDIO_RECORDING": "Inicia la gravació d'àudio",
       "STOP_AUDIO_RECORDING": "Atura la gravació d'àudio",
-      "": "",
+      "COPILOT_THINKING": "Copilot està pensant",
       "EMAIL_HEAD": {
         "TO": "A",
         "ADD_BCC": "Afegeix cco",
@@ -197,6 +236,13 @@
           "YES": "Envia",
           "CANCEL": "Cancel·la"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Nota privada: Només és visible per tu i el vostre equip",
@@ -207,10 +253,15 @@
     "ASSIGN_LABEL_SUCCESFUL": "L'etiqueta s'ha assignat correctament",
     "ASSIGN_LABEL_FAILED": "L'assignació d'etiquetes ha fallat",
     "CHANGE_TEAM": "L'equip de conversa ha canviat",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "El fitxer supera el límit de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB fitxers adjunts",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "No es pot enviar aquest missatge, torna-ho a provar més tard",
     "SENT_BY": "Enviat per:",
     "BOT": "Bot",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "No s'ha pogut enviar el missatge! Torna-ho a provar",
     "TRY_AGAIN": "reintenta",
     "ASSIGNMENT": {
@@ -236,6 +287,16 @@
     "SIDEBAR": {
       "CONTACT": "Contacte",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -245,6 +306,7 @@
     "CANCEL": "Cancel·la",
     "SEND_EMAIL_SUCCESS": "La transcripció del xat s'ha enviat correctament",
     "SEND_EMAIL_ERROR": "S'ha produït un error; tornau-ho a provar",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Envia la transcripció al client",
       "SEND_TO_AGENT": "Envia la transcripció a l'agent assignat",
@@ -299,6 +361,7 @@
       "CONTACT_ATTRIBUTES": "Atributs de contacte",
       "PREVIOUS_CONVERSATION": "Converses prèvies",
       "MACROS": "Macros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

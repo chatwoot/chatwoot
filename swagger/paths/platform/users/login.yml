@@ -6,15 +6,25 @@ description: Get the sso link of a user
 security:
   - platformAppApiKey: []
 responses:
-  200:
+  '200':
     description: Success
-    schema:
-      type: object
-      properties:
-        url:
-          type: string
-          description: SSO url to autenticate the user
-  401:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            url:
+              type: string
+              description: SSO url to autenticate the user
+  '401':
     description: Unauthorized
-  404:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
     description: The given user does not exist
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

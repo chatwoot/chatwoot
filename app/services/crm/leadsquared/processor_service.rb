@@ -37,7 +37,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
       activity_type: 'conversation',
       activity_code_key: 'conversation_activity_code',
       metadata_key: 'created_activity_id',
-      activity_note: Crm::Leadsquared::Mappers::ConversationMapper.map_conversation_activity(conversation)
+      activity_note: Crm::Leadsquared::Mappers::ConversationMapper.map_conversation_activity(@hook, conversation)
     )
   end
 
@@ -50,7 +50,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
       activity_type: 'transcript',
       activity_code_key: 'transcript_activity_code',
       metadata_key: 'transcript_activity_id',
-      activity_note: Crm::Leadsquared::Mappers::ConversationMapper.map_transcript_activity(conversation)
+      activity_note: Crm::Leadsquared::Mappers::ConversationMapper.map_transcript_activity(@hook, conversation)
     )
   end
 

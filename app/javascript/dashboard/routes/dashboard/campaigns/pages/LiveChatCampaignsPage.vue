@@ -3,7 +3,6 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import { useStoreGetters, useMapGetter } from 'dashboard/composables/store';
-import { CAMPAIGN_TYPES } from 'shared/constants/campaign.js';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CampaignLayout from 'dashboard/components-next/Campaigns/CampaignLayout.vue';
@@ -25,8 +24,8 @@ const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
 
 const [showLiveChatCampaignDialog, toggleLiveChatCampaignDialog] = useToggle();
 
-const liveChatCampaigns = computed(() =>
-  getters['campaigns/getCampaigns'].value(CAMPAIGN_TYPES.ONGOING)
+const liveChatCampaigns = computed(
+  () => getters['campaigns/getLiveChatCampaigns'].value
 );
 
 const hasNoLiveChatCampaigns = computed(
@@ -59,7 +58,7 @@ const handleDelete = campaign => {
 
     <div
       v-if="isFetchingCampaigns"
-      class="flex items-center justify-center py-10 text-n-slate-11"
+      class="flex justify-center items-center py-10 text-n-slate-11"
     >
       <Spinner />
     </div>

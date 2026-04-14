@@ -70,11 +70,11 @@
           "SEARCH_PLACEHOLDER": "Pesquisar autor"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
+          "LABEL": "Meta título",
           "PLACEHOLDER": "Adicionar um meta title"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
+          "LABEL": "Meta descrição",
           "PLACEHOLDER": "Adicione suas meta descriptions para melhorar os resultados de SEO..."
         },
         "META_TAGS": {
@@ -156,6 +156,12 @@
           "API": {
             "DELETE_SUCCESS": "Portal excluído com sucesso",
             "DELETE_ERROR": "Erro enquanto excluía o portal"
+          }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "Instruções do CNAME enviadas com sucesso",
+            "ERROR_MESSAGE": "Erro ao enviar as instruções CNAME"
           }
         }
       },
@@ -249,13 +255,13 @@
         "DOMAIN": {
           "LABEL": "Domínio personalizado",
           "PLACEHOLDER": "Domínio personalizado do portal",
-          "HELP_TEXT": "Adicione somente se você quiser usar um domínio personalizado para seus portais. Por exemplo: https://example. com",
+          "HELP_TEXT": "Adicione somente se você quiser usar um domínio personalizado para seus portais. Por exemplo: {exampleURL}",
           "ERROR": "Insira uma URL de domínio válida"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Link da Página Inicial",
           "PLACEHOLDER": "Link da página inicial do portal",
-          "HELP_TEXT": "O link usado para retornar do portal para a página inicial. Ex: https://example.com",
+          "HELP_TEXT": "O link usado para retornar do portal para a página inicial. Ex: {exampleURL}",
           "ERROR": "Digite uma URL de página inicial válida"
         },
         "THEME_COLOR": {
@@ -309,6 +315,18 @@
         "API": {
           "SUCCESS_MESSAGE": "Localização removida do portal com sucesso",
           "ERROR_MESSAGE": "Não é possível remover a localidade do portal. Tente novamente."
+        }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Localidade movida para rascunho com sucesso",
+          "ERROR_MESSAGE": "Não foi possível mover a localidade para rascunho. Tente novamente."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Localidade publicada com sucesso",
+          "ERROR_MESSAGE": "Não foi possível publicar a localidade. Tente novamente."
         }
       }
     },
@@ -366,6 +384,16 @@
       "API": {
         "SUCCESS_MESSAGE": "Artigo excluído com sucesso",
         "ERROR_MESSAGE": "Erro enquanto excluía o artigo"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Não foi possível reordenar os artigos. Por favor, tente novamente."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Não foi possível reordenar as categorias. Por favor, tente novamente."
       }
     },
     "CREATE_ARTICLE": {
@@ -628,8 +656,11 @@
         "ARTICLES_COUNT": "artigo {count} | {count} artigos",
         "CATEGORIES_COUNT": "categoria {count} | {count} categorias",
         "DEFAULT": "Padrão",
+        "DRAFT": "Rascunho",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Tornar padrão",
+          "MOVE_TO_DRAFT": "Mover para rascunho",
+          "PUBLISH_LOCALE": "Publicar localidade",
           "DELETE": "Excluir"
         }
       },
@@ -638,6 +669,13 @@
         "DESCRIPTION": "Selecione o idioma em que este artigo será escrito. Isto será adicionado à sua lista de traduções, e você pode adicionar mais tarde.",
         "COMBOBOX": {
           "PLACEHOLDER": "Selecionar local..."
+        },
+        "STATUS": {
+          "LABEL": "Status",
+          "OPTIONS": {
+            "LIVE": "Publicado",
+            "DRAFT": "Rascunho"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Localidade adicionada com sucesso",
@@ -666,7 +704,7 @@
         "ARTICLE_PROPERTIES": "Propriedades do artigo",
         "META_DESCRIPTION": "Meta descrição",
         "META_DESCRIPTION_PLACEHOLDER": "Adicionar meta descrição",
-        "META_TITLE": "Meta title",
+        "META_TITLE": "Meta título",
         "META_TITLE_PLACEHOLDER": "Adicionar meta título",
         "META_TAGS": "Meta tags",
         "META_TAGS_PLACEHOLDER": "Adicionar meta tags"
@@ -726,7 +764,7 @@
         "HOME_PAGE_LINK": {
           "LABEL": "Link da Página Inicial",
           "PLACEHOLDER": "Link da página inicial do portal",
-          "ERROR": "URL inválida. O link da página inicial deve começar com 'http://' ou 'https://'."
+          "ERROR": "Digite uma URL válida. O link da página inicial deve começar com 'http://' ou 'https://'."
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -735,7 +773,8 @@
         "LIVE_CHAT_WIDGET": {
           "LABEL": "Widget de chat ao vivo",
           "PLACEHOLDER": "Selecionar widget de chat ao vivo",
-          "HELP_TEXT": "Selecione um widget de chat ao vivo que aparecerá no centro de ajuda"
+          "HELP_TEXT": "Selecione um widget de chat ao vivo que aparecerá no centro de ajuda",
+          "NONE_OPTION": "Sem widget"
         },
         "BRAND_COLOR": {
           "LABEL": "Cor da Marca"
@@ -747,9 +786,15 @@
           "HEADER": "Domínio personalizado",
           "LABEL": "Domínio personalizado:",
           "DESCRIPTION": "Você pode hospedar seu portal em um domínio personalizado. Por exemplo, se seu site for meudominio.com e você quer o seu portal disponível em docs.meudominio.com, basta digitar isso neste campo.",
+          "STATUS_DESCRIPTION": "Seu portal personalizado começará a funcionar assim que for verificado.",
           "PLACEHOLDER": "Domínio personalizado do portal",
-          "EDIT_BUTTON": "Editar domínio personalizado",
+          "EDIT_BUTTON": "Alterar",
           "ADD_BUTTON": "Adicionar domínio personalizado",
+          "STATUS": {
+            "LIVE": "Em tempo real",
+            "PENDING": "Aguardando verificação",
+            "ERROR": "Verificação falhou"
+          },
           "DIALOG": {
             "ADD_HEADER": "Adicionar domínio personalizado",
             "EDIT_HEADER": "Editar domínio personalizado",
@@ -757,13 +802,20 @@
             "EDIT_CONFIRM_BUTTON_LABEL": "Atualizar domínio",
             "LABEL": "Domínio personalizado",
             "PLACEHOLDER": "Domínio personalizado do portal",
-            "ERROR": "Domínio personalizado é obrigatório"
+            "ERROR": "Domínio personalizado é obrigatório",
+            "FORMAT_ERROR": "Por favor, insira um domínio de URL válido, ex.: docs.seudominio.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "Configuração de DNS",
             "DESCRIPTION": "Faça o login na conta que você tem com seu provedor DNS e adicione um registro CNAME para subdomínio apontando para chatwoot.help",
-            "HELP_TEXT": "Assim que isso for feito, você poderá entrar em contato com o nosso suporte para solicitar o certificado SSL gerado automaticamente.",
-            "CONFIRM_BUTTON_LABEL": "Entendi!"
+            "COPY": "CNAME copiado com sucesso",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Enviar instruções",
+              "DESCRIPTION": "Se você preferir que alguém da sua equipe de desenvolvimento lide com essa etapa, você pode digitar o endereço de e-mail abaixo e nós enviaremos as instruções necessárias.",
+              "PLACEHOLDER": "Insira o e-mail dele",
+              "ERROR": "Insira um endereço de e-mail válido",
+              "SEND_BUTTON": "Enviar"
+            }
           }
         },
         "DELETE_PORTAL": {
@@ -788,6 +840,58 @@
           "ERROR_MESSAGE": "Não foi possível atualizar o portal"
         }
       }
+    },
+    "PDF_UPLOAD": {
+      "TITLE": "Enviar Documento PDF",
+      "DESCRIPTION": "Envie um documento PDF para gerar FAQs automaticamente com IA",
+      "DRAG_DROP_TEXT": "Arraste e solte seu arquivo PDF aqui, clique para selecionar",
+      "SELECT_FILE": "Selecionar Arquivo PDF",
+      "ADDITIONAL_CONTEXT_LABEL": "Contexto Adicional (Opcional)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Forneça qualquer contexto ou instruções adicionais para a geração de FAQs...",
+      "UPLOADING": "Enviando...",
+      "UPLOAD": "Enviar e Processar",
+      "CANCEL": "Cancelar",
+      "ERROR_INVALID_TYPE": "Por favor, selecione um arquivo PDF válido",
+      "ERROR_FILE_TOO_LARGE": "O tamanho do arquivo deve ser menor que 512MB",
+      "ERROR_UPLOAD_FAILED": "Falha ao carregar o arquivo PDF. Por favor, tente novamente."
+    },
+    "PDF_DOCUMENTS": {
+      "TITLE": "Documentos PDF",
+      "DESCRIPTION": "Gerencie os documentos PDF enviados e gere FAQs a partir deles",
+      "UPLOAD_PDF": "Enviar PDF",
+      "UPLOAD_FIRST_PDF": "Envie seu primeiro PDF",
+      "UPLOADED_BY": "Enviado por",
+      "GENERATE_FAQS": "Gerar FAQs",
+      "GENERATING": "Gerando...",
+      "CONFIRM_DELETE": "Tem certeza que deseja excluir {filename}?",
+      "EMPTY_STATE": {
+        "TITLE": "Nenhum documento PDF ainda",
+        "DESCRIPTION": "Envie documentos PDF para gerar FAQs automaticamente com IA"
+      },
+      "STATUS": {
+        "UPLOADED": "Pronto",
+        "PROCESSING": "Processando",
+        "PROCESSED": "Concluído",
+        "FAILED": "Falha"
+      }
+    },
+    "CONTENT_GENERATION": {
+      "TITLE": "Geração de Conteúdo",
+      "DESCRIPTION": "Envie documentos PDF para gerar conteúdo de FAQ automaticamente com IA",
+      "UPLOAD_TITLE": "Enviar Documento PDF",
+      "DRAG_DROP": "Arraste e solte seu arquivo PDF aqui, clique para selecionar",
+      "SELECT_FILE": "Selecionar Arquivo PDF",
+      "UPLOADING": "Processando documento...",
+      "UPLOAD_SUCCESS": "Documento processado com sucesso!",
+      "UPLOAD_ERROR": "Falha ao enviar o documento. Tente novamente.",
+      "INVALID_FILE_TYPE": "Por favor, selecione um arquivo PDF válido",
+      "FILE_TOO_LARGE": "O tamanho do arquivo deve ser menor que 512MB",
+      "GENERATED_CONTENT": "Conteúdo gerado do FAQ",
+      "PUBLISH_SELECTED": "Publicar Selecionados",
+      "PUBLISHING": "Publicando...",
+      "FROM_DOCUMENT": "A partir do documento",
+      "NO_CONTENT": "Nenhum conteúdo gerado disponível. Envie um documento PDF para começar.",
+      "LOADING": "Carregando conteúdo gerado..."
     }
   }
 }

@@ -32,7 +32,7 @@ const categories = [
       <div
         v-for="(category, index) in categories"
         :key="index"
-        class="px-20 py-4 bg-white dark:bg-slate-900"
+        class="px-20 py-4 bg-n-background"
       >
         <CategoryCard
           :id="category.id"

@@ -3,8 +3,13 @@
     "HEADER": "Вхідні",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",
+    "COUNT": "{n} inbox | {n} inboxes",
+    "SEARCH_PLACEHOLDER": "Search inboxes...",
+    "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
       "404": "В цього облікового запису немає скриньк."
     },
@@ -54,6 +59,13 @@
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
         "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
         "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+      },
+      "TIKTOK": {
+        "CONTINUE_WITH_TIKTOK": "Продовжити в TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Приєднайте ваш профіль TikTok",
+        "HELP": "Щоб додати ваш профіль TikTok як канал потрібно аутентифікувати його клацнувши 'Продовжити в TikTok' ",
+        "ERROR_MESSAGE": "При спробі під'єднатися до TikTok виникла помилка, будь ласка, спробуйте пізніше",
+        "ERROR_AUTH": "При спробі під'єднатися до TikTok виникла помилка, будь ласка, спробуйте пізніше"
       },
       "TWITTER": {
         "HELP": "Щоб додати свій профіль у Twitter як канал, вам потрібно авторизувати свій профіль у Twitter, натиснувши кнопку \"Увійти через Twitter\" ",
@@ -222,9 +234,16 @@
         "DESC": "Розпочніть підтримувати своїх клієнтів через WhatsApp.",
         "PROVIDERS": {
           "LABEL": "API Provider",
+          "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
+          "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360Dialog"
+        },
+        "SELECT_PROVIDER": {
+          "TITLE": "Select your API provider",
+          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
           "LABEL": "Назва каналу",
@@ -264,8 +283,77 @@
           "WEBHOOK_VERIFICATION_TOKEN": "Токен вебхука"
         },
         "SUBMIT_BUTTON": "Створити канал WhatsApp",
+        "EMBEDDED_SIGNUP": {
+          "TITLE": "Quick setup with Meta",
+          "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "BENEFITS": {
+            "TITLE": "Benefits of Embedded Signup:",
+            "EASY_SETUP": "No manual configuration required",
+            "SECURE_AUTH": "Secure OAuth based authentication",
+            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+          },
+          "LEARN_MORE": {
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
+            "LINK_TEXT": "this link"
+          },
+          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
+          "AUTH_PROCESSING": "Authenticating with Meta",
+          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
+          "PROCESSING": "Setting up your WhatsApp Business Account",
+          "LOADING_SDK": "Loading Facebook SDK...",
+          "CANCELLED": "WhatsApp Signup was cancelled",
+          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
+          "WAITING_FOR_AUTH": "Waiting for authentication...",
+          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
+          "SIGNUP_ERROR": "Signup error occurred",
+          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
+          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_LINK_TEXT": "manual setup flow"
+        },
         "API": {
           "ERROR_MESSAGE": "Ми не змогли зберегти канал WhatsApp"
+        }
+      },
+      "VOICE": {
+        "TITLE": "Voice Channel",
+        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "PHONE_NUMBER": {
+          "LABEL": "Номер телефону",
+          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
+          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+        },
+        "TWILIO": {
+          "ACCOUNT_SID": {
+            "LABEL": "SID облікового запису",
+            "PLACEHOLDER": "Enter your Twilio Account SID",
+            "REQUIRED": "Account SID is required"
+          },
+          "AUTH_TOKEN": {
+            "LABEL": "Токен автентифікації",
+            "PLACEHOLDER": "Enter your Twilio Auth Token",
+            "REQUIRED": "Auth Token is required"
+          },
+          "API_KEY_SID": {
+            "LABEL": "API Key SID",
+            "PLACEHOLDER": "Enter your Twilio API Key SID",
+            "REQUIRED": "API Key SID is required"
+          },
+          "API_KEY_SECRET": {
+            "LABEL": "Секретний ключ API",
+            "PLACEHOLDER": "Enter your Twilio API Key Secret",
+            "REQUIRED": "API Key Secret is required"
+          }
+        },
+        "CONFIGURATION": {
+          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
+        },
+        "SUBMIT_BUTTON": "Create Voice Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create the voice channel"
         }
       },
       "API_CHANNEL": {
@@ -303,7 +391,11 @@
         "API": {
           "ERROR_MESSAGE": "Ми не змогли зберегти email канал"
         },
-        "FINISH_MESSAGE": "Почніть перенаправляти листи до наступної адреси електронної пошти."
+        "FINISH_MESSAGE": "Почніть перенаправляти листи до наступної адреси електронної пошти.",
+        "FINISH_MESSAGE_NO_FORWARDING": "Джерело для вашої поштової скриньки успішно створене! Вам потрібно налаштувати дані IMAP та SMTP щоб отримувати та надсилати листи. Без цих налаштувань ваші листи не будуть оброблятися.",
+        "FORWARDING_ADDRESS_LABEL": "Перенаправляти листи на цю адресу:",
+        "CONFIGURE_SMTP_IMAP_LINK": "Натисніть тут",
+        "CONFIGURE_SMTP_IMAP_TEXT": " налаштувати параметри IMAP та SMTP"
       },
       "LINE_CHANNEL": {
         "TITLE": "LINE Канал",
@@ -349,7 +441,55 @@
       },
       "AUTH": {
         "TITLE": "Оберіть канал",
-        "DESC": "Chatwoot підтримує live-chat віджети, Facebook Messenger, профілі Twitter, WhatsApp, електронну пошту і т.д. Якщо ви хочете створити користувальницький канал, ви можете створити його за допомогою каналу API. Щоб почати, виберіть один з каналів нижче."
+        "DESC": "Chatwoot підтримує live-chat віджети, Facebook Messenger, профілі Twitter, WhatsApp, електронну пошту і т.д. Якщо ви хочете створити користувальницький канал, ви можете створити його за допомогою каналу API. Щоб почати, виберіть один з каналів нижче.",
+        "TITLE_NEXT": "Complete the setup",
+        "TITLE_FINISH": "Voilà!",
+        "CHANNEL": {
+          "WEBSITE": {
+            "TITLE": "Вебсайт",
+            "DESCRIPTION": "Create a live-chat widget"
+          },
+          "FACEBOOK": {
+            "TITLE": "Facebook",
+            "DESCRIPTION": "Connect your Facebook page"
+          },
+          "WHATSAPP": {
+            "TITLE": "WhatsApp",
+            "DESCRIPTION": "Support your customers on WhatsApp"
+          },
+          "EMAIL": {
+            "TITLE": "Email",
+            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+          },
+          "SMS": {
+            "TITLE": "SMS",
+            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+          },
+          "API": {
+            "TITLE": "API",
+            "DESCRIPTION": "Make a custom channel using our API"
+          },
+          "TELEGRAM": {
+            "TITLE": "Telegram",
+            "DESCRIPTION": "Configure Telegram channel using Bot token"
+          },
+          "LINE": {
+            "TITLE": "Line",
+            "DESCRIPTION": "Integrate your Line channel"
+          },
+          "INSTAGRAM": {
+            "TITLE": "Instagram",
+            "DESCRIPTION": "Connect your instagram account"
+          },
+          "TIKTOK": {
+            "TITLE": "TikTok",
+            "DESCRIPTION": "Під'єднати ваш обліковий запис TikTok"
+          },
+          "VOICE": {
+            "TITLE": "Voice",
+            "DESCRIPTION": "Integrate with Twilio Voice"
+          }
+        }
       },
       "AGENTS": {
         "TITLE": "Агенти",
@@ -403,7 +543,10 @@
       "MESSAGE": "Ви тепер можете взаємодіяти з вашими клієнтами через ваш новий канал. Щасливої підтримки",
       "BUTTON_TEXT": "Давай туди",
       "MORE_SETTINGS": "Додаткові налаштування",
-      "WEBSITE_SUCCESS": "Ви успішно завершили створення каналу Веб-сайт. Скопіюйте наведений нижче код і вставте його на ваш сайт. Наступного разу коли клієнт скористається онлайн чатом, розмова автоматично з'явиться в вашій скриньці Вхідні."
+      "WEBSITE_SUCCESS": "Ви успішно завершили створення каналу Веб-сайт. Скопіюйте наведений нижче код і вставте його на ваш сайт. Наступного разу коли клієнт скористається онлайн чатом, розмова автоматично з'явиться в вашій скриньці Вхідні.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Повторна авторизація",
     "VIEW": "Вигляд",
@@ -435,7 +578,7 @@
           "SUBTITLE": "Використовувати лише налаштовану бізнес-назву як ім'я відправника в заголовку електронної пошти."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Налаштуйте ваше корпоративне ім'я",
+          "BUTTON_TEXT": "Налаштуйте ваше корпоративне ім'я",
           "PLACEHOLDER": "Введіть ваше корпоративне ім'я",
           "SAVE_BUTTON_TEXT": "Зберегти"
         }
@@ -449,8 +592,10 @@
         "DISABLED": "Вимкнено"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Увімкнено",
-        "DISABLED": "Вимкнено"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "Увімкнено"
@@ -481,7 +626,76 @@
       "PRE_CHAT_FORM": "Форма, що показується перед стартом діалогу",
       "BUSINESS_HOURS": "Робочий час",
       "WIDGET_BUILDER": "Конструктор віджетів",
-      "BOT_CONFIGURATION": "Налаштування бота"
+      "BOT_CONFIGURATION": "Налаштування бота",
+      "ACCOUNT_HEALTH": "Account Health",
+      "CSAT": "CSAT"
+    },
+    "CHANNEL_PREFERENCES": "Channel Preferences",
+    "WIDGET_FEATURES": "Widget features",
+    "ACCOUNT_HEALTH": {
+      "TITLE": "Manage your WhatsApp account",
+      "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
+      "GO_TO_SETTINGS": "Go to Meta Business Manager",
+      "NO_DATA": "Health data is not available",
+      "FIELDS": {
+        "DISPLAY_PHONE_NUMBER": {
+          "LABEL": "Display phone number",
+          "TOOLTIP": "Phone number displayed to customers"
+        },
+        "VERIFIED_NAME": {
+          "LABEL": "Business name",
+          "TOOLTIP": "Business name verified by WhatsApp"
+        },
+        "DISPLAY_NAME_STATUS": {
+          "LABEL": "Display name status",
+          "TOOLTIP": "Status of your business name verification"
+        },
+        "QUALITY_RATING": {
+          "LABEL": "Quality rating",
+          "TOOLTIP": "WhatsApp quality rating for your account"
+        },
+        "MESSAGING_LIMIT_TIER": {
+          "LABEL": "Messaging limit tier",
+          "TOOLTIP": "Daily messaging limit for your account"
+        },
+        "ACCOUNT_MODE": {
+          "LABEL": "Account mode",
+          "TOOLTIP": "Current operating mode of your WhatsApp account"
+        }
+      },
+      "VALUES": {
+        "TIERS": {
+          "TIER_250": "250 customers per 24h",
+          "TIER_1000": "1K customers per 24h",
+          "TIER_1K": "1K customers per 24h",
+          "TIER_10K": "10K customers per 24h",
+          "TIER_100K": "100K customers per 24h",
+          "TIER_UNLIMITED": "Unlimited customers per 24h",
+          "UNKNOWN": "Rating not available"
+        },
+        "STATUSES": {
+          "APPROVED": "Approved",
+          "PENDING_REVIEW": "Pending Review",
+          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
+          "REJECTED": "Rejected",
+          "DECLINED": "Declined",
+          "NON_EXISTS": "Non exists"
+        },
+        "MODES": {
+          "SANDBOX": "Sandbox",
+          "LIVE": "Онлайн"
+        }
+      },
+      "WEBHOOK": {
+        "TITLE": "Webhook Configuration",
+        "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
+        "ACTION_REQUIRED": "Webhook not configured",
+        "REGISTER_BUTTON": "Register Webhook",
+        "REGISTER_SUCCESS": "Webhook registered successfully",
+        "REGISTER_ERROR": "Failed to register webhook. Please try again.",
+        "CONFIGURED_SUCCESS": "Webhook configured successfully",
+        "URL_MISMATCH": "Webhook URL mismatch"
+      }
     },
     "SETTINGS": "Налаштування",
     "FEATURES": {
@@ -494,6 +708,23 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Скрипт месенджера",
       "MESSENGER_SUB_HEAD": "Добавте кнопку на сторінки вашого сайту",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
+      },
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Enable widget in mobile apps",
+        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Identity Validation",
+        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "SECRET_KEY": "Secret Key",
+        "VIEW_DOCS": "View documentation",
+        "REQUIRE_LABEL": "Require identity validation for all conversations",
+        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
+      },
       "INBOX_AGENTS": "Агенти",
       "INBOX_AGENTS_SUB_TEXT": "Додати або вилучити агентів з скриньки Вхідні",
       "AGENT_ASSIGNMENT": "Призначення до розмови",
@@ -502,14 +733,12 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Включити збір електронної пошти",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Увімкнути або вимкнути ящик збору повідомлень в новій розмові",
       "AUTO_ASSIGNMENT": "Увімкнути автопризначення",
-      "ENABLE_CSAT": "Увімкнути CSAT",
       "SENDER_NAME_SECTION": "Увімкнути ім'я співробітника в електронній пошті",
-      "ENABLE_CSAT_SUB_TEXT": "Увімкнути/Вимкнути опитування CSAT(Задоволення клієнтів) після вирішення розмови",
       "SENDER_NAME_SECTION_TEXT": "Увімкнути/Вимкнути показ імені співробітника в електронній пошті, якщо це вимкнено, то буде відображатися бізнес-ім'я",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Увімкнути безперервність розмови через електронну пошту",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Розмови продовжуватимуться через електронну пошту, якщо доступна контактна адреса.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Заблокувати бесіду",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Увімкнути або вимкнути кілька бесід для одного контакту в цій папці Вхідні",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Налаштування каналу",
       "INBOX_UPDATE_SUB_TEXT": "Оновіть параметри каналу",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Увімкнення або вимкнення автоматичного призначення нових розмов до агентів, доданих до цього каналу.",
@@ -522,6 +751,7 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "Використовуйте токен `inbox_identifier`, показаний тут для аутентифікації ваших API клієнтів.",
       "FORWARD_EMAIL_TITLE": "Переслати на ел. пошту",
       "FORWARD_EMAIL_SUB_TEXT": "Почніть перенаправляти листи до наступної адреси електронної пошти.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "Перенаправлення листів до теки \"Вхідні\" наразі відключено для цієї інсталяції. Щоб використовувати цю функцію вона має бути увімкнена адміністратором. Будь ласка, зверніться до нього.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Дозволити повідомлення після закінчення розмови",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Дозволити кінцевим користувачам надсилати повідомлення навіть після закриття розмови.",
       "WHATSAPP_SECTION_SUBHEADER": "Цей ключ API використовується для інтеграції з API WhatsApp.",
@@ -530,14 +760,34 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Оновити ключ API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Введіть тут новий ключ API",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Оновити",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
+      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_CONNECT_BUTTON": "Підключитися",
+      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Токен вебхука",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Цей токен використовується для перевірки аутентифікації кінцевої точки вебхука.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Оновити параметри форми чату"
     },
     "HELP_CENTER": {
       "LABEL": "Довідковий центр",
       "PLACEHOLDER": "Виберіть довідковий центр",
       "SELECT_PLACEHOLDER": "Виберіть довідковий центр",
+      "NONE": "Нiчого",
       "REMOVE": "Видалити довідковий центр",
       "SUB_TEXT": "Прикріпити Довідковий центр до папки Вхідні"
     },
@@ -545,6 +795,53 @@
       "MAX_ASSIGNMENT_LIMIT": "Ліміт автопризначення",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Будь ласка, введіть значення, більше за 0",
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Обмеження максимальної кількості розмов із цього джерела, яку можна автоматично призначити агенту"
+    },
+    "ASSIGNMENT": {
+      "TITLE": "Призначення до розмови",
+      "DESCRIPTION": "Automatically assign incoming conversations to available agents based on assignment policies",
+      "ENABLE_AUTO_ASSIGNMENT": "Enable automatic conversation assignment",
+      "DEFAULT_RULES_TITLE": "Default assignment rules",
+      "DEFAULT_RULES_DESCRIPTION": "Using the default assignment behavior for all conversations",
+      "DEFAULT_RULE_1": "Earliest created conversations first",
+      "DEFAULT_RULE_2": "Round robin distribution",
+      "CUSTOMIZE_WITH_POLICY": "Customize with assignment policy",
+      "USING_POLICY": "Using custom assignment policy for this inbox",
+      "CUSTOMIZE_POLICY": "Customize with assignment policy",
+      "DELETE_POLICY": "Delete policy",
+      "POLICY_LABEL": "Assignment policy",
+      "ASSIGNMENT_ORDER_LABEL": "Assignment Order",
+      "ASSIGNMENT_METHOD_LABEL": "Assignment Method",
+      "POLICY_STATUS": {
+        "ACTIVE": "Активний",
+        "INACTIVE": "Inactive"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "Earliest created",
+        "LONGEST_WAITING": "Longest waiting"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "Round robin",
+        "BALANCED": "Balanced assignment"
+      },
+      "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
+      "UPGRADE_TO_BUSINESS": "Upgrade to Business",
+      "DEFAULT_POLICY_LINKED": "Default policy linked",
+      "DEFAULT_POLICY_DESCRIPTION": "Link a custom assignment policy to customize how conversations are assigned to agents in this inbox.",
+      "LINK_EXISTING_POLICY": "Link existing policy",
+      "CREATE_NEW_POLICY": "Create new policy",
+      "NO_POLICIES": "No assignment policies found",
+      "VIEW_ALL_POLICIES": "View all policies",
+      "CURRENT_BEHAVIOR": "Currently using default assignment behavior:",
+      "LINK_SUCCESS": "Assignment policy linked successfully",
+      "LINK_ERROR": "Failed to link assignment policy"
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
+      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
+      "CANCEL": "Скасувати",
+      "CONFIRM_DELETE": "Видалити",
+      "DELETE_SUCCESS": "Assignment policy removed successfully",
+      "DELETE_ERROR": "Failed to remove assignment policy"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Повторна авторизація",
@@ -578,6 +875,76 @@
         "LABEL": "Відвідувачі повинні надати своє ім'я та адресу електронної пошти перед початком чату"
       }
     },
+    "CSAT": {
+      "TITLE": "Увімкнути CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Текст повідомлення",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "BUTTON_TEXT": {
+        "LABEL": "Текст кнопки",
+        "PLACEHOLDER": "Будь ласка, оцініть нас"
+      },
+      "LANGUAGE": {
+        "LABEL": "Мова",
+        "PLACEHOLDER": "Виберіть мову шаблону"
+      },
+      "MESSAGE_PREVIEW": {
+        "LABEL": "Попередній перегляд повідомлення",
+        "TOOLTIP": "Це може дещо відрізнятися від того що відображає платформа WhatsApp."
+      },
+      "TEMPLATE_STATUS": {
+        "APPROVED": "Підтверджено WhatsApp",
+        "PENDING": "Очікує підтвердження WhatsApp",
+        "REJECTED": "Шаблон відхилено Meta",
+        "DEFAULT": "Потребує підтвердження WhatsApp",
+        "NOT_FOUND": "Цей шаблон не існує на платформі Meta."
+      },
+      "TEMPLATE_CREATION": {
+        "SUCCESS_MESSAGE": "Шаблон WhatsApp успішно створено та надіслано на підтвердження",
+        "ERROR_MESSAGE": "Не вдалося створити шаблон WhatsApp"
+      },
+      "TEMPLATE_UPDATE_DIALOG": {
+        "TITLE": "Редагувати деталі опитування",
+        "DESCRIPTION": "Попередній шаблон буде видалено та створено новий, який буде надіслано у WhatsApp для підтвердження",
+        "CONFIRM": "Створити новий шаблон",
+        "CANCEL": "Повернутися назад"
+      },
+      "UTILITY_ANALYZER": {
+        "ACTION": "Check utility fit",
+        "HELPER_NOTE": "Check this message before submission to improve Utility fit. The system creates a dedicated CSAT template with buttons for reporting and submits it as Utility; Meta may still reclassify it as Marketing based on content.",
+        "RESULT_LABEL": "Meta category prediction",
+        "GUIDANCE_NOTE": "This is a guidance check, not a guarantee of Meta approval.",
+        "SUGGESTION_LABEL": "Suggested utility-safe rewrite",
+        "APPLY": "Use this rewrite",
+        "ERROR_MESSAGE": "Couldn't analyze the message. Please try again.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "Likely Utility",
+          "LIKELY_MARKETING": "Likely Marketing",
+          "UNCLEAR": "Needs clarification"
+        }
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "містить",
+          "DOES_NOT_CONTAINS": "не містить"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+      }
+    },
     "BUSINESS_HOURS": {
       "TITLE": "Встановіть доступність",
       "SUBTITLE": "Встановіть доступність на вашому віджеті",
@@ -588,9 +955,11 @@
       "UNAVAILABLE_MESSAGE_LABEL": "Повідомлення для відвідувачів у неробочі години",
       "TOGGLE_HELP": "Включення покаже робочі години на віджеті в чаті, навіть якщо всі агенти перебувають в автономному режимі. У неробочі години відвідувачі можуть бути попереджені повідомленням і формою попереднього чату.",
       "DAY": {
+        "DAY": "День",
+        "AVAILABILITY": "Присутність",
+        "HOURS": "Hours",
         "ENABLE": "Увімкнути доступність для цього дня",
         "UNAVAILABLE": "Неприсутній",
-        "HOURS": "години",
         "VALIDATION_ERROR": "Час початку має бути менше часу закриття.",
         "CHOOSE": "Обрати"
       },
@@ -697,11 +1066,12 @@
           "IN_A_DAY": "Протягом дня"
         },
         "WIDGET_COLOR_LABEL": "Колір віджета",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Позиція віджету",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Тип віджету",
+        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Тип:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Почніть розмову з нами",
-          "LABEL": "Заголовок віджета",
+          "LABEL": "Launcher Title",
           "PLACE_HOLDER": "Почніть розмову з нами"
         },
         "UPDATE": {
@@ -726,7 +1096,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "За замовчуванням",
-        "CHAT": "Чат"
+        "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Зазвичай відповідаємо за декілька хвилин",
@@ -749,9 +1119,18 @@
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "GOOGLE": "Google",
-      "OTHER_PROVIDERS": "Інші постачальники"
+      "MICROSOFT": {
+        "TITLE": "Microsoft",
+        "DESCRIPTION": "Connect with Microsoft"
+      },
+      "GOOGLE": {
+        "TITLE": "Google",
+        "DESCRIPTION": "Connect with Google"
+      },
+      "OTHER_PROVIDERS": {
+        "TITLE": "Інші постачальники",
+        "DESCRIPTION": "Connect with Other Providers"
+      }
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
@@ -764,7 +1143,9 @@
       "TELEGRAM": "Telegram",
       "LINE": "Line",
       "API": "API канал",
-      "INSTAGRAM": "Instagram"
+      "INSTAGRAM": "Instagram",
+      "TIKTOK": "TikTok",
+      "VOICE": "Voice"
     }
   }
 }

@@ -1,6 +1,7 @@
 class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals::BaseController
   before_action :ensure_custom_domain_request, only: [:show, :index]
   before_action :portal
+  before_action :ensure_portal_feature_enabled
   before_action :set_category, only: [:show]
   layout 'portal'
 
@@ -8,7 +9,9 @@ class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals:
     @categories = @portal.categories.order(position: :asc)
   end
 
-  def show; end
+  def show
+    @og_image_url = helpers.set_og_image_url(@portal.name, @category.name)
+  end
 
   private
 

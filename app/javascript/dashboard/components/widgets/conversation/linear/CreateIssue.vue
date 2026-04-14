@@ -183,13 +183,18 @@ const createIssue = async () => {
     state_id: formState.stateId || undefined,
     priority: formState.priority || undefined,
     label_ids: formState.labelId ? [formState.labelId] : undefined,
+    conversation_id: props.conversationId,
   };
 
   try {
     isCreating.value = true;
     const response = await LinearAPI.createIssue(payload);
-    const { id: issueId } = response.data;
-    await LinearAPI.link_issue(props.conversationId, issueId, props.title);
+    const { identifier: issueIdentifier } = response.data;
+    await LinearAPI.link_issue(
+      props.conversationId,
+      issueIdentifier,
+      props.title
+    );
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE_SUCCESS'));
     useTrack(LINEAR_EVENTS.CREATE_ISSUE);
     onClose();

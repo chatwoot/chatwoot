@@ -15,7 +15,7 @@ class Whatsapp::Providers::BaseService
     raise 'Overwrite this method in child class'
   end
 
-  def send_template(_phone_number, _template_info)
+  def send_template(_phone_number, _template_info, _message)
     raise 'Overwrite this method in child class'
   end
 
@@ -31,27 +31,27 @@ class Whatsapp::Providers::BaseService
     raise 'Overwrite this method in child class'
   end
 
-  def process_response(response)
+  def process_response(response, message)
     parsed_response = response.parsed_response
     if response.success? && parsed_response['error'].blank?
       parsed_response['messages'].first['id']
     else
-      handle_error(response)
+      handle_error(response, message)
       nil
     end
   end
 
-  def handle_error(response)
+  def handle_error(response, message)
     Rails.logger.error response.body
-    return if @message.blank?
+    return if message.blank?
 
     # https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes/#sample-response
     error_message = error_message(response)
     return if error_message.blank?
 
-    @message.external_error = error_message
-    @message.status = :failed
-    @message.save!
+    message.external_error = error_message
+    message.status = :failed
+    message.save!
   end
 
   def create_buttons(items)
@@ -93,14 +93,14 @@ class Whatsapp::Providers::BaseService
   def create_button_payload(message)
     buttons = create_buttons(message.content_attributes['items'])
     json_hash = { 'buttons' => buttons }
-    create_payload('button', message.content, JSON.generate(json_hash))
+    create_payload('button', message.outgoing_content, JSON.generate(json_hash))
   end
 
   def create_list_payload(message)
     rows = create_rows(message.content_attributes['items'])
     section1 = { 'rows' => rows }
     sections = [section1]
-    json_hash = { :button => 'Choose an item', 'sections' => sections }
-    create_payload('list', message.content, JSON.generate(json_hash))
+    json_hash = { :button => I18n.t('conversations.messages.whatsapp.list_button_label'), 'sections' => sections }
+    create_payload('list', message.outgoing_content, JSON.generate(json_hash))
   end
 end

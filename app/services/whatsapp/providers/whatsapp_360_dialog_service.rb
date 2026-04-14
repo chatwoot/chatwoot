@@ -10,7 +10,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     end
   end
 
-  def send_template(phone_number, template_info)
+  def send_template(phone_number, template_info, message)
     response = HTTParty.post(
       "#{api_base_path}/messages",
       headers: api_headers,
@@ -21,7 +21,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
       }.to_json
     )
 
-    process_response(response)
+    process_response(response, message)
   end
 
   def sync_templates
@@ -63,12 +63,12 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
       headers: api_headers,
       body: {
         to: phone_number,
-        text: { body: message.content },
+        text: { body: message.outgoing_content },
         type: 'text'
       }.to_json
     )
 
-    process_response(response)
+    process_response(response, message)
   end
 
   def send_attachment_message(phone_number, message)
@@ -77,7 +77,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     type_content = {
       'link': attachment.download_url
     }
-    type_content['caption'] = message.content unless %w[audio sticker].include?(type)
+    type_content['caption'] = message.outgoing_content unless %w[audio sticker].include?(type)
     type_content['filename'] = attachment.file.filename if type == 'document'
 
     response = HTTParty.post(
@@ -90,7 +90,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
       }.to_json
     )
 
-    process_response(response)
+    process_response(response, message)
   end
 
   def error_message(response)
@@ -106,10 +106,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
         policy: 'deterministic',
         code: template_info[:lang_code]
       },
-      components: [{
-        type: 'body',
-        parameters: template_info[:parameters]
-      }]
+      components: template_info[:parameters]
     }
   end
 
@@ -126,6 +123,6 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
       }.to_json
     )
 
-    process_response(response)
+    process_response(response, message)
   end
 end

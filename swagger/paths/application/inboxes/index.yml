@@ -4,17 +4,67 @@ get:
   operationId: listAllInboxes
   summary: List all inboxes
   description: List all inboxes available in the current account
+  security:
+    - userApiKey: []
   parameters:
-    - $ref: '#/parameters/account_id'
+    - $ref: '#/components/parameters/account_id'
   responses:
-    200:
+    '200':
       description: Success
-      schema:
-        type: array
-        description: 'Array of inboxes'
-        items:
-          $ref: '#/definitions/inbox'
-    404:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              payload:
+                type: array
+                description: 'Array of inboxes'
+                items:
+                  $ref: '#/components/schemas/inbox'
+    '404':
       description: Inbox not found
-    403:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '403':
       description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+post:
+  tags:
+    - Inboxes
+  operationId: inboxCreation
+  summary: Create an inbox
+  description: You can create more than one website inbox in each account
+  security:
+    - userApiKey: []
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/inbox_create_payload'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inbox'
+    '404':
+      description: Inbox not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '403':
+      description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

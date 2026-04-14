@@ -1,4 +1,5 @@
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { PRIORITY_CONDITION_VALUES } from 'dashboard/constants/automation';
 
@@ -7,11 +8,12 @@ import { PRIORITY_CONDITION_VALUES } from 'dashboard/constants/automation';
  * @returns {Object} An object containing the getMacroDropdownValues function
  */
 export const useMacros = () => {
+  const { t } = useI18n();
   const getters = useStoreGetters();
 
   const labels = computed(() => getters['labels/getLabels'].value);
   const teams = computed(() => getters['teams/getTeams'].value);
-  const agents = computed(() => getters['agents/getAgents'].value);
+  const agents = computed(() => getters['agents/getVerifiedAgents'].value);
 
   /**
    * Get dropdown values based on the specified type
@@ -32,7 +34,10 @@ export const useMacros = () => {
           name: i.title,
         }));
       case 'change_priority':
-        return PRIORITY_CONDITION_VALUES;
+        return PRIORITY_CONDITION_VALUES.map(item => ({
+          id: item.id,
+          name: t(`MACROS.PRIORITY_TYPES.${item.i18nKey}`),
+        }));
       default:
         return [];
     }

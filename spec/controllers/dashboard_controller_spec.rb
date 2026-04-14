@@ -19,9 +19,10 @@ describe '/app/login', type: :request do
   end
 
   context 'with non-HTML format' do
-    it 'returns not acceptable for JSON' do
-      get '/app/login', params: { format: 'json' }
+    it 'returns not acceptable for JSON with error message' do
+      get '/app/login', headers: { 'Accept' => 'application/json' }
       expect(response).to have_http_status(:not_acceptable)
+      expect(response.parsed_body).to eq({ 'error' => 'Please use API routes instead of dashboard routes for JSON requests' })
     end
   end
 

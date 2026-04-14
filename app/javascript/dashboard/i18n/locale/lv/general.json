@@ -4,6 +4,16 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "Meklēt",
       "EMPTY_STATE": "Nav atrasts"
-    }
+    },
+    "CLOSE": "Aizvērt",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it.",
+    "ACCEPT": "Accept",
+    "DISCARD": "Izmest",
+    "PREFERRED": "Preferred"
+  },
+  "CHOICE_TOGGLE": {
+    "YES": "Jā",
+    "NO": "Nē"
   }
 }

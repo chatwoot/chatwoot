@@ -136,7 +136,7 @@ RSpec.describe Conversation do
           notifiable_assignee_change: false,
           changed_attributes: changed_attributes,
           performed_by: nil
-        ).exactly(2).times
+        )
     end
 
     it 'runs after_update callbacks' do
@@ -215,7 +215,7 @@ RSpec.describe Conversation do
     it 'adds a message for system auto resolution if marked resolved by system' do
       account.update(auto_resolve_after: 40 * 24 * 60)
       conversation2 = create(:conversation, status: 'open', account: account, assignee: old_assignee)
-      Current.user = nil
+      Current.reset
 
       message_data = if account.auto_resolve_after >= 1440 && account.auto_resolve_after % 1440 == 0
                        { key: 'auto_resolved_days', count: account.auto_resolve_after / 1440 }
@@ -313,6 +313,47 @@ RSpec.describe Conversation do
     end
   end
 
+  describe '#bot_handoff!' do
+    let(:conversation) { create(:conversation, status: :pending) }
+
+    before do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+    end
+
+    context 'when waiting_since is blank' do
+      before { conversation.update(waiting_since: nil) }
+
+      it 'sets waiting_since to current time' do
+        freeze_time do
+          conversation.bot_handoff!
+          expect(conversation.reload.waiting_since).to eq(Time.current)
+        end
+      end
+    end
+
+    context 'when waiting_since is already set' do
+      let(:original_time) { 1.hour.ago }
+
+      before { conversation.update(waiting_since: original_time) }
+
+      it 'preserves existing waiting_since' do
+        conversation.bot_handoff!
+        expect(conversation.reload.waiting_since).to be_within(1.second).of(original_time)
+      end
+    end
+
+    it 'changes status to open' do
+      conversation.bot_handoff!
+      expect(conversation.reload.status).to eq('open')
+    end
+
+    it 'dispatches CONVERSATION_BOT_HANDOFF event' do
+      expect(Rails.configuration.dispatcher).to receive(:dispatch)
+        .with(described_class::CONVERSATION_BOT_HANDOFF, anything, hash_including(conversation: conversation))
+      conversation.bot_handoff!
+    end
+  end
+
   describe '#toggle_priority' do
     it 'defaults priority to nil when created' do
       conversation = create(:conversation, status: 'open')
@@ -390,6 +431,20 @@ RSpec.describe Conversation do
         .to(have_been_enqueued.at_least(:once).with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id,
                                                                     message_type: :activity, content: "#{user.name} has muted the conversation" }))
     end
+
+    context 'when contact is missing' do
+      before do
+        conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations
+      end
+
+      it 'does not change conversation status' do
+        expect { mute! }.not_to(change { conversation.reload.status })
+      end
+
+      it 'does not enqueue an activity message' do
+        expect { mute! }.not_to have_enqueued_job(Conversations::ActivityMessageJob)
+      end
+    end
   end
 
   describe '#unmute!' do
@@ -418,6 +473,22 @@ RSpec.describe Conversation do
         .to(have_been_enqueued.at_least(:once).with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id,
                                                                     message_type: :activity, content: "#{user.name} has unmuted the conversation" }))
     end
+
+    context 'when contact is missing' do
+      let(:conversation) { create(:conversation) }
+
+      before do
+        conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations
+      end
+
+      it 'does not change conversation status' do
+        expect { unmute! }.not_to(change { conversation.reload.status })
+      end
+
+      it 'does not enqueue an activity message' do
+        expect { unmute! }.not_to have_enqueued_job(Conversations::ActivityMessageJob)
+      end
+    end
   end
 
   describe '#muted?' do
@@ -432,6 +503,16 @@ RSpec.describe Conversation do
 
     it 'returns false if conversation is not muted' do
       expect(muted?).to be(false)
+    end
+
+    context 'when contact is missing' do
+      before do
+        conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations
+      end
+
+      it 'returns false' do
+        expect(muted?).to be(false)
+      end
     end
   end
 
@@ -525,8 +606,9 @@ RSpec.describe Conversation do
         additional_attributes: {},
         meta: {
           sender: conversation.contact.push_event_data,
-          assignee: conversation.assignee,
-          team: conversation.team,
+          assignee: conversation.assigned_entity&.push_event_data,
+          assignee_type: conversation.assignee_type,
+          team: conversation.team&.push_event_data,
           hmac_verified: conversation.contact_inbox.hmac_verified
         },
         id: conversation.display_id,
@@ -576,9 +658,38 @@ RSpec.describe Conversation do
       expect(conversation.status).to eq('pending')
     end
 
-    it 'returns conversation as open if campaign is present' do
-      conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: create(:campaign))
-      expect(conversation.status).to eq('open')
+    context 'with campaigns' do
+      let(:user) { create(:user, account: bot_inbox.inbox.account) }
+
+      it 'returns conversation as open if campaign has a sender' do
+        campaign = create(:campaign, inbox: bot_inbox.inbox, account: bot_inbox.inbox.account, sender: user)
+        conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: campaign)
+        expect(conversation.status).to eq('open')
+      end
+
+      it 'returns conversation as pending if campaign has no sender (bot-initiated) and bot is active' do
+        campaign = create(:campaign, inbox: bot_inbox.inbox, account: bot_inbox.inbox.account, sender: nil)
+        conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: campaign)
+        expect(conversation.status).to eq('pending')
+      end
+    end
+
+    context 'with campaigns in inbox without bot' do
+      let(:account) { create(:account) }
+      let(:inbox) { create(:inbox, account: account) }
+      let(:user) { create(:user, account: account) }
+
+      it 'returns conversation as open if campaign has no sender but no bot is active' do
+        campaign = create(:campaign, inbox: inbox, account: account, sender: nil)
+        conversation = create(:conversation, inbox: inbox, campaign: campaign)
+        expect(conversation.status).to eq('open')
+      end
+
+      it 'returns conversation as open if campaign has a sender' do
+        campaign = create(:campaign, inbox: inbox, account: account, sender: user)
+        conversation = create(:conversation, inbox: inbox, campaign: campaign)
+        expect(conversation.status).to eq('open')
+      end
     end
   end
 
@@ -793,8 +904,8 @@ RSpec.describe Conversation do
     end
 
     context 'when a new conversation is created' do
-      it 'sets last_activity_at to the created_at time' do
-        expect(conversation.last_activity_at).to eq(conversation.created_at)
+      it 'sets last_activity_at to the created_at time (within DB precision)' do
+        expect(conversation.last_activity_at).to be_within(1.second).of(conversation.created_at)
       end
     end
 
@@ -834,6 +945,184 @@ RSpec.describe Conversation do
       allow(message_window_service).to receive(:can_reply?).and_return(false)
       expect(conversation.can_reply?).to be false
       expect(message_window_service).to have_received(:can_reply?)
+    end
+  end
+
+  describe 'reply time calculation flows' do
+    include ActiveJob::TestHelper
+
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:contact) { create(:contact, account: account) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact, assignee: agent, waiting_since: nil) }
+    let(:conversation_start_time) { 5.hours.ago }
+
+    before do
+      create(:inbox_member, user: agent, inbox: inbox)
+      # rubocop:disable Rails/SkipsModelValidations
+      conversation.update_column(:waiting_since, nil)
+      conversation.update_column(:created_at, conversation_start_time)
+      # rubocop:enable Rails/SkipsModelValidations
+      conversation.messages.destroy_all
+      conversation.reporting_events.destroy_all
+      conversation.reload
+    end
+
+    def create_customer_message(conversation, created_at: Time.current)
+      message = nil
+      perform_enqueued_jobs do
+        message = create(:message,
+                         message_type: 'incoming',
+                         account: conversation.account,
+                         inbox: conversation.inbox,
+                         conversation: conversation,
+                         sender: conversation.contact,
+                         created_at: created_at)
+      end
+      message
+    end
+
+    def create_agent_message(conversation, created_at: Time.current)
+      message = nil
+      perform_enqueued_jobs do
+        message = create(:message,
+                         message_type: 'outgoing',
+                         account: conversation.account,
+                         inbox: conversation.inbox,
+                         conversation: conversation,
+                         sender: conversation.assignee,
+                         created_at: created_at)
+      end
+      message
+    end
+
+    it 'correctly tracks waiting_since and creates first response time events' do
+      create_customer_message(conversation, created_at: conversation_start_time)
+      conversation.reload
+      expect(conversation.waiting_since).to be_within(1.second).of(conversation_start_time)
+
+      # Agent replies - this should create first response event
+      agent_reply1_time = 4.hours.ago
+      create_agent_message(conversation, created_at: agent_reply1_time)
+
+      first_response_events = account.reporting_events.where(name: 'first_response', conversation_id: conversation.id)
+      expect(first_response_events.count).to eq(1)
+      expect(first_response_events.first.value).to be_within(1.second).of(1.hour)
+
+      # the first response should also clear the waiting_since
+      conversation.reload
+      expect(conversation.waiting_since).to be_nil
+    end
+
+    it 'does not reset waiting_since if customer sends another message' do
+      create_customer_message(conversation, created_at: conversation_start_time)
+      conversation.reload
+      expect(conversation.waiting_since).to be_within(1.second).of(conversation_start_time)
+
+      create_customer_message(conversation, created_at: 3.hours.ago)
+      conversation.reload
+      expect(conversation.waiting_since).to be_within(1.second).of(conversation_start_time)
+    end
+
+    it 'records the correct reply_time for subsequent messages' do
+      create_customer_message(conversation, created_at: conversation_start_time)
+      create_agent_message(conversation, created_at: 4.hours.ago)
+      create_customer_message(conversation, created_at: 3.hours.ago)
+
+      create_agent_message(conversation, created_at: 2.hours.ago)
+      reply_events = account.reporting_events.where(name: 'reply_time', conversation_id: conversation.id)
+      expect(reply_events.count).to eq(1)
+      expect(reply_events.first.value).to be_within(1.second).of(1.hour)
+
+      conversation.reload
+      expect(conversation.waiting_since).to be_nil
+    end
+
+    it 'records zero reply time if an agent sends a message after resolution' do
+      create_customer_message(conversation, created_at: conversation_start_time)
+      create_agent_message(conversation, created_at: 4.hours.ago)
+      create_customer_message(conversation, created_at: 3.hours.ago)
+
+      conversation.toggle_status
+      expect(conversation.status).to eq('resolved')
+
+      conversation.toggle_status
+      expect(conversation.status).to eq('open')
+
+      conversation.reload
+      expect(conversation.waiting_since).to be_nil
+
+      create_agent_message(conversation, created_at: 1.hour.ago)
+      # update_waiting_since will ensure that no events were created since the waiting_since was nil
+      # if the event is created it should log zero value, we have handled that in the reporting_event_listener
+      reply_events = account.reporting_events.where(name: 'reply_time', conversation_id: conversation.id)
+      expect(reply_events.count).to eq(0)
+    end
+
+    context 'when AgentBot responds between customer messages' do
+      let(:agent_bot) { create(:agent_bot, account: account) }
+
+      def create_bot_message(conversation, created_at: Time.current)
+        message = nil
+        perform_enqueued_jobs do
+          message = create(:message,
+                           message_type: 'outgoing',
+                           account: conversation.account,
+                           inbox: conversation.inbox,
+                           conversation: conversation,
+                           sender: agent_bot,
+                           created_at: created_at)
+        end
+        message
+      end
+
+      it 'calculates reply time from the most recent customer message after bot response' do
+        # Initial conversation: customer message -> agent first reply (to establish first_reply_created_at)
+        create_customer_message(conversation, created_at: 10.hours.ago)
+        create_agent_message(conversation, created_at: 9.hours.ago)
+
+        # Customer message 1
+        create_customer_message(conversation, created_at: 5.hours.ago)
+
+        # Bot responds
+        create_bot_message(conversation, created_at: 4.hours.ago)
+
+        # Customer message 2 (after bot response) - should reset waiting_since
+        create_customer_message(conversation, created_at: 2.hours.ago)
+
+        # Human agent replies - should create reply_time event from customer message 2
+        create_agent_message(conversation, created_at: 1.hour.ago)
+
+        reply_events = account.reporting_events.where(name: 'reply_time', conversation_id: conversation.id)
+        expect(reply_events.count).to eq(1) # Only the second agent reply creates a reply_time event
+        # Reply time should be 1 hour (from customer message 2 to agent reply)
+        expect(reply_events.first.value).to be_within(60).of(3600)
+      end
+
+      it 'handles multiple bot responses before customer messages again' do
+        # Initial conversation: customer message -> agent first reply
+        create_customer_message(conversation, created_at: 10.hours.ago)
+        create_agent_message(conversation, created_at: 9.hours.ago)
+
+        # Customer message 1
+        create_customer_message(conversation, created_at: 6.hours.ago)
+
+        # Bot responds multiple times
+        create_bot_message(conversation, created_at: 5.hours.ago)
+        create_bot_message(conversation, created_at: 4.hours.ago)
+
+        # Customer message 2 (after multiple bot responses) - should reset waiting_since
+        create_customer_message(conversation, created_at: 2.hours.ago)
+
+        # Human agent replies
+        create_agent_message(conversation, created_at: 1.hour.ago)
+
+        reply_events = account.reporting_events.where(name: 'reply_time', conversation_id: conversation.id)
+        expect(reply_events.count).to eq(1) # Only the second agent reply creates a reply_time event
+        # Reply time should be 1 hour (from customer message 2 to agent reply)
+        expect(reply_events.first.value).to be_within(60).of(3600)
+      end
     end
   end
 end

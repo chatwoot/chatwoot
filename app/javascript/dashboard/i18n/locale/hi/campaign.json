@@ -137,6 +137,70 @@
         }
       }
     },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp अभियान",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "कोई WhatsApp अभियान उपलब्ध नहीं है",
+        "SUBTITLE": "अपने ग्राहकों तक सीधे पहुँचने के लिए एक WhatsApp अभियान शुरू करें। आसानी से ऑफ़र भेजें या घोषणाएँ करें। शुरू करने के लिए 'अभियान बनाएँ' पर क्लिक करें।"
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Completed",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "WhatsApp अभियान बनाएं",
+        "CANCEL_BUTTON_TEXT": "Cancel",
+        "CREATE_BUTTON_TEXT": "Create",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Title",
+            "PLACEHOLDER": "Please enter the title of campaign",
+            "ERROR": "Title is required"
+          },
+          "INBOX": {
+            "LABEL": "Select Inbox",
+            "PLACEHOLDER": "Select Inbox",
+            "ERROR": "Inbox is required"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "एक टेम्पलेट चुनें",
+            "INFO": "इस अभियान मे उपयोग करने के लिए टेम्पलेट चुनिए।",
+            "ERROR": "टेम्पलेट की अव्यश्कता है",
+            "PREVIEW_TITLE": "Process {templateName}",
+            "LANGUAGE": "Language",
+            "CATEGORY": "Category",
+            "VARIABLES_LABEL": "Variables",
+            "VARIABLE_PLACEHOLDER": "{variable} के लिए मूल्य दर्ज करें"
+          },
+          "AUDIENCE": {
+            "LABEL": "Audience",
+            "PLACEHOLDER": "Select the customer labels",
+            "ERROR": "Audience is required"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Scheduled time",
+            "PLACEHOLDER": "Please select the time",
+            "ERROR": "Scheduled time is required"
+          },
+          "BUTTONS": {
+            "CREATE": "Create",
+            "CANCEL": "Cancel"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp अभियान सफलतापूर्वक बनाया गया",
+            "ERROR_MESSAGE": "There was an error. Please try again."
+          }
+        }
+      }
+    },
     "CONFIRM_DELETE": {
       "TITLE": "Are you sure to delete?",
       "DESCRIPTION": "The delete action is permanent and cannot be reversed.",

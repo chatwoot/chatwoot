@@ -1,67 +1,27 @@
-<script>
-import { mapGetters } from 'vuex';
-import { getContrastingTextColor } from '@chatwoot/utils';
-import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
-import configMixin from 'widget/mixins/configMixin';
-import availabilityMixin from 'widget/mixins/availability';
+<script setup>
 import { IFrameHelper } from 'widget/helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
-import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
+import AvailabilityContainer from 'widget/components/Availability/AvailabilityContainer.vue';
+import { useMapGetter } from 'dashboard/composables/store.js';
 
-export default {
-  name: 'TeamAvailability',
-  components: {
-    GroupedAvatars,
-  },
-  mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
-  props: {
-    availableAgents: {
-      type: Array,
-      default: () => {},
-    },
-    hasConversation: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['startConversation'],
+const props = defineProps({
+  availableAgents: { type: Array, default: () => [] },
+  hasConversation: { type: Boolean, default: false },
+});
 
-  computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
-    textColor() {
-      return getContrastingTextColor(this.widgetColor);
-    },
-    agentAvatars() {
-      return this.availableAgents.map(agent => ({
-        name: agent.name,
-        avatar: agent.avatar_url,
-        id: agent.id,
-      }));
-    },
-    isOnline() {
-      const { workingHoursEnabled } = this.channelConfig;
-      const anyAgentOnline = this.availableAgents.length > 0;
+const emit = defineEmits(['startConversation']);
 
-      if (workingHoursEnabled) {
-        return this.isInBetweenTheWorkingHours;
-      }
-      return anyAgentOnline;
-    },
-  },
-  methods: {
-    startConversation() {
-      this.$emit('startConversation');
-      if (!this.hasConversation) {
-        IFrameHelper.sendMessage({
-          event: 'onEvent',
-          eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
-          data: { hasConversation: false },
-        });
-      }
-    },
-  },
+const widgetColor = useMapGetter('appConfig/getWidgetColor');
+
+const startConversation = () => {
+  emit('startConversation');
+  if (!props.hasConversation) {
+    IFrameHelper.sendMessage({
+      event: 'onEvent',
+      eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
+      data: { hasConversation: false },
+    });
+  }
 };
 </script>
 
@@ -69,21 +29,8 @@ export default {
   <div
     class="flex flex-col gap-3 w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-background dark:bg-n-solid-2 px-5 py-4"
   >
-    <div class="flex items-center justify-between gap-2">
-      <div class="flex flex-col gap-1">
-        <div class="font-medium text-n-slate-12">
-          {{
-            isOnline
-              ? $t('TEAM_AVAILABILITY.ONLINE')
-              : $t('TEAM_AVAILABILITY.OFFLINE')
-          }}
-        </div>
-        <div class="text-n-slate-11">
-          {{ replyWaitMessage }}
-        </div>
-      </div>
-      <GroupedAvatars v-if="isOnline" :users="availableAgents" />
-    </div>
+    <AvailabilityContainer :agents="availableAgents" show-header show-avatars />
+
     <button
       class="inline-flex items-center gap-1 font-medium text-n-slate-12"
       :style="{ color: widgetColor }"

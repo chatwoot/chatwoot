@@ -125,3 +125,54 @@ export const getHostNameFromURL = url => {
     return null;
   }
 };
+
+/**
+ * Extracts filename from a URL
+ * @param {string} url - The URL to extract filename from
+ * @returns {string} - The extracted filename or original URL if extraction fails
+ */
+export const extractFilenameFromUrl = url => {
+  if (!url || typeof url !== 'string') return url;
+
+  try {
+    const urlObj = new URL(url);
+    const pathname = urlObj.pathname;
+    const filename = pathname.split('/').pop();
+    return filename || url;
+  } catch (error) {
+    // If URL parsing fails, try to extract filename using regex
+    const match = url.match(/\/([^/?#]+)(?:[?#]|$)/);
+    return match ? match[1] : url;
+  }
+};
+
+/**
+ * Normalizes a comma/newline separated list of domains
+ * @param {string} domains - The comma/newline separated list of domains
+ * @returns {string} - The normalized list of domains
+ * - Converts newlines to commas
+ * - Trims whitespace
+ * - Lowercases entries
+ * - Removes empty values
+ * - De-duplicates while preserving original order
+ */
+export const sanitizeAllowedDomains = domains => {
+  if (!domains) return '';
+
+  const tokens = domains
+    .replace(/\r\n/g, '\n')
+    .replace(/\s*\n\s*/g, ',')
+    .split(',')
+    .map(d => d.trim().toLowerCase())
+    .filter(d => d.length > 0);
+
+  // De-duplicate while preserving order using Set and filter index
+  const seen = new Set();
+  const unique = tokens.filter(d => {
+    if (seen.has(d)) return false;
+    seen.add(d);
+    return true;
+  });
+
+  return unique.join(',');
+};

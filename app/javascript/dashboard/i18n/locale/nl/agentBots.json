@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "Loading editor...",
     "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
     "LEARN_MORE": "Learn about agent bots",
+    "COUNT": "{n} bot | {n} bots",
+    "SEARCH_PLACEHOLDER": "Search bots...",
+    "NO_RESULTS": "No bots found matching your search",
     "GLOBAL_BOT": "System bot",
     "GLOBAL_BOT_BADGE": "Systeem",
     "AVATAR": {
@@ -34,7 +37,8 @@
       "LOADING": "Fetching bots...",
       "TABLE_HEADER": {
         "DETAILS": "Bot Details",
-        "URL": "Webhook URL"
+        "URL": "Webhook URL",
+        "ACTIONS": "Acties"
       }
     },
     "DELETE": {
@@ -58,6 +62,13 @@
         "SUCCESS_MESSAGE": "Bot succesvol bijgewerkt.",
         "ERROR_MESSAGE": "Could not update bot. Please try again."
       }
+    },
+    "ACCESS_TOKEN": {
+      "TITLE": "Toegangs-token",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
     },
     "FORM": {
       "AVATAR": {
@@ -83,8 +94,8 @@
         "VALID_URL": "Please enter a valid URL starting with http:// or https://"
       },
       "CANCEL": "Annuleren",
-      "CREATE": "Create Bot",
-      "UPDATE": "Update Bot"
+      "CREATE": "Bot Maken",
+      "UPDATE": "Bot updaten"
     },
     "WEBHOOK": {
       "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."

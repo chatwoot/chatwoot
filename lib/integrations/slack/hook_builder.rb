@@ -32,8 +32,8 @@ class Integrations::Slack::HookBuilder
   def fetch_access_token
     client = Slack::Web::Client.new
     slack_access = client.oauth_v2_access(
-      client_id: ENV.fetch('SLACK_CLIENT_ID', 'TEST_CLIENT_ID'),
-      client_secret: ENV.fetch('SLACK_CLIENT_SECRET', 'TEST_CLIENT_SECRET'),
+      client_id: GlobalConfigService.load('SLACK_CLIENT_ID', 'TEST_CLIENT_ID'),
+      client_secret: GlobalConfigService.load('SLACK_CLIENT_SECRET', 'TEST_CLIENT_SECRET'),
       code: params[:code],
       redirect_uri: Integrations::App.slack_integration_url
     )

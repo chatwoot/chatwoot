@@ -57,4 +57,16 @@ class InboxPolicy < ApplicationPolicy
   def avatar?
     @account_user.administrator?
   end
+
+  def sync_templates?
+    @account_user.administrator?
+  end
+
+  def health?
+    @account_user.administrator?
+  end
+
+  def reset_secret?
+    @account_user.administrator?
+  end
 end

@@ -1,0 +1,20 @@
+type: object
+properties:
+  id:
+    type: number
+    description: ID of the inbox
+  avatar_url:
+    type: string
+    description: The avatar image of the inbox
+  channel_id:
+    type: number
+    description: The ID of the channel
+  name:
+    type: string
+    description: The name of the inbox
+  channel_type:
+    type: string
+    description: The type of the inbox
+  provider:
+    type: string
+    description: The provider of the inbox

@@ -1,6 +1,7 @@
 <script setup>
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, nextTick } from 'vue';
 import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 const props = defineProps({
   items: {
@@ -15,23 +16,22 @@ const props = defineProps({
 
 const emit = defineEmits(['mentionSelect']);
 
+const { getPlainText } = useMessageFormatter();
+
 const mentionsListContainerRef = ref(null);
 const selectedIndex = ref(0);
 
 const adjustScroll = () => {
-  const container = mentionsListContainerRef.value;
-  const item = container.querySelector(`#mention-item-${selectedIndex.value}`);
-  if (item) {
-    const itemTop = item.offsetTop;
-    const itemBottom = itemTop + item.offsetHeight;
-    const containerTop = container.scrollTop;
-    const containerBottom = containerTop + container.offsetHeight;
-    if (itemTop < containerTop) {
-      container.scrollTop = itemTop;
-    } else if (itemBottom + 34 > containerBottom) {
-      container.scrollTop = itemBottom - container.offsetHeight + 34;
+  nextTick(() => {
+    const container = mentionsListContainerRef.value;
+    if (!container) return;
+    const selectedElement = container.querySelector(
+      `#mention-item-${selectedIndex.value}`
+    );
+    if (selectedElement) {
+      selectedElement.scrollIntoView({ block: 'nearest', behavior: 'auto' });
     }
-  }
+  });
 };
 
 const onSelect = () => {
@@ -92,15 +92,15 @@ const variableKey = (item = {}) => {
         >
           <slot :item="item" :index="index" :selected="index === selectedIndex">
             <p
-              class="max-w-full min-w-0 mb-0 overflow-hidden text-sm font-medium text-n-slate-11 group-hover:text-n-slate-11 text-ellipsis whitespace-nowrap"
+              class="max-w-full min-w-0 mb-0 overflow-hidden text-sm font-medium text-n-slate-11 group-hover:text-n-slate-12 text-ellipsis whitespace-nowrap"
               :class="{
                 'text-n-slate-12': index === selectedIndex,
               }"
             >
-              {{ item.description }}
+              {{ getPlainText(item.description) }}
             </p>
             <p
-              class="max-w-full min-w-0 mb-0 overflow-hidden text-xs text-slate-500 dark:text-slate-300 group-hover:text-n-slate-11 text-ellipsis whitespace-nowrap"
+              class="max-w-full min-w-0 mb-0 overflow-hidden text-xs text-n-slate-11 group-hover:text-n-slate-12 text-ellipsis whitespace-nowrap"
               :class="{
                 'text-n-slate-12': index === selectedIndex,
               }"
