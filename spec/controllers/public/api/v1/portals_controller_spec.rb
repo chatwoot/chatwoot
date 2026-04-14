@@ -13,6 +13,12 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
   end
 
   describe 'GET /public/api/v1/portals/{portal_slug}' do
+    it 'redirects to the portal default locale when locale is not present' do
+      get "/hc/#{portal.slug}"
+
+      expect(response).to redirect_to("/hc/#{portal.slug}/#{portal.default_locale}")
+    end
+
     it 'Show portal and categories belonging to the portal' do
       get "/hc/#{portal.slug}/en"
 
