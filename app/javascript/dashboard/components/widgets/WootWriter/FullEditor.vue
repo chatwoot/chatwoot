@@ -23,6 +23,7 @@ import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixi
 import SlashCommandMenu from './SlashCommandMenu.vue';
 
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
+const SLASH_MENU_OFFSET = 4;
 const createState = (
   content,
   placeholder,
@@ -148,7 +149,7 @@ export default {
       const editorRect = this.$refs.editor.getBoundingClientRect();
       const isRtl = getComputedStyle(this.$refs.editor).direction === 'rtl';
       this.slashMenuPosition = {
-        top: coords.bottom - editorRect.top + 4,
+        top: coords.bottom - editorRect.top + SLASH_MENU_OFFSET,
         ...(isRtl
           ? { right: editorRect.right - coords.right }
           : { left: coords.left - editorRect.left }),
@@ -209,7 +210,6 @@ export default {
         insertTable: () => {
           const { table, table_row, table_header, table_cell, paragraph } =
             schema.nodes;
-          if (!table) return;
           const headerCells = [0, 1, 2].map(() =>
             table_header.createAndFill(null, paragraph.create())
           );
