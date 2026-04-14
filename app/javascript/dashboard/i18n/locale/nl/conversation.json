@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Berichtondertekening is niet geconfigureerd, configureer deze in de profielinstellingen.",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "Geef copilot extra opdrachten, of vraag iets anders... Druk op enter om vervolgvraag te sturen",
       "CLICK_HERE": "Klik hier om bij te werken",
       "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
@@ -214,7 +214,7 @@
       "DRAG_DROP": "Sleep hierheen om toe te voegen",
       "START_AUDIO_RECORDING": "Start audio-opname",
       "STOP_AUDIO_RECORDING": "Stop audio-opname",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot is aan het denken",
       "EMAIL_HEAD": {
         "TO": "AAN",
         "ADD_BCC": "Voeg bcc toe",

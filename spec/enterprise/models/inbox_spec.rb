@@ -37,6 +37,103 @@ RSpec.describe Inbox do
     end
   end
 
+  describe 'member_ids_with_assignment_capacity with V2 capacity' do
+    let(:account) { create(:account) }
+    let(:v2_inbox) { create(:inbox, account: account, enable_auto_assignment: true) }
+    let(:agent_capacity_policy) { create(:agent_capacity_policy, account: account) }
+
+    let!(:agent1) { create(:user, account: account, role: :agent, auto_offline: false) }
+    let!(:agent2) { create(:user, account: account, role: :agent, auto_offline: false) }
+
+    before do
+      create(:inbox_member, inbox: v2_inbox, user: agent1)
+      create(:inbox_member, inbox: v2_inbox, user: agent2)
+
+      allow(OnlineStatusTracker).to receive(:get_available_users).and_return(
+        agent1.id.to_s => 'online',
+        agent2.id.to_s => 'online'
+      )
+    end
+
+    context 'when assignment_v2 is enabled with capacity policies' do
+      before do
+        account.enable_features('assignment_v2', 'advanced_assignment')
+        account.save!
+
+        create(:inbox_capacity_limit, agent_capacity_policy: agent_capacity_policy, inbox: v2_inbox, conversation_limit: 1)
+        agent1.account_users.find_by(account: account).update!(agent_capacity_policy: agent_capacity_policy)
+        agent2.account_users.find_by(account: account).update!(agent_capacity_policy: agent_capacity_policy)
+      end
+
+      it 'filters out agents at capacity' do
+        create(:conversation, inbox: v2_inbox, account: account, assignee: agent1, status: :open)
+
+        result = v2_inbox.member_ids_with_assignment_capacity
+        expect(result).to include(agent2.id)
+        expect(result).not_to include(agent1.id)
+      end
+
+      it 'filters out all agents when all are at capacity' do
+        create(:conversation, inbox: v2_inbox, account: account, assignee: agent1, status: :open)
+        create(:conversation, inbox: v2_inbox, account: account, assignee: agent2, status: :open)
+
+        expect(v2_inbox.member_ids_with_assignment_capacity).to be_empty
+      end
+
+      it 'skips V1 max_assignment_limit when V2 is enabled' do
+        v2_inbox.update(auto_assignment_config: { max_assignment_limit: 100 })
+
+        create(:conversation, inbox: v2_inbox, account: account, assignee: agent1, status: :open)
+
+        result = v2_inbox.member_ids_with_assignment_capacity
+        expect(result).not_to include(agent1.id)
+      end
+    end
+
+    context 'when assignment_v2 is enabled without capacity policies' do
+      before do
+        account.enable_features('assignment_v2', 'advanced_assignment')
+        account.save!
+      end
+
+      it 'returns all online agents' do
+        result = v2_inbox.member_ids_with_assignment_capacity
+        expect(result).to contain_exactly(agent1.id, agent2.id)
+      end
+    end
+
+    context 'when advanced_assignment is disabled (downgraded account with stale policies)' do
+      before do
+        account.enable_features('assignment_v2')
+        account.save!
+
+        create(:inbox_capacity_limit, agent_capacity_policy: agent_capacity_policy, inbox: v2_inbox, conversation_limit: 1)
+        agent1.account_users.find_by(account: account).update!(agent_capacity_policy: agent_capacity_policy)
+
+        create(:conversation, inbox: v2_inbox, account: account, assignee: agent1, status: :open)
+      end
+
+      it 'does not enforce capacity limits' do
+        result = v2_inbox.member_ids_with_assignment_capacity
+        expect(result).to include(agent1.id)
+      end
+    end
+
+    context 'when assignment_v2 is disabled (V1 path)' do
+      before do
+        v2_inbox.update(auto_assignment_config: { max_assignment_limit: 2 })
+      end
+
+      it 'uses V1 max_assignment_limit' do
+        create_list(:conversation, 2, inbox: v2_inbox, account: account, assignee: agent1, status: :open)
+
+        result = v2_inbox.member_ids_with_assignment_capacity
+        expect(result).not_to include(agent1.id)
+        expect(result).to include(agent2.id)
+      end
+    end
+  end
+
   describe 'audit log' do
     context 'when inbox is created' do
       it 'has associated audit log created' do

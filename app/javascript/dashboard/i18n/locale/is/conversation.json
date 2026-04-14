@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Skilaboðundirskrift er ekki stillt, vinsamlegast stilltu hana í prófílstillingum.",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "Gefðu copilot viðbótarspurningar, eða spurðu hvað sem er annað... Ýttu á enter til að senda framhaldsskilaboð",
       "CLICK_HERE": "Click here to update",
       "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
@@ -214,7 +214,7 @@
       "DRAG_DROP": "Dragðu og slepptu viðhenginu hingað",
       "START_AUDIO_RECORDING": "Hefja hljóðupptöku",
       "STOP_AUDIO_RECORDING": "Stoppa hljóðupptöku",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot er að hugsa",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Bæta við bcc",
