@@ -25,10 +25,38 @@ const inboxCapacityLimits = defineModel('inboxCapacityLimits', {
 
 const { t } = useI18n();
 
-const BASE_KEY = 'ASSIGNMENT_POLICY.AGENT_CAPACITY_POLICY';
 const DEFAULT_CONVERSATION_LIMIT = 10;
 const MIN_CONVERSATION_LIMIT = 0;
 const MAX_CONVERSATION_LIMIT = 100000;
+
+const inboxCapacityLimitLabel = computed(() =>
+  t('ASSIGNMENT_POLICY.AGENT_CAPACITY_POLICY.FORM.INBOX_CAPACITY_LIMIT.LABEL')
+);
+const inboxCapacityAddButton = computed(() =>
+  t(
+    'ASSIGNMENT_POLICY.AGENT_CAPACITY_POLICY.FORM.INBOX_CAPACITY_LIMIT.ADD_BUTTON'
+  )
+);
+const inboxCapacitySelectInbox = computed(() =>
+  t(
+    'ASSIGNMENT_POLICY.AGENT_CAPACITY_POLICY.FORM.INBOX_CAPACITY_LIMIT.FIELD.SELECT_INBOX'
+  )
+);
+const inboxCapacityEmptyState = computed(() =>
+  t(
+    'ASSIGNMENT_POLICY.AGENT_CAPACITY_POLICY.FORM.INBOX_CAPACITY_LIMIT.EMPTY_STATE'
+  )
+);
+const inboxCapacityMaxConversations = computed(() =>
+  t(
+    'ASSIGNMENT_POLICY.AGENT_CAPACITY_POLICY.FORM.INBOX_CAPACITY_LIMIT.FIELD.MAX_CONVERSATIONS'
+  )
+);
+const inboxCapacitySetLimit = computed(() =>
+  t(
+    'ASSIGNMENT_POLICY.AGENT_CAPACITY_POLICY.FORM.INBOX_CAPACITY_LIMIT.FIELD.SET_LIMIT'
+  )
+);
 
 const selectedInboxIds = computed(
   () => new Set(inboxCapacityLimits.value.map(limit => limit.inboxId))
@@ -78,14 +106,12 @@ const getInboxName = inboxId => {
   <div class="py-4 flex-col flex gap-3">
     <div class="flex items-center w-full gap-8 justify-between pt-1 pb-3">
       <label class="text-sm font-medium text-n-slate-12">
-        {{ t(`${BASE_KEY}.FORM.INBOX_CAPACITY_LIMIT.LABEL`) }}
+        {{ inboxCapacityLimitLabel }}
       </label>
 
       <AddDataDropdown
-        :label="t(`${BASE_KEY}.FORM.INBOX_CAPACITY_LIMIT.ADD_BUTTON`)"
-        :search-placeholder="
-          t(`${BASE_KEY}.FORM.INBOX_CAPACITY_LIMIT.FIELD.SELECT_INBOX`)
-        "
+        :label="inboxCapacityAddButton"
+        :search-placeholder="inboxCapacitySelectInbox"
         :items="availableInboxes"
         @add="handleAddInbox"
       />
@@ -103,7 +129,7 @@ const getInboxName = inboxId => {
       class="custom-dashed-border flex items-center justify-center py-6 w-full"
     >
       <span class="text-sm text-n-slate-11">
-        {{ t(`${BASE_KEY}.FORM.INBOX_CAPACITY_LIMIT.EMPTY_STATE`) }}
+        {{ inboxCapacityEmptyState }}
       </span>
     </div>
 
@@ -131,17 +157,9 @@ const getInboxName = inboxId => {
           >
             <label
               class="text-sm text-n-slate-12 ltr:pr-2 rtl:pl-2 truncate min-w-0 flex-shrink"
-              :title="
-                t(
-                  `${BASE_KEY}.FORM.INBOX_CAPACITY_LIMIT.FIELD.MAX_CONVERSATIONS`
-                )
-              "
+              :title="inboxCapacityMaxConversations"
             >
-              {{
-                t(
-                  `${BASE_KEY}.FORM.INBOX_CAPACITY_LIMIT.FIELD.MAX_CONVERSATIONS`
-                )
-              }}
+              {{ inboxCapacityMaxConversations }}
             </label>
 
             <div class="h-5 w-px bg-n-weak" />
@@ -157,9 +175,7 @@ const getInboxName = inboxId => {
                   ? 'placeholder:text-n-ruby-9 !text-n-ruby-9'
                   : 'placeholder:text-n-slate-10 text-n-slate-12',
               ]"
-              :placeholder="
-                t(`${BASE_KEY}.FORM.INBOX_CAPACITY_LIMIT.FIELD.SET_LIMIT`)
-              "
+              :placeholder="inboxCapacitySetLimit"
               @blur="handleLimitChange(limit)"
             />
           </div>
