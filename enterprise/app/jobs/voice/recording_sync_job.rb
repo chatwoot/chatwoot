@@ -44,7 +44,14 @@ class Voice::RecordingSyncJob < ApplicationJob
     download_url = @recording_url.end_with?('.mp3') ? @recording_url : "#{@recording_url}.mp3"
     
     begin
-      file = Down.download(download_url)
+      inbox = @message.inbox
+      config = inbox.channel.provider_config.with_indifferent_access
+      auth = { 
+        user: config[:account_sid], 
+        pass: config[:auth_token] 
+      }
+      
+      file = Down.download(download_url, auth: auth)
       
       @message.attachments.create!(
         account_id: @account.id,
