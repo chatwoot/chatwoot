@@ -109,16 +109,10 @@ RSpec.describe AutomationRules::ActionService do
     end
 
     describe '#perform with send_email_transcript action' do
-      let(:account_double) do
-        instance_double(
-          Account,
-          email_transcript_enabled?: true,
-          within_email_rate_limit?: true,
-          increment_email_sent_count: true
-        )
-      end
-
       before do
+        allow(account).to receive(:email_transcript_enabled?).and_return(true)
+        allow(account).to receive(:within_email_rate_limit?).and_return(true)
+        allow(account).to receive(:increment_email_sent_count).and_return(true)
         rule.actions << { action_name: 'send_email_transcript', action_params: ['contact@example.com, agent@example.com,agent1@example.com'] }
         rule.save
       end
@@ -130,7 +124,7 @@ RSpec.describe AutomationRules::ActionService do
         allow(mailer).to receive(:conversation_transcript).with(conversation, 'agent@example.com')
         allow(mailer).to receive(:conversation_transcript).with(conversation, 'agent1@example.com')
 
-        described_class.new(rule, account_double, conversation).perform
+        described_class.new(rule, account, conversation).perform
         expect(mailer).to have_received(:conversation_transcript).exactly(3).times
       end
 
@@ -142,7 +136,7 @@ RSpec.describe AutomationRules::ActionService do
         allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
         allow(mailer).to receive(:conversation_transcript).with(conversation, conversation.contact.email)
 
-        described_class.new(rule.reload, account_double, conversation).perform
+        described_class.new(rule.reload, account, conversation).perform
         expect(mailer).to have_received(:conversation_transcript).exactly(1).times
       end
     end
