@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "type": "command",
+        "command": "python3 .github/hooks/lint-edited-file.py",
+        "timeout": 30
+      }
+    ]
+  }
+}

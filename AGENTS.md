@@ -1,4 +1,16 @@
-# Chatwoot Development Guidelines
+# Nexus Development Guidelines
+
+Nexus is the **omnichannel communication, support, and relationship platform** in the IgaraLead ecosystem, based on Chatwoot Community Edition (MIT). It owns conversations, messages, inboxes (including WhatsApp via Baileys), agents, automations, and macros.
+
+## Tech Stack
+
+- **Backend**: Rails 7.1 / Ruby 3.4.4 + PostgreSQL 16 + Redis 7 + Sidekiq
+- **Frontend**: Vue 3 (Composition API) + Vite + Tailwind CSS 3
+- **Realtime**: ActionCable (WebSocket)
+- **Search**: Searchkick + OpenSearch
+- **WhatsApp**: Baileys sidecar (Node.js, via `BAILEYS_SIDECAR_URL`)
+- **Storage**: S3/MinIO via ActiveStorage
+- **Process manager**: Overmind (`Procfile.dev`: backend + sidekiq + vite)
 
 ## Build / Test / Lint
 
@@ -77,6 +89,19 @@
 - **Frontend**:
   - Use `components-next/` for message bubbles (the rest is being deprecated)
 
+## Ecosystem Alignment
+
+Nexus is the omnichannel communication platform in IgaraLead. Chatwoot fork with IgaraLead customizations:
+
+1. **Hub owns organizations and users** — Nexus syncs users/orgs from Hub via JWT/webhooks. Hub is identity source. Nexus never creates users locally.
+2. **Nexus owns conversations, messages, and inboxes** — no product reinvents messaging. Nexus conversations are the single source of truth for all cross-product communication.
+3. **Tenant isolation via `client_slug`** — validate JWT `client_slug` against account in URL. All queries scoped to tenant. See ECOSYSTEM.md isolation spec.
+4. **No public APIs** — service-to-service only via `X-Api-Key`. Users authenticate via Hub OAuth2. Baileys is internal sidecar (not public).
+5. **Data ownership** — Hub: users, orgs, subscriptions. Nexus: conversations, messages, inboxes, agents. Products integrate via ECOSYSTEM.md contracts.
+6. **Integration contracts** — Nexus provides: `POST /igaralead/api/conversations/find_or_create` (Amplex), `POST /igaralead/api/contacts/import` (Entity), `GET /igaralead/metrics/{slug}` (Hub). OAuth2 at `/omniauth/igarahub/callback`.
+7. **Fork discipline** — all IgaraLead code isolated in `app/igaralead/`, `app/services/igaralead/`, `config/routes/igaralead.rb`, `lib/omniauth/strategies/igarahub.rb`. Avoid diverging from upstream Chatwoot patterns.
+8. **When evaluating changes**: check data ownership, verify tenant isolation, confirm no override of Hub auth, flag any fork conflicts with upstream.
+
 ## Ruby Best Practices
 
 - Use compact `module/class` definitions; avoid nested styles
@@ -102,3 +127,125 @@ Practical checklist for any change impacting core logic or public APIs
 ## Branding / White-labeling note
 
 - For user-facing strings that currently contain "Chatwoot" but should adapt to branded/self-hosted installs, prefer applying `replaceInstallationName` from `shared/composables/useBranding` in the UI layer (for example tooltip and suggestion labels) instead of adding hardcoded brand-specific copy.
+
+## IgaraLead Integration
+
+Nexus is customized as the IgaraLead omnichannel product. All custom code is isolated under `app/igaralead/`, `app/controllers/concerns/igaralead/`, and `app/services/{igaralead,baileys}/` to minimize upstream merge conflicts.
+
+### Code Isolation Strategy
+
+Custom code is injected via `prepend_mod_with` in `config/initializers/igaralead.rb`:
+- `OmniauthCallbacksExtension` — Hub OAuth2 callback handling
+- `SessionsExtension` — Hub subscription verification on login
+- `DashboardExtension` — Dashboard customization
+- `ClientScopable` — `client_slug` validation concern
+- `AccountLimitsExtension` — Enforces Hub user/channel limits
+
+### IgaraLead Routes (`config/routes/igaralead.rb`)
+
+**Health & Monitoring:**
+- `GET /igaralead/health` — Health check (api, database, redis, sidekiq)
+- `GET /igaralead/metrics/:client_slug` — Metrics for Hub dashboard (X-Api-Key)
+
+**Hub Integration:**
+- `POST /webhooks/hub` — Receives Hub webhook events (contact/user sync)
+- `GET /igaralead/sso` — Cookie-based SSO from Hub
+
+**Cross-Product API (X-Api-Key protected):**
+- `POST /igaralead/api/conversations/find_or_create` — Amplex opens conversations
+- `POST /igaralead/api/messages` — Amplex sends cross-product messages
+- `POST /igaralead/api/contacts/import` — Entity pushes enriched contacts
+- `POST /igaralead/api/contacts/enrich` — Entity enriches existing contacts
+
+**Baileys WhatsApp Webhooks (X-Api-Key protected):**
+- `POST /webhooks/baileys/{message,status,qr,connection,contact,group}`
+
+**Baileys Session Management (API v1, per inbox):**
+- `POST /api/v1/accounts/:id/inboxes/:id/baileys_qr_code`
+- `GET /api/v1/accounts/:id/inboxes/:id/baileys_status`
+- `POST /api/v1/accounts/:id/inboxes/:id/baileys_disconnect`
+
+### Key Services
+
+- `Igaralead::HubClient` — HTTP client for Hub API (Faraday, X-Api-Key)
+- `Igaralead::HubTokenValidator` — JWT/JWKS validation (1h cache)
+- `Igaralead::HubSettingsService` — Fetch/cache org settings from Hub
+- `Igaralead::ContactSyncService` — Bidirectional contact sync with Hub
+- `Igaralead::LimitEnforcementService` — Enforces user/channel limits
+- `Baileys::ProviderService` — REST client for Baileys sidecar
+- `Baileys::IncomingMessageService` — Processes incoming WhatsApp messages
+- `Baileys::SendOnBaileysService` — Sends outgoing WhatsApp messages
+
+### Key Models
+
+- `Channel::BaileysWhatsapp` — WhatsApp channel (session_id, session_status, phone_number)
+- User/Contact tables extended with `hub_id`, `hub_synced_at`
+- Account table extended with `hub_client_slug`
+
+### OAuth2 Flow
+
+- OmniAuth strategy: `lib/omniauth/strategies/igarahub.rb`
+- Redirects to Hub `/oauth/authorize` → callback at `/omniauth/igarahub/callback`
+- Scope: `openid profile email`
+- Auto-provisions user + AccountUser with role inference from JWT claims
+- Direct email/password login blocked when `HUB_OAUTH_CLIENT_ID` is set
+
+### Key Environment Variables
+
+- `HUB_URL`, `HUB_API_URL`, `HUB_API_KEY` — Hub connectivity
+- `HUB_OAUTH_CLIENT_ID`, `HUB_OAUTH_CLIENT_SECRET` — OAuth2 credentials
+- `HUB_JWKS_URL` — JWKS endpoint for token validation
+- `HUB_WEBHOOK_SECRET` — HMAC secret for webhook validation
+- `BAILEYS_SIDECAR_URL` — Baileys Node.js sidecar (default: `http://baileys:3500`)
+- `BAILEYS_SIDECAR_API_KEY` — Sidecar authentication
+- `SHARED_DATABASE_NAME` — Optional: read Hub limits from shared DB instead of HTTP calls
+
+### API Policy
+
+**No public APIs.** All `/igaralead/api/*` endpoints are internal ecosystem use only, protected by `X-Api-Key`. End users access Nexus exclusively via the web UI.
+
+## Post-Change Verification (MANDATORY)
+
+After ANY code modification, run the full verification pipeline before considering the task done. Do not skip steps.
+
+### Backend Verification
+
+```bash
+# Lint
+bundle exec rubocop -a
+
+# IgaraLead security specs (MANDATORY — covers OWASP Top 10)
+bundle exec rspec spec/controllers/igaralead/ spec/services/igaralead/ --format documentation
+
+# Full test suite (or scoped to changed files)
+bundle exec rspec spec/path/to/changed_spec.rb
+```
+
+### Frontend Verification
+
+```bash
+pnpm eslint                                      # Lint
+pnpm test                                        # Unit tests
+```
+
+### Security Test Coverage (`spec/controllers/igaralead/`, `spec/services/igaralead/`)
+
+The IgaraLead security spec suite covers:
+- **Health endpoint** (`health_controller_spec.rb`): public access, no data leakage, JSON content type
+- **Integration API** (`integration_controller_spec.rb`): X-Api-Key auth enforcement on all endpoints (find_or_create, messages, contacts/import, contacts/enrich), request rejection without key
+- **Baileys webhooks** (`baileys_webhooks_controller_spec.rb`): sidecar API key auth on all webhook types (message, status, qr, connection, contact, group)
+- **Hub webhooks** (`webhooks_controller_spec.rb`): HMAC signature validation, missing signature rejection
+- **Metrics** (`metrics_controller_spec.rb`): API key auth, tenant scoping, no data leakage in responses
+- **Hub token validator** (`hub_token_validator_spec.rb`): nil/empty/malformed token handling, no-raise guarantee
+- **Hub client** (`hub_client_spec.rb`): configuration checks, X-Api-Key header injection, timeout/failure handling
+
+### Security Principles
+
+- All `/igaralead/api/*` endpoints require `X-Api-Key` — no public access
+- Hub webhook validation via HMAC (`HUB_WEBHOOK_SECRET`)
+- Baileys sidecar auth via `BAILEYS_SIDECAR_API_KEY`
+- Tenant isolation: `client_slug` from JWT validated against account in URL
+- OAuth2 flow: auto-provision users from Hub JWT claims, block direct email/password login when `HUB_OAUTH_CLIENT_ID` is set
+- All IgaraLead code isolated from upstream Chatwoot to minimize merge conflicts
+- Error responses must not leak internal details
+- Security headers enforced via middleware (same as Hub pattern)

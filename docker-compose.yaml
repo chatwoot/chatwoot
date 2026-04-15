@@ -1,3 +1,14 @@
+# ============================================================
+#  Nexus – Docker Compose (Dev)
+# ============================================================
+#  Postgres e Redis locais para desenvolvimento.
+#  Em produção, esses serviços vêm do Infra (igaralead_public).
+#
+#  Uso:
+#    cp .env.example .env && vi .env
+#    docker compose up -d
+# ============================================================
+
 services:
   base: &base
     build:

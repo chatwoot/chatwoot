@@ -1,23 +1,29 @@
 # ============================================================
-#  Nexus (Chatwoot) – Docker Compose (Production)
+#  Nexus – Docker Compose (Production)  —  VPS 1
 # ============================================================
-#  Conecta ao postgres e redis da stack Infra via rede igaralead_public.
-#  A stack Infra (docker-compose.core.yml ou full.yml) deve estar rodando.
+#  Conecta ao postgres, redis e minio da stack Infra via rede
+#  igaralead_public. A stack Infra (docker-compose.core.yml)
+#  deve estar rodando.
 #
-#  Uso:
-#    cp .env.example .env && vi .env
+#  Uso (Portainer):
+#    Deploy stack via Portainer → variáveis em stack.env
+#  Uso (CLI):
+#    cp .env.example stack.env && vi stack.env
 #    docker compose -f docker-compose.production.yaml up -d
 # ============================================================
 
 services:
   base: &base
     image: ghcr.io/${GHCR_OWNER:-igaralead}/nexus:latest
-    env_file: .env
+    env_file:
+      - path: stack.env
+        required: false
     volumes:
       - storage_data:/app/storage
 
   rails:
     <<: *base
+    container_name: nexus
     ports:
       - "127.0.0.1:3000:3000"
     environment:
@@ -32,6 +38,7 @@ services:
 
   sidekiq:
     <<: *base
+    container_name: nexus-sidekiq
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
@@ -41,8 +48,29 @@ services:
     networks:
       - igaralead_public
 
+  baileys:
+    image: ghcr.io/${GHCR_OWNER:-igaralead}/baileys-sidecar:latest
+    container_name: nexus-baileys
+    restart: always
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+    volumes:
+      - baileys_sessions:/data/sessions
+    environment:
+      - PORT=3500
+      - NEXUS_WEBHOOK_URL=http://rails:3000
+      - BAILEYS_SIDECAR_API_KEY=${BAILEYS_SIDECAR_API_KEY}
+      - LOG_LEVEL=info
+      - SESSIONS_DIR=/data/sessions
+    networks:
+      - igaralead_public
+
 volumes:
   storage_data:
+  baileys_sessions:
 
 networks:
   igaralead_public:
