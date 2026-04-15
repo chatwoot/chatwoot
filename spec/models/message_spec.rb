@@ -401,6 +401,11 @@ RSpec.describe Message do
       expect(message.webhook_data.key?(:attachments)).to be false
     end
 
+    it 'includes status in webhook data' do
+      message = create(:message)
+      expect(message.webhook_data[:status]).to eq(message.status)
+    end
+
     it 'uses raw content without markdown rendering for webhook content' do
       message = create(:message, content: 'Test **bold** content')
 
