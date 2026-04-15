@@ -80,6 +80,10 @@ COPY . /app
 # https://github.com/chatwoot/chatwoot/issues/701
 RUN mkdir -p /app/log
 
+# Refresh RubyLLM model registry so new models are available without gem upgrades
+RUN SECRET_KEY_BASE=precompile_placeholder bundle exec rake ruby_llm:refresh_models \
+  || echo 'RubyLLM model registry refresh skipped'
+
 # generate production assets if production environment
 RUN if [ "$RAILS_ENV" = "production" ]; then \
   SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile \
