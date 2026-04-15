@@ -46,12 +46,11 @@ class Voice::RecordingSyncJob < ApplicationJob
     begin
       inbox = @message.inbox
       config = inbox.channel.provider_config.with_indifferent_access
-      auth = { 
-        user: config[:account_sid], 
-        pass: config[:auth_token] 
-      }
+      user = config[:account_sid]
+      pass = config[:auth_token]
+      authenticated_url = download_url.gsub("https://", "https://#{user}:#{pass}@")
       
-      file = Down.download(download_url, auth: auth)
+      file = Down.download(authenticated_url)
       
       @message.attachments.create!(
         account_id: @account.id,
