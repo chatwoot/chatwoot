@@ -161,7 +161,7 @@ const activeChild = computed(() => {
   return navigableChildren.value.find(child => {
     if (!child.to) return false;
     const childPath = resolvePath(child.to);
-    return route.path === childPath || route.path.startsWith(childPath + '/');
+    return route.path === childPath || route.path.startsWith(`${childPath}/`);
   });
 });
 
