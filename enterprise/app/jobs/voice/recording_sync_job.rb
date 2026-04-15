@@ -20,11 +20,22 @@ class Voice::RecordingSyncJob < ApplicationJob
   def find_message
     # Find the message associated with this CallSid
     # We look for voice_call messages where the call_sid matches in content_attributes
-    @account.messages
-            .where(content_type: :voice_call)
-            .where("content_attributes->'data'->>'call_sid' = ?", @call_sid)
-            .order(created_at: :desc)
-            .first
+    message = @account.messages
+                      .where(content_type: :voice_call)
+                      .where("content_attributes->'data'->>'call_sid' = ?", @call_sid)
+                      .order(created_at: :desc)
+                      .first
+
+    return message if message.present?
+
+    # Fallback search for cases where JSON columns are not queryable directly or double-serialized
+    # Looking back 1 day to keep performance reasonable
+    @account.messages.voice_calls.where("created_at >= ?", 1.day.ago).order(created_at: :desc).find do |msg|
+      data = msg.content_attributes['data']
+      # Handle potential stringification
+      data = JSON.parse(data) if data.is_a?(String)
+      data && data.is_a?(Hash) && data['call_sid'] == @call_sid
+    end
   end
 
   def attach_recording
