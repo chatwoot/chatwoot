@@ -50,12 +50,11 @@ RSpec.describe Macros::ExecutionService, type: :service do
   end
 
   describe '#assign_team' do
-    let(:team) { create(:team, account: account) }
+    let(:team) { create(:team, account: account, allow_auto_assign: false) }
 
     context 'when team_id is nil' do
       it 'unassigns the team from the conversation' do
-        # Directly set the team_id to avoid auto-assignment logic
-        conversation.update_column(:team_id, team.id)
+        conversation.update!(team_id: team.id)
         service.send(:assign_team, ['nil'])
         expect(conversation.reload.team).to be_nil
       end
