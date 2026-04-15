@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useMessageContext } from '../provider.js';
 import { MESSAGE_TYPES, VOICE_CALL_STATUS } from '../constants';
 
+import AudioChip from 'next/message/chips/Audio.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 
@@ -30,7 +31,7 @@ const BG_COLOR_MAP = {
   [VOICE_CALL_STATUS.FAILED]: 'bg-n-ruby-9',
 };
 
-const { contentAttributes, messageType } = useMessageContext();
+const { contentAttributes, messageType, attachments } = useMessageContext();
 
 const data = computed(() => contentAttributes.value?.data);
 const status = computed(() => data.value?.status?.toString());
@@ -98,6 +99,15 @@ const bgColor = computed(() => BG_COLOR_MAP[status.value] || 'bg-n-teal-9');
             {{ $t(subtextKey) }}
           </span>
         </div>
+      </div>
+      <div
+        v-if="attachments.length > 0"
+        class="p-3 pt-0 border-t border-n-slate-3"
+      >
+        <AudioChip
+          :attachment="attachments[0]"
+          class="p-2 text-n-slate-12 skip-context-menu"
+        />
       </div>
     </div>
   </BaseBubble>
