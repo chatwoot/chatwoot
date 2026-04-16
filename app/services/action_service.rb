@@ -60,8 +60,7 @@ class ActionService
   end
 
   def assign_team(team_ids = [])
-    # FIXME: The explicit checks for zero or nil (string) is bad. Move
-    # this to a separate unassign action.
+    # Keep nil/0 handling for existing automation and macro payloads.
     should_unassign = team_ids.blank? || %w[nil 0].include?(team_ids[0].to_s)
     return @conversation.update!(team_id: nil) if should_unassign
 
@@ -70,6 +69,10 @@ class ActionService
     return unless !team_ids[0].nil? && team_belongs_to_account?(team_ids)
 
     @conversation.update!(team_id: team_ids[0])
+  end
+
+  def remove_assigned_agent(_params)
+    @conversation.update!(assignee_id: nil)
   end
 
   def remove_assigned_team(_params)

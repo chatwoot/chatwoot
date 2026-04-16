@@ -37,6 +37,8 @@ pt_BR:
     account:
       reporting_timezone:
         invalid: não é um fuso horário válido
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: não pode ficar em branco
     webhook:
@@ -52,6 +54,14 @@ pt_BR:
       not_found: Política de atribuição não encontrada
     attachments:
       invalid: Anexo inválido
+    upload:
+      missing_input: 'Nenhum arquivo ou URL fornecido'
+      invalid_url: 'URL fornecida inválida'
+      fetch_failed: 'Falha ao recuperar o arquivo da URL'
+      fetch_failed_with_message: 'Falha ao recuperar o arquivo da URL: %{message}'
+      file_too_large: 'O arquivo excede o tamanho máximo permitido'
+      unsupported_content_type: 'Tipo de arquivo não suportado (apenas imagens e vídeos são permitidos)'
+      unexpected: 'Ocorreu um erro inesperado'
     saml:
       feature_not_enabled: SAML não está habilitado para esta conta
       sso_not_enabled: O SSO via SAML não está habilitado para esta instalação

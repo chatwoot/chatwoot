@@ -93,6 +93,7 @@
       "ASSIGN_AGENT": "הקצה סוכן",
       "ADD_LABEL": "הוסף תווית",
       "REMOVE_LABEL": "הסר תווית",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "הסר צוות שהוקצה",
       "SEND_EMAIL_TRANSCRIPT": "שלח תמלול דוא\"ל",
       "MUTE_CONVERSATION": "השתק שיחה",
