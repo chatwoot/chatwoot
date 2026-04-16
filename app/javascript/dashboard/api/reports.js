@@ -2,6 +2,7 @@
 import ApiClient from './ApiClient';
 
 const getTimeOffset = () => -new Date().getTimezoneOffset() / 60;
+const getTimeZone = () => Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 class ReportsAPI extends ApiClient {
   constructor() {
@@ -26,6 +27,7 @@ class ReportsAPI extends ApiClient {
         id,
         group_by: groupBy,
         business_hours: businessHours,
+        timezone: getTimeZone(),
         timezone_offset: getTimeOffset(),
       },
     });
@@ -41,6 +43,7 @@ class ReportsAPI extends ApiClient {
         id,
         group_by: groupBy,
         business_hours: businessHours,
+        timezone: getTimeZone(),
         timezone_offset: getTimeOffset(),
       },
     });
@@ -105,6 +108,8 @@ class ReportsAPI extends ApiClient {
         type: 'account',
         group_by: groupBy,
         business_hours: businessHours,
+        timezone: getTimeZone(),
+        timezone_offset: getTimeOffset(),
       },
     });
   }
