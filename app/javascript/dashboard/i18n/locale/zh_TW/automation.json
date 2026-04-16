@@ -140,7 +140,7 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "指派給客服人員",
       "ASSIGN_TEAM": "指派團隊",
-      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_AGENT": "移除已指派的客服人員",
       "REMOVE_ASSIGNED_TEAM": "移除已指派的團隊",
       "ADD_LABEL": "新增標籤",
       "REMOVE_LABEL": "移除標籤",

@@ -82,7 +82,9 @@ describe AgentBotListener do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
         expect(AgentBots::WebhookJob).to receive(:perform_later).with(
           agent_bot.outgoing_url,
-          hash_including(event: 'conversation_status_changed', changed_attributes: anything)
+          hash_including(event: 'conversation_status_changed', changed_attributes: anything),
+          :agent_bot_webhook,
+          hash_including(secret: agent_bot.secret)
         ).once
         listener.conversation_status_changed(event)
       end
@@ -96,7 +98,9 @@ describe AgentBotListener do
       it 'sends webhook to the assigned agent bot' do
         expect(AgentBots::WebhookJob).to receive(:perform_later).with(
           agent_bot.outgoing_url,
-          hash_including(event: 'conversation_status_changed', changed_attributes: anything)
+          hash_including(event: 'conversation_status_changed', changed_attributes: anything),
+          :agent_bot_webhook,
+          hash_including(secret: agent_bot.secret)
         ).once
         listener.conversation_status_changed(event)
       end

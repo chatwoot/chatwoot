@@ -69,7 +69,7 @@
         "IMAGE_UPLOAD_ERROR": "無法上傳圖片，請再試一次",
         "IMAGE_UPLOAD_SUCCESS": "圖片已成功新增。請點擊儲存以保存簽名",
         "IMAGE_UPLOAD_SIZE_ERROR": "圖片大小須小於 {size}MB",
-        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
+        "INLINE_IMAGE_WARNING": "已移除貼上的內嵌圖片。請使用圖片上傳按鈕將圖片加入您的簽名。"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "訊息簽名",
