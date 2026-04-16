@@ -57,4 +57,5 @@ ja:
       not_found: "見つかりませんでした"
       not_locked: "はロックされていません"
       not_saved:
+        one: "%{count} 個のエラーが発生し、 %{resource} を保存できませんでした："
         other: "%{count} 個のエラーが発生し、 %{resource} を保存できませんでした："
