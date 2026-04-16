@@ -698,7 +698,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "추가 속성",
         "UNCATEGORIZED": "카테고리가 지정되지 않음",
-        "EDITOR_PLACEHOLDER": "내용을 작성하십시오..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "게시물 속성",
