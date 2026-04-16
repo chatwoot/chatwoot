@@ -101,13 +101,10 @@ class ActionService
   end
 
   def agent_belongs_to_inbox?(agent_id)
-    normalized_agent_id = Integer(agent_id, exception: false)
-    return false unless normalized_agent_id
-
     member_ids = @conversation.inbox.members.pluck(:user_id)
     assignable_agent_ids = member_ids + @account.administrators.ids
 
-    assignable_agent_ids.include?(normalized_agent_id)
+    assignable_agent_ids.include?(agent_id.to_i)
   end
 
   def team_belongs_to_account?(team_ids)

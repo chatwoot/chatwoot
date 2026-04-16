@@ -22,7 +22,7 @@ describe('useEditableAutomation', () => {
             { id: 'nil', name: 'None' },
             {
               id: 'last_responding_agent',
-              name: 'Last Responding Agent',
+              name: 'Last agent who replied',
             },
             { id: 1, name: 'Agent 1' },
           ];
@@ -89,7 +89,7 @@ describe('useEditableAutomation', () => {
         action_params: [
           {
             id: 'last_responding_agent',
-            name: 'Last Responding Agent',
+            name: 'Last agent who replied',
           },
         ],
       },
