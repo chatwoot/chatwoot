@@ -197,12 +197,41 @@ RSpec.describe AutomationRules::ActionService do
         end
       end
 
+      context 'when the latest outgoing message is a private note' do
+        let(:note_author) { create(:user, account: account) }
+
+        before do
+          create(:inbox_member, inbox: conversation.inbox, user: note_author)
+          create(:message, message_type: :outgoing, account: account,
+                           inbox: conversation.inbox, conversation: conversation, sender: agent)
+          create(:message, message_type: :outgoing, private: true, account: account,
+                           inbox: conversation.inbox, conversation: conversation, sender: note_author)
+        end
+
+        it 'assigns the conversation to the last agent who replied publicly' do
+          described_class.new(rule, account, conversation).perform
+          expect(conversation.reload.assignee).to eq(agent)
+        end
+      end
+
       context 'when last outgoing message is from an agent bot' do
         let(:agent_bot) { create(:agent_bot, account: account) }
 
         before do
           create(:message, message_type: :outgoing, account: account,
                            inbox: conversation.inbox, conversation: conversation, sender: agent_bot)
+        end
+
+        it 'does not assign the conversation' do
+          described_class.new(rule, account, conversation).perform
+          expect(conversation.reload.assignee).to be_nil
+        end
+      end
+
+      context 'when there is no public outgoing reply from an agent' do
+        before do
+          create(:message, message_type: :outgoing, private: true, account: account,
+                           inbox: conversation.inbox, conversation: conversation, sender: agent)
         end
 
         it 'does not assign the conversation' do

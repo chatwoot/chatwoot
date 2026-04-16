@@ -45,7 +45,7 @@ class ActionService
 
     assignee_id = case agent_ids[0]
                   when 'last_responding_agent'
-                    @conversation.messages.outgoing.where(sender_type: 'User').last&.sender_id
+                    @conversation.messages.outgoing.where(sender_type: 'User', private: false).last&.sender_id
                   else
                     agent_ids[0]
                   end
