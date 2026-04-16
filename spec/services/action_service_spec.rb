@@ -96,6 +96,24 @@ describe ActionService do
 
         expect(conversation.reload.assignee).to eq(original_assignee)
       end
+
+      it 'does not assign an unconfirmed last responding agent' do
+        unconfirmed_agent = create(
+          :user,
+          account: account,
+          role: :agent,
+          skip_confirmation: false
+        )
+        original_assignee = conversation.assignee
+
+        create(:inbox_member, inbox: conversation.inbox, user: unconfirmed_agent)
+        create(:message, message_type: :outgoing, account: account,
+                         inbox: conversation.inbox, conversation: conversation, sender: unconfirmed_agent)
+
+        action_service.assign_agent(['last_responding_agent'])
+
+        expect(conversation.reload.assignee).to eq(original_assignee)
+      end
     end
   end
 
