@@ -698,7 +698,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "その他のプロパティ",
         "UNCATEGORIZED": "未分類",
-        "EDITOR_PLACEHOLDER": "何か書いてください..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "記事のプロパティ",
