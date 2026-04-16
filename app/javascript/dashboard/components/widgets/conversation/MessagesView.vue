@@ -51,7 +51,9 @@ export default {
     const conversationPanelRef = ref(null);
     const resizableEditorWrapperRef = ref(null);
     const messagesViewRef = useTemplateRef('messagesViewRef');
+    const topBannerRef = useTemplateRef('topBannerRef');
     const { height: containerHeight } = useElementSize(messagesViewRef);
+    const { height: topBannerHeight } = useElementSize(topBannerRef);
 
     const {
       captainTasksEnabled,
@@ -68,7 +70,9 @@ export default {
       conversationPanelRef,
       resizableEditorWrapperRef,
       messagesViewRef,
+      topBannerRef,
       containerHeight,
+      topBannerHeight,
     };
   },
   data() {
@@ -449,20 +453,22 @@ export default {
     ref="messagesViewRef"
     class="flex flex-col justify-between flex-grow h-full min-w-0 m-0"
   >
-    <Banner
-      v-if="!currentChat.can_reply"
-      color-scheme="alert"
-      class="mx-2 mt-2 overflow-hidden rounded-lg"
-      :banner-message="replyWindowBannerMessage"
-      :href-link="replyWindowLink"
-      :href-link-text="replyWindowLinkText"
-    />
-    <Banner
-      v-else-if="hasDuplicateInstagramInbox"
-      color-scheme="alert"
-      class="mx-2 mt-2 overflow-hidden rounded-lg"
-      :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
-    />
+    <div ref="topBannerRef">
+      <Banner
+        v-if="!currentChat.can_reply"
+        color-scheme="alert"
+        class="mx-2 mt-2 overflow-hidden rounded-lg"
+        :banner-message="replyWindowBannerMessage"
+        :href-link="replyWindowLink"
+        :href-link-text="replyWindowLinkText"
+      />
+      <Banner
+        v-else-if="hasDuplicateInstagramInbox"
+        color-scheme="alert"
+        class="mx-2 mt-2 overflow-hidden rounded-lg"
+        :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
+      />
+    </div>
     <MessageList
       ref="conversationPanelRef"
       class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4"
@@ -522,7 +528,7 @@ export default {
       </div>
       <ResizableEditorWrapper
         ref="resizableEditorWrapperRef"
-        :container-height="containerHeight"
+        :container-height="Math.max(0, containerHeight - topBannerHeight)"
       >
         <ReplyBox @toggle-editor-size="toggleReplyEditorSize" />
       </ResizableEditorWrapper>
