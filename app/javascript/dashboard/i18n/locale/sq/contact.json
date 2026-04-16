@@ -20,6 +20,7 @@
     "CALL": "Telefono",
     "CALL_INITIATED": "Duke thirrur kontaktin…",
     "CALL_FAILED": "Nuk mund të fillohet thirrja. Ju lutemi provoni përsëri.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Zgjidhni një inbox të zërit"
     },

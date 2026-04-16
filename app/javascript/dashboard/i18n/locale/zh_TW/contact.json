@@ -20,6 +20,7 @@
     "CALL": "通話",
     "CALL_INITIATED": "正在撥打聯絡人電話…",
     "CALL_FAILED": "無法撥打電話，請稍後再試。",
+    "CLICK_TO_EDIT": "點擊以編輯",
     "VOICE_INBOX_PICKER": {
       "TITLE": "選擇語音收件匣"
     },

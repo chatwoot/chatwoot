@@ -140,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Přiřadit agentovi",
       "ASSIGN_TEAM": "Přiřadit tým",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
       "ADD_LABEL": "Přidat štítek",
       "REMOVE_LABEL": "Odebrat štítek",
       "SEND_EMAIL_TO_TEAM": "Poslat e-mail týmu",
@@ -169,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Typ zprávy",
+      "PRIVATE_NOTE": "Soukromá poznámka",
       "MESSAGE_CONTAINS": "Zpráva obsahuje",
       "EMAIL": "E-mailová adresa",
       "INBOX": "Inbox",
