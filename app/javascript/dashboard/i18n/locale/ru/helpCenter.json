@@ -698,7 +698,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "Больше параметров",
         "UNCATEGORIZED": "Без категории",
-        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
+        "EDITOR_PLACEHOLDER": "Напишите что-нибудь..."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Параметры статьи",
