@@ -698,7 +698,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "Više opcija",
         "UNCATEGORIZED": "Bez kategorije",
-        "EDITOR_PLACEHOLDER": "Napišite nešto..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Svojstva članka",
