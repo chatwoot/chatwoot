@@ -35,7 +35,8 @@ RSpec.describe Captain::SummaryService do
       expect(service).to receive(:make_api_call) do |args|
         expect(args[:messages].length).to eq(2)
         expect(args[:messages][0][:role]).to eq('system')
-        expect(args[:messages][0][:content]).to eq('Summarize this')
+        expect(args[:messages][0][:content]).to include('Summarize this')
+        expect(args[:messages][0][:content]).to include("Reply in #{account.locale_english_name}")
         expect(args[:messages][1][:role]).to eq('user')
         expect(args[:messages][1][:content]).to be_a(String)
         { message: 'Summary' }

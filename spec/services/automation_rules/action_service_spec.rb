@@ -88,8 +88,31 @@ RSpec.describe AutomationRules::ActionService do
       end
     end
 
+    describe '#perform with remove assignment actions' do
+      let!(:team) { create(:team, account: account) }
+
+      before do
+        conversation.update!(assignee: agent, team: team)
+        rule.actions = [
+          { action_name: 'remove_assigned_agent', action_params: [] },
+          { action_name: 'remove_assigned_team', action_params: [] }
+        ]
+        rule.save!
+      end
+
+      it 'removes assignee and team from the conversation' do
+        described_class.new(rule, account, conversation).perform
+
+        expect(conversation.reload.assignee).to be_nil
+        expect(conversation.team).to be_nil
+      end
+    end
+
     describe '#perform with send_email_transcript action' do
       before do
+        allow(account).to receive(:email_transcript_enabled?).and_return(true)
+        allow(account).to receive(:within_email_rate_limit?).and_return(true)
+        allow(account).to receive(:increment_email_sent_count).and_return(true)
         rule.actions << { action_name: 'send_email_transcript', action_params: ['contact@example.com, agent@example.com,agent1@example.com'] }
         rule.save
       end

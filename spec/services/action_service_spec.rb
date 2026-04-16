@@ -112,4 +112,15 @@ describe ActionService do
       end
     end
   end
+
+  describe '#remove_assigned_agent' do
+    let(:conversation) { create(:conversation, :with_assignee, account: account) }
+    let(:action_service) { described_class.new(conversation) }
+
+    it 'unassigns the conversation' do
+      expect(conversation.reload.assignee).to be_present
+      action_service.remove_assigned_agent(nil)
+      expect(conversation.reload.assignee).to be_nil
+    end
+  end
 end
