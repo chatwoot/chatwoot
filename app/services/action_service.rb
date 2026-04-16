@@ -43,14 +43,13 @@ class ActionService
   def assign_agent(agent_ids = [])
     return @conversation.update!(assignee_id: nil) if agent_ids[0] == 'nil'
 
-    assignee_id = agent_ids[0]
-    assignee_id = last_responding_agent_id if assignee_id == 'last_responding_agent'
-    return if assignee_id.blank? || !agent_belongs_to_inbox?(assignee_id)
+    agent_ids = [last_responding_agent_id] if agent_ids[0] == 'last_responding_agent'
+    return unless agent_belongs_to_inbox?(agent_ids)
 
-    agent = @account.users.find_by(id: assignee_id)
-    return unless agent&.confirmed?
+    @agent = @account.users.find_by(id: agent_ids)
+    return unless @agent.present? && @agent.confirmed?
 
-    @conversation.update!(assignee_id: agent.id)
+    @conversation.update!(assignee_id: @agent.id)
   end
 
   def remove_label(labels)
@@ -100,11 +99,11 @@ class ActionService
     @conversation.messages.outgoing.where(sender_type: 'User', private: false).last&.sender_id
   end
 
-  def agent_belongs_to_inbox?(agent_id)
+  def agent_belongs_to_inbox?(agent_ids)
     member_ids = @conversation.inbox.members.pluck(:user_id)
     assignable_agent_ids = member_ids + @account.administrators.ids
 
-    assignable_agent_ids.include?(agent_id.to_i)
+    assignable_agent_ids.include?(agent_ids[0])
   end
 
   def team_belongs_to_account?(team_ids)
