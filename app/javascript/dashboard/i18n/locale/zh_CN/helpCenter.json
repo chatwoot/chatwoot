@@ -698,7 +698,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "更多属性",
         "UNCATEGORIZED": "未分类",
-        "EDITOR_PLACEHOLDER": "写点什么..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "文章属性",
