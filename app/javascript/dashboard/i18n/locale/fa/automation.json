@@ -3,8 +3,11 @@
     "HEADER": "خودکارسازی",
     "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
     "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "افزودن قانون خودکارسازی",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "واکشی قوانین اتوماسیون",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "افزودن قانون خودکارسازی",
       "SUBMIT": "ايجاد كردن",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "نام",
-        "DESCRIPTION": "توضیحات",
         "ACTIVE": "فعال",
-        "CREATED_ON": "ایجاد شده در"
+        "CREATED_ON": "ایجاد شده در",
+        "ACTIONS": "عملیات"
       },
       "404": "هیچ قانون اتوماسیون یافت نشد"
     },
@@ -150,7 +153,8 @@
       "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "تغییر اولویت",
       "ADD_SLA": "اضافه کردن SLA",
-      "OPEN_CONVERSATION": "باز کردن گفتگو"
+      "OPEN_CONVERSATION": "باز کردن گفتگو",
+      "PENDING_CONVERSATION": "Mark conversation as pending"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Incoming Message",

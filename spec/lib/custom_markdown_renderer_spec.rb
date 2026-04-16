@@ -184,12 +184,38 @@ describe CustomMarkdownRenderer do
       end
     end
 
-    context 'when link is a Bunny.net URL' do
+    context 'when link is a GuideJar embed URL' do
+      let(:guidejar_url) { 'https://www.guidejar.com/embed/i2qMQRp26rtRxpZczmaA' }
+
+      it 'renders an iframe with GuideJar embed code' do
+        output = render_markdown_link(guidejar_url)
+        expect(output).to include('src="https://www.guidejar.com/embed/i2qMQRp26rtRxpZczmaA?type=1&controls=on"')
+        expect(output).to include('allowfullscreen')
+      end
+    end
+
+    context 'when link is a GuideJar guides URL' do
+      let(:guidejar_url) { 'https://guidejar.com/guides/d6a6fdc2-4812-4777-897e-ec1b0c64238f' }
+
+      it 'renders an iframe with GuideJar embed code' do
+        output = render_markdown_link(guidejar_url)
+        expect(output).to include('src="https://www.guidejar.com/embed/d6a6fdc2-4812-4777-897e-ec1b0c64238f?type=1&controls=on"')
+        expect(output).to include('allowfullscreen')
+      end
+
+      it 'wraps iframe in responsive container' do
+        output = render_markdown_link(guidejar_url)
+        expect(output).to include('position: relative; padding-bottom: 62.5%; height: 0;')
+        expect(output).to include('position: absolute; top: 0; left: 0; width: 100%; height: 100%;')
+      end
+    end
+
+    context 'when link is a Bunny.net iframe URL' do
       let(:bunny_url) { 'https://iframe.mediadelivery.net/play/431789/1f105841-cad9-46fe-a70e-b7623c60797c' }
 
       it 'renders an iframe with Bunny embed code' do
         output = render_markdown_link(bunny_url)
-        expect(output).to include('src="https://iframe.mediadelivery.net/embed/431789/1f105841-cad9-46fe-a70e-b7623c60797c?autoplay=false&loop=false&muted=false&preload=true&responsive=true"')
+        expect(output).to include('src="https://player.mediadelivery.net/embed/431789/1f105841-cad9-46fe-a70e-b7623c60797c?autoplay=false&loop=false&muted=false&preload=true&responsive=true"')
         expect(output).to include('allowfullscreen')
         expect(output).to include('allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"')
       end
@@ -198,6 +224,18 @@ describe CustomMarkdownRenderer do
         output = render_markdown_link(bunny_url)
         expect(output).to include('position: relative; padding-top: 56.25%;')
         expect(output).to include('position: absolute; top: 0; height: 100%; width: 100%;')
+      end
+    end
+
+    context 'when link is a Bunny.net player URL' do
+      let(:bunny_url) { 'https://player.mediadelivery.net/play/431789/1f105841-cad9-46fe-a70e-b7623c60797c' }
+
+      it 'renders an iframe with Bunny embed code' do
+        output = render_markdown_link(bunny_url)
+        expect(output).to include('embed/431789/1f105841-cad9-46fe-a70e-b7623c60797c')
+        expect(output).to include('autoplay=false&loop=false&muted=false&preload=true&responsive=true')
+        expect(output).to include('allowfullscreen')
+        expect(output).to include('allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"')
       end
     end
   end

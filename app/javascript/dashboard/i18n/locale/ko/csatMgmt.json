@@ -1,13 +1,13 @@
 {
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "PLACEHOLDER": "Tell us more...",
+    "TITLE": "대화를 평가해 주십시오",
+    "PLACEHOLDER": "더 자세히 알려주십시오...",
     "RATINGS": {
-      "POOR": "😞 Poor",
-      "FAIR": "😑 Fair",
-      "AVERAGE": "😐 Average",
-      "GOOD": "😀 Good",
-      "EXCELLENT": "😍 Excellent"
+      "POOR": "😞 매우 나쁨",
+      "FAIR": "😑 나쁨",
+      "AVERAGE": "😐 보통",
+      "GOOD": "😀 좋음",
+      "EXCELLENT": "😍 매우 좋음"
     }
   }
 }

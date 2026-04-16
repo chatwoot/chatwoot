@@ -3,8 +3,11 @@
     "HEADER": "Automatyzacja",
     "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
     "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "Dodaj regułę automatyzacji",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "Pobieranie reguł automatyzacji",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Dodaj regułę automatyzacji",
       "SUBMIT": "Stwórz",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Imię",
-        "DESCRIPTION": "Opis",
         "ACTIVE": "Aktywne",
-        "CREATED_ON": "Utworzona dnia"
+        "CREATED_ON": "Utworzona dnia",
+        "ACTIONS": "Akcje"
       },
       "404": "Nie znaleziono reguł automatyzacji"
     },
@@ -150,7 +153,8 @@
       "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "Zmień priorytet",
       "ADD_SLA": "Add SLA",
-      "OPEN_CONVERSATION": "Otwórz rozmowę"
+      "OPEN_CONVERSATION": "Otwórz rozmowę",
+      "PENDING_CONVERSATION": "Mark conversation as pending"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Incoming Message",

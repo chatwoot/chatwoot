@@ -8,13 +8,22 @@ import {
   EditorState,
   Selection,
 } from '@chatwoot/prosemirror-schema';
+import {
+  suggestionsPlugin,
+  triggerCharacters,
+} from '@chatwoot/prosemirror-schema/src/mentions/plugin';
 import imagePastePlugin from '@chatwoot/prosemirror-schema/src/plugins/image';
+import { toggleMark } from 'prosemirror-commands';
+import { wrapInList } from 'prosemirror-schema-list';
+import { toggleBlockType } from '@chatwoot/prosemirror-schema/src/menu/common';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
+import SlashCommandMenu from './SlashCommandMenu.vue';
 
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
+const SLASH_MENU_OFFSET = 4;
 const createState = (
   content,
   placeholder,
@@ -40,6 +49,7 @@ let editorView = null;
 let state;
 
 export default {
+  components: { SlashCommandMenu },
   mixins: [keyboardEventListenerMixins],
   props: {
     modelValue: { type: String, default: '' },
@@ -62,8 +72,15 @@ export default {
   },
   data() {
     return {
-      plugins: [imagePastePlugin(this.handleImageUpload)],
+      plugins: [
+        imagePastePlugin(this.handleImageUpload),
+        this.createSlashPlugin(),
+      ],
       isTextSelected: false, // Tracks text selection and prevents unnecessary re-renders on mouse selection
+      showSlashMenu: false,
+      slashSearchTerm: '',
+      slashRange: null,
+      slashMenuPosition: null,
     };
   },
   watch: {
@@ -79,7 +96,7 @@ export default {
 
   created() {
     state = createState(
-      this.modelValue,
+      this.modelValue || '',
       this.placeholder,
       this.plugins,
       { onImageUpload: this.openFileBrowser },
@@ -95,6 +112,126 @@ export default {
     }
   },
   methods: {
+    createSlashPlugin() {
+      return suggestionsPlugin({
+        matcher: triggerCharacters('/', 0),
+        suggestionClass: '',
+        onEnter: args => {
+          this.showSlashMenu = true;
+          this.slashRange = args.range;
+          this.slashSearchTerm = args.text || '';
+          this.updateSlashMenuPosition(args.range.from);
+          return false;
+        },
+        onChange: args => {
+          this.slashRange = args.range;
+          this.slashSearchTerm = args.text;
+          return false;
+        },
+        onExit: () => {
+          this.slashSearchTerm = '';
+          this.showSlashMenu = false;
+          this.slashMenuPosition = null;
+          return false;
+        },
+        onKeyDown: ({ event }) => {
+          return (
+            event.keyCode === 13 &&
+            this.showSlashMenu &&
+            this.$refs.slashMenu?.hasItems
+          );
+        },
+      });
+    },
+    updateSlashMenuPosition(pos) {
+      if (!editorView) return;
+      const coords = editorView.coordsAtPos(pos);
+      const editorRect = this.$refs.editor.getBoundingClientRect();
+      const isRtl = getComputedStyle(this.$refs.editor).direction === 'rtl';
+      this.slashMenuPosition = {
+        top: coords.bottom - editorRect.top + SLASH_MENU_OFFSET,
+        ...(isRtl
+          ? { right: editorRect.right - coords.right }
+          : { left: coords.left - editorRect.left }),
+      };
+    },
+    removeSlashTriggerText() {
+      if (!editorView || !this.slashRange) return;
+      const { from, to } = this.slashRange;
+      editorView.dispatch(editorView.state.tr.delete(from, to));
+      state = editorView.state;
+    },
+    executeSlashCommand(actionKey) {
+      if (!editorView) return;
+
+      this.removeSlashTriggerText();
+
+      const { schema } = editorView.state;
+      const commandMap = {
+        strong: () =>
+          toggleMark(schema.marks.strong)(
+            editorView.state,
+            editorView.dispatch
+          ),
+        em: () =>
+          toggleMark(schema.marks.em)(editorView.state, editorView.dispatch),
+        strike: () =>
+          toggleMark(schema.marks.strike)(
+            editorView.state,
+            editorView.dispatch
+          ),
+        code: () =>
+          toggleMark(schema.marks.code)(editorView.state, editorView.dispatch),
+        h1: () =>
+          toggleBlockType(schema.nodes.heading, { level: 1 })(
+            editorView.state,
+            editorView.dispatch
+          ),
+        h2: () =>
+          toggleBlockType(schema.nodes.heading, { level: 2 })(
+            editorView.state,
+            editorView.dispatch
+          ),
+        h3: () =>
+          toggleBlockType(schema.nodes.heading, { level: 3 })(
+            editorView.state,
+            editorView.dispatch
+          ),
+        bulletList: () =>
+          wrapInList(schema.nodes.bullet_list)(
+            editorView.state,
+            editorView.dispatch
+          ),
+        orderedList: () =>
+          wrapInList(schema.nodes.ordered_list)(
+            editorView.state,
+            editorView.dispatch
+          ),
+        insertTable: () => {
+          const { table, table_row, table_header, table_cell, paragraph } =
+            schema.nodes;
+          const headerCells = [0, 1, 2].map(() =>
+            table_header.createAndFill(null, paragraph.create())
+          );
+          const dataCells = [0, 1, 2].map(() =>
+            table_cell.createAndFill(null, paragraph.create())
+          );
+          const headerRow = table_row.create(null, headerCells);
+          const dataRow = table_row.create(null, dataCells);
+          const tableNode = table.create(null, [headerRow, dataRow]);
+          const tr = editorView.state.tr.replaceSelectionWith(tableNode);
+          editorView.dispatch(tr.scrollIntoView());
+        },
+      };
+
+      const command = commandMap[actionKey];
+      if (command) {
+        command();
+        state = editorView.state;
+        this.emitOnChange();
+        editorView.focus();
+      }
+    },
     contentFromEditor() {
       if (editorView) {
         return ArticleMarkdownSerializer.serialize(editorView.state.doc);
@@ -170,7 +307,7 @@ export default {
     },
     reloadState() {
       state = createState(
-        this.modelValue,
+        this.modelValue || '',
         this.placeholder,
         this.plugins,
         { onImageUpload: this.openFileBrowser },
@@ -262,7 +399,8 @@ export default {
 
       // Get the editor's width
       const editorWidth = editor.offsetWidth;
-      const menubarWidth = 480; // Menubar width (adjust as needed (px))
+      const menubar = editor.querySelector('.ProseMirror-menubar');
+      const menubarWidth = menubar ? menubar.scrollWidth : 480;
 
       // Get the end position of the selection
       const { bottom: endBottom, right: endRight } = editorView.coordsAtPos(to);
@@ -290,7 +428,15 @@ export default {
 
 <template>
   <div>
-    <div class="editor-root editor--article">
+    <div class="editor-root editor--article relative">
+      <SlashCommandMenu
+        v-if="showSlashMenu"
+        ref="slashMenu"
+        :search-key="slashSearchTerm"
+        :enabled-menu-options="enabledMenuOptions"
+        :position="slashMenuPosition"
+        @select-action="executeSlashCommand"
+      />
       <input
         ref="imageUploadInput"
         type="file"
@@ -325,27 +471,5 @@ export default {
   min-height: 5rem;
   max-height: 7.5rem;
   overflow: auto;
-}
-
-.ProseMirror-prompt {
-  @apply z-[9999] bg-n-alpha-3 min-w-80 backdrop-blur-[100px] border border-n-strong p-6 shadow-xl rounded-xl;
-
-  h5 {
-    @apply text-n-slate-12 mb-1.5;
-  }
-
-  .ProseMirror-prompt-buttons {
-    button {
-      @apply h-8 px-3;
-
-      &[type='submit'] {
-        @apply bg-n-brand text-white hover:bg-n-brand/90;
-      }
-
-      &[type='button'] {
-        @apply bg-n-slate-9/10 text-n-slate-12 hover:bg-n-slate-9/20;
-      }
-    }
-  }
 }
 </style>

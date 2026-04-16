@@ -1,0 +1,33 @@
+{
+  "COMPANIES": {
+    "HEADER": "회사",
+    "SORT_BY": {
+      "LABEL": "정렬 기준",
+      "OPTIONS": {
+        "NAME": "이름",
+        "DOMAIN": "도메인",
+        "CREATED_AT": "생성일",
+        "CONTACTS_COUNT": "연락처 수"
+      }
+    },
+    "ORDER": {
+      "LABEL": "순서",
+      "OPTIONS": {
+        "ASCENDING": "오름차순",
+        "DESCENDING": "내림차순"
+      }
+    },
+    "SEARCH_PLACEHOLDER": "회사 검색...",
+    "LOADING": "회사 로딩 중...",
+    "UNNAMED": "이름 없는 회사",
+    "CONTACTS_COUNT": "{n} 연락처 | {n} 연락처",
+    "EMPTY_STATE": {
+      "TITLE": "회사를 찾을 수 없습니다"
+    }
+  },
+  "COMPANIES_LAYOUT": {
+    "PAGINATION_FOOTER": {
+      "SHOWING": "{totalItems}개 회사 중 {startItem} – {endItem} 표시 | {totalItems}개 회사 중 {startItem} – {endItem} 표시"
+    }
+  }
+}

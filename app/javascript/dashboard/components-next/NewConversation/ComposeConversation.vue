@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { reactive, ref, computed, onMounted, watch } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useWindowSize } from '@vueuse/core';
@@ -9,8 +9,10 @@ import { useAlert } from 'dashboard/composables';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { debounce } from '@chatwoot/utils';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
-  searchContacts,
+  createContactSearcher,
   createNewContact,
   fetchContactableInboxes,
   processContactableInboxes,
@@ -37,6 +39,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close']);
 
+const searchContacts = createContactSearcher();
 const store = useStore();
 const { t } = useI18n();
 const { width: windowWidth } = useWindowSize();
@@ -56,6 +59,23 @@ const isCreatingContact = ref(false);
 const isFetchingInboxes = ref(false);
 const isSearching = ref(false);
 const showComposeNewConversation = ref(false);
+
+const formState = reactive({
+  message: '',
+  subject: '',
+  ccEmails: '',
+  bccEmails: '',
+  attachedFiles: [],
+});
+
+const clearFormState = () => {
+  Object.assign(formState, {
+    subject: '',
+    ccEmails: '',
+    bccEmails: '',
+    attachedFiles: [],
+  });
+};
 
 const contactById = useMapGetter('contacts/getContactById');
 const contactsUiFlags = useMapGetter('contacts/getUIFlags');
@@ -88,15 +108,17 @@ const onContactSearch = debounce(
     isSearching.value = true;
     contacts.value = [];
     try {
-      contacts.value = await searchContacts(query);
+      const results = await searchContacts(query);
+      // null means the request was aborted (a newer search is in-flight),
+      if (results === null) return;
+      contacts.value = results;
       isSearching.value = false;
     } catch (error) {
-      useAlert(t('COMPOSE_NEW_CONVERSATION.CONTACT_SEARCH.ERROR_MESSAGE'));
-    } finally {
       isSearching.value = false;
+      useAlert(t('COMPOSE_NEW_CONVERSATION.CONTACT_SEARCH.ERROR_MESSAGE'));
     }
   },
-  300,
+  400,
   false
 );
 
@@ -119,6 +141,7 @@ const handleSelectedContact = async ({ value, action, ...rest }) => {
     contact = rest;
   }
   selectedContact.value = contact;
+  contacts.value = [];
   if (contact?.id) {
     isFetchingInboxes.value = true;
     try {
@@ -138,12 +161,14 @@ const handleSelectedContact = async ({ value, action, ...rest }) => {
 
 const handleTargetInbox = inbox => {
   targetInbox.value = inbox;
+  if (!inbox) clearFormState();
   resetContacts();
 };
 
 const clearSelectedContact = () => {
   selectedContact.value = null;
   targetInbox.value = null;
+  clearFormState();
 };
 
 const closeCompose = () => {
@@ -158,6 +183,12 @@ const closeCompose = () => {
   emit('close');
 };
 
+const discardCompose = () => {
+  clearFormState();
+  formState.message = '';
+  closeCompose();
+};
+
 const createConversation = async ({ payload, isFromWhatsApp }) => {
   try {
     const data = await store.dispatch('contactConversations/create', {
@@ -169,7 +200,7 @@ const createConversation = async ({ payload, isFromWhatsApp }) => {
       to: `/app/accounts/${data.account_id}/conversations/${data.id}`,
       message: t('COMPOSE_NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
     };
-    closeCompose();
+    discardCompose();
     useAlert(t('COMPOSE_NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'), action);
     return true; // Return success
   } catch (error) {
@@ -191,7 +222,11 @@ watch(
   (currentContact, previousContact) => {
     if (currentContact && props.contactId) {
       // Reset on contact change
-      if (currentContact?.id !== previousContact?.id) clearSelectedContact();
+      if (currentContact?.id !== previousContact?.id) {
+        clearSelectedContact();
+        clearFormState();
+        formState.message = '';
+      }
 
       // First process the contactable inboxes to get the right structure
       const processedInboxes = processContactableInboxes(
@@ -226,6 +261,8 @@ const keyboardEvents = {
     action: () => {
       if (showComposeNewConversation.value) {
         showComposeNewConversation.value = false;
+        emit('close');
+        emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, false);
       }
     },
   },
@@ -240,7 +277,7 @@ useKeyboardEvents(keyboardEvents);
       handleClickOutside,
       // Fixed and edge case https://github.com/chatwoot/chatwoot/issues/10785
       // This will prevent closing the compose conversation modal when the editor Create link popup is open
-      { ignore: ['div.ProseMirror-prompt'] },
+      { ignore: ['dialog.ProseMirror-prompt-backdrop'] },
     ]"
     class="relative"
     :class="{
@@ -261,6 +298,7 @@ useKeyboardEvents(keyboardEvents);
       @click.self="onModalBackdropClick"
     >
       <ComposeNewConversationForm
+        :form-state="formState"
         :class="[{ 'mt-2': !viewInModal }, composePopoverClass]"
         :contacts="contacts"
         :contact-id="contactId"
@@ -281,7 +319,7 @@ useKeyboardEvents(keyboardEvents);
         @update-target-inbox="handleTargetInbox"
         @clear-selected-contact="clearSelectedContact"
         @create-conversation="createConversation"
-        @discard="closeCompose"
+        @discard="discardCompose"
       />
     </div>
   </div>

@@ -59,11 +59,20 @@ class Instagram::MessageText < Instagram::BaseMessageText
     # We can safely create an unknown contact, making this integration work.
     return unknown_user(ig_scope_id) if error_code == 9010
 
+    # Handle error code 100: Object doesn't exist or missing permissions
+    # This typically occurs when trying to fetch a user that doesn't exist or has privacy restrictions
+    # We can safely create an unknown contact, similar to error 9010
+    return unknown_user(ig_scope_id) if error_code == 100
+
     Rails.logger.warn("[InstagramUserFetchError]: account_id #{@inbox.account_id} inbox_id #{@inbox.id} ig_scope_id #{ig_scope_id}")
     Rails.logger.warn("[InstagramUserFetchError]: #{error_message} #{error_code}")
 
     exception = StandardError.new("#{error_message} (Code: #{error_code}, IG Scope ID: #{ig_scope_id})")
     ChatwootExceptionTracker.new(exception, account: @inbox.account).capture_exception
+
+    # Explicitly return empty hash for any unhandled error codes
+    # This prevents the exception tracker result from being returned
+    {}
   end
 
   def base_uri

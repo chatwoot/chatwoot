@@ -100,4 +100,18 @@ RSpec.describe 'Enterprise Articles API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/:account_id/portals/:portal_slug/articles/reorder' do
+    context 'when it is an authenticated user' do
+      it 'returns success for agents with knowledge_base_manage permission' do
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/reorder",
+             params: { positions_hash: { article.id => 20 } },
+             headers: agent_with_role.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(article.reload.position).to eq(20)
+      end
+    end
+  end
 end

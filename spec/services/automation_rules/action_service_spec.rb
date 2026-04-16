@@ -210,6 +210,21 @@ RSpec.describe AutomationRules::ActionService do
           expect(conversation.reload.assignee).to be_nil
         end
       end
+
+      context 'when last outgoing message is from an unconfirmed agent' do
+        let(:unconfirmed_agent) { create(:user, account: account, skip_confirmation: false) }
+
+        before do
+          create(:inbox_member, inbox: conversation.inbox, user: unconfirmed_agent)
+          create(:message, message_type: :outgoing, account: account,
+                           inbox: conversation.inbox, conversation: conversation, sender: unconfirmed_agent)
+        end
+
+        it 'does not assign the conversation' do
+          described_class.new(rule, account, conversation).perform
+          expect(conversation.reload.assignee).to be_nil
+        end
+      end
     end
   end
 end

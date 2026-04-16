@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "Oluşturuldu",
     "NEW_MESSAGE": "Yeni Mesaj",
     "CALL": "Ara",
-    "CALL_UNDER_DEVELOPMENT": "Arama özelliği geliştirme aşamasındadır",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Sesli gelen kutusu seçin"
     },
@@ -456,6 +457,12 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Instagram ekle"
           },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Telegram Ekle"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "TikTok Ekle"
+          },
           "LINKEDIN": {
             "PLACEHOLDER": "LinkedIn ekle"
           },
@@ -553,12 +560,12 @@
         "PLACEHOLDER": "Not ekleyin",
         "WROTE": "wrote",
         "YOU": "Sen",
-        "SAVE": "Save note",
+        "SAVE": "Notu Kaydet",
         "ADD_NOTE": "Kişi notu ekle",
         "EXPAND": "Genişlet",
         "COLLAPSE": "Daralt",
         "NO_NOTES": "Not yok, kişi detayları sayfasından not ekleyebilirsiniz.",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+        "EMPTY_STATE": "Bu kişiyle ilişkili not bulunmamaktadır. Yukarıdaki kutuya yazarak not ekleyebilirsiniz.",
         "CONVERSATION_EMPTY_STATE": "Henüz not yok. Not eklemek için Not ekle düğmesini kullanın."
       }
     },
@@ -569,7 +576,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "Aramanızla eşleşen kişi bulunamadı 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "Şu anda aktif kişi yok 🌙"
-    }
+    },
+    "LOAD_MORE": "Load more"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Assign Labels",
@@ -603,7 +611,7 @@
       "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
       "CONTACT_SELECTOR": {
         "LABEL": "Kime:",
-        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
+        "TAG_INPUT_PLACEHOLDER": "İsim, e-posta veya telefon numarası ile arama yapmak için en az 2 karakter girin",
         "CONTACT_CREATING": "Creating contact..."
       },
       "INBOX_SELECTOR": {
@@ -614,9 +622,9 @@
         "SUBJECT_LABEL": "Konu :",
         "SUBJECT_PLACEHOLDER": "Enter your email subject here",
         "CC_LABEL": "Kopya:",
-        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "CC_PLACEHOLDER": "E-posta ile arama yapmak için en az 2 karakter girin",
         "BCC_LABEL": "Gizli Kopya:",
-        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_PLACEHOLDER": "E-posta ile arama yapmak için en az 2 karakter girin",
         "BCC_BUTTON": "Gizli Kopya"
       },
       "MESSAGE_EDITOR": {
@@ -643,7 +651,7 @@
         }
       },
       "ACTION_BUTTONS": {
-        "DISCARD": "Discard",
+        "DISCARD": "Yoksay",
         "SEND": "Send ({keyCode})"
       }
     }

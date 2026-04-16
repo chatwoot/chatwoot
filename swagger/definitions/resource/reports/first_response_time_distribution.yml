@@ -1,0 +1,34 @@
+type: object
+description: First response time distribution report grouped by channel type. Shows the count of conversations with first response times in different time buckets.
+additionalProperties:
+  type: object
+  description: First response time distribution for a specific channel type (e.g., Channel::WebWidget, Channel::Api)
+  properties:
+    0-1h:
+      type: number
+      description: Number of conversations with first response time less than 1 hour
+    1-4h:
+      type: number
+      description: Number of conversations with first response time between 1-4 hours
+    4-8h:
+      type: number
+      description: Number of conversations with first response time between 4-8 hours
+    8-24h:
+      type: number
+      description: Number of conversations with first response time between 8-24 hours
+    24h+:
+      type: number
+      description: Number of conversations with first response time greater than 24 hours
+example:
+  Channel::WebWidget:
+    0-1h: 150
+    1-4h: 80
+    4-8h: 45
+    8-24h: 30
+    24h+: 15
+  Channel::Api:
+    0-1h: 75
+    1-4h: 40
+    4-8h: 20
+    8-24h: 10
+    24h+: 5

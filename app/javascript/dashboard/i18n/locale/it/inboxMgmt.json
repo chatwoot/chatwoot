@@ -3,6 +3,9 @@
     "HEADER": "Inbox",
     "DESCRIPTION": "Un canale è il mezzo di comunicazione che il cliente usa per interagire con te. Una Inbox è lo spazio in cui gestisci le interazioni di uno specifico canale. Può includere comunicazioni provenienti da diverse fonti, come email, live chat e social media.",
     "LEARN_MORE": "Scopri di più sulle Inbox",
+    "COUNT": "{n} inbox | {n} inbox",
+    "SEARCH_PLACEHOLDER": "Ricerca Inbox...",
+    "NO_RESULTS": "Nessuna inbox trovata corrispondente alla tua ricerca",
     "RECONNECTION_REQUIRED": "La tua Inbox è disconnessa. Non riceverai nuovi messaggi finché non la autorizzerai nuovamente.",
     "CLICK_TO_RECONNECT": "Clicca qui per riconnetterti.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "La registrazione di WhatsApp Business non è completa. Si prega di controllare lo stato del nome visualizzato in Meta Business Manager prima di riconnettersi.",
@@ -56,6 +59,13 @@
         "ERROR_AUTH": "Si è verificato un errore nella connessione a Instagram, riprova",
         "NEW_INBOX_SUGGESTION": "Questo account Instagram era precedentemente collegato a una Inbox diversa ed è stato ora migrato qui. Tutti i nuovi messaggi appariranno qui. La vecchia Inbox non sarà più in grado di inviare o ricevere messaggi per questo account.",
         "DUPLICATE_INBOX_BANNER": "Questo account Instagram è stato migrato alla nuova Inbox del canale Instagram. Non sarai più in grado di inviare/ricevere messaggi Instagram da questa Inbox."
+      },
+      "TIKTOK": {
+        "CONTINUE_WITH_TIKTOK": "Continua con TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Connetti il tuo profilo TikTok",
+        "HELP": "Per aggiungere il tuo profilo TikTok come canale, devi autenticare il tuo profilo TikTok cliccando su 'Continua con TikTok' ",
+        "ERROR_MESSAGE": "Si è verificato un errore nella connessione a TikTok, riprova",
+        "ERROR_AUTH": "Si è verificato un errore nella connessione a TikTok, riprova"
       },
       "TWITTER": {
         "HELP": "Per aggiungere il tuo profilo Twitter come canale, devi autenticare il tuo profilo Twitter cliccando su 'Accedi con Twitter' ",
@@ -381,7 +391,11 @@
         "API": {
           "ERROR_MESSAGE": "Impossibile salvare il canale email"
         },
-        "FINISH_MESSAGE": "Inizia a inoltrare le tue email al seguente indirizzo email."
+        "FINISH_MESSAGE": "Inizia a inoltrare le tue email al seguente indirizzo email.",
+        "FINISH_MESSAGE_NO_FORWARDING": "La tua Inbox email è stata creata con successo! Devi configurare le credenziali SMTP e IMAP per inviare e ricevere e-mail. Senza queste impostazioni non sarà possibile gestire le email.",
+        "FORWARDING_ADDRESS_LABEL": "Inoltra le email a questo indirizzo:",
+        "CONFIGURE_SMTP_IMAP_LINK": "Clicca qui",
+        "CONFIGURE_SMTP_IMAP_TEXT": " per configurare le impostazioni IMAP e SMTP"
       },
       "LINE_CHANNEL": {
         "TITLE": "Canale LINE",
@@ -466,6 +480,10 @@
           "INSTAGRAM": {
             "TITLE": "Instagram",
             "DESCRIPTION": "Connetti il tuo account Instagram"
+          },
+          "TIKTOK": {
+            "TITLE": "TikTok",
+            "DESCRIPTION": "Collega il tuo account TikTok"
           },
           "VOICE": {
             "TITLE": "Voce",
@@ -560,7 +578,7 @@
           "SUBTITLE": "Utilizza solo il nome dell'azienda come nome mittente nell'intestazione dell'email."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configura il tuo nome azienda",
+          "BUTTON_TEXT": "Configura il tuo nome azienda",
           "PLACEHOLDER": "Inserisci il nome della tua azienda",
           "SAVE_BUTTON_TEXT": "Salva"
         }
@@ -574,8 +592,10 @@
         "DISABLED": "Disabilitato"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Abilitato",
-        "DISABLED": "Disabilitato"
+        "ENABLED": "Riapri la stessa conversazione",
+        "DISABLED": "Crea una nuova conversazione",
+        "ENABLED_DESCRIPTION": "Quando un contatto invia un nuovo messaggio, la conversazione precedente viene riaperta.",
+        "DISABLED_DESCRIPTION": "Viene creata una nuova conversazione ogni volta dopo la risoluzione della precedente."
       },
       "ENABLE_HMAC": {
         "LABEL": "Abilita"
@@ -610,6 +630,8 @@
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT"
     },
+    "CHANNEL_PREFERENCES": "Preferenze Canali",
+    "WIDGET_FEATURES": "Funzionalità Widget",
     "ACCOUNT_HEALTH": {
       "TITLE": "Gestisci il tuo account WhatsApp",
       "DESCRIPTION": "Controlla lo stato del tuo account WhatsApp, i limiti di messaggi e la qualità. Aggiorna le impostazioni o risolvi i problemi se necessario",
@@ -663,6 +685,16 @@
           "SANDBOX": "Sandbox",
           "LIVE": "Live"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Configurazione Webhook",
+        "DESCRIPTION": "L'URL Webhook è necessario per il tuo account WhatsApp Business per ricevere messaggi dai clienti",
+        "ACTION_REQUIRED": "Webhook non configurato",
+        "REGISTER_BUTTON": "Registra Webhook",
+        "REGISTER_SUCCESS": "Webhook registrato correttamente",
+        "REGISTER_ERROR": "Impossibile registrare il webhook. Riprova.",
+        "CONFIGURED_SUCCESS": "Webhook configurato correttamente",
+        "URL_MISMATCH": "URL Webhook non corrisponde"
       }
     },
     "SETTINGS": "Impostazioni",
@@ -675,11 +707,23 @@
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script Messenger",
-      "MESSENGER_SUB_HEAD": "Posiziona questo pulsante all'interno del tuo tag body",
+      "MESSENGER_SUB_HEAD": "Incolla questo script alla fine del tag body",
       "ALLOWED_DOMAINS": {
         "TITLE": "Domini Consentiti",
-        "SUBTITLE": "Aggiungi caratteri jolly o domini regolari separati da virgole (lasciare vuoto per consentire tutti), ad esempio *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Inserisci i domini separati da virgole (ad esempio: *.chatwoot.dev, chatwoot.com)"
+        "DESCRIPTION": "Limita quali siti web possono incorporare il widget di chat. Per sicurezza, aggiungi solo domini che possiedi e di cui ti puoi fidare. Aggiungi uno o più domini separati da virgole. Lascia vuoto per consentire tutti i domini (sconsigliato in produzione).",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
+      },
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Abilita il widget nelle app mobile",
+        "SUBTITLE": "Spunta questa opzione se hai incorporato il widget nelle app iOS o Android. Le app mobile non inviano informazioni di dominio, quindi sarebbero bloccate da restrizioni di dominio a meno che questa opzione non sia abilitata."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Convalida Identità",
+        "DESCRIPTION": "Verifica l'autenticità dell'utente generando token sicuri. Questo impedisce agli utenti non autorizzati di impersonare altri nella tua chat.",
+        "SECRET_KEY": "Chiave Segreta",
+        "VIEW_DOCS": "Visualizza documentazione",
+        "REQUIRE_LABEL": "Richiedi la convalida dell'identità per tutte le conversazioni",
+        "REQUIRE_DESCRIPTION": "Se abilitato, gli utenti devono fornire un token di identità valido per avviare le conversazioni. Le richieste senza token validi verranno respinte."
       },
       "INBOX_AGENTS": "Operatori",
       "INBOX_AGENTS_SUB_TEXT": "Aggiungi o rimuovi operatori da questa inbox",
@@ -693,8 +737,8 @@
       "SENDER_NAME_SECTION_TEXT": "Abilita/Disabilita la visualizzazione del nome dell'Operatore nelle email. Se disabilitato, verrà mostrato il nome dell'azienda",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Abilita la continuità della conversazione via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Le conversazioni continueranno via email se l'indirizzo email del contatto è disponibile.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Limita ad una conversazione unica",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Abilita o disabilita conversazioni multiple per lo stesso contatto in questa Inbox",
+      "LOCK_TO_SINGLE_CONVERSATION": "Routing Conversazioni",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Gestisci come vengono create le conversazioni per i contatti esistenti",
       "INBOX_UPDATE_TITLE": "Impostazioni Inbox",
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni inbox",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella.",
@@ -707,6 +751,7 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "Usa il token `inbox_identifier` mostrato qui per l'autenticazione dei tuoi client API.",
       "FORWARD_EMAIL_TITLE": "Inoltra a Email",
       "FORWARD_EMAIL_SUB_TEXT": "Inizia a inoltrare le tue email al seguente indirizzo email.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "L'inoltro delle email alla tua Inbox è attualmente disabilitato su questa installazione. Per utilizzare questa funzione, deve essere abilitata dal tuo amministratore, contattalo per procedere.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Consenti messaggi dopo la risoluzione della conversazione",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Consenti agli utenti finali di inviare messaggi anche dopo che la conversazione è stata risolta.",
       "WHATSAPP_SECTION_SUBHEADER": "Questa chiave API viene utilizzata per l'integrazione con le API WhatsApp.",
@@ -742,6 +787,7 @@
       "LABEL": "Help Center",
       "PLACEHOLDER": "Seleziona Help Center",
       "SELECT_PLACEHOLDER": "Seleziona Help Center",
+      "NONE": "Nessuno",
       "REMOVE": "Rimuovi Help Center",
       "SUB_TEXT": "Allega un Help Center con la Inbox"
     },
@@ -749,6 +795,53 @@
       "MAX_ASSIGNMENT_LIMIT": "Limite assegnazione automatica",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Inserisci un valore maggiore di 0",
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limita il numero massimo di conversazioni da questa casella di posta che possono essere assegnate automaticamente ad un agente"
+    },
+    "ASSIGNMENT": {
+      "TITLE": "Assegnazione Conversazione",
+      "DESCRIPTION": "Assegna automaticamente le conversazioni in entrata agli operatori disponibili in base ai criteri di assegnazione",
+      "ENABLE_AUTO_ASSIGNMENT": "Abilita assegnazione automatica delle conversazioni",
+      "DEFAULT_RULES_TITLE": "Regole di assegnazione predefinite",
+      "DEFAULT_RULES_DESCRIPTION": "Usa il comportamento di assegnazione predefinito per tutte le conversazioni",
+      "DEFAULT_RULE_1": "Prima le conversazioni create per prime",
+      "DEFAULT_RULE_2": "Distribuzione round robin",
+      "CUSTOMIZE_WITH_POLICY": "Personalizza con policy di assegnazione",
+      "USING_POLICY": "Policy di assegnazione personalizzata in uso per questa inbox",
+      "CUSTOMIZE_POLICY": "Personalizza con policy di assegnazione",
+      "DELETE_POLICY": "Elimina policy",
+      "POLICY_LABEL": "Policy di assegnazione",
+      "ASSIGNMENT_ORDER_LABEL": "Ordine di assegnazione",
+      "ASSIGNMENT_METHOD_LABEL": "Metodo di assegnazione",
+      "POLICY_STATUS": {
+        "ACTIVE": "Attiva",
+        "INACTIVE": "Inattive"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "Creata prima",
+        "LONGEST_WAITING": "Attesa più lunga"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "Round robin",
+        "BALANCED": "Assegnazione bilanciata"
+      },
+      "UPGRADE_PROMPT": "Le policy di assegnazione personalizzate sono disponibili nel piano Business",
+      "UPGRADE_TO_BUSINESS": "Aggiorna a Business",
+      "DEFAULT_POLICY_LINKED": "Policy predefinita collegata",
+      "DEFAULT_POLICY_DESCRIPTION": "Collega una policy di assegnazione personalizzata per impostare come le conversazioni devono essere assegnate agli operatori in questa inbox.",
+      "LINK_EXISTING_POLICY": "Collega policy esistente",
+      "CREATE_NEW_POLICY": "Crea nuova policy",
+      "NO_POLICIES": "Nessuna policy di assegnazione trovata",
+      "VIEW_ALL_POLICIES": "Mostra tutte le policy",
+      "CURRENT_BEHAVIOR": "Stai utilizzando le regole di assegnazione predefinite:",
+      "LINK_SUCCESS": "Policy di assegnazione collegata correttamente",
+      "LINK_ERROR": "Impossibile collegare la policy di assegnazione"
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "Eliminare la policy di assegnazione?",
+      "DELETE_CONFIRM_MESSAGE": "Vuoi davvero rimuovere questa policy di assegnazione da questa inbox? La inbox tornerà alle regole di assegnazione predefinite.",
+      "CANCEL": "Annulla",
+      "CONFIRM_DELETE": "Elimina",
+      "DELETE_SUCCESS": "Policy di assegnazione rimossa correttamente",
+      "DELETE_ERROR": "Impossibile rimuovere la policy di assegnazione"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Riautorizza",
@@ -792,6 +885,49 @@
         "LABEL": "Messaggio",
         "PLACEHOLDER": "Inserisci un messaggio per mostrare gli utenti con il modulo"
       },
+      "BUTTON_TEXT": {
+        "LABEL": "Testo pulsante",
+        "PLACEHOLDER": "Lascia una valutazione"
+      },
+      "LANGUAGE": {
+        "LABEL": "Lingua",
+        "PLACEHOLDER": "Seleziona la lingua del modello"
+      },
+      "MESSAGE_PREVIEW": {
+        "LABEL": "Anteprima messaggio",
+        "TOOLTIP": "Può variare leggermente quando visualizzato sulle app di WhatsApp."
+      },
+      "TEMPLATE_STATUS": {
+        "APPROVED": "Approvato da WhatsApp",
+        "PENDING": "In attesa di approvazione da WhatsApp",
+        "REJECTED": "Meta ha rifiutato il modello",
+        "DEFAULT": "Richiede l'approvazione di WhatsApp",
+        "NOT_FOUND": "Il modello non esiste nella piattaforma Meta."
+      },
+      "TEMPLATE_CREATION": {
+        "SUCCESS_MESSAGE": "Modello WhatsApp creato con successo e inviato per l'approvazione",
+        "ERROR_MESSAGE": "Creazione del modello WhatsApp non riuscita"
+      },
+      "TEMPLATE_UPDATE_DIALOG": {
+        "TITLE": "Modifica dettagli sondaggio",
+        "DESCRIPTION": "Elimineremo il modello precedente e ne creeremo uno nuovo che verrà inviato di nuovo per l'approvazione da WhatsApp",
+        "CONFIRM": "Crea nuovo modello",
+        "CANCEL": "Torna indietro"
+      },
+      "UTILITY_ANALYZER": {
+        "ACTION": "Verifica idoneità Utility",
+        "HELPER_NOTE": "Verifica questo messaggio prima di inviare la richiesta per aumentare le probabilità che venga classificato come Utility.\nIl sistema crea un template CSAT dedicato con pulsanti per la raccolta feedback e lo invia come Utility; Meta potrebbe comunque riclassificarlo come Marketing in base al contenuto.",
+        "RESULT_LABEL": "Previsione categoria Meta",
+        "GUIDANCE_NOTE": "Si tratta di una verifica orientativa, non di una garanzia di approvazione da parte di Meta.",
+        "SUGGESTION_LABEL": "Suggerisci riscrittura conforme a Utility",
+        "APPLY": "Usa questa versione",
+        "ERROR_MESSAGE": "Impossibile analizzare il messaggio. Riprova.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "Probabile Utility",
+          "LIKELY_MARKETING": "Probabile Marketing",
+          "UNCLEAR": "Classificazione incerta"
+        }
+      },
       "SURVEY_RULE": {
         "LABEL": "Regola sondaggio",
         "DESCRIPTION_PREFIX": "Invia il sondaggio se la conversazione",
@@ -803,6 +939,7 @@
         "SELECT_PLACEHOLDER": "seleziona etichette"
       },
       "NOTE": "Nota: I sondaggi CSAT vengono inviati solo una volta per conversazione",
+      "WHATSAPP_NOTE": "Nota: al salvataggio, il sistema crea un template CSAT dedicato in WhatsApp (utilizzato per raccogliere valutazioni e feedback nei report) e lo invia come Utility per l’approvazione. Meta potrebbe comunque classificarlo come Marketing in base al contenuto. Dopo l’approvazione, il sondaggio viene inviato una sola volta per conversazione, secondo la regola impostata.",
       "API": {
         "SUCCESS_MESSAGE": "Impostazioni CSAT aggiornate correttamente",
         "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni CSAT. Riprova più tardi."
@@ -818,9 +955,11 @@
       "UNAVAILABLE_MESSAGE_LABEL": "Messaggio non disponibile per i visitatori",
       "TOGGLE_HELP": "Abilitare la disponibilità aziendale mostrerà le ore disponibili sul widget live chat anche se tutti gli operatori sono offline. Al di fuori delle ore di disponibilità gli utenti possono essere avvisati con un messaggio ed un modulo pre-chat.",
       "DAY": {
+        "DAY": "Giorno",
+        "AVAILABILITY": "Disponibilità",
+        "HOURS": "Ore",
         "ENABLE": "Abilita disponibilità per questo giorno",
         "UNAVAILABLE": "Non disponibile",
-        "HOURS": "ore",
         "VALIDATION_ERROR": "L'orario di inizio deve essere prima dell'orario di chiusura.",
         "CHOOSE": "Scegli"
       },
@@ -829,7 +968,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Imposta i dettagli IMAP",
-      "NOTE_TEXT": "Per abilitare SMTP, configurare IMAP.",
+      "NOTE_TEXT": "Prima di abilitare SMTP, configura IMAP.",
       "UPDATE": "Aggiorna impostazioni IMAP",
       "TOGGLE_AVAILABILITY": "Abilita la configurazione IMAP per questa Inbox",
       "TOGGLE_HELP": "Abilitare IMAP aiuterà l'utente a ricevere email",
@@ -838,7 +977,7 @@
         "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni IMAP"
       },
       "ADDRESS": {
-        "LABEL": "Indirizzo",
+        "LABEL": "Indirizzo server IMAP",
         "PLACE_HOLDER": "Indirizzo (ad esempio: imap.gmail.com)"
       },
       "PORT": {
@@ -846,8 +985,8 @@
         "PLACE_HOLDER": "Porta"
       },
       "LOGIN": {
-        "LABEL": "Accedi",
-        "PLACE_HOLDER": "Accedi"
+        "LABEL": "Indirizzo email",
+        "PLACE_HOLDER": "Indirizzo email"
       },
       "PASSWORD": {
         "LABEL": "Password",
@@ -870,7 +1009,7 @@
         "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni SMTP"
       },
       "ADDRESS": {
-        "LABEL": "Indirizzo",
+        "LABEL": "Indirizzo server SMTP",
         "PLACE_HOLDER": "Indirizzo (ad esempio: smtp.gmail.com)"
       },
       "PORT": {
@@ -878,8 +1017,8 @@
         "PLACE_HOLDER": "Porta"
       },
       "LOGIN": {
-        "LABEL": "Accedi",
-        "PLACE_HOLDER": "Accedi"
+        "LABEL": "Indirizzo email",
+        "PLACE_HOLDER": "Indirizzo email"
       },
       "PASSWORD": {
         "LABEL": "Password",
@@ -892,7 +1031,7 @@
       "ENCRYPTION": "Cifratura",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Apri modalità di verifica SSL",
+      "OPEN_SSL_VERIFY_MODE": "Modalità di verifica SSL",
       "AUTH_MECHANISM": "Autenticazione"
     },
     "NOTE": "Nota: ",
@@ -927,11 +1066,12 @@
           "IN_A_DAY": "In un giorno"
         },
         "WIDGET_COLOR_LABEL": "Colore del widget",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Posizione della bubble del widget",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Tipo di bubble del widget",
+        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Posizione:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Tipo:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Chatta con noi",
-          "LABEL": "Titolo del launcher della bubble del widget",
+          "LABEL": "Titolo del Launcher",
           "PLACE_HOLDER": "Chatta con noi"
         },
         "UPDATE": {
@@ -956,7 +1096,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "Predefinito",
-        "CHAT": "Chat"
+        "CHAT": "Modalità Chat"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "In genere risponde in pochi minuti",
@@ -1004,6 +1144,7 @@
       "LINE": "Line",
       "API": "Canale API",
       "INSTAGRAM": "Instagram",
+      "TIKTOK": "TikTok",
       "VOICE": "Voce"
     }
   }

@@ -4,7 +4,7 @@ class Api::V1::Accounts::Captain::BulkActionsController < Api::V1::Accounts::Bas
   before_action :validate_params
   before_action :type_matches?
 
-  MODEL_TYPE = ['AssistantResponse'].freeze
+  MODEL_TYPE = %w[AssistantResponse AssistantDocument].freeze
 
   def create
     @responses = process_bulk_action
@@ -28,6 +28,8 @@ class Api::V1::Accounts::Captain::BulkActionsController < Api::V1::Accounts::Bas
     case params[:type]
     when 'AssistantResponse'
       handle_assistant_responses
+    when 'AssistantDocument'
+      handle_documents
     end
   end
 
@@ -43,6 +45,16 @@ class Api::V1::Accounts::Captain::BulkActionsController < Api::V1::Accounts::Bas
       responses.destroy_all
       []
     end
+  end
+
+  def handle_documents
+    return [] unless params[:fields][:status] == 'delete'
+
+    documents = Current.account.captain_documents.where(id: params[:ids])
+    return [] unless documents.exists?
+
+    documents.destroy_all
+    []
   end
 
   def permitted_params

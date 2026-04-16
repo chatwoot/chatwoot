@@ -3,9 +3,12 @@
     "HEADER": "Macros",
     "DESCRIPTION": "Uma macro é um conjunto de ações guardadas que ajudam os agentes de apoio ao cliente a completarem tarefas facilmente. Os agentes podem definir um conjunto de ações, como adicionar uma etiqueta a uma conversa, enviar uma transcrição de e-mail, atualizar um atributo personalizado, etc., e, posteriormente, executarem essas ações com um único clique.",
     "LEARN_MORE": "Saber mais sobre macros",
+    "COUNT": "{n} macro | {n} macros",
     "HEADER_BTN_TXT": "Adicionar nova macro",
     "HEADER_BTN_TXT_SAVE": "Guardar macro",
     "LOADING": "A procurar macros",
+    "SEARCH_PLACEHOLDER": "Search macros...",
+    "NO_RESULTS": "No macros found matching your search",
     "ERROR": "Ocorreu um erro! Por favor, tente novamente",
     "ORDER_INFO": "As macros serão executadas pela ordem em que adicionar as suas ações. Pode reorganizá-las arrastando-as pelo identificador ao lado de cada nó.",
     "ADD": {
@@ -29,7 +32,8 @@
         "NAME": "Nome:",
         "CREATED BY": "Criada por",
         "LAST_UPDATED_BY": "Ultima atualização por",
-        "VISIBILITY": "Visibilidade"
+        "VISIBILITY": "Visibilidade",
+        "ACTIONS": "Ações"
       },
       "404": "Nenhuma macro encontrada"
     },

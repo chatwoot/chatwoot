@@ -1,0 +1,8 @@
+<div class="field-unit__label">
+  <%= f.label field.attribute %>
+</div>
+<div class="field-unit__field">
+  <% value = field.data %>
+  <% value = Time.current if value.blank? && action_name == 'new' %>
+  <%= f.datetime_local_field field.attribute, step: 1, value: value %>
+</div>
