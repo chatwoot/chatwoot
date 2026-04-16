@@ -698,7 +698,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "थप गुणहरू",
         "UNCATEGORIZED": "वर्गीकरण नगरिएको",
-        "EDITOR_PLACEHOLDER": "केही लेख्नुहोस्..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "लेखका गुणहरू",
