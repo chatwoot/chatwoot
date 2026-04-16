@@ -12,6 +12,11 @@ export default {
     SNOOZED: 'snoozed',
     ALL: 'all',
   },
+  CONVERSATION_TYPE: {
+    MENTION: 'mention',
+    PARTICIPATING: 'participating',
+    UNATTENDED: 'unattended',
+  },
   SORT_BY_TYPE: {
     LAST_ACTIVITY_AT_ASC: 'last_activity_at_asc',
     LAST_ACTIVITY_AT_DESC: 'last_activity_at_desc',
