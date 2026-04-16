@@ -698,7 +698,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "আরও বৈশিষ্ট্য",
         "UNCATEGORIZED": "বিভাগবিহীন",
-        "EDITOR_PLACEHOLDER": "কিছু লিখুন..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "নিবন্ধের বৈশিষ্ট্য",
