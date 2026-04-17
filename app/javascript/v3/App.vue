@@ -4,36 +4,18 @@ import SnackbarContainer from './components/SnackBar/Container.vue';
 export default {
   components: { SnackbarContainer },
   data() {
-    return { theme: 'light' };
+    return { theme: 'dark' };
   },
   mounted() {
     this.setColorTheme();
-    this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);
   },
   methods: {
     setColorTheme() {
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        this.theme = 'dark';
-        document.documentElement.classList.add('dark');
-      } else {
-        this.theme = 'light';
-        document.documentElement.classList.remove('dark');
-      }
+      this.theme = 'dark';
+      document.documentElement.classList.add('dark');
     },
-    listenToThemeChanges() {
-      const mql = window.matchMedia('(prefers-color-scheme: dark)');
-
-      mql.onchange = e => {
-        if (e.matches) {
-          this.theme = 'dark';
-          document.documentElement.classList.add('dark');
-        } else {
-          this.theme = 'light';
-          document.documentElement.classList.remove('dark');
-        }
-      };
-    },
+    listenToThemeChanges() {},
     setLocale(locale) {
       this.$root.$i18n.locale = locale;
     },

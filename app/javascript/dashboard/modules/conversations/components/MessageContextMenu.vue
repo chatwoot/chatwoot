@@ -120,7 +120,7 @@ export default {
     handleTranslate() {
       const { locale: accountLocale } = this.getAccount(this.currentAccountId);
       const agentLocale = this.getUISettings?.locale;
-      const targetLanguage = agentLocale || accountLocale || 'en';
+      const targetLanguage = agentLocale || accountLocale || 'pt_BR';
       this.$store.dispatch('translateMessage', {
         conversationId: this.conversationId,
         messageId: this.messageId,

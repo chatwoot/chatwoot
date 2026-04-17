@@ -96,10 +96,10 @@ Nexus is the omnichannel communication platform in IgaraLead. Chatwoot fork with
 1. **Hub owns organizations and users** — Nexus syncs users/orgs from Hub via JWT/webhooks. Hub is identity source. Nexus never creates users locally.
 2. **Nexus owns conversations, messages, and inboxes** — no product reinvents messaging. Nexus conversations are the single source of truth for all cross-product communication.
 3. **Tenant isolation via `client_slug`** — validate JWT `client_slug` against account in URL. All queries scoped to tenant. See ECOSYSTEM.md isolation spec.
-4. **No public APIs** — service-to-service only via `X-Api-Key`. Users authenticate via Hub OAuth2. Baileys is internal sidecar (not public).
-5. **Data ownership** — Hub: users, orgs, subscriptions. Nexus: conversations, messages, inboxes, agents. Products integrate via ECOSYSTEM.md contracts.
-6. **Integration contracts** — Nexus provides: `POST /igaralead/api/conversations/find_or_create` (Amplex), `POST /igaralead/api/contacts/import` (Entity), `GET /igaralead/metrics/{slug}` (Hub). OAuth2 at `/omniauth/igarahub/callback`.
-7. **Fork discipline** — all IgaraLead code isolated in `app/igaralead/`, `app/services/igaralead/`, `config/routes/igaralead.rb`, `lib/omniauth/strategies/igarahub.rb`. Avoid diverging from upstream Chatwoot patterns.
+4. **No public APIs** — service-to-service only via `X-Api-Key`. Users authenticate directly via Devise against Hub's shared DB. Baileys is internal sidecar (not public).
+5. **Data ownership** — Hub: users, orgs, subscriptions, passwords. Nexus: conversations, messages, inboxes, agents. Products integrate via ECOSYSTEM.md contracts.
+6. **Integration contracts** — Nexus provides: `POST /igaralead/api/conversations/find_or_create` (Amplex), `POST /igaralead/api/contacts/import` (Entity), `GET /igaralead/metrics/{slug}` (Hub).
+7. **Fork discipline** — all IgaraLead code isolated in `app/igaralead/`, `app/services/igaralead/`, `config/routes/igaralead.rb`. Avoid diverging from upstream Chatwoot patterns.
 8. **When evaluating changes**: check data ownership, verify tenant isolation, confirm no override of Hub auth, flag any fork conflicts with upstream.
 
 ## Ruby Best Practices
@@ -135,7 +135,6 @@ Nexus is customized as the IgaraLead omnichannel product. All custom code is iso
 ### Code Isolation Strategy
 
 Custom code is injected via `prepend_mod_with` in `config/initializers/igaralead.rb`:
-- `OmniauthCallbacksExtension` — Hub OAuth2 callback handling
 - `SessionsExtension` — Hub subscription verification on login
 - `DashboardExtension` — Dashboard customization
 - `ClientScopable` — `client_slug` validation concern
@@ -149,7 +148,6 @@ Custom code is injected via `prepend_mod_with` in `config/initializers/igaralead
 
 **Hub Integration:**
 - `POST /webhooks/hub` — Receives Hub webhook events (contact/user sync)
-- `GET /igaralead/sso` — Cookie-based SSO from Hub
 
 **Cross-Product API (X-Api-Key protected):**
 - `POST /igaralead/api/conversations/find_or_create` — Amplex opens conversations
@@ -168,7 +166,6 @@ Custom code is injected via `prepend_mod_with` in `config/initializers/igaralead
 ### Key Services
 
 - `Igaralead::HubClient` — HTTP client for Hub API (Faraday, X-Api-Key)
-- `Igaralead::HubTokenValidator` — JWT/JWKS validation (1h cache)
 - `Igaralead::HubSettingsService` — Fetch/cache org settings from Hub
 - `Igaralead::ContactSyncService` — Bidirectional contact sync with Hub
 - `Igaralead::LimitEnforcementService` — Enforces user/channel limits
@@ -182,23 +179,20 @@ Custom code is injected via `prepend_mod_with` in `config/initializers/igaralead
 - User/Contact tables extended with `hub_id`, `hub_synced_at`
 - Account table extended with `hub_client_slug`
 
-### OAuth2 Flow
+### Auth
 
-- OmniAuth strategy: `lib/omniauth/strategies/igarahub.rb`
-- Redirects to Hub `/oauth/authorize` → callback at `/omniauth/igarahub/callback`
-- Scope: `openid profile email`
-- Auto-provisions user + AccountUser with role inference from JWT claims
-- Direct email/password login blocked when `HUB_OAUTH_CLIENT_ID` is set
+- Users log in directly with email/password against Hub's shared PostgreSQL DB (`igaralead`)
+- Nexus uses Devise with BCryptSHA256 password verification — compatible with Hub's password hashes
+- Hub owns passwords; Nexus reads them from the shared DB via `SHARED_DATABASE_NAME`
+- Subscription validity verified on login via `HUB_API_KEY` call to Hub settings endpoint
 
 ### Key Environment Variables
 
 - `HUB_URL`, `HUB_API_URL`, `HUB_API_KEY` — Hub connectivity
-- `HUB_OAUTH_CLIENT_ID`, `HUB_OAUTH_CLIENT_SECRET` — OAuth2 credentials
-- `HUB_JWKS_URL` — JWKS endpoint for token validation
 - `HUB_WEBHOOK_SECRET` — HMAC secret for webhook validation
+- `SHARED_DATABASE_NAME` — Hub shared DB name (read Hub users/orgs/passwords)
 - `BAILEYS_SIDECAR_URL` — Baileys Node.js sidecar (default: `http://baileys:3500`)
 - `BAILEYS_SIDECAR_API_KEY` — Sidecar authentication
-- `SHARED_DATABASE_NAME` — Optional: read Hub limits from shared DB instead of HTTP calls
 
 ### API Policy
 
@@ -236,7 +230,6 @@ The IgaraLead security spec suite covers:
 - **Baileys webhooks** (`baileys_webhooks_controller_spec.rb`): sidecar API key auth on all webhook types (message, status, qr, connection, contact, group)
 - **Hub webhooks** (`webhooks_controller_spec.rb`): HMAC signature validation, missing signature rejection
 - **Metrics** (`metrics_controller_spec.rb`): API key auth, tenant scoping, no data leakage in responses
-- **Hub token validator** (`hub_token_validator_spec.rb`): nil/empty/malformed token handling, no-raise guarantee
 - **Hub client** (`hub_client_spec.rb`): configuration checks, X-Api-Key header injection, timeout/failure handling
 
 ### Security Principles
@@ -244,8 +237,8 @@ The IgaraLead security spec suite covers:
 - All `/igaralead/api/*` endpoints require `X-Api-Key` — no public access
 - Hub webhook validation via HMAC (`HUB_WEBHOOK_SECRET`)
 - Baileys sidecar auth via `BAILEYS_SIDECAR_API_KEY`
-- Tenant isolation: `client_slug` from JWT validated against account in URL
-- OAuth2 flow: auto-provision users from Hub JWT claims, block direct email/password login when `HUB_OAUTH_CLIENT_ID` is set
+- Tenant isolation: `client_slug` from session validated against account in URL
+- Users authenticate directly via Devise + BCryptSHA256 against Hub's shared DB
 - All IgaraLead code isolated from upstream Chatwoot to minimize merge conflicts
 - Error responses must not leak internal details
 - Security headers enforced via middleware (same as Hub pattern)

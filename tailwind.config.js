@@ -42,6 +42,9 @@ const tailwindConfig = {
         sans: defaultSansFonts,
         inter: ['Inter', ...defaultSansFonts],
         interDisplay: ['InterDisplay', ...defaultSansFonts],
+        body: ['Space Grotesk', 'system-ui', '-apple-system', 'sans-serif'],
+        brand: ['Sansation', 'Space Grotesk', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
       },
       fontWeight: {
         420: '420',
@@ -256,6 +259,8 @@ const tailwindConfig = {
   plugins: [
     // eslint-disable-next-line
     require('@tailwindcss/typography'),
+    // eslint-disable-next-line
+    require('daisyui'),
     iconsPlugin({
       collections: {
         woot: { icons },
@@ -271,6 +276,41 @@ const tailwindConfig = {
       },
     }),
   ],
+  daisyui: {
+    themes: [
+      {
+        igara: {
+          primary: '#0085ff',
+          'primary-content': '#ffffff',
+          secondary: '#9333ea',
+          'secondary-content': '#ffffff',
+          accent: '#22d3ee',
+          'accent-content': '#07080f',
+          neutral: '#0d0f1a',
+          'neutral-content': '#e2e4f0',
+          'base-100': '#07080f',
+          'base-200': '#0d0f1a',
+          'base-300': '#161929',
+          'base-content': '#e2e4f0',
+          info: '#0085ff',
+          'info-content': '#ffffff',
+          success: '#22c55e',
+          'success-content': '#ffffff',
+          warning: '#f59e0b',
+          'warning-content': '#07080f',
+          error: '#f43f5e',
+          'error-content': '#ffffff',
+          '--rounded-box': '16px',
+          '--rounded-selector': '10px',
+          '--rounded-field': '8px',
+          '--rounded-btn': '10px',
+          '--rounded-badge': '999px',
+          '--tab-radius': '10px',
+        },
+      },
+    ],
+    darkTheme: 'igara',
+  },
 };
 
 module.exports = tailwindConfig;

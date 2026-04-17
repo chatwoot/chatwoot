@@ -4,15 +4,21 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 
 const { t } = useI18n();
 
-const CHATWOOT_URL = 'https://www.chatwoot.com';
+const CHATWOOT_REPO_URL = 'https://github.com/chatwoot/chatwoot';
+const currentYear = new Date().getFullYear();
 </script>
 
 <template>
   <div class="flex flex-col w-full gap-6">
-    <BaseSettingsHeader :title="t('ABOUT_PAGE.TITLE')" :description="t('ABOUT_PAGE.SUBTITLE')" />
+    <BaseSettingsHeader
+      :title="t('ABOUT_PAGE.TITLE')"
+      :description="t('ABOUT_PAGE.SUBTITLE')"
+    />
 
     <!-- Nexus description -->
-    <section class="flex flex-col gap-3 p-6 rounded-xl bg-n-surface-2 border border-n-weak">
+    <section
+      class="flex flex-col gap-3 p-6 rounded-xl bg-n-surface-2 border border-n-weak"
+    >
       <h2 class="text-heading-2 text-n-slate-12">
         {{ t('ABOUT_PAGE.TITLE') }}
       </h2>
@@ -22,16 +28,24 @@ const CHATWOOT_URL = 'https://www.chatwoot.com';
     </section>
 
     <!-- Credits -->
-    <section class="flex flex-col gap-3 p-6 rounded-xl bg-n-surface-2 border border-n-weak">
+    <section
+      class="flex flex-col gap-3 p-6 rounded-xl bg-n-surface-2 border border-n-weak"
+    >
       <h2 class="text-heading-2 text-n-slate-12">
         {{ t('ABOUT_PAGE.CREDITS_TITLE') }}
       </h2>
       <p class="text-body-main text-n-slate-11 max-w-2xl">
-        {{ t('ABOUT_PAGE.CREDITS_BODY') }}
+        {{ t('ABOUT_PAGE.BUILD_NOTICE') }}
       </p>
-      <div class="flex items-center gap-3 mt-1">
+      <p class="text-body-main text-n-slate-11 max-w-2xl">
+        {{ t('ABOUT_PAGE.COPYRIGHT_NOTICE', { year: currentYear }) }}
+      </p>
+      <div
+        class="flex flex-wrap items-center gap-2 mt-1 text-body-main text-n-slate-11"
+      >
+        <span>{{ t('ABOUT_PAGE.BASED_ON_PREFIX') }}</span>
         <a
-          :href="CHATWOOT_URL"
+          :href="CHATWOOT_REPO_URL"
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center gap-1.5 text-sm font-medium text-n-blue-11 hover:underline"
@@ -46,22 +60,42 @@ const CHATWOOT_URL = 'https://www.chatwoot.com';
     </section>
 
     <!-- Ecosystem -->
-    <section class="flex flex-col gap-4 p-6 rounded-xl bg-n-surface-2 border border-n-weak">
+    <section
+      class="flex flex-col gap-4 p-6 rounded-xl bg-n-surface-2 border border-n-weak"
+    >
       <h2 class="text-heading-2 text-n-slate-12">
         {{ t('ABOUT_PAGE.ECOSYSTEM_TITLE') }}
       </h2>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div class="flex flex-col gap-1 p-4 rounded-lg bg-n-surface-3 border border-n-weak">
-          <span class="text-label-strong text-n-slate-12">{{ t('ABOUT_PAGE.HUB_LABEL') }}</span>
-          <span class="text-body-small text-n-slate-10">{{ t('ABOUT_PAGE.HUB_DESC') }}</span>
+        <div
+          class="flex flex-col gap-1 p-4 rounded-lg bg-n-surface-3 border border-n-weak"
+        >
+          <span class="text-label-strong text-n-slate-12">{{
+            t('ABOUT_PAGE.HUB_LABEL')
+          }}</span>
+          <span class="text-body-small text-n-slate-10">{{
+            t('ABOUT_PAGE.HUB_DESC')
+          }}</span>
         </div>
-        <div class="flex flex-col gap-1 p-4 rounded-lg bg-n-surface-3 border border-n-weak">
-          <span class="text-label-strong text-n-slate-12">{{ t('ABOUT_PAGE.AMPLEX_LABEL') }}</span>
-          <span class="text-body-small text-n-slate-10">{{ t('ABOUT_PAGE.AMPLEX_DESC') }}</span>
+        <div
+          class="flex flex-col gap-1 p-4 rounded-lg bg-n-surface-3 border border-n-weak"
+        >
+          <span class="text-label-strong text-n-slate-12">{{
+            t('ABOUT_PAGE.AMPLEX_LABEL')
+          }}</span>
+          <span class="text-body-small text-n-slate-10">{{
+            t('ABOUT_PAGE.AMPLEX_DESC')
+          }}</span>
         </div>
-        <div class="flex flex-col gap-1 p-4 rounded-lg bg-n-surface-3 border border-n-weak">
-          <span class="text-label-strong text-n-slate-12">{{ t('ABOUT_PAGE.ENTITY_LABEL') }}</span>
-          <span class="text-body-small text-n-slate-10">{{ t('ABOUT_PAGE.ENTITY_DESC') }}</span>
+        <div
+          class="flex flex-col gap-1 p-4 rounded-lg bg-n-surface-3 border border-n-weak"
+        >
+          <span class="text-label-strong text-n-slate-12">{{
+            t('ABOUT_PAGE.ENTITY_LABEL')
+          }}</span>
+          <span class="text-body-small text-n-slate-10">{{
+            t('ABOUT_PAGE.ENTITY_DESC')
+          }}</span>
         </div>
       </div>
     </section>

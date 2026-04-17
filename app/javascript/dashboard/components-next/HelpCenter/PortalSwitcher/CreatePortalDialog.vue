@@ -64,7 +64,7 @@ watch(
 );
 
 const redirectToPortal = portal => {
-  emit('create', { slug: portal.slug, locale: 'en' });
+  emit('create', { slug: portal.slug, locale: 'pt_BR' });
 };
 
 const resetForm = () => {

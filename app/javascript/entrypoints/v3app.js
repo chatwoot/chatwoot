@@ -19,7 +19,7 @@ import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
-  locale: 'en',
+  locale: 'pt_BR',
   messages: i18nMessages,
 });
 

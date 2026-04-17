@@ -12,10 +12,6 @@ module Igaralead
       def api_key
         ENV.fetch('HUB_API_KEY', nil)
       end
-
-      def jwks_url
-        ENV.fetch('HUB_JWKS_URL', nil)
-      end
     end
 
     def initialize

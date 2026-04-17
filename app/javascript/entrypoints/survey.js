@@ -6,7 +6,7 @@ import App from '../survey/App.vue';
 
 const app = createApp(App);
 const i18n = createI18n({
-  locale: 'en',
+  locale: 'pt_BR',
   messages: i18nMessages,
 });
 

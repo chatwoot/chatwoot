@@ -5,6 +5,7 @@
 
 @import 'shared/assets/fonts/InterDisplay/inter-display';
 @import 'shared/assets/fonts/inter';
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 // Next Colors
 @import 'next-colors';
@@ -18,15 +19,11 @@
 html,
 body {
   font-family:
-    'Inter',
-    -apple-system,
+    'Space Grotesk',
     system-ui,
+    -apple-system,
     BlinkMacSystemFont,
     'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Tahoma,
-    Arial,
     sans-serif !important;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
