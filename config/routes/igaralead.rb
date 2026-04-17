@@ -6,6 +6,10 @@
 # Health check (ecosystem-standard)
 get 'igaralead/health', to: 'igaralead/health#show'
 
+# SSO (IgaraLead single sign-on via Hub SSO service)
+get 'igaralead/sso', to: 'igaralead/sso_callback#create'
+get 'igaralead/sso/callback', to: 'igaralead/sso_callback#show'
+
 # IgaraHub webhook
 post 'webhooks/hub', to: 'igaralead/webhooks#receive'
 
@@ -27,3 +31,13 @@ post 'webhooks/baileys/qr', to: 'igaralead/baileys_webhooks#qr_code'
 post 'webhooks/baileys/connection', to: 'igaralead/baileys_webhooks#connection_update'
 post 'webhooks/baileys/contact', to: 'igaralead/baileys_webhooks#contact_update'
 post 'webhooks/baileys/group', to: 'igaralead/baileys_webhooks#group_update'
+
+# Baileys session management (user-facing, nested under API v1 inbox routes)
+# NOTE: These are added to the API v1 accounts scope in config/routes.rb
+# via: resources :inboxes, only: [] do
+#        member do
+#          post :baileys_qr_code, to: 'igaralead/baileys_sessions#qr_code'
+#          get  :baileys_status, to: 'igaralead/baileys_sessions#status'
+#          post :baileys_disconnect, to: 'igaralead/baileys_sessions#disconnect'
+#        end
+#      end
