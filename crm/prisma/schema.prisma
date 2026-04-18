@@ -54,6 +54,7 @@ model User {
   accounts              AccountMember[]
   sessions              Session[]
   assignedConversations Conversation[] @relation("AssignedAgent")
+  teams                 TeamMember[]
 }
 
 model AccountMember {
@@ -142,8 +143,20 @@ model Team {
 
   account       Account        @relation(fields: [accountId], references: [id], onDelete: Cascade)
   conversations Conversation[]
+  members       TeamMember[]
 
   @@unique([accountId, name])
+}
+
+model TeamMember {
+  teamId    String
+  userId    String
+  createdAt DateTime @default(now())
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([teamId, userId])
 }
 
 model Conversation {

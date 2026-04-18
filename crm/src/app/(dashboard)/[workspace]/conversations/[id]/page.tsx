@@ -5,6 +5,7 @@ import { db } from '@/lib/db'
 import { updateConversationStatus, assignConversation } from '@/app/actions/conversations'
 import { MessageThread } from '@/components/conversations/message-thread'
 import { ReplyBox } from '@/components/conversations/reply-box'
+import { LabelPicker } from '@/components/conversations/label-picker'
 import { Badge } from '@/components/ui/badge'
 import { Avatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -44,9 +45,15 @@ export default async function ConversationPage({
       inbox: true,
       assignee: true,
       messages: { orderBy: { createdAt: 'asc' } },
+      labels: { include: { label: true } },
     },
   })
   if (!conversation) notFound()
+
+  const allLabels = await db.label.findMany({
+    where: { accountId: account.id },
+    orderBy: { title: 'asc' },
+  })
 
   const agents = await db.accountMember.findMany({
     where: { accountId: account.id },
@@ -139,20 +146,30 @@ export default async function ConversationPage({
         </div>
       </div>
 
-      {/* Contact info strip */}
-      {conversation.contact && (
-        <div className="flex items-center gap-4 border-b border-slate-100 bg-slate-50 px-4 py-2 text-xs text-slate-500">
-          {conversation.contact.email && <span>{conversation.contact.email}</span>}
-          {conversation.contact.phone && <span>{conversation.contact.phone}</span>}
-          {conversation.contact.company && <span>{conversation.contact.company}</span>}
-          <Link
-            href={`/${slug}/contacts/${conversation.contact.id}`}
-            className="ml-auto text-slate-700 hover:underline"
-          >
-            View contact →
-          </Link>
+      {/* Contact info strip + labels */}
+      <div className="flex flex-wrap items-center gap-4 border-b border-slate-100 bg-slate-50 px-4 py-2 text-xs text-slate-500">
+        {conversation.contact && (
+          <>
+            {conversation.contact.email && <span>{conversation.contact.email}</span>}
+            {conversation.contact.phone && <span>{conversation.contact.phone}</span>}
+            {conversation.contact.company && <span>{conversation.contact.company}</span>}
+            <Link
+              href={`/${slug}/contacts/${conversation.contact.id}`}
+              className="text-slate-700 hover:underline"
+            >
+              View contact →
+            </Link>
+          </>
+        )}
+        <div className="ml-auto">
+          <LabelPicker
+            workspace={slug}
+            conversationId={id}
+            allLabels={allLabels.map((l) => ({ id: l.id, title: l.title, color: l.color }))}
+            currentLabelIds={conversation.labels.map((cl) => cl.labelId)}
+          />
         </div>
-      )}
+      </div>
 
       {/* Messages */}
       <MessageThread

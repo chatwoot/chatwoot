@@ -18,7 +18,7 @@ const navItems = [
   { href: 'contacts', label: 'Contacts', icon: Users },
   { href: 'inboxes', label: 'Inboxes', icon: Inbox },
   { href: 'labels', label: 'Labels', icon: Tag },
-  { href: 'automations', label: 'Automations', icon: Zap },
+  { href: 'teams', label: 'Teams', icon: Users },
   { href: 'reports', label: 'Reports', icon: BarChart2 },
   { href: 'settings', label: 'Settings', icon: Settings },
 ]
