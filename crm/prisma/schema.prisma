@@ -1,0 +1,194 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  AGENT
+}
+
+enum ConversationStatus {
+  OPEN
+  RESOLVED
+  PENDING
+  SNOOZED
+}
+
+enum ChannelType {
+  LIVE_CHAT
+  EMAIL
+  API
+}
+
+model Account {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  members       AccountMember[]
+  contacts      Contact[]
+  inboxes       Inbox[]
+  conversations Conversation[]
+  labels        Label[]
+  teams         Team[]
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts              AccountMember[]
+  sessions              Session[]
+  assignedConversations Conversation[] @relation("AssignedAgent")
+}
+
+model AccountMember {
+  id        String   @id @default(cuid())
+  accountId String
+  userId    String
+  role      Role     @default(AGENT)
+  createdAt DateTime @default(now())
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([accountId, userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  accountId String
+  name      String
+  email     String?
+  phone     String?
+  company   String?
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  account       Account        @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  conversations Conversation[]
+
+  @@unique([accountId, email])
+  @@index([accountId])
+}
+
+model Inbox {
+  id          String      @id @default(cuid())
+  accountId   String
+  name        String
+  channelType ChannelType @default(LIVE_CHAT)
+  widgetColor String      @default("#1F93FF")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  account       Account        @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  conversations Conversation[]
+
+  @@index([accountId])
+}
+
+model Label {
+  id        String   @id @default(cuid())
+  accountId String
+  title     String
+  color     String   @default("#6C7589")
+  createdAt DateTime @default(now())
+
+  account       Account             @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  conversations ConversationLabel[]
+
+  @@unique([accountId, title])
+}
+
+model Team {
+  id        String   @id @default(cuid())
+  accountId String
+  name      String
+  createdAt DateTime @default(now())
+
+  account       Account        @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  conversations Conversation[]
+
+  @@unique([accountId, name])
+}
+
+model Conversation {
+  id         String             @id @default(cuid())
+  accountId  String
+  inboxId    String
+  contactId  String?
+  assigneeId String?
+  teamId     String?
+  status     ConversationStatus @default(OPEN)
+  subject    String?
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+
+  account  Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  inbox    Inbox    @relation(fields: [inboxId], references: [id])
+  contact  Contact? @relation(fields: [contactId], references: [id])
+  assignee User?    @relation("AssignedAgent", fields: [assigneeId], references: [id])
+  team     Team?    @relation(fields: [teamId], references: [id])
+
+  messages Message[]
+  labels   ConversationLabel[]
+
+  @@index([accountId, status])
+  @@index([accountId, inboxId])
+}
+
+model Message {
+  id             String   @id @default(cuid())
+  conversationId String
+  content        String
+  authorType     String   @default("user")
+  authorId       String?
+  private        Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+}
+
+model ConversationLabel {
+  conversationId String
+  labelId        String
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  label        Label        @relation(fields: [labelId], references: [id], onDelete: Cascade)
+
+  @@id([conversationId, labelId])
+}
