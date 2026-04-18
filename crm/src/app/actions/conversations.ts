@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { sendEmail } from '@/lib/email'
 
 async function resolveAccount(slug: string, userId: string) {
   const member = await db.accountMember.findFirst({
@@ -66,6 +67,7 @@ export async function sendMessage(
   const account = await resolveAccount(slug, session.user.id)
   const conversation = await db.conversation.findFirst({
     where: { id: conversationId, accountId: account.id },
+    include: { inbox: true },
   })
   if (!conversation) return { error: 'Conversation not found' }
 
@@ -73,6 +75,7 @@ export async function sendMessage(
     data: {
       conversationId,
       content,
+      contentType: 'text',
       authorType: 'agent',
       authorId: session.user.id,
       private: isPrivate,
@@ -83,6 +86,26 @@ export async function sendMessage(
     where: { id: conversationId },
     data: { updatedAt: new Date() },
   })
+
+  // Send outbound email for EMAIL inboxes (skip private notes)
+  if (
+    !isPrivate &&
+    conversation.inbox.channelType === 'EMAIL' &&
+    conversation.fromEmail &&
+    conversation.inbox.email &&
+    process.env.RESEND_API_KEY
+  ) {
+    await sendEmail({
+      to: conversation.fromEmail,
+      from: conversation.inbox.email,
+      fromName: conversation.inbox.emailFromName ?? undefined,
+      subject: `Re: ${conversation.subject ?? 'Your support request'}`,
+      text: content,
+      inReplyTo: conversation.emailMsgId ?? undefined,
+    }).catch(() => {
+      // Log but don't fail — message already saved
+    })
+  }
 
   revalidatePath(`/${slug}/conversations/${conversationId}`)
 }

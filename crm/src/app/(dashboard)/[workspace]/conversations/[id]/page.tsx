@@ -8,7 +8,7 @@ import { ReplyBox } from '@/components/conversations/reply-box'
 import { Badge } from '@/components/ui/badge'
 import { Avatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, CheckCircle, RefreshCw, User } from 'lucide-react'
+import { ArrowLeft, CheckCircle, RefreshCw, User, Mail } from 'lucide-react'
 import type { ConversationStatus } from '@/generated/prisma/client'
 
 const STATUS_BADGE: Record<ConversationStatus, 'success' | 'warning' | 'default' | 'outline'> = {
@@ -43,7 +43,7 @@ export default async function ConversationPage({
       contact: true,
       inbox: true,
       assignee: true,
-      messages: { orderBy: { createdAt: 'asc' }, where: { private: false } },
+      messages: { orderBy: { createdAt: 'asc' } },
     },
   })
   if (!conversation) notFound()
@@ -66,13 +66,22 @@ export default async function ConversationPage({
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
-          <Avatar name={contactName} />
+          {conversation.inbox.channelType === 'EMAIL' ? (
+            <Mail className="h-5 w-5 text-slate-400" />
+          ) : (
+            <Avatar name={contactName} />
+          )}
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-semibold text-slate-900">{contactName}</span>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-sm font-semibold text-slate-900">
+                {conversation.subject ?? contactName}
+              </span>
               <Badge variant={STATUS_BADGE[conversation.status]}>{conversation.status}</Badge>
             </div>
-            <span className="text-xs text-slate-400">{conversation.inbox.name}</span>
+            <span className="text-xs text-slate-400">
+              {conversation.inbox.name}
+              {conversation.fromEmail && ` · ${conversation.fromEmail}`}
+            </span>
           </div>
         </div>
 

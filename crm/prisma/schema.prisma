@@ -105,13 +105,15 @@ model Contact {
 }
 
 model Inbox {
-  id          String      @id @default(cuid())
-  accountId   String
-  name        String
-  channelType ChannelType @default(LIVE_CHAT)
-  widgetColor String      @default("#1F93FF")
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id           String      @id @default(cuid())
+  accountId    String
+  name         String
+  channelType  ChannelType @default(LIVE_CHAT)
+  widgetColor  String      @default("#1F93FF")
+  email        String?
+  emailFromName String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 
   account       Account        @relation(fields: [accountId], references: [id], onDelete: Cascade)
   conversations Conversation[]
@@ -145,16 +147,19 @@ model Team {
 }
 
 model Conversation {
-  id         String             @id @default(cuid())
-  accountId  String
-  inboxId    String
-  contactId  String?
-  assigneeId String?
-  teamId     String?
-  status     ConversationStatus @default(OPEN)
-  subject    String?
-  createdAt  DateTime           @default(now())
-  updatedAt  DateTime           @updatedAt
+  id          String             @id @default(cuid())
+  accountId   String
+  inboxId     String
+  contactId   String?
+  assigneeId  String?
+  teamId      String?
+  status      ConversationStatus @default(OPEN)
+  subject     String?
+  fromEmail   String?
+  toEmail     String?
+  emailMsgId  String?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
 
   account  Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
   inbox    Inbox    @relation(fields: [inboxId], references: [id])
@@ -173,8 +178,10 @@ model Message {
   id             String   @id @default(cuid())
   conversationId String
   content        String
+  contentType    String   @default("text")
   authorType     String   @default("user")
   authorId       String?
+  authorEmail    String?
   private        Boolean  @default(false)
   createdAt      DateTime @default(now())
 

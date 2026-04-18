@@ -6,8 +6,10 @@ import { cn } from '@/lib/utils'
 interface Message {
   id: string
   content: string
+  contentType: string
   authorType: string
   authorId: string | null
+  authorEmail: string | null
   private: boolean
   createdAt: Date | string
 }
@@ -86,7 +88,14 @@ export function MessageThread({
                   Private note
                 </span>
               )}
-              {msg.content}
+              {msg.contentType === 'html' ? (
+                <div
+                  className="prose prose-sm max-w-none"
+                  dangerouslySetInnerHTML={{ __html: msg.content }}
+                />
+              ) : (
+                msg.content
+              )}
               <div
                 className={cn(
                   'mt-1 text-right text-xs opacity-60',
