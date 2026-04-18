@@ -32,6 +32,56 @@ RSpec.describe Attachment do
     end
   end
 
+  describe 'file_url host handling' do
+    let(:attachment) do
+      message.attachments.create!(account_id: message.account_id, file_type: :image).tap do |a|
+        a.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      end
+    end
+
+    context 'when default_url_options[:host] is configured' do
+      before do
+        allow(Rails.application.routes).to receive(:default_url_options).and_return(host: 'chatwoot.example.com')
+      end
+
+      it 'returns an absolute file_url' do
+        expect(attachment.file_url).to start_with('http://chatwoot.example.com/rails/active_storage/')
+      end
+
+      it 'returns an absolute thumb_url' do
+        expect(attachment.thumb_url).to start_with('http://chatwoot.example.com/rails/active_storage/')
+      end
+
+      it 'exposes an absolute data_url via push_event_data' do
+        expect(attachment.push_event_data[:data_url]).to start_with('http://chatwoot.example.com/rails/active_storage/')
+      end
+    end
+
+    context 'when default_url_options[:host] is blank (e.g. FRONTEND_URL unset behind a reverse proxy)' do
+      before do
+        allow(Rails.application.routes).to receive(:default_url_options).and_return(host: nil)
+      end
+
+      it 'returns a path-only file_url without an empty scheme/host' do
+        url = attachment.file_url
+        expect(url).to start_with('/rails/active_storage/')
+        expect(url).not_to include('http:///')
+      end
+
+      it 'returns a path-only thumb_url without an empty scheme/host' do
+        url = attachment.thumb_url
+        expect(url).to start_with('/rails/active_storage/')
+        expect(url).not_to include('http:///')
+      end
+
+      it 'exposes a path-only data_url via push_event_data' do
+        url = attachment.push_event_data[:data_url]
+        expect(url).to start_with('/rails/active_storage/')
+        expect(url).not_to include('http:///')
+      end
+    end
+  end
+
   describe 'with_attached_file?' do
     it 'returns true if its an attachment with file' do
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)

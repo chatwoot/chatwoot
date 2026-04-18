@@ -51,7 +51,7 @@ class Attachment < ApplicationRecord
 
   # NOTE: the URl returned does a 301 redirect to the actual file
   def file_url
-    file.attached? ? url_for(file) : ''
+    file.attached? ? url_for_active_storage(file) : ''
   end
 
   # NOTE: for External services use this methods since redirect doesn't work effectively in a lot of cases
@@ -64,7 +64,7 @@ class Attachment < ApplicationRecord
     return '' unless file.attached? && image?
 
     begin
-      url_for(file.representation(resize_to_fill: [250, nil]))
+      url_for_active_storage(file.representation(resize_to_fill: [250, nil]))
     rescue ActiveStorage::UnrepresentableError => e
       Rails.logger.warn "Unrepresentable image attachment: #{id} (#{file.filename}) - #{e.message}"
       ''
@@ -76,6 +76,27 @@ class Attachment < ApplicationRecord
   end
 
   private
+
+  # Generates the URL for an ActiveStorage attachment or representation.
+  #
+  # Falls back to a path-only URL when FRONTEND_URL (and therefore
+  # `Rails.application.routes.default_url_options[:host]`) is blank.
+  # Without this fallback, `url_for` emits a malformed absolute URL like
+  # `http:///rails/active_storage/...` (empty host) which breaks image
+  # loading in the dashboard and in the live chat widget iframe when
+  # Chatwoot is deployed behind a reverse proxy without a configured
+  # FRONTEND_URL.
+  #
+  # Path-only URLs are resolved by the browser against the current
+  # document origin, which is the same origin as the Rails backend for
+  # both the dashboard and the widget iframe, so they load correctly.
+  def url_for_active_storage(resource)
+    url_for(resource, only_path: default_url_host.blank?)
+  end
+
+  def default_url_host
+    Rails.application.routes.default_url_options[:host]
+  end
 
   def metadata_for_file_type
     case file_type.to_sym
