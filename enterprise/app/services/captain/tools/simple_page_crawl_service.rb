@@ -1,13 +1,15 @@
 class Captain::Tools::SimplePageCrawlService
   attr_reader :external_link
 
-  def initialize(external_link)
+  def initialize(external_link, exclude_paths: [])
     @external_link = external_link
+    @exclude_matchers = build_exclude_matchers(exclude_paths)
     @doc = Nokogiri::HTML(HTTParty.get(external_link).body)
   end
 
   def page_links
-    sitemap? ? extract_links_from_sitemap : extract_links_from_html
+    links = sitemap? ? extract_links_from_sitemap : extract_links_from_html
+    filter_links(links)
   end
 
   def page_title
@@ -33,10 +35,33 @@ class Captain::Tools::SimplePageCrawlService
     resolve_url(favicon_link['href'])
   end
 
+  def excluded?(url)
+    return false if @exclude_matchers.blank?
+
+    path = extract_path(url)
+    return false if path.blank?
+
+    @exclude_matchers.any? { |matcher| matcher.match?(path) }
+  end
+
   private
 
   def sitemap?
     @external_link.end_with?('.xml')
+  end
+
+  def filter_links(links)
+    return links if @exclude_matchers.blank?
+
+    links.each_with_object(Set.new) do |link, filtered|
+      filtered << link unless excluded?(link)
+    end
+  end
+
+  def extract_path(url)
+    URI.parse(url).path.presence || '/'
+  rescue URI::InvalidURIError
+    nil
   end
 
   def extract_links_from_sitemap
@@ -56,5 +81,33 @@ class Captain::Tools::SimplePageCrawlService
     URI.join(@external_link, url).to_s
   rescue StandardError
     url
+  end
+
+  def build_exclude_matchers(paths)
+    Array(paths).compact_blank.map do |pattern|
+      build_regex_from_pattern(pattern)
+    rescue RegexpError
+      nil
+    end.compact
+  end
+
+  def build_regex_from_pattern(pattern)
+    normalized = pattern.strip
+    raise RegexpError if normalized.empty?
+
+    if regex_pattern?(normalized)
+      Regexp.new(normalized)
+    else
+      glob_pattern_to_regex(normalized)
+    end
+  end
+
+  def regex_pattern?(pattern)
+    pattern.start_with?('^') || pattern.end_with?('$')
+  end
+
+  def glob_pattern_to_regex(pattern)
+    escaped = Regexp.escape(pattern).gsub('\*', '.*')
+    Regexp.new(escaped)
   end
 end

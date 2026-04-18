@@ -9,6 +9,7 @@ import { useAlert } from 'dashboard/composables';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import TagInput from 'dashboard/components-next/taginput/TagInput.vue';
 
 const props = defineProps({
   assistantId: {
@@ -31,6 +32,7 @@ const initialState = {
   name: '',
   url: '',
   documentType: 'url',
+  excludePaths: [],
   pdfFile: null,
 };
 
@@ -107,6 +109,9 @@ const prepareDocumentDetails = () => {
   if (state.documentType === 'url') {
     formData.append('document[external_link]', state.url);
     formData.append('document[name]', state.name || state.url);
+    state.excludePaths.forEach(p => {
+      formData.append('document[exclude_paths][]', p);
+    });
   } else {
     formData.append('document[pdf_file]', state.pdfFile);
     formData.append(
@@ -154,6 +159,21 @@ const handleSubmit = async () => {
       :message="formErrors.url"
       :message-type="formErrors.url ? 'error' : 'info'"
     />
+
+    <div
+      v-if="state.documentType === 'url'"
+      class="relative flex flex-col min-w-0 gap-1"
+    >
+      <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+        {{ t('CAPTAIN.DOCUMENTS.FORM.EXCLUDE_PATHS.LABEL') }}
+      </label>
+
+      <TagInput
+        v-model="state.excludePaths"
+        class="min-h-10 px-3 py-2 outline outline-1 outline-n-weak hover:outline-n-slate-6 focus-within:outline-n-brand rounded-lg bg-n-alpha-black2 transition"
+        :placeholder="t('CAPTAIN.DOCUMENTS.FORM.EXCLUDE_PATHS.PLACEHOLDER')"
+      />
+    </div>
 
     <div v-if="state.documentType === 'pdf'" class="flex flex-col gap-2">
       <label class="text-sm font-medium text-n-slate-12">

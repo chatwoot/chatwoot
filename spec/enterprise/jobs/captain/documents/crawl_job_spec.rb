@@ -26,7 +26,8 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
           expect(firecrawl_service).to receive(:perform).with(
             document.external_link,
             "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
-            20
+            20,
+            exclude_paths: []
           )
 
           described_class.perform_now(document)
@@ -42,7 +43,8 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
           expect(firecrawl_service).to receive(:perform).with(
             document.external_link,
             "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
-            500
+            500,
+            exclude_paths: []
           )
 
           described_class.perform_now(document)
@@ -58,10 +60,29 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
           expect(firecrawl_service).to receive(:perform).with(
             document.external_link,
             "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
-            10
+            10,
+            exclude_paths: []
           )
 
           described_class.perform_now(document)
+        end
+      end
+
+      context 'when exclude paths are provided' do
+        before do
+          allow(account).to receive(:usage_limits).and_return({})
+        end
+
+        it 'forwards exclude paths to the FirecrawlService' do
+          paths = ['blog/*', 'news/*']
+          expect(firecrawl_service).to receive(:perform).with(
+            document.external_link,
+            "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
+            10,
+            exclude_paths: paths
+          )
+
+          described_class.perform_now(document, paths)
         end
       end
     end
@@ -73,10 +94,11 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
       before do
         allow(Captain::Tools::SimplePageCrawlService)
           .to receive(:new)
-          .with(document.external_link)
+          .with(document.external_link, exclude_paths: [])
           .and_return(simple_crawler)
 
         allow(simple_crawler).to receive(:page_links).and_return(page_links)
+        allow(simple_crawler).to receive(:excluded?).and_return(false)
       end
 
       it 'enqueues SimplePageCrawlParserJob for each discovered link' do
@@ -103,6 +125,36 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
       it 'uses SimplePageCrawlService to discover page links' do
         expect(simple_crawler).to receive(:page_links)
         described_class.perform_now(document)
+      end
+
+      context 'when exclude paths are provided' do
+        let(:exclude_paths) { ['/blog/*'] }
+
+        before do
+          allow(Captain::Tools::SimplePageCrawlService)
+            .to receive(:new)
+            .with(document.external_link, exclude_paths: exclude_paths)
+            .and_return(simple_crawler)
+        end
+
+        it 'initializes the simple crawler with the exclude paths' do
+          expect(Captain::Tools::SimplePageCrawlService)
+            .to receive(:new)
+            .with(document.external_link, exclude_paths: exclude_paths)
+            .and_return(simple_crawler)
+
+          described_class.perform_now(document, exclude_paths)
+        end
+
+        it 'skips enqueuing the base link when it is excluded' do
+          allow(simple_crawler).to receive(:excluded?).with(document.external_link).and_return(true)
+
+          expect(Captain::Tools::SimplePageCrawlParserJob)
+            .not_to receive(:perform_later)
+            .with(assistant_id: assistant_id, page_link: document.external_link)
+
+          described_class.perform_now(document, exclude_paths)
+        end
       end
     end
 

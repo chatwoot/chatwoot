@@ -204,6 +204,27 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
           expect(json_response[:name]).to eq('Test Document')
           expect(json_response[:external_link]).to eq('https://example.com/doc')
         end
+
+        it 'accepts exclude_paths and enqueues crawl job with the array' do
+          allow(Captain::Documents::CrawlJob).to receive(:perform_later)
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/captain/documents",
+                 params: {
+                   document: {
+                     name: 'Test Document',
+                     external_link: 'https://example.com/doc',
+                     assistant_id: assistant.id,
+                     exclude_paths: ['blog/*', 'news/*']
+                   }
+                 },
+                 headers: admin.create_new_auth_token
+          end.to change(Captain::Document, :count).by(1)
+
+          expect(response).to have_http_status(:success)
+          expect(Captain::Documents::CrawlJob).to have_received(:perform_later)
+            .with(instance_of(Captain::Document), ['blog/*', 'news/*'])
+        end
       end
 
       context 'with invalid parameters' do
