@@ -183,6 +183,73 @@ describe('#getters', () => {
       ]);
     });
   });
+  describe('#getParticipatingChats', () => {
+    const conversationList = [
+      { id: 1, inbox_id: 2, status: 1, meta: { assignee: { id: 1 } } },
+      { id: 2, inbox_id: 2, status: 1, meta: {} },
+      { id: 3, inbox_id: 3, status: 1, meta: { assignee: { id: 2 } } },
+    ];
+
+    it('returns all conversations when watchers are not loaded', () => {
+      const state = {
+        allConversations: conversationList,
+        participatingConversationIds: {},
+      };
+      const rootGetters = {
+        getCurrentUser: { id: 1 },
+        'conversationWatchers/getByConversationId': () => undefined,
+      };
+      const result = getters.getParticipatingChats(
+        state,
+        {},
+        {},
+        rootGetters
+      )({ status: 1 });
+      expect(result).toEqual(conversationList);
+    });
+
+    it('filters out conversation when watchers loaded and user not participating', () => {
+      const state = {
+        allConversations: conversationList,
+        participatingConversationIds: {},
+      };
+      const rootGetters = {
+        getCurrentUser: { id: 1 },
+        'conversationWatchers/getByConversationId': id => {
+          if (id === 2) return [{ id: 3 }];
+          return undefined;
+        },
+      };
+      const result = getters.getParticipatingChats(
+        state,
+        {},
+        {},
+        rootGetters
+      )({ status: 1 });
+      expect(result).toEqual([conversationList[0], conversationList[2]]);
+    });
+
+    it('keeps conversation when watchers loaded and user is participating', () => {
+      const state = {
+        allConversations: conversationList,
+        participatingConversationIds: {},
+      };
+      const rootGetters = {
+        getCurrentUser: { id: 1 },
+        'conversationWatchers/getByConversationId': id => {
+          if (id === 1) return [{ id: 1 }, { id: 2 }];
+          return undefined;
+        },
+      };
+      const result = getters.getParticipatingChats(
+        state,
+        {},
+        {},
+        rootGetters
+      )({ status: 1 });
+      expect(result).toEqual(conversationList);
+    });
+  });
   describe('#getConversationById', () => {
     it('get conversations based on id', () => {
       const state = {

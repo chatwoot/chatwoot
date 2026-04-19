@@ -149,6 +149,34 @@ export const icons = {
     height: 11,
   },
 
+  /** Conversation Priority Starts */
+  'priority-empty': {
+    body: `<mask id="a" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><path fill="#d9d9d9" d="M0 0h24v24H0z"/></mask><g mask="url(#a)" fill="#d9d9d9"><rect x="4" y="12" width="4" height="8" rx="2"/><rect x="10" y="8" width="4" height="12" rx="2"/><rect x="16" y="4" width="4" height="16" rx="2"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  'priority-low': {
+    body: `<mask id="a" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><path fill="#d9d9d9" d="M0 0h24v24H0z"/></mask><g mask="url(#a)"><rect x="4" y="12" width="4" height="8" rx="2" fill="#ffc53d"/><rect x="10" y="8" width="4" height="12" rx="2" fill="#e4e4e9"/><rect x="16" y="4" width="4" height="16" rx="2" fill="#e4e4e9"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  'priority-medium': {
+    body: `<mask id="a" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><path fill="#d9d9d9" d="M0 0h24v24H0z"/></mask><g mask="url(#a)"><rect x="4" y="12" width="4" height="8" rx="2" fill="#ffc53d"/><rect x="10" y="8" width="4" height="12" rx="2" fill="#ffc53d"/><rect x="16" y="4" width="4" height="16" rx="2" fill="#e4e4e9"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  'priority-high': {
+    body: `<mask id="a" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><path fill="#ed8a5c" d="M0 0h24v24H0z"/></mask><g mask="url(#a)" fill="#ffc53d"><rect x="4" y="12" width="4" height="8" rx="2"/><rect x="10" y="8" width="4" height="12" rx="2"/><rect x="16" y="4" width="4" height="16" rx="2"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  'priority-urgent': {
+    body: `<mask id="a" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><path fill="#ed8a5c" d="M0 0h24v24H0z"/></mask><g mask="url(#a)" fill="#e5484d"><rect x="4" y="12" width="4" height="8" rx="2"/><rect x="10" y="8" width="4" height="12" rx="2"/><path d="M18 20q-.824 0-1.413-.49Q16 19.021 16 18.333q0-.687.587-1.177.588-.49 1.413-.49.824 0 1.413.49.587.49.587 1.177t-.587 1.177T18 20m0-5q-.824 0-1.413-.49Q16 14.021 16 13.333V6.667q0-.688.587-1.177Q17.176 5 18 5t1.413.49Q20 5.979 20 6.667v6.666q0 .688-.587 1.177Q18.825 15 18 15"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  /** Ends */
+
   /** Channels Starts */
   website: {
     body: `<g fill="none" stroke="currentColor"><path d="M12 10.1755L12.0083 10.1663" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.333 10.1755L15.3413 10.1663" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.66699 10.1755L8.67533 10.1663" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.0424 13.9838V7.56679C20.0424 6.14919 18.9729 5 17.3687 5H6.67374C5.0695 5 4 6.14919 4 7.56679V15.2672C4 16.6848 4.53475 17.8339 6.67374 17.8339H12.0212" stroke-width="1.60424" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.9345 16.8695C20.3746 17.1402 20.3475 17.7991 19.8942 17.8505L17.6067 18.1098L16.5807 20.1706C16.3774 20.579 15.749 20.3791 15.6451 19.8729L14.5263 14.4221C14.4385 13.9943 14.823 13.725 15.1949 13.9539L19.9345 16.8695Z" stroke-width="1.60424"/></g>`,

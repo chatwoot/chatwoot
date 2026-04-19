@@ -3,9 +3,12 @@
     "HEADER": "Macros",
     "DESCRIPTION": "Una macro es un conjunto de acciones guardadas que ayudan a los agentes de servicio al cliente a completar fácilmente las tareas. Los agentes pueden definir un conjunto de acciones como etiquetar una conversación con una etiqueta, enviar una transcripción de correo electrónico, actualizar un atributo personalizado, etc. y pueden ejecutar estas acciones en un solo clic.",
     "LEARN_MORE": "Más información sobre macros",
+    "COUNT": "{n} macro | {n} macros",
     "HEADER_BTN_TXT": "Añadir una nueva macro",
     "HEADER_BTN_TXT_SAVE": "Guardar macro",
     "LOADING": "Obteniendo macros",
+    "SEARCH_PLACEHOLDER": "Search macros...",
+    "NO_RESULTS": "No macros found matching your search",
     "ERROR": "Algo salió mal. Por favor, inténtalo de nuevo",
     "ORDER_INFO": "Las macros se ejecutarán en el orden en que añadas sus acciones. Puede reorganizarlas arrastrándolas por el manejador al lado de cada nodo.",
     "ADD": {
@@ -29,7 +32,8 @@
         "NAME": "Nombre",
         "CREATED BY": "Creado por",
         "LAST_UPDATED_BY": "Última actualización por",
-        "VISIBILITY": "Visibilidad"
+        "VISIBILITY": "Visibilidad",
+        "ACTIONS": "Acciones"
       },
       "404": "No se encontraron macros"
     },
@@ -89,6 +93,7 @@
       "ASSIGN_AGENT": "Assign an Agent",
       "ADD_LABEL": "Añadir etiqueta",
       "REMOVE_LABEL": "Eliminar etiqueta",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
       "SEND_EMAIL_TRANSCRIPT": "Enviar transcripción por correo",
       "MUTE_CONVERSATION": "Silenciar Conversación",

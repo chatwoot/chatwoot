@@ -47,7 +47,7 @@
         "SUCCESS": "Resim başarıyla yüklendi",
         "ERROR": "Resim yüklenirken hata oluştu",
         "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Resim boyutu %{size}MB'dan küçük olmalıdır",
+        "ERROR_FILE_SIZE": "Resim boyutu {size}MB'dan küçük olmalıdır",
         "ERROR_FILE_FORMAT": "Resim formatı jpg, jpeg veya png olmalıdır",
         "ERROR_FILE_DIMENSIONS": "Resim boyutları 2000 x 2000'den küçük olmalıdır"
       }
@@ -107,7 +107,7 @@
       "LOADING_MESSAGE": "Portallar yükleniyor...",
       "ARTICLES_LABEL": "makaleler",
       "NO_PORTALS_MESSAGE": "Kullanılabilir portal yok",
-      "ADD_NEW_LOCALE": "Yeni bir yerel ekleyin",
+      "ADD_NEW_LOCALE": "Yeni bir dil ekleyin",
       "POPOVER": {
         "TITLE": "Portallar",
         "PORTAL_SETTINGS": "Portal Ayarları",
@@ -288,7 +288,7 @@
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Yeni bir yerel dil ekle",
+        "TITLE": "Yeni bir dil ekle",
         "SUB_TITLE": "Bu, kullanılabilir çeviri listesine yeni bir yerel dil ekler.",
         "PORTAL": "Portal",
         "LOCALE": {
@@ -315,6 +315,18 @@
         "API": {
           "SUCCESS_MESSAGE": "Yerel dil başarıyla portaldan kaldırıldı",
           "ERROR_MESSAGE": "Yerel dil portaldan kaldırılamadı. Lütfen tekrar deneyin."
+        }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
         }
       }
     },
@@ -372,6 +384,16 @@
       "API": {
         "SUCCESS_MESSAGE": "Makale başarıyla silindi",
         "ERROR_MESSAGE": "Makale silinirken hata oluştu"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
       }
     },
     "CREATE_ARTICLE": {
@@ -634,16 +656,26 @@
         "ARTICLES_COUNT": "{count} makale | {count} makale",
         "CATEGORIES_COUNT": "{count} kategori | {count} kategori",
         "DEFAULT": "Varsayılan",
+        "DRAFT": "Taslak",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Make default",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "Sil"
         }
       },
       "ADD_LOCALE_DIALOG": {
-        "TITLE": "Yeni bir yerel ekleyin",
-        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "TITLE": "Yeni bir dil ekleyin",
+        "DESCRIPTION": "Bu makalenin yazılacağı dili seçin. Seçilen dil çeviri listenize eklenecek ve daha sonra yeni diller ekleyebilirsiniz.",
         "COMBOBOX": {
           "PLACEHOLDER": "Dil seçin..."
+        },
+        "STATUS": {
+          "LABEL": "Durum",
+          "OPTIONS": {
+            "LIVE": "Yayınlandı",
+            "DRAFT": "Taslak"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Yerel dil başarıyla eklendi",
@@ -666,7 +698,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "More properties",
         "UNCATEGORIZED": "Kategorize Edilmemiş",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Article properties",
@@ -714,7 +746,7 @@
           "IMAGE_UPLOAD_SUCCESS": "Resim başarıyla eklendi. Logoyu kaydetmek için lütfen 'Değişiklikleri Kaydet' butonuna tıklayın",
           "IMAGE_DELETE_SUCCESS": "Logo başarıyla silindi",
           "IMAGE_DELETE_ERROR": "Unable to delete logo",
-          "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu %{size}MB'dan küçük olmalıdır"
+          "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu {size}MB'dan küçük olmalıdır"
         },
         "NAME": {
           "LABEL": "İsim",
@@ -722,11 +754,11 @@
           "ERROR": "Ad gerekli"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header text",
+          "LABEL": "Başlık Metni",
           "PLACEHOLDER": "Portal başlık metni"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page title",
+          "LABEL": "Sayfa Başlığı",
           "PLACEHOLDER": "Portal sayfa başlığı"
         },
         "HOME_PAGE_LINK": {

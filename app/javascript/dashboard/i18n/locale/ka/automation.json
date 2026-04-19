@@ -3,8 +3,11 @@
     "HEADER": "Automation",
     "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
     "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "Add Automation Rule",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "Fetching automation rules",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Add Automation Rule",
       "SUBMIT": "Create",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Name",
-        "DESCRIPTION": "Description",
         "ACTIVE": "Active",
-        "CREATED_ON": "Created on"
+        "CREATED_ON": "Created on",
+        "ACTIONS": "Actions"
       },
       "404": "No automation rules found"
     },
@@ -137,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "აგენტის მინიჭება",
       "ASSIGN_TEAM": "გუნდის მინიჭება",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
       "ADD_LABEL": "იარლიყის დამატება",
       "REMOVE_LABEL": "იარლიყის მოცილება",
       "SEND_EMAIL_TO_TEAM": "ელფოსტის გაგზავნა გუნდისთვის",
@@ -150,7 +155,8 @@
       "ADD_PRIVATE_NOTE": "პირადი ჩანაწერის დამატება",
       "CHANGE_PRIORITY": "პრიორიტეტის შეცვლა",
       "ADD_SLA": "SLA-ის დამატება",
-      "OPEN_CONVERSATION": "საუბრის გახსნა"
+      "OPEN_CONVERSATION": "საუბრის გახსნა",
+      "PENDING_CONVERSATION": "Mark conversation as pending"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "შემომავალი შეტყობინება",
@@ -165,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "შეტყობინების ტიპი",
+      "PRIVATE_NOTE": "Private Note",
       "MESSAGE_CONTAINS": "შეტყობინება შეიცავს",
       "EMAIL": "ელფოსტა",
       "INBOX": "ინბოქსი",

@@ -1,406 +1,417 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
-    "CLICK_TO_RECONNECT": "Click here to reconnect.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
-    "COMPLETE_REGISTRATION": "Complete Registration",
+    "HEADER": "Mga Inbox",
+    "DESCRIPTION": "Ang channel ay ang paraan ng komunikasyon na pinipili ng iyong customer upang makipag-ugnayan sa iyo. Ang inbox ay kung saan mo pinamamahalaan ang mga interaksyon para sa isang partikular na channel. Maaari itong magsama ng komunikasyon mula sa iba't ibang mga pinagmulan tulad ng email, live chat, at social media.",
+    "LEARN_MORE": "Matuto nang higit pa tungkol sa mga inbox",
+    "COUNT": "{n} inbox | {n} mga inbox",
+    "SEARCH_PLACEHOLDER": "Maghanap ng mga inbox...",
+    "NO_RESULTS": "Walang nahanap na mga inbox na tumutugma sa iyong paghahanap",
+    "RECONNECTION_REQUIRED": "Naka-disconnect ang iyong inbox. Hindi ka makakatanggap ng mga bagong mensahe hangga't hindi mo ito nire-autorisa muli.",
+    "CLICK_TO_RECONNECT": "I-click dito upang muling kumonekta.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Hindi pa kumpleto ang iyong WhatsApp Business registration. Pakisuri ang status ng iyong display name sa Meta Business Manager bago muling kumonekta.",
+    "COMPLETE_REGISTRATION": "Kumpletuhin ang Rehistrasyon",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "Walang mga inbox na nakakabit sa account na ito."
     },
     "CREATE_FLOW": {
       "CHANNEL": {
-        "TITLE": "Choose Channel",
-        "BODY": "Choose the provider you want to integrate with Chatwoot."
+        "TITLE": "Pumili ng Channel",
+        "BODY": "Pumili ng provider na nais mong i-integrate sa Chatwoot."
       },
       "INBOX": {
-        "TITLE": "Create Inbox",
-        "BODY": "Authenticate your account and create an inbox."
+        "TITLE": "Gumawa ng Inbox",
+        "BODY": "I-authenticate ang iyong account at gumawa ng inbox."
       },
       "AGENT": {
-        "TITLE": "Add Agents",
-        "BODY": "Add agents to the created inbox."
+        "TITLE": "Magdagdag ng mga Ahente",
+        "BODY": "Magdagdag ng mga ahente sa nagawang inbox."
       },
       "FINISH": {
         "TITLE": "Voilà!",
-        "BODY": "You are all set to go!"
+        "BODY": "Handa ka nang magsimula!"
       }
     },
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "LABEL": "Pangalan ng Inbox",
+        "PLACEHOLDER": "Ilagay ang pangalan ng iyong inbox (hal: Acme Inc)",
+        "ERROR": "Pakilagay ang wastong pangalan ng inbox"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
-        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+        "LABEL": "Pangalan ng Website",
+        "PLACEHOLDER": "Ilagay ang pangalan ng iyong website (hal: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Pick a value",
-        "CREATE_INBOX": "Create Inbox"
+        "HELP": "PS: Sa pag-sign in, nakakakuha lang kami ng access sa mga mensahe ng iyong Pahina. Hindi kailanman maa-access ng Chatwoot ang iyong mga pribadong mensahe.",
+        "CHOOSE_PAGE": "Pumili ng Pahina",
+        "CHOOSE_PLACEHOLDER": "Pumili ng pahina mula sa listahan",
+        "INBOX_NAME": "Pangalan ng Inbox",
+        "ADD_NAME": "Magdagdag ng pangalan para sa iyong inbox",
+        "PICK_NAME": "Pumili ng Pangalan para sa iyong Inbox",
+        "PICK_A_VALUE": "Pumili ng halaga",
+        "CREATE_INBOX": "Gumawa ng Inbox"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "CONTINUE_WITH_INSTAGRAM": "Magpatuloy gamit ang Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Ikonekta ang iyong Instagram Profile",
+        "HELP": "Upang maidagdag ang iyong Instagram profile bilang channel, kailangan mong i-authenticate ang iyong Instagram Profile sa pamamagitan ng pag-click sa 'Magpatuloy gamit ang Instagram' ",
+        "ERROR_MESSAGE": "Nagkaroon ng error sa pagkonekta sa Instagram, pakisubukang muli",
+        "ERROR_AUTH": "Nagkaroon ng error sa pagkonekta sa Instagram, pakisubukang muli",
+        "NEW_INBOX_SUGGESTION": "Ang Instagram account na ito ay dating naka-link sa ibang inbox at ngayon ay nailipat dito. Lahat ng bagong mensahe ay lalabas dito. Ang lumang inbox ay hindi na makakapagpadala o makatanggap ng mga mensahe para sa account na ito.",
+        "DUPLICATE_INBOX_BANNER": "Ang Instagram account na ito ay nailipat sa bagong Instagram channel inbox. Hindi ka na makakapagpadala o makatanggap ng mga mensahe sa Instagram mula sa inbox na ito."
       },
       "TIKTOK": {
-        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
-        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
-        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
-        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+        "CONTINUE_WITH_TIKTOK": "Magpatuloy gamit ang TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Ikonekta ang iyong TikTok Profile",
+        "HELP": "Upang maidagdag ang iyong TikTok profile bilang channel, kailangan mong i-authenticate ang iyong TikTok Profile sa pamamagitan ng pag-click sa 'Magpatuloy gamit ang TikTok' ",
+        "ERROR_MESSAGE": "Nagkaroon ng error sa pagkonekta sa TikTok, pakisubukang muli",
+        "ERROR_AUTH": "Nagkaroon ng error sa pagkonekta sa TikTok, pakisubukang muli"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "HELP": "Para idagdag ang iyong Twitter profile bilang channel, kailangan mong i-authenticate ang iyong Twitter Profile sa pamamagitan ng pag-click sa 'Sign in with Twitter' ",
+        "ERROR_MESSAGE": "Nagkaroon ng error sa pagkonekta sa Twitter, pakisubukang muli",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "Gumawa ng mga pag-uusap mula sa mga nabanggit na Tweet"
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "TITLE": "Channel ng Website",
+        "DESC": "Gumawa ng channel para sa iyong website at simulan ang pagsuporta sa iyong mga customer gamit ang aming website widget.",
+        "LOADING_MESSAGE": "Gumagawa ng Website Support Channel",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Avatar ng Channel"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Please enter your Webhook URL",
-          "ERROR": "Please enter a valid URL"
+          "PLACEHOLDER": "Pakilagay ang iyong Webhook URL",
+          "ERROR": "Mangyaring maglagay ng wastong URL"
+        },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "Domain ng Website",
+          "PLACEHOLDER": "Ilagay ang domain ng iyong website (hal: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "Pamagat ng Maligayang Pagdating",
+          "PLACEHOLDER": "Kumusta!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "Tagline ng Maligayang Pagdating",
+          "PLACEHOLDER": "Pinapadali naming makipag-ugnayan sa amin. Magtanong ng kahit ano, o ibahagi ang iyong puna."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "Mensahe ng pagbati ng channel",
+          "PLACEHOLDER": "Karaniwang sumasagot ang Acme Inc sa loob ng ilang oras."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Auto-send greeting messages when customers start a conversation and send their first message.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "LABEL": "Paganahin ang pagbati ng channel",
+          "HELP_TEXT": "Awtomatikong magpadala ng mga mensahe ng pagbati kapag nagsimula ang mga customer ng usapan at nagpadala ng kanilang unang mensahe.",
+          "ENABLED": "Pinagana",
+          "DISABLED": "Hindi Pinagana"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "Itakda ang Oras ng Sagot",
+          "IN_A_FEW_MINUTES": "Sa loob ng ilang minuto",
+          "IN_A_FEW_HOURS": "Sa loob ng ilang oras",
+          "IN_A_DAY": "Sa loob ng isang araw",
+          "HELP_TEXT": "Ipapakita ang oras ng sagot na ito sa live chat widget"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "Kulay ng Widget",
+          "PLACEHOLDER": "I-update ang kulay ng widget na ginagamit sa widget"
         },
-        "SUBMIT_BUTTON": "Create inbox",
+        "SUBMIT_BUTTON": "Gumawa ng inbox",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "Hindi namin nagawang gumawa ng website channel, pakisubukang muli"
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "Kanal ng Twilio SMS/WhatsApp",
+        "DESC": "I-integrate ang Twilio at simulan ang pagsuporta sa iyong mga customer sa pamamagitan ng SMS o WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "Account SID",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
-          "ERROR": "This field is required"
+          "PLACEHOLDER": "Pakilagay ang iyong Twilio Account SID",
+          "ERROR": "Kinakailangan ang patlang na ito"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
+          "USE_API_KEY": "Gamitin ang API Key Authentication",
           "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
-          "ERROR": "This field is required"
+          "PLACEHOLDER": "Pakilagay ang iyong API Key SID",
+          "ERROR": "Kinakailangan ang field na ito"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
-          "ERROR": "This field is required"
+          "LABEL": "Lihim ng API Key",
+          "PLACEHOLDER": "Pakilagay ang iyong API Key Secret",
+          "ERROR": "Kinakailangan ang field na ito"
         },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
-          "ERROR": "This field is required",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "PLACEHOLDER": "Pakilagay ang iyong Twilio Messaging Service SID",
+          "ERROR": "Kinakailangan ang patlang na ito",
+          "USE_MESSAGING_SERVICE": "Gumamit ng Twilio Messaging Service"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "Uri ng Channel",
+          "ERROR": "Paki-pili ang Uri ng Channel"
         },
         "AUTH_TOKEN": {
           "LABEL": "Auth Token",
-          "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "This field is required"
+          "PLACEHOLDER": "Pakilagay ang iyong Twilio Auth Token",
+          "ERROR": "Kinakailangan ang patlang na ito"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter a inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "Pangalan ng Inbox",
+          "PLACEHOLDER": "Mangyaring ilagay ang pangalan ng inbox",
+          "ERROR": "Kinakailangan ang patlang na ito"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone Number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "LABEL": "Numero ng Telepono",
+          "PLACEHOLDER": "Pakilagay ang numero ng telepono kung saan ipapadala ang mensahe.",
+          "ERROR": "Mangyaring magbigay ng wastong numero ng telepono na nagsisimula sa `+` na tanda at walang mga espasyo."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "SUBTITLE": "Kailangan mong i-configure ang message callback URL sa Twilio gamit ang URL na nakasaad dito."
         },
-        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "SUBMIT_BUTTON": "Gumawa ng Twilio Channel",
         "API": {
-          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+          "ERROR_MESSAGE": "Hindi namin ma-authenticate ang mga kredensyal ng Twilio, pakisubukang muli"
         }
       },
       "SMS": {
         "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "DESC": "Simulan ang pagsuporta sa iyong mga customer sa pamamagitan ng SMS.",
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "Hindi namin naisave ang SMS channel"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
-            "ERROR": "This field is required"
+            "PLACEHOLDER": "Pakilagay ang iyong Bandwidth Account ID",
+            "ERROR": "Kinakailangan ang patlang na ito"
           },
           "API_KEY": {
             "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
-            "ERROR": "This field is required"
+            "PLACEHOLDER": "Pakilagay ang iyong Bandwidth API Key",
+            "ERROR": "Kinakailangan ang patlang na ito"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
-            "ERROR": "This field is required"
+            "PLACEHOLDER": "Pakilagay ang iyong Bandwidth API Secret",
+            "ERROR": "Kinakailangan ang patlang na ito"
           },
           "APPLICATION_ID": {
             "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
-            "ERROR": "This field is required"
+            "PLACEHOLDER": "Pakilagay ang iyong Bandwidth Application ID",
+            "ERROR": "Kinakailangan ang patlang na ito"
           },
           "INBOX_NAME": {
-            "LABEL": "Inbox Name",
-            "PLACEHOLDER": "Please enter a inbox name",
-            "ERROR": "This field is required"
+            "LABEL": "Pangalan ng Inbox",
+            "PLACEHOLDER": "Pakilagay ang pangalan ng inbox",
+            "ERROR": "Kinakailangan ang patlang na ito"
           },
           "PHONE_NUMBER": {
-            "LABEL": "Phone number",
-            "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "LABEL": "Numero ng telepono",
+            "PLACEHOLDER": "Pakilagay ang numero ng telepono kung saan ipapadala ang mensahe.",
+            "ERROR": "Mangyaring magbigay ng wastong numero ng telepono na nagsisimula sa `+` na tanda at walang mga espasyo."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "Gumawa ng Channel ng Bandwidth",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "Hindi namin ma-authenticate ang mga kredensyal ng Bandwidth, pakisubukang muli"
           },
           "API_CALLBACK": {
             "TITLE": "Callback URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "Kailangan mong i-configure ang message callback URL sa Bandwidth gamit ang URL na nakasaad dito."
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "Kanal ng WhatsApp",
+        "DESC": "Simulan ang pagsuporta sa iyong mga customer sa pamamagitan ng WhatsApp.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "Tagapagbigay ng API",
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
-          "TWILIO_DESC": "Connect via Twilio credentials",
+          "WHATSAPP_CLOUD_DESC": "Mabilis na setup sa pamamagitan ng Meta",
+          "TWILIO_DESC": "Ikonekta gamit ang mga kredensyal ng Twilio",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
-          "TITLE": "Select your API provider",
-          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
+          "TITLE": "Piliin ang iyong API provider",
+          "DESCRIPTION": "Pumili ng iyong WhatsApp provider. Maaari kang kumonekta nang direkta sa Meta na hindi nangangailangan ng setup, o kumonekta sa pamamagitan ng Twilio gamit ang iyong mga kredensyal sa account."
         },
         "INBOX_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter an inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "Pangalan ng Inbox",
+          "PLACEHOLDER": "Mangyaring ilagay ang pangalan ng inbox",
+          "ERROR": "Kinakailangan ang patlang na ito"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "LABEL": "Numero ng telepono",
+          "PLACEHOLDER": "Mangyaring ilagay ang numero ng telepono kung saan ipapadala ang mensahe.",
+          "ERROR": "Mangyaring magbigay ng wastong numero ng telepono na nagsisimula sa `+` na tanda at walang mga espasyo."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "PLACEHOLDER": "Pakilagay ang Phone number ID na nakuha mula sa Facebook developer dashboard.",
+          "ERROR": "Pakilagay ang wastong halaga."
         },
         "BUSINESS_ACCOUNT_ID": {
           "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "PLACEHOLDER": "Pakilagay ang Business Account ID na nakuha mula sa Facebook developer dashboard.",
+          "ERROR": "Pakilagay ang wastong halaga."
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
-          "ERROR": "Please enter a valid value."
+          "PLACEHOLDER": "Ilagay ang verify token na nais mong i-configure para sa mga Facebook webhook.",
+          "ERROR": "Pakilagay ang wastong halaga."
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "Susi ng API",
+          "SUBTITLE": "I-configure ang WhatsApp API key.",
+          "PLACEHOLDER": "Susi ng API",
+          "ERROR": "Mangyaring maglagay ng wastong halaga."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "Kailangan mong i-configure ang webhook URL at ang verification token sa Facebook Developer portal gamit ang mga halagang ipinapakita sa ibaba.",
           "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Token ng Pagpapatunay ng Webhook"
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "Gumawa ng WhatsApp Channel",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Quick setup with Meta",
-          "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "TITLE": "Mabilis na setup gamit ang Meta",
+          "DESC": "Gamitin ang WhatsApp Embedded Signup flow para mabilis na kumonekta ng mga bagong numero. Ikaw ay ire-redirect sa Meta upang mag-login sa iyong WhatsApp Business account. Ang pagkakaroon ng admin access ay makakatulong upang maging maayos at madali ang setup.",
           "BENEFITS": {
-            "TITLE": "Benefits of Embedded Signup:",
-            "EASY_SETUP": "No manual configuration required",
-            "SECURE_AUTH": "Secure OAuth based authentication",
-            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+            "TITLE": "Mga Benepisyo ng Embedded Signup:",
+            "EASY_SETUP": "Walang kinakailangang manwal na pagsasaayos",
+            "SECURE_AUTH": "Secure na OAuth based authentication",
+            "AUTO_CONFIG": "Awtomatikong pagsasaayos ng webhook at numero ng telepono"
           },
           "LEARN_MORE": {
-            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
-            "LINK_TEXT": "this link"
+            "TEXT": "Para matuto pa tungkol sa integrated signup, presyo, at mga limitasyon, bisitahin ang {link}.",
+            "LINK_TEXT": "ang link na ito"
           },
-          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
-          "AUTH_PROCESSING": "Authenticating with Meta",
-          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
-          "PROCESSING": "Setting up your WhatsApp Business Account",
-          "LOADING_SDK": "Loading Facebook SDK...",
-          "CANCELLED": "WhatsApp Signup was cancelled",
-          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
-          "WAITING_FOR_AUTH": "Waiting for authentication...",
-          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
-          "SIGNUP_ERROR": "Signup error occurred",
-          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
-          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
-          "MANUAL_LINK_TEXT": "manual setup flow"
+          "SUBMIT_BUTTON": "Ikonekta sa WhatsApp Business",
+          "AUTH_PROCESSING": "Nag-a-authenticate sa Meta",
+          "WAITING_FOR_BUSINESS_INFO": "Pakipunan ang setup ng negosyo sa Meta window...",
+          "PROCESSING": "Isinasagawa ang pagsasaayos ng iyong WhatsApp Business Account",
+          "LOADING_SDK": "Naglo-load ng Facebook SDK...",
+          "CANCELLED": "Kinansela ang WhatsApp Signup",
+          "SUCCESS_TITLE": "Nakakonekta na ang WhatsApp Business Account!",
+          "WAITING_FOR_AUTH": "Naghihintay ng authentication...",
+          "INVALID_BUSINESS_DATA": "Nakatanggap ng hindi wastong datos ng negosyo mula sa Facebook. Pakisubukang muli.",
+          "SIGNUP_ERROR": "Nagkaroon ng error sa pag-signup",
+          "AUTH_NOT_COMPLETED": "Hindi natapos ang authentication. Pakisubukang muli ang proseso.",
+          "SUCCESS_FALLBACK": "Matagumpay na na-configure ang WhatsApp Business Account",
+          "MANUAL_FALLBACK": "Kung ang iyong numero ay konektado na sa WhatsApp Business Platform (API), o kung ikaw ay isang tech provider na nag-o-onboard ng sarili mong numero, mangyaring gamitin ang {link} flow",
+          "MANUAL_LINK_TEXT": "manwal na setup flow"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "Hindi namin naisave ang WhatsApp channel"
         }
       },
       "VOICE": {
-        "TITLE": "Voice Channel",
-        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "TITLE": "Kanal ng boses",
+        "DESC": "Isama ang Twilio Voice at simulang suportahan ang iyong mga customer sa pamamagitan ng mga tawag sa telepono.",
         "PHONE_NUMBER": {
-          "LABEL": "Phone Number",
-          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
-          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+          "LABEL": "Numero ng Telepono",
+          "PLACEHOLDER": "Ilagay ang iyong numero ng telepono (hal. +1234567890)",
+          "ERROR": "Pakibigay ang wastong numero ng telepono sa format na E.164 (hal. +1234567890)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
-            "LABEL": "Account SID",
-            "PLACEHOLDER": "Enter your Twilio Account SID",
-            "REQUIRED": "Account SID is required"
+            "LABEL": "SID ng account",
+            "PLACEHOLDER": "Ilagay ang iyong Twilio Account SID",
+            "REQUIRED": "Kinakailangan ang Account SID"
           },
           "AUTH_TOKEN": {
-            "LABEL": "Auth Token",
-            "PLACEHOLDER": "Enter your Twilio Auth Token",
-            "REQUIRED": "Auth Token is required"
+            "LABEL": "Token ng auth",
+            "PLACEHOLDER": "Ilagay ang iyong Twilio Auth Token",
+            "REQUIRED": "Kinakailangan ang Auth Token"
           },
           "API_KEY_SID": {
-            "LABEL": "API Key SID",
-            "PLACEHOLDER": "Enter your Twilio API Key SID",
-            "REQUIRED": "API Key SID is required"
+            "LABEL": "SID ng API key",
+            "PLACEHOLDER": "Ilagay ang iyong Twilio API Key SID",
+            "REQUIRED": "Kinakailangan ang API Key SID"
           },
           "API_KEY_SECRET": {
-            "LABEL": "API Key Secret",
-            "PLACEHOLDER": "Enter your Twilio API Key Secret",
-            "REQUIRED": "API Key Secret is required"
+            "LABEL": "Lihim ng API key",
+            "PLACEHOLDER": "Ilagay ang iyong Twilio API Key Secret",
+            "REQUIRED": "Kinakailangan ang API Key Secret"
           }
         },
         "CONFIGURATION": {
           "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
-          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
+          "TWILIO_VOICE_URL_SUBTITLE": "I-configure ang URL na ito bilang Voice URL sa iyong Twilio phone number at TwiML App.",
           "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
-          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
+          "TWILIO_STATUS_URL_SUBTITLE": "I-configure ang URL na ito bilang Status Callback URL sa iyong Twilio phone number."
         },
-        "SUBMIT_BUTTON": "Create Voice Channel",
+        "SUBMIT_BUTTON": "Gumawa ng Voice Channel",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create the voice channel"
+          "ERROR_MESSAGE": "Hindi namin nagawang likhain ang voice channel"
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "Kanal ng API",
+        "DESC": "Isama ang API channel at simulan ang pagsuporta sa iyong mga customer.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Pangalan ng Channel",
+          "PLACEHOLDER": "Pakilagay ang pangalan ng channel",
+          "ERROR": "Kailangan ang patlang na ito"
         },
         "WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
-          "PLACEHOLDER": "Webhook URL"
+          "LABEL": "URL ng webhook",
+          "SUBTITLE": "I-configure ang URL kung saan nais mong makatanggap ng mga callback sa mga kaganapan.",
+          "PLACEHOLDER": "URL ng webhook"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "Gumawa ng API Channel",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "Hindi namin naisave ang api channel"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate your email inbox.",
+        "TITLE": "Kanal ng Email",
+        "DESC": "Isama ang iyong email inbox.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Pangalan ng Channel",
+          "PLACEHOLDER": "Mangyaring ilagay ang pangalan ng channel",
+          "ERROR": "Kailangan ang patlang na ito"
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "Ibigay ang email address kung saan nagpapadala ang iyong mga customer ng mga kahilingan sa suporta.",
           "PLACEHOLDER": "Email"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "Gumawa ng Email Channel",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "Hindi namin naisave ang email channel"
         },
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address.",
-        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
-        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
-        "CONFIGURE_SMTP_IMAP_LINK": "Click here",
-        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
+        "FINISH_MESSAGE_NO_FORWARDING": "Matagumpay na nalikha ang iyong email inbox! Kailangan mong i-configure ang SMTP at IMAP credentials upang makapagpadala at makatanggap ng mga email. Kung wala ang mga setting na ito, walang email ang mapoproseso.",
+        "FORWARDING_ADDRESS_LABEL": "I-forward ang mga email sa address na ito:",
+        "CONFIGURE_SMTP_IMAP_LINK": "Pindutin dito",
+        "CONFIGURE_SMTP_IMAP_TEXT": " upang i-configure ang mga setting ng IMAP at SMTP"
       },
       "LINE_CHANNEL": {
         "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "DESC": "Isama ang LINE channel at simulan ang pagsuporta sa iyong mga customer.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Pangalan ng Channel",
+          "PLACEHOLDER": "Mangyaring ilagay ang pangalan ng channel",
+          "ERROR": "Kinakailangan ang patlang na ito"
         },
         "LINE_CHANNEL_ID": {
           "LABEL": "LINE Channel ID",
@@ -414,478 +425,568 @@
           "LABEL": "LINE Channel Token",
           "PLACEHOLDER": "LINE Channel Token"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "Gumawa ng LINE Channel",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "Hindi namin naisave ang LINE channel"
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "SUBTITLE": "Kailangan mong i-configure ang webhook URL sa LINE application gamit ang URL na nakasaad dito."
         }
       },
       "TELEGRAM_CHANNEL": {
         "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "DESC": "Isama ang Telegram channel at simulan ang pagsuporta sa iyong mga customer.",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "SUBTITLE": "I-configure ang bot token na nakuha mo mula sa Telegram BotFather.",
           "PLACEHOLDER": "Bot Token"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Gumawa ng Telegram Channel",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "Hindi namin naisave ang telegram channel"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
-        "TITLE_NEXT": "Complete the setup",
+        "TITLE": "Pumili ng channel",
+        "DESC": "Sinusuportahan ng Chatwoot ang live-chat widgets, Facebook Messenger, WhatsApp, Emails, atbp., bilang mga channel. Kung nais mong gumawa ng custom na channel, maaari mo itong likhain gamit ang API channel. Upang magsimula, pumili ng isa sa mga channel sa ibaba.",
+        "TITLE_NEXT": "Kumpletuhin ang setup",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
           "WEBSITE": {
             "TITLE": "Website",
-            "DESCRIPTION": "Create a live-chat widget"
+            "DESCRIPTION": "Gumawa ng live-chat widget"
           },
           "FACEBOOK": {
             "TITLE": "Facebook",
-            "DESCRIPTION": "Connect your Facebook page"
+            "DESCRIPTION": "Ikonekta ang iyong Facebook page"
           },
           "WHATSAPP": {
             "TITLE": "WhatsApp",
-            "DESCRIPTION": "Support your customers on WhatsApp"
+            "DESCRIPTION": "Suportahan ang iyong mga customer sa WhatsApp"
           },
           "EMAIL": {
             "TITLE": "Email",
-            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+            "DESCRIPTION": "Ikonekta gamit ang Gmail, Outlook, o iba pang provider"
           },
           "SMS": {
             "TITLE": "SMS",
-            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+            "DESCRIPTION": "Isama ang SMS channel gamit ang Twilio o bandwidth"
           },
           "API": {
             "TITLE": "API",
-            "DESCRIPTION": "Make a custom channel using our API"
+            "DESCRIPTION": "Gumawa ng custom na channel gamit ang aming API"
           },
           "TELEGRAM": {
             "TITLE": "Telegram",
-            "DESCRIPTION": "Configure Telegram channel using Bot token"
+            "DESCRIPTION": "I-configure ang Telegram channel gamit ang Bot token"
           },
           "LINE": {
             "TITLE": "Line",
-            "DESCRIPTION": "Integrate your Line channel"
+            "DESCRIPTION": "Isama ang iyong Line channel"
           },
           "INSTAGRAM": {
             "TITLE": "Instagram",
-            "DESCRIPTION": "Connect your instagram account"
+            "DESCRIPTION": "Ikonekta ang iyong Instagram account"
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "Ikonekta ang iyong TikTok account"
           },
           "VOICE": {
-            "TITLE": "Voice",
-            "DESCRIPTION": "Integrate with Twilio Voice"
+            "TITLE": "Boses",
+            "DESCRIPTION": "Isama sa Twilio Voice"
           }
         }
       },
       "AGENTS": {
-        "TITLE": "Agents",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "TITLE": "Mga Ahente",
+        "DESC": "Dito maaari kang magdagdag ng mga ahente upang pamahalaan ang iyong bagong likhang inbox. Tanging ang mga napiling ahenteng ito lamang ang magkakaroon ng access sa iyong inbox. Ang mga ahenteng hindi bahagi ng inbox na ito ay hindi makakakita o makakasagot sa mga mensahe sa inbox na ito kapag nag-login sila. <br> <b>PS:</b> Bilang isang administrador, kung kailangan mo ng access sa lahat ng inbox, dapat mong idagdag ang iyong sarili bilang ahente sa lahat ng inbox na iyong nilikha.",
+        "VALIDATION_ERROR": "Magdagdag ng kahit isang ahente sa iyong bagong Inbox",
+        "PICK_AGENTS": "Pumili ng mga ahente para sa inbox"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "Mga Detalye ng Inbox",
+        "DESC": "Mula sa dropdown sa ibaba, piliin ang Facebook Page na nais mong ikonekta sa Chatwoot. Maaari ka ring magbigay ng pasadyang pangalan sa iyong inbox para sa mas madaling pagkilala."
       },
       "FINISH": {
-        "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "TITLE": "Tama na!",
+        "DESC": "Matagumpay mong natapos ang pag-integrate ng iyong Facebook Page sa Chatwoot. Sa susunod na mag-message ang isang customer sa iyong Pahina, awtomatikong lalabas ang pag-uusap sa iyong inbox.<br>Nagbibigay din kami sa iyo ng widget script na madali mong maidadagdag sa iyong website. Kapag ito ay live na sa iyong website, maaaring mag-message ang mga customer nang direkta mula sa iyong website nang hindi na kailangan ng anumang panlabas na tool at lalabas ang pag-uusap dito mismo, sa Chatwoot.<br>Astig, di ba? Sinisikap talaga namin :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+        "TITLE": "Piliin ang iyong email provider",
+        "DESCRIPTION": "Pumili ng email provider mula sa listahan sa ibaba. Kung hindi mo makita ang iyong email provider sa listahan, maaari mong piliin ang ibang provider at ibigay ang IMAP at SMTP Credentials."
       },
       "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "SIGN_IN": "Sign in with Microsoft",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "TITLE": "Email ng Microsoft",
+        "DESCRIPTION": "I-click ang Sign in with Microsoft button upang magsimula. Ikaw ay ire-redirect sa email sign in page. Kapag tinanggap mo ang mga hinihinging permiso, ikaw ay ibabalik sa hakbang ng paglikha ng inbox.",
+        "EMAIL_PLACEHOLDER": "Ilagay ang email address",
+        "SIGN_IN": "Mag-sign in gamit ang Microsoft",
+        "ERROR_MESSAGE": "Nagkaroon ng error sa pagkonekta sa Microsoft, pakisubukang muli"
       },
       "GOOGLE": {
-        "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+        "TITLE": "Email ng Google",
+        "DESCRIPTION": "I-click ang button na Mag-sign in gamit ang Google upang magsimula. Ikaw ay ire-redirect sa pahina ng pag-sign in ng email. Kapag tinanggap mo ang mga hinihinging permiso, ikaw ay ibabalik sa hakbang ng paggawa ng inbox.",
+        "SIGN_IN": "Mag-sign in gamit ang Google",
+        "EMAIL_PLACEHOLDER": "Ilagay ang email address",
+        "ERROR_MESSAGE": "Nagkaroon ng error sa pagkonekta sa Google, pakisubukang muli"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
-      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
-      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
-      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "LOADING_FB": "Ina-authenticate ka sa Facebook...",
+      "ERROR_FB_LOADING": "Error sa pag-load ng Facebook SDK. Pakidisable ang anumang ad-blockers at subukang muli mula sa ibang browser.",
+      "ERROR_FB_AUTH": "May nagkamaling nangyari, Pakirefresh ang pahina...",
+      "ERROR_FB_UNAUTHORIZED": "Wala kang pahintulot na isagawa ang aksyong ito. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Pakisigurong may access ka sa Facebook page na may buong kontrol. Maaari kang magbasa pa tungkol sa mga papel sa Facebook <a href=\" https://www.facebook.com/help/187316341316631\">dito</a>.",
+      "CREATING_CHANNEL": "Gumagawa ng iyong Inbox...",
+      "TITLE": "I-configure ang Mga Detalye ng Inbox",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "Magdagdag ng mga ahente",
+      "ADD_AGENTS": "Nagdaragdag ng mga Ahente sa iyong Inbox..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
-      "BUTTON_TEXT": "Take me there",
-      "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox.",
-      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
-      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
-      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
+      "TITLE": "Handa na ang iyong Inbox!",
+      "MESSAGE": "Maaari mo nang makipag-ugnayan sa iyong mga customer sa pamamagitan ng iyong bagong Channel. Maligayang pagsuporta",
+      "BUTTON_TEXT": "Dalhin mo ako doon",
+      "MORE_SETTINGS": "Higit pang mga setting",
+      "WEBSITE_SUCCESS": "Matagumpay mong natapos ang paggawa ng website channel. Kopyahin ang code na ipinakita sa ibaba at i-paste ito sa iyong website. Sa susunod na gagamit ang customer ng live chat, awtomatikong lalabas ang pag-uusap sa iyong inbox.",
+      "WHATSAPP_QR_INSTRUCTION": "I-scan ang QR code sa itaas upang mabilis na subukan ang iyong WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "I-scan ang QR code sa itaas upang mabilis na subukan ang iyong Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "I-scan ang QR code sa itaas upang mabilis na subukan ang iyong Telegram inbox"
     },
-    "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "REAUTH": "Muling Pahintulutan",
+    "VIEW": "Tingnan",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "SUCCESS_MESSAGE": "Matagumpay na na-update ang mga setting ng inbox",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Matagumpay na na-update ang auto assignment",
+        "ERROR_MESSAGE": "Hindi namin ma-update ang mga setting ng inbox. Pakisubukang muli mamaya."
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Pinagana",
+        "DISABLED": "Hindi Pinagana"
       },
       "ENABLE_CSAT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Pinagana",
+        "DISABLED": "Hindi Pinagana"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
-        "FOR_EG": "For eg:",
+        "TITLE": "Pangalan ng nagpadala",
+        "SUB_TEXT": "Piliin ang pangalan na ipapakita sa iyong customer kapag nakatanggap sila ng mga email mula sa iyong mga ahente.",
+        "FOR_EG": "Halimbawa:",
         "FRIENDLY": {
-          "TITLE": "Friendly",
-          "FROM": "from",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "TITLE": "Palakaibigan",
+          "FROM": "mula sa",
+          "SUBTITLE": "Idagdag ang pangalan ng ahente na nagpadala ng sagot sa pangalan ng nagpadala upang maging palakaibigan."
         },
         "PROFESSIONAL": {
-          "TITLE": "Professional",
-          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+          "TITLE": "Propesyonal",
+          "SUBTITLE": "Gamitin lamang ang naka-configure na pangalan ng negosyo bilang pangalan ng nagpadala sa header ng email."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
-          "SAVE_BUTTON_TEXT": "Save"
+          "BUTTON_TEXT": "I-configure ang pangalan ng iyong negosyo",
+          "PLACEHOLDER": "Ilagay ang pangalan ng iyong negosyo",
+          "SAVE_BUTTON_TEXT": "I-save"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Pinagana",
+        "DISABLED": "Hindi Pinagana"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Pinagana",
+        "DISABLED": "Hindi Pinagana"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Buksan muli ang parehong pag-uusap",
+        "DISABLED": "Gumawa ng mga bagong pag-uusap",
+        "ENABLED_DESCRIPTION": "Kapag nag-message muli ang isang contact, muling bubuksan ang naunang pag-uusap.",
+        "DISABLED_DESCRIPTION": "Gagawa ng bagong pag-uusap sa bawat pagkakataon pagkatapos maresolba ang nauna."
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "Paganahin"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "BUTTON_TEXT": "Tanggalin",
+      "AVATAR_DELETE_BUTTON_TEXT": "Tanggalin ang Avatar",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Kumpirmahin ang Pagtanggal",
+        "MESSAGE": "Sigurado ka bang tatanggalin ang ",
+        "PLACE_HOLDER": "Pakitype ang {inboxName} upang kumpirmahin",
+        "YES": "Oo, Tanggalin ang ",
+        "NO": "Hindi, Panatilihin ang "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Matagumpay na natanggal ang inbox",
+        "ERROR_MESSAGE": "Hindi matanggal ang inbox. Pakisubukang muli mamaya.",
+        "AVATAR_SUCCESS_MESSAGE": "Matagumpay na natanggal ang avatar ng inbox",
+        "AVATAR_ERROR_MESSAGE": "Hindi matanggal ang avatar ng inbox. Pakisubukang muli mamaya."
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration",
-      "ACCOUNT_HEALTH": "Account Health",
+      "SETTINGS": "Mga Setting",
+      "COLLABORATORS": "Mga Kasama",
+      "CONFIGURATION": "Konpigurasyon",
+      "CAMPAIGN": "Mga Kampanya",
+      "PRE_CHAT_FORM": "Form bago ang chat",
+      "BUSINESS_HOURS": "Oras ng Negosyo",
+      "WIDGET_BUILDER": "Tagabuo ng widget",
+      "BOT_CONFIGURATION": "Pag-configure ng Bot",
+      "ACCOUNT_HEALTH": "Kalusugan ng Account",
       "CSAT": "CSAT"
     },
+    "CHANNEL_PREFERENCES": "Mga Kagustuhan sa Channel",
+    "WIDGET_FEATURES": "Mga tampok ng widget",
     "ACCOUNT_HEALTH": {
-      "TITLE": "Manage your WhatsApp account",
-      "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
-      "GO_TO_SETTINGS": "Go to Meta Business Manager",
-      "NO_DATA": "Health data is not available",
+      "TITLE": "Pamahalaan ang iyong WhatsApp account",
+      "DESCRIPTION": "Suriin ang status ng iyong WhatsApp account, mga limitasyon sa pagmemensahe, at kalidad. I-update ang mga setting o ayusin ang mga isyu kung kinakailangan",
+      "GO_TO_SETTINGS": "Pumunta sa Meta Business Manager",
+      "NO_DATA": "Walang magagamit na data ng kalusugan",
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
-          "LABEL": "Display phone number",
-          "TOOLTIP": "Phone number displayed to customers"
+          "LABEL": "Ipakitang numero ng telepono",
+          "TOOLTIP": "Numero ng teleponong ipinapakita sa mga customer"
         },
         "VERIFIED_NAME": {
-          "LABEL": "Business name",
-          "TOOLTIP": "Business name verified by WhatsApp"
+          "LABEL": "Pangalan ng negosyo",
+          "TOOLTIP": "Pangalan ng negosyo na na-verify ng WhatsApp"
         },
         "DISPLAY_NAME_STATUS": {
-          "LABEL": "Display name status",
-          "TOOLTIP": "Status of your business name verification"
+          "LABEL": "Status ng display name",
+          "TOOLTIP": "Status ng pag-verify ng iyong pangalan ng negosyo"
         },
         "QUALITY_RATING": {
-          "LABEL": "Quality rating",
-          "TOOLTIP": "WhatsApp quality rating for your account"
+          "LABEL": "Rating ng kalidad",
+          "TOOLTIP": "Rating ng kalidad ng WhatsApp para sa iyong account"
         },
         "MESSAGING_LIMIT_TIER": {
-          "LABEL": "Messaging limit tier",
-          "TOOLTIP": "Daily messaging limit for your account"
+          "LABEL": "Antas ng limitasyon sa pagmemensahe",
+          "TOOLTIP": "Araw-araw na limitasyon sa pagmemensahe para sa iyong account"
         },
         "ACCOUNT_MODE": {
-          "LABEL": "Account mode",
-          "TOOLTIP": "Current operating mode of your WhatsApp account"
+          "LABEL": "Mode ng account",
+          "TOOLTIP": "Kasalukuyang operating mode ng iyong WhatsApp account"
         }
       },
       "VALUES": {
         "TIERS": {
-          "TIER_250": "250 customers per 24h",
-          "TIER_1000": "1K customers per 24h",
-          "TIER_1K": "1K customers per 24h",
-          "TIER_10K": "10K customers per 24h",
-          "TIER_100K": "100K customers per 24h",
-          "TIER_UNLIMITED": "Unlimited customers per 24h",
-          "UNKNOWN": "Rating not available"
+          "TIER_250": "250 customer bawat 24h",
+          "TIER_1000": "1K customer bawat 24h",
+          "TIER_1K": "1K customer bawat 24h",
+          "TIER_10K": "10K customer bawat 24h",
+          "TIER_100K": "100K customer bawat 24h",
+          "TIER_UNLIMITED": "Walang limitasyong customer bawat 24h",
+          "UNKNOWN": "Rating ay hindi magagamit"
         },
         "STATUSES": {
-          "APPROVED": "Approved",
-          "PENDING_REVIEW": "Pending Review",
-          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
-          "REJECTED": "Rejected",
-          "DECLINED": "Declined",
-          "NON_EXISTS": "Non exists"
+          "APPROVED": "Inaprubahan",
+          "PENDING_REVIEW": "Naghihintay ng Pagsusuri",
+          "AVAILABLE_WITHOUT_REVIEW": "Magagamit Nang Walang Pagsusuri",
+          "REJECTED": "Tinanggihan",
+          "DECLINED": "Tinanggihan",
+          "NON_EXISTS": "Hindi umiiral"
         },
         "MODES": {
           "SANDBOX": "Sandbox",
           "LIVE": "Live"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Pag-configure ng Webhook",
+        "DESCRIPTION": "Kinakailangan ang Webhook URL para sa iyong WhatsApp Business Account upang makatanggap ng mga mensahe mula sa mga customer",
+        "ACTION_REQUIRED": "Hindi naka-configure ang Webhook",
+        "REGISTER_BUTTON": "Irehistro ang Webhook",
+        "REGISTER_SUCCESS": "Matagumpay na nairehistro ang Webhook",
+        "REGISTER_ERROR": "Nabigong irehistro ang webhook. Pakisubukang muli.",
+        "CONFIGURED_SUCCESS": "Matagumpay na na-configure ang Webhook",
+        "URL_MISMATCH": "Hindi tugma ang URL ng Webhook"
       }
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "Mga Setting",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "LABEL": "Mga Tampok",
+      "DISPLAY_FILE_PICKER": "Ipakita ang tagapili ng file sa widget",
+      "DISPLAY_EMOJI_PICKER": "Ipakita ang tagapili ng emoji sa widget",
+      "ALLOW_END_CONVERSATION": "Pahintulutan ang mga user na tapusin ang pag-uusap mula sa widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Gamitin ang pangalan at avatar ng inbox para sa bot"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
+      "MESSENGER_HEADING": "Script ng Messenger",
+      "MESSENGER_SUB_HEAD": "Ilagay ang button na ito sa loob ng iyong body tag",
       "ALLOWED_DOMAINS": {
-        "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "TITLE": "Pinapayagang Mga Domain",
+        "DESCRIPTION": "Limitahan kung aling mga website ang maaaring mag-embed ng iyong chat widget. Para sa seguridad, idagdag lamang ang mga domain na pag-aari mo at pinagkakatiwalaan. Magdagdag ng isa o higit pang mga domain na pinaghiwalay ng kuwit. Iwanang blangko upang payagan ang lahat ng domain (hindi inirerekomenda para sa produksyon).",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
-      "INBOX_AGENTS": "Agents",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "UPDATE": "Update",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
-      "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
-      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Paganahin ang widget sa mga mobile app",
+        "SUBTITLE": "Tandaan ito kung ini-embed mo ang widget sa mga iOS o Android app. Hindi nagpapadala ng impormasyon ng domain ang mga mobile app, kaya ma-block sila ng mga limitasyon sa domain maliban kung ito ay pinagana."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Pagpapatunay ng Pagkakakilanlan",
+        "DESCRIPTION": "Patunayan ang pagiging tunay ng user sa pamamagitan ng paglikha ng mga secure na token. Pinipigilan nito ang mga hindi awtorisadong user na magpanggap bilang iba sa iyong chat.",
+        "SECRET_KEY": "Lihim na Susi",
+        "VIEW_DOCS": "Tingnan ang dokumentasyon",
+        "REQUIRE_LABEL": "Kailangang beripikahin ang pagkakakilanlan para sa lahat ng pag-uusap",
+        "REQUIRE_DESCRIPTION": "Kapag pinagana, kailangang magbigay ang mga gumagamit ng wastong identity token upang makapagsimula ng mga pag-uusap. Ang mga kahilingan na walang wastong token ay tatanggihan."
+      },
+      "INBOX_AGENTS": "Mga Ahente",
+      "INBOX_AGENTS_SUB_TEXT": "Magdagdag o mag-alis ng mga ahente mula sa inbox na ito",
+      "AGENT_ASSIGNMENT": "Pagtatalaga ng Usap",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "I-update ang mga setting ng pagtatalaga ng pag-uusap",
+      "UPDATE": "I-update",
+      "ENABLE_EMAIL_COLLECT_BOX": "Paganahin ang kahon ng pangongolekta ng email",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Paganahin o huwag paganahin ang kahon ng pangongolekta ng email sa bagong pag-uusap",
+      "AUTO_ASSIGNMENT": "Paganahin ang auto assignment",
+      "SENDER_NAME_SECTION": "I-enable ang Pangalan ng Ahente sa Email",
+      "SENDER_NAME_SECTION_TEXT": "I-enable/Disable ang pagpapakita ng pangalan ng Ahente sa email, kung naka-disable ipapakita ang pangalan ng negosyo",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Paganahin ang pagpapatuloy ng pag-uusap sa pamamagitan ng email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Magpapatuloy ang mga pag-uusap sa email kung available ang email address ng contact.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Pag-ruta ng Pag-uusap",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "I-configure ang paggawa ng pag-uusap para sa mga umiiral na contact",
+      "INBOX_UPDATE_TITLE": "Mga Setting ng Inbox",
+      "INBOX_UPDATE_SUB_TEXT": "I-update ang mga setting ng iyong inbox",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Paganahin o huwag paganahin ang awtomatikong pagtatalaga ng mga bagong pag-uusap sa mga ahenteng idinagdag sa inbox na ito.",
+      "HMAC_VERIFICATION": "Pagpapatunay ng Pagkakakilanlan ng Gumagamit",
+      "HMAC_DESCRIPTION": "Sa key na ito maaari kang gumawa ng lihim na token na magagamit upang patunayan ang pagkakakilanlan ng iyong mga user.",
+      "HMAC_LINK_TO_DOCS": "Maaari kang magbasa pa dito.",
+      "HMAC_MANDATORY_VERIFICATION": "Ipilit ang Pagpapatunay ng Identidad ng User",
+      "HMAC_MANDATORY_DESCRIPTION": "Kung naka-enable, ang mga kahilingang hindi mapapatunayan ay tatanggihan.",
+      "INBOX_IDENTIFIER": "Identifier ng Inbox",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Gamitin ang `inbox_identifier` token na ipinapakita dito para sa pagpapatunay ng iyong mga API client.",
+      "FORWARD_EMAIL_TITLE": "I-forward sa Email",
+      "FORWARD_EMAIL_SUB_TEXT": "Simulan ang pag-forward ng iyong mga email sa sumusunod na email address.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "Ang pag-forward ng mga email sa iyong inbox ay kasalukuyang naka-disable sa installation na ito. Upang magamit ang tampok na ito, kailangang paganahin ito ng iyong administrator. Mangyaring makipag-ugnayan sa kanila upang magpatuloy.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Pahintulutan ang mga mensahe pagkatapos maresolba ang pag-uusap",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Pahintulutan ang mga end-user na magpadala ng mga mensahe kahit na ang pag-uusap ay naresolba na.",
+      "WHATSAPP_SECTION_SUBHEADER": "Ang API Key na ito ay ginagamit para sa integrasyon sa WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Ilagay ang bagong API key na gagamitin para sa integrasyon sa WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Update",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "I-update ang API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Ilagay dito ang bagong API Key",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "I-update",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
-      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
-      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
-      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
-      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
-      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
-      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
-      "WHATSAPP_CONNECT_BUTTON": "Connect",
-      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
-      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
-      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
-      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
-      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
-      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
-      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
-      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
-      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "Ang inbox na ito ay nakakonekta sa pamamagitan ng WhatsApp embedded signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "Maaari mong i-reconfigure ang inbox na ito upang i-update ang iyong mga setting sa WhatsApp Business.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "I-reconfigure",
+      "WHATSAPP_CONNECT_TITLE": "Ikonekta sa WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Mag-upgrade sa WhatsApp embedded signup para sa mas madaling pamamahala.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Ikonekta ang inbox na ito sa WhatsApp Business para sa mas pinahusay na mga tampok at mas madaling pamamahala.",
+      "WHATSAPP_CONNECT_BUTTON": "Ikonekta",
+      "WHATSAPP_CONNECT_SUCCESS": "Matagumpay na nakakonekta sa WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Nabigong kumonekta sa WhatsApp Business. Pakisubukang muli.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "Matagumpay na na-reconfigure ang WhatsApp Business!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Nabigong i-reconfigure ang WhatsApp Business. Pakisubukang muli.",
+      "WHATSAPP_APP_ID_MISSING": "Hindi naka-configure ang WhatsApp App ID. Pakikontak ang iyong administrator.",
+      "WHATSAPP_CONFIG_ID_MISSING": "Hindi naka-configure ang WhatsApp Configuration ID. Pakikontak ang iyong administrator.",
+      "WHATSAPP_LOGIN_CANCELLED": "Kinansela ang pag-login sa WhatsApp. Pakisubukang muli.",
+      "WHATSAPP_WEBHOOK_TITLE": "Token ng Pagpapatunay ng Webhook",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Ginagamit ang token na ito upang patunayan ang pagiging tunay ng webhook endpoint.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "I-sync ang Mga Template",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manu-manong i-sync ang mga message template mula sa WhatsApp upang i-update ang iyong mga available na template.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "I-sync ang Mga Template",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Matagumpay na sinimulan ang pag-sync ng mga template. Maaaring tumagal ng ilang minuto bago ma-update.",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "I-update ang Mga Setting ng Pre Chat Form"
     },
     "HELP_CENTER": {
       "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "PLACEHOLDER": "Piliin ang Help Center",
+      "SELECT_PLACEHOLDER": "Piliin ang Help Center",
+      "NONE": "Wala",
+      "REMOVE": "Alisin ang Help Center",
+      "SUB_TEXT": "Ikabit ang Help Center sa inbox"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "Limitasyon ng auto assignment",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Pakilagay ang halaga na higit sa 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limitahan ang pinakamataas na bilang ng mga pag-uusap mula sa inbox na ito na maaaring awtomatikong italaga sa isang ahente"
+    },
+    "ASSIGNMENT": {
+      "TITLE": "Pagtatalaga ng Usapan",
+      "DESCRIPTION": "Awtomatikong itatalaga ang mga papasok na usapan sa mga available na ahente base sa mga patakaran ng pagtatalaga",
+      "ENABLE_AUTO_ASSIGNMENT": "Paganahin ang awtomatikong pagtatalaga ng usapan",
+      "DEFAULT_RULES_TITLE": "Mga default na patakaran sa pagtatalaga",
+      "DEFAULT_RULES_DESCRIPTION": "Paggamit ng default na pag-uugali sa pagtatalaga para sa lahat ng mga pag-uusap",
+      "DEFAULT_RULE_1": "Pinakamaagang nilikhang mga pag-uusap muna",
+      "DEFAULT_RULE_2": "Paikot-ikot na pamamahagi",
+      "CUSTOMIZE_WITH_POLICY": "I-customize gamit ang patakaran sa pagtatalaga",
+      "USING_POLICY": "Gumagamit ng custom na patakaran sa pagtatalaga para sa inbox na ito",
+      "CUSTOMIZE_POLICY": "I-customize gamit ang patakaran sa pagtatalaga",
+      "DELETE_POLICY": "Tanggalin ang patakaran",
+      "POLICY_LABEL": "Patakaran sa pagtatalaga",
+      "ASSIGNMENT_ORDER_LABEL": "Ayos ng Pagtatalaga",
+      "ASSIGNMENT_METHOD_LABEL": "Paraan ng Pagtatalaga",
+      "POLICY_STATUS": {
+        "ACTIVE": "Aktibo",
+        "INACTIVE": "Hindi Aktibo"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "Pinakamaagang nilikha",
+        "LONGEST_WAITING": "Pinakamatagal na naghihintay"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "Paikot-ikot",
+        "BALANCED": "Balanseng pagtatalaga"
+      },
+      "UPGRADE_PROMPT": "Ang mga custom na patakaran sa pagtatalaga ay available sa Business plan",
+      "UPGRADE_TO_BUSINESS": "Mag-upgrade sa Business",
+      "DEFAULT_POLICY_LINKED": "Naka-link ang default na patakaran",
+      "DEFAULT_POLICY_DESCRIPTION": "I-link ang custom na patakaran sa pagtatalaga upang i-customize kung paano itatalaga ang mga pag-uusap sa mga ahente sa inbox na ito.",
+      "LINK_EXISTING_POLICY": "I-link ang umiiral na patakaran",
+      "CREATE_NEW_POLICY": "Gumawa ng bagong patakaran",
+      "NO_POLICIES": "Walang nahanap na mga patakaran sa pagtatalaga",
+      "VIEW_ALL_POLICIES": "Tingnan lahat ng mga patakaran",
+      "CURRENT_BEHAVIOR": "Kasalukuyang gumagamit ng default na pag-uugali sa pagtatalaga:",
+      "LINK_SUCCESS": "Matagumpay na na-link ang patakaran sa pagtatalaga",
+      "LINK_ERROR": "Nabigong i-link ang patakaran sa pagtatalaga"
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "Tanggalin ang patakaran sa pagtatalaga?",
+      "DELETE_CONFIRM_MESSAGE": "Sigurado ka bang nais mong alisin ang patakaran sa pagtatalaga mula sa inbox na ito? Ang inbox ay babalik sa mga default na patakaran sa pagtatalaga.",
+      "CANCEL": "Kanselahin",
+      "CONFIRM_DELETE": "Tanggalin",
+      "DELETE_SUCCESS": "Matagumpay na natanggal ang patakaran sa pagtatalaga",
+      "DELETE_ERROR": "Nabigong alisin ang patakaran sa pagtatalaga"
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Reauthorize",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "TITLE": "Muling Pahintulutan",
+      "SUBTITLE": "Nag-expire ang iyong koneksyon sa Facebook, mangyaring muling ikonekta ang iyong Facebook page upang magpatuloy ang mga serbisyo",
+      "MESSAGE_SUCCESS": "Matagumpay ang muling pagkonekta",
+      "MESSAGE_ERROR": "Nagkaroon ng error, pakisubukang muli"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
-      "SET_FIELDS": "Pre chat form fields",
+      "DESCRIPTION": "Pinapayagan ka ng mga pre chat form na makuha ang impormasyon ng gumagamit bago sila magsimula ng pag-uusap sa iyo.",
+      "SET_FIELDS": "Mga patlang ng pre chat form",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
+        "FIELDS": "Mga Patlang",
         "LABEL": "Label",
         "PLACE_HOLDER": "Placeholder",
         "KEY": "Key",
-        "TYPE": "Type",
-        "REQUIRED": "Required"
+        "TYPE": "Uri",
+        "REQUIRED": "Kinakailangan"
       },
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "Paganahin ang pre chat form",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "Oo",
+          "DISABLED": "Hindi"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "Mensahe bago ang chat",
+        "PLACEHOLDER": "Makikita ng mga gumagamit ang mensaheng ito kasama ng form"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "Dapat magbigay ang mga bisita ng kanilang pangalan at email bago magsimula ang chat"
       }
     },
     "CSAT": {
-      "TITLE": "Enable CSAT",
-      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "TITLE": "I-enable ang CSAT",
+      "SUBTITLE": "Awtomatikong mag-trigger ng mga CSAT survey sa pagtatapos ng mga pag-uusap upang maunawaan kung paano nararamdaman ng mga customer ang kanilang karanasan sa suporta. Subaybayan ang mga trend ng kasiyahan at tukuyin ang mga lugar na kailangang pagbutihin sa paglipas ng panahon.",
       "DISPLAY_TYPE": {
-        "LABEL": "Display type"
+        "LABEL": "Uri ng pagpapakita"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter a message to show users with the form"
+        "LABEL": "Mensahe",
+        "PLACEHOLDER": "Pakilagay ang mensahe na ipapakita sa mga user kasama ang form"
       },
       "BUTTON_TEXT": {
-        "LABEL": "Button text",
-        "PLACEHOLDER": "Please rate us"
+        "LABEL": "Teksto ng button",
+        "PLACEHOLDER": "Paki-rate kami"
       },
       "LANGUAGE": {
-        "LABEL": "Language",
-        "PLACEHOLDER": "Select template language"
+        "LABEL": "Wika",
+        "PLACEHOLDER": "Pumili ng wika ng template"
       },
       "MESSAGE_PREVIEW": {
-        "LABEL": "Message preview",
-        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+        "LABEL": "Preview ng mensahe",
+        "TOOLTIP": "Maaaring bahagyang mag-iba ito kapag ipinakita sa platform ng WhatsApp."
       },
       "TEMPLATE_STATUS": {
-        "APPROVED": "Approved by WhatsApp",
-        "PENDING": "Pending WhatsApp approval",
-        "REJECTED": "Meta rejected the template",
-        "DEFAULT": "Needs WhatsApp approval",
-        "NOT_FOUND": "The template does not exist in the Meta platform."
+        "APPROVED": "Inaprubahan ng WhatsApp",
+        "PENDING": "Naghihintay ng pag-apruba ng WhatsApp",
+        "REJECTED": "Tinanggihan ng Meta ang template",
+        "DEFAULT": "Kailangang aprubahan ng WhatsApp",
+        "NOT_FOUND": "Hindi umiiral ang template sa platform ng Meta."
       },
       "TEMPLATE_CREATION": {
-        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
-        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+        "SUCCESS_MESSAGE": "Matagumpay na nalikha ang WhatsApp template at ipinadala para sa pag-apruba",
+        "ERROR_MESSAGE": "Nabigong lumikha ng WhatsApp template"
       },
       "TEMPLATE_UPDATE_DIALOG": {
-        "TITLE": "Edit survey details",
-        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Create new template",
-        "CANCEL": "Go back"
+        "TITLE": "I-edit ang mga detalye ng survey",
+        "DESCRIPTION": "Buburahin namin ang naunang template at gagawa ng bago na muling ipapadala para sa pag-apruba ng WhatsApp",
+        "CONFIRM": "Gumawa ng bagong template",
+        "CANCEL": "Bumalik"
+      },
+      "UTILITY_ANALYZER": {
+        "ACTION": "Suriin ang utility fit",
+        "HELPER_NOTE": "Suriin ang mensaheng ito bago isumite upang mapabuti ang Utility fit. Gumagawa ang sistema ng dedikadong CSAT template na may mga button para sa pag-uulat at isinusumite ito bilang Utility; maaaring muling uriin ng Meta bilang Marketing batay sa nilalaman.",
+        "RESULT_LABEL": "Hula ng kategorya ng Meta",
+        "GUIDANCE_NOTE": "Ito ay isang gabay na pagsusuri, hindi garantiya ng pag-apruba ng Meta.",
+        "SUGGESTION_LABEL": "Iminungkahing ligtas na muling pagsulat para sa utility",
+        "APPLY": "Gamitin ang muling pagsulat na ito",
+        "ERROR_MESSAGE": "Hindi masuri ang mensahe. Pakisubukang muli.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "Malamang Utility",
+          "LIKELY_MARKETING": "Malamang Marketing",
+          "UNCLEAR": "Kailangang linawin"
+        }
       },
       "SURVEY_RULE": {
-        "LABEL": "Survey rule",
-        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
-        "DESCRIPTION_SUFFIX": "any of the labels",
+        "LABEL": "Alituntunin ng survey",
+        "DESCRIPTION_PREFIX": "Ipadala ang survey kung ang pag-uusap",
+        "DESCRIPTION_SUFFIX": "anumang mga label",
         "OPERATOR": {
-          "CONTAINS": "contains",
-          "DOES_NOT_CONTAINS": "does not contain"
+          "CONTAINS": "naglalaman",
+          "DOES_NOT_CONTAINS": "hindi naglalaman"
         },
-        "SELECT_PLACEHOLDER": "select labels"
+        "SELECT_PLACEHOLDER": "pumili ng mga label"
       },
-      "NOTE": "Note: CSAT surveys are sent only once per conversation",
-      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "NOTE": "Tandaan: Ang mga CSAT survey ay ipinapadala lamang isang beses bawat pag-uusap",
+      "WHATSAPP_NOTE": "Tandaan: Kapag nagsave ka, gumagawa ang sistema ng dedikadong CSAT template sa WhatsApp (ginagamit upang makuha ang rating at feedback sa mga ulat) at isinusumite ito bilang Utility para sa pag-apruba. Maaaring uriin pa rin ito ng Meta bilang Marketing batay sa nilalaman. Pagkatapos ng pag-apruba, ang mga survey ay ipinapadala lamang isang beses kada pag-uusap ayon sa patakaran ng survey.",
       "API": {
-        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
-        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+        "SUCCESS_MESSAGE": "Matagumpay na na-update ang mga setting ng CSAT",
+        "ERROR_MESSAGE": "Hindi namin ma-update ang mga setting ng CSAT. Pakisubukang muli mamaya."
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TITLE": "Itakda ang iyong availability",
+      "SUBTITLE": "Itakda ang iyong availability sa iyong livechat widget",
+      "WEEKLY_TITLE": "Itakda ang iyong lingguhang oras",
+      "TIMEZONE_LABEL": "Piliin ang timezone",
+      "UPDATE": "I-update ang mga setting ng oras ng negosyo",
+      "TOGGLE_AVAILABILITY": "Paganahin ang availability ng negosyo para sa inbox na ito",
+      "UNAVAILABLE_MESSAGE_LABEL": "Mensahe kapag hindi available para sa mga bisita",
+      "TOGGLE_HELP": "Kapag naka-enable ang business availability, ipapakita ang mga available na oras sa live chat widget kahit na offline ang lahat ng mga ahente. Sa labas ng mga available na oras, maaaring bigyan ng babala ang mga bisita gamit ang isang mensahe at pre-chat form.",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "DAY": "Araw",
+        "AVAILABILITY": "Pagkakaroon",
+        "HOURS": "Mga Oras",
+        "ENABLE": "Paganahin ang availability para sa araw na ito",
+        "UNAVAILABLE": "Hindi Available",
+        "VALIDATION_ERROR": "Dapat na mas maaga ang oras ng pagsisimula kaysa sa oras ng pagsasara.",
+        "CHOOSE": "Pumili"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "Buong Araw"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "SUBTITLE": "Itakda ang iyong mga detalye sa IMAP",
+      "NOTE_TEXT": "Para paganahin ang SMTP, pakiconfigure ang IMAP.",
+      "UPDATE": "I-update ang mga setting ng IMAP",
+      "TOGGLE_AVAILABILITY": "Paganahin ang IMAP configuration para sa inbox na ito",
+      "TOGGLE_HELP": "Ang pag-enable ng IMAP ay makakatulong sa user na makatanggap ng email",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "Matagumpay na na-update ang mga setting ng IMAP",
+        "ERROR_MESSAGE": "Hindi ma-update ang mga setting ng IMAP"
       },
       "ADDRESS": {
         "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "PLACE_HOLDER": "Address (Hal: imap.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
@@ -899,25 +1000,25 @@
         "LABEL": "Password",
         "PLACE_HOLDER": "Password"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "Paganahin ang SSL"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
+      "SUBTITLE": "Muling pahintulutan ang iyong MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "SUBTITLE": "Itakda ang iyong mga detalye sa SMTP",
+      "UPDATE": "I-update ang mga setting ng SMTP",
+      "TOGGLE_AVAILABILITY": "Paganahin ang SMTP configuration para sa inbox na ito",
+      "TOGGLE_HELP": "Ang pag-enable ng SMTP ay makakatulong sa user na magpadala ng email",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "Matagumpay na na-update ang mga setting ng SMTP",
+        "ERROR_MESSAGE": "Hindi ma-update ang mga setting ng SMTP"
       },
       "ADDRESS": {
         "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "PLACE_HOLDER": "Address (Hal: smtp.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
@@ -941,101 +1042,102 @@
       "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Note: ",
+    "NOTE": "Tandaan: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "Avatar ng website",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
-              "ERROR_MESSAGE": "There was an error, please try again"
+              "SUCCESS_MESSAGE": "Matagumpay na natanggal ang avatar",
+              "ERROR_MESSAGE": "Nagkaroon ng error, pakisubukang muli"
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Website Name",
-          "PLACE_HOLDER": "Enter your website name (eg: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "LABEL": "Pangalan ng Website",
+          "PLACE_HOLDER": "Ilagay ang pangalan ng iyong website (hal: Acme Inc)",
+          "ERROR": "Pakilagay ang wastong pangalan ng website"
         },
         "WELCOME_HEADING": {
-          "LABEL": "Welcome Heading",
-          "PLACE_HOLDER": "Hi there!"
+          "LABEL": "Pamagat ng Maligayang Pagdating",
+          "PLACE_HOLDER": "Kumusta!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACE_HOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "Tagline ng Maligayang Pagdating",
+          "PLACE_HOLDER": "Pinapasimple namin ang pakikipag-ugnayan sa amin. Magtanong ng kahit ano, o magbahagi ng iyong puna."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day"
+          "LABEL": "Oras ng tugon",
+          "IN_A_FEW_MINUTES": "Sa loob ng ilang minuto",
+          "IN_A_FEW_HOURS": "Sa loob ng ilang oras",
+          "IN_A_DAY": "Sa loob ng isang araw"
         },
-        "WIDGET_COLOR_LABEL": "Widget Color",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_COLOR_LABEL": "Kulayan ng Widget",
+        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Posisyon:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Uri:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Chat with us",
-          "LABEL": "Widget Bubble Launcher Title",
-          "PLACE_HOLDER": "Chat with us"
+          "DEFAULT": "Makipag-chat sa amin",
+          "LABEL": "Pamagat ng Launcher",
+          "PLACE_HOLDER": "Makipag-chat sa amin"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "I-update ang Mga Setting ng Widget",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "Matagumpay na na-update ang mga setting ng widget",
+            "ERROR_MESSAGE": "Hindi ma-update ang mga setting ng widget"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
+          "PREVIEW": "Tingnan muna",
           "SCRIPT": "Script"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "Kaliwa",
+          "RIGHT": "Kanan"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "Karaniwan",
+          "EXPANDED_BUBBLE": "Pinalawak na Bubble"
         }
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-        "IN_A_FEW_HOURS": "Typically replies in a few hours",
-        "IN_A_DAY": "Typically replies in a day"
+        "IN_A_FEW_MINUTES": "Karaniwang sumasagot sa loob ng ilang minuto",
+        "IN_A_FEW_HOURS": "Karaniwang sumasagot sa loob ng ilang oras",
+        "IN_A_DAY": "Karaniwang sumasagot sa loob ng isang araw"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Start Conversation",
-        "CHAT_INPUT_PLACEHOLDER": "Type your message"
+        "START_CONVERSATION_BUTTON_TEXT": "Simulan ang Usapan",
+        "CHAT_INPUT_PLACEHOLDER": "I-type ang iyong mensahe"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
-          "OFFLINE": "We are away at the moment"
+          "ONLINE": "Naka-online kami",
+          "OFFLINE": "Wala kami sa ngayon"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "Kumusta",
+        "AGENT_MESSAGE": "Kumusta"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "Pinapagana ng Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
         "TITLE": "Microsoft",
-        "DESCRIPTION": "Connect with Microsoft"
+        "DESCRIPTION": "Kumonekta sa Microsoft"
       },
       "GOOGLE": {
         "TITLE": "Google",
-        "DESCRIPTION": "Connect with Google"
+        "DESCRIPTION": "Kumonekta sa Google"
       },
       "OTHER_PROVIDERS": {
-        "TITLE": "Other Providers",
-        "DESCRIPTION": "Connect with Other Providers"
+        "TITLE": "Iba Pang Mga Provider",
+        "DESCRIPTION": "Kumonekta sa Iba Pang Mga Provider"
       }
     },
     "CHANNELS": {
@@ -1051,7 +1153,7 @@
       "API": "API Channel",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
-      "VOICE": "Voice"
+      "VOICE": "Boses"
     }
   }
 }

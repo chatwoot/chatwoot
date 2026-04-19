@@ -61,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Bu mesaj desteklenmiyor. Bu mesajı Facebook Messenger uygulamasında görüntüleyebilirsiniz.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Bu mesaj desteklenmiyor. Bu mesajı Instagram uygulamasında görüntüleyebilirsiniz.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "Mesaj başarıyla silindi",
     "FAIL_DELETE_MESSSAGE": "Mesaj silinemiyor. Tekrar deneyin",
     "NO_RESPONSE": "Cevap Yok",
@@ -173,6 +174,10 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Etiket atanamadı. Lütfen tekrar deneyin."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Sohbet kimliği {conversationId} için \"{team}\" takımına atanmış",
           "FAILED": "Takım atanamadı. Lütfen tekrar deneyin."
@@ -185,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "İmzayı devre dışı bırak",
       "MSG_INPUT": "Yeni satır için Shift + enter. Bir Hazır Yanıt seçmek için \"/\" ile başlayın.",
       "PRIVATE_MSG_INPUT": "Yeni satır için Shift + enter. Bu yalnızca Temsilciler tarafından görülebilir",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Mesaj imzası yapılandırılmamış, lütfen profil ayarlarında yapılandırın.",
+      "COPILOT_MSG_INPUT": "Copilot için ek komutlar verin veya başka bir şey sorun... Takip için gönder tuşuna basın",
       "CLICK_HERE": "Güncellemek için tıklayın",
       "WHATSAPP_TEMPLATES": "WhatsApp Şablonları"
     },
@@ -205,7 +214,7 @@
       "DRAG_DROP": "Eklemek için buraya sürükleyip bırakın",
       "START_AUDIO_RECORDING": "Ses kaydına başla",
       "STOP_AUDIO_RECORDING": "Ses kaydını durdur",
-      "": "",
+      "COPILOT_THINKING": "Copilot düşünüyor",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Bcc ekle",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Konuşma başarıyla silindi",
     "FAIL_DELETE_CONVERSATION": "Konuşma silinemedi! Tekrar deneyin",
     "FILE_SIZE_LIMIT": "Dosya, {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB ek dosya sınırını aşıyor",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Bu mesaj gönderilemiyor, lütfen daha sonra tekrar deneyin",
     "SENT_BY": "Tarafından gönderildi:",
     "BOT": "Bot",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Mesaj gönderilemedi! Tekrar deneyin",
     "TRY_AGAIN": "tekrar dene",
     "ASSIGNMENT": {
@@ -294,6 +306,7 @@
     "CANCEL": "İptal Et",
     "SEND_EMAIL_SUCCESS": "İletişim kaydı başarıyla gönderildi",
     "SEND_EMAIL_ERROR": "Bir hata oluştu, lütfen tekrar deneyin",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "İletişim kaydını müşteriye gönder",
       "SEND_TO_AGENT": "Atanan temsilciye iletişim kaydını gönder",
