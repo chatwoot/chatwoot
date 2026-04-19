@@ -29,11 +29,16 @@ enum ChannelType {
 }
 
 model Account {
-  id        String   @id @default(cuid())
-  name      String
-  slug      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                   String    @id @default(cuid())
+  name                 String
+  slug                 String    @unique
+  plan                 String    @default("free")
+  stripeCustomerId     String?   @unique
+  stripeSubscriptionId String?   @unique
+  stripePriceId        String?
+  subscriptionStatus   String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 
   members       AccountMember[]
   contacts      Contact[]

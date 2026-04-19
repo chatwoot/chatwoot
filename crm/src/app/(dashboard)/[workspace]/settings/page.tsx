@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Users, Tag, Inbox, Zap, Webhook } from 'lucide-react'
+import { Users, Tag, Inbox, Zap, Webhook, CreditCard } from 'lucide-react'
 
 const sections = [
   { href: 'agents', label: 'Agents & Roles', desc: 'Manage team members and permissions', icon: Users },
@@ -7,6 +7,7 @@ const sections = [
   { href: '../inboxes', label: 'Inboxes', desc: 'Configure channels and integrations', icon: Inbox },
   { href: '../automations', label: 'Automations', desc: 'Auto-assign and auto-reply rules', icon: Zap },
   { href: 'webhooks', label: 'Webhooks', desc: 'Subscribe to events for your integrations', icon: Webhook },
+  { href: 'billing', label: 'Billing', desc: 'Manage your subscription and plan', icon: CreditCard },
 ]
 
 export default async function SettingsPage({
