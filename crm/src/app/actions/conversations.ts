@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { sendEmail } from '@/lib/email'
+import { processEvent } from '@/lib/automations'
 
 async function resolveAccount(slug: string, userId: string) {
   const member = await db.accountMember.findFirst({
@@ -46,6 +47,8 @@ export async function createConversation(
     },
   })
 
+  await processEvent(account.id, 'conversation_created', conversation.id).catch(() => {})
+
   revalidatePath(`/${slug}/conversations`)
   redirect(`/${slug}/conversations/${conversation.id}`)
 }
@@ -81,6 +84,10 @@ export async function sendMessage(
       private: isPrivate,
     },
   })
+
+  if (!isPrivate) {
+    await processEvent(account.id, 'message_created', conversationId).catch(() => {})
+  }
 
   await db.conversation.update({
     where: { id: conversationId },
@@ -123,6 +130,8 @@ export async function updateConversationStatus(
     where: { id: conversationId, accountId: account.id },
     data: { status },
   })
+
+  await processEvent(account.id, 'conversation_updated', conversationId).catch(() => {})
 
   revalidatePath(`/${slug}/conversations`)
   revalidatePath(`/${slug}/conversations/${conversationId}`)

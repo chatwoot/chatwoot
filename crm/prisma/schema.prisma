@@ -39,6 +39,8 @@ model Account {
   conversations Conversation[]
   labels        Label[]
   teams         Team[]
+  automations   Automation[]
+  macros        Macro[]
 }
 
 model User {
@@ -211,4 +213,33 @@ model ConversationLabel {
   label        Label        @relation(fields: [labelId], references: [id], onDelete: Cascade)
 
   @@id([conversationId, labelId])
+}
+
+model Automation {
+  id          String   @id @default(cuid())
+  accountId   String
+  name        String
+  active      Boolean  @default(true)
+  event       String
+  conditions  Json     @default("[]")
+  actions     Json     @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId])
+}
+
+model Macro {
+  id        String   @id @default(cuid())
+  accountId String
+  name      String
+  actions   Json     @default("[]")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId])
 }

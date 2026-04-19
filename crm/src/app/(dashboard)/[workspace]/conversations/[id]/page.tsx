@@ -6,6 +6,7 @@ import { updateConversationStatus, assignConversation } from '@/app/actions/conv
 import { MessageThread } from '@/components/conversations/message-thread'
 import { ReplyBox } from '@/components/conversations/reply-box'
 import { LabelPicker } from '@/components/conversations/label-picker'
+import { MacroRunner } from '@/components/macros/macro-runner'
 import { Badge } from '@/components/ui/badge'
 import { Avatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -50,15 +51,11 @@ export default async function ConversationPage({
   })
   if (!conversation) notFound()
 
-  const allLabels = await db.label.findMany({
-    where: { accountId: account.id },
-    orderBy: { title: 'asc' },
-  })
-
-  const agents = await db.accountMember.findMany({
-    where: { accountId: account.id },
-    include: { user: true },
-  })
+  const [allLabels, agents, macros] = await Promise.all([
+    db.label.findMany({ where: { accountId: account.id }, orderBy: { title: 'asc' } }),
+    db.accountMember.findMany({ where: { accountId: account.id }, include: { user: true } }),
+    db.macro.findMany({ where: { accountId: account.id }, orderBy: { name: 'asc' } }),
+  ])
 
   const isResolved = conversation.status === 'RESOLVED'
   const contactName = conversation.contact?.name ?? 'Unknown visitor'
@@ -93,6 +90,12 @@ export default async function ConversationPage({
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Macro runner */}
+          <MacroRunner
+            workspace={slug}
+            conversationId={id}
+            macros={macros.map((m) => ({ id: m.id, name: m.name }))}
+          />
           {/* Assign agent */}
           <form
             action={async (fd: FormData) => {

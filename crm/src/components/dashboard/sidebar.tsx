@@ -11,6 +11,7 @@ import {
   Settings,
   Tag,
   Zap,
+  Play,
 } from 'lucide-react'
 
 const navItems = [
@@ -19,6 +20,8 @@ const navItems = [
   { href: 'inboxes', label: 'Inboxes', icon: Inbox },
   { href: 'labels', label: 'Labels', icon: Tag },
   { href: 'teams', label: 'Teams', icon: Users },
+  { href: 'automations', label: 'Automations', icon: Zap },
+  { href: 'macros', label: 'Macros', icon: Play },
   { href: 'reports', label: 'Reports', icon: BarChart2 },
   { href: 'settings', label: 'Settings', icon: Settings },
 ]
