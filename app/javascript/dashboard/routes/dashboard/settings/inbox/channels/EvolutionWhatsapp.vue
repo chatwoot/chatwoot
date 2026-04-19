@@ -18,6 +18,7 @@ const isCreating = ref(false);
 const isLoadingState = ref(false);
 const isStartingPairing = ref(false);
 const isCancellingPairing = ref(false);
+const isResolvingConflict = ref(false);
 const evolutionState = ref(null);
 const redirectScheduled = ref(false);
 
@@ -31,6 +32,7 @@ const START_REQUIRED_STATUSES = [
 const STOP_POLLING_STATUSES = [
   ...START_REQUIRED_STATUSES,
   'temporarily_banned',
+  'phone_conflict',
 ];
 
 const currentInboxId = computed(() => route.query.inbox_id);
@@ -71,6 +73,9 @@ const connectionStatusLabels = {
   not_created: computed(() =>
     t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.STATUS.not_created')
   ),
+  phone_conflict: computed(() =>
+    t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.STATUS.phone_conflict')
+  ),
 };
 const connectionStatusLabel = computed(
   () =>
@@ -85,16 +90,30 @@ const connectionStatusClass = computed(() =>
 const isStartRequired = computed(() =>
   START_REQUIRED_STATUSES.includes(connectionStatus.value)
 );
+const hasPhoneConflict = computed(
+  () => connectionStatus.value === 'phone_conflict'
+);
+const phoneConflict = computed(
+  () => evolutionState.value?.phone_conflict || null
+);
 const shouldKeepPolling = computed(
   () =>
     !isConnected.value &&
     !STOP_POLLING_STATUSES.includes(connectionStatus.value)
 );
 const canStartPairing = computed(
-  () => hasCreatedInbox.value && !isConnected.value && isStartRequired.value
+  () =>
+    hasCreatedInbox.value &&
+    !isConnected.value &&
+    !hasPhoneConflict.value &&
+    isStartRequired.value
 );
 const canCancelPairing = computed(
-  () => hasCreatedInbox.value && !isConnected.value && !isStartRequired.value
+  () =>
+    hasCreatedInbox.value &&
+    !isConnected.value &&
+    !hasPhoneConflict.value &&
+    !isStartRequired.value
 );
 const emptyStateTitle = computed(() =>
   isStartRequired.value
@@ -218,6 +237,50 @@ const cancelPairing = async () => {
     await startPolling();
   } finally {
     isCancellingPairing.value = false;
+  }
+};
+
+const resolveConflict = async strategy => {
+  if (!currentInboxId.value || isResolvingConflict.value) return;
+
+  isResolvingConflict.value = true;
+  stopPolling();
+
+  try {
+    const response = await inboxesAPI.resolveEvolutionGoConflict(
+      currentInboxId.value,
+      strategy
+    );
+    const data = response.data || {};
+
+    if (strategy === 'reuse') {
+      const redirectInboxId = data.redirect_inbox_id;
+      if (redirectInboxId) {
+        await router.replace({
+          name: 'settings_inbox_show',
+          params: { inboxId: redirectInboxId },
+        });
+        useAlert(
+          t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.CONFLICT.REUSE_SUCCESS')
+        );
+      }
+      return;
+    }
+
+    evolutionState.value = data;
+    useAlert(
+      t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.CONFLICT.REPLACE_SUCCESS')
+    );
+    await startPolling();
+  } catch (error) {
+    useAlert(
+      error?.response?.data?.error ||
+        error?.message ||
+        t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE')
+    );
+    await startPolling();
+  } finally {
+    isResolvingConflict.value = false;
   }
 };
 
@@ -354,7 +417,53 @@ onBeforeUnmount(() => {
       </div>
 
       <div
-        v-if="evolutionState?.qr_code"
+        v-if="hasPhoneConflict"
+        class="flex flex-col gap-4 p-6 rounded-2xl border border-n-amber-6 bg-n-amber-2"
+      >
+        <div class="flex flex-col gap-1">
+          <p class="text-base font-semibold text-n-amber-12">
+            {{ $t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.CONFLICT.TITLE') }}
+          </p>
+          <p class="text-sm text-n-amber-11">
+            {{
+              $t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.CONFLICT.DESCRIPTION', {
+                phoneNumber: phoneConflict?.phone_number,
+                inboxName: phoneConflict?.conflicting_inbox_name,
+              })
+            }}
+          </p>
+        </div>
+        <div v-if="!phoneConflict?.same_account" class="text-sm text-n-ruby-11">
+          {{
+            $t(
+              'INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.CONFLICT.DIFFERENT_ACCOUNT'
+            )
+          }}
+        </div>
+        <div v-else class="flex flex-wrap gap-3">
+          <NextButton
+            :is-loading="isResolvingConflict"
+            :label="
+              $t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.CONFLICT.REUSE_BUTTON')
+            "
+            solid
+            blue
+            @click="resolveConflict('reuse')"
+          />
+          <NextButton
+            :is-loading="isResolvingConflict"
+            outline
+            ruby
+            :label="
+              $t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.CONFLICT.REPLACE_BUTTON')
+            "
+            @click="resolveConflict('replace')"
+          />
+        </div>
+      </div>
+
+      <div
+        v-else-if="evolutionState?.qr_code"
         class="flex flex-col gap-3 justify-center items-center p-6 rounded-2xl border border-n-weak bg-white"
       >
         <p class="text-sm text-n-slate-11">
@@ -368,7 +477,7 @@ onBeforeUnmount(() => {
       </div>
 
       <div
-        v-else
+        v-else-if="!hasPhoneConflict"
         class="flex flex-col gap-2 justify-center items-center p-6 rounded-2xl border border-dashed border-n-weak bg-n-alpha-1"
       >
         <p class="text-sm font-medium text-n-slate-12">

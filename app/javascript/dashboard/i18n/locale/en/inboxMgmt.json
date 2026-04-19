@@ -342,7 +342,22 @@
             "temporarily_banned": "Temporarily banned",
             "connect_failure": "Connection failed",
             "qr_timeout": "QR code expired",
-            "not_created": "Instance not created"
+            "not_created": "Instance not created",
+            "phone_conflict": "Phone number already in use"
+          },
+          "CONFLICT": {
+            "TITLE": "This WhatsApp number is already connected to another inbox",
+            "DESCRIPTION": "The number {phoneNumber} is already in use by the inbox \"{inboxName}\". Choose how to continue:",
+            "DIFFERENT_ACCOUNT": "This number belongs to another account. Please contact support to resolve.",
+            "REUSE_BUTTON": "Use existing inbox",
+            "REPLACE_BUTTON": "Transfer number to this inbox",
+            "REUSE_SUCCESS": "Redirecting to the existing inbox.",
+            "REPLACE_SUCCESS": "Phone number transferred. This inbox is now the active one."
+          },
+          "RECONNECT": {
+            "LABEL": "Reconnect WhatsApp",
+            "HELP": "If the WhatsApp session expired, start a new pairing session for this inbox.",
+            "BUTTON": "Reconnect"
           }
         },
         "API": {

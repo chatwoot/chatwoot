@@ -221,7 +221,9 @@ Rails.application.routes.draw do
             post :sync_templates, on: :member
             get :health, on: :member
             resources :whatsapp_templates, only: [:create], module: 'inboxes'
-            resource :evolution_go, only: [:show, :create, :destroy], controller: 'inboxes/evolution_go'
+            resource :evolution_go, only: [:show, :create, :destroy], controller: 'inboxes/evolution_go' do
+              post :resolve_conflict
+            end
             if ChatwootApp.enterprise?
               resource :conference, only: %i[create destroy], controller: 'conference' do
                 get :token, on: :member

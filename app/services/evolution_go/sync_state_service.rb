@@ -1,5 +1,8 @@
+# rubocop:disable Metrics/ClassLength
 class EvolutionGo::SyncStateService
   include EvolutionGo::PayloadHelper
+
+  PHONE_CONFLICT_STATUS = 'phone_conflict'.freeze
 
   pattr_initialize [:channel!, { payload: nil }]
 
@@ -44,7 +47,7 @@ class EvolutionGo::SyncStateService
   def build_state(state_attributes)
     phone_number = format_phone_number(state_attributes[:jid])
 
-    {
+    state = {
       'instance_id' => state_attributes[:instance_id],
       'instance_name' => current_provider_config['instance_name'],
       'connected' => state_attributes[:connected],
@@ -57,10 +60,52 @@ class EvolutionGo::SyncStateService
       'callback_webhook_url' => channel.inbox.callback_webhook_url,
       'reauthorization_required' => channel.reauthorization_required?
     }
+
+    apply_phone_conflict(state, phone_number)
+  end
+
+  def apply_phone_conflict(state, phone_number)
+    conflict = conflicting_channel_for(phone_number)
+    if conflict
+      state['connection_status'] = PHONE_CONFLICT_STATUS
+      state['phone_conflict'] = conflict_info_from(conflict)
+    else
+      existing = current_provider_config['phone_conflict']
+      state['phone_conflict'] = existing if existing.present?
+    end
+    state
+  end
+
+  def conflicting_channel_for(phone_number)
+    return if phone_number.blank?
+    return if phone_number == channel.phone_number
+
+    Channel::Whatsapp.where(phone_number: phone_number).where.not(id: channel.id).first
+  end
+
+  def conflict_info_from(conflict_channel)
+    conflict_inbox = conflict_channel.inbox
+    {
+      'phone_number' => conflict_channel.phone_number,
+      'conflicting_inbox_id' => conflict_inbox&.id,
+      'conflicting_inbox_name' => conflict_inbox&.name,
+      'conflicting_account_id' => conflict_channel.account_id,
+      'same_account' => conflict_channel.account_id == channel.account_id
+    }
   end
 
   def persist_state(state)
-    provider_config = current_provider_config.merge(
+    provider_config = merged_provider_config(state)
+    attributes = { provider_config: provider_config, updated_at: Time.current }
+    attributes[:phone_number] = state['phone_number'] if safe_phone_number_change?(state)
+
+    persist_attributes(attributes)
+    channel.provider_config = provider_config
+    channel.phone_number = attributes[:phone_number] if attributes.key?(:phone_number)
+  end
+
+  def merged_provider_config(state)
+    base = current_provider_config.merge(
       'instance_id' => state['instance_id'],
       'instance_name' => state['instance_name'],
       'jid' => state['jid'],
@@ -71,21 +116,45 @@ class EvolutionGo::SyncStateService
       'connection_status' => state['connection_status']
     ).compact
 
-    attributes = {
-      provider_config: provider_config,
-      updated_at: Time.current
-    }
-    attributes[:phone_number] = state['phone_number'] if state['phone_number'].present?
+    if state['phone_conflict'].present?
+      base['phone_conflict'] = state['phone_conflict']
+    else
+      base.delete('phone_conflict')
+    end
 
-    # rubocop:disable Rails/SkipsModelValidations
-    # Persist webhook/API state without triggering provisioning callbacks again.
-    channel.update_columns(attributes)
-    # rubocop:enable Rails/SkipsModelValidations
-    channel.provider_config = provider_config
-    channel.phone_number = state['phone_number'] if state['phone_number'].present?
+    base
   end
 
+  def safe_phone_number_change?(state)
+    return false if state['connection_status'] == PHONE_CONFLICT_STATUS
+    return false if state['phone_number'].blank?
+    return false if state['phone_number'] == channel.phone_number
+
+    true
+  end
+
+  # rubocop:disable Rails/SkipsModelValidations
+  def persist_attributes(attributes)
+    channel.update_columns(attributes)
+  rescue ActiveRecord::RecordNotUnique => e
+    raise unless attributes.key?(:phone_number) && e.message.to_s.include?('phone_number')
+
+    Rails.logger.warn(
+      "[EVOLUTION_GO] Phone number #{attributes[:phone_number]} already in use by another channel; " \
+      "skipping phone_number update for channel #{channel.id}"
+    )
+    attributes.delete(:phone_number)
+    channel.update_columns(attributes)
+  end
+  # rubocop:enable Rails/SkipsModelValidations
+
   def fallback_state
+    state = fallback_state_base
+    state['phone_conflict'] = current_provider_config['phone_conflict'] if current_provider_config['phone_conflict'].present?
+    state
+  end
+
+  def fallback_state_base
     {
       'instance_id' => current_provider_config['instance_id'],
       'instance_name' => current_provider_config['instance_name'],
@@ -206,3 +275,4 @@ class EvolutionGo::SyncStateService
     nil
   end
 end
+# rubocop:enable Metrics/ClassLength

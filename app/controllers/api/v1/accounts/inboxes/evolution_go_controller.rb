@@ -20,6 +20,23 @@ class Api::V1::Accounts::Inboxes::EvolutionGoController < Api::V1::Accounts::Bas
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
+  def resolve_conflict
+    strategy = params[:strategy].to_s
+    result = EvolutionGo::ConflictResolverService.new(
+      channel: @inbox.channel,
+      strategy: strategy
+    ).perform
+
+    if strategy == EvolutionGo::ConflictResolverService::REUSE
+      render json: result
+    else
+      render json: EvolutionGo::SyncStateService.new(channel: @inbox.channel).perform.merge(result)
+    end
+  rescue EvolutionGo::ConflictResolverService::Error, EvolutionGo::Client::Error,
+         EvolutionGo::Client::ConfigurationError => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
+
   private
 
   def fetch_inbox

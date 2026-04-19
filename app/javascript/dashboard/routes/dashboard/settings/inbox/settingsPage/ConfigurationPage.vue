@@ -131,6 +131,16 @@ export default {
         await this.$refs.whatsappReauth.requestAuthorization();
       }
     },
+    reconnectEvolutionGo() {
+      this.$router.push({
+        name: 'settings_inboxes_page_channel',
+        params: { page: 'new', sub_page: 'whatsapp' },
+        query: {
+          provider: 'evolution_go',
+          inbox_id: this.inbox.id,
+        },
+      });
+    },
     async syncTemplates() {
       this.isSyncingTemplates = true;
       try {
@@ -355,6 +365,15 @@ export default {
       :label="$t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.CONNECTED_NUMBER')"
     >
       <woot-code :script="inbox.phone_number" />
+    </SettingsFieldSection>
+    <SettingsFieldSection
+      :label="$t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.RECONNECT.LABEL')"
+      :help-text="$t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.RECONNECT.HELP')"
+    >
+      <NextButton
+        :label="$t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.RECONNECT.BUTTON')"
+        @click="reconnectEvolutionGo"
+      />
     </SettingsFieldSection>
   </div>
   <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
