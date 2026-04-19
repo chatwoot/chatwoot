@@ -1,6 +1,12 @@
 <script setup>
 import { computed } from 'vue';
 import { TemplateNormalizer } from 'dashboard/services/TemplateNormalizer';
+import {
+  PLATFORMS,
+  TEMPLATE_TYPES,
+  WA_HEADER_FORMATS,
+  WA_MEDIA_FORMATS,
+} from 'dashboard/services/TemplateConstants';
 
 import CardTemplate from './CardTemplate.vue';
 import CallToActionTemplate from './CallToActionTemplate.vue';
@@ -20,57 +26,60 @@ const props = defineProps({
   platform: {
     type: String,
     required: true,
-    validator: value => ['whatsapp', 'twilio'].includes(value),
+    validator: value => Object.values(PLATFORMS).includes(value),
   },
 });
 
-// Normalize template data and apply variables
+const COMPONENT_MAP = {
+  [TEMPLATE_TYPES.WHATSAPP_TEXT]: WhatsAppTextTemplate,
+  [TEMPLATE_TYPES.WHATSAPP_TEXT_HEADER]: WhatsAppTextTemplate,
+  [TEMPLATE_TYPES.WHATSAPP_MEDIA_IMAGE]: MediaTemplate,
+  [TEMPLATE_TYPES.WHATSAPP_MEDIA_VIDEO]: MediaTemplate,
+  [TEMPLATE_TYPES.WHATSAPP_MEDIA_DOCUMENT]: MediaTemplate,
+  [TEMPLATE_TYPES.WHATSAPP_INTERACTIVE]: CallToActionTemplate,
+  [TEMPLATE_TYPES.WHATSAPP_COPY_CODE]: CallToActionTemplate,
+  [TEMPLATE_TYPES.TWILIO_TEXT]: WhatsAppTextTemplate,
+  [TEMPLATE_TYPES.TWILIO_MEDIA]: MediaTemplate,
+  [TEMPLATE_TYPES.TWILIO_QUICK_REPLY]: QuickReplyTemplate,
+  [TEMPLATE_TYPES.TWILIO_CALL_TO_ACTION]: CallToActionTemplate,
+  [TEMPLATE_TYPES.TWILIO_CARD]: CardTemplate,
+};
+
+const substituteVariables = (text, variables) => {
+  if (!text) return '';
+  return text.replace(/\{\{([^}]+)\}\}/g, (match, variable) => {
+    const value = variables[variable];
+    return value !== undefined && value !== '' ? value : `[${variable}]`;
+  });
+};
+
 const processedTemplate = computed(() => {
-  const normalized =
-    props.platform === 'whatsapp'
-      ? TemplateNormalizer.normalizeWhatsApp(props.template)
-      : TemplateNormalizer.normalizeTwilio(props.template);
+  const normalized = TemplateNormalizer.normalize(
+    props.template,
+    props.platform
+  );
 
-  // Apply variable substitution to content
-  const processText = text => {
-    if (!text) return '';
-    return text.replace(/\{\{([^}]+)\}\}/g, (match, variable) => {
-      const value = props.variables[variable];
-      return value !== undefined && value !== '' ? value : `[${variable}]`;
-    });
-  };
-
-  // Extract content based on platform
   let content = '';
   let imageUrl = '';
   let title = '';
   let footer = '';
 
-  if (props.platform === 'whatsapp') {
-    // WhatsApp: get text from body component
+  if (props.platform === PLATFORMS.WHATSAPP) {
     content = normalized.body?.text || '';
 
-    // Get header content for media templates
     if (normalized.header) {
-      if (
-        normalized.header.format === 'IMAGE' ||
-        normalized.header.format === 'VIDEO' ||
-        normalized.header.format === 'DOCUMENT'
-      ) {
+      if (WA_MEDIA_FORMATS.includes(normalized.header.format)) {
         imageUrl = normalized.header.example?.header_handle?.[0] || '';
       }
-      if (normalized.header.format === 'TEXT') {
+      if (normalized.header.format === WA_HEADER_FORMATS.TEXT) {
         title = normalized.header.text || '';
       }
     }
 
-    // Get footer content
     footer = normalized.footer?.text || '';
   } else {
-    // Twilio: get body directly
     content = normalized.body || '';
 
-    // Get media URL if available
     if (normalized.media && normalized.media.length > 0) {
       imageUrl = normalized.media[0];
     }
@@ -82,39 +91,18 @@ const processedTemplate = computed(() => {
 
   return {
     ...normalized,
-    content: processText(content),
-    title: processText(title),
-    footer: processText(footer),
-    image_url: processText(imageUrl),
+    content: substituteVariables(content, props.variables),
+    title: substituteVariables(title, props.variables),
+    footer: substituteVariables(footer, props.variables),
+    image_url: substituteVariables(imageUrl, props.variables),
     buttons,
     actions: normalized.actions || [],
   };
 });
 
-// Component selection based on template type
-const previewComponent = computed(() => {
-  const type = processedTemplate.value.type;
-
-  const componentMap = {
-    // WhatsApp components
-    'whatsapp-text': WhatsAppTextTemplate,
-    'whatsapp-text-header': WhatsAppTextTemplate,
-    'whatsapp-media-image': MediaTemplate,
-    'whatsapp-media-video': MediaTemplate,
-    'whatsapp-media-document': MediaTemplate,
-    'whatsapp-interactive': CallToActionTemplate,
-    'whatsapp-copy-code': CallToActionTemplate,
-
-    // Twilio components
-    'twilio-text': WhatsAppTextTemplate,
-    'twilio-media': MediaTemplate,
-    'twilio-quick-reply': QuickReplyTemplate,
-    'twilio-call-to-action': CallToActionTemplate,
-    'twilio-card': CardTemplate,
-  };
-
-  return componentMap[type] || WhatsAppTextTemplate;
-});
+const previewComponent = computed(
+  () => COMPONENT_MAP[processedTemplate.value.type] || WhatsAppTextTemplate
+);
 </script>
 
 <template>

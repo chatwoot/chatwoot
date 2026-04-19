@@ -4,7 +4,7 @@ import {
   whatsAppTemplates,
   getWhatsAppVariables,
 } from './templates/whatsapp-templates.js';
-import { twilioTemplates } from './templates/twillio-templates.js';
+import { twilioTemplates } from './templates/twilio-templates.js';
 </script>
 
 <template>

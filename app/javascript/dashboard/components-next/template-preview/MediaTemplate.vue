@@ -9,29 +9,23 @@ const props = defineProps({
   },
 });
 
-// Determine media type based on URL or template data
+const PDF_EXTENSIONS = ['.pdf', 'pdf'];
+const VIDEO_EXTENSIONS = ['.mp4', '.mov', 'video'];
+const DOC_EXTENSIONS = ['.doc'];
+
 const mediaType = computed(() => {
-  if (props.message.originalTemplate?.header?.format) {
-    return props.message.originalTemplate.header.format.toLowerCase();
-  }
+  const format = props.message.header?.format;
+  if (format) return format.toLowerCase();
 
-  const url = props.message.image_url;
-  if (!url) return 'document';
-
-  if (url.includes('.pdf') || url.includes('pdf')) return 'document';
-  if (url.includes('.mp4') || url.includes('.mov') || url.includes('video'))
-    return 'video';
+  const url = props.message.image_url || '';
+  if (PDF_EXTENSIONS.some(ext => url.includes(ext))) return 'document';
+  if (VIDEO_EXTENSIONS.some(ext => url.includes(ext))) return 'video';
   return 'image';
 });
 
-// Get file type from URL for proper icon
 const fileType = computed(() => {
-  const url = props.message.image_url;
-  if (!url) return 'pdf';
-
-  if (url.includes('.pdf') || url.includes('pdf')) return 'pdf';
-  if (url.includes('.doc')) return 'doc';
-  return 'pdf'; // Default to PDF for documents
+  const url = props.message.image_url || '';
+  return DOC_EXTENSIONS.some(ext => url.includes(ext)) ? 'doc' : 'pdf';
 });
 </script>
 

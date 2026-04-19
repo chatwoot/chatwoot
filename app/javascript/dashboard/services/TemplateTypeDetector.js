@@ -1,46 +1,46 @@
+import {
+  TEMPLATE_TYPES,
+  TWILIO_TYPE_PREFIX,
+  TWILIO_TYPES,
+  WA_BUTTON_TYPES,
+  WA_COMPONENT_TYPES,
+  WA_HEADER_FORMATS,
+} from './TemplateConstants';
+
 /**
  * TemplateTypeDetector - Unified service to identify template types across platforms
  */
 export class TemplateTypeDetector {
-  /**
-   * Detect WhatsApp template type based on components
-   * @param {Object} template - WhatsApp template object
-   * @returns {string} - Template type identifier
-   */
   static detectWhatsAppType(template) {
     const components = template.components || [];
-    const hasHeader = components.find(c => c.type === 'HEADER');
-    const hasButtons = components.find(c => c.type === 'BUTTONS');
+    const header = components.find(c => c.type === WA_COMPONENT_TYPES.HEADER);
+    const buttons = components.find(c => c.type === WA_COMPONENT_TYPES.BUTTONS);
 
-    // Media templates (priority: header media)
-    if (hasHeader?.format === 'IMAGE') return 'whatsapp-media-image';
-    if (hasHeader?.format === 'VIDEO') return 'whatsapp-media-video';
-    if (hasHeader?.format === 'DOCUMENT') return 'whatsapp-media-document';
+    if (header?.format === WA_HEADER_FORMATS.IMAGE)
+      return TEMPLATE_TYPES.WHATSAPP_MEDIA_IMAGE;
+    if (header?.format === WA_HEADER_FORMATS.VIDEO)
+      return TEMPLATE_TYPES.WHATSAPP_MEDIA_VIDEO;
+    if (header?.format === WA_HEADER_FORMATS.DOCUMENT)
+      return TEMPLATE_TYPES.WHATSAPP_MEDIA_DOCUMENT;
 
-    // Interactive templates (priority: special buttons)
-    if (hasButtons) {
-      const copyCodeButton = hasButtons.buttons?.find(
-        b => b.type === 'COPY_CODE'
+    if (buttons) {
+      const hasCopyCode = buttons.buttons?.some(
+        b => b.type === WA_BUTTON_TYPES.COPY_CODE
       );
-      if (copyCodeButton) return 'whatsapp-copy-code';
-      return 'whatsapp-interactive';
+      if (hasCopyCode) return TEMPLATE_TYPES.WHATSAPP_COPY_CODE;
+      return TEMPLATE_TYPES.WHATSAPP_INTERACTIVE;
     }
 
-    // Text templates
-    if (hasHeader?.format === 'TEXT') return 'whatsapp-text-header';
-    return 'whatsapp-text';
+    if (header?.format === WA_HEADER_FORMATS.TEXT)
+      return TEMPLATE_TYPES.WHATSAPP_TEXT_HEADER;
+    return TEMPLATE_TYPES.WHATSAPP_TEXT;
   }
 
-  /**
-   * Detect Twilio template type
-   * @param {Object} template - Twilio template object
-   * @returns {string} - Template type identifier
-   */
   static detectTwilioType(template) {
     const typeFromTemplate =
-      template.template_type?.replace('twilio/', '') ||
+      template.template_type?.replace(TWILIO_TYPE_PREFIX, '') ||
       Object.keys(template.types || {})
-        .map(key => key.replace('twilio/', ''))
+        .map(key => key.replace(TWILIO_TYPE_PREFIX, ''))
         .find(typeKey => typeKey);
 
     const templateType = (typeFromTemplate || '')
@@ -48,37 +48,14 @@ export class TemplateTypeDetector {
       .replace(/__/g, '_');
 
     switch (templateType) {
-      case 'media':
-        return 'twilio-media';
-      case 'quick_reply':
-        return 'twilio-quick-reply';
-      case 'call_to_action':
-        return 'twilio-call-to-action';
+      case TWILIO_TYPES.MEDIA:
+        return TEMPLATE_TYPES.TWILIO_MEDIA;
+      case TWILIO_TYPES.QUICK_REPLY:
+        return TEMPLATE_TYPES.TWILIO_QUICK_REPLY;
+      case TWILIO_TYPES.CALL_TO_ACTION:
+        return TEMPLATE_TYPES.TWILIO_CALL_TO_ACTION;
       default:
-        return 'twilio-text';
+        return TEMPLATE_TYPES.TWILIO_TEXT;
     }
-  }
-
-  /**
-   * Get all supported template types
-   * @returns {Array} - Array of supported template types
-   */
-  static getSupportedTypes() {
-    return [
-      // WhatsApp types
-      'whatsapp-text',
-      'whatsapp-text-header',
-      'whatsapp-media-image',
-      'whatsapp-media-video',
-      'whatsapp-media-document',
-      'whatsapp-interactive',
-      'whatsapp-copy-code',
-
-      // Twilio types
-      'twilio-text',
-      'twilio-media',
-      'twilio-quick-reply',
-      'twilio-call-to-action',
-    ];
   }
 }
