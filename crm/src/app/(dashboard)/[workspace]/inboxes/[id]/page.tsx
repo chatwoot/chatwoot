@@ -25,7 +25,8 @@ export default async function InboxSettingsPage({
   if (!inbox) notFound()
 
   const origin = process.env.NEXTAUTH_URL ?? 'http://localhost:3000'
-  const webhookUrl = `${origin}/api/inboxes/${inbox.id}/email`
+  const emailWebhookUrl = `${origin}/api/inboxes/${inbox.id}/email`
+  const twilioWebhookUrl = `${origin}/api/inboxes/${inbox.id}/twilio`
   const widgetUrl = `${origin}/widget/${inbox.id}`
   const embedCode = `<iframe src="${widgetUrl}" width="400" height="600" frameborder="0"></iframe>`
 
@@ -63,6 +64,9 @@ export default async function InboxSettingsPage({
                 email: inbox.email ?? undefined,
                 emailFromName: inbox.emailFromName ?? undefined,
                 widgetColor: inbox.widgetColor,
+                twilioAccountSid: inbox.twilioAccountSid ?? undefined,
+                twilioAuthToken: inbox.twilioAuthToken ?? undefined,
+                twilioPhoneNumber: inbox.twilioPhoneNumber ?? undefined,
               }}
             />
           </div>
@@ -76,8 +80,25 @@ export default async function InboxSettingsPage({
                 Configure your email provider (Mailgun, SendGrid) to forward inbound emails to this URL:
               </p>
               <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2">
-                <code className="flex-1 truncate text-xs text-slate-700">{webhookUrl}</code>
-                <CopyButton text={webhookUrl} />
+                <code className="flex-1 truncate text-xs text-slate-700">{emailWebhookUrl}</code>
+                <CopyButton text={emailWebhookUrl} />
+              </div>
+            </div>
+          )}
+
+          {(inbox.channelType === 'WHATSAPP' || inbox.channelType === 'SMS') && (
+            <div className="rounded-xl border border-slate-200 bg-white p-5">
+              <h2 className="mb-3 text-sm font-semibold text-slate-900">Twilio webhook URL</h2>
+              <p className="mb-3 text-xs text-slate-500">
+                In your Twilio console, set this as the{' '}
+                <strong>
+                  {inbox.channelType === 'WHATSAPP' ? 'WhatsApp Sandbox' : 'SMS'} webhook URL
+                </strong>{' '}
+                (HTTP POST):
+              </p>
+              <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2">
+                <code className="flex-1 truncate text-xs text-slate-700">{twilioWebhookUrl}</code>
+                <CopyButton text={twilioWebhookUrl} />
               </div>
             </div>
           )}

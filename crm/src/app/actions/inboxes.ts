@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
+import type { ChannelType } from '@/generated/prisma/client'
 
 async function resolveAccount(slug: string, userId: string) {
   const member = await db.accountMember.findFirst({
@@ -25,10 +26,13 @@ export async function createInbox(
 
   const slug = formData.get('workspace') as string
   const name = formData.get('name') as string
-  const channelType = (formData.get('channelType') as string) || 'LIVE_CHAT'
+  const channelType = ((formData.get('channelType') as string) || 'LIVE_CHAT') as ChannelType
   const email = (formData.get('email') as string) || undefined
   const emailFromName = (formData.get('emailFromName') as string) || undefined
   const widgetColor = (formData.get('widgetColor') as string) || '#1F93FF'
+  const twilioAccountSid = (formData.get('twilioAccountSid') as string) || undefined
+  const twilioAuthToken = (formData.get('twilioAuthToken') as string) || undefined
+  const twilioPhoneNumber = (formData.get('twilioPhoneNumber') as string) || undefined
 
   if (!name) return { error: 'Name is required' }
 
@@ -38,10 +42,13 @@ export async function createInbox(
     data: {
       accountId: account.id,
       name,
-      channelType: channelType as 'LIVE_CHAT' | 'EMAIL' | 'API',
+      channelType,
       email,
       emailFromName,
       widgetColor,
+      twilioAccountSid,
+      twilioAuthToken,
+      twilioPhoneNumber,
     },
   })
 
@@ -62,6 +69,9 @@ export async function updateInbox(
   const email = (formData.get('email') as string) || undefined
   const emailFromName = (formData.get('emailFromName') as string) || undefined
   const widgetColor = (formData.get('widgetColor') as string) || '#1F93FF'
+  const twilioAccountSid = (formData.get('twilioAccountSid') as string) || undefined
+  const twilioAuthToken = (formData.get('twilioAuthToken') as string) || undefined
+  const twilioPhoneNumber = (formData.get('twilioPhoneNumber') as string) || undefined
 
   if (!name) return { error: 'Name is required' }
 
@@ -71,7 +81,15 @@ export async function updateInbox(
 
   await db.inbox.update({
     where: { id },
-    data: { name, email, emailFromName, widgetColor },
+    data: {
+      name,
+      email,
+      emailFromName,
+      widgetColor,
+      twilioAccountSid,
+      twilioAuthToken,
+      twilioPhoneNumber,
+    },
   })
 
   revalidatePath(`/${slug}/inboxes`)

@@ -6,6 +6,8 @@ import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { sendEmail } from '@/lib/email'
 import { processEvent } from '@/lib/automations'
+import { fireWebhooks } from '@/lib/webhooks'
+import { sendTwilioMessage } from '@/lib/twilio'
 
 async function resolveAccount(slug: string, userId: string) {
   const member = await db.accountMember.findFirst({
@@ -47,7 +49,10 @@ export async function createConversation(
     },
   })
 
-  await processEvent(account.id, 'conversation_created', conversation.id).catch(() => {})
+  await Promise.all([
+    processEvent(account.id, 'conversation_created', conversation.id).catch(() => {}),
+    fireWebhooks(account.id, 'conversation_created', { conversationId: conversation.id }).catch(() => {}),
+  ])
 
   revalidatePath(`/${slug}/conversations`)
   redirect(`/${slug}/conversations/${conversation.id}`)
@@ -70,7 +75,7 @@ export async function sendMessage(
   const account = await resolveAccount(slug, session.user.id)
   const conversation = await db.conversation.findFirst({
     where: { id: conversationId, accountId: account.id },
-    include: { inbox: true },
+    include: { inbox: true, contact: true },
   })
   if (!conversation) return { error: 'Conversation not found' }
 
@@ -86,7 +91,10 @@ export async function sendMessage(
   })
 
   if (!isPrivate) {
-    await processEvent(account.id, 'message_created', conversationId).catch(() => {})
+    await Promise.all([
+      processEvent(account.id, 'message_created', conversationId).catch(() => {}),
+      fireWebhooks(account.id, 'message_created', { conversationId, content }).catch(() => {}),
+    ])
   }
 
   await db.conversation.update({
@@ -94,7 +102,7 @@ export async function sendMessage(
     data: { updatedAt: new Date() },
   })
 
-  // Send outbound email for EMAIL inboxes (skip private notes)
+  // Outbound email for EMAIL inboxes
   if (
     !isPrivate &&
     conversation.inbox.channelType === 'EMAIL' &&
@@ -109,9 +117,27 @@ export async function sendMessage(
       subject: `Re: ${conversation.subject ?? 'Your support request'}`,
       text: content,
       inReplyTo: conversation.emailMsgId ?? undefined,
-    }).catch(() => {
-      // Log but don't fail — message already saved
-    })
+    }).catch(() => {})
+  }
+
+  // Outbound WhatsApp/SMS via Twilio
+  const { channelType } = conversation.inbox
+  if (
+    !isPrivate &&
+    (channelType === 'WHATSAPP' || channelType === 'SMS') &&
+    conversation.inbox.twilioAccountSid &&
+    conversation.inbox.twilioAuthToken &&
+    conversation.inbox.twilioPhoneNumber &&
+    conversation.contact?.phone
+  ) {
+    await sendTwilioMessage({
+      accountSid: conversation.inbox.twilioAccountSid,
+      authToken: conversation.inbox.twilioAuthToken,
+      from: conversation.inbox.twilioPhoneNumber,
+      to: conversation.contact.phone,
+      body: content,
+      channelType,
+    }).catch(() => {})
   }
 
   revalidatePath(`/${slug}/conversations/${conversationId}`)
@@ -131,7 +157,10 @@ export async function updateConversationStatus(
     data: { status },
   })
 
-  await processEvent(account.id, 'conversation_updated', conversationId).catch(() => {})
+  await Promise.all([
+    processEvent(account.id, 'conversation_updated', conversationId).catch(() => {}),
+    fireWebhooks(account.id, 'conversation_updated', { conversationId, status }).catch(() => {}),
+  ])
 
   revalidatePath(`/${slug}/conversations`)
   revalidatePath(`/${slug}/conversations/${conversationId}`)

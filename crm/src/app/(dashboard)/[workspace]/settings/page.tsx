@@ -1,11 +1,12 @@
 import Link from 'next/link'
-import { Users, Tag, Inbox, Zap } from 'lucide-react'
+import { Users, Tag, Inbox, Zap, Webhook } from 'lucide-react'
 
 const sections = [
   { href: 'agents', label: 'Agents & Roles', desc: 'Manage team members and permissions', icon: Users },
   { href: '../labels', label: 'Labels', desc: 'Color-coded conversation tags', icon: Tag },
   { href: '../inboxes', label: 'Inboxes', desc: 'Configure channels and integrations', icon: Inbox },
   { href: '../automations', label: 'Automations', desc: 'Auto-assign and auto-reply rules', icon: Zap },
+  { href: 'webhooks', label: 'Webhooks', desc: 'Subscribe to events for your integrations', icon: Webhook },
 ]
 
 export default async function SettingsPage({

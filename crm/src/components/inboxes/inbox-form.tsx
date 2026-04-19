@@ -21,6 +21,9 @@ interface InboxFormProps {
     email?: string
     emailFromName?: string
     widgetColor?: string
+    twilioAccountSid?: string
+    twilioAuthToken?: string
+    twilioPhoneNumber?: string
   }
 }
 
@@ -28,6 +31,7 @@ export function InboxForm({ action, workspace, defaultValues }: InboxFormProps) 
   const [state, formAction, pending] = useActionState(action, undefined)
   const [channelType, setChannelType] = useState(defaultValues?.channelType ?? 'LIVE_CHAT')
   const isEdit = !!defaultValues?.id
+  const isTwilio = channelType === 'WHATSAPP' || channelType === 'SMS'
 
   return (
     <form action={formAction} className="max-w-lg space-y-5">
@@ -40,7 +44,13 @@ export function InboxForm({ action, workspace, defaultValues }: InboxFormProps) 
 
       <div className="space-y-1.5">
         <Label htmlFor="name">Inbox name *</Label>
-        <Input id="name" name="name" placeholder="Support" defaultValue={defaultValues?.name} required />
+        <Input
+          id="name"
+          name="name"
+          placeholder="Support"
+          defaultValue={defaultValues?.name}
+          required
+        />
       </div>
 
       {!isEdit && (
@@ -56,6 +66,8 @@ export function InboxForm({ action, workspace, defaultValues }: InboxFormProps) 
             <option value="LIVE_CHAT">Live Chat</option>
             <option value="EMAIL">Email</option>
             <option value="API">API</option>
+            <option value="WHATSAPP">WhatsApp (Twilio)</option>
+            <option value="SMS">SMS (Twilio)</option>
           </select>
         </div>
       )}
@@ -101,6 +113,49 @@ export function InboxForm({ action, workspace, defaultValues }: InboxFormProps) 
             <span className="text-xs text-slate-400">Color of the chat widget button</span>
           </div>
         </div>
+      )}
+
+      {isTwilio && (
+        <>
+          <div className="space-y-1.5">
+            <Label htmlFor="twilioAccountSid">Twilio Account SID *</Label>
+            <Input
+              id="twilioAccountSid"
+              name="twilioAccountSid"
+              placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              defaultValue={defaultValues?.twilioAccountSid}
+              required
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="twilioAuthToken">Twilio Auth Token *</Label>
+            <Input
+              id="twilioAuthToken"
+              name="twilioAuthToken"
+              type="password"
+              placeholder="your auth token"
+              defaultValue={defaultValues?.twilioAuthToken}
+              required
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="twilioPhoneNumber">
+              {channelType === 'WHATSAPP' ? 'WhatsApp' : 'Twilio'} phone number *
+            </Label>
+            <Input
+              id="twilioPhoneNumber"
+              name="twilioPhoneNumber"
+              placeholder="+14155238886"
+              defaultValue={defaultValues?.twilioPhoneNumber}
+              required
+            />
+            <p className="text-xs text-slate-400">
+              {channelType === 'WHATSAPP'
+                ? 'Your Twilio WhatsApp-enabled number (e.g. +14155238886)'
+                : 'Your Twilio SMS number in E.164 format'}
+            </p>
+          </div>
+        </>
       )}
 
       <div className="flex gap-3">

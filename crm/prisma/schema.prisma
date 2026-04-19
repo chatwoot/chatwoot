@@ -24,6 +24,8 @@ enum ChannelType {
   LIVE_CHAT
   EMAIL
   API
+  WHATSAPP
+  SMS
 }
 
 model Account {
@@ -41,6 +43,7 @@ model Account {
   teams         Team[]
   automations   Automation[]
   macros        Macro[]
+  webhooks      WebhookSubscription[]
 }
 
 model User {
@@ -108,15 +111,18 @@ model Contact {
 }
 
 model Inbox {
-  id           String      @id @default(cuid())
-  accountId    String
-  name         String
-  channelType  ChannelType @default(LIVE_CHAT)
-  widgetColor  String      @default("#1F93FF")
-  email        String?
-  emailFromName String?
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  id                String      @id @default(cuid())
+  accountId         String
+  name              String
+  channelType       ChannelType @default(LIVE_CHAT)
+  widgetColor       String      @default("#1F93FF")
+  email             String?
+  emailFromName     String?
+  twilioAccountSid  String?
+  twilioAuthToken   String?
+  twilioPhoneNumber String?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
 
   account       Account        @relation(fields: [accountId], references: [id], onDelete: Cascade)
   conversations Conversation[]
@@ -236,6 +242,21 @@ model Macro {
   accountId String
   name      String
   actions   Json     @default("[]")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId])
+}
+
+model WebhookSubscription {
+  id        String   @id @default(cuid())
+  accountId String
+  url       String
+  events    Json     @default("[]")
+  active    Boolean  @default(true)
+  secret    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
