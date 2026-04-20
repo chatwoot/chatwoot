@@ -698,7 +698,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "Lebih banyak sifat",
         "UNCATEGORIZED": "Tidak dikategorikan",
-        "EDITOR_PLACEHOLDER": "Tulis sesuatu..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Sifat artikel",

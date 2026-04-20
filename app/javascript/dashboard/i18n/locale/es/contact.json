@@ -20,6 +20,7 @@
     "CALL": "Llamar",
     "CALL_INITIATED": "Llamando al contacto…",
     "CALL_FAILED": "No se puede iniciar la llamada. Por favor, inténtelo de nuevo.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Seleccionar un buzón de entrada"
     },
