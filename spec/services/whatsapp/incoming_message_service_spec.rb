@@ -32,6 +32,71 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
       end
 
+      it 'stores referral attributes in conversation additional attributes' do
+        params[:messages].first[:referral] = {
+          source_url: 'https://fb.me/AAAAA',
+          source_id: '1234567890',
+          source_type: 'ad',
+          body: 'This is a great product',
+          headline: 'Our new product',
+          media_type: 'image',
+          image_url: 'https://example.com/image.png',
+          video_url: 'https://example.com/video.mp4',
+          thumbnail_url: 'https://example.com/thumb.png',
+          ctwa_clid: 'ARAkLkA8rmlFeiCktEJQ-QTwRiyYHAFDLMNDBH0CD3qpjd0HR4irJ6LEkR7JwFF4XvnO2E4Nx0-eM-GABDLOPaOdRMv-_zfUQ2a',
+          welcome_message: {
+            text: 'Hi there'
+          }
+        }
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+
+        expect(whatsapp_channel.inbox.conversations.last.additional_attributes).to include(
+          'referral' => {
+            'source_url' => 'https://fb.me/AAAAA',
+            'source_id' => '1234567890',
+            'source_type' => 'ad',
+            'body' => 'This is a great product',
+            'headline' => 'Our new product',
+            'media_type' => 'image',
+            'image_url' => 'https://example.com/image.png',
+            'video_url' => 'https://example.com/video.mp4',
+            'thumbnail_url' => 'https://example.com/thumb.png',
+            'ctwa_clid' => 'ARAkLkA8rmlFeiCktEJQ-QTwRiyYHAFDLMNDBH0CD3qpjd0HR4irJ6LEkR7JwFF4XvnO2E4Nx0-eM-GABDLOPaOdRMv-_zfUQ2a',
+            'welcome_message' => { 'text' => 'Hi there' }
+          }
+        )
+      end
+
+      it 'merges referral attributes without overwriting unrelated conversation additional attributes' do
+        params[:messages].first[:referral] = {
+          source_url: 'https://fb.me/AAAAA',
+          source_type: 'ad'
+        }
+
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
+        conversation = create(
+          :conversation,
+          inbox: whatsapp_channel.inbox,
+          contact_inbox: contact_inbox,
+          additional_attributes: {
+            'custom_key' => 'custom_value',
+            'source_id' => 'existing_source_id'
+          }
+        )
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+
+        expect(conversation.reload.additional_attributes).to include(
+          'custom_key' => 'custom_value',
+          'source_id' => 'existing_source_id',
+          'referral' => {
+            'source_url' => 'https://fb.me/AAAAA',
+            'source_type' => 'ad'
+          }
+        )
+      end
+
       it 'appends to last conversation when if conversation already exists' do
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
         2.times.each { create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox) }

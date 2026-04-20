@@ -137,9 +137,12 @@ class Whatsapp::IncomingMessageBaseService
                       @contact_inbox.conversations
                                     .where.not(status: :resolved).last
                     end
-    return if @conversation
+    unless @conversation
+      @conversation = ::Conversation.create!(conversation_params)
+      return
+    end
 
-    @conversation = ::Conversation.create!(conversation_params)
+    merge_conversation_additional_attributes!(@conversation)
   end
 
   def attach_files
