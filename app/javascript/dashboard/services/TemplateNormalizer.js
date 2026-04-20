@@ -51,6 +51,7 @@ export class TemplateNormalizer {
       type: TemplateTypeDetector.detectTwilioType(template),
       body: template.body || typeData.body,
       media: typeData.media || [],
+      mediaType: template.media_type || null,
       actions: typeData.actions || [],
       variables: template.variables || {},
       category: template.category || 'utility',

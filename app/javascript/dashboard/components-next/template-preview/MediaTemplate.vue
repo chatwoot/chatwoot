@@ -14,6 +14,8 @@ const VIDEO_EXTENSIONS = ['.mp4', '.mov', 'video'];
 const DOC_EXTENSIONS = ['.doc'];
 
 const mediaType = computed(() => {
+  if (props.message.mediaType) return props.message.mediaType;
+
   const format = props.message.header?.format;
   if (format) return format.toLowerCase();
 

@@ -54,6 +54,8 @@ export class TemplateTypeDetector {
         return TEMPLATE_TYPES.TWILIO_QUICK_REPLY;
       case TWILIO_TYPES.CALL_TO_ACTION:
         return TEMPLATE_TYPES.TWILIO_CALL_TO_ACTION;
+      case TWILIO_TYPES.CATALOG:
+        return TEMPLATE_TYPES.TWILIO_CARD;
       default:
         return TEMPLATE_TYPES.TWILIO_TEXT;
     }
