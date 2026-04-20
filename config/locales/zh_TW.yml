@@ -37,6 +37,8 @@ zh_TW:
     account:
       reporting_timezone:
         invalid: '不是有效的時區'
+      support_email:
+        invalid: '不是有效的電子郵件地址'
     validations:
       presence: '不能為空白'
     webhook:
@@ -52,6 +54,14 @@ zh_TW:
       not_found: '找不到分配策略'
     attachments:
       invalid: '無效的附件'
+    upload:
+      missing_input: '未提供檔案或 URL'
+      invalid_url: '提供的 URL 無效'
+      fetch_failed: '無法從 URL 擷取檔案'
+      fetch_failed_with_message: '無法從 URL 擷取檔案：%{message}'
+      file_too_large: '檔案超過允許的最大大小'
+      unsupported_content_type: '不支援的檔案類型（僅允許圖片和影片）'
+      unexpected: '發生未預期的錯誤'
     saml:
       feature_not_enabled: '此帳號尚未啟用 SAML 功能'
       sso_not_enabled: '此安裝尚未啟用 SAML SSO'

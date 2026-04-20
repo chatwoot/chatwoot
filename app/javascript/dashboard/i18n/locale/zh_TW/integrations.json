@@ -837,17 +837,23 @@
         "SUCCESS_MESSAGE": "自訂工具已成功刪除",
         "ERROR_MESSAGE": "刪除自訂工具失敗"
       },
+      "PAYWALL": {
+        "TITLE": "升級以在 Captain 中使用工具",
+        "AVAILABLE_ON": "Captain 工具僅適用於 Business 與 Enterprise 方案。請升級至 Business 方案以使用此功能。",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "開啟帳單",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain 工具僅適用於付費方案。",
+        "UPGRADE_PROMPT": "請升級至付費方案以使用此功能。",
+        "ASK_ADMIN": "請聯繫您的管理員進行升級。"
+      },
       "TEST": {
         "BUTTON": "測試連接",
         "SUCCESS": "端點回傳 HTTP {status}",
         "ERROR": "連接失敗",
         "DISABLED_HINT": "測試功能僅適用於沒有範本或請求內容的端點。"
-      },
-      "TEST": {
-        "BUTTON": "Test connection",
-        "SUCCESS": "Endpoint returned HTTP {status}",
-        "ERROR": "Connection failed",
-        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
       },
       "FORM": {
         "TITLE": {

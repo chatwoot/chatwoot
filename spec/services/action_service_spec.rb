@@ -70,6 +70,33 @@ describe ActionService do
         expect(conversation.reload.assignee).to eq(original_assignee)
       end
     end
+
+    context 'when assigning the last responding agent' do
+      it 'assigns the last agent who replied publicly' do
+        note_author = create(:user, account: account, role: :agent)
+        inbox_member
+        create(:inbox_member, inbox: conversation.inbox, user: note_author)
+        create(:message, message_type: :outgoing, account: account,
+                         inbox: conversation.inbox, conversation: conversation, sender: agent)
+        create(:message, message_type: :outgoing, private: true, account: account,
+                         inbox: conversation.inbox, conversation: conversation, sender: note_author)
+
+        action_service.assign_agent(['last_responding_agent'])
+
+        expect(conversation.reload.assignee).to eq(agent)
+      end
+
+      it 'does not assign the conversation when there is no public agent reply' do
+        inbox_member
+        original_assignee = conversation.assignee
+        create(:message, message_type: :outgoing, private: true, account: account,
+                         inbox: conversation.inbox, conversation: conversation, sender: agent)
+
+        action_service.assign_agent(['last_responding_agent'])
+
+        expect(conversation.reload.assignee).to eq(original_assignee)
+      end
+    end
   end
 
   describe '#assign_team' do

@@ -68,7 +68,8 @@
         "API_SUCCESS": "La signatura s'ha desat correctament",
         "IMAGE_UPLOAD_ERROR": "No s'ha pogut carregar la imatge! Torna-ho a provar",
         "IMAGE_UPLOAD_SUCCESS": "La imatge s'ha afegit correctament. Fes clic a desa per desar la signatura",
-        "IMAGE_UPLOAD_SIZE_ERROR": "La mida de la imatge ha de ser inferior a {size}MB"
+        "IMAGE_UPLOAD_SIZE_ERROR": "La mida de la imatge ha de ser inferior a {size}MB",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Signatura del missatge",
