@@ -38,19 +38,21 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     account = store.getters['accounts/getAccount'](routeAccountId);
   }
   const onboardingStep = account?.custom_attributes?.onboarding_step;
-  const needsOnboarding = ONBOARDING_STEPS.includes(onboardingStep);
   const userAccount = accounts.find(a => a.id === routeAccountId);
   const isAdmin = userAccount?.role === 'administrator';
+  const isActive = userAccount?.status === 'active';
+  const needsOnboarding =
+    ONBOARDING_STEPS.includes(onboardingStep) && isAdmin && isActive;
 
   if (to.name === 'no_accounts' || !to.name) {
-    const target = needsOnboarding && isAdmin ? 'onboarding' : 'dashboard';
+    const target = needsOnboarding ? 'onboarding' : 'dashboard';
     return next(frontendURL(`accounts/${routeAccountId}/${target}`));
   }
 
-  if (needsOnboarding && isAdmin && !isOnOnboardingView(to)) {
+  if (needsOnboarding && !isOnOnboardingView(to)) {
     return next(frontendURL(`accounts/${routeAccountId}/onboarding`));
   }
-  if ((!needsOnboarding || !isAdmin) && isOnOnboardingView(to)) {
+  if (!needsOnboarding && isOnOnboardingView(to)) {
     return next(frontendURL(`accounts/${routeAccountId}/dashboard`));
   }
 
