@@ -29,20 +29,14 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     return next(frontendURL('no-accounts'));
   }
 
-  // Wait for the account to load before deciding onboarding vs dashboard so
-  // the first navigation already lands on the correct route (no flash).
   const routeAccountId = Number(to.params?.accountId || accountId);
-  let account = store.getters['accounts/getAccount'](routeAccountId);
-  if (Object.keys(account).length === 0) {
-    await store.dispatch('accounts/get', { silent: true });
-    account = store.getters['accounts/getAccount'](routeAccountId);
-  }
-  const onboardingStep = account?.custom_attributes?.onboarding_step;
   const userAccount = accounts.find(a => a.id === routeAccountId);
   const isAdmin = userAccount?.role === 'administrator';
   const isActive = userAccount?.status === 'active';
   const needsOnboarding =
-    ONBOARDING_STEPS.includes(onboardingStep) && isAdmin && isActive;
+    ONBOARDING_STEPS.includes(userAccount?.onboarding_step) &&
+    isAdmin &&
+    isActive;
 
   if (to.name === 'no_accounts' || !to.name) {
     const target = needsOnboarding ? 'onboarding' : 'dashboard';
