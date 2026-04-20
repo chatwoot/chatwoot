@@ -449,7 +449,7 @@
       "CANCEL_ANYTIME": "Mund të ndryshosh ose anullosh planin tënd në çdo kohë"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
+      "AVAILABLE_ON": "Captain AI është në dispozicion vetëm në planet Enterprise.",
       "UPGRADE_PROMPT": "Përmirëso planin tënd për të pasur akses në asistentët tanë, copilot dhe më shumë.",
       "ASK_ADMIN": "Ju lutemi kontaktoni administratorin tuaj për përmirësimin."
     },
@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Dokumentet",
       "ADD_NEW": "Krijo një dokument të ri",
+      "SELECTED": "{count} i/e zgjedhur",
+      "SELECT_ALL": "Zgjidh të gjitha ({count})",
+      "UNSELECT_ALL": "Hiq zgjedhjen nga të gjitha ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Po, fshij të gjitha",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Pyetje të Shpeshta të lidhura",
         "DESCRIPTION": "Këto Pyetje të Shpeshta janë gjeneruar direkt nga dokumenti."
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Mjetet",
       "ADD_NEW": "Krijo një mjet të ri",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "Nuk ka mjete të personalizuara në dispozicion",
         "SUBTITLE": "Krijo mjete të personalizuara për të lidhur asistentin tënd me API dhe shërbime të jashtme, duke i mundësuar të marrë të dhëna dhe të kryejë veprime në emrin tënd.",
@@ -825,11 +837,30 @@
         "SUCCESS_MESSAGE": "Mjeti i personalizuar u fshi me sukses",
         "ERROR_MESSAGE": "Dështoi fshirja e mjetit të personalizuar"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Emri i mjetit",
           "PLACEHOLDER": "Kërkimi i porosisë",
-          "ERROR": "Emri i mjetit është i nevojshëm"
+          "ERROR": "Emri i mjetit është i nevojshëm",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Përshkrimi",

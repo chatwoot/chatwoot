@@ -93,6 +93,7 @@
       "ASSIGN_AGENT": "Atribuir um Agente",
       "ADD_LABEL": "Adicionar uma Etiqueta",
       "REMOVE_LABEL": "Remover uma Etiqueta",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "Remover Time Atribuído",
       "SEND_EMAIL_TRANSCRIPT": "Enviar uma transcrição por e-mail",
       "MUTE_CONVERSATION": "Silenciar Conversa",

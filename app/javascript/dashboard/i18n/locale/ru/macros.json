@@ -93,6 +93,7 @@
       "ASSIGN_AGENT": "Назначить сотрудника",
       "ADD_LABEL": "Добавить метку",
       "REMOVE_LABEL": "Удалить метку",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "Удалить назначенную команду",
       "SEND_EMAIL_TRANSCRIPT": "Отправить историю переписки на email",
       "MUTE_CONVERSATION": "Заглушить диалог",

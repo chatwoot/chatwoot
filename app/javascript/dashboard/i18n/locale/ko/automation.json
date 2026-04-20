@@ -140,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "에이전트에게 배정",
       "ASSIGN_TEAM": "팀 배정",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "배정된 팀 제거",
       "ADD_LABEL": "라벨 추가",
       "REMOVE_LABEL": "라벨 제거",
       "SEND_EMAIL_TO_TEAM": "팀에 이메일 보내기",
@@ -169,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "메시지 유형",
+      "PRIVATE_NOTE": "개인 노트",
       "MESSAGE_CONTAINS": "메시지 포함",
       "EMAIL": "이메일",
       "INBOX": "받은 메시지함",

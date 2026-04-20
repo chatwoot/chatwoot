@@ -140,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "აგენტის მინიჭება",
       "ASSIGN_TEAM": "გუნდის მინიჭება",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
       "ADD_LABEL": "იარლიყის დამატება",
       "REMOVE_LABEL": "იარლიყის მოცილება",
       "SEND_EMAIL_TO_TEAM": "ელფოსტის გაგზავნა გუნდისთვის",
@@ -169,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "შეტყობინების ტიპი",
+      "PRIVATE_NOTE": "Private Note",
       "MESSAGE_CONTAINS": "შეტყობინება შეიცავს",
       "EMAIL": "ელფოსტა",
       "INBOX": "ინბოქსი",

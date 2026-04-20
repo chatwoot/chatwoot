@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Mesaj imzası yapılandırılmamış, lütfen profil ayarlarında yapılandırın.",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "Copilot için ek komutlar verin veya başka bir şey sorun... Takip için gönder tuşuna basın",
       "CLICK_HERE": "Güncellemek için tıklayın",
       "WHATSAPP_TEMPLATES": "WhatsApp Şablonları"
     },
@@ -214,7 +214,7 @@
       "DRAG_DROP": "Eklemek için buraya sürükleyip bırakın",
       "START_AUDIO_RECORDING": "Ses kaydına başla",
       "STOP_AUDIO_RECORDING": "Ses kaydını durdur",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot düşünüyor",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Bcc ekle",

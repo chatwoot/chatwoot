@@ -126,7 +126,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Usando a integração com Slack",
-        "BODY": "Com essa integração, todas as suas conversas recebidas serão sincronizadas com o canal ***{selectedChannelName}*** em seu espaço de trabalho Slack. Você pode gerenciar todas as suas conversas com clientes diretamente no canal e nunca perder uma mensagem.\n\nAqui estão os principais recursos da integração:\n\n**Responda a conversas de dentro do Slack:** Para responder a uma conversa no canal ***{selectedChannelName}*** Slack, simplesmente digite a sua mensagem e envie-a como um tópico. Isso criará uma resposta ao cliente através do Chatwoot. É tão simples!\n\n **Crie notas privadas:** Se você quiser criar notas privadas em vez de respostas, inicie sua mensagem com ***`nota:`***. Isso garante que sua mensagem seja privada e não seja visível para o cliente.\n\n**Associar um perfil de agente:** Se a pessoa que respondeu no Slack tem um perfil de agente no Chatwoot sob o mesmo e-mail, as respostas serão associadas automaticamente com esse perfil de agente. Isso significa que você pode facilmente controlar quem disse o quê e quando. Por outro lado, quando o respondente não tiver um perfil de agente associado, as respostas aparecerão do perfil do bot para o cliente.",
+        "BODY": "Com essa integração, todas as suas conversas recebidas serão sincronizadas com o canal ***{selectedChannelName}*** em seu espaço de trabalho Slack. Você pode gerenciar todas as suas conversas com clientes diretamente no canal e nunca perder uma mensagem.\n\nAqui estão os principais recursos da integração:\n\n**Responda a conversas de dentro do Slack:** Para responder a uma conversa no canal ***{selectedChannelName}*** Slack, simplesmente digite a sua mensagem e envie-a como um tópico. Isso criará uma resposta ao cliente por meio do Chatwoot. Simples assim!\n\n **Crie notas privadas:** Se você quiser criar notas privadas em vez de respostas, inicie sua mensagem com ***`nota:`***. Isso garante que sua mensagem seja privada e não seja visível para o cliente.\n\n**Associar um perfil de agente:** Se a pessoa que respondeu no Slack tem um perfil de agente no Chatwoot sob o mesmo e-mail, as respostas serão associadas automaticamente com esse perfil de agente. Isso significa que você pode facilmente controlar quem disse o quê e quando. Por outro lado, quando o respondente não tiver um perfil de agente associado, as respostas aparecerão do perfil do bot para o cliente.",
         "SELECTED": "selecionar"
       },
       "SELECT_CHANNEL": {
@@ -437,7 +437,7 @@
       "USER": "Você",
       "ASSISTANT": "Assistente",
       "MESSAGE_PLACEHOLDER": "Digite sua mensagem...",
-      "HEADER": "Playground",
+      "HEADER": "Área de testes",
       "DESCRIPTION": "Use este playground para enviar mensagens para seu assistente e verificar se ele responde com precisão, rápido e no tom que você espera.",
       "CREDIT_NOTE": "As mensagens enviadas aqui usam os créditos do seu Capitão."
     },
@@ -528,7 +528,7 @@
           "ALLOW_CONVERSATION_FAQS": "Gerar perguntas frequentes a partir de conversas resolvidas",
           "ALLOW_MEMORIES": "Capture os principais detalhes como memórias de interações do cliente.",
           "ALLOW_CITATIONS": "Incluir fonte de citações nas respostas",
-          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
+          "ALLOW_CONTACT_ATTRIBUTES": "Permitir acesso às informações do contato"
         }
       },
       "EDIT": {
@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Documentos",
       "ADD_NEW": "Criar um novo documento",
+      "SELECTED": "{count} selecionado",
+      "SELECT_ALL": "Selecionar todos ({count})",
+      "UNSELECT_ALL": "Desmarcar todos ({count})",
+      "BULK_DELETE_BUTTON": "Excluir",
+      "BULK_DELETE": {
+        "TITLE": "Excluir documentos?",
+        "DESCRIPTION": "Você tem certeza que deseja excluir os documentos selecionados? Esta ação não pode ser desfeita.",
+        "CONFIRM": "Sim, excluir todas",
+        "SUCCESS_MESSAGE": "Documentos excluídos com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro ao excluir os documentos, por favor novamente."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "FAQs Relacionadas",
         "DESCRIPTION": "Estes FAQs são gerados diretamente a partir do documento."
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Ferramentas",
       "ADD_NEW": "Criar ferramenta",
+      "SOFT_LIMIT_WARNING": "Ter mais de 10 ferramentas pode reduzir a confiabilidade do assistente na seleção da ferramenta certa. Considere remover ferramentas não utilizadas para melhores resultados.",
       "EMPTY_STATE": {
         "TITLE": "Não há ferramentas personalizadas disponíveis",
         "SUBTITLE": "Crie ferramentas personalizadas para conectar com APIs e serviços externos, permitindo obter dados e agir por você.",
@@ -825,11 +837,30 @@
         "SUCCESS_MESSAGE": "Ferramenta personalizada excluída com sucesso",
         "ERROR_MESSAGE": "Falha ao excluir a ferramenta personalizada"
       },
+      "PAYWALL": {
+        "TITLE": "Atualize para usar ferramentas com o Capitão",
+        "AVAILABLE_ON": "As ferramentas do Capitão estão disponíveis apenas nos planos Business e Enterprise. Faça upgrade para o plano Business para utilizar esse recurso.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Abrir faturamento",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Ferramentas do Capitão estão disponíveis apenas nos planos pagos.",
+        "UPGRADE_PROMPT": "Por favor, faça o upgrade para um plano pago para utilizar este recurso.",
+        "ASK_ADMIN": "Entre em contato com seu administrador para fazer a atualização."
+      },
+      "TEST": {
+        "BUTTON": "Testar conexão",
+        "SUCCESS": "Endpoint retornou HTTP {status}",
+        "ERROR": "Conexão falhou",
+        "DISABLED_HINT": "Testes estão disponíveis apenas para endpoints que não possuem modelos ou corpos de requisição."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Nome da Ferramenta",
           "PLACEHOLDER": "Consulta de pedido",
-          "ERROR": "Nome da ferramente obrigatória"
+          "ERROR": "Nome da ferramente obrigatória",
+          "MAX_LENGTH_ERROR": "O nome da ferramenta deve ter {max} caracteres ou menos"
         },
         "DESCRIPTION": {
           "LABEL": "Descrição",

@@ -36,7 +36,9 @@ pt_BR:
   errors:
     account:
       reporting_timezone:
-        invalid: is not a valid timezone
+        invalid: não é um fuso horário válido
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: não pode ficar em branco
     webhook:
@@ -52,6 +54,14 @@ pt_BR:
       not_found: Política de atribuição não encontrada
     attachments:
       invalid: Anexo inválido
+    upload:
+      missing_input: 'Nenhum arquivo ou URL fornecido'
+      invalid_url: 'URL fornecida inválida'
+      fetch_failed: 'Falha ao recuperar o arquivo da URL'
+      fetch_failed_with_message: 'Falha ao recuperar o arquivo da URL: %{message}'
+      file_too_large: 'O arquivo excede o tamanho máximo permitido'
+      unsupported_content_type: 'Tipo de arquivo não suportado (apenas imagens e vídeos são permitidos)'
+      unexpected: 'Ocorreu um erro inesperado'
     saml:
       feature_not_enabled: SAML não está habilitado para esta conta
       sso_not_enabled: O SSO via SAML não está habilitado para esta instalação
@@ -373,6 +383,7 @@ pt_BR:
       page_processing_error: 'Erro ao processar as páginas %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'Não foi possível gerar um slug único após 5 tentativas'
+      limit_exceeded: 'Você pode criar no máximo %{limit} ferramentas personalizadas por conta'
   public_portal:
     search:
       search_placeholder: Pesquisar por artigo por título ou corpo...
@@ -409,6 +420,10 @@ pt_BR:
       title: Página não encontrada
       description: Não conseguimos encontrar a página que você estava procurando.
       back_to_home: Ir para a página inicial
+    not_active:
+      title: Central de Ajuda Indisponível
+      description: Entre em contato com o administrador do site para mais informações.
+      action: Se você é o administrador, por favor atualize seu plano para restaurar o acesso.
   slack_unfurl:
     fields:
       name: Nome

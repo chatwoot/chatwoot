@@ -126,7 +126,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "यस एकीकरणसँग, तपाईंका सबै आउने कुराकानीहरू तपाईंको Slack workspace भित्रको ***{selectedChannelName}*** च्यानलमा sync हुनेछन्। तपाईं च्यानलमै बसेर आफ्ना सबै ग्राहक कुराकानीहरू व्यवस्थापन गर्न सक्नुहुन्छ र कहिल्यै कुनै सन्देश छुटाउनु पर्दैन।\n\nयस एकीकरणका मुख्य सुविधाहरू यस्ता छन्:\n\n**Slack भित्रैबाट कुराकानीहरूलाई जवाफ दिनुहोस्:** ***{selectedChannelName}*** Slack च्यानलमा रहेको कुनै कुराकानीलाई जवाफ दिन, आफ्नो सन्देश टाइप गर्नुहोस् र यसलाई thread को रूपमा पठाउनुहोस्। यसले Chatwoot मार्फत ग्राहकलाई जवाफ सिर्जना गर्नेछ। यति नै सजिलो!\n\n **निजी नोटहरू सिर्जना गर्नुहोस्:** यदि तपाईं reply को सट्टा निजी नोटहरू सिर्जना गर्न चाहनुहुन्छ भने, आफ्नो सन्देशको सुरुमा ***`note:`*** लेख्नुहोस्। यसले तपाईंको सन्देश निजी नै रहन्छ र ग्राहकलाई देखिँदैन भन्ने सुनिश्चित गर्छ।\n\n**एजेन्ट प्रोफाइललाई associate गर्नुहोस्:** यदि Slack मा reply गर्ने व्यक्तिको Chatwoot मा उही email अन्तर्गत एजेन्ट प्रोफाइल छ भने, reply हरू स्वतः त्यही एजेन्ट प्रोफाइलसँग associate हुनेछन्। यसको अर्थ तपाईंले कसले के भन्यो र कहिले भन्यो भनेर सजिलै ट्र्याक गर्न सक्नुहुन्छ। अर्कोतर्फ, reply गर्ने व्यक्तिसँग कुनै associated एजेन्ट प्रोफाइल छैन भने, ग्राहकलाई reply हरू bot profile बाट आएको रूपमा देखिनेछन्.",
         "SELECTED": "छानिएको"
       },
       "SELECT_CHANNEL": {
@@ -392,10 +392,10 @@
     "NAME": "कप्तान",
     "HEADER_KNOW_MORE": "थप जान्नु",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "सहायकहरू",
+      "SWITCH_ASSISTANT": "सहायकहरू बीच साट्नुस्",
+      "NEW_ASSISTANT": "सहायक सिर्जना गर्नुहोस्",
+      "EMPTY_LIST": "कुनै सहायक फेला परेन, सुरु गर्न कृपया एउटा सिर्जना गर्नुहोस्"
     },
     "COPILOT": {
       "TITLE": "कोपाइलट",
@@ -449,7 +449,7 @@
       "CANCEL_ANYTIME": "तपाईं आफ्नो योजना कुनै पनि समयमा परिवर्तन वा रद्द गर्न सक्नुहुन्छ"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
+      "AVAILABLE_ON": "Captain AI केवल Enterprise योजनाहरूमा उपलब्ध छ।",
       "UPGRADE_PROMPT": "हाम्रो सहायकहरू, कोपाइलट र थप सुविधाहरू पहुँच गर्न आफ्नो योजना अपग्रेड गर्नुहोस्।",
       "ASK_ADMIN": "कृपया अपग्रेडका लागि आफ्नो प्रशासकलाई सम्पर्क गर्नुहोस्।"
     },
@@ -584,8 +584,8 @@
         "TITLE": "सीमाहरू",
         "DESCRIPTION": "सबै कुरा ट्र्याकमा राख्छ—सहायकले तपाईंले चाहेका प्रश्नहरू मात्र जवाफ दिन्छ, अरू कुनै विषय वा सीमा बाहिर जाँदैन।",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
+          "SELECTED": "{count} वस्तु चयन गरियो | {count} वस्तुहरू चयन गरियो",
+          "SELECT_ALL": "सबै चयन गर्नुहोस् ({count})",
           "UNSELECT_ALL": "Unselect all ({count})",
           "BULK_DELETE_BUTTON": "हटाउनुहोस्"
         },
@@ -629,8 +629,8 @@
         "TITLE": "उत्तर दिने निर्देशिका",
         "DESCRIPTION": "तपाईंको सहायकका उत्तरहरूको शैली र संरचना—स्पष्ट र मैत्रीपूर्ण? छोटो र छरितो? विस्तृत र औपचारिक?",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
+          "SELECTED": "{count} वस्तु चयन गरियो | {count} वस्तुहरू चयन गरियो",
+          "SELECT_ALL": "सबै चयन गर्नुहोस् ({count})",
           "UNSELECT_ALL": "Unselect all ({count})",
           "BULK_DELETE_BUTTON": "हटाउनुहोस्"
         },
@@ -674,8 +674,8 @@
         "TITLE": "परिदृश्यहरू",
         "DESCRIPTION": "आफ्नो सहायकलाई केही सन्दर्भ दिनुहोस्—जस्तै “प्रयोगकर्ता अल्झिएको बेला के गर्ने”, वा “रिफन्ड अनुरोधमा कसरी व्यवहार गर्ने।”",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
+          "SELECTED": "{count} वस्तु चयन गरियो | {count} वस्तुहरू चयन गरियो",
+          "SELECT_ALL": "सबै चयन गर्नुहोस् ({count})",
           "UNSELECT_ALL": "Unselect all ({count})",
           "BULK_DELETE_BUTTON": "हटाउनुहोस्"
         },
@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "कागजातहरू",
       "ADD_NEW": "नयाँ कागजात सिर्जना गर्नुहोस्",
+      "SELECTED": "{count} चयन गरियो",
+      "SELECT_ALL": "सबै चयन गर्नुहोस् ({count})",
+      "UNSELECT_ALL": "सबै चयन हटाउनुहोस् ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "हो, सबै मेटाउनु",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "सम्बन्धित FAQ",
         "DESCRIPTION": "यी FAQ सिधा कागजातबाट उत्पन्न भएका हुन्।"
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "उपकरणहरू",
       "ADD_NEW": "नयाँ उपकरण बनाउनुहोस्",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "कुनै कस्टम उपकरण उपलब्ध छैन",
         "SUBTITLE": "आफ्नो सहायकलाई बाह्य API र सेवासँग जडान गर्न कस्टम उपकरणहरू बनाउनुहोस्, जसले तपाईंको लागि डेटा ल्याउन र कार्यहरू गर्न सक्षम बनाउँछ।",
@@ -825,11 +837,30 @@
         "SUCCESS_MESSAGE": "कस्टम टुल सफलतापूर्वक मेटाइयो",
         "ERROR_MESSAGE": "कस्टम टुल मेटाउन असफल भयो"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "टुलको नाम",
           "PLACEHOLDER": "अर्डर खोज्नुहोस्",
-          "ERROR": "टुलको नाम आवश्यक छ"
+          "ERROR": "टुलको नाम आवश्यक छ",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "विवरण",
