@@ -214,6 +214,12 @@ messages:
     filter_operators:
       - "equal_to"
       - "not_equal_to"
+  private_note:
+    attribute_type: "standard"
+    data_type: "boolean"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
   content:
     attribute_type: "standard"
     data_type: "text"

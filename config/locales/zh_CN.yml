@@ -37,6 +37,8 @@ zh_CN:
     account:
       reporting_timezone:
         invalid: is not a valid timezone
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: 不能为空
     webhook:
@@ -52,6 +54,14 @@ zh_CN:
       not_found: Assignment policy not found
     attachments:
       invalid: Invalid attachment
+    upload:
+      missing_input: 'No file or URL provided'
+      invalid_url: 'Invalid URL provided'
+      fetch_failed: 'Failed to fetch file from URL'
+      fetch_failed_with_message: 'Failed to fetch file from URL: %{message}'
+      file_too_large: 'File exceeds the maximum allowed size'
+      unsupported_content_type: 'File type not supported (only images and videos are allowed)'
+      unexpected: 'An unexpected error occurred'
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
@@ -247,11 +257,11 @@ zh_CN:
         removed: '%{user_name} 取消了优先级'
       assignee:
         self_assigned: '%{user_name} 自行分配这次会话'
-        assigned: '由 %{assignee_name} 分配给 %{user_name}'
+        assigned: '由 %{user_name} 分配给 %{assignee_name}'
         removed: '对话未被 %{user_name} 分配'
       team:
-        assigned: '由 %{team_name} 分配给 %{user_name}'
-        assigned_with_assignee: '由 %{assignee_name} 分配给 %{team_name} 团队的 %{user_name}'
+        assigned: '由 %{user_name} 分配给 %{team_name}'
+        assigned_with_assignee: '由 %{user_name} 通过 %{team_name} 团队分配给 %{assignee_name}'
         removed: '由 %{user_name} 从 %{team_name} 中取消分配'
       labels:
         added: '%{user_name} 添加 %{labels}'

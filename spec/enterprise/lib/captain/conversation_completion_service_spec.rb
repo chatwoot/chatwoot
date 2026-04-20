@@ -141,15 +141,15 @@ RSpec.describe Captain::ConversationCompletionService do
         service.perform
       end
 
-      it 'falls back to the account hook key when no system key exists' do
+      it 'does not fall back to the account hook key when no system key exists' do
         InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY').update!(value: nil)
 
-        expect(Llm::Config).to receive(:with_api_key).with('customer-own-key', api_base: anything).and_yield(mock_context)
-        allow(mock_chat).to receive(:ask).and_return(
-          instance_double(RubyLLM::Message, content: { 'complete' => true, 'reason' => 'Done' }, input_tokens: 10, output_tokens: 5)
-        )
+        expect(Llm::Config).not_to receive(:with_api_key)
 
-        service.perform
+        result = service.perform
+
+        expect(result[:complete]).to be false
+        expect(result[:reason]).to eq(I18n.t('captain.api_key_missing'))
       end
     end
 

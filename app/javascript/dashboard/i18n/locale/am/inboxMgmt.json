@@ -86,6 +86,14 @@
           "PLACEHOLDER": "እባክዎ የWebhook URLዎን ያስገቡ",
           "ERROR": "እባክዎ ትክክለኛ አድራሻ ያስገቡ"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "ምስጢሩን ወደ ክሊፕቦርድ ቅዳ",
+          "COPY_SUCCESS": "ምስጢሩ ወደ ክሊፕቦርድ ተቀድሷል",
+          "TOGGLE": "የምስጢሩን ማየት አሳይ/ደብቅ",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "የድር ጣቢያ ዶሜን",
           "PLACEHOLDER": "የድር ጣቢያዎን ዶሜን ያስገቡ (ለምሳሌ፡ acme.com)"

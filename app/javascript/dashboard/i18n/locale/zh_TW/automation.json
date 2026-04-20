@@ -140,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "指派給客服人員",
       "ASSIGN_TEAM": "指派團隊",
+      "REMOVE_ASSIGNED_AGENT": "移除已指派的客服人員",
+      "REMOVE_ASSIGNED_TEAM": "移除已指派的團隊",
       "ADD_LABEL": "新增標籤",
       "REMOVE_LABEL": "移除標籤",
       "SEND_EMAIL_TO_TEAM": "傳送電子郵件給團隊",
@@ -169,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "訊息類型",
+      "PRIVATE_NOTE": "私人筆記",
       "MESSAGE_CONTAINS": "訊息包含",
       "EMAIL": "電子郵件",
       "INBOX": "收件匣",

@@ -984,7 +984,32 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 }
 
 .ProseMirror-woot-style {
-  @apply overflow-auto min-h-[5rem] max-h-[7.5rem];
+  @apply overflow-auto;
+}
+
+.ProseMirror-woot-style:not(
+    :where(.resizable-editor-wrapper .ProseMirror-woot-style)
+  ) {
+  @apply min-h-[5rem] max-h-[7.5rem];
+}
+
+// Resizable editor wrapper styles
+.resizable-editor-wrapper {
+  .ProseMirror-woot-style {
+    min-height: clamp(
+      var(--editor-min-allowed, var(--editor-min-height, 5rem)),
+      var(--editor-height, var(--editor-min-height, 5rem)),
+      var(--editor-max-allowed, var(--editor-max-height, 7.5rem))
+    );
+    max-height: clamp(
+      var(--editor-min-allowed, var(--editor-min-height, 5rem)),
+      var(--editor-height, var(--editor-min-height, 5rem)),
+      var(--editor-max-allowed, var(--editor-max-height, 7.5rem))
+    );
+    transition:
+      min-height var(--editor-height-transition, 180ms ease),
+      max-height var(--editor-height-transition, 180ms ease);
+  }
 }
 
 .ProseMirror-prompt-backdrop::backdrop {
