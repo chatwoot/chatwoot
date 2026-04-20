@@ -112,11 +112,14 @@ const selectedModel = computed({
 
       <div class="w-px h-3 bg-n-slate-6 flex-shrink-0" />
 
-      <div v-if="!isInboxView" class="w-20 flex-shrink-0">
+      <div v-if="!isInboxView && showInboxName" class="w-20 flex-shrink-0">
         <InboxName v-if="showInboxName" :inbox="inbox" class="min-w-0" />
       </div>
 
-      <div v-if="!isInboxView" class="w-px h-3 bg-n-slate-6 flex-shrink-0" />
+      <div
+        v-if="!isInboxView && showInboxName"
+        class="w-px h-3 bg-n-slate-6 flex-shrink-0"
+      />
 
       <div
         v-tooltip.top="{
