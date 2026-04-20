@@ -1180,6 +1180,9 @@ export default {
                 "
                 :description="continuityDescription"
                 :hide-toggle="isContinuityDisabled"
+                :class="
+                  isContinuityDisabled ? 'cursor-not-allowed opacity-50' : ''
+                "
               />
             </SettingsAccordion>
 
