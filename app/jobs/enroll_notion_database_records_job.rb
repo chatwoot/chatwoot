@@ -3,7 +3,7 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
 
   BATCH_SIZE = 100
 
-  def perform(sequence_id)
+  def perform(sequence_id, cursor = nil)
     sequence = LeadFollowUpSequence.find_by(id: sequence_id)
     return unless sequence&.active? && sequence.source_type == 'notion_database'
 
@@ -13,21 +13,21 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
       return
     end
 
-    Rails.logger.info "Enrolling Notion database records for sequence #{sequence.id} (#{sequence.name})"
+    page_label = cursor ? "cursor=#{cursor[0..7]}..." : 'page 1'
+    Rails.logger.info "Enrolling Notion records for sequence #{sequence.id} (#{sequence.name}) [#{page_label}]"
 
     enrolled_count = 0
     skipped_count = 0
     start_time = Time.current
 
-    # Fetch records from Notion
     notion_service = Notion::DatabasesService.new(sequence.account)
     database_id = sequence.source_config['notion_database_id']
 
     begin
       filters = build_notion_filters(sequence.source_config)
-      Rails.logger.info "Applying Notion filters: #{filters.inspect}"
-      records = notion_service.query_database(database_id, filters.merge(limit: BATCH_SIZE))
-      Rails.logger.info "Found #{records.count} records in Notion database #{database_id} with filters applied"
+      result = notion_service.query_database(database_id, filters.merge(cursor: cursor))
+      records = result[:records]
+      Rails.logger.info "Fetched #{records.size} records [#{page_label}]"
     rescue CustomExceptions::Notion::ApiError => e
       Rails.logger.error "Failed to fetch Notion records: #{e.message}"
       return
@@ -36,10 +36,7 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
     records.each do |record|
       begin
         record_id = record[:id]
-        Rails.logger.info "Processing Notion record #{record_id}"
-        Rails.logger.debug "Record structure: #{record.keys.inspect}"
 
-        # Create or find contact
         contact = find_or_create_contact(sequence, record)
         unless contact
           Rails.logger.warn "Skipping record #{record_id}: Could not create/find contact"
@@ -47,9 +44,6 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
           next
         end
 
-        Rails.logger.info "Contact created/found: #{contact.id}"
-
-        # Create or find conversation with first contact
         conversation = create_conversation_with_first_contact(sequence, contact, record)
         unless conversation
           Rails.logger.warn "Skipping record #{record_id}: Could not create conversation"
@@ -57,12 +51,9 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
           next
         end
 
-        Rails.logger.info "Conversation created: #{conversation.id}"
-
-        # Enroll conversation in sequence
         enroll_conversation(conversation, sequence, first_step, record)
         enrolled_count += 1
-        Rails.logger.info "Successfully enrolled record #{record_id}"
+        Rails.logger.info "Enrolled record #{record_id}"
       rescue StandardError => e
         Rails.logger.error "Failed to enroll Notion record #{record_id}: #{e.message}"
         Rails.logger.error "Backtrace: #{e.backtrace.first(5).join("\n")}" if e.backtrace
@@ -71,8 +62,14 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
     end
 
     duration = Time.current - start_time
-    Rails.logger.info "Notion enrollment complete for sequence #{sequence.id} in #{duration.round(2)}s: " \
-                      "Enrolled: #{enrolled_count}, Skipped: #{skipped_count}"
+    Rails.logger.info "Page complete for sequence #{sequence.id} in #{duration.round(2)}s: " \
+                      "enrolled=#{enrolled_count}, skipped=#{skipped_count}"
+
+    # Chain next page if Notion has more records
+    if result[:has_more] && result[:next_cursor].present?
+      Rails.logger.info "Chaining next page with cursor #{result[:next_cursor][0..7]}..."
+      self.class.perform_later(sequence_id, result[:next_cursor])
+    end
   end
 
   private
@@ -320,6 +317,14 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
   end
 
   def send_whatsapp_template(sequence, conversation, contact, record, config)
+    # Idempotency: skip if this Notion record already has a sent template on this conversation
+    if conversation.messages.where(message_type: :template)
+                            .where("content_attributes->>'notion_record_id' = ?", record[:id].to_s)
+                            .exists?
+      Rails.logger.info "Template already sent for notion_record_id #{record[:id]}, skipping"
+      return
+    end
+
     template_name = config['template_name']
     template_params = config['template_params'] || {}
 
@@ -446,10 +451,16 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
   end
 
   def enroll_conversation(conversation, sequence, _first_step, record)
-    # Check if conversation is already actively enrolled
+    # Idempotency: skip if an active SequenceEnrollment already exists (retry-safe)
+    if conversation.sequence_enrollments.where(lead_follow_up_sequence: sequence, status: 'active').exists?
+      Rails.logger.info "Conversation #{conversation.id} already has active enrollment, skipping"
+      return
+    end
+
+    # Also skip if ConversationFollowUp is active (belt-and-suspenders)
     active_follow_up = conversation.conversation_follow_up
     if active_follow_up&.status == 'active'
-      Rails.logger.info "Conversation #{conversation.id} already has active enrollment, skipping"
+      Rails.logger.info "Conversation #{conversation.id} already has active follow-up, skipping"
       return
     end
 

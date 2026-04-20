@@ -28,26 +28,24 @@ class ProcessLeadFollowUpsJob < ApplicationJob
   private
 
   def reserve_pending_follow_ups
-    # Utilizamos UPDATE ... RETURNING para atomicidad (Postgres)
-    # Esto marca los registros como "en proceso" y nos devuelve los IDs en un solo paso atómico.
-    # Evita condiciones de carrera entre múltiples dispatchers (si hubieran).
-    ConversationFollowUp
-      .where(status: 'active')
-      .where('next_action_at <= ?', Time.current)
-      .where(processing_started_at: nil)
-      .limit(BATCH_SIZE)
-      .update_all(processing_started_at: Time.current)
+    # FOR UPDATE SKIP LOCKED: reserva atómica en una sola operación, sin race condition.
+    # Cualquier dispatcher concurrente simplemente saltea las filas ya reservadas.
+    sql = <<~SQL.squish
+      UPDATE conversation_follow_ups
+      SET processing_started_at = NOW()
+      WHERE id IN (
+        SELECT id FROM conversation_follow_ups
+        WHERE status = 'active'
+          AND next_action_at <= NOW()
+          AND processing_started_at IS NULL
+        ORDER BY next_action_at ASC
+        LIMIT #{BATCH_SIZE}
+        FOR UPDATE SKIP LOCKED
+      )
+      RETURNING id
+    SQL
 
-    # Nota: update_all en Rails < 7 no devuelve los IDs por defecto con RETURNING en todos los adaptadores,
-    # pero como estamos en un job periódico, podemos simplemente consultar los que acabamos de marcar
-    # con un pequeño margen de error aceptable, o confiar en que processing_started_at es muy reciente.
-    # Para mayor solidez en PG, lo ideal es una raw query con RETURNING id, pero esto es suficiente para v1.
-
-    ConversationFollowUp
-      .where(status: 'active')
-      .where('processing_started_at >= ?', 1.minute.ago)
-      .where(sidekiq_job_id: nil) # Opcional: para diferenciar de los viejos jobs individuales
-      .pluck(:id)
+    ActiveRecord::Base.connection.select_values(sql).map(&:to_i)
   end
 
   def release_zombies

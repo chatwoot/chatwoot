@@ -21,9 +21,9 @@ class Api::V1::Accounts::Notion::DatabasesController < Api::V1::Accounts::BaseCo
 
   def query
     service = Notion::DatabasesService.new(Current.account)
-    records = service.query_database(params[:id], query_params)
+    result = service.query_database(params[:id], query_params)
 
-    render json: { records: records, count: records.size }
+    render json: { records: result[:records], count: result[:records].size }
   rescue CustomExceptions::Notion::ApiError => e
     render json: { error: e.message }, status: :unprocessable_entity
   end

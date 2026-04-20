@@ -260,6 +260,7 @@ const fetchSequence = async () => {
     // Load templates for regular copilots (inbox at sequence level)
     if (sequence.value.inbox_id) {
       await loadTemplates();
+      initHeaderForExistingSteps();
       // Trigger preview after loading sequence
       fetchPreview({
         inbox_id: sequence.value.inbox_id,
@@ -285,6 +286,7 @@ const fetchSequence = async () => {
             firstContactStep.config.inbox_id
           );
           availableTemplates.value = response.data.templates;
+          initHeaderForExistingSteps();
         } catch (error) {
           console.error('Failed to load templates for first_contact step:', error);
         }
@@ -647,6 +649,40 @@ const getTemplateParams = templateName => {
   return matches || [];
 };
 
+const getTemplateHeaderFormat = templateName => {
+  const template = availableTemplates.value.find(t => t.name === templateName);
+  const header = template?.components?.find(c => c.type === 'HEADER');
+  return header?.format || '';
+};
+
+const initHeaderForExistingSteps = () => {
+  sequence.value.steps?.forEach(step => {
+    let config = null;
+    if (step.type === 'first_contact' && step.config?.template_name) {
+      config = step.config;
+    } else if (
+      step.type === 'send_message' &&
+      step.config?.template_config?.template_name
+    ) {
+      config = step.config.template_config;
+    }
+    if (!config) return;
+
+    const headerFormat = getTemplateHeaderFormat(config.template_name);
+    if (['IMAGE', 'VIDEO', 'DOCUMENT'].includes(headerFormat)) {
+      if (!config.template_params) config.template_params = { body: {} };
+      if (!config.template_params.header) {
+        config.template_params.header = {
+          media_type: headerFormat,
+          media_url: '',
+        };
+      } else {
+        config.template_params.header.media_type = headerFormat;
+      }
+    }
+  });
+};
+
 const onTemplateChange = (step, configPath = 'config') => {
   // For send_message steps, configPath will be 'template_config'
   // For send_template steps, configPath will be 'config' (default)
@@ -672,6 +708,16 @@ const onTemplateChange = (step, configPath = 'config') => {
   });
 
   config.template_params.body = bodyParams;
+
+  const headerFormat = getTemplateHeaderFormat(config.template_name);
+  if (['IMAGE', 'VIDEO', 'DOCUMENT'].includes(headerFormat)) {
+    config.template_params.header = {
+      media_type: headerFormat,
+      media_url: config.template_params.header?.media_url || '',
+    };
+  } else {
+    delete config.template_params.header;
+  }
 };
 
 const copyToClipboard = text => {
@@ -2693,6 +2739,36 @@ const saveSequence = async () => {
                             </div>
                           </div>
 
+                          <!-- Header Media URL -->
+                          <div
+                            v-if="
+                              step.config.template_name &&
+                              ['IMAGE', 'VIDEO', 'DOCUMENT'].includes(
+                                getTemplateHeaderFormat(step.config.template_name)
+                              )
+                            "
+                            class="mt-3 space-y-1 p-3 bg-n-slate-2 dark:bg-n-slate-3 rounded"
+                          >
+                            <label class="block text-xs font-medium text-n-slate-12">
+                              URL de
+                              {{
+                                getTemplateHeaderFormat(step.config.template_name) === 'IMAGE'
+                                  ? 'imagen'
+                                  : getTemplateHeaderFormat(step.config.template_name) === 'VIDEO'
+                                    ? 'video'
+                                    : 'documento'
+                              }}
+                              del header
+                              <span class="text-n-red-10">*</span>
+                            </label>
+                            <input
+                              v-model="step.config.template_params.header.media_url"
+                              type="url"
+                              class="w-full px-2 py-1 text-sm"
+                              placeholder="https://..."
+                            />
+                          </div>
+
                           <!-- Message Preview -->
                           <div
                             v-if="
@@ -3114,6 +3190,40 @@ const saveSequence = async () => {
                                 </code>
                               </div>
                             </div>
+                          </div>
+
+                          <!-- Header Media URL -->
+                          <div
+                            v-if="
+                              step.config.template_config.template_name &&
+                              ['IMAGE', 'VIDEO', 'DOCUMENT'].includes(
+                                getTemplateHeaderFormat(
+                                  step.config.template_config.template_name
+                                )
+                              )
+                            "
+                            class="space-y-1 p-3 bg-white/50 dark:bg-n-slate-1/50 rounded"
+                          >
+                            <label class="block text-xs font-medium text-n-slate-12 mb-2">
+                              URL de
+                              {{
+                                getTemplateHeaderFormat(step.config.template_config.template_name) === 'IMAGE'
+                                  ? 'imagen'
+                                  : getTemplateHeaderFormat(step.config.template_config.template_name) === 'VIDEO'
+                                    ? 'video'
+                                    : 'documento'
+                              }}
+                              del header
+                              <span class="text-n-red-10">*</span>
+                            </label>
+                            <input
+                              v-model="
+                                step.config.template_config.template_params.header.media_url
+                              "
+                              type="url"
+                              class="w-full px-2 py-1 text-sm"
+                              placeholder="https://..."
+                            />
                           </div>
 
                           <!-- Message Preview -->

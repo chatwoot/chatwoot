@@ -29,21 +29,22 @@ class Notion::DatabasesService
     }
   end
 
-  # Query database with optional filters
+  # Query database — returns { records:, has_more:, next_cursor: }
   def query_database(database_id, filters = {})
-    body = {
-      page_size: filters[:limit] || 100
-    }
+    body = { page_size: 100 }
+    body[:start_cursor] = filters[:cursor] if filters[:cursor].present?
 
-    # Build Notion filters from date_filters and select_filters
     notion_filters = build_notion_filters(filters)
     body[:filter] = notion_filters if notion_filters.present?
-
     body[:sorts] = [{ timestamp: 'created_time', direction: 'descending' }]
 
     response = client.post("/v1/data_sources/#{database_id}/query", body)
 
-    parse_database_records(response['results'] || [])
+    {
+      records: parse_database_records(response['results'] || []),
+      has_more: response['has_more'] || false,
+      next_cursor: response['next_cursor']
+    }
   end
 
   private
