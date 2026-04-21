@@ -9,29 +9,6 @@ const { contentAttributes, content, id } = useMessageContext();
 // Define development mode flag
 const isDev = import.meta.env.MODE !== 'production';
 
-const interactivePayload = computed(() => {
-  // Check for interactive payload first
-  if (
-    contentAttributes.value?.whatsapp_interactive_payload ||
-    contentAttributes.value?.interactive
-  ) {
-    return (
-      contentAttributes.value?.whatsapp_interactive_payload ||
-      contentAttributes.value?.interactive ||
-      {}
-    );
-  }
-
-  // Check for template payload (templates with buttons/images)
-  if (contentAttributes.value?.whatsapp_template_payload) {
-    return normalizeTemplateToInteractive(
-      contentAttributes.value?.whatsapp_template_payload
-    );
-  }
-
-  return {};
-});
-
 // Normalize template payload to interactive format for unified rendering
 const normalizeTemplateToInteractive = template => {
   if (!template) return {};
@@ -92,6 +69,9 @@ const normalizeTemplateToInteractive = template => {
           });
         }
         break;
+
+      default:
+        break;
     }
   });
 
@@ -102,6 +82,29 @@ const normalizeTemplateToInteractive = template => {
 
   return result;
 };
+
+const interactivePayload = computed(() => {
+  // Check for interactive payload first
+  if (
+    contentAttributes.value?.whatsapp_interactive_payload ||
+    contentAttributes.value?.interactive
+  ) {
+    return (
+      contentAttributes.value?.whatsapp_interactive_payload ||
+      contentAttributes.value?.interactive ||
+      {}
+    );
+  }
+
+  // Check for template payload (templates with buttons/images)
+  if (contentAttributes.value?.whatsapp_template_payload) {
+    return normalizeTemplateToInteractive(
+      contentAttributes.value?.whatsapp_template_payload
+    );
+  }
+
+  return {};
+});
 
 const interactiveType = computed(() => {
   return interactivePayload.value?.type || 'unknown';
@@ -321,7 +324,9 @@ onErrorCaptured(() => {
 
     <!-- CTA URL Template -->
     <div v-if="isCtaUrlTemplate && ctaButton" class="whatsapp-cta-url">
-      <div class="border border-n-slate-6 rounded-lg px-3 py-2 text-center bg-n-slate-1">
+      <div
+        class="border border-n-slate-6 rounded-lg px-3 py-2 text-center bg-n-slate-1"
+      >
         <span
           v-dompurify-html="formatCtaLabel(ctaButton)"
           class="text-sm font-medium text-n-blue-11"
@@ -374,6 +379,7 @@ onErrorCaptured(() => {
       />
       <!-- Debug info (development only) -->
       <details v-if="isDev" class="mt-2 text-xs text-n-slate-10">
+        <!-- eslint-disable-next-line vue/no-bare-strings-in-template -->
         <summary>Debug Info</summary>
         <pre class="mt-1 p-2 bg-n-slate-2 rounded text-xs overflow-auto">{{
           JSON.stringify(

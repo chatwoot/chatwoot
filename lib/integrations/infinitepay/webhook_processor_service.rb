@@ -217,7 +217,10 @@ class Integrations::Infinitepay::WebhookProcessorService
 
     headers = { 'Content-Type' => 'application/json' }
     secret = ENV.fetch('CHATWIT_WEBHOOK_SECRET', nil)
-    headers['X-Chatwit-Secret'] = secret if secret.present?
+    if secret.present?
+      headers['x-webhook-secret'] = secret
+      headers['X-Chatwit-Secret'] = secret
+    end
 
     response = HTTParty.post(
       "#{endpoint}/api/integrations/payment",

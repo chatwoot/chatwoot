@@ -134,7 +134,10 @@ module Chatwit::PlatformBot
 
       response = HTTParty.post(
         "#{platform_url}#{INIT_PATH}",
-        headers: { 'Content-Type' => 'application/json' },
+        headers: {
+          'Content-Type' => 'application/json',
+          'x-webhook-secret' => secret
+        },
         body: {
           agent_bot_token: bot_token,
           base_url: ENV.fetch('FRONTEND_URL', DEFAULT_FRONTEND_URL),

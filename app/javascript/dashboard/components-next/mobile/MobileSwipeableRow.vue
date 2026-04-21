@@ -40,15 +40,15 @@ let swipeDirection = null; // 'left' or 'right'
 const rightActionsWidth = computed(() => props.actions.length * 72);
 const leftActionsWidth = computed(() => props.leftActions.length * 72);
 
-const areRightActionsHidden = computed(() => clampedOffset.value >= 0);
-const areLeftActionsHidden = computed(() => clampedOffset.value <= 0);
-
 const clampedOffset = computed(() =>
   Math.max(
     -rightActionsWidth.value,
     Math.min(leftActionsWidth.value, offsetX.value)
   )
 );
+
+const areRightActionsHidden = computed(() => clampedOffset.value >= 0);
+const areLeftActionsHidden = computed(() => clampedOffset.value <= 0);
 
 const openSide = computed(() => {
   if (openRowId.value === `${props.rowId}-right`) return 'right';
@@ -133,10 +133,7 @@ const onTouchEnd = () => {
   if (swipeDirection === 'left' && offsetX.value < -props.threshold) {
     offsetX.value = -rightActionsWidth.value;
     openRowId.value = `${props.rowId}-right`;
-  } else if (
-    swipeDirection === 'right' &&
-    offsetX.value > props.threshold
-  ) {
+  } else if (swipeDirection === 'right' && offsetX.value > props.threshold) {
     offsetX.value = leftActionsWidth.value;
     openRowId.value = `${props.rowId}-left`;
   } else {

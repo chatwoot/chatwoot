@@ -50,6 +50,7 @@ class Integrations::Jusmonitoria::WebhookForwarderService
       headers = { 'Content-Type' => 'application/json' }
       secret = ENV.fetch('CHATWIT_WEBHOOK_SECRET', nil)
       if secret.present?
+        headers['x-webhook-secret'] = secret
         signature = OpenSSL::HMAC.hexdigest('SHA256', secret, body)
         headers['X-Chatwit-Signature'] = signature
       end

@@ -40,7 +40,8 @@ export const actions = {
       isCreating: true,
     });
     try {
-      const response = await WhatsappInteractiveTemplatesAPI.create(templateObj);
+      const response =
+        await WhatsappInteractiveTemplatesAPI.create(templateObj);
       commit(types.ADD_WHATSAPP_INTERACTIVE_TEMPLATE, response.data);
       return response.data;
     } finally {

@@ -6,7 +6,7 @@ POSTGRES SHARED INFRA LOCAL docker exec postgres psql -U postgres -lqt
 ## Mobile Module (PWA) — Fork Exclusivo Chatwit
 
 Chatwit tem um **módulo mobile PWA completo** em `components-next/mobile/`. Regras críticas:
-
+icones reutilizaveis apps/socialwise-frontend/components/icons/index.tsx
 1. **ISOLAMENTO TOTAL do desktop.** O módulo mobile é 100% visual — renderiza condicionalmente via `<MobileLayout v-if="isSmallScreen" />` em `Dashboard.vue`. Nenhuma funcionalidade desktop pode ser alterada ou quebrada pelo mobile. Zero regressão.
 2. **CONECTAR, não recriar.** Toda feature solicitada para mobile **já existe na versão desktop**. O trabalho é sempre **conectar** stores, composables, APIs e componentes existentes ao layout mobile. Nunca reimplemente lógica que o desktop já tem.
 3. **Push via Web Push (VAPID)**, não Firebase/FCM. Chaves auto-geradas. Service worker em `public/sw.js`.

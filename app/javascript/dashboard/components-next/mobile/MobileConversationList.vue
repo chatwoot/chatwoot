@@ -127,11 +127,6 @@ const onAssigneeTabChange = tab => {
   fetchConversations();
 };
 
-const onStatusChange = status => {
-  activeStatus.value = status;
-  fetchConversations();
-};
-
 const onConversationClick = chat => {
   if (swipeOpenRowId.value) {
     swipeOpenRowId.value = null;
@@ -170,7 +165,7 @@ const openStatusSheet = chat => {
   showStatusSheet.value = true;
 };
 
-const getSwipeActions = chat => {
+const getSwipeActions = () => {
   return [
     {
       key: 'status',
@@ -186,9 +181,7 @@ const getLeftSwipeActions = chat => {
   return [
     {
       key: hasUnread ? 'markRead' : 'markUnread',
-      icon: hasUnread
-        ? 'i-lucide-mail-open'
-        : 'i-lucide-mail',
+      icon: hasUnread ? 'i-lucide-mail-open' : 'i-lucide-mail',
       color: 'bg-n-blue-9',
       label: hasUnread
         ? t('MOBILE.SWIPE.MARK_READ')
@@ -225,8 +218,7 @@ const handleResolveWithAttributes = ({ attributes, context }) => {
   if (!context) return;
 
   const existingConversation = getConversationById.value(context.id);
-  const currentCustomAttributes =
-    existingConversation?.custom_attributes || {};
+  const currentCustomAttributes = existingConversation?.custom_attributes || {};
   const mergedAttributes = { ...currentCustomAttributes, ...attributes };
 
   toggleConversationStatus(
@@ -261,21 +253,16 @@ const onStatusSelect = async status => {
   if (status === wootConstants.STATUS_TYPE.RESOLVED) {
     const latestConversation =
       getConversationById.value(currentConversation.id) || currentConversation;
-    const currentCustomAttributes =
-      latestConversation.custom_attributes || {};
+    const currentCustomAttributes = latestConversation.custom_attributes || {};
     const { hasMissing, missing } = checkMissingAttributes(
       currentCustomAttributes
     );
 
     if (hasMissing) {
-      resolveAttributesModalRef.value?.open(
-        missing,
-        currentCustomAttributes,
-        {
-          id: latestConversation.id,
-          snoozedUntil: latestConversation.snoozed_until,
-        }
-      );
+      resolveAttributesModalRef.value?.open(missing, currentCustomAttributes, {
+        id: latestConversation.id,
+        snoozedUntil: latestConversation.snoozed_until,
+      });
       return;
     }
 
@@ -305,19 +292,14 @@ watch(conversationFilters, newFilters => {
 
 <template>
   <div class="flex flex-col w-full h-full">
-    <MobileConversationHeader
-      @open-filter="showFilterSheet = true"
-    />
+    <MobileConversationHeader @open-filter="showFilterSheet = true" />
     <ChatTypeTabs
       :items="assigneeTabItems"
       :active-tab="activeAssigneeTab"
       class="px-2 flex-shrink-0"
       @chat-tab-change="onAssigneeTabChange"
     />
-    <div
-      ref="listRef"
-      class="flex-1 overflow-y-auto px-2"
-    >
+    <div ref="listRef" class="flex-1 overflow-y-auto px-2">
       <div v-if="chatListLoading" class="flex items-center justify-center py-8">
         <Spinner class="text-n-brand" />
       </div>

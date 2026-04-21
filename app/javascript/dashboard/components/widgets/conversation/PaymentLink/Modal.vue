@@ -218,13 +218,13 @@ export default {
             >
               <span>{{ preset.name }}</span>
               <span class="text-xs opacity-60">
-                R$ {{ (preset.amount_cents / 100).toFixed(2) }}
+                {{ `R$ ${(preset.amount_cents / 100).toFixed(2)}` }}
               </span>
               <span
                 class="hidden ml-1 cursor-pointer group-hover:inline text-n-red-9 hover:text-n-red-11"
                 @click.stop="deletePreset(preset.id)"
               >
-                &times;
+                {{ '×' }}
               </span>
             </button>
           </div>
@@ -276,7 +276,11 @@ export default {
               :key="template.id"
               :value="template.id"
             >
-              {{ template.name }} ({{ template.template_type === 'rich_text' ? 'Link no corpo' : 'CTA' }})
+              {{ template.name }} ({{
+                template.template_type === 'rich_text'
+                  ? 'Link no corpo'
+                  : 'CTA'
+              }})
             </option>
           </select>
           <span class="text-xs text-n-slate-9">
@@ -309,7 +313,8 @@ export default {
         <div
           class="flex items-start gap-2 p-2 rounded-lg text-[11px] bg-n-slate-2 text-n-slate-9"
         >
-          <span class="mt-px shrink-0">&#9432;</span>
+          <!-- eslint-disable-next-line vue/no-bare-strings-in-template -->
+          <span class="mt-px shrink-0" aria-hidden="true">&#9432;</span>
           <span>{{ $t('PAYMENT_LINK.MODAL.CHECKOUT_NOTE') }}</span>
         </div>
 

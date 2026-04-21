@@ -46,12 +46,16 @@ const pushLoading = ref(false);
 const pushDenied = ref(false);
 
 const hasPushSupport = computed(
-  () => 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window
+  () =>
+    'serviceWorker' in navigator &&
+    'PushManager' in window &&
+    'Notification' in window
 );
 
 const isStandalone = computed(
-  () => window.matchMedia('(display-mode: standalone)').matches
-    || window.navigator.standalone === true
+  () =>
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true
 );
 
 const showPushSection = computed(() => hasPushSupport.value);
@@ -157,14 +161,20 @@ const languageOptions = computed(() => [
 
 const currentLanguageLabel = computed(() => {
   if (!currentLocale.value) {
-    return accountDefaultLanguage.value || t('MOBILE.SETTINGS.USE_ACCOUNT_DEFAULT');
+    return (
+      accountDefaultLanguage.value || t('MOBILE.SETTINGS.USE_ACCOUNT_DEFAULT')
+    );
   }
 
   const selectedLanguage = languageOptions.value.find(
     option => option.iso_639_1_code === currentLocale.value
   );
 
-  return selectedLanguage?.name || allLocales[currentLocale.value] || currentLocale.value;
+  return (
+    selectedLanguage?.name ||
+    allLocales[currentLocale.value] ||
+    currentLocale.value
+  );
 });
 
 const sortedAccounts = computed(() => {
@@ -188,7 +198,8 @@ const updateLanguage = async languageCode => {
   try {
     if (!languageCode) {
       await updateUISettings({ locale: null });
-      locale.value = currentAccount.value?.locale || window.chatwootConfig.selectedLocale;
+      locale.value =
+        currentAccount.value?.locale || window.chatwootConfig.selectedLocale;
       useAlert(t('MOBILE.SETTINGS.LANGUAGE_UPDATED'));
       isLanguageSheetOpen.value = false;
       return;
@@ -258,7 +269,9 @@ const settingsItems = computed(() => [
 
     <!-- Availability -->
     <div class="px-4 py-4 border-b border-n-weak">
-      <span class="text-xs font-medium text-n-slate-10 uppercase tracking-wider mb-2 block">
+      <span
+        class="text-xs font-medium text-n-slate-10 uppercase tracking-wider mb-2 block"
+      >
         {{ t('MOBILE.SETTINGS.AVAILABILITY') }}
       </span>
       <MobileAvailabilityToggle
@@ -268,11 +281,10 @@ const settingsItems = computed(() => [
     </div>
 
     <!-- Push Notifications -->
-    <div
-      v-if="showPushSection"
-      class="px-4 py-4 border-b border-n-weak"
-    >
-      <span class="text-xs font-medium text-n-slate-10 uppercase tracking-wider mb-3 block">
+    <div v-if="showPushSection" class="px-4 py-4 border-b border-n-weak">
+      <span
+        class="text-xs font-medium text-n-slate-10 uppercase tracking-wider mb-3 block"
+      >
         {{ t('MOBILE.PUSH.TITLE') }}
       </span>
       <button
@@ -302,14 +314,15 @@ const settingsItems = computed(() => [
           <span
             v-else
             class="absolute top-0.5 ltr:left-0.5 rtl:right-0.5 size-5 rounded-full bg-white shadow transition-transform"
-            :class="pushEnabled ? 'ltr:translate-x-5 rtl:-translate-x-5' : 'translate-x-0'"
+            :class="
+              pushEnabled
+                ? 'ltr:translate-x-5 rtl:-translate-x-5'
+                : 'translate-x-0'
+            "
           />
         </div>
       </button>
-      <p
-        v-if="pushDenied"
-        class="text-xs text-n-ruby-9 mt-2 px-8"
-      >
+      <p v-if="pushDenied" class="text-xs text-n-ruby-9 mt-2 px-8">
         {{ t('MOBILE.PUSH.DENIED_HELP') }}
       </p>
     </div>
@@ -362,7 +375,9 @@ const settingsItems = computed(() => [
           @click="updateLanguage(option.iso_639_1_code)"
         >
           <span class="flex-1 min-w-0">
-            <span class="text-sm text-n-slate-12 block truncate">{{ option.name }}</span>
+            <span class="text-sm text-n-slate-12 block truncate">{{
+              option.name
+            }}</span>
             <span
               v-if="!option.iso_639_1_code && accountDefaultLanguage"
               class="text-xs text-n-slate-10 block truncate"
@@ -371,7 +386,10 @@ const settingsItems = computed(() => [
             </span>
           </span>
           <span
-            v-if="option.iso_639_1_code === currentLocale || (!option.iso_639_1_code && !currentLocale)"
+            v-if="
+              option.iso_639_1_code === currentLocale ||
+              (!option.iso_639_1_code && !currentLocale)
+            "
             class="i-lucide-check size-4 text-n-brand flex-shrink-0"
           />
         </button>
@@ -391,8 +409,12 @@ const settingsItems = computed(() => [
           @click="changeAccount(account.id)"
         >
           <span class="flex-1 min-w-0">
-            <span class="text-sm text-n-slate-12 block truncate">{{ account.name }}</span>
-            <span class="text-xs text-n-slate-10 block truncate capitalize">{{ account.custom_role_id ? account.custom_role.name : account.role }}</span>
+            <span class="text-sm text-n-slate-12 block truncate">{{
+              account.name
+            }}</span>
+            <span class="text-xs text-n-slate-10 block truncate capitalize">{{
+              account.custom_role_id ? account.custom_role.name : account.role
+            }}</span>
           </span>
           <span
             v-if="account.id === currentAccount?.id"

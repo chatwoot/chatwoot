@@ -14,10 +14,7 @@ const { accountScopedRoute } = useAccount();
 
 const activeTab = ref(1);
 
-const INBOX_ROUTES = [
-  'inbox_view',
-  'inbox_view_conversation',
-];
+const INBOX_ROUTES = ['inbox_view', 'inbox_view_conversation'];
 
 const SETTINGS_ROUTES = [
   'general_settings_index',
@@ -121,10 +118,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    class="flex flex-col w-full h-full bg-n-surface-1"
-    style="touch-action: manipulation"
-  >
+  <div class="flex flex-col w-full h-full bg-n-surface-1 touch-manipulation">
     <div class="relative flex-1 overflow-hidden">
       <!-- Layer 0: Tab content (always rendered, sits behind chat) -->
       <div
@@ -150,10 +144,7 @@ onUnmounted(() => {
       />
 
       <!-- Layer 1: Chat view (overlays on top) -->
-      <div
-        v-if="isInChatView"
-        class="absolute inset-0 z-10"
-      >
+      <div v-if="isInChatView" class="absolute inset-0 z-10">
         <MobileChatView
           :conversation-id="activeChatId"
           @back="onBack"

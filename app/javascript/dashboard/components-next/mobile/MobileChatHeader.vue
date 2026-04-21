@@ -34,12 +34,7 @@ const statusIcon = computed(() => {
   >
     <div class="flex min-w-0 flex-1 items-center gap-2">
       <MobileBackButton @click="emit('back')" />
-      <Avatar
-        :src="avatar"
-        :name="name"
-        :size="34"
-        class="shrink-0"
-      />
+      <Avatar :src="avatar" :name="name" :size="34" class="shrink-0" />
       <h2 class="truncate text-[1.05rem] font-semibold text-n-slate-12">
         {{ name }}
       </h2>

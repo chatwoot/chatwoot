@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import MobileBottomSheet from './MobileBottomSheet.vue';
-import wootConstants from 'dashboard/constants/globals';
 
 const props = defineProps({
   status: {
@@ -64,10 +63,15 @@ const onReset = () => {
 </script>
 
 <template>
-  <MobileBottomSheet :title="t('MOBILE.FILTER_SHEET.TITLE')" @close="emit('close')">
+  <MobileBottomSheet
+    :title="t('MOBILE.FILTER_SHEET.TITLE')"
+    @close="emit('close')"
+  >
     <!-- Status -->
     <div class="mb-4">
-      <span class="text-xs font-medium text-n-slate-10 uppercase tracking-wider mb-2 block">
+      <span
+        class="text-xs font-medium text-n-slate-10 uppercase tracking-wider mb-2 block"
+      >
         {{ t('MOBILE.FILTER_SHEET.STATUS') }}
       </span>
       <div class="flex flex-wrap gap-2">
@@ -89,7 +93,9 @@ const onReset = () => {
 
     <!-- Assignee -->
     <div class="mb-4">
-      <span class="text-xs font-medium text-n-slate-10 uppercase tracking-wider mb-2 block">
+      <span
+        class="text-xs font-medium text-n-slate-10 uppercase tracking-wider mb-2 block"
+      >
         {{ t('MOBILE.FILTER_SHEET.ASSIGNEE') }}
       </span>
       <div class="flex flex-wrap gap-2">
@@ -111,7 +117,9 @@ const onReset = () => {
 
     <!-- Sort -->
     <div class="mb-6">
-      <span class="text-xs font-medium text-n-slate-10 uppercase tracking-wider mb-2 block">
+      <span
+        class="text-xs font-medium text-n-slate-10 uppercase tracking-wider mb-2 block"
+      >
         {{ t('MOBILE.FILTER_SHEET.SORT_BY') }}
       </span>
       <div class="flex flex-wrap gap-2">

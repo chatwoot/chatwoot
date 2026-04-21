@@ -17,19 +17,17 @@ import { LocalStorage } from 'shared/helpers/localStorage';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { useI18n } from 'vue-i18n';
 
-const TAB_RECENT = 0;
-const TAB_FAVORITES = 1;
-const TAB_ALL = 2;
-const MAX_RECENT = 10;
-
 const props = defineProps({
   inboxId: {
     type: Number,
     default: undefined,
   },
 });
-
 const emit = defineEmits(['onSelect']);
+const TAB_RECENT = 0;
+const TAB_FAVORITES = 1;
+const TAB_ALL = 2;
+const MAX_RECENT = 10;
 
 const { t } = useI18n();
 const store = useStore();
@@ -56,10 +54,8 @@ const whatsAppTemplateMessages = useFunctionGetter(
 );
 
 const loadFromStorage = () => {
-  favorites.value =
-    LocalStorage.get(favStorageKey.value) || [];
-  recentTemplates.value =
-    LocalStorage.get(recentStorageKey.value) || [];
+  favorites.value = LocalStorage.get(favStorageKey.value) || [];
+  recentTemplates.value = LocalStorage.get(recentStorageKey.value) || [];
 };
 
 const saveFavorites = () => {
@@ -109,15 +105,16 @@ const matchesQuery = template =>
 
 const favoriteTemplates = computed(() =>
   whatsAppTemplateMessages.value.filter(
-    tpl =>
-      isFavorite(tpl) && matchesQuery(tpl)
+    tpl => isFavorite(tpl) && matchesQuery(tpl)
   )
 );
 
 const recentTemplatesList = computed(() => {
   const all = whatsAppTemplateMessages.value;
   return recentTemplates.value
-    .map(r => all.find(tpl => tpl.name === r.name && tpl.language === r.language))
+    .map(r =>
+      all.find(tpl => tpl.name === r.name && tpl.language === r.language)
+    )
     .filter(tpl => tpl && matchesQuery(tpl));
 });
 
@@ -373,7 +370,9 @@ defineExpose({ addToRecent });
       <div v-if="!displayedTemplates.length" class="py-8 text-center">
         <!-- Search with no results in All tab -->
         <div
-          v-if="activeTabIndex === 0 && query && whatsAppTemplateMessages.length"
+          v-if="
+            activeTabIndex === 0 && query && whatsAppTemplateMessages.length
+          "
         >
           <p>
             {{ t('WHATSAPP_TEMPLATES.PICKER.NO_TEMPLATES_FOUND') }}
@@ -392,13 +391,15 @@ defineExpose({ addToRecent });
         <!-- Favorites/Recent empty or search miss -->
         <div v-else class="space-y-2">
           <Icon
-            :icon="
-              activeTabIndex === 1 ? 'i-ri-star-line' : 'i-lucide-clock'
-            "
+            :icon="activeTabIndex === 1 ? 'i-ri-star-line' : 'i-lucide-clock'"
             class="size-8 text-n-slate-9 mx-auto"
           />
           <p class="text-n-slate-11 text-sm">
-            {{ query ? `${t('WHATSAPP_TEMPLATES.PICKER.NO_TEMPLATES_FOUND')} "${query}"` : emptyStateMessage }}
+            {{
+              query
+                ? `${t('WHATSAPP_TEMPLATES.PICKER.NO_TEMPLATES_FOUND')} "${query}"`
+                : emptyStateMessage
+            }}
           </p>
         </div>
       </div>

@@ -19,7 +19,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['back', 'swipe-progress', 'swipe-end']);
+const emit = defineEmits(['back', 'swipeProgress', 'swipeEnd']);
 const store = useStore();
 const { width: windowWidth } = useWindowSize();
 const { light, medium } = useHaptics();
@@ -53,9 +53,9 @@ const glassEdgeStyle = computed(() => ({
 
 watch(swipeProgress, val => {
   if (val > 0) {
-    emit('swipe-progress', val);
+    emit('swipeProgress', val);
   } else {
-    emit('swipe-end');
+    emit('swipeEnd');
   }
 });
 
@@ -95,7 +95,10 @@ const inboxId = computed(() => {
 const panelWidth = computed(() => Math.max(windowWidth.value || 0, 1));
 
 const panelProgress = computed(() => {
-  const dragRatio = Math.min(Math.abs(panelDragOffset.value) / panelWidth.value, 1);
+  const dragRatio = Math.min(
+    Math.abs(panelDragOffset.value) / panelWidth.value,
+    1
+  );
   if (activePanel.value === 1) {
     return Math.max(0, 1 - dragRatio);
   }
@@ -159,6 +162,22 @@ const closeActionsPanel = () => {
   activePanel.value = 0;
   panelDragOffset.value = 0;
   panelThresholdReached = false;
+};
+
+const setActiveChat = async () => {
+  const conversationId = props.conversationId;
+  const chat = allConversations.value.find(c => c.id === conversationId);
+  if (chat) {
+    store.dispatch('setActiveChat', { data: chat });
+  } else {
+    await store.dispatch('getConversation', conversationId);
+    const fetchedChat = store.getters.getAllConversations.find(
+      c => c.id === conversationId
+    );
+    if (fetchedChat) {
+      store.dispatch('setActiveChat', { data: fetchedChat });
+    }
+  }
 };
 
 const refreshConversation = async () => {
@@ -226,7 +245,8 @@ const onPanelTouchEnd = () => {
     return;
   }
 
-  const shouldOpen = activePanel.value === 0 && Math.abs(panelDragOffset.value) > 72;
+  const shouldOpen =
+    activePanel.value === 0 && Math.abs(panelDragOffset.value) > 72;
   const shouldClose = activePanel.value === 1 && panelDragOffset.value > 72;
 
   if (shouldOpen) {
@@ -249,22 +269,6 @@ const onPanelTouchCancel = () => {
   panelDragOffset.value = 0;
   isPanelDragging.value = false;
   panelThresholdReached = false;
-};
-
-const setActiveChat = async () => {
-  const conversationId = props.conversationId;
-  const chat = allConversations.value.find(c => c.id === conversationId);
-  if (chat) {
-    store.dispatch('setActiveChat', { data: chat });
-  } else {
-    await store.dispatch('getConversation', conversationId);
-    const fetchedChat = store.getters.getAllConversations.find(
-      c => c.id === conversationId
-    );
-    if (fetchedChat) {
-      store.dispatch('setActiveChat', { data: fetchedChat });
-    }
-  }
 };
 
 onMounted(() => {
@@ -330,7 +334,9 @@ watch(
         :class="{ 'transition-all duration-300': !isPanelDragging }"
         :style="hintPillStyle"
       >
-        <div class="flex items-center gap-1.5 text-[11px] font-medium text-n-slate-10">
+        <div
+          class="flex items-center gap-1.5 text-[11px] font-medium text-n-slate-10"
+        >
           <span class="i-lucide-arrow-left size-3.5" />
           <span>{{ $t('MOBILE.ACTIONS.CTA.SWIPE_HINT') }}</span>
         </div>
@@ -338,7 +344,9 @@ watch(
 
       <div
         class="relative z-10 flex h-full w-full"
-        :class="{ 'transition-transform duration-300 ease-out': !isPanelDragging }"
+        :class="{
+          'transition-transform duration-300 ease-out': !isPanelDragging,
+        }"
         :style="{ transform: pagerTranslateX }"
       >
         <div
@@ -352,10 +360,7 @@ watch(
               :inbox-id="inboxId"
               :is-inbox-view="false"
             />
-            <div
-              v-else
-              class="flex h-full w-full items-center justify-center"
-            >
+            <div v-else class="flex h-full w-full items-center justify-center">
               <Spinner class="text-n-brand" />
             </div>
           </div>

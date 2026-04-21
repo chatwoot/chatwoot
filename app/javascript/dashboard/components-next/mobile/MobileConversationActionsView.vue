@@ -44,15 +44,23 @@ const conversation = computed(() => {
 
 const accountLabels = computed(() => store.getters['labels/getLabels'] || []);
 const conversationLabels = computed(
-  () => store.getters['conversationLabels/getConversationLabels'](props.conversationId) || []
+  () =>
+    store.getters['conversationLabels/getConversationLabels'](
+      props.conversationId
+    ) || []
 );
 const conversationParticipants = computed(
-  () => store.getters['conversationWatchers/getByConversationId'](props.conversationId) || []
+  () =>
+    store.getters['conversationWatchers/getByConversationId'](
+      props.conversationId
+    ) || []
 );
 const agents = computed(() => store.getters['agents/getAgents'] || []);
 const teams = computed(() => store.getters['teams/getTeams'] || []);
 
-const currentAssignee = computed(() => conversation.value?.meta?.assignee || null);
+const currentAssignee = computed(
+  () => conversation.value?.meta?.assignee || null
+);
 const currentTeam = computed(() => conversation.value?.meta?.team || null);
 const currentPriority = computed(() => conversation.value?.priority || null);
 
@@ -178,7 +186,8 @@ const formattedConversationAttributes = computed(() => {
 
   const additionalAttributes = currentConversation.additional_attributes || {};
   const browser = additionalAttributes.browser || {};
-  const senderAttributes = currentConversation.meta?.sender?.additional_attributes || {};
+  const senderAttributes =
+    currentConversation.meta?.sender?.additional_attributes || {};
 
   const rows = [
     {
@@ -189,12 +198,16 @@ const formattedConversationAttributes = computed(() => {
     {
       key: 'browser',
       label: t('MOBILE.ACTIONS.ATTRIBUTES.BROWSER'),
-      value: [browser.browser_name, browser.browser_version].filter(Boolean).join(' '),
+      value: [browser.browser_name, browser.browser_version]
+        .filter(Boolean)
+        .join(' '),
     },
     {
       key: 'operating-system',
       label: t('MOBILE.ACTIONS.ATTRIBUTES.OPERATING_SYSTEM'),
-      value: [browser.platform_name, browser.platform_version].filter(Boolean).join(' '),
+      value: [browser.platform_name, browser.platform_version]
+        .filter(Boolean)
+        .join(' '),
     },
     {
       key: 'referer',
@@ -208,23 +221,27 @@ const formattedConversationAttributes = computed(() => {
     },
   ].filter(item => item.value);
 
-  const customAttributes = Object.entries(currentConversation.custom_attributes || {}).map(
-    ([key, value]) => ({
-      key: `custom-${key}`,
-      label: key
-        .split('_')
-        .filter(Boolean)
-        .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-        .join(' '),
-      value: Array.isArray(value)
-        ? value.join(', ')
-        : typeof value === 'object' && value !== null
-          ? JSON.stringify(value)
-          : String(value),
-    })
-  );
+  const customAttributes = Object.entries(
+    currentConversation.custom_attributes || {}
+  ).map(([key, value]) => ({
+    key: `custom-${key}`,
+    label: key
+      .split('_')
+      .filter(Boolean)
+      .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(' '),
+    value: (() => {
+      if (Array.isArray(value)) return value.join(', ');
+      if (typeof value === 'object' && value !== null) {
+        return JSON.stringify(value);
+      }
+      return String(value);
+    })(),
+  }));
 
-  return [...rows, ...customAttributes].filter(item => item.value && item.value !== 'null');
+  return [...rows, ...customAttributes].filter(
+    item => item.value && item.value !== 'null'
+  );
 });
 
 const updateStatus = async (status, customAttributes = null) => {
@@ -253,7 +270,9 @@ const handleStatusChange = async status => {
   }
 
   const currentCustomAttributes = conversation.value.custom_attributes || {};
-  const { hasMissing, missing } = checkMissingAttributes(currentCustomAttributes);
+  const { hasMissing, missing } = checkMissingAttributes(
+    currentCustomAttributes
+  );
 
   if (hasMissing) {
     resolveAttributesModalRef.value?.open(missing, currentCustomAttributes, {
@@ -349,20 +368,25 @@ const handleParticipantsApply = async selectedKeys => {
     });
     medium();
   } catch (error) {
-    alertMessage = error?.message || t('CONVERSATION_PARTICIPANTS.API.ERROR_MESSAGE');
+    alertMessage =
+      error?.message || t('CONVERSATION_PARTICIPANTS.API.ERROR_MESSAGE');
   } finally {
     useAlert(alertMessage);
   }
 
   showParticipantsSheet.value = false;
-  store.dispatch('conversationWatchers/show', { conversationId: props.conversationId });
+  store.dispatch('conversationWatchers/show', {
+    conversationId: props.conversationId,
+  });
 };
 
 const refreshConversationSideData = () => {
   store.dispatch('teams/get');
   store.dispatch('labels/get');
   store.dispatch('conversationLabels/get', props.conversationId);
-  store.dispatch('conversationWatchers/show', { conversationId: props.conversationId });
+  store.dispatch('conversationWatchers/show', {
+    conversationId: props.conversationId,
+  });
 };
 
 onMounted(refreshConversationSideData);
@@ -376,7 +400,9 @@ watch(
 </script>
 
 <template>
-  <div class="min-h-full bg-n-surface-1 pb-[calc(24px+env(safe-area-inset-bottom))]">
+  <div
+    class="min-h-full bg-n-surface-1 pb-[calc(24px+env(safe-area-inset-bottom))]"
+  >
     <section class="px-4 pt-5">
       <div class="grid grid-cols-4 gap-3">
         <button
@@ -385,14 +411,18 @@ watch(
           class="relative overflow-hidden rounded-[1.4rem] border px-2 pb-4 pt-7 shadow-sm transition-transform active:scale-[0.98]"
           :class="[
             card.containerClass,
-            conversation?.status === card.key ? 'ring-2 ring-n-slate-8' : 'border-transparent',
+            conversation?.status === card.key
+              ? 'ring-2 ring-n-slate-8'
+              : 'border-transparent',
           ]"
           @click="handleStatusChange(card.key)"
         >
           <span class="block text-center" :class="card.iconClass">
             <span class="mx-auto block size-8" :class="card.icon" />
           </span>
-          <span class="mt-5 block text-center text-[0.95rem] font-medium text-n-slate-12">
+          <span
+            class="mt-5 block text-center text-[0.95rem] font-medium text-n-slate-12"
+          >
             {{ card.label }}
           </span>
         </button>
@@ -403,13 +433,17 @@ watch(
       <h3 class="mb-3 text-lg font-medium text-n-slate-10">
         {{ t('MOBILE.ACTIONS.SECTIONS.SETTINGS') }}
       </h3>
-      <div class="overflow-hidden rounded-[1.45rem] border border-n-weak bg-white shadow-sm">
+      <div
+        class="overflow-hidden rounded-[1.45rem] border border-n-weak bg-white shadow-sm"
+      >
         <button
           class="flex w-full items-center gap-3 px-4 py-3 text-left active:bg-n-alpha-2"
           @click="showAssigneeSheet = true"
         >
           <Avatar
-            :src="currentAssignee?.thumbnail || currentAssignee?.avatar_url || ''"
+            :src="
+              currentAssignee?.thumbnail || currentAssignee?.avatar_url || ''
+            "
             :name="currentAssignee?.name || t('MOBILE.ACTIONS.ASSIGNEE.NONE')"
             :size="36"
             class="shrink-0"
@@ -419,7 +453,9 @@ watch(
               {{ currentAssignee?.name || t('MOBILE.ACTIONS.ASSIGNEE.NONE') }}
             </p>
           </div>
-          <span class="text-sm text-n-slate-10">{{ t('MOBILE.ACTIONS.CTA.CHANGE') }}</span>
+          <span class="text-sm text-n-slate-10">{{
+            t('MOBILE.ACTIONS.CTA.CHANGE')
+          }}</span>
           <span class="i-lucide-chevron-right size-4 text-n-slate-9" />
         </button>
 
@@ -427,7 +463,9 @@ watch(
           class="flex w-full items-center gap-3 border-t border-n-weak px-4 py-3 text-left active:bg-n-alpha-2"
           @click="showTeamSheet = true"
         >
-          <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-n-surface-2 text-n-slate-11">
+          <span
+            class="flex size-9 shrink-0 items-center justify-center rounded-full bg-n-surface-2 text-n-slate-11"
+          >
             <span class="i-lucide-shield size-5" />
           </span>
           <div class="min-w-0 flex-1">
@@ -436,7 +474,11 @@ watch(
             </p>
           </div>
           <span class="text-sm text-n-slate-10">
-            {{ currentTeam ? t('MOBILE.ACTIONS.CTA.CHANGE') : t('MOBILE.ACTIONS.CTA.ASSIGN') }}
+            {{
+              currentTeam
+                ? t('MOBILE.ACTIONS.CTA.CHANGE')
+                : t('MOBILE.ACTIONS.CTA.ASSIGN')
+            }}
           </span>
           <span class="i-lucide-chevron-right size-4 text-n-slate-9" />
         </button>
@@ -445,16 +487,29 @@ watch(
           class="flex w-full items-center gap-3 border-t border-n-weak px-4 py-3 text-left active:bg-n-alpha-2"
           @click="showPrioritySheet = true"
         >
-          <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-n-surface-2 text-n-slate-11">
-            <CardPriorityIcon v-if="currentPriority" :priority="currentPriority" />
+          <span
+            class="flex size-9 shrink-0 items-center justify-center rounded-full bg-n-surface-2 text-n-slate-11"
+          >
+            <CardPriorityIcon
+              v-if="currentPriority"
+              :priority="currentPriority"
+            />
             <span v-else class="i-lucide-bar-chart-3 size-5" />
           </span>
           <div class="min-w-0 flex-1">
             <p class="truncate text-sm font-medium text-n-slate-12">
-              {{ currentPriority ? t(`CONVERSATION.PRIORITY.OPTIONS.${currentPriority.toUpperCase()}`) : t('CONVERSATION.PRIORITY.OPTIONS.NONE') }}
+              {{
+                currentPriority
+                  ? t(
+                      `CONVERSATION.PRIORITY.OPTIONS.${currentPriority.toUpperCase()}`
+                    )
+                  : t('CONVERSATION.PRIORITY.OPTIONS.NONE')
+              }}
             </p>
           </div>
-          <span class="text-sm text-n-slate-10">{{ t('MOBILE.ACTIONS.CTA.CHANGE') }}</span>
+          <span class="text-sm text-n-slate-10">{{
+            t('MOBILE.ACTIONS.CTA.CHANGE')
+          }}</span>
           <span class="i-lucide-chevron-right size-4 text-n-slate-9" />
         </button>
       </div>
@@ -475,7 +530,9 @@ watch(
         />
       </div>
 
-      <div class="min-h-[4.75rem] rounded-[1.45rem] border border-n-weak bg-white px-4 py-4 shadow-sm">
+      <div
+        class="min-h-[4.75rem] rounded-[1.45rem] border border-n-weak bg-white px-4 py-4 shadow-sm"
+      >
         <div v-if="conversationLabels.length" class="flex flex-wrap gap-2">
           <span
             v-for="label in conversationLabels"
@@ -495,13 +552,18 @@ watch(
       <h3 class="mb-3 text-lg font-medium text-n-slate-10">
         {{ t('MOBILE.ACTIONS.SECTIONS.PARTICIPANTS') }}
       </h3>
-      <div class="overflow-hidden rounded-[1.45rem] border border-n-weak bg-white shadow-sm">
+      <div
+        class="overflow-hidden rounded-[1.45rem] border border-n-weak bg-white shadow-sm"
+      >
         <div v-if="conversationParticipants.length">
           <div
             v-for="participant in conversationParticipants.slice(0, 4)"
             :key="participant.id"
             class="flex items-center gap-3 px-4 py-3"
-            :class="{ 'border-t border-n-weak': participant !== conversationParticipants[0] }"
+            :class="{
+              'border-t border-n-weak':
+                participant !== conversationParticipants[0],
+            }"
           >
             <Avatar
               :src="participant.thumbnail || participant.avatar_url || ''"
@@ -522,7 +584,9 @@ watch(
           class="flex w-full items-center gap-3 border-t border-n-weak px-4 py-3 text-left active:bg-n-blue-2"
           @click="showParticipantsSheet = true"
         >
-          <span class="flex size-9 items-center justify-center rounded-full bg-n-blue-2 text-n-blue-9">
+          <span
+            class="flex size-9 items-center justify-center rounded-full bg-n-blue-2 text-n-blue-9"
+          >
             <span class="i-lucide-user-round-plus size-5" />
           </span>
           <span class="text-base font-medium text-n-blue-9">
@@ -536,16 +600,23 @@ watch(
       <h3 class="mb-3 text-lg font-medium text-n-slate-10">
         {{ t('MOBILE.ACTIONS.SECTIONS.ATTRIBUTES') }}
       </h3>
-      <div class="overflow-hidden rounded-[1.45rem] border border-n-weak bg-white shadow-sm">
+      <div
+        class="overflow-hidden rounded-[1.45rem] border border-n-weak bg-white shadow-sm"
+      >
         <div
           v-for="attribute in formattedConversationAttributes"
           :key="attribute.key"
           class="px-4 py-3"
-          :class="{ 'border-t border-n-weak': attribute !== formattedConversationAttributes[0] }"
+          :class="{
+            'border-t border-n-weak':
+              attribute !== formattedConversationAttributes[0],
+          }"
         >
           <div class="flex items-start justify-between gap-4">
             <span class="text-sm text-n-slate-11">{{ attribute.label }}</span>
-            <span class="max-w-[55%] break-words text-right text-sm font-medium text-n-slate-12">
+            <span
+              class="max-w-[55%] break-words text-right text-sm font-medium text-n-slate-12"
+            >
               {{ attribute.value }}
             </span>
           </div>
@@ -601,7 +672,9 @@ watch(
       :open="showParticipantsSheet"
       :title="t('MOBILE.ACTIONS.PICKERS.PARTICIPANTS')"
       :items="participantItems"
-      :selected-keys="conversationParticipants.map(participant => participant.id)"
+      :selected-keys="
+        conversationParticipants.map(participant => participant.id)
+      "
       :search-placeholder="t('MOBILE.ACTIONS.SEARCH.PARTICIPANTS')"
       :empty-text="t('MOBILE.ACTIONS.EMPTY.PARTICIPANTS')"
       :apply-label="t('MOBILE.ACTIONS.CTA.APPLY')"

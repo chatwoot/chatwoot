@@ -72,7 +72,9 @@ const filteredItems = computed(() => {
 
 const toggleItem = key => {
   if (localSelectedKeys.value.includes(key)) {
-    localSelectedKeys.value = localSelectedKeys.value.filter(item => item !== key);
+    localSelectedKeys.value = localSelectedKeys.value.filter(
+      item => item !== key
+    );
     return;
   }
 

@@ -16,14 +16,13 @@ const onOverlayClick = () => {
 <template>
   <Teleport to="body">
     <div class="fixed inset-0 z-[60] flex items-end">
-      <div
-        class="absolute inset-0 bg-black/40"
-        @click="onOverlayClick"
-      />
+      <div class="absolute inset-0 bg-black/40" @click="onOverlayClick" />
       <div
         class="relative w-full bg-white dark:bg-n-background rounded-t-2xl pb-[env(safe-area-inset-bottom)] max-h-[80vh] flex flex-col animate-slide-up"
       >
-        <div class="flex items-center justify-between px-4 py-3 border-b border-n-weak flex-shrink-0">
+        <div
+          class="flex items-center justify-between px-4 py-3 border-b border-n-weak flex-shrink-0"
+        >
           <h3 class="text-base font-semibold text-n-slate-12">
             {{ title }}
           </h3>

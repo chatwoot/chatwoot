@@ -13,7 +13,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['templateCreated', 'back']);
+const emit = defineEmits(['templateCreated']);
 
 const { t } = useI18n();
 const store = useStore();
@@ -71,13 +71,10 @@ const variableExampleMap = Object.fromEntries(
 );
 
 const previewVariables = text => {
-  return text.replace(
-    /\{\{([a-zA-Z_][a-zA-Z0-9_]*)\}\}/g,
-    (_, key) => {
-      const example = variableExampleMap[key] || key;
-      return `<span class="inline-block px-1 py-0.5 rounded bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs font-medium">${example}</span>`;
-    }
-  );
+  return text.replace(/\{\{([a-zA-Z_][a-zA-Z0-9_]*)\}\}/g, (_, key) => {
+    const example = variableExampleMap[key] || key;
+    return `<span class="inline-block px-1 py-0.5 rounded bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs font-medium">${example}</span>`;
+  });
 };
 
 const headerPreview = computed(() =>
@@ -241,8 +238,13 @@ const handleSubmit = async () => {
             <div
               class="flex items-center gap-2 h-10 px-3 rounded-xl bg-n-slate-3 dark:bg-n-solid-2 text-n-slate-11 text-sm outline outline-1 outline-n-weak cursor-not-allowed"
             >
-              <Icon icon="i-lucide-lock" class="size-3.5 text-n-slate-9 shrink-0" />
-              <span>{{ t('WHATSAPP_TEMPLATES.CREATOR.CATEGORIES.MARKETING') }}</span>
+              <Icon
+                icon="i-lucide-lock"
+                class="size-3.5 text-n-slate-9 shrink-0"
+              />
+              <span>{{
+                t('WHATSAPP_TEMPLATES.CREATOR.CATEGORIES.MARKETING')
+              }}</span>
             </div>
             <p class="mt-1 text-xs text-n-slate-10">
               {{ t('WHATSAPP_TEMPLATES.CREATOR.CATEGORY_LOCKED_HINT') }}
@@ -255,7 +257,11 @@ const handleSubmit = async () => {
             <div
               class="flex items-center gap-2 h-10 px-3 rounded-xl bg-n-slate-3 dark:bg-n-solid-2 text-n-slate-11 text-sm outline outline-1 outline-n-weak cursor-not-allowed"
             >
-              <Icon icon="i-lucide-lock" class="size-3.5 text-n-slate-9 shrink-0" />
+              <Icon
+                icon="i-lucide-lock"
+                class="size-3.5 text-n-slate-9 shrink-0"
+              />
+              <!-- eslint-disable-next-line vue/no-bare-strings-in-template -->
               <span>Portugues (BR)</span>
             </div>
           </div>
@@ -319,7 +325,9 @@ const handleSubmit = async () => {
                 class="absolute right-0 top-full mt-1 z-50 w-72 rounded-xl bg-white dark:bg-n-solid-3 shadow-lg outline outline-1 outline-n-weak overflow-hidden"
               >
                 <div class="px-3 py-2 bg-n-slate-2 dark:bg-n-solid-2">
-                  <p class="text-xs font-semibold text-n-slate-11 uppercase tracking-wider">
+                  <p
+                    class="text-xs font-semibold text-n-slate-11 uppercase tracking-wider"
+                  >
                     {{ t('WHATSAPP_TEMPLATES.CREATOR.VARIABLES_TITLE') }}
                   </p>
                 </div>
@@ -330,8 +338,13 @@ const handleSubmit = async () => {
                     class="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-n-alpha-2 dark:hover:bg-n-solid-2 transition-colors text-left"
                     @click="insertVariable(variable)"
                   >
-                    <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30">
-                      <Icon icon="i-lucide-user" class="size-4 text-emerald-600 dark:text-emerald-400" />
+                    <div
+                      class="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30"
+                    >
+                      <Icon
+                        icon="i-lucide-user"
+                        class="size-4 text-emerald-600 dark:text-emerald-400"
+                      />
                     </div>
                     <div class="flex-1 min-w-0">
                       <p class="text-sm font-medium text-n-slate-12 truncate">
@@ -363,9 +376,7 @@ const handleSubmit = async () => {
             <p
               class="text-xs ml-auto"
               :class="
-                bodyCharsRemaining < 50
-                  ? 'text-n-ruby-11'
-                  : 'text-n-slate-10'
+                bodyCharsRemaining < 50 ? 'text-n-ruby-11' : 'text-n-slate-10'
               "
             >
               {{
@@ -377,10 +388,7 @@ const handleSubmit = async () => {
           </div>
 
           <!-- Used variables badges -->
-          <div
-            v-if="usedVariables.length"
-            class="flex flex-wrap gap-1.5 mt-2"
-          >
+          <div v-if="usedVariables.length" class="flex flex-wrap gap-1.5 mt-2">
             <span
               v-for="v in usedVariables"
               :key="v"
@@ -461,10 +469,7 @@ const handleSubmit = async () => {
             <Icon icon="i-lucide-plus" class="size-4" />
             {{ t('WHATSAPP_TEMPLATES.CREATOR.ADD_BUTTON') }}
           </button>
-          <p
-            v-if="!canAddButton"
-            class="mt-1 text-xs text-n-slate-10"
-          >
+          <p v-if="!canAddButton" class="mt-1 text-xs text-n-slate-10">
             {{ t('WHATSAPP_TEMPLATES.CREATOR.VALIDATION.MAX_BUTTONS') }}
           </p>
         </div>
@@ -486,15 +491,16 @@ const handleSubmit = async () => {
       </div>
 
       <!-- Preview Column -->
-      <div class="w-72 shrink-0 sticky top-0 self-start max-h-[calc(100vh-8rem)] overflow-y-auto">
+      <div
+        class="w-72 shrink-0 sticky top-0 self-start max-h-[calc(100vh-8rem)] overflow-y-auto"
+      >
         <p class="text-sm font-semibold text-n-slate-12 mb-3">
           {{ t('WHATSAPP_TEMPLATES.CREATOR.PREVIEW_TITLE') }}
         </p>
 
         <!-- WhatsApp phone mockup -->
         <div
-          class="rounded-2xl p-4 space-y-2"
-          style="background: linear-gradient(135deg, #e8ded3 0%, #d4cabe 100%)"
+          class="rounded-2xl p-4 space-y-2 bg-[linear-gradient(135deg,#e8ded3_0%,#d4cabe_100%)]"
         >
           <!-- WhatsApp-style bubble -->
           <div class="rounded-xl bg-white dark:bg-n-solid-3 p-3.5 shadow-sm">
@@ -527,26 +533,35 @@ const handleSubmit = async () => {
             :key="idx"
             class="text-center py-2 rounded-xl bg-white dark:bg-n-solid-3 text-sm font-medium text-[#0088cc] shadow-sm"
           >
-            {{ btn.text || `${t('WHATSAPP_TEMPLATES.CREATOR.BUTTONS_LABEL')} ${idx + 1}` }}
+            {{
+              btn.text ||
+              `${t('WHATSAPP_TEMPLATES.CREATOR.BUTTONS_LABEL')} ${idx + 1}`
+            }}
           </div>
         </div>
 
         <!-- Meta info badges -->
         <div class="mt-4 space-y-2">
           <div v-if="name" class="flex items-center gap-2">
-            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-n-slate-3 dark:bg-n-solid-2 text-xs text-n-slate-11">
+            <span
+              class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-n-slate-3 dark:bg-n-solid-2 text-xs text-n-slate-11"
+            >
               <Icon icon="i-lucide-file-text" class="size-3" />
               {{ name }}
             </span>
           </div>
           <div class="flex gap-2">
-            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-n-amber-3 dark:bg-n-amber-3 text-xs text-n-amber-11 font-medium">
+            <span
+              class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-n-amber-3 dark:bg-n-amber-3 text-xs text-n-amber-11 font-medium"
+            >
               <Icon icon="i-lucide-megaphone" class="size-3" />
-              MARKETING
+              {{ 'MARKETING' }}
             </span>
-            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-n-blue-3 dark:bg-n-blue-3 text-xs text-n-blue-11 font-medium">
+            <span
+              class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-n-blue-3 dark:bg-n-blue-3 text-xs text-n-blue-11 font-medium"
+            >
               <Icon icon="i-lucide-globe" class="size-3" />
-              pt_BR
+              {{ 'pt_BR' }}
             </span>
           </div>
         </div>

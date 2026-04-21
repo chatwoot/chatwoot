@@ -4,7 +4,7 @@ class Integrations::Socialwise::LeadSyncJob < ApplicationJob
   queue_as :medium
 
   TIMEOUT = 15
-  ROUTE_PATH = '/api/admin/leads-chatwit/recebearquivos'
+  ROUTE_PATH = '/api/v1/socialwise/admin/leads-chatwit/recebearquivos'
 
   def perform(payload)
     endpoint = ENV.fetch('SOCIALWISE_WEBHOOK_URL', nil)
@@ -38,7 +38,10 @@ class Integrations::Socialwise::LeadSyncJob < ApplicationJob
   def request_headers
     headers = { 'Content-Type' => 'application/json' }
     secret = ENV.fetch('CHATWIT_WEBHOOK_SECRET', nil)
-    headers['X-Chatwit-Secret'] = secret if secret.present?
+    if secret.present?
+      headers['x-webhook-secret'] = secret
+      headers['X-Chatwit-Secret'] = secret
+    end
     headers
   end
 

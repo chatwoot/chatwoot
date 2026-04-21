@@ -16,8 +16,7 @@ export const useSwipeBack = (elementRef, onBack) => {
   let locked = false;
   let isHorizontal = false;
 
-  const isRtl = () =>
-    document.documentElement.getAttribute('dir') === 'rtl';
+  const isRtl = () => document.documentElement.getAttribute('dir') === 'rtl';
 
   const isEdgeTouch = clientX => {
     if (isRtl()) {

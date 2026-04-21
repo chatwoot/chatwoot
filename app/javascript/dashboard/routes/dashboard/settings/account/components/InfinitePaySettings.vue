@@ -29,7 +29,10 @@ watch(
 
 const isSaving = ref(false);
 const hasChanges = computed(() => {
-  return handle.value.trim() !== savedHandle.value || pushOnly.value !== savedPushOnly.value;
+  return (
+    handle.value.trim() !== savedHandle.value ||
+    pushOnly.value !== savedPushOnly.value
+  );
 });
 
 const saveSettings = async () => {
@@ -66,7 +69,9 @@ const saveSettings = async () => {
           <input
             v-model="handle"
             type="text"
-            :placeholder="t('GENERAL_SETTINGS.FORM.INFINITEPAY.HANDLE_PLACEHOLDER')"
+            :placeholder="
+              t('GENERAL_SETTINGS.FORM.INFINITEPAY.HANDLE_PLACEHOLDER')
+            "
             class="w-full px-3 py-2 text-sm border rounded-lg border-n-slate-6 bg-n-slate-1 text-n-slate-12 focus:border-n-blue-7 focus:outline-none"
           />
         </label>
@@ -100,12 +105,13 @@ const saveSettings = async () => {
         class="flex items-center gap-2 text-xs text-n-green-11"
       >
         <span class="inline-block w-2 h-2 rounded-full bg-n-green-9" />
-        {{ t('GENERAL_SETTINGS.FORM.INFINITEPAY.CONFIGURED', { handle: savedHandle }) }}
+        {{
+          t('GENERAL_SETTINGS.FORM.INFINITEPAY.CONFIGURED', {
+            handle: savedHandle,
+          })
+        }}
       </div>
-      <div
-        v-if="savedPushOnly"
-        class="text-xs text-n-slate-11"
-      >
+      <div v-if="savedPushOnly" class="text-xs text-n-slate-11">
         {{ t('GENERAL_SETTINGS.FORM.INFINITEPAY.PUSH_ONLY_ENABLED') }}
       </div>
     </div>

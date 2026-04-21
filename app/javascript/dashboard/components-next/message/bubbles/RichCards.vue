@@ -33,7 +33,9 @@ const isQuickReplies = computed(() => {
   const hasNoDescription = !card.description;
   const hasManyActions = (card.actions?.length || 0) > 3;
 
-  return hasOnlyPostbackActions && hasNoImage && hasNoDescription && hasManyActions;
+  return (
+    hasOnlyPostbackActions && hasNoImage && hasNoDescription && hasManyActions
+  );
 });
 
 // Heuristic: detect Messenger Button Template mapped as a single card
