@@ -85,6 +85,25 @@ export default defineConfig({
       assets: path.resolve('./app/javascript/dashboard/assets'),
     },
   },
+  // CUSTOMIZAÇÃO_SYNAPSEOS: pré-declara deps do PrimeVue + vuedraggable pra
+  // evitar que o otimizador descubra-os em runtime (causa timeout 504 em dev).
+  optimizeDeps: {
+    include: [
+      'primevue/config',
+      '@primevue/themes/aura',
+      'primevue/card',
+      'primevue/datatable',
+      'primevue/column',
+      'primevue/tag',
+      'primevue/inputtext',
+      'primevue/button',
+      'primevue/chart',
+      'primevue/selectbutton',
+      'primevue/dialog',
+      'primevue/select',
+      'vuedraggable',
+    ],
+  },
   test: {
     environment: 'jsdom',
     include: ['app/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
