@@ -6,6 +6,9 @@ import Twilio from './Twilio.vue';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
+// CUSTOMIZAÇÃO_SYNAPSEOS
+import HyperflowWhatsapp from './HyperflowWhatsapp.vue';
+import AvisaWhatsapp from './AvisaWhatsapp.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 
 const route = useRoute();
@@ -19,6 +22,9 @@ const PROVIDER_TYPES = {
   WHATSAPP_EMBEDDED: 'whatsapp_embedded',
   WHATSAPP_MANUAL: 'whatsapp_manual',
   THREE_SIXTY_DIALOG: '360dialog',
+  // CUSTOMIZAÇÃO_SYNAPSEOS
+  HYPERFLOW: 'hyperflow',
+  AVISA: 'avisa',
 };
 
 const hasWhatsappAppId = computed(() => {
@@ -46,6 +52,19 @@ const availableProviders = computed(() => [
     title: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO'),
     description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO_DESC'),
     icon: 'i-woot-twilio',
+  },
+  // CUSTOMIZAÇÃO_SYNAPSEOS: providers brasileiros
+  {
+    key: PROVIDER_TYPES.HYPERFLOW,
+    title: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.HYPERFLOW'),
+    description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.HYPERFLOW_DESC'),
+    icon: 'i-lucide-workflow',
+  },
+  {
+    key: PROVIDER_TYPES.AVISA,
+    title: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.AVISA'),
+    description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.AVISA_DESC'),
+    icon: 'i-lucide-zap',
   },
 ]);
 
@@ -137,6 +156,12 @@ const handleManualLinkClick = () => {
         />
         <ThreeSixtyDialogWhatsapp
           v-else-if="selectedProvider === PROVIDER_TYPES.THREE_SIXTY_DIALOG"
+        />
+        <HyperflowWhatsapp
+          v-else-if="selectedProvider === PROVIDER_TYPES.HYPERFLOW"
+        />
+        <AvisaWhatsapp
+          v-else-if="selectedProvider === PROVIDER_TYPES.AVISA"
         />
         <CloudWhatsapp v-else />
       </div>

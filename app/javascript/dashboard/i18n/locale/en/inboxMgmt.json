@@ -247,7 +247,16 @@
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
           "TWILIO_DESC": "Connect via Twilio credentials",
-          "360_DIALOG": "360Dialog"
+          "360_DIALOG": "360Dialog",
+          "HYPERFLOW": "Hyperflow",
+          "HYPERFLOW_DESC": "Connect via Hyperflow (Meta official BSP in Brazil)",
+          "AVISA": "Avisa API",
+          "AVISA_DESC": "Unofficial WhatsApp API — review terms before using in production"
+        },
+        "AVISA": {
+          "RISK_WARNING": "Avisa is an unofficial WhatsApp API. Meta may ban accounts that violate their Terms of Service. Use only when officially approved BSPs are not an option.",
+          "RISK_REQUIRED": "Please acknowledge the Avisa API risk before continuing.",
+          "ACKNOWLEDGE": "I understand the risks of running an unofficial WhatsApp integration."
         },
         "SELECT_PROVIDER": {
           "TITLE": "Select your API provider",
