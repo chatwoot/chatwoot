@@ -9,7 +9,7 @@ const { t } = useI18n();
     <div
       class="flex justify-center items-center py-6 w-full custom-dashed-border"
     >
-      <span class="text-sm text-n-slate-11">
+      <span class="text-sm text-s-muted">
         {{ t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.NO_ATTRIBUTES') }}
       </span>
     </div>

@@ -106,16 +106,16 @@ const handleSeeOriginal = () => {
   <BaseBubble
     class="w-full"
     :class="{
-      'bg-n-slate-4': isIncoming,
-      'bg-n-solid-blue': isOutgoing,
+      'bg-s-subtle': isIncoming,
+      'bg-s-brand': isOutgoing,
     }"
     data-bubble-name="email"
   >
     <EmailMeta
       class="p-3"
       :class="{
-        'border-b border-n-strong': isIncoming,
-        'border-b border-n-slate-8/20': isOutgoing,
+        'border-b border-s-border-strong': isIncoming,
+        'border-b border-s-border/20': isOutgoing,
       }"
     />
     <section ref="contentContainer" class="p-3">
@@ -136,7 +136,7 @@ const handleSeeOriginal = () => {
           }"
         >
           <button
-            class="text-n-slate-12 py-2 px-8 mx-auto text-center flex items-center gap-2"
+            class="text-s-primary py-2 px-8 mx-auto text-center flex items-center gap-2"
             @click="isExpanded = true"
           >
             <Icon icon="i-lucide-maximize-2" />
@@ -145,7 +145,7 @@ const handleSeeOriginal = () => {
         </div>
         <FormattedContent
           v-if="isOutgoing && content && !hasEmailContent"
-          class="text-n-slate-12"
+          class="text-s-primary"
           :content="messageContent"
         />
         <template v-else>
@@ -176,7 +176,7 @@ const handleSeeOriginal = () => {
         </template>
         <button
           v-if="hasQuotedMessage"
-          class="text-n-slate-11 px-1 leading-none text-sm bg-n-alpha-black2 text-center flex items-center gap-1 mt-2"
+          class="text-s-muted px-1 leading-none text-sm bg-s-primary/15 text-center flex items-center gap-1 mt-2"
           @click="showQuotedMessage = !showQuotedMessage"
         >
           <template v-if="showQuotedMessage">
@@ -216,10 +216,10 @@ const handleSeeOriginal = () => {
 
 .letter-render [class*='gmail_drive_chip'] {
   box-sizing: initial;
-  @apply bg-n-slate-4 border-n-slate-6 rounded-md !important;
+  @apply bg-s-subtle border-s-border rounded-md !important;
 
   a {
-    @apply text-n-slate-12 !important;
+    @apply text-s-primary !important;
 
     img {
       display: inline-block;

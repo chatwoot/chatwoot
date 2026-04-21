@@ -23,11 +23,11 @@ const ICON_MAP = {
 };
 
 const BG_COLOR_MAP = {
-  [VOICE_CALL_STATUS.IN_PROGRESS]: 'bg-n-teal-9',
-  [VOICE_CALL_STATUS.RINGING]: 'bg-n-teal-9 animate-pulse',
-  [VOICE_CALL_STATUS.COMPLETED]: 'bg-n-slate-11',
-  [VOICE_CALL_STATUS.NO_ANSWER]: 'bg-n-ruby-9',
-  [VOICE_CALL_STATUS.FAILED]: 'bg-n-ruby-9',
+  [VOICE_CALL_STATUS.IN_PROGRESS]: 'bg-s-success',
+  [VOICE_CALL_STATUS.RINGING]: 'bg-s-success animate-pulse',
+  [VOICE_CALL_STATUS.COMPLETED]: 'bg-s-muted',
+  [VOICE_CALL_STATUS.NO_ANSWER]: 'bg-s-error',
+  [VOICE_CALL_STATUS.FAILED]: 'bg-s-error',
 };
 
 const { contentAttributes, messageType } = useMessageContext();
@@ -69,7 +69,7 @@ const iconName = computed(() => {
   return isOutbound.value ? 'i-ph-phone-outgoing' : 'i-ph-phone-incoming';
 });
 
-const bgColor = computed(() => BG_COLOR_MAP[status.value] || 'bg-n-teal-9');
+const bgColor = computed(() => BG_COLOR_MAP[status.value] || 'bg-s-success');
 </script>
 
 <template>
@@ -84,17 +84,17 @@ const bgColor = computed(() => BG_COLOR_MAP[status.value] || 'bg-n-teal-9');
             class="size-5"
             :icon="iconName"
             :class="{
-              'text-n-slate-1': status === VOICE_CALL_STATUS.COMPLETED,
+              'text-s-inverse': status === VOICE_CALL_STATUS.COMPLETED,
               'text-white': status !== VOICE_CALL_STATUS.COMPLETED,
             }"
           />
         </div>
 
         <div class="flex overflow-hidden flex-col flex-grow">
-          <span class="text-sm font-medium truncate text-n-slate-12">
+          <span class="text-sm font-medium truncate text-s-primary">
             {{ $t(labelKey) }}
           </span>
-          <span class="text-xs text-n-slate-11">
+          <span class="text-xs text-s-muted">
             {{ $t(subtextKey) }}
           </span>
         </div>

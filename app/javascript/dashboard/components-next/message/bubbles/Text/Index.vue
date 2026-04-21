@@ -44,7 +44,7 @@ const handleSeeOriginal = () => {
 <template>
   <BaseBubble class="px-4 py-3" data-bubble-name="text">
     <div class="gap-3 flex flex-col">
-      <span v-if="isEmpty" class="text-n-slate-11">
+      <span v-if="isEmpty" class="text-s-muted">
         {{ $t('CONVERSATION.NO_CONTENT') }}
       </span>
       <FormattedContent v-if="renderContent" :content="renderContent" />
@@ -58,7 +58,7 @@ const handleSeeOriginal = () => {
       <template v-if="isTemplate">
         <div
           v-if="contentAttributes.submittedEmail"
-          class="px-2 py-1 rounded-lg bg-n-alpha-3"
+          class="px-2 py-1 rounded-lg bg-s-subtle"
         >
           {{ contentAttributes.submittedEmail }}
         </div>

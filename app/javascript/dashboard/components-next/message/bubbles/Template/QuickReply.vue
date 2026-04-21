@@ -10,7 +10,7 @@ defineProps({
 
 <template>
   <div
-    class="bg-n-alpha-2 divide-y divide-n-strong text-n-slate-12 rounded-xl max-w-80"
+    class="bg-s-subtle divide-y divide-n-strong text-s-primary rounded-xl max-w-80"
   >
     <div class="p-3">
       <span

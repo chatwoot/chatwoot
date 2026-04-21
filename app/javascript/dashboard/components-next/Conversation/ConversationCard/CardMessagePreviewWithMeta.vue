@@ -61,13 +61,13 @@ defineExpose({
 <template>
   <div class="flex flex-col w-full gap-1">
     <div class="flex items-center justify-between w-full gap-2 py-1 h-7">
-      <p class="mb-0 text-sm leading-7 text-n-slate-12 line-clamp-1">
+      <p class="mb-0 text-sm leading-7 text-s-primary line-clamp-1">
         {{ lastNonActivityMessageContent }}
       </p>
 
       <div
         v-if="unreadMessagesCount > 0"
-        class="inline-flex items-center justify-center flex-shrink-0 rounded-full size-5 bg-n-brand"
+        class="inline-flex items-center justify-center flex-shrink-0 rounded-full size-5 bg-s-brand"
       >
         <span class="text-xs font-semibold text-white">
           {{ unreadMessagesCount }}
@@ -88,7 +88,7 @@ defineExpose({
         ref="slaCardLabelRef"
         :conversation="conversation"
       />
-      <div v-if="hasSlaThreshold" class="w-px h-3 bg-n-slate-4" />
+      <div v-if="hasSlaThreshold" class="w-px h-3 bg-s-subtle" />
       <div class="overflow-hidden">
         <CardLabels
           :conversation-labels="conversation.labels"

@@ -7,7 +7,7 @@ import { useMessageContext } from '../provider.js';
 
 defineProps({
   icon: { type: [String, Object], required: true },
-  iconBgColor: { type: String, default: 'bg-n-alpha-3' },
+  iconBgColor: { type: String, default: 'bg-s-subtle' },
   senderTranslationKey: { type: String, required: true },
   content: { type: String, required: true },
   title: { type: String, default: '' }, // Title can be any name, description, etc
@@ -41,7 +41,7 @@ const senderName = computed(() => {
           </slot>
         </div>
         <div class="space-y-1 overflow-hidden">
-          <div v-if="senderName" class="text-n-slate-12 text-sm truncate">
+          <div v-if="senderName" class="text-s-primary text-sm truncate">
             {{
               t(senderTranslationKey, {
                 sender: senderName,
@@ -49,10 +49,10 @@ const senderName = computed(() => {
             }}
           </div>
           <slot>
-            <div v-if="title" class="truncate text-sm text-n-slate-12">
+            <div v-if="title" class="truncate text-sm text-s-primary">
               {{ title }}
             </div>
-            <div v-if="content" class="truncate text-sm text-n-slate-11">
+            <div v-if="content" class="truncate text-sm text-s-muted">
               {{ content }}
             </div>
           </slot>
@@ -64,13 +64,13 @@ const senderName = computed(() => {
           :href="action.href"
           rel="noreferrer noopener nofollow"
           target="_blank"
-          class="w-full block bg-n-solid-3 px-4 py-2 rounded-lg text-sm text-center border border-n-container"
+          class="w-full block bg-s-subtle px-4 py-2 rounded-lg text-sm text-center border border-s-border"
         >
           {{ action.label }}
         </a>
         <button
           v-else
-          class="w-full bg-n-solid-3 px-4 py-2 rounded-lg text-sm text-center border border-n-container"
+          class="w-full bg-s-subtle px-4 py-2 rounded-lg text-sm text-center border border-s-border"
           @click="action.onClick"
         >
           {{ action.label }}

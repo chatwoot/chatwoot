@@ -58,6 +58,6 @@ const tooltipContent = computed(() => {
       delay: { show: 500, hide: 0 },
     }"
     :icon="iconName"
-    class="size-4 text-n-slate-5"
+    class="size-4 text-s-disabled"
   />
 </template>

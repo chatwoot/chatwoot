@@ -84,7 +84,7 @@ const updateVisibleLabels = () => {
           class="size-1.5 rounded-full flex-shrink-0"
         />
         <span
-          class="text-sm text-n-slate-10 whitespace-nowrap"
+          class="text-sm text-s-muted whitespace-nowrap"
           :class="{ truncate: index === visibleLabels.length - 1 }"
         >
           {{ label.title }}

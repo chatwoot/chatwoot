@@ -49,7 +49,7 @@ const action = computed(() => ({
     sender-translation-key="CONVERSATION.SHARED_ATTACHMENT.MEETING"
     :action="action"
   >
-    <div v-if="!sender" class="text-sm truncate text-n-slate-12">
+    <div v-if="!sender" class="text-sm truncate text-s-primary">
       <!-- Added as a fallback, where the sender is not available (Deleted) -->
       <!-- Will show the content, if senderName in BaseAttachment.vue is empty -->
       {{ content }}
@@ -60,7 +60,7 @@ const action = computed(() => ({
         allow="camera;microphone;fullscreen;display-capture;picture-in-picture;clipboard-write;"
       />
       <button
-        class="px-4 py-2 text-sm rounded-lg bg-n-solid-3 mt-3"
+        class="px-4 py-2 text-sm rounded-lg bg-s-subtle mt-3"
         @click="leaveTheRoom"
       >
         {{ $t('INTEGRATION_SETTINGS.DYTE.LEAVE_THE_ROOM') }}
@@ -85,7 +85,7 @@ const action = computed(() => ({
   height: 100%;
   z-index: 1000;
   padding: 0.25rem;
-  @apply bg-n-background;
+  @apply bg-s-bg;
 
   iframe {
     width: 100%;

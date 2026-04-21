@@ -106,7 +106,7 @@ const replyToPreview = computed(() => {
   >
     <div
       v-if="inReplyTo"
-      class="p-2 -mx-1 mb-2 rounded-lg cursor-pointer bg-n-alpha-black1"
+      class="p-2 -mx-1 mb-2 rounded-lg cursor-pointer bg-s-primary/10"
       @click="scrollToMessage"
     >
       <div
@@ -121,8 +121,8 @@ const replyToPreview = computed(() => {
         flexOrientationClass,
         variant === MESSAGE_VARIANTS.EMAIL ? 'px-3 pb-3' : '',
         variant === MESSAGE_VARIANTS.PRIVATE
-          ? 'text-n-amber-12/50'
-          : 'text-n-slate-11',
+          ? 'text-s-warning-text/50'
+          : 'text-s-muted',
       ]"
       class="mt-2"
     />
