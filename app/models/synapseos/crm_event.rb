@@ -47,5 +47,52 @@ module Synapseos
     belongs_to :user, optional: true
 
     validates :event_type, presence: true, inclusion: { in: EVENT_TYPES }
+
+    after_create_commit :emit_timeline_activity
+
+    TIMELINE_EVENT_TYPES = %w[
+      bot_takeover
+      human_rescue
+      appointment_confirmed
+      lead_qualified
+      deal_won
+      deal_lost
+    ].freeze
+
+    private
+
+    def emit_timeline_activity
+      return if conversation_id.blank?
+      return unless TIMELINE_EVENT_TYPES.include?(event_type)
+
+      conversation.messages.create!(
+        account_id: account_id,
+        inbox_id: conversation.inbox_id,
+        message_type: :activity,
+        content: timeline_content
+      )
+    rescue StandardError => e
+      Rails.logger.warn("[Synapseos::CrmEvent] could not emit timeline activity: #{e.message}")
+    end
+
+    def timeline_content
+      case event_type
+      when 'appointment_confirmed'
+        date = metadata['date'] || metadata[:date]
+        date.present? ? "📅 Agendamento confirmado para #{date}" : '📅 Agendamento confirmado'
+      when 'bot_takeover'
+        '🤖 ➜ 👤 Atendimento assumido por humano'
+      when 'human_rescue'
+        '👤 ➜ 🤖 Atendimento retomado pelo bot'
+      when 'lead_qualified'
+        '⭐ Lead qualificado'
+      when 'deal_won'
+        "✅ Negócio fechado (ganho) — #{metadata['amount'] || metadata[:amount] || ''}".strip
+      when 'deal_lost'
+        '❌ Negócio perdido'
+      else
+        "Evento: #{event_type}"
+      end
+    end
   end
 end

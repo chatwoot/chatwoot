@@ -1,5 +1,6 @@
 class SynapseosListener < BaseListener
   LEAD_LABEL = 'lead_qualificado'.freeze
+  COMMAND_REGEX = %r{^/(ganhei|perdi)(?:\s+([0-9]+(?:[.,][0-9]+)?))?}i
 
   def conversation_updated(event)
     conversation, account = extract_conversation_and_account(event)
@@ -9,7 +10,56 @@ class SynapseosListener < BaseListener
     handle_assignee_transition(conversation, account, changes)
   end
 
+  def message_created(event)
+    message = extract_message_and_account(event)[0]
+    return unless message.private? && message.content.is_a?(String)
+
+    match = message.content.strip.match(COMMAND_REGEX)
+    return unless match
+
+    handle_deal_command(message, match[1].downcase, match[2])
+  end
+
   private
+
+  def handle_deal_command(message, command, amount_raw)
+    conversation = message.conversation
+    account = message.account
+    lead = ::Synapseos::Lead.where(account_id: account.id, conversation_id: conversation.id).first_or_create!(
+      contact_id: conversation.contact_id,
+      assignee_id: conversation.assignee_id,
+      status: :qualified,
+      source: 'manual_command'
+    )
+
+    amount = parse_amount(amount_raw)
+    status = command == 'ganhei' ? :won : :lost
+    ::Synapseos::Deal.create!(
+      account_id: account.id,
+      lead_id: lead.id,
+      assignee_id: message.sender_id,
+      status: status,
+      amount: amount,
+      closed_at: Time.current,
+      metadata: { source: 'manual_command', note_message_id: message.id }
+    )
+
+    ::Synapseos::CrmEvent.create!(
+      account_id: account.id,
+      conversation_id: conversation.id,
+      user_id: message.sender_id,
+      event_type: status == :won ? 'deal_won' : 'deal_lost',
+      metadata: { amount: amount, source: 'manual_command' }
+    )
+  rescue StandardError => e
+    Rails.logger.warn("[Synapseos] handle_deal_command failed: #{e.message}")
+  end
+
+  def parse_amount(raw)
+    return 0 if raw.blank?
+
+    raw.to_s.tr(',', '.').to_f
+  end
 
   def handle_label_changes(conversation, account, changes)
     label_change = changes['label_list'] || changes[:label_list]
