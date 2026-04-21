@@ -11,13 +11,13 @@ export default {
   <div class="empty-state py-16 px-1 ml-0 mr-0">
     <h3
       v-if="title"
-      class="text-n-slate-12 block text-center w-full text-xl font-medium"
+      class="text-s-primary block text-center w-full text-xl font-medium"
     >
       {{ title }}
     </h3>
     <p
       v-if="message"
-      class="block text-center text-n-slate-11 my-4 mx-auto w-[90%]"
+      class="block text-center text-s-muted my-4 mx-auto w-[90%]"
     >
       {{ message }}
     </p>

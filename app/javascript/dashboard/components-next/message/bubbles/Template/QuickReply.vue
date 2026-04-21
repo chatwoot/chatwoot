@@ -10,7 +10,7 @@ defineProps({
 
 <template>
   <div
-    class="bg-s-subtle divide-y divide-n-strong text-s-primary rounded-xl max-w-80"
+    class="bg-s-subtle divide-y divide-s-border-strong text-s-primary rounded-xl max-w-80"
   >
     <div class="p-3">
       <span
@@ -26,7 +26,7 @@ defineProps({
             height="15"
             viewBox="0 0 15 15"
             fill="none"
-            class="stroke-n-blue-text"
+            class="stroke-s-brand-text"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
@@ -51,7 +51,7 @@ defineProps({
             height="15"
             viewBox="0 0 15 15"
             fill="none"
-            class="stroke-n-blue-text"
+            class="stroke-s-brand-text"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path

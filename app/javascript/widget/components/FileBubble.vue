@@ -59,7 +59,7 @@ export default {
     <div class="ltr:pr-1 rtl:pl-1">
       <div
         class="m-0 font-medium text-sm"
-        :class="{ 'text-n-slate-12': !isUserBubble }"
+        :class="{ 'text-s-primary': !isUserBubble }"
         :style="{ color: textColor }"
       >
         {{ title }}
@@ -82,11 +82,11 @@ export default {
 <style lang="scss" scoped>
 .file {
   .icon-wrap {
-    @apply text-[2.5rem] text-n-brand leading-none ltr:ml-1 rtl:mr-1 ltr:mr-2 rtl:ml-2;
+    @apply text-[2.5rem] text-s-brand leading-none ltr:ml-1 rtl:mr-1 ltr:mr-2 rtl:ml-2;
   }
 
   .download {
-    @apply text-n-brand font-medium p-0 m-0 text-xs no-underline;
+    @apply text-s-brand font-medium p-0 m-0 text-xs no-underline;
   }
 }
 </style>

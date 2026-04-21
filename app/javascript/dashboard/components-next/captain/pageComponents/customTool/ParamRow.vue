@@ -63,9 +63,9 @@ defineExpose({ validate });
 <template>
   <li class="list-none">
     <div
-      class="flex items-start gap-2 p-3 rounded-lg border border-n-weak bg-n-alpha-2"
+      class="flex items-start gap-2 p-3 rounded-lg border border-s-border bg-s-subtle"
       :class="{
-        'animate-wiggle border-n-ruby-9': showErrors && validationError,
+        'animate-wiggle border-s-error': showErrors && validationError,
       }"
     >
       <div class="flex flex-col flex-1 gap-3">
@@ -79,7 +79,7 @@ defineExpose({ validate });
             v-model="type"
             :options="paramTypeOptions"
             :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_TYPE.PLACEHOLDER')"
-            class="[&>div>button]:bg-n-alpha-black2"
+            class="[&>div>button]:bg-s-primary/15"
           />
         </div>
         <Input
@@ -90,7 +90,7 @@ defineExpose({ validate });
         />
         <label class="flex items-center gap-2 cursor-pointer">
           <Checkbox v-model="required" />
-          <span class="text-sm text-n-slate-11">
+          <span class="text-sm text-s-muted">
             {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_REQUIRED.LABEL') }}
           </span>
         </label>
@@ -105,7 +105,7 @@ defineExpose({ validate });
     </div>
     <span
       v-if="showErrors && validationError"
-      class="block mt-1 text-sm text-n-ruby-11"
+      class="block mt-1 text-sm text-s-error-text"
     >
       {{ t(`CAPTAIN.CUSTOM_TOOLS.FORM.ERRORS.${validationError}`) }}
     </span>

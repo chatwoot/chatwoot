@@ -86,7 +86,7 @@ const audioAttachments = computed(() => {
   <router-link :to="navigateTo">
     <CardLayout
       layout="col"
-      class="[&>div]:justify-start [&>div]:gap-2 [&>div]:px-4 [&>div]:py-3 [&>div]:items-start hover:bg-n-slate-2 dark:hover:bg-n-solid-3"
+      class="[&>div]:justify-start [&>div]:gap-2 [&>div]:px-4 [&>div]:py-3 [&>div]:items-start hover:bg-s-subtle dark:hover:bg-s-subtle"
     >
       <div
         class="flex items-center min-w-0 justify-between gap-2 w-full h-7 mb-1"
@@ -95,31 +95,31 @@ const audioAttachments = computed(() => {
           <div class="flex items-center gap-1.5 flex-shrink-0">
             <Icon
               icon="i-lucide-hash"
-              class="flex-shrink-0 text-n-slate-11 size-4"
+              class="flex-shrink-0 text-s-muted size-4"
             />
-            <span class="text-n-slate-12 text-sm leading-4">
+            <span class="text-s-primary text-sm leading-4">
               {{ id }}
             </span>
           </div>
-          <div v-if="inboxName" class="w-px h-3 bg-n-strong" />
+          <div v-if="inboxName" class="w-px h-3 bg-s-border-strong" />
           <div v-if="inboxName" class="flex items-center gap-1.5 flex-shrink-0">
             <div
               v-if="inboxIcon"
-              class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-alpha-2 size-4"
+              class="flex items-center justify-center flex-shrink-0 rounded-full bg-s-subtle size-4"
             >
               <Icon
                 :icon="inboxIcon"
-                class="flex-shrink-0 text-n-slate-11 size-2.5"
+                class="flex-shrink-0 text-s-muted size-2.5"
               />
             </div>
-            <span class="text-sm leading-4 text-n-slate-12">
+            <span class="text-sm leading-4 text-s-primary">
               {{ inboxName }}
             </span>
           </div>
-          <div v-if="isPrivate" class="w-px h-3 bg-n-strong" />
+          <div v-if="isPrivate" class="w-px h-3 bg-s-border-strong" />
           <div
             v-if="isPrivate"
-            class="flex items-center text-n-amber-11 gap-1.5 flex-shrink-0"
+            class="flex items-center text-s-warning-text gap-1.5 flex-shrink-0"
           >
             <Icon icon="i-lucide-lock-keyhole" class="flex-shrink-0 size-3.5" />
             <span class="text-sm leading-4">
@@ -129,7 +129,7 @@ const audioAttachments = computed(() => {
         </div>
         <span
           v-if="createdAtTime"
-          class="text-sm font-normal min-w-0 truncate text-n-slate-11"
+          class="text-sm font-normal min-w-0 truncate text-s-muted"
         >
           {{ createdAtTime }}
         </span>
@@ -142,7 +142,7 @@ const audioAttachments = computed(() => {
           class="w-full"
         >
           <AudioChip
-            class="bg-n-alpha-2 dark:bg-n-alpha-2 text-n-slate-12"
+            class="bg-s-subtle dark:bg-s-subtle text-s-primary"
             :attachment="attachment"
             :show-transcribed-text="false"
             @click.prevent

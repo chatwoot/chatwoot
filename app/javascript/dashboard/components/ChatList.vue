@@ -899,7 +899,7 @@ watch(conversationFilters, (newVal, oldVal) => {
 
 <template>
   <div
-    class="flex flex-col flex-shrink-0 conversations-list-wrap bg-n-surface-1"
+    class="flex flex-col flex-shrink-0 conversations-list-wrap bg-s-surface"
     :class="[
       { hidden: !showConversationList },
       isOnExpandedLayout ? 'basis-full' : 'w-[340px] 2xl:w-[412px]',
@@ -993,11 +993,11 @@ watch(conversationFilters, (newVal, oldVal) => {
         />
       </Virtualizer>
       <div v-if="chatListLoading" class="flex justify-center my-4">
-        <Spinner class="text-n-brand" />
+        <Spinner class="text-s-brand" />
       </div>
       <p
         v-else-if="showEndOfListMessage"
-        class="p-4 text-center text-n-slate-11"
+        class="p-4 text-center text-s-muted"
       >
         {{ $t('CHAT_LIST.EOF') }}
       </p>

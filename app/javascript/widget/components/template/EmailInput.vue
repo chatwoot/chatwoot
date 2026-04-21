@@ -106,14 +106,14 @@ export default {
 <style lang="scss" scoped>
 .email-input-group {
   input {
-    @apply dark:bg-n-alpha-black1 rtl:rounded-tl-[0] ltr:rounded-tr-[0] rtl:rounded-bl-[0] ltr:rounded-br-[0] p-2.5 w-full focus:ring-0 focus:outline-n-brand;
+    @apply dark:bg-s-primary/10 rtl:rounded-tl-[0] ltr:rounded-tr-[0] rtl:rounded-bl-[0] ltr:rounded-br-[0] p-2.5 w-full focus:ring-0 focus:outline-s-brand;
 
     &::placeholder {
-      @apply text-n-slate-10;
+      @apply text-s-muted;
     }
 
     &.error {
-      @apply outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9;
+      @apply outline-s-error dark:outline-s-error hover:outline-s-error dark:hover:outline-s-error;
     }
   }
 

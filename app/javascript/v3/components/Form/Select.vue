@@ -64,8 +64,8 @@ export default {
       :selected="modelValue"
       :name="name"
       :class="{
-        'text-n-slate-9': !modelValue,
-        'text-n-slate-12': modelValue,
+        'text-s-disabled': !modelValue,
+        'text-s-primary': modelValue,
         'pl-9': icon,
       }"
       class="block w-full px-3 py-2 pr-6 mb-0 border-0 shadow-sm appearance-none rounded-xl select-caret leading-6"

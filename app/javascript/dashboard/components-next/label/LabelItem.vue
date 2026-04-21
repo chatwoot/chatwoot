@@ -28,14 +28,14 @@ const handleMouseEnter = () => {
 
 <template>
   <div
-    class="flex items-center px-1 py-1 overflow-hidden transition-all duration-300 ease-out rounded-md bg-n-alpha-2 h-7"
+    class="flex items-center px-1 py-1 overflow-hidden transition-all duration-300 ease-out rounded-md bg-s-subtle h-7"
     @mouseenter="handleMouseEnter"
   >
     <div
       class="w-2 h-2 m-1 rounded-sm"
       :style="{ backgroundColor: label.color }"
     />
-    <span class="text-sm text-n-slate-12 ltr:mr-px rtl:ml-px">
+    <span class="text-sm text-s-primary ltr:mr-px rtl:ml-px">
       {{ label.title }}
     </span>
     <div

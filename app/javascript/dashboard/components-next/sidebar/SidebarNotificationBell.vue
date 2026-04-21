@@ -26,13 +26,13 @@ function openNotificationPanel() {
 
 <template>
   <button
-    class="size-8 rounded-lg hover:bg-n-alpha-1 flex-shrink-0 grid place-content-center relative"
+    class="size-8 rounded-lg hover:bg-s-subtle flex-shrink-0 grid place-content-center relative"
     @click="openNotificationPanel"
   >
     <span class="i-lucide-bell size-4" />
     <span
       v-if="unreadCount"
-      class="min-h-2 min-w-2 p-0.5 px-1 bg-n-ruby-9 rounded-lg absolute -top-1 -right-1.5 grid place-items-center text-[9px] leading-none text-n-ruby-3"
+      class="min-h-2 min-w-2 p-0.5 px-1 bg-s-error rounded-lg absolute -top-1 -right-1.5 grid place-items-center text-[9px] leading-none text-s-error-soft"
     >
       {{ unreadCount }}
     </span>

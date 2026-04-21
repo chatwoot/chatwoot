@@ -5,17 +5,17 @@
 <template>
   <div class="flex justify-start">
     <div class="flex items-center space-x-2">
-      <span class="text-n-iris-11 font-medium">
+      <span class="text-s-brand-text font-medium">
         {{ $t('CAPTAIN.COPILOT.LOADER') }}
       </span>
       <div class="flex space-x-1">
         <div
-          class="w-2 h-2 rounded-full bg-n-iris-9 animate-bounce [animation-delay:-0.3s]"
+          class="w-2 h-2 rounded-full bg-s-brand animate-bounce [animation-delay:-0.3s]"
         />
         <div
-          class="w-2 h-2 rounded-full bg-n-iris-9 animate-bounce [animation-delay:-0.15s]"
+          class="w-2 h-2 rounded-full bg-s-brand animate-bounce [animation-delay:-0.15s]"
         />
-        <div class="w-2 h-2 rounded-full bg-n-iris-9 animate-bounce" />
+        <div class="w-2 h-2 rounded-full bg-s-brand animate-bounce" />
       </div>
     </div>
   </div>

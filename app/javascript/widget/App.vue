@@ -361,7 +361,7 @@ export default {
 <template>
   <div
     v-if="!conversationSize && isFetchingList"
-    class="flex items-center justify-center flex-1 h-full bg-n-background"
+    class="flex items-center justify-center flex-1 h-full bg-s-bg"
     :class="{ dark: prefersDarkMode }"
   >
     <Spinner size="" />

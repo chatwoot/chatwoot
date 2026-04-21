@@ -131,7 +131,7 @@ export default {
                 hide-offline-status
                 rounded-full
               />
-              <span class="my-0 text-n-slate-12">
+              <span class="my-0 text-s-primary">
                 {{ agent.name }}
               </span>
             </div>
@@ -183,7 +183,7 @@ export default {
 
 <style scoped lang="scss">
 .bulk-action__agents {
-  @apply max-w-[75%] absolute ltr:right-2 rtl:left-2 top-12 origin-top-right w-auto z-20 min-w-[15rem] bg-n-alpha-3 backdrop-blur-[100px] border-n-weak rounded-lg border border-solid shadow-md;
+  @apply max-w-[75%] absolute ltr:right-2 rtl:left-2 top-12 origin-top-right w-auto z-20 min-w-[15rem] bg-s-subtle backdrop-blur-[100px] border-s-border rounded-lg border border-solid shadow-md;
   .header {
     @apply p-2.5;
 
@@ -198,9 +198,9 @@ export default {
       @apply h-full;
     }
     .agent-list-search {
-      @apply py-0 px-2.5 bg-n-alpha-black2 border border-solid border-n-strong rounded-md;
+      @apply py-0 px-2.5 bg-s-primary/15 border border-solid border-s-border-strong rounded-md;
       .search-icon {
-        @apply text-n-slate-10;
+        @apply text-s-muted;
       }
 
       .agent--search_input {
@@ -212,7 +212,7 @@ export default {
     @apply block z-10 absolute -top-3 text-left ltr:right-[--triangle-position] rtl:left-[--triangle-position];
 
     svg path {
-      @apply fill-n-alpha-3 backdrop-blur-[100px]  stroke-n-weak;
+      @apply fill-s-subtle backdrop-blur-[100px]  stroke-s-border;
     }
   }
 }
@@ -229,7 +229,7 @@ ul {
 }
 
 .agent-list-item {
-  @apply flex items-center p-2.5 gap-2 cursor-pointer hover:bg-n-slate-3 dark:hover:bg-n-solid-3;
+  @apply flex items-center p-2.5 gap-2 cursor-pointer hover:bg-s-subtle dark:hover:bg-s-subtle;
   span {
     @apply text-sm;
   }
@@ -245,10 +245,10 @@ ul {
   }
 }
 .search-container {
-  @apply py-0 px-2.5 sticky top-0 z-20 bg-n-alpha-3 backdrop-blur-[100px];
+  @apply py-0 px-2.5 sticky top-0 z-20 bg-s-subtle backdrop-blur-[100px];
 }
 
 .agent__list-loading {
-  @apply m-2.5 rounded-md dark:bg-n-solid-3 bg-n-slate-2 flex items-center justify-center flex-col p-5 h-[calc(95%-6.25rem)];
+  @apply m-2.5 rounded-md dark:bg-s-subtle bg-s-subtle flex items-center justify-center flex-col p-5 h-[calc(95%-6.25rem)];
 }
 </style>

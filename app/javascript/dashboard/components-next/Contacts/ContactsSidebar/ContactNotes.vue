@@ -79,7 +79,7 @@ useKeyboardEvents(keyboardEvents);
     </Editor>
     <div
       v-if="isFetchingNotes"
-      class="flex items-center justify-center py-10 text-n-slate-11"
+      class="flex items-center justify-center py-10 text-s-muted"
     >
       <Spinner />
     </div>
@@ -94,7 +94,7 @@ useKeyboardEvents(keyboardEvents);
         @delete="onDelete"
       />
     </div>
-    <p v-else class="px-6 py-6 text-sm leading-6 text-center text-n-slate-11">
+    <p v-else class="px-6 py-6 text-sm leading-6 text-center text-s-muted">
       {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.EMPTY_STATE') }}
     </p>
   </div>

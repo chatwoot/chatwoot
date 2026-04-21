@@ -26,6 +26,6 @@ const checked = computed({
     v-model="checked"
     type="checkbox"
     :value="value"
-    class="flex-shrink-0 mt-0.5 border-n-strong border bg-n-slate-2 checked:border-none checked:bg-n-brand shadow-sm appearance-none rounded-[4px] w-4 h-4 focus:ring-1 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center after:text-center after:text-xs after:font-bold after:relative"
+    class="flex-shrink-0 mt-0.5 border-s-border-strong border bg-s-subtle checked:border-none checked:bg-s-brand shadow-sm appearance-none rounded-[4px] w-4 h-4 focus:ring-1 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center after:text-center after:text-xs after:font-bold after:relative"
   />
 </template>

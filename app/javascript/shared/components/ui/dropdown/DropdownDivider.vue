@@ -4,7 +4,7 @@ export default {};
 
 <template>
   <li
-    class="list-none my-1 mx-0 border-b border-n-weak"
+    class="list-none my-1 mx-0 border-b border-s-border"
     :tabindex="null"
     :aria-disabled="true"
   />

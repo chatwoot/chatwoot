@@ -72,7 +72,7 @@ const handleAction = ({ action, value }) => {
   <CardLayout>
     <div class="flex justify-between w-full gap-1">
       <span
-        class="text-base text-n-slate-12 line-clamp-1 flex items-center gap-2"
+        class="text-base text-s-primary line-clamp-1 flex items-center gap-2"
       >
         <span :class="icon" />
         {{ inboxName }}
@@ -87,7 +87,7 @@ const handleAction = ({ action, value }) => {
             icon="i-lucide-ellipsis-vertical"
             color="slate"
             size="xs"
-            class="rounded-md group-hover:bg-n-alpha-2"
+            class="rounded-md group-hover:bg-s-subtle"
             @click="toggleDropdown()"
           />
           <DropdownMenu

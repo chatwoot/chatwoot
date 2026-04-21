@@ -124,7 +124,7 @@ const reorderCategories = async reorderedGroup => {
     <template #content>
       <div
         v-if="isLoading"
-        class="flex items-center justify-center py-10 text-n-slate-11"
+        class="flex items-center justify-center py-10 text-s-muted"
       >
         <Spinner />
       </div>

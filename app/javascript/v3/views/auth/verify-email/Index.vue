@@ -70,16 +70,16 @@ const onCaptchaError = () => {
 
 <template>
   <main
-    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
+    class="flex flex-col w-full min-h-screen py-20 bg-s-brand/5 dark:bg-s-bg sm:px-6 lg:px-8"
   >
     <section
-      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
+      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-s-subtle p-11 sm:shadow-lg sm:rounded-lg"
     >
       <div class="mb-6">
-        <h2 class="text-2xl font-semibold text-n-slate-12">
+        <h2 class="text-2xl font-semibold text-s-primary">
           {{ $t('REGISTER.VERIFY_EMAIL.TITLE') }}
         </h2>
-        <p class="mt-2 text-sm text-n-slate-11">
+        <p class="mt-2 text-sm text-s-muted">
           {{ $t('REGISTER.VERIFY_EMAIL.DESCRIPTION', { email }) }}
         </p>
       </div>

@@ -11,7 +11,7 @@ const { strong } = defineProps({
 });
 
 const borderClass = computed(() => {
-  return strong ? 'border-n-strong' : 'border-n-weak';
+  return strong ? 'border-s-border-strong' : 'border-s-border';
 });
 
 const beforeClass = computed(() => {
@@ -26,7 +26,7 @@ const beforeClass = computed(() => {
 <template>
   <div class="absolute">
     <ul
-      class="text-sm bg-n-alpha-3 backdrop-blur-[100px] border rounded-xl shadow-sm py-2 n-dropdown-body gap-2 grid list-none px-2 reset-base relative"
+      class="text-sm bg-s-subtle backdrop-blur-[100px] border rounded-xl shadow-sm py-2 n-dropdown-body gap-2 grid list-none px-2 reset-base relative"
       :class="[borderClass, beforeClass]"
     >
       <slot />

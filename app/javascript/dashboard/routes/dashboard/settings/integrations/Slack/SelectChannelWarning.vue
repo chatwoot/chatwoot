@@ -61,7 +61,7 @@ const updateIntegration = async () => {
 
 <template>
   <div
-    class="px-6 py-4 mb-4 outline outline-n-container outline-1 bg-s-surface rounded-xl"
+    class="px-6 py-4 mb-4 outline outline-s-border outline-1 bg-s-surface rounded-xl"
   >
     <div class="flex">
       <div class="flex-shrink-0">

@@ -83,7 +83,7 @@ onMounted(() => {
     </div>
     <div
       v-if="uiFlags.isFetching"
-      class="flex items-center gap-2 justify-center p-6 text-n-slate-12"
+      class="flex items-center gap-2 justify-center p-6 text-s-primary"
     >
       <span class="text-sm">{{ $t('MACROS.LOADING') }}</span>
       <Spinner class="size-5" />
@@ -112,6 +112,6 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .ghost {
-  @apply opacity-50 bg-n-slate-3 dark:bg-n-slate-9;
+  @apply opacity-50 bg-s-subtle dark:bg-s-muted;
 }
 </style>

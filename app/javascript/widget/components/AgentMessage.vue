@@ -206,7 +206,7 @@ export default {
             />
             <div
               v-if="hasAttachments"
-              class="space-y-2 chat-bubble has-attachment agent bg-n-background dark:bg-n-solid-3"
+              class="space-y-2 chat-bubble has-attachment agent bg-s-bg dark:bg-s-subtle"
               :class="wrapClass"
             >
               <div
@@ -249,7 +249,7 @@ export default {
         <p
           v-if="message.showAvatar || hasRecordedResponse"
           v-dompurify-html="agentName"
-          class="agent-name text-n-slate-11"
+          class="agent-name text-s-muted"
         />
       </div>
     </div>

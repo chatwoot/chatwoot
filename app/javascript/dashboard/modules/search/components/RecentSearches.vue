@@ -72,8 +72,8 @@ onMounted(() => {
   <div v-if="hasRecentSearches" class="px-4 pb-4 w-full pt-2">
     <div class="flex items-center justify-between mb-4">
       <div class="flex items-center gap-2.5">
-        <Icon icon="i-lucide-rotate-ccw" class="text-n-slate-10 size-4" />
-        <h3 class="text-base font-medium text-n-slate-10">
+        <Icon icon="i-lucide-rotate-ccw" class="text-s-muted size-4" />
+        <h3 class="text-base font-medium text-s-muted">
           {{ $t('SEARCH.RECENT_SEARCHES') }}
         </h3>
       </div>
@@ -82,7 +82,7 @@ onMounted(() => {
         xs
         slate
         ghost
-        class="!text-n-slate-10 hover:!text-n-slate-12"
+        class="!text-s-muted hover:!text-s-primary"
         @mousedown.prevent
         @click="onClearAll"
       >
@@ -95,17 +95,17 @@ onMounted(() => {
         v-for="(search, index) in recentSearches"
         :key="search"
         type="button"
-        class="w-full flex items-center gap-2.5 text-left text-base text-n-slate-12 rounded-lg transition-all duration-150 group p-0"
+        class="w-full flex items-center gap-2.5 text-left text-base text-s-primary rounded-lg transition-all duration-150 group p-0"
         @mousedown.prevent
         @click="onSelectSearch(search)"
       >
         <Icon
           icon="i-lucide-search"
-          class="text-n-slate-10 group-hover:text-n-slate-11 transition-colors duration-150 size-4"
+          class="text-s-muted group-hover:text-s-muted transition-colors duration-150 size-4"
         />
         <span class="flex-1 truncate">{{ search }}</span>
         <span
-          class="text-xs text-n-slate-8 opacity-0 group-hover:opacity-100 transition-opacity duration-150"
+          class="text-xs text-s-disabled opacity-0 group-hover:opacity-100 transition-opacity duration-150"
         >
           {{ index === 0 ? $t('SEARCH.MOST_RECENT') : '' }}
         </span>

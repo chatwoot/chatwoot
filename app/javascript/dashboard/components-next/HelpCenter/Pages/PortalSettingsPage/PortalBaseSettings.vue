@@ -219,7 +219,7 @@ const handleAvatarDelete = () => {
         class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
       >
         <label
-          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-s-primary"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.NAME.LABEL') }}
         </label>
@@ -237,7 +237,7 @@ const handleAvatarDelete = () => {
         class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
       >
         <label
-          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-s-primary"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.HEADER_TEXT.LABEL') }}
         </label>
@@ -253,7 +253,7 @@ const handleAvatarDelete = () => {
         class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
       >
         <label
-          class="text-sm font-medium whitespace-nowrap text-n-slate-12 py-2.5"
+          class="text-sm font-medium whitespace-nowrap text-s-primary py-2.5"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.PAGE_TITLE.LABEL') }}
         </label>
@@ -269,7 +269,7 @@ const handleAvatarDelete = () => {
         class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
       >
         <label
-          class="text-sm font-medium whitespace-nowrap text-n-slate-12 py-2.5"
+          class="text-sm font-medium whitespace-nowrap text-s-primary py-2.5"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.HOME_PAGE_LINK.LABEL') }}
         </label>
@@ -289,7 +289,7 @@ const handleAvatarDelete = () => {
         class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
       >
         <label
-          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-s-primary"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.SLUG.LABEL') }}
         </label>
@@ -307,7 +307,7 @@ const handleAvatarDelete = () => {
         class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
       >
         <label
-          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-s-primary"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.LABEL') }}
         </label>
@@ -320,14 +320,14 @@ const handleAvatarDelete = () => {
           :message="
             t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.HELP_TEXT')
           "
-          class="[&>div>button:not(.focused)]:!outline-n-weak"
+          class="[&>div>button:not(.focused)]:!outline-s-border"
         />
       </div>
       <div
         class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
       >
         <label
-          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-s-primary"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.BRAND_COLOR.LABEL') }}
         </label>

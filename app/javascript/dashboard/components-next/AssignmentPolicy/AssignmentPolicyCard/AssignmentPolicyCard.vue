@@ -60,7 +60,7 @@ const handleFetchInboxes = () => {
     <div class="flex flex-col gap-2 relative justify-between w-full">
       <div class="flex items-center gap-3 justify-between w-full">
         <div class="flex items-center gap-3">
-          <h3 class="text-heading-2 text-n-slate-12 line-clamp-1">
+          <h3 class="text-heading-2 text-s-primary line-clamp-1">
             {{ name }}
           </h3>
           <CardPopover
@@ -85,26 +85,26 @@ const handleFetchInboxes = () => {
             class="px-2"
             @click="handleEdit"
           />
-          <div v-if="order" class="w-px h-2.5 bg-n-slate-5" />
+          <div v-if="order" class="w-px h-2.5 bg-s-border-subtle" />
           <Button icon="i-lucide-trash" sm slate ghost @click="handleDelete" />
         </div>
       </div>
-      <p class="text-n-slate-11 text-body-para line-clamp-1 mb-0 py-1">
+      <p class="text-s-muted text-body-para line-clamp-1 mb-0 py-1">
         {{ description }}
       </p>
       <div class="flex items-center gap-3 py-1.5">
-        <span v-if="order" class="text-n-slate-11 text-body-para">
+        <span v-if="order" class="text-s-muted text-body-para">
           {{
             `${t('ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.INDEX.CARD.ORDER')}:`
           }}
-          <span class="text-n-slate-12">{{ order }}</span>
+          <span class="text-s-primary">{{ order }}</span>
         </span>
-        <div v-if="order" class="w-px h-3 bg-n-strong" />
-        <span v-if="priority" class="text-n-slate-11 text-body-para">
+        <div v-if="order" class="w-px h-3 bg-s-border-strong" />
+        <span v-if="priority" class="text-s-muted text-body-para">
           {{
             `${t('ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.INDEX.CARD.PRIORITY')}:`
           }}
-          <span class="text-n-slate-12">{{ priority }}</span>
+          <span class="text-s-primary">{{ priority }}</span>
         </span>
       </div>
     </div>

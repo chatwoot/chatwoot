@@ -64,38 +64,38 @@ const refreshTemplates = async () => {
   <div class="w-full">
     <div class="flex gap-2 mb-2.5">
       <div
-        class="flex flex-1 gap-1 items-center px-2.5 py-0 rounded-lg bg-n-alpha-black2 outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 focus-within:outline-n-brand dark:focus-within:outline-n-brand"
+        class="flex flex-1 gap-1 items-center px-2.5 py-0 rounded-lg bg-s-primary/15 outline outline-1 outline-s-border hover:outline-s-border dark:hover:outline-s-border focus-within:outline-s-brand dark:focus-within:outline-s-brand"
       >
-        <fluent-icon icon="search" class="text-n-slate-12" size="16" />
+        <fluent-icon icon="search" class="text-s-primary" size="16" />
         <input
           v-model="query"
           type="search"
           :placeholder="t('CONTENT_TEMPLATES.PICKER.SEARCH_PLACEHOLDER')"
-          class="reset-base w-full h-9 bg-transparent text-n-slate-12 !text-sm !outline-0"
+          class="reset-base w-full h-9 bg-transparent text-s-primary !text-sm !outline-0"
         />
       </div>
       <button
         :disabled="isRefreshing"
-        class="flex justify-center items-center w-9 h-9 rounded-lg bg-n-alpha-black2 outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 hover:bg-n-alpha-2 dark:hover:bg-n-solid-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="flex justify-center items-center w-9 h-9 rounded-lg bg-s-primary/15 outline outline-1 outline-s-border hover:outline-s-border dark:hover:outline-s-border hover:bg-s-subtle dark:hover:bg-s-subtle disabled:opacity-50 disabled:cursor-not-allowed"
         :title="t('CONTENT_TEMPLATES.PICKER.REFRESH_BUTTON')"
         @click="refreshTemplates"
       >
         <Icon
           icon="i-lucide-refresh-ccw"
-          class="text-n-slate-12 size-4"
+          class="text-s-primary size-4"
           :class="{ 'animate-spin': isRefreshing }"
         />
       </button>
     </div>
     <div
-      class="bg-n-background outline-n-container outline outline-1 rounded-lg max-h-[18.75rem] overflow-y-auto p-2.5"
+      class="bg-s-bg outline-s-border outline outline-1 rounded-lg max-h-[18.75rem] overflow-y-auto p-2.5"
     >
       <div
         v-for="(template, i) in filteredTemplateMessages"
         :key="template.content_sid"
       >
         <button
-          class="block p-2.5 w-full text-left rounded-lg cursor-pointer hover:bg-n-alpha-2 dark:hover:bg-n-solid-2"
+          class="block p-2.5 w-full text-left rounded-lg cursor-pointer hover:bg-s-subtle dark:hover:bg-s-subtle"
           @click="emit('onSelect', template)"
         >
           <div>
@@ -105,12 +105,12 @@ const refreshTemplates = async () => {
               </p>
               <div class="flex gap-2">
                 <span
-                  class="inline-block px-2 py-1 text-xs leading-none rounded-lg cursor-default bg-n-slate-3 text-n-slate-12"
+                  class="inline-block px-2 py-1 text-xs leading-none rounded-lg cursor-default bg-s-subtle text-s-primary"
                 >
                   {{ getTemplateType(template) }}
                 </span>
                 <span
-                  class="inline-block px-2 py-1 text-xs leading-none rounded-lg cursor-default bg-n-slate-3 text-n-slate-12"
+                  class="inline-block px-2 py-1 text-xs leading-none rounded-lg cursor-default bg-s-subtle text-s-primary"
                 >
                   {{
                     `${t('CONTENT_TEMPLATES.PICKER.LABELS.LANGUAGE')}: ${template.language}`
@@ -121,7 +121,7 @@ const refreshTemplates = async () => {
 
             <!-- Body -->
             <div>
-              <p class="text-xs font-medium text-n-slate-11">
+              <p class="text-xs font-medium text-s-muted">
                 {{ t('CONTENT_TEMPLATES.PICKER.BODY') }}
               </p>
               <p class="text-sm label-body">
@@ -131,12 +131,12 @@ const refreshTemplates = async () => {
 
             <div class="flex justify-between items-center mt-3">
               <div>
-                <p class="text-xs font-medium text-n-slate-11">
+                <p class="text-xs font-medium text-s-muted">
                   {{ t('CONTENT_TEMPLATES.PICKER.LABELS.CATEGORY') }}
                 </p>
                 <p class="text-sm">{{ template.category || 'utility' }}</p>
               </div>
-              <div class="text-xs text-n-slate-11">
+              <div class="text-xs text-s-muted">
                 {{ new Date(template.created_at).toLocaleDateString() }}
               </div>
             </div>
@@ -145,7 +145,7 @@ const refreshTemplates = async () => {
         <hr
           v-if="i != filteredTemplateMessages.length - 1"
           :key="`hr-${i}`"
-          class="border-b border-solid border-n-weak my-2.5 mx-auto max-w-[95%]"
+          class="border-b border-solid border-s-border my-2.5 mx-auto max-w-[95%]"
         />
       </div>
       <div v-if="!filteredTemplateMessages.length" class="py-8 text-center">
@@ -156,7 +156,7 @@ const refreshTemplates = async () => {
           </p>
         </div>
         <div v-else-if="!twilioTemplates.length" class="space-y-4">
-          <p class="text-n-slate-11">
+          <p class="text-s-muted">
             {{ t('CONTENT_TEMPLATES.PICKER.NO_TEMPLATES_AVAILABLE') }}
           </p>
         </div>

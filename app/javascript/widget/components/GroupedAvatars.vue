@@ -28,7 +28,7 @@ const usersToDisplay = computed(() => props.users.slice(0, props.limit));
         :name="user.name"
         :src="user.avatar_url"
         :size="36"
-        class="[&>span]:outline [&>span]:outline-1 [&>span]:outline-n-background"
+        class="[&>span]:outline [&>span]:outline-1 [&>span]:outline-s-bg"
         rounded-full
       />
     </span>

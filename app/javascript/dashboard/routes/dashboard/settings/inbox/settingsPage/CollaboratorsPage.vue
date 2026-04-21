@@ -368,7 +368,7 @@ onMounted(() => {
       class="[&>div]:!items-start"
     >
       <div
-        class="rounded-xl outline outline-1 -outline-offset-1 outline-n-weak hover:outline-n-strong px-2 py-2"
+        class="rounded-xl outline outline-1 -outline-offset-1 outline-s-border hover:outline-s-border-strong px-2 py-2"
       >
         <TagInput
           :model-value="selectedAgentNames"

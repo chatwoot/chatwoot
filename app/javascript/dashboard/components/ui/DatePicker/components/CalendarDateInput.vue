@@ -55,7 +55,7 @@ const validateDate = () => {
 
 <template>
   <div class="h-[82px] flex flex-col items-start px-5 gap-1.5 pt-4 w-full">
-    <span class="text-sm font-medium text-n-slate-12">
+    <span class="text-sm font-medium text-s-primary">
       {{
         calendarType === START_CALENDAR
           ? $t('DATE_PICKER.DATE_RANGE_INPUT.START')
@@ -65,7 +65,7 @@ const validateDate = () => {
     <input
       v-model="localDateValue"
       type="text"
-      class="!text-sm !mb-0 disabled:!outline-n-strong"
+      class="!text-sm !mb-0 disabled:!outline-s-border-strong"
       :placeholder="dateFormat"
       :disabled="isDisabled"
       @keypress.enter="validateDate"

@@ -29,11 +29,11 @@ const resizeContainers = () => {
     :style="{ backgroundImage: `url(${signupBg})` }"
   >
     <div
-      class="absolute inset-0 bg-n-gray-12/60 dark:bg-n-gray-1/80 backdrop-blur-sm"
+      class="absolute inset-0 bg-s-subtle/60 dark:bg-s-subtle/80 backdrop-blur-sm"
     />
     <div
       v-show="!isLoading"
-      class="relative flex max-w-[960px] bg-white dark:bg-n-solid-2 rounded-lg outline outline-1 outline-n-container shadow-sm"
+      class="relative flex max-w-[960px] bg-white dark:bg-s-subtle rounded-lg outline outline-1 outline-s-border shadow-sm"
       :class="{ 'w-auto xl:w-full': isAChatwootInstance }"
     >
       <div class="flex-1 flex items-center justify-center py-10 px-10">
@@ -50,17 +50,17 @@ const resizeContainers = () => {
               :alt="globalConfig.installationName"
               class="hidden w-auto h-7 dark:block"
             />
-            <h2 class="mt-6 text-2xl font-semibold text-n-slate-12">
+            <h2 class="mt-6 text-2xl font-semibold text-s-primary">
               {{
                 isAChatwootInstance
                   ? $t('REGISTER.GET_STARTED')
                   : $t('REGISTER.TRY_WOOT')
               }}
             </h2>
-            <p class="mt-2 text-sm text-n-slate-11">
+            <p class="mt-2 text-sm text-s-muted">
               {{ $t('REGISTER.HAVE_AN_ACCOUNT') }}{{ ' '
               }}<router-link
-                class="text-n-blue-10 font-medium hover:text-n-blue-11"
+                class="text-s-brand font-medium hover:text-s-brand-text"
                 to="/app/login"
               >
                 {{ $t('LOGIN.SUBMIT') }}

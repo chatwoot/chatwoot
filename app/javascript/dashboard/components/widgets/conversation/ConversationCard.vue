@@ -130,7 +130,7 @@ const showLabelsSection = computed(() => {
 
 const messagePreviewClass = computed(() => {
   return [
-    hasUnread.value ? 'font-medium text-n-slate-12' : 'text-n-slate-11',
+    hasUnread.value ? 'font-medium text-s-primary' : 'text-s-muted',
     !props.compact && hasUnread.value ? 'ltr:pr-4 rtl:pl-4' : '',
     props.compact && hasUnread.value ? 'ltr:pr-6 rtl:pl-6' : '',
   ];
@@ -249,10 +249,10 @@ const deleteConversation = () => {
 
 <template>
   <div
-    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 border-t-0 border-b-0 border-l-0 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group"
+    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 border-t-0 border-b-0 border-l-0 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-s-subtle dark:hover:bg-s-subtle group"
     :class="{
-      'active animate-card-select bg-n-background border-n-weak': isActiveChat,
-      'bg-n-slate-2': selected,
+      'active animate-card-select bg-s-bg border-s-border': isActiveChat,
+      'bg-s-subtle': selected,
       'px-0': compact,
       'px-3': !compact,
     }"
@@ -293,7 +293,7 @@ const deleteConversation = () => {
       </Avatar>
     </div>
     <div
-      class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-n-slate-3 min-w-0"
+      class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-s-border-subtle min-w-0"
     >
       <div
         v-if="showMetaSection"
@@ -312,9 +312,9 @@ const deleteConversation = () => {
         >
           <span
             v-if="showAssignee && assignee.name"
-            class="text-n-slate-11 text-xs font-medium leading-3 py-0.5 px-0 inline-flex items-center truncate"
+            class="text-s-muted text-xs font-medium leading-3 py-0.5 px-0 inline-flex items-center truncate"
           >
-            <fluent-icon icon="person" size="12" class="text-n-slate-11" />
+            <fluent-icon icon="person" size="12" class="text-s-muted" />
             {{ assignee.name }}
           </span>
           <CardPriorityIcon
@@ -324,7 +324,7 @@ const deleteConversation = () => {
         </div>
       </div>
       <h4
-        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap flex-1 min-w-0 ltr:pr-16 rtl:pl-16 text-n-slate-12"
+        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap flex-1 min-w-0 ltr:pr-16 rtl:pl-16 text-s-primary"
         :class="hasUnread ? 'font-semibold' : 'font-medium'"
       >
         {{ currentContact.name }}
@@ -346,12 +346,12 @@ const deleteConversation = () => {
       <p
         v-else
         key="no-messages"
-        class="text-n-slate-11 text-sm my-0 mx-2 leading-6 h-6 flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap"
+        class="text-s-muted text-sm my-0 mx-2 leading-6 h-6 flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap"
         :class="messagePreviewClass"
       >
         <fluent-icon
           size="16"
-          class="-mt-0.5 align-middle inline-block text-n-slate-10"
+          class="-mt-0.5 align-middle inline-block text-s-muted"
           icon="info"
         />
         <span class="mx-0.5">
@@ -370,7 +370,7 @@ const deleteConversation = () => {
           />
         </span>
         <span
-          class="shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
+          class="shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-s-success"
           :class="hasUnread ? 'block' : 'hidden'"
         >
           {{ unreadCount > 9 ? '9+' : unreadCount }}

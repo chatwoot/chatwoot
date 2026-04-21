@@ -831,8 +831,8 @@ const menuItems = computed(() => {
       @dblclick="onResizeHandleDoubleClick"
     >
       <div
-        class="absolute top-0 h-full w-px ltr:right-0 rtl:left-0 bg-transparent group-hover:bg-n-brand transition-colors"
-        :class="{ 'bg-n-brand': isResizing }"
+        class="absolute top-0 h-full w-px ltr:right-0 rtl:left-0 bg-transparent group-hover:bg-s-brand transition-colors"
+        :class="{ 'bg-s-brand': isResizing }"
       />
     </div>
   </aside>

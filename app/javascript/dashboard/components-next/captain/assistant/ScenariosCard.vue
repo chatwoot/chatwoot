@@ -114,11 +114,11 @@ const instructionError = computed(() =>
 );
 
 const LINK_INSTRUCTION_CLASS =
-  '[&_a[href^="tool://"]]:text-n-iris-11 [&_a:not([href^="tool://"])]:text-n-slate-12 [&_a]:pointer-events-none [&_a]:cursor-default';
+  '[&_a[href^="tool://"]]:text-s-brand-text [&_a:not([href^="tool://"])]:text-s-primary [&_a]:pointer-events-none [&_a]:cursor-default';
 
 const renderInstruction = instruction => () =>
   h('p', {
-    class: `text-sm text-n-slate-12 py-4 mb-0 prose prose-sm min-w-0 break-words max-w-none ${LINK_INSTRUCTION_CLASS}`,
+    class: `text-sm text-s-primary py-4 mb-0 prose prose-sm min-w-0 break-words max-w-none ${LINK_INSTRUCTION_CLASS}`,
     innerHTML: instruction,
   });
 </script>
@@ -145,16 +145,16 @@ const renderInstruction = instruction => () =>
     <div v-if="!isEditing" class="flex flex-col w-full">
       <div class="flex items-start justify-between w-full gap-2">
         <div class="flex flex-col items-start">
-          <span class="text-sm text-n-slate-12 font-medium">{{ title }}</span>
-          <span class="text-sm text-n-slate-11 mt-2">
+          <span class="text-sm text-s-primary font-medium">{{ title }}</span>
+          <span class="text-sm text-s-muted mt-2">
             {{ description }}
           </span>
         </div>
         <div class="flex items-center gap-2">
           <!-- <Button label="Test" slate xs ghost class="!text-sm" />
-          <span class="w-px h-4 bg-n-weak" /> -->
+          <span class="w-px h-4 bg-s-border" /> -->
           <Button icon="i-lucide-pen" slate xs ghost @click="startEdit" />
-          <span class="w-px h-4 bg-n-weak" />
+          <span class="w-px h-4 bg-s-border" />
           <Button
             icon="i-lucide-trash"
             slate
@@ -180,7 +180,7 @@ const renderInstruction = instruction => () =>
         </div>
 
         <div
-          class="absolute bottom-0 w-full flex items-end justify-center text-xs text-n-slate-11 bg-gradient-to-t h-40 from-n-solid-2 via-n-solid-2 via-10% to-transparent transition-all duration-500 ease-in-out px-2 py-1 rounded pointer-events-none"
+          class="absolute bottom-0 w-full flex items-end justify-center text-xs text-s-muted bg-gradient-to-t h-40 from-n-solid-2 via-n-solid-2 via-10% to-transparent transition-all duration-500 ease-in-out px-2 py-1 rounded pointer-events-none"
           :class="{
             'visible opacity-100': !isInstructionExpanded,
             'invisible opacity-0': isInstructionExpanded || !needsOverlay,
@@ -188,13 +188,13 @@ const renderInstruction = instruction => () =>
         >
           <Icon
             icon="i-lucide-chevron-down"
-            class="text-n-slate-7 mb-4 size-4 group-hover/expandable:text-n-slate-11 transition-colors duration-200"
+            class="text-s-disabled mb-4 size-4 group-hover/expandable:text-s-muted transition-colors duration-200"
           />
         </div>
       </div>
       <span
         v-if="tools?.length"
-        class="text-sm text-n-slate-11 font-medium mb-1"
+        class="text-sm text-s-muted font-medium mb-1"
       >
         {{ t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.SUGGESTED.TOOLS_USED') }}
         {{ tools?.map(tool => `@${tool}`).join(', ') }}

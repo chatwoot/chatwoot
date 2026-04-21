@@ -26,7 +26,7 @@ const openIssue = () => {
 <template>
   <div class="flex items-center justify-between">
     <div
-      class="flex items-center gap-2 px-2 py-1.5 border rounded-lg border-n-strong"
+      class="flex items-center gap-2 px-2 py-1.5 border rounded-lg border-s-border-strong"
     >
       <div class="flex items-center gap-1">
         <fluent-icon
@@ -35,11 +35,11 @@ const openIssue = () => {
           class="text-[#5E6AD2]"
           view-box="0 0 19 19"
         />
-        <span class="text-xs font-medium text-n-slate-12">
+        <span class="text-xs font-medium text-s-primary">
           {{ identifier }}
         </span>
       </div>
-      <span class="w-px h-3 text-n-weak bg-n-weak" />
+      <span class="w-px h-3 text-s-muted bg-s-border" />
 
       <Button
         link

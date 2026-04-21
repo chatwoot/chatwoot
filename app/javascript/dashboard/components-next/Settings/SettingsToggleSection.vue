@@ -25,23 +25,23 @@ const modelValue = defineModel({ type: Boolean, default: false });
 
 <template>
   <div
-    class="flex flex-col items-start outline outline-1 -outline-offset-1 outline-n-weak rounded-xl [interpolate-size:allow-keywords]"
+    class="flex flex-col items-start outline outline-1 -outline-offset-1 outline-s-border rounded-xl [interpolate-size:allow-keywords]"
   >
     <div class="flex flex-col gap-1 items-start w-full px-4 py-3">
       <div class="flex items-center gap-3 w-full justify-between">
-        <span class="text-heading-3 text-n-slate-12">
+        <span class="text-heading-3 text-s-primary">
           {{ header }}
         </span>
         <div v-if="hideToggle" class="size-2" />
         <ToggleSwitch v-else v-model="modelValue" />
       </div>
-      <span v-if="description" class="text-body-main text-n-slate-11">
+      <span v-if="description" class="text-body-main text-s-muted">
         {{ description }}
       </span>
     </div>
     <div
       v-if="$slots.editor"
-      class="w-full border-t border-n-weak"
+      class="w-full border-t border-s-border"
       :class="{ 'p-0': compact, 'px-4 pb-4 pt-2': !compact }"
     >
       <slot name="editor" />

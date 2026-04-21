@@ -35,8 +35,8 @@ const getStarClass = value => {
     props.selectedRating >= value;
 
   const starTypeClass = isStarActive
-    ? 'i-ri-star-fill text-n-amber-9'
-    : 'i-ri-star-line text-n-slate-10';
+    ? 'i-ri-star-fill text-s-warning'
+    : 'i-ri-star-line text-s-muted';
 
   return starTypeClass;
 };

@@ -54,10 +54,10 @@ onMounted(() => {
 
 <template>
   <div
-    class="flex items-start xl:items-center flex-col md:flex-row gap-4 lg:gap-3 bg-n-solid-1 p-4 outline outline-1 outline-n-weak rounded-xl"
+    class="flex items-start xl:items-center flex-col md:flex-row gap-4 lg:gap-3 bg-s-surface p-4 outline outline-1 outline-s-border rounded-xl"
   >
     <div class="flex items-center gap-3">
-      <label class="text-sm font-medium text-n-slate-12">
+      <label class="text-sm font-medium text-s-primary">
         {{
           t(
             'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.FORM.FAIR_DISTRIBUTION.INPUT_MAX'
@@ -76,7 +76,7 @@ onMounted(() => {
     </div>
 
     <div class="flex sm:flex-row flex-col items-start sm:items-center gap-4">
-      <label class="text-sm font-medium text-n-slate-12">
+      <label class="text-sm font-medium text-s-primary">
         {{
           t(
             'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.FORM.FAIR_DISTRIBUTION.DURATION'
@@ -85,7 +85,7 @@ onMounted(() => {
       </label>
 
       <div
-        class="flex items-center gap-2 flex-1 [&>select]:!bg-n-alpha-2 [&>select]:!outline-none [&>select]:hover:brightness-110"
+        class="flex items-center gap-2 flex-1 [&>select]:!bg-s-subtle [&>select]:!outline-none [&>select]:hover:brightness-110"
       >
         <!-- allow 10 mins to 999 days (in minutes) -->
         <DurationInput

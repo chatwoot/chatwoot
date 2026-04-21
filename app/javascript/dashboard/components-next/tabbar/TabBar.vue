@@ -70,10 +70,10 @@ const showDivider = index => {
 
 <template>
   <div
-    class="relative flex items-center h-8 rounded-lg bg-n-alpha-1 dark:bg-n-solid-1 w-fit transition-all duration-200 ease-out has-[button:active]:scale-[1.01]"
+    class="relative flex items-center h-8 rounded-lg bg-s-subtle dark:bg-s-surface w-fit transition-all duration-200 ease-out has-[button:active]:scale-[1.01]"
   >
     <div
-      class="absolute rounded-lg bg-n-solid-active shadow-sm pointer-events-none h-8 outline-1 outline outline-n-container inset-y-0"
+      class="absolute rounded-lg bg-s-brand-soft shadow-sm pointer-events-none h-8 outline-1 outline outline-s-border inset-y-0"
       :class="{ 'transition-all duration-300 ease-out': enableTransition }"
       :style="indicatorStyle"
     />
@@ -81,11 +81,11 @@ const showDivider = index => {
     <template v-for="(tab, index) in tabs" :key="index">
       <button
         :ref="el => (tabRefs[index] = el)"
-        class="relative z-10 px-4 truncate py-1.5 text-sm border-0 outline-1 outline-transparent rounded-lg transition-all duration-200 ease-out hover:text-n-brand active:scale-[1.02]"
+        class="relative z-10 px-4 truncate py-1.5 text-sm border-0 outline-1 outline-transparent rounded-lg transition-all duration-200 ease-out hover:text-s-brand active:scale-[1.02]"
         :class="[
           activeTab === index
-            ? 'text-n-blue-11 scale-100'
-            : 'text-n-slate-10 scale-[0.98]',
+            ? 'text-s-brand-text scale-100'
+            : 'text-s-muted scale-[0.98]',
         ]"
         @click="selectTab(index)"
       >
@@ -96,7 +96,7 @@ const showDivider = index => {
         class="w-px h-3.5 rounded my-auto transition-colors duration-300 ease-in-out"
         :class="
           showDivider(index)
-            ? 'bg-n-strong'
+            ? 'bg-s-border-strong'
             : 'bg-transparent dark:bg-transparent'
         "
       />

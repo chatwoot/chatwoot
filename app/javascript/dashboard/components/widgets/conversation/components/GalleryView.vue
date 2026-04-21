@@ -175,11 +175,11 @@ onMounted(() => {
       :on-close="onClose"
     >
       <div
-        class="bg-n-background flex flex-col h-[inherit] w-[inherit] overflow-hidden select-none"
+        class="bg-s-bg flex flex-col h-[inherit] w-[inherit] overflow-hidden select-none"
         @click="onClose"
       >
         <header
-          class="z-10 flex items-center justify-between w-full h-16 px-6 py-2 bg-n-background border-b border-n-weak"
+          class="z-10 flex items-center justify-between w-full h-16 px-6 py-2 bg-s-bg border-b border-s-border"
           @click.stop
         >
           <div
@@ -197,13 +197,13 @@ onMounted(() => {
             <div class="flex flex-col ml-2 rtl:ml-0 rtl:mr-2 overflow-hidden">
               <h3 class="text-base leading-5 m-0 font-medium">
                 <span
-                  class="overflow-hidden text-n-slate-12 whitespace-nowrap text-ellipsis"
+                  class="overflow-hidden text-s-primary whitespace-nowrap text-ellipsis"
                 >
                   {{ senderDetails.name }}
                 </span>
               </h3>
               <span
-                class="text-xs text-n-slate-11 whitespace-nowrap text-ellipsis"
+                class="text-xs text-s-muted whitespace-nowrap text-ellipsis"
               >
                 {{ readableTime }}
               </span>
@@ -211,7 +211,7 @@ onMounted(() => {
           </div>
 
           <div
-            class="flex-1 mx-2 px-2 truncate text-sm font-medium text-center text-n-slate-12"
+            class="flex-1 mx-2 px-2 truncate text-sm font-medium text-center text-s-primary"
           >
             <span v-dompurify-html="fileNameFromDataUrl" class="truncate" />
           </div>
@@ -344,10 +344,10 @@ onMounted(() => {
         </main>
 
         <footer
-          class="z-10 flex items-center justify-center h-12 border-t border-n-weak"
+          class="z-10 flex items-center justify-center h-12 border-t border-s-border"
         >
           <div
-            class="rounded-md flex items-center justify-center px-3 py-1 bg-n-slate-3 text-n-slate-12 text-sm font-medium"
+            class="rounded-md flex items-center justify-center px-3 py-1 bg-s-subtle text-s-primary text-sm font-medium"
           >
             {{ `${activeImageIndex + 1} / ${allAttachments.length}` }}
           </div>

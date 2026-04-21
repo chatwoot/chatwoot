@@ -60,16 +60,16 @@ export default {
       />
     </div>
     <div class="flex items-center gap-1 whitespace-nowrap">
-      <span class="text-sm font-medium text-n-slate-12 tabular-nums">
+      <span class="text-sm font-medium text-s-primary tabular-nums">
         {{ totalLength <= 1 ? '1' : currentIndex }}
       </span>
       <span
         v-if="totalLength > 1"
-        class="text-sm text-n-slate-9 relative -top-px"
+        class="text-sm text-s-disabled relative -top-px"
       >
         /
       </span>
-      <span v-if="totalLength > 1" class="text-sm text-n-slate-9 tabular-nums">
+      <span v-if="totalLength > 1" class="text-sm text-s-disabled tabular-nums">
         {{ totalLength }}
       </span>
     </div>

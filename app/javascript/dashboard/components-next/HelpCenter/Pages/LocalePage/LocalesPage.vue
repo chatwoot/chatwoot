@@ -35,7 +35,7 @@ const localeCount = computed(() => props.locales?.length);
     <template #header-actions>
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-4">
-          <span class="text-sm font-medium text-n-slate-12">
+          <span class="text-sm font-medium text-s-primary">
             {{ $t('HELP_CENTER.LOCALES_PAGE.LOCALES_COUNT', localeCount) }}
           </span>
         </div>
@@ -50,7 +50,7 @@ const localeCount = computed(() => props.locales?.length);
     <template #content>
       <div
         v-if="isSwitchingPortal"
-        class="flex items-center justify-center py-10 text-n-slate-11"
+        class="flex items-center justify-center py-10 text-s-muted"
       >
         <Spinner />
       </div>

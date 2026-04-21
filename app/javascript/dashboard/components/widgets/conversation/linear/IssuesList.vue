@@ -101,7 +101,7 @@ onMounted(() => {
     </div>
 
     <div v-else-if="!hasIssues" class="flex justify-center p-4">
-      <p class="text-sm text-n-slate-11">
+      <p class="text-sm text-s-muted">
         {{ $t('INTEGRATION_SETTINGS.LINEAR.NO_LINKED_ISSUES') }}
       </p>
     </div>
@@ -110,7 +110,7 @@ onMounted(() => {
       <LinearIssueItem
         v-for="linkedIssue in linkedIssues"
         :key="linkedIssue.id"
-        class="px-4 pt-3 pb-4 border-b border-n-weak last:border-b-0"
+        class="px-4 pt-3 pb-4 border-b border-s-border last:border-b-0"
         :linked-issue="linkedIssue"
         @unlink-issue="unlinkIssue"
       />

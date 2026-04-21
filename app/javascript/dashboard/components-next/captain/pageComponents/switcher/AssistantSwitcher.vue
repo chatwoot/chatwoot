@@ -88,20 +88,20 @@ const openCreateAssistantDialog = () => {
 
 <template>
   <div
-    class="pt-5 pb-3 bg-n-alpha-3 backdrop-blur-[100px] outline outline-n-container outline-1 z-50 absolute w-[27.5rem] rounded-xl shadow-md flex flex-col gap-4"
+    class="pt-5 pb-3 bg-s-subtle backdrop-blur-[100px] outline outline-s-border outline-1 z-50 absolute w-[27.5rem] rounded-xl shadow-md flex flex-col gap-4"
   >
     <div
-      class="flex items-center justify-between gap-4 px-6 pb-3 border-b border-n-alpha-2"
+      class="flex items-center justify-between gap-4 px-6 pb-3 border-b border-s-border-subtle"
     >
       <div class="flex flex-col gap-1">
         <div class="flex items-center gap-2">
           <h2
-            class="text-base font-medium cursor-pointer text-n-slate-12 w-fit hover:underline"
+            class="text-base font-medium cursor-pointer text-s-primary w-fit hover:underline"
           >
             {{ t('CAPTAIN.ASSISTANT_SWITCHER.ASSISTANTS') }}
           </h2>
         </div>
-        <p class="text-sm text-n-slate-11">
+        <p class="text-sm text-s-muted">
           {{ t('CAPTAIN.ASSISTANT_SWITCHER.SWITCH_ASSISTANT') }}
         </p>
       </div>
@@ -110,7 +110,7 @@ const openCreateAssistantDialog = () => {
         color="slate"
         icon="i-lucide-plus"
         size="sm"
-        class="!bg-n-alpha-2 hover:!bg-n-alpha-3"
+        class="!bg-s-subtle hover:!bg-s-subtle"
         @click="openCreateAssistantDialog"
       />
     </div>
@@ -123,11 +123,11 @@ const openCreateAssistantDialog = () => {
         color="slate"
         trailing-icon
         :icon="isAssistantActive(assistant) ? 'i-lucide-check' : ''"
-        class="!justify-end !px-2 !py-2 hover:!bg-n-alpha-2 [&>.i-lucide-check]:text-n-teal-10 h-9"
+        class="!justify-end !px-2 !py-2 hover:!bg-s-subtle [&>.i-lucide-check]:text-s-success h-9"
         size="sm"
         @click="handleAssistantChange(assistant)"
       >
-        <span class="text-sm font-medium truncate text-n-slate-12">
+        <span class="text-sm font-medium truncate text-s-primary">
           {{ assistant.name || '' }}
         </span>
         <Avatar
@@ -140,7 +140,7 @@ const openCreateAssistantDialog = () => {
       </Button>
     </div>
     <div v-else class="flex flex-col items-center gap-2 px-4 py-3">
-      <p class="text-sm text-n-slate-11">
+      <p class="text-sm text-s-muted">
         {{ t('CAPTAIN.ASSISTANT_SWITCHER.EMPTY_LIST') }}
       </p>
     </div>

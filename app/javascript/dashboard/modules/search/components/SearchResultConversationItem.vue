@@ -96,7 +96,7 @@ const inboxIcon = computed(() => {
   <router-link :to="navigateTo">
     <CardLayout
       layout="col"
-      class="[&>div]:justify-start [&>div]:gap-2 [&>div]:px-4 [&>div]:py-3 [&>div]:items-start hover:bg-n-slate-2 dark:hover:bg-n-solid-3"
+      class="[&>div]:justify-start [&>div]:gap-2 [&>div]:px-4 [&>div]:py-3 [&>div]:items-start hover:bg-s-subtle dark:hover:bg-s-subtle"
     >
       <div
         class="flex items-center min-w-0 justify-between gap-2 w-full h-7 mb-1"
@@ -105,31 +105,31 @@ const inboxIcon = computed(() => {
           <div class="flex items-center gap-1.5 flex-shrink-0">
             <Icon
               icon="i-lucide-hash"
-              class="flex-shrink-0 text-n-slate-11 size-4"
+              class="flex-shrink-0 text-s-muted size-4"
             />
-            <span class="text-n-slate-12 text-sm leading-4">
+            <span class="text-s-primary text-sm leading-4">
               {{ id }}
             </span>
           </div>
-          <div v-if="inboxName" class="w-px h-3 bg-n-strong" />
+          <div v-if="inboxName" class="w-px h-3 bg-s-border-strong" />
           <div v-if="inboxName" class="flex items-center gap-1.5 flex-shrink-0">
             <div
               v-if="inboxIcon"
-              class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-alpha-2 size-4"
+              class="flex items-center justify-center flex-shrink-0 rounded-full bg-s-subtle size-4"
             >
               <Icon
                 :icon="inboxIcon"
-                class="flex-shrink-0 text-n-slate-11 size-2.5"
+                class="flex-shrink-0 text-s-muted size-2.5"
               />
             </div>
-            <span class="text-sm leading-4 text-n-slate-12">
+            <span class="text-sm leading-4 text-s-primary">
               {{ inboxName }}
             </span>
           </div>
         </div>
         <span
           v-if="createdAtTime"
-          class="text-sm font-normal min-w-0 truncate text-n-slate-11"
+          class="text-sm font-normal min-w-0 truncate text-s-muted"
         >
           {{ createdAtTime }}
         </span>
@@ -139,15 +139,15 @@ const inboxIcon = computed(() => {
           v-for="(item, index) in visibleInfoItems"
           :key="`info-${index}`"
         >
-          <h5 class="m-0 text-sm min-w-0 text-n-slate-12 truncate">
-            <span class="text-sm leading-4 font-normal text-n-slate-11">
+          <h5 class="m-0 text-sm min-w-0 text-s-primary truncate">
+            <span class="text-sm leading-4 font-normal text-s-muted">
               {{ $t(item.label) + ':' }}
             </span>
             {{ item.value }}
           </h5>
           <div
             v-if="index < visibleInfoItems.length - 1"
-            class="w-px h-3 bg-n-strong"
+            class="w-px h-3 bg-s-border-strong"
           />
         </template>
       </div>

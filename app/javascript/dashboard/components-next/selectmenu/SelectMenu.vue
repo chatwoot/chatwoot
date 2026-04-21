@@ -52,13 +52,13 @@ const handleSelect = value => {
       color="slate"
       variant="faded"
       class="!w-fit max-w-40"
-      :class="{ 'dark:!bg-n-alpha-2 !bg-n-slate-9/20': isOpen }"
+      :class="{ 'dark:!bg-s-subtle !bg-s-muted/20': isOpen }"
       :label="labelValue"
       @click="toggleMenu"
     />
     <div
       v-if="isOpen"
-      class="absolute select-none max-w-64 flex flex-col gap-1 bg-n-alpha-3 backdrop-blur-[100px] p-1 top-0 shadow-lg z-40 rounded-lg border border-n-weak dark:border-n-strong/50"
+      class="absolute select-none max-w-64 flex flex-col gap-1 bg-s-subtle backdrop-blur-[100px] p-1 top-0 shadow-lg z-40 rounded-lg border border-s-border dark:border-s-border-strong/50"
       :class="{
         'ltr:left-full rtl:right-full ltr:ml-1 rtl:mr-1':
           subMenuPosition === 'right',
@@ -77,7 +77,7 @@ const handleSelect = value => {
         color="slate"
         trailing-icon
         class="!justify-end !px-2.5 !h-7"
-        :class="{ '!bg-n-alpha-2': option.value === modelValue }"
+        :class="{ '!bg-s-subtle': option.value === modelValue }"
         @click="handleSelect(option.value)"
       />
     </div>

@@ -23,7 +23,7 @@ const handleLogout = () => {
 
 <template>
   <div
-    class="flex flex-col flex-1 items-center justify-center w-full h-full gap-6 bg-n-slate-2"
+    class="flex flex-col flex-1 items-center justify-center w-full h-full gap-6 bg-s-subtle"
   >
     <EmptyState
       :title="$t('APP_GLOBAL.NO_ACCOUNTS.TITLE')"

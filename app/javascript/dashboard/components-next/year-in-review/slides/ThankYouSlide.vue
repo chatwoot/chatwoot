@@ -20,12 +20,12 @@ const signatureImage =
   >
     <div class="flex flex-col items-start max-w-4xl">
       <div
-        class="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight !leading-tight text-n-slate-12 dark:text-n-slate-1"
+        class="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight !leading-tight text-s-primary dark:text-s-inverse"
       >
         {{ t('YEAR_IN_REVIEW.THANK_YOU.TITLE', { year }) }}
       </div>
       <div
-        class="text-xl lg:text-3xl mt-8 font-medium !leading-snug text-n-slate-12 dark:text-n-slate-1"
+        class="text-xl lg:text-3xl mt-8 font-medium !leading-snug text-s-primary dark:text-s-inverse"
       >
         {{
           t('YEAR_IN_REVIEW.THANK_YOU.MESSAGE', { nextYear: Number(year) + 1 })

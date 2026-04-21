@@ -25,14 +25,14 @@ const onBackButtonClick = () => {
 </script>
 
 <template>
-  <header class="flex justify-between w-full p-5 bg-n-background gap-2">
+  <header class="flex justify-between w-full p-5 bg-s-bg gap-2">
     <div class="flex items-center">
       <button
         v-if="showBackButton"
         class="px-2 ltr:-ml-3 rtl:-mr-3"
         @click="onBackButtonClick"
       >
-        <FluentIcon icon="chevron-left" size="24" class="text-n-slate-12" />
+        <FluentIcon icon="chevron-left" size="24" class="text-s-primary" />
       </button>
       <img
         v-if="avatarUrl"
@@ -42,12 +42,12 @@ const onBackButtonClick = () => {
       />
       <div class="flex flex-col gap-1">
         <div
-          class="flex items-center text-base font-medium leading-4 text-n-slate-12"
+          class="flex items-center text-base font-medium leading-4 text-s-primary"
         >
           <span v-dompurify-html="title" class="ltr:mr-1 rtl:ml-1" />
           <div
             :class="`h-2 w-2 rounded-full
-              ${isOnline ? 'bg-n-teal-10' : 'hidden'}`"
+              ${isOnline ? 'bg-s-success' : 'hidden'}`"
           />
         </div>
         <AvailabilityContainer

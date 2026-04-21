@@ -129,7 +129,7 @@ const handleSubmit = async () => {
     />
 
     <div class="flex flex-col gap-1">
-      <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">
+      <label for="inbox" class="mb-0.5 text-sm font-medium text-s-primary">
         {{ t('CAMPAIGN.SMS.CREATE.FORM.INBOX.LABEL') }}
       </label>
       <ComboBox
@@ -139,12 +139,12 @@ const handleSubmit = async () => {
         :has-error="!!formErrors.inbox"
         :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.INBOX.PLACEHOLDER')"
         :message="formErrors.inbox"
-        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
+        class="[&>div>button]:bg-s-primary/15 [&>div>button:not(.focused)]:dark:outline-s-border [&>div>button:not(.focused)]:hover:!outline-s-border"
       />
     </div>
 
     <div class="flex flex-col gap-1">
-      <label for="audience" class="mb-0.5 text-sm font-medium text-n-slate-12">
+      <label for="audience" class="mb-0.5 text-sm font-medium text-s-primary">
         {{ t('CAMPAIGN.SMS.CREATE.FORM.AUDIENCE.LABEL') }}
       </label>
       <TagMultiSelectComboBox
@@ -154,7 +154,7 @@ const handleSubmit = async () => {
         :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.AUDIENCE.PLACEHOLDER')"
         :has-error="!!formErrors.audience"
         :message="formErrors.audience"
-        class="[&>div>button]:bg-n-alpha-black2"
+        class="[&>div>button]:bg-s-primary/15"
       />
     </div>
 
@@ -174,7 +174,7 @@ const handleSubmit = async () => {
         color="slate"
         type="button"
         :label="t('CAMPAIGN.SMS.CREATE.FORM.BUTTONS.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
+        class="w-full bg-s-subtle text-s-brand-text hover:bg-s-subtle"
         @click="handleCancel"
       />
       <Button

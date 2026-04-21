@@ -120,7 +120,7 @@ onMounted(() => {
       <div v-if="preChatFormEnabled">
         <div class="w-full">
           <table
-            class="min-w-full table-auto outline outline-1 -outline-offset-1 outline-n-weak rounded-xl"
+            class="min-w-full table-auto outline outline-1 -outline-offset-1 outline-s-border rounded-xl"
           >
             <thead>
               <tr class="border-b border-s-border">

@@ -62,7 +62,7 @@ const confirmDeletion = () => {
 
 <template>
   <div
-    class="flex flex-col items-start justify-between lg:flex-row lg:items-center p-6 outline outline-n-container outline-1 bg-s-surface rounded-xl gap-6"
+    class="flex flex-col items-start justify-between lg:flex-row lg:items-center p-6 outline outline-s-border outline-1 bg-s-surface rounded-xl gap-6"
   >
     <div
       class="flex items-start lg:items-center justify-start flex-1 m-0 gap-6 flex-col lg:flex-row"

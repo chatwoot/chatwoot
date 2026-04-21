@@ -92,7 +92,7 @@ defineExpose({
     <!-- Actions Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <!-- Regenerate Backup Codes -->
-      <div class="bg-s-surface rounded-xl outline-1 outline-n-weak outline p-5">
+      <div class="bg-s-surface rounded-xl outline-1 outline-s-border outline p-5">
         <div class="flex-1 flex flex-col gap-2">
           <div class="flex items-center gap-2">
             <Icon
@@ -116,7 +116,7 @@ defineExpose({
       </div>
 
       <!-- Disable MFA -->
-      <div class="bg-s-surface rounded-xl outline-1 outline-n-weak outline p-5">
+      <div class="bg-s-surface rounded-xl outline-1 outline-s-border outline p-5">
         <div class="flex-1 flex flex-col gap-2">
           <div class="flex items-center gap-2">
             <Icon
@@ -198,7 +198,7 @@ defineExpose({
     >
       <!-- Warning Alert -->
       <div
-        class="flex items-start gap-2 p-4 bg-s-surface outline outline-n-weak rounded-xl outline-1"
+        class="flex items-start gap-2 p-4 bg-s-surface outline outline-s-border rounded-xl outline-1"
       >
         <Icon
           icon="i-lucide-alert-circle"
@@ -211,7 +211,7 @@ defineExpose({
       </div>
 
       <div
-        class="bg-s-surface rounded-xl outline-1 outline-n-weak outline flex flex-col gap-6 p-6"
+        class="bg-s-surface rounded-xl outline-1 outline-s-border outline flex flex-col gap-6 p-6"
       >
         <div class="grid grid-cols-2 xs:grid-cols-4 sm:grid-cols-5 gap-3">
           <span

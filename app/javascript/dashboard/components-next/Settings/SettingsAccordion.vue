@@ -18,10 +18,10 @@ const [isOpen, toggle] = useToggle(props.defaultOpen);
 <template>
   <div
     v-bind="$attrs"
-    class="flex items-center justify-between w-full cursor-pointer pb-2 pt-4 border-t border-n-weak"
+    class="flex items-center justify-between w-full cursor-pointer pb-2 pt-4 border-t border-s-border"
     @click="toggle()"
   >
-    <span class="text-heading-2 text-n-slate-12 w-full">
+    <span class="text-heading-2 text-s-primary w-full">
       {{ title }}
     </span>
   </div>

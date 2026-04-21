@@ -69,7 +69,7 @@ const authorText = computed(() => {
 <template>
   <div
     ref="contentElement"
-    class="break-words grid items-center text-n-slate-11 text-sm leading-relaxed"
+    class="break-words grid items-center text-s-muted text-sm leading-relaxed"
     :class="showReadMore ? 'grid-cols-[1fr_auto]' : 'grid-cols-1'"
   >
     <div
@@ -78,16 +78,16 @@ const authorText = computed(() => {
         'overflow-hidden whitespace-nowrap text-ellipsis': showReadMore,
       }"
     >
-      <span v-if="authorText" class="text-n-slate-11 font-medium leading-4">{{
+      <span v-if="authorText" class="text-s-muted font-medium leading-4">{{
         authorText
       }}</span>
       <span
         v-dompurify-html="highlightedContent"
-        class="message-content text-n-slate-12 [&_.searchkey--highlight]:text-n-slate-12 [&_.searchkey--highlight]:font-semibold"
+        class="message-content text-s-primary [&_.searchkey--highlight]:text-s-primary [&_.searchkey--highlight]:font-semibold"
       />
       <button
         v-if="showReadLess"
-        class="text-sm text-n-slate-11 underline cursor-pointer bg-transparent border-0 p-0 hover:text-n-slate-12 font-medium ltr:ml-0.5 rtl:mr-0.5"
+        class="text-sm text-s-muted underline cursor-pointer bg-transparent border-0 p-0 hover:text-s-primary font-medium ltr:ml-0.5 rtl:mr-0.5"
         @click.prevent="toggleExpanded(false)"
       >
         {{ t('SEARCH.READ_LESS') }}
@@ -95,7 +95,7 @@ const authorText = computed(() => {
     </div>
     <button
       v-if="showReadMore"
-      class="text-sm text-n-slate-11 underline cursor-pointer bg-transparent border-0 p-0 hover:text-n-slate-12 font-medium justify-self-end ltr:ml-0.5 rtl:mr-0.5"
+      class="text-sm text-s-muted underline cursor-pointer bg-transparent border-0 p-0 hover:text-s-primary font-medium justify-self-end ltr:ml-0.5 rtl:mr-0.5"
       @click.prevent="toggleExpanded(true)"
     >
       {{ t('SEARCH.READ_MORE') }}

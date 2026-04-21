@@ -47,11 +47,11 @@ const containerClasses = computed(() => [
     </div>
     <h2
       v-dompurify-html="introHeading"
-      class="mt-4 text-2xl mb-1.5 font-medium text-n-slate-12 line-clamp-4"
+      class="mt-4 text-2xl mb-1.5 font-medium text-s-primary line-clamp-4"
     />
     <p
       v-dompurify-html="formatMessage(introBody)"
-      class="text-lg leading-normal text-n-slate-11 [&_a]:underline line-clamp-6"
+      class="text-lg leading-normal text-s-muted [&_a]:underline line-clamp-6"
     />
   </header>
 </template>

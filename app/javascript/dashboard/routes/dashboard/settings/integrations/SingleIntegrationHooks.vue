@@ -22,7 +22,7 @@ const { replaceInstallationName } = useBranding();
 
 <template>
   <div
-    class="outline outline-n-container outline-1 bg-s-surface rounded-xl flex-grow overflow-auto p-4"
+    class="outline outline-s-border outline-1 bg-s-surface rounded-xl flex-grow overflow-auto p-4"
   >
     <div class="flex items-center justify-center">
       <div class="flex h-16 w-16 items-center justify-center">

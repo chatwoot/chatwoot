@@ -164,7 +164,7 @@ export default {
         </div>
         <div
           v-if="isFailed"
-          class="flex justify-end px-4 py-2 text-n-ruby-9 align-middle"
+          class="flex justify-end px-4 py-2 text-s-error align-middle"
         >
           <button
             v-if="!hasAttachments"

@@ -163,7 +163,7 @@ export default {
             <Spinner v-if="watchersUiFlas.isFetching" size="tiny" />
             {{ totalWatchersText }}
           </p>
-          <p v-else class="m-0 text-sm text-n-slate-10">
+          <p v-else class="m-0 text-sm text-s-muted">
             {{ $t('CONVERSATION_PARTICIPANTS.NO_PARTICIPANTS_TEXT') }}
           </p>
         </div>
@@ -185,7 +185,7 @@ export default {
         :show-more-thumbnails-count="showMoreThumbs"
         :users-list="thumbnailList"
       />
-      <p v-if="isUserWatching" class="m-0 text-sm text-n-slate-10">
+      <p v-if="isUserWatching" class="m-0 text-sm text-s-muted">
         {{ $t('CONVERSATION_PARTICIPANTS.YOU_ARE_WATCHING') }}
       </p>
       <NextButton
@@ -208,11 +208,11 @@ export default {
         'block visible': showDropDown,
         'hidden invisible': !showDropDown,
       }"
-      class="border rounded-lg shadow-lg bg-n-alpha-3 absolute backdrop-blur-[100px] border-n-strong dark:border-n-strong p-2 z-[9999] box-border top-8 w-full"
+      class="border rounded-lg shadow-lg bg-s-subtle absolute backdrop-blur-[100px] border-s-border-strong dark:border-s-border-strong p-2 z-[9999] box-border top-8 w-full"
     >
       <div class="flex items-center justify-between mb-1">
         <h4
-          class="m-0 overflow-hidden text-sm whitespace-nowrap text-ellipsis text-n-slate-12"
+          class="m-0 overflow-hidden text-sm whitespace-nowrap text-ellipsis text-s-primary"
         >
           {{ $t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS') }}
         </h4>

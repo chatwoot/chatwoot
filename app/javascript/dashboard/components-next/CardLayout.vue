@@ -19,7 +19,7 @@ const handleClick = () => {
 
 <template>
   <div
-    class="flex flex-col w-full outline-1 outline outline-n-container -outline-offset-1 group/cardLayout rounded-xl bg-n-solid-2"
+    class="flex flex-col w-full outline-1 outline outline-s-border -outline-offset-1 group/cardLayout rounded-xl bg-s-subtle"
   >
     <div
       class="flex w-full gap-3 py-5"

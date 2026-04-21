@@ -91,14 +91,14 @@ export default {
       :title="$t('END_CONVERSATION')"
       @click="resolveConversation"
     >
-      <FluentIcon icon="sign-out" size="22" class="text-n-slate-12" />
+      <FluentIcon icon="sign-out" size="22" class="text-s-primary" />
     </button>
     <button
       v-if="showPopoutButton"
       class="button transparent compact new-window--button"
       @click="popoutWindow"
     >
-      <FluentIcon icon="open" size="22" class="text-n-slate-12" />
+      <FluentIcon icon="open" size="22" class="text-s-primary" />
     </button>
     <button
       class="button transparent compact close-button"
@@ -107,7 +107,7 @@ export default {
       }"
       @click="closeWindow"
     >
-      <FluentIcon icon="dismiss" size="24" class="text-n-slate-12" />
+      <FluentIcon icon="dismiss" size="24" class="text-s-primary" />
     </button>
   </div>
 </template>

@@ -10,7 +10,7 @@ export default {
       <div class="avatar-wrap" />
       <div class="message-wrap mt-2">
         <div
-          class="chat-bubble agent typing-bubble bg-n-background dark:bg-n-solid-3"
+          class="chat-bubble agent typing-bubble bg-s-bg dark:bg-s-subtle"
         >
           <img
             src="assets/images/typing.gif"

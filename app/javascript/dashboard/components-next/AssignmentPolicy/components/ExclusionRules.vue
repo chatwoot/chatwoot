@@ -70,14 +70,14 @@ onMounted(() => {
 <template>
   <div class="py-4 flex-col flex gap-6">
     <div class="flex flex-col items-start gap-1 py-1">
-      <label class="text-sm font-medium text-n-slate-12 py-1">
+      <label class="text-sm font-medium text-s-primary py-1">
         {{
           t(
             'ASSIGNMENT_POLICY.AGENT_CAPACITY_POLICY.FORM.EXCLUSION_RULES.LABEL'
           )
         }}
       </label>
-      <p class="mb-0 text-n-slate-11 text-sm">
+      <p class="mb-0 text-s-muted text-sm">
         {{
           t(
             'ASSIGNMENT_POLICY.AGENT_CAPACITY_POLICY.FORM.EXCLUSION_RULES.DESCRIPTION'
@@ -87,7 +87,7 @@ onMounted(() => {
     </div>
 
     <div class="flex flex-col items-start gap-4">
-      <label class="text-sm font-medium text-n-slate-12 py-1">
+      <label class="text-sm font-medium text-s-primary py-1">
         {{
           t(
             'ASSIGNMENT_POLICY.AGENT_CAPACITY_POLICY.FORM.EXCLUSION_RULES.TAGS.LABEL'
@@ -119,14 +119,14 @@ onMounted(() => {
             )
           "
           :items="filteredTags"
-          class="[&>button]:!text-n-blue-11 [&>div]:min-w-64"
+          class="[&>button]:!text-s-brand-text [&>div]:min-w-64"
           @add="onClickAddTag"
         />
       </div>
     </div>
 
     <div class="flex flex-col items-start gap-4">
-      <label class="text-sm font-medium text-n-slate-12 py-1">
+      <label class="text-sm font-medium text-s-primary py-1">
         {{
           t(
             'ASSIGNMENT_POLICY.AGENT_CAPACITY_POLICY.FORM.EXCLUSION_RULES.DURATION.LABEL'
@@ -134,7 +134,7 @@ onMounted(() => {
         }}
       </label>
       <div
-        class="flex items-center gap-2 flex-1 [&>select]:!bg-n-alpha-2 [&>select]:!outline-none [&>select]:hover:brightness-110"
+        class="flex items-center gap-2 flex-1 [&>select]:!bg-s-subtle [&>select]:!outline-none [&>select]:hover:brightness-110"
       >
         <!-- allow 10 mins to 999 days -->
         <DurationInput

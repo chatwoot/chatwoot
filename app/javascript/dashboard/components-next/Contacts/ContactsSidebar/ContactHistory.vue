@@ -30,13 +30,13 @@ const contactConversations = computed(() =>
 <template>
   <div
     v-if="isFetching"
-    class="flex items-center justify-center py-10 text-n-slate-11"
+    class="flex items-center justify-center py-10 text-s-muted"
   >
     <Spinner />
   </div>
   <div
     v-else-if="contactConversations.length > 0"
-    class="px-6 py-4 divide-y divide-n-strong [&>*:hover]:!border-y-transparent [&>*:hover+*]:!border-t-transparent"
+    class="px-6 py-4 divide-y divide-s-border-strong [&>*:hover]:!border-y-transparent [&>*:hover+*]:!border-t-transparent"
   >
     <ConversationCard
       v-for="conversation in contactConversations"
@@ -45,10 +45,10 @@ const contactConversations = computed(() =>
       :contact="contactsById(conversation.meta.sender.id)"
       :state-inbox="stateInbox(conversation.inboxId)"
       :account-labels="accountLabelsValue"
-      class="rounded-none hover:rounded-xl hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3"
+      class="rounded-none hover:rounded-xl hover:bg-s-subtle dark:hover:bg-s-subtle"
     />
   </div>
-  <p v-else class="px-6 py-10 text-sm leading-6 text-center text-n-slate-11">
+  <p v-else class="px-6 py-10 text-sm leading-6 text-center text-s-muted">
     {{ t('CONTACTS_LAYOUT.SIDEBAR.HISTORY.EMPTY_STATE') }}
   </p>
 </template>

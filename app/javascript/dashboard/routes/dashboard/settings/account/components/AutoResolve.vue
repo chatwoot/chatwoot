@@ -31,7 +31,7 @@ const labelOptions = computed(() =>
         id: label.title,
         name: label.title,
         icon: h('span', {
-          class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
+          class: `size-[12px] ring-1 ring-s-border-subtle dark:ring-white/20 ring-inset rounded-sm`,
           style: { backgroundColor: label.color },
         }),
       }))
@@ -125,7 +125,7 @@ const toggleAutoResolve = async () => {
 
 <template>
   <div
-    class="flex flex-col w-full outline-1 outline outline-n-container rounded-xl bg-s-subtle divide-y divide-n-weak"
+    class="flex flex-col w-full outline-1 outline outline-s-border rounded-xl bg-s-subtle divide-y divide-s-border"
   >
     <div class="flex flex-col gap-2 items-start px-5 py-4">
       <div class="flex justify-between items-center w-full">
@@ -172,7 +172,7 @@ const toggleAutoResolve = async () => {
         </WithLabel>
         <WithLabel :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.PREFERENCES')">
           <div
-            class="rounded-xl border border-s-border bg-s-surface w-full text-sm text-s-primary divide-y divide-n-weak"
+            class="rounded-xl border border-s-border bg-s-surface w-full text-sm text-s-primary divide-y divide-s-border"
           >
             <div class="p-3 h-12 flex items-center justify-between">
               <span>

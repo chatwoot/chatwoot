@@ -271,7 +271,7 @@ export default {
   }
 
   .label-suggestion--title {
-    @apply text-n-slate-11 mt-0.5 text-xxs;
+    @apply text-s-muted mt-0.5 text-xxs;
   }
 }
 </style>

@@ -87,14 +87,14 @@ export default {
 
 <template>
   <div
-    class="flex flex-col justify-center w-full min-h-screen py-12 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
+    class="flex flex-col justify-center w-full min-h-screen py-12 bg-s-brand/5 dark:bg-s-bg sm:px-6 lg:px-8"
   >
     <form
-      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
+      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-s-subtle p-11 sm:shadow-lg sm:rounded-lg"
       @submit.prevent="submitForm"
     >
       <h1
-        class="mb-1 text-2xl font-medium tracking-tight text-left text-n-slate-12"
+        class="mb-1 text-2xl font-medium tracking-tight text-left text-s-primary"
       >
         {{ $t('SET_NEW_PASSWORD.TITLE') }}
       </h1>

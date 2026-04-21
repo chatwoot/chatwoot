@@ -49,7 +49,7 @@ const onLastPage = () => {
 
 <template>
   <div
-    class="flex items-center h-8 outline outline-1 outline-n-weak rounded-lg"
+    class="flex items-center h-8 outline outline-1 outline-s-border rounded-lg"
   >
     <NextButton
       faded
@@ -60,8 +60,8 @@ const onLastPage = () => {
       :disabled="hasFirstPage"
       @click="onFirstPage"
     />
-    <div class="flex items-center justify-center bg-n-slate-9/10 h-full">
-      <div class="w-px h-4 rounded-sm bg-n-strong" />
+    <div class="flex items-center justify-center bg-s-muted/10 h-full">
+      <div class="w-px h-4 rounded-sm bg-s-border-strong" />
     </div>
     <NextButton
       faded
@@ -73,13 +73,13 @@ const onLastPage = () => {
       @click="onPrevPage"
     />
     <div
-      class="flex items-center gap-3 px-3 tabular-nums bg-n-slate-9/10 h-full"
+      class="flex items-center gap-3 px-3 tabular-nums bg-s-muted/10 h-full"
     >
-      <span class="text-sm text-n-slate-12">
+      <span class="text-sm text-s-primary">
         {{ currentPage }}
       </span>
-      <span class="text-n-slate-11">/</span>
-      <span class="text-sm text-n-slate-11">
+      <span class="text-s-muted">/</span>
+      <span class="text-sm text-s-muted">
         {{ totalPages }}
       </span>
     </div>
@@ -92,8 +92,8 @@ const onLastPage = () => {
       :disabled="hasNextPage"
       @click="onNextPage"
     />
-    <div class="flex items-center justify-center bg-n-slate-9/10 h-full">
-      <div class="w-px h-4 rounded-sm bg-n-strong" />
+    <div class="flex items-center justify-center bg-s-muted/10 h-full">
+      <div class="w-px h-4 rounded-sm bg-s-border-strong" />
     </div>
     <NextButton
       faded

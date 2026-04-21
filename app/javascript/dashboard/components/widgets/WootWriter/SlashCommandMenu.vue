@@ -156,7 +156,7 @@ defineExpose({ hasItems });
   <div
     v-if="hasItems"
     ref="listContainerRef"
-    class="bg-n-alpha-3 backdrop-blur-[100px] outline outline-1 outline-n-container absolute rounded-xl z-50 flex flex-col min-w-[10rem] shadow-lg p-2 overflow-auto max-h-[15rem]"
+    class="bg-s-subtle backdrop-blur-[100px] outline outline-1 outline-s-border absolute rounded-xl z-50 flex flex-col min-w-[10rem] shadow-lg p-2 overflow-auto max-h-[15rem]"
     :style="menuStyle"
   >
     <button
@@ -164,9 +164,9 @@ defineExpose({ hasItems });
       :id="`slash-item-${index}`"
       :key="item.value"
       type="button"
-      class="inline-flex items-center justify-start w-full h-8 min-w-0 gap-2 px-2 py-1.5 border-0 rounded-lg text-n-slate-12 hover:bg-n-alpha-1 dark:hover:bg-n-alpha-2"
+      class="inline-flex items-center justify-start w-full h-8 min-w-0 gap-2 px-2 py-1.5 border-0 rounded-lg text-s-primary hover:bg-s-subtle dark:hover:bg-s-subtle"
       :class="{
-        'bg-n-alpha-1 dark:bg-n-alpha-2': index === selectedIndex,
+        'bg-s-subtle dark:bg-s-subtle': index === selectedIndex,
       }"
       @mouseover="onHover(index)"
       @click="onItemClick(index)"

@@ -43,18 +43,18 @@ const handleChange = () => {
 
 <template>
   <div
-    class="cursor-pointer rounded-xl outline outline-1 p-4 transition-all duration-200 bg-n-solid-1 py-4 ltr:pl-4 rtl:pr-4 ltr:pr-6 rtl:pl-6"
+    class="cursor-pointer rounded-xl outline outline-1 p-4 transition-all duration-200 bg-s-surface py-4 ltr:pl-4 rtl:pr-4 ltr:pr-6 rtl:pl-6"
     :class="[
       disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
-      isActive ? 'outline-n-blue-9' : 'outline-n-weak',
-      !disabled && !isActive ? 'hover:outline-n-strong' : '',
+      isActive ? 'outline-s-brand' : 'outline-s-border',
+      !disabled && !isActive ? 'hover:outline-s-border-strong' : '',
     ]"
     @click="handleChange"
   >
     <div class="flex flex-col gap-2 items-start">
       <div class="flex items-center justify-between w-full gap-3">
         <div class="flex items-center gap-2">
-          <h3 class="text-heading-3 text-n-slate-12">
+          <h3 class="text-heading-3 text-s-primary">
             {{ label }}
           </h3>
           <Label v-if="disabled" :label="disabledLabel" color="amber" compact />
@@ -66,11 +66,11 @@ const handleChange = () => {
           :name="id"
           :disabled="disabled"
           type="radio"
-          class="h-4 w-4 border-n-slate-6 text-n-brand focus:ring-n-brand focus:ring-offset-0 flex-shrink-0"
+          class="h-4 w-4 border-s-border text-s-brand focus:ring-s-brand focus:ring-offset-0 flex-shrink-0"
           @change="handleChange"
         />
       </div>
-      <p class="text-body-main text-n-slate-11">
+      <p class="text-body-main text-s-muted">
         {{ disabled && disabledMessage ? disabledMessage : description }}
       </p>
       <slot />

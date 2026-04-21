@@ -10,7 +10,7 @@ defineProps({
 
 <template>
   <div
-    class="bg-s-subtle divide-y divide-n-strong text-s-primary rounded-xl max-w-80"
+    class="bg-s-subtle divide-y divide-s-border-strong text-s-primary rounded-xl max-w-80"
   >
     <div class="px-3 py-2.5">
       <img :src="message.image_url" class="max-h-44 rounded-lg w-full" />

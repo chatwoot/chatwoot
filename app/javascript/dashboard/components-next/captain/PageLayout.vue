@@ -115,7 +115,7 @@ const handleCreateAssistant = () => {
 </script>
 
 <template>
-  <section class="flex flex-col w-full h-full overflow-hidden bg-n-surface-1">
+  <section class="flex flex-col w-full h-full overflow-hidden bg-s-surface">
     <header class="sticky top-0 z-10 px-6">
       <div class="w-full max-w-5xl mx-auto">
         <div
@@ -130,7 +130,7 @@ const handleCreateAssistant = () => {
               <div class="flex items-center gap-2">
                 <span
                   v-if="!isFetchingAssistants"
-                  class="text-xl font-medium truncate text-n-slate-12"
+                  class="text-xl font-medium truncate text-s-primary"
                 >
                   {{ activeAssistantName }}
                 </span>
@@ -147,7 +147,7 @@ const handleCreateAssistant = () => {
                       size="xs"
                       :disabled="isFetchingAssistants"
                       :is-loading="isFetchingAssistants"
-                      class="rounded-md group-hover:bg-n-slate-3 hover:bg-n-slate-3 [&>span]:size-4"
+                      class="rounded-md group-hover:bg-s-subtle hover:bg-s-subtle [&>span]:size-4"
                       @click="toggleAssistantSwitcher"
                     />
 
@@ -164,11 +164,11 @@ const handleCreateAssistant = () => {
             <div class="flex items-center gap-4">
               <div
                 v-if="showAssistantSwitcher && !showPaywall && headerTitle"
-                class="w-0.5 h-4 rounded-2xl bg-n-weak"
+                class="w-0.5 h-4 rounded-2xl bg-s-border"
               />
               <span
                 v-if="headerTitle"
-                class="text-xl font-medium text-n-slate-12"
+                class="text-xl font-medium text-s-primary"
               >
                 {{ headerTitle }}
               </span>
@@ -176,7 +176,7 @@ const handleCreateAssistant = () => {
                 v-if="!isEmpty && showKnowMore"
                 class="flex items-center gap-2"
               >
-                <div class="w-0.5 h-4 rounded-2xl bg-n-weak" />
+                <div class="w-0.5 h-4 rounded-2xl bg-s-border" />
                 <slot name="knowMore" />
               </div>
             </div>
@@ -210,7 +210,7 @@ const handleCreateAssistant = () => {
         <slot v-if="!showPaywall" name="controls" />
         <div
           v-if="isFetching"
-          class="flex items-center justify-center py-10 text-n-slate-11"
+          class="flex items-center justify-center py-10 text-s-muted"
         >
           <Spinner />
         </div>

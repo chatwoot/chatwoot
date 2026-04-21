@@ -58,7 +58,7 @@ const handleDelete = campaign => {
 
     <div
       v-if="isFetchingCampaigns"
-      class="flex justify-center items-center py-10 text-n-slate-11"
+      class="flex justify-center items-center py-10 text-s-muted"
     >
       <Spinner />
     </div>

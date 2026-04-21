@@ -28,19 +28,19 @@ export default {
     <img v-if="headerImage" :src="headerImage" alt="No image" />
     <h2
       data-test-id="modal-header-title"
-      class="text-base font-semibold leading-6 text-n-slate-12"
+      class="text-base font-semibold leading-6 text-s-primary"
     >
       {{ headerTitle }}
     </h2>
     <p
       v-if="headerContent"
       data-test-id="modal-header-content"
-      class="w-full mt-2 text-sm leading-5 break-words text-n-slate-11"
+      class="w-full mt-2 text-sm leading-5 break-words text-s-muted"
     >
       {{ headerContent }}
       <span
         v-if="headerContentValue"
-        class="text-sm font-semibold text-n-slate-11"
+        class="text-sm font-semibold text-s-muted"
       >
         {{ headerContentValue }}
       </span>

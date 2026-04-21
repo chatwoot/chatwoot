@@ -124,7 +124,7 @@ onMounted(() => {
         </Integration>
         <div
           v-if="error"
-          class="flex items-center justify-center flex-1 outline outline-n-container outline-1 bg-s-subtle rounded-md shadow p-6"
+          class="flex items-center justify-center flex-1 outline outline-s-border outline-1 bg-s-subtle rounded-md shadow p-6"
         >
           <p class="text-s-error">
             {{ t('INTEGRATION_SETTINGS.SHOPIFY.ERROR') }}

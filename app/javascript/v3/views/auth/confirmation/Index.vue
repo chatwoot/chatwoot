@@ -31,9 +31,9 @@ export default {
 
 <template>
   <div
-    class="flex items-center justify-center min-h-screen h-full bg-n-background w-full"
+    class="flex items-center justify-center min-h-screen h-full bg-s-bg w-full"
   >
     <Spinner color-scheme="primary" size="" />
-    <div class="ml-2 text-n-slate-11">{{ $t('CONFIRM_EMAIL') }}</div>
+    <div class="ml-2 text-s-muted">{{ $t('CONFIRM_EMAIL') }}</div>
   </div>
 </template>

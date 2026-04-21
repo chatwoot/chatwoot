@@ -134,7 +134,7 @@ const handleSubmit = async () => {
     <div class="flex flex-col gap-1">
       <label
         for="documentType"
-        class="mb-0.5 text-sm font-medium text-n-slate-12"
+        class="mb-0.5 text-sm font-medium text-s-primary"
       >
         {{ t('CAPTAIN.DOCUMENTS.FORM.TYPE.LABEL') }}
       </label>
@@ -142,7 +142,7 @@ const handleSubmit = async () => {
         id="documentType"
         v-model="state.documentType"
         :options="documentTypeOptions"
-        class="[&>div>button]:bg-n-alpha-black2"
+        class="[&>div>button]:bg-s-primary/15"
       />
     </div>
 
@@ -156,7 +156,7 @@ const handleSubmit = async () => {
     />
 
     <div v-if="state.documentType === 'pdf'" class="flex flex-col gap-2">
-      <label class="text-sm font-medium text-n-slate-12">
+      <label class="text-sm font-medium text-s-primary">
         {{ t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.LABEL') }}
       </label>
       <div class="relative">
@@ -177,19 +177,19 @@ const handleSubmit = async () => {
           <template #default>
             <div class="flex gap-2 items-center">
               <div
-                class="flex justify-center items-center w-10 h-10 rounded-lg bg-n-slate-3"
+                class="flex justify-center items-center w-10 h-10 rounded-lg bg-s-subtle"
               >
-                <i class="text-xl i-ph-file-pdf text-n-slate-11" />
+                <i class="text-xl i-ph-file-pdf text-s-muted" />
               </div>
               <div class="flex flex-col flex-1 gap-1 items-start">
-                <p class="m-0 text-sm font-medium text-n-slate-12">
+                <p class="m-0 text-sm font-medium text-s-primary">
                   {{
                     state.pdfFile
                       ? state.pdfFile.name
                       : t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.CHOOSE_FILE')
                   }}
                 </p>
-                <p class="m-0 text-xs text-n-slate-11">
+                <p class="m-0 text-xs text-s-muted">
                   {{
                     state.pdfFile
                       ? `${(state.pdfFile.size / 1024 / 1024).toFixed(2)} MB`
@@ -199,11 +199,11 @@ const handleSubmit = async () => {
               </div>
             </div>
 
-            <i class="i-lucide-upload text-n-slate-11" />
+            <i class="i-lucide-upload text-s-muted" />
           </template>
         </Button>
       </div>
-      <p v-if="formErrors.pdfFile" class="text-xs text-n-ruby-9">
+      <p v-if="formErrors.pdfFile" class="text-xs text-s-error">
         {{ formErrors.pdfFile }}
       </p>
     </div>
@@ -220,7 +220,7 @@ const handleSubmit = async () => {
         variant="faded"
         color="slate"
         :label="t('CAPTAIN.FORM.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
+        class="w-full bg-s-subtle text-s-brand-text hover:bg-s-subtle"
         @click="handleCancel"
       />
       <Button

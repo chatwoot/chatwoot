@@ -76,9 +76,9 @@ const AVATAR_COLORS = {
 };
 
 const STATUS_CLASSES = computed(() => ({
-  online: 'bg-n-teal-10',
-  busy: 'bg-n-amber-10',
-  ...(props.hideOfflineStatus ? {} : { offline: 'bg-n-slate-10' }),
+  online: 'bg-s-success',
+  busy: 'bg-s-warning',
+  ...(props.hideOfflineStatus ? {} : { offline: 'bg-s-muted' }),
 }));
 
 const showDefaultAvatar = computed(() => !props.src && !props.name);
@@ -204,26 +204,26 @@ watch(
     <slot name="badge" :size="size">
       <div
         v-if="status && STATUS_CLASSES[status]"
-        class="absolute z-20 border rounded-full border-n-slate-3"
+        class="absolute z-20 border rounded-full border-s-border-subtle"
         :style="badgeStyles"
         :class="STATUS_CLASSES[status]"
       />
       <div
         v-if="inbox && !(status && STATUS_CLASSES[status])"
         :style="badgeStyles"
-        class="absolute z-20 flex items-center justify-center rounded-full bg-n-solid-1 border border-transparent flex-shrink-0"
+        class="absolute z-20 flex items-center justify-center rounded-full bg-s-surface border border-transparent flex-shrink-0"
       >
-        <ChannelIcon :inbox="inbox" class="w-full h-full text-n-slate-11" />
+        <ChannelIcon :inbox="inbox" class="w-full h-full text-s-muted" />
       </div>
     </slot>
 
     <!-- Delete Avatar Button -->
     <div
       v-if="src && allowUpload"
-      class="absolute z-20 flex items-center justify-center invisible w-6 h-6 transition-all duration-300 ease-in-out opacity-0 cursor-pointer outline outline-1 outline-n-container -top-2 ltr:-right-2 rtl:-left-2 rounded-xl bg-n-solid-3 group-hover/avatar:visible group-hover/avatar:opacity-100"
+      class="absolute z-20 flex items-center justify-center invisible w-6 h-6 transition-all duration-300 ease-in-out opacity-0 cursor-pointer outline outline-1 outline-s-border -top-2 ltr:-right-2 rtl:-left-2 rounded-xl bg-s-subtle group-hover/avatar:visible group-hover/avatar:opacity-100"
       @click="handleDismiss"
     >
-      <Icon icon="i-lucide-x" class="text-n-slate-11 size-4" />
+      <Icon icon="i-lucide-x" class="text-s-muted size-4" />
     </div>
 
     <!-- Avatar Container -->
@@ -235,7 +235,7 @@ watch(
         {
           'dark:!bg-[var(--dark-bg)] dark:!text-[var(--dark-text)]':
             !showDefaultAvatar && (!src || !isImageValid),
-          'bg-n-slate-3 dark:bg-n-slate-4': showDefaultAvatar,
+          'bg-s-subtle dark:bg-s-subtle': showDefaultAvatar,
         },
       ]"
       :style="avatarStyles"
@@ -280,7 +280,7 @@ watch(
         :handle-image-upload="handleImageUpload"
       >
         <div
-          class="absolute inset-0 z-10 flex items-center justify-center invisible w-full h-full transition-all duration-300 ease-in-out opacity-0 bg-n-alpha-black1 group-hover/avatar:visible group-hover/avatar:opacity-100"
+          class="absolute inset-0 z-10 flex items-center justify-center invisible w-full h-full transition-all duration-300 ease-in-out opacity-0 bg-s-primary/10 group-hover/avatar:visible group-hover/avatar:opacity-100"
           :class="borderRadiusClass"
           @click="handleUploadAvatar"
         >

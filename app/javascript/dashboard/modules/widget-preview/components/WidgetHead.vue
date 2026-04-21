@@ -26,8 +26,8 @@ const isDefaultScreen = computed(() => {
     class="rounded-t-lg flex-shrink-0 transition-[max-height] duration-300"
     :class="
       isDefaultScreen
-        ? 'bg-n-slate-2 dark:bg-n-solid-1 px-4 py-5'
-        : 'bg-n-slate-2 dark:bg-n-solid-1 p-4'
+        ? 'bg-s-subtle dark:bg-s-surface px-4 py-5'
+        : 'bg-s-subtle dark:bg-s-surface p-4'
     "
   >
     <div class="relative top-px">
@@ -40,26 +40,26 @@ const isDefaultScreen = computed(() => {
         />
         <div v-if="!isDefaultScreen">
           <div class="flex items-center justify-start gap-1">
-            <span class="text-base font-medium leading-3 text-n-slate-12">
+            <span class="text-base font-medium leading-3 text-s-primary">
               {{ config.websiteName }}
             </span>
             <div
               v-if="config.isOnline"
-              class="w-2 h-2 bg-n-teal-10 rounded-full"
+              class="w-2 h-2 bg-s-success rounded-full"
             />
           </div>
-          <span class="mt-1 text-xs text-n-slate-11">
+          <span class="mt-1 text-xs text-s-muted">
             {{ config.replyTime }}
           </span>
         </div>
       </div>
       <div v-if="isDefaultScreen" class="overflow-auto max-h-60">
-        <h2 class="mb-2 text-2xl break-words text-n-slate-12">
+        <h2 class="mb-2 text-2xl break-words text-s-primary">
           {{ config.welcomeHeading }}
         </h2>
         <p
           v-dompurify-html="formatMessage(config.welcomeTagline)"
-          class="text-sm break-words text-n-slate-11 [&_a]:!text-n-slate-11 [&_a]:underline"
+          class="text-sm break-words text-s-muted [&_a]:!text-s-muted [&_a]:underline"
         />
       </div>
     </div>

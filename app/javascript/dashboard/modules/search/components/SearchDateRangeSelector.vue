@@ -197,7 +197,7 @@ const onToggleDropdown = () => {
       slate
       :variant="showDropdown ? 'faded' : 'solid'"
       :label="selectedLabel"
-      class="group-hover:bg-n-alpha-2 max-w-full"
+      class="group-hover:bg-s-subtle max-w-full"
       trailing-icon
       icon="i-lucide-chevron-down"
       @click="onToggleDropdown()"
@@ -209,13 +209,13 @@ const onToggleDropdown = () => {
       @action="handlePresetAction"
     >
       <template #footer>
-        <div class="h-px bg-n-strong" />
+        <div class="h-px bg-s-border-strong" />
         <div class="flex flex-col gap-2">
           <div class="flex items-center justify-between gap-2 px-1 h-9">
-            <span class="text-sm text-n-slate-11">
+            <span class="text-sm text-s-muted">
               {{ t('SEARCH.DATE_RANGE.CUSTOM_RANGE') }}
             </span>
-            <span class="text-sm text-n-slate-12">
+            <span class="text-sm text-s-primary">
               {{ t('SEARCH.DATE_RANGE.CREATED_BETWEEN') }}
             </span>
           </div>
@@ -225,15 +225,15 @@ const onToggleDropdown = () => {
             type="date"
             :min="minDate"
             :max="customTo || maxDate"
-            class="!w-full !mb-0 !rounded-lg !bg-n-alpha-black2 !outline-n-strong -outline-offset-1 !px-3 !py-2 !text-sm text-n-slate-12 !h-8"
+            class="!w-full !mb-0 !rounded-lg !bg-s-primary/15 !outline-s-border-strong -outline-offset-1 !px-3 !py-2 !text-sm text-s-primary !h-8"
           />
 
           <div class="flex items-center gap-3 h-5 px-1">
-            <div class="flex-1 h-px bg-n-weak" />
-            <span class="text-sm text-n-slate-11">
+            <div class="flex-1 h-px bg-s-border" />
+            <span class="text-sm text-s-muted">
               {{ t('SEARCH.DATE_RANGE.AND') }}
             </span>
-            <div class="flex-1 h-px bg-n-weak" />
+            <div class="flex-1 h-px bg-s-border" />
           </div>
 
           <input
@@ -241,7 +241,7 @@ const onToggleDropdown = () => {
             type="date"
             :min="customFrom || minDate"
             :max="maxDate"
-            class="!w-full !mb-0 !rounded-lg !bg-n-alpha-black2 !outline-n-strong -outline-offset-1 !px-3 !py-2 !text-sm text-n-slate-12 !h-8"
+            class="!w-full !mb-0 !rounded-lg !bg-s-primary/15 !outline-s-border-strong -outline-offset-1 !px-3 !py-2 !text-sm text-s-primary !h-8"
           />
 
           <div class="flex items-center gap-2 mt-2">

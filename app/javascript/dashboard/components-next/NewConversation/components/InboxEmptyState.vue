@@ -6,9 +6,9 @@ const { t } = useI18n();
 
 <template>
   <div
-    class="flex items-center w-full px-4 py-3 dark:bg-n-amber-11/15 bg-n-amber-3"
+    class="flex items-center w-full px-4 py-3 dark:bg-s-subtle/15 bg-s-warning-soft"
   >
-    <span class="text-sm dark:text-n-amber-11 text-n-amber-11">
+    <span class="text-sm dark:text-s-warning-text text-s-warning-text">
       {{ t('COMPOSE_NEW_CONVERSATION.FORM.NO_INBOX_ALERT') }}
     </span>
   </div>

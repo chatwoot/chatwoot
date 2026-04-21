@@ -145,22 +145,22 @@ export default {
 <template>
   <div
     v-if="isLoading"
-    class="flex items-center justify-center flex-1 h-full min-h-screen bg-n-background"
+    class="flex items-center justify-center flex-1 h-full min-h-screen bg-s-bg"
   >
     <Spinner size="" />
   </div>
   <div
     v-else
-    class="flex items-center justify-center w-full h-full min-h-screen overflow-auto bg-n-background"
+    class="flex items-center justify-center w-full h-full min-h-screen overflow-auto bg-s-bg"
   >
     <div
-      class="flex flex-col w-full h-full bg-n-solid-1 rounded-lg border border-solid border-n-weak shadow-md lg:w-2/5 lg:h-auto"
+      class="flex flex-col w-full h-full bg-s-surface rounded-lg border border-solid border-s-border shadow-md lg:w-2/5 lg:h-auto"
     >
       <div class="w-full px-12 pt-12 pb-6 m-auto my-0">
         <img v-if="logo" :src="logo" alt="Chatwoot logo" class="mb-6 logo" />
         <p
           v-if="!isRatingSubmitted"
-          class="mb-8 text-lg leading-relaxed text-n-slate-12"
+          class="mb-8 text-lg leading-relaxed text-s-primary"
         >
           {{ messageContent }}
         </p>
@@ -172,7 +172,7 @@ export default {
         />
         <label
           v-if="!isRatingSubmitted"
-          class="mb-4 text-base font-medium text-n-slate-11"
+          class="mb-4 text-base font-medium text-s-muted"
         >
           {{ $t('SURVEY.RATING.LABEL') }}
         </label>

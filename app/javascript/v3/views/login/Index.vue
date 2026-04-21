@@ -220,7 +220,7 @@ export default {
 
 <template>
   <main
-    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
+    class="flex flex-col w-full min-h-screen py-20 bg-s-brand/5 dark:bg-s-bg sm:px-6 lg:px-8"
   >
     <section class="max-w-5xl mx-auto">
       <img
@@ -234,12 +234,12 @@ export default {
         :alt="globalConfig.installationName"
         class="hidden w-auto h-8 mx-auto dark:block"
       />
-      <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
+      <h2 class="mt-6 text-3xl font-medium text-center text-s-primary">
         {{ replaceInstallationName($t('LOGIN.TITLE')) }}
       </h2>
-      <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
+      <p v-if="showSignupLink" class="mt-3 text-sm text-center text-s-muted">
         {{ $t('COMMON.OR') }}
-        <router-link to="auth/signup" class="lowercase text-link text-n-brand">
+        <router-link to="auth/signup" class="lowercase text-link text-s-brand">
           {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
         </router-link>
       </p>
@@ -257,7 +257,7 @@ export default {
     <!-- Regular Login Section -->
     <section
       v-else
-      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
+      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-s-subtle p-11 sm:shadow-lg sm:rounded-lg"
       :class="{
         'mb-8 mt-15': !showGoogleOAuth,
         'animate-wiggle': loginApi.hasErrored,
@@ -269,13 +269,13 @@ export default {
           <div v-if="showSamlLogin" class="text-center">
             <router-link
               to="/app/login/sso"
-              class="inline-flex justify-center w-full px-4 py-3 items-center bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
+              class="inline-flex justify-center w-full px-4 py-3 items-center bg-s-bg dark:bg-s-subtle rounded-md shadow-sm ring-1 ring-inset ring-s-border dark:ring-s-border focus:outline-offset-0 hover:bg-s-subtle dark:hover:bg-s-subtle"
             >
               <Icon
                 icon="i-lucide-lock-keyhole"
-                class="size-5 text-n-slate-11"
+                class="size-5 text-s-muted"
               />
-              <span class="ml-2 text-base font-medium text-n-slate-12">
+              <span class="ml-2 text-base font-medium text-s-primary">
                 {{ $t('LOGIN.SAML.LABEL') }}
               </span>
             </router-link>

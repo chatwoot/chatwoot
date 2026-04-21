@@ -38,22 +38,22 @@ export default {
       v-if="label"
       class="mb-2 text-xs font-medium"
       :class="{
-        'text-n-gray-12': !error,
-        'text-n-ruby-9': error,
+        'text-s-primary': !error,
+        'text-s-error': error,
       }"
     >
       {{ label }}
     </div>
     <textarea
       v-model="computedModel"
-      class="w-full px-3 py-2 leading-tight border rounded outline-none resize-none text-n-gray-12"
+      class="w-full px-3 py-2 leading-tight border rounded outline-none resize-none text-s-primary"
       :class="{
-        'border-n-weak hover:border-n-weak focus:border-n-weak': !error,
-        'border-n-ruby-9 hover:border-n-ruby-9 focus:border-n-ruby-9': error,
+        'border-s-border hover:border-s-border focus:border-s-border': !error,
+        'border-s-error hover:border-s-error focus:border-s-error': error,
       }"
       :placeholder="placeholder"
     />
-    <div v-if="error" class="mt-2 text-xs font-medium text-n-ruby-9">
+    <div v-if="error" class="mt-2 text-xs font-medium text-s-error">
       {{ error }}
     </div>
   </label>

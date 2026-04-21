@@ -57,7 +57,7 @@ const closeMacroPreview = () => {
     :class="showPreview ? 'cursor-default' : 'drag-handle cursor-grab'"
   >
     <span
-      class="overflow-hidden whitespace-nowrap text-ellipsis font-medium text-n-slate-12"
+      class="overflow-hidden whitespace-nowrap text-ellipsis font-medium text-s-primary"
     >
       {{ macro.name }}
     </span>

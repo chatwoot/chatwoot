@@ -291,7 +291,7 @@ export default {
     @submit.prevent="handleSubmit"
   >
     <div class="flex flex-col mb-4 items-start gap-1 w-full">
-      <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+      <label class="mb-0.5 text-sm font-medium text-s-primary">
         {{ $t('CONTACT_FORM.FORM.AVATAR.LABEL') }}
       </label>
       <Avatar
@@ -363,7 +363,7 @@ export default {
         </label>
         <div
           v-if="isPhoneNumberNotValid || !phoneNumber"
-          class="relative mx-0 mt-0 mb-2.5 p-2 rounded-md text-sm border border-solid border-n-amber-5 text-n-amber-12 bg-n-amber-3"
+          class="relative mx-0 mt-0 mb-2.5 p-2 rounded-md text-sm border border-solid border-s-warning/30 text-s-warning-text bg-s-warning-soft"
         >
           {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.HELP') }}
         </div>
@@ -387,7 +387,7 @@ export default {
             label: countryNameWithCode(c),
           }))
         "
-        class="[&>div>button]:!bg-n-alpha-black2"
+        class="[&>div>button]:!bg-s-primary/15"
         :placeholder="$t('CONTACT_FORM.FORM.COUNTRY.PLACEHOLDER')"
         :search-placeholder="$t('CONTACT_FORM.FORM.COUNTRY.SELECT_PLACEHOLDER')"
         @update:model-value="onCountryChange"
@@ -408,7 +408,7 @@ export default {
         class="flex items-stretch w-full mb-4"
       >
         <span
-          class="flex items-center h-10 px-2 text-sm border-solid border-y ltr:border-l rtl:border-r ltr:rounded-l-md rtl:rounded-r-md bg-n-solid-3 text-n-slate-11 border-n-weak"
+          class="flex items-center h-10 px-2 text-sm border-solid border-y ltr:border-l rtl:border-r ltr:rounded-l-md rtl:rounded-r-md bg-s-subtle text-s-muted border-s-border"
         >
           {{ socialProfile.prefixURL }}
         </span>

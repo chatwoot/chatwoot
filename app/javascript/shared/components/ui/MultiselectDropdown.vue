@@ -76,12 +76,12 @@ const hasIcon = computed(() => {
         "
       >
         <div class="flex items-center justify-between w-full min-w-0">
-          <h4 v-if="!hasValue" class="text-sm text-ellipsis text-n-slate-12">
+          <h4 v-if="!hasValue" class="text-sm text-ellipsis text-s-primary">
             {{ multiselectorPlaceholder }}
           </h4>
           <h4
             v-else
-            class="items-center overflow-hidden text-sm leading-tight whitespace-nowrap text-ellipsis text-n-slate-12"
+            class="items-center overflow-hidden text-sm leading-tight whitespace-nowrap text-ellipsis text-s-primary"
             :title="selectedItem.name"
           >
             {{ selectedItem.name }}
@@ -99,7 +99,7 @@ const hasIcon = computed(() => {
         <Icon
           v-if="hasValue && hasIcon"
           :icon="selectedItem.icon"
-          class="size-5 text-n-slate-11"
+          class="size-5 text-s-muted"
         />
       </Button>
       <div
@@ -107,11 +107,11 @@ const hasIcon = computed(() => {
           'block visible': showSearchDropdown,
           'hidden invisible': !showSearchDropdown,
         }"
-        class="box-border top-[2.625rem] w-full border rounded-lg bg-n-alpha-3 backdrop-blur-[100px] absolute shadow-lg border-n-strong dark:border-n-strong p-2 z-[9999]"
+        class="box-border top-[2.625rem] w-full border rounded-lg bg-s-subtle backdrop-blur-[100px] absolute shadow-lg border-s-border-strong dark:border-s-border-strong p-2 z-[9999]"
       >
         <div class="flex items-center justify-between mb-1">
           <h4
-            class="m-0 overflow-hidden text-sm text-n-slate-11 whitespace-nowrap text-ellipsis"
+            class="m-0 overflow-hidden text-sm text-s-muted whitespace-nowrap text-ellipsis"
           >
             {{ multiselectorTitle }}
           </h4>

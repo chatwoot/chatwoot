@@ -32,7 +32,7 @@ export default {
 
 <template>
   <div class="mt-6">
-    <label class="text-base font-medium text-n-slate-12">
+    <label class="text-base font-medium text-s-primary">
       {{ $t('SURVEY.FEEDBACK.LABEL') }}
     </label>
     <TextArea

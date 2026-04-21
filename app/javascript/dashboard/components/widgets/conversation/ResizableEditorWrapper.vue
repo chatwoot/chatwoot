@@ -145,8 +145,8 @@ defineExpose({ toggleEditorExpand, resetEditorHeight });
       @dblclick="resetEditorHeight"
     >
       <div
-        class="w-8 h-0.5 mt-1 rounded-full bg-n-slate-6 group-hover:bg-n-slate-8 transition-all duration-200 motion-safe:group-hover:animate-bounce"
-        :class="{ 'bg-n-slate-8 animate-bounce': isResizing }"
+        class="w-8 h-0.5 mt-1 rounded-full bg-s-border group-hover:bg-s-border-strong transition-all duration-200 motion-safe:group-hover:animate-bounce"
+        :class="{ 'bg-s-border-strong animate-bounce': isResizing }"
       />
     </div>
     <slot />

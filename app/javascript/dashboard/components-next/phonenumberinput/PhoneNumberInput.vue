@@ -90,9 +90,9 @@ const activeCountry = computed(() =>
 
 const inputBorderClass = computed(() => {
   const errorClass =
-    'outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8';
+    'outline-s-error dark:outline-s-error hover:outline-s-error dark:hover:outline-s-error disabled:outline-s-error dark:disabled:outline-s-error';
   const focusClass =
-    'has-[:focus]:outline-n-brand dark:has-[:focus]:outline-n-brand';
+    'has-[:focus]:outline-s-brand dark:has-[:focus]:outline-s-brand';
 
   if (!props.showBorder) {
     if (hasError.value) return errorClass;
@@ -102,7 +102,7 @@ const inputBorderClass = computed(() => {
   if (hasError.value) {
     return errorClass;
   }
-  return `${focusClass} outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 disabled:outline-n-weak dark:disabled:outline-n-weak`;
+  return `${focusClass} outline-s-border dark:outline-s-border hover:outline-s-border dark:hover:outline-s-border disabled:outline-s-border dark:disabled:outline-s-border`;
 });
 
 const phoneNumberError = computed(() => {
@@ -163,7 +163,7 @@ watch(
   <div>
     <div
       v-on-clickaway="() => closeCountryDropdown()"
-      class="relative flex items-center h-8 transition-all duration-500 ease-in-out outline outline-1 outline-offset-[-1px] rounded-lg bg-n-alpha-black2"
+      class="relative flex items-center h-8 transition-all duration-500 ease-in-out outline outline-1 outline-offset-[-1px] rounded-lg bg-s-primary/15"
       :class="[inputBorderClass, { 'cursor-not-allowed opacity-50': disabled }]"
     >
       <Input
@@ -198,7 +198,7 @@ watch(
             </Button>
             <span
               v-if="activeCountry"
-              class="text-sm left-[38px] top-2.5 text-n-slate-11 ltr:!pl-1 rtl:!pr-1"
+              class="text-sm left-[38px] top-2.5 text-s-muted ltr:!pl-1 rtl:!pr-1"
             >
               {{ activeDialCode }}
             </span>
@@ -216,7 +216,7 @@ watch(
     <template v-if="phoneNumberError">
       <p
         v-if="phoneNumberError"
-        class="min-w-0 mt-1 mb-0 text-xs truncate transition-all duration-500 ease-in-out text-n-ruby-9 dark:text-n-ruby-9"
+        class="min-w-0 mt-1 mb-0 text-xs truncate transition-all duration-500 ease-in-out text-s-error dark:text-s-error"
       >
         {{ phoneNumberError }}
       </p>

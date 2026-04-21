@@ -130,7 +130,7 @@ const handleDeleteSuccess = () => {
               @submit="handleSubmit"
             />
           </div>
-          <span class="h-px w-full bg-n-weak mt-2" />
+          <span class="h-px w-full bg-s-border mt-2" />
           <div class="flex flex-col gap-6">
             <SettingsHeader
               :heading="t('CAPTAIN.ASSISTANTS.SETTINGS.SYSTEM_SETTINGS.TITLE')"
@@ -143,13 +143,13 @@ const handleDeleteSuccess = () => {
               @submit="handleSubmit"
             />
           </div>
-          <span class="h-px w-full bg-n-weak mt-2" />
+          <span class="h-px w-full bg-s-border mt-2" />
           <div class="flex items-end justify-between w-full gap-4">
             <div class="flex flex-col gap-2">
-              <h6 class="text-n-slate-12 text-base font-medium">
+              <h6 class="text-s-primary text-base font-medium">
                 {{ t('CAPTAIN.ASSISTANTS.SETTINGS.DELETE.TITLE') }}
               </h6>
-              <span class="text-n-slate-11 text-sm">
+              <span class="text-s-muted text-sm">
                 {{ t('CAPTAIN.ASSISTANTS.SETTINGS.DELETE.DESCRIPTION') }}
               </span>
             </div>

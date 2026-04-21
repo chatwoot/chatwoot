@@ -27,7 +27,7 @@ onBeforeMount(() => {
 
 <template>
   <div
-    class="relative flex-1 flex flex-col items-start justify-center bg-n-alpha-black2 dark:bg-n-solid-3 px-12 py-14 rounded-e-lg"
+    class="relative flex-1 flex flex-col items-start justify-center bg-s-primary/15 dark:bg-s-subtle px-12 py-14 rounded-e-lg"
   >
     <TestimonialCard
       v-if="testimonial"
@@ -37,12 +37,12 @@ onBeforeMount(() => {
       :author-designation="testimonial.authorCompany"
     />
     <div class="absolute bottom-8 right-8 grid grid-cols-3 gap-1.5">
-      <span class="w-2 h-2 rounded-full bg-n-gray-5" />
-      <span class="w-2 h-2 rounded-full bg-n-gray-5" />
-      <span class="w-2 h-2 rounded-full bg-n-gray-5" />
-      <span class="w-2 h-2 rounded-full bg-n-gray-5" />
-      <span class="w-2 h-2 rounded-full bg-n-gray-5" />
-      <span class="w-2 h-2 rounded-full bg-n-gray-5" />
+      <span class="w-2 h-2 rounded-full bg-s-subtle" />
+      <span class="w-2 h-2 rounded-full bg-s-subtle" />
+      <span class="w-2 h-2 rounded-full bg-s-subtle" />
+      <span class="w-2 h-2 rounded-full bg-s-subtle" />
+      <span class="w-2 h-2 rounded-full bg-s-subtle" />
+      <span class="w-2 h-2 rounded-full bg-s-subtle" />
     </div>
   </div>
 </template>

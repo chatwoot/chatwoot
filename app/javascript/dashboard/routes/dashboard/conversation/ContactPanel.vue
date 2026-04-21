@@ -306,7 +306,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 ::v-deep {
   .contact--profile {
-    @apply pb-3 border-b border-solid border-n-weak;
+    @apply pb-3 border-b border-solid border-s-border;
   }
 }
 </style>

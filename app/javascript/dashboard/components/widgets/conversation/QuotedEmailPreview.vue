@@ -37,7 +37,7 @@ const toggleExpand = () => {
 <template>
   <div class="mt-2">
     <div
-      class="relative rounded-md px-3 py-2 text-xs text-n-slate-12 bg-n-slate-3 dark:bg-n-solid-3"
+      class="relative rounded-md px-3 py-2 text-xs text-s-primary bg-s-subtle dark:bg-s-subtle"
     >
       <div class="absolute top-2 right-2 z-10 flex items-center gap-1">
         <NextButton

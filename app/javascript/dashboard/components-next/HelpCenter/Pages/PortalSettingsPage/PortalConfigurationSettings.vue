@@ -100,10 +100,10 @@ const statusText = computed(() => {
 
 const statusColors = computed(() => {
   if (isLive.value)
-    return { text: 'text-n-teal-11', bubble: 'outline-n-teal-6 bg-n-teal-9' };
+    return { text: 'text-s-success-text', bubble: 'outline-s-success/40 bg-s-success' };
   if (isError.value)
-    return { text: 'text-n-ruby-11', bubble: 'outline-n-ruby-6 bg-n-ruby-9' };
-  return { text: 'text-n-amber-11', bubble: 'outline-n-amber-6 bg-n-amber-9' };
+    return { text: 'text-s-error-text', bubble: 'outline-s-error/40 bg-s-error' };
+  return { text: 'text-s-warning-text', bubble: 'outline-s-warning/40 bg-s-warning' };
 });
 
 const updatePortalConfiguration = customDomain => {
@@ -139,14 +139,14 @@ const onClickSend = email => {
 <template>
   <div class="flex flex-col w-full gap-6">
     <div class="flex flex-col gap-2">
-      <h6 class="text-base font-medium text-n-slate-12">
+      <h6 class="text-base font-medium text-s-primary">
         {{
           t(
             'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.HEADER'
           )
         }}
       </h6>
-      <span class="text-sm text-n-slate-11">
+      <span class="text-sm text-s-muted">
         {{
           t(
             'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DESCRIPTION'
@@ -158,20 +158,20 @@ const onClickSend = email => {
       <div class="flex items-center justify-between w-full gap-2">
         <div v-if="customDomainAddress" class="flex flex-col gap-1">
           <div class="flex items-center w-full h-8 gap-4">
-            <label class="text-sm font-medium text-n-slate-12">
+            <label class="text-sm font-medium text-s-primary">
               {{
                 t(
                   'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.LABEL'
                 )
               }}
             </label>
-            <span class="text-sm text-n-slate-12">
+            <span class="text-sm text-s-primary">
               {{ customDomainAddress }}
             </span>
           </div>
           <span
             v-if="!isLive && isOnChatwootCloud"
-            class="text-sm text-n-slate-11"
+            class="text-sm text-s-muted"
           >
             {{
               t(
@@ -200,7 +200,7 @@ const onClickSend = email => {
             </div>
             <div
               v-if="statusText && isOnChatwootCloud"
-              class="w-px h-3 bg-n-weak"
+              class="w-px h-3 bg-s-border"
             />
             <Button
               slate
@@ -214,7 +214,7 @@ const onClickSend = email => {
               class="hover:!no-underline flex-shrink-0"
               @click="addCustomDomainDialogRef.dialogRef.open()"
             />
-            <div v-if="isOnChatwootCloud" class="w-px h-3 bg-n-weak" />
+            <div v-if="isOnChatwootCloud" class="w-px h-3 bg-s-border" />
             <Button
               v-if="isOnChatwootCloud"
               slate

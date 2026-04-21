@@ -49,7 +49,7 @@ const handleContactAction = ({ action }) => {
       color="slate"
       variant="ghost"
       size="sm"
-      :class="showActionsDropdown ? 'bg-n-alpha-2' : ''"
+      :class="showActionsDropdown ? 'bg-s-subtle' : ''"
       @click="showActionsDropdown = !showActionsDropdown"
     />
     <DropdownMenu

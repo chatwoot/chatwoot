@@ -80,7 +80,7 @@ const handleSubmit = async () => {
 <template>
   <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
     <div class="flex flex-col gap-1">
-      <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">
+      <label for="inbox" class="mb-0.5 text-sm font-medium text-s-primary">
         {{ t('CAPTAIN.INBOXES.FORM.INBOX.LABEL') }}
       </label>
       <ComboBox
@@ -89,7 +89,7 @@ const handleSubmit = async () => {
         :options="inboxList"
         :has-error="!!formErrors.inboxId"
         :placeholder="t('CAPTAIN.INBOXES.FORM.INBOX.PLACEHOLDER')"
-        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
+        class="[&>div>button]:bg-s-primary/15 [&>div>button:not(.focused)]:dark:outline-s-border [&>div>button:not(.focused)]:hover:!outline-s-border"
         :message="formErrors.inboxId"
       />
     </div>
@@ -100,7 +100,7 @@ const handleSubmit = async () => {
         variant="faded"
         color="slate"
         :label="t('CAPTAIN.FORM.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
+        class="w-full bg-s-subtle text-s-brand-text hover:bg-s-subtle"
         @click="handleCancel"
       />
       <Button

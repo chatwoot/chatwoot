@@ -198,6 +198,6 @@ watch(
 
 <style lang="scss" scoped>
 .article-ghost-class {
-  @apply opacity-50 bg-n-solid-1;
+  @apply opacity-50 bg-s-surface;
 }
 </style>

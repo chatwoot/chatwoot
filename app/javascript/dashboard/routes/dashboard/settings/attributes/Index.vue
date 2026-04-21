@@ -204,7 +204,7 @@ const filteredAttributes = computed(() => {
         </span>
         <div
           v-else-if="filteredAttributes.length"
-          class="flex flex-col divide-y divide-n-weak border-t border-s-border"
+          class="flex flex-col divide-y divide-s-border border-t border-s-border"
         >
           <AttributeListItem
             v-for="attribute in filteredAttributes"

@@ -49,7 +49,7 @@ const closeBanner = event => {
 <template>
   <div v-if="shouldShowBanner" class="relative">
     <div
-      class="mx-2 my-1 p-3 bg-n-iris-9 rounded-lg cursor-pointer hover:shadow-md transition-all"
+      class="mx-2 my-1 p-3 bg-s-brand rounded-lg cursor-pointer hover:shadow-md transition-all"
       @click="openModal"
     >
       <div class="flex items-start justify-between gap-2 mb-3">
@@ -63,7 +63,7 @@ const closeBanner = event => {
           @click="closeBanner"
         >
           <Icon
-            icon="i-lucide-x size-4 mt-0.5 text-n-slate-1 dark:text-n-slate-12"
+            icon="i-lucide-x size-4 mt-0.5 text-s-inverse dark:text-s-primary"
           />
         </button>
       </div>
@@ -75,7 +75,7 @@ const closeBanner = event => {
           class="w-full h-auto rounded"
         />
         <button
-          class="w-full px-3 py-2 bg-white text-n-iris-9 text-xs font-medium rounded-mdtracking-tight"
+          class="w-full px-3 py-2 bg-white text-s-brand text-xs font-medium rounded-mdtracking-tight"
           @click.stop="openModal"
         >
           {{ t('YEAR_IN_REVIEW.BANNER.BUTTON') }}

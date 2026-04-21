@@ -118,13 +118,13 @@ const hasNoUsedAttributes = computed(() => usedAttributes.value.length === 0);
       />
     </div>
     <div v-if="!hasNoUnusedAttributes" class="flex items-center gap-3">
-      <div class="flex-1 h-[1px] bg-n-slate-5" />
-      <span class="text-sm font-medium text-n-slate-10">{{
+      <div class="flex-1 h-[1px] bg-s-border-subtle" />
+      <span class="text-sm font-medium text-s-muted">{{
         t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.UNUSED_ATTRIBUTES', {
           count: unusedAttributesCount,
         })
       }}</span>
-      <div class="flex-1 h-[1px] bg-n-slate-5" />
+      <div class="flex-1 h-[1px] bg-s-border-subtle" />
     </div>
     <div class="flex flex-col gap-3">
       <div v-if="!hasNoUnusedAttributes" class="relative">
@@ -135,14 +135,14 @@ const hasNoUsedAttributes = computed(() => usedAttributes.value.length === 0);
           :placeholder="
             t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.SEARCH_PLACEHOLDER')
           "
-          class="w-full h-8 py-2 pl-10 pr-2 text-sm reset-base outline-none border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
+          class="w-full h-8 py-2 pl-10 pr-2 text-sm reset-base outline-none border-none rounded-lg bg-s-primary/15 dark:bg-s-surface text-s-primary"
         />
       </div>
       <div
         v-if="filteredUnusedAttributes.length === 0 && !hasNoUnusedAttributes"
         class="flex items-center justify-start h-11"
       >
-        <p class="text-sm text-n-slate-11">
+        <p class="text-sm text-s-muted">
           {{ t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.NO_ATTRIBUTES') }}
         </p>
       </div>
@@ -155,7 +155,7 @@ const hasNoUsedAttributes = computed(() => usedAttributes.value.length === 0);
       </div>
     </div>
   </div>
-  <p v-else class="px-6 py-10 text-sm leading-6 text-center text-n-slate-11">
+  <p v-else class="px-6 py-10 text-sm leading-6 text-center text-s-muted">
     {{ t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.EMPTY_STATE') }}
   </p>
 </template>

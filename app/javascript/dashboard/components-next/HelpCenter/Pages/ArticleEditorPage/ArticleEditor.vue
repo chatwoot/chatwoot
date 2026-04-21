@@ -147,7 +147,7 @@ const handleCreateArticle = event => {
 <style lang="scss" scoped>
 ::v-deep {
   .ProseMirror .empty-node::before {
-    @apply text-n-slate-10 text-base;
+    @apply text-s-muted text-base;
   }
 
   .ProseMirror-menubar-wrapper {
@@ -166,7 +166,7 @@ const handleCreateArticle = event => {
     }
 
     .ProseMirror-menubar {
-      @apply rounded-lg !px-3 !py-1.5 z-50 bg-n-background items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
+      @apply rounded-lg !px-3 !py-1.5 z-50 bg-s-bg items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-s-border;
       display: flex;
       top: var(--selection-top, auto) !important;
       left: var(--selection-left, 0) !important;
@@ -182,7 +182,7 @@ const handleCreateArticle = event => {
       }
 
       .ProseMirror-menu-active {
-        @apply bg-n-slate-3;
+        @apply bg-s-subtle;
       }
     }
   }

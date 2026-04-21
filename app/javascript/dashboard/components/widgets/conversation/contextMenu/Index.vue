@@ -281,7 +281,7 @@ export default {
 
 <template>
   <div
-    class="p-1 rounded-md shadow-xl bg-n-alpha-3/50 backdrop-blur-[100px] outline-1 outline outline-n-weak/50"
+    class="p-1 rounded-md shadow-xl bg-s-subtle/50 backdrop-blur-[100px] outline-1 outline outline-s-border/50"
   >
     <template v-if="isAllowed([MENU.MARK_AS_READ, MENU.MARK_AS_UNREAD])">
       <MenuItem
@@ -296,7 +296,7 @@ export default {
         variant="icon"
         @click.stop="$emit('markAsRead')"
       />
-      <hr class="m-1 rounded border-b border-n-weak dark:border-n-weak" />
+      <hr class="m-1 rounded border-b border-s-border dark:border-s-border" />
     </template>
     <template v-if="isAllowed([MENU.STATUS, MENU.SNOOZE])">
       <template v-for="option in statusMenuConfig">
@@ -314,7 +314,7 @@ export default {
         variant="icon"
         @click.stop="snoozeConversation()"
       />
-      <hr class="m-1 rounded border-b border-n-weak dark:border-n-weak" />
+      <hr class="m-1 rounded border-b border-s-border dark:border-s-border" />
     </template>
     <template
       v-if="isAllowed([MENU.PRIORITY, MENU.LABEL, MENU.AGENT, MENU.TEAM])"
@@ -379,7 +379,7 @@ export default {
           @click.stop="$emit('assignTeam', team)"
         />
       </MenuItemWithSubmenu>
-      <hr class="m-1 rounded border-b border-n-weak dark:border-n-weak" />
+      <hr class="m-1 rounded border-b border-s-border dark:border-s-border" />
     </template>
     <template v-if="isAllowed([MENU.OPEN_NEW_TAB, MENU.COPY_LINK])">
       <MenuItem
@@ -396,7 +396,7 @@ export default {
       />
     </template>
     <template v-if="isAdmin && isAllowed([MENU.DELETE])">
-      <hr class="m-1 rounded border-b border-n-weak dark:border-n-weak" />
+      <hr class="m-1 rounded border-b border-s-border dark:border-s-border" />
       <MenuItem
         :option="deleteOption"
         variant="icon"

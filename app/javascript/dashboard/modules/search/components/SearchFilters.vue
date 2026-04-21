@@ -64,10 +64,10 @@ const clearAllFilters = () => {
       />
     </div>
 
-    <div class="w-px h-4 bg-n-weak flex-shrink-0 hidden lg:block" />
+    <div class="w-px h-4 bg-s-border flex-shrink-0 hidden lg:block" />
 
     <div class="flex items-center gap-1.5 min-w-0 flex-1 max-w-full">
-      <span class="text-sm text-n-slate-10 flex-shrink-0 whitespace-nowrap">
+      <span class="text-sm text-s-muted flex-shrink-0 whitespace-nowrap">
         {{ t('SEARCH.FILTERS.FILTER_MESSAGE') }}
       </span>
 
@@ -79,7 +79,7 @@ const clearAllFilters = () => {
         />
       </div>
 
-      <div class="w-px h-3 bg-n-weak rounded-lg flex-shrink-0" />
+      <div class="w-px h-3 bg-s-border rounded-lg flex-shrink-0" />
 
       <div class="min-w-0">
         <SearchInboxSelector

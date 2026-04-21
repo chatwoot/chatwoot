@@ -23,7 +23,7 @@ const startSetup = () => {
 <template>
   <div v-if="!mfaEnabled && !showSetup" class="space-y-6">
     <div
-      class="bg-s-surface rounded-lg p-6 outline outline-n-weak outline-1 text-center"
+      class="bg-s-surface rounded-lg p-6 outline outline-s-border outline-1 text-center"
     >
       <Icon
         icon="i-lucide-lock-keyhole"
@@ -44,7 +44,7 @@ const startSetup = () => {
   </div>
   <div v-else-if="mfaEnabled && !showSetup">
     <div
-      class="bg-s-surface rounded-xl outline-1 outline-n-weak outline p-4 flex-1 flex flex-col gap-2"
+      class="bg-s-surface rounded-xl outline-1 outline-s-border outline p-4 flex-1 flex flex-col gap-2"
     >
       <div class="flex items-center gap-2">
         <Icon

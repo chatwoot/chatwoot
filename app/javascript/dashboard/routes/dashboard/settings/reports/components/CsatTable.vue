@@ -142,7 +142,7 @@ const table = useVueTable({
 
 <template>
   <div
-    class="shadow outline-1 outline outline-n-container rounded-xl bg-s-subtle overflow-hidden"
+    class="shadow outline-1 outline outline-s-border rounded-xl bg-s-subtle overflow-hidden"
   >
     <CsatTableLoader v-if="isLoading" />
 
@@ -162,7 +162,7 @@ const table = useVueTable({
             </th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-n-container">
+        <tbody class="divide-y divide-s-border">
           <template v-for="row in tableData" :key="row.id">
             <tr
               class="group hover:bg-s-subtle dark:hover:bg-s-subtle transition-colors"

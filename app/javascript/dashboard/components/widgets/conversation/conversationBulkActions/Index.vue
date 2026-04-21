@@ -265,7 +265,7 @@ export default {
 
 <style scoped lang="scss">
 .bulk-action__container {
-  @apply p-3 relative border-b border-solid border-n-strong dark:border-n-weak;
+  @apply p-3 relative border-b border-solid border-s-border-strong dark:border-s-border;
 }
 
 .bulk-action__panel {
@@ -281,7 +281,7 @@ export default {
 }
 
 .bulk-action__alert {
-  @apply bg-n-amber-3 text-n-amber-12 rounded text-xs mt-2 py-1 px-2 border border-solid border-n-amber-5;
+  @apply bg-s-warning-soft text-s-warning-text rounded text-xs mt-2 py-1 px-2 border border-solid border-s-warning/30;
 }
 
 .popover-animation-enter-active,

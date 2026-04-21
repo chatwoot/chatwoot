@@ -145,7 +145,7 @@ defineExpose({
 
 <template>
   <form @submit.prevent="handleSubmit">
-    <div class="flex flex-col gap-4 mb-2 divide-y divide-n-weak">
+    <div class="flex flex-col gap-4 mb-2 divide-y divide-s-border">
       <BaseInfo
         v-model:policy-name="state.name"
         v-model:description="state.description"
@@ -172,7 +172,7 @@ defineExpose({
 
     <div
       v-if="showInboxLimitSection || showUserSection"
-      class="flex flex-col gap-4 divide-y divide-n-weak border-t border-s-border mt-6"
+      class="flex flex-col gap-4 divide-y divide-s-border border-t border-s-border mt-6"
     >
       <InboxCapacityLimits
         v-if="showInboxLimitSection"

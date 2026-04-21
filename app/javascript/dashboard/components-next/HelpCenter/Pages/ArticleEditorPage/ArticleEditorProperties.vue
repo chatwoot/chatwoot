@@ -52,7 +52,7 @@ onMounted(() => {
 
 <template>
   <div
-    class="flex flex-col absolute w-[25rem] bg-n-alpha-3 outline outline-1 outline-n-container backdrop-blur-[100px] shadow-lg gap-6 rounded-xl p-6"
+    class="flex flex-col absolute w-[25rem] bg-s-subtle outline outline-1 outline-s-border backdrop-blur-[100px] shadow-lg gap-6 rounded-xl p-6"
   >
     <div class="flex items-center justify-between">
       <h3>
@@ -67,7 +67,7 @@ onMounted(() => {
         size="sm"
         variant="ghost"
         color="slate"
-        class="hover:text-n-slate-11"
+        class="hover:text-s-muted"
         @click="emit('close')"
       />
     </div>
@@ -75,7 +75,7 @@ onMounted(() => {
       <div>
         <div class="flex justify-between w-full gap-4 py-2">
           <label
-            class="text-sm font-medium whitespace-nowrap min-w-[6.25rem] text-n-slate-12"
+            class="text-sm font-medium whitespace-nowrap min-w-[6.25rem] text-s-primary"
           >
             {{
               t(
@@ -113,7 +113,7 @@ onMounted(() => {
         </div>
         <div class="flex justify-between w-full gap-3 py-2">
           <label
-            class="text-sm font-medium whitespace-nowrap min-w-[7.5rem] text-n-slate-12"
+            class="text-sm font-medium whitespace-nowrap min-w-[7.5rem] text-s-primary"
           >
             {{
               t('HELP_CENTER.EDIT_ARTICLE_PAGE.ARTICLE_PROPERTIES.META_TAGS')

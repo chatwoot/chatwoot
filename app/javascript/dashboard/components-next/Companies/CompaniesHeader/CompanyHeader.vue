@@ -19,7 +19,7 @@ const emit = defineEmits(['search', 'update:sort']);
     <div
       class="flex items-start sm:items-center justify-between w-full py-6 gap-2 mx-auto max-w-5xl"
     >
-      <span class="text-heading-1 truncate text-n-slate-12">
+      <span class="text-heading-1 truncate text-s-primary">
         {{ headerTitle }}
       </span>
       <div class="flex items-center flex-row flex-shrink-0 gap-2">
@@ -36,7 +36,7 @@ const emit = defineEmits(['search', 'update:sort']);
             type="search"
             :placeholder="$t('CONTACTS_LAYOUT.HEADER.SEARCH_PLACEHOLDER')"
             :custom-input-class="[
-              'h-8 [&:not(.focus)]:!border-transparent bg-n-alpha-2 dark:bg-n-solid-1 ltr:!pl-8 !py-1 rtl:!pr-8',
+              'h-8 [&:not(.focus)]:!border-transparent bg-s-subtle dark:bg-s-surface ltr:!pl-8 !py-1 rtl:!pr-8',
             ]"
             class="w-full"
             @input="emit('search', $event.target.value)"
@@ -44,7 +44,7 @@ const emit = defineEmits(['search', 'update:sort']);
             <template #prefix>
               <Icon
                 icon="i-lucide-search"
-                class="absolute -translate-y-1/2 text-n-slate-11 size-4 top-1/2 ltr:left-2 rtl:right-2"
+                class="absolute -translate-y-1/2 text-s-muted size-4 top-1/2 ltr:left-2 rtl:right-2"
               />
             </template>
           </Input>

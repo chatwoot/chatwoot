@@ -32,11 +32,11 @@ const greetingMessage = computed(() => {
   >
     <div class="col-span-full self-start">
       <p
-        class="text-xl font-semibold text-n-slate-12 font-interDisplay tracking-[0.3px]"
+        class="text-xl font-semibold text-s-primary font-interDisplay tracking-[0.3px]"
       >
         {{ greetingMessage }}
       </p>
-      <p class="text-n-slate-11 max-w-2xl text-base">
+      <p class="text-s-muted max-w-2xl text-base">
         {{
           $t('ONBOARDING.DESCRIPTION', {
             installationName: globalConfig.installationName,

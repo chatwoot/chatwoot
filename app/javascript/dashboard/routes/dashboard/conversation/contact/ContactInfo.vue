@@ -266,13 +266,13 @@ export default {
           />
           <h3
             v-else
-            class="group/name flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-n-slate-12 cursor-pointer hover:text-n-slate-12/80"
+            class="group/name flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-s-primary cursor-pointer hover:text-s-primary/80"
             :title="$t('CONTACT_PANEL.CLICK_TO_EDIT')"
             @click="startEditingName"
           >
             {{ contact.name }}
             <span
-              class="i-lucide-pencil text-xs text-n-slate-10 opacity-0 group-hover/name:opacity-100 transition-opacity ml-1 align-middle"
+              class="i-lucide-pencil text-xs text-s-muted opacity-0 group-hover/name:opacity-100 transition-opacity ml-1 align-middle"
             />
           </h3>
           <div class="flex flex-row items-center gap-2">
@@ -283,7 +283,7 @@ export default {
                   contact.created_at
                 )}`
               "
-              class="i-lucide-info text-sm text-n-slate-10"
+              class="i-lucide-info text-sm text-s-muted"
             />
             <a
               :href="contactProfileLink"
@@ -291,7 +291,7 @@ export default {
               rel="noopener nofollow noreferrer"
               class="leading-3"
             >
-              <span class="i-lucide-external-link text-sm text-n-slate-10" />
+              <span class="i-lucide-external-link text-sm text-s-muted" />
             </a>
           </div>
         </div>

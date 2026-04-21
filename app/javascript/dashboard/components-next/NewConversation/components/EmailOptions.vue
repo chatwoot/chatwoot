@@ -67,13 +67,13 @@ const handleBccUpdate = value => {
 
 const inputClass = computed(() => {
   return props.hasErrors
-    ? 'placeholder:!text-n-ruby-9 dark:placeholder:!text-n-ruby-9'
+    ? 'placeholder:!text-s-error dark:placeholder:!text-s-error'
     : '';
 });
 </script>
 
 <template>
-  <div class="flex flex-col divide-y divide-n-strong">
+  <div class="flex flex-col divide-y divide-s-border-strong">
     <div class="flex items-baseline flex-1 w-full h-8 gap-3 px-4 py-3">
       <InlineInput
         v-model="subject"
@@ -85,7 +85,7 @@ const inputClass = computed(() => {
     </div>
     <div class="flex items-baseline flex-1 w-full gap-3 px-4 py-3 min-h-8">
       <label
-        class="mb-0.5 text-sm font-medium whitespace-nowrap text-n-slate-11"
+        class="mb-0.5 text-sm font-medium whitespace-nowrap text-s-muted"
       >
         {{ t(`${i18nPrefix}.CC_LABEL`) }}
       </label>
@@ -118,7 +118,7 @@ const inputClass = computed(() => {
       class="flex items-baseline flex-1 w-full gap-3 px-4 py-3 min-h-8"
     >
       <label
-        class="mb-0.5 text-sm font-medium whitespace-nowrap text-n-slate-11"
+        class="mb-0.5 text-sm font-medium whitespace-nowrap text-s-muted"
       >
         {{ t(`${i18nPrefix}.BCC_LABEL`) }}
       </label>

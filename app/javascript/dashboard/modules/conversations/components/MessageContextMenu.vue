@@ -260,14 +260,14 @@ export default {
 
 <style lang="scss" scoped>
 .menu-container {
-  @apply p-1 bg-n-background shadow-xl rounded-md;
+  @apply p-1 bg-s-bg shadow-xl rounded-md;
 
   hr:first-child {
     @apply hidden;
   }
 
   hr {
-    @apply m-1 border-b border-solid border-n-strong;
+    @apply m-1 border-b border-solid border-s-border-strong;
   }
 }
 

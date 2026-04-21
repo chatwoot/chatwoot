@@ -45,11 +45,11 @@ const cleanedSignature = computed(() =>
 const messageClass = computed(() => {
   switch (props.messageType) {
     case 'error':
-      return 'text-n-ruby-9 dark:text-n-ruby-9';
+      return 'text-s-error dark:text-s-error';
     case 'success':
-      return 'text-n-teal-10 dark:text-n-teal-10';
+      return 'text-s-success dark:text-s-success';
     default:
-      return 'text-n-slate-11 dark:text-n-slate-11';
+      return 'text-s-muted dark:text-s-muted';
   }
 });
 
@@ -143,21 +143,21 @@ onMounted(() => {
     <label
       v-if="label"
       :for="id"
-      class="mb-0.5 text-sm font-medium text-n-slate-12"
+      class="mb-0.5 text-sm font-medium text-s-primary"
     >
       {{ label }}
     </label>
     <div
-      class="flex flex-col gap-2 px-3 pt-3 pb-3 transition-all duration-500 ease-in-out border rounded-lg bg-n-alpha-black2"
+      class="flex flex-col gap-2 px-3 pt-3 pb-3 transition-all duration-500 ease-in-out border rounded-lg bg-s-primary/15"
       :class="[
         customTextAreaWrapperClass,
         {
-          'cursor-not-allowed opacity-50 !bg-n-alpha-black2 disabled:border-n-weak dark:disabled:border-n-weak':
+          'cursor-not-allowed opacity-50 !bg-s-primary/15 disabled:border-s-border dark:disabled:border-s-border':
             disabled,
-          'border-n-brand dark:border-n-brand': isFocused,
-          'hover:border-n-slate-6 dark:hover:border-n-slate-6 border-n-weak dark:border-n-weak':
+          'border-s-brand dark:border-s-brand': isFocused,
+          'hover:border-s-border dark:hover:border-s-border border-s-border dark:border-s-border':
             !isFocused && messageType !== 'error',
-          'border-n-ruby-8 dark:border-n-ruby-8 hover:border-n-ruby-9 dark:hover:border-n-ruby-9':
+          'border-s-error dark:border-s-error hover:border-s-error dark:hover:border-s-error':
             messageType === 'error' && !isFocused,
         },
       ]"
@@ -181,7 +181,7 @@ onMounted(() => {
         }"
         :disabled="disabled"
         rows="1"
-        class="flex w-full reset-base text-sm p-0 !rounded-none !bg-transparent dark:!bg-transparent !border-0 !outline-0 !mb-0 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 text-n-slate-12 dark:text-n-slate-12 disabled:cursor-not-allowed disabled:opacity-50"
+        class="flex w-full reset-base text-sm p-0 !rounded-none !bg-transparent dark:!bg-transparent !border-0 !outline-0 !mb-0 placeholder:text-s-muted dark:placeholder:text-s-muted text-s-primary dark:text-s-primary disabled:cursor-not-allowed disabled:opacity-50"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
@@ -190,7 +190,7 @@ onMounted(() => {
         v-if="showCharacterCount"
         class="flex items-center justify-end h-4 mt-1 bottom-3 ltr:right-3 rtl:left-3"
       >
-        <span class="text-xs tabular-nums text-n-slate-10">
+        <span class="text-xs tabular-nums text-s-muted">
           {{ characterCount }} / {{ maxLength }}
         </span>
       </div>

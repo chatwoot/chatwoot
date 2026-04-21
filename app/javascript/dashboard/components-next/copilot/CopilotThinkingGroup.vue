@@ -26,7 +26,7 @@ watch(
 <template>
   <div class="flex flex-col gap-2">
     <button
-      class="group flex items-center gap-2 text-xs text-n-slate-10 hover:text-n-slate-11 transition-colors duration-200 -ml-3"
+      class="group flex items-center gap-2 text-xs text-s-muted hover:text-s-muted transition-colors duration-200 -ml-3"
       @click="isExpanded = !isExpanded"
     >
       <Icon
@@ -36,7 +36,7 @@ watch(
       <span class="flex items-center gap-2">
         {{ t('CAPTAIN.COPILOT.SHOW_STEPS') }}
         <span
-          class="inline-flex items-center justify-center h-4 min-w-4 px-1 text-xs font-medium rounded-full bg-n-solid-3 text-n-slate-11"
+          class="inline-flex items-center justify-center h-4 min-w-4 px-1 text-xs font-medium rounded-full bg-s-subtle text-s-muted"
         >
           {{ thinkingCount }}
         </span>

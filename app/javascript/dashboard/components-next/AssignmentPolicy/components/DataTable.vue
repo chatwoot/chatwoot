@@ -33,7 +33,7 @@ const handleNavigate = item => {
 <template>
   <div
     v-if="isFetching"
-    class="flex items-center justify-center py-3 w-full text-n-slate-11"
+    class="flex items-center justify-center py-3 w-full text-s-muted"
   >
     <Spinner />
   </div>
@@ -41,11 +41,11 @@ const handleNavigate = item => {
     v-else-if="items.length === 0 && emptyStateMessage"
     class="custom-dashed-border flex items-center justify-center py-6 w-full"
   >
-    <span class="text-sm text-n-slate-11">
+    <span class="text-sm text-s-muted">
       {{ emptyStateMessage }}
     </span>
   </div>
-  <div v-else class="flex flex-col divide-y divide-n-weak">
+  <div v-else class="flex flex-col divide-y divide-s-border">
     <div
       v-for="item in items"
       :key="item.id"
@@ -53,13 +53,13 @@ const handleNavigate = item => {
     >
       <button
         type="button"
-        class="flex items-center gap-2 col-span-2 hover:bg-n-alpha-1 dark:hover:bg-n-alpha-2 rounded-lg py-1 px-1.5 -ml-1.5 transition-colors cursor-pointer group"
+        class="flex items-center gap-2 col-span-2 hover:bg-s-subtle dark:hover:bg-s-subtle rounded-lg py-1 px-1.5 -ml-1.5 transition-colors cursor-pointer group"
         @click="handleNavigate(item)"
       >
         <Icon
           v-if="item.icon"
           :icon="item.icon"
-          class="size-4 text-n-slate-12 flex-shrink-0"
+          class="size-4 text-s-primary flex-shrink-0"
         />
         <Avatar
           v-else
@@ -70,20 +70,20 @@ const handleNavigate = item => {
           rounded-full
         />
         <span
-          class="text-sm text-n-slate-12 truncate min-w-0 group-hover:text-n-blue-11 dark:group-hover:text-n-blue-10 transition-colors"
+          class="text-sm text-s-primary truncate min-w-0 group-hover:text-s-brand-text dark:group-hover:text-s-brand transition-colors"
         >
           {{ item.name }}
         </span>
         <Icon
           icon="i-lucide-external-link"
-          class="size-3.5 text-n-slate-10 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+          class="size-3.5 text-s-muted opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
         />
       </button>
 
       <div class="flex items-start gap-2 col-span-1">
         <span
           :title="item.email || item.phoneNumber"
-          class="text-sm text-n-slate-12 truncate min-w-0"
+          class="text-sm text-s-primary truncate min-w-0"
         >
           {{ item.email || item.phoneNumber }}
         </span>

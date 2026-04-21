@@ -125,7 +125,7 @@ watch(
     />
 
     <div class="flex flex-col gap-2">
-      <label class="text-sm font-medium text-n-slate-12">
+      <label class="text-sm font-medium text-s-primary">
         {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.TITLE') }}
       </label>
       <div class="flex flex-col gap-2">

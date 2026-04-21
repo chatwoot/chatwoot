@@ -197,13 +197,13 @@ watch(
       <div class="relative w-full h-full overflow-hidden">
         <div
           v-if="isLoading"
-          class="flex items-center justify-center w-full h-full bg-n-slate-2"
+          class="flex items-center justify-center w-full h-full bg-s-subtle"
         >
           <div class="text-center">
             <div
-              class="inline-block w-12 h-12 border-4 rounded-full border-n-slate-6 border-t-n-slate-11 animate-spin"
+              class="inline-block w-12 h-12 border-4 rounded-full border-s-border border-t-n-slate-11 animate-spin"
             />
-            <p class="mt-4 text-sm text-n-slate-11">
+            <p class="mt-4 text-sm text-s-muted">
               {{ t('YEAR_IN_REVIEW.LOADING') }}
             </p>
           </div>
@@ -211,15 +211,15 @@ watch(
 
         <div
           v-else-if="error"
-          class="flex items-center justify-center w-full h-full bg-n-slate-2"
+          class="flex items-center justify-center w-full h-full bg-s-subtle"
         >
           <div class="text-center">
             <p class="text-lg font-semibold text-red-600">
               {{ t('YEAR_IN_REVIEW.ERROR') }}
             </p>
-            <p class="mt-2 text-sm text-n-slate-11">{{ error }}</p>
+            <p class="mt-2 text-sm text-s-muted">{{ error }}</p>
             <button
-              class="mt-4 px-4 py-2 rounded-full text-n-slate-12 dark:text-n-slate-1 bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
+              class="mt-4 px-4 py-2 rounded-full text-s-primary dark:text-s-inverse bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
               @click="close"
             >
               <span class="text-sm font-medium">{{
@@ -315,7 +315,7 @@ watch(
           >
             <button
               v-if="currentSlide > 0"
-              class="px-4 py-2 flex items-center gap-2 rounded-full text-n-slate-12 dark:text-n-slate-1 bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
+              class="px-4 py-2 flex items-center gap-2 rounded-full text-s-primary dark:text-s-inverse bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
               @click="previousSlide"
             >
               <i class="i-lucide-chevron-left w-5 h-5" />
@@ -340,7 +340,7 @@ watch(
             </div>
 
             <button
-              class="px-4 py-2 flex items-center gap-2 rounded-full text-n-slate-12 dark:text-n-slate-1 bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
+              class="px-4 py-2 flex items-center gap-2 rounded-full text-s-primary dark:text-s-inverse bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
               :class="{ invisible: currentVisualSlide === totalSlides - 1 }"
               @click="nextSlide"
             >
@@ -358,7 +358,7 @@ watch(
           </div>
 
           <button
-            class="absolute top-4 left-4 px-4 py-2 flex items-center gap-2 rounded-full text-n-slate-12 dark:text-n-slate-1 bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
+            class="absolute top-4 left-4 px-4 py-2 flex items-center gap-2 rounded-full text-s-primary dark:text-s-inverse bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors"
             @click="shareCurrentSlide"
           >
             <i class="i-lucide-share-2 w-5 h-5" />
@@ -368,7 +368,7 @@ watch(
           </button>
 
           <button
-            class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full text-n-slate-12 dark:text-n-slate-1 hover:bg-white hover:bg-opacity-20 transition-colors"
+            class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full text-s-primary dark:text-s-inverse hover:bg-white hover:bg-opacity-20 transition-colors"
             @click="close"
           >
             <i class="i-lucide-x w-6 h-6" />

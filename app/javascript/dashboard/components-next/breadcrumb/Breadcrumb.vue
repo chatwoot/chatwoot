@@ -35,20 +35,20 @@ const onClick = (item, index) => {
         <Icon
           v-if="index > 0"
           icon="i-lucide-chevron-right"
-          class="flex-shrink-0 mx-2 size-4 text-n-slate-11 dark:text-n-slate-11"
+          class="flex-shrink-0 mx-2 size-4 text-s-muted dark:text-s-muted"
         />
 
         <!-- Render as button for all except the last item -->
         <button
           v-if="index !== items.length - 1"
-          class="inline-flex items-center justify-center min-w-0 gap-2 p-0 text-sm font-medium transition-all duration-200 ease-in-out border-0 rounded-lg text-n-slate-11 hover:text-n-slate-12 outline-transparent max-w-56"
+          class="inline-flex items-center justify-center min-w-0 gap-2 p-0 text-sm font-medium transition-all duration-200 ease-in-out border-0 rounded-lg text-s-muted hover:text-s-primary outline-transparent max-w-56"
           @click="onClick(item, index)"
         >
           <span class="min-w-0 truncate">{{ item.label }}</span>
         </button>
 
         <!-- The last breadcrumb item is plain text -->
-        <span v-else class="text-sm truncate text-n-slate-12 min-w-0 block">
+        <span v-else class="text-sm truncate text-s-primary min-w-0 block">
           {{ item.emoji ? item.emoji : '' }} {{ item.label }}
         </span>
       </li>

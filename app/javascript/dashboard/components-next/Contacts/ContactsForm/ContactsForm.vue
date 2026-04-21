@@ -249,7 +249,7 @@ defineExpose({
 <template>
   <div class="flex flex-col gap-6">
     <div class="flex flex-col items-start gap-2">
-      <span class="py-1 text-sm font-medium text-n-slate-12">
+      <span class="py-1 text-sm font-medium text-s-primary">
         {{ t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.TITLE') }}
       </span>
       <div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
@@ -261,9 +261,9 @@ defineExpose({
             :placeholder="item.placeholder"
             class="[&>div>button]:h-8"
             :class="{
-              '[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:!outline-transparent':
+              '[&>div>button]:bg-s-primary/15 [&>div>button:not(.focused)]:!outline-transparent':
                 !isDetailsView,
-              '[&>div>button]:!bg-n-alpha-black2': isDetailsView,
+              '[&>div>button]:!bg-s-primary/15': isDetailsView,
             }"
             @update:model-value="handleCountrySelection"
           />
@@ -297,7 +297,7 @@ defineExpose({
       </div>
     </div>
     <div class="flex flex-col items-start gap-2">
-      <span class="py-1 text-sm font-medium text-n-slate-12">
+      <span class="py-1 text-sm font-medium text-s-primary">
         {{ t('CONTACTS_LAYOUT.CARD.SOCIAL_MEDIA.TITLE') }}
       </span>
       <div class="flex flex-wrap gap-2">
@@ -306,19 +306,19 @@ defineExpose({
           :key="item.key"
           class="flex items-center h-8 gap-2 px-2 rounded-lg"
           :class="{
-            'bg-n-alpha-2 dark:bg-n-solid-2': isDetailsView,
-            'bg-n-alpha-2 dark:bg-n-solid-3': !isDetailsView,
+            'bg-s-subtle dark:bg-s-subtle': isDetailsView,
+            'bg-s-subtle dark:bg-s-subtle': !isDetailsView,
           }"
         >
           <Icon
             :icon="item.icon"
-            class="flex-shrink-0 text-n-slate-11 size-4"
+            class="flex-shrink-0 text-s-muted size-4"
           />
           <input
             v-model="
               state.additionalAttributes.socialProfiles[item.key.toLowerCase()]
             "
-            class="w-auto min-w-[100px] text-sm bg-transparent outline-none reset-base text-n-slate-12 dark:text-n-slate-12 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10"
+            class="w-auto min-w-[100px] text-sm bg-transparent outline-none reset-base text-s-primary dark:text-s-primary placeholder:text-s-muted dark:placeholder:text-s-muted"
             :placeholder="item.placeholder"
             :size="item.placeholder.length"
             @input="emit('update', state)"

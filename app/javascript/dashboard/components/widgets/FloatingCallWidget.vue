@@ -95,9 +95,9 @@ watch(
     <div
       v-for="call in hasActiveCall ? incomingCalls : []"
       :key="call.callSid"
-      class="flex items-center gap-3 p-4 bg-n-solid-2 rounded-xl shadow-xl outline outline-1 outline-n-strong"
+      class="flex items-center gap-3 p-4 bg-s-subtle rounded-xl shadow-xl outline outline-1 outline-s-border-strong"
     >
-      <div class="animate-pulse ring-2 ring-n-teal-9 rounded-full inline-flex">
+      <div class="animate-pulse ring-2 ring-s-success rounded-full inline-flex">
         <Avatar
           :src="getCallInfo(call).avatar"
           :name="getCallInfo(call).contactName"
@@ -106,22 +106,22 @@ watch(
         />
       </div>
       <div class="flex-1 min-w-0">
-        <p class="text-sm font-medium text-n-slate-12 truncate mb-0">
+        <p class="text-sm font-medium text-s-primary truncate mb-0">
           {{ getCallInfo(call).contactName }}
         </p>
-        <p class="text-xs text-n-slate-11 truncate">
+        <p class="text-xs text-s-muted truncate">
           {{ getCallInfo(call).inboxName }}
         </p>
       </div>
       <div class="flex shrink-0 gap-2">
         <button
-          class="flex justify-center items-center w-10 h-10 bg-n-ruby-9 hover:bg-n-ruby-10 rounded-full transition-colors"
+          class="flex justify-center items-center w-10 h-10 bg-s-error hover:bg-s-error rounded-full transition-colors"
           @click="dismissCall(call.callSid)"
         >
           <i class="text-lg text-white i-ph-phone-x-bold" />
         </button>
         <button
-          class="flex justify-center items-center w-10 h-10 bg-n-teal-9 hover:bg-n-teal-10 rounded-full transition-colors"
+          class="flex justify-center items-center w-10 h-10 bg-s-success hover:bg-s-success rounded-full transition-colors"
           @click="handleJoinCall(call)"
         >
           <i class="text-lg text-white i-ph-phone-bold" />
@@ -132,10 +132,10 @@ watch(
     <!-- Main Call Widget -->
     <div
       v-if="hasActiveCall || incomingCalls.length"
-      class="flex items-center gap-3 p-4 bg-n-solid-2 rounded-xl shadow-xl outline outline-1 outline-n-strong"
+      class="flex items-center gap-3 p-4 bg-s-subtle rounded-xl shadow-xl outline outline-1 outline-s-border-strong"
     >
       <div
-        class="ring-2 ring-n-teal-9 rounded-full inline-flex"
+        class="ring-2 ring-s-success rounded-full inline-flex"
         :class="{ 'animate-pulse': !hasActiveCall }"
       >
         <Avatar
@@ -146,13 +146,13 @@ watch(
         />
       </div>
       <div class="flex-1 min-w-0">
-        <p class="text-sm font-medium text-n-slate-12 truncate mb-0">
+        <p class="text-sm font-medium text-s-primary truncate mb-0">
           {{ getCallInfo(activeCall || incomingCalls[0]).contactName }}
         </p>
-        <p v-if="hasActiveCall" class="font-mono text-sm text-n-teal-9">
+        <p v-if="hasActiveCall" class="font-mono text-sm text-s-success">
           {{ formattedCallDuration }}
         </p>
-        <p v-else class="text-xs text-n-slate-11">
+        <p v-else class="text-xs text-s-muted">
           {{
             incomingCalls[0]?.callDirection === 'outbound'
               ? $t('CONVERSATION.VOICE_WIDGET.OUTGOING_CALL')
@@ -162,7 +162,7 @@ watch(
       </div>
       <div class="flex shrink-0 gap-2">
         <button
-          class="flex justify-center items-center w-10 h-10 bg-n-ruby-9 hover:bg-n-ruby-10 rounded-full transition-colors"
+          class="flex justify-center items-center w-10 h-10 bg-s-error hover:bg-s-error rounded-full transition-colors"
           @click="
             hasActiveCall
               ? handleEndCall()
@@ -173,7 +173,7 @@ watch(
         </button>
         <button
           v-if="!hasActiveCall"
-          class="flex justify-center items-center w-10 h-10 bg-n-teal-9 hover:bg-n-teal-10 rounded-full transition-colors"
+          class="flex justify-center items-center w-10 h-10 bg-s-success hover:bg-s-success rounded-full transition-colors"
           @click="handleJoinCall(incomingCalls[0])"
         >
           <i class="text-lg text-white i-ph-phone-bold" />

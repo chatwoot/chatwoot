@@ -201,9 +201,9 @@ onMounted(async () => {
       />
       <div
         v-if="isConversationLoading"
-        class="flex items-center flex-1 my-4 justify-center bg-n-solid-1"
+        class="flex items-center flex-1 my-4 justify-center bg-s-surface"
       >
-        <Spinner class="text-n-brand" />
+        <Spinner class="text-s-brand" />
       </div>
       <div v-else class="flex h-[calc(100%-48px)] min-w-0">
         <ConversationBox

@@ -81,10 +81,10 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="rounded-xl transition-[border-bottom] duration-[0.2s] ease-[ease-in-out] relative flex items-start flex-col border border-solid bg-n-solid-1 divide-y divide-n-strong"
+    class="rounded-xl transition-[border-bottom] duration-[0.2s] ease-[ease-in-out] relative flex items-start flex-col border border-solid bg-s-surface divide-y divide-s-border-strong"
     :class="{
-      'border-n-brand': isInputFocused,
-      'border-n-strong': !isInputFocused,
+      'border-s-brand': isInputFocused,
+      'border-s-border-strong': !isInputFocused,
     }"
   >
     <div class="flex items-center w-full h-[3.25rem] px-4 gap-2">
@@ -94,8 +94,8 @@ onUnmounted(() => {
           class="icon"
           aria-hidden="true"
           :class="{
-            'text-n-blue-11': isInputFocused,
-            'text-n-slate-10': !isInputFocused,
+            'text-s-brand-text': isInputFocused,
+            'text-s-muted': !isInputFocused,
           }"
         />
       </div>
@@ -103,13 +103,13 @@ onUnmounted(() => {
         ref="searchInput"
         v-model="searchQuery"
         type="search"
-        class="reset-base outline-none w-full m-0 bg-transparent border-transparent shadow-none text-n-slate-12 dark:text-n-slate-12 active:border-transparent active:shadow-none hover:border-transparent hover:shadow-none focus:border-transparent focus:shadow-none placeholder:text-n-slate-10 text-base"
+        class="reset-base outline-none w-full m-0 bg-transparent border-transparent shadow-none text-s-primary dark:text-s-primary active:border-transparent active:shadow-none hover:border-transparent hover:shadow-none focus:border-transparent focus:shadow-none placeholder:text-s-muted text-base"
         :placeholder="$t('SEARCH.INPUT_PLACEHOLDER')"
         @focus="onFocus"
         @blur="onBlur"
         @input="onInput"
       />
-      <span class="text-sm text-n-slate-10 flex-shrink-0">
+      <span class="text-sm text-s-muted flex-shrink-0">
         {{ $t('SEARCH.PLACEHOLDER_KEYBINDING') }}
       </span>
     </div>

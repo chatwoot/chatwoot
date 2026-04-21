@@ -9,12 +9,12 @@ defineProps({
 <template>
   <div class="flex items-center justify-center p-8">
     <h6
-      class="flex items-center gap-3 text-base text-center w-100 text-n-slate-11"
+      class="flex items-center gap-3 text-base text-center w-100 text-s-muted"
     >
-      <span class="text-body-main !text-base text-n-slate-12">
+      <span class="text-body-main !text-base text-s-primary">
         {{ message }}
       </span>
-      <Spinner class="text-n-brand" />
+      <Spinner class="text-s-brand" />
     </h6>
   </div>
 </template>

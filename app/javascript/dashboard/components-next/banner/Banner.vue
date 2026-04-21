@@ -20,11 +20,11 @@ const emit = defineEmits(['action']);
 
 const bannerClass = computed(() => {
   const classMap = {
-    slate: 'bg-n-slate-3 border-n-slate-4 text-n-slate-11',
-    amber: 'bg-n-amber-3 border-n-amber-4 text-n-amber-11',
-    teal: 'bg-n-teal-3 border-n-teal-4 text-n-teal-11',
-    ruby: 'bg-n-ruby-3 border-n-ruby-4 text-n-ruby-11',
-    blue: 'bg-n-blue-3 border-n-blue-4 text-n-blue-11',
+    slate: 'bg-s-subtle border-s-border-subtle text-s-muted',
+    amber: 'bg-s-warning-soft border-s-border text-s-warning-text',
+    teal: 'bg-s-success-soft border-s-success/30 text-s-success-text',
+    ruby: 'bg-s-error-soft border-s-border text-s-error-text',
+    blue: 'bg-s-brand-soft border-s-brand-soft text-s-brand-text',
   };
 
   return classMap[props.color];
@@ -32,11 +32,11 @@ const bannerClass = computed(() => {
 
 const buttonClass = computed(() => {
   const classMap = {
-    slate: 'bg-n-slate-4 hover:bg-n-slate-5 text-n-slate-11',
-    amber: 'bg-n-amber-4 hover:bg-n-amber-5 text-n-amber-11',
-    teal: 'bg-n-teal-4 hover:bg-n-teal-5 text-n-teal-11',
-    ruby: 'bg-n-ruby-4 hover:bg-n-ruby-5 text-n-ruby-11',
-    blue: 'bg-n-blue-4 hover:bg-n-blue-5 text-n-blue-11',
+    slate: 'bg-s-subtle hover:bg-s-border-subtle text-s-muted',
+    amber: 'bg-s-warning-soft hover:bg-s-warning-soft text-s-warning-text',
+    teal: 'bg-s-success-soft hover:bg-s-success/30 text-s-success-text',
+    ruby: 'bg-s-error-soft hover:bg-s-error-soft text-s-error-text',
+    blue: 'bg-s-brand-soft hover:bg-s-brand-soft text-s-brand-text',
   };
 
   return classMap[props.color];

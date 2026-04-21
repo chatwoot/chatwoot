@@ -76,7 +76,7 @@ onMounted(() => {
       @mousedown="handleMouseDown"
     >
       <div
-        class="relative max-h-full overflow-auto bg-n-alpha-3 shadow-md modal-container rtl:text-right skip-context-menu"
+        class="relative max-h-full overflow-auto bg-s-subtle shadow-md modal-container rtl:text-right skip-context-menu"
         :class="{
           'rounded-xl w-[37.5rem]': !fullWidth,
           'items-center rounded-none flex h-full justify-center w-full':
@@ -102,7 +102,7 @@ onMounted(() => {
 
 <style lang="scss">
 .modal-mask {
-  @apply flex items-center justify-center bg-n-alpha-black2 backdrop-blur-[4px] z-[9990] h-full left-0 fixed top-0 w-full;
+  @apply flex items-center justify-center bg-s-primary/15 backdrop-blur-[4px] z-[9990] h-full left-0 fixed top-0 w-full;
 
   .modal-container {
     &.medium {

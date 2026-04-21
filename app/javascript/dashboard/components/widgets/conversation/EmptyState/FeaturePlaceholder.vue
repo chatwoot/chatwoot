@@ -31,17 +31,17 @@ export default {
     >
       <div class="flex items-center gap-2">
         <Hotkey
-          custom-class="w-8 h-6 text-lg font-medium text-n-slate-12 outline outline-n-container outline-1 bg-n-alpha-3"
+          custom-class="w-8 h-6 text-lg font-medium text-s-primary outline outline-s-border outline-1 bg-s-subtle"
         >
           ⌘
         </Hotkey>
         <Hotkey
-          custom-class="w-8 h-6 text-xs font-medium text-n-slate-12 outline outline-n-container outline-1 bg-n-alpha-3"
+          custom-class="w-8 h-6 text-xs font-medium text-s-primary outline outline-s-border outline-1 bg-s-subtle"
         >
           {{ keyShortcut.key }}
         </Hotkey>
       </div>
-      <span class="text-sm font-medium text-center text-n-slate-12">
+      <span class="text-sm font-medium text-center text-s-primary">
         {{ keyShortcut.description }}
       </span>
     </div>

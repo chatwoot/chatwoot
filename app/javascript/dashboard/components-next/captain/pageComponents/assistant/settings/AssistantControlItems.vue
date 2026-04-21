@@ -19,11 +19,11 @@ const onClick = name => {
 <template>
   <div
     :key="controlItem.name"
-    class="pt-3 ltr:pl-4 rtl:pr-4 ltr:pr-2 rtl:pl-2 pb-5 gap-2 flex flex-col w-full shadow outline-1 outline outline-n-container rounded-2xl bg-n-solid-2 cursor-pointer"
+    class="pt-3 ltr:pl-4 rtl:pr-4 ltr:pr-2 rtl:pl-2 pb-5 gap-2 flex flex-col w-full shadow outline-1 outline outline-s-border rounded-2xl bg-s-subtle cursor-pointer"
     @click="onClick(controlItem.routeName)"
   >
     <div class="flex items-center justify-between w-full gap-1 h-8">
-      <span class="text-sm font-medium text-n-slate-12 line-clamp-1">
+      <span class="text-sm font-medium text-s-primary line-clamp-1">
         {{ controlItem.name }}
       </span>
       <div class="flex items-center gap-2">
@@ -36,7 +36,7 @@ const onClick = name => {
         />
       </div>
     </div>
-    <span class="text-n-slate-11 text-sm leading-[21px] line-clamp-5">
+    <span class="text-s-muted text-sm leading-[21px] line-clamp-5">
       {{ controlItem.description }}
     </span>
   </div>

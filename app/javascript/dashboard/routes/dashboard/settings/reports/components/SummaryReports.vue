@@ -208,7 +208,7 @@ defineExpose({ downloadReports });
     @filter-change="onFilterChange"
   />
   <div
-    class="relative flex-1 overflow-auto px-2 py-2 mt-5 shadow outline-1 outline outline-n-container rounded-xl bg-s-subtle"
+    class="relative flex-1 overflow-auto px-2 py-2 mt-5 shadow outline-1 outline outline-s-border rounded-xl bg-s-subtle"
   >
     <Table :table="table" />
     <Transition

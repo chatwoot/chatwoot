@@ -59,22 +59,22 @@ const openDatePicker = () => {
 <template>
   <div class="inline-flex items-center gap-1">
     <button
-      class="inline-flex relative items-center rounded-lg gap-2 py-1.5 px-3 h-8 bg-n-alpha-2 hover:bg-n-alpha-1 active:bg-n-alpha-1 flex-shrink-0"
+      class="inline-flex relative items-center rounded-lg gap-2 py-1.5 px-3 h-8 bg-s-subtle hover:bg-s-subtle active:bg-s-subtle flex-shrink-0"
       @click="openDatePicker"
     >
       <Icon
         icon="i-lucide-calendar-range"
-        class="text-n-slate-11 size-3.5 flex-shrink-0"
+        class="text-s-muted size-3.5 flex-shrink-0"
       />
-      <span class="text-sm font-medium text-n-slate-12 truncate">
+      <span class="text-sm font-medium text-s-primary truncate">
         {{ navigationLabel || $t(activeDateRange) }}
       </span>
-      <span class="text-sm font-medium text-n-slate-11 truncate">
+      <span class="text-sm font-medium text-s-muted truncate">
         {{ formatDateRange }}
       </span>
       <Icon
         icon="i-lucide-chevron-down"
-        class="text-n-slate-12 size-4 flex-shrink-0"
+        class="text-s-primary size-4 flex-shrink-0"
       />
     </button>
     <NextButton

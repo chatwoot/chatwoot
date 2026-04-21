@@ -102,10 +102,10 @@ watch(
         trailing-icon
         :disabled="disabled"
         no-animation
-        class="justify-between w-full !px-3 !py-2.5 text-n-slate-12 font-normal group-hover/combobox:border-n-slate-6 focus:outline-n-brand"
+        class="justify-between w-full !px-3 !py-2.5 text-s-primary font-normal group-hover/combobox:border-s-border focus:outline-s-brand"
         :class="{
           focused: open,
-          '[&:not(.focused)]:dark:outline-n-weak [&:not(.focused)]:hover:enabled:outline-n-slate-6 [&:not(.focused)]:dark:hover:enabled:outline-n-slate-6':
+          '[&:not(.focused)]:dark:outline-s-border [&:not(.focused)]:hover:enabled:outline-s-border [&:not(.focused)]:dark:hover:enabled:outline-s-border':
             !hasError,
         }"
         :icon="open ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
@@ -128,8 +128,8 @@ watch(
         v-if="message"
         class="mt-2 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
         :class="{
-          'text-n-ruby-9': hasError,
-          'text-n-slate-11': !hasError,
+          'text-s-error': hasError,
+          'text-s-muted': !hasError,
         }"
       >
         {{ message }}

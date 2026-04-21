@@ -25,7 +25,7 @@ const formattedHelpText = computed(() => {
 
 <template>
   <div
-    class="flex-1 w-full px-6 py-5 outline outline-n-container outline-1 bg-s-surface rounded-xl"
+    class="flex-1 w-full px-6 py-5 outline outline-s-border outline-1 bg-s-surface rounded-xl"
   >
     <div class="prose-lg max-w-5xl">
       <h5 class="text-s-primary text-heading-1 tracking-tight">

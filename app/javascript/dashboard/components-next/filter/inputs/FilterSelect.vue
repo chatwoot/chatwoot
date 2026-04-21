@@ -95,7 +95,7 @@ const updateSelected = newValue => {
         <template v-for="option in options" :key="option.value">
           <li
             v-if="option.disabled"
-            class="px-2 py-1.5 text-xs font-medium text-n-slate-10 select-none"
+            class="px-2 py-1.5 text-xs font-medium text-s-muted select-none"
           >
             {{ option.label }}
           </li>

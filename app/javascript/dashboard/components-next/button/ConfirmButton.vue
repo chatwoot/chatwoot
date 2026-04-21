@@ -73,7 +73,7 @@ const handleClick = () => {
     </Button>
     <div
       v-if="isConfirmMode && confirmHint"
-      class="absolute mt-1 w-full text-[10px] text-center text-n-slate-10"
+      class="absolute mt-1 w-full text-[10px] text-center text-s-muted"
     >
       {{ confirmHint }}
     </div>

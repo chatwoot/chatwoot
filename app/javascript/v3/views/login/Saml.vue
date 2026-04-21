@@ -69,7 +69,7 @@ onMounted(async () => {
 
 <template>
   <main
-    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
+    class="flex flex-col w-full min-h-screen py-20 bg-s-brand/5 dark:bg-s-bg sm:px-6 lg:px-8"
   >
     <section class="max-w-5xl mx-auto">
       <img
@@ -83,12 +83,12 @@ onMounted(async () => {
         :alt="globalConfig.installationName"
         class="hidden w-auto h-8 mx-auto dark:block"
       />
-      <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
+      <h2 class="mt-6 text-3xl font-medium text-center text-s-primary">
         {{ t('LOGIN.SAML.TITLE') }}
       </h2>
     </section>
     <section
-      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
+      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-s-subtle p-11 sm:shadow-lg sm:rounded-lg"
       :class="{
         'animate-wiggle': loginApi.hasErrored,
       }"
@@ -123,8 +123,8 @@ onMounted(async () => {
         />
       </form>
     </section>
-    <p class="mt-6 text-sm text-center text-n-slate-11">
-      <router-link to="/app/login" class="text-link text-n-brand">
+    <p class="mt-6 text-sm text-center text-s-muted">
+      <router-link to="/app/login" class="text-link text-s-brand">
         {{ t('LOGIN.SAML.BACK_TO_LOGIN') }}
       </router-link>
     </p>

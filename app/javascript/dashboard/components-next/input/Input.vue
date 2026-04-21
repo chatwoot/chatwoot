@@ -42,20 +42,20 @@ const inputRef = ref(null);
 const messageClass = computed(() => {
   switch (props.messageType) {
     case 'error':
-      return 'text-n-ruby-9 dark:text-n-ruby-9';
+      return 'text-s-error dark:text-s-error';
     case 'success':
-      return 'text-n-teal-10 dark:text-n-teal-10';
+      return 'text-s-success dark:text-s-success';
     default:
-      return 'text-n-slate-11 dark:text-n-slate-11';
+      return 'text-s-muted dark:text-s-muted';
   }
 });
 
 const inputOutlineClass = computed(() => {
   switch (props.messageType) {
     case 'error':
-      return 'outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8';
+      return 'outline-s-error dark:outline-s-error hover:outline-s-error dark:hover:outline-s-error disabled:outline-s-error dark:disabled:outline-s-error';
     default:
-      return 'outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 disabled:outline-n-weak dark:disabled:outline-n-weak focus:outline-n-brand dark:focus:outline-n-brand';
+      return 'outline-s-border dark:outline-s-border hover:outline-s-border dark:hover:outline-s-border disabled:outline-s-border dark:disabled:outline-s-border focus:outline-s-brand dark:focus:outline-s-brand';
   }
 });
 
@@ -108,7 +108,7 @@ onMounted(() => {
     <label
       v-if="label"
       :for="uniqueId"
-      class="mb-0.5 text-heading-3 text-n-slate-12"
+      class="mb-0.5 text-heading-3 text-s-primary"
     >
       {{ label }}
     </label>
@@ -137,7 +137,7 @@ onMounted(() => {
           ? max
           : undefined
       "
-      class="block w-full reset-base text-sm !mb-0 outline outline-1 border-none border-0 outline-offset-[-1px] rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+      class="block w-full reset-base text-sm !mb-0 outline outline-1 border-none border-0 outline-offset-[-1px] rounded-lg bg-s-primary/15 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-s-muted dark:placeholder:text-s-muted disabled:cursor-not-allowed disabled:opacity-50 text-s-primary transition-all duration-500 ease-in-out [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
       @input="handleInput"
       @focus="handleFocus"
       @blur="handleBlur"

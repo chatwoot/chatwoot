@@ -159,7 +159,7 @@ const handleToggleWidget = () => {
       />
 
       <div v-if="isPreviewTab" class="flex items-center gap-2">
-        <span class="text-heading-3 text-n-slate-11">
+        <span class="text-heading-3 text-s-muted">
           {{ $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_SCREEN.CHAT') }}
         </span>
         <Switch v-model="isChatMode" />
@@ -173,7 +173,7 @@ const handleToggleWidget = () => {
       >
         <div
           v-if="isWidgetVisible"
-          class="widget-wrapper flex flex-1 flex-shrink-0 flex-col justify-between rounded-lg shadow-md bg-n-slate-2 dark:bg-n-solid-1 h-[31.25rem] w-80 mb-4"
+          class="widget-wrapper flex flex-1 flex-shrink-0 flex-col justify-between rounded-lg shadow-md bg-s-subtle dark:bg-s-surface h-[31.25rem] w-80 mb-4"
         >
           <WidgetHead :config="getWidgetConfig" />
           <div>
@@ -184,7 +184,7 @@ const handleToggleWidget = () => {
             <WidgetFooter :config="getWidgetConfig" />
             <div class="py-2.5 flex justify-center">
               <a
-                class="items-center gap-0.5 text-n-slate-11 cursor-pointer flex filter grayscale opacity-90 hover:grayscale-0 hover:opacity-100 text-xxs"
+                class="items-center gap-0.5 text-s-muted cursor-pointer flex filter grayscale opacity-90 hover:grayscale-0 hover:opacity-100 text-xxs"
               >
                 <img
                   class="max-w-2.5 max-h-2.5"
@@ -237,7 +237,7 @@ const handleToggleWidget = () => {
 
       <div
         v-else
-        class="flex-1 p-3 rounded-lg [&_code]:!bg-n-slate-2 bg-n-slate-2 min-w-0 overflow-auto [&_pre]:whitespace-pre-wrap [&_pre]:break-words [&_code]:whitespace-pre-wrap"
+        class="flex-1 p-3 rounded-lg [&_code]:!bg-s-subtle bg-s-subtle min-w-0 overflow-auto [&_pre]:whitespace-pre-wrap [&_pre]:break-words [&_code]:whitespace-pre-wrap"
       >
         <Code
           :script="widgetScript"

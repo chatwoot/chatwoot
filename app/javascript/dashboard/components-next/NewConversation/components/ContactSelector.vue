@@ -83,7 +83,7 @@ const selectedContactLabel = computed(() => {
 
 const errorClass = computed(() => {
   return props.hasErrors
-    ? '[&_input]:placeholder:!text-n-ruby-9 [&_input]:dark:placeholder:!text-n-ruby-9'
+    ? '[&_input]:placeholder:!text-s-error [&_input]:dark:placeholder:!text-s-error'
     : '';
 });
 
@@ -99,24 +99,24 @@ const handleInput = value => {
 <template>
   <div class="relative flex-1 px-4 py-3 overflow-y-visible">
     <div class="flex items-baseline w-full gap-3 min-h-7">
-      <label class="text-sm font-medium text-n-slate-11 whitespace-nowrap">
+      <label class="text-sm font-medium text-s-muted whitespace-nowrap">
         {{ t(`${i18nPrefix}.LABEL`) }}
       </label>
 
       <div
         v-if="isCreatingContact"
-        class="flex items-center gap-1.5 rounded-md bg-n-alpha-2 px-3 min-h-7 min-w-0"
+        class="flex items-center gap-1.5 rounded-md bg-s-subtle px-3 min-h-7 min-w-0"
       >
-        <span class="text-sm truncate text-n-slate-12">
+        <span class="text-sm truncate text-s-primary">
           {{ t(`${i18nPrefix}.CONTACT_CREATING`) }}
         </span>
       </div>
       <div
         v-else-if="selectedContact"
-        class="flex items-center gap-1.5 rounded-md bg-n-alpha-2 min-h-7 min-w-0"
+        class="flex items-center gap-1.5 rounded-md bg-s-subtle min-h-7 min-w-0"
         :class="!contactId ? 'ltr:pl-3 rtl:pr-3 ltr:pr-1 rtl:pl-1' : 'px-3'"
       >
-        <span class="text-sm truncate text-n-slate-12">
+        <span class="text-sm truncate text-s-primary">
           {{
             isCreatingContact
               ? t(`${i18nPrefix}.CONTACT_CREATING`)

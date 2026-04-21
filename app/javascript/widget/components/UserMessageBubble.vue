@@ -39,11 +39,11 @@ export default {
 <style lang="scss" scoped>
 .chat-bubble.user::v-deep {
   p code {
-    @apply bg-n-alpha-2 dark:bg-n-alpha-1 text-white;
+    @apply bg-s-subtle dark:bg-s-subtle text-white;
   }
 
   pre {
-    @apply text-white bg-n-alpha-2 dark:bg-n-alpha-1;
+    @apply text-white bg-s-subtle dark:bg-s-subtle;
 
     code {
       @apply bg-transparent text-white;
@@ -51,10 +51,10 @@ export default {
   }
 
   blockquote {
-    @apply bg-transparent border-n-slate-7 ltr:border-l-2 rtl:border-r-2 border-solid;
+    @apply bg-transparent border-s-border ltr:border-l-2 rtl:border-r-2 border-solid;
 
     p {
-      @apply text-n-slate-5 dark:text-n-slate-12/90;
+      @apply text-s-disabled dark:text-s-primary/90;
     }
   }
 }

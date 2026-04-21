@@ -84,7 +84,7 @@ const performanceHelperText = computed(() => {
           class="w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16"
         />
         <p
-          class="text-xl md:text-3xl lg:text-4xl font-medium tracking-[-0.2px] text-n-slate-12 dark:text-n-slate-1"
+          class="text-xl md:text-3xl lg:text-4xl font-medium tracking-[-0.2px] text-s-primary dark:text-s-inverse"
         >
           {{ performanceHelperText }}
         </p>

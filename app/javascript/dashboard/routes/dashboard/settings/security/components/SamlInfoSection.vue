@@ -71,7 +71,7 @@ const handleCopy = async text => {
       />
     </div>
     <section
-      class="rounded-xl border border-s-border bg-s-surface w-full text-sm text-s-primary divide-y divide-n-weak"
+      class="rounded-xl border border-s-border bg-s-surface w-full text-sm text-s-primary divide-y divide-s-border"
     >
       <div
         v-for="item in visibleInfoItems"

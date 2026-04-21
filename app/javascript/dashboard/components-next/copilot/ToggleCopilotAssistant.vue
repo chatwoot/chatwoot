@@ -40,7 +40,7 @@ const activeAssistantLabel = computed(() => {
           ghost
           slate
           xs
-          :class="{ 'bg-n-alpha-2': isOpen }"
+          :class="{ 'bg-s-subtle': isOpen }"
           @click="toggle"
         />
       </template>
@@ -55,20 +55,20 @@ const activeAssistantLabel = computed(() => {
             <template #label>
               <div class="flex gap-1 justify-between w-full">
                 <div class="items-start flex gap-1 flex-col">
-                  <span class="text-n-slate-12 text-sm">
+                  <span class="text-s-primary text-sm">
                     {{ assistant.name }}
                   </span>
-                  <span class="line-clamp-2 text-n-slate-11 text-xs">
+                  <span class="line-clamp-2 text-s-muted text-xs">
                     {{ assistant.description }}
                   </span>
                 </div>
 
                 <div
                   v-if="assistant.id === activeAssistant?.id"
-                  class="flex items-center justify-center flex-shrink-0 w-4 h-4 rounded-full bg-n-slate-12 dark:bg-n-slate-11"
+                  class="flex items-center justify-center flex-shrink-0 w-4 h-4 rounded-full bg-s-primary dark:bg-s-muted"
                 >
                   <i
-                    class="i-lucide-check text-white dark:text-n-slate-1 size-3"
+                    class="i-lucide-check text-white dark:text-s-inverse size-3"
                   />
                 </div>
               </div>

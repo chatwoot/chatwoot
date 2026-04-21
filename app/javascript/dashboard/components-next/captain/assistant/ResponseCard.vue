@@ -136,7 +136,7 @@ const handleDocumentableClick = () => {
       <Checkbox v-model="modelValue" />
     </div>
     <div class="flex relative justify-between w-full gap-1">
-      <span class="text-base text-n-slate-12 line-clamp-1">
+      <span class="text-base text-s-primary line-clamp-1">
         {{ question }}
       </span>
       <div v-if="!compact && showMenu" class="flex items-center gap-2">
@@ -149,7 +149,7 @@ const handleDocumentableClick = () => {
             icon="i-lucide-ellipsis-vertical"
             color="slate"
             size="xs"
-            class="rounded-md group-hover:bg-n-alpha-2"
+            class="rounded-md group-hover:bg-s-subtle"
             @click="toggleDropdown()"
           />
           <DropdownMenu
@@ -161,7 +161,7 @@ const handleDocumentableClick = () => {
         </Policy>
       </div>
     </div>
-    <span class="text-n-slate-11 text-sm line-clamp-5">
+    <span class="text-s-muted text-sm line-clamp-5">
       {{ answer }}
     </span>
     <div
@@ -215,14 +215,14 @@ const handleDocumentableClick = () => {
         <div class="inline-flex items-center gap-3 min-w-0">
           <span
             v-if="status === 'approved'"
-            class="text-sm shrink-0 truncate text-n-slate-11 inline-flex items-center gap-1"
+            class="text-sm shrink-0 truncate text-s-muted inline-flex items-center gap-1"
           >
             <Icon icon="i-woot-captain" class="size-3.5" />
             {{ assistant?.name || '' }}
           </span>
           <div
             v-if="documentable"
-            class="text-sm text-n-slate-11 grid grid-cols-[auto_1fr] items-center gap-1 min-w-0"
+            class="text-sm text-s-muted grid grid-cols-[auto_1fr] items-center gap-1 min-w-0"
           >
             <Icon
               v-if="documentable.type === 'Captain::Document'"
@@ -268,7 +268,7 @@ const handleDocumentableClick = () => {
           </div>
         </div>
         <div
-          class="shrink-0 text-sm text-n-slate-11 line-clamp-1 inline-flex items-center gap-1"
+          class="shrink-0 text-sm text-s-muted line-clamp-1 inline-flex items-center gap-1"
         >
           <Icon icon="i-ph-calendar-dot" class="size-3.5" />
           {{ timestamp }}

@@ -223,7 +223,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
     />
 
     <div class="flex flex-col gap-1">
-      <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">
+      <label for="inbox" class="mb-0.5 text-sm font-medium text-s-primary">
         {{ t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.INBOX.LABEL') }}
       </label>
       <ComboBox
@@ -233,12 +233,12 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
         :has-error="!!formErrors.inbox"
         :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.INBOX.PLACEHOLDER')"
         :message="formErrors.inbox"
-        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
+        class="[&>div>button]:bg-s-primary/15 [&>div>button:not(.focused)]:dark:outline-s-border [&>div>button:not(.focused)]:hover:!outline-s-border"
       />
     </div>
 
     <div class="flex flex-col gap-1">
-      <label for="sentBy" class="mb-0.5 text-sm font-medium text-n-slate-12">
+      <label for="sentBy" class="mb-0.5 text-sm font-medium text-s-primary">
         {{ t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.SENT_BY.LABEL') }}
       </label>
       <ComboBox
@@ -248,7 +248,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
         :has-error="!!formErrors.sender"
         :disabled="!state.inboxId"
         :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.SENT_BY.PLACEHOLDER')"
-        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
+        class="[&>div>button]:bg-s-primary/15 [&>div>button:not(.focused)]:dark:outline-s-border [&>div>button:not(.focused)]:hover:!outline-s-border"
         :message="formErrors.sender"
       />
     </div>
@@ -274,20 +274,20 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
     />
 
     <fieldset class="flex flex-col gap-2.5">
-      <legend class="mb-2.5 text-sm font-medium text-n-slate-12">
+      <legend class="mb-2.5 text-sm font-medium text-s-primary">
         {{ t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.OTHER_PREFERENCES.TITLE') }}
       </legend>
 
       <label class="flex items-center gap-2">
         <input v-model="state.enabled" type="checkbox" />
-        <span class="text-sm font-medium text-n-slate-12">
+        <span class="text-sm font-medium text-s-primary">
           {{ t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.OTHER_PREFERENCES.ENABLED') }}
         </span>
       </label>
 
       <label class="flex items-center gap-2">
         <input v-model="state.triggerOnlyDuringBusinessHours" type="checkbox" />
-        <span class="text-sm font-medium text-n-slate-12">
+        <span class="text-sm font-medium text-s-primary">
           {{
             t(
               'CAMPAIGN.LIVE_CHAT.CREATE.FORM.OTHER_PREFERENCES.TRIGGER_ONLY_BUSINESS_HOURS'
@@ -306,7 +306,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
         variant="faded"
         color="slate"
         :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.BUTTONS.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
+        class="w-full bg-s-subtle text-s-brand-text hover:bg-s-subtle"
         @click="handleCancel"
       />
       <Button

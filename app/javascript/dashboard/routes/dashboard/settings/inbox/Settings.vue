@@ -1186,7 +1186,7 @@ export default {
             class="flex-1 sticky top-4 self-start max-w-lg flex-shrink-0 w-full min-w-0"
           >
             <div
-              class="flex flex-col outline -outline-offset-1 outline-1 outline-n-weak w-full px-3 pt-3 pb-8 bg-s-surface rounded-2xl min-h-[45rem] overflow-hidden"
+              class="flex flex-col outline -outline-offset-1 outline-1 outline-s-border w-full px-3 pt-3 pb-8 bg-s-surface rounded-2xl min-h-[45rem] overflow-hidden"
             >
               <Widget
                 :welcome-heading="channelWelcomeTitle"

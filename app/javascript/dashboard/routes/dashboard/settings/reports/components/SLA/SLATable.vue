@@ -57,7 +57,7 @@ export default {
 <template>
   <div>
     <div
-      class="min-w-full shadow outline-1 outline outline-n-container rounded-xl bg-s-subtle p-6"
+      class="min-w-full shadow outline-1 outline outline-s-border rounded-xl bg-s-subtle p-6"
     >
       <div
         class="grid content-center h-12 grid-cols-12 gap-4 px-6 py-0 bg-s-subtle rounded-md"

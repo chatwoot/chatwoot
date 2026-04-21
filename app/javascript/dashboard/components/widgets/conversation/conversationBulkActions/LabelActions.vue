@@ -44,7 +44,7 @@ const handleAssign = () => {
 <template>
   <div
     v-on-click-outside="onClose"
-    class="absolute ltr:right-2 rtl:left-2 top-12 origin-top-right z-20 w-60 bg-n-alpha-3 backdrop-blur-[100px] border-n-weak rounded-lg border border-solid shadow-md"
+    class="absolute ltr:right-2 rtl:left-2 top-12 origin-top-right z-20 w-60 bg-s-subtle backdrop-blur-[100px] border-s-border rounded-lg border border-solid shadow-md"
     role="dialog"
     aria-labelledby="label-dialog-title"
   >
@@ -78,7 +78,7 @@ const handleAssign = () => {
         :aria-label="t('BULK_ACTION.LABELS.ASSIGN_LABELS')"
       >
         <li v-if="!hasFilteredLabels" class="p-2 text-center">
-          <span class="text-sm text-n-slate-11">{{
+          <span class="text-sm text-s-muted">{{
             t('BULK_ACTION.LABELS.NO_LABELS_FOUND')
           }}</span>
         </li>
@@ -90,7 +90,7 @@ const handleAssign = () => {
           :aria-selected="isLabelSelected(label.title)"
         >
           <label
-            class="items-center rounded-md cursor-pointer flex py-1 px-2.5 hover:bg-n-slate-3 dark:hover:bg-n-solid-3 has-[:checked]:bg-n-slate-2"
+            class="items-center rounded-md cursor-pointer flex py-1 px-2.5 hover:bg-s-subtle dark:hover:bg-s-subtle has-[:checked]:bg-s-subtle"
           >
             <input
               v-model="selectedLabels"
@@ -105,14 +105,14 @@ const handleAssign = () => {
               {{ label.title }}
             </span>
             <span
-              class="rounded-md h-3 w-3 flex-shrink-0 border border-solid border-n-weak"
+              class="rounded-md h-3 w-3 flex-shrink-0 border border-solid border-s-border"
               :style="{ backgroundColor: label.color }"
             />
           </label>
         </li>
       </ul>
       <div v-else class="p-2 text-center">
-        <span class="text-sm text-n-slate-11">{{
+        <span class="text-sm text-s-muted">{{
           t('CONTACTS_BULK_ACTIONS.NO_LABELS_FOUND')
         }}</span>
       </div>
@@ -135,7 +135,7 @@ const handleAssign = () => {
   @apply block z-10 absolute text-left -top-3 ltr:right-[--triangle-position] rtl:left-[--triangle-position];
 
   svg path {
-    @apply fill-n-alpha-3 backdrop-blur-[100px]  stroke-n-weak;
+    @apply fill-s-subtle backdrop-blur-[100px]  stroke-s-border;
   }
 }
 </style>

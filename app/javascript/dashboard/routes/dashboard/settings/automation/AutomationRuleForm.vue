@@ -302,8 +302,8 @@ defineExpose({ open, close });
           class="grid gap-4 list-none p-3 mb-4 outline outline-1 rounded-xl -outline-offset-1"
           :class="
             hasConditionErrors
-              ? 'outline-n-ruby-5 bg-s-error-soft/50'
-              : 'outline-n-weak dark:outline-n-strong'
+              ? 'outline-s-error/30 bg-s-error-soft/50'
+              : 'outline-s-border dark:outline-s-border-strong'
           "
         >
           <template v-for="(condition, i) in automation.conditions" :key="i">
@@ -353,8 +353,8 @@ defineExpose({ open, close });
           class="grid list-none p-3 mb-4 outline outline-1 rounded-xl -outline-offset-1 border-solid"
           :class="
             hasActionErrors
-              ? 'outline-n-ruby-5 bg-s-error-soft/50'
-              : 'outline-n-weak dark:outline-n-strong'
+              ? 'outline-s-error/30 bg-s-error-soft/50'
+              : 'outline-s-border dark:outline-s-border-strong'
           "
         >
           <AutomationActionInput

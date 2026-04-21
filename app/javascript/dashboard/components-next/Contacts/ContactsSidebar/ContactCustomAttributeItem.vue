@@ -79,7 +79,7 @@ const CurrentAttributeComponent = computed(() => {
     :class="isEditingView ? 'min-h-10' : 'min-h-11'"
   >
     <div class="flex items-center justify-between truncate">
-      <span class="text-sm font-medium truncate text-n-slate-12">
+      <span class="text-sm font-medium truncate text-s-primary">
         {{ attribute.attributeDisplayName }}
       </span>
     </div>

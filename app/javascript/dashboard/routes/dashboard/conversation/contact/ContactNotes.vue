@@ -111,7 +111,7 @@ watch(
 
     <div
       v-if="isFetchingNotes"
-      class="flex items-center justify-center py-8 text-n-slate-11"
+      class="flex items-center justify-center py-8 text-s-muted"
     >
       <Spinner />
     </div>
@@ -130,7 +130,7 @@ watch(
         @delete="onDelete"
       />
     </div>
-    <p v-else class="px-6 py-6 text-sm leading-6 text-center text-n-slate-11">
+    <p v-else class="px-6 py-6 text-sm leading-6 text-center text-s-muted">
       {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.CONVERSATION_EMPTY_STATE') }}
     </p>
 
@@ -141,7 +141,7 @@ watch(
       class="!items-start [&>div]:!top-12 [&>div]:sticky"
     >
       <div class="flex w-full flex-col gap-6 px-6 py-6">
-        <h3 class="text-lg font-semibold text-n-slate-12">
+        <h3 class="text-lg font-semibold text-s-primary">
           {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.ADD_NOTE') }}
         </h3>
         <Editor

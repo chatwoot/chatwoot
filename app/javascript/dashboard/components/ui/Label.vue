@@ -113,7 +113,7 @@ export default {
 
 <style scoped lang="scss">
 .label {
-  @apply items-center font-medium text-xs rounded-[4px] gap-1 p-1 bg-n-slate-3 text-n-slate-12 border border-solid border-n-strong h-6;
+  @apply items-center font-medium text-xs rounded-[4px] gap-1 p-1 bg-s-subtle text-s-primary border border-solid border-s-border-strong h-6;
 
   &.small {
     @apply text-xs py-0.5 px-1 leading-tight h-5;
@@ -133,70 +133,70 @@ export default {
 
   /* Color Schemes */
   &.primary {
-    @apply bg-n-blue-5 text-n-blue-12 border border-solid border-n-blue-7;
+    @apply bg-s-brand-soft text-s-brand-text border border-solid border-s-brand;
 
     a {
-      @apply text-n-blue-12;
+      @apply text-s-brand-text;
     }
     .label-color-dot {
-      @apply bg-n-blue-9;
+      @apply bg-s-brand;
     }
   }
   &.secondary {
-    @apply bg-n-slate-5 text-n-slate-12 border border-solid border-n-slate-7;
+    @apply bg-s-border-subtle text-s-primary border border-solid border-s-border;
 
     a {
-      @apply text-n-slate-12;
+      @apply text-s-primary;
     }
     .label-color-dot {
-      @apply bg-n-slate-9;
+      @apply bg-s-muted;
     }
   }
   &.success {
-    @apply bg-n-teal-5 text-n-teal-12 border border-solid border-n-teal-7;
+    @apply bg-s-success/30 text-s-success-text border border-solid border-s-border;
 
     a {
-      @apply text-n-teal-12;
+      @apply text-s-success-text;
     }
     .label-color-dot {
-      @apply bg-n-teal-9;
+      @apply bg-s-success;
     }
   }
   &.alert {
-    @apply bg-n-ruby-5 text-n-ruby-12 border border-solid border-n-ruby-7;
+    @apply bg-s-error-soft text-s-error-text border border-solid border-s-border;
 
     a {
-      @apply text-n-ruby-12;
+      @apply text-s-error-text;
     }
     .label-color-dot {
-      @apply bg-n-ruby-9;
+      @apply bg-s-error;
     }
   }
   &.warning {
-    @apply bg-n-amber-5 text-n-amber-12 border border-solid border-n-amber-7;
+    @apply bg-s-warning-soft text-s-warning-text border border-solid border-s-border;
 
     a {
-      @apply text-n-amber-12;
+      @apply text-s-warning-text;
     }
     .label-color-dot {
-      @apply bg-n-amber-9;
+      @apply bg-s-warning;
     }
   }
 
   &.smooth {
-    @apply bg-transparent text-n-slate-11 dark:text-n-slate-12 border border-solid border-n-strong;
+    @apply bg-transparent text-s-muted dark:text-s-primary border border-solid border-s-border-strong;
   }
 
   &.dashed {
-    @apply bg-transparent text-n-slate-11 dark:text-n-slate-12 border border-dashed border-n-strong;
+    @apply bg-transparent text-s-muted dark:text-s-primary border border-dashed border-s-border-strong;
   }
 }
 
 .label-close--button {
-  @apply text-n-slate-11 -mb-0.5 rounded-sm cursor-pointer flex items-center justify-center hover:bg-n-slate-3;
+  @apply text-s-muted -mb-0.5 rounded-sm cursor-pointer flex items-center justify-center hover:bg-s-subtle;
 
   svg {
-    @apply text-n-slate-11;
+    @apply text-s-muted;
   }
 }
 

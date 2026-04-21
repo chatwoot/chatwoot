@@ -79,7 +79,7 @@ useEventListener(scrollableContainer, 'scroll', () => {
         height="24"
         viewBox="0 0 16 24"
         fill="none"
-        class="text-n-slate-9 opacity-50 group-hover:opacity-100"
+        class="text-s-disabled opacity-50 group-hover:opacity-100"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path

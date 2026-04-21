@@ -117,7 +117,7 @@ const onAgentSelect = index => {
     <ul
       v-if="items.length"
       ref="tagAgentsRef"
-      class="vertical dropdown menu mention--box bg-n-solid-1 p-1 rounded-xl text-sm overflow-auto absolute w-full z-20 shadow-md left-0 leading-[1.2] bottom-full max-h-[12.5rem] border border-solid border-n-strong"
+      class="vertical dropdown menu mention--box bg-s-surface p-1 rounded-xl text-sm overflow-auto absolute w-full z-20 shadow-md left-0 leading-[1.2] bottom-full max-h-[12.5rem] border border-solid border-s-border-strong"
       role="listbox"
     >
       <li
@@ -132,7 +132,7 @@ const onAgentSelect = index => {
         <!-- Section Header -->
         <div
           v-if="item.type === 'header'"
-          class="px-2 py-2 text-xs font-medium tracking-wide capitalize text-n-slate-11"
+          class="px-2 py-2 text-xs font-medium tracking-wide capitalize text-s-muted"
         >
           {{ item.title }}
         </div>
@@ -140,7 +140,7 @@ const onAgentSelect = index => {
         <div
           v-else
           :class="{
-            'bg-n-alpha-black2': getSelectableIndex(item) === selectedIndex,
+            'bg-s-primary/15': getSelectableIndex(item) === selectedIndex,
           }"
           class="flex items-center px-2 py-1 rounded-md cursor-pointer"
           role="option"
@@ -158,17 +158,17 @@ const onAgentSelect = index => {
             class="overflow-hidden flex-1 max-w-full whitespace-nowrap text-ellipsis"
           >
             <h5
-              class="overflow-hidden mb-0 text-sm capitalize whitespace-nowrap text-n-slate-11 text-ellipsis"
+              class="overflow-hidden mb-0 text-sm capitalize whitespace-nowrap text-s-muted text-ellipsis"
               :class="{
-                'text-n-slate-12': getSelectableIndex(item) === selectedIndex,
+                'text-s-primary': getSelectableIndex(item) === selectedIndex,
               }"
             >
               {{ item.displayName }}
             </h5>
             <div
-              class="overflow-hidden text-xs whitespace-nowrap text-ellipsis text-n-slate-10"
+              class="overflow-hidden text-xs whitespace-nowrap text-ellipsis text-s-muted"
               :class="{
-                'text-n-slate-11': getSelectableIndex(item) === selectedIndex,
+                'text-s-muted': getSelectableIndex(item) === selectedIndex,
               }"
             >
               {{ item.displayInfo }}

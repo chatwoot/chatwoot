@@ -142,7 +142,7 @@ onMounted(() => {
     @search="onSearch"
   >
     <div v-if="isFetchingList" class="flex items-center justify-center p-8">
-      <span class="text-n-slate-11 text-base">{{
+      <span class="text-s-muted text-base">{{
         t('COMPANIES.LOADING')
       }}</span>
     </div>
@@ -150,7 +150,7 @@ onMounted(() => {
       v-else-if="companies.length === 0"
       class="flex items-center justify-center p-8"
     >
-      <span class="text-n-slate-11 text-base">{{
+      <span class="text-s-muted text-base">{{
         t('COMPANIES.EMPTY_STATE.TITLE')
       }}</span>
     </div>

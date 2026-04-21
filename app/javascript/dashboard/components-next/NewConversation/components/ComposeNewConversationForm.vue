@@ -361,9 +361,9 @@ useKeyboardEvents({
 
 <template>
   <div
-    class="w-[42rem] divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl min-w-0 max-h-[calc(100vh-8rem)]"
+    class="w-[42rem] divide-y divide-s-border-strong overflow-visible transition-all duration-300 ease-in-out top-full flex flex-col bg-s-subtle border border-s-border-strong shadow-sm backdrop-blur-[100px] rounded-xl min-w-0 max-h-[calc(100vh-8rem)]"
   >
-    <div class="flex-1 overflow-y-auto divide-y divide-n-strong">
+    <div class="flex-1 overflow-y-auto divide-y divide-s-border-strong">
       <ContactSelector
         :contacts="contacts"
         :selected-contact="selectedContact"

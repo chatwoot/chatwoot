@@ -44,7 +44,7 @@ export default {
       <div class="flex items-center min-w-0 gap-2">
         <div
           v-if="color"
-          class="size-3 flex-shrink-0 rounded-full outline outline-1 outline-n-weak"
+          class="size-3 flex-shrink-0 rounded-full outline outline-1 outline-s-border"
           :style="{ backgroundColor: color }"
         />
         <span

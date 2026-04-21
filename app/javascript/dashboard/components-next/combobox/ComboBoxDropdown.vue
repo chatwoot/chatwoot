@@ -60,16 +60,16 @@ defineExpose({
 <template>
   <div
     v-show="open"
-    class="absolute z-50 w-full mt-1 transition-opacity duration-200 border rounded-md shadow-lg bg-n-solid-1 border-n-strong"
+    class="absolute z-50 w-full mt-1 transition-opacity duration-200 border rounded-md shadow-lg bg-s-surface border-s-border-strong"
   >
-    <div class="relative border-b border-n-strong">
+    <div class="relative border-b border-s-border-strong">
       <span class="absolute i-lucide-search top-2.5 size-4 left-3" />
       <input
         ref="searchInput"
         :value="searchValue"
         type="search"
         :placeholder="searchPlaceholder || t('COMBOBOX.SEARCH_PLACEHOLDER')"
-        class="reset-base w-full py-2 pl-10 pr-2 text-sm focus:outline-none border-none rounded-t-md bg-n-solid-1 text-n-slate-12"
+        class="reset-base w-full py-2 pl-10 pr-2 text-sm focus:outline-none border-none rounded-t-md bg-s-surface text-s-primary"
         @input="onInputSearch"
       />
     </div>
@@ -81,9 +81,9 @@ defineExpose({
       <li
         v-for="(option, index) in options"
         :key="`${option.value}-${index}`"
-        class="flex items-center justify-between w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-alpha-2"
+        class="flex items-center justify-between w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-s-subtle"
         :class="{
-          'bg-n-alpha-2': isSelected(option),
+          'bg-s-subtle': isSelected(option),
         }"
         role="option"
         :aria-selected="isSelected(option)"
@@ -93,16 +93,16 @@ defineExpose({
           :class="{
             'font-medium': isSelected(option),
           }"
-          class="text-n-slate-12"
+          class="text-s-primary"
         >
           {{ option.label }}
         </span>
         <span
           v-if="isSelected(option)"
-          class="flex-shrink-0 i-lucide-check size-4 text-n-slate-11"
+          class="flex-shrink-0 i-lucide-check size-4 text-s-muted"
         />
       </li>
-      <li v-if="options.length === 0" class="px-3 py-2 text-sm text-n-slate-11">
+      <li v-if="options.length === 0" class="px-3 py-2 text-sm text-s-muted">
         {{ emptyState || t('COMBOBOX.EMPTY_STATE') }}
       </li>
     </ul>

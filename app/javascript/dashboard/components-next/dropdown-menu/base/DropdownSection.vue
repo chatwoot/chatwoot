@@ -15,7 +15,7 @@ defineProps({
   <div class="-mx-2 n-dropdown-section">
     <div
       v-if="title"
-      class="px-4 mb-3 mt-1 leading-4 font-medium tracking-[0.2px] text-n-slate-10 text-xs"
+      class="px-4 mb-3 mt-1 leading-4 font-medium tracking-[0.2px] text-s-muted text-xs"
     >
       {{ title }}
     </div>

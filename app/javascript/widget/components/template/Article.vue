@@ -23,26 +23,26 @@ export default {
 <template>
   <div
     v-if="!!items.length"
-    class="chat-bubble agent bg-n-background dark:bg-n-solid-3"
+    class="chat-bubble agent bg-s-bg dark:bg-s-subtle"
   >
     <div
       v-for="item in items"
       :key="item.link"
-      class="border-b border-solid border-n-weak text-sm py-2 px-0 last:border-b-0"
+      class="border-b border-solid border-s-border text-sm py-2 px-0 last:border-b-0"
     >
       <a
         :href="item.link"
         target="_blank"
         rel="noopener noreferrer nofollow"
-        class="text-n-slate-12 no-underline"
+        class="text-s-primary no-underline"
       >
-        <span class="flex items-center text-n-slate-12 font-medium">
-          <FluentIcon icon="link" class="ltr:mr-1 rtl:ml-1 text-n-slate-12" />
-          <span class="text-n-slate-12">
+        <span class="flex items-center text-s-primary font-medium">
+          <FluentIcon icon="link" class="ltr:mr-1 rtl:ml-1 text-s-primary" />
+          <span class="text-s-primary">
             {{ item.title }}
           </span>
         </span>
-        <span class="block mt-1 text-n-slate-12">
+        <span class="block mt-1 text-s-primary">
           {{ truncateMessage(item.description) }}
         </span>
       </a>

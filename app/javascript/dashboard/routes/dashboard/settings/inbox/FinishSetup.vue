@@ -236,7 +236,7 @@ onMounted(() => {
           <p class="mt-2 text-sm text-s-disabled">
             {{ $t('INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION') }}
           </p>
-          <div class="rounded-lg shadow outline-1 outline-n-strong outline">
+          <div class="rounded-lg shadow outline-1 outline-s-border-strong outline">
             <img
               :src="qrCodes.whatsapp"
               alt="WhatsApp QR Code"
@@ -251,7 +251,7 @@ onMounted(() => {
           <p class="mt-2 text-sm text-s-disabled">
             {{ $t('INBOX_MGMT.FINISH.MESSENGER_QR_INSTRUCTION') }}
           </p>
-          <div class="rounded-lg shadow outline-1 outline-n-strong outline">
+          <div class="rounded-lg shadow outline-1 outline-s-border-strong outline">
             <img
               :src="qrCodes.messenger"
               alt="Messenger QR Code"
@@ -267,7 +267,7 @@ onMounted(() => {
             {{ $t('INBOX_MGMT.FINISH.TELEGRAM_QR_INSTRUCTION') }}
           </p>
 
-          <div class="rounded-lg shadow outline-1 outline-n-strong outline">
+          <div class="rounded-lg shadow outline-1 outline-s-border-strong outline">
             <img
               :src="qrCodes.telegram"
               alt="Telegram QR Code"

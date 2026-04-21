@@ -199,13 +199,13 @@ const handleTest = async () => {
 
     <div class="flex gap-2">
       <div class="flex flex-col gap-1 w-28">
-        <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+        <label class="mb-0.5 text-sm font-medium text-s-primary">
           {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.HTTP_METHOD.LABEL') }}
         </label>
         <ComboBox
           v-model="state.http_method"
           :options="httpMethodOptions"
-          class="[&>div>button]:bg-n-alpha-black2 [&_li]:font-mono [&_button]:font-mono [&>div>button]:outline-offset-[-1px]"
+          class="[&>div>button]:bg-s-primary/15 [&_li]:font-mono [&_button]:font-mono [&>div>button]:outline-offset-[-1px]"
         />
       </div>
       <Input
@@ -219,13 +219,13 @@ const handleTest = async () => {
     </div>
 
     <div class="flex flex-col gap-1">
-      <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+      <label class="mb-0.5 text-sm font-medium text-s-primary">
         {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_TYPE.LABEL') }}
       </label>
       <ComboBox
         v-model="state.auth_type"
         :options="authTypeOptions"
-        class="[&>div>button]:bg-n-alpha-black2"
+        class="[&>div>button]:bg-s-primary/15"
       />
     </div>
 
@@ -235,10 +235,10 @@ const handleTest = async () => {
     />
 
     <div class="flex flex-col gap-2">
-      <label class="text-sm font-medium text-n-slate-12">
+      <label class="text-sm font-medium text-s-primary">
         {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.LABEL') }}
       </label>
-      <p class="text-xs text-n-slate-11 -mt-1">
+      <p class="text-xs text-s-muted -mt-1">
         {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.HELP_TEXT') }}
       </p>
       <ul v-if="state.param_schema.length > 0" class="grid gap-2 list-none">
@@ -294,7 +294,7 @@ const handleTest = async () => {
         :disabled="isTesting || !state.endpoint_url || isTestDisabled"
         @click="handleTest"
       />
-      <p v-if="isTestDisabled" class="text-xs text-n-slate-11">
+      <p v-if="isTestDisabled" class="text-xs text-s-muted">
         {{ t('CAPTAIN.CUSTOM_TOOLS.TEST.DISABLED_HINT') }}
       </p>
       <div
@@ -302,8 +302,8 @@ const handleTest = async () => {
         class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg"
         :class="
           testResult.success
-            ? 'bg-n-teal-2 text-n-teal-11'
-            : 'bg-n-ruby-2 text-n-ruby-11'
+            ? 'bg-s-success-soft text-s-success-text'
+            : 'bg-s-error-soft text-s-error-text'
         "
       >
         <span
@@ -328,7 +328,7 @@ const handleTest = async () => {
         variant="faded"
         color="slate"
         :label="t('CAPTAIN.FORM.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
+        class="w-full bg-s-subtle text-s-brand-text hover:bg-s-subtle"
         @click="handleCancel"
       />
       <Button

@@ -34,7 +34,7 @@ const handleImgClick = () => {
 <template>
   <div
     data-testid="changelog-card"
-    class="flex flex-col justify-between p-3 w-full rounded-lg border shadow-sm transition-all duration-200 border-n-weak bg-n-card text-n-slate-12"
+    class="flex flex-col justify-between p-3 w-full rounded-lg border shadow-sm transition-all duration-200 border-s-border bg-s-surface text-s-primary"
     :class="{
       'animate-fade-out pointer-events-none': isDismissing,
       'hover:shadow': isActive,
@@ -43,13 +43,13 @@ const handleImgClick = () => {
     <div>
       <h5
         :title="card.meta_title"
-        class="mb-1 text-sm font-semibold line-clamp-1 text-n-slate-12"
+        class="mb-1 text-sm font-semibold line-clamp-1 text-s-primary"
       >
         {{ card.meta_title }}
       </h5>
       <p
         :title="card.meta_description"
-        class="mb-0 text-xs leading-relaxed text-n-slate-11 line-clamp-2"
+        class="mb-0 text-xs leading-relaxed text-s-muted line-clamp-2"
       >
         {{ card.meta_description }}
       </p>
@@ -57,7 +57,7 @@ const handleImgClick = () => {
 
     <div
       v-if="card.feature_image"
-      class="block overflow-hidden my-3 rounded-md border border-n-weak/40"
+      class="block overflow-hidden my-3 rounded-md border border-s-border/40"
     >
       <img
         :src="card.feature_image"
@@ -69,7 +69,7 @@ const handleImgClick = () => {
     </div>
     <div
       v-else
-      class="block overflow-hidden my-3 rounded-md border border-n-weak/40"
+      class="block overflow-hidden my-3 rounded-md border border-s-border/40"
     >
       <img
         :src="card.feature_image"

@@ -28,7 +28,7 @@ const closePopover = () => {
       icon="i-lucide-sparkles"
       ghost
       slate
-      :class="{ '!bg-n-alpha-2 dark:!bg-n-slate-9/30': isOpen }"
+      :class="{ '!bg-s-subtle dark:!bg-s-muted/30': isOpen }"
       @click="toggleOpen()"
     />
 

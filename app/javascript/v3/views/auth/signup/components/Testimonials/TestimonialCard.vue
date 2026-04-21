@@ -10,7 +10,7 @@ defineProps({
 <template>
   <div class="flex flex-col items-start">
     <svg
-      class="w-10 h-10 text-n-slate-7 mb-6"
+      class="w-10 h-10 text-s-disabled mb-6"
       viewBox="0 0 40 40"
       fill="currentColor"
     >
@@ -19,7 +19,7 @@ defineProps({
       />
     </svg>
     <p
-      class="text-lg text-n-slate-12 leading-relaxed whitespace-pre-line tracking-tight"
+      class="text-lg text-s-primary leading-relaxed whitespace-pre-line tracking-tight"
     >
       {{ reviewContent }}
     </p>
@@ -30,10 +30,10 @@ defineProps({
         class="w-11 h-11 rounded-full object-cover"
       />
       <div class="ml-3">
-        <div class="text-base font-medium text-n-slate-12">
+        <div class="text-base font-medium text-s-primary">
           {{ authorName }}
         </div>
-        <div class="text-sm text-n-slate-10">{{ authorDesignation }}</div>
+        <div class="text-sm text-s-muted">{{ authorDesignation }}</div>
       </div>
     </div>
   </div>

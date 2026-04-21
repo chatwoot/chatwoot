@@ -152,7 +152,7 @@ defineExpose({
     <!-- Step 1: QR Code -->
     <div v-if="setupStep === 'qr'" class="space-y-6">
       <div
-        class="bg-s-surface rounded-xl outline-1 outline-n-weak outline p-10 flex flex-col gap-4"
+        class="bg-s-surface rounded-xl outline-1 outline-s-border outline p-10 flex flex-col gap-4"
       >
         <div class="text-center">
           <h3 class="text-lg font-medium text-s-primary mb-2">
@@ -164,7 +164,7 @@ defineExpose({
         </div>
         <div class="flex justify-center">
           <div
-            class="bg-s-bg p-4 rounded-lg outline outline-1 outline-n-weak"
+            class="bg-s-bg p-4 rounded-lg outline outline-1 outline-s-border"
           >
             <img
               v-if="qrCodeUrl"
@@ -252,7 +252,7 @@ defineExpose({
 
       <!-- Warning Alert -->
       <div
-        class="flex items-start gap-2 p-4 bg-s-surface outline outline-n-weak rounded-xl outline-1"
+        class="flex items-start gap-2 p-4 bg-s-surface outline outline-s-border rounded-xl outline-1"
       >
         <Icon
           icon="i-lucide-alert-circle"
@@ -266,7 +266,7 @@ defineExpose({
 
       <!-- Backup Codes Grid -->
       <div
-        class="bg-s-surface rounded-xl outline-1 outline-n-weak outline flex flex-col gap-6 p-6"
+        class="bg-s-surface rounded-xl outline-1 outline-s-border outline flex flex-col gap-6 p-6"
       >
         <div class="grid grid-cols-2 xs:grid-cols-4 sm:grid-cols-5 gap-3">
           <span

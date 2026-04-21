@@ -129,7 +129,7 @@ const updateArticleStatus = async ({ value }) => {
     <div class="flex items-center gap-4">
       <span
         v-if="isUpdating || isSaved"
-        class="text-xs font-medium transition-all duration-300 text-n-slate-11"
+        class="text-xs font-medium transition-all duration-300 text-s-muted"
       >
         {{ statusText }}
       </span>

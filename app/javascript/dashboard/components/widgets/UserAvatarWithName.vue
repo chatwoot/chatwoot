@@ -12,7 +12,7 @@ defineProps({
   },
   textClass: {
     type: String,
-    default: 'text-sm text-n-slate-12',
+    default: 'text-sm text-s-primary',
   },
 });
 </script>

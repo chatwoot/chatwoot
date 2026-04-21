@@ -131,9 +131,9 @@ const allowedMenuItems = computed(() => {
   >
     <template #trigger="{ toggle, isOpen }">
       <button
-        class="flex gap-2 items-center p-1 text-left rounded-lg cursor-pointer hover:bg-n-alpha-1"
+        class="flex gap-2 items-center p-1 text-left rounded-lg cursor-pointer hover:bg-s-subtle"
         :class="[
-          { 'bg-n-alpha-1': isOpen },
+          { 'bg-s-subtle': isOpen },
           isCollapsed ? 'justify-center' : 'w-full',
         ]"
         :title="isCollapsed ? currentUser.available_name : undefined"
@@ -148,10 +148,10 @@ const allowedMenuItems = computed(() => {
           rounded-full
         />
         <div v-if="!isCollapsed" class="min-w-0">
-          <div class="text-sm font-medium leading-4 truncate text-n-slate-12">
+          <div class="text-sm font-medium leading-4 truncate text-s-primary">
             {{ currentUser.available_name }}
           </div>
-          <div class="text-xs truncate text-n-slate-11">
+          <div class="text-xs truncate text-s-muted">
             {{ currentUser.email }}
           </div>
         </div>

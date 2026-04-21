@@ -79,13 +79,13 @@ input[type='file'] {
   @apply hidden;
 }
 .input-wrapper {
-  @apply flex h-8 bg-n-background py-1 px-2 items-center text-xs cursor-pointer rounded-lg border border-dashed border-n-strong;
+  @apply flex h-8 bg-s-bg py-1 px-2 items-center text-xs cursor-pointer rounded-lg border border-dashed border-s-border-strong;
 }
 .success-icon {
-  @apply text-n-teal-9 mr-2;
+  @apply text-s-success mr-2;
 }
 .error-icon {
-  @apply text-n-ruby-9 mr-2;
+  @apply text-s-error mr-2;
 }
 
 .processing {

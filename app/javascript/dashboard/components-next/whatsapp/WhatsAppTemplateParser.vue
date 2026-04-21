@@ -191,25 +191,25 @@ defineExpose({
 
 <template>
   <div>
-    <div class="flex flex-col gap-4 p-4 mb-4 rounded-lg bg-n-alpha-black2">
+    <div class="flex flex-col gap-4 p-4 mb-4 rounded-lg bg-s-primary/15">
       <div class="flex justify-between items-center">
-        <h3 class="text-sm font-medium text-n-slate-12">
+        <h3 class="text-sm font-medium text-s-primary">
           {{ template.name }}
         </h3>
-        <span class="text-xs text-n-slate-11">
+        <span class="text-xs text-s-muted">
           {{ languageLabel }}
         </span>
       </div>
 
       <div class="flex flex-col gap-2">
         <div class="rounded-md">
-          <div class="text-sm whitespace-pre-wrap text-n-slate-12">
+          <div class="text-sm whitespace-pre-wrap text-s-primary">
             {{ renderedTemplate }}
           </div>
         </div>
       </div>
 
-      <div class="text-xs text-n-slate-11">
+      <div class="text-xs text-s-muted">
         {{ categoryLabel }}
       </div>
     </div>
@@ -292,7 +292,7 @@ defineExpose({
       </div>
       <p
         v-if="v$.$dirty && v$.$invalid"
-        class="p-2.5 text-center rounded-md bg-n-ruby-9/20 text-n-ruby-9"
+        class="p-2.5 text-center rounded-md bg-s-error/20 text-s-error"
       >
         {{ $t('WHATSAPP_TEMPLATES.PARSER.FORM_ERROR_MESSAGE') }}
       </p>

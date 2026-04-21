@@ -33,7 +33,7 @@ const statusList = computed(() => {
   ];
 });
 
-const statusColors = ['bg-n-teal-9', 'bg-n-amber-9', 'bg-n-slate-9'];
+const statusColors = ['bg-s-success', 'bg-s-warning', 'bg-s-muted'];
 
 const availabilityStatuses = computed(() => {
   return statusList.value.map((statusLabel, index) => ({
@@ -119,7 +119,7 @@ function changeAvailabilityStatus(availability) {
           <Icon
             v-tooltip.top="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_SHORT')"
             icon="i-lucide-info"
-            class="size-4 text-n-slate-10"
+            class="size-4 text-s-muted"
           />
         </div>
         <ToggleSwitch v-model="autoOfflineToggle" />

@@ -48,12 +48,12 @@ defineProps({
           }"
         >
           <div class="flex flex-col items-center justify-center gap-3">
-            <h2 class="text-3xl font-medium text-center text-n-slate-12">
+            <h2 class="text-3xl font-medium text-center text-s-primary">
               {{ title }}
             </h2>
             <p
               v-if="subtitle"
-              class="max-w-xl text-base text-center text-n-slate-11 tracking-[0.3px]"
+              class="max-w-xl text-base text-center text-s-muted tracking-[0.3px]"
             >
               {{ subtitle }}
             </p>

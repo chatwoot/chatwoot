@@ -125,7 +125,7 @@ export default {
       content: tooltipText,
       delay: { show: 1000, hide: 0 },
     }"
-    class="ml-auto leading-4 text-xxs text-n-slate-10 hover:text-n-slate-11"
+    class="ml-auto leading-4 text-xxs text-s-muted hover:text-s-muted"
   >
     <span>{{ `${createdAtTime} • ${lastActivityTime}` }}</span>
   </div>

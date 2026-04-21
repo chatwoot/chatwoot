@@ -89,17 +89,17 @@ defineExpose({ dialogRef });
       class="flex-shrink-0 absolute top-2 ltr:right-2 rtl:left-2"
       @click="onClose"
     />
-    <div class="flex flex-col gap-6 divide-y divide-n-strong">
+    <div class="flex flex-col gap-6 divide-y divide-s-border-strong">
       <div class="flex flex-col gap-6">
         <div class="flex flex-col gap-2 ltr:pr-10 rtl:pl-10">
-          <h3 class="text-base font-medium leading-6 text-n-slate-12">
+          <h3 class="text-base font-medium leading-6 text-s-primary">
             {{
               t(
                 'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.HEADER'
               )
             }}
           </h3>
-          <p class="mb-0 text-sm text-n-slate-12">
+          <p class="mb-0 text-sm text-s-primary">
             {{
               t(
                 'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.DESCRIPTION'
@@ -109,7 +109,7 @@ defineExpose({ dialogRef });
         </div>
         <div class="flex items-center gap-3 w-full">
           <span
-            class="min-h-10 px-3 py-2.5 inline-flex items-center w-full text-sm bg-transparent border rounded-lg text-n-slate-11 border-n-strong"
+            class="min-h-10 px-3 py-2.5 inline-flex items-center w-full text-sm bg-transparent border rounded-lg text-s-muted border-s-border-strong"
           >
             {{ subdomainCNAME }}
           </span>
@@ -126,14 +126,14 @@ defineExpose({ dialogRef });
 
       <div class="flex flex-col gap-6 pt-6">
         <div class="flex flex-col gap-2 ltr:pr-10 rtl:pl-10">
-          <h3 class="text-base font-medium leading-6 text-n-slate-12">
+          <h3 class="text-base font-medium leading-6 text-s-primary">
             {{
               t(
                 'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.SEND_INSTRUCTIONS.HEADER'
               )
             }}
           </h3>
-          <p class="mb-0 text-sm text-n-slate-12">
+          <p class="mb-0 text-sm text-s-primary">
             {{
               t(
                 'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.SEND_INSTRUCTIONS.DESCRIPTION'

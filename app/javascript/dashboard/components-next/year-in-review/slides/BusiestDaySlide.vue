@@ -59,7 +59,7 @@ const performanceHelperText = computed(() => {
           />
           <div class="flex-1">
             <p
-              class="text-xl md:text-3xl lg:text-4xl font-medium tracking-[-0.2px] text-n-slate-12 dark:text-n-slate-1"
+              class="text-xl md:text-3xl lg:text-4xl font-medium tracking-[-0.2px] text-s-primary dark:text-s-inverse"
             >
               {{
                 t('YEAR_IN_REVIEW.BUSIEST_DAY.MESSAGE', {

@@ -175,7 +175,7 @@ defineExpose({ open, close });
         class="flex flex-col gap-2"
       >
         <div class="flex justify-between items-center">
-          <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+          <label class="mb-0.5 text-sm font-medium text-s-primary">
             {{ attribute.label }}
           </label>
         </div>

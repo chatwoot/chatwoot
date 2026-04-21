@@ -129,14 +129,14 @@ const onPickInbox = async inbox => {
           v-for="inbox in voiceInboxes"
           :key="inbox.id"
           type="button"
-          class="flex items-center justify-between w-full px-4 py-2 text-left rounded-lg hover:bg-n-alpha-2"
+          class="flex items-center justify-between w-full px-4 py-2 text-left rounded-lg hover:bg-s-subtle"
           @click="onPickInbox(inbox)"
         >
           <div class="flex items-center gap-2">
-            <span class="i-ri-phone-fill text-n-slate-10" />
-            <span class="text-sm text-n-slate-12">{{ inbox.name }}</span>
+            <span class="i-ri-phone-fill text-s-muted" />
+            <span class="text-sm text-s-primary">{{ inbox.name }}</span>
           </div>
-          <span v-if="inbox.phone_number" class="text-xs text-n-slate-10">
+          <span v-if="inbox.phone_number" class="text-xs text-s-muted">
             {{ inbox.phone_number }}
           </span>
         </button>

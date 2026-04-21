@@ -132,21 +132,21 @@ const handleAvatarDelete = async () => {
         @delete="handleAvatarDelete"
       />
       <div class="flex flex-col gap-1">
-        <h3 class="text-base font-medium text-n-slate-12">
+        <h3 class="text-base font-medium text-s-primary">
           {{ selectedContact?.name }}
         </h3>
         <div class="flex flex-col gap-1.5">
           <span
             v-if="selectedContact?.identifier"
-            class="inline-flex items-center gap-1 text-sm text-n-slate-11"
+            class="inline-flex items-center gap-1 text-sm text-s-muted"
           >
-            <span class="i-ph-user-gear text-n-slate-10 size-4" />
+            <span class="i-ph-user-gear text-s-muted size-4" />
             {{ selectedContact?.identifier }}
           </span>
-          <span class="inline-flex items-center gap-1 text-sm text-n-slate-11">
+          <span class="inline-flex items-center gap-1 text-sm text-s-muted">
             <span
               v-if="selectedContact?.identifier"
-              class="i-ph-activity text-n-slate-10 size-4"
+              class="i-ph-activity text-s-muted size-4"
             />
             {{ $t('CONTACTS_LAYOUT.DETAILS.CREATED_AT', { date: createdAt }) }}
             •
@@ -177,13 +177,13 @@ const handleAvatarDelete = async () => {
     </div>
     <Policy :permissions="['administrator']">
       <div
-        class="flex flex-col items-start w-full gap-4 pt-6 border-t border-n-strong"
+        class="flex flex-col items-start w-full gap-4 pt-6 border-t border-s-border-strong"
       >
         <div class="flex flex-col gap-2">
-          <h6 class="text-base font-medium text-n-slate-12">
+          <h6 class="text-base font-medium text-s-primary">
             {{ t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT') }}
           </h6>
-          <span class="text-sm text-n-slate-11">
+          <span class="text-sm text-s-muted">
             {{ t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT_DESCRIPTION') }}
           </span>
         </div>

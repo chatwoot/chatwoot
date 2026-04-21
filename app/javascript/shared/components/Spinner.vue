@@ -45,11 +45,11 @@ export default {
   @apply relative inline-block w-6 h-6 align-middle;
 
   &:before {
-    @apply border-n-slate-10 border-2 border-solid content-[''] box-border absolute top-[50%] left-[50%] rounded-full border-t-n-strong -ml-2.5 -mt-2.5 w-6 h-6 animate-[spinner_0.9s_linear_infinite];
+    @apply border-s-border-strong border-2 border-solid content-[''] box-border absolute top-[50%] left-[50%] rounded-full border-t-n-strong -ml-2.5 -mt-2.5 w-6 h-6 animate-[spinner_0.9s_linear_infinite];
   }
 
   &.message {
-    @apply p-2.5 top-0 left-0 mx-auto my-0 mt-3 bg-n-background rounded-[2rem];
+    @apply p-2.5 top-0 left-0 mx-auto my-0 mt-3 bg-s-bg rounded-[2rem];
 
     &:before {
       @apply -mt-3 -ml-3;

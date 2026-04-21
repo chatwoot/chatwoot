@@ -133,7 +133,7 @@ export default {
       };
     },
     charLengthClass() {
-      return this.charactersRemaining < 0 ? 'text-n-ruby-9' : 'text-n-slate-11';
+      return this.charactersRemaining < 0 ? 'text-s-error' : 'text-s-muted';
     },
     characterLengthWarning() {
       return this.charactersRemaining < 0
@@ -167,8 +167,8 @@ export default {
           ghost
           :disabled="disabled || isEditorDisabled"
           :class="{
-            'text-n-violet-9 hover:enabled:!bg-n-violet-3': !showCopilotMenu,
-            'text-n-violet-9 bg-n-violet-3': showCopilotMenu,
+            'text-s-brand hover:enabled:!bg-s-info-soft': !showCopilotMenu,
+            'text-s-brand bg-s-info-soft': showCopilotMenu,
           }"
           sm
           icon="i-ph-sparkle-fill"
@@ -186,7 +186,7 @@ export default {
       </div>
       <NextButton
         ghost
-        class="text-n-slate-11"
+        class="text-s-muted"
         sm
         icon="i-lucide-maximize-2"
         @click="$emit('toggleEditorSize')"

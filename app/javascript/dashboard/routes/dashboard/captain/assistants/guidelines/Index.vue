@@ -202,7 +202,7 @@ const addAllExample = async () => {
         >
           <template #default="{ item }">
             <div class="flex items-center justify-between w-full">
-              <span class="text-sm text-n-slate-12">
+              <span class="text-sm text-s-primary">
                 {{ item.content }}
               </span>
               <Button
@@ -214,7 +214,7 @@ const addAllExample = async () => {
                 ghost
                 xs
                 slate
-                class="!text-sm !text-n-slate-11 flex-shrink-0"
+                class="!text-sm !text-s-muted flex-shrink-0"
                 @click="addGuideline(item.content)"
               />
             </div>
@@ -255,7 +255,7 @@ const addAllExample = async () => {
                 @add="addGuideline"
               />
               <!-- Will enable this feature in future -->
-              <!-- <div class="h-4 w-px bg-n-strong" />
+              <!-- <div class="h-4 w-px bg-s-border-strong" />
               <Button
                 :label="
                   t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.TEST_ALL')
@@ -281,12 +281,12 @@ const addAllExample = async () => {
           </div>
         </div>
         <div v-if="displayGuidelines.length === 0" class="mt-1 mb-2">
-          <span class="text-n-slate-11 text-sm">
+          <span class="text-s-muted text-sm">
             {{ t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.EMPTY_MESSAGE') }}
           </span>
         </div>
         <div v-else-if="filteredGuidelines.length === 0" class="mt-1 mb-2">
-          <span class="text-n-slate-11 text-sm">
+          <span class="text-s-muted text-sm">
             {{
               t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.SEARCH_EMPTY_MESSAGE')
             }}

@@ -105,13 +105,13 @@ const outsideClickHandler = [
 <template>
   <div
     v-on-click-outside="outsideClickHandler"
-    class="z-40 max-w-3xl lg:w-[750px] overflow-visible w-full border border-n-weak bg-n-alpha-3 backdrop-blur-[100px] shadow-lg rounded-xl p-6 grid gap-6"
+    class="z-40 max-w-3xl lg:w-[750px] overflow-visible w-full border border-s-border bg-s-subtle backdrop-blur-[100px] shadow-lg rounded-xl p-6 grid gap-6"
   >
-    <h3 class="text-base font-medium leading-6 text-n-slate-12">
+    <h3 class="text-base font-medium leading-6 text-s-primary">
       {{ filterModalHeaderTitle }}
     </h3>
     <div v-if="props.isFolderView">
-      <div class="border-b border-n-weak pb-6">
+      <div class="border-b border-s-border pb-6">
         <Input
           v-model="folderNameLocal"
           :label="t('FILTER.FOLDER_LABEL')"

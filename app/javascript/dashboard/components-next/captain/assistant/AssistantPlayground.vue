@@ -90,7 +90,7 @@ const handleEnterKey = event => {
 
 <template>
   <div
-    class="flex flex-col h-full rounded-xl border py-6 border-n-weak text-n-slate-11"
+    class="flex flex-col h-full rounded-xl border py-6 border-s-border text-s-muted"
   >
     <div class="mb-8 px-6">
       <div class="flex justify-between items-center mb-1">
@@ -105,7 +105,7 @@ const handleEnterKey = event => {
           @click="resetConversation"
         />
       </div>
-      <p class="text-sm text-n-slate-11">
+      <p class="text-sm text-s-muted">
         {{ t('CAPTAIN.PLAYGROUND.DESCRIPTION') }}
       </p>
     </div>
@@ -113,11 +113,11 @@ const handleEnterKey = event => {
     <MessageList :messages="messages" :is-loading="isLoading" />
 
     <div
-      class="flex items-center mx-6 bg-n-background outline outline-1 outline-n-weak rounded-xl p-3"
+      class="flex items-center mx-6 bg-s-bg outline outline-1 outline-s-border rounded-xl p-3"
     >
       <input
         v-model="newMessage"
-        class="flex-1 bg-transparent border-none focus:outline-none text-sm mb-0 text-n-slate-12 placeholder:text-n-slate-10"
+        class="flex-1 bg-transparent border-none focus:outline-none text-sm mb-0 text-s-primary placeholder:text-s-muted"
         :placeholder="t('CAPTAIN.PLAYGROUND.MESSAGE_PLACEHOLDER')"
         @keydown.enter.exact="handleEnterKey"
       />
@@ -130,7 +130,7 @@ const handleEnterKey = event => {
       />
     </div>
 
-    <p class="text-xs text-n-slate-11 pt-2 text-center">
+    <p class="text-xs text-s-muted pt-2 text-center">
       {{ t('CAPTAIN.PLAYGROUND.CREDIT_NOTE') }}
     </p>
   </div>

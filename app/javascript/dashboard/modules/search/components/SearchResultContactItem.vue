@@ -90,7 +90,7 @@ const formattedLocation = computed(() => {
   <router-link :to="navigateTo">
     <CardLayout
       layout="row"
-      class="[&>div]:justify-start [&>div]:px-4 [&>div]:py-3 [&>div]:items-start hover:bg-n-slate-2 dark:hover:bg-n-solid-3"
+      class="[&>div]:justify-start [&>div]:px-4 [&>div]:py-3 [&>div]:items-start hover:bg-s-subtle dark:hover:bg-s-subtle"
     >
       <Avatar
         :name="name"
@@ -101,12 +101,12 @@ const formattedLocation = computed(() => {
       />
       <div class="min-w-0 flex flex-col items-start gap-1.5 w-full">
         <div class="flex items-center min-w-0 justify-between gap-2 w-full">
-          <h5 class="text-sm font-medium truncate min-w-0 text-n-slate-12 py-1">
+          <h5 class="text-sm font-medium truncate min-w-0 text-s-primary py-1">
             {{ name }}
           </h5>
           <span
             v-if="updatedAtTime"
-            class="text-sm font-normal min-w-0 truncate text-n-slate-11"
+            class="text-sm font-normal min-w-0 truncate text-s-muted"
           >
             {{ $t('SEARCH.UPDATED_AT', { time: updatedAtTime }) }}
           </span>
@@ -116,30 +116,30 @@ const formattedLocation = computed(() => {
         >
           <span
             v-if="email"
-            class="truncate text-n-slate-11 min-w-0"
+            class="truncate text-s-muted min-w-0"
             :title="email"
           >
             {{ email }}
           </span>
 
-          <div v-if="email && phone" class="w-px h-3 bg-n-slate-6 rounded" />
+          <div v-if="email && phone" class="w-px h-3 bg-s-border rounded" />
 
           <span
             v-if="phone"
             :title="phone"
-            class="truncate text-n-slate-11 min-w-0"
+            class="truncate text-s-muted min-w-0"
           >
             {{ phone }}
           </span>
 
           <div
             v-if="(email || phone) && countryDetails"
-            class="w-px h-3 bg-n-slate-6 rounded"
+            class="w-px h-3 bg-s-border rounded"
           />
 
           <span
             v-if="countryDetails"
-            class="truncate text-n-slate-11 flex items-center gap-1 min-w-0"
+            class="truncate text-s-muted flex items-center gap-1 min-w-0"
           >
             <Flag
               :country="countryDetails.countryCode"

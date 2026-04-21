@@ -166,7 +166,7 @@ const handleRegisterWebhook = () => {
 <template>
   <div class="gap-4 mx-6">
     <div
-      class="px-5 py-5 space-y-6 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak bg-s-subtle"
+      class="px-5 py-5 space-y-6 rounded-xl outline outline-1 -outline-offset-1 outline-s-border bg-s-subtle"
     >
       <div
         class="flex flex-col gap-5 justify-between items-start w-full md:flex-row"

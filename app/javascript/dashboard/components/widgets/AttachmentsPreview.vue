@@ -50,7 +50,7 @@ const fileName = file => {
     <div
       v-for="(attachment, index) in nonRecordedAudioAttachments"
       :key="attachment.id"
-      class="flex items-center p-1 bg-n-slate-3 gap-1 rounded-md w-[15rem]"
+      class="flex items-center p-1 bg-s-subtle gap-1 rounded-md w-[15rem]"
     >
       <div class="max-w-[4rem] flex-shrink-0 w-6 flex items-center">
         <img

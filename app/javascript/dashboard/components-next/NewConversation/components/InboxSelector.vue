@@ -52,14 +52,14 @@ const targetInboxLabel = computed(() => {
   <div
     class="flex items-center flex-1 w-full gap-3 px-4 py-3 overflow-y-visible"
   >
-    <label class="mb-0.5 text-sm font-medium text-n-slate-11 whitespace-nowrap">
+    <label class="mb-0.5 text-sm font-medium text-s-muted whitespace-nowrap">
       {{ t('COMPOSE_NEW_CONVERSATION.FORM.INBOX_SELECTOR.LABEL') }}
     </label>
     <div
       v-if="targetInbox"
-      class="flex items-center gap-1.5 rounded-md bg-n-alpha-2 truncate ltr:pl-3 rtl:pr-3 ltr:pr-1 rtl:pl-1 h-7 min-w-0"
+      class="flex items-center gap-1.5 rounded-md bg-s-subtle truncate ltr:pl-3 rtl:pr-3 ltr:pr-1 rtl:pl-1 h-7 min-w-0"
     >
-      <span class="text-sm truncate text-n-slate-12">
+      <span class="text-sm truncate text-s-primary">
         {{ targetInboxLabel }}
       </span>
       <Button
@@ -90,7 +90,7 @@ const targetInboxLabel = computed(() => {
       <DropdownMenu
         v-if="contactableInboxesList?.length > 0 && showInboxesDropdown"
         :menu-items="contactableInboxesList"
-        class="ltr:left-0 rtl:right-0 z-[100] top-8 overflow-y-auto max-h-56 w-fit max-w-sm dark:!outline-n-slate-5"
+        class="ltr:left-0 rtl:right-0 z-[100] top-8 overflow-y-auto max-h-56 w-fit max-w-sm dark:!outline-s-border"
         @action="emit('handleInboxAction', $event)"
       />
     </div>

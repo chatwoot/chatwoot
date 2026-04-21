@@ -76,7 +76,7 @@ const authTypeLabel = computed(() => {
 <template>
   <CardLayout class="relative">
     <div class="flex relative justify-between w-full gap-1">
-      <span class="text-base text-n-slate-12 line-clamp-1 font-medium">
+      <span class="text-base text-s-primary line-clamp-1 font-medium">
         {{ title }}
       </span>
       <div class="flex items-center gap-2">
@@ -89,7 +89,7 @@ const authTypeLabel = computed(() => {
             icon="i-lucide-ellipsis-vertical"
             color="slate"
             size="xs"
-            class="rounded-md group-hover:bg-n-alpha-2"
+            class="rounded-md group-hover:bg-s-subtle"
             @click="toggleDropdown()"
           />
           <DropdownMenu
@@ -103,18 +103,18 @@ const authTypeLabel = computed(() => {
     </div>
     <div class="flex items-center justify-between w-full gap-4 min-w-0">
       <div class="flex items-center gap-3 flex-1 min-w-0">
-        <span v-if="description" class="text-sm truncate text-n-slate-11">
+        <span v-if="description" class="text-sm truncate text-s-muted">
           {{ description }}
         </span>
         <span
           v-if="authType !== 'none'"
-          class="text-sm shrink-0 text-n-slate-11 inline-flex items-center gap-1"
+          class="text-sm shrink-0 text-s-muted inline-flex items-center gap-1"
         >
           <i class="i-lucide-lock text-base" />
           {{ authTypeLabel }}
         </span>
       </div>
-      <span class="text-sm text-n-slate-11 line-clamp-1 shrink-0">
+      <span class="text-sm text-s-muted line-clamp-1 shrink-0">
         {{ timestamp }}
       </span>
     </div>

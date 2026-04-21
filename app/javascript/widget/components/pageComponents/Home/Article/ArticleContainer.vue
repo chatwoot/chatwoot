@@ -77,7 +77,7 @@ onMounted(() => fetchArticles());
 <template>
   <div
     v-if="portal && (articleUiFlags.isFetching || !!popularArticles.length)"
-    class="w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-background dark:bg-n-solid-2 px-5 py-4"
+    class="w-full shadow outline-1 outline outline-s-border rounded-xl bg-s-bg dark:bg-s-subtle px-5 py-4"
   >
     <ArticleBlock
       v-if="hasArticles"

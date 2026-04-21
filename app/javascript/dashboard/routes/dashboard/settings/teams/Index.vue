@@ -123,7 +123,7 @@ const confirmPlaceHolderText = computed(() =>
         >
           <div class="flex items-start gap-4">
             <div
-              class="flex items-center flex-shrink-0 size-10 justify-center rounded-xl outline outline-1 outline-n-weak -outline-offset-1"
+              class="flex items-center flex-shrink-0 size-10 justify-center rounded-xl outline outline-1 outline-s-border -outline-offset-1"
             >
               <Icon
                 icon="i-lucide-users-round"

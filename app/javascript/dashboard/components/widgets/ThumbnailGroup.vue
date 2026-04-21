@@ -54,13 +54,13 @@ const moreThumbnailsClass = computed(() => {
       :src="user.thumbnail"
       :name="user.name"
       :size="size"
-      class="[&>span]:outline [&>span]:outline-1 [&>span]:outline-n-background [&>span]:shadow"
+      class="[&>span]:outline [&>span]:outline-1 [&>span]:outline-s-bg [&>span]:shadow"
       :class="gapClass"
       rounded-full
     />
     <span
       v-if="showMoreThumbnailsCount"
-      class="text-n-slate-11 bg-n-slate-4 outline outline-1 outline-n-background text-xs font-medium rounded-full px-2 inline-flex items-center shadow relative"
+      class="text-s-muted bg-s-subtle outline outline-1 outline-s-bg text-xs font-medium rounded-full px-2 inline-flex items-center shadow relative"
       :class="moreThumbnailsClass"
     >
       {{ moreThumbnailsText }}

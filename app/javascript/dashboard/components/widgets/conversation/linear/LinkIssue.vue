@@ -110,7 +110,7 @@ const linkIssue = async () => {
       trailing-icon
       icon="i-lucide-chevron-down"
       :button-text="linkIssueTitle"
-      class="justify-between w-full h-[2.5rem] py-1.5 px-3 rounded-xl bg-n-alpha-black2 outline outline-1 outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6"
+      class="justify-between w-full h-[2.5rem] py-1.5 px-3 rounded-xl bg-s-primary/15 outline outline-1 outline-s-border dark:outline-s-border hover:outline-s-border dark:hover:outline-s-border"
       @click="toggleDropdown"
     >
       <template v-if="shouldShowDropdown" #dropdown>

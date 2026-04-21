@@ -294,7 +294,7 @@ useEventListener(document, 'paste', onPaste);
     }
 
     &:hover button {
-      @apply dark:bg-n-solid-2 bg-n-alpha-2;
+      @apply dark:bg-s-subtle bg-s-subtle;
     }
   }
 }

@@ -119,14 +119,14 @@ export default {
               <Icon
                 v-if="option.icon"
                 :icon="option.icon"
-                class="size-5 text-n-slate-11"
+                class="size-5 text-s-muted"
               />
             </NextButton>
           </WootDropdownItem>
         </WootDropdownMenu>
         <h4
           v-if="noResult"
-          class="w-full justify-center items-center flex text-n-slate-10 py-2 px-2.5 overflow-hidden whitespace-nowrap text-ellipsis text-sm"
+          class="w-full justify-center items-center flex text-s-muted py-2 px-2.5 overflow-hidden whitespace-nowrap text-ellipsis text-sm"
         >
           {{ noSearchResult }}
         </h4>
@@ -141,18 +141,18 @@ export default {
 }
 
 .search-input {
-  @apply m-0 w-full border border-solid border-transparent h-8 text-sm text-n-slate-12 rounded-md focus:border-n-brand bg-n-background dark:bg-n-background;
+  @apply m-0 w-full border border-solid border-transparent h-8 text-sm text-s-primary rounded-md focus:border-s-brand bg-s-bg dark:bg-s-bg;
 }
 
 .multiselect-dropdown--item {
   @apply justify-between w-full;
 
   &.active {
-    @apply bg-n-slate-2 dark:bg-n-solid-3 border-n-weak/50 dark:border-n-weak font-medium;
+    @apply bg-s-subtle dark:bg-s-subtle border-s-border/50 dark:border-s-border font-medium;
   }
 
   &:hover {
-    @apply bg-n-slate-2 dark:bg-n-solid-3 text-n-slate-12;
+    @apply bg-s-subtle dark:bg-s-subtle text-s-primary;
   }
 }
 </style>

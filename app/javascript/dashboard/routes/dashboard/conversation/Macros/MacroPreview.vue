@@ -48,9 +48,9 @@ const resolvedMacro = computed(() => {
 
 <template>
   <div
-    class="macro-preview absolute border border-n-weak max-h-[22.5rem] z-50 w-64 rounded-md bg-n-alpha-3 backdrop-blur-[100px] shadow-lg bottom-8 right-8 overflow-y-auto p-4 text-left rtl:text-right"
+    class="macro-preview absolute border border-s-border max-h-[22.5rem] z-50 w-64 rounded-md bg-s-subtle backdrop-blur-[100px] shadow-lg bottom-8 right-8 overflow-y-auto p-4 text-left rtl:text-right"
   >
-    <h6 class="mb-4 text-sm text-n-slate-12">
+    <h6 class="mb-4 text-sm text-s-primary">
       {{ macro.name }}
     </h6>
     <div
@@ -60,15 +60,15 @@ const resolvedMacro = computed(() => {
     >
       <div
         v-if="i !== macro.actions.length - 1"
-        class="top-[0.390625rem] absolute -bottom-1 left-0 w-px bg-n-slate-6"
+        class="top-[0.390625rem] absolute -bottom-1 left-0 w-px bg-s-border"
       />
       <div
-        class="absolute -left-[0.21875rem] top-[0.2734375rem] w-2 h-2 rounded-full bg-n-solid-1 border-2 border-solid border-n-weak dark:border-n-slate-6"
+        class="absolute -left-[0.21875rem] top-[0.2734375rem] w-2 h-2 rounded-full bg-s-surface border-2 border-solid border-s-border dark:border-s-border"
       />
-      <p class="mb-1 text-xs text-n-slate-11">
+      <p class="mb-1 text-xs text-s-muted">
         {{ $t(`MACROS.ACTIONS.${action.actionName}`) }}
       </p>
-      <p class="text-n-slate-12 text-sm">{{ action.actionValue }}</p>
+      <p class="text-s-primary text-sm">{{ action.actionValue }}</p>
     </div>
   </div>
 </template>
