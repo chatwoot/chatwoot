@@ -121,25 +121,27 @@ const snapshotInitialValues = () => {
   };
 };
 
+// Idempotent: only fills empty fields, so late-arriving enrichment data
+// populates untouched fields without clobbering user edits.
 const populateFormFields = () => {
-  if (!currentAccount.value) return;
+  const account = currentAccount.value;
+  const attrs = account?.custom_attributes || {};
+  const brandInfo = attrs.brand_info;
 
-  const brandInfo = currentAccount.value.custom_attributes?.brand_info;
-
-  locale.value = detectBestLocale();
-  website.value = currentAccount.value.domain || brandInfo?.domain || '';
-  timezone.value =
-    currentAccount.value.custom_attributes?.timezone ||
-    Intl.DateTimeFormat().resolvedOptions().timeZone ||
-    '';
-  companySize.value =
-    currentAccount.value.custom_attributes?.company_size || '';
-  industry.value =
-    currentAccount.value.custom_attributes?.industry ||
-    brandInfo?.industries?.[0]?.industry ||
-    '';
-  referralSource.value =
-    currentAccount.value.custom_attributes?.referral_source || '';
+  if (!locale.value) locale.value = detectBestLocale();
+  if (!website.value) {
+    website.value = account?.domain || brandInfo?.domain || '';
+  }
+  if (!timezone.value) {
+    timezone.value =
+      attrs.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+  }
+  if (!companySize.value) companySize.value = attrs.company_size || '';
+  if (!industry.value) {
+    industry.value =
+      attrs.industry || brandInfo?.industries?.[0]?.industry || '';
+  }
+  if (!referralSource.value) referralSource.value = attrs.referral_source || '';
 
   snapshotInitialValues();
 };
@@ -173,6 +175,13 @@ watch(isEnriching, newVal => {
     populateFormFields();
   }
 });
+
+// Re-populate when account data arrives after mount, or when brand_info
+// appears after enrichment. populateFormFields is idempotent so this is safe.
+watch(
+  () => currentAccount.value?.custom_attributes,
+  () => populateFormFields()
+);
 
 const enableWebsiteEditing = () => {
   isEditingWebsite.value = true;
