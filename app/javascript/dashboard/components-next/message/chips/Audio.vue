@@ -138,7 +138,7 @@ const downloadAudio = async () => {
   </audio>
   <div
     v-bind="$attrs"
-    class="rounded-xl w-full gap-2 p-1.5 bg-n-alpha-white flex flex-col items-center border border-n-container shadow-[0px_2px_8px_0px_rgba(94,94,94,0.06)]"
+    class="rounded-xl w-full gap-2 p-1.5 bg-s-surface flex flex-col items-center border border-s-border shadow-[0px_2px_8px_0px_rgba(94,94,94,0.06)]"
   >
     <div class="flex gap-1 w-full flex-1 items-center justify-start">
       <button class="p-0 border-0 size-8" @click="playOrPause">
@@ -158,15 +158,15 @@ const downloadAudio = async () => {
           min="0"
           :max="duration"
           :value="currentTime"
-          class="w-full h-1 bg-n-slate-12/40 rounded-lg appearance-none cursor-pointer accent-current"
+          class="w-full h-1 bg-s-primary/40 rounded-lg appearance-none cursor-pointer accent-current"
           @input="seek"
         />
       </div>
       <button
-        class="border-0 w-10 h-6 grid place-content-center bg-n-alpha-2 hover:bg-alpha-3 rounded-2xl"
+        class="border-0 w-10 h-6 grid place-content-center bg-s-subtle hover:bg-alpha-3 rounded-2xl"
         @click="changePlaybackSpeed"
       >
-        <span class="text-xs text-n-slate-11 font-medium">
+        <span class="text-xs text-s-muted font-medium">
           {{ playbackSpeedLabel }}
         </span>
       </button>
@@ -187,7 +187,7 @@ const downloadAudio = async () => {
 
     <div
       v-if="attachment.transcribedText && showTranscribedText"
-      class="text-n-slate-12 p-3 text-sm bg-n-alpha-1 rounded-lg w-full break-words"
+      class="text-s-primary p-3 text-sm bg-s-subtle rounded-lg w-full break-words"
     >
       {{ attachment.transcribedText }}
     </div>

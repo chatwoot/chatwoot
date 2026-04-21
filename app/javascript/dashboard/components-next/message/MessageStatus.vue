@@ -56,8 +56,8 @@ const statusIcon = computed(() => {
 
 const statusColor = computed(() => {
   const statusIconMap = {
-    [MESSAGE_STATUS.SENT]: 'text-n-slate-10',
-    [MESSAGE_STATUS.DELIVERED]: 'text-n-slate-10',
+    [MESSAGE_STATUS.SENT]: 'text-s-muted',
+    [MESSAGE_STATUS.DELIVERED]: 'text-s-muted',
     [MESSAGE_STATUS.READ]: 'text-[#7EB6FF]',
   };
 
@@ -81,7 +81,7 @@ const tooltipText = computed(() => {
     v-if="status === MESSAGE_STATUS.PROGRESS"
     v-tooltip.top-start="tooltipText"
     :icon="progessIcon"
-    class="text-n-slate-10"
+    class="text-s-muted"
   />
   <Icon
     v-else

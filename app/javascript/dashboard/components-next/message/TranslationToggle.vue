@@ -11,7 +11,7 @@ defineEmits(['toggle']);
 <template>
   <span>
     <span
-      class="text-xs text-n-slate-11 cursor-pointer hover:underline select-none"
+      class="text-xs text-s-muted cursor-pointer hover:underline select-none"
       @click="$emit('toggle')"
     >
       {{

@@ -29,9 +29,9 @@ const handleError = () => {
   >
     <div
       v-if="hasError"
-      class="flex flex-col items-center justify-center gap-1 text-xs text-center rounded-lg size-full bg-n-alpha-1 text-n-slate-11"
+      class="flex flex-col items-center justify-center gap-1 text-xs text-center rounded-lg size-full bg-s-subtle text-s-muted"
     >
-      <Icon icon="i-lucide-circle-off" class="text-n-slate-11" />
+      <Icon icon="i-lucide-circle-off" class="text-s-muted" />
       {{ $t('COMPONENTS.MEDIA.LOADING_FAILED') }}
     </div>
     <img

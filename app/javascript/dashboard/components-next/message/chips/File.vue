@@ -34,30 +34,30 @@ const displayFileName = computed(() => {
 const textColorClass = computed(() => {
   const colorMap = {
     '7z': 'dark:text-[#EDEEF0] text-[#2F265F]',
-    csv: 'text-n-amber-12',
+    csv: 'text-s-warning-text',
     doc: 'dark:text-[#D6E1FF] text-[#1F2D5C]', // indigo-12
     docx: 'dark:text-[#D6E1FF] text-[#1F2D5C]', // indigo-12
-    json: 'text-n-slate-12',
+    json: 'text-s-primary',
     odt: 'dark:text-[#D6E1FF] text-[#1F2D5C]', // indigo-12
-    pdf: 'text-n-slate-12',
+    pdf: 'text-s-primary',
     ppt: 'dark:text-[#FFE0C2] text-[#582D1D]',
     pptx: 'dark:text-[#FFE0C2] text-[#582D1D]',
     rar: 'dark:text-[#EDEEF0] text-[#2F265F]',
     rtf: 'dark:text-[#D6E1FF] text-[#1F2D5C]', // indigo-12
     tar: 'dark:text-[#EDEEF0] text-[#2F265F]',
-    txt: 'text-n-slate-12',
-    xls: 'text-n-teal-12',
-    xlsx: 'text-n-teal-12',
+    txt: 'text-s-primary',
+    xls: 'text-s-success-text',
+    xlsx: 'text-s-success-text',
     zip: 'dark:text-[#EDEEF0] text-[#2F265F]',
   };
 
-  return colorMap[fileDetails.value.type] || 'text-n-slate-12';
+  return colorMap[fileDetails.value.type] || 'text-s-primary';
 });
 </script>
 
 <template>
   <div
-    class="h-9 bg-n-alpha-white gap-2 overflow-hidden items-center flex px-2 rounded-lg border border-n-container"
+    class="h-9 bg-s-surface gap-2 overflow-hidden items-center flex px-2 rounded-lg border border-s-border"
   >
     <FileIcon class="flex-shrink-0" :file-type="fileDetails.type" />
     <span
@@ -69,7 +69,7 @@ const textColorClass = computed(() => {
     </span>
     <a
       v-tooltip="t('CONVERSATION.DOWNLOAD')"
-      class="flex-shrink-0 size-9 grid place-content-center cursor-pointer text-n-slate-11 hover:text-n-slate-12 transition-colors"
+      class="flex-shrink-0 size-9 grid place-content-center cursor-pointer text-s-muted hover:text-s-primary transition-colors"
       :href="attachment.dataUrl"
       rel="noreferrer noopener nofollow"
       target="_blank"
