@@ -18,6 +18,8 @@ class AsyncDispatcher < BaseDispatcher
       NotificationListener.instance,
       ParticipationListener.instance,
       ReportingEventListener.instance,
+      # CUSTOMIZAÇÃO_SYNAPSEOS: emite CrmEvent em transições bot↔human e cria Lead ao aplicar label
+      SynapseosListener.instance,
       WebhookListener.instance
     ]
   end
