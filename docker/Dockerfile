@@ -86,8 +86,17 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   && rm -rf spec node_modules tmp/cache; \
   fi
 
-# Generate .git_sha file with current commit hash
-RUN git rev-parse HEAD > /app/.git_sha
+# Generate .git_sha file with current commit hash.
+# CUSTOMIZAÇÃO_SYNAPSEOS: Railway builda a partir de um tarball sem o diretório
+# .git, o que faria `git rev-parse HEAD` falhar. Usamos fallback "unknown" pra
+# não quebrar o build nessa linha. Se precisar do SHA real (ex: Sentry releases)
+# passe via `--build-arg GIT_SHA=...` no CI.
+ARG GIT_SHA=""
+RUN if [ -n "$GIT_SHA" ]; then \
+      echo "$GIT_SHA" > /app/.git_sha; \
+    else \
+      (git rev-parse HEAD > /app/.git_sha 2>/dev/null) || echo "unknown" > /app/.git_sha; \
+    fi
 
 # Remove unnecessary files
 RUN rm -rf /gems/ruby/3.4.0/cache/*.gem \
