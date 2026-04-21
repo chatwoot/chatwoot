@@ -233,6 +233,7 @@ onMounted(() => resetContacts());
   <Popover
     ref="popoverRef"
     :align="align"
+    :show-content-border="false"
     @show="onPopoverShow"
     @hide="onPopoverHide"
   >
