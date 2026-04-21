@@ -59,6 +59,10 @@ Rails.application.routes.draw do
           end
           namespace :synapseos do
             resources :live_agents, only: [:index]
+            resources :leads, only: [:index, :show, :create, :update]
+            resources :deals, only: [:index, :show, :create, :update]
+            resources :crm_events, only: [:index, :create]
+            get 'dashboard/summary', to: 'dashboard#summary'
           end
           namespace :captain do
             resource :preferences, only: [:show, :update]

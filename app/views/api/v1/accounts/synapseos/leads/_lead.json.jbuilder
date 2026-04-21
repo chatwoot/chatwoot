@@ -1,0 +1,12 @@
+json.id lead.id
+json.account_id lead.account_id
+json.conversation_id lead.conversation_id
+json.contact_id lead.contact_id
+json.assignee_id lead.assignee_id
+json.status lead.status
+json.source lead.source
+json.metadata lead.metadata
+json.qualified_at lead.qualified_at
+json.disqualified_at lead.disqualified_at
+json.created_at lead.created_at
+json.updated_at lead.updated_at

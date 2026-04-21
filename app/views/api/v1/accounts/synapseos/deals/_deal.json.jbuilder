@@ -1,0 +1,11 @@
+json.id deal.id
+json.account_id deal.account_id
+json.lead_id deal.lead_id
+json.assignee_id deal.assignee_id
+json.status deal.status
+json.amount deal.amount.to_f
+json.currency deal.currency
+json.metadata deal.metadata
+json.closed_at deal.closed_at
+json.created_at deal.created_at
+json.updated_at deal.updated_at
