@@ -28,7 +28,7 @@ class Api::V1::Accounts::Synapseos::LeadsController < Api::V1::Accounts::BaseCon
   end
 
   def lead_params
-    params.require(:lead).permit(:conversation_id, :contact_id, :assignee_id, :status, :source, metadata: {})
+    params.require(:lead).permit(:conversation_id, :contact_id, :assignee_id, :status, :source, :pipeline_stage_id, metadata: {})
   end
 
   def check_authorization

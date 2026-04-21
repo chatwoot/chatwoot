@@ -62,6 +62,10 @@ Rails.application.routes.draw do
             resources :leads, only: [:index, :show, :create, :update]
             resources :deals, only: [:index, :show, :create, :update]
             resources :crm_events, only: [:index, :create]
+            resources :pipeline_stages do
+              collection { post :reorder }
+            end
+            resource :pipeline, only: [:show], controller: 'pipeline'
             get 'dashboard/summary', to: 'dashboard#summary'
           end
           namespace :captain do

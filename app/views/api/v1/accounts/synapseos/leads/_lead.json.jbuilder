@@ -3,6 +3,7 @@ json.account_id lead.account_id
 json.conversation_id lead.conversation_id
 json.contact_id lead.contact_id
 json.assignee_id lead.assignee_id
+json.pipeline_stage_id lead.pipeline_stage_id
 json.status lead.status
 json.source lead.source
 json.metadata lead.metadata

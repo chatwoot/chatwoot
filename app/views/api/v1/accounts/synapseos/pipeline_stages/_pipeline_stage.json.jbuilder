@@ -1,0 +1,8 @@
+json.id pipeline_stage.id
+json.account_id pipeline_stage.account_id
+json.name pipeline_stage.name
+json.color pipeline_stage.color
+json.position pipeline_stage.position
+json.stage_type pipeline_stage.stage_type
+json.created_at pipeline_stage.created_at
+json.updated_at pipeline_stage.updated_at
