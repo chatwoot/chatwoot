@@ -9,23 +9,21 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import NextInput from 'next/input/Input.vue';
-import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
-import NextButton from 'dashboard/components-next/button/Button.vue';
+import SynapseCard from 'next/synapseos/SynapseCard.vue';
+import SynapseButton from 'next/synapseos/SynapseButton.vue';
 import AccountId from './components/AccountId.vue';
 import BuildInfo from './components/BuildInfo.vue';
 import AccountDelete from './components/AccountDelete.vue';
 import AudioTranscription from './components/AudioTranscription.vue';
-import SectionLayout from './components/SectionLayout.vue';
 
 export default {
   components: {
-    BaseSettingsHeader,
-    NextButton,
+    SynapseCard,
+    SynapseButton,
     AccountId,
     BuildInfo,
     AccountDelete,
     AudioTranscription,
-    SectionLayout,
     WithLabel,
     NextInput,
   },
@@ -147,13 +145,22 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col w-full max-w-2xl ltr:mr-auto rtl:ml-auto">
-    <BaseSettingsHeader :title="$t('GENERAL_SETTINGS.TITLE')" />
-    <div class="flex-grow flex-shrink min-w-0 mt-3">
-      <SectionLayout
+  <div class="bg-s-bg p-8 space-y-6">
+    <header class="flex items-start justify-between gap-4">
+      <div class="flex flex-col gap-1">
+        <h1 class="text-2xl font-semibold text-s-primary">
+          {{ $t('GENERAL_SETTINGS.TITLE') }}
+        </h1>
+        <p class="text-sm text-s-muted">
+          {{ $t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.NOTE') }}
+        </p>
+      </div>
+    </header>
+
+    <div class="max-w-3xl space-y-6">
+      <SynapseCard
         :title="$t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.TITLE')"
-        :description="$t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.NOTE')"
-        class="!pt-0"
+        :subtitle="$t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.NOTE')"
       >
         <form
           v-if="!uiFlags.isFetchingItem"
@@ -180,7 +187,10 @@ export default {
             :label="$t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL')"
             :error-message="$t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR')"
           >
-            <select v-model="locale" class="!mb-0 text-sm">
+            <select
+              v-model="locale"
+              class="!mb-0 text-sm h-10 rounded-lg border-s-border focus:ring-focus text-s-primary bg-s-surface"
+            >
               <option
                 v-for="lang in languagesSortedByCode"
                 :key="lang.iso_639_1_code"
@@ -227,21 +237,25 @@ export default {
               "
             />
           </WithLabel>
-          <div>
-            <NextButton blue :is-loading="isUpdating" type="submit">
+          <div class="flex justify-end gap-2 mt-6">
+            <SynapseButton
+              variant="primary"
+              :loading="isUpdating"
+              type="submit"
+            >
               {{ $t('GENERAL_SETTINGS.SUBMIT') }}
-            </NextButton>
+            </SynapseButton>
           </div>
         </form>
-      </SectionLayout>
+        <woot-loading-state v-if="uiFlags.isFetchingItem" />
+      </SynapseCard>
 
-      <woot-loading-state v-if="uiFlags.isFetchingItem" />
+      <AudioTranscription v-if="showAudioTranscriptionConfig" />
+      <AccountId />
+      <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
+        <AccountDelete />
+      </div>
+      <BuildInfo />
     </div>
-    <AudioTranscription v-if="showAudioTranscriptionConfig" />
-    <AccountId />
-    <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
-      <AccountDelete />
-    </div>
-    <BuildInfo />
   </div>
 </template>
