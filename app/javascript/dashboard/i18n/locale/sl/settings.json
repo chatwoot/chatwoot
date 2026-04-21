@@ -1,84 +1,85 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "LINK": "Nastavitve profila",
+    "TITLE": "Nastavitve profila",
+    "BTN_TEXT": "Posodobi profil",
+    "DELETE_AVATAR": "Izbriši avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar je bil uspešno izbrisan",
+    "AVATAR_DELETE_FAILED": "Pri brisanju avatarja je prišlo do napake, prosimo, poskusite znova",
+    "UPDATE_SUCCESS": "Vaš profil je bil uspešno posodobljen",
+    "PASSWORD_UPDATE_SUCCESS": "Vaše geslo je bilo uspešno spremenjeno",
+    "AFTER_EMAIL_CHANGED": "Vaš profil je bil uspešno posodobljen, prosimo, da se ponovno prijavite, saj so se vaše prijavne podatke spremenile",
     "FORM": {
-      "PICTURE": "Profile Picture",
-      "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "PICTURE": "Profilna slika",
+      "AVATAR": "Slika profila",
+      "ERROR": "Prosimo, odpravite napake v obrazcu",
+      "REMOVE_IMAGE": "Odstrani",
+      "UPLOAD_IMAGE": "Naloži sliko",
+      "UPDATE_IMAGE": "Posodobi sliko",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "TITLE": "Profil",
+        "NOTE": "Vaš e-poštni naslov je vaša identiteta in se uporablja za prijavo."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "Hitri gumb za pošiljanje sporočil",
+        "NOTE": "Lahko izberete bližnjico (Enter ali Cmd/Ctrl+Enter) glede na vašo željo pisanja.",
+        "UPDATE_SUCCESS": "Vaše nastavitve so bile uspešno posodobljene",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "HEADING": "Vnesi (↵)",
+            "CONTENT": "Pošljite sporočila s pritiskom tipke Enter namesto s klikom na gumb za pošiljanje."
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "HEADING": "Cmd/Ctrl + Vnesi (⌘ + ↵)",
+            "CONTENT": "Pošiljajte sporočila s pritiskom na Cmd/Ctrl + enter namesto s klikom na gumb za pošiljanje."
           }
         }
       },
       "INTERFACE_SECTION": {
-        "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "TITLE": "Vmesnik",
+        "NOTE": "Prilagodite videz in občutek vaše nadzorne plošče Chatwoot.",
         "FONT_SIZE": {
-          "TITLE": "Font size",
-          "NOTE": "Adjust the text size across the dashboard based on your preference.",
-          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "TITLE": "Velikost pisave",
+          "NOTE": "Prilagodite velikost besedila po celotni nadzorni plošči glede na vaše želje.",
+          "UPDATE_SUCCESS": "Nastavitve pisave so bile uspešno posodobljene",
+          "UPDATE_ERROR": "Pri posodabljanju nastavitev pisave je prišlo do napake, prosimo, poskusite znova",
           "OPTIONS": {
-            "SMALLER": "Smaller",
-            "SMALL": "Small",
-            "DEFAULT": "Default",
-            "LARGE": "Large",
-            "LARGER": "Larger",
-            "EXTRA_LARGE": "Extra Large"
+            "SMALLER": "Manjše",
+            "SMALL": "Majhno",
+            "DEFAULT": "Privzeto",
+            "LARGE": "Veliko",
+            "LARGER": "Večje",
+            "EXTRA_LARGE": "Zelo veliko"
           }
         },
         "LANGUAGE": {
-          "TITLE": "Preferred Language",
-          "NOTE": "Choose the language you want to use.",
-          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
-          "USE_ACCOUNT_DEFAULT": "Use account default"
+          "TITLE": "Želeni jezik",
+          "NOTE": "Izberite jezik, ki ga želite uporabljati.",
+          "UPDATE_SUCCESS": "Nastavitve jezika so bile uspešno posodobljene",
+          "UPDATE_ERROR": "Pri posodabljanju nastavitev jezika je prišlo do napake, prosimo, poskusite znova",
+          "USE_ACCOUNT_DEFAULT": "Uporabi privzeto nastavitev računa"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+        "TITLE": "Osebni podpis sporočila",
+        "NOTE": "Ustvarite edinstven podpis sporočila, ki se bo prikazal na koncu vsakega sporočila, ki ga pošljete iz katerega koli nabiralnika. Vključite lahko tudi vstavno sliko, ki je podprta v klepetu v živo, e-pošti in API nabiralnikih.",
+        "BTN_TEXT": "Shrani podpis sporočila",
+        "API_ERROR": "Podpisa ni bilo mogoče shraniti! Poskusi znova",
+        "API_SUCCESS": "Podpis je bil uspešno shranjen",
+        "IMAGE_UPLOAD_ERROR": "Slike ni bilo mogoče naložiti! Poskusi znova",
+        "IMAGE_UPLOAD_SUCCESS": "Slika je bila uspešno dodana. Za shranitev podpisa kliknite na shrani",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Velikost slike mora biti manjša od {size}MB",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "Podpis sporočila",
+        "ERROR": "Podpis sporočila ne sme biti prazen",
+        "PLACEHOLDER": "Vnesite svoj osebni podpis sporočila tukaj."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Geslo",
-        "NOTE": "Updating your password would reset your logins in multiple devices.",
-        "BTN_TEXT": "Change password"
+        "NOTE": "Posodobitev gesla bo ponastavila prijave na več napravah.",
+        "BTN_TEXT": "Spremeni geslo"
       },
       "SECURITY_SECTION": {
         "TITLE": "Security",
@@ -86,172 +87,172 @@
         "MFA_BUTTON": "Manage Two-Factor Authentication"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration",
-        "COPY": "Copy",
-        "RESET": "Reset",
-        "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "TITLE": "Dostopni žeton",
+        "NOTE": "Ta žeton lahko uporabite, če ustvarjate integracijo na osnovi API-ja",
+        "COPY": "Kopiraj",
+        "RESET": "Ponastavi",
+        "CONFIRM_RESET": "Ste prepričani?",
+        "CONFIRM_HINT": "Kliknite še enkrat za potrditev",
+        "RESET_SUCCESS": "Dostopni žeton je bil uspešno ponovno ustvarjen",
+        "RESET_ERROR": "Ni bilo mogoče ponovno ustvariti dostopnega žetona. Poskusite znova"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Alerts",
-        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
+        "TITLE": "Zvočni opozorili",
+        "NOTE": "Omogočite zvočna opozorila v nadzorni plošči za nova sporočila in pogovore.",
+        "PLAY": "Predvajaj zvok",
         "ALERT_TYPES": {
-          "NONE": "None",
-          "MINE": "Assigned",
-          "ALL": "All",
-          "ASSIGNED": "My assigned conversations",
-          "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
+          "NONE": "Brez",
+          "MINE": "Dodeljeno",
+          "ALL": "Vse",
+          "ASSIGNED": "Moji dodeljeni pogovori",
+          "UNASSIGNED": "Nedodeljeni pogovori",
+          "NOTME": "Odprti pogovori, dodeljeni drugim"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
-          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+          "NONE": "Niste izbrali nobene možnosti, ne boste prejeli nobenih zvočnih opozoril.",
+          "ASSIGNED": "Prejeli boste opozorila za pogovore, dodeljene vam.",
+          "UNASSIGNED": "Prejeli boste opozorila za vse nepodeljene pogovore.",
+          "NOTME": "Prejeli boste opozorila za pogovore, dodeljene drugim.",
+          "ASSIGNED+UNASSIGNED": "Prejeli boste opozorila za vaše dodeljene pogovore in vse nepazljene.",
+          "ASSIGNED+NOTME": "Prejeli boste opozorila za pogovore, dodeljene vam in drugim, ne pa za nepodeljene.",
+          "NOTME+UNASSIGNED": "Prejeli boste opozorila za neodzveto pogovore in tiste, dodeljene drugim.",
+          "ASSIGNED+NOTME+UNASSIGNED": "Prejeli boste opozorila za vse pogovore."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations",
-          "NONE": "None",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "TITLE": "Dogodki opozoril za pogovore",
+          "NONE": "Brez",
+          "ASSIGNED": "Dodeljeni pogovori",
+          "ALL_CONVERSATIONS": "Vsi pogovori"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "Zvok opozorila:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "Pogoji za opozorila:",
+          "CONDITION_ONE": "Pošiljaj zvočna opozorila samo, če okno brskalnika ni aktivno",
+          "CONDITION_TWO": "Pošiljaj opozorila vsakih trideset sekund, dokler niso prebrani vsi dodeljeni pogovori"
         },
-        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "SOUND_PERMISSION_ERROR": "Samodejno predvajanje je v vašem brskalniku onemogočeno. Če želite samodejno slišati opozorila, omogočite dovoljenje za zvok v nastavitvah brskalnika ali pa interagirajte s stranjo.",
         "READ_MORE": "Preberite več"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "TITLE": "E-poštna obvestila",
+        "NOTE": "Tukaj posodobite nastavitve obvestil po e-pošti",
+        "CONVERSATION_ASSIGNMENT": "Pošlji obvestila po e-pošti, ko mi je dodeljen pogovor",
+        "CONVERSATION_CREATION": "Pošlji obvestila po e-pošti, ko je ustvarjen nov pogovor",
+        "CONVERSATION_MENTION": "Pošlji e-poštna obvestila, ko si omenjen v pogovoru",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Pošlji e-poštna obvestila, ko je v dodeljenem pogovoru ustvarjeno novo sporočilo",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Pošlji e-poštna obvestila, ko je v sodelujočem pogovoru ustvarjeno novo sporočilo",
+        "SLA_MISSED_FIRST_RESPONSE": "Pošlji e-poštna obvestila, ko pogovor ne doseže SLA za prvi odgovor",
+        "SLA_MISSED_NEXT_RESPONSE": "Pošlji e-poštna obvestila, ko pogovor ne doseže SLA za naslednji odgovor",
+        "SLA_MISSED_RESOLUTION": "Pošlji e-poštna obvestila, ko pogovor ne doseže SLA za rešitev"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
+        "TITLE": "Nastavitve obvestil",
+        "TYPE_TITLE": "Vrsta obvestila",
         "EMAIL": "E-pošta",
-        "PUSH": "Push notification",
+        "PUSH": "Potisno obvestilo",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "CONVERSATION_CREATED": "Ustvari se nov pogovor",
+          "CONVERSATION_ASSIGNED": "Pogovor je dodeljen vam",
+          "CONVERSATION_MENTION": "Omenjeni ste v pogovoru",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "V dodeljenem pogovoru je ustvarjeno novo sporočilo",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "V sodelujočem pogovoru je ustvarjeno novo sporočilo",
+          "SLA_MISSED_FIRST_RESPONSE": "Pogovor ni izpolnil SLA za prvi odgovor",
+          "SLA_MISSED_NEXT_RESPONSE": "Pogovor ni izpolnil SLA za naslednji odgovor",
+          "SLA_MISSED_RESOLUTION": "Pogovor ni izpolnil SLA za rešitev"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Omogočite potisna obvestila za vaš brskalnik, da jih boste lahko prejemali"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "Vaše nastavitve obvestil so bile uspešno posodobljene",
+        "UPDATE_ERROR": "Pri posodabljanju nastavitev je prišlo do napake, prosimo, poskusite znova"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "TITLE": "Potisna obvestila",
+        "NOTE": "Tukaj posodobite nastavitve potisnih obvestil",
+        "CONVERSATION_ASSIGNMENT": "Pošlji potisna obvestila, ko je pogovor dodeljen meni",
+        "CONVERSATION_CREATION": "Pošlji potisna obvestila, ko je ustvarjen nov pogovor",
+        "CONVERSATION_MENTION": "Pošlji potisna obvestila, ko si omenjen v pogovoru",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Pošlji potisna obvestila, ko je v dodeljenem pogovoru ustvarjeno novo sporočilo",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Pošlji potisna obvestila, ko je v sodelujočem pogovoru ustvarjeno novo sporočilo",
+        "HAS_ENABLED_PUSH": "Za ta brskalnik ste omogočili potisna obvestila.",
+        "REQUEST_PUSH": "Omogoči potisna obvestila",
+        "SLA_MISSED_FIRST_RESPONSE": "Pošlji potisna obvestila, ko pogovor ne doseže SLA za prvi odgovor",
+        "SLA_MISSED_NEXT_RESPONSE": "Pošlji potisna obvestila, ko pogovor ne doseže SLA za naslednji odgovor",
+        "SLA_MISSED_RESOLUTION": "Pošlji potisna obvestila, ko pogovor ne doseže SLA za rešitev"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "Profilna slika"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "Vaše polno ime",
+        "ERROR": "Prosimo, vnesite veljavno polno ime",
+        "PLACEHOLDER": "Prosimo, vnesite svoje polno ime"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "Prikazno ime",
+        "ERROR": "Prosimo, vnesite veljavno prikazno ime",
+        "PLACEHOLDER": "Prosimo, vnesite prikazno ime, ki bo prikazano v pogovorih"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Razpoložljivost",
         "STATUS": {
-          "ONLINE": "Online",
-          "BUSY": "Busy",
-          "OFFLINE": "Offline"
+          "ONLINE": "Na spletu",
+          "BUSY": "Zaseden",
+          "OFFLINE": "Brez povezave"
         },
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
-        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+        "SET_AVAILABILITY_SUCCESS": "Razpoložljivost je bila uspešno nastavljena",
+        "SET_AVAILABILITY_ERROR": "Nastavitve razpoložljivosti ni bilo mogoče shraniti, prosimo, poskusite znova",
+        "IMPERSONATING_ERROR": "Ni mogoče spremeniti razpoložljivosti med prevzemanjem uporabnika"
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "Vaš e-poštni naslov",
+        "ERROR": "Prosimo, vnesite veljaven e-poštni naslov",
+        "PLACEHOLDER": "Prosimo, vnesite svoj e-poštni naslov, ta bo prikazan v pogovorih"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Trenutno geslo",
+        "ERROR": "Prosimo, vnesite trenutno geslo",
+        "PLACEHOLDER": "Prosimo, vnesite trenutno geslo"
       },
       "PASSWORD": {
-        "LABEL": "New password",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "LABEL": "Novo geslo",
+        "ERROR": "Prosimo, vnesite geslo dolžine 6 ali več znakov",
+        "PLACEHOLDER": "Prosimo, vnesite novo geslo"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "LABEL": "Potrdite novo geslo",
+        "ERROR": "Potrditev gesla se mora ujemati z geslom",
+        "PLACEHOLDER": "Prosimo, ponovno vnesite novo geslo"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
-    "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_ACCOUNT": "Switch account",
-    "CONTACT_SUPPORT": "Contact support",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile settings",
+    "CHANGE_AVAILABILITY_STATUS": "Spremeni",
+    "CHANGE_ACCOUNTS": "Preklopi račun",
+    "SWITCH_ACCOUNT": "Zamenjaj račun",
+    "CONTACT_SUPPORT": "Kontaktirajte podporo",
+    "SELECTOR_SUBTITLE": "Izberite račun s spodnjega seznama",
+    "PROFILE_SETTINGS": "Nastavitve profila",
     "YEAR_IN_REVIEW": "Year in Review",
-    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
-    "APPEARANCE": "Change appearance",
-    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
-    "DOCS": "Read documentation",
-    "CHANGELOG": "Changelog",
-    "LOGOUT": "Log out"
+    "KEYBOARD_SHORTCUTS": "Bližnjice na tipkovnici",
+    "APPEARANCE": "Spremeni videz",
+    "SUPER_ADMIN_CONSOLE": "Konzola SuperAdmin",
+    "DOCS": "Preberite dokumentacijo",
+    "CHANGELOG": "Zapisnik sprememb",
+    "LOGOUT": "Odjava"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now",
-    "DELETED_USER": "Deleted User",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "TRIAL_MESSAGE": "dni preizkusne dobe je še na voljo.",
+    "TRAIL_BUTTON": "Kupi zdaj",
+    "DELETED_USER": "Izbrisani uporabnik",
+    "EMAIL_VERIFICATION_PENDING": "Zdi se, da svojega e-poštnega naslova še niste potrdili. Prosimo, preverite svoj nabiralnik za potrditveno sporočilo.",
+    "RESEND_VERIFICATION_MAIL": "Ponovno pošlji potrditveni e-poštni naslov",
+    "EMAIL_VERIFICATION_SENT": "Potrditveni e-poštni naslov je bil poslan. Prosimo, preverite svoj poštni predal.",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Račun je začasno onemogočen",
+      "MESSAGE": "Vaš račun je začasno onemogočen. Za več informacij se obrnite na podporno ekipo."
     },
     "NO_ACCOUNTS": {
       "TITLE": "No account found",
@@ -262,154 +263,205 @@
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "CODEPEN": "Open in CodePen",
-      "COPY_SUCCESSFUL": "Copied to clipboard"
+      "BUTTON_TEXT": "Kopiraj",
+      "CODEPEN": "Odpri v CodePen",
+      "COPY_SUCCESSFUL": "Kopirano v odložišče"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "Pokaži več",
+      "SHOW_LESS": "Pokaži manj"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
+      "DOWNLOAD": "Prenesi",
       "UPLOADING": "Nalaganje...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "Ta zgodba ni več na voljo."
+      "INSTAGRAM_STORY_UNAVAILABLE": "Ta zgodba ni več na voljo.",
+      "INSTAGRAM_STORY_REPLY": "Replied to your story:"
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "Poglej na zemljevidu"
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Pošlji"
     },
     "MEDIA": {
-      "IMAGE_UNAVAILABLE": "This image is no longer available.",
-      "LOADING_FAILED": "Loading failed"
+      "IMAGE_UNAVAILABLE": "Ta slika ni več na voljo.",
+      "LOADING_FAILED": "Nalaganje ni uspelo"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "Preverjanje poteka...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "Dodaj poštni predal"
     }
   },
   "SIDEBAR": {
-    "NO_ITEMS": "No items",
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
-    "INBOX_VIEW": "Inbox View",
-    "CONVERSATIONS": "Conversations",
-    "INBOX": "My Inbox",
-    "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
-    "REPORTS": "Reports",
-    "SETTINGS": "Settings",
-    "CONTACTS": "Contacts",
-    "ACTIVE": "Active",
+    "NO_ITEMS": "Brez elementov",
+    "CURRENTLY_VIEWING_ACCOUNT": "Trenutno gledate:",
+    "SWITCH": "Preklopi",
+    "INBOX_VIEW": "Pogled Prejeto",
+    "CONVERSATIONS": "Pogovori",
+    "INBOX": "Moja pošta",
+    "ALL_CONVERSATIONS": "Vsi pogovori",
+    "MENTIONED_CONVERSATIONS": "Omenjanja",
+    "PARTICIPATING_CONVERSATIONS": "Sodelovanje",
+    "UNATTENDED_CONVERSATIONS": "Neposredovano",
+    "REPORTS": "Poročila",
+    "SETTINGS": "Nastavitve",
+    "CONTACTS": "Stiki",
+    "ACTIVE": "Aktivno",
     "COMPANIES": "Companies",
     "ALL_COMPANIES": "All Companies",
-    "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
+    "CAPTAIN": "Kapitan",
+    "CAPTAIN_ASSISTANTS": "Pomočniki",
+    "CAPTAIN_DOCUMENTS": "Dokumenti",
+    "CAPTAIN_RESPONSES": "Pogosta vprašanja",
     "CAPTAIN_TOOLS": "Tools",
     "CAPTAIN_SCENARIOS": "Scenarios",
     "CAPTAIN_PLAYGROUND": "Playground",
     "CAPTAIN_INBOXES": "Inboxes",
     "CAPTAIN_SETTINGS": "Settings",
-    "HOME": "Home",
-    "AGENTS": "Agents",
+    "HOME": "Domov",
+    "AGENTS": "Agentje",
     "AGENT_BOTS": "Boti",
-    "AUDIT_LOGS": "Audit Logs",
-    "INBOXES": "Inboxes",
-    "NOTIFICATIONS": "Notifications",
-    "CANNED_RESPONSES": "Canned Responses",
-    "INTEGRATIONS": "Integrations",
-    "PROFILE_SETTINGS": "Profile Settings",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "APPLICATIONS": "Applications",
-    "LABELS": "Labels",
-    "CUSTOM_ATTRIBUTES": "Custom Attributes",
-    "AUTOMATION": "Automation",
-    "MACROS": "Macros",
-    "TEAMS": "Teams",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
-    "REPORTS_CONVERSATION": "Conversations",
+    "AUDIT_LOGS": "Revizijski zapisi",
+    "INBOXES": "Prejemniki",
+    "NOTIFICATIONS": "Obvestila",
+    "CANNED_RESPONSES": "Vnaprej pripravljeni odgovori",
+    "INTEGRATIONS": "Integracije",
+    "PROFILE_SETTINGS": "Nastavitve profila",
+    "ACCOUNT_SETTINGS": "Nastavitve računa",
+    "APPLICATIONS": "Aplikacije",
+    "LABELS": "Oznake",
+    "CUSTOM_ATTRIBUTES": "Lastni atributi",
+    "AUTOMATION": "Avtomatizacija",
+    "MACROS": "Makri",
+    "TEAMS": "Ekipe",
+    "BILLING": "Računovodstvo",
+    "CUSTOM_VIEWS_FOLDER": "Mape",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmenti",
+    "ALL_CONTACTS": "Vsi stiki",
+    "TAGGED_WITH": "Označeno z",
+    "NEW_LABEL": "Nova oznaka",
+    "NEW_TEAM": "Nova ekipa",
+    "NEW_INBOX": "Nov poštni predal",
+    "REPORTS_CONVERSATION": "Pogovori",
     "CSAT": "CSAT",
-    "LIVE_CHAT": "Live Chat",
+    "LIVE_CHAT": "Pogovor v živo",
     "SMS": "SMS",
     "WHATSAPP": "WhatsApp",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "CAMPAIGNS": "Kampanje",
+    "ONGOING": "V teku",
+    "ONE_OFF": "Enkratno",
     "REPORTS_SLA": "SLA",
-    "REPORTS_BOT": "Bot",
-    "REPORTS_AGENT": "Agents",
-    "REPORTS_LABEL": "Labels",
-    "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team",
-    "AGENT_ASSIGNMENT": "Agent Assignment",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "SET_YOUR_AVAILABILITY": "Set your availability",
+    "REPORTS_BOT": "Boti",
+    "REPORTS_AGENT": "Agentje",
+    "REPORTS_LABEL": "Oznake",
+    "REPORTS_INBOX": "Prejeto",
+    "REPORTS_TEAM": "Ekipa",
+    "AGENT_ASSIGNMENT": "Dodeljevanje agentov",
+    "SET_AVAILABILITY_TITLE": "Nastavi se kot",
+    "SET_YOUR_AVAILABILITY": "Nastavite svojo razpoložljivost",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
+    "CUSTOM_ROLES": "Prilagojene vloge",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "REPORTS_OVERVIEW": "Pregled",
+    "REAUTHORIZE": "Povezava z vašim poštnim predalom je potekla, prosimo, ponovno se povežite\n da boste lahko nadaljevali s prejemanjem in pošiljanjem sporočil",
     "HELP_CENTER": {
-      "TITLE": "Help Center",
-      "ARTICLES": "Articles",
-      "CATEGORIES": "Categories",
-      "LOCALES": "Locales",
-      "SETTINGS": "Settings"
+      "TITLE": "Pomoč",
+      "ARTICLES": "Članki",
+      "CATEGORIES": "Kategorije",
+      "LOCALES": "Jeziki",
+      "SETTINGS": "Nastavitve"
     },
-    "CHANNELS": "Channels",
+    "CHANNELS": "Kanali",
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
-      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+      "TEXT": "Samodejno označi kot nedosegljiv",
+      "INFO_TEXT": "Dovoli sistemu, da te samodejno označi kot nedosegljivega, ko ne uporabljaš aplikacije ali nadzorne plošče.",
+      "INFO_SHORT": "Samodejno označi kot nedosegljiv, ko aplikacije ne uporabljaš."
     },
-    "DOCS": "Read docs",
-    "SECURITY": "Security"
+    "DOCS": "Preberite dokumentacijo",
+    "SECURITY": "Security",
+    "CAPTAIN_AI": "Captain",
+    "CONVERSATION_WORKFLOW": "Conversation Workflow"
+  },
+  "CAPTAIN_SETTINGS": {
+    "TITLE": "Captain Settings",
+    "DESCRIPTION": "Configure your AI models and features for Captain. Captain follows a credit based billing, you will be charged credits for every action Captain takes based on the model selected.",
+    "LOADING": "Loading Captain configuration...",
+    "LINK_TEXT": "Learn more about Captain Credits",
+    "NOT_ENABLED": "Captain is not enabled for your account. Please upgrade your plan to access Captain features.",
+    "MODEL_CONFIG": {
+      "TITLE": "Model Configuration",
+      "DESCRIPTION": "Select AI models for different features.",
+      "SELECT_MODEL": "Select model",
+      "CREDITS_PER_MESSAGE": "{credits} credit/message",
+      "COMING_SOON": "Coming soon",
+      "EDITOR": {
+        "TITLE": "Editor Features",
+        "DESCRIPTION": "Powers smart compose, grammar corrections, tone adjustments, and content enhancement in your message editor."
+      },
+      "ASSISTANT": {
+        "TITLE": "Assistant",
+        "DESCRIPTION": "Handles automated responses, conversation summaries, and intelligent reply suggestions for customer interactions."
+      },
+      "COPILOT": {
+        "TITLE": "Co-pilot",
+        "DESCRIPTION": "Provides real-time contextual suggestions, knowledge base recommendations, and proactive insights during conversations."
+      }
+    },
+    "FEATURES": {
+      "TITLE": "Features",
+      "DESCRIPTION": "Enable or disable AI-powered features.",
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Audio Transcription",
+        "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts."
+      },
+      "HELP_CENTER_SEARCH": {
+        "TITLE": "Help Center Search Indexing",
+        "DESCRIPTION": "Use AI for context aware search inside your help center articles."
+      },
+      "LABEL_SUGGESTION": {
+        "TITLE": "Label Suggestion",
+        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
+        "MODEL_TITLE": "Label Suggestion Model",
+        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
+      }
+    },
+    "API": {
+      "SUCCESS": "Captain settings updated successfully.",
+      "ERROR": "Failed to update Captain settings. Please try again."
+    }
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
-    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "TITLE": "Računovodstvo",
+    "DESCRIPTION": "Tukaj upravljajte svojo naročnino, nadgradite svoj načrt in pridobite več za svojo ekipo.",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
-      "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "TITLE": "Trenutni načrt",
+      "PLAN_NOTE": "Trenutno ste naročeni na načrt **{plan}** z **{quantity}** licencami",
+      "SEAT_COUNT": "Število mest",
+      "RENEWS_ON": "Obnavlja se dne"
     },
-    "VIEW_PRICING": "View Pricing",
+    "VIEW_PRICING": "Ogled cen",
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Upravljajte svoje naročnino",
+      "DESCRIPTION": "Ogledate si lahko pretekle račune, uredite podatke za obračunavanje ali prekličete naročnino.",
+      "BUTTON_TXT": "Pojdi na portal za obračunavanje"
     },
     "CAPTAIN": {
-      "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
-      "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
+      "TITLE": "Kapitan",
+      "DESCRIPTION": "Upravljajte uporabo in kredite za Captain AI.",
+      "BUTTON_TXT": "Kupite več kreditov",
+      "DOCUMENTS": "Dokumenti",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
+      "UPGRADE": "Captain ni na voljo v brezplačnem paketu, nadgradite zdaj za dostop do pomočnikov, kopilota in več.",
       "REFRESH_CREDITS": "Refresh"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Potrebujete pomoč?",
+      "DESCRIPTION": "Imate težave z obračunavanjem? Tu smo, da pomagamo.",
       "BUTTON_TXT": "Klepetajte z nami"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
+    "NO_BILLING_USER": "Vaš račun za obračunavanje se ureja. Prosimo, osvežite stran in poskusite znova.",
     "TOPUP": {
       "BUY_CREDITS": "Buy more credits",
       "MODAL_TITLE": "Buy AI Credits",
@@ -506,200 +558,261 @@
       }
     }
   },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Conversation Workflows",
+        "DESCRIPTION": "Configure rules and required fields for conversation resolution."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "TITLE": "Attributes required on resolution",
+      "DESCRIPTION": "When resolving a conversation, agents will be prompted to fill these attributes if they haven't yet.",
+      "NO_ATTRIBUTES": "No attributes added yet",
+      "ADD": {
+        "TITLE": "Add Attributes",
+        "SEARCH_PLACEHOLDER": "Search attributes"
+      },
+      "SAVE": {
+        "SUCCESS": "Required attributes updated",
+        "ERROR": "Could not update required attributes, please try again"
+      },
+      "MODAL": {
+        "TITLE": "Resolve conversation",
+        "DESCRIPTION": "Please fill in the following custom attributes before resolving this conversation",
+        "ACTIONS": {
+          "RESOLVE": "Resolve conversation",
+          "CANCEL": "Cancel"
+        },
+        "PLACEHOLDERS": {
+          "TEXT": "Write a note...",
+          "NUMBER": "Enter a number",
+          "LINK": "Add a link",
+          "DATE": "Pick a date",
+          "LIST": "Select an option"
+        },
+        "CHECKBOX": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use required attributes",
+        "AVAILABLE_ON": "The required conversation attributes feature is available on the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade your plan to prompt agents to fill required attributes before conversation resolution.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "The required conversation attributes feature is available on the paid plans.",
+        "UPGRADE_PROMPT": "Upgrade to a paid plan to enforce required attributes before conversation resolution.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      }
+    }
+  },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NO_ACCOUNT_WARNING": "Ojej! Nismo našli nobenega Chatwoot računa. Za nadaljevanje ustvarite nov račun.",
+    "NEW_ACCOUNT": "Nov račun",
+    "SELECTOR_SUBTITLE": "Ustvarite nov račun",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "Račun je bil uspešno ustvarjen",
+      "EXIST_MESSAGE": "Račun že obstaja",
+      "ERROR_MESSAGE": "Povezava s strežnikom Woot ni uspela, prosimo, poskusite znova kasneje"
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Company Name",
+        "LABEL": "Ime podjetja",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Submit",
-      "CANCEL": "Cancel"
+      "SUBMIT": "Pošlji",
+      "CANCEL": "Prekliči"
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "Prikaži vse bližnjice",
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "Odpri pogovor",
+      "RESOLVE_AND_NEXT": "Reši in pojdi na naslednjega",
+      "NAVIGATE_DROPDOWN": "Premikaj se po elementih spustnega seznama",
+      "RESOLVE_CONVERSATION": "Reši pogovor",
+      "GO_TO_CONVERSATION_DASHBOARD": "Pojdi na nadzorno ploščo pogovorov",
+      "ADD_ATTACHMENT": "Dodaj priponko",
+      "GO_TO_CONTACTS_DASHBOARD": "Pojdi na nadzorno ploščo stikov",
+      "TOGGLE_SIDEBAR": "Preklopi stransko vrstico",
+      "GO_TO_REPORTS_SIDEBAR": "Pojdi na stransko vrstico poročil",
+      "MOVE_TO_NEXT_TAB": "Premakni se na naslednjo zavihek v seznamu pogovorov",
+      "GO_TO_SETTINGS": "Pojdi na Nastavitve",
+      "SWITCH_TO_PRIVATE_NOTE": "Preklopi na zasebno opombo",
+      "SWITCH_TO_REPLY": "Preklopi na odgovor",
+      "TOGGLE_SNOOZE_DROPDOWN": "Preklopi spustni meni za odlog"
     }
   },
   "ASSIGNMENT_POLICY": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "Agent assignment",
-        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+        "TITLE": "Dodeljevanje agentov",
+        "DESCRIPTION": "Določite pravila za učinkovito upravljanje delovne obremenitve in usmerjanje pogovorov glede na potrebe prejemnikov in agentov. Več informacij tukaj"
       },
       "ASSIGNMENT_POLICY": {
-        "TITLE": "Assignment policy",
-        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "TITLE": "Pravila dodeljevanja",
+        "DESCRIPTION": "Upravljajte, kako se pogovori dodeljujejo v prejemnih mapah.",
         "FEATURES": [
-          "Assign by conversations evenly or by available capacity",
-          "Add fair distribution rules to avoid overloading any agent",
-          "Add inboxes to a policy - one policy per inbox"
+          "Dodeljujte pogovore enakomerno ali glede na razpoložljivo zmogljivost",
+          "Dodajte pravila poštene razporeditve, da preprečite preobremenitev katerega koli agenta",
+          "Dodajte prejemne mape k pravilu – eno pravilo na prejemno mapo"
         ]
       },
       "AGENT_CAPACITY_POLICY": {
-        "TITLE": "Agent capacity policy",
-        "DESCRIPTION": "Manage workload for agents.",
+        "TITLE": "Pravila zmogljivosti agentov",
+        "DESCRIPTION": "Upravljajte delovno obremenitev agentov.",
         "FEATURES": [
-          "Define maximum conversations per inbox",
-          "Create exceptions based on labels and time",
-          "Add agents to a policy - one policy per agent"
+          "Določite največje število pogovorov na prejemno pošto",
+          "Ustvarite izjeme na podlagi oznak in časa",
+          "Dodajte agente v pravilo – eno pravilo na agenta"
         ]
       }
     },
     "AGENT_ASSIGNMENT_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Assignment policy",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "Pravila dodeljevanja",
+          "CREATE_POLICY": "Novo pravilo"
         },
         "CARD": {
-          "ORDER": "Order",
+          "ORDER": "Vrstni red",
           "PRIORITY": "Prioriteta",
-          "ACTIVE": "Active",
-          "INACTIVE": "Inactive",
-          "POPOVER": "Added inboxes",
-          "EDIT": "Edit"
+          "ACTIVE": "Aktivno",
+          "INACTIVE": "Neaktivno",
+          "POPOVER": "Dodani predali",
+          "EDIT": "Uredi"
         },
-        "NO_RECORDS_FOUND": "No assignment policies found"
+        "NO_RECORDS_FOUND": "Ni najdenih pravil dodeljevanja"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create assignment policy"
+          "TITLE": "Ustvari pravilo dodeljevanja"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "Ustvari pravilo",
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy created successfully",
-          "ERROR_MESSAGE": "Failed to create assignment policy"
+          "SUCCESS_MESSAGE": "Pravilo dodeljevanja je bilo uspešno ustvarjeno",
+          "ERROR_MESSAGE": "Ustvarjanje pravila dodeljevanja ni uspelo",
+          "INBOX_LINKED": "Inbox has been linked to the policy"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit assignment policy"
+          "TITLE": "Uredi pravilo dodeljevanja"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "Posodobi pravilo",
         "CONFIRM_ADD_INBOX_DIALOG": {
-          "TITLE": "Add inbox",
-          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
-          "CANCEL_BUTTON_LABEL": "Cancel"
+          "TITLE": "Dodaj poštni predal",
+          "DESCRIPTION": "Poštni predal {inboxName} je že povezan z drugim pravilom. Ste prepričani, da ga želite povezati s tem pravilom? Povezava z drugim pravilom bo prekinjena.",
+          "CONFIRM_BUTTON_LABEL": "Nadaljuj",
+          "CANCEL_BUTTON_LABEL": "Prekliči"
+        },
+        "INBOX_LINK_PROMPT": {
+          "TITLE": "Link inbox to policy",
+          "DESCRIPTION": "Would you like to link this inbox to the assignment policy?",
+          "LINK_BUTTON": "Link inbox",
+          "CANCEL_BUTTON": "Skip"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update assignment policy"
+          "SUCCESS_MESSAGE": "Pravilnik o dodelitvi je bil uspešno posodobljen",
+          "ERROR_MESSAGE": "Posodobitev pravilnika o dodelitvi ni uspela"
         },
         "INBOX_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "Prejeto sporočilo je bilo uspešno dodano v pravilnik",
+            "ERROR_MESSAGE": "Dodajanje prejetega sporočila v pravilnik ni uspelo"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+            "SUCCESS_MESSAGE": "Prejeto sporočilo je bilo uspešno odstranjeno iz pravilnika",
+            "ERROR_MESSAGE": "Odstranjevanje nabiralnika iz politike ni uspelo"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "Ime politike:",
+          "PLACEHOLDER": "Vnesite ime politike"
         },
         "DESCRIPTION": {
-          "LABEL": "Description:",
-          "PLACEHOLDER": "Enter description"
+          "LABEL": "Opis:",
+          "PLACEHOLDER": "Vnesite opis"
         },
         "STATUS": {
           "LABEL": "Status:",
-          "PLACEHOLDER": "Select status",
-          "ACTIVE": "Policy is active",
-          "INACTIVE": "Policy is inactive"
+          "PLACEHOLDER": "Izberite status",
+          "ACTIVE": "Pravilnik je aktiven",
+          "INACTIVE": "Pravilnik ni aktiven"
         },
         "ASSIGNMENT_ORDER": {
-          "LABEL": "Assignment order",
+          "LABEL": "Vrstni red dodeljevanja",
           "ROUND_ROBIN": {
-            "LABEL": "Round robin",
-            "DESCRIPTION": "Assign conversations evenly among agents."
+            "LABEL": "Izmenično",
+            "DESCRIPTION": "Pogovore enakomerno dodeljuj agentom."
           },
           "BALANCED": {
-            "LABEL": "Balanced",
-            "DESCRIPTION": "Assign conversations based on available capacity."
+            "LABEL": "Uravnoteženo",
+            "DESCRIPTION": "Pogovore dodeljuj glede na razpoložljivo zmogljivost.",
+            "PREMIUM_MESSAGE": "Upgrade to access balanced assignment and agent capacity management.",
+            "PREMIUM_BADGE": "Premium"
           }
         },
         "ASSIGNMENT_PRIORITY": {
-          "LABEL": "Assignment priority",
+          "LABEL": "Prednost dodelitve",
           "EARLIEST_CREATED": {
-            "LABEL": "Earliest created",
-            "DESCRIPTION": "The conversation that was created first gets assigned first."
+            "LABEL": "Najzgodnejše ustvarjeno",
+            "DESCRIPTION": "Pogovor, ki je bil ustvarjen najprej, se dodeli najprej."
           },
           "LONGEST_WAITING": {
-            "LABEL": "Longest waiting",
-            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+            "LABEL": "Najdlje čakajoče",
+            "DESCRIPTION": "Pogovor, ki čaka najdlje, se dodeli najprej."
           }
         },
         "FAIR_DISTRIBUTION": {
-          "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
-          "INPUT_MAX": "Assign max",
-          "DURATION": "Conversations per agent in every"
+          "LABEL": "Pravilen način razporejanja",
+          "DESCRIPTION": "Nastavite največje število pogovorov, ki jih je mogoče dodeliti posameznemu agentu v določenem časovnem obdobju, da preprečite preobremenitev katerega koli agenta. To obvezno polje privzeto znaša 100 pogovorov na uro.",
+          "INPUT_MAX": "Največ dodeli",
+          "DURATION": "Pogovori na agenta v vsakem"
         },
         "INBOXES": {
-          "LABEL": "Added inboxes",
-          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "Dodani predali",
+          "DESCRIPTION": "Dodajte predale, za katere bo ta politika veljala.",
+          "ADD_BUTTON": "Dodaj poštni predal",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
-            "ADD_BUTTON": "Add"
+            "SEARCH_PLACEHOLDER": "Išči in izberi poštne predale za dodajanje",
+            "ADD_BUTTON": "Dodaj"
           },
-          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "EMPTY_STATE": "V to politiko ni dodanih nobenih poštnih predalov, dodajte poštni predal za začetek",
           "API": {
-            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "Poštni predal je bil uspešno dodan politiki",
+            "ERROR_MESSAGE": "Dodajanje nabiralnika v politiko ni uspelo"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete assignment policy"
+        "SUCCESS_MESSAGE": "Pravilo dodeljevanja je bilo uspešno izbrisano",
+        "ERROR_MESSAGE": "Brisanje pravila dodeljevanja ni uspelo"
       }
     },
     "AGENT_CAPACITY_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Agent capacity",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "Kapaciteta agenta",
+          "CREATE_POLICY": "Nova politika"
         },
         "CARD": {
-          "POPOVER": "Added agents",
-          "EDIT": "Edit"
+          "POPOVER": "Dodani agenti",
+          "EDIT": "Uredi"
         },
-        "NO_RECORDS_FOUND": "No agent capacity policies found"
+        "NO_RECORDS_FOUND": "Ni najdenih pravilnikov o zmogljivosti agentov"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create agent capacity policy"
+          "TITLE": "Ustvari politiko zmogljivosti agenta"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "Ustvari politiko",
         "API": {
           "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
           "ERROR_MESSAGE": "Failed to create agent capacity policy"
@@ -728,6 +841,20 @@
           "REMOVE": {
             "SUCCESS_MESSAGE": "Agent removed from policy successfully",
             "ERROR_MESSAGE": "Failed to remove agent from policy"
+          }
+        },
+        "INBOX_LIMIT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Inbox limit added successfully",
+            "ERROR_MESSAGE": "Failed to add inbox limit"
+          },
+          "UPDATE": {
+            "SUCCESS_MESSAGE": "Inbox limit updated successfully",
+            "ERROR_MESSAGE": "Failed to update inbox limit"
+          },
+          "DELETE": {
+            "SUCCESS_MESSAGE": "Inbox limit deleted successfully",
+            "ERROR_MESSAGE": "Failed to delete inbox limit"
           }
         }
       },
@@ -782,15 +909,15 @@
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+        "SUCCESS_MESSAGE": "Pravilnik o zmogljivosti agenta je bil uspešno izbrisan",
+        "ERROR_MESSAGE": "Brisanje pravilnika o zmogljivosti agenta ni uspelo"
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "Delete policy",
-      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
-      "CONFIRM_BUTTON_LABEL": "Delete",
-      "CANCEL_BUTTON_LABEL": "Cancel"
+      "TITLE": "Izbriši pravilnik",
+      "DESCRIPTION": "Ali ste prepričani, da želite izbrisati to politiko? Tega dejanja ni mogoče razveljaviti.",
+      "CONFIRM_BUTTON_LABEL": "Izbriši",
+      "CANCEL_BUTTON_LABEL": "Prekliči"
     }
   }
 }

@@ -82,12 +82,18 @@ const ORDINAL_RE = `(\\d{1,2}(?:st|nd|rd|th)?|${ORDINAL_WORDS})`;
 
 const HALF_UNIT_RE = /^(?:in\s+)?half\s+(?:an?\s+)?(hour|day|week|month|year)$/;
 const RELATIVE_DURATION_RE = new RegExp(`^(?:in\\s+)?${NUM_RE}\\s+${UNIT_RE}$`);
+const RELATIVE_DURATION_AFTER_RE = new RegExp(
+  `^(?:in\\s+)?${NUM_RE}\\s+${UNIT_RE}\\s+after$`
+);
 const DURATION_FROM_NOW_RE = new RegExp(
   `^${NUM_RE}\\s+${UNIT_RE}\\s+from\\s+now$`
 );
 const RELATIVE_DAY_ONLY_RE = new RegExp(`^(${RELATIVE_DAYS})$`);
 const RELATIVE_DAY_TOD_RE = new RegExp(
   `^(${RELATIVE_DAYS})\\s+(?:at\\s+)?(${TIME_OF_DAY_NAMES})$`
+);
+const RELATIVE_DAY_MERIDIEM_RE = new RegExp(
+  `^(${RELATIVE_DAYS})\\s+(?:at\\s+)?(am|pm)$`
 );
 const RELATIVE_DAY_TOD_TIME_RE = new RegExp(
   `^(${RELATIVE_DAYS})\\s+(?:at\\s+)?(${TIME_OF_DAY_NAMES})\\s+(\\d{1,2}(?::\\d{2})?)$`
@@ -245,6 +251,7 @@ const matchDuration = (text, now) => {
 
   return (
     parseDuration(text.match(DURATION_FROM_NOW_RE), now) ||
+    parseDuration(text.match(RELATIVE_DURATION_AFTER_RE), now) ||
     parseDuration(text.match(RELATIVE_DURATION_RE), now)
   );
 };
@@ -301,6 +308,13 @@ const matchRelativeDay = (text, now) => {
       minutes,
       now
     );
+  }
+
+  const dayMeridiemMatch = text.match(RELATIVE_DAY_MERIDIEM_RE);
+  if (dayMeridiemMatch) {
+    const [, dayKey, meridiem] = dayMeridiemMatch;
+    const hours = meridiem === 'am' ? 9 : 14;
+    return applyTimeWithRollover(RELATIVE_DAY_MAP[dayKey], hours, 0, now);
   }
 
   const dayAtTimeMatch = text.match(RELATIVE_DAY_AT_TIME_RE);

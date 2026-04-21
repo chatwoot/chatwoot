@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "语言环境从门户中移除成功",
           "ERROR_MESSAGE": "无法从门户中移除语言环境，请重试。"
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -372,6 +384,16 @@
       "API": {
         "SUCCESS_MESSAGE": "文章删除成功",
         "ERROR_MESSAGE": "删除文章时出错"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
       }
     },
     "CREATE_ARTICLE": {
@@ -634,8 +656,11 @@
         "ARTICLES_COUNT": "{count} 篇文章 | {count} 篇文章",
         "CATEGORIES_COUNT": "{count} 个类别 | {count} 个类别",
         "DEFAULT": "默认",
+        "DRAFT": "草稿",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "设为默认",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "删除"
         }
       },
@@ -644,6 +669,13 @@
         "DESCRIPTION": "选择此文章将使用的语言。这将添加到您的翻译列表中，您可以稍后添加更多。",
         "COMBOBOX": {
           "PLACEHOLDER": "选择语言环境..."
+        },
+        "STATUS": {
+          "LABEL": "状态",
+          "OPTIONS": {
+            "LIVE": "已发布",
+            "DRAFT": "草稿"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "语言环境添加成功",

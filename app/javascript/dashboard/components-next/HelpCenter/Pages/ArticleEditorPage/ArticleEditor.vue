@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { debounce } from '@chatwoot/utils';
 import { useI18n } from 'vue-i18n';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
@@ -27,58 +27,50 @@ const props = defineProps({
 
 const emit = defineEmits([
   'saveArticle',
-  'saveArticleAsync',
   'goBack',
   'setAuthor',
   'setCategory',
   'previewArticle',
+  'createArticle',
 ]);
 
 const { t } = useI18n();
 
 const isNewArticle = computed(() => !props.article?.id);
 
-const saveAndSync = value => {
-  emit('saveArticle', value);
-};
+const localTitle = ref(props.article?.title ?? '');
+const localContent = ref(props.article?.content ?? '');
 
-// this will only send the data to the backend
-// but will not update the local state preventing unnecessary re-renders
-// since the data is already saved and we keep the editor text as the source of truth
-const quickSave = debounce(
-  value => emit('saveArticleAsync', value),
-  400,
-  false
+// Sync local state when navigating to a different article or on initial fetch
+watch(
+  () => props.article?.id,
+  newId => {
+    if (newId) {
+      localTitle.value = props.article?.title ?? '';
+      localContent.value = props.article?.content ?? '';
+    }
+  }
 );
 
-// 2.5 seconds is enough to know that the user has stopped typing and is taking a pause
-// so we can save the data to the backend and retrieve the updated data
-// this will update the local state with response data
-// Only use to save for existing articles
-const saveAndSyncDebounced = debounce(saveAndSync, 2500, false);
-
-// Debounced save for new articles
-const quickSaveNewArticle = debounce(saveAndSync, 400, false);
+const debouncedSave = debounce(value => emit('saveArticle', value), 500, false);
 
 const handleSave = value => {
-  if (isNewArticle.value) {
-    quickSaveNewArticle(value);
-  } else {
-    quickSave(value);
-    saveAndSyncDebounced(value);
-  }
+  if (isNewArticle.value) return;
+  debouncedSave(value);
 };
 
 const articleTitle = computed({
-  get: () => props.article.title,
+  get: () => localTitle.value,
   set: value => {
+    localTitle.value = value;
     handleSave({ title: value });
   },
 });
 
 const articleContent = computed({
-  get: () => props.article.content,
+  get: () => localContent.value,
   set: content => {
+    localContent.value = content;
     handleSave({ content });
   },
 });
@@ -97,6 +89,14 @@ const setCategoryId = categoryId => {
 
 const previewArticle = () => {
   emit('previewArticle');
+};
+
+const handleCreateArticle = event => {
+  if (!isNewArticle.value) return;
+  const title = event?.target?.value || '';
+  if (title.trim()) {
+    emit('createArticle', { title, content: localContent.value });
+  }
 };
 </script>
 
@@ -122,10 +122,11 @@ const previewArticle = () => {
           custom-text-area-wrapper-class="border-0 !bg-transparent dark:!bg-transparent !py-0 !px-0"
           placeholder="Title"
           autofocus
+          @blur="handleCreateArticle"
         />
         <ArticleEditorControls
           :article="article"
-          @save-article="saveAndSync"
+          @save-article="values => emit('saveArticle', values)"
           @set-author="setAuthorId"
           @set-category="setCategoryId"
         />
@@ -160,8 +161,12 @@ const previewArticle = () => {
   }
 
   .editor-root .has-selection {
+    .ProseMirror-menubar:not(:has(*)) {
+      display: none !important;
+    }
+
     .ProseMirror-menubar {
-      @apply h-8 rounded-lg !px-2 z-50 bg-n-solid-3 items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
+      @apply rounded-lg !px-3 !py-1.5 z-50 bg-n-background items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
       display: flex;
       top: var(--selection-top, auto) !important;
       left: var(--selection-left, 0) !important;
@@ -169,15 +174,10 @@ const previewArticle = () => {
       position: absolute !important;
 
       .ProseMirror-menuitem {
-        @apply mr-0;
+        @apply ltr:mr-0 rtl:ml-0 size-4 flex items-center;
 
         .ProseMirror-icon {
-          @apply p-0 mt-0 !mr-0;
-
-          svg {
-            width: 20px !important;
-            height: 20px !important;
-          }
+          @apply p-0.5 flex-shrink-0 ltr:mr-2 rtl:ml-2;
         }
       }
 

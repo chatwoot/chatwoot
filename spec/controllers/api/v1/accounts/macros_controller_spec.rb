@@ -79,6 +79,9 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
               'action_params': %w[support priority_customer]
             },
             {
+              'action_name': :remove_assigned_agent
+            },
+            {
               'action_name': :remove_assigned_team
             },
             {
@@ -483,6 +486,22 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
           end
 
           expect(conversation.reload.team_id).to be_nil
+        end
+
+        it 'Unassign the agent' do
+          macro.update!(actions: [
+                          { 'action_name' => 'remove_assigned_agent' }
+                        ])
+          conversation.update!(assignee: user_1)
+          expect(conversation.reload.assignee).to be_present
+
+          perform_enqueued_jobs do
+            post "/api/v1/accounts/#{account.id}/macros/#{macro.id}/execute",
+                 params: { conversation_ids: [conversation.display_id] },
+                 headers: administrator.create_new_auth_token
+          end
+
+          expect(conversation.reload.assignee).to be_nil
         end
       end
     end

@@ -3,9 +3,12 @@
     "HEADER": "Macros",
     "DESCRIPTION": "Uma macro é um conjunto de ações salvas que ajudam os agentes de atendimento ao cliente a concluir tarefas com facilidade. Os agentes podem definir um conjunto de ações, como etiquetar uma conversa com um rótulo, enviar uma transcrição de e-mail, atualizar um atributo personalizado, etc., e podem executar essas ações com um único clique.",
     "LEARN_MORE": "Aprenda mais sobre macros",
+    "COUNT": "{n} macro | {n} macros",
     "HEADER_BTN_TXT": "Adicionar uma nova macro",
     "HEADER_BTN_TXT_SAVE": "Salvar macro",
     "LOADING": "Obtendo macros",
+    "SEARCH_PLACEHOLDER": "Pesquisar macros...",
+    "NO_RESULTS": "Nenhum macro encontrado correspondente à sua busca",
     "ERROR": "Algo deu errado. Por favor, tente novamente",
     "ORDER_INFO": "As macros serão executadas na ordem que você adicionar suas ações. Você pode reorganizá-las arrastando-as pelo identificador ao lado de cada nó.",
     "ADD": {
@@ -29,7 +32,8 @@
         "NAME": "Nome",
         "CREATED BY": "Criada por",
         "LAST_UPDATED_BY": "Ultima atualização por",
-        "VISIBILITY": "Visibilidade"
+        "VISIBILITY": "Visibilidade",
+        "ACTIONS": "Ações"
       },
       "404": "Nenhuma macro encontrada"
     },
@@ -89,6 +93,7 @@
       "ASSIGN_AGENT": "Atribuir um Agente",
       "ADD_LABEL": "Adicionar uma Etiqueta",
       "REMOVE_LABEL": "Remover uma Etiqueta",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "Remover Time Atribuído",
       "SEND_EMAIL_TRANSCRIPT": "Enviar uma transcrição por e-mail",
       "MUTE_CONVERSATION": "Silenciar Conversa",

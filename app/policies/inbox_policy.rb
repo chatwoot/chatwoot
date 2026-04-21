@@ -69,4 +69,8 @@ class InboxPolicy < ApplicationPolicy
   def health?
     @account_user.administrator?
   end
+
+  def reset_secret?
+    @account_user.administrator?
+  end
 end

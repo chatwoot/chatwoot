@@ -1,39 +1,39 @@
 {
   "REPORT": {
-    "HEADER": "Conversations",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "HEADER": "Razgovori",
+    "LOADING_CHART": "Učitavanje podataka grafikona...",
+    "NO_ENOUGH_DATA": "Nema dovoljno podataka za izveštaj. Pokušajte ponovo kasnije.",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Razgovori",
+        "DESC": "(Ukupno)"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "DESC": "(Ukupno)"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "DESC": "(Ukupno)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Vreme prvog odgovora",
+        "DESC": "(Prosek)",
+        "INFO_TEXT": "Ukupan broj razgovora korišćenih za izračunavanje:",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Vreme rešavanja",
+        "DESC": "(Prosek)",
+        "INFO_TEXT": "Ukupan broj razgovora korišćenih za izračunavanje:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Broj rešenja",
+        "DESC": "( Ukupno )"
       },
       "BOT_RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -61,10 +61,10 @@
       "CUSTOM_DATE_RANGE": "Custom date range"
     },
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Primeni",
+      "PLACEHOLDER": "Izaberi period"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Grupiši po",
     "DURATION_FILTER_LABEL": "Duration",
     "GROUPING_OPTIONS": {
       "DAY": "Day",
@@ -75,31 +75,31 @@
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Dan"
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Dan"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Nedelja"
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Dan"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Nedelja"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Mesec"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
@@ -116,7 +116,7 @@
         "groupBy": "Month"
       }
     ],
-    "BUSINESS_HOURS": "Business Hours",
+    "BUSINESS_HOURS": "Radno vreme",
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "No results found"
@@ -127,309 +127,377 @@
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "HEADER": "Pregled agenata",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
+    "LOADING_CHART": "Učitavanje podataka grafikona...",
+    "NO_ENOUGH_DATA": "Nema dovoljno podataka za izveštaj. Pokušajte ponovo kasnije.",
+    "DOWNLOAD_AGENT_REPORTS": "Preuzmi izveštaje agenata",
+    "FILTER_DROPDOWN_LABEL": "Izaberi agenta",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Search agents"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Razgovori",
+        "DESC": "( Ukupno )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Dolazne poruke",
+        "DESC": "( Ukupno )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Odlazne poruke",
+        "DESC": "( Ukupno )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Vreme prvog odgovora",
+        "DESC": "( Prosek )",
+        "INFO_TEXT": "Ukupan broj razgovora korišćenih za izračunavanje:",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Vreme rešavanja",
+        "DESC": "( Prosek )",
+        "INFO_TEXT": "Ukupan broj razgovora korišćenih za izračunavanje:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Broj rešenja",
+        "DESC": "( Ukupno )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Poslednjih 7 dana"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Poslednjih 30 dana"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Poslednja 3 meseca"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Poslednjih 6 meseci"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Poslednja godina"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Prilagođen period"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Primeni",
+      "PLACEHOLDER": "Izaberi period"
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "Pregled oznaka",
     "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "LOADING_CHART": "Učitavanje grafikona...",
+    "NO_ENOUGH_DATA": "Nema dovoljno podataka za izveštaj. Pokušajte kasnije.",
+    "DOWNLOAD_LABEL_REPORTS": "Preuzmi izveštaje po oznakama",
+    "FILTER_DROPDOWN_LABEL": "Izaberi oznaku",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Search labels"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Razgovori",
+        "DESC": "(Ukupno)"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Dolazne poruke",
+        "DESC": "(Ukupno)"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Odlazne poruke",
+        "DESC": "(Ukupno)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Vreme prvog odgovora",
+        "DESC": "(Prosek)",
+        "INFO_TEXT": "Ukupan broj razgovora korišćenih za izračunavanje:",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Vreme rešavanja",
+        "DESC": "( Prosek )",
+        "INFO_TEXT": "Ukupan broj razgovora korišćenih za izračunavanje:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Broj rešenih",
+        "DESC": "( Ukupno )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Poslednjih 7 dana"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Poslednjih 30 dana"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Poslednja 3 meseca"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Poslednjih 6 meseci"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Poslednja godina"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Prilagođen period"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Primeni",
+      "PLACEHOLDER": "Izaberi period"
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
+    "HEADER": "Pregled prijemnog sandučeta",
     "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "LOADING_CHART": "Učitavanje podataka grafikona...",
+    "NO_ENOUGH_DATA": "Nema dovoljno podataka za izveštaj. Pokušajte kasnije.",
+    "DOWNLOAD_INBOX_REPORTS": "Preuzmi izveštaje sandučeta",
+    "FILTER_DROPDOWN_LABEL": "Izaberi sanduče",
     "ALL_INBOXES": "All Inboxes",
     "SEARCH_INBOX": "Search Inbox",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Search inboxes"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Razgovori",
+        "DESC": "(Ukupno)"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Dolazne poruke",
+        "DESC": "(Ukupno)"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Poslate poruke",
+        "DESC": "(Ukupno)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Vreme prvog odgovora",
+        "DESC": "(Prosek)",
+        "INFO_TEXT": "Ukupan broj razgovora korišćenih za izračunavanje:",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Vreme rešavanja",
+        "DESC": "(Prosek)",
+        "INFO_TEXT": "Ukupan broj razgovora korišćenih za izračunavanje:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Broj rešenja",
+        "DESC": "(Ukupno)"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Poslednjih 7 dana"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Poslednjih 30 dana"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Poslednja 3 meseca"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Poslednjih 6 meseci"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Prošla godina"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Prilagođen period"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Primeni",
+      "PLACEHOLDER": "Izaberi period"
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "HEADER": "Pregled tima",
+    "DESCRIPTION": "Get a snapshot of your team's performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "LOADING_CHART": "Učitavanje grafikona...",
+    "NO_ENOUGH_DATA": "Nema dovoljno podataka za izveštaj. Pokušajte kasnije.",
+    "DOWNLOAD_TEAM_REPORTS": "Preuzmi izveštaje tima",
+    "FILTER_DROPDOWN_LABEL": "Izaberi tim",
+    "FILTERS": {
+      "ADD_FILTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "NO_FILTER": "No filters available",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Search teams"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Razgovori",
+        "DESC": "( Ukupno )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Dolazne poruke",
+        "DESC": "( Ukupno )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Odlazne poruke",
+        "DESC": "( Ukupno )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Vreme prvog odgovora",
+        "DESC": "( Prosek )",
+        "INFO_TEXT": "Ukupan broj razgovora korišćenih za izračunavanje:",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
+        "NAME": "Vreme rešavanja",
+        "DESC": "( Prosek )",
+        "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Broj rešenja",
+        "DESC": "( Ukupno )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Poslednjih 7 dana"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Poslednjih 30 dana"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Poslednja 3 meseca"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Poslednjih 6 meseci"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Poslednja godina"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Prilagođen period"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Primeni",
+      "PLACEHOLDER": "Izaberi period"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "HEADER": "CSAT izveštaji",
+    "NO_RECORDS": "No responses yet",
+    "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
     "DOWNLOAD": "Download CSAT Reports",
     "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
+      "ADD_FILTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "NO_FILTER": "No filters available",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Search agents",
+        "INBOXES": "Search inboxes",
+        "TEAMS": "Search teams",
+        "RATINGS": "Search ratings"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "LABEL": "Agent"
+      },
+      "INBOXES": {
+        "LABEL": "Inbox"
+      },
+      "TEAMS": {
+        "LABEL": "Team"
+      },
+      "RATINGS": {
+        "LABEL": "Rating"
       }
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
-      }
+        "CONTACT_NAME": "Kontakt",
+        "AGENT_NAME": "Agent",
+        "RATING": "Ocena",
+        "FEEDBACK_TEXT": "Komentar",
+        "CONVERSATION": "Conversation",
+        "CUSTOMER": "Customer",
+        "RESPONSE": "Response",
+        "HANDLED_BY": "Handled by"
+      },
+      "UNKNOWN_CUSTOMER": "Unknown customer"
     },
+    "NO_AGENT": "No assigned agent",
+    "NO_FEEDBACK": "No feedback provided",
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Ukupno odgovora",
+        "TOOLTIP": "Ukupan broj prikupljenih odgovora"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Rezultat zadovoljstva",
+        "TOOLTIP": "Ukupan broj pozitivnih odgovora / Ukupan broj odgovora * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "Stopa odgovora",
+        "TOOLTIP": "Ukupan broj odgovora / Ukupan broj poslatih CSAT anketa * 100"
+      },
+      "RATING_DISTRIBUTION": "Rating distribution"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "Review notes",
+      "PLACEHOLDER": "Add review notes about this rating...",
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "SAVING": "Saving...",
+      "SAVED": "Notes saved successfully",
+      "SAVE_ERROR": "Failed to save notes",
+      "UPDATED_BY": "Updated by {name} {time}",
+      "UPDATED_BY_LABEL": "Updated by",
+      "PAYWALL": {
+        "TITLE": "Upgrade to add review notes",
+        "AVAILABLE_ON": "The review notes feature is only available in the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Add internal context to every CSAT response with review notes. Capture what really happened, spot patterns faster, and make better decisions from your feedback.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
       }
     }
   },
@@ -455,14 +523,14 @@
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
-    "LIVE": "Live",
+    "HEADER": "Pregled",
+    "LIVE": "U toku",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
+      "HEADER": "Otvoreni razgovori",
       "LOADING_MESSAGE": "Loading conversation metrics...",
       "OPEN": "Open",
-      "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Unassigned",
+      "UNATTENDED": "Neobrađeni",
+      "UNASSIGNED": "Nedodeljeni",
       "PENDING": "Pending"
     },
     "CONVERSATION_HEATMAP": {
@@ -480,9 +548,9 @@
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
+      "HEADER": "Razgovori po agentima",
       "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "NO_AGENTS": "Nema razgovora po agentima",
       "TABLE_HEADER": {
         "AGENT": "Agent",
         "OPEN": "Open",

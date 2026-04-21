@@ -14,6 +14,8 @@ const state = {
     isCreating: false,
   },
   lastMessageId: null,
+  pendingCustomAttributes: {},
+  pendingLabels: [],
 };
 
 export default {

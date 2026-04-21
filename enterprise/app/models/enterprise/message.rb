@@ -5,6 +5,7 @@ module Enterprise::Message
     return unless captain_pending_conversation?
     return unless human_response?
     return if private?
+    return if template_bootstrap_message?
 
     previous_user = Current.user
     previous_executed_by = Current.executed_by
@@ -26,6 +27,11 @@ module Enterprise::Message
     return false unless conversation.pending?
 
     ::CaptainInbox.exists?(inbox_id: conversation.inbox_id)
+  end
+
+  def template_bootstrap_message?
+    additional_attributes['template_params'].present? &&
+      !conversation.messages.incoming.exists?
   end
 
   def create_captain_auto_open_activity_message

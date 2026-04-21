@@ -1,4 +1,10 @@
 module TimezoneHelper
+  def timezone_name_from_params(timezone, offset)
+    return timezone if timezone.present? && ActiveSupport::TimeZone[timezone].present?
+
+    timezone_name_from_offset(offset)
+  end
+
   # ActiveSupport TimeZone is not aware of the current time, so ActiveSupport::Timezone[offset]
   # would return the timezone without considering day light savings. To get the correct timezone,
   # this method uses zone.now.utc_offset for comparison as referenced in the issues below

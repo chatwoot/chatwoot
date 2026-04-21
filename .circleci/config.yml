@@ -93,8 +93,8 @@ jobs:
               exit 1
             fi
             mkdir -p ~/tmp
-            curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar > ~/tmp/openapi-generator-cli-6.3.0.jar
-            java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
+            curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.19.0/openapi-generator-cli-7.19.0.jar > ~/tmp/openapi-generator-cli-7.19.0.jar
+            java -jar ~/tmp/openapi-generator-cli-7.19.0.jar validate -i swagger/swagger.json
 
       # Bundle audit
       - run:

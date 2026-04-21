@@ -1,865 +1,897 @@
 {
   "HELP_CENTER": {
-    "TITLE": "Help Center",
+    "TITLE": "დახმარების ცენტრი",
     "NEW_PAGE": {
-      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
-      "CREATE_PORTAL_BUTTON": "Create Portal"
+      "DESCRIPTION": "შექმენით თვითმომსახურების დახმარების ცენტრის პორტალები თქვენი მომხმარებლებისთვის. დაეხმარეთ მათ სწრაფად იპოვონ პასუხები, ლოდინის გარეშე. გაამარტივეთ მოთხოვნები, გაზარდეთ აგენტების ეფექტურობა და აუმჯობესეთ მომხმარებელთა მხარდაჭერა.",
+      "CREATE_PORTAL_BUTTON": "პორტალის შექმნა"
     },
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
-      "LOCALE": "Locale",
-      "SETTINGS_BUTTON": "Settings",
-      "NEW_BUTTON": "New Article",
+      "FILTER": "ფილტრი",
+      "SORT": "სორტირება",
+      "LOCALE": "ლოკალი",
+      "SETTINGS_BUTTON": "პარამეტრები",
+      "NEW_BUTTON": "ახალი სტატია",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "გამოქვეყნებული",
+        "DRAFT": "სავარაუდო",
+        "ARCHIVED": "არქივირებული"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "ყველა სტატია",
+        "MINE": "ჩემი სტატიები",
+        "DRAFT": "სავარაუდო სტატიები",
+        "ARCHIVED": "არქივირებული სტატიები"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "აირჩიეთ ლოკალი",
+        "PLACEHOLDER": "აირჩიეთ ლოკალი",
+        "NO_RESULT": "ლოკალი ვერ მოიძებნა",
+        "SEARCH_PLACEHOLDER": "ლოკალის ძიება"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "ყველა სტატია",
+      "PUBLISH_BUTTON": "გამოქვეყნება",
+      "MOVE_TO_ARCHIVE_BUTTON": "გადატანა არქივში",
+      "PREVIEW": "წინასწარი ნახვა",
+      "ADD_TRANSLATION": "თარგმანის დამატება",
+      "OPEN_SIDEBAR": "გვერდითი პანელის გახსნა",
+      "CLOSE_SIDEBAR": "გვერდითი პანელის დახურვა",
+      "SAVING": "მიმდინარეობს შენახვა...",
+      "SAVED": "შენახულია"
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
-        "TITLE": "Upload image",
-        "UPLOADING": "Uploading...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "TITLE": "სურათის ატვირთვა",
+        "UPLOADING": "ატვირთვა...",
+        "SUCCESS": "სურათი წარმატებით აიტვირთა",
+        "ERROR": "შეცდომა სურათის ატვირთვისას",
+        "UN_AUTHORIZED_ERROR": "თქვენ არ გაქვთ უფლება სურათების ატვირთვის",
+        "ERROR_FILE_SIZE": "სურათის ზომა უნდა იყოს {size}MB-ზე ნაკლები",
+        "ERROR_FILE_FORMAT": "სურათის ფორმატი უნდა იყოს jpg, jpeg ან png",
+        "ERROR_FILE_DIMENSIONS": "სურათის განზომილებები უნდა იყოს 2000 x 2000-ზე ნაკლები"
       }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "სტატიის პარამეტრები",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "კატეგორია",
+          "TITLE": "აირჩიეთ კატეგორია",
+          "PLACEHOLDER": "აირჩიეთ კატეგორია",
+          "NO_RESULT": "კატეგორია ვერ მოიძებნა",
+          "SEARCH_PLACEHOLDER": "კატეგორიის ძებნა"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "ავტორი",
+          "TITLE": "აირჩიეთ ავტორი",
+          "PLACEHOLDER": "ავტორის არჩევა",
+          "NO_RESULT": "ავტორები ვერ მოიძებნა",
+          "SEARCH_PLACEHOLDER": "ავტორის ძებნა"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "მეტა სათაური",
+          "PLACEHOLDER": "მეტა სათაურის დამატება"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "მეტა აღწერა",
+          "PLACEHOLDER": "დაამატეთ თქვენი მეტა აღწერა უკეთესი SEO შედეგებისთვის..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "მეტა ტეგები",
+          "PLACEHOLDER": "დაამატეთ მეტა ტეგები, ერთმანეთისგან გამიჯნული კომით..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "სტატიის არქივირება",
+        "DELETE": "სტატიის წაშლა"
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for {query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
-      "SEARCH_LOADER": "Searching...",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "UNCATEGORIZED": "უჯგუფო",
+      "SEARCH_RESULTS": "{query}-ის საძიებო შედეგები",
+      "EMPTY_TEXT": "ძებნეთ სტატიები პასუხებში ჩასასმელად.",
+      "SEARCH_LOADER": "ძებნა მიმდინარეობს...",
+      "INSERT_ARTICLE": "ჩასმა",
+      "NO_RESULT": "სტატიები არ მოიძებნა",
+      "COPY_LINK": "სტატიის ბმულის კოპირება კლიპბორდზე",
+      "OPEN_LINK": "სტატიის გახსნა ახალ ჩანართში",
+      "PREVIEW_LINK": "სტატიის წინასწარი ნახვა"
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "DEFAULT": "Default",
-      "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "HEADER": "პორტალები",
+      "DEFAULT": "ნაგულისხმები",
+      "NEW_BUTTON": "ახალი პორტალი",
+      "ACTIVE_BADGE": "აქტიური",
+      "CHOOSE_LOCALE_LABEL": "აირჩიეთ ლოკალი",
+      "LOADING_MESSAGE": "პორტალების ჩატვირთვა...",
+      "ARTICLES_LABEL": "სტატიები",
+      "NO_PORTALS_MESSAGE": "პორტალები არ არის ხელმისაწვდომი",
+      "ADD_NEW_LOCALE": "დაამატეთ ახალი ლოკალი",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
-        "CANCEL_BUTTON_LABEL": "Cancel",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "TITLE": "პორტალები",
+        "PORTAL_SETTINGS": "პორტალის პარამეტრები",
+        "SUBTITLE": "თქვენ გაქვთ რამდენიმე პორტალი და თითოეულ პორტალს შეუძლია ჰქონდეს სხვადასხვა ლოკალი.",
+        "CANCEL_BUTTON_LABEL": "გაუქმება",
+        "CHOOSE_LOCALE_BUTTON": "ენის არჩევა"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
-            "SETTINGS": "Settings",
-            "DELETE": "Delete"
+            "COUNT_LABEL": "სტატიები",
+            "ADD": "ლოკალის დამატება",
+            "VISIT": "საიტზე გადასვლა",
+            "SETTINGS": "პარამეტრები",
+            "DELETE": "წაშლა"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "პორტალის კონფიგურაციები",
             "ITEMS": {
-              "NAME": "Name",
-              "DOMAIN": "Custom domain",
-              "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "NAME": "სახელი",
+              "DOMAIN": "მორგებული დომენი",
+              "SLUG": "სლაგი",
+              "TITLE": "პორტალის სათაური",
+              "THEME": "თემის ფერი",
+              "SUB_TEXT": "პორტალის ქვესათაური"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "ხელმისაწვდომი ლოკალები",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
-              "DELETE": "Delete",
-              "DEFAULT_LOCALE": "Default"
+              "NAME": "ლოკალის სახელი",
+              "CODE": "ლოკალის კოდი",
+              "ARTICLE_COUNT": "სტატიების რაოდენობა",
+              "CATEGORIES": "კატეგორიების რაოდენობა",
+              "SWAP": "გაცვლა",
+              "DELETE": "წაშლა",
+              "DEFAULT_LOCALE": "ნაგულისხმები"
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "პორტალის წაშლა",
+          "MESSAGE": "დარწმუნებული ხართ, რომ გინდათ ეს პორტალი წაშალოთ",
+          "YES": "დიახ, პორტალის წაშლა",
+          "NO": "არა, პორტალის შენარჩუნება",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "პორტალი წარმატებით წაიშალა",
+            "DELETE_ERROR": "შეცდომა პორტალის წაშლის დროს"
           }
         },
         "SEND_CNAME_INSTRUCTIONS": {
           "API": {
-            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
-            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+            "SUCCESS_MESSAGE": "CNAME ინსტრუქციები წარმატებით გაიგზავნა",
+            "ERROR_MESSAGE": "შეცდომა CNAME ინსტრუქციების გაგზავნისას"
           }
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit portal",
+        "HEADER_TEXT": "პორტალის რედაქტირება",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": "ძირითადი ინფორმაცია"
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Portal customization"
+            "TITLE": "პორტალის მორგება"
           },
           "CATEGORY_SETTINGS": {
-            "TITLE": "Categories"
+            "TITLE": "კატეგორიები"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": "ლოკალები"
           }
         },
         "CATEGORIES": {
-          "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "TITLE": "კატეგორიები შემდეგში",
+          "NEW_CATEGORY": "ახალი კატეგორია",
           "TABLE": {
-            "NAME": "Name",
-            "DESCRIPTION": "Description",
-            "LOCALE": "Locale",
-            "ARTICLE_COUNT": "No. of articles",
+            "NAME": "სახელი",
+            "DESCRIPTION": "აღწერა",
+            "LOCALE": "ლოკალი",
+            "ARTICLE_COUNT": "სტატიების რაოდენობა",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "კატეგორიის რედაქტირება",
+              "DELETE": "კატეგორიის წაშლა"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "კატეგორიები არ მოიძებნა"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Update basic settings"
+          "BUTTON_TEXT": "ძირითადი პარამეტრების განახლება"
         }
       },
       "ADD": {
         "CREATE_FLOW": {
           "BASIC": {
-            "TITLE": "Help center information",
-            "BODY": "Basic information about portal"
+            "TITLE": "დახმარების ცენტრის ინფორმაცია",
+            "BODY": "პორტალის ძირითადი ინფორმაცია"
           },
           "CUSTOMIZATION": {
-            "TITLE": "Help center customization",
-            "BODY": "Customize portal"
+            "TITLE": "დახმარების ცენტრის მორგება",
+            "BODY": "პორტალის მორგება"
           },
           "FINISH": {
-            "TITLE": "Voila! 🎉",
-            "BODY": "You're all set!"
+            "TITLE": "ვოილა! 🎉",
+            "BODY": "ყველაფერი მზად არის!"
           }
         },
         "CREATE_FLOW_PAGE": {
-          "BACK_BUTTON": "Back",
+          "BACK_BUTTON": "უკან",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "პორტალის შექმნა",
+            "TITLE": "დახმარების ცენტრის ინფორმაცია",
+            "CREATE_BASIC_SETTING_BUTTON": "პორტალის ძირითადი პარამეტრების შექმნა"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "პორტალის მორგება",
+            "TITLE": "დახმარების ცენტრის მორგება",
+            "UPDATE_PORTAL_BUTTON": "პორტალის პარამეტრების განახლება"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "ვოილა!🎉 ყველაფერი მზადაა!",
+            "MESSAGE": "ახლა შეგიძლიათ ნახოთ ეს შექმნილი პორტალი თქვენს ყველა პორტალების გვერდზე.",
+            "FINISH": "გადადით ყველა პორტალების გვერდზე"
           }
         },
         "LOGO": {
-          "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "LABEL": "ლოგო",
+          "UPLOAD_BUTTON": "ლოგოს ატვირთვა",
+          "HELP_TEXT": "ეს ლოგო გამოჩნდება პორტალის ჰედერზე.",
+          "IMAGE_UPLOAD_SUCCESS": "ლოგო წარმატებით აიტვირთა",
+          "IMAGE_UPLOAD_ERROR": "ლოგო წარმატებით წაიშალა",
+          "IMAGE_DELETE_ERROR": "შეცდომა ლოგოს წაშლისას"
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
-          "ERROR": "Name is required"
+          "LABEL": "სახელი",
+          "PLACEHOLDER": "პორტალის სახელი",
+          "HELP_TEXT": "სახელი გამოყენებული იქნება პორტალის საჯარო და შიდა ნაწილში.",
+          "ERROR": "სახელის შეყვანა აუცილებელია"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-          "ERROR": "Slug is required"
+          "LABEL": "სლაგი",
+          "PLACEHOLDER": "პორტალის სლაგი url-ებისთვის",
+          "ERROR": "სლაგი აუცილებელია"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
-          "ERROR": "Enter a valid domain URL"
+          "LABEL": "მორგებული დომენი",
+          "PLACEHOLDER": "პორტალის მორგებული დომენი",
+          "HELP_TEXT": "დაამატეთ მხოლოდ მაშინ, თუ გსურთ თქვენი პორტალებისთვის კასტომიზებული დომენის გამოყენება. მაგ: {exampleURL}",
+          "ERROR": "შეიყვანეთ ვალიდური დომენის URL"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
-          "ERROR": "Enter a valid home page URL"
+          "LABEL": "მთავარი გვერდის ბმული",
+          "PLACEHOLDER": "პორტალის მთავარი გვერდის ბმული",
+          "HELP_TEXT": "ლინკი, რომელიც გამოიყენება პორტალიდან მთავარი გვერდზე დაბრუნებისთვის. მაგ: {exampleURL}",
+          "ERROR": "შეიყვანეთ ვალიდური მთავარი გვერდის URL"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "პორტალის თემის ფერი",
+          "HELP_TEXT": "ეს ფერი გამოჩნდება პორტალის თემის ფერად."
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "LABEL": "გვერდის სათაური",
+          "PLACEHOLDER": "პორტალის გვერდის სათაური",
+          "HELP_TEXT": "გვერდის სათაური გამოყენებული იქნება საჯარო პორტალში.",
+          "ERROR": "გვერდის სათაურის შეყვანა აუცილებელია"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "სათაურის ტექსტი",
+          "PLACEHOLDER": "პორტალის სათაურის ტექსტი",
+          "HELP_TEXT": "პორტალის სათაურის ტექსტი გამოყენებული იქნება საჯარო პორტალში.",
+          "ERROR": "პორტალის სათაურის ტექსტი აუცილებელია"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "პორტალი წარმატებით შეიქმნა.",
+          "ERROR_MESSAGE_FOR_BASIC": "პორტალის შექმნა ვერ მოხერხდა. სცადეთ თავიდან.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "პორტალი წარმატებით განახლდა.",
+          "ERROR_MESSAGE_FOR_UPDATE": "პორტალის განახლება ვერ მოხერხდა. სცადეთ თავიდან."
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Add a new locale",
-        "SUB_TITLE": "This adds a new locale to your available translation list.",
-        "PORTAL": "Portal",
+        "TITLE": "ახალი ლოკალის დამატება",
+        "SUB_TITLE": "ეს დაამატებს ახალ ლოკალს თქვენს ხელმისაწვდომ თარგმნების სიაში.",
+        "PORTAL": "პორტალი",
         "LOCALE": {
-          "LABEL": "Locale",
-          "PLACEHOLDER": "Choose a locale",
-          "ERROR": "Locale is required"
+          "LABEL": "ლოკალი",
+          "PLACEHOLDER": "აირჩიეთ ლოკალი",
+          "ERROR": "ლოკალი აუცილებელია"
         },
         "BUTTONS": {
-          "CREATE": "Create locale",
-          "CANCEL": "Cancel"
+          "CREATE": "ლოკალის შექმნა",
+          "CANCEL": "გაუქმება"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "ლოკალი წარმატებით დაემატა",
+          "ERROR_MESSAGE": "ლოკალის დამატება ვერ მოხერხდა. სცადეთ თავიდან."
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Default locale updated successfully",
-          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+          "SUCCESS_MESSAGE": "ნაგულისხმევი ლოკალი წარმატებით განახლდა",
+          "ERROR_MESSAGE": "ნაგულისხმევი ლოკალის განახლება ვერ მოხერხდა. სცადეთ ისევ."
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
-          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+          "SUCCESS_MESSAGE": "ლოკალი პორტალიდან წარმატებით წაიშალა",
+          "ERROR_MESSAGE": "ლოკალის პორტალიდან წაშლა ვერ მოხერხდა. სცადეთ ისევ."
+        }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "სტატიების ჩატვირთვა...",
+      "404": "თქვენი ძიების შესაბამისი სტატიები არ მოიძებნა 🔍",
+      "NO_ARTICLES": "ხელმისაწვდომი სტატიები არ არის",
       "HEADERS": {
-        "TITLE": "Title",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Views",
-        "STATUS": "Status",
-        "LAST_EDITED": "Last edited"
+        "TITLE": "სათაური",
+        "CATEGORY": "კატეგორია",
+        "READ_COUNT": "ნახვები",
+        "STATUS": "სტატუსი",
+        "LAST_EDITED": "ბოლო რედაქტირება"
       },
       "COLUMNS": {
-        "BY": "by",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "მიერ",
+        "AUTHOR_NOT_AVAILABLE": "ავტორი მიუწვდომელია"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "სტატიის ჩატვირთვა...",
+      "TITLE_PLACEHOLDER": "სტატიის სათაური აქ",
+      "CONTENT_PLACEHOLDER": "დაწერეთ თქვენი სტატია აქ",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "სტატიის შენახვისას მოხდა შეცდომა"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article published successfully"
+        "ERROR": "სტატიის გამოქვეყნებისას მოხდა შეცდომა",
+        "SUCCESS": "სტატია წარმატებით გამოქვეყნდა"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "შეცდომა სტატიის არქივირებისას",
+        "SUCCESS": "სტატია წარმატებით იქნა არქივირებული"
       }
     },
     "DRAFT_ARTICLE": {
       "API": {
-        "ERROR": "Error while drafting article",
-        "SUCCESS": "Article drafted successfully"
+        "ERROR": "შეცდომა სტატიაზე მუშაობის დროს",
+        "SUCCESS": "სტატია წარმატებით შეიქმნა"
       }
     },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete the article?",
-          "YES": "Yes, Delete",
-          "NO": "No, Keep it"
+          "TITLE": "წაშლის დადასტურება",
+          "MESSAGE": "დარწმუნებული ხართ, რომ გინდათ სტატიის წაშლა?",
+          "YES": "დიახ, წაშლა",
+          "NO": "არა, შენარჩუნება"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Article deleted successfully",
-        "ERROR_MESSAGE": "Error while deleting article"
+        "SUCCESS_MESSAGE": "სტატია წარმატებით წაიშალა",
+        "ERROR_MESSAGE": "შეცდომა სტატიის წაშლის დროს"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "სტატიების გადანაწილება შეუძლებელია. გთხოვთ, სცადეთ თავიდან."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "კატეგორიების გადანაწილება შეუძლებელია. გთხოვთ, სცადეთ თავიდან."
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": "გთხოვთ, დაამატოთ სტატიის სათაური და შინაარსი, მხოლოდ ამის შემდეგ შეგიძლიათ დაარეგულიროთ პარამეტრები"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "სტატიების ძებნა"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "კატეგორიის შექმნა",
+        "SUB_TITLE": "კატეგორია გამოყენებული იქნება საჯარო პორტალში სტატიების კატეგორიზაციისთვის.",
+        "PORTAL": "პორტალი",
+        "LOCALE": "ლოკალი",
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "LABEL": "სახელი",
+          "PLACEHOLDER": "კატეგორიის სახელი",
+          "HELP_TEXT": "კატეგორიის სახელი და აიკონი გამოყენებული იქნება საჯარო პორტალში სტატიების კატეგორიზაციისთვის.",
+          "ERROR": "სახელის შეყვანა აუცილებელია"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "LABEL": "სლაგი",
+          "PLACEHOLDER": "კატეგორიის slug url-ებისთვის",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/ka-GE/categories/my-slug",
+          "ERROR": "Slug-ის შეყვანა აუცილებელია"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "LABEL": "აღწერა",
+          "PLACEHOLDER": "მოკლე აღწერა კატეგორიის შესახებ.",
+          "ERROR": "აღწერა აუცილებელია"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
-          "CANCEL": "Cancel"
+          "CREATE": "კატეგორიის შექმნა",
+          "CANCEL": "გაუქმება"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "კატეგორია წარმატებით შეიქმნა",
+          "ERROR_MESSAGE": "კატეგორიის შექმნა ვერ მოხერხდა"
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "კატეგორიის რედაქტირება",
+        "SUB_TITLE": "კატეგორიის რედაქტირება განაახლებს კატეგორიას საჯარო პორტალზე.",
+        "PORTAL": "პორტალი",
+        "LOCALE": "ლოკალი",
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "LABEL": "სახელი",
+          "PLACEHOLDER": "კატეგორიის სახელი",
+          "HELP_TEXT": "კატეგორიის სახელი და აიკონი გამოყენებული იქნება საჯარო პორტალში სტატიების კატეგორიზაციისთვის.",
+          "ERROR": "სახელი აუცილებელია"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "LABEL": "სლაგი",
+          "PLACEHOLDER": "კატეგორიის სლაგი url-ებისთვის",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/ka-GE/categories/my-slug",
+          "ERROR": "სლაგი აუცილებელია"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "LABEL": "აღწერა",
+          "PLACEHOLDER": "მოკლე აღწერა კატეგორიის შესახებ.",
+          "ERROR": "აღწერა აუცილებელია"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
-          "CANCEL": "Cancel"
+          "CREATE": "კატეგორიის განახლება",
+          "CANCEL": "გაუქმება"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "კატეგორია წარმატებით განახლდა",
+          "ERROR_MESSAGE": "კატეგორიის განახლება ვერ მოხერხდა"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "კატეგორია წარმატებით წაიშალა",
+          "ERROR_MESSAGE": "კატეგორიის წაშლა ვერ მოხერხდა"
         }
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "No articles found",
-      "SEARCHING": "Searching...",
-      "SEARCH_BUTTON": "Search",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Preview article",
-      "CANCEL": "Close",
-      "BACK": "Back",
-      "BACK_RESULTS": "Back to results"
+      "TITLE": "სტატიების ძიება",
+      "PLACEHOLDER": "სტატიების ძიება",
+      "NO_RESULT": "სტატია ვერ მოიძებნა",
+      "SEARCHING": "ძებნა...",
+      "SEARCH_BUTTON": "ძებნა",
+      "INSERT_ARTICLE": "ლინკის ჩასმა",
+      "IFRAME_ERROR": "URL ცარიელია ან არასწორია. კონტენტის ჩვენება შეუძლებელია.",
+      "OPEN_ARTICLE_SEARCH": "ჩასვით სტატია დახმარების ცენტრიდან",
+      "SUCCESS_ARTICLE_INSERTED": "სტატია წარმატებით ჩასმულია",
+      "PREVIEW_LINK": "სტატიის წინასწარი ნახვა",
+      "CANCEL": "დახურვა",
+      "BACK": "უკან",
+      "BACK_RESULTS": "შედეგებზე დაბრუნება"
     },
     "UPGRADE_PAGE": {
-      "TITLE": "Help Center",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "TITLE": "დახმარების ცენტრი",
+      "DESCRIPTION": "შექმენით მომხმარებელზე მორგებული თვითმომსახურების პორტალები. დაეხმარეთ მომხმარებლებს სტატიებზე წვდომაში და მიიღონ მხარდაჭერა 24/7. გააუმჯობესეთ თქვენი გამოწერა ამ ფუნქციის ჩართვისთვის.",
+      "SELF_HOSTED_DESCRIPTION": "შექმენით მომხმარებელზე მორგებული თვითმომსახურების პორტალები. დაეხმარეთ თქვენს მომხმარებლებს სტატიების წვდომაში და მიიღონ მხარდაჭერა 24/7. გთხოვთ, დაუკავშირდეთ თქვენს ადმინისტრატორს ამ ფუნქციის ჩართვისთვის.",
       "BUTTON": {
-        "LEARN_MORE": "Learn more",
-        "UPGRADE": "Upgrade"
+        "LEARN_MORE": "გაიგეთ მეტი",
+        "UPGRADE": "განახლება"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "მრავალჯერადი პორტალები",
+          "DESCRIPTION": "შექმენით მრავალჯერადი დახმარების ცენტრის პორტალები სხვადასხვა პროდუქტებისთვის ერთი ანგარიშის გამოყენებით."
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "ლოკალების სრული მხარდაჭერა",
+          "DESCRIPTION": "ლოკალიზეთ პორტალი თქვენს ენაზე. ჩვენ ვმხარდაჭერთ ყველა ლოკალს და ვაძლევთ საშუალებას თარგმნოთ თითოეული სტატია."
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+          "TITLE": "SEO-სთვის მეგობრული დიზაინი",
+          "DESCRIPTION": "მორგეთ თქვენი მეტა ტეგები, რათა გააუმჯობესოთ ხილვადობა საძიებო სისტემებში ჩვენი SEO-სთვის მეგობრულ გვერდებზე."
         },
         "API": {
-          "TITLE": "Full API support",
-          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+          "TITLE": "API-ს სრული მხარდაჭერა",
+          "DESCRIPTION": "გამოიყენეთ პორტალი როგორც headless CMS მესამე მხარის ფრონტენდ ფრეიმვორქებთან ჩვენი API-ების გამოყენებით."
         }
       }
     },
-    "LOADING": "Loading...",
+    "LOADING": "იტვირთება...",
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
-          "VIEWS": "{count} view | {count} views",
+          "VIEWS": "{count} ნახვა | {count} ნახვები",
           "DROPDOWN_MENU": {
-            "PUBLISH": "Publish",
-            "DRAFT": "Draft",
-            "ARCHIVE": "Archive",
-            "DELETE": "Delete"
+            "PUBLISH": "გამოქვეყნება",
+            "DRAFT": "ჩარჩო",
+            "ARCHIVE": "არქივი",
+            "DELETE": "წაშლა"
           },
           "STATUS": {
-            "DRAFT": "Draft",
-            "PUBLISHED": "Published",
-            "ARCHIVED": "Archived"
+            "DRAFT": "ჩანაწერი",
+            "PUBLISHED": "გამოქვეყნებული",
+            "ARCHIVED": "არქივირებული"
           },
           "CATEGORY": {
-            "UNCATEGORISED": "Uncategorised"
+            "UNCATEGORISED": "კატეგორიის გარეშე"
           }
         }
       },
       "ARTICLES_HEADER": {
         "TABS": {
-          "ALL": "All articles",
-          "MINE": "Mine",
-          "DRAFT": "Draft",
-          "PUBLISHED": "Published",
-          "ARCHIVED": "Archived"
+          "ALL": "ყველა სტატია",
+          "MINE": "ჩემი",
+          "DRAFT": "ჩარჩილი",
+          "PUBLISHED": "გამოქვეყნებული",
+          "ARCHIVED": "არქივირებული"
         },
         "CATEGORY": {
-          "ALL": "All categories"
+          "ALL": "ყველა კატეგორია"
         },
         "LOCALE": {
-          "ALL": "All locales"
+          "ALL": "ყველა ლოკაცია"
         },
-        "NEW_ARTICLE": "New article"
+        "NEW_ARTICLE": "ახალი სტატია"
       },
       "EMPTY_STATE": {
         "ALL": {
-          "TITLE": "Write an article",
-          "SUBTITLE": "Write a rich article, let’s get started!",
-          "BUTTON_LABEL": "New article"
+          "TITLE": "სტატიის დაწერა",
+          "SUBTITLE": "დაწერეთ მდიდარი სტატია, დავიწყოთ!",
+          "BUTTON_LABEL": "ახალი სტატია"
         },
         "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+          "TITLE": "აქ არ გაქვთ დაწერილი არცერთი სტატია",
+          "SUBTITLE": "აქ ჩანს ყველა სტატია, რომელიც თქვენ დაწერეთ სწრაფი წვდომისთვის."
         },
         "DRAFT": {
-          "TITLE": "There are no articles in drafts",
-          "SUBTITLE": "Draft articles will appear here"
+          "TITLE": "სავარაუდო პროექტებში არ არის სტატიები",
+          "SUBTITLE": "საველე სტატიები გამოჩნდება აქ"
         },
         "PUBLISHED": {
-          "TITLE": "There are no published articles",
-          "SUBTITLE": "Published articles will appear here"
+          "TITLE": "გამოქვეყნებული სტატიები არ არის",
+          "SUBTITLE": "გამოქვეყნებული სტატიები გამოჩნდება აქ"
         },
         "ARCHIVED": {
-          "TITLE": "There are no articles in the archive",
-          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+          "TITLE": "არქივში სტატიები არ არის",
+          "SUBTITLE": "არქივში არსებული სტატიები პორტალზე არ ჩანს, შეგიძლიათ გამოიყენოთ მოძველებული ან გაუქმებული გვერდების ნიშნად"
         },
         "CATEGORY": {
-          "TITLE": "There are no articles in this category",
-          "SUBTITLE": "Articles in this category will appear here"
+          "TITLE": "ამ კატეგორიაში სტატიები არ არის",
+          "SUBTITLE": "ამ კატეგორიის სტატიები გამოჩნდება აქ"
         }
       }
     },
     "CATEGORY_PAGE": {
       "CATEGORY_HEADER": {
-        "NEW_CATEGORY": "New category",
-        "EDIT_CATEGORY": "Edit category",
-        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "NEW_CATEGORY": "ახალი კატეგორია",
+        "EDIT_CATEGORY": "კატეგორიის რედაქტირება",
+        "CATEGORIES_COUNT": "{n} კატეგორია | {n} კატეგორიები",
         "BREADCRUMB": {
-          "CATEGORY_LOCALE": "Categories ({localeCode})",
-          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+          "CATEGORY_LOCALE": "კატეგორიები ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} სტატია) | {categoryName} ({categoryCount} სტატიები)"
         }
       },
       "CATEGORY_EMPTY_STATE": {
-        "TITLE": "No categories found",
-        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+        "TITLE": "კატეგორიები ვერ მოიძებნა",
+        "SUBTITLE": "კატეგორიები აქ გამოჩნდება. შეგიძლიათ დაამატოთ კატეგორია ღილაკზე „ახალი კატეგორია“ დაჭერით."
       },
       "CATEGORY_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles"
+        "ARTICLES_COUNT": "{count} სტატია | {count} სტატიები"
       },
       "CATEGORY_DIALOG": {
         "CREATE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category created successfully",
-            "ERROR_MESSAGE": "Unable to create category"
+            "SUCCESS_MESSAGE": "კატეგორია წარმატებით შეიქმნა",
+            "ERROR_MESSAGE": "კატეგორიის შექმნა ვერ მოხერხდა"
           }
         },
         "EDIT": {
           "API": {
-            "SUCCESS_MESSAGE": "Category updated successfully",
-            "ERROR_MESSAGE": "Unable to update category"
+            "SUCCESS_MESSAGE": "კატეგორია წარმატებით განახლდა",
+            "ERROR_MESSAGE": "კატეგორიის განახლება შეუძლებელია"
           }
         },
         "DELETE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category deleted successfully",
-            "ERROR_MESSAGE": "Unable to delete category"
+            "SUCCESS_MESSAGE": "კატეგორია წარმატებით წაიშალა",
+            "ERROR_MESSAGE": "კატეგორიის წაშლა შეუძლებელია"
           }
         },
         "HEADER": {
-          "CREATE": "Create category",
-          "EDIT": "Edit category",
-          "DESCRIPTION": "Editing a category will update the category in the public facing portal.",
-          "PORTAL": "Portal",
-          "LOCALE": "Locale"
+          "CREATE": "კატეგორიის შექმნა",
+          "EDIT": "კატეგორიის რედაქტირება",
+          "DESCRIPTION": "კატეგორიის რედაქტირება განაახლებს კატეგორიას საჯარო პორტალში.",
+          "PORTAL": "პორტალი",
+          "LOCALE": "ლოკალი"
         },
         "FORM": {
           "NAME": {
-            "LABEL": "Name",
-            "PLACEHOLDER": "Category name",
-            "ERROR": "Name is required"
+            "LABEL": "სახელი",
+            "PLACEHOLDER": "კატეგორიის სახელი",
+            "ERROR": "სახელი აუცილებელია"
           },
           "SLUG": {
-            "LABEL": "Slug",
-            "PLACEHOLDER": "Category slug for urls",
-            "ERROR": "Slug is required",
+            "LABEL": "სლაგი",
+            "PLACEHOLDER": "კატეგორიის სლაგი url-ებისთვის",
+            "ERROR": "სლაგი აუცილებელია",
             "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
-            "LABEL": "Description",
-            "PLACEHOLDER": "Give a short description about the category.",
-            "ERROR": "Description is required"
+            "LABEL": "აღწერა",
+            "PLACEHOLDER": "მოკლე აღწერა კატეგორიის შესახებ.",
+            "ERROR": "აღწერა აუცილებელია"
           }
         },
         "BUTTONS": {
-          "CREATE": "Create",
-          "EDIT": "Update",
-          "CANCEL": "Cancel"
+          "CREATE": "შექმნა",
+          "EDIT": "განახლება",
+          "CANCEL": "გაუქმება"
         }
       }
     },
     "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALES_COUNT": "ლოკალები არ არის | {n} ლოკალი | {n} ლოკალები",
+      "NEW_LOCALE_BUTTON_TEXT": "ახალი ლოკალი",
       "LOCALE_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles",
-        "CATEGORIES_COUNT": "{count} category | {count} categories",
-        "DEFAULT": "Default",
+        "ARTICLES_COUNT": "{count} სტატია | {count} სტატიები",
+        "CATEGORIES_COUNT": "{count} კატეგორია | {count} კატეგორიები",
+        "DEFAULT": "ნაგულისხმები",
+        "DRAFT": "სავარაუდო",
         "DROPDOWN_MENU": {
-          "MAKE_DEFAULT": "Make default",
-          "DELETE": "Delete"
+          "MAKE_DEFAULT": "დაყენება როგორც ნაგულისხმები",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
+          "DELETE": "წაშლა"
         }
       },
       "ADD_LOCALE_DIALOG": {
-        "TITLE": "Add a new locale",
-        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "TITLE": "ახალი ლოკალის დამატება",
+        "DESCRIPTION": "აირჩიეთ ენა, რომელშიც ეს სტატია დაიწერება. ეს დაემატება თქვენს თარგმნების სიას და შემდგომ შეგიძლიათ დაამატოთ მეტი.",
         "COMBOBOX": {
-          "PLACEHOLDER": "Select locale..."
+          "PLACEHOLDER": "აირჩიეთ ლოკალი..."
+        },
+        "STATUS": {
+          "LABEL": "Status",
+          "OPTIONS": {
+            "LIVE": "გამოქვეყნებული",
+            "DRAFT": "სავარაუდო"
+          }
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "ლოკალი წარმატებით დაემატა",
+          "ERROR_MESSAGE": "ლოკალის დამატება ვერ მოხერხდა. სცადეთ თავიდან."
         }
       }
     },
     "EDIT_ARTICLE_PAGE": {
       "HEADER": {
         "STATUS": {
-          "SAVING": "Saving...",
-          "SAVED": "Saved"
+          "SAVING": "მიმდინარეობს შენახვა...",
+          "SAVED": "შენახულია"
         },
-        "PREVIEW": "Preview",
-        "PUBLISH": "Publish",
-        "DRAFT": "Draft",
-        "ARCHIVE": "Archive",
-        "BACK_TO_ARTICLES": "Back to articles"
+        "PREVIEW": "წინასწარი ნახვა",
+        "PUBLISH": "გამოქვეყნება",
+        "DRAFT": "სავარაუდო ვერსია",
+        "ARCHIVE": "არქივი",
+        "BACK_TO_ARTICLES": "უკან სტატიებთან"
       },
       "EDIT_ARTICLE": {
-        "MORE_PROPERTIES": "More properties",
-        "UNCATEGORIZED": "Uncategorized",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "MORE_PROPERTIES": "მეტი თვისებები",
+        "UNCATEGORIZED": "კატეგორიის გარეშე",
+        "EDITOR_PLACEHOLDER": "რაიმე დაწერეთ..."
       },
       "ARTICLE_PROPERTIES": {
-        "ARTICLE_PROPERTIES": "Article properties",
-        "META_DESCRIPTION": "Meta description",
-        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
-        "META_TITLE": "Meta title",
-        "META_TITLE_PLACEHOLDER": "Add meta title",
-        "META_TAGS": "Meta tags",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "ARTICLE_PROPERTIES": "სტატიის თვისებები",
+        "META_DESCRIPTION": "მეტა აღწერა",
+        "META_DESCRIPTION_PLACEHOLDER": "მეტა აღწერის დამატება",
+        "META_TITLE": "მეტა სათაური",
+        "META_TITLE_PLACEHOLDER": "მეტა სათაურის დამატება",
+        "META_TAGS": "მეტა ტეგები",
+        "META_TAGS_PLACEHOLDER": "მეტა ტეგების დამატება"
       },
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "შეცდომა სტატიას შენახვისას"
       }
     },
     "PORTAL_SWITCHER": {
-      "NEW_PORTAL": "New portal",
-      "PORTALS": "Portals",
-      "CREATE_PORTAL": "Create and manage multiple portals",
-      "ARTICLES": "articles",
-      "DOMAIN": "domain",
-      "PORTAL_NAME": "Portal name"
+      "NEW_PORTAL": "ახალი პორტალი",
+      "PORTALS": "პორტალები",
+      "CREATE_PORTAL": "შექმენით და მართეთ მრავალი პორტალი",
+      "ARTICLES": "სტატიები",
+      "DOMAIN": "დომენი",
+      "PORTAL_NAME": "პორტალის სახელი"
     },
     "CREATE_PORTAL_DIALOG": {
-      "TITLE": "Create new portal",
-      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
-      "CONFIRM_BUTTON_LABEL": "Create",
+      "TITLE": "ახალი პორტალის შექმნა",
+      "DESCRIPTION": "მიანიჭეთ პორტალს სახელი და შექმენით მომხმარებლისთვის მოსახერხებელი URL სლაგი. ორივე მოგვიანებით შეგიძლიათ შეცვალოთ პარამეტრებში.",
+      "CONFIRM_BUTTON_LABEL": "შექმნა",
       "NAME": {
-        "LABEL": "Name",
-        "PLACEHOLDER": "User Guide | Chatwoot",
-        "MESSAGE": "Choose an name for your portal.",
-        "ERROR": "Name is required"
+        "LABEL": "სახელი",
+        "PLACEHOLDER": "მომხმარებლის სახელმძღვანელო | Chatwoot",
+        "MESSAGE": "აირჩიეთ პორტალის სახელი.",
+        "ERROR": "სახელი აუცილებელია"
       },
       "SLUG": {
-        "LABEL": "Slug",
+        "LABEL": "სლაგი",
         "PLACEHOLDER": "user-guide",
-        "ERROR": "Slug is required",
-        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+        "ERROR": "სლაგი აუცილებელია",
+        "FORMAT_ERROR": "გთხოვთ შეიყვანოთ ვალიდური slug, მაგალითად: user-guide"
       }
     },
     "PORTAL_SETTINGS": {
       "FORM": {
         "AVATAR": {
-          "LABEL": "Logo",
-          "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
-          "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Unable to delete logo",
-          "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+          "LABEL": "ლოგო",
+          "IMAGE_UPLOAD_ERROR": "სურათის ატვირთვა ვერ მოხერხდა! სცადეთ თავიდან",
+          "IMAGE_UPLOAD_SUCCESS": "სურათი წარმატებით დაემატა. გთხოვთ დააჭიროთ ცვლილებების შენახვას ლოგოს შესანახად",
+          "IMAGE_DELETE_SUCCESS": "ლოგო წარმატებით წაიშალა",
+          "IMAGE_DELETE_ERROR": "ლოგოს წაშლა შეუძლებელია",
+          "IMAGE_UPLOAD_SIZE_ERROR": "სურათის ზომა უნდა იყოს {size}MB-ზე ნაკლები"
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Portal name",
-          "ERROR": "Name is required"
+          "LABEL": "სახელი",
+          "PLACEHOLDER": "პორტალის სახელი",
+          "ERROR": "სახელის შეყვანა აუცილებელია"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header text",
-          "PLACEHOLDER": "Portal header text"
+          "LABEL": "სათაურის ტექსტი",
+          "PLACEHOLDER": "პორტალის სათაურის ტექსტი"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page title",
-          "PLACEHOLDER": "Portal page title"
+          "LABEL": "გვერდის სათაური",
+          "PLACEHOLDER": "პორტალის გვერდის სათაური"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home page link",
-          "PLACEHOLDER": "Portal home page link",
-          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+          "LABEL": "მთავარი გვერდის ლინკი",
+          "PLACEHOLDER": "პორტალის მთავარი გვერდის ბმული",
+          "ERROR": "შეიყვანეთ ვალიდური URL. მთავარი გვერდის ბმული უნდა იწყებოდეს 'http://' ან 'https://'-ით."
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug"
+          "LABEL": "სლაგი",
+          "PLACEHOLDER": "პორტალის სლაგი"
         },
         "LIVE_CHAT_WIDGET": {
-          "LABEL": "Live chat widget",
-          "PLACEHOLDER": "Select live chat widget",
-          "HELP_TEXT": "Select a live chat widget that will appear on your help center",
-          "NONE_OPTION": "No widget"
+          "LABEL": "ცოცხალი ჩატის ვიჯეტი",
+          "PLACEHOLDER": "აირჩიეთ ცოცხალი ჩატის ვიჯეტი",
+          "HELP_TEXT": "აირჩიეთ პირდაპირი ჩეთის ვიჯეტი, რომელიც გამოჩნდება თქვენს დახმარების ცენტრში",
+          "NONE_OPTION": "ვიჯეტი არ არის"
         },
         "BRAND_COLOR": {
-          "LABEL": "Brand color"
+          "LABEL": "ბრენდის ფერი"
         },
-        "SAVE_CHANGES": "Save changes"
+        "SAVE_CHANGES": "ცვლილებების შენახვა"
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {
-          "HEADER": "Custom domain",
-          "LABEL": "Custom domain:",
-          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
-          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
-          "PLACEHOLDER": "Portal custom domain",
-          "EDIT_BUTTON": "Edit",
-          "ADD_BUTTON": "Add custom domain",
+          "HEADER": "მორგებული დომენი",
+          "LABEL": "მორგებული დომენი:",
+          "DESCRIPTION": "თქვენ შეგიძლიათ თქვენი პორტალი განათავსოთ კასტომიზებულ დომენზე. მაგალითად, თუ თქვენი ვებგვერდია yourdomain.com და გსურთ პორტალი იყოს ხელმისაწვდომი docs.yourdomain.com-ზე, უბრალოდ შეიყვანეთ ეს ამ ველში.",
+          "STATUS_DESCRIPTION": "თქვენი მორგებული პორტალი დაიწყებს მუშაობას, როგორც კი დადასტურდება.",
+          "PLACEHOLDER": "პორტალის კასტომიზებული დომენი",
+          "EDIT_BUTTON": "რედაქტირება",
+          "ADD_BUTTON": "კასტომიზებული დომენის დამატება",
           "STATUS": {
-            "LIVE": "Live",
-            "PENDING": "Awaiting verification",
-            "ERROR": "Verification failed"
+            "LIVE": "აქტიური",
+            "PENDING": "ვერიფიკაციის მოლოდინშია",
+            "ERROR": "ვერიფიკაცია ვერ მოხერხდა"
           },
           "DIALOG": {
-            "ADD_HEADER": "Add custom domain",
-            "EDIT_HEADER": "Edit custom domain",
-            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
-            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
-            "LABEL": "Custom domain",
-            "PLACEHOLDER": "Portal custom domain",
-            "ERROR": "Custom domain is required",
-            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+            "ADD_HEADER": "კასტომიზებული დომენის დამატება",
+            "EDIT_HEADER": "კასტომიზებული დომენის რედაქტირება",
+            "ADD_CONFIRM_BUTTON_LABEL": "დომენის დამატება",
+            "EDIT_CONFIRM_BUTTON_LABEL": "დომენის განახლება",
+            "LABEL": "მორგებული დომენი",
+            "PLACEHOLDER": "პორტალის მორგებული დომენი",
+            "ERROR": "მორგებული დომენი აუცილებელია",
+            "FORMAT_ERROR": "გთხოვთ, შეიყვანოთ ვალიდური დომენის URL, მაგალითად docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
-            "HEADER": "DNS configuration",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
-            "COPY": "Successfully copied CNAME",
+            "HEADER": "DNS კონფიგურაცია",
+            "DESCRIPTION": "შესვლა თქვენს DNS პროვაიდერთან დაკავშირებულ ანგარიშში და დაამატეთ CNAME ჩანაწერი ქვედომენისთვის, რომელიც მიუთითებს chatwoot.help-ზე",
+            "COPY": "CNAME წარმატებით კოპირებულია",
             "SEND_INSTRUCTIONS": {
-              "HEADER": "Send instructions",
-              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
-              "PLACEHOLDER": "Enter their email",
-              "ERROR": "Enter a valid email address",
-              "SEND_BUTTON": "Send"
+              "HEADER": "გაგზავნეთ ინსტრუქციები",
+              "DESCRIPTION": "თუ გსურთ, რომ ეს ნაბიჯი თქვენი განვითარების გუნდის რომელიმე წევრმა შეასრულოს, ქვემოთ შეიყვანეთ მათი ელფოსტის მისამართი და ჩვენ მათ საჭირო ინსტრუქციებს გავუგზავნით.",
+              "PLACEHOLDER": "შეიყვანეთ მათი ელფოსტა",
+              "ERROR": "შეიყვანეთ ვალიდური ელფოსტის მისამართი",
+              "SEND_BUTTON": "გაგზავნა"
             }
           }
         },
         "DELETE_PORTAL": {
-          "BUTTON": "Delete {portalName}",
-          "HEADER": "Delete portal",
-          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "BUTTON": "{portalName}-ის წაშლა",
+          "HEADER": "პორტალის წაშლა",
+          "DESCRIPTION": "ამ პორტალის მუდმივი წაშლა. ეს მოქმედება დაუბრუნებელია",
           "DIALOG": {
-            "HEADER": "Sure you want to delete {portalName}?",
-            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
-            "CONFIRM_BUTTON_LABEL": "Delete"
+            "HEADER": "დარწმუნებული ხართ, რომ გინდათ {portalName}-ის წაშლა?",
+            "DESCRIPTION": "ეს არის მუდმივი მოქმედება, რომელიც უკან დაბრუნებას არ ექვემდებარება.",
+            "CONFIRM_BUTTON_LABEL": "წაშლა"
           }
         },
-        "EDIT_CONFIGURATION": "Edit configuration"
+        "EDIT_CONFIGURATION": "კონფიგურაციის რედაქტირება"
       },
       "API": {
         "CREATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal created successfully",
-          "ERROR_MESSAGE": "Unable to create portal"
+          "SUCCESS_MESSAGE": "პორტალი წარმატებით შეიქმნა",
+          "ERROR_MESSAGE": "პორტალის შექმნა შეუძლებელია"
         },
         "UPDATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal updated successfully",
-          "ERROR_MESSAGE": "Unable to update portal"
+          "SUCCESS_MESSAGE": "პორტალი წარმატებით განახლდა",
+          "ERROR_MESSAGE": "პორტალის განახლება შეუძლებელია"
         }
       }
     },
     "PDF_UPLOAD": {
-      "TITLE": "Upload PDF Document",
-      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
-      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
-      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
-      "UPLOADING": "Uploading...",
-      "UPLOAD": "Upload & Process",
-      "CANCEL": "Cancel",
-      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
-      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
-      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+      "TITLE": "PDF დოკუმენტის ატვირთვა",
+      "DESCRIPTION": "ატვირთეთ PDF დოკუმენტი, რათა AI-ით ავტომატურად შექმნათ ხშირად დასმული კითხვები",
+      "DRAG_DROP_TEXT": "გადაათრიეთ და ჩამოაგდეთ თქვენი PDF ფაილი აქ, ან დააჭირეთ არჩევისთვის",
+      "SELECT_FILE": "აირჩიეთ PDF ფაილი",
+      "ADDITIONAL_CONTEXT_LABEL": "დამატებითი კონტექსტი (არასავალდებულო)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "მოაწოდეთ დამატებითი კონტექსტი ან ინსტრუქციები FAQ-ის გენერაციისთვის...",
+      "UPLOADING": "იტვირთება...",
+      "UPLOAD": "ატვირთვა და დამუშავება",
+      "CANCEL": "გაუქმება",
+      "ERROR_INVALID_TYPE": "გთხოვთ, აირჩიოთ ვალიდური PDF ფაილი",
+      "ERROR_FILE_TOO_LARGE": "ფაილის ზომა უნდა იყოს 512MB-ზე ნაკლები",
+      "ERROR_UPLOAD_FAILED": "PDF-ის ატვირთვა ვერ მოხერხდა. გთხოვთ, სცადეთ თავიდან."
     },
     "PDF_DOCUMENTS": {
-      "TITLE": "PDF Documents",
-      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
-      "UPLOAD_PDF": "Upload PDF",
-      "UPLOAD_FIRST_PDF": "Upload your first PDF",
-      "UPLOADED_BY": "Uploaded by",
-      "GENERATE_FAQS": "Generate FAQs",
-      "GENERATING": "Generating...",
-      "CONFIRM_DELETE": "Are you sure you want to delete {filename}?",
+      "TITLE": "PDF დოკუმენტები",
+      "DESCRIPTION": "მართეთ ატვირთული PDF დოკუმენტები და შექმენით ხშირად დასმული კითხვები მათგან",
+      "UPLOAD_PDF": "ატვირთეთ PDF",
+      "UPLOAD_FIRST_PDF": "ჩატვირთეთ თქვენი პირველი PDF",
+      "UPLOADED_BY": "ჩატვირთულია",
+      "GENERATE_FAQS": "შექმენით ხშირად დასმული კითხვები",
+      "GENERATING": "შექმნება...",
+      "CONFIRM_DELETE": "დარწმუნებული ხართ, რომ გინდათ წაშალოთ {filename}?",
       "EMPTY_STATE": {
-        "TITLE": "No PDF documents yet",
-        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+        "TITLE": "ჯერ არ არის PDF დოკუმენტები",
+        "DESCRIPTION": "ატვირთეთ PDF დოკუმენტები, რათა AI-ით ავტომატურად შეიქმნას ხშირად დასმული კითხვები"
       },
       "STATUS": {
-        "UPLOADED": "Ready",
-        "PROCESSING": "Processing",
-        "PROCESSED": "Completed",
-        "FAILED": "Failed"
+        "UPLOADED": "მზადაა",
+        "PROCESSING": "მუშავდება",
+        "PROCESSED": "დასრულებულია",
+        "FAILED": "შეცდომა"
       }
     },
     "CONTENT_GENERATION": {
-      "TITLE": "Content Generation",
-      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
-      "UPLOAD_TITLE": "Upload PDF Document",
-      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "UPLOADING": "Processing document...",
-      "UPLOAD_SUCCESS": "Document processed successfully!",
-      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
-      "INVALID_FILE_TYPE": "Please select a valid PDF file",
-      "FILE_TOO_LARGE": "File size must be less than 512MB",
-      "GENERATED_CONTENT": "Generated FAQ Content",
-      "PUBLISH_SELECTED": "Publish Selected",
-      "PUBLISHING": "Publishing...",
-      "FROM_DOCUMENT": "From document",
-      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
-      "LOADING": "Loading generated content..."
+      "TITLE": "კონტენტის გენერაცია",
+      "DESCRIPTION": "ატვირთეთ PDF დოკუმენტები, რათა AI-ის გამოყენებით ავტომატურად შექმნათ FAQ-ის კონტენტი",
+      "UPLOAD_TITLE": "ატვირთეთ PDF დოკუმენტი",
+      "DRAG_DROP": "გადაათრიეთ და ჩამოაგდეთ თქვენი PDF ფაილი აქ, ან დააჭირეთ არჩევისთვის",
+      "SELECT_FILE": "აირჩიეთ PDF ფაილი",
+      "UPLOADING": "დოკუმენტის დამუშავება...",
+      "UPLOAD_SUCCESS": "დოკუმენტი წარმატებით დამუშავდა!",
+      "UPLOAD_ERROR": "დოკუმენტის ატვირთვა ვერ მოხერხდა. გთხოვთ, სცადეთ თავიდან.",
+      "INVALID_FILE_TYPE": "გთხოვთ, აირჩიოთ ვალიდური PDF ფაილი",
+      "FILE_TOO_LARGE": "ფაილის ზომა უნდა იყოს 512MB-ზე ნაკლები",
+      "GENERATED_CONTENT": "გენერირებული FAQ შინაარსი",
+      "PUBLISH_SELECTED": "არჩეულის გამოქვეყნება",
+      "PUBLISHING": "გამოქვეყნება...",
+      "FROM_DOCUMENT": "დოკუმენტიდან",
+      "NO_CONTENT": "გენერირებული შინაარსი არ არის. დაიწყეთ PDF დოკუმენტის ატვირთვით.",
+      "LOADING": "გენერირებული შინაარსის ჩატვირთვა..."
     }
   }
 }

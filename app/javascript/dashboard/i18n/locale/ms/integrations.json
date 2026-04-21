@@ -1,187 +1,224 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "Padam Integrasi Shopify",
+        "MESSAGE": "Adakah anda pasti ingin memadam integrasi Shopify?"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
-        "LABEL": "Store URL",
-        "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "TITLE": "Sambungkan Kedai Shopify",
+        "LABEL": "URL Kedai",
+        "PLACEHOLDER": "kedai-anda.myshopify.com",
+        "HELP": "Masukkan URL myshopify.com kedai Shopify anda",
         "CANCEL": "Batalkan",
-        "SUBMIT": "Connect Store"
+        "SUBMIT": "Sambungkan Kedai"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "Terdapat ralat semasa menyambung ke Shopify. Sila cuba lagi atau hubungi sokongan jika masalah berterusan."
     },
-    "HEADER": "Integrations",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
-    "LOADING": "Fetching integrations",
+    "HEADER": "Integrasi",
+    "DESCRIPTION": "Chatwoot berintegrasi dengan pelbagai alat dan perkhidmatan untuk meningkatkan kecekapan pasukan anda. Terokai senarai di bawah untuk mengkonfigurasi aplikasi kegemaran anda.",
+    "LEARN_MORE": "Ketahui lebih lanjut mengenai integrasi",
+    "LOADING": "Mengambil integrasi",
+    "SEARCH_PLACEHOLDER": "Cari integrasi...",
+    "NO_RESULTS": "Tiada integrasi ditemui yang sepadan dengan carian anda",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
-      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "DISABLED": "Captain tidak diaktifkan pada akaun anda.",
+      "CLICK_HERE_TO_CONFIGURE": "Klik di sini untuk konfigurasi",
+      "LOADING_CONSOLE": "Memuatkan Konsol Captain...",
+      "FAILED_TO_LOAD_CONSOLE": "Gagal memuatkan Konsol Captain. Sila muat semula dan cuba lagi."
     },
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
-      "LEARN_MORE": "Learn more about webhooks",
+      "SUBSCRIBED_EVENTS": "Acara Langganan",
+      "LEARN_MORE": "Ketahui lebih lanjut tentang webhook",
+      "SECRET": {
+        "LABEL": "Rahsia",
+        "COPY": "Salin rahsia ke papan klip",
+        "COPY_SUCCESS": "Rahsia disalin ke papan klip",
+        "TOGGLE": "Togol keterlihatan rahsia",
+        "CREATED_DESC": "Webhook anda telah dibuat. Gunakan rahsia di bawah untuk mengesahkan tandatangan webhook. Sila salin sekarang — anda juga boleh menemuinya kemudian dalam borang suntingan webhook.",
+        "DONE": "Selesai"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Cari webhook...",
+      "NO_RESULTS": "Tiada webhook ditemui yang sepadan dengan carian anda",
       "FORM": {
         "CANCEL": "Batalkan",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "DESC": "Peristiwa webhook memberikan anda maklumat masa nyata tentang apa yang berlaku dalam akaun Chatwoot anda. Sila masukkan URL yang sah untuk mengkonfigurasi panggilan balik.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Acara",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated",
-            "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_CREATED": "Perbualan Dicipta",
+            "CONVERSATION_STATUS_CHANGED": "Status Perbualan Ditukar",
+            "CONVERSATION_UPDATED": "Perbualan Dikemas Kini",
+            "MESSAGE_CREATED": "Mesej dicipta",
+            "MESSAGE_UPDATED": "Mesej dikemas kini",
+            "WEBWIDGET_TRIGGERED": "Widget sembang langsung dibuka oleh pengguna",
+            "CONTACT_CREATED": "Kenalan dicipta",
+            "CONTACT_UPDATED": "Kenalan dikemas kini",
+            "CONVERSATION_TYPING_ON": "Perbualan Mengetik Aktif",
+            "CONVERSATION_TYPING_OFF": "Perbualan Mengetik Tidak Aktif"
           }
         },
         "NAME": {
-          "LABEL": "Webhook Name",
-          "PLACEHOLDER": "Enter the name of the webhook"
+          "LABEL": "Nama webhook",
+          "PLACEHOLDER": "Masukkan nama webhook"
         },
         "END_POINT": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Example: {webhookExampleURL}",
-          "ERROR": "Please enter a valid URL"
+          "PLACEHOLDER": "Contoh: {webhookExampleURL}",
+          "ERROR": "Sila masukkan URL yang sah"
         },
-        "EDIT_SUBMIT": "Update webhook",
-        "ADD_SUBMIT": "Create webhook"
+        "EDIT_SUBMIT": "Kemas kini webhook",
+        "ADD_SUBMIT": "Buat webhook"
       },
       "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "CONFIGURE": "Konfigurasi",
+      "HEADER": "Tetapan webhook",
+      "HEADER_BTN_TXT": "Tambah webhook baharu",
+      "LOADING": "Mengambil webhook yang dilampirkan",
+      "SEARCH_404": "Tiada item yang sepadan dengan carian ini",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks adalah panggilan balik HTTP yang boleh ditetapkan untuk setiap akaun. Ia dicetuskan oleh peristiwa seperti penciptaan mesej dalam Chatwoot. Anda boleh mencipta lebih daripada satu webhook untuk akaun ini. <br /><br /> Untuk mencipta <b>webhook</b>, klik pada butang <b>Tambah webhook baru</b>. Anda juga boleh memadam mana-mana webhook sedia ada dengan mengklik butang Padam.</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "Tiada webhook dikonfigurasikan untuk akaun ini.",
+        "TITLE": "Urus webhook",
         "TABLE_HEADER": {
-          "WEBHOOK_ENDPOINT": "Webhook endpoint",
+          "WEBHOOK_ENDPOINT": "Titik akhir webhook",
           "ACTIONS": "Tindakan-tindakan"
         }
       },
       "EDIT": {
-        "BUTTON_TEXT": "Edit",
-        "TITLE": "Edit webhook",
+        "BUTTON_TEXT": "Sunting",
+        "TITLE": "Sunting webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "SUCCESS_MESSAGE": "Konfigurasi webhook berjaya dikemas kini",
           "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
         }
       },
       "ADD": {
         "CANCEL": "Batalkan",
-        "TITLE": "Add new webhook",
+        "TITLE": "Tambah webhook baharu",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "SUCCESS_MESSAGE": "Konfigurasi webhook berjaya ditambah",
           "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Padamkan",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
+          "SUCCESS_MESSAGE": "Webhook berjaya dipadamkan",
           "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
         },
         "CONFIRM": {
           "TITLE": "Pasti Padamkan",
           "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
           "YES": "Ya, Padamkan ",
-          "NO": "No, Keep it"
+          "NO": "Tidak, Simpan"
         }
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Padamkan",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "Padam integrasi",
+        "MESSAGE": "Adakah anda pasti mahu memadam integrasi ini? Melakukannya akan menyebabkan kehilangan akses ke perbualan di ruang kerja Slack anda."
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
-        "SELECTED": "selected"
+        "BODY": "Dengan integrasi ini, semua perbualan masuk anda akan diselaraskan ke saluran ***{selectedChannelName}*** di ruang kerja Slack anda. Anda boleh mengurus semua perbualan pelanggan anda terus dalam saluran tersebut dan tidak akan terlepas sebarang mesej.\n\nBerikut adalah ciri utama integrasi ini:\n\n**Balas perbualan dari dalam Slack:** Untuk membalas perbualan di saluran Slack ***{selectedChannelName}***, hanya taip mesej anda dan hantar sebagai thread. Ini akan mencipta balasan kepada pelanggan melalui Chatwoot. Mudah sahaja!\n\n**Cipta nota peribadi:** Jika anda ingin mencipta nota peribadi dan bukannya balasan, mulakan mesej anda dengan ***`note:`***. Ini memastikan mesej anda kekal peribadi dan tidak akan kelihatan kepada pelanggan.\n\n**Kaitkan profil ejen:** Jika individu yang membalas di Slack mempunyai profil ejen di Chatwoot dengan emel yang sama, balasan akan dikaitkan secara automatik dengan profil ejen tersebut. Ini membolehkan anda menjejak siapa yang berkata apa dan bila. Jika pembalas tidak mempunyai profil ejen yang dikaitkan, balasan akan dipaparkan daripada profil bot kepada pelanggan.",
+        "SELECTED": "dipilih"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
-        "UPDATE": "Update",
-        "BUTTON_TEXT": "Connect channel",
+        "OPTION_LABEL": "Pilih saluran",
+        "UPDATE": "Kemas kini",
+        "BUTTON_TEXT": "Sambungkan saluran",
         "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "ATTENTION_REQUIRED": "Perhatian diperlukan",
+        "EXPIRED": "Integrasi Slack anda telah tamat tempoh. Untuk terus menerima mesej di Slack, sila padam integrasi dan sambungkan ruang kerja anda semula."
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "Terdapat ralat semasa mengemas kini integrasi, sila cuba lagi",
+      "UPDATE_SUCCESS": "Saluran berjaya disambungkan",
+      "FAILED_TO_FETCH_CHANNELS": "Terdapat ralat semasa mendapatkan saluran dari Slack, sila cuba lagi"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "Klik di sini untuk sertai",
+      "LEAVE_THE_ROOM": "Tinggalkan bilik",
+      "START_VIDEO_CALL_HELP_TEXT": "Mulakan panggilan video baru dengan pelanggan",
+      "JOIN_ERROR": "Terdapat ralat semasa menyertai panggilan, sila cuba lagi",
+      "CREATE_ERROR": "Terdapat ralat semasa membuat pautan mesyuarat, sila cuba lagi"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " {option} with AI ",
+      "AI_ASSIST": "Bantuan AI",
+      "WITH_AI": " {option} dengan AI ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "Cadangan Balasan",
+        "SUMMARIZE": "Ringkaskan",
+        "REPHRASE": "Perbaiki Penulisan",
+        "FIX_SPELLING_GRAMMAR": "Betulkan Ejaan dan Tatabahasa",
+        "SHORTEN": "Pendekkan",
+        "EXPAND": "Kembangkan",
+        "MAKE_FRIENDLY": "Tukar nada mesej kepada mesra",
+        "MAKE_FORMAL": "Gunakan nada formal",
+        "SIMPLIFY": "Permudahkan",
+        "CONFIDENT": "Gunakan nada yakin",
+        "PROFESSIONAL": "Gunakan nada profesional",
+        "CASUAL": "Gunakan nada santai",
+        "STRAIGHTFORWARD": "Gunakan nada terus-terang"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Perbaiki balasan",
+        "IMPROVE_REPLY_SELECTION": "Perbaiki pilihan",
+        "CHANGE_TONE": {
+          "TITLE": "Tukar nada",
+          "OPTIONS": {
+            "PROFESSIONAL": "Profesional",
+            "CASUAL": "Santai",
+            "STRAIGHTFORWARD": "Terus-terang",
+            "CONFIDENT": "Yakin",
+            "FRIENDLY": "Mesra"
+          }
+        },
+        "GRAMMAR": "Betulkan tatabahasa & ejaan",
+        "SUGGESTION": "Cadangkan balasan",
+        "SUMMARIZE": "Ringkaskan perbualan",
+        "ASK_COPILOT": "Tanya Copilot"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "Draf kandungan",
+        "GENERATED_TITLE": "Kandungan dijana",
+        "AI_WRITING": "AI sedang menulis",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
+          "APPLY": "Gunakan cadangan ini",
           "CANCEL": "Batalkan"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "Integrasi dengan OpenAI",
+        "DESC": "Bawa ciri AI canggih ke papan pemuka anda dengan model GPT OpenAI. Untuk memulakan, masukkan kunci API dari akaun OpenAI anda.",
+        "KEY_PLACEHOLDER": "Masukkan kunci API OpenAI anda",
         "BUTTONS": {
-          "NEED_HELP": "Need help?",
-          "DISMISS": "Dismiss",
-          "FINISH": "Finish Setup"
+          "NEED_HELP": "Perlukan bantuan?",
+          "DISMISS": "Tutup",
+          "FINISH": "Selesai Persediaan"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "Anda boleh menyediakan integrasi OpenAI kemudian bila-bila masa anda mahu.",
+        "SUCCESS_MESSAGE": "Integrasi OpenAI berjaya disediakan"
       },
-      "TITLE": "Improve With AI",
-      "SUMMARY_TITLE": "Summary with AI",
-      "REPLY_TITLE": "Reply suggestion with AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "Tingkatkan Dengan AI",
+      "SUMMARY_TITLE": "Ringkasan dengan AI",
+      "REPLY_TITLE": "Cadangan balasan dengan AI",
+      "SUBTITLE": "Balasan yang dipertingkatkan akan dijana menggunakan AI, berdasarkan draf semasa anda.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "Nada",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "Profesional",
+          "FRIENDLY": "Mesra"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
+        "GENERATE": "Jana",
+        "GENERATING": "Sedang menjana...",
         "CANCEL": "Batalkan"
       },
       "GENERATE_ERROR": "There was an error processing the content, please try again"
@@ -189,788 +226,827 @@
     "DELETE": {
       "BUTTON_TEXT": "Padamkan",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Integrasi berjaya dipadam"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Sambung"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
-      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "TITLE": "Apl Papan Pemuka",
+      "HEADER_BTN_TXT": "Tambah apl papan pemuka baru",
+      "SIDEBAR_TXT": "<p><b>Aplikasi Papan Pemuka</b></p><p>Aplikasi Papan Pemuka membolehkan organisasi menyematkan aplikasi di dalam papan pemuka Chatwoot untuk menyediakan konteks bagi ejen sokongan pelanggan. Ciri ini membolehkan anda mencipta aplikasi secara bebas dan menyematkannya di dalam papan pemuka untuk menyediakan maklumat pengguna, pesanan mereka, atau sejarah pembayaran mereka sebelum ini.</p><p>Apabila anda menyematkan aplikasi anda menggunakan papan pemuka dalam Chatwoot, aplikasi anda akan menerima konteks perbualan dan kenalan sebagai acara tetingkap. Laksanakan pendengar untuk acara mesej pada halaman anda untuk menerima konteks tersebut.</p><p>Untuk menambah aplikasi papan pemuka baru, klik pada butang 'Tambah aplikasi papan pemuka baru'.</p>",
+      "DESCRIPTION": "Aplikasi Papan Pemuka membolehkan organisasi menyematkan aplikasi di dalam papan pemuka untuk menyediakan konteks bagi ejen sokongan pelanggan. Ciri ini membolehkan anda mencipta aplikasi secara bebas dan menyematkannya untuk menyediakan maklumat pengguna, pesanan mereka, atau sejarah pembayaran mereka sebelum ini.",
+      "LEARN_MORE": "Ketahui lebih lanjut mengenai Aplikasi Papan Pemuka",
+      "COUNT": "{n} aplikasi papan pemuka | {n} aplikasi papan pemuka",
+      "SEARCH_PLACEHOLDER": "Cari aplikasi papan pemuka...",
+      "NO_RESULTS": "Tiada aplikasi papan pemuka ditemui yang sepadan dengan carian anda",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "Tiada apl papan pemuka yang dikonfigurasikan pada akaun ini lagi",
+        "LOADING": "Sedang mengambil aplikasi papan pemuka...",
         "TABLE_HEADER": {
           "NAME": "Nama",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Titik Akhir",
+          "ACTIONS": "Tindakan-tindakan"
         },
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "Sunting aplikasi",
+        "DELETE_TOOLTIP": "Padam aplikasi"
       },
       "FORM": {
         "TITLE_LABEL": "Nama",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_PLACEHOLDER": "Masukkan nama untuk aplikasi papan pemuka anda",
+        "TITLE_ERROR": "Nama untuk aplikasi papan pemuka diperlukan",
+        "URL_LABEL": "Titik akhir",
+        "URL_PLACEHOLDER": "Masukkan URL titik akhir di mana apl anda dihoskan",
+        "URL_ERROR": "URL yang sah diperlukan"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
-        "FORM_SUBMIT": "Submit",
+        "HEADER": "Tambah aplikasi papan pemuka baru",
+        "FORM_SUBMIT": "Hantar",
         "FORM_CANCEL": "Batalkan",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "Apl papan pemuka berjaya dikonfigurasikan",
+        "API_ERROR": "Kami tidak dapat mencipta aplikasi. Sila cuba lagi kemudian"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
-        "FORM_SUBMIT": "Update",
+        "HEADER": "Sunting aplikasi papan pemuka",
+        "FORM_SUBMIT": "Kemas kini",
         "FORM_CANCEL": "Batalkan",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "Aplikasi papan pemuka berjaya dikemas kini",
+        "API_ERROR": "Kami tidak dapat mengemas kini aplikasi. Sila cuba lagi kemudian"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - {appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "CONFIRM_YES": "Ya, padamkan",
+        "CONFIRM_NO": "Tidak, simpan",
+        "TITLE": "Sahkan penghapusan",
+        "MESSAGE": "Adakah anda pasti untuk memadam aplikasi - {appName}?",
+        "API_SUCCESS": "Aplikasi papan pemuka berjaya dipadam",
+        "API_ERROR": "Kami tidak dapat memadam aplikasi. Sila cuba lagi kemudian"
       }
     },
     "LINEAR": {
-      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
-      "CREATE": "Create",
+      "HEADER": "Linear",
+      "ADD_OR_LINK_BUTTON": "Cipta/Sambung Isu Linear",
+      "LOADING": "Sedang mengambil isu linear...",
+      "LOADING_ERROR": "Terdapat ralat semasa mengambil isu linear, sila cuba lagi",
+      "CREATE": "Cipta",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
+        "SEARCH": "Cari isu",
+        "SELECT": "Pilih isu",
         "TITLE": "Pautan",
-        "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
-        "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "EMPTY_LIST": "Tiada isu linear ditemui",
+        "LOADING": "Memuat",
+        "ERROR": "Terdapat ralat semasa mendapatkan isu linear, sila cuba lagi",
+        "LINK_SUCCESS": "Isu berjaya dipautkan",
+        "LINK_ERROR": "Terdapat ralat semasa memautkan isu, sila cuba lagi",
+        "LINK_TITLE": "Perbualan (#{conversationId}) dengan {name}"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "TITLE": "Cipta/pautkan isu linear",
+        "DESCRIPTION": "Cipta isu Linear dari perbualan, atau pautkan yang sedia ada untuk penjejakan yang lancar.",
         "FORM": {
           "TITLE": {
-            "LABEL": "Title",
-            "PLACEHOLDER": "Enter title",
-            "REQUIRED_ERROR": "Title is required"
+            "LABEL": "Tajuk",
+            "PLACEHOLDER": "Masukkan tajuk",
+            "REQUIRED_ERROR": "Tajuk diperlukan"
           },
           "DESCRIPTION": {
-            "LABEL": "Description",
-            "PLACEHOLDER": "Enter description"
+            "LABEL": "Penerangan",
+            "PLACEHOLDER": "Masukkan keterangan"
           },
           "TEAM": {
-            "LABEL": "Team",
+            "LABEL": "Pasukan",
             "PLACEHOLDER": "Pilih pasukan",
-            "SEARCH": "Search team",
-            "REQUIRED_ERROR": "Team is required"
+            "SEARCH": "Cari pasukan",
+            "REQUIRED_ERROR": "Pasukan diperlukan"
           },
           "ASSIGNEE": {
-            "LABEL": "Assignee",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "LABEL": "Penugasan",
+            "PLACEHOLDER": "Pilih penugasan",
+            "SEARCH": "Cari penugasan"
           },
           "PRIORITY": {
-            "LABEL": "Priority",
-            "PLACEHOLDER": "Select priority",
-            "SEARCH": "Search priority"
+            "LABEL": "Keutamaan",
+            "PLACEHOLDER": "Pilih keutamaan",
+            "SEARCH": "Cari keutamaan"
           },
           "LABEL": {
             "LABEL": "Label",
-            "PLACEHOLDER": "Select label",
-            "SEARCH": "Search label"
+            "PLACEHOLDER": "Pilih label",
+            "SEARCH": "Label carian"
           },
           "STATUS": {
-            "LABEL": "Status",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "LABEL": "Keadaan",
+            "PLACEHOLDER": "Pilih status",
+            "SEARCH": "Cari status"
           },
           "PROJECT": {
-            "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "LABEL": "Projek",
+            "PLACEHOLDER": "Pilih projek",
+            "SEARCH": "Cari projek"
           }
         },
-        "CREATE": "Create",
+        "CREATE": "Buat",
         "CANCEL": "Batalkan",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE_SUCCESS": "Isu berjaya dibuat",
+        "CREATE_ERROR": "Terdapat ralat semasa mencipta isu, sila cuba lagi",
+        "LOADING_TEAM_ERROR": "Terdapat ralat semasa mendapatkan pasukan, sila cuba lagi",
+        "LOADING_TEAM_ENTITIES_ERROR": "Terdapat ralat semasa mendapatkan entiti pasukan, sila cuba lagi"
       },
       "ISSUE": {
-        "STATUS": "Status",
-        "PRIORITY": "Priority",
-        "ASSIGNEE": "Assignee",
+        "STATUS": "Keadaan",
+        "PRIORITY": "Keutamaan",
+        "ASSIGNEE": "Penugasan",
         "LABELS": "Label",
-        "CREATED_AT": "Created at {createdAt}"
+        "CREATED_AT": "Dicipta pada {createdAt}"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "TITLE": "Nyahpaut",
+        "SUCCESS": "Isu berjaya dinyahpaut",
+        "ERROR": "Terdapat ralat semasa menyahpaut isu, sila cuba lagi"
       },
-      "NO_LINKED_ISSUES": "No linked issues found",
+      "NO_LINKED_ISSUES": "Tiada isu berkaitan ditemui",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
-        "CONFIRM": "Yes, delete",
+        "TITLE": "Adakah anda pasti mahu memadam integrasi ini?",
+        "MESSAGE": "Adakah anda pasti mahu memadam integrasi ini?",
+        "CONFIRM": "Ya, padamkan",
         "CANCEL": "Batalkan"
       },
       "CTA": {
-        "TITLE": "Connect to Linear",
-        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
-        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
-        "BUTTON_TEXT": "Connect Linear workspace"
+        "TITLE": "Sambungkan ke Linear",
+        "AGENT_DESCRIPTION": "Ruang kerja Linear tidak disambungkan. Mohon pentadbir anda untuk menyambungkan ruang kerja bagi menggunakan integrasi ini.",
+        "DESCRIPTION": "Ruang kerja Linear tidak disambungkan. Klik butang di bawah untuk menyambungkan ruang kerja anda bagi menggunakan integrasi ini.",
+        "BUTTON_TEXT": "Sambungkan ruang kerja Linear"
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
-        "CONFIRM": "Yes, delete",
+        "TITLE": "Adakah anda pasti mahu memadam integrasi Notion?",
+        "MESSAGE": "Memadam integrasi ini akan mengalih keluar akses ke ruang kerja Notion anda dan menghentikan semua fungsi berkaitan.",
+        "CONFIRM": "Ya, padam",
         "CANCEL": "Batalkan"
       }
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "NAME": "Kapten",
+    "HEADER_KNOW_MORE": "Ketahui lebih lanjut",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "Pembantu",
+      "SWITCH_ASSISTANT": "Bertukar antara pembantu",
+      "NEW_ASSISTANT": "Cipta Pembantu",
+      "EMPTY_LIST": "Tiada pembantu ditemui, sila cipta satu untuk memulakan"
     },
     "COPILOT": {
-      "TITLE": "Copilot",
-      "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
-      "SEND_MESSAGE": "Send message...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
-      "YOU": "You",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "TITLE": "Kopilot",
+      "TRY_THESE_PROMPTS": "Cuba arahan ini",
+      "PANEL_TITLE": "Mulakan dengan Copilot",
+      "KICK_OFF_MESSAGE": "Perlukan ringkasan cepat, mahu semak perbualan lalu, atau draf balasan yang lebih baik? Copilot di sini untuk mempercepatkan semuanya.",
+      "SEND_MESSAGE": "Hantar mesej...",
+      "EMPTY_MESSAGE": "Terdapat ralat semasa menjana respons. Sila cuba lagi.",
+      "LOADER": "Kapten sedang berfikir",
+      "YOU": "Anda",
+      "USE": "Gunakan ini",
+      "RESET": "Tetapkan Semula",
+      "SHOW_STEPS": "Tunjukkan langkah",
+      "SELECT_ASSISTANT": "Pilih Pembantu",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Ringkaskan perbualan ini",
+          "CONTENT": "Ringkaskan perkara utama yang dibincangkan antara pelanggan dan ejen sokongan, termasuk kebimbangan pelanggan, soalan, serta penyelesaian atau jawapan yang diberikan oleh ejen sokongan"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Cadangkan jawapan",
+          "CONTENT": "Analisis pertanyaan pelanggan, dan drafkan jawapan yang berkesan menangani kebimbangan atau soalan mereka. Pastikan balasan jelas, ringkas, dan memberikan maklumat yang berguna."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Nilai perbualan ini",
+          "CONTENT": "Semak perbualan untuk melihat sejauh mana ia memenuhi keperluan pelanggan. Berikan penilaian daripada 5 berdasarkan nada, kejelasan, dan keberkesanan."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "Perbualan keutamaan tinggi",
+          "CONTENT": "Berikan saya ringkasan semua perbualan terbuka keutamaan tinggi. Sertakan ID perbualan, nama pelanggan (jika ada), kandungan mesej terakhir, dan ejen yang ditugaskan. Kumpulkan mengikut status jika berkaitan."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "Senaraikan kenalan",
+          "CONTENT": "Tunjukkan saya senarai 10 kenalan teratas. Sertakan nama, emel atau nombor telefon (jika ada), masa terakhir dilihat, tag (jika ada)."
         }
       }
     },
     "PLAYGROUND": {
-      "USER": "You",
-      "ASSISTANT": "Assistant",
-      "MESSAGE_PLACEHOLDER": "Type your message...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "USER": "Anda",
+      "ASSISTANT": "Pembantu",
+      "MESSAGE_PLACEHOLDER": "Taip mesej anda...",
+      "HEADER": "Tempat Permainan",
+      "DESCRIPTION": "Gunakan ruang ujian ini untuk menghantar mesej kepada pembantu anda dan periksa sama ada ia memberi respons dengan tepat, pantas, dan dalam nada yang anda jangkakan.",
+      "CREDIT_NOTE": "Mesej yang dihantar di sini akan dikira ke arah kredit Captain anda."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "Tingkat taraf untuk menggunakan Captain AI",
+      "AVAILABLE_ON": "Captain tidak tersedia pada pelan percuma.",
+      "UPGRADE_PROMPT": "Tingkatkan pelan anda untuk mendapatkan akses kepada pembantu kami, copilot dan banyak lagi.",
+      "UPGRADE_NOW": "Tingkatkan sekarang",
+      "CANCEL_ANYTIME": "Anda boleh menukar atau membatalkan pelan anda bila-bila masa"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "Captain AI hanya tersedia dalam pelan Enterprise.",
+      "UPGRADE_PROMPT": "Tingkatkan pelan anda untuk mendapatkan akses kepada pembantu kami, copilot dan banyak lagi.",
+      "ASK_ADMIN": "Sila hubungi pentadbir anda untuk peningkatan."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "Anda telah menggunakan lebih daripada 80% had respons anda. Untuk terus menggunakan Captain AI, sila tingkatkan pelan anda.",
+      "DOCUMENTS": "Had dokumen telah dicapai. Tingkatkan pelan untuk terus menggunakan Captain AI."
     },
     "FORM": {
       "CANCEL": "Batalkan",
-      "CREATE": "Create",
-      "EDIT": "Update"
+      "CREATE": "Cipta",
+      "EDIT": "Kemas kini"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
-      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
-      "ADD_NEW": "Create a new assistant",
+      "HEADER": "Pembantu",
+      "NO_ASSISTANTS_AVAILABLE": "Tiada pembantu tersedia dalam akaun anda.",
+      "ADD_NEW": "Cipta pembantu baru",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "TITLE": "Adakah anda pasti untuk memadam pembantu ini?",
+        "DESCRIPTION": "Tindakan ini adalah kekal. Memadam pembantu ini akan mengeluarkannya dari semua peti masuk yang disambungkan dan memadamkan semua pengetahuan yang dijana secara kekal.",
+        "CONFIRM": "Ya, padam",
+        "SUCCESS_MESSAGE": "Pembantu telah berjaya dipadamkan",
+        "ERROR_MESSAGE": "Terdapat ralat semasa memadam pembantu, sila cuba lagi."
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "Isikan butiran di bawah untuk menamakan pembantu anda, terangkan tujuannya, dan nyatakan produk yang akan disokong.",
       "CREATE": {
-        "TITLE": "Create an assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "TITLE": "Cipta pembantu",
+        "SUCCESS_MESSAGE": "Pembantu telah berjaya dicipta",
+        "ERROR_MESSAGE": "Terdapat ralat semasa mencipta pembantu, sila cuba lagi."
       },
       "FORM": {
-        "UPDATE": "Update",
+        "UPDATE": "Kemas kini",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
-          "FEATURES": "Features",
-          "TOOLS": "Tools "
+          "BASIC_INFO": "Maklumat Asas",
+          "SYSTEM_MESSAGES": "Mesej Sistem",
+          "INSTRUCTIONS": "Arahan",
+          "FEATURES": "Ciri-ciri",
+          "TOOLS": "Alat "
         },
         "NAME": {
           "LABEL": "Nama",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "PLACEHOLDER": "Masukkan nama pembantu",
+          "ERROR": "Nama diperlukan"
         },
         "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
+          "LABEL": "Suhu Respons",
+          "DESCRIPTION": "Laraskan sejauh mana kreativiti atau kekangan dalam respons pembantu. Nilai yang lebih rendah menghasilkan respons yang lebih fokus dan deterministik, manakala nilai yang lebih tinggi membenarkan output yang lebih kreatif dan pelbagai."
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter assistant description",
-          "ERROR": "The description is required"
+          "LABEL": "Penerangan",
+          "PLACEHOLDER": "Masukkan penerangan pembantu",
+          "ERROR": "Penerangan diperlukan"
         },
         "PRODUCT_NAME": {
-          "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name",
-          "ERROR": "The product name is required"
+          "LABEL": "Nama Produk",
+          "PLACEHOLDER": "Masukkan nama produk",
+          "ERROR": "Nama produk diperlukan"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "Mesej Selamat Datang",
+          "PLACEHOLDER": "Masukkan mesej selamat datang"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "Mesej Penyerahan",
+          "PLACEHOLDER": "Masukkan mesej penyerahan"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "Mesej Penyelesaian",
+          "PLACEHOLDER": "Masukkan mesej penyelesaian"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "LABEL": "Arahan",
+          "PLACEHOLDER": "Masukkan arahan untuk pembantu"
         },
         "FEATURES": {
-          "TITLE": "Features",
-          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "TITLE": "Ciri-ciri",
+          "ALLOW_CONVERSATION_FAQS": "Hasilkan Soalan Lazim daripada perbualan yang diselesaikan",
+          "ALLOW_MEMORIES": "Tangkap butiran penting sebagai memori daripada interaksi pelanggan.",
+          "ALLOW_CITATIONS": "Sertakan petikan sumber dalam jawapan",
+          "ALLOW_CONTACT_ATTRIBUTES": "Benarkan akses kepada maklumat kenalan"
         }
       },
       "EDIT": {
-        "TITLE": "Update the assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "TITLE": "Kemas kini pembantu",
+        "SUCCESS_MESSAGE": "Pembantu telah berjaya dikemas kini",
+        "ERROR_MESSAGE": "Terdapat ralat semasa mengemas kini pembantu, sila cuba lagi.",
+        "NOT_FOUND": "Tidak dapat mencari pembantu. Sila cuba lagi."
       },
       "SETTINGS": {
-        "HEADER": "Settings",
+        "HEADER": "Tetapan",
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "Tetapan asas",
+          "DESCRIPTION": "Sesuaikan apa yang pembantu katakan apabila menamatkan perbualan atau memindahkan kepada manusia."
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "Tetapan sistem",
+          "DESCRIPTION": "Sesuaikan apa yang pembantu katakan apabila menamatkan perbualan atau memindahkan kepada manusia."
         },
         "CONTROL_ITEMS": {
-          "TITLE": "The Fun Stuff",
-          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "TITLE": "Perkara yang Menghiburkan",
+          "DESCRIPTION": "Tambah lebih kawalan kepada pembantu. (sedikit lebih visual seperti cerita: Kawalan pertanyaan → senario → output) Menggalakkan pengguna untuk benar-benar menggunakan ini.",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Guardrails",
-              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+              "TITLE": "Panduan keselamatan",
+              "DESCRIPTION": "Menjaga agar semuanya berjalan lancar—hanya jenis soalan yang anda mahu pembantu anda jawab, tiada yang terlarang atau di luar topik."
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "TITLE": "Garis panduan respons",
+              "DESCRIPTION": "Gaya dan struktur balasan pembantu anda—jelas dan mesra? Pendek dan padat? Terperinci dan formal?"
             }
           }
         },
         "DELETE": {
-          "TITLE": "Delete Assistant",
-          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-          "BUTTON_TEXT": "Delete {assistantName}"
+          "TITLE": "Padam Pembantu",
+          "DESCRIPTION": "Tindakan ini adalah kekal. Memadam pembantu ini akan mengeluarkannya dari semua peti masuk yang disambungkan dan memadamkan semua pengetahuan yang dijana secara kekal.",
+          "BUTTON_TEXT": "Padam {assistantName}"
         }
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Edit Assistant",
-        "DELETE_ASSISTANT": "Delete Assistant",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "EDIT_ASSISTANT": "Sunting Pembantu",
+        "DELETE_ASSISTANT": "Padam Pembantu",
+        "VIEW_CONNECTED_INBOXES": "Lihat peti masuk yang disambungkan"
       },
       "EMPTY_STATE": {
-        "TITLE": "No assistants available",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
+        "TITLE": "Tiada pembantu tersedia",
+        "SUBTITLE": "Cipta pembantu untuk memberikan respons yang pantas dan tepat kepada pengguna anda. Ia boleh belajar daripada artikel bantuan dan perbualan lalu anda.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "NOTE": "Pembantu Captain berinteraksi terus dengan pelanggan, belajar dari dokumen bantuan dan perbualan lalu anda, dan memberikan respons segera dan tepat. Ia mengendalikan pertanyaan awal, menyediakan penyelesaian pantas sebelum menyerahkan kepada ejen jika perlu."
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "TITLE": "Panduan Keselamatan",
+        "DESCRIPTION": "Memastikan semuanya berjalan lancar—hanya jenis soalan yang anda mahu pembantu anda jawab, tiada yang terlarang atau di luar topik.",
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
+          "SELECT_ALL": "Pilih semua ({count})",
           "UNSELECT_ALL": "Unselect all ({count})",
           "BULK_DELETE_BUTTON": "Padamkan"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "TITLE": "Contoh panduan keselamatan",
+            "ADD": "Tambah semua",
+            "ADD_SINGLE": "Tambah ini",
+            "SAVE": "Tambah dan simpan (↵)",
+            "PLACEHOLDER": "Taip panduan keselamatan lain..."
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
-            "CREATE": "Create",
+            "TITLE": "Tambah penghadang",
+            "CREATE": "Cipta",
             "CANCEL": "Batalkan",
-            "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "PLACEHOLDER": "Taip penghadang lain...",
+            "TEST_ALL": "Uji semua"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Cari..."
         },
-        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "EMPTY_MESSAGE": "Tiada garispanduan ditemui. Cipta atau tambah contoh untuk bermula.",
+        "SEARCH_EMPTY_MESSAGE": "Tiada kawalan ditemui untuk carian ini.",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "Kawalan berjaya ditambah",
+            "ERROR": "Ralat berlaku semasa menambah kawalan, sila cuba lagi."
           },
           "UPDATE": {
-            "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "SUCCESS": "Kawalan berjaya dikemas kini",
+            "ERROR": "Ralat berlaku semasa mengemas kini kawalan, sila cuba lagi."
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "SUCCESS": "Kawalan berjaya dipadam",
+            "ERROR": "Ralat berlaku semasa memadam kawalan, sila cuba lagi."
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
-        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "TITLE": "Garis Panduan Respons",
+        "DESCRIPTION": "Suasana dan struktur balasan pembantu anda—jelas dan mesra? Pendek dan padat? Terperinci dan formal?",
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
+          "SELECT_ALL": "Pilih semua ({count})",
           "UNSELECT_ALL": "Unselect all ({count})",
           "BULK_DELETE_BUTTON": "Padamkan"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example response guidelines",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another response guideline..."
+            "TITLE": "Contoh garis panduan respons",
+            "ADD": "Tambah semua",
+            "ADD_SINGLE": "Tambah ini",
+            "SAVE": "Tambah dan simpan (↵)",
+            "PLACEHOLDER": "Taip panduan respons lain..."
           },
           "NEW": {
-            "TITLE": "Add a response guideline",
-            "CREATE": "Create",
+            "TITLE": "Tambah panduan respons",
+            "CREATE": "Cipta",
             "CANCEL": "Batalkan",
-            "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "PLACEHOLDER": "Taip panduan respons lain...",
+            "TEST_ALL": "Uji semua"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Cari..."
         },
-        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "EMPTY_MESSAGE": "Tiada panduan respons dijumpai. Cipta atau tambah contoh untuk mula.",
+        "SEARCH_EMPTY_MESSAGE": "Tiada panduan respons dijumpai untuk carian ini.",
         "API": {
           "ADD": {
-            "SUCCESS": "Response Guidelines added successfully",
-            "ERROR": "There was an error adding response guidelines, please try again."
+            "SUCCESS": "Panduan Respons berjaya ditambah",
+            "ERROR": "Ralat berlaku semasa menambah panduan respons, sila cuba lagi."
           },
           "UPDATE": {
-            "SUCCESS": "Response Guidelines updated successfully",
-            "ERROR": "There was an error updating response guidelines, please try again."
+            "SUCCESS": "Panduan Respons berjaya dikemas kini",
+            "ERROR": "Ralat berlaku semasa mengemas kini panduan respons, sila cuba lagi."
           },
           "DELETE": {
-            "SUCCESS": "Response Guidelines deleted successfully",
-            "ERROR": "There was an error deleting response guidelines, please try again."
+            "SUCCESS": "Panduan Respons berjaya dipadam",
+            "ERROR": "Ralat berlaku semasa memadam panduan respons, sila cuba lagi."
           }
         }
       },
       "SCENARIOS": {
-        "TITLE": "Scenarios",
-        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "TITLE": "Senario",
+        "DESCRIPTION": "Berikan pembantu anda sedikit konteks—seperti “apa yang perlu dilakukan apabila pengguna tersekat,” atau “cara bertindak semasa permintaan bayaran balik.”",
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
+          "SELECT_ALL": "Pilih semua ({count})",
           "UNSELECT_ALL": "Unselect all ({count})",
           "BULK_DELETE_BUTTON": "Padamkan"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example scenarios",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "TOOLS_USED": "Tools used :"
+            "TITLE": "Senario contoh",
+            "ADD": "Tambah semua",
+            "ADD_SINGLE": "Tambah ini",
+            "TOOLS_USED": "Alat yang digunakan :"
           },
           "NEW": {
-            "CREATE": "Add a scenario",
-            "TITLE": "Create a scenario",
+            "CREATE": "Tambah senario",
+            "TITLE": "Cipta senario",
             "FORM": {
               "TITLE": {
-                "LABEL": "Title",
-                "PLACEHOLDER": "Enter a name for the scenario",
-                "ERROR": "Scenario name is required"
+                "LABEL": "Tajuk",
+                "PLACEHOLDER": "Masukkan nama untuk senario",
+                "ERROR": "Nama senario diperlukan"
               },
               "DESCRIPTION": {
-                "LABEL": "Description",
-                "PLACEHOLDER": "Describe how and where this scenario will be used",
-                "ERROR": "Scenario description is required"
+                "LABEL": "Penerangan",
+                "PLACEHOLDER": "Terangkan bagaimana dan di mana senario ini akan digunakan",
+                "ERROR": "Penerangan senario diperlukan"
               },
               "INSTRUCTION": {
-                "LABEL": "How to handle",
-                "PLACEHOLDER": "Describe how and where this scenario will be handled",
-                "ERROR": "Scenario content is required"
+                "LABEL": "Cara mengendalikan",
+                "PLACEHOLDER": "Terangkan bagaimana dan di mana senario ini akan dikendalikan",
+                "ERROR": "Kandungan senario diperlukan"
               },
-              "CREATE": "Create",
+              "CREATE": "Buat",
               "CANCEL": "Batalkan"
             }
           }
         },
         "UPDATE": {
           "CANCEL": "Batalkan",
-          "UPDATE": "Update changes"
+          "UPDATE": "Kemas kini perubahan"
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Cari..."
         },
-        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "EMPTY_MESSAGE": "Tiada senario ditemui. Buat atau tambah contoh untuk bermula.",
+        "SEARCH_EMPTY_MESSAGE": "Tiada senario ditemui untuk carian ini.",
         "API": {
           "ADD": {
-            "SUCCESS": "Scenarios added successfully",
-            "ERROR": "There was an error adding scenarios, please try again."
+            "SUCCESS": "Senario berjaya ditambah",
+            "ERROR": "Terdapat ralat semasa menambah senario, sila cuba lagi."
           },
           "UPDATE": {
-            "SUCCESS": "Scenarios updated successfully",
-            "ERROR": "There was an error updating scenarios, please try again."
+            "SUCCESS": "Senario berjaya dikemas kini",
+            "ERROR": "Terdapat ralat semasa mengemas kini senario, sila cuba lagi."
           },
           "DELETE": {
-            "SUCCESS": "Scenarios deleted successfully",
-            "ERROR": "There was an error deleting scenarios, please try again."
+            "SUCCESS": "Senario berjaya dipadam",
+            "ERROR": "Terdapat ralat semasa memadam senario, sila cuba lagi."
           }
         }
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
-      "RELATED_RESPONSES": {
-        "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+      "HEADER": "Dokumen",
+      "ADD_NEW": "Cipta dokumen baru",
+      "SELECTED": "{count} dipilih",
+      "SELECT_ALL": "Pilih semua ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "BULK_DELETE_BUTTON": "Padamkan",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Ya, padam semua",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "RELATED_RESPONSES": {
+        "TITLE": "Soalan Lazim Berkaitan",
+        "DESCRIPTION": "Soalan Lazim ini dijana terus daripada dokumen."
+      },
+      "FORM_DESCRIPTION": "Masukkan URL dokumen untuk menambahnya sebagai sumber pengetahuan dan pilih pembantu untuk dikaitkan dengannya.",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "TITLE": "Tambah dokumen",
+        "SUCCESS_MESSAGE": "Dokumen telah berjaya dicipta",
+        "ERROR_MESSAGE": "Terdapat ralat semasa mencipta dokumen, sila cuba lagi."
       },
       "FORM": {
         "TYPE": {
-          "LABEL": "Document Type",
-          "URL": "URL",
-          "PDF": "PDF File"
+          "LABEL": "Jenis Dokumen",
+          "URL": "Pautan",
+          "PDF": "Fail PDF"
         },
         "URL": {
-          "LABEL": "URL",
-          "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "LABEL": "Pautan",
+          "PLACEHOLDER": "Masukkan URL dokumen",
+          "ERROR": "Sila berikan URL yang sah untuk dokumen"
         },
         "PDF_FILE": {
-          "LABEL": "PDF File",
-          "CHOOSE_FILE": "Choose PDF file",
-          "ERROR": "Please select a PDF file",
-          "HELP_TEXT": "Maximum file size: 10MB",
-          "INVALID_TYPE": "Please select a valid PDF file",
-          "TOO_LARGE": "File size exceeds 10MB limit"
+          "LABEL": "Fail PDF",
+          "CHOOSE_FILE": "Pilih fail PDF",
+          "ERROR": "Sila pilih fail PDF",
+          "HELP_TEXT": "Saiz fail maksimum: 10MB",
+          "INVALID_TYPE": "Sila pilih fail PDF yang sah",
+          "TOO_LARGE": "Saiz fail melebihi had 10MB"
         },
         "NAME": {
-          "LABEL": "Document Name (Optional)",
-          "PLACEHOLDER": "Enter a name for the document"
+          "LABEL": "Nama Dokumen (Pilihan)",
+          "PLACEHOLDER": "Masukkan nama untuk dokumen"
         }
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the document?",
-        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "TITLE": "Adakah anda pasti mahu memadam dokumen ini?",
+        "DESCRIPTION": "Tindakan ini adalah kekal. Memadam dokumen ini akan memadamkan semua pengetahuan yang dijana secara kekal.",
+        "CONFIRM": "Ya, padam",
+        "SUCCESS_MESSAGE": "Dokumen telah berjaya dipadam",
+        "ERROR_MESSAGE": "Terdapat ralat semasa memadam dokumen, sila cuba lagi."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "DELETE_DOCUMENT": "Delete Document"
+        "VIEW_RELATED_RESPONSES": "Lihat Respons Berkaitan",
+        "DELETE_DOCUMENT": "Padam Dokumen"
       },
       "EMPTY_STATE": {
-        "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "TITLE": "Tiada dokumen tersedia",
+        "SUBTITLE": "Dokumen digunakan oleh pembantu anda untuk menjana Soalan Lazim. Anda boleh mengimport dokumen untuk memberikan konteks kepada pembantu anda.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "NOTE": "Dokumen dalam Captain berfungsi sebagai sumber pengetahuan untuk pembantu. Dengan menyambungkan pusat bantuan atau panduan anda, Captain boleh menganalisis kandungan dan memberikan respons tepat untuk pertanyaan pelanggan."
         }
       }
     },
     "CUSTOM_TOOLS": {
-      "HEADER": "Tools",
-      "ADD_NEW": "Create a new tool",
+      "HEADER": "Alat",
+      "ADD_NEW": "Cipta alat baru",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
-        "TITLE": "No custom tools available",
-        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "TITLE": "Tiada alat tersuai tersedia",
+        "SUBTITLE": "Cipta alat khusus untuk menyambungkan pembantu anda dengan API dan perkhidmatan luaran, membolehkannya mendapatkan data dan melaksanakan tindakan bagi pihak anda.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Custom Tools",
-          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+          "TITLE": "Alat Tersuai",
+          "NOTE": "Alat khusus membolehkan pembantu anda berinteraksi dengan API dan perkhidmatan luaran. Cipta alat untuk mendapatkan data, melaksanakan tindakan, atau mengintegrasi dengan sistem sedia ada anda untuk meningkatkan keupayaan pembantu anda."
         }
       },
-      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "FORM_DESCRIPTION": "Konfigurasikan alat tersuai anda untuk berhubung dengan API luaran",
       "OPTIONS": {
-        "EDIT_TOOL": "Edit tool",
-        "DELETE_TOOL": "Delete tool"
+        "EDIT_TOOL": "Sunting alat",
+        "DELETE_TOOL": "Padam alat"
       },
       "CREATE": {
-        "TITLE": "Create Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool created successfully",
-        "ERROR_MESSAGE": "Failed to create custom tool"
+        "TITLE": "Cipta Alat Tersuai",
+        "SUCCESS_MESSAGE": "Alat tersuai berjaya dicipta",
+        "ERROR_MESSAGE": "Gagal mencipta alat tersuai"
       },
       "EDIT": {
-        "TITLE": "Edit Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool updated successfully",
-        "ERROR_MESSAGE": "Failed to update custom tool"
+        "TITLE": "Sunting Alat Tersuai",
+        "SUCCESS_MESSAGE": "Alat tersuai berjaya dikemas kini",
+        "ERROR_MESSAGE": "Gagal mengemas kini alat tersuai"
       },
       "DELETE": {
-        "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete custom tool"
+        "TITLE": "Padam Alat Tersuai",
+        "DESCRIPTION": "Adakah anda pasti mahu memadam alat tersuai ini? Tindakan ini tidak boleh dibatalkan.",
+        "CONFIRM": "Ya, padam",
+        "SUCCESS_MESSAGE": "Alat tersuai berjaya dipadam",
+        "ERROR_MESSAGE": "Gagal memadam alat tersuai"
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Tool Name",
-          "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "LABEL": "Nama Alat",
+          "PLACEHOLDER": "Semak Pesanan",
+          "ERROR": "Nama alat diperlukan",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Looks up order details by order ID"
+          "LABEL": "Penerangan",
+          "PLACEHOLDER": "Mencari butiran pesanan mengikut ID pesanan"
         },
         "HTTP_METHOD": {
-          "LABEL": "Method"
+          "LABEL": "Kaedah"
         },
         "ENDPOINT_URL": {
-          "LABEL": "Endpoint URL",
+          "LABEL": "URL Titik Akhir",
           "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
-          "ERROR": "Valid URL is required"
+          "ERROR": "URL yang sah diperlukan"
         },
         "AUTH_TYPE": {
-          "LABEL": "Authentication Type"
+          "LABEL": "Jenis Pengesahan"
         },
         "AUTH_TYPES": {
-          "NONE": "None",
+          "NONE": "Tiada",
           "BEARER": "Bearer Token",
-          "BASIC": "Basic Auth",
-          "API_KEY": "API Key"
+          "BASIC": "Pengesahan Asas",
+          "API_KEY": "Kunci API"
         },
         "AUTH_CONFIG": {
           "BEARER_TOKEN": "Bearer Token",
-          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
-          "USERNAME": "Username",
-          "USERNAME_PLACEHOLDER": "Enter username",
-          "PASSWORD": "Password",
-          "PASSWORD_PLACEHOLDER": "Enter password",
-          "API_KEY": "Header Name",
+          "BEARER_TOKEN_PLACEHOLDER": "Masukkan token bearer anda",
+          "USERNAME": "Nama pengguna",
+          "USERNAME_PLACEHOLDER": "Masukkan nama pengguna",
+          "PASSWORD": "Kata laluan",
+          "PASSWORD_PLACEHOLDER": "Masukkan kata laluan",
+          "API_KEY": "Nama Header",
           "API_KEY_PLACEHOLDER": "X-API-Key",
-          "API_VALUE": "Header Value",
-          "API_VALUE_PLACEHOLDER": "Enter API key value"
+          "API_VALUE": "Nilai Header",
+          "API_VALUE_PLACEHOLDER": "Masukkan nilai kunci API"
         },
         "PARAMETERS": {
-          "LABEL": "Parameters",
-          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+          "LABEL": "Parameter",
+          "HELP_TEXT": "Tentukan parameter yang akan diambil daripada pertanyaan pengguna"
         },
-        "ADD_PARAMETER": "Add Parameter",
+        "ADD_PARAMETER": "Tambah Parameter",
         "PARAM_NAME": {
-          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+          "PLACEHOLDER": "Nama parameter (contoh: order_id)"
         },
         "PARAM_TYPE": {
-          "PLACEHOLDER": "Type"
+          "PLACEHOLDER": "Jenis"
         },
         "PARAM_TYPES": {
-          "STRING": "String",
+          "STRING": "Rentetan",
           "NUMBER": "Nombor",
           "BOOLEAN": "Boolean",
           "ARRAY": "Array",
-          "OBJECT": "Object"
+          "OBJECT": "Objek"
         },
         "PARAM_DESCRIPTION": {
-          "PLACEHOLDER": "Description of the parameter"
+          "PLACEHOLDER": "Penerangan parameter"
         },
         "PARAM_REQUIRED": {
-          "LABEL": "Required"
+          "LABEL": "Diperlukan"
         },
         "REQUEST_TEMPLATE": {
-          "LABEL": "Request Body Template (Optional)",
+          "LABEL": "Templat Badan Permintaan (Pilihan)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "Response Template (Optional)",
+          "LABEL": "Templat Respons (Pilihan)",
           "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
         },
         "ERRORS": {
-          "PARAM_NAME_REQUIRED": "Parameter name is required"
+          "PARAM_NAME_REQUIRED": "Nama parameter diperlukan"
         }
       }
     },
     "RESPONSES": {
-      "HEADER": "FAQs",
-      "PENDING_FAQS": "Pending FAQs",
-      "ADD_NEW": "Create new FAQ",
+      "HEADER": "Soalan Lazim",
+      "PENDING_FAQS": "Soalan Lazim Tertunggak",
+      "ADD_NEW": "Buat FAQ baru",
       "DOCUMENTABLE": {
-        "CONVERSATION": "Conversation #{id}"
+        "CONVERSATION": "Perbualan #{id}"
       },
-      "SELECTED": "{count} selected",
-      "SELECT_ALL": "Select all ({count})",
+      "SELECTED": "{count} dipilih",
+      "SELECT_ALL": "Pilih semua ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
-      "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Approve",
+      "SEARCH_PLACEHOLDER": "Cari Soalan Lazim...",
+      "BULK_APPROVE_BUTTON": "Luluskan",
       "BULK_DELETE_BUTTON": "Padamkan",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "Soalan Lazim berjaya diluluskan",
+        "ERROR_MESSAGE": "Terdapat ralat semasa meluluskan Soalan Lazim, sila cuba lagi."
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "TITLE": "Padam Soalan Lazim?",
+        "DESCRIPTION": "Adakah anda pasti mahu memadam Soalan Lazim yang dipilih? Tindakan ini tidak boleh dibatalkan.",
+        "CONFIRM": "Ya, padam semua",
+        "SUCCESS_MESSAGE": "Soalan Lazim berjaya dipadam",
+        "ERROR_MESSAGE": "Terdapat ralat semasa memadam Soalan Lazim, sila cuba lagi."
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the FAQ?",
+        "TITLE": "Adakah anda pasti untuk memadam FAQ ini?",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "FAQ deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+        "CONFIRM": "Ya, padam",
+        "SUCCESS_MESSAGE": "FAQ berjaya dipadam",
+        "ERROR_MESSAGE": "Terdapat ralat semasa memadam FAQ, sila cuba lagi."
       },
       "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
+        "ASSISTANT": "Pembantu: {selected}",
         "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "All"
+        "ALL_ASSISTANTS": "Semua"
       },
       "STATUS": {
-        "TITLE": "Status",
-        "PENDING": "Pending",
-        "APPROVED": "Approved",
-        "ALL": "All"
+        "TITLE": "Keadaan",
+        "PENDING": "Dalam Talian",
+        "APPROVED": "Diluluskan",
+        "ALL": "Semua"
       },
       "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+        "TITLE": "Captain telah menemui beberapa FAQ yang dicari oleh pelanggan anda.",
+        "ACTION": "Klik di sini untuk semak"
       },
-      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "FORM_DESCRIPTION": "Tambah soalan dan jawapan yang sepadan ke dalam pangkalan pengetahuan dan pilih pembantu yang sepatutnya dikaitkan dengannya.",
       "CREATE": {
-        "TITLE": "Add an FAQ",
-        "SUCCESS_MESSAGE": "The response has been added successfully.",
-        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+        "TITLE": "Tambah Soalan Lazim",
+        "SUCCESS_MESSAGE": "Respons telah berjaya ditambah.",
+        "ERROR_MESSAGE": "Ralat berlaku semasa menambah respons. Sila cuba lagi."
       },
       "FORM": {
         "QUESTION": {
-          "LABEL": "Question",
-          "PLACEHOLDER": "Enter the question here",
-          "ERROR": "Please provide a valid question."
+          "LABEL": "Soalan",
+          "PLACEHOLDER": "Masukkan soalan di sini",
+          "ERROR": "Sila berikan soalan yang sah."
         },
         "ANSWER": {
-          "LABEL": "Answer",
-          "PLACEHOLDER": "Enter the answer here",
-          "ERROR": "Please provide a valid answer."
+          "LABEL": "Jawapan",
+          "PLACEHOLDER": "Masukkan jawapan di sini",
+          "ERROR": "Sila berikan jawapan yang sah."
         }
       },
       "EDIT": {
-        "TITLE": "Update the FAQ",
-        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
-        "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
+        "TITLE": "Kemas kini FAQ",
+        "SUCCESS_MESSAGE": "FAQ telah berjaya dikemas kini",
+        "ERROR_MESSAGE": "Terdapat ralat semasa mengemas kini FAQ, sila cuba lagi",
+        "APPROVE_SUCCESS_MESSAGE": "FAQ telah ditandakan sebagai diluluskan"
       },
       "OPTIONS": {
-        "APPROVE": "Approve",
-        "EDIT_RESPONSE": "Edit",
+        "APPROVE": "Luluskan",
+        "EDIT_RESPONSE": "Sunting",
         "DELETE_RESPONSE": "Padamkan"
       },
       "EMPTY_STATE": {
-        "TITLE": "No FAQs Found",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
-        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
-        "CLEAR_SEARCH": "Clear active filters",
+        "TITLE": "Tiada Soalan Lazim Dijumpai",
+        "NO_PENDING_TITLE": "Tiada lagi Soalan Lazim tertunda untuk disemak",
+        "SUBTITLE": "Soalan Lazim membantu pembantu anda memberikan jawapan yang cepat dan tepat kepada soalan daripada pelanggan anda. Ia boleh dijana secara automatik daripada kandungan anda atau boleh ditambah secara manual.",
+        "CLEAR_SEARCH": "Kosongkan penapis aktif",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "NOTE": "Soalan Lazim Captain mengesan soalan pelanggan yang biasa—sama ada yang tiada dalam pangkalan pengetahuan anda atau sering ditanya—dan menghasilkan Soalan Lazim yang berkaitan untuk meningkatkan sokongan. Anda boleh menyemak setiap cadangan dan memutuskan sama ada untuk meluluskan atau menolaknya."
         }
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "Petibek Bersambung",
+      "ADD_NEW": "Sambungkan peti masuk baru",
       "OPTIONS": {
-        "DISCONNECT": "Disconnect"
+        "DISCONNECT": "Putuskan sambungan"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "Adakah anda pasti untuk memutuskan sambungan peti masuk?",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "CONFIRM": "Ya, padam",
+        "SUCCESS_MESSAGE": "Peti masuk berjaya diputuskan sambungannya.",
+        "ERROR_MESSAGE": "Terdapat ralat semasa memutuskan sambungan peti masuk, sila cuba lagi."
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "Pilih peti masuk untuk disambungkan dengan pembantu.",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
-        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+        "TITLE": "Sambungkan Peti Masuk",
+        "SUCCESS_MESSAGE": "Peti masuk berjaya disambungkan.",
+        "ERROR_MESSAGE": "Ralat berlaku semasa menyambungkan peti masuk. Sila cuba lagi."
       },
       "FORM": {
         "INBOX": {
-          "LABEL": "Inbox",
-          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
-          "ERROR": "An inbox selection is required."
+          "LABEL": "Peti Masuk",
+          "PLACEHOLDER": "Pilih peti masuk untuk melaksanakan pembantu.",
+          "ERROR": "Pemilihan peti masuk diperlukan."
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "TITLE": "Tiada Peti Masuk Bersambung",
+        "SUBTITLE": "Menyambungkan peti masuk membolehkan pembantu mengendalikan soalan awal daripada pelanggan anda sebelum memindahkannya kepada anda."
       }
     }
   }

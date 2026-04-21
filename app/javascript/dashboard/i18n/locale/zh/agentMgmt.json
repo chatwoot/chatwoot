@@ -1,96 +1,127 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agents",
-    "HEADER_BTN_TXT": "Add Agent",
-    "LOADING": "Fetching Agent List",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
+    "HEADER": "客服",
+    "HEADER_BTN_TXT": "添加客服",
+    "LOADING": "正在获取客服列表",
+    "DESCRIPTION": "客服代表是您的客户支持团队的成员，他们可以查看和回复用户信息。 下面的列表显示您帐户中的所有客服代表。",
+    "LEARN_MORE": "角色说明",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Administrator",
-      "AGENT": "Agent"
+      "ADMINISTRATOR": "管理员",
+      "AGENT": "客服"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
-      "404": "There are no agents associated to this account",
-      "TITLE": "Manage agents in your team",
-      "DESC": "You can add/remove agents to/in your team.",
-      "NAME": "Name",
-      "EMAIL": "EMAIL",
-      "STATUS": "Status",
-      "ACTIONS": "Actions",
-      "VERIFIED": "Verified",
-      "VERIFICATION_PENDING": "Verification Pending"
+      "404": "此账号没有关联客服",
+      "TITLE": "管理您团队中的客服",
+      "DESC": "您可以添加/移除您团队中的客服。",
+      "NAME": "姓名：",
+      "EMAIL": "电子邮件",
+      "STATUS": "状态",
+      "ACTIONS": "操作",
+      "VERIFIED": "已认证",
+      "VERIFICATION_PENDING": "待验证",
+      "AVAILABLE_CUSTOM_ROLE": "可自定义角色权限"
     },
     "ADD": {
-      "TITLE": "Add agent to your team",
-      "DESC": "You can add people who will be able to handle support for your inboxes.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "添加客服至您的团队",
+      "DESC": "您可以添加能够处理支持您的收件箱的人。",
+      "CANCEL_BUTTON_TEXT": "取消",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "客服名称",
+          "PLACEHOLDER": "请输入客服名称"
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "角色",
+          "PLACEHOLDER": "请选择一个角色",
+          "ERROR": "角色类型必填"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "电子邮件地址",
+          "PLACEHOLDER": "请输入客服的邮箱地址"
         },
-        "SUBMIT": "Add Agent"
+        "SUBMIT": "添加客服"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agent added successfully",
-        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "添加客服成功",
+        "EXIST_MESSAGE": "该邮箱已被注册，请输入新的电子邮箱",
+        "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "删除",
       "API": {
-        "SUCCESS_MESSAGE": "Agent deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "删除客服成功",
+        "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "确认删除",
+        "MESSAGE": "您确定要删除吗？ ",
+        "YES": "是的，删除 ",
+        "NO": "不，保留 "
       }
     },
     "EDIT": {
-      "TITLE": "Edit agent",
+      "TITLE": "编辑客服信息",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "客服名称",
+          "PLACEHOLDER": "请输入客服名称"
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "角色",
+          "PLACEHOLDER": "请选择一个角色",
+          "ERROR": "角色必填"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "电子邮件地址",
+          "PLACEHOLDER": "请输入客服的邮箱地址"
         },
-        "SUBMIT": "Edit Agent"
+        "AGENT_AVAILABILITY": {
+          "LABEL": "有效的",
+          "PLACEHOLDER": "请选择一个可用状态",
+          "ERROR": "需要提供可用性信息"
+        },
+        "SUBMIT": "编辑客服"
       },
-      "BUTTON_TEXT": "Edit",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "BUTTON_TEXT": "编辑",
+      "CANCEL_BUTTON_TEXT": "取消",
       "API": {
-        "SUCCESS_MESSAGE": "Agent updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "更新客服信息成功",
+        "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Reset Password",
-        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
-        "SUCCESS_MESSAGE": "Agent password reset successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ADMIN_RESET_BUTTON": "重置密码",
+        "ADMIN_SUCCESS_MESSAGE": "一封包含重置密码说明的电子邮件已发送给代理",
+        "SUCCESS_MESSAGE": "代理的密码重置成功",
+        "ERROR_MESSAGE": "无法连接Woot服务器，请稍后再试"
       }
     },
+    "SEARCH_PLACEHOLDER": "搜索客服代表...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
-      "NO_RESULTS": "No agents found."
+      "NO_RESULTS": "未找到任何结果。"
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "没有",
+      "TITLE": {
+        "AGENT": "选择客服代表",
+        "TEAM": "选择团队"
+      },
+      "LIST": {
+        "NONE": "无"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "未找到客服代表",
+          "TEAM": "没有找到团队"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "搜索客服代表",
+          "TEAM": "查找团队",
+          "INPUT": "查找客服代表"
+        }
+      }
     }
   }
 }

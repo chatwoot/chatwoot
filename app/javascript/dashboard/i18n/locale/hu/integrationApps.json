@@ -3,6 +3,9 @@
     "FETCHING": "Integrációk lekérése",
     "NO_HOOK_CONFIGURED": "Ebben a fiókban nincs beállítva {integrationId} integráció",
     "HEADER": "Alkalmazások",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Engedélyezve",
       "DISABLED": "Letiltva"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Integrációs hookok betöltése",
       "INBOX": "Fiók",
+      "ACTIONS": "Műveletek",
       "DELETE": {
         "BUTTON_TEXT": "Törlés"
       }

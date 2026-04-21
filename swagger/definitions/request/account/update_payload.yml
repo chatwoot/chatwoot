@@ -18,20 +18,23 @@ properties:
     example: 'support@example.com'
   # Settings parameters (stored in settings JSONB column)
   auto_resolve_after:
-    type: integer
+    type:
+      - integer
+      - 'null'
     minimum: 10
     maximum: 1439856
-    nullable: true
     description: Auto resolve conversations after specified minutes
     example: 1440
   auto_resolve_message:
-    type: string
-    nullable: true
+    type:
+      - string
+      - 'null'
     description: Message to send when auto resolving
     example: "This conversation has been automatically resolved due to inactivity"
   auto_resolve_ignore_waiting:
-    type: boolean
-    nullable: true
+    type:
+      - boolean
+      - 'null'
     description: Whether to ignore waiting conversations for auto resolve
     example: false
   # Custom attributes parameters (stored in custom_attributes JSONB column)

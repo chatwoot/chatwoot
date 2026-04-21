@@ -1,976 +1,1052 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "Shopify ინტეგრაციის წაშლა",
+        "MESSAGE": "დარწმუნებული ხართ, რომ გინდათ Shopify ინტეგრაციის წაშლა?"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
-        "LABEL": "Store URL",
+        "TITLE": "Shopify მაღაზიის დაკავშირება",
+        "LABEL": "მაღაზიის URL",
         "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
-        "CANCEL": "Cancel",
-        "SUBMIT": "Connect Store"
+        "HELP": "შეიყვანეთ თქვენი Shopify მაღაზიის myshopify.com URL",
+        "CANCEL": "გაუქმება",
+        "SUBMIT": "მაღაზიის დაკავშირება"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "Shopify-სთან დაკავშირებისას მოხდა შეცდომა. გთხოვთ, სცადეთ თავიდან ან დაუკავშირდით მხარდაჭერას, თუ პრობლემა გაგრძელდება."
     },
-    "HEADER": "Integrations",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
-    "LOADING": "Fetching integrations",
+    "HEADER": "ინტეგრაციები",
+    "DESCRIPTION": "Chatwoot ინტეგრირდება მრავალ ინსტრუმენტსა და სერვისთან, რათა გააუმჯობესოს თქვენი გუნდის ეფექტურობა. დაათვალიერეთ ქვემოთ მოცემული სია თქვენი საყვარელი აპების კონფიგურაციისთვის.",
+    "LEARN_MORE": "გაიგეთ მეტი ინტეგრაციებზე",
+    "LOADING": "ინტეგრაციების მიღება",
+    "SEARCH_PLACEHOLDER": "ინტეგრაციების ძიება...",
+    "NO_RESULTS": "ინტეგრაციები ვერ მოიძებნა თქვენი ძიების მიხედვით",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
-      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "DISABLED": "Captain თქვენი ანგარიშისთვის ჩართული არ არის.",
+      "CLICK_HERE_TO_CONFIGURE": "დააჭირეთ აქ კონფიგურაციისთვის",
+      "LOADING_CONSOLE": "კაპიტანის კონსოლის ჩატვირთვა...",
+      "FAILED_TO_LOAD_CONSOLE": "კაპიტანის კონსოლის ჩატვირთვა ვერ მოხერხდა. გთხოვთ, განაახლეთ გვერდი და სცადეთ თავიდან."
     },
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
-      "LEARN_MORE": "Learn more about webhooks",
+      "SUBSCRIBED_EVENTS": "გამოწერილი მოვლენები",
+      "LEARN_MORE": "გაიგეთ მეტი webhook-ების შესახებ",
+      "SECRET": {
+        "LABEL": "საიდუმლო",
+        "COPY": "საიდუმლოს კოპირება კლიპბორდზე",
+        "COPY_SUCCESS": "საიდუმლო კლიპბორდზე გადაწერილია",
+        "TOGGLE": "საიდუმლოს ხილვადობის გადართვა",
+        "CREATED_DESC": "თქვენი webhook შექმნილია. გამოიყენეთ ქვემოთ მოცემული საიდუმლო webhook-ის ხელმოწერების დასადასტურებლად. გთხოვთ, ახლა გადაწერეთ — მოგვიანებით შეგიძლიათ იპოვოთ იგი webhook-ის რედაქტირების ფორმაში.",
+        "DONE": "მზადაა"
+      },
+      "COUNT": "{n} webhook | {n} webhook-ები",
+      "SEARCH_PLACEHOLDER": "ვებჰუქების ძიება...",
+      "NO_RESULTS": "თქვენი ძიების შესაბამისი ვებჰუქები ვერ მოიძებნა",
       "FORM": {
-        "CANCEL": "Cancel",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "გაუქმება",
+        "DESC": "Webhook-ის მოვლენები გთავაზობთ რეალურ დროში ინფორმაციას იმის შესახებ, რაც ხდება თქვენს Chatwoot ანგარიშში. გთხოვთ, შეიყვანოთ ვალიდური URL, რათა დააკონფიგურიროთ callback.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "მოვლენები",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated",
-            "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_CREATED": "შეტყობინების შექმნა",
+            "CONVERSATION_STATUS_CHANGED": "შეტყობინების სტატუსი შეიცვალა",
+            "CONVERSATION_UPDATED": "შეტყობინება განახლდა",
+            "MESSAGE_CREATED": "შეტყობინება შექმნილია",
+            "MESSAGE_UPDATED": "შეტყობინება განახლებულია",
+            "WEBWIDGET_TRIGGERED": "მომხმარებელმა გახსნა ცოცხალი ჩეთის ვიჯეტი",
+            "CONTACT_CREATED": "კონტაქტი შექმნილია",
+            "CONTACT_UPDATED": "კონტაქტი განახლებულია",
+            "CONVERSATION_TYPING_ON": "ჩეთის აკრეფის ჩართვა",
+            "CONVERSATION_TYPING_OFF": "ჩეთის აკრეფის გამორთვა"
           }
         },
         "NAME": {
-          "LABEL": "Webhook Name",
-          "PLACEHOLDER": "Enter the name of the webhook"
+          "LABEL": "ვებჰუკის სახელი",
+          "PLACEHOLDER": "შეიყვანეთ ვებჰუკის სახელი"
         },
         "END_POINT": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Example: {webhookExampleURL}",
-          "ERROR": "Please enter a valid URL"
+          "LABEL": "Webhook-ის URL",
+          "PLACEHOLDER": "მაგალითი: {webhookExampleURL}",
+          "ERROR": "გთხოვთ, შეიყვანეთ ვალიდური URL"
         },
-        "EDIT_SUBMIT": "Update webhook",
-        "ADD_SUBMIT": "Create webhook"
+        "EDIT_SUBMIT": "Webhook-ის განახლება",
+        "ADD_SUBMIT": "Webhook-ის შექმნა"
       },
       "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "CONFIGURE": "კონფიგურაცია",
+      "HEADER": "Webhook-ის პარამეტრები",
+      "HEADER_BTN_TXT": "ახალი webhook-ის დამატება",
+      "LOADING": "მიმაგრებული webhook-ების მიღება",
+      "SEARCH_404": "ამ მოთხოვნასთან შესაბამისი ჩანაწერები არ არის",
+      "SIDEBAR_TXT": "<p><b>Webhook-ები</b> </p> <p>Webhook-ები არის HTTP callback-ები, რომლებიც შეიძლება განისაზღვროს თითოეული ანგარიშისთვის. ისინი იწვევიან მოვლენების შედეგად, როგორიცაა შეტყობინების შექმნა Chatwoot-ში. ამ ანგარიშისთვის შეგიძლიათ შექმნათ ერთი ან მეტი webhook. <br /><br /> ახალი <b>webhook-ის</b> შესაქმნელად დააჭირეთ <b>ახალი webhook-ის დამატება</b> ღილაკს. ასევე შეგიძლიათ წაშალოთ ნებისმიერი არსებული webhook, დააჭირეთ წაშლის ღილაკს.</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "ამ ანგარიშისთვის არ არის კონფიგურირებული webhook-ები.",
+        "TITLE": "Webhook-ების მართვა",
         "TABLE_HEADER": {
-          "WEBHOOK_ENDPOINT": "Webhook endpoint",
-          "ACTIONS": "Actions"
+          "WEBHOOK_ENDPOINT": "Webhook-ის მისამართი",
+          "ACTIONS": "მოქმედებები"
         }
       },
       "EDIT": {
-        "BUTTON_TEXT": "Edit",
-        "TITLE": "Edit webhook",
+        "BUTTON_TEXT": "რედაქტირება",
+        "TITLE": "ვებჰუკის რედაქტირება",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook-ის კონფიგურაცია წარმატებით განახლდა",
+          "ERROR_MESSAGE": "Woot სერვერთან დაკავშირება ვერ მოხერხდა, გთხოვთ, სცადეთ მოგვიანებით"
         }
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
+        "CANCEL": "გაუქმება",
+        "TITLE": "ახალი webhook-ის დამატება",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook-ის კონფიგურაცია წარმატებით დაემატა",
+          "ERROR_MESSAGE": "Woot სერვერთან დაკავშირება ვერ მოხერხდა, გთხოვთ, სცადეთ მოგვიანებით"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "წაშლა",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook წარმატებით წაიშალა",
+          "ERROR_MESSAGE": "Woot სერვერთან დაკავშირება ვერ მოხერხდა, გთხოვთ, სცადეთ მოგვიანებით"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "წაშლის დადასტურება",
+          "MESSAGE": "დარწმუნებული ხართ, რომ გინდათ webhook-ის წაშლა? ({webhookURL})",
+          "YES": "დიახ, წაშლა ",
+          "NO": "არა, შენარჩუნება"
         }
       }
     },
     "SLACK": {
-      "DELETE": "Delete",
+      "HEADER": "Slack",
+      "DELETE": "წაშლა",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "ინტეგრაციის წაშლა",
+        "MESSAGE": "დარწმუნებული ხართ, რომ გინდათ ინტეგრაციის წაშლა? ეს გამოიწვევს წვდომის დაკარგვას თქვენს Slack სამუშაო სივრცეში საუბრებზე."
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
         "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
-        "SELECTED": "selected"
+        "SELECTED": "არჩეული"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
-        "UPDATE": "Update",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "OPTION_LABEL": "არხის არჩევა",
+        "UPDATE": "განახლება",
+        "BUTTON_TEXT": "არხის დაკავშირება",
+        "DESCRIPTION": "თქვენი Slack სამუშაო სივრცე ახლა დაკავშირებულია Chatwoot-თან. თუმცა, ინტეგრაცია ამჟამად არააქტიურია. ინტეგრაციის გასააქტიურებლად და არხის Chatwoot-თან დასაკავშირებლად, გთხოვთ დააჭიროთ ქვემოთ მოცემულ ღილაკს.\n\n**შენიშვნა:** თუ ცდილობთ კერძო არხის დაკავშირებას, დაამატეთ Chatwoot აპლიკაცია Slack არხში ამ ნაბიჯის შესრულებამდე.",
+        "ATTENTION_REQUIRED": "საჭიროა ყურადღება",
+        "EXPIRED": "თქვენი Slack ინტეგრაცია ვადაგასულია. Slack-ზე შეტყობინებების მიღების გაგრძელებისთვის, გთხოვთ წაშალოთ ინტეგრაცია და workspace-ი ხელახლა დაუკავშიროთ."
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "ინტეგრაციის განახლებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან",
+      "UPDATE_SUCCESS": "არხი წარმატებით დაკავშირებულია",
+      "FAILED_TO_FETCH_CHANNELS": "Slack-იდან არხების მიღებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "დაწკაპეთ აქ დასაწერად",
+      "LEAVE_THE_ROOM": "ოთახის დატოვება",
+      "START_VIDEO_CALL_HELP_TEXT": "დაიწყეთ ახალი ვიდეო ზარი მომხმარებელთან",
+      "JOIN_ERROR": "ზარის შეუერთებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან",
+      "CREATE_ERROR": "შეხვედრის ბმულის შექმნისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " {option} with AI ",
+      "AI_ASSIST": "AI ასისტენტი",
+      "WITH_AI": " {option} AI-თან ერთად ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "პასუხის შეთავაზება",
+        "SUMMARIZE": "შეჯამება",
+        "REPHRASE": "წერის გაუმჯობესება",
+        "FIX_SPELLING_GRAMMAR": "გრამატიკისა და მართლწერის გამოსწორება",
+        "SHORTEN": "შემოკლება",
+        "EXPAND": "გაფართოება",
+        "MAKE_FRIENDLY": "შეტყობინების ტონის შეცვლა მეგობრულზე",
+        "MAKE_FORMAL": "გამოიყენე ფორმალური ტონი",
+        "SIMPLIFY": "გაამარტივე",
+        "CONFIDENT": "გამოიყენეთ თავდაჯერებული ტონი",
+        "PROFESSIONAL": "გამოიყენეთ პროფესიონალური ტონი",
+        "CASUAL": "გამოიყენეთ არაფორმალური ტონი",
+        "STRAIGHTFORWARD": "გამოიყენეთ პირდაპირი ტონი"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "უპრობლემოდ გააუმჯობესეთ პასუხი",
+        "IMPROVE_REPLY_SELECTION": "აუმჯობესეთ არჩევანი",
+        "CHANGE_TONE": {
+          "TITLE": "ტონის შეცვლა",
+          "OPTIONS": {
+            "PROFESSIONAL": "პროფესიონალური",
+            "CASUAL": "არაოფიციალური",
+            "STRAIGHTFORWARD": "მარტივი და გასაგები",
+            "CONFIDENT": "რწმუნებული",
+            "FRIENDLY": "მეგობრული"
+          }
+        },
+        "GRAMMAR": "გრამატიკისა და მართლწერის გამოსწორება",
+        "SUGGESTION": "პასუხის შეთავაზება",
+        "SUMMARIZE": "შეხვედრის შეჯამება",
+        "ASK_COPILOT": "კოპილოტს ჰკითხე"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "შავი შინაარსი",
+        "GENERATED_TITLE": "გენერირებული შინაარსი",
+        "AI_WRITING": "AI წერს",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
-          "CANCEL": "Cancel"
+          "APPLY": "გამოიყენე ეს წინადადება",
+          "CANCEL": "გაუქმება"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "ინტეგრაცია OpenAI-თან",
+        "DESC": "მოიტანეთ მოწინავე AI ფუნქციები თქვენს დაფაზე OpenAI-ის GPT მოდელების დახმარებით. დასაწყებად, შეიყვანეთ API გასაღები თქვენი OpenAI ანგარიშიდან.",
+        "KEY_PLACEHOLDER": "შეიყვანეთ თქვენი OpenAI API გასაღები",
         "BUTTONS": {
-          "NEED_HELP": "Need help?",
-          "DISMISS": "Dismiss",
-          "FINISH": "Finish Setup"
+          "NEED_HELP": "დჭირდებათ დახმარება?",
+          "DISMISS": "გაუქმება",
+          "FINISH": "დასრულება"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "შეგიძლიათ OpenAI ინტეგრაცია დააყენოთ მოგვიანებით, როცა გსურთ.",
+        "SUCCESS_MESSAGE": "OpenAI ინტეგრაცია წარმატებით დააყენდა"
       },
-      "TITLE": "Improve With AI",
-      "SUMMARY_TITLE": "Summary with AI",
-      "REPLY_TITLE": "Reply suggestion with AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "გაუმჯობესება AI-ის დახმარებით",
+      "SUMMARY_TITLE": "შეჯამება AI-ის დახმარებით",
+      "REPLY_TITLE": "პასუხის წინადადება AI-ის დახმარებით",
+      "SUBTITLE": "თქვენი მიმდინარე პროექტის საფუძველზე AI-ის გამოყენებით უკეთესი პასუხი შეიქმნება.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "ტონი",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "პროფესიონალური",
+          "FRIENDLY": "მეგობრული"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
-        "CANCEL": "Cancel"
+        "GENERATE": "გენერირება",
+        "GENERATING": "გენერირდება...",
+        "CANCEL": "გაუქმება"
       },
       "GENERATE_ERROR": "There was an error processing the content, please try again"
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "წაშლა",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "ინტეგრაცია წარმატებით წაიშალა"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "დაკავშირება"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
-      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "TITLE": "დეშბორდის აპლიკაციები",
+      "HEADER_BTN_TXT": "დაამატე ახალი დეშბორდის აპლიკაცია",
+      "SIDEBAR_TXT": "<p><b>დეშბორდის აპლიკაციები</b></p><p>დეშბორდის აპლიკაციები საშუალებას აძლევს ორგანიზაციებს ჩასვან აპლიკაცია Chatwoot-ის დეშბორდში, რათა უზრუნველყონ კონტექსტი მომხმარებელთა მხარდაჭერის აგენტებისთვის. ეს ფუნქცია საშუალებას გაძლევთ დამოუკიდებლად შექმნათ აპლიკაცია და ჩასვათ იგი დეშბორდში, რათა მიაწოდოთ ინფორმაცია მომხმარებლის შესახებ, მათი შეკვეთები ან წინა გადახდების ისტორია.</p><p>როდესაც ჩასვამთ თქვენს აპლიკაციას Chatwoot-ის დეშბორდში, თქვენი აპლიკაცია მიიღებს საუბრისა და კონტაქტის კონტექსტს როგორც window event-ს. დააინსტალირეთ message event-ის მოსმენი თქვენს გვერდზე კონტექსტის მისაღებად.</p><p>ახალი დეშბორდის აპლიკაციის დასამატებლად დააჭირეთ ღილაკს „დაამატე ახალი დეშბორდის აპლიკაცია“.</p>",
+      "DESCRIPTION": "დეშბორდის აპლიკაციები საშუალებას აძლევს ორგანიზაციებს ჩასვან აპლიკაცია დეშბორდში, რათა უზრუნველყონ კონტექსტი მომხმარებელთა მხარდაჭერის აგენტებისთვის. ეს ფუნქცია საშუალებას გაძლევთ დამოუკიდებლად შექმნათ აპლიკაცია და ჩასვათ იგი, რათა მიაწოდოთ ინფორმაცია მომხმარებლის შესახებ, მათი შეკვეთები ან წინა გადახდების ისტორია.",
+      "LEARN_MORE": "გაიგეთ მეტი Dashboard აპლიკაციებზე",
+      "COUNT": "{n} დაფის აპლიკაცია | {n} დაფის აპლიკაციები",
+      "SEARCH_PLACEHOLDER": "დაფის აპლიკაციების ძებნა...",
+      "NO_RESULTS": "თქვენი ძიების შესაბამისი დაფის აპლიკაციები ვერ მოიძებნა",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "ამ ანგარიშზე ჯერ არ არის კონფიგურირებული დაფის აპლიკაციები",
+        "LOADING": "დაფის აპლიკაციების მიღება...",
         "TABLE_HEADER": {
-          "NAME": "Name",
-          "ENDPOINT": "Endpoint"
+          "NAME": "სახელი",
+          "ENDPOINT": "საბოლოო წერტილი",
+          "ACTIONS": "მოქმედებები"
         },
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "აპლიკაციის რედაქტირება",
+        "DELETE_TOOLTIP": "აპლიკაციის წაშლა"
       },
       "FORM": {
-        "TITLE_LABEL": "Name",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_LABEL": "სახელი",
+        "TITLE_PLACEHOLDER": "შეიყვანეთ სახელი თქვენი დაფის აპისთვის",
+        "TITLE_ERROR": "დაფის აპისთვის სახელი აუცილებელია",
+        "URL_LABEL": "საბოლოო წერტილი",
+        "URL_PLACEHOLDER": "შეიყვანეთ URL, სადაც თქვენი აპი ჰოსტინგდება",
+        "URL_ERROR": "საჭიროა ვალიდური URL"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
-        "FORM_SUBMIT": "Submit",
-        "FORM_CANCEL": "Cancel",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "HEADER": "დაამატეთ ახალი დაფის აპლიკაცია",
+        "FORM_SUBMIT": "გაგზავნა",
+        "FORM_CANCEL": "გაუქმება",
+        "API_SUCCESS": "დაფის აპლიკაცია წარმატებით კონფიგურირდა",
+        "API_ERROR": "აპლიკაციის შექმნა ვერ მოხერხდა. გთხოვთ, სცადეთ მოგვიანებით"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
-        "FORM_SUBMIT": "Update",
-        "FORM_CANCEL": "Cancel",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "HEADER": "დაშბორდის აპლიკაციის რედაქტირება",
+        "FORM_SUBMIT": "განახლება",
+        "FORM_CANCEL": "გაუქმება",
+        "API_SUCCESS": "დაშბორდის აპლიკაცია წარმატებით განახლდა",
+        "API_ERROR": "აპლიკაციის განახლება ვერ მოხერხდა. გთხოვთ, სცადეთ მოგვიანებით"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - {appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "CONFIRM_YES": "დიახ, წაშალე",
+        "CONFIRM_NO": "არა, შეინახე",
+        "TITLE": "წაშლის დადასტურება",
+        "MESSAGE": "ნამდვილად გსურთ წაშალოთ აპლიკაცია - {appName}?",
+        "API_SUCCESS": "დეშბორდის აპლიკაცია წარმატებით წაიშალა",
+        "API_ERROR": "აპლიკაციის წაშლა ვერ მოხერხდა. გთხოვთ, სცადეთ მოგვიანებით"
       }
     },
     "LINEAR": {
-      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
-      "CREATE": "Create",
+      "HEADER": "Linear",
+      "ADD_OR_LINK_BUTTON": "Linear საკითხის შექმნა/დაკავშირება",
+      "LOADING": "Linear საკითხების მიღება...",
+      "LOADING_ERROR": "ლინერ პრობლემების მიღებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან",
+      "CREATE": "შექმნა",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
-        "TITLE": "Link",
-        "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
-        "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "SEARCH": "პრობლემების ძებნა",
+        "SELECT": "პრობლემის არჩევა",
+        "TITLE": "კავშირი",
+        "EMPTY_LIST": "ლინერ პრობლემები არ მოიძებნა",
+        "LOADING": "იტვირთება",
+        "ERROR": "ლინერ პრობლემების მიღებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან",
+        "LINK_SUCCESS": "პრობლემა წარმატებით დაკავშირებულია",
+        "LINK_ERROR": "პრობლემის დაკავშირებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან",
+        "LINK_TITLE": "შეტყობინება (#{conversationId}) {name}-თან"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "TITLE": "შექმნა/დაკავშირება linear საკითხთან",
+        "DESCRIPTION": "შექმენით Linear საკითხები საუბრებიდან ან დაუკავშირეთ არსებული, შეუფერხებელი მონიტორინგისთვის.",
         "FORM": {
           "TITLE": {
-            "LABEL": "Title",
-            "PLACEHOLDER": "Enter title",
-            "REQUIRED_ERROR": "Title is required"
+            "LABEL": "სათაური",
+            "PLACEHOLDER": "შეიყვანეთ სათაური",
+            "REQUIRED_ERROR": "სათაური აუცილებელია"
           },
           "DESCRIPTION": {
-            "LABEL": "Description",
-            "PLACEHOLDER": "Enter description"
+            "LABEL": "აღწერა",
+            "PLACEHOLDER": "შეიყვანეთ აღწერა"
           },
           "TEAM": {
-            "LABEL": "Team",
-            "PLACEHOLDER": "Select team",
-            "SEARCH": "Search team",
-            "REQUIRED_ERROR": "Team is required"
+            "LABEL": "გუნდი",
+            "PLACEHOLDER": "აირჩიეთ გუნდი",
+            "SEARCH": "გუნდის ძებნა",
+            "REQUIRED_ERROR": "გუნდი აუცილებელია"
           },
           "ASSIGNEE": {
-            "LABEL": "Assignee",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "LABEL": "მიმღები",
+            "PLACEHOLDER": "აირჩიეთ პასუხისმგებელი",
+            "SEARCH": "მონიშნულის ძებნა"
           },
           "PRIORITY": {
-            "LABEL": "Priority",
-            "PLACEHOLDER": "Select priority",
-            "SEARCH": "Search priority"
+            "LABEL": "პრიორიტეტი",
+            "PLACEHOLDER": "აირჩიეთ პრიორიტეტი",
+            "SEARCH": "პრიორიტეტის ძებნა"
           },
           "LABEL": {
-            "LABEL": "Label",
-            "PLACEHOLDER": "Select label",
-            "SEARCH": "Search label"
+            "LABEL": "ლეიბლი",
+            "PLACEHOLDER": "აირჩიეთ ლეიბლი",
+            "SEARCH": "ლეიბლის ძებნა"
           },
           "STATUS": {
-            "LABEL": "Status",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "LABEL": "სტატუსი",
+            "PLACEHOLDER": "აირჩიეთ სტატუსი",
+            "SEARCH": "სტატუსის ძიება"
           },
           "PROJECT": {
-            "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "LABEL": "პროექტი",
+            "PLACEHOLDER": "აირჩიეთ პროექტი",
+            "SEARCH": "პროექტის ძიება"
           }
         },
-        "CREATE": "Create",
-        "CANCEL": "Cancel",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE": "შექმნა",
+        "CANCEL": "გაუქმება",
+        "CREATE_SUCCESS": "პრობლემა წარმატებით შეიქმნა",
+        "CREATE_ERROR": "პრობლემის შექმნისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან",
+        "LOADING_TEAM_ERROR": "გუნდების ჩამოტვირთვისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან",
+        "LOADING_TEAM_ENTITIES_ERROR": "გუნდების ერთეულების ჩამოტვირთვისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან"
       },
       "ISSUE": {
-        "STATUS": "Status",
-        "PRIORITY": "Priority",
-        "ASSIGNEE": "Assignee",
-        "LABELS": "Labels",
-        "CREATED_AT": "Created at {createdAt}"
+        "STATUS": "სტატუსი",
+        "PRIORITY": "პრიორიტეტი",
+        "ASSIGNEE": "მიმღები",
+        "LABELS": "ლეიბლები",
+        "CREATED_AT": "შექმნილია {createdAt}-ზე"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "TITLE": "გაშორება",
+        "SUCCESS": "პრობლემა წარმატებით გაუკავშირდა",
+        "ERROR": "პრობლემის გაუკავშრებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან"
       },
-      "NO_LINKED_ISSUES": "No linked issues found",
+      "NO_LINKED_ISSUES": "დაკავშირებული საკითხები არ მოიძებნა",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
-        "CONFIRM": "Yes, delete",
-        "CANCEL": "Cancel"
+        "TITLE": "დარწმუნებული ხართ, რომ გინდათ ინტეგრაციის წაშლა?",
+        "MESSAGE": "დარწმუნებული ხართ, რომ გინდათ ინტეგრაციის წაშლა?",
+        "CONFIRM": "დიახ, წაშლა",
+        "CANCEL": "გაუქმება"
       },
       "CTA": {
-        "TITLE": "Connect to Linear",
-        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
-        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
-        "BUTTON_TEXT": "Connect Linear workspace"
+        "TITLE": "დაკავშირება Linear-სთან",
+        "AGENT_DESCRIPTION": "Linear სამუშაო სივრცე დაკავშირებული არ არის. მიმართეთ თქვენს ადმინისტრატორს სამუშაო სივრცის დასაკავშირებლად, რათა გამოიყენოთ ეს ინტეგრაცია.",
+        "DESCRIPTION": "Linear სამუშაო სივრცე დაკავშირებული არ არის. დააჭირეთ ქვემოთ მოცემულ ღილაკს, რათა დააკავშიროთ თქვენი სამუშაო სივრცე და გამოიყენოთ ეს ინტეგრაცია.",
+        "BUTTON_TEXT": "Linear სამუშაო სივრცის დაკავშირება"
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
-        "CONFIRM": "Yes, delete",
-        "CANCEL": "Cancel"
+        "TITLE": "დარწმუნებული ხართ, რომ გინდათ Notion ინტეგრაციის წაშლა?",
+        "MESSAGE": "ამ ინტეგრაციის წაშლა წაშლის წვდომას თქვენს Notion სამუშაო სივრცეზე და შეწყვეტს ყველა დაკავშირებულ ფუნქციონალს.",
+        "CONFIRM": "დიახ, წაშლა",
+        "CANCEL": "გაუქმება"
       }
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "NAME": "კაპიტანი",
+    "HEADER_KNOW_MORE": "გაიგე მეტი",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "მხარდაჭერები",
+      "SWITCH_ASSISTANT": "გაართეთ მხარდაჭერებს შორის",
+      "NEW_ASSISTANT": "დამხმარის შექმნა",
+      "EMPTY_LIST": "დახმარების ასისტენტები ვერ მოიძებნა, გთხოვთ შექმნათ ერთი დასაწყებად"
     },
     "COPILOT": {
-      "TITLE": "Copilot",
-      "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
-      "SEND_MESSAGE": "Send message...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
-      "YOU": "You",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "TITLE": "კოპილოტი",
+      "TRY_THESE_PROMPTS": "გამოიყენეთ ეს პრომპტები",
+      "PANEL_TITLE": "დაიწყეთ Copilot-თან",
+      "KICK_OFF_MESSAGE": "საჭიროა სწრაფი შეჯამება, გინდა წარსული საუბრების გადამოწმება ან უკეთესი პასუხის შედგენა? Copilot აქ არის, რომ ყველაფერი დააჩქაროს.",
+      "SEND_MESSAGE": "გაგზავნეთ შეტყობინება...",
+      "EMPTY_MESSAGE": "პასუხის გენერირებისას მოხდა შეცდომა. გთხოვთ, სცადეთ თავიდან.",
+      "LOADER": "კაპიტანი ფიქრობს",
+      "YOU": "შენ",
+      "USE": "გამოიყენე ეს",
+      "RESET": "გადაყენება",
+      "SHOW_STEPS": "ნაბიჯების ჩვენება",
+      "SELECT_ASSISTANT": "აირჩიეთ ასისტენტი",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "დააჯამეთ ეს საუბარი",
+          "CONTENT": "დააჯამეთ ძირითადი საკითხები, რომლებიც განიხილეს მომხმარებელმა და მხარდაჭერის აგენტმა, მათ შორის მომხმარებლის შეშფოთებები, კითხვები და მხარდაჭერის აგენტის მიერ მიწოდებული გადაწყვეტილებები ან პასუხები"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "პასუხის შეთავაზება",
+          "CONTENT": "ანალიზი გაუკეთეთ მომხმარებლის კითხვას და მოამზადეთ პასუხი, რომელიც ეფექტურად პასუხობს მათ შეშფოთებებს ან შეკითხვებს. დარწმუნდით, რომ პასუხი არის ნათელი, მოკლე და შეიცავს სასარგებლო ინფორმაციას."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "შეაფასეთ ეს საუბარი",
+          "CONTENT": "გაითვალისწინეთ საუბარი და შეაფასეთ, რამდენად აკმაყოფილებს ის მომხმარებლის საჭიროებებს. გაუზიარეთ შეფასება 5-დან ტონის, ნათლობის და ეფექტურობის მიხედვით."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "მაღალი პრიორიტეტის საუბრები",
+          "CONTENT": "მომეცი ყველა მაღალი პრიორიტეტის ღია საუბრის შეჯამება. ჩართე საუბრის ID, მომხმარებლის სახელი (თუ ხელმისაწვდომია), ბოლო შეტყობინების შინაარსი და დანიშნული აგენტი. ჯგუფი სტატუსის მიხედვით, თუ საჭიროა."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "კონტაქტების სია",
+          "CONTENT": "აჩვენე მოწონებული 10 კონტაქტის სია. ჩათვალე სახელი, ელ.ფოსტა ან ტელეფონის ნომერი (თუ გვაქვს), ბოლო აქტივობის დრო, ტეგები (თუ არის)."
         }
       }
     },
     "PLAYGROUND": {
-      "USER": "You",
-      "ASSISTANT": "Assistant",
-      "MESSAGE_PLACEHOLDER": "Type your message...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "USER": "თქვენ",
+      "ASSISTANT": "მხარდაჭერა",
+      "MESSAGE_PLACEHOLDER": "ჩაწერეთ თქვენი შეტყობინება...",
+      "HEADER": "სათამაშო მოედანი",
+      "DESCRIPTION": "გამოიყენეთ ეს სათამაშო მოედანი, რათა გაუგზავნოთ შეტყობინებები თქვენს ასისტენტს და შეამოწმოთ, პასუხობს თუ არა ის ზუსტად, სწრაფად და იმ ტონით, რასაც ელით.",
+      "CREDIT_NOTE": "აქ გაგზავნილი შეტყობინებები ჩაითვლება თქვენი Captain კრედიტების ფარგლებში."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "გააუმჯობესეთ Captain AI-ის გამოყენებისთვის",
+      "AVAILABLE_ON": "Captain ხელმისაწვდომი არ არის უფასო გეგმაზე.",
+      "UPGRADE_PROMPT": "გააუმჯობესეთ თქვენი გეგმა, რომ მიიღოთ წვდომა ასისტენტებზე, copilote-ზე და სხვა ფუნქციებზე.",
+      "UPGRADE_NOW": "ახლავე განაახლეთ",
+      "CANCEL_ANYTIME": "თქვენ შეგიძლიათ ნებისმიერ დროს შეცვალოთ ან გააუქმოთ თქვენი გეგმა"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "Captain AI ხელმისაწვდომია მხოლოდ Enterprise გეგმებში.",
+      "UPGRADE_PROMPT": "განაახლეთ თქვენი გეგმა, რათა მიიღოთ წვდომა ჩვენს ასისტენტებზე, კოპილოტზე და სხვა ფუნქციებზე.",
+      "ASK_ADMIN": "გთხოვთ, მიმართეთ თქვენს ადმინისტრატორს განახლებისთვის."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "თქვენ გამოიყენეთ თქვენი პასუხების ლიმიტის 80%-ზე მეტი. Captain AI-ს გამოყენების გაგრძელებისთვის, გთხოვთ განაახლეთ.",
+      "DOCUMENTS": "დოკუმენტების ლიმიტი მიღწეულია. განაახლეთ, რომ გააგრძელოთ Captain AI-ის გამოყენება."
     },
     "FORM": {
-      "CANCEL": "Cancel",
-      "CREATE": "Create",
-      "EDIT": "Update"
+      "CANCEL": "გაუქმება",
+      "CREATE": "შექმნა",
+      "EDIT": "განახლება"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
-      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
-      "ADD_NEW": "Create a new assistant",
+      "HEADER": "მხარდამჭერები",
+      "NO_ASSISTANTS_AVAILABLE": "თქვენს ანგარიშში ასისტენტები არ არის.",
+      "ADD_NEW": "ახალი დამხმარის შექმნა",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "TITLE": "დარწმუნებული ხართ, რომ გინდათ დამხმარის წაშლა?",
+        "DESCRIPTION": "ეს მოქმედება არის მუდმივი. დამხმარის წაშლა წაშლის მას ყველა დაკავშირებული ინბოქსიდან და სამუდამოდ წაშლის ყველა გენერირებულ ცოდნას.",
+        "CONFIRM": "დიახ, წაშლა",
+        "SUCCESS_MESSAGE": "მხარდამჭერი წარმატებით წაიშალა",
+        "ERROR_MESSAGE": "მხარდამჭერის წაშლისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "შეავსეთ ქვემოთ მოცემული დეტალები, რათა დაარქვათ თქვენი მხარდამჭერი, აღწეროთ მისი დანიშნულება და მიუთითოთ პროდუქტი, რომელსაც ის დაეხმარება.",
       "CREATE": {
-        "TITLE": "Create an assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "TITLE": "მხარდამჭერის შექმნა",
+        "SUCCESS_MESSAGE": "დამხმარე წარმატებით შეიქმნა",
+        "ERROR_MESSAGE": "დამხმარის შექმნისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
       },
       "FORM": {
-        "UPDATE": "Update",
+        "UPDATE": "განახლება",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
-          "FEATURES": "Features",
-          "TOOLS": "Tools "
+          "BASIC_INFO": "ძირითადი ინფორმაცია",
+          "SYSTEM_MESSAGES": "სისტემის შეტყობინებები",
+          "INSTRUCTIONS": "ინსტრუქციები",
+          "FEATURES": "ფუნქციები",
+          "TOOLS": "ინსტრუმენტები "
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "LABEL": "სახელი",
+          "PLACEHOLDER": "ჩაწერეთ ასისტენტის სახელი",
+          "ERROR": "სახელი აუცილებელია"
         },
         "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
+          "LABEL": "პასუხის ტემპერატურა",
+          "DESCRIPTION": "დაარეგულირეთ, თუ რამდენად კრეატიული ან შეზღუდული უნდა იყოს ასისტენტის პასუხები. დაბალი მნიშვნელობები იძლევა უფრო ფოკუსირებულ და დეტერმინისტულ პასუხებს, ხოლო მაღალი მნიშვნელობები საშუალებას აძლევს უფრო კრეატიულ და მრავალფეროვან პასუხებს."
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter assistant description",
-          "ERROR": "The description is required"
+          "LABEL": "აღწერა",
+          "PLACEHOLDER": "ჩაწერეთ ასისტენტის აღწერა",
+          "ERROR": "აღწერა აუცილებელია"
         },
         "PRODUCT_NAME": {
-          "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name",
-          "ERROR": "The product name is required"
+          "LABEL": "პროდუქტის სახელი",
+          "PLACEHOLDER": "ჩაწერეთ პროდუქტის სახელი",
+          "ERROR": "პროდუქტის სახელი აუცილებელია"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "მოგესალმების შეტყობინება",
+          "PLACEHOLDER": "შეიყვანეთ მისასალმებელი შეტყობინება"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "გადაცემის შეტყობინება",
+          "PLACEHOLDER": "შეიყვანეთ გადაცემის შეტყობინება"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "გადაწყვეტილების შეტყობინება",
+          "PLACEHOLDER": "შეიყვანეთ გადაწყვეტილების შეტყობინება"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "LABEL": "ინსტრუქციები",
+          "PLACEHOLDER": "ჩაწერეთ ინსტრუქციები ასისტენტისთვის"
         },
         "FEATURES": {
-          "TITLE": "Features",
-          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "TITLE": "მახასიათებლები",
+          "ALLOW_CONVERSATION_FAQS": "შექმენით ხშირად დასმული კითხვები გადაჭრილი საუბრებიდან",
+          "ALLOW_MEMORIES": "მომხმარებელთან ურთიერთობებიდან მნიშვნელოვანი დეტალების დამახსოვრება.",
+          "ALLOW_CITATIONS": "პასუხებში წყაროს ციტატების ჩართვა",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
-        "TITLE": "Update the assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "TITLE": "დახმარების ასისტენტის განახლება",
+        "SUCCESS_MESSAGE": "ასისტენტი წარმატებით განახლდა",
+        "ERROR_MESSAGE": "ასისტენტის განახლებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან.",
+        "NOT_FOUND": "ასისტენტი ვერ მოიძებნა. გთხოვთ, სცადეთ თავიდან."
       },
       "SETTINGS": {
-        "HEADER": "Settings",
+        "HEADER": "პარამეტრები",
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "საწყისი პარამეტრები",
+          "DESCRIPTION": "დაარეგულირეთ, რას იტყვის ასისტენტი საუბრის დასრულების ან ადამიანის გადაცემის დროს."
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "სისტემის პარამეტრები",
+          "DESCRIPTION": "დააკონფიგურირეთ, რას იტყვის ასისტენტი საუბრის დასრულების ან ადამიანზე გადაცემის დროს."
         },
         "CONTROL_ITEMS": {
-          "TITLE": "The Fun Stuff",
-          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "TITLE": "სასიამოვნო დეტალები",
+          "DESCRIPTION": "მატება კონტროლის ასისტენტზე. (ცოტათი ვიზუალური, როგორც ამბავი: შეკითხვის საზღვრები → სცენარები → შედეგი) ხელს უწყობს მომხმარებელს მათ გამოყენებაში.",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Guardrails",
-              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+              "TITLE": "საზღვრები",
+              "DESCRIPTION": "შეინარჩუნეთ ყველაფერი წესრიგში — მხოლოდ ის კითხვები, რომელზეც გსურთ ასისტენტმა უპასუხოს, არაფერი აკრძალული ან თემიდან გასული."
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "TITLE": "პასუხის მითითებები",
+              "DESCRIPTION": "თქვენი ასისტენტის პასუხების სტილი და სტრუქტურა — ნათელი და მეგობრული? მოკლე და მკვეთრი? დეტალური და ფორმალური?"
             }
           }
         },
         "DELETE": {
-          "TITLE": "Delete Assistant",
-          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-          "BUTTON_TEXT": "Delete {assistantName}"
+          "TITLE": "დამხმარის წაშლა",
+          "DESCRIPTION": "ეს მოქმედება არის მუდმივი. ამ დამხმარის წაშლა წაშლის მას ყველა დაკავშირებული ინბოქსიდან და სამუდამოდ წაშლის ყველა გენერირებულ ცოდნას.",
+          "BUTTON_TEXT": "{assistantName}-ის წაშლა"
         }
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Edit Assistant",
-        "DELETE_ASSISTANT": "Delete Assistant",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "EDIT_ASSISTANT": "ასისტენტის რედაქტირება",
+        "DELETE_ASSISTANT": "ასისტენტის წაშლა",
+        "VIEW_CONNECTED_INBOXES": "დაკავშირებული ინბოქსების ნახვა"
       },
       "EMPTY_STATE": {
-        "TITLE": "No assistants available",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
+        "TITLE": "დახმარება არ არის",
+        "SUBTITLE": "შექმენით ასისტენტი, რომელიც სწრაფ და ზუსტ პასუხებს მისცემს თქვენს მომხმარებლებს. ის სწავლობს თქვენი დახმარების სტატიებიდან და წარსული საუბრებიდან.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "Captain ასისტენტი",
+          "NOTE": "Captain ასისტენტი უშუალოდ ურთიერთობს მომხმარებლებთან, სწავლობს თქვენი დახმარების დოკუმენტაციიდან და წარსული საუბრებიდან და უზრუნველყოფს სწრაფ, ზუსტ პასუხებს. ის აგვარებს საწყის კითხვებს, სწრაფად იძლევა გადაწყვეტილებებს და საჭიროების შემთხვევაში გადასცემს აგენტს."
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "TITLE": "საზღვრები",
+        "DESCRIPTION": "ამყარებს წესრიგს — მხოლოდ ის კითხვები, რომელზეც გსურთ თქვენი ასისტენტი უპასუხოს, არაფერი აკრძალული ან თემიდან გასული.",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "SELECTED": "{count} ელემენტი არჩეული | {count} ელემენტი არჩეული",
+          "SELECT_ALL": "ყველას არჩევა ({count})",
+          "UNSELECT_ALL": "ყველას არჩევის გაუქმება ({count})",
+          "BULK_DELETE_BUTTON": "წაშლა"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "TITLE": "მაგალითი გარდრეილები",
+            "ADD": "ყველას დამატება",
+            "ADD_SINGLE": "დაამატე ეს",
+            "SAVE": "დაამატე და შეინახე (↵)",
+            "PLACEHOLDER": "ჩაწერე სხვა გარდრეილი..."
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
-            "CREATE": "Create",
-            "CANCEL": "Cancel",
-            "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "TITLE": "დაამატე გარდრეილი",
+            "CREATE": "შექმნა",
+            "CANCEL": "გაუქმება",
+            "PLACEHOLDER": "ჩაწერეთ სხვა დაცვის ზოლი...",
+            "TEST_ALL": "ყველას ტესტირება"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "ძიება..."
         },
-        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "EMPTY_MESSAGE": "დაცვის ზოლები ვერ მოიძებნა. დაიწყეთ შექმნით ან მაგალითების დამატებით.",
+        "SEARCH_EMPTY_MESSAGE": "ამ ძიებისთვის არ მოიძებნა დაცვის ზომები.",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "გარდრეილები წარმატებით დაემატა",
+            "ERROR": "გარდრეილების დამატებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
           },
           "UPDATE": {
-            "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "SUCCESS": "გარდრეილები წარმატებით განახლდა",
+            "ERROR": "გარდრეილების განახლებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "SUCCESS": "გარდრეილები წარმატებით წაიშალა",
+            "ERROR": "გარდრეილების წაშლისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
-        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "TITLE": "პასუხის მითითებები",
+        "DESCRIPTION": "თქვენი ასისტენტის პასუხების სტილი და სტრუქტურა — ნათელი და მეგობრული? მოკლე და მკვეთრი? დეტალური და ფორმალური?",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "SELECTED": "{count} ელემენტი არჩეული | {count} ელემენტები არჩეული",
+          "SELECT_ALL": "ყველას არჩევა ({count})",
+          "UNSELECT_ALL": "ყველას გაუქმება ({count})",
+          "BULK_DELETE_BUTTON": "წაშლა"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example response guidelines",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another response guideline..."
+            "TITLE": "პასუხის მაგალითის წესები",
+            "ADD": "ყველას დამატება",
+            "ADD_SINGLE": "ეს დაამატე",
+            "SAVE": "დამატება და შენახვა (↵)",
+            "PLACEHOLDER": "ჩაწერეთ სხვა პასუხის მითითება..."
           },
           "NEW": {
-            "TITLE": "Add a response guideline",
-            "CREATE": "Create",
-            "CANCEL": "Cancel",
-            "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "TITLE": "პასუხის მითითების დამატება",
+            "CREATE": "შექმნა",
+            "CANCEL": "გაუქმება",
+            "PLACEHOLDER": "ჩაწერეთ სხვა პასუხის მითითება...",
+            "TEST_ALL": "ყველას შემოწმება"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "ძიება..."
         },
-        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "EMPTY_MESSAGE": "პასუხის მითითებები ვერ მოიძებნა. დაიწყეთ შექმნით ან მაგალითების დამატებით.",
+        "SEARCH_EMPTY_MESSAGE": "ამ ძიებისთვის პასუხის მითითებები არ მოიძებნა.",
         "API": {
           "ADD": {
-            "SUCCESS": "Response Guidelines added successfully",
-            "ERROR": "There was an error adding response guidelines, please try again."
+            "SUCCESS": "პასუხის მითითებები წარმატებით დაემატა",
+            "ERROR": "პასუხის მითითებების დამატებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
           },
           "UPDATE": {
-            "SUCCESS": "Response Guidelines updated successfully",
-            "ERROR": "There was an error updating response guidelines, please try again."
+            "SUCCESS": "პასუხის მითითებები წარმატებით განახლდა",
+            "ERROR": "პასუხის მითითებების განახლებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
           },
           "DELETE": {
-            "SUCCESS": "Response Guidelines deleted successfully",
-            "ERROR": "There was an error deleting response guidelines, please try again."
+            "SUCCESS": "პასუხის მითითებები წარმატებით წაიშალა",
+            "ERROR": "პასუხის მითითებების წაშლისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
           }
         }
       },
       "SCENARIOS": {
-        "TITLE": "Scenarios",
-        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "TITLE": "სცენარები",
+        "DESCRIPTION": "მიანიჭეთ თქვენს ასისტენტს კონტექსტი — მაგალითად, „რა უნდა გააკეთოს, როცა მომხმარებელი გაჭედილია“ ან „როგორ მოიქცეს თანხის დაბრუნების მოთხოვნის დროს“.",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "SELECTED": "{count} ელემენტი არჩეულია | {count} ელემენტი არჩეულია",
+          "SELECT_ALL": "აირჩიეთ ყველა ({count})",
+          "UNSELECT_ALL": "გაუქმება ყველა არჩევანი ({count})",
+          "BULK_DELETE_BUTTON": "წაშლა"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example scenarios",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "TOOLS_USED": "Tools used :"
+            "TITLE": "მაგალითის სცენარები",
+            "ADD": "დაამატეთ ყველა",
+            "ADD_SINGLE": "დაამატე ეს",
+            "TOOLS_USED": "გამოყენებული ხელსაწყოები :"
           },
           "NEW": {
-            "CREATE": "Add a scenario",
-            "TITLE": "Create a scenario",
+            "CREATE": "სცენარის დამატება",
+            "TITLE": "სცენარის შექმნა",
             "FORM": {
               "TITLE": {
-                "LABEL": "Title",
-                "PLACEHOLDER": "Enter a name for the scenario",
-                "ERROR": "Scenario name is required"
+                "LABEL": "სათაური",
+                "PLACEHOLDER": "შეიყვანეთ სცენარის სახელი",
+                "ERROR": "სცენარის სახელი აუცილებელია"
               },
               "DESCRIPTION": {
-                "LABEL": "Description",
-                "PLACEHOLDER": "Describe how and where this scenario will be used",
-                "ERROR": "Scenario description is required"
+                "LABEL": "აღწერა",
+                "PLACEHOLDER": "აღწერეთ, როგორ და სად იქნება გამოყენებული ეს სცენარი",
+                "ERROR": "სცენარის აღწერა აუცილებელია"
               },
               "INSTRUCTION": {
-                "LABEL": "How to handle",
-                "PLACEHOLDER": "Describe how and where this scenario will be handled",
-                "ERROR": "Scenario content is required"
+                "LABEL": "როგორ მოვაგვაროთ",
+                "PLACEHOLDER": "აღწერეთ, როგორ და სად დამუშავდება ეს სცენარი",
+                "ERROR": "სცენარის შინაარსი აუცილებელია"
               },
-              "CREATE": "Create",
-              "CANCEL": "Cancel"
+              "CREATE": "შექმნა",
+              "CANCEL": "გაუქმება"
             }
           }
         },
         "UPDATE": {
-          "CANCEL": "Cancel",
-          "UPDATE": "Update changes"
+          "CANCEL": "გაუქმება",
+          "UPDATE": "ცვლილებების განახლება"
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "ძიება..."
         },
-        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "EMPTY_MESSAGE": "სცენარები არ მოიძებნა. დაიწყეთ შექმნით ან მაგალითების დამატებით.",
+        "SEARCH_EMPTY_MESSAGE": "ამ ძიებისთვის სცენარები არ მოიძებნა.",
         "API": {
           "ADD": {
-            "SUCCESS": "Scenarios added successfully",
-            "ERROR": "There was an error adding scenarios, please try again."
+            "SUCCESS": "სცენარები წარმატებით დაემატა",
+            "ERROR": "სცენარების დამატებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
           },
           "UPDATE": {
-            "SUCCESS": "Scenarios updated successfully",
-            "ERROR": "There was an error updating scenarios, please try again."
+            "SUCCESS": "სცენარები წარმატებით განახლდა",
+            "ERROR": "სცენარების განახლებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
           },
           "DELETE": {
-            "SUCCESS": "Scenarios deleted successfully",
-            "ERROR": "There was an error deleting scenarios, please try again."
+            "SUCCESS": "სცენარები წარმატებით წაიშალა",
+            "ERROR": "სცენარების წაშლისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
           }
         }
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
-      "RELATED_RESPONSES": {
-        "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+      "HEADER": "დოკუმენტები",
+      "ADD_NEW": "ახალი დოკუმენტის შექმნა",
+      "SELECTED": "{count} არჩეული",
+      "SELECT_ALL": "ყველას არჩევა ({count})",
+      "UNSELECT_ALL": "ყველას არჩევის გაუქმება ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "დიახ, წაშალე ყველა",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "RELATED_RESPONSES": {
+        "TITLE": "მიმართებული ხშირად დასმული კითხვები",
+        "DESCRIPTION": "ეს ხშირად დასმული კითხვები პირდაპირ დოკუმენტიდან არის გენერირებული."
+      },
+      "FORM_DESCRIPTION": "შეიყვანეთ დოკუმენტის URL, რომ დაამატოთ იგი ცოდნის წყაროდ და აირჩიეთ ასისტენტი, რომელთანაც დაკავშირება გსურთ.",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "TITLE": "დოკუმენტის დამატება",
+        "SUCCESS_MESSAGE": "დოკუმენტი წარმატებით შეიქმნა",
+        "ERROR_MESSAGE": "დოკუმენტის შექმნისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
       },
       "FORM": {
         "TYPE": {
-          "LABEL": "Document Type",
+          "LABEL": "დოკუმენტის ტიპი",
           "URL": "URL",
-          "PDF": "PDF File"
+          "PDF": "PDF ფაილი"
         },
         "URL": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "PLACEHOLDER": "შეიყვანეთ დოკუმენტის URL",
+          "ERROR": "გთხოვთ, მიუთითეთ დოკუმენტის ვალიდური URL"
         },
         "PDF_FILE": {
-          "LABEL": "PDF File",
-          "CHOOSE_FILE": "Choose PDF file",
-          "ERROR": "Please select a PDF file",
-          "HELP_TEXT": "Maximum file size: 10MB",
-          "INVALID_TYPE": "Please select a valid PDF file",
-          "TOO_LARGE": "File size exceeds 10MB limit"
+          "LABEL": "PDF ფაილი",
+          "CHOOSE_FILE": "აირჩიეთ PDF ფაილი",
+          "ERROR": "გთხოვთ, აირჩიოთ PDF ფაილი",
+          "HELP_TEXT": "ფაილის მაქსიმალური ზომა: 10MB",
+          "INVALID_TYPE": "გთხოვთ, აირჩიოთ ვალიდური PDF ფაილი",
+          "TOO_LARGE": "ფაილის ზომა აღემატება 10MB-ს ლიმიტს"
         },
         "NAME": {
-          "LABEL": "Document Name (Optional)",
-          "PLACEHOLDER": "Enter a name for the document"
+          "LABEL": "დოკუმენტის სახელი (არასავალდებულო)",
+          "PLACEHOLDER": "შეიყვანეთ დოკუმენტის სახელი"
         }
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the document?",
-        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "TITLE": "დარწმუნებული ხართ, რომ გინდათ დოკუმენტის წაშლა?",
+        "DESCRIPTION": "ეს მოქმედება არის მუდმივი. დოკუმენტის წაშლა სამუდამოდ წაშლის ყველა გენერირებულ ცოდნას.",
+        "CONFIRM": "დიახ, წაშლა",
+        "SUCCESS_MESSAGE": "დოკუმენტი წარმატებით წაიშალა",
+        "ERROR_MESSAGE": "დოკუმენტის წაშლისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "DELETE_DOCUMENT": "Delete Document"
+        "VIEW_RELATED_RESPONSES": "იხილეთ დაკავშირებული პასუხები",
+        "DELETE_DOCUMENT": "დოკუმენტის წაშლა"
       },
       "EMPTY_STATE": {
-        "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "TITLE": "დოკუმენტები არ არის",
+        "SUBTITLE": "დოკუმენტები გამოიყენება თქვენი ასისტენტის მიერ ხშირად დასმული კითხვების შესაქმნელად. შეგიძლიათ იმპორტოთ დოკუმენტები, რათა ასისტენტს კონტექსტი მიაწოდოთ.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "TITLE": "Captain დოკუმენტი",
+          "NOTE": "Captain-ში დოკუმენტი ასისტენტისთვის ცოდნის რესურსის როლს ასრულებს. თქვენი დახმარების ცენტრის ან სახელმძღვანელოების დაკავშირებით, Captain აფასებს შინაარსს და უზრუნველყოფს ზუსტ პასუხებს მომხმარებელთა კითხვებზე."
         }
       }
     },
     "CUSTOM_TOOLS": {
-      "HEADER": "Tools",
-      "ADD_NEW": "Create a new tool",
+      "HEADER": "ინსტრუმენტები",
+      "ADD_NEW": "შექმენი ახალი ხელსაწყო",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
-        "TITLE": "No custom tools available",
-        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "TITLE": "არ არის ხელმისაწვდომი მორგებული ხელსაწყოები",
+        "SUBTITLE": "შექმენი მორგებული ხელსაწყოები, რომ დაკავშირება მოახდინოს შენმა ასისტენტმა გარე API-ებთან და სერვისებთან, რაც საშუალებას მისცემს მას მონაცემების მიღებას და ქმედებების შესრულებას შენს სახელზე.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Custom Tools",
-          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+          "TITLE": "მორგებული ხელსაწყოები",
+          "NOTE": "მორგებული ხელსაწყოები საშუალებას აძლევს შენს ასისტენტს ურთიერთქმედება გარე API-ებთან და სერვისებთან. შექმენი ხელსაწყოები მონაცემების მისაღებად, ქმედებების შესასრულებლად ან ინტეგრაციისთვის შენს არსებულ სისტემებთან, რათა გააუმჯობესო ასისტენტის შესაძლებლობები."
         }
       },
-      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "FORM_DESCRIPTION": "დააკონფიგურირეთ თქვენი მორგებული ინსტრუმენტი, რათა დაუკავშირდეთ გარე API-ებს",
       "OPTIONS": {
-        "EDIT_TOOL": "Edit tool",
-        "DELETE_TOOL": "Delete tool"
+        "EDIT_TOOL": "ინსტრუმენტის რედაქტირება",
+        "DELETE_TOOL": "ინსტრუმენტის წაშლა"
       },
       "CREATE": {
-        "TITLE": "Create Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool created successfully",
-        "ERROR_MESSAGE": "Failed to create custom tool"
+        "TITLE": "მორგებული ინსტრუმენტის შექმნა",
+        "SUCCESS_MESSAGE": "მორგებული ინსტრუმენტი წარმატებით შეიქმნა",
+        "ERROR_MESSAGE": "კასტომური ხელსაწყოს შექმნა ვერ მოხერხდა"
       },
       "EDIT": {
-        "TITLE": "Edit Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool updated successfully",
-        "ERROR_MESSAGE": "Failed to update custom tool"
+        "TITLE": "კასტომური ხელსაწყოს რედაქტირება",
+        "SUCCESS_MESSAGE": "კასტომური ხელსაწყო წარმატებით განახლდა",
+        "ERROR_MESSAGE": "კასტომური ხელსაწყოს განახლება ვერ მოხერხდა"
       },
       "DELETE": {
-        "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete custom tool"
+        "TITLE": "კასტომური ხელსაწყოს წაშლა",
+        "DESCRIPTION": "დარწმუნებული ხართ, რომ გინდათ ამ კასტომური ხელსაწყოს წაშლა? ეს მოქმედება არ არის გაუქმებადი.",
+        "CONFIRM": "დიახ, წაშლა",
+        "SUCCESS_MESSAGE": "კასტომური ხელსაწყო წარმატებით წაიშალა",
+        "ERROR_MESSAGE": "კასტომური ხელსაწყოს წაშლა ვერ მოხერხდა"
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Tool Name",
-          "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "LABEL": "ხელისაწვდომობის სახელი",
+          "PLACEHOLDER": "შეკვეთის მოძებნა",
+          "ERROR": "ინსტრუმენტის სახელი აუცილებელია",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Looks up order details by order ID"
+          "LABEL": "აღწერა",
+          "PLACEHOLDER": "შეკვეთის დეტალების მოძებნა შეკვეთის ID-ის მიხედვით"
         },
         "HTTP_METHOD": {
-          "LABEL": "Method"
+          "LABEL": "მეთოდი"
         },
         "ENDPOINT_URL": {
-          "LABEL": "Endpoint URL",
+          "LABEL": "საბოლოო URL",
           "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
-          "ERROR": "Valid URL is required"
+          "ERROR": "საჭიროა ვალიდური URL"
         },
         "AUTH_TYPE": {
-          "LABEL": "Authentication Type"
+          "LABEL": "ავტორიზაციის ტიპი"
         },
         "AUTH_TYPES": {
-          "NONE": "None",
-          "BEARER": "Bearer Token",
-          "BASIC": "Basic Auth",
-          "API_KEY": "API Key"
+          "NONE": "არცერთი",
+          "BEARER": "Bearer ტოკენი",
+          "BASIC": "საშუალო ავტორიზაცია",
+          "API_KEY": "API გასაღები"
         },
         "AUTH_CONFIG": {
-          "BEARER_TOKEN": "Bearer Token",
-          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
-          "USERNAME": "Username",
-          "USERNAME_PLACEHOLDER": "Enter username",
-          "PASSWORD": "Password",
-          "PASSWORD_PLACEHOLDER": "Enter password",
-          "API_KEY": "Header Name",
+          "BEARER_TOKEN": "Bearer ტოკენი",
+          "BEARER_TOKEN_PLACEHOLDER": "შეიყვანეთ თქვენი bearer ტოკენი",
+          "USERNAME": "მომხმარებლის სახელი",
+          "USERNAME_PLACEHOLDER": "შეიყვანეთ მომხმარებლის სახელი",
+          "PASSWORD": "პაროლი",
+          "PASSWORD_PLACEHOLDER": "შეიყვანეთ პაროლი",
+          "API_KEY": "სათაურის სახელი",
           "API_KEY_PLACEHOLDER": "X-API-Key",
-          "API_VALUE": "Header Value",
-          "API_VALUE_PLACEHOLDER": "Enter API key value"
+          "API_VALUE": "სათაურის მნიშვნელობა",
+          "API_VALUE_PLACEHOLDER": "შეიყვანეთ API გასაღების მნიშვნელობა"
         },
         "PARAMETERS": {
-          "LABEL": "Parameters",
-          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+          "LABEL": "პარამეტრები",
+          "HELP_TEXT": "დააზუსტეთ პარამეტრები, რომლებიც გამოიწერება მომხმარებლის კითხვებიდან"
         },
-        "ADD_PARAMETER": "Add Parameter",
+        "ADD_PARAMETER": "პარამეტრის დამატება",
         "PARAM_NAME": {
-          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+          "PLACEHOLDER": "პარამეტრის სახელი (მაგ., order_id)"
         },
         "PARAM_TYPE": {
-          "PLACEHOLDER": "Type"
+          "PLACEHOLDER": "ტიპი"
         },
         "PARAM_TYPES": {
-          "STRING": "String",
-          "NUMBER": "Number",
-          "BOOLEAN": "Boolean",
-          "ARRAY": "Array",
-          "OBJECT": "Object"
+          "STRING": "სტრიქონი",
+          "NUMBER": "რიცხვი",
+          "BOOLEAN": "ბულიანი",
+          "ARRAY": "მონაცემთა მასივი",
+          "OBJECT": "ობიექტი"
         },
         "PARAM_DESCRIPTION": {
-          "PLACEHOLDER": "Description of the parameter"
+          "PLACEHOLDER": "პარამეტრის აღწერა"
         },
         "PARAM_REQUIRED": {
-          "LABEL": "Required"
+          "LABEL": "საჭირო"
         },
         "REQUEST_TEMPLATE": {
-          "LABEL": "Request Body Template (Optional)",
+          "LABEL": "მოთხოვნის სხეულის შაბლონი (არასავალდებულო)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "Response Template (Optional)",
+          "LABEL": "პასუხის შაბლონი (არასავალდებულო)",
           "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
         },
         "ERRORS": {
-          "PARAM_NAME_REQUIRED": "Parameter name is required"
+          "PARAM_NAME_REQUIRED": "პარამეტრის სახელი სავალდებულოა"
         }
       }
     },
     "RESPONSES": {
-      "HEADER": "FAQs",
-      "PENDING_FAQS": "Pending FAQs",
-      "ADD_NEW": "Create new FAQ",
+      "HEADER": "ხშირად დასმული კითხვები",
+      "PENDING_FAQS": "მოლოდინში FAQ-ები",
+      "ADD_NEW": "ახალი FAQ-ის შექმნა",
       "DOCUMENTABLE": {
-        "CONVERSATION": "Conversation #{id}"
+        "CONVERSATION": "შეტყობინება #{id}"
       },
-      "SELECTED": "{count} selected",
-      "SELECT_ALL": "Select all ({count})",
-      "UNSELECT_ALL": "Unselect all ({count})",
-      "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Approve",
-      "BULK_DELETE_BUTTON": "Delete",
+      "SELECTED": "{count} არჩეული",
+      "SELECT_ALL": "ყველას არჩევა ({count})",
+      "UNSELECT_ALL": "ყველას არჩევის გაუქმება ({count})",
+      "SEARCH_PLACEHOLDER": "ძიება ხშირად დასმულ კითხვებში...",
+      "BULK_APPROVE_BUTTON": "დამტკიცება",
+      "BULK_DELETE_BUTTON": "წაშლა",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "ხშირად დასმული კითხვები წარმატებით დამტკიცდა",
+        "ERROR_MESSAGE": "ხშირად დასმული კითხვების დამტკიცებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "TITLE": "ხშირად დასმული კითხვების წაშლა?",
+        "DESCRIPTION": "დარწმუნებული ხართ, რომ გინდათ არჩეული ხშირად დასმული კითხვების წაშლა? ეს მოქმედება არ არის გაუქმებადი.",
+        "CONFIRM": "დიახ, წაშალე ყველა",
+        "SUCCESS_MESSAGE": "ხშირად დასმული კითხვები წარმატებით წაიშალა",
+        "ERROR_MESSAGE": "ხშირად დასმული კითხვების წაშლისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the FAQ?",
+        "TITLE": "დარწმუნებული ხართ, რომ გინდათ FAQ-ის წაშლა?",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "FAQ deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+        "CONFIRM": "დიახ, წაშლა",
+        "SUCCESS_MESSAGE": "FAQ წარმატებით წაიშალა",
+        "ERROR_MESSAGE": "FAQ-ის წაშლისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
       },
       "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
-        "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "All"
+        "ASSISTANT": "დამხმარე: {selected}",
+        "STATUS": "სტატუსი: {selected}",
+        "ALL_ASSISTANTS": "ყველა"
       },
       "STATUS": {
-        "TITLE": "Status",
-        "PENDING": "Pending",
-        "APPROVED": "Approved",
-        "ALL": "All"
+        "TITLE": "სტატუსი",
+        "PENDING": "მიმდინარე",
+        "APPROVED": "დამტკიცებული",
+        "ALL": "ყველა"
       },
       "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+        "TITLE": "Captain-მა იპოვა რამდენიმე FAQ, რომელსაც თქვენი მომხმარებლები ეძებდნენ.",
+        "ACTION": "დააჭირეთ აქ გადახედვისთვის"
       },
-      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "FORM_DESCRIPTION": "დაამატეთ კითხვა და მისი შესაბამისი პასუხი ცოდნის ბაზაში და აირჩიეთ ასისტენტი, რომელთანაც უნდა იყოს დაკავშირებული.",
       "CREATE": {
-        "TITLE": "Add an FAQ",
-        "SUCCESS_MESSAGE": "The response has been added successfully.",
-        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+        "TITLE": "დაამატეთ FAQ",
+        "SUCCESS_MESSAGE": "პასუხი წარმატებით დაემატა.",
+        "ERROR_MESSAGE": "პასუხის დამატებისას მოხდა შეცდომა. გთხოვთ, სცადეთ თავიდან."
       },
       "FORM": {
         "QUESTION": {
-          "LABEL": "Question",
-          "PLACEHOLDER": "Enter the question here",
-          "ERROR": "Please provide a valid question."
+          "LABEL": "კითხვა",
+          "PLACEHOLDER": "შეიყვანეთ კითხვა აქ",
+          "ERROR": "გთხოვთ, მიუთითეთ ვალიდური კითხვა."
         },
         "ANSWER": {
-          "LABEL": "Answer",
-          "PLACEHOLDER": "Enter the answer here",
-          "ERROR": "Please provide a valid answer."
+          "LABEL": "პასუხი",
+          "PLACEHOLDER": "პასუხი შეიყვანეთ აქ",
+          "ERROR": "გთხოვთ, მიუთითეთ ვალიდური პასუხი."
         }
       },
       "EDIT": {
-        "TITLE": "Update the FAQ",
-        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
-        "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
+        "TITLE": "FAQ-ის განახლება",
+        "SUCCESS_MESSAGE": "FAQ წარმატებით განახლდა",
+        "ERROR_MESSAGE": "FAQ-ის განახლებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან",
+        "APPROVE_SUCCESS_MESSAGE": "FAQ დამტკიცებულად მონიშნულია"
       },
       "OPTIONS": {
-        "APPROVE": "Approve",
-        "EDIT_RESPONSE": "Edit",
-        "DELETE_RESPONSE": "Delete"
+        "APPROVE": "მიღება",
+        "EDIT_RESPONSE": "რედაქტირება",
+        "DELETE_RESPONSE": "წაშლა"
       },
       "EMPTY_STATE": {
-        "TITLE": "No FAQs Found",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
-        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
-        "CLEAR_SEARCH": "Clear active filters",
+        "TITLE": "არ მოიძებნა ხშირად დასმული კითხვები",
+        "NO_PENDING_TITLE": "მიმდინარე კითხვები განხილვისთვის აღარ არის",
+        "SUBTITLE": "ხშირად დასმული კითხვები ეხმარება თქვენს ასისტენტს სწრაფ და ზუსტ პასუხებს გასცეს მომხმარებელთა შეკითხვებს. ისინი შეიძლება ავტომატურად შეიქმნას თქვენი კონტენტიდან ან ხელით დაემატოს.",
+        "CLEAR_SEARCH": "აქტიური ფილტრების გასუფთავება",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "TITLE": "კაპიტანის ხშირად დასმული კითხვები",
+          "NOTE": "Captain FAQs ამოიცნობს ხშირ მომხმარებლის კითხვებს — იქნება ისინი თქვენი ცოდნის ბაზაში არარსებული ან ხშირად დასმული — და ქმნის შესაბამის ხშირად დასმულ კითხვებს მხარდაჭერის გაუმჯობესებისთვის. შეგიძლიათ შეამოწმოთ თითოეული წინადადება და გადაწყვიტოთ მისი დამტკიცება თუ უარყოფა."
         }
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "დაკავშირებული ინბოქსები",
+      "ADD_NEW": "ახალი ინბოქსის დაკავშირება",
       "OPTIONS": {
-        "DISCONNECT": "Disconnect"
+        "DISCONNECT": "გათიშვა"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "დარწმუნებული ხართ, რომ ინბოქსი გათიშოთ?",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "CONFIRM": "დიახ, წაშლა",
+        "SUCCESS_MESSAGE": "ინბოქსი წარმატებით გათიშულია.",
+        "ERROR_MESSAGE": "ინბოქსის გათიშვისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "აირჩიეთ ინბოქსი ასისტენტთან დასაკავშირებლად.",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
-        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+        "TITLE": "ინბოქსის დაკავშირება",
+        "SUCCESS_MESSAGE": "ინბოქსი წარმატებით გაიკეთა.",
+        "ERROR_MESSAGE": "ინბოქსის დაკავშირებისას მოხდა შეცდომა. გთხოვთ, სცადეთ თავიდან."
       },
       "FORM": {
         "INBOX": {
-          "LABEL": "Inbox",
-          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
-          "ERROR": "An inbox selection is required."
+          "LABEL": "ინბოქსი",
+          "PLACEHOLDER": "აირჩიეთ ინბოქსი ასისტენტის განთავსებისთვის.",
+          "ERROR": "ინბოქსის არჩევა აუცილებელია."
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "TITLE": "დაკავშირებული ინბოქსები არ არის",
+        "SUBTITLE": "ინბოქსის დაკავშირება საშუალებას აძლევს ასისტენტს მოაგვაროს მომხმარებელთა საწყისი კითხვები, სანამ ისინი თქვენთან გადაეცემა."
       }
     }
   }

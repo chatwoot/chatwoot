@@ -3,6 +3,9 @@
     "FETCHING": "S'estan obtenint integracions",
     "NO_HOOK_CONFIGURED": "No hi ha integracions {integrationId} configurades en aquest compte.",
     "HEADER": "Aplicacions",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Habilita",
       "DISABLED": "Inhabilita"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Recollint els hooks d'integració",
       "INBOX": "Safata d'entrada",
+      "ACTIONS": "Accions",
       "DELETE": {
         "BUTTON_TEXT": "Esborrar"
       }

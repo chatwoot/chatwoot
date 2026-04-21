@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "Локаль успешно удалена из портала",
           "ERROR_MESSAGE": "Невозможно удалить локаль из портала. Повторите попытку."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -372,6 +384,16 @@
       "API": {
         "SUCCESS_MESSAGE": "Статья успешно удалена",
         "ERROR_MESSAGE": "Ошибка при удалении статьи"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
       }
     },
     "CREATE_ARTICLE": {
@@ -634,8 +656,11 @@
         "ARTICLES_COUNT": "{count} статьи | {count} статьи",
         "CATEGORIES_COUNT": "{count} категория | {count} категории",
         "DEFAULT": "По умолчанию",
+        "DRAFT": "Черновик",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Сделать по умолчанию",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "Удалить"
         }
       },
@@ -644,6 +669,13 @@
         "DESCRIPTION": "Выберите язык, на котором будет написана эта статья. Этот язык будет добавлен в ваш список переводов, и вы сможете добавить другие языки позже.",
         "COMBOBOX": {
           "PLACEHOLDER": "Выберите язык..."
+        },
+        "STATUS": {
+          "LABEL": "Статус",
+          "OPTIONS": {
+            "LIVE": "Опубликовано",
+            "DRAFT": "Черновик"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Локаль успешно добавлен",

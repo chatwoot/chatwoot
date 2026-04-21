@@ -72,6 +72,10 @@ class Inboxes extends CacheEnabledApiClient {
       template,
     });
   }
+
+  resetSecret(inboxId) {
+    return axios.post(`${this.url}/${inboxId}/reset_secret`);
+  }
 }
 
 export default new Inboxes();

@@ -3,6 +3,9 @@
     "FETCHING": "Entegrasyonlar alınıyor",
     "NO_HOOK_CONFIGURED": "Bu hesapta yapılandırılmış {integrationId} entegrasyonu bulunmuyor.",
     "HEADER": "Uygulamalar",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Ara...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Etkin",
       "DISABLED": "Devre dışı"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Entegrasyon kancaları alınıyor",
       "INBOX": "Gelen Kutusu",
+      "ACTIONS": "Hareketler",
       "DELETE": {
         "BUTTON_TEXT": "Sil"
       }

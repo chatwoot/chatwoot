@@ -1,56 +1,68 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
-    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
+    "SHOWING": "顯示第 {startItem} - {endItem} 項，共 {totalItems} 項 | 顯示第 {startItem} - {endItem} 項，共 {totalItems} 項",
+    "CURRENT_PAGE_INFO": "第 {currentPage} / {totalPages} 頁 | 第 {currentPage} / {totalPages} 頁"
   },
   "COMBOBOX": {
-    "PLACEHOLDER": "Select an option...",
-    "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
+    "PLACEHOLDER": "請選擇一個選項...",
+    "EMPTY_SEARCH_RESULTS": "找不到與搜尋詞「{searchTerm}」相符的項目",
     "EMPTY_STATE": "查無結果。",
-    "SEARCH_PLACEHOLDER": "Search...",
-    "MORE": "+{count} more"
+    "SEARCH_PLACEHOLDER": "搜尋...",
+    "MORE": "還有 {count} 個"
   },
   "DROPDOWN_MENU": {
-    "SEARCH_PLACEHOLDER": "Search...",
+    "SEARCH_PLACEHOLDER": "搜尋...",
     "EMPTY_STATE": "查無結果。",
-    "SEARCHING": "Searching..."
+    "SEARCHING": "搜尋中..."
   },
   "DIALOG": {
     "BUTTONS": {
       "CANCEL": "取消",
-      "CONFIRM": "確定"
+      "CONFIRM": "確認"
     }
   },
   "PHONE_INPUT": {
-    "SEARCH_PLACEHOLDER": "Search country",
-    "ERROR": "Phone number should be empty or in E.164 format",
-    "DIAL_CODE_ERROR": "Please select a dial code from the list"
+    "SEARCH_PLACEHOLDER": "搜尋國家/地區",
+    "ERROR": "電話號碼應為空或符合 E.164 格式",
+    "DIAL_CODE_ERROR": "請從列表中選擇國碼"
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Author is not available"
+      "NOT_AVAILABLE": "作者不可用"
     }
   },
   "BREADCRUMB": {
-    "ARIA_LABEL": "Breadcrumb"
+    "ARIA_LABEL": "麵包屑導覽"
   },
   "SWITCH": {
-    "TOGGLE": "Toggle switch"
+    "TOGGLE": "切換開關"
   },
   "LABEL": {
-    "TAG_BUTTON": "tag"
+    "TAG_BUTTON": "標籤"
   },
   "FEATURE_SPOTLIGHT": {
-    "LEARN_MORE": "Learn more",
-    "WATCH_VIDEO": "Watch video"
+    "LEARN_MORE": "瞭解更多",
+    "WATCH_VIDEO": "觀看影片"
   },
   "DURATION_INPUT": {
-    "MINUTES": "Minutes",
-    "HOURS": "Hours",
-    "DAYS": "Days",
-    "PLACEHOLDER": "Enter duration"
+    "MINUTES": "分鐘",
+    "HOURS": "小時",
+    "DAYS": "天",
+    "PLACEHOLDER": "輸入時間長度"
   },
   "CHANNEL_SELECTOR": {
-    "COMING_SOON": "Coming Soon!"
+    "COMING_SOON": "即將推出！"
+  },
+  "SLASH_COMMANDS": {
+    "HEADING_1": "Heading 1",
+    "HEADING_2": "Heading 2",
+    "HEADING_3": "Heading 3",
+    "BOLD": "Bold",
+    "ITALIC": "Italic",
+    "STRIKETHROUGH": "Strikethrough",
+    "CODE": "Code",
+    "BULLET_LIST": "Bullet List",
+    "ORDERED_LIST": "Ordered List",
+    "TABLE": "Table"
   }
 }

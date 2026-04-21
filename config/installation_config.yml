@@ -211,6 +211,13 @@
   type: code
 # End of Captain Config
 
+# ------- Context.dev Config ------- #
+- name: CONTEXT_DEV_API_KEY
+  display_title: 'Context.dev API Key'
+  description: 'API key for Context.dev branding service used during account onboarding'
+  type: secret
+# ------- End of Context.dev Config ------- #
+
 # ------- Chatwoot Internal Config for Cloud ----#
 - name: CHATWOOT_INBOX_TOKEN
   value:

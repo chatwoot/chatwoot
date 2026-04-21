@@ -1,33 +1,33 @@
 {
   "COMPANIES": {
-    "HEADER": "Companies",
+    "HEADER": "الشركات",
     "SORT_BY": {
       "LABEL": "ترتيب حسب",
       "OPTIONS": {
         "NAME": "الاسم",
         "DOMAIN": "النطاق",
         "CREATED_AT": "تم إنشاؤها في",
-        "CONTACTS_COUNT": "Contacts count"
+        "CONTACTS_COUNT": "عدد جهات الاتصال"
       }
     },
     "ORDER": {
-      "LABEL": "Order",
+      "LABEL": "ترتيب",
       "OPTIONS": {
-        "ASCENDING": "Ascending",
+        "ASCENDING": "تصاعدي",
         "DESCENDING": "Descending"
       }
     },
-    "SEARCH_PLACEHOLDER": "Search companies...",
-    "LOADING": "Loading companies...",
-    "UNNAMED": "Unnamed Company",
-    "CONTACTS_COUNT": "{n} contact | {n} contacts",
+    "SEARCH_PLACEHOLDER": "البحث في الشركات...",
+    "LOADING": "جاري تحميل الشركات...",
+    "UNNAMED": "شركة بلا اسم",
+    "CONTACTS_COUNT": "جهة اتصال {n} | {n} جهات الاتصال",
     "EMPTY_STATE": {
-      "TITLE": "No companies found"
+      "TITLE": "لم يتم العثور على شركات"
     }
   },
   "COMPANIES_LAYOUT": {
     "PAGINATION_FOOTER": {
-      "SHOWING": "Showing {startItem} – {endItem} of {totalItems} company | Showing {startItem} – {endItem} of {totalItems} companies"
+      "SHOWING": "عرض {startItem} - {endItem} من {totalItems} شركة | عرض {startItem} – {endItem} من الشركات {totalItems}"
     }
   }
 }

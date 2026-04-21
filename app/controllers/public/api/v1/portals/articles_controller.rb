@@ -1,11 +1,13 @@
 class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::BaseController
   before_action :ensure_custom_domain_request, only: [:show, :index]
   before_action :portal
+  before_action :ensure_portal_feature_enabled
   before_action :set_category, except: [:index, :show, :tracking_pixel]
   before_action :set_article, only: [:show]
   layout 'portal'
 
   def index
+    @search_query = list_params[:query]
     @articles = @portal.articles.published.includes(:category, :author)
 
     @articles = @articles.where(locale: permitted_params[:locale]) if permitted_params[:locale].present?
@@ -60,7 +62,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def set_article
     @article = @portal.articles.find_by(slug: permitted_params[:article_slug])
-    @parsed_content = render_article_content(@article.content)
+    @parsed_content = render_article_content(@article.content.to_s)
   end
 
   def set_category
@@ -73,7 +75,9 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def list_params
-    params.permit(:query, :locale, :sort, :status, :page, :per_page)
+    @list_params ||= params.permit(:query, :locale, :sort, :status, :page, :per_page).tap do |permitted|
+      permitted[:query] = permitted[:query].to_s.strip.presence
+    end
   end
 
   def permitted_params

@@ -1,49 +1,63 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "Kustuta Shopify integratsioon",
+        "MESSAGE": "Kas oled kindel, et soovid Shopify integratsiooni kustutada?"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
-        "LABEL": "Store URL",
+        "TITLE": "Ühenda Shopify pood",
+        "LABEL": "Poekeskkonna URL",
         "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
-        "CANCEL": "Cancel",
-        "SUBMIT": "Connect Store"
+        "HELP": "Sisesta oma Shopify poe myshopify.com URL",
+        "CANCEL": "Tühista",
+        "SUBMIT": "Ühenda pood"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "Shopifyga ühendamisel tekkis viga. Palun proovi uuesti või võta ühendust klienditoega, kui probleem püsib."
     },
-    "HEADER": "Integrations",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
-    "LOADING": "Fetching integrations",
+    "HEADER": "Integratsioonid",
+    "DESCRIPTION": "Chatwoot integreerub mitmete tööriistade ja teenustega, et parandada teie meeskonna efektiivsust. Uuri allolevat nimekirja, et seadistada oma lemmikrakendused.",
+    "LEARN_MORE": "Lisateave integratsioonide kohta",
+    "LOADING": "Laaditakse integratsioone",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
-      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "DISABLED": "Captain ei ole teie kontol aktiveeritud.",
+      "CLICK_HERE_TO_CONFIGURE": "Klõpsake siin seadistamiseks",
+      "LOADING_CONSOLE": "Laaditakse Captain Console’i...",
+      "FAILED_TO_LOAD_CONSOLE": "Captain Console’i laadimine ebaõnnestus. Palun värskenda lehte ja proovi uuesti."
     },
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
-      "LEARN_MORE": "Learn more about webhooks",
+      "SUBSCRIBED_EVENTS": "Tellitud sündmused",
+      "LEARN_MORE": "Lisateave veebikonksude kohta",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
-        "CANCEL": "Cancel",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "Tühista",
+        "DESC": "Webhooki sündmused annavad teile reaalajas teavet selle kohta, mis teie Chatwoot kontol toimub. Palun sisestage kehtiv URL, et seadistada tagasikutsumine.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Sündmused",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated",
-            "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_CREATED": "Vestlus loodud",
+            "CONVERSATION_STATUS_CHANGED": "Vestluse olek muudetud",
+            "CONVERSATION_UPDATED": "Vestlus uuendatud",
+            "MESSAGE_CREATED": "Sõnum loodud",
+            "MESSAGE_UPDATED": "Sõnum uuendatud",
+            "WEBWIDGET_TRIGGERED": "Kasutaja avas reaalajas vestluse vidina",
+            "CONTACT_CREATED": "Kontakt loodud",
+            "CONTACT_UPDATED": "Kontakt uuendatud",
+            "CONVERSATION_TYPING_ON": "Vestluses kirjutamise alustamine",
+            "CONVERSATION_TYPING_OFF": "Vestluses kirjutamise lõpetamine"
           }
         },
         "NAME": {
@@ -51,468 +65,499 @@
           "PLACEHOLDER": "Enter the name of the webhook"
         },
         "END_POINT": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Example: {webhookExampleURL}",
-          "ERROR": "Please enter a valid URL"
+          "LABEL": "Webhooki URL",
+          "PLACEHOLDER": "Näide: {webhookExampleURL}",
+          "ERROR": "Palun sisesta kehtiv URL"
         },
-        "EDIT_SUBMIT": "Update webhook",
-        "ADD_SUBMIT": "Create webhook"
+        "EDIT_SUBMIT": "Uuenda webhooki",
+        "ADD_SUBMIT": "Loo webhook"
       },
-      "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "TITLE": "Veebikonks",
+      "CONFIGURE": "Seadista",
+      "HEADER": "Webhooki sätted",
+      "HEADER_BTN_TXT": "Lisa uus webhook",
+      "LOADING": "Laaditakse seotud webhooke",
+      "SEARCH_404": "Ühtegi selle päringuga sobivat elementi ei leitud",
+      "SIDEBAR_TXT": "<p><b>Webhookid</b> </p> <p>Webhookid on HTTP tagasikutsed, mida saab määratleda iga konto jaoks. Neid käivitavad sündmused, nagu sõnumi loomine Chatwootis. Selle konto jaoks saab luua rohkem kui ühe webhooki. <br /><br /> Uue <b>webhooki</b> loomiseks klõpsake nuppu <b>Lisa uus webhook</b>. Olemasoleva webhooki saate kustutada, klõpsates nuppu Kustuta.</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "Selle konto jaoks pole ühtegi webhooki seadistatud.",
+        "TITLE": "Halda webhooke",
         "TABLE_HEADER": {
-          "WEBHOOK_ENDPOINT": "Webhook endpoint",
-          "ACTIONS": "Actions"
+          "WEBHOOK_ENDPOINT": "Veebikonksu lõpp-punkt",
+          "ACTIONS": "Tegevused"
         }
       },
       "EDIT": {
-        "BUTTON_TEXT": "Edit",
-        "TITLE": "Edit webhook",
+        "BUTTON_TEXT": "Muuda",
+        "TITLE": "Muuda webhooki",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhooki seadistus uuendatud edukalt",
+          "ERROR_MESSAGE": "Ei õnnestunud ühenduda Woot serveriga, palun proovi hiljem uuesti"
         }
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
+        "CANCEL": "Tühista",
+        "TITLE": "Lisa uus webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhooki seadistus lisatud edukalt",
+          "ERROR_MESSAGE": "Ei õnnestunud ühenduda Woot serveriga, palun proovi hiljem uuesti"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "Kustuta",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook edukalt kustutatud",
+          "ERROR_MESSAGE": "Ei õnnestunud ühenduda Woot serveriga, palun proovi hiljem uuesti"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "Kustutamise kinnitamine",
+          "MESSAGE": "Kas oled kindel, et soovid veebikonksu kustutada? ({webhookURL})",
+          "YES": "Jah, kustuta ",
+          "NO": "Ei, säilita see"
         }
       }
     },
     "SLACK": {
-      "DELETE": "Delete",
+      "HEADER": "Slack",
+      "DELETE": "Kustuta",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "Kustuta integratsioon",
+        "MESSAGE": "Kas oled kindel, et soovid integratsiooni kustutada? Seda tehes kaotad ligipääsu vestlustele oma Slack töölaual."
       },
       "HELP_TEXT": {
-        "TITLE": "How to use the Slack Integration?",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
-        "SELECTED": "selected"
+        "TITLE": "Kuidas kasutada Slack integratsiooni?",
+        "BODY": "Selle integratsiooni abil sünkroonitakse kõik teie saabuvad vestlused Slacki tööruumi kanali ***{selectedChannelName}*** alla. Saate hallata kõiki kliendivestlusi otse selles kanalis ega jää kunagi sõnumist ilma.\n\nPeamised integratsiooni funktsioonid on järgmised:\n\n**Vastake vestlustele otse Slackis:** Vestlusele vastamiseks kanalis ***{selectedChannelName}*** tippige lihtsalt oma sõnum ja saatke see lõimena. See saadab vastuse kliendile Chatwooti kaudu. Nii lihtne see ongi!\n\n**Looge privaatmärkmeid:** Kui soovite vastuste asemel luua privaatseid märkmeid, alustage oma sõnumit ***`note:`***-ga. See tagab, et teie sõnum jääb privaatseks ega ole kliendi jaoks nähtav.\n\n**Seostage agendi profiil:** Kui Slackis vastanud isikul on Chatwootis sama e-posti aadressiga agendi profiil, seostatakse vastused automaatselt selle profiiliga. Nii saate hõlpsasti jälgida, kes mida ja millal ütles. Kui vastajal puudub seotud agendi profiil, kuvatakse vastused kliendile boti profiililt.",
+        "SELECTED": "valitud"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
-        "UPDATE": "Update",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "OPTION_LABEL": "Vali kanal",
+        "UPDATE": "Uuenda",
+        "BUTTON_TEXT": "Ühenda kanal",
+        "DESCRIPTION": "Sinu Slack töölaua ühendus on nüüd Chatwootiga loodud. Kuid integratsioon on hetkel inaktiivne. Integratsiooni aktiveerimiseks ja kanali ühendamiseks Chatwootiga palun klõpsa alloleval nupul.\n\n**Märkus:** Kui üritad ühendada privaatset kanalit, lisa Chatwoot rakendus Slacki kanalile enne selle sammu jätkamist.",
+        "ATTENTION_REQUIRED": "Nõuab tähelepanu",
+        "EXPIRED": "Sinu Slack integratsioon on aegunud. Et jätkata sõnumite vastuvõtmist Slackis, palun kustuta integratsioon ja ühenda oma töölaua uuesti."
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "Integratsiooni uuendamisel tekkis viga, palun proovi uuesti",
+      "UPDATE_SUCCESS": "Kanal on edukalt ühendatud",
+      "FAILED_TO_FETCH_CHANNELS": "Slackist kanalite toomisel tekkis viga, palun proovi uuesti"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "Klõpsa siia, et liituda",
+      "LEAVE_THE_ROOM": "Lahku toast",
+      "START_VIDEO_CALL_HELP_TEXT": "Alusta uut videokõnet kliendiga",
+      "JOIN_ERROR": "Kõnega liitumisel tekkis viga, palun proovi uuesti",
+      "CREATE_ERROR": "Koosoleku lingi loomisel tekkis viga, palun proovi uuesti"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " {option} with AI ",
+      "AI_ASSIST": "Tehisintellekti abi",
+      "WITH_AI": " {option} tehisintellektiga ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "Vastuse soovitus",
+        "SUMMARIZE": "Kokkuvõtte tegemine",
+        "REPHRASE": "Kirjutise parandamine",
+        "FIX_SPELLING_GRAMMAR": "Paranda õigekiri ja grammatika",
+        "SHORTEN": "Lühenda",
+        "EXPAND": "Pikenda",
+        "MAKE_FRIENDLY": "Muuda sõnumi toon sõbralikuks",
+        "MAKE_FORMAL": "Kasuta ametlikku tooni",
+        "SIMPLIFY": "Lihtsusta",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Professional",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Friendly"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "Mustandi sisu",
+        "GENERATED_TITLE": "Genereeritud sisu",
+        "AI_WRITING": "Tehisintellekt kirjutab",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
-          "CANCEL": "Cancel"
+          "APPLY": "Kasuta seda soovitust",
+          "CANCEL": "Tühista"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "Integreeru OpenAI-ga",
+        "DESC": "Too oma juhtpaneelile täiustatud tehisintellekti funktsioonid OpenAI GPT mudelite abil. Alustamiseks sisesta oma OpenAI konto API võti.",
+        "KEY_PLACEHOLDER": "Sisesta oma OpenAI API võti",
         "BUTTONS": {
-          "NEED_HELP": "Need help?",
-          "DISMISS": "Dismiss",
-          "FINISH": "Finish Setup"
+          "NEED_HELP": "Vajad abi?",
+          "DISMISS": "Sulge",
+          "FINISH": "Lõpeta seadistamine"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "Saad OpenAI integratsiooni seadistada hiljem, millal iganes soovid.",
+        "SUCCESS_MESSAGE": "OpenAI integratsiooni seadistamine õnnestus"
       },
-      "TITLE": "Improve With AI",
-      "SUMMARY_TITLE": "Summary with AI",
-      "REPLY_TITLE": "Reply suggestion with AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "Paranda tehisintellektiga",
+      "SUMMARY_TITLE": "Kokkuvõte tehisintellektiga",
+      "REPLY_TITLE": "Vastuse soovitus tehisintellektiga",
+      "SUBTITLE": "Parem vastus genereeritakse tehisintellekti abil, lähtudes teie praegusest mustandist.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "Toon",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "Professionaalne",
+          "FRIENDLY": "Sõbralik"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
-        "CANCEL": "Cancel"
+        "GENERATE": "Genereeri",
+        "GENERATING": "Genereeritakse...",
+        "CANCEL": "Tühista"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please verify your OpenAI API key and try again"
+      "GENERATE_ERROR": "Sisu töötlemisel tekkis viga, palun kontrolli oma OpenAI API võtit ja proovi uuesti"
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Kustuta",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Integratsioon edukalt kustutatud"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Ühenda"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
-      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "TITLE": "Töölaudade rakendused",
+      "HEADER_BTN_TXT": "Lisa uus töölauda rakendus",
+      "SIDEBAR_TXT": "<p><b>Töölauda rakendused</b></p><p>Töölauda rakendused võimaldavad organisatsioonidel manustada rakenduse Chatwoot töölauda, et pakkuda klienditoe agentidele konteksti. See funktsioon võimaldab teil luua rakenduse iseseisvalt ja manustada selle töölauda, et kuvada kasutajaandmeid, nende tellimusi või varasemaid makseajalugu.</p><p>Kui manustate oma rakenduse Chatwoot töölauda, saab teie rakendus vestluse ja kontakti konteksti aknasündmusena. Rakendusel tuleb lehel rakendada sõnumisündmuse kuulaja, et konteksti vastu võtta.</p><p>Uue töölauda rakenduse lisamiseks klõpsake nuppu 'Lisa uus töölauda rakendus'.</p>",
+      "DESCRIPTION": "Töölauda rakendused võimaldavad organisatsioonidel manustada rakenduse töölauda, et pakkuda klienditoe agentidele konteksti. See funktsioon võimaldab teil luua rakenduse iseseisvalt ja manustada selle, et kuvada kasutajaandmeid, nende tellimusi või varasemaid makseajalugu.",
+      "LEARN_MORE": "Lisateave Dashboardi rakenduste kohta",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "Sellel kontol pole veel ühtegi töölauda rakendust seadistatud",
+        "LOADING": "Laaditakse töölauda rakendusi...",
         "TABLE_HEADER": {
-          "NAME": "Name",
-          "ENDPOINT": "Endpoint"
+          "NAME": "Nimi",
+          "ENDPOINT": "Lõpp-punkt",
+          "ACTIONS": "Actions"
         },
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "Muuda rakendust",
+        "DELETE_TOOLTIP": "Kustuta rakendus"
       },
       "FORM": {
-        "TITLE_LABEL": "Name",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_LABEL": "Nimi",
+        "TITLE_PLACEHOLDER": "Sisesta oma töölauda rakenduse nimi",
+        "TITLE_ERROR": "Töölauda rakenduse nimi on kohustuslik",
+        "URL_LABEL": "Lõpp-punkt",
+        "URL_PLACEHOLDER": "Sisesta lõpp-punkti URL, kus su rakendus asub",
+        "URL_ERROR": "Kehtiv URL on kohustuslik"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
-        "FORM_SUBMIT": "Submit",
-        "FORM_CANCEL": "Cancel",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "HEADER": "Lisa uus töölauda rakendus",
+        "FORM_SUBMIT": "Esita",
+        "FORM_CANCEL": "Tühista",
+        "API_SUCCESS": "Töölauda rakendus seadistatud edukalt",
+        "API_ERROR": "Rakendust ei õnnestunud luua. Palun proovi hiljem uuesti"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
-        "FORM_SUBMIT": "Update",
-        "FORM_CANCEL": "Cancel",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "HEADER": "Muuda töölauda rakendust",
+        "FORM_SUBMIT": "Uuenda",
+        "FORM_CANCEL": "Tühista",
+        "API_SUCCESS": "Töölauda rakendus uuendatud edukalt",
+        "API_ERROR": "Rakendust ei õnnestunud uuendada. Palun proovi hiljem uuesti"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - {appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "CONFIRM_YES": "Jah, kustuta see",
+        "CONFIRM_NO": "Ei, säilita see",
+        "TITLE": "Kustutamise kinnitamine",
+        "MESSAGE": "Kas oled kindel, et soovid rakenduse {appName} kustutada?",
+        "API_SUCCESS": "Töölauda rakendus kustutatud edukalt",
+        "API_ERROR": "Rakendust ei õnnestunud kustutada. Palun proovi hiljem uuesti"
       }
     },
     "LINEAR": {
-      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
-      "CREATE": "Create",
+      "HEADER": "Linear",
+      "ADD_OR_LINK_BUTTON": "Loo/Ühenda Linear probleem",
+      "LOADING": "Laaditakse Linear probleeme...",
+      "LOADING_ERROR": "Linear probleemide toomisel tekkis viga, palun proovi uuesti",
+      "CREATE": "Loo",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
-        "TITLE": "Link",
-        "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
-        "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "SEARCH": "Otsi probleeme",
+        "SELECT": "Vali probleem",
+        "TITLE": "Ühenda",
+        "EMPTY_LIST": "Linear probleeme ei leitud",
+        "LOADING": "Laadimine",
+        "ERROR": "Linear probleemide toomisel tekkis viga, palun proovi uuesti",
+        "LINK_SUCCESS": "Probleem edukalt ühendatud",
+        "LINK_ERROR": "Probleemi ühendamisel tekkis viga, palun proovi uuesti",
+        "LINK_TITLE": "Vestlus (#{conversationId}) kasutajaga {name}"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "TITLE": "Loo/ühenda Linear probleem",
+        "DESCRIPTION": "Loo Linear probleeme vestlustest või ühenda olemasolevad sujuvaks jälgimiseks.",
         "FORM": {
           "TITLE": {
-            "LABEL": "Title",
-            "PLACEHOLDER": "Enter title",
-            "REQUIRED_ERROR": "Title is required"
+            "LABEL": "Pealkiri",
+            "PLACEHOLDER": "Sisesta pealkiri",
+            "REQUIRED_ERROR": "Pealkiri on kohustuslik"
           },
           "DESCRIPTION": {
-            "LABEL": "Description",
-            "PLACEHOLDER": "Enter description"
+            "LABEL": "Kirjeldus",
+            "PLACEHOLDER": "Sisesta kirjeldus"
           },
           "TEAM": {
-            "LABEL": "Team",
-            "PLACEHOLDER": "Select team",
-            "SEARCH": "Search team",
-            "REQUIRED_ERROR": "Team is required"
+            "LABEL": "Meeskond",
+            "PLACEHOLDER": "Vali meeskond",
+            "SEARCH": "Otsi meeskonda",
+            "REQUIRED_ERROR": "Meeskond on kohustuslik"
           },
           "ASSIGNEE": {
-            "LABEL": "Assignee",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "LABEL": "Vastutaja",
+            "PLACEHOLDER": "Vali vastutaja",
+            "SEARCH": "Otsi vastutajat"
           },
           "PRIORITY": {
-            "LABEL": "Priority",
-            "PLACEHOLDER": "Select priority",
-            "SEARCH": "Search priority"
+            "LABEL": "Prioriteet",
+            "PLACEHOLDER": "Vali prioriteet",
+            "SEARCH": "Otsi prioriteeti"
           },
           "LABEL": {
-            "LABEL": "Label",
-            "PLACEHOLDER": "Select label",
-            "SEARCH": "Search label"
+            "LABEL": "Silt",
+            "PLACEHOLDER": "Vali silt",
+            "SEARCH": "Otsi silti"
           },
           "STATUS": {
-            "LABEL": "Status",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "LABEL": "Staatus",
+            "PLACEHOLDER": "Vali olek",
+            "SEARCH": "Otsi olekut"
           },
           "PROJECT": {
-            "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "LABEL": "Projekt",
+            "PLACEHOLDER": "Vali projekt",
+            "SEARCH": "Otsi projekti"
           }
         },
-        "CREATE": "Create",
-        "CANCEL": "Cancel",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE": "Loo",
+        "CANCEL": "Tühista",
+        "CREATE_SUCCESS": "Probleem edukalt loodud",
+        "CREATE_ERROR": "Probleemi loomisel tekkis viga, palun proovi uuesti",
+        "LOADING_TEAM_ERROR": "Meeskondade toomisel tekkis viga, palun proovi uuesti",
+        "LOADING_TEAM_ENTITIES_ERROR": "Meeskonna üksuste toomisel tekkis viga, palun proovi uuesti"
       },
       "ISSUE": {
-        "STATUS": "Status",
-        "PRIORITY": "Priority",
-        "ASSIGNEE": "Assignee",
-        "LABELS": "Labels",
-        "CREATED_AT": "Created at {createdAt}"
+        "STATUS": "Staatus",
+        "PRIORITY": "Prioriteet",
+        "ASSIGNEE": "Vastutaja",
+        "LABELS": "Sildid",
+        "CREATED_AT": "Loodud {createdAt}"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "TITLE": "Ühenda lahti",
+        "SUCCESS": "Probleem edukalt lahti ühendatud",
+        "ERROR": "Probleemi lahtiühendamisel tekkis viga, palun proovi uuesti"
       },
-      "NO_LINKED_ISSUES": "No linked issues found",
+      "NO_LINKED_ISSUES": "Seotud probleeme ei leitud",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
-        "CONFIRM": "Yes, delete",
-        "CANCEL": "Cancel"
+        "TITLE": "Kas olete kindel, et soovite integratsiooni kustutada?",
+        "MESSAGE": "Kas olete kindel, et soovite integratsiooni kustutada?",
+        "CONFIRM": "Jah, kustuta",
+        "CANCEL": "Tühista"
       },
       "CTA": {
-        "TITLE": "Connect to Linear",
-        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
-        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
-        "BUTTON_TEXT": "Connect Linear workspace"
+        "TITLE": "Ühenda Lineariga",
+        "AGENT_DESCRIPTION": "Linear töökeskkond pole ühendatud. Palu administraatoril töökeskkond ühendada, et seda integratsiooni kasutada.",
+        "DESCRIPTION": "Linear töökeskkond pole ühendatud. Ühenda oma töökeskkond selle integratsiooni kasutamiseks, vajutades allolevat nuppu.",
+        "BUTTON_TEXT": "Ühenda Linear workspace"
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
-        "CONFIRM": "Yes, delete",
-        "CANCEL": "Cancel"
+        "TITLE": "Kas oled kindel, et soovid Notioni integratsiooni kustutada?",
+        "MESSAGE": "Integratsiooni kustutamine eemaldab juurdepääsu sinu Notioni workspace'ile ja peatab kõik seotud funktsioonid.",
+        "CONFIRM": "Jah, kustuta",
+        "CANCEL": "Tühista"
       }
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "NAME": "Kapten",
+    "HEADER_KNOW_MORE": "Lisateave",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "Abilised",
+      "SWITCH_ASSISTANT": "Vaheta assistentide vahel",
+      "NEW_ASSISTANT": "Loo assistent",
+      "EMPTY_LIST": "Assistentide leidmine ebaõnnestus, alustamiseks loo palun üks."
     },
     "COPILOT": {
-      "TITLE": "Copilot",
-      "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
-      "SEND_MESSAGE": "Send message...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
-      "YOU": "You",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "TITLE": "Kaaslane",
+      "TRY_THESE_PROMPTS": "Proovi neid soovitusi",
+      "PANEL_TITLE": "Alusta Copilotiga",
+      "KICK_OFF_MESSAGE": "Vajad kiiret kokkuvõtet, soovid vaadata varasemaid vestlusi või koostada paremat vastust? Copilot aitab sul asju kiiremini teha.",
+      "SEND_MESSAGE": "Saada sõnum...",
+      "EMPTY_MESSAGE": "Vastus ei õnnestunud genereerida. Palun proovi uuesti.",
+      "LOADER": "Captain mõtleb",
+      "YOU": "Sina",
+      "USE": "Kasuta seda",
+      "RESET": "Lähtesta",
+      "SHOW_STEPS": "Näita samme",
+      "SELECT_ASSISTANT": "Vali assistent",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Kokkuvõte vestlusest",
+          "CONTENT": "Võta kokku kliendi ja klienditoe vahel arutatud peamised punktid, sealhulgas kliendi mured, küsimused ning klienditoe pakutud lahendused või vastused."
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Paku vastust",
+          "CONTENT": "Analüüsi kliendi päringut ja koostage vastus, mis lahendab tema mured või küsimused. Veendu, et vastus oleks selge, lühike ja abistav."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Hinda vestlust",
+          "CONTENT": "Vaata vestlust üle, et hinnata, kui hästi see vastab kliendi vajadustele. Anna hinnang viiepallisüsteemis, arvestades tooni, selgust ja tulemuslikkust."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "Kõrge prioriteediga vestlused",
+          "CONTENT": "Koosta kokkuvõte kõigist kõrge prioriteediga avatud vestlustest. Lisa vestluse ID, kliendi nimi (kui on), viimase sõnumi sisu ja määratud agent. Vajadusel grupeerida staatuse järgi."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "Kuva kontaktid",
+          "CONTENT": "Näita mulle 10 parima kontakti nimekirja. Lisa nimi, e-post või telefoninumber (kui on), viimane nähtud aeg, sildid (kui on)."
         }
       }
     },
     "PLAYGROUND": {
-      "USER": "You",
-      "ASSISTANT": "Assistant",
-      "MESSAGE_PLACEHOLDER": "Type your message...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "USER": "Sina",
+      "ASSISTANT": "Assistent",
+      "MESSAGE_PLACEHOLDER": "Sisesta oma sõnum...",
+      "HEADER": "Mänguväljak",
+      "DESCRIPTION": "Kasuta seda mänguväljakut, et saata assistendile sõnumeid ja kontrollida, kas ta vastab täpselt, kiiresti ja soovitud tooniga.",
+      "CREDIT_NOTE": "Siin saadetud sõnumid arvestatakse Captaini krediitide hulka."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "Uuenda, et kasutada Captain AI-d",
+      "AVAILABLE_ON": "Captain ei ole tasuta plaanis saadaval.",
+      "UPGRADE_PROMPT": "Uuendage oma plaani, et saada ligipääs meie assistentidele, copiloti ja muule.",
+      "UPGRADE_NOW": "Uuenda kohe",
+      "CANCEL_ANYTIME": "Saate oma plaani igal ajal muuta või tühistada"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "Captain AI on saadaval ainult ettevõtte plaanides.",
+      "UPGRADE_PROMPT": "Uuendage oma plaani, et saada ligipääs meie assistentidele, copiloti ja muule.",
+      "ASK_ADMIN": "Palun pöörduge uuenduse saamiseks oma administraatori poole."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "Olete kasutanud üle 80% oma vastuste piirist. Captain AI kasutamise jätkamiseks palun uuendage.",
+      "DOCUMENTS": "Dokumendi limiit on täis. Captain AI kasutamise jätkamiseks uuendage."
     },
     "FORM": {
-      "CANCEL": "Cancel",
-      "CREATE": "Create",
-      "EDIT": "Update"
+      "CANCEL": "Tühista",
+      "CREATE": "Loo",
+      "EDIT": "Uuenda"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
-      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
-      "ADD_NEW": "Create a new assistant",
+      "HEADER": "Abilised",
+      "NO_ASSISTANTS_AVAILABLE": "Sinu kontol pole ühtegi assistenti saadaval.",
+      "ADD_NEW": "Loo uus abiline",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "TITLE": "Kas oled kindel, et soovid abilise kustutada?",
+        "DESCRIPTION": "See toiming on pöördumatu. Abilise kustutamine eemaldab selle kõigist ühendatud postkastidest ja kustutab jäädavalt kogu loodud teadmistebaasi.",
+        "CONFIRM": "Jah, kustuta",
+        "SUCCESS_MESSAGE": "Abiline on edukalt kustutatud",
+        "ERROR_MESSAGE": "Abilise kustutamisel tekkis viga, palun proovi uuesti."
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "Täida allolevad andmed, et nimetada oma abiline, kirjeldada selle eesmärki ja määrata toode, mida ta toetab.",
       "CREATE": {
-        "TITLE": "Create an assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "TITLE": "Loo abiline",
+        "SUCCESS_MESSAGE": "Abiline on edukalt loodud",
+        "ERROR_MESSAGE": "Abilise loomisel tekkis viga, palun proovi uuesti."
       },
       "FORM": {
-        "UPDATE": "Update",
+        "UPDATE": "Uuenda",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
-          "FEATURES": "Features",
-          "TOOLS": "Tools "
+          "BASIC_INFO": "Põhiandmed",
+          "SYSTEM_MESSAGES": "Süsteemisõnumid",
+          "INSTRUCTIONS": "Juhised",
+          "FEATURES": "Funktsioonid",
+          "TOOLS": "Tööriistad "
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "LABEL": "Nimi",
+          "PLACEHOLDER": "Sisesta assistendi nimi",
+          "ERROR": "Nimi on kohustuslik"
         },
         "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
+          "LABEL": "Vastuse loovus",
+          "DESCRIPTION": "Reguleeri, kui loomingulised või piiratud peaksid assistendi vastused olema. Madalam väärtus annab täpsemaid ja ennustatavamaid vastuseid, kõrgem väärtus võimaldab loomingulisemaid ja mitmekesisemaid tulemusi."
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter assistant description",
-          "ERROR": "The description is required"
+          "LABEL": "Kirjeldus",
+          "PLACEHOLDER": "Sisesta assistendi kirjeldus",
+          "ERROR": "Kirjeldus on kohustuslik"
         },
         "PRODUCT_NAME": {
-          "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name",
-          "ERROR": "The product name is required"
+          "LABEL": "Toote nimi",
+          "PLACEHOLDER": "Sisesta toote nimi",
+          "ERROR": "Tootenimi on kohustuslik"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "Tervitussõnum",
+          "PLACEHOLDER": "Sisesta tervitussõnum"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "Üleandmise sõnum",
+          "PLACEHOLDER": "Sisesta üleandmise sõnum"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "Lahenduse sõnum",
+          "PLACEHOLDER": "Sisesta lahenduse sõnum"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "LABEL": "Juhised",
+          "PLACEHOLDER": "Sisesta assistendile juhised"
         },
         "FEATURES": {
-          "TITLE": "Features",
-          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "TITLE": "Funktsioonid",
+          "ALLOW_CONVERSATION_FAQS": "Loo KKK-d lahendatud vestlustest",
+          "ALLOW_MEMORIES": "Salvesta kliendisuhtlustest olulised detailid mälestustena.",
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
-        "TITLE": "Update the assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "TITLE": "Uuenda abilist",
+        "SUCCESS_MESSAGE": "Abiline on edukalt uuendatud",
+        "ERROR_MESSAGE": "Abilise uuendamisel tekkis viga, palun proovi uuesti.",
+        "NOT_FOUND": "Assistenti ei leitud. Palun proovi uuesti."
       },
       "SETTINGS": {
         "HEADER": "Settings",
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "Põhiseaded",
+          "DESCRIPTION": "Kohanda, mida assistent ütleb vestluse lõpetamisel või inimesele suunamisel."
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "Süsteemiseaded",
+          "DESCRIPTION": "Kohanda, mida assistent ütleb vestluse lõpetamisel või inimesele suunamisel."
         },
         "CONTROL_ITEMS": {
-          "TITLE": "The Fun Stuff",
-          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "TITLE": "Lõbusad valikud",
+          "DESCRIPTION": "Lisa assistendile rohkem kontrolli. (Visuaalsem, nagu lugu: Päringu piirang → stsenaariumid → väljund) Suunab kasutajat neid tegelikult kasutama.",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Guardrails",
-              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+              "TITLE": "Piirangud",
+              "DESCRIPTION": "Hoiab fookust—assistent vastab ainult soovitud küsimustele, kõik muu on välistatud."
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "TITLE": "Vastamisjuhised",
+              "DESCRIPTION": "Assistentide vastuste stiil ja ülesehitus—selge ja sõbralik? Lühike ja konkreetne? Põhjalik ja ametlik?"
             }
           }
         },
@@ -523,65 +568,65 @@
         }
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Edit Assistant",
-        "DELETE_ASSISTANT": "Delete Assistant",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "EDIT_ASSISTANT": "Muuda abilist",
+        "DELETE_ASSISTANT": "Kustuta abiline",
+        "VIEW_CONNECTED_INBOXES": "Vaata ühendatud postkaste"
       },
       "EMPTY_STATE": {
-        "TITLE": "No assistants available",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
+        "TITLE": "Assistente pole saadaval",
+        "SUBTITLE": "Looge assistent, kes pakub teie kasutajatele kiireid ja täpseid vastuseid. See saab õppida teie abimaterjalidest ja varasematest vestlustest.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "Captain Assistent",
+          "NOTE": "Captain Assistent suhtleb otse klientidega, õpib teie abidokumentidest ja varasematest vestlustest ning pakub koheseid ja täpseid vastuseid. See käsitleb esialgseid päringuid, pakkudes kiireid lahendusi enne vajadusel agendile suunamist."
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "TITLE": "Piirangud",
+        "DESCRIPTION": "Hoiab fookust – assistent vastab ainult soovitud küsimustele, mitte kõrvalistele ega keelatud teemadele.",
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
           "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "BULK_DELETE_BUTTON": "Kustuta"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "TITLE": "Näidispiirangud",
+            "ADD": "Lisa kõik",
+            "ADD_SINGLE": "Lisa see",
+            "SAVE": "Lisa ja salvesta (↵)",
+            "PLACEHOLDER": "Sisesta veel üks piirang..."
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
-            "CREATE": "Create",
-            "CANCEL": "Cancel",
-            "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "TITLE": "Lisa piirang",
+            "CREATE": "Loo",
+            "CANCEL": "Tühista",
+            "PLACEHOLDER": "Sisesta veel üks piirang...",
+            "TEST_ALL": "Testi kõiki"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Otsi..."
         },
-        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
+        "EMPTY_MESSAGE": "Piiranguid ei leitud. Alustamiseks loo või lisa näiteid.",
         "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "Piirangud lisatud edukalt",
+            "ERROR": "Piirangute lisamisel tekkis viga, proovi uuesti."
           },
           "UPDATE": {
-            "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "SUCCESS": "Reeglid on edukalt uuendatud",
+            "ERROR": "Reeglite uuendamisel tekkis viga, palun proovi uuesti."
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "SUCCESS": "Reeglid on edukalt kustutatud",
+            "ERROR": "Reeglite kustutamisel tekkis viga, palun proovi uuesti."
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
+        "TITLE": "Vastamise juhised",
         "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
@@ -691,17 +736,28 @@
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
-      "RELATED_RESPONSES": {
-        "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+      "HEADER": "Dokumendid",
+      "ADD_NEW": "Loo uus dokument",
+      "SELECTED": "{count} valitud",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Jah, kustuta kõik",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "RELATED_RESPONSES": {
+        "TITLE": "Seotud KKK-d",
+        "DESCRIPTION": "Need KKK-d on loodud otse dokumendist."
+      },
+      "FORM_DESCRIPTION": "Sisesta dokumendi URL, et lisada see teadmiste allikana ja vali abiline, kellega see seostada.",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "TITLE": "Lisa dokument",
+        "SUCCESS_MESSAGE": "Dokument on edukalt loodud",
+        "ERROR_MESSAGE": "Dokumendi loomisel tekkis viga, palun proovi uuesti."
       },
       "FORM": {
         "TYPE": {
@@ -711,8 +767,8 @@
         },
         "URL": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "PLACEHOLDER": "Sisesta dokumendi URL",
+          "ERROR": "Palun sisesta dokumendi jaoks kehtiv URL"
         },
         "PDF_FILE": {
           "LABEL": "PDF File",
@@ -728,28 +784,29 @@
         }
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the document?",
-        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "TITLE": "Kas oled kindel, et soovid dokumendi kustutada?",
+        "DESCRIPTION": "See toiming on pöördumatu. Dokumendi kustutamine kustutab jäädavalt kogu loodud teadmistebaasi.",
+        "CONFIRM": "Jah, kustuta",
+        "SUCCESS_MESSAGE": "Dokument on edukalt kustutatud",
+        "ERROR_MESSAGE": "Dokumendi kustutamisel tekkis viga, palun proovi uuesti."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "DELETE_DOCUMENT": "Delete Document"
+        "VIEW_RELATED_RESPONSES": "Vaata seotud vastuseid",
+        "DELETE_DOCUMENT": "Kustuta dokument"
       },
       "EMPTY_STATE": {
-        "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "TITLE": "Dokumente pole saadaval",
+        "SUBTITLE": "Dokumente kasutab teie assistent KKK-de genereerimiseks. Saate dokumente importida, et pakkuda assistendile konteksti.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "NOTE": "Dokument Captainis on abimehe teadmiste allikas. Ühendades oma abikeskuse või juhendid, saab Captain sisu analüüsida ja pakkuda täpseid vastuseid kliendipäringutele."
         }
       }
     },
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -780,11 +837,30 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Description",
@@ -857,74 +933,74 @@
       }
     },
     "RESPONSES": {
-      "HEADER": "FAQs",
+      "HEADER": "KKK-d",
       "PENDING_FAQS": "Pending FAQs",
-      "ADD_NEW": "Create new FAQ",
+      "ADD_NEW": "Loo uus KKK",
       "DOCUMENTABLE": {
-        "CONVERSATION": "Conversation #{id}"
+        "CONVERSATION": "Vestlus #{id}"
       },
-      "SELECTED": "{count} selected",
+      "SELECTED": "{count} valitud",
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
       "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Approve",
-      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_APPROVE_BUTTON": "Kinnita",
+      "BULK_DELETE_BUTTON": "Kustuta",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "KKK-d kinnitati edukalt",
+        "ERROR_MESSAGE": "KKK-de kinnitamisel tekkis viga, palun proovige uuesti."
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "TITLE": "Kustutada KKK-d?",
+        "DESCRIPTION": "Kas olete kindel, et soovite valitud KKK-d kustutada? Seda toimingut ei saa tagasi võtta.",
+        "CONFIRM": "Jah, kustuta kõik",
+        "SUCCESS_MESSAGE": "KKK-d kustutati edukalt",
+        "ERROR_MESSAGE": "KKK-de kustutamisel tekkis viga, palun proovige uuesti."
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the FAQ?",
+        "TITLE": "Kas olete kindel, et soovite KKK kustutada?",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "FAQ deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+        "CONFIRM": "Jah, kustuta",
+        "SUCCESS_MESSAGE": "KKK kustutati edukalt",
+        "ERROR_MESSAGE": "KKK kustutamisel tekkis viga, palun proovige uuesti."
       },
       "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
-        "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "All"
+        "ASSISTANT": "Assistent: {selected}",
+        "STATUS": "Staatus: {selected}",
+        "ALL_ASSISTANTS": "Kõik"
       },
       "STATUS": {
-        "TITLE": "Status",
-        "PENDING": "Pending",
-        "APPROVED": "Approved",
-        "ALL": "All"
+        "TITLE": "Staatus",
+        "PENDING": "Ootel",
+        "APPROVED": "Kinnitatud",
+        "ALL": "Kõik"
       },
       "PENDING_BANNER": {
         "TITLE": "Captain has found some FAQs your customers were looking for.",
         "ACTION": "Click here to review"
       },
-      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "FORM_DESCRIPTION": "Lisage küsimus ja sellele vastav vastus teadmistebaasi ning valige assistent, kellega see peaks olema seotud.",
       "CREATE": {
-        "TITLE": "Add an FAQ",
-        "SUCCESS_MESSAGE": "The response has been added successfully.",
-        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+        "TITLE": "Lisa KKK",
+        "SUCCESS_MESSAGE": "Vastus lisati edukalt.",
+        "ERROR_MESSAGE": "Vastuse lisamisel tekkis viga. Palun proovige uuesti."
       },
       "FORM": {
         "QUESTION": {
-          "LABEL": "Question",
-          "PLACEHOLDER": "Enter the question here",
-          "ERROR": "Please provide a valid question."
+          "LABEL": "Küsimus",
+          "PLACEHOLDER": "Sisestage küsimus siia",
+          "ERROR": "Palun esitage kehtiv küsimus."
         },
         "ANSWER": {
-          "LABEL": "Answer",
-          "PLACEHOLDER": "Enter the answer here",
-          "ERROR": "Please provide a valid answer."
+          "LABEL": "Vastus",
+          "PLACEHOLDER": "Sisestage vastus siia",
+          "ERROR": "Palun esitage kehtiv vastus."
         }
       },
       "EDIT": {
-        "TITLE": "Update the FAQ",
-        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
-        "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
+        "TITLE": "Uuenda KKK-d",
+        "SUCCESS_MESSAGE": "KKK uuendati edukalt",
+        "ERROR_MESSAGE": "KKK uuendamisel tekkis viga, palun proovige uuesti",
+        "APPROVE_SUCCESS_MESSAGE": "KKK märgiti kinnitatuks"
       },
       "OPTIONS": {
         "APPROVE": "Approve",
@@ -932,45 +1008,45 @@
         "DELETE_RESPONSE": "Delete"
       },
       "EMPTY_STATE": {
-        "TITLE": "No FAQs Found",
+        "TITLE": "KKK-sid ei leitud",
         "NO_PENDING_TITLE": "There are no more pending FAQs to review",
-        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
+        "SUBTITLE": "KKK-d aitavad teie assistendil pakkuda klientide küsimustele kiireid ja täpseid vastuseid. Neid saab automaatselt teie sisu põhjal genereerida või käsitsi lisada.",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "TITLE": "Captain KKK",
+          "NOTE": "Captain KKK tuvastab levinud kliendiküsimused—nii need, mis puuduvad teadmistebaasist kui ka korduma kippuvad—ja loob asjakohased KKK-d toe parandamiseks. Saad iga ettepaneku üle vaadata ja otsustada, kas see kinnitada või tagasi lükata."
         }
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "Ühendatud postkastid",
+      "ADD_NEW": "Ühenda uus postkast",
       "OPTIONS": {
-        "DISCONNECT": "Disconnect"
+        "DISCONNECT": "Ühenda lahti"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "Kas olete kindel, et soovite postkasti lahti ühendada?",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "CONFIRM": "Jah, kustuta",
+        "SUCCESS_MESSAGE": "Postkast ühendati edukalt lahti.",
+        "ERROR_MESSAGE": "Postkasti lahtiühendamisel tekkis viga, palun proovige uuesti."
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "Valige postkast, millega assistenti ühendada.",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
-        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+        "TITLE": "Ühenda postkast",
+        "SUCCESS_MESSAGE": "Postkast ühendati edukalt.",
+        "ERROR_MESSAGE": "Postkasti ühendamisel tekkis viga. Palun proovige uuesti."
       },
       "FORM": {
         "INBOX": {
-          "LABEL": "Inbox",
-          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
-          "ERROR": "An inbox selection is required."
+          "LABEL": "Postkast",
+          "PLACEHOLDER": "Valige postkast, kuhu assistent paigutada.",
+          "ERROR": "Postkasti valik on kohustuslik."
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "TITLE": "Ühendatud postkaste pole",
+        "SUBTITLE": "Postkasti ühendamine võimaldab assistendil käsitleda klientide esialgseid küsimusi enne nende teie juurde suunamist."
       }
     }
   }

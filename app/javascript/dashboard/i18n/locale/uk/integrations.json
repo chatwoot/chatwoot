@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captain is not enabled on your account.",
       "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Події з підпискою",
       "LEARN_MORE": "Learn more about webhooks",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Скасувати",
         "DESC": "Вебхуки автоматично повідомляють про те, що відбувається у вашому обліковому записі Chatwoot. Будь ласка, введіть дійсний URL для налаштування зворотного виклику.",
@@ -104,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Видалити",
       "DELETE_CONFIRMATION": {
         "TITLE": "Видалити інтеграцію",
@@ -145,7 +160,29 @@
         "EXPAND": "Розширити",
         "MAKE_FRIENDLY": "Змінити сигнал повідомлення на дружній",
         "MAKE_FORMAL": "Використовувати формальний сигнал",
-        "SIMPLIFY": "Спростити"
+        "SIMPLIFY": "Спростити",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Професійний",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Дружній"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Вміст чернетки",
@@ -201,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>Панель управління</b></p><p>Додатки дозволяють організаціям вставляти в панель керування Chatwoot інформацію, щоб надати контекст агентам підтримки клієнтів. Ця функція дозволяє створювати додаток незалежно і вставляти його в панелі управління відомості про користувача, їхні замовлення або історію попередніх платежів.</p><p>Коли ви вставляєте свій застосунок за допомогою панелі керування в Chatwoot, ваша програма отримає контекст розмови і зв'яжеться як віконна подія. Налаштуйте слухача для заходу повідомлення на вашій сторінці, щоб отримати контекст.</p><p>Щоб додати нову панель керування, натисніть кнопку 'Додати нову програму'.</p>",
       "DESCRIPTION": "Додатки дозволяють організаціям вбудовувати інформаційну панель керування і надавати контекст для агентів підтримки клієнтів. Ця функція дозволяє створювати додаток незалежно і додавати інформацію, що надавали про користувача, його замовлення або історію платежів.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Поки що немає налаштованих додатків в цьому акаунті",
         "LOADING": "Отримання додатків панелі керування...",
         "TABLE_HEADER": {
           "NAME": "Ім'я",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Дії"
         },
         "EDIT_TOOLTIP": "Редагувати додаток",
         "DELETE_TOOLTIP": "Видалити додаток"
@@ -243,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
       "LOADING": "Fetching linear issues...",
       "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
@@ -337,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
@@ -347,71 +390,72 @@
   },
   "CAPTAIN": {
     "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "Дізнатися більше",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "Асистенти",
+      "SWITCH_ASSISTANT": "Перемикання між асистентами",
+      "NEW_ASSISTANT": "Створити асистента",
+      "EMPTY_LIST": "Асистентів не знайдено, будь ласка, створіть одного, щоб почати"
     },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "PANEL_TITLE": "Почніть працювати з Copilot",
+      "KICK_OFF_MESSAGE": "Потрібен швидкий підсумок, хочете переглянути минулі розмови або скласти кращу відповідь? Copilot допоможе прискорити цей процес.",
       "SEND_MESSAGE": "Надіслати...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
+      "EMPTY_MESSAGE": "Виникла помилка під час генерації відповіді. Будь ласка, спробуйте ще раз.",
+      "LOADER": "Captain думає",
       "YOU": "Ви",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "USE": "Використати це",
+      "RESET": "Скинути",
+      "SHOW_STEPS": "Показати кроки",
+      "SELECT_ASSISTANT": "Вибрати асистента",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Підсумувати цю розмову",
+          "CONTENT": "Підсумуйте ключові моменти, обговорені між клієнтом і агентом підтримки, включно з занепокоєннями клієнта, питаннями та наданими агентом рішеннями чи відповідями"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Запропонувати відповідь",
+          "CONTENT": "Проаналізуйте питання клієнта і складіть відповідь, що ефективно вирішує їхні проблеми чи запитання. Відповідь має бути чіткою, лаконічною і містити корисну інформацію."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Оцініть цю розмову",
+          "CONTENT": "Перегляньте розмову, щоб оцінити, наскільки добре вона відповідає потребам клієнта. Поставте оцінку від 1 до 5, базуючись на тоні, ясності та ефективності."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "Розмови з високим пріоритетом",
+          "CONTENT": "Дайте мені підсумок усіх відкритих розмов з високим пріоритетом. Включіть ID розмови, ім’я клієнта (якщо є), зміст останнього повідомлення та призначеного агента. Групуйте за статусом, якщо це доречно."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "Список контактів",
+          "CONTENT": "Покажіть список топ-10 контактів. Включіть ім’я, електронну пошту або номер телефону (якщо є), час останнього відвідування, теги (якщо є)."
         }
       }
     },
     "PLAYGROUND": {
       "USER": "Ви",
-      "ASSISTANT": "Assistant",
+      "ASSISTANT": "Асистент",
       "MESSAGE_PLACEHOLDER": "Введіть Ваше повідомлення...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "Тестова зона",
+      "DESCRIPTION": "Використовуйте цю тестову зону, щоб надсилати повідомлення своєму асистентові і перевіряти, чи відповідає він точно, швидко і в очікуваному тоні.",
+      "CREDIT_NOTE": "Повідомлення, надіслані тут, зараховуються до ваших кредитів Captain."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "TITLE": "Оновіть план для використання Captain AI",
+      "AVAILABLE_ON": "Captain недоступний на безкоштовному плані.",
+      "UPGRADE_PROMPT": "Оновіть план, щоб отримати доступ до наших асистентів, Copilot і не тільки.",
       "UPGRADE_NOW": "Оновити зараз",
       "CANCEL_ANYTIME": "Ви можете змінити або скасувати план у будь-який час"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "AVAILABLE_ON": "Captain AI доступний тільки в планах Enterprise.",
+      "UPGRADE_PROMPT": "Оновіть план, щоб отримати доступ до наших асистентів, Copilot і не тільки.",
       "ASK_ADMIN": "Будь ласка, зверніться до адміністратора для оновлення."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "Ви використали понад 80% ліміту відповідей. Щоб продовжити використовувати Captain AI, будь ласка, оновіть план.",
+      "DOCUMENTS": "Досягнуто ліміту документів. Оновіть план, щоб продовжити використовувати Captain AI."
     },
     "FORM": {
       "CANCEL": "Скасувати",
@@ -483,7 +527,8 @@
           "TITLE": "Особливості",
           "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
@@ -693,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
+      "SELECTED": "{count} selected",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "BULK_DELETE_BUTTON": "Видалити",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
         "DESCRIPTION": "These FAQs are generated directly from the document."
@@ -750,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -780,11 +837,30 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Відкрити рахунок",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Будь ласка, зверніться до адміністратора для оновлення."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Опис",

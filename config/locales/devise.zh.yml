@@ -1,5 +1,5 @@
 #Additional translations at https://github.com/plataformatec/devise/wiki/I18n
-zh_CN:
+zh:
   devise:
     confirmations:
       confirmed: "您的电子邮件地址已成功确认。"
@@ -57,4 +57,5 @@ zh_CN:
       not_found: "找不到"
       not_locked: "未锁定"
       not_saved:
+        one: "1 个错误禁止保存 %{resource}："
         other: "%{count} 个错误禁止保存 %{resource}："

@@ -101,12 +101,9 @@ const authTypeLabel = computed(() => {
         </Policy>
       </div>
     </div>
-    <div class="flex items-center justify-between w-full gap-4">
-      <div class="flex items-center gap-3 flex-1">
-        <span
-          v-if="description"
-          class="text-sm truncate text-n-slate-11 flex-1"
-        >
+    <div class="flex items-center justify-between w-full gap-4 min-w-0">
+      <div class="flex items-center gap-3 flex-1 min-w-0">
+        <span v-if="description" class="text-sm truncate text-n-slate-11">
           {{ description }}
         </span>
         <span

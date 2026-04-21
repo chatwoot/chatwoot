@@ -3,15 +3,15 @@ class Api::V2::Accounts::SummaryReportsController < Api::V1::Accounts::BaseContr
   before_action :prepare_builder_params, only: [:agent, :team, :inbox, :label, :channel]
 
   def agent
-    render_report_with(V2::Reports::AgentSummaryBuilder)
+    render_report_with(V2::Reports::AgentSummaryBuilder, type: :agent)
   end
 
   def team
-    render_report_with(V2::Reports::TeamSummaryBuilder)
+    render_report_with(V2::Reports::TeamSummaryBuilder, type: :team)
   end
 
   def inbox
-    render_report_with(V2::Reports::InboxSummaryBuilder)
+    render_report_with(V2::Reports::InboxSummaryBuilder, type: :inbox)
   end
 
   def label
@@ -38,8 +38,9 @@ class Api::V2::Accounts::SummaryReportsController < Api::V1::Accounts::BaseContr
     }
   end
 
-  def render_report_with(builder_class)
-    builder = builder_class.new(account: Current.account, params: @builder_params)
+  def render_report_with(builder_class, type: nil)
+    builder_params = type.present? ? @builder_params.merge(type: type) : @builder_params
+    builder = builder_class.new(account: Current.account, params: builder_params)
     render json: builder.build
   end
 

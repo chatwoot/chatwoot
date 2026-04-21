@@ -17,225 +17,258 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 tl:
-  hello: 'Hello world'
+  hello: 'Kamusta mundo'
   inbox:
     reauthorization:
       success: 'Channel reauthorized successfully'
-      not_required: 'Reauthorization is not required for this inbox'
+      not_required: 'Hindi kailangan ng muling awtorisasyon para sa inbox na ito'
       invalid_channel: 'Invalid channel type for reauthorization'
   auth:
     saml:
-      invalid_email: 'Please enter a valid email address'
-      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
+      invalid_email: 'Mangyaring ilagay ang isang wastong email address'
+      authentication_failed: 'Nabigo ang pagpapatunay. Pakisuri ang iyong mga kredensyal at subukang muli.'
   messages:
-    reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
-    reset_password_failure: Uh ho! We could not find any user with the specified email.
-    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
-    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    reset_password: Matagumpay ang kahilingan para sa pag-reset ng password. Isang email na may mga tagubilin ang ipapadala sa iyong email kung ito ay umiiral.
+    reset_password_saml_user: Gumagamit ang account na ito ng SAML na pagpapatotoo. Hindi available ang pag-reset ng password. Mangyaring kontakin ang iyong administrator.
+    login_saml_user: Gumagamit ang account na ito ng SAML na pagpapatotoo. Mangyaring mag-sign in sa pamamagitan ng SAML provider ng iyong organisasyon.
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
+      support_email:
+        invalid: is not a valid email address
     validations:
-      presence: must not be blank
+      presence: hindi dapat walang laman
     webhook:
-      invalid: Invalid events
+      invalid: Hindi wastong mga pangyayari
     signup:
-      disposable_email: We do not allow disposable emails
-      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
-      invalid_email: You have entered an invalid email
-      email_already_exists: 'You have already signed up for an account with %{email}'
+      disposable_email: Hindi pinapayagan ang pansamantalang email
+      blocked_domain: Hindi pinapayagan ang domain na ito. Kung naniniwala kang nagkamali, mangyaring makipag-ugnayan sa suporta.
+      invalid_email: Naglagay ka ng hindi wastong email
+      email_already_exists: 'May account ka nang nakarehistro gamit ang %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
-      failed: Signup failed
+      failed: Nabigo ang pag-sign up
     assignment_policy:
-      not_found: Assignment policy not found
+      not_found: Hindi matagpuan ang patakaran sa pagtatalaga
     attachments:
-      invalid: Invalid attachment
+      invalid: Hindi wastong kalakip
+    upload:
+      missing_input: 'No file or URL provided'
+      invalid_url: 'Invalid URL provided'
+      fetch_failed: 'Failed to fetch file from URL'
+      fetch_failed_with_message: 'Failed to fetch file from URL: %{message}'
+      file_too_large: 'File exceeds the maximum allowed size'
+      unsupported_content_type: 'File type not supported (only images and videos are allowed)'
+      unexpected: 'An unexpected error occurred'
     saml:
-      feature_not_enabled: SAML feature not enabled for this account
+      feature_not_enabled: Hindi naka-enable ang tampok na SAML para sa account na ito
       sso_not_enabled: SAML SSO is not enabled for this installation
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Hindi wastong uri ng datos
     contacts:
       import:
-        failed: File is blank
+        failed: Walang laman ang file
       export:
-        success: We will notify you once contacts export file is ready to view.
+        success: Ipapaalam namin sa iyo kapag handa na ang file ng export ng mga contact para makita.
       email:
-        invalid: Invalid email
+        invalid: Hindi wastong email
       phone_number:
-        invalid: should be in e164 format
+        invalid: dapat ay nasa e164 na format
     companies:
       domain:
-        invalid: must be a valid domain name
+        invalid: dapat ay isang wastong pangalan ng domain
       search:
         query_missing: Specify search string with parameter q
     messages:
       search:
-        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
+        time_range_limit_exceeded: 'Ang paghahanap ay limitado sa huling %{days} araw'
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: dapat ay natatangi sa kategorya at portal
     dyte:
-      invalid_message_type: 'Invalid message type. Action not permitted'
+      invalid_message_type: 'Hindi wastong uri ng mensahe. Hindi pinapayagan ang aksyon'
     slack:
       invalid_channel_id: 'Invalid slack channel. Please try again'
     whatsapp:
-      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
-      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
-      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      token_exchange_failed: 'Nabigong palitan ang code para sa access token. Pakisubukang muli.'
+      invalid_token_permissions: 'Ang access token ay walang kinakailangang pahintulot para sa WhatsApp.'
+      phone_info_fetch_failed: 'Nabigong kunin ang impormasyon ng numero ng telepono. Pakisubukang muli.'
       phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
       reauthorization:
-        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        generic: 'Nabigong muling pahintulutan ang WhatsApp. Pakisubukang muli.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
+        no_response_error: Pakisuri ang mga kredensyal ng IMAP at subukang muli.
         host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        connection_timed_out_error: Nawala ang koneksyon sa oras para sa %{address}:%{port}
+        connection_closed_error: Isinara ang koneksyon.
+      smtp:
+        authentication_error: Nabigo ang SMTP na pagpapatotoo. Pakisuri ang iyong mga kredensyal sa pag-login.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: hindi dapat magsimula o magtapos sa mga simbolo, at hindi dapat magkaroon ng mga karakter na < > / \ @.
     custom_filters:
-      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 1000.
-      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      number_of_records: Naabot na ang limitasyon. Ang pinakamataas na bilang ng pinapayagang custom filter para sa isang gumagamit kada account ay 1000.
+      invalid_attribute: Hindi wastong susi ng attribute - [%{key}]. Ang susi ay dapat kabilang sa [%{allowed_keys}] o isang custom na attribute na itinakda sa account.
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
-      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+      invalid_value: Hindi wastong halaga. Ang mga halagang ibinigay para sa %{attribute_name} ay hindi wasto
     custom_attribute_definition:
-      key_conflict: The provided key is not allowed as it might conflict with default attributes.
+      attribute_key_format: must only contain letters, numbers, underscores, hyphens, and dots
+      key_conflict: Hindi pinapayagan ang ibinigay na susi dahil maaaring magdulot ito ng salungatan sa mga default na katangian.
     mfa:
       already_enabled: MFA is already enabled
-      not_enabled: MFA is not enabled
-      invalid_code: Invalid verification code
+      not_enabled: Hindi naka-enable ang MFA
+      invalid_code: Hindi wastong code ng beripikasyon
       invalid_backup_code: Invalid backup code
-      invalid_token: Invalid or expired MFA token
-      invalid_credentials: Invalid credentials or verification code
+      invalid_token: Hindi wastong o paso na ang MFA token
+      invalid_credentials: Hindi wastong kredensyal o code ng beripikasyon
       feature_unavailable: MFA feature is not available. Please configure encryption keys.
     topup:
       credits_required: Credits amount is required
       invalid_credits: Invalid credits amount
       invalid_option: Invalid topup option
       plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
-      stripe_customer_not_configured: Stripe customer not configured
-      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+      stripe_customer_not_configured: Hindi nakaayos ang Stripe customer
+      no_payment_method: Walang natagpuang paraan ng pagbabayad. Mangyaring magdagdag ng paraan ng pagbabayad bago bumili.
+    reports:
+      date_range_too_long: Hindi maaaring lumampas sa 6 na buwan ang saklaw ng petsa
   profile:
     mfa:
-      enabled: MFA enabled successfully
-      disabled: MFA disabled successfully
+      enabled: Matagumpay na na-enable ang MFA
+      disabled: Matagumpay na na-disable ang MFA
     account_saml_settings:
-      invalid_certificate: must be a valid X.509 certificate in PEM format
+      invalid_certificate: dapat ay isang wastong X.509 sertipiko sa PEM na format
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Panahon ng ulat mula %{since} hanggang %{until}
     utc_warning: The report generated is in UTC timezone
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Assigned conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
-      resolution_count: Resolution Count
-      avg_customer_waiting_time: Avg customer waiting time
+      agent_name: Pangalan ng ahente
+      conversations_count: Itinalagang mga pag-uusap
+      avg_first_response_time: Karaniwang oras ng unang tugon
+      avg_resolution_time: Karaniwang oras ng paglutas
+      resolution_count: Bilang ng Resolusyon
+      avg_customer_waiting_time: Karaniwang oras ng paghihintay ng customer
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      inbox_name: Pangalan ng inbox
+      inbox_type: Uri ng inbox
+      conversations_count: Bilang ng mga pag-uusap
+      avg_first_response_time: Karaniwang oras ng unang tugon
+      avg_resolution_time: Karaniwang oras ng paglutas
     label_csv:
       label_title: Label
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
-      avg_reply_time: Avg reply time
-      resolution_count: Resolution Count
+      conversations_count: Bilang ng mga pag-uusap
+      avg_first_response_time: Karaniwang oras ng unang tugon
+      avg_resolution_time: Karaniwang oras ng paglutas
+      avg_reply_time: Karaniwang oras ng sagot
+      resolution_count: Bilang ng mga resolusyon
     team_csv:
-      team_name: Team name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
-      resolution_count: Resolution Count
-      avg_customer_waiting_time: Avg customer waiting time
+      team_name: Pangalan ng koponan
+      conversations_count: Bilang ng mga pag-uusap
+      avg_first_response_time: Karaniwang oras ng unang tugon
+      avg_resolution_time: Karaniwang oras ng paglutas
+      resolution_count: Bilang ng Resolusyon
+      avg_customer_waiting_time: Karaniwang oras ng paghihintay ng customer
+    conversation_csv:
+      conversations_count: Mga pag-uusap
+      incoming_messages_count: Mga mensaheng natanggap
+      outgoing_messages_count: Mga mensaheng ipinadala
+      avg_first_response_time: Karaniwang oras ng unang tugon
+      avg_resolution_time: Karaniwang oras ng paglutas
+      resolution_count: Bilang ng mga paglutas
+      avg_customer_waiting_time: Karaniwang oras ng paghihintay ng customer
     conversation_traffic_csv:
       timezone: Timezone
     sla_csv:
-      conversation_id: Conversation ID
-      sla_policy_breached: SLA Policy
-      assignee: Assignee
-      team: Team
+      conversation_id: ID ng Pag-uusap
+      sla_policy_breached: Patakaran ng SLA
+      assignee: Itinalaga
+      team: Koponan
       inbox: Inbox
-      labels: Labels
-      conversation_link: Link to the Conversation
-      breached_events: Breached Events
-    default_group_by: day
+      labels: Mga label
+      conversation_link: Ugnay sa Pag-uusap
+      breached_events: Mga Nilabag na Kaganapan
+    default_group_by: araw
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
-        agent_name: Agent Name
-        rating: Rating
-        feedback: Feedback Comment
-        recorded_at: Recorded date
+        contact_name: Pangalan ng Contact
+        contact_email_address: Email address ng contact
+        contact_phone_number: Numero ng Telepono ng Contact
+        link_to_the_conversation: Ugnay sa pag-uusap
+        agent_name: Pangalan ng ahente
+        rating: Pagtataya
+        feedback: Komento sa puna
+        recorded_at: Petsa ng pagtatala
+        review_notes: Mga Tala sa Pagsusuri
   notifications:
     notification_title:
-      conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
-      conversation_assignment: 'A conversation (#%{display_id}) has been assigned to you'
-      assigned_conversation_new_message: 'A new message is created in conversation (#%{display_id})'
-      conversation_mention: 'You have been mentioned in conversation (#%{display_id})'
+      conversation_creation: 'Isang pag-uusap (#%{display_id}) ang nalikha sa %{inbox_name}'
+      conversation_assignment: 'Isang pag-uusap (#%{display_id}) ang naitalaga sa iyo'
+      assigned_conversation_new_message: 'May bagong mensahe sa pag-uusap (#%{display_id})'
+      conversation_mention: 'Nabanggit ka sa pag-uusap (#%{display_id})'
       sla_missed_first_response: 'SLA target first response missed for conversation (#%{display_id})'
       sla_missed_next_response: 'SLA target next response missed for conversation (#%{display_id})'
       sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
-    attachment: 'Attachment'
-    no_content: 'No content'
+    attachment: 'Kalakip'
+    no_content: 'Walang nilalaman'
   conversations:
     captain:
-      handoff: 'Transferring to another agent for further assistance.'
+      handoff: 'Ililipat sa ibang ahente para sa karagdagang tulong.'
     messages:
-      instagram_story_content: '%{story_sender} mentioned you in the story: '
-      instagram_deleted_story_content: This story is no longer available.
+      instagram_story_content: 'Binanggit ka ni %{story_sender} sa kwento: '
+      instagram_deleted_story_content: Hindi na available ang kuwentong ito.
       instagram_shared_story_content: 'Shared story'
       instagram_shared_post_content: 'Shared post'
-      deleted: This message was deleted
+      deleted: Tinanggal ang mensaheng ito
       whatsapp:
-        list_button_label: 'Choose an item'
+        list_button_label: 'Pumili ng isang item'
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
       captain:
-        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
-        open: 'Conversation was marked open by %{user_name}'
+        resolved: 'Ang pag-uusap ay tinakdang tapos ni %{user_name} dahil sa kawalan ng aktibidad'
+        resolved_with_reason: 'Ang pag-uusap ay tinakdang tapos ni %{user_name} (%{reason})'
+        resolved_by_tool: 'Tinukoy na nalutas ang pag-uusap ni %{user_name}: %{reason}'
+        open: 'Ang pag-uusap ay tinakdang bukas ni %{user_name}'
+        open_with_reason: 'Binuksan ang pag-uusap ni %{user_name} (%{reason})'
+        auto_opened_after_agent_reply: 'Awtomatikong binuksan ang pag-uusap matapos ang tugon ng ahente'
       agent_bot:
         error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
-        resolved: 'Conversation was marked resolved by %{user_name}'
-        contact_resolved: 'Conversation was resolved by %{contact_name}'
-        open: 'Conversation was reopened by %{user_name}'
+        resolved: 'Tinukoy bilang nalutas ang pag-uusap ni %{user_name}'
+        contact_resolved: 'Nalutas ang pag-uusap ni %{contact_name}'
+        open: 'Muling binuksan ang pag-uusap ni %{user_name}'
         pending: 'Conversation was marked as pending by %{user_name}'
         snoozed: 'Conversation was snoozed by %{user_name}'
-        auto_resolved_days: 'Conversation was marked resolved by system due to %{count} days of inactivity'
-        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
-        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        auto_resolved_days: 'Ang pag-uusap ay tinakdang tapos ng sistema dahil sa %{count} araw ng hindi pagkilos'
+        auto_resolved_hours: 'Ang pag-uusap ay tinakdang tapos ng sistema dahil sa %{count} oras ng hindi pagkilos'
+        auto_resolved_minutes: 'Ang pag-uusap ay tinakdang tapos ng sistema dahil sa %{count} minuto ng hindi pagkilos'
+        system_auto_open: Muling binuksan ng sistema ang pag-uusap dahil sa bagong papasok na mensahe.
       priority:
-        added: '%{user_name} set the priority to %{new_priority}'
-        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
-        removed: '%{user_name} removed the priority'
+        added: 'Itinakda ni %{user_name} ang prayoridad sa %{new_priority}'
+        updated: 'Binago ni %{user_name} ang prayoridad mula %{old_priority} patungong %{new_priority}'
+        removed: 'Inalis ni %{user_name} ang prayoridad'
       assignee:
-        self_assigned: '%{user_name} self-assigned this conversation'
-        assigned: 'Assigned to %{assignee_name} by %{user_name}'
-        removed: 'Conversation unassigned by %{user_name}'
+        self_assigned: 'Inatasan ni %{user_name} ang sarili sa pag-uusap na ito'
+        assigned: 'Itinalaga kay %{assignee_name} ni %{user_name}'
+        removed: 'Hindi na itinalaga ang pag-uusap ni %{user_name}'
       team:
-        assigned: 'Assigned to %{team_name} by %{user_name}'
-        assigned_with_assignee: 'Assigned to %{assignee_name} via %{team_name} by %{user_name}'
-        removed: 'Unassigned from %{team_name} by %{user_name}'
+        assigned: 'Itinalaga sa %{team_name} ni %{user_name}'
+        assigned_with_assignee: 'Itinalaga kay %{assignee_name} sa pamamagitan ng %{team_name} ni %{user_name}'
+        removed: 'Inalis mula sa %{team_name} ni %{user_name}'
       labels:
-        added: '%{user_name} added %{labels}'
-        removed: '%{user_name} removed %{labels}'
+        added: 'Idinagdag ni %{user_name} ang %{labels}'
+        removed: 'Tinanggal ni %{user_name} ang %{labels}'
       sla:
-        added: '%{user_name} added SLA policy %{sla_name}'
-        removed: '%{user_name} removed SLA policy %{sla_name}'
+        added: 'Idinagdag ni %{user_name} ang patakaran ng SLA na %{sla_name}'
+        removed: 'Inalis ni %{user_name} ang patakaran ng SLA na %{sla_name}'
       linear:
         issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
@@ -244,46 +277,46 @@ tl:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       auto_resolve:
         not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
-      muted: '%{user_name} has muted the conversation'
-      unmuted: '%{user_name} has unmuted the conversation'
+      muted: 'Tahimik na ang pag-uusap ni %{user_name}'
+      unmuted: 'Inalis ni %{user_name} ang katahimikan sa pag-uusap'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
-      greeting_message_body: '%{account_name} typically replies in a few hours.'
-      ways_to_reach_you_message_body: 'Give the team a way to reach you.'
-      email_input_box_message_body: 'Get notified by email'
-      csat_input_message_body: 'Please rate the conversation'
+      greeting_message_body: 'Karaniwang sumasagot ang %{account_name} sa loob ng ilang oras.'
+      ways_to_reach_you_message_body: 'Bigyan ang koponan ng paraan para maabot ka.'
+      email_input_box_message_body: 'Makatanggap ng abiso sa pamamagitan ng email'
+      csat_input_message_body: 'Pakisuri ang pag-uusap'
     reply:
       email:
         header:
-          notifications: 'Notifications'
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
-          friendly_name: '%{sender_name} from %{business_name} <%{from_email}>'
+          notifications: 'Mga Abiso'
+          from_with_name: '%{assignee_name} mula sa %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} mula sa %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} mula sa %{business_name} <%{from_email}>'
           professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} mula sa %{inbox_name} <%{from_email}>'
           reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
-      email_subject: 'New messages on this conversation'
-      transcript_subject: 'Conversation Transcript'
+      email_subject: 'Mga bagong mensahe sa pag-uusap na ito'
+      transcript_subject: 'Talaan ng Pag-uusap'
     survey:
-      response: 'Please rate this conversation, %{link}'
+      response: 'Pakisuri ang pag-uusap na ito, %{link}'
   contacts:
     online:
-      delete: '%{contact_name} is Online, please try again later'
+      delete: 'Online si %{contact_name}, pakisubukang muli mamaya'
   integration_apps:
     #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
-      name: 'Dashboard Apps'
+      name: 'Mga App sa Dashboard'
       description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
     dyte:
       name: 'Dyte'
-      short_description: 'Start video/voice calls with customers directly from Chatwoot.'
+      short_description: 'Magsimula ng tawag na video/boses kasama ang mga customer nang direkta mula sa Chatwoot.'
       description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
-      meeting_name: '%{agent_name} has started a meeting'
+      meeting_name: 'Nagsimula si %{agent_name} ng isang pagpupulong'
     slack:
       name: 'Slack'
-      short_description: 'Receive notifications and respond to conversations directly in Slack.'
+      short_description: 'Tumanggap ng mga abiso at tumugon sa mga pag-uusap nang direkta sa Slack.'
       description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
       name: 'Webhooks'
@@ -294,11 +327,11 @@ tl:
       description: 'Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent.'
     google_translate:
       name: 'Google Translate'
-      short_description: 'Automatically translate customer messages for agents.'
+      short_description: 'Awtomatikong isalin ang mga mensahe ng customer para sa mga ahente.'
       description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
       name: 'OpenAI'
-      short_description: 'AI-powered reply suggestions, summarization, and message enhancement.'
+      short_description: 'Mga mungkahi sa sagot na pinapagana ng AI, buod, at pagpapahusay ng mensahe.'
       description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
     linear:
       name: 'Linear'
@@ -317,81 +350,89 @@ tl:
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
   captain:
-    copilot_message_required: Message is required
+    copilot_message_required: Kinakailangan ang mensahe
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+    upgrade: 'I-upgrade ang iyong plano upang paganahin ang Captain AI'
+    disabled: 'Hindi pinagana ang Captain AI para sa account na ito.'
+    api_key_missing: 'Hindi naka-configure ang Captain AI API key.'
     copilot:
-      using_tool: 'Using tool %{function_name}'
-      completed_tool_call: 'Completed %{function_name} tool call'
-      invalid_tool_call: 'Invalid tool call'
-      tool_not_available: 'Tool not available'
+      using_tool: 'Gumagamit ng kasangkapang %{function_name}'
+      completed_tool_call: 'Natapos ang tawag sa kasangkapang %{function_name}'
+      invalid_tool_call: 'Hindi wastong tawag sa kasangkapan'
+      tool_not_available: 'Hindi magagamit ang kasangkapan'
     documents:
-      limit_exceeded: 'Document limit exceeded'
-      pdf_format_error: 'must be a PDF file'
-      pdf_size_error: 'must be less than 10MB'
-      pdf_upload_failed: 'Failed to upload PDF to OpenAI'
-      pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
-      pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
-      pdf_processing_success: 'Successfully processed PDF document %{document_id}'
-      faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
-      using_paginated_faq: 'Using paginated FAQ generation for document %{document_id}'
-      using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
-      response_creation_error: 'Error in creating response document: %{error}'
-      missing_openai_file_id: 'Document must have openai_file_id for paginated processing'
+      limit_exceeded: 'Lumampas sa limitasyon ang dokumento'
+      pdf_format_error: 'dapat ay isang PDF na file'
+      pdf_size_error: 'dapat ay mas mababa sa 10MB'
+      pdf_upload_failed: 'Nabigong i-upload ang PDF sa OpenAI'
+      pdf_upload_success: 'Matagumpay na na-upload ang PDF na may file_id: %{file_id}'
+      pdf_processing_failed: 'Nabigong iproseso ang dokumentong PDF %{document_id}: %{error}'
+      pdf_processing_success: 'Matagumpay na naproseso ang PDF na dokumento %{document_id}'
+      faq_generation_complete: 'Tapos na ang paglikha ng FAQ. Kabuuang FAQ na nalikha: %{count}'
+      using_paginated_faq: 'Gumagamit ng pahinang FAQ na paglikha para sa dokumento %{document_id}'
+      using_standard_faq: 'Gumagamit ng karaniwang paglikha ng FAQ para sa dokumento %{document_id}'
+      response_creation_error: 'May error sa paggawa ng dokumento ng sagot: %{error}'
+      missing_openai_file_id: 'Dapat may openai_file_id ang dokumento para sa pahinang proseso'
       openai_api_error: 'OpenAI API Error: %{error}'
-      starting_paginated_faq: 'Starting paginated FAQ generation (%{pages_per_chunk} pages per chunk)'
-      stopping_faq_generation: 'Stopping processing. Reason: %{reason}'
-      paginated_faq_complete: 'Paginated generation complete. Total FAQs: %{total_faqs}, Pages processed: %{pages_processed}'
-      processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
+      starting_paginated_faq: 'Nagsisimula ang pagbuo ng pahinang FAQ (%{pages_per_chunk} pahina kada bahagi)'
+      stopping_faq_generation: 'Itinigil ang proseso. Dahilan: %{reason}'
+      paginated_faq_complete: 'Tapos na ang pahinang pagbuo. Kabuuang FAQ: %{total_faqs}, Mga pahinang naproseso: %{pages_processed}'
+      processing_pages: 'Pinoproseso ang mga pahina %{start}-%{end} (ikot %{iteration})'
       chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
-      page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+      page_processing_error: 'May error sa pagproseso ng mga pahina %{start}-%{end}: %{error}'
     custom_tool:
-      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
+      slug_generation_failed: 'Hindi makabuo ng natatanging slug pagkatapos ng 5 pagtatangka'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
-      empty_placeholder: No results found.
-      loading_placeholder: Searching...
-      results_title: Search results
-    toc_header: 'On this page'
+      search_placeholder: Maghanap ng artikulo ayon sa pamagat o nilalaman...
+      empty_placeholder: Walang nahanap na resulta.
+      loading_placeholder: Naghahanap...
+      results_title: Mga resulta ng paghahanap
+    toc_header: 'Sa pahinang ito'
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: Maghanap ng mga artikulo dito o tingnan ang mga kategorya sa ibaba.
     common:
-      home: Home
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all
-      article: article
-      articles: articles
-      author: author
-      authors: authors
-      other: other
-      others: others
-      by: By
-      no_articles: There are no articles here
+      home: Bahay
+      last_updated_on: Huling na-update noong %{last_updated_on}
+      view_all_articles: Tingnan lahat
+      article: artikulo
+      articles: mga artikulo
+      author: may-akda
+      authors: mga may-akda
+      other: iba
+      others: mga iba
+      by: Ni
+      no_articles: Walang mga artikulo dito
     footer:
-      made_with: Made with
+      made_with: Ginawa gamit ang
     header:
       go_to_homepage: Website
-      visit_website: Visit website
+      visit_website: Bisitahin ang website
       appearance:
-        system: System
-        light: Light
-        dark: Dark
-      featured_articles: Featured Articles
-      uncategorized: Uncategorized
+        system: Sistema
+        light: Maliwanag
+        dark: Madilim
+      featured_articles: Mga Tampok na Artikulo
+      uncategorized: Walang kategorya
     404:
-      title: Page not found
-      description: We couldn't find the page you were looking for.
-      back_to_home: Go to home page
+      title: Hindi makita ang pahina
+      description: Hindi namin makita ang pahinang hinahanap mo.
+      back_to_home: Pumunta sa pangunahing pahina
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
-      name: Name
+      name: Pangalan
       email: Email
-      phone_number: Phone
-      company_name: Company
+      phone_number: Telepono
+      company_name: Kumpanya
       inbox_name: Inbox
-      inbox_type: Inbox Type
-    button: Open conversation
+      inbox_type: Uri ng inbox
+    button: Buksan ang pag-uusap
   time_units:
     days:
       one: '%{count} day'
@@ -405,19 +446,22 @@ tl:
     seconds:
       one: '%{count} second'
       other: '%{count} seconds'
+  auto_assignment:
+    default_policy_name: 'Pangkaraniwang Patakaran'
+    policy_actor: 'Sistema ng Awtomasyon sa pamamagitan ng %{policy_name}'
   automation:
-    system_name: 'Automation System'
+    system_name: 'Sistema ng Awtomasyon'
   crm:
-    no_message: 'No messages in conversation'
-    attachment: '[Attachment: %{type}]'
-    no_content: '[No content]'
+    no_message: 'Walang mga mensahe sa pag-uusap'
+    attachment: '[Kalakip: %{type}]'
+    no_content: '[Walang nilalaman]'
     created_activity: |
-      New conversation started on %{brand_name}
+      Nagsimula ng bagong pag-uusap sa %{brand_name}
 
       Channel: %{channel_info}
-      Created: %{formatted_creation_time}
-      Conversation ID: %{display_id}
-      View in %{brand_name}: %{url}
+      Nilikha: %{formatted_creation_time}
+      ID ng Pag-uusap: %{display_id}
+      Tingnan sa %{brand_name}: %{url}
     transcript_activity: |
       Conversation Transcript from %{brand_name}
 
@@ -428,13 +472,13 @@ tl:
       Transcript:
       %{format_messages}
   agent_capacity_policy:
-    inbox_already_assigned: 'Inbox has already been assigned to this policy'
+    inbox_already_assigned: 'Na-assign na ang inbox sa patakarang ito'
   portals:
     send_instructions:
-      email_required: 'Email is required'
-      invalid_email_format: 'Invalid email format'
-      custom_domain_not_configured: 'Custom domain is not configured'
-      instructions_sent_successfully: 'Instructions sent successfully'
-      subject: 'Finish setting up %{custom_domain}'
+      email_required: 'Kinakailangan ang email'
+      invalid_email_format: 'Hindi wastong format ng email'
+      custom_domain_not_configured: 'Hindi nakaayos ang custom domain'
+      instructions_sent_successfully: 'Matagumpay na naipadala ang mga tagubilin'
+      subject: 'Tapusin ang pagsasaayos ng %{custom_domain}'
     ssl_status:
-      custom_domain_not_configured: 'Custom domain is not configured'
+      custom_domain_not_configured: 'Hindi nakaayos ang custom domain'

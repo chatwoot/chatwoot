@@ -4,7 +4,10 @@
     "HEADER_BTN_TXT": "Nitelik Ekle",
     "LOADING": "Özel Nitelikler getiriliyor",
     "DESCRIPTION": "Özel nitelikler, kişileriniz veya konuşmalarınız hakkında ek ayrıntıları takip etmenizi sağlar — örneğin abonelik planı veya ilk satın alma tarihi gibi. İhtiyacınız olan belirli bilgileri toplamak için metin, liste veya sayı gibi farklı türlerde özel nitelikler ekleyebilirsiniz.",
-    "LEARN_MORE": "Learn more about custom attributes",
+    "LEARN_MORE": "Özel Nitelikler hakkında daha fazla bilgi edinin",
+    "COUNT": "{n} attribute | {n} attributes",
+    "SEARCH_PLACEHOLDER": "Öznitelik ara...",
+    "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Sohbet",
       "CONTACT": "İletişim"
@@ -63,6 +66,10 @@
         },
         "ENABLE_REGEX": {
           "LABEL": "Düzenli ifade doğrulamasını aç"
+        },
+        "BADGES": {
+          "PRE_CHAT": "Pre-chat",
+          "RESOLUTION": "Resolution"
         }
       },
       "API": {

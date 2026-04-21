@@ -32,6 +32,7 @@ const convertToMinutes = newValue => {
 
 const transformedValue = computed({
   get() {
+    if (duration.value == null) return null;
     if (unit.value === DURATION_UNITS.MINUTES) return duration.value;
     if (unit.value === DURATION_UNITS.HOURS)
       return Math.floor(duration.value / 60);
@@ -41,6 +42,10 @@ const transformedValue = computed({
     return 0;
   },
   set(newValue) {
+    if (newValue == null || newValue === '') {
+      duration.value = null;
+      return;
+    }
     let minuteValue = convertToMinutes(newValue);
 
     duration.value = Math.min(Math.max(minuteValue, props.min), props.max);
@@ -53,6 +58,7 @@ const transformedValue = computed({
 // this might create some confusion, especially when saving
 // this watcher fixes it by rounding the duration basically, to the nearest unit value
 watch(unit, () => {
+  if (duration.value == null) return;
   let adjustedValue = convertToMinutes(transformedValue.value);
   duration.value = Math.min(Math.max(adjustedValue, props.min), props.max);
 });

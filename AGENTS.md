@@ -68,8 +68,7 @@ Este documento cobre TODOS os contratos de integração:
 3. Ao implementar, marca como IMPLEMENTADO no changelog do contrato
 
 ### Tokens e credenciais
-- **Socialwise Bot token** (global, `account_id=NULL`): auto-provisionado no startup (`config/initializers/socialwise_bot.rb`), registrado na plataforma via `/init`.
-- **JusMonitorIA Bot token** (global, `account_id=NULL`): auto-provisionado no startup (`config/initializers/jusmonitoria_bot.rb`), registrado na plataforma via `/init`.
+- **Chatwit Platform Bot token** (global, `account_id=NULL`): auto-provisionado no startup em `config/initializers/00_chatwit.rb`, registrado na plataforma via `/init`; substitui os bots legados separados de Socialwise/JusMonitorIA.
 - **ENVs:** `SOCIALWISE_WEBHOOK_URL`, `JUSMONITORIA_WEBHOOK_URL`, `CHATWIT_WEBHOOK_SECRET`, `FRONTEND_URL`
 - **User token** (`chatwitAccessToken`): apenas para operações específicas do usuário, **nunca** para operações de sistema/campanha.
 
@@ -116,7 +115,7 @@ lib/integrations/
     └── whatsapp_response_processor.rb # Processador WhatsApp
 
 config/initializers/
-├── socialwise_bot.rb                  # Auto-provisioning do Agent Bot + init no Socialwise
+├── 00_chatwit.rb                      # Auto-provisioning do Chatwit Platform Bot + migração dos bots legados
 └── socialwise_cache.rb                # Preload de cache
 
 app/jobs/socialwise_*.rb               # Jobs (debounce, etc.)
@@ -257,6 +256,12 @@ Practical checklist for any change impacting core logic or public APIs
 ---
 
 ## Historico de Migração
+
+### 2026-04-20 - Upstream sync v4.13.0 (160 commits)
+- Sync type: Normal merge
+- New merge-base: `437dd9d3`
+- Conflicts: 13 resolved
+- Critical: provisioning dos bots agora é centralizado em `config/initializers/00_chatwit.rb`; `socialwise_bot.rb`/`jusmonitoria_bot.rb` são legados. O upstream removeu `lib/tasks/auto_annotate_models.rake` em favor de `lib/tasks/annotate_rb.rake`, e `config/routes.rb` agora precisa preservar `register_webhook`/`reset_secret` junto das rotas Chatwit (`whatsapp_templates` e `evolution_go`).
 
 ### 2026-02-22 - Seções 13-15: Template Dispatch, Contacts API, Bot Init
 - Branch `content_type: 'template'` + `send_template_from_payload()` no `whatsapp_cloud_service.rb`

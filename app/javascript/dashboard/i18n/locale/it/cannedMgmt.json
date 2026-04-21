@@ -3,8 +3,11 @@
     "HEADER": "Risposte Predefinite",
     "LEARN_MORE": "Scopri di più sulle risposte predefinite",
     "DESCRIPTION": "Le Risposte Predefinite sono modelli di risposte preparate che ti aiutano a rispondere rapidamente alle conversazioni. Gli operatori possono digitare il carattere '/' seguito dallo shortcode per inserire una risposta predefinita durante una conversazione. ",
+    "COUNT": "{n} risposta predefinita | {n} risposte predefinite",
     "HEADER_BTN_TXT": "Aggiungi risposta predefinita",
     "LOADING": "Caricamento risposte predefinite...",
+    "SEARCH_PLACEHOLDER": "Cerca Risposte Predefinite...",
+    "NO_RESULTS": "Nessuna Risposta Predefinita trovata corrispondente alla tua ricerca",
     "SEARCH_404": "Non ci sono elementi che corrispondono a questa richiesta.",
     "LIST": {
       "404": "Non ci sono risposte predefinite disponibili in questo account.",

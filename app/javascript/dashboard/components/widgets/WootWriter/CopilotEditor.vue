@@ -27,10 +27,6 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  isPopout: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 const emit = defineEmits([
@@ -107,7 +103,8 @@ function onKeydown(view, event) {
   emit('keydown');
 
   // Handle Enter key to send message (Shift+Enter for new line)
-  if (event.key === 'Enter' && !event.shiftKey) {
+  // Skip if IME composition is active (CJK character confirmation)
+  if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) {
     event.preventDefault();
     handleSubmit();
     return true; // Prevent ProseMirror's default Enter handling
@@ -207,10 +204,7 @@ onMounted(() => {
 
 <template>
   <div class="space-y-2 mb-4">
-    <div
-      class="overflow-y-auto"
-      :class="{ 'max-h-96': isPopout, 'max-h-56': !isPopout }"
-    >
+    <div class="overflow-y-auto max-h-56">
       <p
         v-dompurify-html="formatMessage(generatedContent, false)"
         class="text-n-iris-12 text-sm prose-sm font-normal !mb-4"

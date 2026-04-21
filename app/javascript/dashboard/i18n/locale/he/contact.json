@@ -20,6 +20,7 @@
     "CALL": "התקשר",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "בחר תיבת דואר קולי"
     },
@@ -457,6 +458,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "הוסף אינסטגרם"
           },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Add Telegram"
+          },
           "TIKTOK": {
             "PLACEHOLDER": "Add TikTok"
           },
@@ -573,7 +577,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "אין אנשי קשר שתואמים לחיפוש שלך 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
-    }
+    },
+    "LOAD_MORE": "טען עוד"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "הקצה תוויות",
@@ -607,7 +612,7 @@
       "NO_INBOX_ALERT": "אין תיבות דואר נכנס זמינות כדי להתחיל שיחה עם איש קשר זה.",
       "CONTACT_SELECTOR": {
         "LABEL": "אל:",
-        "TAG_INPUT_PLACEHOLDER": "חפש איש קשר לפי שם, דוא\"ל או מספר טלפון",
+        "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
         "CONTACT_CREATING": "יוצר איש קשר..."
       },
       "INBOX_SELECTOR": {
@@ -618,9 +623,9 @@
         "SUBJECT_LABEL": "נושא :",
         "SUBJECT_PLACEHOLDER": "הזן את נושא הדוא\"ל שלך כאן",
         "CC_LABEL": "עותק:",
-        "CC_PLACEHOLDER": "חפש איש קשר לפי כתובת הדוא\"ל שלו",
+        "CC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_LABEL": "עותק מוסתר:",
-        "BCC_PLACEHOLDER": "חפש איש קשר לפי כתובת הדוא\"ל שלו",
+        "BCC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_BUTTON": "עותק מוסתר"
       },
       "MESSAGE_EDITOR": {

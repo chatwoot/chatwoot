@@ -27,6 +27,7 @@ RSpec.describe 'Conversations API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         body = JSON.parse(response.body, symbolize_names: true)
         expect(body[:data][:meta][:all_count]).to eq(1)
         expect(body[:data][:meta].keys).to include(:all_count, :mine_count, :assigned_count, :unassigned_count)
@@ -165,6 +166,7 @@ RSpec.describe 'Conversations API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         response_data = JSON.parse(response.body, symbolize_names: true)
         expect(response_data.count).to eq(2)
       end
@@ -234,6 +236,7 @@ RSpec.describe 'Conversations API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
       end
 
@@ -282,6 +285,7 @@ RSpec.describe 'Conversations API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(JSON.parse(response.body, symbolize_names: true)[:priority]).to eq('high')
       end
 
@@ -342,6 +346,7 @@ RSpec.describe 'Conversations API', type: :request do
                as: :json
 
           expect(response).to have_http_status(:success)
+          expect(response).to conform_schema(200)
           response_data = JSON.parse(response.body, symbolize_names: true)
           expect(response_data[:additional_attributes]).to eq(additional_attributes)
         end
@@ -449,9 +454,11 @@ RSpec.describe 'Conversations API', type: :request do
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
              headers: agent.create_new_auth_token,
+             params: { status: 'open' },
              as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(conversation.reload.status).to eq('open')
       end
 
@@ -720,6 +727,23 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.assignee_last_seen_at).not_to be_nil
+      end
+
+      it 'marks unread notifications as read when updating last seen' do
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+        notification = create(:notification, account: account, user: agent, primary_actor: conversation, read_at: nil)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(notification.reload.read_at).to be_present
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+          'notification.updated',
+          kind_of(Time),
+          hash_including(notification: have_attributes(id: notification.id))
+        )
       end
 
       it 'throttles updates within an hour when there are no unread messages' do

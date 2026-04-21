@@ -1,1057 +1,1159 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
-    "CLICK_TO_RECONNECT": "Click here to reconnect.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
-    "COMPLETE_REGISTRATION": "Complete Registration",
+    "HEADER": "ኢንቦክሶች",
+    "DESCRIPTION": "ቻናል ማለት ደንበኞችዎ ከእርስዎ ጋር ለመገናኘት የሚመረጡት የግንኙነት መንገድ ነው። ኢንቦክስ ለአንድ ቻናል የተለየ የግንኙነት አስተዳደር ቦታ ነው። ከኢሜይል፣ ቀጥታ ውይይት፣ ማህበራዊ ሚዲያ እና ሌሎች ምንጮች ጋር መገናኘት ይችላል።.",
+    "LEARN_MORE": "ስለ ኢንቦክሶች ተጨማሪ ያውቁ",
+    "COUNT": "{n} የግብይት ሳጥን | {n} የግብይት ሳጥኖች",
+    "SEARCH_PLACEHOLDER": "የግብይት ሳጥኖችን ፈልግ...",
+    "NO_RESULTS": "በፍለጋዎ የሚስማሙ የግብይት ሳጥኖች አልተገኙም",
+    "RECONNECTION_REQUIRED": "ኢንቦክስዎ ተቋርጧል። እስካሁን ድረስ አዲስ መልእክቶች አትቀበሉም እስከሚደገፉት ድረስ።.",
+    "CLICK_TO_RECONNECT": "እዚህ ላይ ለመደገፍ ጠቅ ያድርጉ።.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "የWhatsApp ንግድ ምዝገባዎ አልተጠናቀቀም። እባክዎ ከመገናኛ ባለሥልጣን ጋር በMeta Business Manager ውስጥ የሚታይ ስም ሁኔታዎን ያረጋግጡ።.",
+    "COMPLETE_REGISTRATION": "ምዝገባ አሟልት",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "ወደዚህ መለያ የተያዙ ኢንቦክሶች የሉም።"
     },
     "CREATE_FLOW": {
       "CHANNEL": {
-        "TITLE": "Choose Channel",
-        "BODY": "Choose the provider you want to integrate with Chatwoot."
+        "TITLE": "ቻናል ይምረጡ",
+        "BODY": "ከChatwoot ጋር ለመያዝ የሚፈልጉትን አቅራቢ ይምረጡ።."
       },
       "INBOX": {
-        "TITLE": "Create Inbox",
-        "BODY": "Authenticate your account and create an inbox."
+        "TITLE": "ኢንቦክስ ይፍጠሩ",
+        "BODY": "መለያዎን ያረጋግጡ እና ኢንቦክስ ይፍጠሩ።."
       },
       "AGENT": {
-        "TITLE": "Add Agents",
-        "BODY": "Add agents to the created inbox."
+        "TITLE": "ወኪሎችን ያክሉ",
+        "BODY": "ወኪሎችን ወደ የተፈጠረው ኢንቦክስ ያክሉ።."
       },
       "FINISH": {
-        "TITLE": "Voilà!",
-        "BODY": "You are all set to go!"
+        "TITLE": "እንኳን ደህና መጡ!",
+        "BODY": "ሁሉም ተዘጋጅቷል!"
       }
     },
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "LABEL": "የኢንቦክስ ስም",
+        "PLACEHOLDER": "የኢንቦክስ ስምዎን ያስገቡ (ለምሳሌ፡ Acme Inc)",
+        "ERROR": "እባክዎ ትክክለኛ የኢንቦክስ ስም ያስገቡ"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
-        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+        "LABEL": "የድር ጣቢያ ስም",
+        "PLACEHOLDER": "የድር ጣቢያ ስምዎን ያስገቡ (ለምሳሌ፡ Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Pick a value",
-        "CREATE_INBOX": "Create Inbox"
+        "HELP": "ማስታወሻ፡ በመግባት ብቻ የገጹ መልእክቶችን ብቻ እንደምንያዝ ነው። የግል መልእክቶችዎን በChatwoot ማድረስ አይቻልም።",
+        "CHOOSE_PAGE": "ገጽ ይምረጡ",
+        "CHOOSE_PLACEHOLDER": "ከዝርዝር ገጽ ይምረጡ",
+        "INBOX_NAME": "የኢንቦክስ ስም",
+        "ADD_NAME": "ለኢንቦክስዎ ስም ያክሉ",
+        "PICK_NAME": "ለInboxዎ ስም ይምረጡ",
+        "PICK_A_VALUE": "እሴት ይምረጡ",
+        "CREATE_INBOX": "Inbox ፍጠር"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "CONTINUE_WITH_INSTAGRAM": "ከInstagram ጋር ቀጥሉ",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "የInstagram መገለጫዎን ያገናኙ",
+        "HELP": "Instagram መገለጫዎን እንደ ቻናል ለመጨመር፣ 'Continue with Instagram' በመጫን የInstagram መገለጫዎን መረጋገጥ አለብዎት ",
+        "ERROR_MESSAGE": "Instagram ጋር ለመገናኘት ስህተት አጋጥሟል፣ እባክዎ እንደገና ይሞክሩ",
+        "ERROR_AUTH": "Instagram ጋር ለመገናኘት ስህተት አጋጥሟል፣ እባክዎ እንደገና ይሞክሩ",
+        "NEW_INBOX_SUGGESTION": "ይህ የInstagram መለያ ቀድሞ ወደ ሌላ ኢንቦክስ ተገናኝቷል እና አሁን ወደዚህ ተለዋዋጭ ሆኗል። አዲስ መልእክቶች ሁሉ እዚህ ይታያሉ። አሮጌው ኢንቦክስ ለዚህ መለያ መልእክት ማስተላለፍ እና መቀበል አይችልም።.",
+        "DUPLICATE_INBOX_BANNER": "ይህ የInstagram መለያ ወደ አዲሱ የInstagram ቻናል ኢንቦክስ ተለዋዋጭ ሆኗል። ከዚህ ኢንቦክስ የInstagram መልእክቶችን መላክ/መቀበል አትችሉም።."
       },
       "TIKTOK": {
-        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
-        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
-        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
-        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+        "CONTINUE_WITH_TIKTOK": "ከTikTok ጋር ቀጥሉ",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "TikTok መገለጫዎን ያገናኙ",
+        "HELP": "TikTok መገለጫዎን እንደ ቻናል ለመጨመር፣ “Continue with TikTok” በመጫን መለያዎን መረጋገጥ አለብዎት ",
+        "ERROR_MESSAGE": "TikTok ለመገናኘት ስህተት አጋጥሟል፣ እባክዎ እንደገና ይሞክሩ",
+        "ERROR_AUTH": "TikTok ለመገናኘት ስህተት አጋጥሟል፣ እባክዎ እንደገና ይሞክሩ"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "HELP": "የTwitter መገለጫዎን እንደ ቻናል ለመጨመር በ\"Sign in with Twitter\" ላይ በመጫን የTwitter መገለጫዎን መረጋገጥ አለብዎት። ",
+        "ERROR_MESSAGE": "በ Twitter ግንኙነት ላይ ስህተት አጋጥሟል፣ እባክዎ እንደገና ይሞክሩ",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "ከተጠቀሱ ትዊቶች ውስጥ ውይይቶች ፍጠር"
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "TITLE": "የድር ጣቢያ ቻናል",
+        "DESC": "ለድህረ ገጹ ቻናል ይፍጠሩ እና በድህረ ገጻችን ዊጅት ደንበኞቻችሁን ይደግፉ።",
+        "LOADING_MESSAGE": "የድር ጣቢያ ድጋፍ ቻናል እየተፈጠረ ነው",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "የቻናል ፎቶ"
         },
         "CHANNEL_WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Please enter your Webhook URL",
-          "ERROR": "Please enter a valid URL"
+          "LABEL": "Webhook አድራሻ",
+          "PLACEHOLDER": "እባክዎ የWebhook URLዎን ያስገቡ",
+          "ERROR": "እባክዎ ትክክለኛ አድራሻ ያስገቡ"
+        },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "ምስጢሩን ወደ ክሊፕቦርድ ቅዳ",
+          "COPY_SUCCESS": "ምስጢሩ ወደ ክሊፕቦርድ ተቀድሷል",
+          "TOGGLE": "የምስጢሩን ማየት አሳይ/ደብቅ",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "የድር ጣቢያ ዶሜን",
+          "PLACEHOLDER": "የድር ጣቢያዎን ዶሜን ያስገቡ (ለምሳሌ፡ acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "የእንኳን ደህና መጡ ርዕስ",
+          "PLACEHOLDER": "ሰላም እንደምን ነህ!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "የእንኳን ደህና መጡ መልዕክት",
+          "PLACEHOLDER": "ከእኛ ጋር ቀላል መገናኘት እንደምንሠራ ነው። ማንኛውንም ጥያቄ ያቀርቡ ወይም አስተያየትዎን ያጋሩ።"
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "የቻናል ደስታ መልእክት",
+          "PLACEHOLDER": "Acme Inc በተለምዶ በጥቂት ሰዓታት ውስጥ ይመልሳል።"
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Auto-send greeting messages when customers start a conversation and send their first message.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "LABEL": "የቻናል ደስታ አንቀሳቅስ",
+          "HELP_TEXT": "ደንበኞች ውይይት ሲጀምሩና የመጀመሪያ መልእክት ሲልኩ ማስተላለፊያ መልእክቶችን በራስሰር ይላኩ።.",
+          "ENABLED": "ተከናውኗል",
+          "DISABLED": "ተከልክሏል"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "የመልስ ጊዜ ያስቀመጡ",
+          "IN_A_FEW_MINUTES": "በጥቂት ደቂቃዎች ውስጥ",
+          "IN_A_FEW_HOURS": "በጥቂት ሰዓታት ውስጥ",
+          "IN_A_DAY": "በአንድ ቀን ውስጥ",
+          "HELP_TEXT": "ይህ የመልስ ጊዜ በቀጥታ ውይይት ዊጅት ላይ ይታያል"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "የዊጅት ቀለም",
+          "PLACEHOLDER": "በዊጅት ውስጥ የሚጠቀም ዊጅት ቀለምን ያዘምኑ"
         },
-        "SUBMIT_BUTTON": "Create inbox",
+        "SUBMIT_BUTTON": "ኢንቦክስ ይፍጠሩ",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "የድህረ ገጽ ቻናል ማቅረብ አልተቻለም፣ እባክዎ እንደገና ይሞክሩ"
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp ቻናል",
+        "DESC": "Twilio ያገናኙ እና በSMS ወይም WhatsApp ደንበኞቻችሁን ይደግፉ።",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
-          "ERROR": "This field is required"
+          "LABEL": "አካውንት SID",
+          "PLACEHOLDER": "እባክዎ የTwilio መለያ መለያዎን ያስገቡ",
+          "ERROR": "ይህ መስክ አስፈላጊ ነው"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
-          "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
-          "ERROR": "This field is required"
+          "USE_API_KEY": "የ API ቁልፍ ማረጋገጫ ይጠቀሙ",
+          "LABEL": "የ API ቁልፍ SID",
+          "PLACEHOLDER": "እባክዎ የ API ቁልፍ SID ያስገቡ",
+          "ERROR": "ይህ መስክ አስፈላጊ ነው"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
-          "ERROR": "This field is required"
+          "LABEL": "የ API ቁልፍ ምስጢር",
+          "PLACEHOLDER": "እባክዎ የAPI ቁልፍ ምስጢርዎን ያስገቡ",
+          "ERROR": "ይህ መስክ አስፈላጊ ነው"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
-          "ERROR": "This field is required",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "LABEL": "የመልእክት አገልግሎት SID",
+          "PLACEHOLDER": "እባክዎ የTwilio የመልእክት አገልግሎት SID ያስገቡ",
+          "ERROR": "ይህ መስክ አስፈላጊ ነው",
+          "USE_MESSAGING_SERVICE": "Twilio የመልእክት አገልግሎት ይጠቀሙ"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "የቻናል አይነት",
+          "ERROR": "እባክዎ የቻናል አይነትዎን ይምረጡ"
         },
         "AUTH_TOKEN": {
-          "LABEL": "Auth Token",
-          "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "This field is required"
+          "LABEL": "የማረጋገጫ ቶክን",
+          "PLACEHOLDER": "እባክዎ የTwilio የማረጋገጫ ቶክንዎን ያስገቡ",
+          "ERROR": "ይህ መስክ አስፈላጊ ነው"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter a inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "የጣቢያ ስም",
+          "PLACEHOLDER": "እባክዎ የጣቢያ ስም ያስገቡ",
+          "ERROR": "ይህ መስክ አስፈላጊ ነው"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone Number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "LABEL": "ስልክ ቁጥር",
+          "PLACEHOLDER": "ከዚህ መልእክት የሚልከው የስልክ ቁጥር እባክዎ ያስገቡ።",
+          "ERROR": "እባክዎ በ`+` ምልክት የሚጀምር እና ቦታ ያልያዘ ትክክለኛ የስልክ ቁጥር ያቀርቡ።."
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "TITLE": "ካልባክ URL",
+          "SUBTITLE": "በTwilio ውስጥ የመልእክት እንደገና መግባት አድራሻን ከዚህ በተጠቀሰው አድራሻ ጋር መቀነባበር አለብዎት።"
         },
-        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "SUBMIT_BUTTON": "የTwilio ቻናል ይፍጠሩ",
         "API": {
-          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+          "ERROR_MESSAGE": "የTwilio ማረጋገጫ መረጃዎችን ማረጋገጥ አልተቻለም፣ እባክዎ እንደገና ይሞክሩ"
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "SMS ቻናል",
+        "DESC": "በSMS ደንበኞቻችሁን ይደግፉ።",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "API አቅራቢ",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "SMS ቻናሉን ማስቀመጥ አልተቻለም"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
-            "ERROR": "This field is required"
+            "LABEL": "የመለያ ቁጥር",
+            "PLACEHOLDER": "እባክዎ የBandwidth መለያ ቁጥርዎን ያስገቡ",
+            "ERROR": "ይህ መስክ አስፈላጊ ነው"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
-            "ERROR": "This field is required"
+            "LABEL": "API ቁልፍ",
+            "PLACEHOLDER": "እባክዎ የBandwidth API ቁልፍዎን ያስገቡ",
+            "ERROR": "ይህ መስክ አስፈላጊ ነው"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
-            "ERROR": "This field is required"
+            "LABEL": "API ምስጢር",
+            "PLACEHOLDER": "እባክዎ የBandwidth API ምስጢርዎን ያስገቡ",
+            "ERROR": "ይህ መስክ አስፈላጊ ነው"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
-            "ERROR": "This field is required"
+            "LABEL": "የመተግበሪያ መለያ",
+            "PLACEHOLDER": "እባክዎ የBandwidth የመተግበሪያ መለያዎን ያስገቡ",
+            "ERROR": "ይህ መስክ አስፈላጊ ነው"
           },
           "INBOX_NAME": {
-            "LABEL": "Inbox Name",
-            "PLACEHOLDER": "Please enter a inbox name",
-            "ERROR": "This field is required"
+            "LABEL": "የኢንቦክስ ስም",
+            "PLACEHOLDER": "እባክዎ የኢንቦክስ ስም ያስገቡ",
+            "ERROR": "ይህ መስክ አስፈላጊ ነው"
           },
           "PHONE_NUMBER": {
-            "LABEL": "Phone number",
-            "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "LABEL": "የስልክ ቁጥር",
+            "PLACEHOLDER": "እባክዎ መልእክት ከሚልከው ስልክ ቁጥር ያስገቡ።.",
+            "ERROR": "እባክዎ በ`+` ምልክት የሚጀምር እና ቦታ ያልያዘ ትክክለኛ የስልክ ቁጥር ያቀርቡ።."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "የባንድዊድ ቻናል ፍጠር",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "የባንድዊድ ማረጋገጫ መረጃዎችን ማረጋገጥ አልተቻለንም፣ እባክዎ እንደገና ይሞክሩ"
           },
           "API_CALLBACK": {
-            "TITLE": "Callback URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "TITLE": "የካልባክ አድራሻ",
+            "SUBTITLE": "በBandwidth ውስጥ የመልእክት መልስ አድራሻን ከዚህ በታች የተጠቀሰው አድራሻ ጋር መቀናበር አለቦት።."
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "WhatsApp ቻናል",
+        "DESC": "በWhatsApp ደንበኞቻችሁን ይደግፉ።",
         "PROVIDERS": {
-          "LABEL": "API Provider",
-          "WHATSAPP_EMBEDDED": "WhatsApp Business",
+          "LABEL": "API አቅራቢ",
+          "WHATSAPP_EMBEDDED": "WhatsApp ቢዝነስ",
           "TWILIO": "Twilio",
-          "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
-          "TWILIO_DESC": "Connect via Twilio credentials",
+          "WHATSAPP_CLOUD": "WhatsApp ክላውድ",
+          "WHATSAPP_CLOUD_DESC": "በMeta በፍጥነት ማቀናበር",
+          "TWILIO_DESC": "በTwilio መለያ ይገናኙ",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
-          "TITLE": "Select your API provider",
-          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
+          "TITLE": "የAPI አቅራቢዎን ይምረጡ",
+          "DESCRIPTION": "የWhatsApp አቅራቢዎን ይምረጡ። በMeta ቀጥታ ማገናኘት ይችላሉ ይህም ምንም ቅንብር አያስፈልግም፣ ወይም በTwilio በመለያዎ መረጃ ማገናኘት ይችላሉ።."
         },
         "INBOX_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter an inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "የጣቢያ ስም",
+          "PLACEHOLDER": "እባክዎ የጣቢያ ስም ያስገቡ",
+          "ERROR": "ይህ መስክ አስፈላጊ ነው"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "LABEL": "የስልክ ቁጥር",
+          "PLACEHOLDER": "ከዚህ መልእክት የሚልከው የስልክ ቁጥር እባክዎ ያስገቡ።",
+          "ERROR": "እባክዎ በ`+` ምልክት የሚጀምር እና ቦታ ያልያዘ ትክክለኛ የስልክ ቁጥር ያቀርቡ።."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "የስልክ ቁጥር መለያ",
+          "PLACEHOLDER": "እባክዎ ከFacebook አንደበት አሳይ ገጽ ያገኙትን የስልክ ቁጥር ID ያስገቡ።.",
+          "ERROR": "እባክዎ ትክክለኛ ዋጋ ያስገቡ።."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "የንግድ አካውንት መለያ",
+          "PLACEHOLDER": "እባክዎ ከFacebook አንደበት አሳይ ገጽ ያገኙትን የንግድ መለያ ID ያስገቡ።.",
+          "ERROR": "እባክዎ ትክክለኛ ዋጋ ያስገቡ።."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "Webhook ማረጋገጫ ቶክን",
+          "PLACEHOLDER": "ለFacebook webhook ለማስተካከል የሚፈለገውን የማረጋገጫ ቶክን ያስገቡ።.",
+          "ERROR": "እባክዎ ትክክለኛ ዋጋ ያስገቡ።."
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "API ቁልፍ",
+          "SUBTITLE": "የWhatsApp API ቁልፍን ያቀናብሩ።",
+          "PLACEHOLDER": "API ቁልፍ",
+          "ERROR": "እባክዎ ትክክለኛ እሴት ያስገቡ።"
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
-          "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "TITLE": "የተመለሰ አድራሻ URL",
+          "SUBTITLE": "በFacebook Developer ፖርታል ውስጥ የwebhook URL እና የማረጋገጫ ቶክን መቀናበር አለቦት።.",
+          "WEBHOOK_URL": "የWebhook URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "የWebhook ማረጋገጫ ቶክን"
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "WhatsApp ቻናል ፍጠር",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Quick setup with Meta",
-          "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "TITLE": "ከMeta ጋር ፈጣን ቅንብር",
+          "DESC": "ለፈጣን አዲስ ቁጥሮች ለመገናኘት WhatsApp ተዋሰነ መመዝገቢያ ሂደት ይጠቀሙ። ወደ Meta ይመለሳሉ እና ወደ WhatsApp ንግድ መለያዎ ይግቡ። የአስተዳደር መብት ከሚኖርዎት ሂደቱ ቀላል እና ቀላል ይሆናል።.",
           "BENEFITS": {
-            "TITLE": "Benefits of Embedded Signup:",
-            "EASY_SETUP": "No manual configuration required",
-            "SECURE_AUTH": "Secure OAuth based authentication",
-            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+            "TITLE": "የተዋሰነ መመዝገቢያ ጥቅሞች፡:",
+            "EASY_SETUP": "ምንም እጅግ ቅንብር አያስፈልግም",
+            "SECURE_AUTH": "የተሰራተኛ የOAuth ማረጋገጫ",
+            "AUTO_CONFIG": "ራስሰር የwebhook እና የስልክ ቁጥር ቅንብር"
           },
           "LEARN_MORE": {
-            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
-            "LINK_TEXT": "this link"
+            "TEXT": "ለተዋሰነ መመዝገቢያ፣ ዋጋ እና ገደቦች ተጨማሪ ለማወቅ {link} ይጎብኙ።.",
+            "LINK_TEXT": "ይህ አገናኝ"
           },
-          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
-          "AUTH_PROCESSING": "Authenticating with Meta",
-          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
-          "PROCESSING": "Setting up your WhatsApp Business Account",
-          "LOADING_SDK": "Loading Facebook SDK...",
-          "CANCELLED": "WhatsApp Signup was cancelled",
-          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
-          "WAITING_FOR_AUTH": "Waiting for authentication...",
-          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
-          "SIGNUP_ERROR": "Signup error occurred",
-          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
-          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
-          "MANUAL_LINK_TEXT": "manual setup flow"
+          "SUBMIT_BUTTON": "ከWhatsApp Business ጋር ይገናኙ",
+          "AUTH_PROCESSING": "ከMeta ጋር በመረጋገጥ ላይ ነው",
+          "WAITING_FOR_BUSINESS_INFO": "እባክዎ በMeta መስኮት ውስጥ የንግድ ቅንብር ያርኩ...",
+          "PROCESSING": "የWhatsApp ቢዝነስ መለያዎን እየተዘጋጀ ነው",
+          "LOADING_SDK": "Facebook SDK እየተጫነ ነው...",
+          "CANCELLED": "የWhatsApp ምዝገባ ተሰርዟል",
+          "SUCCESS_TITLE": "የWhatsApp ቢዝነስ መለያ ተገናኝቷል!",
+          "WAITING_FOR_AUTH": "ለማረጋገጫ ተጠባባቂ ነው...",
+          "INVALID_BUSINESS_DATA": "ከFacebook የተቀበሉ የንግድ መረጃ ትክክል አይደለም። እባክዎ ደግመው ይሞክሩ።.",
+          "SIGNUP_ERROR": "የምዝገባ ስህተት ተፈጥሯል",
+          "AUTH_NOT_COMPLETED": "ማረጋገጫ አልተጠናቀቀም። ሂደቱን እባክዎ ዳግም ይጀምሩ።.",
+          "SUCCESS_FALLBACK": "የWhatsApp የንግድ መለያ በተሳካ ሁኔታ ተቋቋመ",
+          "MANUAL_FALLBACK": "ቁጥርዎ ከWhatsApp Business Platform (API) ጋር ከተገናኘ እና ወይም እርስዎ የቴክኖሎጂ አቅራቢ ከሆኑ እና የእርስዎን ቁጥር በራስዎ ሲያስገቡ፣ እባክዎ የ{link} ሂደትን ይጠቀሙ",
+          "MANUAL_LINK_TEXT": "የእጅ ማቀናበሪያ ሂደት"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "WhatsApp ቻናሉን ማስቀመጥ አልተቻለም"
         }
       },
       "VOICE": {
-        "TITLE": "Voice Channel",
-        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "TITLE": "የድምጽ ቻናል",
+        "DESC": "Twilio Voice ያገናኙ እና በስልክ ጥሪዎች ደንበኞችዎን ይደግፉ።.",
         "PHONE_NUMBER": {
-          "LABEL": "Phone Number",
-          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
-          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+          "LABEL": "ስልክ ቁጥር",
+          "PLACEHOLDER": "ስልክ ቁጥርዎን ያስገቡ (ለምሳሌ +1234567890)",
+          "ERROR": "እባክዎ በE.164 ቅርጸ ቁጥር ትክክለኛ ስልክ ቁጥር ያቀርቡ (ለምሳሌ +1234567890)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
-            "LABEL": "Account SID",
-            "PLACEHOLDER": "Enter your Twilio Account SID",
-            "REQUIRED": "Account SID is required"
+            "LABEL": "የመለያ ቁጥር SID",
+            "PLACEHOLDER": "የTwilio የመለያ ቁጥር SID ያስገቡ",
+            "REQUIRED": "የመለያ ቁጥር SID አስፈላጊ ነው"
           },
           "AUTH_TOKEN": {
-            "LABEL": "Auth Token",
-            "PLACEHOLDER": "Enter your Twilio Auth Token",
-            "REQUIRED": "Auth Token is required"
+            "LABEL": "የማረጋገጫ ቶክን",
+            "PLACEHOLDER": "የTwilio የማረጋገጫ ቶክንዎን ያስገቡ",
+            "REQUIRED": "የማረጋገጫ ቶክን አስፈላጊ ነው"
           },
           "API_KEY_SID": {
-            "LABEL": "API Key SID",
-            "PLACEHOLDER": "Enter your Twilio API Key SID",
-            "REQUIRED": "API Key SID is required"
+            "LABEL": "የAPI ቁልፍ SID",
+            "PLACEHOLDER": "የTwilio API ቁልፍ SID ያስገቡ",
+            "REQUIRED": "API ቁልፍ SID አስፈላጊ ነው"
           },
           "API_KEY_SECRET": {
-            "LABEL": "API Key Secret",
-            "PLACEHOLDER": "Enter your Twilio API Key Secret",
-            "REQUIRED": "API Key Secret is required"
+            "LABEL": "API ቁልፍ ምስጢር",
+            "PLACEHOLDER": "የTwilio API ቁልፍ ምስጢር ያስገቡ",
+            "REQUIRED": "API ቁልፍ ምስጢር አስፈላጊ ነው"
           }
         },
         "CONFIGURATION": {
-          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
-          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
-          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
-          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
+          "TWILIO_VOICE_URL_TITLE": "Twilio የድምጽ አድራሻ",
+          "TWILIO_VOICE_URL_SUBTITLE": "ይህን አድራሻ እንደ Twilio የድምፅ አድራሻ እና TwiML መተግበሪያ ያስተካክሉ።.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio የሁኔታ ኮልባክ URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "ይህን አድራሻ እንደ Twilio የሁኔታ መልስ አድራሻ በስልክ ቁጥርዎ ያስተካክሉ።."
         },
-        "SUBMIT_BUTTON": "Create Voice Channel",
+        "SUBMIT_BUTTON": "የድምጽ ቻናል ፍጠር",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create the voice channel"
+          "ERROR_MESSAGE": "የድምጽ ቻናል ማፍጠር አልተቻለንም"
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "የAPI ቻናል",
+        "DESC": "ከAPI ቻናል ጋር ያገናኙ እና ደንበኞቻችሁን ይደግፉ።",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "የቻናል ስም",
+          "PLACEHOLDER": "እባክዎ የቻናል ስም ያስገቡ",
+          "ERROR": "ይህ መስክ አስፈላጊ ነው"
         },
         "WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
-          "PLACEHOLDER": "Webhook URL"
+          "LABEL": "የWebhook URL",
+          "SUBTITLE": "በክስተት ላይ የሚመልሱበትን አድራሻ ያስተካክሉ።.",
+          "PLACEHOLDER": "የWebhook URL"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "API ቻናል ፍጠር",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "API ቻናሉን ማስቀመጥ አልተቻለንም"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate your email inbox.",
+        "TITLE": "ኢሜይል ቻናል",
+        "DESC": "ኢሜይል ኢንቦክስዎን ያገናኙ።.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "የቻናል ስም",
+          "PLACEHOLDER": "እባክዎ የቻናል ስም ያስገቡ",
+          "ERROR": "ይህ መስክ አስፈላጊ ነው"
         },
         "EMAIL": {
-          "LABEL": "Email",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
-          "PLACEHOLDER": "Email"
+          "LABEL": "ኢሜይል",
+          "SUBTITLE": "ደንበኞችዎ የድጋፍ ጥያቄዎችን ለማስተላለፍ የሚጠቀሙበትን ኢሜይል አድራሻ ያስገቡ።.",
+          "PLACEHOLDER": "ኢሜይል"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "ኢሜይል ቻናል ፍጠር",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "ኢሜይል ቻናሉን ማስቀመጥ አልተቻለንም"
         },
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address.",
-        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
-        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
-        "CONFIGURE_SMTP_IMAP_LINK": "Click here",
-        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
+        "FINISH_MESSAGE_NO_FORWARDING": "የኢሜይል ኢንቦክስዎ በተሳካ ሁኔታ ተፈጥሯል! ኢሜይሎችን ለማስተላለፍና ለመቀበል SMTP እና IMAP መለያዎችን መቅነት አለቦት። እነዚህ ቅንብሮች ካልተደረጉ ኢሜይሎች አይሰሩም።.",
+        "FORWARDING_ADDRESS_LABEL": "ኢሜይሎችን ወደዚህ አድራሻ ይቀላቀሉ፡:",
+        "CONFIGURE_SMTP_IMAP_LINK": "እዚህ ጠቅ ያድርጉ",
+        "CONFIGURE_SMTP_IMAP_TEXT": " እንዲሁም IMAP እና SMTP ቅንብሮችን ለመቅከም"
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "LINE ቻናል",
+        "DESC": "ከLINE ቻናል ጋር ያገናኙ እና ደንበኞቻችሁን ይደግፉ።",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "የቻናል ስም",
+          "PLACEHOLDER": "እባክዎ የቻናል ስም ያስገቡ",
+          "ERROR": "ይህ መስክ አስፈላጊ ነው"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "LINE የቻናል መለያ",
+          "PLACEHOLDER": "LINE የቻናል መለያ"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "LINE የቻናል ሚስጥር",
+          "PLACEHOLDER": "LINE የቻናል ሚስጥር"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "LINE የቻናል ቶክን",
+          "PLACEHOLDER": "LINE የቻናል ቶክን"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "LINE ቻናል ፍጠር",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "LINE ቻናሉን ማስቀመጥ አልተቻለም"
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "TITLE": "የእንደገና ጥሪ አድራሻ",
+          "SUBTITLE": "በLINE መተግበሪያ ውስጥ የwebhook አድራሻን ከዚህ በተጠቀሰው አድራሻ ጋር መቀነባበር አለብዎት።"
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Telegram ቻናል",
+        "DESC": "ከTelegram ቻናል ጋር ያገናኙ እና ደንበኞቻችሁን ይደግፉ።",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "የቦት ቶክን",
+          "SUBTITLE": "ከTelegram BotFather ያገኙትን የቦት ቶክን ያቀናብሩ።",
+          "PLACEHOLDER": "የቦት ቶክን"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Telegram ቻናል ፍጠር",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "Telegram ቻናሉን ማስቀመጥ አልተቻለንም"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
-        "TITLE_NEXT": "Complete the setup",
-        "TITLE_FINISH": "Voilà!",
+        "TITLE": "ቻናል ይምረጡ",
+        "DESC": "Chatwoot የቀጥታ ውይይት ዊጅቶች፣ Facebook Messenger፣ WhatsApp፣ ኢሜይሎች እና ሌሎች ቻናሎችን ይደግፋል። በተለይ ቻናል ለመፍጠር ከፈለጉ በAPI ቻናል መፍጠር ይችላሉ። ለመጀመር ከታች አንዱን ቻናል ይምረጡ።.",
+        "TITLE_NEXT": "ቅንብሩን አሟልተው ያጠናቀቁ",
+        "TITLE_FINISH": "እሺ!",
         "CHANNEL": {
           "WEBSITE": {
-            "TITLE": "Website",
-            "DESCRIPTION": "Create a live-chat widget"
+            "TITLE": "ድህረ ገጽ",
+            "DESCRIPTION": "ቀጥታ የሚነጋገር ቪጅት ይፍጠሩ"
           },
           "FACEBOOK": {
-            "TITLE": "Facebook",
-            "DESCRIPTION": "Connect your Facebook page"
+            "TITLE": "ፌስቡክ",
+            "DESCRIPTION": "የFacebook ገጽዎን ያገናኙ"
           },
           "WHATSAPP": {
-            "TITLE": "WhatsApp",
-            "DESCRIPTION": "Support your customers on WhatsApp"
+            "TITLE": "ዋትስአፕ",
+            "DESCRIPTION": "በWhatsApp ላይ ደንበኞችዎን ድጋፍ ያድርጉ"
           },
           "EMAIL": {
-            "TITLE": "Email",
-            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+            "TITLE": "ኢሜይል",
+            "DESCRIPTION": "ከGmail, Outlook ወይም ከሌሎች አቅራቢዎች ጋር ያገናኙ"
           },
           "SMS": {
-            "TITLE": "SMS",
-            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+            "TITLE": "ኤስኤምኤስ",
+            "DESCRIPTION": "ኤስኤምኤስ ቻናልን ከTwilio ወይም bandwidth ጋር ያገናኙ"
           },
           "API": {
             "TITLE": "API",
-            "DESCRIPTION": "Make a custom channel using our API"
+            "DESCRIPTION": "በAPI ቻናል ለራስዎ ተለዋዋጭ ቻናል ይፍጠሩ"
           },
           "TELEGRAM": {
-            "TITLE": "Telegram",
-            "DESCRIPTION": "Configure Telegram channel using Bot token"
+            "TITLE": "ቴሌግራም",
+            "DESCRIPTION": "በBot ቶክን የTelegram ቻናል ያቀናብሩ"
           },
           "LINE": {
-            "TITLE": "Line",
-            "DESCRIPTION": "Integrate your Line channel"
+            "TITLE": "ላይን",
+            "DESCRIPTION": "የLine ቻናልዎን ያካተቱ"
           },
           "INSTAGRAM": {
-            "TITLE": "Instagram",
-            "DESCRIPTION": "Connect your instagram account"
+            "TITLE": "ኢንስታግራም",
+            "DESCRIPTION": "የInstagram አካውንትዎን ያገናኙ"
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "TikTok አካውንትዎን ያገናኙ"
           },
           "VOICE": {
-            "TITLE": "Voice",
-            "DESCRIPTION": "Integrate with Twilio Voice"
+            "TITLE": "ድምጽ",
+            "DESCRIPTION": "ከTwilio Voice ጋር ያገናኙ"
           }
         }
       },
       "AGENTS": {
-        "TITLE": "Agents",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "TITLE": "Agent-ዎች",
+        "DESC": "እዚህ አዲስ የተፈጠረውን ኢንቦክስ ለመቆጣጠር ወኪሎችን ማከል ይችላሉ። እነዚህ የተመረጡ ወኪሎች ብቻ ወደ ኢንቦክስዎ መዳረሻ አላቸው። ከዚህ ኢንቦክስ አካል ያልሆኑ ወኪሎች ሲግቡ መልእክቶችን ማየት ወይም መልስ ማድረግ አይችሉም። <br> <b>ማስታወሻ፡</b> እንደ አስተዳደር ባለስልጣን ሁሉንም ኢንቦክሶች ለመዳረሻ ከፈለጉ ራስዎን እንደ ወኪል ወደ ሁሉም የሚፈጥሩት ኢንቦክሶች መጨመር አለብዎት።",
+        "VALIDATION_ERROR": "ከአዲሱ ኢንቦክስዎ ቢያንስ አንድ ወኪል ያክሉ",
+        "PICK_AGENTS": "ለኢንቦክሱ ወኪሎችን ይምረጡ"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "የኢንቦክስ ዝርዝሮች",
+        "DESC": "ከታች ያለው ከዝርዝር ማስተካከያ በተጠቃሚው ፌስቡክ ገጽ ወደ Chatwoot ለመገናኘት ይምረጡ። ለምርጥ መለያየት የእርስዎን ኢንቦክስ በተለየ ስም ማቅረብ ይችላሉ።"
       },
       "FINISH": {
-        "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "TITLE": "ተሳክቷል!",
+        "DESC": "የFacebook ገጹን በChatwoot ጋር በተሳካ ሁኔታ አገናኝተዋል። ቀጣዩ ጊዜ ደንበኛ ገጹን ሲያስተናግድ ውይይቱ በራስህ ኢንቦክስ ውስጥ በራስህ ይታያል።<br>እኛ እንዲሁም በድር ጣቢያዎ በቀላሉ ሊጨምሩት የሚችለውን የዊጅት ስክሪፕት እንሰጣለን። ይህ በድር ጣቢያዎ ሲኖር ደንበኞች ከማንኛውም ውጪ መሣሪያ እገዛ ሳይወስዱ ቀጥታ ከድር ጣቢያዎ መልእክት ማስተናገድ ይችላሉ እና ውይይቱ በChatwoot ውስጥ እዚህ ይታያል።<br>አሪፍ ነው, እኛም እንሞክራለን :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+        "TITLE": "የኢሜል አቅራቢዎን ይምረጡ",
+        "DESCRIPTION": "ከታች ያሉት ኢሜይል አቅራቢዎች ውስጥ አንዱን ይምረጡ። ከዚህ ውስጥ ኢሜይል አቅራቢዎት ካልተገኘው ሌላ አቅራቢ አማራጭ ማምረጥ እና IMAP እና SMTP መለያዎችን መስጠት ይችላሉ።."
       },
       "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "SIGN_IN": "Sign in with Microsoft",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "TITLE": "Microsoft ኢሜይል",
+        "DESCRIPTION": "ለመጀመር ከMicrosoft ጋር ይግቡ ቁልፍ ይጫኑ። ወደ ኢሜይል ግባ ገጽ ይቀርባሉ። ፈቃዶቹን ከተቀበሉ በኋላ ወደ ኢንቦክስ ፍጠራ ደረጃ ይመለሳሉ።.",
+        "EMAIL_PLACEHOLDER": "ኢሜይል አድራሻ ያስገቡ",
+        "SIGN_IN": "ከMicrosoft ጋር ይግቡ",
+        "ERROR_MESSAGE": "Microsoft ለመገናኘት ስህተት ተከስቷል፣ እባክዎ እንደገና ይሞክሩ።"
       },
       "GOOGLE": {
-        "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+        "TITLE": "Google ኢሜይል",
+        "DESCRIPTION": "ለመጀመር ከGoogle ጋር ይግቡ ቁልፍ ይጫኑ። ወደ ኢሜይል ግባ ገጽ ይቀርባሉ። ፈቃዶቹን ከተቀበሉ በኋላ ወደ ኢንቦክስ ፍጠራ ደረጃ ይመለሳሉ።.",
+        "SIGN_IN": "ከGoogle ጋር ይግቡ",
+        "EMAIL_PLACEHOLDER": "ኢሜይል አድራሻ ያስገቡ",
+        "ERROR_MESSAGE": "ከGoogle ጋር ለመገናኘት ስህተት አጋጥሟል፣ እባክዎ እንደገና ይሞክሩ"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
-      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
-      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
-      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "LOADING_FB": "ከFacebook ጋር እየተማረኩ ነዎት...",
+      "ERROR_FB_LOADING": "Facebook SDK ማስገባት አልተቻለም። እባክዎ ማንኛውንም የማስታወቂያ አከላካይ ይጥፋቸው እና ከሌላ አሳሽ በኩል ደግመው ይሞክሩ።.",
+      "ERROR_FB_AUTH": "አንድ ነገር ተሳስቷል፣ እባክዎ ገፁን ዳግም ያስመልክቱ...",
+      "ERROR_FB_UNAUTHORIZED": "ይህን እርምጃ ለማከናወን ፈቃድ የለዎትም። ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "እባክዎ የFacebook ገጹን ሙሉ ቁጥጥር እንዳለዎት ያረጋግጡ። ስለ Facebook ሚናዎች ተጨማሪ መረጃ እዚህ <a href=\" https://www.facebook.com/help/187316341316631\">ይነብቡ</a>።.",
+      "CREATING_CHANNEL": "ኢንቦክስዎን እየፈጠሩ ነው...",
+      "TITLE": "የኢንቦክስ ዝርዝሮችን ያቀናብሩ",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "Agent-ዎችን ያክሉ",
+      "ADD_AGENTS": "Agent-ዎችን ወደ ኢንቦክስዎ እየጨምሩ ነው..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
-      "BUTTON_TEXT": "Take me there",
-      "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox.",
-      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
-      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
-      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
+      "TITLE": "ኢንቦክስዎ ዝግጅት ላይ ነው!",
+      "MESSAGE": "ከአዲሱ ቻናልዎ ጋር ከደንበኞችዎ ጋር እንዲገናኙ አሁን ትችላላችሁ። ደስታ ያለው ድጋፍ",
+      "BUTTON_TEXT": "ወደ እዚያ ይውሰዱኝ",
+      "MORE_SETTINGS": "ተጨማሪ ቅንብሮች",
+      "WEBSITE_SUCCESS": "የድር ጣቢያ ቻናል መፍጠር በተሳካ ሁኔታ ተጠናቋል። ከታች የተሳየውን ኮድ ቅዳት እና በድር ጣቢያዎ ያስገቡ። ቀጣዩ ጊዜ ደንበኛ በላይቭ ቻት ሲጠቀም ውይይቱ በራሱ በኢንቦክስዎ ይታያል።",
+      "WHATSAPP_QR_INSTRUCTION": "ለፈጣን ሙከራ የ WhatsApp ጥቅል ላይ ከላይ ያለውን QR ኮድ ይስካን ያድርጉ",
+      "MESSENGER_QR_INSTRUCTION": "ለፈጣን ሙከራ የ Facebook Messenger ጥቅል ላይ ከላይ ያለውን QR ኮድ ይስካን ያድርጉ",
+      "TELEGRAM_QR_INSTRUCTION": "ለፈጣን ሙከራ የ Telegram ጥቅል ላይ ከላይ ያለውን QR ኮድ ይስካን ያድርጉ"
     },
-    "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "REAUTH": "እንደገና ፈቃድ ስጥ",
+    "VIEW": "እይ",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "SUCCESS_MESSAGE": "የኢንቦክስ ቅንብሮች በተሳካ ሁኔታ ተዘምኗል",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "ራስ-ሰዓት መስጠት በተሳካ ሁኔታ ተዘምኗል",
+        "ERROR_MESSAGE": "የኢንቦክስ ቅንብሮችን ማዘመን አልተቻለም። እባክዎ በኋላ ደግመው ይሞክሩ።."
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "ተከፍቷል",
+        "DISABLED": "ተሰናክሏል"
       },
       "ENABLE_CSAT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "ተከፍቷል",
+        "DISABLED": "ተሰናክሏል"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
-        "FOR_EG": "For eg:",
+        "TITLE": "የላኪው ስም",
+        "SUB_TEXT": "ከወኪሎችዎ የሚሰጥበትን ስም ለደንበኞችዎ ይምረጡ።.",
+        "FOR_EG": "ለምሳሌ፡:",
         "FRIENDLY": {
-          "TITLE": "Friendly",
-          "FROM": "from",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "TITLE": "ደስተኛ",
+          "FROM": "ከ",
+          "SUBTITLE": "በመልእክት ላይ የመልስ ሰጪው የወኪሉን ስም በመጨመር እንዲደስታማ ያድርጉ።."
         },
         "PROFESSIONAL": {
-          "TITLE": "Professional",
-          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+          "TITLE": "ሙያዊ",
+          "SUBTITLE": "በኢሜይል ራስ ራስ ስም የተያዘውን የንግድ ስም ብቻ ይጠቀሙ።."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
-          "SAVE_BUTTON_TEXT": "Save"
+          "BUTTON_TEXT": "የንግድ ስምዎን ያቀናብሩ",
+          "PLACEHOLDER": "የንግድ ስምዎን ያስገቡ",
+          "SAVE_BUTTON_TEXT": "አስቀምጥ"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "ተከናውኗል",
+        "DISABLED": "ተሰናክሏል"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "ተከናውኗል",
+        "DISABLED": "ተሰናክሏል"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "አንደኛውን ንግግር እንደገና ክፈት",
+        "DISABLED": "አዲስ ንግግሮች ፍጠር",
+        "ENABLED_DESCRIPTION": "ሲነጋገር እንደገና ከሚያስተላለፍ ጋር ያለው የቀደም ውይይት ይከፈታል።.",
+        "DISABLED_DESCRIPTION": "ከቀደም ያለው ውይይት ከተፈታ በኋላ አዲስ ውይይት ይፈጠራል።."
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "አንቀሳቅስ"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "BUTTON_TEXT": "አጥፋ",
+      "AVATAR_DELETE_BUTTON_TEXT": "አቫታር ሰርዝ",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "ማጥፋትን አረጋግጥ",
+        "MESSAGE": "እርግጠኛ ነህ ለመሰረዝ ",
+        "PLACE_HOLDER": "እባክዎ {inboxName} በማለት ያረጋግጡ",
+        "YES": "አዎን፣ ሰርዝ ",
+        "NO": "አይደለም፣ አሁንም ይቆዩ "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "SUCCESS_MESSAGE": "ኢንቦክስ በተሳካ ሁኔታ ተሰርዟል",
+        "ERROR_MESSAGE": "ኢንቦክስ ማጥፋት አልተቻለም። እባክዎ በኋላ ደግመው ይሞክሩ።",
+        "AVATAR_SUCCESS_MESSAGE": "የኢንቦክስ አቫታር በተሳካ ሁኔታ ተሰርዟል",
+        "AVATAR_ERROR_MESSAGE": "የኢንቦክስ አቫታር ማጥፋት አልተቻለም። እባክዎ በኋላ ደግመው ይሞክሩ።"
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration",
-      "ACCOUNT_HEALTH": "Account Health",
-      "CSAT": "CSAT"
+      "SETTINGS": "ቅንብሮች",
+      "COLLABORATORS": "ተሳታፊዎች",
+      "CONFIGURATION": "ቅንብር",
+      "CAMPAIGN": "የዘመናዊ ዘርፎች",
+      "PRE_CHAT_FORM": "የቀደም ቻት ቅጽ",
+      "BUSINESS_HOURS": "የንግድ ሰዓታት",
+      "WIDGET_BUILDER": "የዊጅት አሰራር መሣሪያ",
+      "BOT_CONFIGURATION": "የቦት ቅንብሮች",
+      "ACCOUNT_HEALTH": "የመለያ ጤና",
+      "CSAT": "የደንበኞች ደህንነት ግምገማ (CSAT)"
     },
+    "CHANNEL_PREFERENCES": "የቻናል ቅድሚያዎች",
+    "WIDGET_FEATURES": "የዊጅት ባህሪያት",
     "ACCOUNT_HEALTH": {
-      "TITLE": "Manage your WhatsApp account",
-      "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
-      "GO_TO_SETTINGS": "Go to Meta Business Manager",
-      "NO_DATA": "Health data is not available",
+      "TITLE": "የ WhatsApp መለያዎን ያስተዳድሩ",
+      "DESCRIPTION": "የ WhatsApp መለያዎን ሁኔታ፣ የመልእክት ገደቦችን እና ጥራት ይገምግሙ። ቅንብሮችን ያዘምኑ ወይም ችግሮችን ካሉ ያስተካክሉ።",
+      "GO_TO_SETTINGS": "ወደ Meta Business Manager ይሂዱ",
+      "NO_DATA": "የጤና ውሂብ አይገኝም",
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
-          "LABEL": "Display phone number",
-          "TOOLTIP": "Phone number displayed to customers"
+          "LABEL": "የስልክ ቁጥር አሳይ",
+          "TOOLTIP": "ለደንበኞች የታየ የስልክ ቁጥር"
         },
         "VERIFIED_NAME": {
-          "LABEL": "Business name",
-          "TOOLTIP": "Business name verified by WhatsApp"
+          "LABEL": "የንግድ ስም",
+          "TOOLTIP": "የንግድ ስም በWhatsApp ተረጋግጧል"
         },
         "DISPLAY_NAME_STATUS": {
-          "LABEL": "Display name status",
-          "TOOLTIP": "Status of your business name verification"
+          "LABEL": "የማሳያ ስም ሁኔታ",
+          "TOOLTIP": "የንግድ ስምዎ ማረጋገጫ ሁኔታ"
         },
         "QUALITY_RATING": {
-          "LABEL": "Quality rating",
-          "TOOLTIP": "WhatsApp quality rating for your account"
+          "LABEL": "የጥራት እሴት",
+          "TOOLTIP": "ለመለያዎ የWhatsApp የጥራት እሴት"
         },
         "MESSAGING_LIMIT_TIER": {
-          "LABEL": "Messaging limit tier",
-          "TOOLTIP": "Daily messaging limit for your account"
+          "LABEL": "የመልእክት ገደብ ደረጃ",
+          "TOOLTIP": "ለአካውንትዎ የዕለት መልእክት ገደብ"
         },
         "ACCOUNT_MODE": {
-          "LABEL": "Account mode",
-          "TOOLTIP": "Current operating mode of your WhatsApp account"
+          "LABEL": "የአካውንት ሁኔታ",
+          "TOOLTIP": "የWhatsApp አካውንትዎ የአሁኑ እንቅስቃሴ ሁኔታ"
         }
       },
       "VALUES": {
         "TIERS": {
-          "TIER_250": "250 customers per 24h",
-          "TIER_1000": "1K customers per 24h",
-          "TIER_1K": "1K customers per 24h",
-          "TIER_10K": "10K customers per 24h",
-          "TIER_100K": "100K customers per 24h",
-          "TIER_UNLIMITED": "Unlimited customers per 24h",
-          "UNKNOWN": "Rating not available"
+          "TIER_250": "በ24 ሰዓት ውስጥ 250 ደንበኞች",
+          "TIER_1000": "በ24 ሰዓታት ውስጥ 1K ደንበኞች",
+          "TIER_1K": "በ24 ሰዓታት ውስጥ 1K ደንበኞች",
+          "TIER_10K": "በ24 ሰዓታት ውስጥ 10K ደንበኞች",
+          "TIER_100K": "በ24 ሰዓታት ውስጥ 100K ደንበኞች",
+          "TIER_UNLIMITED": "በ24 ሰዓታት ውስጥ ያልተገደበ ደንበኞች",
+          "UNKNOWN": "እውነተኛ አሰናዳድ አይገኝም"
         },
         "STATUSES": {
-          "APPROVED": "Approved",
-          "PENDING_REVIEW": "Pending Review",
-          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
-          "REJECTED": "Rejected",
-          "DECLINED": "Declined",
-          "NON_EXISTS": "Non exists"
+          "APPROVED": "ተፈቅዷል",
+          "PENDING_REVIEW": "በጥናት ላይ ነው",
+          "AVAILABLE_WITHOUT_REVIEW": "እንደ ጥናት አልተደረገም ነጻ ነው",
+          "REJECTED": "ተቀባይነት አልተሰጠም",
+          "DECLINED": "ተከለከለ",
+          "NON_EXISTS": "አልነበረም"
         },
         "MODES": {
-          "SANDBOX": "Sandbox",
-          "LIVE": "Live"
+          "SANDBOX": "ሳንድቦክስ",
+          "LIVE": "ቀጥታ"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "የWebhook ቅንብር",
+        "DESCRIPTION": "ከደንበኞች መልእክቶች ለመቀበል ለWhatsApp Business መለያዎ የWebhook URL አስፈላጊ ነው",
+        "ACTION_REQUIRED": "Webhook አልተቀየረም",
+        "REGISTER_BUTTON": "Webhook ይመዝግቡ",
+        "REGISTER_SUCCESS": "Webhook በተሳካ ሁኔታ ተመዝግቧል",
+        "REGISTER_ERROR": "የwebhook ምዝገባ አልተሳካም። እባክዎ ደግመው ይሞክሩ።.",
+        "CONFIGURED_SUCCESS": "Webhook በተሳካ ሁኔታ ተቀይሯል",
+        "URL_MISMATCH": "Webhook URL አልተስማማም"
       }
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "ቅንብሮች",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "LABEL": "ባህሪያት",
+      "DISPLAY_FILE_PICKER": "በዊጅት ላይ የፋይል አሰሳ አሳይ",
+      "DISPLAY_EMOJI_PICKER": "በዊጅት ላይ የኢሞጂ አሰሳ አሳይ",
+      "ALLOW_END_CONVERSATION": "ተጠቃሚዎች ከዊጅት ውስጥ ውይይትን ለመጨረስ ፈቀድ",
+      "USE_INBOX_AVATAR_FOR_BOT": "ለቦቱ የኢንቦክስ ስምና አቫታር ተጠቀም"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
+      "MESSENGER_HEADING": "የመልእክት ስክሪፕት",
+      "MESSENGER_SUB_HEAD": "ይህን አዝራር በbody ታግ ውስጥ ያቀርቡ",
       "ALLOWED_DOMAINS": {
-        "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "TITLE": "የተፈቀዱ ድር ስፍራዎች",
+        "DESCRIPTION": "የቻት ዊጅትዎን ማን እንደሚጨምር ድር ጣቢያዎችን ያገዙ። ለደህንነት፣ ብቻ የእርስዎን እና የሚታመኑትን ድር ጣቢያዎች ያክሉ። አንድ ወይም ከዚያ በላይ ድር ጣቢያዎችን በኮማ በመለያየት ያክሉ። ሁሉንም ድር ጣቢያዎች ለመፍቀድ ቦታውን ባዶ ተው (ለምርት አይመከርም)።.",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
-      "INBOX_AGENTS": "Agents",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "UPDATE": "Update",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
-      "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
-      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Update",
-      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
-      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
-      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
-      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
-      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
-      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
-      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
-      "WHATSAPP_CONNECT_BUTTON": "Connect",
-      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
-      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
-      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
-      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
-      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
-      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
-      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
-      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
-      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Enable widget in mobile apps",
+        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Identity Validation",
+        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "SECRET_KEY": "የሚሰወር ቁልፍ",
+        "VIEW_DOCS": "View documentation",
+        "REQUIRE_LABEL": "Require identity validation for all conversations",
+        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
+      },
+      "INBOX_AGENTS": "Agent-ዎች",
+      "INBOX_AGENTS_SUB_TEXT": "ከዚህ ኢንቦክስ ውስጥ Agent-ዎችን ያክሉ ወይም ያስወግዱ",
+      "AGENT_ASSIGNMENT": "የውይይት መለያየት",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "የውይይት መለያየት ቅንብሮችን አዘምን",
+      "UPDATE": "አዘምን",
+      "ENABLE_EMAIL_COLLECT_BOX": "የኢሜይል ስብስብ ሳጥን አንቀሳቅስ",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "በአዲስ ውይይት ላይ የኢሜይል ስብስብ ሳጥን አንቀሳቅስ ወይም አቋርጥ",
+      "AUTO_ASSIGNMENT": "ራስ-ሰዓት መስጠትን አንቀሳቅስ",
+      "SENDER_NAME_SECTION": "በኢሜይል ውስጥ የAgent ስም አርግ",
+      "SENDER_NAME_SECTION_TEXT": "በኢሜይል ውስጥ የAgent ስም እንዲታይ/እንዳይታይ አርግ፣ ካልተከናወነ የንግድ ስም ይታያል",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "በኢሜል የውይይት ቀጥታነት አንቀሳቅስ",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "ከኮንታክት ኢሜይል አድራሻ ካለ ውይይቶች በኢሜይል ይቀጥላሉ።",
+      "LOCK_TO_SINGLE_CONVERSATION": "የውይይት መላኪያ",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "ለአሁን ያሉ እውቂያዎች ውይይት ፍጠራ ያስተካክሉ",
+      "INBOX_UPDATE_TITLE": "የኢንቦክስ ቅንብሮች",
+      "INBOX_UPDATE_SUB_TEXT": "የኢንቦክስዎን ቅንብሮች ያዘምኑ",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "አዲስ ውይይቶችን ወደ ይህ ኢንቦክስ የተጨመሩ ወኪሎች በራስሰር ማድረግን አቅርቦ ወይም አቋርጦ ያድርጉ።",
+      "HMAC_VERIFICATION": "የተጠቃሚ መለያ ማረጋገጫ",
+      "HMAC_DESCRIPTION": "በዚህ ቁልፍ የተለየ ቶክን ማመንጨት ይችላሉ ይህም የተጠቃሚዎችዎን መለያ ለማረጋገጥ ይጠቅማል።.",
+      "HMAC_LINK_TO_DOCS": "እንደ ተጨማሪ መረጃ እዚህ ማንበብ ይችላሉ።.",
+      "HMAC_MANDATORY_VERIFICATION": "የተጠቃሚ መለያ ማረጋገጫን አጽድቅ",
+      "HMAC_MANDATORY_DESCRIPTION": "ከተከፈተ ግምገማዎች ካልተረጋገጡ ጥያቄዎች ይተንቀሳቀሳሉ።.",
+      "INBOX_IDENTIFIER": "የኢንቦክስ መለያ",
+      "INBOX_IDENTIFIER_SUB_TEXT": "የ API ደንበኞችዎን ማረጋገጫ ለማድረግ እዚህ የተሳየውን `inbox_identifier` ቶክን ይጠቀሙ።",
+      "FORWARD_EMAIL_TITLE": "ወደ ኢሜይል አስቀምጥ",
+      "FORWARD_EMAIL_SUB_TEXT": "ኢሜይሎችዎን ወደ ቀጣዩ ኢሜይል አድራሻ መላክ ይጀምሩ።",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "ኢሜይሎችን ወደ ኢንቦክስዎ መቀላቀል በዚህ መገናኛ አሁን አልተፈቀደም። ይህን ባህሪ ለመጠቀም ከአስተዳደሩ መፍቀድ አለቦት። እባክዎ ለመቀጠል ከእነርሱ ጋር ያገናኙ።.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "ከውይይት መፍታት በኋላ መልእክቶችን እንዲፈቀድ",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "ውይይቱ ከተፈታ በኋላም እንደገና መልእክቶችን ለመላክ ለመጠቀሚያ ተጠቃሚዎች ፈቃድ ይስጡ።",
+      "WHATSAPP_SECTION_SUBHEADER": "ይህ የAPI ቁልፍ ለWhatsApp API ጋር ለመያዝ ይጠቅማል።.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "ለWhatsApp API ጋር ለመያዝ አዲሱን የAPI ቁልፍ ያስገቡ።.",
+      "WHATSAPP_SECTION_TITLE": "API ቁልፍ",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "API ቁልፍ አዘምን",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "አዲሱን API ቁልፍ እዚህ ያስገቡ",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "አዘምን",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "የWhatsApp ውስጥ ያለ ምዝገባ",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "ይህ ኢንቦክስ በWhatsApp ተዋሰነ መመዝገቢያ ተገናኝቷል።.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "ይህን ኢንቦክስ ለWhatsApp ንግድ ቅንብሮች ለማዘመን መቀየር ይችላሉ።.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "እንደገና ያቀናብሩ",
+      "WHATSAPP_CONNECT_TITLE": "ወደ WhatsApp ቢዝነስ ይገናኙ",
+      "WHATSAPP_CONNECT_SUBHEADER": "ለቀላል አስተዳደር ወደ WhatsApp ተዋሰነ መመዝገቢያ ይዘምኑ።.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "ይህን ኢንቦክስ ወደ WhatsApp ንግድ ያገናኙ ለተጨማሪ ባህሪያትና ቀላል አስተዳደር።.",
+      "WHATSAPP_CONNECT_BUTTON": "አገናኝ",
+      "WHATSAPP_CONNECT_SUCCESS": "ወደ WhatsApp Business በተሳካ ሁኔታ ተገናኝቷል!",
+      "WHATSAPP_CONNECT_ERROR": "ወደ WhatsApp ንግድ መገናኘት አልተሳካም። እባክዎ ደግመው ይሞክሩ።.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "WhatsApp Business በተሳካ ሁኔታ ተቀይሯል!",
+      "WHATSAPP_RECONFIGURE_ERROR": "WhatsApp ንግድ መቀየር አልተሳካም። እባክዎ ደግመው ይሞክሩ።.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp መተግበሪያ መለያ አልተቀመጠም። እባክዎ ከአስተዳደሩ ጋር ያገናኙ።.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp የቅንብር መለያ አልተቀመጠም። እባክዎ ከአስተዳደሩ ጋር ያገናኙ።.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp ግባ ተሰርዟል። እባክዎ ደግመው ይሞክሩ።.",
+      "WHATSAPP_WEBHOOK_TITLE": "የWebhook ማረጋገጫ ቶክን",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "ይህ ቶክን የwebhook መግቢያ እውነታነት ለማረጋገጥ ይጠቅማል።.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "አብራሪ አብራሪዎችን ያስተካክሉ",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "ከWhatsApp መልእክት አብነቶች እጅግ በእጅ ማስተካከል ለእንደገና የሚገኙ አብነቶችን ያዘምኑ።.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "አብነቶችን ያዘምኑ",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "የአብነት ማስተካከያ በተሳካ ሁኔታ ተጀምሯል። ለማዘመን ጥቂት ደቂቃዎች ሊወስድ ይችላል።.",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "የቀደም ቻት ቅጥያ ቅንብሮችን አዘምን"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "LABEL": "የእርዳታ ማዕከል",
+      "PLACEHOLDER": "የእርዳታ ማዕከል ይምረጡ",
+      "SELECT_PLACEHOLDER": "የእርዳታ ማዕከል ይምረጡ",
+      "NONE": "የለም",
+      "REMOVE": "የእርዳታ ማዕከል አስወግድ",
+      "SUB_TEXT": "ከኢንቦክስ ጋር የእርዳታ ማዕከል ያክሉ"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "የራስ-ሰው መለያየት ውስጥ ያለ ከፍተኛ ድርሻ",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "ከ<b>0</b> በላይ ዋጋ እባክዎ ያስገቡ።",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "ከዚህ ኢንቦክስ የሚሰጡ ውይይቶች በአጠቃላይ ቁጥር ላይ ለኤጅንት ራስ-ሰው መለያየት ያለውን ድርሻ አገደም"
+    },
+    "ASSIGNMENT": {
+      "TITLE": "የንግግር መለያየት",
+      "DESCRIPTION": "በተመደበ የማድረግ ፖሊሲዎች መሠረት የሚገኙ ወኪሎች ወደ ውስጥ የሚገቡ ውይይቶች በራስሰር ይመደባሉ",
+      "ENABLE_AUTO_ASSIGNMENT": "የእንግዳ ውይይት ማስመዝገቢያ አባልነት አስችል",
+      "DEFAULT_RULES_TITLE": "የነባሪ የማስመዝገቢያ ህጎች",
+      "DEFAULT_RULES_DESCRIPTION": "ለሁሉም ውይይቶች የነባሪ የማስመዝገቢያ ባህሪ መጠቀም",
+      "DEFAULT_RULE_1": "በጥንቃቄ የተፈጠሩ ውይይቶች በመጀመሪያ",
+      "DEFAULT_RULE_2": "ዙር ሮቢን ስርጭት",
+      "CUSTOMIZE_WITH_POLICY": "በመለያየት ፖሊሲ ያስተካክሉ",
+      "USING_POLICY": "ለዚህ ኢንቦክስ በተለየ መለያየት ፖሊሲ ተጠቃሚ ነው",
+      "CUSTOMIZE_POLICY": "በመለያየት ፖሊሲ ያስተካክሉ",
+      "DELETE_POLICY": "ፖሊሲ አስወግድ",
+      "POLICY_LABEL": "የመስጠት ፖሊሲ",
+      "ASSIGNMENT_ORDER_LABEL": "የመስጠት ቅደም ተከተል",
+      "ASSIGNMENT_METHOD_LABEL": "የመስጠት ዘዴ",
+      "POLICY_STATUS": {
+        "ACTIVE": "ንቁ",
+        "INACTIVE": "ያልተነሳ"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "በጣም ቀድሞ የተፈጠረ",
+        "LONGEST_WAITING": "በጣም ረጅም የቆየ"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "ሩንድ ሮቢን",
+        "BALANCED": "ተመጣጣኝ ስራ መሰጠት"
+      },
+      "UPGRADE_PROMPT": "በቢዝነስ እቅድ ላይ የተለየ የስራ መሰጠት ፖሊሲዎች አሉ",
+      "UPGRADE_TO_BUSINESS": "ወደ ቢዝነስ ይዘው ይሻሽሉ",
+      "DEFAULT_POLICY_LINKED": "ነባሪ ፖሊሲ ተገናኝቷል",
+      "DEFAULT_POLICY_DESCRIPTION": "ለዚህ ኢንቦክስ ውይይቶች እንዴት እንደሚሰጡ ለማስተካከል በተለየ የማዋል ፖሊሲ ያገናኙ።.",
+      "LINK_EXISTING_POLICY": "ያለውን ፖሊሲ ይገናኙ",
+      "CREATE_NEW_POLICY": "አዲስ ፖሊሲ ይፍጠሩ",
+      "NO_POLICIES": "የማያገኙ የስራ መደበኛ ፖሊሲዎች የሉም",
+      "VIEW_ALL_POLICIES": "ሁሉንም ፖሊሲዎች እይ",
+      "CURRENT_BEHAVIOR": "አሁን የሚጠቀሙት የነባሪ የማዋል ባህሪ ነው፡:",
+      "LINK_SUCCESS": "የስራ መደበኛ ፖሊሲ በተሳካ ሁኔታ ተገናኝቷል",
+      "LINK_ERROR": "የስራ መደበኛ ፖሊሲ ለመገናኘት አልተሳካም"
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "የስራ መደበኛ ፖሊሲ ማጥፋት ይፈልጋሉ?",
+      "DELETE_CONFIRM_MESSAGE": "ከዚህ የማዋል ፖሊሲ ከኢንቦክስ ማስወገድ እርግጠኛ ነዎት? ኢንቦክስ ወደ ነባሪ የማዋል ህጎች ይመለሳል።.",
+      "CANCEL": "ሰርዝ",
+      "CONFIRM_DELETE": "ሰርዝ",
+      "DELETE_SUCCESS": "የስራ መደበኛ ፖሊሲ በተሳካ ሁኔታ ተሰርዟል",
+      "DELETE_ERROR": "የስራ መደበኛ ፖሊሲ ማስወገድ አልተሳካም"
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Reauthorize",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "TITLE": "እንደገና ፈቃድ ስጥ",
+      "SUBTITLE": "የ Facebook ግንኙነትዎ ያልተጠበቀ ስለሆነ እባክዎ የ Facebook ገጹን እንደገና ያገናኙ እንዲቀጥሉ አገልግሎቶችን",
+      "MESSAGE_SUCCESS": "እንደገና መገናኘት ተሳክቷል",
+      "MESSAGE_ERROR": "ስህተት አጋጥሟል፣ እባክዎ እንደገና ይሞክሩ"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
-      "SET_FIELDS": "Pre chat form fields",
+      "DESCRIPTION": "የቀድሞ ቻት ቅጥያዎች ተጠቃሚ መረጃ ከመደምደሚያ በፊት ለመሰብሰብ ይፈቅዳሉ።",
+      "SET_FIELDS": "የቀደም የውይይት ቅጽ መስኮች",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
-        "TYPE": "Type",
-        "REQUIRED": "Required"
+        "FIELDS": "መስኮች",
+        "LABEL": "መለያ",
+        "PLACE_HOLDER": "ቦታ ማስተካከያ",
+        "KEY": "ቁልፍ",
+        "TYPE": "አይነት",
+        "REQUIRED": "አስፈላጊ"
       },
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "የቀደም ቻት ቅጽን አንቀሳቅስ",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "አዎን",
+          "DISABLED": "አይ"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "የቀደም የውይይት መልእክት",
+        "PLACEHOLDER": "ይህ መልእክት ከቅጹ ጋር ለተጠቃሚዎች ይታያል"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "ጎብኚዎች ቻት ከመጀመር በፊት ስምና ኢሜይል መስጠት አለባቸው"
       }
     },
     "CSAT": {
-      "TITLE": "Enable CSAT",
-      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "TITLE": "የCSAT አሰራር አስችል",
+      "SUBTITLE": "በውይይቶች መጨረሻ ላይ የCSAT እንቅስቃሴዎችን በራስሰር ለማንቀሳቀስ ይጠቀሙ እና ደንበኞች ስለ ድጋፍ ልምዳቸው እንዴት እንደሚሰማ ያስተውሉ። የማማለያ እና ለማሻሻል የሚያስፈልጉትን አካላት ይከታተሉ።.",
       "DISPLAY_TYPE": {
-        "LABEL": "Display type"
+        "LABEL": "የማሳያ አይነት"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter a message to show users with the form"
+        "LABEL": "መልእክት",
+        "PLACEHOLDER": "እባክዎ ከቅጽ ጋር ለሚታዩ ተጠቃሚዎች መልእክት ያስገቡ"
       },
       "BUTTON_TEXT": {
-        "LABEL": "Button text",
-        "PLACEHOLDER": "Please rate us"
+        "LABEL": "የአዝራር ጽሑፍ",
+        "PLACEHOLDER": "እባክዎን ደረጃ ያስገቡ"
       },
       "LANGUAGE": {
-        "LABEL": "Language",
-        "PLACEHOLDER": "Select template language"
+        "LABEL": "ቋንቋ",
+        "PLACEHOLDER": "የአብነት ቋንቋ ይምረጡ"
       },
       "MESSAGE_PREVIEW": {
-        "LABEL": "Message preview",
-        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+        "LABEL": "የመልእክት አሳይ",
+        "TOOLTIP": "በWhatsApp መድረክ ላይ ሲታይ ትንሽ ልዩነት ሊኖረው ይችላል።."
       },
       "TEMPLATE_STATUS": {
-        "APPROVED": "Approved by WhatsApp",
-        "PENDING": "Pending WhatsApp approval",
-        "REJECTED": "Meta rejected the template",
-        "DEFAULT": "Needs WhatsApp approval",
-        "NOT_FOUND": "The template does not exist in the Meta platform."
+        "APPROVED": "በWhatsApp ተፈቅዷል",
+        "PENDING": "የWhatsApp ፈቃድ በመጠበቅ ላይ ነው",
+        "REJECTED": "Meta አቅራቢውን አልተቀበለም",
+        "DEFAULT": "WhatsApp ማረጋገጫ ይፈልጋል",
+        "NOT_FOUND": "አብነቱ በMeta መድረክ ውስጥ አልተገኘም።."
       },
       "TEMPLATE_CREATION": {
-        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
-        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+        "SUCCESS_MESSAGE": "WhatsApp አቅራቢ በተሳካ ሁኔታ ተፈጥሯል እና ለማረጋገጫ ተልኳል",
+        "ERROR_MESSAGE": "WhatsApp አቅራቢ ለመፍጠር አልተሳካም"
       },
       "TEMPLATE_UPDATE_DIALOG": {
-        "TITLE": "Edit survey details",
-        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Create new template",
-        "CANCEL": "Go back"
+        "TITLE": "የምርመራ ዝርዝሮችን አርትዕ",
+        "DESCRIPTION": "ያለፈውን አብነት እናጥፋለን እና እንደገና ለWhatsApp ማረጋገጫ የሚላክ አዲስ አብነት እንፈጥራለን",
+        "CONFIRM": "አዲስ አብነት ፍጠር",
+        "CANCEL": "ተመለስ"
+      },
+      "UTILITY_ANALYZER": {
+        "ACTION": "የተጠቃሚነት ማስፈሪያ ይፈትሹ",
+        "HELPER_NOTE": "ለማሻሻል የUtility ተስማሚነት ከፈለጉ ከማስገባት በፊት ይህን መልእክት ይፈትሹ። ስርዓቱ ለሪፖርት ለማስገባት በተለየ የCSAT አብነት ከተለያዩ አዝራሮች ጋር ይፈጥራል። እንኳን በይዘት መሠረት Meta እንደ ማርኬቲንግ ሊያደርግ ይችላል።.",
+        "RESULT_LABEL": "የሜታ ምድብ ትንበያ",
+        "GUIDANCE_NOTE": "ይህ መምሪያ ምርመራ ነው፣ የMeta ፈቃድ አላማ አይደለም።.",
+        "SUGGESTION_LABEL": "የተጠቃሚ ደህንነት የተመነጨ እንደገና ጻፍ",
+        "APPLY": "ይህን እንደገና ጻፍ",
+        "ERROR_MESSAGE": "መልእክቱን ማስተካከል አልተቻለም። እባክዎ ደግመው ይሞክሩ።.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "ምናልባት አጠቃላይ ነገር",
+          "LIKELY_MARKETING": "ምናልባት ገበያ ነገር",
+          "UNCLEAR": "አስተላለፊ ያስፈልጋል"
+        }
       },
       "SURVEY_RULE": {
-        "LABEL": "Survey rule",
-        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
-        "DESCRIPTION_SUFFIX": "any of the labels",
+        "LABEL": "የእንቅስቃሴ ህግ",
+        "DESCRIPTION_PREFIX": "የውይይቱ ጊዜ ምርመራውን ላክ",
+        "DESCRIPTION_SUFFIX": "የማንኛውም መለያያት",
         "OPERATOR": {
-          "CONTAINS": "contains",
-          "DOES_NOT_CONTAINS": "does not contain"
+          "CONTAINS": "ይዟል",
+          "DOES_NOT_CONTAINS": "አይዟም"
         },
-        "SELECT_PLACEHOLDER": "select labels"
+        "SELECT_PLACEHOLDER": "መለያያቶችን ይምረጡ"
       },
-      "NOTE": "Note: CSAT surveys are sent only once per conversation",
-      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "NOTE": "ማስታወሻ፡ CSAT እንደገና በንግግር አንድ ጊዜ ብቻ ይላካል",
+      "WHATSAPP_NOTE": "ማስታወሻ፡ ሲቀርብ ሲሆን ስርዓቱ በWhatsApp ውስጥ ለCSAT የተለየ አብነት ይፈጥራል (በሪፖርቶች ውስጥ ደረጃና አስተያየት ለማሰብ የሚጠቀም) እና እንደ Utility ለማረጋገጥ ይላካል። Meta እንኳን በይዘት መሠረት እንደ Marketing ሊያወቅ ይችላል። ከማረጋገጥ በኋላ ምርመራዎች በምርመራ ህግ መሠረት በንግግር አንድ ጊዜ ብቻ ይላካሉ።.",
       "API": {
-        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
-        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+        "SUCCESS_MESSAGE": "የCSAT ቅንብሮች በተሳካ ሁኔታ ተሻሽለዋል",
+        "ERROR_MESSAGE": "የCSAT ቅንብሮችን ማዘመን አልተቻለም። እባክዎ በኋላ ደግመው ይሞክሩ።."
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TITLE": "የእርስዎን እንደሚገኙበት ያስቀመጡ",
+      "SUBTITLE": "በቀጥታ ውይይት ዊጅትዎ ላይ እንደሚገኙበት ያስቀመጡ",
+      "WEEKLY_TITLE": "ሳምንታዊ ሰዓታትዎን ያስቀመጡ",
+      "TIMEZONE_LABEL": "የሰዓት ክልል ይምረጡ",
+      "UPDATE": "የንግድ ሰዓታት ቅንብሮችን አዘምን",
+      "TOGGLE_AVAILABILITY": "ለዚህ ኢንቦክስ የንግድ እንደሚገኙ አንቀሳቅስ",
+      "UNAVAILABLE_MESSAGE_LABEL": "ለጎብኚዎች የማይገኙ መልእክት",
+      "TOGGLE_HELP": "የንግድ እንደሚገኙበት ሰዓቶች ማሳያ ከተከፈተ በሁሉም ወኪሎች ከተዘጋ ቢሆንም በቀጥታ ውይይት ዊጅት የሚገኙትን ሰዓቶች ያሳያል። ከንግድ ሰዓቶች ውጭ ጎብኚዎች በመልእክትና በቀድሞ የውይይት ቅርጸ ቅጥያ ሊማሩ ይችላሉ።.",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "DAY": "ቀን",
+        "AVAILABILITY": "አሰልጣኝነት",
+        "HOURS": "ሰዓታት",
+        "ENABLE": "ለዚህ ቀን እንደሚገኙ አንቀሳቅስ",
+        "UNAVAILABLE": "አይገኝም",
+        "VALIDATION_ERROR": "የመጀመሪያ ሰዓት ከመዝጊያ ሰዓት በፊት መሆን አለበት።",
+        "CHOOSE": "ይምረጡ"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "ቀኑን ሙሉ"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "SUBTITLE": "የIMAP ዝርዝሮችዎን ያስቀመጡ",
+      "NOTE_TEXT": "SMTP ለማንቀሳቀስ እባክዎ IMAP ያስተካክሉ።.",
+      "UPDATE": "የIMAP ቅንብሮችን አዘምን",
+      "TOGGLE_AVAILABILITY": "ለዚህ ጣቢያ IMAP ቅንብር አንቀሳቅስ",
+      "TOGGLE_HELP": "IMAP ማግኘት ተጠቃሚው ኢሜል ለመቀበል እንዲረዳ ይረዳል",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "የIMAP ቅንብሮች በተሳካ ሁኔታ ተዘምኗል",
+        "ERROR_MESSAGE": "የIMAP ቅንብሮችን ማዘመን አልተቻለም"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "አድራሻ",
+        "PLACE_HOLDER": "አድራሻ (ለምሳሌ፡ imap.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "ፖርት",
+        "PLACE_HOLDER": "ፖርት"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "መግቢያ",
+        "PLACE_HOLDER": "መግቢያ"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "የይለፍ ቃል",
+        "PLACE_HOLDER": "የይለፍ ቃል"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "SSL አንቀሳቅስ"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
+      "SUBTITLE": "የ MICROSOFT መለያዎን እንደገና ያረጋግጡ"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "SUBTITLE": "የSMTP ዝርዝሮችዎን ያስቀመጡ",
+      "UPDATE": "የSMTP ቅንብሮችን አዘምን",
+      "TOGGLE_AVAILABILITY": "ለዚህ ጣቢያ SMTP ቅንብር አንቀሳቅስ",
+      "TOGGLE_HELP": "SMTP አንቀሳቅም ተጠቃሚው ኢሜል ለመላክ ይረዳል",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "የSMTP ቅንብሮች በተሳካ ሁኔታ ተዘምኗል",
+        "ERROR_MESSAGE": "የSMTP ቅንብሮችን ማዘመን አልተቻለም"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "አድራሻ",
+        "PLACE_HOLDER": "አድራሻ (ለምሳሌ፡ smtp.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "ፖርት",
+        "PLACE_HOLDER": "ፖርት"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "ግባ",
+        "PLACE_HOLDER": "ግባ"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "የይለፍ ቃል",
+        "PLACE_HOLDER": "የይለፍ ቃል"
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "ዶሜይን",
+        "PLACE_HOLDER": "ዶሜይን"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "ምስጢር አሰራር",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
-      "AUTH_MECHANISM": "Authentication"
+      "OPEN_SSL_VERIFY_MODE": "Open SSL ማረጋገጫ ሁኔታ",
+      "AUTH_MECHANISM": "ማረጋገጫ"
     },
-    "NOTE": "Note: ",
+    "NOTE": "ማስታወሻ: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "የድህረ ገጽ አቫታር",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
-              "ERROR_MESSAGE": "There was an error, please try again"
+              "SUCCESS_MESSAGE": "አቫታሩ በተሳካ ሁኔታ ተሰርዟል",
+              "ERROR_MESSAGE": "ስህተት አጋጥሟል፣ እባክዎ እንደገና ይሞክሩ"
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Website Name",
-          "PLACE_HOLDER": "Enter your website name (eg: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "LABEL": "የድህረ ገጽ ስም",
+          "PLACE_HOLDER": "የድህረ ገጽዎን ስም ያስገቡ (ለምሳሌ፡ Acme Inc)",
+          "ERROR": "እባክዎ ትክክለኛ የድህረ ገጽ ስም ያስገቡ"
         },
         "WELCOME_HEADING": {
-          "LABEL": "Welcome Heading",
-          "PLACE_HOLDER": "Hi there!"
+          "LABEL": "እንኳን ደህና መጡ ርዕስ",
+          "PLACE_HOLDER": "ሰላም እንደምን ነህ!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACE_HOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "እንኳን ደህና መጡ መልእክት",
+          "PLACE_HOLDER": "ከእኛ ጋር ቀላል ለማገናኘት እንረዳለን። ምንም ጥያቄ ካለዎት ይጠይቁ ወይም አስተያየትዎን አጋሩ።."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day"
+          "LABEL": "የመልስ ጊዜ",
+          "IN_A_FEW_MINUTES": "በጥቂት ደቂቃዎች ውስጥ",
+          "IN_A_FEW_HOURS": "በጥቂት ሰዓታት ውስጥ",
+          "IN_A_DAY": "በአንድ ቀን ውስጥ"
         },
-        "WIDGET_COLOR_LABEL": "Widget Color",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_COLOR_LABEL": "የዊጅት ቀለም",
+        "WIDGET_BUBBLE": "በለላ",
+        "WIDGET_BUBBLE_POSITION_LABEL": "አቀማመጥ፡:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "አይነት፡:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Chat with us",
-          "LABEL": "Widget Bubble Launcher Title",
-          "PLACE_HOLDER": "Chat with us"
+          "DEFAULT": "ከእኛ ጋር ይወያዩ",
+          "LABEL": "የመነሻ ርዕስ",
+          "PLACE_HOLDER": "ከእኛ ጋር ይወያዩ"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "የዊጅት ቅንብሮችን አዘምን",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "የዊጅት ቅንብሮች በተሳካ ሁኔታ ተዘምኗል",
+            "ERROR_MESSAGE": "የዊጅት ቅንብሮችን ማዘመን አልተቻለም"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "አሳይ",
+          "SCRIPT": "ስክሪፕት"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "ግራ",
+          "RIGHT": "ቀኝ"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "መደበኛ",
+          "EXPANDED_BUBBLE": "ተሰፋፊ ቦታ"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "ነባሪ",
+        "CHAT": "የቻት ሁኔታ"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-        "IN_A_FEW_HOURS": "Typically replies in a few hours",
-        "IN_A_DAY": "Typically replies in a day"
+        "IN_A_FEW_MINUTES": "በተለምዶ በጥቂት ደቂቃዎች ውስጥ ይመልሳል",
+        "IN_A_FEW_HOURS": "በተለምዶ በጥቂት ሰዓታት ውስጥ ይመልሳል",
+        "IN_A_DAY": "በተለምዶ በአንድ ቀን ውስጥ ይመልሳል"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Start Conversation",
-        "CHAT_INPUT_PLACEHOLDER": "Type your message"
+        "START_CONVERSATION_BUTTON_TEXT": "ውይይት ጀምር",
+        "CHAT_INPUT_PLACEHOLDER": "መልእክትህን አስጻፍ"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
-          "OFFLINE": "We are away at the moment"
+          "ONLINE": "እኛ በመስመር ላይ ነን",
+          "OFFLINE": "አሁን ከእኛ ውጭ ነን"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "ሰላም",
+        "AGENT_MESSAGE": "ሰላም"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "በChatwoot የተነሳ",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
         "TITLE": "Microsoft",
-        "DESCRIPTION": "Connect with Microsoft"
+        "DESCRIPTION": "ከMicrosoft ጋር ያገናኙ"
       },
       "GOOGLE": {
         "TITLE": "Google",
-        "DESCRIPTION": "Connect with Google"
+        "DESCRIPTION": "ከGoogle ጋር ይገናኙ"
       },
       "OTHER_PROVIDERS": {
-        "TITLE": "Other Providers",
-        "DESCRIPTION": "Connect with Other Providers"
+        "TITLE": "ሌሎች አቅራቢዎች",
+        "DESCRIPTION": "ከሌሎች አቅራቢዎች ጋር ይገናኙ"
       }
     },
     "CHANNELS": {
-      "MESSENGER": "Messenger",
-      "WEB_WIDGET": "Website",
+      "MESSENGER": "መልኪያ",
+      "WEB_WIDGET": "ድህረ ገጽ",
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
-      "SMS": "SMS",
-      "EMAIL": "Email",
-      "TELEGRAM": "Telegram",
-      "LINE": "Line",
-      "API": "API Channel",
-      "INSTAGRAM": "Instagram",
+      "SMS": "ኤስኤምኤስ",
+      "EMAIL": "ኢሜል",
+      "TELEGRAM": "ቴሌግራም",
+      "LINE": "ላይን",
+      "API": "API ቻናል",
+      "INSTAGRAM": "ኢንስታግራም",
       "TIKTOK": "TikTok",
-      "VOICE": "Voice"
+      "VOICE": "ድምጽ"
     }
   }
 }

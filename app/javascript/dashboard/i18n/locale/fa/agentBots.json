@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "در حال بارگیری ویرایشگر...",
     "DESCRIPTION": "ربات‌های عامل مانند شگفت‌انگیزترین اعضای تیم شما هستند. آن‌ها می‌توانند کارهای کوچک را انجام دهند، بنابراین شما می‌توانید روی چیزهای مهم تمرکز کنید. آن‌ها را امتحان کنید. می‌توانید ربات‌های خود را از این صفحه مدیریت کنید یا با استفاده از دکمه «افزودن ربات»، ربات‌های جدیدی ایجاد کنید.",
     "LEARN_MORE": "Learn about agent bots",
+    "COUNT": "{n} bot | {n} bots",
+    "SEARCH_PLACEHOLDER": "Search bots...",
+    "NO_RESULTS": "No bots found matching your search",
     "GLOBAL_BOT": "ربات سیستمی",
     "GLOBAL_BOT_BADGE": "سیستم",
     "AVATAR": {
@@ -34,7 +37,8 @@
       "LOADING": "در حال گرفتن ربات‌ها...",
       "TABLE_HEADER": {
         "DETAILS": "جزئیات ربات",
-        "URL": "آدرس URL وب هوک"
+        "URL": "آدرس URL وب هوک",
+        "ACTIONS": "عملیات"
       }
     },
     "DELETE": {
@@ -58,6 +62,16 @@
         "SUCCESS_MESSAGE": "ربات با موفقیت به‌روز شد.",
         "ERROR_MESSAGE": "ربات بروز رسانی نشد، لطفا دوباره امتحان کنید."
       }
+    },
+    "SECRET": {
+      "LABEL": "Webhook Secret",
+      "COPY": "Copy secret to clipboard",
+      "COPY_SUCCESS": "Secret copied to clipboard",
+      "TOGGLE": "Toggle secret visibility",
+      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
+      "DONE": "Done",
+      "RESET_SUCCESS": "Webhook secret regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
     },
     "ACCESS_TOKEN": {
       "TITLE": "توکن دسترسی",

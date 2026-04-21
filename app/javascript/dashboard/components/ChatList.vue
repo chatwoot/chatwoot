@@ -1,15 +1,5 @@
 <script setup>
-// [TODO] This componet is too big and bulky to be in the same file, we can consider splitting this into multiple
-// composables and components, useVirtualChatList, useChatlistFilters
-import {
-  ref,
-  unref,
-  provide,
-  computed,
-  watch,
-  onMounted,
-  defineEmits,
-} from 'vue';
+import { ref, unref, provide, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import {
@@ -17,23 +7,19 @@ import {
   useFunctionGetter,
 } from 'dashboard/composables/store.js';
 
-import { Virtualizer } from 'virtua/vue';
 import ChatListHeader from './ChatListHeader.vue';
+import ConversationList from './ConversationList.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import ConversationFilter from 'next/filter/ConversationFilter.vue';
 import SaveCustomView from 'next/filter/SaveCustomView.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
-import ConversationItem from './ConversationItem.vue';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
-import { useChatListKeyboardEvents } from 'dashboard/composables/chatlist/useChatListKeyboardEvents';
 import { useBulkActions } from 'dashboard/composables/chatlist/useBulkActions';
 import { useFilter } from 'shared/composables/useFilter';
 import { useTrack } from 'dashboard/composables';
@@ -56,6 +42,7 @@ import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHe
 import { conversationListPageURL } from '../helper/URLHelper';
 import {
   isOnMentionsView,
+  isOnParticipatingView,
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
 import {
@@ -84,10 +71,6 @@ const route = useRoute();
 const store = useStore();
 
 const resolveAttributesModalRef = ref(null);
-const conversationListRef = ref(null);
-const virtualListRef = ref(null);
-
-provide('contextMenuElementTarget', virtualListRef);
 
 const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
 const activeStatus = ref(wootConstants.STATUS_TYPE.OPEN);
@@ -99,7 +82,6 @@ const chatsOnView = ref([]);
 const foldersQuery = ref({});
 const showAddFoldersModal = ref(false);
 const showDeleteFoldersModal = ref(false);
-const isContextMenuOpen = ref(false);
 const appliedFilter = ref([]);
 const advancedFilterTypes = ref(
   advancedFilterOptions.map(filter => ({
@@ -113,6 +95,7 @@ const chatLists = useMapGetter('getFilteredConversations');
 const mineChatsList = useMapGetter('getMineChats');
 const allChatList = useMapGetter('getAllStatusChats');
 const unAssignedChatsList = useMapGetter('getUnAssignedChats');
+const participatingChatsList = useMapGetter('getParticipatingChats');
 const chatListLoading = useMapGetter('getChatListLoadingStatus');
 const activeInbox = useMapGetter('getSelectedInbox');
 const conversationStats = useMapGetter('conversationStats/getStats');
@@ -128,7 +111,6 @@ const currentAccountId = useMapGetter('getCurrentAccountId');
 const getTeamFn = useMapGetter('teams/getTeam');
 const getConversationById = useMapGetter('getConversationById');
 
-useChatListKeyboardEvents(conversationListRef);
 const {
   selectedConversations,
   selectedInboxes,
@@ -296,13 +278,15 @@ const pageTitle = computed(() => {
   if (props.label) {
     return `#${props.label}`;
   }
-  if (props.conversationType === 'mention') {
+  if (props.conversationType === wootConstants.CONVERSATION_TYPE.MENTION) {
     return t('CHAT_LIST.MENTION_HEADING');
   }
-  if (props.conversationType === 'participating') {
+  if (
+    props.conversationType === wootConstants.CONVERSATION_TYPE.PARTICIPATING
+  ) {
     return t('CONVERSATION_PARTICIPANTS.SIDEBAR_MENU_TITLE');
   }
-  if (props.conversationType === 'unattended') {
+  if (props.conversationType === wootConstants.CONVERSATION_TYPE.UNATTENDED) {
     return t('CHAT_LIST.UNATTENDED_HEADING');
   }
   if (hasActiveFolders.value) {
@@ -311,12 +295,30 @@ const pageTitle = computed(() => {
   return t('CHAT_LIST.TAB_HEADING');
 });
 
+function filterByAssigneeTab(conversations) {
+  if (activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.ME) {
+    return conversations.filter(
+      c => c.meta?.assignee?.id === currentUser.value?.id
+    );
+  }
+  if (activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.UNASSIGNED) {
+    return conversations.filter(c => !c.meta?.assignee);
+  }
+  return [...conversations];
+}
+
 const conversationList = computed(() => {
   let localConversationList = [];
 
   if (!hasAppliedFiltersOrActiveFolders.value) {
     const filters = conversationFilters.value;
-    if (activeAssigneeTab.value === 'me') {
+    if (
+      props.conversationType === wootConstants.CONVERSATION_TYPE.PARTICIPATING
+    ) {
+      localConversationList = filterByAssigneeTab(
+        participatingChatsList.value(filters)
+      );
+    } else if (activeAssigneeTab.value === 'me') {
       localConversationList = [...mineChatsList.value(filters)];
     } else if (activeAssigneeTab.value === 'unassigned') {
       localConversationList = [...unAssignedChatsList.value(filters)];
@@ -338,7 +340,7 @@ const conversationList = computed(() => {
 });
 
 const showEndOfListMessage = computed(() => {
-  return (
+  return !!(
     conversationList.value.length &&
     hasCurrentPageEndReached.value &&
     !chatListLoading.value
@@ -583,14 +585,6 @@ function loadMoreConversations() {
   }
 }
 
-// Use IntersectionObserver instead of @scroll since Virtualizer only emits on user scroll.
-// If the list doesn’t fill the viewport, loading can stall.
-// IntersectionObserver triggers as soon as the sentinel is visible.
-const intersectionObserverOptions = computed(() => ({
-  root: conversationListRef.value,
-  rootMargin: '100px 0px 100px 0px',
-}));
-
 function updateAssigneeTab(selectedTab) {
   if (activeAssigneeTab.value !== selectedTab) {
     resetBulkActions();
@@ -637,9 +631,11 @@ function redirectToConversationList() {
 
   let conversationType = '';
   if (isOnMentionsView({ route: { name } })) {
-    conversationType = 'mention';
+    conversationType = wootConstants.CONVERSATION_TYPE.MENTION;
+  } else if (isOnParticipatingView({ route: { name } })) {
+    conversationType = wootConstants.CONVERSATION_TYPE.PARTICIPATING;
   } else if (isOnUnattendedView({ route: { name } })) {
-    conversationType = 'unattended';
+    conversationType = wootConstants.CONVERSATION_TYPE.UNATTENDED;
   }
   router.push(
     conversationListPageURL({
@@ -782,10 +778,6 @@ function allSelectedConversationsStatus(status) {
   });
 }
 
-function onContextMenuToggle(state) {
-  isContextMenuOpen.value = state;
-}
-
 function toggleSelectAll(check) {
   selectAllConversations(check, conversationList);
 }
@@ -833,7 +825,6 @@ provide('assignTeam', onAssignTeam);
 provide('assignLabels', onAssignLabels);
 provide('removeLabels', onRemoveLabels);
 provide('updateConversationStatus', handleResolveConversation);
-provide('toggleContextMenu', onContextMenuToggle);
 provide('markAsUnread', markAsUnread);
 provide('markAsRead', markAsRead);
 provide('assignPriority', assignPriority);
@@ -946,43 +937,18 @@ watch(conversationFilters, (newVal, oldVal) => {
       @assign-labels="onAssignLabels"
       @assign-team="onAssignTeamsForBulk"
     />
-    <div
-      ref="conversationListRef"
-      class="flex-1 min-h-0 overflow-y-auto conversations-list"
-      :class="{ '!overflow-hidden': isContextMenuOpen }"
-    >
-      <Virtualizer
-        ref="virtualListRef"
-        v-slot="{ item, index }"
-        :data="conversationList"
-      >
-        <ConversationItem
-          :source="item"
-          :label="label"
-          :team-id="teamId"
-          :folders-id="foldersId"
-          :conversation-type="conversationType"
-          :show-assignee="showAssigneeInConversationCard"
-          :data-index="index"
-          @select-conversation="selectConversation"
-          @de-select-conversation="deSelectConversation"
-        />
-      </Virtualizer>
-      <div v-if="chatListLoading" class="flex justify-center my-4">
-        <Spinner class="text-n-brand" />
-      </div>
-      <p
-        v-else-if="showEndOfListMessage"
-        class="p-4 text-center text-n-slate-11"
-      >
-        {{ $t('CHAT_LIST.EOF') }}
-      </p>
-      <IntersectionObserver
-        v-else
-        :options="intersectionObserverOptions"
-        @observed="loadMoreConversations"
-      />
-    </div>
+    <ConversationList
+      :conversation-list="conversationList"
+      :is-loading="chatListLoading"
+      :show-end-of-list-message="showEndOfListMessage"
+      :label="label"
+      :team-id="teamId"
+      :folders-id="foldersId"
+      :conversation-type="conversationType"
+      :show-assignee="showAssigneeInConversationCard"
+      :is-on-expanded-layout="isOnExpandedLayout"
+      @load-more="loadMoreConversations"
+    />
     <Dialog
       ref="deleteConversationDialogRef"
       type="alert"

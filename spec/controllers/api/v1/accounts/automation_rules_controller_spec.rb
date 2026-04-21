@@ -69,6 +69,12 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
               'action_params': [1]
             },
             {
+              'action_name': :remove_assigned_agent
+            },
+            {
+              'action_name': :remove_assigned_team
+            },
+            {
               'action_name': :add_label,
               'action_params': %w[support priority_customer]
             }

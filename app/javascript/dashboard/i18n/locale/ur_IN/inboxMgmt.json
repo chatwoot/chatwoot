@@ -1,659 +1,674 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
-    "CLICK_TO_RECONNECT": "Click here to reconnect.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
-    "COMPLETE_REGISTRATION": "Complete Registration",
+    "HEADER": "ان باکسز",
+    "DESCRIPTION": "ایک چینل وہ مواصلاتی طریقہ ہے جسے آپ کا صارف آپ سے بات چیت کے لیے منتخب کرتا ہے۔ ایک ان باکس وہ جگہ ہے جہاں آپ مخصوص چینل کے لیے بات چیت کا انتظام کرتے ہیں۔ اس میں مختلف ذرائع جیسے ای میل، لائیو چیٹ، اور سوشل میڈیا سے مواصلات شامل ہو سکتے ہیں۔",
+    "LEARN_MORE": "ان باکسز کے بارے میں مزید جانیں",
+    "COUNT": "{n} inbox | {n} inboxes",
+    "SEARCH_PLACEHOLDER": "Search inboxes...",
+    "NO_RESULTS": "No inboxes found matching your search",
+    "RECONNECTION_REQUIRED": "آپ کا ان باکس منقطع ہو چکا ہے۔ جب تک آپ اسے دوبارہ اجازت نہیں دیتے، آپ کو نئے پیغامات موصول نہیں ہوں گے۔",
+    "CLICK_TO_RECONNECT": "دوبارہ کنیکٹ کرنے کے لیے یہاں کلک کریں۔",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "آپ کی WhatsApp بزنس رجسٹریشن مکمل نہیں ہے۔ دوبارہ کنیکٹ کرنے سے پہلے براہ کرم Meta Business Manager میں اپنے ڈسپلے نام کی حیثیت چیک کریں۔",
+    "COMPLETE_REGISTRATION": "رجسٹریشن مکمل کریں",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "اس اکاؤنٹ سے کوئی ان باکس منسلک نہیں ہے۔"
     },
     "CREATE_FLOW": {
       "CHANNEL": {
-        "TITLE": "Choose Channel",
-        "BODY": "Choose the provider you want to integrate with Chatwoot."
+        "TITLE": "چینل منتخب کریں",
+        "BODY": "وہ فراہم کنندہ منتخب کریں جسے آپ Chatwoot کے ساتھ مربوط کرنا چاہتے ہیں۔"
       },
       "INBOX": {
-        "TITLE": "Create Inbox",
-        "BODY": "Authenticate your account and create an inbox."
+        "TITLE": "ان باکس بنائیں",
+        "BODY": "اپنا اکاؤنٹ مستند کریں اور ایک ان باکس بنائیں۔"
       },
       "AGENT": {
-        "TITLE": "Add Agents",
-        "BODY": "Add agents to the created inbox."
+        "TITLE": "ایجنٹس شامل کریں",
+        "BODY": "بنائے گئے ان باکس میں ایجنٹس شامل کریں۔"
       },
       "FINISH": {
-        "TITLE": "Voilà!",
-        "BODY": "You are all set to go!"
+        "TITLE": "وہلا!",
+        "BODY": "آپ مکمل طور پر تیار ہیں!"
       }
     },
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "LABEL": "ان باکس کا نام",
+        "PLACEHOLDER": "اپنے ان باکس کا نام درج کریں (مثلاً: Acme Inc)",
+        "ERROR": "براہ کرم ایک درست ان باکس نام درج کریں"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
-        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+        "LABEL": "ویب سائٹ کا نام",
+        "PLACEHOLDER": "اپنی ویب سائٹ کا نام درج کریں (مثلاً: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Pick a value",
-        "CREATE_INBOX": "Create Inbox"
+        "HELP": "نوٹ: سائن ان کرنے سے ہمیں صرف آپ کے پیج کے پیغامات تک رسائی ملتی ہے۔ آپ کے نجی پیغامات تک Chatwoot کبھی رسائی حاصل نہیں کر سکتا۔",
+        "CHOOSE_PAGE": "پیج منتخب کریں",
+        "CHOOSE_PLACEHOLDER": "فہرست سے ایک پیج منتخب کریں",
+        "INBOX_NAME": "ان باکس کا نام",
+        "ADD_NAME": "اپنے ان باکس کے لیے ایک نام شامل کریں",
+        "PICK_NAME": "اپنے ان باکس کے لیے ایک نام منتخب کریں",
+        "PICK_A_VALUE": "ایک قدر منتخب کریں",
+        "CREATE_INBOX": "ان باکس بنائیں"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "CONTINUE_WITH_INSTAGRAM": "Instagram کے ساتھ جاری رکھیں",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "اپنے Instagram پروفائل کو جوڑیں",
+        "HELP": "اپنے Instagram پروفائل کو چینل کے طور پر شامل کرنے کے لیے، 'Instagram کے ساتھ جاری رکھیں' پر کلک کر کے اپنے Instagram پروفائل کی تصدیق کریں۔ ",
+        "ERROR_MESSAGE": "Instagram سے کنکشن میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں",
+        "ERROR_AUTH": "Instagram سے کنکشن میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں",
+        "NEW_INBOX_SUGGESTION": "یہ Instagram اکاؤنٹ پہلے ایک مختلف ان باکس سے منسلک تھا اور اب یہاں منتقل کر دیا گیا ہے۔ تمام نئے پیغامات یہاں ظاہر ہوں گے۔ پرانا ان باکس اس اکاؤنٹ کے لیے پیغامات بھیجنے یا وصول کرنے کے قابل نہیں رہے گا۔",
+        "DUPLICATE_INBOX_BANNER": "یہ Instagram اکاؤنٹ نئے Instagram چینل ان باکس میں منتقل کیا گیا ہے۔ آپ اس ان باکس سے Instagram پیغامات بھیجنے/وصول کرنے کے قابل نہیں ہوں گے۔"
       },
       "TIKTOK": {
-        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
-        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
-        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
-        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+        "CONTINUE_WITH_TIKTOK": "TikTok کے ساتھ جاری رکھیں",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "اپنی TikTok پروفائل کو جوڑیں",
+        "HELP": "اپنی TikTok پروفائل کو چینل کے طور پر شامل کرنے کے لیے، آپ کو 'TikTok کے ساتھ جاری رکھیں' پر کلک کر کے اپنی TikTok پروفائل کی تصدیق کرنی ہوگی۔ ",
+        "ERROR_MESSAGE": "TikTok سے کنکشن میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں",
+        "ERROR_AUTH": "TikTok سے کنکشن میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "HELP": "اپنے ٹویٹر پروفائل کو چینل کے طور پر شامل کرنے کے لیے، آپ کو 'Sign in with Twitter' پر کلک کرکے اپنے ٹویٹر پروفائل کی تصدیق کرنی ہوگی۔ ",
+        "ERROR_MESSAGE": "Twitter سے کنکشن میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "ذکر کیے گئے ٹویٹس سے گفتگو شروع کریں"
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "TITLE": "ویب سائٹ چینل",
+        "DESC": "اپنی ویب سائٹ کے لیے ایک چینل بنائیں اور ہماری ویب سائٹ ویجیٹ کے ذریعے اپنے صارفین کی مدد شروع کریں۔",
+        "LOADING_MESSAGE": "ویب سائٹ سپورٹ چینل بنایا جا رہا ہے",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "چینل کا اوتار"
         },
         "CHANNEL_WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Please enter your Webhook URL",
-          "ERROR": "Please enter a valid URL"
+          "LABEL": "ویب ہک URL",
+          "PLACEHOLDER": "براہ کرم اپنا Webhook URL درج کریں",
+          "ERROR": "براہ کرم ایک درست URL درج کریں"
+        },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "ویب سائٹ ڈومین",
+          "PLACEHOLDER": "اپنا ویب سائٹ ڈومین درج کریں (مثلاً: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "خوش آمدید ہیڈنگ",
+          "PLACEHOLDER": "ہیلو وہاں!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "خوش آمدید ٹیگ لائن",
+          "PLACEHOLDER": "ہم سے جڑنا آسان بناتے ہیں۔ ہم سے کچھ بھی پوچھیں، یا اپنی رائے شیئر کریں۔"
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "چینل کا خوش آمدید پیغام",
+          "PLACEHOLDER": "Acme Inc عام طور پر چند گھنٹوں میں جواب دیتا ہے۔"
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
+          "LABEL": "چینل کا خوش آمدید فعال کریں",
           "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "ENABLED": "فعال",
+          "DISABLED": "غیر فعال"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "جواب کا وقت مقرر کریں",
+          "IN_A_FEW_MINUTES": "چند منٹوں میں",
+          "IN_A_FEW_HOURS": "چند گھنٹوں میں",
+          "IN_A_DAY": "ایک دن میں",
+          "HELP_TEXT": "یہ جواب کا وقت لائیو چیٹ وجٹ پر دکھایا جائے گا"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "ویجیٹ کا رنگ",
+          "PLACEHOLDER": "ویجیٹ میں استعمال ہونے والے رنگ کو اپ ڈیٹ کریں"
         },
-        "SUBMIT_BUTTON": "Create inbox",
+        "SUBMIT_BUTTON": "ان باکس بنائیں",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "ہم ویب سائٹ چینل بنانے میں ناکام رہے، براہ کرم دوبارہ کوشش کریں"
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp چینل",
+        "DESC": "Twilio کو مربوط کریں اور SMS یا WhatsApp کے ذریعے اپنے صارفین کی مدد شروع کریں۔",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
-          "ERROR": "This field is required"
+          "LABEL": "اکاؤنٹ SID",
+          "PLACEHOLDER": "براہ کرم اپنا Twilio اکاؤنٹ SID درج کریں",
+          "ERROR": "یہ فیلڈ ضروری ہے"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
-          "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
-          "ERROR": "This field is required"
+          "USE_API_KEY": "API کلید کی توثیق استعمال کریں",
+          "LABEL": "API کلید SID",
+          "PLACEHOLDER": "براہ کرم اپنی API کلید SID درج کریں",
+          "ERROR": "یہ فیلڈ ضروری ہے"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
-          "ERROR": "This field is required"
+          "LABEL": "API کلید کا راز",
+          "PLACEHOLDER": "براہ کرم اپنی API کلید کا راز درج کریں",
+          "ERROR": "یہ فیلڈ ضروری ہے"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
-          "ERROR": "This field is required",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "LABEL": "میسجنگ سروس SID",
+          "PLACEHOLDER": "براہ کرم اپنا Twilio میسجنگ سروس SID درج کریں",
+          "ERROR": "یہ فیلڈ ضروری ہے",
+          "USE_MESSAGING_SERVICE": "Twilio میسجنگ سروس استعمال کریں"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "چینل کی قسم",
+          "ERROR": "براہ کرم اپنی چینل کی قسم منتخب کریں"
         },
         "AUTH_TOKEN": {
-          "LABEL": "Auth Token",
-          "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "This field is required"
+          "LABEL": "آتھ ٹوکن",
+          "PLACEHOLDER": "براہ کرم اپنا Twilio آتھ ٹوکن درج کریں",
+          "ERROR": "یہ فیلڈ ضروری ہے"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter a inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "ان باکس کا نام",
+          "PLACEHOLDER": "براہ کرم ان باکس کا نام درج کریں",
+          "ERROR": "یہ فیلڈ ضروری ہے"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone Number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "LABEL": "فون نمبر",
+          "PLACEHOLDER": "براہ کرم وہ فون نمبر درج کریں جس سے پیغام بھیجا جائے گا۔",
+          "ERROR": "براہ کرم ایک درست فون نمبر فراہم کریں جو `+` نشان سے شروع ہو اور جس میں کوئی خالی جگہ نہ ہو۔"
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "TITLE": "کال بیک URL",
+          "SUBTITLE": "آپ کو Twilio میں پیغام کال بیک URL کو یہاں دیے گئے URL کے ساتھ ترتیب دینا ہوگا۔"
         },
-        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "SUBMIT_BUTTON": "Twilio چینل بنائیں",
         "API": {
-          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+          "ERROR_MESSAGE": "ہم Twilio کی اسناد کی تصدیق کرنے میں ناکام رہے، براہ کرم دوبارہ کوشش کریں"
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "SMS چینل",
+        "DESC": "SMS کے ذریعے اپنے صارفین کی مدد شروع کریں۔",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "API فراہم کنندہ",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "ہم SMS چینل محفوظ کرنے میں ناکام رہے"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
-            "ERROR": "This field is required"
+            "LABEL": "اکاؤنٹ آئی ڈی",
+            "PLACEHOLDER": "براہ کرم اپنا Bandwidth اکاؤنٹ آئی ڈی درج کریں",
+            "ERROR": "یہ فیلڈ ضروری ہے"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
-            "ERROR": "This field is required"
+            "LABEL": "API کلید",
+            "PLACEHOLDER": "براہ کرم اپنا Bandwidth API کلید درج کریں",
+            "ERROR": "یہ فیلڈ ضروری ہے"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
-            "ERROR": "This field is required"
+            "LABEL": "API راز",
+            "PLACEHOLDER": "براہ کرم اپنا Bandwidth API راز درج کریں",
+            "ERROR": "یہ فیلڈ ضروری ہے"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
-            "ERROR": "This field is required"
+            "LABEL": "ایپلیکیشن آئی ڈی",
+            "PLACEHOLDER": "براہ کرم اپنا Bandwidth ایپلیکیشن آئی ڈی درج کریں",
+            "ERROR": "یہ فیلڈ ضروری ہے"
           },
           "INBOX_NAME": {
-            "LABEL": "Inbox Name",
-            "PLACEHOLDER": "Please enter a inbox name",
-            "ERROR": "This field is required"
+            "LABEL": "ان باکس کا نام",
+            "PLACEHOLDER": "براہ کرم ان باکس کا نام درج کریں",
+            "ERROR": "یہ فیلڈ ضروری ہے"
           },
           "PHONE_NUMBER": {
-            "LABEL": "Phone number",
-            "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "LABEL": "فون نمبر",
+            "PLACEHOLDER": "براہ کرم وہ فون نمبر درج کریں جس سے پیغام بھیجا جائے گا۔",
+            "ERROR": "براہ کرم ایک درست فون نمبر فراہم کریں جو `+` نشان سے شروع ہو اور جس میں کوئی خالی جگہ نہ ہو۔"
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "Bandwidth چینل بنائیں",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "ہم Bandwidth کی اسناد کی تصدیق نہیں کر سکے، براہ کرم دوبارہ کوشش کریں"
           },
           "API_CALLBACK": {
-            "TITLE": "Callback URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "TITLE": "کال بیک URL",
+            "SUBTITLE": "آپ کو Bandwidth میں پیغام کال بیک URL کو یہاں دیے گئے URL کے ساتھ ترتیب دینا ہوگا۔"
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "WhatsApp چینل",
+        "DESC": "WhatsApp کے ذریعے اپنے صارفین کی مدد شروع کریں۔",
         "PROVIDERS": {
-          "LABEL": "API Provider",
-          "WHATSAPP_EMBEDDED": "WhatsApp Business",
+          "LABEL": "API فراہم کنندہ",
+          "WHATSAPP_EMBEDDED": "واٹس ایپ بزنس",
           "TWILIO": "Twilio",
-          "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
-          "TWILIO_DESC": "Connect via Twilio credentials",
+          "WHATSAPP_CLOUD": "WhatsApp کلاؤڈ",
+          "WHATSAPP_CLOUD_DESC": "میٹا کے ذریعے فوری سیٹ اپ",
+          "TWILIO_DESC": "Twilio کی اسناد کے ذریعے کنیکٹ کریں",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
-          "TITLE": "Select your API provider",
-          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
+          "TITLE": "اپنا API فراہم کنندہ منتخب کریں",
+          "DESCRIPTION": "اپنا واٹس ایپ فراہم کنندہ منتخب کریں۔ آپ براہ راست میٹا کے ذریعے کنیکٹ کر سکتے ہیں جس کے لیے کوئی سیٹ اپ درکار نہیں، یا Twilio کے ذریعے اپنے اکاؤنٹ کی اسناد استعمال کر کے کنیکٹ کریں۔"
         },
         "INBOX_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter an inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "ان باکس کا نام",
+          "PLACEHOLDER": "براہ کرم ان باکس کا نام درج کریں",
+          "ERROR": "یہ فیلڈ ضروری ہے"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "LABEL": "فون نمبر",
+          "PLACEHOLDER": "براہ کرم وہ فون نمبر درج کریں جس سے پیغام بھیجا جائے گا۔",
+          "ERROR": "براہ کرم ایک درست فون نمبر فراہم کریں جو `+` نشان سے شروع ہو اور جس میں کوئی خالی جگہ نہ ہو۔"
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "فون نمبر آئی ڈی",
+          "PLACEHOLDER": "براہ کرم Facebook ڈویلپر ڈیش بورڈ سے حاصل کردہ فون نمبر آئی ڈی درج کریں۔",
+          "ERROR": "براہ کرم ایک درست قدر درج کریں۔"
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "بزنس اکاؤنٹ آئی ڈی",
+          "PLACEHOLDER": "براہ کرم Facebook ڈویلپر ڈیش بورڈ سے حاصل کردہ بزنس اکاؤنٹ آئی ڈی درج کریں۔",
+          "ERROR": "براہ کرم ایک درست قدر درج کریں۔"
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "ویب ہک ویریفائی ٹوکن",
+          "PLACEHOLDER": "ایسا تصدیقی ٹوکن درج کریں جسے آپ Facebook ویب ہکس کے لیے ترتیب دینا چاہتے ہیں۔",
+          "ERROR": "براہ کرم ایک درست قدر درج کریں۔"
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "API کلید",
+          "SUBTITLE": "WhatsApp API کلید کو ترتیب دیں۔",
+          "PLACEHOLDER": "API کلید",
+          "ERROR": "براہ کرم ایک درست قدر درج کریں۔"
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
-          "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "TITLE": "کال بیک URL",
+          "SUBTITLE": "آپ کو Facebook Developer پورٹل میں نیچے دکھائی گئی قدروں کے ساتھ webhook URL اور verification token ترتیب دینا ہوگا۔",
+          "WEBHOOK_URL": "ویب ہک URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook تصدیقی ٹوکن"
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "WhatsApp چینل بنائیں",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Quick setup with Meta",
-          "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "TITLE": "میٹا کے ساتھ فوری سیٹ اپ",
+          "DESC": "واٹس ایپ Embedded Signup فلو کا استعمال کرتے ہوئے نئے نمبرز کو جلدی کنیکٹ کریں۔ آپ کو اپنے واٹس ایپ بزنس اکاؤنٹ میں لاگ ان کرنے کے لیے میٹا پر ری ڈائریکٹ کیا جائے گا۔ ایڈمن رسائی ہونا سیٹ اپ کو آسان اور ہموار بنائے گا۔",
           "BENEFITS": {
-            "TITLE": "Benefits of Embedded Signup:",
-            "EASY_SETUP": "No manual configuration required",
-            "SECURE_AUTH": "Secure OAuth based authentication",
-            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+            "TITLE": "Embedded Signup کے فوائد:",
+            "EASY_SETUP": "کسی دستی ترتیب کی ضرورت نہیں",
+            "SECURE_AUTH": "محفوظ OAuth پر مبنی تصدیق",
+            "AUTO_CONFIG": "خودکار ویب ہک اور فون نمبر کی ترتیب"
           },
           "LEARN_MORE": {
-            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
-            "LINK_TEXT": "this link"
+            "TEXT": "انٹیگریٹڈ سائن اپ، قیمتوں اور حدود کے بارے میں مزید جاننے کے لیے، {link} پر جائیں۔",
+            "LINK_TEXT": "یہ لنک"
           },
-          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
-          "AUTH_PROCESSING": "Authenticating with Meta",
-          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
-          "PROCESSING": "Setting up your WhatsApp Business Account",
-          "LOADING_SDK": "Loading Facebook SDK...",
-          "CANCELLED": "WhatsApp Signup was cancelled",
-          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
-          "WAITING_FOR_AUTH": "Waiting for authentication...",
-          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
-          "SIGNUP_ERROR": "Signup error occurred",
-          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
-          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
-          "MANUAL_LINK_TEXT": "manual setup flow"
+          "SUBMIT_BUTTON": "واٹس ایپ بزنس کے ساتھ کنیکٹ کریں",
+          "AUTH_PROCESSING": "میٹا کے ساتھ تصدیق ہو رہی ہے",
+          "WAITING_FOR_BUSINESS_INFO": "براہ کرم میٹا ونڈو میں بزنس سیٹ اپ مکمل کریں...",
+          "PROCESSING": "آپ کا واٹس ایپ بزنس اکاؤنٹ سیٹ اپ کیا جا رہا ہے",
+          "LOADING_SDK": "Facebook SDK لوڈ ہو رہا ہے...",
+          "CANCELLED": "واٹس ایپ سائن اپ منسوخ کر دیا گیا",
+          "SUCCESS_TITLE": "واٹس ایپ بزنس اکاؤنٹ کنیکٹ ہو گیا!",
+          "WAITING_FOR_AUTH": "تصدیق کا انتظار ہے...",
+          "INVALID_BUSINESS_DATA": "Facebook سے موصولہ بزنس ڈیٹا غلط ہے۔ براہ کرم دوبارہ کوشش کریں۔",
+          "SIGNUP_ERROR": "سائن اپ میں خرابی ہوئی",
+          "AUTH_NOT_COMPLETED": "تصدیق مکمل نہیں ہوئی۔ براہ کرم عمل دوبارہ شروع کریں۔",
+          "SUCCESS_FALLBACK": "واٹس ایپ بزنس اکاؤنٹ کامیابی سے ترتیب دیا گیا ہے",
+          "MANUAL_FALLBACK": "اگر آپ کا نمبر پہلے ہی واٹس ایپ بزنس پلیٹ فارم (API) سے منسلک ہے، یا اگر آپ ایک ٹیک فراہم کنندہ ہیں جو اپنا نمبر آن بورڈ کر رہے ہیں، تو براہ کرم {link} فلو استعمال کریں",
+          "MANUAL_LINK_TEXT": "دستی سیٹ اپ کا عمل"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "ہم WhatsApp چینل محفوظ کرنے میں ناکام رہے"
         }
       },
       "VOICE": {
-        "TITLE": "Voice Channel",
-        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "TITLE": "وائس چینل",
+        "DESC": "Twilio Voice کو مربوط کریں اور فون کالز کے ذریعے اپنے صارفین کی مدد شروع کریں۔",
         "PHONE_NUMBER": {
-          "LABEL": "Phone Number",
-          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
-          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+          "LABEL": "فون نمبر",
+          "PLACEHOLDER": "اپنا فون نمبر درج کریں (مثلاً +1234567890)",
+          "ERROR": "براہ کرم E.164 فارمیٹ میں درست فون نمبر فراہم کریں (مثلاً +1234567890)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
-            "LABEL": "Account SID",
-            "PLACEHOLDER": "Enter your Twilio Account SID",
-            "REQUIRED": "Account SID is required"
+            "LABEL": "اکاؤنٹ SID",
+            "PLACEHOLDER": "اپنا Twilio اکاؤنٹ SID درج کریں",
+            "REQUIRED": "اکاؤنٹ SID ضروری ہے"
           },
           "AUTH_TOKEN": {
-            "LABEL": "Auth Token",
-            "PLACEHOLDER": "Enter your Twilio Auth Token",
-            "REQUIRED": "Auth Token is required"
+            "LABEL": "آتھ ٹوکن",
+            "PLACEHOLDER": "اپنا Twilio آتھ ٹوکن درج کریں",
+            "REQUIRED": "آتھ ٹوکن ضروری ہے"
           },
           "API_KEY_SID": {
-            "LABEL": "API Key SID",
-            "PLACEHOLDER": "Enter your Twilio API Key SID",
-            "REQUIRED": "API Key SID is required"
+            "LABEL": "API کلید SID",
+            "PLACEHOLDER": "اپنا Twilio API کلید SID درج کریں",
+            "REQUIRED": "API کلید SID ضروری ہے"
           },
           "API_KEY_SECRET": {
-            "LABEL": "API Key Secret",
-            "PLACEHOLDER": "Enter your Twilio API Key Secret",
-            "REQUIRED": "API Key Secret is required"
+            "LABEL": "API کلید سیکرٹ",
+            "PLACEHOLDER": "اپنا Twilio API کلید سیکرٹ درج کریں",
+            "REQUIRED": "API کلید سیکرٹ ضروری ہے"
           }
         },
         "CONFIGURATION": {
-          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
-          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
-          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
-          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
+          "TWILIO_VOICE_URL_TITLE": "Twilio وائس URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "اس URL کو اپنے Twilio فون نمبر اور TwiML ایپ پر وائس URL کے طور پر ترتیب دیں۔",
+          "TWILIO_STATUS_URL_TITLE": "Twilio اسٹیٹس کال بیک URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "اس URL کو اپنے Twilio فون نمبر پر اسٹیٹس کال بیک URL کے طور پر ترتیب دیں۔"
         },
-        "SUBMIT_BUTTON": "Create Voice Channel",
+        "SUBMIT_BUTTON": "وائس چینل بنائیں",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create the voice channel"
+          "ERROR_MESSAGE": "ہم وائس چینل بنانے میں کامیاب نہیں ہو سکے"
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "API چینل",
+        "DESC": "API چینل کے ساتھ انضمام کریں اور اپنے صارفین کی مدد شروع کریں۔",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "چینل کا نام",
+          "PLACEHOLDER": "براہ کرم چینل کا نام درج کریں",
+          "ERROR": "یہ فیلڈ ضروری ہے"
         },
         "WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
-          "PLACEHOLDER": "Webhook URL"
+          "LABEL": "ویب ہک URL",
+          "SUBTITLE": "ایونٹس پر کال بیک وصول کرنے کے لیے جس URL کو آپ ترتیب دینا چاہتے ہیں اسے کنفیگر کریں۔",
+          "PLACEHOLDER": "ویب ہک URL"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "API چینل بنائیں",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "ہم API چینل محفوظ کرنے میں کامیاب نہیں ہو سکے۔"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate your email inbox.",
+        "TITLE": "ای میل چینل",
+        "DESC": "اپنے ای میل ان باکس کو مربوط کریں۔",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "چینل کا نام",
+          "PLACEHOLDER": "براہ کرم چینل کا نام درج کریں",
+          "ERROR": "یہ فیلڈ ضروری ہے"
         },
         "EMAIL": {
-          "LABEL": "Email",
+          "LABEL": "ای میل",
           "SUBTITLE": "Email where your customers sends you support tickets",
-          "PLACEHOLDER": "Email"
+          "PLACEHOLDER": "ای میل"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "ای میل چینل بنائیں",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "ہم ای میل چینل محفوظ کرنے میں کامیاب نہیں ہو سکے"
         },
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address.",
-        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
-        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
-        "CONFIGURE_SMTP_IMAP_LINK": "Click here",
-        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
+        "FINISH_MESSAGE_NO_FORWARDING": "آپ کا ای میل ان باکس کامیابی سے بنایا گیا ہے! ای میل بھیجنے اور وصول کرنے کے لیے آپ کو SMTP اور IMAP کی اسناد ترتیب دینی ہوں گی۔ ان سیٹنگز کے بغیر کوئی ای میل پروسیس نہیں ہوگی۔",
+        "FORWARDING_ADDRESS_LABEL": "ای میلز کو اس پتے پر فارورڈ کریں:",
+        "CONFIGURE_SMTP_IMAP_LINK": "یہاں کلک کریں",
+        "CONFIGURE_SMTP_IMAP_TEXT": " تاکہ IMAP اور SMTP سیٹنگز ترتیب دی جا سکیں"
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "LINE چینل",
+        "DESC": "LINE چینل کے ساتھ انضمام کریں اور اپنے صارفین کی مدد شروع کریں۔",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "چینل کا نام",
+          "PLACEHOLDER": "براہ کرم چینل کا نام درج کریں",
+          "ERROR": "یہ فیلڈ ضروری ہے"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "LINE چینل ID",
+          "PLACEHOLDER": "LINE چینل ID"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "LINE چینل سیکرٹ",
+          "PLACEHOLDER": "LINE چینل سیکرٹ"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "LINE چینل ٹوکن",
+          "PLACEHOLDER": "LINE چینل ٹوکن"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "LINE چینل بنائیں",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "ہم LINE چینل محفوظ کرنے میں ناکام رہے"
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "TITLE": "کال بیک URL",
+          "SUBTITLE": "آپ کو LINE ایپلیکیشن میں ویب ہک URL کو یہاں دیے گئے URL کے ساتھ ترتیب دینا ہوگا۔"
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "ٹیلیگرام چینل",
+        "DESC": "ٹیلیگرام چینل کے ساتھ انضمام کریں اور اپنے صارفین کی مدد شروع کریں۔",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "بوٹ ٹوکن",
+          "SUBTITLE": "Telegram BotFather سے حاصل کردہ بوٹ ٹوکن کو ترتیب دیں۔",
+          "PLACEHOLDER": "بوٹ ٹوکن"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "ٹیلیگرام چینل بنائیں",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "ہم ٹیلیگرام چینل محفوظ کرنے میں کامیاب نہیں ہو سکے"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
+        "TITLE": "ایک چینل منتخب کریں",
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
-        "TITLE_NEXT": "Complete the setup",
-        "TITLE_FINISH": "Voilà!",
+        "TITLE_NEXT": "سیٹ اپ مکمل کریں",
+        "TITLE_FINISH": "وہیلا!",
         "CHANNEL": {
           "WEBSITE": {
-            "TITLE": "Website",
-            "DESCRIPTION": "Create a live-chat widget"
+            "TITLE": "ویب سائٹ",
+            "DESCRIPTION": "لائیو چیٹ ویجیٹ بنائیں"
           },
           "FACEBOOK": {
-            "TITLE": "Facebook",
-            "DESCRIPTION": "Connect your Facebook page"
+            "TITLE": "فیس بک",
+            "DESCRIPTION": "اپنے فیس بک پیج کو کنیکٹ کریں"
           },
           "WHATSAPP": {
-            "TITLE": "WhatsApp",
-            "DESCRIPTION": "Support your customers on WhatsApp"
+            "TITLE": "واٹس ایپ",
+            "DESCRIPTION": "اپنے صارفین کی واٹس ایپ پر مدد کریں"
           },
           "EMAIL": {
-            "TITLE": "Email",
-            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+            "TITLE": "ای میل",
+            "DESCRIPTION": "Gmail، Outlook، یا دیگر فراہم کنندگان کے ساتھ کنیکٹ کریں"
           },
           "SMS": {
             "TITLE": "SMS",
-            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+            "DESCRIPTION": "Twilio یا bandwidth کے ساتھ SMS چینل کو مربوط کریں"
           },
           "API": {
             "TITLE": "API",
-            "DESCRIPTION": "Make a custom channel using our API"
+            "DESCRIPTION": "ہمارے API کا استعمال کرتے ہوئے ایک کسٹم چینل بنائیں"
           },
           "TELEGRAM": {
-            "TITLE": "Telegram",
-            "DESCRIPTION": "Configure Telegram channel using Bot token"
+            "TITLE": "ٹیلیگرام",
+            "DESCRIPTION": "بوٹ ٹوکن کا استعمال کرتے ہوئے ٹیلیگرام چینل کو ترتیب دیں"
           },
           "LINE": {
-            "TITLE": "Line",
-            "DESCRIPTION": "Integrate your Line channel"
+            "TITLE": "لائن",
+            "DESCRIPTION": "اپنے لائن چینل کو مربوط کریں"
           },
           "INSTAGRAM": {
-            "TITLE": "Instagram",
-            "DESCRIPTION": "Connect your instagram account"
+            "TITLE": "انسٹاگرام",
+            "DESCRIPTION": "اپنا انسٹاگرام اکاؤنٹ کنیکٹ کریں"
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "اپنا TikTok اکاؤنٹ جوڑیں"
           },
           "VOICE": {
-            "TITLE": "Voice",
-            "DESCRIPTION": "Integrate with Twilio Voice"
+            "TITLE": "وائس",
+            "DESCRIPTION": "Twilio وائس کے ساتھ مربوط کریں"
           }
         }
       },
       "AGENTS": {
-        "TITLE": "Agents",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "TITLE": "ایجنٹس",
+        "DESC": "یہاں آپ اپنے نئے بنائے گئے ان باکس کو منظم کرنے کے لیے ایجنٹس شامل کر سکتے ہیں۔ صرف منتخب کردہ ایجنٹس کو آپ کے ان باکس تک رسائی حاصل ہوگی۔ جو ایجنٹس اس ان باکس کا حصہ نہیں ہیں وہ لاگ ان ہونے پر اس ان باکس کے پیغامات دیکھ یا جواب نہیں دے سکیں گے۔ <br> <b>نوٹ:</b> بطور ایڈمنسٹریٹر، اگر آپ کو تمام ان باکسز تک رسائی کی ضرورت ہے، تو آپ کو اپنے بنائے گئے تمام ان باکسز میں خود کو ایجنٹ کے طور پر شامل کرنا چاہیے۔",
+        "VALIDATION_ERROR": "اپنے نئے ان باکس میں کم از کم ایک ایجنٹ شامل کریں",
+        "PICK_AGENTS": "ان باکس کے لیے ایجنٹس منتخب کریں"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "ان باکس کی تفصیلات",
+        "DESC": "نیچے دیے گئے ڈراپ ڈاؤن سے وہ Facebook پیج منتخب کریں جسے آپ Chatwoot سے جوڑنا چاہتے ہیں۔ آپ بہتر شناخت کے لیے اپنے ان باکس کو ایک حسب ضرورت نام بھی دے سکتے ہیں۔"
       },
       "FINISH": {
-        "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "TITLE": "کامیابی سے مکمل ہوا!",
+        "DESC": "آپ نے کامیابی سے اپنا Facebook پیج Chatwoot کے ساتھ مربوط کر لیا ہے۔ اگلی بار جب کوئی صارف آپ کے پیج کو پیغام بھیجے گا، تو گفتگو خود بخود آپ کے ان باکس میں ظاہر ہو جائے گی۔<br>ہم آپ کو ایک ویجیٹ اسکرپٹ بھی فراہم کر رہے ہیں جسے آپ آسانی سے اپنی ویب سائٹ پر شامل کر سکتے ہیں۔ جب یہ آپ کی ویب سائٹ پر فعال ہو جائے گا، تو صارفین آپ کو براہ راست آپ کی ویب سائٹ سے پیغام بھیج سکیں گے بغیر کسی بیرونی ٹول کی مدد کے اور گفتگو یہاں، Chatwoot پر ظاہر ہو گی۔<br>کمال ہے، ہے نا؟ ہم واقعی کوشش کرتے ہیں :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+        "TITLE": "اپنے ای میل فراہم کنندہ کا انتخاب کریں",
+        "DESCRIPTION": "نیچے دی گئی فہرست میں سے ایک ای میل فراہم کنندہ منتخب کریں۔ اگر آپ کو اپنی ای میل فراہم کنندہ فہرست میں نظر نہیں آتی، تو آپ دوسرے فراہم کنندہ کا انتخاب کر کے IMAP اور SMTP اسناد فراہم کر سکتے ہیں۔"
       },
       "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "SIGN_IN": "Sign in with Microsoft",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "TITLE": "Microsoft ای میل",
+        "DESCRIPTION": "شروع کرنے کے لیے Microsoft کے ساتھ سائن ان بٹن پر کلک کریں۔ آپ کو ای میل سائن ان صفحہ پر بھیجا جائے گا۔ جب آپ درخواست کردہ اجازتیں قبول کریں گے، تو آپ کو دوبارہ ان باکس بنانے کے مرحلے پر بھیجا جائے گا۔",
+        "EMAIL_PLACEHOLDER": "ای میل پتہ درج کریں",
+        "SIGN_IN": "Microsoft کے ساتھ سائن ان کریں",
+        "ERROR_MESSAGE": "Microsoft سے کنکشن میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں"
       },
       "GOOGLE": {
-        "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+        "TITLE": "گوگل ای میل",
+        "DESCRIPTION": "شروع کرنے کے لیے گوگل کے ساتھ سائن ان بٹن پر کلک کریں۔ آپ کو ای میل سائن ان صفحہ پر بھیجا جائے گا۔ جب آپ درخواست کردہ اجازتیں قبول کریں گے، تو آپ کو ان باکس بنانے کے مرحلے پر واپس بھیجا جائے گا۔",
+        "SIGN_IN": "گوگل کے ساتھ سائن ان کریں",
+        "EMAIL_PLACEHOLDER": "ای میل پتہ درج کریں",
+        "ERROR_MESSAGE": "گوگل سے کنکشن میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
-      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
-      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
-      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "LOADING_FB": "Facebook کے ساتھ آپ کی تصدیق ہو رہی ہے...",
+      "ERROR_FB_LOADING": "Facebook SDK لوڈ کرنے میں خرابی۔ براہ کرم کسی بھی ایڈ بلاکر کو غیر فعال کریں اور کسی مختلف براؤزر سے دوبارہ کوشش کریں۔",
+      "ERROR_FB_AUTH": "کچھ غلط ہو گیا، براہ کرم صفحہ ریفریش کریں...",
+      "ERROR_FB_UNAUTHORIZED": "آپ کو یہ کارروائی کرنے کی اجازت نہیں ہے۔ ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "براہ کرم یقینی بنائیں کہ آپ کو Facebook صفحہ تک مکمل کنٹرول کے ساتھ رسائی حاصل ہے۔ آپ Facebook کے کرداروں کے بارے میں مزید یہاں پڑھ سکتے ہیں <a href=\" https://www.facebook.com/help/187316341316631\">یہاں</a>۔",
+      "CREATING_CHANNEL": "آپ کا ان باکس بنایا جا رہا ہے...",
+      "TITLE": "ان باکس کی تفصیلات ترتیب دیں",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "ایجنٹس شامل کریں",
+      "ADD_AGENTS": "آپ کے ان باکس میں ایجنٹس شامل کیے جا رہے ہیں..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
-      "BUTTON_TEXT": "Take me there",
-      "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox.",
-      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
-      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
-      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
+      "TITLE": "آپ کا ان باکس تیار ہے!",
+      "MESSAGE": "آپ اب اپنے نئے چینل کے ذریعے اپنے صارفین سے رابطہ کر سکتے ہیں۔ خوشگوار مدد",
+      "BUTTON_TEXT": "مجھے وہاں لے جائیں",
+      "MORE_SETTINGS": "مزید ترتیبات",
+      "WEBSITE_SUCCESS": "آپ نے کامیابی سے ویب سائٹ چینل بنایا ہے۔ نیچے دکھایا گیا کوڈ کاپی کریں اور اپنی ویب سائٹ پر چسپاں کریں۔ اگلی بار جب کوئی صارف لائیو چیٹ استعمال کرے گا، تو گفتگو خود بخود آپ کے ان باکس میں ظاہر ہو جائے گی۔",
+      "WHATSAPP_QR_INSTRUCTION": "اپنے واٹس ایپ ان باکس کو جلدی آزمانے کے لیے اوپر دیا گیا QR کوڈ اسکین کریں",
+      "MESSENGER_QR_INSTRUCTION": "اپنے فیس بک میسنجر ان باکس کو جلدی آزمانے کے لیے اوپر دیا گیا QR کوڈ اسکین کریں",
+      "TELEGRAM_QR_INSTRUCTION": "اپنے ٹیلیگرام ان باکس کو جلدی آزمانے کے لیے اوپر دیا گیا QR کوڈ اسکین کریں"
     },
-    "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "REAUTH": "دوبارہ اجازت دیں",
+    "VIEW": "دیکھیں",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "SUCCESS_MESSAGE": "ان باکس کی ترتیبات کامیابی سے اپ ڈیٹ ہو گئیں",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "خودکار تفویض کامیابی سے اپ ڈیٹ ہو گئی",
+        "ERROR_MESSAGE": "ہم ان باکس کی ترتیبات کو اپ ڈیٹ نہیں کر سکے۔ براہ کرم بعد میں دوبارہ کوشش کریں۔"
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "فعال",
+        "DISABLED": "غیر فعال"
       },
       "ENABLE_CSAT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "فعال",
+        "DISABLED": "غیر فعال"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
-        "FOR_EG": "For eg:",
+        "TITLE": "بھیجنے والے کا نام",
+        "SUB_TEXT": "وہ نام منتخب کریں جو آپ کے ایجنٹس کی طرف سے ای میل وصول کرنے پر آپ کے صارف کو دکھایا جائے گا۔",
+        "FOR_EG": "مثال کے طور پر:",
         "FRIENDLY": {
-          "TITLE": "Friendly",
-          "FROM": "from",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "TITLE": "دوستانہ",
+          "FROM": "سے",
+          "SUBTITLE": "جواب بھیجنے والے ایجنٹ کا نام بھیجنے والے کے نام میں شامل کریں تاکہ یہ دوستانہ لگے۔"
         },
         "PROFESSIONAL": {
-          "TITLE": "Professional",
-          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+          "TITLE": "پیشہ ورانہ",
+          "SUBTITLE": "ای میل ہیڈر میں صرف ترتیب دیا گیا کاروباری نام بھیجنے والے کے نام کے طور پر استعمال کریں۔"
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
-          "SAVE_BUTTON_TEXT": "Save"
+          "BUTTON_TEXT": "Configure your business name",
+          "PLACEHOLDER": "اپنا کاروباری نام درج کریں",
+          "SAVE_BUTTON_TEXT": "محفوظ کریں"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "فعال",
+        "DISABLED": "غیر فعال"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "فعال",
+        "DISABLED": "غیر فعال"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "فعال کریں"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "BUTTON_TEXT": "حذف کریں",
+      "AVATAR_DELETE_BUTTON_TEXT": "اوتار حذف کریں",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "حذف کرنے کی تصدیق کریں",
+        "MESSAGE": "کیا آپ واقعی حذف کرنا چاہتے ہیں ",
+        "PLACE_HOLDER": "براہ کرم تصدیق کے لیے {inboxName} ٹائپ کریں",
+        "YES": "ہاں، حذف کریں ",
+        "NO": "نہیں، رکھیں "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "SUCCESS_MESSAGE": "ان باکس کامیابی سے حذف ہو گیا",
+        "ERROR_MESSAGE": "ان باکس حذف نہیں کیا جا سکا۔ براہ کرم بعد میں دوبارہ کوشش کریں۔",
+        "AVATAR_SUCCESS_MESSAGE": "ان باکس اوتار کامیابی سے حذف ہو گیا",
+        "AVATAR_ERROR_MESSAGE": "ان باکس اوتار حذف نہیں کیا جا سکا۔ براہ کرم بعد میں دوبارہ کوشش کریں۔"
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration",
-      "ACCOUNT_HEALTH": "Account Health",
+      "SETTINGS": "ترتیبات",
+      "COLLABORATORS": "شراکت دار",
+      "CONFIGURATION": "تشکیل",
+      "CAMPAIGN": "مہمات",
+      "PRE_CHAT_FORM": "پری چیٹ فارم",
+      "BUSINESS_HOURS": "کاروباری اوقات",
+      "WIDGET_BUILDER": "ویجیٹ بلڈر",
+      "BOT_CONFIGURATION": "بوٹ کی ترتیب",
+      "ACCOUNT_HEALTH": "اکاؤنٹ کی صحت",
       "CSAT": "CSAT"
     },
+    "CHANNEL_PREFERENCES": "Channel Preferences",
+    "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
-      "TITLE": "Manage your WhatsApp account",
-      "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
-      "GO_TO_SETTINGS": "Go to Meta Business Manager",
-      "NO_DATA": "Health data is not available",
+      "TITLE": "اپنے WhatsApp اکاؤنٹ کا انتظام کریں",
+      "DESCRIPTION": "اپنے WhatsApp اکاؤنٹ کی حیثیت، میسجنگ کی حدیں، اور معیار کا جائزہ لیں۔ ضرورت پڑنے پر سیٹنگز اپ ڈیٹ کریں یا مسائل حل کریں۔",
+      "GO_TO_SETTINGS": "Meta Business Manager پر جائیں",
+      "NO_DATA": "صحت کا ڈیٹا دستیاب نہیں ہے",
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
-          "LABEL": "Display phone number",
-          "TOOLTIP": "Phone number displayed to customers"
+          "LABEL": "فون نمبر دکھائیں",
+          "TOOLTIP": "گاہکوں کو دکھایا جانے والا فون نمبر"
         },
         "VERIFIED_NAME": {
-          "LABEL": "Business name",
-          "TOOLTIP": "Business name verified by WhatsApp"
+          "LABEL": "کاروباری نام",
+          "TOOLTIP": "WhatsApp کی طرف سے تصدیق شدہ کاروباری نام"
         },
         "DISPLAY_NAME_STATUS": {
-          "LABEL": "Display name status",
-          "TOOLTIP": "Status of your business name verification"
+          "LABEL": "ڈسپلے نام کی حیثیت",
+          "TOOLTIP": "آپ کے کاروباری نام کی تصدیق کی حیثیت"
         },
         "QUALITY_RATING": {
-          "LABEL": "Quality rating",
-          "TOOLTIP": "WhatsApp quality rating for your account"
+          "LABEL": "معیار کی درجہ بندی",
+          "TOOLTIP": "آپ کے اکاؤنٹ کے لیے WhatsApp کی معیار کی درجہ بندی"
         },
         "MESSAGING_LIMIT_TIER": {
-          "LABEL": "Messaging limit tier",
-          "TOOLTIP": "Daily messaging limit for your account"
+          "LABEL": "میسجنگ کی حد کی سطح",
+          "TOOLTIP": "آپ کے اکاؤنٹ کے لیے روزانہ میسج بھیجنے کی حد"
         },
         "ACCOUNT_MODE": {
-          "LABEL": "Account mode",
-          "TOOLTIP": "Current operating mode of your WhatsApp account"
+          "LABEL": "اکاؤنٹ کا موڈ",
+          "TOOLTIP": "آپ کے WhatsApp اکاؤنٹ کا موجودہ آپریٹنگ موڈ"
         }
       },
       "VALUES": {
@@ -664,394 +679,481 @@
           "TIER_10K": "10K customers per 24h",
           "TIER_100K": "100K customers per 24h",
           "TIER_UNLIMITED": "Unlimited customers per 24h",
-          "UNKNOWN": "Rating not available"
+          "UNKNOWN": "درجہ بندی دستیاب نہیں"
         },
         "STATUSES": {
-          "APPROVED": "Approved",
-          "PENDING_REVIEW": "Pending Review",
-          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
-          "REJECTED": "Rejected",
-          "DECLINED": "Declined",
-          "NON_EXISTS": "Non exists"
+          "APPROVED": "منظور شدہ",
+          "PENDING_REVIEW": "جائزہ زیر التوا",
+          "AVAILABLE_WITHOUT_REVIEW": "جائزہ کے بغیر دستیاب",
+          "REJECTED": "رد شدہ",
+          "DECLINED": "مسترد شدہ",
+          "NON_EXISTS": "موجود نہیں"
         },
         "MODES": {
-          "SANDBOX": "Sandbox",
-          "LIVE": "Live"
+          "SANDBOX": "سینڈ باکس",
+          "LIVE": "لائیو"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Webhook Configuration",
+        "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
+        "ACTION_REQUIRED": "Webhook not configured",
+        "REGISTER_BUTTON": "Register Webhook",
+        "REGISTER_SUCCESS": "Webhook registered successfully",
+        "REGISTER_ERROR": "Failed to register webhook. Please try again.",
+        "CONFIGURED_SUCCESS": "Webhook configured successfully",
+        "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "ترتیبات",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "LABEL": "خصوصیات",
+      "DISPLAY_FILE_PICKER": "وجٹ پر فائل منتخب کرنے والا دکھائیں",
+      "DISPLAY_EMOJI_PICKER": "وجٹ پر ایموجی منتخب کرنے والا دکھائیں",
+      "ALLOW_END_CONVERSATION": "صارفین کو ویجیٹ سے گفتگو ختم کرنے کی اجازت دیں",
+      "USE_INBOX_AVATAR_FOR_BOT": "بوٹ کے لیے ان باکس کا نام اور اوتار استعمال کریں"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
+      "MESSENGER_HEADING": "میسنجر اسکرپٹ",
+      "MESSENGER_SUB_HEAD": "اس بٹن کو اپنے body ٹیگ کے اندر رکھیں",
       "ALLOWED_DOMAINS": {
-        "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "TITLE": "مجاز ڈومینز",
+        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
-      "INBOX_AGENTS": "Agents",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "UPDATE": "Update",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
-      "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
-      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Update",
-      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
-      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
-      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
-      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
-      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
-      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
-      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
-      "WHATSAPP_CONNECT_BUTTON": "Connect",
-      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
-      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
-      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
-      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
-      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
-      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
-      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
-      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
-      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Enable widget in mobile apps",
+        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Identity Validation",
+        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "SECRET_KEY": "Secret Key",
+        "VIEW_DOCS": "View documentation",
+        "REQUIRE_LABEL": "Require identity validation for all conversations",
+        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
+      },
+      "INBOX_AGENTS": "ایجنٹس",
+      "INBOX_AGENTS_SUB_TEXT": "اس ان باکس سے ایجنٹس شامل یا ہٹائیں",
+      "AGENT_ASSIGNMENT": "گفتگو کی تفویض",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "گفتگو کی تفویض کی ترتیبات کو اپ ڈیٹ کریں",
+      "UPDATE": "اپ ڈیٹ کریں",
+      "ENABLE_EMAIL_COLLECT_BOX": "ای میل جمع کرنے کا باکس فعال کریں",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "نئی گفتگو پر ای میل جمع کرنے کا باکس فعال یا غیر فعال کریں",
+      "AUTO_ASSIGNMENT": "خودکار تفویض کو فعال کریں",
+      "SENDER_NAME_SECTION": "ای میل میں ایجنٹ کا نام فعال کریں",
+      "SENDER_NAME_SECTION_TEXT": "ای میل میں ایجنٹ کا نام دکھانے کو فعال/غیر فعال کریں، اگر غیر فعال ہو تو کاروباری نام دکھایا جائے گا",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "ای میل کے ذریعے گفتگو کی تسلسل کو فعال کریں",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "اگر رابطہ ای میل پتہ دستیاب ہو تو گفتگو ای میل کے ذریعے جاری رہے گی۔",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
+      "INBOX_UPDATE_TITLE": "ان باکس کی ترتیبات",
+      "INBOX_UPDATE_SUB_TEXT": "اپنے ان باکس کی ترتیبات اپ ڈیٹ کریں",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "اس ان باکس میں شامل ایجنٹس کو خودکار طور پر نئی گفتگو تفویض کرنے کو فعال یا غیر فعال کریں۔",
+      "HMAC_VERIFICATION": "صارف کی شناخت کی تصدیق",
+      "HMAC_DESCRIPTION": "اس کلید کے ساتھ آپ ایک خفیہ ٹوکن تیار کر سکتے ہیں جو آپ کے صارفین کی شناخت کی تصدیق کے لیے استعمال ہو سکتا ہے۔",
+      "HMAC_LINK_TO_DOCS": "آپ یہاں مزید پڑھ سکتے ہیں۔",
+      "HMAC_MANDATORY_VERIFICATION": "صارف کی شناخت کی تصدیق کو لازمی بنائیں",
+      "HMAC_MANDATORY_DESCRIPTION": "اگر فعال ہو، تو وہ درخواستیں جو تصدیق نہیں ہو سکتیں گی، مسترد کر دی جائیں گی۔",
+      "INBOX_IDENTIFIER": "ان باکس شناخت کنندہ",
+      "INBOX_IDENTIFIER_SUB_TEXT": "اپنے API کلائنٹس کی تصدیق کے لیے یہاں دکھایا گیا `inbox_identifier` ٹوکن استعمال کریں۔",
+      "FORWARD_EMAIL_TITLE": "ای میل پر فارورڈ کریں",
+      "FORWARD_EMAIL_SUB_TEXT": "اپنے ای میلز کو درج ذیل ای میل ایڈریس پر فارورڈ کرنا شروع کریں۔",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "اس تنصیب پر آپ کے ان باکس میں ای میل فارورڈنگ فی الحال غیر فعال ہے۔ اس فیچر کو استعمال کرنے کے لیے، اسے آپ کے ایڈمنسٹریٹر کو فعال کرنا ہوگا۔ براہ کرم آگے بڑھنے کے لیے ان سے رابطہ کریں۔",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "گفتگو حل ہونے کے بعد پیغامات کی اجازت دیں",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "اختتامی صارفین کو گفتگو حل ہونے کے بعد بھی پیغامات بھیجنے کی اجازت دیں۔",
+      "WHATSAPP_SECTION_SUBHEADER": "یہ API کلید WhatsApp APIs کے ساتھ انضمام کے لیے استعمال ہوتی ہے۔",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "WhatsApp APIs کے ساتھ انضمام کے لیے استعمال ہونے والی نئی API کلید درج کریں۔",
+      "WHATSAPP_SECTION_TITLE": "API کلید",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "API کلید کو اپ ڈیٹ کریں",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "نئی API کلید یہاں درج کریں",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "اپ ڈیٹ کریں",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "واٹس ایپ Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "یہ ان باکس واٹس ایپ Embedded Signup کے ذریعے منسلک ہے۔",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "آپ اپنے واٹس ایپ بزنس کی ترتیبات کو اپ ڈیٹ کرنے کے لیے اس ان باکس کو دوبارہ ترتیب دے سکتے ہیں۔",
+      "WHATSAPP_RECONFIGURE_BUTTON": "دوبارہ ترتیب دیں",
+      "WHATSAPP_CONNECT_TITLE": "واٹس ایپ بزنس سے کنیکٹ کریں",
+      "WHATSAPP_CONNECT_SUBHEADER": "آسان انتظام کے لیے واٹس ایپ Embedded Signup میں اپ گریڈ کریں۔",
+      "WHATSAPP_CONNECT_DESCRIPTION": "بہتر خصوصیات اور آسان انتظام کے لیے اس ان باکس کو واٹس ایپ بزنس سے کنیکٹ کریں۔",
+      "WHATSAPP_CONNECT_BUTTON": "کنیکٹ کریں",
+      "WHATSAPP_CONNECT_SUCCESS": "واٹس ایپ بزنس سے کامیابی سے کنیکٹ ہو گیا!",
+      "WHATSAPP_CONNECT_ERROR": "واٹس ایپ بزنس سے کنیکٹ کرنے میں ناکامی۔ براہ کرم دوبارہ کوشش کریں۔",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "واٹس ایپ بزنس کو کامیابی سے دوبارہ ترتیب دیا گیا!",
+      "WHATSAPP_RECONFIGURE_ERROR": "واٹس ایپ بزنس کو دوبارہ ترتیب دینے میں ناکامی۔ براہ کرم دوبارہ کوشش کریں۔",
+      "WHATSAPP_APP_ID_MISSING": "واٹس ایپ ایپ ID ترتیب نہیں دی گئی۔ براہ کرم اپنے منتظم سے رابطہ کریں۔",
+      "WHATSAPP_CONFIG_ID_MISSING": "واٹس ایپ کنفیگریشن ID ترتیب نہیں دی گئی۔ براہ کرم اپنے منتظم سے رابطہ کریں۔",
+      "WHATSAPP_LOGIN_CANCELLED": "واٹس ایپ لاگ ان منسوخ کر دیا گیا۔ براہ کرم دوبارہ کوشش کریں۔",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook تصدیقی ٹوکن",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "یہ ٹوکن webhook اینڈ پوائنٹ کی اصلیت کی تصدیق کے لیے استعمال ہوتا ہے۔",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "ٹیمپلیٹس کو ہم آہنگ کریں",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "اپنے دستیاب ٹیمپلیٹس کو اپ ڈیٹ کرنے کے لیے واٹس ایپ سے میسج ٹیمپلیٹس کو دستی طور پر ہم آہنگ کریں۔",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "ٹیمپلیٹس کو ہم آہنگ کریں",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "ٹیمپلیٹس کی ہم آہنگی کامیابی سے شروع ہو گئی ہے۔ اپ ڈیٹ ہونے میں چند منٹ لگ سکتے ہیں۔",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "پری چیٹ فارم کی ترتیبات کو اپ ڈیٹ کریں"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "LABEL": "مدد مرکز",
+      "PLACEHOLDER": "مدد مرکز منتخب کریں",
+      "SELECT_PLACEHOLDER": "مدد مرکز منتخب کریں",
+      "NONE": "None",
+      "REMOVE": "مدد مرکز ہٹائیں",
+      "SUB_TEXT": "ان باکس کے ساتھ مدد مرکز منسلک کریں"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "خودکار تفویض کی حد",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "براہ کرم 0 سے بڑا کوئی عدد درج کریں۔",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "اس ان باکس سے زیادہ سے زیادہ گفتگو کی تعداد کو محدود کریں جو خودکار طور پر ایجنٹ کو تفویض کی جا سکتی ہے"
+    },
+    "ASSIGNMENT": {
+      "TITLE": "گفتگو کی تفویض",
+      "DESCRIPTION": "آمدہ گفتگو کو دستیاب ایجنٹس کو خودکار طریقے سے تفویض کریں تفویض کی پالیسیوں کی بنیاد پر",
+      "ENABLE_AUTO_ASSIGNMENT": "خودکار گفتگو کی تفویض کو فعال کریں",
+      "DEFAULT_RULES_TITLE": "ڈیفالٹ تفویض کے قواعد",
+      "DEFAULT_RULES_DESCRIPTION": "تمام گفتگو کے لیے ڈیفالٹ تفویض کا رویہ استعمال کرنا",
+      "DEFAULT_RULE_1": "سب سے پہلے بنائی گئی گفتگو پہلے",
+      "DEFAULT_RULE_2": "راؤنڈ رابن تقسیم",
+      "CUSTOMIZE_WITH_POLICY": "تفویض کی پالیسی کے ساتھ حسب ضرورت بنائیں",
+      "USING_POLICY": "اس ان باکس کے لیے حسب ضرورت تفویض کی پالیسی استعمال ہو رہی ہے",
+      "CUSTOMIZE_POLICY": "تفویض کی پالیسی کے ساتھ حسب ضرورت بنائیں",
+      "DELETE_POLICY": "پالیسی حذف کریں",
+      "POLICY_LABEL": "تفویض کی پالیسی",
+      "ASSIGNMENT_ORDER_LABEL": "تفویض کا ترتیب",
+      "ASSIGNMENT_METHOD_LABEL": "تفویض کا طریقہ",
+      "POLICY_STATUS": {
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "Earliest created",
+        "LONGEST_WAITING": "Longest waiting"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "Round robin",
+        "BALANCED": "Balanced assignment"
+      },
+      "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
+      "UPGRADE_TO_BUSINESS": "Upgrade to Business",
+      "DEFAULT_POLICY_LINKED": "Default policy linked",
+      "DEFAULT_POLICY_DESCRIPTION": "Link a custom assignment policy to customize how conversations are assigned to agents in this inbox.",
+      "LINK_EXISTING_POLICY": "Link existing policy",
+      "CREATE_NEW_POLICY": "Create new policy",
+      "NO_POLICIES": "No assignment policies found",
+      "VIEW_ALL_POLICIES": "View all policies",
+      "CURRENT_BEHAVIOR": "Currently using default assignment behavior:",
+      "LINK_SUCCESS": "Assignment policy linked successfully",
+      "LINK_ERROR": "Failed to link assignment policy"
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
+      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
+      "CANCEL": "Cancel",
+      "CONFIRM_DELETE": "Delete",
+      "DELETE_SUCCESS": "Assignment policy removed successfully",
+      "DELETE_ERROR": "Failed to remove assignment policy"
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Reauthorize",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "TITLE": "دوبارہ اجازت دیں",
+      "SUBTITLE": "آپ کا Facebook کنکشن ختم ہو چکا ہے، براہ کرم خدمات جاری رکھنے کے لیے اپنا Facebook صفحہ دوبارہ جوڑیں",
+      "MESSAGE_SUCCESS": "دوبارہ کنکشن کامیاب",
+      "MESSAGE_ERROR": "ایک خرابی ہوئی، براہ کرم دوبارہ کوشش کریں"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
-      "SET_FIELDS": "Pre chat form fields",
+      "DESCRIPTION": "پری چیٹ فارم آپ کو صارف کی معلومات حاصل کرنے کی اجازت دیتے ہیں اس سے پہلے کہ وہ آپ سے بات چیت شروع کریں۔",
+      "SET_FIELDS": "پری چیٹ فارم کے فیلڈز",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
-        "TYPE": "Type",
-        "REQUIRED": "Required"
+        "FIELDS": "فیلڈز",
+        "LABEL": "لیبل",
+        "PLACE_HOLDER": "پلیس ہولڈر",
+        "KEY": "کلید",
+        "TYPE": "قسم",
+        "REQUIRED": "ضروری"
       },
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "پری چیٹ فارم فعال کریں",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "ہاں",
+          "DISABLED": "نہیں"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "پری چیٹ پیغام",
+        "PLACEHOLDER": "یہ پیغام فارم کے ساتھ صارفین کو دکھایا جائے گا"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "زائرین کو چیٹ شروع کرنے سے پہلے اپنا نام اور ای میل ایڈریس فراہم کرنا چاہیے"
       }
     },
     "CSAT": {
-      "TITLE": "Enable CSAT",
-      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "TITLE": "CSAT فعال کریں",
+      "SUBTITLE": "بات چیت کے اختتام پر خودکار طور پر CSAT سروے شروع کریں تاکہ یہ سمجھ سکیں کہ صارفین اپنے سپورٹ تجربے کے بارے میں کیسا محسوس کرتے ہیں۔ اطمینان کے رجحانات کو ٹریک کریں اور وقت کے ساتھ بہتری کے شعبوں کی نشاندہی کریں۔",
       "DISPLAY_TYPE": {
-        "LABEL": "Display type"
+        "LABEL": "ظاہر کرنے کی قسم"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter a message to show users with the form"
+        "LABEL": "پیغام",
+        "PLACEHOLDER": "براہ کرم فارم کے ساتھ صارفین کو دکھانے کے لیے ایک پیغام درج کریں"
       },
       "BUTTON_TEXT": {
-        "LABEL": "Button text",
-        "PLACEHOLDER": "Please rate us"
+        "LABEL": "بٹن کا متن",
+        "PLACEHOLDER": "براہ کرم ہمیں درجہ دیں"
       },
       "LANGUAGE": {
-        "LABEL": "Language",
-        "PLACEHOLDER": "Select template language"
+        "LABEL": "زبان",
+        "PLACEHOLDER": "ٹیمپلیٹ کی زبان منتخب کریں"
       },
       "MESSAGE_PREVIEW": {
-        "LABEL": "Message preview",
-        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+        "LABEL": "پیغام کا پیش نظارہ",
+        "TOOLTIP": "یہ WhatsApp کے پلیٹ فارم پر دکھانے پر معمولی فرق ہو سکتا ہے۔"
       },
       "TEMPLATE_STATUS": {
-        "APPROVED": "Approved by WhatsApp",
-        "PENDING": "Pending WhatsApp approval",
-        "REJECTED": "Meta rejected the template",
-        "DEFAULT": "Needs WhatsApp approval",
-        "NOT_FOUND": "The template does not exist in the Meta platform."
+        "APPROVED": "WhatsApp کی طرف سے منظور شدہ",
+        "PENDING": "WhatsApp کی منظوری زیر التوا",
+        "REJECTED": "Meta نے ٹیمپلیٹ کو مسترد کر دیا",
+        "DEFAULT": "WhatsApp کی منظوری درکار ہے",
+        "NOT_FOUND": "ٹیمپلیٹ Meta پلیٹ فارم پر موجود نہیں ہے۔"
       },
       "TEMPLATE_CREATION": {
-        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
-        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+        "SUCCESS_MESSAGE": "WhatsApp ٹیمپلیٹ کامیابی سے بنایا گیا اور منظوری کے لیے بھیجا گیا",
+        "ERROR_MESSAGE": "WhatsApp ٹیمپلیٹ بنانے میں ناکامی"
       },
       "TEMPLATE_UPDATE_DIALOG": {
-        "TITLE": "Edit survey details",
-        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Create new template",
-        "CANCEL": "Go back"
+        "TITLE": "سروے کی تفصیلات میں ترمیم کریں",
+        "DESCRIPTION": "ہم پچھلا ٹیمپلیٹ حذف کریں گے اور نیا بنائیں گے جو دوبارہ WhatsApp کی منظوری کے لیے بھیجا جائے گا",
+        "CONFIRM": "نیا ٹیمپلیٹ بنائیں",
+        "CANCEL": "واپس جائیں"
+      },
+      "UTILITY_ANALYZER": {
+        "ACTION": "Check utility fit",
+        "HELPER_NOTE": "Check this message before submission to improve Utility fit. The system creates a dedicated CSAT template with buttons for reporting and submits it as Utility; Meta may still reclassify it as Marketing based on content.",
+        "RESULT_LABEL": "Meta category prediction",
+        "GUIDANCE_NOTE": "This is a guidance check, not a guarantee of Meta approval.",
+        "SUGGESTION_LABEL": "Suggested utility-safe rewrite",
+        "APPLY": "Use this rewrite",
+        "ERROR_MESSAGE": "Couldn't analyze the message. Please try again.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "Likely Utility",
+          "LIKELY_MARKETING": "Likely Marketing",
+          "UNCLEAR": "Needs clarification"
+        }
       },
       "SURVEY_RULE": {
-        "LABEL": "Survey rule",
-        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
-        "DESCRIPTION_SUFFIX": "any of the labels",
+        "LABEL": "سروے کا اصول",
+        "DESCRIPTION_PREFIX": "اگر بات چیت",
+        "DESCRIPTION_SUFFIX": "کسی بھی لیبل پر مشتمل ہو",
         "OPERATOR": {
-          "CONTAINS": "contains",
-          "DOES_NOT_CONTAINS": "does not contain"
+          "CONTAINS": "شامل ہو",
+          "DOES_NOT_CONTAINS": "شامل نہ ہو"
         },
-        "SELECT_PLACEHOLDER": "select labels"
+        "SELECT_PLACEHOLDER": "لیبل منتخب کریں"
       },
-      "NOTE": "Note: CSAT surveys are sent only once per conversation",
-      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "NOTE": "نوٹ: CSAT سروے ہر بات چیت میں صرف ایک بار بھیجے جاتے ہیں",
+      "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
       "API": {
-        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
-        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+        "SUCCESS_MESSAGE": "CSAT کی ترتیبات کامیابی سے اپ ڈیٹ ہو گئیں",
+        "ERROR_MESSAGE": "ہم CSAT کی ترتیبات کو اپ ڈیٹ نہیں کر سکے۔ براہ کرم بعد میں دوبارہ کوشش کریں۔"
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TITLE": "اپنی دستیابی مقرر کریں",
+      "SUBTITLE": "اپنے لائیو چیٹ وجٹ پر اپنی دستیابی مقرر کریں",
+      "WEEKLY_TITLE": "اپنے ہفتہ وار اوقات مقرر کریں",
+      "TIMEZONE_LABEL": "ٹائم زون منتخب کریں",
+      "UPDATE": "کاروباری اوقات کی ترتیبات کو اپ ڈیٹ کریں",
+      "TOGGLE_AVAILABILITY": "اس ان باکس کے لیے کاروباری دستیابی فعال کریں",
+      "UNAVAILABLE_MESSAGE_LABEL": "زائرین کے لیے غیر دستیاب پیغام",
+      "TOGGLE_HELP": "کاروباری دستیابی کو فعال کرنے سے لائیو چیٹ ویجیٹ پر دستیاب اوقات دکھائے جائیں گے چاہے تمام ایجنٹ آف لائن ہوں۔ دستیاب اوقات کے باہر زائرین کو ایک پیغام اور پری چیٹ فارم کے ذریعے خبردار کیا جا سکتا ہے۔",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "DAY": "Day",
+        "AVAILABILITY": "Availability",
+        "HOURS": "Hours",
+        "ENABLE": "اس دن کے لیے دستیابی فعال کریں",
+        "UNAVAILABLE": "دستیاب نہیں",
+        "VALIDATION_ERROR": "شروع ہونے کا وقت بند ہونے کے وقت سے پہلے ہونا چاہیے۔",
+        "CHOOSE": "منتخب کریں"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "پورا دن"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "SUBTITLE": "اپنی IMAP تفصیلات سیٹ کریں",
+      "NOTE_TEXT": "SMTP کو فعال کرنے کے لیے، براہ کرم IMAP کو ترتیب دیں۔",
+      "UPDATE": "IMAP کی ترتیبات کو اپ ڈیٹ کریں",
+      "TOGGLE_AVAILABILITY": "اس ان باکس کے لیے IMAP ترتیب کو فعال کریں",
+      "TOGGLE_HELP": "IMAP کو فعال کرنے سے صارف کو ای میل وصول کرنے میں مدد ملے گی",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "IMAP کی ترتیبات کامیابی سے اپ ڈیٹ ہو گئیں",
+        "ERROR_MESSAGE": "IMAP کی ترتیبات کو اپ ڈیٹ کرنے میں ناکام"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "پتہ",
+        "PLACE_HOLDER": "پتہ (مثلاً: imap.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "پورٹ",
+        "PLACE_HOLDER": "پورٹ"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "لاگ ان",
+        "PLACE_HOLDER": "لاگ ان"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "پاس ورڈ",
+        "PLACE_HOLDER": "پاس ورڈ"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "SSL کو فعال کریں"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
+      "SUBTITLE": "اپنا MICROSOFT اکاؤنٹ دوبارہ اجازت دیں"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "SUBTITLE": "اپنی SMTP تفصیلات سیٹ کریں",
+      "UPDATE": "SMTP کی ترتیبات کو اپ ڈیٹ کریں",
+      "TOGGLE_AVAILABILITY": "اس ان باکس کے لیے SMTP ترتیب کو فعال کریں",
+      "TOGGLE_HELP": "SMTP کو فعال کرنے سے صارف کو ای میل بھیجنے میں مدد ملے گی",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "SMTP کی ترتیبات کامیابی سے اپ ڈیٹ ہو گئیں",
+        "ERROR_MESSAGE": "SMTP کی ترتیبات کو اپ ڈیٹ کرنے میں ناکام"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "پتہ",
+        "PLACE_HOLDER": "پتہ (مثلاً: smtp.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "پورٹ",
+        "PLACE_HOLDER": "پورٹ"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "لاگ ان",
+        "PLACE_HOLDER": "لاگ ان"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "پاس ورڈ",
+        "PLACE_HOLDER": "پاس ورڈ"
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "ڈومین",
+        "PLACE_HOLDER": "ڈومین"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "انکرپشن",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
-      "AUTH_MECHANISM": "Authentication"
+      "OPEN_SSL_VERIFY_MODE": "اوپن SSL تصدیقی موڈ",
+      "AUTH_MECHANISM": "تصدیق"
     },
-    "NOTE": "Note: ",
+    "NOTE": "نوٹ: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "ویب سائٹ اوتار",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
-              "ERROR_MESSAGE": "There was an error, please try again"
+              "SUCCESS_MESSAGE": "اوتار کامیابی سے حذف ہو گیا",
+              "ERROR_MESSAGE": "کچھ غلط ہو گیا، براہ کرم دوبارہ کوشش کریں"
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Website Name",
-          "PLACE_HOLDER": "Enter your website name (eg: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "LABEL": "ویب سائٹ کا نام",
+          "PLACE_HOLDER": "اپنی ویب سائٹ کا نام درج کریں (مثلاً: Acme Inc)",
+          "ERROR": "براہ کرم ایک درست ویب سائٹ نام درج کریں"
         },
         "WELCOME_HEADING": {
-          "LABEL": "Welcome Heading",
-          "PLACE_HOLDER": "Hi there!"
+          "LABEL": "خوش آمدید ہیڈنگ",
+          "PLACE_HOLDER": "ہیلو!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACE_HOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "خوش آمدید ٹیگ لائن",
+          "PLACE_HOLDER": "ہم سے جڑنا آسان بناتے ہیں۔ ہم سے کچھ بھی پوچھیں، یا اپنی رائے شیئر کریں۔"
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day"
+          "LABEL": "جواب کا وقت",
+          "IN_A_FEW_MINUTES": "چند منٹ میں",
+          "IN_A_FEW_HOURS": "چند گھنٹوں میں",
+          "IN_A_DAY": "ایک دن میں"
         },
-        "WIDGET_COLOR_LABEL": "Widget Color",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_COLOR_LABEL": "ویجیٹ کا رنگ",
+        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Type:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Chat with us",
-          "LABEL": "Widget Bubble Launcher Title",
-          "PLACE_HOLDER": "Chat with us"
+          "DEFAULT": "ہم سے بات کریں",
+          "LABEL": "Launcher Title",
+          "PLACE_HOLDER": "ہم سے بات کریں"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "ویجیٹ کی ترتیبات کو اپ ڈیٹ کریں",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "ویجیٹ کی ترتیبات کامیابی سے اپ ڈیٹ ہو گئیں",
+            "ERROR_MESSAGE": "ویجیٹ کی ترتیبات اپ ڈیٹ کرنے سے قاصر"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "پیش نظارہ",
+          "SCRIPT": "اسکرپٹ"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "بائیں",
+          "RIGHT": "دائیں"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "معیاری",
+          "EXPANDED_BUBBLE": "وسیع شدہ بلبلہ"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "ڈیفالٹ",
+        "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-        "IN_A_FEW_HOURS": "Typically replies in a few hours",
-        "IN_A_DAY": "Typically replies in a day"
+        "IN_A_FEW_MINUTES": "عام طور پر چند منٹوں میں جواب دیتا ہے",
+        "IN_A_FEW_HOURS": "عام طور پر چند گھنٹوں میں جواب دیتا ہے",
+        "IN_A_DAY": "عام طور پر ایک دن میں جواب دیتا ہے"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Start Conversation",
-        "CHAT_INPUT_PLACEHOLDER": "Type your message"
+        "START_CONVERSATION_BUTTON_TEXT": "گفتگو شروع کریں",
+        "CHAT_INPUT_PLACEHOLDER": "اپنا پیغام ٹائپ کریں"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
-          "OFFLINE": "We are away at the moment"
+          "ONLINE": "ہم آن لائن ہیں",
+          "OFFLINE": "ہم اس وقت دستیاب نہیں ہیں"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "ہیلو",
+        "AGENT_MESSAGE": "سلام"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "چالو کردہ Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
-        "TITLE": "Microsoft",
-        "DESCRIPTION": "Connect with Microsoft"
+        "TITLE": "مائیکروسافٹ",
+        "DESCRIPTION": "مائیکروسافٹ کے ساتھ کنیکٹ کریں"
       },
       "GOOGLE": {
-        "TITLE": "Google",
-        "DESCRIPTION": "Connect with Google"
+        "TITLE": "گوگل",
+        "DESCRIPTION": "گوگل کے ساتھ کنیکٹ کریں"
       },
       "OTHER_PROVIDERS": {
-        "TITLE": "Other Providers",
-        "DESCRIPTION": "Connect with Other Providers"
+        "TITLE": "دیگر فراہم کنندگان",
+        "DESCRIPTION": "دیگر فراہم کنندگان کے ساتھ کنیکٹ کریں"
       }
     },
     "CHANNELS": {
-      "MESSENGER": "Messenger",
-      "WEB_WIDGET": "Website",
-      "TWITTER_PROFILE": "Twitter",
+      "MESSENGER": "میسنجر",
+      "WEB_WIDGET": "ویب سائٹ",
+      "TWITTER_PROFILE": "ٹوئٹر",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
       "SMS": "SMS",
-      "EMAIL": "Email",
-      "TELEGRAM": "Telegram",
-      "LINE": "Line",
-      "API": "API Channel",
+      "EMAIL": "ای میل",
+      "TELEGRAM": "ٹیلیگرام",
+      "LINE": "لائن",
+      "API": "API چینل",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
-      "VOICE": "Voice"
+      "VOICE": "وائس"
     }
   }
 }

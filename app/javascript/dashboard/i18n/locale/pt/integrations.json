@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "O Chatwoot integra-se com várias ferramentas e serviços para melhorar a eficiência da sua equipa. Explore a lista abaixo para configurar as suas aplicações favoritas. ",
     "LEARN_MORE": "Saber mais sobre integrações",
     "LOADING": "A procurar integrações",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Capitão não está ativo na sua conta.",
       "CLICK_HERE_TO_CONFIGURE": "Clique aqui para configurar",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos subscritos",
       "LEARN_MORE": "Learn more about webhooks",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Cancelar",
         "DESC": "Os eventos Webhook fornecem informações em tempo real sobre o que está a acontecer na sua conta Chatwoot. Por favor, insira um URL válido para configurar uma chamada de retorno.",
@@ -104,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Excluir",
       "DELETE_CONFIRMATION": {
         "TITLE": "Excluir a integração",
@@ -145,7 +160,29 @@
         "EXPAND": "Expandir",
         "MAKE_FRIENDLY": "Alterar o tom de mensagem para amigável",
         "MAKE_FORMAL": "Usar tom formal",
-        "SIMPLIFY": "Simplificar"
+        "SIMPLIFY": "Simplificar",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Profissional",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Amigável"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Conteúdo do rascunho",
@@ -201,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>Apps de dashboard</b></p><p>Apps de dashboard permitem que as organizações incorporem uma aplicação dentro do dashboard do Chatwoot para fornecer o contexto aos agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro do dashboard para fornecer informações de utilizador, os seus pedidos ou o seu histórico de pagamentos.</p><p>Quando a sua aplicação é incorporada usando o dashboard do Chatwoot, a sua aplicação irá obter o contexto da conversa e do contato como um evento de janela. Implemente um listener para o evento de mensagem na sua página para receber o contexto.</p><p>Para adicionar uma nova app ao dashboard, clique no botão 'Adicionar nova app ao dashboard'.</p>",
       "DESCRIPTION": "Apps de dashboard permitem que as organizações incorporem um aplicação dentro do dashboard do Chatwoot para fornecer o contexto aos agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro do dashboard para fornecer informações de utilizador, os seus pedidos ou o seu histórico de pagamentos.",
       "LEARN_MORE": "Saber mais sobre apps de dashboard",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Não há apps de dashboard configuradas nesta conta.",
         "LOADING": "A obter apps de dashboard...",
         "TABLE_HEADER": {
           "NAME": "Nome:",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Ações"
         },
         "EDIT_TOOLTIP": "Editar app",
         "DELETE_TOOLTIP": "Apagar app"
@@ -243,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Criar/Vincular problema linear",
       "LOADING": "A procurar problemas lineares...",
       "LOADING_ERROR": "Houve um erro ao procurar problemas lineares, por favor, tente novamente",
@@ -337,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Noção",
       "DELETE": {
         "TITLE": "Tem a certeza que pretende apagar a integração Notion?",
         "MESSAGE": "Apagar esta integração removerá o acesso ao seu workspace Notion e encerrará todas as funcionalidades relacionadas.",
@@ -347,12 +390,12 @@
   },
   "CAPTAIN": {
     "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "Saiba mais",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "Assistentes",
+      "SWITCH_ASSISTANT": "Alternar entre assistentes",
+      "NEW_ASSISTANT": "Criar Assistente",
+      "EMPTY_LIST": "Nenhum assistente encontrado, por favor crie um para começar"
     },
     "COPILOT": {
       "TITLE": "Copilot",
@@ -361,12 +404,12 @@
       "KICK_OFF_MESSAGE": "Precisa de um resumo rápido, quer consultar conversas anteriores ou redigir uma resposta melhor? O Copilot está aqui para acelerar o processo.",
       "SEND_MESSAGE": "Enviar mensagem...",
       "EMPTY_MESSAGE": "Ocorreu um erro ao gerar a resposta. Por favor, tente novamente.",
-      "LOADER": "Captain is thinking",
+      "LOADER": "Captain está pensando",
       "YOU": "Você",
-      "USE": "Use this",
-      "RESET": "Reset",
+      "USE": "Usar isto",
+      "RESET": "Resetar",
       "SHOW_STEPS": "Mostrar passos",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "SELECT_ASSISTANT": "Selecionar Assistente",
       "PROMPTS": {
         "SUMMARIZE": {
           "LABEL": "Resumir esta conversa",
@@ -392,26 +435,27 @@
     },
     "PLAYGROUND": {
       "USER": "Você",
-      "ASSISTANT": "Assistant",
+      "ASSISTANT": "Assistente",
       "MESSAGE_PLACEHOLDER": "Escreva a sua mensagem...",
-      "HEADER": "Playground",
+      "HEADER": "Área de testes",
       "DESCRIPTION": "Use este playground para enviar mensagens para o seu assistente e verificar se ele responde com precisão, rápido e no tom esperado.",
       "CREDIT_NOTE": "As mensagens aqui enviadas vão contar para os créditos do seu Captain."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "TITLE": "Faça upgrade para usar o Captain AI",
+      "AVAILABLE_ON": "Captain não está disponível no plano gratuito.",
+      "UPGRADE_PROMPT": "Faça upgrade do seu plano para ter acesso aos nossos assistentes, copiloto e mais.",
       "UPGRADE_NOW": "Fazer upgrade agora",
       "CANCEL_ANYTIME": "Pode alterar ou cancelar o plano a qualquer momento"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "AVAILABLE_ON": "Captain AI está disponível apenas nos planos Enterprise.",
+      "UPGRADE_PROMPT": "Faça upgrade do seu plano para ter acesso aos nossos assistentes, copiloto e mais.",
       "ASK_ADMIN": "Por favor, entre em contato com o administrador para atualização."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "Você usou mais de 80% do seu limite de respostas. Para continuar usando o Captain AI, por favor faça upgrade.",
+      "DOCUMENTS": "Limite de documentos atingido. Faça upgrade para continuar utilizando o Captain AI."
     },
     "FORM": {
       "CANCEL": "Cancelar",
@@ -483,7 +527,8 @@
           "TITLE": "Características",
           "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
@@ -693,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
+      "SELECTED": "{count} selected",
+      "SELECT_ALL": "Selecionar todas ({count})",
+      "UNSELECT_ALL": "Desmarcar todas ({count})",
+      "BULK_DELETE_BUTTON": "Excluir",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
         "DESCRIPTION": "These FAQs are generated directly from the document."
@@ -750,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Ferramentas",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -780,11 +837,30 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Abrir faturação",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Por favor, entre em contato com o administrador para atualização."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Descrição",

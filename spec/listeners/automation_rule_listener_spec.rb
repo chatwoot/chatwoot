@@ -220,6 +220,15 @@ describe AutomationRuleListener do
         expect(AutomationRules::ActionService).not_to have_received(:new)
       end
 
+      it 'calls AutomationRules::ActionService if message is a private note' do
+        message.update!(private: true)
+        allow(condition_match).to receive(:present?).and_return(true)
+
+        listener.message_created(event)
+
+        expect(AutomationRules::ActionService).to have_received(:new).with(automation_rule, account, conversation)
+      end
+
       it 'does not call AutomationRules::ActionService if conditions do not match based on content' do
         message.update!(processed_message_content: 'hi', content: "hi\n\nhello")
         allow(condition_match).to receive(:present?).and_return(false)

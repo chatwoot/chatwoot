@@ -3,8 +3,11 @@
     "HEADER": "カスタムロール",
     "LEARN_MORE": "カスタムロールについて詳しく学ぶ",
     "DESCRIPTION": "カスタムロールは、アカウントオーナーまたは管理者によって作成されるロールです。これらのロールは、担当者に割り当てて、アカウント内でのアクセス権と権限を定義できます。カスタムロールは、組織の要件に合わせて特定の権限とアクセスレベルで作成できます。",
+    "COUNT": "{n} custom role | {n} custom roles",
     "HEADER_BTN_TXT": "カスタムロールを追加",
     "LOADING": "カスタムロールを取得中...",
+    "SEARCH_PLACEHOLDER": "Search custom roles...",
+    "NO_RESULTS": "No custom roles found matching your search",
     "SEARCH_404": "検索内容（クエリ）に一致する項目はありませんでした。",
     "PAYWALL": {
       "TITLE": "アップグレードしてカスタムロールを作成",

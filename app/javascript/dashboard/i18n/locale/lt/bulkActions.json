@@ -22,6 +22,10 @@
       "UPDATE_SUCCESFUL": "Pokalbio būsena atnaujinta sėkmingai.",
       "UPDATE_FAILED": "Nepavyko atnaujinti pokalbių. Bandykite dar kartą."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Priskirti etiketes",
       "NO_LABELS_FOUND": "Etikečių nerasta",

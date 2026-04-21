@@ -2,7 +2,9 @@ require 'rails_helper'
 
 describe Linear do
   let(:access_token) { 'valid_access_token' }
+  let(:refresh_token) { 'valid_refresh_token' }
   let(:url) { 'https://api.linear.app/graphql' }
+  let(:revoke_url) { 'https://api.linear.app/oauth/revoke' }
   let(:linear_client) { described_class.new(access_token) }
   let(:headers) { { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{access_token}" } }
 
@@ -431,6 +433,32 @@ describe Linear do
         response = linear_client.linked_issues('app.chatwoot.com')
         expect(response).to eq({ :error => { 'errors' => [{ 'message' => 'Error retrieving data' }] }, :error_code => 422 })
       end
+    end
+  end
+
+  context 'when revoking a token' do
+    it 'uses the refresh token when present' do
+      client = described_class.new(access_token, refresh_token: refresh_token)
+
+      stub_request(:post, revoke_url)
+        .with(
+          headers: { 'Content-Type' => 'application/x-www-form-urlencoded' },
+          body: { token: refresh_token, token_type_hint: 'refresh_token' }
+        )
+        .to_return(status: 200, body: '', headers: {})
+
+      expect(client.revoke_token).to be(true)
+    end
+
+    it 'falls back to the access token when refresh token is absent' do
+      stub_request(:post, revoke_url)
+        .with(
+          headers: { 'Content-Type' => 'application/x-www-form-urlencoded' },
+          body: { token: access_token, token_type_hint: 'access_token' }
+        )
+        .to_return(status: 200, body: '', headers: {})
+
+      expect(linear_client.revoke_token).to be(true)
     end
   end
 end

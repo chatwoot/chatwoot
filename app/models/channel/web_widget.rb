@@ -51,6 +51,7 @@ class Channel::WebWidget < ApplicationRecord
             2 => :emoji_picker,
             3 => :end_conversation,
             4 => :use_inbox_avatar_for_bot,
+            5 => :allow_mobile_webview,
             :column => 'feature_flags',
             :check_for_column => false
 

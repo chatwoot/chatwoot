@@ -1,76 +1,79 @@
 {
   "CANNED_MGMT": {
     "HEADER": "預設回覆",
-    "LEARN_MORE": "Learn more about canned responses",
-    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
-    "HEADER_BTN_TXT": "Add canned response",
-    "LOADING": "Fetching canned responses...",
-    "SEARCH_404": "沒有任何項目符合此查詢.",
+    "LEARN_MORE": "瞭解更多關於預設回覆",
+    "DESCRIPTION": "預設回覆是預先撰寫的回覆範本，可幫助您快速回應對話。客服可以在對話中輸入「/」字元加上簡碼來插入預設回覆。",
+    "COUNT": "{n} 個預設回覆 | {n} 個預設回覆",
+    "HEADER_BTN_TXT": "新增預設回覆",
+    "LOADING": "正在取得預設回覆...",
+    "SEARCH_PLACEHOLDER": "搜尋預設回覆...",
+    "NO_RESULTS": "找不到符合搜尋條件的預設回覆",
+    "SEARCH_404": "沒有任何項目符合此查詢。",
     "LIST": {
-      "404": "此帳戶中沒有可用的罐頭回覆。",
+      "404": "此帳戶中沒有可用的預設回覆。",
       "TITLE": "管理預設回覆",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "DESC": "預設回覆是預先定義的回覆範本，可用於快速傳送對話回覆。",
       "TABLE_HEADER": {
-        "SHORT_CODE": "Short code",
-        "CONTENT": "内容",
+        "SHORT_CODE": "簡碼",
+        "CONTENT": "內容",
         "ACTIONS": "操作"
       }
     },
     "ADD": {
-      "TITLE": "Add canned response",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
-      "CANCEL_BUTTON_TEXT": "取消操作",
+      "TITLE": "新增預設回覆",
+      "DESC": "預設回覆是預先定義的回覆範本，可用於快速傳送對話回覆。",
+      "CANCEL_BUTTON_TEXT": "取消",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a short code.",
-          "ERROR": "Short Code is required."
+          "LABEL": "簡碼",
+          "PLACEHOLDER": "請輸入簡碼。",
+          "ERROR": "簡碼為必填。"
         },
         "CONTENT": {
           "LABEL": "訊息",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "訊息為必填."
+          "PLACEHOLDER": "請輸入您想儲存為範本的訊息，以便日後使用。",
+          "ERROR": "訊息為必填。"
         },
         "SUBMIT": "送出"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Canned response added successfully.",
-        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+        "SUCCESS_MESSAGE": "預設回覆新增成功。",
+        "ERROR_MESSAGE": "無法連接伺服器，請再試一次。"
       }
     },
     "EDIT": {
-      "TITLE": "編輯罐頭回覆",
-      "CANCEL_BUTTON_TEXT": "取消操作",
+      "TITLE": "編輯預設回覆",
+      "CANCEL_BUTTON_TEXT": "取消",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a shortcode.",
-          "ERROR": "Short code is required."
+          "LABEL": "簡碼",
+          "PLACEHOLDER": "請輸入簡碼。",
+          "ERROR": "簡碼為必填。"
         },
         "CONTENT": {
           "LABEL": "訊息",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "訊息為必填."
+          "PLACEHOLDER": "請輸入您想儲存為範本的訊息，以便日後使用。",
+          "ERROR": "訊息為必填。"
         },
         "SUBMIT": "送出"
       },
       "BUTTON_TEXT": "編輯",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
-        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+        "SUCCESS_MESSAGE": "預設回覆更新成功。",
+        "ERROR_MESSAGE": "無法連接伺服器，請再試一次。"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "刪除",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
-        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+        "SUCCESS_MESSAGE": "預設回覆刪除成功。",
+        "ERROR_MESSAGE": "無法連接伺服器，請再試一次。"
       },
       "CONFIRM": {
         "TITLE": "刪除確認",
-        "MESSAGE": "您確定要刪除嗎？ ",
-        "YES": "Yes, delete ",
-        "NO": "No, keep "
+        "MESSAGE": "您確定要刪除嗎？",
+        "YES": "是，刪除",
+        "NO": "不，保留"
       }
     }
   }

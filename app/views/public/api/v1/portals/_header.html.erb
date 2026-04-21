@@ -78,7 +78,7 @@
       </div>
 
       <%# Locale switcher section %>
-      <% if @portal.config["allowed_locales"].length > 1 %>
+      <% if @portal.public_locale_codes.length > 1 %>
         <div id="header-action-button" class="flex items-center stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100">
           <div class="flex items-center gap-1 px-1 py-2 cursor-pointer">
             <%= render partial: 'icons/globe' %>
@@ -86,7 +86,10 @@
               data-portal-slug="<%= @portal.slug %>"
               class="w-24 overflow-hidden text-sm font-medium leading-tight bg-white appearance-none cursor-pointer dark:bg-slate-900 text-ellipsis whitespace-nowrap focus:outline-none focus:shadow-outline locale-switcher"
             >
-              <% @portal.config["allowed_locales"].each do |locale| %>
+              <% if @portal.draft_locale?(@locale) %>
+                <option selected disabled value="<%= @locale %>"><%= "#{language_name(@locale)} (#{@locale})" %></option>
+              <% end %>
+              <% @portal.public_locale_codes.each do |locale| %>
                 <option <%= locale == @locale ? 'selected': '' %> value="<%= locale %>"><%= "#{language_name(locale)} (#{locale})" %></option>
               <% end %>
             </select>

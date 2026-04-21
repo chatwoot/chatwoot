@@ -39,7 +39,7 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
     error = params[:message] || 'authentication-failed'
 
     if for_mobile?(relay_state)
-      redirect_to_mobile_error(error, relay_state)
+      redirect_to_mobile_error(error)
     else
       redirect_to login_page_url(error: "saml-#{error}")
     end
@@ -51,23 +51,15 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
     account_id = extract_saml_account_id
     relay_state = saml_relay_state
 
-    unless saml_enabled_for_account?(account_id)
-      return redirect_to_mobile_error('saml-not-enabled') if for_mobile?(relay_state)
-
-      return redirect_to login_page_url(error: 'saml-not-enabled')
-    end
+    return handle_saml_auth_error(relay_state, 'saml-not-enabled') unless saml_enabled_for_account?(account_id)
 
     @resource = SamlUserBuilder.new(auth_hash, account_id).perform
 
-    if @resource.persisted?
-      return sign_in_user_on_mobile if for_mobile?(relay_state)
+    return sign_in_saml_user(relay_state) if @resource.persisted?
 
-      sign_in_user
-    else
-      return redirect_to_mobile_error('saml-authentication-failed') if for_mobile?(relay_state)
-
-      redirect_to login_page_url(error: 'saml-authentication-failed')
-    end
+    handle_saml_auth_error(relay_state, 'saml-authentication-failed')
+  rescue SamlUserBuilder::AuthenticationFailed
+    handle_saml_auth_error(relay_state, 'saml-authentication-failed')
   end
 
   def extract_saml_account_id
@@ -80,6 +72,18 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
 
   def for_mobile?(relay_state)
     relay_state.to_s.casecmp('mobile').zero?
+  end
+
+  def sign_in_saml_user(relay_state)
+    return sign_in_user_on_mobile if for_mobile?(relay_state)
+
+    sign_in_user
+  end
+
+  def handle_saml_auth_error(relay_state, error)
+    return redirect_to_mobile_error(error) if for_mobile?(relay_state)
+
+    redirect_to login_page_url(error: error)
   end
 
   def redirect_to_mobile_error(error)

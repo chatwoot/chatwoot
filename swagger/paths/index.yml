@@ -167,7 +167,7 @@
 # ------------  Application API routes  ------------#
 
 # Accounts
-/api/v1/accounts/{id}:
+/api/v1/accounts/{account_id}:
   parameters:
     - $ref: '#/components/parameters/account_id'
   get:
@@ -413,10 +413,6 @@
 # Inboxes
 /api/v1/accounts/{account_id}/inboxes:
   $ref: ./application/inboxes/index.yml
-/api/v1/accounts/{account_id}/inboxes/{id}/:
-  $ref: ./application/inboxes/show.yml
-/api/v1/accounts/{account_id}/inboxes/:
-  $ref: ./application/inboxes/create.yml
 /api/v1/accounts/{account_id}/inboxes/{id}:
   $ref: ./application/inboxes/update.yml
 /api/v1/accounts/{account_id}/inboxes/{id}/agent_bot:
@@ -441,6 +437,30 @@
     $ref: ./application/inboxes/inbox_members/update.yml
   delete:
     $ref: ./application/inboxes/inbox_members/delete.yml
+
+# Labels
+/api/v1/accounts/{account_id}/labels:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/labels/index.yml
+  post:
+    $ref: ./application/labels/create.yml
+/api/v1/accounts/{account_id}/labels/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: number
+      description: ID of the label
+  get:
+    $ref: ./application/labels/show.yml
+  patch:
+    $ref: ./application/labels/update.yml
+  delete:
+    $ref: ./application/labels/delete.yml
 
 # Messages
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/messages:

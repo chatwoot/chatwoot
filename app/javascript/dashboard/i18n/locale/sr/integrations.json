@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captain is not enabled on your account.",
       "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Pretplaćeni događaji",
       "LEARN_MORE": "Learn more about webhooks",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Otkaži",
         "DESC": "Događaji veb zakački vam omogućavaju informacije u realnom vremenu o onome šta se događa na vašem Chatwoot nalogu. Molim vas unesite ispravnu adresu da bi ste podesili povratni poziv.",
@@ -104,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Izbriši",
       "DELETE_CONFIRMATION": {
         "TITLE": "Delete the integration",
@@ -145,7 +160,29 @@
         "EXPAND": "Expand",
         "MAKE_FRIENDLY": "Change message tone to friendly",
         "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "SIMPLIFY": "Simplify",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Professional",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Friendly"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Draft content",
@@ -201,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>Aplikacije radne table</b></p><p>Aplikacije radne table omogućavaju organizacijama da integrišu aplikaciju unutar Chatwoot radne table da dostave kontekst agentima podrške. Ova mogućnosti vam omogućava da napravite aplikaciju nezavisno i integrišete je unutar radne table da bi ste dostavili informacije o korisniku, njihovim narudžbama ili istoriji prethodnih plaćanja.</p><p>Kada integrišete vašu aplikaciju koristeći radnu tablu u Chatwoot-u, vaša aplikacija će dobiti kontakst razgovora i kontakta kao window događaj. Implementirajte osluškivač događaj poruke na vašoj stranici da bi ste primili kontakst.</p><p>Da bi ste dodali novu aplikaciju radne table, kliknite na dugme 'Dodaj novu aplikaciju radne table'.</p>",
       "DESCRIPTION": "Aplikacije radne table omogućavaju organizacijama da integrišu aplikaciju unutar radne table da bi omogućili kontekst agentima podrške. Ova mogućnost omogućava da nezavisno napravite aplikaciju i integrišete je da bi ste dostavili informacije o korisniku, njihovim narudžbama ili njihovoj istoriji plaćanja.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Još uvek nema aplikacija radne table podešenih za ovaj nalog",
         "LOADING": "Prikupljanje aplikacija radne table...",
         "TABLE_HEADER": {
           "NAME": "Ime",
-          "ENDPOINT": "Krajnja tačka"
+          "ENDPOINT": "Krajnja tačka",
+          "ACTIONS": "Akcije"
         },
         "EDIT_TOOLTIP": "Uredi aplikaciju",
         "DELETE_TOOLTIP": "Obriši aplikaciju"
@@ -243,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
       "LOADING": "Fetching linear issues...",
       "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
@@ -337,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
@@ -347,71 +390,72 @@
   },
   "CAPTAIN": {
     "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "Saznaj više",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "Asistenti",
+      "SWITCH_ASSISTANT": "Prebaci se između asistenata",
+      "NEW_ASSISTANT": "Kreiraj asistenta",
+      "EMPTY_LIST": "Nema pronađenih asistenata, molimo kreirajte jednog da biste počeli"
     },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "PANEL_TITLE": "Započnite sa Copilot-om",
+      "KICK_OFF_MESSAGE": "Treba vam brz rezime, želite da proverite prethodne razgovore ili da sastavite bolji odgovor? Copilot je tu da ubrza stvari.",
       "SEND_MESSAGE": "Pošalji poruku...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
+      "EMPTY_MESSAGE": "Došlo je do greške pri generisanju odgovora. Molimo pokušajte ponovo.",
+      "LOADER": "Captain razmišlja",
       "YOU": "You",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "USE": "Koristi ovo",
+      "RESET": "Resetuj",
+      "SHOW_STEPS": "Prikaži korake",
+      "SELECT_ASSISTANT": "Izaberite asistenta",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Sumirajte ovaj razgovor",
+          "CONTENT": "Sumirajte ključne tačke koje su diskutovane između kupca i agenta podrške, uključujući brige kupca, pitanja i rešenja ili odgovore koje je pružio agent podrške"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Predloži odgovor",
+          "CONTENT": "Analizirajte upit kupca i sastavite odgovor koji efikasno rešava njihove brige ili pitanja. Osigurajte da odgovor bude jasan, sažet i da pruža korisne informacije."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Ocenite ovaj razgovor",
+          "CONTENT": "Pregledajte razgovor da biste videli koliko dobro zadovoljava potrebe kupca. Podelite ocenu do 5 na osnovu tona, jasnoće i efikasnosti."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "Razgovori visokog prioriteta",
+          "CONTENT": "Dajte mi rezime svih otvorenih razgovora sa visokim prioritetom. Uključite ID razgovora, ime kupca (ako je dostupno), sadržaj poslednje poruke i dodeljenog agenta. Grupisati po statusu ako je relevantno."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "Lista kontakata",
+          "CONTENT": "Prikaži mi listu top 10 kontakata. Uključi ime, email ili broj telefona (ako je dostupan), vreme poslednjeg viđenja, oznake (ako ima)."
         }
       }
     },
     "PLAYGROUND": {
       "USER": "You",
-      "ASSISTANT": "Assistant",
+      "ASSISTANT": "Asistent",
       "MESSAGE_PLACEHOLDER": "Napišite vašu poruku...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "Prostor za igru",
+      "DESCRIPTION": "Koristite ovaj prostor za igru da šaljete poruke svom asistentu i proverite da li odgovara tačno, brzo i u tonu koji očekujete.",
+      "CREDIT_NOTE": "Poruke poslate ovde će se računati u vaše Captain kredite."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "TITLE": "Nadogradite da biste koristili Captain AI",
+      "AVAILABLE_ON": "Captain nije dostupan na besplatnom planu.",
+      "UPGRADE_PROMPT": "Nadogradite svoj plan da biste dobili pristup našim asistentima, copilotu i još mnogo toga.",
       "UPGRADE_NOW": "Upgrade now",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "AVAILABLE_ON": "Captain AI je dostupan samo u Enterprise planovima.",
+      "UPGRADE_PROMPT": "Nadogradite svoj plan da biste dobili pristup našim asistentima, copilotu i još mnogo toga.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "Iskoristili ste preko 80% svog limita za odgovore. Da biste nastavili koristiti Captain AI, molimo nadogradite se.",
+      "DOCUMENTS": "Dostignut je limit dokumenata. Nadogradite se da biste nastavili koristiti Captain AI."
     },
     "FORM": {
       "CANCEL": "Otkaži",
@@ -483,7 +527,8 @@
           "TITLE": "Mogućnosti",
           "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
@@ -693,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
+      "SELECTED": "{count} selected",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "BULK_DELETE_BUTTON": "Izbriši",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
         "DESCRIPTION": "These FAQs are generated directly from the document."
@@ -750,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -780,11 +837,30 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Opis",

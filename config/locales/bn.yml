@@ -17,381 +17,422 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 bn:
-  hello: 'Hello world'
+  hello: 'হ্যালো বিশ্ব'
   inbox:
     reauthorization:
-      success: 'Channel reauthorized successfully'
-      not_required: 'Reauthorization is not required for this inbox'
-      invalid_channel: 'Invalid channel type for reauthorization'
+      success: 'চ্যানেল সফলভাবে পুনরায় অনুমোদিত হয়েছে'
+      not_required: 'এই ইনবক্সের জন্য পুনরায় অনুমোদন প্রয়োজন নেই'
+      invalid_channel: 'পুনরায় অনুমোদনের জন্য অবৈধ চ্যানেল টাইপ'
   auth:
     saml:
-      invalid_email: 'Please enter a valid email address'
-      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
+      invalid_email: 'অনুগ্রহ করে একটি বৈধ ইমেইল ঠিকানা লিখুন'
+      authentication_failed: 'প্রমাণীকরণ ব্যর্থ হয়েছে। অনুগ্রহ করে আপনার তথ্য যাচাই করে আবার চেষ্টা করুন।.'
   messages:
-    reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
-    reset_password_failure: Uh ho! We could not find any user with the specified email.
-    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
-    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
-    saml_not_available: SAML authentication is not available in this installation.
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    reset_password: পাসওয়ার্ড রিসেটের অনুরোধ সফল হয়েছে। আপনার ইমেইল ঠিকানাটি সিস্টেমে থাকলে নির্দেশনাসহ একটি ইমেইল পাঠানো হবে।.
+    reset_password_saml_user: এই অ্যাকাউন্টে SAML প্রমাণীকরণ ব্যবহৃত হচ্ছে। পাসওয়ার্ড রিসেট করা যাবে না। অনুগ্রহ করে আপনার প্রশাসকের সাথে যোগাযোগ করুন।.
+    login_saml_user: এই অ্যাকাউন্টটি SAML প্রমাণীকরণ ব্যবহার করে। অনুগ্রহ করে আপনার প্রতিষ্ঠানের SAML প্রদানকারীর মাধ্যমে সাইন ইন করুন।.
+    saml_not_available: এই ইনস্টলেশনে SAML প্রমাণীকরণ উপলব্ধ নয়।.
+    inbox_deletetion_response: আপনার ইনবক্স মুছে ফেলার অনুরোধ কিছু সময়ের মধ্যে প্রক্রিয়াকরণ করা হবে।.
   errors:
+    account:
+      reporting_timezone:
+        invalid: বৈধ টাইমজোন নয়
+      support_email:
+        invalid: is not a valid email address
     validations:
-      presence: must not be blank
+      presence: ফাঁকা রাখা যাবে না
     webhook:
-      invalid: Invalid events
+      invalid: অবৈধ ইভেন্ট
     signup:
-      disposable_email: We do not allow disposable emails
-      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
-      invalid_email: You have entered an invalid email
-      email_already_exists: 'You have already signed up for an account with %{email}'
-      invalid_params: 'Invalid, please check the signup paramters and try again'
-      failed: Signup failed
+      disposable_email: আমরা অস্থায়ী ইমেইল অনুমোদন করি না
+      blocked_domain: এই ডোমেইন অনুমোদিত নয়। আপনি যদি মনে করেন এটি একটি ভুল, অনুগ্রহ করে সহায়তায় যোগাযোগ করুন।.
+      invalid_email: আপনি একটি ভুল ইমেইল প্রবেশ করেছেন
+      email_already_exists: 'আপনি ইতিমধ্যে %{email} দিয়ে একটি অ্যাকাউন্ট তৈরি করেছেন'
+      invalid_params: 'অবৈধ, অনুগ্রহ করে সাইনআপের তথ্য যাচাই করুন এবং আবার চেষ্টা করুন'
+      failed: সাইন আপ ব্যর্থ হয়েছে
     assignment_policy:
-      not_found: Assignment policy not found
+      not_found: অ্যাসাইনমেন্ট নীতি পাওয়া যায়নি
     attachments:
-      invalid: Invalid attachment
+      invalid: অবৈধ সংযুক্তি
+    upload:
+      missing_input: 'No file or URL provided'
+      invalid_url: 'Invalid URL provided'
+      fetch_failed: 'Failed to fetch file from URL'
+      fetch_failed_with_message: 'Failed to fetch file from URL: %{message}'
+      file_too_large: 'File exceeds the maximum allowed size'
+      unsupported_content_type: 'File type not supported (only images and videos are allowed)'
+      unexpected: 'An unexpected error occurred'
     saml:
-      feature_not_enabled: SAML feature not enabled for this account
-      sso_not_enabled: SAML SSO is not enabled for this installation
+      feature_not_enabled: এই অ্যাকাউন্টের জন্য SAML ফিচার সক্রিয় নয়
+      sso_not_enabled: এই ইনস্টলেশনের জন্য SAML SSO সক্রিয় করা হয়নি
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: অবৈধ ডেটা টাইপ
     contacts:
       import:
-        failed: File is blank
+        failed: ফাইলটি খালি
       export:
-        success: We will notify you once contacts export file is ready to view.
+        success: যোগাযোগ রপ্তানি ফাইলটি দেখার জন্য প্রস্তুত হলে আমরা আপনাকে জানাবো।.
       email:
-        invalid: Invalid email
+        invalid: অবৈধ ইমেইল
       phone_number:
-        invalid: should be in e164 format
+        invalid: e164 ফরম্যাটে থাকতে হবে
     companies:
       domain:
-        invalid: must be a valid domain name
+        invalid: একটি বৈধ ডোমেইন নাম হতে হবে
       search:
-        query_missing: Specify search string with parameter q
+        query_missing: অনুগ্রহ করে q প্যারামিটারে অনুসন্ধান স্ট্রিং নির্দিষ্ট করুন
     messages:
       search:
-        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
+        time_range_limit_exceeded: 'অনুসন্ধান শুধুমাত্র শেষ %{days} দিনের জন্য সীমাবদ্ধ'
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: ক্যাটাগরি ও পোর্টালে অবশ্যই ইউনিক হতে হবে
     dyte:
-      invalid_message_type: 'Invalid message type. Action not permitted'
+      invalid_message_type: 'অবৈধ বার্তার ধরন। এই কার্যক্রম অনুমোদিত নয়'
     slack:
-      invalid_channel_id: 'Invalid slack channel. Please try again'
+      invalid_channel_id: 'অবৈধ Slack চ্যানেল। অনুগ্রহ করে আবার চেষ্টা করুন।'
     whatsapp:
-      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
-      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
-      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
-      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
+      token_exchange_failed: 'কোডের বিনিময়ে অ্যাক্সেস টোকেন নিতে ব্যর্থ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।.'
+      invalid_token_permissions: 'এই অ্যাক্সেস টোকেনের WhatsApp-এর জন্য প্রয়োজনীয় অনুমতি নেই।.'
+      phone_info_fetch_failed: 'ফোন নম্বরের তথ্য আনতে ব্যর্থ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।.'
+      phone_number_already_exists: 'এই ফোন নম্বরের জন্য চ্যানেল ইতিমধ্যে বিদ্যমান: %{phone_number}, যদি সমস্যা অব্যাহত থাকে তাহলে অনুগ্রহ করে সাপোর্টে যোগাযোগ করুন'
       reauthorization:
-        generic: 'Failed to reauthorize WhatsApp. Please try again.'
-        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
+        generic: 'WhatsApp পুনরায় অনুমোদন করতে ব্যর্থ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।.'
+        not_supported: 'এই ধরনের WhatsApp চ্যানেলের জন্য পুনরায় অনুমোদন সমর্থিত নয়।.'
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        socket_error: অনুগ্রহ করে নেটওয়ার্ক সংযোগ, IMAP ঠিকানা যাচাই করুন এবং আবার চেষ্টা করুন।.
+        no_response_error: অনুগ্রহ করে IMAP শংসাপত্র যাচাই করুন এবং আবার চেষ্টা করুন।.
+        host_unreachable_error: হোস্টে সংযোগ স্থাপন করা যাচ্ছে না, অনুগ্রহ করে IMAP ঠিকানা, IMAP পোর্ট যাচাই করুন এবং আবার চেষ্টা করুন।.
+        connection_timed_out_error: '%{address}:%{port} এর জন্য সংযোগের সময়সীমা শেষ হয়েছে'
+        connection_closed_error: সংযোগ বন্ধ হয়ে গেছে।.
+      smtp:
+        authentication_error: SMTP প্রমাণীকরণ ব্যর্থ হয়েছে। অনুগ্রহ করে আপনার লগইন তথ্য যাচাই করুন।.
+        connection_error: SMTP সার্ভারে সংযোগ করা যায়নি। অনুগ্রহ করে সার্ভার ঠিকানা ও পোর্ট পরীক্ষা করুন।.
+        ssl_error: SSL/TLS ত্রুটি। অনুগ্রহ করে আপনার এনক্রিপশন সেটিংস যাচাই করুন।.
+        smtp_error: SMTP সার্ভার ত্রুটি। অনুগ্রহ করে আপনার কনফিগারেশন পরীক্ষা করুন এবং আবার চেষ্টা করুন।.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: প্রতীক দিয়ে শুরু বা শেষ হওয়া যাবে না, এবং এতে < > / \ @ অক্ষর থাকতে পারবে না।.
     custom_filters:
-      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 1000.
-      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
-      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
-      invalid_query_operator: Query operator must be either "AND" or "OR".
-      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+      number_of_records: সীমা অতিক্রম হয়েছে। প্রতি অ্যাকাউন্টে একজন ব্যবহারকারীর জন্য সর্বাধিক ১০০০টি কাস্টম ফিল্টার অনুমোদিত।.
+      invalid_attribute: অবৈধ অ্যাট্রিবিউট কী - [%{key}]। কীটি [%{allowed_keys}] এর মধ্যে একটি অথবা অ্যাকাউন্টে সংজ্ঞায়িত কাস্টম অ্যাট্রিবিউট হতে হবে।.
+      invalid_operator: অবৈধ অপারেটর। %{attribute_name} এর জন্য অনুমোদিত অপারেটর হলো [%{allowed_keys}]।.
+      invalid_query_operator: কোয়েরি অপারেটর অবশ্যই "AND" অথবা "OR" হতে হবে।.
+      invalid_value: অবৈধ মান। %{attribute_name} এর জন্য প্রদত্ত মানগুলো অবৈধ।
     custom_attribute_definition:
-      key_conflict: The provided key is not allowed as it might conflict with default attributes.
+      attribute_key_format: শুধুমাত্র অক্ষর, সংখ্যা, আন্ডারস্কোর, হাইফেন এবং ডট থাকতে পারে
+      key_conflict: প্রদত্ত কী অনুমোদিত নয়, কারণ এটি ডিফল্ট অ্যাট্রিবিউটগুলোর সাথে সংঘর্ষ ঘটাতে পারে।.
     mfa:
-      already_enabled: MFA is already enabled
-      not_enabled: MFA is not enabled
-      invalid_code: Invalid verification code
-      invalid_backup_code: Invalid backup code
-      invalid_token: Invalid or expired MFA token
-      invalid_credentials: Invalid credentials or verification code
-      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+      already_enabled: MFA ইতিমধ্যে সক্রিয় আছে
+      not_enabled: MFA সক্রিয় করা হয়নি
+      invalid_code: ভুল যাচাইকরণ কোড
+      invalid_backup_code: ভুল ব্যাকআপ কোড
+      invalid_token: ভুল বা মেয়াদোত্তীর্ণ MFA টোকেন
+      invalid_credentials: ভুল শংসাপত্র বা যাচাইকরণ কোড
+      feature_unavailable: MFA ফিচারটি উপলব্ধ নয়। অনুগ্রহ করে এনক্রিপশন কী কনফিগার করুন।.
     topup:
-      credits_required: Credits amount is required
-      invalid_credits: Invalid credits amount
-      invalid_option: Invalid topup option
-      plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
-      stripe_customer_not_configured: Stripe customer not configured
-      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+      credits_required: ক্রেডিটের পরিমাণ আবশ্যক
+      invalid_credits: অবৈধ ক্রেডিটের পরিমাণ
+      invalid_option: অবৈধ টপ-আপ অপশন
+      plan_not_eligible: টপ-আপ শুধুমাত্র পেইড প্ল্যানের জন্য উপলব্ধ। অনুগ্রহ করে প্রথমে আপনার প্ল্যান আপগ্রেড করুন।.
+      stripe_customer_not_configured: Stripe গ্রাহক কনফিগার করা হয়নি
+      no_payment_method: কোনও পেমেন্ট পদ্ধতি পাওয়া যায়নি। অনুগ্রহ করে কেনাকাটার আগে একটি পেমেন্ট পদ্ধতি যোগ করুন।.
+    reports:
+      date_range_too_long: তারিখের পরিসর ৬ মাসের বেশি হতে পারে না
   profile:
     mfa:
-      enabled: MFA enabled successfully
-      disabled: MFA disabled successfully
+      enabled: MFA সফলভাবে সক্রিয় হয়েছে
+      disabled: MFA সফলভাবে নিষ্ক্রিয় হয়েছে
     account_saml_settings:
-      invalid_certificate: must be a valid X.509 certificate in PEM format
+      invalid_certificate: একটি বৈধ PEM ফরম্যাটের X.509 সার্টিফিকেট হতে হবে
   reports:
-    period: Reporting period %{since} to %{until}
-    utc_warning: The report generated is in UTC timezone
+    period: রিপোর্টিং সময়কাল %{since} থেকে %{until}
+    utc_warning: প্রতিবেদনটি UTC টাইমজোনে তৈরি হয়েছে
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Assigned conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
-      resolution_count: Resolution Count
-      avg_customer_waiting_time: Avg customer waiting time
+      agent_name: এজেন্টের নাম
+      conversations_count: বরাদ্দকৃত কথোপকথন
+      avg_first_response_time: গড় প্রথম সাড়া দেওয়ার সময়
+      avg_resolution_time: গড় সমাধান সময়
+      resolution_count: সমাধানের সংখ্যা
+      avg_customer_waiting_time: গড় গ্রাহক অপেক্ষার সময়
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      inbox_name: ইনবক্সের নাম
+      inbox_type: ইনবক্সের ধরন
+      conversations_count: কথোপকথনের সংখ্যা
+      avg_first_response_time: গড় প্রথম সাড়া দেওয়ার সময়
+      avg_resolution_time: গড় সমাধান সময়
     label_csv:
-      label_title: Label
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
-      avg_reply_time: Avg reply time
-      resolution_count: Resolution Count
+      label_title: লেবেল
+      conversations_count: কথোপকথনের সংখ্যা
+      avg_first_response_time: গড় প্রথম সাড়া দেওয়ার সময়
+      avg_resolution_time: গড় সমাধান সময়
+      avg_reply_time: গড় উত্তর সময়
+      resolution_count: সমাধানের সংখ্যা
     team_csv:
-      team_name: Team name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
-      resolution_count: Resolution Count
-      avg_customer_waiting_time: Avg customer waiting time
+      team_name: টিমের নাম
+      conversations_count: কথোপকথনের সংখ্যা
+      avg_first_response_time: গড় প্রথম সাড়া দেওয়ার সময়
+      avg_resolution_time: গড় সমাধান সময়
+      resolution_count: সমাধানের সংখ্যা
+      avg_customer_waiting_time: গড় গ্রাহক অপেক্ষার সময়
+    conversation_csv:
+      conversations_count: আলাপ
+      incoming_messages_count: প্রাপ্ত বার্তা
+      outgoing_messages_count: পাঠানো বার্তা
+      avg_first_response_time: গড় প্রথম সাড়া দেওয়ার সময়
+      avg_resolution_time: গড় সমাধান সময়
+      resolution_count: সমাধানের সংখ্যা
+      avg_customer_waiting_time: গড় গ্রাহক অপেক্ষার সময়
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: সময় অঞ্চল
     sla_csv:
-      conversation_id: Conversation ID
-      sla_policy_breached: SLA Policy
-      assignee: Assignee
-      team: Team
-      inbox: Inbox
-      labels: Labels
-      conversation_link: Link to the Conversation
-      breached_events: Breached Events
-    default_group_by: day
+      conversation_id: কনভার্সেশন আইডি
+      sla_policy_breached: SLA নীতি
+      assignee: অ্যাসাইনি
+      team: টিম
+      inbox: ইনবক্স
+      labels: লেবেলসমূহ
+      conversation_link: আলাপের লিঙ্ক
+      breached_events: লঙ্ঘিত ইভেন্ট
+    default_group_by: দিন
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
-        agent_name: Agent Name
-        rating: Rating
-        feedback: Feedback Comment
-        recorded_at: Recorded date
+        contact_name: যোগাযোগকারীর নাম
+        contact_email_address: যোগাযোগকারীর ইমেইল ঠিকানা
+        contact_phone_number: যোগাযোগকারীর ফোন নম্বর
+        link_to_the_conversation: আলাপের লিঙ্ক
+        agent_name: এজেন্টের নাম
+        rating: রেটিং
+        feedback: মতামতের মন্তব্য
+        recorded_at: রেকর্ডের তারিখ
+        review_notes: পর্যালোচনার নোট
   notifications:
     notification_title:
-      conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
-      conversation_assignment: 'A conversation (#%{display_id}) has been assigned to you'
-      assigned_conversation_new_message: 'A new message is created in conversation (#%{display_id})'
-      conversation_mention: 'You have been mentioned in conversation (#%{display_id})'
-      sla_missed_first_response: 'SLA target first response missed for conversation (#%{display_id})'
-      sla_missed_next_response: 'SLA target next response missed for conversation (#%{display_id})'
-      sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
-    attachment: 'Attachment'
-    no_content: 'No content'
+      conversation_creation: '%{inbox_name} এ একটি আলাপ (#%{display_id}) তৈরি হয়েছে'
+      conversation_assignment: 'আপনার কাছে একটি আলাপ (#%{display_id}) বরাদ্দ করা হয়েছে'
+      assigned_conversation_new_message: 'আলাপ (#%{display_id})-এ একটি নতুন বার্তা তৈরি হয়েছে'
+      conversation_mention: 'আপনাকে আলাপ (#%{display_id})-এ উল্লেখ করা হয়েছে'
+      sla_missed_first_response: 'আলোচনাটির জন্য SLA লক্ষ্য প্রথম উত্তর মিস হয়েছে (#%{display_id})'
+      sla_missed_next_response: 'আলোচনাটির জন্য SLA লক্ষ্য পরবর্তী উত্তর মিস হয়েছে (#%{display_id})'
+      sla_missed_resolution: 'আলোচনাটির জন্য SLA লক্ষ্য সমাধান মিস হয়েছে (#%{display_id})'
+    attachment: 'সংযুক্তি'
+    no_content: 'কোনো বিষয়বস্তু নেই'
   conversations:
     captain:
-      handoff: 'Transferring to another agent for further assistance.'
+      handoff: 'আরও সহায়তার জন্য অন্য এজেন্টের কাছে হস্তান্তর করা হচ্ছে।.'
     messages:
-      instagram_story_content: '%{story_sender} mentioned you in the story: '
-      instagram_deleted_story_content: This story is no longer available.
-      instagram_shared_story_content: 'Shared story'
-      instagram_shared_post_content: 'Shared post'
-      deleted: This message was deleted
+      instagram_story_content: '%{story_sender} আপনাকে স্টোরিতে উল্লেখ করেছেন: '
+      instagram_deleted_story_content: এই স্টোরিটি আর উপলব্ধ নেই।.
+      instagram_shared_story_content: 'শেয়ার করা স্টোরি'
+      instagram_shared_post_content: 'শেয়ার করা পোস্ট'
+      deleted: এই বার্তাটি মুছে ফেলা হয়েছে
       whatsapp:
-        list_button_label: 'Choose an item'
+        list_button_label: 'একটি আইটেম নির্বাচন করুন'
       delivery_status:
-        error_code: 'Error code: %{error_code}'
+        error_code: 'ত্রুটি কোড: %{error_code}'
     activity:
       captain:
-        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
-        open: 'Conversation was marked open by %{user_name}'
+        resolved: 'নিষ্ক্রিয়তার কারণে %{user_name} কথোপকথনটি সমাধান হয়েছে বলে চিহ্নিত করেছেন'
+        resolved_with_reason: '%{user_name} কথোপকথনটি সমাধান করেছেন (%{reason})'
+        resolved_by_tool: 'আলোচনাটি %{user_name} দ্বারা সমাধান হয়েছে: %{reason}'
+        open: '%{user_name} কথোপকথনটি খোলা হয়েছে বলে চিহ্নিত করেছেন'
+        open_with_reason: 'আলোচনা %{user_name} দ্বারা খোলা হয়েছে (%{reason})'
+        auto_opened_after_agent_reply: 'এজেন্টের উত্তর দেওয়ার পর স্বয়ংক্রিয়ভাবে কথোপকথনটি খোলা হয়েছে'
       agent_bot:
-        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
+        error_moved_to_open: 'এজেন্ট বটের ত্রুটির কারণে সিস্টেম দ্বারা কথোপকথনটি ওপেন হিসেবে চিহ্নিত করা হয়েছে।.'
       status:
-        resolved: 'Conversation was marked resolved by %{user_name}'
-        contact_resolved: 'Conversation was resolved by %{contact_name}'
-        open: 'Conversation was reopened by %{user_name}'
-        pending: 'Conversation was marked as pending by %{user_name}'
-        snoozed: 'Conversation was snoozed by %{user_name}'
-        auto_resolved_days: 'Conversation was marked resolved by system due to %{count} days of inactivity'
-        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
-        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        resolved: '%{user_name} কথোপকথনটি সমাধান হয়েছে বলে চিহ্নিত করেছেন'
+        contact_resolved: '%{contact_name} দ্বারা কথোপকথন সমাধান করা হয়েছে'
+        open: '%{user_name} কথোপকথনটি পুনরায় চালু করেছেন'
+        pending: '%{user_name} কথোপকথনটিকে অপেক্ষমাণ হিসেবে চিহ্নিত করেছেন'
+        snoozed: '%{user_name} এই কথোপকথনটি স্নুজ করেছেন'
+        auto_resolved_days: 'সিস্টেম %{count} দিন নিষ্ক্রিয় থাকার কারণে কথোপকথনটি সমাধান হয়েছে বলে চিহ্নিত করেছে'
+        auto_resolved_hours: 'সিস্টেম %{count} ঘণ্টা নিষ্ক্রিয় থাকার কারণে কথোপকথনটি সমাধান হয়েছে বলে চিহ্নিত করেছে'
+        auto_resolved_minutes: 'সিস্টেম %{count} মিনিট নিষ্ক্রিয় থাকার কারণে কথোপকথনটি সমাধান হয়েছে বলে চিহ্নিত করেছে'
+        system_auto_open: নতুন আগত বার্তার কারণে সিস্টেমটি আবার কথোপকথনটি খুলেছে।.
       priority:
-        added: '%{user_name} set the priority to %{new_priority}'
-        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
-        removed: '%{user_name} removed the priority'
+        added: '%{user_name} অগ্রাধিকারটি %{new_priority} এ নির্ধারণ করেছেন'
+        updated: '%{user_name} অগ্রাধিকারটি %{old_priority} থেকে %{new_priority} এ পরিবর্তন করেছেন'
+        removed: '%{user_name} অগ্রাধিকারটি সরিয়েছেন'
       assignee:
-        self_assigned: '%{user_name} self-assigned this conversation'
-        assigned: 'Assigned to %{assignee_name} by %{user_name}'
-        removed: 'Conversation unassigned by %{user_name}'
+        self_assigned: '%{user_name} নিজেই এই কথোপকথনটি নিয়েছেন'
+        assigned: '%{user_name} %{assignee_name}-কে দায়িত্ব দিয়েছেন'
+        removed: '%{user_name} কথোপকথনের দায়িত্ব মুক্ত করেছেন'
       team:
-        assigned: 'Assigned to %{team_name} by %{user_name}'
-        assigned_with_assignee: 'Assigned to %{assignee_name} via %{team_name} by %{user_name}'
-        removed: 'Unassigned from %{team_name} by %{user_name}'
+        assigned: '%{user_name} দ্বারা %{team_name}-এ অ্যাসাইন করা হয়েছে'
+        assigned_with_assignee: '%{user_name} দ্বারা %{team_name} এর মাধ্যমে %{assignee_name}-কে অ্যাসাইন করা হয়েছে'
+        removed: '%{user_name} দ্বারা %{team_name} থেকে অপসারণ করা হয়েছে'
       labels:
-        added: '%{user_name} added %{labels}'
-        removed: '%{user_name} removed %{labels}'
+        added: '%{user_name} %{labels} যোগ করেছেন'
+        removed: '%{user_name} %{labels} সরিয়ে দিয়েছেন'
       sla:
-        added: '%{user_name} added SLA policy %{sla_name}'
-        removed: '%{user_name} removed SLA policy %{sla_name}'
+        added: '%{user_name} SLA নীতি %{sla_name} যোগ করেছেন'
+        removed: '%{user_name} SLA নীতি %{sla_name} মুছে দিয়েছেন'
       linear:
-        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
-        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
-        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+        issue_created: 'Linear ইস্যু %{issue_id} তৈরি করেছেন %{user_name}'
+        issue_linked: 'Linear ইস্যু %{issue_id} লিঙ্ক করেছেন %{user_name}'
+        issue_unlinked: 'Linear ইস্যু %{issue_id} আনলিঙ্ক করেছেন %{user_name}'
       csat:
-        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+        not_sent_due_to_messaging_window: 'বাহ্যিক বার্তা পাঠানোর সীমাবদ্ধতার কারণে CSAT জরিপ পাঠানো হয়নি'
       auto_resolve:
-        not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
-      muted: '%{user_name} has muted the conversation'
-      unmuted: '%{user_name} has unmuted the conversation'
-      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
+        not_sent_due_to_messaging_window: 'বাহ্যিক বার্তা সীমাবদ্ধতার কারণে স্বয়ংক্রিয় সমাধানের বার্তা পাঠানো হয়নি'
+      muted: '%{user_name} কথোপকথনটি মিউট করেছেন'
+      unmuted: '%{user_name} কথোপকথনটির মিউট তুলে দিয়েছেন'
+      auto_resolution_message: 'কথোপকথনটি কিছুক্ষণ নিষ্ক্রিয় থাকায় সমাধান করা হচ্ছে। আরও সহায়তার প্রয়োজন হলে নতুন একটি কথোপকথন শুরু করুন।.'
     templates:
-      greeting_message_body: '%{account_name} typically replies in a few hours.'
-      ways_to_reach_you_message_body: 'Give the team a way to reach you.'
-      email_input_box_message_body: 'Get notified by email'
-      csat_input_message_body: 'Please rate the conversation'
+      greeting_message_body: '%{account_name} সাধারণত কয়েক ঘণ্টার মধ্যে উত্তর দেয়।.'
+      ways_to_reach_you_message_body: 'দলের সাথে যোগাযোগের একটি উপায় দিন।.'
+      email_input_box_message_body: 'ইমেইলে নোটিফিকেশন পান'
+      csat_input_message_body: 'অনুগ্রহ করে এই কথোপকথনের মূল্যায়ন করুন'
     reply:
       email:
         header:
-          notifications: 'Notifications'
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
-          friendly_name: '%{sender_name} from %{business_name} <%{from_email}>'
+          notifications: 'বিজ্ঞপ্তিসমূহ'
+          from_with_name: '%{inbox_name} থেকে %{assignee_name} <%{from_email}>'
+          reply_with_name: '%{inbox_name} থেকে %{assignee_name} <reply+%{reply_email}>'
+          friendly_name: '%{business_name} থেকে %{sender_name} <%{from_email}>'
           professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{inbox_name} এর %{assignee_name} <%{from_email}>'
           reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
-      email_subject: 'New messages on this conversation'
-      transcript_subject: 'Conversation Transcript'
+      email_subject: 'এই কথোপকথনে নতুন বার্তা এসেছে'
+      transcript_subject: 'কথোপকথনের ট্রান্সক্রিপ্ট'
     survey:
-      response: 'Please rate this conversation, %{link}'
+      response: 'অনুগ্রহ করে এই কথোপকথনটি রেট করুন, %{link}'
   contacts:
     online:
-      delete: '%{contact_name} is Online, please try again later'
+      delete: '%{contact_name} অনলাইনে আছেন, অনুগ্রহ করে পরে আবার চেষ্টা করুন'
   integration_apps:
     #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
-      name: 'Dashboard Apps'
-      description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
+      name: 'ড্যাশবোর্ড অ্যাপ'
+      description: 'ড্যাশবোর্ড অ্যাপ আপনাকে এমন অ্যাপ্লিকেশন তৈরি ও এম্বেড করতে দেয় যা ব্যবহারকারীর তথ্য, অর্ডার বা পেমেন্ট ইতিহাস প্রদর্শন করে, ফলে আপনার কাস্টমার সাপোর্ট এজেন্টদের জন্য আরও প্রাসঙ্গিক তথ্য প্রদান করে।.'
     dyte:
       name: 'Dyte'
-      short_description: 'Start video/voice calls with customers directly from Chatwoot.'
-      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
-      meeting_name: '%{agent_name} has started a meeting'
+      short_description: 'Chatwoot থেকে সরাসরি গ্রাহকদের সাথে ভিডিও/ভয়েস কল শুরু করুন।.'
+      description: 'Dyte একটি পণ্য যা আপনার অ্যাপ্লিকেশনে অডিও ও ভিডিও ফিচার সংযুক্ত করে। এই ইন্টিগ্রেশনের মাধ্যমে, আপনার এজেন্টরা সরাসরি Chatwoot থেকে গ্রাহকদের সাথে ভিডিও/ভয়েস কল শুরু করতে পারবেন।.'
+      meeting_name: '%{agent_name} একটি মিটিং শুরু করেছেন'
     slack:
       name: 'Slack'
-      short_description: 'Receive notifications and respond to conversations directly in Slack.'
-      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+      short_description: 'Slack-এ সরাসরি নোটিফিকেশন পান এবং কথোপকথনের উত্তর দিন।.'
+      description: "Chatwoot-কে Slack-এর সাথে সংযুক্ত করুন যাতে আপনার টিম সমন্বয়ে থাকে। এই ইন্টিগ্রেশনের মাধ্যমে, আপনি নতুন কথোপকথনের জন্য নোটিফিকেশন পেতে এবং Slack-এর ইন্টারফেস থেকেই সরাসরি উত্তর দিতে পারবেন।."
     webhooks:
-      name: 'Webhooks'
-      description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
+      name: 'ওয়েবহুকস'
+      description: 'Webhook ইভেন্টগুলি আপনার Chatwoot অ্যাকাউন্টে কার্যকলাপের রিয়েল-টাইম আপডেট প্রদান করে। আপনি আপনার পছন্দের ইভেন্টগুলিতে সাবস্ক্রাইব করতে পারেন, এবং Chatwoot আপনাকে আপডেটসহ HTTP কলব্যাক পাঠাবে।.'
     dialogflow:
       name: 'Dialogflow'
-      short_description: 'Build chatbots to handle initial queries before transferring to agents.'
-      description: 'Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent.'
+      short_description: 'এজেন্টদের কাছে হস্তান্তরের আগে প্রাথমিক প্রশ্নের উত্তর দেওয়ার জন্য চ্যাটবট তৈরি করুন।.'
+      description: 'Dialogflow দিয়ে চ্যাটবট তৈরি করুন এবং সহজেই আপনার ইনবক্সে সংযুক্ত করুন। এই বটগুলি প্রাথমিক প্রশ্নের উত্তর দিতে পারে, তারপর প্রয়োজনে গ্রাহক সেবার প্রতিনিধির কাছে হস্তান্তর করবে।.'
     google_translate:
       name: 'Google Translate'
-      short_description: 'Automatically translate customer messages for agents.'
-      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+      short_description: 'এজেন্টদের জন্য স্বয়ংক্রিয়ভাবে গ্রাহকের বার্তা অনুবাদ করুন।.'
+      description: "Google Translate সংযুক্ত করুন যাতে এজেন্টরা সহজেই গ্রাহকের বার্তা অনুবাদ করতে পারে। এই ইন্টিগ্রেশন স্বয়ংক্রিয়ভাবে ভাষা শনাক্ত করে এবং এজেন্ট বা অ্যাডমিনের পছন্দের ভাষায় রূপান্তর করে।."
     openai:
       name: 'OpenAI'
-      short_description: 'AI-powered reply suggestions, summarization, and message enhancement.'
-      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
+      short_description: 'এআই-চালিত উত্তর পরামর্শ, সারাংশ তৈরি এবং বার্তা উন্নতকরণ।.'
+      description: 'OpenAI-এর বড় ভাষা মডেলের শক্তি ব্যবহার করুন, যেমন উত্তর সাজেশন, সারাংশ তৈরি, বার্তা পুনর্লিখন, বানান যাচাই এবং লেবেল শ্রেণিবিন্যাসের মতো ফিচারসহ।.'
     linear:
-      name: 'Linear'
-      short_description: 'Create and link Linear issues directly from conversations.'
-      description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+      name: 'লিনিয়ার'
+      short_description: 'কথোপকথন থেকে সরাসরি Linear ইস্যু তৈরি ও সংযুক্ত করুন।.'
+      description: 'আপনার কথোপকথনের উইন্ডো থেকেই সরাসরি Linear-এ ইস্যু তৈরি করুন। বিকল্পভাবে, বিদ্যমান Linear ইস্যুগুলিকে সংযুক্ত করুন আরও সহজ ও কার্যকর ইস্যু ট্র্যাকিংয়ের জন্য।.'
     notion:
       name: 'Notion'
-      short_description: 'Integrate databases, documents and pages directly with Captain.'
-      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
+      short_description: 'ডাটাবেস, ডকুমেন্ট এবং পেজগুলো সরাসরি Captain-এর সাথে সংযুক্ত করুন।.'
+      description: 'আপনার Notion ওয়ার্কস্পেস সংযুক্ত করুন যাতে Captain আপনার ডাটাবেস, ডকুমেন্ট এবং পেজের কনটেন্ট ব্যবহার করে আরও প্রাসঙ্গিক গ্রাহক সহায়তার জন্য বুদ্ধিমান উত্তর তৈরি ও প্রদান করতে পারে।.'
     shopify:
       name: 'Shopify'
-      short_description: 'Access order details and customer data from your Shopify store.'
-      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+      short_description: 'আপনার Shopify স্টোর থেকে অর্ডার বিবরণ এবং গ্রাহকের তথ্য দেখুন।.'
+      description: 'আপনার Shopify স্টোর সংযুক্ত করুন যাতে আপনি অর্ডার বিবরণ, গ্রাহকের তথ্য এবং পণ্যের ডেটা সরাসরি আপনার কথোপকথনের মধ্যে দেখতে পারেন এবং আপনার সাপোর্ট টিমকে আরও দ্রুত ও প্রাসঙ্গিক সহায়তা দিতে সহায়তা করে।.'
     leadsquared:
       name: 'LeadSquared'
-      short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
-      description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
+      short_description: 'আপনার যোগাযোগ এবং কথোপকথন LeadSquared CRM-এর সাথে সিঙ্ক করুন।.'
+      description: 'আপনার যোগাযোগ এবং কথোপকথন LeadSquared CRM-এর সাথে সিঙ্ক করুন। এই ইন্টিগ্রেশনটি স্বয়ংক্রিয়ভাবে নতুন যোগাযোগ যোগ হলে LeadSquared-এ লিড তৈরি করে এবং কথোপকথনের কার্যকলাপ লগ করে, যাতে আপনার বিক্রয় দল সম্পূর্ণ প্রেক্ষাপট পায়।.'
   captain:
-    copilot_message_required: Message is required
-    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
-    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+    copilot_message_required: বার্তা আবশ্যক
+    copilot_error: 'Copilot ব্যবহার করতে এই ইনবক্সে একটি সহকারী সংযুক্ত করুন'
+    copilot_limit: 'আপনার Copilot ক্রেডিট শেষ হয়ে গেছে। বিলিং বিভাগ থেকে আরও ক্রেডিট কিনতে পারেন।.'
+    upgrade: 'Captain AI সক্রিয় করতে আপনার প্ল্যান আপগ্রেড করুন'
+    disabled: 'এই অ্যাকাউন্টের জন্য Captain AI নিষ্ক্রিয় করা হয়েছে।.'
+    api_key_missing: 'Captain AI API কী কনফিগার করা হয়নি।.'
     copilot:
-      using_tool: 'Using tool %{function_name}'
-      completed_tool_call: 'Completed %{function_name} tool call'
-      invalid_tool_call: 'Invalid tool call'
-      tool_not_available: 'Tool not available'
+      using_tool: 'টুল %{function_name} ব্যবহার করা হচ্ছে'
+      completed_tool_call: '%{function_name} টুল কল সম্পন্ন হয়েছে'
+      invalid_tool_call: 'অবৈধ টুল কল'
+      tool_not_available: 'টুলটি উপলব্ধ নয়'
     documents:
-      limit_exceeded: 'Document limit exceeded'
-      pdf_format_error: 'must be a PDF file'
-      pdf_size_error: 'must be less than 10MB'
-      pdf_upload_failed: 'Failed to upload PDF to OpenAI'
-      pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
-      pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
-      pdf_processing_success: 'Successfully processed PDF document %{document_id}'
-      faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
-      using_paginated_faq: 'Using paginated FAQ generation for document %{document_id}'
-      using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
-      response_creation_error: 'Error in creating response document: %{error}'
-      missing_openai_file_id: 'Document must have openai_file_id for paginated processing'
-      openai_api_error: 'OpenAI API Error: %{error}'
-      starting_paginated_faq: 'Starting paginated FAQ generation (%{pages_per_chunk} pages per chunk)'
-      stopping_faq_generation: 'Stopping processing. Reason: %{reason}'
-      paginated_faq_complete: 'Paginated generation complete. Total FAQs: %{total_faqs}, Pages processed: %{pages_processed}'
-      processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
-      chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
-      page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+      limit_exceeded: 'ডকুমেন্ট সীমা অতিক্রম হয়েছে'
+      pdf_format_error: 'একটি PDF ফাইল হতে হবে'
+      pdf_size_error: '১০MB-এর কম হতে হবে'
+      pdf_upload_failed: 'PDF টি OpenAI-তে আপলোড করতে ব্যর্থ হয়েছে'
+      pdf_upload_success: 'PDF সফলভাবে আপলোড হয়েছে, file_id: %{file_id}'
+      pdf_processing_failed: 'PDF ডকুমেন্ট %{document_id} প্রসেস করতে ব্যর্থ হয়েছে: %{error}'
+      pdf_processing_success: 'PDF ডকুমেন্ট %{document_id} সফলভাবে প্রসেস করা হয়েছে'
+      faq_generation_complete: 'FAQ তৈরি সম্পন্ন হয়েছে। মোট তৈরি হওয়া FAQ: %{count}'
+      using_paginated_faq: 'ডকুমেন্ট %{document_id} এর জন্য পেজিনেটেড FAQ তৈরি ব্যবহার করা হচ্ছে'
+      using_standard_faq: 'ডকুমেন্ট %{document_id} এর জন্য স্ট্যান্ডার্ড FAQ তৈরি ব্যবহার করা হচ্ছে'
+      response_creation_error: 'রেসপন্স ডকুমেন্ট তৈরি করতে ত্রুটি: %{error}'
+      missing_openai_file_id: 'পৃষ্ঠাভিত্তিক প্রক্রিয়াকরণের জন্য ডকুমেন্টে অবশ্যই openai_file_id থাকতে হবে'
+      openai_api_error: 'OpenAI API তে ত্রুটি: %{error}'
+      starting_paginated_faq: 'পৃষ্ঠাভিত্তিক FAQ তৈরি শুরু হচ্ছে (%{pages_per_chunk} পৃষ্ঠা প্রতি অংশে)'
+      stopping_faq_generation: 'প্রক্রিয়াকরণ বন্ধ করা হচ্ছে। কারণ: %{reason}'
+      paginated_faq_complete: 'পৃষ্ঠাভিত্তিক তৈরি সম্পন্ন। মোট FAQ: %{total_faqs}, প্রক্রিয়াকৃত পৃষ্ঠা: %{pages_processed}'
+      processing_pages: 'পৃষ্ঠা প্রক্রিয়াকরণ হচ্ছে %{start}-%{end} (ইটারেশন %{iteration})'
+      chunk_generated: 'চাঙ্ক তৈরি হয়েছে %{chunk_faqs} টি FAQ। মোট এখন পর্যন্ত: %{total_faqs}'
+      page_processing_error: 'পৃষ্ঠা প্রক্রিয়াকরণের সময় ত্রুটি %{start}-%{end}: %{error}'
     custom_tool:
-      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
+      slug_generation_failed: '৫ বার চেষ্টা করার পরেও অনন্য স্লাগ তৈরি করা যায়নি'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
-      empty_placeholder: No results found.
-      loading_placeholder: Searching...
-      results_title: Search results
-    toc_header: 'On this page'
+      search_placeholder: শিরোনাম বা বর্ণনা দিয়ে আর্টিকেল খুঁজুন...
+      empty_placeholder: কোনো ফলাফল পাওয়া যায়নি।.
+      loading_placeholder: অনুসন্ধান চলছে...
+      results_title: অনুসন্ধানের ফলাফল
+    toc_header: 'এই পাতায়'
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: এখানে প্রবন্ধগুলি খুঁজুন অথবা নিচের বিভাগগুলো ব্রাউজ করুন।.
     common:
-      home: Home
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all
-      article: article
-      articles: articles
-      author: author
-      authors: authors
-      other: other
-      others: others
-      by: By
-      no_articles: There are no articles here
+      home: হোম
+      last_updated_on: সর্বশেষ আপডেট হয়েছে %{last_updated_on} তারিখে
+      view_all_articles: সব দেখুন
+      article: প্রবন্ধ
+      articles: প্রবন্ধসমূহ
+      author: লেখক
+      authors: লেখকগণ
+      other: অন্যান্য
+      others: অন্যান্যরা
+      by: দ্বারা
+      no_articles: এখানে কোনো প্রবন্ধ নেই
     footer:
-      made_with: Made with
+      made_with: নির্মিত
     header:
-      go_to_homepage: Website
-      visit_website: Visit website
+      go_to_homepage: ওয়েবসাইট
+      visit_website: ওয়েবসাইট দেখুন
       appearance:
-        system: System
-        light: Light
-        dark: Dark
-      featured_articles: Featured Articles
-      uncategorized: Uncategorized
+        system: সিস্টেম
+        light: হালকা
+        dark: গাঢ়
+      featured_articles: ফিচার্ড প্রবন্ধ
+      uncategorized: বিনাশ্রেণীভুক্ত
     404:
-      title: Page not found
-      description: We couldn't find the page you were looking for.
-      back_to_home: Go to home page
+      title: পৃষ্ঠা খুঁজে পাওয়া যায়নি
+      description: আপনি যে পৃষ্ঠাটি খুঁজছিলেন, তা খুঁজে পাওয়া যায়নি।.
+      back_to_home: হোম পৃষ্ঠায় যান
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
-      name: Name
-      email: Email
-      phone_number: Phone
-      company_name: Company
-      inbox_name: Inbox
-      inbox_type: Inbox Type
-    button: Open conversation
+      name: নাম
+      email: ইমেইল
+      phone_number: ফোন
+      company_name: কোম্পানি
+      inbox_name: ইনবক্স
+      inbox_type: ইনবক্সের ধরন
+    button: কথোপকথন খুলুন
   time_units:
     days:
       one: '%{count} day'
@@ -405,36 +446,39 @@ bn:
     seconds:
       one: '%{count} second'
       other: '%{count} seconds'
+  auto_assignment:
+    default_policy_name: 'ডিফল্ট নীতি'
+    policy_actor: '%{policy_name} এর মাধ্যমে অটোমেশন সিস্টেম'
   automation:
-    system_name: 'Automation System'
+    system_name: 'অটোমেশন সিস্টেম'
   crm:
-    no_message: 'No messages in conversation'
-    attachment: '[Attachment: %{type}]'
-    no_content: '[No content]'
+    no_message: 'কথোপকথনে কোনো বার্তা নেই'
+    attachment: '[সংযুক্তি: %{type}]'
+    no_content: '[কোনো বিষয়বস্তু নেই]'
     created_activity: |
-      New conversation started on %{brand_name}
+      নতুন কথোপকথন শুরু হয়েছে %{brand_name}-এ
 
-      Channel: %{channel_info}
-      Created: %{formatted_creation_time}
-      Conversation ID: %{display_id}
-      View in %{brand_name}: %{url}
+      চ্যানেল: %{channel_info}
+      তৈরি হয়েছে: %{formatted_creation_time}
+      কথোপকথন আইডি: %{display_id}
+      %{brand_name}-এ দেখুন: %{url}
     transcript_activity: |
-      Conversation Transcript from %{brand_name}
+      %{brand_name} থেকে কথোপকথনের ট্রান্সক্রিপ্ট
 
-      Channel: %{channel_info}
-      Conversation ID: %{display_id}
-      View in %{brand_name}: %{url}
+      চ্যানেল: %{channel_info}
+      কথোপকথন আইডি: %{display_id}
+      %{brand_name}-এ দেখুন: %{url}
 
-      Transcript:
+      ট্রান্সক্রিপ্ট:
       %{format_messages}
   agent_capacity_policy:
-    inbox_already_assigned: 'Inbox has already been assigned to this policy'
+    inbox_already_assigned: 'এই নীতিতে ইনবক্স ইতিমধ্যে অ্যাসাইন করা হয়েছে'
   portals:
     send_instructions:
-      email_required: 'Email is required'
-      invalid_email_format: 'Invalid email format'
-      custom_domain_not_configured: 'Custom domain is not configured'
-      instructions_sent_successfully: 'Instructions sent successfully'
-      subject: 'Finish setting up %{custom_domain}'
+      email_required: 'ইমেইল আবশ্যক'
+      invalid_email_format: 'ইমেইলের ফরম্যাট সঠিক নয়'
+      custom_domain_not_configured: 'কাস্টম ডোমেইন কনফিগার করা হয়নি'
+      instructions_sent_successfully: 'নির্দেশাবলী সফলভাবে পাঠানো হয়েছে'
+      subject: '%{custom_domain} সেটআপ সম্পন্ন করুন'
     ssl_status:
-      custom_domain_not_configured: 'Custom domain is not configured'
+      custom_domain_not_configured: 'কাস্টম ডোমেইন কনফিগার করা হয়নি'

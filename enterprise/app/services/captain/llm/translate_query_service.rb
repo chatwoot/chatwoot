@@ -26,6 +26,12 @@ class Captain::Llm::TranslateQueryService < Captain::BaseTaskService
     'translate_query'
   end
 
+  # Translation is an internal operation, not customer-initiated.
+  # It should always use the installation key.
+  def llm_credential
+    @llm_credential ||= system_llm_credential
+  end
+
   def query_in_target_language?(query)
     detector = CLD3::NNetLanguageIdentifier.new(0, 1000)
     result = detector.find_language(query)

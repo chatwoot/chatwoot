@@ -83,7 +83,7 @@ describe EmailChannelFinder do
         reply_mail.mail['bcc'] = 'test@example.com'
 
         # Configure other account IDs but not this one
-        other_account_ids = [123, 456, 789]
+        other_account_ids = [channel_email.account_id + 1, channel_email.account_id + 2, channel_email.account_id + 3]
         allow(GlobalConfigService).to receive(:load)
           .with('SKIP_INCOMING_BCC_PROCESSING', '')
           .and_return(other_account_ids.join(','))

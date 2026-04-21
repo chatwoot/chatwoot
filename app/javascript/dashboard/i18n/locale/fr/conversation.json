@@ -61,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Ce message n'est pas pris en charge. Vous pouvez voir ce message sur l'application Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ce message n'est pas pris en charge. Vous pouvez voir ce message sur l'application Instagram.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "Le message a bien été supprimé",
     "FAIL_DELETE_MESSSAGE": "Impossible de supprimer le message ! Veuillez réessayez",
     "NO_RESPONSE": "Pas de réponse",
@@ -173,6 +174,10 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Impossible d'assigner l'étiquette. Veuillez réessayer."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Équipe assignée «{team}» à la conversation id {conversationId}",
           "FAILED": "Impossible d'assigner l'équipe. Veuillez réessayer."
@@ -185,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "Désactiver la signature",
       "MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Commencez par '/' pour sélectionner une réponse standardisée.",
       "PRIVATE_MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Cela ne sera visible que par les agents",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La signature du message n'est pas configurée, veuillez le configurer dans les paramètres du profil.",
+      "COPILOT_MSG_INPUT": "Donnez à Copilot des consignes supplémentaires ou posez toute autre question... Appuyez sur Entrée pour envoyer un message de suivi",
       "CLICK_HERE": "Cliquez ici pour mettre à jour",
       "WHATSAPP_TEMPLATES": "Modèles WhatsApp"
     },
@@ -205,7 +214,7 @@
       "DRAG_DROP": "Glissez et déposez ici pour lier",
       "START_AUDIO_RECORDING": "Démarrer l'enregistrement audio",
       "STOP_AUDIO_RECORDING": "Arrêter l'enregistrement audio",
-      "": "",
+      "COPILOT_THINKING": "Copilot réfléchit",
       "EMAIL_HEAD": {
         "TO": "À",
         "ADD_BCC": "Ajouter cci",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation supprimée avec succès",
     "FAIL_DELETE_CONVERSATION": "Impossible de supprimer la conversation ! Veuillez réessayer",
     "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} pour les pièces jointes",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Impossible d'envoyer ce message, veuillez réessayer plus tard",
     "SENT_BY": "Envoyé par:",
     "BOT": "Bot",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Impossible d'envoyer le message ! Réessayez",
     "TRY_AGAIN": "Réessayer",
     "ASSIGNMENT": {
@@ -294,6 +306,7 @@
     "CANCEL": "Annuler",
     "SEND_EMAIL_SUCCESS": "La transcription du chat a été envoyée avec succès",
     "SEND_EMAIL_ERROR": "Une erreur est survenue, veuillez réessayer",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Envoyer la transcription au client",
       "SEND_TO_AGENT": "Envoyer la transcription à l'agent assigné",

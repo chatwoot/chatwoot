@@ -17,7 +17,7 @@ module Enterprise::Channelable
 
       auditable_id = inbox.id
       auditable_type = 'Inbox'
-      audited_changes = saved_changes.except('updated_at')
+      audited_changes = saved_changes.except('updated_at', 'secret')
 
       return if audited_changes.blank?
 

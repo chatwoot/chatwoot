@@ -22,6 +22,10 @@
       "UPDATE_SUCCESFUL": "Статус розмови успішно оновлено.",
       "UPDATE_FAILED": "Не вдалося оновити розмови, будь ласка, спробуйте ще раз."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Призначити мітки",
       "NO_LABELS_FOUND": "Міток не знайдено",

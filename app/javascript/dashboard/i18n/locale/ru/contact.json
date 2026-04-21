@@ -18,8 +18,9 @@
     "CREATED_AT_LABEL": "Создан",
     "NEW_MESSAGE": "Новое сообщение",
     "CALL": "Вызов",
-    "CALL_INITIATED": "Calling the contact…",
-    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CALL_INITIATED": "Вызов контакта…",
+    "CALL_FAILED": "Не удалось начать вызов. Повторите попытку.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Выберите голосовую почту"
     },
@@ -457,8 +458,11 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Добавить Instagram"
           },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Добавить Telegram"
+          },
           "TIKTOK": {
-            "PLACEHOLDER": "Add TikTok"
+            "PLACEHOLDER": "Добавить TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "Добавить LinkedIn"
@@ -573,7 +577,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "Нет контактов по вашему запросу 🔍",
       "LIST_EMPTY_STATE_TITLE": "Нет контактов в этом виде 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "В данный момент нет активных контактов 🌙"
-    }
+    },
+    "LOAD_MORE": "Загрузить ещё"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Назначить метки",
@@ -607,7 +612,7 @@
       "NO_INBOX_ALERT": "Нет доступных входящих для начала разговора с этим контактом.",
       "CONTACT_SELECTOR": {
         "LABEL": "Кому:",
-        "TAG_INPUT_PLACEHOLDER": "Поиск контакта с именем, email или номером телефона",
+        "TAG_INPUT_PLACEHOLDER": "Введите не менее 2 символов для поиска по имени, электронной почте или номеру телефона",
         "CONTACT_CREATING": "Создание контакта..."
       },
       "INBOX_SELECTOR": {
@@ -618,9 +623,9 @@
         "SUBJECT_LABEL": "Тема :",
         "SUBJECT_PLACEHOLDER": "Введите тему email",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Поиск контакта с email адресом",
+        "CC_PLACEHOLDER": "Введите не менее 2 символов для поиска по электронной почте",
         "BCC_LABEL": "Bcc:",
-        "BCC_PLACEHOLDER": "Поиск контакта с email адресом",
+        "BCC_PLACEHOLDER": "Введите не менее 2 символов для поиска по электронной почте",
         "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {

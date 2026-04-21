@@ -3,8 +3,11 @@
     "HEADER": "Automazioni",
     "DESCRIPTION": "Le automazioni possono sostituire e semplificare i processi esistenti che richiedono azioni manuale, ad esempio l'aggiunta di etichette e l'assegnazione di conversazioni all'operatore più adatto. Grazie alle automazioni i team possono concentrarsi sui propri punti di forza e ridurre il tempo dedicato alle attività ripetitive.",
     "LEARN_MORE": "Scopri di più sulle automazioni",
-    "HEADER_BTN_TXT": "Aggiungi Regola di Automazione",
+    "COUNT": "{n} automazione | {n} automazioni",
+    "HEADER_BTN_TXT": "Crea Automazione",
     "LOADING": "Caricamento regole di automazione",
+    "SEARCH_PLACEHOLDER": "Cerca regole di automazione...",
+    "NO_RESULTS": "Nessuna regola di automazione trovata corrispondente alla tua ricerca",
     "ADD": {
       "TITLE": "Aggiungi Regola di Automazione",
       "SUBMIT": "Crea",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Nome",
-        "DESCRIPTION": "Descrizione",
         "ACTIVE": "Attiva",
-        "CREATED_ON": "Creata il"
+        "CREATED_ON": "Creata il",
+        "ACTIONS": "Azioni"
       },
       "404": "Nessuna regola di automazione trovata"
     },
@@ -137,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Assegna a un Operatore",
       "ASSIGN_TEAM": "Assegna a un Team",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Rimuovi Team Assegnato",
       "ADD_LABEL": "Aggiungi Etichetta",
       "REMOVE_LABEL": "Rimuovi Etichetta",
       "SEND_EMAIL_TO_TEAM": "Invia un'email al Team",
@@ -150,7 +155,8 @@
       "ADD_PRIVATE_NOTE": "Aggiungi una Nota Privata",
       "CHANGE_PRIORITY": "Modifica Priorità",
       "ADD_SLA": "Aggiungi SLA",
-      "OPEN_CONVERSATION": "Riapri conversazione"
+      "OPEN_CONVERSATION": "Riapri conversazione",
+      "PENDING_CONVERSATION": "Segna conversazione come in sospeso"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Messaggio in Arrivo",
@@ -165,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Tipo di Messaggio",
+      "PRIVATE_NOTE": "Nota Privata",
       "MESSAGE_CONTAINS": "Il Messaggio Contiene",
       "EMAIL": "Email",
       "INBOX": "Inbox",

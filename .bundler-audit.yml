@@ -1,3 +1,9 @@
 ---
 ignore:
   - CVE-2021-41098 # https://github.com/chatwoot/chatwoot/issues/3097 (update once azure blob storage is updated)
+  - GHSA-57hq-95w6-v4fc # Devise confirmable race condition — patched locally in User model (remove once on Devise 5+)
+  # Chatwoot defaults to Active Storage redirect-style URLs, and its recommended
+  # storage setup uses local/cloud storage with optional direct uploads to the
+  # storage provider rather than Rails proxy mode. Revisit if we enable
+  # rails_storage_proxy or other app-served Active Storage proxy routes.
+  - CVE-2026-33658

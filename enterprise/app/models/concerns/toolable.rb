@@ -1,14 +1,22 @@
 module Concerns::Toolable
   extend ActiveSupport::Concern
 
-  def tool(assistant)
+  # Isolated namespace for user-defined custom tool classes.
+  # Keeps them separate from built-in classes in Captain::Tools (e.g., HttpTool, CustomHttpTool).
+  module CustomTools; end
+
+  def tool(assistant, base_class: Captain::Tools::HttpTool, **)
     custom_tool_record = self
-    # Convert slug to valid Ruby constant name (replace hyphens with underscores, then camelize)
     class_name = custom_tool_record.slug.underscore.camelize
 
     # Always create a fresh class to reflect current metadata
-    tool_class = Class.new(Captain::Tools::HttpTool) do
+    tool_slug = custom_tool_record.slug
+    tool_class = Class.new(base_class) do
       description custom_tool_record.description
+
+      # Override name to use the slug directly, avoiding the namespace prefix
+      # that RubyLLM's default normalization would produce (e.g., "captain--tools--custom_dog_facts").
+      define_method(:name) { tool_slug }
 
       custom_tool_record.param_schema.each do |param_def|
         param param_def['name'].to_sym,
@@ -18,17 +26,14 @@ module Concerns::Toolable
       end
     end
 
-    # Register the dynamically created class as a constant in the Captain::Tools namespace.
-    # This is required because RubyLLM's Tool base class derives the tool name from the class name
-    # (via Class#name). Anonymous classes created with Class.new have no name and return empty strings,
-    # which causes "Invalid 'tools[].function.name': empty string" errors from the LLM API.
-    # By setting it as a constant, the class gets a proper name (e.g., "Captain::Tools::CatFactLookup")
-    # which RubyLLM extracts and normalizes to "cat-fact-lookup" for the LLM API.
-    # We refresh the constant on each call to ensure tool metadata changes are reflected.
-    Captain::Tools.send(:remove_const, class_name) if Captain::Tools.const_defined?(class_name, false)
-    Captain::Tools.const_set(class_name, tool_class)
+    # Register as a constant so the class gets a proper name (Class#name).
+    # Anonymous classes return nil for #name, which causes "Invalid 'tools[].function.name':
+    # empty string" errors from the LLM API. We use CustomTools as the namespace to avoid
+    # collisions with real classes in Captain::Tools.
+    CustomTools.send(:remove_const, class_name) if CustomTools.const_defined?(class_name, false)
+    CustomTools.const_set(class_name, tool_class)
 
-    tool_class.new(assistant, self)
+    tool_class.new(assistant, self, **)
   end
 
   def build_request_url(params)

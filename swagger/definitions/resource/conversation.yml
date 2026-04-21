@@ -43,7 +43,9 @@ properties:
     type: boolean
     description: Whether the conversation is muted
   snoozed_until:
-    type: number
+    type:
+      - number
+      - 'null'
     description: The time at which the conversation will be unmuted
   status:
     type: string
@@ -56,29 +58,38 @@ properties:
     type: number
     description: The time at which conversation was updated
   timestamp:
-    type: string
+    type: number
     description: The time at which conversation was created
   first_reply_created_at:
-    type: number
+    type:
+      - number
+      - 'null'
     description: The time at which the first reply was created
   unread_count:
     type: number
     description: The number of unread messages
   last_non_activity_message:
-    type: object
-    $ref: '#/components/schemas/message'
+    oneOf:
+      - $ref: '#/components/schemas/message'
+      - type: 'null'
     description: The last non activity message
   last_activity_at:
     type: number
     description: The last activity at of the conversation
   priority:
-    type: string
+    type:
+      - string
+      - 'null'
     description: The priority of the conversation
   waiting_since:
-    type: number
+    type:
+      - number
+      - 'null'
     description: The time at which the conversation was waiting
   sla_policy_id:
-    type: number
+    type:
+      - number
+      - 'null'
     description: The ID of the SLA policy
   applied_sla:
     type: object

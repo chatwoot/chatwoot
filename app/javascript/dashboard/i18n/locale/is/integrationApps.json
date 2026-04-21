@@ -3,6 +3,9 @@
     "FETCHING": "Fetching Integrations",
     "NO_HOOK_CONFIGURED": "Það eru engar {integrationId} samþættingar stilltar á þessum reikningi.",
     "HEADER": "Applications",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Virkt",
       "DISABLED": "Slökkt"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Fetching integration hooks",
       "INBOX": "Innhólf",
+      "ACTIONS": "Aðgerðir",
       "DELETE": {
         "BUTTON_TEXT": "Eyða"
       }

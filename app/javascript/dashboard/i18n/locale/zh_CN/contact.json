@@ -18,8 +18,9 @@
     "CREATED_AT_LABEL": "创建时间",
     "NEW_MESSAGE": "新消息",
     "CALL": "呼叫",
-    "CALL_INITIATED": "Calling the contact…",
+    "CALL_INITIATED": "正在接通…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "选择一个语音收件箱"
     },
@@ -457,8 +458,11 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "添加 Instagram"
           },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Add Telegram"
+          },
           "TIKTOK": {
-            "PLACEHOLDER": "Add TikTok"
+            "PLACEHOLDER": "添加TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "添加 LinkedIn"
@@ -573,7 +577,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "没有搜索到联系人🔍",
       "LIST_EMPTY_STATE_TITLE": "此视图中没有可用的联系人📋",
       "ACTIVE_EMPTY_STATE_TITLE": "目前没有联系人在线 🌙"
-    }
+    },
+    "LOAD_MORE": "加载更多"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "分配标签",
@@ -607,7 +612,7 @@
       "NO_INBOX_ALERT": "没有可用的收件箱来开始与此联系人的对话。",
       "CONTACT_SELECTOR": {
         "LABEL": "发送至:",
-        "TAG_INPUT_PLACEHOLDER": "通过姓名、电子邮件或电话号码搜索联系人",
+        "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
         "CONTACT_CREATING": "正在创建联系人……"
       },
       "INBOX_SELECTOR": {
@@ -618,9 +623,9 @@
         "SUBJECT_LABEL": "主题 :",
         "SUBJECT_PLACEHOLDER": "在此处输入电子邮件主题",
         "CC_LABEL": "抄送:",
-        "CC_PLACEHOLDER": "通过电子邮件地址搜索联系人",
+        "CC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_LABEL": "密送:",
-        "BCC_PLACEHOLDER": "通过电子邮件地址搜索联系人",
+        "BCC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_BUTTON": "密送"
       },
       "MESSAGE_EDITOR": {

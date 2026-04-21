@@ -25,7 +25,7 @@ class Internal::RemoveOrphanConversationsService
 
   def build_orphan_conversations_query
     base = @account ? @account.conversations : Conversation.all
-    base = base.where('conversations.created_at > ?', @days.days.ago)
+    base = base.where('conversations.last_activity_at > ?', @days.days.ago)
     base = base.left_outer_joins(:contact, :inbox)
 
     # Find conversations whose associated contact or inbox record is missing

@@ -7,6 +7,13 @@
     },
     "CLOSE": "ปิด",
     "BETA": "Beta",
-    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it.",
+    "ACCEPT": "Accept",
+    "DISCARD": "Discard",
+    "PREFERRED": "Preferred"
+  },
+  "CHOICE_TOGGLE": {
+    "YES": "ใช่",
+    "NO": "ไม่"
   }
 }

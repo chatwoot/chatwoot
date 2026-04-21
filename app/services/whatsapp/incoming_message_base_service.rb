@@ -37,6 +37,7 @@ class Whatsapp::IncomingMessageBaseService
 
     set_contact
     return unless @contact
+    return if @contact.blocked? && !outgoing_echo
 
     # Early rejection for blocked contacts - discard message completely
     if @contact.blocked?

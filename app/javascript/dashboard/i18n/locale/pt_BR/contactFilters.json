@@ -16,8 +16,8 @@
     "SEGMENT_QUERY_LABEL": "Consulta de Segmento",
     "TOOLTIP_LABEL": "Filtrar contatos",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "OU",
-      "OR": "ou"
+      "AND": "E",
+      "OR": "OU"
     },
     "OPERATOR_LABELS": {
       "equal_to": "Igual a",

@@ -25,6 +25,7 @@ const getActionValue = (key, params) => {
     add_label: resolveLabels(labels.value, params),
     remove_label: resolveLabels(labels.value, params),
     assign_agent: resolveAgents(agents.value, params),
+    remove_assigned_agent: null,
     mute_conversation: null,
     snooze_conversation: null,
     resolve_conversation: null,

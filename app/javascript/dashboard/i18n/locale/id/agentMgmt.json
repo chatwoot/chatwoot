@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "Administrator",
       "AGENT": "Agen"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "Tidak ada agen yang terkait dengan akun ini",
       "TITLE": "Kelola agen di tim Anda",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
       }
     },
+    "SEARCH_PLACEHOLDER": "Mencari Agen...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "Tidak ada hasil ditemukan."
     },

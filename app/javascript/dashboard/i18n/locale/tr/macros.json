@@ -3,9 +3,12 @@
     "HEADER": "Kısayollar",
     "DESCRIPTION": "Kısayol; müşteri hizmetleri temsilcilerinin görevleri kolayca tamamlamasına yardımcı olan bir dizi kaydedilmiş eylemdir. Müşteri temsilcileri, bir görüşmeyi bir etiketle etiketlemek, e-posta ile konuşma özetini göndermek, özel bir özelliği güncellemek gibi bir dizi eylem tanımlayabilir ve bu eylemleri tek bir tıklamayla çalıştırabilirler.",
     "LEARN_MORE": "Makrolar hakkında daha fazla bilgi edinin",
+    "COUNT": "{n} macro | {n} macros",
     "HEADER_BTN_TXT": "Yeni bir kısayol ekle",
     "HEADER_BTN_TXT_SAVE": "Kısayolu Kaydet",
     "LOADING": "Kısayollar alınıyor",
+    "SEARCH_PLACEHOLDER": "Search macros...",
+    "NO_RESULTS": "No macros found matching your search",
     "ERROR": "Bir şeyler yanlış gitti. Lütfen tekrar deneyin",
     "ORDER_INFO": "Kısayollar eklediğiniz sırayla çalışacaktır. Bunları sürükleyerek her düğmenin yanındaki tutamakla yeniden düzenleyebilirsiniz.",
     "ADD": {
@@ -29,7 +32,8 @@
         "NAME": "İsim",
         "CREATED BY": "Tarafından oluşturuldu",
         "LAST_UPDATED_BY": "Son güncelleyen",
-        "VISIBILITY": "Görünürlük"
+        "VISIBILITY": "Görünürlük",
+        "ACTIONS": "Hareketler"
       },
       "404": "Hiç kısayol bulunamadı"
     },
@@ -89,6 +93,7 @@
       "ASSIGN_AGENT": "Bir Temsilci Ata",
       "ADD_LABEL": "Etiket Ekle",
       "REMOVE_LABEL": "Etiketi Kaldır",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "Atanan Ekibi Kaldır",
       "SEND_EMAIL_TRANSCRIPT": "E-posta Dökümü Gönder",
       "MUTE_CONVERSATION": "Konuşmayı Sessize Al",

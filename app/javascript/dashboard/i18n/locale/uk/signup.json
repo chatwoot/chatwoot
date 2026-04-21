@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Створити акаунт",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "Реєстрація",
     "TESTIMONIAL_HEADER": "Один крок і вперед",
     "TESTIMONIAL_CONTENT": "Ви за один крок від залучення своїх клієнтів, утримання їх та пошуку нових.",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "Не вдалося підключитися до Woot сервера. Будь ласка, спробуйте ще раз."
     },
     "SUBMIT": "Створити акаунт",
-    "HAVE_AN_ACCOUNT": "Вже маєте обліковий запис?"
+    "HAVE_AN_ACCOUNT": "Вже маєте обліковий запис?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "Повторно надіслати листа з підтвердженням",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

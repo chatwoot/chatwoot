@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "Chargement de l'éditeur...",
     "DESCRIPTION": "Les bots agents sont comme les membres les plus formidables de votre équipe. Ils peuvent gérer les petites tâches, vous permettant ainsi de vous concentrer sur ce qui compte vraiment. Essayez-les. Vous pouvez gérer vos bots depuis cette page ou en créer de nouveaux en cliquant sur le bouton 'Ajouter un bot'.",
     "LEARN_MORE": "Learn about agent bots",
+    "COUNT": "{n} bot | {n} bots",
+    "SEARCH_PLACEHOLDER": "Search bots...",
+    "NO_RESULTS": "No bots found matching your search",
     "GLOBAL_BOT": "Bot système",
     "GLOBAL_BOT_BADGE": "Système",
     "AVATAR": {
@@ -34,7 +37,8 @@
       "LOADING": "Récupération des bots...",
       "TABLE_HEADER": {
         "DETAILS": "Détails du bot",
-        "URL": "URL du Webhook"
+        "URL": "URL du Webhook",
+        "ACTIONS": "Actions"
       }
     },
     "DELETE": {
@@ -58,6 +62,16 @@
         "SUCCESS_MESSAGE": "Bot mis à jour avec succès.",
         "ERROR_MESSAGE": "Impossible de mettre à jour le bot, veuillez réessayer plus tard."
       }
+    },
+    "SECRET": {
+      "LABEL": "Webhook Secret",
+      "COPY": "Copy secret to clipboard",
+      "COPY_SUCCESS": "Secret copied to clipboard",
+      "TOGGLE": "Toggle secret visibility",
+      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
+      "DONE": "Done",
+      "RESET_SUCCESS": "Webhook secret regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
     },
     "ACCESS_TOKEN": {
       "TITLE": "Jeton d'accès",

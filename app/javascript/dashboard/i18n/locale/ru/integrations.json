@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot интегрируется с несколькими инструментами и сервисами, чтобы повысить эффективность вашей команды. Изучите список ниже, чтобы настроить ваши любимые приложения.",
     "LEARN_MORE": "Узнать больше об интеграциях",
     "LOADING": "Получение интеграций",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Капитан не включен на вашем аккаунте.",
       "CLICK_HERE_TO_CONFIGURE": "Нажмите здесь, чтобы настроить",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "События с подпиской",
       "LEARN_MORE": "Узнать больше о вебхуках",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Отменить",
         "DESC": "Вебхуки позволяют получить вам информацию о том, что происходит в вашей учетной записи Chatwoot. Пожалуйста, введите корректный URL.",
@@ -104,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Удалить",
       "DELETE_CONFIRMATION": {
         "TITLE": "Удалить интеграцию",
@@ -145,7 +160,29 @@
         "EXPAND": "Развернуть",
         "MAKE_FRIENDLY": "Изменить тон сообщения на дружеский",
         "MAKE_FORMAL": "Использовать официальный тон",
-        "SIMPLIFY": "Упростить"
+        "SIMPLIFY": "Упростить",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Профессиональный",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Дружелюбный"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Содержание черновика",
@@ -201,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>Панель приложений</b></p><p>Панель приложений, позволяют организациям встраивать приложение в панель управления Chatwoot, чтобы предоставлять контекст для агентов службы поддержки клиентов. Эта функция позволяет вам создать приложение независимо и встроить его в панель инструментов для предоставления информации о пользователях, их заказах или их предыдущей истории платежей.</p><p>Когда вы встраиваете свое приложение с помощью панели инструментов в Chatwoot, ваше приложение будет получить контекст разговора и связей событий. Реализуйте связи для события сообщения на своей странице, чтобы получать контекст.</p><p>Чтобы добавить новое приложение панели приложений, нажмите кнопку \"Добавить приложение\".</p>",
       "DESCRIPTION": "Панель приложений, позволяют организациям встраивать приложение внутри панели управления для обеспечения контекста агентов по поддержке клиентов. Эта функция позволяет создать приложение независимо и встраивать информацию о пользователе, его заказах или их истории платежей.",
       "LEARN_MORE": "Подробнее об интеграциях",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "В этой панели приложений не настроено ни одной интеграции",
         "LOADING": "Загрузка приложений...",
         "TABLE_HEADER": {
           "NAME": "Имя",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Действия"
         },
         "EDIT_TOOLTIP": "Редактировать приложение",
         "DELETE_TOOLTIP": "Удалить приложение"
@@ -243,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Создать/Связать Задачу",
       "LOADING": "Загрузка связанных задач...",
       "LOADING_ERROR": "Ошибка получения данных о связанных задачах, пожалуйста попробуйте еще раз",
@@ -337,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Вы уверены, что хотите удалить интеграцию с Notion?",
         "MESSAGE": "Удаление этой интеграции приведет к удалению доступа к вашему проекту Notion и остановит все связанные функции.",
@@ -347,12 +390,12 @@
   },
   "CAPTAIN": {
     "NAME": "Капитан",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "Узнать больше",
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Ассистенты",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "SWITCH_ASSISTANT": "Переключиться между помощниками",
+      "NEW_ASSISTANT": "Создать помощника",
+      "EMPTY_LIST": "Список помощников пуст, пожалуйста, создайте помощника, чтобы начать работу"
     },
     "COPILOT": {
       "TITLE": "Copilot",
@@ -406,6 +449,7 @@
       "CANCEL_ANYTIME": "Вы можете изменить или отменить ваш тарифный план в любое время"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI доступен только в тарифных планах Enterprise.",
       "UPGRADE_PROMPT": "Обновите тарифный план, чтобы получить доступ к нашим ассистентам, copilot и другим функциям.",
       "ASK_ADMIN": "Пожалуйста, обратитесь к вашему администратору для обновления."
     },
@@ -483,7 +527,8 @@
           "TITLE": "Возможности",
           "ALLOW_CONVERSATION_FAQS": "Создать FAQ из решённых диалогов",
           "ALLOW_MEMORIES": "Сохраняйте ключевые детали в виде воспоминаний о взаимодействии с клиентами.",
-          "ALLOW_CITATIONS": "Включить цитаты источника в ответы"
+          "ALLOW_CITATIONS": "Включить цитаты источника в ответы",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
@@ -693,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Документы",
       "ADD_NEW": "Создать новый документ",
+      "SELECTED": "Выбрано {count}",
+      "SELECT_ALL": "Выбрать все ({count})",
+      "UNSELECT_ALL": "Сбросить все ({count})",
+      "BULK_DELETE_BUTTON": "Удалить",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Да, удалить всё",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Связанные FAQ",
         "DESCRIPTION": "Эти FAQ генерируются напрямую из документа."
@@ -750,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Инструменты",
       "ADD_NEW": "Создать новый инструмент",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "Нет доступных пользовательских инструментов",
         "SUBTITLE": "Создавайте пользовательские инструменты, чтобы подключить ассистента к внешним API и сервисам, позволяя получать данные и выполнять действия от вашего имени.",
@@ -780,11 +837,30 @@
         "SUCCESS_MESSAGE": "Пользовательский инструмент успешно удален",
         "ERROR_MESSAGE": "Не удалось удалить пользовательский инструмент"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Открыть платеж",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Пожалуйста, обратитесь к вашему администратору для обновления."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Название инструмента",
           "PLACEHOLDER": "Поиск заказа",
-          "ERROR": "Название инструмента обязательно"
+          "ERROR": "Название инструмента обязательно",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Описание",

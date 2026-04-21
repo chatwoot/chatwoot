@@ -3,8 +3,11 @@
     "HEADER": "Respostas Prontas",
     "LEARN_MORE": "Saiba mais sobre respostas prontas",
     "DESCRIPTION": "Respostas prontas são modelos de resposta pré-escritas que te ajudam a responder rapidamente a uma conversa. Os agentes podem digitar o caractere ' /' seguido pelo atalho para inserir uma resposta pronta durante uma conversa. ",
+    "COUNT": "{n} resposta pronta | {n} respostas prontas",
     "HEADER_BTN_TXT": "Adicionar resposta pronta",
     "LOADING": "Buscando respostas prontas...",
+    "SEARCH_PLACEHOLDER": "Pesquisar respostas prontas...",
+    "NO_RESULTS": "Nenhuma resposta pronta encontrada correspondente à sua busca",
     "SEARCH_404": "Não há itens correspondentes a esta consulta.",
     "LIST": {
       "404": "Não há respostas prontas disponíveis nesta conta.",

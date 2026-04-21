@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "La langue a été supprimée du portail avec succès",
           "ERROR_MESSAGE": "Impossible de supprimer la langue du portail. Réessayez."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -372,6 +384,16 @@
       "API": {
         "SUCCESS_MESSAGE": "L'article a été supprimé",
         "ERROR_MESSAGE": "Erreur lors de la suppression de l’article"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
       }
     },
     "CREATE_ARTICLE": {
@@ -634,8 +656,11 @@
         "ARTICLES_COUNT": "{count} article | {count} articles",
         "CATEGORIES_COUNT": "{count} category | {count} categories",
         "DEFAULT": "Par défaut",
+        "DRAFT": "Brouillon",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Make default",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "Supprimer"
         }
       },
@@ -644,6 +669,13 @@
         "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
         "COMBOBOX": {
           "PLACEHOLDER": "Choisir un paramètre régional..."
+        },
+        "STATUS": {
+          "LABEL": "État",
+          "OPTIONS": {
+            "LIVE": "Publié",
+            "DRAFT": "Brouillon"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Langue ajoutée avec succès",

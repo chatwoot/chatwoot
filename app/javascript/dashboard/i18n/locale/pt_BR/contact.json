@@ -20,6 +20,7 @@
     "CALL": "Chamada",
     "CALL_INITIATED": "Efetuando chamada…",
     "CALL_FAILED": "Não foi possível iniciar a chamada. Tente novamente.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Escolha uma caixa de entrada de voz"
     },
@@ -192,7 +193,7 @@
   "CONTACTS_PAGE": {
     "LIST": {
       "TABLE_HEADER": {
-        "SOCIAL_PROFILES": "Social Profiles"
+        "SOCIAL_PROFILES": "Perfis Sociais"
       }
     }
   },
@@ -338,7 +339,7 @@
           "LABEL": "Classificar por",
           "OPTIONS": {
             "NAME": "Nome",
-            "EMAIL": "e-mail",
+            "EMAIL": "E-mail",
             "PHONE_NUMBER": "Número de telefone",
             "COMPANY": "Empresa",
             "COUNTRY": "País/região",
@@ -380,7 +381,7 @@
     },
     "FILTER": {
       "NAME": "Nome",
-      "EMAIL": "e-mail",
+      "EMAIL": "E-mail",
       "PHONE_NUMBER": "Número de telefone",
       "IDENTIFIER": "Identificador",
       "COUNTRY": "País/região",
@@ -456,6 +457,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Adicionar Instagram"
+          },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Adicionar Telegram"
           },
           "TIKTOK": {
             "PLACEHOLDER": "Adicionar TikTok"
@@ -573,26 +577,27 @@
       "SEARCH_EMPTY_STATE_TITLE": "Nenhum contato corresponde à sua pesquisa 🔍",
       "LIST_EMPTY_STATE_TITLE": "Não há contatos disponíveis nesta visualização 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "Nenhum contato está ativo no momento 🌙"
-    }
+    },
+    "LOAD_MORE": "Carregar mais"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Atribuir rótulo",
     "ASSIGN_LABELS_SUCCESS": "Rótulos atribuídos com sucesso.",
-    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
-    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
-    "NO_LABELS_FOUND": "No labels available yet.",
+    "ASSIGN_LABELS_FAILED": "Falha ao atribuir etiquetas",
+    "DESCRIPTION": "Selecione as etiquetas que deseja adicionar aos contatos selecionados.",
+    "NO_LABELS_FOUND": "Nenhuma etiqueta disponível ainda.",
     "SELECTED_COUNT": "{count} selecionado",
-    "CLEAR_SELECTION": "Clear selection",
+    "CLEAR_SELECTION": "Limpar seleção",
     "SELECT_ALL": "Selecionar todos ({count})",
     "DELETE_CONTACTS": "Excluir",
-    "DELETE_SUCCESS": "Contacts deleted successfully.",
-    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_SUCCESS": "Contatos excluídos com sucesso.",
+    "DELETE_FAILED": "Falha ao excluir os contatos.",
     "DELETE_DIALOG": {
-      "TITLE": "Delete selected contacts",
-      "SINGULAR_TITLE": "Delete selected contact",
-      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
-      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
-      "CONFIRM_MULTIPLE": "Delete contacts",
+      "TITLE": "Excluir os contatos selecionados",
+      "SINGULAR_TITLE": "Excluir o contato selecionado",
+      "DESCRIPTION": "Isso excluirá permanentemente {count} contatos selecionados. Esta ação não pode ser desfeita.",
+      "SINGULAR_DESCRIPTION": "Isso excluirá permanentemente o contato selecionado. Esta ação não pode ser desfeita.",
+      "CONFIRM_MULTIPLE": "Excluir contatos",
       "CONFIRM_SINGLE": "Excluir contato"
     }
   },
@@ -607,7 +612,7 @@
       "NO_INBOX_ALERT": "Não há caixas de entrada disponíveis para iniciar uma conversa com este contato.",
       "CONTACT_SELECTOR": {
         "LABEL": "Para:",
-        "TAG_INPUT_PLACEHOLDER": "Pesquisar um contato com o nome, e-mail ou número de telefone",
+        "TAG_INPUT_PLACEHOLDER": "Digite pelo menos 2 caracteres para pesquisar por nome, e-mail ou número de telefone",
         "CONTACT_CREATING": "Criando contato..."
       },
       "INBOX_SELECTOR": {
@@ -618,9 +623,9 @@
         "SUBJECT_LABEL": "Assunto:",
         "SUBJECT_PLACEHOLDER": "Digite o assunto do seu e-mail aqui",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Pesquisar por um contato com seu endereço de e-mail",
+        "CC_PLACEHOLDER": "Digite pelo menos 2 caracteres para pesquisar por e-mail",
         "BCC_LABEL": "CCO:",
-        "BCC_PLACEHOLDER": "Pesquisar por um contato com seu endereço de e-mail",
+        "BCC_PLACEHOLDER": "Digite pelo menos 2 caracteres para pesquisar por e-mail",
         "BCC_BUTTON": "CCO"
       },
       "MESSAGE_EDITOR": {

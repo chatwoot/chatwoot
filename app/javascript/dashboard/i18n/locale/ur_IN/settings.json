@@ -1,796 +1,923 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "LINK": "پروفائل کی ترتیبات",
+    "TITLE": "پروفائل کی ترتیبات",
+    "BTN_TEXT": "پروفائل کو اپ ڈیٹ کریں",
+    "DELETE_AVATAR": "اوتار حذف کریں",
+    "AVATAR_DELETE_SUCCESS": "اوتار کامیابی سے حذف کر دیا گیا ہے",
+    "AVATAR_DELETE_FAILED": "اوتار حذف کرتے وقت خرابی ہوئی ہے، براہ کرم دوبارہ کوشش کریں",
+    "UPDATE_SUCCESS": "آپ کا پروفائل کامیابی سے اپ ڈیٹ ہو گیا ہے",
+    "PASSWORD_UPDATE_SUCCESS": "آپ کا پاس ورڈ کامیابی سے تبدیل ہو گیا ہے",
+    "AFTER_EMAIL_CHANGED": "آپ کا پروفائل کامیابی سے اپ ڈیٹ ہو گیا ہے، براہ کرم دوبارہ لاگ ان کریں کیونکہ آپ کے لاگ ان اسناد تبدیل ہو چکی ہیں",
     "FORM": {
-      "PICTURE": "Profile Picture",
-      "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "PICTURE": "پروفائل تصویر",
+      "AVATAR": "پروفائل تصویر",
+      "ERROR": "براہ کرم فارم کی غلطیاں درست کریں",
+      "REMOVE_IMAGE": "ہٹائیں",
+      "UPLOAD_IMAGE": "تصویر اپ لوڈ کریں",
+      "UPDATE_IMAGE": "تصویر اپ ڈیٹ کریں",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "TITLE": "پروفائل",
+        "NOTE": "آپ کا ای میل پتہ آپ کی شناخت ہے اور لاگ ان کے لیے استعمال ہوتا ہے۔."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "پیغامات بھیجنے کے لیے ہاٹکی",
+        "NOTE": "آپ اپنی تحریر کی ترجیح کے مطابق ایک ہاٹکی (Enter یا Cmd/Ctrl+Enter) منتخب کر سکتے ہیں۔.",
+        "UPDATE_SUCCESS": "آپ کی ترتیبات کامیابی سے اپ ڈیٹ ہو گئی ہیں",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "HEADING": "داخل کریں (↵)",
+            "CONTENT": "بھیجنے کے بٹن پر کلک کرنے کی بجائے Enter کی دباکر پیغامات بھیجیں۔."
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "HEADING": "Cmd/Ctrl + داخل کریں (⌘ + ↵)",
+            "CONTENT": "بھیجنے کے بٹن پر کلک کرنے کی بجائے Cmd/Ctrl + Enter کی دباکر پیغامات بھیجیں۔."
           }
         }
       },
       "INTERFACE_SECTION": {
-        "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "TITLE": "انٹرفیس",
+        "NOTE": "اپنے Chatwoot ڈیش بورڈ کی ظاہری شکل اور محسوس کو حسبِ منشا بنائیں۔.",
         "FONT_SIZE": {
-          "TITLE": "Font size",
-          "NOTE": "Adjust the text size across the dashboard based on your preference.",
-          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "TITLE": "فونٹ کا سائز",
+          "NOTE": "اپنی پسند کے مطابق ڈیش بورڈ میں متن کا سائز ایڈجسٹ کریں۔.",
+          "UPDATE_SUCCESS": "آپ کی فونٹ کی ترتیبات کامیابی سے اپ ڈیٹ ہو گئی ہیں",
+          "UPDATE_ERROR": "فونٹ کی ترتیبات کو اپ ڈیٹ کرتے ہوئے خرابی ہوئی ہے، براہ کرم دوبارہ کوشش کریں",
           "OPTIONS": {
-            "SMALLER": "Smaller",
-            "SMALL": "Small",
-            "DEFAULT": "Default",
-            "LARGE": "Large",
-            "LARGER": "Larger",
-            "EXTRA_LARGE": "Extra Large"
+            "SMALLER": "چھوٹا",
+            "SMALL": "چھوٹا",
+            "DEFAULT": "ڈیفالٹ",
+            "LARGE": "بڑا",
+            "LARGER": "بہت بڑا",
+            "EXTRA_LARGE": "اضافی بڑا"
           }
         },
         "LANGUAGE": {
-          "TITLE": "Preferred Language",
-          "NOTE": "Choose the language you want to use.",
-          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
-          "USE_ACCOUNT_DEFAULT": "Use account default"
+          "TITLE": "پسندیدہ زبان",
+          "NOTE": "وہ زبان منتخب کریں جسے آپ استعمال کرنا چاہتے ہیں۔.",
+          "UPDATE_SUCCESS": "آپ کی زبان کی ترتیبات کامیابی سے اپ ڈیٹ ہو گئی ہیں",
+          "UPDATE_ERROR": "زبان کی ترتیبات کو اپ ڈیٹ کرتے ہوئے خرابی ہوئی ہے، براہ کرم دوبارہ کوشش کریں",
+          "USE_ACCOUNT_DEFAULT": "اکاؤنٹ کی ڈیفالٹ زبان استعمال کریں"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+        "TITLE": "ذاتی پیغام دستخط",
+        "NOTE": "ہر انباکس سے بھیجے گئے ہر پیغام کے آخر میں ظاہر ہونے کے لیے ایک منفرد پیغام دستخط بنائیں۔ آپ ایک ان لائن تصویر بھی شامل کر سکتے ہیں، جو لائیو چیٹ، ای میل، اور API انباکسز میں سپورٹڈ ہے۔.",
+        "BTN_TEXT": "پیغام دستخط محفوظ کریں",
+        "API_ERROR": "دستخط محفوظ نہیں ہو سکا! دوبارہ کوشش کریں",
+        "API_SUCCESS": "دستخط کامیابی سے محفوظ ہو گیا",
+        "IMAGE_UPLOAD_ERROR": "تصویر اپ لوڈ نہیں ہو سکی! دوبارہ کوشش کریں",
+        "IMAGE_UPLOAD_SUCCESS": "تصویر کامیابی سے شامل کر دی گئی۔ دستخط محفوظ کرنے کے لیے براہ کرم سیو پر کلک کریں",
+        "IMAGE_UPLOAD_SIZE_ERROR": "تصویر کا سائز {size}MB سے کم ہونا چاہیے",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "پیغام دستخط",
+        "ERROR": "پیغام دستخط خالی نہیں ہو سکتا",
+        "PLACEHOLDER": "اپنا ذاتی پیغام دستخط یہاں درج کریں۔."
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
-        "NOTE": "Updating your password would reset your logins in multiple devices.",
-        "BTN_TEXT": "Change password"
+        "TITLE": "پاس ورڈ",
+        "NOTE": "اپنا پاس ورڈ اپ ڈیٹ کرنے سے آپ کے متعدد آلات میں لاگ ان ری سیٹ ہو جائیں گے۔.",
+        "BTN_TEXT": "پاس ورڈ تبدیل کریں"
       },
       "SECURITY_SECTION": {
-        "TITLE": "Security",
-        "NOTE": "Manage additional security features for your account.",
-        "MFA_BUTTON": "Manage Two-Factor Authentication"
+        "TITLE": "سیکیورٹی",
+        "NOTE": "اپنے اکاؤنٹ کے لیے اضافی سیکیورٹی فیچرز کا انتظام کریں۔.",
+        "MFA_BUTTON": "دوہری تصدیق کا انتظام کریں"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration",
-        "COPY": "Copy",
-        "RESET": "Reset",
-        "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "TITLE": "رسائی ٹوکن",
+        "NOTE": "اگر آپ API پر مبنی انٹیگریشن بنا رہے ہیں تو یہ ٹوکن استعمال کیا جا سکتا ہے",
+        "COPY": "کاپی کریں",
+        "RESET": "ری سیٹ کریں",
+        "CONFIRM_RESET": "کیا آپ یقین ہیں؟",
+        "CONFIRM_HINT": "تصدیق کے لیے دوبارہ کلک کریں",
+        "RESET_SUCCESS": "رسائی ٹوکن کامیابی سے دوبارہ تیار ہو گیا ہے",
+        "RESET_ERROR": "رسائی ٹوکن دوبارہ تیار کرنے میں ناکام۔ براہ کرم دوبارہ کوشش کریں"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Alerts",
-        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
+        "TITLE": "آڈیو الرٹس",
+        "NOTE": "نئے پیغامات اور گفتگوؤں کے لیے ڈیش بورڈ میں آڈیو الرٹس فعال کریں۔.",
+        "PLAY": "آواز چلائیں",
         "ALERT_TYPES": {
-          "NONE": "None",
-          "MINE": "Assigned",
-          "ALL": "All",
-          "ASSIGNED": "My assigned conversations",
-          "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
+          "NONE": "کوئی نہیں",
+          "MINE": "تفویض شدہ",
+          "ALL": "تمام",
+          "ASSIGNED": "میری تفویض شدہ گفتگو",
+          "UNASSIGNED": "غیر تفویض شدہ گفتگو",
+          "NOTME": "دوسروں کو تفویض شدہ کھلی گفتگو"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
-          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+          "NONE": "آپ نے کوئی آپشن منتخب نہیں کیا ہے، آپ کو کوئی آڈیو الرٹ موصول نہیں ہوں گے۔.",
+          "ASSIGNED": "آپ کو آپ کو تفویض کی گئی گفتگوؤں کے لیے الرٹس موصول ہوں گے۔.",
+          "UNASSIGNED": "آپ کو کسی بھی غیر تفویض شدہ گفتگو کے لیے الرٹس موصول ہوں گے۔.",
+          "NOTME": "آپ کو دوسروں کو تفویض کی گئی گفتگوؤں کے لیے الرٹس موصول ہوں گے۔.",
+          "ASSIGNED+UNASSIGNED": "آپ کو آپ کی تفویض شدہ گفتگوؤں اور کسی بھی غیر حاضر گفتگو کے لیے الرٹس موصول ہوں گے۔.",
+          "ASSIGNED+NOTME": "آپ کو آپ کو تفویض کی گئی اور دوسروں کو تفویض کی گئی گفتگوؤں کے لیے الرٹس موصول ہوں گے، لیکن غیر تفویض شدہ کے لیے نہیں۔.",
+          "NOTME+UNASSIGNED": "آپ کو غیر حاضر گفتگوؤں اور دوسروں کو تفویض کی گئی گفتگوؤں کے لیے الرٹس موصول ہوں گے۔.",
+          "ASSIGNED+NOTME+UNASSIGNED": "آپ کو تمام گفتگوؤں کے لیے الرٹس موصول ہوں گے۔."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations",
-          "NONE": "None",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "TITLE": "گفتگو کے لیے الرٹ ایونٹس",
+          "NONE": "کوئی نہیں",
+          "ASSIGNED": "تفویض شدہ گفتگو",
+          "ALL_CONVERSATIONS": "تمام گفتگو"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "الرٹ ٹون:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "TITLE": "الرٹ کی شرائط:",
+          "CONDITION_ONE": "صرف اس صورت میں آڈیو الرٹس بھیجیں جب براؤزر ونڈو فعال نہ ہو",
           "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
         },
-        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
-        "READ_MORE": "Read more"
+        "SOUND_PERMISSION_ERROR": "آپ کے براؤزر میں آٹو پلے غیر فعال ہے۔ الرٹس خود بخود سننے کے لیے، براؤزر کی ترتیبات میں صوتی اجازت فعال کریں یا صفحہ کے ساتھ تعامل کریں۔.",
+        "READ_MORE": "مزید پڑھیں"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "TITLE": "ای میل اطلاعات",
+        "NOTE": "اپنی ای میل اطلاع کی ترجیحات یہاں اپ ڈیٹ کریں",
+        "CONVERSATION_ASSIGNMENT": "جب کوئی گفتگو مجھے تفویض کی جائے تو ای میل اطلاعات بھیجیں",
+        "CONVERSATION_CREATION": "جب نئی گفتگو بنائی جائے تو ای میل اطلاعات بھیجیں",
+        "CONVERSATION_MENTION": "جب آپ کا ذکر گفتگو میں ہو تو ای میل اطلاعات بھیجیں",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "جب تفویض شدہ گفتگو میں نیا پیغام آئے تو ای میل اطلاعات بھیجیں",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "جب کسی شریک گفتگو میں نیا پیغام آئے تو ای میل اطلاع بھیجیں",
+        "SLA_MISSED_FIRST_RESPONSE": "جب کوئی گفتگو پہلی جواب کی SLA سے محروم ہو تو ای میل اطلاع بھیجیں",
+        "SLA_MISSED_NEXT_RESPONSE": "جب کوئی گفتگو اگلے جواب کی SLA سے محروم ہو تو ای میل اطلاع بھیجیں",
+        "SLA_MISSED_RESOLUTION": "جب کوئی گفتگو حل کی SLA سے محروم ہو تو ای میل اطلاع بھیجیں"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
-        "EMAIL": "Email",
-        "PUSH": "Push notification",
+        "TITLE": "اطلاع کی ترجیحات",
+        "TYPE_TITLE": "اطلاع کی قسم",
+        "EMAIL": "ای میل",
+        "PUSH": "پوش اطلاع",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "CONVERSATION_CREATED": "ایک نئی گفتگو بنائی گئی ہے",
+          "CONVERSATION_ASSIGNED": "ایک گفتگو آپ کو تفویض کی گئی ہے",
+          "CONVERSATION_MENTION": "آپ کا ذکر کسی گفتگو میں کیا گیا ہے",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "تفویض شدہ گفتگو میں نیا پیغام بنایا گیا ہے",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "شریک گفتگو میں نیا پیغام بنایا گیا ہے",
+          "SLA_MISSED_FIRST_RESPONSE": "ایک گفتگو پہلی جواب کی SLA سے محروم ہے",
+          "SLA_MISSED_NEXT_RESPONSE": "ایک گفتگو اگلے جواب کی SLA سے محروم ہے",
+          "SLA_MISSED_RESOLUTION": "ایک گفتگو حل کی SLA سے محروم ہے"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "اپنے براؤزر کے لیے پوش اطلاع کو فعال کریں تاکہ آپ انہیں وصول کر سکیں"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "آپ کی اطلاع کی ترجیحات کامیابی سے اپ ڈیٹ ہو گئی ہیں",
+        "UPDATE_ERROR": "ترجیحات اپ ڈیٹ کرتے وقت خرابی ہوئی ہے، براہ کرم دوبارہ کوشش کریں"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "TITLE": "پش اطلاعات",
+        "NOTE": "اپنی پش اطلاع کی ترجیحات یہاں اپ ڈیٹ کریں",
+        "CONVERSATION_ASSIGNMENT": "جب کوئی گفتگو مجھے تفویض کی جائے تو پش اطلاعات بھیجیں",
+        "CONVERSATION_CREATION": "جب نئی گفتگو بنائی جائے تو پش اطلاعات بھیجیں",
+        "CONVERSATION_MENTION": "جب آپ کا ذکر گفتگو میں ہو تو پش اطلاعات بھیجیں",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "جب تفویض شدہ گفتگو میں نیا پیغام آئے تو پش اطلاعات بھیجیں",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "جب کسی شریک گفتگو میں نیا پیغام آئے تو پوش اطلاع بھیجیں",
+        "HAS_ENABLED_PUSH": "آپ نے اس براؤزر کے لیے پوش نوٹیفیکیشن فعال کر دی ہے۔.",
+        "REQUEST_PUSH": "پش اطلاعات کو فعال کریں",
+        "SLA_MISSED_FIRST_RESPONSE": "جب کوئی گفتگو پہلی جواب کی SLA سے محروم ہو تو پوش اطلاع بھیجیں",
+        "SLA_MISSED_NEXT_RESPONSE": "جب کوئی گفتگو اگلے جواب کی SLA سے محروم ہو تو پوش اطلاع بھیجیں",
+        "SLA_MISSED_RESOLUTION": "جب کوئی گفتگو حل کی SLA سے محروم ہو تو پوش اطلاع بھیجیں"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "پروفائل تصویر"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "آپ کا مکمل نام",
+        "ERROR": "براہ کرم درست مکمل نام درج کریں",
+        "PLACEHOLDER": "براہ کرم اپنا مکمل نام درج کریں"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "دکھانے کا نام",
+        "ERROR": "براہ کرم درست دکھانے کا نام درج کریں",
+        "PLACEHOLDER": "براہ کرم دکھانے کا نام درج کریں، یہ گفتگوؤں میں دکھایا جائے گا"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "دستیابی",
         "STATUS": {
-          "ONLINE": "Online",
-          "BUSY": "Busy",
-          "OFFLINE": "Offline"
+          "ONLINE": "آن لائن",
+          "BUSY": "مصروف",
+          "OFFLINE": "آف لائن"
         },
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
-        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+        "SET_AVAILABILITY_SUCCESS": "دستیابی کامیابی سے سیٹ کر دی گئی ہے",
+        "SET_AVAILABILITY_ERROR": "دستیابی سیٹ نہیں کی جا سکی، براہ کرم دوبارہ کوشش کریں",
+        "IMPERSONATING_ERROR": "صارف کی نقل کرتے ہوئے دستیابی تبدیل نہیں کی جا سکتی"
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "آپ کا ای میل پتہ",
+        "ERROR": "براہ کرم درست ای میل پتہ درج کریں",
+        "PLACEHOLDER": "براہ کرم اپنا ای میل پتہ درج کریں، یہ گفتگوؤں میں دکھایا جائے گا"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "موجودہ پاس ورڈ",
+        "ERROR": "براہ کرم موجودہ پاس ورڈ درج کریں",
+        "PLACEHOLDER": "براہ کرم موجودہ پاس ورڈ درج کریں"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "نیا پاس ورڈ",
         "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "PLACEHOLDER": "براہ کرم نیا پاس ورڈ درج کریں"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "LABEL": "نیا پاس ورڈ تصدیق کریں",
+        "ERROR": "تصدیق شدہ پاس ورڈ کو پاس ورڈ سے میل کھانا چاہیے",
+        "PLACEHOLDER": "براہ کرم اپنا نیا پاس ورڈ دوبارہ درج کریں"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
-    "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_ACCOUNT": "Switch account",
-    "CONTACT_SUPPORT": "Contact support",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile settings",
-    "YEAR_IN_REVIEW": "Year in Review",
-    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
-    "APPEARANCE": "Change appearance",
-    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
-    "DOCS": "Read documentation",
-    "CHANGELOG": "Changelog",
-    "LOGOUT": "Log out"
+    "CHANGE_AVAILABILITY_STATUS": "تبدیل کریں",
+    "CHANGE_ACCOUNTS": "اکاؤنٹ تبدیل کریں",
+    "SWITCH_ACCOUNT": "اکاؤنٹ تبدیل کریں",
+    "CONTACT_SUPPORT": "سپورٹ سے رابطہ کریں",
+    "SELECTOR_SUBTITLE": "مندرجہ ذیل فہرست میں سے اکاؤنٹ منتخب کریں",
+    "PROFILE_SETTINGS": "پروفائل کی ترتیبات",
+    "YEAR_IN_REVIEW": "سال کا جائزہ",
+    "KEYBOARD_SHORTCUTS": "کی بورڈ شارٹ کٹس",
+    "APPEARANCE": "ظاہری شکل تبدیل کریں",
+    "SUPER_ADMIN_CONSOLE": "سپر ایڈمن کنسول",
+    "DOCS": "دستاویزات پڑھیں",
+    "CHANGELOG": "چینج لاگ",
+    "LOGOUT": "لاگ آؤٹ"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now",
-    "DELETED_USER": "Deleted User",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "TRIAL_MESSAGE": "دنوں کا ٹرائل باقی ہے۔.",
+    "TRAIL_BUTTON": "ابھی خریدیں",
+    "DELETED_USER": "حذف شدہ صارف",
+    "EMAIL_VERIFICATION_PENDING": "ایسا لگتا ہے کہ آپ نے ابھی تک اپنا ای میل پتہ تصدیق نہیں کیا ہے۔ براہ کرم تصدیقی ای میل کے لیے اپنے انباکس کو چیک کریں۔.",
+    "RESEND_VERIFICATION_MAIL": "تصدیقی ای میل دوبارہ بھیجیں",
+    "EMAIL_VERIFICATION_SENT": "تصدیقی ای میل بھیج دی گئی ہے۔ براہ کرم اپنے انباکس کو چیک کریں۔.",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "اکاؤنٹ معطل",
+      "MESSAGE": "آپ کا اکاؤنٹ معطل ہے۔ مزید معلومات کے لیے سپورٹ ٹیم سے رابطہ کریں۔."
     },
     "NO_ACCOUNTS": {
-      "TITLE": "No account found",
-      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
-      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
-      "LOGOUT": "Log out"
+      "TITLE": "کوئی اکاؤنٹ نہیں ملا",
+      "MESSAGE_CLOUD": "آپ اس وقت کسی بھی اکاؤنٹ کا حصہ نہیں ہیں۔ اگر آپ کو لگتا ہے کہ یہ غلطی ہے، تو براہ کرم ہماری سپورٹ ٹیم سے رابطہ کریں۔.",
+      "MESSAGE_SELF_HOSTED": "آپ اس وقت کسی بھی اکاؤنٹ کا حصہ نہیں ہیں۔ براہ کرم اپنے ایڈمنسٹریٹر سے رابطہ کریں۔.",
+      "LOGOUT": "لاگ آؤٹ"
     }
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "CODEPEN": "Open in CodePen",
+      "BUTTON_TEXT": "کاپی کریں",
+      "CODEPEN": "CodePen میں کھولیں",
       "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "مزید دکھائیں",
+      "SHOW_LESS": "کم دکھائیں"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "DOWNLOAD": "ڈاؤن لوڈ کریں",
+      "UPLOADING": "اپ لوڈ ہو رہا ہے...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "یہ کہانی اب دستیاب نہیں ہے۔.",
+      "INSTAGRAM_STORY_REPLY": "آپ کی کہانی کا جواب دیا گیا:"
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "نقشے پر دیکھیں"
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "جمع کریں"
     },
     "MEDIA": {
-      "IMAGE_UNAVAILABLE": "This image is no longer available.",
-      "LOADING_FAILED": "Loading failed"
+      "IMAGE_UNAVAILABLE": "یہ تصویر اب دستیاب نہیں ہے۔.",
+      "LOADING_FAILED": "لوڈنگ ناکام"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "تصدیق ہو رہی ہے...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "ان باکس شامل کریں"
     }
   },
   "SIDEBAR": {
-    "NO_ITEMS": "No items",
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
-    "INBOX_VIEW": "Inbox View",
-    "CONVERSATIONS": "Conversations",
-    "INBOX": "My Inbox",
-    "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
-    "REPORTS": "Reports",
-    "SETTINGS": "Settings",
-    "CONTACTS": "Contacts",
-    "ACTIVE": "Active",
-    "COMPANIES": "Companies",
-    "ALL_COMPANIES": "All Companies",
-    "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
-    "CAPTAIN_TOOLS": "Tools",
-    "CAPTAIN_SCENARIOS": "Scenarios",
-    "CAPTAIN_PLAYGROUND": "Playground",
-    "CAPTAIN_INBOXES": "Inboxes",
-    "CAPTAIN_SETTINGS": "Settings",
-    "HOME": "Home",
-    "AGENTS": "Agents",
-    "AGENT_BOTS": "Bots",
-    "AUDIT_LOGS": "Audit Logs",
-    "INBOXES": "Inboxes",
-    "NOTIFICATIONS": "Notifications",
-    "CANNED_RESPONSES": "Canned Responses",
-    "INTEGRATIONS": "Integrations",
-    "PROFILE_SETTINGS": "Profile Settings",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "APPLICATIONS": "Applications",
-    "LABELS": "Labels",
-    "CUSTOM_ATTRIBUTES": "Custom Attributes",
-    "AUTOMATION": "Automation",
-    "MACROS": "Macros",
-    "TEAMS": "Teams",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
-    "REPORTS_CONVERSATION": "Conversations",
+    "NO_ITEMS": "کوئی آئٹمز نہیں",
+    "CURRENTLY_VIEWING_ACCOUNT": "اس وقت دیکھ رہے ہیں:",
+    "SWITCH": "تبدیل کریں",
+    "INBOX_VIEW": "ان باکس ویو",
+    "CONVERSATIONS": "گفتگوئیں",
+    "INBOX": "میرا ان باکس",
+    "ALL_CONVERSATIONS": "تمام گفتگوئیں",
+    "MENTIONED_CONVERSATIONS": "ذکر",
+    "PARTICIPATING_CONVERSATIONS": "شریک",
+    "UNATTENDED_CONVERSATIONS": "بغیر توجہ",
+    "REPORTS": "رپورٹس",
+    "SETTINGS": "ترتیبات",
+    "CONTACTS": "رابطے",
+    "ACTIVE": "فعال",
+    "COMPANIES": "کمپنیاں",
+    "ALL_COMPANIES": "تمام کمپنیاں",
+    "CAPTAIN": "کپتان",
+    "CAPTAIN_ASSISTANTS": "اسسٹنٹس",
+    "CAPTAIN_DOCUMENTS": "دستاویزات",
+    "CAPTAIN_RESPONSES": "اکثر پوچھے جانے والے سوالات",
+    "CAPTAIN_TOOLS": "ٹولز",
+    "CAPTAIN_SCENARIOS": "مناظر",
+    "CAPTAIN_PLAYGROUND": "پلے گراؤنڈ",
+    "CAPTAIN_INBOXES": "ان باکسز",
+    "CAPTAIN_SETTINGS": "ترتیبات",
+    "HOME": "ہوم",
+    "AGENTS": "ایجنٹس",
+    "AGENT_BOTS": "بوٹس",
+    "AUDIT_LOGS": "آڈٹ لاگز",
+    "INBOXES": "ان باکسز",
+    "NOTIFICATIONS": "اطلاعات",
+    "CANNED_RESPONSES": "تیار شدہ جوابات",
+    "INTEGRATIONS": "انٹیگریشنز",
+    "PROFILE_SETTINGS": "پروفائل کی ترتیبات",
+    "ACCOUNT_SETTINGS": "اکاؤنٹ کی ترتیبات",
+    "APPLICATIONS": "درخواستیں",
+    "LABELS": "لیبلز",
+    "CUSTOM_ATTRIBUTES": "حسب ضرورت خصوصیات",
+    "AUTOMATION": "خودکار کاری",
+    "MACROS": "میکروز",
+    "TEAMS": "ٹیمز",
+    "BILLING": "بلنگ",
+    "CUSTOM_VIEWS_FOLDER": "فولڈرز",
+    "CUSTOM_VIEWS_SEGMENTS": "حصے",
+    "ALL_CONTACTS": "تمام رابطے",
+    "TAGGED_WITH": "کے ساتھ ٹیگ شدہ",
+    "NEW_LABEL": "نیا لیبل",
+    "NEW_TEAM": "نئی ٹیم",
+    "NEW_INBOX": "نیا ان باکس",
+    "REPORTS_CONVERSATION": "گفتگوئیں",
     "CSAT": "CSAT",
-    "LIVE_CHAT": "Live Chat",
-    "SMS": "SMS",
-    "WHATSAPP": "WhatsApp",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "LIVE_CHAT": "لائیو چیٹ",
+    "SMS": "ایس ایم ایس",
+    "WHATSAPP": "واٹس ایپ",
+    "CAMPAIGNS": "مہمات",
+    "ONGOING": "جاری",
+    "ONE_OFF": "ایک بار کا",
     "REPORTS_SLA": "SLA",
-    "REPORTS_BOT": "Bot",
-    "REPORTS_AGENT": "Agents",
-    "REPORTS_LABEL": "Labels",
-    "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team",
-    "AGENT_ASSIGNMENT": "Agent Assignment",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "SET_YOUR_AVAILABILITY": "Set your availability",
+    "REPORTS_BOT": "بوٹ",
+    "REPORTS_AGENT": "ایجنٹس",
+    "REPORTS_LABEL": "لیبلز",
+    "REPORTS_INBOX": "ان باکس",
+    "REPORTS_TEAM": "ٹیم",
+    "AGENT_ASSIGNMENT": "ایجنٹ تفویض",
+    "SET_AVAILABILITY_TITLE": "اپنے آپ کو مقرر کریں بطور",
+    "SET_YOUR_AVAILABILITY": "اپنی دستیابی سیٹ کریں",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
-    "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "CUSTOM_ROLES": "حسب ضرورت کردار",
+    "BETA": "بیٹا",
+    "REPORTS_OVERVIEW": "جائزہ",
+    "REAUTHORIZE": "آپ کے ان باکس کا کنکشن ختم ہو چکا ہے، براہ کرم دوبارہ کنیکٹ کریں\n تاکہ پیغامات وصول اور بھیجنا جاری رکھ سکیں",
     "HELP_CENTER": {
-      "TITLE": "Help Center",
-      "ARTICLES": "Articles",
-      "CATEGORIES": "Categories",
-      "LOCALES": "Locales",
-      "SETTINGS": "Settings"
+      "TITLE": "ہیلپ سینٹر",
+      "ARTICLES": "مضامین",
+      "CATEGORIES": "زمرہ جات",
+      "LOCALES": "مقامی زبانیں",
+      "SETTINGS": "ترتیبات"
     },
-    "CHANNELS": "Channels",
+    "CHANNELS": "چینلز",
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
-      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+      "TEXT": "خودکار طور پر آف لائن نشان زد کریں",
+      "INFO_TEXT": "جب آپ ایپ یا ڈیش بورڈ استعمال نہیں کر رہے ہوں تو سسٹم خود بخود آپ کو آف لائن نشان زد کرے گا۔.",
+      "INFO_SHORT": "جب آپ ایپ استعمال نہیں کر رہے ہوں تو خود بخود آپ کو آف لائن نشان زد کریں۔."
     },
-    "DOCS": "Read docs",
-    "SECURITY": "Security"
+    "DOCS": "دستاویزات پڑھیں",
+    "SECURITY": "سیکیورٹی",
+    "CAPTAIN_AI": "کپتان",
+    "CONVERSATION_WORKFLOW": "گفتگو کا ورک فلو"
+  },
+  "CAPTAIN_SETTINGS": {
+    "TITLE": "کپتان کی ترتیبات",
+    "DESCRIPTION": "Captain کے لیے اپنے AI ماڈلز اور فیچرز کو ترتیب دیں۔ Captain کریڈٹ پر مبنی بلنگ پر عمل کرتا ہے، آپ کو منتخب کردہ ماڈل کی بنیاد پر ہر ایکشن کے لیے کریڈٹس چارج کیے جائیں گے۔.",
+    "LOADING": "کپتان کی ترتیب لوڈ ہو رہی ہے...",
+    "LINK_TEXT": "کپتان کریڈٹس کے بارے میں مزید جانیں",
+    "NOT_ENABLED": "آپ کے اکاؤنٹ کے لیے Captain فعال نہیں ہے۔ Captain فیچرز تک رسائی کے لیے اپنا پلان اپ گریڈ کریں۔.",
+    "MODEL_CONFIG": {
+      "TITLE": "ماڈل کی ترتیب",
+      "DESCRIPTION": "مختلف فیچرز کے لیے AI ماڈلز منتخب کریں۔.",
+      "SELECT_MODEL": "ماڈل منتخب کریں",
+      "CREDITS_PER_MESSAGE": "{credits} کریڈٹ/پیغام",
+      "COMING_SOON": "جلد آ رہا ہے",
+      "EDITOR": {
+        "TITLE": "ایڈیٹر فیچرز",
+        "DESCRIPTION": "آپ کے پیغام ایڈیٹر میں اسمارٹ کمپوز، گرامر کی اصلاحات، لہجے کی تبدیلیاں، اور مواد کی بہتری کو طاقت دیتا ہے۔."
+      },
+      "ASSISTANT": {
+        "TITLE": "اسسٹنٹ",
+        "DESCRIPTION": "خودکار جوابات، گفتگو کے خلاصے، اور صارف کے تعاملات کے لیے ذہین جواب کی تجاویز فراہم کرتا ہے۔."
+      },
+      "COPILOT": {
+        "TITLE": "کو-پائلٹ",
+        "DESCRIPTION": "گفتگوؤں کے دوران حقیقی وقت میں سیاق و سباق کی تجاویز، نالج بیس کی سفارشات، اور پیشگی بصیرت فراہم کرتا ہے۔."
+      }
+    },
+    "FEATURES": {
+      "TITLE": "خصوصیات",
+      "DESCRIPTION": "AI سے چلنے والے فیچرز کو فعال یا غیر فعال کریں۔.",
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "آڈیو ٹرانسکرپشن",
+        "DESCRIPTION": "وائس میسجز اور کال ریکارڈنگز کو خود بخود قابل تلاش متن میں تبدیل کریں۔."
+      },
+      "HELP_CENTER_SEARCH": {
+        "TITLE": "ہیلپ سینٹر سرچ انڈیکسنگ",
+        "DESCRIPTION": "اپنے ہیلپ سینٹر آرٹیکلز میں سیاق و سباق سے آگاہ تلاش کے لیے AI استعمال کریں۔."
+      },
+      "LABEL_SUGGESTION": {
+        "TITLE": "لیبل کی تجویز",
+        "DESCRIPTION": "مواد کے تجزیے اور سیاق و سباق کی بنیاد پر گفتگوؤں کے لیے متعلقہ لیبلز اور ٹیگز خود بخود تجویز کریں۔.",
+        "MODEL_TITLE": "لیبل تجویز ماڈل",
+        "MODEL_DESCRIPTION": "گفتگوؤں کا تجزیہ کرنے اور مناسب لیبلز تجویز کرنے کے لیے AI ماڈل منتخب کریں"
+      }
+    },
+    "API": {
+      "SUCCESS": "Captain کی ترتیبات کامیابی سے اپ ڈیٹ ہو گئیں۔.",
+      "ERROR": "Captain کی ترتیبات کو اپ ڈیٹ کرنے میں ناکامی۔ براہ کرم دوبارہ کوشش کریں۔."
+    }
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
-    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "TITLE": "بلنگ",
+    "DESCRIPTION": "یہاں اپنی سبسکرپشن کا انتظام کریں، اپنا پلان اپ گریڈ کریں اور اپنی ٹیم کے لیے مزید حاصل کریں۔.",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
-      "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "TITLE": "موجودہ منصوبہ",
+      "PLAN_NOTE": "آپ اس وقت **{plan}** پلان کے ساتھ **{quantity}** لائسنس کے سبسکرائب ہیں",
+      "SEAT_COUNT": "سیٹوں کی تعداد",
+      "RENEWS_ON": "دوبارہ تجدید کی تاریخ"
     },
-    "VIEW_PRICING": "View Pricing",
+    "VIEW_PRICING": "قیمت دیکھیں",
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "اپنی رکنیت کا انتظام کریں",
+      "DESCRIPTION": "اپنے پچھلے انوائسز دیکھیں، بلنگ کی تفصیلات میں ترمیم کریں، یا اپنی سبسکرپشن منسوخ کریں۔.",
+      "BUTTON_TXT": "بلنگ پورٹل پر جائیں"
     },
     "CAPTAIN": {
-      "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
-      "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
+      "TITLE": "کپتان",
+      "DESCRIPTION": "Captain AI کے استعمال اور کریڈٹس کا انتظام کریں۔.",
+      "BUTTON_TXT": "مزید کریڈٹس خریدیں",
+      "DOCUMENTS": "دستاویزات",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
-      "REFRESH_CREDITS": "Refresh"
+      "UPGRADE": "Captain مفت پلان پر دستیاب نہیں ہے، اسسٹنٹس، کوپائلٹ اور مزید تک رسائی کے لیے ابھی اپ گریڈ کریں۔.",
+      "REFRESH_CREDITS": "تازہ کریں"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
-      "BUTTON_TXT": "Chat with us"
+      "TITLE": "مدد چاہیے؟",
+      "DESCRIPTION": "کیا آپ کو بلنگ میں کوئی مسئلہ درپیش ہے؟ ہم مدد کے لیے حاضر ہیں۔.",
+      "BUTTON_TXT": "ہم سے چیٹ کریں"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
+    "NO_BILLING_USER": "آپ کا بلنگ اکاؤنٹ ترتیب دیا جا رہا ہے۔ براہ کرم صفحہ ریفریش کریں اور دوبارہ کوشش کریں۔.",
     "TOPUP": {
-      "BUY_CREDITS": "Buy more credits",
-      "MODAL_TITLE": "Buy AI Credits",
-      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
-      "CREDITS": "CREDITS",
-      "ONE_TIME": "one-time",
-      "POPULAR": "Most Popular",
-      "NOTE_TITLE": "Note:",
-      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
-      "CANCEL": "Cancel",
-      "PURCHASE": "Purchase Credits",
-      "LOADING": "Loading options...",
-      "FETCH_ERROR": "Failed to load credit options. Please try again.",
-      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
-      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "BUY_CREDITS": "مزید کریڈٹس خریدیں",
+      "MODAL_TITLE": "AI کریڈٹس خریدیں",
+      "MODAL_DESCRIPTION": "Captain AI کے لیے اضافی کریڈٹس خریدیں۔.",
+      "CREDITS": "کریڈٹس",
+      "ONE_TIME": "ایک بار",
+      "POPULAR": "سب سے زیادہ مقبول",
+      "NOTE_TITLE": "نوٹ:",
+      "NOTE_DESCRIPTION": "کریڈٹس فوری طور پر شامل کیے جاتے ہیں اور 6 ماہ میں ختم ہو جاتے ہیں۔ کریڈٹس استعمال کرنے کے لیے ایک فعال سبسکرپشن ضروری ہے۔ خریدے گئے کریڈٹس آپ کے ماہانہ پلان کے کریڈٹس کے بعد استعمال ہوتے ہیں۔",
+      "CANCEL": "منسوخ کریں",
+      "PURCHASE": "کریڈٹس خریدیں",
+      "LOADING": "آپشنز لوڈ ہو رہے ہیں...",
+      "FETCH_ERROR": "کریڈٹ آپشنز لوڈ کرنے میں ناکامی۔ براہ کرم دوبارہ کوشش کریں۔.",
+      "PURCHASE_ERROR": "خریداری کے عمل میں ناکامی۔ براہ کرم دوبارہ کوشش کریں۔.",
+      "PURCHASE_SUCCESS": "آپ کے اکاؤنٹ میں کامیابی سے {credits} کریڈٹس شامل کر دیے گئے ہیں",
       "CONFIRM": {
-        "TITLE": "Confirm Purchase",
-        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
-        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
-        "GO_BACK": "Go Back",
-        "CONFIRM_PURCHASE": "Confirm Purchase"
+        "TITLE": "خریداری کی تصدیق کریں",
+        "DESCRIPTION": "آپ {amount} کے بدلے {credits} کریڈٹس خریدنے والے ہیں۔.",
+        "INSTANT_DEDUCTION_NOTE": "تصدیق کے فوراً بعد آپ کے محفوظ کردہ کارڈ سے چارج کیا جائے گا۔.",
+        "GO_BACK": "واپس جائیں",
+        "CONFIRM_PURCHASE": "خریداری کی تصدیق کریں"
       }
     }
   },
   "SECURITY_SETTINGS": {
-    "TITLE": "Security",
-    "DESCRIPTION": "Manage your account security settings.",
-    "LINK_TEXT": "Learn more about SAML SSO",
-    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "TITLE": "سیکیورٹی",
+    "DESCRIPTION": "اپنے اکاؤنٹ کی سیکیورٹی کی ترتیبات کا انتظام کریں۔.",
+    "LINK_TEXT": "SAML SSO کے بارے میں مزید جانیں",
+    "SAML_DISABLED_MESSAGE": "SAML SSO فی الحال غیر فعال ہے۔ براہ کرم اسے فعال کرنے کے لیے اپنے ایڈمنسٹریٹر سے رابطہ کریں۔.",
     "SAML": {
       "TITLE": "SAML SSO",
-      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "NOTE": "اپنے اکاؤنٹ کے لیے SAML سنگل سائن آن ترتیب دیں۔ صارفین ای میل/پاس ورڈ کے بجائے آپ کے شناختی فراہم کنندہ کے ذریعے تصدیق کریں گے۔.",
       "ACS_URL": {
         "LABEL": "ACS URL",
-        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+        "TOOLTIP": "اسرار کنزیومر سروس URL - اس URL کو اپنے IdP میں SAML جوابات کے لیے منزل کے طور پر ترتیب دیں"
       },
       "SSO_URL": {
         "LABEL": "SSO URL",
-        "HELP": "The URL where SAML authentication requests will be sent",
+        "HELP": "وہ URL جہاں SAML تصدیقی درخواستیں بھیجی جائیں گی",
         "PLACEHOLDER": "https://your-idp.com/saml/sso"
       },
       "CERTIFICATE": {
-        "LABEL": "Signing certificate in PEM format",
-        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "LABEL": "PEM فارمیٹ میں دستخطی سرٹیفکیٹ",
+        "HELP": "آپ کے شناختی فراہم کنندہ کا عوامی سرٹیفکیٹ جو SAML جوابات کی تصدیق کے لیے استعمال ہوتا ہے",
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
       "FINGERPRINT": {
-        "LABEL": "Fingerprint",
-        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+        "LABEL": "فنگر پرنٹ",
+        "TOOLTIP": "سرٹیفکیٹ کا SHA-1 فنگر پرنٹ - اپنے IdP کی ترتیب میں سرٹیفکیٹ کی تصدیق کے لیے استعمال کریں"
       },
       "COPY_SUCCESS": "Code copied to clipboard successfully",
       "SP_ENTITY_ID": {
-        "LABEL": "SP Entity ID",
-        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
-        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+        "LABEL": "SP ادارہ شناخت",
+        "HELP": "اس ایپلیکیشن کے لیے منفرد شناخت کنندہ بطور سروس پرووائیڈر (خودکار طور پر تیار شدہ)۔.",
+        "TOOLTIP": "Chatwoot کے لیے سروس پرووائیڈر کا منفرد شناخت کنندہ - اسے اپنے IdP کی ترتیبات میں ترتیب دیں"
       },
       "IDP_ENTITY_ID": {
-        "LABEL": "Identity Provider Entity ID",
-        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "LABEL": "شناختی فراہم کنندہ کا Entity ID",
+        "HELP": "آپ کے شناختی فراہم کنندہ کا منفرد شناخت کنندہ (عام طور پر IdP کی ترتیب میں ملتا ہے)",
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
-      "UPDATE_BUTTON": "Update SAML Settings",
+      "UPDATE_BUTTON": "SAML کی ترتیبات کو اپ ڈیٹ کریں",
       "API": {
-        "SUCCESS": "SAML settings updated successfully",
-        "ERROR": "Failed to update SAML settings",
-        "ERROR_LOADING": "Failed to load SAML settings",
-        "DISABLED": "SAML settings disabled successfully"
+        "SUCCESS": "SAML کی ترتیبات کامیابی سے اپ ڈیٹ ہو گئیں",
+        "ERROR": "SAML کی ترتیبات کو اپ ڈیٹ کرنے میں ناکامی",
+        "ERROR_LOADING": "SAML کی ترتیبات لوڈ کرنے میں ناکامی",
+        "DISABLED": "SAML کی ترتیبات کامیابی سے غیر فعال ہو گئیں"
       },
       "VALIDATION": {
-        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
-        "SSO_URL_ERROR": "Please enter a valid SSO URL",
-        "CERTIFICATE_ERROR": "Certificate is required",
-        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+        "REQUIRED_FIELDS": "SSO URL، شناختی فراہم کنندہ کا Entity ID، اور سرٹیفکیٹ لازمی فیلڈز ہیں",
+        "SSO_URL_ERROR": "براہ کرم ایک درست SSO URL درج کریں",
+        "CERTIFICATE_ERROR": "سرٹیفکیٹ ضروری ہے",
+        "IDP_ENTITY_ID_ERROR": "شناختی فراہم کنندہ کا Entity ID ضروری ہے"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
-        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+        "AVAILABLE_ON": "SAML SSO فیچر صرف انٹرپرائز پلانز میں دستیاب ہے۔.",
+        "UPGRADE_PROMPT": "SAML سنگل سائن آن اور دیگر جدید سیکیورٹی فیچرز تک رسائی کے لیے انٹرپرائز پلان میں اپ گریڈ کریں۔.",
+        "ASK_ADMIN": "براہ کرم اپ گریڈ کے لیے اپنے ایڈمنسٹریٹر سے رابطہ کریں۔."
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to enable SAML SSO",
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
-        "UPGRADE_NOW": "Upgrade now",
-        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+        "TITLE": "SAML SSO فعال کرنے کے لیے اپ گریڈ کریں",
+        "AVAILABLE_ON": "SAML SSO فیچر صرف انٹرپرائز پلانز میں دستیاب ہے۔.",
+        "UPGRADE_PROMPT": "SAML سنگل سائن آن اور دیگر جدید فیچرز تک رسائی کے لیے اپنا پلان اپ گریڈ کریں۔.",
+        "UPGRADE_NOW": "ابھی اپ گریڈ کریں",
+        "CANCEL_ANYTIME": "آپ کسی بھی وقت اپنا پلان تبدیل یا منسوخ کر سکتے ہیں"
       },
       "ATTRIBUTE_MAPPING": {
-        "TITLE": "SAML Attribute Setup",
-        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+        "TITLE": "SAML ایٹریبیوٹ سیٹ اپ",
+        "DESCRIPTION": "مندرجہ ذیل ایٹریبیوٹ میپنگز کو آپ کے شناختی فراہم کنندہ میں ترتیب دینا ضروری ہے"
       },
       "INFO_SECTION": {
-        "TITLE": "Service Provider Information",
-        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+        "TITLE": "سروس پرووائیڈر کی معلومات",
+        "TOOLTIP": "ان اقدار کو کاپی کریں اور SAML کنکشن قائم کرنے کے لیے اپنے شناختی فراہم کنندہ میں ترتیب دیں"
+      }
+    }
+  },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "گفتگو کے ورک فلو",
+        "DESCRIPTION": "گفتگو کے حل کے لیے قواعد اور ضروری فیلڈز ترتیب دیں۔."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "TITLE": "حل کے وقت درکار خصوصیات",
+      "DESCRIPTION": "جب گفتگو حل کی جا رہی ہو تو اگر ایجنٹس نے ابھی تک یہ صفات نہیں بھریں تو انہیں پُر کرنے کی ترغیب دی جائے گی۔.",
+      "NO_ATTRIBUTES": "ابھی تک کوئی خصوصیات شامل نہیں کی گئیں",
+      "ADD": {
+        "TITLE": "خصوصیات شامل کریں",
+        "SEARCH_PLACEHOLDER": "خصوصیات تلاش کریں"
+      },
+      "SAVE": {
+        "SUCCESS": "ضروری خصوصیات اپ ڈیٹ ہو گئیں",
+        "ERROR": "ضروری خصوصیات کو اپ ڈیٹ نہیں کیا جا سکا، براہ کرم دوبارہ کوشش کریں"
+      },
+      "MODAL": {
+        "TITLE": "گفتگو کو حل کریں",
+        "DESCRIPTION": "براہ کرم اس گفتگو کو حل کرنے سے پہلے درج ذیل کسٹم خصوصیات بھریں",
+        "ACTIONS": {
+          "RESOLVE": "گفتگو کو حل کریں",
+          "CANCEL": "منسوخ کریں"
+        },
+        "PLACEHOLDERS": {
+          "TEXT": "نوٹ لکھیں...",
+          "NUMBER": "ایک نمبر درج کریں",
+          "LINK": "ایک لنک شامل کریں",
+          "DATE": "تاریخ منتخب کریں",
+          "LIST": "ایک آپشن منتخب کریں"
+        },
+        "CHECKBOX": {
+          "YES": "ہاں",
+          "NO": "نہیں"
+        }
+      },
+      "PAYWALL": {
+        "TITLE": "ضروری خصوصیات استعمال کرنے کے لیے اپ گریڈ کریں",
+        "AVAILABLE_ON": "ضروری گفتگو کی صفات کا فیچر بزنس اور انٹرپرائز پلانز میں دستیاب ہے۔.",
+        "UPGRADE_PROMPT": "گفتگو کے حل سے پہلے ایجنٹس کو ضروری صفات پُر کرنے کی ترغیب دینے کے لیے اپنا پلان اپ گریڈ کریں۔.",
+        "UPGRADE_NOW": "ابھی اپ گریڈ کریں",
+        "CANCEL_ANYTIME": "آپ کسی بھی وقت اپنا پلان تبدیل یا منسوخ کر سکتے ہیں"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "ضروری گفتگو کی صفات کا فیچر ادائیگی شدہ پلانز میں دستیاب ہے۔.",
+        "UPGRADE_PROMPT": "گفتگو کے حل سے پہلے ضروری صفات کو نافذ کرنے کے لیے ادائیگی شدہ پلان میں اپ گریڈ کریں۔.",
+        "ASK_ADMIN": "براہ کرم اپ گریڈ کے لیے اپنے ایڈمنسٹریٹر سے رابطہ کریں۔."
       }
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NO_ACCOUNT_WARNING": "اوہ! ہمیں کوئی Chatwoot اکاؤنٹ نہیں ملا۔ براہ کرم جاری رکھنے کے لیے نیا اکاؤنٹ بنائیں۔.",
+    "NEW_ACCOUNT": "نیا اکاؤنٹ",
+    "SELECTOR_SUBTITLE": "نیا اکاؤنٹ بنائیں",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "اکاؤنٹ کامیابی سے بنایا گیا",
+      "EXIST_MESSAGE": "اکاؤنٹ پہلے سے موجود ہے",
+      "ERROR_MESSAGE": "Woot سرور سے رابطہ نہیں ہو سکا، براہ کرم بعد میں دوبارہ کوشش کریں"
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Company Name",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "LABEL": "کمپنی کا نام",
+        "PLACEHOLDER": "وین انٹرپرائزز"
       },
-      "SUBMIT": "Submit",
-      "CANCEL": "Cancel"
+      "SUBMIT": "جمع کریں",
+      "CANCEL": "منسوخ کریں"
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "تمام شارٹ کٹس دیکھیں",
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "گفتگو کھولیں",
+      "RESOLVE_AND_NEXT": "حل کریں اور اگلے پر جائیں",
+      "NAVIGATE_DROPDOWN": "ڈراپ ڈاؤن اشیاء میں نیویگیٹ کریں",
+      "RESOLVE_CONVERSATION": "گفتگو حل کریں",
+      "GO_TO_CONVERSATION_DASHBOARD": "گفتگو ڈیش بورڈ پر جائیں",
+      "ADD_ATTACHMENT": "منسلکات شامل کریں",
+      "GO_TO_CONTACTS_DASHBOARD": "رابطہ ڈیش بورڈ پر جائیں",
+      "TOGGLE_SIDEBAR": "سائیڈبار ٹوگل کریں",
+      "GO_TO_REPORTS_SIDEBAR": "رپورٹس سائیڈبار پر جائیں",
+      "MOVE_TO_NEXT_TAB": "گفتگو کی فہرست میں اگلے ٹیب پر جائیں",
+      "GO_TO_SETTINGS": "سیٹنگز پر جائیں",
+      "SWITCH_TO_PRIVATE_NOTE": "پرائیویٹ نوٹ پر سوئچ کریں",
+      "SWITCH_TO_REPLY": "جواب پر سوئچ کریں",
+      "TOGGLE_SNOOZE_DROPDOWN": "سنووز ڈراپ ڈاؤن ٹوگل کریں"
     }
   },
   "ASSIGNMENT_POLICY": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "Agent assignment",
-        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+        "TITLE": "ایجنٹ تفویض",
+        "DESCRIPTION": "پالیسیز کی تعریف کریں تاکہ کام کا بوجھ مؤثر طریقے سے منظم کیا جا سکے اور ان باکسز اور ایجنٹس کی ضروریات کے مطابق گفتگو کو روٹ کیا جا سکے۔ مزید جانیں"
       },
       "ASSIGNMENT_POLICY": {
-        "TITLE": "Assignment policy",
-        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "TITLE": "تفویض کی پالیسی",
+        "DESCRIPTION": "مینیج کریں کہ گفتگوؤں کو انباکسز میں کیسے تفویض کیا جاتا ہے۔.",
         "FEATURES": [
-          "Assign by conversations evenly or by available capacity",
-          "Add fair distribution rules to avoid overloading any agent",
-          "Add inboxes to a policy - one policy per inbox"
+          "گفتگو کے حساب سے برابر یا دستیاب صلاحیت کے مطابق تفویض کریں",
+          "کسی بھی ایجنٹ پر بوجھ بڑھنے سے بچنے کے لیے منصفانہ تقسیم کے قواعد شامل کریں",
+          "پالیسی میں ان باکسز شامل کریں - ہر ان باکس کے لیے ایک پالیسی"
         ]
       },
       "AGENT_CAPACITY_POLICY": {
-        "TITLE": "Agent capacity policy",
-        "DESCRIPTION": "Manage workload for agents.",
+        "TITLE": "ایجنٹ صلاحیت کی پالیسی",
+        "DESCRIPTION": "ایجنٹس کے کام کا بوجھ منظم کریں۔.",
         "FEATURES": [
-          "Define maximum conversations per inbox",
-          "Create exceptions based on labels and time",
-          "Add agents to a policy - one policy per agent"
+          "ہر ان باکس کے لیے زیادہ سے زیادہ گفتگو کی تعداد مقرر کریں",
+          "لیبلز اور وقت کی بنیاد پر استثنیٰ بنائیں",
+          "پالیسی میں ایجنٹس شامل کریں - ہر ایجنٹ کے لیے ایک پالیسی"
         ]
       }
     },
     "AGENT_ASSIGNMENT_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Assignment policy",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "تفویض کی پالیسی",
+          "CREATE_POLICY": "نئی پالیسی"
         },
         "CARD": {
-          "ORDER": "Order",
-          "PRIORITY": "Priority",
-          "ACTIVE": "Active",
-          "INACTIVE": "Inactive",
-          "POPOVER": "Added inboxes",
-          "EDIT": "Edit"
+          "ORDER": "ترتیب",
+          "PRIORITY": "ترجیح",
+          "ACTIVE": "فعال",
+          "INACTIVE": "غیر فعال",
+          "POPOVER": "شامل شدہ ان باکسز",
+          "EDIT": "ترمیم کریں"
         },
-        "NO_RECORDS_FOUND": "No assignment policies found"
+        "NO_RECORDS_FOUND": "کوئی اسائنمنٹ پالیسی نہیں ملی"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create assignment policy"
+          "TITLE": "اسائنمنٹ پالیسی بنائیں"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "پالیسی بنائیں",
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy created successfully",
-          "ERROR_MESSAGE": "Failed to create assignment policy"
+          "SUCCESS_MESSAGE": "اسائنمنٹ پالیسی کامیابی سے بنائی گئی",
+          "ERROR_MESSAGE": "اسائنمنٹ پالیسی بنانے میں ناکامی",
+          "INBOX_LINKED": "ان باکس کو پالیسی سے منسلک کر دیا گیا ہے"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit assignment policy"
+          "TITLE": "اسائنمنٹ پالیسی میں ترمیم کریں"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "پالیسی اپ ڈیٹ کریں",
         "CONFIRM_ADD_INBOX_DIALOG": {
-          "TITLE": "Add inbox",
-          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
-          "CANCEL_BUTTON_LABEL": "Cancel"
+          "TITLE": "ان باکس شامل کریں",
+          "DESCRIPTION": "{inboxName} انباکس پہلے ہی کسی اور پالیسی سے منسلک ہے۔ کیا آپ واقعی اسے اس پالیسی سے منسلک کرنا چاہتے ہیں؟ یہ دوسری پالیسی سے منقطع ہو جائے گا۔.",
+          "CONFIRM_BUTTON_LABEL": "جاری رکھیں",
+          "CANCEL_BUTTON_LABEL": "منسوخ کریں"
+        },
+        "INBOX_LINK_PROMPT": {
+          "TITLE": "پالیسی سے ان باکس کو منسلک کریں",
+          "DESCRIPTION": "کیا آپ اس ان باکس کو اسائنمنٹ پالیسی سے منسلک کرنا چاہتے ہیں؟",
+          "LINK_BUTTON": "ان باکس منسلک کریں",
+          "CANCEL_BUTTON": "چھوڑ دیں"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update assignment policy"
+          "SUCCESS_MESSAGE": "اسائنمنٹ پالیسی کامیابی سے اپ ڈیٹ ہو گئی",
+          "ERROR_MESSAGE": "اسائنمنٹ پالیسی اپ ڈیٹ کرنے میں ناکامی"
         },
         "INBOX_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "ان باکس کامیابی سے پالیسی میں شامل کیا گیا",
+            "ERROR_MESSAGE": "ان باکس کو پالیسی میں شامل کرنے میں ناکامی"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+            "SUCCESS_MESSAGE": "ان باکس کامیابی سے پالیسی سے ہٹا دیا گیا",
+            "ERROR_MESSAGE": "ان باکس کو پالیسی سے ہٹانے میں ناکامی"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "پالیسی کا نام:",
+          "PLACEHOLDER": "پالیسی کا نام درج کریں"
         },
         "DESCRIPTION": {
-          "LABEL": "Description:",
-          "PLACEHOLDER": "Enter description"
+          "LABEL": "تفصیل:",
+          "PLACEHOLDER": "تفصیل درج کریں"
         },
         "STATUS": {
-          "LABEL": "Status:",
-          "PLACEHOLDER": "Select status",
-          "ACTIVE": "Policy is active",
-          "INACTIVE": "Policy is inactive"
+          "LABEL": "حیثیت:",
+          "PLACEHOLDER": "حیثیت منتخب کریں",
+          "ACTIVE": "پالیسی فعال ہے",
+          "INACTIVE": "پالیسی غیر فعال ہے"
         },
         "ASSIGNMENT_ORDER": {
-          "LABEL": "Assignment order",
+          "LABEL": "اسائنمنٹ کا ترتیب",
           "ROUND_ROBIN": {
-            "LABEL": "Round robin",
-            "DESCRIPTION": "Assign conversations evenly among agents."
+            "LABEL": "راؤنڈ رابن",
+            "DESCRIPTION": "گفتگوؤں کو ایجنٹس میں برابر تقسیم کریں۔."
           },
           "BALANCED": {
-            "LABEL": "Balanced",
-            "DESCRIPTION": "Assign conversations based on available capacity."
+            "LABEL": "متوازن",
+            "DESCRIPTION": "گفتگوؤں کو دستیاب صلاحیت کی بنیاد پر تفویض کریں۔.",
+            "PREMIUM_MESSAGE": "متوازن تفویض اور ایجنٹ کی صلاحیت کے انتظام تک رسائی کے لیے اپ گریڈ کریں۔.",
+            "PREMIUM_BADGE": "پریمیم"
           }
         },
         "ASSIGNMENT_PRIORITY": {
-          "LABEL": "Assignment priority",
+          "LABEL": "اسائنمنٹ کی ترجیح",
           "EARLIEST_CREATED": {
-            "LABEL": "Earliest created",
-            "DESCRIPTION": "The conversation that was created first gets assigned first."
+            "LABEL": "سب سے پہلے بنائی گئی",
+            "DESCRIPTION": "جو گفتگو سب سے پہلے بنائی گئی ہو، اسے سب سے پہلے تفویض کیا جاتا ہے۔."
           },
           "LONGEST_WAITING": {
-            "LABEL": "Longest waiting",
-            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+            "LABEL": "سب سے زیادہ انتظار کرنے والی",
+            "DESCRIPTION": "جو گفتگو سب سے زیادہ انتظار کر رہی ہو، اسے سب سے پہلے تفویض کیا جاتا ہے۔."
           }
         },
         "FAIR_DISTRIBUTION": {
-          "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
-          "INPUT_MAX": "Assign max",
-          "DURATION": "Conversations per agent in every"
+          "LABEL": "منصفانہ تقسیم کی پالیسی",
+          "DESCRIPTION": "ہر ایجنٹ کو ایک وقت کی مدت میں تفویض کی جانے والی زیادہ سے زیادہ گفتگوؤں کی تعداد مقرر کریں تاکہ کسی ایک ایجنٹ پر زیادہ بوجھ نہ پڑے۔ یہ ضروری فیلڈ ڈیفالٹ کے طور پر 100 گفتگوئیں فی گھنٹہ مقرر ہے۔",
+          "INPUT_MAX": "زیادہ سے زیادہ تفویض کریں",
+          "DURATION": "ہر میں فی ایجنٹ گفتگو"
         },
         "INBOXES": {
-          "LABEL": "Added inboxes",
-          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "شامل شدہ ان باکسز",
+          "DESCRIPTION": "ان انباکسز کو شامل کریں جن کے لیے یہ پالیسی قابلِ اطلاق ہوگی۔.",
+          "ADD_BUTTON": "ان باکس شامل کریں",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
-            "ADD_BUTTON": "Add"
+            "SEARCH_PLACEHOLDER": "شامل کرنے کے لیے ان باکسز تلاش کریں اور منتخب کریں",
+            "ADD_BUTTON": "شامل کریں"
           },
-          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "EMPTY_STATE": "اس پالیسی میں کوئی ان باکس شامل نہیں ہے، شروع کرنے کے لیے ان باکس شامل کریں",
           "API": {
-            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "ان باکس کامیابی سے پالیسی میں شامل کیا گیا",
+            "ERROR_MESSAGE": "ان باکس کو پالیسی میں شامل کرنے میں ناکامی"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete assignment policy"
+        "SUCCESS_MESSAGE": "اسائنمنٹ پالیسی کامیابی سے حذف کر دی گئی",
+        "ERROR_MESSAGE": "اسائنمنٹ پالیسی حذف کرنے میں ناکامی"
       }
     },
     "AGENT_CAPACITY_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Agent capacity",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "ایجنٹ کی صلاحیت",
+          "CREATE_POLICY": "نئی پالیسی"
         },
         "CARD": {
-          "POPOVER": "Added agents",
-          "EDIT": "Edit"
+          "POPOVER": "شامل کردہ ایجنٹس",
+          "EDIT": "ترمیم کریں"
         },
-        "NO_RECORDS_FOUND": "No agent capacity policies found"
+        "NO_RECORDS_FOUND": "کوئی ایجنٹ کی صلاحیت کی پالیسی نہیں ملی"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create agent capacity policy"
+          "TITLE": "ایجنٹ کی صلاحیت کی پالیسی بنائیں"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "پالیسی بنائیں",
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
-          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+          "SUCCESS_MESSAGE": "ایجنٹ کی صلاحیت کی پالیسی کامیابی سے بنائی گئی",
+          "ERROR_MESSAGE": "ایجنٹ کی صلاحیت کی پالیسی بنانے میں ناکامی"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit agent capacity policy"
+          "TITLE": "ایجنٹ کی صلاحیت کی پالیسی میں ترمیم کریں"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "پالیسی اپ ڈیٹ کریں",
         "CONFIRM_ADD_AGENT_DIALOG": {
-          "TITLE": "Add agent",
-          "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
-          "CANCEL_BUTTON_LABEL": "Cancel"
+          "TITLE": "ایجنٹ شامل کریں",
+          "DESCRIPTION": "{agentName} پہلے ہی کسی اور پالیسی سے منسلک ہے۔ کیا آپ واقعی اسے اس پالیسی سے منسلک کرنا چاہتے ہیں؟ یہ دوسری پالیسی سے منقطع ہو جائے گا۔.",
+          "CONFIRM_BUTTON_LABEL": "جاری رکھیں",
+          "CANCEL_BUTTON_LABEL": "منسوخ کریں"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+          "SUCCESS_MESSAGE": "ایجنٹ کی صلاحیت کی پالیسی کامیابی سے اپ ڈیٹ ہو گئی",
+          "ERROR_MESSAGE": "ایجنٹ کی صلاحیت کی پالیسی اپ ڈیٹ کرنے میں ناکامی"
         },
         "AGENT_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Agent added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "ایجنٹ کامیابی سے پالیسی میں شامل کیا گیا",
+            "ERROR_MESSAGE": "ایجنٹ کو پالیسی میں شامل کرنے میں ناکامی"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove agent from policy"
+            "SUCCESS_MESSAGE": "ایجنٹ کامیابی سے پالیسی سے ہٹا دیا گیا",
+            "ERROR_MESSAGE": "ایجنٹ کو پالیسی سے ہٹانے میں ناکامی"
+          }
+        },
+        "INBOX_LIMIT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "ان باکس کی حد کامیابی سے شامل کر دی گئی",
+            "ERROR_MESSAGE": "ان باکس کی حد شامل کرنے میں ناکامی"
+          },
+          "UPDATE": {
+            "SUCCESS_MESSAGE": "ان باکس کی حد کامیابی سے اپ ڈیٹ کر دی گئی",
+            "ERROR_MESSAGE": "ان باکس کی حد اپ ڈیٹ کرنے میں ناکامی"
+          },
+          "DELETE": {
+            "SUCCESS_MESSAGE": "ان باکس کی حد کامیابی سے حذف کر دی گئی",
+            "ERROR_MESSAGE": "ان باکس کی حد حذف کرنے میں ناکامی"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "پالیسی کا نام:",
+          "PLACEHOLDER": "پالیسی کا نام درج کریں"
         },
         "DESCRIPTION": {
-          "LABEL": "Description:",
-          "PLACEHOLDER": "Enter description"
+          "LABEL": "تفصیل:",
+          "PLACEHOLDER": "تفصیل درج کریں"
         },
         "INBOX_CAPACITY_LIMIT": {
-          "LABEL": "Inbox capacity limits",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "ان باکس کی گنجائش کی حدیں",
+          "ADD_BUTTON": "ان باکس شامل کریں",
           "FIELD": {
-            "SELECT_INBOX": "Select inbox",
-            "MAX_CONVERSATIONS": "Max conversations",
-            "SET_LIMIT": "Set limit"
+            "SELECT_INBOX": "ان باکس منتخب کریں",
+            "MAX_CONVERSATIONS": "زیادہ سے زیادہ گفتگوئیں",
+            "SET_LIMIT": "حد مقرر کریں"
           },
-          "EMPTY_STATE": "No inbox limit set"
+          "EMPTY_STATE": "کوئی ان باکس حد مقرر نہیں"
         },
         "EXCLUSION_RULES": {
-          "LABEL": "Exclusion rules",
-          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "LABEL": "اخراج کے قواعد",
+          "DESCRIPTION": "وہ گفتگوئیں جو درج ذیل شرائط پر پوری اتریں گی، ایجنٹ کی گنجائش میں شمار نہیں ہوں گی",
           "TAGS": {
-            "LABEL": "Exclude conversations tagged with specific labels",
-            "ADD_TAG": "add tag",
+            "LABEL": "مخصوص لیبل والے ٹیگز والی گفتگوئیں خارج کریں",
+            "ADD_TAG": "ٹیگ شامل کریں",
             "DROPDOWN": {
-              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+              "SEARCH_PLACEHOLDER": "شامل کرنے کے لیے ٹیگز تلاش کریں اور منتخب کریں"
             },
-            "EMPTY_STATE": "No tags added to this policy."
+            "EMPTY_STATE": "اس پالیسی میں کوئی ٹیگز شامل نہیں کیے گئے۔."
           },
           "DURATION": {
-            "LABEL": "Exclude conversations older than a specified duration",
-            "PLACEHOLDER": "Set time"
+            "LABEL": "مقررہ مدت سے پرانی گفتگوئیں خارج کریں",
+            "PLACEHOLDER": "وقت مقرر کریں"
           }
         },
         "USERS": {
-          "LABEL": "Assigned agents",
-          "DESCRIPTION": "Add agents for which this policy will be applicable.",
-          "ADD_BUTTON": "Add agent",
+          "LABEL": "مقرر کردہ ایجنٹس",
+          "DESCRIPTION": "ایجنٹس کو شامل کریں جن کے لیے یہ پالیسی قابلِ اطلاق ہوگی۔.",
+          "ADD_BUTTON": "ایجنٹ شامل کریں",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select agents to add",
-            "ADD_BUTTON": "Add"
+            "SEARCH_PLACEHOLDER": "شامل کرنے کے لیے ایجنٹس تلاش کریں اور منتخب کریں",
+            "ADD_BUTTON": "شامل کریں"
           },
-          "EMPTY_STATE": "No agents added",
+          "EMPTY_STATE": "کوئی ایجنٹ شامل نہیں",
           "API": {
-            "SUCCESS_MESSAGE": "Agent successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "ایجنٹ کو کامیابی سے پالیسی میں شامل کیا گیا",
+            "ERROR_MESSAGE": "ایجنٹ کو پالیسی میں شامل کرنے میں ناکامی"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+        "SUCCESS_MESSAGE": "ایجنٹ کی صلاحیت کی پالیسی کامیابی سے حذف کر دی گئی",
+        "ERROR_MESSAGE": "ایجنٹ کی صلاحیت کی پالیسی حذف کرنے میں ناکامی"
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "Delete policy",
-      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
-      "CONFIRM_BUTTON_LABEL": "Delete",
-      "CANCEL_BUTTON_LABEL": "Cancel"
+      "TITLE": "پالیسی حذف کریں",
+      "DESCRIPTION": "کیا آپ واقعی اس پالیسی کو حذف کرنا چاہتے ہیں؟ یہ عمل واپس نہیں کیا جا سکتا۔.",
+      "CONFIRM_BUTTON_LABEL": "حذف کریں",
+      "CANCEL_BUTTON_LABEL": "منسوخ کریں"
     }
   }
 }

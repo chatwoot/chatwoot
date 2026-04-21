@@ -41,6 +41,8 @@ gem 'json_refs'
 gem 'rack-attack', '>= 6.7.0'
 # a utility tool for streaming, flexible and safe downloading of remote files
 gem 'down'
+# SSRF-safe URL fetching
+gem 'ssrf_filter', '~> 1.5'
 # authentication type to fetch and send mail over oauth2.0
 gem 'gmail_xoauth'
 # Lock net-smtp to 0.3.4 to avoid issues with gmail_xoauth2
@@ -269,6 +271,7 @@ group :development, :test do
   gem 'seed_dump'
   gem 'shoulda-matchers'
   gem 'simplecov', '>= 0.21', require: false
+  gem 'skooma'
   gem 'spring'
   gem 'spring-watcher-listen'
 end

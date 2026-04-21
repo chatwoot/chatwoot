@@ -1,24 +1,27 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "Excluir Integração com o Shopify",
+        "MESSAGE": "Tem certeza que você deseja excluir a integração com o Shopify?"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
-        "LABEL": "Store URL",
+        "TITLE": "Conectar Loja Shopify",
+        "LABEL": "URL da Loja",
         "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "HELP": "Insira a URL meushopify.com da sua loja Shopify",
         "CANCEL": "Cancelar",
-        "SUBMIT": "Connect Store"
+        "SUBMIT": "Conectar Loja"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "Ocorreu um erro ao tentar conectar com o Shopify. Por favor, tente novamente ou entre em contato com o suporte se o problema persistir."
     },
     "HEADER": "Integrações",
     "DESCRIPTION": "Chatwoot se integra com várias ferramentas e serviços para melhorar a eficiência de seu time. Explore a lista abaixo para configurar seus aplicativos favoritos.",
     "LEARN_MORE": "Aprenda mais sobre integrações",
     "LOADING": "Obtendo integrações",
+    "SEARCH_PLACEHOLDER": "Pesquisar integrações...",
+    "NO_RESULTS": "Nenhuma integração encontrada correspondente à sua busca",
     "CAPTAIN": {
       "DISABLED": "O capitão não está ativado na sua conta.",
       "CLICK_HERE_TO_CONFIGURE": "Clique aqui para configurar",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos Inscritos",
       "LEARN_MORE": "Saiba mais sobre webhooks",
+      "SECRET": {
+        "LABEL": "Segredo",
+        "COPY": "Copiar segredo para a área de transferência",
+        "COPY_SUCCESS": "Segredo copiado para a área de transferência",
+        "TOGGLE": "Alternar visibilidade do segredo",
+        "CREATED_DESC": "Seu webhook foi criado. Use o segredo abaixo para verificar as assinaturas do webhook. Copie-o agora — você também poderá encontrá-lo posteriormente no formulário de edição do webhook.",
+        "DONE": "Concluído"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Pesquisar webhooks...",
+      "NO_RESULTS": "Nenhum webhook encontrado correspondente à sua busca",
       "FORM": {
         "CANCEL": "Cancelar",
         "DESC": "Webhook Os eventos fornecem informações em tempo real sobre o que está acontecendo na sua conta do Chatwoot. Digite um URL válido para configurar um retorno de chamada.",
@@ -47,8 +61,8 @@
           }
         },
         "NAME": {
-          "LABEL": "Webhook Name",
-          "PLACEHOLDER": "Enter the name of the webhook"
+          "LABEL": "Nome do Webhook",
+          "PLACEHOLDER": "Informe o nome do webhook"
         },
         "END_POINT": {
           "LABEL": "URL do Webhook",
@@ -104,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Excluir",
       "DELETE_CONFIRMATION": {
         "TITLE": "Excluir integração",
@@ -111,7 +126,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Usando a integração com Slack",
-        "BODY": "Com essa integração, todas as suas conversas recebidas serão sincronizadas com o canal ***{selectedChannelName}*** em seu espaço de trabalho Slack. Você pode gerenciar todas as suas conversas com clientes diretamente no canal e nunca perder uma mensagem.\n\nAqui estão os principais recursos da integração:\n\n**Responda a conversas de dentro do Slack:** Para responder a uma conversa no canal ***{selectedChannelName}*** Slack, simplesmente digite a sua mensagem e envie-a como um tópico. Isso criará uma resposta ao cliente através do Chatwoot. É tão simples!\n\n **Crie notas privadas:** Se você quiser criar notas privadas em vez de respostas, inicie sua mensagem com ***`nota:`***. Isso garante que sua mensagem seja privada e não seja visível para o cliente.\n\n**Associar um perfil de agente:** Se a pessoa que respondeu no Slack tem um perfil de agente no Chatwoot sob o mesmo e-mail, as respostas serão associadas automaticamente com esse perfil de agente. Isso significa que você pode facilmente controlar quem disse o quê e quando. Por outro lado, quando o respondente não tiver um perfil de agente associado, as respostas aparecerão do perfil do bot para o cliente.",
+        "BODY": "Com essa integração, todas as suas conversas recebidas serão sincronizadas com o canal ***{selectedChannelName}*** em seu espaço de trabalho Slack. Você pode gerenciar todas as suas conversas com clientes diretamente no canal e nunca perder uma mensagem.\n\nAqui estão os principais recursos da integração:\n\n**Responda a conversas de dentro do Slack:** Para responder a uma conversa no canal ***{selectedChannelName}*** Slack, simplesmente digite a sua mensagem e envie-a como um tópico. Isso criará uma resposta ao cliente por meio do Chatwoot. Simples assim!\n\n **Crie notas privadas:** Se você quiser criar notas privadas em vez de respostas, inicie sua mensagem com ***`nota:`***. Isso garante que sua mensagem seja privada e não seja visível para o cliente.\n\n**Associar um perfil de agente:** Se a pessoa que respondeu no Slack tem um perfil de agente no Chatwoot sob o mesmo e-mail, as respostas serão associadas automaticamente com esse perfil de agente. Isso significa que você pode facilmente controlar quem disse o quê e quando. Por outro lado, quando o respondente não tiver um perfil de agente associado, as respostas aparecerão do perfil do bot para o cliente.",
         "SELECTED": "selecionar"
       },
       "SELECT_CHANNEL": {
@@ -145,7 +160,29 @@
         "EXPAND": "Expandir",
         "MAKE_FRIENDLY": "Alterar o tom de mensagem para amigável",
         "MAKE_FORMAL": "Usar tom formal",
-        "SIMPLIFY": "Simplificar"
+        "SIMPLIFY": "Simplificar",
+        "CONFIDENT": "Use um tom confiante",
+        "PROFESSIONAL": "Use um tom profissional",
+        "CASUAL": "Use um tom casual",
+        "STRAIGHTFORWARD": "Use um tom direto"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Melhorar resposta",
+        "IMPROVE_REPLY_SELECTION": "Melhorar a seleção",
+        "CHANGE_TONE": {
+          "TITLE": "Alterar tom",
+          "OPTIONS": {
+            "PROFESSIONAL": "Profissional",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Direto",
+            "CONFIDENT": "Confiante",
+            "FRIENDLY": "Amigável"
+          }
+        },
+        "GRAMMAR": "Corrigir gramática e ortografia",
+        "SUGGESTION": "Sugerir uma resposta",
+        "SUMMARIZE": "Resumir a conversa",
+        "ASK_COPILOT": "Perguntar ao Copiloto"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Conteúdo do rascunho",
@@ -201,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>Painel de Aplicativos</b></p><p>O Painel de Aplicativos permite que as organizações incorporem um aplicativo dentro do Painel de Aplicativos do Chatwoot para fornecer o contexto para agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro da dashboard para fornecer informações do usuário, seus pedidos ou seu histórico de pagamentos anteriores.</p><p>Quando você incorpora seu aplicativo usando o Painel de Aplicativos do Chatwoot, sua aplicação irá obter o contexto da conversa e entrar em contato como um evento de janela. Implementar um ouvinte para o evento de mensagem em sua página receber o contexto.</p><p>Para adicionar um novo aplicativo no Painel de Aplicativos, clique no botão 'Adicionar um novo aplicativo'.</p>",
       "DESCRIPTION": "O Painel de Aplicativos permite que organizações incorporem um aplicativo dentro do painel para fornecer o contexto para agentes de suporte ao cliente. Este recurso permite que você crie uma aplicação independente e incorpore para fornecer informações de usuário, seus pedidos ou seu histórico de pagamentos anteriores.",
       "LEARN_MORE": "Saiba mais sobre o Painel de Aplicativos",
+      "COUNT": "{n} painel de aplicativo | {n} painéis de aplicativos",
+      "SEARCH_PLACEHOLDER": "Pesquisar painéis de aplicativos...",
+      "NO_RESULTS": "Nenhum painel de aplicativo encontrado correspondente à sua busca",
       "LIST": {
         "404": "Ainda não há aplicativos nesta conta",
         "LOADING": "Buscando aplicativos...",
         "TABLE_HEADER": {
           "NAME": "Nome",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Ações"
         },
         "EDIT_TOOLTIP": "Alterar aplicativo",
         "DELETE_TOOLTIP": "Excluir aplicativo"
@@ -243,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Criar/Ligar Issue Linear",
       "LOADING": "Buscando problemas lineares...",
       "LOADING_ERROR": "Houve um erro ao buscar as entidades do time, por favor, tente novamente",
@@ -337,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Você tem certeza que deseja excluir a integração com Notion?",
         "MESSAGE": "Excluir essa integração removerá o acesso ao seu espaço de trabalho Notion e encerrará todas as funcionalidades relacionadas.",
@@ -347,12 +390,12 @@
   },
   "CAPTAIN": {
     "NAME": "Capitão",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "Saiba mais",
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Assistentes",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "SWITCH_ASSISTANT": "Alternar entre assistentes",
+      "NEW_ASSISTANT": "Criar Assistente",
+      "EMPTY_LIST": "Nenhum assistente encontrado. Crie um para começar"
     },
     "COPILOT": {
       "TITLE": "Copiloto",
@@ -394,7 +437,7 @@
       "USER": "Você",
       "ASSISTANT": "Assistente",
       "MESSAGE_PLACEHOLDER": "Digite sua mensagem...",
-      "HEADER": "Playground",
+      "HEADER": "Área de testes",
       "DESCRIPTION": "Use este playground para enviar mensagens para seu assistente e verificar se ele responde com precisão, rápido e no tom que você espera.",
       "CREDIT_NOTE": "As mensagens enviadas aqui usam os créditos do seu Capitão."
     },
@@ -406,6 +449,7 @@
       "CANCEL_ANYTIME": "Você pode alterar ou cancelar seu plano a qualquer momento"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "O Capitão IA está disponível apenas nos planos Enterprise.",
       "UPGRADE_PROMPT": "Atualize seu plano para ter acesso aos nossos assistentes, copilotos e muito mais.",
       "ASK_ADMIN": "Entre em contato com seu administrador para fazer a atualização."
     },
@@ -483,7 +527,8 @@
           "TITLE": "Funcionalidades",
           "ALLOW_CONVERSATION_FAQS": "Gerar perguntas frequentes a partir de conversas resolvidas",
           "ALLOW_MEMORIES": "Capture os principais detalhes como memórias de interações do cliente.",
-          "ALLOW_CITATIONS": "Incluir fonte de citações nas respostas"
+          "ALLOW_CITATIONS": "Incluir fonte de citações nas respostas",
+          "ALLOW_CONTACT_ATTRIBUTES": "Permitir acesso às informações do contato"
         }
       },
       "EDIT": {
@@ -531,8 +576,8 @@
         "TITLE": "Não há assistentes disponíveis",
         "SUBTITLE": "Crie um assistente para fornecer respostas rápidas e precisas aos seus usuários. Ele pode aprender com seus artigos de ajuda e conversas passadas.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "Assistente Capitão",
+          "NOTE": "O Assistente Capitão interage diretamente com os clientes, aprende com seus documentos de ajuda e conversas anteriores e fornece respostas instantâneas e precisas. Ele lida com as solicitações iniciais, oferecendo resoluções rápidas antes de transferir para um agente quando necessário."
         }
       },
       "GUARDRAILS": {
@@ -693,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Documentos",
       "ADD_NEW": "Criar um novo documento",
+      "SELECTED": "{count} selecionado",
+      "SELECT_ALL": "Selecionar todos ({count})",
+      "UNSELECT_ALL": "Desmarcar todos ({count})",
+      "BULK_DELETE_BUTTON": "Excluir",
+      "BULK_DELETE": {
+        "TITLE": "Excluir documentos?",
+        "DESCRIPTION": "Você tem certeza que deseja excluir os documentos selecionados? Esta ação não pode ser desfeita.",
+        "CONFIRM": "Sim, excluir todas",
+        "SUCCESS_MESSAGE": "Documentos excluídos com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro ao excluir os documentos, por favor novamente."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "FAQs Relacionadas",
         "DESCRIPTION": "Estes FAQs são gerados diretamente a partir do documento."
@@ -742,14 +798,15 @@
         "TITLE": "Nenhum documento disponível",
         "SUBTITLE": "Os documentos são usados pelo seu assistente para gerar perguntas frequentes. Pode importar documentos para fornecer um contexto para seu assistente.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "TITLE": "Documento do Capitão",
+          "NOTE": "Um documento no Capitão serve como um recurso de conhecimento para o assistente. Ao conectar sua central de ajuda ou guias, o Capitão pode analisar o conteúdo e fornecer respostas precisas para as dúvidas dos clientes."
         }
       }
     },
     "CUSTOM_TOOLS": {
       "HEADER": "Ferramentas",
       "ADD_NEW": "Criar ferramenta",
+      "SOFT_LIMIT_WARNING": "Ter mais de 10 ferramentas pode reduzir a confiabilidade do assistente na seleção da ferramenta certa. Considere remover ferramentas não utilizadas para melhores resultados.",
       "EMPTY_STATE": {
         "TITLE": "Não há ferramentas personalizadas disponíveis",
         "SUBTITLE": "Crie ferramentas personalizadas para conectar com APIs e serviços externos, permitindo obter dados e agir por você.",
@@ -758,48 +815,67 @@
           "NOTE": "Ferramentas personalizadas permitem seu assistente interagir com APIs e serviços externos. Crie ferramentas para obter dados, realizar ações ou integre com seus sistemas existentes para melhorar as capacidades do seu assistente."
         }
       },
-      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "FORM_DESCRIPTION": "Configure sua ferramenta personalizada para se conectar a APIs externas",
       "OPTIONS": {
-        "EDIT_TOOL": "Edit tool",
-        "DELETE_TOOL": "Delete tool"
+        "EDIT_TOOL": "Editar ferramenta",
+        "DELETE_TOOL": "Excluir ferramenta"
       },
       "CREATE": {
-        "TITLE": "Create Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool created successfully",
-        "ERROR_MESSAGE": "Failed to create custom tool"
+        "TITLE": "Criar Ferramenta Personalizada",
+        "SUCCESS_MESSAGE": "Ferramenta personalizada criada com sucesso",
+        "ERROR_MESSAGE": "Falha ao criar a ferramenta personalizada"
       },
       "EDIT": {
-        "TITLE": "Edit Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool updated successfully",
-        "ERROR_MESSAGE": "Failed to update custom tool"
+        "TITLE": "Editar Ferramenta Personalizada",
+        "SUCCESS_MESSAGE": "Ferramenta personalizada atualizada com sucesso",
+        "ERROR_MESSAGE": "Falha ao atualizar a ferramenta personalizada"
       },
       "DELETE": {
-        "TITLE": "Delete Custom Tool",
+        "TITLE": "Excluir ferramenta personalizada",
         "DESCRIPTION": "Tem certeza que deseja excluir está ferramenta customizável? Está ação não pode ser desfeita.",
         "CONFIRM": "Sim, excluir",
-        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete custom tool"
+        "SUCCESS_MESSAGE": "Ferramenta personalizada excluída com sucesso",
+        "ERROR_MESSAGE": "Falha ao excluir a ferramenta personalizada"
+      },
+      "PAYWALL": {
+        "TITLE": "Atualize para usar ferramentas com o Capitão",
+        "AVAILABLE_ON": "As ferramentas do Capitão estão disponíveis apenas nos planos Business e Enterprise. Faça upgrade para o plano Business para utilizar esse recurso.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Abrir faturamento",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Ferramentas do Capitão estão disponíveis apenas nos planos pagos.",
+        "UPGRADE_PROMPT": "Por favor, faça o upgrade para um plano pago para utilizar este recurso.",
+        "ASK_ADMIN": "Entre em contato com seu administrador para fazer a atualização."
+      },
+      "TEST": {
+        "BUTTON": "Testar conexão",
+        "SUCCESS": "Endpoint retornou HTTP {status}",
+        "ERROR": "Conexão falhou",
+        "DISABLED_HINT": "Testes estão disponíveis apenas para endpoints que não possuem modelos ou corpos de requisição."
       },
       "FORM": {
         "TITLE": {
           "LABEL": "Nome da Ferramenta",
-          "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Nome da ferramente obrigatória"
+          "PLACEHOLDER": "Consulta de pedido",
+          "ERROR": "Nome da ferramente obrigatória",
+          "MAX_LENGTH_ERROR": "O nome da ferramenta deve ter {max} caracteres ou menos"
         },
         "DESCRIPTION": {
           "LABEL": "Descrição",
-          "PLACEHOLDER": "Looks up order details by order ID"
+          "PLACEHOLDER": "Consulta os detalhes do pedido pelo ID do pedido"
         },
         "HTTP_METHOD": {
-          "LABEL": "Method"
+          "LABEL": "Método"
         },
         "ENDPOINT_URL": {
-          "LABEL": "Endpoint URL",
+          "LABEL": "URL do endpoint",
           "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
-          "ERROR": "Valid URL is required"
+          "ERROR": "É necessário informar uma URL válida"
         },
         "AUTH_TYPE": {
-          "LABEL": "Authentication Type"
+          "LABEL": "Tipo de Autenticação"
         },
         "AUTH_TYPES": {
           "NONE": "Nenhuma",
@@ -809,23 +885,23 @@
         },
         "AUTH_CONFIG": {
           "BEARER_TOKEN": "Bearer Token",
-          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
-          "USERNAME": "Username",
-          "USERNAME_PLACEHOLDER": "Enter username",
+          "BEARER_TOKEN_PLACEHOLDER": "Insira seu bearer token",
+          "USERNAME": "Nome de usuário",
+          "USERNAME_PLACEHOLDER": "Informe o nome de usuário",
           "PASSWORD": "Senha",
-          "PASSWORD_PLACEHOLDER": "Enter password",
-          "API_KEY": "Header Name",
+          "PASSWORD_PLACEHOLDER": "Informe a senha",
+          "API_KEY": "Nome do Cabeçalho",
           "API_KEY_PLACEHOLDER": "X-API-Key",
-          "API_VALUE": "Header Value",
-          "API_VALUE_PLACEHOLDER": "Enter API key value"
+          "API_VALUE": "Valor do Cabeçalho",
+          "API_VALUE_PLACEHOLDER": "Insira o valor da chave de API"
         },
         "PARAMETERS": {
-          "LABEL": "Parameters",
-          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+          "LABEL": "Parâmetros",
+          "HELP_TEXT": "Defina os parâmetros que serão extraídos das consultas dos usuários"
         },
-        "ADD_PARAMETER": "Add Parameter",
+        "ADD_PARAMETER": "Adicionar Parâmetro",
         "PARAM_NAME": {
-          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+          "PLACEHOLDER": "Nome do parâmetro (ex.: order_id)"
         },
         "PARAM_TYPE": {
           "PLACEHOLDER": "Tipo"
@@ -838,27 +914,27 @@
           "OBJECT": "Object"
         },
         "PARAM_DESCRIPTION": {
-          "PLACEHOLDER": "Description of the parameter"
+          "PLACEHOLDER": "Descrição do parâmetro"
         },
         "PARAM_REQUIRED": {
           "LABEL": "Obrigatório"
         },
         "REQUEST_TEMPLATE": {
-          "LABEL": "Request Body Template (Optional)",
+          "LABEL": "Modelo do Corpo da Requisição (Opcional)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "Response Template (Optional)",
+          "LABEL": "Modelo de Resposta (Opcional)",
           "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
         },
         "ERRORS": {
-          "PARAM_NAME_REQUIRED": "Parameter name is required"
+          "PARAM_NAME_REQUIRED": "O nome do parâmetro é obrigatório"
         }
       }
     },
     "RESPONSES": {
       "HEADER": "FAQs",
-      "PENDING_FAQS": "Pending FAQs",
+      "PENDING_FAQS": "FAQs pendentes",
       "ADD_NEW": "Criar nova FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversação #{id}"
@@ -899,8 +975,8 @@
         "ALL": "Todos"
       },
       "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+        "TITLE": "O Capitão encontrou algumas FAQs que seus clientes estavam procurando.",
+        "ACTION": "Clique aqui para revisar"
       },
       "FORM_DESCRIPTION": "Adicione uma pergunta e sua resposta correspondente à base de conhecimento e selecione o assistente ao qual deve estar associado.",
       "CREATE": {
@@ -933,12 +1009,12 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Nenhuma FAQ encontrada",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
+        "NO_PENDING_TITLE": "Não há mais FAQs pendentes para revisão",
         "SUBTITLE": "Perguntas Frequentes ajudam seu assistente a fornecer respostas rápidas e precisas para perguntas de seus clientes. Eles podem ser gerados automaticamente a partir do seu conteúdo ou podem ser adicionados manualmente.",
-        "CLEAR_SEARCH": "Clear active filters",
+        "CLEAR_SEARCH": "Limpar filtros ativos",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "TITLE": "FAQ do Capitão",
+          "NOTE": "As FAQs do Capitão identificam as perguntas mais comuns dos clientes — tanto as que ainda não existem na sua base de conhecimento quanto as mais recorrentes — e gera FAQs relevantes para melhorar o atendimento. Você pode revisar cada sugestão e decidir se aprova ou rejeita."
         }
       }
     },

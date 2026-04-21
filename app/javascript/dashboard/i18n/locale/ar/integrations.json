@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot تتكامل مع أدوات وخدمات متعددة لتحسين كفاءة فريقك. استكشف القائمة أدناه لتكوين تطبيقاتك المفضلة.",
     "LEARN_MORE": "معرفة المزيد عن التكاملات",
     "LOADING": "جاري جلب التكاملات",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "لم يتم تمكين الكابتن على حسابك.",
       "CLICK_HERE_TO_CONFIGURE": "انقر هنا للتهيئة",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "الأحداث المشتركة",
       "LEARN_MORE": "Learn more about webhooks",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "إلغاء",
         "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
@@ -104,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "حذف",
       "DELETE_CONFIRMATION": {
         "TITLE": "Delete the integration",
@@ -111,7 +126,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "استخدام تكامل Slack",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "باستخدام هذا التكامل، ستتم مزامنة جميع محادثاتك الواردة مع قناة ***{selectedChannelName}*** في مساحة عمل Slack الخاصة بك. يمكنك إدارة جميع محادثات عملائك مباشرة من داخل القناة ولن تفوّت أي رسالة.\n\nفيما يلي الميزات الرئيسية لهذا التكامل:\n\n**الرد على المحادثات من داخل Slack:** للرد على محادثة في قناة Slack ***{selectedChannelName}***، ما عليك سوى كتابة رسالتك وإرسالها كسلسلة رسائل. سيؤدي ذلك إلى إنشاء رد للعميل عبر Chatwoot. الأمر بهذه البساطة!\n\n **إنشاء ملاحظات خاصة:** إذا كنت تريد إنشاء ملاحظات خاصة بدلاً من الردود، فابدأ رسالتك بـ ***`note:`***. يضمن ذلك بقاء رسالتك خاصة وعدم ظهورها للعميل.\n\n**ربط ملف وكيل:** إذا كان الشخص الذي ردّ في Slack لديه ملف وكيل في Chatwoot تحت البريد الإلكتروني نفسه، فسيتم ربط الردود تلقائيًا بذلك الملف. وهذا يعني أنه يمكنك بسهولة تتبع من قال ماذا ومتى. من ناحية أخرى، إذا لم يكن لدى الشخص الذي ردّ ملف وكيل مرتبط، فستظهر الردود للعميل على أنها صادرة من ملف البوت.",
         "SELECTED": "selected"
       },
       "SELECT_CHANNEL": {
@@ -145,7 +160,29 @@
         "EXPAND": "Expand",
         "MAKE_FRIENDLY": "Change message tone to friendly",
         "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "تبسيط"
+        "SIMPLIFY": "تبسيط",
+        "CONFIDENT": "استخدام نبرة لطيفة",
+        "PROFESSIONAL": "استخدام نبرة احترافية",
+        "CASUAL": "استخدم نبرة عادية",
+        "STRAIGHTFORWARD": "استخدام نبرة مباشرة"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "تحسين الرد",
+        "IMPROVE_REPLY_SELECTION": "تحسين عملية الاختيار",
+        "CHANGE_TONE": {
+          "TITLE": "تغيير النبرة",
+          "OPTIONS": {
+            "PROFESSIONAL": "مهني",
+            "CASUAL": "عادية",
+            "STRAIGHTFORWARD": "مباشر",
+            "CONFIDENT": "لطيفة",
+            "FRIENDLY": "ودي"
+          }
+        },
+        "GRAMMAR": "أصلاح القواعد النحوية والإملائية",
+        "SUGGESTION": "اقترح رداً",
+        "SUMMARIZE": "تلخيص المحادثة",
+        "ASK_COPILOT": "إسأل المساعد"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Draft content",
@@ -201,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
       "DESCRIPTION": "تسمح تطبيقات لوحة التحكم للمنظمات بتضمين تطبيق داخل لوحة التحكم لتوفير السياق لوكلاء دعم العملاء. هذه الميزة تسمح لك بإنشاء تطبيق بشكل مستقل وإدراج لتوفير معلومات المستخدم أو طلباتهم أو سجل الدفع السابق.",
       "LEARN_MORE": "معرفة المزيد حول تطبيقات لوحة التحكم",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "لا توجد تطبيقات لوحة التحكم التي تم تكوينها على هذا الحساب حتى الآن",
         "LOADING": "جلب تطبيقات لوحة التحكم...",
         "TABLE_HEADER": {
           "NAME": "الاسم",
-          "ENDPOINT": "نقطة الوصول"
+          "ENDPOINT": "نقطة الوصول",
+          "ACTIONS": "الإجراءات"
         },
         "EDIT_TOOLTIP": "تعديل التطبيق",
         "DELETE_TOOLTIP": "حذف التطبيق"
@@ -243,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
       "LOADING": "جلب مشاكل من Linear...",
       "LOADING_ERROR": "حدث خطأ أثناء جلب المشكلات من Linear، الرجاء المحاولة مرة أخرى",
@@ -337,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "نوشن",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
@@ -347,71 +390,72 @@
   },
   "CAPTAIN": {
     "NAME": "قائد",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "اعرف المزيد",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "المساعدون",
+      "SWITCH_ASSISTANT": "التبديل بين المساعدين",
+      "NEW_ASSISTANT": "إنشاء مساعد",
+      "EMPTY_LIST": "لم يتم العثور على مساعدين، يرجى إنشاء واحد للبدء"
     },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "PANEL_TITLE": "ابدأ مع Copilot",
+      "KICK_OFF_MESSAGE": "هل تحتاج إلى ملخص سريع، ترغب في مراجعة المحادثات السابقة، أو صياغة رد أفضل؟ Copilot هنا لتسريع الأمور.",
       "SEND_MESSAGE": "إرسال الرسالة...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
+      "EMPTY_MESSAGE": "حدث خطأ أثناء توليد الاستجابة. يرجى المحاولة مرة أخرى.",
+      "LOADER": "يقوم Captain بالتفكير",
       "YOU": "أنت",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "USE": "استخدام هذا",
+      "RESET": "إعادة تعيين",
+      "SHOW_STEPS": "عرض الخطوات",
+      "SELECT_ASSISTANT": "اختر المساعد",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "لخص هذه المحادثة",
+          "CONTENT": "لخص النقاط الرئيسية التي نوقشت بين العميل ووكيل الدعم، بما في ذلك مخاوف العميل، أسئلته، والحلول أو الردود المقدمة من الوكيل."
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "اقترح إجابة",
+          "CONTENT": "حلل استفسار العميل وقم بصياغة رد يعالج مخاوفه أو أسئلته بفعالية. تأكد من أن الرد واضح، موجز، ويوفر معلومات مفيدة."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "قم بتقييم هذه المحادثة",
+          "CONTENT": "راجع المحادثة لترى مدى تلبيتها لاحتياجات العميل. شارك تقييمًا من 5 بناءً على النغمة، الوضوح، والفعالية."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "المحادثات ذات الأولوية العالية",
+          "CONTENT": "اعطني ملخصًا لجميع المحادثات المفتوحة ذات الأولوية العالية. تضمّن معرف المحادثة، اسم العميل (إن وُجد)، محتوى آخر رسالة، والوكيل المعين. قم بالتجميع حسب الحالة إذا كان ذلك مناسبًا."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "قائمة جهات الاتصال",
+          "CONTENT": "اعرض لي قائمة بأفضل 10 جهات اتصال. تضمّن الاسم، البريد الإلكتروني أو رقم الهاتف (إن وُجد)، آخر وقت مشاهدة، العلامات (إن وجدت)."
         }
       }
     },
     "PLAYGROUND": {
       "USER": "أنت",
-      "ASSISTANT": "Assistant",
+      "ASSISTANT": "مساعد",
       "MESSAGE_PLACEHOLDER": "أكتب رسالتك...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "ساحة اللعب",
+      "DESCRIPTION": "استخدم هذه الساحة لإرسال رسائل إلى مساعدك والتحقق مما إذا كان يرد بدقة وسرعة وبالنغمة التي تتوقعها.",
+      "CREDIT_NOTE": "الرسائل المرسلة هنا ستُحتسب ضمن رصيد Captain الخاص بك."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "TITLE": "قم بالترقية لاستخدام Captain AI",
+      "AVAILABLE_ON": "Captain غير متاح على الخطة المجانية.",
+      "UPGRADE_PROMPT": "قم بترقية خطتك للحصول على الوصول إلى مساعدينا، وcopilot، والمزيد.",
       "UPGRADE_NOW": "Upgrade now",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "AVAILABLE_ON": "ولا يتوفر الكابتن AI إلا في خطط المؤسسة.",
+      "UPGRADE_PROMPT": "قم بترقية خطتك للحصول على الوصول إلى مساعدينا، وcopilot، والمزيد.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "لقد استخدمت أكثر من 80٪ من حد الاستجابات الخاص بك. للاستمرار في استخدام Captain AI، يرجى الترقية.",
+      "DOCUMENTS": "تم الوصول إلى حد المستندات. قم بالترقية للاستمرار في استخدام Captain AI."
     },
     "FORM": {
       "CANCEL": "إلغاء",
@@ -483,7 +527,8 @@
           "TITLE": "الخصائص",
           "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
@@ -693,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
+      "SELECTED": "{count} selected",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "BULK_DELETE_BUTTON": "حذف",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
         "DESCRIPTION": "These FAQs are generated directly from the document."
@@ -750,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -780,11 +837,30 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "فتح الفواتير",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "الوصف",

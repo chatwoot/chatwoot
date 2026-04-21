@@ -22,6 +22,10 @@
       "UPDATE_SUCCESFUL": "Gespreksstatus succesvol bijgewerkt.",
       "UPDATE_FAILED": "Update van gesprekken mislukt, probeer het opnieuw."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Labels toewijzen",
       "NO_LABELS_FOUND": "Geen labels gevonden",

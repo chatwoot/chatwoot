@@ -5,6 +5,9 @@
     "LOADING": "正在获取标签",
     "DESCRIPTION": "标签帮助您对对话和潜在客户进行分类和优先排序。您可以使用侧边栏将标签分配给对话或联系人。",
     "LEARN_MORE": "了解更多关于标签的信息",
+    "COUNT": "{n} label | {n} labels",
+    "SEARCH_PLACEHOLDER": "搜索标签...",
+    "NO_RESULTS": "No labels found matching your search",
     "SEARCH_404": "没有任何项目符合此查询",
     "LIST": {
       "404": "此帐户中没有可用的标签。",
@@ -13,7 +16,8 @@
       "TABLE_HEADER": {
         "NAME": "名称",
         "DESCRIPTION": "描述信息",
-        "COLOR": "颜色"
+        "COLOR": "颜色",
+        "ACTION": "操作"
       }
     },
     "FORM": {

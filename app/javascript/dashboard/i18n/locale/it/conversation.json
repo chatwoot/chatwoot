@@ -61,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "Questo messaggio non è supportato. Puoi visualizzare questo messaggio sull'app Facebook / Instagram.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Questo messaggio non è supportato. Puoi visualizzare questo messaggio sull'app Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Questo messaggio non è supportato. Puoi visualizzare questo messaggio sull'app Instagram.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "Questo messaggio non è supportato. Puoi visualizzare questo messaggio sull'app TikTok.",
     "SUCCESS_DELETE_MESSAGE": "Messaggio eliminato con successo",
     "FAIL_DELETE_MESSSAGE": "Impossibile eliminare il messaggio! Riprova",
     "NO_RESPONSE": "Nessuna risposta",
@@ -173,6 +174,10 @@
           "SUCCESFUL": "Assegnata etichetta #{labelName} alla conversazione id {conversationId}",
           "FAILED": "Impossibile assegnare l'etichetta. Per favore riprova."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Rimossa etichetta #{labelName} dalla conversazione id {conversationId}",
+          "FAILED": "Impossibile rimuovere l'etichetta. Riprova."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Assegnato il team \"{team}\" alla conversazione id {conversationId}",
           "FAILED": "Impossibile assegnare il team. Riprova."
@@ -185,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "Disabilita firma",
       "MSG_INPUT": "Premi MAIUSC + INVIO per andare a capo. Digita '/' per inserire una Risposta Predefinita.",
       "PRIVATE_MSG_INPUT": "Premi MAIUSC + INVIO per andare a capo. Sarà visibile solo agli Operatori",
+      "MESSAGING_RESTRICTED": "Non è possibile rispondere a questa conversazione",
+      "MESSAGING_RESTRICTED_WHATSAPP": "Puoi rispondere solamente con un messaggio modello: la finestra di 24 ore di WhatsApp è scaduta",
+      "MESSAGING_RESTRICTED_API": "Puoi rispondere solamente con un messaggio modello: la finestra di messaggistica è scaduta",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La firma del messaggio non è configurata, configurala nelle impostazioni del profilo.",
+      "COPILOT_MSG_INPUT": "Dai ulteriori istruzioni a Copilot o fai un’altra richiesta. Premi Invio per inviare il messaggio successivo",
       "CLICK_HERE": "Clicca qui per aggiornare",
       "WHATSAPP_TEMPLATES": "Modelli Whatsapp"
     },
@@ -205,7 +214,7 @@
       "DRAG_DROP": "Trascina qui per allegare",
       "START_AUDIO_RECORDING": "Avvia registrazione audio",
       "STOP_AUDIO_RECORDING": "Interrompi registrazione audio",
-      "": "",
+      "COPILOT_THINKING": "Copilot sta pensando",
       "EMAIL_HEAD": {
         "TO": "A",
         "ADD_BCC": "Aggiungi Ccn",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversazione eliminata con successo",
     "FAIL_DELETE_CONVERSATION": "Impossibile eliminare la conversazione! Riprova",
     "FILE_SIZE_LIMIT": "Il file supera il limite di {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB per l'allegato",
+    "FILE_TYPE_NOT_SUPPORTED": "I file di tipo {fileName} non sono supportati in questa conversazione",
     "MESSAGE_ERROR": "Impossibile inviare questo messaggio, riprova più tardi",
     "SENT_BY": "Inviato da:",
     "BOT": "Bot",
+    "NATIVE_APP": "App nativa",
+    "NATIVE_APP_ADVISORY": "Questo messaggio è stato inviato da un'app nativa. Rispondi da qui per mantenere la finestra del messaggio.",
     "SEND_FAILED": "Impossibile inviare il messaggio! Riprova",
     "TRY_AGAIN": "riprova",
     "ASSIGNMENT": {
@@ -294,6 +306,7 @@
     "CANCEL": "Annulla",
     "SEND_EMAIL_SUCCESS": "La trascrizione della chat è stata inviata con successo",
     "SEND_EMAIL_ERROR": "Si è verificato un errore, riprova",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "La trascrizione email non è disponibile sul tuo piano attuale. Per favore aggiorna per utilizzare questa funzionalità.",
     "FORM": {
       "SEND_TO_CONTACT": "Invia la trascrizione al cliente",
       "SEND_TO_AGENT": "Invia la trascrizione all'operatore assegnato",

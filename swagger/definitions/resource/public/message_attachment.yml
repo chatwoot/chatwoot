@@ -1,0 +1,60 @@
+type: object
+additionalProperties: true
+description: Attachment payload. Available fields vary by attachment file_type.
+properties:
+  id:
+    type: integer
+    description: Id of the attachment
+  message_id:
+    type: integer
+    description: Id of the parent message
+  file_type:
+    type: string
+    enum: ['image', 'audio', 'video', 'file', 'location', 'fallback', 'share', 'story_mention', 'contact', 'ig_reel', 'ig_post', 'ig_story', 'embed']
+    description: Type of the attached file
+  account_id:
+    type: integer
+    description: Id of the account
+  extension:
+    type:
+      - string
+      - 'null'
+    description: File extension
+  data_url:
+    type:
+      - string
+      - 'null'
+    description: URL of the file. Can be null when an attachment variant has no external URL.
+  thumb_url:
+    type: string
+    description: URL of the file thumbnail
+  file_size:
+    type: integer
+    description: File size in bytes
+  width:
+    type:
+      - integer
+      - 'null'
+    description: Width of the attachment when available
+  height:
+    type:
+      - integer
+      - 'null'
+    description: Height of the attachment when available
+  coordinates_lat:
+    type: number
+    description: Latitude for location attachments
+  coordinates_long:
+    type: number
+    description: Longitude for location attachments
+  fallback_title:
+    type:
+      - string
+      - 'null'
+    description: Fallback title for location, fallback, and contact attachments when available
+  meta:
+    type: object
+    description: Metadata for contact attachments
+  transcribed_text:
+    type: string
+    description: Transcribed text for audio attachments

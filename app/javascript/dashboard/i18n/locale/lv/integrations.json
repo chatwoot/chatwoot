@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot integrējas ar vairākiem rīkiem un pakalpojumiem, lai uzlabotu jūsu komandas efektivitāti. Izpētiet tālāk esošo sarakstu, lai konfigurētu savas iecienītākās lietotnes.",
     "LEARN_MORE": "Uzzināt vairāk par integrācijām",
     "LOADING": "Integrāciju iegūšana",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captain jūsu kontā nav iespējots.",
       "CLICK_HERE_TO_CONFIGURE": "Noklikšķiniet šeit, lai konfigurētu",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abonētie Notikumi",
       "LEARN_MORE": "Uzzināt vairāk par webhooks",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Atcelt",
         "DESC": "Webhook notikumi sniedz Jums reāllaika informāciju par to, kas notiek jūsu Chatwoot kontā. Lūdzu, ievadiet derīgu URL, lai nokonfigurētu atzvanīšanu.",
@@ -104,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Dzēst",
       "DELETE_CONFIRMATION": {
         "TITLE": "Dzēst integrāciju",
@@ -145,7 +160,29 @@
         "EXPAND": "Izvērst",
         "MAKE_FRIENDLY": "Mainīt ziņojuma toni uz draudzīgu",
         "MAKE_FORMAL": "Izmantot formālu toni",
-        "SIMPLIFY": "Vienkāršot"
+        "SIMPLIFY": "Vienkāršot",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Profesionāls",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Draudzīgs"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Melnraksta saturs",
@@ -201,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>Informācijas Paneļa Lietotnes</b></p><p>Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu Chatwoot informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums izveidot lietojumprogrammu neatkarīgi un iegult to informācijas panelī, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai viņu iepriekšējo maksājumu vēsturi.</p><p>Kad iegulsiet lietojumprogrammu, izmantojot Chatwoot informācijas paneli, Jūsu lietojumprogramma iegūs sarunas un kontaktpersonas kontekstu kā loga notikumu. Ieviesiet savā lapā ziņojuma notikuma uztvērēju, lai saņemtu kontekstu.</p><p>Lai pievienotu jaunu informācijas paneļa lietotni, noklikšķiniet uz pogas 'Pievienot jaunu informācijas paneļa lietotni'.</p>",
       "DESCRIPTION": "Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums neatkarīgi izveidot lietojumprogrammu un iegult to, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai iepriekšējo maksājumu vēsturi.",
       "LEARN_MORE": "Uzzināt vairāk par Informācijas paneļa Lietotnēm",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Šajā kontā vēl nav nokonfigurēta neviena informācijas paneļa lietotne",
         "LOADING": "Notiek informācijas paneļa lietotņu iegūšana...",
         "TABLE_HEADER": {
           "NAME": "Nosaukums",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Darbības"
         },
         "EDIT_TOOLTIP": "Rediģēt lietotni",
         "DELETE_TOOLTIP": "Dzēst lietotni"
@@ -243,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Lineārs",
       "ADD_OR_LINK_BUTTON": "Izveidot/Saistīt lineāru problēmu",
       "LOADING": "Notiek lineāru problēmu iegūšana...",
       "LOADING_ERROR": "Lineāru problēmu iegūšanas laikā radās kļūda. Lūdzu, mēģiniet vēlreiz",
@@ -337,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
@@ -347,46 +390,46 @@
   },
   "CAPTAIN": {
     "NAME": "Kapteinis",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "Uzzināt vairāk",
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Asistenti",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "SWITCH_ASSISTANT": "Pārslēgties starp palīgiem",
+      "NEW_ASSISTANT": "Izveidot palīgu",
+      "EMPTY_LIST": "Palīgu nav atrasts, lūdzu, izveidojiet kādu, lai sāktu darbu"
     },
     "COPILOT": {
       "TITLE": "Kopilots",
       "TRY_THESE_PROMPTS": "Pamēģiniet",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "PANEL_TITLE": "Sāciet darbu ar Copilot",
+      "KICK_OFF_MESSAGE": "Vai nepieciešams ātrs kopsavilkums, pārbaudīt iepriekšējās sarunas vai sagatavot labāku atbildi? Copilot ir šeit, lai paātrinātu lietas.",
       "SEND_MESSAGE": "Sūtīt ziņojumu...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
+      "EMPTY_MESSAGE": "Radās kļūda, ģenerējot atbildi. Lūdzu, mēģiniet vēlreiz.",
       "LOADER": "Kapteinis domā",
       "YOU": "Jūs",
       "USE": "Izmantot šo",
       "RESET": "Atiestatīt",
-      "SHOW_STEPS": "Show steps",
+      "SHOW_STEPS": "Rādīt soļus",
       "SELECT_ASSISTANT": "Izvēlēties Asistentu",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Apkopot šo sarunu",
+          "CONTENT": "Apkopojiet galvenos punktus, kas apspriesti starp klientu un atbalsta aģentu, tostarp klienta bažas, jautājumus un risinājumus vai atbildes, ko sniedzis atbalsta aģents"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Ieteikt atbildi",
+          "CONTENT": "Analizējiet klienta pieprasījumu un sagatavojiet atbildi, kas efektīvi risina viņu bažas vai jautājumus. Pārliecinieties, ka atbilde ir skaidra, kodolīga un sniedz noderīgu informāciju."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Novērtēt šo sarunu",
+          "CONTENT": "Pārskatiet sarunu, lai redzētu, cik labi tā atbilst klienta vajadzībām. Sniedziet vērtējumu no 5, balstoties uz toni, skaidrību un efektivitāti."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "Augstas prioritātes sarunas",
+          "CONTENT": "Dodiet man kopsavilkumu par visām augstas prioritātes atvērtajām sarunām. Iekļaujiet sarunas ID, klienta vārdu (ja pieejams), pēdējā ziņojuma saturu un piešķirto aģentu. Ja nepieciešams, grupējiet pēc statusa."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "Kontaktpersonu saraksts",
+          "CONTENT": "Parādiet man top 10 kontaktu sarakstu. Iekļaujiet vārdu, e-pastu vai tālruņa numuru (ja pieejams), pēdējās redzamības laiku, tagus (ja kādi ir)."
         }
       }
     },
@@ -394,9 +437,9 @@
       "USER": "Jūs",
       "ASSISTANT": "Asistents",
       "MESSAGE_PLACEHOLDER": "Rakstiet savu ziņojumu...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "Izmēģinājuma laukums",
+      "DESCRIPTION": "Izmantojiet šo izmēģinājuma laukumu, lai sūtītu ziņojumus savam palīgam un pārbaudītu, vai tas atbild precīzi, ātri un ar gaidīto toni.",
+      "CREDIT_NOTE": "Šeit nosūtītie ziņojumi tiks ieskaitīti jūsu Captain kredītos."
     },
     "PAYWALL": {
       "TITLE": "Modernizējiet abonementu, lai izmantotu Captain AI",
@@ -406,6 +449,7 @@
       "CANCEL_ANYTIME": "Jūs varat jebkurā laikā mainīt vai atcelt savu versiju"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI ir pieejams tikai Enterprise plānos.",
       "UPGRADE_PROMPT": "Modernizējiet savu abonementu, lai iegūtu piekļuvi viruālajiem asistentiem un copilot.",
       "ASK_ADMIN": "Lai pārietu uz maksas versiju, lūdzu sazinieties ar savu administratoru."
     },
@@ -483,7 +527,8 @@
           "TITLE": "Īpašības",
           "ALLOW_CONVERSATION_FAQS": "Ģenerēt bieži uzdotos jautājumus no atrisinātajām sarunām",
           "ALLOW_MEMORIES": "Pārtvert galvenās nianses kā atmiņas no klientu mijiedarbībām.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
@@ -693,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Dokumenti",
       "ADD_NEW": "Izveidot jaunu dokumentu",
+      "SELECTED": "Atlasīti {count}",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "BULK_DELETE_BUTTON": "Dzēst",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Jā, dzēst visu",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Saistītie bieži uzdotie jautājumi",
         "DESCRIPTION": "Šie bieži uzdotie jautājumi tiek ģenerēti tieši no dokumenta."
@@ -750,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -780,11 +837,30 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Atvērt norēķinus",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Lai pārietu uz maksas versiju, lūdzu sazinieties ar savu administratoru."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Apraksts",

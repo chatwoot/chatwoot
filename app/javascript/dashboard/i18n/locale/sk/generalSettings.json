@@ -182,6 +182,7 @@
   },
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "Hľadať alebo ísť na",
+    "SNOOZE_PLACEHOLDER": "Type a time e.g. tomorrow, 2 hours, next friday, jan 15...",
     "SECTIONS": {
       "GENERAL": "Všeobecné",
       "REPORTS": "Reporty",

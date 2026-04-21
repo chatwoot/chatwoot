@@ -1,55 +1,58 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automation",
+    "HEADER": "자동화",
     "DESCRIPTION": "자동화를 통해 라벨을 추가하고 가장 적합한 상담원에게 대화를 배정하는 등 수작업이 필요한 기존 프로세스를 대체하고 간소화할 수 있습니다. 이를 통해 팀은 일상적인 업무에 소요되는 시간을 줄이면서 자신의 강점에 집중할 수 있습니다.",
-    "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "Add Automation Rule",
-    "LOADING": "Fetching automation rules",
+    "LEARN_MORE": "자동화에 대해 더 알아보기",
+    "COUNT": "{n}개의 자동화 규칙 | {n}개의 자동화 규칙",
+    "HEADER_BTN_TXT": "자동화 규칙 추가",
+    "LOADING": "자동화 규칙 가져오는 중",
+    "SEARCH_PLACEHOLDER": "자동화 규칙 검색...",
+    "NO_RESULTS": "검색과 일치하는 자동화 규칙이 없습니다",
     "ADD": {
-      "TITLE": "Add Automation Rule",
+      "TITLE": "자동화 규칙 추가",
       "SUBMIT": "만들기",
       "CANCEL_BUTTON_TEXT": "취소",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
+          "LABEL": "규칙 이름",
+          "PLACEHOLDER": "규칙 이름을 입력하십시오",
           "ERROR": "이름이 필요합니다"
         },
         "DESC": {
           "LABEL": "내용",
-          "PLACEHOLDER": "Enter rule description",
+          "PLACEHOLDER": "규칙 설명을 입력하십시오",
           "ERROR": "설명이 필요합니다"
         },
         "EVENT": {
-          "LABEL": "Event",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Event is required"
+          "LABEL": "이벤트",
+          "PLACEHOLDER": "하나를 선택하십시오",
+          "ERROR": "이벤트가 필요합니다"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "조건"
         },
         "ACTIONS": {
           "LABEL": "액션"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "조건 추가",
+      "ACTION_BUTTON_LABEL": "액션 추가",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "자동화 규칙이 성공적으로 추가되었습니다",
+        "ERROR_MESSAGE": "자동화 규칙을 만들 수 없습니다. 나중에 다시 시도하십시오"
       }
     },
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "이름",
-        "DESCRIPTION": "내용",
-        "ACTIVE": "Active",
-        "CREATED_ON": "Created on"
+        "ACTIVE": "활성",
+        "CREATED_ON": "생성일",
+        "ACTIONS": "액션"
       },
-      "404": "No automation rules found"
+      "404": "자동화 규칙을 찾을 수 없습니다"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "자동화 규칙 삭제",
       "SUBMIT": "삭제",
       "CANCEL_BUTTON_TEXT": "취소",
       "CONFIRM": {
@@ -59,24 +62,24 @@
         "NO": "아니요, 유지해주세요. "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "자동화 규칙이 성공적으로 삭제되었습니다",
+        "ERROR_MESSAGE": "자동화 규칙을 삭제할 수 없습니다. 나중에 다시 시도하십시오"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
+      "TITLE": "자동화 규칙 수정",
       "SUBMIT": "업데이트",
       "CANCEL_BUTTON_TEXT": "취소",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "자동화 규칙이 성공적으로 업데이트되었습니다",
+        "ERROR_MESSAGE": "자동화 규칙을 업데이트할 수 없습니다. 나중에 다시 시도하십시오"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "복제",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "자동화가 성공적으로 복제되었습니다",
+        "ERROR_MESSAGE": "자동화 규칙을 복제할 수 없습니다. 나중에 다시 시도하십시오"
       }
     },
     "FORM": {
@@ -84,100 +87,104 @@
       "CREATE": "만들기",
       "DELETE": "삭제",
       "CANCEL": "취소",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "이벤트 유형을 변경하면 아래에 추가한 조건과 이벤트가 초기화됩니다"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "You need to have atleast one condition to save",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+      "DELETE_MESSAGE": "저장하려면 최소 하나의 조건이 필요합니다",
+      "CONTACT_CUSTOM_ATTR_LABEL": "연락처 사용자 지정 속성",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "대화 사용자 지정 속성"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams",
-      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "DELETE_MESSAGE": "저장하려면 최소 하나의 액션이 필요합니다",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "여기에 메시지를 입력하십시오",
+      "TEAM_DROPDOWN_PLACEHOLDER": "팀 선택",
+      "EMAIL_INPUT_PLACEHOLDER": "이메일 입력",
+      "URL_INPUT_PLACEHOLDER": "URL 입력"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activate Automation Rule",
-      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "ACTIVATION_TITLE": "자동화 규칙 활성화",
+      "DEACTIVATION_TITLE": "자동화 규칙 비활성화",
+      "ACTIVATION_DESCRIPTION": "이 작업은 자동화 규칙 '{automationName}'을(를) 활성화합니다. 계속하시겠습니까?",
+      "DEACTIVATION_DESCRIPTION": "이 작업은 자동화 규칙 '{automationName}'을(를) 비활성화합니다. 계속하시겠습니까?",
+      "ACTIVATION_SUCCESFUL": "자동화 규칙이 성공적으로 활성화되었습니다",
+      "DEACTIVATION_SUCCESFUL": "자동화 규칙이 성공적으로 비활성화되었습니다",
+      "ACTIVATION_ERROR": "자동화를 활성화할 수 없습니다. 나중에 다시 시도하십시오",
+      "DEACTIVATION_ERROR": "자동화를 비활성화할 수 없습니다. 나중에 다시 시도하십시오",
       "CONFIRMATION_LABEL": "예",
       "CANCEL_LABEL": "아니오"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "첨부 파일을 업로드할 수 없습니다. 다시 시도하십시오",
+      "LABEL_IDLE": "첨부 파일 업로드",
       "LABEL_UPLOADING": "업로드 중...",
-      "LABEL_UPLOADED": "Successfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "업로드 완료",
+      "LABEL_UPLOAD_FAILED": "업로드 실패"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "ATTRIBUTE_KEY_REQUIRED": "속성 키가 필요합니다",
+      "FILTER_OPERATOR_REQUIRED": "필터 연산자가 필요합니다",
       "VALUE_REQUIRED": "값이 필요합니다.",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "값은 1에서 998 사이여야 합니다",
+      "ACTION_PARAMETERS_REQUIRED": "액션 매개변수가 필요합니다",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "최소 하나의 조건이 필요합니다",
+      "ATLEAST_ONE_ACTION_REQUIRED": "최소 하나의 액션이 필요합니다"
     },
     "NONE_OPTION": "없음",
     "EVENTS": {
-      "CONVERSATION_CREATED": "Conversation Created",
-      "CONVERSATION_UPDATED": "Conversation Updated",
-      "MESSAGE_CREATED": "Message Created",
-      "CONVERSATION_RESOLVED": "Conversation Resolved",
-      "CONVERSATION_OPENED": "Conversation Opened"
+      "CONVERSATION_CREATED": "대화 생성됨",
+      "CONVERSATION_UPDATED": "대화 업데이트됨",
+      "MESSAGE_CREATED": "메시지 생성됨",
+      "CONVERSATION_RESOLVED": "대화 해결됨",
+      "CONVERSATION_OPENED": "대화 열림"
     },
     "ACTIONS": {
-      "ASSIGN_AGENT": "Assign to Agent",
-      "ASSIGN_TEAM": "Assign a Team",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
-      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "ASSIGN_AGENT": "에이전트에게 배정",
+      "ASSIGN_TEAM": "팀 배정",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "배정된 팀 제거",
+      "ADD_LABEL": "라벨 추가",
+      "REMOVE_LABEL": "라벨 제거",
+      "SEND_EMAIL_TO_TEAM": "팀에 이메일 보내기",
+      "SEND_EMAIL_TRANSCRIPT": "이메일 대화록 보내기",
       "MUTE_CONVERSATION": "대화 음소거",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
-      "CHANGE_PRIORITY": "Change Priority",
-      "ADD_SLA": "Add SLA",
-      "OPEN_CONVERSATION": "Open conversation"
+      "SNOOZE_CONVERSATION": "대화 일시 중지",
+      "RESOLVE_CONVERSATION": "대화 해결",
+      "SEND_WEBHOOK_EVENT": "Webhook 이벤트 보내기",
+      "SEND_ATTACHMENT": "첨부 파일 보내기",
+      "SEND_MESSAGE": "메시지 보내기",
+      "ADD_PRIVATE_NOTE": "비공개 노트 추가",
+      "CHANGE_PRIORITY": "우선순위 변경",
+      "ADD_SLA": "SLA 추가",
+      "OPEN_CONVERSATION": "대화 열기",
+      "PENDING_CONVERSATION": "대화를 보류 중으로 표시"
     },
     "MESSAGE_TYPES": {
-      "INCOMING": "Incoming Message",
-      "OUTGOING": "Outgoing Message"
+      "INCOMING": "수신 메시지",
+      "OUTGOING": "발신 메시지"
     },
     "PRIORITY_TYPES": {
       "NONE": "없음",
-      "LOW": "Low",
-      "MEDIUM": "Medium",
-      "HIGH": "High",
-      "URGENT": "Urgent"
+      "LOW": "낮음",
+      "MEDIUM": "보통",
+      "HIGH": "높음",
+      "URGENT": "긴급"
     },
     "ATTRIBUTES": {
-      "MESSAGE_TYPE": "Message Type",
-      "MESSAGE_CONTAINS": "Message Contains",
+      "MESSAGE_TYPE": "메시지 유형",
+      "PRIVATE_NOTE": "개인 노트",
+      "MESSAGE_CONTAINS": "메시지 포함",
       "EMAIL": "이메일",
       "INBOX": "받은 메시지함",
-      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "CONVERSATION_LANGUAGE": "대화 언어",
       "PHONE_NUMBER": "전화 번호",
       "STATUS": "상태",
-      "BROWSER_LANGUAGE": "언어 표시",
-      "MAIL_SUBJECT": "Email Subject",
+      "BROWSER_LANGUAGE": "브라우저 언어",
+      "MAIL_SUBJECT": "이메일 제목",
       "COUNTRY_NAME": "국가",
-      "REFERER_LINK": "Referrer Link",
-      "ASSIGNEE_NAME": "Assignee",
-      "TEAM_NAME": "Team",
-      "PRIORITY": "Priority",
+      "REFERER_LINK": "참조 링크",
+      "ASSIGNEE_NAME": "담당자",
+      "TEAM_NAME": "팀",
+      "PRIORITY": "우선순위",
       "LABELS": "라벨"
     }
   }

@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -15,33 +16,46 @@
       },
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
-    "HEADER": "Integrations",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
-    "LOADING": "Fetching integrations",
+    "HEADER": "Integracije",
+    "DESCRIPTION": "Chatwoot se povezuje z več orodji in storitvami za izboljšanje učinkovitosti vaše ekipe. Raziščite spodnji seznam za konfiguracijo vaših priljubljenih aplikacij.",
+    "LEARN_MORE": "Izvedite več o integracijah",
+    "LOADING": "Pridobivanje integracij",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
-      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "DISABLED": "Captain ni omogočen na vašem računu.",
+      "CLICK_HERE_TO_CONFIGURE": "Kliknite tukaj za konfiguracijo",
+      "LOADING_CONSOLE": "Nalaganje konzole Captain...",
+      "FAILED_TO_LOAD_CONSOLE": "Nalaganje konzole Captain ni uspelo. Osvežite stran in poskusite znova."
     },
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
-      "LEARN_MORE": "Learn more about webhooks",
+      "SUBSCRIBED_EVENTS": "Naročeni dogodki",
+      "LEARN_MORE": "Izvedite več o webhook",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
-        "CANCEL": "Cancel",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "Prekliči",
+        "DESC": "Webhook dogodki vam zagotavljajo informacije v realnem času o dogajanju v vašem računu Chatwoot. Prosimo, vnesite veljaven URL za nastavitev povratnega klica.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Dogodki",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated",
+            "CONVERSATION_CREATED": "Ustvarjen pogovor",
+            "CONVERSATION_STATUS_CHANGED": "Status pogovora spremenjen",
+            "CONVERSATION_UPDATED": "Pogovor posodobljen",
+            "MESSAGE_CREATED": "Sporočilo ustvarjeno",
+            "MESSAGE_UPDATED": "Sporočilo posodobljeno",
+            "WEBWIDGET_TRIGGERED": "Uporabnik je odprl pripomoček za klepet v živo",
+            "CONTACT_CREATED": "Kontakt ustvarjen",
+            "CONTACT_UPDATED": "Kontakt posodobljen",
             "CONVERSATION_TYPING_ON": "Conversation Typing On",
             "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
@@ -51,281 +65,309 @@
           "PLACEHOLDER": "Enter the name of the webhook"
         },
         "END_POINT": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Example: {webhookExampleURL}",
-          "ERROR": "Please enter a valid URL"
+          "LABEL": "URL spletnega ključa",
+          "PLACEHOLDER": "Primer: {webhookExampleURL}",
+          "ERROR": "Prosimo, vnesite veljaven URL"
         },
-        "EDIT_SUBMIT": "Update webhook",
-        "ADD_SUBMIT": "Create webhook"
+        "EDIT_SUBMIT": "Posodobi spletni ključ",
+        "ADD_SUBMIT": "Ustvari spletni ključ"
       },
       "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "CONFIGURE": "Konfiguriraj",
+      "HEADER": "Nastavitve webhook",
+      "HEADER_BTN_TXT": "Dodaj nov webhook",
+      "LOADING": "Pridobivanje pripetih webhook",
+      "SEARCH_404": "Ni elementov, ki bi ustrezali temu iskanju",
+      "SIDEBAR_TXT": "<p><b>Webhook</b> </p> <p>Webhook so HTTP povratni klici, ki jih je mogoče definirati za vsak račun. Aktivirajo se ob dogodkih, kot je ustvarjanje sporočila v Chatwoot. Za ta račun lahko ustvarite več kot en webhook. <br /><br /> Za ustvarjanje <b>webhooka</b> kliknite na gumb <b>Dodaj nov webhook</b>. Obstoječe webhook lahko odstranite s klikom na gumb Izbriši.</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "Za ta račun niso konfigurirani nobeni webhook",
+        "TITLE": "Upravljanje webhook",
         "TABLE_HEADER": {
-          "WEBHOOK_ENDPOINT": "Webhook endpoint",
-          "ACTIONS": "Actions"
+          "WEBHOOK_ENDPOINT": "Končna točka spletnega klica",
+          "ACTIONS": "Dejanja"
         }
       },
       "EDIT": {
-        "BUTTON_TEXT": "Edit",
-        "TITLE": "Edit webhook",
+        "BUTTON_TEXT": "Uredi",
+        "TITLE": "Uredi webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Konfiguracija spletnega ključa je bila uspešno posodobljena",
+          "ERROR_MESSAGE": "Povezava s strežnikom Woot ni uspela, prosimo poskusite znova kasneje"
         }
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
+        "CANCEL": "Prekliči",
+        "TITLE": "Dodaj nov webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Konfiguracija spletnega ključa je bila uspešno dodana",
+          "ERROR_MESSAGE": "Povezava s strežnikom Woot ni uspela, prosimo, poskusite znova kasneje"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "Izbriši",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook je bil uspešno izbrisan",
+          "ERROR_MESSAGE": "Povezava s strežnikom Woot ni uspela, prosimo, poskusite znova kasneje"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "Potrdite brisanje",
+          "MESSAGE": "Ste prepričani, da želite izbrisati webhook? ({webhookURL})",
+          "YES": "Da, izbriši ",
+          "NO": "Ne, obdrži"
         }
       }
     },
     "SLACK": {
-      "DELETE": "Delete",
+      "HEADER": "Slack",
+      "DELETE": "Izbriši",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "Izbriši integracijo",
+        "MESSAGE": "Ali ste prepričani, da želite izbrisati integracijo? S tem boste izgubili dostop do pogovorov v vašem Slack delovnem prostoru."
       },
       "HELP_TEXT": {
-        "TITLE": "How to use the Slack Integration?",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
-        "SELECTED": "selected"
+        "TITLE": "Kako uporabljati Slack integracijo?",
+        "BODY": "S to integracijo se vsi dohodni pogovori sinhronizirajo v kanal ***{selectedChannelName}*** v vašem delovnem prostoru. Pogovore s strankami lahko upravljate neposredno v tem kanalu, zato ne spregledate nobenega sporočila.\n\nTukaj so glavne funkcije integracije:\n\n**Odgovarjanje na pogovore iz kanala:** Če želite odgovoriti na pogovor v kanalu ***{selectedChannelName}***, preprosto napišite sporočilo in ga pošljite kot nit. Tako se odgovor samodejno pošlje stranki. Tako preprosto je!\n\n**Ustvarjanje zasebnih opomb:** Če želite ustvariti zasebne opombe namesto odgovorov, začnite sporočilo z ***`note:`***. Tako sporočilo ostane zasebno in stranki ni vidno.\n\n**Povezava s profilom agenta:** Če ima oseba, ki odgovori v kanalu, profil agenta z istim naslovom elektronske pošte, se odgovori samodejno povežejo s tem profilom. Tako lahko preprosto spremljate, kdo je kaj napisal in kdaj. Če odgovarja oseba brez povezanega profila agenta, se odgovori stranki prikažejo iz privzetega profila.",
+        "SELECTED": "izbrano"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
-        "UPDATE": "Update",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "OPTION_LABEL": "Izberite kanal",
+        "UPDATE": "Posodobi",
+        "BUTTON_TEXT": "Poveži kanal",
+        "DESCRIPTION": "Vaš Slack delovni prostor je zdaj povezan s Chatwoot. Vendar pa je integracija trenutno neaktivna. Za aktivacijo integracije in povezavo kanala s Chatwoot, prosimo, kliknite spodnji gumb.\n\n**Opomba:** Če poskušate povezati zasebni kanal, najprej dodajte aplikacijo Chatwoot v Slack kanal, preden nadaljujete s tem korakom.",
+        "ATTENTION_REQUIRED": "Potrebna pozornost",
+        "EXPIRED": "Vaša integracija Slack je potekla. Če želite še naprej prejemati sporočila na Slack, prosimo, izbrišite integracijo in znova povežite delovno okolje."
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "Pri posodabljanju integracije je prišlo do napake, prosimo poskusite znova",
+      "UPDATE_SUCCESS": "Kanal je uspešno povezan",
+      "FAILED_TO_FETCH_CHANNELS": "Pri pridobivanju kanalov iz Slack je prišlo do napake, prosimo poskusite znova"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "Kliknite tukaj za pridružitev",
+      "LEAVE_THE_ROOM": "Zapusti sobo",
+      "START_VIDEO_CALL_HELP_TEXT": "Začni nov video klic s stranko",
+      "JOIN_ERROR": "Prišlo je do napake pri pridruževanju klica, prosimo, poskusite znova",
+      "CREATE_ERROR": "Prišlo je do napake pri ustvarjanju povezave za sestanek, prosimo, poskusite znova"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " {option} with AI ",
+      "AI_ASSIST": "Pomoč AI",
+      "WITH_AI": " {option} z AI ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "Predlog odgovora",
+        "SUMMARIZE": "Povzetek",
+        "REPHRASE": "Izboljšaj pisanje",
+        "FIX_SPELLING_GRAMMAR": "Popravi črkovanje in slovnico",
+        "SHORTEN": "Skrajšaj",
+        "EXPAND": "Razširi",
+        "MAKE_FRIENDLY": "Spremeni ton sporočila v prijazen",
+        "MAKE_FORMAL": "Uporabi formalen ton",
+        "SIMPLIFY": "Poenostavi",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Professional",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Friendly"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "Osnutek vsebine",
+        "GENERATED_TITLE": "Generirana vsebina",
+        "AI_WRITING": "AI piše",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
-          "CANCEL": "Cancel"
+          "APPLY": "Uporabi ta predlog",
+          "CANCEL": "Prekliči"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "Integrirajte z OpenAI",
+        "DESC": "Dodajte napredne AI funkcije na svojo nadzorno ploščo z GPT modeli OpenAI. Za začetek vnesite API ključ iz svojega OpenAI računa.",
+        "KEY_PLACEHOLDER": "Vnesite svoj OpenAI API ključ",
         "BUTTONS": {
-          "NEED_HELP": "Need help?",
-          "DISMISS": "Dismiss",
-          "FINISH": "Finish Setup"
+          "NEED_HELP": "Potrebujete pomoč?",
+          "DISMISS": "Zapri",
+          "FINISH": "Dokončaj nastavitev"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "Integracijo OpenAI lahko nastavite kadarkoli pozneje.",
+        "SUCCESS_MESSAGE": "Integracija OpenAI je bila uspešno nastavljena"
       },
-      "TITLE": "Improve With AI",
-      "SUMMARY_TITLE": "Summary with AI",
-      "REPLY_TITLE": "Reply suggestion with AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "Izboljšaj z AI",
+      "SUMMARY_TITLE": "Povzetek z AI",
+      "REPLY_TITLE": "Predlog odgovora z AI",
+      "SUBTITLE": "Izboljšan odgovor bo ustvarjen z uporabo AI, na podlagi vašega trenutnega osnutka.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "Ton",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "Profesionalno",
+          "FRIENDLY": "Prijazno"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
-        "CANCEL": "Cancel"
+        "GENERATE": "Ustvari",
+        "GENERATING": "Ustvarjam...",
+        "CANCEL": "Prekliči"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please verify your OpenAI API key and try again"
+      "GENERATE_ERROR": "Pri obdelavi vsebine je prišlo do napake, prosimo, preverite svoj OpenAI API ključ in poskusite znova"
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Izbriši",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Integracija je bila uspešno izbrisana"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Poveži"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
-      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "TITLE": "Aplikacije nadzorne plošče",
+      "HEADER_BTN_TXT": "Dodaj novo aplikacijo nadzorne plošče",
+      "SIDEBAR_TXT": "<p><b>Aplikacije nadzorne plošče</b></p><p>Aplikacije nadzorne plošče omogočajo organizacijam, da vgradijo aplikacijo znotraj Chatwoot nadzorne plošče, da zagotovijo kontekst za agente za podporo strankam. Ta funkcija vam omogoča, da neodvisno ustvarite aplikacijo in jo vgradite v nadzorno ploščo za prikaz informacij o uporabniku, njihovih naročilih ali pretekli zgodovini plačil.</p><p>Ko vgradite svojo aplikacijo z uporabo nadzorne plošče v Chatwoot, bo vaša aplikacija prejela kontekst pogovora in stika kot dogodek okna. Na svoji strani implementirajte poslušalca za dogodek sporočila, da prejmete kontekst.</p><p>Za dodajanje nove aplikacije nadzorne plošče kliknite na gumb 'Dodaj novo aplikacijo nadzorne plošče'.</p>",
+      "DESCRIPTION": "Aplikacije nadzorne plošče omogočajo organizacijam, da vgradijo aplikacijo znotraj nadzorne plošče, da zagotovijo kontekst za agente za podporo strankam. Ta funkcija vam omogoča, da neodvisno ustvarite aplikacijo in jo vgradite za prikaz informacij o uporabniku, njihovih naročilih ali pretekli zgodovini plačil.",
+      "LEARN_MORE": "Izvedite več o aplikacijah nadzorne plošče",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "Na tem računu še ni konfiguriranih aplikacij nadzorne plošče",
+        "LOADING": "Pridobivanje aplikacij nadzorne plošče...",
         "TABLE_HEADER": {
-          "NAME": "Name",
-          "ENDPOINT": "Endpoint"
+          "NAME": "Ime",
+          "ENDPOINT": "Končna točka",
+          "ACTIONS": "Actions"
         },
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "Uredi aplikacijo",
+        "DELETE_TOOLTIP": "Izbriši aplikacijo"
       },
       "FORM": {
-        "TITLE_LABEL": "Name",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_LABEL": "Ime",
+        "TITLE_PLACEHOLDER": "Vnesite ime za vašo aplikacijo nadzorne plošče",
+        "TITLE_ERROR": "Ime za aplikacijo nadzorne plošče je obvezno",
+        "URL_LABEL": "Končna točka",
+        "URL_PLACEHOLDER": "Vnesite URL končne točke, kjer je gostovana vaša aplikacija",
+        "URL_ERROR": "Zahtevan je veljaven URL"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
-        "FORM_SUBMIT": "Submit",
-        "FORM_CANCEL": "Cancel",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "HEADER": "Dodaj novo aplikacijo nadzorne plošče",
+        "FORM_SUBMIT": "Pošlji",
+        "FORM_CANCEL": "Prekliči",
+        "API_SUCCESS": "Aplikacija nadzorne plošče je bila uspešno konfigurirana",
+        "API_ERROR": "Aplikacije nismo mogli ustvariti. Poskusite znova kasneje"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
-        "FORM_SUBMIT": "Update",
-        "FORM_CANCEL": "Cancel",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "HEADER": "Uredi aplikacijo nadzorne plošče",
+        "FORM_SUBMIT": "Posodobi",
+        "FORM_CANCEL": "Prekliči",
+        "API_SUCCESS": "Aplikacija nadzorne plošče je bila uspešno posodobljena",
+        "API_ERROR": "Aplikacije ni bilo mogoče posodobiti. Poskusite znova kasneje"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - {appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "CONFIRM_YES": "Da, izbriši",
+        "CONFIRM_NO": "Ne, obdrži",
+        "TITLE": "Potrdite brisanje",
+        "MESSAGE": "Ste prepričani, da želite izbrisati aplikacijo {appName}?",
+        "API_SUCCESS": "Aplikacija nadzorne plošče je bila uspešno izbrisana",
+        "API_ERROR": "Aplikacije nismo mogli izbrisati. Poskusite znova kasneje"
       }
     },
     "LINEAR": {
-      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
-      "CREATE": "Create",
+      "HEADER": "Linear",
+      "ADD_OR_LINK_BUTTON": "Ustvari/poveži Linear težavo",
+      "LOADING": "Pridobivanje linearnih težav...",
+      "LOADING_ERROR": "Prišlo je do napake pri pridobivanju linearnih težav, prosimo, poskusite znova",
+      "CREATE": "Ustvari",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
-        "TITLE": "Link",
-        "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
-        "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "SEARCH": "Išči težave",
+        "SELECT": "Izberite težavo",
+        "TITLE": "Povezava",
+        "EMPTY_LIST": "Ni najdenih linearnih težav",
+        "LOADING": "Nalaganje",
+        "ERROR": "Prišlo je do napake pri pridobivanju linearnih težav, poskusite znova",
+        "LINK_SUCCESS": "Zadeva je bila uspešno povezana",
+        "LINK_ERROR": "Pri povezovanju zadeve je prišlo do napake, prosimo, poskusite znova",
+        "LINK_TITLE": "Pogovor (#{conversationId}) z {name}"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "TITLE": "Ustvari/poveži Linear zadevo",
+        "DESCRIPTION": "Ustvarjajte Linear zadeve iz pogovorov ali povežite obstoječe za nemoteno sledenje.",
         "FORM": {
           "TITLE": {
-            "LABEL": "Title",
-            "PLACEHOLDER": "Enter title",
-            "REQUIRED_ERROR": "Title is required"
+            "LABEL": "Naslov",
+            "PLACEHOLDER": "Vnesite naslov",
+            "REQUIRED_ERROR": "Naslov je obvezen"
           },
           "DESCRIPTION": {
-            "LABEL": "Description",
-            "PLACEHOLDER": "Enter description"
+            "LABEL": "Opis",
+            "PLACEHOLDER": "Vnesite opis"
           },
           "TEAM": {
-            "LABEL": "Team",
-            "PLACEHOLDER": "Select team",
-            "SEARCH": "Search team",
-            "REQUIRED_ERROR": "Team is required"
+            "LABEL": "Ekipa",
+            "PLACEHOLDER": "Izberi ekipo",
+            "SEARCH": "Išči ekipo",
+            "REQUIRED_ERROR": "Ekipa je obvezna"
           },
           "ASSIGNEE": {
             "LABEL": "Prejemnik",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "PLACEHOLDER": "Izberi dodeljenca",
+            "SEARCH": "Išči dodeljenca"
           },
           "PRIORITY": {
             "LABEL": "Prioriteta",
-            "PLACEHOLDER": "Select priority",
-            "SEARCH": "Search priority"
+            "PLACEHOLDER": "Izberi prednost",
+            "SEARCH": "Išči prioriteto"
           },
           "LABEL": {
-            "LABEL": "Label",
-            "PLACEHOLDER": "Select label",
-            "SEARCH": "Search label"
+            "LABEL": "Oznaka",
+            "PLACEHOLDER": "Izberi oznako",
+            "SEARCH": "Išči oznako"
           },
           "STATUS": {
-            "LABEL": "Status",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "LABEL": "Stanje",
+            "PLACEHOLDER": "Izberi status",
+            "SEARCH": "Išči status"
           },
           "PROJECT": {
-            "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "LABEL": "Projekt",
+            "PLACEHOLDER": "Izberite projekt",
+            "SEARCH": "Išči projekt"
           }
         },
-        "CREATE": "Create",
-        "CANCEL": "Cancel",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE": "Ustvari",
+        "CANCEL": "Prekliči",
+        "CREATE_SUCCESS": "Zadeva je bila uspešno ustvarjena",
+        "CREATE_ERROR": "Pri ustvarjanju zadeve je prišlo do napake, prosimo, poskusite znova",
+        "LOADING_TEAM_ERROR": "Pri pridobivanju ekip je prišlo do napake, prosimo, poskusite znova",
+        "LOADING_TEAM_ENTITIES_ERROR": "Pri pridobivanju entitet ekipe je prišlo do napake, prosimo, poskusite znova"
       },
       "ISSUE": {
-        "STATUS": "Status",
+        "STATUS": "Stanje",
         "PRIORITY": "Prioriteta",
         "ASSIGNEE": "Prejemnik",
-        "LABELS": "Labels",
-        "CREATED_AT": "Created at {createdAt}"
+        "LABELS": "Oznake",
+        "CREATED_AT": "Ustvarjeno ob {createdAt}"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "TITLE": "Prekini povezavo",
+        "SUCCESS": "Zadeva je bila uspešno odvezana",
+        "ERROR": "Prišlo je do napake pri odvzemu povezave z zadevo, prosimo, poskusite znova"
       },
       "NO_LINKED_ISSUES": "No linked issues found",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
+        "TITLE": "Ali ste prepričani, da želite izbrisati integracijo?",
+        "MESSAGE": "Ali ste prepričani, da želite izbrisati integracijo?",
         "CONFIRM": "Da, izbriši",
         "CANCEL": "Prekliči"
       },
@@ -337,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
@@ -346,72 +389,73 @@
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "NAME": "Kapitan",
+    "HEADER_KNOW_MORE": "Izvedi več",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "Pomočniki",
+      "SWITCH_ASSISTANT": "Preklapljanje med pomočniki",
+      "NEW_ASSISTANT": "Ustvari pomočnika",
+      "EMPTY_LIST": "Nobenega pomočnika ni bilo mogoče najti, prosimo, ustvarite enega za začetek"
     },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
-      "SEND_MESSAGE": "Send message...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
+      "PANEL_TITLE": "Začnite s Copilotom",
+      "KICK_OFF_MESSAGE": "Potrebujete hitro povzetek, želite preveriti pretekle pogovore ali sestaviti boljši odgovor? Copilot je tu, da pospeši delo.",
+      "SEND_MESSAGE": "Pošlji sporočilo...",
+      "EMPTY_MESSAGE": "Pri generiranju odgovora je prišlo do napake. Prosimo, poskusite znova.",
+      "LOADER": "Kapitan razmišlja",
       "YOU": "Vi",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "USE": "Uporabi to",
+      "RESET": "Ponastavi",
+      "SHOW_STEPS": "Pokaži korake",
+      "SELECT_ASSISTANT": "Izberi pomočnika",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Povzetek tega pogovora",
+          "CONTENT": "Povzemi ključne točke, o katerih sta se pogovarjala stranka in agent podpore, vključno s strankinimi skrbmi, vprašanji ter rešitvami ali odgovori agenta podpore."
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Predlagaj odgovor",
+          "CONTENT": "Analiziraj povpraševanje stranke in sestavi odgovor, ki učinkovito rešuje njihova vprašanja ali pomisleke. Poskrbi, da je odgovor jasen, jedrnat in vsebuje koristne informacije."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Ocenite ta pogovor",
+          "CONTENT": "Preglej pogovor, da oceniš, kako dobro izpolnjuje potrebe stranke. Deli oceno od 1 do 5 glede na ton, jasnost in učinkovitost."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "Pogovori z visoko prioriteto",
+          "CONTENT": "Naredi povzetek vseh odprtih pogovorov z visoko prioriteto. Vključi ID pogovora, ime stranke (če je na voljo), vsebino zadnjega sporočila in dodeljenega agenta. Po potrebi združi po statusu."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "Našteti stike",
+          "CONTENT": "Pokaži seznam top 10 stikov. Vključi ime, e-pošto ali telefonsko številko (če je na voljo), čas zadnjega vpogleda, oznake (če obstajajo)."
         }
       }
     },
     "PLAYGROUND": {
       "USER": "Vi",
-      "ASSISTANT": "Assistant",
+      "ASSISTANT": "Pomočnik",
       "MESSAGE_PLACEHOLDER": "Vnesite svoje sporočilo...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "Poligon",
+      "DESCRIPTION": "Uporabi ta poligon za pošiljanje sporočil svojemu pomočniku in preveri, ali odgovarja natančno, hitro in v pričakovanem tonu.",
+      "CREDIT_NOTE": "Sporočila, poslana tukaj, se bodo štela v vaše Captain kredite."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "Nadgradite za uporabo Captain AI",
+      "AVAILABLE_ON": "Captain ni na voljo v brezplačnem paketu.",
+      "UPGRADE_PROMPT": "Nadgradite svoj paket, da pridobite dostop do naših pomočnikov, copilot in še več.",
+      "UPGRADE_NOW": "Nadgradi zdaj",
+      "CANCEL_ANYTIME": "Paket lahko kadarkoli spremenite ali prekličete"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "Captain AI je na voljo samo v Enterprise paketih.",
+      "UPGRADE_PROMPT": "Nadgradite svoj paket, da pridobite dostop do naših pomočnikov, copilot in še več.",
+      "ASK_ADMIN": "Prosimo, obrnite se na svojega skrbnika za nadgradnjo."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "Uporabili ste več kot 80 % svojega limita odgovorov. Za nadaljevanje uporabe Captain AI prosimo nadgradite.",
+      "DOCUMENTS": "Dosežen je limit dokumentov. Za nadaljevanje uporabe Captain AI nadgradite."
     },
     "FORM": {
       "CANCEL": "Prekliči",
@@ -419,21 +463,21 @@
       "EDIT": "Posodobi"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
+      "HEADER": "Pomočniki",
       "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
-      "ADD_NEW": "Create a new assistant",
+      "ADD_NEW": "Ustvari novega pomočnika",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+        "TITLE": "Ste prepričani, da želite izbrisati pomočnika?",
+        "DESCRIPTION": "Ta dejanje je trajno. Brisanje tega pomočnika bo odstranilo iz vseh povezanih poštnih predalov in trajno izbrisalo vse ustvarjeno znanje.",
         "CONFIRM": "Da, izbriši",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "SUCCESS_MESSAGE": "Pomočnik je bil uspešno izbrisan",
+        "ERROR_MESSAGE": "Prišlo je do napake pri brisanju asistenta, prosimo, poskusite znova."
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "Izpolnite spodnje podatke, da poimenujete asistenta, opišete njegov namen in določite izdelek, ki ga bo podpiral.",
       "CREATE": {
-        "TITLE": "Create an assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "TITLE": "Ustvari asistenta",
+        "SUCCESS_MESSAGE": "Asistent je bil uspešno ustvarjen",
+        "ERROR_MESSAGE": "Prišlo je do napake pri ustvarjanju asistenta, prosimo, poskusite znova."
       },
       "FORM": {
         "UPDATE": "Update",
@@ -459,7 +503,7 @@
           "ERROR": "The description is required"
         },
         "PRODUCT_NAME": {
-          "LABEL": "Product Name",
+          "LABEL": "Ime izdelka",
           "PLACEHOLDER": "Enter product name",
           "ERROR": "The product name is required"
         },
@@ -480,16 +524,17 @@
           "PLACEHOLDER": "Enter instructions for the assistant"
         },
         "FEATURES": {
-          "TITLE": "Features",
-          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "TITLE": "Funkcije",
+          "ALLOW_CONVERSATION_FAQS": "Ustvari pogosta vprašanja iz rešenih pogovorov",
+          "ALLOW_MEMORIES": "Zajemite ključne podrobnosti kot spomine iz interakcij s strankami.",
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
-        "TITLE": "Update the assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
+        "TITLE": "Posodobi asistenta",
+        "SUCCESS_MESSAGE": "Asistent je bil uspešno posodobljen",
+        "ERROR_MESSAGE": "Prišlo je do napake pri posodabljanju asistenta, prosimo, poskusite znova.",
         "NOT_FOUND": "Could not find the assistant. Please try again."
       },
       "SETTINGS": {
@@ -523,16 +568,16 @@
         }
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Edit Assistant",
-        "DELETE_ASSISTANT": "Delete Assistant",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "EDIT_ASSISTANT": "Uredi asistenta",
+        "DELETE_ASSISTANT": "Izbriši asistenta",
+        "VIEW_CONNECTED_INBOXES": "Poglej povezane mape Prejeto"
       },
       "EMPTY_STATE": {
-        "TITLE": "No assistants available",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
+        "TITLE": "Ni na voljo pomočnikov",
+        "SUBTITLE": "Ustvarite asistenta, ki bo vašim uporabnikom zagotavljal hitre in natančne odgovore. Lahko se uči iz vaših pomožnih člankov in preteklih pogovorov.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "NOTE": "Captain asistent se neposredno povezuje s strankami, se uči iz vaših pomožnih dokumentov in preteklih pogovorov ter zagotavlja takojšnje, natančne odgovore. Obvladuje začetna vprašanja in nudi hitre rešitve, preden po potrebi prenese zadevo agentu."
         }
       },
       "GUARDRAILS": {
@@ -691,17 +736,28 @@
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
-      "RELATED_RESPONSES": {
-        "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+      "HEADER": "Dokumenti",
+      "ADD_NEW": "Ustvari nov dokument",
+      "SELECTED": "{count} izbranih",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Da, izbriši vse",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "RELATED_RESPONSES": {
+        "TITLE": "Povezana pogosta vprašanja",
+        "DESCRIPTION": "Ta pogosta vprašanja so ustvarjena neposredno iz dokumenta."
+      },
+      "FORM_DESCRIPTION": "Vnesite URL dokumenta, da ga dodate kot vir znanja, in izberite asistenta, s katerim ga želite povezati.",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "TITLE": "Dodaj dokument",
+        "SUCCESS_MESSAGE": "Dokument je bil uspešno ustvarjen",
+        "ERROR_MESSAGE": "Pri ustvarjanju dokumenta je prišlo do napake, prosimo, poskusite znova."
       },
       "FORM": {
         "TYPE": {
@@ -711,8 +767,8 @@
         },
         "URL": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "PLACEHOLDER": "Vnesite URL dokumenta",
+          "ERROR": "Prosimo, vnesite veljaven URL dokumenta"
         },
         "PDF_FILE": {
           "LABEL": "PDF File",
@@ -728,19 +784,19 @@
         }
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the document?",
-        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
+        "TITLE": "Ste prepričani, da želite izbrisati dokument?",
+        "DESCRIPTION": "Ta dejanje je trajno. Brisanje tega dokumenta bo trajno izbrisalo vse ustvarjeno znanje.",
         "CONFIRM": "Da, izbriši",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "SUCCESS_MESSAGE": "Dokument je bil uspešno izbrisan",
+        "ERROR_MESSAGE": "Pri brisanju dokumenta je prišlo do napake, prosimo, poskusite znova."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "DELETE_DOCUMENT": "Delete Document"
+        "VIEW_RELATED_RESPONSES": "Ogled povezanih odgovorov",
+        "DELETE_DOCUMENT": "Izbriši dokument"
       },
       "EMPTY_STATE": {
-        "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "TITLE": "Ni na voljo dokumentov",
+        "SUBTITLE": "Dokumenti se uporabljajo za generiranje FAQ vašega asistenta. Dokumente lahko uvozite, da zagotovite kontekst za vašega asistenta.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Document",
           "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
@@ -750,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -780,11 +837,30 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Description",
@@ -857,74 +933,74 @@
       }
     },
     "RESPONSES": {
-      "HEADER": "FAQs",
+      "HEADER": "Pogosta vprašanja",
       "PENDING_FAQS": "Pending FAQs",
-      "ADD_NEW": "Create new FAQ",
+      "ADD_NEW": "Ustvari nov FAQ",
       "DOCUMENTABLE": {
-        "CONVERSATION": "Conversation #{id}"
+        "CONVERSATION": "Pogovor #{id}"
       },
-      "SELECTED": "{count} selected",
+      "SELECTED": "{count} izbranih",
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
       "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Approve",
+      "BULK_APPROVE_BUTTON": "Odobri",
       "BULK_DELETE_BUTTON": "Izbriši",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "Pogosta vprašanja so bila uspešno odobrena",
+        "ERROR_MESSAGE": "Pri odobritvi pogostih vprašanj je prišlo do napake, prosimo, poskusite znova."
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "TITLE": "Izbrisati pogosta vprašanja?",
+        "DESCRIPTION": "Ali ste prepričani, da želite izbrisati izbrane pogosta vprašanja? Tega dejanja ni mogoče razveljaviti.",
+        "CONFIRM": "Da, izbriši vse",
+        "SUCCESS_MESSAGE": "Pogosta vprašanja so bila uspešno izbrisana",
+        "ERROR_MESSAGE": "Pri brisanju pogostih vprašanj je prišlo do napake, prosimo, poskusite znova."
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the FAQ?",
+        "TITLE": "Ste prepričani, da želite izbrisati pogosta vprašanja?",
         "DESCRIPTION": "",
         "CONFIRM": "Da, izbriši",
-        "SUCCESS_MESSAGE": "FAQ deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+        "SUCCESS_MESSAGE": "Pogosta vprašanja so bila uspešno izbrisana",
+        "ERROR_MESSAGE": "Pri brisanju pogostih vprašanj je prišlo do napake, prosimo, poskusite znova."
       },
       "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
-        "STATUS": "Status: {selected}",
+        "ASSISTANT": "Pomočnik: {selected}",
+        "STATUS": "Stanje: {selected}",
         "ALL_ASSISTANTS": "Vse"
       },
       "STATUS": {
-        "TITLE": "Status",
-        "PENDING": "Pending",
-        "APPROVED": "Approved",
+        "TITLE": "Stanje",
+        "PENDING": "V teku",
+        "APPROVED": "Odobreno",
         "ALL": "Vse"
       },
       "PENDING_BANNER": {
         "TITLE": "Captain has found some FAQs your customers were looking for.",
         "ACTION": "Click here to review"
       },
-      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "FORM_DESCRIPTION": "Dodajte vprašanje in njegov ustrezen odgovor v bazo znanja ter izberite asistenta, s katerim naj bo povezano.",
       "CREATE": {
-        "TITLE": "Add an FAQ",
-        "SUCCESS_MESSAGE": "The response has been added successfully.",
-        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+        "TITLE": "Dodaj pogosta vprašanja",
+        "SUCCESS_MESSAGE": "Odgovor je bil uspešno dodan.",
+        "ERROR_MESSAGE": "Pri dodajanju odgovora je prišlo do napake. Poskusite znova."
       },
       "FORM": {
         "QUESTION": {
-          "LABEL": "Question",
-          "PLACEHOLDER": "Enter the question here",
-          "ERROR": "Please provide a valid question."
+          "LABEL": "Vprašanje",
+          "PLACEHOLDER": "Vnesite vprašanje tukaj",
+          "ERROR": "Prosimo, vnesite veljavno vprašanje."
         },
         "ANSWER": {
-          "LABEL": "Answer",
-          "PLACEHOLDER": "Enter the answer here",
-          "ERROR": "Please provide a valid answer."
+          "LABEL": "Odgovor",
+          "PLACEHOLDER": "Vnesite odgovor tukaj",
+          "ERROR": "Prosimo, vnesite veljaven odgovor."
         }
       },
       "EDIT": {
-        "TITLE": "Update the FAQ",
-        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
-        "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
+        "TITLE": "Posodobi pogosta vprašanja",
+        "SUCCESS_MESSAGE": "Pogosta vprašanja so bila uspešno posodobljena",
+        "ERROR_MESSAGE": "Prišlo je do napake pri posodabljanju pogostih vprašanj, prosimo, poskusite znova",
+        "APPROVE_SUCCESS_MESSAGE": "Pogosta vprašanja so bila označena kot odobrena"
       },
       "OPTIONS": {
         "APPROVE": "Approve",
@@ -932,9 +1008,9 @@
         "DELETE_RESPONSE": "Delete"
       },
       "EMPTY_STATE": {
-        "TITLE": "No FAQs Found",
+        "TITLE": "Ni najdenih pogostih vprašanj",
         "NO_PENDING_TITLE": "There are no more pending FAQs to review",
-        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
+        "SUBTITLE": "Pogosta vprašanja pomagajo vašemu asistentu hitro in natančno odgovarjati na vprašanja vaših strank. Lahko se samodejno ustvarijo iz vaše vsebine ali pa jih dodate ročno.",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
@@ -943,34 +1019,34 @@
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "Povezani nabiralniki",
+      "ADD_NEW": "Poveži nov nabiralnik",
       "OPTIONS": {
-        "DISCONNECT": "Disconnect"
+        "DISCONNECT": "Prekini povezavo"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "Ali ste prepričani, da želite prekiniti povezavo z nabiralnikom?",
         "DESCRIPTION": "",
         "CONFIRM": "Da, izbriši",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "SUCCESS_MESSAGE": "Nabiralnik je bil uspešno prekinjen.",
+        "ERROR_MESSAGE": "Prišlo je do napake pri odklopu poštnega predala, prosimo, poskusite znova."
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "Izberite poštni predal za povezavo z asistentom.",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
-        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+        "TITLE": "Poveži poštni predal",
+        "SUCCESS_MESSAGE": "Poštni predal je bil uspešno povezan.",
+        "ERROR_MESSAGE": "Pri povezovanju poštnega predala je prišlo do napake. Prosimo, poskusite znova."
       },
       "FORM": {
         "INBOX": {
           "LABEL": "Nabiralnik",
-          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
-          "ERROR": "An inbox selection is required."
+          "PLACEHOLDER": "Izberite prejemnik za namestitev asistenta.",
+          "ERROR": "Izbira prejemnika je obvezna."
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "TITLE": "Ni povezanih poštnih predalov",
+        "SUBTITLE": "Povezava z nabiralnikom omogoča asistentu, da obravnava začetna vprašanja vaših strank, preden jih preusmeri k vam."
       }
     }
   }

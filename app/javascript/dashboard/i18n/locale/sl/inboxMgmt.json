@@ -1,68 +1,71 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
-    "CLICK_TO_RECONNECT": "Click here to reconnect.",
+    "HEADER": "Prejemniki",
+    "DESCRIPTION": "Kanal je način komunikacije, ki ga vaša stranka izbere za interakcijo z vami. Nabiralnik je mesto, kjer upravljate interakcije za določen kanal. Vključuje lahko komunikacijo iz različnih virov, kot so e-pošta, klepet v živo in družbena omrežja.",
+    "LEARN_MORE": "Izvedite več o prejemnikih",
+    "COUNT": "{n} poštni predal | {n} poštni predali",
+    "SEARCH_PLACEHOLDER": "Išči nabiralnike...",
+    "NO_RESULTS": "Ni najdenih nobenih poštnih predalov, ki ustrezajo vašemu iskanju",
+    "RECONNECTION_REQUIRED": "Vaš poštni predal je odklopljen. Novi sporočila ne boste prejeli, dokler ga ne ponovno pooblastite.",
+    "CLICK_TO_RECONNECT": "Kliknite tukaj za ponovno povezavo.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
-    "COMPLETE_REGISTRATION": "Complete Registration",
+    "COMPLETE_REGISTRATION": "Dokončaj registracijo",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "Ta račun nima pripetih prejemnikov."
     },
     "CREATE_FLOW": {
       "CHANNEL": {
-        "TITLE": "Choose Channel",
+        "TITLE": "Izberite kanal",
         "BODY": "Choose the provider you want to integrate with Chatwoot."
       },
       "INBOX": {
-        "TITLE": "Create Inbox",
-        "BODY": "Authenticate your account and create an inbox."
+        "TITLE": "Ustvari poštni predal",
+        "BODY": "Avtenticirajte svoj račun in ustvarite nabiralnik."
       },
       "AGENT": {
-        "TITLE": "Add Agents",
-        "BODY": "Add agents to the created inbox."
+        "TITLE": "Dodaj agente",
+        "BODY": "Dodajte agente v ustvarjeni prejemnik."
       },
       "FINISH": {
-        "TITLE": "Voilà!",
-        "BODY": "You are all set to go!"
+        "TITLE": "Tukaj je!",
+        "BODY": "Pripravljeni ste za začetek!"
       }
     },
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "LABEL": "Ime prejemnika",
+        "PLACEHOLDER": "Vnesite ime vašega nabiralnika (npr. Acme Inc)",
+        "ERROR": "Prosimo, vnesite veljavno ime nabiralnika"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
-        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+        "LABEL": "Ime spletnega mesta",
+        "PLACEHOLDER": "Vnesite ime vaše spletne strani (npr. Acme Inc)"
       },
       "FB": {
         "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Pick a value",
-        "CREATE_INBOX": "Create Inbox"
+        "CHOOSE_PAGE": "Izberite stran",
+        "CHOOSE_PLACEHOLDER": "Izberite stran s seznama",
+        "INBOX_NAME": "Ime prejemnika",
+        "ADD_NAME": "Dodajte ime za vaš prejemnik",
+        "PICK_NAME": "Izberite ime za vaš nabiralnik",
+        "PICK_A_VALUE": "Izberite vrednost",
+        "CREATE_INBOX": "Ustvari poštni predal"
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Povežite svoj Instagram profil",
         "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "NEW_INBOX_SUGGESTION": "Ta Instagram račun je bil prej povezan z drugim vhodnim predalom in je bil zdaj sem prenesen. Vsa nova sporočila se bodo prikazovala tukaj. Stari vhodni predal ne bo več mogel pošiljati ali prejemati sporočil za ta račun.",
+        "DUPLICATE_INBOX_BANNER": "Ta Instagram račun je bil prenesen v nov vhodni predal kanala Instagram. Iz tega vhodnega predala ne boste več mogli pošiljati/prejemati Instagram sporočil."
       },
       "TIKTOK": {
-        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
-        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
-        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
-        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+        "CONTINUE_WITH_TIKTOK": "Nadaljuj s TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Povežite svoj TikTok profil",
+        "HELP": "Če želite dodati svoj TikTok profil kot kanal, se morate prijaviti s svojim TikTok profilom tako, da kliknete »Nadaljuj s TikTok« ",
+        "ERROR_MESSAGE": "Pri povezovanju s TikTok je prišlo do napake, prosimo, poskusite znova",
+        "ERROR_AUTH": "Pri povezovanju s TikTok je prišlo do napake, prosimo, poskusite znova"
       },
       "TWITTER": {
         "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
@@ -72,257 +75,265 @@
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "TITLE": "Spletni kanal",
+        "DESC": "Ustvarite kanal za vašo spletno stran in začnite podpirati svoje stranke prek našega spletnega pripomočka.",
+        "LOADING_MESSAGE": "Ustvarjanje kanala za podporo na spletni strani",
         "CHANNEL_AVATAR": {
           "LABEL": "Channel Avatar"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
           "PLACEHOLDER": "Please enter your Webhook URL",
-          "ERROR": "Please enter a valid URL"
+          "ERROR": "Prosimo, vnesite veljaven URL"
+        },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
+          "LABEL": "Domena spletne strani",
           "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
+          "LABEL": "Dobrodošel naslov",
           "PLACEHOLDER": "Hi there !"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "Pozdravni slogan",
+          "PLACEHOLDER": "Povezovanje z nami je preprosto. Vprašajte nas karkoli ali delite svoje mnenje."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
+          "LABEL": "Sporočilo pozdrava kanala",
           "PLACEHOLDER": "Acme Inc typically replies in a few hours."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Auto-send greeting messages when customers start a conversation and send their first message.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "LABEL": "Omogoči pozdrav kanala",
+          "HELP_TEXT": "Samodejno pošlji pozdravna sporočila, ko stranke začnejo pogovor in pošljejo svoje prvo sporočilo.",
+          "ENABLED": "Omogočeno",
+          "DISABLED": "Onemogočeno"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "Nastavi čas odgovora",
+          "IN_A_FEW_MINUTES": "Čez nekaj minut",
+          "IN_A_FEW_HOURS": "Čez nekaj ur",
+          "IN_A_DAY": "Čez en dan",
+          "HELP_TEXT": "Ta čas odgovora bo prikazan na pripomočku za klepet v živo"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "Barva pripomočka",
+          "PLACEHOLDER": "Posodobi barvo pripomočka, uporabljeno v pripomočku"
         },
-        "SUBMIT_BUTTON": "Create inbox",
+        "SUBMIT_BUTTON": "Ustvari poštni predal",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "Nismo mogli ustvariti kanala spletne strani, prosimo, poskusite znova"
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp kanal",
+        "DESC": "Integrirajte Twilio in začnite podpirati svoje stranke prek SMS ali WhatsApp.",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
-          "ERROR": "This field is required"
+          "LABEL": "SID računa",
+          "PLACEHOLDER": "Vnesite SID računa Twilio",
+          "ERROR": "To polje je obvezno"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
-          "LABEL": "API Key SID",
+          "USE_API_KEY": "Uporabi overjanje z API ključem",
+          "LABEL": "SID API ključa",
           "PLACEHOLDER": "Please enter your API Key SID",
-          "ERROR": "This field is required"
+          "ERROR": "To polje je obvezno"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
-          "ERROR": "This field is required"
+          "LABEL": "Skrivnost API ključa",
+          "PLACEHOLDER": "Vnesite svojo skrivnost API ključa",
+          "ERROR": "To polje je obvezno"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
-          "ERROR": "This field is required",
+          "LABEL": "SID storitve za sporočila",
+          "PLACEHOLDER": "Vnesite SID storitve za sporočila Twilio",
+          "ERROR": "To polje je obvezno",
           "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "Vrsta kanala",
+          "ERROR": "Prosimo, izberite vrsto kanala"
         },
         "AUTH_TOKEN": {
           "LABEL": "Auth Token",
           "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "This field is required"
+          "ERROR": "To polje je obvezno"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter a inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "Ime prejemnika",
+          "PLACEHOLDER": "Prosimo, vnesite ime prejemnika",
+          "ERROR": "To polje je obvezno"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone Number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "LABEL": "Telefonska številka",
+          "PLACEHOLDER": "Vnesite telefonsko številko, s katere bo sporočilo poslano.",
+          "ERROR": "Prosimo, vnesite veljavno telefonsko številko, ki se začne z znakom `+` in ne vsebuje presledkov."
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "TITLE": "URL za povratni klic",
+          "SUBTITLE": "V Twilio morate nastaviti URL za povratno klicanje sporočil, kot je navedeno tukaj."
         },
-        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "SUBMIT_BUTTON": "Ustvari Twilio kanal",
         "API": {
-          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+          "ERROR_MESSAGE": "Nismo mogli preveriti pristnosti Twilio poverilnic, prosimo poskusite znova"
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "SMS kanal",
+        "DESC": "Začnite podpirati svoje stranke prek SMS.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "Ponudnik API",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "BANDWIDTH": "Pasovna širina"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "Ni nam uspelo shraniti SMS kanala"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
+            "LABEL": "ID računa",
             "PLACEHOLDER": "Please enter your Bandwidth Account ID",
-            "ERROR": "This field is required"
+            "ERROR": "To polje je obvezno"
           },
           "API_KEY": {
-            "LABEL": "API Key",
+            "LABEL": "API ključ",
             "PLACEHOLDER": "Please enter your Bandwidth API Key",
-            "ERROR": "This field is required"
+            "ERROR": "To polje je obvezno"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
+            "LABEL": "API skrivnost",
             "PLACEHOLDER": "Please enter your Bandwidth API Secret",
-            "ERROR": "This field is required"
+            "ERROR": "To polje je obvezno"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
+            "LABEL": "ID aplikacije",
             "PLACEHOLDER": "Please enter your Bandwidth Application ID",
-            "ERROR": "This field is required"
+            "ERROR": "To polje je obvezno"
           },
           "INBOX_NAME": {
-            "LABEL": "Inbox Name",
-            "PLACEHOLDER": "Please enter a inbox name",
-            "ERROR": "This field is required"
+            "LABEL": "Ime prejemnika",
+            "PLACEHOLDER": "Prosimo, vnesite ime prejemnika",
+            "ERROR": "To polje je obvezno"
           },
           "PHONE_NUMBER": {
-            "LABEL": "Phone number",
-            "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "LABEL": "Telefonska številka",
+            "PLACEHOLDER": "Prosimo, vnesite telefonsko številko, s katere bo sporočilo poslano.",
+            "ERROR": "Prosimo, vnesite veljavno telefonsko številko, ki se začne s `+` in ne vsebuje presledkov."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
             "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
           },
           "API_CALLBACK": {
-            "TITLE": "Callback URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "TITLE": "URL za povratni klic",
+            "SUBTITLE": "V Bandwidth morate nastaviti URL za povratno sporočilo na URL, naveden tukaj."
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "WhatsApp kanal",
+        "DESC": "Začnite podpirati svoje stranke prek WhatsAppa.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "Ponudnik API",
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
-          "TWILIO_DESC": "Connect via Twilio credentials",
+          "WHATSAPP_CLOUD_DESC": "Hitro nastavljanje prek Meta",
+          "TWILIO_DESC": "Povežite se prek poverilnic Twilio",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
-          "TITLE": "Select your API provider",
-          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
+          "TITLE": "Izberite svojega ponudnika API",
+          "DESCRIPTION": "Izberite svojega ponudnika WhatsApp. Povežete se lahko neposredno prek Meta, kar ne zahteva nastavitve, ali prek Twilio z uporabo svojih podatkov za prijavo."
         },
         "INBOX_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter an inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "Ime prejemnika",
+          "PLACEHOLDER": "Prosimo, vnesite ime prejemnika",
+          "ERROR": "To polje je obvezno"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "LABEL": "Telefonska številka",
+          "PLACEHOLDER": "Prosimo, vnesite telefonsko številko, s katere bo poslano sporočilo.",
+          "ERROR": "Prosimo, vnesite veljavno telefonsko številko, ki se začne s `+` in ne vsebuje presledkov."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
+          "LABEL": "ID telefonske številke",
           "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "ERROR": "Prosimo, vnesite veljavno vrednost."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
+          "LABEL": "ID poslovnega računa",
           "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "ERROR": "Prosimo, vnesite veljavno vrednost."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "Žeton za preverjanje spletnega ključa",
+          "PLACEHOLDER": "Vnesite potrditveni žeton, ki ga želite nastaviti za Facebook webhook.",
+          "ERROR": "Prosimo, vnesite veljavno vrednost."
         },
         "API_KEY": {
-          "LABEL": "API key",
+          "LABEL": "API ključ",
           "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
+          "PLACEHOLDER": "Ključ API",
+          "ERROR": "Prosimo, vnesite veljavno vrednost."
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
-          "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "TITLE": "URL za povratni klic",
+          "SUBTITLE": "V Facebook razvijalskem portalu morate nastaviti URL spletnega klica webhook in potrditveni žeton z vrednostmi, prikazanimi spodaj.",
+          "WEBHOOK_URL": "URL spletnega kljuka",
+          "WEBHOOK_VERIFICATION_TOKEN": "Žeton za preverjanje spletnega kljuka"
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "Ustvari WhatsApp kanal",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Quick setup with Meta",
-          "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "TITLE": "Hitro nastavitev z Meta",
+          "DESC": "Uporabite postopek WhatsApp Embedded Signup za hitro povezavo novih številk. Preusmerjeni boste na Meta, da se prijavite v svoj WhatsApp Business račun. Če imate skrbniški dostop, bo nastavitev potekala gladko in enostavno.",
           "BENEFITS": {
-            "TITLE": "Benefits of Embedded Signup:",
-            "EASY_SETUP": "No manual configuration required",
+            "TITLE": "Prednosti vgrajene prijave:",
+            "EASY_SETUP": "Ni potrebna ročna nastavitev",
             "SECURE_AUTH": "Secure OAuth based authentication",
-            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+            "AUTO_CONFIG": "Samodejna konfiguracija spletnega kljuka in telefonske številke"
           },
           "LEARN_MORE": {
-            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
-            "LINK_TEXT": "this link"
+            "TEXT": "Za več informacij o integrirani prijavi, cenah in omejitvah obiščite {link}.",
+            "LINK_TEXT": "ta povezava"
           },
           "SUBMIT_BUTTON": "Connect with WhatsApp Business",
-          "AUTH_PROCESSING": "Authenticating with Meta",
+          "AUTH_PROCESSING": "Avtorizacija pri Meta",
           "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
-          "PROCESSING": "Setting up your WhatsApp Business Account",
+          "PROCESSING": "Nastavljam vaš WhatsApp poslovni račun",
           "LOADING_SDK": "Loading Facebook SDK...",
-          "CANCELLED": "WhatsApp Signup was cancelled",
-          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
+          "CANCELLED": "Registracija WhatsApp je bila preklicana",
+          "SUCCESS_TITLE": "Poslovni račun WhatsApp je povezan!",
           "WAITING_FOR_AUTH": "Waiting for authentication...",
-          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
-          "SIGNUP_ERROR": "Signup error occurred",
+          "INVALID_BUSINESS_DATA": "Prejeli smo neveljavne poslovne podatke iz Facebooka. Poskusite znova.",
+          "SIGNUP_ERROR": "Prišlo je do napake pri prijavi",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
-          "MANUAL_LINK_TEXT": "manual setup flow"
+          "MANUAL_FALLBACK": "Če je vaša številka že povezana s platformo WhatsApp Business (API), ali če ste tehnični ponudnik, ki vključuje svojo številko, uporabite {link} postopek",
+          "MANUAL_LINK_TEXT": "ročni postopek nastavitve"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "Nismo mogli shraniti WhatsApp kanala"
         }
       },
       "VOICE": {
-        "TITLE": "Voice Channel",
+        "TITLE": "Glasovni kanal",
         "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
         "PHONE_NUMBER": {
-          "LABEL": "Phone Number",
+          "LABEL": "Telefonska številka",
           "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
           "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
-            "LABEL": "Account SID",
+            "LABEL": "SID računa",
             "PLACEHOLDER": "Enter your Twilio Account SID",
             "REQUIRED": "Account SID is required"
           },
@@ -332,52 +343,52 @@
             "REQUIRED": "Auth Token is required"
           },
           "API_KEY_SID": {
-            "LABEL": "API Key SID",
+            "LABEL": "API ključ SID",
             "PLACEHOLDER": "Enter your Twilio API Key SID",
             "REQUIRED": "API Key SID is required"
           },
           "API_KEY_SECRET": {
-            "LABEL": "API Key Secret",
-            "PLACEHOLDER": "Enter your Twilio API Key Secret",
-            "REQUIRED": "API Key Secret is required"
+            "LABEL": "Skrivnost API ključa",
+            "PLACEHOLDER": "Vnesite skrivnost API ključa Twilio",
+            "REQUIRED": "Zahtevan je skrivni ključ API"
           }
         },
         "CONFIGURATION": {
           "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
-          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
-          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
-          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
+          "TWILIO_VOICE_URL_SUBTITLE": "Nastavite ta URL kot Voice URL na vaši Twilio telefonski številki in TwiML aplikaciji.",
+          "TWILIO_STATUS_URL_TITLE": "URL za povratni klic statusa Twilio",
+          "TWILIO_STATUS_URL_SUBTITLE": "Nastavite ta URL kot URL za povratni klic statusa na vaši Twilio telefonski številki."
         },
-        "SUBMIT_BUTTON": "Create Voice Channel",
+        "SUBMIT_BUTTON": "Ustvari glasovni kanal",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create the voice channel"
+          "ERROR_MESSAGE": "Nismo mogli ustvariti glasovnega kanala"
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "API kanal",
+        "DESC": "Integrirajte se z API kanalom in začnite podpirati svoje stranke.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Ime kanala",
+          "PLACEHOLDER": "Vnesite ime kanala",
+          "ERROR": "To polje je obvezno"
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "SUBTITLE": "Nastavite URL, na katerega želite prejemati povratne klice ob dogodkih.",
           "PLACEHOLDER": "Webhook URL"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "Ustvari API kanal",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the api channel"
         }
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Email Channel",
-        "DESC": "Integrate your email inbox.",
+        "DESC": "Integrirajte svoj e-poštni nabiralnik.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Ime kanala",
+          "PLACEHOLDER": "Prosimo, vnesite ime kanala",
+          "ERROR": "To polje je obvezno"
         },
         "EMAIL": {
           "LABEL": "E-pošta",
@@ -389,70 +400,70 @@
           "ERROR_MESSAGE": "We were not able to save the email channel"
         },
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address.",
-        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
+        "FINISH_MESSAGE_NO_FORWARDING": "Vaš e-poštni nabiralnik je bil uspešno ustvarjen! Za pošiljanje in prejemanje e-pošte morate nastaviti SMTP in IMAP poverilnice. Brez teh nastavitev e-pošte ne bo mogoče obdelovati.",
         "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
-        "CONFIGURE_SMTP_IMAP_LINK": "Click here",
-        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
+        "CONFIGURE_SMTP_IMAP_LINK": "Kliknite tukaj",
+        "CONFIGURE_SMTP_IMAP_TEXT": " za nastavitev IMAP in SMTP nastavitev"
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "LINE kanal",
+        "DESC": "Povežite se z LINE kanalom in začnite podpirati svoje stranke.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Ime kanala",
+          "PLACEHOLDER": "Prosimo, vnesite ime kanala",
+          "ERROR": "To polje je obvezno"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "ID LINE kanala",
+          "PLACEHOLDER": "ID kanala LINE"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "Skrivnost kanala LINE",
+          "PLACEHOLDER": "Skrivnost kanala LINE"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "Žeton kanala LINE",
+          "PLACEHOLDER": "Žeton kanala LINE"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "Ustvari kanal LINE",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "Nismo mogli shraniti LINE kanala"
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "TITLE": "URL za povratni klic",
+          "SUBTITLE": "V aplikaciji LINE morate nastaviti URL spletnega klica webhook na URL, naveden tukaj."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Telegram kanal",
+        "DESC": "Povežite se s Telegram kanalom in začnite podpirati svoje stranke.",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
           "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
           "PLACEHOLDER": "Bot Token"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Ustvari Telegram kanal",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "Nismo mogli shraniti Telegram kanala"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
+        "TITLE": "Izberite kanal",
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
-        "TITLE_NEXT": "Complete the setup",
-        "TITLE_FINISH": "Voilà!",
+        "TITLE_NEXT": "Dokončajte nastavitev",
+        "TITLE_FINISH": "Tukaj je!",
         "CHANNEL": {
           "WEBSITE": {
             "TITLE": "Spletna stran",
-            "DESCRIPTION": "Create a live-chat widget"
+            "DESCRIPTION": "Ustvari pripomoček za klepet v živo"
           },
           "FACEBOOK": {
             "TITLE": "Facebook",
-            "DESCRIPTION": "Connect your Facebook page"
+            "DESCRIPTION": "Povežite svojo Facebook stran"
           },
           "WHATSAPP": {
             "TITLE": "WhatsApp",
-            "DESCRIPTION": "Support your customers on WhatsApp"
+            "DESCRIPTION": "Podprite svoje stranke na WhatsAppu"
           },
           "EMAIL": {
             "TITLE": "E-pošta",
@@ -472,51 +483,51 @@
           },
           "LINE": {
             "TITLE": "Line",
-            "DESCRIPTION": "Integrate your Line channel"
+            "DESCRIPTION": "Povežite svoj kanal Line"
           },
           "INSTAGRAM": {
             "TITLE": "Instagram",
-            "DESCRIPTION": "Connect your instagram account"
+            "DESCRIPTION": "Povežite svoj Instagram račun"
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "Povežite svoj TikTok račun"
           },
           "VOICE": {
-            "TITLE": "Voice",
+            "TITLE": "Glas",
             "DESCRIPTION": "Integrate with Twilio Voice"
           }
         }
       },
       "AGENTS": {
-        "TITLE": "Agents",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "TITLE": "Agentje",
+        "DESC": "Tukaj lahko dodate agente za upravljanje vašega novo ustvarjenega nabiralnika. Dostop do vašega nabiralnika bodo imeli samo ti izbrani agentje. Agentje, ki niso del tega nabiralnika, ne bodo mogli videti ali odgovarjati na sporočila v tem nabiralniku, ko se prijavijo. <br> <b>PS:</b> Kot skrbnik, če potrebujete dostop do vseh nabiralnikov, se morate dodati kot agent v vse nabiralnike, ki jih ustvarite.",
+        "VALIDATION_ERROR": "Dodajte vsaj enega agenta v svoj nov prejemnik",
+        "PICK_AGENTS": "Izberite agente za prejemnik"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "Podrobnosti mape",
+        "DESC": "Iz spodnjega spustnega seznama izberite Facebook stran, ki jo želite povezati s Chatwootom. Svojemu nabiralniku lahko tudi dodelite poljubno ime za lažjo prepoznavo."
       },
       "FINISH": {
-        "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "TITLE": "Uspešno!",
+        "DESC": "Uspešno ste integrirali svojo Facebook stran s Chatwootom. Naslednjič, ko vam bo stranka poslala sporočilo na stran, se bo pogovor samodejno prikazal v vašem nabiralniku.<br>Prav tako vam zagotavljamo skripto za widget, ki jo lahko enostavno dodate na svojo spletno stran. Ko bo ta aktivna na vaši spletni strani, vam bodo lahko stranke sporočila pošiljale neposredno od tam, brez uporabe zunanjih orodij, pogovor pa se bo prikazal tukaj, v Chatwootu.<br>Kul, kajne? Mi si vsaj prizadevamo biti :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+        "DESCRIPTION": "Izberite ponudnika e-pošte s spodnjega seznama. Če vašega ponudnika ni na seznamu, lahko izberete možnost drugega ponudnika in vnesete IMAP in SMTP poverilnice."
       },
       "MICROSOFT": {
         "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "DESCRIPTION": "Za začetek kliknite na gumb Prijava z Microsoft. Preusmerjeni boste na stran za prijavo v elektronsko pošto. Ko sprejmete zahtevane dovoljenja, boste preusmerjeni nazaj na korak ustvarjanja nabiralnika.",
         "EMAIL_PLACEHOLDER": "Enter email address",
-        "SIGN_IN": "Sign in with Microsoft",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "SIGN_IN": "Prijava z Microsoft",
+        "ERROR_MESSAGE": "Prišlo je do napake pri povezovanju z Microsoftom, prosimo, poskusite znova"
       },
       "GOOGLE": {
         "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
+        "DESCRIPTION": "Za začetek kliknite na gumb Prijava z Google. Preusmerjeni boste na stran za prijavo v elektronsko pošto. Ko sprejmete zahtevana dovoljenja, boste preusmerjeni nazaj na korak ustvarjanja nabiralnika.",
+        "SIGN_IN": "Prijava z Google",
         "EMAIL_PLACEHOLDER": "Enter email address",
         "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
@@ -525,135 +536,139 @@
       "LOADING_FB": "Authenticating you with Facebook...",
       "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
-      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
+      "ERROR_FB_UNAUTHORIZED": "Nimate dovoljenja za izvedbo te akcije. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "CREATING_CHANNEL": "Ustvarjam vaš nabiralnik...",
+      "TITLE": "Konfigurirajte podrobnosti nabiralnika",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "Dodaj agente",
+      "ADD_AGENTS": "Dodajam agente v vaš nabiralnik..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
-      "BUTTON_TEXT": "Take me there",
-      "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox.",
-      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
-      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
-      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
+      "TITLE": "Vaš predal je pripravljen!",
+      "MESSAGE": "Zdaj lahko komunicirate s svojimi strankami prek novega kanala. Veselo podpiranje",
+      "BUTTON_TEXT": "Pojdi tja",
+      "MORE_SETTINGS": "Več nastavitev",
+      "WEBSITE_SUCCESS": "Uspešno ste ustvarili kanal spletne strani. Kopirajte spodaj prikazano kodo in jo prilepite na svojo spletno stran. Naslednjič, ko bo kupec uporabil klepet v živo, se bo pogovor samodejno prikazal v vašem prejemniku.",
+      "WHATSAPP_QR_INSTRUCTION": "Skenirajte zgornjo QR kodo za hiter preizkus vašega WhatsApp nabiralnika",
+      "MESSENGER_QR_INSTRUCTION": "Skenirajte zgornjo QR kodo za hiter preizkus vašega Facebook Messenger nabiralnika",
+      "TELEGRAM_QR_INSTRUCTION": "Skenirajte zgornjo QR kodo za hiter preizkus vašega Telegram nabiralnika"
     },
-    "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "REAUTH": "Ponovno pooblastite",
+    "VIEW": "Pogled",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "SUCCESS_MESSAGE": "Nastavitve nabiralnika so bile uspešno posodobljene",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Samodejna dodelitev je bila uspešno posodobljena",
+        "ERROR_MESSAGE": "Nismo mogli posodobiti nastavitev nabiralnika. Prosimo, poskusite znova kasneje."
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Omogočeno",
+        "DISABLED": "Onemogočeno"
       },
       "ENABLE_CSAT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Omogočeno",
+        "DISABLED": "Onemogočeno"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
+        "TITLE": "Ime pošiljatelja",
         "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
-        "FOR_EG": "For eg:",
+        "FOR_EG": "Na primer:",
         "FRIENDLY": {
-          "TITLE": "Friendly",
+          "TITLE": "Prijazno",
           "FROM": "Od",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "SUBTITLE": "Dodajte ime agenta, ki je poslal odgovor, v ime pošiljatelja, da bo prijazno."
         },
         "PROFESSIONAL": {
-          "TITLE": "Professional",
+          "TITLE": "Strokovno",
           "SUBTITLE": "Use only the configured business name as the sender name in the email header."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
-          "SAVE_BUTTON_TEXT": "Save"
+          "BUTTON_TEXT": "Configure your business name",
+          "PLACEHOLDER": "Vnesite ime vašega podjetja",
+          "SAVE_BUTTON_TEXT": "Shrani"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Omogočeno",
+        "DISABLED": "Onemogočeno"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Omogočeno",
+        "DISABLED": "Onemogočeno"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Znova odpri isti pogovor",
+        "DISABLED": "Ustvari nove pogovore",
+        "ENABLED_DESCRIPTION": "Ko kontakt ponovno pošlje sporočilo, se bo prejšnji pogovor znova odprl.",
+        "DISABLED_DESCRIPTION": "Vsakič, ko je prejšnji pogovor rešen, se ustvari nov pogovor."
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "Omogoči"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Izbriši",
       "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Potrdi brisanje",
+        "MESSAGE": "Ali ste prepričani, da želite izbrisati ",
+        "PLACE_HOLDER": "Prosimo, vnesite {inboxName} za potrditev",
+        "YES": "Da, izbriši ",
+        "NO": "Ne, obdrži "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Predalnik je bil uspešno izbrisan",
+        "ERROR_MESSAGE": "Predalnika ni bilo mogoče izbrisati. Poskusite znova kasneje.",
+        "AVATAR_SUCCESS_MESSAGE": "Avatar nabiralnika je bil uspešno izbrisan",
+        "AVATAR_ERROR_MESSAGE": "Avatar nabiralnika ni bilo mogoče izbrisati. Poskusite znova kasneje."
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
+      "SETTINGS": "Nastavitve",
+      "COLLABORATORS": "Sodelavci",
+      "CONFIGURATION": "Konfiguracija",
+      "CAMPAIGN": "Kampanje",
       "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder",
+      "BUSINESS_HOURS": "Delovni čas",
+      "WIDGET_BUILDER": "Ustvarjalec pripomočkov",
       "BOT_CONFIGURATION": "Bot Configuration",
-      "ACCOUNT_HEALTH": "Account Health",
+      "ACCOUNT_HEALTH": "Zdravje računa",
       "CSAT": "CSAT"
     },
+    "CHANNEL_PREFERENCES": "Nastavitve kanala",
+    "WIDGET_FEATURES": "Funkcije pripomočka",
     "ACCOUNT_HEALTH": {
-      "TITLE": "Manage your WhatsApp account",
-      "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
+      "TITLE": "Upravljajte svoj WhatsApp račun",
+      "DESCRIPTION": "Preverite stanje vašega WhatsApp računa, omejitve sporočil in kakovost. Po potrebi posodobite nastavitve ali odpravite težave",
       "GO_TO_SETTINGS": "Go to Meta Business Manager",
-      "NO_DATA": "Health data is not available",
+      "NO_DATA": "Podatki o stanju niso na voljo",
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
-          "LABEL": "Display phone number",
-          "TOOLTIP": "Phone number displayed to customers"
+          "LABEL": "Prikaži telefonsko številko",
+          "TOOLTIP": "Telefonska številka, prikazana strankam"
         },
         "VERIFIED_NAME": {
-          "LABEL": "Business name",
-          "TOOLTIP": "Business name verified by WhatsApp"
+          "LABEL": "Ime podjetja",
+          "TOOLTIP": "Ime podjetja, potrjeno s strani WhatsApp"
         },
         "DISPLAY_NAME_STATUS": {
-          "LABEL": "Display name status",
-          "TOOLTIP": "Status of your business name verification"
+          "LABEL": "Stanje prikazanega imena",
+          "TOOLTIP": "Status preverjanja imena vašega podjetja"
         },
         "QUALITY_RATING": {
-          "LABEL": "Quality rating",
-          "TOOLTIP": "WhatsApp quality rating for your account"
+          "LABEL": "Ocena kakovosti",
+          "TOOLTIP": "Ocena kakovosti WhatsApp za vaš račun"
         },
         "MESSAGING_LIMIT_TIER": {
-          "LABEL": "Messaging limit tier",
-          "TOOLTIP": "Daily messaging limit for your account"
+          "LABEL": "Raven omejitve sporočanja",
+          "TOOLTIP": "Dnevna omejitev sporočil za vaš račun"
         },
         "ACCOUNT_MODE": {
-          "LABEL": "Account mode",
-          "TOOLTIP": "Current operating mode of your WhatsApp account"
+          "LABEL": "Način računa",
+          "TOOLTIP": "Trenutni način delovanja vašega WhatsApp računa"
         }
       },
       "VALUES": {
@@ -661,235 +676,321 @@
           "TIER_250": "250 customers per 24h",
           "TIER_1000": "1K customers per 24h",
           "TIER_1K": "1K customers per 24h",
-          "TIER_10K": "10K customers per 24h",
-          "TIER_100K": "100K customers per 24h",
+          "TIER_10K": "10K strank na 24h",
+          "TIER_100K": "100K strank na 24h",
           "TIER_UNLIMITED": "Unlimited customers per 24h",
-          "UNKNOWN": "Rating not available"
+          "UNKNOWN": "Ocena ni na voljo"
         },
         "STATUSES": {
-          "APPROVED": "Approved",
-          "PENDING_REVIEW": "Pending Review",
-          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
-          "REJECTED": "Rejected",
-          "DECLINED": "Declined",
-          "NON_EXISTS": "Non exists"
+          "APPROVED": "Odobreno",
+          "PENDING_REVIEW": "Čaka na pregled",
+          "AVAILABLE_WITHOUT_REVIEW": "Na voljo brez pregleda",
+          "REJECTED": "Zavrnjeno",
+          "DECLINED": "Odbito",
+          "NON_EXISTS": "Ne obstaja"
         },
         "MODES": {
-          "SANDBOX": "Sandbox",
-          "LIVE": "Live"
+          "SANDBOX": "Testno okolje",
+          "LIVE": "V živo"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Konfiguracija spletnega klica Webhook",
+        "DESCRIPTION": "Za prejemanje sporočil od strank za vaš WhatsApp Business račun je potreben URL Webhook.",
+        "ACTION_REQUIRED": "Webhook ni konfiguriran",
+        "REGISTER_BUTTON": "Registriraj spletni klic",
+        "REGISTER_SUCCESS": "Spletni klic je bil uspešno registriran",
+        "REGISTER_ERROR": "Registracija spletnega klica ni uspela. Prosimo, poskusite znova.",
+        "CONFIGURED_SUCCESS": "Webhook je bil uspešno konfiguriran",
+        "URL_MISMATCH": "URL spletnega klica se ne ujema"
       }
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "Nastavitve",
     "FEATURES": {
-      "LABEL": "Features",
+      "LABEL": "Funkcije",
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
       "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "ALLOW_END_CONVERSATION": "Dovoli uporabnikom, da končajo pogovor iz pripomočka",
+      "USE_INBOX_AVATAR_FOR_BOT": "Uporabite ime in avatar nabiralnika za bota"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
       "ALLOWED_DOMAINS": {
-        "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "TITLE": "Dovoljene domene",
+        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
-      "INBOX_AGENTS": "Agents",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "UPDATE": "Update",
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Enable widget in mobile apps",
+        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Identity Validation",
+        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "SECRET_KEY": "Skrivni ključ",
+        "VIEW_DOCS": "View documentation",
+        "REQUIRE_LABEL": "Require identity validation for all conversations",
+        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
+      },
+      "INBOX_AGENTS": "Agentje",
+      "INBOX_AGENTS_SUB_TEXT": "Dodajte ali odstranite agente iz tega nabiralnika",
+      "AGENT_ASSIGNMENT": "Dodelitev pogovora",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Posodobi nastavitve dodelitve pogovorov",
+      "UPDATE": "Posodobi",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
-      "AUTO_ASSIGNMENT": "Enable auto assignment",
+      "AUTO_ASSIGNMENT": "Omogoči samodejno dodeljevanje",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Usmerjanje pogovorov",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
+      "INBOX_UPDATE_TITLE": "Nastavitve prejemnika",
+      "INBOX_UPDATE_SUB_TEXT": "Posodobite nastavitve prejemnika",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Omogočite ali onemogočite samodejno dodeljevanje novih pogovorov agentom, dodanim v ta prejemnik.",
+      "HMAC_VERIFICATION": "Preverjanje identitete uporabnika",
+      "HMAC_DESCRIPTION": "S tem ključem lahko ustvarite skrivni žeton, ki se lahko uporabi za preverjanje identitete vaših uporabnikov.",
+      "HMAC_LINK_TO_DOCS": "Več si lahko preberete tukaj.",
+      "HMAC_MANDATORY_VERIFICATION": "Zahtevaj preverjanje identitete uporabnika",
+      "HMAC_MANDATORY_DESCRIPTION": "Če je omogočeno, bodo zavrnjene zahteve, ki jih ni mogoče preveriti.",
+      "INBOX_IDENTIFIER": "Identifikator prejemnika",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Uporabite žeton `inbox_identifier`, prikazan tukaj, za preverjanje pristnosti vaših API odjemalcev.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
       "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
-      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "Posredovanje e-pošte v vaš nabiralnik je trenutno onemogočeno na tej namestitvi. Za uporabo te funkcije mora to omogočiti vaš administrator. Prosimo, obrnite se nanj za nadaljnje ukrepe.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Dovoli sporočila po rešitvi pogovora",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Dovoli končnim uporabnikom pošiljanje sporočil tudi po tem, ko je pogovor rešen.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Update",
-      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
-      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
-      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
+      "WHATSAPP_SECTION_TITLE": "API ključ",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Posodobi API ključ",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Vnesite nov API ključ tukaj",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Posodobi",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "Vgrajena prijava za WhatsApp",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "Ta poštni predal je povezan prek vgrajene prijave WhatsApp.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "Lahko ponovno konfigurirate ta nabiralnik za posodobitev nastavitev WhatsApp Business.",
       "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
       "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
-      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
-      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
-      "WHATSAPP_CONNECT_BUTTON": "Connect",
+      "WHATSAPP_CONNECT_SUBHEADER": "Nadgradite na vgrajeno prijavo WhatsApp za lažje upravljanje.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Povežite ta nabiralnik z WhatsApp Business za izboljšane funkcije in lažje upravljanje.",
+      "WHATSAPP_CONNECT_BUTTON": "Poveži",
       "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
       "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
       "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
       "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
-      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
-      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
-      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
-      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
-      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_APP_ID_MISSING": "ID aplikacije WhatsApp ni nastavljen. Obrnite se na svojega skrbnika.",
+      "WHATSAPP_CONFIG_ID_MISSING": "ID konfiguracije WhatsApp ni nastavljena. Prosimo, obrnite se na svojega skrbnika.",
+      "WHATSAPP_LOGIN_CANCELLED": "Prijava v WhatsApp je bila preklicana. Poskusite znova.",
+      "WHATSAPP_WEBHOOK_TITLE": "Žeton za preverjanje spletnega kljuka",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Ta žeton se uporablja za preverjanje pristnosti končne točke spletnega kljuka.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sinhroniziraj predloge",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Ročno sinhronizirajte predloge sporočil iz WhatsApp, da posodobite razpoložljive predloge.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sinhroniziraj predloge",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Sinhronizacija predlog uspešno začeta. Posodobitev lahko traja nekaj minut.",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Posodobi nastavitve obrazca pred klepetom"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "LABEL": "Pomoč",
+      "PLACEHOLDER": "Izberite Pomoč",
+      "SELECT_PLACEHOLDER": "Izberite Pomoč",
+      "NONE": "Brez",
+      "REMOVE": "Odstrani Pomočnik za center",
+      "SUB_TEXT": "Poveži Pomočnik za center z nabiralnikom"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "Omejitev samodejne dodelitve",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Vnesite vrednost, večjo od 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Omejite največje število pogovorov iz tega nabiralnika, ki jih je mogoče samodejno dodeliti agentu"
+    },
+    "ASSIGNMENT": {
+      "TITLE": "Dodelitev pogovora",
+      "DESCRIPTION": "Samodejno dodeli dohodne pogovore razpoložljivim agentom glede na politike dodeljevanja",
+      "ENABLE_AUTO_ASSIGNMENT": "Omogoči samodejno dodeljevanje pogovorov",
+      "DEFAULT_RULES_TITLE": "Privzeta pravila dodeljevanja",
+      "DEFAULT_RULES_DESCRIPTION": "Uporaba privzetega načina dodeljevanja za vse pogovore",
+      "DEFAULT_RULE_1": "Najprej najstarejši pogovori",
+      "DEFAULT_RULE_2": "Razporeditev po krožnem vrstnem redu",
+      "CUSTOMIZE_WITH_POLICY": "Customize with assignment policy",
+      "USING_POLICY": "Za ta nabiralnik uporabljam prilagojeno dodelitveno politiko",
+      "CUSTOMIZE_POLICY": "Prilagodi s politiko dodeljevanja",
+      "DELETE_POLICY": "Izbriši politiko",
+      "POLICY_LABEL": "Pravila dodeljevanja",
+      "ASSIGNMENT_ORDER_LABEL": "Vrstni red dodeljevanja",
+      "ASSIGNMENT_METHOD_LABEL": "Metoda dodelitve",
+      "POLICY_STATUS": {
+        "ACTIVE": "Aktivno",
+        "INACTIVE": "Neaktivno"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "Najzgodnejše ustvarjeno",
+        "LONGEST_WAITING": "Najdlje čakajoči"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "V krogu",
+        "BALANCED": "Uravnotežena dodelitev"
+      },
+      "UPGRADE_PROMPT": "Prilagojene politike dodelitve so na voljo v poslovnem paketu",
+      "UPGRADE_TO_BUSINESS": "Upgrade to Business",
+      "DEFAULT_POLICY_LINKED": "Privzeta politika povezana",
+      "DEFAULT_POLICY_DESCRIPTION": "Povežite prilagojeno politiko dodeljevanja, da prilagodite, kako so pogovori dodeljeni agentom v tem nabiralniku.",
+      "LINK_EXISTING_POLICY": "Poveži obstoječo politiko",
+      "CREATE_NEW_POLICY": "Ustvari novo pravilo",
+      "NO_POLICIES": "Ni najdenih pravil dodeljevanja",
+      "VIEW_ALL_POLICIES": "Poglej vse politike",
+      "CURRENT_BEHAVIOR": "Trenutno uporabljeno privzeto vedenje dodeljevanja:",
+      "LINK_SUCCESS": "Pravilnik o dodelitvi je bil uspešno povezan",
+      "LINK_ERROR": "Povezava pravilnika o dodelitvi ni uspela"
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "Izbrišem pravilo dodeljevanja?",
+      "DELETE_CONFIRM_MESSAGE": "Ali ste prepričani, da želite odstraniti to pravilo dodeljevanja iz tega nabiralnika? Nabiralnik se bo vrnil na privzeta pravila dodeljevanja.",
+      "CANCEL": "Prekliči",
+      "CONFIRM_DELETE": "Izbriši",
+      "DELETE_SUCCESS": "Pravilnik dodeljevanja je bil uspešno odstranjen",
+      "DELETE_ERROR": "Odstranjevanje pravilnika dodeljevanja ni uspelo"
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Reauthorize",
+      "TITLE": "Ponovno pooblasti",
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "MESSAGE_SUCCESS": "Ponovna povezava uspešna",
+      "MESSAGE_ERROR": "Prišlo je do napake, prosimo, poskusite znova"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
-      "SET_FIELDS": "Pre chat form fields",
+      "DESCRIPTION": "Predklepetni obrazci omogočajo zajem informacij uporabnika, preden začne pogovor z vami.",
+      "SET_FIELDS": "Polja obrazca pred klepetom",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
-        "TYPE": "Type",
-        "REQUIRED": "Required"
+        "FIELDS": "Polja",
+        "LABEL": "Oznaka",
+        "PLACE_HOLDER": "Nadomestno besedilo",
+        "KEY": "Ključ",
+        "TYPE": "Vrsta",
+        "REQUIRED": "Zahtevano"
       },
       "ENABLE": {
         "LABEL": "Enable pre chat form",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "Da",
+          "DISABLED": "Ne"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "Sporočilo pred klepetom",
+        "PLACEHOLDER": "To sporočilo bo uporabnikom vidno skupaj z obrazcem"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "Obiskovalci naj pred začetkom klepeta vnesejo svoje ime in elektronski naslov"
       }
     },
     "CSAT": {
-      "TITLE": "Enable CSAT",
-      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "TITLE": "Omogoči CSAT",
+      "SUBTITLE": "Samodejno sprožite ankete CSAT ob koncu pogovorov, da boste razumeli, kako se stranke počutijo glede svoje izkušnje s podporo. Spremljajte trende zadovoljstva in sčasoma prepoznajte področja za izboljšave.",
       "DISPLAY_TYPE": {
-        "LABEL": "Display type"
+        "LABEL": "Vrsta prikaza"
       },
       "MESSAGE": {
         "LABEL": "Sporočilo",
-        "PLACEHOLDER": "Please enter a message to show users with the form"
+        "PLACEHOLDER": "Prosimo, vnesite sporočilo, ki bo prikazano uporabnikom skupaj z obrazcem"
       },
       "BUTTON_TEXT": {
-        "LABEL": "Button text",
-        "PLACEHOLDER": "Please rate us"
+        "LABEL": "Besedilo gumba",
+        "PLACEHOLDER": "Prosimo, ocenite nas"
       },
       "LANGUAGE": {
         "LABEL": "Jezik",
-        "PLACEHOLDER": "Select template language"
+        "PLACEHOLDER": "Izberite jezik predloge"
       },
       "MESSAGE_PREVIEW": {
-        "LABEL": "Message preview",
-        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+        "LABEL": "Predogled sporočila",
+        "TOOLTIP": "To se lahko rahlo razlikuje, ko je prikazano na platformi WhatsApp."
       },
       "TEMPLATE_STATUS": {
-        "APPROVED": "Approved by WhatsApp",
-        "PENDING": "Pending WhatsApp approval",
-        "REJECTED": "Meta rejected the template",
-        "DEFAULT": "Needs WhatsApp approval",
-        "NOT_FOUND": "The template does not exist in the Meta platform."
+        "APPROVED": "Odobreno s strani WhatsApp",
+        "PENDING": "Čaka na odobritev WhatsApp",
+        "REJECTED": "Meta je zavrnila predlogo",
+        "DEFAULT": "Potrebno odobritev WhatsApp",
+        "NOT_FOUND": "Predloga ni na voljo na platformi Meta."
       },
       "TEMPLATE_CREATION": {
-        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
-        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+        "SUCCESS_MESSAGE": "Predloga za WhatsApp je bila uspešno ustvarjena in poslana v odobritev",
+        "ERROR_MESSAGE": "Ustvarjanje predloge za WhatsApp ni uspelo"
       },
       "TEMPLATE_UPDATE_DIALOG": {
-        "TITLE": "Edit survey details",
-        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Create new template",
-        "CANCEL": "Go back"
+        "TITLE": "Uredi podrobnosti ankete",
+        "DESCRIPTION": "Izbrisali bomo prejšnji predlog in ustvarili novega, ki bo ponovno poslan v odobritev za WhatsApp",
+        "CONFIRM": "Ustvari nov predlog",
+        "CANCEL": "Nazaj"
+      },
+      "UTILITY_ANALYZER": {
+        "ACTION": "Preveri uporabnost",
+        "HELPER_NOTE": "Pred oddajo preverite to sporočilo za izboljšanje ustreznosti Utility. Sistem ustvari namenski CSAT predlogo z gumbi za poročanje in jo odda kot Utility; Meta jo lahko glede na vsebino preklasificira kot Marketing.",
+        "RESULT_LABEL": "Napoved kategorije Meta",
+        "GUIDANCE_NOTE": "To je kontrola za usmerjanje, ne pa zagotovilo odobritve Meta.",
+        "SUGGESTION_LABEL": "Predlagana varna preureditev za uporabnost",
+        "APPLY": "Uporabi to preoblikovanje",
+        "ERROR_MESSAGE": "Sporočila ni bilo mogoče analizirati. Poskusite znova.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "Verjetno uporabno",
+          "LIKELY_MARKETING": "Verjetno marketinško",
+          "UNCLEAR": "Potrebna pojasnila"
+        }
       },
       "SURVEY_RULE": {
-        "LABEL": "Survey rule",
-        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
-        "DESCRIPTION_SUFFIX": "any of the labels",
+        "LABEL": "Pravilo ankete",
+        "DESCRIPTION_PREFIX": "Pošlji anketo, če je pogovor",
+        "DESCRIPTION_SUFFIX": "katerakoli od oznak",
         "OPERATOR": {
           "CONTAINS": "vsebuje",
           "DOES_NOT_CONTAINS": "ne vsebuje"
         },
-        "SELECT_PLACEHOLDER": "select labels"
+        "SELECT_PLACEHOLDER": "izberi oznake"
       },
-      "NOTE": "Note: CSAT surveys are sent only once per conversation",
-      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "NOTE": "Opomba: CSAT ankete se pošljejo samo enkrat na pogovor",
+      "WHATSAPP_NOTE": "Opomba: Ko shranite, sistem ustvari namensko CSAT predlogo v WhatsAppu (uporablja se za zajem ocene in povratnih informacij v poročilih) in jo odda kot Utility za odobritev. Meta jo lahko glede na vsebino še vedno klasificira kot Marketing. Po odobritvi se ankete pošljejo le enkrat na pogovor v skladu s pravili ankete.",
       "API": {
-        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
-        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+        "SUCCESS_MESSAGE": "Nastavitve CSAT so bile uspešno posodobljene",
+        "ERROR_MESSAGE": "Nastavitev CSAT ni bilo mogoče posodobiti. Prosimo, poskusite znova kasneje."
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TITLE": "Nastavite svojo razpoložljivost",
+      "SUBTITLE": "Nastavite svojo razpoložljivost na pripomočku za klepet v živo",
+      "WEEKLY_TITLE": "Nastavite tedenske ure",
+      "TIMEZONE_LABEL": "Izberi časovni pas",
+      "UPDATE": "Posodobi nastavitve delovnega časa",
+      "TOGGLE_AVAILABILITY": "Omogoči razpoložljivost za ta poštni predal",
+      "UNAVAILABLE_MESSAGE_LABEL": "Sporočilo o nedosegljivosti za obiskovalce",
+      "TOGGLE_HELP": "Omogočanje poslovne razpoložljivosti bo prikazalo razpoložljive ure na widgetu za klepet v živo, tudi če so vsi agenti brez povezave. Izven razpoložljivih ur lahko obiskovalce opozorite s sporočilom in predklepetnim obrazcem.",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "DAY": "Dan",
+        "AVAILABILITY": "Razpoložljivost",
+        "HOURS": "Ure",
+        "ENABLE": "Omogoči razpoložljivost za ta dan",
+        "UNAVAILABLE": "Ni na voljo",
+        "VALIDATION_ERROR": "Začetni čas mora biti pred končnim časom.",
+        "CHOOSE": "Izberi"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "Celi dan"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
+      "SUBTITLE": "Nastavite svoje IMAP podatke",
       "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "UPDATE": "Posodobi nastavitve IMAP",
+      "TOGGLE_AVAILABILITY": "Omogoči konfiguracijo IMAP za ta poštni predal",
       "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "Nastavitve IMAP so bile uspešno posodobljene",
+        "ERROR_MESSAGE": "Ni mogoče posodobiti nastavitev IMAP"
       },
       "ADDRESS": {
-        "LABEL": "Address",
+        "LABEL": "Naslov",
         "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "Vrata",
+        "PLACE_HOLDER": "Vrata"
       },
       "LOGIN": {
         "LABEL": "Prijava",
@@ -899,29 +1000,29 @@
         "LABEL": "Geslo",
         "PLACE_HOLDER": "Geslo"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "Omogoči SSL"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
+      "SUBTITLE": "Ponovno pooblastite svoj MICROSOFT račun"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "SUBTITLE": "Nastavite svoje SMTP podatke",
+      "UPDATE": "Posodobi nastavitve SMTP",
+      "TOGGLE_AVAILABILITY": "Omogoči konfiguracijo SMTP za ta poštni predal",
       "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "Nastavitve SMTP so bile uspešno posodobljene",
+        "ERROR_MESSAGE": "Posodobitev nastavitev SMTP ni bila mogoča"
       },
       "ADDRESS": {
-        "LABEL": "Address",
+        "LABEL": "Naslov",
         "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "Vrata",
+        "PLACE_HOLDER": "Vrata"
       },
       "LOGIN": {
         "LABEL": "Prijava",
@@ -932,16 +1033,16 @@
         "PLACE_HOLDER": "Geslo"
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "Domena",
+        "PLACE_HOLDER": "Domena"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "Šifriranje",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
+      "OPEN_SSL_VERIFY_MODE": "Način preverjanja Open SSL",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Note: ",
+    "NOTE": "Opomba: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
@@ -949,60 +1050,61 @@
           "DELETE": {
             "API": {
               "SUCCESS_MESSAGE": "Avatar deleted successfully",
-              "ERROR_MESSAGE": "There was an error, please try again"
+              "ERROR_MESSAGE": "Prišlo je do napake, prosimo, poskusite znova"
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Website Name",
-          "PLACE_HOLDER": "Enter your website name (eg: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "LABEL": "Ime spletnega mesta",
+          "PLACE_HOLDER": "Vnesite ime vaše spletne strani (npr. Acme Inc)",
+          "ERROR": "Prosimo, vnesite veljavno ime spletnega mesta"
         },
         "WELCOME_HEADING": {
-          "LABEL": "Welcome Heading",
+          "LABEL": "Pozdravni naslov",
           "PLACE_HOLDER": "Hi there!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACE_HOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "Pozdravni slogan",
+          "PLACE_HOLDER": "Povezovanje z nami je preprosto. Vprašajte nas karkoli ali delite svoje mnenje."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day"
+          "LABEL": "Čas odgovora",
+          "IN_A_FEW_MINUTES": "Čez nekaj minut",
+          "IN_A_FEW_HOURS": "Čez nekaj ur",
+          "IN_A_DAY": "V enem dnevu"
         },
-        "WIDGET_COLOR_LABEL": "Widget Color",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_COLOR_LABEL": "Barva pripomočka",
+        "WIDGET_BUBBLE": "Mehurček",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Položaj:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Vrsta:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Klepetajte z nami",
-          "LABEL": "Widget Bubble Launcher Title",
+          "LABEL": "Naslov zaganjalnika",
           "PLACE_HOLDER": "Klepetajte z nami"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "Posodobi nastavitve pripomočka",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "Nastavitve pripomočka so bile uspešno posodobljene",
+            "ERROR_MESSAGE": "Ni mogoče posodobiti nastavitev pripomočka"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "Predogled",
+          "SCRIPT": "Skript"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "Levo",
+          "RIGHT": "Desno"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "Standardno",
+          "EXPANDED_BUBBLE": "Razširjen mehurček"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "Privzeto",
+        "CHAT": "Način klepeta"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Običajno odgovorimo v nekaj minutah",
@@ -1015,11 +1117,11 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
+          "ONLINE": "Smo na spletu",
           "OFFLINE": "Trenutno nismo na voljo"
         },
         "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "AGENT_MESSAGE": "Pozdrav"
       },
       "BRANDING_TEXT": "Poganja Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
@@ -1027,15 +1129,15 @@
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
         "TITLE": "Microsoft",
-        "DESCRIPTION": "Connect with Microsoft"
+        "DESCRIPTION": "Poveži se z Microsoftom"
       },
       "GOOGLE": {
         "TITLE": "Google",
-        "DESCRIPTION": "Connect with Google"
+        "DESCRIPTION": "Poveži se z Google"
       },
       "OTHER_PROVIDERS": {
-        "TITLE": "Other Providers",
-        "DESCRIPTION": "Connect with Other Providers"
+        "TITLE": "Drugi ponudniki",
+        "DESCRIPTION": "Povežite se z drugimi ponudniki"
       }
     },
     "CHANNELS": {
@@ -1048,10 +1150,10 @@
       "EMAIL": "E-pošta",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Channel",
+      "API": "API kanal",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
-      "VOICE": "Voice"
+      "VOICE": "Glas"
     }
   }
 }

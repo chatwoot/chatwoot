@@ -3,8 +3,11 @@
     "HEADER": "เงื่อนไขอัตโนมัติ",
     "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
     "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "เพิ่มเงื่อนไขอัตโนมัติ",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "กำลังโหลดเงื่อนไขอัตโนมัติ",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "เพิ่มเงื่อนไขอัตโนมัติ",
       "SUBMIT": "สร้าง",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "ชื่อ",
-        "DESCRIPTION": "คำอธิบาย",
         "ACTIVE": "ใช้งานอยู่",
-        "CREATED_ON": "สร้างเมื่อ"
+        "CREATED_ON": "สร้างเมื่อ",
+        "ACTIONS": "การกระทำ"
       },
       "404": "ไม่พบเงื่อนไขอัตโนมัติ"
     },
@@ -87,7 +90,7 @@
       "RESET_MESSAGE": "การเปลี่ยนประเภทเหตุการณ์ จะรีเช็ทเงื่อนไขและเหตุการณ์ที่คุณเพิ่มไว้ด้านล่าง"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "คุณต้องมีอย่างน้อย 1 เงื่อนไขเพื่อบันทึก",
+      "DELETE_MESSAGE": "คุณต้องมีอย่างน้อยหนึ่งเงื่อนไขเพื่อบันทึก",
       "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
       "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
@@ -137,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Assign to Agent",
       "ASSIGN_TEAM": "Assign a Team",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
       "ADD_LABEL": "Add a Label",
       "REMOVE_LABEL": "Remove a Label",
       "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
@@ -150,7 +155,8 @@
       "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "Change Priority",
       "ADD_SLA": "Add SLA",
-      "OPEN_CONVERSATION": "เปิดดูการสนทนา"
+      "OPEN_CONVERSATION": "เปิดดูการสนทนา",
+      "PENDING_CONVERSATION": "Mark conversation as pending"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Incoming Message",
@@ -165,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
+      "PRIVATE_NOTE": "โน้ตส่วนตัว",
       "MESSAGE_CONTAINS": "Message Contains",
       "EMAIL": "อีเมล์",
       "INBOX": "กล่องข้อความ",

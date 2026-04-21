@@ -1,627 +1,672 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "Fshi Integrimin Shopify",
+        "MESSAGE": "A jeni i sigurt që dëshironi të fshini integrimin e Shopify?"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
-        "LABEL": "Store URL",
-        "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
-        "CANCEL": "Cancel",
-        "SUBMIT": "Connect Store"
+        "TITLE": "Lidhu me dyqanin Shopify",
+        "LABEL": "URL e dyqanit",
+        "PLACEHOLDER": "dyqani-juaj.myshopify.com",
+        "HELP": "Shkruani URL-në myshopify.com të dyqanit tuaj Shopify",
+        "CANCEL": "Anulo",
+        "SUBMIT": "Lidhu me Dyqan"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "Ndodhi një gabim gjatë lidhjes me Shopify. Ju lutemi provoni përsëri ose kontaktoni mbështetjen nëse problemi vazhdon."
     },
-    "HEADER": "Integrations",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
-    "LOADING": "Fetching integrations",
+    "HEADER": "Integrimet",
+    "DESCRIPTION": "Chatwoot integrohet me shumë mjete dhe shërbime për të përmirësuar efikasitetin e ekipit tuaj. Eksploroni listën më poshtë për të konfiguruar aplikacionet tuaja të preferuara.",
+    "LEARN_MORE": "Mësoni më shumë rreth integrimeve",
+    "LOADING": "Duke marrë integrimet",
+    "SEARCH_PLACEHOLDER": "Kërko integrime...",
+    "NO_RESULTS": "Nuk u gjet asnjë integrim që përputhet me kërkimin tuaj",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
-      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "DISABLED": "Captain nuk është aktivizuar në llogarinë tuaj.",
+      "CLICK_HERE_TO_CONFIGURE": "Klikoni këtu për të konfiguruar",
+      "LOADING_CONSOLE": "Duke ngarkuar Konsolën Captain...",
+      "FAILED_TO_LOAD_CONSOLE": "Ngarkimi i Konsolës Captain dështoi. Ju lutemi rifreskoni dhe provoni përsëri."
     },
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
-      "LEARN_MORE": "Learn more about webhooks",
+      "SUBSCRIBED_EVENTS": "Ngjarjet e abonuar",
+      "LEARN_MORE": "Mëso më shumë rreth webhook-eve",
+      "SECRET": {
+        "LABEL": "Sekret",
+        "COPY": "Kopjo sekretin në kujtesën e përkohshme",
+        "COPY_SUCCESS": "Sekreti u kopjua në kujtesën e përkohshme",
+        "TOGGLE": "Ndrysho dukshmërinë e sekretit",
+        "CREATED_DESC": "Webhook juaj është krijuar. Përdorni sekretin më poshtë për të verifikuar nënshkrimet e webhook-ut. Ju lutemi kopjoni tani — mund ta gjeni edhe më vonë në formularin e redaktimit të webhook-ut.",
+        "DONE": "U krye"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
-        "CANCEL": "Cancel",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "Anulo",
+        "DESC": "Ngjarjet e webhook ju ofrojnë informacion në kohë reale për atë që po ndodh në llogarinë tuaj Chatwoot. Ju lutemi shkruani një URL të vlefshme për të konfiguruar një callback.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Ngjarjet",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated",
-            "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_CREATED": "Biseda e krijuar",
+            "CONVERSATION_STATUS_CHANGED": "Statusi i bisedës u ndryshua",
+            "CONVERSATION_UPDATED": "Biseda u përditësua",
+            "MESSAGE_CREATED": "Mesazhi u krijua",
+            "MESSAGE_UPDATED": "Mesazhi u përditësua",
+            "WEBWIDGET_TRIGGERED": "Widget-i i bisedës live u hap nga përdoruesi",
+            "CONTACT_CREATED": "Kontakti u krijua",
+            "CONTACT_UPDATED": "Kontakti u përditësua",
+            "CONVERSATION_TYPING_ON": "Shkrimi në bisedë aktiv",
+            "CONVERSATION_TYPING_OFF": "Shkrimi në bisedë i çaktivizuar"
           }
         },
         "NAME": {
           "LABEL": "Webhook Name",
-          "PLACEHOLDER": "Enter the name of the webhook"
+          "PLACEHOLDER": "Shkruani emrin e webhook-ut"
         },
         "END_POINT": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Example: {webhookExampleURL}",
-          "ERROR": "Please enter a valid URL"
+          "LABEL": "URL e webhook",
+          "PLACEHOLDER": "Shembull: {webhookExampleURL}",
+          "ERROR": "Ju lutemi shkruani një URL të vlefshme"
         },
-        "EDIT_SUBMIT": "Update webhook",
-        "ADD_SUBMIT": "Create webhook"
+        "EDIT_SUBMIT": "Përditëso webhook",
+        "ADD_SUBMIT": "Krijo webhook"
       },
       "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "CONFIGURE": "Konfiguro",
+      "HEADER": "Cilësimet e webhook",
+      "HEADER_BTN_TXT": "Shto webhook të ri",
+      "LOADING": "Duke marrë webhook-et e bashkangjitura",
+      "SEARCH_404": "Nuk ka asnjë artikull që përputhet me këtë kërkim",
+      "SIDEBAR_TXT": "<p><b>Webhook-et</b> </p> <p>Webhook-et janë thirrje HTTP të cilat mund të përcaktohen për çdo llogari. Ato aktivizohen nga ngjarje si krijimi i mesazhit në Chatwoot. Mund të krijoni më shumë se një webhook për këtë llogari. <br /><br /> Për të krijuar një <b>webhook</b>, klikoni në butonin <b>Shto webhook të ri</b>. Gjithashtu mund të hiqni çdo webhook ekzistues duke klikuar butonin Fshi.</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "Nuk ka webhook të konfiguruara për këtë llogari.",
+        "TITLE": "Menaxho webhook-et",
         "TABLE_HEADER": {
-          "WEBHOOK_ENDPOINT": "Webhook endpoint",
-          "ACTIONS": "Actions"
+          "WEBHOOK_ENDPOINT": "Pika përfundimtare e webhook-ut",
+          "ACTIONS": "Veprime"
         }
       },
       "EDIT": {
-        "BUTTON_TEXT": "Edit",
-        "TITLE": "Edit webhook",
+        "BUTTON_TEXT": "Ndrysho",
+        "TITLE": "Ndrysho webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Konfigurimi i webhook u përditësua me sukses",
+          "ERROR_MESSAGE": "Nuk u mundua të lidhet me Serverin Woot, Ju lutemi provoni përsëri më vonë"
         }
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
+        "CANCEL": "Anulo",
+        "TITLE": "Shto webhook të ri",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Konfigurimi i Webhook u shtua me sukses",
+          "ERROR_MESSAGE": "Nuk u mund të lidhet me Serverin Woot, Ju lutemi provoni përsëri më vonë"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "Fshi",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook u fshi me sukses",
+          "ERROR_MESSAGE": "Nuk u mund të lidhet me Serverin Woot, Ju lutemi provoni përsëri më vonë"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "Konfirmo Fshirjen",
+          "MESSAGE": "A jeni i sigurt që dëshironi të fshini webhook-un? ({webhookURL})",
+          "YES": "Po, Fshi ",
+          "NO": "Jo, Ruaje"
         }
       }
     },
     "SLACK": {
-      "DELETE": "Delete",
+      "HEADER": "Slack",
+      "DELETE": "Fshi",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "Fshi integrimin",
+        "MESSAGE": "A jeni i sigurt që dëshironi të fshini integrimin? Kjo do të rezultojë në humbjen e aksesit në bisedat në hapësirën tuaj të punës në Slack."
       },
       "HELP_TEXT": {
-        "TITLE": "How to use the Slack Integration?",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
-        "SELECTED": "selected"
+        "TITLE": "Si të përdorni Integrimin e Slack?",
+        "BODY": "Me këtë integrim, të gjitha bisedat hyrëse do të sinkronizohen në kanalin ***{selectedChannelName}*** në hapësirën tuaj të punës në Slack. Ju mund të menaxhoni të gjitha bisedat me klientët direkt brenda kanalit dhe të mos humbisni asnjë mesazh.\n\nKëtu janë veçoritë kryesore të integrimit:\n\n**Përgjigjuni bisedave nga brenda Slack:** Për t’u përgjigjur në një bisedë në kanalin ***{selectedChannelName}*** në Slack, thjesht shkruani mesazhin tuaj dhe dërgojeni si një thread. Kjo do të krijojë një përgjigje për klientin përmes Chatwoot. Është kaq e thjeshtë!\n\n**Krijoni shënime private:** Nëse dëshironi të krijoni shënime private në vend të përgjigjeve, filloni mesazhin tuaj me ***`note:`***. Kjo siguron që mesazhi juaj të mbetet privat dhe nuk do të jetë i dukshëm për klientin.\n\n**Lidheni një profil agjenti:** Nëse personi që u përgjigj në Slack ka një profil agjenti në Chatwoot me të njëjtën email, përgjigjet do të lidhen automatikisht me atë profil agjenti. Kjo do të thotë që mund të ndiqni lehtësisht se kush tha çfarë dhe kur. Nga ana tjetër, kur personi që përgjigjet nuk ka një profil agjenti të lidhur, përgjigjet do të shfaqen nga profili i bot për klientin.",
+        "SELECTED": "i përzgjedhur"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
-        "UPDATE": "Update",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "OPTION_LABEL": "Zgjidh një kanal",
+        "UPDATE": "Përditëso",
+        "BUTTON_TEXT": "Lidhu me kanalin",
+        "DESCRIPTION": "Hapësira juaj e punës në Slack tani është lidhur me Chatwoot. Megjithatë, integrimi është aktualisht i paaktivizuar. Për të aktivizuar integrimin dhe për të lidhur një kanal me Chatwoot, ju lutemi klikoni butonin më poshtë.\n\n**Shënim:** Nëse po përpiqeni të lidhni një kanal privat, shtoni aplikacionin Chatwoot në kanalin Slack para se të vazhdoni me këtë hap.",
+        "ATTENTION_REQUIRED": "Kërkohet vëmendje",
+        "EXPIRED": "Integrimi juaj me Slack ka skaduar. Për të vazhduar marrjen e mesazheve në Slack, ju lutemi fshini integrimin dhe lidhni përsëri hapësirën tuaj të punës."
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "Ndodhi një gabim gjatë përditësimit të integrimit, ju lutemi provoni përsëri",
+      "UPDATE_SUCCESS": "Kanali u lidh me sukses",
+      "FAILED_TO_FETCH_CHANNELS": "Ndodhi një gabim gjatë marrjes së kanaleve nga Slack, ju lutemi provoni përsëri"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "Klikoni këtu për t'u bashkuar",
+      "LEAVE_THE_ROOM": "Largohu nga dhoma",
+      "START_VIDEO_CALL_HELP_TEXT": "Nisni një thirrje të re video me klientin",
+      "JOIN_ERROR": "Ndodhi një gabim gjatë bashkimit në thirrje, ju lutemi provoni përsëri",
+      "CREATE_ERROR": "Ndodhi një gabim gjatë krijimit të lidhjes së takimit, ju lutemi provoni përsëri"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " {option} with AI ",
+      "AI_ASSIST": "Asistencë AI",
+      "WITH_AI": " {option} me AI ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "Sugjerim Përgjigjeje",
+        "SUMMARIZE": "Përmbledhje",
+        "REPHRASE": "Përmirëso Shkrimin",
+        "FIX_SPELLING_GRAMMAR": "Rregullo drejtshkrimin dhe gramatikën",
+        "SHORTEN": "Shkurto",
+        "EXPAND": "Zgjero",
+        "MAKE_FRIENDLY": "Ndrysho tonin e mesazhit në miqësor",
+        "MAKE_FORMAL": "Përdor ton formal",
+        "SIMPLIFY": "Thjeshtëzo",
+        "CONFIDENT": "Përdor ton të sigurt",
+        "PROFESSIONAL": "Përdor ton profesional",
+        "CASUAL": "Përdor ton të përditshëm",
+        "STRAIGHTFORWARD": "Përdor ton të drejtpërdrejtë"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Përmirëso përgjigjen",
+        "IMPROVE_REPLY_SELECTION": "Përmirëso përzgjedhjen",
+        "CHANGE_TONE": {
+          "TITLE": "Ndrysho tonin",
+          "OPTIONS": {
+            "PROFESSIONAL": "Profesional",
+            "CASUAL": "I përditshëm",
+            "STRAIGHTFORWARD": "I thjeshtë",
+            "CONFIDENT": "I sigurt",
+            "FRIENDLY": "Miqësor"
+          }
+        },
+        "GRAMMAR": "Rregullo gramatikën dhe drejtshkrimin",
+        "SUGGESTION": "Sugjero një përgjigje",
+        "SUMMARIZE": "Përmbledh bisedën",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "Përmbajtje drafti",
+        "GENERATED_TITLE": "Përmbajtje e gjeneruar",
+        "AI_WRITING": "AI po shkruan",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
-          "CANCEL": "Cancel"
+          "APPLY": "Përdor këtë sugjerim",
+          "CANCEL": "Anulo"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "Integroni me OpenAI",
+        "DESC": "Shtoni veçori të avancuara të AI në panelin tuaj me modelet GPT të OpenAI. Për të filluar, shkruani çelësin API nga llogaria juaj OpenAI.",
+        "KEY_PLACEHOLDER": "Shkruani çelësin tuaj API të OpenAI",
         "BUTTONS": {
-          "NEED_HELP": "Need help?",
-          "DISMISS": "Dismiss",
-          "FINISH": "Finish Setup"
+          "NEED_HELP": "Keni nevojë për ndihmë?",
+          "DISMISS": "Mbyll",
+          "FINISH": "Përfundo konfigurimin"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "Mund të konfiguroni integrimin me OpenAI më vonë, kur të dëshironi.",
+        "SUCCESS_MESSAGE": "Integrimi me OpenAI u konfigurua me sukses"
       },
-      "TITLE": "Improve With AI",
-      "SUMMARY_TITLE": "Summary with AI",
-      "REPLY_TITLE": "Reply suggestion with AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "Përmirëso me AI",
+      "SUMMARY_TITLE": "Përmbledhje me AI",
+      "REPLY_TITLE": "Sugjerim përgjigjeje me AI",
+      "SUBTITLE": "Një përgjigje e përmirësuar do të gjenerohet duke përdorur AI, bazuar në draftin tuaj aktual.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "Toni",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "Profesional",
+          "FRIENDLY": "Miqësor"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
-        "CANCEL": "Cancel"
+        "GENERATE": "Gjenero",
+        "GENERATING": "Duke gjeneruar...",
+        "CANCEL": "Anulo"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please verify your OpenAI API key and try again"
+      "GENERATE_ERROR": "Ndodhi një gabim gjatë përpunimit të përmbajtjes, ju lutemi verifikoni çelësin tuaj API të OpenAI dhe provoni përsëri"
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Fshi",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Integrimi u fshi me sukses"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Lidhu"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
-      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "TITLE": "Aplikacionet e Panelit",
+      "HEADER_BTN_TXT": "Shto një aplikacion të ri paneli",
+      "SIDEBAR_TXT": "<p><b>Aplikacionet e Dashboard</b></p><p>Aplikacionet e Dashboard lejojnë organizatat të integrojnë një aplikacion brenda dashboard-it të Chatwoot për të ofruar kontekst për agjentët e mbështetjes së klientit. Kjo veçori ju lejon të krijoni një aplikacion në mënyrë të pavarur dhe ta integroni atë brenda dashboard-it për të ofruar informacion për përdoruesin, porositë e tyre, ose historikun e mëparshëm të pagesave.</p><p>Kur integroni aplikacionin tuaj duke përdorur dashboard-in në Chatwoot, aplikacioni juaj do të marrë kontekstin e bisedës dhe kontaktit si një ngjarje dritare. Zbatoni një dëgjues për ngjarjen e mesazhit në faqen tuaj për të marrë kontekstin.</p><p>Për të shtuar një aplikacion të ri dashboard, klikoni në butonin 'Shto një aplikacion të ri dashboard'.</p>",
+      "DESCRIPTION": "Aplikacionet e panelit lejojnë organizatat të fusin një aplikacion brenda panelit për të siguruar kontekst për agjentët e mbështetjes së klientit. Kjo veçori ju lejon të krijoni një aplikacion në mënyrë të pavarur dhe ta fusni atë për të dhënë informacion mbi përdoruesin, porositë e tyre ose historikun e mëparshëm të pagesave.",
+      "LEARN_MORE": "Mësoni më shumë rreth Aplikacioneve të Panelit",
+      "COUNT": "{n} aplikacion paneli | {n} aplikacione paneli",
+      "SEARCH_PLACEHOLDER": "Kërko aplikacione në panelin e kontrollit...",
+      "NO_RESULTS": "Nuk u gjetën aplikacione në panelin e kontrollit që përputhen me kërkimin tuaj",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "Nuk ka asnjë aplikacion paneli të konfiguruar ende në këtë llogari",
+        "LOADING": "Duke marrë aplikacionet e panelit...",
         "TABLE_HEADER": {
-          "NAME": "Name",
-          "ENDPOINT": "Endpoint"
+          "NAME": "Emri",
+          "ENDPOINT": "Pika përfundimtare",
+          "ACTIONS": "Veprime"
         },
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "Ndrysho aplikacionin",
+        "DELETE_TOOLTIP": "Fshi aplikacionin"
       },
       "FORM": {
-        "TITLE_LABEL": "Name",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_LABEL": "Emri",
+        "TITLE_PLACEHOLDER": "Shkruani një emër për aplikacionin tuaj të panelit",
+        "TITLE_ERROR": "Kërkohet një emër për aplikacionin e panelit",
+        "URL_LABEL": "Pika përfundimtare",
+        "URL_PLACEHOLDER": "Shkruani URL-n e endpoint-it ku është hostuar aplikacioni juaj",
+        "URL_ERROR": "Kërkohet një URL e vlefshme"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
-        "FORM_SUBMIT": "Submit",
-        "FORM_CANCEL": "Cancel",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "HEADER": "Shto një aplikacion të ri në panelin e kontrollit",
+        "FORM_SUBMIT": "Dërgo",
+        "FORM_CANCEL": "Anulo",
+        "API_SUCCESS": "Aplikacioni i dashboard u konfigurua me sukses",
+        "API_ERROR": "Nuk mundëm të krijojmë një aplikacion. Ju lutemi provoni përsëri më vonë"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
-        "FORM_SUBMIT": "Update",
-        "FORM_CANCEL": "Cancel",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "HEADER": "Ndrysho aplikacionin e panelit",
+        "FORM_SUBMIT": "Përditëso",
+        "FORM_CANCEL": "Anulo",
+        "API_SUCCESS": "Aplikacioni i dashboard u përditësua me sukses",
+        "API_ERROR": "Nuk mundëm ta përditësojmë aplikacionin. Ju lutemi provoni përsëri më vonë"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - {appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "CONFIRM_YES": "Po, fshije atë",
+        "CONFIRM_NO": "Jo, ruaje atë",
+        "TITLE": "Konfirmo fshirjen",
+        "MESSAGE": "A jeni i sigurt që dëshironi të fshini aplikacionin - {appName}?",
+        "API_SUCCESS": "Aplikacioni i panelit u fshi me sukses",
+        "API_ERROR": "Nuk mundëm ta fshijmë aplikacionin. Ju lutemi provoni përsëri më vonë"
       }
     },
     "LINEAR": {
-      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
-      "CREATE": "Create",
+      "HEADER": "Linear",
+      "ADD_OR_LINK_BUTTON": "Krijo/Lidhe Çështjen në Linear",
+      "LOADING": "Duke marrë çështjet në Linear...",
+      "LOADING_ERROR": "Ndodhi një gabim gjatë marrjes së çështjeve në Linear, ju lutemi provoni përsëri",
+      "CREATE": "Krijo",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
-        "TITLE": "Link",
-        "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
-        "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "SEARCH": "Kërko çështjet",
+        "SELECT": "Zgjidh çështjen",
+        "TITLE": "Lidhje",
+        "EMPTY_LIST": "Nuk u gjetën çështje lineare",
+        "LOADING": "Duke u ngarkuar",
+        "ERROR": "Ndodhi një gabim gjatë marrjes së çështjeve linear, ju lutemi provoni përsëri",
+        "LINK_SUCCESS": "Çështja u lidh me sukses",
+        "LINK_ERROR": "Ndodhi një gabim gjatë lidhjes së çështjes, ju lutemi provoni përsëri",
+        "LINK_TITLE": "Bisedë (#{conversationId}) me {name}"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "TITLE": "Krijo/lidhe çështje linear",
+        "DESCRIPTION": "Krijo çështje Linear nga bisedat, ose lidhe ato ekzistuese për ndjekje pa ndërprerje.",
         "FORM": {
           "TITLE": {
-            "LABEL": "Title",
-            "PLACEHOLDER": "Enter title",
-            "REQUIRED_ERROR": "Title is required"
+            "LABEL": "Titulli",
+            "PLACEHOLDER": "Shkruani titullin",
+            "REQUIRED_ERROR": "Titulli është i nevojshëm"
           },
           "DESCRIPTION": {
-            "LABEL": "Description",
-            "PLACEHOLDER": "Enter description"
+            "LABEL": "Përshkrimi",
+            "PLACEHOLDER": "Shkruani përshkrimin"
           },
           "TEAM": {
-            "LABEL": "Team",
-            "PLACEHOLDER": "Select team",
-            "SEARCH": "Search team",
-            "REQUIRED_ERROR": "Team is required"
+            "LABEL": "Ekipi",
+            "PLACEHOLDER": "Zgjidh ekipin",
+            "SEARCH": "Kërko ekipin",
+            "REQUIRED_ERROR": "Ekipi është i nevojshëm"
           },
           "ASSIGNEE": {
-            "LABEL": "Assignee",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "LABEL": "I caktuar",
+            "PLACEHOLDER": "Zgjidh personin përgjegjës",
+            "SEARCH": "Kërko personin përgjegjës"
           },
           "PRIORITY": {
-            "LABEL": "Priority",
-            "PLACEHOLDER": "Select priority",
-            "SEARCH": "Search priority"
+            "LABEL": "Prioriteti",
+            "PLACEHOLDER": "Zgjidh prioritetin",
+            "SEARCH": "Kërko prioritetin"
           },
           "LABEL": {
-            "LABEL": "Label",
-            "PLACEHOLDER": "Select label",
-            "SEARCH": "Search label"
+            "LABEL": "Etiketë",
+            "PLACEHOLDER": "Zgjidh etiketën",
+            "SEARCH": "Kërko etiketën"
           },
           "STATUS": {
-            "LABEL": "Status",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "LABEL": "Statusi",
+            "PLACEHOLDER": "Zgjidh statusin",
+            "SEARCH": "Kërko statusin"
           },
           "PROJECT": {
-            "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "LABEL": "Projekti",
+            "PLACEHOLDER": "Zgjidhni projektin",
+            "SEARCH": "Kërko projektin"
           }
         },
-        "CREATE": "Create",
-        "CANCEL": "Cancel",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE": "Krijo",
+        "CANCEL": "Anulo",
+        "CREATE_SUCCESS": "Çështja u krijua me sukses",
+        "CREATE_ERROR": "Ndodhi një gabim gjatë krijimit të çështjes, ju lutemi provoni përsëri",
+        "LOADING_TEAM_ERROR": "Ndodhi një gabim gjatë marrjes së ekipeve, ju lutemi provoni përsëri",
+        "LOADING_TEAM_ENTITIES_ERROR": "Ndodhi një gabim gjatë marrjes së entiteteve të ekipit, ju lutemi provoni përsëri"
       },
       "ISSUE": {
-        "STATUS": "Status",
-        "PRIORITY": "Priority",
-        "ASSIGNEE": "Assignee",
-        "LABELS": "Labels",
-        "CREATED_AT": "Created at {createdAt}"
+        "STATUS": "Statusi",
+        "PRIORITY": "Prioriteti",
+        "ASSIGNEE": "I caktohet",
+        "LABELS": "Etiketat",
+        "CREATED_AT": "Krijuar më {createdAt}"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "TITLE": "Çliro lidhjen",
+        "SUCCESS": "Çlirimi i lidhjes së çështjes u krye me sukses",
+        "ERROR": "Ndodhi një gabim gjatë çlirimit të lidhjes së çështjes, ju lutemi provoni përsëri"
       },
-      "NO_LINKED_ISSUES": "No linked issues found",
+      "NO_LINKED_ISSUES": "Nuk u gjetën çështje të lidhura",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
-        "CONFIRM": "Yes, delete",
-        "CANCEL": "Cancel"
+        "TITLE": "A jeni i sigurt që dëshironi të fshini integrimin?",
+        "MESSAGE": "A jeni i sigurt që dëshironi të fshini integrimin?",
+        "CONFIRM": "Po, fshije",
+        "CANCEL": "Anulo"
       },
       "CTA": {
-        "TITLE": "Connect to Linear",
-        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
-        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
-        "BUTTON_TEXT": "Connect Linear workspace"
+        "TITLE": "Lidhu me Linear",
+        "AGENT_DESCRIPTION": "Hapësira e punës Linear nuk është lidhur. Kërkoni nga administratori juaj të lidhë një hapësirë pune për të përdorur këtë integrim.",
+        "DESCRIPTION": "Hapësira e punës Linear nuk është lidhur. Klikoni butonin më poshtë për të lidhur hapësirën tuaj të punës dhe për të përdorur këtë integrim.",
+        "BUTTON_TEXT": "Lidhu me hapësirën e punës Linear"
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
-        "CONFIRM": "Yes, delete",
-        "CANCEL": "Cancel"
+        "TITLE": "A jeni i sigurt që dëshironi të fshini integrimin e Notion?",
+        "MESSAGE": "Fshirja e këtij integrimi do të heqë aksesin në hapësirën tuaj të punës në Notion dhe do të ndalojë të gjitha funksionalitetet e lidhura.",
+        "CONFIRM": "Po, fshije",
+        "CANCEL": "Anulo"
       }
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "NAME": "Kapiten",
+    "HEADER_KNOW_MORE": "Mëso më shumë",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "Asistentë",
+      "SWITCH_ASSISTANT": "Ndrysho midis asistentëve",
+      "NEW_ASSISTANT": "Krijo Asistent",
+      "EMPTY_LIST": "Nuk u gjetën asistentë, ju lutemi krijoni një për të filluar"
     },
     "COPILOT": {
-      "TITLE": "Copilot",
-      "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
-      "SEND_MESSAGE": "Send message...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
+      "TITLE": "Kopilot",
+      "TRY_THESE_PROMPTS": "Provo këto sugjerime",
+      "PANEL_TITLE": "Filloni me Copilot",
+      "KICK_OFF_MESSAGE": "Keni nevojë për një përmbledhje të shpejtë, doni të kontrolloni bisedat e kaluara, apo të hartoni një përgjigje më të mirë? Copilot është këtu për të përshpejtuar punën.",
+      "SEND_MESSAGE": "Dërgo mesazh...",
+      "EMPTY_MESSAGE": "Ndodhi një gabim gjatë gjenerimit të përgjigjes. Ju lutemi provoni përsëri.",
+      "LOADER": "Kapiteni po mendon",
       "YOU": "Ju",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "USE": "Përdor këtë",
+      "RESET": "Rivendos",
+      "SHOW_STEPS": "Trego hapat",
+      "SELECT_ASSISTANT": "Zgjidh Asistentin",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Përmbledh këtë bisedë",
+          "CONTENT": "Përmbledh pikat kryesore të diskutimit midis klientit dhe agjentit të mbështetjes, duke përfshirë shqetësimet, pyetjet e klientit dhe zgjidhjet ose përgjigjet e ofruara nga agjenti i mbështetjes"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Sugjero një përgjigje",
+          "CONTENT": "Analizo pyetjen e klientit dhe harto një përgjigje që adreson në mënyrë efektive shqetësimet ose pyetjet e tyre. Sigurohu që përgjigjja të jetë e qartë, koncize dhe të ofrojë informacion të dobishëm."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Vlerëso këtë bisedë",
+          "CONTENT": "Rishiko bisedën për të parë sa mirë i përmbush nevojat e klientit. Jep një vlerësim nga 5 bazuar në tonin, qartësinë dhe efektivitetin."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "Biseda me prioritet të lartë",
+          "CONTENT": "Më jep një përmbledhje të të gjitha bisedave të hapura me prioritet të lartë. Përfshi ID-në e bisedës, emrin e klientit (nëse është i disponueshëm), përmbajtjen e mesazhit të fundit dhe agjentin e caktuar. Grupohu sipas statusit nëse është e rëndësishme."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "Listo kontaktet",
+          "CONTENT": "Më trego listën e 10 kontakteve kryesore. Përfshi emrin, emailin ose numrin e telefonit (nëse është i disponueshëm), kohën e fundit kur janë parë, etiketat (nëse ka)."
         }
       }
     },
     "PLAYGROUND": {
       "USER": "Ju",
-      "ASSISTANT": "Assistant",
+      "ASSISTANT": "Asistent",
       "MESSAGE_PLACEHOLDER": "Shkruani mesazhin tuaj...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "Fushë loje",
+      "DESCRIPTION": "Përdorni këtë fushë loje për të dërguar mesazhe asistentit tuaj dhe për të kontrolluar nëse përgjigjet saktë, shpejt dhe me tonin që prisni.",
+      "CREDIT_NOTE": "Mesazhet e dërguara këtu do të llogariten në kreditë tuaja të Captain."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "Përmirëso për të përdorur Captain AI",
+      "AVAILABLE_ON": "Captain nuk është i disponueshëm në planin falas.",
+      "UPGRADE_PROMPT": "Përmirëso planin tënd për të pasur akses në asistentët tanë, copilot dhe më shumë.",
+      "UPGRADE_NOW": "Përmirëso tani",
+      "CANCEL_ANYTIME": "Mund të ndryshosh ose anullosh planin tënd në çdo kohë"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "Captain AI është në dispozicion vetëm në planet Enterprise.",
+      "UPGRADE_PROMPT": "Përmirëso planin tënd për të pasur akses në asistentët tanë, copilot dhe më shumë.",
+      "ASK_ADMIN": "Ju lutemi kontaktoni administratorin tuaj për përmirësimin."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "Keni përdorur mbi 80% të kufirit të përgjigjeve tuaja. Për të vazhduar përdorimin e Captain AI, ju lutemi përmirësoni.",
+      "DOCUMENTS": "Kufiri i dokumenteve është arritur. Përmirësoni për të vazhduar përdorimin e Captain AI."
     },
     "FORM": {
-      "CANCEL": "Cancel",
-      "CREATE": "Create",
-      "EDIT": "Update"
+      "CANCEL": "Anulo",
+      "CREATE": "Krijo",
+      "EDIT": "Përditëso"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
-      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
-      "ADD_NEW": "Create a new assistant",
+      "HEADER": "Asistentë",
+      "NO_ASSISTANTS_AVAILABLE": "Nuk ka asistentë të disponueshëm në llogarinë tuaj.",
+      "ADD_NEW": "Krijo një asistent të ri",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "TITLE": "A jeni i sigurt që dëshironi të fshini ndihmësin?",
+        "DESCRIPTION": "Kjo veprim është i përhershëm. Fshirja e këtij ndihmësi do ta heqë atë nga të gjitha kutitë postare të lidhura dhe do të fshijë përgjithmonë gjithë njohuritë e gjeneruara.",
+        "CONFIRM": "Po, fshi",
+        "SUCCESS_MESSAGE": "Ndihmësi është fshirë me sukses",
+        "ERROR_MESSAGE": "Ndodhi një gabim gjatë fshirjes së ndihmësit, ju lutemi provoni përsëri."
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "Plotësoni detajet më poshtë për të emëruar asistentin tuaj, përshkruani qëllimin e tij dhe specifikoni produktin që do të mbështesë.",
       "CREATE": {
-        "TITLE": "Create an assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "TITLE": "Krijo një asistent",
+        "SUCCESS_MESSAGE": "Asistenti u krijua me sukses",
+        "ERROR_MESSAGE": "Ndodhi një gabim gjatë krijimit të asistentit, ju lutemi provoni përsëri."
       },
       "FORM": {
-        "UPDATE": "Update",
+        "UPDATE": "Përditëso",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
-          "FEATURES": "Features",
-          "TOOLS": "Tools "
+          "BASIC_INFO": "Informacion bazë",
+          "SYSTEM_MESSAGES": "Mesazhet e Sistemit",
+          "INSTRUCTIONS": "Udhëzime",
+          "FEATURES": "Veçoritë",
+          "TOOLS": "Mjetet "
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "LABEL": "Emri",
+          "PLACEHOLDER": "Shkruani emrin e asistentit",
+          "ERROR": "Emri është i nevojshëm"
         },
         "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
+          "LABEL": "Temperatura e përgjigjes",
+          "DESCRIPTION": "Rregullo sa krijuese ose kufizuese duhet të jenë përgjigjet e asistentit. Vlerat më të ulëta prodhojnë përgjigje më të përqendruara dhe deterministe, ndërsa vlerat më të larta lejojnë rezultate më krijuese dhe të ndryshme."
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter assistant description",
-          "ERROR": "The description is required"
+          "LABEL": "Përshkrimi",
+          "PLACEHOLDER": "Shkruani përshkrimin e asistentit",
+          "ERROR": "Përshkrimi është i nevojshëm"
         },
         "PRODUCT_NAME": {
-          "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name",
-          "ERROR": "The product name is required"
+          "LABEL": "Emri i Produktit",
+          "PLACEHOLDER": "Shkruani emrin e produktit",
+          "ERROR": "Emri i produktit është i nevojshëm"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "Mesazhi i mirëseardhjes",
+          "PLACEHOLDER": "Fut mesazhin e mirëseardhjes"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "Mesazhi i dorëzimit",
+          "PLACEHOLDER": "Fut mesazhin e dorëzimit"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "Mesazhi i zgjidhjes",
+          "PLACEHOLDER": "Fut mesazhin e zgjidhjes"
         },
         "INSTRUCTIONS": {
           "LABEL": "Udhëzime",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "PLACEHOLDER": "Fut udhëzimet për asistentin"
         },
         "FEATURES": {
-          "TITLE": "Features",
-          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "TITLE": "Veçoritë",
+          "ALLOW_CONVERSATION_FAQS": "Gjenero Pyetje të Shpeshta nga bisedat e zgjidhura",
+          "ALLOW_MEMORIES": "Kapni detajet kyçe si kujtime nga ndërveprimet me klientët.",
+          "ALLOW_CITATIONS": "Përfshini citime burimesh në përgjigje",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
-        "TITLE": "Update the assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "TITLE": "Përditësoni asistentin",
+        "SUCCESS_MESSAGE": "Asistenti është përditësuar me sukses",
+        "ERROR_MESSAGE": "Ndodhi një gabim gjatë përditësimit të asistentit, ju lutemi provoni përsëri.",
+        "NOT_FOUND": "Asistenti nuk u gjet. Ju lutemi provoni përsëri."
       },
       "SETTINGS": {
-        "HEADER": "Settings",
+        "HEADER": "Cilësimet",
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "Cilësimet bazë",
+          "DESCRIPTION": "Përshtatni atë që thotë asistenti kur përfundon një bisedë ose e transferon te një njeri."
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
+          "TITLE": "Cilësimet e sistemit",
           "DESCRIPTION": "Përshtatni se çfarë thotë asistenti kur përfundon një bisedë ose kur e transferon te një agjent."
         },
         "CONTROL_ITEMS": {
-          "TITLE": "The Fun Stuff",
-          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "TITLE": "Gjërat argëtuese",
+          "DESCRIPTION": "Shto më shumë kontroll asistentit. (pak më vizual si një histori: Kufiri i pyetjes → skenarët → rezultati) Nxit përdoruesin ta përdorë me të vërtetë.",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Guardrails",
-              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+              "TITLE": "Kufij mbrojtës",
+              "DESCRIPTION": "Mban gjërat në rrugën e duhur—vetëm llojet e pyetjeve që dëshiron që asistenti yt t’i përgjigjet, asgjë jashtë kufijve ose jashtë temës."
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "TITLE": "Udhëzime përgjigjeje",
+              "DESCRIPTION": "Stili dhe struktura e përgjigjeve të asistentit tënd—të qarta dhe miqësore? Të shkurtra dhe të gjalla? Të detajuara dhe formale?"
             }
           }
         },
         "DELETE": {
-          "TITLE": "Delete Assistant",
-          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-          "BUTTON_TEXT": "Delete {assistantName}"
+          "TITLE": "Fshi Asistentin",
+          "DESCRIPTION": "Kjo veprim është i përhershëm. Fshirja e këtij asistenti do ta heqë atë nga të gjitha kutitë e lidhura dhe do të fshijë përgjithmonë të gjithë njohuritë e gjeneruara.",
+          "BUTTON_TEXT": "Fshij {assistantName}"
         }
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Edit Assistant",
-        "DELETE_ASSISTANT": "Delete Assistant",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "EDIT_ASSISTANT": "Ndrysho Asistentin",
+        "DELETE_ASSISTANT": "Fshi Asistentin",
+        "VIEW_CONNECTED_INBOXES": "Shiko kutitë postare të lidhura"
       },
       "EMPTY_STATE": {
-        "TITLE": "No assistants available",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
+        "TITLE": "Nuk ka asistentë në dispozicion",
+        "SUBTITLE": "Krijoni një asistent për të dhënë përgjigje të shpejta dhe të sakta për përdoruesit tuaj. Ai mund të mësojë nga artikujt tuaj të ndihmës dhe bisedat e kaluara.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "Asistenti Captain",
+          "NOTE": "Asistenti Captain komunikon drejtpërdrejt me klientët, mëson nga dokumentacioni juaj i ndihmës dhe bisedat e kaluara, dhe jep përgjigje të menjëhershme e të sakta. Ai trajton pyetjet fillestare dhe ofron zgjidhje të shpejta përpara se bisedën ta kalojë te një agjent kur është e nevojshme."
         }
       },
       "GUARDRAILS": {
         "TITLE": "Kufizime",
         "DESCRIPTION": "I mban gjërat në vijë—vetëm llojet e pyetjeve që dëshironi që asistenti juaj t’u përgjigjet, asgjë e ndaluar apo jashtë teme.",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECTED": "{count} artikull i zgjedhur | {count} artikuj të zgjedhur",
           "SELECT_ALL": "Zgjidh të gjitha ({count})",
           "UNSELECT_ALL": "Hiq përzgjedhjen nga të gjitha ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "BULK_DELETE_BUTTON": "Fshi"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "TITLE": "Shembuj rregullash mbrojtëse",
+            "ADD": "Shto të gjitha",
+            "ADD_SINGLE": "Shto këtë",
+            "SAVE": "Shto dhe ruaj (↵)",
+            "PLACEHOLDER": "Shkruaj një gardh tjetër..."
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
-            "CREATE": "Create",
-            "CANCEL": "Cancel",
+            "TITLE": "Shto një gardh",
+            "CREATE": "Krijo",
+            "CANCEL": "Anulo",
             "PLACEHOLDER": "Shkruani një kufizim tjetër...",
-            "TEST_ALL": "Test all"
+            "TEST_ALL": "Testo të gjitha"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Kërko..."
         },
-        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "EMPTY_MESSAGE": "Nuk u gjetën kufizime. Krijo ose shto shembuj për të filluar.",
+        "SEARCH_EMPTY_MESSAGE": "Nuk u gjetën kufizime për këtë kërkim.",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "Kufizimet u shtuan me sukses",
+            "ERROR": "Ndodhi një gabim gjatë shtimit të kufizimeve, ju lutemi provoni përsëri."
           },
           "UPDATE": {
             "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "ERROR": "Ndodhi një gabim gjatë përditësimit të rregullave, ju lutemi provoni përsëri."
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "SUCCESS": "Rregullat u fshinë me sukses",
+            "ERROR": "Ndodhi një gabim gjatë fshirjes së rregullave, ju lutemi provoni përsëri."
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
+        "TITLE": "Udhëzimet e përgjigjes",
         "DESCRIPTION": "Stili dhe struktura e përgjigjeve të asistentit tuaj—të qarta dhe miqësore? Të shkurtra dhe koncize? Të detajuara dhe formale?",
         "BULK_ACTION": {
           "SELECTED": "{count, plural, one {{count} element i përzgjedhur} other {{count} elemente të përzgjedhura}}",
           "SELECT_ALL": "Zgjidh të gjitha ({count})",
           "UNSELECT_ALL": "Hiq përzgjedhjen nga të gjitha ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "BULK_DELETE_BUTTON": "Fshij"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example response guidelines",
+            "TITLE": "Udhëzime shembull për përgjigjet",
             "ADD": "Shto të gjitha",
             "ADD_SINGLE": "Shto këtë",
             "SAVE": "Shto dhe ruaj (↵)",
-            "PLACEHOLDER": "Type in another response guideline..."
+            "PLACEHOLDER": "Shkruani një udhëzim tjetër për përgjigjen..."
           },
           "NEW": {
-            "TITLE": "Add a response guideline",
-            "CREATE": "Create",
-            "CANCEL": "Cancel",
+            "TITLE": "Shto një udhëzim për përgjigjen",
+            "CREATE": "Krijo",
+            "CANCEL": "Anulo",
             "PLACEHOLDER": "Shkruani një udhëzim tjetër për përgjigjet...",
             "TEST_ALL": "Testo të gjitha"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Kërko..."
         },
-        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "EMPTY_MESSAGE": "Nuk u gjetën udhëzime përgjigjeje. Krijoni ose shtoni shembuj për të filluar.",
+        "SEARCH_EMPTY_MESSAGE": "Nuk u gjetën udhëzime përgjigjeje për këtë kërkim.",
         "API": {
           "ADD": {
-            "SUCCESS": "Response Guidelines added successfully",
-            "ERROR": "There was an error adding response guidelines, please try again."
+            "SUCCESS": "Udhëzimet e përgjigjes u shtuan me sukses",
+            "ERROR": "Ndodhi një gabim gjatë shtimit të udhëzimeve të përgjigjes, ju lutemi provoni përsëri."
           },
           "UPDATE": {
             "SUCCESS": "Response Guidelines updated successfully",
-            "ERROR": "There was an error updating response guidelines, please try again."
+            "ERROR": "Ndodhi një gabim gjatë përditësimit të udhëzimeve të përgjigjes, ju lutemi provoni përsëri."
           },
           "DELETE": {
-            "SUCCESS": "Response Guidelines deleted successfully",
-            "ERROR": "There was an error deleting response guidelines, please try again."
+            "SUCCESS": "Udhëzimet e përgjigjes u fshinë me sukses",
+            "ERROR": "Ndodhi një gabim gjatë fshirjes së udhëzimeve të përgjigjes, ju lutemi provoni përsëri."
           }
         }
       },
@@ -632,345 +677,376 @@
           "SELECTED": "{count, plural, one {{count} element i përzgjedhur} other {{count} elemente të përzgjedhura}}",
           "SELECT_ALL": "Zgjidh të gjitha ({count})",
           "UNSELECT_ALL": "Hiq përzgjedhjen nga të gjitha ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "BULK_DELETE_BUTTON": "Fshi"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example scenarios",
+            "TITLE": "Shembuj skenarësh",
             "ADD": "Shto të gjitha",
             "ADD_SINGLE": "Shto këtë",
-            "TOOLS_USED": "Tools used :"
+            "TOOLS_USED": "Mjetet e përdorura :"
           },
           "NEW": {
-            "CREATE": "Add a scenario",
-            "TITLE": "Create a scenario",
+            "CREATE": "Shto një skenar",
+            "TITLE": "Krijo një skenar",
             "FORM": {
               "TITLE": {
-                "LABEL": "Title",
-                "PLACEHOLDER": "Enter a name for the scenario",
-                "ERROR": "Scenario name is required"
+                "LABEL": "Titulli",
+                "PLACEHOLDER": "Shkruaj një emër për skenarin",
+                "ERROR": "Emri i skenarit është i nevojshëm"
               },
               "DESCRIPTION": {
-                "LABEL": "Description",
-                "PLACEHOLDER": "Describe how and where this scenario will be used",
-                "ERROR": "Scenario description is required"
+                "LABEL": "Përshkrimi",
+                "PLACEHOLDER": "Përshkruani se si dhe ku do të përdoret ky skenar",
+                "ERROR": "Përshkrimi i skenarit është i nevojshëm"
               },
               "INSTRUCTION": {
-                "LABEL": "How to handle",
-                "PLACEHOLDER": "Describe how and where this scenario will be handled",
-                "ERROR": "Scenario content is required"
+                "LABEL": "Si të trajtohet",
+                "PLACEHOLDER": "Përshkruani se si dhe ku do të trajtohet ky skenar",
+                "ERROR": "Përmbajtja e skenarit është e nevojshme"
               },
-              "CREATE": "Create",
-              "CANCEL": "Cancel"
+              "CREATE": "Krijo",
+              "CANCEL": "Anulo"
             }
           }
         },
         "UPDATE": {
-          "CANCEL": "Cancel",
-          "UPDATE": "Update changes"
+          "CANCEL": "Anulo",
+          "UPDATE": "Përditëso ndryshimet"
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Kërko..."
         },
-        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "EMPTY_MESSAGE": "Nuk u gjetën skenarë. Krijo ose shto shembuj për të filluar.",
+        "SEARCH_EMPTY_MESSAGE": "Nuk u gjetën skenarë për këtë kërkim.",
         "API": {
           "ADD": {
-            "SUCCESS": "Scenarios added successfully",
-            "ERROR": "There was an error adding scenarios, please try again."
+            "SUCCESS": "Skenarët u shtuan me sukses",
+            "ERROR": "Ndodhi një gabim gjatë shtimit të skenarëve, ju lutemi provoni përsëri."
           },
           "UPDATE": {
             "SUCCESS": "Scenarios updated successfully",
-            "ERROR": "There was an error updating scenarios, please try again."
+            "ERROR": "Ndodhi një gabim gjatë përditësimit të skenarëve, ju lutemi provoni përsëri."
           },
           "DELETE": {
-            "SUCCESS": "Scenarios deleted successfully",
-            "ERROR": "There was an error deleting scenarios, please try again."
+            "SUCCESS": "Skenarët u fshinë me sukses",
+            "ERROR": "Ndodhi një gabim gjatë fshirjes së skenarëve, ju lutemi provoni përsëri."
           }
         }
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
-      "RELATED_RESPONSES": {
-        "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+      "HEADER": "Dokumentet",
+      "ADD_NEW": "Krijo një dokument të ri",
+      "SELECTED": "{count} i/e zgjedhur",
+      "SELECT_ALL": "Zgjidh të gjitha ({count})",
+      "UNSELECT_ALL": "Hiq zgjedhjen nga të gjitha ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Po, fshij të gjitha",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "RELATED_RESPONSES": {
+        "TITLE": "Pyetje të Shpeshta të lidhura",
+        "DESCRIPTION": "Këto Pyetje të Shpeshta janë gjeneruar direkt nga dokumenti."
+      },
+      "FORM_DESCRIPTION": "Futni URL-në e dokumentit për ta shtuar si burim njohurish dhe zgjidhni asistentin me të cilin do të lidhet.",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "TITLE": "Shto një dokument",
+        "SUCCESS_MESSAGE": "Dokumenti u krijua me sukses",
+        "ERROR_MESSAGE": "Ndodhi një gabim gjatë krijimit të dokumentit, ju lutemi provoni përsëri."
       },
       "FORM": {
         "TYPE": {
-          "LABEL": "Document Type",
+          "LABEL": "Lloji i Dokumentit",
           "URL": "URL",
-          "PDF": "PDF File"
+          "PDF": "Skedar PDF"
         },
         "URL": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "PLACEHOLDER": "Futni URL-në e dokumentit",
+          "ERROR": "Ju lutemi jepni një URL të vlefshme për dokumentin"
         },
         "PDF_FILE": {
-          "LABEL": "PDF File",
-          "CHOOSE_FILE": "Choose PDF file",
-          "ERROR": "Please select a PDF file",
-          "HELP_TEXT": "Maximum file size: 10MB",
-          "INVALID_TYPE": "Please select a valid PDF file",
-          "TOO_LARGE": "File size exceeds 10MB limit"
+          "LABEL": "Skedar PDF",
+          "CHOOSE_FILE": "Zgjidh skedarin PDF",
+          "ERROR": "Ju lutemi zgjidhni një skedar PDF",
+          "HELP_TEXT": "Madhësia maksimale e skedarit: 10MB",
+          "INVALID_TYPE": "Ju lutemi zgjidhni një skedar PDF të vlefshëm",
+          "TOO_LARGE": "Madhësia e skedarit tejkalon kufirin prej 10MB"
         },
         "NAME": {
           "LABEL": "Document Name (Optional)",
-          "PLACEHOLDER": "Enter a name for the document"
+          "PLACEHOLDER": "Shkruani një emër për dokumentin"
         }
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the document?",
-        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "TITLE": "A jeni i sigurt që dëshironi të fshini dokumentin?",
+        "DESCRIPTION": "Kjo veprim është i përhershëm. Fshirja e këtij dokumenti do të fshijë përgjithmonë të gjitha njohuritë e gjeneruara.",
+        "CONFIRM": "Po, fshij",
+        "SUCCESS_MESSAGE": "Dokumenti është fshirë me sukses",
+        "ERROR_MESSAGE": "Ndodhi një gabim gjatë fshirjes së dokumentit, ju lutemi provoni përsëri."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "DELETE_DOCUMENT": "Delete Document"
+        "VIEW_RELATED_RESPONSES": "Shiko Përgjigjet e Lidhura",
+        "DELETE_DOCUMENT": "Fshi Dokumentin"
       },
       "EMPTY_STATE": {
-        "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "TITLE": "Nuk ka dokumente në dispozicion",
+        "SUBTITLE": "Dokumentet përdoren nga asistenti juaj për të krijuar pyetje të shpeshta. Mund të importoni dokumente për t’i dhënë kontekst asistentit tuaj.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "TITLE": "Dokumenti Captain",
+          "NOTE": "Një dokument në Captain shërben si një burim njohurish për asistentin. Duke lidhur qendrën tuaj të ndihmës ose udhëzuesit, Captain mund të analizojë përmbajtjen dhe të ofrojë përgjigje të sakta për pyetjet e klientëve."
         }
       }
     },
     "CUSTOM_TOOLS": {
-      "HEADER": "Tools",
-      "ADD_NEW": "Create a new tool",
+      "HEADER": "Mjetet",
+      "ADD_NEW": "Krijo një mjet të ri",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
-        "TITLE": "No custom tools available",
-        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "TITLE": "Nuk ka mjete të personalizuara në dispozicion",
+        "SUBTITLE": "Krijo mjete të personalizuara për të lidhur asistentin tënd me API dhe shërbime të jashtme, duke i mundësuar të marrë të dhëna dhe të kryejë veprime në emrin tënd.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Custom Tools",
-          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+          "TITLE": "Mjetet e personalizuara",
+          "NOTE": "Mjetet e personalizuara i lejojnë asistentit tuaj të ndërveprojë me API dhe shërbime të jashtme. Krijoni mjete për të marrë të dhëna, për të kryer veprime ose për t'u integruar me sistemet ekzistuese për të zgjeruar aftësitë e asistentit tuaj."
         }
       },
-      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "FORM_DESCRIPTION": "Konfiguro mjetin tënd të personalizuar për t'u lidhur me API të jashtme",
       "OPTIONS": {
-        "EDIT_TOOL": "Edit tool",
-        "DELETE_TOOL": "Delete tool"
+        "EDIT_TOOL": "Ndrysho mjetin",
+        "DELETE_TOOL": "Fshi mjetin"
       },
       "CREATE": {
-        "TITLE": "Create Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool created successfully",
-        "ERROR_MESSAGE": "Failed to create custom tool"
+        "TITLE": "Krijo Mjet të Përshtatur",
+        "SUCCESS_MESSAGE": "Mjeti i përshtatur u krijua me sukses",
+        "ERROR_MESSAGE": "Dështoi krijimi i mjetit të përshtatur"
       },
       "EDIT": {
-        "TITLE": "Edit Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool updated successfully",
-        "ERROR_MESSAGE": "Failed to update custom tool"
+        "TITLE": "Ndrysho Mjetin e Përshtatur",
+        "SUCCESS_MESSAGE": "Mjeti i përshtatur u përditësua me sukses",
+        "ERROR_MESSAGE": "Dështoi përditësimi i mjetit të personalizuar"
       },
       "DELETE": {
-        "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete custom tool"
+        "TITLE": "Fshi Mjetin e Personalizuar",
+        "DESCRIPTION": "Jeni i sigurt që dëshironi të fshini këtë mjet të personalizuar? Kjo veprim nuk mund të zhbëhet.",
+        "CONFIRM": "Po, fshij",
+        "SUCCESS_MESSAGE": "Mjeti i personalizuar u fshi me sukses",
+        "ERROR_MESSAGE": "Dështoi fshirja e mjetit të personalizuar"
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Tool Name",
-          "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "LABEL": "Emri i mjetit",
+          "PLACEHOLDER": "Kërkimi i porosisë",
+          "ERROR": "Emri i mjetit është i nevojshëm",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
+          "LABEL": "Përshkrimi",
           "PLACEHOLDER": "Looks up order details by order ID"
         },
         "HTTP_METHOD": {
-          "LABEL": "Method"
+          "LABEL": "Metoda"
         },
         "ENDPOINT_URL": {
-          "LABEL": "Endpoint URL",
+          "LABEL": "URL e pikës së përfundimit",
           "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
-          "ERROR": "Valid URL is required"
+          "ERROR": "Kërkohet një URL e vlefshme"
         },
         "AUTH_TYPE": {
           "LABEL": "Authentication Type"
         },
         "AUTH_TYPES": {
-          "NONE": "None",
-          "BEARER": "Bearer Token",
+          "NONE": "Asnjë",
+          "BEARER": "Token i autorizimit",
           "BASIC": "Basic Auth",
-          "API_KEY": "API Key"
+          "API_KEY": "Çelësi API"
         },
         "AUTH_CONFIG": {
-          "BEARER_TOKEN": "Bearer Token",
-          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
-          "USERNAME": "Username",
-          "USERNAME_PLACEHOLDER": "Enter username",
-          "PASSWORD": "Password",
-          "PASSWORD_PLACEHOLDER": "Enter password",
+          "BEARER_TOKEN": "Token Mbajtës",
+          "BEARER_TOKEN_PLACEHOLDER": "Shkruani token-in tuaj bearer",
+          "USERNAME": "Emri i përdoruesit",
+          "USERNAME_PLACEHOLDER": "Fut emrin e përdoruesit",
+          "PASSWORD": "Fjalëkalimi",
+          "PASSWORD_PLACEHOLDER": "Fut fjalëkalimin",
           "API_KEY": "Header Name",
           "API_KEY_PLACEHOLDER": "X-API-Key",
           "API_VALUE": "Header Value",
-          "API_VALUE_PLACEHOLDER": "Enter API key value"
+          "API_VALUE_PLACEHOLDER": "Fut vlerën e çelësit API"
         },
         "PARAMETERS": {
-          "LABEL": "Parameters",
-          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+          "LABEL": "Parametrat",
+          "HELP_TEXT": "Përcaktoni parametrat që do të nxirren nga pyetjet e përdoruesve"
         },
-        "ADD_PARAMETER": "Add Parameter",
+        "ADD_PARAMETER": "Shto Parametër",
         "PARAM_NAME": {
-          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+          "PLACEHOLDER": "Emri i parametrin (p.sh., order_id)"
         },
         "PARAM_TYPE": {
-          "PLACEHOLDER": "Type"
+          "PLACEHOLDER": "Lloji"
         },
         "PARAM_TYPES": {
-          "STRING": "String",
-          "NUMBER": "Number",
+          "STRING": "Varg",
+          "NUMBER": "Numër",
           "BOOLEAN": "Boolean",
-          "ARRAY": "Array",
-          "OBJECT": "Object"
+          "ARRAY": "Vektor",
+          "OBJECT": "Objekt"
         },
         "PARAM_DESCRIPTION": {
-          "PLACEHOLDER": "Description of the parameter"
+          "PLACEHOLDER": "Përshkrimi i parametrave"
         },
         "PARAM_REQUIRED": {
-          "LABEL": "Required"
+          "LABEL": "I nevojshëm"
         },
         "REQUEST_TEMPLATE": {
-          "LABEL": "Request Body Template (Optional)",
+          "LABEL": "Shabllon i trupit të kërkesës (opsionale)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "Response Template (Optional)",
+          "LABEL": "Shabllon i përgjigjes (opsionale)",
           "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
         },
         "ERRORS": {
-          "PARAM_NAME_REQUIRED": "Parameter name is required"
+          "PARAM_NAME_REQUIRED": "Emri i parametrave është i nevojshëm"
         }
       }
     },
     "RESPONSES": {
-      "HEADER": "FAQs",
-      "PENDING_FAQS": "Pending FAQs",
-      "ADD_NEW": "Create new FAQ",
+      "HEADER": "Pyetjet e Bëra Më Shpesh",
+      "PENDING_FAQS": "Pyetjet e shpeshta në pritje",
+      "ADD_NEW": "Krijo FAQ të re",
       "DOCUMENTABLE": {
-        "CONVERSATION": "Conversation #{id}"
+        "CONVERSATION": "Biseda #{id}"
       },
-      "SELECTED": "{count} selected",
-      "SELECT_ALL": "Select all ({count})",
-      "UNSELECT_ALL": "Unselect all ({count})",
-      "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Approve",
-      "BULK_DELETE_BUTTON": "Delete",
+      "SELECTED": "{count} i/e zgjedhur",
+      "SELECT_ALL": "Zgjidh të gjitha ({count})",
+      "UNSELECT_ALL": "Hiq zgjedhjen nga të gjitha ({count})",
+      "SEARCH_PLACEHOLDER": "Kërko në Pyetjet e Shpeshta...",
+      "BULK_APPROVE_BUTTON": "Miratoj",
+      "BULK_DELETE_BUTTON": "Fshij",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "Pyetjet e shpeshta u miratuan me sukses",
+        "ERROR_MESSAGE": "Ndodhi një gabim gjatë miratimit të FAQ-ve, ju lutemi provoni përsëri."
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "TITLE": "Fshini FAQ-të?",
+        "DESCRIPTION": "Jeni i sigurt që dëshironi të fshini FAQ-të e përzgjedhura? Kjo veprim nuk mund të zhbëhet.",
+        "CONFIRM": "Po, fshij të gjitha",
+        "SUCCESS_MESSAGE": "FAQ-të u fshinë me sukses",
+        "ERROR_MESSAGE": "Ndodhi një gabim gjatë fshirjes së Pyetjeve të Shpeshta, ju lutemi provoni përsëri."
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the FAQ?",
+        "TITLE": "A jeni i sigurt që dëshironi të fshini FAQ-në?",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "FAQ deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+        "CONFIRM": "Po, fshij",
+        "SUCCESS_MESSAGE": "FAQ u fshi me sukses",
+        "ERROR_MESSAGE": "Ndodhi një gabim gjatë fshirjes së FAQ-së, ju lutemi provoni përsëri."
       },
       "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
-        "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "All"
+        "ASSISTANT": "Asistenti: {selected}",
+        "STATUS": "Statusi: {selected}",
+        "ALL_ASSISTANTS": "Të gjitha"
       },
       "STATUS": {
-        "TITLE": "Status",
-        "PENDING": "Pending",
-        "APPROVED": "Approved",
-        "ALL": "All"
+        "TITLE": "Statusi",
+        "PENDING": "Në pritje",
+        "APPROVED": "Miratuar",
+        "ALL": "Të gjitha"
       },
       "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+        "TITLE": "Captain ka gjetur disa pyetje të shpeshta që klientët tuaj po kërkonin.",
+        "ACTION": "Klikoni këtu për të rishikuar"
       },
-      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "FORM_DESCRIPTION": "Shtoni një pyetje dhe përgjigjen përkatëse në bazën e njohurive dhe zgjidhni asistentin me të cilin duhet të lidhet.",
       "CREATE": {
-        "TITLE": "Add an FAQ",
-        "SUCCESS_MESSAGE": "The response has been added successfully.",
-        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+        "TITLE": "Shto një Pyetje të Shpeshë",
+        "SUCCESS_MESSAGE": "Përgjigjja u shtua me sukses.",
+        "ERROR_MESSAGE": "Ndodhi një gabim gjatë shtimit të përgjigjes. Ju lutemi provoni përsëri."
       },
       "FORM": {
         "QUESTION": {
-          "LABEL": "Question",
-          "PLACEHOLDER": "Enter the question here",
-          "ERROR": "Please provide a valid question."
+          "LABEL": "Pyetja",
+          "PLACEHOLDER": "Shkruani pyetjen këtu",
+          "ERROR": "Ju lutemi jepni një pyetje të vlefshme."
         },
         "ANSWER": {
-          "LABEL": "Answer",
-          "PLACEHOLDER": "Enter the answer here",
-          "ERROR": "Please provide a valid answer."
+          "LABEL": "Përgjigje",
+          "PLACEHOLDER": "Shkruani përgjigjen këtu",
+          "ERROR": "Ju lutemi jepni një përgjigje të vlefshme."
         }
       },
       "EDIT": {
-        "TITLE": "Update the FAQ",
-        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
-        "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
+        "TITLE": "Përditësoni FAQ-në",
+        "SUCCESS_MESSAGE": "FAQ-u është përditësuar me sukses",
+        "ERROR_MESSAGE": "Ndodhi një gabim gjatë përditësimit të FAQ, ju lutemi provoni përsëri",
+        "APPROVE_SUCCESS_MESSAGE": "FAQ u shënua si e miratuar"
       },
       "OPTIONS": {
-        "APPROVE": "Approve",
-        "EDIT_RESPONSE": "Edit",
-        "DELETE_RESPONSE": "Delete"
+        "APPROVE": "Mirato",
+        "EDIT_RESPONSE": "Ndrysho",
+        "DELETE_RESPONSE": "Fshij"
       },
       "EMPTY_STATE": {
-        "TITLE": "No FAQs Found",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
-        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
-        "CLEAR_SEARCH": "Clear active filters",
+        "TITLE": "Nuk u gjetën FAQ",
+        "NO_PENDING_TITLE": "Nuk ka më Pyetje të Shpeshta në pritje për rishikim",
+        "SUBTITLE": "Pyetjet e Shpeshta ndihmojnë asistentin tuaj të japë përgjigje të shpejta dhe të sakta për pyetjet e klientëve tuaj. Ato mund të gjenerohen automatikisht nga përmbajtja juaj ose të shtohen manualisht.",
+        "CLEAR_SEARCH": "Pastro filtrat aktivë",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "TITLE": "Pyetjet e Shpeshta Captain",
+          "NOTE": "Pyetjet e Shpeshta Captain zbulojnë pyetjet e zakonshme të klientëve—qoftë ato që mungojnë në bazën tuaj të njohurive ose që kërkohen shpesh—dhe gjenerojnë Pyetje të Shpeshta relevante për të përmirësuar mbështetjen. Ju mund të rishikoni çdo sugjerim dhe të vendosni nëse do ta miratoni apo refuzoni."
         }
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "Kutia të lidhura",
+      "ADD_NEW": "Lidh një kuti të re",
       "OPTIONS": {
-        "DISCONNECT": "Disconnect"
+        "DISCONNECT": "Çlidh"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "A jeni i sigurt që dëshironi të çlidheni nga kutia?",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "CONFIRM": "Po, fshi",
+        "SUCCESS_MESSAGE": "Kutia e postës u shkëput me sukses.",
+        "ERROR_MESSAGE": "Ndodhi një gabim gjatë shkëputjes së kutisë së postës, ju lutemi provoni përsëri."
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "Zgjidhni një kuti postare për t’u lidhur me asistentin.",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
-        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+        "TITLE": "Lidhu me një kuti postare",
+        "SUCCESS_MESSAGE": "Kutia postare u lidh me sukses.",
+        "ERROR_MESSAGE": "Ndodhi një gabim gjatë lidhjes së kutisë postare. Ju lutemi provoni përsëri."
       },
       "FORM": {
         "INBOX": {
-          "LABEL": "Inbox",
-          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
-          "ERROR": "An inbox selection is required."
+          "LABEL": "Kutia postare",
+          "PLACEHOLDER": "Zgjidhni kutinë postare ku do të vendoset asistenti.",
+          "ERROR": "Kërkohet të zgjidhet një kuti postare."
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "TITLE": "Asnjë Postë e Lidhur",
+        "SUBTITLE": "Lidhja e një kutie postare i lejon asistentit të trajtojë pyetjet fillestare nga klientët tuaj para se t’ua transferojë atyre."
       }
     }
   }

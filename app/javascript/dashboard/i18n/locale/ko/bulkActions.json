@@ -1,41 +1,45 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "{conversationCount} conversations selected",
+    "CONVERSATIONS_SELECTED": "{conversationCount}개의 대화가 선택되었습니다",
     "AGENT_SELECT_LABEL": "에이전트 선택",
-    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign {conversationCount} {conversationLabel} to",
-    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign {conversationCount} {conversationLabel}?",
-    "GO_BACK_LABEL": "Go back",
-    "ASSIGN_LABEL": "할당하다",
+    "ASSIGN_CONFIRMATION_LABEL": "{conversationCount}개의 {conversationLabel}을(를) 배정하시겠습니까?",
+    "UNASSIGN_CONFIRMATION_LABEL": "{conversationCount}개의 {conversationLabel} 배정을 해제하시겠습니까?",
+    "GO_BACK_LABEL": "뒤로 가기",
+    "ASSIGN_LABEL": "배정",
     "YES": "예",
     "SEARCH_INPUT_PLACEHOLDER": "검색",
-    "ASSIGN_AGENT_TOOLTIP": "Assign agent",
-    "ASSIGN_TEAM_TOOLTIP": "Assign team",
-    "ASSIGN_SUCCESFUL": "Conversations assigned successfully.",
-    "ASSIGN_FAILED": "Failed to assign conversations. Please try again.",
-    "RESOLVE_SUCCESFUL": "Conversations resolved successfully.",
-    "RESOLVE_FAILED": "Failed to resolve conversations. Please try again.",
-    "ALL_CONVERSATIONS_SELECTED_ALERT": "Conversations visible on this page are only selected.",
-    "AGENT_LIST_LOADING": "Loading agents",
+    "ASSIGN_AGENT_TOOLTIP": "에이전트 배정",
+    "ASSIGN_TEAM_TOOLTIP": "팀 배정",
+    "ASSIGN_SUCCESFUL": "대화가 성공적으로 배정되었습니다.",
+    "ASSIGN_FAILED": "대화 배정에 실패했습니다. 다시 시도하십시오.",
+    "RESOLVE_SUCCESFUL": "대화가 성공적으로 해결되었습니다.",
+    "RESOLVE_FAILED": "대화 해결에 실패했습니다. 다시 시도하십시오.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "이 페이지에 표시된 대화만 선택되었습니다.",
+    "AGENT_LIST_LOADING": "에이전트 로딩 중",
     "UPDATE": {
-      "CHANGE_STATUS": "Change status",
-      "SNOOZE_UNTIL": "Snooze",
-      "UPDATE_SUCCESFUL": "Conversation status updated successfully.",
-      "UPDATE_FAILED": "Failed to update conversations. Please try again."
+      "CHANGE_STATUS": "상태 변경",
+      "SNOOZE_UNTIL": "일시 중지",
+      "UPDATE_SUCCESFUL": "대화 상태가 성공적으로 업데이트되었습니다.",
+      "UPDATE_FAILED": "대화 업데이트에 실패했습니다. 다시 시도하십시오."
+    },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "필수 속성이 누락되어 대화를 해결할 수 없습니다",
+      "PARTIAL_SUCCESS": "일부 대화는 필수 속성이 필요하여 건너뛰었습니다"
     },
     "LABELS": {
-      "ASSIGN_LABELS": "Assign labels",
+      "ASSIGN_LABELS": "라벨 배정",
       "NO_LABELS_FOUND": "라벨을 찾을 수 없습니다",
-      "ASSIGN_SELECTED_LABELS": "Assign selected labels",
-      "ASSIGN_SUCCESFUL": "Labels assigned successfully.",
-      "ASSIGN_FAILED": "Failed to assign labels. Please try again."
+      "ASSIGN_SELECTED_LABELS": "선택한 라벨 배정",
+      "ASSIGN_SUCCESFUL": "라벨이 성공적으로 배정되었습니다.",
+      "ASSIGN_FAILED": "라벨 배정에 실패했습니다. 다시 시도하십시오."
     },
     "TEAMS": {
       "TEAM_SELECT_LABEL": "팀 선택",
       "NONE": "없음",
-      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
-      "ASSIGN_SELECTED_TEAMS": "Assign selected team.",
-      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
-      "ASSIGN_FAILED": "Failed to assign team. Please try again."
+      "NO_TEAMS_AVAILABLE": "이 계정에 추가된 팀이 없습니다.",
+      "ASSIGN_SELECTED_TEAMS": "선택한 팀 배정",
+      "ASSIGN_SUCCESFUL": "팀이 성공적으로 배정되었습니다.",
+      "ASSIGN_FAILED": "팀 배정에 실패했습니다. 다시 시도하십시오."
     }
   }
 }

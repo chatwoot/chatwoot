@@ -201,7 +201,9 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contact
-    @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).find(params[:id])
+    contact_scope = Current.account.contacts
+    contact_scope = contact_scope.includes(contact_inboxes: [:inbox]) if @include_contact_inboxes
+    @contact = contact_scope.find(params[:id])
   end
 
   def process_avatar_from_url

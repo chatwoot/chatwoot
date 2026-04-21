@@ -220,7 +220,7 @@ useEventListener(document, 'paste', onPaste);
         />
         <EmojiInput
           v-if="isEmojiPickerOpen"
-          class="top-full mt-1.5 ltr:left-0 rtl:right-0"
+          class="!top-auto !bottom-full mb-1.5 ltr:left-0 rtl:right-0"
           :on-click="onClickInsertEmoji"
         />
       </div>

@@ -83,6 +83,27 @@ RSpec.describe AutomationRules::ConditionsFilterService do
         end
       end
 
+      context 'when filtering private notes' do
+        before do
+          rule.conditions = [
+            { 'values': [true], 'attribute_key': 'private_note', 'query_operator': nil, 'filter_operator': 'equal_to' }
+          ]
+          rule.save
+        end
+
+        it 'will return true when the message is a private note' do
+          message.update!(private: true)
+
+          expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(true)
+        end
+
+        it 'will return false when the message is not a private note' do
+          message.update!(private: false)
+
+          expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
+        end
+      end
+
       context 'when filter_operator is on processed_message_content' do
         before do
           rule.conditions = [

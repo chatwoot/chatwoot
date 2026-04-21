@@ -62,6 +62,9 @@ module Redis::RedisKeys
   # Track if a debounce job is already active (sleeping) for this conversation
   SOCIALWISE_DEBOUNCE_ACTIVE = 'SOCIALWISE_DEBOUNCE::%<conversation_id>d::ACTIVE'.freeze
 
+  ## Account Onboarding
+  ACCOUNT_ONBOARDING_ENRICHMENT = 'ONBOARDING_ENRICHMENT::%<account_id>d'.freeze
+
   ## Account Email Rate Limiting
   ACCOUNT_OUTBOUND_EMAIL_COUNT_KEY = 'OUTBOUND_EMAIL_COUNT::%<account_id>d::%<date>s'.freeze
 end

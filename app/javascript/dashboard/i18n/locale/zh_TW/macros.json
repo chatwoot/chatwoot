@@ -1,111 +1,116 @@
 {
   "MACROS": {
-    "HEADER": "Macros",
-    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
-    "LEARN_MORE": "Learn more about macros",
-    "HEADER_BTN_TXT": "Add a new macro",
-    "HEADER_BTN_TXT_SAVE": "Save macro",
-    "LOADING": "Fetching macros",
-    "ERROR": "Something went wrong. Please try again",
-    "ORDER_INFO": "Macros will run in the order you add your actions. You can rearrange them by dragging them by the handle beside each node.",
+    "HEADER": "巨集",
+    "DESCRIPTION": "巨集是一組預先儲存的動作，可協助客服人員輕鬆完成工作。客服人員可以定義一系列動作，例如為對話加上標籤、傳送電子郵件副本、更新自訂屬性等，並透過一鍵執行這些動作。",
+    "LEARN_MORE": "瞭解更多關於巨集的資訊",
+    "COUNT": "{n} 個巨集",
+    "HEADER_BTN_TXT": "新增巨集",
+    "HEADER_BTN_TXT_SAVE": "儲存巨集",
+    "LOADING": "正在載入巨集",
+    "SEARCH_PLACEHOLDER": "搜尋巨集...",
+    "NO_RESULTS": "找不到符合搜尋條件的巨集",
+    "ERROR": "發生錯誤，請重試",
+    "ORDER_INFO": "巨集將依照您新增動作的順序執行。您可以拖曳每個節點旁邊的控制點來重新排列順序。",
     "ADD": {
       "FORM": {
         "NAME": {
-          "LABEL": "Macro name",
-          "PLACEHOLDER": "Enter a name for your macro",
-          "ERROR": "Name is required for creating a macro"
+          "LABEL": "巨集名稱",
+          "PLACEHOLDER": "請輸入巨集名稱",
+          "ERROR": "建立巨集時必須填寫名稱"
         },
         "ACTIONS": {
-          "LABEL": "操作"
+          "LABEL": "動作"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro added successfully",
-        "ERROR_MESSAGE": "Unable to create macro, Please try again later"
+        "SUCCESS_MESSAGE": "巨集新增成功",
+        "ERROR_MESSAGE": "無法建立巨集，請稍後再試"
       }
     },
     "LIST": {
       "TABLE_HEADER": {
-        "NAME": "姓名",
-        "CREATED BY": "Created by",
-        "LAST_UPDATED_BY": "Last updated by",
-        "VISIBILITY": "Visibility"
+        "NAME": "名稱",
+        "CREATED BY": "建立者",
+        "LAST_UPDATED_BY": "最後更新者",
+        "VISIBILITY": "可見範圍",
+        "ACTIONS": "動作"
       },
-      "404": "No macros found"
+      "404": "找不到任何巨集"
     },
     "DELETE": {
-      "TOOLTIP": "Delete macro",
+      "TOOLTIP": "刪除巨集",
       "CONFIRM": {
-        "MESSAGE": "您確定要刪除嗎？ ",
+        "MESSAGE": "您確定要刪除 ",
         "YES": "是，刪除",
         "NO": "否"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
+        "SUCCESS_MESSAGE": "巨集已成功刪除",
+        "ERROR_MESSAGE": "刪除巨集時發生錯誤，請稍後再試"
       }
     },
     "EDIT": {
-      "TOOLTIP": "Edit macro",
+      "TOOLTIP": "編輯巨集",
       "API": {
-        "SUCCESS_MESSAGE": "Macro updated successfully",
-        "ERROR_MESSAGE": "Could not update Macro, Please try again later"
+        "SUCCESS_MESSAGE": "巨集已成功更新",
+        "ERROR_MESSAGE": "無法更新巨集，請稍後再試"
       }
     },
     "EDITOR": {
-      "START_FLOW": "Start Flow",
-      "END_FLOW": "End Flow",
-      "LOADING": "Fetching macro",
-      "ADD_BTN_TOOLTIP": "Add new action",
-      "DELETE_BTN_TOOLTIP": "Delete Action",
+      "START_FLOW": "開始流程",
+      "END_FLOW": "結束流程",
+      "LOADING": "正在載入巨集",
+      "ADD_BTN_TOOLTIP": "新增動作",
+      "DELETE_BTN_TOOLTIP": "刪除動作",
       "VISIBILITY": {
-        "LABEL": "Macro Visibility",
+        "LABEL": "巨集可見範圍",
         "GLOBAL": {
-          "LABEL": "Public",
-          "DESCRIPTION": "This macro is available publicly for all agents in this account."
+          "LABEL": "公開",
+          "DESCRIPTION": "此巨集對帳號中的所有客服人員公開可用。"
         },
         "PERSONAL": {
-          "LABEL": "Private",
-          "DESCRIPTION": "This macro will be private to you and not be available to others."
+          "LABEL": "私人",
+          "DESCRIPTION": "此巨集僅限您個人使用，其他人無法使用。"
         }
       }
     },
     "EXECUTE": {
-      "BUTTON_TOOLTIP": "Execute",
-      "PREVIEW": "Preview Macro",
-      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+      "BUTTON_TOOLTIP": "執行",
+      "PREVIEW": "預覽巨集",
+      "EXECUTED_SUCCESSFULLY": "巨集已成功執行"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
-      "VALUE_REQUIRED": "此欄位為必填項目",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "ATTRIBUTE_KEY_REQUIRED": "屬性鍵為必填",
+      "FILTER_OPERATOR_REQUIRED": "篩選運算子為必填",
+      "VALUE_REQUIRED": "此欄位為必填",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "數值必須介於 1 到 998 之間",
+      "ACTION_PARAMETERS_REQUIRED": "動作參數為必填",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "至少需要一個條件",
+      "ATLEAST_ONE_ACTION_REQUIRED": "至少需要一個動作"
     },
     "ACTIONS": {
-      "ASSIGN_TEAM": "Assign a Team",
-      "ASSIGN_AGENT": "Assign an Agent",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
-      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "ASSIGN_TEAM": "指派團隊",
+      "ASSIGN_AGENT": "指派客服人員",
+      "ADD_LABEL": "新增標籤",
+      "REMOVE_LABEL": "移除標籤",
+      "REMOVE_ASSIGNED_AGENT": "移除已指派的客服人員",
+      "REMOVE_ASSIGNED_TEAM": "移除已指派的團隊",
+      "SEND_EMAIL_TRANSCRIPT": "傳送電子郵件副本",
       "MUTE_CONVERSATION": "將對話靜音",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
-      "CHANGE_PRIORITY": "Change Priority",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+      "SNOOZE_CONVERSATION": "暫停對話提醒",
+      "RESOLVE_CONVERSATION": "解決對話",
+      "SEND_ATTACHMENT": "傳送附件",
+      "SEND_MESSAGE": "傳送訊息",
+      "CHANGE_PRIORITY": "變更優先順序",
+      "ADD_PRIVATE_NOTE": "新增私人備註",
+      "SEND_WEBHOOK_EVENT": "傳送 Webhook 事件"
     },
     "PRIORITY_TYPES": {
       "NONE": "無",
-      "LOW": "Low",
-      "MEDIUM": "Medium",
-      "HIGH": "High",
-      "URGENT": "Urgent"
+      "LOW": "低",
+      "MEDIUM": "中",
+      "HIGH": "高",
+      "URGENT": "緊急"
     }
   }
 }

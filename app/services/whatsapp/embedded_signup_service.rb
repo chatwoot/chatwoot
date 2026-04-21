@@ -21,7 +21,10 @@ class Whatsapp::EmbeddedSignupService
     # 2. We need to run check_channel_health_and_prompt_reauth after webhook setup completes
     # 3. The channel is marked with source: 'embedded_signup' to skip the after_commit callback
     channel.setup_webhooks
-    check_channel_health_and_prompt_reauth(channel)
+    # Skip health check during reauthorization — phone numbers in pending provisioning state
+    # (platform_type: NOT_APPLICABLE) would incorrectly trigger a disconnect email right after
+    # a successful reauth. Only run health check for new channel creation.
+    check_channel_health_and_prompt_reauth(channel) if @inbox_id.blank?
     channel
 
   rescue StandardError => e

@@ -3,8 +3,11 @@
     "HEADER": "Funções personalizadas",
     "LEARN_MORE": "Aprenda mais sobre funções personalizadas",
     "DESCRIPTION": "Funções personalizadas são funções criadas pelo proprietário ou administrador da conta. Essas funções podem ser atribuídas a agentes para definir seu acesso e permissões dentro da conta. Funções personalizadas podem ser criadas com permissões e níveis de acesso específicos para atender aos requisitos da organização.",
+    "COUNT": "{n} custom role | {n} custom roles",
     "HEADER_BTN_TXT": "Adicionar função personalizada",
     "LOADING": "Buscando funções personalizadas...",
+    "SEARCH_PLACEHOLDER": "Search custom roles...",
+    "NO_RESULTS": "No custom roles found matching your search",
     "SEARCH_404": "Não há itens correspondentes a esta consulta.",
     "PAYWALL": {
       "TITLE": "Atualize para criar funções personalizadas",

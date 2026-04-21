@@ -3,6 +3,9 @@
     "FETCHING": "Загрузка интеграций",
     "NO_HOOK_CONFIGURED": "В этой учетной записи не настроено ни одной {integrationId} интеграции.",
     "HEADER": "Приложения",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Поиск...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Включено",
       "DISABLED": "Выключено"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Получение хуков",
       "INBOX": "Электронная почта",
+      "ACTIONS": "Действия",
       "DELETE": {
         "BUTTON_TEXT": "Удалить"
       }
