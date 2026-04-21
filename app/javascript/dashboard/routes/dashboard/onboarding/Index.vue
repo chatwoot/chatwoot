@@ -29,7 +29,7 @@ const currentUser = useMapGetter('getCurrentUser');
 
 const userRole = ref('');
 const website = ref('');
-const locale = ref('en');
+const locale = ref('');
 const timezone = ref('');
 const companySize = ref('');
 const industry = ref('');
