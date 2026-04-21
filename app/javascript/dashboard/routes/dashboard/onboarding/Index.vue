@@ -2,12 +2,12 @@
 import { ref, computed, nextTick, onMounted, onUnmounted, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { ONBOARDING_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useMapGetter } from 'dashboard/composables/store';
+import { frontendURL } from 'dashboard/helper/URLHelper';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import OnboardingLayout from './OnboardingLayout.vue';
@@ -23,7 +23,6 @@ import {
 } from './constants';
 
 const { t } = useI18n();
-const router = useRouter();
 const { accountId, currentAccount, updateAccount } = useAccount();
 const { enabledLanguages } = useConfig();
 const currentUser = useMapGetter('getCurrentUser');
@@ -238,7 +237,12 @@ const handleSubmit = async () => {
     });
 
     useAlert(t('ONBOARDING_NEXT.SUCCESS'));
-    router.push({ name: 'home', params: { accountId: accountId.value } });
+    // Full-page transition mirrors login/confirmation — forces setUser to
+    // refetch, so the guard sees the cleared onboarding_step naturally
+    // without any client-side state sync.
+    window.location.assign(
+      frontendURL(`accounts/${accountId.value}/dashboard`)
+    );
   } catch {
     useAlert(t('ONBOARDING_NEXT.ERROR'));
   } finally {
