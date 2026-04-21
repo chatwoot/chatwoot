@@ -40,6 +40,7 @@ import whatsappTemplates from './whatsappTemplates.json';
 import contentTemplates from './contentTemplates.json';
 import mfa from './mfa.json';
 import yearInReview from './yearInReview.json';
+import synapseos from './synapseos.json';
 
 export default {
   ...advancedFilters,
@@ -84,4 +85,5 @@ export default {
   ...contentTemplates,
   ...mfa,
   ...yearInReview,
+  ...synapseos,
 };

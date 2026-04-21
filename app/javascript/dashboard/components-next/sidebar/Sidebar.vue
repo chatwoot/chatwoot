@@ -233,6 +233,14 @@ const menuItems = computed(() => {
         count: 'notifications/getUnreadCount',
       },
     },
+    // CUSTOMIZAÇÃO_SYNAPSEOS: dashboard exclusivo de agentes ao vivo
+    {
+      name: 'SynapseOS Live Agents',
+      label: t('SIDEBAR.SYNAPSEOS_LIVE_AGENTS'),
+      icon: 'i-lucide-activity',
+      to: accountScopedRoute('synapseos_live_agents'),
+      activeOn: ['synapseos_live_agents'],
+    },
     {
       name: 'Conversation',
       label: t('SIDEBAR.CONVERSATIONS'),

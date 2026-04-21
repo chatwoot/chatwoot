@@ -1,0 +1,19 @@
+{
+  "SYNAPSEOS": {
+    "LIVE_AGENTS": {
+      "TITLE": "Live Agents",
+      "SUBTITLE": "Real-time view of agent activity and workload",
+      "COL_NAME": "Agent",
+      "COL_STATUS": "Status",
+      "COL_OPEN": "Open conversations",
+      "COL_TODAY": "Handled today",
+      "COL_FIRST_RESPONSE": "Avg. first response (today)",
+      "COL_ROLE": "Role",
+      "STATUS": {
+        "ONLINE": "Online",
+        "OFFLINE": "Offline",
+        "BUSY": "Busy"
+      }
+    }
+  }
+}
