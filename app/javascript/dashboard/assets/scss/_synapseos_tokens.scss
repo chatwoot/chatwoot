@@ -64,3 +64,55 @@
     'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, sans-serif;
 }
+
+// Dark mode (opt-in): ative via `html[data-theme='dark']` ou classe
+// `synapse-dark` no <html>. Todos os componentes que consomem classes
+// `s-*` herdam automaticamente — nenhum componente precisa de `dark:`.
+.synapse-dark,
+html[data-theme='dark'] {
+  --s-bg: 15 23 42;               // #0F172A
+  --s-surface: 24 31 49;          // card elevado em dark
+  --s-surface-raised: 30 41 59;   // #1E293B
+  --s-sidebar: 13 19 35;          // ligeiramente mais escuro que surface
+  --s-subtle: 30 41 59;
+
+  --s-border: 51 65 85;           // #334155
+  --s-border-strong: 71 85 105;
+  --s-border-subtle: 30 41 59;
+
+  --s-text-primary: 241 245 249;  // #F1F5F9
+  --s-text-secondary: 203 213 225;
+  --s-text-muted: 148 163 184;    // mantém AA em bg escuro
+  --s-text-disabled: 100 116 139;
+  --s-text-inverse: 15 23 42;
+
+  --s-brand: 100 181 246;         // #64B5F6 — clareza aumentada pra dark
+  --s-brand-soft: 30 58 95;
+  --s-brand-soft-hover: 40 78 127;
+  --s-brand-cta: 66 165 245;      // #42A5F5
+  --s-brand-cta-hover: 100 181 246;
+  --s-brand-cta-active: 144 202 249;
+  --s-brand-text: 144 202 249;
+
+  --s-success: 34 197 94;
+  --s-success-soft: 20 83 45;
+  --s-success-text: 134 239 172;
+  --s-warning: 251 191 36;
+  --s-warning-soft: 120 53 15;
+  --s-warning-text: 253 224 71;
+  --s-error: 248 113 113;
+  --s-error-soft: 127 29 29;
+  --s-error-text: 252 165 165;
+  --s-info: 100 181 246;
+  --s-info-soft: 30 58 95;
+
+  --s-focus: 100 181 246;
+
+  --s-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+  --s-shadow-md:
+    0 1px 2px 0 rgb(0 0 0 / 0.4),
+    0 2px 8px 0 rgb(0 0 0 / 0.5);
+  --s-shadow-lg:
+    0 4px 12px 0 rgb(0 0 0 / 0.5),
+    0 12px 24px -6px rgb(0 0 0 / 0.6);
+}
