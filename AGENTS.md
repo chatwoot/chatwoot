@@ -34,11 +34,10 @@
 
 ## Styling
 
-- **Tailwind Only**:  
-  - Do not write custom CSS  
-  - Do not use scoped CSS  
-  - Do not use inline styles  
-  - Always use Tailwind utility classes  
+- **Tailwind-first, not Tailwind-only**:
+  - Tailwind utilities remain the default for layout and one-off styling
+  - For non-trivial components (forms, tables, modals, dropdowns, etc.) reach for a Vue-native component library before hand-rolling: [PrimeVue](https://github.com/primefaces/primevue) or [flowbite-vue](https://github.com/themesberg/flowbite-vue)
+  - Scoped CSS and inline styles still discouraged; prefer utility classes or passthrough tokens
 - **Colors**: Refer to `tailwind.config.js` for color definitions
 
 ## General Guidelines
