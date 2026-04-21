@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_10_092753) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_21_000003) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1201,6 +1201,59 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_10_092753) do
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
   end
 
+  create_table "synapseos_crm_events", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id"
+    t.bigint "user_id"
+    t.string "event_type", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.index ["account_id", "conversation_id", "created_at"], name: "idx_synapseos_crm_events_conv_time"
+    t.index ["account_id", "event_type", "created_at"], name: "idx_synapseos_crm_events_type_time"
+    t.index ["account_id"], name: "index_synapseos_crm_events_on_account_id"
+    t.index ["conversation_id"], name: "index_synapseos_crm_events_on_conversation_id"
+    t.index ["user_id"], name: "index_synapseos_crm_events_on_user_id"
+  end
+
+  create_table "synapseos_deals", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "lead_id", null: false
+    t.bigint "assignee_id"
+    t.integer "status", default: 0, null: false
+    t.decimal "amount", precision: 14, scale: 2, default: "0.0"
+    t.string "currency", default: "BRL"
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "closed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "closed_at"], name: "index_synapseos_deals_on_account_id_and_closed_at"
+    t.index ["account_id", "status"], name: "index_synapseos_deals_on_account_id_and_status"
+    t.index ["account_id"], name: "index_synapseos_deals_on_account_id"
+    t.index ["assignee_id"], name: "index_synapseos_deals_on_assignee_id"
+    t.index ["lead_id"], name: "index_synapseos_deals_on_lead_id"
+  end
+
+  create_table "synapseos_leads", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "contact_id"
+    t.bigint "assignee_id"
+    t.integer "status", default: 0, null: false
+    t.string "source"
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "qualified_at"
+    t.datetime "disqualified_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "conversation_id"], name: "index_synapseos_leads_on_account_id_and_conversation_id", unique: true
+    t.index ["account_id", "created_at"], name: "index_synapseos_leads_on_account_id_and_created_at"
+    t.index ["account_id", "status"], name: "index_synapseos_leads_on_account_id_and_status"
+    t.index ["account_id"], name: "index_synapseos_leads_on_account_id"
+    t.index ["assignee_id"], name: "index_synapseos_leads_on_assignee_id"
+    t.index ["contact_id"], name: "index_synapseos_leads_on_contact_id"
+    t.index ["conversation_id"], name: "index_synapseos_leads_on_conversation_id"
+  end
+
   create_table "taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id"
     t.string "taggable_type"
@@ -1320,6 +1373,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_10_092753) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "synapseos_crm_events", "accounts"
+  add_foreign_key "synapseos_crm_events", "conversations"
+  add_foreign_key "synapseos_crm_events", "users"
+  add_foreign_key "synapseos_deals", "accounts"
+  add_foreign_key "synapseos_deals", "synapseos_leads", column: "lead_id"
+  add_foreign_key "synapseos_deals", "users", column: "assignee_id"
+  add_foreign_key "synapseos_leads", "accounts"
+  add_foreign_key "synapseos_leads", "contacts"
+  add_foreign_key "synapseos_leads", "conversations"
+  add_foreign_key "synapseos_leads", "users", column: "assignee_id"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
