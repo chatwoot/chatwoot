@@ -1,0 +1,76 @@
+{
+  "name": "Synapse OS — Hyperflow Incoming (WhatsApp → Chatwoot)",
+  "nodes": [
+    {
+      "parameters": {
+        "event": "message.received"
+      },
+      "id": "2b000000-0000-0000-0000-000000000001",
+      "name": "Hyperflow Trigger",
+      "type": "@hyperflow-global/n8n-nodes-hyperflow-whatsapp.hyperflowWhatsAppTrigger",
+      "typeVersion": 1,
+      "position": [260, 300],
+      "credentials": {
+        "hyperflowWhatsAppApi": {
+          "id": "REPLACE_WITH_HYPERFLOW_CREDENTIAL_ID",
+          "name": "Hyperflow (prod)"
+        }
+      },
+      "notes": "Gera a URL que você cola no painel da Hyperflow como Webhook URL para esse número. Ajuste o campo 'event' se quiser escutar também status, button, list ou flow response."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normaliza o payload vindo do nó Hyperflow para o formato Meta Cloud API\n// que o Synapse OS (Chatwoot) espera em /webhooks/hyperflow/:phone_number.\n//\n// Shape de saída (mesma envelope que Whatsapp::IncomingMessageBaseService parseia):\n// {\n//   object: 'whatsapp_business_account',\n//   entry: [{ changes: [{ field: 'messages', value: { messaging_product, metadata, contacts, messages } }] }]\n// }\n//\n// AJUSTE_AQUI: os nomes de campo do payload Hyperflow real podem diferir.\n// Consulte Hyperflow > Painel > Webhook > 'Exemplo de evento' e troque as\n// referências abaixo conforme necessário.\n\nconst results = [];\nfor (const item of $input.all()) {\n  const h = item.json;\n\n  // Identificação do número Synapse OS (precisa bater com Channel::Whatsapp#phone_number).\n  // A Hyperflow pode entregar o número destino em h.to, h.phone ou h.business_phone.\n  const phoneNumber = h.to || h.phone || h.business_phone || h.channel?.phone_number;\n\n  // Contato remetente.\n  const from = h.from || h.sender?.phone || h.contact?.phone;\n  const name = h.sender?.name || h.contact?.name || h.profile?.name || '';\n\n  // Tipo e corpo da mensagem.\n  const type = h.type || h.message?.type || 'text';\n  const text = h.text || h.message?.text?.body || h.message?.text || '';\n  const mediaUrl = h.media?.url || h.message?.media?.url || h.attachment?.url;\n  const mediaId = h.media?.id || h.message?.media?.id || h.attachment?.id;\n\n  const messageObj = {\n    from: from,\n    id: h.message_id || h.id || String(Date.now()),\n    timestamp: String(Math.floor(new Date(h.timestamp || Date.now()).getTime() / 1000)),\n    type: type,\n  };\n\n  if (type === 'text') {\n    messageObj.text = { body: text };\n  } else if (['image', 'audio', 'video', 'document'].includes(type)) {\n    messageObj[type] = {\n      id: mediaId,\n      url: mediaUrl,\n      mime_type: h.media?.mime_type || h.message?.media?.mime_type,\n      caption: h.message?.caption || h.caption || '',\n    };\n  } else {\n    messageObj[type] = h.message || {};\n  }\n\n  results.push({\n    json: {\n      _phone_number: phoneNumber,\n      body: {\n        object: 'whatsapp_business_account',\n        entry: [{\n          id: h.account_id || h.business_id || 'unknown',\n          changes: [{\n            field: 'messages',\n            value: {\n              messaging_product: 'whatsapp',\n              metadata: {\n                display_phone_number: phoneNumber,\n                phone_number_id: phoneNumber,\n              },\n              contacts: [{ wa_id: from, profile: { name: name } }],\n              messages: [messageObj],\n            },\n          }],\n        }],\n      },\n    },\n  });\n}\nreturn results;\n"
+      },
+      "id": "2b000000-0000-0000-0000-000000000002",
+      "name": "Normalize → Meta Cloud API format",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [520, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SYNAPSEOS_CHATWOOT_URL }}/webhooks/hyperflow/{{ encodeURIComponent($json._phone_number) }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "X-Synapseos-Signature", "value": "={{ $env.SYNAPSEOS_WEBHOOK_SECRET }}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "2b000000-0000-0000-0000-000000000003",
+      "name": "POST to Chatwoot",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [820, 300]
+    }
+  ],
+  "connections": {
+    "Hyperflow Trigger": {
+      "main": [[{ "node": "Normalize → Meta Cloud API format", "type": "main", "index": 0 }]]
+    },
+    "Normalize → Meta Cloud API format": {
+      "main": [[{ "node": "POST to Chatwoot", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "instanceId": "synapseos-template"
+  },
+  "tags": [
+    { "name": "synapseos" },
+    { "name": "hyperflow" },
+    { "name": "incoming" }
+  ]
+}

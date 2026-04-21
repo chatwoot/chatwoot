@@ -1,0 +1,231 @@
+{
+  "name": "Synapse OS — Hyperflow Outgoing (Chatwoot → WhatsApp)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "synapseos/hyperflow-outgoing",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": false
+        }
+      },
+      "id": "1a000000-0000-0000-0000-000000000001",
+      "name": "Webhook (Chatwoot outgoing)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [260, 300],
+      "webhookId": "synapseos-hyperflow-outgoing"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate Synapse OS shared secret if configured.\n// Compare X-Synapseos-Signature with the value stored in the N8N workflow\n// 'Settings → Variables' under SYNAPSEOS_WEBHOOK_SECRET.\nconst expected = $env.SYNAPSEOS_WEBHOOK_SECRET;\nconst received = $input.first().json.headers?.['x-synapseos-signature']\n  || $input.first().json.headers?.['X-Synapseos-Signature']\n  || '';\nif (expected && expected !== received) {\n  throw new Error('Invalid X-Synapseos-Signature');\n}\nreturn $input.all();\n"
+      },
+      "id": "1a000000-0000-0000-0000-000000000002",
+      "name": "Verify signature",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.body.type }}",
+        "rules": {
+          "rules": [
+            { "operation": "equal", "value2": "text", "output": 0 },
+            { "operation": "equal", "value2": "image", "output": 1 },
+            { "operation": "equal", "value2": "audio", "output": 2 },
+            { "operation": "equal", "value2": "video", "output": 3 },
+            { "operation": "equal", "value2": "document", "output": 4 },
+            { "operation": "equal", "value2": "template", "output": 5 }
+          ]
+        }
+      },
+      "id": "1a000000-0000-0000-0000-000000000003",
+      "name": "Route by message type",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [740, 300]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "sendText",
+        "to": "={{ $json.body.to }}",
+        "text": "={{ $json.body.payload.text }}"
+      },
+      "id": "1a000000-0000-0000-0000-000000000010",
+      "name": "Hyperflow · Send text",
+      "type": "@hyperflow-global/n8n-nodes-hyperflow-whatsapp.hyperflowWhatsApp",
+      "typeVersion": 1,
+      "position": [1000, 120],
+      "credentials": {
+        "hyperflowWhatsAppApi": {
+          "id": "REPLACE_WITH_HYPERFLOW_CREDENTIAL_ID",
+          "name": "Hyperflow (prod)"
+        }
+      },
+      "notes": "Ajuste o nome do recurso/operação conforme a versão do nó Hyperflow que você instalou."
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "sendImage",
+        "to": "={{ $json.body.to }}",
+        "mediaUrl": "={{ $json.body.payload.url }}",
+        "caption": "={{ $json.body.payload.caption || '' }}"
+      },
+      "id": "1a000000-0000-0000-0000-000000000011",
+      "name": "Hyperflow · Send image",
+      "type": "@hyperflow-global/n8n-nodes-hyperflow-whatsapp.hyperflowWhatsApp",
+      "typeVersion": 1,
+      "position": [1000, 260],
+      "credentials": {
+        "hyperflowWhatsAppApi": {
+          "id": "REPLACE_WITH_HYPERFLOW_CREDENTIAL_ID",
+          "name": "Hyperflow (prod)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "sendAudio",
+        "to": "={{ $json.body.to }}",
+        "mediaUrl": "={{ $json.body.payload.url }}"
+      },
+      "id": "1a000000-0000-0000-0000-000000000012",
+      "name": "Hyperflow · Send audio",
+      "type": "@hyperflow-global/n8n-nodes-hyperflow-whatsapp.hyperflowWhatsApp",
+      "typeVersion": 1,
+      "position": [1000, 400],
+      "credentials": {
+        "hyperflowWhatsAppApi": {
+          "id": "REPLACE_WITH_HYPERFLOW_CREDENTIAL_ID",
+          "name": "Hyperflow (prod)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "sendVideo",
+        "to": "={{ $json.body.to }}",
+        "mediaUrl": "={{ $json.body.payload.url }}",
+        "caption": "={{ $json.body.payload.caption || '' }}"
+      },
+      "id": "1a000000-0000-0000-0000-000000000013",
+      "name": "Hyperflow · Send video",
+      "type": "@hyperflow-global/n8n-nodes-hyperflow-whatsapp.hyperflowWhatsApp",
+      "typeVersion": 1,
+      "position": [1000, 540],
+      "credentials": {
+        "hyperflowWhatsAppApi": {
+          "id": "REPLACE_WITH_HYPERFLOW_CREDENTIAL_ID",
+          "name": "Hyperflow (prod)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "sendDocument",
+        "to": "={{ $json.body.to }}",
+        "mediaUrl": "={{ $json.body.payload.url }}",
+        "caption": "={{ $json.body.payload.caption || '' }}"
+      },
+      "id": "1a000000-0000-0000-0000-000000000014",
+      "name": "Hyperflow · Send document",
+      "type": "@hyperflow-global/n8n-nodes-hyperflow-whatsapp.hyperflowWhatsApp",
+      "typeVersion": 1,
+      "position": [1000, 680],
+      "credentials": {
+        "hyperflowWhatsAppApi": {
+          "id": "REPLACE_WITH_HYPERFLOW_CREDENTIAL_ID",
+          "name": "Hyperflow (prod)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "sendTemplate",
+        "to": "={{ $json.body.to }}",
+        "templateName": "={{ $json.body.payload.name }}",
+        "language": "={{ $json.body.payload.language || 'pt_BR' }}",
+        "components": "={{ $json.body.payload.components || [] }}"
+      },
+      "id": "1a000000-0000-0000-0000-000000000015",
+      "name": "Hyperflow · Send template",
+      "type": "@hyperflow-global/n8n-nodes-hyperflow-whatsapp.hyperflowWhatsApp",
+      "typeVersion": 1,
+      "position": [1000, 820],
+      "credentials": {
+        "hyperflowWhatsAppApi": {
+          "id": "REPLACE_WITH_HYPERFLOW_CREDENTIAL_ID",
+          "name": "Hyperflow (prod)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'queued', hyperflow: $json, chatwoot_message_id: $('Webhook (Chatwoot outgoing)').first().json.body.chatwoot_message_id } }}"
+      },
+      "id": "1a000000-0000-0000-0000-000000000020",
+      "name": "Respond 200 to Chatwoot",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1260, 300]
+    }
+  ],
+  "connections": {
+    "Webhook (Chatwoot outgoing)": {
+      "main": [[{ "node": "Verify signature", "type": "main", "index": 0 }]]
+    },
+    "Verify signature": {
+      "main": [[{ "node": "Route by message type", "type": "main", "index": 0 }]]
+    },
+    "Route by message type": {
+      "main": [
+        [{ "node": "Hyperflow · Send text", "type": "main", "index": 0 }],
+        [{ "node": "Hyperflow · Send image", "type": "main", "index": 0 }],
+        [{ "node": "Hyperflow · Send audio", "type": "main", "index": 0 }],
+        [{ "node": "Hyperflow · Send video", "type": "main", "index": 0 }],
+        [{ "node": "Hyperflow · Send document", "type": "main", "index": 0 }],
+        [{ "node": "Hyperflow · Send template", "type": "main", "index": 0 }]
+      ]
+    },
+    "Hyperflow · Send text": {
+      "main": [[{ "node": "Respond 200 to Chatwoot", "type": "main", "index": 0 }]]
+    },
+    "Hyperflow · Send image": {
+      "main": [[{ "node": "Respond 200 to Chatwoot", "type": "main", "index": 0 }]]
+    },
+    "Hyperflow · Send audio": {
+      "main": [[{ "node": "Respond 200 to Chatwoot", "type": "main", "index": 0 }]]
+    },
+    "Hyperflow · Send video": {
+      "main": [[{ "node": "Respond 200 to Chatwoot", "type": "main", "index": 0 }]]
+    },
+    "Hyperflow · Send document": {
+      "main": [[{ "node": "Respond 200 to Chatwoot", "type": "main", "index": 0 }]]
+    },
+    "Hyperflow · Send template": {
+      "main": [[{ "node": "Respond 200 to Chatwoot", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "instanceId": "synapseos-template"
+  },
+  "tags": [
+    { "name": "synapseos" },
+    { "name": "hyperflow" },
+    { "name": "outgoing" }
+  ]
+}
