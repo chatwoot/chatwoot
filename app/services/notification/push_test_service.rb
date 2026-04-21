@@ -66,9 +66,8 @@ class Notification::PushTestService
     )
     response = fcm_service.fcm_client.send_v1(fcm_options(subscription))
     status_code = response[:status_code].to_i
-    body = response[:body].to_s
-    status = status_code.between?(200, 299) && body.exclude?('"error"') ? :success : :failure
-    result(subscription, 'fcm', status, "HTTP #{status_code} — #{body}")
+    status = status_code.between?(200, 299) ? :success : :failure
+    result(subscription, 'fcm', status, "HTTP #{status_code} — #{response[:body]}")
   rescue StandardError => e
     result(subscription, 'fcm', :failure, "#{e.class.name}: #{e.message}")
   end
@@ -92,7 +91,11 @@ class Notification::PushTestService
 
   def browser_push_payload(subscription)
     {
-      message: JSON.generate(title: resolved_title, body: resolved_body, tag: "super_admin_test_#{Time.zone.now.to_i}"),
+      message: JSON.generate(
+        title: resolved_title,
+        tag: "super_admin_test_#{Time.zone.now.to_i}",
+        url: ENV.fetch('FRONTEND_URL', 'https://app.chatwoot.com')
+      ),
       endpoint: subscription.subscription_attributes['endpoint'],
       p256dh: subscription.subscription_attributes['p256dh'],
       auth: subscription.subscription_attributes['auth'],

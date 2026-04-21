@@ -8,12 +8,12 @@ class SuperAdmin::PushDiagnosticsController < SuperAdmin::ApplicationController
 
   def create
     @user = User.find_by(id: params[:user_id])
-    return redirect_to super_admin_push_diagnostics_path, alert: 'User not found.' if @user.nil? # rubocop:disable Rails/I18nLocaleTexts
+    return redirect_to super_admin_push_diagnostics_path, alert: I18n.t('super_admin.push_diagnostics.user_not_found') if @user.nil?
 
-    ids = Array(params[:subscription_ids]).reject(&:blank?).map(&:to_i)
+    ids = parsed_subscription_ids
     if ids.empty?
       return redirect_to super_admin_push_diagnostics_path(user_query: @user.id),
-                         alert: 'Select at least one subscription to test.' # rubocop:disable Rails/I18nLocaleTexts
+                         alert: I18n.t('super_admin.push_diagnostics.no_subscriptions_to_test')
     end
 
     run_test_and_render(ids)
@@ -21,18 +21,18 @@ class SuperAdmin::PushDiagnosticsController < SuperAdmin::ApplicationController
 
   def destroy_subscriptions
     user = User.find_by(id: params[:user_id])
-    return redirect_to super_admin_push_diagnostics_path, alert: 'User not found.' if user.nil? # rubocop:disable Rails/I18nLocaleTexts
+    return redirect_to super_admin_push_diagnostics_path, alert: I18n.t('super_admin.push_diagnostics.user_not_found') if user.nil?
 
-    ids = Array(params[:subscription_ids]).reject(&:blank?).map(&:to_i)
+    ids = parsed_subscription_ids
     if ids.empty?
       return redirect_to super_admin_push_diagnostics_path(user_query: user.id),
-                         alert: 'Select at least one subscription to delete.' # rubocop:disable Rails/I18nLocaleTexts
+                         alert: I18n.t('super_admin.push_diagnostics.no_subscriptions_to_delete')
     end
 
     deleted_count = user.notification_subscriptions.where(id: ids).destroy_all.size
-    Rails.logger.info "[SuperAdmin] push diagnostics deleted #{deleted_count} subscriptions for user #{user.id}: #{ids}"
+    log_super_admin_action("deleted #{deleted_count} subscriptions for user #{user.id}: #{ids}")
     redirect_to super_admin_push_diagnostics_path(user_query: user.id),
-                notice: "Deleted #{deleted_count} subscription(s). The user's device(s) will re-register on next app launch."
+                notice: I18n.t('super_admin.push_diagnostics.subscriptions_deleted', count: deleted_count)
   end
 
   private
@@ -45,13 +45,24 @@ class SuperAdmin::PushDiagnosticsController < SuperAdmin::ApplicationController
       title: params[:push_title], body: params[:push_body]
     ).perform
 
-    Rails.logger.info "[SuperAdmin] push diagnostics test sent for user #{@user.id} subscriptions #{ids}"
+    log_super_admin_action("test sent for user #{@user.id} subscriptions #{ids}")
     render :show
+  end
+
+  def log_super_admin_action(message)
+    Rails.logger.info(
+      "[SuperAdmin] push diagnostics #{message} " \
+      "(actor_id=#{current_super_admin&.id}, actor_email=#{current_super_admin&.email})"
+    )
   end
 
   def resolve_user(query)
     return if query.blank?
 
     query.match?(/\A\d+\z/) ? User.find_by(id: query) : User.from_email(query)
+  end
+
+  def parsed_subscription_ids
+    Array(params[:subscription_ids]).reject(&:blank?).map(&:to_i)
   end
 end
