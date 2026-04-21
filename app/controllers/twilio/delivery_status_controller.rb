@@ -1,4 +1,6 @@
 class Twilio::DeliveryStatusController < ApplicationController
+  include TwilioSignatureVerifyConcern
+
   def create
     Webhooks::TwilioDeliveryStatusJob.perform_later(permitted_params.to_unsafe_hash)
 
@@ -17,5 +19,9 @@ class Twilio::DeliveryStatusController < ApplicationController
       :ErrorCode,
       :ErrorMessage
     )
+  end
+
+  def channel_lookup_phone_numbers
+    [params[:From]].compact_blank
   end
 end
