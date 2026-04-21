@@ -44,4 +44,29 @@ RSpec.describe Conversations::EventDataPresenter do
       expect(presenter.push_data.except(:applied_sla, :sla_events)).to include(expected_data)
     end
   end
+
+  describe '#webhook_data' do
+    it 'normalizes hard-break backslashes in message content' do
+      message = create(:message, conversation: conversation, account: conversation.account,
+                                 message_type: :outgoing, content: "Hello\\\nWorld")
+      data = presenter.webhook_data
+      webhook_message = data[:messages].first
+
+      expect(webhook_message).to be_present
+      expect(webhook_message[:content]).to eq("Hello\nWorld")
+      expect(webhook_message[:id]).to eq(message.id)
+    end
+
+    it 'preserves normal newlines in message content' do
+      create(:message, conversation: conversation, account: conversation.account,
+                       message_type: :outgoing, content: "Line one\n\nLine two")
+      webhook_message = presenter.webhook_data[:messages].first
+
+      expect(webhook_message[:content]).to eq("Line one\n\nLine two")
+    end
+
+    it 'returns empty messages when conversation has no chat messages' do
+      expect(presenter.webhook_data[:messages]).to eq([])
+    end
+  end
 end

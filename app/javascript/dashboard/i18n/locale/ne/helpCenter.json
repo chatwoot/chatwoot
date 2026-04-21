@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "भाषा पोर्टलबाट सफलतापूर्वक हटाइयो।",
           "ERROR_MESSAGE": "भाषा पोर्टलबाट हटाउन सकिएन। फेरि प्रयास गर्नुहोस्।"
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -644,8 +656,11 @@
         "ARTICLES_COUNT": "{count} लेख | {count} लेखहरू",
         "CATEGORIES_COUNT": "{count} श्रेणी | {count} श्रेणीहरू",
         "DEFAULT": "पूर्वनिर्धारित",
+        "DRAFT": "ड्राफ्ट",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "पूर्वनिर्धारित बनाउनुहोस्",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "मेटाउनुहोस्"
         }
       },
@@ -654,6 +669,13 @@
         "DESCRIPTION": "यस लेख कुन भाषामा लेखिनेछ चयन गर्नुहोस्। यसलाई तपाईंको अनुवाद सूचीमा थपिनेछ, र तपाईं पछि थप्न सक्नुहुन्छ।",
         "COMBOBOX": {
           "PLACEHOLDER": "स्थान चयन गर्नुहोस्..."
+        },
+        "STATUS": {
+          "LABEL": "Status",
+          "OPTIONS": {
+            "LIVE": "प्रकाशित",
+            "DRAFT": "ड्राफ्ट"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "स्थान सफलतापूर्वक थपियो",

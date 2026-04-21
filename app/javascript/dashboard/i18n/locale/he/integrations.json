@@ -395,13 +395,13 @@
       "ASSISTANTS": "עוזרים",
       "SWITCH_ASSISTANT": "החלף בין עוזרים",
       "NEW_ASSISTANT": "צור עוזר",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "EMPTY_LIST": "לא נמצאו עוזרים, אנא צור אחד כדי להתחיל"
     },
     "COPILOT": {
       "TITLE": "טייס משנה",
       "TRY_THESE_PROMPTS": "נסה הנחיות אלה",
       "PANEL_TITLE": "התחל עם Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "KICK_OFF_MESSAGE": "צריך סיכום מהיר, רוצה לבדוק שיחות קודמות, או לנסח תשובה טובה יותר? Copilot כאן כדי להאיץ את הדברים.",
       "SEND_MESSAGE": "שלח הודעה...",
       "EMPTY_MESSAGE": "אירעה שגיאה ביצירת התגובה. אנא נסה שוב.",
       "LOADER": "קפטן חושב",
@@ -449,7 +449,7 @@
       "CANCEL_ANYTIME": "תוכל לשנות או לבטל את התוכנית שלך בכל עת"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
+      "AVAILABLE_ON": "Captain AI זמין רק בתכניות הארגוניות.",
       "UPGRADE_PROMPT": "שדרג את התוכנית שלך כדי לקבל גישה לעוזרים שלנו, ל-Copilot ועוד.",
       "ASK_ADMIN": "אנא פנה למנהל המערכת שלך לצורך השדרוג."
     },
@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "מסמכים",
       "ADD_NEW": "צור מסמך חדש",
+      "SELECTED": "{count} נבחרו",
+      "SELECT_ALL": "בחר הכל ({count})",
+      "UNSELECT_ALL": "בטל בחירת הכל ({count})",
+      "BULK_DELETE_BUTTON": "מחק",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "כן, מחק הכל",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "שאלות נפוצות קשורות",
         "DESCRIPTION": "שאלות נפוצות אלה נוצרו ישירות מהמסמך."
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "כלים",
       "ADD_NEW": "צור כלי חדש",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "אין כלים מותאמים אישית זמינים",
         "SUBTITLE": "צור כלים מותאמים אישית כדי לחבר את העוזר שלך לממשקי API ושירותים חיצוניים, מה שמאפשר לו לאחזר נתונים ולבצע פעולות בשמך.",
@@ -825,11 +837,30 @@
         "SUCCESS_MESSAGE": "הכלי המותאם אישית נמחק בהצלחה",
         "ERROR_MESSAGE": "מחיקת הכלי המותאם אישית נכשלה"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "פתח חיוב",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "אנא פנה למנהל המערכת שלך לצורך השדרוג."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "שם כלי",
           "PLACEHOLDER": "בדיקת הזמנה",
-          "ERROR": "שם הכלי נדרש"
+          "ERROR": "שם הכלי נדרש",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "תיאור",

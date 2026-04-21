@@ -68,7 +68,8 @@
         "API_SUCCESS": "Parašas išsaugotas sėkmingai",
         "IMAGE_UPLOAD_ERROR": "Nepavyko įkelti vaizdo! Prašau, pabandykite dar kartą",
         "IMAGE_UPLOAD_SUCCESS": "Vaizdas sėkmingai pridėtas. Spustelėkite \"Išsaugoti\", kad išsaugotumėte parašą",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Paveiksliuko dydis turi būti mažesnis nei {size} MB"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Paveiksliuko dydis turi būti mažesnis nei {size} MB",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Pranešimo parašas",
