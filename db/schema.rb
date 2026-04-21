@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_21_000003) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_21_120002) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1245,13 +1245,29 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_21_000003) do
     t.datetime "disqualified_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "pipeline_stage_id"
     t.index ["account_id", "conversation_id"], name: "index_synapseos_leads_on_account_id_and_conversation_id", unique: true
     t.index ["account_id", "created_at"], name: "index_synapseos_leads_on_account_id_and_created_at"
+    t.index ["account_id", "pipeline_stage_id", "created_at"], name: "idx_synapseos_leads_stage_time"
     t.index ["account_id", "status"], name: "index_synapseos_leads_on_account_id_and_status"
     t.index ["account_id"], name: "index_synapseos_leads_on_account_id"
     t.index ["assignee_id"], name: "index_synapseos_leads_on_assignee_id"
     t.index ["contact_id"], name: "index_synapseos_leads_on_contact_id"
     t.index ["conversation_id"], name: "index_synapseos_leads_on_conversation_id"
+    t.index ["pipeline_stage_id"], name: "index_synapseos_leads_on_pipeline_stage_id"
+  end
+
+  create_table "synapseos_pipeline_stages", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.string "color", default: "#2196F3", null: false
+    t.integer "position", default: 0, null: false
+    t.string "stage_type", default: "custom", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "name"], name: "index_synapseos_pipeline_stages_on_account_id_and_name", unique: true
+    t.index ["account_id", "position"], name: "index_synapseos_pipeline_stages_on_account_id_and_position"
+    t.index ["account_id"], name: "index_synapseos_pipeline_stages_on_account_id"
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
@@ -1382,7 +1398,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_21_000003) do
   add_foreign_key "synapseos_leads", "accounts"
   add_foreign_key "synapseos_leads", "contacts"
   add_foreign_key "synapseos_leads", "conversations"
+  add_foreign_key "synapseos_leads", "synapseos_pipeline_stages", column: "pipeline_stage_id"
   add_foreign_key "synapseos_leads", "users", column: "assignee_id"
+  add_foreign_key "synapseos_pipeline_stages", "accounts"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

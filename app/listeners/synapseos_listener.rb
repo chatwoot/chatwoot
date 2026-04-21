@@ -75,11 +75,15 @@ class SynapseosListener < BaseListener
   def create_lead_from_label(conversation, account)
     return if ::Synapseos::Lead.exists?(account_id: account.id, conversation_id: conversation.id)
 
+    ::Synapseos::EnsureDefaultStagesService.new(account).call
+    inbound_stage = ::Synapseos::PipelineStage.where(account_id: account.id, stage_type: 'inbound').order(:position).first
+
     lead = ::Synapseos::Lead.create!(
       account_id: account.id,
       conversation_id: conversation.id,
       contact_id: conversation.contact_id,
       assignee_id: conversation.assignee_id,
+      pipeline_stage_id: inbound_stage&.id,
       status: :qualified,
       source: 'label',
       qualified_at: Time.current
