@@ -87,33 +87,33 @@ const onCardClick = e => {
 <template>
   <div
     role="button"
-    class="flex w-full gap-3 px-3 py-4 transition-all duration-300 ease-in-out cursor-pointer"
+    class="flex w-full gap-3 px-3 py-3 transition-colors duration-150 ease-out cursor-pointer hover:bg-s-subtle focus-within:bg-s-subtle"
     @click="onCardClick"
   >
     <Avatar
       :name="currentContactName"
       :src="currentContactThumbnail"
-      :size="24"
+      :size="28"
       :status="currentContactStatus"
       rounded-full
     />
     <div class="flex flex-col w-full gap-1 min-w-0">
       <div class="flex items-center justify-between h-6 gap-2">
-        <h4 class="text-base font-medium truncate text-n-slate-12">
+        <h4 class="text-[13px] font-medium truncate text-s-primary">
           {{ currentContactName }}
         </h4>
         <div class="flex items-center gap-2">
           <CardPriorityIcon :priority="conversation.priority || null" />
           <div
             v-tooltip.left="inboxName"
-            class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-alpha-2 size-5"
+            class="flex items-center justify-center flex-shrink-0 rounded-full bg-s-subtle size-5"
           >
             <Icon
               :icon="inboxIcon"
-              class="flex-shrink-0 text-n-slate-11 size-3"
+              class="flex-shrink-0 text-s-muted size-3"
             />
           </div>
-          <span class="text-sm text-n-slate-10">
+          <span class="text-[11px] text-s-muted">
             {{ lastActivityAt }}
           </span>
         </div>

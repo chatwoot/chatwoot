@@ -19,18 +19,19 @@ const { variant, orientation, inReplyTo, shouldGroupWithNext } =
   useMessageContext();
 const { t } = useI18n();
 
+// CUSTOMIZAÇÃO_SYNAPSEOS — paleta s-* aplicada aos variants de bubble.
 const varaintBaseMap = {
-  [MESSAGE_VARIANTS.AGENT]: 'bg-n-solid-blue text-n-slate-12',
+  [MESSAGE_VARIANTS.AGENT]: 'bg-s-brand text-s-inverse',
   [MESSAGE_VARIANTS.PRIVATE]:
-    'bg-n-solid-amber text-n-amber-12 [&_.prosemirror-mention-node]:font-semibold',
-  [MESSAGE_VARIANTS.USER]: 'bg-n-slate-4 text-n-slate-12',
-  [MESSAGE_VARIANTS.ACTIVITY]: 'bg-n-alpha-1 text-n-slate-11 text-sm',
-  [MESSAGE_VARIANTS.BOT]: 'bg-n-solid-iris text-n-slate-12',
-  [MESSAGE_VARIANTS.TEMPLATE]: 'bg-n-solid-iris text-n-slate-12',
-  [MESSAGE_VARIANTS.ERROR]: 'bg-n-ruby-4 text-n-ruby-12',
+    'bg-s-warning-soft text-s-warning-text border border-s-warning/30 [&_.prosemirror-mention-node]:font-semibold',
+  [MESSAGE_VARIANTS.USER]: 'bg-s-subtle text-s-primary border border-s-border-subtle',
+  [MESSAGE_VARIANTS.ACTIVITY]: 'bg-transparent text-s-muted text-xs italic',
+  [MESSAGE_VARIANTS.BOT]: 'bg-s-info-soft text-s-brand-text border border-s-info/20',
+  [MESSAGE_VARIANTS.TEMPLATE]: 'bg-s-info-soft text-s-brand-text border border-s-info/20',
+  [MESSAGE_VARIANTS.ERROR]: 'bg-s-error-soft text-s-error-text border border-s-error/20',
   [MESSAGE_VARIANTS.EMAIL]: 'w-full',
   [MESSAGE_VARIANTS.UNSUPPORTED]:
-    'bg-n-solid-amber/70 border border-dashed border-n-amber-12 text-n-amber-12',
+    'bg-s-warning-soft/70 border border-dashed border-s-warning-text text-s-warning-text',
 };
 
 const orientationMap = {
