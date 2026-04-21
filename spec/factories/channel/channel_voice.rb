@@ -8,7 +8,8 @@ FactoryBot.define do
         account_sid: "AC#{SecureRandom.hex(16)}",
         auth_token: SecureRandom.hex(16),
         api_key_sid: SecureRandom.hex(8),
-        api_key_secret: SecureRandom.hex(16)
+        api_key_secret: SecureRandom.hex(16),
+        twiml_app_sid: "AP#{SecureRandom.hex(16)}"
       }
     end
     account

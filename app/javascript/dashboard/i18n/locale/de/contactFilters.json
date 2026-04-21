@@ -48,7 +48,8 @@
       "CREATED_AT": "Erstellt am",
       "LAST_ACTIVITY": "Letzte Aktivität",
       "REFERER_LINK": "Verweis-Link",
-      "BLOCKED": "Blockiert"
+      "BLOCKED": "Blockiert",
+      "LABELS": "Labels"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standardfilter",

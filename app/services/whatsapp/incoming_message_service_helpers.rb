@@ -21,7 +21,7 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def message_type
-    @processed_params[:messages].first[:type]
+    messages_data.first[:type]
   end
 
   def message_content(message)
@@ -47,36 +47,8 @@ module Whatsapp::IncomingMessageServiceHelpers
     %w[reaction ephemeral unsupported request_welcome].include?(message_type)
   end
 
-  def brazil_phone_number?(phone_number)
-    phone_number.match(/^55/)
-  end
-
-  # ref: https://github.com/chatwoot/chatwoot/issues/5840
-  def normalised_brazil_mobile_number(phone_number)
-    # DDD : Area codes in Brazil are popularly known as "DDD codes" (códigos DDD) or simply "DDD", from the initials of "direct distance dialing"
-    # https://en.wikipedia.org/wiki/Telephone_numbers_in_Brazil
-    ddd = phone_number[2, 2]
-    # Remove country code and DDD to obtain the number
-    number = phone_number[4, phone_number.length - 4]
-    normalised_number = "55#{ddd}#{number}"
-    # insert 9 to convert the number to the new mobile number format
-    normalised_number = "55#{ddd}9#{number}" if normalised_number.length != 13
-    normalised_number
-  end
-
   def processed_waid(waid)
-    # in case of Brazil, we need to do additional processing
-    # https://github.com/chatwoot/chatwoot/issues/5840
-    if brazil_phone_number?(waid)
-      # check if there is an existing contact inbox with the normalised waid
-      # We will create conversation against it
-      contact_inbox = inbox.contact_inboxes.find_by(source_id: normalised_brazil_mobile_number(waid))
-
-      # if there is no contact inbox with the waid without 9,
-      # We will create contact inboxes and contacts with the number 9 added
-      waid = contact_inbox.source_id if contact_inbox.present?
-    end
-    waid
+    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(waid, :cloud)
   end
 
   def error_webhook_event?(message)
@@ -97,20 +69,9 @@ module Whatsapp::IncomingMessageServiceHelpers
     @message = Message.find_by(source_id: source_id)
   end
 
-  def message_under_process?
-    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: @processed_params[:messages].first[:id])
-    Redis::Alfred.get(key)
-  end
+  def lock_message_source_id!
+    return false if messages_data.blank?
 
-  def cache_message_source_id_in_redis
-    return if @processed_params.try(:[], :messages).blank?
-
-    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: @processed_params[:messages].first[:id])
-    ::Redis::Alfred.setex(key, true)
-  end
-
-  def clear_message_source_id_from_redis
-    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: @processed_params[:messages].first[:id])
-    ::Redis::Alfred.delete(key)
+    Whatsapp::MessageDedupLock.new(messages_data.first[:id]).acquire!
   end
 end

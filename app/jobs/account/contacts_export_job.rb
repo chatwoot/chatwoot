@@ -29,9 +29,9 @@ class Account::ContactsExportJob < ApplicationJob
       result = ::Contacts::FilterService.new(@account, @account_user, @params).perform
       result[:contacts]
     elsif @params[:label].present?
-      @account.contacts.resolved_contacts.tagged_with(@params[:label], any: true)
+      @account.contacts.resolved_contacts(use_crm_v2: @account.feature_enabled?('crm_v2')).tagged_with(@params[:label], any: true)
     else
-      @account.contacts.resolved_contacts
+      @account.contacts.resolved_contacts(use_crm_v2: @account.feature_enabled?('crm_v2'))
     end
   end
 

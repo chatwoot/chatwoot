@@ -85,7 +85,7 @@ export default {
           'inboxes/createTwilioChannel',
           {
             twilio_channel: {
-              name: this.channelName,
+              name: this.channelName?.trim(),
               medium: this.medium,
               account_sid: this.accountSID,
               api_key_sid: this.apiKeySID,

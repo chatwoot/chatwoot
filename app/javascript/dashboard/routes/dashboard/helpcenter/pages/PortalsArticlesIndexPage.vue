@@ -11,7 +11,10 @@ const store = useStore();
 
 const pageNumber = ref(1);
 
-const articles = useMapGetter('articles/allArticles');
+const allArticles = useMapGetter('articles/allArticles');
+const articlesSortedByPosition = useMapGetter(
+  'articles/allArticlesSortedByPosition'
+);
 const categories = useMapGetter('categories/allCategories');
 const meta = useMapGetter('articles/getMeta');
 const portalMeta = useMapGetter('portals/getMeta');
@@ -57,6 +60,11 @@ const isCategoryArticles = computed(() => {
     route.name === 'portals_categories_index'
   );
 });
+
+// Use position-sorted articles for category views and categories filter view (where drag reorder is enabled)
+const articles = computed(() =>
+  isCategoryArticles.value ? articlesSortedByPosition.value : allArticles.value
+);
 
 const fetchArticles = ({ pageNumber: pageNumberParam } = {}) => {
   store.dispatch('articles/index', {

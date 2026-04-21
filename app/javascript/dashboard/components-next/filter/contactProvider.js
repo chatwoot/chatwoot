@@ -50,6 +50,7 @@ export function useContactFilterContext() {
   const { t } = useI18n();
 
   const contactAttributes = useMapGetter('attributes/getContactAttributes');
+  const labels = useMapGetter('labels/getLabels');
 
   const {
     equalityOperators,
@@ -180,6 +181,20 @@ export function useContactFilterContext() {
           name: t('CONTACTS_LAYOUT.FILTER.BLOCKED_FALSE'),
         },
       ],
+      dataType: 'text',
+      filterOperators: equalityOperators.value,
+      attributeModel: 'standard',
+    },
+    {
+      attributeKey: CONTACT_ATTRIBUTES.LABELS,
+      value: CONTACT_ATTRIBUTES.LABELS,
+      attributeName: t('CONTACTS_FILTER.ATTRIBUTES.LABELS'),
+      label: t('CONTACTS_FILTER.ATTRIBUTES.LABELS'),
+      inputType: 'multiSelect',
+      options: labels.value?.map(label => ({
+        id: label.title,
+        name: label.title,
+      })),
       dataType: 'text',
       filterOperators: equalityOperators.value,
       attributeModel: 'standard',

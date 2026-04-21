@@ -62,6 +62,7 @@ export default {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
       currentAccountId: 'getCurrentAccountId',
+      getUISettings: 'getUISettings',
     }),
     plainTextContent() {
       return this.getPlainText(this.messageContent);
@@ -117,11 +118,13 @@ export default {
       this.$emit('close', e);
     },
     handleTranslate() {
-      const { locale } = this.getAccount(this.currentAccountId);
+      const { locale: accountLocale } = this.getAccount(this.currentAccountId);
+      const agentLocale = this.getUISettings?.locale;
+      const targetLanguage = agentLocale || accountLocale || 'en';
       this.$store.dispatch('translateMessage', {
         conversationId: this.conversationId,
         messageId: this.messageId,
-        targetLanguage: locale || 'en',
+        targetLanguage,
       });
       useTrack(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
       this.handleClose();
@@ -257,7 +260,7 @@ export default {
 
 <style lang="scss" scoped>
 .menu-container {
-  @apply p-1 bg-white dark:bg-slate-900 shadow-xl rounded-md;
+  @apply p-1 bg-n-background shadow-xl rounded-md;
 
   hr:first-child {
     @apply hidden;
@@ -276,10 +279,6 @@ export default {
       h2 {
         @apply font-medium text-base;
       }
-    }
-
-    .modal-footer {
-      @apply pt-4 pb-8 px-8;
     }
   }
 }

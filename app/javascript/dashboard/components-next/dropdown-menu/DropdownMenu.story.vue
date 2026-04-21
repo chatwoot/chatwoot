@@ -20,7 +20,7 @@ const handleAction = () => {
 <template>
   <Story title="Components/DropdownMenu" :layout="{ type: 'grid', width: 300 }">
     <Variant title="Default">
-      <div class="p-4 bg-white h-72 dark:bg-slate-900">
+      <div class="p-4 bg-n-background h-72">
         <div class="relative">
           <Button label="Open Menu" size="sm" @click="toggleDropdown" />
           <DropdownMenu
@@ -34,13 +34,13 @@ const handleAction = () => {
     </Variant>
 
     <Variant title="Always Open">
-      <div class="p-4 bg-white h-72 dark:bg-slate-900">
+      <div class="p-4 bg-n-background h-72">
         <DropdownMenu :menu-items="menuItems" @action="handleAction" />
       </div>
     </Variant>
 
     <Variant title="Custom Items">
-      <div class="p-4 bg-white h-72 dark:bg-slate-900">
+      <div class="p-4 bg-n-background h-72">
         <DropdownMenu
           :menu-items="[
             { label: 'Custom 1', action: 'custom1', icon: 'file-upload' },
@@ -53,7 +53,7 @@ const handleAction = () => {
     </Variant>
 
     <Variant title="With search">
-      <div class="p-4 bg-white h-72 dark:bg-slate-900">
+      <div class="p-4 bg-n-background h-72">
         <DropdownMenu
           :menu-items="[
             { label: 'Custom 1', action: 'custom1', icon: 'file-upload' },

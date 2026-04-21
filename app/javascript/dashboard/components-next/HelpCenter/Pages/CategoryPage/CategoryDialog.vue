@@ -90,9 +90,9 @@ const handleCategory = async formData => {
 
 <template>
   <div
-    class="w-[25rem] absolute top-10 ltr:right-0 rtl:left-0 bg-n-alpha-3 backdrop-blur-[100px] p-6 rounded-xl border border-slate-50 dark:border-slate-900 shadow-md flex flex-col gap-6"
+    class="w-[25rem] absolute top-10 ltr:right-0 rtl:left-0 bg-n-alpha-3 backdrop-blur-[100px] p-6 rounded-xl border border-n-weak shadow-md flex flex-col gap-6"
   >
-    <h3 class="text-base font-medium text-slate-900 dark:text-slate-50">
+    <h3 class="text-base font-medium text-n-slate-12">
       {{
         t(
           `HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.HEADER.${mode.toUpperCase()}`

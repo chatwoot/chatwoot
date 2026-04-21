@@ -1,6 +1,15 @@
 class Captain::OpenAiMessageBuilderService
   pattr_initialize [:message!]
 
+  # Extracts text and image URLs from multimodal content array (reverse of generate_content)
+  def self.extract_text_and_attachments(content)
+    return [content, []] unless content.is_a?(Array)
+
+    text_parts = content.select { |part| part[:type] == 'text' }.pluck(:text)
+    image_urls = content.select { |part| part[:type] == 'image_url' }.filter_map { |part| part.dig(:image_url, :url) }
+    [text_parts.join(' ').presence, image_urls]
+  end
+
   def generate_content
     parts = []
     parts << text_part(@message.content) if @message.content.present?
@@ -42,6 +51,7 @@ class Captain::OpenAiMessageBuilderService
   end
 
   def get_attachment_url(attachment)
+    return attachment.download_url if attachment.download_url.present?
     return attachment.external_url if attachment.external_url.present?
 
     attachment.file.attached? ? attachment.file_url : nil

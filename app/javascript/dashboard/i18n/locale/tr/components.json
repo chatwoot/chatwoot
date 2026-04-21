@@ -7,11 +7,11 @@
     "PLACEHOLDER": "Select an option...",
     "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
     "EMPTY_STATE": "Sonuç bulunamadı.",
-    "SEARCH_PLACEHOLDER": "Search...",
+    "SEARCH_PLACEHOLDER": "Ara...",
     "MORE": "+{count} more"
   },
   "DROPDOWN_MENU": {
-    "SEARCH_PLACEHOLDER": "Search...",
+    "SEARCH_PLACEHOLDER": "Ara...",
     "EMPTY_STATE": "Sonuç bulunamadı.",
     "SEARCHING": "Aranıyor..."
   },
@@ -49,5 +49,20 @@
     "HOURS": "Saat",
     "DAYS": "Gün",
     "PLACEHOLDER": "Süre girin"
+  },
+  "CHANNEL_SELECTOR": {
+    "COMING_SOON": "Çok yakında!"
+  },
+  "SLASH_COMMANDS": {
+    "HEADING_1": "Heading 1",
+    "HEADING_2": "Heading 2",
+    "HEADING_3": "Heading 3",
+    "BOLD": "Bold",
+    "ITALIC": "Italic",
+    "STRIKETHROUGH": "Strikethrough",
+    "CODE": "Code",
+    "BULLET_LIST": "Bullet List",
+    "ORDERED_LIST": "Ordered List",
+    "TABLE": "Table"
   }
 }

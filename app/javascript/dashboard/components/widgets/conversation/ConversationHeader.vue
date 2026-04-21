@@ -6,7 +6,7 @@ import { useElementSize } from '@vueuse/core';
 import BackButton from '../BackButton.vue';
 import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
-import Thumbnail from '../Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
@@ -39,15 +39,22 @@ const chatMetadata = computed(() => props.chat.meta);
 
 const backButtonUrl = computed(() => {
   const {
-    params: { inbox_id: inboxId, label, teamId },
+    params: { inbox_id: inboxId, label, teamId, id: customViewId },
     name,
   } = route;
+
+  const conversationTypeMap = {
+    conversation_through_mentions: 'mention',
+    conversation_through_participating: 'participating',
+    conversation_through_unattended: 'unattended',
+  };
   return conversationListPageURL({
-    accountId,
+    accountId: accountId.value,
     inboxId,
     label,
     teamId,
-    conversationType: name === 'conversation_mentions' ? 'mention' : '',
+    conversationType: conversationTypeMap[name],
+    customViewId,
   });
 });
 
@@ -89,7 +96,7 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
 <template>
   <div
     ref="conversationHeader"
-    class="flex flex-col gap-3 items-center justify-between flex-1 w-full min-w-0 xl:flex-row px-3 py-2 border-b bg-n-background border-n-weak h-24 xl:h-12"
+    class="flex flex-col gap-3 items-center justify-between flex-1 w-full min-w-0 xl:flex-row px-3 pt-3 pb-2 h-24 xl:h-12"
   >
     <div
       class="flex items-center justify-start w-full xl:w-auto max-w-full min-w-0 xl:flex-1"
@@ -99,12 +106,13 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
         :back-url="backButtonUrl"
         class="ltr:mr-2 rtl:ml-2"
       />
-      <Thumbnail
+      <Avatar
+        :name="currentContact.name"
         :src="currentContact.thumbnail"
-        :username="currentContact.name"
+        :size="32"
         :status="currentContact.availability_status"
-        size="32px"
-        class="flex-shrink-0"
+        hide-offline-status
+        rounded-full
       />
       <div
         class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2"

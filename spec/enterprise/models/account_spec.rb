@@ -229,18 +229,27 @@ RSpec.describe Account, type: :model do
     describe '#mark_for_deletion' do
       it 'sets the marked_for_deletion_at and marked_for_deletion_reason attributes' do
         expect do
-          account.mark_for_deletion('test_reason')
+          account.mark_for_deletion('inactivity')
         end.to change { account.reload.custom_attributes['marked_for_deletion_at'] }.from(nil).to(be_present)
-           .and change { account.reload.custom_attributes['marked_for_deletion_reason'] }.from(nil).to('test_reason')
+           .and change { account.reload.custom_attributes['marked_for_deletion_reason'] }.from(nil).to('inactivity')
       end
 
-      it 'sends a notification email to admin users' do
+      it 'sends a user-initiated deletion email when reason is manual_deletion' do
         mailer = double
         expect(AdministratorNotifications::AccountNotificationMailer).to receive(:with).with(account: account).and_return(mailer)
-        expect(mailer).to receive(:account_deletion).with(account, 'test_reason').and_return(mailer)
+        expect(mailer).to receive(:account_deletion_user_initiated).with(account, 'manual_deletion').and_return(mailer)
         expect(mailer).to receive(:deliver_later)
 
-        account.mark_for_deletion('test_reason')
+        account.mark_for_deletion('manual_deletion')
+      end
+
+      it 'sends a system-initiated deletion email when reason is not manual_deletion' do
+        mailer = double
+        expect(AdministratorNotifications::AccountNotificationMailer).to receive(:with).with(account: account).and_return(mailer)
+        expect(mailer).to receive(:account_deletion_for_inactivity).with(account, 'inactivity').and_return(mailer)
+        expect(mailer).to receive(:deliver_later)
+
+        account.mark_for_deletion('inactivity')
       end
 
       it 'returns true when successful' do

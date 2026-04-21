@@ -137,6 +137,70 @@
         }
       }
     },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Lezárt",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "Mégse",
+        "CREATE_BUTTON_TEXT": "Létrehozás",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Cím",
+            "PLACEHOLDER": "Kérlek írd ide a kampány nevét",
+            "ERROR": "Cím megadása kötelező"
+          },
+          "INBOX": {
+            "LABEL": "Válassz fiókot",
+            "PLACEHOLDER": "Válassz fiókot",
+            "ERROR": "Fiók kötelező"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "Feldolgozás: {templateName}",
+            "LANGUAGE": "Nyelv",
+            "CATEGORY": "Kategória",
+            "VARIABLES_LABEL": "Változók",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "Közönség",
+            "PLACEHOLDER": "Ügyfél címke kiválasztása",
+            "ERROR": "Közönség megadása kötelező"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Tervezett idő",
+            "PLACEHOLDER": "Kérlek, válaszd ki az időtartamot",
+            "ERROR": "Tervezett idő megadása kötelező"
+          },
+          "BUTTONS": {
+            "CREATE": "Létrehozás",
+            "CANCEL": "Mégse"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra."
+          }
+        }
+      }
+    },
     "CONFIRM_DELETE": {
       "TITLE": "Biztos abban, hogy törli?",
       "DESCRIPTION": "The delete action is permanent and cannot be reversed.",

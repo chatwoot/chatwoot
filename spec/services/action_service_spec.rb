@@ -14,6 +14,17 @@ describe ActionService do
     end
   end
 
+  describe '#open_conversation' do
+    let(:conversation) { create(:conversation, status: :resolved) }
+    let(:action_service) { described_class.new(conversation) }
+
+    it 'opens the conversation' do
+      expect(conversation.status).to eq('resolved')
+      action_service.open_conversation(nil)
+      expect(conversation.reload.status).to eq('open')
+    end
+  end
+
   describe '#change_priority' do
     let(:conversation) { create(:conversation) }
     let(:action_service) { described_class.new(conversation) }
@@ -38,6 +49,53 @@ describe ActionService do
     it 'unassigns the conversation if agent id is nil' do
       action_service.assign_agent(['nil'])
       expect(conversation.reload.assignee).to be_nil
+    end
+
+    context 'when agent is confirmed' do
+      it 'assigns the agent to the conversation' do
+        inbox_member
+        action_service.assign_agent([agent.id])
+        expect(conversation.reload.assignee).to eq(agent)
+      end
+    end
+
+    context 'when agent is unconfirmed' do
+      let(:unconfirmed_agent) { create(:user, account: account, role: :agent, skip_confirmation: false) }
+      let(:unconfirmed_inbox_member) { create(:inbox_member, inbox: conversation.inbox, user: unconfirmed_agent) }
+
+      it 'does not assign unconfirmed agent to the conversation' do
+        unconfirmed_inbox_member
+        original_assignee = conversation.assignee
+        action_service.assign_agent([unconfirmed_agent.id])
+        expect(conversation.reload.assignee).to eq(original_assignee)
+      end
+    end
+
+    context 'when assigning the last responding agent' do
+      it 'assigns the last agent who replied publicly' do
+        note_author = create(:user, account: account, role: :agent)
+        inbox_member
+        create(:inbox_member, inbox: conversation.inbox, user: note_author)
+        create(:message, message_type: :outgoing, account: account,
+                         inbox: conversation.inbox, conversation: conversation, sender: agent)
+        create(:message, message_type: :outgoing, private: true, account: account,
+                         inbox: conversation.inbox, conversation: conversation, sender: note_author)
+
+        action_service.assign_agent(['last_responding_agent'])
+
+        expect(conversation.reload.assignee).to eq(agent)
+      end
+
+      it 'does not assign the conversation when there is no public agent reply' do
+        inbox_member
+        original_assignee = conversation.assignee
+        create(:message, message_type: :outgoing, private: true, account: account,
+                         inbox: conversation.inbox, conversation: conversation, sender: agent)
+
+        action_service.assign_agent(['last_responding_agent'])
+
+        expect(conversation.reload.assignee).to eq(original_assignee)
+      end
     end
   end
 
@@ -79,6 +137,17 @@ describe ActionService do
           action_service.assign_team([invalid_team_id])
         end.not_to change { conversation.reload.team }.from(original_team)
       end
+    end
+  end
+
+  describe '#remove_assigned_agent' do
+    let(:conversation) { create(:conversation, :with_assignee, account: account) }
+    let(:action_service) { described_class.new(conversation) }
+
+    it 'unassigns the conversation' do
+      expect(conversation.reload.assignee).to be_present
+      action_service.remove_assigned_agent(nil)
+      expect(conversation.reload.assignee).to be_nil
     end
   end
 end

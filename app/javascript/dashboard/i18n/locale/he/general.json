@@ -5,6 +5,15 @@
       "PLACEHOLDER": "חפש",
       "EMPTY_STATE": "לא נמצאו תוצאות"
     },
-    "CLOSE": "סגור"
+    "CLOSE": "סגור",
+    "BETA": "בטא",
+    "BETA_DESCRIPTION": "תכונה זו נמצאת בגרסת בטא ועשויה להשתנות ככל שנשפר אותה.",
+    "ACCEPT": "Accept",
+    "DISCARD": "בטל",
+    "PREFERRED": "Preferred"
+  },
+  "CHOICE_TOGGLE": {
+    "YES": "כן",
+    "NO": "לא"
   }
 }

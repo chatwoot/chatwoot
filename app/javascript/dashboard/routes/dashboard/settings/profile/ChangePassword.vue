@@ -3,11 +3,11 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
-import FormButton from 'v3/components/Form/Button.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
-    FormButton,
+    NextButton,
   },
   setup() {
     return { v$: useVuelidate() };
@@ -130,15 +130,13 @@ export default {
         @blur="v$.passwordConfirmation.$touch"
       />
 
-      <FormButton
-        type="submit"
-        color-scheme="primary"
-        variant="solid"
-        size="large"
-        :disabled="isButtonDisabled"
-      >
-        {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
-      </FormButton>
+      <div>
+        <NextButton
+          type="submit"
+          :label="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT')"
+          :disabled="isButtonDisabled"
+        />
+      </div>
     </div>
   </form>
 </template>

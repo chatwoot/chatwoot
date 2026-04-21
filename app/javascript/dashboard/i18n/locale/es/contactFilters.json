@@ -48,7 +48,8 @@
       "CREATED_AT": "Creado el",
       "LAST_ACTIVITY": "Última actividad",
       "REFERER_LINK": "Enlace de referencia",
-      "BLOCKED": "Bloqueado"
+      "BLOCKED": "Bloqueado",
+      "LABELS": "Etiquetas"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtros estándar",

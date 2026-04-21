@@ -44,6 +44,7 @@ class Inbox < ApplicationRecord
   include Avatarable
   include OutOfOffisable
   include AccountCacheRevalidator
+  include InboxAgentAvailability
 
   # Not allowing characters:
   validates :name, presence: true
@@ -67,6 +68,8 @@ class Inbox < ApplicationRecord
   has_many :conversations, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async
 
+  has_one :inbox_assignment_policy, dependent: :destroy
+  has_one :assignment_policy, through: :inbox_assignment_policy
   has_one :agent_bot_inbox, dependent: :destroy_async
   has_one :agent_bot, through: :agent_bot_inbox
   has_many :webhooks, dependent: :destroy_async
@@ -99,12 +102,16 @@ class Inbox < ApplicationRecord
 
   # Sanitizes inbox name for balanced email provider compatibility
   # ALLOWS: /'._- and Unicode letters/numbers/emojis
-  # REMOVES: Forbidden chars (\<>@") + spam-trigger symbols (!#$%&*+=?^`{|}~)
+  # REMOVES: Forbidden chars (\<>@"()) + spam-trigger symbols (!#$%&*+=?^`{|}~)
   def sanitized_name
     return default_name_for_blank_name if name.blank?
 
     sanitized = apply_sanitization_rules(name)
     sanitized.blank? && email? ? display_name_from_email : sanitized
+  end
+
+  def sanitized_business_name
+    sanitize_raw_name(business_name) || sanitized_name
   end
 
   def sms?
@@ -121,6 +128,10 @@ class Inbox < ApplicationRecord
 
   def instagram_direct?
     channel_type == 'Channel::Instagram'
+  end
+
+  def tiktok?
+    channel_type == 'Channel::Tiktok'
   end
 
   def web_widget?
@@ -143,8 +154,16 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::TwitterProfile'
   end
 
+  def telegram?
+    channel_type == 'Channel::Telegram'
+  end
+
   def whatsapp?
     channel_type == 'Channel::Whatsapp'
+  end
+
+  def twilio_whatsapp?
+    channel_type == 'Channel::TwilioSms' && channel.medium == 'whatsapp'
   end
 
   def assignable_agents
@@ -184,14 +203,25 @@ class Inbox < ApplicationRecord
     members.ids
   end
 
+  def auto_assignment_v2_enabled?
+    account.feature_enabled?('assignment_v2')
+  end
+
   private
 
   def default_name_for_blank_name
     email? ? display_name_from_email : ''
   end
 
+  def sanitize_raw_name(raw)
+    return nil if raw.blank?
+
+    result = apply_sanitization_rules(raw)
+    result.presence
+  end
+
   def apply_sanitization_rules(name)
-    name.gsub(/[\\<>@"!#$%&*+=?^`{|}~]/, '')            # Remove forbidden chars
+    name.gsub(/[\\<>@"!#$%&*+=?^`{|}~:;()]/, '')        # Remove forbidden chars
         .gsub(/[\x00-\x1F\x7F]/, ' ')                   # Replace control chars with spaces
         .gsub(/\A[[:punct:]]+|[[:punct:]]+\z/, '')      # Remove leading/trailing punctuation
         .gsub(/\s+/, ' ')                               # Normalize spaces

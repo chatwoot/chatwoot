@@ -10,7 +10,12 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   private
 
   def sign_in_user
+    # Capture before skip_confirmation! sets confirmed_at, which would
+    # make oauth_user_needs_password_reset? return false and skip the
+    # password reset for persisted unconfirmed users.
+    needs_password_reset = oauth_user_needs_password_reset?
     @resource.skip_confirmation! if confirmable_enabled?
+    set_random_password_if_oauth_user if needs_password_reset
 
     # once the resource is found and verified
     # we can just send them to the login page again with the SSO params
@@ -19,11 +24,28 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     redirect_to login_page_url(email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token)
   end
 
+  def sign_in_user_on_mobile
+    # See comment in sign_in_user for why this is captured before skip_confirmation!
+    needs_password_reset = oauth_user_needs_password_reset?
+    @resource.skip_confirmation! if confirmable_enabled?
+    set_random_password_if_oauth_user if needs_password_reset
+
+    # once the resource is found and verified
+    # we can just send them to the login page again with the SSO params
+    # that will log them in
+    encoded_email = ERB::Util.url_encode(@resource.email)
+    params = { email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token }.to_query
+
+    mobile_deep_link_base = GlobalConfigService.load('MOBILE_DEEP_LINK_BASE', 'chatwootapp')
+    redirect_to "#{mobile_deep_link_base}://auth/saml?#{params}", allow_other_host: true
+  end
+
   def sign_up_user
     return redirect_to login_page_url(error: 'no-account-found') unless account_signup_allowed?
     return redirect_to login_page_url(error: 'business-account-only') unless validate_signup_email_is_business_domain?
 
     create_account_for_user
+    set_random_password_if_oauth_user
     token = @resource.send(:set_reset_password_token)
     frontend_url = ENV.fetch('FRONTEND_URL', nil)
     redirect_to "#{frontend_url}/app/auth/password/edit?config=default&reset_password_token=#{token}"
@@ -38,8 +60,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def account_signup_allowed?
-    # set it to true by default, this is the behaviour across the app
-    GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false') != 'false'
+    GlobalConfigService.account_signup_enabled?
   end
 
   def resource_class(_mapping = nil)
@@ -47,10 +68,8 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def get_resource_from_auth_hash # rubocop:disable Naming/AccessorMethodName
-    # find the user with their email instead of UID and token
-    @resource = resource_class.where(
-      email: auth_hash['info']['email']
-    ).first
+    email = auth_hash.dig('info', 'email')
+    @resource = resource_class.from_email(email)
   end
 
   def validate_signup_email_is_business_domain?
@@ -71,7 +90,18 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     Avatar::AvatarFromUrlJob.perform_later(@resource, auth_hash['info']['image'])
   end
 
+  def oauth_user_needs_password_reset?
+    @resource.present? && (@resource.new_record? || !@resource.confirmed?)
+  end
+
+  def set_random_password_if_oauth_user
+    # Password must satisfy secure_password requirements (uppercase, lowercase, number, special char)
+    @resource.update(password: "#{SecureRandom.hex(16)}aA1!") if @resource.persisted?
+  end
+
   def default_devise_mapping
     'user'
   end
 end
+
+DeviseOverrides::OmniauthCallbacksController.prepend_mod_with('DeviseOverrides::OmniauthCallbacksController')

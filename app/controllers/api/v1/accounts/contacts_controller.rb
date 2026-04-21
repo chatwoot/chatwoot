@@ -17,20 +17,18 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   before_action :set_include_contact_inboxes, only: [:index, :active, :search, :filter, :show, :update]
 
   def index
-    @contacts_count = resolved_contacts.count
     @contacts = fetch_contacts(resolved_contacts)
+    @contacts_count = @contacts.total_count
   end
 
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
-    contacts = resolved_contacts.where(
-      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search
-        OR contacts.additional_attributes->>\'company_name\' ILIKE :search',
+    contacts = Current.account.contacts.where(
+      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search',
       search: "%#{params[:q].strip}%"
     )
-    @contacts_count = contacts.count
-    @contacts = fetch_contacts(contacts)
+    @contacts = fetch_contacts_with_has_more(contacts)
   end
 
   def import
@@ -55,8 +53,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def active
     contacts = Current.account.contacts.where(id: ::OnlineStatusTracker
                   .get_available_contact_ids(Current.account.id))
-    @contacts_count = contacts.count
     @contacts = fetch_contacts(contacts)
+    @contacts_count = @contacts.total_count
   end
 
   def show; end
@@ -122,7 +120,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def resolved_contacts
     return @resolved_contacts if @resolved_contacts
 
-    @resolved_contacts = Current.account.contacts.resolved_contacts
+    @resolved_contacts = Current.account.contacts.resolved_contacts(use_crm_v2: Current.account.feature_enabled?('crm_v2'))
 
     @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
     @resolved_contacts
@@ -133,13 +131,32 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contacts(contacts)
-    contacts_with_avatar = filtrate(contacts)
-                           .includes([{ avatar_attachment: [:blob] }])
-                           .page(@current_page).per(RESULTS_PER_PAGE)
+    # Build includes hash to avoid separate query when contact_inboxes are needed
+    includes_hash = { avatar_attachment: [:blob] }
+    includes_hash[:contact_inboxes] = { inbox: :channel } if @include_contact_inboxes
 
-    return contacts_with_avatar.includes([{ contact_inboxes: [:inbox] }]) if @include_contact_inboxes
+    filtrate(contacts)
+      .includes(includes_hash)
+      .page(@current_page)
+      .per(RESULTS_PER_PAGE)
+  end
 
-    contacts_with_avatar
+  def fetch_contacts_with_has_more(contacts)
+    includes_hash = { avatar_attachment: [:blob] }
+    includes_hash[:contact_inboxes] = { inbox: :channel } if @include_contact_inboxes
+
+    # Calculate offset manually to fetch one extra record for has_more check
+    offset = (@current_page.to_i - 1) * RESULTS_PER_PAGE
+    results = filtrate(contacts)
+              .includes(includes_hash)
+              .offset(offset)
+              .limit(RESULTS_PER_PAGE + 1)
+              .to_a
+
+    @has_more = results.size > RESULTS_PER_PAGE
+    results = results.first(RESULTS_PER_PAGE) if @has_more
+    @contacts_count = results.size
+    results
   end
 
   def build_contact_inbox
@@ -184,7 +201,9 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contact
-    @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).find(params[:id])
+    contact_scope = Current.account.contacts
+    contact_scope = contact_scope.includes(contact_inboxes: [:inbox]) if @include_contact_inboxes
+    @contact = contact_scope.find(params[:id])
   end
 
   def process_avatar_from_url

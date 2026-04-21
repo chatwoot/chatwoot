@@ -15,6 +15,12 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
+        key: 'private_note',
+        name: 'PRIVATE_NOTE',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
         key: 'content',
         name: 'MESSAGE_CONTAINS',
         inputType: 'comma_separated_plain_text',
@@ -33,6 +39,30 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
+        key: 'status',
+        name: 'STATUS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'assignee_id',
+        name: 'ASSIGNEE_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'team_id',
+        name: 'TEAM_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'priority',
+        name: 'PRIORITY',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
         key: 'conversation_language',
         name: 'CONVERSATION_LANGUAGE',
         inputType: 'multi_select',
@@ -44,6 +74,12 @@ export const AUTOMATIONS = {
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_6,
       },
+      {
+        key: 'labels',
+        name: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
@@ -53,6 +89,14 @@ export const AUTOMATIONS = {
       {
         key: 'assign_team',
         name: 'ASSIGN_TEAM',
+      },
+      {
+        key: 'remove_assigned_agent',
+        name: 'REMOVE_ASSIGNED_AGENT',
+      },
+      {
+        key: 'remove_assigned_team',
+        name: 'REMOVE_ASSIGNED_TEAM',
       },
       {
         key: 'add_label',
@@ -82,7 +126,14 @@ export const AUTOMATIONS = {
         key: 'snooze_conversation',
         name: 'SNOOZE_CONVERSATION',
       },
-
+      {
+        key: 'open_conversation',
+        name: 'OPEN_CONVERSATION',
+      },
+      {
+        key: 'pending_conversation',
+        name: 'PENDING_CONVERSATION',
+      },
       {
         key: 'resolve_conversation',
         name: 'RESOLVE_CONVERSATION',
@@ -159,6 +210,12 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'labels',
+        name: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
@@ -168,6 +225,14 @@ export const AUTOMATIONS = {
       {
         key: 'assign_team',
         name: 'ASSIGN_TEAM',
+      },
+      {
+        key: 'remove_assigned_agent',
+        name: 'REMOVE_ASSIGNED_AGENT',
+      },
+      {
+        key: 'remove_assigned_team',
+        name: 'REMOVE_ASSIGNED_TEAM',
       },
       {
         key: 'assign_agent',
@@ -192,6 +257,10 @@ export const AUTOMATIONS = {
       {
         key: 'snooze_conversation',
         name: 'SNOOZE_CONVERSATION',
+      },
+      {
+        key: 'pending_conversation',
+        name: 'PENDING_CONVERSATION',
       },
       {
         key: 'resolve_conversation',
@@ -281,6 +350,12 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'labels',
+        name: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
@@ -290,6 +365,14 @@ export const AUTOMATIONS = {
       {
         key: 'assign_team',
         name: 'ASSIGN_TEAM',
+      },
+      {
+        key: 'remove_assigned_agent',
+        name: 'REMOVE_ASSIGNED_AGENT',
+      },
+      {
+        key: 'remove_assigned_team',
+        name: 'REMOVE_ASSIGNED_TEAM',
       },
       {
         key: 'assign_agent',
@@ -314,6 +397,10 @@ export const AUTOMATIONS = {
       {
         key: 'snooze_conversation',
         name: 'SNOOZE_CONVERSATION',
+      },
+      {
+        key: 'pending_conversation',
+        name: 'PENDING_CONVERSATION',
       },
       {
         key: 'resolve_conversation',
@@ -397,6 +484,12 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'labels',
+        name: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
@@ -406,6 +499,14 @@ export const AUTOMATIONS = {
       {
         key: 'assign_team',
         name: 'ASSIGN_TEAM',
+      },
+      {
+        key: 'remove_assigned_agent',
+        name: 'REMOVE_ASSIGNED_AGENT',
+      },
+      {
+        key: 'remove_assigned_team',
+        name: 'REMOVE_ASSIGNED_TEAM',
       },
       {
         key: 'assign_agent',
@@ -432,6 +533,118 @@ export const AUTOMATIONS = {
         name: 'SNOOZE_CONVERSATION',
       },
       {
+        key: 'pending_conversation',
+        name: 'PENDING_CONVERSATION',
+      },
+      {
+        key: 'send_webhook_event',
+        name: 'SEND_WEBHOOK_EVENT',
+      },
+      {
+        key: 'send_attachment',
+        name: 'SEND_ATTACHMENT',
+      },
+    ],
+  },
+  conversation_resolved: {
+    conditions: [
+      {
+        key: 'browser_language',
+        name: 'BROWSER_LANGUAGE',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'email',
+        name: 'EMAIL',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
+        key: 'mail_subject',
+        name: 'MAIL_SUBJECT',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
+        key: 'country_code',
+        name: 'COUNTRY_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'referer',
+        name: 'REFERER_LINK',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
+        key: 'assignee_id',
+        name: 'ASSIGNEE_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'phone_number',
+        name: 'PHONE_NUMBER',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_6,
+      },
+      {
+        key: 'team_id',
+        name: 'TEAM_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'inbox_id',
+        name: 'INBOX',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'conversation_language',
+        name: 'CONVERSATION_LANGUAGE',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'priority',
+        name: 'PRIORITY',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+    ],
+    actions: [
+      {
+        key: 'assign_agent',
+        name: 'ASSIGN_AGENT',
+      },
+      {
+        key: 'assign_team',
+        name: 'ASSIGN_TEAM',
+      },
+      {
+        key: 'remove_assigned_agent',
+        name: 'REMOVE_ASSIGNED_AGENT',
+      },
+      {
+        key: 'remove_assigned_team',
+        name: 'REMOVE_ASSIGNED_TEAM',
+      },
+      {
+        key: 'send_email_to_team',
+        name: 'SEND_EMAIL_TO_TEAM',
+      },
+      {
+        key: 'send_message',
+        name: 'SEND_MESSAGE',
+      },
+      {
+        key: 'send_email_transcript',
+        name: 'SEND_EMAIL_TRANSCRIPT',
+      },
+      {
         key: 'send_webhook_event',
         name: 'SEND_WEBHOOK_EVENT',
       },
@@ -453,6 +666,10 @@ export const AUTOMATION_RULE_EVENTS = [
     value: 'CONVERSATION_UPDATED',
   },
   {
+    key: 'conversation_resolved',
+    value: 'CONVERSATION_RESOLVED',
+  },
+  {
     key: 'message_created',
     value: 'MESSAGE_CREATED',
   },
@@ -472,6 +689,16 @@ export const AUTOMATION_ACTION_TYPES = [
     key: 'assign_team',
     label: 'ASSIGN_TEAM',
     inputType: 'search_select',
+  },
+  {
+    key: 'remove_assigned_agent',
+    label: 'REMOVE_ASSIGNED_AGENT',
+    inputType: null,
+  },
+  {
+    key: 'remove_assigned_team',
+    label: 'REMOVE_ASSIGNED_TEAM',
+    inputType: null,
   },
   {
     key: 'add_label',
@@ -509,6 +736,16 @@ export const AUTOMATION_ACTION_TYPES = [
     inputType: null,
   },
   {
+    key: 'open_conversation',
+    label: 'OPEN_CONVERSATION',
+    inputType: null,
+  },
+  {
+    key: 'pending_conversation',
+    label: 'PENDING_CONVERSATION',
+    inputType: null,
+  },
+  {
     key: 'send_webhook_event',
     label: 'SEND_WEBHOOK_EVENT',
     inputType: 'url',
@@ -521,6 +758,11 @@ export const AUTOMATION_ACTION_TYPES = [
   {
     key: 'send_message',
     label: 'SEND_MESSAGE',
+    inputType: 'textarea',
+  },
+  {
+    key: 'add_private_note',
+    label: 'ADD_PRIVATE_NOTE',
     inputType: 'textarea',
   },
   {

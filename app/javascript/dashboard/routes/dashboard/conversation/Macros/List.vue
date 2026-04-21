@@ -104,7 +104,6 @@ onMounted(() => {
           :key="element.id"
           :macro="element"
           :conversation-id="conversationId"
-          class="drag-handle cursor-grab"
         />
       </template>
     </Draggable>

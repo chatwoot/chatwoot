@@ -90,6 +90,53 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
         expect(json_response[:payload][0][:documentable][:id]).to eq(document.id)
       end
     end
+
+    context 'when searching' do
+      before do
+        create(:captain_assistant_response,
+               account: account,
+               assistant: assistant,
+               question: 'How to reset password?',
+               answer: 'Click forgot password')
+        create(:captain_assistant_response,
+               account: account,
+               assistant: assistant,
+               question: 'How to change email?',
+               answer: 'Go to settings')
+      end
+
+      it 'finds responses by question text' do
+        get "/api/v1/accounts/#{account.id}/captain/assistant_responses",
+            params: { search: 'password' },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(json_response[:payload].length).to eq(1)
+        expect(json_response[:payload][0][:question]).to include('password')
+      end
+
+      it 'finds responses by answer text' do
+        get "/api/v1/accounts/#{account.id}/captain/assistant_responses",
+            params: { search: 'settings' },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(json_response[:payload].length).to eq(1)
+        expect(json_response[:payload][0][:answer]).to include('settings')
+      end
+
+      it 'returns empty when no matches' do
+        get "/api/v1/accounts/#{account.id}/captain/assistant_responses",
+            params: { search: 'nonexistent' },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(json_response[:payload].length).to eq(0)
+      end
+    end
   end
 
   describe 'GET /api/v1/accounts/:account_id/captain/assistant_responses/:id' do

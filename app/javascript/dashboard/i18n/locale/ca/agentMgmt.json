@@ -3,12 +3,13 @@
     "HEADER": "Agents",
     "HEADER_BTN_TXT": "Afegir Agent",
     "LOADING": "S'està recollint la llista d'agents",
-    "DESCRIPTION": "",
+    "DESCRIPTION": "Un agent és un membre del vostre equip d'atenció al client que pot veure i respondre als missatges dels usuaris. La llista següent mostra tots els agents del vostre compte.",
     "LEARN_MORE": "Rakibkazi",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrador/a",
       "AGENT": "Agent"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "No hi ha agents associats a aquest compte",
       "TITLE": "Gestiona agents en el teu equip",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
       }
     },
+    "SEARCH_PLACEHOLDER": "Cerca agents...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "No s'ha trobat agents."
     },

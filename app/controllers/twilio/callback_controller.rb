@@ -1,4 +1,6 @@
 class Twilio::CallbackController < ApplicationController
+  include TwilioSignatureVerifyConcern
+
   def create
     Webhooks::TwilioEventsJob.perform_later(permitted_params.to_unsafe_hash)
 
@@ -27,7 +29,11 @@ class Twilio::CallbackController < ApplicationController
       *Array.new(10) { |i| :"MediaUrl#{i}" },
       *Array.new(10) { |i| :"MediaContentType#{i}" },
       :MessagingServiceSid,
-      :NumMedia
+      :NumMedia,
+      :Latitude,
+      :Longitude,
+      :MessageType,
+      :ProfileName
     )
   end
 end

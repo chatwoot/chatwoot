@@ -27,8 +27,15 @@ export default {
 </script>
 
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-8 overflow-auto h-full px-5 flex-1">
-    <woot-wizard class="hidden md:block col-span-2" :items="items" />
-    <router-view />
+  <div class="flex flex-col gap-6 mb-8 max-w-7xl mx-auto w-full !px-6">
+    <div
+      class="grid grid-cols-1 lg:grid-cols-8 lg:divide-x lg:divide-n-weak rounded-xl border border-n-weak h-full min-h-[50dvh] w-full"
+    >
+      <woot-wizard
+        class="hidden lg:block col-span-2 h-fit py-8 px-6"
+        :items="items"
+      />
+      <router-view />
+    </div>
   </div>
 </template>

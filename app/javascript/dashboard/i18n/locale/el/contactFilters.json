@@ -48,7 +48,8 @@
       "CREATED_AT": "Δημιουργήθηκε στις",
       "LAST_ACTIVITY": "Τελευταία Δραστηριότητα",
       "REFERER_LINK": "Σύνδεσμος αναφοράς",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "Ετικέτες"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Τυπικά Φίλτρα",

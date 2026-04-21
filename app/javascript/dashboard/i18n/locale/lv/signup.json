@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Izveidot kontu",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "Reģistrēt",
     "TESTIMONIAL_HEADER": "Viss, kas nepieciešams, ir viens solis, lai virzītos uz priekšu",
     "TESTIMONIAL_CONTENT": "Jūs esat viena soļa attālumā no klientu piesaistīšanas, noturēšanas un jaunu klientu atrašanas.",
@@ -27,18 +28,30 @@
       "LABEL": "Parole",
       "PLACEHOLDER": "Parole",
       "ERROR": "Parole ir pārāk īsa",
-      "IS_INVALID_PASSWORD": "Parolei ir jāsatur vismaz 1 lielais burts, 1 mazais burts, 1 cipars un 1 speciālā rakstzīme."
+      "IS_INVALID_PASSWORD": "Parolei ir jāsatur vismaz 1 lielais burts, 1 mazais burts, 1 cipars un 1 speciālā rakstzīme.",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Apstipriniet paroli",
       "PLACEHOLDER": "Apstipriniet paroli",
-      "ERROR": "Parole nesakrīt."
+      "ERROR": "Paroles nesakrīt."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Reģistrācija sekmīga",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "Nevarēja izveidot savienojumu ar Woot serveri. Lūdzu mēģiniet vēlreiz."
     },
     "SUBMIT": "Izveidot kontu",
-    "HAVE_AN_ACCOUNT": "Jau ir konts?"
+    "HAVE_AN_ACCOUNT": "Jau ir konts?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "Sūtīt verifikācijas e-pastu atkārtoti",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

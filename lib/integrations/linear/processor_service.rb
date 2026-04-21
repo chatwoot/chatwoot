@@ -22,8 +22,8 @@ class Integrations::Linear::ProcessorService
     }
   end
 
-  def create_issue(params)
-    response = linear_client.create_issue(params)
+  def create_issue(params, user = nil)
+    response = linear_client.create_issue(params, user)
     return response if response[:error]
 
     {
@@ -33,8 +33,8 @@ class Integrations::Linear::ProcessorService
     }
   end
 
-  def link_issue(link, issue_id, title)
-    response = linear_client.link_issue(link, issue_id, title)
+  def link_issue(link, issue_id, title, user = nil)
+    response = linear_client.link_issue(link, issue_id, title, user)
     return response if response[:error]
 
     {
@@ -77,6 +77,10 @@ class Integrations::Linear::ProcessorService
   end
 
   def linear_client
-    @linear_client ||= Linear.new(linear_hook.access_token)
+    @linear_client ||= Linear.new(linear_access_token)
+  end
+
+  def linear_access_token
+    @linear_access_token ||= Integrations::Linear::AccessTokenService.new(hook: linear_hook).access_token
   end
 end

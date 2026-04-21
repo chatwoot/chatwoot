@@ -9,7 +9,7 @@
 #  updated_at    :datetime         not null
 #  contact_id    :bigint
 #  inbox_id      :bigint
-#  source_id     :string           not null
+#  source_id     :text             not null
 #
 # Indexes
 #

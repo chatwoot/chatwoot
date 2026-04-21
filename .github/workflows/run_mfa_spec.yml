@@ -1,0 +1,100 @@
+name: Run MFA Tests
+permissions:
+  contents: read
+
+on:
+  pull_request:
+
+# If two pushes happen within a short time in the same PR, cancel the run of the oldest push
+concurrency:
+  group: pr-${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    # Only run if MFA test keys are available
+    if: github.event_name == 'workflow_dispatch' || (github.repository == 'chatwoot/chatwoot' && github.actor != 'dependabot[bot]')
+
+    services:
+      postgres:
+        image: pgvector/pgvector:pg15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ''
+          POSTGRES_DB: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --mount type=tmpfs,destination=/var/lib/postgresql/data
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: --entrypoint redis-server
+
+    env:
+      RAILS_ENV: test
+      POSTGRES_HOST: localhost
+      # Active Record encryption keys required for MFA - test keys only, not for production use
+      ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY: 'test_key_a6cde8f7b9c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7'
+      ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY: 'test_key_b7def9a8c0d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d8'
+      ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT: 'test_salt_c8efa0b9d1e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d9'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Create database
+        run: bundle exec rake db:create
+
+      - name: Install pgvector extension
+        run: |
+          PGPASSWORD="" psql -h localhost -U postgres -d chatwoot_test -c "CREATE EXTENSION IF NOT EXISTS vector;"
+
+      - name: Seed database
+        run: bundle exec rake db:schema:load
+
+      - name: Run MFA-related backend tests
+        run: |
+          bundle exec rspec \
+            spec/services/mfa/token_service_spec.rb \
+            spec/services/mfa/authentication_service_spec.rb \
+            spec/requests/api/v1/profile/mfa_controller_spec.rb \
+            spec/controllers/devise_overrides/sessions_controller_spec.rb \
+            spec/models/application_record_external_credentials_encryption_spec.rb \
+            --profile=10 \
+            --format documentation
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
+
+      - name: Run MFA-related tests in user_spec
+        run: |
+          # Run specific MFA-related tests from user_spec
+          bundle exec rspec spec/models/user_spec.rb \
+            -e "two factor" \
+            -e "2FA" \
+            -e "MFA" \
+            -e "otp" \
+            -e "backup code" \
+            --profile=10 \
+            --format documentation
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
+
+      - name: Upload test logs
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: mfa-test-logs
+          path: |
+            log/test.log
+            tmp/screenshots/

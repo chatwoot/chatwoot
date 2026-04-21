@@ -1,0 +1,52 @@
+{
+  "CONTENT_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Modèles Twilio",
+      "SUBTITLE": "Sélectionnez le modèle Twilio que vous souhaitez envoyer",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configurer le modèle : {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Rechercher des modèles",
+      "NO_TEMPLATES_FOUND": "Aucun modèle trouvé pour",
+      "NO_CONTENT": "No content",
+      "HEADER": "En-tête",
+      "BODY": "Corps",
+      "FOOTER": "Pied de page",
+      "BUTTONS": "Boutons",
+      "CATEGORY": "Catégorie",
+      "MEDIA_CONTENT": "Contenu média",
+      "MEDIA_CONTENT_FALLBACK": "contenu multimédia",
+      "NO_TEMPLATES_AVAILABLE": "Aucun modèle Twilio disponible. Cliquez sur Actualiser pour synchroniser les modèles de Twilio.",
+      "REFRESH_BUTTON": "Rafraîchir les modèles",
+      "REFRESH_SUCCESS": "Mise à jour des modèles. La mise à jour peut prendre quelques minutes.",
+      "REFRESH_ERROR": "Échec de la mise à jour des modèles. Veuillez réessayer.",
+      "LABELS": {
+        "LANGUAGE": "Langue",
+        "TEMPLATE_BODY": "Corps du modèle",
+        "CATEGORY": "Catégorie"
+      },
+      "TYPES": {
+        "MEDIA": "Média",
+        "QUICK_REPLY": "Réponse rapide",
+        "CALL_TO_ACTION": "Call to Action",
+        "TEXT": "Texte"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Variables",
+      "LANGUAGE": "Langue",
+      "CATEGORY": "Catégorie",
+      "VARIABLE_PLACEHOLDER": "Entrez la valeur de {variable}",
+      "GO_BACK_LABEL": "Retour",
+      "SEND_MESSAGE_LABEL": "Envoyer un message",
+      "FORM_ERROR_MESSAGE": "Veuillez remplir toutes les variables avant d'envoyer",
+      "MEDIA_HEADER_LABEL": "En-tête {type}",
+      "MEDIA_URL_LABEL": "Saisissez l'URL complète du média",
+      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
+    },
+    "FORM": {
+      "BACK_BUTTON": "Précédent",
+      "SEND_MESSAGE_BUTTON": "Envoyer un message"
+    }
+  }
+}

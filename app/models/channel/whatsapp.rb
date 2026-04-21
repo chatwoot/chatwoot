@@ -33,6 +33,8 @@ class Channel::Whatsapp < ApplicationRecord
   validate :validate_provider_config
 
   after_create :sync_templates
+  before_destroy :teardown_webhooks
+  after_commit :setup_webhooks, on: :create, if: :should_auto_setup_webhooks?
 
   def name
     'Whatsapp'
@@ -58,6 +60,13 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :media_url, to: :provider_service
   delegate :api_headers, to: :provider_service
 
+  def setup_webhooks
+    perform_webhook_setup
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP] Webhook setup failed: #{e.message}"
+    prompt_reauthorization!
+  end
+
   private
 
   def ensure_webhook_verify_token
@@ -66,5 +75,22 @@ class Channel::Whatsapp < ApplicationRecord
 
   def validate_provider_config
     errors.add(:provider_config, 'Invalid Credentials') unless provider_service.validate_provider_config?
+  end
+
+  def perform_webhook_setup
+    business_account_id = provider_config['business_account_id']
+    api_key = provider_config['api_key']
+
+    Whatsapp::WebhookSetupService.new(self, business_account_id, api_key).perform
+  end
+
+  def teardown_webhooks
+    Whatsapp::WebhookTeardownService.new(self).perform
+  end
+
+  def should_auto_setup_webhooks?
+    # Only auto-setup webhooks for whatsapp_cloud provider with manual setup
+    # Embedded signup calls setup_webhooks explicitly in EmbeddedSignupService
+    provider == 'whatsapp_cloud' && provider_config['source'] != 'embedded_signup'
   end
 end

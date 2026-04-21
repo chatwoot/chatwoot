@@ -32,7 +32,7 @@ const portals = [
     :layout="{ type: 'grid', width: '510px' }"
   >
     <Variant title="Portal Switcher">
-      <div class="h-[500px] p-4 bg-slate-100 dark:bg-slate-900">
+      <div class="h-[500px] p-4 bg-n-slate-2 dark:bg-n-background">
         <PortalSwitcher
           :portals="portals"
           header="Choose a Portal"

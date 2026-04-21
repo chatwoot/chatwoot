@@ -57,11 +57,13 @@ const state = {
     uiFlags: {
       isFetchingAccountConversationMetric: false,
       isFetchingAccountConversationsHeatmap: false,
+      isFetchingAccountResolutionsHeatmap: false,
       isFetchingAgentConversationMetric: false,
       isFetchingTeamConversationMetric: false,
     },
     accountConversationMetric: {},
     accountConversationHeatmap: [],
+    accountResolutionHeatmap: [],
     agentConversationMetric: [],
     teamConversationMetric: [],
   },
@@ -88,6 +90,9 @@ const getters = {
   },
   getAccountConversationHeatmapData(_state) {
     return _state.overview.accountConversationHeatmap;
+  },
+  getAccountResolutionHeatmapData(_state) {
+    return _state.overview.accountResolutionHeatmap;
   },
   getAgentConversationMetric(_state) {
     return _state.overview.agentConversationMetric;
@@ -128,6 +133,16 @@ export const actions = {
 
       commit(types.default.SET_HEATMAP_DATA, data);
       commit(types.default.TOGGLE_HEATMAP_LOADING, false);
+    });
+  },
+  fetchAccountResolutionHeatmap({ commit }, reportObj) {
+    commit(types.default.TOGGLE_RESOLUTION_HEATMAP_LOADING, true);
+    Report.getReports({ ...reportObj, groupBy: 'hour' }).then(heatmapData => {
+      let { data } = heatmapData;
+      data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
+
+      commit(types.default.SET_RESOLUTION_HEATMAP_DATA, data);
+      commit(types.default.TOGGLE_RESOLUTION_HEATMAP_LOADING, false);
     });
   },
   fetchAccountSummary({ commit }, reportObj) {
@@ -219,6 +234,19 @@ export const actions = {
         console.error(error);
       });
   },
+  downloadConversationsSummaryReports(_, reportObj) {
+    return Report.getConversationsSummaryReports(reportObj)
+      .then(response => {
+        downloadCsvFile(reportObj.fileName, response.data);
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'conversations_summary',
+          businessHours: reportObj?.businessHours,
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
   downloadLabelReports(_, reportObj) {
     return Report.getLabelReports(reportObj)
       .then(response => {
@@ -287,6 +315,9 @@ const mutations = {
   [types.default.SET_HEATMAP_DATA](_state, heatmapData) {
     _state.overview.accountConversationHeatmap = heatmapData;
   },
+  [types.default.SET_RESOLUTION_HEATMAP_DATA](_state, heatmapData) {
+    _state.overview.accountResolutionHeatmap = heatmapData;
+  },
   [types.default.TOGGLE_ACCOUNT_REPORT_LOADING](_state, { metric, value }) {
     _state.accountReport.isFetching[metric] = value;
   },
@@ -298,6 +329,9 @@ const mutations = {
   },
   [types.default.TOGGLE_HEATMAP_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAccountConversationsHeatmap = flag;
+  },
+  [types.default.TOGGLE_RESOLUTION_HEATMAP_LOADING](_state, flag) {
+    _state.overview.uiFlags.isFetchingAccountResolutionsHeatmap = flag;
   },
   [types.default.SET_ACCOUNT_SUMMARY](_state, summaryData) {
     _state.accountSummary = summaryData;

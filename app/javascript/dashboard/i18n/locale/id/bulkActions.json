@@ -22,9 +22,13 @@
       "UPDATE_SUCCESFUL": "Status percakapan berhasil diperbarui.",
       "UPDATE_FAILED": "Failed to update conversations. Please try again."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Assign labels",
-      "NO_LABELS_FOUND": "Tidak ada label ditemukan untuk",
+      "NO_LABELS_FOUND": "Tidak ada label",
       "ASSIGN_SELECTED_LABELS": "Tugaskan label terpilih",
       "ASSIGN_SUCCESFUL": "Label berhasil ditugaskan.",
       "ASSIGN_FAILED": "Failed to assign labels. Please try again."
