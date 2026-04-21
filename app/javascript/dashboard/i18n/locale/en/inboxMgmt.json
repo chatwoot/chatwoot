@@ -248,8 +248,8 @@
           "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
           "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360Dialog",
-          "HYPERFLOW": "Hyperflow",
-          "HYPERFLOW_DESC": "Connect via Hyperflow (Meta official BSP in Brazil)",
+          "HYPERFLOW": "Hyperflow (via N8N)",
+          "HYPERFLOW_DESC": "Connect Hyperflow through an N8N flow — recommended for BR deployments",
           "AVISA": "Avisa API",
           "AVISA_DESC": "Unofficial WhatsApp API — review terms before using in production"
         },
@@ -257,6 +257,16 @@
           "RISK_WARNING": "Avisa is an unofficial WhatsApp API. Meta may ban accounts that violate their Terms of Service. Use only when officially approved BSPs are not an option.",
           "RISK_REQUIRED": "Please acknowledge the Avisa API risk before continuing.",
           "ACKNOWLEDGE": "I understand the risks of running an unofficial WhatsApp integration."
+        },
+        "HYPERFLOW": {
+          "EXPLAINER": "Hyperflow is reached through your N8N orchestration flow (using the official n8n-nodes-hyperflow-whatsapp node). Chatwoot POSTs outgoing messages to the N8N webhook below, and your N8N flow POSTs incoming messages back to Chatwoot through the URL shown at the bottom.",
+          "PHONE_HINT": "Brazilian phone number registered in the Hyperflow panel, in E.164 format.",
+          "N8N_URL_LABEL": "N8N outgoing webhook URL",
+          "N8N_URL_HINT": "URL of the N8N webhook node that receives outgoing messages from Chatwoot and forwards them to the Hyperflow node.",
+          "SECRET_LABEL": "Shared secret (optional)",
+          "SECRET_HINT": "If set, Chatwoot sends it in the X-Synapseos-Signature header so the N8N flow can verify calls are from this Chatwoot instance.",
+          "INCOMING_URL_LABEL": "Incoming webhook URL (paste into your N8N 'HTTP Request to Chatwoot' step)",
+          "INCOMING_URL_HINT": "Your N8N flow should POST incoming messages from Hyperflow to this URL in Meta Cloud API format (entry[].changes[].value.messages[] / contacts[])."
         },
         "SELECT_PROVIDER": {
           "TITLE": "Select your API provider",
