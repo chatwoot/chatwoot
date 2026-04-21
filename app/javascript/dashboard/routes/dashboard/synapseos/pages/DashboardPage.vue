@@ -3,9 +3,12 @@ import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
-import Card from 'primevue/card';
 import Chart from 'primevue/chart';
-import SelectButton from 'primevue/selectbutton';
+import SynapseButton from 'next/synapseos/SynapseButton.vue';
+import SynapseCard from 'next/synapseos/SynapseCard.vue';
+import SynapseKpiCard from 'next/synapseos/SynapseKpiCard.vue';
+import SynapseStatusPill from 'next/synapseos/SynapseStatusPill.vue';
+import SynapseBadge from 'next/synapseos/SynapseBadge.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -48,46 +51,115 @@ const formatNumber = value => {
 
 const formatPercent = value => `${(value || 0).toFixed(1)}%`;
 
-const kpiCards = computed(() => {
+const primaryKpis = computed(() => {
   const k = summary.value?.kpis || {};
   return [
-    { key: 'leads', label: t('SYNAPSEOS.DASHBOARD.KPI.LEADS'), value: formatNumber(k.leads), icon: 'i-lucide-target', accent: 'text-n-blue-9' },
-    { key: 'deals_won', label: t('SYNAPSEOS.DASHBOARD.KPI.DEALS_WON'), value: formatNumber(k.deals_won), icon: 'i-lucide-trophy', accent: 'text-n-teal-9' },
-    { key: 'revenue', label: t('SYNAPSEOS.DASHBOARD.KPI.REVENUE'), value: formatCurrency(k.revenue), icon: 'i-lucide-dollar-sign', accent: 'text-n-teal-9' },
-    { key: 'conversion_rate', label: t('SYNAPSEOS.DASHBOARD.KPI.CONVERSION_RATE'), value: formatPercent(k.conversion_rate), icon: 'i-lucide-trending-up', accent: 'text-n-blue-9' },
-    { key: 'messages_received', label: t('SYNAPSEOS.DASHBOARD.KPI.MESSAGES_RECEIVED'), value: formatNumber(k.messages_received), icon: 'i-lucide-message-square', accent: 'text-n-slate-11' },
-    { key: 'messages_sent', label: t('SYNAPSEOS.DASHBOARD.KPI.MESSAGES_SENT'), value: formatNumber(k.messages_sent), icon: 'i-lucide-send', accent: 'text-n-slate-11' },
-    { key: 'ai_responses', label: t('SYNAPSEOS.DASHBOARD.KPI.AI_RESPONSES'), value: formatNumber(k.ai_responses), icon: 'i-lucide-sparkles', accent: 'text-n-violet-9' },
-    { key: 'appointments', label: t('SYNAPSEOS.DASHBOARD.KPI.APPOINTMENTS'), value: formatNumber(k.appointments), icon: 'i-lucide-calendar-check', accent: 'text-n-amber-9' },
+    {
+      key: 'leads',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.LEADS'),
+      value: formatNumber(k.leads),
+      icon: 'i-lucide-target',
+      tone: 'brand',
+    },
+    {
+      key: 'deals_won',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.DEALS_WON'),
+      value: formatNumber(k.deals_won),
+      icon: 'i-lucide-trophy',
+      tone: 'success',
+    },
+    {
+      key: 'revenue',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.REVENUE'),
+      value: formatCurrency(k.revenue),
+      icon: 'i-lucide-dollar-sign',
+      tone: 'success',
+    },
+    {
+      key: 'conversion_rate',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.CONVERSION_RATE'),
+      value: formatPercent(k.conversion_rate),
+      icon: 'i-lucide-trending-up',
+      tone: 'brand',
+    },
+  ];
+});
+
+const secondaryKpis = computed(() => {
+  const k = summary.value?.kpis || {};
+  return [
+    {
+      key: 'messages_received',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.MESSAGES_RECEIVED'),
+      value: formatNumber(k.messages_received),
+      icon: 'i-lucide-message-square',
+      tone: 'neutral',
+    },
+    {
+      key: 'messages_sent',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.MESSAGES_SENT'),
+      value: formatNumber(k.messages_sent),
+      icon: 'i-lucide-send',
+      tone: 'neutral',
+    },
+    {
+      key: 'ai_responses',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.AI_RESPONSES'),
+      value: formatNumber(k.ai_responses),
+      icon: 'i-lucide-sparkles',
+      tone: 'brand',
+    },
+    {
+      key: 'appointments',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.APPOINTMENTS'),
+      value: formatNumber(k.appointments),
+      icon: 'i-lucide-calendar-check',
+      tone: 'warning',
+    },
   ];
 });
 
 const operationalCards = computed(() => {
   const k = summary.value?.kpis || {};
   return [
-    { key: 'bot_takeovers', label: t('SYNAPSEOS.DASHBOARD.KPI.BOT_TAKEOVERS'), value: formatNumber(k.bot_takeovers), tone: 'warning' },
-    { key: 'human_rescues', label: t('SYNAPSEOS.DASHBOARD.KPI.HUMAN_RESCUES'), value: formatNumber(k.human_rescues), tone: 'critical' },
-    { key: 'deals_lost', label: t('SYNAPSEOS.DASHBOARD.KPI.DEALS_LOST'), value: formatNumber(k.deals_lost), tone: 'neutral' },
+    {
+      key: 'bot_takeovers',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.BOT_TAKEOVERS'),
+      value: formatNumber(k.bot_takeovers),
+      valueClass: 'text-s-warning-text',
+    },
+    {
+      key: 'human_rescues',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.HUMAN_RESCUES'),
+      value: formatNumber(k.human_rescues),
+      valueClass: 'text-s-error-text',
+    },
+    {
+      key: 'deals_lost',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.DEALS_LOST'),
+      value: formatNumber(k.deals_lost),
+      valueClass: 'text-s-primary',
+    },
   ];
 });
 
 const eventTypeMeta = {
-  lead_created: { icon: 'i-lucide-user-plus', tone: 'text-n-slate-11' },
-  lead_qualified: { icon: 'i-lucide-star', tone: 'text-n-blue-9' },
-  lead_disqualified: { icon: 'i-lucide-x-circle', tone: 'text-n-slate-11' },
-  deal_created: { icon: 'i-lucide-file-plus', tone: 'text-n-slate-11' },
-  deal_won: { icon: 'i-lucide-check-circle', tone: 'text-n-teal-9' },
-  deal_lost: { icon: 'i-lucide-x-circle', tone: 'text-n-ruby-9' },
-  bot_takeover: { icon: 'i-lucide-user-cog', tone: 'text-n-amber-9' },
-  human_rescue: { icon: 'i-lucide-bot', tone: 'text-n-violet-9' },
-  appointment_confirmed: { icon: 'i-lucide-calendar-check', tone: 'text-n-amber-9' },
-  private_note_added: { icon: 'i-lucide-sticky-note', tone: 'text-n-slate-11' },
+  lead_created: { icon: 'i-lucide-user-plus', tone: 'neutral' },
+  lead_qualified: { icon: 'i-lucide-star', tone: 'brand' },
+  lead_disqualified: { icon: 'i-lucide-x-circle', tone: 'neutral' },
+  deal_created: { icon: 'i-lucide-file-plus', tone: 'neutral' },
+  deal_won: { icon: 'i-lucide-check-circle', tone: 'success' },
+  deal_lost: { icon: 'i-lucide-x-circle', tone: 'error' },
+  bot_takeover: { icon: 'i-lucide-user-cog', tone: 'warning' },
+  human_rescue: { icon: 'i-lucide-bot', tone: 'error' },
+  appointment_confirmed: { icon: 'i-lucide-calendar-check', tone: 'warning' },
+  private_note_added: { icon: 'i-lucide-sticky-note', tone: 'neutral' },
 };
 
 const recentEvents = computed(() => {
   return (summary.value?.recent_events || []).map(ev => ({
     ...ev,
-    meta: eventTypeMeta[ev.event_type] || { icon: 'i-lucide-circle-dot', tone: 'text-n-slate-11' },
+    meta: eventTypeMeta[ev.event_type] || { icon: 'i-lucide-circle-dot', tone: 'neutral' },
     label: t(`SYNAPSEOS.DASHBOARD.EVENT_TYPE.${ev.event_type.toUpperCase()}`, ev.event_type),
     relativeTime: formatRelativeTime(ev.created_at),
   }));
@@ -112,7 +184,14 @@ const chartData = computed(() => {
         label: t('SYNAPSEOS.DASHBOARD.CHART.MESSAGES_RECEIVED'),
         data: days.map(d => d.messages_received),
         borderColor: 'rgb(33, 150, 243)',
-        backgroundColor: 'rgba(33, 150, 243, 0.15)',
+        backgroundColor: ctx => {
+          const { ctx: c, chartArea } = ctx.chart;
+          if (!chartArea) return 'rgba(33, 150, 243, 0.15)';
+          const gradient = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+          gradient.addColorStop(0, 'rgba(33, 150, 243, 0.15)');
+          gradient.addColorStop(1, 'rgba(33, 150, 243, 0)');
+          return gradient;
+        },
         fill: true,
         tension: 0.35,
       },
@@ -120,15 +199,15 @@ const chartData = computed(() => {
         label: t('SYNAPSEOS.DASHBOARD.CHART.MESSAGES_SENT'),
         data: days.map(d => d.messages_sent),
         borderColor: 'rgb(13, 71, 161)',
-        backgroundColor: 'rgba(13, 71, 161, 0.10)',
-        fill: true,
+        backgroundColor: 'rgba(13, 71, 161, 0.08)',
+        fill: false,
         tension: 0.35,
       },
       {
         label: t('SYNAPSEOS.DASHBOARD.CHART.AI_RESPONSES'),
         data: days.map(d => d.ai_responses),
         borderColor: 'rgb(124, 58, 237)',
-        backgroundColor: 'rgba(124, 58, 237, 0.10)',
+        backgroundColor: 'rgba(124, 58, 237, 0.08)',
         fill: false,
         tension: 0.35,
       },
@@ -150,7 +229,14 @@ const chartOptions = computed(() => ({
   interaction: { mode: 'index', intersect: false },
   plugins: {
     legend: { position: 'bottom', labels: { boxWidth: 12, padding: 16 } },
-    tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.95)', padding: 12 },
+    tooltip: {
+      backgroundColor: '#FFFFFF',
+      titleColor: '#0F172A',
+      bodyColor: '#475569',
+      borderColor: '#E2E8F0',
+      borderWidth: 1,
+      padding: 12,
+    },
   },
   scales: {
     x: { grid: { display: false } },
@@ -171,67 +257,67 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-6 p-6 h-full overflow-auto">
+  <div class="bg-s-bg p-8 space-y-6 h-full overflow-auto">
     <header class="flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <h1 class="text-2xl font-semibold text-n-slate-12">
+      <div class="flex flex-col gap-1">
+        <h1 class="text-2xl font-semibold text-s-primary">
           {{ t('SYNAPSEOS.DASHBOARD.TITLE') }}
         </h1>
-        <p class="text-sm text-n-slate-11">
+        <p class="text-sm text-s-muted">
           {{ t('SYNAPSEOS.DASHBOARD.SUBTITLE', { days: period }) }}
         </p>
       </div>
-      <SelectButton
-        v-model="period"
-        :options="periodOptions"
-        option-label="label"
-        option-value="value"
-        :allow-empty="false"
-      />
+      <div class="flex items-center gap-2">
+        <SynapseButton
+          v-for="opt in periodOptions"
+          :key="opt.value"
+          size="sm"
+          :variant="period === opt.value ? 'primary' : 'outline'"
+          @click="period = opt.value"
+        >
+          {{ opt.label }}
+        </SynapseButton>
+      </div>
     </header>
 
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <Card v-for="kpi in kpiCards" :key="kpi.key" class="!shadow-none border border-n-weak">
-        <template #content>
-          <div class="flex items-start justify-between">
-            <div class="flex flex-col gap-1">
-              <span class="text-xs uppercase tracking-wide text-n-slate-10">{{ kpi.label }}</span>
-              <span class="text-2xl font-semibold text-n-slate-12">{{ kpi.value }}</span>
-            </div>
-            <i :class="['size-9 inline-block', kpi.icon, kpi.accent]" />
-          </div>
-        </template>
-      </Card>
+      <SynapseKpiCard
+        v-for="kpi in primaryKpis"
+        :key="kpi.key"
+        :label="kpi.label"
+        :value="kpi.value"
+        :icon="kpi.icon"
+        :tone="kpi.tone"
+      />
+    </section>
+
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <SynapseKpiCard
+        v-for="kpi in secondaryKpis"
+        :key="kpi.key"
+        :label="kpi.label"
+        :value="kpi.value"
+        :icon="kpi.icon"
+        :tone="kpi.tone"
+      />
     </section>
 
     <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <Card v-for="op in operationalCards" :key="op.key" class="!shadow-none border border-n-weak">
-        <template #content>
-          <div class="flex flex-col gap-1">
-            <span class="text-xs uppercase tracking-wide text-n-slate-10">{{ op.label }}</span>
-            <span
-              class="text-3xl font-semibold"
-              :class="{
-                'text-n-amber-9': op.tone === 'warning',
-                'text-n-ruby-9': op.tone === 'critical',
-                'text-n-slate-12': op.tone === 'neutral',
-              }"
-            >
-              {{ op.value }}
-            </span>
-          </div>
-        </template>
-      </Card>
+      <SynapseCard v-for="op in operationalCards" :key="op.key">
+        <div class="flex flex-col gap-1">
+          <span class="text-xs font-medium uppercase tracking-wider text-s-muted">
+            {{ op.label }}
+          </span>
+          <span :class="['text-3xl font-semibold', op.valueClass]">
+            {{ op.value }}
+          </span>
+        </div>
+      </SynapseCard>
     </section>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <Card class="!shadow-none border border-n-weak lg:col-span-2">
-        <template #title>
-          <span class="text-base font-semibold text-n-slate-12">
-            {{ t('SYNAPSEOS.DASHBOARD.CHART.TITLE') }}
-          </span>
-        </template>
-        <template #content>
+      <div class="lg:col-span-2">
+        <SynapseCard :title="t('SYNAPSEOS.DASHBOARD.CHART.TITLE')">
           <div class="h-80">
             <Chart
               v-if="!loading && chartData.labels.length"
@@ -240,45 +326,43 @@ onBeforeUnmount(() => {
               :options="chartOptions"
               class="h-full"
             />
-            <div v-else-if="loading" class="text-sm text-n-slate-10">
+            <div v-else-if="loading" class="text-sm text-s-muted">
               {{ t('SYNAPSEOS.DASHBOARD.LOADING') }}
             </div>
-            <div v-else class="text-sm text-n-slate-10">
+            <div v-else class="text-sm text-s-muted">
               {{ t('SYNAPSEOS.DASHBOARD.NO_DATA') }}
             </div>
           </div>
-        </template>
-      </Card>
+        </SynapseCard>
+      </div>
 
-      <Card class="!shadow-none border border-n-weak">
-        <template #title>
-          <span class="text-base font-semibold text-n-slate-12">
-            {{ t('SYNAPSEOS.DASHBOARD.RECENT_EVENTS.TITLE') }}
-          </span>
-        </template>
-        <template #content>
-          <ul v-if="recentEvents.length" class="flex flex-col gap-3">
-            <li
-              v-for="event in recentEvents"
-              :key="event.id"
-              class="flex items-start gap-3"
-            >
-              <i :class="['size-5 mt-0.5 shrink-0', event.meta.icon, event.meta.tone]" />
-              <div class="flex flex-col min-w-0">
-                <span class="text-sm font-medium text-n-slate-12 truncate">
-                  {{ event.label }}
-                </span>
-                <span class="text-xs text-n-slate-10">
-                  {{ event.relativeTime }} · conv #{{ event.conversation_id || '—' }}
+      <SynapseCard :title="t('SYNAPSEOS.DASHBOARD.RECENT_EVENTS.TITLE')">
+        <ul v-if="recentEvents.length" class="flex flex-col gap-3">
+          <li
+            v-for="event in recentEvents"
+            :key="event.id"
+            class="flex items-start gap-3"
+          >
+            <span :class="['size-5 mt-0.5 shrink-0 text-s-secondary', event.meta.icon]" />
+            <div class="flex flex-col min-w-0 flex-1 gap-1">
+              <span class="text-sm font-medium text-s-primary truncate">
+                {{ event.label }}
+              </span>
+              <div class="flex items-center gap-2 flex-wrap">
+                <SynapseBadge :tone="event.meta.tone">
+                  conv #{{ event.conversation_id || '—' }}
+                </SynapseBadge>
+                <span class="text-xs text-s-muted">
+                  {{ event.relativeTime }}
                 </span>
               </div>
-            </li>
-          </ul>
-          <div v-else class="text-sm text-n-slate-10">
-            {{ t('SYNAPSEOS.DASHBOARD.RECENT_EVENTS.EMPTY') }}
-          </div>
-        </template>
-      </Card>
+            </div>
+          </li>
+        </ul>
+        <div v-else class="text-sm text-s-muted">
+          {{ t('SYNAPSEOS.DASHBOARD.RECENT_EVENTS.EMPTY') }}
+        </div>
+      </SynapseCard>
     </div>
   </div>
 </template>

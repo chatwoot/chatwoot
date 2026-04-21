@@ -4,11 +4,11 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import draggable from 'vuedraggable';
-import Card from 'primevue/card';
-import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Dialog from 'primevue/dialog';
 import Select from 'primevue/select';
+import SynapseButton from 'next/synapseos/SynapseButton.vue';
+import SynapseBadge from 'next/synapseos/SynapseBadge.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -156,64 +156,60 @@ onMounted(fetchPipeline);
 </script>
 
 <template>
-  <div class="flex flex-col h-full overflow-hidden p-6 gap-4">
+  <div class="bg-s-bg p-8 h-full flex flex-col gap-4 overflow-hidden">
     <header class="flex items-end justify-between flex-wrap gap-4">
-      <div>
-        <h1 class="text-2xl font-semibold text-n-slate-12">
+      <div class="flex flex-col gap-1">
+        <h1 class="text-2xl font-semibold text-s-primary">
           {{ t('SYNAPSEOS.PIPELINE.TITLE') }}
         </h1>
-        <p class="text-sm text-n-slate-11">
+        <p class="text-sm text-s-muted">
           {{ t('SYNAPSEOS.PIPELINE.SUBTITLE') }}
         </p>
       </div>
       <div class="flex gap-2">
-        <Button
-          icon="pi pi-plus"
-          :label="t('SYNAPSEOS.PIPELINE.ADD_STAGE')"
-          severity="secondary"
-          outlined
-          @click="openNewStage"
-        />
-        <Button
-          icon="pi pi-refresh"
-          severity="secondary"
-          text
-          @click="fetchPipeline"
-        />
+        <SynapseButton variant="outline" icon="i-lucide-refresh-cw" @click="fetchPipeline" />
+        <SynapseButton variant="primary" icon="i-lucide-plus" @click="openNewStage">
+          {{ t('SYNAPSEOS.PIPELINE.ADD_STAGE') }}
+        </SynapseButton>
       </div>
     </header>
 
-    <div v-if="loading" class="text-sm text-n-slate-10">
+    <div v-if="loading" class="text-sm text-s-muted">
       {{ t('SYNAPSEOS.PIPELINE.LOADING') }}
     </div>
 
-    <div v-else class="flex gap-4 overflow-x-auto flex-1 pb-4">
+    <div v-else class="flex gap-4 overflow-x-auto flex-1 pb-2">
       <div
         v-if="unassignedColumn.leads.length"
-        class="flex flex-col w-80 shrink-0 bg-n-slate-2 rounded-lg border border-n-weak"
+        class="bg-s-surface rounded-2xl border border-s-border shadow-s-sm flex flex-col w-80 shrink-0 h-full"
       >
-        <div class="px-3 py-2 flex items-center gap-2 border-b border-n-weak">
-          <span class="inline-block size-2 rounded-full" :style="{ backgroundColor: unassignedColumn.stage.color }" />
-          <span class="text-sm font-medium text-n-slate-12">{{ unassignedColumn.stage.name }}</span>
-          <span class="text-xs text-n-slate-10 ml-auto">{{ unassignedColumn.leads.length }}</span>
+        <div class="px-4 py-3 border-b border-s-border-subtle flex items-center gap-2">
+          <span
+            class="inline-block size-2 rounded-full shrink-0"
+            :style="{ backgroundColor: unassignedColumn.stage.color }"
+          />
+          <span class="text-sm font-semibold text-s-primary flex-1 truncate">
+            {{ unassignedColumn.stage.name }}
+          </span>
+          <SynapseBadge tone="neutral">{{ unassignedColumn.leads.length }}</SynapseBadge>
         </div>
         <draggable
           :model-value="unassignedColumn.leads"
           group="leads"
           item-key="id"
-          class="flex flex-col gap-2 p-2 overflow-y-auto"
+          class="flex flex-col gap-2 p-3 overflow-y-auto flex-1"
           @change="e => onDragChange(e, null)"
         >
           <template #item="{ element }">
             <div
-              class="bg-n-background border border-n-weak rounded-md p-3 cursor-grab hover:border-n-strong transition-colors"
+              class="bg-s-subtle border border-s-border rounded-lg p-3 cursor-grab hover:border-s-brand hover:bg-s-surface transition-colors"
               @click="openConversation(element)"
             >
-              <div class="font-medium text-sm text-n-slate-12 truncate">{{ element.contact.name }}</div>
-              <div class="text-xs text-n-slate-10 truncate mt-0.5">
+              <div class="text-sm font-medium text-s-primary truncate">{{ element.contact.name }}</div>
+              <div class="text-xs text-s-muted truncate mt-0.5">
                 {{ element.contact.phone_number || element.contact.email || '—' }}
               </div>
-              <div v-if="element.deal?.amount" class="text-xs text-n-teal-9 mt-1">
+              <div v-if="element.deal?.amount" class="text-sm font-semibold text-s-success-text mt-1">
                 {{ formatAmount(element.deal.amount) }}
               </div>
             </div>
@@ -224,9 +220,9 @@ onMounted(fetchPipeline);
       <div
         v-for="column in columns"
         :key="column.stage.id"
-        class="flex flex-col w-80 shrink-0 bg-n-slate-2 rounded-lg border border-n-weak"
+        class="bg-s-surface rounded-2xl border border-s-border shadow-s-sm flex flex-col w-80 shrink-0 h-full"
       >
-        <div class="px-3 py-2 flex items-center gap-2 border-b border-n-weak group">
+        <div class="px-4 py-3 border-b border-s-border-subtle flex items-center gap-2 group">
           <span
             class="inline-block size-2 rounded-full shrink-0"
             :style="{ backgroundColor: column.stage.color }"
@@ -243,23 +239,24 @@ onMounted(fetchPipeline);
           />
           <span
             v-else
-            class="text-sm font-medium text-n-slate-12 flex-1 cursor-text"
+            class="text-sm font-semibold text-s-primary flex-1 cursor-text truncate"
             @click="startEditStage(column.stage)"
           >
             {{ column.stage.name }}
           </span>
-          <span class="text-xs text-n-slate-10">{{ column.leads.length }}</span>
-          <Button
-            icon="pi pi-trash"
-            text
-            severity="danger"
-            size="small"
-            class="opacity-0 group-hover:opacity-100 transition-opacity"
+          <SynapseBadge tone="neutral">{{ column.leads.length }}</SynapseBadge>
+          <button
+            class="opacity-0 group-hover:opacity-100 transition-opacity text-s-muted hover:text-s-error-text"
             @click="deleteStage(column.stage)"
-          />
+          >
+            <span class="i-lucide-trash-2 size-4" />
+          </button>
         </div>
 
-        <div v-if="totalValueForStage(column.stage.id)" class="px-3 py-1 text-xs text-n-teal-9 border-b border-n-weak">
+        <div
+          v-if="totalValueForStage(column.stage.id)"
+          class="px-4 py-1.5 text-xs font-medium text-s-success-text border-b border-s-border-subtle"
+        >
           Σ {{ totalValueForStage(column.stage.id) }}
         </div>
 
@@ -267,30 +264,29 @@ onMounted(fetchPipeline);
           :model-value="column.leads"
           group="leads"
           item-key="id"
-          class="flex flex-col gap-2 p-2 overflow-y-auto flex-1 min-h-24"
+          class="flex flex-col gap-2 p-3 overflow-y-auto flex-1 min-h-24"
           @change="e => onDragChange(e, column.stage.id)"
         >
           <template #item="{ element }">
             <div
-              class="bg-n-background border border-n-weak rounded-md p-3 cursor-grab hover:border-n-strong transition-colors"
+              class="bg-s-subtle border border-s-border rounded-lg p-3 cursor-grab hover:border-s-brand hover:bg-s-surface transition-colors"
               @click="openConversation(element)"
             >
               <div class="flex items-start justify-between gap-2">
-                <div class="font-medium text-sm text-n-slate-12 truncate flex-1">{{ element.contact.name }}</div>
-                <span
-                  v-if="element.source"
-                  class="text-[10px] px-1.5 py-0.5 rounded bg-n-alpha-2 text-n-slate-11 uppercase tracking-wide shrink-0"
-                >
-                  {{ element.source }}
+                <span class="text-sm font-medium text-s-primary truncate flex-1">
+                  {{ element.contact.name }}
                 </span>
+                <SynapseBadge v-if="element.source" tone="brand">
+                  {{ element.source }}
+                </SynapseBadge>
               </div>
-              <div class="text-xs text-n-slate-10 truncate mt-0.5">
+              <div class="text-xs text-s-muted truncate mt-1">
                 {{ element.contact.phone_number || element.contact.email || '—' }}
               </div>
-              <div v-if="element.deal?.amount" class="text-sm font-semibold text-n-teal-9 mt-1">
+              <div v-if="element.deal?.amount" class="text-sm font-semibold text-s-success-text mt-1">
                 {{ formatAmount(element.deal.amount) }}
               </div>
-              <div v-if="element.conversation_id" class="text-[10px] text-n-slate-10 mt-1">
+              <div v-if="element.conversation_id" class="text-[11px] text-s-muted mt-1">
                 conv #{{ element.conversation_id }}
               </div>
             </div>
@@ -300,7 +296,7 @@ onMounted(fetchPipeline);
 
       <div class="w-80 shrink-0 flex items-start">
         <button
-          class="w-full p-3 border border-dashed border-n-weak rounded-lg text-sm text-n-slate-10 hover:border-n-strong hover:text-n-slate-12 transition-colors"
+          class="w-full h-24 border-2 border-dashed border-s-border rounded-2xl flex items-center justify-center text-sm text-s-muted hover:border-s-brand hover:text-s-brand transition-colors"
           @click="openNewStage"
         >
           + {{ t('SYNAPSEOS.PIPELINE.ADD_STAGE') }}
@@ -315,11 +311,11 @@ onMounted(fetchPipeline);
       :style="{ width: '420px' }"
     >
       <div class="flex flex-col gap-3">
-        <label class="text-sm text-n-slate-12">
+        <label class="text-sm text-s-primary">
           {{ t('SYNAPSEOS.PIPELINE.STAGE_NAME') }}
           <InputText v-model="newStageName" class="w-full mt-1" />
         </label>
-        <label class="text-sm text-n-slate-12">
+        <label class="text-sm text-s-primary">
           {{ t('SYNAPSEOS.PIPELINE.STAGE_COLOR') }}
           <input
             v-model="newStageColor"
@@ -327,7 +323,7 @@ onMounted(fetchPipeline);
             class="w-full h-9 mt-1 rounded cursor-pointer"
           >
         </label>
-        <label class="text-sm text-n-slate-12">
+        <label class="text-sm text-s-primary">
           {{ t('SYNAPSEOS.PIPELINE.STAGE_TYPE') }}
           <Select
             v-model="newStageType"
@@ -337,23 +333,23 @@ onMounted(fetchPipeline);
             class="w-full mt-1"
           />
         </label>
-        <span class="text-xs text-n-slate-10">
+        <span class="text-xs text-s-muted">
           {{ t('SYNAPSEOS.PIPELINE.STAGE_TYPE_HINT') }}
         </span>
       </div>
       <template #footer>
-        <Button
-          severity="secondary"
-          text
-          :label="t('SYNAPSEOS.PIPELINE.CANCEL')"
-          @click="showNewStageDialog = false"
-        />
-        <Button
-          severity="primary"
-          :label="t('SYNAPSEOS.PIPELINE.CREATE')"
-          :disabled="!newStageName.trim()"
-          @click="submitNewStage"
-        />
+        <div class="flex justify-end gap-2">
+          <SynapseButton variant="ghost" @click="showNewStageDialog = false">
+            {{ t('SYNAPSEOS.PIPELINE.CANCEL') }}
+          </SynapseButton>
+          <SynapseButton
+            variant="primary"
+            :disabled="!newStageName.trim()"
+            @click="submitNewStage"
+          >
+            {{ t('SYNAPSEOS.PIPELINE.CREATE') }}
+          </SynapseButton>
+        </div>
       </template>
     </Dialog>
   </div>
