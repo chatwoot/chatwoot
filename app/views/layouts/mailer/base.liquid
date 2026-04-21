@@ -13,7 +13,7 @@
       body {
         -webkit-font-smoothing: antialiased;
         -webkit-text-size-adjust: none;
-        line-height: 1.6em;
+        line-height: 21px;
         width: 100% !important;
         margin: 0;
         padding: 0;
@@ -77,8 +77,8 @@
         padding: 20px 8px 0;
         text-align: center;
         color: #64748B;
-        font-size: 12px;
-        line-height: 20px;
+        font-size: 13px;
+        line-height: 21px;
       }
 
       .footer a {
@@ -118,7 +118,7 @@
   {% endif %}
   {% assign brand_url = global_config['BRAND_URL'] %}
 
-  <body itemscope itemtype="http://schema.org/EmailMessage" style="font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,Helvetica,Arial,sans-serif; box-sizing: border-box; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; line-height: 1.6em; background-color: #F4F7FB; margin: 0; padding: 0;" bgcolor="#F4F7FB">
+  <body itemscope itemtype="http://schema.org/EmailMessage" style="font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,Helvetica,Arial,sans-serif; box-sizing: border-box; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; line-height: 21px; background-color: #F4F7FB; margin: 0; padding: 0;" bgcolor="#F4F7FB">
     <table class="body-wrap" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; background-color: #F4F7FB; margin: 0;" bgcolor="#F4F7FB">
       <tr style="margin: 0;">
         <td align="center" class="page-wrap" style="padding: 32px 16px 40px;" valign="top">
@@ -151,7 +151,7 @@
               </td>
             </tr>
             <tr style="margin: 0;">
-              <td class="footer" style="padding: 20px 8px 0; text-align: center; color: #64748B; font-size: 12px; line-height: 20px;">
+              <td class="footer" style="padding: 20px 8px 0; text-align: center; color: #64748B; font-size: 13px; line-height: 21px;">
                 This email was sent by
                 {% if brand_url != '' %}
                   <a href="{{ brand_url }}" style="color: #2781F6; font-weight: 600; text-decoration: none;">{{ brand_name }}</a>.
