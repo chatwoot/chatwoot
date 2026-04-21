@@ -19,6 +19,8 @@ class Integrations::Facebook::MessageParser
   end
 
   def content
+    # Messenger postbacks arrive outside the `message` payload, so we fall back
+    # to the visible title first and then to the raw payload identifier.
     @messaging.dig('message', 'text') || postback_title || postback_payload
   end
 
