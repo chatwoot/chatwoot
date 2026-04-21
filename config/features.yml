@@ -95,6 +95,24 @@
 - name: custom_reply_domain
   display_name: Custom Reply Domain
   enabled: false
+- name: custom_tools
+  display_name: Custom Tools
+  enabled: false
+- name: audit_logs
+  display_name: Audit Logs
+  enabled: false
+- name: sla
+  display_name: SLA
+  enabled: false
+- name: shopify_integration
+  display_name: Shopify Integration
+  enabled: false
+- name: saml
+  display_name: SAML
+  enabled: false
+- name: reply_mailer_migration
+  display_name: Reply Mailer Migration
+  enabled: false
 - name: message_reply_to
   display_name: Message Reply To
   enabled: false
