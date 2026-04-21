@@ -3,6 +3,9 @@
     "FETCHING": "واکشی ادغام ها",
     "NO_HOOK_CONFIGURED": "هیچ {integrationId} ادغامی در این اکانت انجام نشده است.",
     "HEADER": "برنامه های کاربردی",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "فعال",
       "DISABLED": "غیرفعال"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "واکشی ادغام های هوک",
       "INBOX": "صندوق ورودی",
+      "ACTIONS": "عملیات",
       "DELETE": {
         "BUTTON_TEXT": "حذف"
       }

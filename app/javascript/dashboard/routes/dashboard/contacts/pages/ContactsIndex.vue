@@ -13,6 +13,7 @@ import ContactEmptyState from 'dashboard/components-next/Contacts/EmptyState/Con
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ContactsList from 'dashboard/components-next/Contacts/Pages/ContactsList.vue';
 import ContactsBulkActionBar from '../components/ContactsBulkActionBar.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import BulkActionsAPI from 'dashboard/api/bulkActions';
 
 const DEFAULT_SORT_FIELD = 'last_activity_at';
@@ -35,6 +36,9 @@ const meta = useMapGetter('contacts/getMeta');
 const searchQuery = computed(() => route.query?.search);
 const searchValue = ref(searchQuery.value || '');
 const pageNumber = computed(() => Number(route.query?.page) || 1);
+// For infinite scroll in search, track page internally
+const searchPageNumber = ref(1);
+const isLoadingMore = ref(false);
 
 const parseSortSettings = (sortString = '') => {
   const hasDescending = sortString.startsWith('-');
@@ -61,10 +65,31 @@ const isFetchingList = computed(
 );
 const currentPage = computed(() => Number(meta.value?.currentPage));
 const totalItems = computed(() => meta.value?.count);
+const hasMore = computed(() => meta.value?.hasMore ?? false);
+const isSearchView = computed(() => !!searchQuery.value);
 
 const selectedContactIds = ref([]);
 const isBulkActionLoading = ref(false);
-const hasSelection = computed(() => selectedContactIds.value.length > 0);
+const bulkDeleteDialogRef = ref(null);
+const selectedCount = computed(() => selectedContactIds.value.length);
+const bulkDeleteDialogTitle = computed(() =>
+  selectedCount.value > 1
+    ? t('CONTACTS_BULK_ACTIONS.DELETE_DIALOG.TITLE')
+    : t('CONTACTS_BULK_ACTIONS.DELETE_DIALOG.SINGULAR_TITLE')
+);
+const bulkDeleteDialogDescription = computed(() =>
+  selectedCount.value > 1
+    ? t('CONTACTS_BULK_ACTIONS.DELETE_DIALOG.DESCRIPTION', {
+        count: selectedCount.value,
+      })
+    : t('CONTACTS_BULK_ACTIONS.DELETE_DIALOG.SINGULAR_DESCRIPTION')
+);
+const bulkDeleteDialogConfirmLabel = computed(() =>
+  selectedCount.value > 1
+    ? t('CONTACTS_BULK_ACTIONS.DELETE_DIALOG.CONFIRM_MULTIPLE')
+    : t('CONTACTS_BULK_ACTIONS.DELETE_DIALOG.CONFIRM_SINGLE')
+);
+const hasSelection = computed(() => selectedCount.value > 0);
 const activeSegment = computed(() => {
   if (!activeSegmentId.value) return undefined;
   return segments.value.find(view => view.id === Number(activeSegmentId.value));
@@ -120,8 +145,19 @@ const clearSelection = () => {
   selectedContactIds.value = [];
 };
 
+const openBulkDeleteDialog = () => {
+  if (!selectedContactIds.value.length || isBulkActionLoading.value) return;
+  bulkDeleteDialogRef.value?.open?.();
+};
+
 const toggleSelectAll = shouldSelect => {
-  selectedContactIds.value = shouldSelect ? [...visibleContactIds.value] : [];
+  const currentSelection = new Set(selectedContactIds.value);
+  if (shouldSelect) {
+    visibleContactIds.value.forEach(id => currentSelection.add(id));
+  } else {
+    visibleContactIds.value.forEach(id => currentSelection.delete(id));
+  }
+  selectedContactIds.value = Array.from(currentSelection);
 };
 
 const toggleContactSelection = ({ id, value }) => {
@@ -160,16 +196,28 @@ const getCommonFetchParams = (page = 1) => ({
   label: activeLabel.value,
 });
 
-const fetchContacts = async (page = 1) => {
-  clearSelection();
+const fetchContacts = async (page = 1, options = {}) => {
+  const { clearSelection: shouldClearSelection = true } = options;
+  if (shouldClearSelection) {
+    clearSelection();
+  }
   await store.dispatch('contacts/clearContactFilters');
   await store.dispatch('contacts/get', getCommonFetchParams(page));
   updatePageParam(page);
 };
 
-const fetchSavedOrAppliedFilteredContact = async (payload, page = 1) => {
+const fetchSavedOrAppliedFilteredContact = async (
+  payload,
+  page = 1,
+  options = {}
+) => {
   if (!activeSegmentId.value && !hasAppliedFilters.value) return;
-  clearSelection();
+
+  const { clearSelection: shouldClearSelection = true } = options;
+  if (shouldClearSelection) {
+    clearSelection();
+  }
+
   await store.dispatch('contacts/filter', {
     ...getCommonFetchParams(page),
     queryPayload: payload,
@@ -177,8 +225,12 @@ const fetchSavedOrAppliedFilteredContact = async (payload, page = 1) => {
   updatePageParam(page);
 };
 
-const fetchActiveContacts = async (page = 1) => {
-  clearSelection();
+const fetchActiveContacts = async (page = 1, options = {}) => {
+  const { clearSelection: shouldClearSelection = true } = options;
+  if (shouldClearSelection) {
+    clearSelection();
+  }
+
   await store.dispatch('contacts/clearContactFilters');
   await store.dispatch('contacts/active', {
     page,
@@ -187,37 +239,73 @@ const fetchActiveContacts = async (page = 1) => {
   updatePageParam(page);
 };
 
-const searchContacts = debounce(async (value, page = 1) => {
-  clearSelection();
-  await store.dispatch('contacts/clearContactFilters');
-  searchValue.value = value;
+const searchContacts = debounce(
+  async (value, page = 1, append = false, options = {}) => {
+    const { clearSelection: shouldClearSelection = true } = options;
 
-  if (!value) {
-    updatePageParam(page);
-    await fetchContacts(page);
-    return;
-  }
+    if (!append) {
+      searchPageNumber.value = 1;
 
-  updatePageParam(page, value);
+      if (shouldClearSelection) {
+        clearSelection();
+      }
+    }
+    await store.dispatch('contacts/clearContactFilters');
+    searchValue.value = value;
+
+    if (!value) {
+      updatePageParam(page);
+      await fetchContacts(page, { clearSelection: false });
+      return;
+    }
+
+    updatePageParam(page, value);
+    await store.dispatch('contacts/search', {
+      ...getCommonFetchParams(page),
+      search: encodeURIComponent(value),
+      append,
+    });
+    searchPageNumber.value = page;
+  },
+  DEBOUNCE_DELAY
+);
+
+const loadMoreSearchResults = async () => {
+  if (!hasMore.value || isLoadingMore.value) return;
+
+  isLoadingMore.value = true;
+  const nextPage = searchPageNumber.value + 1;
+
   await store.dispatch('contacts/search', {
-    ...getCommonFetchParams(page),
-    search: encodeURIComponent(value),
+    ...getCommonFetchParams(nextPage),
+    search: encodeURIComponent(searchValue.value),
+    append: true,
   });
-}, DEBOUNCE_DELAY);
 
-const fetchContactsBasedOnContext = async page => {
-  clearSelection();
+  searchPageNumber.value = nextPage;
+  isLoadingMore.value = false;
+};
+
+const fetchContactsBasedOnContext = async (page, options = {}) => {
+  const { clearSelection: shouldClearSelection = true } = options;
+  if (shouldClearSelection) {
+    clearSelection();
+  }
   updatePageParam(page, searchValue.value);
   if (isFetchingList.value) return;
   if (searchQuery.value) {
-    await searchContacts(searchQuery.value, page);
+    await searchContacts(searchQuery.value, page, false, {
+      clearSelection: shouldClearSelection,
+    });
     return;
   }
   // Reset the search value when we change the view
   searchValue.value = '';
   // If we're on the active route, fetch active contacts
   if (isActiveView.value) {
-    await fetchActiveContacts(page);
+    await fetchActiveContacts(page, {
+      clearSelection: shouldClearSelection,
+    });
     return;
   }
   // If there are applied filters or active segment with query
@@ -227,12 +315,19 @@ const fetchContactsBasedOnContext = async page => {
   ) {
     const queryPayload =
       activeSegment.value?.query || filterQueryGenerator(appliedFilters.value);
-    await fetchSavedOrAppliedFilteredContact(queryPayload, page);
+    await fetchSavedOrAppliedFilteredContact(queryPayload, page, {
+      clearSelection: shouldClearSelection,
+    });
     return;
   }
   // Default case: fetch regular contacts + label
-  await fetchContacts(page);
+  await fetchContacts(page, {
+    clearSelection: shouldClearSelection,
+  });
 };
+
+const onPageChange = page =>
+  fetchContactsBasedOnContext(page, { clearSelection: false });
 
 const assignLabels = async labels => {
   if (!labels.length || !selectedContactIds.value.length) {
@@ -256,6 +351,29 @@ const assignLabels = async labels => {
   }
 };
 
+const deleteContacts = async () => {
+  if (!selectedContactIds.value.length) {
+    return;
+  }
+
+  isBulkActionLoading.value = true;
+  try {
+    await BulkActionsAPI.create({
+      type: 'Contact',
+      ids: selectedContactIds.value,
+      action_name: 'delete',
+    });
+    useAlert(t('CONTACTS_BULK_ACTIONS.DELETE_SUCCESS'));
+    clearSelection();
+    await fetchContactsBasedOnContext(pageNumber.value);
+    bulkDeleteDialogRef.value?.close?.();
+  } catch (error) {
+    useAlert(t('CONTACTS_BULK_ACTIONS.DELETE_FAILED'));
+  } finally {
+    isBulkActionLoading.value = false;
+  }
+};
+
 const handleSort = async ({ sort, order }) => {
   Object.assign(sortState, { activeSort: sort, activeOrdering: order });
 
@@ -264,7 +382,9 @@ const handleSort = async ({ sort, order }) => {
   });
 
   if (searchQuery.value) {
-    await searchContacts(searchValue.value);
+    await searchContacts(searchValue.value, pageNumber.value, false, {
+      clearSelection: false,
+    });
     return;
   }
 
@@ -286,16 +406,11 @@ const createContact = async contact => {
   await store.dispatch('contacts/create', contact);
 };
 
-watch(
-  contacts,
-  newContacts => {
-    const idsOnPage = newContacts.map(contact => contact.id);
-    selectedContactIds.value = selectedContactIds.value.filter(id =>
-      idsOnPage.includes(id)
-    );
-  },
-  { deep: true }
-);
+watch(hasSelection, value => {
+  if (!value) {
+    bulkDeleteDialogRef.value?.close?.();
+  }
+});
 
 watch(
   () => uiSettings.value?.contacts_sort_by,
@@ -336,7 +451,9 @@ watch(searchQuery, value => {
 onMounted(async () => {
   if (!activeSegmentId.value) {
     if (searchQuery.value) {
-      await searchContacts(searchQuery.value, pageNumber.value);
+      await searchContacts(searchQuery.value, pageNumber.value, false, {
+        clearSelection: false,
+      });
       return;
     }
     if (isActiveView.value) {
@@ -355,34 +472,50 @@ onMounted(async () => {
 
 <template>
   <div
-    class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-background"
+    class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-surface-1"
   >
     <ContactsListLayout
       :search-value="searchValue"
       :header-title="headerTitle"
       :current-page="currentPage"
       :total-items="totalItems"
-      :show-pagination-footer="!isFetchingList && hasContacts"
+      :show-pagination-footer="!isFetchingList && hasContacts && !isSearchView"
       :active-sort="sortState.activeSort"
       :active-ordering="sortState.activeOrdering"
       :active-segment="activeSegment"
       :segments-id="activeSegmentId"
       :is-fetching-list="isFetchingList"
       :has-applied-filters="hasAppliedFilters"
-      @update:current-page="fetchContactsBasedOnContext"
-      @search="searchContacts"
+      :use-infinite-scroll="isSearchView"
+      :has-more="hasMore"
+      :is-loading-more="isLoadingMore"
+      @update:current-page="onPageChange"
+      @search="
+        value => searchContacts(value, 1, false, { clearSelection: false })
+      "
       @update:sort="handleSort"
       @apply-filter="fetchSavedOrAppliedFilteredContact"
       @clear-filters="fetchContacts"
+      @load-more="loadMoreSearchResults"
     >
       <div
-        v-if="isFetchingList"
+        v-if="isFetchingList && !(isSearchView && hasContacts)"
         class="flex items-center justify-center py-10 text-n-slate-11"
       >
         <Spinner />
       </div>
 
       <template v-else>
+        <ContactsBulkActionBar
+          v-if="hasSelection"
+          :visible-contact-ids="visibleContactIds"
+          :selected-contact-ids="selectedContactIds"
+          :is-loading="isBulkActionLoading"
+          @toggle-all="toggleSelectAll"
+          @clear-selection="clearSelection"
+          @assign-labels="assignLabels"
+          @delete-selected="openBulkDeleteDialog"
+        />
         <ContactEmptyState
           v-if="showEmptyStateLayout"
           class="pt-14"
@@ -401,21 +534,21 @@ onMounted(async () => {
           </span>
         </div>
 
-        <div v-else class="flex flex-col gap-4 px-6 pt-4 pb-6">
-          <div v-if="hasSelection">
-            <ContactsBulkActionBar
-              :visible-contact-ids="visibleContactIds"
-              :selected-contact-ids="selectedContactIds"
-              :is-loading="isBulkActionLoading"
-              @toggle-all="toggleSelectAll"
-              @clear-selection="clearSelection"
-              @assign-labels="assignLabels"
-            />
-          </div>
+        <div v-else class="flex flex-col gap-4 pt-4 pb-6">
           <ContactsList
             :contacts="contacts"
             :selected-contact-ids="selectedContactIds"
             @toggle-contact="toggleContactSelection"
+          />
+          <Dialog
+            v-if="selectedCount"
+            ref="bulkDeleteDialogRef"
+            type="alert"
+            :title="bulkDeleteDialogTitle"
+            :description="bulkDeleteDialogDescription"
+            :confirm-button-label="bulkDeleteDialogConfirmLabel"
+            :is-loading="isBulkActionLoading"
+            @confirm="deleteContacts"
           />
         </div>
       </template>

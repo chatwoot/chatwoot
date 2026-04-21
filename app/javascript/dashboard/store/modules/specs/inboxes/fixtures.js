@@ -71,4 +71,12 @@ export default [
     instagram_id: 123456789,
     provider: 'default',
   },
+  {
+    id: 8,
+    channel_id: 8,
+    name: 'Test TikTok 1',
+    channel_type: 'Channel::Tiktok',
+    business_id: 123456789,
+    provider: 'default',
+  },
 ];

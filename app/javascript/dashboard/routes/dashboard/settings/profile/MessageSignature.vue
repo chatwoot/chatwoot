@@ -1,7 +1,9 @@
 <script setup>
 import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
+import { stripInlineBase64Images } from 'dashboard/helper/editorHelper';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import { MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -12,8 +14,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['updateSignature']);
-const customEditorMenuList = MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS;
-const signature = ref(props.messageSignature);
+
+const { t } = useI18n();
+const signature = ref(props.messageSignature ?? '');
 watch(
   () => props.messageSignature ?? '',
   newValue => {
@@ -22,6 +25,15 @@ watch(
 );
 
 const updateSignature = () => {
+  const { sanitizedContent, hasInlineImages } = stripInlineBase64Images(
+    signature.value || ''
+  );
+  signature.value = sanitizedContent.trim();
+  if (hasInlineImages) {
+    useAlert(
+      t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.INLINE_IMAGE_WARNING')
+    );
+  }
   emit('updateSignature', signature.value);
 };
 </script>
@@ -34,7 +46,7 @@ const updateSignature = () => {
       class="message-editor h-[10rem] !px-3"
       is-format-mode
       :placeholder="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')"
-      :enabled-menu-options="customEditorMenuList"
+      channel-type="Context::MessageSignature"
       :enable-suggestions="false"
       show-image-resize-toolbar
     />

@@ -1,4 +1,4 @@
-<% has_multiple_locales = @portal.config["allowed_locales"].length > 1 %>
+<% has_multiple_locales = @portal.public_locale_codes.length > 1 %>
 
 <input type="checkbox" id="mobile-menu-toggle" class="peer/menu hidden" />
 
@@ -63,7 +63,10 @@
                 data-portal-slug="<%= @portal.slug %>"
                 class="flex-1 bg-transparent text-lg font-medium cursor-pointer focus:outline-none locale-switcher text-slate-800 dark:text-slate-100 hover:text-slate-700 dark:hover:text-slate-200"
               >
-                <% @portal.config["allowed_locales"].each do |locale| %>
+                <% if @portal.draft_locale?(@locale) %>
+                  <option selected disabled value="<%= @locale %>"><%= "#{language_name(@locale)} (#{@locale})" %></option>
+                <% end %>
+                <% @portal.public_locale_codes.each do |locale| %>
                   <option <%= locale == @locale ? 'selected': '' %> value="<%= locale %>"><%= "#{language_name(locale)} (#{locale})" %></option>
                 <% end %>
               </select>

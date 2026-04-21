@@ -39,7 +39,7 @@ const removeAttachment = id => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 p-4">
+  <div class="flex flex-col gap-4 p-4 max-h-48 overflow-y-auto">
     <div
       v-if="filteredImageAttachments.length > 0"
       class="flex flex-wrap gap-3"

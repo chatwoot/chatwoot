@@ -1,865 +1,897 @@
 {
   "HELP_CENTER": {
-    "TITLE": "Help Center",
+    "TITLE": "मद्दत केन्द्र",
     "NEW_PAGE": {
-      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
-      "CREATE_PORTAL_BUTTON": "Create Portal"
+      "DESCRIPTION": "तपाईंका ग्राहकहरूका लागि स्व-सेवा मद्दत केन्द्र पोर्टलहरू सिर्जना गर्नुहोस्। उनीहरूलाई छिटो जवाफहरू फेला पार्न मद्दत गर्नुहोस्, पर्खनु नपरोस्। सोधपुछहरूलाई सरल बनाउनुहोस्, एजेन्टको दक्षता बढाउनुहोस्, र ग्राहक समर्थनलाई उचाइमा पुर्‍याउनुहोस्।",
+      "CREATE_PORTAL_BUTTON": "पोर्टल सिर्जना गर्नुहोस्"
     },
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
-      "LOCALE": "Locale",
-      "SETTINGS_BUTTON": "Settings",
-      "NEW_BUTTON": "New Article",
+      "FILTER": "द्वारा फिल्टर",
+      "SORT": "द्वारा क्रमबद्ध गर्नुहोस्",
+      "LOCALE": "स्थान",
+      "SETTINGS_BUTTON": "सेटिङ",
+      "NEW_BUTTON": "नयाँ लेख",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "प्रकाशित",
+        "DRAFT": "ड्राफ्ट",
+        "ARCHIVED": "अभिलेख"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "सबै लेखहरू",
+        "MINE": "मेरो लेखहरू",
+        "DRAFT": "मस्यौदा लेखहरू",
+        "ARCHIVED": "अभिलेख लेखहरू"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "स्थान चयन गर्नुहोस्",
+        "PLACEHOLDER": "स्थान चयन गर्नुहोस्",
+        "NO_RESULT": "कुनै स्थान फेला परेन",
+        "SEARCH_PLACEHOLDER": "स्थान खोज्नुहोस्"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "सबै लेखहरू",
+      "PUBLISH_BUTTON": "प्रकाशित",
+      "MOVE_TO_ARCHIVE_BUTTON": "पुरानोमा सार्नुहोस्",
+      "PREVIEW": "पूर्वावलोकन",
+      "ADD_TRANSLATION": "अनुवाद थप",
+      "OPEN_SIDEBAR": "साइडबार खोल्नु",
+      "CLOSE_SIDEBAR": "साइडबार बन्द गर्नु",
+      "SAVING": "सेभ हुँदैछ...",
+      "SAVED": "सेभ गरियो"
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
-        "TITLE": "Upload image",
+        "TITLE": "छवि अपलोड गर्नुहोस्",
         "UPLOADING": "अपलोड गर्दै...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "छवि सफलतापूर्वक अपलोड गरियो।",
+        "ERROR": "छवि अपलोड गर्दा त्रुटि।",
+        "UN_AUTHORIZED_ERROR": "तपाईंलाई तस्बिरहरू अपलोड गर्न अनुमति छैन",
+        "ERROR_FILE_SIZE": "छवि आकार {size}MB भन्दा कम हुनुपर्छ।",
+        "ERROR_FILE_FORMAT": "छवि ढाँचा jpg, jpeg वा png हुनुपर्छ।",
+        "ERROR_FILE_DIMENSIONS": "छवि आयाम 2000 x 2000 भन्दा कम हुनुपर्छ।"
       }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "लेख सेटिङहरू",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "श्रेणी",
+          "TITLE": "श्रेणी चयन गर्नुहोस्",
+          "PLACEHOLDER": "श्रेणी चयन गर्नुहोस्",
+          "NO_RESULT": "कुनै श्रेणी फेला परेन",
+          "SEARCH_PLACEHOLDER": "श्रेणी खोज्नुहोस्"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "लेखक",
+          "TITLE": "लेखक चयन गर्नुहोस्",
+          "PLACEHOLDER": "लेखक चयन गर्नुहोस्",
+          "NO_RESULT": "लेखकहरू फेला परेनन्",
+          "SEARCH_PLACEHOLDER": "लेखक खोज्नुहोस्"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "मेटा शीर्षक",
+          "PLACEHOLDER": "मेटा शीर्षक थप्नुहोस्"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "मेटा विवरण",
+          "PLACEHOLDER": "राम्रो SEO परिणामका लागि आफ्नो मेटा विवरण थप्नुहोस्..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "मेटा ट्यागहरू",
+          "PLACEHOLDER": "अल्पविरामले छुट्टिएका मेटा ट्यागहरू थप्नुहोस्..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "लेख संग्रह गर्नुहोस्",
+        "DELETE": "लेख मेटाउनुहोस्"
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for {query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
-      "SEARCH_LOADER": "Searching...",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "UNCATEGORIZED": "श्रेणीबिना",
+      "SEARCH_RESULTS": "{query} को लागि खोज परिणामहरू",
+      "EMPTY_TEXT": "जवाफहरूमा समावेश गर्न लेखहरू खोज्नुहोस्।",
+      "SEARCH_LOADER": "खोज्दै...",
+      "INSERT_ARTICLE": "सम्मिलित गर्नुहोस्",
+      "NO_RESULT": "कुनै लेख फेला परेन",
+      "COPY_LINK": "लेख लिंक क्लिपबोर्डमा प्रतिलिपि गर्नुहोस्",
+      "OPEN_LINK": "लेख नयाँ ट्याबमा खोल्नुहोस्",
+      "PREVIEW_LINK": "लेख पूर्वावलोकन गर्नुहोस्"
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "DEFAULT": "Default",
-      "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "HEADER": "पोर्टल",
+      "DEFAULT": "पूर्वनिर्धारित",
+      "NEW_BUTTON": "नयाँ पोर्टल",
+      "ACTIVE_BADGE": "सक्रिय",
+      "CHOOSE_LOCALE_LABEL": "एक भाषा छान्नु",
+      "LOADING_MESSAGE": "पोर्टलहरू लोड हुँदैछन्...",
+      "ARTICLES_LABEL": "लेखहरू",
+      "NO_PORTALS_MESSAGE": "उपलब्ध पोर्टलहरू छैनन्",
+      "ADD_NEW_LOCALE": "नयाँ भाषा थप",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
-        "CANCEL_BUTTON_LABEL": "Cancel",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "TITLE": "पोर्टल",
+        "PORTAL_SETTINGS": "पोर्टल सेटिङ",
+        "SUBTITLE": "तपाईंसँग धेरै पोर्टलहरू छन् र प्रत्येक पोर्टलका लागि फरक भाषा हुन सक्छ।",
+        "CANCEL_BUTTON_LABEL": "रद्द गर्नु",
+        "CHOOSE_LOCALE_BUTTON": "भाषा छान्नु"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
-            "SETTINGS": "Settings",
-            "DELETE": "Delete"
+            "COUNT_LABEL": "लेखहरू",
+            "ADD": "स्थान थप",
+            "VISIT": "साइट भ्रमण",
+            "SETTINGS": "सेटिङ",
+            "DELETE": "मेटाउनुहोस्"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "पोर्टल कन्फिगरेसन",
             "ITEMS": {
-              "NAME": "Name",
-              "DOMAIN": "Custom domain",
-              "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "NAME": "नाम",
+              "DOMAIN": "कस्टम डोमेन",
+              "SLUG": "स्लग",
+              "TITLE": "पोर्टल शीर्षक",
+              "THEME": "थिम रङ",
+              "SUB_TEXT": "पोर्टल उपपाठ"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "उपलब्ध स्थानहरू",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
-              "DELETE": "Delete",
-              "DEFAULT_LOCALE": "Default"
+              "NAME": "स्थान नाम",
+              "CODE": "स्थान कोड",
+              "ARTICLE_COUNT": "लेखहरूको संख्या",
+              "CATEGORIES": "श्रेणीहरूको संख्या",
+              "SWAP": "स्वाप गर्नुहोस्",
+              "DELETE": "मेटाउनुहोस्",
+              "DEFAULT_LOCALE": "पूर्वनिर्धारित"
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "पोर्टल मेटाउनुहोस्",
+          "MESSAGE": "के तपाईं पक्का यो पोर्टल मेटाउन चाहनुहुन्छ",
+          "YES": "हो, पोर्टल मेटाउनुहोस्",
+          "NO": "होइन, पोर्टल राख्नुहोस्",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "पोर्टल सफलतापूर्वक मेटियो",
+            "DELETE_ERROR": "पोर्टल मेटाउँदा त्रुटि"
           }
         },
         "SEND_CNAME_INSTRUCTIONS": {
           "API": {
-            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
-            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+            "SUCCESS_MESSAGE": "CNAME निर्देशनहरू सफलतापूर्वक पठाइयो",
+            "ERROR_MESSAGE": "CNAME निर्देशनहरू पठाउँदा त्रुटि"
           }
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit portal",
+        "HEADER_TEXT": "पोर्टल सम्पादन गर्नुहोस्",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": "मूल जानकारी"
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Portal customization"
+            "TITLE": "पोर्टल अनुकूलन"
           },
           "CATEGORY_SETTINGS": {
-            "TITLE": "Categories"
+            "TITLE": "श्रेणीहरू"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": "भाषाहरू"
           }
         },
         "CATEGORIES": {
-          "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "TITLE": "श्रेणीहरू",
+          "NEW_CATEGORY": "नयाँ श्रेणी",
           "TABLE": {
-            "NAME": "Name",
-            "DESCRIPTION": "Description",
-            "LOCALE": "Locale",
-            "ARTICLE_COUNT": "No. of articles",
+            "NAME": "नाम",
+            "DESCRIPTION": "विवरण",
+            "LOCALE": "भाषा",
+            "ARTICLE_COUNT": "लेखहरूको संख्या",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "श्रेणी सम्पादन गर्नुहोस्",
+              "DELETE": "श्रेणी मेटाउनुहोस्"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "कुनै श्रेणी फेला परेन"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Update basic settings"
+          "BUTTON_TEXT": "मूल सेटिङहरू अपडेट गर्नुहोस्"
         }
       },
       "ADD": {
         "CREATE_FLOW": {
           "BASIC": {
-            "TITLE": "Help center information",
-            "BODY": "Basic information about portal"
+            "TITLE": "मद्दत केन्द्र जानकारी",
+            "BODY": "पोर्टलको आधारभूत जानकारी"
           },
           "CUSTOMIZATION": {
-            "TITLE": "Help center customization",
-            "BODY": "Customize portal"
+            "TITLE": "मद्दत केन्द्र अनुकूलन",
+            "BODY": "पोर्टल अनुकूलन गर्नुहोस्"
           },
           "FINISH": {
-            "TITLE": "Voila! 🎉",
-            "BODY": "You're all set!"
+            "TITLE": "भ्वाइला! 🎉",
+            "BODY": "तपाईं तयार हुनुहुन्छ!"
           }
         },
         "CREATE_FLOW_PAGE": {
-          "BACK_BUTTON": "Back",
+          "BACK_BUTTON": "फिर्ता",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "पोर्टल सिर्जना गर्नुहोस्",
+            "TITLE": "सहायता केन्द्र जानकारी",
+            "CREATE_BASIC_SETTING_BUTTON": "पोर्टल आधारभूत सेटिङहरू सिर्जना गर्नुहोस्"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "पोर्टल अनुकूलन",
+            "TITLE": "सहायता केन्द्र अनुकूलन",
+            "UPDATE_PORTAL_BUTTON": "पोर्टल सेटिङहरू अपडेट गर्नुहोस्"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "भ्वाइला!🎉 तपाईं सबै तयार हुनुहुन्छ!",
+            "MESSAGE": "अब तपाईंले यो सिर्जना गरिएको पोर्टल सबै पोर्टलहरू पृष्ठमा देख्न सक्नुहुन्छ।",
+            "FINISH": "सबै पोर्टलहरू पृष्ठमा जानुहोस्"
           }
         },
         "LOGO": {
-          "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "LABEL": "लोगो",
+          "UPLOAD_BUTTON": "लोगो अपलोड गर्नुहोस्",
+          "HELP_TEXT": "यो लोगो पोर्टल हेडरमा देखाइनेछ।",
+          "IMAGE_UPLOAD_SUCCESS": "लोगो सफलतापूर्वक अपलोड गरियो",
+          "IMAGE_UPLOAD_ERROR": "लोगो सफलतापूर्वक मेटाइयो",
+          "IMAGE_DELETE_ERROR": "लोगो मेट्दा त्रुटि"
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
-          "ERROR": "Name is required"
+          "LABEL": "नाम",
+          "PLACEHOLDER": "पोर्टल नाम",
+          "HELP_TEXT": "नाम सार्वजनिक पोर्टलमा आन्तरिक रूपमा प्रयोग हुनेछ।",
+          "ERROR": "नाम आवश्यक छ"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-          "ERROR": "Slug is required"
+          "LABEL": "स्लग",
+          "PLACEHOLDER": "URL का लागि पोर्टल स्लग",
+          "ERROR": "स्लग आवश्यक छ"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
-          "ERROR": "Enter a valid domain URL"
+          "LABEL": "अनुकूलित डोमेन",
+          "PLACEHOLDER": "पोर्टल अनुकूलित डोमेन",
+          "HELP_TEXT": "तपाईंको पोर्टलहरूका लागि कस्टम डोमेन प्रयोग गर्न चाहनुहुन्छ भने मात्र थप्नुहोस्। जस्तै: {exampleURL}",
+          "ERROR": "वैध डोमेन URL प्रविष्ट गर्नुहोस्।"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
-          "ERROR": "Enter a valid home page URL"
+          "LABEL": "होम पृष्ठ लिंक",
+          "PLACEHOLDER": "पोर्टल होम पृष्ठ लिंक",
+          "HELP_TEXT": "पोर्टलबाट गृहपृष्ठमा फर्कन प्रयोग हुने लिंक। जस्तै: {exampleURL}",
+          "ERROR": "वैध होम पेज URL प्रविष्ट गर्नुहोस्।"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "पोर्टल थिम रंग",
+          "HELP_TEXT": "यो रंग पोर्टलको थिम रंगको रूपमा देखिनेछ।"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "LABEL": "पृष्ठ शीर्षक",
+          "PLACEHOLDER": "पोर्टल पृष्ठ शीर्षक",
+          "HELP_TEXT": "पृष्ठ शीर्षक सार्वजनिक पोर्टलमा प्रयोग हुनेछ।",
+          "ERROR": "पृष्ठ शीर्षक आवश्यक छ"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "हेडर पाठ",
+          "PLACEHOLDER": "पोर्टल हेडर पाठ",
+          "HELP_TEXT": "पोर्टल हेडर पाठ सार्वजनिक पोर्टलमा प्रयोग हुनेछ।",
+          "ERROR": "पोर्टल हेडर पाठ आवश्यक छ"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "पोर्टल सफलतापूर्वक सिर्जना गरियो।",
+          "ERROR_MESSAGE_FOR_BASIC": "पोर्टल सिर्जना गर्न सकेन। पुन: प्रयास गर्नुहोस्।",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "पोर्टल सफलतापूर्वक अपडेट गरियो।",
+          "ERROR_MESSAGE_FOR_UPDATE": "पोर्टल अपडेट गर्न सकेन। पुन: प्रयास गर्नुहोस्।"
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Add a new locale",
-        "SUB_TITLE": "This adds a new locale to your available translation list.",
-        "PORTAL": "Portal",
+        "TITLE": "नयाँ भाषा थप्नुहोस्",
+        "SUB_TITLE": "यसले तपाईंको उपलब्ध अनुवाद सूचीमा नयाँ भाषा थप्छ।",
+        "PORTAL": "पोर्टल",
         "LOCALE": {
-          "LABEL": "Locale",
-          "PLACEHOLDER": "Choose a locale",
-          "ERROR": "Locale is required"
+          "LABEL": "भाषा",
+          "PLACEHOLDER": "भाषा छान्नुहोस्",
+          "ERROR": "भाषा आवश्यक छ"
         },
         "BUTTONS": {
-          "CREATE": "Create locale",
-          "CANCEL": "Cancel"
+          "CREATE": "भाषा सिर्जना गर्नुहोस्",
+          "CANCEL": "रद्द गर्नुहोस्"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "भाषा सफलतापूर्वक थपियो",
+          "ERROR_MESSAGE": "भाषा थप्न सकिएन। फेरि प्रयास गर्नुहोस्।"
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Default locale updated successfully",
-          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+          "SUCCESS_MESSAGE": "पूर्वनिर्धारित भाषा सफलतापूर्वक अपडेट गरियो",
+          "ERROR_MESSAGE": "पूर्वनिर्धारित भाषा अपडेट गर्न सकिएन। फेरि प्रयास गर्नुहोस्।"
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
-          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+          "SUCCESS_MESSAGE": "भाषा पोर्टलबाट सफलतापूर्वक हटाइयो।",
+          "ERROR_MESSAGE": "भाषा पोर्टलबाट हटाउन सकिएन। फेरि प्रयास गर्नुहोस्।"
+        }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "लेखहरू लोड हुँदैछ...",
+      "404": "तपाईंको खोजीसँग मेल खाने कुनै लेख छैन 🔍",
+      "NO_ARTICLES": "उपलब्ध लेखहरू छैनन्",
       "HEADERS": {
-        "TITLE": "Title",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Views",
-        "STATUS": "Status",
-        "LAST_EDITED": "Last edited"
+        "TITLE": "शीर्षक",
+        "CATEGORY": "श्रेणी",
+        "READ_COUNT": "हेर्ने संख्या",
+        "STATUS": "स्थिति",
+        "LAST_EDITED": "अन्तिम सम्पादन"
       },
       "COLUMNS": {
-        "BY": "by",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "द्वारा",
+        "AUTHOR_NOT_AVAILABLE": "लेखक उपलब्ध छैन"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "लेख लोड हुँदैछ...",
+      "TITLE_PLACEHOLDER": "लेखको शीर्षक यहाँ राख्नुहोस्",
+      "CONTENT_PLACEHOLDER": "यहाँ आफ्नो लेख लेख्नु",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "लेख सेभ गर्दा त्रुटि"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article published successfully"
+        "ERROR": "लेख प्रकाशित गर्दा त्रुटि।",
+        "SUCCESS": "लेख सफलतापूर्वक प्रकाशित गरियो।"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "लेख संग्रह गर्दा त्रुटि",
+        "SUCCESS": "लेख सफलतापूर्वक संग्रह गरियो"
       }
     },
     "DRAFT_ARTICLE": {
       "API": {
-        "ERROR": "Error while drafting article",
-        "SUCCESS": "Article drafted successfully"
+        "ERROR": "लेख ड्राफ्ट गर्दा त्रुटि",
+        "SUCCESS": "लेख सफलतापूर्वक ड्राफ्ट गरियो"
       }
     },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete the article?",
-          "YES": "Yes, Delete",
-          "NO": "No, Keep it"
+          "TITLE": "मेटाउने पुष्टि गर्नुहोस्",
+          "MESSAGE": "के तपाईं पक्का हुनुहुन्छ कि लेख मेटाउन चाहनुहुन्छ?",
+          "YES": "हो, मेटाउनुहोस्",
+          "NO": "होइन, राख्नुहोस्"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Article deleted successfully",
-        "ERROR_MESSAGE": "Error while deleting article"
+        "SUCCESS_MESSAGE": "लेख सफलतापूर्वक मेटियो",
+        "ERROR_MESSAGE": "लेख मेटाउँदा त्रुटि"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "लेखहरू पुनःक्रमबद्ध गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।"
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "श्रेणीहरू पुनःक्रमबद्ध गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।"
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": "कृपया लेख शीर्षक र सामग्री थप्नुहोस्, त्यसपछि मात्र तपाईं सेटिङहरू अपडेट गर्न सक्नुहुन्छ"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "लेखहरूको खोजी"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "श्रेणी सिर्जना",
+        "SUB_TITLE": "श्रेणी सार्वजनिक पोर्टलमा लेखहरू वर्गीकरण गर्न प्रयोग गरिन्छ।",
+        "PORTAL": "पोर्टल",
+        "LOCALE": "स्थान",
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "LABEL": "नाम",
+          "PLACEHOLDER": "श्रेणी नाम",
+          "HELP_TEXT": "श्रेणी नाम र आइकन सार्वजनिक पोर्टलमा लेखहरू वर्गीकरण गर्न प्रयोग गरिनेछ।",
+          "ERROR": "नाम आवश्यक छ"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "LABEL": "स्लग",
+          "PLACEHOLDER": "URL का लागि श्रेणी स्लग",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "स्लग आवश्यक छ"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "LABEL": "विवरण",
+          "PLACEHOLDER": "श्रेणीको छोटो विवरण दिनु",
+          "ERROR": "विवरण आवश्यक छ"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
-          "CANCEL": "Cancel"
+          "CREATE": "श्रेणी सिर्जना",
+          "CANCEL": "रद्द गर्नु"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "श्रेणी सफलतापूर्वक सिर्जना गरियो",
+          "ERROR_MESSAGE": "श्रेणी सिर्जना गर्न सकिएन"
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "श्रेणी सम्पादन गर्नुहोस्",
+        "SUB_TITLE": "श्रेणी सम्पादन गर्दा सार्वजनिक पोर्टलमा श्रेणी अपडेट हुनेछ।",
+        "PORTAL": "पोर्टल",
+        "LOCALE": "स्थान",
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "LABEL": "नाम",
+          "PLACEHOLDER": "श्रेणी नाम",
+          "HELP_TEXT": "श्रेणी नाम र आइकन सार्वजनिक पोर्टलमा लेखहरू वर्गीकरण गर्न प्रयोग गरिनेछ।",
+          "ERROR": "नाम आवश्यक छ"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "LABEL": "स्लग",
+          "PLACEHOLDER": "URL का लागि श्रेणी स्लग",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "स्लग आवश्यक छ"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "LABEL": "विवरण",
+          "PLACEHOLDER": "श्रेणीको छोटो विवरण दिनुहोस्।",
+          "ERROR": "विवरण आवश्यक छ"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
-          "CANCEL": "Cancel"
+          "CREATE": "श्रेणी अपडेट गर्नुहोस्",
+          "CANCEL": "रद्द गर्नुहोस्"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "श्रेणी सफलतापूर्वक अपडेट गरियो।",
+          "ERROR_MESSAGE": "श्रेणी अपडेट गर्न सकिएन।"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "श्रेणी सफलतापूर्वक मेटाइयो।",
+          "ERROR_MESSAGE": "श्रेणी मेटाउन सकिएन"
         }
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "No articles found",
-      "SEARCHING": "Searching...",
-      "SEARCH_BUTTON": "Search",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Preview article",
+      "TITLE": "लेखहरू खोज्नुहोस्",
+      "PLACEHOLDER": "लेखहरू खोज्नुहोस्",
+      "NO_RESULT": "कुनै लेख फेला परेन",
+      "SEARCHING": "खोज्दै...",
+      "SEARCH_BUTTON": "खोज्नुहोस्",
+      "INSERT_ARTICLE": "लिङ्क समावेश गर्नुहोस्",
+      "IFRAME_ERROR": "URL खाली वा अमान्य छ। सामग्री प्रदर्शन गर्न सकिँदैन।",
+      "OPEN_ARTICLE_SEARCH": "मद्दत केन्द्रबाट लेख समावेश गर्नुहोस्",
+      "SUCCESS_ARTICLE_INSERTED": "लेख सफलतापूर्वक समावेश गरियो",
+      "PREVIEW_LINK": "लेख पूर्वावलोकन गर्नुहोस्",
       "CANCEL": "बन्दा गार्नुहोस्",
-      "BACK": "Back",
-      "BACK_RESULTS": "Back to results"
+      "BACK": "फिर्ता",
+      "BACK_RESULTS": "परिणामहरूमा फिर्ता जानुहोस्"
     },
     "UPGRADE_PAGE": {
-      "TITLE": "Help Center",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "TITLE": "मद्दत केन्द्र",
+      "DESCRIPTION": "प्रयोगकर्ता मैत्री स्व-सेवा पोर्टलहरू सिर्जना गर्नुहोस्। तपाईंका प्रयोगकर्ताहरूलाई लेखहरू पहुँच गर्न र २४/७ समर्थन प्राप्त गर्न मद्दत गर्नुहोस्। यो सुविधा सक्षम गर्न आफ्नो सदस्यता उन्नत गर्नुहोस्।",
+      "SELF_HOSTED_DESCRIPTION": "प्रयोगकर्ता मैत्री स्व-सेवा पोर्टलहरू सिर्जना गर्नुहोस्। तपाईंका प्रयोगकर्ताहरूलाई लेखहरू पहुँच गर्न र २४/७ समर्थन प्राप्त गर्न मद्दत गर्नुहोस्। कृपया यो सुविधा सक्षम गर्न आफ्नो प्रशासकलाई सम्पर्क गर्नुहोस्।",
       "BUTTON": {
-        "LEARN_MORE": "Learn more",
-        "UPGRADE": "Upgrade"
+        "LEARN_MORE": "थप जान्नुहोस्",
+        "UPGRADE": "उन्नत गर्नुहोस्"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "धेरै पोर्टलहरू",
+          "DESCRIPTION": "उही खाताको प्रयोग गरेर विभिन्न उत्पादनहरूको लागि धेरै मद्दत केन्द्र पोर्टलहरू सिर्जना गर्नुहोस्।"
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "स्थानहरूको पूर्ण समर्थन",
+          "DESCRIPTION": "तपाईंको भाषामा पोर्टललाई स्थानीयकरण गर्नुहोस्। हामी सबै स्थानहरूलाई समर्थन गर्छौं र प्रत्येक लेखको लागि अनुवादहरू अनुमति दिन्छौं।"
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+          "TITLE": "SEO मैत्रीपूर्ण डिजाइन",
+          "DESCRIPTION": "हाम्रो SEO मैत्रीपूर्ण पृष्ठहरूसँग खोज इन्जिनहरूमा तपाईंको दृश्यता सुधार गर्न आफ्नो मेटा ट्यागहरू अनुकूलित गर्नुहोस्।"
         },
         "API": {
-          "TITLE": "Full API support",
-          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+          "TITLE": "पूर्ण API समर्थन",
+          "DESCRIPTION": "हाम्रो API हरूको प्रयोग गरेर तेस्रो पक्ष फ्रन्ट-एन्ड फ्रेमवर्कहरूसँग पोर्टललाई हेडलेस CMS को रूपमा प्रयोग गर्नुहोस्।"
         }
       }
     },
-    "LOADING": "Loading...",
+    "LOADING": "लोड हुँदैछ...",
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
-          "VIEWS": "{count} view | {count} views",
+          "VIEWS": "{count} पटक हेरेको | {count} पटक हेरेका",
           "DROPDOWN_MENU": {
-            "PUBLISH": "Publish",
-            "DRAFT": "Draft",
-            "ARCHIVE": "Archive",
-            "DELETE": "Delete"
+            "PUBLISH": "प्रकाशित गर्नुहोस्",
+            "DRAFT": "ड्राफ्ट",
+            "ARCHIVE": "अभिलेख",
+            "DELETE": "मेटाउनुहोस्"
           },
           "STATUS": {
-            "DRAFT": "Draft",
-            "PUBLISHED": "Published",
-            "ARCHIVED": "Archived"
+            "DRAFT": "ड्राफ्ट",
+            "PUBLISHED": "प्रकाशित",
+            "ARCHIVED": "अभिलेखित"
           },
           "CATEGORY": {
-            "UNCATEGORISED": "Uncategorised"
+            "UNCATEGORISED": "वर्गीकरण नगरिएको"
           }
         }
       },
       "ARTICLES_HEADER": {
         "TABS": {
-          "ALL": "All articles",
-          "MINE": "Mine",
-          "DRAFT": "Draft",
-          "PUBLISHED": "Published",
-          "ARCHIVED": "Archived"
+          "ALL": "सबै लेखहरू",
+          "MINE": "मेरो",
+          "DRAFT": "ड्राफ्ट",
+          "PUBLISHED": "प्रकाशित",
+          "ARCHIVED": "अभिलेखित"
         },
         "CATEGORY": {
-          "ALL": "All categories"
+          "ALL": "सबै श्रेणीहरू"
         },
         "LOCALE": {
-          "ALL": "All locales"
+          "ALL": "सबै भाषाहरू"
         },
-        "NEW_ARTICLE": "New article"
+        "NEW_ARTICLE": "नयाँ लेख"
       },
       "EMPTY_STATE": {
         "ALL": {
-          "TITLE": "Write an article",
-          "SUBTITLE": "Write a rich article, let’s get started!",
-          "BUTTON_LABEL": "New article"
+          "TITLE": "लेख लेख्नुहोस्",
+          "SUBTITLE": "धनी लेख लेखौं, सुरु गरौं!",
+          "BUTTON_LABEL": "नयाँ लेख"
         },
         "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+          "TITLE": "तपाईंले यहाँ कुनै लेख लेख्नुभएको छैन",
+          "SUBTITLE": "यहाँ तपाईंले लेख्नुभएको सबै लेखहरू छिटो पहुँचका लागि देखिन्छन्।"
         },
         "DRAFT": {
-          "TITLE": "There are no articles in drafts",
-          "SUBTITLE": "Draft articles will appear here"
+          "TITLE": "ड्राफ्टमा कुनै लेखहरू छैनन्",
+          "SUBTITLE": "ड्राफ्ट लेखहरू यहाँ देखिनेछन्"
         },
         "PUBLISHED": {
-          "TITLE": "There are no published articles",
-          "SUBTITLE": "Published articles will appear here"
+          "TITLE": "प्रकाशित लेखहरू छैनन्",
+          "SUBTITLE": "प्रकाशित लेखहरू यहाँ देखिनेछन्"
         },
         "ARCHIVED": {
-          "TITLE": "There are no articles in the archive",
-          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+          "TITLE": "आर्काइभमा कुनै लेखहरू छैनन्",
+          "SUBTITLE": "आर्काइभ गरिएका लेखहरू पोर्टलमा देखिँदैनन्, तपाईं यसलाई अप्रचलित वा पुराना पृष्ठहरू चिन्ह लगाउन प्रयोग गर्न सक्नुहुन्छ"
         },
         "CATEGORY": {
-          "TITLE": "There are no articles in this category",
-          "SUBTITLE": "Articles in this category will appear here"
+          "TITLE": "यस श्रेणीमा कुनै लेखहरू छैनन्",
+          "SUBTITLE": "यस श्रेणीका लेखहरू यहाँ देखिनेछन्"
         }
       }
     },
     "CATEGORY_PAGE": {
       "CATEGORY_HEADER": {
-        "NEW_CATEGORY": "New category",
-        "EDIT_CATEGORY": "Edit category",
-        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "NEW_CATEGORY": "नयाँ श्रेणी",
+        "EDIT_CATEGORY": "श्रेणी सम्पादन गर्नुहोस्",
+        "CATEGORIES_COUNT": "{n} श्रेणी | {n} श्रेणीहरू",
         "BREADCRUMB": {
-          "CATEGORY_LOCALE": "Categories ({localeCode})",
-          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+          "CATEGORY_LOCALE": "श्रेणीहरू ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} लेखहरू) | {categoryName} ({categoryCount} लेख)"
         }
       },
       "CATEGORY_EMPTY_STATE": {
-        "TITLE": "No categories found",
-        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+        "TITLE": "कुनै श्रेणी फेला परेन",
+        "SUBTITLE": "श्रेणीहरू यहाँ देखिनेछन्। तपाईं 'नयाँ श्रेणी' बटन क्लिक गरेर श्रेणी थप्न सक्नुहुन्छ।"
       },
       "CATEGORY_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles"
+        "ARTICLES_COUNT": "{count} लेख | {count} लेखहरू"
       },
       "CATEGORY_DIALOG": {
         "CREATE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category created successfully",
-            "ERROR_MESSAGE": "Unable to create category"
+            "SUCCESS_MESSAGE": "श्रेणी सफलतापूर्वक सिर्जना गरियो",
+            "ERROR_MESSAGE": "श्रेणी सिर्जना गर्न सकिएन"
           }
         },
         "EDIT": {
           "API": {
-            "SUCCESS_MESSAGE": "Category updated successfully",
-            "ERROR_MESSAGE": "Unable to update category"
+            "SUCCESS_MESSAGE": "श्रेणी सफलतापूर्वक अद्यावधिक गरियो",
+            "ERROR_MESSAGE": "श्रेणी अद्यावधिक गर्न सकिएन"
           }
         },
         "DELETE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category deleted successfully",
-            "ERROR_MESSAGE": "Unable to delete category"
+            "SUCCESS_MESSAGE": "श्रेणी सफलतापूर्वक मेटाइयो",
+            "ERROR_MESSAGE": "श्रेणी मेटाउन सकिएन"
           }
         },
         "HEADER": {
-          "CREATE": "Create category",
-          "EDIT": "Edit category",
-          "DESCRIPTION": "Editing a category will update the category in the public facing portal.",
-          "PORTAL": "Portal",
-          "LOCALE": "Locale"
+          "CREATE": "श्रेणी सिर्जना गर्नुहोस्",
+          "EDIT": "श्रेणी सम्पादन गर्नुहोस्",
+          "DESCRIPTION": "श्रेणी सम्पादन गर्दा सार्वजनिक पोर्टलमा श्रेणी अद्यावधिक हुनेछ।",
+          "PORTAL": "पोर्टल",
+          "LOCALE": "स्थान"
         },
         "FORM": {
           "NAME": {
-            "LABEL": "Name",
-            "PLACEHOLDER": "Category name",
-            "ERROR": "Name is required"
+            "LABEL": "नाम",
+            "PLACEHOLDER": "श्रेणी नाम",
+            "ERROR": "नाम आवश्यक छ"
           },
           "SLUG": {
-            "LABEL": "Slug",
-            "PLACEHOLDER": "Category slug for urls",
-            "ERROR": "Slug is required",
+            "LABEL": "स्लग",
+            "PLACEHOLDER": "URL का लागि श्रेणी स्लग",
+            "ERROR": "स्लग आवश्यक छ",
             "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
-            "LABEL": "Description",
-            "PLACEHOLDER": "Give a short description about the category.",
-            "ERROR": "Description is required"
+            "LABEL": "विवरण",
+            "PLACEHOLDER": "श्रेणीको छोटो विवरण दिनुहोस्।",
+            "ERROR": "विवरण आवश्यक छ"
           }
         },
         "BUTTONS": {
-          "CREATE": "Create",
-          "EDIT": "Update",
-          "CANCEL": "Cancel"
+          "CREATE": "सिर्जना गर्नुहोस्",
+          "EDIT": "अद्यावधिक गर्नुहोस्",
+          "CANCEL": "रद्द गर्नुहोस्"
         }
       }
     },
     "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALES_COUNT": "कुनै भाषा उपलब्ध छैन | {n} भाषा | {n} भाषाहरू",
+      "NEW_LOCALE_BUTTON_TEXT": "नयाँ भाषा",
       "LOCALE_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles",
-        "CATEGORIES_COUNT": "{count} category | {count} categories",
-        "DEFAULT": "Default",
+        "ARTICLES_COUNT": "{count} लेख | {count} लेखहरू",
+        "CATEGORIES_COUNT": "{count} श्रेणी | {count} श्रेणीहरू",
+        "DEFAULT": "पूर्वनिर्धारित",
+        "DRAFT": "ड्राफ्ट",
         "DROPDOWN_MENU": {
-          "MAKE_DEFAULT": "Make default",
-          "DELETE": "Delete"
+          "MAKE_DEFAULT": "पूर्वनिर्धारित बनाउनुहोस्",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
+          "DELETE": "मेटाउनुहोस्"
         }
       },
       "ADD_LOCALE_DIALOG": {
-        "TITLE": "Add a new locale",
-        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "TITLE": "नयाँ स्थान थप्नुहोस्",
+        "DESCRIPTION": "यस लेख कुन भाषामा लेखिनेछ चयन गर्नुहोस्। यसलाई तपाईंको अनुवाद सूचीमा थपिनेछ, र तपाईं पछि थप्न सक्नुहुन्छ।",
         "COMBOBOX": {
-          "PLACEHOLDER": "Select locale..."
+          "PLACEHOLDER": "स्थान चयन गर्नुहोस्..."
+        },
+        "STATUS": {
+          "LABEL": "Status",
+          "OPTIONS": {
+            "LIVE": "प्रकाशित",
+            "DRAFT": "ड्राफ्ट"
+          }
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "स्थान सफलतापूर्वक थपियो",
+          "ERROR_MESSAGE": "स्थान थप्न सकिएन। फेरि प्रयास गर्नुहोस्।"
         }
       }
     },
     "EDIT_ARTICLE_PAGE": {
       "HEADER": {
         "STATUS": {
-          "SAVING": "Saving...",
-          "SAVED": "Saved"
+          "SAVING": "सेभ हुँदैछ...",
+          "SAVED": "सेभ गरियो"
         },
-        "PREVIEW": "Preview",
-        "PUBLISH": "Publish",
-        "DRAFT": "Draft",
-        "ARCHIVE": "Archive",
-        "BACK_TO_ARTICLES": "Back to articles"
+        "PREVIEW": "पूर्वावलोकन",
+        "PUBLISH": "प्रकाशित गर्नुहोस्",
+        "DRAFT": "ड्राफ्ट",
+        "ARCHIVE": "अभिलेख",
+        "BACK_TO_ARTICLES": "लेखहरूमा फर्कनुहोस्"
       },
       "EDIT_ARTICLE": {
-        "MORE_PROPERTIES": "More properties",
-        "UNCATEGORIZED": "Uncategorized",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "MORE_PROPERTIES": "थप गुणहरू",
+        "UNCATEGORIZED": "वर्गीकरण नगरिएको",
+        "EDITOR_PLACEHOLDER": "केही लेख्नुहोस्..."
       },
       "ARTICLE_PROPERTIES": {
-        "ARTICLE_PROPERTIES": "Article properties",
-        "META_DESCRIPTION": "Meta description",
-        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
-        "META_TITLE": "Meta title",
-        "META_TITLE_PLACEHOLDER": "Add meta title",
-        "META_TAGS": "Meta tags",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "ARTICLE_PROPERTIES": "लेखका गुणहरू",
+        "META_DESCRIPTION": "मेटा विवरण",
+        "META_DESCRIPTION_PLACEHOLDER": "मेटा विवरण थप्नुहोस्",
+        "META_TITLE": "मेटा शीर्षक",
+        "META_TITLE_PLACEHOLDER": "मेटा शीर्षक थप्नुहोस्",
+        "META_TAGS": "मेटा ट्यागहरू",
+        "META_TAGS_PLACEHOLDER": "मेटा ट्यागहरू थप्नुहोस्"
       },
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "लेख सेभ गर्दा त्रुटि"
       }
     },
     "PORTAL_SWITCHER": {
-      "NEW_PORTAL": "New portal",
-      "PORTALS": "Portals",
-      "CREATE_PORTAL": "Create and manage multiple portals",
-      "ARTICLES": "articles",
-      "DOMAIN": "domain",
-      "PORTAL_NAME": "Portal name"
+      "NEW_PORTAL": "नयाँ पोर्टल",
+      "PORTALS": "पोर्टलहरू",
+      "CREATE_PORTAL": "धेरै पोर्टलहरू सिर्जना र व्यवस्थापन गर्नुहोस्",
+      "ARTICLES": "लेखहरू",
+      "DOMAIN": "डोमेन",
+      "PORTAL_NAME": "पोर्टल नाम"
     },
     "CREATE_PORTAL_DIALOG": {
-      "TITLE": "Create new portal",
-      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
-      "CONFIRM_BUTTON_LABEL": "Create",
+      "TITLE": "नयाँ पोर्टल सिर्जना गर्नुहोस्",
+      "DESCRIPTION": "तपाईंको पोर्टललाई नाम दिनुहोस् र प्रयोगकर्ता मैत्री URL स्लग सिर्जना गर्नुहोस्। तपाईंले दुवैलाई पछि सेटिङहरूमा परिवर्तन गर्न सक्नुहुन्छ।",
+      "CONFIRM_BUTTON_LABEL": "सिर्जना गर्नुहोस्",
       "NAME": {
-        "LABEL": "Name",
-        "PLACEHOLDER": "User Guide | Chatwoot",
-        "MESSAGE": "Choose an name for your portal.",
-        "ERROR": "Name is required"
+        "LABEL": "नाम",
+        "PLACEHOLDER": "प्रयोगकर्ता मार्गदर्शक | Chatwoot",
+        "MESSAGE": "तपाईंको पोर्टलको लागि नाम छान्नुहोस्।",
+        "ERROR": "नाम आवश्यक छ"
       },
       "SLUG": {
-        "LABEL": "Slug",
-        "PLACEHOLDER": "user-guide",
-        "ERROR": "Slug is required",
-        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+        "LABEL": "स्लग",
+        "PLACEHOLDER": "प्रयोगकर्ता-मार्गदर्शिका",
+        "ERROR": "स्लग आवश्यक छ",
+        "FORMAT_ERROR": "कृपया मान्य स्लग प्रविष्ट गर्नुहोस्, जस्तै: user-guide"
       }
     },
     "PORTAL_SETTINGS": {
       "FORM": {
         "AVATAR": {
-          "LABEL": "Logo",
-          "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
-          "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Unable to delete logo",
-          "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+          "LABEL": "लोगो",
+          "IMAGE_UPLOAD_ERROR": "छवि अपलोड गर्न सकिएन! फेरि प्रयास गर्नुहोस्",
+          "IMAGE_UPLOAD_SUCCESS": "छवि सफलतापूर्वक थपियो। कृपया लोगो सुरक्षित गर्न परिवर्तनहरू बचत गर्नुहोस्।",
+          "IMAGE_DELETE_SUCCESS": "लोगो सफलतापूर्वक मेटाइयो",
+          "IMAGE_DELETE_ERROR": "लोगो मेटाउन सकिएन",
+          "IMAGE_UPLOAD_SIZE_ERROR": "छविको आकार {size}MB भन्दा कम हुनुपर्छ"
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Portal name",
-          "ERROR": "Name is required"
+          "LABEL": "नाम",
+          "PLACEHOLDER": "पोर्टल नाम",
+          "ERROR": "नाम आवश्यक छ"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header text",
-          "PLACEHOLDER": "Portal header text"
+          "LABEL": "हेडर पाठ",
+          "PLACEHOLDER": "पोर्टल हेडर पाठ"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page title",
-          "PLACEHOLDER": "Portal page title"
+          "LABEL": "पृष्ठ शीर्षक",
+          "PLACEHOLDER": "पोर्टल पृष्ठ शीर्षक"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home page link",
-          "PLACEHOLDER": "Portal home page link",
-          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+          "LABEL": "गृह पृष्ठ लिंक",
+          "PLACEHOLDER": "पोर्टल गृह पृष्ठ लिंक",
+          "ERROR": "मान्य URL प्रविष्ट गर्नुहोस्। होम पृष्ठ लिंक 'http://' वा 'https://' बाट सुरु हुनुपर्छ।"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug"
+          "LABEL": "स्लग",
+          "PLACEHOLDER": "पोर्टल स्लग"
         },
         "LIVE_CHAT_WIDGET": {
-          "LABEL": "Live chat widget",
-          "PLACEHOLDER": "Select live chat widget",
-          "HELP_TEXT": "Select a live chat widget that will appear on your help center",
-          "NONE_OPTION": "No widget"
+          "LABEL": "प्रत्यक्ष च्याट विजेट",
+          "PLACEHOLDER": "प्रत्यक्ष च्याट विजेट चयन गर्नुहोस्",
+          "HELP_TEXT": "तपाईंको हेल्प सेन्टरमा देखिने प्रत्यक्ष च्याट विजेट चयन गर्नुहोस्",
+          "NONE_OPTION": "कुनै विजेट छैन"
         },
         "BRAND_COLOR": {
-          "LABEL": "Brand color"
+          "LABEL": "ब्रान्ड रंग"
         },
-        "SAVE_CHANGES": "Save changes"
+        "SAVE_CHANGES": "परिवर्तनहरू बचत गर्नुहोस्"
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {
-          "HEADER": "Custom domain",
-          "LABEL": "Custom domain:",
-          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
-          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
-          "PLACEHOLDER": "Portal custom domain",
-          "EDIT_BUTTON": "Edit",
-          "ADD_BUTTON": "Add custom domain",
+          "HEADER": "अनुकूलित डोमेन",
+          "LABEL": "अनुकूलित डोमेन:",
+          "DESCRIPTION": "तपाईं आफ्नो पोर्टललाई अनुकूलित डोमेनमा होस्ट गर्न सक्नुहुन्छ। उदाहरणका लागि, यदि तपाईंको वेबसाइट yourdomain.com हो र तपाईंको पोर्टल docs.yourdomain.com मा उपलब्ध गराउन चाहनुहुन्छ भने, यस फिल्डमा त्यो प्रविष्ट गर्नुहोस्।",
+          "STATUS_DESCRIPTION": "तपाईंको कस्टम पोर्टल जाँचिएपछि तुरुन्तै काम गर्न थाल्नेछ।",
+          "PLACEHOLDER": "पोर्टल अनुकूलित डोमेन",
+          "EDIT_BUTTON": "सम्पादन गर्नुहोस्",
+          "ADD_BUTTON": "अनुकूलित डोमेन थप्नुहोस्",
           "STATUS": {
-            "LIVE": "Live",
-            "PENDING": "Awaiting verification",
-            "ERROR": "Verification failed"
+            "LIVE": "प्रत्यक्ष",
+            "PENDING": "जाँचको प्रतीक्षा",
+            "ERROR": "जाँच असफल भयो"
           },
           "DIALOG": {
-            "ADD_HEADER": "Add custom domain",
-            "EDIT_HEADER": "Edit custom domain",
-            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
-            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
-            "LABEL": "Custom domain",
-            "PLACEHOLDER": "Portal custom domain",
-            "ERROR": "Custom domain is required",
-            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+            "ADD_HEADER": "अनुकूलित डोमेन थप्नुहोस्",
+            "EDIT_HEADER": "अनुकूलित डोमेन सम्पादन गर्नुहोस्",
+            "ADD_CONFIRM_BUTTON_LABEL": "डोमेन थप्नुहोस्",
+            "EDIT_CONFIRM_BUTTON_LABEL": "डोमेन अद्यावधिक गर्नुहोस्",
+            "LABEL": "अनुकूलित डोमेन",
+            "PLACEHOLDER": "पोर्टल अनुकूलित डोमेन",
+            "ERROR": "अनुकूलित डोमेन आवश्यक छ",
+            "FORMAT_ERROR": "कृपया मान्य डोमेन URL प्रविष्ट गर्नुहोस् जस्तै docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
-            "HEADER": "DNS configuration",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
-            "COPY": "Successfully copied CNAME",
+            "HEADER": "DNS कन्फिगरेसन",
+            "DESCRIPTION": "तपाईंको DNS प्रदायकको खातामा लगइन गर्नुहोस्, र उपडोमेनको लागि CNAME रेकर्ड chatwoot.help तर्फ थप्नुहोस्",
+            "COPY": "CNAME सफलतापूर्वक प्रतिलिपि गरियो",
             "SEND_INSTRUCTIONS": {
-              "HEADER": "Send instructions",
-              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
-              "PLACEHOLDER": "Enter their email",
-              "ERROR": "Enter a valid email address",
-              "SEND_BUTTON": "Send"
+              "HEADER": "निर्देशनहरू पठाउनुहोस्",
+              "DESCRIPTION": "यदि तपाईंको विकास टोलीबाट कसैले यो चरण सम्हाल्न चाहनुहुन्छ भने, तल इमेल ठेगाना प्रविष्ट गर्नुहोस्, हामी आवश्यक निर्देशनहरू पठाउनेछौं।",
+              "PLACEHOLDER": "उनीहरूको इमेल प्रविष्ट गर्नुहोस्",
+              "ERROR": "मान्य इमेल ठेगाना प्रविष्ट गर्नुहोस्",
+              "SEND_BUTTON": "पठाउनुहोस्"
             }
           }
         },
         "DELETE_PORTAL": {
-          "BUTTON": "Delete {portalName}",
-          "HEADER": "Delete portal",
-          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "BUTTON": "{portalName} मेटाउनुहोस्",
+          "HEADER": "पोर्टल मेटाउनुहोस्",
+          "DESCRIPTION": "यो पोर्टल स्थायी रूपमा मेटाउनुहोस्। यो क्रिया अपरिवर्तनीय छ",
           "DIALOG": {
-            "HEADER": "Sure you want to delete {portalName}?",
-            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
-            "CONFIRM_BUTTON_LABEL": "Delete"
+            "HEADER": "पक्का हुनुहुन्छ कि {portalName} मेटाउन चाहनुहुन्छ?",
+            "DESCRIPTION": "यो स्थायी क्रिया हो जुन उल्टाउन सकिँदैन।",
+            "CONFIRM_BUTTON_LABEL": "मेटाउनुहोस्"
           }
         },
-        "EDIT_CONFIGURATION": "Edit configuration"
+        "EDIT_CONFIGURATION": "कन्फिगरेसन सम्पादन गर्नुहोस्"
       },
       "API": {
         "CREATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal created successfully",
-          "ERROR_MESSAGE": "Unable to create portal"
+          "SUCCESS_MESSAGE": "पोर्टल सफलतापूर्वक सिर्जना गरियो",
+          "ERROR_MESSAGE": "पोर्टल सिर्जना गर्न सकिएन"
         },
         "UPDATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal updated successfully",
-          "ERROR_MESSAGE": "Unable to update portal"
+          "SUCCESS_MESSAGE": "पोर्टल सफलतापूर्वक अपडेट गरियो",
+          "ERROR_MESSAGE": "पोर्टल अपडेट गर्न सकिएन"
         }
       }
     },
     "PDF_UPLOAD": {
-      "TITLE": "Upload PDF Document",
-      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
-      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
-      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "TITLE": "PDF दस्तावेज अपलोड गर्नुहोस्",
+      "DESCRIPTION": "AI प्रयोग गरेर FAQ स्वचालित रूपमा सिर्जना गर्न PDF दस्तावेज अपलोड गर्नुहोस्",
+      "DRAG_DROP_TEXT": "यहाँ तपाईंको PDF फाइल तान्नुहोस् वा चयन गर्न क्लिक गर्नुहोस्",
+      "SELECT_FILE": "PDF फाइल चयन गर्नुहोस्",
+      "ADDITIONAL_CONTEXT_LABEL": "थप सन्दर्भ (वैकल्पिक)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "FAQ सिर्जनाका लागि कुनै थप सन्दर्भ वा निर्देशनहरू प्रदान गर्नुहोस्...",
       "UPLOADING": "अपलोड गर्दै...",
-      "UPLOAD": "Upload & Process",
-      "CANCEL": "Cancel",
-      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
-      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
-      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+      "UPLOAD": "अपलोड र प्रक्रिया गर्नुहोस्",
+      "CANCEL": "रद्द गर्नुहोस्",
+      "ERROR_INVALID_TYPE": "कृपया मान्य PDF फाइल चयन गर्नुहोस्",
+      "ERROR_FILE_TOO_LARGE": "फाइलको आकार 512MB भन्दा कम हुनुपर्छ",
+      "ERROR_UPLOAD_FAILED": "PDF अपलोड गर्न असफल भयो। कृपया पुन: प्रयास गर्नुहोस्।"
     },
     "PDF_DOCUMENTS": {
-      "TITLE": "PDF Documents",
-      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
-      "UPLOAD_PDF": "Upload PDF",
-      "UPLOAD_FIRST_PDF": "Upload your first PDF",
-      "UPLOADED_BY": "Uploaded by",
-      "GENERATE_FAQS": "Generate FAQs",
-      "GENERATING": "Generating...",
-      "CONFIRM_DELETE": "Are you sure you want to delete {filename}?",
+      "TITLE": "PDF दस्तावेजहरू",
+      "DESCRIPTION": "अपलोड गरिएको PDF दस्तावेजहरू व्यवस्थापन गर्नुहोस् र तिनीहरूबाट FAQ सिर्जना गर्नुहोस्",
+      "UPLOAD_PDF": "PDF अपलोड गर्नुहोस्",
+      "UPLOAD_FIRST_PDF": "तपाईंको पहिलो PDF अपलोड गर्नुहोस्",
+      "UPLOADED_BY": "लेखक",
+      "GENERATE_FAQS": "FAQs सिर्जना गर्नुहोस्",
+      "GENERATING": "सिर्जना हुँदैछ...",
+      "CONFIRM_DELETE": "के तपाईं साँच्चै {filename} मेटाउन चाहनुहुन्छ?",
       "EMPTY_STATE": {
-        "TITLE": "No PDF documents yet",
-        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+        "TITLE": "अहिलेसम्म कुनै PDF कागजात छैन",
+        "DESCRIPTION": "AI प्रयोग गरेर FAQs स्वचालित रूपमा सिर्जना गर्न PDF कागजातहरू अपलोड गर्नुहोस्"
       },
       "STATUS": {
-        "UPLOADED": "Ready",
-        "PROCESSING": "Processing",
-        "PROCESSED": "Completed",
-        "FAILED": "Failed"
+        "UPLOADED": "तयार",
+        "PROCESSING": "प्रक्रिया हुँदैछ",
+        "PROCESSED": "पूरा भयो",
+        "FAILED": "असफल"
       }
     },
     "CONTENT_GENERATION": {
-      "TITLE": "Content Generation",
-      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
-      "UPLOAD_TITLE": "Upload PDF Document",
-      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "UPLOADING": "Processing document...",
-      "UPLOAD_SUCCESS": "Document processed successfully!",
-      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
-      "INVALID_FILE_TYPE": "Please select a valid PDF file",
-      "FILE_TOO_LARGE": "File size must be less than 512MB",
-      "GENERATED_CONTENT": "Generated FAQ Content",
-      "PUBLISH_SELECTED": "Publish Selected",
-      "PUBLISHING": "Publishing...",
-      "FROM_DOCUMENT": "From document",
-      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
-      "LOADING": "Loading generated content..."
+      "TITLE": "सामग्री सिर्जना",
+      "DESCRIPTION": "AI प्रयोग गरेर FAQ सामग्री स्वचालित रूपमा सिर्जना गर्न PDF कागजातहरू अपलोड गर्नुहोस्",
+      "UPLOAD_TITLE": "PDF कागजात अपलोड गर्नुहोस्",
+      "DRAG_DROP": "यहाँ तपाईंको PDF फाइल तान्नुहोस् वा चयन गर्न क्लिक गर्नुहोस्",
+      "SELECT_FILE": "PDF फाइल चयन गर्नुहोस्",
+      "UPLOADING": "कागजात प्रक्रिया हुँदैछ...",
+      "UPLOAD_SUCCESS": "कागजात सफलतापूर्वक प्रक्रिया भयो!",
+      "UPLOAD_ERROR": "कागजात अपलोड गर्न असफल भयो। कृपया फेरि प्रयास गर्नुहोस्।",
+      "INVALID_FILE_TYPE": "कृपया मान्य PDF फाइल चयन गर्नुहोस्",
+      "FILE_TOO_LARGE": "फाइलको आकार 512MB भन्दा कम हुनुपर्छ",
+      "GENERATED_CONTENT": "सिर्जना गरिएको FAQ सामग्री",
+      "PUBLISH_SELECTED": "चयनित प्रकाशित गर्नुहोस्",
+      "PUBLISHING": "प्रकाशन हुँदैछ...",
+      "FROM_DOCUMENT": "कागजातबाट",
+      "NO_CONTENT": "सिर्जना गरिएको सामग्री उपलब्ध छैन। सुरु गर्न PDF कागजात अपलोड गर्नुहोस्।",
+      "LOADING": "सिर्जना गरिएको सामग्री लोड हुँदैछ..."
     }
   }
 }

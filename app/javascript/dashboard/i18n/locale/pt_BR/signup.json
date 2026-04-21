@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Criar uma conta",
+    "GET_STARTED": "Comece a utilizar Chatwoot",
     "TITLE": "Registrar",
     "TESTIMONIAL_HEADER": "Tudo o que ele leva é um passo para avançar",
     "TESTIMONIAL_CONTENT": "Você está a um passo de engajar seus clientes, mantê-los e encontrar novos.",
@@ -28,11 +29,11 @@
       "PLACEHOLDER": "Senha",
       "ERROR": "A senha é muito curta.",
       "IS_INVALID_PASSWORD": "A senha deve conter pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial.",
-      "REQUIREMENTS_LENGTH": "At least 6 characters long",
-      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
-      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
-      "REQUIREMENTS_NUMBER": "At least one number",
-      "REQUIREMENTS_SPECIAL": "At least one special character"
+      "REQUIREMENTS_LENGTH": "Pelo menos 6 caracteres",
+      "REQUIREMENTS_UPPERCASE": "Pelo menos uma letra maiúscula",
+      "REQUIREMENTS_LOWERCASE": "Pelo menos uma letra minúscula",
+      "REQUIREMENTS_NUMBER": "Pelo menos um número",
+      "REQUIREMENTS_SPECIAL": "Pelo menos um caractere especial"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirmar senha",
@@ -40,10 +41,17 @@
       "ERROR": "As senhas não coincidem."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successful",
+      "SUCCESS_MESSAGE": "Cadastro Realizado Com Sucesso",
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
     },
     "SUBMIT": "Criar conta",
-    "HAVE_AN_ACCOUNT": "Já possui uma conta?"
+    "HAVE_AN_ACCOUNT": "Já possui uma conta?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Verifique sua caixa de entrada",
+      "DESCRIPTION": "Enviamos um link de verificação para {email}. Clique no link para verificar seu e-mail e começar.",
+      "RESEND": "Reenviar e-mail de verificação",
+      "RESEND_SUCCESS": "E-mail de verificação enviado. Por favor, verifique sua caixa de entrada.",
+      "RESEND_ERROR": "Não foi possível enviar o e-mail de verificação. Por favor, tente novamente."
+    }
   }
 }

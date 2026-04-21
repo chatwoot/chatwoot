@@ -7,14 +7,18 @@ describe V2::ReportBuilder do
   let_it_be(:label_2) { create(:label, title: 'Label_2', account: account) }
 
   describe '#timeseries' do
-    before do
+    # Use before_all to share expensive setup across all tests in this describe block
+    # This runs once instead of 21 times, dramatically speeding up the suite
+    before_all do
       travel_to(Time.zone.today) do
         user = create(:user, account: account)
         inbox = create(:inbox, account: account)
         create(:inbox_member, user: user, inbox: inbox)
 
         gravatar_url = 'https://www.gravatar.com'
+        favicon_url = 'https://www.google.com/s2/favicons'
         stub_request(:get, /#{gravatar_url}.*/).to_return(status: 404)
+        stub_request(:get, /#{Regexp.escape(favicon_url)}.*/).to_return(status: 404)
 
         perform_enqueued_jobs do
           10.times do

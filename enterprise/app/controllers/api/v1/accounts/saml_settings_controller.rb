@@ -1,4 +1,5 @@
 class Api::V1::Accounts::SamlSettingsController < Api::V1::Accounts::BaseController
+  before_action :check_saml_sso_enabled
   before_action :check_saml_feature_enabled
   before_action :check_authorization
   before_action :set_saml_settings
@@ -52,5 +53,11 @@ class Api::V1::Accounts::SamlSettingsController < Api::V1::Accounts::BaseControl
     return if Current.account.feature_enabled?('saml')
 
     render json: { error: I18n.t('errors.saml.feature_not_enabled') }, status: :forbidden
+  end
+
+  def check_saml_sso_enabled
+    return if GlobalConfigService.load('ENABLE_SAML_SSO_LOGIN', 'true').to_s == 'true'
+
+    render json: { error: I18n.t('errors.saml.sso_not_enabled') }, status: :forbidden
   end
 end

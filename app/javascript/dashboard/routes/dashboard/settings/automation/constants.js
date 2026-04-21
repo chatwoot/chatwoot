@@ -15,6 +15,12 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
+        key: 'private_note',
+        name: 'PRIVATE_NOTE',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
         key: 'content',
         name: 'MESSAGE_CONTAINS',
         inputType: 'comma_separated_plain_text',
@@ -85,6 +91,14 @@ export const AUTOMATIONS = {
         name: 'ASSIGN_TEAM',
       },
       {
+        key: 'remove_assigned_agent',
+        name: 'REMOVE_ASSIGNED_AGENT',
+      },
+      {
+        key: 'remove_assigned_team',
+        name: 'REMOVE_ASSIGNED_TEAM',
+      },
+      {
         key: 'add_label',
         name: 'ADD_LABEL',
       },
@@ -115,6 +129,10 @@ export const AUTOMATIONS = {
       {
         key: 'open_conversation',
         name: 'OPEN_CONVERSATION',
+      },
+      {
+        key: 'pending_conversation',
+        name: 'PENDING_CONVERSATION',
       },
       {
         key: 'resolve_conversation',
@@ -209,6 +227,14 @@ export const AUTOMATIONS = {
         name: 'ASSIGN_TEAM',
       },
       {
+        key: 'remove_assigned_agent',
+        name: 'REMOVE_ASSIGNED_AGENT',
+      },
+      {
+        key: 'remove_assigned_team',
+        name: 'REMOVE_ASSIGNED_TEAM',
+      },
+      {
         key: 'assign_agent',
         name: 'ASSIGN_AGENT',
       },
@@ -231,6 +257,10 @@ export const AUTOMATIONS = {
       {
         key: 'snooze_conversation',
         name: 'SNOOZE_CONVERSATION',
+      },
+      {
+        key: 'pending_conversation',
+        name: 'PENDING_CONVERSATION',
       },
       {
         key: 'resolve_conversation',
@@ -337,6 +367,14 @@ export const AUTOMATIONS = {
         name: 'ASSIGN_TEAM',
       },
       {
+        key: 'remove_assigned_agent',
+        name: 'REMOVE_ASSIGNED_AGENT',
+      },
+      {
+        key: 'remove_assigned_team',
+        name: 'REMOVE_ASSIGNED_TEAM',
+      },
+      {
         key: 'assign_agent',
         name: 'ASSIGN_AGENT',
       },
@@ -359,6 +397,10 @@ export const AUTOMATIONS = {
       {
         key: 'snooze_conversation',
         name: 'SNOOZE_CONVERSATION',
+      },
+      {
+        key: 'pending_conversation',
+        name: 'PENDING_CONVERSATION',
       },
       {
         key: 'resolve_conversation',
@@ -459,6 +501,14 @@ export const AUTOMATIONS = {
         name: 'ASSIGN_TEAM',
       },
       {
+        key: 'remove_assigned_agent',
+        name: 'REMOVE_ASSIGNED_AGENT',
+      },
+      {
+        key: 'remove_assigned_team',
+        name: 'REMOVE_ASSIGNED_TEAM',
+      },
+      {
         key: 'assign_agent',
         name: 'ASSIGN_AGENT',
       },
@@ -481,6 +531,10 @@ export const AUTOMATIONS = {
       {
         key: 'snooze_conversation',
         name: 'SNOOZE_CONVERSATION',
+      },
+      {
+        key: 'pending_conversation',
+        name: 'PENDING_CONVERSATION',
       },
       {
         key: 'send_webhook_event',
@@ -571,6 +625,14 @@ export const AUTOMATIONS = {
         name: 'ASSIGN_TEAM',
       },
       {
+        key: 'remove_assigned_agent',
+        name: 'REMOVE_ASSIGNED_AGENT',
+      },
+      {
+        key: 'remove_assigned_team',
+        name: 'REMOVE_ASSIGNED_TEAM',
+      },
+      {
         key: 'send_email_to_team',
         name: 'SEND_EMAIL_TO_TEAM',
       },
@@ -629,6 +691,16 @@ export const AUTOMATION_ACTION_TYPES = [
     inputType: 'search_select',
   },
   {
+    key: 'remove_assigned_agent',
+    label: 'REMOVE_ASSIGNED_AGENT',
+    inputType: null,
+  },
+  {
+    key: 'remove_assigned_team',
+    label: 'REMOVE_ASSIGNED_TEAM',
+    inputType: null,
+  },
+  {
     key: 'add_label',
     label: 'ADD_LABEL',
     inputType: 'multi_select',
@@ -666,6 +738,11 @@ export const AUTOMATION_ACTION_TYPES = [
   {
     key: 'open_conversation',
     label: 'OPEN_CONVERSATION',
+    inputType: null,
+  },
+  {
+    key: 'pending_conversation',
+    label: 'PENDING_CONVERSATION',
     inputType: null,
   },
   {

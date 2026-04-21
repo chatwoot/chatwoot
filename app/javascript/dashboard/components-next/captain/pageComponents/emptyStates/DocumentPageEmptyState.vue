@@ -1,5 +1,6 @@
 <script setup>
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useBranding } from 'shared/composables/useBranding';
 import EmptyStateLayout from 'dashboard/components-next/EmptyStateLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCard.vue';
@@ -8,6 +9,8 @@ import { documentsList } from 'dashboard/components-next/captain/pageComponents/
 
 const emit = defineEmits(['click']);
 const { isOnChatwootCloud } = useAccount();
+
+const { replaceInstallationName } = useBranding();
 
 const onClick = () => {
   emit('click');
@@ -35,7 +38,7 @@ const onClick = () => {
           v-for="(document, index) in documentsList.slice(0, 5)"
           :id="document.id"
           :key="`document-${index}`"
-          :name="document.name"
+          :name="replaceInstallationName(document.name)"
           :assistant="document.assistant"
           :external-link="document.external_link"
           :created-at="document.created_at"

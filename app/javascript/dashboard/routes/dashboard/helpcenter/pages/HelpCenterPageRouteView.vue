@@ -67,7 +67,7 @@ watch(
   <div class="flex w-full h-full min-h-0">
     <section
       v-if="isHelpCenterEnabled"
-      class="flex flex-1 h-full px-0 overflow-hidden bg-n-background"
+      class="flex flex-1 h-full px-0 overflow-hidden bg-n-surface-1"
     >
       <router-view />
     </section>

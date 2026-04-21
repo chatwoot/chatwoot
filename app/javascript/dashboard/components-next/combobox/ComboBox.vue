@@ -56,8 +56,13 @@ const selectedLabel = computed(() => {
 });
 
 const selectOption = option => {
-  selectedValue.value = option.value;
-  emit('update:modelValue', option.value);
+  if (selectedValue.value === option.value) {
+    selectedValue.value = '';
+    emit('update:modelValue', '');
+  } else {
+    selectedValue.value = option.value;
+    emit('update:modelValue', option.value);
+  }
   open.value = false;
   search.value = '';
 };
@@ -96,6 +101,7 @@ watch(
         :label="selectedLabel"
         trailing-icon
         :disabled="disabled"
+        no-animation
         class="justify-between w-full !px-3 !py-2.5 text-n-slate-12 font-normal group-hover/combobox:border-n-slate-6 focus:outline-n-brand"
         :class="{
           focused: open,

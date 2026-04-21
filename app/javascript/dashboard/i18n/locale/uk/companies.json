@@ -1,0 +1,33 @@
+{
+  "COMPANIES": {
+    "HEADER": "Компанії",
+    "SORT_BY": {
+      "LABEL": "Сортувати за",
+      "OPTIONS": {
+        "NAME": "Ім'я",
+        "DOMAIN": "Домен",
+        "CREATED_AT": "Створений в",
+        "CONTACTS_COUNT": "Кількість контактів"
+      }
+    },
+    "ORDER": {
+      "LABEL": "Порядок",
+      "OPTIONS": {
+        "ASCENDING": "За зростанням",
+        "DESCENDING": "За спаданням"
+      }
+    },
+    "SEARCH_PLACEHOLDER": "Пошук компаній...",
+    "LOADING": "Завантаження компаній...",
+    "UNNAMED": "Компанія без назви",
+    "CONTACTS_COUNT": "{n} контакт | {n} контактів",
+    "EMPTY_STATE": {
+      "TITLE": "Не знайдено жодної компанії"
+    }
+  },
+  "COMPANIES_LAYOUT": {
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Показати {startItem} – {endItem} з {totalItems} компаній | Показати {startItem} – {endItem} з {totalItems} компаній"
+    }
+  }
+}

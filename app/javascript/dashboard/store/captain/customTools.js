@@ -1,5 +1,5 @@
 import CaptainCustomTools from 'dashboard/api/captain/customTools';
-import { createStore } from './storeFactory';
+import { createStore } from '../storeFactory';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 
 export default createStore({

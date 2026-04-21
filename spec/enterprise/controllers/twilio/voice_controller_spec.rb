@@ -18,36 +18,94 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
     let(:from_number) { '+15550003333' }
     let(:to_number) { channel.phone_number }
 
-    it 'invokes Voice::InboundCallBuilder with expected params and renders its TwiML' do
-      builder_double = instance_double(Voice::InboundCallBuilder)
-      expect(Voice::InboundCallBuilder).to receive(:new).with(
-        hash_including(
-          account: account,
-          inbox: inbox,
-          from_number: from_number,
-          to_number: to_number,
-          call_sid: call_sid
-        )
-      ).and_return(builder_double)
-      expect(builder_double).to receive(:perform).and_return(builder_double)
-      expect(builder_double).to receive(:twiml_response).and_return('<Response/>')
+    it 'invokes Voice::InboundCallBuilder for inbound calls and renders conference TwiML' do
+      instance_double(Voice::InboundCallBuilder)
+      conversation = create(:conversation, account: account, inbox: inbox)
+
+      expect(Voice::InboundCallBuilder).to receive(:perform!).with(
+        account: account,
+        inbox: inbox,
+        from_number: from_number,
+        call_sid: call_sid
+      ).and_return(conversation)
 
       post "/twilio/voice/call/#{digits}", params: {
         'CallSid' => call_sid,
         'From' => from_number,
-        'To' => to_number
+        'To' => to_number,
+        'Direction' => 'inbound'
       }
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to eq('<Response/>')
+      expect(response.body).to include('<Response>')
+      expect(response.body).to include('<Dial>')
+    end
+
+    it 'syncs an existing outbound conversation when Twilio sends the PSTN leg' do
+      conversation = create(:conversation, account: account, inbox: inbox, identifier: call_sid)
+      sync_double = instance_double(Voice::CallSessionSyncService, perform: conversation)
+
+      expect(Voice::CallSessionSyncService).to receive(:new).with(
+        hash_including(
+          conversation: conversation,
+          call_sid: call_sid,
+          message_call_sid: conversation.identifier,
+          leg: {
+            from_number: from_number,
+            to_number: to_number,
+            direction: 'outbound'
+          }
+        )
+      ).and_return(sync_double)
+
+      post "/twilio/voice/call/#{digits}", params: {
+        'CallSid' => call_sid,
+        'From' => from_number,
+        'To' => to_number,
+        'Direction' => 'outbound-api'
+      }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('<Response>')
+    end
+
+    it 'uses the parent call SID when syncing outbound-dial legs' do
+      parent_sid = 'CA_parent'
+      child_sid = 'CA_child'
+      conversation = create(:conversation, account: account, inbox: inbox, identifier: parent_sid)
+      sync_double = instance_double(Voice::CallSessionSyncService, perform: conversation)
+
+      expect(Voice::CallSessionSyncService).to receive(:new).with(
+        hash_including(
+          conversation: conversation,
+          call_sid: child_sid,
+          message_call_sid: parent_sid,
+          leg: {
+            from_number: from_number,
+            to_number: to_number,
+            direction: 'outbound'
+          }
+        )
+      ).and_return(sync_double)
+
+      post "/twilio/voice/call/#{digits}", params: {
+        'CallSid' => child_sid,
+        'ParentCallSid' => parent_sid,
+        'From' => from_number,
+        'To' => to_number,
+        'Direction' => 'outbound-dial'
+      }
+
+      expect(response).to have_http_status(:ok)
     end
 
     it 'raises not found when inbox is not present' do
-      expect(Voice::InboundCallBuilder).not_to receive(:new)
+      expect(Voice::InboundCallBuilder).not_to receive(:perform!)
       post '/twilio/voice/call/19998887777', params: {
         'CallSid' => call_sid,
         'From' => from_number,
-        'To' => to_number
+        'To' => to_number,
+        'Direction' => 'inbound'
       }
       expect(response).to have_http_status(:not_found)
     end
@@ -62,7 +120,8 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         hash_including(
           account: account,
           call_sid: call_sid,
-          call_status: 'completed'
+          call_status: 'completed',
+          payload: hash_including('CallSid' => call_sid, 'CallStatus' => 'completed')
         )
       ).and_return(service_double)
       expect(service_double).to receive(:perform)
