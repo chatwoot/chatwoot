@@ -1,11 +1,15 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
+import { useI18n } from 'vue-i18n';
 
 import MessageStatus from './MessageStatus.vue';
+import MessageEditHistory from './MessageEditHistory.vue';
 import Icon from 'next/icon/Icon.vue';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { useMessageContext } from './provider.js';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 import { MESSAGE_STATUS, MESSAGE_TYPES } from './constants';
 
@@ -24,13 +28,20 @@ const {
 } = useInbox();
 
 const {
+  id,
   status,
   isPrivate,
   createdAt,
   sourceId,
   messageType,
+  content,
   contentAttributes,
+  shouldGroupWithNext,
 } = useMessageContext();
+
+const { t } = useI18n();
+
+const editHistoryRef = ref(null);
 
 const readableTime = computed(() =>
   messageTimestamp(createdAt.value, 'LLL d, h:mm a')
@@ -129,15 +140,78 @@ const statusToShow = computed(() => {
 
   return MESSAGE_STATUS.PROGRESS;
 });
+
+const isEditableChannel = computed(
+  () => isATelegramChannel.value || isAnInstagramChannel.value
+);
+
+const previousContents = computed(
+  () => contentAttributes.value?.previousContents || []
+);
+
+const showEditedIndicator = computed(() => {
+  if (!isEditableChannel.value) return false;
+  if (contentAttributes.value?.deleted) return false;
+  return previousContents.value.length > 0;
+});
+
+const latestEditedAt = computed(() => {
+  if (!showEditedIndicator.value) return null;
+  const last = previousContents.value[previousContents.value.length - 1];
+  return last?.editedAt ?? null;
+});
+
+const showMeta = computed(
+  () =>
+    !shouldGroupWithNext.value ||
+    isPrivate.value ||
+    showEditedIndicator.value ||
+    showStatusIndicator.value
+);
+
+const openEditHistory = () => {
+  editHistoryRef.value?.open();
+};
+
+const handleOpenEditHistoryEvent = ({ messageId } = {}) => {
+  if (!showEditedIndicator.value) return;
+  if (messageId !== id.value) return;
+  openEditHistory();
+};
+
+onMounted(() => {
+  emitter.on(BUS_EVENTS.OPEN_MESSAGE_EDIT_HISTORY, handleOpenEditHistoryEvent);
+});
+
+onBeforeUnmount(() => {
+  emitter.off(BUS_EVENTS.OPEN_MESSAGE_EDIT_HISTORY, handleOpenEditHistoryEvent);
+});
 </script>
 
 <template>
-  <div class="text-xs flex items-center gap-1.5">
-    <div class="inline">
+  <div v-if="showMeta" class="text-xs flex items-center gap-1.5">
+    <div v-if="!shouldGroupWithNext" class="inline">
       <time class="inline">{{ readableTime }}</time>
     </div>
     <Icon v-if="isPrivate" icon="i-lucide-lock-keyhole" class="size-3" />
+    <button
+      v-if="showEditedIndicator"
+      v-tooltip.top="t('CONVERSATION.EDIT_HISTORY.EDITED_TOOLTIP')"
+      type="button"
+      class="inline-flex items-center gap-0.5 text-n-slate-11 hover:text-n-slate-12 cursor-pointer focus:outline-none"
+      :aria-label="t('CONVERSATION.EDIT_HISTORY.EDITED')"
+      @click="openEditHistory"
+    >
+      <Icon icon="i-lucide-pencil" class="size-3" />
+      <span>{{ t('CONVERSATION.EDIT_HISTORY.EDITED') }}</span>
+    </button>
     <MessageStatus v-if="showStatusIndicator" :status="statusToShow" />
+    <MessageEditHistory
+      v-if="showEditedIndicator"
+      ref="editHistoryRef"
+      :current-content="content"
+      :current-edited-at="latestEditedAt"
+      :previous-contents="previousContents"
+    />
   </div>
 </template>
-`

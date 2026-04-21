@@ -110,7 +110,8 @@ class Message < ApplicationRecord
   # [:data] : Used for structured content types such as voice_call
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations, :in_reply_to_external_id, :is_unsupported, :data], coder: JSON
+                                         :translations, :in_reply_to_external_id, :is_unsupported, :data,
+                                         :previous_contents], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
