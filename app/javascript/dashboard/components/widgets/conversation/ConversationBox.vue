@@ -91,9 +91,9 @@ export default {
 
 <template>
   <div
-    class="conversation-details-wrap flex flex-col min-w-0 w-full bg-n-surface-1 relative"
+    class="conversation-details-wrap flex flex-col min-w-0 w-full bg-s-surface relative"
     :class="{
-      'border-l rtl:border-l-0 rtl:border-r border-n-weak': !isOnExpandedLayout,
+      'border-l rtl:border-l-0 rtl:border-r border-s-border': !isOnExpandedLayout,
     }"
   >
     <ConversationHeader
