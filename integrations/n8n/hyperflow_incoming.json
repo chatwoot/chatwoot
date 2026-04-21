@@ -3,7 +3,8 @@
   "nodes": [
     {
       "parameters": {
-        "event": "message.received"
+        "events": ["message"],
+        "additionalFields": {}
       },
       "id": "2b000000-0000-0000-0000-000000000001",
       "name": "Hyperflow Trigger",
@@ -11,16 +12,16 @@
       "typeVersion": 1,
       "position": [260, 300],
       "credentials": {
-        "hyperflowWhatsAppApi": {
-          "id": "REPLACE_WITH_HYPERFLOW_CREDENTIAL_ID",
+        "hyperflowWhatsAppAccount": {
+          "id": "REPLACE_WITH_HYPERFLOW_ACCOUNT_CREDENTIAL_ID",
           "name": "Hyperflow (prod)"
         }
       },
-      "notes": "Gera a URL que você cola no painel da Hyperflow como Webhook URL para esse número. Ajuste o campo 'event' se quiser escutar também status, button, list ou flow response."
+      "notes": "Ao salvar o workflow pela primeira vez, o N8N gera a URL pública do webhook deste nó. Cole essa URL no painel da Hyperflow como 'Webhook URL' do número WhatsApp. Eventos possíveis além de 'message': 'status', 'button', 'list', 'flow'. Resposta 200 é automática — NÃO adicione nó 'Respond to Webhook'."
     },
     {
       "parameters": {
-        "jsCode": "// Normaliza o payload vindo do nó Hyperflow para o formato Meta Cloud API\n// que o Synapse OS (Chatwoot) espera em /webhooks/hyperflow/:phone_number.\n//\n// Shape de saída (mesma envelope que Whatsapp::IncomingMessageBaseService parseia):\n// {\n//   object: 'whatsapp_business_account',\n//   entry: [{ changes: [{ field: 'messages', value: { messaging_product, metadata, contacts, messages } }] }]\n// }\n//\n// AJUSTE_AQUI: os nomes de campo do payload Hyperflow real podem diferir.\n// Consulte Hyperflow > Painel > Webhook > 'Exemplo de evento' e troque as\n// referências abaixo conforme necessário.\n\nconst results = [];\nfor (const item of $input.all()) {\n  const h = item.json;\n\n  // Identificação do número Synapse OS (precisa bater com Channel::Whatsapp#phone_number).\n  // A Hyperflow pode entregar o número destino em h.to, h.phone ou h.business_phone.\n  const phoneNumber = h.to || h.phone || h.business_phone || h.channel?.phone_number;\n\n  // Contato remetente.\n  const from = h.from || h.sender?.phone || h.contact?.phone;\n  const name = h.sender?.name || h.contact?.name || h.profile?.name || '';\n\n  // Tipo e corpo da mensagem.\n  const type = h.type || h.message?.type || 'text';\n  const text = h.text || h.message?.text?.body || h.message?.text || '';\n  const mediaUrl = h.media?.url || h.message?.media?.url || h.attachment?.url;\n  const mediaId = h.media?.id || h.message?.media?.id || h.attachment?.id;\n\n  const messageObj = {\n    from: from,\n    id: h.message_id || h.id || String(Date.now()),\n    timestamp: String(Math.floor(new Date(h.timestamp || Date.now()).getTime() / 1000)),\n    type: type,\n  };\n\n  if (type === 'text') {\n    messageObj.text = { body: text };\n  } else if (['image', 'audio', 'video', 'document'].includes(type)) {\n    messageObj[type] = {\n      id: mediaId,\n      url: mediaUrl,\n      mime_type: h.media?.mime_type || h.message?.media?.mime_type,\n      caption: h.message?.caption || h.caption || '',\n    };\n  } else {\n    messageObj[type] = h.message || {};\n  }\n\n  results.push({\n    json: {\n      _phone_number: phoneNumber,\n      body: {\n        object: 'whatsapp_business_account',\n        entry: [{\n          id: h.account_id || h.business_id || 'unknown',\n          changes: [{\n            field: 'messages',\n            value: {\n              messaging_product: 'whatsapp',\n              metadata: {\n                display_phone_number: phoneNumber,\n                phone_number_id: phoneNumber,\n              },\n              contacts: [{ wa_id: from, profile: { name: name } }],\n              messages: [messageObj],\n            },\n          }],\n        }],\n      },\n    },\n  });\n}\nreturn results;\n"
+        "jsCode": "// Converte o payload Hyperflow em envelope Meta Cloud API,\n// que é o formato que o Chatwoot já parseia nativamente via\n// Whatsapp::IncomingMessageHyperflowService (herda do parser Cloud).\n//\n// AJUSTE_AQUI: os nomes exatos de campo do payload Hyperflow podem mudar.\n// Ao receber a primeira mensagem real, abra o 'Executions' deste workflow\n// e compare com os paths abaixo. Troque onde diferente.\n\nconst results = [];\nfor (const item of $input.all()) {\n  const h = item.json;\n\n  // Número Synapse OS (deve bater com Channel::Whatsapp#phone_number).\n  const phoneNumber = h.to\n    || h.phone\n    || h.business_phone\n    || h.channel?.phone_number\n    || h.destination_phone_number;\n\n  // Remetente.\n  const from = h.from\n    || h.sender?.phone\n    || h.contact?.phone\n    || h.wa_id;\n  const name = h.sender?.name\n    || h.contact?.name\n    || h.profile?.name\n    || '';\n\n  // Tipo e conteúdo.\n  const hyperflowType = h.type || h.message?.type || 'text';\n  // Hyperflow usa 'file' pra documento; Meta Cloud usa 'document'.\n  const typeMapBack = { file: 'document' };\n  const metaType = typeMapBack[hyperflowType] || hyperflowType;\n\n  const text = h.text\n    || h.message?.text?.body\n    || h.message?.text\n    || h.payload?.text\n    || '';\n  const mediaUrl = h.media?.url\n    || h.message?.media?.url\n    || h.attachment?.url\n    || h.payload?.url;\n  const mediaId = h.media?.id\n    || h.message?.media?.id\n    || h.attachment?.id\n    || '';\n  const caption = h.message?.caption\n    || h.caption\n    || h.payload?.caption\n    || '';\n\n  const messageObj = {\n    from: from,\n    id: h.message_id || h.id || String(Date.now()),\n    timestamp: String(Math.floor(new Date(h.timestamp || Date.now()).getTime() / 1000)),\n    type: metaType\n  };\n\n  if (metaType === 'text') {\n    messageObj.text = { body: text };\n  } else if (['image', 'audio', 'video', 'document', 'sticker'].includes(metaType)) {\n    messageObj[metaType] = {\n      id: mediaId,\n      url: mediaUrl,\n      mime_type: h.media?.mime_type || h.message?.media?.mime_type || '',\n      caption: caption\n    };\n  } else if (metaType === 'location') {\n    messageObj.location = h.message?.location || h.payload || {};\n  } else if (metaType === 'contact' || metaType === 'contacts') {\n    messageObj.contacts = h.message?.contacts || h.payload?.contacts || [];\n  } else {\n    messageObj[metaType] = h.message || h.payload || {};\n  }\n\n  results.push({\n    json: {\n      _phone_number: phoneNumber,\n      body: {\n        object: 'whatsapp_business_account',\n        entry: [{\n          id: h.account_id || h.business_id || 'unknown',\n          changes: [{\n            field: 'messages',\n            value: {\n              messaging_product: 'whatsapp',\n              metadata: {\n                display_phone_number: phoneNumber,\n                phone_number_id: phoneNumber\n              },\n              contacts: [{ wa_id: from, profile: { name: name } }],\n              messages: [messageObj]\n            }\n          }]\n        }]\n      }\n    }\n  });\n}\nreturn results;\n"
       },
       "id": "2b000000-0000-0000-0000-000000000002",
       "name": "Normalize → Meta Cloud API format",
@@ -43,7 +44,12 @@
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify($json.body) }}",
         "options": {
-          "timeout": 30000
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
         }
       },
       "id": "2b000000-0000-0000-0000-000000000003",
