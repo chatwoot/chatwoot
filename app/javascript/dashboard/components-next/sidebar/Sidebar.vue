@@ -233,13 +233,25 @@ const menuItems = computed(() => {
         count: 'notifications/getUnreadCount',
       },
     },
-    // CUSTOMIZAÇÃO_SYNAPSEOS: dashboard exclusivo de agentes ao vivo
+    // CUSTOMIZAÇÃO_SYNAPSEOS: agrupador "Synapse OS" com Dashboard executivo + Live Agents
     {
-      name: 'SynapseOS Live Agents',
-      label: t('SIDEBAR.SYNAPSEOS_LIVE_AGENTS'),
-      icon: 'i-lucide-activity',
-      to: accountScopedRoute('synapseos_live_agents'),
-      activeOn: ['synapseos_live_agents'],
+      name: 'SynapseOS',
+      label: t('SIDEBAR.SYNAPSEOS_GROUP'),
+      icon: 'i-lucide-radar',
+      children: [
+        {
+          name: 'SynapseOS Dashboard',
+          label: t('SIDEBAR.SYNAPSEOS_DASHBOARD'),
+          to: accountScopedRoute('synapseos_dashboard'),
+          activeOn: ['synapseos_dashboard'],
+        },
+        {
+          name: 'SynapseOS Live Agents',
+          label: t('SIDEBAR.SYNAPSEOS_LIVE_AGENTS'),
+          to: accountScopedRoute('synapseos_live_agents'),
+          activeOn: ['synapseos_live_agents'],
+        },
+      ],
     },
     {
       name: 'Conversation',

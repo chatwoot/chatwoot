@@ -3,16 +3,52 @@
     "LIVE_AGENTS": {
       "TITLE": "Live Agents",
       "SUBTITLE": "Real-time view of agent activity and workload",
+      "SEARCH_PLACEHOLDER": "Search by name or email…",
+      "REFRESH_HINT": "Auto-refreshing every 15s",
       "COL_NAME": "Agent",
       "COL_STATUS": "Status",
       "COL_OPEN": "Open conversations",
       "COL_TODAY": "Handled today",
       "COL_FIRST_RESPONSE": "Avg. first response (today)",
       "COL_ROLE": "Role",
+      "SUMMARY": {
+        "TOTAL": "Total agents",
+        "ONLINE": "Online",
+        "BUSY": "Busy",
+        "OFFLINE": "Offline",
+        "OPEN": "Open now",
+        "HANDLED_TODAY": "Handled today"
+      },
       "STATUS": {
         "ONLINE": "Online",
         "OFFLINE": "Offline",
         "BUSY": "Busy"
+      }
+    },
+    "DASHBOARD": {
+      "TITLE": "Synapse OS Dashboard",
+      "SUBTITLE": "Operational and revenue KPIs over the last {days} days",
+      "LOADING": "Loading metrics…",
+      "NO_DATA": "No data for the selected period yet.",
+      "KPI": {
+        "LEADS": "Leads",
+        "DEALS_WON": "Deals won",
+        "DEALS_LOST": "Deals lost",
+        "REVENUE": "Revenue",
+        "MESSAGES_RECEIVED": "Messages in",
+        "MESSAGES_SENT": "Messages out",
+        "BOT_TAKEOVERS": "Bot → human takeovers",
+        "HUMAN_RESCUES": "Human → bot rescues",
+        "AI_RESPONSES": "AI responses",
+        "APPOINTMENTS": "Appointments",
+        "CONVERSION_RATE": "Conversion rate"
+      },
+      "CHART": {
+        "TITLE": "Daily activity",
+        "MESSAGES_RECEIVED": "Messages received",
+        "MESSAGES_SENT": "Messages sent",
+        "AI_RESPONSES": "AI responses",
+        "BOT_TAKEOVERS": "Bot takeovers"
       }
     }
   }

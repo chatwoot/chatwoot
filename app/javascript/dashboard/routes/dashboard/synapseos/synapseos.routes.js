@@ -1,7 +1,16 @@
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
 import LiveAgentsPage from './pages/LiveAgentsPage.vue';
+import DashboardPage from './pages/DashboardPage.vue';
 
 export const routes = [
+  {
+    path: frontendURL('accounts/:accountId/synapseos/dashboard'),
+    name: 'synapseos_dashboard',
+    component: DashboardPage,
+    meta: {
+      permissions: ['administrator'],
+    },
+  },
   {
     path: frontendURL('accounts/:accountId/synapseos/live-agents'),
     name: 'synapseos_live_agents',
