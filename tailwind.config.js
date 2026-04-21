@@ -42,6 +42,18 @@ const tailwindConfig = {
         sans: defaultSansFonts,
         inter: ['Inter', ...defaultSansFonts],
         interDisplay: ['InterDisplay', ...defaultSansFonts],
+        // CUSTOMIZAÇÃO_SYNAPSEOS
+        synapse: ['Inter', ...defaultSansFonts],
+      },
+      boxShadow: {
+        // CUSTOMIZAÇÃO_SYNAPSEOS — duas camadas, sutis mas visíveis em retina
+        's-sm': 'var(--s-shadow-sm)',
+        's-md': 'var(--s-shadow-md)',
+        's-lg': 'var(--s-shadow-lg)',
+      },
+      ringColor: {
+        // CUSTOMIZAÇÃO_SYNAPSEOS — focus ring padrão
+        focus: 'rgb(var(--s-focus) / 0.3)',
       },
       fontWeight: {
         420: '420',

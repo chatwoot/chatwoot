@@ -1,0 +1,66 @@
+// CUSTOMIZAÇÃO_SYNAPSEOS
+// Canonical semantic design tokens — light mode.
+// Dark mode (Sprint 6) só redefine este mesmo bloco dentro de [data-theme='dark'].
+//
+// Regras:
+// - Toda cor usada em componente novo deve vir daqui, não de --slate-N / --blue-N.
+// - Tokens são rgb() stripped (3 numbers) pra composição com alpha via Tailwind.
+:root {
+  // Surfaces
+  --s-bg: 241 243 245;            // #F1F3F5 — app background
+  --s-surface: 255 255 255;       // #FFFFFF — cards
+  --s-surface-raised: 255 255 255;
+  --s-sidebar: 250 251 252;       // #FAFBFC — sidebar shell
+  --s-subtle: 248 250 252;        // #F8FAFC — hover row
+
+  // Borders (duas camadas discretas; sempre visíveis mas nunca pesadas)
+  --s-border: 226 232 240;        // #E2E8F0
+  --s-border-strong: 203 213 225; // #CBD5E1
+  --s-border-subtle: 241 245 249; // #F1F5F9
+
+  // Text (AA/AAA compliant em branco/F1F3F5)
+  --s-text-primary: 15 23 42;     // #0F172A
+  --s-text-secondary: 71 85 105;  // #475569
+  --s-text-muted: 100 116 139;    // #64748B — slate-500, passa AA (4.6:1 em branco)
+  --s-text-disabled: 148 163 184; // #94A3B8 — slate-400, só placeholder
+  --s-text-inverse: 255 255 255;
+
+  // Brand (Material Blue — #2196F3 fixo)
+  --s-brand: 33 150 243;          // ícones, linhas gráfico, accent borders
+  --s-brand-soft: 227 242 253;    // bg de chip/active state
+  --s-brand-soft-hover: 187 222 251;
+  --s-brand-cta: 30 136 229;      // CTA sólido (#1E88E5 Material 600)
+  --s-brand-cta-hover: 25 118 210;
+  --s-brand-cta-active: 21 101 192;
+  --s-brand-text: 25 118 210;     // texto sobre brand-soft
+
+  // Status
+  --s-success: 16 185 129;
+  --s-success-soft: 209 250 229;
+  --s-success-text: 4 120 87;
+  --s-warning: 245 158 11;
+  --s-warning-soft: 254 243 199;
+  --s-warning-text: 180 83 9;
+  --s-error: 239 68 68;
+  --s-error-soft: 254 226 226;
+  --s-error-text: 185 28 28;
+  --s-info: 33 150 243;
+  --s-info-soft: 227 242 253;
+
+  // Focus ring
+  --s-focus: 33 150 243;
+
+  // Shadows (duas camadas; sutis mas visíveis em retina)
+  --s-shadow-sm: 0 1px 2px 0 rgb(15 23 42 / 0.04);
+  --s-shadow-md:
+    0 1px 2px 0 rgb(15 23 42 / 0.04),
+    0 2px 8px 0 rgb(15 23 42 / 0.06);
+  --s-shadow-lg:
+    0 4px 12px 0 rgb(15 23 42 / 0.06),
+    0 12px 24px -6px rgb(15 23 42 / 0.08);
+
+  // Fonts
+  --s-font-sans:
+    'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, sans-serif;
+}

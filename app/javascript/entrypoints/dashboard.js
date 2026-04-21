@@ -32,7 +32,8 @@ import { vResizeObserver } from '@vueuse/components';
 import { directive as onClickaway } from 'vue3-click-away';
 
 import PrimeVue from 'primevue/config';
-import Aura from '@primevue/themes/aura';
+// CUSTOMIZAÇÃO_SYNAPSEOS
+import SynapseOSPreset from 'shared/primevue_preset';
 
 import 'floating-vue/dist/style.css';
 
@@ -94,7 +95,7 @@ app.use(FloatingVue, {
 });
 app.use(PrimeVue, {
   theme: {
-    preset: Aura,
+    preset: SynapseOSPreset,
     options: {
       prefix: 'p',
       darkModeSelector: '.dark',
