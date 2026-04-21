@@ -31,6 +31,15 @@
         &middot; <%= @user.email %>
         &middot; ID <%= @user.id %>
       </p>
+      <% if @user.accounts.any? %>
+        <p class="text-xs text-slate-500 mt-1">
+          Accounts:
+          <% @user.accounts.each_with_index do |account, index| %>
+            <%= ', ' if index.positive? %>
+            <%= account.name %> (ID <%= account.id %>)
+          <% end %>
+        </p>
+      <% end %>
     </div>
 
     <div class="mb-8">
@@ -80,10 +89,10 @@
                   <% endpoint = attrs['endpoint'].to_s %>
                   <% host = (begin; URI.parse(endpoint).host; rescue URI::InvalidURIError; nil; end) %>
                   <% device_display = host.presence || endpoint.presence || '—' %>
-                  <% token_display = endpoint.present? ? "…#{endpoint.last(16)}" : '—' %>
+                  <% token_display = endpoint.present? ? "…#{endpoint.last(6)}" : '—' %>
                 <% else %>
-                  <% device_display = attrs['device_id'].present? ? "…#{attrs['device_id'].to_s.last(12)}" : '—' %>
-                  <% token_display = attrs['push_token'].present? ? "…#{attrs['push_token'].to_s.last(12)}" : '—' %>
+                  <% device_display = attrs['device_id'].present? ? "…#{attrs['device_id'].to_s.last(6)}" : '—' %>
+                  <% token_display = attrs['push_token'].present? ? "…#{attrs['push_token'].to_s.last(6)}" : '—' %>
                 <% end %>
                 <% extra_attrs = attrs.except('endpoint', 'p256dh', 'auth', 'push_token', 'device_id') %>
                 <tr class="border-t border-slate-100 align-middle">

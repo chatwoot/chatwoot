@@ -137,7 +137,7 @@ class Notification::PushTestService
     if subscription.browser_push?
       endpoint_host(attrs['endpoint'].to_s)
     else
-      attrs['device_id'].present? ? "…#{attrs['device_id'].to_s.last(12)}" : '—'
+      attrs['device_id'].present? ? "…#{attrs['device_id'].to_s.last(6)}" : '—'
     end
   end
 
@@ -152,9 +152,9 @@ class Notification::PushTestService
   def token_tail(subscription, attrs)
     if subscription.browser_push?
       endpoint = attrs['endpoint'].to_s
-      endpoint.present? ? "…#{endpoint.last(16)}" : '—'
+      endpoint.present? ? "…#{endpoint.last(6)}" : '—'
     else
-      attrs['push_token'].present? ? "…#{attrs['push_token'].to_s.last(12)}" : '—'
+      attrs['push_token'].present? ? "…#{attrs['push_token'].to_s.last(6)}" : '—'
     end
   end
 end
