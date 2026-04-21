@@ -31,6 +31,9 @@ import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
 import { vResizeObserver } from '@vueuse/components';
 import { directive as onClickaway } from 'vue3-click-away';
 
+import PrimeVue from 'primevue/config';
+import Aura from '@primevue/themes/aura';
+
 import 'floating-vue/dist/style.css';
 
 const i18n = createI18n({
@@ -88,6 +91,16 @@ app.use(FloatingVue, {
   instantMove: true,
   arrowOverflow: false,
   disposeTimeout: 5000000,
+});
+app.use(PrimeVue, {
+  theme: {
+    preset: Aura,
+    options: {
+      prefix: 'p',
+      darkModeSelector: '.dark',
+      cssLayer: { name: 'primevue', order: 'tailwind-base, primevue, tailwind-utilities' },
+    },
+  },
 });
 app.use(hljsVuePlugin);
 
