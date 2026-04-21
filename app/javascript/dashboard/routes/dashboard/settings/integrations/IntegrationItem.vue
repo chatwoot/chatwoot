@@ -50,17 +50,17 @@ const actionURL = computed(() =>
 
 <template>
   <div
-    class="flex flex-col flex-1 p-4 m-px outline outline-n-container outline-1 bg-n-card rounded-xl"
+    class="flex flex-col flex-1 p-4 m-px outline outline-n-container outline-1 bg-s-surface rounded-xl"
   >
     <div class="flex items-start justify-between">
       <div class="flex h-12 w-12 mb-2">
         <img
           :src="`/dashboard/images/integrations/${id}.png`"
-          class="max-w-full rounded-md border border-n-weak shadow-sm block dark:hidden bg-n-alpha-3 dark:bg-n-alpha-2"
+          class="max-w-full rounded-md border border-s-border shadow-sm block dark:hidden bg-s-subtle dark:bg-s-subtle"
         />
         <img
           :src="`/dashboard/images/integrations/${id}-dark.png`"
-          class="max-w-full rounded-md border border-n-weak shadow-sm hidden dark:block bg-n-alpha-3 dark:bg-n-alpha-2"
+          class="max-w-full rounded-md border border-s-border shadow-sm hidden dark:block bg-s-subtle dark:bg-s-subtle"
         />
       </div>
       <Label
@@ -71,9 +71,9 @@ const actionURL = computed(() =>
     </div>
     <div class="flex flex-col m-0 flex-1">
       <div
-        class="font-medium mb-2 text-n-slate-12 flex justify-between items-center"
+        class="font-medium mb-2 text-s-primary flex justify-between items-center"
       >
-        <span class="text-heading-3 text-n-slate-12">{{ name }}</span>
+        <span class="text-heading-3 text-s-primary">{{ name }}</span>
         <router-link :to="actionURL">
           <Button
             :label="$t('INTEGRATION_APPS.CONFIGURE')"
@@ -83,7 +83,7 @@ const actionURL = computed(() =>
           />
         </router-link>
       </div>
-      <p class="text-n-slate-11 text-body-main">
+      <p class="text-s-muted text-body-main">
         {{ replaceInstallationName(description) }}
       </p>
     </div>

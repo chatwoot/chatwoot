@@ -17,7 +17,7 @@ defineEmits(['edit', 'delete']);
     <template #default>
       <BaseTableCell>
         <span
-          class="text-body-main text-n-slate-12 truncate block"
+          class="text-body-main text-s-primary truncate block"
           :title="app.title"
         >
           {{ app.title }}
@@ -26,7 +26,7 @@ defineEmits(['edit', 'delete']);
 
       <BaseTableCell>
         <span
-          class="text-body-main text-n-slate-11 truncate block"
+          class="text-body-main text-s-muted truncate block"
           :title="app.content[0].url"
         >
           {{ app.content[0].url }}
@@ -51,7 +51,7 @@ defineEmits(['edit', 'delete']);
             icon="i-woot-bin"
             slate
             sm
-            class="hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-2"
+            class="hover:enabled:text-s-error-text hover:enabled:bg-s-error-soft"
             @click="$emit('delete', app)"
           />
         </div>

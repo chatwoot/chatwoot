@@ -158,11 +158,11 @@ export default {
     </SettingsToggleSection>
 
     <div v-if="isBusinessHoursEnabled" class="flex items-center my-8 py-1">
-      <div class="flex-1 h-px bg-n-weak" />
-      <span class="text-body-main text-n-slate-11 px-2">
+      <div class="flex-1 h-px bg-s-border" />
+      <span class="text-body-main text-s-muted px-2">
         {{ $t('INBOX_MGMT.BUSINESS_HOURS.WEEKLY_TITLE') }}
       </span>
-      <div class="flex-1 h-px bg-n-weak" />
+      <div class="flex-1 h-px bg-s-border" />
     </div>
 
     <SettingsFieldSection
@@ -173,7 +173,7 @@ export default {
         v-model="timeZoneValue"
         :options="timeZones"
         :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
-        class="[&>div>button]:!bg-n-alpha-black2"
+        class="[&>div>button]:!bg-s-primary/15"
       />
     </SettingsFieldSection>
 
@@ -184,25 +184,25 @@ export default {
             class="min-w-full table-auto outline outline-1 -outline-offset-1 outline-n-weak rounded-xl"
           >
             <thead>
-              <tr class="border-b border-n-weak">
+              <tr class="border-b border-s-border">
                 <th
-                  class="py-3 ltr:pl-4 ltr:pr-3 rtl:pl-3 rtl:pr-4 text-start text-heading-3 text-n-slate-12"
+                  class="py-3 ltr:pl-4 ltr:pr-3 rtl:pl-3 rtl:pr-4 text-start text-heading-3 text-s-primary"
                 >
                   {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.DAY') }}
                 </th>
                 <th
-                  class="py-3 ltr:pr-3 rtl:pl-3 text-start text-heading-3 text-n-slate-12"
+                  class="py-3 ltr:pr-3 rtl:pl-3 text-start text-heading-3 text-s-primary"
                 >
                   {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.AVAILABILITY') }}
                 </th>
                 <th
-                  class="py-3 ltr:pr-3 rtl:pl-3 text-start text-heading-3 text-n-slate-12"
+                  class="py-3 ltr:pr-3 rtl:pl-3 text-start text-heading-3 text-s-primary"
                 >
                   {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.HOURS') }}
                 </th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-n-weak">
+            <tbody class="divide-y divide-s-border">
               <BusinessDay
                 v-for="timeSlot in timeSlots"
                 :key="timeSlot.day"

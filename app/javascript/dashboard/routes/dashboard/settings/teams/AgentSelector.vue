@@ -116,14 +116,14 @@ const headers = computed(() => [
                 rounded-full
                 class="flex-shrink-0"
               />
-              <h4 class="text-heading-3 mb-0 text-n-slate-12 truncate">
+              <h4 class="text-heading-3 mb-0 text-s-primary truncate">
                 {{ agent.name }}
               </h4>
             </div>
           </BaseTableCell>
 
           <BaseTableCell class="min-w-0">
-            <span class="text-body-main text-n-slate-11 truncate block">
+            <span class="text-body-main text-s-muted truncate block">
               {{ agent.email || '---' }}
             </span>
           </BaseTableCell>
@@ -133,7 +133,7 @@ const headers = computed(() => [
   </BaseTable>
 
   <div class="flex items-center justify-between mt-4">
-    <p class="text-body-main text-n-slate-11">
+    <p class="text-body-main text-s-muted">
       {{
         $t('TEAMS_SETTINGS.AGENTS.SELECTED_COUNT', {
           selected: selectedAgents.length,

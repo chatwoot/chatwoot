@@ -146,7 +146,7 @@ const confirmDeletion = () => {
         feature-name="canned_responses"
       >
         <template v-if="records?.length" #count>
-          <span class="text-body-main text-n-slate-11">
+          <span class="text-body-main text-s-muted">
             {{ $t('CUSTOM_ROLE.COUNT', { n: records.length }) }}
           </span>
         </template>

@@ -22,24 +22,24 @@ const { replaceInstallationName } = useBranding();
 
 <template>
   <div
-    class="outline outline-n-container outline-1 bg-n-card rounded-xl flex-grow overflow-auto p-4"
+    class="outline outline-n-container outline-1 bg-s-surface rounded-xl flex-grow overflow-auto p-4"
   >
     <div class="flex items-center justify-center">
       <div class="flex h-16 w-16 items-center justify-center">
         <img
           :src="`/dashboard/images/integrations/${integrationId}.png`"
-          class="max-w-full rounded-md border border-n-weak shadow-sm block dark:hidden bg-n-alpha-3 dark:bg-n-alpha-2"
+          class="max-w-full rounded-md border border-s-border shadow-sm block dark:hidden bg-s-subtle dark:bg-s-subtle"
         />
         <img
           :src="`/dashboard/images/integrations/${integrationId}-dark.png`"
-          class="max-w-full rounded-md border border-n-weak shadow-sm hidden dark:block bg-n-alpha-3 dark:bg-n-alpha-2"
+          class="max-w-full rounded-md border border-s-border shadow-sm hidden dark:block bg-s-subtle dark:bg-s-subtle"
         />
       </div>
       <div class="flex flex-col justify-center m-0 mx-4 flex-1">
-        <h3 class="mb-1 text-heading-1 text-n-slate-12">
+        <h3 class="mb-1 text-heading-1 text-s-primary">
           {{ integration.name }}
         </h3>
-        <p class="text-n-slate-11 text-body-main">
+        <p class="text-s-muted text-body-main">
           {{ replaceInstallationName(integration.description) }}
         </p>
       </div>

@@ -42,19 +42,19 @@ const getRatingCount = value => {
 
 <template>
   <div
-    class="shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-5"
+    class="shadow outline-1 outline outline-n-container rounded-xl bg-s-subtle px-6 py-5"
   >
-    <span class="text-sm font-medium text-n-slate-11">
+    <span class="text-sm font-medium text-s-muted">
       {{ $t('CSAT_REPORTS.METRIC.RATING_DISTRIBUTION') }}
     </span>
 
     <div v-if="isLoading" class="mt-4">
-      <div class="h-6 w-full rounded-full bg-n-slate-3 animate-pulse" />
+      <div class="h-6 w-full rounded-full bg-s-subtle animate-pulse" />
       <div class="flex gap-6 mt-4">
         <div
           v-for="n in 5"
           :key="n"
-          class="h-4 w-20 rounded bg-n-slate-3 animate-pulse"
+          class="h-4 w-20 rounded bg-s-subtle animate-pulse"
         />
       </div>
     </div>
@@ -62,7 +62,7 @@ const getRatingCount = value => {
     <div v-else class="mt-4">
       <div
         v-if="totalResponseCount"
-        class="flex h-6 w-full rounded-full overflow-hidden bg-n-alpha-2"
+        class="flex h-6 w-full rounded-full overflow-hidden bg-s-subtle"
       >
         <div
           v-for="rating in sortedRatings"
@@ -77,7 +77,7 @@ const getRatingCount = value => {
           class="h-full transition-all duration-300 first:rounded-s-full last:rounded-e-full cursor-default"
         />
       </div>
-      <div v-else class="h-6 w-full rounded-full bg-n-alpha-2" />
+      <div v-else class="h-6 w-full rounded-full bg-s-subtle" />
 
       <div class="flex flex-wrap gap-x-6 gap-y-2 mt-4">
         <div
@@ -85,13 +85,13 @@ const getRatingCount = value => {
           :key="rating.value"
           class="flex items-center gap-2"
         >
-          <span class="text-sm text-n-slate-11">
+          <span class="text-sm text-s-muted">
             {{ getRatingLabel(rating.value) }}
           </span>
-          <span class="text-sm font-medium text-n-slate-12">
+          <span class="text-sm font-medium text-s-primary">
             {{ formatPercent(ratingPercentage[rating.value]) }}
           </span>
-          <span class="text-xs text-n-slate-10">
+          <span class="text-xs text-s-muted">
             ({{ getRatingCount(rating.value) }})
           </span>
         </div>

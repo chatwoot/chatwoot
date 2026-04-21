@@ -92,10 +92,10 @@ const handleManualLinkClick = () => {
   <div class="overflow-auto col-span-6 p-6 w-full h-full">
     <div v-if="showProviderSelection">
       <div class="mb-10 text-left">
-        <h1 class="mb-2 text-lg font-medium text-n-slate-12">
+        <h1 class="mb-2 text-lg font-medium text-s-primary">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.SELECT_PROVIDER.TITLE') }}
         </h1>
-        <p class="text-sm leading-relaxed text-n-slate-11">
+        <p class="text-sm leading-relaxed text-s-muted">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.SELECT_PROVIDER.DESCRIPTION') }}
         </p>
       </div>
@@ -113,7 +113,7 @@ const handleManualLinkClick = () => {
     </div>
 
     <div v-else-if="showConfiguration">
-      <div class="px-6 py-5 rounded-2xl border border-n-weak">
+      <div class="px-6 py-5 rounded-2xl border border-s-border">
         <!-- Show embedded signup if app ID is configured -->
         <div
           v-if="
@@ -123,16 +123,16 @@ const handleManualLinkClick = () => {
           <WhatsappEmbeddedSignup />
 
           <!-- Manual setup fallback option -->
-          <div class="pt-6 mt-6 border-t border-n-weak">
+          <div class="pt-6 mt-6 border-t border-s-border">
             <I18nT
               keypath="INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.MANUAL_FALLBACK"
               tag="p"
-              class="text-sm text-n-slate-11"
+              class="text-sm text-s-muted"
             >
               <template #link>
                 <a
                   href="#"
-                  class="underline text-n-brand"
+                  class="underline text-s-brand"
                   @click.prevent="handleManualLinkClick"
                 >
                   {{

@@ -117,7 +117,7 @@ export default {
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       >
         <template v-if="records?.length" #count>
-          <span class="text-body-main text-n-slate-11">
+          <span class="text-body-main text-s-muted">
             {{
               $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.COUNT', {
                 n: records.length,
@@ -137,7 +137,7 @@ export default {
     <template #body>
       <span
         v-if="!filteredRecords.length && searchQuery"
-        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
+        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-s-muted"
       >
         {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.NO_RESULTS') }}
       </span>

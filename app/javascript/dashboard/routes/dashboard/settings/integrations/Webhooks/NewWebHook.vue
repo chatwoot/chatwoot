@@ -50,7 +50,7 @@ const handleCopySecret = async () => {
         "
       />
       <div class="px-8 pb-6">
-        <p class="text-sm text-n-slate-11 mb-4">
+        <p class="text-sm text-s-muted mb-4">
           {{ t('INTEGRATION_SETTINGS.WEBHOOK.SECRET.CREATED_DESC') }}
         </p>
         <label>

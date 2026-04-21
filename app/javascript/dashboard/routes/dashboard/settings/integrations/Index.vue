@@ -50,7 +50,7 @@ onMounted(() => {
       <div class="flex-grow flex-shrink overflow-auto">
         <span
           v-if="!filteredIntegrationList.length && searchQuery"
-          class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
+          class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-s-muted"
         >
           {{ $t('INTEGRATION_SETTINGS.NO_RESULTS') }}
         </span>

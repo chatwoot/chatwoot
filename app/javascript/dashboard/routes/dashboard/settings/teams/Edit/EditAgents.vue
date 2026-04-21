@@ -127,7 +127,7 @@ export default {
           "
         />
         <div v-else class="flex items-center justify-center py-6">
-          <Spinner class="text-n-blue-11" />
+          <Spinner class="text-s-brand-text" />
         </div>
       </div>
     </form>

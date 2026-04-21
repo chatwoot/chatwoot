@@ -224,7 +224,7 @@ export default {
           </label>
           <div
             class="rounded-xl border px-3 py-2"
-            :class="isTagInputInvalid ? 'border-n-ruby-9' : 'border-n-weak'"
+            :class="isTagInputInvalid ? 'border-s-error' : 'border-s-border'"
           >
             <TagInput
               v-model="values"
@@ -237,7 +237,7 @@ export default {
           </div>
           <label
             v-show="isTagInputInvalid"
-            class="text-n-ruby-9 dark:text-n-ruby-9 text-sm font-normal mt-1"
+            class="text-s-error dark:text-s-error text-sm font-normal mt-1"
           >
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
           </label>

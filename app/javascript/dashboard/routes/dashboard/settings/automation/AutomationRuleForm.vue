@@ -133,7 +133,7 @@ const filterTypes = computed(() => {
         label: t(`FILTER.OPERATOR_LABELS.${op.value}`),
         hasInput: true,
         inputOverride: null,
-        icon: h('span', { class: 'i-ph-equals-bold !text-n-blue-11' }),
+        icon: h('span', { class: 'i-ph-equals-bold !text-s-brand-text' }),
       };
     });
 
@@ -288,7 +288,7 @@ defineExpose({ open, close });
         </label>
         <p
           v-if="!isEditMode && hasAutomationMutated"
-          class="text-xs text-right text-n-teal-10 pt-1"
+          class="text-xs text-right text-s-success pt-1"
         >
           {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
         </p>
@@ -302,7 +302,7 @@ defineExpose({ open, close });
           class="grid gap-4 list-none p-3 mb-4 outline outline-1 rounded-xl -outline-offset-1"
           :class="
             hasConditionErrors
-              ? 'outline-n-ruby-5 bg-n-ruby-2/50'
+              ? 'outline-n-ruby-5 bg-s-error-soft/50'
               : 'outline-n-weak dark:outline-n-strong'
           "
         >
@@ -353,7 +353,7 @@ defineExpose({ open, close });
           class="grid list-none p-3 mb-4 outline outline-1 rounded-xl -outline-offset-1 border-solid"
           :class="
             hasActionErrors
-              ? 'outline-n-ruby-5 bg-n-ruby-2/50'
+              ? 'outline-n-ruby-5 bg-s-error-soft/50'
               : 'outline-n-weak dark:outline-n-strong'
           "
         >

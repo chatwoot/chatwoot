@@ -194,11 +194,11 @@ onMounted(() => {
           v-if="shouldShowWhatsAppWebhookDetails"
           class="w-[50%] max-w-[50%] ml-[25%]"
         >
-          <p class="mt-8 font-medium text-n-slate-11">
+          <p class="mt-8 font-medium text-s-muted">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.WEBHOOK_URL') }}
           </p>
           <woot-code lang="html" :script="currentInbox.callback_webhook_url" />
-          <p class="mt-8 font-medium text-n-slate-11">
+          <p class="mt-8 font-medium text-s-muted">
             {{
               $t(
                 'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.WEBHOOK_VERIFICATION_TOKEN'
@@ -233,7 +233,7 @@ onMounted(() => {
           v-if="isAWhatsAppChannel && qrCodes.whatsapp"
           class="flex flex-col gap-3 items-center mt-8"
         >
-          <p class="mt-2 text-sm text-n-slate-9">
+          <p class="mt-2 text-sm text-s-disabled">
             {{ $t('INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION') }}
           </p>
           <div class="rounded-lg shadow outline-1 outline-n-strong outline">
@@ -248,7 +248,7 @@ onMounted(() => {
           v-if="isAFacebookInbox && qrCodes.messenger"
           class="flex flex-col gap-3 items-center mt-8"
         >
-          <p class="mt-2 text-sm text-n-slate-9">
+          <p class="mt-2 text-sm text-s-disabled">
             {{ $t('INBOX_MGMT.FINISH.MESSENGER_QR_INSTRUCTION') }}
           </p>
           <div class="rounded-lg shadow outline-1 outline-n-strong outline">
@@ -263,7 +263,7 @@ onMounted(() => {
           v-if="isATelegramChannel && qrCodes.telegram"
           class="flex flex-col gap-4 items-center mt-8"
         >
-          <p class="mt-2 text-sm text-n-slate-9">
+          <p class="mt-2 text-sm text-s-disabled">
             {{ $t('INBOX_MGMT.FINISH.TELEGRAM_QR_INSTRUCTION') }}
           </p>
 

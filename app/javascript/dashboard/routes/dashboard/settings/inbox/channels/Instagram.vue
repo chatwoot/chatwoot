@@ -61,7 +61,7 @@ const requestAuthorization = async () => {
         <h6 class="text-2xl font-medium">
           {{ $t('INBOX_MGMT.ADD.INSTAGRAM.CONNECT_YOUR_INSTAGRAM_PROFILE') }}
         </h6>
-        <p class="py-6 text-sm text-n-slate-11">
+        <p class="py-6 text-sm text-s-muted">
           {{ $t('INBOX_MGMT.ADD.INSTAGRAM.HELP') }}
         </p>
         <Button

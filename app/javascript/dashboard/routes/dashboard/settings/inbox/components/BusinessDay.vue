@@ -158,7 +158,7 @@ export default {
           type="checkbox"
           :title="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.ENABLE')"
         />
-        <span class="text-body-main text-n-slate-12 font-medium">
+        <span class="text-body-main text-s-primary font-medium">
           {{ dayName }}
         </span>
       </div>
@@ -174,7 +174,7 @@ export default {
               type="checkbox"
               :title="$t('INBOX_MGMT.BUSINESS_HOURS.ALL_DAY')"
             />
-            <span class="text-body-main text-n-slate-12">{{
+            <span class="text-body-main text-s-primary">{{
               $t('INBOX_MGMT.BUSINESS_HOURS.ALL_DAY')
             }}</span>
           </div>
@@ -194,18 +194,18 @@ export default {
             :disabled="isOpenAllDay"
           />
         </div>
-        <span v-if="hasError" class="error text-label-small text-n-ruby-9">
+        <span v-if="hasError" class="error text-label-small text-s-error">
           {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.VALIDATION_ERROR') }}
         </span>
       </div>
-      <span v-else class="text-body-main text-n-slate-11">
+      <span v-else class="text-body-main text-s-muted">
         {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.UNAVAILABLE') }}
       </span>
     </td>
     <td class="py-3 ltr:pr-3 rtl:pl-3">
       <span
         v-if="isDayEnabled && !hasError"
-        class="label bg-n-blue-3 text-n-blue-11 text-label-small inline-block px-2 py-1 rounded-lg cursor-default whitespace-nowrap"
+        class="label bg-s-brand-soft text-s-brand-text text-label-small inline-block px-2 py-1 rounded-lg cursor-default whitespace-nowrap"
       >
         {{ totalHours }}
       </span>

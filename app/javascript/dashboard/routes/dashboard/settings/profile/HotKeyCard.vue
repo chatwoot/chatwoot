@@ -25,24 +25,24 @@ defineProps({
 
 <template>
   <button
-    class="flex flex-col gap-4 w-full h-fit p-4 rounded-md border border-n-weak dark:border-n-weak"
+    class="flex flex-col gap-4 w-full h-fit p-4 rounded-md border border-s-border dark:border-s-border"
     :class="{
-      'border-n-brand ': active,
+      'border-s-brand ': active,
     }"
   >
     <div class="flex flex-col gap-2 items-center w-full rounded-t-[5px]">
       <div class="grid grid-cols-[1fr_auto] items-center w-full gap-1">
-        <div class="overflow-hidden text-heading-2 text-n-slate-12 text-start">
+        <div class="overflow-hidden text-heading-2 text-s-primary text-start">
           <span class="block truncate">{{ title }}</span>
         </div>
         <input
           :checked="active"
           type="radio"
           :name="`hotkey-${title}`"
-          class="shadow cursor-pointer grid place-items-center border-2 border-n-strong appearance-none rounded-full w-5 h-5 checked:bg-n-brand before:content-[''] before:bg-n-brand before:border-4 before:rounded-full before:border-n-strong checked:before:w-[18px] checked:before:h-[18px] checked:border checked:border-n-brand"
+          class="shadow cursor-pointer grid place-items-center border-2 border-s-border-strong appearance-none rounded-full w-5 h-5 checked:bg-s-brand before:content-[''] before:bg-s-brand before:border-4 before:rounded-full before:border-s-border-strong checked:before:w-[18px] checked:before:h-[18px] checked:border checked:border-s-brand"
         />
       </div>
-      <span class="text-n-slate-11 line-clamp-2 text-body-para text-start">
+      <span class="text-s-muted line-clamp-2 text-body-para text-start">
         {{ description }}
       </span>
     </div>

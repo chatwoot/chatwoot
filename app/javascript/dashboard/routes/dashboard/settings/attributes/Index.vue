@@ -174,7 +174,7 @@ const filteredAttributes = computed(() => {
         feature-name="custom_attributes"
       >
         <template v-if="attributes?.length" #count>
-          <span class="text-body-main text-n-slate-11 truncate min-w-0">
+          <span class="text-body-main text-s-muted truncate min-w-0">
             {{ $t('ATTRIBUTES_MGMT.COUNT', { n: attributes.length }) }}
           </span>
         </template>
@@ -198,13 +198,13 @@ const filteredAttributes = computed(() => {
       <div class="flex flex-col gap-4">
         <span
           v-if="!filteredAttributes.length && searchQuery"
-          class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
+          class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-s-muted"
         >
           {{ $t('ATTRIBUTES_MGMT.NO_RESULTS') }}
         </span>
         <div
           v-else-if="filteredAttributes.length"
-          class="flex flex-col divide-y divide-n-weak border-t border-n-weak"
+          class="flex flex-col divide-y divide-n-weak border-t border-s-border"
         >
           <AttributeListItem
             v-for="attribute in filteredAttributes"
@@ -217,7 +217,7 @@ const filteredAttributes = computed(() => {
         </div>
         <p
           v-else
-          class="flex-1 py-20 text-n-slate-12 flex items-center justify-center text-base"
+          class="flex-1 py-20 text-s-primary flex items-center justify-center text-base"
         >
           {{ $t('ATTRIBUTES_MGMT.LIST.EMPTY_RESULT.404') }}
         </p>

@@ -225,7 +225,7 @@ onMounted(() => {
     <!-- Dividing line between Active filters and Add filter button -->
     <div
       v-if="hasActiveFilters && !isAllFilterSelected"
-      class="w-full h-px border md:w-px md:h-5 border-n-weak"
+      class="w-full h-px border md:w-px md:h-5 border-s-border"
     />
     <!-- Add filter and clear filter button -->
     <div class="flex items-center gap-2">
@@ -242,7 +242,7 @@ onMounted(() => {
       />
 
       <!-- Dividing line between Add filter and Clear all filter button -->
-      <div v-if="hasActiveFilters" class="w-px h-5 border border-n-weak" />
+      <div v-if="hasActiveFilters" class="w-px h-5 border border-s-border" />
       <!-- Clear all filter button -->
       <FilterButton
         v-if="hasActiveFilters"

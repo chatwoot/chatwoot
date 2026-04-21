@@ -48,7 +48,7 @@ export default {
     <div class="macro__node">
       <div>
         <span
-          class="bg-n-solid-blue text-n-blue-11 py-1 px-1.5 leading-none text-sm rounded-md"
+          class="bg-s-brand text-s-brand-text py-1 px-1.5 leading-none text-sm rounded-md"
         >
           {{ $t('MACROS.EDITOR.START_FLOW') }}
         </span>
@@ -102,7 +102,7 @@ export default {
     <div class="macro__node">
       <div>
         <span
-          class="bg-n-solid-blue text-n-blue-11 py-1 px-1.5 leading-none text-sm rounded-md"
+          class="bg-s-brand text-s-brand-text py-1 px-1.5 leading-none text-sm rounded-md"
         >
           {{ $t('MACROS.EDITOR.END_FLOW') }}
         </span>
@@ -123,7 +123,7 @@ export default {
 
 .macro__node:not(:last-child):not(.sortable-chosen):after,
 .macros__nodes-draggable:after {
-  @apply border-l dark:border-n-blue-11 border-n-blue-7 border-dashed ltr:ml-6 rtl:mr-6 absolute h-8 w-1 content-[""];
+  @apply border-l dark:border-s-brand-text border-s-brand border-dashed ltr:ml-6 rtl:mr-6 absolute h-8 w-1 content-[""];
 }
 
 .macros__nodes-draggable {

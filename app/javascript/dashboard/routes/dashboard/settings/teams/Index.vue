@@ -96,7 +96,7 @@ const confirmPlaceHolderText = computed(() =>
         feature-name="team_management"
       >
         <template v-if="teamsList?.length" #count>
-          <span class="text-body-main text-n-slate-11">
+          <span class="text-body-main text-s-muted">
             {{ $t('TEAMS_SETTINGS.COUNT', { n: teamsList.length }) }}
           </span>
         </template>
@@ -110,12 +110,12 @@ const confirmPlaceHolderText = computed(() =>
     <template #body>
       <span
         v-if="!filteredTeamsList.length && searchQuery"
-        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
+        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-s-muted"
       >
         {{ $t('TEAMS_SETTINGS.NO_RESULTS') }}
       </span>
 
-      <div v-else class="divide-y divide-n-weak border-t border-n-weak">
+      <div v-else class="divide-y divide-s-border border-t border-s-border">
         <div
           v-for="team in filteredTeamsList"
           :key="team.id"
@@ -127,14 +127,14 @@ const confirmPlaceHolderText = computed(() =>
             >
               <Icon
                 icon="i-lucide-users-round"
-                class="size-4 text-n-slate-11"
+                class="size-4 text-s-muted"
               />
             </div>
             <div class="flex flex-col items-start gap-1">
-              <span class="block text-heading-3 text-n-slate-12 capitalize">
+              <span class="block text-heading-3 text-s-primary capitalize">
                 {{ team.name }}
               </span>
-              <p class="mb-0 text-n-slate-11 text-body-main">
+              <p class="mb-0 text-s-muted text-body-main">
                 {{ team.description }}
               </p>
             </div>
@@ -161,7 +161,7 @@ const confirmPlaceHolderText = computed(() =>
               icon="i-woot-bin"
               slate
               sm
-              class="hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-2"
+              class="hover:enabled:text-s-error-text hover:enabled:bg-s-error-soft"
               :is-loading="loading[team.id]"
               @click="openDelete(team)"
             />

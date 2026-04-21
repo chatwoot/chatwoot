@@ -198,7 +198,7 @@ watch(
       slate
       faded
       :label="selectedLabel"
-      class="rounded-md group-hover:bg-n-alpha-2"
+      class="rounded-md group-hover:bg-s-subtle"
       @click="toggleDropdown()"
     />
     <DropdownMenu

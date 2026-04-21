@@ -14,10 +14,10 @@ defineProps({
 <template>
   <div class="grid grid-cols-[1fr_auto] gap-5">
     <div>
-      <span class="text-base font-medium text-n-slate-12">
+      <span class="text-base font-medium text-s-primary">
         {{ title }}
       </span>
-      <p class="text-sm mt-1 text-n-slate-11">
+      <p class="text-sm mt-1 text-s-muted">
         {{ description }}
       </p>
     </div>

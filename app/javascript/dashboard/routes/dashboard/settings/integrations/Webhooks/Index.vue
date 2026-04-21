@@ -124,7 +124,7 @@ export default {
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       >
         <template v-if="records?.length" #count>
-          <span class="text-body-main text-n-slate-11">
+          <span class="text-body-main text-s-muted">
             {{
               $t('INTEGRATION_SETTINGS.WEBHOOK.COUNT', { n: records.length })
             }}

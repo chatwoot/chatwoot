@@ -43,9 +43,9 @@ const formatAmount = (amount, currency) => {
 
 <template>
   <label
-    class="relative flex flex-col p-6 border-2 rounded-xl transition-all cursor-pointer bg-n-solid-1 hover:bg-n-solid-2"
+    class="relative flex flex-col p-6 border-2 rounded-xl transition-all cursor-pointer bg-s-surface hover:bg-s-subtle"
     :class="[
-      isSelected ? 'border-woot-500' : 'border-n-weak hover:border-n-strong',
+      isSelected ? 'border-woot-500' : 'border-s-border hover:border-s-border-strong',
     ]"
   >
     <input
@@ -60,7 +60,7 @@ const formatAmount = (amount, currency) => {
       v-if="isPopular"
       class="absolute -top-3 left-4 px-3 py-1 text-xs font-medium rounded"
       :class="
-        isSelected ? 'bg-woot-500 text-white' : 'bg-n-solid-3 text-n-slate-11'
+        isSelected ? 'bg-woot-500 text-white' : 'bg-s-subtle text-s-muted'
       "
     >
       {{ $t('BILLING_SETTINGS.TOPUP.POPULAR') }}
@@ -83,17 +83,17 @@ const formatAmount = (amount, currency) => {
         />
       </svg>
     </div>
-    <span class="text-3xl font-normal text-n-slate-12 mb-2 tracking-tighter">
+    <span class="text-3xl font-normal text-s-primary mb-2 tracking-tighter">
       {{ formatCredits(credits) }}
     </span>
     <span
-      class="text-xs font-normal text-n-slate-11 uppercase tracking-tight mb-6"
+      class="text-xs font-normal text-s-muted uppercase tracking-tight mb-6"
     >
       {{ $t('BILLING_SETTINGS.TOPUP.CREDITS') }}
     </span>
-    <span class="text-2xl font-normal text-n-slate-12 tracking-tight">
+    <span class="text-2xl font-normal text-s-primary tracking-tight">
       {{ formatAmount(amount, currency) }}
-      <span class="text-sm text-n-slate-11 ml-0.5">{{
+      <span class="text-sm text-s-muted ml-0.5">{{
         $t('BILLING_SETTINGS.TOPUP.ONE_TIME')
       }}</span>
     </span>

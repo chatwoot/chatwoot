@@ -167,7 +167,7 @@ export default {
           :span="7"
           label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE')}`"
         >
-          <span class="text-heading-3 normal-case text-n-slate-12">
+          <span class="text-heading-3 normal-case text-s-primary">
             {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE') }}
           </span>
         </TableHeaderCell>
@@ -175,7 +175,7 @@ export default {
           :span="2"
           label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL')}`"
         >
-          <span class="text-heading-3 normal-case text-n-slate-12">
+          <span class="text-heading-3 normal-case text-s-primary">
             {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL') }}
           </span>
         </TableHeaderCell>
@@ -185,7 +185,7 @@ export default {
         >
           <div class="flex items-center justify-between gap-1">
             <span
-              class="text-heading-3 normal-case text-n-slate-12 whitespace-nowrap"
+              class="text-heading-3 normal-case text-s-primary whitespace-nowrap"
             >
               {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH') }}
             </span>
@@ -202,7 +202,7 @@ export default {
           <div
             class="flex flex-row items-start gap-2 col-span-7 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
           >
-            <span class="text-body-main text-n-slate-12">
+            <span class="text-body-main text-s-primary">
               {{ $t(notification.label) }}
             </span>
           </div>
@@ -225,7 +225,7 @@ export default {
     </div>
     <!--  Layout for mobile devices -->
     <div class="flex flex-col gap-6 sm:hidden">
-      <span class="text-heading-3 text-n-slate-12">
+      <span class="text-heading-3 text-s-primary">
         {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
       </span>
       <div class="flex flex-col gap-4">
@@ -240,14 +240,14 @@ export default {
             :is-checked="checkFlagStatus('email', notification.value)"
             @update="handleEmailInput"
           />
-          <span class="text-body-main text-n-slate-12">{{
+          <span class="text-body-main text-s-primary">{{
             $t(notification.label)
           }}</span>
         </div>
       </div>
 
       <div class="flex items-center justify-start gap-2">
-        <span class="text-heading-3 text-n-slate-12">
+        <span class="text-heading-3 text-s-primary">
           {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
         </span>
       </div>
@@ -264,7 +264,7 @@ export default {
             :is-checked="checkFlagStatus('push', notification.value)"
             @update="handlePushInput"
           />
-          <span class="text-body-main text-n-slate-12">{{
+          <span class="text-body-main text-s-primary">{{
             $t(notification.label)
           }}</span>
         </div>
@@ -272,15 +272,15 @@ export default {
     </div>
 
     <div
-      class="flex items-center justify-between w-full gap-2 p-4 border border-solid border-n-weak rounded-xl"
+      class="flex items-center justify-between w-full gap-2 p-4 border border-solid border-s-border rounded-xl"
     >
       <div class="flex flex-row items-center gap-2">
         <fluent-icon
           icon="alert"
-          class="flex-shrink-0 text-n-slate-12"
+          class="flex-shrink-0 text-s-primary"
           size="18"
         />
-        <span class="text-body-main text-n-slate-12">
+        <span class="text-body-main text-s-primary">
           {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.BROWSER_PERMISSION') }}
         </span>
       </div>

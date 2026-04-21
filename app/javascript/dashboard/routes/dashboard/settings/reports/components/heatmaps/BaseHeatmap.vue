@@ -72,20 +72,20 @@ function getDayOfTheWeek(date) {
 
 const COLOR_SCHEMES = {
   blue: [
-    'bg-n-blue-3 border border-n-blue-4/30',
-    'bg-n-blue-5 border border-n-blue-6/30',
-    'bg-n-blue-7 border border-n-blue-8/30',
-    'bg-n-blue-8 border border-n-blue-9/30',
-    'bg-n-blue-10 border border-n-blue-8/30',
-    'bg-n-blue-11 border border-n-blue-10/30',
+    'bg-s-brand-soft border border-s-brand/30',
+    'bg-s-brand-soft border border-s-brand/30',
+    'bg-s-brand/70 border border-s-brand/30',
+    'bg-s-brand/80 border border-s-brand/30',
+    'bg-s-brand-cta border border-s-brand/30',
+    'bg-s-brand-cta-hover border border-s-brand/30',
   ],
   green: [
-    'bg-n-teal-3 border border-n-teal-4/30',
-    'bg-n-teal-5 border border-n-teal-6/30',
-    'bg-n-teal-7 border border-n-teal-8/30',
-    'bg-n-teal-8 border border-n-teal-9/30',
-    'bg-n-teal-10 border border-n-teal-8/30',
-    'bg-n-teal-11 border border-n-teal-10/30',
+    'bg-s-success-soft border border-s-success/30',
+    'bg-s-success/30 border border-s-success/30',
+    'bg-s-success/60 border border-s-success/30',
+    'bg-s-success/80 border border-s-success/30',
+    'bg-s-success border border-s-success/30',
+    'bg-s-success-text border border-s-success/30',
   ],
 };
 
@@ -93,7 +93,7 @@ const COLOR_SCHEMES = {
 const getHeatmapLevelClass = useMemoize(
   (value, quantileRangeArray, colorScheme) => {
     if (!value)
-      return 'border border-n-container bg-n-slate-2 dark:bg-n-slate-1/30';
+      return 'border border-s-border bg-s-subtle dark:bg-s-surface/30';
     let level = [...quantileRangeArray, Infinity].findIndex(
       range => value <= range && value > 0
     );
@@ -101,7 +101,7 @@ const getHeatmapLevelClass = useMemoize(
     if (level > 6) level = 5;
 
     if (level === 0) {
-      return 'border border-n-container bg-n-slate-2 dark:bg-n-slate-1/30';
+      return 'border border-s-border bg-s-subtle dark:bg-s-surface/30';
     }
 
     return COLOR_SCHEMES[colorScheme][level - 1];
@@ -126,7 +126,7 @@ const tooltip = useHeatmapTooltip();
         <div
           v-for="ii in numberOfRows"
           :key="ii"
-          class="w-full rounded-sm bg-n-slate-3 dark:bg-n-slate-1 animate-loader-pulse h-8 min-w-[70px]"
+          class="w-full rounded-sm bg-s-subtle dark:bg-s-surface animate-loader-pulse h-8 min-w-[70px]"
         />
       </div>
       <div class="grid gap-[5px] w-full min-w-[700px]">
@@ -138,13 +138,13 @@ const tooltip = useHeatmapTooltip();
           <div
             v-for="jj in 24"
             :key="jj"
-            class="w-full h-8 rounded-sm bg-n-slate-3 dark:bg-n-slate-1 animate-loader-pulse"
+            class="w-full h-8 rounded-sm bg-s-subtle dark:bg-s-surface animate-loader-pulse"
           />
         </div>
       </div>
       <div />
       <div
-        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-n-slate-11"
+        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-s-muted"
       >
         <div
           v-for="ii in 24"
@@ -161,10 +161,10 @@ const tooltip = useHeatmapTooltip();
           v-for="row in dataRows"
           :key="row.dateKey"
           v-memo="[row.dateKey]"
-          class="h-8 min-w-[70px] text-n-slate-12 text-[10px] font-semibold flex flex-col items-end justify-center"
+          class="h-8 min-w-[70px] text-s-primary text-[10px] font-semibold flex flex-col items-end justify-center"
         >
           {{ getDayOfTheWeek(new Date(row.dateKey)) }}
-          <time class="font-normal text-n-slate-11">
+          <time class="font-normal text-s-muted">
             {{ formatDate(row.dateKey) }}
           </time>
         </div>
@@ -192,7 +192,7 @@ const tooltip = useHeatmapTooltip();
       </div>
       <div />
       <div
-        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-n-slate-12"
+        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-s-primary"
       >
         <div
           v-for="ii in 24"

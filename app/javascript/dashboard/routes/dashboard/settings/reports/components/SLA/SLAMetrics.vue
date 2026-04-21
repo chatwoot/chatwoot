@@ -22,7 +22,7 @@ defineProps({
 
 <template>
   <div
-    class="flex sm:flex-row flex-col w-full gap-4 sm:gap-14 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-5"
+    class="flex sm:flex-row flex-col w-full gap-4 sm:gap-14 shadow outline-1 outline outline-n-container rounded-xl bg-s-subtle px-6 py-5"
   >
     <SLAMetricCard
       :label="$t('SLA_REPORTS.METRICS.HIT_RATE.LABEL')"
@@ -31,14 +31,14 @@ defineProps({
       :is-loading="isLoading"
     />
 
-    <div class="w-full sm:w-px bg-n-strong" />
+    <div class="w-full sm:w-px bg-s-border-strong" />
     <SLAMetricCard
       :label="$t('SLA_REPORTS.METRICS.NO_OF_MISSES.LABEL')"
       :value="noOfBreaches"
       :tool-tip="$t('SLA_REPORTS.METRICS.NO_OF_MISSES.TOOLTIP')"
       :is-loading="isLoading"
     />
-    <div class="w-full sm:w-px bg-n-strong" />
+    <div class="w-full sm:w-px bg-s-border-strong" />
     <SLAMetricCard
       :label="$t('SLA_REPORTS.METRICS.NO_OF_CONVERSATIONS.LABEL')"
       :value="noOfConversations"

@@ -13,8 +13,8 @@ const emit = defineEmits(['update']);
 
 const selectionClass = computed(() => {
   return props.selected
-    ? 'bg-n-brand/5 outline-n-brand'
-    : 'bg-n-alpha-black2 outline-n-weak';
+    ? 'bg-s-brand/5 outline-n-brand'
+    : 'bg-s-primary/15 outline-n-weak';
 });
 </script>
 
@@ -30,7 +30,7 @@ const selectionClass = computed(() => {
       class="rounded-full p-1 transition-transform duration-150 focus:outline-none flex items-center flex-shrink-0"
       :aria-label="`Star ${n}`"
     >
-      <i class="i-ri-star-fill text-n-amber-9 text-2xl" />
+      <i class="i-ri-star-fill text-s-warning text-2xl" />
     </div>
   </button>
 </template>

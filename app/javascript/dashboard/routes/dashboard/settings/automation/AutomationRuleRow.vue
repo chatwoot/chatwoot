@@ -40,11 +40,11 @@ const automationActive = computed({
     <template #default>
       <BaseTableCell class="max-w-0 w-full">
         <div class="flex items-center gap-2 min-w-0">
-          <span class="text-body-main text-n-slate-12 truncate">
+          <span class="text-body-main text-s-primary truncate">
             {{ automation.name }}
           </span>
-          <div class="w-px h-3 rounded-lg bg-n-weak flex-shrink-0" />
-          <span class="text-body-main text-n-slate-11 truncate">
+          <div class="w-px h-3 rounded-lg bg-s-border flex-shrink-0" />
+          <span class="text-body-main text-s-muted truncate">
             {{ automation.description }}
           </span>
         </div>
@@ -55,7 +55,7 @@ const automationActive = computed({
       </BaseTableCell>
 
       <BaseTableCell :title="readableDateWithTime(automation.created_on)">
-        <span class="text-body-main text-n-slate-12 whitespace-nowrap">
+        <span class="text-body-main text-s-primary whitespace-nowrap">
           {{ readableDate(automation.created_on) }}
         </span>
       </BaseTableCell>
@@ -84,7 +84,7 @@ const automationActive = computed({
             icon="i-woot-bin"
             slate
             sm
-            class="hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-2"
+            class="hover:enabled:text-s-error-text hover:enabled:bg-s-error-soft"
             @click="$emit('delete', automation)"
           />
         </div>

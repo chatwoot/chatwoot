@@ -30,15 +30,15 @@ defineProps({
       rounded-full
     />
     <div class="flex flex-col gap-0.5">
-      <span class="text-sm text-n-slate-12 font-medium capitalize">
+      <span class="text-sm text-s-primary font-medium capitalize">
         {{ contact?.name || '—' }}
       </span>
       <div
-        class="flex items-center gap-1 text-xs text-n-slate-10 whitespace-nowrap"
+        class="flex items-center gap-1 text-xs text-s-muted whitespace-nowrap"
       >
         <a
           :href="`/app/accounts/${$route.params.accountId}/conversations/${conversationId}`"
-          class="flex items-center text-xs gap-0.5 hover:text-n-brand hover:underline"
+          class="flex items-center text-xs gap-0.5 hover:text-s-brand hover:underline"
           target="_blank"
           rel="noopener noreferrer nofollow"
         >

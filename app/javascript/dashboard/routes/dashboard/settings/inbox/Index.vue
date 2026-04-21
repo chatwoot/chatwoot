@@ -96,7 +96,7 @@ const openDelete = inbox => {
         feature-name="inboxes"
       >
         <template v-if="inboxesList?.length" #count>
-          <span class="text-body-main text-n-slate-11">
+          <span class="text-body-main text-s-muted">
             {{ $t('INBOX_MGMT.COUNT', { n: inboxesList.length }) }}
           </span>
         </template>
@@ -110,11 +110,11 @@ const openDelete = inbox => {
     <template #body>
       <span
         v-if="!filteredInboxesList.length && searchQuery"
-        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
+        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-s-muted"
       >
         {{ $t('INBOX_MGMT.NO_RESULTS') }}
       </span>
-      <div v-else class="divide-y divide-n-weak border-t border-n-weak">
+      <div v-else class="divide-y divide-s-border border-t border-s-border">
         <div
           v-for="inbox in filteredInboxesList"
           :key="inbox.id"
@@ -123,7 +123,7 @@ const openDelete = inbox => {
           <div class="flex items-center gap-4">
             <div
               v-if="inbox.avatar_url"
-              class="bg-n-alpha-3 rounded-xl size-10 ring ring-n-solid-1 border border-n-strong shadow-sm grid place-items-center"
+              class="bg-s-subtle rounded-xl size-10 ring ring-s-border-subtle border border-s-border-strong shadow-sm grid place-items-center"
             >
               <Avatar
                 :src="inbox.avatar_url"
@@ -134,18 +134,18 @@ const openDelete = inbox => {
             </div>
             <div
               v-else
-              class="size-10 justify-center bg-n-alpha-3 rounded-xl ring ring-n-solid-1 border border-n-strong shadow-sm grid place-items-center"
+              class="size-10 justify-center bg-s-subtle rounded-xl ring ring-s-border-subtle border border-s-border-strong shadow-sm grid place-items-center"
             >
-              <ChannelIcon class="size-6 text-n-slate-10" :inbox="inbox" />
+              <ChannelIcon class="size-6 text-s-muted" :inbox="inbox" />
             </div>
             <div class="flex flex-col items-start gap-1">
-              <span class="block text-heading-3 text-n-slate-12 capitalize">
+              <span class="block text-heading-3 text-s-primary capitalize">
                 {{ inbox.name }}
               </span>
               <ChannelName
                 :channel-type="inbox.channel_type"
                 :medium="inbox.medium"
-                class="text-body-main text-n-slate-11"
+                class="text-body-main text-s-muted"
               />
             </div>
           </div>
@@ -170,7 +170,7 @@ const openDelete = inbox => {
               icon="i-woot-bin"
               slate
               sm
-              class="hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-2"
+              class="hover:enabled:text-s-error-text hover:enabled:bg-s-error-soft"
               @click="openDelete(inbox)"
             />
           </div>

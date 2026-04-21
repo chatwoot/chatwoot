@@ -419,19 +419,19 @@ onMounted(() => {
             >
               <div class="flex items-start gap-4">
                 <div
-                  class="flex-shrink-0 size-10 rounded-xl bg-n-slate-3 flex items-center justify-center"
+                  class="flex-shrink-0 size-10 rounded-xl bg-s-subtle flex items-center justify-center"
                 >
-                  <span class="i-lucide-zap text-xl text-n-slate-11" />
+                  <span class="i-lucide-zap text-xl text-s-muted" />
                 </div>
                 <div class="flex-grow">
                   <div
                     class="flex items-start justify-between gap-4 mb-4 ltr:pr-4 rtl:pl-4"
                   >
                     <div class="flex flex-col items-start">
-                      <span class="text-heading-3 text-n-slate-12 mb-1">
+                      <span class="text-heading-3 text-s-primary mb-1">
                         {{ assignmentPolicy.name }}
                       </span>
-                      <p class="text-body-main text-n-slate-11">
+                      <p class="text-body-main text-s-muted">
                         {{ $t('INBOX_MGMT.ASSIGNMENT.POLICY_LABEL') }}
                       </p>
                     </div>
@@ -447,23 +447,23 @@ onMounted(() => {
                   <ul class="space-y-2 mb-6">
                     <li class="flex items-center gap-2">
                       <span
-                        class="w-1.5 h-1.5 rounded-full bg-n-slate-11 flex-shrink-0"
+                        class="w-1.5 h-1.5 rounded-full bg-s-muted flex-shrink-0"
                       />
-                      <span class="text-body-main text-n-slate-12">
+                      <span class="text-body-main text-s-primary">
                         {{ assignmentOrderLabel }}
                       </span>
                     </li>
                     <li class="flex items-center gap-2">
                       <span
-                        class="w-1.5 h-1.5 rounded-full bg-n-slate-11 flex-shrink-0"
+                        class="w-1.5 h-1.5 rounded-full bg-s-muted flex-shrink-0"
                       />
-                      <span class="text-body-main text-n-slate-12">
+                      <span class="text-body-main text-s-primary">
                         {{ assignmentMethodLabel }}
                       </span>
                     </li>
                   </ul>
 
-                  <div class="w-full h-px my-4 bg-n-weak" />
+                  <div class="w-full h-px my-4 bg-s-border" />
 
                   <NextButton
                     :label="$t('INBOX_MGMT.ASSIGNMENT.CUSTOMIZE_POLICY')"
@@ -489,15 +489,15 @@ onMounted(() => {
               <div class="p-4">
                 <div class="flex items-start gap-4">
                   <div
-                    class="flex-shrink-0 size-10 rounded-xl bg-n-slate-3 dark:bg-n-slate-4 flex items-center justify-center"
+                    class="flex-shrink-0 size-10 rounded-xl bg-s-subtle dark:bg-s-subtle flex items-center justify-center"
                   >
-                    <i class="i-lucide-zap text-xl text-n-slate-11" />
+                    <i class="i-lucide-zap text-xl text-s-muted" />
                   </div>
                   <div class="flex-grow">
-                    <h4 class="text-heading-3 text-n-slate-12 mb-0.5">
+                    <h4 class="text-heading-3 text-s-primary mb-0.5">
                       {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_POLICY_LINKED') }}
                     </h4>
-                    <p class="text-body-main text-n-slate-11">
+                    <p class="text-body-main text-s-muted">
                       {{
                         $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_POLICY_DESCRIPTION')
                       }}
@@ -547,28 +547,28 @@ onMounted(() => {
 
               <!-- Default Rules Info -->
               <div
-                class="px-4 py-4 border-t border-n-weak bg-n-slate-2 rounded-b-xl"
+                class="px-4 py-4 border-t border-s-border bg-s-subtle rounded-b-xl"
               >
                 <div class="flex items-start gap-3">
-                  <Icon icon="i-lucide-info" class="mt-0.5 text-n-slate-11" />
+                  <Icon icon="i-lucide-info" class="mt-0.5 text-s-muted" />
                   <div>
-                    <p class="text-body-main text-n-slate-11 mb-2">
+                    <p class="text-body-main text-s-muted mb-2">
                       {{ $t('INBOX_MGMT.ASSIGNMENT.CURRENT_BEHAVIOR') }}
                     </p>
                     <ul class="space-y-1">
                       <li class="flex items-center gap-2">
                         <span
-                          class="w-1 h-1 rounded-full bg-n-slate-10 flex-shrink-0"
+                          class="w-1 h-1 rounded-full bg-s-muted flex-shrink-0"
                         />
-                        <span class="text-body-main text-n-slate-11">
+                        <span class="text-body-main text-s-muted">
                           {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULE_1') }}
                         </span>
                       </li>
                       <li class="flex items-center gap-2">
                         <span
-                          class="w-1 h-1 rounded-full bg-n-slate-10 flex-shrink-0"
+                          class="w-1 h-1 rounded-full bg-s-muted flex-shrink-0"
                         />
-                        <span class="text-body-main text-n-slate-11">
+                        <span class="text-body-main text-s-muted">
                           {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULE_2') }}
                         </span>
                       </li>
@@ -585,42 +585,42 @@ onMounted(() => {
             >
               <div class="flex items-start gap-4">
                 <div
-                  class="flex-shrink-0 size-10 rounded-xl bg-n-slate-3 dark:bg-n-slate-4 flex items-center justify-center"
+                  class="flex-shrink-0 size-10 rounded-xl bg-s-subtle dark:bg-s-subtle flex items-center justify-center"
                 >
-                  <Icon icon="i-lucide-zap" class="text-xl text-n-slate-11" />
+                  <Icon icon="i-lucide-zap" class="text-xl text-s-muted" />
                 </div>
                 <div class="flex-grow">
-                  <h4 class="text-heading-3 text-n-slate-12 mb-0.5">
+                  <h4 class="text-heading-3 text-s-primary mb-0.5">
                     {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULES_TITLE') }}
                   </h4>
-                  <p class="text-body-main text-n-slate-11 mb-4">
+                  <p class="text-body-main text-s-muted mb-4">
                     {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULES_DESCRIPTION') }}
                   </p>
 
                   <ul class="space-y-2 mb-6">
                     <li class="flex items-center gap-2">
                       <span
-                        class="w-1.5 h-1.5 rounded-full bg-n-slate-11 flex-shrink-0"
+                        class="w-1.5 h-1.5 rounded-full bg-s-muted flex-shrink-0"
                       />
-                      <span class="text-body-main text-n-slate-12">
+                      <span class="text-body-main text-s-primary">
                         {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULE_1') }}
                       </span>
                     </li>
                     <li class="flex items-center gap-2">
                       <span
-                        class="w-1.5 h-1.5 rounded-full bg-n-slate-11 flex-shrink-0"
+                        class="w-1.5 h-1.5 rounded-full bg-s-muted flex-shrink-0"
                       />
-                      <span class="text-body-main text-n-slate-12">
+                      <span class="text-body-main text-s-primary">
                         {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULE_2') }}
                       </span>
                     </li>
                   </ul>
 
-                  <div class="w-full h-px bg-n-weak my-4" />
+                  <div class="w-full h-px bg-s-border my-4" />
 
                   <!-- Upgrade prompt when advanced_assignment is not enabled -->
                   <div v-if="!hasAdvancedAssignment">
-                    <p class="text-body-main text-n-slate-11 mb-1">
+                    <p class="text-body-main text-s-muted mb-1">
                       {{ $t('INBOX_MGMT.ASSIGNMENT.UPGRADE_PROMPT') }}
                     </p>
                     <NextButton
@@ -649,7 +649,7 @@ onMounted(() => {
                 @blur="v$.maxAssignmentLimit.$touch"
               />
 
-              <p class="mt-1.5 text-label-small text-n-slate-11">
+              <p class="mt-1.5 text-label-small text-s-muted">
                 {{
                   $t('INBOX_MGMT.AUTO_ASSIGNMENT.MAX_ASSIGNMENT_LIMIT_SUB_TEXT')
                 }}
@@ -674,10 +674,10 @@ onMounted(() => {
       :on-close="cancelDeletePolicy"
     >
       <div class="p-6">
-        <h3 class="text-lg font-medium text-n-slate-12 mb-4">
+        <h3 class="text-lg font-medium text-s-primary mb-4">
           {{ $t('INBOX_MGMT.ASSIGNMENT_POLICY.DELETE_CONFIRM_TITLE') }}
         </h3>
-        <p class="text-sm text-n-slate-11 mb-6 ml-13">
+        <p class="text-sm text-s-muted mb-6 ml-13">
           {{ $t('INBOX_MGMT.ASSIGNMENT_POLICY.DELETE_CONFIRM_MESSAGE') }}
         </p>
         <div class="flex justify-end gap-2">

@@ -145,9 +145,9 @@ defineExpose({ open, close });
         />
       </div>
 
-      <div class="p-4 mt-6 rounded-lg bg-n-solid-2 border border-n-weak">
-        <p class="text-sm text-n-slate-11">
-          <span class="font-semibold text-n-slate-12">{{
+      <div class="p-4 mt-6 rounded-lg bg-s-subtle border border-s-border">
+        <p class="text-sm text-s-muted">
+          <span class="font-semibold text-s-primary">{{
             $t('BILLING_SETTINGS.TOPUP.NOTE_TITLE')
           }}</span>
           {{ $t('BILLING_SETTINGS.TOPUP.NOTE_DESCRIPTION') }}
@@ -158,7 +158,7 @@ defineExpose({ open, close });
     <!-- Step 2: Confirm Purchase -->
     <template v-else>
       <div class="flex flex-col gap-4">
-        <p class="text-sm text-n-slate-11">
+        <p class="text-sm text-s-muted">
           {{
             $t('BILLING_SETTINGS.TOPUP.CONFIRM.DESCRIPTION', {
               credits: formattedCredits,
@@ -167,8 +167,8 @@ defineExpose({ open, close });
           }}
         </p>
 
-        <div class="p-2.5 rounded-lg bg-n-amber-2 border border-n-amber-6">
-          <p class="text-sm text-n-amber-11">
+        <div class="p-2.5 rounded-lg bg-s-warning-soft border border-s-warning/40">
+          <p class="text-sm text-s-warning-text">
             {{ $t('BILLING_SETTINGS.TOPUP.CONFIRM.INSTANT_DEDUCTION_NOTE') }}
           </p>
         </div>

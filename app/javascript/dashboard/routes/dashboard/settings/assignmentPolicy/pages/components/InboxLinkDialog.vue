@@ -89,7 +89,7 @@ defineExpose({ openDialog, closeDialog });
     @close="handleClose"
   >
     <template #description>
-      <p class="text-sm text-n-slate-11">
+      <p class="text-sm text-s-muted">
         {{
           t(
             'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.EDIT.INBOX_LINK_PROMPT.DESCRIPTION'
@@ -99,15 +99,15 @@ defineExpose({ openDialog, closeDialog });
     </template>
 
     <div
-      class="flex items-center gap-3 p-3 rounded-xl border border-n-weak bg-n-alpha-1"
+      class="flex items-center gap-3 p-3 rounded-xl border border-s-border bg-s-subtle"
     >
       <div
-        class="flex-shrink-0 size-10 rounded-lg bg-n-alpha-2 flex items-center justify-center"
+        class="flex-shrink-0 size-10 rounded-lg bg-s-subtle flex items-center justify-center"
       >
-        <i :class="inboxIcon" class="text-lg text-n-slate-11" />
+        <i :class="inboxIcon" class="text-lg text-s-muted" />
       </div>
       <div class="flex flex-col min-w-0">
-        <span class="text-sm font-medium text-n-slate-12 truncate">
+        <span class="text-sm font-medium text-s-primary truncate">
           {{ inboxName }}
         </span>
       </div>

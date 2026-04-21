@@ -52,13 +52,13 @@ const helpURL = getHelpUrlForFeature(props.featureName);
       v-if="title"
       class="flex items-center justify-between w-full gap-4 min-h-8 mb-2"
     >
-      <h1 class="text-heading-1 text-n-slate-12">
+      <h1 class="text-heading-1 text-s-primary">
         {{ title }}
       </h1>
     </div>
     <div
       v-if="description || $slots.description || linkText || helpURL"
-      class="flex flex-col w-full gap-1.5 text-n-slate-11"
+      class="flex flex-col w-full gap-1.5 text-s-muted"
     >
       <p
         v-if="description || $slots.description"
@@ -72,12 +72,12 @@ const helpURL = getHelpUrlForFeature(props.featureName);
           :href="helpURL"
           target="_blank"
           rel="noopener noreferrer"
-          class="items-center hidden gap-1 text-sm font-medium sm:inline-flex w-fit text-n-blue-11 hover:underline mb-2"
+          class="items-center hidden gap-1 text-sm font-medium sm:inline-flex w-fit text-s-brand-text hover:underline mb-2"
         >
           {{ linkText }}
           <Icon
             icon="i-lucide-chevron-right"
-            class="flex-shrink-0 text-n-blue-11 size-4"
+            class="flex-shrink-0 text-s-brand-text size-4"
           />
         </a>
       </CustomBrandPolicyWrapper>
@@ -106,7 +106,7 @@ const helpURL = getHelpUrlForFeature(props.featureName);
         <template #prefix>
           <Icon
             icon="i-lucide-search"
-            class="absolute top-1/2 -translate-y-1/2 text-n-slate-11 group-focus-within:text-n-brand size-3.5 ltr:left-2.5 rtl:right-2.5"
+            class="absolute top-1/2 -translate-y-1/2 text-s-muted group-focus-within:text-s-brand size-3.5 ltr:left-2.5 rtl:right-2.5"
           />
         </template>
       </Input>
@@ -118,7 +118,7 @@ const helpURL = getHelpUrlForFeature(props.featureName);
       <slot name="count" />
       <div
         v-if="slots.count"
-        class="w-px h-3 rounded-lg bg-n-weak ltr:ml-1 ltr:mr-2 rtl:ml-2 rtl:mr-1 flex-shrink-0"
+        class="w-px h-3 rounded-lg bg-s-border ltr:ml-1 ltr:mr-2 rtl:ml-2 rtl:mr-1 flex-shrink-0"
       />
       <slot name="actions" />
     </div>

@@ -606,7 +606,7 @@ export default {
     v-if="uiFlags.isFetching"
     class="flex items-center justify-center h-full w-full"
   >
-    <SpinnerLoader :size="28" class="text-n-blue-9" />
+    <SpinnerLoader :size="28" class="text-s-brand" />
   </div>
   <div
     v-else
@@ -690,7 +690,7 @@ export default {
             }"
           >
             <div class="flex flex-col gap-1 items-start mb-4">
-              <label class="text-heading-3 text-n-slate-12">
+              <label class="text-heading-3 text-s-primary">
                 {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL') }}
               </label>
               <Avatar
@@ -928,7 +928,7 @@ export default {
               >
                 <div class="flex items-center gap-6">
                   <div class="flex items-center gap-2">
-                    <label class="text-n-slate-11 text-heading-3">
+                    <label class="text-s-muted text-heading-3">
                       {{
                         $t(
                           'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_POSITION_LABEL'
@@ -954,9 +954,9 @@ export default {
                       class="[&>select]:!p-0 min-w-16 [&>select]:!outline-none"
                     />
                   </div>
-                  <div class="h-3 w-px bg-n-weak rounded-lg" />
+                  <div class="h-3 w-px bg-s-border rounded-lg" />
                   <div class="flex items-center gap-2">
-                    <label class="text-n-slate-11 text-heading-3">
+                    <label class="text-s-muted text-heading-3">
                       {{
                         $t(
                           'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_TYPE_LABEL'
@@ -1186,7 +1186,7 @@ export default {
             class="flex-1 sticky top-4 self-start max-w-lg flex-shrink-0 w-full min-w-0"
           >
             <div
-              class="flex flex-col outline -outline-offset-1 outline-1 outline-n-weak w-full px-3 pt-3 pb-8 bg-n-surface-1 rounded-2xl min-h-[45rem] overflow-hidden"
+              class="flex flex-col outline -outline-offset-1 outline-1 outline-n-weak w-full px-3 pt-3 pb-8 bg-s-surface rounded-2xl min-h-[45rem] overflow-hidden"
             >
               <Widget
                 :welcome-heading="channelWelcomeTitle"

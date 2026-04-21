@@ -108,7 +108,7 @@ onMounted(() => {
         feature-name="agent_bots"
       >
         <template v-if="agentBots?.length" #count>
-          <span class="text-body-main text-n-slate-11">
+          <span class="text-body-main text-s-muted">
             {{ $t('AGENT_BOTS.COUNT', { n: agentBots.length }) }}
           </span>
         </template>
@@ -142,17 +142,17 @@ onMounted(() => {
                   />
                   <div class="min-w-0">
                     <div class="flex items-center gap-2">
-                      <span class="text-body-main text-n-slate-12 truncate">
+                      <span class="text-body-main text-s-primary truncate">
                         {{ bot.name }}
                       </span>
                       <span
                         v-if="bot.system_bot"
-                        class="text-xs text-n-slate-12 bg-n-blue-5 rounded-md py-0.5 px-1 flex-shrink-0"
+                        class="text-xs text-s-primary bg-s-brand-soft rounded-md py-0.5 px-1 flex-shrink-0"
                       >
                         {{ $t('AGENT_BOTS.GLOBAL_BOT_BADGE') }}
                       </span>
                     </div>
-                    <span class="text-body-main text-n-slate-11 block truncate">
+                    <span class="text-body-main text-s-muted block truncate">
                       {{ bot.description }}
                     </span>
                   </div>
@@ -160,7 +160,7 @@ onMounted(() => {
               </BaseTableCell>
 
               <BaseTableCell class="max-w-0">
-                <span class="text-body-main text-n-slate-11 truncate block">
+                <span class="text-body-main text-s-muted truncate block">
                   {{ bot.outgoing_url || bot.bot_config?.webhook_url }}
                 </span>
               </BaseTableCell>
@@ -182,7 +182,7 @@ onMounted(() => {
                     icon="i-woot-bin"
                     slate
                     sm
-                    class="hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-2"
+                    class="hover:enabled:text-s-error-text hover:enabled:bg-s-error-soft"
                     :is-loading="loading[bot.id]"
                     @click="openDeletePopup(bot)"
                   />

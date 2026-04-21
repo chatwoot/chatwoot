@@ -96,18 +96,18 @@ const selectModel = model => {
   <div v-on-clickaway="closeDropdown" class="relative flex-shrink-0">
     <button
       type="button"
-      class="flex items-center gap-2 px-3 py-2 text-sm border rounded-lg border-n-weak dark:bg-n-solid-2 dark:hover:bg-n-solid-3 bg-n-alpha-2 hover:bg-n-alpha-1 min-w-[180px] justify-between"
+      class="flex items-center gap-2 px-3 py-2 text-sm border rounded-lg border-s-border dark:bg-s-subtle dark:hover:bg-s-subtle bg-s-subtle hover:bg-s-subtle min-w-[180px] justify-between"
       @click="toggleDropdown"
     >
-      <span v-if="selectedModelDetails" class="text-n-slate-12">
+      <span v-if="selectedModelDetails" class="text-s-primary">
         {{ selectedModelDetails.display_name }}
       </span>
-      <span v-else class="text-n-slate-10">
+      <span v-else class="text-s-muted">
         {{ t('CAPTAIN_SETTINGS.MODEL_CONFIG.SELECT_MODEL') }}
       </span>
       <Icon
         icon="i-lucide-chevron-down"
-        class="size-4 text-n-slate-11 transition-transform"
+        class="size-4 text-s-muted transition-transform"
         :class="{ 'rotate-180': isOpen }"
       />
     </button>
@@ -119,9 +119,9 @@ const selectModel = model => {
         v-for="model in availableModels"
         :key="model.id"
         :click="() => selectModel(model)"
-        class="rounded-lg dark:hover:bg-n-solid-3 hover:bg-n-alpha-1"
+        class="rounded-lg dark:hover:bg-s-subtle hover:bg-s-subtle"
         :class="{
-          'dark:bg-n-solid-3 bg-n-alpha-1': selectedModelId === model.id,
+          'dark:bg-s-subtle bg-s-subtle': selectedModelId === model.id,
           'pointer-events-none opacity-60': model.coming_soon,
         }"
       >
@@ -129,20 +129,20 @@ const selectModel = model => {
           <Icon :icon="iconForModel(model)" class="size-4 flex-shrink-0" />
           <div class="flex flex-col w-full text-left gap-1">
             <div
-              class="text-sm w-full font-medium leading-none text-n-slate-12 flex items-baseline justify-between"
+              class="text-sm w-full font-medium leading-none text-s-primary flex items-baseline justify-between"
             >
               {{ model.display_name }}
               <span
                 v-if="model.id === recommendedModelId"
-                class="text-[10px] uppercase text-n-iris-11 border border-1 border-n-iris-10 leading-none rounded-lg px-1 py-0.5"
+                class="text-[10px] uppercase text-s-brand-text border border-1 border-s-brand-text leading-none rounded-lg px-1 py-0.5"
               >
                 {{ t('GENERAL.PREFERRED') }}
               </span>
             </div>
-            <span v-if="model.coming_soon" class="text-xs text-n-slate-11">
+            <span v-if="model.coming_soon" class="text-xs text-s-muted">
               {{ t('CAPTAIN_SETTINGS.MODEL_CONFIG.COMING_SOON') }}
             </span>
-            <span v-else-if="isOnChatwootCloud" class="text-xs text-n-slate-11">
+            <span v-else-if="isOnChatwootCloud" class="text-xs text-s-muted">
               {{ getCreditLabel(model) }}
             </span>
           </div>

@@ -262,7 +262,7 @@ export default {
         <div class="w-3/5">
           <div class="w-full mb-2">
             <div class="input-wrap" :class="{ error: v$.selectedPage.$error }">
-              <span class="text-n-slate-12 text-start">
+              <span class="text-s-primary text-start">
                 {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
               </span>
               <ComboBox
@@ -270,7 +270,7 @@ export default {
                 :options="comboBoxPageOptions"
                 :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_A_VALUE')"
                 :has-error="v$.selectedPage.$error"
-                class="[&>div>button]:!bg-n-alpha-black2 mt-1"
+                class="[&>div>button]:!bg-s-primary/15 mt-1"
                 @update:model-value="setPageName"
               />
               <span v-if="v$.selectedPage.$error" class="message mt-0.5">

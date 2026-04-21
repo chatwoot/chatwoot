@@ -74,11 +74,11 @@ export default {
 
 <template>
   <form class="flex flex-col gap-4 mx-0" @submit.prevent="createChannel()">
-    <div class="p-3 rounded-md bg-n-amber-3 text-n-amber-12 text-sm leading-relaxed">
+    <div class="p-3 rounded-md bg-s-warning-soft text-s-warning-text text-sm leading-relaxed">
       ⚠️ {{ $t('INBOX_MGMT.ADD.WHATSAPP.AVISA.RISK_WARNING') }}
     </div>
 
-    <div class="p-3 rounded-md bg-n-blue-3 text-n-blue-12 text-sm leading-relaxed">
+    <div class="p-3 rounded-md bg-s-brand-soft text-s-brand-text text-sm leading-relaxed">
       ℹ️ {{ $t('INBOX_MGMT.ADD.WHATSAPP.AVISA.EXPLAINER') }}
     </div>
 
@@ -103,7 +103,7 @@ export default {
         type="url"
         placeholder="https://n8n.seudominio.com/webhook/avisa-outgoing"
       >
-      <span class="text-xs text-n-slate-10 mt-1 block">
+      <span class="text-xs text-s-muted mt-1 block">
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.AVISA.N8N_URL_HINT') }}
       </span>
     </label>
@@ -111,15 +111,15 @@ export default {
     <label>
       {{ $t('INBOX_MGMT.ADD.WHATSAPP.AVISA.SECRET_LABEL') }}
       <input v-model="webhookSecret" type="text" placeholder="optional shared secret">
-      <span class="text-xs text-n-slate-10 mt-1 block">
+      <span class="text-xs text-s-muted mt-1 block">
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.AVISA.SECRET_HINT') }}
       </span>
     </label>
 
-    <div v-if="incomingWebhookUrl" class="p-3 rounded-md bg-n-slate-3 text-n-slate-12 text-sm">
+    <div v-if="incomingWebhookUrl" class="p-3 rounded-md bg-s-subtle text-s-primary text-sm">
       <div class="font-medium mb-1">{{ $t('INBOX_MGMT.ADD.WHATSAPP.AVISA.INCOMING_URL_LABEL') }}</div>
       <code class="text-xs break-all">{{ incomingWebhookUrl }}</code>
-      <div class="text-xs text-n-slate-10 mt-2">
+      <div class="text-xs text-s-muted mt-2">
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.AVISA.INCOMING_URL_HINT') }}
       </div>
     </div>

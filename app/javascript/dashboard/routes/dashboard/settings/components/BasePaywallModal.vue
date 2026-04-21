@@ -32,26 +32,26 @@ const { isAdmin } = useAdmin();
 
 <template>
   <div
-    class="flex flex-col max-w-md px-6 py-6 border shadow bg-n-solid-1 rounded-xl border-n-weak"
+    class="flex flex-col max-w-md px-6 py-6 border shadow bg-s-surface rounded-xl border-s-border"
   >
     <div class="flex items-center w-full gap-2 mb-4">
       <span
-        class="flex items-center justify-center w-6 h-6 rounded-full bg-n-solid-blue"
+        class="flex items-center justify-center w-6 h-6 rounded-full bg-s-brand"
       >
         <Icon
-          class="flex-shrink-0 text-n-brand size-[14px]"
+          class="flex-shrink-0 text-s-brand size-[14px]"
           icon="i-lucide-lock-keyhole"
         />
       </span>
-      <span class="text-base font-medium text-n-slate-12">
+      <span class="text-base font-medium text-s-primary">
         {{ $t(`${featurePrefix}.PAYWALL.TITLE`) }}
       </span>
     </div>
     <p
       v-dompurify-html="$t(`${featurePrefix}.${i18nKey}.AVAILABLE_ON`)"
-      class="text-sm font-normal text-n-slate-11"
+      class="text-sm font-normal text-s-muted"
     />
-    <p class="text-sm font-normal text-n-slate-11">
+    <p class="text-sm font-normal text-s-muted">
       {{ $t(`${featurePrefix}.${i18nKey}.UPGRADE_PROMPT`) }}
       <span v-if="isOnChatwootCloud && !isAdmin">
         {{ $t('GENERAL_SETTINGS.LIMIT_MESSAGES.NON_ADMIN') }}
@@ -64,7 +64,7 @@ const { isAdmin } = useAdmin();
       <ButtonV4 blue solid md @click="emit('upgrade')">
         {{ $t(`${featurePrefix}.PAYWALL.UPGRADE_NOW`) }}
       </ButtonV4>
-      <span class="mt-2 text-xs tracking-tight text-center text-n-slate-11">
+      <span class="mt-2 text-xs tracking-tight text-center text-s-muted">
         {{ $t(`${featurePrefix}.PAYWALL.CANCEL_ANYTIME`) }}
       </span>
     </template>

@@ -27,27 +27,27 @@ const { calculateTrend, displayMetric, isAverageMetricType, fetchingStatus } =
 const trendColor = (value, key) => {
   if (isAverageMetricType(key)) {
     return value > 0
-      ? 'border-n-ruby-9 text-n-ruby-9'
-      : 'border-n-teal-10 text-n-teal-10';
+      ? 'border-s-error text-s-error'
+      : 'border-s-success text-s-success';
   }
   return value < 0
-    ? 'border-n-ruby-9 text-n-ruby-9'
-    : 'border-n-teal-10 text-n-teal-10';
+    ? 'border-s-error text-s-error'
+    : 'border-s-success text-s-success';
 };
 </script>
 
 <template>
-  <div class="text-n-slate-11">
+  <div class="text-s-muted">
     <span class="text-sm">
       {{ metric.NAME }}
     </span>
-    <div class="flex items-end text-n-slate-12">
+    <div class="flex items-end text-s-primary">
       <div v-if="fetchingStatus === STATUS.FETCHING">
         <Spinner />
       </div>
       <div
         v-else-if="fetchingStatus === STATUS.FAILED"
-        class="text-n-ruby-10 text-sm"
+        class="text-s-error-text text-sm"
       >
         {{ t('REPORT.SUMMARY_FETCHING_FAILED') }}
       </div>

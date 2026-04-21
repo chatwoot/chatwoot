@@ -86,7 +86,7 @@ const inboxName = hook => (hook.inbox ? hook.inbox.name : '');
       :search-placeholder="$t('INTEGRATION_APPS.SEARCH_PLACEHOLDER')"
     >
       <template v-if="hooks?.length" #count>
-        <span class="text-body-main text-n-slate-11">
+        <span class="text-body-main text-s-muted">
           {{ $t('INTEGRATION_APPS.COUNT', { n: hooks.length }) }}
         </span>
       </template>
@@ -113,13 +113,13 @@ const inboxName = hook => (hook.inbox ? hook.inbox.name : '');
                 v-for="property in hook.properties"
                 :key="property"
               >
-                <span class="text-body-main text-n-slate-12">
+                <span class="text-body-main text-s-primary">
                   {{ property }}
                 </span>
               </BaseTableCell>
 
               <BaseTableCell v-if="isHookTypeInbox">
-                <span class="text-body-main text-n-slate-11 break-words">
+                <span class="text-body-main text-s-muted break-words">
                   {{ inboxName(hook) }}
                 </span>
               </BaseTableCell>
@@ -133,7 +133,7 @@ const inboxName = hook => (hook.inbox ? hook.inbox.name : '');
                     icon="i-woot-bin"
                     slate
                     sm
-                    class="hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-2"
+                    class="hover:enabled:text-s-error-text hover:enabled:bg-s-error-soft"
                     @click="$emit('delete', hook)"
                   />
                 </div>

@@ -28,24 +28,24 @@ const showForwardingAddress = computed(() => {
 
 <template>
   <div class="w-full text-center">
-    <p class="text-base text-n-slate-11 mt-4 w-4/5 mx-auto leading-7">
+    <p class="text-base text-s-muted mt-4 w-4/5 mx-auto leading-7">
       {{ message }}
     </p>
 
     <div v-if="showForwardingAddress" class="w-[50%] max-w-[50%] mx-auto">
-      <p class="mt-8 mb-4 font-medium text-n-slate-11">
+      <p class="mt-8 mb-4 font-medium text-s-muted">
         {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FORWARDING_ADDRESS_LABEL') }}
       </p>
       <woot-code lang="html" :script="inbox.forward_to_email" />
     </div>
 
-    <p class="mt-8 text-sm text-n-slate-11 pb-4">
+    <p class="mt-8 text-sm text-s-muted pb-4">
       <router-link
         :to="{
           name: 'settings_inbox_show',
           params: { inboxId: inboxId, tab: 'configuration' },
         }"
-        class="text-n-woot-600 hover:text-n-woot-700 underline"
+        class="text-s-brand hover:text-s-brand-text underline"
       >
         {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.CONFIGURE_SMTP_IMAP_LINK') }}
       </router-link>

@@ -47,7 +47,7 @@ watch(
         <td class="py-4 ltr:pl-4 ltr:pr-3 rtl:pl-3 rtl:pr-4 text-body-main">
           <Icon
             icon="i-woot-drag-indicator"
-            class="size-4 text-n-slate-11 mt-1 cursor-move"
+            class="size-4 text-s-muted mt-1 cursor-move"
           />
         </td>
         <td class="py-4 ltr:pr-3 rtl:pl-3 text-body-main">
@@ -58,13 +58,13 @@ watch(
         </td>
         <td
           class="py-4 ltr:pr-3 rtl:pl-3 text-body-main"
-          :class="{ 'text-n-slate-11': !item['enabled'] }"
+          :class="{ 'text-s-muted': !item['enabled'] }"
         >
           {{ item.name }}
         </td>
         <td
           class="py-4 ltr:pr-3 rtl:pl-3 text-body-main"
-          :class="{ 'text-n-slate-11': !item['enabled'] }"
+          :class="{ 'text-s-muted': !item['enabled'] }"
         >
           {{ item.type }}
         </td>
@@ -80,24 +80,24 @@ watch(
         </td>
         <td
           class="py-4 ltr:pr-3 rtl:pl-3 text-body-main"
-          :class="{ 'text-n-slate-11': !item['enabled'] }"
+          :class="{ 'text-s-muted': !item['enabled'] }"
         >
           <input
             v-model="item.label"
             type="text"
             :disabled="isFieldEditable(item)"
-            class="w-full text-sm !mb-0 px-2 py-1 border border-n-weak rounded"
+            class="w-full text-sm !mb-0 px-2 py-1 border border-s-border rounded"
           />
         </td>
         <td
           class="py-4 ltr:pr-4 rtl:pl-4 text-body-main"
-          :class="{ 'text-n-slate-11': !item['enabled'] }"
+          :class="{ 'text-s-muted': !item['enabled'] }"
         >
           <input
             v-model="item.placeholder"
             type="text"
             :disabled="isFieldEditable(item)"
-            class="w-full text-sm !mb-0 px-2 py-1 border border-n-weak rounded"
+            class="w-full text-sm !mb-0 px-2 py-1 border border-s-border rounded"
           />
         </td>
       </tr>

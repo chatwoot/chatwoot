@@ -107,7 +107,7 @@ const tableHeaders = computed(() => {
               <template #default>
                 <BaseTableCell>
                   <span
-                    class="text-body-main text-n-slate-12 whitespace-nowrap"
+                    class="text-body-main text-s-primary whitespace-nowrap"
                   >
                     {{ generateLogText(auditLogItem) }}
                   </span>
@@ -115,7 +115,7 @@ const tableHeaders = computed(() => {
 
                 <BaseTableCell>
                   <span
-                    class="text-body-main text-n-slate-11 whitespace-nowrap"
+                    class="text-body-main text-s-muted whitespace-nowrap"
                   >
                     {{
                       messageTimestamp(
@@ -127,7 +127,7 @@ const tableHeaders = computed(() => {
                 </BaseTableCell>
 
                 <BaseTableCell class="w-36">
-                  <span class="text-body-main text-n-slate-11">
+                  <span class="text-body-main text-s-muted">
                     {{ auditLogItem.remote_address }}
                   </span>
                 </BaseTableCell>

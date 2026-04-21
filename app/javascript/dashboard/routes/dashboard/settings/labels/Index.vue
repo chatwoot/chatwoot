@@ -114,7 +114,7 @@ onBeforeMount(() => {
         feature-name="labels"
       >
         <template v-if="records?.length" #count>
-          <span class="text-body-main text-n-slate-11">
+          <span class="text-body-main text-s-muted">
             {{ $t('LABEL_MGMT.COUNT', { n: records.length }) }}
           </span>
         </template>
@@ -139,13 +139,13 @@ onBeforeMount(() => {
           <BaseTableRow v-for="label in items" :key="label.title" :item="label">
             <template #default>
               <BaseTableCell>
-                <span class="text-body-main text-n-slate-12">
+                <span class="text-body-main text-s-primary">
                   {{ label.title }}
                 </span>
               </BaseTableCell>
 
               <BaseTableCell>
-                <span class="text-body-main text-n-slate-11">
+                <span class="text-body-main text-s-muted">
                   {{ label.description }}
                 </span>
               </BaseTableCell>
@@ -153,10 +153,10 @@ onBeforeMount(() => {
               <BaseTableCell>
                 <div class="flex items-center">
                   <span
-                    class="w-4 h-4 ltr:mr-2 rtl:ml-2 border border-solid rounded border-n-weak"
+                    class="w-4 h-4 ltr:mr-2 rtl:ml-2 border border-solid rounded border-s-border"
                     :style="{ backgroundColor: label.color }"
                   />
-                  <span class="text-body-main text-n-slate-12">
+                  <span class="text-body-main text-s-primary">
                     {{ label.color }}
                   </span>
                 </div>
@@ -177,7 +177,7 @@ onBeforeMount(() => {
                     icon="i-woot-bin"
                     slate
                     sm
-                    class="hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-2"
+                    class="hover:enabled:text-s-error-text hover:enabled:bg-s-error-soft"
                     :is-loading="loading[label.id]"
                     @click="openDeletePopup(label)"
                   />

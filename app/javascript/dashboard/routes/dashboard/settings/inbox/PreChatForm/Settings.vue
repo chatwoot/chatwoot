@@ -110,11 +110,11 @@ onMounted(() => {
       </template>
     </SettingsToggleSection>
     <div v-if="preChatFormEnabled" class="flex items-center my-8 py-1">
-      <div class="flex-1 h-px bg-n-weak" />
-      <span class="text-body-main text-n-slate-11 px-2">
+      <div class="flex-1 h-px bg-s-border" />
+      <span class="text-body-main text-s-muted px-2">
         {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }}
       </span>
-      <div class="flex-1 h-px bg-n-weak" />
+      <div class="flex-1 h-px bg-s-border" />
     </div>
     <form class="flex flex-col" @submit.prevent="updateInbox">
       <div v-if="preChatFormEnabled">
@@ -123,11 +123,11 @@ onMounted(() => {
             class="min-w-full table-auto outline outline-1 -outline-offset-1 outline-n-weak rounded-xl"
           >
             <thead>
-              <tr class="border-b border-n-weak">
+              <tr class="border-b border-s-border">
                 <th
                   v-for="(header, index) in tableHeaders"
                   :key="index"
-                  class="py-3 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-n-slate-12"
+                  class="py-3 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-s-primary"
                 >
                   {{ header }}
                 </th>

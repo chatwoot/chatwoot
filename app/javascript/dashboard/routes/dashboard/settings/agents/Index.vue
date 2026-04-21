@@ -161,7 +161,7 @@ const confirmDeletion = () => {
         feature-name="agents"
       >
         <template v-if="agentList?.length" #count>
-          <span class="text-body-main text-n-slate-11">
+          <span class="text-body-main text-s-muted">
             {{ $t('AGENT_MGMT.COUNT', { n: agentList.length }) }}
           </span>
         </template>
@@ -177,11 +177,11 @@ const confirmDeletion = () => {
     <template #body>
       <span
         v-if="!filteredAgentList.length && searchQuery"
-        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
+        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-s-muted"
       >
         {{ $t('AGENT_MGMT.NO_RESULTS') }}
       </span>
-      <div v-else class="divide-y divide-n-weak border-t border-n-weak">
+      <div v-else class="divide-y divide-s-border border-t border-s-border">
         <div
           v-for="(agent, index) in filteredAgentList"
           :key="agent.email"
@@ -196,36 +196,36 @@ const confirmDeletion = () => {
               hide-offline-status
             />
             <div class="flex flex-col gap-1.5 items-start">
-              <span class="block text-heading-3 text-n-slate-12 capitalize">
+              <span class="block text-heading-3 text-s-primary capitalize">
                 {{ agent.name }}
               </span>
               <div class="flex items-center gap-2">
-                <span class="text-body-main text-n-slate-11">
+                <span class="text-body-main text-s-muted">
                   {{ agent.email }}
                 </span>
-                <div class="w-px h-3 bg-n-strong rounded-lg" />
+                <div class="w-px h-3 bg-s-border-strong rounded-lg" />
                 <span
-                  class="block w-fit text-body-main text-n-slate-11 relative"
+                  class="block w-fit text-body-main text-s-muted relative"
                   :class="{
-                    'hover:text-n-slate-12 group cursor-pointer':
+                    'hover:text-s-primary group cursor-pointer':
                       agent.custom_role_id,
                   }"
                 >
                   {{ getAgentRoleName(agent) }}
 
                   <div
-                    class="absolute ltr:left-0 rtl:right-0 z-10 hidden w-[300px] bg-n-alpha-3 backdrop-blur-[100px] rounded-xl outline outline-1 outline-n-container shadow-lg top-14 md:top-12"
+                    class="absolute ltr:left-0 rtl:right-0 z-10 hidden w-[300px] bg-s-subtle backdrop-blur-[100px] rounded-xl outline outline-1 outline-n-container shadow-lg top-14 md:top-12"
                     :class="{ 'group-hover:block': agent.custom_role_id }"
                   >
                     <div class="flex flex-col gap-1 p-4">
-                      <span class="text-heading-3 text-n-slate-12">
+                      <span class="text-heading-3 text-s-primary">
                         {{ $t('AGENT_MGMT.LIST.AVAILABLE_CUSTOM_ROLE') }}
                       </span>
                       <ul class="ltr:pl-4 rtl:pr-4 mb-0 list-disc">
                         <li
                           v-for="permission in getAgentRolePermissions(agent)"
                           :key="permission"
-                          class="text-body-main text-n-slate-11"
+                          class="text-body-main text-s-muted"
                         >
                           {{
                             $t(
@@ -237,16 +237,16 @@ const confirmDeletion = () => {
                     </div>
                   </div>
                 </span>
-                <div class="w-px h-3 bg-n-strong rounded-lg" />
+                <div class="w-px h-3 bg-s-border-strong rounded-lg" />
                 <span
                   v-if="agent.confirmed"
-                  class="text-body-main text-n-slate-11"
+                  class="text-body-main text-s-muted"
                 >
                   {{ $t('AGENT_MGMT.LIST.VERIFIED') }}
                 </span>
                 <span
                   v-if="!agent.confirmed"
-                  class="text-body-main text-n-slate-11"
+                  class="text-body-main text-s-muted"
                 >
                   {{ $t('AGENT_MGMT.LIST.VERIFICATION_PENDING') }}
                 </span>
@@ -268,7 +268,7 @@ const confirmDeletion = () => {
               icon="i-woot-bin"
               slate
               sm
-              class="hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-2"
+              class="hover:enabled:text-s-error-text hover:enabled:bg-s-error-soft"
               :is-loading="loading[agent.id]"
               @click="openDeletePopup(agent, index)"
             />
