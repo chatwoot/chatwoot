@@ -56,9 +56,9 @@ const handleBack = () => {
   selectedTemplate.value = null;
 };
 
-const handleSendMessage = template => {
+const handleSendMessage = (template, hide) => {
   emit('sendMessage', template);
-  selectedTemplate.value = null;
+  hide();
 };
 </script>
 
@@ -77,7 +77,7 @@ const handleSendMessage = template => {
       :disabled="selectedTemplate"
       class="!text-xs font-medium"
     />
-    <template #content>
+    <template #content="{ hide }">
       <div
         v-if="!selectedTemplate"
         class="flex flex-col gap-2 p-4 items-center w-[21.875rem]"
@@ -126,7 +126,7 @@ const handleSendMessage = template => {
       <ContentTemplateForm
         v-else
         :template="selectedTemplate"
-        @send-message="handleSendMessage"
+        @send-message="payload => handleSendMessage(payload, hide)"
         @back="handleBack"
       />
     </template>
