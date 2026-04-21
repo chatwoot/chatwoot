@@ -1,0 +1,79 @@
+{
+  "name": "Synapse OS — Avisa Outgoing (Chatwoot → WhatsApp)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "synapseos/avisa-outgoing",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "3c000000-0000-0000-0000-000000000001",
+      "name": "Webhook (Chatwoot outgoing)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [260, 300],
+      "webhookId": "synapseos-avisa-outgoing"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Valida shared secret (se configurado) e traduz o payload Chatwoot\n// para o shape que a Avisa API espera.\n//\n// AJUSTE_AQUI: endpoint exato e nome de campos (number/jid, message/text, etc.)\n// variam entre versões da Avisa. Ajuste depois do primeiro POST de teste.\nconst expected = $env.SYNAPSEOS_WEBHOOK_SECRET;\nconst headers = $input.first().json.headers || {};\nconst received = headers['x-synapseos-signature'] || headers['X-Synapseos-Signature'] || '';\nif (expected && expected !== received) {\n  throw new Error('Invalid X-Synapseos-Signature');\n}\n\nconst body = $input.first().json.body || {};\n// Avisa espera número sem o '+' (ex: 5511999999999).\nconst number = String(body.to || '').replace(/[^0-9]/g, '');\nconst type = body.type || 'text';\nconst payload = body.payload || {};\n\nlet avisaBody;\nswitch (type) {\n  case 'text':\n    avisaBody = { number, message: payload.text || '' };\n    break;\n  case 'image':\n    avisaBody = { number, url: payload.url, caption: payload.caption || '' };\n    break;\n  case 'audio':\n    avisaBody = { number, url: payload.url };\n    break;\n  case 'video':\n    avisaBody = { number, url: payload.url, caption: payload.caption || '' };\n    break;\n  case 'document':\n    avisaBody = { number, url: payload.url, caption: payload.caption || '' };\n    break;\n  default:\n    avisaBody = { number, message: JSON.stringify(payload) };\n}\n\n// AJUSTE_AQUI: path final da API Avisa por tipo de mensagem.\nconst endpointMap = {\n  text: '/send-message',\n  image: '/send-image',\n  audio: '/send-audio',\n  video: '/send-video',\n  document: '/send-document'\n};\nconst endpoint = endpointMap[type] || '/send-message';\n\nreturn [{\n  json: {\n    avisa_url: `${$env.SYNAPSEOS_AVISA_BASE_URL || 'https://www.avisaapi.com.br/api'}${endpoint}`,\n    avisa_body: avisaBody,\n    chatwoot_message_id: body.chatwoot_message_id,\n    chatwoot_conversation_id: body.chatwoot_conversation_id\n  }\n}];\n"
+      },
+      "id": "3c000000-0000-0000-0000-000000000002",
+      "name": "Verify + build Avisa request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.avisa_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SYNAPSEOS_AVISA_TOKEN }}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.avisa_body) }}",
+        "options": {
+          "timeout": 30000,
+          "response": { "response": { "neverError": true } }
+        }
+      },
+      "id": "3c000000-0000-0000-0000-000000000003",
+      "name": "POST to Avisa API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [740, 300],
+      "notes": "AJUSTE_AQUI: o header de auth real da Avisa pode ser 'Authorization: Bearer ...', 'X-API-Token: ...' ou apenas 'token' no body. Confira na collection Postman. Token de teste atual: MkZjvSywvWKWPkClAiNBluvar8Aqpr3n3qVzN2jSCfqrdpXqk6Ks0iUmbRib"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'relayed', avisa: $json, chatwoot_message_id: $('Verify + build Avisa request').first().json.chatwoot_message_id } }}"
+      },
+      "id": "3c000000-0000-0000-0000-000000000020",
+      "name": "Respond 200 to Chatwoot",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [980, 300]
+    }
+  ],
+  "connections": {
+    "Webhook (Chatwoot outgoing)": { "main": [[{ "node": "Verify + build Avisa request", "type": "main", "index": 0 }]] },
+    "Verify + build Avisa request": { "main": [[{ "node": "POST to Avisa API", "type": "main", "index": 0 }]] },
+    "POST to Avisa API": { "main": [[{ "node": "Respond 200 to Chatwoot", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "staticData": null,
+  "meta": { "instanceId": "synapseos-template" },
+  "tags": [
+    { "name": "synapseos" },
+    { "name": "avisa" },
+    { "name": "outgoing" }
+  ]
+}

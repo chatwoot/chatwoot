@@ -1,0 +1,69 @@
+{
+  "name": "Synapse OS — Avisa Incoming (WhatsApp → Chatwoot)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "synapseos/avisa-incoming",
+        "responseMode": "onReceived",
+        "options": {
+          "rawBody": false
+        }
+      },
+      "id": "4d000000-0000-0000-0000-000000000001",
+      "name": "Webhook (from Avisa)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [260, 300],
+      "webhookId": "synapseos-avisa-incoming",
+      "notes": "Cole esta URL pública no painel da Avisa como Webhook URL da instância. A Avisa publica em application/x-www-form-urlencoded com dois campos: 'jsonData' (evento whatsmeow serializado) e 'token' (identifica a instância)."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse + normalização do payload whatsmeow da Avisa API para o envelope\n// Meta Cloud API que o Whatsapp::IncomingMessageAvisaService parseia.\n//\n// Payload real observado (abril/2026):\n//   body.jsonData = JSON stringificado com { event: { Info, Message }, type: 'Message' }\n//   body.token    = token por instância (para verificar origem)\n//\n// event.Info relevante:\n//   - SenderAlt: '<phone>@s.whatsapp.net' (ex: '5511999999999@s.whatsapp.net')\n//   - Sender:    pode vir '@lid' (linked-id ofuscado) — preferir SenderAlt\n//   - PushName:  nome exibido do contato\n//   - IsFromMe:  true significa mensagem enviada pela própria empresa (pular)\n//   - IsGroup:   true significa grupo (pular por ora)\n//   - ID:        id único da mensagem\n//   - Timestamp: ISO8601\n//   - Type:      'text' | ... (usamos para fallback; preferimos detectar por event.Message keys)\n//\n// event.Message shapes whatsmeow:\n//   extendedTextMessage | conversation            -> text\n//   imageMessage { URL, mimetype, caption }       -> image\n//   audioMessage { URL, mimetype }                -> audio\n//   videoMessage { URL, mimetype, caption }       -> video\n//   documentMessage { URL, mimetype, caption, fileName } -> document\n//   stickerMessage { URL, mimetype }              -> sticker\n//   locationMessage { degreesLatitude, degreesLongitude } -> location\n//\n// AJUSTE_AQUI: se a Avisa começar a ofuscar a URL da mídia (mmg.whatsapp.net\n// só funciona com mediaKey), vai ser necessário decriptar com whatsmeow\n// antes de repassar ao Chatwoot. Implementar depois do 1º teste real.\n\nconst results = [];\nfor (const item of $input.all()) {\n  const rawBody = item.json.body || item.json;\n\n  // Verifica token da instância Avisa (fornecido por nós no painel).\n  const expectedInstanceToken = $env.SYNAPSEOS_AVISA_INSTANCE_TOKEN;\n  if (expectedInstanceToken && rawBody.token !== expectedInstanceToken) {\n    throw new Error('Invalid Avisa instance token');\n  }\n\n  let parsed;\n  try {\n    parsed = typeof rawBody.jsonData === 'string' ? JSON.parse(rawBody.jsonData) : rawBody.jsonData;\n  } catch (e) {\n    throw new Error('Failed to parse jsonData: ' + e.message);\n  }\n  if (!parsed || parsed.type !== 'Message') continue;\n\n  const info = parsed.event?.Info || {};\n  const msg = parsed.event?.Message || {};\n\n  // Skip: mensagens da própria empresa (echo) e grupos.\n  if (info.IsFromMe) continue;\n  if (info.IsGroup) continue;\n\n  // Extrai número do contato. SenderAlt é o JID real; Sender pode ser @lid ofuscado.\n  const sender = info.SenderAlt || info.Sender || '';\n  const fromJid = sender.split('@')[0].replace(/[^0-9]/g, '');\n  if (!fromJid) continue;\n\n  // Número da empresa (Synapse OS / inbox). A Avisa não entrega esse campo\n  // nativamente; definimos via env por flow (uma flow por inbox/instância).\n  const businessPhone = $env.SYNAPSEOS_AVISA_BUSINESS_PHONE;\n  if (!businessPhone) {\n    throw new Error('SYNAPSEOS_AVISA_BUSINESS_PHONE env var não configurada para esta flow');\n  }\n\n  const pushName = info.PushName || '';\n  const msgId = info.ID || String(Date.now());\n  const ts = info.Timestamp ? Math.floor(new Date(info.Timestamp).getTime() / 1000) : Math.floor(Date.now() / 1000);\n\n  // Detecta tipo pelas chaves de Message (prioridade sobre Info.Type).\n  let metaType = 'text';\n  let metaPayload = null;\n  if (msg.extendedTextMessage?.text) {\n    metaType = 'text';\n    metaPayload = { text: { body: msg.extendedTextMessage.text } };\n  } else if (msg.conversation) {\n    metaType = 'text';\n    metaPayload = { text: { body: msg.conversation } };\n  } else if (msg.imageMessage) {\n    metaType = 'image';\n    metaPayload = { image: {\n      url: msg.imageMessage.URL,\n      mime_type: msg.imageMessage.mimetype || 'image/jpeg',\n      caption: msg.imageMessage.caption || ''\n    }};\n  } else if (msg.audioMessage) {\n    metaType = 'audio';\n    metaPayload = { audio: {\n      url: msg.audioMessage.URL,\n      mime_type: msg.audioMessage.mimetype || 'audio/ogg'\n    }};\n  } else if (msg.videoMessage) {\n    metaType = 'video';\n    metaPayload = { video: {\n      url: msg.videoMessage.URL,\n      mime_type: msg.videoMessage.mimetype || 'video/mp4',\n      caption: msg.videoMessage.caption || ''\n    }};\n  } else if (msg.documentMessage) {\n    metaType = 'document';\n    metaPayload = { document: {\n      url: msg.documentMessage.URL,\n      mime_type: msg.documentMessage.mimetype || 'application/pdf',\n      filename: msg.documentMessage.fileName || 'document',\n      caption: msg.documentMessage.caption || ''\n    }};\n  } else if (msg.stickerMessage) {\n    metaType = 'sticker';\n    metaPayload = { sticker: {\n      url: msg.stickerMessage.URL,\n      mime_type: msg.stickerMessage.mimetype || 'image/webp'\n    }};\n  } else if (msg.locationMessage) {\n    metaType = 'location';\n    metaPayload = { location: {\n      latitude: msg.locationMessage.degreesLatitude,\n      longitude: msg.locationMessage.degreesLongitude,\n      name: msg.locationMessage.name || '',\n      address: msg.locationMessage.address || ''\n    }};\n  } else {\n    // Tipo não mapeado: vira texto de sistema com json inline.\n    metaType = 'text';\n    metaPayload = { text: { body: '[unsupported message type: ' + (info.Type || 'unknown') + ']' } };\n  }\n\n  const messageObj = Object.assign({\n    from: fromJid,\n    id: msgId,\n    timestamp: String(ts),\n    type: metaType\n  }, metaPayload);\n\n  results.push({\n    json: {\n      _phone_number: businessPhone,\n      body: {\n        object: 'whatsapp_business_account',\n        entry: [{\n          id: 'avisa',\n          changes: [{\n            field: 'messages',\n            value: {\n              messaging_product: 'whatsapp',\n              metadata: {\n                display_phone_number: businessPhone,\n                phone_number_id: businessPhone\n              },\n              contacts: [{ wa_id: fromJid, profile: { name: pushName } }],\n              messages: [messageObj]\n            }\n          }]\n        }]\n      }\n    }\n  });\n}\nreturn results;\n"
+      },
+      "id": "4d000000-0000-0000-0000-000000000002",
+      "name": "Parse whatsmeow → Meta Cloud API",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [520, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SYNAPSEOS_CHATWOOT_URL }}/webhooks/avisa/{{ encodeURIComponent($json._phone_number) }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "X-Synapseos-Signature", "value": "={{ $env.SYNAPSEOS_WEBHOOK_SECRET }}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body) }}",
+        "options": {
+          "timeout": 30000,
+          "response": { "response": { "neverError": true } }
+        }
+      },
+      "id": "4d000000-0000-0000-0000-000000000003",
+      "name": "POST to Chatwoot",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [820, 300]
+    }
+  ],
+  "connections": {
+    "Webhook (from Avisa)": { "main": [[{ "node": "Parse whatsmeow → Meta Cloud API", "type": "main", "index": 0 }]] },
+    "Parse whatsmeow → Meta Cloud API": { "main": [[{ "node": "POST to Chatwoot", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "staticData": null,
+  "meta": { "instanceId": "synapseos-template" },
+  "tags": [
+    { "name": "synapseos" },
+    { "name": "avisa" },
+    { "name": "incoming" }
+  ]
+}

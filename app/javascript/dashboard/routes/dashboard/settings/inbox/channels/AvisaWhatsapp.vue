@@ -3,7 +3,7 @@
 import { mapGetters } from 'vuex';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
-import { required } from '@vuelidate/validators';
+import { required, url as urlValidator } from '@vuelidate/validators';
 import router from '../../../../index';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
@@ -17,18 +17,22 @@ export default {
     return {
       inboxName: '',
       phoneNumber: '',
-      token: '',
-      apiBaseUrl: '',
+      n8nOutgoingUrl: '',
+      webhookSecret: '',
       acknowledgedRisk: false,
     };
   },
   computed: {
     ...mapGetters({ uiFlags: 'inboxes/getUIFlags' }),
+    incomingWebhookUrl() {
+      if (!this.phoneNumber) return '';
+      return `${window.location.origin}/webhooks/avisa/${encodeURIComponent(this.phoneNumber)}`;
+    },
   },
   validations: {
     inboxName: { required },
     phoneNumber: { required, isPhoneE164OrEmpty },
-    token: { required },
+    n8nOutgoingUrl: { required, urlValidator },
   },
   methods: {
     async createChannel() {
@@ -49,8 +53,8 @@ export default {
               phone_number: this.phoneNumber,
               provider: 'avisa',
               provider_config: {
-                token: this.token,
-                api_base_url: this.apiBaseUrl?.trim(),
+                n8n_outgoing_url: this.n8nOutgoingUrl.trim(),
+                webhook_secret: this.webhookSecret?.trim() || '',
               },
             },
           }
@@ -70,8 +74,12 @@ export default {
 
 <template>
   <form class="flex flex-col gap-4 mx-0" @submit.prevent="createChannel()">
-    <div class="p-3 rounded-md bg-n-amber-3 text-n-amber-12 text-sm">
+    <div class="p-3 rounded-md bg-n-amber-3 text-n-amber-12 text-sm leading-relaxed">
       ⚠️ {{ $t('INBOX_MGMT.ADD.WHATSAPP.AVISA.RISK_WARNING') }}
+    </div>
+
+    <div class="p-3 rounded-md bg-n-blue-3 text-n-blue-12 text-sm leading-relaxed">
+      ℹ️ {{ $t('INBOX_MGMT.ADD.WHATSAPP.AVISA.EXPLAINER') }}
     </div>
 
     <label :class="{ error: v$.inboxName.$error }">
@@ -88,15 +96,33 @@ export default {
       <input v-model="phoneNumber" type="text" placeholder="+5511999999999">
     </label>
 
-    <label :class="{ error: v$.token.$error }">
-      Avisa API token
-      <input v-model="token" type="text" placeholder="Avisa API token">
+    <label :class="{ error: v$.n8nOutgoingUrl.$error }">
+      {{ $t('INBOX_MGMT.ADD.WHATSAPP.AVISA.N8N_URL_LABEL') }}
+      <input
+        v-model="n8nOutgoingUrl"
+        type="url"
+        placeholder="https://n8n.seudominio.com/webhook/avisa-outgoing"
+      >
+      <span class="text-xs text-n-slate-10 mt-1 block">
+        {{ $t('INBOX_MGMT.ADD.WHATSAPP.AVISA.N8N_URL_HINT') }}
+      </span>
     </label>
 
     <label>
-      API base URL (optional)
-      <input v-model="apiBaseUrl" type="text" placeholder="https://api.avisaapi.com.br">
+      {{ $t('INBOX_MGMT.ADD.WHATSAPP.AVISA.SECRET_LABEL') }}
+      <input v-model="webhookSecret" type="text" placeholder="optional shared secret">
+      <span class="text-xs text-n-slate-10 mt-1 block">
+        {{ $t('INBOX_MGMT.ADD.WHATSAPP.AVISA.SECRET_HINT') }}
+      </span>
     </label>
+
+    <div v-if="incomingWebhookUrl" class="p-3 rounded-md bg-n-slate-3 text-n-slate-12 text-sm">
+      <div class="font-medium mb-1">{{ $t('INBOX_MGMT.ADD.WHATSAPP.AVISA.INCOMING_URL_LABEL') }}</div>
+      <code class="text-xs break-all">{{ incomingWebhookUrl }}</code>
+      <div class="text-xs text-n-slate-10 mt-2">
+        {{ $t('INBOX_MGMT.ADD.WHATSAPP.AVISA.INCOMING_URL_HINT') }}
+      </div>
+    </div>
 
     <label class="inline-flex items-center gap-2 text-sm">
       <input v-model="acknowledgedRisk" type="checkbox">

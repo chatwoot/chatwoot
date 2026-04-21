@@ -1,32 +1,22 @@
 # CUSTOMIZAÇÃO_SYNAPSEOS
-# Parser de mensagens recebidas via Avisa API.
-# APIs estilo Baileys geralmente enviam payloads mais planos (um objeto por
-# mensagem). TODO_AVISA: confirmar estrutura contra a documentação atual
-# da Avisa antes de ativar em produção.
+# Parser de mensagens recebidas que o N8N encaminha pro Chatwoot.
+# O flow N8N normaliza o payload whatsmeow/Baileys da Avisa (vem via
+# application/x-www-form-urlencoded com campo jsonData stringificado)
+# para o envelope Meta Cloud API que o Chatwoot já parseia nativamente.
 class Whatsapp::IncomingMessageAvisaService < Whatsapp::IncomingMessageBaseService
   private
 
-  # Avisa publica algo próximo de:
-  # {
-  #   "event": "message.received",
-  #   "phone": "5511999999999",
-  #   "message": { "id": "...", "text": "oi", "type": "text", ... }
-  # }
   def processed_params
-    @processed_params ||= normalize_payload(params.to_unsafe_hash)
-  end
-
-  def normalize_payload(raw)
-    # Reenvelopa pro formato compatível com IncomingMessageBaseService,
-    # espelhando o contrato da Cloud API usado pelas superclasses.
-    {
-      'messages' => [raw['message']].compact,
-      'contacts' => raw['contact'] ? [raw['contact']] : [],
-      'metadata' => { 'phone_number_id' => raw['phone'] }
-    }
+    @processed_params ||= params[:entry].try(:first).try(:[], 'changes').try(:first).try(:[], 'value')
   end
 
   def download_attachment_file(attachment_payload)
-    Down.download(attachment_payload[:url])
+    url = attachment_payload[:url] || attachment_payload['url']
+    return if url.blank?
+
+    Down.download(url)
+  rescue StandardError => e
+    Rails.logger.warn("[AVISA] falha ao baixar mídia #{url}: #{e.message}")
+    nil
   end
 end
