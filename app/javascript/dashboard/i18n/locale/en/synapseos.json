@@ -66,6 +66,28 @@
         "APPOINTMENT_CONFIRMED": "Appointment confirmed",
         "PRIVATE_NOTE_ADDED": "Private note added"
       }
+    },
+    "PIPELINE": {
+      "TITLE": "CRM Pipeline",
+      "SUBTITLE": "Drag leads across stages to update their pipeline position.",
+      "LOADING": "Loading pipeline…",
+      "UNASSIGNED": "Unassigned",
+      "ADD_STAGE": "Add stage",
+      "NEW_STAGE_HEADER": "New pipeline stage",
+      "STAGE_NAME": "Name",
+      "STAGE_COLOR": "Color",
+      "STAGE_TYPE": "Type",
+      "STAGE_TYPE_HINT": "'Won' and 'Lost' stages auto-close the lead's deal when a card is dropped on them.",
+      "CONFIRM_DELETE": "Delete stage '{name}'? Leads on it will become unassigned.",
+      "CANCEL": "Cancel",
+      "CREATE": "Create",
+      "STAGE_TYPES": {
+        "INBOUND": "Inbound",
+        "WORKING": "Working",
+        "WON": "Won",
+        "LOST": "Lost",
+        "CUSTOM": "Custom"
+      }
     }
   }
 }

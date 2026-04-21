@@ -246,6 +246,12 @@ const menuItems = computed(() => {
           activeOn: ['synapseos_dashboard'],
         },
         {
+          name: 'SynapseOS Pipeline',
+          label: t('SIDEBAR.SYNAPSEOS_PIPELINE'),
+          to: accountScopedRoute('synapseos_pipeline'),
+          activeOn: ['synapseos_pipeline'],
+        },
+        {
           name: 'SynapseOS Live Agents',
           label: t('SIDEBAR.SYNAPSEOS_LIVE_AGENTS'),
           to: accountScopedRoute('synapseos_live_agents'),
