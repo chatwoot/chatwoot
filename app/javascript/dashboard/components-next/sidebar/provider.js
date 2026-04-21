@@ -5,10 +5,11 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 
 const SidebarControl = Symbol('SidebarControl');
 
-const DEFAULT_WIDTH = 200;
-const MIN_WIDTH = 56;
-const COLLAPSED_THRESHOLD = 160;
-const MAX_WIDTH = 320;
+// CUSTOMIZAÇÃO_SYNAPSEOS — Ordexa-style widths (w-60 expandido, w-20 colapsado)
+const DEFAULT_WIDTH = 240;
+const MIN_WIDTH = 80;
+const COLLAPSED_THRESHOLD = 180;
+const MAX_WIDTH = 360;
 
 // Shared state for active popover (only one can be open at a time)
 const activePopover = ref(null);

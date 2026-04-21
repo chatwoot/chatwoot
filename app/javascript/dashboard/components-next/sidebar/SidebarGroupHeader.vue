@@ -26,50 +26,48 @@ const count = computed(() =>
 <template>
   <component
     :is="to ? 'router-link' : 'div'"
-    class="flex items-center gap-2 px-1.5 py-1 rounded-lg h-8 min-w-0"
+    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors min-w-0"
     role="button"
     draggable="false"
     :to="to"
     :title="label"
     :class="{
-      'text-n-slate-12 bg-n-alpha-2 font-medium': isActive && !hasActiveChild,
-      'text-n-slate-12 font-medium': hasActiveChild,
-      'text-n-slate-11 hover:bg-n-alpha-2': !isActive && !hasActiveChild,
+      'bg-s-surface shadow-s-sm border border-s-border text-s-brand-text':
+        isActive && !hasActiveChild,
+      'text-s-primary': hasActiveChild,
+      'text-s-secondary hover:bg-s-subtle': !isActive && !hasActiveChild,
     }"
     @click.stop="emit('toggle')"
   >
-    <div v-if="icon" class="relative flex items-center gap-2">
-      <Icon v-if="icon" :icon="icon" class="size-4" />
+    <div v-if="icon" class="relative flex items-center">
+      <Icon
+        v-if="icon"
+        :icon="icon"
+        class="size-5"
+        :class="{
+          'text-s-brand': isActive && !hasActiveChild,
+          'text-s-muted': !isActive && !hasActiveChild,
+          'text-s-secondary': hasActiveChild,
+        }"
+      />
       <span
         v-if="showBadge"
-        class="size-2 -top-px ltr:-right-px rtl:-left-px bg-n-brand absolute rounded-full border border-n-solid-2"
+        class="size-2 -top-px ltr:-right-px rtl:-left-px bg-s-brand absolute rounded-full border border-s-surface"
       />
     </div>
     <div class="flex items-center gap-1.5 flex-grow min-w-0 flex-1">
-      <span
-        class="truncate"
-        :class="{
-          'text-body-main': !isActive,
-          'font-medium text-sm': isActive || hasActiveChild,
-        }"
-      >
-        {{ label }}
-      </span>
+      <span class="truncate">{{ label }}</span>
       <span
         v-if="dynamicCount && !expandable"
-        class="rounded-md capitalize text-xs leading-5 font-medium text-center outline outline-1 px-1 flex-shrink-0"
-        :class="{
-          'text-n-slate-12 outline-n-slate-6': isActive,
-          'text-n-slate-11 outline-n-strong': !isActive,
-        }"
+        class="rounded-full text-xs leading-4 font-semibold text-center px-1.5 py-0.5 flex-shrink-0 bg-s-brand-soft text-s-brand-text"
       >
         {{ count }}
       </span>
     </div>
     <span
       v-if="expandable"
-      v-show="isExpanded"
-      class="i-lucide-chevron-up size-3"
+      class="size-4 text-s-muted"
+      :class="isExpanded ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
       @click.stop="emit('toggle')"
     />
   </component>
