@@ -13,7 +13,25 @@ module Synapseos
         period_end: @range.last,
         kpis: kpis,
         daily: daily_breakdown,
+        recent_events: recent_events,
       }
+    end
+
+    def recent_events
+      ::Synapseos::CrmEvent
+        .where(account_id: @account.id)
+        .order(created_at: :desc)
+        .limit(10)
+        .map do |e|
+          {
+            id: e.id,
+            event_type: e.event_type,
+            conversation_id: e.conversation_id,
+            user_id: e.user_id,
+            metadata: e.metadata,
+            created_at: e.created_at,
+          }
+        end
     end
 
     private

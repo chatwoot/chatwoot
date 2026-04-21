@@ -49,6 +49,22 @@
         "MESSAGES_SENT": "Messages sent",
         "AI_RESPONSES": "AI responses",
         "BOT_TAKEOVERS": "Bot takeovers"
+      },
+      "RECENT_EVENTS": {
+        "TITLE": "Recent activity",
+        "EMPTY": "No CRM events yet."
+      },
+      "EVENT_TYPE": {
+        "LEAD_CREATED": "Lead created",
+        "LEAD_QUALIFIED": "Lead qualified",
+        "LEAD_DISQUALIFIED": "Lead disqualified",
+        "DEAL_CREATED": "Deal created",
+        "DEAL_WON": "Deal won",
+        "DEAL_LOST": "Deal lost",
+        "BOT_TAKEOVER": "Human takeover",
+        "HUMAN_RESCUE": "Bot rescue",
+        "APPOINTMENT_CONFIRMED": "Appointment confirmed",
+        "PRIVATE_NOTE_ADDED": "Private note added"
       }
     }
   }

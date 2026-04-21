@@ -71,6 +71,38 @@ const operationalCards = computed(() => {
   ];
 });
 
+const eventTypeMeta = {
+  lead_created: { icon: 'i-lucide-user-plus', tone: 'text-n-slate-11' },
+  lead_qualified: { icon: 'i-lucide-star', tone: 'text-n-blue-9' },
+  lead_disqualified: { icon: 'i-lucide-x-circle', tone: 'text-n-slate-11' },
+  deal_created: { icon: 'i-lucide-file-plus', tone: 'text-n-slate-11' },
+  deal_won: { icon: 'i-lucide-check-circle', tone: 'text-n-teal-9' },
+  deal_lost: { icon: 'i-lucide-x-circle', tone: 'text-n-ruby-9' },
+  bot_takeover: { icon: 'i-lucide-user-cog', tone: 'text-n-amber-9' },
+  human_rescue: { icon: 'i-lucide-bot', tone: 'text-n-violet-9' },
+  appointment_confirmed: { icon: 'i-lucide-calendar-check', tone: 'text-n-amber-9' },
+  private_note_added: { icon: 'i-lucide-sticky-note', tone: 'text-n-slate-11' },
+};
+
+const recentEvents = computed(() => {
+  return (summary.value?.recent_events || []).map(ev => ({
+    ...ev,
+    meta: eventTypeMeta[ev.event_type] || { icon: 'i-lucide-circle-dot', tone: 'text-n-slate-11' },
+    label: t(`SYNAPSEOS.DASHBOARD.EVENT_TYPE.${ev.event_type.toUpperCase()}`, ev.event_type),
+    relativeTime: formatRelativeTime(ev.created_at),
+  }));
+});
+
+const formatRelativeTime = iso => {
+  if (!iso) return '';
+  const then = new Date(iso).getTime();
+  const delta = Math.max(0, Math.floor((Date.now() - then) / 1000));
+  if (delta < 60) return `${delta}s`;
+  if (delta < 3600) return `${Math.floor(delta / 60)}m`;
+  if (delta < 86400) return `${Math.floor(delta / 3600)}h`;
+  return `${Math.floor(delta / 86400)}d`;
+};
+
 const chartData = computed(() => {
   const days = summary.value?.daily || [];
   return {
@@ -192,29 +224,61 @@ onBeforeUnmount(() => {
       </Card>
     </section>
 
-    <Card class="!shadow-none border border-n-weak">
-      <template #title>
-        <span class="text-base font-semibold text-n-slate-12">
-          {{ t('SYNAPSEOS.DASHBOARD.CHART.TITLE') }}
-        </span>
-      </template>
-      <template #content>
-        <div class="h-80">
-          <Chart
-            v-if="!loading && chartData.labels.length"
-            type="line"
-            :data="chartData"
-            :options="chartOptions"
-            class="h-full"
-          />
-          <div v-else-if="loading" class="text-sm text-n-slate-10">
-            {{ t('SYNAPSEOS.DASHBOARD.LOADING') }}
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <Card class="!shadow-none border border-n-weak lg:col-span-2">
+        <template #title>
+          <span class="text-base font-semibold text-n-slate-12">
+            {{ t('SYNAPSEOS.DASHBOARD.CHART.TITLE') }}
+          </span>
+        </template>
+        <template #content>
+          <div class="h-80">
+            <Chart
+              v-if="!loading && chartData.labels.length"
+              type="line"
+              :data="chartData"
+              :options="chartOptions"
+              class="h-full"
+            />
+            <div v-else-if="loading" class="text-sm text-n-slate-10">
+              {{ t('SYNAPSEOS.DASHBOARD.LOADING') }}
+            </div>
+            <div v-else class="text-sm text-n-slate-10">
+              {{ t('SYNAPSEOS.DASHBOARD.NO_DATA') }}
+            </div>
           </div>
+        </template>
+      </Card>
+
+      <Card class="!shadow-none border border-n-weak">
+        <template #title>
+          <span class="text-base font-semibold text-n-slate-12">
+            {{ t('SYNAPSEOS.DASHBOARD.RECENT_EVENTS.TITLE') }}
+          </span>
+        </template>
+        <template #content>
+          <ul v-if="recentEvents.length" class="flex flex-col gap-3">
+            <li
+              v-for="event in recentEvents"
+              :key="event.id"
+              class="flex items-start gap-3"
+            >
+              <i :class="['size-5 mt-0.5 shrink-0', event.meta.icon, event.meta.tone]" />
+              <div class="flex flex-col min-w-0">
+                <span class="text-sm font-medium text-n-slate-12 truncate">
+                  {{ event.label }}
+                </span>
+                <span class="text-xs text-n-slate-10">
+                  {{ event.relativeTime }} · conv #{{ event.conversation_id || '—' }}
+                </span>
+              </div>
+            </li>
+          </ul>
           <div v-else class="text-sm text-n-slate-10">
-            {{ t('SYNAPSEOS.DASHBOARD.NO_DATA') }}
+            {{ t('SYNAPSEOS.DASHBOARD.RECENT_EVENTS.EMPTY') }}
           </div>
-        </div>
-      </template>
-    </Card>
+        </template>
+      </Card>
+    </div>
   </div>
 </template>
