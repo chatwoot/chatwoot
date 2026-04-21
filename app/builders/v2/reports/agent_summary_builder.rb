@@ -11,10 +11,6 @@ class V2::Reports::AgentSummaryBuilder < V2::Reports::BaseSummaryBuilder
   attr_reader :conversations_count, :resolved_count,
               :avg_resolution_time, :avg_first_response_time, :avg_reply_time
 
-  def fetch_conversations_count
-    account.conversations.where(created_at: range).group('assignee_id').count
-  end
-
   def prepare_report
     account.account_users.map do |account_user|
       build_agent_stats(account_user)

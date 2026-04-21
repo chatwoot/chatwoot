@@ -93,6 +93,7 @@
       "ASSIGN_AGENT": "에이전트 배정",
       "ADD_LABEL": "라벨 추가",
       "REMOVE_LABEL": "라벨 제거",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "배정된 팀 제거",
       "SEND_EMAIL_TRANSCRIPT": "이메일 대화 내용 전송",
       "MUTE_CONVERSATION": "대화 음소거",

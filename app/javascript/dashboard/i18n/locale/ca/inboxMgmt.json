@@ -86,6 +86,14 @@
           "PLACEHOLDER": "Introdueix l'URL del teu webhook",
           "ERROR": "Introduïu una URL vàlid"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domini del lloc web",
           "PLACEHOLDER": "Introduïu el vostre domini de lloc web (pe: acme.com)"

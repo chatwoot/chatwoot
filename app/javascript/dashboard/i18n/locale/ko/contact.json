@@ -20,6 +20,7 @@
     "CALL": "통화",
     "CALL_INITIATED": "연락처에 전화 거는 중...",
     "CALL_FAILED": "통화를 시작할 수 없습니다. 다시 시도하십시오.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "음성 받은 메시지함 선택"
     },

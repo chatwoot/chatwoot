@@ -37,6 +37,8 @@ bn:
     account:
       reporting_timezone:
         invalid: বৈধ টাইমজোন নয়
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: ফাঁকা রাখা যাবে না
     webhook:
@@ -52,6 +54,14 @@ bn:
       not_found: অ্যাসাইনমেন্ট নীতি পাওয়া যায়নি
     attachments:
       invalid: অবৈধ সংযুক্তি
+    upload:
+      missing_input: 'No file or URL provided'
+      invalid_url: 'Invalid URL provided'
+      fetch_failed: 'Failed to fetch file from URL'
+      fetch_failed_with_message: 'Failed to fetch file from URL: %{message}'
+      file_too_large: 'File exceeds the maximum allowed size'
+      unsupported_content_type: 'File type not supported (only images and videos are allowed)'
+      unexpected: 'An unexpected error occurred'
     saml:
       feature_not_enabled: এই অ্যাকাউন্টের জন্য SAML ফিচার সক্রিয় নয়
       sso_not_enabled: এই ইনস্টলেশনের জন্য SAML SSO সক্রিয় করা হয়নি

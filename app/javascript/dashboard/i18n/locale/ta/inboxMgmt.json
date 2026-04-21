@@ -86,6 +86,14 @@
           "PLACEHOLDER": "தயவுசெய்து உங்கள் Webhook URL ஐ உள்ளிடவும்",
           "ERROR": "சரியான URL ஐ பதிவிடவும்"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "ரகசியம் கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது",
+          "TOGGLE": "ரகசியத்தை காண்பிக்க/மறைக்கவும்",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "இணையதள களம்",
           "PLACEHOLDER": "உங்கள் இணையதள களத்தை உள்ளிடவும் (eg: உதாரணமாக acme.com)"
