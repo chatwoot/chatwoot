@@ -60,12 +60,12 @@ RSpec.describe Messages::SearchDataPresenter do
 
     context 'when the message has no email subject but the conversation has a mail_subject' do
       before do
-        conversation.update!(additional_attributes: { 'mail_subject' => 'Tracking TBA329297652648' })
+        conversation.update!(additional_attributes: { 'mail_subject' => 'Conversation Subject' })
       end
 
       it 'falls back to the conversation mail_subject' do
         content_attrs = presenter.search_data[:content_attributes]
-        expect(content_attrs[:email][:subject]).to eq('Tracking TBA329297652648')
+        expect(content_attrs[:email][:subject]).to eq('Conversation Subject')
       end
     end
 
