@@ -43,4 +43,8 @@ Rails.application.reloader.to_prepare do
     # This avoids duplicate messages when echo comes early during API processing
     Webhooks::FacebookEventsJob.set(wait: 2.seconds).perform_later(message.to_json)
   end
+
+  Facebook::Messenger::Bot.on :postback do |postback|
+    Webhooks::FacebookEventsJob.perform_later(postback.to_json)
+  end
 end

@@ -19,7 +19,7 @@ class Integrations::Facebook::MessageParser
   end
 
   def content
-    @messaging.dig('message', 'text')
+    @messaging.dig('message', 'text') || postback_title || postback_payload
   end
 
   def sequence
@@ -31,7 +31,15 @@ class Integrations::Facebook::MessageParser
   end
 
   def identifier
-    @messaging.dig('message', 'mid')
+    @messaging.dig('message', 'mid') || @messaging.dig('postback', 'mid')
+  end
+
+  def postback_title
+    @messaging.dig('postback', 'title')
+  end
+
+  def postback_payload
+    @messaging.dig('postback', 'payload')
   end
 
   def delivery
