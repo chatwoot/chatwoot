@@ -20,7 +20,8 @@ export default {
           name: 'automation_list',
           component: Automation,
           meta: {
-            featureFlag: FEATURE_FLAGS.AUTOMATIONS,
+            // CUSTOMIZAÇÃO_SYNAPSEOS: Automations nativas escondidas até o motor próprio ficar pronto.
+            featureFlag: FEATURE_FLAGS.SYNAPSEOS_AUTOMATIONS_NATIVE,
             permissions: ['administrator'],
           },
         },

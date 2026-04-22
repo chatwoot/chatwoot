@@ -45,6 +45,8 @@ export const FEATURE_FLAGS = {
   COMPANIES: 'companies',
   ADVANCED_SEARCH: 'advanced_search',
   CONVERSATION_REQUIRED_ATTRIBUTES: 'conversation_required_attributes',
+  // CUSTOMIZAÇÃO_SYNAPSEOS: gate para o motor nativo de automações do Synapse OS.
+  SYNAPSEOS_AUTOMATIONS_NATIVE: 'synapseos_automations_native',
 };
 
 export const PREMIUM_FEATURES = [

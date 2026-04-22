@@ -163,3 +163,8 @@
 - name: captain_tasks
   display_name: Captain Tasks
   enabled: true
+# CUSTOMIZAÇÃO_SYNAPSEOS: gate do motor nativo de automações.
+# Enquanto desligado, o item "Automations" some da sidebar para admins também.
+- name: synapseos_automations_native
+  display_name: Synapse OS Native Automations
+  enabled: false
