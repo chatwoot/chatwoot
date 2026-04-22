@@ -1,6 +1,8 @@
 class Integrations::Slack::UpdateSlackMessageService
   include RegexHelper
 
+  SUPPORTED_CONTENT_TYPES = %w[input_select form input_csat input_email].freeze
+
   pattr_initialize [:message!, :hook!]
 
   def perform
@@ -13,18 +15,16 @@ class Integrations::Slack::UpdateSlackMessageService
     )
   rescue Slack::Web::Api::Errors::MessageNotFound => e
     # Original Slack message no longer exists (e.g. channel was reconfigured), skip gracefully.
-    Rails.logger.error e
+    Rails.logger.error "[Slack] chat_update failed (account=#{message.account_id}, hook=#{hook.id}): #{e.message}"
   rescue Slack::Web::Api::Errors::IsArchived, Slack::Web::Api::Errors::AccountInactive, Slack::Web::Api::Errors::MissingScope,
          Slack::Web::Api::Errors::InvalidAuth,
          Slack::Web::Api::Errors::ChannelNotFound, Slack::Web::Api::Errors::NotInChannel => e
-    Rails.logger.error e
+    Rails.logger.error "[Slack] chat_update failed (account=#{message.account_id}, hook=#{hook.id}): #{e.message}"
     hook.prompt_reauthorization!
     hook.disable
   end
 
   private
-
-  SUPPORTED_CONTENT_TYPES = %w[input_select form input_csat input_email].freeze
 
   def updateable_message?
     hook&.reference_id.present? &&
@@ -126,7 +126,8 @@ class Integrations::Slack::UpdateSlackMessageService
     return if hash.blank?
 
     keys.each do |key|
-      return hash[key] || hash[key.to_sym] if hash.key?(key) || hash.key?(key.to_sym)
+      value = hash[key.to_sym] || hash[key.to_s]
+      return value if value.present?
     end
     nil
   end
