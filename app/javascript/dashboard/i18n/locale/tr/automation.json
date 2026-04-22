@@ -140,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Temsilciye Ata",
       "ASSIGN_TEAM": "Bir Ekibe Ata",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Atanan Ekibi Kaldır",
       "ADD_LABEL": "Etiket Ekle",
       "REMOVE_LABEL": "Etiketi Kaldır",
       "SEND_EMAIL_TO_TEAM": "Ekibe E-posta Gönder",
@@ -169,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Mesaj Türü",
+      "PRIVATE_NOTE": "Özel Not",
       "MESSAGE_CONTAINS": "Mesaj İçerir",
       "EMAIL": "E-Posta",
       "INBOX": "Gelen Kutusu",

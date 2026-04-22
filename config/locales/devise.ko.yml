@@ -57,5 +57,5 @@ ko:
       not_found: "찾을 수 없습니다"
       not_locked: "잠겨 있지 않습니다"
       not_saved:
-        one: "1개의 오류로 인해 이 %{resource}을(를) 저장할 수 없습니다:"
+        one: "%{count}개의 오류로 인해 이 %{resource}을(를) 저장할 수 없습니다:"
         other: "%{count}개의 오류로 인해 이 %{resource}을(를) 저장할 수 없습니다:"

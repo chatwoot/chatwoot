@@ -86,6 +86,14 @@
           "PLACEHOLDER": "Inserisci il tuo URL Webhook",
           "ERROR": "Inserisci un URL valido"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copia secret negli appunti",
+          "COPY_SUCCESS": "Secret copiato negli appunti",
+          "TOGGLE": "Cambia visibilità secret",
+          "RESET_SUCCESS": "Webhook secret rigenerato con successo",
+          "RESET_ERROR": "Impossibile rigenerare il webhook secret. Riprova"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Dominio del Sito",
           "PLACEHOLDER": "Inserisci il dominio del tuo sito web (es: acme.com)"

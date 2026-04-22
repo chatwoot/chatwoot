@@ -698,7 +698,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "Higit pang mga katangian",
         "UNCATEGORIZED": "Walang kategorya",
-        "EDITOR_PLACEHOLDER": "Sumulat ng kahit ano..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Mga katangian ng artikulo",

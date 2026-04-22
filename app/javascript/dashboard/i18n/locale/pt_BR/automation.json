@@ -140,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Atribuir ao Agente",
       "ASSIGN_TEAM": "Atribuir um Time",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Remover Time Atribuído",
       "ADD_LABEL": "Adicionar uma Etiqueta",
       "REMOVE_LABEL": "Remover uma Etiqueta",
       "SEND_EMAIL_TO_TEAM": "Enviar um e-mail para o Time",
@@ -169,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Tipo da Mensagem",
+      "PRIVATE_NOTE": "Mensagem Privada",
       "MESSAGE_CONTAINS": "A mensagem contém",
       "EMAIL": "E-mail",
       "INBOX": "Caixa de Entrada",
