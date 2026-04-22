@@ -10,6 +10,7 @@ import SynapseKpiCard from 'next/synapseos/SynapseKpiCard.vue';
 import SynapseStatusPill from 'next/synapseos/SynapseStatusPill.vue';
 import SynapseBadge from 'next/synapseos/SynapseBadge.vue';
 import SynapseInput from 'next/synapseos/SynapseInput.vue';
+import AgentConversationsPanel from '../components/AgentConversationsPanel.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -17,6 +18,7 @@ const agents = ref([]);
 const loading = ref(true);
 const pollTimer = ref(null);
 const searchQuery = ref('');
+const selectedAgent = ref(null);
 
 const availabilityTone = availability => {
   const map = { online: 'success', busy: 'warning', offline: 'neutral' };
@@ -106,6 +108,19 @@ const summaryCards = computed(() => [
   },
 ]);
 
+const handleRowClick = event => {
+  const agent = event?.data;
+  if (!agent) return;
+  if (selectedAgent.value?.id === agent.id) {
+    selectedAgent.value = null;
+  } else {
+    selectedAgent.value = agent;
+  }
+};
+
+const rowClass = data =>
+  selectedAgent.value?.id === data?.id ? 'bg-s-subtle' : null;
+
 onMounted(() => {
   fetchAgents();
   pollTimer.value = setInterval(fetchAgents, 15000);
@@ -152,14 +167,17 @@ onBeforeUnmount(() => {
       </span>
     </div>
 
+    <div class="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-4">
     <SynapseCard padding="none">
       <DataTable
         :value="filteredAgents"
         :loading="loading"
         data-key="id"
         removable-sort
-        :pt="{ table: { class: 'min-w-full' } }"
+        :row-class="rowClass"
+        :pt="{ table: { class: 'min-w-full' }, bodyRow: { class: 'cursor-pointer' } }"
         class="w-full"
+        @row-click="handleRowClick"
       >
         <Column field="name" :header="t('SYNAPSEOS.LIVE_AGENTS.COL_NAME')" sortable>
           <template #body="{ data }">
@@ -212,5 +230,16 @@ onBeforeUnmount(() => {
         </Column>
       </DataTable>
     </SynapseCard>
+
+    <div v-if="selectedAgent">
+      <AgentConversationsPanel
+        :agent="selectedAgent"
+        @close="selectedAgent = null"
+      />
+    </div>
+    <SynapseCard v-else class="hidden lg:flex items-center justify-center text-sm text-s-muted min-h-[300px]">
+      {{ t('SYNAPSEOS.LIVE_AGENTS.PANEL.HINT') }}
+    </SynapseCard>
+    </div>
   </div>
 </template>

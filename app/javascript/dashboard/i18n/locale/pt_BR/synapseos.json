@@ -7,6 +7,22 @@
         "REPORTS": "Relatórios ao vivo"
       }
     },
+    "LIVE_AGENTS": {
+      "PANEL": {
+        "TITLE": "Conversas — {name}",
+        "COUNT": "{n} conversas abertas",
+        "CLOSE": "Fechar",
+        "LOADING": "Carregando conversas…",
+        "EMPTY": "Nenhuma conversa aberta atribuída a este agente.",
+        "HINT": "Selecione um agente para ver as conversas dele.",
+        "STATUS": {
+          "OPEN": "Aberta",
+          "RESOLVED": "Resolvida",
+          "PENDING": "Pendente",
+          "SNOOZED": "Adiada"
+        }
+      }
+    },
     "LIVE": {
       "TITLE": "Live Agents",
       "SUBTITLE": "Monitoramento em tempo real do esquadrão",

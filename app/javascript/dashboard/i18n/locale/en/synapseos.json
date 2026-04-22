@@ -46,6 +46,20 @@
         "ONLINE": "Online",
         "OFFLINE": "Offline",
         "BUSY": "Busy"
+      },
+      "PANEL": {
+        "TITLE": "Conversations — {name}",
+        "COUNT": "{n} open conversations",
+        "CLOSE": "Close",
+        "LOADING": "Loading conversations…",
+        "EMPTY": "No open conversations assigned to this agent.",
+        "HINT": "Select an agent to see their conversations.",
+        "STATUS": {
+          "OPEN": "Open",
+          "RESOLVED": "Resolved",
+          "PENDING": "Pending",
+          "SNOOZED": "Snoozed"
+        }
       }
     },
     "DASHBOARD": {

@@ -58,7 +58,9 @@ Rails.application.routes.draw do
             post :bulk_create, on: :collection
           end
           namespace :synapseos do
-            resources :live_agents, only: [:index]
+            resources :live_agents, only: [:index] do
+              member { get :conversations }
+            end
             resources :leads, only: [:index, :show, :create, :update]
             resources :deals, only: [:index, :show, :create, :update]
             resources :crm_events, only: [:index, :create]
