@@ -35,24 +35,6 @@
         max-width: 640px;
       }
 
-      .brand-row {
-        padding: 0 8px 16px;
-      }
-
-      .brand-chip {
-        display: inline-block;
-        padding: 10px 14px;
-        border-radius: 999px;
-        border: 1px solid #CFE3FF;
-        background-color: #EAF3FF;
-        color: #2563EB;
-        font-size: 13px;
-        font-weight: 700;
-        line-height: 13px;
-        letter-spacing: 0.02em;
-        text-decoration: none;
-      }
-
       .main-card {
         width: 100%;
         border: 1px solid #DCE7F5;
@@ -97,10 +79,6 @@
           padding: 24px 12px 32px !important;
         }
 
-        .brand-row {
-          padding: 0 4px 14px !important;
-        }
-
         .main-card {
           border-radius: 20px !important;
         }
@@ -123,19 +101,6 @@
       <tr style="margin: 0;">
         <td align="center" class="page-wrap" style="padding: 32px 16px 40px;" valign="top">
           <table class="email-container" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 640px; margin: 0 auto;">
-            <tr style="margin: 0;">
-              <td class="brand-row" style="padding: 0 8px 16px;">
-                {% if brand_url != '' %}
-                  <a href="{{ brand_url }}" class="brand-chip" style="display: inline-block; padding: 10px 14px; border-radius: 999px; border: 1px solid #CFE3FF; background-color: #EAF3FF; color: #2563EB; font-size: 13px; font-weight: 700; line-height: 13px; letter-spacing: 0.02em; text-decoration: none;">
-                    {{ brand_name }}
-                  </a>
-                {% else %}
-                  <span class="brand-chip" style="display: inline-block; padding: 10px 14px; border-radius: 999px; border: 1px solid #CFE3FF; background-color: #EAF3FF; color: #2563EB; font-size: 13px; font-weight: 700; line-height: 13px; letter-spacing: 0.02em; text-decoration: none;">
-                    {{ brand_name }}
-                  </span>
-                {% endif %}
-              </td>
-            </tr>
             <tr style="margin: 0;">
               <td style="margin: 0;">
                 <table class="main-card" role="presentation" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/ConfirmAction" style="width: 100%; border: 1px solid #DCE7F5; border-radius: 24px; background-color: #FFFFFF; box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06); overflow: hidden;" bgcolor="#FFFFFF">
