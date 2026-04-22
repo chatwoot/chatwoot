@@ -4,6 +4,8 @@ import DashboardPage from './pages/DashboardPage.vue';
 import PipelinePage from './pages/PipelinePage.vue';
 import DesignSystemPage from './pages/DesignSystemPage.vue';
 
+const AgentMetrics = () => import('./pages/AgentMetrics.vue');
+
 export const routes = [
   {
     path: frontendURL('accounts/:accountId/synapseos/dashboard'),
@@ -21,6 +23,12 @@ export const routes = [
     path: frontendURL('accounts/:accountId/synapseos/live-agents'),
     name: 'synapseos_live_agents',
     component: LiveAgentsPage,
+    meta: { permissions: ['administrator'] },
+  },
+  {
+    path: frontendURL('accounts/:accountId/synapseos/metrics'),
+    name: 'synapseos_agent_metrics',
+    component: AgentMetrics,
     meta: { permissions: ['administrator'] },
   },
   {
