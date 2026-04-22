@@ -41,6 +41,7 @@ import teamsSettings from './teamsSettings.json';
 import webhooks from './webhooks.json';
 import whatsappTemplates from './whatsappTemplates.json';
 import yearInReview from './yearInReview.json';
+import synapseos from './synapseos.json';
 
 export default {
   ...advancedFilters,
@@ -86,4 +87,5 @@ export default {
   ...webhooks,
   ...whatsappTemplates,
   ...yearInReview,
+  ...synapseos,
 };
