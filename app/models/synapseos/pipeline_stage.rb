@@ -25,15 +25,14 @@ module Synapseos
   class PipelineStage < ApplicationRecord
     self.table_name = 'synapseos_pipeline_stages'
 
-    STAGE_TYPES = %w[inbound working won lost custom].freeze
+    STAGE_TYPES = %w[open inbound working won lost custom].freeze
 
     DEFAULT_STAGES = [
-      { name: 'Novo Lead', color: '#64B5F6', position: 0, stage_type: 'inbound' },
-      { name: 'Qualificação', color: '#42A5F5', position: 1, stage_type: 'working' },
-      { name: 'Proposta', color: '#2196F3', position: 2, stage_type: 'working' },
-      { name: 'Negociação', color: '#1976D2', position: 3, stage_type: 'working' },
-      { name: 'Ganho', color: '#22C55E', position: 4, stage_type: 'won' },
-      { name: 'Perdido', color: '#EF4444', position: 5, stage_type: 'lost' }
+      { slug: 'novo_lead',      name: 'Novo Lead',      color: '#6B7280', position: 1, stage_type: 'open' },
+      { slug: 'qualificado',    name: 'Qualificado',    color: '#3B82F6', position: 2, stage_type: 'open' },
+      { slug: 'negociacao',     name: 'Negociação',     color: '#F59E0B', position: 3, stage_type: 'open' },
+      { slug: 'fechado_ganho',  name: 'Fechado Ganho',  color: '#10B981', position: 4, stage_type: 'won' },
+      { slug: 'perdido',        name: 'Perdido',        color: '#EF4444', position: 5, stage_type: 'lost' }
     ].freeze
 
     belongs_to :account
