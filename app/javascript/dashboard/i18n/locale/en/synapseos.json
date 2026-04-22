@@ -1,5 +1,28 @@
 {
   "SYNAPSEOS": {
+    "LIVE": {
+      "TITLE": "Live Agents",
+      "SUBTITLE": "Real-time squadron monitoring",
+      "AGENTS_SECTION": "Active Agents",
+      "HOT_CONVERSATIONS": "Hot Conversations",
+      "LAST_ACTION_NONE": "No recent activity",
+      "STATUS": {
+        "ONLINE": "Online",
+        "IDLE": "Idle",
+        "OFFLINE": "Offline"
+      },
+      "COLUMNS": {
+        "CONVERSATION": "Conversation",
+        "CONTACT": "Contact",
+        "ASSIGNEE": "Assignee",
+        "STATUS": "Status",
+        "TIME_IN_STAGE": "Time in stage"
+      },
+      "CABLE": {
+        "CONNECTED": "Live",
+        "POLLING": "Polling"
+      }
+    },
     "LIVE_AGENTS": {
       "TITLE": "Live Agents",
       "SUBTITLE": "Real-time view of agent activity and workload",

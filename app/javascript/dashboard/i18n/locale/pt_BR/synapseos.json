@@ -1,0 +1,27 @@
+{
+  "SYNAPSEOS": {
+    "LIVE": {
+      "TITLE": "Live Agents",
+      "SUBTITLE": "Monitoramento em tempo real do esquadrão",
+      "AGENTS_SECTION": "Agentes Ativos",
+      "HOT_CONVERSATIONS": "Conversas Quentes",
+      "LAST_ACTION_NONE": "Sem atividade recente",
+      "STATUS": {
+        "ONLINE": "Online",
+        "IDLE": "Inativo",
+        "OFFLINE": "Offline"
+      },
+      "COLUMNS": {
+        "CONVERSATION": "Conversa",
+        "CONTACT": "Cliente",
+        "ASSIGNEE": "Responsável",
+        "STATUS": "Status",
+        "TIME_IN_STAGE": "Tempo na etapa"
+      },
+      "CABLE": {
+        "CONNECTED": "Ao vivo",
+        "POLLING": "Polling"
+      }
+    }
+  }
+}
