@@ -12,6 +12,14 @@ const props = defineProps({
     default: 'end',
     validator: v => ['start', 'end'].includes(v),
   },
+  disableMobileView: {
+    type: Boolean,
+    default: false,
+  },
+  showContentBorder: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['show', 'hide']);
@@ -22,7 +30,8 @@ const popoverRef = ref(null);
 const mobileContentRef = ref(null);
 
 const breakpoints = useBreakpoints(breakpointsTailwind);
-const isMobile = breakpoints.smaller('md');
+const belowMd = breakpoints.smaller('md');
+const isMobile = computed(() => !props.disableMobileView && belowMd.value);
 const showPopover = computed(() => isActive.value && !isMobile.value);
 
 const { fixedPosition, updatePosition } = useDropdownPosition(
@@ -99,9 +108,13 @@ defineExpose({ show, hide, toggle });
           { ignore: clickOutsideIgnore },
         ]"
         data-popover-content
-        class="relative w-full max-w-lg max-h-[calc(100vh-4rem)] mx-4 overflow-y-auto bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl"
+        class="relative flex flex-col w-full max-w-lg max-h-[calc(100vh-4rem)] mx-4 bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl"
       >
-        <slot name="content" :hide="hide" />
+        <div
+          class="flex-1 min-h-0 overflow-y-auto overscroll-contain rounded-xl"
+        >
+          <slot name="content" :hide="hide" />
+        </div>
       </div>
     </div>
 
@@ -113,9 +126,14 @@ defineExpose({ show, hide, toggle });
       data-popover-content
       :class="fixedPosition.class"
       :style="fixedPosition.style"
-      class="bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl overflow-y-auto max-h-[calc(100vh-2rem)]"
+      class="flex flex-col bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl"
     >
-      <slot name="content" :hide="hide" />
+      <div
+        class="flex-1 min-h-0 overflow-y-auto overscroll-contain rounded-xl"
+        :class="{ 'border border-n-strong': showContentBorder }"
+      >
+        <slot name="content" :hide="hide" />
+      </div>
     </div>
   </TeleportWithDirection>
 </template>
