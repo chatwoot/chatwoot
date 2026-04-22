@@ -49,10 +49,14 @@
       }
     },
     "DASHBOARD": {
-      "TITLE": "Synapse OS Dashboard",
+      "TITLE": "Executive Dashboard",
       "SUBTITLE": "Operational and revenue KPIs over the last {days} days",
       "LOADING": "Loading metrics…",
       "NO_DATA": "No data for the selected period yet.",
+      "TABS": {
+        "OVERVIEW": "Overview",
+        "REPORTS": "Live reports"
+      },
       "KPI": {
         "LEADS": "Leads",
         "DEALS_WON": "Deals won",

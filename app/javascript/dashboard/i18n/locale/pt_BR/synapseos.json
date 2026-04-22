@@ -1,5 +1,12 @@
 {
   "SYNAPSEOS": {
+    "DASHBOARD": {
+      "TITLE": "Dashboard Executivo",
+      "TABS": {
+        "OVERVIEW": "Visão geral",
+        "REPORTS": "Relatórios ao vivo"
+      }
+    },
     "LIVE": {
       "TITLE": "Live Agents",
       "SUBTITLE": "Monitoramento em tempo real do esquadrão",

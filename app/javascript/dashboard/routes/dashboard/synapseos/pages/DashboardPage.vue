@@ -9,6 +9,7 @@ import SynapseCard from 'next/synapseos/SynapseCard.vue';
 import SynapseKpiCard from 'next/synapseos/SynapseKpiCard.vue';
 import SynapseStatusPill from 'next/synapseos/SynapseStatusPill.vue';
 import SynapseBadge from 'next/synapseos/SynapseBadge.vue';
+import LiveReports from '../../settings/reports/LiveReports.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -18,6 +19,12 @@ const periodOptions = [
   { label: '30d', value: 30 },
   { label: '90d', value: 90 },
 ];
+
+const tabs = computed(() => [
+  { key: 'overview', label: t('SYNAPSEOS.DASHBOARD.TABS.OVERVIEW') },
+  { key: 'reports', label: t('SYNAPSEOS.DASHBOARD.TABS.REPORTS') },
+]);
+const activeTab = ref('overview');
 
 const period = ref(30);
 const summary = ref(null);
@@ -267,7 +274,7 @@ onBeforeUnmount(() => {
           {{ t('SYNAPSEOS.DASHBOARD.SUBTITLE', { days: period }) }}
         </p>
       </div>
-      <div class="flex items-center gap-2">
+      <div v-if="activeTab === 'overview'" class="flex items-center gap-2">
         <SynapseButton
           v-for="opt in periodOptions"
           :key="opt.value"
@@ -280,6 +287,24 @@ onBeforeUnmount(() => {
       </div>
     </header>
 
+    <nav class="flex gap-6 border-b border-s-border-subtle">
+      <button
+        v-for="tab in tabs"
+        :key="tab.key"
+        type="button"
+        :class="[
+          'pb-3 text-sm font-medium transition-colors border-b-2 -mb-px',
+          activeTab === tab.key
+            ? 'text-s-primary border-s-primary'
+            : 'text-s-muted border-transparent hover:text-s-secondary',
+        ]"
+        @click="activeTab = tab.key"
+      >
+        {{ tab.label }}
+      </button>
+    </nav>
+
+    <template v-if="activeTab === 'overview'">
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <SynapseKpiCard
         v-for="kpi in primaryKpis"
@@ -363,6 +388,11 @@ onBeforeUnmount(() => {
           {{ t('SYNAPSEOS.DASHBOARD.RECENT_EVENTS.EMPTY') }}
         </div>
       </SynapseCard>
+    </div>
+    </template>
+
+    <div v-else-if="activeTab === 'reports'">
+      <LiveReports />
     </div>
   </div>
 </template>
