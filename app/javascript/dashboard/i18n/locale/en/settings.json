@@ -304,6 +304,7 @@
     "SYNAPSEOS_PIPELINE": "CRM Pipeline",
     "SYNAPSEOS_LIVE_AGENTS": "Live Agents",
     "SYNAPSEOS_LIVE_DASHBOARD": "Live Dashboard",
+    "SYNAPSEOS_AGENT_METRICS": "Squadron Metrics",
     "CONVERSATIONS": "Conversations",
     "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "All Conversations",

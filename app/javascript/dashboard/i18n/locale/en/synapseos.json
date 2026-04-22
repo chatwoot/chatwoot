@@ -90,6 +90,77 @@
         "PRIVATE_NOTE_ADDED": "Private note added"
       }
     },
+    "METRICS": {
+      "TITLE": "Synapse Squadron",
+      "SUBTITLE": "Performance metrics of the AI squadron",
+      "REFRESH": "Refresh",
+      "LAST_UPDATED": "Updated at {time}",
+      "EMPTY": "—",
+      "ERROR": "Failed to load",
+      "AGENT_COUNT": "1 agent | {n} agents",
+      "RANGES": {
+        "24H": "24h",
+        "7D": "7d",
+        "30D": "30d",
+        "90D": "90d"
+      },
+      "GROUPS": {
+        "FRONTLINE": "Front Line",
+        "PARTNERS": "Seller Partners",
+        "RESCUE": "Rescue & Profit Squad"
+      },
+      "AGENTS": {
+        "ALICE_IZA": {
+          "NAME": "Alice & Iza",
+          "ROLE": "Attraction & Qualification",
+          "KPI": {
+            "LEADS_RECEPCIONADOS": "Leads received",
+            "SPEED_TO_LEAD_SECONDS": "Avg. speed to lead",
+            "TAXA_QUALIFICACAO": "Qualification rate"
+          }
+        },
+        "OTTO": {
+          "NAME": "Otto",
+          "ROLE": "CRM copilot",
+          "KPI": {
+            "INTERACOES_CRM": "CRM interactions",
+            "ALERTAS_SLA": "SLA alerts",
+            "RESGATES": "Rescues"
+          }
+        },
+        "LUIS": {
+          "NAME": "Luís",
+          "ROLE": "Technical assistance",
+          "KPI": {
+            "ASSISTENCIAS_TECNICAS": "Technical assistances"
+          }
+        },
+        "FERNANDA": {
+          "NAME": "Fernanda",
+          "ROLE": "Lead reactivation",
+          "KPI": {
+            "LEADS_REATIVADOS": "Reactivated leads",
+            "PIPELINE_RESGATADO_CENTS": "Rescued pipeline"
+          }
+        },
+        "ANGELA": {
+          "NAME": "Ângela",
+          "ROLE": "Farming & cross-sell",
+          "KPI": {
+            "AGENDAMENTOS": "Appointments",
+            "TAXA_CROSSSELL": "Cross-sell rate"
+          }
+        },
+        "VITOR": {
+          "NAME": "Vitor",
+          "ROLE": "Collections",
+          "KPI": {
+            "ACORDOS_FECHADOS": "Deals closed",
+            "VALOR_RECUPERADO_CENTS": "Amount recovered"
+          }
+        }
+      }
+    },
     "PIPELINE": {
       "TITLE": "CRM Pipeline",
       "SUBTITLE": "Drag leads across stages to update their pipeline position.",

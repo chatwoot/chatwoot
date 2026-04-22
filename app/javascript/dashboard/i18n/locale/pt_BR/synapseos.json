@@ -22,6 +22,77 @@
         "CONNECTED": "Ao vivo",
         "POLLING": "Polling"
       }
+    },
+    "METRICS": {
+      "TITLE": "Esquadrão Synapse",
+      "SUBTITLE": "Métricas de performance do squadron",
+      "REFRESH": "Atualizar",
+      "LAST_UPDATED": "Atualizado às {time}",
+      "EMPTY": "—",
+      "ERROR": "Erro ao carregar",
+      "AGENT_COUNT": "1 agente | {n} agentes",
+      "RANGES": {
+        "24H": "24h",
+        "7D": "7d",
+        "30D": "30d",
+        "90D": "90d"
+      },
+      "GROUPS": {
+        "FRONTLINE": "Linha de Frente",
+        "PARTNERS": "Parceiros do Vendedor",
+        "RESCUE": "Tropa de Resgate e Lucro"
+      },
+      "AGENTS": {
+        "ALICE_IZA": {
+          "NAME": "Alice & Iza",
+          "ROLE": "Atração e Qualificação",
+          "KPI": {
+            "LEADS_RECEPCIONADOS": "Leads recepcionados",
+            "SPEED_TO_LEAD_SECONDS": "Tempo médio de resposta",
+            "TAXA_QUALIFICACAO": "Taxa de qualificação"
+          }
+        },
+        "OTTO": {
+          "NAME": "Otto",
+          "ROLE": "Copiloto de CRM",
+          "KPI": {
+            "INTERACOES_CRM": "Interações de CRM",
+            "ALERTAS_SLA": "Alertas de SLA",
+            "RESGATES": "Resgates"
+          }
+        },
+        "LUIS": {
+          "NAME": "Luís",
+          "ROLE": "Assistência técnica",
+          "KPI": {
+            "ASSISTENCIAS_TECNICAS": "Assistências técnicas"
+          }
+        },
+        "FERNANDA": {
+          "NAME": "Fernanda",
+          "ROLE": "Reativação de leads",
+          "KPI": {
+            "LEADS_REATIVADOS": "Leads reativados",
+            "PIPELINE_RESGATADO_CENTS": "Pipeline resgatado"
+          }
+        },
+        "ANGELA": {
+          "NAME": "Ângela",
+          "ROLE": "Farming e cross-sell",
+          "KPI": {
+            "AGENDAMENTOS": "Agendamentos",
+            "TAXA_CROSSSELL": "Taxa de cross-sell"
+          }
+        },
+        "VITOR": {
+          "NAME": "Vitor",
+          "ROLE": "Cobrança",
+          "KPI": {
+            "ACORDOS_FECHADOS": "Acordos fechados",
+            "VALOR_RECUPERADO_CENTS": "Valor recuperado"
+          }
+        }
+      }
     }
   }
 }
