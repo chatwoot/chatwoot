@@ -390,72 +390,72 @@
   },
   "CAPTAIN": {
     "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "اطلاعات بیشتر",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "دستیارها",
+      "SWITCH_ASSISTANT": "جابه‌جایی بین دستیارها",
+      "NEW_ASSISTANT": "ایجاد دستیار",
+      "EMPTY_LIST": "هیچ دستیار یافت نشد، لطفاً یکی ایجاد کنید تا شروع کنید"
     },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "PANEL_TITLE": "شروع به کار با Copilot",
+      "KICK_OFF_MESSAGE": "نیاز به خلاصه سریع، چک کردن مکالمات گذشته یا نوشتن پاسخ بهتر دارید؟ Copilot اینجا است تا سرعت کار را افزایش دهد.",
       "SEND_MESSAGE": "ارسال پیام...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
+      "EMPTY_MESSAGE": "خطا در تولید پاسخ رخ داد. لطفاً دوباره تلاش کنید.",
+      "LOADER": "Captain در حال فکر کردن است",
       "YOU": "شما",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "USE": "استفاده از این",
+      "RESET": "تنظیم مجدد",
+      "SHOW_STEPS": "نمایش مراحل",
+      "SELECT_ASSISTANT": "انتخاب دستیار",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "خلاصه این مکالمه",
+          "CONTENT": "نکات کلیدی مطرح شده بین مشتری و نماینده پشتیبانی شامل نگرانی‌ها، سوالات و راه‌حل‌ها یا پاسخ‌های ارائه شده را خلاصه کن"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "پیشنهاد پاسخ",
+          "CONTENT": "درخواست مشتری را تحلیل کن و پاسخی بنویس که به طور مؤثر نگرانی‌ها یا سوالاتش را برطرف کند. مطمئن شو پاسخ واضح، مختصر و مفید باشد."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "امتیاز دادن به این مکالمه",
+          "CONTENT": "مکالمه را بررسی کن تا ببینی چقدر نیازهای مشتری را پاسخ داده است. امتیازی از ۵ بر اساس لحن، وضوح و اثربخشی بده."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "مکالمات با اولویت بالا",
+          "CONTENT": "خلاصه‌ای از همه مکالمات با اولویت بالا که باز هستند بدهید. شامل شناسه مکالمه، نام مشتری (در صورت موجود بودن)، محتوای پیام آخر و نماینده اختصاص داده شده. در صورت لزوم بر اساس وضعیت گروه‌بندی کنید."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "فهرست مخاطبین",
+          "CONTENT": "فهرست ۱۰ مخاطب برتر را نشان بده. شامل نام، ایمیل یا شماره تلفن (در صورت موجود بودن)، زمان آخرین حضور، برچسب‌ها (در صورت وجود)."
         }
       }
     },
     "PLAYGROUND": {
       "USER": "شما",
-      "ASSISTANT": "Assistant",
+      "ASSISTANT": "دستیار",
       "MESSAGE_PLACEHOLDER": "پیام خود را وارد کنید...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "زمین بازی",
+      "DESCRIPTION": "از این زمین بازی استفاده کنید تا پیام‌هایی به دستیار خود بفرستید و بررسی کنید که پاسخ‌ها دقیق، سریع و با لحن مورد انتظار شما باشند.",
+      "CREDIT_NOTE": "پیام‌های ارسال شده اینجا، از اعتبارهای Captain شما کسر خواهد شد."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "TITLE": "برای استفاده از Captain AI ارتقا دهید",
+      "AVAILABLE_ON": "Captain در پلن رایگان در دسترس نیست.",
+      "UPGRADE_PROMPT": "پلن خود را ارتقا دهید تا به دستیارها، Copilot و امکانات بیشتر دسترسی پیدا کنید.",
       "UPGRADE_NOW": "حالا ارتقا دهید",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "AVAILABLE_ON": "Captain AI فقط در طرح‌های Enterprise در دسترس است.",
+      "UPGRADE_PROMPT": "پلن خود را ارتقا دهید تا به دستیارها، Copilot و امکانات بیشتر دسترسی پیدا کنید.",
       "ASK_ADMIN": "لطفاً برای ارتقا با ادمین خود تماس بگیرید."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "بیش از ۸۰٪ از حد پاسخ‌های خود را استفاده کرده‌اید. برای ادامه استفاده از Captain AI لطفاً ارتقا دهید.",
+      "DOCUMENTS": "حد سندها به پایان رسید. برای ادامه استفاده از Captain AI پلن خود را ارتقا دهید."
     },
     "FORM": {
       "CANCEL": "انصراف",
@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
+      "SELECTED": "{count} selected",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "BULK_DELETE_BUTTON": "حذف",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
         "DESCRIPTION": "These FAQs are generated directly from the document."
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -825,11 +837,30 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "باز کردن صورتحساب",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "لطفاً برای ارتقا با ادمین خود تماس بگیرید."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "توضیحات",

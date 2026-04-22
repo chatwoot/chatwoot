@@ -68,7 +68,8 @@
         "API_SUCCESS": "স্বাক্ষর সফলভাবে সংরক্ষণ হয়েছে",
         "IMAGE_UPLOAD_ERROR": "ছবি আপলোড করা সম্ভব হয়নি! আবার চেষ্টা করুন",
         "IMAGE_UPLOAD_SUCCESS": "ছবি সফলভাবে যোগ হয়েছে। স্বাক্ষর সংরক্ষণ করতে অনুগ্রহ করে সেভ-এ ক্লিক করুন।",
-        "IMAGE_UPLOAD_SIZE_ERROR": "ছবির আকার {size}MB-এর কম হতে হবে"
+        "IMAGE_UPLOAD_SIZE_ERROR": "ছবির আকার {size}MB-এর কম হতে হবে",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "বার্তার স্বাক্ষর",

@@ -122,7 +122,7 @@ class WebhookListener < BaseListener
     return if inbox.channel.webhook_url.blank?
 
     WebhookJob.perform_later(inbox.channel.webhook_url, payload, :api_inbox_webhook,
-                             delivery_id: SecureRandom.uuid)
+                             secret: inbox.channel.secret, delivery_id: SecureRandom.uuid)
   end
 
   def deliver_webhook_payloads(payload, inbox)

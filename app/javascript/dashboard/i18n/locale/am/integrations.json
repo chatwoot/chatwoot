@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "ሰነዶች",
       "ADD_NEW": "አዲስ ሰነድ ፍጠር",
+      "SELECTED": "{count} ተመረጡ",
+      "SELECT_ALL": "ሁሉንም ይምረጡ ({count})",
+      "UNSELECT_ALL": "ሁሉንም አልምረጥም ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "አዎን፣ ሁሉንም አጥፋ",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "ተዛማጅ የFAQ ጥያቄዎች",
         "DESCRIPTION": "እነዚህ የFAQ ጥያቄዎች ቀጥተኛ ከሰነዱ ተፈጥረዋል።"
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "መሣሪያዎች",
       "ADD_NEW": "አዲስ መሣሪያ ይፍጠሩ",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "ምንም የተለየ መሣሪያዎች አልተገኙም",
         "SUBTITLE": "እርስዎን ከውጭ ኤፒአይዎችና አገልግሎቶች ጋር ለማገናኘት የተለየ መሣሪያዎችን ይፍጠሩ፣ እንዲሁም እርስዎን በአካል ውስጥ መረጃ ለማግኘትና ለማከናወን ይፈቅዱ።",
@@ -825,11 +837,30 @@
         "SUCCESS_MESSAGE": "ብልጽግና ተጠቃሚ መሣሪያ ተሰርዟል",
         "ERROR_MESSAGE": "ብልጽግና መሣሪያውን ማስወገድ አልተሳካም"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "የመሣሪያ ስም",
           "PLACEHOLDER": "የትዕዛዝ ፍለጋ",
-          "ERROR": "የመሣሪያ ስም አስፈላጊ ነው"
+          "ERROR": "የመሣሪያ ስም አስፈላጊ ነው",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "መግለጫ",

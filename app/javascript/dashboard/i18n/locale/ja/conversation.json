@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "メッセージ署名が構成されていません。プロフィール設定で構成してください。",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "Copilot に追加のプロンプトを送るか、ほかの質問をしてください… Enter キーでフォローアップを送信",
       "CLICK_HERE": "ここをクリックして更新",
       "WHATSAPP_TEMPLATES": "Whatsapp テンプレート"
     },
@@ -214,7 +214,7 @@
       "DRAG_DROP": "添付するにはここにドラッグ＆ドロップ",
       "START_AUDIO_RECORDING": "音声録音を開始",
       "STOP_AUDIO_RECORDING": "音声録音を停止",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilotが考え中",
       "EMAIL_HEAD": {
         "TO": "宛先",
         "ADD_BCC": "Bcc を追加",

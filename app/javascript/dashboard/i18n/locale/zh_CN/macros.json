@@ -93,6 +93,7 @@
       "ASSIGN_AGENT": "分配客服",
       "ADD_LABEL": "添加标签",
       "REMOVE_LABEL": "移除标签",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "移除已分配的团队",
       "SEND_EMAIL_TRANSCRIPT": "通过邮件发送聊天记录",
       "MUTE_CONVERSATION": "开始会话",

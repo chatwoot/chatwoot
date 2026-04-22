@@ -86,6 +86,14 @@
           "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Lütfen geçerli bir adres girin"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Web Sitesi Alan Adı",
           "PLACEHOLDER": "Web sitenizin adresini girin"
@@ -710,20 +718,20 @@
       "MESSENGER_SUB_HEAD": "Bu düğmeyi gövde etiketinizin içine yerleştirin",
       "ALLOWED_DOMAINS": {
         "TITLE": "İzin Verilen Alan Adları",
-        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
+        "DESCRIPTION": "Sohbet widget'ınızı hangi web sitelerinin yerleştirebileceğini kısıtlayın. Güvenlik amacıyla, yalnızca sahip olduğunuz ve güvendiğiniz alan adlarını ekleyin. Bir veya daha fazla alan adını virgülle ayırarak ekleyin. Tüm alan adlarına izin vermek için boş bırakın (canlı ortamlar için önerilmez).",
         "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
       "ALLOW_MOBILE_WEBVIEW": {
-        "LABEL": "Enable widget in mobile apps",
-        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+        "LABEL": "Mobil uygulamalarda widget'ı etkinleştir",
+        "SUBTITLE": "Widget'ı iOS veya Android uygulamalarına yerleştiriyorsanız bu seçeneği işaretleyin. Mobil uygulamalar alan adı bilgisi göndermediğinden, bu seçenek etkinleştirilmezse alan adı kısıtlamalarına takılarak engellenirler."
       },
       "IDENTITY_VALIDATION": {
-        "TITLE": "Identity Validation",
-        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "TITLE": "Kimlik Doğrulama",
+        "DESCRIPTION": "Güvenli token'lar oluşturarak kullanıcıların gerçekliğini doğrulayın. Bu işlem, yetkisiz kişilerin sohbetinizde başkalarının kimliğine bürünmesini engeller.",
         "SECRET_KEY": "Gizli Anahtar",
-        "VIEW_DOCS": "View documentation",
-        "REQUIRE_LABEL": "Require identity validation for all conversations",
-        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
+        "VIEW_DOCS": "Dokümantasyonu görüntüle",
+        "REQUIRE_LABEL": "Tüm sohbetler için kimlik doğrulamayı zorunlu kıl",
+        "REQUIRE_DESCRIPTION": "Etkinleştirildiğinde, kullanıcıların sohbet başlatabilmesi için geçerli bir kimlik token'ı sunması gerekir. Geçerli bir token içermeyen istekler reddedilecektir."
       },
       "INBOX_AGENTS": "Kullanıcılar",
       "INBOX_AGENTS_SUB_TEXT": "Bu gelen kutusuna aracı ekleyin veya aracıları kaldırın",

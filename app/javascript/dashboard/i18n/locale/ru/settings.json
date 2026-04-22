@@ -68,7 +68,8 @@
         "API_SUCCESS": "Подпись успешно сохранена",
         "IMAGE_UPLOAD_ERROR": "Не удалось загрузить изображение! Попробуйте снова",
         "IMAGE_UPLOAD_SUCCESS": "Изображение успешно добавлено. Пожалуйста, нажмите сохранить, чтобы сохранить подпись",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Размер изображения должен быть меньше {size}МБ"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Размер изображения должен быть меньше {size}МБ",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Подпись сообщения",

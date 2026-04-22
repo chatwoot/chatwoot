@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "Yerel dil başarıyla portaldan kaldırıldı",
           "ERROR_MESSAGE": "Yerel dil portaldan kaldırılamadı. Lütfen tekrar deneyin."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -644,8 +656,11 @@
         "ARTICLES_COUNT": "{count} makale | {count} makale",
         "CATEGORIES_COUNT": "{count} kategori | {count} kategori",
         "DEFAULT": "Varsayılan",
+        "DRAFT": "Taslak",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Make default",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "Sil"
         }
       },
@@ -654,6 +669,13 @@
         "DESCRIPTION": "Bu makalenin yazılacağı dili seçin. Seçilen dil çeviri listenize eklenecek ve daha sonra yeni diller ekleyebilirsiniz.",
         "COMBOBOX": {
           "PLACEHOLDER": "Dil seçin..."
+        },
+        "STATUS": {
+          "LABEL": "Durum",
+          "OPTIONS": {
+            "LIVE": "Yayınlandı",
+            "DRAFT": "Taslak"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Yerel dil başarıyla eklendi",
@@ -676,7 +698,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "More properties",
         "UNCATEGORIZED": "Kategorize Edilmemiş",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Article properties",

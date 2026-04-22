@@ -37,6 +37,8 @@ it:
     account:
       reporting_timezone:
         invalid: non è un fuso orario valido
+      support_email:
+        invalid: non è un indirizzo email valido
     validations:
       presence: non deve essere vuoto
     webhook:
@@ -52,6 +54,14 @@ it:
       not_found: Policy di assegnazione non trovata
     attachments:
       invalid: Allegato non valido
+    upload:
+      missing_input: 'Nessun file o URL fornito'
+      invalid_url: 'URL fornito non valido'
+      fetch_failed: 'Impossibile recuperare il file dall''URL'
+      fetch_failed_with_message: 'Impossibile recuperare il file dall''URL: %{message}'
+      file_too_large: 'Il file supera la dimensione massima consentita'
+      unsupported_content_type: 'Tipo di file non supportato (sono ammessi solo immagini e video)'
+      unexpected: 'Si è verificato un errore imprevisto'
     saml:
       feature_not_enabled: Funzionalità SAML non attiva per questo account
       sso_not_enabled: SAML SSO non è abilitato per questa installazione
@@ -271,7 +281,7 @@ it:
       unmuted: '%{user_name} ha riattivato l''audio della conversazione'
       auto_resolution_message: 'La conversazione sta per essere risolta per inattività. Avvia una nuova conversazione se hai bisogno di ulteriore assistenza.'
     templates:
-      greeting_message_body: '%{account_name}, in genere, risponde in poche ore.'
+      greeting_message_body: 'Solitamente %{account_name} risponde in poche ore.'
       ways_to_reach_you_message_body: 'Dai al team un modo per contattarti.'
       email_input_box_message_body: 'Ricevi notifiche via email'
       csat_input_message_body: 'Valuta la conversazione'
@@ -373,6 +383,7 @@ it:
       page_processing_error: 'Errore nell''elaborazione delle pagine %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'Impossibile generare slug univoco dopo 5 tentativi'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
       search_placeholder: Cerca articolo tramite titolo o testo...
@@ -409,6 +420,10 @@ it:
       title: Pagina non trovata
       description: Non siamo riusciti a trovare la pagina che stavi cercando.
       back_to_home: Vai alla pagina iniziale
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
       name: Nome
