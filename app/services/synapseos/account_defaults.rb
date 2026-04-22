@@ -3,12 +3,10 @@
 # seeders here so `Account.after_create` triggers the whole bootstrap in one place.
 module Synapseos
   class AccountDefaults
-    SEEDERS = [
-      Synapseos::CustomAttributesSeeder
-    ].freeze
-
     def self.seed(account)
-      SEEDERS.each { |seeder| seeder.new(account).perform! }
+      # PipelineSeeder usa `.call(account)`; demais seeders usam `new(account).perform!`.
+      Synapseos::PipelineSeeder.call(account)
+      Synapseos::CustomAttributesSeeder.new(account).perform!
     end
   end
 end
