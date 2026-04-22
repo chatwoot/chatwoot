@@ -233,43 +233,41 @@ const menuItems = computed(() => {
         count: 'notifications/getUnreadCount',
       },
     },
-    // CUSTOMIZAÇÃO_SYNAPSEOS: agrupador "Synapse OS" com Dashboard executivo + Live Agents
+    // CUSTOMIZAÇÃO_SYNAPSEOS: Synapse OS — itens top-level da sidebar
     {
-      name: 'SynapseOS',
-      label: t('SIDEBAR.SYNAPSEOS_GROUP'),
-      icon: 'i-lucide-radar',
-      children: [
-        {
-          name: 'SynapseOS Dashboard',
-          label: t('SIDEBAR.SYNAPSEOS_DASHBOARD'),
-          to: accountScopedRoute('synapseos_dashboard'),
-          activeOn: ['synapseos_dashboard'],
-        },
-        {
-          name: 'SynapseOS Pipeline',
-          label: t('SIDEBAR.SYNAPSEOS_PIPELINE'),
-          to: accountScopedRoute('synapseos_pipeline'),
-          activeOn: ['synapseos_pipeline'],
-        },
-        {
-          name: 'SynapseOS Live Agents',
-          label: t('SIDEBAR.SYNAPSEOS_LIVE_AGENTS'),
-          to: accountScopedRoute('synapseos_live_agents'),
-          activeOn: ['synapseos_live_agents'],
-        },
-        {
-          name: 'SynapseOS Live Dashboard',
-          label: t('SIDEBAR.SYNAPSEOS_LIVE_DASHBOARD'),
-          to: accountScopedRoute('synapseos_live_dashboard'),
-          activeOn: ['synapseos_live_dashboard'],
-        },
-        {
-          name: 'SynapseOS Agent Metrics',
-          label: t('SIDEBAR.SYNAPSEOS_AGENT_METRICS'),
-          to: accountScopedRoute('synapseos_agent_metrics'),
-          activeOn: ['synapseos_agent_metrics'],
-        },
-      ],
+      name: 'SynapseOS Dashboard',
+      label: t('SIDEBAR.SYNAPSEOS_DASHBOARD'),
+      icon: 'i-lucide-layout-dashboard',
+      to: accountScopedRoute('synapseos_dashboard'),
+      activeOn: ['synapseos_dashboard'],
+    },
+    {
+      name: 'SynapseOS Live Agents',
+      label: t('SIDEBAR.SYNAPSEOS_LIVE_AGENTS'),
+      icon: 'i-lucide-users',
+      to: accountScopedRoute('synapseos_live_agents'),
+      activeOn: ['synapseos_live_agents'],
+    },
+    {
+      name: 'SynapseOS Agent Metrics',
+      label: t('SIDEBAR.SYNAPSEOS_AGENT_METRICS'),
+      icon: 'i-lucide-bot',
+      to: accountScopedRoute('synapseos_agent_metrics'),
+      activeOn: ['synapseos_agent_metrics'],
+    },
+    {
+      name: 'SynapseOS Live Dashboard',
+      label: t('SIDEBAR.SYNAPSEOS_LIVE_DASHBOARD'),
+      icon: 'i-lucide-radio',
+      to: accountScopedRoute('synapseos_live_dashboard'),
+      activeOn: ['synapseos_live_dashboard'],
+    },
+    {
+      name: 'SynapseOS Pipeline',
+      label: t('SIDEBAR.SYNAPSEOS_PIPELINE'),
+      icon: 'i-lucide-git-branch',
+      to: accountScopedRoute('synapseos_pipeline'),
+      activeOn: ['synapseos_pipeline'],
     },
     {
       name: 'Conversation',
@@ -515,11 +513,7 @@ const menuItems = computed(() => {
       label: t('SIDEBAR.REPORTS'),
       icon: 'i-lucide-chart-spline',
       children: [
-        {
-          name: 'Report Overview',
-          label: t('SIDEBAR.REPORTS_OVERVIEW'),
-          to: accountScopedRoute('account_overview_reports'),
-        },
+        // CUSTOMIZAÇÃO_SYNAPSEOS: "Overview" movido pro Dashboard Executivo (tab Relatórios).
         {
           name: 'Report Conversation',
           label: t('SIDEBAR.REPORTS_CONVERSATION'),
