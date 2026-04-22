@@ -106,7 +106,8 @@ class Account < ApplicationRecord
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
-  # CUSTOMIZAÇÃO_SYNAPSEOS: popula os 5 stages padrão do pipeline no onboarding da conta.
+  # CUSTOMIZAÇÃO_SYNAPSEOS: roda o orquestrador AccountDefaults no onboarding da conta
+  # (pipeline de 5 stages + custom attributes do ERP + futuros seeders).
   after_create :seed_synapseos_defaults
   after_destroy :remove_account_sequences
 
@@ -165,8 +166,12 @@ class Account < ApplicationRecord
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
   end
 
+  # Delega ao orquestrador AccountDefaults. Novos sprints registram seus seeders
+  # lá sem tocar este model.
   def seed_synapseos_defaults
-    ::Synapseos::PipelineSeeder.call(self)
+    ::Synapseos::AccountDefaults.seed(self)
+  rescue StandardError => e
+    Rails.logger.error("[Synapseos] Failed to seed account defaults for account ##{id}: #{e.message}")
   end
 
   trigger.after(:insert).for_each(:row) do
