@@ -2,22 +2,58 @@ class SynapseosListener < BaseListener
   LEAD_LABEL = 'lead_qualificado'.freeze
   COMMAND_REGEX = %r{^/(ganhei|perdi)(?:\s+([0-9]+(?:[.,][0-9]+)?))?}i
 
+  # Labels from docs/synapseos/tags_contract.md — broadcast changes on these.
+  CONTRACT_LABELS = %w[
+    lead_novo_recepcionado
+    lead_qualificado
+    crm_updated
+    sla_alert
+    rescue_transbordo
+    assistencia_tecnica
+    resgatado_fernanda
+    farming_revisao
+    farming_crosssell
+    inadimplencia_contato
+    inadimplencia_recuperada
+  ].freeze
+
+  BROADCAST_THROTTLE = 1.second
+
   def conversation_updated(event)
     conversation, account = extract_conversation_and_account(event)
     changes = event.data[:changed_attributes] || {}
 
     handle_label_changes(conversation, account, changes)
     handle_assignee_transition(conversation, account, changes)
+    broadcast_label_changes(conversation, account, changes)
   end
 
   def message_created(event)
     message = extract_message_and_account(event)[0]
+    broadcast_agent_activity(message) if message.sender_type == 'AgentBot'
+
     return unless message.private? && message.content.is_a?(String)
 
     match = message.content.strip.match(COMMAND_REGEX)
     return unless match
 
     handle_deal_command(message, match[1].downcase, match[2])
+  end
+
+  def deal_stage_changed(event)
+    deal = event.data[:deal]
+    previous_stage = event.data[:previous_stage]
+    current_stage = event.data[:current_stage]
+    return if deal.nil? || current_stage.nil?
+
+    ::Synapseos::LiveChannel.broadcast(
+      deal.account_id,
+      type: 'deal_stage_changed',
+      deal_id: deal.id,
+      from: previous_stage&.slug,
+      to: current_stage.slug,
+      at: Time.current.iso8601
+    )
   end
 
   def synapseos_crm_event_created(event)
@@ -154,5 +190,49 @@ class SynapseosListener < BaseListener
       event_type: event_type,
       metadata: metadata.compact
     )
+  end
+
+  def broadcast_agent_activity(message)
+    slug = ::Synapseos::AgentResolver.slug_for(message.sender)
+    return if slug.blank?
+
+    throttle_key = "synapseos:live:activity:#{slug}:#{message.conversation_id}"
+    return unless throttle(throttle_key)
+
+    ::Synapseos::LiveChannel.broadcast(
+      message.account_id,
+      type: 'agent_activity',
+      agent_slug: slug,
+      conversation_id: message.conversation_id,
+      action: message.private? ? 'private_note' : 'reply',
+      at: message.created_at.iso8601
+    )
+  end
+
+  def broadcast_label_changes(conversation, account, changes)
+    label_change = changes['label_list'] || changes[:label_list]
+    return if label_change.blank?
+
+    previous_labels = Array(label_change[0]).map(&:to_s)
+    current_labels = Array(label_change[1]).map(&:to_s)
+    added = (current_labels - previous_labels) & CONTRACT_LABELS
+    return if added.empty?
+
+    added.each do |label|
+      throttle_key = "synapseos:live:label:#{label}:#{conversation.id}"
+      next unless throttle(throttle_key)
+
+      ::Synapseos::LiveChannel.broadcast(
+        account.id,
+        type: 'label_event',
+        conversation_id: conversation.display_id,
+        label: label,
+        at: Time.current.iso8601
+      )
+    end
+  end
+
+  def throttle(key)
+    Rails.cache.write(key, 1, expires_in: BROADCAST_THROTTLE, unless_exist: true)
   end
 end
