@@ -246,6 +246,11 @@
       }
     },
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e seu time",
+    "PRIVATE_NOTE": {
+      "AI_BADGE": "{agent} • IA Ativa",
+      "AI_ARIA": "Nota privada da IA - {agent}",
+      "AI_LABEL": "Nota da IA"
+    },
     "CHANGE_STATUS": "Estado da conversa mudou",
     "CHANGE_STATUS_FAILED": "Mudança de status da conversa falhou",
     "CHANGE_AGENT": "Novo agente atribuído",

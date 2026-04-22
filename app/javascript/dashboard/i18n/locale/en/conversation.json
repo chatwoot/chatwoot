@@ -246,6 +246,11 @@
       }
     },
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
+    "PRIVATE_NOTE": {
+      "AI_BADGE": "{agent} • AI Active",
+      "AI_ARIA": "AI private note - {agent}",
+      "AI_LABEL": "AI Note"
+    },
     "CHANGE_STATUS": "Conversation status changed",
     "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Conversation Assignee changed",
