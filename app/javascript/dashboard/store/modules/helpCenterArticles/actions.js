@@ -166,4 +166,18 @@ export const actions = {
       throw error;
     }
   },
+
+  bulkTranslate: async (_, { portalSlug, articleIds, locale, categoryId }) => {
+    try {
+      await articlesAPI.bulkTranslate({
+        portalSlug,
+        articleIds,
+        locale,
+        categoryId,
+      });
+    } catch (error) {
+      return throwErrorMessage(error);
+    }
+    return null;
+  },
 };

@@ -72,6 +72,13 @@ class ArticlesAPI extends PortalsAPI {
       category_slug: categorySlug,
     });
   }
+
+  bulkTranslate({ portalSlug, articleIds, locale, categoryId }) {
+    return axios.post(
+      `${this.url}/${portalSlug}/articles/bulk_actions/translate`,
+      { ids: articleIds, locale, category_id: categoryId }
+    );
+  }
 }
 
 export default new ArticlesAPI();

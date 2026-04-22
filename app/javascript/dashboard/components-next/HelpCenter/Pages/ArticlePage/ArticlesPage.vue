@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store.js';
@@ -11,6 +11,7 @@ import ArticleHeaderControls from 'dashboard/components-next/HelpCenter/Pages/Ar
 import CategoryHeaderControls from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/CategoryHeaderControls.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ArticleEmptyState from 'dashboard/components-next/HelpCenter/EmptyState/Article/ArticleEmptyState.vue';
+import BulkTranslateDialog from './BulkTranslateDialog.vue';
 
 const props = defineProps({
   articles: {
@@ -47,6 +48,9 @@ const { t } = useI18n();
 
 const isSwitchingPortal = useMapGetter('portals/isSwitchingPortal');
 const isFetching = useMapGetter('articles/isFetching');
+
+const bulkTranslateDialogRef = ref(null);
+const translateArticleIds = ref([]);
 
 const hasNoArticles = computed(
   () => !isFetching.value && !props.articles.length
@@ -128,6 +132,11 @@ const navigateToNewArticlePage = () => {
     params: { categorySlug, locale },
   });
 };
+
+const handleTranslateArticle = articleId => {
+  translateArticleIds.value = [articleId];
+  bulkTranslateDialogRef.value?.dialogRef?.open();
+};
 </script>
 
 <template>
@@ -170,6 +179,7 @@ const navigateToNewArticlePage = () => {
         v-else-if="!hasNoArticles"
         :articles="articles"
         :is-category-articles="isCategoryArticles"
+        @translate-article="handleTranslateArticle"
       />
       <ArticleEmptyState
         v-else
@@ -183,5 +193,10 @@ const navigateToNewArticlePage = () => {
         @click="navigateToNewArticlePage"
       />
     </template>
+    <BulkTranslateDialog
+      ref="bulkTranslateDialogRef"
+      :selected-article-ids="translateArticleIds"
+      :allowed-locales="allowedLocales"
+    />
   </HelpCenterLayout>
 </template>

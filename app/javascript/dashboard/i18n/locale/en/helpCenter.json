@@ -525,6 +525,7 @@
             "PUBLISH": "Publish",
             "DRAFT": "Draft",
             "ARCHIVE": "Archive",
+            "TRANSLATE": "Translate",
             "DELETE": "Delete"
           },
           "STATUS": {
@@ -578,6 +579,19 @@
         "CATEGORY": {
           "TITLE": "There are no articles in this category",
           "SUBTITLE": "Articles in this category will appear here"
+        }
+      },
+      "BULK_TRANSLATE": {
+        "TITLE": "Translate article | Translate {count} articles",
+        "DESCRIPTION": "Translate the selected article to another language. | Translate the selected articles to another language.",
+        "LOCALE_LABEL": "Target language",
+        "LOCALE_PLACEHOLDER": "Select a language",
+        "CATEGORY_LABEL": "Target category",
+        "CATEGORY_PLACEHOLDER": "Select a category",
+        "CONFIRM": "Translate",
+        "API": {
+          "SUCCESS_MESSAGE": "Translation started. You'll be notified when it's ready.",
+          "ERROR_MESSAGE": "Failed to start translation. Please try again."
         }
       }
     },

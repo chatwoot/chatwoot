@@ -22,6 +22,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['translateArticle']);
+
 const { ARTICLE_STATUS_TYPES } = wootConstants;
 
 const router = useRouter();
@@ -152,6 +154,10 @@ const handleArticleAction = async (action, { status, id }) => {
 };
 
 const updateArticle = ({ action, value, id }) => {
+  if (action === 'translate') {
+    emit('translateArticle', id);
+    return;
+  }
   const status = action !== 'delete' ? getArticleStatus(value) : null;
   handleArticleAction(action, { status, id });
 };
