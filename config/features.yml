@@ -168,3 +168,7 @@
 - name: synapseos_automations_native
   display_name: Synapse OS Native Automations
   enabled: false
+# CUSTOMIZAÇÃO_SYNAPSEOS: painel lateral "Dados do Sistema Legado" (Syonet/NBS).
+- name: synapseos_legacy_panel
+  display_name: Synapse OS Legacy ERP Panel
+  enabled: true

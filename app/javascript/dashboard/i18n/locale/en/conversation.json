@@ -364,6 +364,13 @@
       "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
+    "SYSTEM_LEGADO": {
+      "TITLE": "Legacy System Data",
+      "EMPTY": "No ERP data yet.",
+      "ULTIMA_REVISAO": "Last Service",
+      "CARRO_ATUAL": "Current Vehicle",
+      "PROPENSAO_TROCA": "Trade-in Propensity"
+    },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",
       "ERROR": "Error loading orders",

@@ -47,6 +47,8 @@ export const FEATURE_FLAGS = {
   CONVERSATION_REQUIRED_ATTRIBUTES: 'conversation_required_attributes',
   // CUSTOMIZAÇÃO_SYNAPSEOS: gate para o motor nativo de automações do Synapse OS.
   SYNAPSEOS_AUTOMATIONS_NATIVE: 'synapseos_automations_native',
+  // CUSTOMIZAÇÃO_SYNAPSEOS: gate do painel "Dados do Sistema Legado" (Syonet/NBS).
+  SYNAPSEOS_LEGACY_PANEL: 'synapseos_legacy_panel',
 };
 
 export const PREMIUM_FEATURES = [

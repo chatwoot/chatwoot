@@ -364,6 +364,13 @@
       "LINEAR_ISSUES": "Problemas do Linear vinculados",
       "SHOPIFY_ORDERS": "Pedidos do Shopify"
     },
+    "SYSTEM_LEGADO": {
+      "TITLE": "Dados do Sistema Legado",
+      "EMPTY": "Sem dados do ERP ainda.",
+      "ULTIMA_REVISAO": "Última Revisão",
+      "CARRO_ATUAL": "Carro Atual",
+      "PROPENSAO_TROCA": "Propensão de Troca"
+    },
     "SHOPIFY": {
       "ORDER_ID": "Pedido #{id}",
       "ERROR": "Erro ao carregar pedidos",

@@ -15,6 +15,8 @@ import ConversationAction from './ConversationAction.vue';
 import ConversationParticipant from './ConversationParticipant.vue';
 import ContactInfo from './contact/ContactInfo.vue';
 import ContactNotes from './contact/ContactNotes.vue';
+// CUSTOMIZAÇÃO_SYNAPSEOS: painel lateral com dados Syonet/NBS.
+import SystemLegadoPanel from './contact/SystemLegadoPanel.vue';
 import ConversationInfo from './ConversationInfo.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import Draggable from 'vuedraggable';
@@ -58,6 +60,11 @@ const { isCloudFeatureEnabled } = useAccount();
 
 const isLinearFeatureEnabled = computed(() =>
   isCloudFeatureEnabled(FEATURE_FLAGS.LINEAR)
+);
+
+// CUSTOMIZAÇÃO_SYNAPSEOS: feature flag do painel "Dados do Sistema Legado".
+const isLegacyPanelEnabled = computed(() =>
+  isCloudFeatureEnabled(FEATURE_FLAGS.SYNAPSEOS_LEGACY_PANEL)
 );
 
 const linearIntegration = useFunctionGetter(
@@ -137,6 +144,7 @@ onMounted(() => {
       @close="closeContactPanel"
     />
     <ContactInfo :contact="contact" :channel-type="channelType" />
+    <SystemLegadoPanel v-if="isLegacyPanelEnabled" :contact="contact" />
     <div class="px-2 pb-8 list-group">
       <Draggable
         :list="conversationSidebarItems"
