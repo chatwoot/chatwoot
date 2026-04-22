@@ -1,5 +1,6 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
+import store from 'dashboard/store';
 import ConversationView from './ConversationView.vue';
 
 const CONVERSATION_PERMISSIONS = [
@@ -10,6 +11,24 @@ const CONVERSATION_PERMISSIONS = [
   'conversation_participating_manage',
 ];
 
+// CUSTOMIZAÇÃO_SYNAPSEOS: admins pousam no AgentMetrics (C-Level); agentes ficam no inbox padrão.
+const redirectAdminsToAgentMetrics = (to, _from, next) => {
+  const role = store.getters.getCurrentRole;
+  if (role !== 'administrator') return next();
+
+  const accountId = Number(to.params.accountId);
+  const metricsEnabled = store.getters['accounts/isFeatureEnabledonAccount'](
+    accountId,
+    'synapseos_agent_metrics'
+  );
+  if (!metricsEnabled) return next();
+
+  return next({
+    name: 'synapseos_agent_metrics',
+    params: { accountId: to.params.accountId },
+  });
+};
+
 export default {
   routes: [
     {
@@ -19,6 +38,7 @@ export default {
         permissions: CONVERSATION_PERMISSIONS,
       },
       component: ConversationView,
+      beforeEnter: redirectAdminsToAgentMetrics,
       props: () => {
         return { inboxId: 0 };
       },

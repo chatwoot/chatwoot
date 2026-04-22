@@ -49,6 +49,8 @@ export const FEATURE_FLAGS = {
   SYNAPSEOS_AUTOMATIONS_NATIVE: 'synapseos_automations_native',
   // CUSTOMIZAÇÃO_SYNAPSEOS: gate do painel "Dados do Sistema Legado" (Syonet/NBS).
   SYNAPSEOS_LEGACY_PANEL: 'synapseos_legacy_panel',
+  // CUSTOMIZAÇÃO_SYNAPSEOS: gate do dashboard C-Level (AgentMetrics) como home de admins.
+  SYNAPSEOS_AGENT_METRICS: 'synapseos_agent_metrics',
 };
 
 export const PREMIUM_FEATURES = [

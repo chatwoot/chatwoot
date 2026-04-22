@@ -172,3 +172,7 @@
 - name: synapseos_legacy_panel
   display_name: Synapse OS Legacy ERP Panel
   enabled: true
+# CUSTOMIZAÇÃO_SYNAPSEOS: home C-Level (AgentMetrics) para administradores.
+- name: synapseos_agent_metrics
+  display_name: Synapse OS Agent Metrics (C-Level Home)
+  enabled: true
