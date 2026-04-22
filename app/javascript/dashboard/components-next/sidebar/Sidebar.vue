@@ -257,6 +257,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('synapseos_live_agents'),
           activeOn: ['synapseos_live_agents'],
         },
+        {
+          name: 'SynapseOS Live Dashboard',
+          label: t('SIDEBAR.SYNAPSEOS_LIVE_DASHBOARD'),
+          to: accountScopedRoute('synapseos_live_dashboard'),
+          activeOn: ['synapseos_live_dashboard'],
+        },
       ],
     },
     {
