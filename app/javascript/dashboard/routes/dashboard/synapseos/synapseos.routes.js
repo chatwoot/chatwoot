@@ -4,6 +4,9 @@ import DashboardPage from './pages/DashboardPage.vue';
 import PipelinePage from './pages/PipelinePage.vue';
 import DesignSystemPage from './pages/DesignSystemPage.vue';
 
+// CUSTOMIZAÇÃO_SYNAPSEOS: Live Dashboard (6 AI bots + conversas quentes — consome S5).
+const LiveDashboard = () => import('./LiveDashboard.vue');
+
 export const routes = [
   {
     path: frontendURL('accounts/:accountId/synapseos/dashboard'),
@@ -21,6 +24,12 @@ export const routes = [
     path: frontendURL('accounts/:accountId/synapseos/live-agents'),
     name: 'synapseos_live_agents',
     component: LiveAgentsPage,
+    meta: { permissions: ['administrator'] },
+  },
+  {
+    path: frontendURL('accounts/:accountId/synapseos/live'),
+    name: 'synapseos_live_dashboard',
+    component: LiveDashboard,
     meta: { permissions: ['administrator'] },
   },
   {
