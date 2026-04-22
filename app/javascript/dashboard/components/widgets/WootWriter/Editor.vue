@@ -515,7 +515,9 @@ function setMenubarPosition({ selection } = {}) {
 
 function checkSelection(editorState) {
   showSelectionMenu.value = false;
-  const hasSelection = editorState.selection.from !== editorState.selection.to;
+  const { selection } = editorState;
+  // Skip NodeSelection (from Esc -> selectParentNode); only text ranges count.
+  const hasSelection = !selection.empty && !selection.node;
   if (hasSelection === isTextSelected.value) return;
 
   isTextSelected.value = hasSelection;
