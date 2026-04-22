@@ -531,8 +531,8 @@ const menuItems = computed(() => {
         },
       ],
     },
-    // CUSTOMIZAÇÃO_SYNAPSEOS: Campaigns e Help Center removidos da sidebar
-    // (rotas continuam acessíveis via URL para não quebrar automações).
+    // CUSTOMIZAÇÃO_SYNAPSEOS: Campaigns e Help Center (Portals) escondidos da sidebar.
+    // As rotas permanecem registradas para não quebrar automações/integrações existentes.
     {
       name: 'Settings',
       label: t('SIDEBAR.SETTINGS'),
