@@ -4,7 +4,7 @@ json.user do
 end
 
 json.conversations @conversations do |conversation|
-  last_message = conversation.messages.chat.last
+  last_message = @last_messages_by_conversation[conversation.id]
 
   json.id conversation.display_id
   json.status conversation.status
