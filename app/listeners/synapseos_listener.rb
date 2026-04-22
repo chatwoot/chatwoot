@@ -20,6 +20,26 @@ class SynapseosListener < BaseListener
     handle_deal_command(message, match[1].downcase, match[2])
   end
 
+  def synapseos_crm_event_created(event)
+    crm_event = event.data[:crm_event]
+    return if crm_event&.conversation_id.blank?
+
+    lead = ::Synapseos::Lead.find_by(account_id: crm_event.account_id, conversation_id: crm_event.conversation_id)
+    return if lead.nil?
+
+    case crm_event.event_type
+    when 'appointment'
+      return unless lead.pipeline_stage&.slug == 'qualificado'
+
+      ::Synapseos::PipelineTransitionService.move(deal: lead, to_slug: 'negociacao')
+    when 'deal_won'
+      ::Synapseos::PipelineTransitionService.move(deal: lead, to_slug: 'fechado_ganho')
+    when 'deal_lost'
+      reason = crm_event.metadata['reason'] || crm_event.metadata[:reason]
+      ::Synapseos::PipelineTransitionService.move(deal: lead, to_slug: 'perdido', reason: reason)
+    end
+  end
+
   private
 
   def handle_deal_command(message, command, amount_raw)
@@ -69,21 +89,28 @@ class SynapseosListener < BaseListener
     current_labels = Array(label_change[1]).map(&:to_s)
     return unless current_labels.include?(LEAD_LABEL) && previous_labels.exclude?(LEAD_LABEL)
 
+    ::Synapseos::EnsureDefaultStagesService.new(account).call
+    existing_lead = ::Synapseos::Lead.find_by(account_id: account.id, conversation_id: conversation.id)
+    return promote_existing_lead(existing_lead) if existing_lead.present?
+
     create_lead_from_label(conversation, account)
   end
 
-  def create_lead_from_label(conversation, account)
-    return if ::Synapseos::Lead.exists?(account_id: account.id, conversation_id: conversation.id)
+  def promote_existing_lead(lead)
+    return unless lead.pipeline_stage&.slug == 'novo_lead'
 
-    ::Synapseos::EnsureDefaultStagesService.new(account).call
-    inbound_stage = ::Synapseos::PipelineStage.where(account_id: account.id, stage_type: 'inbound').order(:position).first
+    ::Synapseos::PipelineTransitionService.move(deal: lead, to_slug: 'qualificado')
+  end
+
+  def create_lead_from_label(conversation, account)
+    qualified_stage = ::Synapseos::PipelineStage.find_by(account_id: account.id, slug: 'qualificado')
 
     lead = ::Synapseos::Lead.create!(
       account_id: account.id,
       conversation_id: conversation.id,
       contact_id: conversation.contact_id,
       assignee_id: conversation.assignee_id,
-      pipeline_stage_id: inbound_stage&.id,
+      pipeline_stage_id: qualified_stage&.id,
       status: :qualified,
       source: 'label',
       qualified_at: Time.current

@@ -38,7 +38,10 @@ module Synapseos
       deal_lost
       bot_takeover
       human_rescue
+      appointment
       appointment_confirmed
+      pix_sent
+      lead_rescued
       private_note_added
     ].freeze
 
@@ -49,6 +52,7 @@ module Synapseos
     validates :event_type, presence: true, inclusion: { in: EVENT_TYPES }
 
     after_create_commit :emit_timeline_activity
+    after_create_commit :broadcast_synapseos_event
 
     TIMELINE_EVENT_TYPES = %w[
       bot_takeover
@@ -60,6 +64,14 @@ module Synapseos
     ].freeze
 
     private
+
+    def broadcast_synapseos_event
+      Rails.configuration.dispatcher.dispatch(
+        ::Events::Types::SYNAPSEOS_CRM_EVENT_CREATED,
+        Time.zone.now,
+        crm_event: self
+      )
+    end
 
     def emit_timeline_activity
       return if conversation_id.blank?

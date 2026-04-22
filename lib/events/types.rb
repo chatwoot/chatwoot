@@ -59,4 +59,8 @@ module Events::Types
 
   # copilot events
   COPILOT_MESSAGE_CREATED = 'copilot.message.created'
+
+  # CUSTOMIZAÇÃO_SYNAPSEOS: CRM pipeline events
+  DEAL_STAGE_CHANGED = 'deal.stage_changed'
+  SYNAPSEOS_CRM_EVENT_CREATED = 'synapseos.crm_event.created'
 end
