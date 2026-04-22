@@ -47,10 +47,6 @@ class Whatsapp::IncomingMessageBaseService
     end
   end
 
-  def contact_phone_for_lock
-    outgoing_echo ? messages_data.first[:to] : messages_data.first[:from]
-  end
-
   def process_statuses
     return unless find_message_by_source_id(@processed_params[:statuses].first[:id])
 

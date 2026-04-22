@@ -75,6 +75,10 @@ module Whatsapp::IncomingMessageServiceHelpers
     Whatsapp::MessageDedupLock.new(messages_data.first[:id]).acquire!
   end
 
+  def contact_phone_for_lock
+    outgoing_echo ? messages_data.first[:to] : messages_data.first[:from]
+  end
+
   # Serializes conversation creation per (inbox, sender) so concurrent webhooks
   # for the same contact (e.g. an album of images) can't each create a conversation.
   def with_contact_lock(sender_id, wait_timeout: 5.seconds, lock_ttl: 30.seconds)
