@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
@@ -23,7 +23,7 @@ import {
 const store = useStore();
 const { t, locale } = useI18n();
 const { enabledLanguages } = useConfig();
-const { currentAccount } = useAccount();
+const { currentAccount, updateAccount } = useAccount();
 const { updateUISettings, uiSettings } = useUISettings();
 
 const currentUser = useMapGetter('getCurrentUser');
@@ -44,6 +44,8 @@ const isAccountSheetOpen = ref(false);
 const pushEnabled = ref(false);
 const pushLoading = ref(false);
 const pushDenied = ref(false);
+const infinitePayPushOnly = ref(false);
+const infinitePayPushOnlySaving = ref(false);
 
 const hasPushSupport = computed(
   () =>
@@ -59,6 +61,9 @@ const isStandalone = computed(
 );
 
 const showPushSection = computed(() => hasPushSupport.value);
+const showInfinitePayPushOnly = computed(
+  () => showPushSection.value && !!currentAccount.value
+);
 
 const pushStatusText = computed(() => {
   if (pushDenied.value) return t('MOBILE.PUSH.DENIED');
@@ -94,6 +99,16 @@ const checkPushStatus = () => {
   }
 };
 
+watch(
+  currentAccount,
+  account => {
+    infinitePayPushOnly.value = Boolean(
+      account?.custom_attributes?.infinitepay_push_only
+    );
+  },
+  { immediate: true }
+);
+
 const togglePush = () => {
   if (pushDenied.value) return;
   if (pushLoading.value) return;
@@ -128,6 +143,29 @@ const togglePush = () => {
         }
       }
     }, 10000);
+  }
+};
+
+const toggleInfinitePayPushOnly = async () => {
+  if (infinitePayPushOnlySaving.value) return;
+
+  const nextValue = !infinitePayPushOnly.value;
+  infinitePayPushOnly.value = nextValue;
+  infinitePayPushOnlySaving.value = true;
+
+  try {
+    await updateAccount(
+      {
+        infinitepay_push_only: nextValue,
+      },
+      { silent: true }
+    );
+    useAlert(t('GENERAL_SETTINGS.FORM.INFINITEPAY.API.SUCCESS'));
+  } catch (error) {
+    infinitePayPushOnly.value = !nextValue;
+    useAlert(t('GENERAL_SETTINGS.FORM.INFINITEPAY.API.ERROR'));
+  } finally {
+    infinitePayPushOnlySaving.value = false;
   }
 };
 
@@ -325,6 +363,48 @@ const settingsItems = computed(() => [
       <p v-if="pushDenied" class="text-xs text-n-ruby-9 mt-2 px-8">
         {{ t('MOBILE.PUSH.DENIED_HELP') }}
       </p>
+
+      <button
+        v-if="showInfinitePayPushOnly"
+        class="flex items-start w-full gap-3 py-3 mt-3 border-t border-n-weak"
+        :disabled="infinitePayPushOnlySaving"
+        @click="toggleInfinitePayPushOnly"
+      >
+        <span
+          class="i-lucide-badge-dollar-sign size-5 text-n-slate-12 mt-0.5"
+        />
+        <div class="flex flex-col items-start min-w-0 flex-1 text-left">
+          <span class="text-sm text-n-slate-12">
+            {{ t('GENERAL_SETTINGS.FORM.INFINITEPAY.PUSH_ONLY_LABEL') }}
+          </span>
+          <span class="text-xs text-n-slate-10 leading-5">
+            {{ t('GENERAL_SETTINGS.FORM.INFINITEPAY.PUSH_ONLY_NOTE') }}
+          </span>
+          <span v-if="infinitePayPushOnly" class="text-xs text-n-slate-11 mt-1">
+            {{ t('GENERAL_SETTINGS.FORM.INFINITEPAY.PUSH_ONLY_ENABLED') }}
+          </span>
+        </div>
+        <div
+          class="relative w-11 h-6 rounded-full transition-colors flex-shrink-0 mt-0.5"
+          :class="infinitePayPushOnly ? 'bg-n-brand' : 'bg-n-slate-7'"
+        >
+          <span
+            v-if="infinitePayPushOnlySaving"
+            class="absolute inset-0 flex items-center justify-center"
+          >
+            <span class="i-lucide-loader-2 size-3.5 text-white animate-spin" />
+          </span>
+          <span
+            v-else
+            class="absolute top-0.5 ltr:left-0.5 rtl:right-0.5 size-5 rounded-full bg-white shadow transition-transform"
+            :class="
+              infinitePayPushOnly
+                ? 'ltr:translate-x-5 rtl:-translate-x-5'
+                : 'translate-x-0'
+            "
+          />
+        </div>
+      </button>
     </div>
 
     <!-- Settings List -->

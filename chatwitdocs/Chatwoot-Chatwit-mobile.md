@@ -223,6 +223,19 @@ All under `app/javascript/dashboard/components-next/mobile/`:
 
 ## Changelog
 
+### 2026-04-22 — InfinitePay Push-Only Toggle no Mobile Settings
+
+Implemented in the mobile settings shell only:
+
+- Added the existing account-level `infinitepay_push_only` control to `components-next/mobile/MobileSettingsView.vue`.
+- Reused the same `useAccount().updateAccount()` flow and the same InfinitePay i18n copy already used in desktop account settings.
+- Kept the change isolated to the mobile settings notifications section so desktop behavior and existing account settings screens remain unchanged.
+
+Result:
+
+- Mobile PWA users can now enable or disable the "Push PWA exclusivo para confirmações de pagamento" option directly from the mobile settings screen.
+- The mobile layer continues to connect existing desktop-backed account settings instead of introducing parallel business logic.
+
 ### 2026-03-26 — Mobile Pull-To-Refresh Petal Loader
 
 Implemented in the mobile inbox shell only:
