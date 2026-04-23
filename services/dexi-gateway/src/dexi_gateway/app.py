@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import logging
 
 from fastapi import FastAPI, Header, HTTPException, Query, Request, status
@@ -109,11 +110,32 @@ async def _json(request: Request, body: bytes) -> dict:
         raise HTTPException(status_code=400, detail=f"invalid JSON: {exc}") from exc
 
 
+def _hash_external_id(external_id: str) -> str:
+    """Hash estável e curto para log (LGPD): não deve expor email/CPF/telefone em plaintext."""
+    return hashlib.sha256(external_id.encode("utf-8")).hexdigest()[:12]
+
+
 def _enqueue(lead: NormalizedLead) -> dict:
+    ext_id_hash = _hash_external_id(lead.customer.external_id)
     if seen_recently(lead.tenant_id, lead.customer.external_id):
-        log.info("lead.dedup_suppressed", extra={"tenant_id": lead.tenant_id, "external_id": lead.customer.external_id})
+        log.info("lead.dedup_suppressed", extra={"tenant_id": lead.tenant_id, "external_id_hash": ext_id_hash})
         return {"status": "deduplicated", "lead_id": lead.lead_id}
 
-    process_lead.delay(lead.model_dump(mode="json"))
-    log.info("lead.enqueued", extra={"lead_id": lead.lead_id, "tenant_id": lead.tenant_id, "channel": lead.channel})
+    try:
+        process_lead.delay(lead.model_dump(mode="json"))
+    except Exception as exc:
+        log.error(
+            "lead.enqueue_failed",
+            extra={"lead_id": lead.lead_id, "tenant_id": lead.tenant_id, "error": str(exc)},
+        )
+        raise HTTPException(status_code=503, detail="queue unavailable") from exc
+    log.info(
+        "lead.enqueued",
+        extra={
+            "lead_id": lead.lead_id,
+            "tenant_id": lead.tenant_id,
+            "channel": lead.channel,
+            "external_id_hash": ext_id_hash,
+        },
+    )
     return {"status": "accepted", "lead_id": lead.lead_id}

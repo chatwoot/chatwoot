@@ -22,16 +22,31 @@ celery_app.conf.task_reject_on_worker_lost = True
 celery_app.conf.task_default_retry_delay = 10
 celery_app.conf.worker_max_tasks_per_child = 200
 
+_schema_ready = False
+
+
+def _ensure_schema() -> None:
+    """Garante as tabelas uma única vez por processo worker.
+
+    Em produção troque por Alembic — mas evitamos chamar `create_all` a cada task
+    (pressão desnecessária no Postgres sob carga).
+    """
+    global _schema_ready
+    if _schema_ready:
+        return
+    try:
+        create_all()
+        _schema_ready = True
+    except Exception as exc:
+        log.warning("db.create_all_failed", extra={"error": str(exc)})
+
 
 @celery_app.task(name="dexi.process_lead", bind=True, max_retries=5)
 def process_lead(self, lead_json: dict) -> dict:
     lead = NormalizedLead.model_validate(lead_json)
     log.info("lead.processing", extra={"lead_id": lead.lead_id, "tenant_id": lead.tenant_id, "channel": lead.channel})
 
-    try:
-        create_all()  # garantido em dev; em prod use alembic
-    except Exception as exc:  # DB down não pode derrubar; log e segue
-        log.warning("db.create_all_failed", extra={"error": str(exc)})
+    _ensure_schema()
 
     lead.intent = qualify(lead)
 

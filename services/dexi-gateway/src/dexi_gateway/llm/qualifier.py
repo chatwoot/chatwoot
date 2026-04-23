@@ -99,10 +99,16 @@ def _qualify_llm(lead: NormalizedLead) -> LeadIntent:
     )
     content = resp["choices"][0]["message"]["content"]
     data: dict[str, Any] = json.loads(content)
+    # Clampa o score em [0, 1] — LLMs às vezes devolvem valores fora da faixa.
+    try:
+        score = float(data.get("score") or 0.5)
+    except (TypeError, ValueError):
+        score = 0.5
+    score = max(0.0, min(1.0, score))
     return LeadIntent(
         brand=data.get("brand"),
         model=data.get("model"),
         price_range=data.get("price_range"),
         observations=data.get("observations") or "",
-        score=float(data.get("score") or 0.5),
+        score=score,
     )
