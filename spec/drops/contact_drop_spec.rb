@@ -11,6 +11,11 @@ describe ContactDrop do
       expect(subject.first_name).to eq 'John'
     end
 
+    it 'returns the single word as first name when name has only one word' do
+      contact.update!(name: 'John')
+      expect(subject.first_name).to eq 'John'
+    end
+
     it('return the capitalized name') do
       contact.update!(name: 'john doe')
       expect(subject.name).to eq 'John Doe'
