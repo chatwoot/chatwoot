@@ -11,6 +11,23 @@ class Captain::Articles::TranslateJob < ApplicationJob
     translated_title = service.translate_title(@source_article.title, target_language: target_language)
     translated_content = service.translate_content(@source_article.content, target_language: target_language)
 
+    existing = find_existing_translation(target_locale)
+
+    if existing
+      existing.update!(title: translated_title, content: translated_content, description: @source_article.description)
+    else
+      create_translated_article(translated_title, translated_content, target_locale, target_category_id, user)
+    end
+  end
+
+  private
+
+  def find_existing_translation(target_locale)
+    root_id = Article.find_root_article_id(@source_article)
+    @source_article.portal.articles.find_by(associated_article_id: root_id, locale: target_locale)
+  end
+
+  def create_translated_article(translated_title, translated_content, target_locale, target_category_id, user)
     @source_article.portal.articles.create!(
       title: translated_title,
       content: translated_content,
@@ -22,8 +39,6 @@ class Captain::Articles::TranslateJob < ApplicationJob
       associated_article_id: Article.find_root_article_id(@source_article)
     )
   end
-
-  private
 
   def language_name_for(locale_code)
     language_map = YAML.load_file(Rails.root.join('config/languages/language_map.yml'))

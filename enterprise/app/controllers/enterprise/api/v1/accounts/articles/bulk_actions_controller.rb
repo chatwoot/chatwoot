@@ -2,6 +2,13 @@ module Enterprise::Api::V1::Accounts::Articles::BulkActionsController
   def translate
     return unless validate_translate_params?
 
+    duplicates = find_existing_translations
+    if duplicates.any? && !ActiveModel::Type::Boolean.new.cast(permitted_params[:force])
+      return render json: {
+        duplicate_articles: duplicates.map { |a| { id: a.id, title: a.title } }
+      }, status: :conflict
+    end
+
     @articles.find_each do |article|
       Captain::Articles::TranslateJob.perform_later(
         Current.account, article.id, @locale, @category.id, Current.user
@@ -14,7 +21,7 @@ module Enterprise::Api::V1::Accounts::Articles::BulkActionsController
   private
 
   def permitted_params
-    params.permit(:locale, :category_id, ids: [])
+    params.permit(:locale, :category_id, :force, ids: [])
   end
 
   def validate_translate_params?
@@ -23,6 +30,11 @@ module Enterprise::Api::V1::Accounts::Articles::BulkActionsController
     @articles = @portal.articles.where(id: permitted_params[:ids])
 
     valid_locale? && valid_category? && valid_articles?
+  end
+
+  def find_existing_translations
+    root_ids = @articles.map { |a| Article.find_root_article_id(a) }
+    @portal.articles.where(associated_article_id: root_ids, locale: @locale)
   end
 
   def valid_locale?

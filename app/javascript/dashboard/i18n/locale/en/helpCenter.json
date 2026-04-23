@@ -589,8 +589,11 @@
         "CATEGORY_LABEL": "Target category",
         "CATEGORY_PLACEHOLDER": "Select a category",
         "CONFIRM": "Translate",
+        "CONFIRM_OVERWRITE": "Overwrite and translate",
+        "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
+        "DUPLICATE_CONFIRM_HINT": "Click translate again to overwrite the existing translation.",
         "API": {
-          "SUCCESS_MESSAGE": "Translation started. You'll be notified when it's ready.",
+          "SUCCESS_MESSAGE": "Translation in progress. The article will appear as a draft once ready.",
           "ERROR_MESSAGE": "Failed to start translation. Please try again."
         }
       }

@@ -167,17 +167,17 @@ export const actions = {
     }
   },
 
-  bulkTranslate: async (_, { portalSlug, articleIds, locale, categoryId }) => {
-    try {
-      await articlesAPI.bulkTranslate({
-        portalSlug,
-        articleIds,
-        locale,
-        categoryId,
-      });
-    } catch (error) {
-      return throwErrorMessage(error);
-    }
-    return null;
+  bulkTranslate: async (
+    _,
+    { portalSlug, articleIds, locale, categoryId, force = false }
+  ) => {
+    const { data } = await articlesAPI.bulkTranslate({
+      portalSlug,
+      articleIds,
+      locale,
+      categoryId,
+      force,
+    });
+    return data;
   },
 };

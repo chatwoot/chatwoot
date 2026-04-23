@@ -85,6 +85,45 @@ RSpec.describe 'Article Bulk Actions API', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
+
+      context 'when translations already exist' do
+        let!(:existing_translation) do
+          create(:article, portal: portal, category: category_es, account: account, author_id: admin.id,
+                           locale: 'es', associated_article_id: article_one.id)
+        end
+
+        it 'returns conflict with duplicate articles' do
+          post translate_url,
+               headers: admin.create_new_auth_token,
+               params: { ids: [article_one.id], locale: 'es', category_id: category_es.id },
+               as: :json
+
+          expect(response).to have_http_status(:conflict)
+          body = response.parsed_body
+          expect(body['duplicate_articles'].length).to eq(1)
+          expect(body['duplicate_articles'].first['id']).to eq(existing_translation.id)
+        end
+
+        it 'does not enqueue jobs when duplicates found without force' do
+          expect do
+            post translate_url,
+                 headers: admin.create_new_auth_token,
+                 params: { ids: [article_one.id], locale: 'es', category_id: category_es.id },
+                 as: :json
+          end.not_to have_enqueued_job(Captain::Articles::TranslateJob)
+        end
+
+        it 'enqueues jobs when force is true' do
+          expect do
+            post translate_url,
+                 headers: admin.create_new_auth_token,
+                 params: { ids: [article_one.id], locale: 'es', category_id: category_es.id, force: true },
+                 as: :json
+          end.to have_enqueued_job(Captain::Articles::TranslateJob).exactly(1).times
+
+          expect(response).to have_http_status(:ok)
+        end
+      end
     end
   end
 end

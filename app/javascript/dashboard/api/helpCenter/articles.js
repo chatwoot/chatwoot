@@ -73,10 +73,10 @@ class ArticlesAPI extends PortalsAPI {
     });
   }
 
-  bulkTranslate({ portalSlug, articleIds, locale, categoryId }) {
+  bulkTranslate({ portalSlug, articleIds, locale, categoryId, force = false }) {
     return axios.post(
       `${this.url}/${portalSlug}/articles/bulk_actions/translate`,
-      { ids: articleIds, locale, category_id: categoryId }
+      { ids: articleIds, locale, category_id: categoryId, force }
     );
   }
 }
