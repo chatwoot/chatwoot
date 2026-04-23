@@ -281,7 +281,7 @@ watch(
       <template v-else-if="!hasNoArticles">
         <div
           v-if="selectedArticleIds.size > 0"
-          class="sticky top-0 z-10 bg-gradient-to-b from-n-surface-1 from-90% to-transparent pt-1 pb-2"
+          class="sticky top-0 z-[5] bg-gradient-to-b from-n-surface-1 from-90% to-transparent pt-1 pb-2"
         >
           <BulkSelectBar
             v-model="selectedArticleIds"

@@ -149,7 +149,7 @@ const handleClick = id => {
       <div class="flex items-center gap-2 min-w-0">
         <Checkbox
           :model-value="isSelected"
-          class="shrink-0"
+          class="shrink-0 z-0"
           @change="emit('toggleSelect', id)"
         />
         <span

@@ -10,7 +10,7 @@ class Api::V1::Accounts::Articles::BulkActionsController < Api::V1::Accounts::Ba
   def update_status
     return render_could_not_create_error(I18n.t('portals.articles.no_articles_found')) if @articles.none?
 
-    @articles.update_all(status: params[:status])
+    @articles.find_each { |article| article.update!(status: params[:status]) }
     head :ok
   end
 
