@@ -7,7 +7,11 @@
 #   - file: binário já descriptografado (quando mídia)
 #
 # Cobre texto (conversation, extendedTextMessage) e mídia (image, audio, video,
-# document) com caption opcional. Reações, edições e grupos ainda pendentes.
+# document) com caption opcional. Eventos com IsFromMe=true são persistidos
+# como :outgoing (echo do celular do atendente) com dedup por source_id —
+# mensagens originadas no próprio Chatwoot já têm source_id gravado pelo
+# SendOnWhatsappService, então o echo da Avisa não duplica. Reações, edições
+# e grupos ainda pendentes.
 class Whatsapp::IncomingMessageAvisaService
   pattr_initialize [:inbox!, :params!]
 
@@ -20,7 +24,8 @@ class Whatsapp::IncomingMessageAvisaService
   }.freeze
 
   def perform
-    return if event.blank? || from_me?
+    return if event.blank?
+    return if source_id.present? && Message.exists?(source_id: source_id, inbox_id: inbox.id)
 
     phone = phone_from_jid(resolved_jid)
     return if phone.blank?
@@ -49,6 +54,10 @@ class Whatsapp::IncomingMessageAvisaService
 
   def from_me?
     event.dig('Info', 'IsFromMe') == true
+  end
+
+  def source_id
+    @source_id ||= event.dig('Info', 'ID').to_s
   end
 
   # Se Chat vem com @lid (WhatsApp anonimizado), resolve pro JID real.
@@ -103,16 +112,23 @@ class Whatsapp::IncomingMessageAvisaService
     file = media_upload
     return if text.blank? && file.blank?
 
-    message = conversation.messages.build(
+    message = conversation.messages.build(message_attributes(text, contact))
+    attach_media(message, file) if file.present?
+    message.save!
+  end
+
+  def message_attributes(text, contact)
+    outgoing = from_me?
+    {
       content: text,
       account_id: inbox.account_id,
       inbox_id: inbox.id,
-      message_type: :incoming,
-      sender: contact,
-      source_id: event.dig('Info', 'ID').to_s
-    )
-    attach_media(message, file) if file.present?
-    message.save!
+      message_type: outgoing ? :outgoing : :incoming,
+      status: outgoing ? :delivered : :sent,
+      sender: outgoing ? nil : contact,
+      source_id: source_id,
+      content_attributes: outgoing ? { external_echo: true } : {}
+    }
   end
 
   def media_message_key
