@@ -24,6 +24,11 @@ class AgentBot < ApplicationRecord
 
   include WebhookSecretable
 
+  # CUSTOMIZAÇÃO_SYNAPSEOS: os 7 papéis canônicos do Esquadrão Synapse.
+  # Obrigatório em bots criados via API /agent_bots (opcional no modelo pra
+  # não quebrar bots sistêmicos/legados sem o campo).
+  SQUADRON_ROLES = %w[alice iza luis otto fernanda angela vitor].freeze
+
   scope :accessible_to, lambda { |account|
     account_id = account&.id
     where(account_id: [nil, account_id])
@@ -40,6 +45,7 @@ class AgentBot < ApplicationRecord
   enum bot_type: { webhook: 0 }
 
   validates :outgoing_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
+  validates :squadron_role, inclusion: { in: SQUADRON_ROLES }, allow_nil: true
 
   def available_name
     name

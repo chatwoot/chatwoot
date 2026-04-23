@@ -66,13 +66,23 @@
         "RESCUE": "Tropa de Resgate e Lucro"
       },
       "AGENTS": {
-        "ALICE_IZA": {
-          "NAME": "Alice & Iza",
-          "ROLE": "Atração e Qualificação",
+        "ALICE": {
+          "NAME": "Alice",
+          "ROLE": "Prospecção (BDR outbound)",
           "KPI": {
-            "LEADS_RECEPCIONADOS": "Leads recepcionados",
-            "SPEED_TO_LEAD_SECONDS": "Tempo médio de resposta",
-            "TAXA_QUALIFICACAO": "Taxa de qualificação"
+            "LEADS_FRIOS_CONTACTADOS": "Leads frios contactados",
+            "TAXA_RESPOSTA": "Taxa de resposta",
+            "LEADS_CONVERTIDOS": "Convertidos em oportunidade"
+          }
+        },
+        "IZA": {
+          "NAME": "Iza",
+          "ROLE": "Recepção (SDR inbound)",
+          "KPI": {
+            "LEADS_INBOUND_RECEPCIONADOS": "Leads inbound recepcionados",
+            "SPEED_TO_LEAD_SECONDS": "Speed-to-lead",
+            "TAXA_QUALIFICACAO": "Taxa de qualificação inbound",
+            "HANDOFFS": "Handoffs bem-sucedidos"
           }
         },
         "OTTO": {

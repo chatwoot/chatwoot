@@ -9,3 +9,5 @@ json.account_id resource.account_id
 json.access_token resource.access_token if resource.access_token.present?
 json.secret resource.secret if !resource.system_bot? && Current.account_user&.administrator?
 json.system_bot resource.system_bot?
+# CUSTOMIZAÇÃO_SYNAPSEOS: papel canônico do Esquadrão Synapse.
+json.squadron_role resource.try(:squadron_role)
