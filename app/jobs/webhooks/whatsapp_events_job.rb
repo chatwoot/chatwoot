@@ -1,6 +1,6 @@
 class Webhooks::WhatsappEventsJob < MutexApplicationJob
   queue_as :low
-  retry_on LockAcquisitionError, wait: 1.second, attempts: 8
+  retry_on LockAcquisitionError, wait: 2.seconds, attempts: 15
 
   def perform(params = {})
     channel = find_channel_from_whatsapp_business_payload(params)
@@ -14,7 +14,9 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
     return process_events(channel, params) if sender_id.blank?
 
     key = format(::Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: sender_id)
-    with_lock(key) do
+    # 30s TTL covers attachment download + conversation/message transaction. The default 1s expires
+    # mid-processing, letting a concurrent webhook re-acquire before the first transaction commits.
+    with_lock(key, 30.seconds) do
       process_events(channel, params)
     end
   end
