@@ -7,7 +7,7 @@ json.hook_type resource.hook_type
 
 if Current.account_user&.administrator?
   app = Integrations::App.find(id: resource.app_id)
-  visible_keys = app&.visible_properties
-  json.settings visible_keys.present? ? resource.settings&.select { |key, _| visible_keys.include?(key.to_s) } : resource.settings
+  visible_keys = app&.visible_properties || []
+  json.settings resource.settings&.select { |key, _| visible_keys.include?(key.to_s) }
 end
 json.reference_id resource.reference_id if Current.account_user&.administrator?
