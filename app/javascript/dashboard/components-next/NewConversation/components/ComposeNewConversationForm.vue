@@ -73,10 +73,17 @@ const state = props.formState || {
   attachedFiles: [],
 };
 
+// CUSTOMIZAÇÃO_SYNAPSEOS: provedores não-oficiais (avisa, hyperflow) são
+// baseados em whatsmeow e não têm HSM templates — tratam como canal livre
+// e não acionam o picker de template no modal de nova conversa.
+const NON_OFFICIAL_WHATSAPP_PROVIDERS = ['avisa', 'hyperflow'];
+
 const inboxTypes = computed(() => ({
   isEmail: props.targetInbox?.channelType === INBOX_TYPES.EMAIL,
   isTwilio: props.targetInbox?.channelType === INBOX_TYPES.TWILIO,
-  isWhatsapp: props.targetInbox?.channelType === INBOX_TYPES.WHATSAPP,
+  isWhatsapp:
+    props.targetInbox?.channelType === INBOX_TYPES.WHATSAPP &&
+    !NON_OFFICIAL_WHATSAPP_PROVIDERS.includes(props.targetInbox?.provider),
   isWebWidget: props.targetInbox?.channelType === INBOX_TYPES.WEB,
   isApi: props.targetInbox?.channelType === INBOX_TYPES.API,
   isEmailOrWebWidget:
