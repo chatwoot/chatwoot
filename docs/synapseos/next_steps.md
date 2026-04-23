@@ -2,145 +2,152 @@
 
 **Data do snapshot:** 2026-04-23
 **Branch:** `custom/initial-cleanup` (sincronizada com `synapseos/main` no Railway)
-**Última release pushada:** `e0ef88442` — PR 7 (Avisa mídia inbound/outbound)
+**Última release pushada:** `2c99bd1f3` — PR 6 (squadron_role + KPIs por papel + wizard)
 
 ---
 
-## 1. Estado atual
+## 1. Estado atual (versão fechada)
 
-### O que já está em produção (Railway)
+### Já em produção
 
-**Overnights 04-21 e 04-22 (Sprints S1–S8):**
-- Debloat + branding PT-BR (S1)
-- CRM Pipeline com 5 stages default + webhooks N8N (S2) — Kanban CRUD completo em `/synapseos/pipeline`
-- Painel lateral "Dados do Sistema Legado" + 3 custom attrs (S3)
-- Notas privadas IA estilizadas (bubbles amber + "Nota da IA") (S4)
-- Backend `AgentMetrics` + `LiveChannel` (ActionCable) (S5)
-- `LiveDashboard` tempo real (S6)
-- `AgentMetrics` C-Level dashboard (S7)
-- Home redirect role-based (admin → AgentMetrics) (S8)
+**Sprints S1–S8 (overnights 04-21/22):**
+- Debloat + branding PT-BR
+- CRM Pipeline com 5 stages default + webhooks N8N — Kanban CRUD em `/synapseos/pipeline`
+- Painel "Dados do Sistema Legado" + 3 custom attrs
+- Notas privadas IA estilizadas
+- Backend `AgentMetrics` + `LiveChannel` (ActionCable)
+- `LiveDashboard` tempo real
+- `AgentMetrics` C-Level dashboard
+- Home redirect role-based (admin → AgentMetrics)
 
-**Refactor de navegação (PRs 1–4):**
+**PRs 1–4 (refactor de navegação):**
 - Sidebar flat top-level (5 itens Synapse OS)
-- `DashboardPage` com tabs (Visão geral / Relatórios ao vivo — embute `LiveReports`)
-- `LiveAgents` drilldown server-side de conversas por agente (endpoint + painel split)
-- N+1 de `last_message` corrigido (3 queries constantes)
+- `DashboardPage` com tabs (Visão geral / Relatórios ao vivo)
+- `LiveAgents` drilldown server-side
+- N+1 de `last_message` corrigido
 
-**PR 5 v1 — Avisa transport direto:**
-- `AvisaClient` (`POST /actions/sendMessage`, `POST /user/parselid`, `POST /webhook`) — sem N8N no transporte
-- Inbound webhook autenticado por `token` do body (não mais HMAC)
-- `IncomingMessageAvisaService` reescrito pra parsear whatsmeow bruto + resolve LID
-- Wizard simplificado: `AvisaWhatsapp.vue` com 2 campos (phone + api_key)
-- Auto-registro do webhook na Avisa via `after_commit`
+**PR 5 — Avisa transport direto (sem N8N no transporte):**
+- `AvisaClient` client puro (sendMessage/parselid/webhook)
+- Webhook inbound autenticado por `token`
+- `IncomingMessageAvisaService` parser whatsmeow cru + LID resolve
+- Wizard 2-campos (phone + api_key), auto-registro de webhook
 
-**PR 7 — Avisa mídia (NOVO):**
-- `AvisaClient#send_media` → `POST /actions/sendMedia` com `fileUrl` público (ActiveStorage `download_url`)
-- `AvisaService#send_attachment_message` mapeia `attachment.file_type` → Avisa type (image/audio/video/document), envia caption quando aplicável, preserva `fileName` em documento
-- `IncomingMessageAvisaService` detecta `*Message` keys no jsonData, anexa `params[:file]` (já descriptografado pela Avisa) via ActiveStorage e usa caption como `content`
+**PR 7 — Avisa mídia (inbound + outbound texto via base64):**
+- `AvisaClient`: `send_image_base64` / `send_document_base64` / `send_audio_base64` / `send_media` (URL)
+- `AvisaService#send_attachment_message` roteia por tipo (image/doc/audio via base64; video via URL)
+- `IncomingMessageAvisaService` detecta mídia + anexa `params[:file]` via ActiveStorage
+- Commit `e0ef88442` + refinamentos em `7dcc82bf5`
 
-### Pendências imediatas (faça primeiro quando voltar)
+**PR 8 — Reações, edições, quoted messages:**
+- Reações (`reactionMessage`) atualizam `content_attributes.external_reactions` da msg alvo, idempotente, com suporte a remoção
+- Edições (`protocolMessage.editedMessage`) sobrescrevem `content` + flag `edited_at`
+- Quoted messages populam `content_attributes.in_reply_to_external_id` (nativo Chatwoot)
+- Commit `15f608a2e`
 
-1. **Verificar que o build do PR 5 subiu no Railway** (commit `192f1bf6e`).
-2. **Deletar a inbox Avisa antiga** (que foi criada com `n8n_url` no wizard anterior e nunca funcionou). Rails console:
-   ```ruby
-   Inbox.joins(:channel_whatsapp).where(channel_whatsapp: { provider: 'avisa' }).destroy_all
-   ```
-3. **Recriar inbox Avisa pelo wizard novo:** Settings → Inboxes → + → WhatsApp → Avisa. Só phone + token da instância. Aceite o checkbox de risco.
-4. **Validar no painel da Avisa** que o webhook foi auto-registrado com URL `https://web-production-20688.up.railway.app/webhooks/avisa`.
-5. **Teste inbound:** envie mensagem de texto pro WhatsApp da inbox. Deve aparecer em segundos no Chatwoot.
-6. **Teste outbound:** responda pelo Chatwoot, deve chegar no WhatsApp.
+**PR 6 — Squadron_role no AgentBot + KPIs por papel + wizard:**
+- Migration `squadron_role` no `agent_bots`
+- 7 papéis canônicos: `alice` (Prospecção), `iza` (Recepção), `luis` (Especialista), `otto` (Auditoria), `fernanda` (Resgate), `angela` (Farming), `vitor` (Recuperação)
+- `AgentResolver` prioriza `squadron_role`, fallback pelo nome pra bots legados
+- `AgentMetricsQuery` com queries específicas por papel (outbound × inbound separados)
+- Modal de criar bot com select obrigatório + multi-select de inboxes
+- LiveDashboard/AgentMetrics renderizam 7 cards
+- Commit `2c99bd1f3`
 
-Se 5 ou 6 falhar → `railway logs --service web` → procurar `[AVISA]`.
+**Infra Railway:**
+- Dispatcher único (`railway_start.sh`) decide web vs worker via `RAILWAY_SERVICE_NAME` — mesmo `railway.json` pros dois serviços
+- Healthcheck removido (era fatal pro worker Sidekiq)
+- Commits `d06545658`, `180902c5a`
 
-### Débitos técnicos conhecidos
-
-- **Commit ruim `967362d71 "commit3"`**: mensagem inutilizável (só "commit3"). Landed via plumbing porque `git commit` estava travando. Não é crítico — o diff fala por si. Pode reescrever via `git rebase -i HEAD~N` depois, mas não antes de reiniciar.
-- **Spec `whatsapp360_dialog_service_spec.rb` com read-error intermitente**: causou os travamentos de `git commit`. Reinício deve resolver. Se persistir, tentar `xattr -c spec/services/whatsapp/providers/whatsapp360_dialog_service_spec.rb` ou recheckout do arquivo.
-- **Disco a 96%**: cleanup feito liberou pouco. Se voltar a apertar, matar mais `node_modules` de worktrees + caches Homebrew.
-
----
-
-## 2. Validar PR 7 no Railway
-
-Depois que o build subir, testes manuais:
-
-1. **Outbound:** na conversa Avisa, anexe foto + texto → chega no WhatsApp com caption. Repetir com PDF (vira document, com nome do arquivo) e áudio (sem caption — o campo é ignorado).
-2. **Inbound:** mande imagem + legenda pelo WhatsApp → aparece inline no Chatwoot, caption como conteúdo da mensagem.
-3. **Inbound áudio/video/documento:** repetir; confirmar que arquivo abre / baixa pelo painel.
-4. **Storage:** ir no Rails console e conferir que o `attachment.file` persistiu (`Attachment.last.file.attached?`). No Railway o ActiveStorage usa storage local do container se não houver S3 — se um restart apagar, é sinal de que precisa configurar S3/bucket externo.
-
-Se algo quebrar → `railway logs --service web` → procurar `[AVISA]`.
-
-### Ponto de atenção
-
-`attachment.download_url` é uma URL pública (signed blob) gerada pelo próprio Railway. Se o domínio não estiver acessível publicamente (ex: preview environment atrás de auth), a Avisa vai falhar ao baixar. Confirmar que o `FRONTEND_URL` / `default_url_options` apontam pra domínio público resolvível.
+**Fixes UX:**
+- Template picker dispensado em nova conversa pra Avisa/Hyperflow (`f5fa0ba16`)
+- Banner 24h sumiu no ReplyBox pra providers não-oficiais (`17a1aee38`)
+- Outgoing echo: resposta pelo celular do atendente aparece no Chatwoot, com dedup por `source_id` (`20b11ec6e`)
+- Auto-registro de webhook atômico na criação da inbox, com rollback se falhar (`d61c910eb`)
 
 ---
 
-## 3. Próximo PR recomendado: PR 8 — Reações, edições, quoted messages
+## 2. Pendências conhecidas (não-bloqueantes pra esta versão)
 
-### Escopo
+### Mídia outbound via URL (vídeo + storage local)
+- Hoje `sendMedia` com URL pública só funciona se `ACTIVE_STORAGE_SERVICE` for S3/R2. Railway default é `local` e web ≠ worker filesystem, então anexo gravado pelo web some na leitura do worker.
+- Fix implementado: mensagem que falha por `ActiveStorage::FileNotFoundError` é marcada `:failed` em vez de entrar em retry loop (`05d236692`).
+- Solução definitiva: `docker-compose.prod.yml` com volume compartilhado entre web e worker (modelo VPS Interlivre) — local storage funciona. R2 só necessário se multi-node.
 
-- **reactionMessage**: mapear pro equivalente Chatwoot (atributo em `content_attributes` da msg original). O `reactionMessage.key.id` aponta pra `source_id` da mensagem citada — achar no banco e atualizar.
-- **protocolMessage.editedMessage**: substituir `content` da mensagem original (source_id vem em `protocolMessage.key.id`).
-- **quoted messages**: `extendedTextMessage.contextInfo.quotedMessage` → popular `in_reply_to_external_id` na criação da nova msg.
+### Commit `967362d71` ("commit3")
+- Mensagem inutilizável, legado de workaround por git plumbing. Não-urgente. Pode rebasear quando for conveniente.
 
-### Arquivos
+### node_modules local quebrado
+- `eslint`/`ajv` com erro de módulo no Node 24. Não afeta o Railway (build limpo). `pnpm install --force` no dev local resolve quando for mexer em JS.
 
-| Arquivo | O quê |
-|---|---|
-| `app/services/whatsapp/incoming_message_avisa_service.rb` | Ramos novos antes de `persist_message` — reação/edição não criam msg nova |
-| `app/services/whatsapp/providers/avisa_client.rb` | `react_message`, `edit_message` para outbound (opcional v1) |
-
----
-
-## 4. PRs alternativos (se decidir priorizar outra coisa)
-
-### PR 6 — Desacoplar AgentBot da criação de inbox
-**Escopo:** hoje a inbox é criada e o AgentBot precisa ser associado manualmente. Proposta: botão "Adicionar agente de IA" separado, que permite plugar qualquer backend (N8N flow URL, LangChain FastAPI, etc.) em qualquer inbox.
-
-**Por que não priorizei:** não bloqueia uso. Pode ser feito depois do PR 7.
-
-**Arquivos:** novo componente `AgentBotConnector.vue` em `routes/dashboard/settings/inbox/`, novo endpoint pra criar/editar AgentBot + associação com inbox (provavelmente já existe nativo do Chatwoot — apenas expor na UI).
-
-### PR 8 — Reações, edições, mensagens citadas, grupos
-Mensagens especiais que hoje são descartadas. Complexidade média — cada uma tem lógica própria (reactionMessage referencia msg original, editedMessage substitui conteúdo, grupos precisam mapear participantes).
+### AgentBot legado (se existir)
+- Bots com name `'Alice & Iza'` e sem `squadron_role` são mapeados pra slug `iza` via fallback. Editar no wizard atribui o papel explícito.
 
 ---
 
-## 4. Como retomar depois de reiniciar o Mac
+## 3. Próximos PRs candidatos
 
-1. Abra chat novo no Claude Code nessa pasta.
-2. A memória já tem tudo:
-   - `project_avisa_api.md` — specs completas da API Avisa
-   - `project_overnight_2026_04_22.md` — o que os overnights entregaram
-   - Este doc (`docs/synapseos/next_steps.md`) — plano presente
-3. Peça: "lê `docs/synapseos/next_steps.md` e continua o PR 7"
-4. Antes de começar, confirmar estado git:
-   ```
-   git log --oneline -5
-   ```
-   Deve mostrar `e0ef88442` como HEAD.
-5. Se git travar de novo, usar workaround de plumbing:
-   ```bash
-   rm -f .git/index.lock
-   tree=$(git write-tree)
-   commit=$(echo "msg" | git commit-tree "$tree" -p HEAD)
-   git update-ref HEAD "$commit"
-   ```
+### PR de entrega — `docker-compose.prod.yml` para cliente VPS
+- Deliverable real do SaaS (modelo 1-VPS-por-cliente Interlivre)
+- Resolve mídia outbound como efeito colateral (volume compartilhado)
+- Inclui: web, worker, pgvector, redis, volume `storage`, `.env.example`, instruções
+
+### Branding / logos SVG
+- Placeholders em `public/brand-assets/` ainda são Chatwoot
+- Depende de arte finalizada
+- Sweep final de strings "Chatwoot" residuais via `replaceInstallationName`
+
+### Painel Super Admin Next.js
+- Repo separado, pro dono do SaaS administrar accounts sem mexer no Chatwoot Super Admin nativo
+
+### Grupos WhatsApp (fora do PR 8)
+- `Info.IsGroup=true` → mapear participantes, criar conversation de grupo
+- Chatwoot não tem modelo nativo de grupo — requer custom attribute ou nova tabela
+
+### UI de reações
+- Dados estão em `content_attributes.external_reactions` desde o PR 8, mas nada renderiza ainda
+- Badge com emoji abaixo da bubble seria suficiente pra MVP
 
 ---
 
-## 5. Referência rápida — Avisa API
+## 4. Referência rápida — Avisa API
 
 - **Base URL:** `https://www.avisaapi.com.br/api`
-- **Auth:** `Authorization: Bearer <token_instancia>` (token por instância, não por conta)
+- **Auth:** `Authorization: Bearer <token_instancia>`
 - **Send text:** `POST /actions/sendMessage` body `{number, message}`
-- **Send media:** `POST /actions/sendMedia` body `{number, fileUrl, type, message?, fileName?}` — `type` ∈ `image|video|audio|document`
+- **Send media (URL):** `POST /actions/sendMedia` body `{number, fileUrl, type, message?, fileName?}`
+- **Send media (base64):** `POST /actions/sendImage` / `/sendDocument` / `/sendAudio`
 - **Register webhook:** `POST /webhook` body `{webhook}`
 - **Resolve LID:** `POST /user/parselid` body `{lid}`
 - **Inbound content-types:**
-  - Texto: `application/x-www-form-urlencoded` (fields: `token`, `jsonData`)
+  - Texto/reação/edição: `application/x-www-form-urlencoded` (fields: `token`, `jsonData`)
   - Mídia: `multipart/form-data` (fields: `token`, `jsonData`, `file`)
 
-Detalhes em `memory/project_avisa_api.md`.
+Detalhes completos em `memory/project_avisa_api.md`.
+
+---
+
+## 5. N8N AgentBot workflow
+
+Fluxo exemplo em `docs/synapseos/n8n_avisa_demo_workflow.json` (se aplicável) ou gerado sob demanda:
+
+- Webhook Chatwoot → Normalize Input (achata body em campos flat)
+- IF `message_type != outgoing` (evita loop)
+- Guardrails: bloqueia auto-response de WhatsApp Business
+- AI Agent (OpenAI + Postgres memory por `conversation_id`)
+- Build Callback → HTTP POST `/api/v1/accounts/:id/conversations/:id/messages`
+- Env vars: `CHATWOOT_URL`, `CHATWOOT_AGENT_BOT_TOKEN` (access_token do bot)
+
+---
+
+## 6. Workaround de git plumbing (se travar de novo)
+
+```bash
+rm -f .git/index.lock
+git add <files>
+tree=$(git write-tree)
+commit=$(git commit-tree "$tree" -p HEAD -m "mensagem")
+git update-ref HEAD "$commit"
+git push synapseos custom/initial-cleanup:main
+```
+
+Usado quando husky/lint-staged falha por módulos Node quebrados.
