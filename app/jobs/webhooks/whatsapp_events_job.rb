@@ -1,5 +1,7 @@
 class Webhooks::WhatsappEventsJob < MutexApplicationJob
   queue_as :low
+  # Retry budget sized for attachment-heavy albums: each image download holds the lock
+  # for 2–3s, so 6+ concurrent webhooks can queue for 15–20s before their turn.
   retry_on LockAcquisitionError, wait: 2.seconds, attempts: 15
 
   def perform(params = {})
@@ -13,9 +15,11 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
     sender_id = contact_sender_id(params)
     return process_events(channel, params) if sender_id.blank?
 
+    # Album uploads arrive as separate concurrent webhooks. Serialize per (inbox, contact)
+    # so the first webhook creates the conversation and the rest append to it.
+    # 30s TTL covers the attachment download + transaction — the default 1s expires
+    # mid-processing and lets a concurrent webhook re-acquire before the first commit.
     key = format(::Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: sender_id)
-    # 30s TTL covers attachment download + conversation/message transaction. The default 1s expires
-    # mid-processing, letting a concurrent webhook re-acquire before the first transaction commits.
     with_lock(key, 30.seconds) do
       process_events(channel, params)
     end
@@ -82,9 +86,8 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
 
   private
 
-  # Contact phone number identifies the conversation participant.
-  # For regular messages it's the `from` field; for echoes (agent replies from the WhatsApp
-  # Business app) the contact is in `to`. Returns nil for status-only webhooks.
+  # Echo payloads reverse the fields — `from` is the business number and `to` is the contact.
+  # Returns nil for status-only webhooks so they bypass the lock.
   def contact_sender_id(params)
     value = params.dig(:entry, 0, :changes, 0, :value) || params
     message = (value[:messages] || value[:message_echoes])&.first
