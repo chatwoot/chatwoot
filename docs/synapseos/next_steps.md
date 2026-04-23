@@ -1,8 +1,8 @@
 # Synapse OS — Próximos Passos
 
-**Data do snapshot:** 2026-04-22
+**Data do snapshot:** 2026-04-23
 **Branch:** `custom/initial-cleanup` (sincronizada com `synapseos/main` no Railway)
-**Última release pushada:** `192f1bf6e` — PR 5 v1 (Avisa direct transport)
+**Última release pushada:** `e0ef88442` — PR 7 (Avisa mídia inbound/outbound)
 
 ---
 
@@ -26,12 +26,17 @@
 - `LiveAgents` drilldown server-side de conversas por agente (endpoint + painel split)
 - N+1 de `last_message` corrigido (3 queries constantes)
 
-**PR 5 v1 — Avisa transport direto (NOVO):**
+**PR 5 v1 — Avisa transport direto:**
 - `AvisaClient` (`POST /actions/sendMessage`, `POST /user/parselid`, `POST /webhook`) — sem N8N no transporte
 - Inbound webhook autenticado por `token` do body (não mais HMAC)
 - `IncomingMessageAvisaService` reescrito pra parsear whatsmeow bruto + resolve LID
 - Wizard simplificado: `AvisaWhatsapp.vue` com 2 campos (phone + api_key)
 - Auto-registro do webhook na Avisa via `after_commit`
+
+**PR 7 — Avisa mídia (NOVO):**
+- `AvisaClient#send_media` → `POST /actions/sendMedia` com `fileUrl` público (ActiveStorage `download_url`)
+- `AvisaService#send_attachment_message` mapeia `attachment.file_type` → Avisa type (image/audio/video/document), envia caption quando aplicável, preserva `fileName` em documento
+- `IncomingMessageAvisaService` detecta `*Message` keys no jsonData, anexa `params[:file]` (já descriptografado pela Avisa) via ActiveStorage e usa caption como `content`
 
 ### Pendências imediatas (faça primeiro quando voltar)
 
@@ -55,69 +60,41 @@ Se 5 ou 6 falhar → `railway logs --service web` → procurar `[AVISA]`.
 
 ---
 
-## 2. Próximo PR (recomendado): PR 7 — Mídia inbound/outbound Avisa
+## 2. Validar PR 7 no Railway
 
-### Por que agora
-O PR 5 cobre só texto. Sem mídia, SaaS não é usável — cliente não consegue receber foto do carro, áudio do lead, PDF de proposta. É o que destrava testes end-to-end reais.
+Depois que o build subir, testes manuais:
 
-### Escopo
+1. **Outbound:** na conversa Avisa, anexe foto + texto → chega no WhatsApp com caption. Repetir com PDF (vira document, com nome do arquivo) e áudio (sem caption — o campo é ignorado).
+2. **Inbound:** mande imagem + legenda pelo WhatsApp → aparece inline no Chatwoot, caption como conteúdo da mensagem.
+3. **Inbound áudio/video/documento:** repetir; confirmar que arquivo abre / baixa pelo painel.
+4. **Storage:** ir no Rails console e conferir que o `attachment.file` persistiu (`Attachment.last.file.attached?`). No Railway o ActiveStorage usa storage local do container se não houver S3 — se um restart apagar, é sinal de que precisa configurar S3/bucket externo.
 
-**Inbound (Avisa → Chatwoot):**
-Quando chega mensagem com mídia, a Avisa envia multipart com 3 campos:
-- `token` (autentica inbox)
-- `jsonData` (metadata whatsmeow)
-- `file` (binário **já descriptografado** — não precisa HKDF/AES-CBC)
+Se algo quebrar → `railway logs --service web` → procurar `[AVISA]`.
 
-Rails já parseia multipart nativamente. `params[:file]` vira `ActionDispatch::Http::UploadedFile`. Tem que:
-1. No `IncomingMessageAvisaService`, quando `event.Info.MediaType` in `%w[image audio video document]`, criar `Attachment` com o upload.
-2. Usar `ActiveStorage` pra persistir (Chatwoot já usa em outros canais — ver `Whatsapp::IncomingMessageBaseService#attach_files`).
-3. Extrair caption se existir (`msg.imageMessage.caption` etc.) como `message.content`.
-4. Atualizar `processed_params` se fizer sentido pra reaproveitar base class.
+### Ponto de atenção
 
-**Outbound (Chatwoot → Avisa):**
-Avisa tem endpoints separados por tipo (provavelmente `/actions/sendImage`, `/actions/sendDocument`, `/actions/sendAudio` — **confirmar no Postman da Avisa**). Cada um aceita:
-- `number` (como já é em `sendMessage`)
-- URL pública do arquivo OU base64 OU multipart (confirmar)
-
-No `AvisaService#send_message`, remover o `Rails.logger.warn` de "anexos não suportados" e delegar pro novo `AvisaClient#send_media(number:, type:, file_url:, caption:)`.
-
-No `AvisaClient`, adicionar métodos:
-- `#send_image(number:, url:, caption: nil)`
-- `#send_audio(number:, url:)`
-- `#send_document(number:, url:, filename: nil, caption: nil)`
-- `#send_video(number:, url:, caption: nil)`
-
-### Pré-requisito: investigar endpoints
-
-Antes de codar, **confirmar com o Postman da Avisa (ou curl):**
-1. Path exato dos endpoints de mídia (ex: `/actions/sendImage` vs `/actions/send-image`).
-2. Formato do body: JSON com URL pública? multipart com binário? base64 inline?
-3. Limites de tamanho (WhatsApp oficial é 16MB pra imagem, 100MB pra video/doc — Avisa deve seguir).
-4. Retorno de erro quando arquivo inválido (pra tratar no Rails).
-
-### Arquivos a editar
-
-| Arquivo | O quê |
-|---|---|
-| `app/services/whatsapp/providers/avisa_client.rb` | Adicionar `send_image`, `send_audio`, `send_document`, `send_video` |
-| `app/services/whatsapp/providers/avisa_service.rb` | Remover guard de anexo, implementar `send_attachment_message` delegando ao client |
-| `app/services/whatsapp/incoming_message_avisa_service.rb` | Ramo `if media? → attach_file(params[:file])`. Extrair caption. |
-| (spec) | Opcional — se tiver tempo |
-
-### Critério de pronto
-
-- [ ] Envia imagem pelo Chatwoot → chega no WhatsApp
-- [ ] Recebe imagem/áudio/doc do WhatsApp → aparece inline na conversa do Chatwoot (thumbnail + download)
-- [ ] Caption em imagem/video aparece como `content` da mensagem
-- [ ] Doc com nome correto (`filename`)
-- [ ] Arquivo persiste via ActiveStorage (fica no storage do Railway)
-
-### Estimativa
-~3h de código + ~1h de teste.
+`attachment.download_url` é uma URL pública (signed blob) gerada pelo próprio Railway. Se o domínio não estiver acessível publicamente (ex: preview environment atrás de auth), a Avisa vai falhar ao baixar. Confirmar que o `FRONTEND_URL` / `default_url_options` apontam pra domínio público resolvível.
 
 ---
 
-## 3. PRs alternativos (se decidir priorizar outra coisa)
+## 3. Próximo PR recomendado: PR 8 — Reações, edições, quoted messages
+
+### Escopo
+
+- **reactionMessage**: mapear pro equivalente Chatwoot (atributo em `content_attributes` da msg original). O `reactionMessage.key.id` aponta pra `source_id` da mensagem citada — achar no banco e atualizar.
+- **protocolMessage.editedMessage**: substituir `content` da mensagem original (source_id vem em `protocolMessage.key.id`).
+- **quoted messages**: `extendedTextMessage.contextInfo.quotedMessage` → popular `in_reply_to_external_id` na criação da nova msg.
+
+### Arquivos
+
+| Arquivo | O quê |
+|---|---|
+| `app/services/whatsapp/incoming_message_avisa_service.rb` | Ramos novos antes de `persist_message` — reação/edição não criam msg nova |
+| `app/services/whatsapp/providers/avisa_client.rb` | `react_message`, `edit_message` para outbound (opcional v1) |
+
+---
+
+## 4. PRs alternativos (se decidir priorizar outra coisa)
 
 ### PR 6 — Desacoplar AgentBot da criação de inbox
 **Escopo:** hoje a inbox é criada e o AgentBot precisa ser associado manualmente. Proposta: botão "Adicionar agente de IA" separado, que permite plugar qualquer backend (N8N flow URL, LangChain FastAPI, etc.) em qualquer inbox.
@@ -143,7 +120,7 @@ Mensagens especiais que hoje são descartadas. Complexidade média — cada uma 
    ```
    git log --oneline -5
    ```
-   Deve mostrar `192f1bf6e` como HEAD.
+   Deve mostrar `e0ef88442` como HEAD.
 5. Se git travar de novo, usar workaround de plumbing:
    ```bash
    rm -f .git/index.lock
@@ -159,6 +136,7 @@ Mensagens especiais que hoje são descartadas. Complexidade média — cada uma 
 - **Base URL:** `https://www.avisaapi.com.br/api`
 - **Auth:** `Authorization: Bearer <token_instancia>` (token por instância, não por conta)
 - **Send text:** `POST /actions/sendMessage` body `{number, message}`
+- **Send media:** `POST /actions/sendMedia` body `{number, fileUrl, type, message?, fileName?}` — `type` ∈ `image|video|audio|document`
 - **Register webhook:** `POST /webhook` body `{webhook}`
 - **Resolve LID:** `POST /user/parselid` body `{lid}`
 - **Inbound content-types:**
