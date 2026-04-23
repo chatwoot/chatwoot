@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 
-from fastapi import FastAPI, Header, HTTPException, Request, status
+from fastapi import FastAPI, Header, HTTPException, Query, Request, status
 from fastapi.responses import JSONResponse
 
 from .adapters import google as google_adapter
@@ -36,8 +36,16 @@ def readyz() -> dict[str, str]:
 
 # ---------- Meta Lead Ads ----------
 @app.get("/webhooks/meta")
-def meta_verify(hub_mode: str | None = None, hub_challenge: str | None = None, hub_verify_token: str | None = None) -> JSONResponse:
-    """Handshake de verificação do Facebook Webhooks."""
+def meta_verify(
+    hub_mode: str | None = Query(default=None, alias="hub.mode"),
+    hub_challenge: str | None = Query(default=None, alias="hub.challenge"),
+    hub_verify_token: str | None = Query(default=None, alias="hub.verify_token"),
+) -> JSONResponse:
+    """Handshake de verificação do Facebook Webhooks.
+
+    Meta envia os parâmetros com ponto (`hub.mode`, `hub.challenge`, `hub.verify_token`),
+    por isso mapeamos via `alias=`.
+    """
     _ = hub_verify_token  # reserva: validar contra META_VERIFY_TOKEN quando for configurado
     if hub_mode == "subscribe" and hub_challenge:
         return JSONResponse(content=int(hub_challenge) if hub_challenge.isdigit() else hub_challenge)

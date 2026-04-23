@@ -12,10 +12,13 @@ def _key(tenant_id: str, external_id: str) -> str:
 
 
 def seen_recently(tenant_id: str, external_id: str) -> bool:
+    """Marca o par `tenant_id + external_id` como visto usando SET NX EX, atômico.
+
+    Se o SET NX não cria a chave (já existia), o lead é duplicado.
+    Isso evita TOCTOU entre múltiplos workers/replicas.
+    """
     s = get_settings()
     r = redis.from_url(s.redis_url, decode_responses=True)
     key = _key(tenant_id, external_id)
-    if r.exists(key):
-        return True
-    r.setex(key, s.dedup_window_hours * 3600, "1")
-    return False
+    was_set = r.set(key, "1", ex=s.dedup_window_hours * 3600, nx=True)
+    return not was_set

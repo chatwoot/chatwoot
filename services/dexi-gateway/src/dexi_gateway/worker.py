@@ -10,6 +10,7 @@ from .config import get_settings
 from .db import LeadAudit, create_all, get_session
 from .llm.qualifier import qualify
 from .models.lead import NormalizedLead
+from .syonet_connector import RETRYABLE as SYONET_TRANSPORT_ERRORS
 from .syonet_connector import SyonetConnector, SyonetError
 
 log = logging.getLogger(__name__)
@@ -61,6 +62,17 @@ def process_lead(self, lead_json: dict) -> dict:
         if exc.status_code in {500, 502, 503, 504}:
             raise self.retry(exc=exc, countdown=min(60 * (self.request.retries + 1), 600)) from exc
         return {"status": "syonet_error", "http_status": exc.status_code}
+    except SYONET_TRANSPORT_ERRORS as exc:
+        # Esgotou o retry do tenacity no connector (timeout / conexão recusada / protocolo).
+        # Persiste status e deixa o Celery reagendar para não perder o lead.
+        log.error("syonet.transport_failed", extra={"lead_id": lead.lead_id, "error": str(exc)})
+        with get_session() as sess:
+            row = sess.get(LeadAudit, lead.lead_id)
+            if row is not None:
+                row.status = "syonet_error"
+                row.last_error = f"transport: {exc!r}"
+                sess.commit()
+        raise self.retry(exc=exc, countdown=min(60 * (self.request.retries + 1), 600)) from exc
 
     with get_session() as sess:
         row = sess.get(LeadAudit, lead.lead_id)
