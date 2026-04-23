@@ -5,9 +5,7 @@ json.short_description resource.short_description.presence
 json.enabled resource.enabled?(@current_account)
 
 if Current.account_user&.administrator?
-  visible_keys = resource.visible_properties
-  safe_params = resource.params.select { |key, _| visible_keys.include?(key.to_s) }
-  json.call(safe_params, *safe_params.keys) if safe_params.present?
+  json.call(resource.params, *resource.params.keys)
   json.action resource.action
   json.button resource.action
 end
