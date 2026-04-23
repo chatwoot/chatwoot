@@ -128,6 +128,14 @@ export default {
         this.isATwilioWhatsAppChannel
       );
     },
+    // CUSTOMIZAÇÃO_SYNAPSEOS: provedores não-oficiais (avisa, hyperflow) usam
+    // whatsmeow e não impõem janela de 24h nem exigem HSM templates.
+    isANonOfficialWhatsAppChannel() {
+      return (
+        this.channelType === INBOX_TYPES.WHATSAPP &&
+        ['avisa', 'hyperflow'].includes(this.whatsAppAPIProvider)
+      );
+    },
     isAnInstagramChannel() {
       return this.channelType === INBOX_TYPES.INSTAGRAM;
     },
