@@ -1,16 +1,22 @@
 # CUSTOMIZAÇÃO_SYNAPSEOS
-# Recebe mensagens da Avisa API encaminhadas pelo N8N.
+# Recebe mensagens direto da Avisa API (sem N8N no meio).
 #
-# Contrato esperado:
-# - POST /webhooks/avisa/:phone_number
-#   body: payload Meta Cloud API (entry[].changes[].value.{messages,contacts})
-#   header opcional: X-Synapseos-Signature
+# Contrato:
+# - POST /webhooks/avisa
+# - Content-Type: application/x-www-form-urlencoded (texto) ou multipart/form-data (mídia)
+# - params[:token] = token da instância Avisa → autentica qual channel
+# - params[:jsonData] = string JSON com o evento whatsmeow
+# - params[:file] = binário descriptografado (só quando mídia; ignorado em v1)
 class Webhooks::AvisaController < ActionController::API
   def process_payload
-    channel = Channel::Whatsapp.find_by(phone_number: params[:phone_number])
-    return render json: { error: 'Unknown phone_number' }, status: :not_found if channel.nil?
-    return render json: { error: 'Wrong provider' }, status: :unprocessable_entity if channel.provider != 'avisa'
-    return head :unauthorized unless signature_valid?(channel)
+    token = params[:token].to_s
+    return head :unauthorized if token.blank?
+
+    channel = Channel::Whatsapp
+              .where(provider: 'avisa')
+              .where("provider_config->>'api_key' = ?", token)
+              .first
+    return head :unauthorized if channel.nil?
 
     Whatsapp::IncomingMessageAvisaService.new(
       inbox: channel.inbox,
@@ -20,14 +26,5 @@ class Webhooks::AvisaController < ActionController::API
   rescue StandardError => e
     Rails.logger.error("[AVISA webhook] #{e.class}: #{e.message}\n#{e.backtrace.first(5).join("\n")}")
     head :internal_server_error
-  end
-
-  private
-
-  def signature_valid?(channel)
-    expected = channel.provider_config['webhook_secret']
-    return true if expected.blank?
-
-    request.headers['X-Synapseos-Signature'] == expected
   end
 end
