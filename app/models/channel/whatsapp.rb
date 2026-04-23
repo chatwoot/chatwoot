@@ -34,10 +34,14 @@ class Channel::Whatsapp < ApplicationRecord
   validate :validate_provider_config
 
   after_create :sync_templates
+  after_create :register_avisa_webhook!, if: -> { provider == 'avisa' }
+  after_update :register_avisa_webhook!, if: -> { provider == 'avisa' && saved_change_to_provider_config? }
   before_destroy :teardown_webhooks
   after_commit :setup_webhooks, on: :create, if: :should_auto_setup_webhooks?
-  # CUSTOMIZAÇÃO_SYNAPSEOS: Avisa expõe POST /webhook — auto-registramos no onboarding.
-  after_commit :register_avisa_webhook, on: :create, if: -> { provider == 'avisa' }
+  # CUSTOMIZAÇÃO_SYNAPSEOS: Avisa expõe POST /webhook — auto-registramos síncrono
+  # dentro da transação; se a Avisa rejeitar (token inválido, offline) a inbox
+  # não nasce quebrada. Re-registra em update quando credenciais mudam.
+  validate :validate_avisa_frontend_url, if: -> { provider == 'avisa' }
 
   def name
     'Whatsapp'
@@ -104,16 +108,28 @@ class Channel::Whatsapp < ApplicationRecord
     provider == 'whatsapp_cloud' && provider_config['source'] != 'embedded_signup'
   end
 
-  # CUSTOMIZAÇÃO_SYNAPSEOS: registra URL de inbound na Avisa API.
-  def register_avisa_webhook
-    base = ENV.fetch('FRONTEND_URL', nil)
-    return Rails.logger.warn('[AVISA] FRONTEND_URL não configurado; webhook não registrado') if base.blank?
+  # CUSTOMIZAÇÃO_SYNAPSEOS: validação upfront — sem FRONTEND_URL não faz sentido
+  # criar inbox Avisa (nem teria como informar à Avisa onde mandar os webhooks).
+  def validate_avisa_frontend_url
+    return if ENV['FRONTEND_URL'].to_s.strip.present?
+
+    errors.add(:base, 'FRONTEND_URL não configurado no servidor — impossível registrar webhook da Avisa.')
+  end
+
+  # CUSTOMIZAÇÃO_SYNAPSEOS: registra URL de inbound na Avisa API dentro da
+  # transação. Falha → rollback → inbox não é criada. Idempotente na Avisa.
+  def register_avisa_webhook!
+    webhook_url = "#{ENV['FRONTEND_URL'].to_s.chomp('/')}/webhooks/avisa"
 
     Whatsapp::Providers::AvisaClient.new(
       api_key: provider_config['api_key'],
       base_url: provider_config['base_url']
-    ).register_webhook(webhook_url: "#{base.chomp('/')}/webhooks/avisa")
+    ).register_webhook(webhook_url: webhook_url)
+
+    Rails.logger.info("[AVISA] webhook registrado: #{webhook_url}")
   rescue Whatsapp::Providers::AvisaClient::Error => e
     Rails.logger.error("[AVISA] falha ao registrar webhook: #{e.message}")
+    errors.add(:base, "Falha ao registrar webhook na Avisa: #{e.message}")
+    raise ActiveRecord::RecordInvalid, self
   end
 end
