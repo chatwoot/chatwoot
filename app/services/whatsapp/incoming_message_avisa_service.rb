@@ -6,39 +6,28 @@
 #   - jsonData: string JSON com o evento completo
 #   - file: binário já descriptografado (quando mídia)
 #
-# v1 cobre só texto (conversation, extendedTextMessage, captions). Mídia,
-# reações, edições, grupos ficam pros PRs seguintes.
+# Cobre texto (conversation, extendedTextMessage) e mídia (image, audio, video,
+# document) com caption opcional. Reações, edições e grupos ainda pendentes.
 class Whatsapp::IncomingMessageAvisaService
   pattr_initialize [:inbox!, :params!]
 
+  MEDIA_KEYS = {
+    'imageMessage' => :image,
+    'videoMessage' => :video,
+    'audioMessage' => :audio,
+    'documentMessage' => :file,
+    'stickerMessage' => :image
+  }.freeze
+
   def perform
-    return if event.blank?
-    return if from_me?
+    return if event.blank? || from_me?
 
     phone = phone_from_jid(resolved_jid)
     return if phone.blank?
 
-    contact_inbox = ContactInboxWithContactBuilder.new(
-      inbox: inbox,
-      source_id: phone,
-      contact_attributes: {
-        name: event.dig('Info', 'PushName').presence || phone,
-        phone_number: "+#{phone}"
-      }
-    ).perform
-
+    contact_inbox = build_contact_inbox(phone)
     conversation = find_or_create_conversation(contact_inbox)
-    text = extract_text
-    return if text.blank? # v1: descarta não-texto
-
-    conversation.messages.create!(
-      content: text,
-      account_id: inbox.account_id,
-      inbox_id: inbox.id,
-      message_type: :incoming,
-      sender: contact_inbox.contact,
-      source_id: event.dig('Info', 'ID').to_s
-    )
+    persist_message(conversation, contact_inbox.contact)
   end
 
   private
@@ -96,6 +85,66 @@ class Whatsapp::IncomingMessageAvisaService
     end
 
     nil
+  end
+
+  def build_contact_inbox(phone)
+    ContactInboxWithContactBuilder.new(
+      inbox: inbox,
+      source_id: phone,
+      contact_attributes: {
+        name: event.dig('Info', 'PushName').presence || phone,
+        phone_number: "+#{phone}"
+      }
+    ).perform
+  end
+
+  def persist_message(conversation, contact)
+    text = extract_text
+    file = media_upload
+    return if text.blank? && file.blank?
+
+    message = conversation.messages.build(
+      content: text,
+      account_id: inbox.account_id,
+      inbox_id: inbox.id,
+      message_type: :incoming,
+      sender: contact,
+      source_id: event.dig('Info', 'ID').to_s
+    )
+    attach_media(message, file) if file.present?
+    message.save!
+  end
+
+  def media_message_key
+    msg = event['Message'] || {}
+    MEDIA_KEYS.keys.find { |key| msg[key].is_a?(Hash) }
+  end
+
+  def media_upload
+    return nil if media_message_key.blank?
+
+    file = params[:file]
+    return nil if file.blank?
+    return nil unless file.respond_to?(:original_filename) && file.respond_to?(:content_type)
+
+    file
+  end
+
+  def attach_media(message, file)
+    key = media_message_key
+    file_type = MEDIA_KEYS[key] || :file
+    msg = event['Message'] || {}
+    doc_name = msg.dig('documentMessage', 'fileName').to_s.presence
+
+    message.attachments.new(
+      account_id: message.account_id,
+      file_type: file_type,
+      file: {
+        io: file.tempfile,
+        filename: doc_name || file.original_filename,
+        content_type: file.content_type
+      }
+    )
   end
 
   def find_or_create_conversation(contact_inbox)

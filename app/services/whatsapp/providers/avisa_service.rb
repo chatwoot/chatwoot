@@ -11,9 +11,7 @@ class Whatsapp::Providers::AvisaService < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
     @message = message
     if message.attachments.present?
-      # v1 só-texto: attachment support vem no PR seguinte.
-      Rails.logger.warn("[AVISA] anexos ainda não suportados (msg #{message.id})")
-      nil
+      send_attachment_message(phone_number, message)
     else
       send_text_message(phone_number, message)
     end
@@ -53,5 +51,36 @@ class Whatsapp::Providers::AvisaService < Whatsapp::Providers::BaseService
   rescue Whatsapp::Providers::AvisaClient::Error => e
     Rails.logger.error("[AVISA] envio falhou: #{e.message}")
     nil
+  end
+
+  # Avisa `/actions/sendMedia` aceita URL pública; usamos `attachment.download_url`
+  # (ActiveStorage blob URL) e a Avisa baixa server-side antes de mandar pro WhatsApp.
+  def send_attachment_message(phone_number, message)
+    attachment = message.attachments.first
+    type = avisa_media_type(attachment.file_type)
+
+    caption = message.content.to_s.presence unless type == 'audio'
+    file_name = attachment.file.filename.to_s if type == 'document'
+
+    result = client.send_media(
+      number: phone_number,
+      type: type,
+      file_url: attachment.download_url,
+      caption: caption,
+      file_name: file_name
+    )
+    result[:id]
+  rescue Whatsapp::Providers::AvisaClient::Error => e
+    Rails.logger.error("[AVISA] envio de mídia falhou: #{e.message}")
+    nil
+  end
+
+  def avisa_media_type(chatwoot_file_type)
+    case chatwoot_file_type.to_s
+    when 'image' then 'image'
+    when 'audio' then 'audio'
+    when 'video' then 'video'
+    else 'document'
+    end
   end
 end

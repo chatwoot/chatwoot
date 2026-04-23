@@ -21,6 +21,19 @@ class Whatsapp::Providers::AvisaClient
     { id: inner['Id'], timestamp: inner['Timestamp'] }
   end
 
+  # POST /actions/sendMedia — endpoint unificado que aceita URL pública.
+  # Avisa baixa o arquivo da URL e envia pro WhatsApp.
+  # type ∈ %w[image video audio document]
+  def send_media(number:, type:, file_url:, caption: nil, file_name: nil)
+    body = { number: normalize_number(number), fileUrl: file_url, type: type }
+    body[:message] = caption.to_s if caption.present?
+    body[:fileName] = file_name.to_s if file_name.present?
+
+    response = post('/actions/sendMedia', body)
+    inner = response.dig('data', 'response', 'data') || {}
+    { id: inner['Id'], timestamp: inner['Timestamp'] }
+  end
+
   # POST /user/parselid — resolve LID (ex: "12345@lid") pra JID real.
   # Retorna string do JID (ex: "553491304735@s.whatsapp.net") ou nil.
   def parse_lid(lid:)
