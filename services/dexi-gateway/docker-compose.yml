@@ -1,0 +1,49 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 5
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: dexi
+      POSTGRES_PASSWORD: dexi
+      POSTGRES_DB: dexi
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dexi"]
+      interval: 5s
+      retries: 5
+
+  api:
+    build: .
+    command: uvicorn dexi_gateway.app:app --host 0.0.0.0 --port 8080 --reload
+    env_file: .env
+    ports: ["8080:8080"]
+    depends_on:
+      redis: {condition: service_healthy}
+      postgres: {condition: service_healthy}
+    volumes: [".:/app"]
+
+  worker:
+    build: .
+    command: celery -A dexi_gateway.worker.celery_app worker --loglevel=info --concurrency=4
+    env_file: .env
+    depends_on:
+      redis: {condition: service_healthy}
+      postgres: {condition: service_healthy}
+    volumes: [".:/app"]
+
+  syonet_mock:
+    build: .
+    command: uvicorn dexi_gateway.mocks.syonet_mock:app --host 0.0.0.0 --port 9090
+    ports: ["9090:9090"]
+    volumes: [".:/app"]
+
+volumes:
+  pgdata:
