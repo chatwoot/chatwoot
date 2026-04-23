@@ -65,6 +65,20 @@ RSpec.describe DataImportJob do
         expect(invalid_data_import.reload.processed_records).to eq(csv_length)
       end
 
+      it 'will strip a UTF-8 BOM from the first header column' do
+        bom_data_import = create(:data_import,
+                                 import_file: Rack::Test::UploadedFile.new(
+                                   Rails.root.join('spec/fixtures/data_import/with_utf8_bom.csv'), 'text/csv'
+                                 ))
+
+        described_class.perform_now(bom_data_import)
+
+        expect(bom_data_import.account.contacts.count).to eq(1)
+        contact = Contact.find_by(email: 'test@example.com')
+        expect(contact).to be_present
+        expect(contact.name).to eq('BOM Test User')
+      end
+
       it 'will preserve emojis' do
         data_import = create(:data_import,
                              import_file: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/data_import/with_emoji.csv'),
