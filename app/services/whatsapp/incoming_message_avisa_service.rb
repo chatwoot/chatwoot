@@ -6,12 +6,15 @@
 #   - jsonData: string JSON com o evento completo
 #   - file: binário já descriptografado (quando mídia)
 #
-# Cobre texto (conversation, extendedTextMessage) e mídia (image, audio, video,
-# document) com caption opcional. Eventos com IsFromMe=true são persistidos
-# como :outgoing (echo do celular do atendente) com dedup por source_id —
-# mensagens originadas no próprio Chatwoot já têm source_id gravado pelo
-# SendOnWhatsappService, então o echo da Avisa não duplica. Reações, edições
-# e grupos ainda pendentes.
+# Tipos de evento cobertos:
+#   - texto: conversation, extendedTextMessage
+#   - mídia: image/audio/video/document/sticker (com caption)
+#   - reação: reactionMessage -> atualiza content_attributes da msg alvo
+#   - edição: protocolMessage.editedMessage -> sobrescreve content da msg alvo
+#   - quoted: extendedTextMessage.contextInfo -> popula in_reply_to_external_id
+#   - outgoing echo: IsFromMe=true cria :outgoing (dedup por source_id)
+# Grupos ainda pendentes.
+# rubocop:disable Metrics/ClassLength -- parser coeso de eventos whatsmeow (texto/mídia/reação/edição/quoted).
 class Whatsapp::IncomingMessageAvisaService
   pattr_initialize [:inbox!, :params!]
 
@@ -25,6 +28,8 @@ class Whatsapp::IncomingMessageAvisaService
 
   def perform
     return if event.blank?
+    return handle_reaction if reaction?
+    return handle_edit if edit?
     return if source_id.present? && Message.exists?(source_id: source_id, inbox_id: inbox.id)
 
     phone = phone_from_jid(resolved_jid)
@@ -79,10 +84,6 @@ class Whatsapp::IncomingMessageAvisaService
   def extract_text
     msg = event['Message'] || {}
 
-    edited = msg.dig('protocolMessage', 'editedMessage') || {}
-    return edited['conversation'] if edited['conversation'].present?
-    return edited.dig('extendedTextMessage', 'text') if edited.dig('extendedTextMessage', 'text').present?
-
     ext_text = msg.dig('extendedTextMessage', 'text')
     return ext_text if ext_text.present?
 
@@ -94,6 +95,75 @@ class Whatsapp::IncomingMessageAvisaService
     end
 
     nil
+  end
+
+  def reaction?
+    event.dig('Message', 'reactionMessage').is_a?(Hash)
+  end
+
+  def edit?
+    event.dig('Message', 'protocolMessage', 'editedMessage').is_a?(Hash)
+  end
+
+  # ID (source_id) da mensagem alvo (reação/edição mira msg anterior pelo key.id).
+  def target_message_source_id
+    key = event.dig('Message', 'reactionMessage', 'key') if reaction?
+    key ||= event.dig('Message', 'protocolMessage', 'key') if edit?
+    return nil if key.blank?
+
+    (key['id'] || key['ID']).to_s.presence
+  end
+
+  # extendedTextMessage.contextInfo.stanzaId referencia msg citada (in_reply_to).
+  def quoted_external_id
+    ctx = event.dig('Message', 'extendedTextMessage', 'contextInfo')
+    return nil unless ctx.is_a?(Hash)
+
+    (ctx['stanzaId'] || ctx['stanzaID']).to_s.presence
+  end
+
+  def handle_reaction
+    target = find_target_message
+    return if target.nil?
+
+    emoji = event.dig('Message', 'reactionMessage', 'text').to_s
+    sender_key = from_me? ? 'self' : phone_from_jid(resolved_jid).presence || 'unknown'
+    target.update!(content_attributes: apply_reaction(target.content_attributes, sender_key, emoji))
+  end
+
+  def apply_reaction(current_attrs, sender_key, emoji)
+    attrs = (current_attrs || {}).deep_dup
+    attrs['external_reactions'] ||= {}
+
+    if emoji.empty?
+      attrs['external_reactions'].delete(sender_key)
+      attrs.delete('external_reactions') if attrs['external_reactions'].empty?
+    else
+      attrs['external_reactions'][sender_key] = { 'emoji' => emoji, 'at' => Time.current.to_i }
+    end
+    attrs
+  end
+
+  def handle_edit
+    target = find_target_message
+    return if target.nil?
+
+    edited = event.dig('Message', 'protocolMessage', 'editedMessage', 'Message') ||
+             event.dig('Message', 'protocolMessage', 'editedMessage') || {}
+    new_text = edited['conversation'].presence || edited.dig('extendedTextMessage', 'text').presence
+    return if new_text.blank?
+
+    attrs = (target.content_attributes || {}).deep_dup
+    attrs['edited'] = true
+    attrs['edited_at'] = Time.current.iso8601
+    target.update!(content: new_text, content_attributes: attrs)
+  end
+
+  def find_target_message
+    target_id = target_message_source_id
+    return nil if target_id.blank?
+
+    Message.find_by(source_id: target_id, inbox_id: inbox.id)
   end
 
   def build_contact_inbox(phone)
@@ -119,6 +189,9 @@ class Whatsapp::IncomingMessageAvisaService
 
   def message_attributes(text, contact)
     outgoing = from_me?
+    content_attrs = outgoing ? { external_echo: true } : {}
+    content_attrs[:in_reply_to_external_id] = quoted_external_id if quoted_external_id.present?
+
     {
       content: text,
       account_id: inbox.account_id,
@@ -127,7 +200,7 @@ class Whatsapp::IncomingMessageAvisaService
       status: outgoing ? :delivered : :sent,
       sender: outgoing ? nil : contact,
       source_id: source_id,
-      content_attributes: outgoing ? { external_echo: true } : {}
+      content_attributes: content_attrs
     }
   end
 
@@ -186,3 +259,4 @@ class Whatsapp::IncomingMessageAvisaService
     )
   end
 end
+# rubocop:enable Metrics/ClassLength
