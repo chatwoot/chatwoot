@@ -74,30 +74,4 @@ module Whatsapp::IncomingMessageServiceHelpers
 
     Whatsapp::MessageDedupLock.new(messages_data.first[:id]).acquire!
   end
-
-  def contact_phone_for_lock
-    outgoing_echo ? messages_data.first[:to] : messages_data.first[:from]
-  end
-
-  # Serializes conversation creation per (inbox, sender) so concurrent webhooks
-  # for the same contact (e.g. an album of images) can't each create a conversation.
-  def with_contact_lock(sender_id, wait_timeout: 5.seconds, lock_ttl: 30.seconds)
-    return yield if sender_id.blank?
-
-    key = format(::Redis::RedisKeys::WHATSAPP_MESSAGE_MUTEX, inbox_id: inbox.id, sender_id: sender_id)
-    lock_manager = ::Redis::LockManager.new
-    deadline = Time.current + wait_timeout
-
-    until lock_manager.lock(key, lock_ttl)
-      raise Timeout::Error, "Timed out acquiring WhatsApp contact lock for #{key}" if Time.current >= deadline
-
-      sleep(0.1)
-    end
-
-    begin
-      yield
-    ensure
-      lock_manager.unlock(key)
-    end
-  end
 end

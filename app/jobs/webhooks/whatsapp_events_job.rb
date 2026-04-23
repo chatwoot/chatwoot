@@ -1,5 +1,6 @@
-class Webhooks::WhatsappEventsJob < ApplicationJob
+class Webhooks::WhatsappEventsJob < MutexApplicationJob
   queue_as :low
+  retry_on LockAcquisitionError, wait: 1.second, attempts: 8
 
   def perform(params = {})
     channel = find_channel_from_whatsapp_business_payload(params)
@@ -9,6 +10,16 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
       return
     end
 
+    sender_id = contact_sender_id(params)
+    return process_events(channel, params) if sender_id.blank?
+
+    key = format(::Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: sender_id)
+    with_lock(key) do
+      process_events(channel, params)
+    end
+  end
+
+  def process_events(channel, params)
     if message_echo_event?(params)
       handle_message_echo(channel, params)
     else
@@ -68,6 +79,17 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   end
 
   private
+
+  # Contact phone number identifies the conversation participant.
+  # For regular messages it's the `from` field; for echoes (agent replies from the WhatsApp
+  # Business app) the contact is in `to`. Returns nil for status-only webhooks.
+  def contact_sender_id(params)
+    value = params.dig(:entry, 0, :changes, 0, :value) || params
+    message = (value[:messages] || value[:message_echoes])&.first
+    return if message.blank?
+
+    message[:to] || message[:from]
+  end
 
   def channel_is_inactive?(channel)
     return true if channel.blank?
