@@ -53,26 +53,60 @@ class Whatsapp::Providers::AvisaService < Whatsapp::Providers::BaseService
     nil
   end
 
-  # Avisa `/actions/sendMedia` aceita URL pública; usamos `attachment.download_url`
-  # (ActiveStorage blob URL) e a Avisa baixa server-side antes de mandar pro WhatsApp.
+  # Envia anexo via endpoint base64 (sendImage/sendDocument/sendAudio) quando
+  # possível — dispensa URL pública e funciona mesmo com storage local do
+  # Railway. Video ainda depende de `sendMedia` com URL pública (requer S3/R2).
   def send_attachment_message(phone_number, message)
     attachment = message.attachments.first
     type = avisa_media_type(attachment.file_type)
+    caption = message.content.to_s.presence
 
-    caption = message.content.to_s.presence unless type == 'audio'
-    file_name = attachment.file.filename.to_s if type == 'document'
+    result = dispatch_media(phone_number, attachment, type, caption)
+    result && result[:id]
+  rescue Whatsapp::Providers::AvisaClient::Error => e
+    Rails.logger.error("[AVISA] envio de mídia falhou (type=#{type}): #{e.message}")
+    nil
+  end
 
-    result = client.send_media(
+  def dispatch_media(phone_number, attachment, type, caption)
+    case type
+    when 'image'
+      client.send_image_base64(number: phone_number, data_uri: data_uri_for(attachment), caption: caption)
+    when 'document'
+      client.send_document_base64(
+        number: phone_number,
+        data_uri: data_uri_for(attachment),
+        file_name: attachment.file.filename.to_s,
+        caption: caption
+      )
+    when 'audio'
+      client.send_audio_base64(number: phone_number, base64_payload: Base64.strict_encode64(blob_bytes(attachment)))
+    else
+      send_media_via_url(phone_number, attachment, type, caption)
+    end
+  end
+
+  # Vídeo (e tipos desconhecidos) ainda dependem de URL pública — requer
+  # ACTIVE_STORAGE_SERVICE apontando pra S3/R2/similar.
+  def send_media_via_url(phone_number, attachment, type, caption)
+    client.send_media(
       number: phone_number,
       type: type,
       file_url: attachment.download_url,
       caption: caption,
-      file_name: file_name
+      file_name: attachment.file.filename.to_s
     )
-    result[:id]
-  rescue Whatsapp::Providers::AvisaClient::Error => e
-    Rails.logger.error("[AVISA] envio de mídia falhou: #{e.message}")
-    nil
+  end
+
+  def data_uri_for(attachment)
+    mime = attachment.file.content_type.presence || 'application/octet-stream'
+    "data:#{mime};base64,#{Base64.strict_encode64(blob_bytes(attachment))}"
+  end
+
+  def blob_bytes(attachment)
+    bytes = +''
+    attachment.file.blob.open { |file| bytes << file.read }
+    bytes
   end
 
   def avisa_media_type(chatwoot_file_type)

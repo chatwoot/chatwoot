@@ -34,6 +34,36 @@ class Whatsapp::Providers::AvisaClient
     { id: inner['Id'], timestamp: inner['Timestamp'] }
   end
 
+  # POST /actions/sendImage — aceita data URI base64 (dispensa URL pública).
+  def send_image_base64(number:, data_uri:, caption: nil)
+    body = { number: normalize_number(number), image: data_uri }
+    body[:message] = caption.to_s if caption.present?
+
+    response = post('/actions/sendImage', body)
+    inner = response.dig('data', 'response', 'data') || {}
+    { id: inner['Id'], timestamp: inner['Timestamp'] }
+  end
+
+  # POST /actions/sendDocument — aceita data URI base64, fileName e caption.
+  def send_document_base64(number:, data_uri:, file_name: nil, caption: nil)
+    body = { number: normalize_number(number), document: data_uri }
+    body[:fileName] = file_name.to_s if file_name.present?
+    body[:caption] = caption.to_s if caption.present?
+
+    response = post('/actions/sendDocument', body)
+    inner = response.dig('data', 'response', 'data') || {}
+    { id: inner['Id'], timestamp: inner['Timestamp'] }
+  end
+
+  # POST /actions/sendAudio — base64 puro (sem prefixo data:), formato OGG/Opus.
+  def send_audio_base64(number:, base64_payload:)
+    body = { number: normalize_number(number), audio: base64_payload }
+
+    response = post('/actions/sendAudio', body)
+    inner = response.dig('data', 'response', 'data') || {}
+    { id: inner['Id'], timestamp: inner['Timestamp'] }
+  end
+
   # POST /user/parselid — resolve LID (ex: "12345@lid") pra JID real.
   # Retorna string do JID (ex: "553491304735@s.whatsapp.net") ou nil.
   def parse_lid(lid:)
