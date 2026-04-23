@@ -36,6 +36,8 @@ class Channel::Whatsapp < ApplicationRecord
   after_create :sync_templates
   before_destroy :teardown_webhooks
   after_commit :setup_webhooks, on: :create, if: :should_auto_setup_webhooks?
+  # CUSTOMIZAÇÃO_SYNAPSEOS: Avisa expõe POST /webhook — auto-registramos no onboarding.
+  after_commit :register_avisa_webhook, on: :create, if: -> { provider == 'avisa' }
 
   def name
     'Whatsapp'
@@ -100,5 +102,18 @@ class Channel::Whatsapp < ApplicationRecord
     # Only auto-setup webhooks for whatsapp_cloud provider with manual setup
     # Embedded signup calls setup_webhooks explicitly in EmbeddedSignupService
     provider == 'whatsapp_cloud' && provider_config['source'] != 'embedded_signup'
+  end
+
+  # CUSTOMIZAÇÃO_SYNAPSEOS: registra URL de inbound na Avisa API.
+  def register_avisa_webhook
+    base = ENV.fetch('FRONTEND_URL', nil)
+    return Rails.logger.warn('[AVISA] FRONTEND_URL não configurado; webhook não registrado') if base.blank?
+
+    Whatsapp::Providers::AvisaClient.new(
+      api_key: provider_config['api_key'],
+      base_url: provider_config['base_url']
+    ).register_webhook(webhook_url: "#{base.chomp('/')}/webhooks/avisa")
+  rescue Whatsapp::Providers::AvisaClient::Error => e
+    Rails.logger.error("[AVISA] falha ao registrar webhook: #{e.message}")
   end
 end
