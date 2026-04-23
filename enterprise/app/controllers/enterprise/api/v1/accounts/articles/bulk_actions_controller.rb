@@ -29,12 +29,19 @@ module Enterprise::Api::V1::Accounts::Articles::BulkActionsController
     @category = @portal.categories.find_by(id: permitted_params[:category_id])
     @articles = @portal.articles.where(id: permitted_params[:ids])
 
-    valid_locale? && valid_category? && valid_articles?
+    captain_available? && valid_locale? && valid_category? && valid_articles?
   end
 
   def find_existing_translations
     root_ids = @articles.map { |a| Article.find_root_article_id(a) }
     @portal.articles.where(associated_article_id: root_ids, locale: @locale)
+  end
+
+  def captain_available?
+    return true if Current.account.feature_enabled?('captain_tasks')
+
+    render_could_not_create_error(I18n.t('portals.articles.captain_not_available'))
+    false
   end
 
   def valid_locale?

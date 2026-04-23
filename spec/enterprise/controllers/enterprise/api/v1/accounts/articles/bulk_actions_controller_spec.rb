@@ -34,7 +34,22 @@ RSpec.describe 'Article Bulk Actions API', type: :request do
       end
     end
 
+    context 'when captain is not enabled' do
+      it 'returns unprocessable entity' do
+        post translate_url,
+             headers: admin.create_new_auth_token,
+             params: { ids: [article_one.id], locale: 'es', category_id: category_es.id },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+
     context 'when authenticated as admin' do
+      before do
+        account.enable_features!('captain_tasks')
+      end
+
       it 'enqueues translation jobs for each article' do
         expect do
           post translate_url,
