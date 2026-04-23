@@ -131,8 +131,15 @@ const handleDeleteTemplate = async ({ name, id }) => {
   }
 };
 
-const handleRefresh = () => {
-  fetchTemplates();
+const handleRefresh = async () => {
+  try {
+    isLoading.value = true;
+    await store.dispatch('inboxes/syncTemplates', props.inbox.id);
+    useAlert(t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_SUCCESS'));
+  } catch (error) {
+    useAlert(t('INBOX_MGMT.WHATSAPP_TEMPLATES.FETCH_ERROR'));
+  }
+  await fetchTemplates();
 };
 
 const scrollToTop = () => {
