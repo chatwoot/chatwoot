@@ -56,6 +56,11 @@ class Whatsapp::Providers::AvisaService < Whatsapp::Providers::BaseService
   # Envia anexo via endpoint base64 (sendImage/sendDocument/sendAudio) quando
   # possível — dispensa URL pública e funciona mesmo com storage local do
   # Railway. Video ainda depende de `sendMedia` com URL pública (requer S3/R2).
+  #
+  # ActiveStorage::FileNotFoundError acontece quando web e worker rodam em
+  # containers separados com storage local: o worker nao enxerga o arquivo
+  # gravado pelo web. Marcamos a mensagem como failed e retornamos nil pra
+  # impedir o retry loop infinito do Sidekiq.
   def send_attachment_message(phone_number, message)
     attachment = message.attachments.first
     type = avisa_media_type(attachment.file_type)
@@ -65,6 +70,11 @@ class Whatsapp::Providers::AvisaService < Whatsapp::Providers::BaseService
     result && result[:id]
   rescue Whatsapp::Providers::AvisaClient::Error => e
     Rails.logger.error("[AVISA] envio de mídia falhou (type=#{type}): #{e.message}")
+    message.update!(status: :failed, external_error: "Avisa: #{e.message}")
+    nil
+  rescue ActiveStorage::FileNotFoundError => e
+    Rails.logger.error("[AVISA] arquivo não encontrado no worker (configurar S3/R2 compartilhado): #{e.message}")
+    message.update!(status: :failed, external_error: 'Storage compartilhado não configurado (S3/R2). Anexos não são visíveis entre web e worker.')
     nil
   end
 
