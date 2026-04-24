@@ -89,6 +89,10 @@
 }
 
 // Dark mode — navy mais profundo, cyan mais claro pra contraste, textos invertidos.
+// Seletor `body.dark` é o que o Chatwoot nativo aplica via themeHelper.js
+// quando o usuário escolhe tema escuro em Settings → Appearance. Os outros
+// dois seletores ficam como aliases caso algum componente já os use.
+body.dark,
 .synapse-dark,
 html[data-theme='dark'] {
   --s-bg: 13 19 35;               // #0D1323
