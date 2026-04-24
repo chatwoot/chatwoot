@@ -15,6 +15,16 @@ RSpec.describe 'Devise::Mailer' do
       confirmable_user.send(:generate_confirmation_token)
     end
 
+    context 'when brand name is intentionally blank' do
+      before do
+        create(:installation_config, name: 'BRAND_NAME', value: '')
+      end
+
+      it 'preserves the blank brand override' do
+        expect(mail_body).not_to include('Chatwoot')
+      end
+    end
+
     context 'with SAML enabled account' do
       let(:saml_settings) { create(:account_saml_settings, account: account) }
 
@@ -33,16 +43,6 @@ RSpec.describe 'Devise::Mailer' do
 
         it 'shows confirmation link' do
           expect(mail.body).to include("app/auth/confirmation?confirmation_token=#{confirmable_user.confirmation_token}")
-        end
-
-        context 'when brand name is intentionally blank' do
-          before do
-            create(:installation_config, name: 'BRAND_NAME', value: '')
-          end
-
-          it 'preserves the blank brand override' do
-            expect(mail_body).not_to include('Chatwoot')
-          end
         end
       end
 
