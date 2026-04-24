@@ -52,7 +52,10 @@ RSpec.describe 'Contact Label API', type: :request do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
-      it 'creates labels for the contact' do
+      it 'creates labels for the contact when labels exist' do
+        create(:label, title: 'label3', account: account)
+        create(:label, title: 'label4', account: account)
+
         post api_v1_account_contact_labels_url(account_id: account.id, contact_id: contact.id),
              params: { labels: %w[label3 label4] },
              headers: agent.create_new_auth_token,
@@ -61,6 +64,16 @@ RSpec.describe 'Contact Label API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include('label3')
         expect(response.body).to include('label4')
+      end
+
+      it 'returns error when assigning non-existent labels' do
+        post api_v1_account_contact_labels_url(account_id: account.id, contact_id: contact.id),
+             params: { labels: %w[nonexistent_label] },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include('Labels do not exist')
       end
     end
   end

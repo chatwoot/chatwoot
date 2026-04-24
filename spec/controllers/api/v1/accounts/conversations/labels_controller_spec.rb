@@ -61,7 +61,10 @@ RSpec.describe 'Conversation Label API', type: :request do
         create(:inbox_member, inbox: conversation.inbox, user: agent)
       end
 
-      it 'creates labels for the conversation' do
+      it 'creates labels for the conversation when labels exist' do
+        create(:label, title: 'label3', account: account)
+        create(:label, title: 'label4', account: account)
+
         post api_v1_account_conversation_labels_url(account_id: account.id, conversation_id: conversation.display_id),
              params: { labels: %w[label3 label4] },
              headers: agent.create_new_auth_token,
@@ -70,6 +73,29 @@ RSpec.describe 'Conversation Label API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include('label3')
         expect(response.body).to include('label4')
+      end
+
+      it 'returns error when assigning non-existent labels' do
+        post api_v1_account_conversation_labels_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { labels: %w[nonexistent_label] },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include('Labels do not exist')
+        expect(response.body).to include('nonexistent_label')
+      end
+
+      it 'returns error when some labels do not exist' do
+        create(:label, title: 'existing_label', account: account)
+
+        post api_v1_account_conversation_labels_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { labels: %w[existing_label nonexistent_label] },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include('nonexistent_label')
       end
     end
   end
