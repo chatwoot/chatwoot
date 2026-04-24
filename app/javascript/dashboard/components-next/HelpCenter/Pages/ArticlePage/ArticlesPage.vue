@@ -61,7 +61,6 @@ const isFeatureEnabledonAccount = useMapGetter(
 );
 
 const selectedArticleIds = ref(new Set());
-const bulkTranslateDialogRef = ref(null);
 const deleteConfirmDialogRef = ref(null);
 
 const { isEnterprise } = useConfig();
@@ -90,6 +89,8 @@ const selectedCountLabel = computed(() =>
     count: selectedArticleIds.value.size,
   })
 );
+
+const bulkTranslateDialogRef = ref(null);
 
 const hasNoArticles = computed(
   () => !isFetching.value && !props.articles.length
