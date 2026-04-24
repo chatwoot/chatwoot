@@ -9,7 +9,11 @@ class Captain::Articles::TranslateJob < ApplicationJob
     target_language = language_name_for(target_locale)
 
     translated_title = service.translate_title(@source_article.title, target_language: target_language)
-    translated_content = service.translate_content(@source_article.content, target_language: target_language)
+    translated_content = if @source_article.content.present?
+                           service.translate_content(@source_article.content, target_language: target_language)
+                         else
+                           @source_article.content
+                         end
 
     existing = find_existing_translation(target_locale)
 
