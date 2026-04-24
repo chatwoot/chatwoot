@@ -17,8 +17,8 @@ export const buildCreatePayload = ({
     if (value === null || value === undefined) return;
 
     if (Array.isArray(value)) {
-      value.forEach((item, index) => {
-        appendNestedFormData(formData, `${prefix}[${index}]`, item);
+      value.forEach(item => {
+        appendNestedFormData(formData, `${prefix}[]`, item);
       });
       return;
     }

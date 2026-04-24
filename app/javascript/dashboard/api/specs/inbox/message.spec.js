@@ -48,7 +48,10 @@ describe('#ConversationAPI', () => {
     it('builds form payload if file is available', () => {
       const templateParams = {
         name: 'ticket_status_updated',
-        processed_params: { body: { name: 'John' } },
+        processed_params: {
+          body: { name: 'John' },
+          buttons: [{ type: 'url', parameter: 'track-123' }],
+        },
       };
       const formPayload = buildCreatePayload({
         message: 'test content',
@@ -74,6 +77,17 @@ describe('#ConversationAPI', () => {
       expect(
         formPayload.get('template_params[processed_params][body][name]')
       ).toEqual('John');
+      expect(
+        formPayload.get('template_params[processed_params][buttons][][type]')
+      ).toEqual('url');
+      expect(
+        formPayload.get(
+          'template_params[processed_params][buttons][][parameter]'
+        )
+      ).toEqual('track-123');
+      expect(
+        Array.from(formPayload.keys()).some(key => key.includes('[buttons][0]'))
+      ).toBe(false);
     });
 
     it('builds object payload if file is not available', () => {
