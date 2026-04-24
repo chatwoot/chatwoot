@@ -1,5 +1,5 @@
 <script setup>
-import { h, ref, computed, onMounted } from 'vue';
+import { h, ref, computed, onMounted, watch } from 'vue';
 import { provideSidebarContext, useSidebarResize } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
@@ -8,7 +8,7 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
-import { useWindowSize } from '@vueuse/core';
+import { useWindowSize, useResizeObserver } from '@vueuse/core';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
@@ -67,15 +67,42 @@ const setExpandedItem = name => {
 const { MIN_WIDTH } = useSidebarResize();
 
 const HOVER_EXPANDED_WIDTH = 240;
+
 const isHovered = ref(false);
 const sidebarWidth = computed(() =>
   isHovered.value ? HOVER_EXPANDED_WIDTH : MIN_WIDTH
 );
-const isCollapsed = computed(() => !isHovered.value);
+
+const asideRef = ref(null);
+/** Full chrome (labels, expanded header) only when the painted width has room — avoids timer blink and layout swap mid-animation. */
+const showFullChrome = ref(false);
+
+/** Hysteresis so we do not flip layouts when width hovers near the threshold. */
+const CHROME_SHOW_FULL_AT = 168;
+const CHROME_SHOW_COMPACT_AT = 96;
+
+useResizeObserver(asideRef, entries => {
+  const entry = entries[0];
+  if (!entry) return;
+
+  if (isMobile.value) {
+    showFullChrome.value = true;
+    return;
+  }
+
+  const w = entry.contentRect.width;
+  if (w >= CHROME_SHOW_FULL_AT) showFullChrome.value = true;
+  else if (w <= CHROME_SHOW_COMPACT_AT) showFullChrome.value = false;
+});
+
+watch(isMobile, mobile => {
+  if (mobile) showFullChrome.value = true;
+  else showFullChrome.value = false;
+});
 
 // On mobile, sidebar is always expanded (flyout mode)
 const isEffectivelyCollapsed = computed(
-  () => !isMobile.value && isCollapsed.value
+  () => !isMobile.value && !showFullChrome.value
 );
 
 provideSidebarContext({
@@ -461,11 +488,12 @@ const menuItems = computed(() => {
 
 <template>
   <aside
+    ref="asideRef"
     v-on-click-outside="[
       closeMobileSidebar,
       { ignore: ['#mobile-sidebar-launcher'] },
     ]"
-    class="flex flex-col text-sm pb-px fixed top-10 ltr:left-0 rtl:right-0 bottom-0 z-40 w-[200px] ltr:border-r rtl:border-l border-[rgba(45,56,71,0.3)] transition-all duration-200 ease-out bg-[rgba(14,17,28,0.92)] backdrop-blur-xl [backdrop-filter:blur(20px)] [-webkit-backdrop-filter:blur(20px)]"
+    class="flex flex-col text-sm pb-px fixed top-10 ltr:left-0 rtl:right-0 bottom-0 z-40 w-[200px] max-w-[240px] min-w-0 overflow-x-hidden ltr:border-r rtl:border-l border-[rgba(45,56,71,0.3)] transition-[width,box-shadow] duration-200 ease-out bg-[rgba(14,17,28,0.92)] backdrop-blur-xl [backdrop-filter:blur(20px)] [-webkit-backdrop-filter:blur(20px)]"
     :class="[
       {
         'shadow-lg': isMobileSidebarOpen,
