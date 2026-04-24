@@ -41,15 +41,27 @@ const aiAriaLabel = computed(() =>
 );
 
 
+// CUSTOMIZAÇÃO_SYNAPSEOS — paleta Dexi aplicada aos bubbles.
+// Agente = cyan-soft (identidade da plataforma, acessível, texto escuro).
+// Cliente = surface branca com borda (estrutural, neutro).
+// Nota privada = âmbar (destaque atenção).
+// Bot/template = brand-soft com texto cyan-700 (semântica de AI).
+// Activity = pill central neutra e visualmente rebaixada.
 const varaintBaseMap = {
-  [MESSAGE_VARIANTS.AGENT]: 'bg-s-brand text-s-inverse',
+  [MESSAGE_VARIANTS.AGENT]:
+    'bg-s-accent-100 text-s-primary border border-s-accent-500/20',
   [MESSAGE_VARIANTS.PRIVATE]:
     'bg-s-warning-soft text-s-warning-text border border-s-warning/30 [&_.prosemirror-mention-node]:font-semibold',
-  [MESSAGE_VARIANTS.USER]: 'bg-s-subtle text-s-primary border border-s-border-subtle',
-  [MESSAGE_VARIANTS.ACTIVITY]: 'bg-transparent text-s-muted text-xs italic',
-  [MESSAGE_VARIANTS.BOT]: 'bg-s-info-soft text-s-brand-text border border-s-info/20',
-  [MESSAGE_VARIANTS.TEMPLATE]: 'bg-s-info-soft text-s-brand-text border border-s-info/20',
-  [MESSAGE_VARIANTS.ERROR]: 'bg-s-error-soft text-s-error-text border border-s-error/20',
+  [MESSAGE_VARIANTS.USER]:
+    'bg-s-surface text-s-primary border border-s-border',
+  [MESSAGE_VARIANTS.ACTIVITY]:
+    'bg-s-subtle text-s-muted text-xs border border-s-border',
+  [MESSAGE_VARIANTS.BOT]:
+    'bg-s-brand-soft text-s-brand-text border border-s-accent-500/20',
+  [MESSAGE_VARIANTS.TEMPLATE]:
+    'bg-s-brand-soft text-s-brand-text border border-s-accent-500/20',
+  [MESSAGE_VARIANTS.ERROR]:
+    'bg-s-error-soft text-s-error-text border border-s-error/20',
   [MESSAGE_VARIANTS.EMAIL]: 'w-full',
   [MESSAGE_VARIANTS.UNSUPPORTED]:
     'bg-s-warning-soft/70 border border-dashed border-s-warning-text text-s-warning-text',
