@@ -67,6 +67,10 @@
       "SUBTITLE": "KPIs operacionais e de receita dos últimos {days} dias",
       "LOADING": "Carregando métricas…",
       "NO_DATA": "Sem dados no período selecionado ainda.",
+      "EMPTY_CHART_TITLE": "Sem atividade ainda",
+      "EMPTY_CHART_DESCRIPTION": "Receba ou envie mensagens neste período pra popular o gráfico.",
+      "EMPTY_EVENTS_TITLE": "Nenhum evento de CRM ainda",
+      "EMPTY_EVENTS_DESCRIPTION": "Eventos aparecem aqui quando leads avançam no pipeline, negócios são fechados ou bots transferem conversas.",
       "TABS": {
         "OVERVIEW": "Visão geral",
         "REPORTS": "Relatórios ao vivo"

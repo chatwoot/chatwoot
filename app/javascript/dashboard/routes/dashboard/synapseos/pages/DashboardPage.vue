@@ -9,6 +9,7 @@ import SynapseCard from 'next/synapseos/SynapseCard.vue';
 import SynapseKpiCard from 'next/synapseos/SynapseKpiCard.vue';
 import SynapseStatusPill from 'next/synapseos/SynapseStatusPill.vue';
 import SynapseBadge from 'next/synapseos/SynapseBadge.vue';
+import SynapseEmptyState from 'next/synapseos/SynapseEmptyState.vue';
 import LiveReports from '../../settings/reports/LiveReports.vue';
 
 const { t } = useI18n();
@@ -354,9 +355,13 @@ onBeforeUnmount(() => {
             <div v-else-if="loading" class="text-sm text-s-muted">
               {{ t('SYNAPSEOS.DASHBOARD.LOADING') }}
             </div>
-            <div v-else class="text-sm text-s-muted">
-              {{ t('SYNAPSEOS.DASHBOARD.NO_DATA') }}
-            </div>
+            <SynapseEmptyState
+              v-else
+              icon="i-lucide-line-chart"
+              :title="t('SYNAPSEOS.DASHBOARD.EMPTY_CHART_TITLE')"
+              :description="t('SYNAPSEOS.DASHBOARD.EMPTY_CHART_DESCRIPTION')"
+              size="sm"
+            />
           </div>
         </SynapseCard>
       </div>
@@ -384,9 +389,13 @@ onBeforeUnmount(() => {
             </div>
           </li>
         </ul>
-        <div v-else class="text-sm text-s-muted">
-          {{ t('SYNAPSEOS.DASHBOARD.RECENT_EVENTS.EMPTY') }}
-        </div>
+        <SynapseEmptyState
+          v-else
+          icon="i-lucide-activity"
+          :title="t('SYNAPSEOS.DASHBOARD.EMPTY_EVENTS_TITLE')"
+          :description="t('SYNAPSEOS.DASHBOARD.EMPTY_EVENTS_DESCRIPTION')"
+          size="md"
+        />
       </SynapseCard>
     </div>
     </template>

@@ -132,9 +132,9 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="bg-s-bg p-8 space-y-6 h-full overflow-auto">
+  <div class="bg-s-bg p-4 sm:p-6 md:p-8 space-y-4 md:space-y-6 h-full overflow-auto">
     <header class="flex flex-col gap-1">
-      <h1 class="text-2xl font-semibold text-s-primary">
+      <h1 class="text-xl md:text-2xl font-semibold text-s-primary">
         {{ t('SYNAPSEOS.LIVE_AGENTS.TITLE') }}
       </h1>
       <p class="text-sm text-s-muted">
@@ -142,7 +142,7 @@ onBeforeUnmount(() => {
       </p>
     </header>
 
-    <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+    <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
       <SynapseKpiCard
         v-for="card in summaryCards"
         :key="card.key"
@@ -153,8 +153,8 @@ onBeforeUnmount(() => {
       />
     </section>
 
-    <div class="flex items-center justify-between gap-4">
-      <div class="w-72">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+      <div class="w-full sm:w-72">
         <SynapseInput
           v-model="searchQuery"
           icon-leading="i-lucide-search"

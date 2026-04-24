@@ -67,6 +67,10 @@
       "SUBTITLE": "Operational and revenue KPIs over the last {days} days",
       "LOADING": "Loading metrics…",
       "NO_DATA": "No data for the selected period yet.",
+      "EMPTY_CHART_TITLE": "No activity yet",
+      "EMPTY_CHART_DESCRIPTION": "Receive or send messages in this period to populate the chart.",
+      "EMPTY_EVENTS_TITLE": "No CRM events yet",
+      "EMPTY_EVENTS_DESCRIPTION": "Events appear here when leads move in the pipeline, deals close, or bots hand conversations over.",
       "TABS": {
         "OVERVIEW": "Overview",
         "REPORTS": "Live reports"
