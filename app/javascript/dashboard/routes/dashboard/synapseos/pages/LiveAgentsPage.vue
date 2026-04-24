@@ -10,6 +10,7 @@ import SynapseKpiCard from 'next/synapseos/SynapseKpiCard.vue';
 import SynapseStatusPill from 'next/synapseos/SynapseStatusPill.vue';
 import SynapseBadge from 'next/synapseos/SynapseBadge.vue';
 import SynapseInput from 'next/synapseos/SynapseInput.vue';
+import SynapseEmptyState from 'next/synapseos/SynapseEmptyState.vue';
 import AgentConversationsPanel from '../components/AgentConversationsPanel.vue';
 
 const { t } = useI18n();
@@ -175,10 +176,28 @@ onBeforeUnmount(() => {
         data-key="id"
         removable-sort
         :row-class="rowClass"
-        :pt="{ table: { class: 'min-w-full' }, bodyRow: { class: 'cursor-pointer' } }"
+        :pt="{
+          table: { class: 'min-w-full' },
+          bodyRow: { class: 'cursor-pointer hover:bg-s-subtle transition-colors border-b border-s-border-subtle' },
+          headerRow: { class: 'bg-s-subtle' },
+          headerCell: {
+            class: 'text-xs font-semibold uppercase tracking-wide text-s-secondary !bg-s-subtle !border-b !border-s-border px-4 py-3 whitespace-nowrap',
+          },
+          bodyCell: { class: 'px-4 py-3 text-sm text-s-primary align-middle' },
+          emptyMessage: { class: 'text-center py-8 text-sm text-s-muted' },
+          loadingOverlay: { class: '!bg-s-surface/70' },
+        }"
         class="w-full"
         @row-click="handleRowClick"
       >
+        <template #empty>
+          <SynapseEmptyState
+            icon="i-lucide-users"
+            :title="t('SYNAPSEOS.LIVE_AGENTS.EMPTY_TITLE')"
+            :description="t('SYNAPSEOS.LIVE_AGENTS.EMPTY_DESCRIPTION')"
+            size="md"
+          />
+        </template>
         <Column field="name" :header="t('SYNAPSEOS.LIVE_AGENTS.COL_NAME')" sortable>
           <template #body="{ data }">
             <div class="flex items-center gap-3">
@@ -237,8 +256,12 @@ onBeforeUnmount(() => {
         @close="selectedAgent = null"
       />
     </div>
-    <SynapseCard v-else class="hidden lg:flex items-center justify-center text-sm text-s-muted min-h-[300px]">
-      {{ t('SYNAPSEOS.LIVE_AGENTS.PANEL.HINT') }}
+    <SynapseCard v-else padding="none" class="hidden lg:flex items-center justify-center min-h-[300px]">
+      <SynapseEmptyState
+        icon="i-lucide-mouse-pointer-click"
+        :title="t('SYNAPSEOS.LIVE_AGENTS.PANEL.HINT')"
+        size="sm"
+      />
     </SynapseCard>
     </div>
   </div>

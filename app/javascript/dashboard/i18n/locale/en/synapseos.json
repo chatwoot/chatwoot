@@ -28,6 +28,8 @@
       "SUBTITLE": "Real-time view of agent activity and workload",
       "SEARCH_PLACEHOLDER": "Search by name or email…",
       "REFRESH_HINT": "Auto-refreshing every 15s",
+      "EMPTY_TITLE": "No agents to show yet",
+      "EMPTY_DESCRIPTION": "Agents appear here as soon as they come online or handle conversations. Invite teammates from Settings → Agents.",
       "COL_NAME": "Agent",
       "COL_STATUS": "Status",
       "COL_OPEN": "Open conversations",

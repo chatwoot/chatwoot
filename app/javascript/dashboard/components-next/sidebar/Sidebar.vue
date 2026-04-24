@@ -255,13 +255,10 @@ const menuItems = computed(() => {
       to: accountScopedRoute('synapseos_agent_metrics'),
       activeOn: ['synapseos_agent_metrics'],
     },
-    {
-      name: 'SynapseOS Live Dashboard',
-      label: t('SIDEBAR.SYNAPSEOS_LIVE_DASHBOARD'),
-      icon: 'i-lucide-radio',
-      to: accountScopedRoute('synapseos_live_dashboard'),
-      activeOn: ['synapseos_live_dashboard'],
-    },
+    // CUSTOMIZAÇÃO_SYNAPSEOS: Tempo Real removido do nav — redundante com
+    // Live Agents (mesmas métricas, mesma semântica de monitoramento ao vivo).
+    // A rota `synapseos_live_dashboard` continua existindo no routes.js caso
+    // algum link direto ainda seja referenciado.
     {
       name: 'SynapseOS Pipeline',
       label: t('SIDEBAR.SYNAPSEOS_PIPELINE'),

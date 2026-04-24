@@ -28,6 +28,8 @@
       "SUBTITLE": "Visão em tempo real da atividade e carga dos agentes",
       "SEARCH_PLACEHOLDER": "Buscar por nome ou e-mail…",
       "REFRESH_HINT": "Atualizando automaticamente a cada 15s",
+      "EMPTY_TITLE": "Nenhum agente pra mostrar ainda",
+      "EMPTY_DESCRIPTION": "Agentes aparecem aqui assim que ficam online ou começam a atender conversas. Convide colegas em Settings → Agents.",
       "COL_NAME": "Agente",
       "COL_STATUS": "Status",
       "COL_OPEN": "Conversas abertas",
