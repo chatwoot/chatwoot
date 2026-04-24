@@ -1,100 +1,137 @@
 // CUSTOMIZAÇÃO_SYNAPSEOS
-// Canonical semantic design tokens — light mode.
-// Dark mode (Sprint 6) só redefine este mesmo bloco dentro de [data-theme='dark'].
+// Canonical semantic design tokens — paleta Dexi (navy + cyan técnico + neutros frios).
+// Dark mode redefine este mesmo bloco dentro de [data-theme='dark'] ou .synapse-dark.
 //
-// Regras:
-// - Toda cor usada em componente novo deve vir daqui, não de --slate-N / --blue-N.
-// - Tokens são rgb() stripped (3 numbers) pra composição com alpha via Tailwind.
+// Regras de uso:
+// - `--s-brand`: navy institucional (#0B1F3A) — títulos críticos, sidebar, primary button bg.
+//   NUNCA usar como texto clicável/link; contraste altíssimo mas lê como "heading".
+// - `--s-brand-text`: cyan-700 (#0E7490) — texto acessível em tom de destaque.
+//   Consumers antigos de `text-s-brand-text` migram pra cyan técnico sem quebra.
+// - `--s-accent`: cyan-500 (#00B8D9) — foco, bordas ativas, ícones decorativos, badges.
+//   NUNCA como texto sobre branco (contraste 2.37:1 — falha WCAG).
+// - `--s-brand-cta`: botão sólido com texto branco (navy #0B1F3A, contraste 17.5:1 AAA).
 :root {
-  // Surfaces
-  --s-bg: 241 243 245;            // #F1F3F5 — app background
-  --s-surface: 255 255 255;       // #FFFFFF — cards
+  // ----- SUPERFÍCIES (neutros frios Dexi) --------------------------------
+  --s-bg: 246 248 251;            // #F6F8FB — app background
+  --s-surface: 255 255 255;       // #FFFFFF — cards, composer, painéis
   --s-surface-raised: 255 255 255;
-  --s-sidebar: 250 251 252;       // #FAFBFC — sidebar shell
-  --s-subtle: 248 250 252;        // #F8FAFC — hover row
+  // --s-sidebar vai pra navy #0B1F3A na Wave 2 (reescrita da Sidebar.vue);
+  // por enquanto mantém claro pra não quebrar textos text-s-primary nela.
+  --s-sidebar: 250 251 252;       // #FAFBFC — neutro frio claro (provisório)
+  --s-sidebar-dexi: 11 31 58;     // #0B1F3A — pronto pra Wave 2 consumir
+  --s-subtle: 238 242 247;        // #EEF2F7 — hover neutro, blocos internos
 
-  // Borders (duas camadas discretas; sempre visíveis mas nunca pesadas)
-  --s-border: 226 232 240;        // #E2E8F0
-  --s-border-strong: 203 213 225; // #CBD5E1
-  --s-border-subtle: 241 245 249; // #F1F5F9
+  // ----- BORDAS ----------------------------------------------------------
+  --s-border: 215 223 232;        // #D7DFE8
+  --s-border-strong: 184 196 212; // #B8C4D4 — contexto escuro/denso
+  --s-border-subtle: 238 242 247; // #EEF2F7
 
-  // Text (AA/AAA compliant em branco/F1F3F5)
-  --s-text-primary: 15 23 42;     // #0F172A
-  --s-text-secondary: 71 85 105;  // #475569
-  --s-text-muted: 100 116 139;    // #64748B — slate-500, passa AA (4.6:1 em branco)
-  --s-text-disabled: 148 163 184; // #94A3B8 — slate-400, só placeholder
+  // ----- TEXTO (sobre fundo claro) ---------------------------------------
+  --s-text-primary: 20 32 51;     // #142033 — headings, body, números KPI
+  --s-text-secondary: 66 84 102;  // #425466 — labels, metadados
+  --s-text-muted: 91 107 122;     // #5B6B7A — hint text, placeholder (AA 5.48:1)
+  --s-text-disabled: 148 163 184; // #94A3B8 — placeholder somente
   --s-text-inverse: 255 255 255;
 
-  // Brand (Material Blue — #2196F3 fixo)
-  --s-brand: 33 150 243;          // ícones, linhas gráfico, accent borders
-  --s-brand-soft: 227 242 253;    // bg de chip/active state
-  --s-brand-soft-hover: 187 222 251;
-  --s-brand-cta: 30 136 229;      // CTA sólido (#1E88E5 Material 600)
-  --s-brand-cta-hover: 25 118 210;
-  --s-brand-cta-active: 21 101 192;
-  --s-brand-text: 25 118 210;     // texto sobre brand-soft
+  // ----- TEXTO SOBRE SIDEBAR ESCURA (novo) ------------------------------
+  --s-text-on-dark: 255 255 255;        // #FFFFFF
+  --s-text-on-dark-muted: 184 196 212;  // #B8C4D4 — texto secundário sobre navy
 
-  // Status
-  --s-success: 16 185 129;
-  --s-success-soft: 209 250 229;
-  --s-success-text: 4 120 87;
-  --s-warning: 245 158 11;
-  --s-warning-soft: 254 243 199;
-  --s-warning-text: 180 83 9;
-  --s-error: 239 68 68;
-  --s-error-soft: 254 226 226;
-  --s-error-text: 185 28 28;
-  --s-info: 33 150 243;
-  --s-info-soft: 227 242 253;
+  // ----- BRAND (navy institucional Dexi) ---------------------------------
+  --s-brand: 11 31 58;            // #0B1F3A — primary brand color
+  --s-brand-900: 11 31 58;        // alias explícito
+  --s-brand-800: 18 48 86;        // #123056 — hover
+  --s-brand-700: 26 66 114;       // #1A4272 — foco secundário
 
-  // Focus ring
-  --s-focus: 33 150 243;
+  // Brand-soft/cta herdam da nova paleta. Mantém consumidores antigos funcionando.
+  --s-brand-soft: 230 247 251;    // #E6F7FB — bg de chip/tab ativa (cyan-100)
+  --s-brand-soft-hover: 204 234 245;
+  --s-brand-cta: 11 31 58;        // #0B1F3A — botão primário sólido
+  --s-brand-cta-hover: 18 48 86;  // #123056
+  --s-brand-cta-active: 26 66 114;
+  --s-brand-text: 14 116 144;     // #0E7490 — cyan-700 acessível, migra 143 consumers
 
-  // Shadows (duas camadas; sutis mas visíveis em retina)
-  --s-shadow-sm: 0 1px 2px 0 rgb(15 23 42 / 0.04);
+  // ----- ACCENT (cyan técnico) -------------------------------------------
+  --s-accent: 0 184 217;          // #00B8D9 — cyan-500, foco/indicador
+  --s-accent-500: 0 184 217;      // alias
+  --s-accent-700: 14 116 144;     // #0E7490 — texto acessível
+  --s-accent-100: 230 247 251;    // #E6F7FB — bg suave
+  --s-accent-soft: 230 247 251;   // alias
+
+  // ----- STATUS (paleta Dexi acessível) ----------------------------------
+  --s-success: 29 127 86;         // #1D7F56 — verde texto (WCAG AA)
+  --s-success-soft: 234 247 240;  // #EAF7F0
+  --s-success-text: 29 127 86;    // alias pra consumers antigos
+  --s-warning: 154 103 0;         // #9A6700 — âmbar texto
+  --s-warning-soft: 255 244 219;  // #FFF4DB
+  --s-warning-text: 154 103 0;
+  --s-error: 197 48 48;           // #C53030 — vermelho texto
+  --s-error-soft: 254 242 242;    // #FEF2F2
+  --s-error-text: 197 48 48;
+  --s-info: 14 116 144;           // #0E7490 — info = accent-700
+  --s-info-soft: 230 247 251;
+  --s-info-text: 14 116 144;
+
+  // ----- FOCUS RING ------------------------------------------------------
+  --s-focus: 0 184 217;           // cyan-500 — realce visual forte
+
+  // ----- SHADOWS ---------------------------------------------------------
+  --s-shadow-sm: 0 1px 2px 0 rgb(20 32 51 / 0.04);
   --s-shadow-md:
-    0 1px 2px 0 rgb(15 23 42 / 0.04),
-    0 2px 8px 0 rgb(15 23 42 / 0.06);
+    0 1px 2px 0 rgb(20 32 51 / 0.04),
+    0 2px 8px 0 rgb(20 32 51 / 0.06);
   --s-shadow-lg:
-    0 4px 12px 0 rgb(15 23 42 / 0.06),
-    0 12px 24px -6px rgb(15 23 42 / 0.08);
+    0 4px 12px 0 rgb(20 32 51 / 0.06),
+    0 12px 24px -6px rgb(20 32 51 / 0.08);
 
-  // Fonts
+  // ----- TIPOGRAFIA ------------------------------------------------------
   --s-font-sans:
     'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, sans-serif;
 }
 
-// Dark mode (opt-in): ative via `html[data-theme='dark']` ou classe
-// `synapse-dark` no <html>. Todos os componentes que consomem classes
-// `s-*` herdam automaticamente — nenhum componente precisa de `dark:`.
+// Dark mode — navy mais profundo, cyan mais claro pra contraste, textos invertidos.
 .synapse-dark,
 html[data-theme='dark'] {
-  --s-bg: 15 23 42;               // #0F172A
-  --s-surface: 24 31 49;          // card elevado em dark
-  --s-surface-raised: 30 41 59;   // #1E293B
-  --s-sidebar: 13 19 35;          // ligeiramente mais escuro que surface
-  --s-subtle: 30 41 59;
+  --s-bg: 13 19 35;               // #0D1323
+  --s-surface: 20 32 51;          // #142033
+  --s-surface-raised: 30 47 75;   // #1E2F4B
+  --s-sidebar: 8 16 32;           // #081020 — sidebar ainda mais escura (dark)
+  --s-sidebar-dexi: 8 16 32;
+  --s-subtle: 26 42 66;           // #1A2A42
 
   --s-border: 51 65 85;           // #334155
   --s-border-strong: 71 85 105;
-  --s-border-subtle: 30 41 59;
+  --s-border-subtle: 30 47 75;
 
   --s-text-primary: 241 245 249;  // #F1F5F9
   --s-text-secondary: 203 213 225;
-  --s-text-muted: 148 163 184;    // mantém AA em bg escuro
+  --s-text-muted: 148 163 184;    // #94A3B8 — passa AA em bg escuro
   --s-text-disabled: 100 116 139;
-  --s-text-inverse: 15 23 42;
+  --s-text-inverse: 20 32 51;
 
-  --s-brand: 100 181 246;         // #64B5F6 — clareza aumentada pra dark
-  --s-brand-soft: 30 58 95;
-  --s-brand-soft-hover: 40 78 127;
-  --s-brand-cta: 66 165 245;      // #42A5F5
-  --s-brand-cta-hover: 100 181 246;
-  --s-brand-cta-active: 144 202 249;
-  --s-brand-text: 144 202 249;
+  --s-text-on-dark: 255 255 255;
+  --s-text-on-dark-muted: 184 196 212;
 
-  --s-success: 34 197 94;
+  --s-brand: 26 66 114;           // #1A4272 — navy-700 pra contraste em dark
+  --s-brand-900: 26 66 114;
+  --s-brand-800: 37 90 147;
+  --s-brand-700: 51 113 180;
+
+  --s-brand-soft: 14 42 64;       // tom escuro compatível
+  --s-brand-soft-hover: 22 64 95;
+  --s-brand-cta: 0 184 217;       // cta no dark pega o cyan (mais visível)
+  --s-brand-cta-hover: 14 141 169;
+  --s-brand-cta-active: 22 116 141;
+  --s-brand-text: 103 232 249;    // cyan-300 — legível em dark
+
+  --s-accent: 34 211 238;         // cyan-400 em dark
+  --s-accent-500: 34 211 238;
+  --s-accent-700: 103 232 249;    // cyan-300 pra texto
+  --s-accent-100: 14 42 64;       // soft dark
+  --s-accent-soft: 14 42 64;
+
+  --s-success: 52 211 153;
   --s-success-soft: 20 83 45;
   --s-success-text: 134 239 172;
   --s-warning: 251 191 36;
@@ -103,10 +140,11 @@ html[data-theme='dark'] {
   --s-error: 248 113 113;
   --s-error-soft: 127 29 29;
   --s-error-text: 252 165 165;
-  --s-info: 100 181 246;
-  --s-info-soft: 30 58 95;
+  --s-info: 103 232 249;
+  --s-info-soft: 14 42 64;
+  --s-info-text: 103 232 249;
 
-  --s-focus: 100 181 246;
+  --s-focus: 34 211 238;
 
   --s-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
   --s-shadow-md:

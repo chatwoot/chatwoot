@@ -1,13 +1,52 @@
 {
   "SYNAPSEOS": {
-    "DASHBOARD": {
-      "TITLE": "Dashboard Executivo",
-      "TABS": {
-        "OVERVIEW": "Visão geral",
-        "REPORTS": "Relatórios ao vivo"
+    "LIVE": {
+      "TITLE": "Tempo Real",
+      "SUBTITLE": "Monitoramento do esquadrão ao vivo",
+      "AGENTS_SECTION": "Agentes Ativos",
+      "HOT_CONVERSATIONS": "Conversas Quentes",
+      "LAST_ACTION_NONE": "Sem atividade recente",
+      "STATUS": {
+        "ONLINE": "Online",
+        "IDLE": "Ocioso",
+        "OFFLINE": "Offline"
+      },
+      "COLUMNS": {
+        "CONVERSATION": "Conversa",
+        "CONTACT": "Contato",
+        "ASSIGNEE": "Responsável",
+        "STATUS": "Status",
+        "TIME_IN_STAGE": "Tempo no estágio"
+      },
+      "CABLE": {
+        "CONNECTED": "Ao vivo",
+        "POLLING": "Sincronizando"
       }
     },
     "LIVE_AGENTS": {
+      "TITLE": "Live Agents",
+      "SUBTITLE": "Visão em tempo real da atividade e carga dos agentes",
+      "SEARCH_PLACEHOLDER": "Buscar por nome ou e-mail…",
+      "REFRESH_HINT": "Atualizando automaticamente a cada 15s",
+      "COL_NAME": "Agente",
+      "COL_STATUS": "Status",
+      "COL_OPEN": "Conversas abertas",
+      "COL_TODAY": "Atendidas hoje",
+      "COL_FIRST_RESPONSE": "Tempo médio de 1ª resposta (hoje)",
+      "COL_ROLE": "Função",
+      "SUMMARY": {
+        "TOTAL": "Total de agentes",
+        "ONLINE": "Online",
+        "BUSY": "Ocupado",
+        "OFFLINE": "Offline",
+        "OPEN": "Abertas agora",
+        "HANDLED_TODAY": "Atendidas hoje"
+      },
+      "STATUS": {
+        "ONLINE": "Online",
+        "OFFLINE": "Offline",
+        "BUSY": "Ocupado"
+      },
       "PANEL": {
         "TITLE": "Conversas — {name}",
         "COUNT": "{n} conversas abertas",
@@ -23,36 +62,59 @@
         }
       }
     },
-    "LIVE": {
-      "TITLE": "Live Agents",
-      "SUBTITLE": "Monitoramento em tempo real do esquadrão",
-      "AGENTS_SECTION": "Agentes Ativos",
-      "HOT_CONVERSATIONS": "Conversas Quentes",
-      "LAST_ACTION_NONE": "Sem atividade recente",
-      "STATUS": {
-        "ONLINE": "Online",
-        "IDLE": "Inativo",
-        "OFFLINE": "Offline"
+    "DASHBOARD": {
+      "TITLE": "Dashboard Executivo",
+      "SUBTITLE": "KPIs operacionais e de receita dos últimos {days} dias",
+      "LOADING": "Carregando métricas…",
+      "NO_DATA": "Sem dados no período selecionado ainda.",
+      "TABS": {
+        "OVERVIEW": "Visão geral",
+        "REPORTS": "Relatórios ao vivo"
       },
-      "COLUMNS": {
-        "CONVERSATION": "Conversa",
-        "CONTACT": "Cliente",
-        "ASSIGNEE": "Responsável",
-        "STATUS": "Status",
-        "TIME_IN_STAGE": "Tempo na etapa"
+      "KPI": {
+        "LEADS": "Leads",
+        "DEALS_WON": "Negócios ganhos",
+        "DEALS_LOST": "Negócios perdidos",
+        "REVENUE": "Receita",
+        "MESSAGES_RECEIVED": "Mensagens recebidas",
+        "MESSAGES_SENT": "Mensagens enviadas",
+        "BOT_TAKEOVERS": "Bot → atendimento humano",
+        "HUMAN_RESCUES": "Humano → resgate pelo bot",
+        "AI_RESPONSES": "Respostas da IA",
+        "APPOINTMENTS": "Agendamentos",
+        "CONVERSION_RATE": "Taxa de conversão"
       },
-      "CABLE": {
-        "CONNECTED": "Ao vivo",
-        "POLLING": "Polling"
+      "CHART": {
+        "TITLE": "Atividade diária",
+        "MESSAGES_RECEIVED": "Mensagens recebidas",
+        "MESSAGES_SENT": "Mensagens enviadas",
+        "AI_RESPONSES": "Respostas da IA",
+        "BOT_TAKEOVERS": "Transferências do bot"
+      },
+      "RECENT_EVENTS": {
+        "TITLE": "Atividade recente",
+        "EMPTY": "Nenhum evento de CRM ainda."
+      },
+      "EVENT_TYPE": {
+        "LEAD_CREATED": "Lead criado",
+        "LEAD_QUALIFIED": "Lead qualificado",
+        "LEAD_DISQUALIFIED": "Lead desqualificado",
+        "DEAL_CREATED": "Negócio criado",
+        "DEAL_WON": "Negócio ganho",
+        "DEAL_LOST": "Negócio perdido",
+        "BOT_TAKEOVER": "Transferência pra humano",
+        "HUMAN_RESCUE": "Resgate pelo bot",
+        "APPOINTMENT_CONFIRMED": "Agendamento confirmado",
+        "PRIVATE_NOTE_ADDED": "Nota privada adicionada"
       }
     },
     "METRICS": {
       "TITLE": "Esquadrão Synapse",
-      "SUBTITLE": "Métricas de performance do squadron",
+      "SUBTITLE": "Métricas de performance do esquadrão de IA",
       "REFRESH": "Atualizar",
       "LAST_UPDATED": "Atualizado às {time}",
       "EMPTY": "—",
-      "ERROR": "Erro ao carregar",
+      "ERROR": "Falha ao carregar",
       "AGENT_COUNT": "1 agente | {n} agentes",
       "RANGES": {
         "24H": "24h",
@@ -125,6 +187,28 @@
             "VALOR_RECUPERADO_CENTS": "Valor recuperado"
           }
         }
+      }
+    },
+    "PIPELINE": {
+      "TITLE": "Pipeline de CRM",
+      "SUBTITLE": "Arraste leads entre os estágios para atualizar a posição no pipeline.",
+      "LOADING": "Carregando pipeline…",
+      "UNASSIGNED": "Sem responsável",
+      "ADD_STAGE": "Adicionar estágio",
+      "NEW_STAGE_HEADER": "Novo estágio do pipeline",
+      "STAGE_NAME": "Nome",
+      "STAGE_COLOR": "Cor",
+      "STAGE_TYPE": "Tipo",
+      "STAGE_TYPE_HINT": "Estágios 'Ganho' e 'Perdido' encerram automaticamente o negócio do lead quando um card é solto neles.",
+      "CONFIRM_DELETE": "Excluir o estágio '{name}'? Os leads nele ficarão sem estágio.",
+      "CANCEL": "Cancelar",
+      "CREATE": "Criar",
+      "STAGE_TYPES": {
+        "INBOUND": "Inbound",
+        "WORKING": "Em andamento",
+        "WON": "Ganho",
+        "LOST": "Perdido",
+        "CUSTOM": "Custom"
       }
     }
   }
