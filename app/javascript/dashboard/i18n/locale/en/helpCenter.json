@@ -590,6 +590,10 @@
         "CATEGORY_PLACEHOLDER": "Select a category",
         "OPTIONAL": "(optional)",
         "CONFIRM": "Translate",
+        "SELECT_ALL": "Select all ({count})",
+        "SELECTED_COUNT": "{count} selected",
+        "CLEAR_SELECTION": "Clear selection",
+        "TRANSLATE_BUTTON": "Translate",
         "CONFIRM_OVERWRITE": "Overwrite and translate",
         "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
         "DUPLICATE_CONFIRM_HINT": "Click translate again to overwrite the existing translation.",
@@ -597,6 +601,20 @@
           "SUCCESS_MESSAGE": "Translation in progress. The article will appear as a draft once ready.",
           "ERROR_MESSAGE": "Failed to start translation. Please try again."
         }
+      },
+      "BULK_ACTIONS": {
+        "PUBLISH": "Publish",
+        "DRAFT": "Draft",
+        "ARCHIVE": "Archive",
+        "TRANSLATE": "Translate",
+        "DELETE": "Delete",
+        "STATUS_SUCCESS": "Articles updated successfully",
+        "STATUS_ERROR": "Failed to update articles",
+        "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
+        "DELETE_CONFIRM_DESCRIPTION": "This will permanently delete the selected article. This action cannot be undone. | This will permanently delete {count} selected articles. This action cannot be undone.",
+        "DELETE_CONFIRM": "Delete",
+        "DELETE_SUCCESS": "Articles deleted successfully",
+        "DELETE_ERROR": "Failed to delete articles"
       }
     },
     "CATEGORY_PAGE": {

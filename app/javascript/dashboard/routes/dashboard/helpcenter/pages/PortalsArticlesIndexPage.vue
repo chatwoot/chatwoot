@@ -119,6 +119,7 @@ watch(
       :is-category-articles="isCategoryArticles"
       @page-change="onPageChange"
       @fetch-portal="fetchPortalAndItsCategories"
+      @refresh-articles="fetchArticles"
     />
   </div>
 </template>
