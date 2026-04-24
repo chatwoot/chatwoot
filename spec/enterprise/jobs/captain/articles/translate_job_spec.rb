@@ -11,12 +11,14 @@ RSpec.describe Captain::Articles::TranslateJob, type: :job do
                      title: 'Getting Started', content: '# Welcome\nThis is a guide.')
   end
 
-  let(:translation_service) { instance_double(Captain::Llm::ArticleTranslationService) }
+  let(:title_service) { instance_double(Captain::Llm::ArticleTranslationService) }
+  let(:content_service) { instance_double(Captain::Llm::ArticleTranslationService) }
 
   before do
-    allow(Captain::Llm::ArticleTranslationService).to receive(:new).and_return(translation_service)
-    allow(translation_service).to receive(:translate_title).and_return('Primeros pasos')
-    allow(translation_service).to receive(:translate_content).and_return('# Bienvenido\nEsta es una guía.')
+    allow(Captain::Llm::ArticleTranslationService).to receive(:new).with(hash_including(type: :title)).and_return(title_service)
+    allow(Captain::Llm::ArticleTranslationService).to receive(:new).with(hash_including(type: :content)).and_return(content_service)
+    allow(title_service).to receive(:perform).and_return(message: 'Primeros pasos')
+    allow(content_service).to receive(:perform).and_return(message: '# Bienvenido\nEsta es una guía.')
   end
 
   it 'queues on the low queue' do
@@ -59,14 +61,20 @@ RSpec.describe Captain::Articles::TranslateJob, type: :job do
   it 'calls the translation service with the correct language' do
     described_class.perform_now(account, article.id, 'es', category_es.id, user)
 
-    expect(translation_service).to have_received(:translate_title).with('Getting Started', target_language: 'Spanish')
-    expect(translation_service).to have_received(:translate_content).with('# Welcome\nThis is a guide.', target_language: 'Spanish')
+    expect(Captain::Llm::ArticleTranslationService).to have_received(:new).with(
+      account: account, text: 'Getting Started', target_language: 'Spanish', type: :title
+    )
+    expect(Captain::Llm::ArticleTranslationService).to have_received(:new).with(
+      account: account, text: '# Welcome\nThis is a guide.', target_language: 'Spanish', type: :content
+    )
   end
 
   it 'uses language_map for locale name resolution' do
     described_class.perform_now(account, article.id, 'pt_BR', category_es.id, user)
 
-    expect(translation_service).to have_received(:translate_title).with(anything, target_language: 'Portuguese (Brazil)')
+    expect(Captain::Llm::ArticleTranslationService).to have_received(:new).with(
+      hash_including(target_language: 'Portuguese (Brazil)', type: :title)
+    )
   end
 
   context 'when a translation already exists' do
@@ -101,7 +109,7 @@ RSpec.describe Captain::Articles::TranslateJob, type: :job do
         described_class.perform_now(account, draft_article.id, 'es', category_es.id, user)
       end.to change(Article, :count).by(1)
 
-      expect(translation_service).not_to have_received(:translate_content)
+      expect(content_service).not_to have_received(:perform)
       translated = Article.last
       expect(translated).to have_attributes(
         title: 'Primeros pasos',
@@ -114,13 +122,13 @@ RSpec.describe Captain::Articles::TranslateJob, type: :job do
 
   context 'when translation service fails' do
     before do
-      allow(translation_service).to receive(:translate_title).and_raise(StandardError, 'LLM timeout')
+      allow(title_service).to receive(:perform).and_return(error: 'LLM timeout')
     end
 
     it 'raises the error and does not create an article' do
       expect do
         described_class.perform_now(account, article.id, 'es', category_es.id, user)
-      end.to raise_error(StandardError, 'LLM timeout').and not_change(Article, :count)
+      end.to raise_error(RuntimeError, /LLM timeout/).and not_change(Article, :count)
     end
   end
 end
