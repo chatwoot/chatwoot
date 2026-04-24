@@ -80,6 +80,9 @@ class Whatsapp::OneoffCampaignService
     Rails.logger.info "Skipping contact #{contact.name} - liquid variables resolved to blank values" if processed_template_params.nil?
 
     processed_template_params
+  rescue StandardError => e
+    Rails.logger.error "Failed to process liquid template params for contact #{contact.name}: #{e.message}"
+    nil
   end
 
   def send_whatsapp_template_message(to:, template_params:)
