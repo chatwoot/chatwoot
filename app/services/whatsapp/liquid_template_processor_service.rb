@@ -1,5 +1,11 @@
 class Whatsapp::LiquidTemplateProcessorService
-  COMPONENT_KEYS = %w[body header buttons footer].freeze
+  LIQUID_EXPRESSION = /\{\{\s*(.+?)\s*\}\}/
+
+  module JsonEscapeFilter
+    def json_escape(input)
+      input.to_s.to_json[1..-2]
+    end
+  end
 
   pattr_initialize [:campaign!, :contact!]
 
@@ -11,86 +17,50 @@ class Whatsapp::LiquidTemplateProcessorService
 
     return template_params_copy if processed_params.blank?
 
-    @has_blank_values = false
+    rendered_params = render_liquid(processed_params)
+    return nil if blank_render?(processed_params, rendered_params)
 
-    case processed_params
-    when Array
-      process_legacy_array_params(processed_params)
-    when Hash
-      process_hash_params(processed_params)
-    end
-
-    return nil if @has_blank_values
-
-    template_params_copy
+    template_params_copy.merge('processed_params' => rendered_params)
   end
 
   private
 
-  def process_hash_params(processed_params)
-    if enhanced_component_params?(processed_params)
-      process_component_params(processed_params)
-    else
-      process_legacy_hash_params(processed_params)
+  def render_liquid(processed_params)
+    raw = processed_params.to_json
+    rewritten = raw.gsub(LIQUID_EXPRESSION) { "{{ #{Regexp.last_match(1)} | json_escape }}" }
+    rendered = Liquid::Template.parse(rewritten).render!(drops, filters: [JsonEscapeFilter])
+    JSON.parse(rendered)
+  rescue Liquid::Error, JSON::ParserError
+    processed_params
+  end
+
+  def drops
+    {
+      'contact' => ContactDrop.new(contact),
+      'agent' => UserDrop.new(campaign.sender),
+      'inbox' => InboxDrop.new(campaign.inbox),
+      'account' => AccountDrop.new(campaign.account)
+    }
+  end
+
+  def blank_render?(original, rendered)
+    case original
+    when Hash then blank_render_in_hash?(original, rendered)
+    when Array then blank_render_in_array?(original, rendered)
+    when String then original.match?(LIQUID_EXPRESSION) && rendered.to_s.blank?
+    else false
     end
   end
 
-  def process_component_params(processed_params)
-    %w[body header footer].each { |key| process_hash_component(processed_params, key) }
-    process_button_params(processed_params)
+  def blank_render_in_hash?(original, rendered)
+    return false unless rendered.is_a?(Hash)
+
+    original.any? { |key, value| blank_render?(value, rendered[key]) }
   end
 
-  def process_legacy_hash_params(processed_params)
-    processed_params.each do |key, value|
-      processed_params[key] = process_liquid(value) if value.is_a?(String)
-    end
-  end
+  def blank_render_in_array?(original, rendered)
+    return false unless rendered.is_a?(Array)
 
-  def process_legacy_array_params(processed_params)
-    processed_params.each_with_index do |value, index|
-      processed_params[index] = process_liquid(value) if value.is_a?(String)
-    end
-  end
-
-  def enhanced_component_params?(processed_params)
-    has_component_keys = processed_params.keys.any? { |key| COMPONENT_KEYS.include?(key) }
-    return false unless has_component_keys
-
-    valid_component_structure?(processed_params)
-  end
-
-  def valid_component_structure?(processed_params)
-    %w[body header footer].all? { |key| processed_params[key].nil? || processed_params[key].is_a?(Hash) } &&
-      (processed_params['buttons'].nil? || processed_params['buttons'].is_a?(Array))
-  end
-
-  def process_hash_component(processed_params, key)
-    return if processed_params[key].blank?
-
-    processed_params[key].each do |k, value|
-      processed_params[key][k] = process_liquid(value) if value.is_a?(String)
-    end
-  end
-
-  def process_button_params(processed_params)
-    return if processed_params['buttons'].blank?
-
-    processed_params['buttons'].each do |button|
-      next if button.blank?
-
-      button['parameter'] = process_liquid(button['parameter']) if button['parameter'].is_a?(String)
-    end
-  end
-
-  def process_liquid(value)
-    return value if value.blank?
-
-    rendered = liquid_service.call(value)
-    @has_blank_values = true if rendered.blank? && value.present?
-    rendered
-  end
-
-  def liquid_service
-    @liquid_service ||= Liquid::CampaignTemplateService.new(campaign: campaign, contact: contact)
+    original.each_with_index.any? { |value, index| blank_render?(value, rendered[index]) }
   end
 end
