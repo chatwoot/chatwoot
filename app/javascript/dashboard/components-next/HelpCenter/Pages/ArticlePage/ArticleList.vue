@@ -36,6 +36,7 @@ const store = useStore();
 const { t } = useI18n();
 
 const localArticles = ref(props.articles);
+const hoveredArticleId = ref(null);
 
 const dragEnabled = computed(() => {
   return (
@@ -44,6 +45,16 @@ const dragEnabled = computed(() => {
     props.selectedArticleIds.size === 0
   );
 });
+
+const hasBulkSelection = computed(() => props.selectedArticleIds.size > 0);
+
+const shouldShowSelectionControl = id => {
+  return hoveredArticleId.value === id || hasBulkSelection.value;
+};
+
+const handleCardHover = (isHovered, id) => {
+  hoveredArticleId.value = isHovered ? id : null;
+};
 
 const getCategoryById = useMapGetter('categories/categoryById');
 
@@ -201,10 +212,13 @@ watch(
           :views="element.views || 0"
           :updated-at="element.updatedAt"
           :is-selected="selectedArticleIds.has(element.id)"
+          selectable
+          :show-selection-control="shouldShowSelectionControl(element.id)"
           :class="{ 'cursor-grab': dragEnabled }"
           @open-article="openArticle"
           @article-action="updateArticle"
           @toggle-select="emit('toggleSelect', $event)"
+          @hover="isHovered => handleCardHover(isHovered, element.id)"
         />
       </li>
     </template>

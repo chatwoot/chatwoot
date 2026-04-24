@@ -51,9 +51,22 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  selectable: {
+    type: Boolean,
+    default: false,
+  },
+  showSelectionControl: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['openArticle', 'articleAction', 'toggleSelect']);
+const emit = defineEmits([
+  'openArticle',
+  'articleAction',
+  'toggleSelect',
+  'hover',
+]);
 
 const { t } = useI18n();
 
@@ -144,14 +157,20 @@ const handleClick = id => {
 </script>
 
 <template>
-  <CardLayout>
+  <CardLayout
+    :selectable="selectable"
+    class="relative"
+    @mouseenter="emit('hover', true)"
+    @mouseleave="emit('hover', false)"
+  >
+    <div
+      v-show="showSelectionControl"
+      class="absolute top-7 ltr:left-3 rtl:right-3"
+    >
+      <Checkbox :model-value="isSelected" @change="emit('toggleSelect', id)" />
+    </div>
     <div class="flex justify-between w-full gap-1">
       <div class="flex items-center gap-2 min-w-0">
-        <Checkbox
-          :model-value="isSelected"
-          class="shrink-0 z-0"
-          @change="emit('toggleSelect', id)"
-        />
         <span
           class="text-base cursor-pointer hover:underline underline-offset-2 hover:text-n-blue-11 text-n-slate-12 line-clamp-1"
           @click="handleClick(id)"
