@@ -626,6 +626,57 @@ describe Twilio::IncomingMessageService do
           expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+541123456789')
         end
       end
+
+      describe 'When the incoming number is a Mexican WhatsApp number with 1 after country code' do
+        let!(:whatsapp_twilio_channel) do
+          create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
+                                                 inbox: create(:inbox, account: account, greeting_enabled: false))
+        end
+
+        it 'appends to existing contact when contact inbox exists without the extra 1' do
+          contact = create(:contact, account: account, phone_number: '+525512345678')
+          contact_inbox = create(:contact_inbox,
+                                 source_id: 'whatsapp:+525512345678',
+                                 contact: contact,
+                                 inbox: whatsapp_twilio_channel.inbox)
+          last_conversation = create(:conversation, inbox: whatsapp_twilio_channel.inbox, contact_inbox: contact_inbox)
+
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+5215512345678',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Mexico',
+            ProfileName: 'Maria Lopez'
+          }
+
+          described_class.new(params: params).perform
+
+          expect(whatsapp_twilio_channel.inbox.conversations.count).to eq(1)
+          expect(last_conversation.messages.last.content).to eq('Test message from Mexico')
+          expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id)
+            .to eq('whatsapp:+525512345678')
+        end
+
+        it 'creates contact inbox with incoming number when no existing contact matches' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+5215512345678',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Mexico',
+            ProfileName: 'Maria Lopez'
+          }
+
+          described_class.new(params: params).perform
+
+          expect(whatsapp_twilio_channel.inbox.conversations.count).not_to eq(0)
+          expect(whatsapp_twilio_channel.inbox.contacts.first.name).to eq('Maria Lopez')
+          expect(whatsapp_twilio_channel.inbox.messages.first.content).to eq('Test message from Mexico')
+          expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id)
+            .to eq('whatsapp:+5215512345678')
+        end
+      end
     end
   end
 end
