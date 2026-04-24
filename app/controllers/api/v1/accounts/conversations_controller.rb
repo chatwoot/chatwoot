@@ -37,10 +37,12 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def show; end
 
   def create
-    ActiveRecord::Base.transaction do
-      @conversation = ConversationBuilder.new(params: params, contact_inbox: @contact_inbox).perform
-      Messages::MessageBuilder.new(Current.user, @conversation, params[:message]).perform if params[:message].present?
-    end
+    @conversation, initial_message_error = Conversations::CreateWithInitialMessage.new(
+      user: Current.user,
+      contact_inbox: @contact_inbox,
+      params: params
+    ).perform
+    return render_could_not_create_error(initial_message_error) if initial_message_error.present?
   end
 
   def update

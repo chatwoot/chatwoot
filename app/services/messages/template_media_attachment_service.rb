@@ -5,7 +5,8 @@ class Messages::TemplateMediaAttachmentService
 
   def perform
     media_blob_id = parsed_template_params.dig('processed_params', 'header', 'media_blob_id')
-    return if media_blob_id.blank? || Array(attachments).include?(media_blob_id)
+    return if media_blob_id.blank?
+    return if template_media_signed_id_already_in_attachments?(media_blob_id)
 
     attachment = message.attachments.build(
       account_id: message.account_id,
@@ -17,6 +18,11 @@ class Messages::TemplateMediaAttachmentService
   end
 
   private
+
+  # Dedupe when the same signed id is already in attachments[]; use include? (==) instead of any?(pattern).
+  def template_media_signed_id_already_in_attachments?(media_blob_id)
+    Array(attachments).include?(media_blob_id)
+  end
 
   def parsed_template_params
     params_hash = template_params.is_a?(String) ? safe_parse_json(template_params) : template_params

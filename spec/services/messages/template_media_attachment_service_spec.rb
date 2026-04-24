@@ -27,5 +27,28 @@ describe Messages::TemplateMediaAttachmentService do
         described_class.new(message: message, attachments: single_attachment, template_params: template_params).perform
       end.not_to raise_error
     end
+
+    it 'does not add a template attachment when the same signed id is already listed in attachments' do
+      described_class.new(
+        message: message,
+        attachments: [blob.signed_id],
+        template_params: template_params
+      ).perform
+
+      expect(message.attachments.size).to eq(0)
+    end
+
+    it 'adds a template attachment when attachments are raw files (no signed id overlap)' do
+      file = Rack::Test::UploadedFile.new('spec/assets/avatar.png', 'image/png')
+
+      described_class.new(
+        message: message,
+        attachments: [file],
+        template_params: template_params
+      ).perform
+
+      expect(message.attachments.size).to eq(1)
+      expect(message.attachments.first.file_type).to eq('image')
+    end
   end
 end

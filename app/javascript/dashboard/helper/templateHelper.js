@@ -44,20 +44,21 @@ export const buildTemplateParameters = (template, hasMediaHeaderValue) => {
     });
   }
 
-  if (hasMediaHeaderValue) {
+  if (hasMediaHeaderValue && headerComponent?.format) {
     if (!allVariables.header) allVariables.header = {};
     allVariables.header.media_url = '';
     allVariables.header.media_blob_id = '';
-    allVariables.header.media_type = headerComponent.format.toLowerCase();
+    const formatLower = headerComponent.format.toLowerCase();
+    allVariables.header.media_type = formatLower;
 
     // For document templates, include media_name field for filename support
-    if (headerComponent.format.toLowerCase() === 'document') {
+    if (formatLower === 'document') {
       allVariables.header.media_name = '';
     }
   }
 
   // Process button variables
-  const buttonComponents = template.components.filter(
+  const buttonComponents = (template.components || []).filter(
     component => component.type === COMPONENT_TYPES.BUTTONS
   );
 

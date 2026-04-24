@@ -33,10 +33,7 @@ class Messages::MessageBuilder
 
   private
 
-  # Extracts content attributes from the given params.
-  # - Converts ActionController::Parameters to a regular hash if needed.
-  # - Attempts to parse a JSON string if content is a string.
-  # - Returns an empty hash if content is not present, if there's a parsing error, or if it's an unexpected type.
+  # Parses content_attributes from params (hash, JSON string, or empty).
   def content_attributes
     params = convert_to_hash(@params)
     content_attributes = params.fetch(:content_attributes, {})
@@ -70,8 +67,9 @@ class Messages::MessageBuilder
   end
 
   def process_template_media_attachment
-    Messages::TemplateMediaAttachmentService.new(message: @message, attachments: @attachments,
-                                                 template_params: @params[:template_params]).perform
+    Messages::TemplateMediaAttachmentService.new(message: @message, attachments: @attachments, template_params: @params[:template_params]).perform
+  rescue ArgumentError => e
+    raise StandardError, e.message
   end
 
   def process_emails
@@ -129,9 +127,7 @@ class Messages::MessageBuilder
 
   def template_params
     normalized = Messages::TemplateParamsFromRequest.call(@params[:template_params])
-    return {} if normalized.blank?
-
-    { additional_attributes: { template_params: normalized } }
+    normalized.blank? ? {} : { additional_attributes: { template_params: normalized } }
   end
 
   def message_sender
@@ -211,7 +207,6 @@ class Messages::MessageBuilder
     html_content
   end
 
-  # Liquid processing methods for email content
   def process_liquid_in_email_body(content)
     return content if content.blank?
     return content unless should_process_liquid?

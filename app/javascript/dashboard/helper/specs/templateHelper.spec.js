@@ -131,6 +131,17 @@ describe('templateHelper', () => {
       });
     });
 
+    it('does not throw when hasMediaHeader is true but template has no header component', () => {
+      const bodyOnly = {
+        components: [{ type: 'BODY', text: 'Hello {{name}}' }],
+      };
+
+      expect(() => buildTemplateParameters(bodyOnly, true)).not.toThrow();
+      const result = buildTemplateParameters(bodyOnly, true);
+      expect(result.header).toBeUndefined();
+      expect(result.body).toEqual({ name: '' });
+    });
+
     it('should handle template with no variables', () => {
       const templateWithoutVars = templates.find(
         t => t.name === 'no_variable_template'

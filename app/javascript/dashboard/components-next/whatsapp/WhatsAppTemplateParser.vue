@@ -45,6 +45,8 @@ const { t } = useI18n();
 
 const processedParams = ref({});
 const isUploadingMedia = ref(false);
+/** Bumped on template change or when a new upload starts; completions must match or be discarded. */
+const mediaUploadGeneration = ref(0);
 const mediaUploadError = ref('');
 const mediaPreview = ref(null);
 const mediaInputRef = ref(null);
@@ -140,6 +142,11 @@ const initializeTemplateParameters = () => {
   );
 };
 
+const invalidateInFlightMediaUpload = () => {
+  mediaUploadGeneration.value += 1;
+  isUploadingMedia.value = false;
+};
+
 function clearMediaPreview() {
   if (mediaPreview.value?.url) {
     URL.revokeObjectURL(mediaPreview.value.url);
@@ -222,6 +229,9 @@ const processUploadedFile = async file => {
     return;
   }
 
+  mediaUploadGeneration.value += 1;
+  const uploadId = mediaUploadGeneration.value;
+
   // Drop previous media immediately so send cannot use stale blob/URL while the new upload resolves.
   processedParams.value.header.media_blob_id = '';
   processedParams.value.header.media_url = '';
@@ -229,17 +239,25 @@ const processUploadedFile = async file => {
   updateMediaPreview(file);
   try {
     const { blobId } = await uploadFile(file);
+    if (uploadId !== mediaUploadGeneration.value) {
+      return;
+    }
     processedParams.value.header.media_blob_id = blobId;
     processedParams.value.header.media_url = '';
     if (isDocumentTemplate.value && !processedParams.value.header.media_name) {
       processedParams.value.header.media_name = file.name;
     }
   } catch (error) {
+    if (uploadId !== mediaUploadGeneration.value) {
+      return;
+    }
     mediaUploadError.value =
       error?.response?.data?.error ||
       t('WHATSAPP_TEMPLATES.PARSER.MEDIA_UPLOAD_FAILED');
   } finally {
-    isUploadingMedia.value = false;
+    if (uploadId === mediaUploadGeneration.value) {
+      isUploadingMedia.value = false;
+    }
   }
 };
 
@@ -309,6 +327,7 @@ onMounted(initializeTemplateParameters);
 watch(
   () => props.template,
   () => {
+    invalidateInFlightMediaUpload();
     initializeTemplateParameters();
     clearMediaPreview();
     mediaUploadError.value = '';
