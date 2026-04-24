@@ -4,7 +4,12 @@ describe Messages::Facebook::MessageBuilder do
   subject(:message_builder) { described_class.new(incoming_fb_text_message, facebook_channel.inbox).perform }
 
   before do
+    allow(Resolv).to receive(:getaddresses).and_call_original
+    allow(Resolv).to receive(:getaddresses).with('www.example.com').and_return(['93.184.216.34'])
+    allow(Resolv).to receive(:getaddresses).with('chatwoot-assets.local').and_return(['93.184.216.35'])
     stub_request(:post, /graph.facebook.com/)
+    stub_request(:get, 'https://www.example.com/test.jpeg')
+      .to_return(status: 200, body: 'image-data', headers: { 'Content-Type' => 'image/jpeg' })
   end
 
   let!(:facebook_channel) { create(:channel_facebook_page) }
@@ -137,6 +142,62 @@ describe Messages::Facebook::MessageBuilder do
 
         message = facebook_channel.inbox.messages.find_by(source_id: 'm_reel_test')
         expect(message.content).to eq('https://www.facebook.com/reel/123456')
+      end
+    end
+
+    context 'when message contains a downloadable attachment' do
+      let(:attachment_message_object) do
+        {
+          messaging: {
+            sender: { id: '3383290475046708' },
+            recipient: { id: facebook_channel.page_id },
+            timestamp: 1_772_452_164_516,
+            message: {
+              mid: 'm_attachment_test',
+              attachments: [
+                {
+                  type: 'share',
+                  payload: {
+                    url: attachment_url
+                  }
+                }
+              ]
+            }
+          }
+        }.to_json
+      end
+      let(:attachment_message) { Integrations::Facebook::MessageParser.new(attachment_message_object) }
+      let(:attachment_url) { 'https://www.example.com/test.jpeg' }
+
+      before do
+        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        allow(fb_object).to receive(:get_object).and_return(
+          { first_name: 'Jane', last_name: 'Dae', profile_pic: 'https://chatwoot-assets.local/sample.png' }.with_indifferent_access
+        )
+      end
+
+      it 'downloads and attaches files for safe public URLs' do
+        described_class.new(attachment_message, facebook_channel.inbox).perform
+
+        message = facebook_channel.inbox.messages.find_by(source_id: 'm_attachment_test')
+        expect(message).to be_present
+        expect(message.attachments.first.file_type).to eq('image')
+        expect(message.attachments.first.external_url).to eq(attachment_url)
+        expect(message.attachments.first.file).to be_attached
+      end
+
+      it 'skips blocked attachment URLs' do
+        blocked_message = Integrations::Facebook::MessageParser.new(
+          attachment_message_object.gsub(attachment_url, 'http://127.0.0.1/blocked.jpeg')
+        )
+
+        expect do
+          described_class.new(blocked_message, facebook_channel.inbox).perform
+        end.not_to raise_error
+
+        message = facebook_channel.inbox.messages.find_by(source_id: 'm_attachment_test')
+        expect(message).to be_present
+        expect(message.attachments).to be_empty
       end
     end
 

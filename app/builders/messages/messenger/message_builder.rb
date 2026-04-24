@@ -1,18 +1,14 @@
 class Messages::Messenger::MessageBuilder
   include ::FileTypeHelper
+  REMOTE_FILE_ALLOWED_CONTENT_TYPE_PREFIXES = %w[image/ video/ audio/].freeze
 
   def process_attachment(attachment)
     # This check handles very rare case if there are multiple files to attach with only one unsupported file
     return if unsupported_file_type?(attachment['type'])
 
-    params = attachment_params(attachment)
-    attachment_obj = @message.attachments.new(params.except(:remote_file_url))
-    attachment_obj.save!
-    if facebook_reel?(attachment)
-      update_facebook_reel_content(attachment)
-    elsif params[:remote_file_url]
-      attach_file(attachment_obj, params[:remote_file_url])
-    end
+    attachment_obj = persist_attachment(attachment)
+    return unless attachment_obj
+
     fetch_story_link(attachment_obj) if attachment_obj.file_type == 'story_mention'
     fetch_ig_story_link(attachment_obj) if attachment_obj.file_type == 'ig_story'
     fetch_ig_post_link(attachment_obj) if attachment_obj.file_type == 'ig_post'
@@ -20,14 +16,17 @@ class Messages::Messenger::MessageBuilder
   end
 
   def attach_file(attachment, file_url)
-    attachment_file = Down.download(
-      file_url
-    )
-    attachment.file.attach(
-      io: attachment_file,
-      filename: attachment_file.original_filename,
-      content_type: attachment_file.content_type
-    )
+    SafeFetch.fetch(file_url, **remote_attachment_fetch_options) do |attachment_file|
+      attachment.file.attach(
+        io: attachment_file.tempfile,
+        filename: attachment_file.original_filename,
+        content_type: attachment_file.content_type
+      )
+    end
+    true
+  rescue SafeFetch::Error => e
+    Rails.logger.info "Error downloading Messenger attachment from #{file_url}: #{e.message}: Skipping"
+    false
   end
 
   def attachment_params(attachment)
@@ -104,6 +103,37 @@ class Messages::Messenger::MessageBuilder
   end
 
   private
+
+  def persist_attachment(attachment)
+    params = attachment_params(attachment)
+    attachment_obj = @message.attachments.new(params.except(:remote_file_url))
+
+    return save_facebook_reel_attachment(attachment, attachment_obj) if facebook_reel?(attachment)
+    return save_remote_file_attachment(attachment_obj, params[:remote_file_url]) if params[:remote_file_url].present?
+
+    attachment_obj.save!
+    attachment_obj
+  end
+
+  def save_facebook_reel_attachment(attachment, attachment_obj)
+    attachment_obj.save!
+    update_facebook_reel_content(attachment)
+    attachment_obj
+  end
+
+  def save_remote_file_attachment(attachment_obj, remote_file_url)
+    return unless attach_file(attachment_obj, remote_file_url)
+
+    attachment_obj.save!
+    attachment_obj
+  end
+
+  def remote_attachment_fetch_options
+    {
+      allowed_content_type_prefixes: REMOTE_FILE_ALLOWED_CONTENT_TYPE_PREFIXES,
+      allowed_content_types: Attachment::ACCEPTABLE_FILE_TYPES
+    }
+  end
 
   # Facebook may send attachment types that don't directly match our file_type enum.
   # Map known aliases to their canonical enum values.

@@ -153,14 +153,49 @@ RSpec.describe SafeFetch do
         expect { described_class.fetch(url) { nil } }.not_to raise_error
       end
 
-      it 'strips charset/boundary parameters before comparing' do
+      it 'normalizes parameters and casing before yielding content_type' do
         stub_request(:get, url).to_return(
           status: 200,
           body: 'x',
-          headers: { 'Content-Type' => 'image/png; charset=binary' }
+          headers: { 'Content-Type' => 'IMAGE/PNG; charset=binary' }
         )
 
-        expect { described_class.fetch(url) { nil } }.not_to raise_error
+        described_class.fetch(url) do |result|
+          expect(result.content_type).to eq('image/png')
+        end
+      end
+
+      it 'allows exact content-type matches when prefixes are empty' do
+        pdf_url = 'http://example.com/file.pdf'
+        stub_request(:get, pdf_url).to_return(
+          status: 200,
+          body: 'pdf-data',
+          headers: { 'Content-Type' => 'application/pdf' }
+        )
+
+        expect do
+          described_class.fetch(
+            pdf_url,
+            allowed_content_type_prefixes: [],
+            allowed_content_types: ['application/pdf']
+          ) { nil }
+        end.not_to raise_error
+      end
+
+      it 'rejects exact content-type mismatches when prefixes are empty' do
+        stub_request(:get, url).to_return(
+          status: 200,
+          body: 'x',
+          headers: { 'Content-Type' => 'image/webp' }
+        )
+
+        expect do
+          described_class.fetch(
+            url,
+            allowed_content_type_prefixes: [],
+            allowed_content_types: ['image/png']
+          ) { nil }
+        end.to raise_error(described_class::UnsupportedContentTypeError)
       end
 
       it 'rejects when the content-type header is missing' do

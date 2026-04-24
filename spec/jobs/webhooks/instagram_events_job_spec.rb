@@ -4,13 +4,17 @@ describe Webhooks::InstagramEventsJob do
   subject(:instagram_webhook) { described_class }
 
   before do
+    allow(Resolv).to receive(:getaddresses).and_call_original
+    allow(Resolv).to receive(:getaddresses).with('www.example.com').and_return(['93.184.216.34'])
+    allow(Resolv).to receive(:getaddresses).with('lookaside.fbsbx.com').and_return(['157.240.22.35'])
+
     stub_request(:post, /graph\.facebook\.com/)
     stub_request(:get, 'https://www.example.com/test.jpeg')
-      .to_return(status: 200, body: '', headers: {})
+      .to_return(status: 200, body: 'image-data', headers: { 'Content-Type' => 'image/jpeg' })
     stub_request(:get, 'https://lookaside.fbsbx.com/ig_messaging_cdn/?asset_id=17949487764033669&signature=test')
-      .to_return(status: 200, body: '', headers: {})
+      .to_return(status: 200, body: 'image-data', headers: { 'Content-Type' => 'image/jpeg' })
     stub_request(:get, 'https://lookaside.fbsbx.com/ig_messaging_cdn/?asset_id=18091626484740369&signature=test')
-      .to_return(status: 200, body: '', headers: {})
+      .to_return(status: 200, body: 'image-data', headers: { 'Content-Type' => 'image/jpeg' })
   end
 
   let!(:account) { create(:account) }

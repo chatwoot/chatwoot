@@ -4,14 +4,19 @@ describe Messages::Instagram::Messenger::MessageBuilder do
   subject(:instagram_message_builder) { described_class }
 
   before do
+    allow(Resolv).to receive(:getaddresses).and_call_original
+    allow(Resolv).to receive(:getaddresses).with('www.example.com').and_return(['93.184.216.34'])
+    allow(Resolv).to receive(:getaddresses).with('chatwoot-assets.local').and_return(['93.184.216.35'])
     stub_request(:post, /graph\.facebook\.com/)
     stub_request(:get, 'https://www.example.com/test.jpeg')
+      .to_return(status: 200, body: 'image-data', headers: { 'Content-Type' => 'image/jpeg' })
   end
 
   let!(:account) { create(:account) }
   let!(:instagram_messenger_channel) { create(:channel_instagram_fb_page, account: account, instagram_id: 'chatwoot-app-user-id-1') }
   let!(:instagram_messenger_inbox) { create(:inbox, channel: instagram_messenger_channel, account: account, greeting_enabled: false) }
   let!(:dm_params) { build(:instagram_message_create_event).with_indifferent_access }
+  let!(:attachment_params) { build(:instagram_message_attachment_event).with_indifferent_access }
   let!(:story_mention_params) { build(:instagram_story_mention_event).with_indifferent_access }
   let!(:shared_reel_params) { build(:instagram_shared_reel_event).with_indifferent_access }
   let!(:instagram_story_reply_event) { build(:instagram_story_reply_event).with_indifferent_access }
@@ -101,6 +106,55 @@ describe Messages::Instagram::Messenger::MessageBuilder do
       )
     end
 
+    it 'creates message with a downloadable attachment' do
+      messaging = attachment_params[:entry][0]['messaging'][0]
+      sender_id = messaging['sender']['id']
+
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return(
+        {
+          name: 'Jane',
+          id: sender_id,
+          account_id: instagram_messenger_inbox.account_id,
+          profile_pic: 'https://chatwoot-assets.local/sample.png'
+        }.with_indifferent_access
+      )
+
+      create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
+      described_class.new(messaging, instagram_messenger_inbox).perform
+
+      message = instagram_messenger_channel.inbox.messages.first
+      expect(message.attachments.first.file_type).to eq('image')
+      expect(message.attachments.first.external_url).to eq('https://www.example.com/test.jpeg')
+      expect(message.attachments.first.file).to be_attached
+    end
+
+    it 'skips blocked attachment URLs' do
+      messaging = attachment_params[:entry][0]['messaging'][0]
+      sender_id = messaging['sender']['id']
+      messaging['message']['attachments'][0]['payload']['url'] = 'http://127.0.0.1/blocked.jpeg'
+
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return(
+        {
+          name: 'Jane',
+          id: sender_id,
+          account_id: instagram_messenger_inbox.account_id,
+          profile_pic: 'https://chatwoot-assets.local/sample.png'
+        }.with_indifferent_access
+      )
+
+      create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
+
+      expect do
+        described_class.new(messaging, instagram_messenger_inbox).perform
+      end.not_to raise_error
+
+      message = instagram_messenger_channel.inbox.messages.first
+      expect(message).to be_present
+      expect(message.attachments).to be_empty
+    end
+
     it 'creates message with for reply with story id' do
       messaging = instagram_story_reply_event[:entry][0]['messaging'][0]
       sender_id = messaging['sender']['id']
@@ -130,6 +184,32 @@ describe Messages::Instagram::Messenger::MessageBuilder do
       expect(message.content_attributes[:image_type]).to eq('ig_story_reply')
       expect(message.attachments.first.file_type).to eq('ig_story')
       expect(message.attachments.first.external_url).to eq(story_url)
+    end
+
+    it 'skips story reply attachments for blocked URLs' do
+      messaging = instagram_story_reply_event[:entry][0]['messaging'][0]
+      sender_id = messaging['sender']['id']
+      messaging['message']['reply_to']['story']['url'] = 'http://127.0.0.1/blocked.png'
+
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return(
+        {
+          name: 'Jane',
+          id: sender_id,
+          account_id: instagram_messenger_inbox.account_id,
+          profile_pic: 'https://chatwoot-assets.local/sample.png'
+        }.with_indifferent_access
+      )
+
+      create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
+
+      expect do
+        described_class.new(messaging, instagram_messenger_inbox).perform
+      end.not_to raise_error
+
+      message = instagram_messenger_channel.inbox.messages.first
+      expect(message.content).to eq('This is the story reply')
+      expect(message.attachments).to be_empty
     end
 
     it 'creates message with for reply with mid' do
