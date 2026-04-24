@@ -5,12 +5,11 @@ class Captain::Articles::TranslateJob < ApplicationJob
     @account = account
     @source_article = account.articles.find(article_id)
 
-    service = Captain::Llm::ArticleTranslationService.new(account: account)
     target_language = language_name_for(target_locale)
 
-    translated_title = service.translate_title(@source_article.title, target_language: target_language)
+    translated_title = translate(@source_article.title, target_language: target_language, type: :title)
     translated_content = if @source_article.content.present?
-                           service.translate_content(@source_article.content, target_language: target_language)
+                           translate(@source_article.content, target_language: target_language, type: :content)
                          else
                            @source_article.content
                          end
@@ -25,6 +24,15 @@ class Captain::Articles::TranslateJob < ApplicationJob
   end
 
   private
+
+  def translate(text, target_language:, type:)
+    response = Captain::Llm::ArticleTranslationService.new(
+      account: @account, text: text, target_language: target_language, type: type
+    ).perform
+    raise "Translation failed: #{response[:error]}" if response[:error]
+
+    response[:message]
+  end
 
   def find_existing_translation(target_locale)
     root_id = Article.find_root_article_id(@source_article)

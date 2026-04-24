@@ -1,31 +1,29 @@
 class Captain::Llm::ArticleTranslationService < Captain::BaseTaskService
-  pattr_initialize [:account!]
+  TYPES = %i[title content].freeze
 
-  def translate_title(title, target_language:)
-    messages = [
-      { role: 'system', content: title_system_prompt(target_language) },
-      { role: 'user', content: title }
-    ]
+  pattr_initialize [:account!, :text!, :target_language!, :type!]
 
-    response = make_api_call(model: translation_model, messages: messages)
-    raise "Translation failed: #{response[:error]}" if response[:error]
-
-    response[:message].strip
-  end
-
-  def translate_content(content, target_language:)
-    messages = [
-      { role: 'system', content: content_system_prompt(target_language) },
-      { role: 'user', content: content }
-    ]
+  def perform
+    raise ArgumentError, "Invalid type: #{type}" unless TYPES.include?(type)
 
     response = make_api_call(model: translation_model, messages: messages)
-    raise "Translation failed: #{response[:error]}" if response[:error]
+    return response if response[:error]
 
-    response[:message].strip
+    response.merge(message: response[:message].strip)
   end
 
   private
+
+  def messages
+    [
+      { role: 'system', content: system_prompt },
+      { role: 'user', content: text }
+    ]
+  end
+
+  def system_prompt
+    type == :title ? title_system_prompt : content_system_prompt
+  end
 
   def event_name
     'article_translation'
@@ -39,7 +37,7 @@ class Captain::Llm::ArticleTranslationService < Captain::BaseTaskService
     @translation_model ||= InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence || GPT_MODEL
   end
 
-  def title_system_prompt(target_language)
+  def title_system_prompt
     <<~SYSTEM_PROMPT_MESSAGE
       You are a professional translator.
       Translate the following text to #{target_language}.
@@ -47,7 +45,7 @@ class Captain::Llm::ArticleTranslationService < Captain::BaseTaskService
     SYSTEM_PROMPT_MESSAGE
   end
 
-  def content_system_prompt(target_language)
+  def content_system_prompt
     <<~SYSTEM_PROMPT_MESSAGE
       You are a professional translator. Translate the following content to #{target_language}.
       The content is markdown that may contain embedded HTML blocks.
