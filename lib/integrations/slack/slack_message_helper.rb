@@ -35,7 +35,7 @@ module Integrations::Slack::SlackMessageHelper
       message_type: :outgoing,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
-      content: Slack::Messages::Formatting.unescape(params[:event][:text] || ''),
+      content: slack_message_content,
       external_source_id_slack: params[:event][:ts],
       private: private_note?,
       sender: resolved_sender,
@@ -47,6 +47,11 @@ module Integrations::Slack::SlackMessageHelper
 
   def attachments_present?
     params[:event][:files].present?
+  end
+
+  def slack_message_content
+    formatted_text = params[:event][:text].to_s.gsub(/<((?:https?|mailto):[^>|]+)\|[^>]*>/, '\1')
+    Slack::Messages::Formatting.unescape(formatted_text)
   end
 
   def process_attachments(attachments)
