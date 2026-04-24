@@ -16,19 +16,27 @@ class Messages::StatusUpdateService
   private
 
   def update_message_status
-    # Update status and set external_error only when failed
     message.update!(
       status: status,
-      external_error: (status == 'failed' ? external_error : nil)
+      external_error: resolved_external_error
     )
+  end
+
+  def resolved_external_error
+    return nil unless status == 'failed'
+
+    # Preserve existing error if no new error provided
+    external_error || message.external_error
   end
 
   def valid_status_transition?
     return false unless Message.statuses.key?(status)
 
-    # Don't allow changing from 'read' to 'delivered'
-    return false if message.read? && status == 'delivered'
+    current_status = message.status
+    new_priority = Message.statuses[status]
+    current_priority = Message.statuses[current_status] || -1
 
-    true
+    # Allow: forward transitions, any transition to/from failed, or from nil
+    status == 'failed' || current_status == 'failed' || new_priority >= current_priority
   end
 end

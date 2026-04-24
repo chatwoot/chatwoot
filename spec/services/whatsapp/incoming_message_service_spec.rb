@@ -168,6 +168,46 @@ describe Whatsapp::IncomingMessageService do
         expect(message.status).to eq('sent')
         expect { described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform }.not_to raise_error
       end
+
+      context 'when webhooks arrive out of order' do
+        it 'does not regress status from delivered to sent' do
+          message = Message.find_by!(source_id: from)
+          message.update!(status: 'delivered')
+
+          status_params = {
+            'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'sent' }]
+          }.with_indifferent_access
+
+          described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
+          expect(message.reload.status).to eq('delivered')
+        end
+
+        it 'does not regress status from read to delivered' do
+          message = Message.find_by!(source_id: from)
+          message.update!(status: 'read')
+
+          status_params = {
+            'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'delivered' }]
+          }.with_indifferent_access
+
+          described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
+          expect(message.reload.status).to eq('read')
+        end
+
+        it 'still allows transition to failed from any status' do
+          message = Message.find_by!(source_id: from)
+          message.update!(status: 'delivered')
+
+          status_params = {
+            'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'failed',
+                             'errors' => [{ 'code': 131_047, 'title': 'Message failed to send' }] }]
+          }.with_indifferent_access
+
+          described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
+          expect(message.reload.status).to eq('failed')
+          expect(message.external_error).to eq('131047: Message failed to send')
+        end
+      end
     end
 
     context 'when valid interactive message params' do
