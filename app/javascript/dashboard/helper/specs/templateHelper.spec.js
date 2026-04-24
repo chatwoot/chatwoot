@@ -116,6 +116,21 @@ describe('templateHelper', () => {
       expect(result).toEqual({});
     });
 
+    it('should build media header params even when body component is missing', () => {
+      const templateWithoutBody = {
+        components: [{ type: 'HEADER', format: 'IMAGE' }],
+      };
+
+      const result = buildTemplateParameters(templateWithoutBody, true);
+      expect(result).toEqual({
+        header: {
+          media_url: '',
+          media_blob_id: '',
+          media_type: 'image',
+        },
+      });
+    });
+
     it('should handle template with no variables', () => {
       const templateWithoutVars = templates.find(
         t => t.name === 'no_variable_template'

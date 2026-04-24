@@ -396,6 +396,7 @@ defineExpose({
               faded
               slate
               size="sm"
+              type="button"
               class="shrink-0 !w-8"
               :disabled="isUploadingMedia"
               :title="$t('WHATSAPP_TEMPLATES.PARSER.UPLOAD_LOCAL_FILE')"
@@ -407,6 +408,7 @@ defineExpose({
               color="slate"
               icon="i-lucide-trash-2"
               size="xs"
+              type="button"
               :title="$t('WHATSAPP_TEMPLATES.PARSER.REMOVE_UPLOADED_FILE')"
               @click="clearUploadedMedia"
             />

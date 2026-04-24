@@ -33,6 +33,9 @@ export const buildCreatePayload = ({
     if (contentAttributes) {
       payload.append('content_attributes', JSON.stringify(contentAttributes));
     }
+    if (templateParams) {
+      payload.append('template_params', JSON.stringify(templateParams));
+    }
   } else {
     payload = {
       content: message,

@@ -32,10 +32,7 @@ export const buildTemplateParameters = (template, hasMediaHeaderValue) => {
 
   const bodyComponent = findComponentByType(template, COMPONENT_TYPES.BODY);
   const headerComponent = findComponentByType(template, COMPONENT_TYPES.HEADER);
-
-  if (!bodyComponent) return allVariables;
-
-  const templateString = bodyComponent.text;
+  const templateString = bodyComponent?.text || '';
 
   // Process body variables
   const matchedVariables = templateString.match(/{{([^}]+)}}/g);

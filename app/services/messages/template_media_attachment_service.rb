@@ -5,7 +5,7 @@ class Messages::TemplateMediaAttachmentService
 
   def perform
     media_blob_id = parsed_template_params.dig('processed_params', 'header', 'media_blob_id')
-    return if media_blob_id.blank? || attachments&.include?(media_blob_id)
+    return if media_blob_id.blank? || Array(attachments).include?(media_blob_id)
 
     attachment = message.attachments.build(
       account_id: message.account_id,

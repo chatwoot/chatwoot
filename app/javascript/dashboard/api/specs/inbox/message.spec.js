@@ -46,12 +46,17 @@ describe('#ConversationAPI', () => {
   });
   describe('#buildCreatePayload', () => {
     it('builds form payload if file is available', () => {
+      const templateParams = {
+        name: 'ticket_status_updated',
+        processed_params: { body: { name: 'John' } },
+      };
       const formPayload = buildCreatePayload({
         message: 'test content',
         echoId: 12,
         isPrivate: true,
         contentAttributes: { in_reply_to: 12 },
         files: [new Blob(['test-content'], { type: 'application/pdf' })],
+        templateParams,
       });
       expect(formPayload).toBeInstanceOf(FormData);
       expect(formPayload.get('content')).toEqual('test content');
@@ -61,6 +66,9 @@ describe('#ConversationAPI', () => {
       expect(formPayload.get('bcc_emails')).toEqual('');
       expect(formPayload.get('content_attributes')).toEqual(
         '{"in_reply_to":12}'
+      );
+      expect(formPayload.get('template_params')).toEqual(
+        JSON.stringify(templateParams)
       );
     });
 
