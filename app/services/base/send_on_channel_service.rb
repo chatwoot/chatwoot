@@ -33,10 +33,10 @@ class Base::SendOnChannelService
   end
 
   def outgoing_message_originated_from_channel?
-    # TODO: we need to refactor this logic as more integrations comes by
-    # chatwoot messages won't have source id at the moment
-    # TODO: migrate source_ids to external_source_ids and check the source id relevant to specific channel
-    message.source_id.present?
+    # Echo messages created from inbound webhooks are marked with external_echo in content_attributes.
+    # Using source_id alone breaks retries: a failed outgoing message retains its source_id from the
+    # first send attempt, causing the retry to be silently skipped.
+    message.content_attributes['external_echo'].present?
   end
 
   def outgoing_message?
