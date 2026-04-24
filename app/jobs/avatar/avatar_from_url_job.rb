@@ -9,7 +9,7 @@ class Avatar::AvatarFromUrlJob < ApplicationJob
   include UrlHelper
   queue_as :purgable
 
-  ALLOWED_CONTENT_TYPES = %w[image/jpeg image/png image/gif image/webp].freeze
+  ALLOWED_CONTENT_TYPES = Avatarable::ALLOWED_AVATAR_CONTENT_TYPES
   MAX_DOWNLOAD_SIZE = 15.megabytes
   RATE_LIMIT_WINDOW = 1.minute
 
