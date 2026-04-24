@@ -91,6 +91,20 @@ RSpec.describe DataImportJob do
         expect(invalid_data_import.account.contacts.first.name).to eq(csv_data[0]['name'].encode('UTF-8', 'binary', invalid: :replace,
                                                                                                                     undef: :replace, replace: ''))
       end
+
+      it 'will strip UTF-8 BOM and import contacts correctly' do
+        bom_data_import = create(:data_import,
+                                 import_file: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/data_import/with_bom.csv'),
+                                                                           'text/csv'))
+
+        described_class.perform_now(bom_data_import)
+        expect(bom_data_import.account.contacts.count).to eq(1)
+
+        contact = bom_data_import.account.contacts.first
+        expect(contact.name).to eq('Ahmed')
+        expect(contact.email).to eq('ahmed@example.com')
+        expect(contact.phone_number).to eq('+971501234567')
+      end
     end
 
     context 'when the data contains existing records' do
