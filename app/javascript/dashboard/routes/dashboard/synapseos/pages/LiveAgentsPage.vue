@@ -17,6 +17,7 @@ const { t } = useI18n();
 const route = useRoute();
 const agents = ref([]);
 const loading = ref(true);
+const fetchError = ref(null);
 const pollTimer = ref(null);
 const searchQuery = ref('');
 const selectedAgent = ref(null);
@@ -41,9 +42,26 @@ const firstResponseClass = seconds => {
 
 const fetchAgents = async () => {
   const accountId = route.params.accountId;
-  const { data } = await axios.get(`/api/v1/accounts/${accountId}/synapseos/live_agents`);
-  agents.value = data;
-  loading.value = false;
+  try {
+    const { data } = await axios.get(
+      `/api/v1/accounts/${accountId}/synapseos/live_agents`
+    );
+    agents.value = Array.isArray(data) ? data : [];
+    fetchError.value = null;
+  } catch (err) {
+    // Endpoint falhou (401/403/404/500/network). Sem try/catch o loading
+    // ficava eterno; agora registramos o erro e desligamos o spinner.
+    fetchError.value =
+      err?.response?.data?.message ||
+      err?.message ||
+      'Falha ao carregar agentes';
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.error('[LiveAgents] fetch failed', err);
+    }
+  } finally {
+    loading.value = false;
+  }
 };
 
 const filteredAgents = computed(() => {
@@ -142,6 +160,21 @@ onBeforeUnmount(() => {
         {{ t('SYNAPSEOS.LIVE_AGENTS.SUBTITLE') }}
       </p>
     </header>
+
+    <div
+      v-if="fetchError"
+      class="flex items-start gap-3 p-3 rounded-lg border border-s-error/30 bg-s-error-soft text-s-error-text text-sm"
+    >
+      <span class="i-lucide-alert-triangle size-4 mt-0.5 shrink-0" />
+      <div class="flex-1">
+        <strong class="font-semibold">Falha ao carregar agentes.</strong>
+        <p class="text-xs mt-0.5 opacity-80">{{ fetchError }}</p>
+      </div>
+      <button
+        class="i-lucide-refresh-cw size-4 shrink-0 hover:opacity-60"
+        @click="fetchAgents"
+      />
+    </div>
 
     <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
       <SynapseKpiCard
