@@ -311,7 +311,7 @@ watch(
                   icon="i-lucide-check"
                   :label="t('HELP_CENTER.ARTICLES_PAGE.BULK_ACTIONS.PUBLISH')"
                   class="[&>span:nth-child(2)]:hidden sm:[&>span:nth-child(2)]:inline w-fit"
-                  @click="bulkUpdateStatus(1)"
+                  @click="bulkUpdateStatus('published')"
                 />
                 <Button
                   sm
@@ -320,7 +320,7 @@ watch(
                   icon="i-lucide-pencil-line"
                   :label="t('HELP_CENTER.ARTICLES_PAGE.BULK_ACTIONS.DRAFT')"
                   class="[&>span:nth-child(2)]:hidden sm:[&>span:nth-child(2)]:inline w-fit"
-                  @click="bulkUpdateStatus(0)"
+                  @click="bulkUpdateStatus('draft')"
                 />
                 <Button
                   sm
@@ -329,7 +329,7 @@ watch(
                   icon="i-lucide-archive-restore"
                   :label="t('HELP_CENTER.ARTICLES_PAGE.BULK_ACTIONS.ARCHIVE')"
                   class="[&>span:nth-child(2)]:hidden sm:[&>span:nth-child(2)]:inline w-fit"
-                  @click="bulkUpdateStatus(2)"
+                  @click="bulkUpdateStatus('archived')"
                 />
                 <Button
                   v-if="isCaptainEnabled"

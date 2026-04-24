@@ -9,9 +9,14 @@ class Api::V1::Accounts::Articles::BulkActionsController < Api::V1::Accounts::Ba
 
   def update_status
     return render_could_not_create_error(I18n.t('portals.articles.no_articles_found')) if @articles.none?
+    return render_could_not_create_error(I18n.t('portals.articles.invalid_status')) unless Article.statuses.key?(params[:status])
 
-    @articles.find_each { |article| article.update!(status: params[:status]) }
+    ActiveRecord::Base.transaction do
+      @articles.find_each { |article| article.update!(status: params[:status]) }
+    end
     head :ok
+  rescue ActiveRecord::RecordInvalid => e
+    render_could_not_create_error(e.message)
   end
 
   def delete_articles
