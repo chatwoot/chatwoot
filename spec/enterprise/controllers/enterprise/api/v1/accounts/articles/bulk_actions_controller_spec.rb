@@ -92,6 +92,32 @@ RSpec.describe 'Article Bulk Actions API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
+      it 'enqueues job with nil category when category_id is omitted' do
+        expect do
+          post translate_url,
+               headers: admin.create_new_auth_token,
+               params: { ids: [article_one.id], locale: 'es' },
+               as: :json
+        end.to have_enqueued_job(Captain::Articles::TranslateJob).with(
+          account, article_one.id, 'es', nil, admin
+        )
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'enqueues job with nil category when category_id is blank' do
+        expect do
+          post translate_url,
+               headers: admin.create_new_auth_token,
+               params: { ids: [article_one.id], locale: 'es', category_id: '' },
+               as: :json
+        end.to have_enqueued_job(Captain::Articles::TranslateJob).with(
+          account, article_one.id, 'es', nil, admin
+        )
+
+        expect(response).to have_http_status(:ok)
+      end
+
       it 'returns unprocessable entity when no articles found' do
         post translate_url,
              headers: admin.create_new_auth_token,

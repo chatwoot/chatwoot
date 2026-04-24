@@ -41,6 +41,21 @@ RSpec.describe Captain::Articles::TranslateJob, type: :job do
     )
   end
 
+  it 'creates a translated article without a category when target_category_id is nil' do
+    expect do
+      described_class.perform_now(account, article.id, 'es', nil, user)
+    end.to change(Article, :count).by(1)
+
+    translated = Article.last
+    expect(translated).to have_attributes(
+      title: 'Primeros pasos',
+      locale: 'es',
+      category_id: nil,
+      status: 'draft',
+      associated_article_id: article.id
+    )
+  end
+
   it 'calls the translation service with the correct language' do
     described_class.perform_now(account, article.id, 'es', category_es.id, user)
 

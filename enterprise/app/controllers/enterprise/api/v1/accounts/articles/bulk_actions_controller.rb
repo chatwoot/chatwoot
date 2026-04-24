@@ -11,7 +11,7 @@ module Enterprise::Api::V1::Accounts::Articles::BulkActionsController
 
     @articles.find_each do |article|
       Captain::Articles::TranslateJob.perform_later(
-        Current.account, article.id, @locale, @category.id, Current.user
+        Current.account, article.id, @locale, @category&.id, Current.user
       )
     end
 
@@ -52,6 +52,7 @@ module Enterprise::Api::V1::Accounts::Articles::BulkActionsController
   end
 
   def valid_category?
+    return true if permitted_params[:category_id].blank?
     return true if @category.present?
 
     render_could_not_create_error(I18n.t('portals.articles.category_not_found'))

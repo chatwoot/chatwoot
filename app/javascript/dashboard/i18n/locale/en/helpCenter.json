@@ -588,6 +588,7 @@
         "LOCALE_PLACEHOLDER": "Select a language",
         "CATEGORY_LABEL": "Target category",
         "CATEGORY_PLACEHOLDER": "Select a category",
+        "OPTIONAL": "(optional)",
         "CONFIRM": "Translate",
         "CONFIRM_OVERWRITE": "Overwrite and translate",
         "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
