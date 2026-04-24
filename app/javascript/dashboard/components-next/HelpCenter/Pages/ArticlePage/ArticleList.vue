@@ -20,9 +20,13 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  selectedArticleIds: {
+    type: Set,
+    default: () => new Set(),
+  },
 });
 
-const emit = defineEmits(['translateArticle']);
+const emit = defineEmits(['translateArticle', 'toggleSelect']);
 
 const { ARTICLE_STATUS_TYPES } = wootConstants;
 
@@ -32,11 +36,25 @@ const store = useStore();
 const { t } = useI18n();
 
 const localArticles = ref(props.articles);
+const hoveredArticleId = ref(null);
 
 const dragEnabled = computed(() => {
-  // Enable dragging only for category articles and when there's more than one article
-  return props.isCategoryArticles && localArticles.value?.length > 1;
+  return (
+    props.isCategoryArticles &&
+    localArticles.value?.length > 1 &&
+    props.selectedArticleIds.size === 0
+  );
 });
+
+const hasBulkSelection = computed(() => props.selectedArticleIds.size > 0);
+
+const shouldShowSelectionControl = id => {
+  return hoveredArticleId.value === id || hasBulkSelection.value;
+};
+
+const handleCardHover = (isHovered, id) => {
+  hoveredArticleId.value = isHovered ? id : null;
+};
 
 const getCategoryById = useMapGetter('categories/categoryById');
 
@@ -193,9 +211,14 @@ watch(
           :category="getCategory(element.category.id)"
           :views="element.views || 0"
           :updated-at="element.updatedAt"
+          :is-selected="selectedArticleIds.has(element.id)"
+          selectable
+          :show-selection-control="shouldShowSelectionControl(element.id)"
           :class="{ 'cursor-grab': dragEnabled }"
           @open-article="openArticle"
           @article-action="updateArticle"
+          @toggle-select="emit('toggleSelect', $event)"
+          @hover="isHovered => handleCardHover(isHovered, element.id)"
         />
       </li>
     </template>
