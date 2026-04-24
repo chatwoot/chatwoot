@@ -74,9 +74,7 @@ const confirmLabel = computed(() => {
 });
 
 const isConfirmDisabled = computed(() => {
-  return (
-    !selectedLocale.value || !selectedCategoryId.value || isSubmitting.value
-  );
+  return !selectedLocale.value || isSubmitting.value;
 });
 
 const articleEditUrl = articleId => {
@@ -193,6 +191,9 @@ defineExpose({ dialogRef });
       <div class="flex flex-col gap-2">
         <span class="text-sm font-medium text-n-slate-12">
           {{ t('HELP_CENTER.ARTICLES_PAGE.BULK_TRANSLATE.CATEGORY_LABEL') }}
+          <span class="text-n-slate-10 font-normal">
+            {{ t('HELP_CENTER.ARTICLES_PAGE.BULK_TRANSLATE.OPTIONAL') }}
+          </span>
         </span>
         <ComboBox
           v-model="selectedCategoryId"

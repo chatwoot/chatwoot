@@ -588,6 +588,7 @@
         "LOCALE_PLACEHOLDER": "Select a language",
         "CATEGORY_LABEL": "Target category",
         "CATEGORY_PLACEHOLDER": "Select a category",
+        "OPTIONAL": "(optional)",
         "CONFIRM": "Translate",
         "SELECT_ALL": "Select all ({count})",
         "SELECTED_COUNT": "{count} selected",
