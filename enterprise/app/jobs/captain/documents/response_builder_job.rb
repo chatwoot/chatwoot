@@ -62,7 +62,7 @@ class Captain::Documents::ResponseBuilderJob < ApplicationJob
   end
 
   def reset_previous_responses(response_document)
-    response_document.responses.destroy_all
+    response_document.responses.where(edited: false).destroy_all
   end
 
   def create_response(faq, document)
