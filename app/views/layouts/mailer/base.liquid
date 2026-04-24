@@ -91,7 +91,7 @@
   </head>
 
   {% assign brand_name = global_config['BRAND_NAME'] %}
-  {% if brand_name == '' %}
+  {% if brand_name == blank %}
     {% assign brand_name = 'Chatwoot' %}
   {% endif %}
   {% assign brand_url = global_config['BRAND_URL'] %}
@@ -120,7 +120,7 @@
             <tr style="margin: 0;">
               <td class="footer" style="padding: 20px 8px 0; text-align: center; color: #64748B; font-size: 13px; line-height: 21px;">
                 This email was sent by
-                {% if brand_url != '' %}
+                {% if brand_url != blank %}
                   <a href="{{ brand_url }}" style="color: #2781F6; font-weight: 600; text-decoration: none;">{{ brand_name }}</a>.
                 {% else %}
                   <span style="color: #0F172A; font-weight: 600;">{{ brand_name }}</span>.

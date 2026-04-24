@@ -23,7 +23,19 @@ RSpec.describe 'Devise::Mailer' do
     end
 
     it 'uses the user\'s name' do
+      expect(mail.body.to_s).to include("Hi #{CGI.escapeHTML(confirmable_user.name)},")
       expect(mail_body).to include("Hi #{confirmable_user.name},")
+    end
+
+    context 'when the user name contains HTML' do
+      before do
+        confirmable_user.update!(name: 'Sony <script>alert(1)</script>')
+      end
+
+      it 'escapes the name in the rendered email body' do
+        expect(mail.body.to_s).to include("Hi #{CGI.escapeHTML(confirmable_user.name)},")
+        expect(mail.body.to_s).not_to include("Hi #{confirmable_user.name},")
+      end
     end
 
     it 'shows the default confirmation state' do
