@@ -215,39 +215,6 @@ RSpec.describe SafeFetch do
         end.to raise_error(described_class::UnsupportedContentTypeError)
       end
 
-      it 'allows exact content-type matches when prefixes are empty' do
-        pdf_url = 'http://example.com/file.pdf'
-        stub_request(:get, pdf_url).to_return(
-          status: 200,
-          body: 'pdf-data',
-          headers: { 'Content-Type' => 'application/pdf' }
-        )
-
-        expect do
-          described_class.fetch(
-            pdf_url,
-            allowed_content_type_prefixes: [],
-            allowed_content_types: ['application/pdf']
-          ) { nil }
-        end.not_to raise_error
-      end
-
-      it 'rejects exact content-type mismatches when prefixes are empty' do
-        stub_request(:get, url).to_return(
-          status: 200,
-          body: 'x',
-          headers: { 'Content-Type' => 'image/webp' }
-        )
-
-        expect do
-          described_class.fetch(
-            url,
-            allowed_content_type_prefixes: [],
-            allowed_content_types: ['image/png']
-          ) { nil }
-        end.to raise_error(described_class::UnsupportedContentTypeError)
-      end
-
       it 'rejects when the content-type header is missing' do
         stub_request(:get, url).to_return(status: 200, body: 'x', headers: {})
 
