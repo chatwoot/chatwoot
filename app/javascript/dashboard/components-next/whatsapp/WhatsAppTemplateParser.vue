@@ -94,6 +94,10 @@ const renderedTemplate = computed(() => {
 const isFormInvalid = computed(() => {
   if (!hasVariables.value && !hasMediaHeader.value) return false;
 
+  if (hasMediaHeader.value && isUploadingMedia.value) {
+    return true;
+  }
+
   const hasMediaReference =
     processedParams.value.header?.media_url ||
     processedParams.value.header?.media_blob_id;
@@ -218,7 +222,11 @@ const processUploadedFile = async file => {
     return;
   }
 
+  // Drop previous media immediately so send cannot use stale blob/URL while the new upload resolves.
+  processedParams.value.header.media_blob_id = '';
+  processedParams.value.header.media_url = '';
   isUploadingMedia.value = true;
+  updateMediaPreview(file);
   try {
     const { blobId } = await uploadFile(file);
     processedParams.value.header.media_blob_id = blobId;
@@ -226,7 +234,6 @@ const processUploadedFile = async file => {
     if (isDocumentTemplate.value && !processedParams.value.header.media_name) {
       processedParams.value.header.media_name = file.name;
     }
-    updateMediaPreview(file);
   } catch (error) {
     mediaUploadError.value =
       error?.response?.data?.error ||
@@ -270,6 +277,7 @@ const mediaPreviewSize = computed(() => {
 });
 
 const sendMessage = () => {
+  if (isUploadingMedia.value) return;
   v$.value.$touch();
   if (v$.value.$invalid) return;
 
