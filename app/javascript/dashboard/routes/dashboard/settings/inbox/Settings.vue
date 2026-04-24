@@ -88,6 +88,7 @@ export default {
       businessName: '',
       locktoSingleConversation: false,
       allowMessagesAfterResolved: true,
+      allowMessageDeletion: true,
       continuityViaEmail: true,
       selectedInboxName: '',
       channelWebsiteUrl: '',
@@ -435,6 +436,7 @@ export default {
       this.businessName = this.inbox.business_name;
       this.allowMessagesAfterResolved =
         this.inbox.allow_messages_after_resolved;
+      this.allowMessageDeletion = this.inbox.allow_message_deletion !== false;
       this.continuityViaEmail = this.inbox.continuity_via_email;
       this.channelWebsiteUrl = this.inbox.website_url;
       this.channelWelcomeTitle = this.inbox.welcome_title;
@@ -548,6 +550,7 @@ export default {
           name: this.selectedInboxName?.trim(),
           enable_email_collect: this.emailCollectEnabled,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
+          allow_message_deletion: this.allowMessageDeletion,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
           portal_id: this.selectedPortalSlug
@@ -1168,6 +1171,16 @@ export default {
                 :description="
                   $t(
                     'INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT'
+                  )
+                "
+              />
+
+              <SettingsToggleSection
+                v-model="allowMessageDeletion"
+                :header="$t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGE_DELETION')"
+                :description="
+                  $t(
+                    'INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGE_DELETION_SUB_TEXT'
                   )
                 "
               />
