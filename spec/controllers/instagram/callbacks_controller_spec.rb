@@ -50,7 +50,7 @@ RSpec.describe Instagram::CallbacksController do
         expect(Inbox.last.name).to eq('test_user')
 
         expect(Inbox.last.channel.reauthorization_required?).to be false
-        expect(response).to redirect_to(app_instagram_inbox_agents_url(account_id: account.id, inbox_id: Inbox.last.id))
+        expect(response).to redirect_to(app_inbox_wizard_agents_url(account_id: account.id, inbox_id: Inbox.last.id))
       end
 
       it 'updates existing channel with new token' do
