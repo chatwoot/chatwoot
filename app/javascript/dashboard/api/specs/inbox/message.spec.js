@@ -109,5 +109,34 @@ describe('#ConversationAPI', () => {
         template_params: undefined,
       });
     });
+
+    it('preserves sparse button indices in multipart template params', () => {
+      const buttons = [];
+      buttons[1] = { type: 'url', parameter: 'track-123' };
+
+      const formPayload = buildCreatePayload({
+        message: 'test content',
+        echoId: 12,
+        isPrivate: true,
+        files: [new Blob(['test-content'], { type: 'application/pdf' })],
+        templateParams: {
+          name: 'ticket_status_updated',
+          processed_params: { buttons },
+        },
+      });
+
+      expect(formPayload).toBeInstanceOf(FormData);
+      expect(
+        formPayload.getAll('template_params[processed_params][buttons][]')
+      ).toEqual(['']);
+      expect(
+        formPayload.getAll('template_params[processed_params][buttons][][type]')
+      ).toEqual(['url']);
+      expect(
+        formPayload.getAll(
+          'template_params[processed_params][buttons][][parameter]'
+        )
+      ).toEqual(['track-123']);
+    });
   });
 });

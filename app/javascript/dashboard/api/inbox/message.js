@@ -17,9 +17,15 @@ export const buildCreatePayload = ({
     if (value === null || value === undefined) return;
 
     if (Array.isArray(value)) {
-      value.forEach(item => {
-        appendNestedFormData(formData, `${prefix}[]`, item);
-      });
+      for (let index = 0; index < value.length; index += 1) {
+        const currentValue = value[index];
+        if (!(index in value) || currentValue === undefined) {
+          // Preserve sparse array positions so backend with_index stays aligned.
+          formData.append(`${prefix}[]`, '');
+        } else {
+          appendNestedFormData(formData, `${prefix}[]`, currentValue);
+        }
+      }
       return;
     }
 
