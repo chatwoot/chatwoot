@@ -85,7 +85,6 @@ RSpec.describe Avatar::AvatarFromUrlJob do
       expect(avatarable.avatar).to be_attached
       expect(avatarable.additional_attributes['avatar_url_hash']).to eq(Digest::SHA256.hexdigest(authenticated_url))
     end
-
     it 'returns early when rate limited' do
       ts = 30.seconds.ago.iso8601
       avatarable.update(additional_attributes: { 'last_avatar_sync_at' => ts })
