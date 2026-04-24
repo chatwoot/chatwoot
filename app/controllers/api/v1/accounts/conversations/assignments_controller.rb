@@ -1,6 +1,8 @@
 class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Accounts::Conversations::BaseController
   # assigns agent/team to a conversation
   def create
+    authorize @conversation, :update_assignee? unless self_assign_from_unassigned?
+
     if params.key?(:assignee_id) || agent_bot_assignment?
       set_agent
     elsif params.key?(:team_id)
@@ -41,5 +43,15 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
 
   def agent_bot_assignment?
     params[:assignee_type].to_s == 'AgentBot'
+  end
+
+  # Agents picking up an unassigned conversation (self-assigning from the queue)
+  # are always permitted, regardless of the allow_agent_reassignment setting.
+  def self_assign_from_unassigned?
+    return false unless current_user.is_a?(User)
+    return false unless params.key?(:assignee_id)
+    return false unless @conversation.assignee_id.nil?
+
+    params[:assignee_id].to_i == current_user.id
   end
 end

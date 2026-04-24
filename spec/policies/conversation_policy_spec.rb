@@ -70,4 +70,38 @@ RSpec.describe ConversationPolicy, type: :policy do
       end
     end
   end
+
+  permissions :update_assignee? do
+    context 'when user is an administrator' do
+      it 'allows reassignment' do
+        expect(subject).to permit(administrator_context, conversation)
+      end
+    end
+
+    context 'when allow_agent_reassignment is not set (default)' do
+      it 'allows agents to reassign' do
+        expect(subject).to permit(agent_context, conversation)
+      end
+    end
+
+    context 'when allow_agent_reassignment is true' do
+      before { account.update!(allow_agent_reassignment: true) }
+
+      it 'allows agents to reassign' do
+        expect(subject).to permit(agent_context, conversation)
+      end
+    end
+
+    context 'when allow_agent_reassignment is false' do
+      before { account.update!(allow_agent_reassignment: false) }
+
+      it 'denies agents from reassigning' do
+        expect(subject).not_to permit(agent_context, conversation)
+      end
+
+      it 'still allows administrators to reassign' do
+        expect(subject).to permit(administrator_context, conversation)
+      end
+    end
+  end
 end

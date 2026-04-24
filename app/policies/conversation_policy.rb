@@ -11,10 +11,20 @@ class ConversationPolicy < ApplicationPolicy
     administrator? || agent_bot? || agent_can_view_conversation?
   end
 
+  def update_assignee?
+    administrator? || agent_bot? || agent_can_reassign?
+  end
+
   private
 
   def agent_can_view_conversation?
     inbox_access? || team_access?
+  end
+
+  def agent_can_reassign?
+    # nil (not set) is treated as true for backwards compatibility;
+    # only an explicit false restricts agents.
+    account.allow_agent_reassignment != false
   end
 
   def administrator?

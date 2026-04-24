@@ -180,5 +180,61 @@ RSpec.describe 'Conversation Assignment API', type: :request do
         expect(conversation.reload.team).to be_nil
       end
     end
+
+    context 'when allow_agent_reassignment is disabled' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:other_agent) { create(:user, account: account, role: :agent) }
+      let(:administrator) { create(:user, account: account, role: :administrator) }
+
+      before do
+        account.update!(allow_agent_reassignment: false)
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+        create(:inbox_member, inbox: conversation.inbox, user: other_agent)
+        create(:inbox_member, inbox: conversation.inbox, user: administrator)
+      end
+
+      it 'prevents an agent from reassigning the conversation to another agent' do
+        post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { assignee_id: other_agent.id },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(conversation.reload.assignee).not_to eq(other_agent)
+      end
+
+      it 'allows an administrator to reassign the conversation' do
+        post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { assignee_id: other_agent.id },
+             headers: administrator.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.assignee).to eq(other_agent)
+      end
+
+      it 'allows an agent to self-assign an unassigned conversation' do
+        conversation.update!(assignee: nil)
+
+        post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { assignee_id: agent.id },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.assignee).to eq(agent)
+      end
+
+      it 'prevents an agent from self-assigning when conversation already has an assignee' do
+        conversation.update!(assignee: other_agent)
+
+        post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { assignee_id: agent.id },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
   end
 end
