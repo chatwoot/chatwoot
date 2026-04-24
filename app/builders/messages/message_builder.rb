@@ -48,9 +48,12 @@ class Messages::MessageBuilder
   end
 
   def process_attachments
-    return if @attachments.blank?
+    process_uploaded_attachments
+    process_template_media_attachment
+  end
 
-    @attachments.each do |uploaded_attachment|
+  def process_uploaded_attachments
+    Array(@attachments).each do |uploaded_attachment|
       attachment = @message.attachments.build(
         account_id: @message.account_id,
         file: uploaded_attachment
@@ -64,6 +67,11 @@ class Messages::MessageBuilder
                                file_type(uploaded_attachment&.content_type)
                              end
     end
+  end
+
+  def process_template_media_attachment
+    Messages::TemplateMediaAttachmentService.new(message: @message, attachments: @attachments,
+                                                 template_params: @params[:template_params]).perform
   end
 
   def process_emails

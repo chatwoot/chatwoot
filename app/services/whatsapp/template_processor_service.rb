@@ -52,28 +52,40 @@ class Whatsapp::TemplateProcessorService
   def process_header_components(processed_params)
     return [] if processed_params['header'].blank?
 
-    header_params = build_header_params(processed_params['header'])
+    header_params = build_header_params(resolve_header_media(processed_params['header']))
     header_params.present? ? [{ type: 'header', parameters: header_params }] : []
   end
 
-  def build_header_params(header_data)
-    header_params = []
-    header_data.each do |key, value|
-      next if value.blank?
-
-      if media_url_with_type?(key, header_data)
-        media_name = header_data['media_name']
-        media_param = parameter_builder.build_media_parameter(value, header_data['media_type'], media_name)
-        header_params << media_param if media_param
-      elsif key != 'media_type' && key != 'media_name'
-        header_params << parameter_builder.build_parameter(value)
-      end
-    end
-    header_params
+  def resolve_header_media(header_data)
+    Whatsapp::TemplateMediaResolverService.new(
+      header_data: header_data,
+      message: message
+    ).call
   end
 
-  def media_url_with_type?(key, header_data)
-    key == 'media_url' && header_data['media_type'].present?
+  def build_header_params(header_data)
+    media_param = build_header_media_parameter(header_data)
+    text_params = build_header_text_parameters(header_data)
+    [media_param, *text_params].compact
+  end
+
+  def build_header_media_parameter(header_data)
+    return unless header_data['media_url'].present? && header_data['media_type'].present?
+
+    parameter_builder.build_media_parameter(
+      header_data['media_url'],
+      header_data['media_type'],
+      header_data['media_name']
+    )
+  end
+
+  def build_header_text_parameters(header_data)
+    ignored_keys = %w[media_url media_type media_name media_blob_id]
+    header_data.filter_map do |key, value|
+      next if ignored_keys.include?(key) || value.blank?
+
+      parameter_builder.build_parameter(value)
+    end
   end
 
   def process_body_components(processed_params, template)

@@ -50,6 +50,7 @@ export const buildTemplateParameters = (template, hasMediaHeaderValue) => {
   if (hasMediaHeaderValue) {
     if (!allVariables.header) allVariables.header = {};
     allVariables.header.media_url = '';
+    allVariables.header.media_blob_id = '';
     allVariables.header.media_type = headerComponent.format.toLowerCase();
 
     // For document templates, include media_name field for filename support

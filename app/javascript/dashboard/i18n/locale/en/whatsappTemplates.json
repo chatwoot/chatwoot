@@ -40,6 +40,12 @@
       "BUTTON_LABEL": "Button {index}",
       "COUPON_CODE": "Enter coupon code (max 15 chars)",
       "MEDIA_URL_LABEL": "Enter {type} URL",
+      "UPLOAD_LOCAL_FILE": "Upload local file",
+      "REMOVE_UPLOADED_FILE": "Remove uploaded file",
+      "DRAG_AND_DROP_HINT": "or drag and drop a file here",
+      "UPLOADING_MEDIA": "Uploading...",
+      "INVALID_MEDIA_TYPE": "The selected file type is not supported for this template header.",
+      "MEDIA_UPLOAD_FAILED": "Unable to upload file. Please try again.",
       "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
       "BUTTON_PARAMETER": "Enter button parameter"
     }

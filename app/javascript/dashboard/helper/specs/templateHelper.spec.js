@@ -97,6 +97,7 @@ describe('templateHelper', () => {
 
       expect(result.header).toEqual({
         media_url: '',
+        media_blob_id: '',
         media_type: 'image',
       });
     });
@@ -181,6 +182,7 @@ describe('templateHelper', () => {
 
       expect(result.header).toEqual({
         media_url: '',
+        media_blob_id: '',
         media_type: 'image',
       });
       expect(result.body).toEqual({ 1: '', 2: '' });
@@ -217,6 +219,7 @@ describe('templateHelper', () => {
 
       expect(result.header).toEqual({
         media_url: '',
+        media_blob_id: '',
         media_type: 'document',
         media_name: '',
       });
@@ -233,6 +236,7 @@ describe('templateHelper', () => {
 
       expect(result.header).toEqual({
         media_url: '',
+        media_blob_id: '',
         media_type: 'video',
       });
       expect(result.body).toEqual({
@@ -327,6 +331,7 @@ describe('templateHelper', () => {
 
       expect(result.header).toEqual({
         media_url: '',
+        media_blob_id: '',
         media_type: 'video',
       });
       expect(result.body).toEqual({

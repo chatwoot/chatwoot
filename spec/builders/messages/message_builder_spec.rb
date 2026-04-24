@@ -147,6 +147,36 @@ describe Messages::MessageBuilder do
           expect(message.attachments.first.file_type).to eq 'image'
         end
       end
+
+      context 'when whatsapp template has uploaded media blob' do
+        let(:inbox) do
+          create(:inbox,
+                 channel: create(:channel_whatsapp, account: account, validate_provider_config: false, sync_templates: false),
+                 account: account)
+        end
+        let(:blob) { get_blob_for('spec/assets/avatar.png', 'image/png') }
+        let(:params) do
+          ActionController::Parameters.new({
+                                             content: 'test',
+                                             template_params: {
+                                               name: 'sample',
+                                               language: 'en_US',
+                                               processed_params: {
+                                                 header: {
+                                                   media_type: 'image',
+                                                   media_blob_id: blob.signed_id
+                                                 }
+                                               }
+                                             }
+                                           })
+        end
+
+        it 'creates message attachment from media blob id for conversation preview' do
+          message = message_builder
+          expect(message.attachments.size).to eq(1)
+          expect(message.attachments.first.file_type).to eq('image')
+        end
+      end
     end
 
     context 'when email channel messages' do
