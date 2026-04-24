@@ -92,6 +92,15 @@ RSpec.describe 'Article Bulk Actions API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
+      it 'returns unprocessable entity when category locale does not match requested locale' do
+        post translate_url,
+             headers: admin.create_new_auth_token,
+             params: { ids: [article_one.id], locale: 'es', category_id: category_en.id },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
       it 'enqueues job with nil category when category_id is omitted' do
         expect do
           post translate_url,

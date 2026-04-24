@@ -26,7 +26,7 @@ module Enterprise::Api::V1::Accounts::Articles::BulkActionsController
 
   def validate_translate_params?
     @locale = permitted_params[:locale]
-    @category = @portal.categories.find_by(id: permitted_params[:category_id])
+    @category = @portal.categories.find_by(id: permitted_params[:category_id], locale: @locale)
     @articles = @portal.articles.where(id: permitted_params[:ids])
 
     captain_available? && valid_locale? && valid_category? && valid_articles?
