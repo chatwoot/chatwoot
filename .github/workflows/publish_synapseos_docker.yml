@@ -51,11 +51,14 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          # `latest` sai tanto do branch default quanto do custom/initial-cleanup
+          # (branch atual de produção enquanto não há default upstream).
           tags: |
             type=ref,event=branch
             type=ref,event=tag
             type=sha,prefix=sha-,format=short
             type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/custom/initial-cleanup' }}
             type=raw,value=${{ github.event.inputs.tag }},enable=${{ github.event.inputs.tag != '' }}
 
       - name: Build and push
@@ -64,7 +67,9 @@ jobs:
           context: .
           file: docker/Dockerfile
           push: true
-          platforms: linux/amd64
+          # Multi-arch pra suportar VPS ARM (Hetzner CAX, AWS Graviton, Oracle Ampere).
+          # Build arm64 roda sob QEMU e custa ~2× o tempo; mantém amd64 como padrão.
+          platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
