@@ -223,6 +223,37 @@ RSpec.describe SafeFetch do
       end
     end
 
+    context 'with custom request options' do
+      let(:post_body) { { hello: 'world' }.to_json }
+      let(:headers) do
+        {
+          'Authorization' => 'Bearer test-token',
+          'Content-Type' => 'application/json'
+        }
+      end
+
+      it 'supports POST requests with custom headers when content-type validation is disabled' do
+        stub_request(:post, url)
+          .with(body: post_body, headers: headers)
+          .to_return(status: 200, body: '', headers: {})
+
+        expect do
+          described_class.fetch(
+            url,
+            method: :post,
+            body: post_body,
+            headers: headers,
+            validate_content_type: false
+          ) { nil }
+        end.not_to raise_error
+      end
+
+      it 'raises UnsupportedMethodError for unsupported HTTP methods' do
+        expect { described_class.fetch(url, method: :options) { nil } }
+          .to raise_error(described_class::UnsupportedMethodError)
+      end
+    end
+
     context 'with body size cap' do
       it 'honours a custom max_bytes argument' do
         stub_request(:get, url).to_return(
