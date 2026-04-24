@@ -1,8 +1,8 @@
 # Synapse OS — Próximos Passos
 
-**Data do snapshot:** 2026-04-23
+**Data do snapshot:** 2026-04-24 (noite autônoma)
 **Branch:** `custom/initial-cleanup` (sincronizada com `synapseos/main` no Railway)
-**Última release pushada:** `2c99bd1f3` — PR 6 (squadron_role + KPIs por papel + wizard)
+**Última release pushada:** `8db9616fc` — docker-compose.prod + seeders automáticos + comandos expandidos
 
 ---
 
@@ -63,6 +63,38 @@
 - Banner 24h sumiu no ReplyBox pra providers não-oficiais (`17a1aee38`)
 - Outgoing echo: resposta pelo celular do atendente aparece no Chatwoot, com dedup por `source_id` (`20b11ec6e`)
 - Auto-registro de webhook atômico na criação da inbox, com rollback se falhar (`d61c910eb`)
+
+---
+
+## 1.1 Entregas da noite 2026-04-24 (autônoma)
+
+**Fixes:**
+- Live Agents: loading eterno corrigido (`fetchAgents` com `try/finally` + UI de erro com botão retry). Commit `e3e8b0ef7`.
+- Pipeline default à prova de bala: `PipelineSeeder` resiliente a schema sem coluna `slug` + controller com fallback que cria os 5 stages em memória se seeder silenciar. Commit `9b025fa58`.
+
+**Novos seeders automáticos** (commit `341472e28`):
+- `ContractLabelsSeeder`: cria as 12 labels do contrato com cores Dexi. Roda no `AccountDefaults.seed` + migration de backfill em contas existentes.
+- `SquadronBotsSeeder`: cria os 7 AgentBots (Alice/Iza/Luís/Otto/Fernanda/Ângela/Vitor) com `squadron_role` preenchido. Admin só configura `outgoing_url` depois em Settings → Agent Bots.
+
+**Comandos expandidos em notas privadas** (commit `341472e28`):
+- `/agendar YYYY-MM-DD` — cria `CrmEvent appointment`, move lead pra `negociacao`
+- `/qualificar` — aplica label + cria Lead + move pra `qualificado`
+- `/stage <slug>` — move lead direto
+- `/tag <slug>` — aplica label do contrato
+- Docs em `docs/synapseos/slash_commands.md`
+
+**Deploy VPS** (commit `8db9616fc`):
+- `docker-compose.prod.yml` com web + worker + pgvector + redis + volume `storage` compartilhado (resolve mídia outbound sem S3).
+- `.env.example.prod` template com todas vars.
+- `docs/synapseos/vps_deploy.md` guia completo: Docker, Caddy SSL, backup, troubleshooting.
+
+**Redesign Dashboard** (commit `e3e8b0ef7`):
+- Estilo mission-control: strips com `divide-x`, números `tabular-nums`, chart com cyan accent + tooltip navy, tipografia técnica uppercase.
+
+**Sidebar enxuta** (commits `c9ce087ee`, `a743a3688`):
+- Removidos: Tempo Real, Conversas, Contatos, Companies, Captain, Robôs/SLA/CSAT/Time/Caixa/Etiquetas em Reports.
+- Caixa de Entrada agora aponta pra rota `home` (todas as conversas).
+- Bell de notificações na toolbar do topo com badge cyan unread.
 
 ---
 
