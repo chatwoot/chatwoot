@@ -36,7 +36,7 @@ RSpec.describe 'Article Bulk Actions API', type: :request do
       it 'publishes multiple articles' do
         patch update_status_url,
               headers: admin.create_new_auth_token,
-              params: { ids: [article_one.id, article_two.id], status: 1 },
+              params: { ids: [article_one.id, article_two.id], status: 'published' },
               as: :json
 
         expect(response).to have_http_status(:ok)
@@ -47,7 +47,7 @@ RSpec.describe 'Article Bulk Actions API', type: :request do
       it 'archives multiple articles' do
         patch update_status_url,
               headers: admin.create_new_auth_token,
-              params: { ids: [article_one.id, article_three.id], status: 2 },
+              params: { ids: [article_one.id, article_three.id], status: 'archived' },
               as: :json
 
         expect(response).to have_http_status(:ok)
@@ -58,7 +58,7 @@ RSpec.describe 'Article Bulk Actions API', type: :request do
       it 'sets articles to draft' do
         patch update_status_url,
               headers: admin.create_new_auth_token,
-              params: { ids: [article_three.id], status: 0 },
+              params: { ids: [article_three.id], status: 'draft' },
               as: :json
 
         expect(response).to have_http_status(:ok)
@@ -68,7 +68,7 @@ RSpec.describe 'Article Bulk Actions API', type: :request do
       it 'does not affect articles not in the list' do
         patch update_status_url,
               headers: admin.create_new_auth_token,
-              params: { ids: [article_one.id], status: 1 },
+              params: { ids: [article_one.id], status: 'published' },
               as: :json
 
         expect(article_one.reload.status).to eq('published')
@@ -78,7 +78,7 @@ RSpec.describe 'Article Bulk Actions API', type: :request do
       it 'returns unprocessable entity when no articles found' do
         patch update_status_url,
               headers: admin.create_new_auth_token,
-              params: { ids: [0], status: 1 },
+              params: { ids: [0], status: 'published' },
               as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
