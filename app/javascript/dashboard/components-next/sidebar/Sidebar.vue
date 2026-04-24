@@ -701,7 +701,7 @@ const menuItems = computed(() => {
       closeMobileSidebar,
       { ignore: ['#mobile-sidebar-launcher'] },
     ]"
-    class="bg-s-sidebar flex flex-col text-sm pb-px fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[240px] md:w-auto md:relative md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:translate-x-0 ltr:border-r rtl:border-l border-s-border"
+    class="bg-s-sidebar flex flex-col text-sm pb-px fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[240px] md:w-auto md:relative md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:translate-x-0 ltr:border-r rtl:border-l border-s-brand-800"
     :class="[
       {
         'shadow-lg md:shadow-none': isMobileSidebarOpen,
@@ -734,7 +734,7 @@ const menuItems = computed(() => {
           <div class="grid flex-shrink-0 place-content-center size-6">
             <Logo class="size-4" />
           </div>
-          <div class="flex-shrink-0 w-px h-3 bg-s-border" />
+          <div class="flex-shrink-0 w-px h-3 bg-white/10" />
           <SidebarAccountSwitcher
             class="flex-grow -mx-1 min-w-0"
             @show-create-account-modal="emit('showCreateAccountModal')"
@@ -748,14 +748,14 @@ const menuItems = computed(() => {
         <RouterLink
           v-if="!isEffectivelyCollapsed"
           :to="{ name: 'search' }"
-          class="flex gap-2 items-center px-3 w-full h-9 rounded-lg border border-s-border bg-s-surface text-s-secondary hover:bg-s-subtle transition-colors"
+          class="flex gap-2 items-center px-3 w-full h-9 rounded-lg border border-white/10 bg-white/[0.06] text-s-on-dark-muted hover:bg-white/10 hover:text-s-on-dark transition-colors"
         >
-          <span class="flex-shrink-0 i-lucide-search size-4 text-s-muted" />
-          <span class="flex-grow text-start text-s-muted text-sm">
+          <span class="flex-shrink-0 i-lucide-search size-4" />
+          <span class="flex-grow text-start text-sm">
             {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
           </span>
           <span
-            class="tracking-wide pointer-events-none select-none text-[11px] font-mono text-s-muted"
+            class="tracking-wide pointer-events-none select-none text-[11px] font-mono"
           >
             {{ searchShortcut }}
           </span>
@@ -763,10 +763,10 @@ const menuItems = computed(() => {
         <RouterLink
           v-else
           :to="{ name: 'search' }"
-          class="flex items-center justify-center size-9 rounded-lg border border-s-border bg-s-surface text-s-secondary hover:bg-s-subtle transition-colors"
+          class="flex items-center justify-center size-9 rounded-lg border border-white/10 bg-white/[0.06] text-s-on-dark-muted hover:bg-white/10 hover:text-s-on-dark transition-colors"
           :title="t('COMBOBOX.SEARCH_PLACEHOLDER')"
         >
-          <span class="i-lucide-search size-4 text-s-muted" />
+          <span class="i-lucide-search size-4" />
         </RouterLink>
         <ComposeConversation align-position="right" @close="onComposeClose">
           <template #trigger="{ toggle, isOpen }">
@@ -776,9 +776,9 @@ const menuItems = computed(() => {
               size="sm"
               :class="[
                 isEffectivelyCollapsed
-                  ? '!size-9 !outline-s-border !text-s-secondary !bg-s-surface hover:!bg-s-subtle'
-                  : '!h-9 !outline-s-border !text-s-secondary !bg-s-surface hover:!bg-s-subtle',
-                { '!bg-s-subtle': isOpen },
+                  ? '!size-9 !outline-white/10 !text-s-on-dark-muted !bg-white/[0.06] hover:!bg-white/10 hover:!text-s-on-dark'
+                  : '!h-9 !outline-white/10 !text-s-on-dark-muted !bg-white/[0.06] hover:!bg-white/10 hover:!text-s-on-dark',
+                { '!bg-white/10 !text-s-on-dark': isOpen },
               ]"
               @click="onComposeOpen(toggle)"
             />
@@ -822,7 +822,7 @@ const menuItems = computed(() => {
         "
       />
       <div
-        class="px-2 py-2 flex-shrink-0 flex w-full z-50 gap-2 items-center border-t border-s-border"
+        class="px-2 py-2 flex-shrink-0 flex w-full z-50 gap-2 items-center border-t border-white/10"
         :class="isEffectivelyCollapsed ? 'justify-center' : 'justify-between'"
       >
         <SidebarProfileMenu
@@ -839,8 +839,8 @@ const menuItems = computed(() => {
       @dblclick="onResizeHandleDoubleClick"
     >
       <div
-        class="absolute top-0 h-full w-px ltr:right-0 rtl:left-0 bg-transparent group-hover:bg-s-brand transition-colors"
-        :class="{ 'bg-s-brand': isResizing }"
+        class="absolute top-0 h-full w-px ltr:right-0 rtl:left-0 bg-transparent group-hover:bg-s-accent-500 transition-colors"
+        :class="{ 'bg-s-accent-500': isResizing }"
       />
     </div>
   </aside>

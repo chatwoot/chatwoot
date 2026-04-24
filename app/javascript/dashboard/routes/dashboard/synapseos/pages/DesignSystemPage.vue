@@ -15,8 +15,7 @@ const errorField = ref('abc');
 const tokens = [
   { name: 's-bg', hex: '#F6F8FB', role: 'Background da aplicação' },
   { name: 's-surface', hex: '#FFFFFF', role: 'Cards, painéis, composer' },
-  { name: 's-sidebar', hex: '#FAFBFC', role: 'Sidebar atual (provisório Wave 1)' },
-  { name: 's-sidebar-dexi', hex: '#0B1F3A', role: 'Navy Dexi — ativa na Wave 2' },
+  { name: 's-sidebar', hex: '#0B1F3A', role: 'Sidebar navy institucional Dexi' },
   { name: 's-subtle', hex: '#EEF2F7', role: 'Hover neutro, blocos internos' },
   { name: 's-border', hex: '#D7DFE8', role: 'Bordas e divisórias' },
   { name: 's-border-strong', hex: '#B8C4D4', role: 'Bordas em contexto denso' },

@@ -15,10 +15,8 @@
   --s-bg: 246 248 251;            // #F6F8FB — app background
   --s-surface: 255 255 255;       // #FFFFFF — cards, composer, painéis
   --s-surface-raised: 255 255 255;
-  // --s-sidebar vai pra navy #0B1F3A na Wave 2 (reescrita da Sidebar.vue);
-  // por enquanto mantém claro pra não quebrar textos text-s-primary nela.
-  --s-sidebar: 250 251 252;       // #FAFBFC — neutro frio claro (provisório)
-  --s-sidebar-dexi: 11 31 58;     // #0B1F3A — pronto pra Wave 2 consumir
+  --s-sidebar: 11 31 58;          // #0B1F3A — sidebar navy institucional Dexi
+  --s-sidebar-dexi: 11 31 58;     // alias (Wave 1 expunha separado; mantido)
   --s-subtle: 238 242 247;        // #EEF2F7 — hover neutro, blocos internos
 
   // ----- BORDAS ----------------------------------------------------------
