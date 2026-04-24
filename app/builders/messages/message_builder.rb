@@ -128,7 +128,10 @@ class Messages::MessageBuilder
   end
 
   def template_params
-    @params[:template_params].present? ? { additional_attributes: { template_params: JSON.parse(@params[:template_params].to_json) } } : {}
+    normalized = Messages::TemplateParamsFromRequest.call(@params[:template_params])
+    return {} if normalized.blank?
+
+    { additional_attributes: { template_params: normalized } }
   end
 
   def message_sender
@@ -226,9 +229,7 @@ class Messages::MessageBuilder
   end
 
   def drops_with_sender
-    message_drops(@conversation).merge({
-                                         'agent' => UserDrop.new(sender)
-                                       })
+    message_drops(@conversation).merge('agent' => UserDrop.new(sender))
   end
 end
 

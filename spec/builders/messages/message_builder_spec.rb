@@ -20,6 +20,29 @@ describe Messages::MessageBuilder do
       message = message_builder
       expect(message.content).to eq params[:content]
     end
+
+    context 'when template_params is a JSON string' do
+      let(:template_hash) do
+        {
+          'name' => 'hello_template',
+          'language' => 'en_US',
+          'processed_params' => { 'body' => { '1' => 'x' } }
+        }
+      end
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: 'test',
+                                           template_params: template_hash.to_json
+                                         })
+      end
+
+      it 'stores parsed template_params on additional_attributes' do
+        message = message_builder
+        stored = message.additional_attributes['template_params']
+        expect(stored['name']).to eq('hello_template')
+        expect(stored.dig('processed_params', 'body', '1')).to eq('x')
+      end
+    end
   end
 
   describe '#content_attributes' do

@@ -1,4 +1,7 @@
-import messageAPI, { buildCreatePayload } from '../../inbox/message';
+import messageAPI, {
+  buildCreatePayload,
+  serializeTemplateParamsForMultipart,
+} from '../../inbox/message';
 import ApiClient from '../../ApiClient';
 
 describe('#ConversationAPI', () => {
@@ -70,23 +73,17 @@ describe('#ConversationAPI', () => {
       expect(formPayload.get('content_attributes')).toEqual(
         '{"in_reply_to":12}'
       );
-      expect(formPayload.get('template_params')).toEqual(null);
-      expect(formPayload.get('template_params[name]')).toEqual(
-        'ticket_status_updated'
-      );
+      const rawTemplate = formPayload.get('template_params');
+      expect(typeof rawTemplate).toEqual('string');
+      const parsed = JSON.parse(rawTemplate);
+      expect(parsed.name).toEqual('ticket_status_updated');
+      expect(parsed.processed_params.body.name).toEqual('John');
+      expect(parsed.processed_params.buttons[0].type).toEqual('url');
+      expect(parsed.processed_params.buttons[0].parameter).toEqual('track-123');
       expect(
-        formPayload.get('template_params[processed_params][body][name]')
-      ).toEqual('John');
-      expect(
-        formPayload.get('template_params[processed_params][buttons][][type]')
-      ).toEqual('url');
-      expect(
-        formPayload.get(
-          'template_params[processed_params][buttons][][parameter]'
+        Array.from(formPayload.keys()).some(key =>
+          key.startsWith('template_params[')
         )
-      ).toEqual('track-123');
-      expect(
-        Array.from(formPayload.keys()).some(key => key.includes('[buttons][0]'))
       ).toBe(false);
     });
 
@@ -110,7 +107,7 @@ describe('#ConversationAPI', () => {
       });
     });
 
-    it('preserves sparse button indices in multipart template params', () => {
+    it('multipart template_params uses JSON with dense padded buttons for sparse indices', () => {
       const buttons = [];
       buttons[1] = { type: 'url', parameter: 'track-123' };
 
@@ -126,17 +123,20 @@ describe('#ConversationAPI', () => {
       });
 
       expect(formPayload).toBeInstanceOf(FormData);
-      expect(
-        formPayload.getAll('template_params[processed_params][buttons][]')
-      ).toEqual(['']);
-      expect(
-        formPayload.getAll('template_params[processed_params][buttons][][type]')
-      ).toEqual(['url']);
-      expect(
-        formPayload.getAll(
-          'template_params[processed_params][buttons][][parameter]'
-        )
-      ).toEqual(['track-123']);
+      const parsed = JSON.parse(formPayload.get('template_params'));
+      expect(parsed.processed_params.buttons).toHaveLength(2);
+      expect(parsed.processed_params.buttons[0]).toEqual({ type: 'static' });
+      expect(parsed.processed_params.buttons[1]).toEqual({
+        type: 'url',
+        parameter: 'track-123',
+      });
+    });
+  });
+
+  describe('#serializeTemplateParamsForMultipart', () => {
+    it('returns same object when buttons are absent', () => {
+      const input = { name: 'x', processed_params: { body: { a: '1' } } };
+      expect(serializeTemplateParamsForMultipart(input)).toBe(input);
     });
   });
 });

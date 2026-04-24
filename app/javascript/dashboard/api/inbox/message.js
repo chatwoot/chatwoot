@@ -2,6 +2,40 @@
 /* global axios */
 import ApiClient from '../ApiClient';
 
+/** Placeholder for empty button slots (multipart JSON); skipped by TemplateProcessorService. */
+const TEMPLATE_BUTTON_PADDING = { type: 'static' };
+
+/**
+ * Multipart FormData cannot represent sparse arrays reliably. Serialize template_params as JSON
+ * (like content_attributes) and densify processed_params.buttons so indices align without '' slots.
+ */
+export const serializeTemplateParamsForMultipart = templateParams => {
+  if (!templateParams || typeof templateParams !== 'object') {
+    return templateParams;
+  }
+
+  const processed = templateParams.processed_params;
+  if (!processed || !Array.isArray(processed.buttons)) {
+    return templateParams;
+  }
+
+  const { buttons } = processed;
+  const denseButtons = Array.from({ length: buttons.length }, (_, index) => {
+    if (index in buttons && buttons[index] != null) {
+      return buttons[index];
+    }
+    return TEMPLATE_BUTTON_PADDING;
+  });
+
+  return {
+    ...templateParams,
+    processed_params: {
+      ...processed,
+      buttons: denseButtons,
+    },
+  };
+};
+
 export const buildCreatePayload = ({
   message,
   isPrivate,
@@ -13,32 +47,6 @@ export const buildCreatePayload = ({
   toEmails = '',
   templateParams,
 }) => {
-  const appendNestedFormData = (formData, prefix, value) => {
-    if (value === null || value === undefined) return;
-
-    if (Array.isArray(value)) {
-      for (let index = 0; index < value.length; index += 1) {
-        const currentValue = value[index];
-        if (!(index in value) || currentValue === undefined) {
-          // Preserve sparse array positions so backend with_index stays aligned.
-          formData.append(`${prefix}[]`, '');
-        } else {
-          appendNestedFormData(formData, `${prefix}[]`, currentValue);
-        }
-      }
-      return;
-    }
-
-    if (typeof value === 'object') {
-      Object.entries(value).forEach(([key, nestedValue]) => {
-        appendNestedFormData(formData, `${prefix}[${key}]`, nestedValue);
-      });
-      return;
-    }
-
-    formData.append(prefix, value);
-  };
-
   let payload;
   if (files && files.length !== 0) {
     payload = new FormData();
@@ -60,7 +68,10 @@ export const buildCreatePayload = ({
       payload.append('content_attributes', JSON.stringify(contentAttributes));
     }
     if (templateParams) {
-      appendNestedFormData(payload, 'template_params', templateParams);
+      payload.append(
+        'template_params',
+        JSON.stringify(serializeTemplateParamsForMultipart(templateParams))
+      );
     }
   } else {
     payload = {
