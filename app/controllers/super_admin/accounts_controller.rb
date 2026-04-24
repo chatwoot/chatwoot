@@ -36,7 +36,11 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
   def resource_params
     permitted_params = super
     permitted_params[:limits] = permitted_params[:limits].to_h.compact
-    permitted_params[:selected_feature_flags] = params[:enabled_features].keys.map(&:to_sym) if params[:enabled_features].present?
+    if action_name == 'update'
+      permitted_params[:selected_feature_flags] = params[:enabled_features].present? ? params[:enabled_features].keys.map(&:to_sym) : []
+    elsif params[:enabled_features].present?
+      permitted_params[:selected_feature_flags] = params[:enabled_features].keys.map(&:to_sym)
+    end
     permitted_params
   end
 
