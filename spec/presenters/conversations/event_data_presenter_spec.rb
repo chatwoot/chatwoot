@@ -68,5 +68,27 @@ RSpec.describe Conversations::EventDataPresenter do
     it 'returns empty messages when conversation has no chat messages' do
       expect(presenter.webhook_data[:messages]).to eq([])
     end
+
+    it 'includes the private message when it is the latest in the conversation' do
+      create(:message, conversation: conversation, account: conversation.account,
+                       message_type: :outgoing, content: 'public reply')
+      private_message = create(:message, conversation: conversation, account: conversation.account,
+                                         message_type: :outgoing, content: 'private note', private: true)
+
+      webhook_messages = presenter.webhook_data[:messages]
+
+      expect(webhook_messages.length).to eq(1)
+      expect(webhook_messages.first[:id]).to eq(private_message.id)
+      expect(webhook_messages.first[:private]).to be true
+    end
+
+    it 'skips activity messages when picking the latest' do
+      outgoing = create(:message, conversation: conversation, account: conversation.account,
+                                  message_type: :outgoing, content: 'reply')
+      create(:message, conversation: conversation, account: conversation.account,
+                       message_type: :activity, content: 'Conversation was marked resolved')
+
+      expect(presenter.webhook_data[:messages].first[:id]).to eq(outgoing.id)
+    end
   end
 end

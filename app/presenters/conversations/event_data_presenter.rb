@@ -33,7 +33,9 @@ class Conversations::EventDataPresenter < SimpleDelegator
   end
 
   def webhook_push_messages
-    [messages.where(account_id: account_id).chat.last&.webhook_push_event_data].compact
+    # `.chat` hides private messages, but webhooks must include them (see Message#webhook_sendable?).
+    last_message = messages.where(account_id: account_id).where.not(message_type: :activity).last
+    [last_message&.webhook_push_event_data].compact
   end
 
   def push_meta
