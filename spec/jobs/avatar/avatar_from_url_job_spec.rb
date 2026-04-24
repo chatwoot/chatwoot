@@ -50,6 +50,24 @@ RSpec.describe Avatar::AvatarFromUrlJob do
       expect(avatarable.additional_attributes['last_avatar_sync_at']).to be_present
     end
 
+    it 'attaches avatars with parameterized content type headers' do
+      parameterized_url = 'https://example.com/avatar-parameterized.png'
+
+      stub_request(:get, parameterized_url)
+        .to_return(
+          status: 200,
+          body: File.read(Rails.root.join('spec/assets/avatar.png')),
+          headers: { 'Content-Type' => 'IMAGE/PNG; charset=binary' }
+        )
+
+      described_class.perform_now(avatarable, parameterized_url)
+      avatarable.reload
+
+      expect(avatarable.avatar).to be_attached
+      expect(avatarable.avatar.blob.content_type).to eq('image/png')
+      expect(avatarable.additional_attributes['avatar_url_hash']).to eq(Digest::SHA256.hexdigest(parameterized_url))
+    end
+
     it 'returns early when rate limited' do
       ts = 30.seconds.ago.iso8601
       avatarable.update(additional_attributes: { 'last_avatar_sync_at' => ts })

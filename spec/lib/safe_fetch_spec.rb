@@ -153,14 +153,16 @@ RSpec.describe SafeFetch do
         expect { described_class.fetch(url) { nil } }.not_to raise_error
       end
 
-      it 'strips charset/boundary parameters before comparing' do
+      it 'normalizes parameters and casing before yielding content_type' do
         stub_request(:get, url).to_return(
           status: 200,
           body: 'x',
-          headers: { 'Content-Type' => 'image/png; charset=binary' }
+          headers: { 'Content-Type' => 'IMAGE/PNG; charset=binary' }
         )
 
-        expect { described_class.fetch(url) { nil } }.not_to raise_error
+        described_class.fetch(url) do |result|
+          expect(result.content_type).to eq('image/png')
+        end
       end
 
       it 'allows exact content-type matches when prefixes are empty' do

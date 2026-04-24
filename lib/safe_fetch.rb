@@ -82,7 +82,8 @@ module SafeFetch
       raise HttpError, "#{response.code} #{response.message}" unless response.is_a?(Net::HTTPSuccess)
 
       tempfile.rewind
-      Result.new(tempfile: tempfile, filename: filename, content_type: response['content-type'])
+      content_type = normalized_content_type(response['content-type'])
+      Result.new(tempfile: tempfile, filename: filename, content_type: content_type)
     end
 
     def default_max_bytes
@@ -100,10 +101,14 @@ module SafeFetch
     end
 
     def allowed_content_type?(value, prefixes, content_types)
-      mime = value.to_s.split(';').first&.strip&.downcase
+      mime = normalized_content_type(value)
       return false if mime.blank?
 
       prefixes.any? { |prefix| mime.start_with?(prefix) } || content_types.include?(mime)
+    end
+
+    def normalized_content_type(value)
+      value.to_s.split(';').first&.strip&.downcase
     end
   end
 end
