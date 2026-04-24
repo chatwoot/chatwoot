@@ -223,6 +223,9 @@ const processUploadedFile = async file => {
     const { blobId } = await uploadFile(file);
     processedParams.value.header.media_blob_id = blobId;
     processedParams.value.header.media_url = '';
+    if (isDocumentTemplate.value && !processedParams.value.header.media_name) {
+      processedParams.value.header.media_name = file.name;
+    }
     updateMediaPreview(file);
   } catch (error) {
     mediaUploadError.value =
