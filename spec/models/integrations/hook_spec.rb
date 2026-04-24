@@ -41,8 +41,13 @@ RSpec.describe Integrations::Hook do
              app_id: 'dialogflow',
              inbox: inbox,
              settings: {
-               project_id: 'test-project',
-               credentials: { type: 'service_account' }
+               'project_id' => 'test-project',
+               'credentials' => {
+                 'type' => 'service_account',
+                 'project_id' => 'test-project',
+                 'private_key' => 'fake-key',
+                 'client_email' => 'test@test-project.iam.gserviceaccount.com'
+               }
              })
     end
 
@@ -108,6 +113,94 @@ RSpec.describe Integrations::Hook do
       it 'does not enqueue setup job' do
         create(:integrations_hook, account: account, app_id: 'slack')
         expect(Crm::SetupJob).not_to have_received(:perform_later)
+      end
+    end
+  end
+
+  describe 'Dialogflow credentials validation' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:valid_credentials) do
+      {
+        'type' => 'service_account',
+        'project_id' => 'test-project',
+        'private_key' => '-----BEGIN PRIVATE KEY-----
+fake
+-----END PRIVATE KEY-----',
+        'client_email' => 'test@test-project.iam.gserviceaccount.com'
+      }
+    end
+
+    context 'when credentials are valid' do
+      it 'is valid with a complete service account key' do
+        hook = build(:integrations_hook,
+                     account: account,
+                     inbox: inbox,
+                     app_id: 'dialogflow',
+                     settings: { 'project_id' => 'test-project', 'credentials' => valid_credentials })
+        expect(hook).to be_valid
+      end
+    end
+
+    context 'when project_id is missing' do
+      it 'is invalid' do
+        hook = build(:integrations_hook,
+                     account: account,
+                     inbox: inbox,
+                     app_id: 'dialogflow',
+                     settings: { 'credentials' => valid_credentials })
+        expect(hook).not_to be_valid
+        expect(hook.errors[:settings].join).to include('project_id is required')
+      end
+    end
+
+    context 'when credentials are missing' do
+      it 'is invalid' do
+        hook = build(:integrations_hook,
+                     account: account,
+                     inbox: inbox,
+                     app_id: 'dialogflow',
+                     settings: { 'project_id' => 'test-project' })
+        expect(hook).not_to be_valid
+        expect(hook.errors[:settings].join).to include('credentials are required')
+      end
+    end
+
+    context 'when credentials hash is missing required fields' do
+      it 'is invalid and lists missing fields' do
+        hook = build(:integrations_hook,
+                     account: account,
+                     inbox: inbox,
+                     app_id: 'dialogflow',
+                     settings: {
+                       'project_id' => 'test-project',
+                       'credentials' => { 'type' => 'service_account' }
+                     })
+        expect(hook).not_to be_valid
+        expect(hook.errors[:settings].join).to include('missing required fields')
+      end
+    end
+
+    context 'when credentials type is not service_account' do
+      it 'is invalid' do
+        bad_credentials = valid_credentials.merge('type' => 'user_account')
+        hook = build(:integrations_hook,
+                     account: account,
+                     inbox: inbox,
+                     app_id: 'dialogflow',
+                     settings: { 'project_id' => 'test-project', 'credentials' => bad_credentials })
+        expect(hook).not_to be_valid
+        expect(hook.errors[:settings].join).to include('type must be "service_account"')
+      end
+    end
+
+    context 'when app is not dialogflow' do
+      it 'does not run dialogflow validation' do
+        hook = build(:integrations_hook,
+                     account: account,
+                     app_id: 'slack',
+                     settings: { 'test' => 'test' })
+        expect(hook).to be_valid
       end
     end
   end
