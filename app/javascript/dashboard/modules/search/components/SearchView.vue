@@ -24,6 +24,7 @@ import SearchResultConversationsList from './SearchResultConversationsList.vue';
 import SearchResultMessagesList from './SearchResultMessagesList.vue';
 import SearchResultContactsList from './SearchResultContactsList.vue';
 import SearchResultArticlesList from './SearchResultArticlesList.vue';
+import SynapseEmptyState from 'dashboard/components-next/synapseos/SynapseEmptyState.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -495,26 +496,22 @@ onUnmounted(() => {
               />
             </div>
           </div>
-          <div
+          <SynapseEmptyState
             v-else-if="showEmptySearchResults"
-            class="flex flex-col items-center justify-center px-4 py-6 mt-8 rounded-md"
-          >
-            <fluent-icon icon="info" size="16px" class="text-s-muted" />
-            <p class="m-2 text-center text-s-muted">
-              {{ t('SEARCH.EMPTY_STATE_FULL', { query }) }}
-            </p>
-          </div>
-          <div
+            icon="i-lucide-search-x"
+            :title="t('SEARCH.EMPTY_STATE_FULL', { query })"
+            :description="t('SEARCH.EMPTY_STATE_FULL_DESCRIPTION')"
+            size="lg"
+            class="mt-8"
+          />
+          <SynapseEmptyState
             v-else-if="!query"
-            class="flex flex-col items-center justify-center px-4 py-6 mt-8 text-center rounded-md"
-          >
-            <p class="text-center margin-bottom-0">
-              <fluent-icon icon="search" size="24px" class="text-s-muted" />
-            </p>
-            <p class="m-2 text-center text-s-muted">
-              {{ t('SEARCH.EMPTY_STATE_DEFAULT') }}
-            </p>
-          </div>
+            icon="i-lucide-search"
+            :title="t('SEARCH.EMPTY_STATE_DEFAULT')"
+            :description="t('SEARCH.EMPTY_STATE_DEFAULT_DESCRIPTION')"
+            size="lg"
+            class="mt-8"
+          />
         </div>
       </div>
     </section>
