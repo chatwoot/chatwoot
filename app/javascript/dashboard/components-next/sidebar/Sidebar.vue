@@ -18,8 +18,6 @@ import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import SidebarChangelogCard from './SidebarChangelogCard.vue';
 import SidebarChangelogButton from './SidebarChangelogButton.vue';
-import ChannelLeaf from './ChannelLeaf.vue';
-import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
@@ -157,27 +155,15 @@ useEventListener(document, 'mouseup', onResizeEnd);
 useEventListener(document, 'touchmove', onResizeMove, { passive: false });
 useEventListener(document, 'touchend', onResizeEnd);
 
-const inboxes = useMapGetter('inboxes/getInboxes');
-const labels = useMapGetter('labels/getLabelsOnSidebar');
-const teams = useMapGetter('teams/getMyTeams');
-const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
-const conversationCustomViews = useMapGetter(
-  'customViews/getConversationCustomViews'
-);
-
+// CUSTOMIZAÇÃO_SYNAPSEOS: getters/dispatches de labels, teams, customViews
+// e sortedInboxes foram removidos do sidebar — os submenus que os consumiam
+// (Conversas > Folders/Teams/Channels/Labels, Contatos > Segments/Tagged)
+// não existem mais. Notification count segue porque Caixa de Entrada usa.
 onMounted(() => {
-  store.dispatch('labels/get');
   store.dispatch('inboxes/get');
   store.dispatch('notifications/unReadCount');
-  store.dispatch('teams/get');
   store.dispatch('attributes/get');
-  store.dispatch('customViews/get', 'conversation');
-  store.dispatch('customViews/get', 'contact');
 });
-
-const sortedInboxes = computed(() =>
-  inboxes.value.slice().sort((a, b) => a.name.localeCompare(b.name))
-);
 
 const closeMobileSidebar = () => {
   if (!props.isMobileSidebarOpen) return;
@@ -193,6 +179,9 @@ const onComposeClose = () => {
   emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, false);
 };
 
+// CUSTOMIZAÇÃO_SYNAPSEOS: reports de Label, Inbox e Team foram removidos do
+// nav (escopo reduzido pra Agent + Conversation overview apenas). As rotas
+// continuam registradas caso haja links diretos.
 const newReportRoutes = () => [
   {
     name: 'Reports Agent',
@@ -200,35 +189,33 @@ const newReportRoutes = () => [
     to: accountScopedRoute('agent_reports_index'),
     activeOn: ['agent_reports_show'],
   },
-  {
-    name: 'Reports Label',
-    label: t('SIDEBAR.REPORTS_LABEL'),
-    to: accountScopedRoute('label_reports_index'),
-  },
-  {
-    name: 'Reports Inbox',
-    label: t('SIDEBAR.REPORTS_INBOX'),
-    to: accountScopedRoute('inbox_reports_index'),
-    activeOn: ['inbox_reports_show'],
-  },
-  {
-    name: 'Reports Team',
-    label: t('SIDEBAR.REPORTS_TEAM'),
-    to: accountScopedRoute('team_reports_index'),
-    activeOn: ['team_reports_show'],
-  },
 ];
 
 const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
   return [
+    // CUSTOMIZAÇÃO_SYNAPSEOS: Caixa de Entrada passa a apontar direto pra
+    // lista de todas as conversas (antes era a tela de notificações pessoais
+    // inbox_view). Consolida 'Conversas > Todas as conversas' aqui; o item
+    // 'Conversas' foi removido da sidebar. A rota inbox_view continua
+    // existindo via rotas caso algum link externo aponte pra ela.
     {
       name: 'Inbox',
       label: t('SIDEBAR.INBOX'),
       icon: 'i-lucide-inbox',
-      to: accountScopedRoute('inbox_view'),
-      activeOn: ['inbox_view', 'inbox_view_conversation'],
+      to: accountScopedRoute('home'),
+      activeOn: [
+        'home',
+        'inbox_conversation',
+        'conversation_through_mentions',
+        'conversation_through_participating',
+        'conversation_through_unattended',
+        'conversations_through_folders',
+        'conversations_through_team',
+        'conversation_through_inbox',
+        'conversations_through_label',
+      ],
       getterKeys: {
         count: 'notifications/getUnreadCount',
       },
@@ -266,94 +253,10 @@ const menuItems = computed(() => {
       to: accountScopedRoute('synapseos_pipeline'),
       activeOn: ['synapseos_pipeline'],
     },
-    {
-      name: 'Conversation',
-      label: t('SIDEBAR.CONVERSATIONS'),
-      icon: 'i-lucide-message-circle',
-      children: [
-        {
-          name: 'All',
-          label: t('SIDEBAR.ALL_CONVERSATIONS'),
-          activeOn: ['inbox_conversation'],
-          to: accountScopedRoute('home'),
-        },
-        {
-          name: 'Mentions',
-          label: t('SIDEBAR.MENTIONED_CONVERSATIONS'),
-          activeOn: ['conversation_through_mentions'],
-          to: accountScopedRoute('conversation_mentions'),
-        },
-        {
-          name: 'Participating',
-          label: t('SIDEBAR.PARTICIPATING_CONVERSATIONS'),
-          activeOn: ['conversation_through_participating'],
-          to: accountScopedRoute('conversation_participating'),
-        },
-        {
-          name: 'Unattended',
-          activeOn: ['conversation_through_unattended'],
-          label: t('SIDEBAR.UNATTENDED_CONVERSATIONS'),
-          to: accountScopedRoute('conversation_unattended'),
-        },
-        {
-          name: 'Folders',
-          label: t('SIDEBAR.CUSTOM_VIEWS_FOLDER'),
-          icon: 'i-lucide-folder',
-          activeOn: ['conversations_through_folders'],
-          children: conversationCustomViews.value.map(view => ({
-            name: `${view.name}-${view.id}`,
-            label: view.name,
-            to: accountScopedRoute('folder_conversations', { id: view.id }),
-          })),
-        },
-        {
-          name: 'Teams',
-          label: t('SIDEBAR.TEAMS'),
-          icon: 'i-lucide-users',
-          activeOn: ['conversations_through_team'],
-          children: teams.value.map(team => ({
-            name: `${team.name}-${team.id}`,
-            label: team.name,
-            to: accountScopedRoute('team_conversations', { teamId: team.id }),
-          })),
-        },
-        {
-          name: 'Channels',
-          label: t('SIDEBAR.CHANNELS'),
-          icon: 'i-lucide-mailbox',
-          activeOn: ['conversation_through_inbox'],
-          children: sortedInboxes.value.map(inbox => ({
-            name: `${inbox.name}-${inbox.id}`,
-            label: inbox.name,
-            icon: h(ChannelIcon, { inbox, class: 'size-[16px]' }),
-            to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
-            component: leafProps =>
-              h(ChannelLeaf, {
-                label: leafProps.label,
-                active: leafProps.active,
-                inbox,
-              }),
-          })),
-        },
-        {
-          name: 'Labels',
-          label: t('SIDEBAR.LABELS'),
-          icon: 'i-lucide-tag',
-          activeOn: ['conversations_through_label'],
-          children: labels.value.map(label => ({
-            name: `${label.title}-${label.id}`,
-            label: label.title,
-            icon: h('span', {
-              class: `size-[8px] rounded-sm`,
-              style: { backgroundColor: label.color },
-            }),
-            to: accountScopedRoute('label_conversations', {
-              label: label.title,
-            }),
-          })),
-        },
-      ],
-    },
+    // CUSTOMIZAÇÃO_SYNAPSEOS: item 'Conversas' removido. Todas as sub-rotas
+    // (Mentions, Participating, Unattended, Folders, Teams, Channels, Labels)
+    // continuam registradas e acessíveis por URL direta / filtros dentro da
+    // nova Caixa de Entrada, mas não aparecem como atalhos no nav.
     {
       name: 'Captain',
       icon: 'i-woot-captain',
@@ -425,69 +328,10 @@ const menuItems = computed(() => {
         },
       ],
     },
-    {
-      name: 'Contacts',
-      label: t('SIDEBAR.CONTACTS'),
-      icon: 'i-lucide-contact',
-      children: [
-        {
-          name: 'All Contacts',
-          label: t('SIDEBAR.ALL_CONTACTS'),
-          to: accountScopedRoute(
-            'contacts_dashboard_index',
-            {},
-            { page: 1, search: undefined }
-          ),
-          activeOn: ['contacts_dashboard_index', 'contacts_edit'],
-        },
-        {
-          name: 'Active',
-          label: t('SIDEBAR.ACTIVE'),
-          to: accountScopedRoute('contacts_dashboard_active'),
-          activeOn: ['contacts_dashboard_active'],
-        },
-        {
-          name: 'Segments',
-          icon: 'i-lucide-group',
-          label: t('SIDEBAR.CUSTOM_VIEWS_SEGMENTS'),
-          children: contactCustomViews.value.map(view => ({
-            name: `${view.name}-${view.id}`,
-            label: view.name,
-            to: accountScopedRoute(
-              'contacts_dashboard_segments_index',
-              { segmentId: view.id },
-              { page: 1 }
-            ),
-            activeOn: [
-              'contacts_dashboard_segments_index',
-              'contacts_edit_segment',
-            ],
-          })),
-        },
-        {
-          name: 'Tagged With',
-          icon: 'i-lucide-tag',
-          label: t('SIDEBAR.TAGGED_WITH'),
-          children: labels.value.map(label => ({
-            name: `${label.title}-${label.id}`,
-            label: label.title,
-            icon: h('span', {
-              class: `size-[8px] rounded-sm`,
-              style: { backgroundColor: label.color },
-            }),
-            to: accountScopedRoute(
-              'contacts_dashboard_labels_index',
-              { label: label.title },
-              { page: 1, search: undefined }
-            ),
-            activeOn: [
-              'contacts_dashboard_labels_index',
-              'contacts_edit_label',
-            ],
-          })),
-        },
-      ],
-    },
+    // CUSTOMIZAÇÃO_SYNAPSEOS: item 'Contatos' removido do nav. Contatos seguem
+    // acessíveis via links diretos da conversa (painel lateral do contato)
+    // e das rotas /contacts dashboard se navegar por URL. A gestão de
+    // contatos não era ponto de entrada crítico pro uso diário.
     {
       name: 'Companies',
       label: t('SIDEBAR.COMPANIES'),
@@ -505,33 +349,21 @@ const menuItems = computed(() => {
         },
       ],
     },
+    // CUSTOMIZAÇÃO_SYNAPSEOS: Relatórios — mantém apenas visão geral
+    // (Conversation) e performance por agente. CSAT, SLA, Robôs, Time,
+    // Caixa de Entrada e Etiquetas foram removidos do nav (escopo enxuto
+    // pro uso atual; rotas /reports/* permanecem via URL direta).
     {
       name: 'Reports',
       label: t('SIDEBAR.REPORTS'),
       icon: 'i-lucide-chart-spline',
       children: [
-        // CUSTOMIZAÇÃO_SYNAPSEOS: "Overview" movido pro Dashboard Executivo (tab Relatórios).
         {
           name: 'Report Conversation',
           label: t('SIDEBAR.REPORTS_CONVERSATION'),
           to: accountScopedRoute('conversation_reports'),
         },
         ...reportRoutes.value,
-        {
-          name: 'Reports CSAT',
-          label: t('SIDEBAR.CSAT'),
-          to: accountScopedRoute('csat_reports'),
-        },
-        {
-          name: 'Reports SLA',
-          label: t('SIDEBAR.REPORTS_SLA'),
-          to: accountScopedRoute('sla_reports'),
-        },
-        {
-          name: 'Reports Bot',
-          label: t('SIDEBAR.REPORTS_BOT'),
-          to: accountScopedRoute('bot_reports'),
-        },
       ],
     },
     // CUSTOMIZAÇÃO_SYNAPSEOS: Campaigns e Help Center (Portals) escondidos da sidebar.
