@@ -22,15 +22,21 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
     downloaded_file = Down.download(url_response.parsed_response['url'], headers: inbox.channel.api_headers)
     return downloaded_file if attachment_payload[:filename].blank?
 
-    tempfile = Tempfile.new([
-      File.basename(attachment_payload[:filename], '.*'),
-      File.extname(attachment_payload[:filename])
-    ])
+    tempfile_with_original_filename(downloaded_file, attachment_payload[:filename])
+  end
+
+  def tempfile_with_original_filename(downloaded_file, filename)
+    tempfile = Tempfile.new(
+      [
+        File.basename(filename, '.*'),
+        File.extname(filename)
+      ]
+    )
 
     FileUtils.cp(downloaded_file.path, tempfile.path)
 
     tempfile.define_singleton_method(:content_type) { downloaded_file.content_type }
-    tempfile.define_singleton_method(:original_filename) { attachment_payload[:filename] }
+    tempfile.define_singleton_method(:original_filename) { filename }
 
     tempfile
   end
