@@ -65,6 +65,23 @@ RSpec.describe SafeFetch do
       end
     end
 
+    context 'with embedded basic auth credentials' do
+      it 'passes decoded credentials to the request' do
+        authenticated_url = 'http://user+avatar%40example.com:p%40ss+word%3A1@example.com/image.png'
+        stub_request(:get, url)
+          .with(headers: { 'Authorization' => 'Basic dXNlcithdmF0YXJAZXhhbXBsZS5jb206cEBzcyt3b3JkOjE=' })
+          .to_return(
+            status: 200,
+            body: File.new(Rails.root.join('spec/assets/avatar.png')),
+            headers: { 'Content-Type' => 'image/png' }
+          )
+
+        described_class.fetch(authenticated_url) do |result|
+          expect(result.content_type).to eq('image/png')
+        end
+      end
+    end
+
     context 'with URL validation' do
       it 'raises InvalidUrlError for javascript: URLs' do
         expect { described_class.fetch('javascript:alert(1)') { nil } }

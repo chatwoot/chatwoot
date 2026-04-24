@@ -54,6 +54,7 @@ module SafeFetch
 
       SsrfFilter.get(
         url,
+        request_proc: ->(request) { apply_url_basic_auth(request) },
         http_options: { open_timeout: DEFAULT_OPEN_TIMEOUT, read_timeout: DEFAULT_READ_TIMEOUT }
       ) do |res|
         response = res
@@ -109,6 +110,15 @@ module SafeFetch
 
     def normalized_content_type(value)
       value.to_s.split(';').first&.strip&.downcase
+    end
+
+    def apply_url_basic_auth(request)
+      uri = request.uri
+      return if uri.user.blank?
+
+      username = URI.decode_uri_component(uri.user)
+      password = URI.decode_uri_component(uri.password.to_s)
+      request.basic_auth(username, password)
     end
   end
 end
