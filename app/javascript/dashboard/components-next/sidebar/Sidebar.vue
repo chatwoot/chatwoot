@@ -19,6 +19,7 @@ import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import SidebarChangelogCard from './SidebarChangelogCard.vue';
 import SidebarChangelogButton from './SidebarChangelogButton.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
+import SidebarNotificationBell from './SidebarNotificationBell.vue';
 import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
@@ -257,98 +258,13 @@ const menuItems = computed(() => {
     // (Mentions, Participating, Unattended, Folders, Teams, Channels, Labels)
     // continuam registradas e acessíveis por URL direta / filtros dentro da
     // nova Caixa de Entrada, mas não aparecem como atalhos no nav.
-    {
-      name: 'Captain',
-      icon: 'i-woot-captain',
-      label: t('SIDEBAR.CAPTAIN'),
-      activeOn: ['captain_assistants_create_index'],
-      children: [
-        {
-          name: 'FAQs',
-          label: t('SIDEBAR.CAPTAIN_RESPONSES'),
-          activeOn: [
-            'captain_assistants_responses_index',
-            'captain_assistants_responses_pending',
-          ],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_responses_index',
-          }),
-        },
-        {
-          name: 'Documents',
-          label: t('SIDEBAR.CAPTAIN_DOCUMENTS'),
-          activeOn: ['captain_assistants_documents_index'],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_documents_index',
-          }),
-        },
-        {
-          name: 'Scenarios',
-          label: t('SIDEBAR.CAPTAIN_SCENARIOS'),
-          activeOn: ['captain_assistants_scenarios_index'],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_scenarios_index',
-          }),
-        },
-        {
-          name: 'Playground',
-          label: t('SIDEBAR.CAPTAIN_PLAYGROUND'),
-          activeOn: ['captain_assistants_playground_index'],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_playground_index',
-          }),
-        },
-        {
-          name: 'Inboxes',
-          label: t('SIDEBAR.CAPTAIN_INBOXES'),
-          activeOn: ['captain_assistants_inboxes_index'],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_inboxes_index',
-          }),
-        },
-        {
-          name: 'Tools',
-          label: t('SIDEBAR.CAPTAIN_TOOLS'),
-          activeOn: ['captain_tools_index'],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_tools_index',
-          }),
-        },
-        {
-          name: 'Settings',
-          label: t('SIDEBAR.CAPTAIN_SETTINGS'),
-          activeOn: [
-            'captain_assistants_settings_index',
-            'captain_assistants_guidelines_index',
-            'captain_assistants_guardrails_index',
-          ],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_settings_index',
-          }),
-        },
-      ],
-    },
-    // CUSTOMIZAÇÃO_SYNAPSEOS: item 'Contatos' removido do nav. Contatos seguem
-    // acessíveis via links diretos da conversa (painel lateral do contato)
-    // e das rotas /contacts dashboard se navegar por URL. A gestão de
-    // contatos não era ponto de entrada crítico pro uso diário.
-    {
-      name: 'Companies',
-      label: t('SIDEBAR.COMPANIES'),
-      icon: 'i-lucide-building-2',
-      children: [
-        {
-          name: 'All Companies',
-          label: t('SIDEBAR.ALL_COMPANIES'),
-          to: accountScopedRoute(
-            'companies_dashboard_index',
-            {},
-            { page: 1, search: undefined }
-          ),
-          activeOn: ['companies_dashboard_index'],
-        },
-      ],
-    },
+    // CUSTOMIZAÇÃO_SYNAPSEOS: Captain (IA do Chatwoot) removido do nav —
+    // o Synapse OS usa seu próprio esquadrão de agentes (AgentBot +
+    // squadron_role). Rotas /captain_assistants/* permanecem caso algum
+    // link externo referencie.
+    // CUSTOMIZAÇÃO_SYNAPSEOS: Contatos + Companies removidos do nav.
+    // Contatos continuam acessíveis via painel lateral da conversa e
+    // rotas /contacts /companies por URL direta.
     // CUSTOMIZAÇÃO_SYNAPSEOS: Relatórios — mantém apenas visão geral
     // (Conversation) e performance por agente. CSAT, SLA, Robôs, Time,
     // Caixa de Entrada e Etiquetas foram removidos do nav (escopo enxuto
@@ -597,6 +513,7 @@ const menuItems = computed(() => {
         >
           <span class="i-lucide-search size-4" />
         </RouterLink>
+        <SidebarNotificationBell />
         <ComposeConversation align-position="right" @close="onComposeClose">
           <template #trigger="{ toggle, isOpen }">
             <Button
