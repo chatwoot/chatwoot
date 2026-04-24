@@ -67,9 +67,13 @@ describe('#ConversationAPI', () => {
       expect(formPayload.get('content_attributes')).toEqual(
         '{"in_reply_to":12}'
       );
-      expect(formPayload.get('template_params')).toEqual(
-        JSON.stringify(templateParams)
+      expect(formPayload.get('template_params')).toEqual(null);
+      expect(formPayload.get('template_params[name]')).toEqual(
+        'ticket_status_updated'
       );
+      expect(
+        formPayload.get('template_params[processed_params][body][name]')
+      ).toEqual('John');
     });
 
     it('builds object payload if file is not available', () => {

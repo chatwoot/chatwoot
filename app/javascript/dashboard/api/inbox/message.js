@@ -13,6 +13,26 @@ export const buildCreatePayload = ({
   toEmails = '',
   templateParams,
 }) => {
+  const appendNestedFormData = (formData, prefix, value) => {
+    if (value === null || value === undefined) return;
+
+    if (Array.isArray(value)) {
+      value.forEach((item, index) => {
+        appendNestedFormData(formData, `${prefix}[${index}]`, item);
+      });
+      return;
+    }
+
+    if (typeof value === 'object') {
+      Object.entries(value).forEach(([key, nestedValue]) => {
+        appendNestedFormData(formData, `${prefix}[${key}]`, nestedValue);
+      });
+      return;
+    }
+
+    formData.append(prefix, value);
+  };
+
   let payload;
   if (files && files.length !== 0) {
     payload = new FormData();
@@ -34,7 +54,7 @@ export const buildCreatePayload = ({
       payload.append('content_attributes', JSON.stringify(contentAttributes));
     }
     if (templateParams) {
-      payload.append('template_params', JSON.stringify(templateParams));
+      appendNestedFormData(payload, 'template_params', templateParams);
     }
   } else {
     payload = {
