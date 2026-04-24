@@ -79,7 +79,11 @@ describe Webhooks::Trigger do
 
         expect(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('500 Internal Server Error'))
 
-        expect { trigger.execute(url, payload, webhook_type) }.to raise_error(Webhooks::Trigger::RetryableError)
+        expect { trigger.execute(url, payload, webhook_type) }
+          .to raise_error { |error|
+            expect(error.class.name).to eq('Webhooks::Trigger::RetryableError')
+            expect(error.status).to eq(500)
+          }
         expect(pending_conversation.reload.status).to eq('pending')
         expect(Conversations::ActivityMessageJob).not_to have_been_enqueued
       end
@@ -89,7 +93,11 @@ describe Webhooks::Trigger do
 
         expect(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('429 Too Many Requests'))
 
-        expect { trigger.execute(url, payload, webhook_type) }.to raise_error(Webhooks::Trigger::RetryableError)
+        expect { trigger.execute(url, payload, webhook_type) }
+          .to raise_error { |error|
+            expect(error.class.name).to eq('Webhooks::Trigger::RetryableError')
+            expect(error.status).to eq(429)
+          }
         expect(pending_conversation.reload.status).to eq('pending')
         expect(Conversations::ActivityMessageJob).not_to have_been_enqueued
       end
