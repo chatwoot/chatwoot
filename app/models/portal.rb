@@ -38,6 +38,7 @@ class Portal < ApplicationRecord
   belongs_to :channel_web_widget, class_name: 'Channel::WebWidget', optional: true
 
   before_validation -> { normalize_empty_string_to_nil(%i[custom_domain homepage_link]) }
+  before_update :destroy_articles_and_categories_for_removed_locales
   validates :account_id, presence: true
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true
@@ -128,6 +129,17 @@ class Portal < ApplicationRecord
     return unless config.is_a?(Hash)
 
     config[key] || config[key.to_sym]
+  end
+
+  def destroy_articles_and_categories_for_removed_locales
+    previous_locales = normalize_locale_codes(persisted_config['allowed_locales'])
+    current_locales = allowed_locale_codes
+    removed_locales = previous_locales - current_locales
+
+    return if removed_locales.empty?
+
+    articles.where(locale: removed_locales).destroy_all
+    categories.where(locale: removed_locales).destroy_all
   end
 end
 

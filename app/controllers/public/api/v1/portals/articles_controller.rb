@@ -8,7 +8,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def index
     @search_query = list_params[:query]
-    @articles = @portal.articles.published.includes(:category, :author)
+    @articles = @portal.articles.published.where(locale: @portal.allowed_locale_codes).includes(:category, :author)
 
     @articles = @articles.where(locale: permitted_params[:locale]) if permitted_params[:locale].present?
 
@@ -62,6 +62,8 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def set_article
     @article = @portal.articles.find_by(slug: permitted_params[:article_slug])
+    render_404 and return if @article.blank? || @portal.allowed_locale_codes.exclude?(@article.locale)
+
     @parsed_content = render_article_content(@article.content.to_s)
   end
 
