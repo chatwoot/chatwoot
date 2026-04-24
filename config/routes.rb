@@ -358,6 +358,13 @@ Rails.application.routes.draw do
             resources :categories do
               post :reorder, on: :collection
             end
+            namespace :articles do
+              resource :bulk_actions, only: [] do
+                post :translate
+                patch :update_status
+                delete :delete_articles
+              end
+            end
             resources :articles do
               post :reorder, on: :collection
             end
