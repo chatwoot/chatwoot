@@ -1,5 +1,5 @@
 <%
-  brand_name = global_config['BRAND_NAME'].presence || 'Chatwoot'
+  brand_name = global_config['BRAND_NAME'] || 'Chatwoot'
   recipient_name = @resource.name.presence || @resource.email
   account_user = @resource&.account_users&.first
   inviter = account_user&.inviter
