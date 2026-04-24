@@ -3,6 +3,7 @@ import { ref, computed, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store.js';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { ARTICLE_TABS, CATEGORY_ALL } from 'dashboard/helper/portalHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAlert } from 'dashboard/composables';
@@ -63,11 +64,15 @@ const selectedArticleIds = ref(new Set());
 const bulkTranslateDialogRef = ref(null);
 const deleteConfirmDialogRef = ref(null);
 
-const isCaptainEnabled = computed(() =>
-  isFeatureEnabledonAccount.value(
-    currentAccountId.value,
-    FEATURE_FLAGS.CAPTAIN_TASKS
-  )
+const { isEnterprise } = useConfig();
+
+const isTranslationAvailable = computed(
+  () =>
+    isEnterprise &&
+    isFeatureEnabledonAccount.value(
+      currentAccountId.value,
+      FEATURE_FLAGS.CAPTAIN_TASKS
+    )
 );
 
 const allItems = computed(() => props.articles.map(a => ({ id: a.id })));
@@ -332,7 +337,7 @@ watch(
                   @click="bulkUpdateStatus('archived')"
                 />
                 <Button
-                  v-if="isCaptainEnabled"
+                  v-if="isTranslationAvailable"
                   sm
                   faded
                   slate
