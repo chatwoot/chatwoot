@@ -1,0 +1,93 @@
+# CUSTOMIZAÇÃO_SYNAPSEOS — deploy production em VPS única.
+#
+# Modelo de entrega: 1 VPS por cliente (ex: Interlivre). Este compose sobe
+# a stack completa (web + worker + postgres + redis) com volume
+# compartilhado pra storage do ActiveStorage — resolve mídia outbound
+# automática sem precisar S3/R2.
+#
+# Pré-requisitos na VPS:
+#  - Docker + Docker Compose v2
+#  - Domínio apontado pro IP da VPS (ex: chatwoot.cliente.com.br)
+#  - Proxy reverso (nginx/caddy/traefik) na frente pra SSL
+#
+# Setup:
+#  1. cp .env.example .env  e ajustar SECRET_KEY_BASE + FRONTEND_URL
+#  2. docker compose -f docker-compose.prod.yml pull
+#  3. docker compose -f docker-compose.prod.yml up -d
+#  4. primeira vez apenas: docker compose -f docker-compose.prod.yml run --rm web bundle exec rails db:chatwoot_prepare
+#
+# Upgrade:
+#  docker compose -f docker-compose.prod.yml pull && \
+#    docker compose -f docker-compose.prod.yml up -d
+
+x-app: &app
+  image: ghcr.io/dexi-digital/synapseos:${SYNAPSEOS_TAG:-latest}
+  env_file: .env
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+  restart: unless-stopped
+
+services:
+  web:
+    <<: *app
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+    volumes:
+      - storage:/app/storage
+      - public_packs:/app/public/packs
+    entrypoint: /app/docker/entrypoints/rails.sh
+    command: bundle exec rails server -b 0.0.0.0 -p 3000
+
+  worker:
+    <<: *app
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+    volumes:
+      - storage:/app/storage
+    entrypoint: /app/docker/entrypoints/rails.sh
+    command: bundle exec sidekiq -C config/sidekiq.yml
+
+  postgres:
+    image: pgvector/pgvector:pg14
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-chatwoot_production}
+      POSTGRES_USER: ${POSTGRES_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USERNAME:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:-redis}", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  # `storage` compartilhado entre web e worker — crítico pra mídia outbound
+  # (AgentBot/Avisa) funcionar sem S3. Ambos os serviços leem/escrevem
+  # atachments nesse mesmo diretório.
+  storage:
+  public_packs:
+  postgres_data:
+  redis_data:
