@@ -45,7 +45,7 @@ const { t } = useI18n();
 
 const processedParams = ref({});
 const isUploadingMedia = ref(false);
-/** Bumped on template change or when a new upload starts; completions must match or be discarded. */
+/** Bumped on template change, new upload, or header URL input; stale completions must not apply. */
 const mediaUploadGeneration = ref(0);
 const mediaUploadError = ref('');
 const mediaPreview = ref(null);
@@ -158,6 +158,7 @@ const updateMediaUrl = value => {
   processedParams.value.header ??= {};
   processedParams.value.header.media_url = value;
   if (value) {
+    invalidateInFlightMediaUpload();
     processedParams.value.header.media_blob_id = '';
     mediaUploadError.value = '';
     clearMediaPreview();
