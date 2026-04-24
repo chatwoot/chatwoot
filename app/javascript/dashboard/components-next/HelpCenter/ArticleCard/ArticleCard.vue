@@ -10,6 +10,7 @@ import {
 } from 'dashboard/helper/portalHelper';
 
 import { useMapGetter } from 'dashboard/composables/store.js';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
@@ -58,12 +59,15 @@ const currentAccountId = useMapGetter('getCurrentAccountId');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
+const { isEnterprise } = useConfig();
 
-const isCaptainEnabled = computed(() =>
-  isFeatureEnabledonAccount.value(
-    currentAccountId.value,
-    FEATURE_FLAGS.CAPTAIN_TASKS
-  )
+const isTranslationAvailable = computed(
+  () =>
+    isEnterprise &&
+    isFeatureEnabledonAccount.value(
+      currentAccountId.value,
+      FEATURE_FLAGS.CAPTAIN_TASKS
+    )
 );
 
 const articleMenuItems = computed(() => {
@@ -79,7 +83,7 @@ const articleMenuItems = computed(() => {
     ARTICLE_MENU_OPTIONS[props.status] ||
     ARTICLE_MENU_OPTIONS[ARTICLE_STATUSES.PUBLISHED]
   )
-    .filter(key => key !== 'translate' || isCaptainEnabled.value)
+    .filter(key => key !== 'translate' || isTranslationAvailable.value)
     .map(key => commonItems[key]);
 
   return [...statusItems, commonItems.delete];
