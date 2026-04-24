@@ -36,10 +36,10 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
   def resource_params
     permitted_params = super
     permitted_params[:limits] = permitted_params[:limits].to_h.compact
-    if action_name == 'update'
-      permitted_params[:selected_feature_flags] = params[:enabled_features].present? ? params[:enabled_features].keys.map(&:to_sym) : []
-    elsif params[:enabled_features].present?
+    if params[:enabled_features].present?
       permitted_params[:selected_feature_flags] = params[:enabled_features].keys.map(&:to_sym)
+    elsif action_name == 'update' && ChatwootApp.enterprise?
+      permitted_params[:selected_feature_flags] = []
     end
     permitted_params
   end
