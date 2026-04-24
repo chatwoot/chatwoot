@@ -372,10 +372,14 @@ const contextMenuEnabledOptions = computed(() => {
   const isFailedOrProcessing =
     props.status === MESSAGE_STATUS.FAILED ||
     props.status === MESSAGE_STATUS.PROGRESS;
+  // Fall through to allowed when the flag is undefined so a cold inbox cache does not
+  // hide the action; the server still enforces the ban if the admin has disabled it.
+  const deletionAllowed = inbox.value?.allow_message_deletion !== false;
 
   return {
     copy: hasText,
     delete:
+      deletionAllowed &&
       (hasText || hasAttachments) &&
       !isFailedOrProcessing &&
       !isMessageDeleted.value,

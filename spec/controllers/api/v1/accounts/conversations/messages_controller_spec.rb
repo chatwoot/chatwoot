@@ -234,6 +234,25 @@ RSpec.describe 'Conversation Messages API', type: :request do
       end
     end
 
+    context 'when the inbox disallows message deletion' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+        conversation.inbox.update!(allow_message_deletion: false)
+      end
+
+      it 'rejects deletion with a forbidden status and leaves the message unchanged' do
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(message.reload.content).not_to eq 'This message was deleted'
+        expect(message.reload.content_attributes['deleted']).to be_falsey
+      end
+    end
+
     context 'when the message id is invalid' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
