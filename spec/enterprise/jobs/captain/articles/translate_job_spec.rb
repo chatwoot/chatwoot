@@ -90,6 +90,28 @@ RSpec.describe Captain::Articles::TranslateJob, type: :job do
     end
   end
 
+  context 'when the source article has blank content' do
+    let!(:draft_article) do
+      create(:article, portal: portal, category: category_en, account: account, author: user,
+                       title: 'Empty draft', content: nil, status: :draft)
+    end
+
+    it 'creates the translated article with the original blank content and skips the content LLM call' do
+      expect do
+        described_class.perform_now(account, draft_article.id, 'es', category_es.id, user)
+      end.to change(Article, :count).by(1)
+
+      expect(translation_service).not_to have_received(:translate_content)
+      translated = Article.last
+      expect(translated).to have_attributes(
+        title: 'Primeros pasos',
+        content: nil,
+        locale: 'es',
+        associated_article_id: draft_article.id
+      )
+    end
+  end
+
   context 'when translation service fails' do
     before do
       allow(translation_service).to receive(:translate_title).and_raise(StandardError, 'LLM timeout')
