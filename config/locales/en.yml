@@ -493,6 +493,7 @@ en:
       locale_not_available: 'Locale not available in this portal'
       category_not_found: 'Category not found in this portal'
       no_articles_found: 'No articles found to process'
+      invalid_status: 'Invalid status value'
     send_instructions:
       email_required: 'Email is required'
       invalid_email_format: 'Invalid email format'
