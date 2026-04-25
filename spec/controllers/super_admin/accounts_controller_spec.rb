@@ -66,7 +66,11 @@ RSpec.describe 'Super Admin accounts API', type: :request do
       it 'disables unchecked features' do
         patch "/super_admin/accounts/#{account.id}", params: {
           account: { name: account.name },
-          enabled_features: { 'feature_inbound_emails' => 'true', 'feature_help_center' => 'true' }
+          enabled_features: {
+            'feature_inbound_emails' => 'true',
+            'feature_help_center' => 'true',
+            'feature_macros' => 'false'
+          }
         }
 
         account.reload
@@ -75,9 +79,14 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         expect(account.feature_enabled?(:macros)).to be false
       end
 
-      it 'disables all features when no checkboxes are checked' do
+      it 'disables all features when all checkboxes submit false' do
         patch "/super_admin/accounts/#{account.id}", params: {
-          account: { name: account.name }
+          account: { name: account.name },
+          enabled_features: {
+            'feature_inbound_emails' => 'false',
+            'feature_help_center' => 'false',
+            'feature_macros' => 'false'
+          }
         }
 
         account.reload
