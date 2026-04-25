@@ -18,6 +18,8 @@ import BulkActionsAPI from 'dashboard/api/bulkActions';
 
 const DEFAULT_SORT_FIELD = 'last_activity_at';
 const DEBOUNCE_DELAY = 300;
+const DEFAULT_PAGE_SIZE = 15;
+const ALLOWED_PAGE_SIZES = [15, 50, 100, 250, 500];
 
 const store = useStore();
 const route = useRoute();
@@ -49,9 +51,15 @@ const parseSortSettings = (sortString = '') => {
   };
 };
 
-const { contacts_sort_by: contactSortBy = '' } = uiSettings.value ?? {};
+const {
+  contacts_sort_by: contactSortBy = '',
+  contacts_page_size: savedPageSize,
+} = uiSettings.value ?? {};
 const { sort: initialSort, order: initialOrder } =
   parseSortSettings(contactSortBy);
+const pageSize = ref(
+  ALLOWED_PAGE_SIZES.includes(savedPageSize) ? savedPageSize : DEFAULT_PAGE_SIZE
+);
 
 const sortState = reactive({
   activeSort: initialSort,
@@ -194,6 +202,7 @@ const getCommonFetchParams = (page = 1) => ({
   page,
   sortAttr: buildSortAttr(),
   label: activeLabel.value,
+  pageSize: pageSize.value,
 });
 
 const fetchContacts = async (page = 1, options = {}) => {
@@ -235,6 +244,7 @@ const fetchActiveContacts = async (page = 1, options = {}) => {
   await store.dispatch('contacts/active', {
     page,
     sortAttr: buildSortAttr(),
+    pageSize: pageSize.value,
   });
   updatePageParam(page);
 };
@@ -374,6 +384,14 @@ const deleteContacts = async () => {
   }
 };
 
+const handlePageSizeChange = async newSize => {
+  if (!ALLOWED_PAGE_SIZES.includes(newSize) || newSize === pageSize.value)
+    return;
+  pageSize.value = newSize;
+  await updateUISettings({ contacts_page_size: newSize });
+  await fetchContactsBasedOnContext(1);
+};
+
 const handleSort = async ({ sort, order }) => {
   Object.assign(sortState, { activeSort: sort, activeOrdering: order });
 
@@ -479,6 +497,7 @@ onMounted(async () => {
       :header-title="headerTitle"
       :current-page="currentPage"
       :total-items="totalItems"
+      :items-per-page="pageSize"
       :show-pagination-footer="!isFetchingList && hasContacts && !isSearchView"
       :active-sort="sortState.activeSort"
       :active-ordering="sortState.activeOrdering"
@@ -490,6 +509,7 @@ onMounted(async () => {
       :has-more="hasMore"
       :is-loading-more="isLoadingMore"
       @update:current-page="onPageChange"
+      @update:items-per-page="handlePageSizeChange"
       @search="
         value => searchContacts(value, 1, false, { clearSelection: false })
       "
