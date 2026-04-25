@@ -24,6 +24,9 @@ properties:
         "webwidget_triggered"
       ]
     description: The list of subscribed events
+  secret:
+    type: string
+    description: Secret used to sign webhook requests
   account_id:
     type: number
     description: The id of the account which the webhook object belongs to
