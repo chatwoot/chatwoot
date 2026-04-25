@@ -26,11 +26,11 @@ export const messageStamp = (time, dateFormat = 'h:mm a') => {
 export const messageTimestamp = (time, dateFormat = 'MMM d, yyyy') => {
   const messageTime = fromUnixTime(time);
   const now = new Date();
-  const messageDate = format(messageTime, dateFormat);
   if (!isSameYear(messageTime, now)) {
-    return format(messageTime, 'LLL d y, h:mm a');
+    const timeFormat = dateFormat.includes('HH:mm') ? 'HH:mm' : 'h:mm a';
+    return format(messageTime, `LLL d y, ${timeFormat}`);
   }
-  return messageDate;
+  return format(messageTime, dateFormat);
 };
 
 /**
