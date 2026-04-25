@@ -71,8 +71,8 @@ export const createBubbleHolder = hideMessageBubble => {
   body.appendChild(bubbleHolder);
 };
 
-const handleBubbleToggle = newIsOpen => {
-  IFrameHelper.events.onBubbleToggle(newIsOpen);
+const handleBubbleToggle = (newIsOpen, isUserInitiated = false) => {
+  IFrameHelper.events.onBubbleToggle(newIsOpen, isUserInitiated);
 
   if (newIsOpen) {
     dispatchWindowEvent({ eventName: CHATWOOT_OPENED });
@@ -83,7 +83,7 @@ const handleBubbleToggle = newIsOpen => {
 };
 
 export const onBubbleClick = (props = {}) => {
-  const { toggleValue } = props;
+  const { toggleValue, isUserInitiated = false } = props;
   const { isOpen } = window.$chatwoot;
   if (isOpen === toggleValue) return;
 
@@ -94,11 +94,13 @@ export const onBubbleClick = (props = {}) => {
   toggleClass(closeBubble, 'woot--hide');
   toggleClass(widgetHolder, 'woot--hide');
 
-  handleBubbleToggle(newIsOpen);
+  handleBubbleToggle(newIsOpen, isUserInitiated);
 };
 
 export const onClickChatBubble = () => {
-  bubbleHolder.addEventListener('click', onBubbleClick);
+  bubbleHolder.addEventListener('click', () =>
+    onBubbleClick({ isUserInitiated: true })
+  );
 };
 
 export const addUnreadClass = () => {
