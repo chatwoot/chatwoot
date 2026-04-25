@@ -65,10 +65,17 @@ class DataImport::ContactManager
     # Store with string keys so values match JSONB / UI expectations (see #14096).
     contact.additional_attributes['company_name'] = company_name if company_name.present?
     contact.additional_attributes['city'] = params[:city] if params[:city].present?
-    contact.assign_attributes(
-      custom_attributes: contact.custom_attributes.merge(
-        params.except(:identifier, :email, :name, :phone_number, :company, :company_name)
-      )
+    merged_custom = strip_legacy_company_custom_keys(contact.custom_attributes).merge(
+      params.except(:identifier, :email, :name, :phone_number, :company, :company_name)
     )
+    contact.assign_attributes(custom_attributes: merged_custom)
+  end
+
+  # Pre-#14096 imports could persist `company` / `company_name` inside custom_attributes.
+  # Drop them before merging new row data so re-imports do not keep stale duplicates.
+  def strip_legacy_company_custom_keys(attrs)
+    return {} if attrs.blank?
+
+    attrs.reject { |key, _| %w[company company_name].include?(key.to_s) }
   end
 end
