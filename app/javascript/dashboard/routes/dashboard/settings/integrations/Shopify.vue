@@ -1,16 +1,17 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import {
   useFunctionGetter,
   useMapGetter,
   useStore,
 } from 'dashboard/composables/store';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
 import Integration from './Integration.vue';
-import integrationAPI from 'dashboard/api/integrations';
+import shopifyAPI from 'dashboard/api/integrations/shopify';
 
-import Input from 'dashboard/components-next/input/Input.vue';
-import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -23,12 +24,11 @@ defineProps({
 });
 
 const store = useStore();
-const { t } = useI18n();
-const dialogRef = ref(null);
 const integrationLoaded = ref(false);
-const storeUrl = ref('');
-const isSubmitting = ref(false);
-const storeUrlError = ref('');
+const route = useRoute();
+const router = useRouter();
+const { t } = useI18n();
+const { formatMessage } = useMessageFormatter();
 const integration = useFunctionGetter('integrations/getIntegration', 'shopify');
 const uiFlags = useMapGetter('integrations/getUIFlags');
 
@@ -39,50 +39,43 @@ const integrationAction = computed(() => {
   return 'connect';
 });
 
-const hideStoreUrlModal = () => {
-  storeUrl.value = '';
-  storeUrlError.value = '';
-  isSubmitting.value = false;
-};
+const hook = computed(() => {
+  const { hooks = [] } = integration.value || {};
+  const [firstHook] = hooks;
+  return firstHook || {};
+});
 
-const validateStoreUrl = url => {
-  const pattern = /^[a-zA-Z0-9][a-zA-Z0-9-]*\.myshopify\.com$/;
-  return pattern.test(url);
-};
+const storeDomain = computed(() => hook.value.reference_id || '');
 
-const openStoreUrlDialog = () => {
-  if (dialogRef.value) {
-    dialogRef.value.open();
-  }
-};
+const formattedHelpText = computed(() => {
+  return formatMessage(
+    t('INTEGRATION_SETTINGS.SHOPIFY.HELP_TEXT.BODY', {
+      storeDomain: storeDomain.value,
+    }),
+    false
+  );
+});
 
-const handleStoreUrlSubmit = async () => {
+const completePendingInstall = async token => {
   try {
-    storeUrlError.value = '';
-    if (!validateStoreUrl(storeUrl.value)) {
-      storeUrlError.value =
-        'Please enter a valid Shopify store URL (e.g., your-store.myshopify.com)';
-      return;
-    }
-
-    isSubmitting.value = true;
-    const { data } = await integrationAPI.connectShopify({
-      shopDomain: storeUrl.value,
-    });
-
-    if (data.redirect_url) {
-      window.location.href = data.redirect_url;
-    }
-  } catch (error) {
-    storeUrlError.value = error.message;
+    await shopifyAPI.completeInstall(token);
+    await store.dispatch('integrations/get', 'shopify');
+    useAlert(t('INTEGRATION_SETTINGS.SHOPIFY.PENDING_INSTALL.SUCCESS'));
+  } catch {
+    useAlert(t('INTEGRATION_SETTINGS.SHOPIFY.PENDING_INSTALL.ERROR'));
   } finally {
-    isSubmitting.value = false;
+    router.replace({ query: {} });
   }
 };
 
 const initializeShopifyIntegration = async () => {
   await store.dispatch('integrations/get', 'shopify');
   integrationLoaded.value = true;
+
+  const pendingInstallToken = route.query.shopify_pending_install;
+  if (pendingInstallToken) {
+    await completePendingInstall(pendingInstallToken);
+  }
 };
 
 onMounted(() => {
@@ -122,35 +115,27 @@ onMounted(() => {
             />
           </template>
         </Integration>
+
+        <div
+          v-if="integration.enabled"
+          class="flex-1 w-full px-6 py-5 rounded-md shadow outline outline-n-container outline-1 bg-n-alpha-3"
+        >
+          <div class="max-w-5xl prose-lg">
+            <h5 class="tracking-tight text-n-slate-12">
+              {{ $t('INTEGRATION_SETTINGS.SHOPIFY.HELP_TEXT.TITLE') }}
+            </h5>
+            <div v-dompurify-html="formattedHelpText" class="text-n-slate-11" />
+          </div>
+        </div>
+
         <div
           v-if="error"
-          class="flex items-center justify-center flex-1 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow p-6"
+          class="flex items-center justify-center flex-1 p-6 rounded-md shadow outline outline-n-container outline-1 bg-n-alpha-3"
         >
           <p class="text-n-ruby-9">
             {{ t('INTEGRATION_SETTINGS.SHOPIFY.ERROR') }}
           </p>
         </div>
-        <Dialog
-          ref="dialogRef"
-          :title="t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.TITLE')"
-          :is-loading="isSubmitting"
-          @confirm="handleStoreUrlSubmit"
-          @close="hideStoreUrlModal"
-        >
-          <Input
-            v-model="storeUrl"
-            :label="t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.LABEL')"
-            :placeholder="
-              t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.PLACEHOLDER')
-            "
-            :message="
-              !storeUrlError
-                ? t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.HELP')
-                : storeUrlError
-            "
-            :message-type="storeUrlError ? 'error' : 'info'"
-          />
-        </Dialog>
       </div>
     </template>
   </SettingsLayout>

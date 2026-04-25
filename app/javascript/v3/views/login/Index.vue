@@ -43,6 +43,7 @@ export default {
     ssoConversationId: { type: String, default: '' },
     email: { type: String, default: '' },
     authError: { type: String, default: '' },
+    redirectUrl: { type: String, default: '' },
   },
   setup() {
     const { replaceInstallationName } = useBranding();
@@ -169,6 +170,7 @@ export default {
         sso_auth_token: this.ssoAuthToken,
         ssoAccountId: this.ssoAccountId,
         ssoConversationId: this.ssoConversationId,
+        redirectUrl: this.redirectUrl,
       };
 
       login(credentials)

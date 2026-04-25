@@ -40,6 +40,11 @@ module Redis::Alfred
       $alfred.with { |conn| conn.expire(key, seconds) }
     end
 
+    # get time to live for a key in seconds
+    def ttl(key)
+      $alfred.with { |conn| conn.ttl(key) }
+    end
+
     # scan keys matching a pattern
     def scan_each(match: nil, count: 100, &)
       $alfred.with do |conn|

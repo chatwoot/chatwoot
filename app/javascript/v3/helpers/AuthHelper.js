@@ -40,8 +40,16 @@ export const getCredentialsFromEmail = email => {
 export const getLoginRedirectURL = ({
   ssoAccountId,
   ssoConversationId,
+  redirectUrl,
   user,
 }) => {
+  if (redirectUrl) {
+    const { accounts = [], account_id = null } = user || {};
+    const accountId = account_id || accounts[0]?.id;
+    if (accountId) {
+      return frontendURL(`accounts/${accountId}/${redirectUrl}`);
+    }
+  }
   const accountPath = getSSOAccountPath({ ssoAccountId, user });
   if (accountPath) {
     if (ssoConversationId) {

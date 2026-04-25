@@ -28,6 +28,10 @@ export const validateAuthenticateRoutePermission = (to, next) => {
   }
 
   if (to.name === 'no_accounts' || !to.name) {
+    const { redirect_url: redirectUrl } = to.query || {};
+    if (redirectUrl) {
+      return next(frontendURL(`accounts/${accountId}/${redirectUrl}`));
+    }
     return next(frontendURL(`accounts/${accountId}/dashboard`));
   }
 
