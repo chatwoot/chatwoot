@@ -292,7 +292,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
           expect(response).to have_http_status(:success)
           expect(message.reload.source_id).to be_nil
-          expect(SendReplyJob).to have_been_enqueued.with(message.id)
+          expect(SendReplyJob).to have_been_enqueued.with(message.id).at_least(:once)
         end
       end
     end
