@@ -277,6 +277,24 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(message.reload.status).to eq('sent')
         expect(message.reload.content_attributes['external_error']).to be_nil
       end
+
+      context 'when the failed message has a stale source_id from a previous send attempt' do
+        let(:message) do
+          create(:message, account: account, status: :failed,
+                           source_id: 'wamid.stale-external-id',
+                           content_attributes: { external_error: 'error' })
+        end
+
+        it 'clears the source_id so the message is actually resent to the provider' do
+          post "/api/v1/accounts/#{account.id}/conversations/#{message.conversation.display_id}/messages/#{message.id}/retry",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(message.reload.source_id).to be_nil
+          expect(SendReplyJob).to have_been_enqueued.with(message.id)
+        end
+      end
     end
 
     context 'when the message id is invalid' do
