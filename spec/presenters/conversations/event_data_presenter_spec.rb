@@ -68,5 +68,18 @@ RSpec.describe Conversations::EventDataPresenter do
     it 'returns empty messages when conversation has no chat messages' do
       expect(presenter.webhook_data[:messages]).to eq([])
     end
+
+    it 'includes private messages in webhook payload when they are the last message' do
+      public_message = create(:message, conversation: conversation, account: conversation.account,
+                                        message_type: :outgoing, content: 'Public message')
+      private_message = create(:message, conversation: conversation, account: conversation.account,
+                                         message_type: :outgoing, content: 'Private note',
+                                         private: true)
+
+      webhook_message = presenter.webhook_data[:messages].first
+
+      expect(webhook_message[:id]).to eq(private_message.id)
+      expect(webhook_message[:content]).to eq('Private note')
+    end
   end
 end
