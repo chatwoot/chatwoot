@@ -8,12 +8,22 @@ class Platform::Api::V1::AccountsController < PlatformController
 
   def show; end
 
+  #def create
+   # @resource = Account.create!(account_params)
+    #update_resource_features
+    #@resource.save!
+    #@platform_app.platform_app_permissibles.find_or_create_by(permissible: @resource)
+  #end
+
   def create
-    @resource = Account.create!(account_params)
+  @resource = Account.new(account_params)
+  if @resource.save
     update_resource_features
-    @resource.save!
     @platform_app.platform_app_permissibles.find_or_create_by(permissible: @resource)
+  else
+    render json: { errors: @resource.errors.full_messages }, status: :unprocessable_entity
   end
+end
 
   def update
     @resource.assign_attributes(account_params)
