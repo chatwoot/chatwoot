@@ -97,6 +97,23 @@ describe Whatsapp::SendOnWhatsappService do
         expect(message.reload.external_error).to eq('Template not found or invalid template name')
       end
 
+      it 'marks message as failed when template processing raises ArgumentError' do
+        processor = instance_double(Whatsapp::TemplateProcessorService)
+        allow(Whatsapp::TemplateProcessorService).to receive(:new).and_return(processor)
+        allow(processor).to receive(:call).and_raise(ArgumentError, 'Invalid URL scheme: ftp. Only http and https are allowed')
+
+        message = create(:message,
+                         additional_attributes: { template_params: template_params },
+                         conversation: conversation,
+                         message_type: :outgoing,
+                         account: conversation.account)
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.reload.external_error).to eq('Invalid URL scheme: ftp. Only http and https are allowed')
+      end
+
       it 'calls channel.send_template when after 24 hour limit' do
         message = create(:message, message_type: :outgoing, content: 'Your package has been shipped. It will be delivered in 3 business days.',
                                    conversation: conversation, additional_attributes: { template_params: template_params },
