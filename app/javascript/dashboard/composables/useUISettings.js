@@ -141,7 +141,7 @@ export function useUISettings() {
   const uiSettings = computed(() => getters.getUISettings.value);
 
   const updateUISettings = (settings = {}) => {
-    store.dispatch('updateUISettings', {
+    return store.dispatch('updateUISettings', {
       uiSettings: {
         ...uiSettings.value,
         ...settings,
