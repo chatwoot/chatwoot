@@ -55,6 +55,44 @@ RSpec.describe 'Super Admin accounts API', type: :request do
     end
   end
 
+  describe 'PATCH /super_admin/accounts/{account_id}' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/super_admin/accounts/#{account.id}", params: { account: { name: 'New Name' } }
+        expect(response).to have_http_status(:redirect)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before { sign_in(super_admin, scope: :super_admin) }
+
+      it 'enables only the submitted feature flags and disables the rest' do
+        account.enable_features!('inbound_emails', 'channel_email')
+
+        patch "/super_admin/accounts/#{account.id}", params: {
+          account: { name: account.name },
+          enabled_features: { 'feature_inbound_emails' => 'true' }
+        }
+
+        account.reload
+        expect(account.feature_enabled?('inbound_emails')).to be(true)
+        expect(account.feature_enabled?('channel_email')).to be(false)
+      end
+
+      it 'disables all features when no enabled_features param is submitted' do
+        account.enable_features!('inbound_emails', 'channel_email')
+
+        patch "/super_admin/accounts/#{account.id}", params: {
+          account: { name: account.name }
+        }
+
+        account.reload
+        expect(account.feature_enabled?('inbound_emails')).to be(false)
+        expect(account.feature_enabled?('channel_email')).to be(false)
+      end
+    end
+  end
+
   describe 'DELETE /super_admin/accounts/{account_id}' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
