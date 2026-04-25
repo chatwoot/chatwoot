@@ -93,6 +93,7 @@
       "ASSIGN_AGENT": "Assign an Agent",
       "ADD_LABEL": "იარლიყის დამატება",
       "REMOVE_LABEL": "იარლიყის მოცილება",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
       "SEND_EMAIL_TRANSCRIPT": "საუბრის ჩანაწერის გაგზავნა ელფოსტით",
       "MUTE_CONVERSATION": "საუბრის დადუმება",

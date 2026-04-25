@@ -140,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Cakto te një agjent",
       "ASSIGN_TEAM": "Cakto një ekip",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Hiq ekipin e caktuar",
       "ADD_LABEL": "Shto një etiketë",
       "REMOVE_LABEL": "Hiq një etiketë",
       "SEND_EMAIL_TO_TEAM": "Dërgo një email ekipit",
@@ -169,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Lloji i mesazhit",
+      "PRIVATE_NOTE": "Shënim Privat",
       "MESSAGE_CONTAINS": "Mesazhi përmban",
       "EMAIL": "Email",
       "INBOX": "Inbox",

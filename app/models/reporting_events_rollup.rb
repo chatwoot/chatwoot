@@ -2,17 +2,17 @@
 #
 # Table name: reporting_events_rollups
 #
-#  id                        :bigint           not null, primary key
-#  count                     :bigint           default(0), not null
-#  date                      :date             not null
-#  dimension_id              :bigint           not null
-#  dimension_type            :string           not null
-#  metric                    :string           not null
-#  sum_value                 :float            default(0.0), not null
-#  sum_value_business_hours  :float            default(0.0), not null
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  account_id                :integer          not null
+#  id                       :bigint           not null, primary key
+#  count                    :bigint           default(0), not null
+#  date                     :date             not null
+#  dimension_type           :string           not null
+#  metric                   :string           not null
+#  sum_value                :float            default(0.0), not null
+#  sum_value_business_hours :float            default(0.0), not null
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  account_id               :integer          not null
+#  dimension_id             :bigint           not null
 #
 # Indexes
 #

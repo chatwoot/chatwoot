@@ -37,6 +37,8 @@ ko:
     account:
       reporting_timezone:
         invalid: is not a valid timezone
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: 비어 있을 수 없습니다
     webhook:
@@ -52,6 +54,14 @@ ko:
       not_found: 배정 정책을 찾을 수 없습니다
     attachments:
       invalid: 유효하지 않은 첨부 파일
+    upload:
+      missing_input: 'No file or URL provided'
+      invalid_url: 'Invalid URL provided'
+      fetch_failed: 'Failed to fetch file from URL'
+      fetch_failed_with_message: 'Failed to fetch file from URL: %{message}'
+      file_too_large: 'File exceeds the maximum allowed size'
+      unsupported_content_type: 'File type not supported (only images and videos are allowed)'
+      unexpected: 'An unexpected error occurred'
     saml:
       feature_not_enabled: 이 계정에서는 SAML 기능이 활성화되지 않았습니다
       sso_not_enabled: 이 설치에서는 SAML SSO가 활성화되지 않았습니다
@@ -373,6 +383,7 @@ ko:
       page_processing_error: '페이지 %{start}-%{end} 처리 오류: %{error}'
     custom_tool:
       slug_generation_failed: '5회 시도 후에도 고유 슬러그를 생성할 수 없습니다'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
       search_placeholder: 게시물을 제목이나 내용으로 검색하세요...
@@ -409,6 +420,10 @@ ko:
       title: 페이지를 찾을 수 없습니다
       description: 찾고자 하는 페이지를 찾을 수 없었습니다.
       back_to_home: 홈 화면으로 이동
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
       name: 이름

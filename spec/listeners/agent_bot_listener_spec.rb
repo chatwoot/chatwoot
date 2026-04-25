@@ -25,8 +25,10 @@ describe AgentBotListener do
     context 'when agent bot is configured' do
       it 'sends message to agent bot' do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
-        expect(AgentBots::WebhookJob).to receive(:perform_later).with(agent_bot.outgoing_url,
-                                                                      message.webhook_data.merge(event: 'message_created')).once
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+          agent_bot.outgoing_url, message.webhook_data.merge(event: 'message_created'),
+          :agent_bot_webhook, secret: agent_bot.secret, delivery_id: instance_of(String)
+        ).once
         listener.message_created(event)
       end
 
@@ -48,11 +50,110 @@ describe AgentBotListener do
         it 'sends message to both bots exactly once' do
           payload = message.webhook_data.merge(event: 'message_created')
 
-          expect(AgentBots::WebhookJob).to receive(:perform_later).with(agent_bot.outgoing_url, payload).once
-          expect(AgentBots::WebhookJob).to receive(:perform_later).with(conversation_bot.outgoing_url, payload).once
+          expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+            agent_bot.outgoing_url, payload, :agent_bot_webhook,
+            secret: agent_bot.secret, delivery_id: instance_of(String)
+          ).once
+          expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+            conversation_bot.outgoing_url, payload, :agent_bot_webhook,
+            secret: conversation_bot.secret, delivery_id: instance_of(String)
+          ).once
 
           listener.message_created(event)
         end
+      end
+    end
+  end
+
+  describe '#conversation_status_changed' do
+    let(:event_name) { 'conversation.status_changed' }
+    let(:changed_attributes) { { status: %w[open pending] } }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, changed_attributes: changed_attributes) }
+
+    context 'when agent bot is not configured' do
+      it 'does not send webhook' do
+        expect(AgentBots::WebhookJob).not_to receive(:perform_later)
+        listener.conversation_status_changed(event)
+      end
+    end
+
+    context 'when agent bot is configured on inbox' do
+      it 'sends webhook with changed_attributes' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+          agent_bot.outgoing_url,
+          hash_including(event: 'conversation_status_changed', changed_attributes: anything),
+          :agent_bot_webhook,
+          hash_including(secret: agent_bot.secret)
+        ).once
+        listener.conversation_status_changed(event)
+      end
+    end
+
+    context 'when conversation is assigned to an agent bot' do
+      before do
+        conversation.update!(assignee_agent_bot: agent_bot, assignee: nil)
+      end
+
+      it 'sends webhook to the assigned agent bot' do
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+          agent_bot.outgoing_url,
+          hash_including(event: 'conversation_status_changed', changed_attributes: anything),
+          :agent_bot_webhook,
+          hash_including(secret: agent_bot.secret)
+        ).once
+        listener.conversation_status_changed(event)
+      end
+    end
+  end
+
+  describe '#conversation_updated' do
+    let(:event_name) { 'conversation.updated' }
+
+    context 'when agent bot is not configured' do
+      let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
+
+      it 'does not send webhook' do
+        expect(AgentBots::WebhookJob).not_to receive(:perform_later)
+        listener.conversation_updated(event)
+      end
+    end
+
+    context 'when agent bot is configured on inbox' do
+      let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
+
+      it 'sends webhook to the inbox agent bot with changed_attributes' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+          agent_bot.outgoing_url,
+          conversation.webhook_data.merge(event: 'conversation_updated', changed_attributes: nil),
+          :agent_bot_webhook, secret: agent_bot.secret, delivery_id: instance_of(String)
+        ).once
+        listener.conversation_updated(event)
+      end
+    end
+
+    context 'when conversation is assigned to an agent bot' do
+      let!(:event) do
+        Events::Base.new(event_name, Time.zone.now, conversation: conversation,
+                                                    changed_attributes: { 'assignee_agent_bot_id' => [nil, agent_bot.id] })
+      end
+
+      before do
+        conversation.update!(assignee_agent_bot: agent_bot, assignee: nil)
+      end
+
+      it 'sends webhook with changed_attributes to the assigned agent bot' do
+        expected_changed_attributes = [{ 'assignee_agent_bot_id' => { previous_value: nil, current_value: agent_bot.id } }]
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+          agent_bot.outgoing_url,
+          conversation.webhook_data.merge(
+            event: 'conversation_updated',
+            changed_attributes: expected_changed_attributes
+          ),
+          :agent_bot_webhook, secret: agent_bot.secret, delivery_id: instance_of(String)
+        ).once
+        listener.conversation_updated(event)
       end
     end
   end
@@ -75,7 +176,8 @@ describe AgentBotListener do
         expect(AgentBots::WebhookJob).to receive(:perform_later)
           .with(
             agent_bot.outgoing_url,
-            conversation.contact_inbox.webhook_data.merge(event: 'webwidget_triggered', event_info: { country: 'US' })
+            conversation.contact_inbox.webhook_data.merge(event: 'webwidget_triggered', event_info: { country: 'US' }),
+            :agent_bot_webhook, secret: agent_bot.secret, delivery_id: instance_of(String)
           ).once
 
         listener.webwidget_triggered(event)

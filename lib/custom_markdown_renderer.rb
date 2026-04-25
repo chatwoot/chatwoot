@@ -9,6 +9,12 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
     @embed_regexes ||= config.transform_values { |embed_config| Regexp.new(embed_config['regex']) }
   end
 
+  def table(node)
+    out('<div class="tableWrapper">')
+    super
+    out('</div>')
+  end
+
   def text(node)
     content = node.string_content
 

@@ -93,6 +93,7 @@
       "ASSIGN_AGENT": "Assegna un Operatore",
       "ADD_LABEL": "Aggiungi Etichetta",
       "REMOVE_LABEL": "Rimuovi Etichetta",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "Rimuovi Team Assegnato",
       "SEND_EMAIL_TRANSCRIPT": "Invia una Trascrizione Email",
       "MUTE_CONVERSATION": "Silenzia Conversazione",
