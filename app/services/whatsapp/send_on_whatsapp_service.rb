@@ -35,6 +35,8 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
                                          parameters: processed_parameters
                                        }, message)
     message.update!(source_id: message_id) if message_id.present?
+  rescue ArgumentError => e
+    message.update!(status: :failed, external_error: e.message)
   end
 
   def send_session_message
