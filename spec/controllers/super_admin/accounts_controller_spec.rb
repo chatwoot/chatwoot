@@ -55,6 +55,39 @@ RSpec.describe 'Super Admin accounts API', type: :request do
     end
   end
 
+  describe 'PATCH /super_admin/accounts/{account_id}' do
+    context 'when updating feature flags' do
+      before do
+        account.enable_features(:inbound_emails, :help_center, :macros)
+        account.save!
+        sign_in(super_admin, scope: :super_admin)
+      end
+
+      it 'disables unchecked features' do
+        patch "/super_admin/accounts/#{account.id}", params: {
+          account: { name: account.name },
+          enabled_features: { 'feature_inbound_emails' => 'true', 'feature_help_center' => 'true' }
+        }
+
+        account.reload
+        expect(account.feature_enabled?(:inbound_emails)).to be true
+        expect(account.feature_enabled?(:help_center)).to be true
+        expect(account.feature_enabled?(:macros)).to be false
+      end
+
+      it 'disables all features when no checkboxes are checked' do
+        patch "/super_admin/accounts/#{account.id}", params: {
+          account: { name: account.name }
+        }
+
+        account.reload
+        expect(account.feature_enabled?(:inbound_emails)).to be false
+        expect(account.feature_enabled?(:help_center)).to be false
+        expect(account.feature_enabled?(:macros)).to be false
+      end
+    end
+  end
+
   describe 'DELETE /super_admin/accounts/{account_id}' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

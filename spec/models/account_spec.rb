@@ -295,6 +295,45 @@ RSpec.describe Account do
     end
   end
 
+  describe 'selected_feature_flags=' do
+    let(:account) { create(:account) }
+
+    it 'enables only the specified features' do
+      account.enable_features(:inbound_emails, :help_center, :macros)
+      account.save!
+
+      account.selected_feature_flags = [:feature_inbound_emails, :feature_macros]
+      account.save!
+
+      expect(account.feature_enabled?(:inbound_emails)).to be true
+      expect(account.feature_enabled?(:macros)).to be true
+      expect(account.feature_enabled?(:help_center)).to be false
+    end
+
+    it 'disables all features when an empty array is passed' do
+      account.enable_features(:inbound_emails, :help_center)
+      account.save!
+
+      account.selected_feature_flags = []
+      account.save!
+
+      expect(account.feature_enabled?(:inbound_emails)).to be false
+      expect(account.feature_enabled?(:help_center)).to be false
+    end
+
+    it 'disables previously enabled features that are not in the selection' do
+      account.enable_features(:inbound_emails, :help_center, :crm)
+      account.save!
+
+      account.selected_feature_flags = [:feature_help_center]
+      account.save!
+
+      expect(account.feature_enabled?(:help_center)).to be true
+      expect(account.feature_enabled?(:inbound_emails)).to be false
+      expect(account.feature_enabled?(:crm)).to be false
+    end
+  end
+
   describe 'captain_preferences' do
     let(:account) { create(:account) }
 

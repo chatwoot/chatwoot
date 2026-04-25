@@ -55,6 +55,18 @@ module Featurable
     all_features.select { |_feature, enabled| enabled == true }
   end
 
+  def selected_feature_flags=(features)
+    features = Array(features)
+    # Disable all features first, then enable only the selected ones.
+    # This ensures unchecked features are properly disabled.
+    FEATURE_LIST.each do |feature|
+      send("feature_#{feature['name']}=", false)
+    end
+    features.each do |feature_flag|
+      send("#{feature_flag}=", true)
+    end
+  end
+
   def disabled_features
     all_features.select { |_feature, enabled| enabled == false }
   end
