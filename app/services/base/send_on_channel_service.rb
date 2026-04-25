@@ -33,7 +33,7 @@ class Base::SendOnChannelService
   end
 
   def outgoing_message_originated_from_channel?
-    message.content_attributes['external_echo'].present?
+    message.source_id.present?
   end
 
   def outgoing_message?
