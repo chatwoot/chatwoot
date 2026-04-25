@@ -200,7 +200,7 @@ describe Messages::MessageBuilder do
           expect(message.attachments.first.file_type).to eq('image')
         end
 
-        it 'raises StandardError when template media_blob_id is invalid' do
+        it 'raises InvalidTemplateMedia when template media_blob_id is invalid' do
           params = ActionController::Parameters.new({
                                                       content: 'test',
                                                       template_params: {
@@ -217,7 +217,7 @@ describe Messages::MessageBuilder do
 
           expect do
             described_class.new(user, conversation, params).perform
-          end.to raise_error(StandardError, /Invalid media upload/)
+          end.to raise_error(CustomExceptions::Message::InvalidTemplateMedia, /Invalid media upload/)
         end
       end
     end

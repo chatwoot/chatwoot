@@ -69,7 +69,7 @@ class Messages::MessageBuilder
   def process_template_media_attachment
     Messages::TemplateMediaAttachmentService.new(message: @message, attachments: @attachments, template_params: @params[:template_params]).perform
   rescue ArgumentError => e
-    raise StandardError, e.message
+    raise CustomExceptions::Message::InvalidTemplateMedia, e.message
   end
 
   def process_emails

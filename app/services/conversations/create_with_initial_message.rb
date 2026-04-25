@@ -14,7 +14,7 @@ class Conversations::CreateWithInitialMessage
       if @params[:message].present?
         begin
           Messages::MessageBuilder.new(@user, conversation, @params[:message]).perform
-        rescue StandardError => e
+        rescue CustomExceptions::Message::InvalidTemplateMedia => e
           initial_message_error = e.message
           raise ActiveRecord::Rollback
         end
