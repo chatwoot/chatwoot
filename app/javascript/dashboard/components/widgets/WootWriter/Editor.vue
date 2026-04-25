@@ -711,11 +711,15 @@ function handleLineBreakWhenCmdAndEnterToSendEnabled(event) {
 }
 
 function onKeydown(event) {
+  const isCmdEnter = hasPressedCommandAndEnter(event);
+
+  if (isCmdEnter && isCmdPlusEnterToSendEnabled()) {
+    event.preventDefault();
+    return;
+  }
+
   if (isEnterToSendEnabled()) {
     handleLineBreakWhenEnterToSendEnabled(event);
-  }
-  if (isCmdPlusEnterToSendEnabled()) {
-    handleLineBreakWhenCmdAndEnterToSendEnabled(event);
   }
 }
 
