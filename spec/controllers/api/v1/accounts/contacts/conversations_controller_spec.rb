@@ -63,3 +63,53 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/conversations', type:
     end
   end
 end
+
+describe 'POST /api/v1/accounts/:account_id/contacts/:id/conversations' do
+  let(:whatsapp_inbox) do
+    create(:inbox, account: account, channel: create(:channel_whatsapp),
+                   lock_to_single_conversation: true)
+  end
+
+  context 'when inbox has reopen existing conversation enabled' do
+    let!(:existing_conversation) do
+      create(:conversation, contact: contact, inbox: whatsapp_inbox,
+                            account: account, status: :resolved,
+                            last_activity_at: 1.hour.ago)
+    end
+
+    it 'reopens the existing resolved conversation instead of creating a new one' do
+      expect do
+        post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations",
+             params: { inbox_id: whatsapp_inbox.id },
+             headers: agent.create_new_auth_token,
+             as: :json
+      end.not_to change(Conversation, :count)
+
+      expect(existing_conversation.reload.status).to eq('open')
+    end
+  end
+
+  context 'when inbox does NOT have reopen existing conversation enabled' do
+    let(:regular_inbox) { create(:inbox, account: account, lock_to_single_conversation: false) }
+
+    it 'creates a new conversation regardless' do
+      expect do
+        post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations",
+             params: { inbox_id: regular_inbox.id },
+             headers: agent.create_new_auth_token,
+             as: :json
+      end.to change(Conversation, :count).by(1)
+    end
+  end
+
+  context 'when no resolved conversation exists for the contact' do
+    it 'creates a new conversation' do
+      expect do
+        post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations",
+             params: { inbox_id: whatsapp_inbox.id },
+             headers: agent.create_new_auth_token,
+             as: :json
+      end.to change(Conversation, :count).by(1)
+    end
+  end
+end
