@@ -261,6 +261,59 @@ describe Twilio::IncomingMessageService do
       end
     end
 
+    context 'when a Click-to-WhatsApp referral message is received' do
+      let(:referral_params) do
+        {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'Hello from ad',
+          ReferralSourceId: 'ad_123',
+          ReferralSourceType: 'UNKNOWN',
+          ReferralSourceUrl: 'https://fb.com/ad/123',
+          ReferralHeadline: 'Special offer',
+          ReferralBody: 'Click to get 20% off',
+          ReferralMediaId: 'media_456',
+          ReferralMediaContentType: 'image/jpeg',
+          ReferralMediaUrl: 'https://fb.com/media/456.jpg',
+          ReferralNumMedia: '1',
+          ReferralCtwaClid: 'ctwa_clid_abc123'
+        }
+      end
+
+      it 'stores referral attributes in message content_attributes' do
+        described_class.new(params: referral_params).perform
+
+        message = conversation.reload.messages.last
+        expect(message.content_attributes['referral_source_id']).to eq('ad_123')
+        expect(message.content_attributes['referral_source_type']).to eq('UNKNOWN')
+        expect(message.content_attributes['referral_source_url']).to eq('https://fb.com/ad/123')
+        expect(message.content_attributes['referral_headline']).to eq('Special offer')
+        expect(message.content_attributes['referral_body']).to eq('Click to get 20% off')
+        expect(message.content_attributes['referral_media_id']).to eq('media_456')
+        expect(message.content_attributes['referral_media_content_type']).to eq('image/jpeg')
+        expect(message.content_attributes['referral_media_url']).to eq('https://fb.com/media/456.jpg')
+        expect(message.content_attributes['referral_num_media']).to eq('1')
+        expect(message.content_attributes['referral_ctwa_clid']).to eq('ctwa_clid_abc123')
+      end
+
+      it 'does not store referral attributes when ReferralSourceId is absent' do
+        params = {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'Regular message'
+        }
+
+        described_class.new(params: params).perform
+
+        message = conversation.reload.messages.last
+        expect(message.content_attributes).not_to have_key('referral_source_id')
+      end
+    end
+
     context 'when a location message is received' do
       let(:params_with_location) do
         {
