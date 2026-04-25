@@ -227,6 +227,7 @@ const processUploadedFile = async file => {
   mediaUploadError.value = '';
 
   if (!isAllowedFileType(file)) {
+    clearUploadedMedia();
     mediaUploadError.value = t('WHATSAPP_TEMPLATES.PARSER.INVALID_MEDIA_TYPE');
     return;
   }
