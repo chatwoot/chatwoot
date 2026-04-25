@@ -52,6 +52,11 @@ RSpec.describe 'Contact Label API', type: :request do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
+      before do
+        create(:label, account: account, title: 'label3')
+        create(:label, account: account, title: 'label4')
+      end
+
       it 'creates labels for the contact' do
         post api_v1_account_contact_labels_url(account_id: account.id, contact_id: contact.id),
              params: { labels: %w[label3 label4] },
@@ -61,6 +66,18 @@ RSpec.describe 'Contact Label API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include('label3')
         expect(response.body).to include('label4')
+      end
+
+      it 'drops labels that are not defined on the account' do
+        post api_v1_account_contact_labels_url(account_id: account.id, contact_id: contact.id),
+             params: { labels: %w[label3 unknown] },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('label3')
+        expect(response.body).not_to include('unknown')
+        expect(contact.reload.label_list).to contain_exactly('label3')
       end
     end
   end

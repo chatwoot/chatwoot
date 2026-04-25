@@ -58,6 +58,8 @@ RSpec.describe 'Conversation Label API', type: :request do
 
       before do
         conversation.update_labels('label1, label2')
+        create(:label, account: account, title: 'label3')
+        create(:label, account: account, title: 'label4')
         create(:inbox_member, inbox: conversation.inbox, user: agent)
       end
 
@@ -70,6 +72,18 @@ RSpec.describe 'Conversation Label API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include('label3')
         expect(response.body).to include('label4')
+      end
+
+      it 'drops labels that are not defined on the account' do
+        post api_v1_account_conversation_labels_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { labels: %w[label3 unknown] },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('label3')
+        expect(response.body).not_to include('unknown')
+        expect(conversation.reload.label_list).to contain_exactly('label3')
       end
     end
   end
