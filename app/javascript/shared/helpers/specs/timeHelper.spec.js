@@ -29,11 +29,33 @@ describe('#messageStamp', () => {
 });
 
 describe('#messageTimestamp', () => {
-  it('should return the message date in the specified format if the message was sent in the current year', () => {
+  it('returns the date in the specified format for current-year messages', () => {
     expect(messageTimestamp(1680777464)).toEqual('Apr 6, 2023');
   });
-  it('should return the message date and time in a different format if the message was sent in a different year', () => {
+
+  it('returns date and 12-hour time for cross-year messages with default format', () => {
     expect(messageTimestamp(1612971343)).toEqual('Feb 10 2021, 3:35 PM');
+  });
+
+  it('returns date and 12-hour time for cross-year messages with explicit 12h format', () => {
+    expect(messageTimestamp(1612971343, 'LLL d, h:mm a')).toEqual(
+      'Feb 10 2021, 3:35 PM'
+    );
+  });
+
+  it('returns date and 24-hour time for cross-year messages when 24h format is passed', () => {
+    expect(messageTimestamp(1612971343, 'LLL d, HH:mm')).toEqual(
+      'Feb 10 2021, 15:35'
+    );
+  });
+
+  it('uses the provided format for same-year messages regardless of 12h or 24h', () => {
+    expect(messageTimestamp(1680777464, 'LLL d, h:mm a')).toEqual(
+      'Apr 6, 10:37 AM'
+    );
+    expect(messageTimestamp(1680777464, 'LLL d, HH:mm')).toEqual(
+      'Apr 6, 10:37'
+    );
   });
 });
 
