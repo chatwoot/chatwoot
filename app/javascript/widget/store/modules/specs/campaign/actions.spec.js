@@ -188,6 +188,21 @@ describe('#actions', () => {
         { campaignId: 32 }
       );
     });
+    it('starts campaign even if widget is already open', async () => {
+      API.get.mockResolvedValue({ data: campaigns });
+      await actions.startCampaign(
+        {
+          dispatch,
+          getters: { getCampaigns: campaigns },
+          commit,
+          rootState: {
+            appConfig: { isWidgetOpen: true },
+          },
+        },
+        { campaignId: 1 }
+      );
+      expect(commit.mock.calls).toEqual([['setActiveCampaign', campaigns[0]]]);
+    });
     it('start campaign if campaign id passed', async () => {
       API.get.mockResolvedValue({ data: campaigns });
       await actions.startCampaign(

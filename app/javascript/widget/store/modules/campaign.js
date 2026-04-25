@@ -102,23 +102,14 @@ export const actions = {
       );
     }
   },
-  startCampaign: async (
-    {
-      commit,
-      rootState: {
-        appConfig: { isWidgetOpen },
-      },
-    },
-    { websiteToken, campaignId }
-  ) => {
-    // Disable campaign execution if widget is opened
-    if (!isWidgetOpen) {
-      const { data: campaigns } = await getCampaigns(websiteToken);
-      // Check campaign is disabled or not
-      const campaign = campaigns.find(item => item.id === campaignId);
-      if (campaign) {
-        commit('setActiveCampaign', campaign);
-      }
+  startCampaign: async ({ commit }, { websiteToken, campaignId }) => {
+    const { data: campaigns } = await getCampaigns(websiteToken);
+    // Activate campaign if it exists in latest campaign list.
+    // This must work even when widget is already open
+    // (eg: programmatic toggle("open") on chatwoot:ready).
+    const campaign = campaigns.find(item => item.id === campaignId);
+    if (campaign) {
+      commit('setActiveCampaign', campaign);
     }
   },
 
