@@ -27,12 +27,12 @@ class Messages::MarkdownRenderers::BaseMarkdownRenderer < CommonMarker::Renderer
   end
 
   def html(node)
-    out(node.string_content.gsub(/<[^>]+>/, ''))
+    out(ActionView::Base.full_sanitizer.sanitize(node.string_content))
     cr
   end
 
   def inline_html(node)
-    out(node.string_content.gsub(/<[^>]+>/, ''))
+    out(ActionView::Base.full_sanitizer.sanitize(node.string_content))
   end
 
   def method_missing(method_name, node = nil, *args, **kwargs, &)
