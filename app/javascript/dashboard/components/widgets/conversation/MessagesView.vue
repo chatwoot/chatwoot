@@ -326,7 +326,7 @@ export default {
     removeBusListeners() {
       emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     },
-    onScrollToMessage({ messageId = '' } = {}) {
+    /*onScrollToMessage({ messageId = '' } = {}) {
       this.$nextTick(() => {
         const messageElement = document.getElementById('message' + messageId);
         if (messageElement) {
@@ -338,7 +338,25 @@ export default {
         }
       });
       this.makeMessagesRead();
-    },
+    },*/
+
+  onScrollToMessage({ messageId = '' } = {}) {
+  this.$nextTick(() => {
+    requestAnimationFrame(() => {
+      const messageElement = document.getElementById('message' + messageId);
+
+      if (messageElement) {
+        this.isProgrammaticScroll = true;
+        messageElement.scrollIntoView({ behavior: 'smooth' });
+        this.fetchPreviousMessages();
+      } else {
+        this.scrollToBottom();
+      }
+    });
+  });
+  this.makeMessagesRead();
+},
+
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
       this.setScrollParams();
