@@ -160,6 +160,49 @@ RSpec.describe 'Conversation Assignment API', type: :request do
       end
     end
 
+    context 'when account has restrict_conversation_reassignment enabled' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:administrator) { create(:user, account: account, role: :administrator) }
+      let(:another_agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        account.update!(settings: account.settings.merge('restrict_conversation_reassignment' => true))
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+        create(:inbox_member, inbox: conversation.inbox, user: administrator)
+      end
+
+      it 'returns unauthorized when an agent tries to reassign the conversation' do
+        post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { assignee_id: another_agent.id },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'allows an administrator to reassign the conversation' do
+        post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { assignee_id: agent.id },
+             headers: administrator.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.assignee).to eq(agent)
+      end
+
+      it 'allows an agent to self-assign an unassigned conversation' do
+        conversation.update!(assignee_id: nil)
+
+        post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { assignee_id: agent.id },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.assignee).to eq(agent)
+      end
+    end
+
     context 'when conversation already has a team' do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:team) { create(:team, account: account) }
