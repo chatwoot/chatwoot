@@ -137,6 +137,32 @@ describe AgentBotListener do
       end
     end
 
+    context 'when agent bot is configured on inbox and event includes changed_attributes' do
+      let!(:event) do
+        Events::Base.new(
+          event_name,
+          Time.zone.now,
+          conversation: conversation,
+          changed_attributes: { 'priority' => %w[low urgent] }
+        )
+      end
+
+      it 'sends message-shaped payload with transformed changed_attributes' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        expected_changed = [{ 'priority' => { previous_value: 'low', current_value: 'urgent' } }]
+        expected_payload = listener.send(:agent_bot_message_shaped_conversation_payload, conversation).merge(
+          event: 'conversation_updated',
+          changed_attributes: expected_changed
+        )
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+          agent_bot.outgoing_url,
+          expected_payload,
+          :agent_bot_webhook, secret: agent_bot.secret, delivery_id: instance_of(String)
+        ).once
+        listener.conversation_updated(event)
+      end
+    end
+
     context 'when conversation is assigned to an agent bot' do
       let!(:event) do
         Events::Base.new(event_name, Time.zone.now, conversation: conversation,
