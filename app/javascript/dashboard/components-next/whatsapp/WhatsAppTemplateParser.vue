@@ -215,6 +215,7 @@ const clearUploadedMedia = () => {
   processedParams.value.header ??= {};
   processedParams.value.header.media_blob_id = '';
   processedParams.value.header.media_url = '';
+  processedParams.value.header.media_name = '';
   mediaUploadError.value = '';
   clearMediaPreview();
 };
