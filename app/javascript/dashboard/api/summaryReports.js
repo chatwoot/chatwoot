@@ -1,6 +1,8 @@
 /* global axios */
 import ApiClient from './ApiClient';
 
+const getTimeOffset = () => -new Date().getTimezoneOffset() / 60;
+
 class SummaryReportsAPI extends ApiClient {
   constructor() {
     super('summary_reports', { accountScoped: true, apiVersion: 'v2' });
@@ -12,6 +14,7 @@ class SummaryReportsAPI extends ApiClient {
         since,
         until,
         business_hours: businessHours,
+        timezone_offset: getTimeOffset(),
       },
     });
   }
@@ -22,6 +25,7 @@ class SummaryReportsAPI extends ApiClient {
         since,
         until,
         business_hours: businessHours,
+        timezone_offset: getTimeOffset(),
       },
     });
   }
@@ -32,6 +36,7 @@ class SummaryReportsAPI extends ApiClient {
         since,
         until,
         business_hours: businessHours,
+        timezone_offset: getTimeOffset(),
       },
     });
   }
@@ -42,6 +47,7 @@ class SummaryReportsAPI extends ApiClient {
         since,
         until,
         business_hours: businessHours,
+        timezone_offset: getTimeOffset(),
       },
     });
   }
