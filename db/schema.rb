@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_10_092753) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_25_190647) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -381,11 +381,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_10_092753) do
     t.integer "sync_status"
     t.datetime "last_synced_at"
     t.datetime "last_sync_attempted_at"
+    t.index ["account_id", "sync_status"], name: "index_captain_documents_on_account_id_and_sync_status"
     t.index ["account_id"], name: "index_captain_documents_on_account_id"
     t.index ["assistant_id", "external_link"], name: "index_captain_documents_on_assistant_id_and_external_link", unique: true
     t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"
     t.index ["status"], name: "index_captain_documents_on_status"
-    t.index ["account_id", "sync_status"], name: "index_captain_documents_on_account_id_and_sync_status"
   end
 
   create_table "captain_inboxes", force: :cascade do |t|
@@ -953,6 +953,59 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_10_092753) do
     t.jsonb "settings", default: {}
   end
 
+  create_table "kanban_boards", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "user_id"], name: "index_kanban_boards_on_account_id_and_user_id", unique: true
+    t.index ["account_id"], name: "index_kanban_boards_on_account_id"
+    t.index ["user_id"], name: "index_kanban_boards_on_user_id"
+  end
+
+  create_table "kanban_card_activities", force: :cascade do |t|
+    t.bigint "kanban_card_id", null: false
+    t.bigint "from_column_id"
+    t.bigint "to_column_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["from_column_id"], name: "index_kanban_card_activities_on_from_column_id"
+    t.index ["kanban_card_id", "created_at"], name: "index_kanban_card_activities_on_kanban_card_id_and_created_at"
+    t.index ["kanban_card_id"], name: "index_kanban_card_activities_on_kanban_card_id"
+    t.index ["to_column_id"], name: "index_kanban_card_activities_on_to_column_id"
+    t.index ["user_id"], name: "index_kanban_card_activities_on_user_id"
+  end
+
+  create_table "kanban_cards", force: :cascade do |t|
+    t.bigint "kanban_column_id", null: false
+    t.bigint "kanban_board_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "created_by_id", null: false
+    t.decimal "potential_value", precision: 15, scale: 2
+    t.text "notes"
+    t.float "position", default: 1.0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contact_id"], name: "index_kanban_cards_on_contact_id"
+    t.index ["created_by_id"], name: "index_kanban_cards_on_created_by_id"
+    t.index ["kanban_board_id", "contact_id"], name: "index_kanban_cards_on_kanban_board_id_and_contact_id", unique: true
+    t.index ["kanban_board_id"], name: "index_kanban_cards_on_kanban_board_id"
+    t.index ["kanban_column_id", "position"], name: "index_kanban_cards_on_kanban_column_id_and_position"
+    t.index ["kanban_column_id"], name: "index_kanban_cards_on_kanban_column_id"
+  end
+
+  create_table "kanban_columns", force: :cascade do |t|
+    t.bigint "kanban_board_id", null: false
+    t.string "name", null: false
+    t.float "position", default: 1.0, null: false
+    t.string "color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["kanban_board_id", "position"], name: "index_kanban_columns_on_kanban_board_id_and_position"
+    t.index ["kanban_board_id"], name: "index_kanban_columns_on_kanban_board_id"
+  end
+
   create_table "labels", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -1339,6 +1392,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_10_092753) do
   add_foreign_key "conversation_classifications", "accounts"
   add_foreign_key "conversations", "conversation_classifications", column: "classification_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "kanban_boards", "accounts"
+  add_foreign_key "kanban_boards", "users"
+  add_foreign_key "kanban_card_activities", "kanban_cards"
+  add_foreign_key "kanban_card_activities", "kanban_columns", column: "from_column_id"
+  add_foreign_key "kanban_card_activities", "kanban_columns", column: "to_column_id"
+  add_foreign_key "kanban_card_activities", "users"
+  add_foreign_key "kanban_cards", "contacts"
+  add_foreign_key "kanban_cards", "kanban_boards"
+  add_foreign_key "kanban_cards", "kanban_columns"
+  add_foreign_key "kanban_cards", "users", column: "created_by_id"
+  add_foreign_key "kanban_columns", "kanban_boards"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

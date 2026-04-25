@@ -19,6 +19,7 @@
 # Indexes
 #
 #  index_csat_survey_responses_on_account_id                  (account_id)
+#  index_csat_survey_responses_on_account_id_and_created_at   (account_id,created_at)
 #  index_csat_survey_responses_on_assigned_agent_id           (assigned_agent_id)
 #  index_csat_survey_responses_on_contact_id                  (contact_id)
 #  index_csat_survey_responses_on_conversation_id             (conversation_id)

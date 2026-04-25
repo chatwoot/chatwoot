@@ -246,6 +246,21 @@ Rails.application.routes.draw do
           resources :labels, only: [:index, :show, :create, :update, :destroy]
           resources :conversation_classifications, only: [:index, :create, :update, :destroy]
 
+          namespace :kanban do
+            resource :board, only: [:show]
+            resources :columns, only: [:index, :create, :update, :destroy] do
+              collection do
+                patch :reorder
+              end
+              resources :cards, only: [:index, :create]
+            end
+            resources :cards, only: [:update, :destroy] do
+              member do
+                patch :move
+              end
+            end
+          end
+
           resources :notifications, only: [:index, :update, :destroy] do
             collection do
               post :read_all

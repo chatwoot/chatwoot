@@ -1,0 +1,39 @@
+{
+  "KANBAN": {
+    "TITLE": "Kanban",
+    "LOADING": "Carregando board...",
+    "EMPTY_STATE": "Nenhuma coluna ainda. Crie sua primeira coluna para começar a organizar seus clientes.",
+    "ADD_COLUMN": "Adicionar coluna",
+    "COLUMN": {
+      "NAME_PLACEHOLDER": "Nome da coluna...",
+      "ADD_CARD": "Adicionar cliente",
+      "DELETE": "Excluir coluna",
+      "DELETE_CONFIRM": "Excluir a coluna \"{name}\" e todos os seus cards? Essa ação não pode ser desfeita."
+    },
+    "CARD": {
+      "EDIT": "Editar card",
+      "DELETE": "Remover do board",
+      "DELETE_CONFIRM": "Remover este cliente do board?",
+      "OPEN_CONTACT": "Ver contato",
+      "OPEN_CONVERSATION": "Abrir conversa",
+      "NEW_CONVERSATION": "Iniciar conversa",
+      "HISTORY": "Histórico de movimentações",
+      "HISTORY_INITIAL": "—",
+      "HISTORY_ENTRY": "{from} → {to}"
+    },
+    "ADD_CARD": {
+      "PHONE": "Telefone",
+      "PHONE_PLACEHOLDER": "+55 11 99999-9999",
+      "CONTACT_FOUND": "Contato encontrado: {name}",
+      "NAME": "Nome do cliente",
+      "NAME_PLACEHOLDER": "Nome completo",
+      "POTENTIAL_VALUE": "Valor potencial (R$)",
+      "POTENTIAL_VALUE_PLACEHOLDER": "0,00",
+      "NOTES": "Observações",
+      "NOTES_PLACEHOLDER": "Notas adicionais...",
+      "SUBMIT": "Adicionar ao board",
+      "ERROR_PHONE_OR_EMAIL": "Telefone ou e-mail são obrigatórios.",
+      "ERROR_GENERIC": "Não foi possível adicionar o cliente. Tente novamente."
+    }
+  }
+}

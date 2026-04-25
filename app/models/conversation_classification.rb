@@ -3,16 +3,20 @@
 # Table name: conversation_classifications
 #
 #  id         :bigint           not null, primary key
-#  account_id :bigint           not null
 #  name       :string           not null
 #  position   :integer          default(0), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  account_id :bigint           not null
 #
 # Indexes
 #
 #  index_conversation_classifications_on_account_id           (account_id)
-#  index_conversation_classifications_on_account_id_and_name  (account_id, name) UNIQUE
+#  index_conversation_classifications_on_account_id_and_name  (account_id,name) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
 #
 
 class ConversationClassification < ApplicationRecord

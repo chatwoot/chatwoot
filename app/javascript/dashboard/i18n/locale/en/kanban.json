@@ -1,0 +1,39 @@
+{
+  "KANBAN": {
+    "TITLE": "Kanban",
+    "LOADING": "Loading board...",
+    "EMPTY_STATE": "No columns yet. Create your first column to start organizing your clients.",
+    "ADD_COLUMN": "Add column",
+    "COLUMN": {
+      "NAME_PLACEHOLDER": "Column name...",
+      "ADD_CARD": "Add client",
+      "DELETE": "Delete column",
+      "DELETE_CONFIRM": "Delete column \"{name}\" and all its cards? This action cannot be undone."
+    },
+    "CARD": {
+      "EDIT": "Edit card",
+      "DELETE": "Remove from board",
+      "DELETE_CONFIRM": "Remove this client from the board?",
+      "OPEN_CONTACT": "View contact",
+      "OPEN_CONVERSATION": "Open conversation",
+      "NEW_CONVERSATION": "Start conversation",
+      "HISTORY": "Movement history",
+      "HISTORY_INITIAL": "—",
+      "HISTORY_ENTRY": "{from} → {to}"
+    },
+    "ADD_CARD": {
+      "PHONE": "Phone number",
+      "PHONE_PLACEHOLDER": "+55 11 99999-9999",
+      "CONTACT_FOUND": "Contact found: {name}",
+      "NAME": "Client name",
+      "NAME_PLACEHOLDER": "Full name",
+      "POTENTIAL_VALUE": "Potential value (R$)",
+      "POTENTIAL_VALUE_PLACEHOLDER": "0.00",
+      "NOTES": "Notes",
+      "NOTES_PLACEHOLDER": "Additional notes...",
+      "SUBMIT": "Add to board",
+      "ERROR_PHONE_OR_EMAIL": "Phone number or email is required.",
+      "ERROR_GENERIC": "Could not add client. Please try again."
+    }
+  }
+}
