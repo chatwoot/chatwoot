@@ -282,20 +282,32 @@ describe Twilio::IncomingMessageService do
         }
       end
 
-      it 'stores referral attributes in message content_attributes' do
+      it 'stores referral source attributes in message content_attributes' do
         described_class.new(params: referral_params).perform
 
         message = conversation.reload.messages.last
         expect(message.content_attributes['referral_source_id']).to eq('ad_123')
         expect(message.content_attributes['referral_source_type']).to eq('UNKNOWN')
         expect(message.content_attributes['referral_source_url']).to eq('https://fb.com/ad/123')
+      end
+
+      it 'stores referral content attributes in message content_attributes' do
+        described_class.new(params: referral_params).perform
+
+        message = conversation.reload.messages.last
         expect(message.content_attributes['referral_headline']).to eq('Special offer')
         expect(message.content_attributes['referral_body']).to eq('Click to get 20% off')
+        expect(message.content_attributes['referral_ctwa_clid']).to eq('ctwa_clid_abc123')
+      end
+
+      it 'stores referral media attributes in message content_attributes' do
+        described_class.new(params: referral_params).perform
+
+        message = conversation.reload.messages.last
         expect(message.content_attributes['referral_media_id']).to eq('media_456')
         expect(message.content_attributes['referral_media_content_type']).to eq('image/jpeg')
         expect(message.content_attributes['referral_media_url']).to eq('https://fb.com/media/456.jpg')
         expect(message.content_attributes['referral_num_media']).to eq('1')
-        expect(message.content_attributes['referral_ctwa_clid']).to eq('ctwa_clid_abc123')
       end
 
       it 'does not store referral attributes when ReferralSourceId is absent' do

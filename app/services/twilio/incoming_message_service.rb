@@ -1,4 +1,4 @@
-class Twilio::IncomingMessageService
+class Twilio::IncomingMessageService # rubocop:disable Metrics/ClassLength
   include ::FileTypeHelper
   include ::Twilio::WhatsappIdentifierHelper
 
