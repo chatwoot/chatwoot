@@ -818,3 +818,48 @@ RSpec.describe 'Contacts API', type: :request do
     end
   end
 end
+
+describe 'GET /api/v1/accounts/:account_id/contacts' do
+  context 'pagination' do
+    let!(:contacts) { create_list(:contact, 30, account: account) }
+
+    it 'defaults to 15 contacts per page when no per_page param given' do
+      get "/api/v1/accounts/#{account.id}/contacts",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(JSON.parse(response.body)['payload'].length).to eq(15)
+    end
+
+    it 'returns 50 contacts per page when per_page=50 is requested' do
+      get "/api/v1/accounts/#{account.id}/contacts",
+          params: { per_page: 50 },
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(JSON.parse(response.body)['payload'].length).to eq(30) # only 30 exist
+    end
+
+    it 'falls back to 15 when an invalid per_page value is given' do
+      get "/api/v1/accounts/#{account.id}/contacts",
+          params: { per_page: 999 },
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(JSON.parse(response.body)['payload'].length).to eq(15)
+    end
+
+    it 'falls back to 15 when a non-numeric per_page is given' do
+      get "/api/v1/accounts/#{account.id}/contacts",
+          params: { per_page: 'lots' },
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(JSON.parse(response.body)['payload'].length).to eq(15)
+    end
+  end
+end
