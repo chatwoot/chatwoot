@@ -62,4 +62,40 @@ RSpec.describe Portal do
       end
     end
   end
+
+  describe '#destroy_articles_and_categories_for_removed_locales' do
+    let!(:account) { create(:account) }
+    let!(:portal) { create(:portal, account_id: account.id, config: { allowed_locales: %w[en fr], default_locale: 'en' }) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let!(:en_category) { create(:category, portal: portal, account_id: account.id, locale: 'en', slug: 'en-cat') }
+    let!(:fr_category) { create(:category, portal: portal, account_id: account.id, locale: 'fr', slug: 'fr-cat') }
+
+    before do
+      create(:article, portal: portal, category: en_category, account_id: account.id, author_id: agent.id)
+      create(:article, portal: portal, category: fr_category, account_id: account.id, author_id: agent.id)
+    end
+
+    it 'destroys articles and categories when a locale is removed' do
+      portal.update!(config: { allowed_locales: %w[en], default_locale: 'en' })
+
+      expect(portal.articles.where(locale: 'fr')).to be_empty
+      expect(portal.categories.where(locale: 'fr')).to be_empty
+      expect(portal.articles.where(locale: 'en').count).to eq(1)
+      expect(portal.categories.where(locale: 'en').count).to eq(1)
+    end
+
+    it 'does not destroy anything when locales are unchanged' do
+      portal.update!(config: { allowed_locales: %w[en fr], default_locale: 'en' })
+
+      expect(portal.articles.count).to eq(2)
+      expect(portal.categories.count).to eq(2)
+    end
+
+    it 'does not destroy anything when a new locale is added' do
+      portal.update!(config: { allowed_locales: %w[en fr es], default_locale: 'en' })
+
+      expect(portal.articles.count).to eq(2)
+      expect(portal.categories.count).to eq(2)
+    end
+  end
 end

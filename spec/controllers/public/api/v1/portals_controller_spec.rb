@@ -138,6 +138,64 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
           match(%r{\Ahttps://www\.example\.com/hc/#{Regexp.escape(portal.slug)}/articles/\d+})
         )
       end
+
+      it 'excludes articles from removed locales in the sitemap' do
+        sitemap_portal = create(
+          :portal,
+          slug: 'sitemap-test',
+          config: { allowed_locales: %w[en fr] },
+          custom_domain: 'www.sitemap-test.com',
+          account_id: account.id
+        )
+
+        # Create categories
+        en_cat = create(
+          :category,
+          portal: sitemap_portal,
+          account_id: account.id,
+          locale: 'en',
+          slug: 'sitemap-en'
+        )
+
+        fr_cat = create(
+          :category,
+          portal: sitemap_portal,
+          account_id: account.id,
+          locale: 'fr',
+          slug: 'sitemap-fr'
+        )
+
+        # Create articles
+        en_article = create(
+          :article,
+          portal: sitemap_portal,
+          category: en_cat,
+          account_id: account.id,
+          author_id: agent.id
+        )
+
+        fr_article = create(
+          :article,
+          portal: sitemap_portal,
+          category: fr_cat,
+          account_id: account.id,
+          author_id: agent.id
+        )
+
+        # Simulate removing the 'fr' locale
+        sitemap_portal.update!(config: { allowed_locales: %w[en] })
+
+        # Call sitemap endpoint
+        get "/hc/#{sitemap_portal.slug}/sitemap.xml"
+        expect(response).to have_http_status(:success)
+
+        # Validate only allowed locale content is present
+        expect(response.body).to include(en_article.slug)
+        expect(response.body).not_to include(fr_article.slug)
+
+        # (Optional stronger assertion)
+        expect(response.body.scan('<url>').count).to eq(1)
+      end
     end
   end
 end
