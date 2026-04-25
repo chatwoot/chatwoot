@@ -29,7 +29,10 @@ class AgentBotListener < BaseListener
     changed_attributes = extract_changed_attributes(event)
     inbox = conversation.inbox
     event_name = __method__.to_s
-    payload = conversation.webhook_data.merge(event: event_name, changed_attributes: changed_attributes)
+    payload = agent_bot_message_shaped_conversation_payload(conversation).merge(
+      event: event_name,
+      changed_attributes: changed_attributes
+    )
     agent_bots_for(inbox, conversation).each { |agent_bot| process_webhook_bot_event(agent_bot, payload) }
   end
 
@@ -87,5 +90,26 @@ class AgentBotListener < BaseListener
 
     AgentBots::WebhookJob.perform_later(agent_bot.outgoing_url, payload, :agent_bot_webhook,
                                         secret: agent_bot.secret, delivery_id: SecureRandom.uuid)
+  end
+
+  # Agent-bot message webhooks use Message#webhook_data (message fields at the root and the
+  # conversation nested under `conversation`). `conversation_updated` previously spread
+  # Conversation#webhook_data at the root, which breaks consumers expecting the message payload shape.
+  def agent_bot_message_shaped_conversation_payload(conversation)
+    {
+      account: conversation.account.webhook_data,
+      additional_attributes: conversation.additional_attributes,
+      content_attributes: {},
+      content_type: nil,
+      content: nil,
+      conversation: conversation.webhook_data,
+      created_at: conversation.updated_at,
+      id: nil,
+      inbox: conversation.inbox.webhook_data,
+      message_type: nil,
+      private: false,
+      sender: nil,
+      source_id: nil
+    }
   end
 end
