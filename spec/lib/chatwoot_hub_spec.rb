@@ -18,7 +18,7 @@ describe ChatwootHub do
     it 'get latest version from chatwoot hub' do
       version = '1.1.1'
       response_body = { version: version }.to_json
-      mock_response = double(success?: true, body: response_body)
+      mock_response = instance_double(HTTParty::Response, success?: true, body: response_body)
       allow(HTTParty).to receive(:post).and_return(mock_response)
       expect(described_class.sync_with_hub['version']).to eq version
       expect(HTTParty).to have_received(:post).with(
@@ -31,7 +31,7 @@ describe ChatwootHub do
     it 'will not send instance metrics when telemetry is disabled' do
       version = '1.1.1'
       response_body = { version: version }.to_json
-      mock_response = double(success?: true, body: response_body)
+      mock_response = instance_double(HTTParty::Response, success?: true, body: response_body)
       with_modified_env DISABLE_TELEMETRY: 'true' do
         allow(HTTParty).to receive(:post).and_return(mock_response)
         expect(described_class.sync_with_hub['version']).to eq version

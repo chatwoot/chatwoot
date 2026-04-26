@@ -121,7 +121,7 @@ class ChatwootHub
     response = HTTParty.post(push_notification_url, headers: api_headers, body: info.merge(instance_config).to_json)
     return response if response.success?
 
-    raise RestClient::ExceptionWithResponse.new(response)
+    raise RestClient::ExceptionWithResponse.new(response), response.body
   end
 
   def self.emit_event(event_name, event_data)
