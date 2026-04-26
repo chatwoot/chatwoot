@@ -16,16 +16,24 @@ module Synapseos
     end
 
     def call
+      # Itera por TODOS os stages mesmo se um falhar — não queremos que um
+      # erro de uniqueness no primeiro impeça os demais de existirem.
       ::Synapseos::PipelineStage::DEFAULT_STAGES.each do |attrs|
-        stage = find_or_initialize(attrs)
-        stage.assign_attributes(safe_attrs(attrs))
-        stage.save!
+        upsert_stage(attrs)
       end
-    rescue StandardError => e
-      Rails.logger.warn("[Synapseos::PipelineSeeder] account #{@account.id} falhou: #{e.message}")
     end
 
     private
+
+    def upsert_stage(attrs)
+      stage = find_or_initialize(attrs)
+      stage.assign_attributes(safe_attrs(attrs))
+      stage.save!
+    rescue StandardError => e
+      Rails.logger.error(
+        "[Synapseos::PipelineSeeder] account=#{@account.id} slug=#{attrs[:slug]} name=#{attrs[:name]} falhou: #{e.class} #{e.message}"
+      )
+    end
 
     def slug_supported?
       @slug_supported ||= ::Synapseos::PipelineStage.column_names.include?('slug')
@@ -35,10 +43,17 @@ module Synapseos
       @description_supported ||= ::Synapseos::PipelineStage.column_names.include?('description')
     end
 
+    # Tenta achar primeiro por slug (chave estável), depois pelo nome —
+    # cobre o caso onde a backfill migration renomeou os stages legados
+    # mas o slug ficou nulo.
     def find_or_initialize(attrs)
       scope = ::Synapseos::PipelineStage.where(account_id: @account.id)
+
       if slug_supported?
-        scope.find_or_initialize_by(slug: attrs[:slug])
+        existing = scope.find_by(slug: attrs[:slug]) || scope.find_by(name: attrs[:name])
+        return existing if existing
+
+        scope.new(slug: attrs[:slug])
       else
         scope.find_or_initialize_by(name: attrs[:name])
       end

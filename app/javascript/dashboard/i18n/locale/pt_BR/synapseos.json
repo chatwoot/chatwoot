@@ -217,6 +217,8 @@
       "TEMPLATE_DESCRIPTION": "Escolha um template pré-configurado para o seu segmento. Atenção: isso substituirá todos os estágios atuais e desvinculará os leads existentes.",
       "TEMPLATE_CONFIRM": "Aplicar este template? Todos os estágios atuais serão substituídos e os leads ficarão sem estágio.",
       "TEMPLATE_STAGES": "{count} estágios",
+      "TEMPLATE_FETCH_ERROR": "Não foi possível carregar os templates. Tente novamente.",
+      "TEMPLATE_EMPTY": "Nenhum template disponível no momento.",
       "STAGE_TYPES": {
         "INBOUND": "Inbound",
         "WORKING": "Em andamento",

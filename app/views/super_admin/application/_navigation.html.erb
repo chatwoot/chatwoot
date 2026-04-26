@@ -42,7 +42,17 @@ as defined by the routes in the `admin/` namespace
         %>
 
       <% end %>
-      <% if Synapseos::Agentic.config[:enabled] && Synapseos::Agentic.config[:url].present? %>
+      <%
+        # Defensive: never let a config read or route lookup take down a super_admin page.
+        synapseos_nav_visible = false
+        begin
+          synapseos_cfg = Synapseos::Agentic.config
+          synapseos_nav_visible = synapseos_cfg[:enabled] && synapseos_cfg[:url].present?
+        rescue StandardError => e
+          Rails.logger.warn("[super_admin nav] Synapseos::Agentic.config raised: #{e.class} #{e.message}")
+        end
+      %>
+      <% if synapseos_nav_visible %>
         <%= render partial: 'nav_item',
                    locals: {
                      icon: 'icon-robot-line',

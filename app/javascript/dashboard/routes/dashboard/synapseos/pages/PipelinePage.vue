@@ -26,6 +26,7 @@ const newStageType = ref('custom');
 
 const showTemplateDialog = ref(false);
 const templates = ref([]);
+const templatesError = ref(null);
 const loadingTemplates = ref(false);
 const applyingTemplate = ref(false);
 
@@ -175,11 +176,21 @@ const formatAmount = amount => {
 const openTemplates = async () => {
   showTemplateDialog.value = true;
   loadingTemplates.value = true;
+  templatesError.value = null;
   try {
     const { data } = await axios.get(
       `${apiBase.value}/pipeline_stages/templates`
     );
-    templates.value = data;
+    templates.value = Array.isArray(data) ? data : [];
+    if (!templates.value.length) {
+      templatesError.value = t('SYNAPSEOS.PIPELINE.TEMPLATE_EMPTY');
+    }
+  } catch (e) {
+    templates.value = [];
+    templatesError.value =
+      e?.response?.data?.error ||
+      e?.message ||
+      t('SYNAPSEOS.PIPELINE.TEMPLATE_FETCH_ERROR');
   } finally {
     loadingTemplates.value = false;
   }
@@ -481,6 +492,12 @@ onMounted(fetchPipeline);
         <p class="text-sm text-s-muted">
           {{ t('SYNAPSEOS.PIPELINE.TEMPLATE_DESCRIPTION') }}
         </p>
+        <div
+          v-if="templatesError"
+          class="rounded-md border border-s-error/30 bg-s-error-soft text-s-error-text text-xs p-3"
+        >
+          {{ templatesError }}
+        </div>
         <div
           v-for="tmpl in templates"
           :key="tmpl.key"

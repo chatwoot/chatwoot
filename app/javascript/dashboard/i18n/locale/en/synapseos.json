@@ -217,6 +217,8 @@
       "TEMPLATE_DESCRIPTION": "Choose a pre-configured pipeline template for your segment. Warning: this will replace all current stages and unassign existing leads.",
       "TEMPLATE_CONFIRM": "Apply this template? All current stages will be replaced and leads will be unassigned.",
       "TEMPLATE_STAGES": "{count} stages",
+      "TEMPLATE_FETCH_ERROR": "Could not load templates from the server. Please try again.",
+      "TEMPLATE_EMPTY": "No templates available right now.",
       "STAGE_TYPES": {
         "INBOUND": "Inbound",
         "WORKING": "Working",

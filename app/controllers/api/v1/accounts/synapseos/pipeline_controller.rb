@@ -9,21 +9,28 @@ class Api::V1::Accounts::Synapseos::PipelineController < Api::V1::Accounts::Base
 
   private
 
-  # Tenta seedar. Se persistir vazio (coluna slug faltando, falha de save,
-  # etc.), garante ao menos que a UI receba os 5 stages default em memória —
-  # assim a experiência não depende de migration estar aplicada em prod.
+  # Tenta seedar. Se persistir vazio depois do seeder, tenta um fallback que
+  # cria stages mínimos sem slug/description. Falhas são logadas em ERROR
+  # (não warn) pra ficarem visíveis em prod.
   def ensure_default_stages
     ::Synapseos::EnsureDefaultStagesService.new(Current.account).call
-    return if ::Synapseos::PipelineStage.where(account_id: Current.account.id).exists?
 
-    # Último recurso: cria sem slug se a coluna não suporta.
+    existing_count = ::Synapseos::PipelineStage.where(account_id: Current.account.id).count
+    return if existing_count >= ::Synapseos::PipelineStage::DEFAULT_STAGES.size
+
+    Rails.logger.error(
+      "[Pipeline] account=#{Current.account.id} ainda tem #{existing_count}/#{::Synapseos::PipelineStage::DEFAULT_STAGES.size} stages após seeder; tentando fallback"
+    )
+
     ::Synapseos::PipelineStage::DEFAULT_STAGES.each do |attrs|
+      next if ::Synapseos::PipelineStage.where(account_id: Current.account.id, name: attrs[:name]).exists?
+
       payload = attrs.merge(account_id: Current.account.id)
       payload = payload.except(:slug) unless ::Synapseos::PipelineStage.column_names.include?('slug')
       payload = payload.except(:description) unless ::Synapseos::PipelineStage.column_names.include?('description')
       ::Synapseos::PipelineStage.create!(payload)
     rescue StandardError => e
-      Rails.logger.warn("[Pipeline] fallback seed falhou: #{e.message}")
+      Rails.logger.error("[Pipeline] fallback seed account=#{Current.account.id} stage=#{attrs[:name]} falhou: #{e.class} #{e.message}")
     end
   end
 
