@@ -1282,8 +1282,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_26_041637) do
     t.string "stage_type", default: "custom", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.text "description"
     t.index ["account_id", "name"], name: "index_synapseos_pipeline_stages_on_account_id_and_name", unique: true
     t.index ["account_id", "position"], name: "index_synapseos_pipeline_stages_on_account_id_and_position"
+    t.index ["account_id", "slug"], name: "index_synapseos_pipeline_stages_on_account_id_and_slug", unique: true
     t.index ["account_id"], name: "index_synapseos_pipeline_stages_on_account_id"
   end
 

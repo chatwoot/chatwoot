@@ -29,9 +29,14 @@ class Api::V1::Accounts::Synapseos::PipelineStagesController < Api::V1::Accounts
   end
 
   def apply_template
-    ::Synapseos::PipelineTemplates.apply(Current.account, params[:template_key])
+    key = params[:template_key].presence
+    raise ArgumentError, "template_key is required" if key.nil?
+
+    ::Synapseos::PipelineTemplates.apply(Current.account, key)
     @stages = scope.ordered
     render :index
+  rescue ArgumentError => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def reorder

@@ -61,6 +61,11 @@ class SuperAdmin::Synapseos::ClientsController < SuperAdmin::ApplicationControll
       return
     end
 
+    if client_result.failure?
+      redirect_to super_admin_synapseos_clients_path, alert: humanize_agentic_error(client_result)
+      return
+    end
+
     @client_payload = client_result.data || {}
     @values = @client_payload
     load_form_metadata
