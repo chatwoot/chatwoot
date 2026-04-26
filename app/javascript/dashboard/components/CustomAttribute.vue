@@ -136,7 +136,7 @@ export default {
         regexValidation: value => {
           if (!this.attributeRegex) return true;
           try {
-            return getRegexp(this.attributeRegex).test(value || '');
+            return getRegexp(this.attributeRegex).test(value ?? '');
           } catch (exception) {
             return true; // fallback for malformed or incorrect regex
           }
