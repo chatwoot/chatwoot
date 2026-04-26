@@ -36,10 +36,9 @@ class DataImportJob < ApplicationJob
     with_import_file do |file|
       csv_reader(file).each do |row|
         current_contact = @contact_manager.build_contact(row.to_h.with_indifferent_access)
-        if duplicate_phone_number_in_import?(current_contact, imported_phone_numbers) ||
-           duplicate_phone_number_in_db?(current_contact, existing_phone_numbers)
-          append_rejected_contact(row, current_contact, rejected_contacts)
-        elsif current_contact.valid?
+        if current_contact.valid? &&
+           !duplicate_phone_number_in_import?(current_contact, imported_phone_numbers) &&
+           !duplicate_phone_number_in_db?(current_contact, existing_phone_numbers)
           contacts << current_contact
           imported_phone_numbers << current_contact.phone_number if current_contact.phone_number.present?
         else
