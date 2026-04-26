@@ -10,7 +10,7 @@ class Whatsapp::PhoneNumberNormalizationService
   #   - Cloud: "5541988887777" (clean number)
   #   - Twilio: "whatsapp:+5541988887777" (prefixed format)
   # @param provider [Symbol] :cloud or :twilio
-  # @return [String] Normalized source_id in provider format or original if not found
+  # @return [String] Existing normalized source_id, or normalized provider format if no contact exists
   def normalize_and_find_contact_by_provider(raw_number, provider)
     # Extract clean number based on provider format
     clean_number = extract_clean_number(raw_number, provider)
@@ -26,7 +26,7 @@ class Whatsapp::PhoneNumberNormalizationService
     provider_format = format_for_provider(normalized_clean_number, provider)
     existing_contact_inbox = find_existing_contact_inbox(provider_format)
 
-    existing_contact_inbox&.source_id || raw_number
+    existing_contact_inbox&.source_id || provider_format
   end
 
   private
