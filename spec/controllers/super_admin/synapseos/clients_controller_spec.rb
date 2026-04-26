@@ -268,6 +268,19 @@ RSpec.describe 'Super Admin Synapseos clients', type: :request do
         expect(log.account_id).to eq(7)
       end
 
+      it 'does not crash when client params are missing entirely' do
+        stub_form_metadata
+        stub_request(:put, %r{#{base_url}/api/clients/.*})
+          .to_return(status: 422, body: { detail: [{ loc: %w[body slug], msg: 'field required' }] }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
+        sign_in(super_admin, scope: :super_admin)
+        post '/super_admin/synapseos/clients'
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include('Slug')
+      end
+
       it 'flattens 422 validation errors and re-renders new' do
         stub_form_metadata
         validation_body = {
@@ -308,6 +321,19 @@ RSpec.describe 'Super Admin Synapseos clients', type: :request do
 
         expect(response).to redirect_to(super_admin_synapseos_client_path(slug: 'acme'))
         expect(SynapseosAgenticDeploymentLog.last.action).to eq('update')
+      end
+
+      it 'does not crash when client params are missing entirely' do
+        stub_form_metadata
+        stub_request(:put, "#{base_url}/api/clients/acme")
+          .to_return(status: 422, body: { detail: [{ loc: %w[body name], msg: 'field required' }] }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
+        sign_in(super_admin, scope: :super_admin)
+        patch '/super_admin/synapseos/clients/acme'
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include('Edit acme')
       end
     end
 
