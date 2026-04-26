@@ -191,7 +191,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
       end
 
       it 'allows an agent to self-assign an unassigned conversation' do
-        conversation.update!(assignee_id: nil)
+        conversation.update!(assignee_id: nil, assignee_agent_bot_id: nil)
 
         post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
              params: { assignee_id: agent.id },
@@ -200,6 +200,19 @@ RSpec.describe 'Conversation Assignment API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.assignee).to eq(agent)
+      end
+
+      it 'blocks an agent from self-assigning a bot-owned conversation' do
+        agent_bot = create(:agent_bot, account: account)
+        create(:agent_bot_inbox, inbox: conversation.inbox, agent_bot: agent_bot)
+        conversation.update!(assignee_id: nil, assignee_agent_bot_id: agent_bot.id)
+
+        post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { assignee_id: agent.id },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
       end
     end
 
