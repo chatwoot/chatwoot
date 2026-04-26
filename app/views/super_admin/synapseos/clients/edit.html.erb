@@ -1,0 +1,20 @@
+<% content_for(:title) do %>Edit <%= params[:slug] %><% end %>
+
+<header class="main-content__header" role="banner">
+  <div class="flex items-center justify-between w-full">
+    <h1 class="main-content__page-title m-0 mr-6" id="page-title">
+      Edit <%= @client_payload['name'].presence || params[:slug] %>
+      <span class="text-sm text-slate-500 font-normal ml-2"><%= params[:slug] %></span>
+    </h1>
+    <%= link_to '← Back to client', super_admin_synapseos_client_path(slug: params[:slug]),
+                class: 'text-sm text-woot-500 hover:underline' %>
+  </div>
+</header>
+
+<section class="main-content__body">
+  <%= render 'form',
+             form_action: super_admin_synapseos_client_path(slug: params[:slug]),
+             form_method: :patch,
+             cancel_path: super_admin_synapseos_client_path(slug: params[:slug]),
+             submit_label: 'Save changes' %>
+</section>

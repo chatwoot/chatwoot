@@ -191,4 +191,169 @@ RSpec.describe 'Super Admin Synapseos clients', type: :request do
       end
     end
   end
+
+  describe 'CRUD actions (Fase 2.2)' do
+    let(:schema_payload) do
+      {
+        'type' => 'object',
+        'properties' => {
+          'slug' => { 'type' => 'string', 'title' => 'Slug' },
+          'name' => { 'type' => 'string', 'title' => 'Name' },
+          'chatwoot_account_id' => { 'type' => 'integer', 'title' => 'Chatwoot account' },
+          'credentials' => {
+            'type' => 'object',
+            'properties' => {
+              'postgres' => {
+                'type' => 'object',
+                'properties' => {
+                  'id' => { 'type' => 'string' },
+                  'name' => { 'type' => 'string' }
+                }
+              }
+            }
+          }
+        },
+        'required' => %w[slug name]
+      }
+    end
+    let(:templates_payload) { { 'agents' => { 'sales' => { 'display_name' => 'Sales' } } } }
+    let(:credentials_payload) { [{ 'id' => 'cred-1', 'name' => 'Postgres prod', 'type' => 'postgres' }] }
+
+    def stub_form_metadata
+      stub_request(:get, "#{base_url}/api/schema")
+        .to_return(status: 200, body: schema_payload.to_json,
+                   headers: { 'Content-Type' => 'application/json' })
+      stub_request(:get, "#{base_url}/api/templates")
+        .to_return(status: 200, body: templates_payload.to_json,
+                   headers: { 'Content-Type' => 'application/json' })
+      stub_request(:get, "#{base_url}/api/n8n/credentials")
+        .to_return(status: 200, body: credentials_payload.to_json,
+                   headers: { 'Content-Type' => 'application/json' })
+    end
+
+    before { configure_agentic! }
+
+    describe 'GET /super_admin/synapseos/clients/new' do
+      it 'renders the form with templates/credentials/schema fetched' do
+        stub_form_metadata
+
+        sign_in(super_admin, scope: :super_admin)
+        get '/super_admin/synapseos/clients/new'
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('Slug')
+        expect(response.body).to include('Postgres prod')
+      end
+    end
+
+    describe 'POST /super_admin/synapseos/clients' do
+      it 'creates the client, writes audit row, and redirects to show on success' do
+        stub_form_metadata
+        stub_request(:put, "#{base_url}/api/clients/acme")
+          .to_return(status: 200, body: { slug: 'acme', name: 'Acme' }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
+        sign_in(super_admin, scope: :super_admin)
+
+        expect do
+          post '/super_admin/synapseos/clients',
+               params: { slug: 'acme', client: { slug: 'acme', name: 'Acme', chatwoot_account_id: '7' } }
+        end.to change(SynapseosAgenticDeploymentLog, :count).by(1)
+
+        expect(response).to redirect_to(super_admin_synapseos_client_path(slug: 'acme'))
+        log = SynapseosAgenticDeploymentLog.last
+        expect(log.action).to eq('create')
+        expect(log.status).to eq('success')
+        expect(log.slug).to eq('acme')
+        expect(log.account_id).to eq(7)
+      end
+
+      it 'flattens 422 validation errors and re-renders new' do
+        stub_form_metadata
+        validation_body = {
+          detail: [
+            { loc: %w[body credentials postgres id], msg: 'field required', type: 'value_error.missing' }
+          ]
+        }
+        stub_request(:put, "#{base_url}/api/clients/acme")
+          .to_return(status: 422, body: validation_body.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
+        sign_in(super_admin, scope: :super_admin)
+        post '/super_admin/synapseos/clients',
+             params: { slug: 'acme', client: { slug: 'acme', name: 'Acme' } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include('credentials.postgres.id')
+        expect(response.body).to include('field required')
+
+        log = SynapseosAgenticDeploymentLog.last
+        expect(log.status).to eq('failure')
+      end
+    end
+
+    describe 'PATCH /super_admin/synapseos/clients/:slug' do
+      it 'updates the client, writes audit row, and redirects to show' do
+        stub_form_metadata
+        stub_request(:put, "#{base_url}/api/clients/acme")
+          .to_return(status: 200, body: { slug: 'acme', name: 'Acme v2' }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
+        sign_in(super_admin, scope: :super_admin)
+
+        expect do
+          patch '/super_admin/synapseos/clients/acme',
+                params: { client: { slug: 'acme', name: 'Acme v2', chatwoot_account_id: '7' } }
+        end.to change(SynapseosAgenticDeploymentLog, :count).by(1)
+
+        expect(response).to redirect_to(super_admin_synapseos_client_path(slug: 'acme'))
+        expect(SynapseosAgenticDeploymentLog.last.action).to eq('update')
+      end
+    end
+
+    describe 'DELETE /super_admin/synapseos/clients/:slug' do
+      it 'deletes the client, writes audit row, and redirects to index' do
+        stub_request(:delete, "#{base_url}/api/clients/acme")
+          .to_return(status: 200, body: { ok: true }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
+        sign_in(super_admin, scope: :super_admin)
+
+        expect do
+          delete '/super_admin/synapseos/clients/acme'
+        end.to change(SynapseosAgenticDeploymentLog, :count).by(1)
+
+        expect(response).to redirect_to(super_admin_synapseos_clients_path)
+        expect(SynapseosAgenticDeploymentLog.last.action).to eq('delete')
+      end
+
+      it 'flashes a friendly error and redirects to show on 409 conflict' do
+        stub_request(:delete, "#{base_url}/api/clients/acme")
+          .to_return(status: 409, body: { detail: 'still deployed' }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
+        sign_in(super_admin, scope: :super_admin)
+        delete '/super_admin/synapseos/clients/acme'
+
+        expect(response).to redirect_to(super_admin_synapseos_client_path(slug: 'acme'))
+        expect(flash[:error]).to include('deployed')
+      end
+    end
+
+    describe '#build_payload_from_params' do
+      let(:controller_instance) { SuperAdmin::Synapseos::ClientsController.new }
+
+      it 'zips __keys__ / __values__ pairs into a flat hash and strips blanks' do
+        input = { 'extra_placeholders' => { '__keys__' => %w[foo bar], '__values__' => %w[1 2] } }
+        result = controller_instance.send(:build_payload_from_params, input)
+        expect(result).to eq('extra_placeholders' => { 'foo' => '1', 'bar' => '2' })
+      end
+
+      it 'coerces booleans and integers' do
+        input = { 'agents' => { 'sales' => { 'enabled' => 'true', 'priority' => '5' } } }
+        result = controller_instance.send(:build_payload_from_params, input)
+        expect(result).to eq('agents' => { 'sales' => { 'enabled' => true, 'priority' => 5 } })
+      end
+    end
+  end
 end

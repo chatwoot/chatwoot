@@ -1,0 +1,16 @@
+<% content_for(:title) do %>New Synapse client<% end %>
+
+<header class="main-content__header" role="banner">
+  <div class="flex items-center justify-between w-full">
+    <h1 class="main-content__page-title m-0 mr-6" id="page-title">New Synapse client</h1>
+    <%= link_to '← Back to clients', super_admin_synapseos_clients_path, class: 'text-sm text-woot-500 hover:underline' %>
+  </div>
+</header>
+
+<section class="main-content__body">
+  <%= render 'form',
+             form_action: super_admin_synapseos_clients_path,
+             form_method: :post,
+             cancel_path: super_admin_synapseos_clients_path,
+             submit_label: 'Create client' %>
+</section>
