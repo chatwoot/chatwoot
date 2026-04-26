@@ -118,7 +118,10 @@ class ChatwootHub
 
   def self.send_push_with_response(fcm_options)
     info = { fcm_options: fcm_options }
-    HTTParty.post(push_notification_url, headers: api_headers, body: info.merge(instance_config).to_json)
+    response = HTTParty.post(push_notification_url, headers: api_headers, body: info.merge(instance_config).to_json)
+    return response if response.success?
+
+    raise RestClient::ExceptionWithResponse.new(response)
   end
 
   def self.emit_event(event_name, event_data)

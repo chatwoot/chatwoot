@@ -95,4 +95,21 @@ describe ChatwootHub do
       end
     end
   end
+
+  context 'when sending push notifications' do
+    let(:fcm_options) { { 'token' => 'token-123' } }
+
+    it 'raises for non-2xx responses with the original response attached' do
+      response = instance_double(HTTParty::Response, success?: false, code: 500, body: '{"error":"boom"}')
+      allow(HTTParty).to receive(:post).and_return(response)
+
+      expect do
+        described_class.send_push_with_response(fcm_options)
+      end.to raise_error(RestClient::ExceptionWithResponse) { |error|
+        expect(error.response).to eq(response)
+        expect(error.response.code).to eq(500)
+        expect(error.response.body).to eq('{"error":"boom"}')
+      }
+    end
+  end
 end
