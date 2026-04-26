@@ -62,8 +62,13 @@ class DataImport::ContactManager
     contact.name = params[:name] if params[:name].present?
     contact.additional_attributes ||= {}
     company_name = params[:company_name].presence || params[:company].presence
-    contact.additional_attributes[:company_name] = company_name if company_name.present?
+    if company_name.present?
+      contact.additional_attributes[:company_name] = company_name
+      contact.additional_attributes[:company] = company_name
+    end
     contact.additional_attributes[:city] = params[:city] if params[:city].present?
-    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :email, :name, :phone_number)))
+    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(
+      params.except(:identifier, :email, :name, :phone_number, :company, :company_name)
+    ))
   end
 end
