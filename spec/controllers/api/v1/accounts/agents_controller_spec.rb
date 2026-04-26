@@ -127,6 +127,18 @@ RSpec.describe 'Agents API', type: :request do
         expect(other_agent.reload.name).to eq(params[:name])
       end
 
+      it 'modifies agent availability using availability_status param' do
+        put "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
+            params: { availability_status: 'offline' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = response.parsed_body
+        expect(response_data['availability_status']).to eq('offline')
+        expect(other_agent.reload.account_users.first.availability).to eq('offline')
+      end
+
       it 'modifies an agents account user attributes' do
         put "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
             params: { role: 'administrator', availability: 'busy', auto_offline: false },
