@@ -35,7 +35,7 @@ module Integrations::Slack::SlackMessageHelper
       message_type: :outgoing,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
-      content: Slack::Messages::Formatting.unescape(params[:event][:text] || ''),
+      content: process_slack_message_content(params[:event][:text]),
       external_source_id_slack: params[:event][:ts],
       private: private_note?,
       sender: resolved_sender,
@@ -106,5 +106,10 @@ module Integrations::Slack::SlackMessageHelper
 
   def private_note?
     params[:event][:text].strip.downcase.starts_with?('note:', 'private:')
+  end
+
+  def process_slack_message_content(text)
+    unescaped_text = Slack::Messages::Formatting.unescape(text || '')
+    Integrations::Slack::EmojiConverter.convert_slack_emoji(unescaped_text)
   end
 end

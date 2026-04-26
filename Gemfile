@@ -110,6 +110,8 @@ gem 'twitty', '~> 0.1.5'
 gem 'koala'
 # slack client
 gem 'slack-ruby-client', '~> 2.7.0'
+# emoji shortcode to unicode conversion for slack messages
+gem 'gemoji'
 # for dialogflow integrations
 gem 'google-cloud-dialogflow-v2', '>= 0.24.0'
 gem 'grpc'
