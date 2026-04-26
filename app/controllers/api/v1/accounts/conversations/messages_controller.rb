@@ -19,11 +19,13 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
 
-    def destroy
+def destroy
     # New Guard Clause
     if current_account.settings['disable_message_delete']
       return render json: { error: 'Message deletion is disabled for this account' }, status: :forbidden
     end
+
+  
 
     ActiveRecord::Base.transaction do
       message.update!(content: I18n.t('conversations.messages.deleted'), content_type: :text, content_attributes: { deleted: true })

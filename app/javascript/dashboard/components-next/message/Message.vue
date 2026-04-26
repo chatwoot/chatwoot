@@ -365,6 +365,8 @@ const payloadForContextMenu = computed(() => {
   };
 });
 
+
+
 const contextMenuEnabledOptions = computed(() => {
   const hasText = !!props.content;
   const hasAttachments = !!(props.attachments && props.attachments.length > 0);
@@ -377,14 +379,18 @@ const contextMenuEnabledOptions = computed(() => {
 
   const isMessageDeleteDisabled = currentAccount.value?.settings?.disable_message_delete;
 
- 
+
+const isMessageDeleteDisabled = currentAccount.value?.settings?.disable_message_delete;
 
   return {
     copy: hasText,
     delete:
       (hasText || hasAttachments) &&
       !isFailedOrProcessing &&
-      !isMessageDeleted.value,
+      !isMessageDeleted.value &&
+      !isMessageDeleteDisabled,
+ 
+
     cannedResponse: isOutgoing && hasText && !isMessageDeleted.value,
     copyLink: !isFailedOrProcessing,
     translate: !isFailedOrProcessing && !isMessageDeleted.value && hasText,
