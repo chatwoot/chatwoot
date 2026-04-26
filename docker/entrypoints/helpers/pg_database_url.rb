@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require 'rbconfig'
 require 'uri'
 
 # Let DATABASE_URL env take presedence over individual connection params.

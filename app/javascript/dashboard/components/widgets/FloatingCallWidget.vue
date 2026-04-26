@@ -23,7 +23,9 @@ const {
 
 const getCallInfo = call => {
   const conversation = store.getters.getConversationById(call?.conversationId);
-  const inbox = store.getters['inboxes/getInbox'](conversation?.inbox_id);
+  const inbox = conversation
+    ? store.getters['inboxes/getInbox'](conversation.inbox_id)
+    : null;
   const sender = conversation?.meta?.sender;
   return {
     conversation,
@@ -48,7 +50,13 @@ const handleEndCall = async () => {
 };
 
 const handleJoinCall = async call => {
-  const { conversation } = getCallInfo(call);
+  let { conversation } = getCallInfo(call);
+
+  if (!conversation && call?.conversationId) {
+    await store.dispatch('getConversation', call.conversationId);
+    conversation = store.getters.getConversationById(call.conversationId);
+  }
+
   if (!call || !conversation || isJoining.value) return;
 
   // End current active call before joining new one
