@@ -25,7 +25,7 @@ describe 'Session Store Configuration' do
       expect(session_options[:httponly]).to be(true)
     end
 
-    context 'in production environment' do
+    context 'when in production environment' do
       it 'sets secure flag based on Rails environment' do
         # In production, secure should be true
         # In development/test, secure should be false
@@ -47,7 +47,7 @@ describe 'Session Store Configuration' do
     context 'when SESSION_COOKIE_KEY is not set' do
       it 'falls back to default _chatwoot_session' do
         # Temporarily remove the env var to test default
-        original_value = ENV['SESSION_COOKIE_KEY']
+        original_value = ENV.fetch('SESSION_COOKIE_KEY', nil)
         ENV.delete('SESSION_COOKIE_KEY')
 
         expect(ENV.fetch('SESSION_COOKIE_KEY', '_chatwoot_session')).to eq('_chatwoot_session')
