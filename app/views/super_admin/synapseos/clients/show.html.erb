@@ -38,7 +38,17 @@
       <%= @client['name'].presence || @client['slug'] || params[:slug] %>
       <span class="text-sm text-slate-500 font-normal ml-2"><%= @client['slug'] %></span>
     </h1>
-    <%= link_to '← Back to clients', super_admin_synapseos_clients_path, class: 'text-sm text-woot-500 hover:underline' %>
+    <div class="flex items-center gap-2">
+      <%= link_to 'Edit',
+                  edit_super_admin_synapseos_client_path(slug: params[:slug]),
+                  class: 'inline-flex items-center px-3 py-1.5 bg-woot-500 text-white text-sm font-medium rounded hover:bg-woot-600' %>
+      <%= link_to 'Delete',
+                  super_admin_synapseos_client_path(slug: params[:slug]),
+                  method: :delete,
+                  data: { confirm: 'Are you sure? This deletes the client.yaml file in the agentic panel.' },
+                  class: 'inline-flex items-center px-3 py-1.5 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-700' %>
+      <%= link_to '← Back to clients', super_admin_synapseos_clients_path, class: 'text-sm text-woot-500 hover:underline ml-2' %>
+    </div>
   </div>
 </header>
 

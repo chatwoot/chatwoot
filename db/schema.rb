@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_24_130000) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_26_041637) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1201,6 +1201,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_24_130000) do
     t.string "description"
     t.float "resolution_time_threshold"
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
+  end
+
+  create_table "synapseos_agentic_deployment_logs", force: :cascade do |t|
+    t.string "slug", null: false
+    t.integer "account_id"
+    t.integer "super_admin_id"
+    t.string "action", null: false
+    t.string "status", null: false
+    t.jsonb "payload"
+    t.jsonb "result_summary"
+    t.text "error_message"
+    t.datetime "created_at", null: false
+    t.index ["account_id"], name: "index_synapseos_agentic_deployment_logs_on_account_id"
+    t.index ["action"], name: "index_synapseos_agentic_deployment_logs_on_action"
+    t.index ["slug"], name: "index_synapseos_agentic_deployment_logs_on_slug"
   end
 
   create_table "synapseos_crm_events", force: :cascade do |t|

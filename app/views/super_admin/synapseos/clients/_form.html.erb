@@ -1,0 +1,35 @@
+<%# locals: form_action, form_method, cancel_path, submit_label %>
+
+<% if flash.now[:error].present? %>
+  <div class="m-4 p-3 border-l-4 border-red-400 bg-red-50 rounded">
+    <p class="text-sm text-red-700"><%= flash.now[:error] %></p>
+  </div>
+<% end %>
+
+<% if @errors.present? %>
+  <div class="m-4 p-3 border-l-4 border-red-400 bg-red-50 rounded">
+    <p class="text-sm font-semibold text-red-800 mb-1">Validation errors</p>
+    <ul class="list-disc list-inside text-xs text-red-700">
+      <% @errors.each do |path, msg| %>
+        <li><code class="text-xs"><%= path %></code>: <%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_tag(form_action, method: form_method, class: 'space-y-4 p-4') do %>
+  <%= synapseos_schema_form(
+        schema: @schema,
+        values: @values,
+        credentials: @credentials,
+        agents_meta: @templates,
+        errors: @errors,
+        name_prefix: 'client') %>
+
+  <div class="flex items-center gap-2 pt-4 border-t border-slate-100">
+    <%= submit_tag submit_label,
+                   class: 'inline-flex items-center px-4 py-2 bg-woot-500 text-white text-sm font-medium rounded hover:bg-woot-600' %>
+    <%= link_to 'Cancel', cancel_path,
+                class: 'inline-flex items-center px-4 py-2 bg-slate-100 text-slate-700 text-sm font-medium rounded hover:bg-slate-200' %>
+  </div>
+<% end %>
