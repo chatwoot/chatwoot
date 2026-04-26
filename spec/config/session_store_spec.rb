@@ -25,11 +25,11 @@ describe 'Session Store Configuration' do
       expect(session_options[:httponly]).to be(true)
     end
 
-    context 'when in production environment' do
-      it 'sets secure flag based on Rails environment' do
-        # In production, secure should be true
-        # In development/test, secure should be false
-        expected_secure = Rails.env.production?
+    context 'when checking secure flag' do
+      it 'sets secure flag based on FORCE_SSL environment variable' do
+        # Secure flag follows FORCE_SSL setting, not Rails environment
+        # This ensures compatibility with production setups that don't use SSL
+        expected_secure = ActiveModel::Type::Boolean.new.cast(ENV.fetch('FORCE_SSL', false))
         expect(session_options[:secure]).to eq(expected_secure)
       end
     end
