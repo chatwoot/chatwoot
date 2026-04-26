@@ -126,7 +126,7 @@ describe AgentBotListener do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
         expect(AgentBots::WebhookJob).to receive(:perform_later).with(
           agent_bot.outgoing_url,
-          conversation.webhook_data.merge(event: 'conversation_updated', changed_attributes: nil),
+          { event: 'conversation_updated', changed_attributes: nil, conversation: conversation.webhook_data },
           :agent_bot_webhook, secret: agent_bot.secret, delivery_id: instance_of(String)
         ).once
         listener.conversation_updated(event)
@@ -147,10 +147,7 @@ describe AgentBotListener do
         expected_changed_attributes = [{ 'assignee_agent_bot_id' => { previous_value: nil, current_value: agent_bot.id } }]
         expect(AgentBots::WebhookJob).to receive(:perform_later).with(
           agent_bot.outgoing_url,
-          conversation.webhook_data.merge(
-            event: 'conversation_updated',
-            changed_attributes: expected_changed_attributes
-          ),
+          { event: 'conversation_updated', changed_attributes: expected_changed_attributes, conversation: conversation.webhook_data },
           :agent_bot_webhook, secret: agent_bot.secret, delivery_id: instance_of(String)
         ).once
         listener.conversation_updated(event)
