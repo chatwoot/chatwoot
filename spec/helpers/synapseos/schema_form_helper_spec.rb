@@ -226,6 +226,14 @@ describe Synapseos::SchemaFormHelper do
       checkbox = doc.at_css('input[type="checkbox"][name="client[agents][support][enabled]"]')
       expect(checkbox['checked']).to eq('checked')
     end
+
+    it 'deduplicates slugs that appear as symbol in agents_meta and string in values' do
+      meta = { sales: { display_name: 'Sales' } }
+      doc = fragment(render(schema, agents_meta: meta, values: { 'agents' => { 'sales' => { 'enabled' => true } } }))
+      details = doc.css('details[data-agent-slug="sales"]')
+      expect(details.length).to eq(1)
+      expect(doc.text).to include('Sales')
+    end
   end
 
   describe 'WhatsappConfig provider toggle' do

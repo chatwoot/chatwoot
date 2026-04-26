@@ -286,14 +286,18 @@ module Synapseos::SchemaFormHelper
     value = field.value.is_a?(Hash) ? field.value : {}
     target = resolve_ref(field.schema['additionalProperties']['$ref'], field.ctx[:schema])
     legend = tag.legend(humanize(field.prop_name), class: LEGEND_CLASSES)
-    slugs = (field.ctx[:agents_meta].keys + value.keys).uniq
+    slugs = agent_slugs(field.ctx[:agents_meta], value)
     blocks = slugs.map { |slug| agent_block(field, target, slug, value) }
     tag.fieldset(safe_join([legend, *blocks]), class: FIELDSET_CLASSES, data: { agents_map: true })
   end
 
+  def agent_slugs(agents_meta, value)
+    (agents_meta.keys.map(&:to_s) + value.keys.map(&:to_s)).uniq
+  end
+
   def agent_block(field, target, slug, value)
-    meta = field.ctx[:agents_meta][slug] || field.ctx[:agents_meta][slug.to_s] || {}
-    agent_value = value[slug] || value[slug.to_s] || agent_default_values(target)
+    meta = field.ctx[:agents_meta][slug] || field.ctx[:agents_meta][slug.to_sym] || {}
+    agent_value = value[slug] || value[slug.to_sym] || agent_default_values(target)
     sub_field = field.child(slug, target, agent_value)
     body = render_object(sub_field)
     tag.details(safe_join([agent_summary(slug, meta), tag.div(body, class: 'mt-3')]),
@@ -378,7 +382,7 @@ module Synapseos::SchemaFormHelper
           if (!select || !hidden) return;
           select.addEventListener('change', function () {
             var opt = select.options[select.selectedIndex];
-            hidden.value = opt ? (opt.dataset.name || opt.textContent) : '';
+            hidden.value = opt ? (opt.dataset.name || '') : '';
           });
         });
 
