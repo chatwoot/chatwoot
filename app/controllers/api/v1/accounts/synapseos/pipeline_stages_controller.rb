@@ -24,6 +24,16 @@ class Api::V1::Accounts::Synapseos::PipelineStagesController < Api::V1::Accounts
     head :ok
   end
 
+  def templates
+    render json: ::Synapseos::PipelineTemplates.list
+  end
+
+  def apply_template
+    ::Synapseos::PipelineTemplates.apply(Current.account, params[:template_key])
+    @stages = scope.ordered
+    render :index
+  end
+
   def reorder
     ensure_defaults
     ActiveRecord::Base.transaction do
@@ -48,7 +58,7 @@ class Api::V1::Accounts::Synapseos::PipelineStagesController < Api::V1::Accounts
   end
 
   def stage_params
-    params.require(:pipeline_stage).permit(:name, :color, :position, :stage_type)
+    params.require(:pipeline_stage).permit(:name, :color, :position, :stage_type, :description)
   end
 
   def ensure_defaults

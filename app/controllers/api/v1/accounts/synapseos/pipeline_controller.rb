@@ -20,6 +20,7 @@ class Api::V1::Accounts::Synapseos::PipelineController < Api::V1::Accounts::Base
     ::Synapseos::PipelineStage::DEFAULT_STAGES.each do |attrs|
       payload = attrs.merge(account_id: Current.account.id)
       payload = payload.except(:slug) unless ::Synapseos::PipelineStage.column_names.include?('slug')
+      payload = payload.except(:description) unless ::Synapseos::PipelineStage.column_names.include?('description')
       ::Synapseos::PipelineStage.create!(payload)
     rescue StandardError => e
       Rails.logger.warn("[Pipeline] fallback seed falhou: #{e.message}")
