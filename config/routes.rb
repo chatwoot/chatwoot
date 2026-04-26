@@ -61,7 +61,11 @@ Rails.application.routes.draw do
             resources :live_agents, only: [:index] do
               member { get :conversations }
             end
-            resources :leads, only: [:index, :show, :create, :update]
+            resources :leads, only: [:index, :show, :create, :update] do
+              collection do
+                get 'by_conversation/:conversation_id', action: :by_conversation
+              end
+            end
             resources :deals, only: [:index, :show, :create, :update]
             resources :crm_events, only: [:index, :create]
             resources :pipeline_stages do

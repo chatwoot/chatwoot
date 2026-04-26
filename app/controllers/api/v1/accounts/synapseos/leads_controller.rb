@@ -17,6 +17,17 @@ class Api::V1::Accounts::Synapseos::LeadsController < Api::V1::Accounts::BaseCon
     @lead.update!(lead_params)
   end
 
+  # GET /synapseos/leads/by_conversation/:conversation_id
+  # Atalho pra N8N: dado o conversation_id que vem no webhook do Chatwoot,
+  # retorna o lead com o pipeline_stage atual. Evita uma chamada extra na
+  # listagem + filtro client-side.
+  def by_conversation
+    @lead = scope.find_by(conversation_id: params[:conversation_id])
+    return render(json: { error: 'lead not found for conversation' }, status: :not_found) unless @lead
+
+    render :show
+  end
+
   private
 
   def scope

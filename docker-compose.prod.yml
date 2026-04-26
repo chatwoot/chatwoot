@@ -110,6 +110,10 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # Init scripts rodam apenas no primeiro boot (volume virgem) — criam
+      # databases companheiros (n8n, dexi_gateway). Pra deploys existentes,
+      # usar `bundle exec rake synapseos:provision_companion_dbs`.
+      - ./docker/postgres-init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USERNAME:-postgres}"]
       interval: 10s
