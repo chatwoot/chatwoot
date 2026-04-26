@@ -104,6 +104,22 @@
           "ERROR": "Failed to update audio transcription setting"
         }
       },
+      "MESSAGE_DELETION": {
+        "TITLE": "Disable Message Deletion",
+        "NOTE": "Prevent agents from deleting messages in conversations. When enabled, the delete option will no longer appear on messages.",
+        "CONFIRM_ENABLE": {
+          "TITLE": "Are you sure you want to disable message deletion?",
+          "CONFIRM": "Yes, disable"
+        },
+        "CONFIRM_DISABLE": {
+          "TITLE": "Are you sure you want to enable message deletion?",
+          "CONFIRM": "Yes, enable"
+        },
+        "API": {
+          "SUCCESS": "Message deletion setting updated successfully",
+          "ERROR": "Failed to update message deletion setting"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Inactivity duration for resolution",
         "HELP": "Duration after a conversation should auto resolve if there is no activity",
