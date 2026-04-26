@@ -149,6 +149,65 @@ RSpec.describe Channel::Whatsapp do
     end
   end
 
+  # CUSTOMIZAÇÃO_SYNAPSEOS: ensure the agentic credential sync job is enqueued
+  # whenever a WhatsApp channel is created/updated on a synapseos-linked
+  # account, and is NOT enqueued when the only change is the credential id
+  # write-back (loop guard).
+  describe 'synapseos credential sync hook' do
+    let(:linked_account) { create(:account, custom_attributes: { 'synapseos_agentic_slug' => 'royal_enfield' }) }
+    let(:plain_account) { create(:account) }
+
+    before do
+      avisa_client = instance_double(Whatsapp::Providers::AvisaClient, register_webhook: true)
+      allow(Whatsapp::Providers::AvisaClient).to receive(:new).and_return(avisa_client)
+    end
+
+    around do |example|
+      with_modified_env(FRONTEND_URL: 'http://localhost:3000') { example.run }
+    end
+
+    it 'enqueues sync job when an avisa channel is created on a synapseos-linked account' do
+      expect do
+        create(:channel_whatsapp, account: linked_account, provider: 'avisa',
+                                  provider_config: { 'api_key' => 'avisa_key', 'base_url' => 'https://www.avisaapi.com.br' },
+                                  validate_provider_config: false, sync_templates: false)
+      end.to have_enqueued_job(Synapseos::SyncWhatsappCredentialJob)
+    end
+
+    it 'still enqueues when the account is not linked to synapseos (job itself bails)' do
+      expect do
+        create(:channel_whatsapp, account: plain_account, provider: 'avisa',
+                                  provider_config: { 'api_key' => 'avisa_key', 'base_url' => 'https://www.avisaapi.com.br' },
+                                  validate_provider_config: false, sync_templates: false)
+      end.to have_enqueued_job(Synapseos::SyncWhatsappCredentialJob)
+      # NOTE: the hook fires regardless of slug — the job itself is the one that
+      # bails when slug is blank. We assert this design here so future refactors
+      # don't accidentally move the responsibility.
+    end
+
+    it 'does not re-enqueue when only synapseos_credential_id changes (loop guard)' do
+      channel = create(:channel_whatsapp, account: linked_account, provider: 'avisa',
+                                          provider_config: { 'api_key' => 'avisa_key', 'base_url' => 'https://www.avisaapi.com.br' },
+                                          validate_provider_config: false, sync_templates: false)
+      # Simulate the job's write-back through update_column (skips callbacks
+      # entirely, but we also assert that even an update_columns through the
+      # public API would not re-trigger because the secret keys didn't change).
+      expect do
+        new_config = channel.provider_config.merge('synapseos_credential_id' => 'cred_999')
+        channel.update!(provider_config: new_config)
+      end.not_to have_enqueued_job(Synapseos::SyncWhatsappCredentialJob)
+    end
+
+    it 'enqueues on update when api_key changes' do
+      channel = create(:channel_whatsapp, account: linked_account, provider: 'avisa',
+                                          provider_config: { 'api_key' => 'avisa_key', 'base_url' => 'https://www.avisaapi.com.br' },
+                                          validate_provider_config: false, sync_templates: false)
+      expect do
+        channel.update!(provider_config: channel.provider_config.merge('api_key' => 'new_key'))
+      end.to have_enqueued_job(Synapseos::SyncWhatsappCredentialJob).with(channel.id)
+    end
+  end
+
   describe '#teardown_webhooks' do
     let(:account) { create(:account) }
 

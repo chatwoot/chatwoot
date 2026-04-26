@@ -43,6 +43,10 @@ class Channel::Whatsapp < ApplicationRecord
   # não nasce quebrada. Re-registra em update quando credenciais mudam.
   validate :validate_avisa_frontend_url, if: -> { provider == 'avisa' }
 
+  # CUSTOMIZAÇÃO_SYNAPSEOS: replica a credencial no n8n via API agentic. Roda em
+  # create e em update quando o segredo (api_key / shared_secret) muda.
+  after_commit :enqueue_synapseos_credential_sync, on: %i[create update], if: :should_sync_synapseos_credential?
+
   def name
     'Whatsapp'
   end
@@ -114,6 +118,28 @@ class Channel::Whatsapp < ApplicationRecord
     return if ENV['FRONTEND_URL'].to_s.strip.present?
 
     errors.add(:base, 'FRONTEND_URL não configurado no servidor — impossível registrar webhook da Avisa.')
+  end
+
+  SYNAPSEOS_PROVIDERS = %w[avisa whatsapp_cloud hyperflow].freeze
+  SYNAPSEOS_SECRET_KEYS = %w[api_key shared_secret phone_number_id business_account_id].freeze
+
+  # On create always sync; on update sync only when a relevant secret key
+  # actually changed. This guards the loop where the job itself writes
+  # `synapseos_credential_id` back into provider_config (via update_column,
+  # which already skips callbacks — belt + suspenders).
+  def should_sync_synapseos_credential?
+    return false unless SYNAPSEOS_PROVIDERS.include?(provider)
+    return true if previously_new_record?
+    return false unless saved_change_to_provider_config?
+
+    before, after = saved_change_to_provider_config
+    before ||= {}
+    after ||= {}
+    SYNAPSEOS_SECRET_KEYS.any? { |k| before[k] != after[k] }
+  end
+
+  def enqueue_synapseos_credential_sync
+    Synapseos::SyncWhatsappCredentialJob.perform_later(id)
   end
 
   # CUSTOMIZAÇÃO_SYNAPSEOS: registra URL de inbound na Avisa API dentro da
