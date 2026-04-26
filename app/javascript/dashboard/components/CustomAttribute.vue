@@ -134,10 +134,16 @@ export default {
       editedValue: {
         required,
         regexValidation: value => {
-          return !(
-            this.attributeRegex && !getRegexp(this.attributeRegex).test(value)
-          );
-        },
+          if(!this.attributeRegex) 
+             return true;
+          try{
+            return getRegexp(this.attributeRegex).test(value || '');
+          }
+          catch (exception)
+          {
+            return true; // fallback for malformed or incorrect regex
+          }
+        }
       },
     };
   },
