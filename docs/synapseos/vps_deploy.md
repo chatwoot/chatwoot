@@ -108,24 +108,6 @@ Dockerfile (`db:chatwoot_prepare`).
 
 ## Backup
 
-### Backup local (rápido)
-
-Postgres:
-
-```bash
-docker compose -f docker-compose.prod.yml exec postgres \
-  pg_dump -U postgres chatwoot_production | gzip > backup_$(date +%F).sql.gz
-```
-
-Storage (attachments):
-
-```bash
-docker run --rm -v synapseos-core_storage:/data \
-  -v $PWD:/backup alpine tar czf /backup/storage_$(date +%F).tar.gz -C /data .
-```
-
-### Backup off-site (recomendado)
-
 Protege contra perda total da VPS. Usa `rclone` para enviar dumps para
 B2/R2/S3 e envia alertas em caso de falha.
 

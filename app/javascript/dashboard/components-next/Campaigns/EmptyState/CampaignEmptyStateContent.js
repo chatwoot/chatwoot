@@ -60,7 +60,7 @@ export const ONGOING_CAMPAIGN_EMPTY_STATE_CONTENT = [
     },
     sender: {
       id: 1,
-      name: 'Synapse OS',
+      name: 'Chatwoot',
     },
     message: 'Hi! Need help setting up? Let me know!',
     campaign_status: 'active',

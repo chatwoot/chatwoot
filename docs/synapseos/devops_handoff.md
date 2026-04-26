@@ -332,34 +332,32 @@ manual.
 Dois volumes contêm dados críticos: **`postgres_data`** (banco) e
 **`storage`** (anexos do WhatsApp). Redis é ephemeral (só filas).
 
-### 7.1 Backup automático diário
+### 7.1 Backup automático diário (off-site)
 
-Script versionado em `docker/scripts/synapseos-backup.sh`. Instalar como
-cron diário via symlink:
+Script versionado em `scripts/backup_offsite.sh`. Faz dump do Postgres +
+tar do ActiveStorage e envia para bucket externo via `rclone` (B2, R2, S3).
+Alerta por email e/ou Slack em caso de falha. Rotaciona backups antigos
+automaticamente.
 
-```bash
-sudo ln -s /opt/synapseos-core/docker/scripts/synapseos-backup.sh \
-  /etc/cron.daily/synapseos-backup
-```
-
-Gera `pg_<data>.sql.gz` + `storage_<data>.tar.gz` em
-`/var/backups/synapseos` (override via env `BACKUP_DIR`) e rotaciona
-após 14 dias. Config extra: `POSTGRES_DB`, `POSTGRES_USER`, `RETENTION_DAYS`.
-
-### 7.2 Off-site (crítico)
-
-Backup local **não** protege contra perda total da VPS. Configurar
-sync pra bucket externo:
+Setup:
 
 ```bash
-# ex: rclone pra Backblaze B2
-rclone sync /var/backups/synapseos b2:synapseos-backups-cliente \
-  --max-age 7d
+# 1. Instalar rclone
+curl https://rclone.org/install.sh | sudo bash
+
+# 2. Configurar remote
+rclone config  # criar remote chamado "offsite"
+
+# 3. Agendar no cron (diário às 03:00)
+echo '0 3 * * * root ALERT_EMAIL=ops@dexidigital.com.br /opt/synapseos-core/scripts/backup_offsite.sh >> /var/log/synapseos-backup.log 2>&1' \
+  | sudo tee /etc/cron.d/synapseos-backup
 ```
 
-Adicionar ao cron diário após o backup local.
+Variáveis de ambiente: `RCLONE_REMOTE`, `RCLONE_BUCKET`,
+`BACKUP_RETENTION`, `ALERT_EMAIL`, `ALERT_SLACK_WEBHOOK`.
+Ver `scripts/backup_offsite.sh` para defaults e detalhes.
 
-### 7.3 Restore
+### 7.2 Restore
 
 ```bash
 # Postgres

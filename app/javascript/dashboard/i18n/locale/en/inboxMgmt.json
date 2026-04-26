@@ -262,13 +262,16 @@
           "API_KEY_HINT": "Token per instance, available in the Avisa API dashboard. Synapse OS stores it securely and uses it to send messages and auto-register the inbound webhook."
         },
         "HYPERFLOW": {
-          "EXPLAINER": "Hyperflow is reached through your N8N orchestration flow (using the official n8n-nodes-hyperflow-whatsapp node). Synapse OS POSTs outgoing messages to the N8N webhook below, and your N8N flow POSTs incoming messages back to Synapse OS through the URL shown at the bottom.",
+          "EXPLAINER": "Hyperflow is reached through your N8N orchestration flow (using the official n8n-nodes-hyperflow-whatsapp node). Chatwoot POSTs outgoing messages to the N8N webhook below, and your N8N flow POSTs incoming messages back to Chatwoot through the URL shown at the bottom.",
           "PHONE_HINT": "Brazilian phone number registered in the Hyperflow panel, in E.164 format.",
+          "PHONE_PLACEHOLDER": "+5511999999999",
           "N8N_URL_LABEL": "N8N outgoing webhook URL",
-          "N8N_URL_HINT": "URL of the N8N webhook node that receives outgoing messages from Synapse OS and forwards them to the Hyperflow node.",
+          "N8N_URL_PLACEHOLDER": "https://n8n.seudominio.com/webhook/hyperflow-outgoing",
+          "N8N_URL_HINT": "URL of the N8N webhook node that receives outgoing messages from Chatwoot and forwards them to the Hyperflow node.",
           "SECRET_LABEL": "Shared secret (optional)",
-          "SECRET_HINT": "If set, Synapse OS sends it in the X-Synapseos-Signature header so the N8N flow can verify calls are from this instance.",
-          "INCOMING_URL_LABEL": "Incoming webhook URL (paste into your N8N 'HTTP Request to Synapse OS' step)",
+          "SECRET_PLACEHOLDER": "optional shared secret",
+          "SECRET_HINT": "If set, Chatwoot sends it in the X-Synapseos-Signature header so the N8N flow can verify calls are from this Chatwoot instance.",
+          "INCOMING_URL_LABEL": "Incoming webhook URL (paste into your N8N 'HTTP Request to Chatwoot' step)",
           "INCOMING_URL_HINT": "Your N8N flow should POST incoming messages from Hyperflow to this URL in Meta Cloud API format (entry[].changes[].value.messages[] / contacts[])."
         },
         "SELECT_PROVIDER": {
