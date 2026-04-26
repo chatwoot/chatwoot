@@ -1,0 +1,17 @@
+<% content_for(:title) do %>Snapshots: <%= params[:slug] %><% end %>
+<% @activity_logs ||= SynapseosAgenticDeploymentLog.by_slug(params[:slug]).recent.limit(50) %>
+
+<header class="main-content__header" role="banner">
+  <div class="flex items-center justify-between w-full">
+    <h1 class="main-content__page-title m-0 mr-6" id="page-title">
+      Snapshots — <%= params[:slug] %>
+    </h1>
+    <%= link_to '← Back to client',
+                super_admin_synapseos_client_path(slug: params[:slug], tab: 'history'),
+                class: 'text-sm text-woot-500 hover:underline' %>
+  </div>
+</header>
+
+<section class="main-content__body">
+  <%= render 'history', slug: params[:slug] %>
+</section>

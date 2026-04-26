@@ -1,0 +1,56 @@
+<% snapshots_list = @snapshots || [] %>
+<% snapshots_error = @snapshots_error %>
+<% activity_logs = @activity_logs || [] %>
+
+<div class="grid grid-cols-1 gap-6">
+  <div>
+    <h2 class="text-base font-semibold text-slate-800 mb-2">Snapshots</h2>
+    <p class="text-xs text-slate-500 mb-3">
+      Snapshots são criados automaticamente em cada save/deploy/undeploy/restore. Restaurar reescreve o
+      <code class="text-xs">client.yaml</code> (a operação é reversível — gera um novo snapshot antes).
+    </p>
+
+    <% if snapshots_error %>
+      <div class="p-3 border-l-4 border-red-400 bg-red-50 rounded text-sm text-red-700">
+        Não foi possível carregar snapshots: <%= snapshots_error %>
+      </div>
+    <% elsif snapshots_list.empty? %>
+      <div class="p-4 bg-slate-50 rounded text-sm text-slate-600 text-center">
+        Nenhum snapshot disponível ainda.
+      </div>
+    <% else %>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Snapshot ID</th>
+            <th scope="col">Criado em</th>
+            <th scope="col">Tamanho</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% snapshots_list.each do |snap| %>
+            <tr>
+              <td class="cell-data"><code class="text-xs"><%= snap['id'] %></code></td>
+              <td class="cell-data"><%= synapseos_format_snapshot_ts(snap['ts']) %></td>
+              <td class="cell-data"><%= synapseos_format_snapshot_size(snap['size']) %></td>
+              <td class="cell-data">
+                <%= button_to 'Restore',
+                              restore_snapshot_super_admin_synapseos_client_path(slug: slug, snapshot_id: snap['id']),
+                              method: :post,
+                              data: { confirm: "Restaurar snapshot #{snap['id']}? O estado atual será salvo como novo snapshot antes." },
+                              class: 'inline-flex items-center px-2 py-1 bg-purple-600 text-white text-xs font-medium rounded hover:bg-purple-700' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+
+  <div>
+    <h2 class="text-base font-semibold text-slate-800 mb-2 mt-4">Atividade</h2>
+    <p class="text-xs text-slate-500 mb-3">Últimas 50 ações registradas para este client (via super-admin).</p>
+    <%= render 'activity', logs: activity_logs %>
+  </div>
+</div>

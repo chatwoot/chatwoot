@@ -17,28 +17,44 @@
     end
   end
 
-  status_pill = lambda do |status|
-    base = 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium'
-    case status.to_s
-    when 'available' then "#{base} bg-cyan-100 text-cyan-800"
-    when 'planned'   then "#{base} bg-slate-100 text-slate-600"
-    when 'deployed'  then "#{base} bg-green-100 text-green-700"
-    when 'error'     then "#{base} bg-red-100 text-red-700"
-    when 'partial'   then "#{base} bg-yellow-100 text-yellow-700"
-    else                  "#{base} bg-slate-100 text-slate-700"
-    end
-  end
-
   whatsapp = @client['whatsapp']
+  is_deployed = @client['deployed'] == true || @client['status'].to_s == 'deployed'
+  current_status = @client['status'].presence || (@client['deployed'] ? 'deployed' : 'not_deployed')
+  poll_status = !!flash[:poll_status]
 %>
 
 <header class="main-content__header" role="banner">
   <div class="flex items-center justify-between w-full">
-    <h1 class="main-content__page-title m-0 mr-6" id="page-title">
-      <%= @client['name'].presence || @client['slug'] || params[:slug] %>
-      <span class="text-sm text-slate-500 font-normal ml-2"><%= @client['slug'] %></span>
-    </h1>
+    <div class="flex items-center">
+      <h1 class="main-content__page-title m-0 mr-4" id="page-title">
+        <%= @client['name'].presence || @client['slug'] || params[:slug] %>
+        <span class="text-sm text-slate-500 font-normal ml-2"><%= @client['slug'] %></span>
+      </h1>
+      <span id="js-status-pill"
+            data-slug="<%= params[:slug] %>"
+            data-poll-status="<%= poll_status ? 'true' : 'false' %>"
+            data-status-url="<%= deploy_status_super_admin_synapseos_client_path(slug: params[:slug], format: :json) %>"
+            class="<%= synapseos_status_pill(current_status) %>"><%= current_status %></span>
+    </div>
     <div class="flex items-center gap-2">
+      <%= button_to (is_deployed ? 'Re-deploy' : 'Deploy'),
+                    deploy_super_admin_synapseos_client_path(slug: params[:slug]),
+                    method: :post,
+                    form: { class: 'inline', data: { 'js-deploy-form': 'true' } },
+                    class: 'js-deploy-btn inline-flex items-center px-3 py-1.5 bg-green-600 text-white text-sm font-medium rounded hover:bg-green-700 disabled:opacity-50' %>
+      <% if is_deployed %>
+        <%= button_to 'Undeploy',
+                      undeploy_super_admin_synapseos_client_path(slug: params[:slug]),
+                      method: :post,
+                      data: { confirm: 'Tem certeza? Isso vai remover os workflows do n8n.' },
+                      form: { class: 'inline', data: { 'js-deploy-form': 'true' } },
+                      class: 'js-deploy-btn inline-flex items-center px-3 py-1.5 bg-orange-600 text-white text-sm font-medium rounded hover:bg-orange-700 disabled:opacity-50' %>
+      <% end %>
+      <%= button_to 'Build (preview)',
+                    build_super_admin_synapseos_client_path(slug: params[:slug]),
+                    method: :post,
+                    form: { class: 'inline', data: { 'js-deploy-form': 'true' } },
+                    class: 'js-deploy-btn inline-flex items-center px-3 py-1.5 bg-cyan-600 text-white text-sm font-medium rounded hover:bg-cyan-700 disabled:opacity-50' %>
       <%= link_to 'Edit',
                   edit_super_admin_synapseos_client_path(slug: params[:slug]),
                   class: 'inline-flex items-center px-3 py-1.5 bg-woot-500 text-white text-sm font-medium rounded hover:bg-woot-600' %>
@@ -89,7 +105,7 @@
         <dt class="text-xs uppercase text-slate-500 tracking-wide">WhatsApp Provider</dt>
         <dd class="text-sm text-slate-800 mt-1">
           <% if whatsapp.is_a?(Hash) && whatsapp['provider'].present? %>
-            <span class="<%= status_pill.call('available') %>"><%= whatsapp['provider'] %></span>
+            <span class="<%= synapseos_status_pill('available') %>"><%= whatsapp['provider'] %></span>
             <span class="ml-2 text-slate-600">credential: <code class="text-xs"><%= whatsapp['credential'] || '—' %></code></span>
           <% else %>
             <span class="text-slate-500">—</span>
@@ -128,7 +144,7 @@
           <tr>
             <td class="cell-data"><code class="text-xs"><%= agent_slug %></code></td>
             <td class="cell-data"><%= display_name %></td>
-            <td class="cell-data"><span class="<%= status_pill.call(status) %>"><%= status %></span></td>
+            <td class="cell-data"><span class="<%= synapseos_status_pill(status) %>"><%= status %></span></td>
             <td class="cell-data">
               <% if workflows.is_a?(Array) && workflows.any? %>
                 <% workflows.each do |wid| %>
@@ -149,8 +165,65 @@
   <% end %>
 
   <% if active_tab == 'history' %>
-    <div class="p-6 bg-slate-50 rounded text-center text-slate-600 text-sm">
-      Coming soon. Snapshots and deploys will appear here (PR6).
-    </div>
+    <%= render 'history', slug: params[:slug] %>
   <% end %>
 </section>
+
+<script>
+(function() {
+  var pill = document.getElementById('js-status-pill');
+  if (!pill) { return; }
+  var shouldPoll = pill.getAttribute('data-poll-status') === 'true';
+  if (!shouldPoll) { return; }
+
+  var statusUrl = pill.getAttribute('data-status-url');
+  var deployButtons = document.querySelectorAll('.js-deploy-btn');
+  deployButtons.forEach(function(btn) { btn.disabled = true; });
+
+  var pillBaseClasses = {
+    deployed:     'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700',
+    not_deployed: 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700',
+    error:        'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700',
+    pending:      'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700'
+  };
+
+  var maxAttempts = 100; // 100 * 3s = 5 min
+  var attempts = 0;
+
+  function setPill(status) {
+    pill.textContent = status;
+    pill.className = pillBaseClasses[status] || pillBaseClasses.pending;
+  }
+
+  function stopPolling() {
+    deployButtons.forEach(function(btn) { btn.disabled = false; });
+  }
+
+  async function poll() {
+    attempts += 1;
+    if (attempts > maxAttempts) {
+      setPill('error');
+      stopPolling();
+      return;
+    }
+    try {
+      var res = await fetch(statusUrl, { headers: { 'Accept': 'application/json' }, credentials: 'same-origin' });
+      var json = await res.json();
+      var status = json.status || 'pending';
+      setPill(status);
+      if (status === 'deployed' || status === 'not_deployed' || status === 'error') {
+        stopPolling();
+        return;
+      }
+    } catch (e) {
+      setPill('error');
+      stopPolling();
+      return;
+    }
+    setTimeout(poll, 3000);
+  }
+
+  setPill('pending');
+  setTimeout(poll, 1500);
+})();
+</script>

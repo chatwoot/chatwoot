@@ -2,8 +2,10 @@
 
 class SuperAdmin::Synapseos::ClientsController < SuperAdmin::ApplicationController
   include Synapseos::AgenticPayloadBuilder
+  include Synapseos::AgenticDeployActions
 
   helper Synapseos::SchemaFormHelper
+  helper SuperAdmin::Synapseos::ClientsHelper
 
   before_action :ensure_agentic_configured
 
@@ -37,6 +39,8 @@ class SuperAdmin::Synapseos::ClientsController < SuperAdmin::ApplicationControll
 
     templates_result = agentic.templates
     @templates = templates_result.ok? ? (templates_result.data['agents'] || {}) : {}
+
+    load_history_data if params[:tab].to_s == 'history'
   end
 
   helper_method :humanize_agentic_error
@@ -105,6 +109,7 @@ class SuperAdmin::Synapseos::ClientsController < SuperAdmin::ApplicationControll
     flash[:error] = destroy_failure_message(result)
     redirect_to super_admin_synapseos_client_path(slug: target_slug)
   end
+
   # rubocop:enable Rails/I18nLocaleTexts
 
   private
@@ -137,6 +142,13 @@ class SuperAdmin::Synapseos::ClientsController < SuperAdmin::ApplicationControll
     else
       "Unexpected error: #{result.message}."
     end
+  end
+
+  def load_history_data
+    snapshots_result = agentic.snapshots(params[:slug])
+    @snapshots = snapshots_result.ok? ? Array(snapshots_result.data) : []
+    @snapshots_error = snapshots_result.failure? ? snapshots_result.message : nil
+    @activity_logs = SynapseosAgenticDeploymentLog.by_slug(params[:slug]).recent.limit(50)
   end
 
   def load_form_metadata
