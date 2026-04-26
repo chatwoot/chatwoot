@@ -56,8 +56,8 @@ const emitNewAccount = () => {
       <!-- Collapsed view: Logo trigger -->
       <button
         v-if="isCollapsed"
-        class="grid flex-shrink-0 place-content-center p-2 rounded-lg cursor-pointer hover:bg-s-subtle"
-        :class="{ 'bg-s-subtle': isOpen }"
+        class="grid flex-shrink-0 place-content-center p-2 rounded-lg cursor-pointer hover:bg-white/[0.06] transition-colors"
+        :class="{ 'bg-white/[0.06]': isOpen }"
         :title="currentAccount.name"
         @click="toggle"
       >
@@ -70,17 +70,17 @@ const emitNewAccount = () => {
         :data-account-id="accountId"
         aria-haspopup="listbox"
         aria-controls="account-options"
-        class="flex items-center gap-2 justify-between w-full rounded-lg px-2"
+        class="flex items-center gap-2 justify-between w-full rounded-lg px-2 py-1 transition-colors"
         :class="[
-          isOpen && 'bg-s-subtle',
+          isOpen && 'bg-white/[0.06]',
           showAccountSwitcher
-            ? 'hover:bg-s-subtle cursor-pointer'
+            ? 'hover:bg-white/[0.06] cursor-pointer'
             : 'cursor-default',
         ]"
         @click="() => showAccountSwitcher && toggle()"
       >
         <span
-          class="text-sm font-medium leading-5 text-s-primary truncate"
+          class="text-sm font-semibold leading-5 text-s-on-dark truncate"
           aria-live="polite"
         >
           {{ currentAccount.name }}
@@ -89,7 +89,7 @@ const emitNewAccount = () => {
         <span
           v-if="showAccountSwitcher"
           aria-hidden="true"
-          class="i-lucide-chevron-down size-4 text-s-muted flex-shrink-0"
+          class="i-lucide-chevron-down size-4 text-s-on-dark-muted flex-shrink-0"
         />
       </button>
     </template>

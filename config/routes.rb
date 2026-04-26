@@ -591,7 +591,8 @@ Rails.application.routes.draw do
   # CUSTOMIZAÇÃO_SYNAPSEOS: webhooks dos providers BR (Hyperflow / Avisa API)
   get 'webhooks/hyperflow/:phone_number', to: 'webhooks/hyperflow#verify'
   post 'webhooks/hyperflow/:phone_number', to: 'webhooks/hyperflow#process_payload'
-  post 'webhooks/avisa/:phone_number', to: 'webhooks/avisa#process_payload'
+  # CUSTOMIZAÇÃO_SYNAPSEOS: rota direta sem phone_number; channel identificado pelo `token` do body.
+  post 'webhooks/avisa', to: 'webhooks/avisa#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'

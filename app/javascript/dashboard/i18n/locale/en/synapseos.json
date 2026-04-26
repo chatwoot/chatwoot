@@ -28,6 +28,8 @@
       "SUBTITLE": "Real-time view of agent activity and workload",
       "SEARCH_PLACEHOLDER": "Search by name or email…",
       "REFRESH_HINT": "Auto-refreshing every 15s",
+      "EMPTY_TITLE": "No agents to show yet",
+      "EMPTY_DESCRIPTION": "Agents appear here as soon as they come online or handle conversations. Invite teammates from Settings → Agents.",
       "COL_NAME": "Agent",
       "COL_STATUS": "Status",
       "COL_OPEN": "Open conversations",
@@ -67,6 +69,10 @@
       "SUBTITLE": "Operational and revenue KPIs over the last {days} days",
       "LOADING": "Loading metrics…",
       "NO_DATA": "No data for the selected period yet.",
+      "EMPTY_CHART_TITLE": "No activity yet",
+      "EMPTY_CHART_DESCRIPTION": "Receive or send messages in this period to populate the chart.",
+      "EMPTY_EVENTS_TITLE": "No CRM events yet",
+      "EMPTY_EVENTS_DESCRIPTION": "Events appear here when leads move in the pipeline, deals close, or bots hand conversations over.",
       "TABS": {
         "OVERVIEW": "Overview",
         "REPORTS": "Live reports"
@@ -128,13 +134,23 @@
         "RESCUE": "Rescue & Profit Squad"
       },
       "AGENTS": {
-        "ALICE_IZA": {
-          "NAME": "Alice & Iza",
-          "ROLE": "Attraction & Qualification",
+        "ALICE": {
+          "NAME": "Alice",
+          "ROLE": "Prospecting (outbound BDR)",
           "KPI": {
-            "LEADS_RECEPCIONADOS": "Leads received",
-            "SPEED_TO_LEAD_SECONDS": "Avg. speed to lead",
-            "TAXA_QUALIFICACAO": "Qualification rate"
+            "LEADS_FRIOS_CONTACTADOS": "Cold leads contacted",
+            "TAXA_RESPOSTA": "Lead response rate",
+            "LEADS_CONVERTIDOS": "Converted to opportunity"
+          }
+        },
+        "IZA": {
+          "NAME": "Iza",
+          "ROLE": "Reception (inbound SDR)",
+          "KPI": {
+            "LEADS_INBOUND_RECEPCIONADOS": "Inbound leads received",
+            "SPEED_TO_LEAD_SECONDS": "Speed to lead",
+            "TAXA_QUALIFICACAO": "Inbound qualification rate",
+            "HANDOFFS": "Successful handoffs"
           }
         },
         "OTTO": {

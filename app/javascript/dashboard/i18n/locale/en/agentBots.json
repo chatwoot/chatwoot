@@ -98,10 +98,32 @@
         "PLACEHOLDER": "https://example.com/webhook",
         "REQUIRED": "Webhook URL is required"
       },
+      "SQUADRON_ROLE": {
+        "LABEL": "Synapse Squad role",
+        "HINT": "Required. Defines which canonical role this bot plays and which dashboard metrics it feeds.",
+        "PLACEHOLDER": "Pick a role",
+        "REQUIRED": "Select a squad role",
+        "ROLES": {
+          "ALICE": "Alice — Prospecting (outbound BDR)",
+          "IZA": "Iza — Reception (inbound SDR)",
+          "LUIS": "Luís — Specialist (SPIN / RAG)",
+          "OTTO": "Otto — Auditor (SLA / CRM)",
+          "FERNANDA": "Fernanda — Rescue (dead-lead reactivation)",
+          "ANGELA": "Ângela — Farming (after-sales / LTV)",
+          "VITOR": "Vitor — Collections (TechFin)"
+        }
+      },
+      "INBOXES": {
+        "LABEL": "Connect to inboxes",
+        "HINT": "Optional. The bot starts listening to these inboxes right after creation.",
+        "PLACEHOLDER": "Select inboxes",
+        "NONE": "No inboxes available yet"
+      },
       "ERRORS": {
         "NAME": "Bot name is required",
         "URL": "Webhook URL is required",
-        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+        "VALID_URL": "Please enter a valid URL starting with http:// or https://",
+        "SQUADRON_ROLE": "Select a squad role"
       },
       "CANCEL": "Cancel",
       "CREATE": "Create Bot",

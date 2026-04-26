@@ -10,12 +10,14 @@ import SynapseKpiCard from 'next/synapseos/SynapseKpiCard.vue';
 import SynapseStatusPill from 'next/synapseos/SynapseStatusPill.vue';
 import SynapseBadge from 'next/synapseos/SynapseBadge.vue';
 import SynapseInput from 'next/synapseos/SynapseInput.vue';
+import SynapseEmptyState from 'next/synapseos/SynapseEmptyState.vue';
 import AgentConversationsPanel from '../components/AgentConversationsPanel.vue';
 
 const { t } = useI18n();
 const route = useRoute();
 const agents = ref([]);
 const loading = ref(true);
+const fetchError = ref(null);
 const pollTimer = ref(null);
 const searchQuery = ref('');
 const selectedAgent = ref(null);
@@ -40,9 +42,26 @@ const firstResponseClass = seconds => {
 
 const fetchAgents = async () => {
   const accountId = route.params.accountId;
-  const { data } = await axios.get(`/api/v1/accounts/${accountId}/synapseos/live_agents`);
-  agents.value = data;
-  loading.value = false;
+  try {
+    const { data } = await axios.get(
+      `/api/v1/accounts/${accountId}/synapseos/live_agents`
+    );
+    agents.value = Array.isArray(data) ? data : [];
+    fetchError.value = null;
+  } catch (err) {
+    // Endpoint falhou (401/403/404/500/network). Sem try/catch o loading
+    // ficava eterno; agora registramos o erro e desligamos o spinner.
+    fetchError.value =
+      err?.response?.data?.message ||
+      err?.message ||
+      'Falha ao carregar agentes';
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.error('[LiveAgents] fetch failed', err);
+    }
+  } finally {
+    loading.value = false;
+  }
 };
 
 const filteredAgents = computed(() => {
@@ -132,9 +151,9 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="bg-s-bg p-8 space-y-6 h-full overflow-auto">
+  <div class="bg-s-bg p-4 sm:p-6 md:p-8 space-y-4 md:space-y-6 h-full overflow-auto">
     <header class="flex flex-col gap-1">
-      <h1 class="text-2xl font-semibold text-s-primary">
+      <h1 class="text-xl md:text-2xl font-semibold text-s-primary">
         {{ t('SYNAPSEOS.LIVE_AGENTS.TITLE') }}
       </h1>
       <p class="text-sm text-s-muted">
@@ -142,7 +161,22 @@ onBeforeUnmount(() => {
       </p>
     </header>
 
-    <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+    <div
+      v-if="fetchError"
+      class="flex items-start gap-3 p-3 rounded-lg border border-s-error/30 bg-s-error-soft text-s-error-text text-sm"
+    >
+      <span class="i-lucide-alert-triangle size-4 mt-0.5 shrink-0" />
+      <div class="flex-1">
+        <strong class="font-semibold">Falha ao carregar agentes.</strong>
+        <p class="text-xs mt-0.5 opacity-80">{{ fetchError }}</p>
+      </div>
+      <button
+        class="i-lucide-refresh-cw size-4 shrink-0 hover:opacity-60"
+        @click="fetchAgents"
+      />
+    </div>
+
+    <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
       <SynapseKpiCard
         v-for="card in summaryCards"
         :key="card.key"
@@ -153,8 +187,8 @@ onBeforeUnmount(() => {
       />
     </section>
 
-    <div class="flex items-center justify-between gap-4">
-      <div class="w-72">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+      <div class="w-full sm:w-72">
         <SynapseInput
           v-model="searchQuery"
           icon-leading="i-lucide-search"
@@ -175,10 +209,28 @@ onBeforeUnmount(() => {
         data-key="id"
         removable-sort
         :row-class="rowClass"
-        :pt="{ table: { class: 'min-w-full' }, bodyRow: { class: 'cursor-pointer' } }"
+        :pt="{
+          table: { class: 'min-w-full' },
+          bodyRow: { class: 'cursor-pointer hover:bg-s-subtle transition-colors border-b border-s-border-subtle' },
+          headerRow: { class: 'bg-s-subtle' },
+          headerCell: {
+            class: 'text-xs font-semibold uppercase tracking-wide text-s-secondary !bg-s-subtle !border-b !border-s-border px-4 py-3 whitespace-nowrap',
+          },
+          bodyCell: { class: 'px-4 py-3 text-sm text-s-primary align-middle' },
+          emptyMessage: { class: 'text-center py-8 text-sm text-s-muted' },
+          loadingOverlay: { class: '!bg-s-surface/70' },
+        }"
         class="w-full"
         @row-click="handleRowClick"
       >
+        <template #empty>
+          <SynapseEmptyState
+            icon="i-lucide-users"
+            :title="t('SYNAPSEOS.LIVE_AGENTS.EMPTY_TITLE')"
+            :description="t('SYNAPSEOS.LIVE_AGENTS.EMPTY_DESCRIPTION')"
+            size="md"
+          />
+        </template>
         <Column field="name" :header="t('SYNAPSEOS.LIVE_AGENTS.COL_NAME')" sortable>
           <template #body="{ data }">
             <div class="flex items-center gap-3">
@@ -237,8 +289,12 @@ onBeforeUnmount(() => {
         @close="selectedAgent = null"
       />
     </div>
-    <SynapseCard v-else class="hidden lg:flex items-center justify-center text-sm text-s-muted min-h-[300px]">
-      {{ t('SYNAPSEOS.LIVE_AGENTS.PANEL.HINT') }}
+    <SynapseCard v-else padding="none" class="hidden lg:flex items-center justify-center min-h-[300px]">
+      <SynapseEmptyState
+        icon="i-lucide-mouse-pointer-click"
+        :title="t('SYNAPSEOS.LIVE_AGENTS.PANEL.HINT')"
+        size="sm"
+      />
     </SynapseCard>
     </div>
   </div>

@@ -429,6 +429,9 @@ export default {
       return !this.showAudioRecorderEditor && !this.copilot.isActive.value;
     },
     isEditorDisabled() {
+      // CUSTOMIZAÇÃO_SYNAPSEOS: provedores não-oficiais não têm janela de 24h;
+      // liberar o editor mesmo quando can_reply=false.
+      if (this.isANonOfficialWhatsAppChannel) return false;
       return (
         (this.isAWhatsAppChannel || this.isAPIInbox) &&
         !this.isOnPrivateNote &&

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, reactive, watch } from 'vue';
+import { ref, computed, reactive, watch, onMounted } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -13,7 +13,20 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import Select from 'dashboard/components-next/select/Select.vue';
 import AccessToken from 'dashboard/routes/dashboard/settings/profile/AccessToken.vue';
+
+// CUSTOMIZAÇÃO_SYNAPSEOS: 7 papéis canônicos do Esquadrão Synapse.
+// Obrigatório na criação — habilita métricas automáticas por papel.
+const SQUADRON_ROLES = [
+  'alice',
+  'iza',
+  'luis',
+  'otto',
+  'fernanda',
+  'angela',
+  'vitor',
+];
 
 const props = defineProps({
   type: {
@@ -36,6 +49,7 @@ const store = useStore();
 const { t } = useI18n();
 const dialogRef = ref(null);
 const uiFlags = useMapGetter('agentBots/getUIFlags');
+const allInboxes = useMapGetter('inboxes/getInboxes');
 
 const formState = reactive({
   botName: '',
@@ -43,6 +57,9 @@ const formState = reactive({
   botUrl: '',
   botAvatar: null,
   botAvatarUrl: '',
+  // CUSTOMIZAÇÃO_SYNAPSEOS
+  squadronRole: '',
+  inboxIds: [],
 });
 
 const [showAccessToken, toggleAccessToken] = useToggle();
@@ -67,9 +84,38 @@ const v$ = useVuelidate(
         url
       ),
     },
+    squadronRole: {
+      required: helpers.withMessage(
+        () => t('AGENT_BOTS.FORM.ERRORS.SQUADRON_ROLE'),
+        required
+      ),
+    },
   },
   formState
 );
+
+const squadronRoleOptions = computed(() =>
+  SQUADRON_ROLES.map(role => ({
+    value: role,
+    label: t(`AGENT_BOTS.FORM.SQUADRON_ROLE.ROLES.${role.toUpperCase()}`),
+  }))
+);
+
+const inboxOptions = computed(() =>
+  (allInboxes.value || []).map(inbox => ({
+    id: inbox.id,
+    name: inbox.name,
+    channelType: inbox.channel_type,
+  }))
+);
+
+const toggleInbox = inboxId => {
+  const idx = formState.inboxIds.indexOf(inboxId);
+  if (idx === -1) formState.inboxIds.push(inboxId);
+  else formState.inboxIds.splice(idx, 1);
+};
+
+const isInboxSelected = inboxId => formState.inboxIds.includes(inboxId);
 
 const isLoading = computed(() =>
   props.type === MODAL_TYPES.CREATE
@@ -108,6 +154,12 @@ const botUrlError = computed(() =>
   v$.value.botUrl.$error ? v$.value.botUrl.$errors[0]?.$message : ''
 );
 
+const squadronRoleError = computed(() =>
+  v$.value.squadronRole.$error
+    ? v$.value.squadronRole.$errors[0]?.$message
+    : ''
+);
+
 const showAccessTokenInput = computed(
   () =>
     showAccessToken.value ||
@@ -122,6 +174,8 @@ const resetForm = () => {
     botUrl: '',
     botAvatar: null,
     botAvatarUrl: '',
+    squadronRole: '',
+    inboxIds: [],
   });
   v$.value.$reset();
 };
@@ -161,6 +215,8 @@ const handleSubmit = async () => {
     outgoing_url: formState.botUrl,
     bot_type: 'webhook',
     avatar: formState.botAvatar,
+    // CUSTOMIZAÇÃO_SYNAPSEOS
+    squadron_role: formState.squadronRole,
   };
 
   const isCreate = props.type === MODAL_TYPES.CREATE;
@@ -187,6 +243,15 @@ const handleSubmit = async () => {
         secret: responseSecret,
         id,
       } = response || {};
+
+      // CUSTOMIZAÇÃO_SYNAPSEOS: associar bot às inboxes escolhidas no wizard.
+      if (id && formState.inboxIds.length > 0) {
+        await Promise.all(
+          formState.inboxIds.map(inboxId =>
+            store.dispatch('agentBots/setAgentBotInbox', { inboxId, botId: id })
+          )
+        );
+      }
 
       if (id && responseAccessToken) {
         accessToken.value = responseAccessToken;
@@ -218,6 +283,7 @@ const initializeForm = () => {
       outgoing_url: botUrl,
       thumbnail,
       bot_config: botConfig,
+      squadron_role: squadronRole,
       access_token: botAccessToken,
       secret: botSecretValue,
     } = props.selectedBot;
@@ -225,6 +291,7 @@ const initializeForm = () => {
     formState.botDescription = description || '';
     formState.botUrl = botUrl || botConfig?.webhook_url || '';
     formState.botAvatarUrl = thumbnail || '';
+    formState.squadronRole = squadronRole || '';
 
     if (props.type === MODAL_TYPES.EDIT) {
       if (botAccessToken) accessToken.value = botAccessToken;
@@ -234,6 +301,13 @@ const initializeForm = () => {
     resetForm();
   }
 };
+
+onMounted(() => {
+  // CUSTOMIZAÇÃO_SYNAPSEOS: lista de inboxes alimenta o multi-select do wizard.
+  if (!allInboxes.value || allInboxes.value.length === 0) {
+    store.dispatch('inboxes/get');
+  }
+});
 
 const onCopyToken = async value => {
   await copyTextToClipboard(value);
@@ -344,6 +418,56 @@ defineExpose({ dialogRef });
           :message-type="botUrlError ? 'error' : 'info'"
           @blur="v$.botUrl.$touch()"
         />
+
+        <!-- CUSTOMIZAÇÃO_SYNAPSEOS: papel do Esquadrão — obrigatório -->
+        <div class="flex flex-col gap-1">
+          <label class="mb-0.5 text-sm font-medium text-s-primary">
+            {{ $t('AGENT_BOTS.FORM.SQUADRON_ROLE.LABEL') }}
+          </label>
+          <Select
+            v-model="formState.squadronRole"
+            class="!w-full"
+            :options="squadronRoleOptions"
+            :placeholder="$t('AGENT_BOTS.FORM.SQUADRON_ROLE.PLACEHOLDER')"
+            :error="squadronRoleError"
+            @blur="v$.squadronRole.$touch()"
+          />
+          <p v-if="!squadronRoleError" class="text-xs text-s-muted">
+            {{ $t('AGENT_BOTS.FORM.SQUADRON_ROLE.HINT') }}
+          </p>
+        </div>
+
+        <!-- CUSTOMIZAÇÃO_SYNAPSEOS: inboxes a conectar (opcional, só no create) -->
+        <div v-if="type === MODAL_TYPES.CREATE" class="flex flex-col gap-1">
+          <label class="mb-0.5 text-sm font-medium text-s-primary">
+            {{ $t('AGENT_BOTS.FORM.INBOXES.LABEL') }}
+          </label>
+          <div
+            v-if="inboxOptions.length > 0"
+            class="flex flex-col gap-2 p-3 rounded-lg border border-s-border bg-s-surface max-h-48 overflow-y-auto"
+          >
+            <label
+              v-for="inbox in inboxOptions"
+              :key="inbox.id"
+              class="flex items-center gap-2 cursor-pointer text-sm text-s-primary"
+            >
+              <input
+                type="checkbox"
+                :checked="isInboxSelected(inbox.id)"
+                class="rounded border-s-border text-s-brand focus:ring-s-brand"
+                @change="toggleInbox(inbox.id)"
+              >
+              <span>{{ inbox.name }}</span>
+              <span class="text-xs text-s-muted">{{ inbox.channelType }}</span>
+            </label>
+          </div>
+          <p v-else class="text-xs text-s-muted">
+            {{ $t('AGENT_BOTS.FORM.INBOXES.NONE') }}
+          </p>
+          <p class="text-xs text-s-muted">
+            {{ $t('AGENT_BOTS.FORM.INBOXES.HINT') }}
+          </p>
+        </div>
       </div>
 
       <div

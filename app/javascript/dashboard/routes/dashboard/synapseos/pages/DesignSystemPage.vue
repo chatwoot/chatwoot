@@ -11,21 +11,31 @@ const textField = ref('');
 const emailField = ref('john@acme.inc');
 const errorField = ref('abc');
 
+// Paleta Dexi — navy institucional + cyan técnico + neutros frios.
 const tokens = [
-  { name: 's-bg', hex: '#F1F3F5', role: 'App background' },
-  { name: 's-surface', hex: '#FFFFFF', role: 'Card background' },
-  { name: 's-sidebar', hex: '#FAFBFC', role: 'Sidebar shell' },
-  { name: 's-subtle', hex: '#F8FAFC', role: 'Row hover' },
-  { name: 's-border', hex: '#E2E8F0', role: 'Default border' },
-  { name: 's-primary', hex: '#0F172A', role: 'Text primary' },
-  { name: 's-secondary', hex: '#475569', role: 'Text secondary' },
-  { name: 's-muted', hex: '#64748B', role: 'Text muted (AA)' },
-  { name: 's-brand', hex: '#2196F3', role: 'Brand accent / ícone' },
-  { name: 's-brand-cta', hex: '#1E88E5', role: 'CTA sólido' },
-  { name: 's-brand-soft', hex: '#E3F2FD', role: 'Chip / active bg' },
-  { name: 's-success', hex: '#10B981', role: 'Success' },
-  { name: 's-warning', hex: '#F59E0B', role: 'Warning' },
-  { name: 's-error', hex: '#EF4444', role: 'Error' },
+  { name: 's-bg', hex: '#F6F8FB', role: 'Background da aplicação' },
+  { name: 's-surface', hex: '#FFFFFF', role: 'Cards, painéis, composer' },
+  { name: 's-sidebar', hex: '#0B1F3A', role: 'Sidebar navy institucional Dexi' },
+  { name: 's-subtle', hex: '#EEF2F7', role: 'Hover neutro, blocos internos' },
+  { name: 's-border', hex: '#D7DFE8', role: 'Bordas e divisórias' },
+  { name: 's-border-strong', hex: '#B8C4D4', role: 'Bordas em contexto denso' },
+  { name: 's-primary', hex: '#142033', role: 'Texto principal, KPIs' },
+  { name: 's-secondary', hex: '#425466', role: 'Labels, metadados' },
+  { name: 's-muted', hex: '#5B6B7A', role: 'Hint / placeholder (WCAG AA)' },
+  { name: 's-on-dark', hex: '#FFFFFF', role: 'Texto sobre sidebar navy' },
+  { name: 's-on-dark-muted', hex: '#B8C4D4', role: 'Texto muted na sidebar' },
+  { name: 's-brand', hex: '#0B1F3A', role: 'Navy institucional Dexi' },
+  { name: 's-brand-800', hex: '#123056', role: 'Navy hover / ativo escuro' },
+  { name: 's-brand-700', hex: '#1A4272', role: 'Navy foco secundário' },
+  { name: 's-brand-cta', hex: '#0B1F3A', role: 'Botão primário (AAA sobre branco)' },
+  { name: 's-brand-text', hex: '#0E7490', role: 'Texto brand acessível (cyan-700)' },
+  { name: 's-accent', hex: '#00B8D9', role: 'Cyan técnico: foco, borda ativa, ícone' },
+  { name: 's-accent-700', hex: '#0E7490', role: 'Cyan escuro: texto pequeno' },
+  { name: 's-accent-100', hex: '#E6F7FB', role: 'Cyan claro: bg badge/chip' },
+  { name: 's-success', hex: '#1D7F56', role: 'Sucesso' },
+  { name: 's-warning', hex: '#9A6700', role: 'Alerta' },
+  { name: 's-error', hex: '#C53030', role: 'Erro / destrutivo' },
+  { name: 's-info', hex: '#0E7490', role: 'Informativo' },
 ];
 </script>
 
@@ -85,7 +95,7 @@ const tokens = [
           </div>
           <div class="flex flex-col gap-1">
             <span class="text-xs text-s-muted font-mono">body · 14/400</span>
-            <span class="text-sm text-s-secondary">Chatwoot fork branded para mercado BR.</span>
+            <span class="text-sm text-s-secondary">Plataforma de atendimento omnichannel para o mercado BR.</span>
           </div>
           <div class="flex flex-col gap-1">
             <span class="text-xs text-s-muted font-mono">caption · 12/500</span>

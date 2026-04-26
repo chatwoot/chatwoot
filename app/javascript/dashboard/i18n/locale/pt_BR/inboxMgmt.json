@@ -238,6 +238,14 @@
         }
       },
       "WHATSAPP": {
+        "AVISA": {
+          "RISK_WARNING": "A Avisa é uma API não oficial do WhatsApp. A Meta pode banir contas que violem os Termos de Serviço. Use apenas quando BSPs oficiais não forem uma opção.",
+          "RISK_REQUIRED": "Confirme o risco da Avisa API antes de continuar.",
+          "ACKNOWLEDGE": "Entendo os riscos de usar uma integração não oficial do WhatsApp.",
+          "API_KEY_LABEL": "Token da instância Avisa",
+          "API_KEY_PLACEHOLDER": "Bearer token da sua instância Avisa",
+          "API_KEY_HINT": "Token por instância, disponível no painel da Avisa API. O Synapse OS guarda com segurança e usa para enviar mensagens e registrar o webhook de entrada automaticamente."
+        },
         "TITLE": "Canal do WhatsApp",
         "DESC": "Comece a oferecer suporte a seus clientes pelo WhatsApp.",
         "PROVIDERS": {

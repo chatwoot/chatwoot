@@ -1,6 +1,19 @@
+# rubocop:disable Metrics/ClassLength -- listener agrupa handlers Chatwoot+Synapse OS.
 class SynapseosListener < BaseListener
   LEAD_LABEL = 'lead_qualificado'.freeze
+  # CUSTOMIZAÇÃO_SYNAPSEOS: slash commands em notas privadas.
+  # Suportados:
+  #   /ganhei [valor]              -> Deal :won + CrmEvent deal_won
+  #   /perdi  [valor]              -> Deal :lost + CrmEvent deal_lost
+  #   /agendar YYYY-MM-DD          -> CrmEvent 'appointment' (move pra negociacao)
+  #   /qualificar                  -> aplica label lead_qualificado + cria Lead
+  #   /stage <slug>                -> move lead direto pra stage (PipelineTransitionService)
+  #   /tag <slug>                  -> aplica label do contrato na conversa
   COMMAND_REGEX = %r{^/(ganhei|perdi)(?:\s+([0-9]+(?:[.,][0-9]+)?))?}i
+  APPOINTMENT_COMMAND_REGEX = %r{^/agendar(?:\s+(\d{4}-\d{2}-\d{2}))?\b}i
+  QUALIFY_COMMAND_REGEX = %r{^/qualificar\b}i
+  STAGE_COMMAND_REGEX = %r{^/stage\s+([a-z0-9_-]+)\b}i
+  TAG_COMMAND_REGEX = %r{^/tag\s+([a-z0-9_-]+)\b}i
 
   # Labels from docs/synapseos/tags_contract.md — broadcast changes on these.
   CONTRACT_LABELS = %w[
@@ -34,10 +47,21 @@ class SynapseosListener < BaseListener
 
     return unless message.private? && message.content.is_a?(String)
 
-    match = message.content.strip.match(COMMAND_REGEX)
-    return unless match
+    dispatch_slash_command(message, message.content.strip)
+  end
 
-    handle_deal_command(message, match[1].downcase, match[2])
+  def dispatch_slash_command(message, content)
+    if (m = content.match(COMMAND_REGEX))
+      handle_deal_command(message, m[1].downcase, m[2])
+    elsif (m = content.match(APPOINTMENT_COMMAND_REGEX))
+      handle_appointment_command(message, m[1])
+    elsif content.match?(QUALIFY_COMMAND_REGEX)
+      handle_qualify_command(message)
+    elsif (m = content.match(STAGE_COMMAND_REGEX))
+      handle_stage_command(message, m[1])
+    elsif (m = content.match(TAG_COMMAND_REGEX))
+      handle_tag_command(message, m[1])
+    end
   end
 
   def deal_stage_changed(event)
@@ -115,6 +139,82 @@ class SynapseosListener < BaseListener
     return 0 if raw.blank?
 
     raw.to_s.tr(',', '.').to_f
+  end
+
+  # /agendar 2026-05-10 (ou sem data: usa daqui 3 dias util como placeholder)
+  def handle_appointment_command(message, date_raw)
+    conversation = message.conversation
+    account = message.account
+    ensure_lead(conversation, account, source: 'appointment_command')
+
+    appointment_date = parse_date(date_raw)
+    ::Synapseos::CrmEvent.create!(
+      account_id: account.id,
+      conversation_id: conversation.id,
+      user_id: message.sender_id,
+      event_type: 'appointment',
+      metadata: {
+        source: 'manual_command',
+        scheduled_for: appointment_date&.iso8601,
+        note_message_id: message.id
+      }.compact
+    )
+  rescue StandardError => e
+    Rails.logger.warn("[Synapseos] handle_appointment_command failed: #{e.message}")
+  end
+
+  # /qualificar — garante label + lead + move pra stage qualificado
+  def handle_qualify_command(message)
+    conversation = message.conversation
+    account = message.account
+    conversation.label_list.add(LEAD_LABEL)
+    conversation.save!
+    lead = ensure_lead(conversation, account, source: 'qualify_command')
+    return if lead.nil? || lead.pipeline_stage&.slug == 'qualificado'
+
+    ::Synapseos::PipelineTransitionService.move(deal: lead, to_slug: 'qualificado')
+  rescue StandardError => e
+    Rails.logger.warn("[Synapseos] handle_qualify_command failed: #{e.message}")
+  end
+
+  # /stage <slug> — move lead da conversa pra stage específico
+  def handle_stage_command(message, slug)
+    conversation = message.conversation
+    account = message.account
+    lead = ::Synapseos::Lead.find_by(account_id: account.id, conversation_id: conversation.id)
+    return if lead.nil?
+
+    ::Synapseos::PipelineTransitionService.move(deal: lead, to_slug: slug)
+  rescue StandardError => e
+    Rails.logger.warn("[Synapseos] handle_stage_command failed: #{e.message}")
+  end
+
+  # /tag <slug> — aplica label do contrato na conversa (trigger automações)
+  def handle_tag_command(message, slug)
+    conversation = message.conversation
+    return if conversation.label_list.include?(slug)
+
+    conversation.label_list.add(slug)
+    conversation.save!
+  rescue StandardError => e
+    Rails.logger.warn("[Synapseos] handle_tag_command failed: #{e.message}")
+  end
+
+  def ensure_lead(conversation, account, source:)
+    ::Synapseos::Lead.where(account_id: account.id, conversation_id: conversation.id).first_or_create!(
+      contact_id: conversation.contact_id,
+      assignee_id: conversation.assignee_id,
+      status: :open,
+      source: source
+    )
+  end
+
+  def parse_date(raw)
+    return nil if raw.blank?
+
+    Date.parse(raw)
+  rescue ArgumentError
+    nil
   end
 
   def handle_label_changes(conversation, account, changes)
@@ -236,3 +336,4 @@ class SynapseosListener < BaseListener
     Rails.cache.write(key, 1, expires_in: BROADCAST_THROTTLE, unless_exist: true)
   end
 end
+# rubocop:enable Metrics/ClassLength

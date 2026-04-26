@@ -23,7 +23,8 @@ const pollTimer = ref(null);
 const accountId = computed(() => Number(route.params.accountId));
 
 const AGENT_ICONS = {
-  alice_iza: 'i-lucide-bot',
+  alice: 'i-lucide-target',
+  iza: 'i-lucide-sparkles',
   otto: 'i-lucide-clipboard-list',
   luis: 'i-lucide-wrench',
   fernanda: 'i-lucide-rotate-ccw',

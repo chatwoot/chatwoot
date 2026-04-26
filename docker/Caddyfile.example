@@ -1,0 +1,37 @@
+# CUSTOMIZAÇÃO_SYNAPSEOS — template de Caddyfile pra VPS produção.
+#
+# Setup na VPS:
+#   sudo cp /opt/synapseos-core/docker/Caddyfile.example /etc/caddy/Caddyfile
+#   sudo sed -i 's/chatwoot\.cliente\.com\.br/chatwoot.seudominio.com.br/g' /etc/caddy/Caddyfile
+#   sudo systemctl reload caddy
+#
+# SSL via Let's Encrypt é automático (Caddy resolve ACME no primeiro boot,
+# precisa das portas 80/443 abertas + DNS já apontado pro IP da VPS).
+
+chatwoot.cliente.com.br {
+    reverse_proxy localhost:3000 {
+        # WebSocket / ActionCable
+        header_up Host {host}
+        header_up X-Real-IP {remote}
+        header_up X-Forwarded-For {remote}
+        header_up X-Forwarded-Proto {scheme}
+    }
+
+    # Limite de upload pra anexos WhatsApp (vídeo/áudio).
+    # Avisa/Cloud API aceitam até ~16MB na prática — 50MB dá folga.
+    request_body {
+        max_size 50MB
+    }
+
+    # Compressão (reduz banda de respostas JSON grandes).
+    encode gzip zstd
+
+    # Rotação de logs do Caddy (o log do Rails continua em stdout do container).
+    log {
+        output file /var/log/caddy/chatwoot.log {
+            roll_size 50mb
+            roll_keep 5
+        }
+        format json
+    }
+}

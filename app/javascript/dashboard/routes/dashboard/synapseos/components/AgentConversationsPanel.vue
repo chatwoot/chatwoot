@@ -6,6 +6,7 @@ import axios from 'axios';
 import SynapseCard from 'next/synapseos/SynapseCard.vue';
 import SynapseStatusPill from 'next/synapseos/SynapseStatusPill.vue';
 import SynapseButton from 'next/synapseos/SynapseButton.vue';
+import SynapseEmptyState from 'next/synapseos/SynapseEmptyState.vue';
 
 const props = defineProps({
   agent: { type: Object, required: true },
@@ -95,9 +96,13 @@ onBeforeUnmount(() => {
       {{ t('SYNAPSEOS.LIVE_AGENTS.PANEL.LOADING') }}
     </div>
 
-    <div v-else-if="!conversations.length" class="px-4 py-6 text-sm text-s-muted">
-      {{ t('SYNAPSEOS.LIVE_AGENTS.PANEL.EMPTY') }}
-    </div>
+    <SynapseEmptyState
+      v-else-if="!conversations.length"
+      icon="i-lucide-inbox"
+      :title="t('SYNAPSEOS.LIVE_AGENTS.PANEL.EMPTY')"
+      size="sm"
+      class="px-4"
+    />
 
     <ul v-else class="divide-y divide-s-border-subtle max-h-[600px] overflow-auto">
       <li

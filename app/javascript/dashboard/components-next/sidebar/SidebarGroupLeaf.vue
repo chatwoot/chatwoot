@@ -25,17 +25,18 @@ const shouldRenderComponent = computed(() => {
     :permissions="resolvePermissions(to)"
     :feature-flag="resolveFeatureFlag(to)"
     as="li"
-    class="py-0.5 ltr:pl-11 rtl:pr-11 relative text-s-secondary min-w-0"
+    class="py-0.5 ltr:pl-11 rtl:pr-11 relative text-s-on-dark-muted min-w-0"
   >
     <component
       :is="to ? 'router-link' : 'div'"
       :to="to"
       :title="label"
-      class="flex h-9 items-center gap-2 px-3 py-1 rounded-lg text-sm font-medium hover:bg-s-subtle transition-colors group min-w-0"
+      class="flex h-9 items-center gap-2 py-1 rounded-lg text-sm font-medium transition-colors group min-w-0"
       :class="{
-        'bg-s-surface shadow-s-sm border border-s-border text-s-brand-text':
+        'bg-s-brand-800 text-s-on-dark ltr:pl-[9px] rtl:pr-[9px] ltr:pr-3 rtl:pl-3 ltr:border-l-[3px] rtl:border-r-[3px] border-s-accent-500':
           active,
-        'text-s-secondary': !active,
+        'text-s-on-dark-muted hover:bg-white/[0.06] hover:text-s-on-dark px-3':
+          !active,
       }"
     >
       <component

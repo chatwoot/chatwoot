@@ -1,48 +1,76 @@
-module Synapseos
-  # Resolves between AgentBot records (native Chatwoot) and canonical SynapseOS
-  # agent slugs used across the C-Level dashboard KPIs. Alice & Iza share the
-  # same card (`alice_iza`).
-  class AgentResolver
-    NAME_TO_SLUG = {
-      'Alice' => 'alice_iza',
-      'Iza' => 'alice_iza',
-      'Otto' => 'otto',
-      'Luís' => 'luis',
-      'Luis' => 'luis',
-      'Fernanda' => 'fernanda',
-      'Ângela' => 'angela',
-      'Angela' => 'angela',
-      'Vitor' => 'vitor'
-    }.freeze
+# Resolves between AgentBot records (Chatwoot core) and canonical SynapseOS
+# agent slugs used by the C-Level dashboard.
+#
+# Priority: AgentBot#squadron_role (explicit classification) → fallback by
+# name (legacy bots created before the field). Alice e Iza são papéis
+# separados (Prospecção/BDR outbound vs Recepção/SDR inbound).
+class Synapseos::AgentResolver
+  # Papel -> label curto (1 palavra) exibido como tag no painel.
+  DISPLAY_NAMES = {
+    'alice' => 'Alice',
+    'iza' => 'Iza',
+    'luis' => 'Luís',
+    'otto' => 'Otto',
+    'fernanda' => 'Fernanda',
+    'angela' => 'Ângela',
+    'vitor' => 'Vitor'
+  }.freeze
 
-    DISPLAY_NAMES = {
-      'alice_iza' => 'Alice & Iza',
-      'otto' => 'Otto',
-      'luis' => 'Luís',
-      'fernanda' => 'Fernanda',
-      'angela' => 'Ângela',
-      'vitor' => 'Vitor'
-    }.freeze
+  ROLE_LABELS = {
+    'alice' => 'Prospecção',
+    'iza' => 'Recepção',
+    'luis' => 'Especialista',
+    'otto' => 'Auditoria',
+    'fernanda' => 'Resgate',
+    'angela' => 'Farming',
+    'vitor' => 'Recuperação'
+  }.freeze
 
-    SLUGS = DISPLAY_NAMES.keys.freeze
+  SLUGS = DISPLAY_NAMES.keys.freeze
 
-    def self.slug_for(agent_bot)
-      return nil if agent_bot.nil?
+  # Fallback: mapeia nomes que bots legados usam (sem squadron_role) pro slug
+  # canônico. 'Alice & Iza' legado mapeia pra 'iza' (recepção inbound, caso
+  # mais comum em base de dados existente); se o cliente usava o nome
+  # combinado, ele reclassifica explicitamente depois.
+  NAME_TO_SLUG = {
+    'Alice' => 'alice',
+    'Iza' => 'iza',
+    'Alice & Iza' => 'iza',
+    'Luís' => 'luis',
+    'Luis' => 'luis',
+    'Otto' => 'otto',
+    'Fernanda' => 'fernanda',
+    'Ângela' => 'angela',
+    'Angela' => 'angela',
+    'Vitor' => 'vitor'
+  }.freeze
 
-      NAME_TO_SLUG[agent_bot.name]
-    end
+  def self.slug_for(agent_bot)
+    return nil if agent_bot.nil?
 
-    def self.display_name(slug)
-      DISPLAY_NAMES[slug.to_s]
-    end
+    agent_bot.squadron_role.presence || NAME_TO_SLUG[agent_bot.name]
+  end
 
-    def self.bots_for_slug(account, slug)
-      names = NAME_TO_SLUG.select { |_, s| s == slug.to_s }.keys
-      AgentBot.where(account_id: [nil, account.id], name: names)
-    end
+  def self.display_name(slug)
+    DISPLAY_NAMES[slug.to_s]
+  end
 
-    def self.all_bots(account)
-      AgentBot.where(account_id: [nil, account.id], name: NAME_TO_SLUG.keys)
-    end
+  def self.role_label(slug)
+    ROLE_LABELS[slug.to_s]
+  end
+
+  def self.bots_for_slug(account, slug)
+    slug = slug.to_s
+    legacy_names = NAME_TO_SLUG.select { |_, s| s == slug }.keys
+
+    AgentBot.where(account_id: [nil, account.id]).where(
+      'squadron_role = :slug OR (squadron_role IS NULL AND name IN (:names))',
+      slug: slug, names: legacy_names
+    )
+  end
+
+  def self.all_bots(account)
+    AgentBot.where(account_id: [nil, account.id])
+            .where('squadron_role IS NOT NULL OR name IN (:names)', names: NAME_TO_SLUG.keys)
   end
 end

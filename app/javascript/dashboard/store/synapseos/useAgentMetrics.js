@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 
-export const AGENT_SLUGS = ['alice_iza', 'otto', 'luis', 'fernanda', 'angela', 'vitor'];
+export const AGENT_SLUGS = ['alice', 'iza', 'otto', 'luis', 'fernanda', 'angela', 'vitor'];
 
 export const RANGE_OPTIONS = [
   { key: '24h', labelKey: 'SYNAPSEOS.METRICS.RANGES.24H', hours: 24 },

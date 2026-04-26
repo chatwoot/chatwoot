@@ -156,20 +156,20 @@ onMounted(fetchPipeline);
 </script>
 
 <template>
-  <div class="bg-s-bg p-8 h-full flex flex-col gap-4 overflow-hidden">
-    <header class="flex items-end justify-between flex-wrap gap-4">
-      <div class="flex flex-col gap-1">
-        <h1 class="text-2xl font-semibold text-s-primary">
+  <div class="bg-s-bg p-4 sm:p-6 md:p-8 h-full flex flex-col gap-4 overflow-hidden">
+    <header class="flex items-start md:items-end justify-between flex-wrap gap-3 md:gap-4">
+      <div class="flex flex-col gap-1 min-w-0">
+        <h1 class="text-xl md:text-2xl font-semibold text-s-primary">
           {{ t('SYNAPSEOS.PIPELINE.TITLE') }}
         </h1>
-        <p class="text-sm text-s-muted">
+        <p class="text-sm text-s-muted hidden sm:block">
           {{ t('SYNAPSEOS.PIPELINE.SUBTITLE') }}
         </p>
       </div>
-      <div class="flex gap-2">
+      <div class="flex gap-2 shrink-0">
         <SynapseButton variant="outline" icon="i-lucide-refresh-cw" @click="fetchPipeline" />
         <SynapseButton variant="primary" icon="i-lucide-plus" @click="openNewStage">
-          {{ t('SYNAPSEOS.PIPELINE.ADD_STAGE') }}
+          <span class="hidden sm:inline">{{ t('SYNAPSEOS.PIPELINE.ADD_STAGE') }}</span>
         </SynapseButton>
       </div>
     </header>
@@ -181,7 +181,7 @@ onMounted(fetchPipeline);
     <div v-else class="flex gap-4 overflow-x-auto flex-1 pb-2">
       <div
         v-if="unassignedColumn.leads.length"
-        class="bg-s-surface rounded-2xl border border-s-border shadow-s-sm flex flex-col w-80 shrink-0 h-full"
+        class="bg-s-subtle rounded-2xl border border-s-border flex flex-col w-[17rem] sm:w-80 shrink-0 h-full"
       >
         <div class="px-4 py-3 border-b border-s-border-subtle flex items-center gap-2">
           <span
@@ -202,7 +202,7 @@ onMounted(fetchPipeline);
         >
           <template #item="{ element }">
             <div
-              class="bg-s-subtle border border-s-border rounded-lg p-3 cursor-grab hover:border-s-brand hover:bg-s-surface transition-colors"
+              class="bg-s-surface border border-s-border rounded-lg p-3 cursor-grab hover:border-s-accent-500 hover:shadow-s-sm transition-all"
               @click="openConversation(element)"
             >
               <div class="text-sm font-medium text-s-primary truncate">{{ element.contact.name }}</div>
@@ -220,7 +220,7 @@ onMounted(fetchPipeline);
       <div
         v-for="column in columns"
         :key="column.stage.id"
-        class="bg-s-surface rounded-2xl border border-s-border shadow-s-sm flex flex-col w-80 shrink-0 h-full"
+        class="bg-s-subtle rounded-2xl border border-s-border flex flex-col w-[17rem] sm:w-80 shrink-0 h-full"
       >
         <div class="px-4 py-3 border-b border-s-border-subtle flex items-center gap-2 group">
           <span
@@ -269,7 +269,7 @@ onMounted(fetchPipeline);
         >
           <template #item="{ element }">
             <div
-              class="bg-s-subtle border border-s-border rounded-lg p-3 cursor-grab hover:border-s-brand hover:bg-s-surface transition-colors"
+              class="bg-s-surface border border-s-border rounded-lg p-3 cursor-grab hover:border-s-accent-500 hover:shadow-s-sm transition-all"
               @click="openConversation(element)"
             >
               <div class="flex items-start justify-between gap-2">

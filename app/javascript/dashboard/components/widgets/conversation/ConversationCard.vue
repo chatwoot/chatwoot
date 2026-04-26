@@ -249,13 +249,19 @@ const deleteConversation = () => {
 
 <template>
   <div
-    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 border-t-0 border-b-0 border-l-0 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-s-subtle dark:hover:bg-s-subtle group"
-    :class="{
-      'active animate-card-select bg-s-bg border-s-border': isActiveChat,
-      'bg-s-subtle': selected,
-      'px-0': compact,
-      'px-3': !compact,
-    }"
+    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 ltr:border-l-[3px] rtl:border-r-[3px] border-solid cursor-pointer conversation hover:bg-s-subtle dark:hover:bg-s-subtle group transition-colors"
+    :class="[
+      {
+        'active animate-card-select bg-s-accent-100 ltr:border-s-accent-500 rtl:border-s-accent-500':
+          isActiveChat,
+        'bg-s-subtle ltr:border-transparent rtl:border-transparent':
+          selected && !isActiveChat,
+        'ltr:border-transparent rtl:border-transparent':
+          !isActiveChat && !selected,
+        'px-0': compact,
+        'px-3': !compact,
+      },
+    ]"
     @click="onCardClick"
     @contextmenu="openContextMenu($event)"
   >
@@ -370,7 +376,7 @@ const deleteConversation = () => {
           />
         </span>
         <span
-          class="shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-s-success"
+          class="rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-s-brand-900 bg-s-accent-500"
           :class="hasUnread ? 'block' : 'hidden'"
         >
           {{ unreadCount > 9 ? '9+' : unreadCount }}

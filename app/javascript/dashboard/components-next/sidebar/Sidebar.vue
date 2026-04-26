@@ -18,9 +18,8 @@ import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import SidebarChangelogCard from './SidebarChangelogCard.vue';
 import SidebarChangelogButton from './SidebarChangelogButton.vue';
-import ChannelLeaf from './ChannelLeaf.vue';
-import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
+import SidebarNotificationBell from './SidebarNotificationBell.vue';
 import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
@@ -157,27 +156,15 @@ useEventListener(document, 'mouseup', onResizeEnd);
 useEventListener(document, 'touchmove', onResizeMove, { passive: false });
 useEventListener(document, 'touchend', onResizeEnd);
 
-const inboxes = useMapGetter('inboxes/getInboxes');
-const labels = useMapGetter('labels/getLabelsOnSidebar');
-const teams = useMapGetter('teams/getMyTeams');
-const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
-const conversationCustomViews = useMapGetter(
-  'customViews/getConversationCustomViews'
-);
-
+// CUSTOMIZAÇÃO_SYNAPSEOS: getters/dispatches de labels, teams, customViews
+// e sortedInboxes foram removidos do sidebar — os submenus que os consumiam
+// (Conversas > Folders/Teams/Channels/Labels, Contatos > Segments/Tagged)
+// não existem mais. Notification count segue porque Caixa de Entrada usa.
 onMounted(() => {
-  store.dispatch('labels/get');
   store.dispatch('inboxes/get');
   store.dispatch('notifications/unReadCount');
-  store.dispatch('teams/get');
   store.dispatch('attributes/get');
-  store.dispatch('customViews/get', 'conversation');
-  store.dispatch('customViews/get', 'contact');
 });
-
-const sortedInboxes = computed(() =>
-  inboxes.value.slice().sort((a, b) => a.name.localeCompare(b.name))
-);
 
 const closeMobileSidebar = () => {
   if (!props.isMobileSidebarOpen) return;
@@ -193,6 +180,9 @@ const onComposeClose = () => {
   emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, false);
 };
 
+// CUSTOMIZAÇÃO_SYNAPSEOS: reports de Label, Inbox e Team foram removidos do
+// nav (escopo reduzido pra Agent + Conversation overview apenas). As rotas
+// continuam registradas caso haja links diretos.
 const newReportRoutes = () => [
   {
     name: 'Reports Agent',
@@ -200,35 +190,33 @@ const newReportRoutes = () => [
     to: accountScopedRoute('agent_reports_index'),
     activeOn: ['agent_reports_show'],
   },
-  {
-    name: 'Reports Label',
-    label: t('SIDEBAR.REPORTS_LABEL'),
-    to: accountScopedRoute('label_reports_index'),
-  },
-  {
-    name: 'Reports Inbox',
-    label: t('SIDEBAR.REPORTS_INBOX'),
-    to: accountScopedRoute('inbox_reports_index'),
-    activeOn: ['inbox_reports_show'],
-  },
-  {
-    name: 'Reports Team',
-    label: t('SIDEBAR.REPORTS_TEAM'),
-    to: accountScopedRoute('team_reports_index'),
-    activeOn: ['team_reports_show'],
-  },
 ];
 
 const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
   return [
+    // CUSTOMIZAÇÃO_SYNAPSEOS: Caixa de Entrada passa a apontar direto pra
+    // lista de todas as conversas (antes era a tela de notificações pessoais
+    // inbox_view). Consolida 'Conversas > Todas as conversas' aqui; o item
+    // 'Conversas' foi removido da sidebar. A rota inbox_view continua
+    // existindo via rotas caso algum link externo aponte pra ela.
     {
       name: 'Inbox',
       label: t('SIDEBAR.INBOX'),
       icon: 'i-lucide-inbox',
-      to: accountScopedRoute('inbox_view'),
-      activeOn: ['inbox_view', 'inbox_view_conversation'],
+      to: accountScopedRoute('home'),
+      activeOn: [
+        'home',
+        'inbox_conversation',
+        'conversation_through_mentions',
+        'conversation_through_participating',
+        'conversation_through_unattended',
+        'conversations_through_folders',
+        'conversations_through_team',
+        'conversation_through_inbox',
+        'conversations_through_label',
+      ],
       getterKeys: {
         count: 'notifications/getUnreadCount',
       },
@@ -255,13 +243,10 @@ const menuItems = computed(() => {
       to: accountScopedRoute('synapseos_agent_metrics'),
       activeOn: ['synapseos_agent_metrics'],
     },
-    {
-      name: 'SynapseOS Live Dashboard',
-      label: t('SIDEBAR.SYNAPSEOS_LIVE_DASHBOARD'),
-      icon: 'i-lucide-radio',
-      to: accountScopedRoute('synapseos_live_dashboard'),
-      activeOn: ['synapseos_live_dashboard'],
-    },
+    // CUSTOMIZAÇÃO_SYNAPSEOS: Tempo Real removido do nav — redundante com
+    // Live Agents (mesmas métricas, mesma semântica de monitoramento ao vivo).
+    // A rota `synapseos_live_dashboard` continua existindo no routes.js caso
+    // algum link direto ainda seja referenciado.
     {
       name: 'SynapseOS Pipeline',
       label: t('SIDEBAR.SYNAPSEOS_PIPELINE'),
@@ -269,272 +254,32 @@ const menuItems = computed(() => {
       to: accountScopedRoute('synapseos_pipeline'),
       activeOn: ['synapseos_pipeline'],
     },
-    {
-      name: 'Conversation',
-      label: t('SIDEBAR.CONVERSATIONS'),
-      icon: 'i-lucide-message-circle',
-      children: [
-        {
-          name: 'All',
-          label: t('SIDEBAR.ALL_CONVERSATIONS'),
-          activeOn: ['inbox_conversation'],
-          to: accountScopedRoute('home'),
-        },
-        {
-          name: 'Mentions',
-          label: t('SIDEBAR.MENTIONED_CONVERSATIONS'),
-          activeOn: ['conversation_through_mentions'],
-          to: accountScopedRoute('conversation_mentions'),
-        },
-        {
-          name: 'Participating',
-          label: t('SIDEBAR.PARTICIPATING_CONVERSATIONS'),
-          activeOn: ['conversation_through_participating'],
-          to: accountScopedRoute('conversation_participating'),
-        },
-        {
-          name: 'Unattended',
-          activeOn: ['conversation_through_unattended'],
-          label: t('SIDEBAR.UNATTENDED_CONVERSATIONS'),
-          to: accountScopedRoute('conversation_unattended'),
-        },
-        {
-          name: 'Folders',
-          label: t('SIDEBAR.CUSTOM_VIEWS_FOLDER'),
-          icon: 'i-lucide-folder',
-          activeOn: ['conversations_through_folders'],
-          children: conversationCustomViews.value.map(view => ({
-            name: `${view.name}-${view.id}`,
-            label: view.name,
-            to: accountScopedRoute('folder_conversations', { id: view.id }),
-          })),
-        },
-        {
-          name: 'Teams',
-          label: t('SIDEBAR.TEAMS'),
-          icon: 'i-lucide-users',
-          activeOn: ['conversations_through_team'],
-          children: teams.value.map(team => ({
-            name: `${team.name}-${team.id}`,
-            label: team.name,
-            to: accountScopedRoute('team_conversations', { teamId: team.id }),
-          })),
-        },
-        {
-          name: 'Channels',
-          label: t('SIDEBAR.CHANNELS'),
-          icon: 'i-lucide-mailbox',
-          activeOn: ['conversation_through_inbox'],
-          children: sortedInboxes.value.map(inbox => ({
-            name: `${inbox.name}-${inbox.id}`,
-            label: inbox.name,
-            icon: h(ChannelIcon, { inbox, class: 'size-[16px]' }),
-            to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
-            component: leafProps =>
-              h(ChannelLeaf, {
-                label: leafProps.label,
-                active: leafProps.active,
-                inbox,
-              }),
-          })),
-        },
-        {
-          name: 'Labels',
-          label: t('SIDEBAR.LABELS'),
-          icon: 'i-lucide-tag',
-          activeOn: ['conversations_through_label'],
-          children: labels.value.map(label => ({
-            name: `${label.title}-${label.id}`,
-            label: label.title,
-            icon: h('span', {
-              class: `size-[8px] rounded-sm`,
-              style: { backgroundColor: label.color },
-            }),
-            to: accountScopedRoute('label_conversations', {
-              label: label.title,
-            }),
-          })),
-        },
-      ],
-    },
-    {
-      name: 'Captain',
-      icon: 'i-woot-captain',
-      label: t('SIDEBAR.CAPTAIN'),
-      activeOn: ['captain_assistants_create_index'],
-      children: [
-        {
-          name: 'FAQs',
-          label: t('SIDEBAR.CAPTAIN_RESPONSES'),
-          activeOn: [
-            'captain_assistants_responses_index',
-            'captain_assistants_responses_pending',
-          ],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_responses_index',
-          }),
-        },
-        {
-          name: 'Documents',
-          label: t('SIDEBAR.CAPTAIN_DOCUMENTS'),
-          activeOn: ['captain_assistants_documents_index'],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_documents_index',
-          }),
-        },
-        {
-          name: 'Scenarios',
-          label: t('SIDEBAR.CAPTAIN_SCENARIOS'),
-          activeOn: ['captain_assistants_scenarios_index'],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_scenarios_index',
-          }),
-        },
-        {
-          name: 'Playground',
-          label: t('SIDEBAR.CAPTAIN_PLAYGROUND'),
-          activeOn: ['captain_assistants_playground_index'],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_playground_index',
-          }),
-        },
-        {
-          name: 'Inboxes',
-          label: t('SIDEBAR.CAPTAIN_INBOXES'),
-          activeOn: ['captain_assistants_inboxes_index'],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_inboxes_index',
-          }),
-        },
-        {
-          name: 'Tools',
-          label: t('SIDEBAR.CAPTAIN_TOOLS'),
-          activeOn: ['captain_tools_index'],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_tools_index',
-          }),
-        },
-        {
-          name: 'Settings',
-          label: t('SIDEBAR.CAPTAIN_SETTINGS'),
-          activeOn: [
-            'captain_assistants_settings_index',
-            'captain_assistants_guidelines_index',
-            'captain_assistants_guardrails_index',
-          ],
-          to: accountScopedRoute('captain_assistants_index', {
-            navigationPath: 'captain_assistants_settings_index',
-          }),
-        },
-      ],
-    },
-    {
-      name: 'Contacts',
-      label: t('SIDEBAR.CONTACTS'),
-      icon: 'i-lucide-contact',
-      children: [
-        {
-          name: 'All Contacts',
-          label: t('SIDEBAR.ALL_CONTACTS'),
-          to: accountScopedRoute(
-            'contacts_dashboard_index',
-            {},
-            { page: 1, search: undefined }
-          ),
-          activeOn: ['contacts_dashboard_index', 'contacts_edit'],
-        },
-        {
-          name: 'Active',
-          label: t('SIDEBAR.ACTIVE'),
-          to: accountScopedRoute('contacts_dashboard_active'),
-          activeOn: ['contacts_dashboard_active'],
-        },
-        {
-          name: 'Segments',
-          icon: 'i-lucide-group',
-          label: t('SIDEBAR.CUSTOM_VIEWS_SEGMENTS'),
-          children: contactCustomViews.value.map(view => ({
-            name: `${view.name}-${view.id}`,
-            label: view.name,
-            to: accountScopedRoute(
-              'contacts_dashboard_segments_index',
-              { segmentId: view.id },
-              { page: 1 }
-            ),
-            activeOn: [
-              'contacts_dashboard_segments_index',
-              'contacts_edit_segment',
-            ],
-          })),
-        },
-        {
-          name: 'Tagged With',
-          icon: 'i-lucide-tag',
-          label: t('SIDEBAR.TAGGED_WITH'),
-          children: labels.value.map(label => ({
-            name: `${label.title}-${label.id}`,
-            label: label.title,
-            icon: h('span', {
-              class: `size-[8px] rounded-sm`,
-              style: { backgroundColor: label.color },
-            }),
-            to: accountScopedRoute(
-              'contacts_dashboard_labels_index',
-              { label: label.title },
-              { page: 1, search: undefined }
-            ),
-            activeOn: [
-              'contacts_dashboard_labels_index',
-              'contacts_edit_label',
-            ],
-          })),
-        },
-      ],
-    },
-    {
-      name: 'Companies',
-      label: t('SIDEBAR.COMPANIES'),
-      icon: 'i-lucide-building-2',
-      children: [
-        {
-          name: 'All Companies',
-          label: t('SIDEBAR.ALL_COMPANIES'),
-          to: accountScopedRoute(
-            'companies_dashboard_index',
-            {},
-            { page: 1, search: undefined }
-          ),
-          activeOn: ['companies_dashboard_index'],
-        },
-      ],
-    },
+    // CUSTOMIZAÇÃO_SYNAPSEOS: item 'Conversas' removido. Todas as sub-rotas
+    // (Mentions, Participating, Unattended, Folders, Teams, Channels, Labels)
+    // continuam registradas e acessíveis por URL direta / filtros dentro da
+    // nova Caixa de Entrada, mas não aparecem como atalhos no nav.
+    // CUSTOMIZAÇÃO_SYNAPSEOS: Captain (IA do Chatwoot) removido do nav —
+    // o Synapse OS usa seu próprio esquadrão de agentes (AgentBot +
+    // squadron_role). Rotas /captain_assistants/* permanecem caso algum
+    // link externo referencie.
+    // CUSTOMIZAÇÃO_SYNAPSEOS: Contatos + Companies removidos do nav.
+    // Contatos continuam acessíveis via painel lateral da conversa e
+    // rotas /contacts /companies por URL direta.
+    // CUSTOMIZAÇÃO_SYNAPSEOS: Relatórios — mantém apenas visão geral
+    // (Conversation) e performance por agente. CSAT, SLA, Robôs, Time,
+    // Caixa de Entrada e Etiquetas foram removidos do nav (escopo enxuto
+    // pro uso atual; rotas /reports/* permanecem via URL direta).
     {
       name: 'Reports',
       label: t('SIDEBAR.REPORTS'),
       icon: 'i-lucide-chart-spline',
       children: [
-        // CUSTOMIZAÇÃO_SYNAPSEOS: "Overview" movido pro Dashboard Executivo (tab Relatórios).
         {
           name: 'Report Conversation',
           label: t('SIDEBAR.REPORTS_CONVERSATION'),
           to: accountScopedRoute('conversation_reports'),
         },
         ...reportRoutes.value,
-        {
-          name: 'Reports CSAT',
-          label: t('SIDEBAR.CSAT'),
-          to: accountScopedRoute('csat_reports'),
-        },
-        {
-          name: 'Reports SLA',
-          label: t('SIDEBAR.REPORTS_SLA'),
-          to: accountScopedRoute('sla_reports'),
-        },
-        {
-          name: 'Reports Bot',
-          label: t('SIDEBAR.REPORTS_BOT'),
-          to: accountScopedRoute('bot_reports'),
-        },
       ],
     },
     // CUSTOMIZAÇÃO_SYNAPSEOS: Campaigns e Help Center (Portals) escondidos da sidebar.
@@ -701,7 +446,7 @@ const menuItems = computed(() => {
       closeMobileSidebar,
       { ignore: ['#mobile-sidebar-launcher'] },
     ]"
-    class="bg-s-sidebar flex flex-col text-sm pb-px fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[240px] md:w-auto md:relative md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:translate-x-0 ltr:border-r rtl:border-l border-s-border"
+    class="bg-s-sidebar flex flex-col text-sm pb-px fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[240px] md:w-auto md:relative md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:translate-x-0 ltr:border-r rtl:border-l border-s-brand-800"
     :class="[
       {
         'shadow-lg md:shadow-none': isMobileSidebarOpen,
@@ -734,7 +479,7 @@ const menuItems = computed(() => {
           <div class="grid flex-shrink-0 place-content-center size-6">
             <Logo class="size-4" />
           </div>
-          <div class="flex-shrink-0 w-px h-3 bg-s-border" />
+          <div class="flex-shrink-0 w-px h-3 bg-white/10" />
           <SidebarAccountSwitcher
             class="flex-grow -mx-1 min-w-0"
             @show-create-account-modal="emit('showCreateAccountModal')"
@@ -748,14 +493,14 @@ const menuItems = computed(() => {
         <RouterLink
           v-if="!isEffectivelyCollapsed"
           :to="{ name: 'search' }"
-          class="flex gap-2 items-center px-3 w-full h-9 rounded-lg border border-s-border bg-s-surface text-s-secondary hover:bg-s-subtle transition-colors"
+          class="flex gap-2 items-center px-3 w-full h-9 rounded-lg border border-white/10 bg-white/[0.06] text-s-on-dark-muted hover:bg-white/10 hover:text-s-on-dark transition-colors"
         >
-          <span class="flex-shrink-0 i-lucide-search size-4 text-s-muted" />
-          <span class="flex-grow text-start text-s-muted text-sm">
+          <span class="flex-shrink-0 i-lucide-search size-4" />
+          <span class="flex-grow text-start text-sm">
             {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
           </span>
           <span
-            class="tracking-wide pointer-events-none select-none text-[11px] font-mono text-s-muted"
+            class="tracking-wide pointer-events-none select-none text-[11px] font-mono"
           >
             {{ searchShortcut }}
           </span>
@@ -763,11 +508,12 @@ const menuItems = computed(() => {
         <RouterLink
           v-else
           :to="{ name: 'search' }"
-          class="flex items-center justify-center size-9 rounded-lg border border-s-border bg-s-surface text-s-secondary hover:bg-s-subtle transition-colors"
+          class="flex items-center justify-center size-9 rounded-lg border border-white/10 bg-white/[0.06] text-s-on-dark-muted hover:bg-white/10 hover:text-s-on-dark transition-colors"
           :title="t('COMBOBOX.SEARCH_PLACEHOLDER')"
         >
-          <span class="i-lucide-search size-4 text-s-muted" />
+          <span class="i-lucide-search size-4" />
         </RouterLink>
+        <SidebarNotificationBell />
         <ComposeConversation align-position="right" @close="onComposeClose">
           <template #trigger="{ toggle, isOpen }">
             <Button
@@ -776,9 +522,9 @@ const menuItems = computed(() => {
               size="sm"
               :class="[
                 isEffectivelyCollapsed
-                  ? '!size-9 !outline-s-border !text-s-secondary !bg-s-surface hover:!bg-s-subtle'
-                  : '!h-9 !outline-s-border !text-s-secondary !bg-s-surface hover:!bg-s-subtle',
-                { '!bg-s-subtle': isOpen },
+                  ? '!size-9 !outline-white/10 !text-s-on-dark-muted !bg-white/[0.06] hover:!bg-white/10 hover:!text-s-on-dark'
+                  : '!h-9 !outline-white/10 !text-s-on-dark-muted !bg-white/[0.06] hover:!bg-white/10 hover:!text-s-on-dark',
+                { '!bg-white/10 !text-s-on-dark': isOpen },
               ]"
               @click="onComposeOpen(toggle)"
             />
@@ -822,7 +568,7 @@ const menuItems = computed(() => {
         "
       />
       <div
-        class="px-2 py-2 flex-shrink-0 flex w-full z-50 gap-2 items-center border-t border-s-border"
+        class="px-2 py-2 flex-shrink-0 flex w-full z-50 gap-2 items-center border-t border-white/10"
         :class="isEffectivelyCollapsed ? 'justify-center' : 'justify-between'"
       >
         <SidebarProfileMenu
@@ -839,8 +585,8 @@ const menuItems = computed(() => {
       @dblclick="onResizeHandleDoubleClick"
     >
       <div
-        class="absolute top-0 h-full w-px ltr:right-0 rtl:left-0 bg-transparent group-hover:bg-s-brand transition-colors"
-        :class="{ 'bg-s-brand': isResizing }"
+        class="absolute top-0 h-full w-px ltr:right-0 rtl:left-0 bg-transparent group-hover:bg-s-accent-500 transition-colors"
+        :class="{ 'bg-s-accent-500': isResizing }"
       />
     </div>
   </aside>

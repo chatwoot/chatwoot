@@ -237,9 +237,10 @@ watch(
           type="button"
           class="flex items-center justify-center size-11 rounded-lg transition-colors"
           :class="{
-            'bg-s-surface shadow-s-sm border border-s-border text-s-brand':
+            'bg-s-brand-800 text-s-on-dark ring-1 ring-s-accent-500':
               isActive || hasActiveChild,
-            'text-s-muted hover:bg-s-subtle': !isActive && !hasActiveChild,
+            'text-s-on-dark-muted hover:bg-white/[0.06] hover:text-s-on-dark':
+              !isActive && !hasActiveChild,
           }"
           :title="label"
           @click="hasChildren ? handleCollapsedClick() : undefined"

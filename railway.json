@@ -5,9 +5,7 @@
     "dockerfilePath": "docker/Dockerfile"
   },
   "deploy": {
-    "startCommand": "/app/docker/entrypoints/railway_web.sh",
-    "healthcheckPath": "/api/",
-    "healthcheckTimeout": 300,
+    "startCommand": "/app/docker/entrypoints/railway_start.sh",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }

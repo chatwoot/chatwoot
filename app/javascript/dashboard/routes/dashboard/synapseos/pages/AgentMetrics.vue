@@ -26,13 +26,23 @@ const accountId = computed(() => route.params.accountId);
 // Agent card declarative configuration.
 // Each card has: slug, icon, tone, hero KPI (large), secondary KPIs (smaller rows).
 const AGENT_CARDS = {
-  alice_iza: {
+  alice: {
+    icon: 'i-lucide-target',
+    tone: 'brand',
+    hero: { key: 'leads_frios_contactados', format: 'count' },
+    secondary: [
+      { key: 'taxa_resposta', format: 'percent' },
+      { key: 'leads_convertidos', format: 'count' },
+    ],
+  },
+  iza: {
     icon: 'i-lucide-sparkles',
     tone: 'brand',
-    hero: { key: 'leads_recepcionados', format: 'count' },
+    hero: { key: 'leads_inbound_recepcionados', format: 'count' },
     secondary: [
-      { key: 'taxa_qualificacao', format: 'percent' },
       { key: 'speed_to_lead_seconds', format: 'seconds' },
+      { key: 'taxa_qualificacao', format: 'percent' },
+      { key: 'handoffs', format: 'count' },
     ],
   },
   otto: {
@@ -71,7 +81,7 @@ const AGENT_CARDS = {
 };
 
 const GROUPS = [
-  { key: 'FRONTLINE', slugs: ['alice_iza'] },
+  { key: 'FRONTLINE', slugs: ['alice', 'iza'] },
   { key: 'PARTNERS', slugs: ['otto', 'luis'] },
   { key: 'RESCUE', slugs: ['fernanda', 'angela', 'vitor'] },
 ];

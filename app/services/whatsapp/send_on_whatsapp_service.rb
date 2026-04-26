@@ -5,13 +5,23 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
     Channel::Whatsapp
   end
 
+  # CUSTOMIZAÇÃO_SYNAPSEOS: provedores não-oficiais (avisa, hyperflow) são
+  # whatsmeow-based — não têm HSM templates e não impõem janela de 24h, então
+  # sempre mandam session message mesmo fora da janela.
+  NON_OFFICIAL_PROVIDERS = %w[avisa hyperflow].freeze
+
   def perform_reply
-    should_send_template_message = template_params.present? || !message.conversation.can_reply?
-    if should_send_template_message
+    if should_send_template_message?
       send_template_message
     else
       send_session_message
     end
+  end
+
+  def should_send_template_message?
+    return false if NON_OFFICIAL_PROVIDERS.include?(channel.provider)
+
+    template_params.present? || !message.conversation.can_reply?
   end
 
   def send_template_message

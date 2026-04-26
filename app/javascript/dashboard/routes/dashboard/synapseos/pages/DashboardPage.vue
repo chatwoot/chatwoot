@@ -4,11 +4,9 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import Chart from 'primevue/chart';
-import SynapseButton from 'next/synapseos/SynapseButton.vue';
-import SynapseCard from 'next/synapseos/SynapseCard.vue';
-import SynapseKpiCard from 'next/synapseos/SynapseKpiCard.vue';
 import SynapseStatusPill from 'next/synapseos/SynapseStatusPill.vue';
 import SynapseBadge from 'next/synapseos/SynapseBadge.vue';
+import SynapseEmptyState from 'next/synapseos/SynapseEmptyState.vue';
 import LiveReports from '../../settings/reports/LiveReports.vue';
 
 const { t } = useI18n();
@@ -182,6 +180,9 @@ const formatRelativeTime = iso => {
   return `${Math.floor(delta / 86400)}d`;
 };
 
+// Cores do chart alinhadas com a paleta Dexi (navy + cyan accent + neutros).
+// Series principais usam cyan técnico; secundárias ficam em tons navy e
+// âmbar pra manter diferenciação sem competir visualmente.
 const chartData = computed(() => {
   const days = summary.value?.daily || [];
   return {
@@ -190,41 +191,52 @@ const chartData = computed(() => {
       {
         label: t('SYNAPSEOS.DASHBOARD.CHART.MESSAGES_RECEIVED'),
         data: days.map(d => d.messages_received),
-        borderColor: 'rgb(33, 150, 243)',
+        borderColor: 'rgb(0, 184, 217)',
         backgroundColor: ctx => {
           const { ctx: c, chartArea } = ctx.chart;
-          if (!chartArea) return 'rgba(33, 150, 243, 0.15)';
+          if (!chartArea) return 'rgba(0, 184, 217, 0.15)';
           const gradient = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-          gradient.addColorStop(0, 'rgba(33, 150, 243, 0.15)');
-          gradient.addColorStop(1, 'rgba(33, 150, 243, 0)');
+          gradient.addColorStop(0, 'rgba(0, 184, 217, 0.20)');
+          gradient.addColorStop(1, 'rgba(0, 184, 217, 0)');
           return gradient;
         },
         fill: true,
         tension: 0.35,
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHoverRadius: 4,
       },
       {
         label: t('SYNAPSEOS.DASHBOARD.CHART.MESSAGES_SENT'),
         data: days.map(d => d.messages_sent),
-        borderColor: 'rgb(13, 71, 161)',
-        backgroundColor: 'rgba(13, 71, 161, 0.08)',
+        borderColor: 'rgb(11, 31, 58)',
+        backgroundColor: 'transparent',
         fill: false,
         tension: 0.35,
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHoverRadius: 4,
       },
       {
         label: t('SYNAPSEOS.DASHBOARD.CHART.AI_RESPONSES'),
         data: days.map(d => d.ai_responses),
-        borderColor: 'rgb(124, 58, 237)',
-        backgroundColor: 'rgba(124, 58, 237, 0.08)',
+        borderColor: 'rgb(14, 116, 144)',
+        backgroundColor: 'transparent',
+        borderDash: [4, 4],
         fill: false,
         tension: 0.35,
+        borderWidth: 1.5,
+        pointRadius: 0,
       },
       {
         label: t('SYNAPSEOS.DASHBOARD.CHART.BOT_TAKEOVERS'),
         data: days.map(d => d.bot_takeovers),
-        borderColor: 'rgb(245, 158, 11)',
-        backgroundColor: 'rgba(245, 158, 11, 0.08)',
+        borderColor: 'rgb(154, 103, 0)',
+        backgroundColor: 'transparent',
         fill: false,
         tension: 0.35,
+        borderWidth: 1.5,
+        pointRadius: 0,
       },
     ],
   };
@@ -235,19 +247,43 @@ const chartOptions = computed(() => ({
   maintainAspectRatio: false,
   interaction: { mode: 'index', intersect: false },
   plugins: {
-    legend: { position: 'bottom', labels: { boxWidth: 12, padding: 16 } },
+    legend: {
+      position: 'bottom',
+      labels: {
+        boxWidth: 8,
+        boxHeight: 8,
+        padding: 20,
+        font: { size: 11, family: 'Inter' },
+        color: '#425466',
+        usePointStyle: true,
+        pointStyle: 'rectRounded',
+      },
+    },
     tooltip: {
-      backgroundColor: '#FFFFFF',
-      titleColor: '#0F172A',
-      bodyColor: '#475569',
-      borderColor: '#E2E8F0',
+      backgroundColor: '#0B1F3A',
+      titleColor: '#FFFFFF',
+      titleFont: { size: 11, weight: 600 },
+      bodyColor: '#B8C4D4',
+      bodyFont: { size: 12, family: 'Inter' },
+      borderColor: '#1A4272',
       borderWidth: 1,
       padding: 12,
+      cornerRadius: 6,
+      usePointStyle: true,
     },
   },
   scales: {
-    x: { grid: { display: false } },
-    y: { beginAtZero: true, grid: { color: 'rgba(148, 163, 184, 0.15)' } },
+    x: {
+      grid: { display: false },
+      ticks: { color: '#5B6B7A', font: { size: 10, family: 'Inter' } },
+      border: { color: '#D7DFE8' },
+    },
+    y: {
+      beginAtZero: true,
+      grid: { color: 'rgba(215, 223, 232, 0.6)', drawBorder: false },
+      ticks: { color: '#5B6B7A', font: { size: 10, family: 'Inter' } },
+      border: { display: false },
+    },
   },
 }));
 
@@ -264,38 +300,49 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="bg-s-bg p-8 space-y-6 h-full overflow-auto">
-    <header class="flex flex-wrap items-end justify-between gap-4">
-      <div class="flex flex-col gap-1">
-        <h1 class="text-2xl font-semibold text-s-primary">
-          {{ t('SYNAPSEOS.DASHBOARD.TITLE') }}
-        </h1>
-        <p class="text-sm text-s-muted">
-          {{ t('SYNAPSEOS.DASHBOARD.SUBTITLE', { days: period }) }}
-        </p>
+  <div class="bg-s-bg h-full overflow-auto">
+    <!-- Header bar: compact mission-control style -->
+    <header
+      class="sticky top-0 z-10 bg-s-surface/95 backdrop-blur-sm border-b border-s-border px-4 md:px-6 py-3 flex flex-wrap items-center justify-between gap-3"
+    >
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="size-2 rounded-full bg-s-success animate-pulse" aria-hidden="true" />
+        <div class="flex flex-col min-w-0">
+          <h1 class="text-sm md:text-base font-semibold text-s-primary leading-tight truncate">
+            {{ t('SYNAPSEOS.DASHBOARD.TITLE') }}
+          </h1>
+          <p class="text-xs text-s-muted">
+            {{ t('SYNAPSEOS.DASHBOARD.SUBTITLE', { days: period }) }}
+          </p>
+        </div>
       </div>
-      <div v-if="activeTab === 'overview'" class="flex items-center gap-2">
-        <SynapseButton
+      <div v-if="activeTab === 'overview'" class="flex items-center gap-1 p-1 rounded-lg bg-s-subtle border border-s-border">
+        <button
           v-for="opt in periodOptions"
           :key="opt.value"
-          size="sm"
-          :variant="period === opt.value ? 'primary' : 'outline'"
+          type="button"
+          :class="[
+            'px-3 py-1 text-xs font-semibold rounded-md transition-colors tabular-nums',
+            period === opt.value
+              ? 'bg-s-surface text-s-primary shadow-s-sm'
+              : 'text-s-muted hover:text-s-secondary',
+          ]"
           @click="period = opt.value"
         >
           {{ opt.label }}
-        </SynapseButton>
+        </button>
       </div>
     </header>
 
-    <nav class="flex gap-6 border-b border-s-border-subtle">
+    <nav class="px-4 md:px-6 flex gap-5 border-b border-s-border">
       <button
         v-for="tab in tabs"
         :key="tab.key"
         type="button"
         :class="[
-          'pb-3 text-sm font-medium transition-colors border-b-2 -mb-px',
+          'py-2.5 text-xs font-semibold uppercase tracking-wide transition-colors border-b-2 -mb-px',
           activeTab === tab.key
-            ? 'text-s-primary border-s-primary'
+            ? 'text-s-primary border-s-accent-500'
             : 'text-s-muted border-transparent hover:text-s-secondary',
         ]"
         @click="activeTab = tab.key"
@@ -305,93 +352,148 @@ onBeforeUnmount(() => {
     </nav>
 
     <template v-if="activeTab === 'overview'">
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <SynapseKpiCard
-        v-for="kpi in primaryKpis"
-        :key="kpi.key"
-        :label="kpi.label"
-        :value="kpi.value"
-        :icon="kpi.icon"
-        :tone="kpi.tone"
-      />
-    </section>
+      <!-- HERO STRIP: 4 KPIs primários em faixa densa com divisores verticais (cockpit) -->
+      <section
+        class="grid grid-cols-2 lg:grid-cols-4 divide-x divide-s-border bg-s-surface border-b border-s-border"
+      >
+        <div
+          v-for="kpi in primaryKpis"
+          :key="kpi.key"
+          class="px-4 md:px-6 py-5 flex flex-col gap-2 min-w-0"
+        >
+          <div class="flex items-center gap-2 text-s-muted">
+            <span :class="['size-3.5 shrink-0', kpi.icon]" />
+            <span class="text-[10px] font-semibold uppercase tracking-wider truncate">
+              {{ kpi.label }}
+            </span>
+          </div>
+          <div class="text-2xl md:text-3xl font-semibold text-s-primary tabular-nums leading-tight truncate">
+            {{ kpi.value }}
+          </div>
+        </div>
+      </section>
 
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <SynapseKpiCard
-        v-for="kpi in secondaryKpis"
-        :key="kpi.key"
-        :label="kpi.label"
-        :value="kpi.value"
-        :icon="kpi.icon"
-        :tone="kpi.tone"
-      />
-    </section>
+      <!-- SECONDARY STRIP: 4 KPIs auxiliares, mesmo pattern mais compacto -->
+      <section
+        class="grid grid-cols-2 lg:grid-cols-4 divide-x divide-s-border bg-s-surface/60 border-b border-s-border"
+      >
+        <div
+          v-for="kpi in secondaryKpis"
+          :key="kpi.key"
+          class="px-4 md:px-6 py-3 flex items-center justify-between gap-3 min-w-0"
+        >
+          <div class="flex flex-col min-w-0">
+            <span class="text-[10px] font-semibold uppercase tracking-wider text-s-muted truncate">
+              {{ kpi.label }}
+            </span>
+            <span class="text-lg font-semibold text-s-secondary tabular-nums leading-tight truncate">
+              {{ kpi.value }}
+            </span>
+          </div>
+          <span :class="['size-4 shrink-0 text-s-muted', kpi.icon]" />
+        </div>
+      </section>
 
-    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <SynapseCard v-for="op in operationalCards" :key="op.key">
-        <div class="flex flex-col gap-1">
-          <span class="text-xs font-medium uppercase tracking-wider text-s-muted">
+      <!-- OPERATIONAL STRIP: 3 indicadores de operação, inline -->
+      <section
+        class="grid grid-cols-3 divide-x divide-s-border bg-s-subtle/50 border-b border-s-border"
+      >
+        <div
+          v-for="op in operationalCards"
+          :key="op.key"
+          class="px-4 md:px-6 py-2.5 flex items-center justify-between gap-2 min-w-0"
+        >
+          <span class="text-[10px] font-semibold uppercase tracking-wider text-s-muted truncate">
             {{ op.label }}
           </span>
-          <span :class="['text-3xl font-semibold', op.valueClass]">
+          <span :class="['text-sm font-semibold tabular-nums', op.valueClass]">
             {{ op.value }}
           </span>
         </div>
-      </SynapseCard>
-    </section>
+      </section>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <div class="lg:col-span-2">
-        <SynapseCard :title="t('SYNAPSEOS.DASHBOARD.CHART.TITLE')">
-          <div class="h-80">
-            <Chart
-              v-if="!loading && chartData.labels.length"
-              type="line"
-              :data="chartData"
-              :options="chartOptions"
-              class="h-full"
-            />
-            <div v-else-if="loading" class="text-sm text-s-muted">
-              {{ t('SYNAPSEOS.DASHBOARD.LOADING') }}
+      <!-- MAIN GRID: chart (2/3) + event feed (1/3) -->
+      <div class="p-4 md:p-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div class="lg:col-span-2">
+          <div class="bg-s-surface border border-s-border rounded-lg overflow-hidden">
+            <div class="px-5 py-3 border-b border-s-border flex items-center justify-between">
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-s-secondary">
+                {{ t('SYNAPSEOS.DASHBOARD.CHART.TITLE') }}
+              </h3>
+              <SynapseStatusPill tone="success" size="sm">
+                {{ period }}d
+              </SynapseStatusPill>
             </div>
-            <div v-else class="text-sm text-s-muted">
-              {{ t('SYNAPSEOS.DASHBOARD.NO_DATA') }}
+            <div class="p-4 h-80">
+              <Chart
+                v-if="!loading && chartData.labels.length"
+                type="line"
+                :data="chartData"
+                :options="chartOptions"
+                class="h-full"
+              />
+              <div
+                v-else-if="loading"
+                class="h-full flex items-center justify-center text-xs text-s-muted"
+              >
+                {{ t('SYNAPSEOS.DASHBOARD.LOADING') }}
+              </div>
+              <SynapseEmptyState
+                v-else
+                icon="i-lucide-line-chart"
+                :title="t('SYNAPSEOS.DASHBOARD.EMPTY_CHART_TITLE')"
+                :description="t('SYNAPSEOS.DASHBOARD.EMPTY_CHART_DESCRIPTION')"
+                size="sm"
+              />
             </div>
           </div>
-        </SynapseCard>
-      </div>
-
-      <SynapseCard :title="t('SYNAPSEOS.DASHBOARD.RECENT_EVENTS.TITLE')">
-        <ul v-if="recentEvents.length" class="flex flex-col gap-3">
-          <li
-            v-for="event in recentEvents"
-            :key="event.id"
-            class="flex items-start gap-3"
-          >
-            <span :class="['size-5 mt-0.5 shrink-0 text-s-secondary', event.meta.icon]" />
-            <div class="flex flex-col min-w-0 flex-1 gap-1">
-              <span class="text-sm font-medium text-s-primary truncate">
-                {{ event.label }}
-              </span>
-              <div class="flex items-center gap-2 flex-wrap">
-                <SynapseBadge :tone="event.meta.tone">
-                  conv #{{ event.conversation_id || '—' }}
-                </SynapseBadge>
-                <span class="text-xs text-s-muted">
-                  {{ event.relativeTime }}
-                </span>
-              </div>
-            </div>
-          </li>
-        </ul>
-        <div v-else class="text-sm text-s-muted">
-          {{ t('SYNAPSEOS.DASHBOARD.RECENT_EVENTS.EMPTY') }}
         </div>
-      </SynapseCard>
-    </div>
+
+        <div class="bg-s-surface border border-s-border rounded-lg overflow-hidden flex flex-col">
+          <div class="px-5 py-3 border-b border-s-border flex items-center justify-between">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-s-secondary">
+              {{ t('SYNAPSEOS.DASHBOARD.RECENT_EVENTS.TITLE') }}
+            </h3>
+            <span v-if="recentEvents.length" class="text-[10px] font-mono text-s-muted tabular-nums">
+              {{ recentEvents.length }}
+            </span>
+          </div>
+          <ul v-if="recentEvents.length" class="flex flex-col divide-y divide-s-border-subtle overflow-auto max-h-80">
+            <li
+              v-for="event in recentEvents"
+              :key="event.id"
+              class="flex items-start gap-3 px-5 py-3 hover:bg-s-subtle/50 transition-colors"
+            >
+              <span :class="['size-4 mt-0.5 shrink-0 text-s-secondary', event.meta.icon]" />
+              <div class="flex flex-col min-w-0 flex-1 gap-1">
+                <span class="text-sm font-medium text-s-primary truncate">
+                  {{ event.label }}
+                </span>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <SynapseBadge :tone="event.meta.tone">
+                    #{{ event.conversation_id || '—' }}
+                  </SynapseBadge>
+                  <span class="text-[11px] font-mono text-s-muted tabular-nums">
+                    {{ event.relativeTime }}
+                  </span>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div v-else class="flex-1 flex items-center">
+            <SynapseEmptyState
+              icon="i-lucide-activity"
+              :title="t('SYNAPSEOS.DASHBOARD.EMPTY_EVENTS_TITLE')"
+              :description="t('SYNAPSEOS.DASHBOARD.EMPTY_EVENTS_DESCRIPTION')"
+              size="sm"
+              class="w-full"
+            />
+          </div>
+        </div>
+      </div>
     </template>
 
-    <div v-else-if="activeTab === 'reports'">
+    <div v-else-if="activeTab === 'reports'" class="p-4 md:p-6">
       <LiveReports />
     </div>
   </div>
