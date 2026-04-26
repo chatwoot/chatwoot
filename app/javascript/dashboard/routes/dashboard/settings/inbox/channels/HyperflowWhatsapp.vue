@@ -3,6 +3,7 @@
 import { mapGetters } from 'vuex';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
+import { useBranding } from 'shared/composables/useBranding';
 import { required, url as urlValidator } from '@vuelidate/validators';
 import router from '../../../../index';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -11,7 +12,8 @@ import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 export default {
   components: { NextButton },
   setup() {
-    return { v$: useVuelidate() };
+    const { replaceInstallationName } = useBranding();
+    return { v$: useVuelidate(), replaceInstallationName };
   },
   data() {
     return {
@@ -60,7 +62,9 @@ export default {
           params: { page: 'new', inbox_id: whatsappChannel.id },
         });
       } catch (error) {
-        useAlert(error.message || this.$t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE'));
+        useAlert(
+          error.message || this.$t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE')
+        );
       }
     },
   },
@@ -69,9 +73,15 @@ export default {
 
 <template>
   <form class="flex flex-col gap-4 mx-0" @submit.prevent="createChannel()">
-    <div class="p-3 rounded-md bg-s-brand-soft text-s-brand-text text-sm leading-relaxed">
-      ℹ️ {{ $t('INBOX_MGMT.ADD.WHATSAPP.HYPERFLOW.EXPLAINER') }}
-    </div>
+    <p
+      class="p-3 rounded-md bg-s-brand-soft text-s-brand-text text-sm leading-relaxed"
+    >
+      {{
+        replaceInstallationName(
+          $t('INBOX_MGMT.ADD.WHATSAPP.HYPERFLOW.EXPLAINER')
+        )
+      }}
+    </p>
 
     <label :class="{ error: v$.inboxName.$error }">
       {{ $t('INBOX_MGMT.ADD.WHATSAPP.INBOX_NAME.LABEL') }}
@@ -79,12 +89,16 @@ export default {
         v-model="inboxName"
         type="text"
         :placeholder="$t('INBOX_MGMT.ADD.WHATSAPP.INBOX_NAME.PLACEHOLDER')"
-      >
+      />
     </label>
 
     <label :class="{ error: v$.phoneNumber.$error }">
       {{ $t('INBOX_MGMT.ADD.WHATSAPP.PHONE_NUMBER.LABEL') }}
-      <input v-model="phoneNumber" type="text" placeholder="+5511999999999">
+      <input
+        v-model="phoneNumber"
+        type="text"
+        :placeholder="$t('INBOX_MGMT.ADD.WHATSAPP.HYPERFLOW.PHONE_PLACEHOLDER')"
+      />
       <span class="text-xs text-s-muted mt-1 block">
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.HYPERFLOW.PHONE_HINT') }}
       </span>
@@ -95,10 +109,16 @@ export default {
       <input
         v-model="n8nOutgoingUrl"
         type="url"
-        placeholder="https://n8n.seudominio.com/webhook/hyperflow-outgoing"
-      >
+        :placeholder="
+          $t('INBOX_MGMT.ADD.WHATSAPP.HYPERFLOW.N8N_URL_PLACEHOLDER')
+        "
+      />
       <span class="text-xs text-s-muted mt-1 block">
-        {{ $t('INBOX_MGMT.ADD.WHATSAPP.HYPERFLOW.N8N_URL_HINT') }}
+        {{
+          replaceInstallationName(
+            $t('INBOX_MGMT.ADD.WHATSAPP.HYPERFLOW.N8N_URL_HINT')
+          )
+        }}
       </span>
     </label>
 
@@ -107,15 +127,30 @@ export default {
       <input
         v-model="webhookSecret"
         type="text"
-        placeholder="optional shared secret"
-      >
+        :placeholder="
+          $t('INBOX_MGMT.ADD.WHATSAPP.HYPERFLOW.SECRET_PLACEHOLDER')
+        "
+      />
       <span class="text-xs text-s-muted mt-1 block">
-        {{ $t('INBOX_MGMT.ADD.WHATSAPP.HYPERFLOW.SECRET_HINT') }}
+        {{
+          replaceInstallationName(
+            $t('INBOX_MGMT.ADD.WHATSAPP.HYPERFLOW.SECRET_HINT')
+          )
+        }}
       </span>
     </label>
 
-    <div v-if="incomingWebhookUrl" class="p-3 rounded-md bg-s-subtle text-s-primary text-sm">
-      <div class="font-medium mb-1">{{ $t('INBOX_MGMT.ADD.WHATSAPP.HYPERFLOW.INCOMING_URL_LABEL') }}</div>
+    <div
+      v-if="incomingWebhookUrl"
+      class="p-3 rounded-md bg-s-subtle text-s-primary text-sm"
+    >
+      <div class="font-medium mb-1">
+        {{
+          replaceInstallationName(
+            $t('INBOX_MGMT.ADD.WHATSAPP.HYPERFLOW.INCOMING_URL_LABEL')
+          )
+        }}
+      </div>
       <code class="text-xs break-all">{{ incomingWebhookUrl }}</code>
       <div class="text-xs text-s-muted mt-2">
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.HYPERFLOW.INCOMING_URL_HINT') }}

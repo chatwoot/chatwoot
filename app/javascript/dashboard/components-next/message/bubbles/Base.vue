@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 
 import MessageMeta from '../MessageMeta.vue';
+import ReactionsBadge from '../ReactionsBadge.vue';
 
 import { emitter } from 'shared/helpers/mitt';
 import { useMessageContext } from '../provider.js';
@@ -40,7 +41,6 @@ const aiAriaLabel = computed(() =>
   t('CONVERSATION.PRIVATE_NOTE.AI_ARIA', { agent: agentBotName.value })
 );
 
-
 // CUSTOMIZAÇÃO_SYNAPSEOS — paleta Dexi aplicada aos bubbles.
 // Agente = cyan-soft (identidade da plataforma, acessível, texto escuro).
 // Cliente = surface branca com borda (estrutural, neutro).
@@ -52,8 +52,7 @@ const varaintBaseMap = {
     'bg-s-accent-100 text-s-primary border border-s-accent-500/20',
   [MESSAGE_VARIANTS.PRIVATE]:
     'bg-s-warning-soft text-s-warning-text border border-s-warning/30 [&_.prosemirror-mention-node]:font-semibold',
-  [MESSAGE_VARIANTS.USER]:
-    'bg-s-surface text-s-primary border border-s-border',
+  [MESSAGE_VARIANTS.USER]: 'bg-s-surface text-s-primary border border-s-border',
   [MESSAGE_VARIANTS.ACTIVITY]:
     'bg-s-subtle text-s-muted text-xs border border-s-border',
   [MESSAGE_VARIANTS.BOT]:
@@ -182,6 +181,7 @@ const replyToPreview = computed(() => {
       />
     </div>
     <slot />
+    <ReactionsBadge />
     <MessageMeta
       v-if="shouldShowMeta"
       :class="[

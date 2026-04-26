@@ -108,21 +108,28 @@ Dockerfile (`db:chatwoot_prepare`).
 
 ## Backup
 
-Postgres:
+Protege contra perda total da VPS. Usa `rclone` para enviar dumps para
+B2/R2/S3 e envia alertas em caso de falha.
+
+1. Instalar rclone: `curl https://rclone.org/install.sh | sudo bash`
+2. Configurar remote: `rclone config` (criar remote chamado `offsite`)
+3. Testar manualmente: `./scripts/backup_offsite.sh`
+4. Agendar no cron:
 
 ```bash
-docker compose -f docker-compose.prod.yml exec postgres \
-  pg_dump -U postgres chatwoot_production | gzip > backup_$(date +%F).sql.gz
+# /etc/cron.d/synapseos-backup
+0 3 * * * root ALERT_EMAIL=ops@dexidigital.com.br ALERT_SLACK_WEBHOOK=https://hooks.slack.com/... /opt/synapseos-core/scripts/backup_offsite.sh >> /var/log/synapseos-backup.log 2>&1
 ```
 
-Storage (attachments):
+Variáveis de ambiente do script:
 
-```bash
-docker run --rm -v synapseos-core_storage:/data \
-  -v $PWD:/backup alpine tar czf /backup/storage_$(date +%F).tar.gz -C /data .
-```
-
-Rotacione com cron em `/etc/cron.daily/`.
+| Variável | Default | Descrição |
+|---|---|---|
+| `RCLONE_REMOTE` | `offsite` | Nome do remote no rclone |
+| `RCLONE_BUCKET` | `synapseos-backups` | Bucket/container no remote |
+| `BACKUP_RETENTION` | `30` | Dias pra manter backups antigos |
+| `ALERT_EMAIL` | — | Email pra alerta de falha |
+| `ALERT_SLACK_WEBHOOK` | — | Webhook do Slack pra alerta de falha |
 
 ## Troubleshooting
 

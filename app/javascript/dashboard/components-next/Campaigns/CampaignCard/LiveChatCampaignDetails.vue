@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useBranding } from 'shared/composables/useBranding';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -21,9 +22,12 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
+const { replaceInstallationName } = useBranding();
 
-const senderName = computed(
-  () => props.sender?.name || t('CAMPAIGN.LIVE_CHAT.CARD.CAMPAIGN_DETAILS.BOT')
+const senderName = computed(() =>
+  replaceInstallationName(
+    props.sender?.name || t('CAMPAIGN.LIVE_CHAT.CARD.CAMPAIGN_DETAILS.BOT')
+  )
 );
 
 const senderThumbnailSrc = computed(() => props.sender?.thumbnail);
