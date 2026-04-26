@@ -64,6 +64,19 @@ class Integrations::Hook < ApplicationRecord
     update(status: 'disabled')
   end
 
+  # Returns settings filtered by the integration's `visible_properties` allowlist
+  # so secrets configured under `settings` (api keys, service-account credentials, etc.)
+  # are not serialized back to the dashboard. Integrations that do not declare
+  # `visible_properties` retain the previous behavior to preserve compatibility.
+  def filtered_settings
+    return settings if app.blank?
+
+    visible_properties = app.params[:visible_properties]
+    return settings if visible_properties.blank?
+
+    settings.to_h.slice(*visible_properties.map(&:to_s))
+  end
+
   def process_event(_event)
     # OpenAI integration migrated to Captain::EditorService
     # Other integrations (slack, dialogflow, etc.) handled via HookJob
