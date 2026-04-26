@@ -63,8 +63,13 @@ const countryDetails = computed(() => {
 
   if (!country && !countryCode) return null;
 
-  const activeCountry =
-    countriesMap.value[country] || countriesMap.value[countryCode];
+  let activeCountry = null;
+
+  if (country && countriesMap.value[country]) {
+    activeCountry = countriesMap.value[country];
+  } else if (countryCode && countriesMap.value[countryCode]) {
+    activeCountry = countriesMap.value[countryCode];
+  }
 
   if (!activeCountry) return null;
 
