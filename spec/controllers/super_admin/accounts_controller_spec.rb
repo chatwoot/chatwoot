@@ -55,6 +55,58 @@ RSpec.describe 'Super Admin accounts API', type: :request do
     end
   end
 
+  describe 'PATCH /super_admin/accounts/{account_id}' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/super_admin/accounts/#{account.id}", params: { account: { name: 'Test' } }
+        expect(response).to have_http_status(:redirect)
+      end
+    end
+
+    context 'when authenticated as super admin' do
+      before { sign_in(super_admin, scope: :super_admin) }
+
+      it 'enables only the checked features when features_submitted is present' do
+        account.enable_features!('reports')
+        account.enable_features!('channel_email')
+
+        patch "/super_admin/accounts/#{account.id}",
+              params: {
+                account: { name: account.name },
+                features_submitted: '1',
+                enabled_features: { 'feature_reports' => 'true' }
+              }
+
+        expect(response).to have_http_status(:redirect)
+        expect(account.reload.feature_enabled?('reports')).to be(true)
+        expect(account.reload.feature_enabled?('channel_email')).to be(false)
+      end
+
+      it 'disables all features when features_submitted is present but no checkboxes are checked' do
+        account.enable_features!('reports')
+
+        patch "/super_admin/accounts/#{account.id}",
+              params: {
+                account: { name: account.name },
+                features_submitted: '1'
+              }
+
+        expect(response).to have_http_status(:redirect)
+        expect(account.reload.feature_enabled?('reports')).to be(false)
+      end
+
+      it 'does not change features when features_submitted is absent' do
+        account.enable_features!('reports')
+
+        patch "/super_admin/accounts/#{account.id}",
+              params: { account: { name: account.name } }
+
+        expect(response).to have_http_status(:redirect)
+        expect(account.reload.feature_enabled?('reports')).to be(true)
+      end
+    end
+  end
+
   describe 'DELETE /super_admin/accounts/{account_id}' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
