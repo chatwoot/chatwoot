@@ -8,6 +8,7 @@ import logging
 from fastapi import FastAPI, Header, HTTPException, Query, Request, status
 from fastapi.responses import JSONResponse
 
+from .adapters import chatwoot as chatwoot_adapter
 from .adapters import google as google_adapter
 from .adapters import meta as meta_adapter
 from .adapters import site as site_adapter
@@ -17,7 +18,7 @@ from .dedup import seen_recently
 from .hmac_utils import verify_sha256
 from .logging_conf import configure_logging
 from .models.lead import NormalizedLead
-from .worker import process_lead
+from .worker import process_lead, update_lead_status
 
 log = logging.getLogger(__name__)
 
@@ -98,6 +99,49 @@ async def whatsapp_webhook(tenant_id: str, request: Request, x_hub_signature_256
     payload = await _json(request, body)
     lead = whatsapp_adapter.normalize(payload, tenant_id)
     return _enqueue(lead)
+
+
+# ---------- Chatwoot status updates (Ponte B) ----------
+@app.post("/webhooks/chatwoot/{tenant_id}", status_code=status.HTTP_202_ACCEPTED)
+async def chatwoot_webhook(
+    tenant_id: str,
+    request: Request,
+    x_chatwoot_signature: str | None = Header(default=None),
+) -> dict:
+    """Recebe eventos do Chatwoot e enfileira atualização do Syonet quando relevante.
+
+    Configurar no painel do cliente: Settings → Integrations → Webhooks →
+    URL = `https://gateway.cliente/webhooks/chatwoot/{tenant_id}`
+    com header `X-Chatwoot-Signature` = HMAC-SHA256(body, CHATWOOT_WEBHOOK_SECRET).
+    """
+    body = await request.body()
+    settings = get_settings()
+    if not settings.dexi_mock_mode and not verify_sha256(
+        settings.chatwoot_webhook_secret, body, x_chatwoot_signature
+    ):
+        raise HTTPException(status_code=401, detail="invalid HMAC")
+
+    payload = await _json(request, body)
+    update = chatwoot_adapter.normalize(payload, tenant_id)
+    if update is None:
+        log.info("chatwoot.webhook_ignored", extra={"tenant_id": tenant_id, "event": payload.get("event")})
+        return {"status": "ignored"}
+
+    try:
+        update_lead_status.delay(update.model_dump(mode="json"))
+    except Exception as exc:
+        log.error("chatwoot.enqueue_failed", extra={"tenant_id": tenant_id, "error": str(exc)})
+        raise HTTPException(status_code=503, detail="queue unavailable") from exc
+
+    log.info(
+        "chatwoot.status_enqueued",
+        extra={
+            "tenant_id": tenant_id,
+            "conversation_id": update.conversation_id,
+            "event": update.event.value,
+        },
+    )
+    return {"status": "accepted", "event": update.event.value, "conversation_id": update.conversation_id}
 
 
 # ---------- helpers ----------

@@ -49,6 +49,17 @@ class Settings(BaseSettings):
     # Dedup
     dedup_window_hours: int = Field(default=24, ge=1, le=720)
 
+    # Chatwoot bridge — opt-in por cliente. Quando enabled, leads viram contato +
+    # conversa no Chatwoot (Ponte A) e o webhook /webhooks/chatwoot/{tenant_id}
+    # ouve mudanças de status pra atualizar o Syonet (Ponte B).
+    chatwoot_enabled: bool = False
+    chatwoot_base_url: str | None = None
+    chatwoot_api_token: str | None = None
+    chatwoot_account_id: int = 1
+    chatwoot_default_inbox_id: int | None = None
+    chatwoot_timeout_seconds: float = 10.0
+    chatwoot_webhook_secret: str = "change-me"
+
 
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:

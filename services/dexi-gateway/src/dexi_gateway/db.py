@@ -22,6 +22,8 @@ class LeadAudit(Base):
     status: Mapped[str] = mapped_column(String(32), default="received")
     syonet_lead_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
     syonet_http_status: Mapped[int | None] = mapped_column(nullable=True)
+    chatwoot_contact_id: Mapped[int | None] = mapped_column(nullable=True)
+    chatwoot_conversation_id: Mapped[int | None] = mapped_column(nullable=True, index=True)
     last_error: Mapped[str | None] = mapped_column(Text, nullable=True)
     payload: Mapped[dict] = mapped_column(JSON, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(UTC))

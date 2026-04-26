@@ -66,9 +66,43 @@ pytest -q
 5. **Mock Syonet é um app ASGI próprio** – permite `ASGITransport` em testes E2E sem subir processo.
 6. **Auditoria em tabela única `lead_audit`** com `status` evolutivo (`received` → `qualified` → `syonet_sent` / `syonet_error`).
 
+## Bridge com Chatwoot (opt-in por cliente)
+
+Cliente que usa o Synapse OS (Chatwoot fork) pode habilitar duas pontes via `.env`:
+
+**Ponte A — gateway → Chatwoot**: cada lead aceito vira contato + conversa
+numa inbox do Chatwoot. A criação da conversa dispara automaticamente o
+webhook `conversation_created`, que é onde o N8N AgentBot escuta pra iniciar
+o fluxo conversacional.
+
+**Ponte B — Chatwoot → gateway → Syonet**: o Chatwoot empurra eventos de
+status pra `POST /webhooks/chatwoot/{tenant_id}`. O gateway mapeia
+`status: open` → `ATENDIMENTO` e `status: resolved` → `FINALIZADO`, e reenvia
+ao Syonet com o mesmo `externalId` (o `daysToUpdateOpenEvent` permite
+atualizar o evento aberto sem duplicar lead).
+
+Setup:
+
+1. No `.env` do gateway:
+   ```
+   CHATWOOT_ENABLED=true
+   CHATWOOT_BASE_URL=https://chatwoot.cliente.com.br
+   CHATWOOT_API_TOKEN=<access_token de um agente/bot admin>
+   CHATWOOT_ACCOUNT_ID=1
+   CHATWOOT_DEFAULT_INBOX_ID=<inbox onde os leads de portal entram>
+   CHATWOOT_WEBHOOK_SECRET=<segredo HMAC>
+   ```
+
+2. No Chatwoot do cliente: Settings → Integrations → Webhooks → URL
+   `https://gateway.cliente/webhooks/chatwoot/{tenant_id}`. O Chatwoot não
+   manda `X-Chatwoot-Signature` nativamente — em produção, restringir esse
+   path a IPs do Chatwoot via proxy reverso (Caddy `@chatwoot remote_ip ...`).
+
+Cliente que **não** habilita as pontes roda só gateway → Syonet, sem
+qualquer interação com Chatwoot.
+
 ## O que NÃO está neste MVP (por escopo explícito)
 
-- Chatwoot integration (próxima onda, depende do fork customizado da Dexi).
 - Plugin NBSi Auto-Connector (Onda 3 do dossiê de arquitetura).
 - Webhook reverso Syonet → Dexi (depende de liberação privada por tenant).
 - Agentes Ângela e Vitor (dependem de NBSi).
@@ -76,8 +110,8 @@ pytest -q
 
 ## Próximos passos sugeridos
 
-1. Plugar no Chatwoot fork (criar contato + conversa via API do Chatwoot logo após o `qualify`).
-2. Substituir o mock LLM pela chamada real Gemini/GPT-4o/Claude.
-3. Adicionar Meta Graph API fetch para expandir `leadgen_id` em produção.
-4. Migrar auditoria para o LDM na Azure (Data Lake + Delta).
-5. Adicionar endpoints privados Syonet quando liberados: `GET /api/lead?updatedSince=...`, webhook reverso.
+1. Substituir o mock LLM pela chamada real Gemini/GPT-4o/Claude.
+2. Adicionar Meta Graph API fetch para expandir `leadgen_id` em produção.
+3. Migrar auditoria para o LDM na Azure (Data Lake + Delta).
+4. Adicionar endpoints privados Syonet quando liberados: `GET /api/lead?updatedSince=...`, webhook reverso.
+5. Quando o upstream Chatwoot suportar HMAC nativo no Webhook Integration, trocar o IP-allowlist por verificação criptográfica.

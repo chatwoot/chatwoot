@@ -5,7 +5,10 @@ from __future__ import annotations
 import logging
 
 from celery import Celery
+from sqlalchemy import select
 
+from .adapters.chatwoot import ChatwootStatusUpdate, StatusEvent
+from .chatwoot_connector import ChatwootConnector, ChatwootError
 from .config import get_settings
 from .db import LeadAudit, create_all, get_session
 from .llm.qualifier import qualify
@@ -97,5 +100,104 @@ def process_lead(self, lead_json: dict) -> dict:
             row.syonet_http_status = 201
             sess.commit()
 
-    log.info("lead.sent", extra={"lead_id": lead.lead_id, "syonet_lead_id": resp.leadId})
-    return {"status": "sent", "syonet_lead_id": resp.leadId}
+    chatwoot_ids = _push_to_chatwoot(lead)
+    if chatwoot_ids:
+        with get_session() as sess:
+            row = sess.get(LeadAudit, lead.lead_id)
+            if row is not None:
+                row.chatwoot_contact_id = chatwoot_ids["contact_id"]
+                row.chatwoot_conversation_id = chatwoot_ids["conversation_id"]
+                sess.commit()
+
+    log.info(
+        "lead.sent",
+        extra={
+            "lead_id": lead.lead_id,
+            "syonet_lead_id": resp.leadId,
+            "chatwoot_conversation_id": (chatwoot_ids or {}).get("conversation_id"),
+        },
+    )
+    return {
+        "status": "sent",
+        "syonet_lead_id": resp.leadId,
+        "chatwoot_conversation_id": (chatwoot_ids or {}).get("conversation_id"),
+    }
+
+
+def _push_to_chatwoot(lead: NormalizedLead) -> dict[str, int] | None:
+    """Ponte A — best-effort. Falha aqui não derruba o pipeline (Syonet já gravou).
+
+    Cliente sem Chatwoot configurado simplesmente pula essa etapa.
+    """
+    settings = get_settings()
+    if not settings.chatwoot_enabled:
+        return None
+    try:
+        with ChatwootConnector(settings) as cw:
+            return cw.push_lead(lead)
+    except ChatwootError as exc:
+        log.warning(
+            "chatwoot.push_failed",
+            extra={"lead_id": lead.lead_id, "status": exc.status_code, "body": (exc.body or "")[:300]},
+        )
+    except Exception as exc:  # transport / config / outras: não derruba o lead
+        log.warning("chatwoot.push_error", extra={"lead_id": lead.lead_id, "error": repr(exc)})
+    return None
+
+
+@celery_app.task(name="dexi.update_lead_status", bind=True, max_retries=5)
+def update_lead_status(self, status_json: dict) -> dict:
+    """Ponte B — repassa mudança de status do Chatwoot pro Syonet.
+
+    Hidrata o `NormalizedLead` original a partir do `payload` gravado em LeadAudit
+    e reenvia pra Syonet com `eventType=ATENDIMENTO|FINALIZADO`. Syonet correlaciona
+    pelo mesmo `customer.externalId` (`daysToUpdateOpenEvent` permite update do
+    evento aberto).
+    """
+    update = ChatwootStatusUpdate.model_validate(status_json)
+
+    with get_session() as sess:
+        row = sess.scalars(
+            select(LeadAudit).where(
+                LeadAudit.chatwoot_conversation_id == update.conversation_id,
+                LeadAudit.tenant_id == update.tenant_id,
+            ).limit(1)
+        ).first()
+        payload = row.payload if row else None
+
+    if not payload:
+        log.warning(
+            "chatwoot.status_unknown_conversation",
+            extra={"conversation_id": update.conversation_id, "tenant_id": update.tenant_id},
+        )
+        return {"status": "ignored", "reason": "unknown_conversation"}
+
+    lead = NormalizedLead.model_validate(payload)
+    event_type = "ATENDIMENTO" if update.event == StatusEvent.ATENDIMENTO else "FINALIZADO"
+
+    try:
+        with SyonetConnector() as c:
+            c.send(lead, event_group="VENDAS", event_type=event_type)
+    except SyonetError as exc:
+        log.error(
+            "syonet.status_update_failed",
+            extra={"lead_id": lead.lead_id, "event": event_type, "status": exc.status_code},
+        )
+        if exc.status_code in {500, 502, 503, 504}:
+            raise self.retry(exc=exc, countdown=min(60 * (self.request.retries + 1), 600)) from exc
+        return {"status": "syonet_error", "http_status": exc.status_code}
+    except SYONET_TRANSPORT_ERRORS as exc:
+        log.error("syonet.status_update_transport_failed", extra={"lead_id": lead.lead_id, "error": repr(exc)})
+        raise self.retry(exc=exc, countdown=min(60 * (self.request.retries + 1), 600)) from exc
+
+    with get_session() as sess:
+        row = sess.get(LeadAudit, lead.lead_id)
+        if row is not None:
+            row.status = f"chatwoot_{update.event.value.lower()}"
+            sess.commit()
+
+    log.info(
+        "chatwoot.status_forwarded",
+        extra={"lead_id": lead.lead_id, "event": event_type, "conversation_id": update.conversation_id},
+    )
+    return {"status": "forwarded", "event": event_type, "lead_id": lead.lead_id}

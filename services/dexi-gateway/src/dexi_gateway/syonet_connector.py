@@ -62,7 +62,13 @@ class SyonetConnector:
         self.close()
 
     # ---------- mapping ----------
-    def build_request(self, lead: NormalizedLead, *, event_group: str = "VENDAS", event_type: str = "LEAD") -> SyonetLeadRequest:
+    def build_request(
+        self,
+        lead: NormalizedLead,
+        *,
+        event_group: str = "VENDAS",
+        event_type: str = "LEAD",
+    ) -> SyonetLeadRequest:
         return SyonetLeadRequest(
             companyId=self.settings.syonet_company_id,
             customer=SyonetCustomer(
@@ -101,8 +107,14 @@ class SyonetConnector:
         wait=wait_exponential_jitter(initial=0.5, max=5),
         retry=retry_if_exception_type(RETRYABLE),
     )
-    def send(self, lead: NormalizedLead) -> SyonetLeadResponse:
-        payload = self.build_request(lead)
+    def send(
+        self,
+        lead: NormalizedLead,
+        *,
+        event_group: str = "VENDAS",
+        event_type: str = "LEAD",
+    ) -> SyonetLeadResponse:
+        payload = self.build_request(lead, event_group=event_group, event_type=event_type)
         # ISO-8859-1 para bater com o PDF oficial (campos com acento).
         raw = json.dumps(payload.model_dump(exclude_none=True), ensure_ascii=False).encode("iso-8859-1", errors="replace")
 
