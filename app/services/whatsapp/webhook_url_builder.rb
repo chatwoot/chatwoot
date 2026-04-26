@@ -10,7 +10,10 @@ module Whatsapp::WebhookUrlBuilder
     private
 
     def resolve_base_url(base_url)
-      base_url.presence || Current.webhook_base_url.presence || ENV.fetch('WEBHOOK_BASE_URL', nil)
+      base_url.presence ||
+        Current.webhook_base_url.presence ||
+        ENV.fetch('WEBHOOK_BASE_URL', nil).presence ||
+        ENV.fetch('FRONTEND_URL', nil)
     end
   end
 end
