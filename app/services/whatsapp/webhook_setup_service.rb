@@ -67,10 +67,7 @@ class Whatsapp::WebhookSetupService
   end
 
   def build_callback_url
-    frontend_url = ENV.fetch('FRONTEND_URL', nil)
-    phone_number = @channel.phone_number
-
-    "#{frontend_url}/webhooks/whatsapp/#{phone_number}"
+    Whatsapp::WebhookUrlBuilder.build(@channel.phone_number)
   end
 
   def phone_number_verified?

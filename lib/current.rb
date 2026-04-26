@@ -4,6 +4,7 @@ module Current
   thread_mattr_accessor :account_user
   thread_mattr_accessor :executed_by
   thread_mattr_accessor :contact
+  thread_mattr_accessor :webhook_base_url
 
   def self.reset
     Current.user = nil
@@ -11,5 +12,6 @@ module Current
     Current.account_user = nil
     Current.executed_by = nil
     Current.contact = nil
+    Current.webhook_base_url = nil
   end
 end

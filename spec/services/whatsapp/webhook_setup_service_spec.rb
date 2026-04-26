@@ -48,10 +48,10 @@ describe Whatsapp::WebhookSetupService do
       end
 
       it 'registers the phone number and sets up webhook' do
-        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+        with_modified_env WEBHOOK_BASE_URL: 'https://api.chatwoot.com' do
           expect(api_client).to receive(:register_phone_number).with('123456789', 223_456)
           expect(api_client).to receive(:subscribe_waba_webhook)
-            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token')
+            .with(waba_id, 'https://api.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token')
           service.perform
         end
       end
@@ -69,10 +69,10 @@ describe Whatsapp::WebhookSetupService do
       end
 
       it 'does NOT register phone, but sets up webhook' do
-        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+        with_modified_env WEBHOOK_BASE_URL: 'https://api.chatwoot.com' do
           expect(api_client).not_to receive(:register_phone_number)
           expect(api_client).to receive(:subscribe_waba_webhook)
-            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token')
+            .with(waba_id, 'https://api.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token')
           service.perform
         end
       end
@@ -93,10 +93,10 @@ describe Whatsapp::WebhookSetupService do
       end
 
       it 'registers the phone number due to pending provisioning state' do
-        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+        with_modified_env WEBHOOK_BASE_URL: 'https://api.chatwoot.com' do
           expect(api_client).to receive(:register_phone_number).with('123456789', 223_456)
           expect(api_client).to receive(:subscribe_waba_webhook)
-            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token')
+            .with(waba_id, 'https://api.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token')
           service.perform
         end
       end
@@ -117,10 +117,10 @@ describe Whatsapp::WebhookSetupService do
       end
 
       it 'registers the phone number due to throughput not applicable' do
-        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+        with_modified_env WEBHOOK_BASE_URL: 'https://api.chatwoot.com' do
           expect(api_client).to receive(:register_phone_number).with('123456789', 223_456)
           expect(api_client).to receive(:subscribe_waba_webhook)
-            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token')
+            .with(waba_id, 'https://api.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token')
           service.perform
         end
       end
@@ -140,7 +140,7 @@ describe Whatsapp::WebhookSetupService do
       end
 
       it 'tries to register phone (due to verification error) and proceeds with webhook setup' do
-        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+        with_modified_env WEBHOOK_BASE_URL: 'https://api.chatwoot.com' do
           expect(api_client).to receive(:register_phone_number)
           expect(api_client).to receive(:subscribe_waba_webhook)
           expect { service.perform }.not_to raise_error
@@ -156,7 +156,7 @@ describe Whatsapp::WebhookSetupService do
       end
 
       it 'does not register phone (conservative approach) and proceeds with webhook setup' do
-        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+        with_modified_env WEBHOOK_BASE_URL: 'https://api.chatwoot.com' do
           expect(api_client).not_to receive(:register_phone_number)
           expect(api_client).to receive(:subscribe_waba_webhook)
           expect { service.perform }.not_to raise_error
@@ -174,7 +174,7 @@ describe Whatsapp::WebhookSetupService do
       end
 
       it 'continues with webhook setup even if registration fails' do
-        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+        with_modified_env WEBHOOK_BASE_URL: 'https://api.chatwoot.com' do
           expect(api_client).to receive(:register_phone_number)
           expect(api_client).to receive(:subscribe_waba_webhook)
           expect { service.perform }.not_to raise_error
@@ -191,7 +191,7 @@ describe Whatsapp::WebhookSetupService do
       end
 
       it 'raises an error' do
-        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+        with_modified_env WEBHOOK_BASE_URL: 'https://api.chatwoot.com' do
           expect(api_client).to receive(:register_phone_number)
           expect(api_client).to receive(:subscribe_waba_webhook)
           expect { service.perform }.to raise_error(/Webhook setup failed/)
@@ -226,7 +226,7 @@ describe Whatsapp::WebhookSetupService do
       end
 
       it 'reuses existing PIN' do
-        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+        with_modified_env WEBHOOK_BASE_URL: 'https://api.chatwoot.com' do
           expect(api_client).to receive(:register_phone_number).with('123456789', 123_456)
           expect(SecureRandom).not_to receive(:random_number)
           service.perform
@@ -241,13 +241,13 @@ describe Whatsapp::WebhookSetupService do
       end
 
       it 'raises error with webhook setup failure message' do
-        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+        with_modified_env WEBHOOK_BASE_URL: 'https://api.chatwoot.com' do
           expect { service.perform }.to raise_error(/Webhook setup failed: Invalid access token/)
         end
       end
 
       it 'logs the webhook setup failure' do
-        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+        with_modified_env WEBHOOK_BASE_URL: 'https://api.chatwoot.com' do
           expect(Rails.logger).to receive(:error).with('[WHATSAPP] Webhook setup failed: Invalid access token')
           expect { service.perform }.to raise_error(/Webhook setup failed/)
         end
@@ -283,16 +283,16 @@ describe Whatsapp::WebhookSetupService do
       end
 
       it 'successfully reauthorizes with new access token' do
-        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+        with_modified_env WEBHOOK_BASE_URL: 'https://api.chatwoot.com' do
           expect(api_client).not_to receive(:register_phone_number)
           expect(api_client).to receive(:subscribe_waba_webhook)
-            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'existing_verify_token')
+            .with(waba_id, 'https://api.chatwoot.com/webhooks/whatsapp/+1234567890', 'existing_verify_token')
           service_reauth.perform
         end
       end
 
       it 'uses the existing webhook verify token during reauthorization' do
-        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+        with_modified_env WEBHOOK_BASE_URL: 'https://api.chatwoot.com' do
           expect(api_client).to receive(:subscribe_waba_webhook)
             .with(waba_id, anything, 'existing_verify_token')
           service_reauth.perform
@@ -312,13 +312,13 @@ describe Whatsapp::WebhookSetupService do
       end
 
       it 'completes successfully without errors' do
-        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+        with_modified_env WEBHOOK_BASE_URL: 'https://api.chatwoot.com' do
           expect { service.perform }.not_to raise_error
         end
       end
 
       it 'does not log any errors' do
-        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+        with_modified_env WEBHOOK_BASE_URL: 'https://api.chatwoot.com' do
           expect(Rails.logger).not_to receive(:error)
           service.perform
         end

@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token
 
   before_action :set_current_user, unless: :devise_controller?
+  before_action :set_current_webhook_base_url
   around_action :switch_locale
   around_action :handle_with_exception, unless: :devise_controller?
 
@@ -15,6 +16,10 @@ class ApplicationController < ActionController::Base
   def set_current_user
     @user ||= current_user
     Current.user = @user
+  end
+
+  def set_current_webhook_base_url
+    Current.webhook_base_url = request.base_url
   end
 
   def pundit_user

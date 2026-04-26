@@ -87,9 +87,6 @@ class Whatsapp::HealthService
   end
 
   def build_expected_webhook_url
-    frontend_url = ENV.fetch('FRONTEND_URL', nil)
-    return nil if frontend_url.blank?
-
-    "#{frontend_url}/webhooks/whatsapp/#{@channel.phone_number}"
+    Whatsapp::WebhookUrlBuilder.build(@channel.phone_number)
   end
 end
