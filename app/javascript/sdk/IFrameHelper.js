@@ -185,8 +185,16 @@ export const IFrameHelper = {
 
       window.playAudioAlert = () => {};
 
+      const handler = e => {
+        IFrameHelper.setupAudioListeners(e);
+
+        initOnEvents.forEach(evt => {
+          document.removeEventListener(evt, handler);
+        });
+      };
+
       initOnEvents.forEach(e => {
-        document.addEventListener(e, IFrameHelper.setupAudioListeners, false);
+        document.addEventListener(e, handler, false);
       });
 
       if (!window.$chatwoot.resetTriggered) {
