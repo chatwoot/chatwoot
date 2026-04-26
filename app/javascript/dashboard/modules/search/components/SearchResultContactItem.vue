@@ -49,7 +49,7 @@ const navigateTo = computed(() => {
 
 const countriesMap = computed(() => {
   return countries.reduce((acc, country) => {
-    acc[country.code] = country;
+    acc[country.dial_code] = country;
     acc[country.id] = country;
     return acc;
   }, {});
@@ -66,7 +66,7 @@ const countryDetails = computed(() => {
   if (!country && !countryCode) return null;
 
   const activeCountry =
-    countriesMap.value[country] || countriesMap.value[countryCode];
+  countriesMap.value[countryCode] || countriesMap.value[country];
 
   if (!activeCountry) return null;
 
