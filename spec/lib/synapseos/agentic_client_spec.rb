@@ -111,6 +111,40 @@ RSpec.describe Synapseos::AgenticClient do
     end
   end
 
+  describe '#extract_message' do
+    it 'returns nil when detail is an Array (FastAPI 422 shape)' do
+      body = { 'detail' => [{ 'loc' => %w[body name], 'msg' => 'field required', 'type' => 'value_error.missing' }] }
+      expect(client.send(:extract_message, body)).to be_nil
+    end
+
+    it 'returns nil when detail is a Hash' do
+      body = { 'detail' => { 'code' => 'x', 'message' => 'y' } }
+      expect(client.send(:extract_message, body)).to be_nil
+    end
+
+    it 'returns the string when detail is a String' do
+      expect(client.send(:extract_message, { 'detail' => 'boom' })).to eq('boom')
+    end
+
+    it 'falls back to message and error keys' do
+      expect(client.send(:extract_message, { 'message' => 'm' })).to eq('m')
+      expect(client.send(:extract_message, { 'error' => 'e' })).to eq('e')
+    end
+  end
+
+  describe 'fallback failure with non-string detail' do
+    it 'uses generic message when detail is an Array on a 500' do
+      body = { detail: [{ loc: %w[body name], msg: 'oops' }] }
+      stub_request(:get, "#{base_url}/api/health")
+        .to_return(status: 500, body: body.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      result = client.health
+      expect(result.failure?).to be true
+      expect(result.kind).to eq(:server_error)
+      expect(result.message).to eq('Server error (500)')
+    end
+  end
+
   describe 'basic auth header' do
     it 'is present in every request' do
       stub_health = stub_request(:get, "#{base_url}/api/health")

@@ -152,6 +152,7 @@ class Synapseos::AgenticClient
   def extract_message(body)
     return nil unless body.is_a?(Hash)
 
-    body['detail'] || body['message'] || body['error']
+    msg = body['detail'] || body['message'] || body['error']
+    msg.is_a?(String) ? msg : nil
   end
 end

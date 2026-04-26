@@ -34,7 +34,7 @@ module Synapseos::Agentic
         raise NotConfiguredError, 'Synapse OS Agentic pipe is not configured (missing url/user/password or disabled)'
       end
 
-      memo_key = [cfg[:url], cfg[:user], cfg[:password]].join('|')
+      memo_key = [cfg[:url], cfg[:user], cfg[:password]]
       return @client if defined?(@client) && @client_memo_key == memo_key
 
       @client_memo_key = memo_key
