@@ -79,6 +79,17 @@ RSpec.describe 'Contact Label API', type: :request do
         expect(response.body).not_to include('unknown')
         expect(contact.reload.label_list).to contain_exactly('label3')
       end
+
+      it 'matches account labels case-insensitively' do
+        create(:label, account: account, title: 'urgent')
+        post api_v1_account_contact_labels_url(account_id: account.id, contact_id: contact.id),
+             params: { labels: %w[Urgent] },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.label_list).to contain_exactly('urgent')
+      end
     end
   end
 end

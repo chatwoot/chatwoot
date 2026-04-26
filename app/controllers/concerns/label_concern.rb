@@ -11,7 +11,7 @@ module LabelConcern
   private
 
   def valid_labels
-    posted = Array(permitted_params[:labels])
+    posted = Array(permitted_params[:labels]).map { |title| title.to_s.downcase }
     return [] if posted.blank?
 
     model.account.labels.where(title: posted).pluck(:title)
