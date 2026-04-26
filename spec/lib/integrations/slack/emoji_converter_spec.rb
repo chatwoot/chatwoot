@@ -91,6 +91,46 @@ describe Integrations::Slack::EmojiConverter do
         expect(result).to include('🙂')
       end
     end
+
+    context 'when text contains code blocks' do
+      it 'preserves emoji shortcodes inside inline code' do
+        text = 'Use the `:smile:` emoji'
+        result = described_class.convert_slack_emoji(text)
+        expect(result).to include('`:smile:`')
+        expect(result).not_to include('😄')
+      end
+
+      it 'preserves emoji shortcodes inside fenced code blocks' do
+        text = "Here's how:\n```\nreact_with :thumbsup:\n```"
+        result = described_class.convert_slack_emoji(text)
+        expect(result).to include(':thumbsup:')
+        expect(result).not_to include('👍')
+      end
+
+      it 'converts emoji outside code while preserving inside' do
+        text = ':smile: Here is code: `:thumbsup:` and more :heart:'
+        result = described_class.convert_slack_emoji(text)
+        expect(result).to include('😄')
+        expect(result).to include('❤️')
+        expect(result).to include('`:thumbsup:`')
+        expect(result).not_to include(':smile:')
+        expect(result).not_to include(':heart:')
+      end
+
+      it 'handles multiple inline code blocks' do
+        text = 'Use `:smile:` or `:heart:` shortcuts'
+        result = described_class.convert_slack_emoji(text)
+        expect(result).to include('`:smile:`')
+        expect(result).to include('`:heart:`')
+      end
+
+      it 'handles multiline fenced code blocks' do
+        text = "Code:\n```ruby\ndef emoji\n  :smile:\nend\n```\nDone :thumbsup:"
+        result = described_class.convert_slack_emoji(text)
+        expect(result).to include(':smile:')
+        expect(result).to include('👍')
+      end
+    end
   end
 
   describe '.find_emoji' do
