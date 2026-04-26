@@ -61,8 +61,17 @@ class DataImport::ContactManager
   def update_contact_attributes(params, contact)
     contact.name = params[:name] if params[:name].present?
     contact.additional_attributes ||= {}
-    contact.additional_attributes[:company] = params[:company] if params[:company].present?
+
+    # fix: Use :company_name instead of :company to match Chatwoot's attribute schema.
+    # logic: Prioritize :company_name from params, fallback to :company if available.
+    company_value = params[:company_name].presence || params[:company]
+    contact.additional_attributes[:company_name] = company_value if company_value.present?
+
     contact.additional_attributes[:city] = params[:city] if params[:city].present?
-    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :email, :name, :phone_number)))
+
+    # polish: Add :company and :company_name to the exclusion list.
+    # this prevents these fields from being duplicated into 'custom_attributes'.
+    excluded_keys = [:identifier, :email, :name, :phone_number, :company, :company_name, :city]
+    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(*excluded_keys)))
   end
 end
