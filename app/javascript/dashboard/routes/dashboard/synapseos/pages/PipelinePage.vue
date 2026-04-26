@@ -27,6 +27,7 @@ const newStageType = ref('custom');
 const showTemplateDialog = ref(false);
 const templates = ref([]);
 const templatesError = ref(null);
+const templatesEmpty = ref(false);
 const loadingTemplates = ref(false);
 const applyingTemplate = ref(false);
 
@@ -177,14 +178,13 @@ const openTemplates = async () => {
   showTemplateDialog.value = true;
   loadingTemplates.value = true;
   templatesError.value = null;
+  templatesEmpty.value = false;
   try {
     const { data } = await axios.get(
       `${apiBase.value}/pipeline_stages/templates`
     );
     templates.value = Array.isArray(data) ? data : [];
-    if (!templates.value.length) {
-      templatesError.value = t('SYNAPSEOS.PIPELINE.TEMPLATE_EMPTY');
-    }
+    templatesEmpty.value = templates.value.length === 0;
   } catch (e) {
     templates.value = [];
     templatesError.value =
@@ -497,6 +497,12 @@ onMounted(fetchPipeline);
           class="rounded-md border border-s-error/30 bg-s-error-soft text-s-error-text text-xs p-3"
         >
           {{ templatesError }}
+        </div>
+        <div
+          v-else-if="templatesEmpty"
+          class="text-sm text-s-muted text-center py-4"
+        >
+          {{ t('SYNAPSEOS.PIPELINE.TEMPLATE_EMPTY') }}
         </div>
         <div
           v-for="tmpl in templates"
