@@ -68,6 +68,29 @@ RSpec.describe Synapseos::SyncWhatsappCredentialJob do
       expect(channel.reload.provider_config['synapseos_credential_id']).to eq('cred_avisa')
     end
 
+    it 'preserves concurrent provider_config edits made during the HTTP window' do
+      channel = create(:channel_whatsapp, account: account, provider: 'avisa', phone_number: '+5511990000000',
+                                          provider_config: { 'api_key' => 'avisa_key', 'base_url' => 'https://www.avisaapi.com.br' },
+                                          validate_provider_config: false, sync_templates: false)
+
+      # Simulate a user editing provider_config in another process while the
+      # job's HTTP roundtrip is in flight: write directly to the DB so the
+      # in-memory `channel` AR object held by the job is now stale.
+      allow(agentic_client).to receive(:sync_whatsapp_credential) do
+        Channel::Whatsapp.where(id: channel.id).update_all( # rubocop:disable Rails/SkipsModelValidations
+          provider_config: { 'api_key' => 'avisa_key', 'base_url' => 'https://www.avisaapi.com.br',
+                             'external_user_field' => 'concurrent' }
+        )
+        success_result(credential_id: 'cred_avisa')
+      end
+
+      described_class.new.perform(channel.id)
+
+      reloaded = channel.reload.provider_config
+      expect(reloaded['external_user_field']).to eq('concurrent')
+      expect(reloaded['synapseos_credential_id']).to eq('cred_avisa')
+    end
+
     it 'includes phone_number_id and business_account_id for whatsapp_cloud' do
       # NOTE: factory merges defaults into whatsapp_cloud provider_config, so
       # we pre-stub directly to bypass that hardcoded merge.

@@ -174,7 +174,7 @@ RSpec.describe Channel::Whatsapp do
       end.to have_enqueued_job(Synapseos::SyncWhatsappCredentialJob)
     end
 
-    it 'does not enqueue when the account is not linked to synapseos' do
+    it 'still enqueues when the account is not linked to synapseos (job itself bails)' do
       expect do
         create(:channel_whatsapp, account: plain_account, provider: 'avisa',
                                   provider_config: { 'api_key' => 'avisa_key', 'base_url' => 'https://www.avisaapi.com.br' },

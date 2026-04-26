@@ -57,9 +57,14 @@ class Synapseos::SyncWhatsappCredentialJob < ApplicationJob
     Rails.logger.info("synapseos.credential_synced channel_id=#{channel.id} slug=#{slug} credential_id=#{credential_id}")
     return if credential_id.blank?
 
-    new_config = (channel.provider_config || {}).merge('synapseos_credential_id' => credential_id)
-    # update_column to skip callbacks and avoid re-triggering this job.
-    channel.update_column(:provider_config, new_config) # rubocop:disable Rails/SkipsModelValidations
+    # with_lock opens a transaction and SELECT FOR UPDATEs the row, reloading
+    # the AR object from DB before yielding — so provider_config inside the
+    # block is the freshest value, even if a user edited it during the HTTP
+    # window. update_columns bypasses callbacks (loop guard) atomically.
+    channel.with_lock do
+      merged = (channel.provider_config || {}).merge('synapseos_credential_id' => credential_id)
+      channel.update_columns(provider_config: merged, updated_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
+    end
   end
 
   def handle_failure(channel, slug, result)
