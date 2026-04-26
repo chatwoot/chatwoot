@@ -12,6 +12,9 @@ module Integrations::Slack::EmojiConverter
   end
 
   def self.find_emoji(shortcode)
+    # rubocop:disable Rails/DynamicFindBy
+    # find_by_alias is a method from the gemoji gem, not an ActiveRecord dynamic finder
     Emoji.find_by_alias(shortcode) || Emoji.find_by_alias(shortcode.tr('-', '_'))
+    # rubocop:enable Rails/DynamicFindBy
   end
 end

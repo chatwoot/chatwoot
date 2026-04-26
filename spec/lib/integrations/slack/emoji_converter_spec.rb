@@ -122,27 +122,27 @@ describe Integrations::Slack::EmojiConverter do
     let(:pattern) { Integrations::Slack::EmojiConverter::EMOJI_SHORTCODE_PATTERN }
 
     it 'matches simple shortcodes' do
-      expect(':smile:').to match(pattern)
+      expect(pattern.match?(':smile:')).to be true
     end
 
     it 'matches shortcodes with underscores' do
-      expect(':thumbs_up:').to match(pattern)
+      expect(pattern.match?(':thumbs_up:')).to be true
     end
 
     it 'matches shortcodes with hyphens' do
-      expect(':thumbs-up:').to match(pattern)
+      expect(pattern.match?(':thumbs-up:')).to be true
     end
 
     it 'matches shortcodes with numbers' do
-      expect(':+1:').to match(pattern)
+      expect(pattern.match?(':+1:')).to be true
     end
 
     it 'does not match empty shortcodes' do
-      expect('::').not_to match(pattern)
+      expect(pattern.match?('::')).to be false
     end
 
     it 'does not match single colons' do
-      expect(':').not_to match(pattern)
+      expect(pattern.match?(':')).to be false
     end
   end
 end
