@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { useAlert } from 'dashboard/composables';
+import { useBranding } from 'shared/composables/useBranding';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -22,6 +23,7 @@ const props = defineProps({
 const emit = defineEmits(['disableMfa', 'regenerateBackupCodes']);
 
 const { t } = useI18n();
+const { replaceInstallationName } = useBranding();
 
 // Dialog refs
 const disableDialogRef = ref(null);
@@ -41,12 +43,12 @@ const copyBackupCodes = async () => {
 };
 
 const downloadBackupCodes = () => {
-  const codesText = `Chatwoot Two-Factor Authentication Backup Codes\n\n${props.backupCodes.join('\n')}\n\nKeep these codes in a safe place.`;
+  const codesText = `${replaceInstallationName('Chatwoot')} Two-Factor Authentication Backup Codes\n\n${props.backupCodes.join('\n')}\n\nKeep these codes in a safe place.`;
   const blob = new Blob([codesText], { type: 'text/plain' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'chatwoot-backup-codes.txt';
+  a.download = 'backup-codes.txt';
   a.click();
   URL.revokeObjectURL(url);
 };

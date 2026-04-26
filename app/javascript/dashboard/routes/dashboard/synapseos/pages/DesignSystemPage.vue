@@ -95,7 +95,7 @@ const tokens = [
           </div>
           <div class="flex flex-col gap-1">
             <span class="text-xs text-s-muted font-mono">body · 14/400</span>
-            <span class="text-sm text-s-secondary">Chatwoot fork branded para mercado BR.</span>
+            <span class="text-sm text-s-secondary">Plataforma de atendimento omnichannel para o mercado BR.</span>
           </div>
           <div class="flex flex-col gap-1">
             <span class="text-xs text-s-muted font-mono">caption · 12/500</span>
