@@ -106,7 +106,7 @@ RSpec.describe 'Super Admin Synapseos clients', type: :request do
         get '/super_admin/synapseos/clients'
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('fora do ar')
+        expect(response.body).to include('The agentic panel is offline')
       end
 
       it 'handles :unauthorized with friendly error' do
@@ -118,7 +118,7 @@ RSpec.describe 'Super Admin Synapseos clients', type: :request do
         get '/super_admin/synapseos/clients'
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('Credenciais inválidas')
+        expect(response.body).to include('Invalid credentials')
       end
     end
   end
@@ -136,6 +136,17 @@ RSpec.describe 'Super Admin Synapseos clients', type: :request do
         get '/super_admin/synapseos/clients/missing'
 
         expect(response).to have_http_status(:not_found)
+      end
+
+      it 'redirects to index with alert when agentic is offline' do
+        stub_request(:get, "#{base_url}/api/clients/acme")
+          .to_raise(Faraday::ConnectionFailed.new('connection refused'))
+
+        sign_in(super_admin, scope: :super_admin)
+        get '/super_admin/synapseos/clients/acme'
+
+        expect(response).to redirect_to(super_admin_synapseos_clients_path)
+        expect(flash[:alert]).to include('The agentic panel is offline')
       end
 
       it 'renders successfully with full client data' do

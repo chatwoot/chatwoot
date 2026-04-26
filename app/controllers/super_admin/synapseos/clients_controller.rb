@@ -24,11 +24,18 @@ class SuperAdmin::Synapseos::ClientsController < SuperAdmin::ApplicationControll
       return
     end
 
-    @client = client_result.data || {}
+    if client_result.failure?
+      redirect_to super_admin_synapseos_clients_path, alert: humanize_agentic_error(client_result)
+      return
+    end
+
+    @client = client_result.data
 
     templates_result = agentic.templates
     @templates = templates_result.ok? ? (templates_result.data['agents'] || {}) : {}
   end
+
+  helper_method :humanize_agentic_error
 
   private
 
@@ -47,5 +54,18 @@ class SuperAdmin::Synapseos::ClientsController < SuperAdmin::ApplicationControll
 
     templates_result = agentic.templates
     @templates = templates_result.ok? ? (templates_result.data['agents'] || {}) : {}
+  end
+
+  def humanize_agentic_error(result)
+    base_url = Synapseos::Agentic.config[:url]
+
+    case result.kind
+    when :agentic_offline
+      "The agentic panel is offline. Check that the service is running at #{base_url}."
+    when :unauthorized
+      'Invalid credentials. Update SYNAPSEOS_AGENTIC_USER/SYNAPSEOS_AGENTIC_PASSWORD in Installation Configs.'
+    else
+      "Unexpected error: #{result.message}."
+    end
   end
 end

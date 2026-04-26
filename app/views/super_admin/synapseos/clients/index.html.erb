@@ -49,16 +49,7 @@
   <% if @error.present? %>
     <div class="m-6 p-4 border-l-4 border-red-400 bg-red-50 rounded">
       <h2 class="text-sm font-semibold text-red-800 mb-1">Cannot reach Synapse OS Agentic</h2>
-      <p class="text-sm text-red-700">
-        <% case @error.kind %>
-        <% when :agentic_offline %>
-          O painel agentic está fora do ar (<code class="text-xs"><%= base_url %></code>). Verifique se o serviço está rodando.
-        <% when :unauthorized %>
-          Credenciais inválidas. Atualize <code class="text-xs">SYNAPSEOS_AGENTIC_USER</code>/<code class="text-xs">SYNAPSEOS_AGENTIC_PASSWORD</code> em Installation Configs.
-        <% else %>
-          Erro inesperado: <code class="text-xs"><%= @error.message %></code>.
-        <% end %>
-      </p>
+      <p class="text-sm text-red-700"><%= humanize_agentic_error(@error) %></p>
     </div>
   <% end %>
 
@@ -75,11 +66,11 @@
       <thead>
         <tr>
           <th scope="col" role="columnheader">Slug</th>
-          <th scope="col" role="columnheader">Nome</th>
+          <th scope="col" role="columnheader">Name</th>
           <th scope="col" role="columnheader">Account</th>
           <th scope="col" role="columnheader">Status</th>
-          <th scope="col" role="columnheader">Agentes</th>
-          <th scope="col" role="columnheader">Ações</th>
+          <th scope="col" role="columnheader">Agents</th>
+          <th scope="col" role="columnheader">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -109,7 +100,7 @@
               <% end %>
             </td>
             <td class="cell-data">
-              <%= link_to 'Ver', super_admin_synapseos_client_path(slug: slug), class: 'action-show' %>
+              <%= link_to 'View', super_admin_synapseos_client_path(slug: slug), class: 'action-show' %>
             </td>
           </tr>
         <% end %>
