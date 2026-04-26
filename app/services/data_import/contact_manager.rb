@@ -53,7 +53,6 @@ class DataImport::ContactManager
     contact.email = params[:email] if params[:email].present?
     contact.phone_number = format_phone_number(params[:phone_number]) if params[:phone_number].present?
     update_contact_attributes(params, contact)
-    contact.save
   end
 
   private

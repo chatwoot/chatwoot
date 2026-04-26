@@ -142,6 +142,30 @@ RSpec.describe DataImportJob do
         expect(existing_contact.reload.email).to eq('newperson@example.com')
         expect(existing_contact.name).to eq('New Person')
       end
+
+      it 'does not persist updates for rejected duplicate rows on existing phone numbers' do
+        duplicate_data = [
+          %w[id name email phone_number],
+          ['1', 'First Name', 'first@example.com', '+918484848484'],
+          ['2', 'Rejected Duplicate', 'rejected@example.com', '+918484848484']
+        ]
+        duplicate_data_import = create(:data_import, import_file: generate_csv_file(duplicate_data))
+        existing_contact = create(:contact, account: duplicate_data_import.account, phone_number: '+918484848484',
+                                            name: 'Original Name', email: 'original@example.com')
+
+        described_class.perform_now(duplicate_data_import)
+
+        expect(duplicate_data_import.account.contacts.where(phone_number: '+918484848484').count).to eq(1)
+        expect(duplicate_data_import.reload.processed_records).to eq(1)
+
+        failed_records = CSV.parse(duplicate_data_import.failed_records.download, headers: true)
+        expect(failed_records.length).to eq(1)
+        expect(failed_records[0]['name']).to eq('Rejected Duplicate')
+        expect(failed_records[0]['errors']).to include('Phone number has already been taken')
+
+        expect(existing_contact.reload.name).to eq('First Name')
+        expect(existing_contact.email).to eq('first@example.com')
+      end
     end
 
     context 'when the data contains existing records' do

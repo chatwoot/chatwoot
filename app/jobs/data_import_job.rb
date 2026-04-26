@@ -75,8 +75,13 @@ class DataImportJob < ApplicationJob
   end
 
   def import_contacts(contacts)
+    persisted_contacts, new_contacts = contacts.partition(&:persisted?)
+    persisted_contacts.each { |contact| contact.save! if contact.changed? }
+    return if new_contacts.blank?
+
     # <struct ActiveRecord::Import::Result failed_instances=[], num_inserts=1, ids=[444, 445], results=[]>
-    Contact.import(contacts, synchronize: contacts, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true, batch_size: 1000)
+    Contact.import(new_contacts, synchronize: new_contacts, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true,
+                                 batch_size: 1000)
   end
 
   def update_data_import_status(processed_records, rejected_records)
