@@ -241,6 +241,7 @@ en:
       instagram_shared_story_content: 'Shared story'
       instagram_shared_post_content: 'Shared post'
       deleted: This message was deleted
+      deletion_disabled: Message deletion has been disabled by the account administrator
       whatsapp:
         list_button_label: 'Choose an item'
       delivery_status:
