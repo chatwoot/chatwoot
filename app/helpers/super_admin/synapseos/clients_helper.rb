@@ -50,7 +50,7 @@ module SuperAdmin::Synapseos::ClientsHelper
   def synapseos_format_snapshot_ts(timestamp)
     return '—' if timestamp.blank?
 
-    Time.zone.parse(timestamp.to_s).strftime('%Y-%m-%d %H:%M:%S UTC')
+    Time.zone.parse(timestamp.to_s).utc.strftime('%Y-%m-%d %H:%M:%S UTC')
   rescue ArgumentError, TypeError
     timestamp.to_s
   end
