@@ -19,7 +19,11 @@ module Synapseos::Agentic
     def config
       {
         url: read('SYNAPSEOS_AGENTIC_URL'),
-        panel_url: read('SYNAPSEOS_AGENTIC_PANEL_URL').presence || read('SYNAPSEOS_AGENTIC_URL'),
+        # panel_url SEMPRE explícito — não cai pra `url` automaticamente porque
+        # `url` pode ser interno do Docker (ex: http://agentic:8000) e viraria
+        # link morto se renderizado no browser. Operador define `panel_url`
+        # com a URL pública (HTTPS) — geralmente https://chatwoot.../_agentic/.
+        panel_url: read('SYNAPSEOS_AGENTIC_PANEL_URL'),
         user: read('SYNAPSEOS_AGENTIC_USER'),
         password: read('SYNAPSEOS_AGENTIC_PASSWORD'),
         enabled: ActiveModel::Type::Boolean.new.cast(read('SYNAPSEOS_AGENTIC_ENABLED'))

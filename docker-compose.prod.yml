@@ -134,11 +134,19 @@ services:
   # do Chatwoot. Compose isolado: usa profile `agentic` pra não subir por
   # default. Pra ativar: `docker compose --profile agentic up -d`.
   #
+  # Rede Docker:
+  #   Compose v2 conecta todos os serviços do mesmo arquivo numa rede default
+  #   (nome derivado do diretório, ex: synapseos-core_default). `web` e
+  #   `worker` resolvem `http://agentic:8000` por DNS do Docker — não precisa
+  #   declarar `networks:` explicitamente. Se rodar agentic em compose
+  #   separado, criar uma rede compartilhada (`docker network create
+  #   shared`) e referenciar dos dois lados via `networks: [shared]`.
+  #
   # Configurações no .env do Chatwoot (super_admin → Installation Configs):
-  #   SYNAPSEOS_AGENTIC_URL=http://agentic:8000        (interno, container-to-container)
+  #   SYNAPSEOS_AGENTIC_URL=http://agentic:8000        (interno, DNS Docker)
   #   SYNAPSEOS_AGENTIC_PANEL_URL=https://chatwoot.cliente.com.br/_agentic/
   #   SYNAPSEOS_AGENTIC_USER=admin
-  #   SYNAPSEOS_AGENTIC_PASSWORD=...
+  #   SYNAPSEOS_AGENTIC_PASSWORD=<openssl rand -hex 32>
   #   SYNAPSEOS_AGENTIC_ENABLED=true
   #
   # Caddy (docker/Caddyfile.example) roteia `/_agentic/*` pro container abaixo.
@@ -150,8 +158,11 @@ services:
     environment:
       N8N_BASE_URL: ${N8N_BASE_URL:-http://n8n:5678}
       N8N_API_KEY: ${N8N_API_KEY}
-      PANEL_ADMIN_USER: ${SYNAPSEOS_AGENTIC_USER:-admin}
-      PANEL_ADMIN_PASSWORD: ${SYNAPSEOS_AGENTIC_PASSWORD:-change-me}
+      # SYNAPSEOS_AGENTIC_USER/PASSWORD são REQUIRED — sintaxe `:?` aborta o
+      # `docker compose up` se não estiverem definidos. Evita o footgun de
+      # subir prod com basic auth `admin/change-me`.
+      PANEL_ADMIN_USER: ${SYNAPSEOS_AGENTIC_USER:?missing SYNAPSEOS_AGENTIC_USER}
+      PANEL_ADMIN_PASSWORD: ${SYNAPSEOS_AGENTIC_PASSWORD:?missing SYNAPSEOS_AGENTIC_PASSWORD (gere com openssl rand -hex 32)}
     ports:
       - "127.0.0.1:8000:8000"   # bind apenas em loopback; Caddy faz o proxy público
     volumes:

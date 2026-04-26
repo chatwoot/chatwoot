@@ -74,7 +74,12 @@ as defined by the routes in the `admin/` namespace
                       class: 'text-slate-800 -ml-1 focus:outline-none cursor-pointer flex items-center px-2 py-1.5 hover:text-woot-500 hover:bg-slate-25 rounded-lg') do %>
             <svg width="16" height="16"><use xlink:href="#icon-apps-2-line" /></svg>
             <span class="ml-2 text-sm">Synapse Agentic Panel</span>
-            <svg width="12" height="12" class="ml-auto opacity-60"><use xlink:href="#icon-apps-2-line" /></svg>
+            <%# Trailing external-link glyph (SVG inline — independente do sprite). %>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-auto opacity-60" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
           <% end %>
         </li>
       <% end %>
