@@ -2,7 +2,7 @@
 import { ref, watch, onMounted, onBeforeUnmount, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
+/* global axios */
 import SynapseCard from 'next/synapseos/SynapseCard.vue';
 import SynapseStatusPill from 'next/synapseos/SynapseStatusPill.vue';
 import SynapseButton from 'next/synapseos/SynapseButton.vue';

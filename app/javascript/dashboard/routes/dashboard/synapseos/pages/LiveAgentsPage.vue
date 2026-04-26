@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import axios from 'axios';
+/* global axios */
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import SynapseCard from 'next/synapseos/SynapseCard.vue';

@@ -2,7 +2,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
+/* global axios */
 import draggable from 'vuedraggable';
 import InputText from 'primevue/inputtext';
 import Dialog from 'primevue/dialog';
