@@ -581,7 +581,7 @@ describe Whatsapp::IncomingMessageService do
       service = described_class.new(inbox: whatsapp_channel.inbox, params: text_params)
       contact_inbox_spy = nil
 
-      allow_any_instance_of(described_class).to receive(:set_conversation).and_wrap_original do |original, *args|
+      allow(service).to receive(:set_conversation).and_wrap_original do |original, *args|
         contact_inbox_spy = service.instance_variable_get(:@contact_inbox)
         allow(contact_inbox_spy).to receive(:with_lock).and_call_original
         original.call(*args)

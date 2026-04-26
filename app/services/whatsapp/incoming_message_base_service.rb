@@ -39,8 +39,8 @@ class Whatsapp::IncomingMessageBaseService
     return unless @contact
     return if @contact.blocked? && !outgoing_echo
 
+    set_conversation
     ActiveRecord::Base.transaction do
-      set_conversation
       create_messages
     end
   end
