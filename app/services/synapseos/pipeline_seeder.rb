@@ -1,5 +1,5 @@
 module Synapseos
-  # Idempotente: cria os 5 stages padrão do pipeline SynapseOS para a conta.
+  # Idempotente: cria os 7 stages padrão do pipeline SynapseOS para a conta.
   # Use `call(account)` do `Account.after_create` ou de migrations de backfill.
   #
   # Resistente a schema legado: detecta se a coluna `slug` existe (só depois
@@ -31,6 +31,10 @@ module Synapseos
       @slug_supported ||= ::Synapseos::PipelineStage.column_names.include?('slug')
     end
 
+    def description_supported?
+      @description_supported ||= ::Synapseos::PipelineStage.column_names.include?('description')
+    end
+
     def find_or_initialize(attrs)
       scope = ::Synapseos::PipelineStage.where(account_id: @account.id)
       if slug_supported?
@@ -43,6 +47,7 @@ module Synapseos
     def safe_attrs(attrs)
       payload = attrs.merge(account_id: @account.id)
       payload = payload.except(:slug) unless slug_supported?
+      payload = payload.except(:description) unless description_supported?
       payload
     end
   end

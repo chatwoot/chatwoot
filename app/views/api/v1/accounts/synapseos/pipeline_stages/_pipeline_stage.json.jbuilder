@@ -4,5 +4,6 @@ json.name pipeline_stage.name
 json.color pipeline_stage.color
 json.position pipeline_stage.position
 json.stage_type pipeline_stage.stage_type
+json.description pipeline_stage.try(:description)
 json.created_at pipeline_stage.created_at
 json.updated_at pipeline_stage.updated_at

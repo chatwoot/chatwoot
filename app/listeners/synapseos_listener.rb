@@ -5,7 +5,7 @@ class SynapseosListener < BaseListener
   # Suportados:
   #   /ganhei [valor]              -> Deal :won + CrmEvent deal_won
   #   /perdi  [valor]              -> Deal :lost + CrmEvent deal_lost
-  #   /agendar YYYY-MM-DD          -> CrmEvent 'appointment' (move pra negociacao)
+  #   /agendar YYYY-MM-DD          -> CrmEvent 'appointment' (move pra proposta_negociacao)
   #   /qualificar                  -> aplica label lead_qualificado + cria Lead
   #   /stage <slug>                -> move lead direto pra stage (PipelineTransitionService)
   #   /tag <slug>                  -> aplica label do contrato na conversa
@@ -89,9 +89,9 @@ class SynapseosListener < BaseListener
 
     case crm_event.event_type
     when 'appointment'
-      return unless lead.pipeline_stage&.slug == 'qualificado'
+      return unless lead.pipeline_stage&.slug == 'conexao_situacao'
 
-      ::Synapseos::PipelineTransitionService.move(deal: lead, to_slug: 'negociacao')
+      ::Synapseos::PipelineTransitionService.move(deal: lead, to_slug: 'proposta_negociacao')
     when 'deal_won'
       ::Synapseos::PipelineTransitionService.move(deal: lead, to_slug: 'fechado_ganho')
     when 'deal_lost'
@@ -170,9 +170,9 @@ class SynapseosListener < BaseListener
     conversation.label_list.add(LEAD_LABEL)
     conversation.save!
     lead = ensure_lead(conversation, account, source: 'qualify_command')
-    return if lead.nil? || lead.pipeline_stage&.slug == 'qualificado'
+    return if lead.nil? || lead.pipeline_stage&.slug == 'conexao_situacao'
 
-    ::Synapseos::PipelineTransitionService.move(deal: lead, to_slug: 'qualificado')
+    ::Synapseos::PipelineTransitionService.move(deal: lead, to_slug: 'conexao_situacao')
   rescue StandardError => e
     Rails.logger.warn("[Synapseos] handle_qualify_command failed: #{e.message}")
   end
@@ -233,13 +233,13 @@ class SynapseosListener < BaseListener
   end
 
   def promote_existing_lead(lead)
-    return unless lead.pipeline_stage&.slug == 'novo_lead'
+    return unless lead.pipeline_stage&.slug == 'entrada_pesquisa'
 
-    ::Synapseos::PipelineTransitionService.move(deal: lead, to_slug: 'qualificado')
+    ::Synapseos::PipelineTransitionService.move(deal: lead, to_slug: 'conexao_situacao')
   end
 
   def create_lead_from_label(conversation, account)
-    qualified_stage = ::Synapseos::PipelineStage.find_by(account_id: account.id, slug: 'qualificado')
+    qualified_stage = ::Synapseos::PipelineStage.find_by(account_id: account.id, slug: 'conexao_situacao')
 
     lead = ::Synapseos::Lead.create!(
       account_id: account.id,
