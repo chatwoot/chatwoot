@@ -146,6 +146,7 @@ const route = useRoute();
 const inboxGetter = useMapGetter('inboxes/getInbox');
 const inbox = computed(() => inboxGetter.value(props.inboxId) || {});
 const { replaceInstallationName } = useBranding();
+const currentAccount = useMapGetter('getCurrentAccount');
 
 /**
  * Computes the message variant based on props
@@ -372,6 +373,11 @@ const contextMenuEnabledOptions = computed(() => {
   const isFailedOrProcessing =
     props.status === MESSAGE_STATUS.FAILED ||
     props.status === MESSAGE_STATUS.PROGRESS;
+
+
+  const isMessageDeleteDisabled = currentAccount.value?.settings?.disable_message_delete;
+
+ 
 
   return {
     copy: hasText,
