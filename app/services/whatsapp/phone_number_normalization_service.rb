@@ -26,7 +26,7 @@ class Whatsapp::PhoneNumberNormalizationService
     provider_format = format_for_provider(normalized_clean_number, provider)
     existing_contact_inbox = find_existing_contact_inbox(provider_format)
 
-    existing_contact_inbox&.source_id || raw_number
+    existing_contact_inbox&.source_id || provider_format
   end
 
   private
