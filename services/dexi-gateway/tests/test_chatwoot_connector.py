@@ -111,6 +111,30 @@ def test_connector_raises_when_credentials_missing():
         ChatwootConnector(settings)
 
 
+def test_search_url_encodes_external_id_with_plus():
+    """E.164 (+5541...) ou IDs com `+`/`#`/`&` precisam de URL-encoding —
+    senão o Chatwoot não acha o contato existente e a Ponte A duplica.
+    """
+    settings = _settings()
+    base = "https://chatwoot.test/api/v1/accounts/7"
+
+    with respx.mock(assert_all_called=True) as mock:
+        search = mock.get(f"{base}/contacts/search").respond(
+            200, json={"payload": [{"id": 88, "identifier": "+5541988888888"}]}
+        )
+        mock.post(f"{base}/conversations").respond(201, json={"id": 1})
+
+        lead = _sample_lead()
+        lead.customer.external_id = "+5541988888888"
+
+        with ChatwootConnector(settings, client=httpx.Client()) as cw:
+            ids = cw.push_lead(lead)
+
+    # httpx codifica '+' como '%2B' na query; sem isso o Chatwoot interpretaria como espaço.
+    assert "%2B5541988888888" in str(search.calls.last.request.url)
+    assert ids["contact_id"] == 88
+
+
 def test_create_contact_propagates_http_error():
     settings = _settings()
     base = "https://chatwoot.test/api/v1/accounts/7"

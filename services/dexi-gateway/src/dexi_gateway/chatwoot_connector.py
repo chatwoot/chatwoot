@@ -73,8 +73,14 @@ class ChatwootConnector:
         return self._create_contact(lead)
 
     def _search_contact(self, external_id: str) -> int | None:
-        url = self._url(f"/contacts/search?q={external_id}&include=contact_inboxes")
-        resp = self._client.get(url, headers=self._headers())
+        # Passa via `params=` pra que httpx faça URL-encoding correto.
+        # Telefones em E.164 (`+5541...`) e qualquer external_id com `+`/`#`/`&`
+        # iam quebrar a query string se interpolados direto na URL.
+        resp = self._client.get(
+            self._url("/contacts/search"),
+            params={"q": external_id, "include": "contact_inboxes"},
+            headers=self._headers(),
+        )
         if resp.status_code != 200:
             return None
         payload = resp.json() or {}
