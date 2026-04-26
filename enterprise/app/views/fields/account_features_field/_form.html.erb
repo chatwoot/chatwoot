@@ -2,6 +2,7 @@
   <%= f.label field.attribute %>
 </div>
 <div class="field-unit__field feature-container">
+  <%= hidden_field_tag 'features_submitted', '1' %>
   <% regular_features, premium_features = SuperAdmin::AccountFeaturesHelper.filtered_features(field.data).partition { |key_array, _val| !SuperAdmin::AccountFeaturesHelper.account_premium_features.include?(key_array.first) } %>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
