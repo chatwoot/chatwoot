@@ -3,7 +3,9 @@ class AgentBotListener < BaseListener
     conversation = extract_conversation_and_account(event)[0]
     inbox = conversation.inbox
     event_name = __method__.to_s
-    payload = conversation.webhook_data.merge(event: event_name)
+
+    payload = agent_bot_conversation_payload(conversation, event_name: event_name)
+
     agent_bots_for(inbox, conversation).each { |agent_bot| process_webhook_bot_event(agent_bot, payload) }
   end
 
@@ -11,7 +13,9 @@ class AgentBotListener < BaseListener
     conversation = extract_conversation_and_account(event)[0]
     inbox = conversation.inbox
     event_name = __method__.to_s
-    payload = conversation.webhook_data.merge(event: event_name)
+
+    payload = agent_bot_conversation_payload(conversation, event_name: event_name)
+
     agent_bots_for(inbox, conversation).each { |agent_bot| process_webhook_bot_event(agent_bot, payload) }
   end
 
@@ -20,7 +24,13 @@ class AgentBotListener < BaseListener
     changed_attributes = extract_changed_attributes(event)
     inbox = conversation.inbox
     event_name = __method__.to_s
-    payload = conversation.webhook_data.merge(event: event_name, changed_attributes: changed_attributes)
+
+    payload = agent_bot_conversation_payload(
+      conversation,
+      event_name: event_name,
+      changed_attributes: changed_attributes
+    )
+
     agent_bots_for(inbox, conversation).each { |agent_bot| process_webhook_bot_event(agent_bot, payload) }
   end
 
@@ -29,7 +39,13 @@ class AgentBotListener < BaseListener
     changed_attributes = extract_changed_attributes(event)
     inbox = conversation.inbox
     event_name = __method__.to_s
-    payload = conversation.webhook_data.merge(event: event_name, changed_attributes: changed_attributes)
+
+    payload = agent_bot_conversation_payload(
+      conversation,
+      event_name: event_name,
+      changed_attributes: changed_attributes
+    )
+
     agent_bots_for(inbox, conversation).each { |agent_bot| process_webhook_bot_event(agent_bot, payload) }
   end
 
@@ -61,6 +77,28 @@ class AgentBotListener < BaseListener
   end
 
   private
+
+  def agent_bot_conversation_payload(conversation, event_name:, changed_attributes: nil)
+    payload = {
+      event: event_name,
+      account: conversation.account.webhook_data,
+      additional_attributes: {},
+      content_attributes: {},
+      content_type: nil,
+      content: nil,
+      conversation: conversation.webhook_data,
+      created_at: conversation.created_at,
+      id: nil,
+      inbox: conversation.inbox.webhook_data,
+      message_type: nil,
+      private: false,
+      sender: nil,
+      source_id: nil
+    }
+
+    payload[:changed_attributes] = changed_attributes if changed_attributes.present?
+    payload
+  end
 
   def agent_bots_for(inbox, conversation = nil)
     bots = []
