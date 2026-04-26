@@ -569,5 +569,27 @@ describe Whatsapp::IncomingMessageService do
       expect(whatsapp_channel.inbox.conversations.count).to eq(1)
       expect(whatsapp_channel.inbox.messages.count).to eq(2)
     end
+
+    it 'acquires a row-level lock on contact_inbox before finding or creating a conversation' do
+      text_params = {
+        'contacts' => [{ 'profile' => { 'name' => 'Race Tester' }, 'wa_id' => wa_id }],
+        'messages' => [{ 'from' => wa_id, 'id' => 'msg-lock-test-001',
+                         'text' => { 'body' => 'lock test' },
+                         'timestamp' => '1633034394', 'type' => 'text' }]
+      }.with_indifferent_access
+
+      service = described_class.new(inbox: whatsapp_channel.inbox, params: text_params)
+      contact_inbox_spy = nil
+
+      allow_any_instance_of(described_class).to receive(:set_conversation).and_wrap_original do |original, *args|
+        contact_inbox_spy = service.instance_variable_get(:@contact_inbox)
+        allow(contact_inbox_spy).to receive(:with_lock).and_call_original
+        original.call(*args)
+      end
+
+      service.perform
+
+      expect(contact_inbox_spy).to have_received(:with_lock)
+    end
   end
 end
