@@ -20,7 +20,8 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
   end
 
   def self_assigning_unassigned_conversation?
-    params[:assignee_id].to_i == Current.user&.id &&
+    !agent_bot_assignment? &&
+      params[:assignee_id].to_i == Current.user&.id &&
       @conversation.assignee_id.nil? &&
       @conversation.assignee_agent_bot_id.nil?
   end
