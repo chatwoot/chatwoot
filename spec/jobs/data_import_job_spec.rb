@@ -41,7 +41,7 @@ RSpec.describe DataImportJob do
         expect(data_import.reload.processed_records).to eq(csv_length)
         contact = Contact.find_by(phone_number: '+918080808080')
         expect(contact).to be_truthy
-        expect(contact['additional_attributes']['company']).to eq('My Company Name')
+        expect(contact['additional_attributes']['company_name']).to eq('My Company Name')
       end
     end
 
