@@ -132,7 +132,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_24_130000) do
     t.integer "bot_type", default: 0
     t.jsonb "bot_config", default: {}
     t.string "secret"
+    t.string "squadron_role"
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
+    t.index ["squadron_role"], name: "index_agent_bots_on_squadron_role", where: "(squadron_role IS NOT NULL)"
   end
 
   create_table "agent_capacity_policies", force: :cascade do |t|
