@@ -42,6 +42,14 @@ as defined by the routes in the `admin/` namespace
         %>
 
       <% end %>
+      <% if Synapseos::Agentic.config[:enabled] && Synapseos::Agentic.config[:url].present? %>
+        <%= render partial: 'nav_item',
+                   locals: {
+                     icon: 'icon-robot-line',
+                     url: super_admin_synapseos_clients_url,
+                     label: 'Synapse Agents'
+                   } %>
+      <% end %>
       <%= render 'settings_menu', open: settings_open? %>
     </ul>
   </div>

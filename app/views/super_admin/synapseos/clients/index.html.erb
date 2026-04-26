@@ -1,0 +1,110 @@
+<% content_for(:title) do %>Synapse Agents<% end %>
+
+<%
+  status_pill = lambda do |status|
+    base = 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium'
+    case status.to_s
+    when 'deployed'      then "#{base} bg-green-100 text-green-700"
+    when 'not_deployed'  then "#{base} bg-slate-100 text-slate-700"
+    when 'error'         then "#{base} bg-red-100 text-red-700"
+    when 'partial'       then "#{base} bg-yellow-100 text-yellow-700"
+    else                      "#{base} bg-slate-100 text-slate-700"
+    end
+  end
+
+  agent_chip = lambda do |template|
+    base = 'inline-flex items-center px-2 py-0.5 rounded text-xs mr-1 mb-1'
+    if template && template['status'] == 'planned'
+      "#{base} bg-slate-100 text-slate-600"
+    else
+      "#{base} bg-cyan-100 text-cyan-800"
+    end
+  end
+
+  account_ids = @clients.filter_map { |c| c['chatwoot_account_id'] }.uniq.sort
+  base_url = Synapseos::Agentic.config[:url]
+%>
+
+<header class="main-content__header" role="banner">
+  <div class="flex items-center justify-between w-full">
+    <h1 class="main-content__page-title m-0 mr-6" id="page-title">Synapse Agents</h1>
+
+    <% if account_ids.any? %>
+      <div class="flex items-center text-sm">
+        <span class="text-slate-600 mr-2">Account:</span>
+        <%= link_to 'All',
+                    super_admin_synapseos_clients_path,
+                    class: "px-2 py-1 mr-1 rounded #{params[:account_id].blank? ? 'bg-woot-500 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}" %>
+        <% account_ids.each do |aid| %>
+          <%= link_to "##{aid}",
+                      super_admin_synapseos_clients_path(account_id: aid),
+                      class: "px-2 py-1 mr-1 rounded #{params[:account_id].to_s == aid.to_s ? 'bg-woot-500 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</header>
+
+<section class="main-content__body main-content__body--flush">
+  <% if @error.present? %>
+    <div class="m-6 p-4 border-l-4 border-red-400 bg-red-50 rounded">
+      <h2 class="text-sm font-semibold text-red-800 mb-1">Cannot reach Synapse OS Agentic</h2>
+      <p class="text-sm text-red-700"><%= humanize_agentic_error(@error) %></p>
+    </div>
+  <% end %>
+
+  <% if @clients.empty? && @error.blank? %>
+    <div class="m-6 p-6 bg-white border border-slate-100 rounded-lg text-center">
+      <p class="text-sm text-slate-700 mb-2">No Synapse clients configured yet.</p>
+      <p class="text-sm text-slate-600">
+        Configure your first client at
+        <%= link_to "#{base_url}/_agentic/", "#{base_url}/_agentic/", target: '_blank', rel: 'noopener', class: 'text-woot-500 underline' %>.
+      </p>
+    </div>
+  <% elsif @clients.any? %>
+    <table aria-labelledby="page-title">
+      <thead>
+        <tr>
+          <th scope="col" role="columnheader">Slug</th>
+          <th scope="col" role="columnheader">Name</th>
+          <th scope="col" role="columnheader">Account</th>
+          <th scope="col" role="columnheader">Status</th>
+          <th scope="col" role="columnheader">Agents</th>
+          <th scope="col" role="columnheader">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @clients.each do |client| %>
+          <% slug = client['slug'] %>
+          <% account_id = client['chatwoot_account_id'] %>
+          <% status = client['status'] || (client['deployed'] ? 'deployed' : 'not_deployed') %>
+          <% agents = (client['agents'] || {}) %>
+          <tr class="js-table-row" tabindex="0" role="link"
+              data-url="<%= super_admin_synapseos_client_path(slug: slug) %>">
+            <td class="cell-data">
+              <%= link_to slug, super_admin_synapseos_client_path(slug: slug), class: 'action-show' %>
+            </td>
+            <td class="cell-data"><%= client['name'] %></td>
+            <td class="cell-data">
+              <%= account_id.present? ? "Account ##{account_id}" : '—' %>
+            </td>
+            <td class="cell-data">
+              <span class="<%= status_pill.call(status) %>"><%= status %></span>
+            </td>
+            <td class="cell-data">
+              <% agents.each do |agent_slug, agent_cfg| %>
+                <% next unless agent_cfg.is_a?(Hash) && agent_cfg['enabled'] %>
+                <% template = (@templates || {})[agent_slug] || {} %>
+                <% display_name = template['display_name'] || agent_slug %>
+                <span class="<%= agent_chip.call(template) %>"><%= display_name %></span>
+              <% end %>
+            </td>
+            <td class="cell-data">
+              <%= link_to 'View', super_admin_synapseos_client_path(slug: slug), class: 'action-show' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</section>

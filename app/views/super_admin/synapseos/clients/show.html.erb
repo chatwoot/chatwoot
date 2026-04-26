@@ -1,0 +1,146 @@
+<% content_for(:title) do %>Synapse client: <%= @client['slug'] || params[:slug] %><% end %>
+
+<%
+  active_tab = params[:tab].presence || 'overview'
+  tabs = [
+    %w[overview Overview],
+    %w[yaml YAML],
+    %w[workflows Workflows],
+    %w[history History]
+  ]
+  tab_link_class = lambda do |tab_key|
+    base = 'inline-block px-3 py-2 text-sm border-b-2 -mb-px cursor-pointer'
+    if active_tab == tab_key
+      "#{base} border-woot-500 text-woot-500 font-medium"
+    else
+      "#{base} border-transparent text-slate-700 hover:text-woot-500"
+    end
+  end
+
+  status_pill = lambda do |status|
+    base = 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium'
+    case status.to_s
+    when 'available' then "#{base} bg-cyan-100 text-cyan-800"
+    when 'planned'   then "#{base} bg-slate-100 text-slate-600"
+    when 'deployed'  then "#{base} bg-green-100 text-green-700"
+    when 'error'     then "#{base} bg-red-100 text-red-700"
+    when 'partial'   then "#{base} bg-yellow-100 text-yellow-700"
+    else                  "#{base} bg-slate-100 text-slate-700"
+    end
+  end
+
+  whatsapp = @client['whatsapp']
+%>
+
+<header class="main-content__header" role="banner">
+  <div class="flex items-center justify-between w-full">
+    <h1 class="main-content__page-title m-0 mr-6" id="page-title">
+      <%= @client['name'].presence || @client['slug'] || params[:slug] %>
+      <span class="text-sm text-slate-500 font-normal ml-2"><%= @client['slug'] %></span>
+    </h1>
+    <%= link_to '← Back to clients', super_admin_synapseos_clients_path, class: 'text-sm text-woot-500 hover:underline' %>
+  </div>
+</header>
+
+<section class="main-content__body">
+  <nav class="border-b border-slate-100 mb-4">
+    <ul class="flex gap-2">
+      <% tabs.each do |key, label| %>
+        <li>
+          <%= link_to label,
+                      super_admin_synapseos_client_path(slug: params[:slug], tab: key),
+                      class: tab_link_class.call(key) %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+
+  <% if active_tab == 'overview' %>
+    <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+      <% [
+        ['Slug', @client['slug']],
+        ['Name', @client['name']],
+        ['Full name', @client['full_name']],
+        ['Persona (full)', @client['persona_full']],
+        ['Persona (short)', @client['persona_short']],
+        ['Dealer name', @client['dealer_name']],
+        ['Dealer address', @client['dealer_address']],
+        ['City', @client['city']],
+        ['Runbook base URL', @client['runbook_base_url']],
+        ['Chatwoot account', @client['chatwoot_account_id']]
+      ].each do |label, value| %>
+        <div class="border-b border-slate-50 pb-2">
+          <dt class="text-xs uppercase text-slate-500 tracking-wide"><%= label %></dt>
+          <dd class="text-sm text-slate-800 mt-1"><%= value.presence || '—' %></dd>
+        </div>
+      <% end %>
+
+      <div class="border-b border-slate-50 pb-2 md:col-span-2">
+        <dt class="text-xs uppercase text-slate-500 tracking-wide">WhatsApp Provider</dt>
+        <dd class="text-sm text-slate-800 mt-1">
+          <% if whatsapp.is_a?(Hash) && whatsapp['provider'].present? %>
+            <span class="<%= status_pill.call('available') %>"><%= whatsapp['provider'] %></span>
+            <span class="ml-2 text-slate-600">credential: <code class="text-xs"><%= whatsapp['credential'] || '—' %></code></span>
+          <% else %>
+            <span class="text-slate-500">—</span>
+          <% end %>
+        </dd>
+      </div>
+    </dl>
+  <% end %>
+
+  <% if active_tab == 'yaml' %>
+    <div class="bg-slate-900 text-slate-50 p-4 rounded text-xs overflow-auto">
+      <pre><code><%= Psych.dump(@client) %></code></pre>
+    </div>
+  <% end %>
+
+  <% if active_tab == 'workflows' %>
+    <% agents = (@client['agents'] || {}) %>
+    <% client_workflows = (@client['workflows'] || {}) %>
+    <% agent_workflows = (@client['agent_workflows'] || {}) %>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Agent</th>
+          <th scope="col">Display name</th>
+          <th scope="col">Status</th>
+          <th scope="col">Workflows</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% agents.each do |agent_slug, agent_cfg| %>
+          <% next unless agent_cfg.is_a?(Hash) %>
+          <% template = (@templates || {})[agent_slug] || {} %>
+          <% display_name = template['display_name'] || agent_slug %>
+          <% status = template['status'] || (agent_cfg['enabled'] ? 'available' : 'planned') %>
+          <% workflows = (agent_workflows[agent_slug] || client_workflows[agent_slug] || []) %>
+          <tr>
+            <td class="cell-data"><code class="text-xs"><%= agent_slug %></code></td>
+            <td class="cell-data"><%= display_name %></td>
+            <td class="cell-data"><span class="<%= status_pill.call(status) %>"><%= status %></span></td>
+            <td class="cell-data">
+              <% if workflows.is_a?(Array) && workflows.any? %>
+                <% workflows.each do |wid| %>
+                  <span class="inline-block px-2 py-0.5 mr-1 mb-1 rounded bg-slate-100 text-slate-700 text-xs"><%= wid %></span>
+                <% end %>
+              <% elsif workflows.is_a?(Hash) && workflows.any? %>
+                <% workflows.each do |k, v| %>
+                  <span class="inline-block px-2 py-0.5 mr-1 mb-1 rounded bg-slate-100 text-slate-700 text-xs"><%= k %>: <%= v %></span>
+                <% end %>
+              <% else %>
+                <span class="text-slate-500 text-xs">—</span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <% if active_tab == 'history' %>
+    <div class="p-6 bg-slate-50 rounded text-center text-slate-600 text-sm">
+      Coming soon. Snapshots and deploys will appear here (PR6).
+    </div>
+  <% end %>
+</section>
