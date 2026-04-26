@@ -1,0 +1,23 @@
+<% content_for(:title) do %>Synapse Agents<% end %>
+
+<header class="main-content__header" role="banner">
+  <h1 class="main-content__page-title" id="page-title">Synapse Agents</h1>
+</header>
+
+<section class="main-content__body">
+  <div class="max-w-2xl mx-auto my-8 p-6 bg-white border border-slate-100 rounded-lg shadow-sm">
+    <h2 class="text-lg font-semibold text-slate-800 mb-2">Configure agentic</h2>
+    <p class="text-sm text-slate-600 mb-4">
+      The Synapse OS Agentic pipe is not configured yet. Set the following Installation Configs to enable this section:
+    </p>
+    <ul class="list-disc list-inside text-sm text-slate-700 space-y-1 mb-4">
+      <li><code class="text-xs bg-slate-50 px-1 py-0.5 rounded">SYNAPSEOS_AGENTIC_URL</code> &mdash; base URL of the agentic panel (e.g. <code class="text-xs">http://localhost:8002</code>).</li>
+      <li><code class="text-xs bg-slate-50 px-1 py-0.5 rounded">SYNAPSEOS_AGENTIC_USER</code> &mdash; basic auth user.</li>
+      <li><code class="text-xs bg-slate-50 px-1 py-0.5 rounded">SYNAPSEOS_AGENTIC_PASSWORD</code> &mdash; basic auth password.</li>
+      <li><code class="text-xs bg-slate-50 px-1 py-0.5 rounded">SYNAPSEOS_AGENTIC_ENABLED</code> &mdash; set to <code class="text-xs">true</code> to enable.</li>
+    </ul>
+    <%= link_to 'Open Installation Configs',
+                super_admin_installation_configs_path,
+                class: 'inline-flex items-center px-3 py-1.5 bg-woot-500 text-white text-sm rounded hover:bg-woot-600' %>
+  </div>
+</section>

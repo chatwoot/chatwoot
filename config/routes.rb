@@ -673,6 +673,10 @@ Rails.application.routes.draw do
 
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :show, :destroy]
+
+      namespace :synapseos do
+        resources :clients, only: [:index, :show], param: :slug
+      end
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'
