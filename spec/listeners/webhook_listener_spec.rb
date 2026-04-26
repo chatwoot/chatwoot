@@ -156,7 +156,10 @@ describe WebhookListener do
 
         expect(WebhookJob).to receive(:perform_later).with(
           webhook.url,
-          conversation.webhook_data.merge(
+          {
+            account: conversation.account.webhook_data,
+            conversation: conversation.webhook_data,
+            inbox: inbox.webhook_data,
             event: 'conversation_updated',
             changed_attributes: [
               {
@@ -166,7 +169,7 @@ describe WebhookListener do
                 }
               }
             ]
-          ),
+          },
           :account_webhook,
           secret: webhook.secret, delivery_id: instance_of(String)
         ).once
