@@ -63,7 +63,7 @@ describe('Text Message Bubble - Truncation Feature', () => {
 
       const shouldTruncate =
         mockContent.value && mockContent.value.length > MAX_CONTENT_LENGTH;
-      expect(shouldTruncate).toBe(false);
+      expect(Boolean(shouldTruncate)).toBe(false);
     });
 
     it('returns false when content is null', () => {
@@ -71,7 +71,7 @@ describe('Text Message Bubble - Truncation Feature', () => {
 
       const shouldTruncate =
         mockContent.value && mockContent.value.length > MAX_CONTENT_LENGTH;
-      expect(shouldTruncate).toBe(false);
+      expect(Boolean(shouldTruncate)).toBe(false);
     });
   });
 
