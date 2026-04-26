@@ -128,20 +128,25 @@ class Synapseos::ChatwootMirror
     bot = AgentBot.where(account_id: @account.id, squadron_role: slug).first_or_initialize
     before = bot.persisted? ? { name: bot.name, description: bot.description } : nil
 
-    apply_agent_bot_attrs(bot, slug, cfg)
     # Don't touch outgoing_url: an operator may have set it manually. PR8
     # will own credential/webhook URL syncing once that flow is designed.
-    bot.mark_synapseos_enabled! if bot.persisted? && bot.synapseos_disabled?
+    apply_agent_bot_attrs(bot, slug, cfg)
 
     persist_agent_bot(bot, slug, before)
   end
 
+  # Stamps the desired in-memory attributes on the bot WITHOUT saving. We
+  # deliberately overwrite description (even when the bot is currently
+  # soft-disabled) so re-enabling a bot from YAML produces a normal dirty
+  # diff that persist_agent_bot can record as :agent_bot_synced/:updated.
+  # Saving here would clear dirty tracking and the audit trail would lose
+  # the before/after snapshot.
   def apply_agent_bot_attrs(bot, slug, cfg)
     desired_name = cfg['persona_full'].to_s
     desired_description = "Synapse OS — #{slug.capitalize}"
 
     bot.name = desired_name if desired_name.present?
-    bot.description = desired_description if !bot.synapseos_disabled? || bot.description.blank?
+    bot.description = desired_description
     bot.account_id = @account.id
     bot.squadron_role = slug
   end

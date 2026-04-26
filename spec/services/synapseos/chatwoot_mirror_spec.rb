@@ -108,8 +108,20 @@ RSpec.describe Synapseos::ChatwootMirror do
       otto = AgentBot.find_by(account_id: account.id, squadron_role: 'otto')
       expect(otto.synapseos_disabled?).to be true
 
-      described_class.new(account: account, client_yaml: base_yaml).sync_agent_bots
+      svc = described_class.new(account: account, client_yaml: base_yaml)
+      svc.sync_agent_bots
       expect(otto.reload.synapseos_disabled?).to be false
+
+      # Re-enable must produce an :updated audit entry (not a :noop) so the
+      # mirror's actions log captures the description transition. Regression
+      # guard for Devin review: previous code called mark_synapseos_enabled!
+      # which saved + cleared dirty tracking before persist_agent_bot ran.
+      action = svc.instance_variable_get(:@actions)
+                  .select { |a| a[:kind] == :agent_bot_synced && a[:target] == otto.id }
+                  .last
+      expect(action[:status]).to eq(:updated)
+      expect(action[:before][:description]).to start_with('[DISABLED]')
+      expect(action[:after][:description]).to eq('Synapse OS — Otto')
     end
   end
 

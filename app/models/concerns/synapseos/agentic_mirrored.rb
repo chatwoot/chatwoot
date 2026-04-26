@@ -8,7 +8,7 @@
 module Synapseos::AgenticMirrored
   extend ActiveSupport::Concern
 
-  DISABLED_PREFIX = '[DISABLED] '
+  DISABLED_PREFIX = '[DISABLED]'
 
   # Roles supported by the agentic-side ClientConfig YAML. Superset of the
   # original 7-role Esquadrão (alice, iza, luis, otto, fernanda, angela,
@@ -24,12 +24,14 @@ module Synapseos::AgenticMirrored
   def mark_synapseos_disabled!
     return if synapseos_disabled?
 
-    update!(description: "#{DISABLED_PREFIX}#{description}".strip)
+    new_desc = description.present? ? "#{DISABLED_PREFIX} #{description}" : DISABLED_PREFIX
+    update!(description: new_desc)
   end
 
   def mark_synapseos_enabled!
     return unless synapseos_disabled?
 
-    update!(description: description.sub(DISABLED_PREFIX, '').strip)
+    stripped = description.to_s.sub(/\A#{Regexp.escape(DISABLED_PREFIX)}\s?/, '')
+    update!(description: stripped.presence)
   end
 end
