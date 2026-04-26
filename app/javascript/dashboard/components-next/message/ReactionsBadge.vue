@@ -5,8 +5,9 @@ import { useMessageContext } from './provider.js';
 const { contentAttributes } = useMessageContext();
 
 const reactions = computed(() => {
-  const raw = contentAttributes.value?.external_reactions
-    ?? contentAttributes.value?.externalReactions;
+  const raw =
+    contentAttributes.value?.external_reactions ??
+    contentAttributes.value?.externalReactions;
   if (!raw || typeof raw !== 'object') return [];
 
   return Object.values(raw)
