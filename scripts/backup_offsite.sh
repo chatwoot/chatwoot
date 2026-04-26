@@ -25,6 +25,20 @@
 
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# Carrega .env do projeto pra que POSTGRES_USERNAME / POSTGRES_DB e outras
+# variáveis batam com o que o docker-compose subiu. Sem isso, pg_dump cairia
+# nos defaults (`postgres` / `chatwoot_production`) e quebraria em deploys
+# com credenciais customizadas.
+if [[ -f "$PROJECT_DIR/.env" ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  source "$PROJECT_DIR/.env"
+  set +a
+fi
+
 RCLONE_REMOTE="${RCLONE_REMOTE:-offsite}"
 RCLONE_BUCKET="${RCLONE_BUCKET:-synapseos-backups}"
 COMPOSE_FILE="${COMPOSE_FILE:-docker-compose.prod.yml}"
@@ -34,8 +48,6 @@ ALERT_SLACK_WEBHOOK="${ALERT_SLACK_WEBHOOK:-}"
 
 DATESTAMP="$(date +%F_%H%M)"
 STAGING_DIR="$(mktemp -d /tmp/synapseos-backup-XXXX)"
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 cleanup() { rm -rf "$STAGING_DIR"; }
 trap cleanup EXIT

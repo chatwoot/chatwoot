@@ -292,6 +292,55 @@ domínio, cria a primeira conta via wizard (que dispara
 contrato, 7 AgentBots do esquadrão, custom attributes), e a partir
 daí ela pode operar sem DevOps.
 
+### 5.9 (Opcional) Dexi Gateway — integrações com portais
+
+**Quando habilitar:** cliente que precisa receber leads de **Meta Lead Ads,
+Google Lead Forms, formulário de site ou WhatsApp Business Cloud** e
+empurrá-los pro CRM Syonet **e** pro Chatwoot (pra disparar o N8N AgentBot).
+Cliente sem essa demanda **não roda o gateway** — o Chatwoot funciona igual.
+
+O gateway é um serviço Python isolado em `services/dexi-gateway/`, com
+docker-compose próprio (não depende do `docker-compose.prod.yml` principal).
+Sobe redis/postgres dedicados (ports 6379/5432 internos do gateway, sem
+colidir com os do Chatwoot principal porque o `docker-compose.prod.yml`
+não expõe essas portas no host).
+
+```bash
+cd /opt/synapseos-core/services/dexi-gateway
+cp .env.example .env
+
+# preencher pelo menos:
+#   META_APP_SECRET, GOOGLE_SHARED_SECRET, SITE_SHARED_SECRET (ou WHATSAPP_APP_SECRET)
+#   SYONET_BASE_URL, SYONET_USER, SYONET_PASSWORD, SYONET_COMPANY_ID
+#   OPENAI_API_KEY (ou outro provider via LLM_PROVIDER_MODEL)
+#   CHATWOOT_ENABLED=true
+#   CHATWOOT_BASE_URL=https://chatwoot.cliente.com.br
+#   CHATWOOT_API_TOKEN=<access_token de um agente/bot admin com permissão de criar conversas>
+#   CHATWOOT_DEFAULT_INBOX_ID=<inbox onde os leads de portal entram>
+#   CHATWOOT_WEBHOOK_SECRET=<openssl rand -hex 32>
+
+docker compose up -d
+```
+
+No Caddy, adicionar um virtual host extra apontando pra porta 8080 do
+gateway (subdomínio típico: `gateway.cliente.com.br`):
+
+```
+gateway.cliente.com.br {
+    reverse_proxy localhost:8080
+}
+```
+
+No painel Chatwoot do cliente, configurar Webhook Integration apontando
+pra `https://gateway.cliente.com.br/webhooks/chatwoot/{tenant_id}` (Ponte B —
+status do atendimento volta pro Syonet automaticamente).
+
+**Pegada:** o Chatwoot upstream não envia HMAC nativo no webhook. Em produção,
+restringir o path `/webhooks/chatwoot/*` no Caddy a IPs do Chatwoot
+(`@chatwoot remote_ip <ip-do-chatwoot>`).
+
+Detalhes completos em `services/dexi-gateway/README.md`.
+
 ---
 
 ## 6. Rotina de atualização (quem faz o quê)

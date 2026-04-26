@@ -1,0 +1,185 @@
+"""API FastAPI – webhooks de entrada."""
+
+from __future__ import annotations
+
+import hashlib
+import logging
+
+from fastapi import FastAPI, Header, HTTPException, Query, Request, status
+from fastapi.responses import JSONResponse
+
+from .adapters import chatwoot as chatwoot_adapter
+from .adapters import google as google_adapter
+from .adapters import meta as meta_adapter
+from .adapters import site as site_adapter
+from .adapters import whatsapp as whatsapp_adapter
+from .config import get_settings
+from .dedup import seen_recently
+from .hmac_utils import verify_sha256
+from .logging_conf import configure_logging
+from .models.lead import NormalizedLead
+from .worker import process_lead, update_lead_status
+
+log = logging.getLogger(__name__)
+
+configure_logging(get_settings().log_level)
+app = FastAPI(title="Dexi Gateway", version="0.1.0")
+
+
+@app.get("/healthz")
+def healthz() -> dict[str, str]:
+    return {"status": "ok", "env": get_settings().dexi_env}
+
+
+@app.get("/readyz")
+def readyz() -> dict[str, str]:
+    return {"status": "ready"}
+
+
+# ---------- Meta Lead Ads ----------
+@app.get("/webhooks/meta")
+def meta_verify(
+    hub_mode: str | None = Query(default=None, alias="hub.mode"),
+    hub_challenge: str | None = Query(default=None, alias="hub.challenge"),
+    hub_verify_token: str | None = Query(default=None, alias="hub.verify_token"),
+) -> JSONResponse:
+    """Handshake de verificação do Facebook Webhooks.
+
+    Meta envia os parâmetros com ponto (`hub.mode`, `hub.challenge`, `hub.verify_token`),
+    por isso mapeamos via `alias=`.
+    """
+    _ = hub_verify_token  # reserva: validar contra META_VERIFY_TOKEN quando for configurado
+    if hub_mode == "subscribe" and hub_challenge:
+        return JSONResponse(content=int(hub_challenge) if hub_challenge.isdigit() else hub_challenge)
+    raise HTTPException(status_code=400, detail="invalid verify request")
+
+
+@app.post("/webhooks/meta/{tenant_id}", status_code=status.HTTP_202_ACCEPTED)
+async def meta_webhook(tenant_id: str, request: Request, x_hub_signature_256: str | None = Header(default=None)) -> dict:
+    body = await request.body()
+    settings = get_settings()
+    if not settings.dexi_mock_mode and not verify_sha256(settings.meta_app_secret, body, x_hub_signature_256):
+        raise HTTPException(status_code=401, detail="invalid HMAC")
+    payload = await _json(request, body)
+    lead = meta_adapter.normalize(payload, tenant_id)
+    return _enqueue(lead)
+
+
+# ---------- Google Lead Form ----------
+@app.post("/webhooks/google/{tenant_id}", status_code=status.HTTP_202_ACCEPTED)
+async def google_webhook(tenant_id: str, request: Request, x_signature: str | None = Header(default=None)) -> dict:
+    body = await request.body()
+    settings = get_settings()
+    if not settings.dexi_mock_mode and not verify_sha256(settings.google_shared_secret, body, x_signature):
+        raise HTTPException(status_code=401, detail="invalid HMAC")
+    payload = await _json(request, body)
+    lead = google_adapter.normalize(payload, tenant_id)
+    return _enqueue(lead)
+
+
+# ---------- Site / LP ----------
+@app.post("/webhooks/site/{tenant_id}", status_code=status.HTTP_202_ACCEPTED)
+async def site_webhook(tenant_id: str, request: Request, x_signature: str | None = Header(default=None)) -> dict:
+    body = await request.body()
+    settings = get_settings()
+    if not settings.dexi_mock_mode and not verify_sha256(settings.site_shared_secret, body, x_signature):
+        raise HTTPException(status_code=401, detail="invalid HMAC")
+    payload = await _json(request, body)
+    lead = site_adapter.normalize(payload, tenant_id)
+    return _enqueue(lead)
+
+
+# ---------- WhatsApp Business Cloud ----------
+@app.post("/webhooks/whatsapp/{tenant_id}", status_code=status.HTTP_202_ACCEPTED)
+async def whatsapp_webhook(tenant_id: str, request: Request, x_hub_signature_256: str | None = Header(default=None)) -> dict:
+    body = await request.body()
+    settings = get_settings()
+    if not settings.dexi_mock_mode and not verify_sha256(settings.whatsapp_app_secret, body, x_hub_signature_256):
+        raise HTTPException(status_code=401, detail="invalid HMAC")
+    payload = await _json(request, body)
+    lead = whatsapp_adapter.normalize(payload, tenant_id)
+    return _enqueue(lead)
+
+
+# ---------- Chatwoot status updates (Ponte B) ----------
+@app.post("/webhooks/chatwoot/{tenant_id}", status_code=status.HTTP_202_ACCEPTED)
+async def chatwoot_webhook(
+    tenant_id: str,
+    request: Request,
+    x_chatwoot_signature: str | None = Header(default=None),
+) -> dict:
+    """Recebe eventos do Chatwoot e enfileira atualização do Syonet quando relevante.
+
+    Configurar no painel do cliente: Settings → Integrations → Webhooks →
+    URL = `https://gateway.cliente/webhooks/chatwoot/{tenant_id}`
+    com header `X-Chatwoot-Signature` = HMAC-SHA256(body, CHATWOOT_WEBHOOK_SECRET).
+    """
+    body = await request.body()
+    settings = get_settings()
+    if not settings.dexi_mock_mode and not verify_sha256(
+        settings.chatwoot_webhook_secret, body, x_chatwoot_signature
+    ):
+        raise HTTPException(status_code=401, detail="invalid HMAC")
+
+    payload = await _json(request, body)
+    update = chatwoot_adapter.normalize(payload, tenant_id)
+    if update is None:
+        log.info("chatwoot.webhook_ignored", extra={"tenant_id": tenant_id, "event": payload.get("event")})
+        return {"status": "ignored"}
+
+    try:
+        update_lead_status.delay(update.model_dump(mode="json"))
+    except Exception as exc:
+        log.error("chatwoot.enqueue_failed", extra={"tenant_id": tenant_id, "error": str(exc)})
+        raise HTTPException(status_code=503, detail="queue unavailable") from exc
+
+    log.info(
+        "chatwoot.status_enqueued",
+        extra={
+            "tenant_id": tenant_id,
+            "conversation_id": update.conversation_id,
+            "event": update.event.value,
+        },
+    )
+    return {"status": "accepted", "event": update.event.value, "conversation_id": update.conversation_id}
+
+
+# ---------- helpers ----------
+async def _json(request: Request, body: bytes) -> dict:
+    if not body:
+        return {}
+    try:
+        return await request.json()
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=f"invalid JSON: {exc}") from exc
+
+
+def _hash_external_id(external_id: str) -> str:
+    """Hash estável e curto para log (LGPD): não deve expor email/CPF/telefone em plaintext."""
+    return hashlib.sha256(external_id.encode("utf-8")).hexdigest()[:12]
+
+
+def _enqueue(lead: NormalizedLead) -> dict:
+    ext_id_hash = _hash_external_id(lead.customer.external_id)
+    if seen_recently(lead.tenant_id, lead.customer.external_id):
+        log.info("lead.dedup_suppressed", extra={"tenant_id": lead.tenant_id, "external_id_hash": ext_id_hash})
+        return {"status": "deduplicated", "lead_id": lead.lead_id}
+
+    try:
+        process_lead.delay(lead.model_dump(mode="json"))
+    except Exception as exc:
+        log.error(
+            "lead.enqueue_failed",
+            extra={"lead_id": lead.lead_id, "tenant_id": lead.tenant_id, "error": str(exc)},
+        )
+        raise HTTPException(status_code=503, detail="queue unavailable") from exc
+    log.info(
+        "lead.enqueued",
+        extra={
+            "lead_id": lead.lead_id,
+            "tenant_id": lead.tenant_id,
+            "channel": lead.channel,
+            "external_id_hash": ext_id_hash,
+        },
+    )
+    return {"status": "accepted", "lead_id": lead.lead_id}
