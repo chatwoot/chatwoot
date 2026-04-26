@@ -22,7 +22,7 @@
 class SynapseosAgenticDeploymentLog < ApplicationRecord
   self.table_name = 'synapseos_agentic_deployment_logs'
 
-  ACTIONS = %w[create update delete deploy undeploy build restore_snapshot].freeze
+  ACTIONS = %w[create update delete deploy undeploy build restore_snapshot sync_whatsapp_credential].freeze
   STATUSES = %w[success failure].freeze
 
   validates :slug, presence: true
