@@ -104,6 +104,10 @@ class ActionCableListener < BaseListener
       user: user.push_event_data,
       is_private: event.data[:is_private] || false
     )
+    return unless conversation.inbox.whatsapp? && conversation.inbox.channel.provider == 'whatsapp_cloud'
+
+    phone_number = conversation.contact_inbox.source_id
+    conversation.inbox.channel.send_typing_indicator(phone_number)
   end
 
   def conversation_typing_off(event)

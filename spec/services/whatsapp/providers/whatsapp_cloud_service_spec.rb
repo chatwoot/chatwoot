@@ -399,5 +399,24 @@ describe Whatsapp::Providers::WhatsappCloudService do
         expect(Whatsapp::CsatTemplateService).to have_received(:new).once
       end
     end
+
+    describe '#send_typing_indicator' do
+      it 'sends typing indicator to the WhatsApp Cloud API' do
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .with(
+            body: {
+              messaging_product: 'whatsapp',
+              recipient_type: 'individual',
+              to: '+123456789',
+              type: 'typing_indicator',
+              typing_indicator: { type: 'text' }
+            }.to_json
+          )
+          .to_return(status: 200, body: { success: true }.to_json, headers: response_headers)
+
+        response = service.send_typing_indicator('+123456789')
+        expect(response.code).to eq(200)
+      end
+    end
   end
 end

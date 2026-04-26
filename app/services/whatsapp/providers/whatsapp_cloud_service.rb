@@ -79,6 +79,20 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     "#{api_base_path}/v13.0/#{media_id}"
   end
 
+  def send_typing_indicator(phone_number)
+    HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        recipient_type: 'individual',
+        to: phone_number,
+        type: 'typing_indicator',
+        typing_indicator: { type: 'text' }
+      }.to_json
+    )
+  end
+
   private
 
   def csat_template_service
