@@ -9,6 +9,17 @@
 # precisa das portas 80/443 abertas + DNS já apontado pro IP da VPS).
 
 chatwoot.cliente.com.br {
+    # Synapseos Agentic panel (opt-in) — só tem efeito se o profile `agentic`
+    # estiver subido. Se o container não existir, retorna 502 — esperado.
+    handle_path /_agentic/* {
+        reverse_proxy 127.0.0.1:8000 {
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+
     reverse_proxy localhost:3000 {
         # WebSocket / ActionCable
         header_up Host {host}

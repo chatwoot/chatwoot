@@ -9,6 +9,7 @@ module Synapseos::Agentic
 
   CONFIG_KEYS = %w[
     SYNAPSEOS_AGENTIC_URL
+    SYNAPSEOS_AGENTIC_PANEL_URL
     SYNAPSEOS_AGENTIC_USER
     SYNAPSEOS_AGENTIC_PASSWORD
     SYNAPSEOS_AGENTIC_ENABLED
@@ -18,6 +19,7 @@ module Synapseos::Agentic
     def config
       {
         url: read('SYNAPSEOS_AGENTIC_URL'),
+        panel_url: read('SYNAPSEOS_AGENTIC_PANEL_URL').presence || read('SYNAPSEOS_AGENTIC_URL'),
         user: read('SYNAPSEOS_AGENTIC_USER'),
         password: read('SYNAPSEOS_AGENTIC_PASSWORD'),
         enabled: ActiveModel::Type::Boolean.new.cast(read('SYNAPSEOS_AGENTIC_ENABLED'))

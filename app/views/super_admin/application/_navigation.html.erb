@@ -44,14 +44,15 @@ as defined by the routes in the `admin/` namespace
       <% end %>
       <%
         # Defensive: never let a config read or route lookup take down a super_admin page.
-        # Wraps everything (config + url helper) so any failure mode just hides the link.
         synapseos_nav_url = nil
+        synapseos_panel_url = nil
         begin
           if defined?(Synapseos::Agentic)
             cfg = Synapseos::Agentic.config rescue {}
             if cfg[:enabled] && cfg[:url].present?
               synapseos_nav_url = super_admin_synapseos_clients_url rescue nil
             end
+            synapseos_panel_url = cfg[:panel_url].presence
           end
         rescue StandardError => e
           Rails.logger.warn("[super_admin nav] hidden: #{e.class} #{e.message}")
@@ -64,6 +65,18 @@ as defined by the routes in the `admin/` namespace
                      url: synapseos_nav_url,
                      label: 'Synapse Agents'
                    } %>
+      <% end %>
+      <% if synapseos_panel_url %>
+        <li class="px-4 mb-1">
+          <%= link_to(synapseos_panel_url,
+                      target: '_blank',
+                      rel: 'noopener noreferrer',
+                      class: 'text-slate-800 -ml-1 focus:outline-none cursor-pointer flex items-center px-2 py-1.5 hover:text-woot-500 hover:bg-slate-25 rounded-lg') do %>
+            <svg width="16" height="16"><use xlink:href="#icon-apps-2-line" /></svg>
+            <span class="ml-2 text-sm">Synapse Agentic Panel</span>
+            <svg width="12" height="12" class="ml-auto opacity-60"><use xlink:href="#icon-apps-2-line" /></svg>
+          <% end %>
+        </li>
       <% end %>
       <%= render 'settings_menu', open: settings_open? %>
     </ul>

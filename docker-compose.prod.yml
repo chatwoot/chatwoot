@@ -129,6 +129,41 @@ services:
       timeout: 5s
       retries: 5
 
+  # ---- Synapseos Agentic (opt-in) ------------------------------------------
+  # Painel FastAPI/Celery do `dexidigital/synapseos-agentic` rodando ao lado
+  # do Chatwoot. Compose isolado: usa profile `agentic` pra não subir por
+  # default. Pra ativar: `docker compose --profile agentic up -d`.
+  #
+  # Configurações no .env do Chatwoot (super_admin → Installation Configs):
+  #   SYNAPSEOS_AGENTIC_URL=http://agentic:8000        (interno, container-to-container)
+  #   SYNAPSEOS_AGENTIC_PANEL_URL=https://chatwoot.cliente.com.br/_agentic/
+  #   SYNAPSEOS_AGENTIC_USER=admin
+  #   SYNAPSEOS_AGENTIC_PASSWORD=...
+  #   SYNAPSEOS_AGENTIC_ENABLED=true
+  #
+  # Caddy (docker/Caddyfile.example) roteia `/_agentic/*` pro container abaixo.
+  agentic:
+    profiles: ["agentic"]
+    image: ${SYNAPSEOS_AGENTIC_IMAGE:-ghcr.io/dexidigital/synapseos-agentic:latest}
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      N8N_BASE_URL: ${N8N_BASE_URL:-http://n8n:5678}
+      N8N_API_KEY: ${N8N_API_KEY}
+      PANEL_ADMIN_USER: ${SYNAPSEOS_AGENTIC_USER:-admin}
+      PANEL_ADMIN_PASSWORD: ${SYNAPSEOS_AGENTIC_PASSWORD:-change-me}
+    ports:
+      - "127.0.0.1:8000:8000"   # bind apenas em loopback; Caddy faz o proxy público
+    volumes:
+      - agentic_data:/data
+      - agentic_clients:/app/clients
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
 volumes:
   # `storage` compartilhado entre web e worker — crítico pra mídia outbound
   # (AgentBot/Avisa) funcionar sem S3. Ambos os serviços leem/escrevem
@@ -137,3 +172,5 @@ volumes:
   public_packs:
   postgres_data:
   redis_data:
+  agentic_data:
+  agentic_clients:
