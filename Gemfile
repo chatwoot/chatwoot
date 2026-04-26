@@ -71,6 +71,7 @@ gem 'activerecord-import'
 gem 'searchkick'
 gem 'opensearch-ruby'
 gem 'faraday_middleware-aws-sigv4'
+gem 'faraday-retry'
 
 ##--- gems for server & infra configuration ---##
 gem 'dotenv-rails', '>= 3.0.0'
