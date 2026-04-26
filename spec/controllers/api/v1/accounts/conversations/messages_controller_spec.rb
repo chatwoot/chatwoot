@@ -109,6 +109,8 @@ RSpec.describe 'Conversation Messages API', type: :request do
     end
 
     context 'when it is an authenticated agent bot' do
+     
+
       let!(:agent_bot) { create(:agent_bot) }
 
       it 'creates a new outgoing message' do
@@ -124,6 +126,22 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.count).to eq(1)
         expect(conversation.messages.first.content).to eq(params[:content])
       end
+
+      context 'when disable_message_delete is enabled' do
+      before do
+        # Enable the setting for the account
+        account.update!(settings: { disable_message_delete: true })
+      end
+
+      it 'returns forbidden' do
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:forbidden) # Or :unprocessable_entity
+        expect(message.reload.deleted).to be false # Verify the message was NOT deleted
+      end
+    end
 
       it 'creates a new outgoing input select message' do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
