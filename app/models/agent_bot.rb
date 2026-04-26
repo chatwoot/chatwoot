@@ -23,11 +23,14 @@ class AgentBot < ApplicationRecord
   include Avatarable
 
   include WebhookSecretable
+  include Synapseos::AgenticMirrored
 
-  # CUSTOMIZAÇÃO_SYNAPSEOS: os 7 papéis canônicos do Esquadrão Synapse.
+  # CUSTOMIZAÇÃO_SYNAPSEOS: os 7 papéis canônicos do Esquadrão Synapse + a
+  # persona auxiliar `natalia` usada por verticais específicas (mantida no
+  # superset AGENTIC_ROLES da concern Synapseos::AgenticMirrored).
   # Obrigatório em bots criados via API /agent_bots (opcional no modelo pra
   # não quebrar bots sistêmicos/legados sem o campo).
-  SQUADRON_ROLES = %w[alice iza luis otto fernanda angela vitor].freeze
+  SQUADRON_ROLES = Synapseos::AgenticMirrored::AGENTIC_ROLES
 
   scope :accessible_to, lambda { |account|
     account_id = account&.id
