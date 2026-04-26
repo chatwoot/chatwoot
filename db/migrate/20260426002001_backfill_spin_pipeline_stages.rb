@@ -15,6 +15,17 @@ class BackfillSpinPipelineStages < ActiveRecord::Migration[7.1]
     }
 
     slug_map.each do |old_slug, new_slug|
+      # If new code ran before this migration, the seeder may have already
+      # created stages with the target slug. Remove those duplicates first
+      # to avoid unique-index violations on (account_id, slug).
+      execute <<~SQL.squish
+        DELETE FROM synapseos_pipeline_stages
+        WHERE slug = '#{new_slug}'
+          AND account_id IN (
+            SELECT account_id FROM synapseos_pipeline_stages WHERE slug = '#{old_slug}'
+          )
+      SQL
+
       execute <<~SQL.squish
         UPDATE synapseos_pipeline_stages
         SET slug = '#{new_slug}', name = '#{name_map[new_slug]}'
