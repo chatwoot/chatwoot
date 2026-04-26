@@ -75,17 +75,15 @@ class Synapseos::SyncWhatsappCredentialJob < ApplicationJob
   end
 
   def write_audit_failure(channel, slug, result)
-    unless defined?(SynapseosAgenticDeploymentLog)
-      Rails.logger.warn('synapseos.credential_sync_audit_skipped: SynapseosAgenticDeploymentLog model not defined (PR5 not landed)')
-      return
-    end
+    return unless defined?(SynapseosAgenticDeploymentLog)
 
     SynapseosAgenticDeploymentLog.create!(
       slug: slug,
+      account_id: channel.account_id,
       action: AUDIT_ACTION,
       status: 'failure',
       error_message: "#{result.kind}: #{result.message}",
-      metadata: { channel_id: channel.id, details: result.details }
+      result_summary: { channel_id: channel.id, details: result.details }
     )
   end
 end

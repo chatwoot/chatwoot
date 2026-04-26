@@ -121,7 +121,7 @@ RSpec.describe Synapseos::SyncWhatsappCredentialJob do
       expect(channel.reload.provider_config['synapseos_credential_id']).to be_nil
     end
 
-    it 'skips audit write when SynapseosAgenticDeploymentLog is undefined' do
+    it 'no-ops the audit write when the log model is not loaded (PR5 not yet merged)' do
       channel = create(:channel_whatsapp, account: account, provider: 'avisa',
                                           provider_config: { 'api_key' => 'avisa_key', 'base_url' => 'https://www.avisaapi.com.br' },
                                           validate_provider_config: false, sync_templates: false)
@@ -129,7 +129,6 @@ RSpec.describe Synapseos::SyncWhatsappCredentialJob do
         .and_return(failure_result(:unauthorized, 'Invalid credentials'))
 
       expect(Rails.logger).to receive(:error)
-      expect(Rails.logger).to receive(:warn).with(/credential_sync_audit_skipped/)
       expect { described_class.new.perform(channel.id) }.not_to raise_error
     end
   end
