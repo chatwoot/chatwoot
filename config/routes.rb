@@ -675,7 +675,16 @@ Rails.application.routes.draw do
       resources :account_users, only: [:new, :create, :show, :destroy]
 
       namespace :synapseos do
-        resources :clients, only: [:index, :show, :new, :create, :edit, :update, :destroy], param: :slug
+        resources :clients, only: [:index, :show, :new, :create, :edit, :update, :destroy], param: :slug do
+          member do
+            post :deploy
+            post :undeploy
+            post :build
+            get :deploy_status, path: 'status'
+            get :snapshots
+            post :restore_snapshot
+          end
+        end
       end
     end
     authenticated :super_admin do

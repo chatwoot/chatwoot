@@ -1,0 +1,44 @@
+<% if logs.empty? %>
+  <div class="p-4 bg-slate-50 rounded text-sm text-slate-600 text-center">
+    Nenhuma atividade registrada ainda.
+  </div>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Quando</th>
+        <th scope="col">Ação</th>
+        <th scope="col">Status</th>
+        <th scope="col">Super-admin</th>
+        <th scope="col">Detalhes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% logs.each do |log| %>
+        <tr>
+          <td class="cell-data"><%= log.created_at.strftime('%Y-%m-%d %H:%M:%S') %></td>
+          <td class="cell-data"><span class="<%= synapseos_action_chip(log.action) %>"><%= log.action %></span></td>
+          <td class="cell-data"><span class="<%= synapseos_status_pill(log.status) %>"><%= log.status %></span></td>
+          <td class="cell-data">
+            <% if log.super_admin_id.present? %>
+              <%= link_to "##{log.super_admin_id}",
+                          super_admin_user_path(log.super_admin_id),
+                          class: 'text-woot-500 hover:underline text-xs' %>
+            <% else %>
+              <span class="text-slate-500 text-xs">—</span>
+            <% end %>
+          </td>
+          <td class="cell-data text-xs">
+            <% if log.error_message.present? %>
+              <span class="text-red-700"><%= log.error_message %></span>
+            <% elsif log.action == 'restore_snapshot' && log.payload.is_a?(Hash) && log.payload['snapshot_id'].present? %>
+              <code class="text-xs">snapshot=<%= log.payload['snapshot_id'] %></code>
+            <% else %>
+              <span class="text-slate-500">—</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

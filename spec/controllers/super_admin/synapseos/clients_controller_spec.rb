@@ -382,4 +382,197 @@ RSpec.describe 'Super Admin Synapseos clients', type: :request do
       end
     end
   end
+
+  describe 'Deploy / undeploy / build / status / snapshots / restore (Fase 2.3)' do
+    before { configure_agentic! }
+
+    describe 'POST /super_admin/synapseos/clients/:slug/deploy' do
+      it 'happy path: calls deploy, audits success, redirects with poll flash' do
+        deploy_response = { 'slug' => 'acme', 'agents_workflows' => { 'sales' => ['wf-1'] }, 'status' => 'deployed' }
+        stub_request(:post, "#{base_url}/api/clients/acme/deploy")
+          .to_return(status: 200, body: deploy_response.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
+        sign_in(super_admin, scope: :super_admin)
+
+        expect do
+          post '/super_admin/synapseos/clients/acme/deploy'
+        end.to change(SynapseosAgenticDeploymentLog, :count).by(1)
+
+        expect(response).to redirect_to(super_admin_synapseos_client_path(slug: 'acme'))
+        expect(flash[:notice]).to include('Deploy iniciado')
+        expect(flash[:poll_status]).to be(true)
+
+        log = SynapseosAgenticDeploymentLog.last
+        expect(log.action).to eq('deploy')
+        expect(log.status).to eq('success')
+        expect(log.slug).to eq('acme')
+      end
+
+      it 'agentic_offline: audits failure and flashes error' do
+        stub_request(:post, "#{base_url}/api/clients/acme/deploy")
+          .to_raise(Faraday::ConnectionFailed.new('connection refused'))
+
+        sign_in(super_admin, scope: :super_admin)
+
+        expect do
+          post '/super_admin/synapseos/clients/acme/deploy'
+        end.to change(SynapseosAgenticDeploymentLog, :count).by(1)
+
+        expect(response).to redirect_to(super_admin_synapseos_client_path(slug: 'acme'))
+        expect(flash[:error]).to include('Falhou')
+
+        log = SynapseosAgenticDeploymentLog.last
+        expect(log.action).to eq('deploy')
+        expect(log.status).to eq('failure')
+      end
+    end
+
+    describe 'POST /super_admin/synapseos/clients/:slug/undeploy' do
+      it 'happy path: calls undeploy, audits success, redirects' do
+        stub_request(:post, "#{base_url}/api/clients/acme/undeploy")
+          .to_return(status: 200, body: { slug: 'acme', removed: %w[wf-1 wf-2] }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
+        sign_in(super_admin, scope: :super_admin)
+
+        expect do
+          post '/super_admin/synapseos/clients/acme/undeploy'
+        end.to change(SynapseosAgenticDeploymentLog, :count).by(1)
+
+        expect(response).to redirect_to(super_admin_synapseos_client_path(slug: 'acme'))
+        expect(SynapseosAgenticDeploymentLog.last.action).to eq('undeploy')
+        expect(SynapseosAgenticDeploymentLog.last.status).to eq('success')
+      end
+    end
+
+    describe 'POST /super_admin/synapseos/clients/:slug/build' do
+      it 'happy path: calls build, audits success, flashes' do
+        build_response = { slug: 'acme', path: '/tmp/build', files: ['a.json', 'b.json'] }
+        stub_request(:post, "#{base_url}/api/clients/acme/build")
+          .to_return(status: 200, body: build_response.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
+        sign_in(super_admin, scope: :super_admin)
+
+        expect do
+          post '/super_admin/synapseos/clients/acme/build'
+        end.to change(SynapseosAgenticDeploymentLog, :count).by(1)
+
+        expect(response).to redirect_to(super_admin_synapseos_client_path(slug: 'acme'))
+        expect(flash[:notice]).to include('Build')
+
+        log = SynapseosAgenticDeploymentLog.last
+        expect(log.action).to eq('build')
+        expect(log.status).to eq('success')
+      end
+    end
+
+    describe 'GET /super_admin/synapseos/clients/:slug/status' do
+      it 'returns JSON with status and deployed flag' do
+        client_payload = { 'slug' => 'acme', 'status' => 'deployed', 'deployed' => true,
+                           'workflows' => { 'sales' => ['wf-1'] } }
+        stub_request(:get, "#{base_url}/api/clients/acme")
+          .to_return(status: 200, body: client_payload.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
+        sign_in(super_admin, scope: :super_admin)
+        get '/super_admin/synapseos/clients/acme/status', as: :json
+
+        expect(response).to have_http_status(:success)
+        body = response.parsed_body
+        expect(body['status']).to eq('deployed')
+        expect(body['deployed']).to be(true)
+        expect(body['workflows']).to eq('sales' => ['wf-1'])
+      end
+
+      it 'returns 502 with error message when agentic is offline' do
+        stub_request(:get, "#{base_url}/api/clients/acme")
+          .to_raise(Faraday::ConnectionFailed.new('connection refused'))
+
+        sign_in(super_admin, scope: :super_admin)
+        get '/super_admin/synapseos/clients/acme/status', as: :json
+
+        expect(response).to have_http_status(:bad_gateway)
+        body = response.parsed_body
+        expect(body['status']).to eq('error')
+      end
+    end
+
+    describe 'GET /super_admin/synapseos/clients/:slug/snapshots' do
+      let(:snapshots_payload) do
+        [
+          { 'id' => '20260424-120000', 'ts' => '2026-04-24T12:00:00Z', 'size' => 2048 },
+          { 'id' => '20260423-100000', 'ts' => '2026-04-23T10:00:00Z', 'size' => 1024 }
+        ]
+      end
+
+      it 'JSON returns the array of snapshots' do
+        stub_request(:get, "#{base_url}/api/clients/acme/snapshots")
+          .to_return(status: 200, body: snapshots_payload.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
+        sign_in(super_admin, scope: :super_admin)
+        get '/super_admin/synapseos/clients/acme/snapshots', as: :json
+
+        expect(response).to have_http_status(:success)
+        body = response.parsed_body
+        expect(body.length).to eq(2)
+        expect(body.first['id']).to eq('20260424-120000')
+      end
+
+      it 'HTML renders the history view' do
+        stub_request(:get, "#{base_url}/api/clients/acme/snapshots")
+          .to_return(status: 200, body: snapshots_payload.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
+        sign_in(super_admin, scope: :super_admin)
+        get '/super_admin/synapseos/clients/acme/snapshots'
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('20260424-120000')
+        expect(response.body).to include('Snapshots')
+      end
+    end
+
+    describe 'POST /super_admin/synapseos/clients/:slug/restore_snapshot' do
+      it 'audits the action and redirects to history tab on success' do
+        stub_request(:post, "#{base_url}/api/clients/acme/snapshots/20260424-120000/restore")
+          .to_return(status: 200, body: { slug: 'acme' }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
+        sign_in(super_admin, scope: :super_admin)
+
+        expect do
+          post '/super_admin/synapseos/clients/acme/restore_snapshot',
+               params: { snapshot_id: '20260424-120000' }
+        end.to change(SynapseosAgenticDeploymentLog, :count).by(1)
+
+        expect(response).to redirect_to(
+          super_admin_synapseos_client_path(slug: 'acme', tab: 'history')
+        )
+
+        log = SynapseosAgenticDeploymentLog.last
+        expect(log.action).to eq('restore_snapshot')
+        expect(log.status).to eq('success')
+        expect(log.payload).to eq('snapshot_id' => '20260424-120000')
+      end
+
+      it 'flashes an error and redirects when restore fails' do
+        stub_request(:post, "#{base_url}/api/clients/acme/snapshots/bad/restore")
+          .to_return(status: 404, body: { detail: 'snapshot not found' }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
+        sign_in(super_admin, scope: :super_admin)
+        post '/super_admin/synapseos/clients/acme/restore_snapshot',
+             params: { snapshot_id: 'bad' }
+
+        expect(response).to redirect_to(
+          super_admin_synapseos_client_path(slug: 'acme', tab: 'history')
+        )
+        expect(flash[:error]).to include('Restore falhou')
+        expect(SynapseosAgenticDeploymentLog.last.status).to eq('failure')
+      end
+    end
+  end
 end
