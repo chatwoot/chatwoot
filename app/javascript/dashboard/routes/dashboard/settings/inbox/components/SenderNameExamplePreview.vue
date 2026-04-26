@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useMapGetter } from 'dashboard/composables/store.js';
+import { useBranding } from 'shared/composables/useBranding';
 import Avatar from 'next/avatar/Avatar.vue';
 import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 
@@ -23,10 +23,8 @@ const props = defineProps({
 const emit = defineEmits(['update']);
 
 const { t } = useI18n();
-const globalConfig = useMapGetter('globalConfig/get');
-const installationName = computed(
-  () => globalConfig.value?.installationName || 'Synapse OS'
-);
+const { replaceInstallationName } = useBranding();
+const installationName = computed(() => replaceInstallationName('Chatwoot'));
 
 const senderNameKeyOptions = computed(() => [
   {

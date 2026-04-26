@@ -33,11 +33,11 @@ ALERT_EMAIL="${ALERT_EMAIL:-}"
 ALERT_SLACK_WEBHOOK="${ALERT_SLACK_WEBHOOK:-}"
 
 DATESTAMP="$(date +%F_%H%M)"
-TMPDIR="$(mktemp -d /tmp/synapseos-backup-XXXX)"
+STAGING_DIR="$(mktemp -d /tmp/synapseos-backup-XXXX)"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-cleanup() { rm -rf "$TMPDIR"; }
+cleanup() { rm -rf "$STAGING_DIR"; }
 trap cleanup EXIT
 
 send_alert() {
@@ -50,9 +50,11 @@ send_alert() {
   fi
 
   if [[ -n "$ALERT_SLACK_WEBHOOK" ]]; then
+    local payload
+    payload=$(jq -n --arg text ":rotating_light: *Backup FAILED* on \`$hostname\`\n$msg" '{text: $text}')
     curl -s -X POST "$ALERT_SLACK_WEBHOOK" \
       -H 'Content-Type: application/json' \
-      -d "{\"text\":\":rotating_light: *Backup FAILED* on \`$hostname\`\n$msg\"}" \
+      -d "$payload" \
       >/dev/null 2>&1 || true
   fi
 }
@@ -62,7 +64,7 @@ echo "=== Synapse OS backup started at $(date -Iseconds) ==="
 cd "$PROJECT_DIR"
 
 # 1. Postgres dump
-PG_FILE="$TMPDIR/pg_${DATESTAMP}.sql.gz"
+PG_FILE="$STAGING_DIR/pg_${DATESTAMP}.sql.gz"
 echo "[1/4] Dumping Postgres..."
 if ! docker compose -f "$COMPOSE_FILE" exec -T postgres \
   pg_dump -U "${POSTGRES_USERNAME:-postgres}" "${POSTGRES_DB:-chatwoot_production}" \
@@ -73,14 +75,14 @@ fi
 echo "  -> $(du -h "$PG_FILE" | cut -f1)"
 
 # 2. ActiveStorage tar
-STORAGE_FILE="$TMPDIR/storage_${DATESTAMP}.tar.gz"
+STORAGE_FILE="$STAGING_DIR/storage_${DATESTAMP}.tar.gz"
 echo "[2/4] Archiving ActiveStorage volume..."
 VOLUME_NAME="$(docker volume ls --format '{{.Name}}' | grep -E 'storage$' | head -1)"
 if [[ -z "$VOLUME_NAME" ]]; then
   echo "  WARNING: storage volume not found, skipping."
 else
   if ! docker run --rm -v "${VOLUME_NAME}:/data:ro" \
-    -v "$TMPDIR:/backup" alpine \
+    -v "$STAGING_DIR:/backup" alpine \
     tar czf "/backup/storage_${DATESTAMP}.tar.gz" -C /data .; then
     send_alert "Storage archive failed."
     exit 1
@@ -91,7 +93,7 @@ fi
 # 3. Push to remote
 REMOTE_PATH="${RCLONE_REMOTE}:${RCLONE_BUCKET}/${DATESTAMP}"
 echo "[3/4] Uploading to ${REMOTE_PATH}..."
-if ! rclone copy "$TMPDIR" "$REMOTE_PATH" --progress --transfers 4; then
+if ! rclone copy "$STAGING_DIR" "$REMOTE_PATH" --progress --transfers 4; then
   send_alert "rclone upload to ${REMOTE_PATH} failed."
   exit 1
 fi
