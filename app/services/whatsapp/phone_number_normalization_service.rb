@@ -10,28 +10,74 @@ class Whatsapp::PhoneNumberNormalizationService
   #   - Cloud: "5541988887777" (clean number)
   #   - Twilio: "whatsapp:+5541988887777" (prefixed format)
   # @param provider [Symbol] :cloud or :twilio
-  # @return [String] Existing normalized source_id, or normalized provider format if no contact exists
+  # @return [String] Existing source_id if found, otherwise original incoming raw_number
   def normalize_and_find_contact_by_provider(raw_number, provider)
-    # Extract clean number based on provider format
     clean_number = extract_clean_number(raw_number, provider)
 
-    # Find appropriate normalizer for the country
     normalizer = find_normalizer_for_country(clean_number)
     return raw_number unless normalizer
 
-    # Normalize the clean number
-    normalized_clean_number = normalizer.normalize(clean_number)
+    possible_numbers = possible_numbers_for(clean_number, normalizer)
 
-    # Format for provider and check for existing contact
-    provider_format = format_for_provider(normalized_clean_number, provider)
-    existing_contact_inbox = find_existing_contact_inbox(provider_format)
+    possible_numbers.each do |possible_number|
+      provider_format = format_for_provider(possible_number, provider)
+      existing_contact_inbox = find_existing_contact_inbox(provider_format)
 
-    existing_contact_inbox&.source_id || provider_format
+      return existing_contact_inbox.source_id if existing_contact_inbox
+    end
+
+    raw_number
   end
 
   private
 
   attr_reader :inbox
+
+  def possible_numbers_for(clean_number, normalizer)
+    numbers = [clean_number, normalizer.normalize(clean_number)]
+
+    if normalizer.is_a?(Whatsapp::PhoneNormalizers::BrazilPhoneNormalizer)
+      numbers.concat(brazil_possible_numbers(clean_number))
+    elsif normalizer.is_a?(Whatsapp::PhoneNormalizers::ArgentinaPhoneNormalizer)
+      numbers.concat(argentina_possible_numbers(clean_number))
+    end
+
+    numbers.compact.uniq
+  end
+
+  def brazil_possible_numbers(clean_number)
+    return [] unless clean_number.start_with?('55')
+
+    country_code = clean_number[0, 2]
+    area_code = clean_number[2, 2]
+    subscriber_number = clean_number[4..]
+
+    return [] if area_code.blank? || subscriber_number.blank?
+
+    possible_numbers = []
+
+    if clean_number.length == 12
+      possible_numbers << "#{country_code}#{area_code}9#{subscriber_number}"
+    elsif clean_number.length == 13 && clean_number[4] == '9'
+      possible_numbers << "#{country_code}#{area_code}#{clean_number[5..]}"
+    end
+
+    possible_numbers
+  end
+
+  def argentina_possible_numbers(clean_number)
+    return [] unless clean_number.start_with?('54')
+
+    possible_numbers = []
+
+    if clean_number.start_with?('549')
+      possible_numbers << clean_number.sub(/^549/, '54')
+    else
+      possible_numbers << clean_number.sub(/^54/, '549')
+    end
+
+    possible_numbers
+  end
 
   def find_normalizer_for_country(waid)
     NORMALIZERS.map(&:new)
