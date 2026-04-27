@@ -120,16 +120,16 @@ export class EmailQuoteExtractor {
 
       // Skip very long text nodes for quote detection to avoid regex performance issues
       // and catastrophic backtracking
-      if (!content || content.length > MAX_TEXT_NODE_LENGTH) {
-        continue;
-      }
+      if (content && content.length <= MAX_TEXT_NODE_LENGTH) {
+        const isQuoteLike = QUOTE_PATTERNS.some(pattern =>
+          pattern.test(content)
+        );
 
-      const isQuoteLike = QUOTE_PATTERNS.some(pattern => pattern.test(content));
-
-      if (isQuoteLike) {
-        const parentBlock = this.findParentBlock(currentNode);
-        if (parentBlock && !quoteBlocks.includes(parentBlock)) {
-          quoteBlocks.push(parentBlock);
+        if (isQuoteLike) {
+          const parentBlock = this.findParentBlock(currentNode);
+          if (parentBlock && !quoteBlocks.includes(parentBlock)) {
+            quoteBlocks.push(parentBlock);
+          }
         }
       }
     }
