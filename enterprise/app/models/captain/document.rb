@@ -117,6 +117,10 @@ class Captain::Document < ApplicationRecord
     end
   end
 
+  def to_llm_metadata
+    { document_id: id, assistant_id: assistant_id, external_link: external_link }
+  end
+
   private
 
   def enqueue_crawl_job
