@@ -756,7 +756,6 @@ function createEditorView() {
         // PM keeps its selection on blur — clear the menu flags manually.
         isTextSelected.value = false;
         editorRoot.value?.classList.remove('has-selection');
-        showSelectionMenu.value = false;
         emit('blur');
       },
       paste: (view, event) => {
