@@ -30,6 +30,10 @@ RSpec.describe Messages::WebhookContentNormalizer do
       expect(described_class.normalize("line one\nline two")).to eq("line one\nline two")
     end
 
+    it 'strips trailing CRLF newlines without leaving dangling carriage returns' do
+      expect(described_class.normalize("hello\r\n\r\n")).to eq('hello')
+    end
+
     it 'handles both hard line breaks and trailing newlines together' do
       expect(described_class.normalize("hello\\\nworld\n\n\n")).to eq("hello\nworld")
     end

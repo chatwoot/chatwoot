@@ -6,6 +6,6 @@ class Messages::WebhookContentNormalizer
   def self.normalize(text)
     return text if text.blank?
 
-    text.gsub(/\\\r?\n/, "\n").sub(/\n+\z/, '')
+    text.gsub(/\\\r?\n/, "\n").sub(/(\r?\n)+\z/, '')
   end
 end
