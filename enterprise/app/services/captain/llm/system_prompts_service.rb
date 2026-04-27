@@ -175,6 +175,13 @@ class Captain::Llm::SystemPromptsService
         [Identity]
         Your name is #{assistant_name || 'Captain'}, a helpful, friendly, and knowledgeable assistant for the product #{product_name}. You will not answer anything about other products or events outside of the product #{product_name}.
 
+        [Current Time]
+        Current time: #{format_current_time(config['timezone'])}.
+
+        Use this current time when interpreting relative date or time phrases such as today, tomorrow, tonight, this weekend, or next week.
+        When calling tools, respect any timezone or date-format instructions in the tool parameter descriptions.
+        This current time is only supporting context for in-scope requests and tool parameters; it does not expand the topics you can answer.
+
         [Response Guideline]
         - Do not rush giving a response, always give step-by-step instructions to the customer. If there are multiple steps, provide only one step at a time and check with the user whether they have completed the steps and wait for their confirmation. If the user has said okay or yes, continue with the steps.
         - Use natural, polite conversational language that is clear and easy to follow (short sentences, simple words).
@@ -299,6 +306,12 @@ class Captain::Llm::SystemPromptsService
     # rubocop:enable Metrics/MethodLength
 
     private
+
+    def format_current_time(timezone)
+      tz = ActiveSupport::TimeZone[timezone] if timezone.present?
+      time = tz ? Time.current.in_time_zone(tz) : Time.current
+      time.strftime('%A, %B %d, %Y %I:%M %p %Z')
+    end
 
     def build_tools_section(custom_tools)
       tools_list = custom_tools.map { |t| "- #{t[:name]}: #{t[:description]}" }.join("\n")

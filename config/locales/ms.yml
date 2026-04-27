@@ -435,16 +435,12 @@ ms:
     button: Open conversation
   time_units:
     days:
-      one: '%{count} days'
       other: '%{count} days'
     hours:
-      one: '%{count} hours'
       other: '%{count} hours'
     minutes:
-      one: '%{count} minutes'
       other: '%{count} minutes'
     seconds:
-      one: '%{count} seconds'
       other: '%{count} seconds'
   auto_assignment:
     default_policy_name: 'Default Policy'
