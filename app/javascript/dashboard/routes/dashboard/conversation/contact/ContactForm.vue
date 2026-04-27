@@ -16,6 +16,9 @@ import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 const validSocialProfileUsername = value =>
   !value || /^[A-Za-z0-9._-]+$/.test(value);
 
+const validLinkedInUsername = value =>
+  !value || /^[A-Za-z0-9._/-]+$/.test(value);
+
 export default {
   components: {
     NextButton,
@@ -90,7 +93,7 @@ export default {
     socialProfileUserNames: {
       facebook: { validSocialProfileUsername },
       twitter: { validSocialProfileUsername },
-      linkedin: { validSocialProfileUsername },
+      linkedin: { validLinkedInUsername },
       github: { validSocialProfileUsername },
       telegram: { validSocialProfileUsername },
       instagram: { validSocialProfileUsername },
@@ -440,11 +443,7 @@ export default {
           v-if="v$.socialProfileUserNames[socialProfile.key].$error"
           class="mt-1 text-xs text-red-500"
         >
-          {{
-            $t('CONTACT_FORM.FORM.SOCIAL_PROFILE.INVALID_USERNAME', {
-              platform: socialProfile.key,
-            })
-          }}
+          {{ $t('CONTACT_FORM.ERROR_MESSAGE') }}
         </p>
       </div>
     </div>
