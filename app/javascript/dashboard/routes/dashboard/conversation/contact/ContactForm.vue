@@ -426,21 +426,25 @@ export default {
           <span
             class="flex items-center h-10 px-2 text-sm border-solid border-y ltr:border-l rtl:border-r ltr:rounded-l-md rtl:rounded-r-md bg-n-solid-3 text-n-slate-11 border-n-weak"
           >
-          {{ socialProfile.prefixURL }}
+            {{ socialProfile.prefixURL }}
           </span>
           <input
             v-model="socialProfileUserNames[socialProfile.key]"
-            @input="v$.socialProfileUserNames[socialProfile.key].$touch()"
-            @blur="v$.socialProfileUserNames[socialProfile.key].$touch()"
             class="input-group-field ltr:!rounded-l-none rtl:!rounded-r-none !mb-0"
             type="text"
+            @input="v$.socialProfileUserNames[socialProfile.key].$touch()"
+            @blur="v$.socialProfileUserNames[socialProfile.key].$touch()"
           />
         </div>
         <p
           v-if="v$.socialProfileUserNames[socialProfile.key].$error"
           class="mt-1 text-xs text-red-500"
         >
-          Invalid {{ socialProfile.key }} username
+          {{
+            $t('CONTACT_FORM.FORM.SOCIAL_PROFILE.INVALID_USERNAME', {
+              platform: socialProfile.key,
+            })
+          }}
         </p>
       </div>
     </div>
