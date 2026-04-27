@@ -93,6 +93,7 @@
       "ASSIGN_AGENT": "Piešķirt Aģentu",
       "ADD_LABEL": "Pievienot Etiķeti",
       "REMOVE_LABEL": "Noņemt Etiķeti",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "Noņemt Piešķirto Komandu",
       "SEND_EMAIL_TRANSCRIPT": "Nosūtīt uz E-pastu Transkriptu",
       "MUTE_CONVERSATION": "Izslēgt Sarunu",

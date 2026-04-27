@@ -112,9 +112,33 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
       uiFlags: 'inboxes/getUIFlags',
       portals: 'portals/allPortals',
     }),
+    isInboundEmailEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.INBOUND_EMAILS
+      );
+    },
+    showContinuityToggle() {
+      if (this.isInboundEmailEnabled) return true;
+      return this.isOnChatwootCloud;
+    },
+    isContinuityDisabled() {
+      return this.isOnChatwootCloud && !this.isInboundEmailEnabled;
+    },
+    continuityDescription() {
+      if (this.isContinuityDisabled) {
+        return this.$t(
+          'INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT'
+        );
+      }
+      return this.$t(
+        'INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT'
+      );
+    },
     selectedTabKey() {
       return this.tabs[this.selectedTabIndex]?.key;
     },
@@ -542,7 +566,8 @@ export default {
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
-            continuity_via_email: this.continuityViaEmail,
+            continuity_via_email:
+              this.isInboundEmailEnabled && this.continuityViaEmail,
           },
         };
         if (this.avatarFile) {
@@ -1148,15 +1173,15 @@ export default {
               />
 
               <SettingsToggleSection
-                v-if="isAWebWidgetInbox"
+                v-if="isAWebWidgetInbox && showContinuityToggle"
                 v-model="continuityViaEmail"
                 :header="
                   $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL')
                 "
-                :description="
-                  $t(
-                    'INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT'
-                  )
+                :description="continuityDescription"
+                :hide-toggle="isContinuityDisabled"
+                :class="
+                  isContinuityDisabled ? 'cursor-not-allowed opacity-50' : ''
                 "
               />
             </SettingsAccordion>

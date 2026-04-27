@@ -63,6 +63,16 @@
         "ERROR_MESSAGE": "봇을 업데이트할 수 없습니다. 다시 시도하십시오."
       }
     },
+    "SECRET": {
+      "LABEL": "Webhook Secret",
+      "COPY": "시크릿을 클립보드에 복사",
+      "COPY_SUCCESS": "시크릿이 클립보드에 복사되었습니다",
+      "TOGGLE": "시크릿 표시 전환",
+      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
+      "DONE": "Done",
+      "RESET_SUCCESS": "Webhook secret regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+    },
     "ACCESS_TOKEN": {
       "TITLE": "액세스 토큰",
       "DESCRIPTION": "액세스 토큰을 복사하여 안전하게 보관하십시오.",

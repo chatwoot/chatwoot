@@ -358,6 +358,13 @@ Rails.application.routes.draw do
             resources :categories do
               post :reorder, on: :collection
             end
+            namespace :articles do
+              resource :bulk_actions, only: [] do
+                post :translate
+                patch :update_status
+                delete :delete_articles
+              end
+            end
             resources :articles do
               post :reorder, on: :collection
             end
@@ -625,6 +632,9 @@ Rails.application.routes.draw do
       root to: 'dashboard#index'
 
       resource :app_config, only: [:show, :create]
+      resource :push_diagnostics, only: [:show, :create] do
+        post :destroy_subscriptions, on: :collection
+      end
 
       # order of resources affect the order of sidebar navigation in super admin
       resources :accounts, only: [:index, :new, :create, :show, :edit, :update, :destroy] do

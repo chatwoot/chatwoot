@@ -161,8 +161,12 @@ const handleCreateArticle = event => {
   }
 
   .editor-root .has-selection {
+    .ProseMirror-menubar:not(:has(*)) {
+      display: none !important;
+    }
+
     .ProseMirror-menubar {
-      @apply h-8 rounded-lg !px-2 z-50 bg-n-solid-3 items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
+      @apply rounded-lg !px-3 !py-1.5 z-50 bg-n-background items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
       display: flex;
       top: var(--selection-top, auto) !important;
       left: var(--selection-left, 0) !important;
@@ -170,15 +174,10 @@ const handleCreateArticle = event => {
       position: absolute !important;
 
       .ProseMirror-menuitem {
-        @apply mr-0;
+        @apply ltr:mr-0 rtl:ml-0 size-4 flex items-center;
 
         .ProseMirror-icon {
-          @apply p-0 mt-0 !mr-0;
-
-          svg {
-            width: 20px !important;
-            height: 20px !important;
-          }
+          @apply p-0.5 flex-shrink-0 ltr:mr-2 rtl:ml-2;
         }
       }
 

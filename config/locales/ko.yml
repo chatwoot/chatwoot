@@ -37,6 +37,8 @@ ko:
     account:
       reporting_timezone:
         invalid: is not a valid timezone
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: 비어 있을 수 없습니다
     webhook:
@@ -52,6 +54,14 @@ ko:
       not_found: 배정 정책을 찾을 수 없습니다
     attachments:
       invalid: 유효하지 않은 첨부 파일
+    upload:
+      missing_input: 'No file or URL provided'
+      invalid_url: 'Invalid URL provided'
+      fetch_failed: 'Failed to fetch file from URL'
+      fetch_failed_with_message: 'Failed to fetch file from URL: %{message}'
+      file_too_large: 'File exceeds the maximum allowed size'
+      unsupported_content_type: 'File type not supported (only images and videos are allowed)'
+      unexpected: 'An unexpected error occurred'
     saml:
       feature_not_enabled: 이 계정에서는 SAML 기능이 활성화되지 않았습니다
       sso_not_enabled: 이 설치에서는 SAML SSO가 활성화되지 않았습니다

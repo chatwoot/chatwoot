@@ -114,8 +114,8 @@ const emit = defineEmits([
           </div>
           <div class="w-px h-4 bg-n-strong" />
           <ComposeConversation>
-            <template #trigger="{ toggle }">
-              <Button :label="buttonLabel" size="sm" @click="toggle" />
+            <template #trigger>
+              <Button :label="buttonLabel" size="sm" />
             </template>
           </ComposeConversation>
         </div>

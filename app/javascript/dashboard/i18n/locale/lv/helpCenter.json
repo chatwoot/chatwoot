@@ -698,7 +698,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "Papildu īpašības",
         "UNCATEGORIZED": "Bez kategorijas",
-        "EDITOR_PLACEHOLDER": "Uzrakstiet kaut ko..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Raksta īpašības",
