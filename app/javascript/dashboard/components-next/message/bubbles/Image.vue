@@ -17,7 +17,20 @@ const { t } = useI18n();
 const { filteredCurrentChatAttachments, attachments } = useMessageContext();
 
 const attachment = computed(() => {
-  return attachments.value[0];
+  const rawAttachment = attachments.value[0];
+  if (!rawAttachment) return null;
+
+  // Defensive programming: Catch the malformed http:/// protocol
+  // and convert it to a relative path so the browser can resolve it.
+  let normalizedUrl = rawAttachment.dataUrl;
+  if (normalizedUrl && normalizedUrl.startsWith('http:///')) {
+    normalizedUrl = normalizedUrl.replace('http://', '');
+  }
+
+  return {
+    ...rawAttachment,
+    dataUrl: normalizedUrl,
+  };
 });
 
 const { isLoaded, hasError, loadWithRetry } = useLoadWithRetry();
