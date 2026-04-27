@@ -61,8 +61,15 @@ class DataImport::ContactManager
   def update_contact_attributes(params, contact)
     contact.name = params[:name] if params[:name].present?
     contact.additional_attributes ||= {}
-    contact.additional_attributes[:company] = params[:company] if params[:company].present?
+
+    # FIX: Map 'company' from CSV to 'company_name' for UI consistency
+    company_value = params[:company_name] || params[:company]
+    contact.additional_attributes[:company_name] = company_value if company_value.present?
+
     contact.additional_attributes[:city] = params[:city] if params[:city].present?
-    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :email, :name, :phone_number)))
+
+    # Ensure we don't duplicate company/company_name/city in custom_attributes
+    filtered_params = params.except(:identifier, :email, :name, :phone_number, :company, :company_name, :city)
+    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(filtered_params))
   end
 end
