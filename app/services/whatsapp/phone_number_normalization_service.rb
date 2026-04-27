@@ -66,16 +66,9 @@ class Whatsapp::PhoneNumberNormalizationService
   end
 
   def argentina_possible_numbers(clean_number)
-    return [] unless clean_number.start_with?('54')
+    return [] unless clean_number.start_with?('549')
 
-    possible_number =
-      if clean_number.start_with?('549')
-        clean_number.sub(/^549/, '54')
-      else
-        clean_number.sub(/^54/, '549')
-      end
-
-    [possible_number]
+    [clean_number.sub(/^549/, '54')]
   end
 
   def find_normalizer_for_country(waid)
