@@ -269,6 +269,20 @@ export const mutations = {
       accounts,
     };
   },
+  [types.RESET_ONBOARDING](_state) {
+    const accounts = _state.currentUser.accounts.map(account => {
+      if (account.id === _state.currentUser.account_id) {
+        const { onboarding_step, ...rest } = account;
+        return rest;
+      }
+      return account;
+    });
+
+    _state.currentUser = {
+      ..._state.currentUser,
+      accounts,
+    };
+  },
   [types.CLEAR_USER](_state) {
     _state.currentUser = initialState.currentUser;
   },

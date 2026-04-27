@@ -57,4 +57,46 @@ describe('#mutations', () => {
       );
     });
   });
+  describe('#RESET_ONBOARDING', () => {
+    it('removes onboarding_step from the active account', () => {
+      const state = {
+        currentUser: {
+          id: 1,
+          account_id: 1,
+          accounts: [
+            {
+              id: 1,
+              onboarding_step: 'account_details',
+              role: 'administrator',
+            },
+          ],
+        },
+      };
+      mutations[types.RESET_ONBOARDING](state);
+      expect(state.currentUser.accounts[0]).not.toHaveProperty(
+        'onboarding_step'
+      );
+      expect(state.currentUser.accounts[0].role).toEqual('administrator');
+    });
+
+    it('leaves other accounts untouched', () => {
+      const state = {
+        currentUser: {
+          id: 1,
+          account_id: 1,
+          accounts: [
+            { id: 1, onboarding_step: 'account_details' },
+            { id: 2, onboarding_step: 'account_details' },
+          ],
+        },
+      };
+      mutations[types.RESET_ONBOARDING](state);
+      expect(state.currentUser.accounts[0]).not.toHaveProperty(
+        'onboarding_step'
+      );
+      expect(state.currentUser.accounts[1].onboarding_step).toEqual(
+        'account_details'
+      );
+    });
+  });
 });
