@@ -81,7 +81,7 @@ RSpec.describe SafeFetch do
         end
       end
 
-      it 'does not reuse embedded credentials after a redirect removes userinfo' do
+      it 'preserves embedded credentials after a same-origin redirect removes userinfo' do
         authenticated_url = 'http://user:pass@example.com/protected.png'
         initial_url = 'http://example.com/protected.png'
         redirect_url = 'http://example.com/public.png'
@@ -92,6 +92,36 @@ RSpec.describe SafeFetch do
           .to_return(
             status: 302,
             headers: { 'Location' => '/public.png' }
+          )
+        stub_request(:get, redirect_url)
+          .with do |request|
+            redirected_headers = request.headers.transform_keys(&:downcase)
+            true
+          end
+          .to_return(
+            status: 200,
+            body: File.new(Rails.root.join('spec/assets/avatar.png')),
+            headers: { 'Content-Type' => 'image/png' }
+          )
+
+        described_class.fetch(authenticated_url) do |result|
+          expect(result.content_type).to eq('image/png')
+        end
+
+        expect(redirected_headers).to include('authorization' => 'Basic dXNlcjpwYXNz')
+      end
+
+      it 'strips embedded credentials on cross-origin redirects' do
+        authenticated_url = 'http://user:pass@example.com/protected.png'
+        initial_url = 'http://example.com/protected.png'
+        redirect_url = 'https://example.com/public.png'
+        redirected_headers = nil
+
+        stub_request(:get, initial_url)
+          .with(headers: { 'Authorization' => 'Basic dXNlcjpwYXNz' })
+          .to_return(
+            status: 302,
+            headers: { 'Location' => redirect_url }
           )
         stub_request(:get, redirect_url)
           .with do |request|
