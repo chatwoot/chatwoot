@@ -139,7 +139,7 @@
     "husky": "^7.0.0",
     "jsdom": "^27.2.0",
     "lint-staged": "^16.2.7",
-    "postcss": "^8.4.47",
+    "postcss": "^8.5.10",
     "postcss-preset-env": "^8.5.1",
     "prettier": "^3.3.3",
     "prosemirror-model": "^1.22.3",
