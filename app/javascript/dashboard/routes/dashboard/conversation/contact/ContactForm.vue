@@ -13,6 +13,9 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 
+const validSocialProfileUsername = value =>
+  !value || /^[A-Za-z0-9._-]+$/.test(value);
+
 export default {
   components: {
     NextButton,
@@ -59,6 +62,8 @@ export default {
         linkedin: '',
         github: '',
         telegram: '',
+        instagram: '',
+        tiktok: '',
       },
       socialProfileKeys: [
         { key: 'facebook', prefixURL: 'https://facebook.com/' },
@@ -66,6 +71,7 @@ export default {
         { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
         { key: 'github', prefixURL: 'https://github.com/' },
         { key: 'telegram', prefixURL: 'https://t.me/' },
+        { key: 'instagram', prefixURL: 'https://instagram.com/' },
         { key: 'tiktok', prefixURL: 'https://tiktok.com/@' },
       ],
     };
@@ -81,6 +87,15 @@ export default {
     companyName: {},
     phoneNumber: {},
     bio: {},
+    socialProfileUserNames: {
+      facebook: { validSocialProfileUsername },
+      twitter: { validSocialProfileUsername },
+      linkedin: { validSocialProfileUsername },
+      github: { validSocialProfileUsername },
+      telegram: { validSocialProfileUsername },
+      instagram: { validSocialProfileUsername },
+      tiktok: { validSocialProfileUsername },
+    },
   },
   computed: {
     parsePhoneNumber() {
@@ -414,10 +429,18 @@ export default {
         </span>
         <input
           v-model="socialProfileUserNames[socialProfile.key]"
+          @input="v$.socialProfileUserNames[socialProfile.key].$touch()"
+          @blur="v$.socialProfileUserNames[socialProfile.key].$touch()"
           class="input-group-field ltr:!rounded-l-none rtl:!rounded-r-none !mb-0"
           type="text"
         />
       </div>
+      <p
+          v-if="v$.socialProfileUserNames[socialProfile.key].$error"
+          class="mt-1 text-xs text-red-500"
+        >
+          Invalid {{ socialProfile.key }} username
+        </p>
     </div>
     <div class="flex flex-row justify-start w-full gap-2 px-0 py-2">
       <NextButton
