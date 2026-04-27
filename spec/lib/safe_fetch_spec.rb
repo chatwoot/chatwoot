@@ -65,58 +65,75 @@ RSpec.describe SafeFetch do
       end
     end
 
+    context 'with embedded basic auth credentials' do
+      it 'passes decoded credentials to the request' do
+        authenticated_url = 'http://user+avatar%40example.com:p%40ss+word%3A1@example.com/image.png'
+        stub_request(:get, url)
+          .with(headers: { 'Authorization' => 'Basic dXNlcithdmF0YXJAZXhhbXBsZS5jb206cEBzcyt3b3JkOjE=' })
+          .to_return(
+            status: 200,
+            body: File.new(Rails.root.join('spec/assets/avatar.png')),
+            headers: { 'Content-Type' => 'image/png' }
+          )
+
+        described_class.fetch(authenticated_url) do |result|
+          expect(result.content_type).to eq('image/png')
+        end
+      end
+    end
+
     context 'with URL validation' do
       it 'raises InvalidUrlError for javascript: URLs' do
         expect { described_class.fetch('javascript:alert(1)') { nil } }
-          .to raise_error(SafeFetch::InvalidUrlError)
+          .to raise_error(described_class::InvalidUrlError)
       end
 
       it 'raises InvalidUrlError for mailto: URLs' do
         expect { described_class.fetch('mailto:test@example.com') { nil } }
-          .to raise_error(SafeFetch::InvalidUrlError)
+          .to raise_error(described_class::InvalidUrlError)
       end
 
       it 'raises InvalidUrlError for data: URLs' do
         expect { described_class.fetch('data:text/html,<x>') { nil } }
-          .to raise_error(SafeFetch::InvalidUrlError)
+          .to raise_error(described_class::InvalidUrlError)
       end
 
       it 'raises InvalidUrlError for ftp: URLs' do
         expect { described_class.fetch('ftp://example.com/file') { nil } }
-          .to raise_error(SafeFetch::InvalidUrlError)
+          .to raise_error(described_class::InvalidUrlError)
       end
 
       it 'raises InvalidUrlError for malformed URLs' do
         expect { described_class.fetch('not_a_url') { nil } }
-          .to raise_error(SafeFetch::InvalidUrlError)
+          .to raise_error(described_class::InvalidUrlError)
       end
 
       it 'raises InvalidUrlError when host is missing' do
         expect { described_class.fetch('http:///path') { nil } }
-          .to raise_error(SafeFetch::InvalidUrlError, /missing host/)
+          .to raise_error(described_class::InvalidUrlError, /missing host/)
       end
     end
 
     context 'with SSRF protection (integration with ssrf_filter)' do
       it 'raises UnsafeUrlError for private IP literals (10.x.x.x)' do
         expect { described_class.fetch('http://10.0.0.1/secret') { nil } }
-          .to raise_error(SafeFetch::UnsafeUrlError)
+          .to raise_error(described_class::UnsafeUrlError)
       end
 
       it 'raises UnsafeUrlError for loopback addresses' do
         expect { described_class.fetch('http://127.0.0.1/secret') { nil } }
-          .to raise_error(SafeFetch::UnsafeUrlError)
+          .to raise_error(described_class::UnsafeUrlError)
       end
 
       it 'raises UnsafeUrlError for AWS metadata IP (169.254.169.254)' do
         expect { described_class.fetch('http://169.254.169.254/latest/meta-data/') { nil } }
-          .to raise_error(SafeFetch::UnsafeUrlError)
+          .to raise_error(described_class::UnsafeUrlError)
       end
 
       it 'raises UnsafeUrlError when hostname resolves to a private IP (DNS rebinding)' do
         allow(Resolv).to receive(:getaddresses).with('evil.example.com').and_return(['10.0.0.1'])
         expect { described_class.fetch('http://evil.example.com/secret') { nil } }
-          .to raise_error(SafeFetch::UnsafeUrlError)
+          .to raise_error(described_class::UnsafeUrlError)
       end
     end
 
@@ -129,7 +146,7 @@ RSpec.describe SafeFetch do
         )
 
         expect { described_class.fetch(url) { nil } }
-          .to raise_error(SafeFetch::UnsupportedContentTypeError)
+          .to raise_error(described_class::UnsupportedContentTypeError)
       end
 
       it 'rejects application/octet-stream responses' do
@@ -140,7 +157,7 @@ RSpec.describe SafeFetch do
         )
 
         expect { described_class.fetch(url) { nil } }
-          .to raise_error(SafeFetch::UnsupportedContentTypeError)
+          .to raise_error(described_class::UnsupportedContentTypeError)
       end
 
       it 'allows video/mp4 responses' do
@@ -153,21 +170,56 @@ RSpec.describe SafeFetch do
         expect { described_class.fetch(url) { nil } }.not_to raise_error
       end
 
-      it 'strips charset/boundary parameters before comparing' do
+      it 'normalizes parameters and casing before yielding content_type' do
         stub_request(:get, url).to_return(
           status: 200,
           body: 'x',
-          headers: { 'Content-Type' => 'image/png; charset=binary' }
+          headers: { 'Content-Type' => 'IMAGE/PNG; charset=binary' }
         )
 
-        expect { described_class.fetch(url) { nil } }.not_to raise_error
+        described_class.fetch(url) do |result|
+          expect(result.content_type).to eq('image/png')
+        end
+      end
+
+      it 'allows exact content-type matches when prefixes are empty' do
+        pdf_url = 'http://example.com/file.pdf'
+        stub_request(:get, pdf_url).to_return(
+          status: 200,
+          body: 'pdf-data',
+          headers: { 'Content-Type' => 'application/pdf' }
+        )
+
+        expect do
+          described_class.fetch(
+            pdf_url,
+            allowed_content_type_prefixes: [],
+            allowed_content_types: ['application/pdf']
+          ) { nil }
+        end.not_to raise_error
+      end
+
+      it 'rejects exact content-type mismatches when prefixes are empty' do
+        stub_request(:get, url).to_return(
+          status: 200,
+          body: 'x',
+          headers: { 'Content-Type' => 'image/webp' }
+        )
+
+        expect do
+          described_class.fetch(
+            url,
+            allowed_content_type_prefixes: [],
+            allowed_content_types: ['image/png']
+          ) { nil }
+        end.to raise_error(described_class::UnsupportedContentTypeError)
       end
 
       it 'rejects when the content-type header is missing' do
         stub_request(:get, url).to_return(status: 200, body: 'x', headers: {})
 
         expect { described_class.fetch(url) { nil } }
-          .to raise_error(SafeFetch::UnsupportedContentTypeError)
+          .to raise_error(described_class::UnsupportedContentTypeError)
       end
     end
 
@@ -180,7 +232,7 @@ RSpec.describe SafeFetch do
         )
 
         expect { described_class.fetch(url, max_bytes: 2) { nil } }
-          .to raise_error(SafeFetch::FileTooLargeError)
+          .to raise_error(described_class::FileTooLargeError)
       end
 
       it 'reads the default cap from GlobalConfigService MAXIMUM_FILE_UPLOAD_SIZE (matching Attachment#validate_file_size)' do
@@ -195,7 +247,7 @@ RSpec.describe SafeFetch do
         )
 
         expect { described_class.fetch(url) { nil } }
-          .to raise_error(SafeFetch::FileTooLargeError)
+          .to raise_error(described_class::FileTooLargeError)
       end
 
       it 'falls back to 40 MB when GlobalConfigService returns a non-positive value' do
@@ -234,14 +286,14 @@ RSpec.describe SafeFetch do
         stub_request(:get, url).to_raise(Net::ReadTimeout)
 
         expect { described_class.fetch(url) { nil } }
-          .to raise_error(SafeFetch::FetchError)
+          .to raise_error(described_class::FetchError)
       end
 
       it 'maps SocketError to FetchError' do
         stub_request(:get, url).to_raise(SocketError.new('connection refused'))
 
         expect { described_class.fetch(url) { nil } }
-          .to raise_error(SafeFetch::FetchError)
+          .to raise_error(described_class::FetchError)
       end
     end
 
@@ -250,7 +302,7 @@ RSpec.describe SafeFetch do
         stub_request(:get, url).to_return(status: 404, body: '', headers: {})
 
         expect { described_class.fetch(url) { nil } }
-          .to raise_error(SafeFetch::HttpError, /404/)
+          .to raise_error(described_class::HttpError, /404/)
       end
     end
   end
