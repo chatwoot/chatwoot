@@ -3,6 +3,7 @@ import { computed, useTemplateRef, ref, onMounted } from 'vue';
 import { Letter } from 'vue-letter';
 import { sanitizeTextForRender } from '@chatwoot/utils';
 import { allowedCssProperties } from 'lettersanitizer';
+import DOMPurify from 'dompurify';
 
 import Icon from 'next/icon/Icon.vue';
 import { EmailQuoteExtractor } from 'dashboard/helper/emailQuoteExtractor.js';
@@ -23,10 +24,17 @@ const isExpandable = ref(false);
 const isExpanded = ref(false);
 const showQuotedMessage = ref(false);
 const renderOriginal = ref(false);
+const renderError = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
 
 onMounted(() => {
   isExpandable.value = contentContainer.value?.scrollHeight > 400;
+});
+
+onErrorCaptured((error) => {
+  console.error('Error rendering email content:', error);
+  renderError.value = true;
+  return false; // Prevent error from propagating
 });
 
 const isOutgoing = computed(() => messageType.value === MESSAGE_TYPES.OUTGOING);
@@ -43,8 +51,10 @@ const originalEmailText = computed(() => {
 
 const originalEmailHtml = computed(
   () =>
-    contentAttributes?.value?.email?.htmlContent?.full ||
-    originalEmailText.value
+    DOMPurify.sanitize(
+      contentAttributes?.value?.email?.htmlContent?.full ||
+        originalEmailText.value
+    )
 );
 
 const hasEmailContent = computed(() => {
@@ -82,7 +92,7 @@ const fullHTML = computed(() => {
 });
 
 const unquotedHTML = computed(() =>
-  EmailQuoteExtractor.extractQuotes(fullHTML.value)
+  DOMPurify.sanitize(EmailQuoteExtractor.extractQuotes(fullHTML.value))
 );
 
 const hasQuotedMessage = computed(() =>
@@ -149,8 +159,11 @@ const handleSeeOriginal = () => {
           :content="messageContent"
         />
         <template v-else>
+          <div v-if="renderError" class="text-n-slate-12">
+            {{ textToShow }}
+          </div>
           <Letter
-            v-if="showQuotedMessage"
+            v-else-if="showQuotedMessage"
             :key="`letter-quoted-${translationKeySuffix}`"
             class-name="prose prose-bubble !max-w-none letter-render"
             :allowed-css-properties="[
