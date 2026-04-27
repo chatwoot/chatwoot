@@ -177,7 +177,6 @@ class Captain::Llm::SystemPromptsService
 
         [Current Time]
         Current time: #{format_current_time(config['timezone'])}.
-        Timezone: #{config['timezone'] || 'UTC'}.
 
         Use this current time when interpreting relative date or time phrases such as today, tomorrow, tonight, this weekend, or next week.
         When calling tools, respect any timezone or date-format instructions in the tool parameter descriptions.
