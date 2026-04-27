@@ -34,8 +34,7 @@ onMounted(() => {
   isExpandable.value = contentContainer.value?.scrollHeight > 400;
 });
 
-onErrorCaptured(error => {
-  console.error('Error rendering email content:', error);
+onErrorCaptured(() => {
   renderError.value = true;
   return false; // Prevent error from propagating
 });
