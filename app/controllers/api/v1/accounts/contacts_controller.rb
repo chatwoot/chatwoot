@@ -16,10 +16,24 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes]
   before_action :set_include_contact_inboxes, only: [:index, :active, :search, :filter, :show, :update]
 
-  def index
-    @contacts = fetch_contacts(resolved_contacts)
-    @contacts_count = @contacts.total_count
-  end
+ 
+CONTACTS_PER_PAGE_OPTIONS = [15, 50, 100, 250, 500].freeze
+DEFAULT_CONTACTS_PER_PAGE = 15
+
+def index
+  @contacts = @account.contacts
+                       .order(:name)
+                       .page(params[:page])
+                       .per(validated_contacts_per_page)
+  
+end
+
+private
+
+def validated_contacts_per_page
+  requested = params[:per_page].to_i
+  CONTACTS_PER_PAGE_OPTIONS.include?(requested) ? requested : DEFAULT_CONTACTS_PER_PAGE
+end
 
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
