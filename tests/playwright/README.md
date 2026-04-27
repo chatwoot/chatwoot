@@ -6,7 +6,10 @@ End-to-end testing framework for Chatwoot using Component Object Model pattern.
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
+
+# Install Playwright browsers
+npx playwright install
 
 # Configure environment
 cp .env.example .env
@@ -18,19 +21,19 @@ Edit `.env` with your Chatwoot instance URL and credentials.
 
 ```bash
 # Run all tests
-npm run playwright:run
+pnpm run playwright:run
 
 # Run tests in UI mode
-npm run playwright:open
+pnpm run playwright:open
 
 # Generate test code
-npm run playwright:codegen
+pnpm run playwright:codegen
 ```
 
 ## Project Structure
 
 ```
-Playwright/
+tests/playwright/
 ├── components/
 │   ├── api/              # API interaction components
 │   └── ui/               # UI page objects
@@ -50,15 +53,4 @@ See [DOCS.md](./DOCS.md) for complete testing guide including patterns, conventi
 
 ## Configuration
 
-Required variables in `.env`:
-
-```json
-{
-  "BASE_URL": "http://localhost:3000",
-  "TEST_USER_EMAIL": "admin@chatwoot.com",
-  "TEST_USER_PASSWORD": "Password123@#",
-
-}
-```
-
-See `.env.example` for the template.
+See `.env.example` for the full list of variables.

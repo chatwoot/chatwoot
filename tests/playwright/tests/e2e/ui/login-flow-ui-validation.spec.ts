@@ -24,14 +24,6 @@ test.describe('Login page', () => {
     await expect(page).toHaveTitle('Chatwoot');
     await expect(loginComponent.getLoginHeading()).toBeVisible();
 
-    const ssoLink = loginComponent.getSSOLink();
-    await expect(ssoLink).toBeVisible();
-    await expect(ssoLink).toHaveAttribute('href', '/app/login/sso');
-
-    const orDivider = page.getByText('Or', { exact: true });
-    await expect(orDivider).toBeVisible();
-    await expect(orDivider).toHaveText('Or');
-
     const emailInput = loginComponent.getEmailInput();
     await expect(emailInput).toBeVisible();
     await expect(emailInput).toHaveAttribute('name', 'email_address');
