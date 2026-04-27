@@ -181,6 +181,7 @@ class Captain::Llm::SystemPromptsService
 
         Use this current time when interpreting relative date or time phrases such as today, tomorrow, tonight, this weekend, or next week.
         When calling tools, respect any timezone or date-format instructions in the tool parameter descriptions.
+        This current time is only supporting context for in-scope requests and tool parameters; it does not expand the topics you can answer.
 
         [Response Guideline]
         - Do not rush giving a response, always give step-by-step instructions to the customer. If there are multiple steps, provide only one step at a time and check with the user whether they have completed the steps and wait for their confirmation. If the user has said okay or yes, continue with the steps.
