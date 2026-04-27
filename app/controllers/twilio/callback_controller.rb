@@ -1,6 +1,4 @@
 class Twilio::CallbackController < ApplicationController
-  include TwilioSignatureVerifyConcern
-
   def create
     Webhooks::TwilioEventsJob.perform_later(permitted_params.to_unsafe_hash)
 
