@@ -15,7 +15,6 @@ const createConversation = params => {
       message: {
         content: params.message,
         timestamp: new Date().toString(),
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         referer_url: referrerURL,
       },
       custom_attributes: params.customAttributes,
@@ -31,7 +30,6 @@ const sendMessage = (content, replyTo, { customAttributes, labels } = {}) => {
       content,
       reply_to: replyTo,
       timestamp: new Date().toString(),
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       referer_url: referrerURL,
     },
   };

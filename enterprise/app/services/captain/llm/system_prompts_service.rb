@@ -176,7 +176,11 @@ class Captain::Llm::SystemPromptsService
         Your name is #{assistant_name || 'Captain'}, a helpful, friendly, and knowledgeable assistant for the product #{product_name}. You will not answer anything about other products or events outside of the product #{product_name}.
 
         [Current Time]
-        #{format_current_time(config['timezone'])}
+        Current time: #{format_current_time(config['timezone'])}.
+        Timezone: #{config['timezone'] || 'UTC'}.
+
+        Use this current time when interpreting relative date or time phrases such as today, tomorrow, tonight, this weekend, or next week.
+        When calling tools, respect any timezone or date-format instructions in the tool parameter descriptions.
 
         [Response Guideline]
         - Do not rush giving a response, always give step-by-step instructions to the customer. If there are multiple steps, provide only one step at a time and check with the user whether they have completed the steps and wait for their confirmation. If the user has said okay or yes, continue with the steps.

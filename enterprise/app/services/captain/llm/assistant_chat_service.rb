@@ -42,7 +42,7 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
     {
       role: 'system',
       content: Captain::Llm::SystemPromptsService.assistant_response_generator(
-        @assistant.name, @assistant.config['product_name'], @assistant.config.merge('timezone' => visitor_timezone),
+        @assistant.name, @assistant.config['product_name'], @assistant.config.merge('timezone' => inbox_timezone),
         contact: contact_attributes,
         custom_tools: custom_tools_metadata
       )
@@ -70,8 +70,8 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
     )
   end
 
-  def visitor_timezone
-    @conversation&.additional_attributes&.dig('timezone')
+  def inbox_timezone
+    @conversation&.inbox&.timezone.presence || 'UTC'
   end
 
   def persist_message(message, message_type = 'assistant')
