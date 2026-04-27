@@ -64,17 +64,19 @@ const contentHeightClass = computed(() =>
       <span v-if="isEmpty" class="text-n-slate-11">
         {{ $t('CONVERSATION.NO_CONTENT') }}
       </span>
-      <div v-if="renderContent" class="relative">
-        <div
-          class="overflow-hidden transition-all duration-300"
-          :class="contentHeightClass"
-        >
-          <FormattedContent :content="renderContent" />
+      <div v-if="renderContent">
+        <div class="relative">
+          <div
+            class="overflow-hidden transition-all duration-300"
+            :class="contentHeightClass"
+          >
+            <FormattedContent :content="renderContent" />
+          </div>
+          <div
+            v-if="isLong && !isExpanded"
+            class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-n-background to-transparent pointer-events-none"
+          />
         </div>
-        <div
-          v-if="isLong && !isExpanded"
-          class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-n-background to-transparent pointer-events-none"
-        />
         <button
           v-if="isLong"
           class="text-n-brand text-sm mt-1 hover:underline"
