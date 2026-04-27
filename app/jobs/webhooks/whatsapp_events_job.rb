@@ -9,6 +9,11 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
       return
     end
 
+    if inactive_whatsapp_number?(channel)
+      Rails.logger.warn("Rejected webhook for inactive WhatsApp number: #{channel.phone_number}")
+      return
+    end
+
     if message_echo_event?(params)
       handle_message_echo(channel, params)
     else
@@ -69,6 +74,15 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
 
   private
 
+  def inactive_whatsapp_number?(channel)
+    return false if channel.blank?
+
+    inactive_numbers = GlobalConfig.get_value('INACTIVE_WHATSAPP_NUMBERS').to_s
+    return false if inactive_numbers.blank?
+
+    inactive_numbers.split(',').map(&:strip).include?(channel.phone_number)
+  end
+
   def channel_is_inactive?(channel)
     return true if channel.blank?
     return true if channel.reauthorization_required?
@@ -93,10 +107,18 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   end
 
   def get_channel_from_wb_payload(wb_params)
-    phone_number = "+#{wb_params[:entry].first[:changes].first.dig(:value, :metadata, :display_phone_number)}"
-    phone_number_id = wb_params[:entry].first[:changes].first.dig(:value, :metadata, :phone_number_id)
-    channel = Channel::Whatsapp.find_by(phone_number: phone_number)
-    # validate to ensure the phone number id matches the whatsapp channel
-    return channel if channel && channel.provider_config['phone_number_id'] == phone_number_id
+    phone_number_id = wb_params.dig(:entry, 0, :changes, 0, :value, :metadata, :phone_number_id)
+    display_phone_number = "+#{wb_params.dig(:entry, 0, :changes, 0, :value, :metadata, :display_phone_number)}"
+
+    # Primary: match directly by phone_number_id (most reliable, avoids display number formatting mismatches)
+    if phone_number_id.present?
+      channel = Channel::Whatsapp.where(provider: 'whatsapp_cloud')
+                                 .find_by("provider_config->>'phone_number_id' = ?", phone_number_id)
+    end
+    return channel if channel
+
+    # Fallback: match by display_phone_number with phone_number_id validation
+    channel = Channel::Whatsapp.find_by(phone_number: display_phone_number)
+    channel if channel && channel.provider_config['phone_number_id'] == phone_number_id
   end
 end

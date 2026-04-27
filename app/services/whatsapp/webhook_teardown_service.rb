@@ -14,7 +14,7 @@ class Whatsapp::WebhookTeardownService
   private
 
   def should_teardown_webhook?
-    whatsapp_cloud_provider? && embedded_signup_source? && webhook_config_present?
+    whatsapp_cloud_provider? && embedded_signup_source? && webhook_config_present? && !@channel.waba_sibling_exists?
   end
 
   def whatsapp_cloud_provider?

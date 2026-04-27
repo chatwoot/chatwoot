@@ -209,4 +209,50 @@ RSpec.describe Channel::Whatsapp do
       end
     end
   end
+
+  describe '#waba_sibling_exists?' do
+    let(:channel) do
+      create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false).tap do |ch|
+        allow(ch).to receive(:setup_webhooks).and_return(true)
+        ch.update!(provider_config: ch.provider_config.merge('business_account_id' => 'waba_123'))
+      end
+    end
+
+    context 'when sibling exists with same business_account_id' do
+      before do
+        sibling = create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
+        allow(sibling).to receive(:setup_webhooks).and_return(true)
+        sibling.update!(provider_config: sibling.provider_config.merge('business_account_id' => 'waba_123'))
+      end
+
+      it 'returns true' do
+        expect(channel.waba_sibling_exists?).to be true
+      end
+    end
+
+    context 'when no sibling exists' do
+      it 'returns false' do
+        expect(channel.waba_sibling_exists?).to be false
+      end
+    end
+
+    context 'when provider is not whatsapp_cloud' do
+      before { channel.update!(provider: 'default') }
+
+      it 'returns false' do
+        expect(channel.waba_sibling_exists?).to be false
+      end
+    end
+
+    context 'when business_account_id is blank' do
+      before do
+        allow(channel).to receive(:setup_webhooks).and_return(true)
+        channel.update!(provider_config: channel.provider_config.merge('business_account_id' => ''))
+      end
+
+      it 'returns false' do
+        expect(channel.waba_sibling_exists?).to be false
+      end
+    end
+  end
 end

@@ -97,6 +97,21 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       expect(Rails.logger).to receive(:warn).with("Inactive WhatsApp channel: unknown - #{unknown_phone}")
       job.perform_now(phone_number: unknown_phone)
     end
+
+    context 'when channel phone number is in INACTIVE_WHATSAPP_NUMBERS' do
+      before do
+        allow(GlobalConfig).to receive(:get_value).with('INACTIVE_WHATSAPP_NUMBERS').and_return(channel.phone_number)
+      end
+
+      it 'rejects the webhook and does not process messages' do
+        allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+        allow(Rails.logger).to receive(:warn)
+
+        expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new)
+        expect(Rails.logger).to receive(:warn).with("Rejected webhook for inactive WhatsApp number: #{channel.phone_number}")
+        job.perform_now(params)
+      end
+    end
   end
 
   context 'when default provider' do
@@ -215,6 +230,32 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       expect do
         Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: other_channel.inbox, params: wb_params).perform
       end.not_to change(Conversation, :count)
+    end
+
+    it 'resolves channel by phone_number_id even when display_phone_number does not match' do
+      other_channel = create(:channel_whatsapp, phone_number: '+1987654', provider: 'whatsapp_cloud', sync_templates: false,
+                                                validate_provider_config: false)
+      wb_params = {
+        phone_number: channel.phone_number,
+        object: 'whatsapp_business_account',
+        entry: [
+          {
+            changes: [
+              {
+                value: {
+                  metadata: {
+                    phone_number_id: other_channel.provider_config['phone_number_id'],
+                    display_phone_number: '0000000000'
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).with(inbox: other_channel.inbox, params: wb_params)
+      job.perform_now(wb_params)
     end
 
     it 'will not enque Whatsapp::IncomingMessageWhatsappCloudService when invalid phone number id' do

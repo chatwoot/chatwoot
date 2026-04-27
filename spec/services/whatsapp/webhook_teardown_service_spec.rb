@@ -66,6 +66,61 @@ RSpec.describe Whatsapp::WebhookTeardownService do
       end
     end
 
+    context 'when WABA sibling exists' do
+      before do
+        sibling = create(:channel_whatsapp, validate_provider_config: false, sync_templates: false)
+        allow(sibling).to receive(:setup_webhooks).and_return(true)
+        sibling.update!(
+          provider: 'whatsapp_cloud',
+          provider_config: {
+            'source' => 'embedded_signup',
+            'business_account_id' => 'shared_waba_id',
+            'api_key' => 'sibling_api_key'
+          }
+        )
+
+        allow(channel).to receive(:setup_webhooks).and_return(true)
+        channel.update!(
+          provider: 'whatsapp_cloud',
+          provider_config: {
+            'source' => 'embedded_signup',
+            'business_account_id' => 'shared_waba_id',
+            'api_key' => 'test_api_key'
+          }
+        )
+      end
+
+      it 'does not unsubscribe webhook when sibling channel exists' do
+        expect(Whatsapp::FacebookApiClient).not_to receive(:new)
+
+        service.perform
+      end
+    end
+
+    context 'when last channel for WABA (no siblings)' do
+      before do
+        allow(channel).to receive(:setup_webhooks).and_return(true)
+        channel.update!(
+          provider: 'whatsapp_cloud',
+          provider_config: {
+            'source' => 'embedded_signup',
+            'business_account_id' => 'unique_waba_id',
+            'api_key' => 'test_api_key'
+          }
+        )
+      end
+
+      it 'unsubscribes webhook when no sibling channels exist' do
+        api_client = instance_double(Whatsapp::FacebookApiClient)
+        allow(Whatsapp::FacebookApiClient).to receive(:new).with('test_api_key').and_return(api_client)
+        allow(api_client).to receive(:unsubscribe_waba_webhook).with('unique_waba_id')
+
+        service.perform
+
+        expect(api_client).to have_received(:unsubscribe_waba_webhook).with('unique_waba_id')
+      end
+    end
+
     context 'when required config is missing' do
       before do
         channel.update!(
