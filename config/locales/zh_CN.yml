@@ -435,16 +435,12 @@ zh_CN:
     button: 重新打开会话
   time_units:
     days:
-      one: '%{count} 天'
       other: '%{count} 天'
     hours:
-      one: '%{count} 小时'
       other: '%{count} 小时'
     minutes:
-      one: '%{count} 分钟'
       other: '%{count} 分钟'
     seconds:
-      one: '%{count} 秒'
       other: '%{count} 秒'
   auto_assignment:
     default_policy_name: 'Default Policy'
