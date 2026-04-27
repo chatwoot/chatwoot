@@ -488,6 +488,12 @@ en:
   agent_capacity_policy:
     inbox_already_assigned: 'Inbox has already been assigned to this policy'
   portals:
+    articles:
+      captain_not_available: 'Translation requires Captain to be enabled for this account'
+      locale_not_available: 'Locale not available in this portal'
+      category_not_found: 'Category not found in this portal'
+      no_articles_found: 'No articles found to process'
+      invalid_status: 'Invalid status value'
     send_instructions:
       email_required: 'Email is required'
       invalid_email_format: 'Invalid email format'
