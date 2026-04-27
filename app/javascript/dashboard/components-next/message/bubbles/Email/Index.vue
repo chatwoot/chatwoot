@@ -1,5 +1,5 @@
 <script setup>
-import { computed, useTemplateRef, ref, onMounted } from 'vue';
+import { computed, useTemplateRef, ref, onMounted, onErrorCaptured } from 'vue';
 import { Letter } from 'vue-letter';
 import { sanitizeTextForRender } from '@chatwoot/utils';
 import { allowedCssProperties } from 'lettersanitizer';
