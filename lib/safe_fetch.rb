@@ -3,7 +3,7 @@ require 'ssrf_filter'
 module SafeFetch
   DEFAULT_ALLOWED_CONTENT_TYPE_PREFIXES = %w[image/ video/].freeze
   DEFAULT_ALLOWED_CONTENT_TYPES = [].freeze
-  DEFAULT_SENSITIVE_HEADERS = %w[authorization cookie].freeze
+  DEFAULT_SENSITIVE_HEADERS = %w[authorization cookie proxy-authorization].freeze
   DEFAULT_OPEN_TIMEOUT = 2
   DEFAULT_READ_TIMEOUT = 20
   DEFAULT_MAX_BYTES_FALLBACK_MB = 40

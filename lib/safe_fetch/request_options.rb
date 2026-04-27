@@ -88,7 +88,7 @@ class SafeFetch::RequestOptions
   end
 
   def sensitive_headers
-    SafeFetch::DEFAULT_SENSITIVE_HEADERS | Array(headers).map { |header, _| header.to_s }
+    SafeFetch::DEFAULT_SENSITIVE_HEADERS
   end
 
   def url_basic_authentication

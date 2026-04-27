@@ -248,6 +248,44 @@ RSpec.describe SafeFetch do
         end.not_to raise_error
       end
 
+      it 'preserves non-credential headers on cross-origin redirects' do
+        redirect_url = 'https://example.com/image.png'
+        redirected_headers = nil
+        headers = {
+          'Authorization' => 'Bearer test-token',
+          'Cookie' => 'session=test',
+          'Content-Type' => 'application/json',
+          'X-Chatwoot-Delivery' => 'test-uuid',
+          'X-Chatwoot-Signature' => 'sha256=test-signature'
+        }
+
+        stub_request(:post, url).to_return(
+          status: 307,
+          headers: { 'Location' => redirect_url }
+        )
+        stub_request(:post, redirect_url)
+          .with do |request|
+            redirected_headers = request.headers.transform_keys(&:downcase)
+            true
+          end
+          .to_return(status: 200, body: '', headers: {})
+
+        described_class.fetch(
+          url,
+          method: :post,
+          body: post_body,
+          headers: headers,
+          validate_content_type: false
+        ) { nil }
+
+        expect(redirected_headers).to include(
+          'content-type' => 'application/json',
+          'x-chatwoot-delivery' => 'test-uuid',
+          'x-chatwoot-signature' => 'sha256=test-signature'
+        )
+        expect(redirected_headers).not_to include('authorization', 'cookie')
+      end
+
       it 'raises UnsupportedMethodError for unsupported HTTP methods' do
         expect { described_class.fetch(url, method: :options) { nil } }
           .to raise_error(described_class::UnsupportedMethodError)
