@@ -367,6 +367,12 @@ export default {
     onKeydown(view, event) {
       this.$emit('keydown');
       if (isEscape(event)) {
+        if (this.showSlashMenu) {
+          this.showSlashMenu = false;
+          this.slashSearchTerm = '';
+          this.slashMenuPosition = null;
+          return true;
+        }
         collapseSelection(editorView);
         return true;
       }
