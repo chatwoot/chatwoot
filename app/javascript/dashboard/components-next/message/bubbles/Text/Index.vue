@@ -5,13 +5,13 @@ import BaseBubble from 'next/message/bubbles/Base.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { MESSAGE_TYPES } from '../../constants';
+import { MESSAGE_TYPES, MESSAGE_VARIANTS } from '../../constants';
 import { useMessageContext } from '../../provider.js';
 import FormattedContent from './FormattedContent.vue';
 
 const TRUNCATION_LENGTH = 800;
 
-const { content, attachments, contentAttributes, messageType } =
+const { content, attachments, contentAttributes, messageType, variant } =
   useMessageContext();
 
 const { t } = useI18n();
@@ -56,6 +56,22 @@ const toggleExpanded = () => {
 const contentHeightClass = computed(() =>
   isLong.value && !isExpanded.value ? 'max-h-[320px]' : 'max-h-none'
 );
+
+const variantFadeMap = {
+  [MESSAGE_VARIANTS.AGENT]: 'from-n-solid-blue',
+  [MESSAGE_VARIANTS.PRIVATE]: 'from-n-solid-amber',
+  [MESSAGE_VARIANTS.USER]: 'from-n-slate-4',
+  [MESSAGE_VARIANTS.ACTIVITY]: 'from-n-alpha-1',
+  [MESSAGE_VARIANTS.BOT]: 'from-n-solid-iris',
+  [MESSAGE_VARIANTS.TEMPLATE]: 'from-n-solid-iris',
+  [MESSAGE_VARIANTS.ERROR]: 'from-n-ruby-4',
+  [MESSAGE_VARIANTS.EMAIL]: 'from-n-background',
+  [MESSAGE_VARIANTS.UNSUPPORTED]: 'from-n-solid-amber',
+};
+
+const fadeBgClass = computed(
+  () => variantFadeMap[variant.value] ?? 'from-n-background'
+);
 </script>
 
 <template>
@@ -74,7 +90,8 @@ const contentHeightClass = computed(() =>
           </div>
           <div
             v-if="isLong && !isExpanded"
-            class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-n-background to-transparent pointer-events-none"
+            class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t to-transparent pointer-events-none"
+            :class="fadeBgClass"
           />
         </div>
         <button
