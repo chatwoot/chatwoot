@@ -52,6 +52,9 @@ class Account < ApplicationRecord
   store_accessor :settings, :reporting_timezone
   store_accessor :settings, :keep_pending_on_bot_failure
   store_accessor :settings, :captain_auto_resolve_mode
+  store_accessor :settings, :disable_message_delete
+  # In app/models/account.rb
+
   include AccountCaptainAutoResolve
 
   has_many :account_users, dependent: :destroy_async
