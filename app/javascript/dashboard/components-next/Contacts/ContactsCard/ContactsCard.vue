@@ -51,7 +51,6 @@ const isFormInvalid = computed(() => contactsFormRef.value?.isFormInvalid);
 
 const countriesMap = computed(() => {
   return countries.reduce((acc, country) => {
-    acc[country.code] = country;
     acc[country.id] = country;
     return acc;
   }, {});
@@ -64,7 +63,7 @@ const countryDetails = computed(() => {
   if (!country && !countryCode) return null;
 
   const activeCountry =
-    countriesMap.value[country] || countriesMap.value[countryCode];
+    (country && countriesMap.value[country]) || countriesMap.value[countryCode];
 
   if (!activeCountry) return null;
 
