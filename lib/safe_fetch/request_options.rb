@@ -81,22 +81,24 @@ class SafeFetch::RequestOptions
   end
 
   def request_proc
-    credentials = http_basic_authentication.presence || url_basic_authentication
-    return if credentials.blank?
+    return if http_basic_authentication.blank? && uri.user.blank?
 
-    proc { |request| request.basic_auth(*credentials) }
+    proc do |request|
+      credentials = http_basic_authentication.presence || uri_basic_authentication(request.uri)
+      request.basic_auth(*credentials) if credentials.present?
+    end
   end
 
   def sensitive_headers
     SafeFetch::DEFAULT_SENSITIVE_HEADERS
   end
 
-  def url_basic_authentication
-    return if uri.user.blank?
+  def uri_basic_authentication(request_uri)
+    return if request_uri.user.blank?
 
     [
-      URI.decode_uri_component(uri.user),
-      URI.decode_uri_component(uri.password.to_s)
+      URI.decode_uri_component(request_uri.user),
+      URI.decode_uri_component(request_uri.password.to_s)
     ]
   end
 end
