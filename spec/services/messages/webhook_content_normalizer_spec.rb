@@ -14,8 +14,8 @@ RSpec.describe Messages::WebhookContentNormalizer do
       expect(described_class.normalize("hello\n\n\n")).to eq('hello')
     end
 
-    it 'strips trailing spaces and newlines' do
-      expect(described_class.normalize("hello   \n\n")).to eq('hello')
+    it 'preserves intentional trailing spaces' do
+      expect(described_class.normalize("hello   \n\n")).to eq('hello   ')
     end
 
     it 'replaces CommonMark hard line breaks (backslash-newline) with plain newlines' do
