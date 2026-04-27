@@ -1,0 +1,89 @@
+<tr>
+  <td style="padding: 0 0 16px;">
+    <span style="display: inline-block; padding: 6px 10px; border-radius: 999px; background-color: #EFF6FF; color: #1D4ED8; font-size: 12px; line-height: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;">
+      <%= eyebrow %>
+    </span>
+  </td>
+</tr>
+<tr>
+  <td style="padding: 0 0 12px;">
+    <h1 style="margin: 0; font-size: 32px; line-height: 38px; font-weight: 700; color: #0F172A;"><%= heading %></h1>
+  </td>
+</tr>
+<tr>
+  <td style="padding: 0 0 8px;">
+    <p style="margin: 0; font-size: 14px; line-height: 21px; color: #334155;">Hi <%= recipient_name %>,</p>
+  </td>
+</tr>
+<tr>
+  <td style="padding: 0 0 10px;">
+    <p style="margin: 0; font-size: 14px; line-height: 21px; color: #475569;"><%= intro_text %></p>
+  </td>
+</tr>
+<tr>
+  <td style="padding: 0 0 <%= detail_rows.any? || info_title.present? ? '16px' : '24px' %>;">
+    <p style="margin: 0; font-size: 14px; line-height: 21px; color: #475569;"><%= supporting_text %></p>
+  </td>
+</tr>
+<% if detail_rows.any? %>
+  <tr>
+    <td style="padding: 0 0 24px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; border: 1px solid #DCE7F5; border-radius: 16px; background-color: #F8FBFF;">
+        <% detail_rows.each_with_index do |(label, value), index| %>
+          <tr>
+            <td style="padding: 16px 18px;<%= ' border-top: 1px solid #E2E8F0;' unless index.zero? %>">
+              <p style="margin: 0 0 4px; font-size: 12px; line-height: 16px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #64748B;">
+                <%= label %>
+              </p>
+              <p style="margin: 0; font-size: 14px; line-height: 21px; font-weight: 600; color: #0F172A;"><%= value %></p>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </td>
+  </tr>
+<% end %>
+<% if action_url.present? %>
+  <tr>
+    <td style="padding: 0 0 24px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; margin: 0;">
+        <tr>
+          <td bgcolor="#2781F6" style="border-radius: 14px; background-color: #2781F6;">
+            <%= link_to(
+              action_text,
+              action_url,
+              style: 'display:block; width:100%; box-sizing:border-box; padding:12px 24px; font-size:14px; line-height:20px; font-weight:700; color:#FFFFFF; text-align:center; text-decoration:none;'
+            ) %>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding: 0 0 20px;">
+      <p style="margin: 0; font-size: 14px; line-height: 21px; color: #64748B;">
+        If the button does not work, open
+        <%= link_to(
+          'this secure link',
+          action_url,
+          style: 'color:#2781F6; text-decoration:none; font-weight:600;'
+        ) %>.
+      </p>
+    </td>
+  </tr>
+<% elsif info_title.present? %>
+  <tr>
+    <td style="padding: 0 0 24px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; border: 1px solid #DBEAFE; border-radius: 16px; background-color: #EFF6FF;">
+        <tr>
+          <td style="padding: 18px;">
+            <p style="margin: 0 0 6px; font-size: 14px; line-height: 21px; font-weight: 700; color: #0F172A;">
+              <%= info_title %>
+            </p>
+            <p style="margin: 0; font-size: 14px; line-height: 21px; color: #475569;"><%= info_text %></p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+<% end %>
