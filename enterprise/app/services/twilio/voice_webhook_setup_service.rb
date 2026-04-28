@@ -17,8 +17,7 @@ class Twilio::VoiceWebhookSetupService
   private
 
   def validate_token_credentials!
-    validation_client = channel.api_key_sid.present? ? api_key_client : token_client
-    validation_client.incoming_phone_numbers.list(limit: 1)
+    channel.client.incoming_phone_numbers.list(limit: 1)
   rescue StandardError => e
     log_twilio_error('AUTH_VALIDATION_TOKEN', e)
     raise
@@ -26,7 +25,7 @@ class Twilio::VoiceWebhookSetupService
 
   def create_twiml_app!
     friendly_name = "Chatwoot Voice #{channel.phone_number}"
-    app = api_key_client.applications.create(
+    app = channel.client.applications.create(
       friendly_name: friendly_name,
       voice_url: channel.voice_call_webhook_url,
       voice_method: HTTP_METHOD
@@ -38,31 +37,23 @@ class Twilio::VoiceWebhookSetupService
   end
 
   def configure_number_webhooks!
-    numbers = api_key_client.incoming_phone_numbers.list(phone_number: channel.phone_number)
+    numbers = channel.client.incoming_phone_numbers.list(phone_number: channel.phone_number)
     if numbers.empty?
       Rails.logger.warn "TWILIO_PHONE_NUMBER_NOT_FOUND: #{channel.phone_number}"
       return
     end
 
-    api_key_client
-      .incoming_phone_numbers(numbers.first.sid)
-      .update(
-        voice_url: channel.voice_call_webhook_url,
-        voice_method: HTTP_METHOD,
-        status_callback: channel.voice_status_webhook_url,
-        status_callback_method: HTTP_METHOD
-      )
+    channel.client
+           .incoming_phone_numbers(numbers.first.sid)
+           .update(
+             voice_url: channel.voice_call_webhook_url,
+             voice_method: HTTP_METHOD,
+             status_callback: channel.voice_status_webhook_url,
+             status_callback_method: HTTP_METHOD
+           )
   rescue StandardError => e
     log_twilio_error('NUMBER_WEBHOOKS_UPDATE', e)
     raise
-  end
-
-  def api_key_client
-    @api_key_client ||= ::Twilio::REST::Client.new(channel.api_key_sid, channel.api_key_secret, channel.account_sid)
-  end
-
-  def token_client
-    @token_client ||= ::Twilio::REST::Client.new(channel.account_sid, channel.auth_token)
   end
 
   def log_twilio_error(context, error)

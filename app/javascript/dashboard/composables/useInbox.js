@@ -43,13 +43,15 @@ export const useInbox = (inboxId = null) => {
   const currentChat = useMapGetter('getSelectedChat');
   const inboxGetter = useMapGetter('inboxes/getInboxById');
 
-  const inbox = computed(() => {
+  const rawInbox = computed(() => {
     const targetInboxId = inboxId || currentChat.value?.inbox_id;
 
     if (!targetInboxId) return null;
 
-    return useCamelCase(inboxGetter.value(targetInboxId), { deep: true });
+    return inboxGetter.value(targetInboxId);
   });
+
+  const inbox = computed(() => useCamelCase(rawInbox.value, { deep: true }));
 
   const channelType = computed(() => {
     return inbox.value?.channelType;
@@ -138,9 +140,11 @@ export const useInbox = (inboxId = null) => {
     return channelType.value === INBOX_TYPES.TIKTOK;
   });
 
-  const voiceCallEnabled = computed(() => isVoiceCallEnabled(inbox.value));
+  const voiceCallEnabled = computed(() => isVoiceCallEnabled(rawInbox.value));
 
-  const voiceCallProvider = computed(() => getVoiceCallProvider(inbox.value));
+  const voiceCallProvider = computed(() =>
+    getVoiceCallProvider(rawInbox.value)
+  );
 
   return {
     inbox,

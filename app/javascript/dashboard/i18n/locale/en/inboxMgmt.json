@@ -645,7 +645,7 @@
         "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
       },
       "CREDENTIALS": {
-        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent WebRTC connections."
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
       }
     },
     "CHANNEL_PREFERENCES": "Channel Preferences",
