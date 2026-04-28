@@ -150,15 +150,18 @@ const populateFormFields = () => {
 
 let enrichmentTimer = null;
 
+const startEnrichmentTimer = () => {
+  if (enrichmentTimer) clearTimeout(enrichmentTimer);
+  enrichmentTimer = setTimeout(() => {
+    enrichmentTimedOut.value = true;
+    populateFormFields();
+  }, 30000);
+};
+
 onMounted(() => {
   populateFormFields();
   useTrack(ONBOARDING_EVENTS.ACCOUNT_DETAILS_VISITED);
-  if (isEnriching.value) {
-    enrichmentTimer = setTimeout(() => {
-      enrichmentTimedOut.value = true;
-      populateFormFields();
-    }, 30000);
-  }
+  if (isEnriching.value) startEnrichmentTimer();
 });
 
 onUnmounted(() => {
@@ -167,11 +170,7 @@ onUnmounted(() => {
 
 watch(isEnriching, newVal => {
   if (newVal) {
-    if (enrichmentTimer) clearTimeout(enrichmentTimer);
-    enrichmentTimer = setTimeout(() => {
-      enrichmentTimedOut.value = true;
-      populateFormFields();
-    }, 30000);
+    startEnrichmentTimer();
   } else {
     if (enrichmentTimer) clearTimeout(enrichmentTimer);
     populateFormFields();
