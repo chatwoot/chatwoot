@@ -269,9 +269,9 @@ export const mutations = {
       accounts,
     };
   },
-  [types.RESET_ONBOARDING](_state) {
+  [types.RESET_ONBOARDING](_state, accountId) {
     const accounts = _state.currentUser.accounts.map(account => {
-      if (account.id === _state.currentUser.account_id) {
+      if (account.id === accountId) {
         const { onboarding_step, ...rest } = account;
         return rest;
       }

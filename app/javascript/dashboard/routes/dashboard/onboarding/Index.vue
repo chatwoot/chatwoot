@@ -240,7 +240,7 @@ const handleSubmit = async () => {
     });
 
     useAlert(t('ONBOARDING_NEXT.SUCCESS'));
-    store.commit('RESET_ONBOARDING');
+    store.commit('RESET_ONBOARDING', accountId.value);
     router.push(frontendURL(`accounts/${accountId.value}/dashboard`));
   } catch {
     useAlert(t('ONBOARDING_NEXT.ERROR'));
