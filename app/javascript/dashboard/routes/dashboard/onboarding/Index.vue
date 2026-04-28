@@ -336,7 +336,7 @@ const handleSubmit = async () => {
                 :readonly="!isEditingWebsite"
                 :placeholder="t('ONBOARDING_NEXT.PLACEHOLDERS.ENTER_WEBSITE')"
                 :custom-input-class="[
-                  'w-auto text-right px-1 py-0.5 -my-0.5 mx-0 placeholder:text-n-slate-9 rounded',
+                  'w-auto text-end px-1 py-0.5 -my-0.5 mx-0 placeholder:text-n-slate-9 rounded',
                   { 'animate-shake': showErrorOnFields && v$.website.$error },
                 ]"
                 @enter-press="handleWebsiteEnter"

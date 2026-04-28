@@ -21,10 +21,10 @@ defineEmits(['continue']);
       class="absolute inset-0 bg-[size:96px_96px] bg-[image:linear-gradient(to_right,rgb(var(--border-weak))_1px,transparent_1px),linear-gradient(to_bottom,rgb(var(--border-weak))_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_80%_80%_at_100%_0%,black_5%,transparent_50%),radial-gradient(ellipse_80%_80%_at_0%_100%,black_5%,transparent_50%)] [mask-composite:add] [-webkit-mask-composite:source-over]"
     />
     <div class="relative w-full max-w-[580px]">
-      <div class="relative pl-12">
+      <div class="relative ps-12">
         <!-- Timeline dotted line -->
         <svg
-          class="absolute left-[16px] top-10 bottom-20 overflow-visible text-n-slate-5"
+          class="absolute start-[16px] top-10 bottom-20 overflow-visible text-n-slate-5"
           width="1"
           height="100%"
           preserveAspectRatio="none"
@@ -41,7 +41,7 @@ defineEmits(['continue']);
         </svg>
 
         <!-- Greeting -->
-        <div class="mb-6 -ml-12 flex items-start gap-4">
+        <div class="mb-6 -ms-12 flex items-start gap-4">
           <div
             class="flex items-center justify-center w-8 h-8 z-10 flex-shrink-0"
           >
@@ -64,14 +64,14 @@ defineEmits(['continue']);
       </div>
 
       <!-- Continue button with curved connector -->
-      <div class="relative pl-12 overflow-visible">
+      <div class="relative ps-12 overflow-visible">
         <!-- Curved line (absolutely positioned, doesn't affect layout) -->
         <svg
           width="48"
           height="40"
           viewBox="0 0 47 40"
           fill="none"
-          class="absolute left-0 top-0 overflow-visible"
+          class="absolute start-0 top-0 overflow-visible rtl:-scale-x-100"
         >
           <defs>
             <linearGradient
@@ -94,13 +94,13 @@ defineEmits(['continue']);
             fill="none"
           />
         </svg>
-        <!-- Triangle pointer (positioned at button's left edge, pointing left) -->
+        <!-- Triangle pointer (positioned at button's leading edge, pointing inward) -->
         <svg
           width="6"
           height="6"
           viewBox="0 0 6 6"
           fill="none"
-          class="absolute left-[42px] top-1/2 -translate-y-1/2 z-10"
+          class="absolute start-[42px] top-1/2 -translate-y-1/2 z-10 rtl:-scale-x-100"
         >
           <path d="M6 0L0 3L6 6Z" fill="rgb(var(--blue-9))" />
         </svg>

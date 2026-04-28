@@ -10,7 +10,7 @@ defineProps({
 <template>
   <div class="mb-5">
     <!-- Section header with icon + triangles -->
-    <div class="flex items-center gap-4 mb-3 -ml-12">
+    <div class="flex items-center gap-4 mb-3 -ms-12">
       <div class="flex flex-col items-center z-10 flex-shrink-0">
         <svg
           width="6"
