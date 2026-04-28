@@ -24,7 +24,13 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
 
   def update
     @agent.update!(agent_params.slice(:name).compact)
-    @agent.current_account_user.update!(agent_params.slice(*account_user_attributes).compact)
+    account_user_params = agent_params.slice(*account_user_attributes).compact
+    # Support both param names for backwards compatibility
+    account_user_params['availability'] ||= account_user_params.delete('availability_status') \
+      if account_user_params['availability_status'].present?
+    @agent.current_account_user.update!(account_user_params)
+    @agent.reload
+    @agent.account_users.reset
   end
 
   def destroy
@@ -68,11 +74,11 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def account_user_attributes
-    [:role, :availability, :auto_offline]
+    [:role, :availability, :availability_status, :auto_offline]
   end
 
   def allowed_agent_params
-    [:name, :email, :role, :availability, :auto_offline]
+    [:name, :email, :role, :availability, :availability_status, :auto_offline]
   end
 
   def agent_params
