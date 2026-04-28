@@ -11,6 +11,7 @@ import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import OnboardingLayout from './OnboardingLayout.vue';
 import OnboardingSection from './OnboardingSection.vue';
 import OnboardingFormRow from './OnboardingFormRow.vue';
@@ -341,13 +342,14 @@ const handleSubmit = async () => {
                 @enter-press="handleWebsiteEnter"
                 @blur="isEditingWebsite = false"
               />
-              <button
+              <NextButton
                 type="button"
-                class="flex-shrink-0 p-0 flex items-center"
+                icon="i-lucide-pencil"
+                slate
+                xs
+                ghost
                 @click="enableWebsiteEditing"
-              >
-                <Icon icon="i-lucide-pencil" class="size-3.5 text-n-slate-9" />
-              </button>
+              />
             </div>
           </OnboardingFormRow>
           <OnboardingFormRow
