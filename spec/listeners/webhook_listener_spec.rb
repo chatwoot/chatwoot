@@ -80,6 +80,51 @@ describe WebhookListener do
         listener.message_created(api_event)
       end
     end
+
+    context 'when private message is created' do
+      it 'sends correct private message content in webhook payload' do
+        webhook = create(:webhook, inbox: inbox, account: account)
+
+        create(:message,
+               message_type: 'outgoing',
+               account: account,
+               inbox: inbox,
+               conversation: conversation,
+               content: 'This is a public message',
+               private: false,
+               sender: user)
+
+        private_message = create(:message,
+                                 message_type: 'outgoing',
+                                 account: account,
+                                 inbox: inbox,
+                                 conversation: conversation,
+                                 content: 'This is a secret internal note',
+                                 private: true,
+                                 sender: user)
+
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url,
+          hash_including(
+            event: 'message_created',
+            conversation: hash_including(
+              messages: array_including(
+                hash_including(
+                  content: 'This is a secret internal note'
+                )
+              )
+            )
+          ),
+          :account_webhook,
+          secret: webhook.secret,
+          delivery_id: instance_of(String)
+        ).once
+
+        listener.message_created(
+          Events::Base.new(:'message.created', Time.zone.now, message: private_message)
+        )
+      end
+    end
   end
 
   describe '#conversation_created' do
