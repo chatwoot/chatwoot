@@ -4,6 +4,7 @@ region: fra
 
 services:
   - name: web
+
     github:
       repo: proahmedalraey/wasl
       branch: develop
@@ -11,11 +12,9 @@ services:
 
     source_dir: /
 
-    environment_slug: ruby
+    environment_slug: ruby-on-rails
     instance_count: 1
     instance_size_slug: basic-s
-
-    http_port: 3000
 
     routes:
       - path: /
@@ -23,10 +22,9 @@ services:
     build_command: |
       bundle install
       bundle exec rails assets:precompile
-      bundle exec rails db:prepare
 
     run_command: |
-      bundle exec rails server -p 3000 -e production -b 0.0.0.0
+      bundle exec rails server -e production -p 3000 -b 0.0.0.0
 
     envs:
       - key: RAILS_ENV
@@ -67,11 +65,7 @@ services:
         type: SECRET
 
       - key: REDIS_URL
-        value: ${redis.REDIS_URL}
-
-      - key: REDIS_PASSWORD
-        value: ${redis.PASSWORD}
-        type: SECRET
+        value: ${redis.DATABASE_URL}
 
       - key: ENABLE_ACCOUNT_SIGNUP
         value: "false"
@@ -106,7 +100,9 @@ services:
       - key: SMTP_ENABLE_STARTTLS_AUTO
         value: "true"
 
-  - name: worker
+workers:
+  - name: sidekiq
+
     github:
       repo: proahmedalraey/wasl
       branch: develop
@@ -114,7 +110,7 @@ services:
 
     source_dir: /
 
-    environment_slug: ruby
+    environment_slug: ruby-on-rails
     instance_count: 1
     instance_size_slug: basic-s
 
@@ -151,11 +147,7 @@ services:
         type: SECRET
 
       - key: REDIS_URL
-        value: ${redis.REDIS_URL}
-
-      - key: REDIS_PASSWORD
-        value: ${redis.PASSWORD}
-        type: SECRET
+        value: ${redis.DATABASE_URL}
 
 databases:
   - name: db
@@ -167,3 +159,7 @@ databases:
     engine: REDIS
     production: true
     version: "7"
+
+domains:
+  - domain: folathparfum.com
+    type: PRIMARY
