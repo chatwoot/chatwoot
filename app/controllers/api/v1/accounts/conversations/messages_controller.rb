@@ -14,7 +14,11 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def update
-    Messages::StatusUpdateService.new(message, permitted_params[:status], permitted_params[:external_error]).perform
+    if permitted_params[:status].present? || permitted_params[:external_error].present?
+      Messages::StatusUpdateService.new(message, permitted_params[:status], permitted_params[:external_error]).perform
+    end
+
+    apply_source_id_and_content_attributes_update
     @message = message
   end
 
@@ -65,7 +69,26 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def permitted_params
-    params.permit(:id, :target_language, :status, :external_error)
+    params.permit(:id, :target_language, :status, :external_error, :source_id, content_attributes: {})
+  end
+
+  # Allow API-channel integrations (e.g. custom LINE / WhatsApp bridges) to
+  # backfill the platform-side message id (source_id) and free-form
+  # content_attributes after they relay an outgoing agent message to the
+  # downstream channel. content_attributes is merged (not replaced) so
+  # existing keys like `email` or `external_created_at` are preserved.
+  def apply_source_id_and_content_attributes_update
+    attrs = {}
+    attrs[:source_id] = permitted_params[:source_id] if permitted_params.key?(:source_id)
+
+    if permitted_params[:content_attributes].present?
+      merged = (message.content_attributes || {}).merge(
+        permitted_params[:content_attributes].to_h.deep_symbolize_keys
+      )
+      attrs[:content_attributes] = merged
+    end
+
+    message.update!(attrs) if attrs.any?
   end
 
   def already_translated_content_available?

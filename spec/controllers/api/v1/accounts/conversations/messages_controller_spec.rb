@@ -355,6 +355,50 @@ RSpec.describe 'Conversation Messages API', type: :request do
           expect(message.reload.status).to eq('failed')
           expect(message.reload.external_error).to eq('err123')
         end
+
+        it 'backfills source_id on the message' do
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: { source_id: 'platform-msg-123' }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(message.reload.source_id).to eq('platform-msg-123')
+        end
+
+        it 'merges content_attributes without dropping existing keys' do
+          message.update!(content_attributes: { external_created_at: 1_700_000_000 })
+
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: { content_attributes: { quote_token: 'qt-abc', in_reply_to_external_id: 'parent-1' } },
+             headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          ca = message.reload.content_attributes
+          expect(ca['quote_token']).to eq('qt-abc')
+          expect(ca['in_reply_to_external_id']).to eq('parent-1')
+          expect(ca['external_created_at']).to eq(1_700_000_000)
+        end
+
+        it 'allows backfilling source_id and content_attributes alongside status' do
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: {
+            status: 'sent',
+            source_id: 'platform-msg-456',
+            content_attributes: { quote_token: 'qt-xyz' }
+          }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(message.reload.source_id).to eq('platform-msg-456')
+          expect(message.reload.content_attributes['quote_token']).to eq('qt-xyz')
+        end
       end
     end
   end
