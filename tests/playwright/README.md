@@ -26,6 +26,9 @@ pnpm run playwright:run
 # Run tests in UI mode
 pnpm run playwright:open
 
+# Lint tests and page objects
+pnpm run lint
+
 # Generate test code
 pnpm run playwright:codegen
 ```
