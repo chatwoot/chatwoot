@@ -15,6 +15,7 @@ import OnboardingLayout from './OnboardingLayout.vue';
 import OnboardingSection from './OnboardingSection.vue';
 import OnboardingFormRow from './OnboardingFormRow.vue';
 import OnboardingFormSelect from './OnboardingFormSelect.vue';
+import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import {
   COMPANY_SIZE_OPTIONS,
@@ -189,6 +190,10 @@ const enableWebsiteEditing = () => {
   nextTick(() => websiteInput.value?.focus());
 };
 
+const handleWebsiteEnter = () => {
+  websiteInput.value?.blur();
+};
+
 const handleSubmit = async () => {
   // Block submit while enrichment is still running so users can't bypass
   // the form with empty values — the controller would otherwise clear
@@ -324,20 +329,16 @@ const handleSubmit = async () => {
             icon="i-lucide-globe"
           >
             <div class="flex items-center justify-end gap-2">
-              <input
+              <InlineInput
                 ref="websiteInput"
                 v-model="website"
-                type="text"
                 :readonly="!isEditingWebsite"
                 :placeholder="t('ONBOARDING_NEXT.PLACEHOLDERS.ENTER_WEBSITE')"
-                class="reset-base w-auto text-sm text-right border-0 px-1 py-0.5 -my-0.5 mx-0 text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-0 rounded"
-                :class="[
-                  isEditingWebsite
-                    ? 'bg-n-slate-3'
-                    : 'bg-transparent cursor-default',
+                :custom-input-class="[
+                  'w-auto text-right px-1 py-0.5 -my-0.5 mx-0 placeholder:text-n-slate-9 rounded',
                   { 'animate-shake': showErrorOnFields && v$.website.$error },
                 ]"
-                @keydown.enter.prevent="websiteInput?.blur()"
+                @enter-press="handleWebsiteEnter"
                 @blur="isEditingWebsite = false"
               />
               <button
