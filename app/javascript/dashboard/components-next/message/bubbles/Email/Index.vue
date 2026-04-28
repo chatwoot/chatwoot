@@ -36,7 +36,6 @@ onMounted(() => {
 
 onErrorCaptured(() => {
   renderError.value = true;
-  return false; // Prevent error from propagating
 });
 
 const isOutgoing = computed(() => messageType.value === MESSAGE_TYPES.OUTGOING);
