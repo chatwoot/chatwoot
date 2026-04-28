@@ -50,6 +50,8 @@ class Messages::MentionService
 
   def generate_notifications_for_mentions(validated_mentioned_ids)
     validated_mentioned_ids.each do |user_id|
+      next if user_id.to_i == message.sender_id && message.sender_type == 'User'
+
       NotificationBuilder.new(
         notification_type: 'conversation_mention',
         user: User.find(user_id),
