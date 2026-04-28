@@ -52,6 +52,11 @@ RSpec.describe AccountBuilder do
            .and change(User, :count).by(1)
            .and change(AccountUser, :count).by(1)
       end
+
+      it 'initializes the onboarding step to account_details' do
+        _user, account = account_builder.perform
+        expect(account.custom_attributes['onboarding_step']).to eq('account_details')
+      end
     end
   end
 end

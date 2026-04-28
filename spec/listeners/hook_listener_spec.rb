@@ -9,7 +9,7 @@ describe HookListener do
     create(:message, message_type: 'outgoing',
                      account: account, inbox: inbox, conversation: conversation)
   end
-  let!(:event) { Events::Base.new(event_name, Time.zone.now, message: message) }
+  let!(:event) { Events::Base.new(event_name, Time.zone.now, message: message, previous_changes: nil) }
   let(:contact_event) { Events::Base.new('contact.updated', Time.zone.now, contact: conversation.contact) }
   let(:conversation_event) { Events::Base.new('conversation.created', Time.zone.now, conversation: conversation) }
 
@@ -26,7 +26,7 @@ describe HookListener do
     context 'when hook is configured' do
       it 'triggers hook job' do
         hook = create(:integrations_hook, account: account)
-        expect(HookJob).to receive(:perform_later).with(hook, 'message.created', message: message).once
+        expect(HookJob).to receive(:perform_later).with(hook, 'message.created', message: message, previous_changes: nil).once
         listener.message_created(event)
       end
     end
@@ -45,7 +45,7 @@ describe HookListener do
     context 'when hook is configured' do
       it 'triggers hook job' do
         hook = create(:integrations_hook, :dialogflow, account: account, inbox: inbox)
-        expect(HookJob).to receive(:perform_later).with(hook, 'message.updated', message: message).once
+        expect(HookJob).to receive(:perform_later).with(hook, 'message.updated', message: message, previous_changes: nil).once
         listener.message_updated(event)
       end
     end
@@ -66,21 +66,21 @@ describe HookListener do
     context 'when hook is enabled and app_id is supported' do
       it 'enqueues the job for slack' do
         hook = create(:integrations_hook, account: account)
-        expect(HookJob).to receive(:perform_later).with(hook, event_name, message: message)
+        expect(HookJob).to receive(:perform_later).with(hook, event_name, message: message, previous_changes: nil)
 
         listener.message_created(event)
       end
 
       it 'enqueues the job for dialogflow' do
         hook = create(:integrations_hook, :dialogflow, account: account, inbox: inbox)
-        expect(HookJob).to receive(:perform_later).with(hook, event_name, message: message)
+        expect(HookJob).to receive(:perform_later).with(hook, event_name, message: message, previous_changes: nil)
 
         listener.message_created(event)
       end
 
       it 'enqueues the job for google_translate' do
         hook = create(:integrations_hook, :google_translate, account: account)
-        expect(HookJob).to receive(:perform_later).with(hook, event_name, message: message)
+        expect(HookJob).to receive(:perform_later).with(hook, event_name, message: message, previous_changes: nil)
 
         listener.message_created(event)
       end
