@@ -368,7 +368,14 @@ RSpec.describe 'Conversation Messages API', type: :request do
         end
 
         it 'merges content_attributes without dropping existing keys' do
+          # Pre-existing content_attributes that should survive the merge.
           message.update!(content_attributes: { external_created_at: 1_700_000_000 })
+
+          # Parent message in the same conversation. Required because
+          # Message#ensure_in_reply_to runs Messages::InReplyToMessageBuilder
+          # which nulls out `in_reply_to_external_id` if no message in the
+          # conversation has a matching `source_id`.
+          create(:message, conversation: conversation, account: account, source_id: 'parent-1')
 
           patch api_v1_account_conversation_message_url(
             account_id: account.id,
@@ -382,6 +389,20 @@ RSpec.describe 'Conversation Messages API', type: :request do
           expect(ca['quote_token']).to eq('qt-abc')
           expect(ca['in_reply_to_external_id']).to eq('parent-1')
           expect(ca['external_created_at']).to eq(1_700_000_000)
+        end
+
+        it 'does not clear source_id when payload serializes source_id as null' do
+          message.update!(source_id: 'platform-msg-pre-existing')
+
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: { source_id: nil, status: 'sent' },
+             headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(message.reload.source_id).to eq('platform-msg-pre-existing')
         end
 
         it 'allows backfilling source_id and content_attributes alongside status' do

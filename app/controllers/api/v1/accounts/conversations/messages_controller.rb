@@ -77,9 +77,15 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   # content_attributes after they relay an outgoing agent message to the
   # downstream channel. content_attributes is merged (not replaced) so
   # existing keys like `email` or `external_created_at` are preserved.
+  #
+  # `source_id` is only written when a non-nil value is supplied, so a
+  # status-only PATCH that happens to serialize `"source_id": null` cannot
+  # accidentally clear an already-stored id. Callers that genuinely need
+  # to clear the field can do so via a direct DB update or a future
+  # explicit clear endpoint.
   def apply_source_id_and_content_attributes_update
     attrs = {}
-    attrs[:source_id] = permitted_params[:source_id] if permitted_params.key?(:source_id)
+    attrs[:source_id] = permitted_params[:source_id] unless permitted_params[:source_id].nil?
 
     if permitted_params[:content_attributes].present?
       merged = (message.content_attributes || {}).merge(
