@@ -61,9 +61,8 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def process_attached_logo
-    blob_id = params[:blob_id]
-    blob = ActiveStorage::Blob.find_signed(blob_id)
-    @portal.logo.attach(blob)
+    blob = ActiveStorage::Blob.find_signed(params[:blob_id].to_s)
+    @portal.logo.attach(blob) if blob
   end
 
   private
