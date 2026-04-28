@@ -80,6 +80,66 @@ RSpec.describe SafeFetch do
           expect(result.content_type).to eq('image/png')
         end
       end
+
+      it 'preserves embedded credentials after a same-origin redirect removes userinfo' do
+        authenticated_url = 'http://user:pass@example.com/protected.png'
+        initial_url = 'http://example.com/protected.png'
+        redirect_url = 'http://example.com/public.png'
+        redirected_headers = nil
+
+        stub_request(:get, initial_url)
+          .with(headers: { 'Authorization' => 'Basic dXNlcjpwYXNz' })
+          .to_return(
+            status: 302,
+            headers: { 'Location' => '/public.png' }
+          )
+        stub_request(:get, redirect_url)
+          .with do |request|
+            redirected_headers = request.headers.transform_keys(&:downcase)
+            true
+          end
+          .to_return(
+            status: 200,
+            body: File.new(Rails.root.join('spec/assets/avatar.png')),
+            headers: { 'Content-Type' => 'image/png' }
+          )
+
+        described_class.fetch(authenticated_url) do |result|
+          expect(result.content_type).to eq('image/png')
+        end
+
+        expect(redirected_headers).to include('authorization' => 'Basic dXNlcjpwYXNz')
+      end
+
+      it 'strips embedded credentials on cross-origin redirects' do
+        authenticated_url = 'http://user:pass@example.com/protected.png'
+        initial_url = 'http://example.com/protected.png'
+        redirect_url = 'https://example.com/public.png'
+        redirected_headers = nil
+
+        stub_request(:get, initial_url)
+          .with(headers: { 'Authorization' => 'Basic dXNlcjpwYXNz' })
+          .to_return(
+            status: 302,
+            headers: { 'Location' => redirect_url }
+          )
+        stub_request(:get, redirect_url)
+          .with do |request|
+            redirected_headers = request.headers.transform_keys(&:downcase)
+            true
+          end
+          .to_return(
+            status: 200,
+            body: File.new(Rails.root.join('spec/assets/avatar.png')),
+            headers: { 'Content-Type' => 'image/png' }
+          )
+
+        described_class.fetch(authenticated_url) do |result|
+          expect(result.content_type).to eq('image/png')
+        end
+
+        expect(redirected_headers).not_to include('authorization')
+      end
     end
 
     context 'with URL validation' do
@@ -220,6 +280,75 @@ RSpec.describe SafeFetch do
 
         expect { described_class.fetch(url) { nil } }
           .to raise_error(described_class::UnsupportedContentTypeError)
+      end
+    end
+
+    context 'with custom request options' do
+      let(:post_body) { { hello: 'world' }.to_json }
+      let(:headers) do
+        {
+          'Authorization' => 'Bearer test-token',
+          'Content-Type' => 'application/json'
+        }
+      end
+
+      it 'supports POST requests with custom headers when content-type validation is disabled' do
+        stub_request(:post, url)
+          .with(body: post_body, headers: headers)
+          .to_return(status: 200, body: '', headers: {})
+
+        expect do
+          described_class.fetch(
+            url,
+            method: :post,
+            body: post_body,
+            headers: headers,
+            validate_content_type: false
+          ) { nil }
+        end.not_to raise_error
+      end
+
+      it 'preserves non-credential headers on cross-origin redirects' do
+        redirect_url = 'https://example.com/image.png'
+        redirected_headers = nil
+        headers = {
+          'Authorization' => 'Bearer test-token',
+          'Cookie' => 'session=test',
+          'Content-Type' => 'application/json',
+          'X-Chatwoot-Delivery' => 'test-uuid',
+          'X-Chatwoot-Signature' => 'sha256=test-signature'
+        }
+
+        stub_request(:post, url).to_return(
+          status: 307,
+          headers: { 'Location' => redirect_url }
+        )
+        stub_request(:post, redirect_url)
+          .with do |request|
+            redirected_headers = request.headers.transform_keys(&:downcase)
+            true
+          end
+          .to_return(status: 200, body: '', headers: {})
+
+        described_class.fetch(
+          url,
+          method: :post,
+          body: post_body,
+          headers: headers,
+          validate_content_type: false
+        ) { nil }
+
+        expect(redirected_headers).to include(
+          'content-type' => 'application/json',
+          'x-chatwoot-delivery' => 'test-uuid',
+          'x-chatwoot-signature' => 'sha256=test-signature'
+        )
+        expect(redirected_headers).not_to include('authorization', 'cookie')
+      end
+
+      it 'raises UnsupportedMethodError for unsupported HTTP methods' do
+        expect { described_class.fetch(url, method: :options) { nil } }
+          .to raise_error(described_class::UnsupportedMethodError)
       end
     end
 
