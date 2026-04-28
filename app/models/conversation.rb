@@ -249,6 +249,10 @@ class Conversation < ApplicationRecord
   def reset_agent_bot_when_assignee_present
     # assignee_agent_bot_id column was removed in the 4.8.0 schema migration.
     # Bot assignment is now managed via the AgentBotInbox association.
+     return unless assignee_id.present?
+     return unless self.class.column_names.include?('assignee_agent_bot_id')
+
+     self.assignee_agent_bot_id = nil
   end
 
   def determine_conversation_status
