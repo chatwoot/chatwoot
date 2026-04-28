@@ -30,6 +30,6 @@
     "playwright": "^1.56.1",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.1",
-    "uuid": "^13.0.0"
+    "uuid": "^14.0.0"
   }
 }
