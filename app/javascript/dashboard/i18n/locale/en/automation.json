@@ -182,6 +182,7 @@
       "BROWSER_LANGUAGE": "Browser Language",
       "MAIL_SUBJECT": "Email Subject",
       "COUNTRY_NAME": "Country",
+      "COMPANY_NAME": "Company",
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Team",
