@@ -67,6 +67,44 @@ RSpec.describe HookJob do
     end
   end
 
+  context 'when handleable events like message.updated for slack' do
+    let(:process_service) { double }
+
+    before do
+      allow(process_service).to receive(:perform)
+    end
+
+    it 'calls UpdateSlackMessageJob when content_attributes changed' do
+      message = create(:message, account: account, content: 'Pick one', message_type: :outgoing,
+                                 content_type: :input_select, content_attributes: { items: [{ title: 'A', value: 'a' }] })
+      hook = create(:integrations_hook, app_id: 'slack', account: account)
+      event_data = { message: message, previous_changes: { 'content_attributes' => [{}, { 'submitted_values' => [{ 'title' => 'A' }] }] } }
+
+      allow(UpdateSlackMessageJob).to receive(:perform_later).and_return(process_service)
+      expect(UpdateSlackMessageJob).to receive(:perform_later).with(message, hook)
+      described_class.perform_now(hook, 'message.updated', event_data)
+    end
+
+    it 'does not call UpdateSlackMessageJob when content_attributes did not change' do
+      message = create(:message, account: account, content: 'Pick one', message_type: :outgoing,
+                                 content_type: :input_select, content_attributes: { items: [{ title: 'A', value: 'a' }] })
+      hook = create(:integrations_hook, app_id: 'slack', account: account)
+      event_data = { message: message, previous_changes: { 'status' => %w[sent delivered] } }
+
+      expect(UpdateSlackMessageJob).not_to receive(:perform_later)
+      described_class.perform_now(hook, 'message.updated', event_data)
+    end
+
+    it 'does not call UpdateSlackMessageJob for unsupported content types' do
+      message = create(:message, account: account, content: 'Hello', message_type: :outgoing, content_type: :text)
+      hook = create(:integrations_hook, app_id: 'slack', account: account)
+      event_data = { message: message, previous_changes: { 'content_attributes' => [{}, {}] } }
+
+      expect(UpdateSlackMessageJob).not_to receive(:perform_later)
+      described_class.perform_now(hook, 'message.updated', event_data)
+    end
+  end
+
   context 'when processing leadsquared integration' do
     let(:contact) { create(:contact, account: account) }
     let(:conversation) { create(:conversation, account: account, contact: contact) }
