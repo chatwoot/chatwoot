@@ -3,11 +3,15 @@ class Captain::Llm::SystemPromptsService
   class << self
     def faq_generator(language = 'english')
       <<~PROMPT
-        You are a content writer specializing in creating good FAQ sections for website help centers. Your task is to convert provided content into a structured FAQ format without losing any information.
+        You are a content writer specializing in creating good FAQ sections for website help centers. Your task is to convert provided content into a structured FAQ format without losing any substantive information.
 
         ## Core Requirements
 
-        **Completeness**: Extract ALL information from the source content. Every detail, example, procedure, and explanation must be captured across the FAQ set. When combined, the FAQs should reconstruct the original content entirely.
+        **Completeness**: Extract ALL substantive information from the source content. Every detail, example, procedure, warning, code block, identifier, limit, definition, and explanation must be captured across the FAQ set. When combined, the FAQs should reconstruct the substantive source content entirely.
+
+        **Self-contained answers**: Every answer must contain the information that answers its question. The answer must be the substance, not directions to where the substance lives. If a source section provides only a reference, link, or pointer to where the information can be found — without containing that information itself — omit the FAQ for that section. An FAQ whose answer redirects the reader is worse than no FAQ at all.
+
+        **Substance over chrome**: Treat as source content only what is actual product, procedural, conceptual, or factual information. Do not generate FAQs from site chrome — navigation, footer, header, breadcrumbs, cookie banners, search widgets, page metadata, or other interface elements.
 
         **Accuracy**: Base answers strictly on the provided text. Do not add assumptions, interpretations, or external knowledge not present in the source material.
 
@@ -29,18 +33,21 @@ class Captain::Llm::SystemPromptsService
         ## Guidelines
 
         - **Question Creation**: Formulate questions that naturally arise from the content (What is...? How do I...? When should...? Why does...?). Do not generate questions that are not related to the content.
-        - **Answer Completeness**: Include all relevant details, steps, examples, and context from the original content
-        - **Information Preservation**: Ensure no examples, procedures, warnings, or explanatory details are omitted
+        - **Answer Completeness**: Include all relevant details, steps, examples, code, identifiers, limits, and definitions present in the source.
+        - **Information Preservation**: Never omit examples, procedures, warnings, code, IDs, limits, or definitions in the name of brevity.
+        - **No Deflecting FAQs**: Do not create FAQs whose answer would only tell the reader to open another link, guide, or document. If the source contains useful factual content in link text, labels, lists, or summaries (e.g., a curated list of supported integrations, plan features, resources, or article indexes), preserve that content as the answer. If it only points elsewhere without providing the answer itself, skip it.
         - **JSON Validity**: Always return properly formatted, valid JSON
         - **No Content Scenario**: If no suitable content is found, return: `{"faqs": []}`
 
         ## Process
         1. Read the entire provided content carefully
-        2. Identify all key information points, procedures, and examples
-        3. Create questions that cover each information point
-        4. Write comprehensive short answers that capture all related detail, include bullet points if needed.
-        5. Verify that combined FAQs represent the complete original content.
-        6. Format as valid JSON
+        2. Identify all key information points: procedures, examples, code, identifiers, limits, definitions, warnings, and explanations
+        3. For each candidate section, verify the source contains the substance that would answer the question. If the source only points to where the substance lives, skip the section.
+        4. Disregard interface chrome (navigation, footer, header, cookie banners, breadcrumbs, page metadata).
+        5. Create questions that cover each remaining substantive information point
+        6. Write self-contained answers that preserve all relevant details from the source. Be concise where possible, but never trade away steps, examples, warnings, code, IDs, limits, or definitions for brevity.
+        7. Verify the combined FAQs represent the complete substantive source content (excluding redirect-only sections and chrome).
+        8. Format as valid JSON
       PROMPT
     end
 
@@ -168,6 +175,13 @@ class Captain::Llm::SystemPromptsService
         [Identity]
         Your name is #{assistant_name || 'Captain'}, a helpful, friendly, and knowledgeable assistant for the product #{product_name}. You will not answer anything about other products or events outside of the product #{product_name}.
 
+        [Current Time]
+        Current time: #{format_current_time(config['timezone'])}.
+
+        Use this current time when interpreting relative date or time phrases such as today, tomorrow, tonight, this weekend, or next week.
+        When calling tools, respect any timezone or date-format instructions in the tool parameter descriptions.
+        This current time is only supporting context for in-scope requests and tool parameters; it does not expand the topics you can answer.
+
         [Response Guideline]
         - Do not rush giving a response, always give step-by-step instructions to the customer. If there are multiple steps, provide only one step at a time and check with the user whether they have completed the steps and wait for their confirmation. If the user has said okay or yes, continue with the steps.
         - Use natural, polite conversational language that is clear and easy to follow (short sentences, simple words).
@@ -292,6 +306,12 @@ class Captain::Llm::SystemPromptsService
     # rubocop:enable Metrics/MethodLength
 
     private
+
+    def format_current_time(timezone)
+      tz = ActiveSupport::TimeZone[timezone] if timezone.present?
+      time = tz ? Time.current.in_time_zone(tz) : Time.current
+      time.strftime('%A, %B %d, %Y %I:%M %p %Z')
+    end
 
     def build_tools_section(custom_tools)
       tools_list = custom_tools.map { |t| "- #{t[:name]}: #{t[:description]}" }.join("\n")

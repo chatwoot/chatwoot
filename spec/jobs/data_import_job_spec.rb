@@ -41,7 +41,7 @@ RSpec.describe DataImportJob do
         expect(data_import.reload.processed_records).to eq(csv_length)
         contact = Contact.find_by(phone_number: '+918080808080')
         expect(contact).to be_truthy
-        expect(contact['additional_attributes']['company']).to eq('My Company Name')
+        expect(contact['additional_attributes']['company_name']).to eq('My Company Name')
       end
     end
 
@@ -91,12 +91,26 @@ RSpec.describe DataImportJob do
         expect(invalid_data_import.account.contacts.first.name).to eq(csv_data[0]['name'].encode('UTF-8', 'binary', invalid: :replace,
                                                                                                                     undef: :replace, replace: ''))
       end
+
+      it 'will strip UTF-8 BOM and import contacts correctly' do
+        bom_data_import = create(:data_import,
+                                 import_file: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/data_import/with_bom.csv'),
+                                                                           'text/csv'))
+
+        described_class.perform_now(bom_data_import)
+        expect(bom_data_import.account.contacts.count).to eq(1)
+
+        contact = bom_data_import.account.contacts.first
+        expect(contact.name).to eq('Ahmed')
+        expect(contact.email).to eq('ahmed@example.com')
+        expect(contact.phone_number).to eq('+971501234567')
+      end
     end
 
     context 'when the data contains existing records' do
       let(:existing_data) do
         [
-          %w[id name email phone_number company],
+          %w[id name email phone_number company_name],
           ['1', 'Clarice Uzzell', 'cuzzell0@mozilla.org', '918080808080', 'Acmecorp'],
           ['2', 'Marieann Creegan', 'mcreegan1@cornell.edu', '+918080808081', 'Acmecorp'],
           ['3', 'Nancey Windibank', 'nwindibank2@bluehost.com', '+918080808082', 'Acmecorp']
@@ -118,7 +132,7 @@ RSpec.describe DataImportJob do
           expect(contact).to be_present
           expect(contact.phone_number).to eq("+#{csv_data[0]['phone_number']}")
           expect(contact.name).to eq((csv_data[0]['name']).to_s)
-          expect(contact.additional_attributes['company']).to eq((csv_data[0]['company']).to_s)
+          expect(contact.additional_attributes['company_name']).to eq((csv_data[0]['company_name']).to_s)
         end
       end
 
@@ -135,7 +149,7 @@ RSpec.describe DataImportJob do
           expect(contact).to be_present
           expect(contact.email).to eq(csv_data[0]['email'])
           expect(contact.name).to eq((csv_data[0]['name']).to_s)
-          expect(contact.additional_attributes['company']).to eq((csv_data[0]['company']).to_s)
+          expect(contact.additional_attributes['company_name']).to eq((csv_data[0]['company_name']).to_s)
         end
       end
 
@@ -157,7 +171,9 @@ RSpec.describe DataImportJob do
 
     context 'when the CSV file is invalid' do
       let(:invalid_csv_content) do
-        "id,name,email,phone_number,company\n1,\"Clarice Uzzell,\"missing_quote,918080808080,Acmecorp\n2,Marieann Creegan,,+918080808081,Acmecorp"
+        "id,name,email,phone_number,company_name\n" \
+          "1,\"Clarice Uzzell,\"missing_quote,918080808080,Acmecorp\n" \
+          '2,Marieann Creegan,,+918080808081,Acmecorp'
       end
 
       before do
