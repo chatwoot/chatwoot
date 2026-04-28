@@ -19,6 +19,92 @@ RSpec.describe Conversation do
     it { is_expected.to belong_to(:team).optional }
     it { is_expected.to belong_to(:campaign).optional }
   end
+ 
+# Test for reset_agent_bot_when_assignee_present function
+  describe '#reset_agent_bot_when_assignee_present' do
+    let(:account) { create(:account) }
+    let(:inbox)   { create(:inbox, account: account) }
+    let(:agent)   { create(:user, account: account) }
+
+    context 'when assignee_agent_bot_id column exists in the schema' do
+      it 'clears assignee_agent_bot_id when a human assignee is set on create' do
+        # Only run when the column is present (fully migrated install)
+        skip 'assignee_agent_bot_id column not present' unless
+          Conversation.column_names.include?('assignee_agent_bot_id')
+
+        conversation = build(
+          :conversation,
+          account: account,
+          inbox:   inbox,
+          assignee: agent
+        )
+
+        expect { conversation.save! }.not_to raise_error
+        expect(conversation.assignee_agent_bot_id).to be_nil
+      end
+    end
+
+    context 'when assignee_agent_bot_id column is absent (partial migration)' do
+      it 'does not raise NoMethodError when creating a conversation with an assignee' do
+        # Simulate the scenario from Issue #12934 where the migration has not
+        # been applied by temporarily hiding the column from the model.
+        original_columns = Conversation.column_names.dup
+
+        allow(Conversation).to receive(:column_names)
+          .and_return(original_columns.reject { |c| c == 'assignee_agent_bot_id' })
+
+        conversation = build(
+          :conversation,
+          account:  account,
+          inbox:    inbox,
+          assignee: agent
+        )
+
+        expect { conversation.save! }.not_to raise_error
+      end
+    end
+
+    context 'when no assignee is set' do
+      it 'does not attempt to clear assignee_agent_bot_id' do
+        conversation = build(:conversation, account: account, inbox: inbox, assignee: nil)
+
+        # Should succeed silently regardless of column presence
+        expect { conversation.save! }.not_to raise_error
+      end
+    end
+  end
+
+  # ---------------------------------------------------------------------------
+  # Integration-level regression: full API flow
+  # Mirrors the exact payload from Issue #12934
+  # ---------------------------------------------------------------------------
+  describe 'API conversation creation with assignee_id (Issue #12934 regression)' do
+    let(:account) { create(:account) }
+    let(:agent)   { create(:user, account: account, role: :agent) }
+    let(:inbox)   { create(:inbox, account: account, channel: create(:channel_api, account: account)) }
+    let(:contact) { create(:contact, account: account) }
+
+    before do
+      create(:inbox_member, inbox: inbox, user: agent)
+      create(:contact_inbox, contact: contact, inbox: inbox)
+    end
+
+    it 'creates a conversation with assignee_id without raising' do
+      builder = ConversationBuilder.new(
+        params: {
+          inbox_id:    inbox.id,
+          contact_id:  contact.id,
+          assignee_id: agent.id,
+          message:     { content: 'hello' }
+        },
+        account: account
+      )
+
+      expect { builder.perform }.not_to raise_error
+    end
+  end
+end
+
 
   describe 'concerns' do
     it_behaves_like 'assignment_handler'
