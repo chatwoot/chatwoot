@@ -15,7 +15,7 @@ defineEmits(['update:modelValue']);
   <div class="relative flex items-center justify-end">
     <select
       :value="modelValue"
-      class="reset-base text-sm text-right bg-transparent border-0 p-0 m-0 cursor-pointer appearance-none pr-[17px] focus:outline-none focus:ring-0"
+      class="!h-auto !w-auto !py-0 !pl-0 !pr-[17px] !m-0 !rounded-none !bg-transparent !bg-none !outline-none text-sm text-right border-0 cursor-pointer appearance-none focus:outline-none focus:ring-0"
       :class="[
         modelValue ? 'text-n-slate-12' : 'text-n-slate-9',
         { 'animate-shake': hasError },
