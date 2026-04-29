@@ -36,10 +36,6 @@ RSpec.describe Voice::StatusUpdateService do
     call.update!(message_id: msg.id)
     msg
   end
-  let(:channel) { create(:channel_twilio_sms, :with_voice, account: account, phone_number: '+15551230002') }
-  let(:inbox) { channel.inbox }
-  let(:from_number) { '+15550002222' }
-  let(:call_sid) { 'CATESTSTATUS123' }
 
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)

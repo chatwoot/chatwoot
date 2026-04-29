@@ -14,7 +14,7 @@ describe Voice::Provider::Twilio::ConferenceService do
     )
   end
   let(:twilio_client) { instance_double(Twilio::REST::Client) }
-  let(:service) { described_class.new(conversation: conversation) }
+  let(:service) { described_class.new(call: call) }
   let(:webhook_service) { instance_double(Twilio::VoiceWebhookSetupService, perform: true) }
 
   before do
