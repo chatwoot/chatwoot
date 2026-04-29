@@ -2,6 +2,7 @@ import {
   messageSchema,
   MessageMarkdownTransformer,
   MessageMarkdownSerializer,
+  Selection,
 } from '@chatwoot/prosemirror-schema';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
@@ -30,6 +31,25 @@ export function extractTextFromMarkdown(markdown) {
     .join('\n') // Trim each line & remove any lines only having spaces
     .replace(/\n{2,}/g, '\n') // Remove multiple consecutive newlines (blank lines)
     .trim(); // Trim any extra space
+}
+
+/**
+ * Removes inline base64 markdown images from signature content.
+ *
+ * @param {string} content
+ * @returns {{ sanitizedContent: string, hasInlineImages: boolean }}
+ */
+export function stripInlineBase64Images(content) {
+  if (!content || typeof content !== 'string') {
+    return { sanitizedContent: content || '', hasInlineImages: false };
+  }
+
+  const markdownInlineBase64ImageRegex =
+    /!\[[^\]]*]\(\s*data:image\/[a-zA-Z0-9.+-]+;base64,[^)]+\s*\)/gi;
+  const sanitizedContent = content.replace(markdownInlineBase64ImageRegex, '');
+  const hasInlineImages = sanitizedContent !== content;
+
+  return { sanitizedContent, hasInlineImages };
 }
 
 /**
@@ -252,6 +272,18 @@ export const scrollCursorIntoView = view => {
   if (node && node.scrollIntoView) {
     node.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
+};
+
+/**
+ * Collapse the current selection to a cursor near its head. Used to override
+ * the default Escape -> selectParentNode behavior which would otherwise keep
+ * the text highlight visible.
+ *
+ * @param {EditorView} view - The ProseMirror EditorView
+ */
+export const collapseSelection = view => {
+  const { tr, selection } = view.state;
+  view.dispatch(tr.setSelection(Selection.near(selection.$head)));
 };
 
 /**

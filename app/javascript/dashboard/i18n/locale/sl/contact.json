@@ -20,6 +20,7 @@
     "CALL": "Pokliči",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Klica ni bilo mogoče začeti. Poskusite znova.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Izberi glasovni predal"
     },

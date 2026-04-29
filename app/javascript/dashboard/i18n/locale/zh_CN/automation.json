@@ -140,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "分配客服",
       "ASSIGN_TEAM": "分配团队",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "移除已分配的团队",
       "ADD_LABEL": "添加标签",
       "REMOVE_LABEL": "移除标签",
       "SEND_EMAIL_TO_TEAM": "发送电子邮件给团队",
@@ -169,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "消息类型",
+      "PRIVATE_NOTE": "私人便笺",
       "MESSAGE_CONTAINS": "消息包含",
       "EMAIL": "Email",
       "INBOX": "收件箱",

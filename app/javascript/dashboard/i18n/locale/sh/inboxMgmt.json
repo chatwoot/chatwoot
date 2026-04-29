@@ -86,6 +86,14 @@
           "PLACEHOLDER": "Unesite svoj Webhook URL",
           "ERROR": "Molimo unesite valjani URL"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Kopiraj tajnu u međuspremnik",
+          "COPY_SUCCESS": "Tajna je kopirana u međuspremnik",
+          "TOGGLE": "Prebaci vidljivost tajne",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Website Domain",
           "PLACEHOLDER": "Enter your website domain (eg: acme.com)"

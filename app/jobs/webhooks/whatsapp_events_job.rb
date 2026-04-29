@@ -1,5 +1,9 @@
-class Webhooks::WhatsappEventsJob < ApplicationJob
+class Webhooks::WhatsappEventsJob < MutexApplicationJob
   queue_as :low
+  # Retry budget (19 × 2s = 38s) must exceed the 30s lock TTL set in `perform`, otherwise
+  # a webhook that arrives just after the lock is acquired can exhaust retries before the
+  # holder finishes and silently drop its message.
+  retry_on LockAcquisitionError, wait: 2.seconds, attempts: 20
 
   def perform(params = {})
     channel = find_channel_from_whatsapp_business_payload(params)
@@ -9,6 +13,20 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
       return
     end
 
+    sender_id = contact_sender_id(params)
+    return process_events(channel, params) if sender_id.blank?
+
+    # Album uploads arrive as separate concurrent webhooks. Serialize per (inbox, contact)
+    # so the first webhook creates the conversation and the rest append to it.
+    # 30s TTL covers the attachment download + transaction — the default 1s expires
+    # mid-processing and lets a concurrent webhook re-acquire before the first commit.
+    key = format(::Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: sender_id)
+    with_lock(key, 30.seconds) do
+      process_events(channel, params)
+    end
+  end
+
+  def process_events(channel, params)
     if message_echo_event?(params)
       handle_message_echo(channel, params)
     else
@@ -68,6 +86,16 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   end
 
   private
+
+  # Echo payloads reverse the fields — `from` is the business number and `to` is the contact.
+  # Returns nil for status-only webhooks so they bypass the lock.
+  def contact_sender_id(params)
+    value = params.dig(:entry, 0, :changes, 0, :value) || params
+    message = (value[:messages] || value[:message_echoes])&.first
+    return if message.blank?
+
+    message[:to] || message[:from]
+  end
 
   def channel_is_inactive?(channel)
     return true if channel.blank?

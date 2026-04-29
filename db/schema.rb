@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_24_102005) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_28_120000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -261,6 +261,30 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_24_102005) do
     t.index ["account_id"], name: "index_automation_rules_on_account_id"
   end
 
+  create_table "calls", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "inbox_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "message_id"
+    t.bigint "accepted_by_agent_id"
+    t.string "provider_call_id", null: false
+    t.integer "provider", default: 0, null: false
+    t.integer "direction", null: false
+    t.string "status", default: "ringing", null: false
+    t.datetime "started_at"
+    t.integer "duration_seconds"
+    t.string "end_reason"
+    t.jsonb "meta", default: {}
+    t.text "transcript"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "contact_id"], name: "index_calls_on_account_id_and_contact_id"
+    t.index ["account_id", "conversation_id"], name: "index_calls_on_account_id_and_conversation_id"
+    t.index ["message_id"], name: "index_calls_on_message_id"
+    t.index ["provider", "provider_call_id"], name: "index_calls_on_provider_and_provider_call_id", unique: true
+  end
+
   create_table "campaigns", force: :cascade do |t|
     t.integer "display_id", null: false
     t.string "title", null: false
@@ -305,6 +329,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_24_102005) do
     t.datetime "updated_at", null: false
     t.integer "status", default: 1, null: false
     t.string "documentable_type"
+    t.boolean "edited", default: false, null: false
     t.index ["account_id"], name: "index_captain_assistant_responses_on_account_id"
     t.index ["assistant_id"], name: "index_captain_assistant_responses_on_assistant_id"
     t.index ["documentable_id", "documentable_type"], name: "idx_cap_asst_resp_on_documentable"
@@ -353,10 +378,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_24_102005) do
     t.datetime "updated_at", null: false
     t.integer "status", default: 0, null: false
     t.jsonb "metadata", default: {}
+    t.integer "sync_status"
+    t.datetime "last_synced_at"
+    t.datetime "last_sync_attempted_at"
     t.index ["account_id"], name: "index_captain_documents_on_account_id"
     t.index ["assistant_id", "external_link"], name: "index_captain_documents_on_assistant_id_and_external_link", unique: true
     t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"
     t.index ["status"], name: "index_captain_documents_on_status"
+    t.index ["account_id", "sync_status"], name: "index_captain_documents_on_account_id_and_sync_status"
   end
 
   create_table "captain_inboxes", force: :cascade do |t|
@@ -523,6 +552,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_24_102005) do
     t.string "api_key_sid"
     t.jsonb "content_templates", default: {}
     t.datetime "content_templates_last_updated"
+    t.boolean "voice_enabled", default: false, null: false
+    t.string "twiml_app_sid"
+    t.string "api_key_secret"
     t.index ["account_sid", "phone_number"], name: "index_channel_twilio_sms_on_account_sid_and_phone_number", unique: true
     t.index ["messaging_service_sid"], name: "index_channel_twilio_sms_on_messaging_service_sid", unique: true
     t.index ["phone_number"], name: "index_channel_twilio_sms_on_phone_number", unique: true
@@ -537,18 +569,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_24_102005) do
     t.datetime "updated_at", null: false
     t.boolean "tweets_enabled", default: true
     t.index ["account_id", "profile_id"], name: "index_channel_twitter_profiles_on_account_id_and_profile_id", unique: true
-  end
-
-  create_table "channel_voice", force: :cascade do |t|
-    t.string "phone_number", null: false
-    t.string "provider", default: "twilio", null: false
-    t.jsonb "provider_config", null: false
-    t.integer "account_id", null: false
-    t.jsonb "additional_attributes", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_channel_voice_on_account_id"
-    t.index ["phone_number"], name: "index_channel_voice_on_phone_number", unique: true
   end
 
   create_table "channel_web_widgets", id: :serial, force: :cascade do |t|
@@ -1063,6 +1083,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_24_102005) do
 
   create_table "platform_apps", force: :cascade do |t|
     t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "platform_banners", force: :cascade do |t|
+    t.text "banner_message", null: false
+    t.integer "banner_type", default: 0, null: false
+    t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

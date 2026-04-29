@@ -837,6 +837,18 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Atvērt norēķinus",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Lai pārietu uz maksas versiju, lūdzu sazinieties ar savu administratoru."
+      },
       "TEST": {
         "BUTTON": "Test connection",
         "SUCCESS": "Endpoint returned HTTP {status}",

@@ -1,7 +1,7 @@
 {
   "EMOJI": {
     "PLACEHOLDER": "搜尋表情符號",
-    "NOT_FOUND": "沒有適合你的搜尋結果",
-    "REMOVE": "刪除"
+    "NOT_FOUND": "找不到符合的表情符號",
+    "REMOVE": "移除"
   }
 }

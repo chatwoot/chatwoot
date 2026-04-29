@@ -15,17 +15,22 @@ RSpec.describe Captain::Tools::FirecrawlParserJob, type: :job do
     end
 
     it 'creates a new document when one does not exist' do
-      expect do
-        described_class.perform_now(assistant_id: assistant.id, payload: payload)
-      end.to change(assistant.documents, :count).by(1)
+      freeze_time do
+        expect do
+          described_class.perform_now(assistant_id: assistant.id, payload: payload)
+        end.to change(assistant.documents, :count).by(1)
 
-      document = assistant.documents.last
-      expect(document).to have_attributes(
-        content: payload[:markdown],
-        name: payload[:metadata]['title'],
-        external_link: 'https://www.firecrawl.dev',
-        status: 'available'
-      )
+        document = assistant.documents.last
+        expect(document).to have_attributes(
+          content: payload[:markdown],
+          name: payload[:metadata]['title'],
+          external_link: 'https://www.firecrawl.dev',
+          status: 'available',
+          sync_status: 'synced',
+          last_synced_at: Time.current,
+          last_sync_attempted_at: Time.current
+        )
+      end
     end
 
     it 'updates existing document when one exists' do
@@ -37,18 +42,23 @@ RSpec.describe Captain::Tools::FirecrawlParserJob, type: :job do
                                  name: 'old title',
                                  status: :in_progress)
 
-      expect do
-        described_class.perform_now(assistant_id: assistant.id, payload: payload)
-      end.not_to change(assistant.documents, :count)
+      freeze_time do
+        expect do
+          described_class.perform_now(assistant_id: assistant.id, payload: payload)
+        end.not_to change(assistant.documents, :count)
 
-      existing_document.reload
-      # Payload URL ends with '/', but we persist the canonical URL without it.
-      expect(existing_document).to have_attributes(
-        external_link: 'https://www.firecrawl.dev',
-        content: payload[:markdown],
-        name: payload[:metadata]['title'],
-        status: 'available'
-      )
+        existing_document.reload
+        # Payload URL ends with '/', but we persist the canonical URL without it.
+        expect(existing_document).to have_attributes(
+          external_link: 'https://www.firecrawl.dev',
+          content: payload[:markdown],
+          name: payload[:metadata]['title'],
+          status: 'available',
+          sync_status: 'synced',
+          last_synced_at: Time.current,
+          last_sync_attempted_at: Time.current
+        )
+      end
     end
 
     context 'when an error occurs' do
