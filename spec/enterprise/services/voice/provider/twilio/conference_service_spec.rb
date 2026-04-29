@@ -2,14 +2,15 @@ require 'rails_helper'
 
 describe Voice::Provider::Twilio::ConferenceService do
   let(:account) { create(:account) }
-  let(:channel) { create(:channel_voice, account: account) }
+  let(:channel) { create(:channel_twilio_sms, :with_voice, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: channel.inbox) }
   let(:twilio_client) { instance_double(Twilio::REST::Client) }
-  let(:service) { described_class.new(conversation: conversation, twilio_client: twilio_client) }
+  let(:service) { described_class.new(conversation: conversation) }
   let(:webhook_service) { instance_double(Twilio::VoiceWebhookSetupService, perform: true) }
 
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(webhook_service)
+    allow(Twilio::REST::Client).to receive(:new).and_return(twilio_client)
   end
 
   describe '#ensure_conference_sid' do

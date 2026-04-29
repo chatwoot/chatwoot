@@ -222,6 +222,51 @@ RSpec.describe Account, type: :model do
     end
   end
 
+  describe 'captain document sync cadence' do
+    let(:account) { create(:account) }
+
+    it 'has no cadence on the hacker plan' do
+      account.update!(custom_attributes: { plan_name: 'hacker' })
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'syncs weekly on the startups plan' do
+      account.update!(custom_attributes: { plan_name: 'startups' })
+      expect(account.captain_document_sync_interval).to eq(7.days)
+    end
+
+    it 'syncs daily on the business plan' do
+      account.update!(custom_attributes: { plan_name: 'business' })
+      expect(account.captain_document_sync_interval).to eq(1.day)
+    end
+
+    it 'syncs every six hours on the enterprise plan' do
+      account.update!(custom_attributes: { plan_name: 'enterprise' })
+      expect(account.captain_document_sync_interval).to eq(6.hours)
+    end
+
+    it 'has no cadence when plan is missing' do
+      account.update!(custom_attributes: {})
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'has no cadence for unknown plans' do
+      account.update!(custom_attributes: { plan_name: 'mystery' })
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'normalizes plan name casing' do
+      account.update!(custom_attributes: { plan_name: 'Business' })
+      expect(account.captain_document_sync_interval).to eq(1.day)
+    end
+
+    it 'syncs every six hours on self-hosted enterprise installs without a plan_name' do
+      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+      account.update!(custom_attributes: {})
+      expect(account.captain_document_sync_interval).to eq(6.hours)
+    end
+  end
+
   describe 'account deletion' do
     let(:account) { create(:account) }
     let(:admin) { create(:user, account: account, role: :administrator) }

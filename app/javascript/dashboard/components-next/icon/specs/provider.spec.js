@@ -19,8 +19,11 @@ describe('useChannelIcon', () => {
     expect(icon).toBe('i-woot-whatsapp');
   });
 
-  it('returns correct icon for Voice channel', () => {
-    const inbox = { channel_type: 'Channel::Voice' };
+  it('returns correct icon for voice-enabled Twilio channel', () => {
+    const inbox = {
+      channel_type: 'Channel::TwilioSms',
+      voice_enabled: true,
+    };
     const { value: icon } = useChannelIcon(inbox);
     expect(icon).toBe('i-woot-voice');
   });
