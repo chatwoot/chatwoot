@@ -23,6 +23,10 @@ class Captain::AssistantPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def sync?
+    @account_user.administrator?
+  end
+
   def playground?
     true
   end
