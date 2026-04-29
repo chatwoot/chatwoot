@@ -40,6 +40,11 @@ Rails.application.reloader.to_prepare do
   if File.exist?(schedule_file) && Sidekiq.server?
     schedule = YAML.load_file(schedule_file)
 
+    # Merge enterprise-only cron entries when running an enterprise build.
+    # Mirrors the conditional-load pattern already used for enterprise initializers.
+    enterprise_schedule_file = Rails.root.join('enterprise/config/schedule.yml')
+    schedule.merge!(YAML.load_file(enterprise_schedule_file)) if ChatwootApp.enterprise? && enterprise_schedule_file.exist?
+
     # Cron entries removed from schedule.yml but possibly still in Redis
     # with source:'dynamic' (predating the source tag). load_from_hash!
     # only cleans up source:'schedule' entries, so these need explicit removal.

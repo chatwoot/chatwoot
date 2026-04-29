@@ -93,6 +93,7 @@
       "ASSIGN_AGENT": "Cakto një agjent",
       "ADD_LABEL": "Shto një etiketë",
       "REMOVE_LABEL": "Hiq një etiketë",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "Hiq ekipin e caktuar",
       "SEND_EMAIL_TRANSCRIPT": "Dërgo një transkript me email",
       "MUTE_CONVERSATION": "Heshto bisedën",

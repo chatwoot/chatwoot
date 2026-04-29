@@ -85,6 +85,13 @@ RSpec.describe Account::ContactsExportJob do
       expect(phone_numbers).to include('+910808080818', '+910808080808')
     end
 
+    it 'prepends UTF-8 BOM to the exported CSV for spreadsheet compatibility' do
+      described_class.perform_now(account.id, user.id, [], {})
+
+      raw = account.contacts_export.download
+      expect(raw.bytes[0..2]).to eq([0xEF, 0xBB, 0xBF])
+    end
+
     it 'returns all resolved contacts as results when filter is not prvoided' do
       create(:contact, account: account, email: nil, phone_number: nil)
       described_class.perform_now(account.id, user.id, %w[id name email column_not_present], {})

@@ -75,6 +75,12 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_6,
       },
       {
+        key: 'company_name',
+        name: 'COMPANY_NAME',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
         key: 'labels',
         name: 'LABELS',
         inputType: 'multi_select',
@@ -89,6 +95,14 @@ export const AUTOMATIONS = {
       {
         key: 'assign_team',
         name: 'ASSIGN_TEAM',
+      },
+      {
+        key: 'remove_assigned_agent',
+        name: 'REMOVE_ASSIGNED_AGENT',
+      },
+      {
+        key: 'remove_assigned_team',
+        name: 'REMOVE_ASSIGNED_TEAM',
       },
       {
         key: 'add_label',
@@ -173,6 +187,12 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_6,
       },
       {
+        key: 'company_name',
+        name: 'COMPANY_NAME',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
         key: 'referer',
         name: 'REFERER_LINK',
         inputType: 'plain_text',
@@ -217,6 +237,14 @@ export const AUTOMATIONS = {
       {
         key: 'assign_team',
         name: 'ASSIGN_TEAM',
+      },
+      {
+        key: 'remove_assigned_agent',
+        name: 'REMOVE_ASSIGNED_AGENT',
+      },
+      {
+        key: 'remove_assigned_team',
+        name: 'REMOVE_ASSIGNED_TEAM',
       },
       {
         key: 'assign_agent',
@@ -299,6 +327,12 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_6,
       },
       {
+        key: 'company_name',
+        name: 'COMPANY_NAME',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
         key: 'assignee_id',
         name: 'ASSIGNEE_NAME',
         inputType: 'search_select',
@@ -349,6 +383,14 @@ export const AUTOMATIONS = {
       {
         key: 'assign_team',
         name: 'ASSIGN_TEAM',
+      },
+      {
+        key: 'remove_assigned_agent',
+        name: 'REMOVE_ASSIGNED_AGENT',
+      },
+      {
+        key: 'remove_assigned_team',
+        name: 'REMOVE_ASSIGNED_TEAM',
       },
       {
         key: 'assign_agent',
@@ -437,6 +479,12 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_6,
       },
       {
+        key: 'company_name',
+        name: 'COMPANY_NAME',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
         key: 'team_id',
         name: 'TEAM_NAME',
         inputType: 'search_select',
@@ -475,6 +523,14 @@ export const AUTOMATIONS = {
       {
         key: 'assign_team',
         name: 'ASSIGN_TEAM',
+      },
+      {
+        key: 'remove_assigned_agent',
+        name: 'REMOVE_ASSIGNED_AGENT',
+      },
+      {
+        key: 'remove_assigned_team',
+        name: 'REMOVE_ASSIGNED_TEAM',
       },
       {
         key: 'assign_agent',
@@ -559,6 +615,12 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_6,
       },
       {
+        key: 'company_name',
+        name: 'COMPANY_NAME',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
         key: 'team_id',
         name: 'TEAM_NAME',
         inputType: 'search_select',
@@ -591,6 +653,14 @@ export const AUTOMATIONS = {
       {
         key: 'assign_team',
         name: 'ASSIGN_TEAM',
+      },
+      {
+        key: 'remove_assigned_agent',
+        name: 'REMOVE_ASSIGNED_AGENT',
+      },
+      {
+        key: 'remove_assigned_team',
+        name: 'REMOVE_ASSIGNED_TEAM',
       },
       {
         key: 'send_email_to_team',
@@ -649,6 +719,16 @@ export const AUTOMATION_ACTION_TYPES = [
     key: 'assign_team',
     label: 'ASSIGN_TEAM',
     inputType: 'search_select',
+  },
+  {
+    key: 'remove_assigned_agent',
+    label: 'REMOVE_ASSIGNED_AGENT',
+    inputType: null,
+  },
+  {
+    key: 'remove_assigned_team',
+    label: 'REMOVE_ASSIGNED_TEAM',
+    inputType: null,
   },
   {
     key: 'add_label',

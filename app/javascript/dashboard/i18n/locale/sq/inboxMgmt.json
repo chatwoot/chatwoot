@@ -86,6 +86,14 @@
           "PLACEHOLDER": "Ju lutemi shkruani URL-në tuaj të webhook-ut",
           "ERROR": "Ju lutem shkruani një URL të vlefshme"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Kopjo sekretin në kujtesën e përkohshme",
+          "COPY_SUCCESS": "Sekreti u kopjua në kujtesën e përkohshme",
+          "TOGGLE": "Ndrysho dukshmërinë e sekretit",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domeni i faqes së internetit",
           "PLACEHOLDER": "Shkruani domenin e faqes suaj (p.sh.: acme.com)"

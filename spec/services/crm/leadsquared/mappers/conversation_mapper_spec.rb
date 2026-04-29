@@ -188,12 +188,13 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
       end
 
       context 'when sender has no name' do
+        let(:unnamed_contact) { create(:contact, account: account, name: '') }
         let(:unnamed_sender_message) do
           create(:message,
                  conversation: conversation,
-                 sender: create(:user, name: ''),
+                 sender: unnamed_contact,
                  content: 'Message',
-                 message_type: :outgoing,
+                 message_type: :incoming,
                  created_at: Time.zone.parse('2024-01-01 10:05'))
         end
 
@@ -201,7 +202,7 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
 
         it 'uses sender type and id' do
           result = described_class.map_transcript_activity(hook, conversation)
-          expect(result).to include("User #{unnamed_sender_message.sender_id}")
+          expect(result).to include("Contact #{unnamed_sender_message.sender_id}")
         end
       end
     end

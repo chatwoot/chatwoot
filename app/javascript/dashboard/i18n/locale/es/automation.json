@@ -140,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Asignar al agente",
       "ASSIGN_TEAM": "Asignar equipo",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
       "ADD_LABEL": "Añadir etiqueta",
       "REMOVE_LABEL": "Eliminar etiqueta",
       "SEND_EMAIL_TO_TEAM": "Enviar un email al equipo",
@@ -169,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Tipo de mensaje",
+      "PRIVATE_NOTE": "Nota privada",
       "MESSAGE_CONTAINS": "El mensaje contiene",
       "EMAIL": "E-mail",
       "INBOX": "Bandeja de entrada",
