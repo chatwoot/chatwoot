@@ -1,94 +1,94 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "My Inbox",
-      "DISPLAY_DROPDOWN": "Display",
-      "LOADING": "Fetching notifications",
-      "404": "There are no active notifications in this group.",
-      "NO_NOTIFICATIONS": "No notifications",
-      "NOTE": "Notifications from all subscribed inboxes",
-      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
-      "SNOOZED_UNTIL": "Snoozed until",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week"
+      "TITLE": "我的收件匣",
+      "DISPLAY_DROPDOWN": "顯示",
+      "LOADING": "正在載入通知",
+      "404": "此群組中沒有進行中的通知。",
+      "NO_NOTIFICATIONS": "沒有通知",
+      "NOTE": "來自所有已訂閱收件匣的通知",
+      "NO_MESSAGES_AVAILABLE": "糟糕！無法載入訊息",
+      "SNOOZED_UNTIL": "延後至",
+      "SNOOZED_UNTIL_TOMORROW": "延後至明天",
+      "SNOOZED_UNTIL_NEXT_WEEK": "延後至下週"
     },
     "ACTION_HEADER": {
-      "SNOOZE": "擱置通知",
+      "SNOOZE": "延後通知",
       "DELETE": "刪除通知",
       "BACK": "返回"
     },
     "TYPES": {
-      "CONVERSATION_MENTION": "You have been mentioned in a conversation",
-      "CONVERSATION_CREATION": "New conversation created",
-      "CONVERSATION_ASSIGNMENT": "A conversation has been assigned to you",
-      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
-      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in",
-      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
-      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
-      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
+      "CONVERSATION_MENTION": "您在對話中被提及",
+      "CONVERSATION_CREATION": "新對話已建立",
+      "CONVERSATION_ASSIGNMENT": "有一則對話已指派給您",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "已指派的對話中有新訊息",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "您參與的對話中有新訊息",
+      "SLA_MISSED_FIRST_RESPONSE": "對話的 SLA 首次回應目標未達成",
+      "SLA_MISSED_NEXT_RESPONSE": "對話的 SLA 下次回應目標未達成",
+      "SLA_MISSED_RESOLUTION": "對話的 SLA 解決目標未達成"
     },
     "TYPES_NEXT": {
-      "CONVERSATION_MENTION": "Mentioned",
-      "CONVERSATION_ASSIGNMENT": "Assigned to you",
-      "CONVERSATION_CREATION": "New Conversation",
-      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
-      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
-      "SLA_MISSED_RESOLUTION": "SLA breach",
+      "CONVERSATION_MENTION": "被提及",
+      "CONVERSATION_ASSIGNMENT": "已指派給您",
+      "CONVERSATION_CREATION": "新對話",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA 違規",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA 違規",
+      "SLA_MISSED_RESOLUTION": "SLA 違規",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "新訊息",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "新訊息",
-      "SNOOZED_UNTIL": "Snoozed for {time}",
-      "SNOOZED_ENDS": "Snooze ended"
+      "SNOOZED_UNTIL": "已延後 {time}",
+      "SNOOZED_ENDS": "延後已結束"
     },
-    "NO_CONTENT": "沒有可用內容",
+    "NO_CONTENT": "沒有可用的內容",
     "MENU_ITEM": {
-      "MARK_AS_READ": "標記為已讀取",
-      "MARK_AS_UNREAD": "標記為未讀取",
-      "SNOOZE": "擱置",
+      "MARK_AS_READ": "標記為已讀",
+      "MARK_AS_UNREAD": "標記為未讀",
+      "SNOOZE": "延後",
       "DELETE": "刪除",
-      "MARK_ALL_READ": "標記全部為已讀取",
-      "DELETE_ALL": "刪除所有",
-      "DELETE_ALL_READ": "標記為未讀取已讀取"
+      "MARK_ALL_READ": "全部標記為已讀",
+      "DELETE_ALL": "刪除全部",
+      "DELETE_ALL_READ": "刪除所有已讀"
     },
     "DISPLAY_MENU": {
-      "SORT": "Sort",
-      "DISPLAY": "Display :",
+      "SORT": "排序",
+      "DISPLAY": "顯示：",
       "SORT_OPTIONS": {
-        "NEWEST": "Newest",
-        "OLDEST": "Oldest",
-        "PRIORITY": "優先程度"
+        "NEWEST": "最新",
+        "OLDEST": "最舊",
+        "PRIORITY": "優先順序"
       },
       "DISPLAY_OPTIONS": {
-        "SNOOZED": "擱置",
-        "READ": "Read",
+        "SNOOZED": "已延後",
+        "READ": "已讀",
         "LABELS": "標籤",
-        "CONVERSATION_ID": "Conversation ID"
+        "CONVERSATION_ID": "對話 ID"
       }
     },
     "ALERTS": {
-      "MARK_AS_READ": "Notification marked as read",
-      "MARK_AS_UNREAD": "Notification marked as unread",
-      "SNOOZE": "Notification snoozed",
-      "DELETE": "Notification deleted",
-      "MARK_ALL_READ": "All notifications marked as read",
-      "DELETE_ALL": "All notifications deleted",
-      "DELETE_ALL_READ": "All read notifications deleted"
+      "MARK_AS_READ": "通知已標記為已讀",
+      "MARK_AS_UNREAD": "通知已標記為未讀",
+      "SNOOZE": "通知已延後",
+      "DELETE": "通知已刪除",
+      "MARK_ALL_READ": "所有通知已標記為已讀",
+      "DELETE_ALL": "所有通知已刪除",
+      "DELETE_ALL_READ": "所有已讀通知已刪除"
     },
     "REAUTHORIZE": {
-      "TITLE": "Reauthorization Required",
-      "DESCRIPTION": "Your WhatsApp connection has expired. Please reconnect to continue receiving and sending messages.",
-      "BUTTON_TEXT": "Reconnect WhatsApp",
-      "LOADING_FACEBOOK": "Loading Facebook SDK...",
-      "SUCCESS": "WhatsApp reconnected successfully",
-      "ERROR": "Failed to reconnect WhatsApp. Please try again.",
-      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
-      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
-      "CONFIGURATION_ERROR": "Configuration error occurred during reauthorization.",
-      "FACEBOOK_LOAD_ERROR": "Failed to load Facebook SDK. Please try again.",
+      "TITLE": "需要重新授權",
+      "DESCRIPTION": "您的 WhatsApp 連線已過期。請重新連線以繼續接收和發送訊息。",
+      "BUTTON_TEXT": "重新連線 WhatsApp",
+      "LOADING_FACEBOOK": "正在載入 Facebook SDK...",
+      "SUCCESS": "WhatsApp 重新連線成功",
+      "ERROR": "無法重新連線 WhatsApp，請再試一次。",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID 尚未設定。請聯絡您的管理員。",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp 設定 ID 尚未設定。請聯絡您的管理員。",
+      "CONFIGURATION_ERROR": "重新授權時發生設定錯誤。",
+      "FACEBOOK_LOAD_ERROR": "無法載入 Facebook SDK，請重試。",
       "TROUBLESHOOTING": {
-        "TITLE": "Troubleshooting",
-        "POPUP_BLOCKED": "Ensure pop-ups are allowed for this site",
-        "COOKIES": "Third-party cookies must be enabled",
-        "ADMIN_ACCESS": "You need admin access to the WhatsApp Business Account"
+        "TITLE": "疑難排解",
+        "POPUP_BLOCKED": "請確認此網站允許彈出式視窗",
+        "COOKIES": "必須啟用第三方 Cookie",
+        "ADMIN_ACCESS": "您需要 WhatsApp Business 帳戶的管理員權限"
       }
     }
   }

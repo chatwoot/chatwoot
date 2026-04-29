@@ -2,7 +2,7 @@
 import { computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AddDataDropdown from 'dashboard/components-next/AssignmentPolicy/components/AddDataDropdown.vue';
-import LabelItem from 'dashboard/components-next/Label/LabelItem.vue';
+import LabelItem from 'dashboard/components-next/label/LabelItem.vue';
 import DurationInput from 'dashboard/components-next/input/DurationInput.vue';
 import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 
@@ -20,11 +20,11 @@ const excludedLabels = defineModel('excludedLabels', {
 
 const excludeOlderThanMinutes = defineModel('excludeOlderThanMinutes', {
   type: Number,
-  default: 10,
+  default: null,
 });
 
-// Duration limits: 10 minutes to 999 days (in minutes)
-const MIN_DURATION_MINUTES = 10;
+// Duration limits: 1 minute to 999 days (in minutes)
+const MIN_DURATION_MINUTES = 1;
 const MAX_DURATION_MINUTES = 1438560; // 999 days * 24 hours * 60 minutes
 
 const { t } = useI18n();
@@ -119,7 +119,7 @@ onMounted(() => {
             )
           "
           :items="filteredTags"
-          class="[&>button]:!text-n-blue-text [&>div]:min-w-64"
+          class="[&>button]:!text-n-blue-11 [&>div]:min-w-64"
           @add="onClickAddTag"
         />
       </div>

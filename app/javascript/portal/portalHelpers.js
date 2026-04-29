@@ -14,13 +14,22 @@ export const getHeadingsfromTheArticle = () => {
   const rows = [];
   const articleElement = document.getElementById('cw-article-content');
   articleElement.querySelectorAll('h1, h2, h3').forEach(element => {
-    const slug = slugifyWithCounter(element.innerText);
+    const headingText = element.innerText;
+    const slug = slugifyWithCounter(headingText);
     element.id = slug;
     element.className = 'scroll-mt-24 heading';
-    element.innerHTML += `<a class="permalink text-slate-600 ml-3" href="#${slug}" title="${element.innerText}" data-turbolinks="false">#</a>`;
+
+    const permalink = document.createElement('a');
+    permalink.className = 'permalink text-slate-600 ml-3';
+    permalink.href = `#${slug}`;
+    permalink.title = headingText;
+    permalink.dataset.turbolinks = 'false';
+    permalink.textContent = '#';
+    element.appendChild(permalink);
+
     rows.push({
       slug,
-      title: element.innerText,
+      title: headingText,
       tag: element.tagName.toLowerCase(),
     });
   });

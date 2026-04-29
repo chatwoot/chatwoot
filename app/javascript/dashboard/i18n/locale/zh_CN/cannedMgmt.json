@@ -3,8 +3,11 @@
     "HEADER": "预设回复",
     "LEARN_MORE": "了解更多关于预设回复的内容",
     "DESCRIPTION": "预设回复是预先写好的回复模板，可以帮助您在对话中快速响应。客服人员可以在对话中输入“/”字符，然后输入简码来插入预设回复。 ",
+    "COUNT": "{n} canned response | {n} canned responses",
     "HEADER_BTN_TXT": "新增预设回复",
     "LOADING": "正在检索预定义回复...",
+    "SEARCH_PLACEHOLDER": "Search canned responses...",
+    "NO_RESULTS": "No canned responses found matching your search",
     "SEARCH_404": "没有任何项目符合此查询.",
     "LIST": {
       "404": "此帐户中没有预设的回复。",

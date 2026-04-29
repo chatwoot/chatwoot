@@ -4,11 +4,10 @@ import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useFileUpload } from 'dashboard/composables/useFileUpload';
 import { vOnClickOutside } from '@vueuse/components';
+import { useEventListener } from '@vueuse/core';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
-import { extractTextFromMarkdown } from 'dashboard/helper/editorHelper';
-
 import Button from 'dashboard/components-next/button/Button.vue';
 import WhatsAppOptions from './WhatsAppOptions.vue';
 import ContentTemplateSelector from './ContentTemplateSelector.vue';
@@ -19,6 +18,7 @@ const props = defineProps({
   isEmailOrWebWidgetInbox: { type: Boolean, default: false },
   isTwilioSmsInbox: { type: Boolean, default: false },
   isTwilioWhatsAppInbox: { type: Boolean, default: false },
+  // eslint-disable-next-line vue/no-unused-properties
   messageTemplates: { type: Array, default: () => [] },
   channelType: { type: String, default: '' },
   isLoading: { type: Boolean, default: false },
@@ -28,6 +28,7 @@ const props = defineProps({
   isDropdownActive: { type: Boolean, default: false },
   messageSignature: { type: String, default: '' },
   inboxId: { type: Number, default: null },
+  voiceEnabled: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -43,17 +44,17 @@ const emit = defineEmits([
 
 const { t } = useI18n();
 
+const attachmentId = ref(0);
+const generateUid = () => {
+  attachmentId.value += 1;
+  return `attachment-${attachmentId.value}`;
+};
+
 const uploadAttachment = ref(null);
 const isEmojiPickerOpen = ref(false);
 
 const EmojiInput = defineAsyncComponent(
   () => import('shared/components/emoji/EmojiInput.vue')
-);
-
-const signatureToApply = computed(() =>
-  props.isEmailOrWebWidgetInbox
-    ? props.messageSignature
-    : extractTextFromMarkdown(props.messageSignature)
 );
 
 const {
@@ -80,12 +81,18 @@ const isRegularMessageMode = computed(() => {
   return !props.isWhatsappInbox && !props.isTwilioWhatsAppInbox;
 });
 
+const shouldShowSignatureButton = computed(() => {
+  return (
+    props.hasSelectedInbox && isRegularMessageMode.value && !props.voiceEnabled
+  );
+});
+
 const setSignature = () => {
-  if (signatureToApply.value) {
+  if (props.messageSignature) {
     if (sendWithSignature.value) {
-      emit('addSignature', signatureToApply.value);
+      emit('addSignature', props.messageSignature);
     } else {
-      emit('removeSignature', signatureToApply.value);
+      emit('removeSignature', props.messageSignature);
     }
   }
 };
@@ -101,7 +108,7 @@ watch(
   () => props.hasSelectedInbox,
   newValue => {
     nextTick(() => {
-      if (newValue && props.isEmailOrWebWidgetInbox) setSignature();
+      if (newValue && !props.voiceEnabled) setSignature();
     });
   },
   { immediate: true }
@@ -161,6 +168,24 @@ const keyboardEvents = {
   },
 };
 useKeyboardEvents(keyboardEvents);
+
+const onPaste = e => {
+  if (!props.isEmailOrWebWidgetInbox) return;
+
+  const files = e.clipboardData?.files;
+  if (!files?.length) return;
+
+  // Filter valid files (non-zero size)
+  Array.from(files)
+    .filter(file => file.size > 0)
+    .forEach(file => {
+      const { name, type, size } = file;
+      // Add unique ID for clipboard-pasted files
+      onFileUpload({ file, name, type, size, id: generateUid() });
+    });
+};
+
+useEventListener(document, 'paste', onPaste);
 </script>
 
 <template>
@@ -171,7 +196,6 @@ useKeyboardEvents(keyboardEvents);
       <WhatsAppOptions
         v-if="isWhatsappInbox"
         :inbox-id="inboxId"
-        :message-templates="messageTemplates"
         @send-message="emit('sendWhatsappMessage', $event)"
       />
       <ContentTemplateSelector
@@ -193,7 +217,7 @@ useKeyboardEvents(keyboardEvents);
         />
         <EmojiInput
           v-if="isEmojiPickerOpen"
-          class="top-full mt-1.5 ltr:left-0 rtl:right-0"
+          class="!top-auto !bottom-full mb-1.5 ltr:left-0 rtl:right-0"
           :on-click="onClickInsertEmoji"
         />
       </div>
@@ -220,7 +244,7 @@ useKeyboardEvents(keyboardEvents);
         />
       </FileUpload>
       <Button
-        v-if="hasSelectedInbox && isRegularMessageMode"
+        v-if="shouldShowSignatureButton"
         icon="i-lucide-signature"
         color="slate"
         size="sm"

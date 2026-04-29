@@ -143,7 +143,7 @@ class Conversation < ApplicationRecord
   end
 
   def last_incoming_message
-    messages&.incoming&.last
+    messages.where(account_id: account_id)&.incoming&.last
   end
 
   def toggle_status
@@ -159,12 +159,17 @@ class Conversation < ApplicationRecord
   end
 
   def bot_handoff!
+    update(waiting_since: Time.current) if waiting_since.blank?
     open!
     dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
   end
 
   def unread_messages
     agent_last_seen_at.present? ? messages.created_since(agent_last_seen_at) : messages
+  end
+
+  def assignee_unread_messages
+    assignee_last_seen_at.present? ? messages.created_since(assignee_last_seen_at) : messages
   end
 
   def unread_incoming_messages

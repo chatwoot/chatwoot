@@ -108,6 +108,7 @@ watch(
       :placeholder="t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.PLACEHOLDER')"
       :message="formErrors.handoffMessage"
       :message-type="formErrors.handoffMessage ? 'error' : 'info'"
+      class="z-0"
     />
 
     <Editor
@@ -116,6 +117,7 @@ watch(
       :placeholder="t('CAPTAIN.ASSISTANTS.FORM.RESOLUTION_MESSAGE.PLACEHOLDER')"
       :message="formErrors.resolutionMessage"
       :message-type="formErrors.resolutionMessage ? 'error' : 'info'"
+      class="z-0"
     />
 
     <Editor
@@ -126,6 +128,7 @@ watch(
       :message="formErrors.instructions"
       :max-length="20000"
       :message-type="formErrors.instructions ? 'error' : 'info'"
+      class="z-0"
     />
 
     <div class="flex flex-col gap-2">

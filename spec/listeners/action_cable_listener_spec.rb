@@ -94,6 +94,26 @@ describe ActionCableListener do
     end
   end
 
+  describe '#typing_on with agent bot' do
+    let(:event_name) { :'conversation.typing_on' }
+    let!(:agent_bot) { create(:agent_bot, account: account) }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent_bot, is_private: false) }
+
+    it 'sends message to account admins, inbox agents and the contact' do
+      expect(conversation.inbox.reload.inbox_members.count).to eq(1)
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        a_collection_containing_exactly(
+          admin.pubsub_token, agent.pubsub_token, conversation.contact_inbox.pubsub_token
+        ),
+        'conversation.typing_on', { conversation: conversation.push_event_data,
+                                    user: agent_bot.push_event_data,
+                                    account_id: account.id,
+                                    is_private: false }
+      )
+      listener.conversation_typing_on(event)
+    end
+  end
+
   describe '#typing_off' do
     let(:event_name) { :'conversation.typing_off' }
     let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent, is_private: false) }
@@ -117,13 +137,14 @@ describe ActionCableListener do
   describe '#contact_deleted' do
     let(:event_name) { :'contact.deleted' }
     let!(:contact) { create(:contact, account: account) }
-    let!(:event) { Events::Base.new(event_name, Time.zone.now, contact: contact) }
+    let(:contact_data) { contact.push_event_data.merge(account_id: contact.account_id) }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, contact_data: contact_data) }
 
     it 'sends message to account admins, inbox agents' do
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         ["account_#{account.id}"],
         'contact.deleted',
-        contact.push_event_data.merge(account_id: account.id)
+        contact_data
       )
       listener.contact_deleted(event)
     end
@@ -132,7 +153,14 @@ describe ActionCableListener do
   describe '#notification_deleted' do
     let(:event_name) { :'notification.deleted' }
     let!(:notification) { create(:notification, account: account, user: agent) }
-    let!(:event) { Events::Base.new(event_name, Time.zone.now, notification: notification) }
+    let(:notification_data) do
+      {
+        id: notification.id,
+        user_id: agent.id,
+        account_id: account.id
+      }
+    end
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, notification_data: notification_data) }
 
     it 'sends message to account admins, inbox agents' do
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(

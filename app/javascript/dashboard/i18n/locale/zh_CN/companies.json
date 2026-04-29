@@ -1,0 +1,33 @@
+{
+  "COMPANIES": {
+    "HEADER": "公司",
+    "SORT_BY": {
+      "LABEL": "排序方式",
+      "OPTIONS": {
+        "NAME": "姓名：",
+        "DOMAIN": "域名",
+        "CREATED_AT": "创建于",
+        "CONTACTS_COUNT": "联系人数"
+      }
+    },
+    "ORDER": {
+      "LABEL": "Order",
+      "OPTIONS": {
+        "ASCENDING": "升序",
+        "DESCENDING": "降序"
+      }
+    },
+    "SEARCH_PLACEHOLDER": "搜索公司...",
+    "LOADING": "正在加载公司...",
+    "UNNAMED": "未命名的公司",
+    "CONTACTS_COUNT": "{n} 个联系人 | {n} 个联系人",
+    "EMPTY_STATE": {
+      "TITLE": "没有找到公司"
+    }
+  },
+  "COMPANIES_LAYOUT": {
+    "PAGINATION_FOOTER": {
+      "SHOWING": "显示第 {startItem} - {endItem} 项，共 {totalItems} 项"
+    }
+  }
+}

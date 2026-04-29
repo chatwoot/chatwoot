@@ -182,6 +182,7 @@
   },
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "Cerca o vai a",
+    "SNOOZE_PLACEHOLDER": "Digita un momento, ad esempio domani, tra 2 ore, venerdì prossimo, il 15 gennaio, ecc...",
     "SECTIONS": {
       "GENERAL": "Generale",
       "REPORTS": "Report",

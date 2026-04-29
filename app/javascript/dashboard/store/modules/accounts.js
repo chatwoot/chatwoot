@@ -18,6 +18,7 @@ const state = {
     isFetchingItem: false,
     isUpdating: false,
     isCheckoutInProcess: false,
+    isFetchingLimits: false,
   },
 };
 
@@ -53,18 +54,19 @@ export const getters = {
 };
 
 export const actions = {
-  get: async ({ commit }) => {
-    commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: true });
+  get: async ({ commit }, { silent } = {}) => {
+    if (!silent) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: true });
+    }
     try {
       const response = await AccountAPI.get();
       commit(types.default.ADD_ACCOUNT, response.data);
-      commit(types.default.SET_ACCOUNT_UI_FLAG, {
-        isFetchingItem: false,
-      });
-    } catch (error) {
-      commit(types.default.SET_ACCOUNT_UI_FLAG, {
-        isFetchingItem: false,
-      });
+    } catch {
+      // silent failure
+    } finally {
+      if (!silent) {
+        commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: false });
+      }
     }
   },
   update: async ({ commit }, { options, ...updateObj }) => {
@@ -141,11 +143,14 @@ export const actions = {
   },
 
   limits: async ({ commit }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingLimits: true });
     try {
       const response = await EnterpriseAccountAPI.getLimits();
       commit(types.default.SET_ACCOUNT_LIMITS, response.data);
     } catch (error) {
       // silent error
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingLimits: false });
     }
   },
 

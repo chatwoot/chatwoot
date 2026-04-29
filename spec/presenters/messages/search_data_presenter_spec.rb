@@ -58,16 +58,40 @@ RSpec.describe Messages::SearchDataPresenter do
       end
     end
 
+    context 'when the message has no email subject but the conversation has a mail_subject' do
+      before do
+        conversation.update!(additional_attributes: { 'mail_subject' => 'Conversation Subject' })
+      end
+
+      it 'falls back to the conversation mail_subject' do
+        content_attrs = presenter.search_data[:content_attributes]
+        expect(content_attrs[:email][:subject]).to eq('Conversation Subject')
+      end
+    end
+
+    context 'when both the message email subject and conversation mail_subject are set' do
+      before do
+        conversation.update!(additional_attributes: { 'mail_subject' => 'Conversation subject' })
+        message.update!(content_attributes: { email: { subject: 'Message subject' } })
+      end
+
+      it 'prefers the message-level email subject' do
+        content_attrs = presenter.search_data[:content_attributes]
+        expect(content_attrs[:email][:subject]).to eq('Message subject')
+      end
+    end
+
+    context 'when neither message nor conversation has an email subject' do
+      it 'omits the email subject from content_attributes' do
+        expect(presenter.search_data[:content_attributes]).to eq({})
+      end
+    end
+
     context 'with campaign and automation data' do
       before do
         message.update(
-          additional_attributes: { 'campaign_id' => '123' },
           content_attributes: { 'automation_rule_id' => '456' }
         )
-      end
-
-      it 'includes campaign_id' do
-        expect(presenter.search_data[:additional_attributes][:campaign_id]).to eq('123')
       end
 
       it 'includes automation_rule_id' do

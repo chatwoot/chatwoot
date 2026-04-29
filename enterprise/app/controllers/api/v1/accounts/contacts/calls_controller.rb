@@ -30,9 +30,14 @@ class Api::V1::Accounts::Contacts::CallsController < Api::V1::Accounts::BaseCont
   end
 
   def voice_inbox
-    @voice_inbox ||= Current.user.assigned_inboxes.where(
-      account_id: Current.account.id,
-      channel_type: 'Channel::Voice'
-    ).find(params.require(:inbox_id))
+    @voice_inbox ||= begin
+      inbox = Current.user.assigned_inboxes.where(
+        account_id: Current.account.id,
+        channel_type: 'Channel::TwilioSms'
+      ).find(params.require(:inbox_id))
+      raise ActiveRecord::RecordNotFound, 'Voice not enabled' unless inbox.channel.voice_enabled?
+
+      inbox
+    end
   end
 end

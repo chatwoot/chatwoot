@@ -6,6 +6,7 @@ const state = {
   meta: {
     count: 0,
     currentPage: 1,
+    hasMore: false,
   },
   records: {},
   uiFlags: {

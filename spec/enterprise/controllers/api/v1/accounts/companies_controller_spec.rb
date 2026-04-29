@@ -81,6 +81,46 @@ RSpec.describe 'Companies API', type: :request do
         expect(response_body['payload'].size).to eq(3)
         expect(response_body['payload'].map { |c| c['name'] }).not_to include('Other Account Company')
       end
+
+      it 'sorts companies by contacts_count in ascending order' do
+        company_with_5 = create(:company, name: 'Company with 5', account: account)
+        company_with_2 = create(:company, name: 'Company with 2', account: account)
+        company_with_10 = create(:company, name: 'Company with 10', account: account)
+        create_list(:contact, 5, company: company_with_5, account: account)
+        create_list(:contact, 2, company: company_with_2, account: account)
+        create_list(:contact, 10, company: company_with_10, account: account)
+
+        get "/api/v1/accounts/#{account.id}/companies",
+            params: { sort: 'contacts_count' },
+            headers: admin.create_new_auth_token,
+            as: :json
+        expect(response).to have_http_status(:success)
+        response_body = response.parsed_body
+        company_ids = response_body['payload'].map { |c| c['id'] }
+
+        expect(company_ids.index(company_with_2.id)).to be < company_ids.index(company_with_5.id)
+        expect(company_ids.index(company_with_5.id)).to be < company_ids.index(company_with_10.id)
+      end
+
+      it 'sorts companies by contacts_count in descending order' do
+        company_with_5 = create(:company, name: 'Company with 5', account: account)
+        company_with_2 = create(:company, name: 'Company with 2', account: account)
+        company_with_10 = create(:company, name: 'Company with 10', account: account)
+        create_list(:contact, 5, company: company_with_5, account: account)
+        create_list(:contact, 2, company: company_with_2, account: account)
+        create_list(:contact, 10, company: company_with_10, account: account)
+
+        get "/api/v1/accounts/#{account.id}/companies",
+            params: { sort: '-contacts_count' },
+            headers: admin.create_new_auth_token,
+            as: :json
+        expect(response).to have_http_status(:success)
+        response_body = response.parsed_body
+        company_ids = response_body['payload'].map { |c| c['id'] }
+
+        expect(company_ids.index(company_with_10.id)).to be < company_ids.index(company_with_5.id)
+        expect(company_ids.index(company_with_5.id)).to be < company_ids.index(company_with_2.id)
+      end
     end
   end
 
