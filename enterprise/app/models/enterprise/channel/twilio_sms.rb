@@ -12,10 +12,6 @@ module Enterprise::Channel::TwilioSms
     end
   end
 
-  def voice_enabled?
-    voice_enabled
-  end
-
   def initiate_call(to:, conference_sid: nil, agent_id: nil)
     Voice::Provider::Twilio::Adapter.new(self).initiate_call(
       to: to,
@@ -34,11 +30,7 @@ module Enterprise::Channel::TwilioSms
     Rails.application.routes.url_helpers.twilio_voice_status_url(phone: digits)
   end
 
-  private
-
-  # Override: when api_key_secret is stored separately (voice channels),
-  # use it instead of auth_token for API key authentication.
-  # Existing SMS channels store the secret in auth_token — that path is unchanged via super.
+  # Voice channels store the secret in api_key_secret; SMS channels keep using auth_token via super.
   def client
     if api_key_sid.present? && api_key_secret.present?
       Twilio::REST::Client.new(api_key_sid, api_key_secret, account_sid)
@@ -46,6 +38,8 @@ module Enterprise::Channel::TwilioSms
       super
     end
   end
+
+  private
 
   def voice_requires_phone_number
     return if phone_number.present?

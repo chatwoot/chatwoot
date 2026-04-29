@@ -7,7 +7,6 @@ RSpec.describe Channel::TwilioSms do
   let(:twiml_app_sid) { 'AP1234567890abcdef' }
 
   before do
-    allow_any_instance_of(described_class).to receive(:validate_voice_capability!) # rubocop:disable RSpec/AnyInstance
     allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: twiml_app_sid))
   end
 

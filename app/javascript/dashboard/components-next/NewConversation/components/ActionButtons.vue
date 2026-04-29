@@ -81,13 +81,9 @@ const isRegularMessageMode = computed(() => {
   return !props.isWhatsappInbox && !props.isTwilioWhatsAppInbox;
 });
 
-const voiceCallEnabled = computed(() => props.voiceEnabled);
-
 const shouldShowSignatureButton = computed(() => {
   return (
-    props.hasSelectedInbox &&
-    isRegularMessageMode.value &&
-    !voiceCallEnabled.value
+    props.hasSelectedInbox && isRegularMessageMode.value && !props.voiceEnabled
   );
 });
 
@@ -112,7 +108,7 @@ watch(
   () => props.hasSelectedInbox,
   newValue => {
     nextTick(() => {
-      if (newValue && !voiceCallEnabled.value) setSignature();
+      if (newValue && !props.voiceEnabled) setSignature();
     });
   },
   { immediate: true }

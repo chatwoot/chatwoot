@@ -14,11 +14,12 @@ describe Voice::Provider::Twilio::ConferenceService do
     )
   end
   let(:twilio_client) { instance_double(Twilio::REST::Client) }
-  let(:service) { described_class.new(call: call, twilio_client: twilio_client) }
+  let(:service) { described_class.new(conversation: conversation) }
   let(:webhook_service) { instance_double(Twilio::VoiceWebhookSetupService, perform: true) }
 
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(webhook_service)
+    allow(Twilio::REST::Client).to receive(:new).and_return(twilio_client)
   end
 
   describe '#ensure_conference_sid' do

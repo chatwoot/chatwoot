@@ -61,8 +61,6 @@ class Channel::TwilioSms < ApplicationRecord
     client.messages.create(**params)
   end
 
-  private
-
   def client
     if api_key_sid.present?
       Twilio::REST::Client.new(api_key_sid, auth_token, account_sid)
@@ -70,6 +68,8 @@ class Channel::TwilioSms < ApplicationRecord
       Twilio::REST::Client.new(account_sid, auth_token)
     end
   end
+
+  private
 
   def send_message_from
     if messaging_service_sid?

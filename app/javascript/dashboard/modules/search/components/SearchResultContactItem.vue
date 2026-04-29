@@ -49,7 +49,6 @@ const navigateTo = computed(() => {
 
 const countriesMap = computed(() => {
   return countries.reduce((acc, country) => {
-    acc[country.code] = country;
     acc[country.id] = country;
     return acc;
   }, {});

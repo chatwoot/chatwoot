@@ -21,6 +21,7 @@ export const VOICE_CALL_PROVIDERS = {
 export const getVoiceCallProvider = inbox => {
   if (!inbox) return null;
 
+  // Callers pass either snake_case (raw API) or camelCase (after camelcaseKeys) shapes.
   const channelType = inbox.channel_type || inbox.channelType;
   const voiceEnabled = inbox.voice_enabled || inbox.voiceEnabled;
 
