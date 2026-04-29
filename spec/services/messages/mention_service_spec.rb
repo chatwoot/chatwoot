@@ -166,28 +166,7 @@ describe Messages::MentionService do
     end
 
     context 'when the message sender mentions themselves' do
-      it 'does not create a notification for the self-mention' do
-        message = build(
-          :message,
-          conversation: conversation,
-          account: account,
-          content: "reminder to myself (mention://user/#{first_agent.id}/#{first_agent.name})",
-          private: true,
-          sender: first_agent
-        )
-
-        described_class.new(message: message).perform
-
-        expect(NotificationBuilder).not_to have_received(:new).with(
-          notification_type: 'conversation_mention',
-          user: first_agent,
-          account: account,
-          primary_actor: message.conversation,
-          secondary_actor: message
-        )
-      end
-
-      it 'still notifies other mentioned users when sender self-mentions' do
+      it 'skips the sender notification while notifying other mentioned users' do
         message = build(
           :message,
           conversation: conversation,
