@@ -177,6 +177,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onContactUpdate = data => {
     this.app.$store.dispatch('contacts/updateContact', data);
+    this.app.$store.dispatch('syncContactInConversations', data);
   };
 
   onNotificationCreated = data => {
