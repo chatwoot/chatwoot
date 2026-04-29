@@ -20,7 +20,7 @@ class Captain::Documents::SinglePageFetcher
   private
 
   def firecrawl_configured?
-    InstallationConfig.find_by(name: 'CAPTAIN_FIRECRAWL_API_KEY')&.value.present?
+    Captain::Tools::FirecrawlService.configured?
   end
 
   def fetch_with_firecrawl
@@ -52,14 +52,13 @@ class Captain::Documents::SinglePageFetcher
   end
 
   def fetch_with_fallback
-    response = HTTParty.get(@url)
-    return Result.new(success: false, error_code: http_error_code(response.code)) unless response.success?
+    crawler = Captain::Tools::SimplePageCrawlService.new(@url)
+    return Result.new(success: false, error_code: http_error_code(crawler.status_code)) unless crawler.success?
 
-    parser = Captain::Tools::HtmlPageParser.new(response.body)
     Result.new(
       success: true,
-      title: parser.title&.truncate(TITLE_MAX_LENGTH, omission: ''),
-      content: parser.body_markdown&.truncate(CONTENT_MAX_LENGTH, omission: '')
+      title: crawler.page_title&.truncate(TITLE_MAX_LENGTH, omission: ''),
+      content: crawler.body_markdown&.truncate(CONTENT_MAX_LENGTH, omission: '')
     )
   end
 

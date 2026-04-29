@@ -77,7 +77,9 @@ Rails.application.routes.draw do
             resources :custom_tools do
               post :test, on: :collection
             end
-            resources :documents, only: [:index, :show, :create, :destroy]
+            resources :documents, only: [:index, :show, :create, :destroy] do
+              post :sync, on: :member
+            end
             resource :tasks, only: [], controller: 'tasks' do
               post :rewrite
               post :summarize

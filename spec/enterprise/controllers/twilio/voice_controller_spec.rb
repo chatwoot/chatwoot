@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Twilio::VoiceController', type: :request do
   let(:account) { create(:account) }
-  let(:channel) { create(:channel_voice, account: account, phone_number: '+15551230003') }
+  let(:channel) { create(:channel_twilio_sms, :with_voice, account: account, phone_number: '+15551230003') }
   let(:inbox) { channel.inbox }
   let(:digits) { channel.phone_number.delete_prefix('+') }
 

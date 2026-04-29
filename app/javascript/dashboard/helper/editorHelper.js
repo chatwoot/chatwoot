@@ -2,6 +2,7 @@ import {
   messageSchema,
   MessageMarkdownTransformer,
   MessageMarkdownSerializer,
+  Selection,
 } from '@chatwoot/prosemirror-schema';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
@@ -271,6 +272,18 @@ export const scrollCursorIntoView = view => {
   if (node && node.scrollIntoView) {
     node.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
+};
+
+/**
+ * Collapse the current selection to a cursor near its head. Used to override
+ * the default Escape -> selectParentNode behavior which would otherwise keep
+ * the text highlight visible.
+ *
+ * @param {EditorView} view - The ProseMirror EditorView
+ */
+export const collapseSelection = view => {
+  const { tr, selection } = view.state;
+  view.dispatch(tr.setSelection(Selection.near(selection.$head)));
 };
 
 /**
