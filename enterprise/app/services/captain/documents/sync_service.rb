@@ -12,7 +12,7 @@ class Captain::Documents::SyncService
   end
 
   def perform
-    @document.store_sync_step('fetching')
+    @document.update!(sync_step: 'fetching')
     result = Captain::Documents::SinglePageFetcher.new(@document.external_link).fetch
 
     unless result.success
@@ -20,17 +20,21 @@ class Captain::Documents::SyncService
       raise_for_error_code(result.error_code)
     end
 
-    @document.store_sync_step('comparing')
-    fingerprint = compute_fingerprint(result.content)
+    @document.update!(sync_step: 'comparing')
+    new_fingerprint = compute_fingerprint(result.content)
+    previous_fingerprint = @document.content_fingerprint
 
-    if fingerprint == @document.content_fingerprint
+    if new_fingerprint == previous_fingerprint
       mark_synced
       return :unchanged
     end
 
-    @document.store_sync_step('updating')
-    update_content(result, fingerprint)
-    :updated
+    @document.update!(sync_step: 'updating')
+    update_content(result, new_fingerprint)
+
+    # Without a prior fingerprint we cannot tell a first-ever sync apart from a real
+    # change, so treat it as unchanged to keep downstream signals quiet on baseline.
+    previous_fingerprint.present? ? :updated : :unchanged
   end
 
   private
@@ -42,6 +46,7 @@ class Captain::Documents::SyncService
   def mark_failed(error_code)
     @document.update!(
       sync_status: :failed,
+      sync_step: nil,
       last_sync_error_code: error_code,
       last_sync_attempted_at: Time.current
     )
@@ -50,6 +55,7 @@ class Captain::Documents::SyncService
   def mark_synced
     @document.update!(
       sync_status: :synced,
+      sync_step: nil,
       last_synced_at: Time.current,
       last_sync_attempted_at: Time.current,
       last_sync_error_code: nil
@@ -62,6 +68,7 @@ class Captain::Documents::SyncService
       name: result.title.presence || @document.name,
       content_fingerprint: fingerprint,
       sync_status: :synced,
+      sync_step: nil,
       last_synced_at: Time.current,
       last_sync_attempted_at: Time.current,
       last_sync_error_code: nil

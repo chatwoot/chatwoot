@@ -17,6 +17,8 @@ import { toggleMark } from 'prosemirror-commands';
 import { wrapInList } from 'prosemirror-schema-list';
 import { toggleBlockType } from '@chatwoot/prosemirror-schema/src/menu/common';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import { isEscape } from 'shared/helpers/KeyboardHelpers';
+import { collapseSelection } from 'dashboard/helper/editorHelper';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
@@ -362,19 +364,33 @@ export default {
     onKeyup() {
       this.$emit('keyup');
     },
-    onKeydown() {
+    onKeydown(view, event) {
       this.$emit('keydown');
+      if (isEscape(event)) {
+        if (this.showSlashMenu) {
+          this.showSlashMenu = false;
+          this.slashSearchTerm = '';
+          this.slashMenuPosition = null;
+          return true;
+        }
+        collapseSelection(editorView);
+        return true;
+      }
+      return false;
     },
     onBlur() {
+      // ProseMirror keeps its selection on blur — clear the menu flag manually.
+      this.isTextSelected = false;
+      this.$refs.editor?.classList.remove('has-selection');
       this.$emit('blur');
     },
     onFocus() {
       this.$emit('focus');
     },
     checkSelection(editorState) {
-      const { from, to } = editorState.selection;
-      // Check if there's a selection (from and to are different)
-      const hasSelection = from !== to;
+      const { selection } = editorState;
+      // Skip NodeSelection (from Esc -> selectParentNode); only text ranges count.
+      const hasSelection = !selection.empty && !selection.node;
       // If the selection state is the same as the previous state, do nothing
       if (hasSelection === this.isTextSelected) return;
       // Update the selection state

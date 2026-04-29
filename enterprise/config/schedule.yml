@@ -1,0 +1,10 @@
+# Enterprise-only Sidekiq cron schedule.
+# Loaded by config/initializers/sidekiq.rb only when ChatwootApp.enterprise? is true.
+# Add cron entries here when the referenced job class lives under enterprise/.
+
+# Captain document auto-sync scheduler
+# Runs hourly, finds due documents based on plan sync intervals
+captain_documents_schedule_syncs_job:
+  cron: '0 * * * *'
+  class: 'Captain::Documents::ScheduleSyncsJob'
+  queue: scheduled_jobs
