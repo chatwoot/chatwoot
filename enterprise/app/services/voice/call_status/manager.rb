@@ -7,9 +7,8 @@ class Voice::CallStatus::Manager
 
     apply_call_updates!(status, duration: duration, timestamp: timestamp)
     call.conversation.update!(last_activity_at: Time.zone.now)
-    # Touch the linked message so the normal message.updated dispatcher
-    # re-broadcasts it with the fresh Call embedded via push_event_data.
-    call.message&.touch
+    # Bump updated_at so the message.updated dispatcher rebroadcasts with the fresh Call embedded.
+    call.message&.touch # rubocop:disable Rails/SkipsModelValidations
   end
 
   private
