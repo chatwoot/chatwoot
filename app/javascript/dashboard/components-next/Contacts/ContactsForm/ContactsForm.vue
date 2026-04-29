@@ -38,6 +38,11 @@ const FORM_CONFIG = {
   COUNTRY: { field: 'additionalAttributes.countryCode' },
   BIO: { field: 'additionalAttributes.description' },
   COMPANY_NAME: { field: 'additionalAttributes.companyName' },
+  ADDRESS_LINE_1: { field: 'additionalAttributes.addressLine1' },
+  ADDRESS_LINE_2: { field: 'additionalAttributes.addressLine2' },
+  ADDRESS_LINE_3: { field: 'additionalAttributes.addressLine3' },
+  STATE: { field: 'additionalAttributes.state' },
+  ZIP_CODE: { field: 'additionalAttributes.zipCode' },
 };
 
 const SOCIAL_CONFIG = {
@@ -63,6 +68,11 @@ const defaultState = {
     countryCode: '',
     country: '',
     city: '',
+    addressLine1: '',
+    addressLine2: '',
+    addressLine3: '',
+    state: '',
+    zipCode: '',
     socialProfiles: {
       facebook: '',
       github: '',
@@ -105,6 +115,11 @@ const prepareStateBasedOnProps = () => {
     countryCode = '',
     country = '',
     city = '',
+    addressLine1 = '',
+    addressLine2 = '',
+    addressLine3 = '',
+    state: region = '',
+    zipCode = '',
     socialTelegramUserName = '',
     socialProfiles = {},
   } = additionalAttributes || {};
@@ -125,6 +140,11 @@ const prepareStateBasedOnProps = () => {
       countryCode,
       country,
       city,
+      addressLine1,
+      addressLine2,
+      addressLine3,
+      state: region,
+      zipCode,
       socialProfiles: {
         ...socialProfiles,
         telegram: telegramUsername,
@@ -272,6 +292,36 @@ defineExpose({
             v-model="getFormBinding(item.key).value"
             :placeholder="item.placeholder"
             :show-border="isDetailsView"
+          />
+          <Input
+            v-else-if="item.key === 'ADDRESS_LINE_1'"
+            v-model="getFormBinding(item.key).value"
+            placeholder="Street Address 1"
+            class="w-full h-8"
+          />
+          <Input
+            v-else-if="item.key === 'ADDRESS_LINE_2'"
+            v-model="getFormBinding(item.key).value"
+            placeholder="Street Address 2"
+            class="w-full h-8"
+          />
+          <Input
+            v-else-if="item.key === 'ADDRESS_LINE_3'"
+            v-model="getFormBinding(item.key).value"
+            placeholder="Street Address 3"
+            class="w-full h-8"
+          />
+          <Input
+            v-else-if="item.key === 'STATE'"
+            v-model="getFormBinding(item.key).value"
+            placeholder="State / Region"
+            class="w-full h-8"
+          />
+          <Input
+            v-else-if="item.key === 'ZIP_CODE'"
+            v-model="getFormBinding(item.key).value"
+            placeholder="ZIP / Postal Code"
+            class="w-full h-8"
           />
           <Input
             v-else
