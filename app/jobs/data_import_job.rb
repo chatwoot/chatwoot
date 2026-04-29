@@ -30,12 +30,17 @@ class DataImportJob < ApplicationJob
   def parse_csv_and_build_contacts
     contacts = []
     rejected_contacts = []
+    imported_phone_numbers = Set.new
+    existing_phone_numbers = @data_import.account.contacts.where.not(phone_number: [nil, '']).pluck(:phone_number).to_set
 
     with_import_file do |file|
       csv_reader(file).each do |row|
         current_contact = @contact_manager.build_contact(row.to_h.with_indifferent_access)
-        if current_contact.valid?
+        if current_contact.valid? &&
+           !duplicate_phone_number_in_import?(current_contact, imported_phone_numbers) &&
+           !duplicate_phone_number_in_db?(current_contact, existing_phone_numbers)
           contacts << current_contact
+          imported_phone_numbers << current_contact.phone_number if current_contact.phone_number.present?
         else
           append_rejected_contact(row, current_contact, rejected_contacts)
         end
@@ -45,14 +50,37 @@ class DataImportJob < ApplicationJob
     [contacts, rejected_contacts]
   end
 
+  def duplicate_phone_number_in_import?(contact, imported_phone_numbers)
+    return false if contact.phone_number.blank?
+    return false unless imported_phone_numbers.include?(contact.phone_number)
+
+    contact.errors.add(:phone_number, :taken)
+    true
+  end
+
+  def duplicate_phone_number_in_db?(contact, existing_phone_numbers)
+    return false if contact.phone_number.blank?
+    # Preserve legacy import behavior: rows matching existing contacts should update, not reject.
+    return false if contact.persisted?
+    return false unless existing_phone_numbers.include?(contact.phone_number)
+
+    contact.errors.add(:phone_number, :taken)
+    true
+  end
+
   def append_rejected_contact(row, contact, rejected_contacts)
     row['errors'] = contact.errors.full_messages.join(', ')
     rejected_contacts << row
   end
 
   def import_contacts(contacts)
+    persisted_contacts, new_contacts = contacts.partition(&:persisted?)
+    persisted_contacts.each { |contact| contact.save! if contact.changed? }
+    return if new_contacts.blank?
+
     # <struct ActiveRecord::Import::Result failed_instances=[], num_inserts=1, ids=[444, 445], results=[]>
-    Contact.import(contacts, synchronize: contacts, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true, batch_size: 1000)
+    Contact.import(new_contacts, synchronize: new_contacts, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true,
+                                 batch_size: 1000)
   end
 
   def update_data_import_status(processed_records, rejected_records)

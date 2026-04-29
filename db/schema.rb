@@ -381,11 +381,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_28_120000) do
     t.integer "sync_status"
     t.datetime "last_synced_at"
     t.datetime "last_sync_attempted_at"
+    t.index ["account_id", "sync_status"], name: "index_captain_documents_on_account_id_and_sync_status"
     t.index ["account_id"], name: "index_captain_documents_on_account_id"
     t.index ["assistant_id", "external_link"], name: "index_captain_documents_on_assistant_id_and_external_link", unique: true
     t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"
     t.index ["status"], name: "index_captain_documents_on_status"
-    t.index ["account_id", "sync_status"], name: "index_captain_documents_on_account_id_and_sync_status"
   end
 
   create_table "captain_inboxes", force: :cascade do |t|
@@ -661,7 +661,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_28_120000) do
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
     t.index ["name", "email", "phone_number", "identifier"], name: "index_contacts_on_name_email_phone_number_identifier", opclass: :gin_trgm_ops, using: :gin
-    t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
+    t.index ["phone_number", "account_id"], name: "uniq_phone_number_per_account_contact", unique: true, where: "((phone_number IS NOT NULL) AND ((phone_number)::text <> ''::text))"
   end
 
   create_table "conversation_participants", force: :cascade do |t|
@@ -1087,6 +1087,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_28_120000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "portal_members", force: :cascade do |t|
+    t.bigint "portal_id"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["portal_id", "user_id"], name: "index_portal_members_on_portal_id_and_user_id", unique: true
+    t.index ["user_id", "portal_id"], name: "index_portal_members_on_user_id_and_portal_id", unique: true
+  end
+
   create_table "portals", force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "name", null: false
@@ -1237,6 +1246,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_28_120000) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_teams_on_account_id"
     t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
+  end
+
+  create_table "telegram_bots", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "auth_key"
+    t.integer "account_id"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
