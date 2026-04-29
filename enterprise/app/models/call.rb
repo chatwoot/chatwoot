@@ -35,8 +35,6 @@ class Call < ApplicationRecord
   TERMINAL_STATUSES = %w[completed no_answer failed].freeze
 
   META_ACCESSORS = %i[conference_sid recording_sid parent_call_sid initiated_at ended_at].freeze
-  # Frontend voice bubbles/stores expect inbound/outbound string values
-  DISPLAY_DIRECTION = { 'incoming' => 'inbound', 'outgoing' => 'outbound' }.freeze
 
   enum :provider, { twilio: 0, whatsapp: 1 }
   enum :direction, { incoming: 0, outgoing: 1 }
@@ -65,10 +63,6 @@ class Call < ApplicationRecord
 
   def self.find_by_provider_call_id(provider, sid)
     find_by(provider: provider, provider_call_id: sid)
-  end
-
-  def display_direction
-    DISPLAY_DIRECTION[direction]
   end
 
   def display_status
