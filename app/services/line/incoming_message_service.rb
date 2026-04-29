@@ -17,7 +17,7 @@ class Line::IncomingMessageService
     grouped_events = params[:events].group_by do |event|
       event.dig('source', 'userId')
     end
-    grouped_events.each do |_, events|
+    grouped_events.each_value do |events|
       Line::MessageCreator.perform_later(@inbox, events)
     end
   end

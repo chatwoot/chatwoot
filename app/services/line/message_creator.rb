@@ -18,7 +18,7 @@ class Line::MessageCreator < MutexApplicationJob
       next unless event_type_message?(event)
       next if event['source']['userId'].blank?
 
-      get_line_contact_info(event)
+      line_contact_info(event)
       next if @line_contact_info['userId'].blank?
 
       key = format(::Redis::Alfred::LINE_MESSAGE_MUTEX, sender_id: @line_contact_info['userId'], inbox_id: @inbox.id)
@@ -35,10 +35,6 @@ class Line::MessageCreator < MutexApplicationJob
   end
 
   private
-
-  def parse_events
-
-  end
 
   def message_created?(event)
     @message = @conversation.messages.build(
@@ -83,7 +79,7 @@ class Line::MessageCreator < MutexApplicationJob
   def attach_files(message)
     return unless message_type_non_text?(message['type'])
 
-    response = inbox.channel.client.get_message_content(message['id'])
+    response = @inbox.channel.client.get_message_content(message['id'])
 
     extension = get_file_extension(response)
     file_name = message['fileName'] || "media-#{message['id']}.#{extension}"
@@ -125,17 +121,17 @@ class Line::MessageCreator < MutexApplicationJob
   end
 
   def account
-    @account ||= inbox.account
+    @account ||= @inbox.account
   end
 
-  def get_line_contact_info(event)
-    @line_contact_info ||= JSON.parse(inbox.channel.client.get_profile(event['source']['userId']).body)
+  def line_contact_info(event)
+    @line_contact_info ||= JSON.parse(@inbox.channel.client.get_profile(event['source']['userId']).body)
   end
 
   def set_contact
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: @line_contact_info['userId'],
-      inbox: inbox,
+      inbox: @inbox,
       contact_attributes: contact_attributes
     ).perform
 
