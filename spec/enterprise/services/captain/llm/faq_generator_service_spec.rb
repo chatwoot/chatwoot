@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Captain::Llm::FaqGeneratorService do
   let(:content) { 'Sample content for FAQ generation' }
-  let(:language) { 'english' }
-  let(:service) { described_class.new(content, language) }
+  let(:document) { create(:captain_document, content: content) }
+  let(:service) { described_class.new(document: document) }
   let(:mock_chat) { instance_double(RubyLLM::Chat) }
   let(:sample_faqs) do
     [
@@ -36,14 +36,15 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
         service.generate
       end
 
-      it 'uses SystemPromptsService with the specified language' do
-        expect(Captain::Llm::SystemPromptsService).to receive(:faq_generator).with(language).at_least(:once).and_call_original
+      it 'uses SystemPromptsService with the account language' do
+        account_language = document.account.locale_english_name
+        expect(Captain::Llm::SystemPromptsService).to receive(:faq_generator).with(account_language).at_least(:once).and_call_original
         service.generate
       end
     end
 
     context 'with different language' do
-      let(:language) { 'spanish' }
+      before { allow(document.account).to receive(:locale_english_name).and_return('spanish') }
 
       it 'passes the correct language to SystemPromptsService' do
         expect(Captain::Llm::SystemPromptsService).to receive(:faq_generator).with('spanish').at_least(:once).and_call_original

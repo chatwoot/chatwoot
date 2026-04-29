@@ -435,16 +435,12 @@ ko:
     button: 대화 열기
   time_units:
     days:
-      one: '%{count}일'
       other: '%{count}일'
     hours:
-      one: '%{count}시간'
       other: '%{count}시간'
     minutes:
-      one: '%{count}분'
       other: '%{count}분'
     seconds:
-      one: '%{count}초'
       other: '%{count}초'
   auto_assignment:
     default_policy_name: '기본 정책'
