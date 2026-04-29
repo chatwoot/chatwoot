@@ -21,7 +21,7 @@ class Voice::InboundCallBuilder
       contact_inbox = ensure_contact_inbox!(contact)
       conversation = resolve_conversation!(contact, contact_inbox)
       call = create_call!(contact, conversation)
-      message = Voice::CallMessageBuilder.perform!(call: call)
+      message = Voice::CallMessageBuilder.new(call).perform!
       call.update!(message_id: message.id)
       call
     end
@@ -82,7 +82,7 @@ class Voice::InboundCallBuilder
       provider_call_id: call_sid,
       meta: { 'initiated_at' => Time.zone.now.to_i }
     )
-    call.update!(conference_sid: Voice::Conference::Name.for(call))
+    call.update!(conference_sid: call.default_conference_sid)
     call
   end
 end

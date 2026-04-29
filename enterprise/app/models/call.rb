@@ -34,7 +34,7 @@ class Call < ApplicationRecord
   # Statuses where the call is finished and won't change again
   TERMINAL_STATUSES = %w[completed no_answer failed].freeze
 
-  META_ACCESSORS = %i[conference_sid recording_sid parent_call_sid initiated_at ended_at].freeze
+  store_accessor :meta, :conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at
 
   enum :provider, { twilio: 0, whatsapp: 1 }
   enum :direction, { incoming: 0, outgoing: 1 }
@@ -56,13 +56,12 @@ class Call < ApplicationRecord
   scope :active, -> { where.not(status: TERMINAL_STATUSES) }
   scope :by_conference_sid, ->(sid) { where("meta->>'conference_sid' = ?", sid) }
 
-  META_ACCESSORS.each do |key|
-    define_method(key) { (meta || {})[key.to_s] }
-    define_method("#{key}=") { |value| self.meta = (meta || {}).merge(key.to_s => value) }
-  end
-
   def self.find_by_provider_call_id(provider, sid)
     find_by(provider: provider, provider_call_id: sid)
+  end
+
+  def default_conference_sid
+    "conf_account_#{account_id}_call_#{id}"
   end
 
   def display_status

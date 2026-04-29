@@ -30,12 +30,14 @@ class Twilio::VoiceController < ApplicationController
 
   def conference_status
     event = mapped_conference_event
-    return head :no_content unless event
+    if event.nil?
+      Rails.logger.info(
+        "TWILIO_VOICE_CONFERENCE_UNMAPPED_EVENT account=#{current_account.id} event=#{params[:StatusCallbackEvent]} call_sid=#{twilio_call_sid}"
+      )
+      return head :no_content
+    end
 
-    call = find_call_for_conference!(
-      friendly_name: params[:FriendlyName],
-      call_sid: twilio_call_sid
-    )
+    call = find_call_for_conference!(params[:FriendlyName], twilio_call_sid)
 
     Voice::Conference::Manager.new(
       call: call,
@@ -106,7 +108,8 @@ class Twilio::VoiceController < ApplicationController
     lookup_sid = direction == 'outbound-dial' ? parent_sid || call_sid : call_sid
     call = inbox_calls.find_by!(provider_call_id: lookup_sid)
 
-    Voice::CallSessionSyncService.new(call: call, parent_call_sid: parent_sid).perform
+    call.update!(parent_call_sid: parent_sid) if parent_sid.present? && call.parent_call_sid != parent_sid
+    call
   end
 
   def inbox_calls
@@ -134,7 +137,7 @@ class Twilio::VoiceController < ApplicationController
   def ensure_conference_sid!(call)
     return call.conference_sid if call.conference_sid.present?
 
-    call.update!(conference_sid: Voice::Conference::Name.for(call))
+    call.update!(conference_sid: call.default_conference_sid)
     call.conference_sid
   end
 
@@ -149,7 +152,7 @@ class Twilio::VoiceController < ApplicationController
     Rails.application.routes.url_helpers.twilio_voice_conference_status_url(phone: phone_digits)
   end
 
-  def find_call_for_conference!(friendly_name:, call_sid:)
+  def find_call_for_conference!(friendly_name, call_sid)
     name = friendly_name.to_s
     call = inbox_calls.by_conference_sid(name).first if name.present?
     call || inbox_calls.find_by!(provider_call_id: call_sid)

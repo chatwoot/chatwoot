@@ -1,9 +1,5 @@
 class Voice::CallMessageBuilder
-  def self.perform!(call:)
-    new(call: call).perform!
-  end
-
-  def initialize(call:)
+  def initialize(call)
     @call = call
   end
 

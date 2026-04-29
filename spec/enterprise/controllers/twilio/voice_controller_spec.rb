@@ -29,7 +29,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         contact: contact,
         provider_call_id: call_sid
       )
-      call.update!(conference_sid: Voice::Conference::Name.for(call))
+      call.update!(conference_sid: call.default_conference_sid)
 
       expect(Voice::InboundCallBuilder).to receive(:perform!).with(
         account: account,
@@ -62,12 +62,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         direction: :outgoing,
         provider_call_id: call_sid
       )
-      call.update!(conference_sid: Voice::Conference::Name.for(call))
-
-      sync_double = instance_double(Voice::CallSessionSyncService, perform: call)
-      expect(Voice::CallSessionSyncService).to receive(:new).with(
-        hash_including(call: call, parent_call_sid: nil)
-      ).and_return(sync_double)
+      call.update!(conference_sid: call.default_conference_sid)
 
       post "/twilio/voice/call/#{digits}", params: {
         'CallSid' => call_sid,
@@ -78,9 +73,10 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include(call.conference_sid)
+      expect(call.reload.parent_call_sid).to be_nil
     end
 
-    it 'uses the parent call SID when syncing outbound-dial legs' do
+    it 'records the parent call SID when syncing outbound-dial legs' do
       parent_sid = 'CA_parent'
       child_sid = 'CA_child'
       conversation = create(:conversation, account: account, inbox: inbox)
@@ -93,12 +89,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         direction: :outgoing,
         provider_call_id: parent_sid
       )
-      call.update!(conference_sid: Voice::Conference::Name.for(call))
-
-      sync_double = instance_double(Voice::CallSessionSyncService, perform: call)
-      expect(Voice::CallSessionSyncService).to receive(:new).with(
-        hash_including(call: call, parent_call_sid: parent_sid)
-      ).and_return(sync_double)
+      call.update!(conference_sid: call.default_conference_sid)
 
       post "/twilio/voice/call/#{digits}", params: {
         'CallSid' => child_sid,
@@ -109,6 +100,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       }
 
       expect(response).to have_http_status(:ok)
+      expect(call.reload.parent_call_sid).to eq(parent_sid)
     end
 
     it 'raises not found when inbox is not present' do

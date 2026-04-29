@@ -4,7 +4,7 @@ class Voice::Provider::Twilio::ConferenceService
   def ensure_conference_sid
     return call.conference_sid if call.conference_sid.present?
 
-    call.update!(conference_sid: Voice::Conference::Name.for(call))
+    call.update!(conference_sid: call.default_conference_sid)
     call.conference_sid
   end
 
