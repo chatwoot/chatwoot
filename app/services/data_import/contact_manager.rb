@@ -58,11 +58,16 @@ class DataImport::ContactManager
 
   private
 
+  ADDRESS_IMPORT_KEYS = %i[address_line_1 address_line_2 city state postal_code country country_code].freeze
+  RESERVED_IMPORT_KEYS = (%i[identifier email name phone_number company_name] + ADDRESS_IMPORT_KEYS).freeze
+
   def update_contact_attributes(params, contact)
     contact.name = params[:name] if params[:name].present?
     contact.additional_attributes ||= {}
     contact.additional_attributes[:company_name] = params[:company_name] if params[:company_name].present?
-    contact.additional_attributes[:city] = params[:city] if params[:city].present?
-    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :email, :name, :phone_number)))
+    ADDRESS_IMPORT_KEYS.each do |key|
+      contact.additional_attributes[key] = params[key] if params[key].present?
+    end
+    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(*RESERVED_IMPORT_KEYS)))
   end
 end

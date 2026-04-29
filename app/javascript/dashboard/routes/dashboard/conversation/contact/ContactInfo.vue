@@ -76,6 +76,25 @@ export default {
       }
       return this.findCountryFlag(countryCode, cityAndCountry);
     },
+    fullAddress() {
+      const {
+        address_line_1: line1 = '',
+        address_line_2: line2 = '',
+        city = '',
+        state = '',
+        postal_code: postalCode = '',
+        country = '',
+      } = this.additionalAttributes;
+      const cityStatePostal = [
+        city,
+        [state, postalCode].filter(item => !!item).join(' '),
+      ]
+        .filter(item => !!item)
+        .join(', ');
+      return [line1, line2, cityStatePostal, country]
+        .filter(item => !!item)
+        .join('\n');
+    },
     socialProfiles() {
       const {
         social_profiles: socialProfiles,
@@ -286,6 +305,13 @@ export default {
             icon="map"
             emoji="🌍"
             :title="$t('CONTACT_PANEL.LOCATION')"
+          />
+          <ContactInfoRow
+            v-if="fullAddress"
+            :value="fullAddress"
+            icon="map-pin"
+            emoji="📮"
+            :title="$t('CONTACT_PANEL.ADDRESS')"
           />
           <SocialIcons :social-profiles="socialProfiles" />
         </div>

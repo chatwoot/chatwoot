@@ -91,6 +91,10 @@ en:
         invalid: Invalid email
       phone_number:
         invalid: should be in e164 format
+      address:
+        too_long: '%{field} is too long (maximum is %{limit} characters)'
+        invalid_us_postal_code: 'postal code must be a valid US ZIP (e.g. 12345 or 12345-6789)'
+        invalid_us_state: 'state must be a valid US state, district, or territory'
     companies:
       domain:
         invalid: must be a valid domain name

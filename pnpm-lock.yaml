@@ -148,6 +148,9 @@ importers:
       idb:
         specifier: ^8.0.0
         version: 8.0.0
+      iso-3166-2:
+        specifier: ^1.0.0
+        version: 1.0.0
       js-cookie:
         specifier: ^3.0.5
         version: 3.0.5
@@ -2975,6 +2978,9 @@ packages:
 
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
+
+  iso-3166-2@1.0.0:
+    resolution: {integrity: sha512-xLAazfKZzwlsg/Zz/GQGQk3jJez5/2ORrjD3TjSuqz/arMht/xTK49c0GOE3afO/gEd9tHtBVVlfBla01unUng==}
 
   istanbul-lib-coverage@3.2.2:
     resolution: {integrity: sha512-O8dpsF+r0WV/8MNRKfnmrtCWhuKjxrq2w+jpzBL5UZKTi2LeVWnWOmWRxFlesJONmc+wLAGvKQZEOanko0LFTg==}
@@ -7804,6 +7810,8 @@ snapshots:
   isarray@2.0.5: {}
 
   isexe@2.0.0: {}
+
+  iso-3166-2@1.0.0: {}
 
   istanbul-lib-coverage@3.2.2: {}
 

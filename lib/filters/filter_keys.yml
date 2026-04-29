@@ -167,6 +167,39 @@ contacts:
       - "not_equal_to"
       - "contains"
       - "does_not_contain"
+  state:
+    attribute_type: "additional_attributes"
+    data_type: "text_case_insensitive"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+  postal_code:
+    attribute_type: "additional_attributes"
+    data_type: "text_case_insensitive"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+      - "starts_with"
+  address_line_1:
+    attribute_type: "additional_attributes"
+    data_type: "text_case_insensitive"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+  address_line_2:
+    attribute_type: "additional_attributes"
+    data_type: "text_case_insensitive"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
   company_name:
     attribute_type: "additional_attributes"
     data_type: "text_case_insensitive"

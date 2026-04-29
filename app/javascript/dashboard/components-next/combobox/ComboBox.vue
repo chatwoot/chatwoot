@@ -76,6 +76,18 @@ const toggleDropdown = () => {
   }
 };
 
+const onKeydown = event => {
+  if (props.disabled || open.value) return;
+  if (event.ctrlKey || event.metaKey || event.altKey) return;
+  const key = event.key;
+  const isPrintable = key.length === 1 && /\S/.test(key);
+  if (!isPrintable && key !== ' ') return;
+  event.preventDefault();
+  open.value = true;
+  search.value = key === ' ' ? '' : key;
+  nextTick(() => dropdownRef.value?.focus());
+};
+
 watch(
   () => props.modelValue,
   newValue => {
@@ -93,6 +105,7 @@ watch(
       'group/combobox': !disabled,
     }"
     @click.prevent
+    @keydown="onKeydown"
   >
     <OnClickOutside @trigger="open = false">
       <Button
@@ -122,6 +135,7 @@ watch(
         :selected-values="selectedValue"
         @search="emit('search', $event)"
         @select="selectOption"
+        @close="open = false"
       />
 
       <p
