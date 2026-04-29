@@ -653,6 +653,7 @@ Rails.application.routes.draw do
         delete :avatar, on: :member, action: :destroy_avatar
       end
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
+      resources :platform_banners
       resource :instance_status, only: [:show]
 
       resource :settings, only: [:show] do
