@@ -476,6 +476,7 @@ export default {
     },
 
     handleScroll(e) {
+      const wasProgrammatic = this.isProgrammaticScroll;
       if (this.isProgrammaticScroll) {
         // Reset the flag
         this.isProgrammaticScroll = false;
@@ -484,6 +485,10 @@ export default {
         this.hasUserScrolled = true;
       }
       emitter.emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
+      // Don't trigger auto-fetches for programmatic scroll adjustments (e.g. after
+      // loading a historical conversation). The next checkAndLoadHistory call is
+      // scheduled explicitly from fetchNextHistoricalConversation instead.
+      if (wasProgrammatic) return;
       this.fetchPreviousMessages(e.target.scrollTop);
       if (
         e.target.scrollTop < 100 &&
@@ -560,11 +565,16 @@ export default {
         }
 
         this.$nextTick(() => {
+          // Mark as programmatic so handleScroll doesn't re-trigger loading.
+          // After the adjustment, explicitly check whether more history should
+          // be loaded rather than relying on the scroll event.
+          this.isProgrammaticScroll = true;
           const heightDifference =
             this.conversationPanel.scrollHeight - this.heightBeforeLoad;
           this.conversationPanel.scrollTop =
             this.scrollTopBeforeLoad + heightDifference;
           this.setScrollParams();
+          this.$nextTick(() => this.checkAndLoadHistory());
         });
       } catch (error) {
         // Remove failed entry to allow retry
