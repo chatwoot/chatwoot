@@ -423,5 +423,10 @@ export const icons = {
     width: 16,
     height: 16,
   },
+  'quick-reply': {
+    body: `<path d="M.667 6.654 5.315.667v3.326c7.968 0 8.878 6.46 8.656 10.007l-.005-.027c-.334-1.79-.474-4.658-8.65-4.658v3.327z" fill="none" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/>`,
+    width: 15,
+    height: 15,
+  },
   /** Ends */
 };

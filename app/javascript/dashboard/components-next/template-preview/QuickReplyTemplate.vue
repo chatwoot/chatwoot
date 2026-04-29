@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import { QuickReplyIcon } from './icons';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   message: {
@@ -34,7 +34,7 @@ const actions = computed(() => props.message.actions || []);
         class="hover:!no-underline"
       >
         <template #icon>
-          <QuickReplyIcon />
+          <Icon icon="i-woot-quick-reply" class="size-[15px]" />
         </template>
       </Button>
     </div>
