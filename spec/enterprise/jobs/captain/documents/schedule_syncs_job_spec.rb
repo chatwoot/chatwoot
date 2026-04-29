@@ -62,17 +62,17 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
     end
 
     it 'marks the due document as syncing before queueing' do
-      document = create(
-        :captain_document,
-        assistant: assistant,
-        account: account,
-        status: :available,
-        sync_status: :synced,
-        last_synced_at: 3.days.ago
-      )
-      clear_enqueued_jobs
-
       travel_to Time.zone.local(2026, 4, 27, 10, 0, 0) do
+        document = create(
+          :captain_document,
+          assistant: assistant,
+          account: account,
+          status: :available,
+          sync_status: :synced,
+          last_synced_at: 3.days.ago
+        )
+        clear_enqueued_jobs
+
         described_class.new.perform
 
         expect(document.reload).to have_attributes(
