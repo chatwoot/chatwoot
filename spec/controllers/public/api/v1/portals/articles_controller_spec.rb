@@ -142,6 +142,45 @@ RSpec.describe 'Public Articles API', type: :request do
     end
   end
 
+  describe 'GET /public/api/v1/portals/:slug/articles (orphaned locale filtering)' do
+    it 'excludes articles from removed locales in index' do
+      orphaned_portal = create(:portal, slug: 'orphan-idx', custom_domain: 'www.orphan-idx.com',
+                                        config: { allowed_locales: %w[en fr] }, account_id: account.id)
+
+      en_cat = create(:category, portal: orphaned_portal, account_id: account.id, locale: 'en', slug: 'oidx-en')
+      fr_cat = create(:category, portal: orphaned_portal, account_id: account.id, locale: 'fr', slug: 'oidx-fr')
+
+      create(:article, category: en_cat, portal: orphaned_portal, account_id: account.id, author_id: agent.id)
+      create(:article, category: fr_cat, portal: orphaned_portal, account_id: account.id, author_id: agent.id)
+
+      # Verify both articles exist before locale removal
+      expect(orphaned_portal.articles.count).to eq(2)
+
+      # Remove fr locale — before_update callback destroys fr articles, controller also filters
+      orphaned_portal.update!(config: { allowed_locales: %w[en], default_locale: 'en' })
+
+      # Verify the callback destroyed the fr article
+      expect(orphaned_portal.articles.reload.count).to eq(1)
+      expect(orphaned_portal.articles.pluck(:locale)).to eq(['en'])
+    end
+
+    it 'returns 404 for direct access to an article with a removed locale' do
+      orphaned_portal = create(:portal, slug: 'orphan-show', custom_domain: 'www.orphan-show.com',
+                                        config: { allowed_locales: %w[en fr] }, account_id: account.id)
+
+      fr_cat = create(:category, portal: orphaned_portal, account_id: account.id, locale: 'fr', slug: 'oshow-fr')
+      orphaned_article = create(:article, portal: orphaned_portal, category: fr_cat, account_id: account.id, author_id: agent.id)
+      article_slug = orphaned_article.slug
+
+      # Remove fr locale — callback destroys the article, but controller also guards with 404
+      orphaned_portal.update!(config: { allowed_locales: %w[en], default_locale: 'en' })
+
+      get "/hc/#{orphaned_portal.slug}/articles/#{article_slug}"
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   describe 'GET /public/api/v1/portals/:slug/articles/:slug.png (tracking pixel)' do
     it 'serves a PNG image and increments view count for published article' do
       get "/hc/#{portal.slug}/articles/#{article.slug}.png"
