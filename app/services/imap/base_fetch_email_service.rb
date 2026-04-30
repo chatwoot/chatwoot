@@ -107,9 +107,19 @@ class Imap::BaseFetchEmailService
 
   def build_imap_client
     imap = Net::IMAP.new(channel.imap_address, port: channel.imap_port, ssl: true)
-    imap.authenticate(authentication_type, channel.imap_login, imap_password)
+    imap_authenticate(imap)
     imap.select('INBOX')
     imap
+  end
+
+  # Use IMAP LOGIN when the server does not advertise AUTH=PLAIN (e.g. Alibaba Mail).
+  def imap_authenticate(imap)
+    if authentication_type == 'PLAIN' && imap.capability.exclude?('AUTH=PLAIN')
+      Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] AUTH=PLAIN not in CAPABILITY for #{channel.email}, using LOGIN"
+      imap.login(channel.imap_login, imap_password)
+    else
+      imap.authenticate(authentication_type, channel.imap_login, imap_password)
+    end
   end
 
   def terminate_imap_connection

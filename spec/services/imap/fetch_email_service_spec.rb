@@ -14,10 +14,50 @@ RSpec.describe Imap::FetchEmailService do
       allow(Net::IMAP).to receive(:new).with(
         imap_email_channel.imap_address, port: imap_email_channel.imap_port, ssl: true
       ).and_return(imap)
+      allow(imap).to receive(:capability).and_return(%w[IMAP4REV1 AUTH=PLAIN])
       allow(imap).to receive(:authenticate).with(
         'PLAIN', imap_email_channel.imap_login, imap_email_channel.imap_password
       )
       allow(imap).to receive(:select).with('INBOX')
+    end
+
+    context 'when server does not advertise AUTH=PLAIN in CAPABILITY' do
+      before do
+        allow(imap).to receive(:capability).and_return(%w[IMAP4REV1 AUTH=XOAUTH AUTH=XOAUTH2])
+        allow(imap).to receive(:login).with(imap_email_channel.imap_login, imap_email_channel.imap_password)
+      end
+
+      it 'uses IMAP LOGIN instead of SASL PLAIN' do
+        allow(imap).to receive(:search).and_return([])
+        allow(imap).to receive(:logout)
+
+        described_class.new(channel: imap_email_channel).perform
+
+        expect(imap).not_to have_received(:authenticate)
+        expect(imap).to have_received(:login).with(imap_email_channel.imap_login, imap_email_channel.imap_password)
+      end
+
+      it 'logs the LOGIN usage' do
+        allow(imap).to receive(:search).and_return([])
+        allow(imap).to receive(:logout)
+
+        described_class.new(channel: imap_email_channel).perform
+
+        expect(logger).to have_received(:info).with(/AUTH=PLAIN not in CAPABILITY.*using LOGIN/)
+      end
+    end
+
+    context 'when server advertises AUTH=PLAIN in CAPABILITY' do
+      it 'uses SASL PLAIN authentication' do
+        allow(imap).to receive(:login)
+        allow(imap).to receive(:search).and_return([])
+        allow(imap).to receive(:logout)
+
+        described_class.new(channel: imap_email_channel).perform
+
+        expect(imap).to have_received(:authenticate).with('PLAIN', imap_email_channel.imap_login, imap_email_channel.imap_password)
+        expect(imap).not_to have_received(:login)
+      end
     end
 
     context 'when new emails are available in the mailbox' do
