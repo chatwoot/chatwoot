@@ -29,25 +29,41 @@ const BG_COLOR_MAP = {
 
 const { t } = useI18n();
 const store = useStore();
-const { call, currentUserId } = useMessageContext();
+const { call, conversationId, currentUserId } = useMessageContext();
 
 const status = computed(() => call.value?.status);
 const isOutbound = computed(() => call.value?.direction === 'outgoing');
 const isFailed = computed(() =>
   [VOICE_CALL_STATUS.NO_ANSWER, VOICE_CALL_STATUS.FAILED].includes(status.value)
 );
+// Authoritative answerer (only the Call record). Used to decide if the current
+// user is the one on the call.
 const acceptedByAgentId = computed(() => call.value?.accepted_by_agent_id);
-const acceptedByAgentName = computed(() => {
-  if (call.value?.accepted_by_agent_name)
-    return call.value.accepted_by_agent_name;
-  if (!acceptedByAgentId.value) return null;
-  const agent = store.getters['agents/getAgentById'](acceptedByAgentId.value);
-  return agent?.available_name || agent?.name || null;
-});
 const didCurrentUserAnswer = computed(
   () =>
     !!acceptedByAgentId.value && acceptedByAgentId.value === currentUserId.value
 );
+// Display fallback: if the Call payload doesn't carry the answerer, treat the
+// conversation's current assignee as the likely answerer. Pickup auto-assigns
+// the conversation, so they line up in normal flow. Covers races where Twilio's
+// call-status webhook flipped status to in-progress before the participant-join
+// webhook wrote accepted_by_agent_id on the Call.
+const conversationAssignee = computed(() => {
+  const conversation = store.getters.getConversationById?.(
+    conversationId?.value
+  );
+  return conversation?.meta?.assignee || null;
+});
+const displayAgentName = computed(() => {
+  if (call.value?.accepted_by_agent_name)
+    return call.value.accepted_by_agent_name;
+  if (acceptedByAgentId.value) {
+    const agent = store.getters['agents/getAgentById'](acceptedByAgentId.value);
+    if (agent?.available_name) return agent.available_name;
+    if (agent?.name) return agent.name;
+  }
+  return conversationAssignee.value?.name || null;
+});
 
 const labelKey = computed(() => {
   if (LABEL_MAP[status.value]) return LABEL_MAP[status.value];
@@ -72,9 +88,9 @@ const subtext = computed(() => {
     if (didCurrentUserAnswer.value) {
       return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
     }
-    if (acceptedByAgentName.value) {
+    if (displayAgentName.value) {
       return t('CONVERSATION.VOICE_CALL.AGENT_ANSWERED', {
-        agentName: acceptedByAgentName.value,
+        agentName: displayAgentName.value,
       });
     }
     return t('CONVERSATION.VOICE_CALL.THEY_ANSWERED');
