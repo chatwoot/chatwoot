@@ -92,6 +92,7 @@ class Call < ApplicationRecord
       duration_seconds: duration_seconds,
       conference_sid: conference_sid,
       accepted_by_agent_id: accepted_by_agent_id,
+      accepted_by_agent_name: accepted_by_agent&.available_name,
       started_at: started_at&.to_i,
       ended_at: ended_at,
       from_number: from_number,

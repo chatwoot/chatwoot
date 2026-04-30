@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useMessageContext } from '../provider.js';
 import { VOICE_CALL_STATUS } from '../constants';
 
@@ -8,11 +9,6 @@ import BaseBubble from 'next/message/bubbles/Base.vue';
 
 const LABEL_MAP = {
   [VOICE_CALL_STATUS.IN_PROGRESS]: 'CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS',
-  [VOICE_CALL_STATUS.COMPLETED]: 'CONVERSATION.VOICE_CALL.CALL_ENDED',
-};
-
-const SUBTEXT_MAP = {
-  [VOICE_CALL_STATUS.RINGING]: 'CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET',
   [VOICE_CALL_STATUS.COMPLETED]: 'CONVERSATION.VOICE_CALL.CALL_ENDED',
 };
 
@@ -30,12 +26,19 @@ const BG_COLOR_MAP = {
   [VOICE_CALL_STATUS.FAILED]: 'bg-n-ruby-9',
 };
 
-const { call } = useMessageContext();
+const { t } = useI18n();
+const { call, currentUserId } = useMessageContext();
 
 const status = computed(() => call.value?.status);
 const isOutbound = computed(() => call.value?.direction === 'outgoing');
 const isFailed = computed(() =>
   [VOICE_CALL_STATUS.NO_ANSWER, VOICE_CALL_STATUS.FAILED].includes(status.value)
+);
+const acceptedByAgentId = computed(() => call.value?.accepted_by_agent_id);
+const acceptedByAgentName = computed(() => call.value?.accepted_by_agent_name);
+const didCurrentUserAnswer = computed(
+  () =>
+    !!acceptedByAgentId.value && acceptedByAgentId.value === currentUserId.value
 );
 
 const labelKey = computed(() => {
@@ -50,16 +53,28 @@ const labelKey = computed(() => {
     : 'CONVERSATION.VOICE_CALL.INCOMING_CALL';
 });
 
-const subtextKey = computed(() => {
-  if (SUBTEXT_MAP[status.value]) return SUBTEXT_MAP[status.value];
+const subtext = computed(() => {
+  if (status.value === VOICE_CALL_STATUS.RINGING) {
+    return t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
+  }
+  if (status.value === VOICE_CALL_STATUS.COMPLETED) {
+    return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
+  }
   if (status.value === VOICE_CALL_STATUS.IN_PROGRESS) {
-    return isOutbound.value
-      ? 'CONVERSATION.VOICE_CALL.THEY_ANSWERED'
-      : 'CONVERSATION.VOICE_CALL.YOU_ANSWERED';
+    if (isOutbound.value) return t('CONVERSATION.VOICE_CALL.THEY_ANSWERED');
+    if (didCurrentUserAnswer.value) {
+      return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
+    }
+    if (acceptedByAgentName.value) {
+      return t('CONVERSATION.VOICE_CALL.AGENT_ANSWERED', {
+        agentName: acceptedByAgentName.value,
+      });
+    }
+    return t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
   }
   return isFailed.value
-    ? 'CONVERSATION.VOICE_CALL.NO_ANSWER'
-    : 'CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET';
+    ? t('CONVERSATION.VOICE_CALL.NO_ANSWER')
+    : t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
 });
 
 const iconName = computed(() => {
@@ -93,7 +108,7 @@ const bgColor = computed(() => BG_COLOR_MAP[status.value] || 'bg-n-teal-9');
             {{ $t(labelKey) }}
           </span>
           <span class="text-xs text-n-slate-11">
-            {{ $t(subtextKey) }}
+            {{ subtext }}
           </span>
         </div>
       </div>
