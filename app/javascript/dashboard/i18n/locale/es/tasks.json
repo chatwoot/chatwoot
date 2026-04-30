@@ -1,0 +1,121 @@
+{
+  "TASKS": {
+    "HEADER": {
+      "TITLE": "Tareas",
+      "DESCRIPTION": "Gestiona y realiza seguimiento de tareas programadas vinculadas a contactos, conversaciones o citas",
+      "NEW_TASK": "Nueva tarea",
+      "SEARCH_PLACEHOLDER": "Buscar tareas...",
+      "SEARCH_TITLE": "Resultados de búsqueda",
+      "ACTIONS": {
+        "SORT_BY": {
+          "LABEL": "Ordenar por",
+          "OPTIONS": {
+            "TITLE": "Título",
+            "STATUS": "Estado",
+            "CREATED_AT": "Fecha de creación"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Orden",
+          "OPTIONS": {
+            "ASCENDING": "Ascendente",
+            "DESCENDING": "Descendente"
+          }
+        }
+      }
+    },
+    "LOADING": "Cargando tareas...",
+    "EMPTY_STATE_TITLE": "Sin tareas aún",
+    "EMPTY_STATE_DESCRIPTION": "Crea tu primera tarea para comenzar",
+    "NO_DESCRIPTION": "Sin descripción",
+    "STATUS": {
+      "PENDING": "Pendiente",
+      "IN_PROGRESS": "En progreso",
+      "COMPLETED": "Completada",
+      "CANCELLED": "Cancelada"
+    },
+    "ENTITY_TYPE": {
+      "CONVERSATION": "Conversación",
+      "CONTACT": "Contacto",
+      "APPOINTMENT": "Cita"
+    },
+    "ACTION_TYPE": {
+      "GENERAL": "General",
+      "SCHEDULE_APPOINTMENT": "Programar cita",
+      "SEND_MESSAGE": "Enviar mensaje",
+      "ASSIGN_CONVERSATION": "Asignar conversación"
+    },
+    "EXECUTION_CONFIG": {
+      "DAYS": {
+        "0": "Domingo",
+        "1": "Lunes",
+        "2": "Martes",
+        "3": "Miércoles",
+        "4": "Jueves",
+        "5": "Viernes",
+        "6": "Sábado"
+      }
+    },
+    "ACTIONS": {
+      "EDIT": "Editar",
+      "DELETE": "Eliminar",
+      "EXECUTE": "Ejecutar ahora"
+    },
+    "EXECUTE": {
+      "SUCCESS": "Tarea ejecutada correctamente",
+      "ERROR": "Error al ejecutar la tarea"
+    },
+    "MODAL": {
+      "CREATE_TITLE": "Crear tarea",
+      "EDIT_TITLE": "Editar tarea",
+      "TITLE": "Título",
+      "TITLE_PLACEHOLDER": "Ingresa el título de la tarea",
+      "DESCRIPTION": "Descripción",
+      "DESCRIPTION_PLACEHOLDER": "Agrega detalles sobre esta tarea",
+      "STATUS": "Estado",
+      "ACTION_TYPE": "Tipo de acción",
+      "SELECT_ACTION_TYPE": "Selecciona el tipo de acción",
+      "SCHEDULED_AT": "Ejecutar en",
+      "ASSIGNEE": "Agente asignado (opcional)",
+      "SELECT_ASSIGNEE": "Seleccionar agente...",
+      "MESSAGE_CONTENT": "Contenido del mensaje",
+      "MESSAGE_CONTENT_PLACEHOLDER": "Ingresa el mensaje a enviar...",
+      "APPOINTMENT_TITLE": "Título de la cita",
+      "APPOINTMENT_TITLE_PLACEHOLDER": "Ingresa el título de la cita...",
+      "ENTITY_TYPE": "Tipo de entidad vinculada",
+      "SELECT_ENTITY_TYPE": "Ninguna (opcional)",
+      "SELECT_ENTITY": "Seleccionar {type}",
+      "ENTITY_SEARCH_PLACEHOLDER": "Buscar...",
+      "LOADING_ENTITIES": "Cargando...",
+      "EXECUTION_SCHEDULE": "Programación de ejecución",
+      "DAYS_OF_WEEK": "Días de la semana",
+      "TIME_FROM": "Hora de inicio",
+      "TIME_TO": "Hora de fin",
+      "CANCEL": "Cancelar",
+      "SAVE": "Guardar",
+      "CONVERSATION": "Conversación",
+      "SEARCH_CONVERSATION_BY_CONTACT": "Escribe el nombre de un contacto para buscar sus conversaciones...",
+      "ASSIGN_TO_AGENT": "Asignar a agente",
+      "VALIDATION_ERROR": "El título es obligatorio"
+    },
+    "CREATE": {
+      "SUCCESS": "Tarea creada correctamente",
+      "ERROR": "Error al crear la tarea"
+    },
+    "EDIT": {
+      "SUCCESS": "Tarea actualizada correctamente",
+      "ERROR": "Error al actualizar la tarea"
+    },
+    "DELETE": {
+      "CONFIRM_TITLE": "Eliminar tarea",
+      "CONFIRM_MESSAGE": "¿Estás seguro de que deseas eliminar esta tarea? Esta acción no se puede deshacer.",
+      "YES": "Eliminar",
+      "NO": "Cancelar",
+      "SUCCESS": "Tarea eliminada correctamente",
+      "ERROR": "Error al eliminar la tarea"
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Mostrando {startItem} a {endItem} de {totalItems} tarea | Mostrando {startItem} a {endItem} de {totalItems} tareas"
+    }
+  }
+}

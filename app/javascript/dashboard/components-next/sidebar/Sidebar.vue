@@ -399,6 +399,13 @@ const menuItems = computed(() => {
       activeOn: ['appointments_dashboard'],
     },
     {
+      name: 'Tasks',
+      label: t('SIDEBAR.TASKS'),
+      icon: 'i-lucide-clipboard-list',
+      to: accountScopedRoute('tasks_dashboard'),
+      activeOn: ['tasks_dashboard'],
+    },
+    {
       name: 'Companies',
       label: t('SIDEBAR.COMPANIES'),
       icon: 'i-lucide-building-2',

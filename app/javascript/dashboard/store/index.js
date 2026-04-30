@@ -5,6 +5,7 @@ import agentBots from './modules/agentBots';
 import agentCapacityPolicies from './modules/agentCapacityPolicies';
 import agents from './modules/agents';
 import appointments from './modules/appointments';
+import tasks from './modules/tasks';
 import locations from './modules/locations';
 import pipelineStatuses from './modules/pipelineStatuses';
 import { createPipelineModule } from './modules/pipeline/createPipelineModule';
@@ -83,6 +84,7 @@ export default createStore({
     agentCapacityPolicies,
     agents,
     appointments,
+    tasks,
     locations,
     pipelineStatuses,
     contactPipeline: createPipelineModule({

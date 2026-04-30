@@ -206,6 +206,15 @@ Rails.application.routes.draw do
               delete :delete_folder
             end
           end
+          resources :tasks, only: [:index, :create, :show, :update, :destroy] do
+            member do
+              post :execute
+            end
+            collection do
+              get :search
+              post :filter
+            end
+          end
           resources :appointments, only: [:index, :create, :show, :update, :destroy] do
             collection do
               get :search

@@ -19,6 +19,9 @@ class TriggerScheduledItemsJob < ApplicationJob
 
     # Job to sync whatsapp templates
     Channels::Whatsapp::TemplatesSyncSchedulerJob.perform_later
+
+    # Job to execute scheduled tasks
+    Tasks::SchedulerJob.perform_later
   end
 end
 
