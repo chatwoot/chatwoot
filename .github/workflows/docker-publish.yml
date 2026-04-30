@@ -16,12 +16,6 @@ on:
           - linux/amd64
           - linux/arm64
           - linux/amd64,linux/arm64
-  push:
-    branches:
-      - develop
-    tags:
-      - "v*"
-
 env:
   IMAGE: daveckw/djc-chat
 
@@ -50,13 +44,7 @@ jobs:
         id: tags
         run: |
           set -euo pipefail
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            INPUT="${{ github.event.inputs.tags }}"
-          elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
-            INPUT="${GITHUB_REF#refs/tags/},latest"
-          else
-            INPUT="develop,sha-${GITHUB_SHA::7}"
-          fi
+          INPUT="${{ github.event.inputs.tags }}"
           # Convert comma list -> newline list -> "image:tag" lines
           TAG_LIST=$(echo "$INPUT" | tr ',' '\n' | sed "s|^|${IMAGE}:|")
           {
