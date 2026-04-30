@@ -1,5 +1,12 @@
 class Whatsapp::FacebookApiClient
   BASE_URI = 'https://graph.facebook.com'.freeze
+  # Webhook fields the WhatsApp Cloud handler depends on. `messages` is the
+  # standard inbound channel; `smb_message_echoes` delivers outbound messages
+  # sent from the WhatsApp Business app (coexistence sync, consumed by
+  # Webhooks::WhatsappEventsJob#message_echo_event?). Meta downgrades the app
+  # subscription to default fields if we POST /subscribed_apps without one, so
+  # we resend this list on every (re)subscribe to keep the subscription stable.
+  SUBSCRIBED_FIELDS = %w[messages smb_message_echoes].freeze
 
   def initialize(access_token = nil)
     @access_token = access_token
@@ -60,46 +67,65 @@ class Whatsapp::FacebookApiClient
     data['code_verification_status'] == 'VERIFIED'
   end
 
-  def subscribe_waba_webhook(waba_id, callback_url, verify_token)
-    # Step 1: Subscribe app to WABA first (required before override)
+  def subscribe_phone_number_webhook(waba_id, phone_number_id, callback_url, verify_token)
+    # Step 1: Subscribe app to WABA (required before any webhook override)
     # Meta requires the app to be subscribed before using override_callback_uri
     # See: https://github.com/chatwoot/chatwoot/issues/13097
     subscribe_app_to_waba(waba_id)
 
-    # Step 2: Override callback URL for this specific WABA
-    override_waba_callback(waba_id, callback_url, verify_token)
+    # Step 2: Override callback URL at phone number level
+    # Phone number level overrides take precedence over WABA level overrides,
+    # allowing multiple phone numbers on the same WABA to have different callback URLs
+    override_phone_number_callback(phone_number_id, callback_url, verify_token)
   end
 
   def subscribe_app_to_waba(waba_id)
     response = HTTParty.post(
       "#{BASE_URI}/#{@api_version}/#{waba_id}/subscribed_apps",
-      headers: request_headers
+      headers: request_headers,
+      body: { subscribed_fields: SUBSCRIBED_FIELDS }.to_json
     )
 
     handle_response(response, 'App subscription to WABA failed')
   end
 
-  def override_waba_callback(waba_id, callback_url, verify_token)
+  def override_phone_number_callback(phone_number_id, callback_url, verify_token)
     response = HTTParty.post(
-      "#{BASE_URI}/#{@api_version}/#{waba_id}/subscribed_apps",
+      "#{BASE_URI}/#{@api_version}/#{phone_number_id}",
       headers: request_headers,
       body: {
-        override_callback_uri: callback_url,
-        verify_token: verify_token,
-        subscribed_fields: %w[messages smb_message_echoes]
+        webhook_configuration: {
+          override_callback_uri: callback_url,
+          verify_token: verify_token
+        }
       }.to_json
     )
 
-    handle_response(response, 'Webhook callback override failed')
+    handle_response(response, 'Phone number webhook callback override failed')
   end
 
-  def unsubscribe_waba_webhook(waba_id)
-    response = HTTParty.delete(
-      "#{BASE_URI}/#{@api_version}/#{waba_id}/subscribed_apps",
-      headers: request_headers
+  def clear_phone_number_callback_override(phone_number_id)
+    response = HTTParty.post(
+      "#{BASE_URI}/#{@api_version}/#{phone_number_id}",
+      headers: request_headers,
+      body: {
+        webhook_configuration: {
+          override_callback_uri: ''
+        }
+      }.to_json
     )
 
-    handle_response(response, 'Webhook unsubscription failed')
+    handle_response(response, 'Phone number webhook callback clear failed')
+  end
+
+  def clear_waba_callback_override(waba_id)
+    response = HTTParty.post(
+      "#{BASE_URI}/#{@api_version}/#{waba_id}/subscribed_apps",
+      headers: request_headers,
+      body: { override_callback_uri: '' }.to_json
+    )
+
+    handle_response(response, 'WABA webhook callback clear failed')
   end
 
   private

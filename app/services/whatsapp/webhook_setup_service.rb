@@ -28,6 +28,7 @@ class Whatsapp::WebhookSetupService
     raise ArgumentError, 'Channel is required' if @channel.blank?
     raise ArgumentError, 'WABA ID is required' if @waba_id.blank?
     raise ArgumentError, 'Access token is required' if @access_token.blank?
+    raise ArgumentError, 'Phone number ID is required' if @channel.provider_config['phone_number_id'].blank?
   end
 
   def register_phone_number
@@ -58,12 +59,27 @@ class Whatsapp::WebhookSetupService
   def setup_webhook
     callback_url = build_callback_url
     verify_token = @channel.provider_config['webhook_verify_token']
+    phone_number_id = @channel.provider_config['phone_number_id']
 
-    @api_client.subscribe_waba_webhook(@waba_id, callback_url, verify_token)
-
+    @api_client.subscribe_phone_number_webhook(@waba_id, phone_number_id, callback_url, verify_token)
+    mark_phone_level_override_persisted
   rescue StandardError => e
     Rails.logger.error("[WHATSAPP] Webhook setup failed: #{e.message}")
     raise "Webhook setup failed: #{e.message}"
+  end
+
+  # Records that this channel is now receiving webhooks via a phone-number-level
+  # override. Teardown uses this marker as ground truth: a channel without it is
+  # treated as still depending on the WABA-level fallback, so the teardown
+  # sibling guard can tell legacy rows from new rows even though both persist
+  # phone_number_id in provider_config. Self-heals on every reauth. Marker
+  # persistence is best-effort — a DB hiccup here should not undo the Meta-side
+  # configuration we just succeeded in setting.
+  def mark_phone_level_override_persisted
+    @channel.provider_config = @channel.provider_config.merge('webhook_override_level' => 'phone_number')
+    @channel.save!
+  rescue StandardError => e
+    Rails.logger.warn("[WHATSAPP] Failed to persist webhook override level marker: #{e.message}")
   end
 
   def build_callback_url
