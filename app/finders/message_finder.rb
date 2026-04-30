@@ -11,9 +11,7 @@ class MessageFinder
   private
 
   def conversation_messages
-    scope = @conversation.messages.includes(:attachments, :sender, sender: { avatar_attachment: [:blob] })
-    scope = scope.includes(call: [:contact, { inbox: :channel }]) if Message.reflect_on_association(:call)
-    scope
+    @conversation.messages.includes(:attachments, :sender, sender: { avatar_attachment: [:blob] })
   end
 
   def messages
@@ -50,3 +48,5 @@ class MessageFinder
     messages.reorder('created_at desc').limit(20).reverse
   end
 end
+
+MessageFinder.prepend_mod_with('MessageFinder')
