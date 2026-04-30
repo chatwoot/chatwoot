@@ -72,6 +72,7 @@ if resource.twilio?
   if Current.account_user&.administrator?
     json.auth_token resource.channel.try(:auth_token)
     json.account_sid resource.channel.try(:account_sid)
+    json.api_key_sid resource.channel.try(:api_key_sid)
   end
 end
 
@@ -131,8 +132,13 @@ if resource.whatsapp?
   json.reauthorization_required resource.channel.try(:reauthorization_required?)
 end
 
-## Voice Channel Attributes
-if resource.channel_type == 'Channel::Voice'
-  json.voice_call_webhook_url resource.channel.try(:voice_call_webhook_url)
-  json.voice_status_webhook_url resource.channel.try(:voice_status_webhook_url)
+## Voice attributes for TwilioSms
+if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
+  json.voice_enabled resource.channel.voice_enabled?
+  json.voice_configured resource.channel.try(:twiml_app_sid).present?
+  json.has_api_key_secret resource.channel.try(:api_key_secret).present?
+  if resource.channel.try(:twiml_app_sid).present?
+    json.voice_call_webhook_url resource.channel.try(:voice_call_webhook_url)
+    json.voice_status_webhook_url resource.channel.try(:voice_status_webhook_url)
+  end
 end

@@ -368,7 +368,7 @@ export const templates = [
     namespace: 'ed41a221_133a_4558_a1d6_192960e3aee9',
     components: [
       {
-        text: '🎉 Special offer for you! Get {{discount_percentage}}% off your next purchase. Use the code below at checkout',
+        text: 'Special offer for you! Get {{discount_percentage}}% off your next purchase. Use the code below at checkout',
         type: 'BODY',
       },
       {
@@ -400,7 +400,7 @@ export const templates = [
           {
             text: 'Call Support',
             type: 'PHONE_NUMBER',
-            phone_number: '+16506677566',
+            phone_number: '+23232323',
           },
         ],
       },
