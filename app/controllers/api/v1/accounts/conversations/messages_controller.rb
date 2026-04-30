@@ -14,11 +14,25 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def update
-    if permitted_params[:status].present? || permitted_params[:external_error].present?
-      Messages::StatusUpdateService.new(message, permitted_params[:status], permitted_params[:external_error]).perform
+    extra_attrs = build_message_update_attrs
+
+    if permitted_params[:status].present?
+      # Pre-stage source_id / content_attributes onto the in-memory record so
+      # the service's save! flushes them in the same UPDATE statement. This
+      # collapses what would otherwise be two writes (and two
+      # after_update_commit dispatches) into one.
+      message.assign_attributes(extra_attrs) if extra_attrs.any?
+      status_applied = Messages::StatusUpdateService.new(
+        message, permitted_params[:status], permitted_params[:external_error]
+      ).perform
+      # If the status transition was rejected by the service, still persist
+      # the source_id / content_attributes the caller supplied -- they are an
+      # independent backfill and shouldn't depend on the status path.
+      message.save! if !status_applied && message.changed?
+    elsif extra_attrs.any?
+      message.update!(extra_attrs)
     end
 
-    apply_source_id_and_content_attributes_update
     @message = message
   end
 
@@ -72,29 +86,33 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     params.permit(:id, :target_language, :status, :external_error, :source_id, content_attributes: {})
   end
 
-  # Allow API-channel integrations (e.g. custom LINE / WhatsApp bridges) to
-  # backfill the platform-side message id (source_id) and free-form
-  # content_attributes after they relay an outgoing agent message to the
-  # downstream channel. content_attributes is merged (not replaced) so
-  # existing keys like `email` or `external_created_at` are preserved.
+  # Build the attributes hash for the API-channel "extra" update path -- the
+  # platform-side message id (source_id) and free-form content_attributes
+  # that custom bridges (e.g. LINE / WhatsApp) backfill after relaying an
+  # outgoing agent message to the downstream channel.
   #
-  # `source_id` is only written when a non-nil value is supplied, so a
-  # status-only PATCH that happens to serialize `"source_id": null` cannot
-  # accidentally clear an already-stored id. Callers that genuinely need
-  # to clear the field can do so via a direct DB update or a future
-  # explicit clear endpoint.
-  def apply_source_id_and_content_attributes_update
+  # Behaviour:
+  # - `source_id` is only written when a non-nil value is supplied, so a
+  #   status-only PATCH that happens to serialize `"source_id": null` cannot
+  #   accidentally clear an already-stored id. Callers that genuinely need
+  #   to clear the field can do so via a direct DB update or an explicit
+  #   clear endpoint.
+  # - `content_attributes` is **deep-merged** with the existing JSON so
+  #   partial updates to nested objects (e.g. one subkey under `email`) do
+  #   not blow away unrelated siblings. Keys are normalised to strings on
+  #   both sides to stay consistent with how Rails's JSON store reads back
+  #   from the JSONB column.
+  def build_message_update_attrs
     attrs = {}
     attrs[:source_id] = permitted_params[:source_id] unless permitted_params[:source_id].nil?
 
     if permitted_params[:content_attributes].present?
-      merged = (message.content_attributes || {}).merge(
-        permitted_params[:content_attributes].to_h.deep_symbolize_keys
-      )
-      attrs[:content_attributes] = merged
+      incoming = permitted_params[:content_attributes].to_h.deep_stringify_keys
+      existing = (message.content_attributes || {}).deep_stringify_keys
+      attrs[:content_attributes] = existing.deep_merge(incoming)
     end
 
-    message.update!(attrs) if attrs.any?
+    attrs
   end
 
   def already_translated_content_available?
