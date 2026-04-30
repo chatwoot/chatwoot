@@ -23,25 +23,33 @@ class HookJob < MutexApplicationJob
   private
 
   def process_slack_integration(hook, event_name, event_data)
-    message = event_data[:message]
-
     case event_name
     when 'message.created'
-      if message.attachments.blank?
-        ::SendOnSlackJob.perform_later(message, hook)
-      else
-        ::SendOnSlackJob.set(wait: 2.seconds).perform_later(message, hook)
-      end
+      send_slack_message_created(hook, event_data[:message])
     when 'message.updated'
-      # Only interactive bot messages store responses via content_attributes (submitted_values / submitted_email).
-      # Skip other content types to avoid unnecessary job enqueues on every message update.
-      return unless message.content_type.in?(Integrations::Slack::UpdateSlackMessageService::SUPPORTED_CONTENT_TYPES)
-      # Guard against redundant Slack updates when unrelated attributes change (e.g. status)
-      # while submitted_values is already present on the message.
-      return unless event_data[:previous_changes]&.key?('content_attributes')
-
-      ::UpdateSlackMessageJob.perform_later(message, hook)
+      send_slack_message_updated(hook, event_data[:message], event_data[:previous_changes])
+    when 'contact.updated'
+      ::SendContactUpdateOnSlackJob.perform_later(event_data[:contact], hook, event_data[:changed_attributes] || {})
     end
+  end
+
+  def send_slack_message_created(hook, message)
+    if message.attachments.blank?
+      ::SendOnSlackJob.perform_later(message, hook)
+    else
+      ::SendOnSlackJob.set(wait: 2.seconds).perform_later(message, hook)
+    end
+  end
+
+  def send_slack_message_updated(hook, message, previous_changes)
+    # Only interactive bot messages store responses via content_attributes (submitted_values / submitted_email).
+    # Skip other content types to avoid unnecessary job enqueues on every message update.
+    return unless message.content_type.in?(Integrations::Slack::UpdateSlackMessageService::SUPPORTED_CONTENT_TYPES)
+    # Guard against redundant Slack updates when unrelated attributes change (e.g. status)
+    # while submitted_values is already present on the message.
+    return unless previous_changes&.key?('content_attributes')
+
+    ::UpdateSlackMessageJob.perform_later(message, hook)
   end
 
   def process_dialogflow_integration(hook, event_name, event_data)

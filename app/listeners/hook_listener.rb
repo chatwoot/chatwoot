@@ -18,7 +18,7 @@ class HookListener < BaseListener
 
   def contact_updated(event)
     contact = extract_contact_and_account(event)[0]
-    execute_account_hooks(event, contact.account, contact: contact)
+    execute_account_hooks(event, contact.account, contact: contact, changed_attributes: event.data[:changed_attributes])
   end
 
   def conversation_created(event)
@@ -59,7 +59,7 @@ class HookListener < BaseListener
     return false if hook.disabled?
 
     supported_events_map = {
-      'slack' => ['message.created', 'message.updated'],
+      'slack' => ['message.created', 'message.updated', 'contact.updated'],
       'dialogflow' => ['message.created', 'message.updated'],
       'google_translate' => ['message.created'],
       'leadsquared' => ['contact.updated', 'conversation.created', 'conversation.resolved']

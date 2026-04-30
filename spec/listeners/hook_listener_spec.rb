@@ -10,7 +10,8 @@ describe HookListener do
                      account: account, inbox: inbox, conversation: conversation)
   end
   let!(:event) { Events::Base.new(event_name, Time.zone.now, message: message, previous_changes: nil) }
-  let(:contact_event) { Events::Base.new('contact.updated', Time.zone.now, contact: conversation.contact) }
+  let(:contact_changes) { { 'email' => [nil, 'new@example.com'] } }
+  let(:contact_event) { Events::Base.new('contact.updated', Time.zone.now, contact: conversation.contact, changed_attributes: contact_changes) }
   let(:conversation_event) { Events::Base.new('conversation.created', Time.zone.now, conversation: conversation) }
 
   describe '#message_created' do
@@ -122,7 +123,18 @@ describe HookListener do
       it 'enqueues the job for contact.updated' do
         expect(HookJob)
           .to receive(:perform_later)
-          .with(hook, 'contact.updated', { contact: conversation.contact })
+          .with(hook, 'contact.updated', { contact: conversation.contact, changed_attributes: contact_changes })
+
+        listener.contact_updated(contact_event)
+      end
+    end
+
+    context 'with slack hook on contact.updated' do
+      it 'enqueues the job and forwards changed_attributes' do
+        hook = create(:integrations_hook, account: account)
+        expect(HookJob)
+          .to receive(:perform_later)
+          .with(hook, 'contact.updated', { contact: conversation.contact, changed_attributes: contact_changes })
 
         listener.contact_updated(contact_event)
       end
