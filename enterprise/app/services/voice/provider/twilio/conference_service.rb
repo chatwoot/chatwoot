@@ -40,9 +40,8 @@ class Voice::Provider::Twilio::ConferenceService
     raise CustomExceptions::CallAlreadyAccepted.new(agent_name: agent&.available_name || agent&.name)
   end
 
-  # Auto-assign the conversation to the agent who just picked up only when no
-  # one else owns it. Existing assignments are preserved — manual reassignment
-  # or pre-call assignment (e.g., lock_to_single_conversation) wins.
+  # Existing assignments win — manual reassignment and pre-call assignment
+  # (e.g., lock_to_single_conversation) shouldn't be stomped on pickup.
   def assign_conversation!(user)
     conversation = call.conversation
     return if conversation.assignee_id.present?

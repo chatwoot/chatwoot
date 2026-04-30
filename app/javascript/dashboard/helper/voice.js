@@ -124,9 +124,6 @@ export function handleVoiceCallUpdated(commit, message, currentUserId) {
   }
 }
 
-// Drop call widgets for a conversation that just became assigned to someone
-// other than the current user. Called from the conversations updateConversation
-// action so it covers conversation.updated, conversation.read, and assignee.changed.
 export function syncConversationCallVisibility(conversation, currentUserId) {
   const assigneeId = extractAssigneeId(conversation);
   if (!isAssignedToAnotherAgent(assigneeId, currentUserId)) return;

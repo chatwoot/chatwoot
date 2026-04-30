@@ -35,10 +35,9 @@ class Voice::Conference::Manager
     status_manager.process_status_update('in_progress', timestamp: now)
   end
 
-  # Webhook-side claim: first-join wins. Subsequent joins from other agents are
-  # ignored here — the frontend conflict response from ConferenceController#create
-  # is the user-facing reject; the webhook just needs to avoid stomping on the
-  # original assignee.
+  # First-join wins; later joins by other agents are silently ignored so the
+  # webhook doesn't stomp the original assignee. User-facing rejection happens
+  # at the API layer.
   def claim_for_user!(user_id)
     claimed = false
     call.with_lock do

@@ -36,18 +36,15 @@ const isOutbound = computed(() => call.value?.direction === 'outgoing');
 const isFailed = computed(() =>
   [VOICE_CALL_STATUS.NO_ANSWER, VOICE_CALL_STATUS.FAILED].includes(status.value)
 );
-// Authoritative answerer (only the Call record). Used to decide if the current
-// user is the one on the call.
 const acceptedByAgentId = computed(() => call.value?.accepted_by_agent_id);
 const didCurrentUserAnswer = computed(
   () =>
     !!acceptedByAgentId.value && acceptedByAgentId.value === currentUserId.value
 );
-// Display fallback: if the Call payload doesn't carry the answerer, treat the
-// conversation's current assignee as the likely answerer. Pickup auto-assigns
-// the conversation, so they line up in normal flow. Covers races where Twilio's
-// call-status webhook flipped status to in-progress before the participant-join
-// webhook wrote accepted_by_agent_id on the Call.
+// Pickup auto-assigns the conversation, so the assignee is a safe display proxy
+// for the answerer when the Call payload lacks accepted_by_agent_id (e.g.,
+// Twilio's call-status webhook flipped the call to in-progress before the
+// participant-join webhook claimed it).
 const conversationAssignee = computed(() => {
   const conversation = store.getters.getConversationById?.(
     conversationId?.value
