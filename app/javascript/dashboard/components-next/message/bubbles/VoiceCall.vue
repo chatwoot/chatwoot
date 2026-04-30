@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 import { useMessageContext } from '../provider.js';
 import { VOICE_CALL_STATUS } from '../constants';
 
@@ -27,6 +28,7 @@ const BG_COLOR_MAP = {
 };
 
 const { t } = useI18n();
+const store = useStore();
 const { call, currentUserId } = useMessageContext();
 
 const status = computed(() => call.value?.status);
@@ -35,7 +37,13 @@ const isFailed = computed(() =>
   [VOICE_CALL_STATUS.NO_ANSWER, VOICE_CALL_STATUS.FAILED].includes(status.value)
 );
 const acceptedByAgentId = computed(() => call.value?.accepted_by_agent_id);
-const acceptedByAgentName = computed(() => call.value?.accepted_by_agent_name);
+const acceptedByAgentName = computed(() => {
+  if (call.value?.accepted_by_agent_name)
+    return call.value.accepted_by_agent_name;
+  if (!acceptedByAgentId.value) return null;
+  const agent = store.getters['agents/getAgentById'](acceptedByAgentId.value);
+  return agent?.available_name || agent?.name || null;
+});
 const didCurrentUserAnswer = computed(
   () =>
     !!acceptedByAgentId.value && acceptedByAgentId.value === currentUserId.value
@@ -61,7 +69,6 @@ const subtext = computed(() => {
     return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
   }
   if (status.value === VOICE_CALL_STATUS.IN_PROGRESS) {
-    if (isOutbound.value) return t('CONVERSATION.VOICE_CALL.THEY_ANSWERED');
     if (didCurrentUserAnswer.value) {
       return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
     }
@@ -70,7 +77,7 @@ const subtext = computed(() => {
         agentName: acceptedByAgentName.value,
       });
     }
-    return t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
+    return t('CONVERSATION.VOICE_CALL.THEY_ANSWERED');
   }
   return isFailed.value
     ? t('CONVERSATION.VOICE_CALL.NO_ANSWER')
