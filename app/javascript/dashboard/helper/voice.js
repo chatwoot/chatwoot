@@ -37,10 +37,12 @@ const shouldShowCall = ({
   assigneeId,
   currentUserId,
 }) => {
-  return (
-    !shouldSkipCall(callDirection, senderId, currentUserId) &&
-    !isAssignedToAnotherAgent(assigneeId, currentUserId)
-  );
+  if (shouldSkipCall(callDirection, senderId, currentUserId)) return false;
+  // Outbound calls are scoped to the initiator via shouldSkipCall; the
+  // conversation may be auto-assigned to a different agent on creation, so
+  // skip the assignee filter for outbound to avoid hiding the caller's own widget.
+  if (callDirection === 'outbound') return true;
+  return !isAssignedToAnotherAgent(assigneeId, currentUserId);
 };
 
 function extractCallData(message) {
