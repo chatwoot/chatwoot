@@ -4,7 +4,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
   let(:account) { create(:account) }
   let(:voice_channel) { create(:channel_twilio_sms, :with_voice, account: account) }
   let(:voice_inbox) { voice_channel.inbox }
-  let(:conversation) { create(:conversation, account: account, inbox: voice_inbox, identifier: nil) }
+  let(:conversation) { create(:conversation, account: account, inbox: voice_inbox) }
   let(:admin) { create(:user, :administrator, account: account) }
   let(:agent) { create(:user, account: account, role: :agent) }
 
@@ -66,41 +66,57 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     end
 
     context 'when authenticated agent with inbox access' do
-      before { create(:inbox_member, inbox: voice_inbox, user: agent) }
+      before do
+        create(:inbox_member, inbox: voice_inbox, user: agent)
+        create(
+          :call,
+          account: account,
+          inbox: voice_inbox,
+          conversation: conversation,
+          contact: conversation.contact,
+          provider_call_id: 'CALL123'
+        )
+      end
 
-      it 'creates conference and sets identifier' do
+      it 'resolves the Call by call_sid and invokes the conference service' do
         post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
              headers: agent.create_new_auth_token,
              params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
         expect(response).to have_http_status(:ok)
         body = response.parsed_body
-        expect(body['conference_sid']).to be_present
-        conversation.reload
-        expect(conversation.identifier).to eq('CALL123')
+        expect(body['conference_sid']).to eq('CF123')
+        expect(body['id']).to eq(conversation.display_id)
         expect(conference_service).to have_received(:ensure_conference_sid)
         expect(conference_service).to have_received(:mark_agent_joined)
       end
 
-      it 'does not allow accessing conversations from inboxes without access' do
-        other_inbox = create(:inbox, account: account)
-        other_conversation = create(:conversation, account: account, inbox: other_inbox, identifier: nil)
-
-        post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
-             headers: agent.create_new_auth_token,
-             params: { conversation_id: other_conversation.display_id, call_sid: 'CALL123' }
-
-        expect(response).to have_http_status(:not_found)
-        other_conversation.reload
-        expect(other_conversation.identifier).to be_nil
-      end
-
-      it 'returns conflict when call_sid missing' do
+      it 'rejects the request when call_sid is missing' do
         post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
              headers: agent.create_new_auth_token,
              params: { conversation_id: conversation.display_id }
 
         expect(response).to have_http_status(:unprocessable_content)
+        expect(conference_service).not_to have_received(:ensure_conference_sid)
+      end
+
+      it 'does not allow accessing calls from inboxes without access' do
+        other_inbox = create(:inbox, account: account)
+        other_conversation = create(:conversation, account: account, inbox: other_inbox)
+        create(
+          :call,
+          account: account,
+          inbox: other_inbox,
+          conversation: other_conversation,
+          contact: other_conversation.contact,
+          provider_call_id: 'OTHER123'
+        )
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+             headers: agent.create_new_auth_token,
+             params: { conversation_id: other_conversation.display_id, call_sid: 'OTHER123' }
+
+        expect(response).to have_http_status(:not_found)
       end
     end
   end
@@ -115,25 +131,43 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     end
 
     context 'when authenticated agent with inbox access' do
-      before { create(:inbox_member, inbox: voice_inbox, user: agent) }
+      before do
+        create(:inbox_member, inbox: voice_inbox, user: agent)
+        create(
+          :call,
+          account: account,
+          inbox: voice_inbox,
+          conversation: conversation,
+          contact: conversation.contact,
+          provider_call_id: 'CALL123'
+        )
+      end
 
-      it 'ends conference and returns success' do
+      it 'ends the conference for the resolved call' do
         delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
                headers: agent.create_new_auth_token,
-               params: { conversation_id: conversation.display_id }
+               params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body['id']).to eq(conversation.display_id)
         expect(conference_service).to have_received(:end_conference)
       end
 
-      it 'does not allow ending conferences for conversations from inboxes without access' do
+      it 'does not allow ending conferences for calls from inboxes without access' do
         other_inbox = create(:inbox, account: account)
-        other_conversation = create(:conversation, account: account, inbox: other_inbox, identifier: nil)
+        other_conversation = create(:conversation, account: account, inbox: other_inbox)
+        create(
+          :call,
+          account: account,
+          inbox: other_inbox,
+          conversation: other_conversation,
+          contact: other_conversation.contact,
+          provider_call_id: 'OTHER123'
+        )
 
         delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
                headers: agent.create_new_auth_token,
-               params: { conversation_id: other_conversation.display_id }
+               params: { conversation_id: other_conversation.display_id, call_sid: 'OTHER123' }
 
         expect(response).to have_http_status(:not_found)
       end
