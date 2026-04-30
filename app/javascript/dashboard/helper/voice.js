@@ -23,11 +23,11 @@ const shouldSkipCall = (callDirection, senderId, currentUserId) => {
 };
 
 function extractCallData(message) {
-  const contentData = message?.content_attributes?.data || {};
+  const call = message?.call || {};
   return {
-    callSid: contentData.call_sid,
-    status: contentData.status,
-    callDirection: contentData.call_direction,
+    callSid: call.provider_call_id,
+    status: call.status,
+    callDirection: call.direction === 'outgoing' ? 'outbound' : 'inbound',
     conversationId: message?.conversation_id,
     senderId: message?.sender?.id,
   };
@@ -60,9 +60,11 @@ export function handleVoiceCallUpdated(commit, message, currentUserId) {
 
   callsStore.handleCallStatusChanged({ callSid, status, conversationId });
 
-  const callInfo = { conversationId, callStatus: status };
-  commit(types.UPDATE_CONVERSATION_CALL_STATUS, callInfo);
-  commit(types.UPDATE_MESSAGE_CALL_STATUS, callInfo);
+  commit(types.UPDATE_MESSAGE_CALL_STATUS, {
+    conversationId,
+    callStatus: status,
+    callSid,
+  });
 
   const isNewCall =
     status === 'ringing' &&

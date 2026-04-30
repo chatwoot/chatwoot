@@ -19,15 +19,24 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
     let(:to_number) { channel.phone_number }
 
     it 'invokes Voice::InboundCallBuilder for inbound calls and renders conference TwiML' do
-      instance_double(Voice::InboundCallBuilder)
       conversation = create(:conversation, account: account, inbox: inbox)
+      contact = conversation.contact
+      call = create(
+        :call,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        contact: contact,
+        provider_call_id: call_sid
+      )
+      call.update!(conference_sid: call.default_conference_sid)
 
       expect(Voice::InboundCallBuilder).to receive(:perform!).with(
         account: account,
         inbox: inbox,
         from_number: from_number,
         call_sid: call_sid
-      ).and_return(conversation)
+      ).and_return(call)
 
       post "/twilio/voice/call/#{digits}", params: {
         'CallSid' => call_sid,
@@ -39,64 +48,59 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('<Response>')
       expect(response.body).to include('<Dial>')
+      expect(response.body).to include(call.conference_sid)
     end
 
-    it 'syncs an existing outbound conversation when Twilio sends the PSTN leg' do
-      conversation = create(:conversation, account: account, inbox: inbox, identifier: call_sid)
-      sync_double = instance_double(Voice::CallSessionSyncService, perform: conversation)
-
-      expect(Voice::CallSessionSyncService).to receive(:new).with(
-        hash_including(
-          conversation: conversation,
-          call_sid: call_sid,
-          message_call_sid: conversation.identifier,
-          leg: {
-            from_number: from_number,
-            to_number: to_number,
-            direction: 'outbound'
-          }
-        )
-      ).and_return(sync_double)
+    it 'looks up the Call when Twilio sends the outbound-api PSTN leg' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(
+        :call,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        contact: conversation.contact,
+        direction: :outgoing,
+        provider_call_id: call_sid
+      )
+      call.update!(conference_sid: call.default_conference_sid)
 
       post "/twilio/voice/call/#{digits}", params: {
         'CallSid' => call_sid,
-        'From' => from_number,
-        'To' => to_number,
+        'From' => to_number,
+        'To' => from_number,
         'Direction' => 'outbound-api'
       }
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('<Response>')
+      expect(response.body).to include(call.conference_sid)
+      expect(call.reload.parent_call_sid).to be_nil
     end
 
-    it 'uses the parent call SID when syncing outbound-dial legs' do
+    it 'records the parent call SID when syncing outbound-dial legs' do
       parent_sid = 'CA_parent'
       child_sid = 'CA_child'
-      conversation = create(:conversation, account: account, inbox: inbox, identifier: parent_sid)
-      sync_double = instance_double(Voice::CallSessionSyncService, perform: conversation)
-
-      expect(Voice::CallSessionSyncService).to receive(:new).with(
-        hash_including(
-          conversation: conversation,
-          call_sid: child_sid,
-          message_call_sid: parent_sid,
-          leg: {
-            from_number: from_number,
-            to_number: to_number,
-            direction: 'outbound'
-          }
-        )
-      ).and_return(sync_double)
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(
+        :call,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        contact: conversation.contact,
+        direction: :outgoing,
+        provider_call_id: parent_sid
+      )
+      call.update!(conference_sid: call.default_conference_sid)
 
       post "/twilio/voice/call/#{digits}", params: {
         'CallSid' => child_sid,
         'ParentCallSid' => parent_sid,
-        'From' => from_number,
-        'To' => to_number,
+        'From' => to_number,
+        'To' => from_number,
         'Direction' => 'outbound-dial'
       }
 
       expect(response).to have_http_status(:ok)
+      expect(call.reload.parent_call_sid).to eq(parent_sid)
     end
 
     it 'raises not found when inbox is not present' do

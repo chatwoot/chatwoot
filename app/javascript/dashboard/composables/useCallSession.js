@@ -42,8 +42,8 @@ export function useCallSession() {
     );
   });
 
-  const endCall = async ({ conversationId, inboxId }) => {
-    await VoiceAPI.leaveConference(inboxId, conversationId);
+  const endCall = async ({ conversationId, inboxId, callSid }) => {
+    await VoiceAPI.leaveConference({ inboxId, conversationId, callSid });
     TwilioVoiceClient.endClientCall();
     durationTimer.stop();
     callsStore.clearActiveCall();
@@ -66,6 +66,7 @@ export function useCallSession() {
       await TwilioVoiceClient.joinClientCall({
         to: joinResponse?.conference_sid,
         conversationId,
+        callSid,
       });
 
       callsStore.setCallActive(callSid);

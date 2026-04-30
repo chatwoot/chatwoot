@@ -48,3 +48,5 @@ class MessageFinder
     messages.reorder('created_at desc').limit(20).reverse
   end
 end
+
+MessageFinder.prepend_mod_with('MessageFinder')

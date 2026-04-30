@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useMessageContext } from '../provider.js';
-import { MESSAGE_TYPES, VOICE_CALL_STATUS } from '../constants';
+import { VOICE_CALL_STATUS } from '../constants';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
@@ -30,12 +30,10 @@ const BG_COLOR_MAP = {
   [VOICE_CALL_STATUS.FAILED]: 'bg-n-ruby-9',
 };
 
-const { contentAttributes, messageType } = useMessageContext();
+const { call } = useMessageContext();
 
-const data = computed(() => contentAttributes.value?.data);
-const status = computed(() => data.value?.status?.toString());
-
-const isOutbound = computed(() => messageType.value === MESSAGE_TYPES.OUTGOING);
+const status = computed(() => call.value?.status);
+const isOutbound = computed(() => call.value?.direction === 'outgoing');
 const isFailed = computed(() =>
   [VOICE_CALL_STATUS.NO_ANSWER, VOICE_CALL_STATUS.FAILED].includes(status.value)
 );
