@@ -61,6 +61,7 @@ class Contact < ApplicationRecord
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
 
   belongs_to :account
+  belongs_to :pipeline_status
   has_many :conversations, dependent: :destroy_async
   has_many :contact_inboxes, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
@@ -71,11 +72,12 @@ class Contact < ApplicationRecord
   has_many :notes, dependent: :destroy_async
   has_many :appointments, dependent: :destroy_async
   before_validation :prepare_contact_attributes
+  before_save :sync_contact_attributes
+  before_create :assign_default_pipeline_status
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
   after_discard :dispatch_discard_event
-  before_save :sync_contact_attributes
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
   enum source_type: {
@@ -212,6 +214,15 @@ class Contact < ApplicationRecord
   end
 
   private
+
+  def assign_default_pipeline_status
+    return if pipeline_status_id.present?
+
+    self.pipeline_status = account.pipeline_statuses
+                                  .where(pipeline_type: 'contact')
+                                  .order(:position)
+                                  .first
+  end
 
   def ip_lookup
     return unless account.feature_enabled?('ip_lookup')

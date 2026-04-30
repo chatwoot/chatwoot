@@ -1,6 +1,7 @@
 import { frontendURL } from '../../../helper/URLHelper';
 import ContactsIndex from './pages/ContactsIndex.vue';
 import ContactManageView from './pages/ContactManageView.vue';
+import ContactPipelineBoard from './PipelineBoard/index.vue';
 import { FEATURE_FLAGS } from '../../../featureFlags';
 
 const commonMeta = {
@@ -9,6 +10,12 @@ const commonMeta = {
 };
 
 export const routes = [
+  {
+    path: frontendURL('accounts/:accountId/contacts/pipeline'),
+    name: 'contacts_dashboard_pipeline',
+    component: ContactPipelineBoard,
+    meta: commonMeta,
+  },
   {
     path: frontendURL('accounts/:accountId/contacts'),
     component: ContactsIndex,

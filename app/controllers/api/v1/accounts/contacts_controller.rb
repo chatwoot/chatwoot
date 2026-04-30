@@ -119,7 +119,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   private
 
-  # TODO: Move this to a finder class
   def resolved_contacts
     return @resolved_contacts if @resolved_contacts
 
@@ -129,6 +128,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @resolved_contacts = filter_contacts_for_supervisor(@resolved_contacts) if Current.account_user&.supervisor?
 
     @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
+    if params[:pipeline_status_id] == 'unassigned'
+      @resolved_contacts = @resolved_contacts.where(pipeline_status_id: nil)
+    elsif params[:pipeline_status_id].present?
+      @resolved_contacts = @resolved_contacts.where(pipeline_status_id: params[:pipeline_status_id])
+    end
     @resolved_contacts
   end
 
@@ -186,8 +190,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url, :contact_type, additional_attributes: {},
-                                                                                                            custom_attributes: {})
+    params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url, :contact_type, :pipeline_status_id,
+                  additional_attributes: {}, custom_attributes: {})
   end
 
   def contact_custom_attributes

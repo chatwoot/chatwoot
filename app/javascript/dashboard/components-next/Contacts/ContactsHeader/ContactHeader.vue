@@ -17,6 +17,7 @@ defineProps({
   hasActiveFilters: { type: Boolean, default: false },
   isLabelView: { type: Boolean, default: false },
   isActiveView: { type: Boolean, default: false },
+  viewMode: { type: String, default: 'list' },
 });
 
 const emit = defineEmits([
@@ -28,6 +29,7 @@ const emit = defineEmits([
   'export',
   'createSegment',
   'deleteSegment',
+  'toggle-view',
 ]);
 </script>
 
@@ -101,7 +103,15 @@ const emit = defineEmits([
               variant="ghost"
               @click="emit('deleteSegment')"
             />
+            <Button
+              :icon="viewMode === 'list' ? 'i-lucide-layout-kanban' : 'i-lucide-list'"
+              color="slate"
+              size="sm"
+              variant="ghost"
+              @click="emit('toggle-view')"
+            />
             <ContactSortMenu
+              v-if="viewMode === 'list'"
               :active-sort="activeSort"
               :active-ordering="activeOrdering"
               @update:sort="emit('update:sort', $event)"

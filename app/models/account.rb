@@ -166,7 +166,7 @@ class Account < ApplicationRecord
   scope :with_auto_resolve, -> { where("(settings ->> 'auto_resolve_after')::int IS NOT NULL") }
 
   before_validation :validate_limit_keys
-  after_create_commit :notify_creation, :setup_nauto_webhooks
+  after_create_commit :notify_creation, :setup_nauto_webhooks, :setup_contact_pipeline_statuses, :setup_conversation_pipeline_statuses
   after_destroy :remove_account_sequences
 
   def agents
@@ -278,6 +278,19 @@ class Account < ApplicationRecord
 
   def setup_nauto_webhooks
     Accounts::SetupNautoWebhooksService.new(self).perform
+  end
+
+  def setup_contact_pipeline_statuses
+    pipeline_statuses.create!(name: 'nuevo', pipeline_type: 'contact', position: 1)
+  end
+
+  def setup_conversation_pipeline_statuses
+    return if pipeline_statuses.exists?(pipeline_type: 'conversation')
+
+    %w[new contacted proposal_sent closed].each_with_index do |status_name, index|
+      name = I18n.t("pipeline_status.default_statuses.#{status_name}")
+      pipeline_statuses.create!(name: name, pipeline_type: 'conversation', position: index + 1)
+    end
   end
 
   trigger.after(:insert).for_each(:row) do

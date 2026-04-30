@@ -344,6 +344,12 @@ const menuItems = computed(() => {
           activeOn: ['contacts_dashboard_active'],
         },
         {
+          name: 'Pipeline',
+          label: t('SIDEBAR.CONTACTS_PIPELINE'),
+          to: accountScopedRoute('contacts_dashboard_pipeline'),
+          activeOn: ['contacts_dashboard_pipeline'],
+        },
+        {
           name: 'Segments',
           icon: 'i-lucide-group',
           label: t('SIDEBAR.CUSTOM_VIEWS_SEGMENTS'),

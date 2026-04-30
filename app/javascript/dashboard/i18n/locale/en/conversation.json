@@ -476,5 +476,25 @@
     "DELETE_WITH_CONVERSATIONS": "Please change the status of assigned conversations before deleting this column.",
     "DELETE_SUCCESS": "Status column deleted successfully",
     "DELETE_FAILED": "Couldn't delete status column. Please try again"
+  },
+  "PIPELINE": {
+    "ADD_COLUMN": "Add new column",
+    "LOADING": "Loading...",
+    "DELETE_WITH_ITEMS": "Please reassign all items before deleting this column.",
+    "DELETE_SUCCESS": "Column deleted successfully",
+    "DELETE_FAILED": "Couldn't delete column. Please try again",
+    "DELETE_CONFIRMATION": {
+      "TITLE": "Delete column",
+      "MESSAGE": "Are you sure you want to delete this column? This action cannot be undone.",
+      "DELETE": "Delete",
+      "CANCEL": "Cancel"
+    },
+    "SWITCH_TO_BOARD": "Switch to pipeline view",
+    "SWITCH_TO_LIST": "Switch to list view",
+    "UNASSIGNED_COLUMN": "Unassigned",
+    "COLUMN": {
+      "EMPTY": "No items here",
+      "EOF": "End of list"
+    }
   }
 }

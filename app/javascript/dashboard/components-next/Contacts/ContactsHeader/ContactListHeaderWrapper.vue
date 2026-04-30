@@ -37,6 +37,7 @@ const props = defineProps({
   hasAppliedFilters: { type: Boolean, default: false },
   isLabelView: { type: Boolean, default: false },
   isActiveView: { type: Boolean, default: false },
+  viewMode: { type: String, default: 'list' },
 });
 
 const emit = defineEmits([
@@ -44,6 +45,7 @@ const emit = defineEmits([
   'search',
   'applyFilter',
   'clearFilters',
+  'toggle-view',
 ]);
 
 const { t } = useI18n();
@@ -283,8 +285,10 @@ defineExpose({
     :is-active-view="isActiveView"
     :has-active-filters="hasAppliedFilters"
     :button-label="t('CONTACTS_LAYOUT.HEADER.MESSAGE_BUTTON')"
+    :view-mode="viewMode"
     @search="emit('search', $event)"
     @update:sort="emit('update:sort', $event)"
+    @toggle-view="emit('toggle-view')"
     @add="openCreateNewContactDialog"
     @import="openContactImportDialog"
     @export="openContactExportDialog"

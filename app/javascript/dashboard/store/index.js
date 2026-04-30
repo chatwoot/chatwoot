@@ -7,6 +7,9 @@ import agents from './modules/agents';
 import appointments from './modules/appointments';
 import locations from './modules/locations';
 import pipelineStatuses from './modules/pipelineStatuses';
+import { createPipelineModule } from './modules/pipeline/createPipelineModule';
+import ContactsAPI from 'dashboard/api/contacts';
+import PipelineStatusesAPI from 'dashboard/api/pipeline_statuses';
 import assignmentPolicies from './modules/assignmentPolicies';
 import articles from './modules/helpCenterArticles';
 import attributes from './modules/attributes';
@@ -82,6 +85,14 @@ export default createStore({
     appointments,
     locations,
     pipelineStatuses,
+    contactPipeline: createPipelineModule({
+      entityType: 'contact',
+      fetchAllColumns: params => PipelineStatusesAPI.getBoard({ pipeline_type: 'contact', ...params }),
+      fetchColumnItems: columnId => ContactsAPI.getByPipelineStatus(columnId),
+      fetchColumnPage: params => PipelineStatusesAPI.getColumnItems({ pipeline_type: 'contact', ...params }),
+      moveItem: (contactId, columnId) =>
+        ContactsAPI.update(contactId, { pipeline_status_id: columnId }),
+    }),
     assignmentPolicies,
     articles,
     attributes,

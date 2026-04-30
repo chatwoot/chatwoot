@@ -23,6 +23,7 @@ const props = defineProps({
   useInfiniteScroll: { type: Boolean, default: false },
   hasMore: { type: Boolean, default: false },
   isLoadingMore: { type: Boolean, default: false },
+  viewMode: { type: String, default: 'list' },
 });
 
 const emit = defineEmits([
@@ -32,6 +33,7 @@ const emit = defineEmits([
   'applyFilter',
   'clearFilters',
   'loadMore',
+  'toggle-view',
 ]);
 
 const route = useRoute();
@@ -93,7 +95,9 @@ const showPagination = computed(() => {
         :has-applied-filters="hasAppliedFilters"
         :is-label-view="isLabelView"
         :is-active-view="isActiveView"
+        :view-mode="viewMode"
         @update:sort="emit('update:sort', $event)"
+        @toggle-view="emit('toggle-view')"
         @search="emit('search', $event)"
         @apply-filter="emit('applyFilter', $event)"
         @clear-filters="emit('clearFilters')"

@@ -452,12 +452,14 @@ onMounted(async () => {
       :use-infinite-scroll="isSearchView"
       :has-more="hasMore"
       :is-loading-more="isLoadingMore"
+      view-mode="list"
       @update:current-page="fetchContactsBasedOnContext"
       @search="searchContacts"
       @update:sort="handleSort"
       @apply-filter="fetchSavedOrAppliedFilteredContact"
       @clear-filters="fetchContacts"
       @load-more="loadMoreSearchResults"
+      @toggle-view="router.push({ name: 'contacts_dashboard_pipeline' })"
     >
       <div
         v-if="isFetchingList && !(isSearchView && hasContacts)"
