@@ -26,8 +26,10 @@ jobs:
       matrix:
         include:
           - platform: linux/amd64
+            pair: linux-amd64
             runner: ubuntu-latest
           - platform: linux/arm64
+            pair: linux-arm64
             runner: ubuntu-22.04-arm
     runs-on: ${{ matrix.runner }}
     env:
@@ -35,11 +37,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Prepare
-        run: |
-          platform=${{ matrix.platform }}
-          echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
 
       - name: Strip enterprise code
         run: |
@@ -91,7 +88,7 @@ jobs:
       - name: Upload digest
         uses: actions/upload-artifact@v4
         with:
-          name: digests-${{ env.PLATFORM_PAIR }}
+          name: digests-${{ matrix.pair }}
           path: ${{ runner.temp }}/digests/*
           if-no-files-found: error
           retention-days: 1

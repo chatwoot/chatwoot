@@ -763,7 +763,7 @@
       "CONFIRM_BUTTON_LABEL": "Create",
       "NAME": {
         "LABEL": "Name",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | DJC Chat",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "Name is required"
       },

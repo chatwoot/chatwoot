@@ -1,14 +1,15 @@
 ## djc-chat production deployment
 ## Place on the droplet at /opt/djc-chat/docker-compose.yaml
 
-services:
-  base: &base
-    image: daveckw/djc-chat:1
-    env_file: .env
-    volumes:
-      - storage_data:/app/storage
-    restart: always
+x-base: &base
+  image: daveckw/djc-chat:1
+  env_file: .env
+  volumes:
+    - storage_data:/app/storage
+    - ./branding:/app/public/brand-assets:ro
+  restart: always
 
+services:
   rails:
     <<: *base
     depends_on:
