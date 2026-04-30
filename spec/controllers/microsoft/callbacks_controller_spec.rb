@@ -73,23 +73,22 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
         .to_return(status: 401)
 
       get microsoft_callback_url, params: { code: code, state: state }
-
       expect(response).to redirect_to '/'
     end
-  end
 
-  context 'with AZURE_TENANT_ID configured' do
-    let(:tenant_id) { 'my-tenant-id' }
+    context 'with AZURE_TENANT_ID configured' do
+      let(:tenant_id) { 'my-tenant-id' }
 
-    it 'uses the tenant-specific endpoint for token request' do
-      stub_request(:post, "https://login.microsoftonline.com/#{tenant_id}/oauth2/v2.0/token")
-        .with(body: { 'code' => code, 'grant_type' => 'authorization_code',
-                      'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback" })
-        .to_return(status: 200, body: response_body_success.to_json, headers: { 'Content-Type' => 'application/json' })
+      it 'uses the tenant-specific endpoint for token request' do
+        stub_request(:post, "https://login.microsoftonline.com/#{tenant_id}/oauth2/v2.0/token")
+          .with(body: { 'code' => code, 'grant_type' => 'authorization_code',
+                        'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback" })
+          .to_return(status: 200, body: response_body_success.to_json, headers: { 'Content-Type' => 'application/json' })
 
-      with_modified_env AZURE_TENANT_ID: tenant_id do
-        get microsoft_callback_url, params: { code: code, state: state }
-        expect(response).to have_http_status(:redirect)
+        with_modified_env AZURE_TENANT_ID: tenant_id do
+          get microsoft_callback_url, params: { code: code, state: state }
+          expect(response).to have_http_status(:redirect)
+        end
       end
     end
   end

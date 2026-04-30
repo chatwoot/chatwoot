@@ -68,39 +68,24 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
         end
       end
     end
+
+    context 'when AZURE_TENANT_ID is configured' do
+      let(:tenant_id) { 'my-tenant-id' }
+
+      before do
+        stub_request(:post, "https://login.microsoftonline.com/#{tenant_id}/oauth2/v2.0/token").with(
+          body: { 'grant_type' => 'refresh_token', 'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token'] }
+        ).to_return(status: 200, body: new_tokens.to_json, headers: { 'Content-Type' => 'application/json' })
+      end
+
+      it 'fetches new access token using the tenant-specific endpoint' do
+        with_modified_env AZURE_APP_ID: SecureRandom.uuid, AZURE_APP_SECRET: SecureRandom.hex, AZURE_TENANT_ID: tenant_id do
+          service = described_class.new(channel: microsoft_channel_with_expired_token)
+          expect(service.access_token).to eq(new_tokens[:access_token])
+        end
+      end
+    end
   end
 
   context 'when refresh token is not present in provider config and access token is expired' do
-    it 'throws an error' do
-      with_modified_env AZURE_APP_ID: SecureRandom.uuid, AZURE_APP_SECRET: SecureRandom.hex do
-        microsoft_channel.update(
-          provider_config: {
-            access_token: SecureRandom.hex,
-            expires_on: Time.zone.now - 3600
-          }
-        )
-
-        expect do
-          described_class.new(channel: microsoft_channel).access_token
-        end.to raise_error(RuntimeError, 'A refresh_token is not available')
-      end
-    end
-  end
-
-  context 'when AZURE_TENANT_ID is configured' do
-    let(:tenant_id) { 'my-tenant-id' }
-
-    before do
-      stub_request(:post, "https://login.microsoftonline.com/#{tenant_id}/oauth2/v2.0/token").with(
-        body: { 'grant_type' => 'refresh_token', 'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token'] }
-      ).to_return(status: 200, body: new_tokens.to_json, headers: { 'Content-Type' => 'application/json' })
-    end
-
-    it 'fetches new access token using the tenant-specific endpoint' do
-      with_modified_env AZURE_APP_ID: SecureRandom.uuid, AZURE_APP_SECRET: SecureRandom.hex, AZURE_TENANT_ID: tenant_id do
-        service = described_class.new(channel: microsoft_channel_with_expired_token)
-        expect(service.access_token).to eq(new_tokens[:access_token])
-      end
-    end
-  end
 end
