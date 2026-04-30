@@ -22,6 +22,29 @@ const shouldSkipCall = (callDirection, senderId, currentUserId) => {
   return callDirection === 'outbound' && senderId !== currentUserId;
 };
 
+const extractAssigneeId = conversation => {
+  return conversation?.assignee_id || conversation?.meta?.assignee?.id || null;
+};
+
+const isAssignedToAnotherAgent = (assigneeId, currentUserId) => {
+  if (currentUserId == null) return false;
+  return !!assigneeId && assigneeId !== currentUserId;
+};
+
+const shouldShowCall = ({
+  callDirection,
+  senderId,
+  assigneeId,
+  currentUserId,
+}) => {
+  if (shouldSkipCall(callDirection, senderId, currentUserId)) return false;
+  // Outbound calls are scoped to the initiator via shouldSkipCall; the
+  // conversation may be auto-assigned to a different agent on creation, so
+  // skip the assignee filter for outbound to avoid hiding the caller's own widget.
+  if (callDirection === 'outbound') return true;
+  return !isAssignedToAnotherAgent(assigneeId, currentUserId);
+};
+
 function extractCallData(message) {
   const call = message?.call || {};
   return {
@@ -29,6 +52,7 @@ function extractCallData(message) {
     status: call.status,
     callDirection: call.direction === 'outgoing' ? 'outbound' : 'inbound',
     conversationId: message?.conversation_id,
+    assigneeId: extractAssigneeId(message?.conversation),
     senderId: message?.sender?.id,
   };
 }
@@ -36,10 +60,19 @@ function extractCallData(message) {
 export function handleVoiceCallCreated(message, currentUserId) {
   if (!isVoiceCallMessage(message)) return;
 
-  const { callSid, callDirection, conversationId, senderId } =
+  const { callSid, callDirection, conversationId, assigneeId, senderId } =
     extractCallData(message);
 
-  if (shouldSkipCall(callDirection, senderId, currentUserId)) return;
+  if (
+    !shouldShowCall({
+      callDirection,
+      senderId,
+      assigneeId,
+      currentUserId,
+    })
+  ) {
+    return;
+  }
 
   const callsStore = useCallsStore();
   callsStore.addCall({
@@ -53,8 +86,14 @@ export function handleVoiceCallCreated(message, currentUserId) {
 export function handleVoiceCallUpdated(commit, message, currentUserId) {
   if (!isVoiceCallMessage(message)) return;
 
-  const { callSid, status, callDirection, conversationId, senderId } =
-    extractCallData(message);
+  const {
+    callSid,
+    status,
+    callDirection,
+    conversationId,
+    assigneeId,
+    senderId,
+  } = extractCallData(message);
 
   const callsStore = useCallsStore();
 
@@ -66,11 +105,19 @@ export function handleVoiceCallUpdated(commit, message, currentUserId) {
     callSid,
   });
 
-  const isNewCall =
-    status === 'ringing' &&
-    !shouldSkipCall(callDirection, senderId, currentUserId);
+  if (
+    !shouldShowCall({
+      callDirection,
+      senderId,
+      assigneeId,
+      currentUserId,
+    })
+  ) {
+    callsStore.removeCall(callSid);
+    return;
+  }
 
-  if (isNewCall) {
+  if (status === 'ringing') {
     callsStore.addCall({
       callSid,
       conversationId,
@@ -78,4 +125,12 @@ export function handleVoiceCallUpdated(commit, message, currentUserId) {
       senderId,
     });
   }
+}
+
+export function syncConversationCallVisibility(conversation, currentUserId) {
+  const assigneeId = extractAssigneeId(conversation);
+  if (!isAssignedToAnotherAgent(assigneeId, currentUserId)) return;
+
+  const callsStore = useCallsStore();
+  callsStore.removeCallsForConversation(conversation.id);
 }

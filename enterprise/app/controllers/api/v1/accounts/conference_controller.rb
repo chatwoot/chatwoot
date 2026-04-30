@@ -1,5 +1,6 @@
 class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseController
   before_action :set_voice_inbox_for_conference
+  rescue_from CustomExceptions::CallAlreadyAccepted, with: :render_call_already_accepted
 
   def token
     render json: Voice::Provider::Twilio::TokenService.new(
@@ -53,5 +54,9 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     conversation = @voice_inbox.conversations.find_by!(display_id: cid)
     authorize conversation, :show?
     conversation
+  end
+
+  def render_call_already_accepted(error)
+    render json: { error: error.message }, status: :conflict
   end
 end

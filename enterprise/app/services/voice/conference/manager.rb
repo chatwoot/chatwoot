@@ -31,8 +31,30 @@ class Voice::Conference::Manager
 
   def join_agent!
     user_id = extract_user_id
-    call.update!(accepted_by_agent_id: user_id) if user_id
+    claim_for_user!(user_id) if user_id
     status_manager.process_status_update('in_progress', timestamp: now)
+  end
+
+  # First-join wins; later joins by other agents are silently ignored so the
+  # webhook doesn't stomp the original assignee. User-facing rejection happens
+  # at the API layer.
+  def claim_for_user!(user_id)
+    claimed = false
+    call.with_lock do
+      next if call.accepted_by_agent_id.present? && call.accepted_by_agent_id != user_id
+
+      call.update!(accepted_by_agent_id: user_id) if call.accepted_by_agent_id != user_id
+      claimed = true
+    end
+
+    auto_assign_conversation!(user_id) if claimed
+  end
+
+  def auto_assign_conversation!(user_id)
+    conversation = call.conversation
+    return if conversation.assignee_id.present?
+
+    Conversations::AssignmentService.new(conversation: conversation, assignee_id: user_id).perform
   end
 
   # Parses agent user_id from participant_label. Only returns an id when the
