@@ -1,10 +1,34 @@
 module Enterprise::Account
-  CAPTAIN_SYNC_INTERVALS = {
+  # Chatwoot-managed installation config for controlling Captain document auto-sync cadence by plan.
+  CAPTAIN_SYNC_INTERVALS_CONFIG = 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS'.freeze
+  DEFAULT_CAPTAIN_SYNC_INTERVALS = {
     'hacker' => nil,
-    'startups' => 7.days,
-    'business' => 1.day,
-    'enterprise' => 6.hours
+    'startups' => 168,
+    'business' => 24,
+    'enterprise' => 6
   }.freeze
+
+  class << self
+    def captain_document_sync_intervals
+      configured_intervals = InstallationConfig.find_by(name: CAPTAIN_SYNC_INTERVALS_CONFIG)&.value
+      parsed_intervals = parse_captain_document_sync_intervals(configured_intervals)
+
+      DEFAULT_CAPTAIN_SYNC_INTERVALS.merge(parsed_intervals)
+    end
+
+    private
+
+    def parse_captain_document_sync_intervals(configured_intervals)
+      return {} if configured_intervals.blank?
+
+      parsed_intervals = configured_intervals.is_a?(String) ? JSON.parse(configured_intervals) : configured_intervals
+      return {} unless parsed_intervals.is_a?(Hash)
+
+      parsed_intervals.transform_keys { |plan| plan.to_s.downcase }
+    rescue JSON::ParserError
+      {}
+    end
+  end
 
   # TODO: Remove this when we upgrade administrate gem to the latest version
   # this is a temporary method since current administrate doesn't support virtual attributes
@@ -41,12 +65,15 @@ module Enterprise::Account
     custom_attributes.delete('marked_for_deletion_at') && custom_attributes.delete('marked_for_deletion_reason') && save
   end
 
-  def captain_document_sync_interval
+  def captain_document_sync_interval(sync_intervals = Enterprise::Account.captain_document_sync_intervals)
     plan = custom_attributes['plan_name']
     plan = 'enterprise' if plan.blank? && ChatwootApp.self_hosted_enterprise?
     return nil if plan.blank?
 
-    CAPTAIN_SYNC_INTERVALS[plan.downcase]
+    interval_hours = sync_intervals[plan.downcase]
+    return nil unless interval_hours.is_a?(Integer) && interval_hours.positive?
+
+    interval_hours.hours
   end
 
   def saml_enabled?
