@@ -212,13 +212,7 @@
 - name: CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS
   display_title: 'Captain Document Auto Sync Intervals'
   description: 'JSON map of plan-wise Captain document auto-sync intervals in hours. Use null to disable auto-sync for a plan.'
-  value: |
-    {
-      "hacker": null,
-      "startups": 168,
-      "business": 24,
-      "enterprise": 6
-    }
+  value:
   locked: false
   type: code
 # End of Captain Config
