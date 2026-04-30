@@ -104,3 +104,8 @@ CLAUDE.local.md
 .pnpm-store/*
 local/
 Procfile.worktree
+
+# djc-chat deploy secrets
+deploy/.env
+deploy/.env.example
+guides/

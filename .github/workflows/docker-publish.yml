@@ -1,0 +1,79 @@
+name: Build & push djc-chat image
+
+on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: "Comma-separated tags to publish (e.g. 1,2,3 or v1.0.0,latest)"
+        required: true
+        default: "latest"
+      platforms:
+        description: "Target platforms"
+        required: true
+        default: "linux/amd64"
+        type: choice
+        options:
+          - linux/amd64
+          - linux/arm64
+          - linux/amd64,linux/arm64
+  push:
+    branches:
+      - develop
+    tags:
+      - "v*"
+
+env:
+  IMAGE: daveckw/djc-chat
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Compute tags
+        id: tags
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            INPUT="${{ github.event.inputs.tags }}"
+          elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            INPUT="${GITHUB_REF#refs/tags/},latest"
+          else
+            INPUT="develop,sha-${GITHUB_SHA::7}"
+          fi
+          # Convert comma list -> newline list -> "image:tag" lines
+          TAG_LIST=$(echo "$INPUT" | tr ',' '\n' | sed "s|^|${IMAGE}:|")
+          {
+            echo "tag_list<<EOF"
+            echo "$TAG_LIST"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+          echo "Tags to publish:"
+          echo "$TAG_LIST"
+
+      - name: Build & push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          platforms: ${{ github.event.inputs.platforms || 'linux/amd64' }}
+          push: true
+          tags: ${{ steps.tags.outputs.tag_list }}
+          cache-from: type=registry,ref=${{ env.IMAGE }}:buildcache
+          cache-to: type=registry,ref=${{ env.IMAGE }}:buildcache,mode=max

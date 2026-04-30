@@ -1,0 +1,20 @@
+# Replace REPLACE_DOMAIN with your actual domain (e.g. chat.example.com)
+REPLACE_DOMAIN {
+    encode zstd gzip
+
+    reverse_proxy rails:3000 {
+        header_up X-Forwarded-Proto https
+        header_up X-Forwarded-Ssl on
+    }
+
+    # WebSocket / ActionCable
+    @websockets {
+        header Connection *Upgrade*
+        header Upgrade websocket
+    }
+    reverse_proxy @websockets rails:3000
+
+    request_body {
+        max_size 50MB
+    }
+}
