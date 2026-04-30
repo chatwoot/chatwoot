@@ -66,7 +66,7 @@ class DataImport::ContactManager
     contact.additional_attributes ||= {}
     contact.additional_attributes[:company_name] = params[:company_name] if params[:company_name].present?
     ADDRESS_IMPORT_KEYS.each do |key|
-      contact.additional_attributes[key] = params[key] if params[key].present?
+      contact.additional_attributes[key.to_s] = params[key] if params[key].present?
     end
     contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(*RESERVED_IMPORT_KEYS)))
   end

@@ -53,11 +53,17 @@ export function useContactFilterContext() {
   const labels = useMapGetter('labels/getLabels');
 
   const {
+    operators,
     equalityOperators,
     containmentOperators,
     dateOperators,
     getOperatorTypes,
   } = useOperators();
+
+  const postalCodeOperators = computed(() => [
+    ...containmentOperators.value,
+    operators.value.starts_with,
+  ]);
 
   /**
    * @type {import('vue').ComputedRef<FilterType[]>}
@@ -152,7 +158,7 @@ export function useContactFilterContext() {
       label: t('CONTACTS_LAYOUT.FILTER.POSTAL_CODE'),
       inputType: 'plainText',
       dataType: 'text',
-      filterOperators: containmentOperators.value,
+      filterOperators: postalCodeOperators.value,
       attributeModel: 'standard',
     },
     {
