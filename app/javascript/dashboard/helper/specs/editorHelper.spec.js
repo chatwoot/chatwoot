@@ -16,6 +16,7 @@ import {
   calculateMenuPosition,
   stripUnsupportedFormatting,
   stripInlineBase64Images,
+  collapseSelection,
 } from '../editorHelper';
 import { FORMATTING } from 'dashboard/constants/editor';
 import { EditorState } from '@chatwoot/prosemirror-schema';
@@ -451,6 +452,37 @@ describe('stripInlineBase64Images', () => {
       sanitizedContent: '',
       hasInlineImages: false,
     });
+  });
+});
+
+describe('collapseSelection', () => {
+  it('collapses a text range to a cursor at its head', () => {
+    const editorView = new EditorView(document.body, {
+      state: createEditorState('Hello world'),
+    });
+
+    // Build a TextSelection via the initial selection's constructor (avoids
+    // importing prosemirror-state, which isn't a direct dep).
+    const { doc, selection } = editorView.state;
+    editorView.dispatch(
+      editorView.state.tr.setSelection(selection.constructor.create(doc, 1, 6))
+    );
+    expect(editorView.state.selection.empty).toBe(false);
+
+    collapseSelection(editorView);
+
+    expect(editorView.state.selection.empty).toBe(true);
+    expect(editorView.state.selection.head).toBe(6);
+  });
+
+  it('leaves an already-collapsed selection as a cursor', () => {
+    const editorView = new EditorView(document.body, {
+      state: createEditorState('Hi'),
+    });
+
+    collapseSelection(editorView);
+
+    expect(editorView.state.selection.empty).toBe(true);
   });
 });
 

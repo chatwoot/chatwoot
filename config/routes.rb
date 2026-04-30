@@ -77,7 +77,9 @@ Rails.application.routes.draw do
             resources :custom_tools do
               post :test, on: :collection
             end
-            resources :documents, only: [:index, :show, :create, :destroy]
+            resources :documents, only: [:index, :show, :create, :destroy] do
+              post :sync, on: :member
+            end
             resource :tasks, only: [], controller: 'tasks' do
               post :rewrite
               post :summarize
@@ -651,6 +653,7 @@ Rails.application.routes.draw do
         delete :avatar, on: :member, action: :destroy_avatar
       end
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
+      resources :platform_banners
       resource :instance_status, only: [:show]
 
       resource :settings, only: [:show] do
