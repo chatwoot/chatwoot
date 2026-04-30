@@ -1,10 +1,7 @@
 module Enterprise::Account
-  # Chatwoot-managed installation config for controlling Captain document auto-sync cadence by plan.
-  CAPTAIN_SYNC_INTERVALS_CONFIG = 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS'.freeze
-
   class << self
     def captain_document_sync_intervals
-      parse_captain_document_sync_intervals(InstallationConfig.find_by(name: CAPTAIN_SYNC_INTERVALS_CONFIG)&.value)
+      parse_captain_document_sync_intervals(InstallationConfig.find_by(name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS')&.value)
     end
 
     private
