@@ -27,6 +27,7 @@ const extractAssigneeId = conversation => {
 };
 
 const isAssignedToAnotherAgent = (assigneeId, currentUserId) => {
+  if (currentUserId == null) return false;
   return !!assigneeId && assigneeId !== currentUserId;
 };
 
@@ -110,7 +111,7 @@ export function handleVoiceCallUpdated(commit, message, currentUserId) {
       currentUserId,
     })
   ) {
-    callsStore.removeCallsForConversation(conversationId);
+    callsStore.removeCall(callSid);
     return;
   }
 

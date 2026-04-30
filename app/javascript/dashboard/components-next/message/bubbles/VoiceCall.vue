@@ -82,6 +82,7 @@ const subtext = computed(() => {
     return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
   }
   if (status.value === VOICE_CALL_STATUS.IN_PROGRESS) {
+    if (isOutbound.value) return t('CONVERSATION.VOICE_CALL.THEY_ANSWERED');
     if (didCurrentUserAnswer.value) {
       return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
     }
