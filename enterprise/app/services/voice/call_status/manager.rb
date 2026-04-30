@@ -1,66 +1,44 @@
 class Voice::CallStatus::Manager
-  pattr_initialize [:conversation!, :call_sid]
-
-  ALLOWED_STATUSES = %w[ringing in-progress completed no-answer failed].freeze
-  TERMINAL_STATUSES = %w[completed no-answer failed].freeze
+  pattr_initialize [:call!]
 
   def process_status_update(status, duration: nil, timestamp: nil)
-    return unless ALLOWED_STATUSES.include?(status)
+    return unless Call::STATUSES.include?(status)
+    return if call.status == status
 
-    current_status = conversation.additional_attributes&.dig('call_status')
-    return if current_status == status
-
-    apply_status(status, duration: duration, timestamp: timestamp)
-    update_message(status)
+    apply_call_updates!(status, duration: duration, timestamp: timestamp)
+    call.conversation.update!(last_activity_at: Time.zone.now)
+    # Bump updated_at so the message.updated dispatcher rebroadcasts with the fresh Call embedded.
+    call.message&.touch # rubocop:disable Rails/SkipsModelValidations
   end
 
   private
 
-  def apply_status(status, duration:, timestamp:)
-    attrs = (conversation.additional_attributes || {}).dup
-    attrs['call_status'] = status
+  def apply_call_updates!(status, duration:, timestamp:)
+    attrs = { status: status }
+    ts = timestamp || now_seconds
 
-    if status == 'in-progress'
-      attrs['call_started_at'] ||= timestamp || now_seconds
-    elsif TERMINAL_STATUSES.include?(status)
-      attrs['call_ended_at'] = timestamp || now_seconds
-      attrs['call_duration'] = resolved_duration(attrs, duration, timestamp)
+    if status == 'in_progress'
+      # Twilio can emit multiple in-progress updates (answered + in-progress, retries).
+      # Keep the earliest timestamp so duration_seconds doesn't shift forward.
+      started_at = Time.zone.at(ts)
+      attrs[:started_at] = started_at if call.started_at.nil? || started_at < call.started_at
+    elsif Call::TERMINAL_STATUSES.include?(status)
+      call.ended_at = ts
+      attrs[:meta] = call.meta
+      attrs[:duration_seconds] = resolved_duration(duration, ts)
     end
 
-    conversation.update!(
-      additional_attributes: attrs,
-      last_activity_at: current_time
-    )
+    call.update!(attrs)
   end
 
-  def resolved_duration(attrs, provided_duration, timestamp)
+  def resolved_duration(provided_duration, timestamp)
     return provided_duration if provided_duration
+    return unless call.started_at
 
-    started_at = attrs['call_started_at']
-    return unless started_at && timestamp
-
-    [timestamp - started_at.to_i, 0].max
-  end
-
-  def update_message(status)
-    message = conversation.messages
-                          .where(content_type: 'voice_call')
-                          .order(created_at: :desc)
-                          .first
-    return unless message
-
-    data = (message.content_attributes || {}).dup
-    data['data'] ||= {}
-    data['data']['status'] = status
-
-    message.update!(content_attributes: data)
+    [timestamp - call.started_at.to_i, 0].max
   end
 
   def now_seconds
-    current_time.to_i
-  end
-
-  def current_time
-    @current_time ||= Time.zone.now
+    Time.zone.now.to_i
   end
 end

@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="bg-n-alpha-2 text-n-slate-12 rounded-xl p-3 max-w-80">
+  <div class="p-3 rounded-xl bg-n-alpha-2 text-n-slate-12 max-w-80">
     <span v-dompurify-html="message.content" class="prose prose-bubble" />
   </div>
 </template>
