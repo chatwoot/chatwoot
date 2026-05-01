@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
@@ -12,28 +12,82 @@ const emit = defineEmits(['templateCreated']);
 
 const { t } = useI18n();
 const store = useStore();
-const showAlert = useAlert;
 const accountId = useMapGetter('getCurrentAccountId');
 
 const BODY_MAX = 1024;
 const FOOTER_MAX = 60;
 const HEADER_MAX = 60;
 const BUTTON_TEXT_MAX = 20;
+const QUICK_REPLY_MAX = 20;
+const URL_REGEX = /^https?:\/\/.+/i;
+
+const TYPE_OPTIONS = [
+  {
+    value: 'cta_url',
+    icon: 'i-lucide-mouse-pointer-click',
+    titleKey: 'WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_CTA',
+    hintKey: 'WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_CTA_HINT',
+  },
+  {
+    value: 'quick_replies',
+    icon: 'i-lucide-message-square-reply',
+    titleKey: 'WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_QUICK_REPLIES',
+    hintKey: 'WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_QUICK_REPLIES_HINT',
+  },
+  {
+    value: 'rich_text',
+    icon: 'i-lucide-link',
+    titleKey: 'WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_BODY_LINK',
+    hintKey: 'WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_BODY_LINK_HINT',
+  },
+];
+
+const HEADER_TYPE_OPTIONS = [
+  {
+    value: 'none',
+    icon: 'i-lucide-circle-slash',
+    labelKey: 'WHATSAPP_TEMPLATES.INTERACTIVE.HEADER_TYPE_NONE',
+  },
+  {
+    value: 'text',
+    icon: 'i-lucide-type',
+    labelKey: 'WHATSAPP_TEMPLATES.INTERACTIVE.HEADER_TEXT_OPTION',
+  },
+  {
+    value: 'image',
+    icon: 'i-lucide-image',
+    labelKey: 'WHATSAPP_TEMPLATES.INTERACTIVE.HEADER_IMAGE_OPTION',
+  },
+];
+
+const URL_MODE_DYNAMIC = 'dynamic';
+const URL_MODE_STATIC = 'static';
 
 const name = ref('');
 const templateType = ref('cta_url');
-const headerType = ref('text');
+const headerType = ref('none');
 const headerText = ref('');
 const headerImageUrl = ref('');
 const bodyText = ref('');
 const footerText = ref('');
 const buttonText = ref('Pagar agora');
+const urlMode = ref(URL_MODE_DYNAMIC);
+const staticUrl = ref('');
+const quickReplies = ref([]);
 const isSubmitting = ref(false);
 const isPublishingImage = ref(false);
 const errors = ref({});
 
 const isCta = computed(() => templateType.value === 'cta_url');
 const isRichText = computed(() => templateType.value === 'rich_text');
+const isQuickRepliesOnly = computed(
+  () => templateType.value === 'quick_replies'
+);
+
+const maxQuickReplies = computed(() => (isCta.value ? 2 : 3));
+const canAddQuickReply = computed(
+  () => quickReplies.value.length < maxQuickReplies.value
+);
 
 const templates = computed(
   () => store.getters['whatsappInteractiveTemplates/getTemplates']
@@ -42,78 +96,123 @@ const uiFlags = computed(
   () => store.getters['whatsappInteractiveTemplates/getUIFlags']
 );
 
-const previewHeader = computed(() => {
-  if (headerType.value === 'image') return '';
-  return headerText.value.trim();
+const previewHeaderText = computed(() =>
+  headerType.value === 'text' ? headerText.value.trim() : ''
+);
+const previewBodyText = computed(
+  () => bodyText.value || t('WHATSAPP_TEMPLATES.INTERACTIVE.BODY_PLACEHOLDER')
+);
+
+watch(templateType, type => {
+  if (type !== 'cta_url' && quickReplies.value.length > 3) {
+    quickReplies.value = quickReplies.value.slice(0, 3);
+  }
+  if (type === 'cta_url' && quickReplies.value.length > 2) {
+    quickReplies.value = quickReplies.value.slice(0, 2);
+  }
 });
 
 const validate = () => {
-  const nextErrors = {};
+  const e = {};
 
-  if (!name.value.trim()) {
-    nextErrors.name = t(
-      'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.NAME_REQUIRED'
-    );
-  }
+  if (!name.value.trim())
+    e.name = t('WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.NAME_REQUIRED');
 
-  if (!bodyText.value.trim()) {
-    nextErrors.body = t(
-      'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.BODY_REQUIRED'
-    );
-  } else if (bodyText.value.length > BODY_MAX) {
-    nextErrors.body = t('WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.BODY_MAX');
-  }
+  if (!bodyText.value.trim())
+    e.body = t('WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.BODY_REQUIRED');
+  else if (bodyText.value.length > BODY_MAX)
+    e.body = t('WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.BODY_MAX');
 
   if (headerType.value === 'text') {
-    if (!headerText.value.trim()) {
-      nextErrors.headerText = t(
+    if (!headerText.value.trim())
+      e.headerText = t(
         'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.HEADER_TEXT_REQUIRED'
       );
-    } else if (headerText.value.length > HEADER_MAX) {
-      nextErrors.headerText = t(
-        'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.HEADER_MAX'
-      );
-    }
+    else if (headerText.value.length > HEADER_MAX)
+      e.headerText = t('WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.HEADER_MAX');
   }
 
   if (headerType.value === 'image' && !headerImageUrl.value.trim()) {
-    nextErrors.headerImageUrl = t(
+    e.headerImage = t(
       'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.HEADER_IMAGE_REQUIRED'
     );
   }
 
-  if (footerText.value.length > FOOTER_MAX) {
-    nextErrors.footer = t(
-      'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.FOOTER_MAX'
-    );
-  }
+  if (footerText.value.length > FOOTER_MAX)
+    e.footer = t('WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.FOOTER_MAX');
 
   if (isCta.value) {
-    if (!buttonText.value.trim()) {
-      nextErrors.button = t(
-        'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.BUTTON_REQUIRED'
-      );
-    } else if (buttonText.value.length > BUTTON_TEXT_MAX) {
-      nextErrors.button = t(
-        'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.BUTTON_MAX'
-      );
+    if (!buttonText.value.trim())
+      e.button = t('WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.BUTTON_REQUIRED');
+    else if (buttonText.value.length > BUTTON_TEXT_MAX)
+      e.button = t('WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.BUTTON_MAX');
+
+    if (urlMode.value === URL_MODE_STATIC) {
+      const url = staticUrl.value.trim();
+      if (!url)
+        e.staticUrl = t(
+          'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.URL_REQUIRED'
+        );
+      else if (!URL_REGEX.test(url))
+        e.staticUrl = t(
+          'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.URL_INVALID'
+        );
     }
   }
 
-  errors.value = nextErrors;
-  return Object.keys(nextErrors).length === 0;
+  if (isQuickRepliesOnly.value && quickReplies.value.length === 0) {
+    e.quickReplies = t(
+      'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.QUICK_REPLIES_AT_LEAST_ONE'
+    );
+  }
+
+  if (quickReplies.value.length > maxQuickReplies.value) {
+    e.quickReplies = isCta.value
+      ? t(
+          'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.QUICK_REPLY_LIMIT_WITH_CTA'
+        )
+      : t(
+          'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.QUICK_REPLY_LIMIT_STANDALONE'
+        );
+  }
+
+  quickReplies.value.forEach((qr, idx) => {
+    const text = qr.text?.trim() || '';
+    if (!text)
+      e[`qr_${idx}`] = t(
+        'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.QUICK_REPLY_REQUIRED'
+      );
+    else if (text.length > QUICK_REPLY_MAX)
+      e[`qr_${idx}`] = t(
+        'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.QUICK_REPLY_MAX'
+      );
+  });
+
+  errors.value = e;
+  return Object.keys(e).length === 0;
 };
 
 const resetForm = () => {
   name.value = '';
   templateType.value = 'cta_url';
-  headerType.value = 'text';
+  headerType.value = 'none';
   headerText.value = '';
   headerImageUrl.value = '';
   bodyText.value = '';
   footerText.value = '';
   buttonText.value = 'Pagar agora';
+  urlMode.value = URL_MODE_DYNAMIC;
+  staticUrl.value = '';
+  quickReplies.value = [];
   errors.value = {};
+};
+
+const addQuickReply = () => {
+  if (canAddQuickReply.value) quickReplies.value.push({ text: '' });
+};
+
+const removeQuickReply = idx => {
+  quickReplies.value.splice(idx, 1);
 };
 
 const publishHeaderImage = async event => {
@@ -126,13 +225,13 @@ const publishHeaderImage = async event => {
     const response =
       await WhatsappInteractiveTemplatesAPI.publishHeader(blobId);
     headerImageUrl.value = response.data.file_url;
-    errors.value.headerImageUrl = '';
-    showAlert(t('WHATSAPP_TEMPLATES.INTERACTIVE.IMAGE_SUCCESS'));
+    errors.value.headerImage = '';
+    useAlert(t('WHATSAPP_TEMPLATES.INTERACTIVE.IMAGE_SUCCESS'));
   } catch (error) {
     const message =
       error?.response?.data?.error ||
       t('WHATSAPP_TEMPLATES.INTERACTIVE.IMAGE_ERROR');
-    showAlert(message);
+    useAlert(message);
   } finally {
     isPublishingImage.value = false;
     event.target.value = '';
@@ -153,21 +252,28 @@ const handleSubmit = async () => {
         headerType.value === 'image' ? headerImageUrl.value.trim() : '',
       body_text: bodyText.value.trim(),
       footer_text: footerText.value.trim(),
+      quick_replies: quickReplies.value
+        .map(qr => ({ text: qr.text.trim() }))
+        .filter(qr => qr.text),
     };
+
     if (isCta.value) {
       payload.button_text = buttonText.value.trim();
+      payload.static_url =
+        urlMode.value === URL_MODE_STATIC ? staticUrl.value.trim() : '';
     }
+
     await store.dispatch('whatsappInteractiveTemplates/create', {
       whatsapp_interactive_template: payload,
     });
 
-    showAlert(t('WHATSAPP_TEMPLATES.INTERACTIVE.SUCCESS'));
+    useAlert(t('WHATSAPP_TEMPLATES.INTERACTIVE.SUCCESS'));
     resetForm();
     emit('templateCreated');
   } catch (error) {
     const message =
       error?.response?.data?.error || t('WHATSAPP_TEMPLATES.INTERACTIVE.ERROR');
-    showAlert(message);
+    useAlert(message);
   } finally {
     isSubmitting.value = false;
   }
@@ -176,9 +282,9 @@ const handleSubmit = async () => {
 const deleteTemplate = async id => {
   try {
     await store.dispatch('whatsappInteractiveTemplates/delete', id);
-    showAlert(t('WHATSAPP_TEMPLATES.INTERACTIVE.DELETE_SUCCESS'));
+    useAlert(t('WHATSAPP_TEMPLATES.INTERACTIVE.DELETE_SUCCESS'));
   } catch {
-    showAlert(t('WHATSAPP_TEMPLATES.INTERACTIVE.DELETE_ERROR'));
+    useAlert(t('WHATSAPP_TEMPLATES.INTERACTIVE.DELETE_ERROR'));
   }
 };
 
@@ -189,42 +295,54 @@ onMounted(() => {
 
 <template>
   <div class="w-full">
-    <div class="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_18rem] gap-6">
-      <div class="space-y-5">
-        <!-- Message Type Selector -->
+    <div class="flex gap-6">
+      <!-- Form Column -->
+      <div class="flex-1 space-y-5 min-w-0">
+        <!-- Template Type Selector -->
         <div>
-          <p class="text-sm font-semibold text-n-slate-12 mb-2">
+          <label class="block text-sm font-semibold text-n-slate-12 mb-2">
             {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_LABEL') }}
-          </p>
-          <div class="flex gap-2">
+          </label>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
             <button
-              class="px-3 py-2 text-sm rounded-lg border"
+              v-for="opt in TYPE_OPTIONS"
+              :key="opt.value"
+              type="button"
+              class="flex flex-col items-start gap-1.5 p-3 rounded-xl outline outline-1 transition-all text-left cursor-pointer"
               :class="
-                templateType === 'cta_url'
-                  ? 'border-n-brand text-n-brand bg-n-brand/10'
-                  : 'border-n-weak text-n-slate-11'
+                templateType === opt.value
+                  ? 'bg-n-brand/10 outline-n-brand'
+                  : 'bg-n-alpha-black2 outline-n-weak hover:outline-n-slate-6'
               "
-              @click="templateType = 'cta_url'"
+              @click="templateType = opt.value"
             >
-              {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_CTA') }}
-            </button>
-            <button
-              class="px-3 py-2 text-sm rounded-lg border"
-              :class="
-                templateType === 'rich_text'
-                  ? 'border-n-brand text-n-brand bg-n-brand/10'
-                  : 'border-n-weak text-n-slate-11'
-              "
-              @click="templateType = 'rich_text'"
-            >
-              {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_BODY_LINK') }}
+              <Icon
+                :icon="opt.icon"
+                class="size-5"
+                :class="
+                  templateType === opt.value
+                    ? 'text-n-brand'
+                    : 'text-n-slate-11'
+                "
+              />
+              <span
+                class="text-sm font-semibold"
+                :class="
+                  templateType === opt.value
+                    ? 'text-n-brand'
+                    : 'text-n-slate-12'
+                "
+              >
+                {{ t(opt.titleKey) }}
+              </span>
+              <span class="text-xs text-n-slate-10 leading-snug">
+                {{ t(opt.hintKey) }}
+              </span>
             </button>
           </div>
-          <p v-if="isRichText" class="mt-1.5 text-xs text-n-slate-10">
-            {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_BODY_LINK_HINT') }}
-          </p>
         </div>
 
+        <!-- Name -->
         <div>
           <label class="block text-sm font-semibold text-n-slate-12 mb-1.5">
             {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.NAME_LABEL') }}
@@ -234,100 +352,100 @@ onMounted(() => {
             type="text"
             :placeholder="t('WHATSAPP_TEMPLATES.INTERACTIVE.NAME_PLACEHOLDER')"
             class="reset-base w-full h-10 px-3 rounded-xl bg-n-alpha-black2 text-n-slate-12 text-sm outline outline-1 outline-n-weak hover:outline-n-slate-6 focus:outline-n-brand transition-all"
+            autocomplete="off"
           />
           <p v-if="errors.name" class="mt-1 text-xs text-n-ruby-11">
             {{ errors.name }}
           </p>
         </div>
 
+        <!-- Header Section -->
         <div>
-          <p class="text-sm font-semibold text-n-slate-12 mb-2">
+          <label class="block text-sm font-semibold text-n-slate-12 mb-2">
             {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.HEADER_LABEL') }}
-          </p>
-          <div class="flex gap-2 mb-3">
+          </label>
+          <div class="flex gap-2 mb-2.5">
             <button
-              class="px-3 py-2 text-sm rounded-lg border"
+              v-for="opt in HEADER_TYPE_OPTIONS"
+              :key="opt.value"
+              type="button"
+              class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg outline outline-1 transition-colors cursor-pointer"
               :class="
-                headerType === 'text'
-                  ? 'border-n-brand text-n-brand bg-n-brand/10'
-                  : 'border-n-weak text-n-slate-11'
+                headerType === opt.value
+                  ? 'bg-n-brand/10 outline-n-brand text-n-brand'
+                  : 'bg-n-alpha-black2 outline-n-weak text-n-slate-11 hover:outline-n-slate-6'
               "
-              @click="headerType = 'text'"
+              @click="headerType = opt.value"
             >
-              {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.HEADER_TEXT_OPTION') }}
-            </button>
-            <button
-              class="px-3 py-2 text-sm rounded-lg border"
-              :class="
-                headerType === 'image'
-                  ? 'border-n-brand text-n-brand bg-n-brand/10'
-                  : 'border-n-weak text-n-slate-11'
-              "
-              @click="headerType = 'image'"
-            >
-              {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.HEADER_IMAGE_OPTION') }}
+              <Icon :icon="opt.icon" class="size-3.5" />
+              {{ t(opt.labelKey) }}
             </button>
           </div>
 
-          <template v-if="headerType === 'text'">
-            <input
-              v-model="headerText"
-              type="text"
-              :maxlength="HEADER_MAX"
-              :placeholder="
-                t('WHATSAPP_TEMPLATES.INTERACTIVE.HEADER_TEXT_PLACEHOLDER')
-              "
-              class="reset-base w-full h-10 px-3 rounded-xl bg-n-alpha-black2 text-n-slate-12 text-sm outline outline-1 outline-n-weak hover:outline-n-slate-6 focus:outline-n-brand transition-all"
-            />
-            <p v-if="errors.headerText" class="mt-1 text-xs text-n-ruby-11">
-              {{ errors.headerText }}
-            </p>
-          </template>
+          <input
+            v-if="headerType === 'text'"
+            v-model="headerText"
+            type="text"
+            :maxlength="HEADER_MAX"
+            :placeholder="
+              t('WHATSAPP_TEMPLATES.INTERACTIVE.HEADER_TEXT_PLACEHOLDER')
+            "
+            class="reset-base w-full h-10 px-3 rounded-xl bg-n-alpha-black2 text-n-slate-12 text-sm outline outline-1 outline-n-weak hover:outline-n-slate-6 focus:outline-n-brand transition-all"
+          />
+          <p v-if="errors.headerText" class="mt-1 text-xs text-n-ruby-11">
+            {{ errors.headerText }}
+          </p>
 
-          <template v-else>
-            <div
-              class="rounded-xl border border-dashed border-n-weak p-4 bg-n-alpha-1"
-            >
-              <div class="flex items-center gap-3">
-                <label
-                  class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-n-brand text-white text-sm cursor-pointer"
-                >
-                  <Icon icon="i-lucide-upload" class="size-4" />
-                  {{
+          <div
+            v-if="headerType === 'image'"
+            class="rounded-xl border border-dashed border-n-weak p-4 bg-n-alpha-black2"
+          >
+            <div class="flex items-center gap-3 flex-wrap">
+              <label
+                class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-n-brand text-white text-sm font-medium cursor-pointer hover:brightness-110 transition-all"
+              >
+                <Icon
+                  :icon="
                     isPublishingImage
-                      ? t('WHATSAPP_TEMPLATES.INTERACTIVE.UPLOADING')
-                      : t('WHATSAPP_TEMPLATES.INTERACTIVE.UPLOAD_BUTTON')
-                  }}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    class="hidden"
-                    @change="publishHeaderImage"
-                  />
-                </label>
-                <span class="text-xs text-n-slate-10">
-                  {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.IMAGE_HINT') }}
-                </span>
-              </div>
-              <p
-                v-if="headerImageUrl"
-                class="mt-3 text-xs text-n-slate-11 break-all"
-              >
-                {{ headerImageUrl }}
-              </p>
-              <p
-                v-if="errors.headerImageUrl"
-                class="mt-2 text-xs text-n-ruby-11"
-              >
-                {{ errors.headerImageUrl }}
-              </p>
+                      ? 'i-lucide-loader-circle'
+                      : 'i-lucide-upload'
+                  "
+                  class="size-4"
+                  :class="{ 'animate-spin': isPublishingImage }"
+                />
+                {{
+                  isPublishingImage
+                    ? t('WHATSAPP_TEMPLATES.INTERACTIVE.UPLOADING')
+                    : t('WHATSAPP_TEMPLATES.INTERACTIVE.UPLOAD_BUTTON')
+                }}
+                <input
+                  type="file"
+                  accept="image/*"
+                  class="hidden"
+                  @change="publishHeaderImage"
+                />
+              </label>
+              <span class="text-xs text-n-slate-10 flex-1 min-w-[12rem]">
+                {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.IMAGE_HINT') }}
+              </span>
             </div>
-          </template>
+            <p
+              v-if="headerImageUrl"
+              class="mt-3 text-xs text-n-slate-11 break-all"
+            >
+              {{ headerImageUrl }}
+            </p>
+            <p v-if="errors.headerImage" class="mt-2 text-xs text-n-ruby-11">
+              {{ errors.headerImage }}
+            </p>
+          </div>
         </div>
 
+        <!-- Body -->
         <div>
           <label class="block text-sm font-semibold text-n-slate-12 mb-1.5">
             {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.BODY_LABEL') }}
+            <span class="text-n-ruby-11">*</span>
           </label>
           <textarea
             v-model="bodyText"
@@ -336,11 +454,28 @@ onMounted(() => {
             :placeholder="t('WHATSAPP_TEMPLATES.INTERACTIVE.BODY_PLACEHOLDER')"
             class="reset-base w-full px-3 py-2.5 rounded-xl bg-n-alpha-black2 text-n-slate-12 text-sm outline outline-1 outline-n-weak hover:outline-n-slate-6 focus:outline-n-brand resize-none transition-all"
           />
-          <p v-if="errors.body" class="mt-1 text-xs text-n-ruby-11">
-            {{ errors.body }}
-          </p>
+          <div class="flex justify-between mt-1">
+            <p v-if="errors.body" class="text-xs text-n-ruby-11">
+              {{ errors.body }}
+            </p>
+            <p
+              class="text-xs ml-auto"
+              :class="
+                BODY_MAX - bodyText.length < 50
+                  ? 'text-n-ruby-11'
+                  : 'text-n-slate-10'
+              "
+            >
+              {{
+                t('WHATSAPP_TEMPLATES.CREATOR.CHARS_REMAINING', {
+                  count: BODY_MAX - bodyText.length,
+                })
+              }}
+            </p>
+          </div>
         </div>
 
+        <!-- Footer -->
         <div>
           <label class="block text-sm font-semibold text-n-slate-12 mb-1.5">
             {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.FOOTER_LABEL') }}
@@ -359,10 +494,21 @@ onMounted(() => {
           </p>
         </div>
 
-        <div v-if="isCta">
-          <label class="block text-sm font-semibold text-n-slate-12 mb-1.5">
-            {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.BUTTON_LABEL') }}
-          </label>
+        <!-- CTA Button (only for cta_url) -->
+        <div
+          v-if="isCta"
+          class="space-y-3 rounded-xl bg-n-alpha-black2 outline outline-1 outline-n-weak p-4"
+        >
+          <div class="flex items-center gap-2">
+            <Icon
+              icon="i-lucide-mouse-pointer-click"
+              class="size-4 text-n-brand"
+            />
+            <p class="text-sm font-semibold text-n-slate-12">
+              {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.BUTTON_LABEL') }}
+            </p>
+          </div>
+
           <input
             v-model="buttonText"
             type="text"
@@ -370,38 +516,209 @@ onMounted(() => {
             :placeholder="
               t('WHATSAPP_TEMPLATES.INTERACTIVE.BUTTON_PLACEHOLDER')
             "
-            class="reset-base w-full h-10 px-3 rounded-xl bg-n-alpha-black2 text-n-slate-12 text-sm outline outline-1 outline-n-weak hover:outline-n-slate-6 focus:outline-n-brand transition-all"
+            class="reset-base w-full h-10 px-3 rounded-xl bg-white dark:bg-n-solid-3 text-n-slate-12 text-sm outline outline-1 outline-n-weak hover:outline-n-slate-6 focus:outline-n-brand transition-all"
           />
-          <p v-if="errors.button" class="mt-1 text-xs text-n-ruby-11">
+          <p v-if="errors.button" class="text-xs text-n-ruby-11">
             {{ errors.button }}
           </p>
+
+          <!-- URL mode toggle -->
+          <div>
+            <p
+              class="text-xs font-semibold text-n-slate-11 uppercase tracking-wider mb-2"
+            >
+              {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_LABEL') }}
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <button
+                type="button"
+                class="flex items-start gap-2 p-3 rounded-lg outline outline-1 transition-all text-left cursor-pointer"
+                :class="
+                  urlMode === URL_MODE_DYNAMIC
+                    ? 'bg-n-brand/10 outline-n-brand'
+                    : 'bg-white dark:bg-n-solid-3 outline-n-weak hover:outline-n-slate-6'
+                "
+                @click="urlMode = URL_MODE_DYNAMIC"
+              >
+                <Icon
+                  icon="i-lucide-zap"
+                  class="size-4 mt-0.5 shrink-0"
+                  :class="
+                    urlMode === URL_MODE_DYNAMIC
+                      ? 'text-n-brand'
+                      : 'text-n-slate-11'
+                  "
+                />
+                <div class="min-w-0">
+                  <p
+                    class="text-sm font-medium"
+                    :class="
+                      urlMode === URL_MODE_DYNAMIC
+                        ? 'text-n-brand'
+                        : 'text-n-slate-12'
+                    "
+                  >
+                    {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_DYNAMIC') }}
+                  </p>
+                  <p class="text-xs text-n-slate-10 mt-0.5 leading-snug">
+                    {{
+                      t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_DYNAMIC_HINT')
+                    }}
+                  </p>
+                </div>
+              </button>
+              <button
+                type="button"
+                class="flex items-start gap-2 p-3 rounded-lg outline outline-1 transition-all text-left cursor-pointer"
+                :class="
+                  urlMode === URL_MODE_STATIC
+                    ? 'bg-n-brand/10 outline-n-brand'
+                    : 'bg-white dark:bg-n-solid-3 outline-n-weak hover:outline-n-slate-6'
+                "
+                @click="urlMode = URL_MODE_STATIC"
+              >
+                <Icon
+                  icon="i-lucide-link"
+                  class="size-4 mt-0.5 shrink-0"
+                  :class="
+                    urlMode === URL_MODE_STATIC
+                      ? 'text-n-brand'
+                      : 'text-n-slate-11'
+                  "
+                />
+                <div class="min-w-0">
+                  <p
+                    class="text-sm font-medium"
+                    :class="
+                      urlMode === URL_MODE_STATIC
+                        ? 'text-n-brand'
+                        : 'text-n-slate-12'
+                    "
+                  >
+                    {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_STATIC') }}
+                  </p>
+                  <p class="text-xs text-n-slate-10 mt-0.5 leading-snug">
+                    {{
+                      t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_STATIC_HINT')
+                    }}
+                  </p>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div v-if="urlMode === URL_MODE_STATIC">
+            <label class="block text-xs font-semibold text-n-slate-11 mb-1.5">
+              {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_STATIC_LABEL') }}
+            </label>
+            <input
+              v-model="staticUrl"
+              type="url"
+              :placeholder="
+                t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_STATIC_PLACEHOLDER')
+              "
+              class="reset-base w-full h-10 px-3 rounded-xl bg-white dark:bg-n-solid-3 text-n-slate-12 text-sm outline outline-1 outline-n-weak hover:outline-n-slate-6 focus:outline-n-brand transition-all"
+              autocomplete="off"
+            />
+            <p v-if="errors.staticUrl" class="mt-1 text-xs text-n-ruby-11">
+              {{ errors.staticUrl }}
+            </p>
+          </div>
         </div>
 
-        <div class="rounded-xl bg-n-slate-2 p-4 text-sm text-n-slate-11">
-          <p class="font-semibold text-n-slate-12 mb-1">
-            {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.RUNTIME_TITLE') }}
+        <!-- Quick Replies Section -->
+        <div v-if="!isRichText">
+          <div class="flex items-center justify-between mb-2">
+            <label class="text-sm font-semibold text-n-slate-12">
+              {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.QUICK_REPLIES_LABEL') }}
+            </label>
+            <span class="text-xs text-n-slate-10">
+              {{ quickReplies.length }} / {{ maxQuickReplies }}
+            </span>
+          </div>
+          <p class="text-xs text-n-slate-10 mb-2">
+            {{
+              isCta
+                ? t(
+                    'WHATSAPP_TEMPLATES.INTERACTIVE.QUICK_REPLIES_HINT_WITH_CTA'
+                  )
+                : t(
+                    'WHATSAPP_TEMPLATES.INTERACTIVE.QUICK_REPLIES_HINT_STANDALONE'
+                  )
+            }}
           </p>
-          <p>{{ t('WHATSAPP_TEMPLATES.INTERACTIVE.RUNTIME_DESCRIPTION') }}</p>
+
+          <div v-if="quickReplies.length" class="space-y-2 mb-2">
+            <div
+              v-for="(qr, idx) in quickReplies"
+              :key="idx"
+              class="flex flex-col gap-1"
+            >
+              <div class="flex gap-2 items-center">
+                <input
+                  v-model="qr.text"
+                  type="text"
+                  :maxlength="QUICK_REPLY_MAX"
+                  :placeholder="
+                    t('WHATSAPP_TEMPLATES.INTERACTIVE.QUICK_REPLY_PLACEHOLDER')
+                  "
+                  class="reset-base flex-1 h-10 px-3 rounded-xl bg-n-alpha-black2 text-n-slate-12 text-sm outline outline-1 outline-n-weak hover:outline-n-slate-6 focus:outline-n-brand transition-all"
+                />
+                <button
+                  type="button"
+                  class="flex items-center justify-center w-10 h-10 rounded-xl hover:bg-n-alpha-2 dark:hover:bg-n-solid-2 text-n-slate-10 hover:text-n-ruby-11 transition-colors cursor-pointer"
+                  :aria-label="
+                    t('WHATSAPP_TEMPLATES.INTERACTIVE.REMOVE_QUICK_REPLY')
+                  "
+                  @click="removeQuickReply(idx)"
+                >
+                  <Icon icon="i-lucide-trash-2" class="size-4" />
+                </button>
+              </div>
+              <p v-if="errors[`qr_${idx}`]" class="text-xs text-n-ruby-11 ml-1">
+                {{ errors[`qr_${idx}`] }}
+              </p>
+            </div>
+          </div>
+
+          <button
+            v-if="canAddQuickReply"
+            type="button"
+            class="flex items-center gap-1.5 text-sm font-medium text-n-brand hover:text-n-brand-dark transition-colors cursor-pointer"
+            @click="addQuickReply"
+          >
+            <Icon icon="i-lucide-plus" class="size-4" />
+            {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.ADD_QUICK_REPLY') }}
+          </button>
+          <p v-if="errors.quickReplies" class="mt-1.5 text-xs text-n-ruby-11">
+            {{ errors.quickReplies }}
+          </p>
         </div>
 
+        <!-- Submit -->
         <div class="flex justify-end pt-3 pb-1 border-t border-n-weak">
           <Button
             :is-loading="isSubmitting || uiFlags.isCreating"
             :disabled="isSubmitting || uiFlags.isCreating"
             :label="t('WHATSAPP_TEMPLATES.INTERACTIVE.SUBMIT')"
-            icon="i-lucide-send"
+            icon="i-lucide-save"
             @click="handleSubmit"
           />
         </div>
       </div>
 
-      <div class="space-y-4">
+      <!-- Preview Column -->
+      <div
+        class="w-72 shrink-0 sticky top-0 self-start space-y-4 max-h-[calc(100vh-8rem)] overflow-y-auto"
+      >
         <div>
           <p class="text-sm font-semibold text-n-slate-12 mb-3">
             {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.PREVIEW_TITLE') }}
           </p>
-          <div class="rounded-2xl p-4 space-y-2 bg-[#e8ded3]">
-            <div class="rounded-xl bg-white p-3.5 shadow-sm">
+          <div
+            class="rounded-2xl p-4 space-y-2 bg-[linear-gradient(135deg,#e8ded3_0%,#d4cabe_100%)]"
+          >
+            <div class="rounded-xl bg-white dark:bg-n-solid-3 p-3.5 shadow-sm">
               <img
                 v-if="headerType === 'image' && headerImageUrl"
                 :src="headerImageUrl"
@@ -409,18 +726,15 @@ onMounted(() => {
                 class="w-full rounded-lg max-h-44 object-cover mb-2"
               />
               <p
-                v-else-if="previewHeader"
+                v-else-if="previewHeaderText"
                 class="font-semibold text-sm text-n-slate-12 mb-1.5"
               >
-                {{ previewHeader }}
+                {{ previewHeaderText }}
               </p>
               <p
                 class="text-sm text-n-slate-12 whitespace-pre-wrap leading-relaxed"
               >
-                {{
-                  bodyText ||
-                  t('WHATSAPP_TEMPLATES.INTERACTIVE.BODY_PLACEHOLDER')
-                }}
+                {{ previewBodyText }}
               </p>
               <p
                 v-if="footerText"
@@ -429,18 +743,34 @@ onMounted(() => {
                 {{ footerText }}
               </p>
             </div>
+
+            <!-- CTA URL button (single, blue with arrow icon) -->
             <div
               v-if="isCta"
-              class="text-center py-2 rounded-xl bg-white text-sm font-medium text-[#0088cc] shadow-sm"
+              class="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white dark:bg-n-solid-3 text-sm font-medium text-[#0088cc] shadow-sm"
             >
+              <Icon icon="i-lucide-external-link" class="size-3.5" />
               {{
                 buttonText ||
                 t('WHATSAPP_TEMPLATES.INTERACTIVE.BUTTON_PLACEHOLDER')
               }}
             </div>
+
+            <!-- Quick reply buttons -->
+            <div
+              v-for="(qr, idx) in quickReplies"
+              :key="`qr-${idx}`"
+              class="text-center py-2 rounded-xl bg-white dark:bg-n-solid-3 text-sm font-medium text-[#0088cc] shadow-sm"
+            >
+              {{
+                qr.text ||
+                `${t('WHATSAPP_TEMPLATES.INTERACTIVE.QUICK_REPLY_PLACEHOLDER')} ${idx + 1}`
+              }}
+            </div>
           </div>
         </div>
 
+        <!-- Saved Messages -->
         <div>
           <div class="flex items-center justify-between mb-2">
             <p class="text-sm font-semibold text-n-slate-12">
@@ -456,11 +786,11 @@ onMounted(() => {
             <div
               v-for="template in templates"
               :key="template.id"
-              class="rounded-xl border border-n-weak p-3 bg-white"
+              class="rounded-xl outline outline-1 outline-n-weak p-3 bg-white dark:bg-n-solid-3"
             >
               <div class="flex items-start justify-between gap-2">
-                <div>
-                  <p class="text-sm font-medium text-n-slate-12">
+                <div class="min-w-0">
+                  <p class="text-sm font-medium text-n-slate-12 truncate">
                     {{ template.name }}
                   </p>
                   <p class="text-xs text-n-slate-10 mt-1 line-clamp-2">
@@ -468,21 +798,29 @@ onMounted(() => {
                   </p>
                 </div>
                 <button
-                  class="text-n-ruby-11 hover:text-n-ruby-12"
+                  type="button"
+                  class="text-n-slate-10 hover:text-n-ruby-11 transition-colors cursor-pointer shrink-0"
                   @click="deleteTemplate(template.id)"
                 >
                   <Icon icon="i-lucide-trash-2" class="size-4" />
                 </button>
               </div>
-              <div class="mt-2 flex gap-2 flex-wrap text-xs">
-                <span class="px-2 py-1 rounded-lg bg-n-slate-2 text-n-slate-11">
+              <div class="mt-2 flex gap-1.5 flex-wrap">
+                <span
+                  class="px-2 py-0.5 rounded-md bg-n-slate-3 dark:bg-n-solid-2 text-xs text-n-slate-11 font-medium"
+                >
                   {{
                     template.template_type === 'rich_text'
-                      ? 'Link no corpo'
-                      : 'CTA URL'
+                      ? t('WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_BODY_LINK')
+                      : template.template_type === 'quick_replies'
+                        ? t('WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_QUICK_REPLIES')
+                        : t('WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_CTA')
                   }}
                 </span>
-                <span class="px-2 py-1 rounded-lg bg-n-slate-2 text-n-slate-11">
+                <span
+                  v-if="template.header_type && template.header_type !== 'none'"
+                  class="px-2 py-0.5 rounded-md bg-n-slate-3 dark:bg-n-solid-2 text-xs text-n-slate-11 font-medium"
+                >
                   {{ template.header_type }}
                 </span>
               </div>

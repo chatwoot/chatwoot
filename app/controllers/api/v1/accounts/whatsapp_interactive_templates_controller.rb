@@ -55,7 +55,9 @@ class Api::V1::Accounts::WhatsappInteractiveTemplatesController < Api::V1::Accou
       :body_text,
       :footer_text,
       :button_text,
-      :url_placeholder
+      :url_placeholder,
+      :static_url,
+      quick_replies: [:text]
     )
   end
 end
