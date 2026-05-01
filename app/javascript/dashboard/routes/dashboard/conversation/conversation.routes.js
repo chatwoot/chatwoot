@@ -1,5 +1,6 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
+import store from '../../../store';
 import ConversationView from './ConversationView.vue';
 
 const CONVERSATION_PERMISSIONS = [
@@ -9,6 +10,28 @@ const CONVERSATION_PERMISSIONS = [
   'conversation_unassigned_manage',
   'conversation_participating_manage',
 ];
+
+const redirectIfFolderUnavailable = async (to, _from, next) => {
+  let folders = store.getters['customViews/getConversationCustomViews'];
+  if (!folders.length) {
+    await store.dispatch('customViews/get', 'conversation');
+    folders = store.getters['customViews/getConversationCustomViews'];
+  }
+  const folderExists = folders.some(
+    folder => folder.id === Number(to.params.id)
+  );
+  if (!folderExists) {
+    next({
+      name: 'inbox_conversation',
+      params: {
+        accountId: to.params.accountId,
+        conversation_id: to.params.conversation_id,
+      },
+    });
+    return;
+  }
+  next();
+};
 
 export default {
   routes: [
@@ -125,6 +148,7 @@ export default {
         permissions: CONVERSATION_PERMISSIONS,
       },
       component: ConversationView,
+      beforeEnter: redirectIfFolderUnavailable,
       props: route => ({
         conversationId: route.params.conversation_id,
         foldersId: route.params.id,
