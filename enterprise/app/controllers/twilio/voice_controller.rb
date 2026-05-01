@@ -49,6 +49,13 @@ class Twilio::VoiceController < ApplicationController
   end
 
   def recording_status
+    Rails.logger.info(
+      "TWILIO_VOICE_RECORDING_WEBHOOK account=#{current_account.id} " \
+      "conference_sid=#{params[:ConferenceSid]} call_sid=#{twilio_call_sid} " \
+      "recording_sid=#{params[:RecordingSid]} status=#{params[:RecordingStatus]} " \
+      "duration=#{params[:RecordingDuration]} url=#{params[:RecordingUrl]}"
+    )
+
     Voice::RecordingStatusService.new(
       account: current_account,
       payload: params.to_unsafe_h
@@ -125,10 +132,10 @@ class Twilio::VoiceController < ApplicationController
     Call.where(inbox_id: inbox.id, provider: :twilio)
   end
 
-  def conference_twiml(call)
+  def conference_twiml(call) # rubocop:disable Metrics/MethodLength
     conference_sid = ensure_conference_sid!(call)
 
-    Twilio::TwiML::VoiceResponse.new.tap do |response|
+    xml = Twilio::TwiML::VoiceResponse.new.tap do |response|
       response.dial do |dial|
         dial.conference(
           conference_sid,
@@ -145,6 +152,12 @@ class Twilio::VoiceController < ApplicationController
         )
       end
     end.to_s
+
+    Rails.logger.info(
+      "TWILIO_VOICE_CONFERENCE_TWIML account=#{current_account.id} call_id=#{call.id} " \
+      "conference_sid=#{conference_sid} recording_callback=#{recording_status_callback_url} xml=#{xml}"
+    )
+    xml
   end
 
   def ensure_conference_sid!(call)
