@@ -21,13 +21,17 @@ const redirectIfFolderUnavailable = async (to, _from, next) => {
     folder => folder.id === Number(to.params.id)
   );
   if (!folderExists) {
-    next({
-      name: 'inbox_conversation',
-      params: {
-        accountId: to.params.accountId,
-        conversation_id: to.params.conversation_id,
-      },
-    });
+    if (to.params.conversation_id) {
+      next({
+        name: 'inbox_conversation',
+        params: {
+          accountId: to.params.accountId,
+          conversation_id: to.params.conversation_id,
+        },
+      });
+    } else {
+      next({ name: 'home', params: { accountId: to.params.accountId } });
+    }
     return;
   }
   next();
@@ -136,6 +140,7 @@ export default {
       meta: {
         permissions: CONVERSATION_PERMISSIONS,
       },
+      beforeEnter: redirectIfFolderUnavailable,
       component: ConversationView,
       props: route => ({ foldersId: route.params.id }),
     },
