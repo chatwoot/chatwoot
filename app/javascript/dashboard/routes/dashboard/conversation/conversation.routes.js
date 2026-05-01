@@ -11,30 +11,35 @@ const CONVERSATION_PERMISSIONS = [
   'conversation_participating_manage',
 ];
 
-const redirectIfFolderUnavailable = async (to, _from, next) => {
+const isFolderAvailable = async folderId => {
   let folders = store.getters['customViews/getConversationCustomViews'];
   if (!folders.length) {
     await store.dispatch('customViews/get', 'conversation');
     folders = store.getters['customViews/getConversationCustomViews'];
   }
-  const folderExists = folders.some(
-    folder => folder.id === Number(to.params.id)
-  );
-  if (!folderExists) {
-    if (to.params.conversation_id) {
-      next({
-        name: 'inbox_conversation',
-        params: {
-          accountId: to.params.accountId,
-          conversation_id: to.params.conversation_id,
-        },
-      });
-    } else {
-      next({ name: 'home', params: { accountId: to.params.accountId } });
-    }
+  return folders.some(folder => folder.id === Number(folderId));
+};
+
+const redirectFolderListIfUnavailable = async (to, _from, next) => {
+  if (await isFolderAvailable(to.params.id)) {
+    next();
     return;
   }
-  next();
+  next({ name: 'home', params: { accountId: to.params.accountId } });
+};
+
+const redirectFolderConversationIfUnavailable = async (to, _from, next) => {
+  if (await isFolderAvailable(to.params.id)) {
+    next();
+    return;
+  }
+  next({
+    name: 'inbox_conversation',
+    params: {
+      accountId: to.params.accountId,
+      conversation_id: to.params.conversation_id,
+    },
+  });
 };
 
 export default {
@@ -140,7 +145,7 @@ export default {
       meta: {
         permissions: CONVERSATION_PERMISSIONS,
       },
-      beforeEnter: redirectIfFolderUnavailable,
+      beforeEnter: redirectFolderListIfUnavailable,
       component: ConversationView,
       props: route => ({ foldersId: route.params.id }),
     },
@@ -153,7 +158,7 @@ export default {
         permissions: CONVERSATION_PERMISSIONS,
       },
       component: ConversationView,
-      beforeEnter: redirectIfFolderUnavailable,
+      beforeEnter: redirectFolderConversationIfUnavailable,
       props: route => ({
         conversationId: route.params.conversation_id,
         foldersId: route.params.id,
