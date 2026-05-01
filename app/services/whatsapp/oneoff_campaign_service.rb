@@ -90,7 +90,7 @@ class Whatsapp::OneoffCampaignService
     contact_inbox = ContactInboxWithContactBuilder.new(
       source_id: contact.phone_number,
       inbox: inbox,
-      contact: contact
+      contact_attributes: { name: contact.name, phone_number: contact.phone_number, email: contact.email }
     ).perform
 
     conversation = find_or_create_conversation(contact_inbox)
@@ -120,7 +120,8 @@ class Whatsapp::OneoffCampaignService
       inbox_id: inbox.id,
       message_type: :outgoing,
       content: content,
-      content_attributes: { campaign_id: campaign.id, template_name: template_name }
+      additional_attributes: { campaign_id: campaign.id },
+      content_attributes: { template_name: template_name }
     )
   end
 
