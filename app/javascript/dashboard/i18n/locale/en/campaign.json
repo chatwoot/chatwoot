@@ -190,6 +190,10 @@
             "PLACEHOLDER": "Please select the time",
             "ERROR": "Scheduled time is required"
           },
+          "LOG_TO_CONVERSATION": {
+            "LABEL": "Log template message in conversation",
+            "INFO": "When enabled, the sent template will also appear in the conversation so agents can see what was sent to the customer."
+          },
           "BUTTONS": {
             "CREATE": "Create",
             "CANCEL": "Cancel"

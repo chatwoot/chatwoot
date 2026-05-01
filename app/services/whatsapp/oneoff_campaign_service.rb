@@ -62,6 +62,7 @@ class Whatsapp::OneoffCampaignService
     return if processed_template_params.nil?
 
     send_whatsapp_template_message(to: contact.phone_number, template_params: processed_template_params)
+    log_template_to_conversation(contact, processed_template_params) if campaign.log_to_conversation
   end
 
   def process_audience(audience_labels)
@@ -83,6 +84,44 @@ class Whatsapp::OneoffCampaignService
   rescue StandardError => e
     Rails.logger.error "Failed to process liquid template params for contact #{contact.name}: #{e.message}"
     nil
+  end
+
+  def log_template_to_conversation(contact, processed_template_params)
+    contact_inbox = ContactInboxWithContactBuilder.new(
+      source_id: contact.phone_number,
+      inbox: inbox,
+      contact: contact
+    ).perform
+
+    conversation = find_or_create_conversation(contact_inbox)
+    create_campaign_message(conversation, processed_template_params)
+  rescue StandardError => e
+    Rails.logger.error "Failed to log template to conversation for #{contact.name}: #{e.message}"
+  end
+
+  def find_or_create_conversation(contact_inbox)
+    # Reuse last open conversation or create a new one
+    conversation = contact_inbox.conversations.where(status: :open).last
+    conversation || ::Conversation.create!(
+      account_id: campaign.account_id,
+      inbox_id: inbox.id,
+      contact_id: contact_inbox.contact_id,
+      contact_inbox_id: contact_inbox.id,
+      campaign_id: campaign.id
+    )
+  end
+
+  def create_campaign_message(conversation, processed_template_params)
+    template_name = processed_template_params['name'] || campaign.template_params['name']
+    content = campaign.message.presence || "[WhatsApp Template: #{template_name}]"
+
+    conversation.messages.create!(
+      account_id: campaign.account_id,
+      inbox_id: inbox.id,
+      message_type: :outgoing,
+      content: content,
+      content_attributes: { campaign_id: campaign.id, template_name: template_name }
+    )
   end
 
   def send_whatsapp_template_message(to:, template_params:)
