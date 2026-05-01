@@ -68,7 +68,7 @@
       "HEADER_LABEL": "Cabeçalho (opcional)",
       "HEADER_PLACEHOLDER": "Texto curto do cabeçalho, máx 60 caracteres",
       "BODY_LABEL": "Texto da Mensagem",
-      "BODY_PLACEHOLDER": "Digite o corpo da mensagem. Use {{variavel}} para conteúdo dinâmico.",
+      "BODY_PLACEHOLDER": "Digite o corpo da mensagem. Use {'{{'}variavel{'}}'} para conteúdo dinâmico.",
       "FOOTER_LABEL": "Rodapé (opcional)",
       "FOOTER_PLACEHOLDER": "Texto curto do rodapé, máx 60 caracteres",
       "BUTTONS_LABEL": "Botões de Resposta Rápida",

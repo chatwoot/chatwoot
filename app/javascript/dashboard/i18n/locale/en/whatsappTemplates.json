@@ -67,7 +67,7 @@
       "HEADER_LABEL": "Header Text (optional)",
       "HEADER_PLACEHOLDER": "Short header text, max 60 chars",
       "BODY_LABEL": "Body Text",
-      "BODY_PLACEHOLDER": "Enter the message body. Use {{variable}} for dynamic content.",
+      "BODY_PLACEHOLDER": "Enter the message body. Use {'{{'}variable{'}}'} for dynamic content.",
       "FOOTER_LABEL": "Footer Text (optional)",
       "FOOTER_PLACEHOLDER": "Short footer text, max 60 chars",
       "BUTTONS_LABEL": "Quick Reply Buttons",
