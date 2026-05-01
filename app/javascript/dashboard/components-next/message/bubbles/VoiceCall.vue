@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { useMessageContext } from '../provider.js';
 import { VOICE_CALL_STATUS } from '../constants';
+import { useCallSession } from 'dashboard/composables/useCallSession';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
@@ -29,14 +30,16 @@ const BG_COLOR_MAP = {
 
 const { t } = useI18n();
 const store = useStore();
-const { call, conversationId, currentUserId } = useMessageContext();
+const { call, conversationId, currentUserId, inboxId } = useMessageContext();
+const { joinCall, endCall, activeCall, hasActiveCall, isJoining } =
+  useCallSession();
 
 const status = computed(() => call.value?.status);
 const isOutbound = computed(() => call.value?.direction === 'outgoing');
 const isFailed = computed(() =>
   [VOICE_CALL_STATUS.NO_ANSWER, VOICE_CALL_STATUS.FAILED].includes(status.value)
 );
-const acceptedByAgentId = computed(() => call.value?.accepted_by_agent_id);
+const acceptedByAgentId = computed(() => call.value?.acceptedByAgentId);
 const didCurrentUserAnswer = computed(
   () =>
     !!acceptedByAgentId.value && acceptedByAgentId.value === currentUserId.value
@@ -52,8 +55,7 @@ const conversationAssignee = computed(() => {
   return conversation?.meta?.assignee || null;
 });
 const displayAgentName = computed(() => {
-  if (call.value?.accepted_by_agent_name)
-    return call.value.accepted_by_agent_name;
+  if (call.value?.acceptedByAgentName) return call.value.acceptedByAgentName;
   if (acceptedByAgentId.value) {
     const agent = store.getters['agents/getAgentById'](acceptedByAgentId.value);
     if (agent?.available_name) return agent.available_name;
@@ -104,6 +106,40 @@ const iconName = computed(() => {
 });
 
 const bgColor = computed(() => BG_COLOR_MAP[status.value] || 'bg-n-teal-9');
+
+const callSid = computed(() => call.value?.providerCallId);
+
+// Show "Join call" when the call is still ringing, no agent has claimed it,
+// and the conversation is unassigned or assigned to the current user. Mirrors
+// the eligibility used by FloatingCallWidget so the bubble can act as a
+// recovery affordance after a refresh or missed widget.
+const canJoinCall = computed(() => {
+  if (status.value !== VOICE_CALL_STATUS.RINGING) return false;
+  if (isOutbound.value) return false;
+  if (acceptedByAgentId.value) return false;
+  if (!callSid.value || !inboxId.value || !conversationId.value) return false;
+  const assignee = conversationAssignee.value;
+  if (assignee?.id && assignee.id !== currentUserId.value) return false;
+  return true;
+});
+
+const handleJoinCall = async () => {
+  if (!canJoinCall.value || isJoining.value) return;
+
+  if (hasActiveCall.value && activeCall.value?.callSid !== callSid.value) {
+    await endCall({
+      conversationId: activeCall.value.conversationId,
+      inboxId: activeCall.value.inboxId,
+      callSid: activeCall.value.callSid,
+    });
+  }
+
+  await joinCall({
+    conversationId: conversationId.value,
+    inboxId: inboxId.value,
+    callSid: callSid.value,
+  });
+};
 </script>
 
 <template>
@@ -131,6 +167,15 @@ const bgColor = computed(() => BG_COLOR_MAP[status.value] || 'bg-n-teal-9');
           <span class="text-xs text-n-slate-11">
             {{ subtext }}
           </span>
+          <button
+            v-if="canJoinCall"
+            type="button"
+            class="p-0 mt-1 text-xs font-medium text-start text-n-teal-10 hover:text-n-teal-11 disabled:opacity-50"
+            :disabled="isJoining"
+            @click="handleJoinCall"
+          >
+            {{ $t('CONVERSATION.VOICE_CALL.JOIN_CALL') }}
+          </button>
         </div>
       </div>
     </div>
