@@ -234,7 +234,8 @@ describe Whatsapp::OneoffCampaignService do
 
       before do
         contact.update_labels([label1.title])
-        allow(whatsapp_channel).to receive(:send_template).and_return(nil)
+        allow(whatsapp_channel).to receive(:send_template).and_return({ 'messages' => [{ 'id' => 'msg_123' }] })
+        allow_any_instance_of(described_class).to receive(:send_whatsapp_template_message).and_return(true) # rubocop:disable RSpec/AnyInstance
       end
 
       it 'creates a conversation and message for the contact' do
@@ -257,9 +258,21 @@ describe Whatsapp::OneoffCampaignService do
         expect(message.content_attributes['template_name']).to eq('ticket_status_updated')
       end
 
+      it 'uses source_id without + prefix to match WhatsApp Cloud format' do
+        expected_source_id = contact.phone_number.delete_prefix('+')
+        expect(ContactInboxWithContactBuilder).to receive(:new).with(
+          source_id: expected_source_id,
+          inbox: whatsapp_inbox,
+          contact_attributes: { name: contact.name, phone_number: contact.phone_number, email: contact.email }
+        ).and_call_original
+
+        described_class.new(campaign: campaign_with_log).perform
+      end
+
       it 'reuses an existing open conversation' do
+        source_id = contact.phone_number.delete_prefix('+')
         contact_inbox = ContactInboxWithContactBuilder.new(
-          source_id: contact.phone_number,
+          source_id: source_id,
           inbox: whatsapp_inbox,
           contact_attributes: { name: contact.name, phone_number: contact.phone_number }
         ).perform
@@ -272,14 +285,11 @@ describe Whatsapp::OneoffCampaignService do
         expect(existing_conversation.messages.last.additional_attributes['campaign_id']).to eq(campaign_with_log.id)
       end
 
-      it 'uses contact_attributes to build contact inbox' do
-        expect(ContactInboxWithContactBuilder).to receive(:new).with(
-          source_id: contact.phone_number,
-          inbox: whatsapp_inbox,
-          contact_attributes: { name: contact.name, phone_number: contact.phone_number, email: contact.email }
-        ).and_call_original
+      it 'does not log to conversation when send_template fails' do
+        allow_any_instance_of(described_class).to receive(:send_whatsapp_template_message).and_return(nil) # rubocop:disable RSpec/AnyInstance
 
-        described_class.new(campaign: campaign_with_log).perform
+        expect { described_class.new(campaign: campaign_with_log).perform }
+          .not_to change(Message, :count)
       end
 
       it 'logs error and continues when log_template_to_conversation fails' do
@@ -298,7 +308,7 @@ describe Whatsapp::OneoffCampaignService do
         contact.update_labels([label1.title])
         campaign.update!(log_to_conversation: false)
 
-        allow(whatsapp_channel).to receive(:send_template).and_return(nil)
+        allow_any_instance_of(described_class).to receive(:send_whatsapp_template_message).and_return(true) # rubocop:disable RSpec/AnyInstance
 
         expect { described_class.new(campaign: campaign).perform }
           .not_to change(Message, :count)

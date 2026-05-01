@@ -61,8 +61,8 @@ class Whatsapp::OneoffCampaignService
     processed_template_params = process_liquid_template_params(contact)
     return if processed_template_params.nil?
 
-    send_whatsapp_template_message(to: contact.phone_number, template_params: processed_template_params)
-    log_template_to_conversation(contact, processed_template_params) if campaign.log_to_conversation
+    sent = send_whatsapp_template_message(to: contact.phone_number, template_params: processed_template_params)
+    log_template_to_conversation(contact, processed_template_params) if sent && campaign.log_to_conversation
   end
 
   def process_audience(audience_labels)
@@ -88,7 +88,7 @@ class Whatsapp::OneoffCampaignService
 
   def log_template_to_conversation(contact, processed_template_params)
     contact_inbox = ContactInboxWithContactBuilder.new(
-      source_id: contact.phone_number,
+      source_id: contact.phone_number.delete_prefix('+'),
       inbox: inbox,
       contact_attributes: { name: contact.name, phone_number: contact.phone_number, email: contact.email }
     ).perform
