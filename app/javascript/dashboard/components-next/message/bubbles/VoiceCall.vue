@@ -87,10 +87,7 @@ const subtext = computed(() => {
     return t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
   }
   if (status.value === VOICE_CALL_STATUS.COMPLETED) {
-    const ended = t('CONVERSATION.VOICE_CALL.CALL_ENDED');
-    return formattedDuration.value
-      ? `${ended} — ${formattedDuration.value}`
-      : ended;
+    return formattedDuration.value;
   }
   if (status.value === VOICE_CALL_STATUS.IN_PROGRESS) {
     if (isOutbound.value) return t('CONVERSATION.VOICE_CALL.THEY_ANSWERED');
@@ -184,7 +181,7 @@ const handleJoinCall = async () => {
           <span class="text-sm font-medium truncate text-n-slate-12">
             {{ $t(labelKey) }}
           </span>
-          <span class="text-xs text-n-slate-11">
+          <span v-if="subtext" class="text-xs text-n-slate-11">
             {{ subtext }}
           </span>
           <button
