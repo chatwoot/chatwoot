@@ -1,4 +1,15 @@
 <script>
+// ============================================================================
+// DJC-CHAT FORK PATCH — see guides/fork-patches.md for full list
+// ----------------------------------------------------------------------------
+// Date:       2026-05-01
+// Why:        DJC Chat authenticates users through the djcai-v3 portal instead of
+//             showing Chatwoot's direct login page.
+// Changes:    1. Failed SSO token attempts return to EXTERNAL_LOGIN_URL when
+//                configured instead of redisplaying /app/login.
+// Merge tip:  Preserve the fallback to /app/login for dev and unconfigured
+//             deployments.
+// ============================================================================
 // utils and composables
 import { login } from '../../api/auth';
 import { mapGetters } from 'vuex';
@@ -187,7 +198,8 @@ export default {
         .catch(response => {
           // Reset URL Params if the authentication is invalid
           if (this.email) {
-            window.location = '/app/login';
+            window.location =
+              this.globalConfig.externalLoginUrl || '/app/login';
           }
           this.loginApi.hasErrored = true;
           this.showAlertMessage(

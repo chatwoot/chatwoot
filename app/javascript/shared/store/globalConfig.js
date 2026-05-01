@@ -1,3 +1,13 @@
+// ============================================================================
+// DJC-CHAT FORK PATCH — see guides/fork-patches.md for full list
+// ----------------------------------------------------------------------------
+// Date:       2026-05-01
+// Why:        DJC Chat authenticates users through the djcai-v3 portal instead of
+//             showing Chatwoot's direct login page.
+// Changes:    1. Add externalLoginUrl to global config state.
+// Merge tip:  Preserve EXTERNAL_LOGIN_URL mapping when upstream changes config
+//             serialization.
+// ============================================================================
 import { parseBoolean } from '@chatwoot/utils';
 import { resolveMaximumFileUploadSize } from 'shared/helpers/FileHelper';
 
@@ -11,6 +21,7 @@ const {
   CREATE_NEW_ACCOUNT_FROM_DASHBOARD: createNewAccountFromDashboard,
   DIRECT_UPLOADS_ENABLED: directUploadsEnabled,
   DISPLAY_MANIFEST: displayManifest,
+  EXTERNAL_LOGIN_URL: externalLoginUrl,
   GIT_SHA: gitSha,
   MAXIMUM_FILE_UPLOAD_SIZE: maximumFileUploadSize,
   HCAPTCHA_SITE_KEY: hCaptchaSiteKey,
@@ -39,6 +50,7 @@ const state = {
   directUploadsEnabled: parseBoolean(directUploadsEnabled),
   disableUserProfileUpdate: parseBoolean(disableUserProfileUpdate),
   displayManifest,
+  externalLoginUrl,
   gitSha,
   maximumFileUploadSize: resolveMaximumFileUploadSize(maximumFileUploadSize),
   hCaptchaSiteKey,

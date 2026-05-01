@@ -1,3 +1,15 @@
+// ============================================================================
+// DJC-CHAT FORK PATCH — see guides/fork-patches.md for full list
+// ----------------------------------------------------------------------------
+// Date:       2026-05-01
+// Why:        DJC Chat authenticates users through the djcai-v3 portal instead of
+//             showing Chatwoot's direct login page.
+// Changes:    1. Redirect normal /app/login and /app/login/sso visits to
+//                EXTERNAL_LOGIN_URL.
+//             2. Keep /app/login?email=...&sso_auth_token=... available for
+//                platform SSO handoff.
+// Merge tip:  Keep validateSSOLoginParams ahead of the external redirect.
+// ============================================================================
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { clearBrowserSessionCookies } from 'dashboard/store/utils/api';
 import { hasAuthCookie } from './AuthHelper';
@@ -11,6 +23,26 @@ const validateSSOLoginParams = to => {
   return isLoginRoute && hasValidSSOParams;
 };
 
+const externalLoginUrl = chatwootConfig => {
+  return (
+    chatwootConfig.externalLoginUrl ||
+    window.globalConfig?.EXTERNAL_LOGIN_URL ||
+    ''
+  );
+};
+
+const redirectToExternalLogin = chatwootConfig => {
+  const loginUrl = externalLoginUrl(chatwootConfig);
+  if (!loginUrl) {
+    return false;
+  }
+
+  window.location.assign(loginUrl);
+  return true;
+};
+
+const isDirectLoginRoute = to => ['login', 'sso_login'].includes(to.name);
+
 export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
   // Pages with ignoreSession:true would be rendered
   // even if there is an active session
@@ -23,6 +55,10 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
   if (validateSSOLoginParams(to)) {
     clearBrowserSessionCookies();
     next();
+    return;
+  }
+
+  if (isDirectLoginRoute(to) && redirectToExternalLogin(chatwootConfig)) {
     return;
   }
 
@@ -49,6 +85,10 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
     to.meta.requireEnterprise;
 
   if (!to.name || isAnInalidSignupNavigation || isEnterpriseOnlyPath) {
+    if (redirectToExternalLogin(chatwootConfig)) {
+      return;
+    }
+
     next(frontendURL('login'));
     return;
   }

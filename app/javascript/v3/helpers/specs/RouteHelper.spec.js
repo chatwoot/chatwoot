@@ -1,3 +1,12 @@
+// ============================================================================
+// DJC-CHAT FORK PATCH — see guides/fork-patches.md for full list
+// ----------------------------------------------------------------------------
+// Date:       2026-05-01
+// Why:        Cover DJC Chat's external login redirect behavior.
+// Changes:    1. Verify normal login, SSO login, and invalid auth routes can be
+//                sent to the djcai-v3 login portal.
+// Merge tip:  Keep this aligned with app/javascript/v3/helpers/RouteHelper.js.
+// ============================================================================
 import { validateRouteAccess, isOnOnboardingView } from '../RouteHelper';
 import { clearBrowserSessionCookies } from 'dashboard/store/utils/api';
 import { replaceRouteWithReload } from '../CommonHelper';
@@ -11,10 +20,14 @@ vi.mock('../CommonHelper', () => ({ replaceRouteWithReload: vi.fn() }));
 
 describe('#validateRouteAccess', () => {
   beforeEach(() => {
+    next.mockClear();
+    clearBrowserSessionCookies.mockClear();
+    replaceRouteWithReload.mockClear();
     vi.spyOn(Cookies, 'set');
   });
 
   afterEach(() => {
+    window.globalConfig = undefined;
     vi.restoreAllMocks();
   });
 
@@ -55,6 +68,54 @@ describe('#validateRouteAccess', () => {
     validateRouteAccess({}, next);
     expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
     expect(next).toHaveBeenCalledWith('/app/login');
+  });
+
+  it('redirects to external login if route is empty and external login is configured', () => {
+    const mockAssign = vi.fn();
+    delete window.location;
+    window.location = { assign: mockAssign };
+
+    validateRouteAccess({}, next, {
+      externalLoginUrl: 'https://app.simplynice.ai/chat-login',
+    });
+
+    expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
+    expect(mockAssign).toHaveBeenCalledWith(
+      'https://app.simplynice.ai/chat-login'
+    );
+    expect(next).not.toHaveBeenCalled();
+  });
+
+  it('redirects normal login route visits to external login when configured', () => {
+    const mockAssign = vi.fn();
+    delete window.location;
+    window.location = { assign: mockAssign };
+
+    validateRouteAccess({ name: 'login' }, next, {
+      externalLoginUrl: 'https://app.simplynice.ai/chat-login',
+    });
+
+    expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
+    expect(mockAssign).toHaveBeenCalledWith(
+      'https://app.simplynice.ai/chat-login'
+    );
+    expect(next).not.toHaveBeenCalled();
+  });
+
+  it('redirects SSO login route visits to external login when configured', () => {
+    const mockAssign = vi.fn();
+    delete window.location;
+    window.location = { assign: mockAssign };
+
+    validateRouteAccess({ name: 'sso_login' }, next, {
+      externalLoginUrl: 'https://app.simplynice.ai/chat-login',
+    });
+
+    expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
+    expect(mockAssign).toHaveBeenCalledWith(
+      'https://app.simplynice.ai/chat-login'
+    );
+    expect(next).not.toHaveBeenCalled();
   });
 
   it('redirects to login if signup is disabled', () => {

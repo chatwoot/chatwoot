@@ -63,11 +63,70 @@ The image ships with stock Chatwoot SVGs at `/app/public/brand-assets/`. Overrid
    docker compose up -d --force-recreate rails
    ```
 
-This works for SVGs referenced via `LOGO`/`LOGO_DARK`/`LOGO_THUMBNAIL`. **Does NOT cover** items in section 3.
+This works for SVGs referenced via `LOGO`/`LOGO_DARK`/`LOGO_THUMBNAIL`. **Does NOT cover** baked-in assets in section 4.
 
 ---
 
-## 3. Bake-in branding — requires image rebuild
+## 3. Favicon swap — upload to droplet (no rebuild)
+
+Use this when the favicon files already exist locally under:
+
+```text
+E:\react-projects\chatwoot\deploy\branding\favicons
+```
+
+The Docker compose file mounts `/opt/djc-chat/branding` into the Rails container at `/app/public/brand-assets`, so uploaded files become available inside the container at:
+
+```text
+/app/public/brand-assets/favicons
+```
+
+### Upload from Windows
+
+Run this from PowerShell on your local machine:
+
+```powershell
+scp -r E:\react-projects\chatwoot\deploy\branding\favicons chatwoot:/opt/djc-chat/branding/
+```
+
+If the folder already exists on the droplet and you want to replace it cleanly:
+
+```bash
+ssh chatwoot
+cd /opt/djc-chat
+rm -rf branding/favicons
+exit
+```
+
+Then run the `scp` command again from Windows.
+
+### Apply on the droplet
+
+SSH into the droplet:
+
+```bash
+ssh chatwoot
+```
+
+Copy the mounted favicon files into Chatwoot's public root, where the existing layout expects `/favicon-16x16.png`, `/favicon-32x32.png`, etc.:
+
+```bash
+cd /opt/djc-chat
+docker compose exec rails sh -lc 'cp /app/public/brand-assets/favicons/* /app/public/'
+docker compose restart rails sidekiq
+```
+
+Check one favicon directly:
+
+```text
+https://chat.djc.ai/favicon-32x32.png
+```
+
+Browsers cache favicons aggressively, so use a hard refresh or private window if the old icon still appears.
+
+---
+
+## 4. Bake-in branding — requires image rebuild
 
 These assets are bundled into the JS bundle / Docker image and need a rebuild + new tag.
 
@@ -120,7 +179,7 @@ These assets are bundled into the JS bundle / Docker image and need a rebuild + 
 
 ---
 
-## 4. i18n strings (optional)
+## 5. i18n strings (optional)
 
 50+ locale files reference "Chatwoot" by name (e.g. `app/javascript/dashboard/i18n/locale/en/login.json` line 3: "Login to Chatwoot").
 
@@ -141,7 +200,7 @@ find app/javascript/dashboard/i18n/locale/en -type f -name "*.json" \
 
 ---
 
-## 5. What I need from you to execute Phase 3
+## 6. What I need from you to execute Phase 4
 
 - [ ] Logo SVG (full color) — square or wide, ideally vector
 - [ ] Logo SVG dark variant (white/light version for dark backgrounds)

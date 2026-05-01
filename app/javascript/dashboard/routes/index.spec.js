@@ -1,3 +1,12 @@
+// ============================================================================
+// DJC-CHAT FORK PATCH — see guides/fork-patches.md for full list
+// ----------------------------------------------------------------------------
+// Date:       2026-05-01
+// Why:        Cover DJC Chat's external login redirect behavior.
+// Changes:    1. Verify unauthenticated dashboard users can be sent to the
+//                djcai-v3 login portal.
+// Merge tip:  Keep this aligned with app/javascript/dashboard/routes/index.js.
+// ============================================================================
 import { validateAuthenticateRoutePermission } from './index';
 import store from '../store'; // This import will be mocked
 import { vi } from 'vitest';
@@ -25,6 +34,10 @@ describe('#validateAuthenticateRoutePermission', () => {
     next = vi.fn(); // Mock the next function
   });
 
+  afterEach(() => {
+    window.globalConfig = undefined;
+  });
+
   describe('when user is not logged in', () => {
     it('should redirect to login', () => {
       const to = { name: 'some-protected-route', params: { accountId: 1 } };
@@ -40,6 +53,24 @@ describe('#validateAuthenticateRoutePermission', () => {
       validateAuthenticateRoutePermission(to, next);
 
       expect(mockAssign).toHaveBeenCalledWith('/app/login');
+    });
+
+    it('should redirect to external login when configured', () => {
+      const to = { name: 'some-protected-route', params: { accountId: 1 } };
+      store.getters.isLoggedIn = false;
+      window.globalConfig = {
+        EXTERNAL_LOGIN_URL: 'https://app.simplynice.ai/chat-login',
+      };
+
+      const mockAssign = vi.fn();
+      delete window.location;
+      window.location = { assign: mockAssign };
+
+      validateAuthenticateRoutePermission(to, next);
+
+      expect(mockAssign).toHaveBeenCalledWith(
+        'https://app.simplynice.ai/chat-login'
+      );
     });
   });
 

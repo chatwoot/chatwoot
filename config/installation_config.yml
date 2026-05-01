@@ -318,6 +318,10 @@
   value: /app/login
   locked: false
   description: 'Redirect to a different link after logout'
+- name: EXTERNAL_LOGIN_URL
+  value:
+  locked: false
+  description: 'Redirect unauthenticated dashboard users and direct login page visits to an external login portal. SSO token login URLs are still allowed.'
 - name: DISABLE_USER_PROFILE_UPDATE
   value: false
   locked: false

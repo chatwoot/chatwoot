@@ -14,11 +14,19 @@ grep -rl "DJC-CHAT FORK PATCH" app/ config/ enterprise/ lib/ deploy/ public/ the
 | File | Why | Date |
 |---|---|---|
 | [app/javascript/dashboard/components/widgets/conversation/EmptyState/EmptyState.vue](../app/javascript/dashboard/components/widgets/conversation/EmptyState/EmptyState.vue) | Prevent "Loading inboxes" spinner wedge when zero inboxes; force onboarding view; 8s timeout fallback | 2026-04-30 |
+| [app/controllers/dashboard_controller.rb](../app/controllers/dashboard_controller.rb) | Expose `EXTERNAL_LOGIN_URL` to frontend route guards | 2026-05-01 |
+| [app/javascript/shared/store/globalConfig.js](../app/javascript/shared/store/globalConfig.js) | Add `externalLoginUrl` to global config state | 2026-05-01 |
+| [app/javascript/dashboard/routes/index.js](../app/javascript/dashboard/routes/index.js) | Redirect unauthenticated dashboard users to external djcai-v3 login when configured | 2026-05-01 |
+| [app/javascript/dashboard/routes/index.spec.js](../app/javascript/dashboard/routes/index.spec.js) | Cover dashboard external login redirect behavior | 2026-05-01 |
+| [app/javascript/v3/helpers/RouteHelper.js](../app/javascript/v3/helpers/RouteHelper.js) | Redirect direct Chatwoot login page visits to external login while preserving SSO token login URLs | 2026-05-01 |
+| [app/javascript/v3/helpers/specs/RouteHelper.spec.js](../app/javascript/v3/helpers/specs/RouteHelper.spec.js) | Cover v3 login-route external redirect behavior | 2026-05-01 |
+| [app/javascript/v3/views/login/Index.vue](../app/javascript/v3/views/login/Index.vue) | Send failed SSO token retries back to external login when configured | 2026-05-01 |
 
 ## Config-only changes (no marker comment)
 
 These are config tweaks — diff them on upstream merges:
 
+- [config/installation_config.yml](../config/installation_config.yml) — added `EXTERNAL_LOGIN_URL`; set it to `https://app.simplynice.ai/chat-login` to disable the direct Chatwoot login page while preserving SSO-token login handoff URLs
 - [config/installation_config.yml](../config/installation_config.yml) — `INSTALLATION_NAME` and `BRAND_NAME` defaults changed to `DJC Chat`, both unlocked
 - [app/javascript/dashboard/i18n/locale/en/](../app/javascript/dashboard/i18n/locale/en/) — bulk replaced "Chatwoot" → "DJC Chat" across 13 English locale files (2026-04-30). On upstream merge: re-run `find app/javascript/dashboard/i18n/locale/en -type f -name "*.json" -exec sed -i 's/Chatwoot/DJC Chat/g' {} +`
 - [app/javascript/widget/i18n/locale/en.json](../app/javascript/widget/i18n/locale/en.json) — "Powered by DJC Chat" in widget
@@ -38,7 +46,7 @@ These are config tweaks — diff them on upstream merges:
 - [scripts/docker-build-push.sh](../scripts/docker-build-push.sh)
 - [deploy/docker-compose.yaml](../deploy/docker-compose.yaml)
 - [deploy/Caddyfile](../deploy/Caddyfile)
-- [deploy/.env.example](../deploy/.env.example) (gitignored)
+- [deploy/.env.example](../deploy/.env.example) (gitignored) — documents `EXTERNAL_LOGIN_URL=https://app.simplynice.ai/chat-login`
 - [deploy/branding/](../deploy/branding/)
 - [guides/](../guides/) (gitignored)
 

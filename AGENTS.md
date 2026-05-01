@@ -34,11 +34,11 @@
 
 ## Styling
 
-- **Tailwind Only**:  
-  - Do not write custom CSS  
-  - Do not use scoped CSS  
-  - Do not use inline styles  
-  - Always use Tailwind utility classes  
+- **Tailwind Only**:
+  - Do not write custom CSS
+  - Do not use scoped CSS
+  - Do not use inline styles
+  - Always use Tailwind utility classes
 - **Colors**: Refer to `tailwind.config.js` for color definitions
 
 ## General Guidelines
@@ -111,3 +111,9 @@ Practical checklist for any change impacting core logic or public APIs
 ## Branding / White-labeling note
 
 - For user-facing strings that currently contain "Chatwoot" but should adapt to branded/self-hosted installs, prefer applying `replaceInstallationName` from `shared/composables/useBranding` in the UI layer (for example tooltip and suggestion labels) instead of adding hardcoded brand-specific copy.
+
+## Project Instructions
+
+- Use the current environment's default shell. This workspace may be used on Windows or macOS.
+- `pnpm` and `node` may only resolve outside the sandbox. If they fail with "not recognized" or appear unavailable, rerun the command with escalated permissions before assuming the toolchain is missing.
+- After web app changes, prefer `pnpm --filter @djcai/web typecheck` for verification.

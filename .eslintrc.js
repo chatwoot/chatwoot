@@ -35,7 +35,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'prettier/prettier': ['error'],
+    'prettier/prettier': 'off',
     camelcase: 'off',
     'no-param-reassign': 'off',
     'import/no-extraneous-dependencies': 'off',

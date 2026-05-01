@@ -1,3 +1,15 @@
+# ============================================================================
+# DJC-CHAT FORK PATCH — see guides/fork-patches.md for full list
+# ----------------------------------------------------------------------------
+# Date:       2026-05-01
+# Why:        DJC Chat authenticates users through the djcai-v3 portal instead of
+#             showing Chatwoot's direct login page.
+# Changes:    1. Expose EXTERNAL_LOGIN_URL to frontend route guards.
+#             2. Load EXTERNAL_LOGIN_URL through GlobalConfigService so env
+#                values work on existing installations.
+# Merge tip:  Keep this config key if upstream changes DashboardController
+#             global config loading.
+# ============================================================================
 class DashboardController < ActionController::Base
   include SwitchLocale
 
@@ -21,6 +33,7 @@ class DashboardController < ActionController::Base
     MAXIMUM_FILE_UPLOAD_SIZE
     HCAPTCHA_SITE_KEY
     LOGOUT_REDIRECT_LINK
+    EXTERNAL_LOGIN_URL
     DISABLE_USER_PROFILE_UPDATE
     DEPLOYMENT_ENV
     INSTALLATION_PRICING_PLAN
@@ -80,6 +93,7 @@ class DashboardController < ActionController::Base
       IS_ENTERPRISE: ChatwootApp.enterprise?,
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
       GIT_SHA: GIT_HASH,
+      EXTERNAL_LOGIN_URL: GlobalConfigService.load('EXTERNAL_LOGIN_URL', ''),
       ALLOWED_LOGIN_METHODS: allowed_login_methods,
       ACTIVE_PLATFORM_BANNERS: active_platform_banners
     }

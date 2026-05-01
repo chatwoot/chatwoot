@@ -1,3 +1,14 @@
+// ============================================================================
+// DJC-CHAT FORK PATCH — see guides/fork-patches.md for full list
+// ----------------------------------------------------------------------------
+// Date:       2026-05-01
+// Why:        DJC Chat authenticates users through the djcai-v3 portal instead of
+//             showing Chatwoot's direct login page.
+// Changes:    1. Redirect unauthenticated dashboard users to EXTERNAL_LOGIN_URL
+//                when configured, falling back to /app/login otherwise.
+// Merge tip:  Keep the fallback so local/dev instances without the external
+//             portal still behave like upstream Chatwoot.
+// ============================================================================
 import { createRouter, createWebHistory } from 'vue-router';
 
 import { frontendURL } from '../helper/URLHelper';
@@ -12,11 +23,14 @@ const routes = [...dashboard.routes];
 
 export const router = createRouter({ history: createWebHistory(), routes });
 
+const loginRedirectUrl = () =>
+  window.globalConfig?.EXTERNAL_LOGIN_URL || '/app/login';
+
 export const validateAuthenticateRoutePermission = async (to, next) => {
   const { isLoggedIn, getCurrentUser: user } = store.getters;
 
   if (!isLoggedIn) {
-    window.location.assign('/app/login');
+    window.location.assign(loginRedirectUrl());
     return '';
   }
 
