@@ -87,8 +87,9 @@ class Whatsapp::OneoffCampaignService
   end
 
   def log_template_to_conversation(contact, processed_template_params)
+    source_id = normalized_source_id(contact.phone_number)
     contact_inbox = ContactInboxWithContactBuilder.new(
-      source_id: contact.phone_number.delete_prefix('+'),
+      source_id: source_id,
       inbox: inbox,
       contact_attributes: { name: contact.name, phone_number: contact.phone_number, email: contact.email }
     ).perform
@@ -99,9 +100,17 @@ class Whatsapp::OneoffCampaignService
     Rails.logger.error "Failed to log template to conversation for #{contact.name}: #{e.message}"
   end
 
+  def normalized_source_id(phone_number)
+    clean_number = phone_number.delete_prefix('+')
+    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(clean_number, :cloud)
+  end
+
   def find_or_create_conversation(contact_inbox)
-    # Reuse last open conversation or create a new one
-    conversation = contact_inbox.conversations.where(status: :open).last
+    conversation = if inbox.lock_to_single_conversation
+                     contact_inbox.conversations.last
+                   else
+                     contact_inbox.conversations.where.not(status: :resolved).last
+                   end
     conversation || ::Conversation.create!(
       account_id: campaign.account_id,
       inbox_id: inbox.id,

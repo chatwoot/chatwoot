@@ -258,10 +258,14 @@ describe Whatsapp::OneoffCampaignService do
         expect(message.content_attributes['template_name']).to eq('ticket_status_updated')
       end
 
-      it 'uses source_id without + prefix to match WhatsApp Cloud format' do
-        expected_source_id = contact.phone_number.delete_prefix('+')
+      it 'uses PhoneNumberNormalizationService for source_id lookup' do
+        normalizer = instance_double(Whatsapp::PhoneNumberNormalizationService)
+        clean_number = contact.phone_number.delete_prefix('+')
+        allow(Whatsapp::PhoneNumberNormalizationService).to receive(:new).with(whatsapp_inbox).and_return(normalizer)
+        allow(normalizer).to receive(:normalize_and_find_contact_by_provider).with(clean_number, :cloud).and_return(clean_number)
+
         expect(ContactInboxWithContactBuilder).to receive(:new).with(
-          source_id: expected_source_id,
+          source_id: clean_number,
           inbox: whatsapp_inbox,
           contact_attributes: { name: contact.name, phone_number: contact.phone_number, email: contact.email }
         ).and_call_original
@@ -269,7 +273,7 @@ describe Whatsapp::OneoffCampaignService do
         described_class.new(campaign: campaign_with_log).perform
       end
 
-      it 'reuses an existing open conversation' do
+      it 'reuses an existing non-resolved conversation' do
         source_id = contact.phone_number.delete_prefix('+')
         contact_inbox = ContactInboxWithContactBuilder.new(
           source_id: source_id,
@@ -277,7 +281,24 @@ describe Whatsapp::OneoffCampaignService do
           contact_attributes: { name: contact.name, phone_number: contact.phone_number }
         ).perform
         existing_conversation = create(:conversation, account: account, inbox: whatsapp_inbox,
-                                                      contact: contact, contact_inbox: contact_inbox, status: :open)
+                                                      contact: contact, contact_inbox: contact_inbox, status: :pending)
+
+        expect { described_class.new(campaign: campaign_with_log).perform }
+          .not_to change(Conversation, :count)
+
+        expect(existing_conversation.messages.last.additional_attributes['campaign_id']).to eq(campaign_with_log.id)
+      end
+
+      it 'reuses resolved conversation when lock_to_single_conversation is enabled' do
+        whatsapp_inbox.update!(lock_to_single_conversation: true)
+        source_id = contact.phone_number.delete_prefix('+')
+        contact_inbox = ContactInboxWithContactBuilder.new(
+          source_id: source_id,
+          inbox: whatsapp_inbox,
+          contact_attributes: { name: contact.name, phone_number: contact.phone_number }
+        ).perform
+        existing_conversation = create(:conversation, account: account, inbox: whatsapp_inbox,
+                                                      contact: contact, contact_inbox: contact_inbox, status: :resolved)
 
         expect { described_class.new(campaign: campaign_with_log).perform }
           .not_to change(Conversation, :count)
