@@ -8,6 +8,7 @@ import { useCallSession } from 'dashboard/composables/useCallSession';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
+import AudioChip from 'next/message/chips/Audio.vue';
 
 const LABEL_MAP = {
   [VOICE_CALL_STATUS.IN_PROGRESS]: 'CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS',
@@ -123,6 +124,17 @@ const canJoinCall = computed(() => {
   return true;
 });
 
+const recordingAttachment = computed(() => {
+  const url = call.value?.recordingUrl;
+  if (!url) return null;
+  return {
+    dataUrl: url,
+    fileType: 'audio',
+    extension: 'wav',
+    transcribedText: call.value?.transcript || '',
+  };
+});
+
 const handleJoinCall = async () => {
   if (!canJoinCall.value || isJoining.value) return;
 
@@ -144,7 +156,7 @@ const handleJoinCall = async () => {
 
 <template>
   <BaseBubble class="p-0 border-none" hide-meta>
-    <div class="flex overflow-hidden flex-col w-full max-w-xs">
+    <div class="flex overflow-hidden flex-col w-full max-w-sm">
       <div class="flex gap-3 items-center p-3 w-full">
         <div
           class="flex justify-center items-center rounded-full size-10 shrink-0"
@@ -177,6 +189,10 @@ const handleJoinCall = async () => {
             {{ $t('CONVERSATION.VOICE_CALL.JOIN_CALL') }}
           </button>
         </div>
+      </div>
+
+      <div v-if="recordingAttachment" class="px-3 pb-3">
+        <AudioChip :attachment="recordingAttachment" />
       </div>
     </div>
   </BaseBubble>

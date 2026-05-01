@@ -48,6 +48,15 @@ class Twilio::VoiceController < ApplicationController
     head :no_content
   end
 
+  def recording_status
+    Voice::RecordingStatusService.new(
+      account: current_account,
+      payload: params.to_unsafe_h
+    ).perform
+
+    head :no_content
+  end
+
   private
 
   def twilio_call_sid
@@ -125,6 +134,10 @@ class Twilio::VoiceController < ApplicationController
           conference_sid,
           start_conference_on_enter: agent_leg?(twilio_from),
           end_conference_on_exit: false,
+          record: 'record-from-start',
+          recording_status_callback: recording_status_callback_url,
+          recording_status_callback_event: 'completed',
+          recording_status_callback_method: 'POST',
           status_callback: conference_status_callback_url,
           status_callback_event: 'start end join leave',
           status_callback_method: 'POST',
@@ -150,6 +163,11 @@ class Twilio::VoiceController < ApplicationController
   def conference_status_callback_url
     phone_digits = inbox_channel.phone_number.delete_prefix('+')
     Rails.application.routes.url_helpers.twilio_voice_conference_status_url(phone: phone_digits)
+  end
+
+  def recording_status_callback_url
+    phone_digits = inbox_channel.phone_number.delete_prefix('+')
+    Rails.application.routes.url_helpers.twilio_voice_recording_status_url(phone: phone_digits)
   end
 
   def find_call_for_conference!(friendly_name, call_sid)
