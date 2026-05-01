@@ -7,7 +7,7 @@ RSpec.describe Voice::RecordingStatusService do
   let(:channel) { create(:channel_twilio_sms, :with_voice, account: account, phone_number: '+15551237777') }
   let(:inbox) { channel.inbox }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
-  let(:conference_sid) { 'conf_account_999_call_42' }
+  let(:conference_sid) { 'CFabc123def456' }
   let!(:call) do
     create(
       :call,
@@ -15,7 +15,7 @@ RSpec.describe Voice::RecordingStatusService do
       inbox: inbox,
       conversation: conversation,
       contact: conversation.contact,
-      meta: { 'conference_sid' => conference_sid }
+      meta: { 'twilio_conference_sid' => conference_sid }
     )
   end
 
@@ -79,7 +79,7 @@ RSpec.describe Voice::RecordingStatusService do
     end
 
     it 'is a no-op when no Call matches the ConferenceSid' do
-      payload = complete_payload.merge('ConferenceSid' => 'conf_unknown')
+      payload = complete_payload.merge('ConferenceSid' => 'CFunknown')
 
       expect do
         described_class.new(account: account, payload: payload).perform

@@ -38,6 +38,7 @@ class Twilio::VoiceController < ApplicationController
     end
 
     call = find_call_for_conference!(params[:FriendlyName], twilio_call_sid)
+    persist_twilio_conference_sid!(call, params[:ConferenceSid])
 
     Voice::Conference::Manager.new(
       call: call,
@@ -174,6 +175,16 @@ class Twilio::VoiceController < ApplicationController
     name = friendly_name.to_s
     call = inbox_calls.by_conference_sid(name).first if name.present?
     call || inbox_calls.find_by!(provider_call_id: call_sid)
+  end
+
+  # Twilio's recording webhook only sends its internal ConferenceSid (CF...),
+  # not our FriendlyName. Persist Twilio's id the first time we see it on a
+  # conference event so the recording lookup can match later.
+  def persist_twilio_conference_sid!(call, sid)
+    return if sid.blank?
+    return if call.twilio_conference_sid == sid
+
+    call.update!(twilio_conference_sid: sid)
   end
 
   def set_inbox!

@@ -5,7 +5,7 @@ class Voice::RecordingStatusService
     return unless completed_recording?
     return if conference_sid.blank? || recording_sid.blank? || recording_url.blank?
 
-    call = Call.where(account_id: account.id).by_conference_sid(conference_sid).first
+    call = Call.where(account_id: account.id).by_twilio_conference_sid(conference_sid).first
     return if call.blank?
 
     Voice::Provider::Twilio::RecordingAttachmentJob.perform_later(
