@@ -5,6 +5,7 @@ import { useStore } from 'vuex';
 import { useMessageContext } from '../provider.js';
 import { VOICE_CALL_STATUS } from '../constants';
 import { useCallSession } from 'dashboard/composables/useCallSession';
+import { formatDuration } from 'shared/helpers/timeHelper';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
@@ -77,12 +78,19 @@ const labelKey = computed(() => {
     : 'CONVERSATION.VOICE_CALL.INCOMING_CALL';
 });
 
+const formattedDuration = computed(() =>
+  formatDuration(call.value?.durationSeconds)
+);
+
 const subtext = computed(() => {
   if (status.value === VOICE_CALL_STATUS.RINGING) {
     return t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
   }
   if (status.value === VOICE_CALL_STATUS.COMPLETED) {
-    return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
+    const ended = t('CONVERSATION.VOICE_CALL.CALL_ENDED');
+    return formattedDuration.value
+      ? `${ended} — ${formattedDuration.value}`
+      : ended;
   }
   if (status.value === VOICE_CALL_STATUS.IN_PROGRESS) {
     if (isOutbound.value) return t('CONVERSATION.VOICE_CALL.THEY_ANSWERED');
