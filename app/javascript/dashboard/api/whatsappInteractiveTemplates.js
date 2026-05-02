@@ -1,3 +1,4 @@
+/* global axios */
 import ApiClient from './ApiClient';
 
 class WhatsappInteractiveTemplatesAPI extends ApiClient {
@@ -7,6 +8,13 @@ class WhatsappInteractiveTemplatesAPI extends ApiClient {
 
   publishHeader(blobId) {
     return axios.post(`${this.url}/publish_header`, { blob_id: blobId });
+  }
+
+  dispatchToConversation(templateId, conversationId, extraParams = {}) {
+    return axios.post(`${this.url}/${templateId}/dispatch_to_conversation`, {
+      conversation_id: conversationId,
+      ...extraParams,
+    });
   }
 }
 

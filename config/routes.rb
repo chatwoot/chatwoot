@@ -253,6 +253,7 @@ Rails.application.routes.draw do
           resources :payment_links, only: [:index, :create]
           resources :whatsapp_interactive_templates, only: [:index, :create, :destroy] do
             post :publish_header, on: :collection
+            post :dispatch_to_conversation, on: :member
           end
 
           resources :notifications, only: [:index, :update, :destroy] do

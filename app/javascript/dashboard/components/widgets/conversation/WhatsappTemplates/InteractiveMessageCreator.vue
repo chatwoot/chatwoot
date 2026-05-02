@@ -8,7 +8,14 @@ import WhatsappInteractiveTemplatesAPI from 'dashboard/api/whatsappInteractiveTe
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
-const emit = defineEmits(['templateCreated']);
+const props = defineProps({
+  conversationId: {
+    type: Number,
+    default: undefined,
+  },
+});
+
+const emit = defineEmits(['templateCreated', 'templateSent']);
 
 const { t } = useI18n();
 const store = useStore();
@@ -285,12 +292,33 @@ const handleSubmit = async () => {
   }
 };
 
-const deleteTemplate = async id => {
+const deleteTemplate = async (event, id) => {
+  event?.stopPropagation();
   try {
     await store.dispatch('whatsappInteractiveTemplates/delete', id);
     useAlert(t('WHATSAPP_TEMPLATES.INTERACTIVE.DELETE_SUCCESS'));
   } catch {
     useAlert(t('WHATSAPP_TEMPLATES.INTERACTIVE.DELETE_ERROR'));
+  }
+};
+
+const sendTemplate = async template => {
+  if (!props.conversationId) {
+    useAlert(t('WHATSAPP_TEMPLATES.INTERACTIVE.SEND_NO_CONVERSATION'));
+    return;
+  }
+  try {
+    await store.dispatch('whatsappInteractiveTemplates/dispatch', {
+      templateId: template.id,
+      conversationId: props.conversationId,
+    });
+    useAlert(t('WHATSAPP_TEMPLATES.INTERACTIVE.SEND_SUCCESS'));
+    emit('templateSent');
+  } catch (error) {
+    const message =
+      error?.response?.data?.error ||
+      t('WHATSAPP_TEMPLATES.INTERACTIVE.SEND_ERROR');
+    useAlert(message);
   }
 };
 
@@ -735,27 +763,42 @@ onMounted(() => {
             />
           </div>
           <div class="space-y-2 max-h-72 overflow-y-auto pr-1">
-            <div
+            <button
               v-for="template in templates"
               :key="template.id"
-              class="rounded-xl outline outline-1 outline-n-weak p-3 bg-white dark:bg-n-solid-3"
+              type="button"
+              class="w-full text-left rounded-xl outline outline-1 outline-n-weak p-3 bg-white dark:bg-n-solid-3 hover:outline-n-brand hover:bg-n-brand/5 transition-all cursor-pointer group disabled:opacity-50 disabled:cursor-wait"
+              :disabled="uiFlags.isDispatching"
+              @click="sendTemplate(template)"
             >
               <div class="flex items-start justify-between gap-2">
-                <div class="min-w-0">
-                  <p class="text-sm font-medium text-n-slate-12 truncate">
-                    {{ template.name }}
-                  </p>
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center gap-1.5">
+                    <p class="text-sm font-medium text-n-slate-12 truncate">
+                      {{ template.name }}
+                    </p>
+                    <Icon
+                      icon="i-lucide-send"
+                      class="size-3 text-n-brand opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                    />
+                  </div>
                   <p class="text-xs text-n-slate-10 mt-1 line-clamp-2">
                     {{ template.body_text }}
                   </p>
                 </div>
-                <button
-                  type="button"
+                <span
+                  role="button"
+                  tabindex="0"
                   class="text-n-slate-10 hover:text-n-ruby-11 transition-colors cursor-pointer shrink-0"
-                  @click="deleteTemplate(template.id)"
+                  :aria-label="
+                    t('WHATSAPP_TEMPLATES.INTERACTIVE.DELETE_SUCCESS')
+                  "
+                  @click="deleteTemplate($event, template.id)"
+                  @keydown.enter="deleteTemplate($event, template.id)"
+                  @keydown.space="deleteTemplate($event, template.id)"
                 >
                   <Icon icon="i-lucide-trash-2" class="size-4" />
-                </button>
+                </span>
               </div>
               <div class="mt-2 flex gap-1.5 flex-wrap">
                 <span
@@ -776,7 +819,7 @@ onMounted(() => {
                   {{ template.header_type }}
                 </span>
               </div>
-            </div>
+            </button>
             <p
               v-if="!templates.length && !uiFlags.isFetching"
               class="text-sm text-n-slate-10"

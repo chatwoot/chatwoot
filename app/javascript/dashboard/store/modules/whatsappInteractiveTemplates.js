@@ -8,6 +8,7 @@ export const state = {
     isFetching: false,
     isCreating: false,
     isDeleting: false,
+    isDispatching: false,
   },
 };
 
@@ -61,6 +62,31 @@ export const actions = {
     } finally {
       commit(types.SET_WHATSAPP_INTERACTIVE_TEMPLATE_UI_FLAG, {
         isDeleting: false,
+      });
+    }
+  },
+
+  dispatch: async function dispatchTemplate(
+    { commit },
+    { templateId, conversationId, runtimeUrl, runtimeBodyText }
+  ) {
+    commit(types.SET_WHATSAPP_INTERACTIVE_TEMPLATE_UI_FLAG, {
+      isDispatching: true,
+    });
+    try {
+      const extraParams = {};
+      if (runtimeUrl) extraParams.runtime_url = runtimeUrl;
+      if (runtimeBodyText) extraParams.runtime_body_text = runtimeBodyText;
+      const response =
+        await WhatsappInteractiveTemplatesAPI.dispatchToConversation(
+          templateId,
+          conversationId,
+          extraParams
+        );
+      return response.data;
+    } finally {
+      commit(types.SET_WHATSAPP_INTERACTIVE_TEMPLATE_UI_FLAG, {
+        isDispatching: false,
       });
     }
   },

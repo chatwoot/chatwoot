@@ -1435,6 +1435,7 @@ export default {
 
     <WhatsappTemplates
       :inbox-id="inbox.id"
+      :conversation-id="currentChat.id"
       :show="showWhatsAppTemplatesModal"
       @close="hideWhatsappTemplatesModal"
       @on-send="onSendWhatsAppReply"

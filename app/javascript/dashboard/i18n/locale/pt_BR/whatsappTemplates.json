@@ -147,6 +147,9 @@
       "ERROR": "Falha ao salvar a mensagem interativa.",
       "DELETE_SUCCESS": "Mensagem interativa removida.",
       "DELETE_ERROR": "Falha ao remover a mensagem interativa.",
+      "SEND_SUCCESS": "Mensagem interativa enviada.",
+      "SEND_ERROR": "Falha ao enviar a mensagem interativa.",
+      "SEND_NO_CONVERSATION": "Abra uma conversa para enviar a mensagem.",
       "VALIDATION": {
         "NAME_REQUIRED": "O nome da mensagem é obrigatório",
         "BODY_REQUIRED": "O texto do corpo é obrigatório",

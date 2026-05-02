@@ -20,6 +20,10 @@ export default {
       type: Number,
       default: undefined,
     },
+    conversationId: {
+      type: Number,
+      default: undefined,
+    },
   },
   emits: ['onSend', 'cancel', 'update:show'],
   setup() {
@@ -95,6 +99,10 @@ export default {
     onTemplateCreated() {
       this.currentView = 'picker';
     },
+    onTemplateSent() {
+      this.onClose();
+      this.localShow = false;
+    },
     onBackFromCreate() {
       this.currentView = 'picker';
     },
@@ -165,7 +173,9 @@ export default {
       />
       <InteractiveMessageCreator
         v-else-if="currentView === 'interactive'"
+        :conversation-id="conversationId"
         @template-created="onTemplateCreated"
+        @template-sent="onTemplateSent"
         @back="onBackFromCreate"
       />
     </div>

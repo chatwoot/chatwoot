@@ -147,6 +147,9 @@
       "ERROR": "Failed to save the interactive message.",
       "DELETE_SUCCESS": "Interactive message removed.",
       "DELETE_ERROR": "Failed to remove the interactive message.",
+      "SEND_SUCCESS": "Interactive message sent.",
+      "SEND_ERROR": "Failed to send the interactive message.",
+      "SEND_NO_CONVERSATION": "Open a conversation before sending the message.",
       "VALIDATION": {
         "NAME_REQUIRED": "Message name is required",
         "BODY_REQUIRED": "Body text is required",
