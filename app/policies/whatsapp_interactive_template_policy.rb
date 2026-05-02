@@ -14,4 +14,8 @@ class WhatsappInteractiveTemplatePolicy < ApplicationPolicy
   def publish_header?
     create?
   end
+
+  def dispatch_to_conversation?
+    create?
+  end
 end

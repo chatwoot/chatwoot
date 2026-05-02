@@ -1,5 +1,6 @@
 <script>
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useAlert } from 'dashboard/composables';
 import TemplatesPicker from './TemplatesPicker.vue';
 import TemplateCreator from './TemplateCreator.vue';
 import InteractiveMessageCreator from './InteractiveMessageCreator.vue';
@@ -28,7 +29,7 @@ export default {
   emits: ['onSend', 'cancel', 'update:show'],
   setup() {
     const { isAdmin } = useAdmin();
-    return { isAdmin };
+    return { isAdmin, showAlert: useAlert };
   },
   data() {
     return {
@@ -84,6 +85,29 @@ export default {
     },
     onSendMessage(message) {
       this.$emit('onSend', message);
+    },
+    async onSendInteractiveTemplate(template) {
+      if (!this.conversationId) {
+        this.showAlert(
+          this.$t('WHATSAPP_TEMPLATES.INTERACTIVE.SEND_NO_CONVERSATION')
+        );
+        return;
+      }
+
+      try {
+        await this.$store.dispatch('whatsappInteractiveTemplates/dispatch', {
+          templateId: template.id,
+          conversationId: this.conversationId,
+        });
+        this.showAlert(this.$t('WHATSAPP_TEMPLATES.INTERACTIVE.SEND_SUCCESS'));
+        this.onClose();
+        this.localShow = false;
+      } catch (error) {
+        const message =
+          error?.response?.data?.error ||
+          this.$t('WHATSAPP_TEMPLATES.INTERACTIVE.SEND_ERROR');
+        this.showAlert(message);
+      }
     },
     onClose() {
       this.currentView = 'picker';
@@ -158,6 +182,7 @@ export default {
         v-if="currentView === 'picker'"
         :inbox-id="inboxId"
         @on-select="pickTemplate"
+        @on-select-interactive="onSendInteractiveTemplate"
       />
       <WhatsAppTemplateReply
         v-else-if="currentView === 'reply'"

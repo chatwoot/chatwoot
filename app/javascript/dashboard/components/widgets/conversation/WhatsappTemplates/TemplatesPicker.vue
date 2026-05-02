@@ -23,7 +23,7 @@ const props = defineProps({
     default: undefined,
   },
 });
-const emit = defineEmits(['onSelect']);
+const emit = defineEmits(['onSelect', 'onSelectInteractive']);
 const TAB_RECENT = 0;
 const TAB_FAVORITES = 1;
 const TAB_ALL = 2;
@@ -52,6 +52,14 @@ const whatsAppTemplateMessages = useFunctionGetter(
   'inboxes/getFilteredWhatsAppTemplates',
   toRef(props, 'inboxId')
 );
+const interactiveTemplates = computed(
+  () => store.getters['whatsappInteractiveTemplates/getTemplates']
+);
+const interactiveUIFlags = computed(
+  () => store.getters['whatsappInteractiveTemplates/getUIFlags']
+);
+
+const normalizedQuery = computed(() => query.value.trim().toLowerCase());
 
 const loadFromStorage = () => {
   favorites.value = LocalStorage.get(favStorageKey.value) || [];
@@ -101,7 +109,17 @@ const addToRecent = template => {
 };
 
 const matchesQuery = template =>
-  template.name.toLowerCase().includes(query.value.toLowerCase());
+  template.name.toLowerCase().includes(normalizedQuery.value);
+
+const matchesInteractiveQuery = template => {
+  if (!normalizedQuery.value) return true;
+
+  return [template.name, template.body_text, template.button_text]
+    .filter(Boolean)
+    .some(value =>
+      value.toString().toLowerCase().includes(normalizedQuery.value)
+    );
+};
 
 const favoriteTemplates = computed(() =>
   whatsAppTemplateMessages.value.filter(
@@ -132,6 +150,14 @@ const displayedTemplates = computed(() => {
       return allFilteredTemplates.value;
   }
 });
+
+const filteredInteractiveTemplates = computed(() =>
+  interactiveTemplates.value.filter(matchesInteractiveQuery)
+);
+
+const shouldShowInteractiveTemplates = computed(
+  () => filteredInteractiveTemplates.value.length > 0
+);
 
 const tabs = computed(() => [
   {
@@ -185,6 +211,22 @@ const onSelectTemplate = template => {
   emit('onSelect', template);
 };
 
+const onSelectInteractiveTemplate = template => {
+  emit('onSelectInteractive', template);
+};
+
+const getInteractiveTypeLabel = template => {
+  if (template.template_type === 'rich_text') {
+    return t('WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_BODY_LINK');
+  }
+
+  if (template.template_type === 'quick_replies') {
+    return t('WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_QUICK_REPLIES');
+  }
+
+  return t('WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_CTA');
+};
+
 const refreshTemplates = async () => {
   isRefreshing.value = true;
   try {
@@ -197,7 +239,10 @@ const refreshTemplates = async () => {
   }
 };
 
-onMounted(loadFromStorage);
+onMounted(() => {
+  loadFromStorage();
+  store.dispatch('whatsappInteractiveTemplates/get');
+});
 
 defineExpose({ addToRecent });
 </script>
@@ -242,8 +287,71 @@ defineExpose({ addToRecent });
       </button>
     </div>
 
+    <div
+      v-if="shouldShowInteractiveTemplates"
+      class="mb-3 rounded-lg bg-n-background outline-n-container outline outline-1 p-2.5"
+    >
+      <div class="flex items-center justify-between gap-2 px-1 pb-2">
+        <div class="flex items-center gap-2 min-w-0">
+          <Icon
+            icon="i-lucide-message-square-plus"
+            class="size-4 text-n-brand shrink-0"
+          />
+          <p class="text-sm font-medium text-n-slate-12 truncate">
+            {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.EXISTING_TITLE') }}
+          </p>
+        </div>
+        <Icon
+          v-if="interactiveUIFlags.isFetching"
+          icon="i-lucide-loader-circle"
+          class="size-4 animate-spin text-n-slate-10 shrink-0"
+        />
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <button
+          v-for="template in filteredInteractiveTemplates"
+          :key="template.id"
+          type="button"
+          class="group flex min-w-0 items-start justify-between gap-3 rounded-lg p-3 text-left outline outline-1 outline-n-weak bg-n-alpha-black2 hover:outline-n-brand hover:bg-n-brand/5 transition-colors disabled:opacity-50 disabled:cursor-wait"
+          :disabled="interactiveUIFlags.isDispatching"
+          :title="
+            t('WHATSAPP_TEMPLATES.INTERACTIVE.SEND_ACTION', {
+              name: template.name,
+            })
+          "
+          :aria-label="
+            t('WHATSAPP_TEMPLATES.INTERACTIVE.SEND_ACTION', {
+              name: template.name,
+            })
+          "
+          @click="onSelectInteractiveTemplate(template)"
+        >
+          <span class="min-w-0 flex-1">
+            <span class="block text-sm font-medium text-n-slate-12 truncate">
+              {{ template.name }}
+            </span>
+            <span class="block text-xs text-n-slate-10 line-clamp-2 mt-1">
+              {{ template.body_text }}
+            </span>
+            <span
+              class="mt-2 inline-flex max-w-full rounded-md bg-n-slate-3 px-2 py-0.5 text-xs text-n-slate-11"
+            >
+              <span class="truncate">
+                {{ getInteractiveTypeLabel(template) }}
+              </span>
+            </span>
+          </span>
+          <Icon
+            icon="i-lucide-send"
+            class="size-4 mt-0.5 text-n-brand opacity-80 group-hover:opacity-100 shrink-0"
+          />
+        </button>
+      </div>
+    </div>
+
     <!-- Template List -->
     <div
+      v-if="displayedTemplates.length || !shouldShowInteractiveTemplates"
       class="bg-n-background outline-n-container outline outline-1 rounded-lg max-h-[18.75rem] overflow-y-auto p-2.5"
     >
       <div

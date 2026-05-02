@@ -223,6 +223,18 @@ All under `app/javascript/dashboard/components-next/mobile/`:
 
 ## Changelog
 
+### 2026-05-02 — WhatsApp Interactive Template Conversation Context
+
+Implemented in the mobile reply box only:
+
+- Passed the existing `currentChat.id` into the shared WhatsApp templates modal as `conversationId`.
+- This keeps the mobile path connected to the same desktop dispatch endpoint for saved interactive messages, instead of creating mobile-only send logic.
+
+Result:
+
+- Saved WhatsApp interactive messages shown in the shared templates picker can be sent from mobile conversation view without hitting the "open a conversation" guard.
+- Desktop behavior remains unchanged.
+
 ### 2026-04-22 — InfinitePay Push-Only Toggle no Mobile Settings
 
 Implemented in the mobile settings shell only:

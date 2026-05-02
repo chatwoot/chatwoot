@@ -4,7 +4,7 @@ import { ref, computed, defineEmits } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import Button from 'dashboard/components-next/button/Button.vue';
 
-const { modalType, closeOnBackdropClick, onClose } = defineProps({
+const { modalType, closeOnBackdropClick, onClose, size } = defineProps({
   closeOnBackdropClick: { type: Boolean, default: true },
   showCloseButton: { type: Boolean, default: true },
   onClose: { type: Function, default: undefined },
@@ -15,6 +15,7 @@ const { modalType, closeOnBackdropClick, onClose } = defineProps({
 
 const emit = defineEmits(['close']);
 const show = defineModel('show', { type: Boolean, default: false });
+const customWidthModal = computed(() => size === 'modal-bigger');
 
 const modalClassName = computed(() => {
   const modalClassNameMap = {
@@ -69,7 +70,8 @@ useEventListener(document, 'keydown', onKeydown);
       <div
         class="relative max-h-full overflow-auto bg-n-alpha-3 shadow-md modal-container rtl:text-right skip-context-menu"
         :class="{
-          'rounded-xl w-[37.5rem]': !fullWidth,
+          'rounded-xl w-[37.5rem]': !fullWidth && !customWidthModal,
+          'rounded-xl': !fullWidth && customWidthModal,
           'items-center rounded-none flex h-full justify-center w-full':
             fullWidth,
           [size]: true,
@@ -123,7 +125,7 @@ useEventListener(document, 'keydown', onKeydown);
 }
 
 .modal-bigger {
-  @apply w-full max-w-[50rem];
+  @apply w-full max-w-[72rem];
 }
 
 .modal-mask.right-aligned {

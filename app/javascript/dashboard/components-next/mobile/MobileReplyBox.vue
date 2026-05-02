@@ -608,6 +608,7 @@ const onSendWhatsAppReply = async messagePayload => {
 
     <WhatsappTemplates
       :inbox-id="currentChat?.inbox_id"
+      :conversation-id="currentChat?.id"
       :show="showWhatsAppTemplatesModal"
       @on-send="onSendWhatsAppReply"
       @cancel="showWhatsAppTemplatesModal = false"

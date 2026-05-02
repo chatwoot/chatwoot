@@ -108,3 +108,9 @@ e publica no bucket/config pública do Socialwise:
 - O envio interativo foi encaixado sem alterar o pipeline nativo de templates oficiais.
 - O fluxo de InfinitePay continua funcionando sem CTA selecionada.
 - A renderização do dashboard foi estendida para `cta_url` sem mexer no suporte existente a `button` e `list`.
+
+## Correção 2026-05-02 — envio direto e picker
+
+- O endpoint `dispatch_to_conversation` agora tem permissão explícita em `WhatsappInteractiveTemplatePolicy`; antes o Pundit levantava `NoMethodError` e a API respondia 500 ao clicar para enviar uma mensagem interativa salva.
+- O modal principal de templates agora lista mensagens interativas salvas junto da busca, separadas dos templates oficiais da Meta, permitindo clicar nelas para enviar diretamente à conversa.
+- O builder de mensagem interativa usa modal mais largo e grid responsivo para evitar campos cortados e rolagem horizontal.

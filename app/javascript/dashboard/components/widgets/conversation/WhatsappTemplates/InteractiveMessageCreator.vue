@@ -329,10 +329,12 @@ onMounted(() => {
 
 <template>
   <div class="w-full">
-    <div class="flex gap-5 items-start max-h-[calc(88vh-12rem)] min-h-[26rem]">
+    <div
+      class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_20rem] gap-6 items-start max-h-[calc(88vh-12rem)] min-h-[26rem]"
+    >
       <!-- Form Column (internal scroll keeps modal bounded) -->
       <div
-        class="flex-1 min-w-0 space-y-4 overflow-y-auto overscroll-contain pr-3 -mr-3 pb-1 max-h-full"
+        class="min-w-0 space-y-4 overflow-y-auto overscroll-contain pr-3 -mr-3 pb-1 max-h-full"
       >
         <!-- Template Type Selector (horizontal compact) -->
         <div>
@@ -340,13 +342,13 @@ onMounted(() => {
             {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_LABEL') }}
           </label>
           <div
-            class="flex p-1 rounded-xl bg-n-alpha-black2 outline outline-1 outline-n-weak"
+            class="grid grid-cols-1 sm:grid-cols-3 gap-1 p-1 rounded-xl bg-n-alpha-black2 outline outline-1 outline-n-weak"
           >
             <button
               v-for="opt in TYPE_OPTIONS"
               :key="opt.value"
               type="button"
-              class="flex-1 flex items-center justify-center gap-1.5 px-2 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer"
+              class="min-w-0 flex items-center justify-center gap-1.5 px-2 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer"
               :class="
                 templateType === opt.value
                   ? 'bg-white dark:bg-n-solid-3 text-n-brand shadow-sm'
@@ -385,12 +387,12 @@ onMounted(() => {
           <label class="block text-sm font-semibold text-n-slate-12 mb-2">
             {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.HEADER_LABEL') }}
           </label>
-          <div class="flex gap-2 mb-2.5">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-2.5">
             <button
               v-for="opt in HEADER_TYPE_OPTIONS"
               :key="opt.value"
               type="button"
-              class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg outline outline-1 transition-colors cursor-pointer"
+              class="min-w-0 flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg outline outline-1 transition-colors cursor-pointer"
               :class="
                 headerType === opt.value
                   ? 'bg-n-brand/10 outline-n-brand text-n-brand'
@@ -517,7 +519,9 @@ onMounted(() => {
 
         <!-- CTA Button + URL (cta_url only) -->
         <div v-if="isCta" class="space-y-3">
-          <div class="grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-2">
+          <div
+            class="grid grid-cols-1 lg:grid-cols-[11rem_minmax(0,1fr)] gap-2"
+          >
             <div>
               <label
                 class="block text-xs font-semibold text-n-slate-11 uppercase tracking-wider mb-1.5"
@@ -542,11 +546,11 @@ onMounted(() => {
                   {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_LABEL') }}
                 </label>
                 <div
-                  class="flex p-0.5 rounded-lg bg-n-alpha-black2 outline outline-1 outline-n-weak"
+                  class="grid grid-cols-2 p-0.5 rounded-lg bg-n-alpha-black2 outline outline-1 outline-n-weak"
                 >
                   <button
                     type="button"
-                    class="flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium transition-all cursor-pointer"
+                    class="min-w-0 flex items-center justify-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium transition-all cursor-pointer"
                     :class="
                       urlMode === URL_MODE_DYNAMIC
                         ? 'bg-white dark:bg-n-solid-3 text-n-brand shadow-sm'
@@ -555,11 +559,13 @@ onMounted(() => {
                     @click="urlMode = URL_MODE_DYNAMIC"
                   >
                     <Icon icon="i-lucide-zap" class="size-3" />
-                    {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_DYNAMIC') }}
+                    <span class="truncate">
+                      {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_DYNAMIC') }}
+                    </span>
                   </button>
                   <button
                     type="button"
-                    class="flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium transition-all cursor-pointer"
+                    class="min-w-0 flex items-center justify-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium transition-all cursor-pointer"
                     :class="
                       urlMode === URL_MODE_STATIC
                         ? 'bg-white dark:bg-n-solid-3 text-n-brand shadow-sm'
@@ -568,7 +574,9 @@ onMounted(() => {
                     @click="urlMode = URL_MODE_STATIC"
                   >
                     <Icon icon="i-lucide-link" class="size-3" />
-                    {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_STATIC') }}
+                    <span class="truncate">
+                      {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_STATIC') }}
+                    </span>
                   </button>
                 </div>
               </div>
@@ -689,7 +697,7 @@ onMounted(() => {
 
       <!-- Preview Column -->
       <div
-        class="w-64 shrink-0 self-start space-y-4 max-h-full overflow-y-auto pb-1"
+        class="w-full min-w-0 lg:w-80 self-start space-y-4 max-h-full overflow-y-auto pb-1"
       >
         <div>
           <p class="text-sm font-semibold text-n-slate-12 mb-3">
