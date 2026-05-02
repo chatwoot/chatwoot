@@ -1,0 +1,793 @@
+- generic [ref=e8]:
+  - complementary [ref=e9]:
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - img [ref=e13]
+        - button "DraAmandaSousa" [ref=e16]:
+          - generic [ref=e17]: DraAmandaSousa
+      - generic [ref=e18]:
+        - link "Pesquisar..." [ref=e19] [cursor=pointer]:
+          - /url: /app/accounts/3/search
+          - generic [ref=e21]: Pesquisar...
+        - button [ref=e23] [cursor=pointer]
+    - navigation [ref=e25]:
+      - list [ref=e26]:
+        - listitem [ref=e27] [cursor=pointer]:
+          - button "Caixa de Entrada 99+" [ref=e28]:
+            - generic [ref=e31]:
+              - generic [ref=e32]: Caixa de Entrada
+              - generic [ref=e33]: 99+
+        - listitem [ref=e34] [cursor=pointer]:
+          - button "Conversas" [ref=e35]:
+            - generic [ref=e39]: Conversas
+          - list [ref=e41]:
+            - listitem [ref=e42]:
+              - link "Todas as conversas" [ref=e43]:
+                - /url: /app/accounts/3/dashboard
+                - generic [ref=e44]: Todas as conversas
+            - listitem [ref=e45]:
+              - link "Menções" [ref=e46]:
+                - /url: /app/accounts/3/mentions/conversations
+                - generic [ref=e47]: Menções
+            - listitem [ref=e48]:
+              - link "Participantes" [ref=e49]:
+                - /url: /app/accounts/3/participating/conversations
+                - generic [ref=e50]: Participantes
+            - listitem [ref=e51]:
+              - link "Não atendidas" [ref=e52]:
+                - /url: /app/accounts/3/unattended/conversations
+                - generic [ref=e53]: Não atendidas
+            - generic:
+              - generic: Pastas
+            - list [ref=e54]:
+              - generic [ref=e55]:
+                - listitem [ref=e56]:
+                  - link "Todos" [ref=e57]:
+                    - /url: /app/accounts/3/custom_view/2
+                    - generic [ref=e58]: Todos
+                - listitem [ref=e59]:
+                  - link "Pendentes Ana_Inteligente" [ref=e60]:
+                    - /url: /app/accounts/3/custom_view/3
+                    - generic [ref=e61]: Pendentes Ana_Inteligente
+            - generic:
+              - generic: Canais
+            - list [ref=e62]:
+              - generic [ref=e63]:
+                - listitem [ref=e64]:
+                  - link "Ana_Inteligente" [ref=e65]:
+                    - /url: /app/accounts/3/inbox/29
+                    - generic [ref=e68]: Ana_Inteligente
+                - listitem [ref=e69]:
+                  - link "azul" [ref=e70]:
+                    - /url: /app/accounts/3/inbox/114
+                    - generic [ref=e73]: azul
+                - listitem [ref=e76]:
+                  - link "azul" [ref=e77]:
+                    - /url: /app/accounts/3/inbox/115
+                    - generic [ref=e80]: azul
+                - listitem [ref=e83]:
+                  - link "Azul" [ref=e84]:
+                    - /url: /app/accounts/3/inbox/113
+                    - generic [ref=e87]: Azul
+                - listitem [ref=e90]:
+                  - link "Azul Amanda" [ref=e91]:
+                    - /url: /app/accounts/3/inbox/111
+                    - generic [ref=e94]: Azul Amanda
+                - listitem [ref=e97]:
+                  - link "Azul Amanda" [ref=e98]:
+                    - /url: /app/accounts/3/inbox/112
+                    - generic [ref=e101]: Azul Amanda
+                - listitem [ref=e104]:
+                  - link "Dra_Amanda_Azul_(exclusivo)" [ref=e105]:
+                    - /url: /app/accounts/3/inbox/97
+                    - generic [ref=e108]: Dra_Amanda_Azul_(exclusivo)
+                - listitem [ref=e109]:
+                  - link "Dra. Amanda Sousa - Advocacia Previdenciária" [ref=e110]:
+                    - /url: /app/accounts/3/inbox/109
+                    - generic [ref=e113]: Dra. Amanda Sousa - Advocacia Previdenciária
+                - listitem [ref=e114]:
+                  - link "dra.amandasousadv" [ref=e115]:
+                    - /url: /app/accounts/3/inbox/108
+                    - generic [ref=e118]: dra.amandasousadv
+                - listitem [ref=e119]:
+                  - link "Sem robô" [ref=e120]:
+                    - /url: /app/accounts/3/inbox/116
+                    - generic [ref=e123]: Sem robô
+                - listitem [ref=e124]:
+                  - link "WhatsApp - ANA" [ref=e125]:
+                    - /url: /app/accounts/3/inbox/4
+                    - generic [ref=e128]: WhatsApp - ANA
+                - listitem [ref=e129]:
+                  - link "Witdev Email" [ref=e130]:
+                    - /url: /app/accounts/3/inbox/110
+                    - generic [ref=e133]: Witdev Email
+                - listitem [ref=e136]:
+                  - link "witdevoficial" [ref=e137]:
+                    - /url: /app/accounts/3/inbox/102
+                    - generic [ref=e140]: witdevoficial
+              - generic:
+                - img
+            - generic:
+              - generic: Etiquetas
+            - list [ref=e143]:
+              - generic [ref=e144]:
+                - listitem [ref=e145]:
+                  - link "Ana_Inteligente" [ref=e146]:
+                    - /url: /app/accounts/3/label/Ana_Inteligente
+                    - generic [ref=e149]: Ana_Inteligente
+                - listitem [ref=e150]:
+                  - link "jusmonitoria_monitoramento" [ref=e151]:
+                    - /url: /app/accounts/3/label/jusmonitoria_monitoramento
+                    - generic [ref=e154]: jusmonitoria_monitoramento
+        - listitem [ref=e155] [cursor=pointer]:
+          - button "Contatos" [ref=e156]:
+            - generic [ref=e160]: Contatos
+        - listitem [ref=e161] [cursor=pointer]:
+          - button "Relatórios" [ref=e162]:
+            - generic [ref=e166]: Relatórios
+        - listitem [ref=e167] [cursor=pointer]:
+          - button "Campanhas" [ref=e168]:
+            - generic [ref=e172]: Campanhas
+        - listitem [ref=e173] [cursor=pointer]:
+          - button "Central de Ajuda" [ref=e174]:
+            - generic [ref=e178]: Central de Ajuda
+        - listitem [ref=e179] [cursor=pointer]:
+          - button "Configurações" [ref=e180]:
+            - generic [ref=e184]: Configurações
+    - button "Dra.Amanda amandasousa22.adv@gmail.com" [ref=e188] [cursor=pointer]:
+      - img [ref=e191]:
+        - generic [ref=e192]: D
+      - generic [ref=e193]:
+        - generic [ref=e194]: Dra.Amanda
+        - generic [ref=e195]: amandasousa22.adv@gmail.com
+  - main [ref=e198]:
+    - generic [ref=e199]:
+      - generic [ref=e200]:
+        - generic [ref=e201]:
+          - generic [ref=e202]:
+            - heading "Conversas" [level=1] [ref=e203]
+            - generic [ref=e204]: Todas
+          - generic [ref=e205]:
+            - button [ref=e207] [cursor=pointer]
+            - button [ref=e210] [cursor=pointer]
+            - button [ref=e212] [cursor=pointer]
+        - generic [ref=e214]:
+          - button [ref=e215] [cursor=pointer]:
+            - img [ref=e216]
+          - list [ref=e218]:
+            - listitem [ref=e219]:
+              - generic [ref=e220] [cursor=pointer]:
+                - text: Minhas
+                - generic [ref=e222]: "1554"
+            - listitem [ref=e223]:
+              - generic [ref=e224] [cursor=pointer]:
+                - text: Não atribuídas
+                - generic [ref=e226]: "1048"
+            - listitem [ref=e227]:
+              - generic [ref=e228] [cursor=pointer]:
+                - text: Todos
+                - generic [ref=e230]: "2607"
+          - button [ref=e231] [cursor=pointer]:
+            - img [ref=e232]
+        - generic [ref=e235]:
+          - generic [ref=e237] [cursor=pointer]:
+            - img [ref=e240]:
+              - img "Yasmin Lopes" [ref=e241]
+            - generic [ref=e242]:
+              - generic "dra.amandasousadv" [ref=e244]:
+                - generic [ref=e246]: dra.amandasousadv
+              - heading "Yasmin Lopes" [level=4] [ref=e247]
+              - generic [ref=e248]: Muito obrigada ❤️❤️ uma ótima noite De
+              - generic [ref=e251]: 21h • 21h
+          - generic [ref=e253] [cursor=pointer]:
+            - img [ref=e256]:
+              - generic [ref=e257]: S
+            - generic [ref=e258]:
+              - generic "WhatsApp - ANA" [ref=e260]:
+                - generic [ref=e262]: WhatsApp - ANA
+              - heading "SR" [level=4] [ref=e263]
+              - generic [ref=e265]:
+                - img [ref=e266]
+                - text: Mensagem de áudio
+              - generic [ref=e270]: 2mo • 23h
+          - generic [ref=e272] [cursor=pointer]:
+            - img [ref=e275]:
+              - img "🦋🪢" [ref=e276]
+            - generic [ref=e277]:
+              - generic "dra.amandasousadv" [ref=e279]:
+                - generic [ref=e281]: dra.amandasousadv
+              - heading "🦋🪢" [level=4] [ref=e282]
+              - generic [ref=e284]:
+                - img [ref=e285]
+                - text: Mensagem de imagem
+              - generic [ref=e289]: 2d • 2d
+          - generic [ref=e291] [cursor=pointer]:
+            - img [ref=e294]:
+              - img "Witalo Rocha" [ref=e295]
+            - generic [ref=e296]:
+              - generic "dra.amandasousadv" [ref=e298]:
+                - generic [ref=e300]: dra.amandasousadv
+              - heading "Witalo Rocha" [level=4] [ref=e301]
+              - generic [ref=e302]:
+                - img [ref=e303]
+                - text: O Zeus
+              - generic [ref=e307]: 3mo • 2d
+          - generic [ref=e309] [cursor=pointer]:
+            - img [ref=e312]:
+              - img "Oktoberfest de Igrejinha" [ref=e313]
+            - generic [ref=e314]:
+              - generic "dra.amandasousadv" [ref=e316]:
+                - generic [ref=e318]: dra.amandasousadv
+              - heading "Oktoberfest de Igrejinha" [level=4] [ref=e319]
+              - generic [ref=e320]:
+                - img [ref=e321]
+                - text: Ansiosa pela programação musical de outubro, só esperando sair para comprar as passagens 😍
+              - generic [ref=e325]: 1mo • 3d
+          - generic [ref=e327] [cursor=pointer]:
+            - img [ref=e330]:
+              - generic [ref=e331]: JF
+            - generic [ref=e332]:
+              - generic "WhatsApp - ANA" [ref=e334]:
+                - generic [ref=e336]: WhatsApp - ANA
+              - heading "Joaquim Filho" [level=4] [ref=e337]
+              - generic [ref=e338]: Chamo sim
+              - generic [ref=e341]: 6mo • 3d
+          - generic [ref=e343] [cursor=pointer]:
+            - img [ref=e346]:
+              - generic [ref=e347]: Z
+            - generic [ref=e348]:
+              - generic "WhatsApp - ANA" [ref=e350]:
+                - generic [ref=e352]: WhatsApp - ANA
+              - heading "Zeline" [level=4] [ref=e353]
+              - generic [ref=e354]:
+                - img [ref=e355]
+                - text: Para a análise pode enviar a sua prova, espelho com a sua nota e recurso administrativo caso tenha feito
+              - generic [ref=e359]: 5d • 5d
+          - generic [ref=e361] [cursor=pointer]:
+            - img [ref=e364]:
+              - generic [ref=e365]: W
+            - generic [ref=e366]:
+              - generic "Sem robô" [ref=e368]:
+                - generic [ref=e370]: Sem robô
+              - heading "Witalo" [level=4] [ref=e371]
+              - generic [ref=e372]:
+                - img [ref=e373]
+                - text: tbm acho melhor comprrar lá
+              - generic [ref=e377]: 12d • 9d
+          - generic [ref=e379] [cursor=pointer]:
+            - img [ref=e382]:
+              - generic [ref=e383]: +
+            - generic [ref=e384]:
+              - generic "Sem robô" [ref=e386]:
+                - generic [ref=e388]: Sem robô
+              - heading "+53103076323577" [level=4] [ref=e389]
+              - generic [ref=e390]:
+                - img [ref=e391]
+                - text: ‎Amanda Sousa Advocacia e Consultoria Jurídica agradece seu contato. Informe sua dúvida que responderemos em breve.
+              - generic [ref=e395]: 9d • 9d
+          - generic [ref=e397] [cursor=pointer]:
+            - img [ref=e400]:
+              - generic [ref=e401]: A
+            - generic [ref=e402]:
+              - generic "Sem robô" [ref=e404]:
+                - generic [ref=e406]: Sem robô
+              - heading "Amanda" [level=4] [ref=e407]
+              - generic [ref=e408]:
+                - img [ref=e409]
+                - text: http://apps.rms.adv.br:580/~~SRV-TP02/
+              - generic [ref=e413]: 11d • 9d
+          - generic [ref=e415] [cursor=pointer]:
+            - img [ref=e418]:
+              - generic [ref=e419]: +
+            - generic [ref=e420]:
+              - generic "Sem robô" [ref=e422]:
+                - generic [ref=e424]: Sem robô
+              - heading "+22256554111198" [level=4] [ref=e425]
+              - generic [ref=e426]:
+                - img [ref=e427]
+                - text: "Para elaborar o contrato irei precisar: NOME COMPLETO, IDENTIDADE, CPF, PROFISSÃO, ESTADO CIVIL, ENDEREÇO COMPLETO COM CEP, forma de pagamento. (Informe o endereço que você tenha o comprovante de residência atualizado em seu nome) Nesse primeiro não precisa enviar os documentos, só transcrever as informações solicitadas"
+              - generic [ref=e431]: 9d • 9d
+      - generic [ref=e433]:
+        - generic [ref=e434]:
+          - generic [ref=e435]:
+            - img [ref=e437]:
+              - generic [ref=e438]: W
+            - generic [ref=e439]:
+              - generic [ref=e441]: Witalo
+              - generic "WhatsApp - ANA" [ref=e443]:
+                - generic [ref=e445]: WhatsApp - ANA
+          - generic [ref=e447]:
+            - generic [ref=e449]:
+              - button "Resolver" [ref=e450] [cursor=pointer]:
+                - generic [ref=e451]: Resolver
+              - button [ref=e452] [cursor=pointer]
+            - button [ref=e455] [cursor=pointer]
+        - list [ref=e458]:
+          - listitem [ref=e459]:
+            - generic [ref=e460] [cursor=pointer]: Mensagens
+          - listitem [ref=e461]:
+            - generic [ref=e462] [cursor=pointer]: WoofedCRM
+        - generic [ref=e463]:
+          - generic [ref=e464]:
+            - list [ref=e465]:
+              - listitem [ref=e466]
+              - generic [ref=e468]:
+                - img [ref=e471]:
+                  - generic [ref=e472]: R
+                - generic [ref=e474]:
+                  - paragraph [ref=e477]: O prazo para Mandado de Segurança é de 120 dias. Para ação ordinária, o prazo é de até 5 anos. Se nenhum botão atender, digite sua solicitação
+                  - generic [ref=e479]:
+                    - paragraph [ref=e483]: Mandado De Segurança
+                    - paragraph [ref=e487]: Previdencario
+                    - paragraph [ref=e491]: Recurso Adm Prova Oa
+                  - generic [ref=e493]:
+                    - img [ref=e494]
+                    - generic [ref=e496]: Mensagem Interativa do WhatsApp
+                  - time [ref=e499]: Apr 6, 10:08 PM
+              - generic [ref=e504]:
+                - paragraph [ref=e507] [cursor=pointer]: O prazo para Mandado de Segurança é de 120 dias. Para ação ordinária, o prazo é de até 5 anos. Se nenhum botão atender, digite sua solicitação
+                - paragraph [ref=e510]: Mandado De Segurança
+                - time [ref=e513]: Apr 6, 10:08 PM
+              - generic [ref=e515]:
+                - img [ref=e518]:
+                  - generic [ref=e519]: R
+                - generic [ref=e521]:
+                  - img "Imagem de Cabeçalho do WhatsApp" [ref=e523]
+                  - blockquote [ref=e526]:
+                    - paragraph [ref=e527]:
+                      - text: Sr(a)
+                      - emphasis [ref=e528]: Witalo
+                      - text: ","
+                      - text: Somos especializados em mandado de segurança e ação ordinária agimos em todo o pais.
+                      - text: • Especialidade OAB
+                      - text: Processo analisado direto pela nossa especialista.
+                  - generic [ref=e530]:
+                    - paragraph [ref=e534]: Falar com a Dra
+                    - paragraph [ref=e538]: Tenho Direito?
+                    - paragraph [ref=e542]: Finalizar
+                  - paragraph [ref=e545]: Dra. Amanda Sousa Advocacia e Consultoria Jurídica™
+                  - generic [ref=e547]:
+                    - img [ref=e548]
+                    - generic [ref=e550]: Mensagem Interativa do WhatsApp
+                  - time [ref=e553]: Apr 6, 10:08 PM
+              - generic [ref=e558]:
+                - blockquote [ref=e561] [cursor=pointer]:
+                  - paragraph [ref=e562]:
+                    - text: Sr(a)
+                    - emphasis [ref=e563]: Witalo
+                    - text: ","
+                    - text: Somos especializados em mandado de segurança e ação ordinária agimos em todo o pais.
+                    - text: • Especialidade OAB
+                    - text: Processo analisado direto pela nossa especialista.
+                - paragraph [ref=e566]: Tenho Direito?
+                - time [ref=e569]: Apr 6, 10:08 PM
+              - generic "Bot reagiu com 🧐" [ref=e573]
+              - generic [ref=e575]:
+                - img [ref=e578]:
+                  - generic [ref=e579]: R
+                - generic [ref=e581]:
+                  - generic [ref=e583]:
+                    - paragraph [ref=e584]: 🔎 Saiba Mais
+                    - paragraph [ref=e585]: Você sabia que existem dois caminhos judiciais para questionar injustiças na prova da OAB?
+                    - paragraph [ref=e586]:
+                      - text: "➡️ Mandado de Segurança (MS):"
+                      - text: Indicado quando há uma violação clara de direito (como erro material, ilegalidade ou arbitrariedade).
+                      - text: "📌 Prazo: deve ser impetrado em até 120 dias a partir da divulgação do resultado ou do ato ilegal."
+                    - paragraph [ref=e587]:
+                      - text: "➡️ Ação Ordinária:"
+                      - text: Mais abrangente, permite discutir ilegalidades ou nulidades na prova, mesmo após o prazo do Mandado de Segurança.
+                      - text: "📌 Prazo: pode ser proposta em até 5 anos, conforme a lei aplicada contra a Fazenda Pública."
+                    - paragraph [ref=e588]: ⚖️ Ambas as medidas podem garantir a sua aprovação caso haja erro ou injustiça.
+                    - paragraph [ref=e589]: 👉 Clique abaixo e saiba como proteger o seu direito.
+                  - generic [ref=e591]:
+                    - paragraph [ref=e595]: Atendimento Humano
+                    - paragraph [ref=e599]: Enviar Prova
+                  - generic [ref=e601]:
+                    - img [ref=e602]
+                    - generic [ref=e604]: Mensagem Interativa do WhatsApp
+                  - time [ref=e607]: Apr 6, 10:08 PM
+              - generic [ref=e612]:
+                - generic [ref=e614] [cursor=pointer]:
+                  - paragraph [ref=e615]: 🔎 Saiba Mais
+                  - paragraph [ref=e616]: Você sabia que existem dois caminhos judiciais para questionar injustiças na prova da OAB?
+                  - paragraph [ref=e617]:
+                    - text: "➡️ Mandado de Segurança (MS):"
+                    - text: Indicado quando há uma violação clara de direito (como erro material, ilegalidade ou arbitrariedade).
+                    - text: "📌 Prazo: deve ser impetrado em até 120 dias a partir da divulgação do resultado ou do ato ilegal."
+                  - paragraph [ref=e618]:
+                    - text: "➡️ Ação Ordinária:"
+                    - text: Mais abrangente, permite discutir ilegalidades ou nulidades na prova, mesmo após o prazo do Mandado de Segurança.
+                    - text: "📌 Prazo: pode ser proposta em até 5 anos, conforme a lei aplicada contra a Fazenda Pública."
+                  - paragraph [ref=e619]: ⚖️ Ambas as medidas podem garantir a sua aprovação caso haja erro ou injustiça.
+                  - paragraph [ref=e620]: 👉 Clique abaixo e saiba como proteger o seu direito.
+                - paragraph [ref=e623]: Atendimento Humano
+                - time [ref=e626]: Apr 6, 10:09 PM
+              - generic "Bot reagiu com 👍" [ref=e630]
+              - generic [ref=e632]:
+                - img [ref=e635]:
+                  - generic [ref=e636]: R
+                - generic [ref=e638]:
+                  - generic [ref=e640]:
+                    - paragraph [ref=e641]:
+                      - text: 🤝 Olá!
+                      - text: Obrigado por entrar em contato com a Dra. Amanda Sousa – Advocacia & Consultoria Jurídica.
+                    - paragraph [ref=e642]:
+                      - text: 📌 Sua mensagem já foi recebida e logo será atendida pessoalmente.
+                      - text: "Enquanto isso, fique à vontade: você está dando o primeiro passo para transformar sua história com a OAB. 🚀✨"
+                    - paragraph [ref=e643]: 👩‍⚖️ Em instantes estarei com você!
+                  - time [ref=e646]: Apr 6, 10:09 PM
+              - generic [ref=e651]:
+                - paragraph [ref=e654]: Uhhi
+                - time [ref=e657]: Apr 6, 10:09 PM
+              - generic [ref=e659]:
+                - img [ref=e662]:
+                  - generic [ref=e663]: R
+                - generic [ref=e665]:
+                  - paragraph [ref=e668]: Olá! Meu nome é Ana, assistente especialista do escritório da Dra. Amanda Sousa. Caso tenha interesse em recorrer por Mandado de Segurança, você pode enviar a sua prova, o espelho com a sua nota e o recurso administrativo. Se nenhum botão atender, digite sua solicitação
+                  - generic [ref=e670]:
+                    - paragraph [ref=e674]: Enviar Documentos
+                    - paragraph [ref=e678]: Prazos e Requisitos
+                  - generic [ref=e680]:
+                    - img [ref=e681]
+                    - generic [ref=e683]: Mensagem Interativa do WhatsApp
+                  - time [ref=e686]: Apr 6, 10:09 PM
+              - generic [ref=e691]:
+                - paragraph [ref=e694]: Olá bom
+                - time [ref=e697]: Apr 16, 11:33 AM
+              - generic [ref=e699]:
+                - img [ref=e702]:
+                  - generic [ref=e703]: R
+                - generic [ref=e705]:
+                  - paragraph [ref=e708]: Oi! Sou a Ana, e posso ajudar com assuntos jurídicos. Você quer falar com a nossa advogada Dra. Amanda ou tem dúvidas sobre alguma ação específica? Posso encaminhar para atendimento humano caso precise. Se nenhum botão atender, digite sua solicitação
+                  - generic [ref=e710]:
+                    - paragraph [ref=e714]: Falar com atendente
+                    - paragraph [ref=e718]: Mandado de Segurança
+                  - generic [ref=e720]:
+                    - img [ref=e721]
+                    - generic [ref=e723]: Mensagem Interativa do WhatsApp
+                  - time [ref=e726]: Apr 16, 11:33 AM
+              - generic [ref=e731]:
+                - paragraph [ref=e734]: Pode ajudar com mandado de segurança pra prova da caixa econômica?
+                - time [ref=e737]: Apr 16, 11:33 AM
+              - generic [ref=e739]:
+                - img [ref=e742]:
+                  - generic [ref=e743]: R
+                - generic [ref=e745]:
+                  - img "Imagem de Cabeçalho do WhatsApp" [ref=e747]
+                  - blockquote [ref=e750]:
+                    - paragraph [ref=e751]:
+                      - text: Sr(a)
+                      - emphasis [ref=e752]: Witalo
+                      - text: ","
+                      - text: Somos especializados em mandado de segurança e ação ordinária agimos em todo o pais.
+                      - text: • Especialidade OAB
+                      - text: Processo analisado direto pela nossa especialista.
+                  - generic [ref=e754]:
+                    - paragraph [ref=e758]: Falar com a Dra
+                    - paragraph [ref=e762]: Tenho Direito?
+                    - paragraph [ref=e766]: Finalizar
+                  - paragraph [ref=e769]: Dra. Amanda Sousa Advocacia e Consultoria Jurídica™
+                  - generic [ref=e771]:
+                    - img [ref=e772]
+                    - generic [ref=e774]: Mensagem Interativa do WhatsApp
+                  - time [ref=e777]: Apr 16, 11:34 AM
+              - generic [ref=e782]:
+                - paragraph [ref=e785]: Olá Dra bom dia
+                - time [ref=e788]: Apr 20, 11:40 AM
+              - generic [ref=e790]:
+                - img [ref=e793]:
+                  - generic [ref=e794]: R
+                - generic [ref=e796]:
+                  - paragraph [ref=e799]: Bom dia! Em que posso ajudar hoje? Você prefere falar com a Dra. Amanda ou tem dúvida sobre uma ação específica no direito? Posso encaminhar para atendimento humano se precisar. Se nenhum botão atender, digite sua solicitação
+                  - generic [ref=e801]:
+                    - paragraph [ref=e805]: Falar com atendente
+                    - paragraph [ref=e809]: Mandado de Segurança
+                  - generic [ref=e811]:
+                    - img [ref=e812]
+                    - generic [ref=e814]: Mensagem Interativa do WhatsApp
+                  - time [ref=e817]: Apr 20, 11:40 AM
+              - generic [ref=e822]:
+                - paragraph [ref=e825]: Olá Dra bom dia
+                - time [ref=e828]: Apr 20, 2:55 PM
+              - generic [ref=e830]:
+                - img [ref=e833]:
+                  - generic [ref=e834]: R
+                - generic [ref=e836]:
+                  - paragraph [ref=e839]: Bom dia! Posso te ajudar com questões do direito. Você quer falar com a Dra. Amanda ou prefere orientar sobre uma ação específica (por exemplo, Mandado de Segurança ou recurso do Exame da OAB/FGV)? Se nenhum botão atender, digite sua solicitação
+                  - generic [ref=e841]:
+                    - paragraph [ref=e845]: Falar com atendente
+                    - paragraph [ref=e849]: Mandado de Segurança
+                    - paragraph [ref=e853]: Recurso OAB/FGV
+                  - generic [ref=e855]:
+                    - img [ref=e856]
+                    - generic [ref=e858]: Mensagem Interativa do WhatsApp
+                  - time [ref=e861]: Apr 20, 2:55 PM
+              - generic [ref=e866]:
+                - paragraph [ref=e869]: Olá
+                - time [ref=e872]: May 1, 5:43 PM
+              - generic [ref=e874]:
+                - img [ref=e877]:
+                  - generic [ref=e878]: R
+                - generic [ref=e880]:
+                  - paragraph [ref=e883]: Olá! Sou a Ana e estou aqui para ajudar. Nossa especialista, Dra. Amanda, está pronta para orientar você em questões jurídicas. Como posso te auxiliar hoje? Se nenhum botão atender, digite sua solicitação
+                  - generic [ref=e885]:
+                    - paragraph [ref=e889]: Dúvida Jurídica
+                    - paragraph [ref=e893]: Falar com atendente
+                  - generic [ref=e895]:
+                    - img [ref=e896]
+                    - generic [ref=e898]: Mensagem Interativa do WhatsApp
+                  - time [ref=e901]: May 1, 5:44 PM
+            - generic [ref=e907]:
+              - generic [ref=e908]:
+                - button "Responder Mensagem Privada" [ref=e909] [cursor=pointer]:
+                  - generic [ref=e910]: Responder
+                  - generic [ref=e911]: Mensagem Privada
+                - generic [ref=e913]:
+                  - button [ref=e915] [cursor=pointer]
+                  - button [ref=e917] [cursor=pointer]
+              - paragraph [ref=e924]: Shift + enter para nova linha. Digite '/' para selecionar uma Resposta Pronta.
+              - generic [ref=e925]:
+                - generic [ref=e926]:
+                  - button [ref=e927] [cursor=pointer]
+                  - generic [ref=e929]:
+                    - button [ref=e930] [cursor=pointer]
+                    - button [ref=e933]
+                  - button [ref=e934] [cursor=pointer]
+                  - button [ref=e936] [cursor=pointer]
+                  - button [ref=e938] [cursor=pointer]
+                  - button [ref=e940] [cursor=pointer]
+                - button "Enviar (↵)" [disabled] [ref=e943]:
+                  - generic [ref=e944]: Enviar (↵)
+              - generic [ref=e1402]:
+                - button [ref=e1403] [cursor=pointer]
+                - generic [ref=e1406]:
+                  - button "Voltar aos Templates" [ref=e1436] [cursor=pointer]
+                  - generic [ref=e1407]:
+                    - heading "Criar Template" [level=2] [ref=e1438]
+                    - paragraph [ref=e1409]: Crie um novo template do WhatsApp para aprovação da Meta
+          - generic [ref=e945]:
+            - button [ref=e946] [cursor=pointer]
+            - button [ref=e948] [cursor=pointer]
+      - generic [ref=e952]:
+        - generic [ref=e954]:
+          - generic [ref=e955]: Contatos
+          - button [ref=e957] [cursor=pointer]
+        - generic [ref=e960]:
+          - img [ref=e963]:
+            - generic [ref=e964]: W
+          - generic [ref=e965]:
+            - generic [ref=e966]:
+              - heading "Witalo" [level=3] [ref=e967] [cursor=pointer]: Witalo
+              - link [ref=e971] [cursor=pointer]:
+                - /url: /app/accounts/3/contacts/1447
+            - generic [ref=e973]:
+              - link "witalo_rocha@hotmail.com" [ref=e975] [cursor=pointer]:
+                - /url: mailto:witalo_rocha@hotmail.com
+                - img [ref=e976]
+                - generic "witalo_rocha@hotmail.com" [ref=e978]
+                - button [ref=e979]
+                - button [ref=e981]
+              - link "+558597550136" [ref=e984] [cursor=pointer]:
+                - /url: tel:+558597550136
+                - img [ref=e985]
+                - generic "+558597550136" [ref=e987]
+                - button [ref=e988]
+                - button [ref=e990]
+              - generic [ref=e993]:
+                - img [ref=e994]
+                - generic [ref=e996]: jm_lead_0560f299-898e-4313-8f44-f5fcdec29c3c
+              - generic [ref=e998]:
+                - img [ref=e999]
+                - generic [ref=e1001]: Indisponível
+                - button [ref=e1002] [cursor=pointer]
+          - generic [ref=e1004]:
+            - button [ref=e1006] [cursor=pointer]
+            - button [ref=e1008] [cursor=pointer]
+            - button [ref=e1011] [cursor=pointer]
+            - button [ref=e1014] [cursor=pointer]
+        - generic [ref=e1017]:
+          - generic [ref=e1019]:
+            - button "Ações da conversa" [ref=e1020]:
+              - heading "Ações da conversa" [level=5] [ref=e1022]
+              - img [ref=e1025] [cursor=pointer]
+            - generic [ref=e1028]:
+              - generic [ref=e1029]:
+                - generic [ref=e1031]:
+                  - generic [ref=e1032]: Agente atribuído
+                  - button "Atribuir a mim" [ref=e1033] [cursor=pointer]:
+                    - generic [ref=e1035]: Atribuir a mim
+                - button "Nenhum" [ref=e1038] [cursor=pointer]:
+                  - heading "Nenhum" [level=4] [ref=e1041]
+              - generic [ref=e1042]:
+                - generic [ref=e1045]: Time atribuído
+                - button "Nenhum" [ref=e1048] [cursor=pointer]:
+                  - heading "Nenhum" [level=4] [ref=e1051]
+              - generic [ref=e1052]:
+                - generic [ref=e1055]: Prioridade
+                - button "Nenhuma" [ref=e1058] [cursor=pointer]:
+                  - heading "Nenhuma" [level=4] [ref=e1061]
+              - generic [ref=e1064]: Etiquetas da conversa
+              - button "Adicionar etiquetas" [ref=e1068] [cursor=pointer]:
+                - generic [ref=e1070]: Adicionar etiquetas
+          - generic [ref=e1072]:
+            - button "Atributos do contato" [ref=e1073]:
+              - heading "Atributos do contato" [level=5] [ref=e1075]
+              - img [ref=e1078] [cursor=pointer]
+            - generic [ref=e1084]:
+              - heading "Status Typebot" [level=4] [ref=e1086]:
+                - generic [ref=e1088]:
+                  - text: Status Typebot
+                  - img [ref=e1089]
+              - button "Selecione o valor" [ref=e1094] [cursor=pointer]:
+                - heading "Selecione o valor" [level=4] [ref=e1097]
+          - button "Informação da conversa" [ref=e1100]:
+            - heading "Informação da conversa" [level=5] [ref=e1102]
+            - img [ref=e1105] [cursor=pointer]
+          - generic [ref=e1108]:
+            - button "Conversas anteriores" [ref=e1109]:
+              - heading "Conversas anteriores" [level=5] [ref=e1111]
+              - img [ref=e1114] [cursor=pointer]
+            - generic [ref=e1118]:
+              - generic [ref=e1120] [cursor=pointer]:
+                - generic "Sem robô" [ref=e1122]:
+                  - generic [ref=e1124]: Sem robô
+                - heading "Witalo" [level=4] [ref=e1125]
+                - generic [ref=e1126]:
+                  - img [ref=e1127]
+                  - text: tbm acho melhor comprrar lá
+                - generic [ref=e1131]: 12d • 9d
+              - generic [ref=e1133] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1135]:
+                  - generic [ref=e1137]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1138]
+                - generic [ref=e1139]: Use o modo itent e me mande o mandado de seg
+                - generic [ref=e1142]: 2mo • 29d
+              - generic [ref=e1144] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1146]:
+                  - generic [ref=e1148]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1149]
+                - generic [ref=e1150]: Olá! Tenho interesse e queria mais informações, por favor.
+                - generic [ref=e1153]: 2mo • 1mo
+              - generic [ref=e1155] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1157]:
+                  - generic [ref=e1159]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1160]
+                - generic [ref=e1161]:
+                  - img [ref=e1162]
+                  - text: "Pagamento Confirmado! Ola Witalo, seu pagamento foi recebido com sucesso! Detalhes da transacao: Descricao: TESTPAG Valor: R$ 1.40 Forma de pagamento: Cartao de Credito Codigo: 19d3107c-833c-46cf-a3f4-8b36688e9ccb Comprovante: https://recibo.infinitepay.io/19d3107c-833c-46cf-a3f4-8b36688e9ccb Obrigado pela confianca!"
+                - generic [ref=e1166]: 2mo • 1mo
+              - generic [ref=e1168] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1170]:
+                  - generic [ref=e1172]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1173]
+                - generic [ref=e1174]:
+                  - img [ref=e1175]
+                  - text: "Pagamento Confirmado! Ola Witalo, seu pagamento foi recebido com sucesso! Detalhes da transacao: Descricao: PAGAMENTO-WITALO Valor: R$ 3.42 Forma de pagamento: Cartao de Credito Codigo: 495a8b88-e408-4998-9a8b-2ebe3414b536 Comprovante: https://recibo.infinitepay.io/495a8b88-e408-4998-9a8b-2ebe3414b536 Obrigado pela confianca!"
+                - generic [ref=e1179]: 2mo • 1mo
+              - generic [ref=e1181] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1183]:
+                  - generic [ref=e1185]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1186]
+                - generic [ref=e1187]:
+                  - img [ref=e1188]
+                  - text: "Pagamento Confirmado! Ola Witalo, seu pagamento foi recebido com sucesso! Detalhes da transacao: Descricao: analise Valor: R$ 34.36 Forma de pagamento: Cartao 12x Codigo: c9b57d90-a384-4e06-9381-39c399711a4e Comprovante: https://recibo.infinitepay.io/c9b57d90-a384-4e06-9381-39c399711a4e Obrigado pela confianca!"
+                - generic [ref=e1192]: 2mo • 1mo
+              - generic [ref=e1194] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1196]:
+                  - generic [ref=e1198]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1199]
+                - generic [ref=e1200]: https://recibo.infinitepay.io/dd1afc80-f6c9-43de-83c1-1b2bfd5a2ec6
+                - generic [ref=e1203]: 2mo • 2mo
+              - generic [ref=e1205] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1207]:
+                  - generic [ref=e1209]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1210]
+                - generic [ref=e1211]:
+                  - img [ref=e1212]
+                  - text: "🔥 Olá! Este é meu atendimento pessoal e já recebi sua mensagem. Se eu demorar um pouco para responder, peço desculpas desde já, pois a demanda está maior que o normal. Eu mesmo faço toda a análise, atendimento e elaboração dos recursos, prezando SEMPRE pela qualidade. Essa sempre foi minha marca registrada e sempre será! ✨ ‼️ Aviso importante: Por favor, envie todo o material consolidado em um único arquivo PDF, com o comprovante do PIX enviado separadamente. 🕒 Mudança de prazo: Prazo para análise: 2h Prazo para elaboração de recurso: 24h (ambos contados a partir da data e hora do envio do comprovante do PIX) Reforço meu compromisso absoluto em honrar esses prazos sem jamais abrir mão da qualidade. Se necessário, posso sacrificar um pouco da velocidade em benefício da excelência, pois meu objetivo é sempre o melhor resultado para os meus alunos. Agradeço pela compreensão e confiança! Vamos juntos rumo à aprovação! 🦅🔥 #AprovadosEmChamas #MétodoFênix"
+                - generic [ref=e1216]: 2mo • 2mo
+              - generic [ref=e1218] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1220]:
+                  - generic [ref=e1222]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1223]
+                - generic [ref=e1224]:
+                  - img [ref=e1225]
+                  - text: "🔥 Olá! Este é meu atendimento pessoal e já recebi sua mensagem. Se eu demorar um pouco para responder, peço desculpas desde já, pois a demanda está maior que o normal. Eu mesmo faço toda a análise, atendimento e elaboração dos recursos, prezando SEMPRE pela qualidade. Essa sempre foi minha marca registrada e sempre será! ✨ ‼️ Aviso importante: Por favor, envie todo o material consolidado em um único arquivo PDF, com o comprovante do PIX enviado separadamente. 🕒 Mudança de prazo: Prazo para análise: 2h Prazo para elaboração de recurso: 24h (ambos contados a partir da data e hora do envio do comprovante do PIX) Reforço meu compromisso absoluto em honrar esses prazos sem jamais abrir mão da qualidade. Se necessário, posso sacrificar um pouco da velocidade em benefício da excelência, pois meu objetivo é sempre o melhor resultado para os meus alunos. Agradeço pela compreensão e confiança! Vamos juntos rumo à aprovação! 🦅🔥 #AprovadosEmChamas #MétodoFênix"
+                - generic [ref=e1229]: 2mo • 2mo
+              - generic [ref=e1231] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1233]:
+                  - generic [ref=e1235]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1236]
+                - generic [ref=e1237]: Olá
+                - generic [ref=e1240]: 2mo • 2mo
+              - generic [ref=e1242] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1244]:
+                  - generic [ref=e1246]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1247]
+                - generic [ref=e1248]:
+                  - img [ref=e1249]
+                  - text: "Template: pix - Código: 57944155000101"
+                - generic [ref=e1253]: 2mo • 2mo
+              - generic [ref=e1255] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1257]:
+                  - generic [ref=e1259]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1260]
+                - generic [ref=e1261]: Mandado de emprego OAB
+                - generic [ref=e1264]: 2mo • 2mo
+              - generic [ref=e1266] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1268]:
+                  - generic [ref=e1270]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1271]
+                - generic [ref=e1272]:
+                  - img [ref=e1273]
+                  - text: Atribuído a Ana Abigail por Socialwise Bot
+                - generic [ref=e1277]: 2mo • 2mo
+              - generic [ref=e1279] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1281]:
+                  - generic [ref=e1283]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1284]
+                - generic [ref=e1285]:
+                  - img [ref=e1286]
+                  - text: Atribuído a Ana Abigail por Socialwise Bot
+                - generic [ref=e1290]: 2mo • 2mo
+              - generic [ref=e1292] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1294]:
+                  - generic [ref=e1296]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1297]
+                - generic [ref=e1298]:
+                  - img [ref=e1299]
+                  - text: Atribuído a Ana Abigail por Socialwise Bot
+                - generic [ref=e1303]: 2mo • 2mo
+              - generic [ref=e1305] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1307]:
+                  - generic [ref=e1309]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1310]
+                - paragraph [ref=e1311]:
+                  - img [ref=e1312]
+                  - text: Nova Mensagem
+                - generic [ref=e1316]: 2mo • 2mo
+              - generic [ref=e1318] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1320]:
+                  - generic [ref=e1322]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1323]
+                - generic [ref=e1324]:
+                  - img [ref=e1325]
+                  - text: "Ótimo! Vamos continuar. Selecione uma opção abaixo: 1️⃣ Requisitos e Prazos 2️⃣ Falar com Especialista 3️⃣ Atendimento Humano Se nenhum botão atender, digite sua solicitação"
+                - generic [ref=e1329]: 3mo • 2mo
+              - generic [ref=e1331] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1333]:
+                  - generic [ref=e1335]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1336]
+                - generic [ref=e1337]: WROCHA
+                - generic [ref=e1340]: 3mo • 3mo
+              - generic [ref=e1342] [cursor=pointer]:
+                - generic "WhatsApp - ANA" [ref=e1344]:
+                  - generic [ref=e1346]: WhatsApp - ANA
+                - heading "Witalo" [level=4] [ref=e1347]
+                - generic [ref=e1348]:
+                  - img [ref=e1349]
+                  - text: Sr(a) Witalo, Somos especializados em mandado de segurança e ação ordinária agimos em todo o pais. • Especialidade OAB Processo analisado direto pela nossa especialista.
+                - generic [ref=e1353]: 3mo • 3mo
+          - generic [ref=e1355]:
+            - button "Participantes da conversa" [ref=e1356]:
+              - heading "Participantes da conversa" [level=5] [ref=e1358]
+              - img [ref=e1361] [cursor=pointer]
+            - generic [ref=e1364]:
+              - generic [ref=e1366]:
+                - paragraph [ref=e1368]: Ninguém está participando!
+                - button [ref=e1369] [cursor=pointer]
+              - button "Participar da conversa" [ref=e1372] [cursor=pointer]:
+                - generic [ref=e1374]: Participar da conversa
+          - generic [ref=e1376]:
+            - button "Macros" [ref=e1377]:
+              - heading "Macros" [level=5] [ref=e1379]
+              - img [ref=e1382] [cursor=pointer]
+            - generic [ref=e1386]:
+              - paragraph [ref=e1387]: Nenhuma macro encontrada
+              - link "Adicionar uma nova macro" [ref=e1388] [cursor=pointer]:
+                - /url: /app/accounts/3/settings/macros
+                - button "Adicionar uma nova macro" [ref=e1389]:
+                  - generic [ref=e1391]: Adicionar uma nova macro
+          - button "Notas do contato" [ref=e1394]:
+            - heading "Notas do contato" [level=5] [ref=e1396]
+            - img [ref=e1399] [cursor=pointer]

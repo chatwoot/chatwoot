@@ -1,0 +1,21 @@
+- generic [ref=e3]:
+  - main [ref=e4]:
+    - generic [ref=e5]:
+      - img "Chatwit" [ref=e26]
+      - heading "Entrar no Chatwit" [level=2] [ref=e6]
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - generic [ref=e11]: E-mail
+        - textbox "nome@empresa.com.br" [ref=e14]: amandasousa22.adv@gmail.com
+      - generic [ref=e15]:
+        - generic [ref=e16]:
+          - text: Senha
+          - paragraph [ref=e17]:
+            - link "Esqueceu-se da sua senha?" [ref=e18] [cursor=pointer]:
+              - /url: /app/auth/reset/password
+        - generic [ref=e20]:
+          - textbox "Senha" [ref=e21]: WiT4mNqk8Twjhita8s87d7uAoI1yHbKztalouAoI1yHbKztalochahjlomo5ktgA
+          - button "Show password" [ref=e22] [cursor=pointer]
+      - button "Entrar" [ref=e24] [cursor=pointer]:
+        - generic [ref=e25]: Entrar
+  - generic [ref=e29]: Invalid login credentials. Please try again.
