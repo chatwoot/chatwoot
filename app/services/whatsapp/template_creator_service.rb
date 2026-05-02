@@ -15,7 +15,13 @@ class Whatsapp::TemplateCreatorService
     'contact_name' => 'Maria Silva',
     'contact_phone' => '+5511999887766',
     'contact_email' => 'maria@email.com',
-    'company_name' => 'Empresa ABC'
+    'company_name' => 'Empresa ABC',
+    'lista_processos' => <<~TEXT.strip
+      📄 Processo 0008838-62.2026.4.05.8400
+      15 novas movimentações encontradas
+      26/04/2026 00:14:37 - publicado citacao e intimacao em 22/04/2026.
+      📌 Acesse: https://app.jusmonitoria.com/processos?caso=8280d983-5b78-4460-8b78-6b7388385d44
+    TEXT
   }.freeze
 
   def initialize(whatsapp_channel)
@@ -35,21 +41,37 @@ class Whatsapp::TemplateCreatorService
 
   def validate_params(params)
     errors = []
+    validate_required_fields(errors, params)
+    validate_text_lengths(errors, params)
+    validate_buttons(errors, params[:buttons])
+    errors
+  end
+
+  def validate_required_fields(errors, params)
     errors << 'Name is required' if params[:name].blank?
     errors << 'Name must be snake_case (lowercase letters, numbers, underscores)' if params[:name].present? && !params[:name].match?(NAME_PATTERN)
     errors << 'Body text is required' if params[:body_text].blank?
-    errors << "Body text exceeds #{BODY_MAX_LENGTH} characters" if params[:body_text].present? && params[:body_text].length > BODY_MAX_LENGTH
-    errors << "Header text exceeds #{HEADER_MAX_LENGTH} characters" if params[:header_text].present? && params[:header_text].length > HEADER_MAX_LENGTH
-    errors << "Footer text exceeds #{FOOTER_MAX_LENGTH} characters" if params[:footer_text].present? && params[:footer_text].length > FOOTER_MAX_LENGTH
+  end
 
-    if params[:buttons].present?
-      errors << "Maximum #{MAX_BUTTONS} buttons allowed" if params[:buttons].length > MAX_BUTTONS
-      params[:buttons].each_with_index do |btn, idx|
-        errors << "Button #{idx + 1} text exceeds #{BUTTON_TEXT_MAX_LENGTH} characters" if btn[:text].present? && btn[:text].length > BUTTON_TEXT_MAX_LENGTH
-      end
+  def validate_text_lengths(errors, params)
+    validate_max_length(errors, 'Body text', params[:body_text], BODY_MAX_LENGTH)
+    validate_max_length(errors, 'Header text', params[:header_text], HEADER_MAX_LENGTH)
+    validate_max_length(errors, 'Footer text', params[:footer_text], FOOTER_MAX_LENGTH)
+  end
+
+  def validate_buttons(errors, buttons)
+    return if buttons.blank?
+
+    errors << "Maximum #{MAX_BUTTONS} buttons allowed" if buttons.length > MAX_BUTTONS
+    buttons.each_with_index do |btn, idx|
+      validate_max_length(errors, "Button #{idx + 1} text", btn[:text], BUTTON_TEXT_MAX_LENGTH)
     end
+  end
 
-    errors
+  def validate_max_length(errors, label, value, max_length)
+    return if value.blank? || value.length <= max_length
+
+    errors << "#{label} exceeds #{max_length} characters"
   end
 
   def build_request_body(params)
@@ -80,8 +102,16 @@ class Whatsapp::TemplateCreatorService
   def build_body_component(text)
     component = { type: 'BODY', text: text }
     variables = extract_variables(text)
-    component[:example] = { body_text: [variables.map { |v| example_for(v) }] } if variables.any?
+    component[:example] = build_named_body_examples(variables) if variables.any?
     component
+  end
+
+  def build_named_body_examples(variables)
+    {
+      body_text_named_params: variables.map do |variable|
+        { param_name: variable, example: example_for(variable) }
+      end
+    }
   end
 
   def build_footer_component(text)

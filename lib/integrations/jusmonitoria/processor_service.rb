@@ -10,7 +10,7 @@ class Integrations::Jusmonitoria::ProcessorService
   LABEL_PREFIX = 'jusmonitoria_'
 
   def perform
-    Rails.logger.info "[JUSMONITORIA] === ProcessorService.perform ==="
+    Rails.logger.info '[JUSMONITORIA] === ProcessorService.perform ==='
     Rails.logger.info "[JUSMONITORIA] Event: #{event_name}, Hook: #{hook.id}"
 
     case event_name
@@ -28,7 +28,7 @@ class Integrations::Jusmonitoria::ProcessorService
       Rails.logger.info "[JUSMONITORIA] Unhandled event: #{event_name}"
     end
 
-    Rails.logger.info "[JUSMONITORIA] === ProcessorService.perform completed ==="
+    Rails.logger.info '[JUSMONITORIA] === ProcessorService.perform completed ==='
   rescue StandardError => e
     Rails.logger.error "[JUSMONITORIA] ProcessorService error: #{e.class}: #{e.message}"
     Rails.logger.error "[JUSMONITORIA] Backtrace: #{e.backtrace.first(5).join("\n")}"
@@ -168,7 +168,9 @@ class Integrations::Jusmonitoria::ProcessorService
   def inbox_payload(inbox)
     return {} if inbox.blank?
 
-    { id: inbox.id, name: inbox.name, channel_type: inbox.channel_type }
+    payload = { id: inbox.id, name: inbox.name, channel_type: inbox.channel_type }
+    payload[:provider] = inbox.channel.provider if inbox.whatsapp? && inbox.channel.respond_to?(:provider)
+    payload
   end
 
   # --- Sync Response Processing (bidirecional) ---

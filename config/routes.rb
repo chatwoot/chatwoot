@@ -228,6 +228,8 @@ Rails.application.routes.draw do
             post :register_webhook, on: :member
             post :reset_secret, on: :member
             resources :whatsapp_templates, only: [:create], module: 'inboxes'
+            resource :jusmonitoria_alert_template, only: [:show, :create],
+                                                   controller: 'inboxes/jusmonitoria_alert_template'
             resource :evolution_go, only: [:show, :create, :destroy], controller: 'inboxes/evolution_go' do
               post :resolve_conflict
             end
@@ -268,6 +270,7 @@ Rails.application.routes.draw do
             end
           end
           resource :notification_settings, only: [:show, :update]
+          resource :jusmonitoria_movement_email, only: [:create]
 
           resources :teams do
             resources :team_members, only: [:index, :create] do
