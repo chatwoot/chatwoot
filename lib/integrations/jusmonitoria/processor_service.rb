@@ -9,30 +9,20 @@ class Integrations::Jusmonitoria::ProcessorService
 
   LABEL_PREFIX = 'jusmonitoria_'
 
+  EVENT_HANDLERS = {
+    'contact.created' => :handle_contact_created,
+    'contact.updated' => :handle_contact_updated,
+    'message.created' => :handle_message_created,
+    'conversation.updated' => :handle_conversation_updated,
+    'conversation.resolved' => :handle_conversation_resolved
+  }.freeze
+
   def perform
-    Rails.logger.info '[JUSMONITORIA] === ProcessorService.perform ==='
-    Rails.logger.info "[JUSMONITORIA] Event: #{event_name}, Hook: #{hook.id}"
-
-    case event_name
-    when 'contact.created'
-      handle_contact_created
-    when 'contact.updated'
-      handle_contact_updated
-    when 'message.created'
-      handle_message_created
-    when 'conversation.updated'
-      handle_conversation_updated
-    when 'conversation.resolved'
-      handle_conversation_resolved
-    else
-      Rails.logger.info "[JUSMONITORIA] Unhandled event: #{event_name}"
-    end
-
-    Rails.logger.info '[JUSMONITORIA] === ProcessorService.perform completed ==='
+    log_processing_started
+    dispatch_event
+    log_processing_completed
   rescue StandardError => e
-    Rails.logger.error "[JUSMONITORIA] ProcessorService error: #{e.class}: #{e.message}"
-    Rails.logger.error "[JUSMONITORIA] Backtrace: #{e.backtrace.first(5).join("\n")}"
-    ChatwootExceptionTracker.new(e, account: hook&.account).capture_exception
+    capture_processing_error(e)
   end
 
   private
@@ -90,44 +80,65 @@ class Integrations::Jusmonitoria::ProcessorService
 
   def handle_conversation_updated
     conversation = event_data[:conversation]
-    changed_attributes = event_data[:changed_attributes]
-    return if conversation.blank? || changed_attributes.blank?
-
-    # changed_attributes comes from BaseListener as an Array of Hashes:
-    # [{ "label_list" => { previous_value: [...], current_value: [...] } }]
-    label_changes = if changed_attributes.is_a?(Array)
-                      changed_attributes.find { |attr| attr.key?('label_list') || attr.key?(:label_list) }
-                                        &.values&.first
-                    else
-                      changed_attributes['label_list'] || changed_attributes[:label_list]
-                    end
-    return if label_changes.blank?
+    label_changes = extract_label_changes(event_data[:changed_attributes])
+    return if conversation.blank? || label_changes.blank?
 
     previous_labels = Array(label_changes[:previous_value] || label_changes[0])
     current_labels = Array(label_changes[:current_value] || label_changes[1])
 
-    added_labels = current_labels - previous_labels
-    removed_labels = previous_labels - current_labels
+    forward_label_changes(conversation, current_labels - previous_labels, 'tag.added', 'Tag added')
+    forward_label_changes(conversation, previous_labels - current_labels, 'tag.removed', 'Tag removed')
+  end
 
-    # Forward tag.added for JusMonitorIA labels
-    added_labels.each do |label|
-      next unless label.to_s.start_with?(LABEL_PREFIX)
+  def extract_label_changes(changed_attributes)
+    return if changed_attributes.blank?
+    return extract_label_changes_from_array(changed_attributes) if changed_attributes.is_a?(Array)
 
-      Rails.logger.info "[JUSMONITORIA] Tag added: #{label} on conversation #{conversation.id}"
+    extract_label_changes_from_hash(changed_attributes)
+  end
+
+  def extract_label_changes_from_array(changed_attributes)
+    changed_attributes.find { |attribute| label_changes_attribute?(attribute) }&.values&.first
+  end
+
+  def extract_label_changes_from_hash(changed_attributes)
+    changed_attributes['label_list'] || changed_attributes[:label_list]
+  end
+
+  def label_changes_attribute?(attribute)
+    attribute.key?('label_list') || attribute.key?(:label_list)
+  end
+
+  def dispatch_event
+    handler = EVENT_HANDLERS[event_name]
+    handler.present? ? send(handler) : log_unhandled_event
+  end
+
+  def log_processing_started
+    Rails.logger.info '[JUSMONITORIA] === ProcessorService.perform ==='
+    Rails.logger.info "[JUSMONITORIA] Event: #{event_name}, Hook: #{hook.id}"
+  end
+
+  def log_processing_completed
+    Rails.logger.info '[JUSMONITORIA] === ProcessorService.perform completed ==='
+  end
+
+  def capture_processing_error(error)
+    Rails.logger.error "[JUSMONITORIA] ProcessorService error: #{error.class}: #{error.message}"
+    Rails.logger.error "[JUSMONITORIA] Backtrace: #{error.backtrace.first(5).join("\n")}"
+    ChatwootExceptionTracker.new(error, account: hook&.account).capture_exception
+  end
+
+  def log_unhandled_event
+    Rails.logger.info "[JUSMONITORIA] Unhandled event: #{event_name}"
+  end
+
+  def forward_label_changes(conversation, labels, event_type, log_action)
+    labels.select { |label| label.to_s.start_with?(LABEL_PREFIX) }.each do |label|
+      Rails.logger.info "[JUSMONITORIA] #{log_action}: #{label} on conversation #{conversation.id}"
+
       Integrations::Jusmonitoria::WebhookForwarderService.forward_event(
-        event_type: 'tag.added',
-        payload: { tag: label, conversation: conversation_payload(conversation) },
-        account: conversation.account
-      )
-    end
-
-    # Forward tag.removed for JusMonitorIA labels
-    removed_labels.each do |label|
-      next unless label.to_s.start_with?(LABEL_PREFIX)
-
-      Rails.logger.info "[JUSMONITORIA] Tag removed: #{label} on conversation #{conversation.id}"
-      Integrations::Jusmonitoria::WebhookForwarderService.forward_event(
-        event_type: 'tag.removed',
+        event_type: event_type,
         payload: { tag: label, conversation: conversation_payload(conversation) },
         account: conversation.account
       )
