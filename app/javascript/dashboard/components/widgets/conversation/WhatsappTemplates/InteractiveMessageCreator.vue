@@ -84,6 +84,12 @@ const isQuickRepliesOnly = computed(
   () => templateType.value === 'quick_replies'
 );
 
+const activeTypeHintKey = computed(
+  () =>
+    TYPE_OPTIONS.find(opt => opt.value === templateType.value)?.hintKey ||
+    TYPE_OPTIONS[0].hintKey
+);
+
 const maxQuickReplies = computed(() => (isCta.value ? 2 : 3));
 const canAddQuickReply = computed(
   () => quickReplies.value.length < maxQuickReplies.value
@@ -295,51 +301,38 @@ onMounted(() => {
 
 <template>
   <div class="w-full">
-    <div class="flex gap-6">
-      <!-- Form Column -->
-      <div class="flex-1 space-y-5 min-w-0">
-        <!-- Template Type Selector -->
+    <div class="flex gap-5 items-start max-h-[calc(88vh-12rem)] min-h-[26rem]">
+      <!-- Form Column (internal scroll keeps modal bounded) -->
+      <div
+        class="flex-1 min-w-0 space-y-4 overflow-y-auto overscroll-contain pr-3 -mr-3 pb-1 max-h-full"
+      >
+        <!-- Template Type Selector (horizontal compact) -->
         <div>
           <label class="block text-sm font-semibold text-n-slate-12 mb-2">
             {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_LABEL') }}
           </label>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <div
+            class="flex p-1 rounded-xl bg-n-alpha-black2 outline outline-1 outline-n-weak"
+          >
             <button
               v-for="opt in TYPE_OPTIONS"
               :key="opt.value"
               type="button"
-              class="flex flex-col items-start gap-1.5 p-3 rounded-xl outline outline-1 transition-all text-left cursor-pointer"
+              class="flex-1 flex items-center justify-center gap-1.5 px-2 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer"
               :class="
                 templateType === opt.value
-                  ? 'bg-n-brand/10 outline-n-brand'
-                  : 'bg-n-alpha-black2 outline-n-weak hover:outline-n-slate-6'
+                  ? 'bg-white dark:bg-n-solid-3 text-n-brand shadow-sm'
+                  : 'text-n-slate-11 hover:text-n-slate-12'
               "
               @click="templateType = opt.value"
             >
-              <Icon
-                :icon="opt.icon"
-                class="size-5"
-                :class="
-                  templateType === opt.value
-                    ? 'text-n-brand'
-                    : 'text-n-slate-11'
-                "
-              />
-              <span
-                class="text-sm font-semibold"
-                :class="
-                  templateType === opt.value
-                    ? 'text-n-brand'
-                    : 'text-n-slate-12'
-                "
-              >
-                {{ t(opt.titleKey) }}
-              </span>
-              <span class="text-xs text-n-slate-10 leading-snug">
-                {{ t(opt.hintKey) }}
-              </span>
+              <Icon :icon="opt.icon" class="size-4 shrink-0" />
+              <span class="truncate">{{ t(opt.titleKey) }}</span>
             </button>
           </div>
+          <p class="mt-1.5 text-xs text-n-slate-10 leading-snug">
+            {{ t(activeTypeHintKey) }}
+          </p>
         </div>
 
         <!-- Name -->
@@ -449,7 +442,7 @@ onMounted(() => {
           </label>
           <textarea
             v-model="bodyText"
-            rows="5"
+            rows="4"
             :maxlength="BODY_MAX"
             :placeholder="t('WHATSAPP_TEMPLATES.INTERACTIVE.BODY_PLACEHOLDER')"
             class="reset-base w-full px-3 py-2.5 rounded-xl bg-n-alpha-black2 text-n-slate-12 text-sm outline outline-1 outline-n-weak hover:outline-n-slate-6 focus:outline-n-brand resize-none transition-all"
@@ -494,136 +487,95 @@ onMounted(() => {
           </p>
         </div>
 
-        <!-- CTA Button (only for cta_url) -->
-        <div
-          v-if="isCta"
-          class="space-y-3 rounded-xl bg-n-alpha-black2 outline outline-1 outline-n-weak p-4"
-        >
-          <div class="flex items-center gap-2">
-            <Icon
-              icon="i-lucide-mouse-pointer-click"
-              class="size-4 text-n-brand"
-            />
-            <p class="text-sm font-semibold text-n-slate-12">
-              {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.BUTTON_LABEL') }}
-            </p>
-          </div>
-
-          <input
-            v-model="buttonText"
-            type="text"
-            :maxlength="BUTTON_TEXT_MAX"
-            :placeholder="
-              t('WHATSAPP_TEMPLATES.INTERACTIVE.BUTTON_PLACEHOLDER')
-            "
-            class="reset-base w-full h-10 px-3 rounded-xl bg-white dark:bg-n-solid-3 text-n-slate-12 text-sm outline outline-1 outline-n-weak hover:outline-n-slate-6 focus:outline-n-brand transition-all"
-          />
-          <p v-if="errors.button" class="text-xs text-n-ruby-11">
-            {{ errors.button }}
-          </p>
-
-          <!-- URL mode toggle -->
-          <div>
-            <p
-              class="text-xs font-semibold text-n-slate-11 uppercase tracking-wider mb-2"
-            >
-              {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_LABEL') }}
-            </p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <button
-                type="button"
-                class="flex items-start gap-2 p-3 rounded-lg outline outline-1 transition-all text-left cursor-pointer"
-                :class="
-                  urlMode === URL_MODE_DYNAMIC
-                    ? 'bg-n-brand/10 outline-n-brand'
-                    : 'bg-white dark:bg-n-solid-3 outline-n-weak hover:outline-n-slate-6'
+        <!-- CTA Button + URL (cta_url only) -->
+        <div v-if="isCta" class="space-y-3">
+          <div class="grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-2">
+            <div>
+              <label
+                class="block text-xs font-semibold text-n-slate-11 uppercase tracking-wider mb-1.5"
+              >
+                {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.BUTTON_LABEL') }}
+              </label>
+              <input
+                v-model="buttonText"
+                type="text"
+                :maxlength="BUTTON_TEXT_MAX"
+                :placeholder="
+                  t('WHATSAPP_TEMPLATES.INTERACTIVE.BUTTON_PLACEHOLDER')
                 "
-                @click="urlMode = URL_MODE_DYNAMIC"
+                class="reset-base w-full h-10 px-3 rounded-xl bg-n-alpha-black2 text-n-slate-12 text-sm outline outline-1 outline-n-weak hover:outline-n-slate-6 focus:outline-n-brand transition-all"
+              />
+            </div>
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label
+                  class="text-xs font-semibold text-n-slate-11 uppercase tracking-wider"
+                >
+                  {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_LABEL') }}
+                </label>
+                <div
+                  class="flex p-0.5 rounded-lg bg-n-alpha-black2 outline outline-1 outline-n-weak"
+                >
+                  <button
+                    type="button"
+                    class="flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium transition-all cursor-pointer"
+                    :class="
+                      urlMode === URL_MODE_DYNAMIC
+                        ? 'bg-white dark:bg-n-solid-3 text-n-brand shadow-sm'
+                        : 'text-n-slate-11 hover:text-n-slate-12'
+                    "
+                    @click="urlMode = URL_MODE_DYNAMIC"
+                  >
+                    <Icon icon="i-lucide-zap" class="size-3" />
+                    {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_DYNAMIC') }}
+                  </button>
+                  <button
+                    type="button"
+                    class="flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium transition-all cursor-pointer"
+                    :class="
+                      urlMode === URL_MODE_STATIC
+                        ? 'bg-white dark:bg-n-solid-3 text-n-brand shadow-sm'
+                        : 'text-n-slate-11 hover:text-n-slate-12'
+                    "
+                    @click="urlMode = URL_MODE_STATIC"
+                  >
+                    <Icon icon="i-lucide-link" class="size-3" />
+                    {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_STATIC') }}
+                  </button>
+                </div>
+              </div>
+              <input
+                v-if="urlMode === URL_MODE_STATIC"
+                v-model="staticUrl"
+                type="url"
+                :placeholder="
+                  t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_STATIC_PLACEHOLDER')
+                "
+                class="reset-base w-full h-10 px-3 rounded-xl bg-n-alpha-black2 text-n-slate-12 text-sm outline outline-1 outline-n-weak hover:outline-n-slate-6 focus:outline-n-brand transition-all"
+                autocomplete="off"
+              />
+              <div
+                v-else
+                class="flex items-center gap-2 h-10 px-3 rounded-xl bg-n-slate-3 dark:bg-n-solid-2 text-n-slate-11 text-sm outline outline-1 outline-n-weak"
               >
                 <Icon
                   icon="i-lucide-zap"
-                  class="size-4 mt-0.5 shrink-0"
-                  :class="
-                    urlMode === URL_MODE_DYNAMIC
-                      ? 'text-n-brand'
-                      : 'text-n-slate-11'
-                  "
+                  class="size-3.5 text-n-amber-9 shrink-0"
                 />
-                <div class="min-w-0">
-                  <p
-                    class="text-sm font-medium"
-                    :class="
-                      urlMode === URL_MODE_DYNAMIC
-                        ? 'text-n-brand'
-                        : 'text-n-slate-12'
-                    "
-                  >
-                    {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_DYNAMIC') }}
-                  </p>
-                  <p class="text-xs text-n-slate-10 mt-0.5 leading-snug">
-                    {{
-                      t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_DYNAMIC_HINT')
-                    }}
-                  </p>
-                </div>
-              </button>
-              <button
-                type="button"
-                class="flex items-start gap-2 p-3 rounded-lg outline outline-1 transition-all text-left cursor-pointer"
-                :class="
-                  urlMode === URL_MODE_STATIC
-                    ? 'bg-n-brand/10 outline-n-brand'
-                    : 'bg-white dark:bg-n-solid-3 outline-n-weak hover:outline-n-slate-6'
-                "
-                @click="urlMode = URL_MODE_STATIC"
-              >
-                <Icon
-                  icon="i-lucide-link"
-                  class="size-4 mt-0.5 shrink-0"
-                  :class="
-                    urlMode === URL_MODE_STATIC
-                      ? 'text-n-brand'
-                      : 'text-n-slate-11'
-                  "
-                />
-                <div class="min-w-0">
-                  <p
-                    class="text-sm font-medium"
-                    :class="
-                      urlMode === URL_MODE_STATIC
-                        ? 'text-n-brand'
-                        : 'text-n-slate-12'
-                    "
-                  >
-                    {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_STATIC') }}
-                  </p>
-                  <p class="text-xs text-n-slate-10 mt-0.5 leading-snug">
-                    {{
-                      t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_STATIC_HINT')
-                    }}
-                  </p>
-                </div>
-              </button>
+                <span class="truncate">
+                  {{
+                    t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_MODE_DYNAMIC_HINT')
+                  }}
+                </span>
+              </div>
             </div>
           </div>
-
-          <div v-if="urlMode === URL_MODE_STATIC">
-            <label class="block text-xs font-semibold text-n-slate-11 mb-1.5">
-              {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_STATIC_LABEL') }}
-            </label>
-            <input
-              v-model="staticUrl"
-              type="url"
-              :placeholder="
-                t('WHATSAPP_TEMPLATES.INTERACTIVE.URL_STATIC_PLACEHOLDER')
-              "
-              class="reset-base w-full h-10 px-3 rounded-xl bg-white dark:bg-n-solid-3 text-n-slate-12 text-sm outline outline-1 outline-n-weak hover:outline-n-slate-6 focus:outline-n-brand transition-all"
-              autocomplete="off"
-            />
-            <p v-if="errors.staticUrl" class="mt-1 text-xs text-n-ruby-11">
-              {{ errors.staticUrl }}
-            </p>
-          </div>
+          <p v-if="errors.button" class="text-xs text-n-ruby-11">
+            {{ errors.button }}
+          </p>
+          <p v-if="errors.staticUrl" class="text-xs text-n-ruby-11">
+            {{ errors.staticUrl }}
+          </p>
         </div>
 
         <!-- Quick Replies Section -->
@@ -709,7 +661,7 @@ onMounted(() => {
 
       <!-- Preview Column -->
       <div
-        class="w-72 shrink-0 sticky top-0 self-start space-y-4 max-h-[calc(100vh-8rem)] overflow-y-auto"
+        class="w-64 shrink-0 self-start space-y-4 max-h-full overflow-y-auto pb-1"
       >
         <div>
           <p class="text-sm font-semibold text-n-slate-12 mb-3">
