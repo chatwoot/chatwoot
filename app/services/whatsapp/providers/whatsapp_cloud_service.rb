@@ -1,4 +1,6 @@
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
+  WHATSAPP_API_VERSION = 'v22.0'.freeze
+
   def send_message(phone_number, message)
     @message = message
 
@@ -22,8 +24,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       # SocialWise Flow: template oficial WhatsApp enviado via Agent Bot API
       template_payload = message.content_attributes['template_payload']
       send_template_from_payload(phone_number, message, template_payload)
-    else
-      send_text_message(phone_number, message) unless message.content.blank?
+    elsif message.content.present?
+      send_text_message(phone_number, message)
     end
   end
 
@@ -172,7 +174,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def media_url(media_id)
-    "#{api_base_path}/v13.0/#{media_id}"
+    "#{api_base_path}/#{whatsapp_api_version}/#{media_id}"
   end
 
   private
@@ -185,13 +187,16 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
   end
 
-  # TODO: See if we can unify the API versions and for both paths and make it consistent with out facebook app API versions
   def phone_id_path
-    "#{api_base_path}/v13.0/#{whatsapp_channel.provider_config['phone_number_id']}"
+    "#{api_base_path}/#{whatsapp_api_version}/#{whatsapp_channel.provider_config['phone_number_id']}"
   end
 
   def business_account_path
-    "#{api_base_path}/v14.0/#{whatsapp_channel.provider_config['business_account_id']}"
+    "#{api_base_path}/#{whatsapp_api_version}/#{whatsapp_channel.provider_config['business_account_id']}"
+  end
+
+  def whatsapp_api_version
+    GlobalConfigService.load('WHATSAPP_API_VERSION', WHATSAPP_API_VERSION)
   end
 
   # Sends a rich media message: image+caption when image_url is present, otherwise text with preview_url
@@ -271,7 +276,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     template_body = {
       name: template_info[:name],
       language: {
-        policy: 'deterministic',
         code: template_info[:lang_code]
       }
     }

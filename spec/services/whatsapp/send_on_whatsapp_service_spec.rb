@@ -44,7 +44,7 @@ describe Whatsapp::SendOnWhatsappService do
           type: 'template',
           template: {
             name: 'ticket_status_updated',
-            language: { 'policy': 'deterministic', 'code': 'en_US' },
+            language: { 'code': 'en_US' },
             components: [{ 'type': 'body',
                            'parameters': [{ 'type': 'text', parameter_name: 'last_name', 'text': 'Dale' },
                                           { 'type': 'text', parameter_name: 'ticket_id', 'text': '2332' }] }]
@@ -138,7 +138,7 @@ describe Whatsapp::SendOnWhatsappService do
           processed_params: { 'body' => { 'last_name' => 'Dale', 'ticket_id' => '2332' } }
         }
 
-        stub_request(:post, "https://graph.facebook.com/v13.0/#{whatsapp_cloud_channel.provider_config['phone_number_id']}/messages")
+        stub_request(:post, "https://graph.facebook.com/v22.0/#{whatsapp_cloud_channel.provider_config['phone_number_id']}/messages")
           .with(
             :headers => {
               'Accept' => '*/*',
@@ -156,6 +156,42 @@ describe Whatsapp::SendOnWhatsappService do
 
         described_class.new(message: message).perform
         expect(message.reload.source_id).to eq('123456789')
+      end
+
+      it 'stores Cloud template messages as renderable integrations payloads' do
+        whatsapp_cloud_channel = create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
+        cloud_contact_inbox = create(:contact_inbox, inbox: whatsapp_cloud_channel.inbox, source_id: '123456789')
+        cloud_conversation = create(:conversation, contact_inbox: cloud_contact_inbox, inbox: whatsapp_cloud_channel.inbox)
+
+        named_template_params = {
+          name: 'ticket_status_updated',
+          language: 'en_US',
+          category: 'UTILITY',
+          processed_params: { 'body' => { 'last_name' => 'Dale', 'ticket_id' => '2332' } }
+        }
+
+        stub_request(:post, "https://graph.facebook.com/v22.0/#{whatsapp_cloud_channel.provider_config['phone_number_id']}/messages")
+          .to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
+        message = create(:message,
+                         additional_attributes: { template_params: named_template_params },
+                         content: '[Template: ticket_status_updated]', conversation: cloud_conversation, message_type: :outgoing,
+                         account: cloud_conversation.account)
+
+        described_class.new(message: message).perform
+
+        message.reload
+        expect(message.content_type).to eq('integrations')
+        expect(message.content).to include('Dale')
+        expect(message.content_attributes).to include(
+          'type' => 'template',
+          'whatsapp_template_payload' => hash_including(
+            'name' => 'ticket_status_updated',
+            'components' => array_including(
+              hash_including('type' => 'body',
+                             'parameters' => array_including(hash_including('parameter_name' => 'last_name', 'text' => 'Dale')))
+            )
+          )
+        )
       end
 
       it 'calls channel.send_template when template has regexp characters' do
