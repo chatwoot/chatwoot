@@ -79,7 +79,7 @@ class Imap::BaseFetchEmailService
     Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Fetching mails from #{channel.email}, found #{seq_nums.length}."
 
     message_ids_with_seq = []
-    seq_nums.each_slice(1000).each do |batch|
+    seq_nums.each_slice(MAX_MESSAGES_PER_SYNC).each do |batch|
       append_message_ids_for_batch(batch, message_ids_with_seq)
       if message_ids_with_seq.length >= MAX_MESSAGES_PER_SYNC
         Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Reached MAX_MESSAGES_PER_SYNC=#{MAX_MESSAGES_PER_SYNC} for #{channel.email}, stopping sync."
@@ -103,12 +103,22 @@ class Imap::BaseFetchEmailService
     end
 
     batch_message_ids.each do |data|
-      message_id = build_mail_from_string(data.attr['BODY[HEADER]']).message_id
-      next if message_id.present? && email_already_present?(channel, message_id)
+      entry = build_message_id_entry(data)
+      next if entry.nil?
 
-      message_ids_with_seq.push([data.seqno, message_id])
+      message_ids_with_seq.push(entry)
       break if message_ids_with_seq.length >= MAX_MESSAGES_PER_SYNC
     end
+  end
+
+  def build_message_id_entry(data)
+    mail = build_mail_from_string(data.attr['BODY[HEADER]'])
+    return nil if MailPresenter.new(mail, channel.account).notification_email_from_chatwoot?
+
+    message_id = mail.message_id
+    return nil if message_id.present? && email_already_present?(channel, message_id)
+
+    [data.seqno, message_id]
   end
 
   # Sends a SEARCH command to search the mailbox for messages that were
