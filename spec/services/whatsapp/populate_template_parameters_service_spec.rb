@@ -3,6 +3,21 @@ require 'rails_helper'
 describe Whatsapp::PopulateTemplateParametersService do
   let(:service) { described_class.new }
 
+  describe '#build_named_parameter' do
+    it 'removes whitespace sequences rejected by Meta template parameters' do
+      result = service.build_named_parameter(
+        'lista_processos',
+        "Linha 1\n\nLinha\t2     Linha 3"
+      )
+
+      expect(result).to eq(
+        type: 'text',
+        parameter_name: 'lista_processos',
+        text: 'Linha 1 Linha 2 Linha 3'
+      )
+    end
+  end
+
   describe '#normalize_url' do
     it 'normalizes URLs with spaces' do
       url_with_spaces = 'https://example.com/path with spaces'

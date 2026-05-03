@@ -136,9 +136,11 @@ class Whatsapp::PopulateTemplateParametersService
   end
 
   def sanitize_parameter(value)
-    # Basic sanitization - remove dangerous characters and limit length
+    # Meta rejects template text parameters with newlines, tabs, or long space runs.
     sanitized = value.to_s.strip
     sanitized = sanitized.gsub(/[<>\"']/, '') # Remove potential HTML/JS chars
+    sanitized = sanitized.gsub(/[\r\n\t]+/, ' ')
+    sanitized = sanitized.gsub(/[ ]{2,}/, ' ')
     sanitized[0...1000] # Limit length to prevent DoS
   end
 
