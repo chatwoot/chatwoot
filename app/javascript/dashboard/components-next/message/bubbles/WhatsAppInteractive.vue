@@ -3,107 +3,15 @@ import { computed, onMounted, onUnmounted, onErrorCaptured, watch } from 'vue';
 import { useMessageContext } from '../provider.js';
 import BaseBubble from './Base.vue';
 import MessageFormatter from 'shared/helpers/MessageFormatter.js';
+import { extractWhatsAppInteractivePayload } from '../helpers/whatsappInteractivePayload';
 
 const { contentAttributes, content, id } = useMessageContext();
 
 // Define development mode flag
 const isDev = import.meta.env.MODE !== 'production';
 
-// Normalize template payload to interactive format for unified rendering
-const normalizeTemplateToInteractive = template => {
-  if (!template) return {};
-
-  const result = {
-    type: 'button',
-    body: {},
-    header: {},
-    footer: {},
-    action: { buttons: [] },
-  };
-
-  // Extract components from template
-  const components = template.components || [];
-
-  components.forEach(component => {
-    const compType = (component.type || '').toUpperCase();
-
-    switch (compType) {
-      case 'HEADER':
-        if (component.parameters?.[0]?.type === 'image') {
-          result.header = {
-            type: 'image',
-            image: { link: component.parameters[0].image?.link || '' },
-          };
-        } else if (component.parameters?.[0]?.type === 'text') {
-          result.header = {
-            type: 'text',
-            text: component.parameters[0].text || '',
-          };
-        }
-        break;
-
-      case 'BODY':
-        // Body text comes from the template text or parameters
-        if (component.parameters?.length > 0) {
-          const bodyParts = component.parameters.map(p => p.text || '');
-          result.body.text = bodyParts.join(' ');
-        }
-        break;
-
-      case 'FOOTER':
-        if (component.parameters?.[0]?.text) {
-          result.footer.text = component.parameters[0].text;
-        }
-        break;
-
-      case 'BUTTON':
-        if (component.parameters?.[0]) {
-          result.action.buttons.push({
-            type: 'reply',
-            reply: {
-              title:
-                component.parameters[0].text ||
-                component.parameters[0].coupon_code ||
-                'Button',
-            },
-          });
-        }
-        break;
-
-      default:
-        break;
-    }
-  });
-
-  // If no body text was extracted, try to use template name
-  if (!result.body.text && template.name) {
-    result.body.text = `Template: ${template.name}`;
-  }
-
-  return result;
-};
-
 const interactivePayload = computed(() => {
-  // Check for interactive payload first
-  if (
-    contentAttributes.value?.whatsapp_interactive_payload ||
-    contentAttributes.value?.interactive
-  ) {
-    return (
-      contentAttributes.value?.whatsapp_interactive_payload ||
-      contentAttributes.value?.interactive ||
-      {}
-    );
-  }
-
-  // Check for template payload (templates with buttons/images)
-  if (contentAttributes.value?.whatsapp_template_payload) {
-    return normalizeTemplateToInteractive(
-      contentAttributes.value?.whatsapp_template_payload
-    );
-  }
-
-  return {};
+  return extractWhatsAppInteractivePayload(contentAttributes.value);
 });
 
 const interactiveType = computed(() => {
