@@ -43,7 +43,8 @@ class Notification < ApplicationRecord
     participating_conversation_new_message: 5,
     sla_missed_first_response: 6,
     sla_missed_next_response: 7,
-    sla_missed_resolution: 8
+    sla_missed_resolution: 8,
+    kanban_reminder: 9
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
@@ -98,6 +99,8 @@ class Notification < ApplicationRecord
       'sla_missed_resolution' => 'notifications.notification_title.sla_missed_resolution'
     }
 
+    return meta['title'].presence || I18n.t('notifications.notification_title.kanban_reminder') if notification_type == 'kanban_reminder'
+
     i18n_key = notification_title_map[notification_type]
     return '' unless i18n_key
 
@@ -120,6 +123,8 @@ class Notification < ApplicationRecord
       message_body(secondary_actor)
     when 'conversation_assignment', 'sla_missed_next_response', 'sla_missed_resolution'
       message_body((conversation.messages.incoming.last || conversation.messages.outgoing.last))
+    when 'kanban_reminder'
+      meta['description'].presence || ''
     else
       ''
     end

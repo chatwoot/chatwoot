@@ -33,7 +33,18 @@ pt_BR:
     login_saml_user: Esta conta usa autenticação SAML. Por favor, faça login através do provedor SAML da sua organização.
     saml_not_available: A autenticação SAML não está disponível nesta instalação.
     inbox_deletetion_response: Seu pedido de exclusão da caixa de entrada será processado dentro de algum tempo.
+  kanban:
+    default_columns:
+      waiting: "Aguardando atendimento"
+      won: "Venda ganha"
+      lost: "Venda perdida"
   errors:
+    kanban:
+      column:
+        destroy:
+          has_cards: "Não é possível excluir a coluna com leads. Mova ou exclua todos os leads primeiro."
+        name:
+          taken: "já existe neste quadro"
     account:
       reporting_timezone:
         invalid: não é um fuso horário válido
@@ -216,6 +227,7 @@ pt_BR:
       sla_missed_first_response: 'Meta de SLA de Primeira Resposta não alcançada para a conversa (#%{display_id})'
       sla_missed_next_response: 'Meta de SLA de Próxima Resposta não alcançada para a conversa (#%{display_id})'
       sla_missed_resolution: 'Meta de SLA de Resolução não alcançada para a conversa (#%{display_id})'
+      kanban_reminder: 'Lembrete Kanban'
     attachment: 'Anexo'
     no_content: 'Sem conteúdo'
   conversations:

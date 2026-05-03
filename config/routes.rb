@@ -258,6 +258,7 @@ Rails.application.routes.draw do
               member do
                 patch :move
               end
+              resources :card_schedules, only: [:index, :create, :destroy]
             end
           end
 

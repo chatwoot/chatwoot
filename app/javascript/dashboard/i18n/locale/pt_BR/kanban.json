@@ -4,11 +4,27 @@
     "LOADING": "Carregando board...",
     "EMPTY_STATE": "Nenhuma coluna ainda. Crie sua primeira coluna para começar a organizar seus clientes.",
     "ADD_COLUMN": "Adicionar coluna",
+    "SETTINGS": {
+      "TITLE": "Gerenciar colunas",
+      "DRAG_HINT": "Arraste para reordenar. Clique duplo no nome para renomear.",
+      "ADD_COLUMN": "Nova coluna",
+      "RENAME": "Renomear",
+      "COLOR": "Cor da coluna",
+      "FUNCTION_NONE": "Sem automação",
+      "FUNCTION_AUTO_RECEIVE": "Receber leads atribuídos",
+      "FUNCTION_ERROR": "Não foi possível atualizar a função da coluna. Tente novamente.",
+      "CREATE_ERROR": "Não foi possível criar a coluna. Tente novamente.",
+      "UPDATE_ERROR": "Não foi possível atualizar a coluna. Tente novamente."
+    },
     "COLUMN": {
       "NAME_PLACEHOLDER": "Nome da coluna...",
       "ADD_CARD": "Adicionar cliente",
       "DELETE": "Excluir coluna",
-      "DELETE_CONFIRM": "Excluir a coluna \"{name}\" e todos os seus cards? Essa ação não pode ser desfeita."
+      "DELETE_CONFIRM": "Excluir a coluna \"{name}\" e todos os seus cards? Essa ação não pode ser desfeita.",
+      "DELETE_ERROR": "Não foi possível excluir a coluna. Verifique se ela não possui clientes.",
+      "MOVE_LEFT": "Mover para esquerda",
+      "MOVE_RIGHT": "Mover para direita",
+      "WON_CLASSIFICATION": "Venda ganha"
     },
     "CARD": {
       "EDIT": "Editar card",
@@ -19,7 +35,51 @@
       "NEW_CONVERSATION": "Iniciar conversa",
       "HISTORY": "Histórico de movimentações",
       "HISTORY_INITIAL": "—",
-      "HISTORY_ENTRY": "{from} → {to}"
+      "HISTORY_ENTRY": "{from} → {to}",
+      "LOADING": "Carregando...",
+      "MOVE_TO_COLUMN": "Mover para coluna",
+      "NO_CONVERSATIONS": "Nenhuma conversa encontrada para este contato.",
+      "NO_HISTORY": "Nenhuma atividade registrada ainda.",
+      "TAB": {
+        "DETAILS": "Detalhes",
+        "CONVERSATIONS": "Conversas",
+        "HISTORY": "Histórico",
+        "SCHEDULES": "Agendamentos"
+      },
+      "PRIORITY": {
+        "LABEL": "Urgência",
+        "NONE": "Nenhuma",
+        "LOW": "Baixa",
+        "MEDIUM": "Média",
+        "HIGH": "Alta",
+        "URGENT": "Urgente",
+        "NO_CONVERSATION": "Abra uma conversa para definir a prioridade."
+      },
+      "EXPIRY": {
+        "LABEL": "Vencimento (janela 24h)",
+        "EXPIRED": "Expirado"
+      },
+      "CONV_STATUS": {
+        "OPEN": "Aberta",
+        "RESOLVED": "Resolvida",
+        "PENDING": "Pendente"
+      },
+      "TIMELINE": {
+        "CREATED": "Lead criado",
+        "MOVED": "Movido de {from} para {to} por {user}",
+        "SYSTEM": "Sistema"
+      },
+      "SCHEDULE": {
+        "NONE": "Nenhum agendamento ativo.",
+        "NEW": "Novo alarme",
+        "TITLE_PLACEHOLDER": "Ex: Enviar nova proposta",
+        "DESC_PLACEHOLDER": "Descrição (opcional)",
+        "CANCEL": "Cancelar alarme",
+        "SUBMIT": "Agendar alarme",
+        "ERROR_GENERIC": "Não foi possível criar o agendamento. Tente novamente."
+      },
+      "CANCEL": "Cancelar",
+      "SAVE": "Salvar"
     },
     "ADD_CARD": {
       "PHONE": "Telefone",

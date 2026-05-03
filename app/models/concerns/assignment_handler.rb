@@ -4,6 +4,7 @@ module AssignmentHandler
 
   included do
     before_save :ensure_assignee_is_from_team
+    before_create :auto_assign_from_contact_consultant
     after_commit :notify_assignment_change, :process_assignment_changes
   end
 
@@ -38,6 +39,7 @@ module AssignmentHandler
 
   def process_assignment_changes
     process_assignment_activities
+    auto_assign_contact_consultant
   end
 
   def process_assignment_activities
@@ -51,5 +53,30 @@ module AssignmentHandler
 
   def self_assign?(assignee_id)
     assignee_id.present? && Current.user&.id == assignee_id
+  end
+
+  def auto_assign_from_contact_consultant
+    return if assignee_id.present?
+    return unless respond_to?(:contact) && contact.present?
+    return if contact.consultant_id.blank?
+
+    self.assignee_id = contact.consultant_id
+  end
+
+  def auto_assign_contact_consultant
+    return unless saved_change_to_assignee_id?
+    return if assignee_id.blank?
+    return unless respond_to?(:contact) && contact.present?
+
+    account_user = account.account_users.find_by(user_id: assignee_id)
+    return if account_user&.custom_role_id.blank?
+
+    consultant_role = account.custom_roles.find_by(name: 'Consultor(a)')
+    return unless consultant_role
+    return unless account_user.custom_role_id == consultant_role.id
+
+    return if contact.consultant_id.present?
+
+    contact.update!(consultant_id: assignee_id)
   end
 end

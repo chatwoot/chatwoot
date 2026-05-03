@@ -4,11 +4,27 @@
     "LOADING": "Loading board...",
     "EMPTY_STATE": "No columns yet. Create your first column to start organizing your clients.",
     "ADD_COLUMN": "Add column",
+    "SETTINGS": {
+      "TITLE": "Manage columns",
+      "DRAG_HINT": "Drag to reorder. Double-click the name to rename.",
+      "ADD_COLUMN": "New column",
+      "RENAME": "Rename",
+      "COLOR": "Column color",
+      "FUNCTION_NONE": "No automation",
+      "FUNCTION_AUTO_RECEIVE": "Receive assigned leads",
+      "FUNCTION_ERROR": "Could not update column function. Please try again.",
+      "CREATE_ERROR": "Could not create column. Please try again.",
+      "UPDATE_ERROR": "Could not update column. Please try again."
+    },
     "COLUMN": {
       "NAME_PLACEHOLDER": "Column name...",
       "ADD_CARD": "Add client",
       "DELETE": "Delete column",
-      "DELETE_CONFIRM": "Delete column \"{name}\" and all its cards? This action cannot be undone."
+      "DELETE_CONFIRM": "Delete column \"{name}\" and all its cards? This action cannot be undone.",
+      "DELETE_ERROR": "Could not delete column. Make sure it has no clients.",
+      "MOVE_LEFT": "Move left",
+      "MOVE_RIGHT": "Move right",
+      "WON_CLASSIFICATION": "Venda ganha"
     },
     "CARD": {
       "EDIT": "Edit card",
@@ -19,7 +35,51 @@
       "NEW_CONVERSATION": "Start conversation",
       "HISTORY": "Movement history",
       "HISTORY_INITIAL": "—",
-      "HISTORY_ENTRY": "{from} → {to}"
+      "HISTORY_ENTRY": "{from} → {to}",
+      "LOADING": "Loading...",
+      "MOVE_TO_COLUMN": "Move to column",
+      "NO_CONVERSATIONS": "No conversations found for this contact.",
+      "NO_HISTORY": "No activity recorded yet.",
+      "TAB": {
+        "DETAILS": "Details",
+        "CONVERSATIONS": "Conversations",
+        "HISTORY": "History",
+        "SCHEDULES": "Schedules"
+      },
+      "PRIORITY": {
+        "LABEL": "Urgency",
+        "NONE": "None",
+        "LOW": "Low",
+        "MEDIUM": "Medium",
+        "HIGH": "High",
+        "URGENT": "Urgent",
+        "NO_CONVERSATION": "Open a conversation to set priority."
+      },
+      "EXPIRY": {
+        "LABEL": "Expiration (24h window)",
+        "EXPIRED": "Expired"
+      },
+      "CONV_STATUS": {
+        "OPEN": "Open",
+        "RESOLVED": "Resolved",
+        "PENDING": "Pending"
+      },
+      "TIMELINE": {
+        "CREATED": "Lead created",
+        "MOVED": "Moved from {from} to {to} by {user}",
+        "SYSTEM": "System"
+      },
+      "SCHEDULE": {
+        "NONE": "No active schedules.",
+        "NEW": "New alarm",
+        "TITLE_PLACEHOLDER": "e.g. Send new proposal",
+        "DESC_PLACEHOLDER": "Description (optional)",
+        "CANCEL": "Cancel alarm",
+        "SUBMIT": "Schedule alarm",
+        "ERROR_GENERIC": "Could not create schedule. Please try again."
+      },
+      "CANCEL": "Cancel",
+      "SAVE": "Save"
     },
     "ADD_CARD": {
       "PHONE": "Phone number",

@@ -9,7 +9,7 @@ export default {
       name: 'kanban-board',
       component: KanbanBoard,
       meta: {
-        permissions: ['administrator', 'agent'],
+        permissions: ['administrator', 'agent', 'custom_role'],
       },
     },
   ],

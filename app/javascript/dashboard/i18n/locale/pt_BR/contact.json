@@ -446,6 +446,10 @@
         "SUCCESS_MESSAGE": "Contato atualizado com sucesso",
         "ERROR_MESSAGE": "Não foi possível atualizar o contato. Por favor, tente mais tarde."
       },
+      "CONSULTANT": {
+        "TITLE": "Consultor(a) Responsável",
+        "PLACEHOLDER": "Selecione um consultor"
+      },
       "SOCIAL_MEDIA": {
         "TITLE": "Editar redes sociais",
         "FORM": {

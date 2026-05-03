@@ -171,7 +171,16 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url, additional_attributes: {}, custom_attributes: {})
+    base = params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url, additional_attributes: {}, custom_attributes: {})
+    base.merge!(params.permit(:consultant_id)) if can_manage_consultant?
+    base
+  end
+
+  def can_manage_consultant?
+    return true if Current.account_user.administrator?
+
+    custom_role = Current.account_user.custom_role
+    custom_role&.name == 'Gerente de vendas'
   end
 
   def contact_custom_attributes

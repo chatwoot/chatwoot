@@ -41,6 +41,9 @@ module AutoAssignmentHandler
     # assignee-blank check below. The AssignmentJob needs to run to rebalance assignments.
     return true if conversation_status_changed_to_resolved_or_snoozed?
 
+    # Don't override when assignee was set from contact's consultant
+    return false if assignee.present? && respond_to?(:contact) && contact&.consultant_id == assignee_id
+
     # run only if assignee is blank or doesn't have access to inbox
     assignee.blank? || inbox.members.exclude?(assignee)
   end

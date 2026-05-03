@@ -64,6 +64,9 @@ en:
       email_already_exists: 'You have already signed up for an account with %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Signup failed
+    kanban:
+      card:
+        contact_belongs_to_other_consultant: "This contact already belongs to another consultant's portfolio"
     assignment_policy:
       not_found: Assignment policy not found
     attachments:
@@ -230,6 +233,7 @@ en:
       sla_missed_first_response: 'SLA target first response missed for conversation (#%{display_id})'
       sla_missed_next_response: 'SLA target next response missed for conversation (#%{display_id})'
       sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
+      kanban_reminder: 'Kanban reminder'
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:

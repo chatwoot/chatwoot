@@ -5,6 +5,7 @@ const state = {
   board: null,
   columns: [],
   cards: {}, // keyed by columnId
+  selectedCard: null,
   uiFlags: {
     isFetchingBoard: false,
     isCreatingColumn: false,
@@ -17,6 +18,7 @@ const getters = {
   getBoard: $state => $state.board,
   getColumns: $state => $state.columns,
   getCardsByColumn: $state => columnId => $state.cards[columnId] || [],
+  getSelectedCard: $state => $state.selectedCard,
   getUIFlags: $state => $state.uiFlags,
 };
 

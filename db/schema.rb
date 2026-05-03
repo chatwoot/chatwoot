@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_25_190647) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_03_225201) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -659,6 +659,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_25_190647) do
     t.string "country_code", default: ""
     t.boolean "blocked", default: false, null: false
     t.bigint "company_id"
+    t.bigint "consultant_id"
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "contact_type"], name: "index_contacts_on_account_id_and_contact_type"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
@@ -667,6 +668,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_25_190647) do
     t.index ["account_id"], name: "index_resolved_contact_account_id", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["blocked"], name: "index_contacts_on_blocked"
     t.index ["company_id"], name: "index_contacts_on_company_id"
+    t.index ["consultant_id"], name: "index_contacts_on_consultant_id"
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
     t.index ["name", "email", "phone_number", "identifier"], name: "index_contacts_on_name_email_phone_number_identifier", opclass: :gin_trgm_ops, using: :gin
@@ -977,6 +979,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_25_190647) do
     t.index ["user_id"], name: "index_kanban_card_activities_on_user_id"
   end
 
+  create_table "kanban_card_schedules", force: :cascade do |t|
+    t.bigint "kanban_card_id", null: false
+    t.bigint "created_by_id", null: false
+    t.string "title", null: false
+    t.text "description"
+    t.datetime "scheduled_at", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_kanban_card_schedules_on_created_by_id"
+    t.index ["kanban_card_id", "status"], name: "index_kanban_card_schedules_on_kanban_card_id_and_status"
+    t.index ["kanban_card_id"], name: "index_kanban_card_schedules_on_kanban_card_id"
+    t.index ["scheduled_at"], name: "index_kanban_card_schedules_on_scheduled_at"
+  end
+
   create_table "kanban_cards", force: :cascade do |t|
     t.bigint "kanban_column_id", null: false
     t.bigint "kanban_board_id", null: false
@@ -988,22 +1005,24 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_25_190647) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["contact_id"], name: "index_kanban_cards_on_contact_id"
+    t.index ["contact_id"], name: "index_kanban_cards_on_contact_id_unique", unique: true
     t.index ["created_by_id"], name: "index_kanban_cards_on_created_by_id"
-    t.index ["kanban_board_id", "contact_id"], name: "index_kanban_cards_on_kanban_board_id_and_contact_id", unique: true
     t.index ["kanban_board_id"], name: "index_kanban_cards_on_kanban_board_id"
     t.index ["kanban_column_id", "position"], name: "index_kanban_cards_on_kanban_column_id_and_position"
     t.index ["kanban_column_id"], name: "index_kanban_cards_on_kanban_column_id"
   end
 
   create_table "kanban_columns", force: :cascade do |t|
-    t.bigint "kanban_board_id", null: false
     t.string "name", null: false
     t.float "position", default: 1.0, null: false
     t.string "color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["kanban_board_id", "position"], name: "index_kanban_columns_on_kanban_board_id_and_position"
-    t.index ["kanban_board_id"], name: "index_kanban_columns_on_kanban_board_id"
+    t.integer "column_type", default: 0, null: false
+    t.bigint "account_id", null: false
+    t.integer "column_function", default: 0, null: false
+    t.index ["account_id", "position"], name: "index_kanban_columns_on_account_id_and_position"
+    t.index ["account_id"], name: "index_kanban_columns_on_account_id"
   end
 
   create_table "labels", force: :cascade do |t|
@@ -1389,6 +1408,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_25_190647) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "contacts", "users", column: "consultant_id", on_delete: :nullify
   add_foreign_key "conversation_classifications", "accounts"
   add_foreign_key "conversations", "conversation_classifications", column: "classification_id"
   add_foreign_key "inboxes", "portals"
@@ -1398,11 +1418,13 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_25_190647) do
   add_foreign_key "kanban_card_activities", "kanban_columns", column: "from_column_id"
   add_foreign_key "kanban_card_activities", "kanban_columns", column: "to_column_id"
   add_foreign_key "kanban_card_activities", "users"
+  add_foreign_key "kanban_card_schedules", "kanban_cards"
+  add_foreign_key "kanban_card_schedules", "users", column: "created_by_id"
   add_foreign_key "kanban_cards", "contacts"
   add_foreign_key "kanban_cards", "kanban_boards"
   add_foreign_key "kanban_cards", "kanban_columns"
   add_foreign_key "kanban_cards", "users", column: "created_by_id"
-  add_foreign_key "kanban_columns", "kanban_boards"
+  add_foreign_key "kanban_columns", "accounts"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

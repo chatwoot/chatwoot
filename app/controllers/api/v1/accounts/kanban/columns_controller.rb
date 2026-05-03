@@ -1,37 +1,37 @@
 class Api::V1::Accounts::Kanban::ColumnsController < Api::V1::Accounts::BaseController
-  before_action :find_board
-  before_action :find_column, only: [:update, :destroy]
-
   def index
-    @columns = @board.columns.includes(:cards)
+    @columns = Current.account.kanban_columns
     render 'api/v1/accounts/kanban/columns/index'
   end
 
   def create
-    @column = @board.columns.build(column_params)
-    @column.position = KanbanColumn.next_position(@board.id)
+    @column = Current.account.kanban_columns.build(column_params)
+    @column.position = KanbanColumn.next_position(Current.account.id)
     authorize @column
     @column.save!
     render 'api/v1/accounts/kanban/columns/show', status: :created
   end
 
   def update
+    @column = Current.account.kanban_columns.find(params[:id])
     authorize @column
     @column.update!(column_params)
     render 'api/v1/accounts/kanban/columns/show'
   end
 
   def reorder
+    authorize Current.account.kanban_columns.new, :update?
     positions = params.require(:positions)
     ActiveRecord::Base.transaction do
       positions.each do |item|
-        @board.columns.find(item[:id]).update!(position: item[:position].to_f)
+        Current.account.kanban_columns.find(item[:id]).update!(position: item[:position].to_f)
       end
     end
     head :ok
   end
 
   def destroy
+    @column = Current.account.kanban_columns.find(params[:id])
     authorize @column
     @column.destroy!
     head :ok
@@ -39,15 +39,7 @@ class Api::V1::Accounts::Kanban::ColumnsController < Api::V1::Accounts::BaseCont
 
   private
 
-  def find_board
-    @board = Current.account.kanban_boards.find_by!(user: current_user)
-  end
-
-  def find_column
-    @column = @board.columns.find(params[:id])
-  end
-
   def column_params
-    params.require(:column).permit(:name, :color)
+    params.require(:column).permit(:name, :color, :column_function)
   end
 end

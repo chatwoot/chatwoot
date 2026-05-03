@@ -111,4 +111,13 @@ export default {
     await KanbanAPI.deleteCard(cardId);
     commit('REMOVE_CARD', { cardId, columnId });
   },
+
+  async createSchedule(_, { cardId, params }) {
+    const { data } = await KanbanAPI.createSchedule(cardId, params);
+    return data;
+  },
+
+  async deleteSchedule(_, { cardId, scheduleId }) {
+    await KanbanAPI.deleteSchedule(cardId, scheduleId);
+  },
 };

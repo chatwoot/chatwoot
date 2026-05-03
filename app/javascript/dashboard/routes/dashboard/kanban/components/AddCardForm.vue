@@ -103,7 +103,7 @@ async function submit() {
         />
         <fluent-icon
           v-if="isSearching"
-          icon="spinner"
+          icon="arrow-clockwise"
           size="14"
           class="absolute right-2 top-2 animate-spin text-slate-400"
         />
@@ -173,7 +173,7 @@ async function submit() {
         class="px-3 py-1.5 text-xs rounded border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"
         @click="emit('cancel')"
       >
-        {{ $t('CANCEL') }}
+        {{ $t('KANBAN.CARD.CANCEL') }}
       </button>
       <button
         class="px-3 py-1.5 text-xs rounded bg-woot-500 text-white hover:bg-woot-600 disabled:opacity-50"

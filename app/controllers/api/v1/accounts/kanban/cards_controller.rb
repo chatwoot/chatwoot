@@ -4,21 +4,28 @@ class Api::V1::Accounts::Kanban::CardsController < Api::V1::Accounts::BaseContro
   before_action :find_card, only: [:update, :move, :destroy]
 
   def index
-    @cards = @column.cards.includes(:contact, :created_by)
+    @cards = @column.cards.where(kanban_board: @board).includes(:contact, :created_by)
     render 'api/v1/accounts/kanban/cards/index'
   end
 
   def create
     contact = find_or_create_contact
+    if contact.consultant_id.present? && contact.consultant_id != current_user.id
+      render json: { message: I18n.t('errors.kanban.card.contact_belongs_to_other_consultant') },
+             status: :unprocessable_entity
+      return
+    end
+
     @card = @board.cards.build(
       kanban_column: @column,
       contact: contact,
       created_by: current_user,
-      position: KanbanCard.next_position(@column.id),
+      position: KanbanCard.next_position(@column.id, @board.id),
       **card_params
     )
     authorize @card
     @card.save!
+    contact.update_columns(consultant_id: current_user.id) if contact.consultant_id.blank?
     render 'api/v1/accounts/kanban/cards/show', status: :created
   end
 
@@ -30,7 +37,7 @@ class Api::V1::Accounts::Kanban::CardsController < Api::V1::Accounts::BaseContro
 
   def move
     authorize @card
-    target_column = @board.columns.find(params[:column_id])
+    target_column = Current.account.kanban_columns.find(params[:column_id])
     before_pos = params[:before_position]&.to_f
     after_pos = params[:after_position]&.to_f
 
@@ -60,11 +67,11 @@ class Api::V1::Accounts::Kanban::CardsController < Api::V1::Accounts::BaseContro
   private
 
   def find_board
-    @board = Current.account.kanban_boards.find_by!(user: current_user)
+    @board = Current.account.kanban_boards.find_or_create_by!(user: current_user)
   end
 
   def find_column
-    @column = @board.columns.find(params[:column_id])
+    @column = Current.account.kanban_columns.find(params[:column_id])
   end
 
   def find_card
@@ -108,7 +115,7 @@ class Api::V1::Accounts::Kanban::CardsController < Api::V1::Accounts::BaseContro
     elsif after_pos
       after_pos / 2.0
     else
-      KanbanCard.next_position(column.id)
+      KanbanCard.next_position(column.id, @board.id)
     end
   end
 end

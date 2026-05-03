@@ -1,5 +1,5 @@
 <script setup>
-import { computed, reactive, watch } from 'vue';
+import { computed, reactive, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
@@ -9,6 +9,12 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import PhoneNumberInput from 'dashboard/components-next/phonenumberinput/PhoneNumberInput.vue';
+import {
+  useStore,
+  useMapGetter,
+  useStoreGetters,
+} from 'dashboard/composables/store';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 const props = defineProps({
   contactData: {
@@ -28,6 +34,32 @@ const props = defineProps({
 const emit = defineEmits(['update']);
 
 const { t } = useI18n();
+const store = useStore();
+const getters = useStoreGetters();
+const { isAdmin } = useAdmin();
+
+const agents = useMapGetter('agents/getAgents');
+const customRoles = useMapGetter('customRole/getCustomRoles');
+
+const canManageConsultant = computed(() => {
+  if (isAdmin.value) return true;
+  const customRoleId = getters.getCurrentCustomRoleId.value;
+  const role = customRoles.value.find(r => r.id === customRoleId);
+  return role?.name === 'Gerente de vendas';
+});
+
+const consultantOptions = computed(() => {
+  const consultantRole = customRoles.value.find(r => r.name === 'Consultor(a)');
+  if (!consultantRole) return [];
+  return agents.value
+    .filter(a => a.custom_role_id === consultantRole.id)
+    .map(a => ({ label: a.name, value: a.id }));
+});
+
+onMounted(() => {
+  store.dispatch('agents/get');
+  store.dispatch('customRole/getCustomRole');
+});
 
 const FORM_CONFIG = {
   FIRST_NAME: { field: 'firstName' },
@@ -57,6 +89,7 @@ const defaultState = {
   firstName: '',
   lastName: '',
   phoneNumber: '',
+  consultantId: null,
   additionalAttributes: {
     description: '',
     companyName: '',
@@ -96,6 +129,7 @@ const prepareStateBasedOnProps = () => {
     name = '',
     email: emailAddress,
     phoneNumber,
+    consultantId,
     additionalAttributes = {},
   } = props.contactData || {};
   const { firstName, lastName } = splitName(name || '');
@@ -119,6 +153,7 @@ const prepareStateBasedOnProps = () => {
     lastName,
     email: emailAddress,
     phoneNumber,
+    consultantId: consultantId || null,
     additionalAttributes: {
       description,
       companyName,
@@ -296,6 +331,33 @@ defineExpose({
         </template>
       </div>
     </div>
+    <div
+      v-if="consultantOptions.length > 0 || canManageConsultant"
+      class="flex flex-col items-start gap-2"
+    >
+      <span class="py-1 text-sm font-medium text-n-slate-12">
+        {{ t('CONTACTS_LAYOUT.CARD.CONSULTANT.TITLE') }}
+      </span>
+      <ComboBox
+        v-model="state.consultantId"
+        :options="consultantOptions"
+        :placeholder="t('CONTACTS_LAYOUT.CARD.CONSULTANT.PLACEHOLDER')"
+        :disabled="!canManageConsultant"
+        class="w-full [&>div>button]:h-8"
+        :class="{
+          '[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:!outline-transparent':
+            !isDetailsView,
+          '[&>div>button]:!bg-n-alpha-black2': isDetailsView,
+        }"
+        @update:model-value="
+          val => {
+            state.consultantId = val;
+            emit('update', state);
+          }
+        "
+      />
+    </div>
+
     <div class="flex flex-col items-start gap-2">
       <span class="py-1 text-sm font-medium text-n-slate-12">
         {{ t('CONTACTS_LAYOUT.CARD.SOCIAL_MEDIA.TITLE') }}

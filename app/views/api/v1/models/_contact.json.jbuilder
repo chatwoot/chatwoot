@@ -1,4 +1,11 @@
 json.additional_attributes resource.additional_attributes
+json.consultant_id resource.consultant_id
+if resource.consultant
+  json.consultant do
+    json.id resource.consultant.id
+    json.name resource.consultant.name
+  end
+end
 json.availability_status resource.availability_status
 json.email resource.email
 json.id resource.id

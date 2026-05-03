@@ -1,17 +1,17 @@
 class KanbanColumnPolicy < ApplicationPolicy
   def index?
-    record.kanban_board.user_id == user.id
+    true
   end
 
   def create?
-    record.kanban_board.user_id == user.id
+    account_user&.administrator?
   end
 
   def update?
-    record.kanban_board.user_id == user.id
+    account_user&.administrator?
   end
 
   def destroy?
-    record.kanban_board.user_id == user.id
+    account_user&.administrator?
   end
 end

@@ -3,7 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
-const emit = defineEmits(['submit']);
+const emit = defineEmits(['submit', 'cancel']);
 
 const store = useStore();
 const getters = useStoreGetters();
@@ -12,6 +12,9 @@ const dialogRef = ref(null);
 const conversationContext = ref(null);
 const classificationId = ref(null);
 const closingNote = ref('');
+const excludeClassificationNames = ref([]);
+const lockedClassificationId = ref(null);
+const didConfirm = ref(false);
 
 const classifications = computed(
   () => getters['conversationClassifications/getAll'].value
@@ -29,7 +32,14 @@ const requireClosingNote = computed(
 );
 
 const classificationOptions = computed(() =>
-  classifications.value.map(c => ({ value: c.id, label: c.name }))
+  classifications.value
+    .filter(c => !excludeClassificationNames.value.includes(c.name))
+    .map(c => ({ value: c.id, label: c.name }))
+);
+
+const lockedClassificationLabel = computed(
+  () =>
+    classifications.value.find(c => c.id === lockedClassificationId.value)?.name
 );
 
 const isConfirmDisabled = computed(() => {
@@ -40,19 +50,37 @@ const isConfirmDisabled = computed(() => {
 
 const open = context => {
   conversationContext.value = context;
-  // Pre-fill from existing conversation data
   classificationId.value = context.classificationId || null;
   closingNote.value = context.closingNote || '';
+  excludeClassificationNames.value = context.excludeClassificationNames || [];
+  didConfirm.value = false;
+
+  if (context.lockedClassificationName) {
+    const found = classifications.value.find(
+      c => c.name === context.lockedClassificationName
+    );
+    lockedClassificationId.value = found?.id || null;
+    classificationId.value = found?.id || null;
+  } else {
+    lockedClassificationId.value = null;
+  }
+
   dialogRef.value?.open();
 };
 
 const handleConfirm = () => {
+  didConfirm.value = true;
   emit('submit', {
     context: conversationContext.value,
     classificationId: classificationId.value,
     closingNote: closingNote.value,
   });
   dialogRef.value?.close();
+};
+
+const handleClose = () => {
+  if (!didConfirm.value) emit('cancel');
+  didConfirm.value = false;
 };
 
 onMounted(() => {
@@ -72,16 +100,26 @@ defineExpose({ open });
     :disable-confirm-button="isConfirmDisabled"
     show-cancel-button
     @confirm="handleConfirm"
+    @close="handleClose"
   >
     <div class="flex flex-col gap-4 pt-2">
       <div class="flex flex-col gap-1">
         <label class="text-sm font-medium text-n-slate-12">
           {{ $t('RESOLUTION_MODAL.CLASSIFICATION.LABEL') }}
-          <span v-if="requireClassification" class="text-n-ruby-9">{{
-            '*'
-          }}</span>
+          <span v-if="requireClassification" class="text-n-ruby-9">*</span>
         </label>
+
+        <!-- Classificação travada (apenas leitura) -->
+        <div
+          v-if="lockedClassificationId"
+          class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-2 text-n-slate-12"
+        >
+          {{ lockedClassificationLabel }}
+        </div>
+
+        <!-- Seletor normal -->
         <select
+          v-else
           v-model="classificationId"
           class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-brand"
         >
@@ -96,6 +134,7 @@ defineExpose({ open });
             {{ option.label }}
           </option>
         </select>
+
         <p
           v-if="requireClassification && !classificationId"
           class="text-xs text-n-slate-10"
@@ -107,7 +146,7 @@ defineExpose({ open });
       <div class="flex flex-col gap-1">
         <label class="text-sm font-medium text-n-slate-12">
           {{ $t('RESOLUTION_MODAL.CLOSING_NOTE.LABEL') }}
-          <span v-if="requireClosingNote" class="text-n-ruby-9">{{ '*' }}</span>
+          <span v-if="requireClosingNote" class="text-n-ruby-9">*</span>
         </label>
         <textarea
           v-model="closingNote"

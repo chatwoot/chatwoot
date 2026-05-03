@@ -58,6 +58,23 @@ class KanbanAPI extends ApiClient {
   deleteCard(id) {
     return axios.delete(`${this.url}/cards/${id}`);
   }
+
+  // Schedules
+  getSchedules(cardId) {
+    return axios.get(`${this.url}/cards/${cardId}/card_schedules`);
+  }
+
+  createSchedule(cardId, params) {
+    return axios.post(`${this.url}/cards/${cardId}/card_schedules`, {
+      schedule: params,
+    });
+  }
+
+  deleteSchedule(cardId, scheduleId) {
+    return axios.delete(
+      `${this.url}/cards/${cardId}/card_schedules/${scheduleId}`
+    );
+  }
 }
 
 export default new KanbanAPI();
