@@ -255,4 +255,21 @@ describe('#actions', () => {
       );
     });
   });
+
+  describe('#refreshWhatsappProviderConfig', () => {
+    it('returns response data when refresh is successful', async () => {
+      axios.post.mockResolvedValue({ data: { success: true } });
+
+      const response = await actions.refreshWhatsappProviderConfig(
+        { commit },
+        { inboxId: 123, whatsappAppId: 'app-123' }
+      );
+
+      expect(response).toEqual({ success: true });
+      expect(axios.post).toHaveBeenCalledWith(
+        '/api/v1/inboxes/123/refresh_whatsapp_provider_config',
+        { whatsapp_app_id: 'app-123' }
+      );
+    });
+  });
 });

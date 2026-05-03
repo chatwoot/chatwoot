@@ -33,6 +33,13 @@ class Inboxes extends CacheEnabledApiClient {
     return axios.post(`${this.url}/${inboxId}/sync_templates`);
   }
 
+  refreshWhatsappProviderConfig(inboxId, whatsappAppId) {
+    return axios.post(
+      `${this.url}/${inboxId}/refresh_whatsapp_provider_config`,
+      { whatsapp_app_id: whatsappAppId }
+    );
+  }
+
   getEvolutionGoState(inboxId) {
     return axios.get(`${this.url}/${inboxId}/evolution_go`);
   }

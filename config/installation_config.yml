@@ -168,6 +168,18 @@
   description: 'Configure this if you want to use a different WhatsApp API version. Make sure its prefixed with `v`'
   value: 'v22.0'
   locked: false
+- name: WHATSAPP_WEBHOOK_VERIFY_TOKEN
+  display_title: 'WhatsApp App Webhook Verify Token'
+  description: 'Verify token used by the global WhatsApp App webhook callback.'
+  locked: false
+- name: JUSMONITORIA_INTERNAL_WEBHOOK_URL
+  display_title: 'JusMonitorIA Internal Webhook URL'
+  description: 'Internal JusMonitorIA endpoint used by Chatwit to forward Meta WhatsApp template status updates.'
+  locked: false
+- name: JUSMONITORIA_INTERNAL_WEBHOOK_TOKEN
+  display_title: 'JusMonitorIA Internal Webhook Token'
+  description: 'Shared secret sent by Chatwit when forwarding JusMonitorIA internal webhook events.'
+  locked: false
 # ------- End of WhatsApp Channel Related Config ------- #
 
 # MARK: Microsoft Email Channel Config

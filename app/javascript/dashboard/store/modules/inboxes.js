@@ -351,6 +351,13 @@ export const actions = {
       throw new Error(error);
     }
   },
+  refreshWhatsappProviderConfig: async (_, { inboxId, whatsappAppId }) => {
+    const response = await InboxesAPI.refreshWhatsappProviderConfig(
+      inboxId,
+      whatsappAppId
+    );
+    return response.data;
+  },
   createCSATTemplate: async (_, { inboxId, template }) => {
     const response = await InboxesAPI.createCSATTemplate(inboxId, template);
     return response.data;

@@ -20,6 +20,17 @@ RSpec.describe 'Webhooks::WhatsappController', type: :request do
           params: { 'hub.challenge' => '123456', 'hub.mode' => 'subscribe', 'hub.verify_token' => channel.provider_config['webhook_verify_token'] }
       expect(response.body).to include '123456'
     end
+
+    it 'returns challenge for the global WhatsApp app webhook token' do
+      allow(GlobalConfigService).to receive(:load)
+        .with('WHATSAPP_WEBHOOK_VERIFY_TOKEN', '')
+        .and_return('global-token')
+
+      get '/webhooks/whatsapp',
+          params: { 'hub.challenge' => 'global-challenge', 'hub.mode' => 'subscribe', 'hub.verify_token' => 'global-token' }
+
+      expect(response.body).to include 'global-challenge'
+    end
   end
 
   describe 'POST /webhooks/whatsapp/{:phone_number}' do
@@ -57,6 +68,35 @@ RSpec.describe 'Webhooks::WhatsappController', type: :request do
         post '/webhooks/whatsapp/+1234567890', params: { content: 'hello' }
         expect(response).to have_http_status(:success)
       end
+    end
+  end
+
+  describe 'POST /webhooks/whatsapp' do
+    it 'enqueues the whatsapp events job for app-level webhook payloads' do
+      payload = {
+        object: 'whatsapp_business_account',
+        entry: [
+          {
+            id: '294585820394901',
+            changes: [
+              {
+                field: 'message_template_status_update',
+                value: {
+                  event: 'APPROVED',
+                  message_template_id: '123',
+                  message_template_name: 'alerta_movimentacao_processual_v2',
+                  message_template_language: 'pt_BR'
+                }
+              }
+            ]
+          }
+        ]
+      }
+
+      expect(Webhooks::WhatsappEventsJob).to receive(:perform_later)
+      post '/webhooks/whatsapp', params: payload
+
+      expect(response).to have_http_status(:success)
     end
   end
 end

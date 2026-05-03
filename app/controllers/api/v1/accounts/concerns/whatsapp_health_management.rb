@@ -2,9 +2,9 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
   extend ActiveSupport::Concern
 
   included do
-    skip_before_action :check_authorization, only: [:health, :register_webhook]
-    before_action :check_admin_authorization?, only: [:register_webhook]
-    before_action :validate_whatsapp_cloud_channel, only: [:health, :register_webhook]
+    skip_before_action :check_authorization, only: [:health, :register_webhook, :refresh_whatsapp_provider_config]
+    before_action :check_admin_authorization?, only: [:register_webhook, :refresh_whatsapp_provider_config]
+    before_action :validate_whatsapp_cloud_channel, only: [:health, :register_webhook, :refresh_whatsapp_provider_config]
   end
 
   def sync_templates
@@ -31,6 +31,18 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
   rescue StandardError => e
     Rails.logger.error "[INBOX WEBHOOK] Webhook registration failed: #{e.message}"
     render json: { error: e.message }, status: :unprocessable_entity
+  end
+
+  def refresh_whatsapp_provider_config
+    result = Whatsapp::ProviderConfigRefreshService
+             .new(@inbox.channel, whatsapp_app_id: params[:whatsapp_app_id])
+             .perform
+    return render json: result, status: :ok if result[:success]
+
+    render json: result, status: :unprocessable_entity
+  rescue StandardError => e
+    Rails.logger.error "[INBOX WHATSAPP CONFIG] Provider config refresh failed: #{e.message}"
+    render json: { success: false, error: e.message }, status: :unprocessable_entity
   end
 
   private

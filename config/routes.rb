@@ -224,6 +224,7 @@ Rails.application.routes.draw do
             post :set_agent_bot, on: :member
             delete :avatar, on: :member
             post :sync_templates, on: :member
+            post :refresh_whatsapp_provider_config, on: :member
             get :health, on: :member
             post :register_webhook, on: :member
             post :reset_secret, on: :member
@@ -587,6 +588,8 @@ Rails.application.routes.draw do
   post 'webhooks/line/:line_channel_id', to: 'webhooks/line#process_payload'
   post 'webhooks/telegram/:bot_token', to: 'webhooks/telegram#process_payload'
   post 'webhooks/sms/:phone_number', to: 'webhooks/sms#process_payload'
+  get 'webhooks/whatsapp', to: 'webhooks/whatsapp#verify'
+  post 'webhooks/whatsapp', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#verify'
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   post 'webhooks/evolution_go', to: 'webhooks/evolution_go#process_payload'

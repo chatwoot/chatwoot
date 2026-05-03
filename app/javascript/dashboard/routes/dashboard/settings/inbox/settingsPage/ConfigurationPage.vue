@@ -39,8 +39,10 @@ export default {
       hmacMandatory: false,
       allowMobileWebview: false,
       whatsAppInboxAPIKey: '',
+      whatsAppInboxAppId: '',
       isRequestingReauthorization: false,
       isSyncingTemplates: false,
+      isRefreshingWhatsappConfig: false,
       allowedDomains: '',
       isUpdatingAllowedDomains: false,
       isSettingDefaults: false,
@@ -83,6 +85,8 @@ export default {
         this.inbox.selected_feature_flags || []
       ).includes('allow_mobile_webview');
       this.allowedDomains = this.inbox.allowed_domains || '';
+      this.whatsAppInboxAppId =
+        this.inbox.provider_config?.whatsapp_app_id || this.whatsappAppId || '';
       this.$nextTick(() => {
         this.isSettingDefaults = false;
       });
@@ -192,6 +196,25 @@ export default {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       } finally {
         this.isSyncingTemplates = false;
+      }
+    },
+    async refreshWhatsappProviderConfig() {
+      this.isRefreshingWhatsappConfig = true;
+      try {
+        await this.$store.dispatch('inboxes/refreshWhatsappProviderConfig', {
+          inboxId: this.inbox.id,
+          whatsappAppId: this.whatsAppInboxAppId.trim(),
+        });
+        useAlert(
+          this.$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_CONFIG_REFRESH_SUCCESS')
+        );
+      } catch (error) {
+        useAlert(
+          error?.response?.data?.error ||
+            this.$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_CONFIG_REFRESH_ERROR')
+        );
+      } finally {
+        this.isRefreshingWhatsappConfig = false;
       }
     },
   },
@@ -494,6 +517,34 @@ export default {
           </div>
         </SettingsFieldSection>
       </template>
+      <SettingsFieldSection
+        v-if="isAWhatsAppCloudChannel"
+        :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_CONFIG_REFRESH_TITLE')"
+        :help-text="
+          $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_CONFIG_REFRESH_SUBHEADER')
+        "
+      >
+        <div
+          class="flex flex-1 justify-between items-center whatsapp-settings--content"
+        >
+          <woot-input
+            v-model="whatsAppInboxAppId"
+            type="text"
+            class="flex-1 mr-2 [&>input]:!mb-0"
+            :placeholder="
+              $t(
+                'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_CONFIG_REFRESH_PLACEHOLDER'
+              )
+            "
+          />
+          <NextButton
+            :disabled="isRefreshingWhatsappConfig || !whatsAppInboxAppId.trim()"
+            @click="refreshWhatsappProviderConfig"
+          >
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_CONFIG_REFRESH_BUTTON') }}
+          </NextButton>
+        </div>
+      </SettingsFieldSection>
       <SettingsFieldSection
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_TITLE')"
         :help-text="

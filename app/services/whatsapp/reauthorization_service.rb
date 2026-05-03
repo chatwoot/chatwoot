@@ -31,12 +31,17 @@ class Whatsapp::ReauthorizationService
       'api_key' => access_token,
       'phone_number_id' => @phone_number_id,
       'business_account_id' => @business_id,
+      'whatsapp_app_id' => whatsapp_app_id,
       'source' => 'embedded_signup'
-    )
+    ).compact
     channel.save!
 
     # Update inbox name if business name changed
     business_name = phone_info[:business_name] || phone_info[:verified_name]
     channel.inbox.update!(name: business_name) if business_name.present?
+  end
+
+  def whatsapp_app_id
+    Whatsapp::AppIdResolver.new.find
   end
 end

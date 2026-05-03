@@ -13,6 +13,7 @@ describe('#InboxesAPI', () => {
     expect(inboxesAPI).toHaveProperty('getAgentBot');
     expect(inboxesAPI).toHaveProperty('setAgentBot');
     expect(inboxesAPI).toHaveProperty('syncTemplates');
+    expect(inboxesAPI).toHaveProperty('refreshWhatsappProviderConfig');
   });
 
   describe('API calls', () => {
@@ -46,6 +47,14 @@ describe('#InboxesAPI', () => {
       inboxesAPI.syncTemplates(2);
       expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/inboxes/2/sync_templates'
+      );
+    });
+
+    it('#refreshWhatsappProviderConfig', () => {
+      inboxesAPI.refreshWhatsappProviderConfig(2, 'app-123');
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/inboxes/2/refresh_whatsapp_provider_config',
+        { whatsapp_app_id: 'app-123' }
       );
     });
   });

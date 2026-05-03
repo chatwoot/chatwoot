@@ -97,6 +97,72 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       expect(Rails.logger).to receive(:warn).with("Inactive WhatsApp channel: unknown - #{unknown_phone}")
       job.perform_now(phone_number: unknown_phone)
     end
+
+    it 'forwards template status updates without invoking incoming message services' do
+      template_params = {
+        object: 'whatsapp_business_account',
+        entry: [
+          {
+            id: '294585820394901',
+            changes: [
+              {
+                field: 'message_template_status_update',
+                value: {
+                  event: 'APPROVED',
+                  message_template_id: '987654321',
+                  message_template_name: 'alerta_movimentacao_processual_v2',
+                  message_template_language: 'pt_BR',
+                  reason: nil
+                }
+              }
+            ]
+          }
+        ]
+      }
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new)
+      allow(Whatsapp::IncomingMessageService).to receive(:new)
+
+      expect(Whatsapp::JusmonitoriaTemplateStatusForwardJob).to receive(:perform_later).with(
+        hash_including(
+          provider: 'meta_whatsapp',
+          wabaId: '294585820394901',
+          event: 'APPROVED',
+          status: 'approved',
+          messageTemplateId: '987654321',
+          messageTemplateName: 'alerta_movimentacao_processual_v2',
+          messageTemplateLanguage: 'pt_BR'
+        )
+      )
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new)
+      expect(Whatsapp::IncomingMessageService).not_to receive(:new)
+
+      job.perform_now(template_params)
+    end
+
+    it 'ignores non JusMonitorIA template status updates' do
+      template_params = {
+        object: 'whatsapp_business_account',
+        entry: [
+          {
+            id: '294585820394901',
+            changes: [
+              {
+                field: 'message_template_status_update',
+                value: {
+                  event: 'APPROVED',
+                  message_template_id: '987654321',
+                  message_template_name: 'marketing_template',
+                  message_template_language: 'pt_BR'
+                }
+              }
+            ]
+          }
+        ]
+      }
+
+      expect(Whatsapp::JusmonitoriaTemplateStatusForwardJob).not_to receive(:perform_later)
+      job.perform_now(template_params)
+    end
   end
 
   context 'when default provider' do

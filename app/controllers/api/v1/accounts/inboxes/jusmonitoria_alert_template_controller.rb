@@ -4,11 +4,11 @@ class Api::V1::Accounts::Inboxes::JusmonitoriaAlertTemplateController < Api::V1:
   before_action :check_admin, only: [:create]
 
   def show
-    render json: Whatsapp::JusmonitoriaAlertTemplateService.new(@inbox).status
+    render json: Whatsapp::JusmonitoriaAlertTemplateService.new(@inbox, template_name: params[:template_name]).status
   end
 
   def create
-    render json: Whatsapp::JusmonitoriaAlertTemplateService.new(@inbox).create
+    render json: Whatsapp::JusmonitoriaAlertTemplateService.new(@inbox, template_name: params[:template_name]).create
   end
 
   private

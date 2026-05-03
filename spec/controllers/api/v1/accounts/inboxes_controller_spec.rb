@@ -1083,6 +1083,34 @@ RSpec.describe 'Inboxes API', type: :request do
     end
   end
 
+  describe 'POST /api/v1/accounts/{account.id}/inboxes/:id/refresh_whatsapp_provider_config' do
+    let(:whatsapp_channel) do
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
+    end
+    let(:whatsapp_inbox) { create(:inbox, account: account, channel: whatsapp_channel) }
+
+    it 'refreshes the WhatsApp provider config for administrators' do
+      allow(GlobalConfigService).to receive(:load).with('WHATSAPP_APP_ID', '').and_return('')
+
+      post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/refresh_whatsapp_provider_config",
+           headers: admin.create_new_auth_token,
+           params: { whatsapp_app_id: 'app-123' },
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['success']).to be(true)
+      expect(whatsapp_channel.reload.provider_config['whatsapp_app_id']).to eq('app-123')
+    end
+
+    it 'rejects agents' do
+      post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/refresh_whatsapp_provider_config",
+           headers: agent.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/health' do
     let(:whatsapp_channel) do
       create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)

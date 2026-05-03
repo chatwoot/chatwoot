@@ -15,9 +15,15 @@ class Webhooks::WhatsappController < ActionController::API
   private
 
   def valid_token?(token)
+    return token == global_webhook_verify_token if params[:phone_number].blank? && global_webhook_verify_token.present?
+
     channel = Channel::Whatsapp.find_by(phone_number: params[:phone_number])
     whatsapp_webhook_verify_token = channel.provider_config['webhook_verify_token'] if channel.present?
     token == whatsapp_webhook_verify_token if whatsapp_webhook_verify_token.present?
+  end
+
+  def global_webhook_verify_token
+    @global_webhook_verify_token ||= GlobalConfigService.load('WHATSAPP_WEBHOOK_VERIFY_TOKEN', '')
   end
 
   def inactive_whatsapp_number?

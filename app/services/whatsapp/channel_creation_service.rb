@@ -52,8 +52,13 @@ class Whatsapp::ChannelCreationService
       api_key: @access_token,
       phone_number_id: @phone_info[:phone_number_id],
       business_account_id: @waba_info[:waba_id],
+      whatsapp_app_id: whatsapp_app_id,
       source: 'embedded_signup'
-    }
+    }.compact
+  end
+
+  def whatsapp_app_id
+    Whatsapp::AppIdResolver.new.find
   end
 
   def create_inbox(channel)
