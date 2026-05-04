@@ -39,23 +39,30 @@ RSpec.describe Voice::Provider::Twilio::RecordingAttachmentService do
   let(:recording_url) { 'https://api.twilio.com/2010-04-01/Accounts/AC1/Recordings/RE9999' }
   let(:recording_duration) { '47' }
 
-  let(:downloaded_file) do
+  let(:downloaded_tempfile) do
     file = Tempfile.new(['call-recording', '.wav'])
     file.binmode
     file.write('FAKE_AUDIO_BYTES')
     file.rewind
-    file.define_singleton_method(:original_filename) { 'recording.wav' }
-    file.define_singleton_method(:content_type) { 'audio/wav' }
     file
+  end
+
+  let(:safe_fetch_result) do
+    SafeFetch::Result.new(
+      tempfile: downloaded_tempfile,
+      filename: 'recording.wav',
+      content_type: 'audio/wav'
+    )
   end
 
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)
       .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(8)}"))
 
-    allow(Down).to receive(:download)
-      .with(recording_url, http_basic_authentication: %w[AC_account_sid auth_token_value])
-      .and_return(downloaded_file)
+    allow(SafeFetch).to receive(:fetch)
+      .with(recording_url, http_basic_authentication: %w[AC_account_sid auth_token_value],
+                           allowed_content_type_prefixes: %w[audio/])
+      .and_yield(safe_fetch_result)
   end
 
   def perform_service(overrides = {})
@@ -96,22 +103,22 @@ RSpec.describe Voice::Provider::Twilio::RecordingAttachmentService do
     it 'is idempotent when the same recording_sid is already attached' do
       perform_service
 
-      expect(Down).to have_received(:download).once
+      expect(SafeFetch).to have_received(:fetch).once
 
       perform_service
 
-      expect(Down).to have_received(:download).once
+      expect(SafeFetch).to have_received(:fetch).once
       expect(call.reload.recording.blob.checksum).to be_present
     end
 
     it 'is a no-op when recording_sid is blank' do
       expect { perform_service(recording_sid: '') }.not_to change { call.reload.recording.attached? }.from(false)
-      expect(Down).not_to have_received(:download)
+      expect(SafeFetch).not_to have_received(:fetch)
     end
 
     it 'is a no-op when recording_url is blank' do
       expect { perform_service(recording_url: '') }.not_to change { call.reload.recording.attached? }.from(false)
-      expect(Down).not_to have_received(:download)
+      expect(SafeFetch).not_to have_received(:fetch)
     end
   end
 end

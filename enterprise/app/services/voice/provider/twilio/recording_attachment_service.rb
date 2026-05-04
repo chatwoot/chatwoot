@@ -1,5 +1,6 @@
 class Voice::Provider::Twilio::RecordingAttachmentService
   DEFAULT_FILENAME_EXTENSION = 'wav'.freeze
+  ALLOWED_CONTENT_TYPE_PREFIXES = %w[audio/].freeze
 
   pattr_initialize [:call!, :recording_sid!, :recording_url!, { recording_duration: nil }]
 
@@ -7,23 +8,26 @@ class Voice::Provider::Twilio::RecordingAttachmentService
     return if recording_sid.blank? || recording_url.blank?
     return if already_attached?
 
-    recording_file = download_recording
-    persist_recording!(recording_file)
+    SafeFetch.fetch(
+      recording_url,
+      http_basic_authentication: [account_sid, auth_token],
+      allowed_content_type_prefixes: ALLOWED_CONTENT_TYPE_PREFIXES
+    ) do |result|
+      persist_recording!(result)
+    end
 
     # Bump the message updated_at so the message.updated dispatcher rebroadcasts
     # the embedded Call payload (now with recording_url) to connected clients.
     call.message&.touch # rubocop:disable Rails/SkipsModelValidations
-  ensure
-    recording_file.close! if recording_file.respond_to?(:close!)
   end
 
   private
 
-  def persist_recording!(recording_file)
+  def persist_recording!(result)
     call.with_lock do
       next if already_attached?
 
-      attach_recording!(recording_file)
+      attach_recording!(result)
       call.recording_sid = recording_sid
       call.duration_seconds ||= normalized_recording_duration
       call.save!
@@ -34,15 +38,11 @@ class Voice::Provider::Twilio::RecordingAttachmentService
     call.recording.attached? && call.recording_sid.to_s == recording_sid.to_s
   end
 
-  def download_recording
-    Down.download(recording_url, http_basic_authentication: [account_sid, auth_token])
-  end
-
-  def attach_recording!(recording_file)
+  def attach_recording!(result)
     call.recording.attach(
-      io: recording_file,
-      filename: recording_filename(recording_file),
-      content_type: recording_content_type(recording_file)
+      io: result.tempfile,
+      filename: recording_filename(result),
+      content_type: recording_content_type(result)
     )
   end
 
@@ -52,20 +52,19 @@ class Voice::Provider::Twilio::RecordingAttachmentService
     recording_duration.to_i
   end
 
-  def recording_filename(recording_file)
-    filename = recording_file.original_filename if recording_file.respond_to?(:original_filename)
-    return filename if filename.present?
+  def recording_filename(result)
+    return result.original_filename if result.original_filename.present?
 
-    "call-recording-#{recording_sid}.#{recording_extension(recording_file)}"
+    "call-recording-#{recording_sid}.#{recording_extension(result)}"
   end
 
-  def recording_extension(recording_file)
-    content_type = recording_content_type(recording_file)
+  def recording_extension(result)
+    content_type = recording_content_type(result)
     Rack::Mime::MIME_TYPES.invert[content_type].to_s.delete_prefix('.').presence || DEFAULT_FILENAME_EXTENSION
   end
 
-  def recording_content_type(recording_file)
-    recording_file.content_type.presence || 'audio/wav'
+  def recording_content_type(result)
+    result.content_type.presence || 'audio/wav'
   end
 
   def account_sid
