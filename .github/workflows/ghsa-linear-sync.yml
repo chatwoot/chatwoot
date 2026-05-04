@@ -17,10 +17,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh api \
+          gh api --paginate \
             -H "Accept: application/vnd.github+json" \
             "/repos/${{ github.repository }}/security-advisories?state=triage&per_page=100" \
-            | jq -c '[.[] | {
+            | jq -cs 'add | [.[] | {
                 ghsa_id, cve_id, summary, severity, state, html_url,
                 description, created_at,
                 cvss_score: .cvss.score,
