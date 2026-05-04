@@ -24,5 +24,9 @@ const formattedContent = computed(() => {
 </script>
 
 <template>
-  <span v-dompurify-html="formattedContent" class="prose prose-bubble" />
+  <span
+    v-dompurify-html="formattedContent"
+    dir="auto"
+    class="prose prose-bubble"
+  />
 </template>
