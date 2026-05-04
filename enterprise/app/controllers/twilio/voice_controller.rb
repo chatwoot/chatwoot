@@ -38,12 +38,22 @@ class Twilio::VoiceController < ApplicationController
     end
 
     call = find_call_for_conference!(params[:FriendlyName], twilio_call_sid)
+    persist_twilio_conference_sid!(call, params[:ConferenceSid])
 
     Voice::Conference::Manager.new(
       call: call,
       event: event,
       participant_label: participant_label
     ).process
+
+    head :no_content
+  end
+
+  def recording_status
+    Voice::RecordingStatusService.new(
+      account: current_account,
+      payload: params.to_unsafe_h
+    ).perform
 
     head :no_content
   end
@@ -125,6 +135,10 @@ class Twilio::VoiceController < ApplicationController
           conference_sid,
           start_conference_on_enter: agent_leg?(twilio_from),
           end_conference_on_exit: false,
+          record: 'record-from-start',
+          recording_status_callback: recording_status_callback_url,
+          recording_status_callback_event: 'completed',
+          recording_status_callback_method: 'POST',
           status_callback: conference_status_callback_url,
           status_callback_event: 'start end join leave',
           status_callback_method: 'POST',
@@ -152,10 +166,25 @@ class Twilio::VoiceController < ApplicationController
     Rails.application.routes.url_helpers.twilio_voice_conference_status_url(phone: phone_digits)
   end
 
+  def recording_status_callback_url
+    phone_digits = inbox_channel.phone_number.delete_prefix('+')
+    Rails.application.routes.url_helpers.twilio_voice_recording_status_url(phone: phone_digits)
+  end
+
   def find_call_for_conference!(friendly_name, call_sid)
     name = friendly_name.to_s
     call = inbox_calls.by_conference_sid(name).first if name.present?
     call || inbox_calls.find_by!(provider_call_id: call_sid)
+  end
+
+  # Twilio's recording webhook only sends its internal ConferenceSid (CF...),
+  # not our FriendlyName. Persist Twilio's id the first time we see it on a
+  # conference event so the recording lookup can match later.
+  def persist_twilio_conference_sid!(call, sid)
+    return if sid.blank?
+    return if call.twilio_conference_sid == sid
+
+    call.update!(twilio_conference_sid: sid)
   end
 
   def set_inbox!

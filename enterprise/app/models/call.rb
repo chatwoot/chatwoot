@@ -34,7 +34,7 @@ class Call < ApplicationRecord
   # Statuses where the call is finished and won't change again
   TERMINAL_STATUSES = %w[completed no_answer failed].freeze
 
-  store_accessor :meta, :conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at
+  store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at
 
   enum :provider, { twilio: 0, whatsapp: 1 }
   enum :direction, { incoming: 0, outgoing: 1 }
@@ -55,6 +55,7 @@ class Call < ApplicationRecord
 
   scope :active, -> { where.not(status: TERMINAL_STATUSES) }
   scope :by_conference_sid, ->(sid) { where("meta->>'conference_sid' = ?", sid) }
+  scope :by_twilio_conference_sid, ->(sid) { where("meta->>'twilio_conference_sid' = ?", sid) }
 
   def self.find_by_provider_call_id(provider, sid)
     find_by(provider: provider, provider_call_id: sid)
