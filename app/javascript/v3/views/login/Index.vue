@@ -318,6 +318,7 @@ export default {
           this.resendConfirmation.cooldownInterval = null;
         }
       }, 1000);
+    },
     handleMfaVerified() {
       // MFA verification successful, continue with login
       this.handleImpersonation();
