@@ -6,7 +6,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:assistant2) { create(:captain_assistant, account: account) }
-  let(:document) { create(:captain_document, assistant: assistant, account: account) }
+  let(:document) { create(:captain_document, assistant: assistant, account: account, status: :available) }
   let(:captain_limits) do
     {
       :startups => { :documents => 1, :responses => 100 }
@@ -141,6 +141,27 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         expect(json_response[:name]).to eq(document.name)
         expect(json_response[:external_link]).to eq(document.external_link)
       end
+
+      it 'returns sync metadata when the document has been synced' do
+        synced_at = 1.hour.ago
+        document.update!(sync_status: :synced, last_synced_at: synced_at)
+
+        get "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}",
+            headers: agent.create_new_auth_token, as: :json
+
+        expect(json_response[:sync_status]).to eq('synced')
+        expect(json_response[:last_synced_at]).to eq(synced_at.to_i)
+      end
+
+      it 'does not report failed documents without a successful sync as last synced' do
+        document.update!(sync_status: :failed, last_sync_attempted_at: 1.minute.ago)
+
+        get "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}",
+            headers: agent.create_new_auth_token, as: :json
+
+        expect(json_response[:sync_status]).to eq('failed')
+        expect(json_response[:last_synced_at]).to be_nil
+      end
     end
   end
 
@@ -231,6 +252,98 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         it 'returns an error' do
           expect(response).to have_http_status(:unprocessable_entity)
         end
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/:account_id/captain/documents/:id/sync' do
+    before { clear_enqueued_jobs }
+
+    context 'when it is an un-authenticated user' do
+      it 'returns unauthorized status' do
+        post "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}/sync"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an agent' do
+      it 'denies the request' do
+        post "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}/sync",
+             headers: agent.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an admin' do
+      it 'queues a sync and returns accepted' do
+        freeze_time do
+          expect do
+            post "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}/sync",
+                 headers: admin.create_new_auth_token, as: :json
+          end.to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document)
+
+          expect(document.reload).to have_attributes(
+            sync_status: 'syncing',
+            last_sync_attempted_at: Time.current
+          )
+        end
+
+        expect(response).to have_http_status(:accepted)
+      end
+
+      it 'rejects documents that already have a sync in progress' do
+        document.update!(sync_status: :syncing, last_sync_attempted_at: 1.minute.ago)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}/sync",
+               headers: admin.create_new_auth_token, as: :json
+        end.not_to have_enqueued_job(Captain::Documents::PerformSyncJob)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'queues stale syncing documents again' do
+        freeze_time do
+          document.update!(sync_status: :syncing, last_sync_attempted_at: (Captain::Document::SYNC_STALE_TIMEOUT + 1.minute).ago)
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}/sync",
+                 headers: admin.create_new_auth_token, as: :json
+          end.to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document)
+
+          expect(document.reload).to have_attributes(
+            sync_status: 'syncing',
+            last_sync_attempted_at: Time.current
+          )
+        end
+
+        expect(response).to have_http_status(:accepted)
+      end
+
+      it 'rejects PDF documents with an explanatory error' do
+        pdf_document = build(:captain_document, assistant: assistant, account: account)
+        pdf_document.pdf_file.attach(io: StringIO.new('PDF content'), filename: 'test.pdf',
+                                     content_type: 'application/pdf')
+        pdf_document.save!
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/documents/#{pdf_document.id}/sync",
+               headers: admin.create_new_auth_token, as: :json
+        end.not_to have_enqueued_job(Captain::Documents::PerformSyncJob)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'rejects documents that are still being processed' do
+        in_progress_document = create(:captain_document, assistant: assistant, account: account, status: :in_progress)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/documents/#{in_progress_document.id}/sync",
+               headers: admin.create_new_auth_token, as: :json
+        end.not_to have_enqueued_job(Captain::Documents::PerformSyncJob)
+
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end

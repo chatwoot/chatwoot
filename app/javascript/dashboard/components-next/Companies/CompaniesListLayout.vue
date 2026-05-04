@@ -21,7 +21,7 @@ const updateCurrentPage = page => {
 
 <template>
   <section
-    class="flex w-full h-full gap-4 overflow-hidden justify-evenly bg-n-background"
+    class="flex w-full h-full gap-4 overflow-hidden justify-evenly bg-n-surface-1"
   >
     <div class="flex flex-col w-full h-full transition-all duration-300">
       <CompanyHeader
@@ -32,17 +32,18 @@ const updateCurrentPage = page => {
         @search="emit('search', $event)"
         @update:sort="emit('update:sort', $event)"
       />
-      <main class="flex-1 overflow-y-auto">
-        <div class="w-full mx-auto max-w-[60rem]">
+      <main class="flex-1 px-6 overflow-y-auto">
+        <div class="w-full mx-auto max-w-5xl py-4">
           <slot name="default" />
         </div>
       </main>
-      <footer v-if="showPaginationFooter" class="sticky bottom-0 z-0 px-4 pb-4">
+      <footer v-if="showPaginationFooter" class="sticky bottom-0 z-0">
         <PaginationFooter
           current-page-info="COMPANIES_LAYOUT.PAGINATION_FOOTER.SHOWING"
           :current-page="currentPage"
           :total-items="totalItems"
           :items-per-page="25"
+          class="max-w-[67rem]"
           @update:current-page="updateCurrentPage"
         />
       </footer>

@@ -1,7 +1,7 @@
 <script>
 import V4Button from 'dashboard/components-next/button/Button.vue';
 import { useAlert, useTrack } from 'dashboard/composables';
-import ReportFilterSelector from './components/FilterSelector.vue';
+import ReportFilters from './components/ReportFilters.vue';
 import { GROUP_BY_FILTER } from './constants';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import { generateFileName } from 'dashboard/helper/downloadHelper';
@@ -22,7 +22,7 @@ export default {
   name: 'ConversationReports',
   components: {
     ReportHeader,
-    ReportFilterSelector,
+    ReportFilters,
     ReportContainer,
     V4Button,
   },
@@ -76,14 +76,14 @@ export default {
         businessHours,
       };
     },
-    downloadAgentReports() {
+    downloadConversationReports() {
       const { from, to } = this;
       const fileName = generateFileName({
-        type: 'agent',
+        type: 'conversation',
         to,
         businessHours: this.businessHours,
       });
-      this.$store.dispatch('downloadAgentReports', {
+      this.$store.dispatch('downloadConversationsSummaryReports', {
         from,
         to,
         fileName,
@@ -109,16 +109,16 @@ export default {
 <template>
   <ReportHeader :header-title="$t('REPORT.HEADER')">
     <V4Button
-      :label="$t('REPORT.DOWNLOAD_AGENT_REPORTS')"
+      :label="$t('REPORT.DOWNLOAD_CONVERSATION_REPORTS')"
       icon="i-ph-download-simple"
       size="sm"
-      @click="downloadAgentReports"
+      @click="downloadConversationReports"
     />
   </ReportHeader>
-  <div class="flex flex-col gap-3">
-    <ReportFilterSelector
-      :show-agents-filter="false"
-      show-group-by-filter
+  <div class="flex flex-col">
+    <ReportFilters
+      :show-entity-filter="false"
+      show-group-by
       @filter-change="onFilterChange"
     />
     <ReportContainer :group-by="groupBy" />

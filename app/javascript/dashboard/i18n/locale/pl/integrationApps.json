@@ -3,6 +3,9 @@
     "FETCHING": "Pobieranie integracji",
     "NO_HOOK_CONFIGURED": "W tym koncie nie skonfigurowano integracji {integrationId}.",
     "HEADER": "Aplikacje",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Włączone",
       "DISABLED": "Wyłączone"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Pobieranie hooków integracyjnych",
       "INBOX": "Skrzynka odbiorcza",
+      "ACTIONS": "Akcje",
       "DELETE": {
         "BUTTON_TEXT": "Usuń"
       }

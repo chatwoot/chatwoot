@@ -7,6 +7,13 @@
     },
     "CLOSE": "Chiudi",
     "BETA": "Beta",
-    "BETA_DESCRIPTION": "Questa funzione è in beta e può subire variazioni mentre la miglioriamo."
+    "BETA_DESCRIPTION": "Questa funzione è in beta e può subire variazioni mentre la miglioriamo.",
+    "ACCEPT": "Accetta",
+    "DISCARD": "Annulla",
+    "PREFERRED": "Preferito"
+  },
+  "CHOICE_TOGGLE": {
+    "YES": "Sì",
+    "NO": "No"
   }
 }

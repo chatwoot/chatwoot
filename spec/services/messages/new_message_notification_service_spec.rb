@@ -2,8 +2,14 @@ require 'rails_helper'
 
 describe Messages::NewMessageNotificationService do
   context 'when message is not notifiable' do
-    it 'will not create any notifications' do
+    it 'will not create any notifications for activity messages' do
       message = build(:message, message_type: :activity)
+      expect(NotificationBuilder).not_to receive(:new)
+      described_class.new(message: message).perform
+    end
+
+    it 'will not create any notifications for private messages' do
+      message = build(:message, message_type: :outgoing, private: true)
       expect(NotificationBuilder).not_to receive(:new)
       described_class.new(message: message).perform
     end

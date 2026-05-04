@@ -10,6 +10,8 @@ import {
   isSameMonth,
   format,
   startOfWeek,
+  endOfWeek,
+  addWeeks,
   addDays,
   eachDayOfInterval,
   endOfMonth,
@@ -34,13 +36,27 @@ export const dateRanges = [
   {
     label: 'DATE_PICKER.DATE_RANGE_OPTIONS.LAST_3_MONTHS',
     value: 'last3months',
+    separator: true,
   },
   {
     label: 'DATE_PICKER.DATE_RANGE_OPTIONS.LAST_6_MONTHS',
     value: 'last6months',
   },
   { label: 'DATE_PICKER.DATE_RANGE_OPTIONS.LAST_YEAR', value: 'lastYear' },
-  { label: 'DATE_PICKER.DATE_RANGE_OPTIONS.CUSTOM_RANGE', value: 'custom' },
+  {
+    label: 'DATE_PICKER.DATE_RANGE_OPTIONS.THIS_WEEK',
+    value: 'thisWeek',
+    separator: true,
+  },
+  {
+    label: 'DATE_PICKER.DATE_RANGE_OPTIONS.MONTH_TO_DATE',
+    value: 'monthToDate',
+  },
+  {
+    label: 'DATE_PICKER.DATE_RANGE_OPTIONS.CUSTOM_RANGE',
+    value: 'custom',
+    separator: true,
+  },
 ];
 
 export const DATE_RANGE_TYPES = {
@@ -49,6 +65,8 @@ export const DATE_RANGE_TYPES = {
   LAST_3_MONTHS: 'last3months',
   LAST_6_MONTHS: 'last6months',
   LAST_YEAR: 'lastYear',
+  THIS_WEEK: 'thisWeek',
+  MONTH_TO_DATE: 'monthToDate',
   CUSTOM_RANGE: 'custom',
 };
 
@@ -210,10 +228,63 @@ export const getActiveDateRange = (range, currentDate) => {
       start: startOfDay(subMonths(currentDate, 12)),
       end: endOfDay(currentDate),
     }),
+    thisWeek: () => ({
+      start: startOfDay(startOfWeek(currentDate, { weekStartsOn: 1 })),
+      end: endOfDay(currentDate),
+    }),
+    monthToDate: () => ({
+      start: startOfDay(startOfMonth(currentDate)),
+      end: endOfDay(currentDate),
+    }),
     custom: () => ({ start: currentDate, end: currentDate }),
   };
 
   return (
     ranges[range] || (() => ({ start: currentDate, end: currentDate }))
   )();
+};
+
+export const isNavigableRange = rangeType =>
+  rangeType === DATE_RANGE_TYPES.MONTH_TO_DATE ||
+  rangeType === DATE_RANGE_TYPES.THIS_WEEK;
+
+const WEEK_START = 1; // Monday
+
+const getWeekRangeAtOffset = (offset, currentDate) => {
+  if (offset === 0) {
+    return {
+      start: startOfDay(startOfWeek(currentDate, { weekStartsOn: WEEK_START })),
+      end: endOfDay(currentDate),
+    };
+  }
+  const targetWeek = addWeeks(currentDate, offset);
+  return {
+    start: startOfDay(startOfWeek(targetWeek, { weekStartsOn: WEEK_START })),
+    end: endOfDay(endOfWeek(targetWeek, { weekStartsOn: WEEK_START })),
+  };
+};
+
+const getMonthRangeAtOffset = (offset, currentDate) => {
+  if (offset === 0) {
+    return {
+      start: startOfDay(startOfMonth(currentDate)),
+      end: endOfDay(currentDate),
+    };
+  }
+  const targetMonth = addMonths(currentDate, offset);
+  return {
+    start: startOfDay(startOfMonth(targetMonth)),
+    end: endOfDay(endOfMonth(targetMonth)),
+  };
+};
+
+export const getRangeAtOffset = (
+  rangeType,
+  offset,
+  currentDate = new Date()
+) => {
+  if (rangeType === DATE_RANGE_TYPES.THIS_WEEK) {
+    return getWeekRangeAtOffset(offset, currentDate);
+  }
+  return getMonthRangeAtOffset(offset, currentDate);
 };

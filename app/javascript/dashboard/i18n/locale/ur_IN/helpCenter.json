@@ -1,865 +1,897 @@
 {
   "HELP_CENTER": {
-    "TITLE": "Help Center",
+    "TITLE": "مرکز مدد",
     "NEW_PAGE": {
-      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
-      "CREATE_PORTAL_BUTTON": "Create Portal"
+      "DESCRIPTION": "اپنے صارفین کے لیے سیلف سروس ہیلپ سینٹر پورٹلز بنائیں۔ انہیں جلدی جواب تلاش کرنے میں مدد دیں، بغیر انتظار کے۔ سوالات کو آسان بنائیں، ایجنٹ کی کارکردگی بڑھائیں، اور کسٹمر سپورٹ کو بہتر بنائیں۔.",
+      "CREATE_PORTAL_BUTTON": "پورٹل بنائیں"
     },
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
-      "LOCALE": "Locale",
-      "SETTINGS_BUTTON": "Settings",
-      "NEW_BUTTON": "New Article",
+      "FILTER": "فلٹر کریں",
+      "SORT": "ترتیب دیں",
+      "LOCALE": "مقامی زبان",
+      "SETTINGS_BUTTON": "ترتیبات",
+      "NEW_BUTTON": "نیا مضمون",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "شائع شدہ",
+        "DRAFT": "مسودہ",
+        "ARCHIVED": "محفوظ شدہ"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "تمام مضامین",
+        "MINE": "میرے مضامین",
+        "DRAFT": "مسودہ مضامین",
+        "ARCHIVED": "محفوظ شدہ مضامین"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "مقامی زبان منتخب کریں",
+        "PLACEHOLDER": "مقامی زبان منتخب کریں",
+        "NO_RESULT": "کوئی مقامی زبان نہیں ملی",
+        "SEARCH_PLACEHOLDER": "مقام تلاش کریں"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "تمام مضامین",
+      "PUBLISH_BUTTON": "شائع کریں",
+      "MOVE_TO_ARCHIVE_BUTTON": "محفوظ شدہ میں منتقل کریں",
+      "PREVIEW": "پیش نظارہ",
+      "ADD_TRANSLATION": "ترجمہ شامل کریں",
+      "OPEN_SIDEBAR": "سائڈبار کھولیں",
+      "CLOSE_SIDEBAR": "سائڈبار بند کریں",
+      "SAVING": "محفوظ کیا جا رہا ہے...",
+      "SAVED": "محفوظ ہو گیا"
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
-        "TITLE": "Upload image",
-        "UPLOADING": "Uploading...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "TITLE": "تصویر اپ لوڈ کریں",
+        "UPLOADING": "اپ لوڈ ہو رہا ہے...",
+        "SUCCESS": "تصویر کامیابی سے اپ لوڈ ہو گئی",
+        "ERROR": "تصویر اپ لوڈ کرتے وقت خرابی",
+        "UN_AUTHORIZED_ERROR": "آپ کو تصاویر اپ لوڈ کرنے کی اجازت نہیں ہے",
+        "ERROR_FILE_SIZE": "تصویر کا سائز {size}MB سے کم ہونا چاہیے",
+        "ERROR_FILE_FORMAT": "تصویر کا فارمیٹ jpg، jpeg یا png ہونا چاہیے",
+        "ERROR_FILE_DIMENSIONS": "تصویر کے طول و عرض 2000 x 2000 سے کم ہونے چاہئیں"
       }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "مضمون کی ترتیبات",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "زمرہ",
+          "TITLE": "زمرہ منتخب کریں",
+          "PLACEHOLDER": "زمرہ منتخب کریں",
+          "NO_RESULT": "کوئی زمرہ نہیں ملا",
+          "SEARCH_PLACEHOLDER": "زمرہ تلاش کریں"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "مصنف",
+          "TITLE": "مصنف منتخب کریں",
+          "PLACEHOLDER": "مصنف منتخب کریں",
+          "NO_RESULT": "کوئی مصنف نہیں ملا",
+          "SEARCH_PLACEHOLDER": "مصنف تلاش کریں"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "میٹا عنوان",
+          "PLACEHOLDER": "میٹا عنوان شامل کریں"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "میٹا تفصیل",
+          "PLACEHOLDER": "بہتر SEO نتائج کے لیے اپنی میٹا تفصیل شامل کریں..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "میٹا ٹیگز",
+          "PLACEHOLDER": "کاما سے جدا کیے گئے میٹا ٹیگز شامل کریں..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "مضمون کو آرکائیو کریں",
+        "DELETE": "مضمون حذف کریں"
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for {query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
-      "SEARCH_LOADER": "Searching...",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "UNCATEGORIZED": "بغیر زمرہ",
+      "SEARCH_RESULTS": "{query} کے لیے تلاش کے نتائج",
+      "EMPTY_TEXT": "جوابات میں شامل کرنے کے لیے مضامین تلاش کریں۔.",
+      "SEARCH_LOADER": "تلاش جاری ہے...",
+      "INSERT_ARTICLE": "داخل کریں",
+      "NO_RESULT": "کوئی مضمون نہیں ملا",
+      "COPY_LINK": "مضمون کا لنک کلپ بورڈ پر کاپی کریں",
+      "OPEN_LINK": "مضمون کو نئی ٹیب میں کھولیں",
+      "PREVIEW_LINK": "مضمون کا پیش نظارہ کریں"
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "DEFAULT": "Default",
-      "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "HEADER": "پورٹلز",
+      "DEFAULT": "ڈیفالٹ",
+      "NEW_BUTTON": "نیا پورٹل",
+      "ACTIVE_BADGE": "فعال",
+      "CHOOSE_LOCALE_LABEL": "ایک زبان منتخب کریں",
+      "LOADING_MESSAGE": "پورٹلز لوڈ ہو رہے ہیں...",
+      "ARTICLES_LABEL": "مضامین",
+      "NO_PORTALS_MESSAGE": "کوئی دستیاب پورٹلز نہیں ہیں",
+      "ADD_NEW_LOCALE": "نئی زبان شامل کریں",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
-        "CANCEL_BUTTON_LABEL": "Cancel",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "TITLE": "پورٹلز",
+        "PORTAL_SETTINGS": "پورٹل کی ترتیبات",
+        "SUBTITLE": "آپ کے پاس متعدد پورٹلز ہیں اور ہر پورٹل کے لیے مختلف لوکیلز ہو سکتی ہیں۔.",
+        "CANCEL_BUTTON_LABEL": "منسوخ کریں",
+        "CHOOSE_LOCALE_BUTTON": "زبان منتخب کریں"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
-            "SETTINGS": "Settings",
-            "DELETE": "Delete"
+            "COUNT_LABEL": "مضامین",
+            "ADD": "زبان شامل کریں",
+            "VISIT": "سائٹ ملاحظہ کریں",
+            "SETTINGS": "ترتیبات",
+            "DELETE": "حذف کریں"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "پورٹل کی ترتیبات",
             "ITEMS": {
-              "NAME": "Name",
-              "DOMAIN": "Custom domain",
-              "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "NAME": "نام",
+              "DOMAIN": "حسبِ ضرورت ڈومین",
+              "SLUG": "سلاگ",
+              "TITLE": "پورٹل کا عنوان",
+              "THEME": "تھیم کا رنگ",
+              "SUB_TEXT": "پورٹل کا ضمنی متن"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "دستیاب مقامی زبانیں",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
-              "DELETE": "Delete",
-              "DEFAULT_LOCALE": "Default"
+              "NAME": "مقامی نام",
+              "CODE": "مقامی کوڈ",
+              "ARTICLE_COUNT": "مضامین کی تعداد",
+              "CATEGORIES": "زمرہ جات کی تعداد",
+              "SWAP": "تبدیل کریں",
+              "DELETE": "حذف کریں",
+              "DEFAULT_LOCALE": "ڈیفالٹ"
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "پورٹل حذف کریں",
+          "MESSAGE": "کیا آپ واقعی اس پورٹل کو حذف کرنا چاہتے ہیں",
+          "YES": "ہاں، پورٹل حذف کریں",
+          "NO": "نہیں، پورٹل رکھیں",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "پورٹل کامیابی سے حذف ہو گیا",
+            "DELETE_ERROR": "پورٹل حذف کرتے وقت خرابی"
           }
         },
         "SEND_CNAME_INSTRUCTIONS": {
           "API": {
-            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
-            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+            "SUCCESS_MESSAGE": "CNAME ہدایات کامیابی سے بھیج دی گئیں",
+            "ERROR_MESSAGE": "CNAME ہدایات بھیجتے وقت خرابی"
           }
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit portal",
+        "HEADER_TEXT": "پورٹل میں ترمیم کریں",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": "بنیادی معلومات"
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Portal customization"
+            "TITLE": "پورٹل کی تخصیص"
           },
           "CATEGORY_SETTINGS": {
-            "TITLE": "Categories"
+            "TITLE": "زمرہ جات"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": "مقامی زبانیں"
           }
         },
         "CATEGORIES": {
-          "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "TITLE": "میں زمرہ جات",
+          "NEW_CATEGORY": "نیا زمرہ",
           "TABLE": {
-            "NAME": "Name",
-            "DESCRIPTION": "Description",
-            "LOCALE": "Locale",
-            "ARTICLE_COUNT": "No. of articles",
+            "NAME": "نام",
+            "DESCRIPTION": "تفصیل",
+            "LOCALE": "مقامی زبان",
+            "ARTICLE_COUNT": "مضامین کی تعداد",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "زمرہ ترمیم کریں",
+              "DELETE": "زمرہ حذف کریں"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "کوئی زمرہ نہیں ملا"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Update basic settings"
+          "BUTTON_TEXT": "بنیادی ترتیبات کو اپ ڈیٹ کریں"
         }
       },
       "ADD": {
         "CREATE_FLOW": {
           "BASIC": {
-            "TITLE": "Help center information",
-            "BODY": "Basic information about portal"
+            "TITLE": "مدد مرکز کی معلومات",
+            "BODY": "پورٹل کے بارے میں بنیادی معلومات"
           },
           "CUSTOMIZATION": {
-            "TITLE": "Help center customization",
-            "BODY": "Customize portal"
+            "TITLE": "مدد مرکز کی تخصیص",
+            "BODY": "پورٹل کو حسبِ منشا بنائیں"
           },
           "FINISH": {
-            "TITLE": "Voila! 🎉",
-            "BODY": "You're all set!"
+            "TITLE": "وائلا! 🎉",
+            "BODY": "آپ تیار ہیں!"
           }
         },
         "CREATE_FLOW_PAGE": {
-          "BACK_BUTTON": "Back",
+          "BACK_BUTTON": "واپس",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "پورٹل بنائیں",
+            "TITLE": "ہیلپ سینٹر کی معلومات",
+            "CREATE_BASIC_SETTING_BUTTON": "پورٹل کی بنیادی ترتیبات بنائیں"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "پورٹل کی تخصیص",
+            "TITLE": "ہیلپ سینٹر کی تخصیص",
+            "UPDATE_PORTAL_BUTTON": "پورٹل کی ترتیبات کو اپ ڈیٹ کریں"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "واہ!🎉 آپ کی سیٹ اپ مکمل ہو گئی ہے!",
+            "MESSAGE": "اب آپ اس بنائے گئے پورٹل کو اپنے تمام پورٹلز کے صفحے پر دیکھ سکتے ہیں۔.",
+            "FINISH": "تمام پورٹلز کے صفحے پر جائیں"
           }
         },
         "LOGO": {
-          "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "LABEL": "لوگو",
+          "UPLOAD_BUTTON": "لوگو اپ لوڈ کریں",
+          "HELP_TEXT": "یہ لوگو پورٹل کے ہیڈر پر دکھایا جائے گا۔.",
+          "IMAGE_UPLOAD_SUCCESS": "لوگو کامیابی سے اپ لوڈ ہو گیا",
+          "IMAGE_UPLOAD_ERROR": "لوگو کامیابی سے حذف کر دیا گیا",
+          "IMAGE_DELETE_ERROR": "لوگو حذف کرتے وقت خرابی"
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
-          "ERROR": "Name is required"
+          "LABEL": "نام",
+          "PLACEHOLDER": "پورٹل کا نام",
+          "HELP_TEXT": "یہ نام عوامی پورٹل میں داخلی طور پر استعمال ہوگا۔.",
+          "ERROR": "نام ضروری ہے"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-          "ERROR": "Slug is required"
+          "LABEL": "سلاگ",
+          "PLACEHOLDER": "یو آر ایل کے لیے پورٹل سلاگ",
+          "ERROR": "سلاگ ضروری ہے"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
-          "ERROR": "Enter a valid domain URL"
+          "LABEL": "کسٹم ڈومین",
+          "PLACEHOLDER": "پورٹل کا کسٹم ڈومین",
+          "HELP_TEXT": "صرف اس صورت میں شامل کریں اگر آپ اپنے پورٹلز کے لیے کسٹم ڈومین استعمال کرنا چاہتے ہیں۔ مثلاً: {exampleURL}",
+          "ERROR": "براہ کرم ایک درست ڈومین URL درج کریں"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
-          "ERROR": "Enter a valid home page URL"
+          "LABEL": "ہوم پیج لنک",
+          "PLACEHOLDER": "پورٹل ہوم پیج لنک",
+          "HELP_TEXT": "وہ لنک جو پورٹل سے ہوم پیج پر واپس جانے کے لیے استعمال ہوتا ہے۔ مثلاً: {exampleURL}",
+          "ERROR": "براہ کرم ایک درست ہوم پیج URL درج کریں"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "پورٹل تھیم کا رنگ",
+          "HELP_TEXT": "یہ رنگ پورٹل کے تھیم رنگ کے طور پر دکھایا جائے گا۔."
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "LABEL": "صفحہ کا عنوان",
+          "PLACEHOLDER": "پورٹل صفحہ کا عنوان",
+          "HELP_TEXT": "صفحے کا عنوان عوامی پورٹل میں استعمال ہوگا۔.",
+          "ERROR": "صفحہ کا عنوان ضروری ہے"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "ہیڈر متن",
+          "PLACEHOLDER": "پورٹل ہیڈر متن",
+          "HELP_TEXT": "پورٹل کا ہیڈر متن عوامی پورٹل میں استعمال ہوگا۔.",
+          "ERROR": "پورٹل ہیڈر متن ضروری ہے"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "پورٹل کامیابی سے بنایا گیا۔.",
+          "ERROR_MESSAGE_FOR_BASIC": "پورٹل بنانے میں ناکامی۔ دوبارہ کوشش کریں۔.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "پورٹل کامیابی سے اپ ڈیٹ کیا گیا۔.",
+          "ERROR_MESSAGE_FOR_UPDATE": "پورٹل کو اپ ڈیٹ کرنے میں ناکامی۔ دوبارہ کوشش کریں۔."
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Add a new locale",
-        "SUB_TITLE": "This adds a new locale to your available translation list.",
-        "PORTAL": "Portal",
+        "TITLE": "نیا لوکیل شامل کریں",
+        "SUB_TITLE": "یہ آپ کی دستیاب ترجمہ فہرست میں ایک نیا لوکیل شامل کرتا ہے۔.",
+        "PORTAL": "پورٹل",
         "LOCALE": {
-          "LABEL": "Locale",
-          "PLACEHOLDER": "Choose a locale",
-          "ERROR": "Locale is required"
+          "LABEL": "مقامی زبان",
+          "PLACEHOLDER": "ایک مقامی زبان منتخب کریں",
+          "ERROR": "مقامی زبان ضروری ہے"
         },
         "BUTTONS": {
-          "CREATE": "Create locale",
-          "CANCEL": "Cancel"
+          "CREATE": "مقامی زبان بنائیں",
+          "CANCEL": "منسوخ کریں"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "مقامی زبان کامیابی سے شامل کی گئی",
+          "ERROR_MESSAGE": "لوکیل شامل کرنے میں ناکامی۔ دوبارہ کوشش کریں۔."
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Default locale updated successfully",
-          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+          "SUCCESS_MESSAGE": "ڈیفالٹ زبان کامیابی سے اپ ڈیٹ ہو گئی",
+          "ERROR_MESSAGE": "ڈیفالٹ لوکیل کو اپ ڈیٹ کرنے میں ناکامی۔ دوبارہ کوشش کریں۔."
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
-          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+          "SUCCESS_MESSAGE": "زبان پورٹل سے کامیابی سے ہٹا دی گئی",
+          "ERROR_MESSAGE": "پورٹل سے لوکیل ہٹانے میں ناکامی۔ دوبارہ کوشش کریں۔."
+        }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "مضامین لوڈ ہو رہے ہیں...",
+      "404": "آپ کی تلاش سے کوئی مضمون مطابقت نہیں رکھتا 🔍",
+      "NO_ARTICLES": "کوئی دستیاب مضامین نہیں ہیں",
       "HEADERS": {
-        "TITLE": "Title",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Views",
-        "STATUS": "Status",
-        "LAST_EDITED": "Last edited"
+        "TITLE": "عنوان",
+        "CATEGORY": "زمرہ",
+        "READ_COUNT": "دیکھے گئے",
+        "STATUS": "حیثیت",
+        "LAST_EDITED": "آخری ترمیم"
       },
       "COLUMNS": {
-        "BY": "by",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "بذریعہ",
+        "AUTHOR_NOT_AVAILABLE": "مصنف دستیاب نہیں ہے"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "مضمون لوڈ ہو رہا ہے...",
+      "TITLE_PLACEHOLDER": "مضمون کا عنوان یہاں لکھیں",
+      "CONTENT_PLACEHOLDER": "اپنا مضمون یہاں لکھیں",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "مضمون محفوظ کرتے وقت خرابی"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article published successfully"
+        "ERROR": "مضمون شائع کرتے وقت خرابی",
+        "SUCCESS": "مضمون کامیابی سے شائع ہو گیا"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "مضمون کو آرکائیو کرتے وقت خرابی",
+        "SUCCESS": "مضمون کامیابی سے آرکائیو ہو گیا"
       }
     },
     "DRAFT_ARTICLE": {
       "API": {
-        "ERROR": "Error while drafting article",
-        "SUCCESS": "Article drafted successfully"
+        "ERROR": "مضمون کا مسودہ تیار کرتے ہوئے خرابی",
+        "SUCCESS": "مضمون کامیابی سے مسودہ تیار ہو گیا"
       }
     },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete the article?",
-          "YES": "Yes, Delete",
-          "NO": "No, Keep it"
+          "TITLE": "حذف کرنے کی تصدیق کریں",
+          "MESSAGE": "کیا آپ واقعی مضمون کو حذف کرنا چاہتے ہیں؟",
+          "YES": "ہاں، حذف کریں",
+          "NO": "نہیں، اسے رکھیں"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Article deleted successfully",
-        "ERROR_MESSAGE": "Error while deleting article"
+        "SUCCESS_MESSAGE": "مضمون کامیابی سے حذف ہو گیا",
+        "ERROR_MESSAGE": "مضمون حذف کرتے وقت خرابی پیش آئی"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "مضامین کو دوبارہ ترتیب دینے میں ناکامی۔ دوبارہ کوشش کریں۔."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "زمرے کو دوبارہ ترتیب دینے میں ناکامی۔ دوبارہ کوشش کریں۔."
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": "براہ کرم مضمون کا عنوان اور مواد شامل کریں تب ہی آپ ترتیبات کو اپ ڈیٹ کر سکتے ہیں"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "مضامین تلاش کریں"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "ایک زمرہ بنائیں",
+        "SUB_TITLE": "یہ زمرہ عوامی پورٹل میں مضامین کو درجہ بندی کرنے کے لیے استعمال ہوگا۔.",
+        "PORTAL": "پورٹل",
+        "LOCALE": "مقامی زبان",
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "LABEL": "نام",
+          "PLACEHOLDER": "زمرہ کا نام",
+          "HELP_TEXT": "زمرے کا نام اور آئیکن عوامی پورٹل میں مضامین کو درجہ بندی کرنے کے لیے استعمال ہوگا۔.",
+          "ERROR": "نام ضروری ہے"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "LABEL": "سلاگ",
+          "PLACEHOLDER": "یو آر ایل کے لیے زمرہ کا سلاگ",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "سلاگ ضروری ہے"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "LABEL": "تفصیل",
+          "PLACEHOLDER": "زمرے کے بارے میں مختصر وضاحت دیں۔.",
+          "ERROR": "تفصیل ضروری ہے"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
-          "CANCEL": "Cancel"
+          "CREATE": "زمرہ بنائیں",
+          "CANCEL": "منسوخ کریں"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "زمرہ کامیابی سے بنایا گیا",
+          "ERROR_MESSAGE": "زمرہ بنانے میں ناکامی"
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "ایک زمرہ ترمیم کریں",
+        "SUB_TITLE": "زمرہ میں ترمیم کرنے سے عوامی پورٹل میں زمرہ اپ ڈیٹ ہو جائے گا۔.",
+        "PORTAL": "پورٹل",
+        "LOCALE": "مقامی زبان",
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "LABEL": "نام",
+          "PLACEHOLDER": "زمرے کا نام",
+          "HELP_TEXT": "زمرے کا نام اور آئیکن عوامی پورٹل میں مضامین کو درجہ بندی کرنے کے لیے استعمال ہوگا۔.",
+          "ERROR": "نام ضروری ہے"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "LABEL": "سلاگ",
+          "PLACEHOLDER": "یو آر ایل کے لیے زمرے کا سلاگ",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "سلاگ ضروری ہے"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "LABEL": "تفصیل",
+          "PLACEHOLDER": "زمرے کے بارے میں مختصر وضاحت دیں۔.",
+          "ERROR": "تفصیل ضروری ہے"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
-          "CANCEL": "Cancel"
+          "CREATE": "زمرہ کو اپ ڈیٹ کریں",
+          "CANCEL": "منسوخ کریں"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "زمرہ کامیابی سے اپ ڈیٹ ہو گیا",
+          "ERROR_MESSAGE": "زمرہ اپ ڈیٹ کرنے میں ناکامی"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "زمرہ کامیابی سے حذف ہو گیا",
+          "ERROR_MESSAGE": "زمرہ حذف کرنے میں ناکامی"
         }
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "No articles found",
-      "SEARCHING": "Searching...",
-      "SEARCH_BUTTON": "Search",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Preview article",
-      "CANCEL": "Close",
-      "BACK": "Back",
-      "BACK_RESULTS": "Back to results"
+      "TITLE": "مضامین تلاش کریں",
+      "PLACEHOLDER": "مضامین تلاش کریں",
+      "NO_RESULT": "کوئی مضمون نہیں ملا",
+      "SEARCHING": "تلاش جاری ہے...",
+      "SEARCH_BUTTON": "تلاش کریں",
+      "INSERT_ARTICLE": "لنک داخل کریں",
+      "IFRAME_ERROR": "URL خالی یا غلط ہے۔ مواد دکھانے سے قاصر۔.",
+      "OPEN_ARTICLE_SEARCH": "ہیلپ سینٹر سے مضمون داخل کریں",
+      "SUCCESS_ARTICLE_INSERTED": "مضمون کامیابی سے داخل کر دیا گیا",
+      "PREVIEW_LINK": "مضمون کا پیش نظارہ کریں",
+      "CANCEL": "بند کریں",
+      "BACK": "پیچھے",
+      "BACK_RESULTS": "نتائج پر واپس جائیں"
     },
     "UPGRADE_PAGE": {
-      "TITLE": "Help Center",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "TITLE": "ہیلپ سینٹر",
+      "DESCRIPTION": "صارف دوست خود خدماتی پورٹلز بنائیں۔ اپنے صارفین کی مدد کریں کہ وہ مضامین تک رسائی حاصل کریں اور 24/7 سپورٹ حاصل کریں۔ اپنی سبسکرپشن کو اپ گریڈ کریں تاکہ یہ فیچر فعال ہو سکے۔",
+      "SELF_HOSTED_DESCRIPTION": "صارف دوست خود خدماتی پورٹلز بنائیں۔ اپنے صارفین کی مدد کریں کہ وہ مضامین تک رسائی حاصل کریں اور 24/7 سپورٹ حاصل کریں۔ براہ کرم اس فیچر کو فعال کرنے کے لیے اپنے ایڈمنسٹریٹر سے رابطہ کریں۔",
       "BUTTON": {
-        "LEARN_MORE": "Learn more",
-        "UPGRADE": "Upgrade"
+        "LEARN_MORE": "مزید جانیں",
+        "UPGRADE": "اپ گریڈ کریں"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "متعدد پورٹلز",
+          "DESCRIPTION": "ایک ہی اکاؤنٹ استعمال کرتے ہوئے مختلف مصنوعات کے لیے متعدد ہیلپ سینٹر پورٹلز بنائیں۔."
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "مقامی زبانوں کے لیے مکمل معاونت",
+          "DESCRIPTION": "پورٹل کو اپنی زبان میں مقامی بنائیں۔ ہم تمام لوکیلز کی حمایت کرتے ہیں اور ہر مضمون کے لیے ترجمے کی اجازت دیتے ہیں۔."
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+          "TITLE": "SEO کے موافق ڈیزائن",
+          "DESCRIPTION": "اپنے میٹا ٹیگز کو حسب ضرورت بنائیں تاکہ ہمارے SEO دوستانہ صفحات کے ساتھ سرچ انجنوں پر اپنی مرئیت بہتر بنا سکیں۔."
         },
         "API": {
-          "TITLE": "Full API support",
-          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+          "TITLE": "مکمل API معاونت",
+          "DESCRIPTION": "ہمارے APIs کا استعمال کرتے ہوئے پورٹل کو تھرڈ پارٹی فرنٹ اینڈ فریم ورکس کے ساتھ ہیڈلیس CMS کے طور پر استعمال کریں۔."
         }
       }
     },
-    "LOADING": "Loading...",
+    "LOADING": "لوڈ ہو رہا ہے...",
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
-          "VIEWS": "{count} view | {count} views",
+          "VIEWS": "{count} نظر | {count} نظارے",
           "DROPDOWN_MENU": {
-            "PUBLISH": "Publish",
-            "DRAFT": "Draft",
-            "ARCHIVE": "Archive",
-            "DELETE": "Delete"
+            "PUBLISH": "شائع کریں",
+            "DRAFT": "مسودہ",
+            "ARCHIVE": "محفوظ کریں",
+            "DELETE": "حذف کریں"
           },
           "STATUS": {
-            "DRAFT": "Draft",
-            "PUBLISHED": "Published",
-            "ARCHIVED": "Archived"
+            "DRAFT": "مسودہ",
+            "PUBLISHED": "شائع شدہ",
+            "ARCHIVED": "محفوظ شدہ"
           },
           "CATEGORY": {
-            "UNCATEGORISED": "Uncategorised"
+            "UNCATEGORISED": "بغیر زمرہ"
           }
         }
       },
       "ARTICLES_HEADER": {
         "TABS": {
-          "ALL": "All articles",
-          "MINE": "Mine",
-          "DRAFT": "Draft",
-          "PUBLISHED": "Published",
-          "ARCHIVED": "Archived"
+          "ALL": "تمام مضامین",
+          "MINE": "میرے",
+          "DRAFT": "مسودہ",
+          "PUBLISHED": "شائع شدہ",
+          "ARCHIVED": "محفوظ شدہ"
         },
         "CATEGORY": {
-          "ALL": "All categories"
+          "ALL": "تمام زمرے"
         },
         "LOCALE": {
-          "ALL": "All locales"
+          "ALL": "تمام مقامات"
         },
-        "NEW_ARTICLE": "New article"
+        "NEW_ARTICLE": "نیا مضمون"
       },
       "EMPTY_STATE": {
         "ALL": {
-          "TITLE": "Write an article",
-          "SUBTITLE": "Write a rich article, let’s get started!",
-          "BUTTON_LABEL": "New article"
+          "TITLE": "مضمون لکھیں",
+          "SUBTITLE": "ایک جامع مضمون لکھیں، شروع کرتے ہیں!",
+          "BUTTON_LABEL": "نیا مضمون"
         },
         "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+          "TITLE": "آپ نے یہاں کوئی مضامین نہیں لکھے",
+          "SUBTITLE": "آپ کے تمام لکھے ہوئے مضامین یہاں جلد رسائی کے لیے ظاہر ہوں گے۔."
         },
         "DRAFT": {
-          "TITLE": "There are no articles in drafts",
-          "SUBTITLE": "Draft articles will appear here"
+          "TITLE": "مسودات میں کوئی مضامین نہیں ہیں",
+          "SUBTITLE": "مسودہ مضامین یہاں ظاہر ہوں گے"
         },
         "PUBLISHED": {
-          "TITLE": "There are no published articles",
-          "SUBTITLE": "Published articles will appear here"
+          "TITLE": "کوئی شائع شدہ مضامین نہیں ہیں",
+          "SUBTITLE": "شائع شدہ مضامین یہاں ظاہر ہوں گے"
         },
         "ARCHIVED": {
-          "TITLE": "There are no articles in the archive",
-          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+          "TITLE": "آرکائیو میں کوئی مضامین نہیں ہیں",
+          "SUBTITLE": "آرکائیو شدہ مضامین پورٹل پر ظاہر نہیں ہوتے، آپ اسے پرانی یا ختم شدہ صفحات کو نشان زد کرنے کے لیے استعمال کر سکتے ہیں"
         },
         "CATEGORY": {
-          "TITLE": "There are no articles in this category",
-          "SUBTITLE": "Articles in this category will appear here"
+          "TITLE": "اس زمرے میں کوئی مضمون نہیں ہے",
+          "SUBTITLE": "اس زمرے کے مضامین یہاں ظاہر ہوں گے"
         }
       }
     },
     "CATEGORY_PAGE": {
       "CATEGORY_HEADER": {
-        "NEW_CATEGORY": "New category",
-        "EDIT_CATEGORY": "Edit category",
-        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "NEW_CATEGORY": "نئی قسم",
+        "EDIT_CATEGORY": "قسم میں ترمیم کریں",
+        "CATEGORIES_COUNT": "{n} قسم | {n} قسمیں",
         "BREADCRUMB": {
-          "CATEGORY_LOCALE": "Categories ({localeCode})",
-          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+          "CATEGORY_LOCALE": "اقسام ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} مضامین) | {categoryName} ({categoryCount} مضمون)"
         }
       },
       "CATEGORY_EMPTY_STATE": {
-        "TITLE": "No categories found",
-        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+        "TITLE": "کوئی زمرہ نہیں ملا",
+        "SUBTITLE": "زمرے یہاں ظاہر ہوں گے۔ آپ 'نیا زمرہ' بٹن پر کلک کر کے زمرہ شامل کر سکتے ہیں۔."
       },
       "CATEGORY_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles"
+        "ARTICLES_COUNT": "{count} مضمون | {count} مضامین"
       },
       "CATEGORY_DIALOG": {
         "CREATE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category created successfully",
-            "ERROR_MESSAGE": "Unable to create category"
+            "SUCCESS_MESSAGE": "زمرہ کامیابی سے بنایا گیا",
+            "ERROR_MESSAGE": "زمرہ بنانے میں ناکامی"
           }
         },
         "EDIT": {
           "API": {
-            "SUCCESS_MESSAGE": "Category updated successfully",
-            "ERROR_MESSAGE": "Unable to update category"
+            "SUCCESS_MESSAGE": "زمرہ کامیابی سے اپ ڈیٹ ہو گیا",
+            "ERROR_MESSAGE": "زمرہ اپ ڈیٹ کرنے میں ناکامی"
           }
         },
         "DELETE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category deleted successfully",
-            "ERROR_MESSAGE": "Unable to delete category"
+            "SUCCESS_MESSAGE": "زمرہ کامیابی سے حذف ہو گیا",
+            "ERROR_MESSAGE": "زمرہ حذف کرنے میں ناکامی"
           }
         },
         "HEADER": {
-          "CREATE": "Create category",
-          "EDIT": "Edit category",
-          "DESCRIPTION": "Editing a category will update the category in the public facing portal.",
-          "PORTAL": "Portal",
-          "LOCALE": "Locale"
+          "CREATE": "زمرہ بنائیں",
+          "EDIT": "زمرہ ترمیم کریں",
+          "DESCRIPTION": "زمرہ میں ترمیم کرنے سے عوامی پورٹل میں زمرہ اپ ڈیٹ ہو جائے گا۔.",
+          "PORTAL": "پورٹل",
+          "LOCALE": "مقامی زبان"
         },
         "FORM": {
           "NAME": {
-            "LABEL": "Name",
-            "PLACEHOLDER": "Category name",
-            "ERROR": "Name is required"
+            "LABEL": "نام",
+            "PLACEHOLDER": "زمرہ کا نام",
+            "ERROR": "نام ضروری ہے"
           },
           "SLUG": {
-            "LABEL": "Slug",
-            "PLACEHOLDER": "Category slug for urls",
-            "ERROR": "Slug is required",
+            "LABEL": "سلاگ",
+            "PLACEHOLDER": "یو آر ایل کے لیے زمرہ کا سلاگ",
+            "ERROR": "سلاگ ضروری ہے",
             "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
-            "LABEL": "Description",
-            "PLACEHOLDER": "Give a short description about the category.",
-            "ERROR": "Description is required"
+            "LABEL": "تفصیل",
+            "PLACEHOLDER": "زمرے کے بارے میں مختصر وضاحت دیں۔.",
+            "ERROR": "تفصیل ضروری ہے"
           }
         },
         "BUTTONS": {
-          "CREATE": "Create",
-          "EDIT": "Update",
-          "CANCEL": "Cancel"
+          "CREATE": "بنائیں",
+          "EDIT": "اپ ڈیٹ کریں",
+          "CANCEL": "منسوخ کریں"
         }
       }
     },
     "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALES_COUNT": "کوئی لوکیل دستیاب نہیں | {n} لوکیل | {n} لوکیلز",
+      "NEW_LOCALE_BUTTON_TEXT": "نیا لوکیل",
       "LOCALE_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles",
-        "CATEGORIES_COUNT": "{count} category | {count} categories",
-        "DEFAULT": "Default",
+        "ARTICLES_COUNT": "{count} مضمون | {count} مضامین",
+        "CATEGORIES_COUNT": "{count} زمرہ | {count} زمرے",
+        "DEFAULT": "ڈیفالٹ",
+        "DRAFT": "مسودہ",
         "DROPDOWN_MENU": {
-          "MAKE_DEFAULT": "Make default",
-          "DELETE": "Delete"
+          "MAKE_DEFAULT": "ڈیفالٹ بنائیں",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
+          "DELETE": "حذف کریں"
         }
       },
       "ADD_LOCALE_DIALOG": {
-        "TITLE": "Add a new locale",
-        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "TITLE": "نئی زبان شامل کریں",
+        "DESCRIPTION": "اس زبان کا انتخاب کریں جس میں یہ مضمون لکھا جائے گا۔ یہ آپ کی ترجمہ کی فہرست میں شامل ہو جائے گا، اور آپ بعد میں مزید شامل کر سکتے ہیں۔.",
         "COMBOBOX": {
-          "PLACEHOLDER": "Select locale..."
+          "PLACEHOLDER": "زبان منتخب کریں..."
+        },
+        "STATUS": {
+          "LABEL": "Status",
+          "OPTIONS": {
+            "LIVE": "شائع شدہ",
+            "DRAFT": "مسودہ"
+          }
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "مقامی زبان کامیابی سے شامل کی گئی",
+          "ERROR_MESSAGE": "لوکیل شامل کرنے میں ناکامی۔ دوبارہ کوشش کریں۔."
         }
       }
     },
     "EDIT_ARTICLE_PAGE": {
       "HEADER": {
         "STATUS": {
-          "SAVING": "Saving...",
-          "SAVED": "Saved"
+          "SAVING": "محفوظ کیا جا رہا ہے...",
+          "SAVED": "محفوظ ہو گیا"
         },
-        "PREVIEW": "Preview",
-        "PUBLISH": "Publish",
-        "DRAFT": "Draft",
-        "ARCHIVE": "Archive",
-        "BACK_TO_ARTICLES": "Back to articles"
+        "PREVIEW": "پیش نظارہ",
+        "PUBLISH": "شائع کریں",
+        "DRAFT": "مسودہ",
+        "ARCHIVE": "محفوظ کریں",
+        "BACK_TO_ARTICLES": "مضامین پر واپس جائیں"
       },
       "EDIT_ARTICLE": {
-        "MORE_PROPERTIES": "More properties",
-        "UNCATEGORIZED": "Uncategorized",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "MORE_PROPERTIES": "مزید خصوصیات",
+        "UNCATEGORIZED": "بغیر زمرہ",
+        "EDITOR_PLACEHOLDER": "کچھ لکھیں..."
       },
       "ARTICLE_PROPERTIES": {
-        "ARTICLE_PROPERTIES": "Article properties",
-        "META_DESCRIPTION": "Meta description",
-        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
-        "META_TITLE": "Meta title",
-        "META_TITLE_PLACEHOLDER": "Add meta title",
-        "META_TAGS": "Meta tags",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "ARTICLE_PROPERTIES": "مضمون کی خصوصیات",
+        "META_DESCRIPTION": "میٹا تفصیل",
+        "META_DESCRIPTION_PLACEHOLDER": "میٹا تفصیل شامل کریں",
+        "META_TITLE": "میٹا عنوان",
+        "META_TITLE_PLACEHOLDER": "میٹا عنوان شامل کریں",
+        "META_TAGS": "میٹا ٹیگز",
+        "META_TAGS_PLACEHOLDER": "میٹا ٹیگز شامل کریں"
       },
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "مضمون محفوظ کرتے ہوئے خرابی"
       }
     },
     "PORTAL_SWITCHER": {
-      "NEW_PORTAL": "New portal",
-      "PORTALS": "Portals",
-      "CREATE_PORTAL": "Create and manage multiple portals",
-      "ARTICLES": "articles",
-      "DOMAIN": "domain",
-      "PORTAL_NAME": "Portal name"
+      "NEW_PORTAL": "نیا پورٹل",
+      "PORTALS": "پورٹلز",
+      "CREATE_PORTAL": "متعدد پورٹلز بنائیں اور منظم کریں",
+      "ARTICLES": "مضامین",
+      "DOMAIN": "ڈومین",
+      "PORTAL_NAME": "پورٹل کا نام"
     },
     "CREATE_PORTAL_DIALOG": {
-      "TITLE": "Create new portal",
-      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
-      "CONFIRM_BUTTON_LABEL": "Create",
+      "TITLE": "نیا پورٹل بنائیں",
+      "DESCRIPTION": "اپنے پورٹل کو ایک نام دیں اور صارف دوست URL سلیگ بنائیں۔ آپ دونوں کو بعد میں سیٹنگز میں تبدیل کر سکتے ہیں۔.",
+      "CONFIRM_BUTTON_LABEL": "بنائیں",
       "NAME": {
-        "LABEL": "Name",
-        "PLACEHOLDER": "User Guide | Chatwoot",
-        "MESSAGE": "Choose an name for your portal.",
-        "ERROR": "Name is required"
+        "LABEL": "نام",
+        "PLACEHOLDER": "صارف گائیڈ | Chatwoot",
+        "MESSAGE": "اپنے پورٹل کے لیے ایک نام منتخب کریں۔.",
+        "ERROR": "نام ضروری ہے"
       },
       "SLUG": {
-        "LABEL": "Slug",
+        "LABEL": "سلاگ",
         "PLACEHOLDER": "user-guide",
-        "ERROR": "Slug is required",
-        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+        "ERROR": "سلگ ضروری ہے",
+        "FORMAT_ERROR": "براہ کرم ایک درست slug درج کریں، مثلاً: user-guide"
       }
     },
     "PORTAL_SETTINGS": {
       "FORM": {
         "AVATAR": {
-          "LABEL": "Logo",
-          "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
-          "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Unable to delete logo",
-          "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+          "LABEL": "لوگو",
+          "IMAGE_UPLOAD_ERROR": "تصویر اپ لوڈ نہیں ہو سکی! دوبارہ کوشش کریں",
+          "IMAGE_UPLOAD_SUCCESS": "تصویر کامیابی سے شامل ہو گئی ہے۔ براہ کرم لوگو محفوظ کرنے کے لیے تبدیلیاں محفوظ کریں پر کلک کریں",
+          "IMAGE_DELETE_SUCCESS": "لوگو کامیابی سے حذف کر دیا گیا",
+          "IMAGE_DELETE_ERROR": "لوگو حذف نہیں کیا جا سکا",
+          "IMAGE_UPLOAD_SIZE_ERROR": "تصویر کا سائز {size}MB سے کم ہونا چاہیے"
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Portal name",
-          "ERROR": "Name is required"
+          "LABEL": "نام",
+          "PLACEHOLDER": "پورٹل کا نام",
+          "ERROR": "نام ضروری ہے"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header text",
-          "PLACEHOLDER": "Portal header text"
+          "LABEL": "ہیڈر متن",
+          "PLACEHOLDER": "پورٹل ہیڈر متن"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page title",
-          "PLACEHOLDER": "Portal page title"
+          "LABEL": "صفحہ کا عنوان",
+          "PLACEHOLDER": "پورٹل صفحہ کا عنوان"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home page link",
-          "PLACEHOLDER": "Portal home page link",
-          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+          "LABEL": "ہوم پیج لنک",
+          "PLACEHOLDER": "پورٹل ہوم پیج لنک",
+          "ERROR": "ایک درست URL درج کریں۔ ہوم پیج لنک 'http://' یا 'https://' سے شروع ہونا چاہیے۔."
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug"
+          "LABEL": "سلاگ",
+          "PLACEHOLDER": "پورٹل سلاگ"
         },
         "LIVE_CHAT_WIDGET": {
-          "LABEL": "Live chat widget",
-          "PLACEHOLDER": "Select live chat widget",
-          "HELP_TEXT": "Select a live chat widget that will appear on your help center",
-          "NONE_OPTION": "No widget"
+          "LABEL": "لائیو چیٹ ویجیٹ",
+          "PLACEHOLDER": "لائیو چیٹ ویجیٹ منتخب کریں",
+          "HELP_TEXT": "ایک لائیو چیٹ ویجیٹ منتخب کریں جو آپ کے ہیلپ سینٹر پر ظاہر ہوگا",
+          "NONE_OPTION": "کوئی ویجیٹ نہیں"
         },
         "BRAND_COLOR": {
-          "LABEL": "Brand color"
+          "LABEL": "برانڈ رنگ"
         },
-        "SAVE_CHANGES": "Save changes"
+        "SAVE_CHANGES": "تبدیلیاں محفوظ کریں"
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {
-          "HEADER": "Custom domain",
-          "LABEL": "Custom domain:",
-          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
-          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
-          "PLACEHOLDER": "Portal custom domain",
-          "EDIT_BUTTON": "Edit",
-          "ADD_BUTTON": "Add custom domain",
+          "HEADER": "کسٹم ڈومین",
+          "LABEL": "کسٹم ڈومین:",
+          "DESCRIPTION": "آپ اپنے پورٹل کو کسٹم ڈومین پر ہوسٹ کر سکتے ہیں۔ مثال کے طور پر، اگر آپ کی ویب سائٹ yourdomain.com ہے اور آپ چاہتے ہیں کہ آپ کا پورٹل docs.yourdomain.com پر دستیاب ہو، تو اسے اس فیلڈ میں درج کریں۔.",
+          "STATUS_DESCRIPTION": "آپ کا کسٹم پورٹل تصدیق ہوتے ہی کام کرنا شروع کر دے گا۔.",
+          "PLACEHOLDER": "پورٹل کسٹم ڈومین",
+          "EDIT_BUTTON": "ترمیم کریں",
+          "ADD_BUTTON": "کسٹم ڈومین شامل کریں",
           "STATUS": {
-            "LIVE": "Live",
-            "PENDING": "Awaiting verification",
-            "ERROR": "Verification failed"
+            "LIVE": "لائیو",
+            "PENDING": "تصدیق کا انتظار ہے",
+            "ERROR": "تصدیق ناکام ہوگئی"
           },
           "DIALOG": {
-            "ADD_HEADER": "Add custom domain",
-            "EDIT_HEADER": "Edit custom domain",
-            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
-            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
-            "LABEL": "Custom domain",
-            "PLACEHOLDER": "Portal custom domain",
-            "ERROR": "Custom domain is required",
-            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+            "ADD_HEADER": "کسٹم ڈومین شامل کریں",
+            "EDIT_HEADER": "کسٹم ڈومین میں ترمیم کریں",
+            "ADD_CONFIRM_BUTTON_LABEL": "ڈومین شامل کریں",
+            "EDIT_CONFIRM_BUTTON_LABEL": "ڈومین اپ ڈیٹ کریں",
+            "LABEL": "حسب ضرورت ڈومین",
+            "PLACEHOLDER": "پورٹل حسب ضرورت ڈومین",
+            "ERROR": "حسب ضرورت ڈومین ضروری ہے",
+            "FORMAT_ERROR": "براہ کرم ایک درست ڈومین URL درج کریں مثلاً docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
-            "HEADER": "DNS configuration",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
-            "COPY": "Successfully copied CNAME",
+            "HEADER": "DNS کی تشکیل",
+            "DESCRIPTION": "اپنے DNS فراہم کنندہ کے اکاؤنٹ میں لاگ ان کریں، اور سب ڈومین کے لیے chatwoot.help کی طرف اشارہ کرنے والا CNAME ریکارڈ شامل کریں",
+            "COPY": "CNAME کامیابی سے کاپی ہو گیا",
             "SEND_INSTRUCTIONS": {
-              "HEADER": "Send instructions",
-              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
-              "PLACEHOLDER": "Enter their email",
-              "ERROR": "Enter a valid email address",
-              "SEND_BUTTON": "Send"
+              "HEADER": "ہدایات بھیجیں",
+              "DESCRIPTION": "اگر آپ چاہیں کہ آپ کی ڈیولپمنٹ ٹیم کا کوئی فرد یہ مرحلہ سنبھالے، تو نیچے ای میل ایڈریس درج کریں، ہم انہیں ضروری ہدایات بھیج دیں گے۔.",
+              "PLACEHOLDER": "ان کا ای میل درج کریں",
+              "ERROR": "صحیح ای میل پتہ درج کریں",
+              "SEND_BUTTON": "بھیجیں"
             }
           }
         },
         "DELETE_PORTAL": {
-          "BUTTON": "Delete {portalName}",
-          "HEADER": "Delete portal",
-          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "BUTTON": "{portalName} حذف کریں",
+          "HEADER": "پورٹل حذف کریں",
+          "DESCRIPTION": "اس پورٹل کو مستقل طور پر حذف کریں۔ یہ عمل ناقابل واپسی ہے",
           "DIALOG": {
-            "HEADER": "Sure you want to delete {portalName}?",
-            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
-            "CONFIRM_BUTTON_LABEL": "Delete"
+            "HEADER": "کیا آپ واقعی {portalName} کو حذف کرنا چاہتے ہیں؟",
+            "DESCRIPTION": "یہ ایک مستقل عمل ہے جسے واپس نہیں کیا جا سکتا۔.",
+            "CONFIRM_BUTTON_LABEL": "حذف کریں"
           }
         },
-        "EDIT_CONFIGURATION": "Edit configuration"
+        "EDIT_CONFIGURATION": "ترتیب میں ترمیم کریں"
       },
       "API": {
         "CREATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal created successfully",
-          "ERROR_MESSAGE": "Unable to create portal"
+          "SUCCESS_MESSAGE": "پورٹل کامیابی سے بنایا گیا",
+          "ERROR_MESSAGE": "پورٹل بنانے میں ناکامی"
         },
         "UPDATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal updated successfully",
-          "ERROR_MESSAGE": "Unable to update portal"
+          "SUCCESS_MESSAGE": "پورٹل کامیابی سے اپ ڈیٹ ہو گیا",
+          "ERROR_MESSAGE": "پورٹل کو اپ ڈیٹ کرنے میں ناکامی"
         }
       }
     },
     "PDF_UPLOAD": {
-      "TITLE": "Upload PDF Document",
-      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
-      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
-      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
-      "UPLOADING": "Uploading...",
-      "UPLOAD": "Upload & Process",
-      "CANCEL": "Cancel",
-      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
-      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
-      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+      "TITLE": "پی ڈی ایف دستاویز اپ لوڈ کریں",
+      "DESCRIPTION": "AI کا استعمال کرتے ہوئے خودکار FAQs بنانے کے لیے پی ڈی ایف دستاویز اپ لوڈ کریں",
+      "DRAG_DROP_TEXT": "اپنی پی ڈی ایف فائل یہاں گھسیٹیں یا منتخب کرنے کے لیے کلک کریں",
+      "SELECT_FILE": "پی ڈی ایف فائل منتخب کریں",
+      "ADDITIONAL_CONTEXT_LABEL": "اضافی سیاق و سباق (اختیاری)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "FAQ بنانے کے لیے کوئی اضافی سیاق و سباق یا ہدایات فراہم کریں...",
+      "UPLOADING": "اپ لوڈ ہو رہا ہے...",
+      "UPLOAD": "اپ لوڈ کریں اور پراسیس کریں",
+      "CANCEL": "منسوخ کریں",
+      "ERROR_INVALID_TYPE": "براہ کرم ایک درست PDF فائل منتخب کریں",
+      "ERROR_FILE_TOO_LARGE": "فائل کا سائز 512MB سے کم ہونا چاہیے",
+      "ERROR_UPLOAD_FAILED": "PDF اپ لوڈ کرنے میں ناکامی۔ دوبارہ کوشش کریں۔."
     },
     "PDF_DOCUMENTS": {
-      "TITLE": "PDF Documents",
-      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
-      "UPLOAD_PDF": "Upload PDF",
-      "UPLOAD_FIRST_PDF": "Upload your first PDF",
-      "UPLOADED_BY": "Uploaded by",
-      "GENERATE_FAQS": "Generate FAQs",
-      "GENERATING": "Generating...",
-      "CONFIRM_DELETE": "Are you sure you want to delete {filename}?",
+      "TITLE": "PDF دستاویزات",
+      "DESCRIPTION": "اپ لوڈ کی گئی PDF دستاویزات کا انتظام کریں اور ان سے FAQs تیار کریں",
+      "UPLOAD_PDF": "PDF اپ لوڈ کریں",
+      "UPLOAD_FIRST_PDF": "اپنا پہلا PDF اپ لوڈ کریں",
+      "UPLOADED_BY": "اپ لوڈ کیا گیا",
+      "GENERATE_FAQS": "اکثر پوچھے جانے والے سوالات بنائیں",
+      "GENERATING": "تیار کیا جا رہا ہے...",
+      "CONFIRM_DELETE": "کیا آپ واقعی {filename} کو حذف کرنا چاہتے ہیں؟",
       "EMPTY_STATE": {
-        "TITLE": "No PDF documents yet",
-        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+        "TITLE": "ابھی تک کوئی PDF دستاویزات نہیں",
+        "DESCRIPTION": "AI کا استعمال کرتے ہوئے خودکار FAQs بنانے کے لیے PDF دستاویزات اپ لوڈ کریں"
       },
       "STATUS": {
-        "UPLOADED": "Ready",
-        "PROCESSING": "Processing",
-        "PROCESSED": "Completed",
-        "FAILED": "Failed"
+        "UPLOADED": "تیار",
+        "PROCESSING": "عملدرآمد ہو رہا ہے",
+        "PROCESSED": "مکمل",
+        "FAILED": "ناکام"
       }
     },
     "CONTENT_GENERATION": {
-      "TITLE": "Content Generation",
-      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
-      "UPLOAD_TITLE": "Upload PDF Document",
-      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "UPLOADING": "Processing document...",
-      "UPLOAD_SUCCESS": "Document processed successfully!",
-      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
-      "INVALID_FILE_TYPE": "Please select a valid PDF file",
-      "FILE_TOO_LARGE": "File size must be less than 512MB",
-      "GENERATED_CONTENT": "Generated FAQ Content",
-      "PUBLISH_SELECTED": "Publish Selected",
-      "PUBLISHING": "Publishing...",
-      "FROM_DOCUMENT": "From document",
-      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
-      "LOADING": "Loading generated content..."
+      "TITLE": "مواد کی تخلیق",
+      "DESCRIPTION": "AI کا استعمال کرتے ہوئے خودکار FAQ مواد تیار کرنے کے لیے PDF دستاویزات اپ لوڈ کریں",
+      "UPLOAD_TITLE": "PDF دستاویز اپ لوڈ کریں",
+      "DRAG_DROP": "اپنی PDF فائل یہاں گھسیٹیں اور چھوڑیں، یا منتخب کرنے کے لیے کلک کریں",
+      "SELECT_FILE": "PDF فائل منتخب کریں",
+      "UPLOADING": "دستاویز پر کارروائی ہو رہی ہے...",
+      "UPLOAD_SUCCESS": "دستاویز کامیابی سے پروسیس ہو گئی!",
+      "UPLOAD_ERROR": "دستاویز اپ لوڈ کرنے میں ناکامی۔ دوبارہ کوشش کریں۔.",
+      "INVALID_FILE_TYPE": "براہ کرم ایک درست PDF فائل منتخب کریں",
+      "FILE_TOO_LARGE": "فائل کا سائز 512MB سے کم ہونا چاہیے",
+      "GENERATED_CONTENT": "تخلیق شدہ FAQ مواد",
+      "PUBLISH_SELECTED": "منتخب شدہ شائع کریں",
+      "PUBLISHING": "شائع کیا جا رہا ہے...",
+      "FROM_DOCUMENT": "دستاویز سے",
+      "NO_CONTENT": "کوئی تیار شدہ مواد دستیاب نہیں۔ شروع کرنے کے لیے PDF دستاویز اپ لوڈ کریں۔.",
+      "LOADING": "تیار شدہ مواد لوڈ ہو رہا ہے..."
     }
   }
 }

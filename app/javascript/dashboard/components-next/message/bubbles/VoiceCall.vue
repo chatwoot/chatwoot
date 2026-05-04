@@ -1,18 +1,16 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 import { useMessageContext } from '../provider.js';
-import { MESSAGE_TYPES, VOICE_CALL_STATUS } from '../constants';
+import { VOICE_CALL_STATUS } from '../constants';
+import { useCallSession } from 'dashboard/composables/useCallSession';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 
 const LABEL_MAP = {
   [VOICE_CALL_STATUS.IN_PROGRESS]: 'CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS',
-  [VOICE_CALL_STATUS.COMPLETED]: 'CONVERSATION.VOICE_CALL.CALL_ENDED',
-};
-
-const SUBTEXT_MAP = {
-  [VOICE_CALL_STATUS.RINGING]: 'CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET',
   [VOICE_CALL_STATUS.COMPLETED]: 'CONVERSATION.VOICE_CALL.CALL_ENDED',
 };
 
@@ -30,15 +28,41 @@ const BG_COLOR_MAP = {
   [VOICE_CALL_STATUS.FAILED]: 'bg-n-ruby-9',
 };
 
-const { contentAttributes, messageType } = useMessageContext();
+const { t } = useI18n();
+const store = useStore();
+const { call, conversationId, currentUserId, inboxId } = useMessageContext();
+const { joinCall, endCall, activeCall, hasActiveCall, isJoining } =
+  useCallSession();
 
-const data = computed(() => contentAttributes.value?.data);
-const status = computed(() => data.value?.status?.toString());
-
-const isOutbound = computed(() => messageType.value === MESSAGE_TYPES.OUTGOING);
+const status = computed(() => call.value?.status);
+const isOutbound = computed(() => call.value?.direction === 'outgoing');
 const isFailed = computed(() =>
   [VOICE_CALL_STATUS.NO_ANSWER, VOICE_CALL_STATUS.FAILED].includes(status.value)
 );
+const acceptedByAgentId = computed(() => call.value?.acceptedByAgentId);
+const didCurrentUserAnswer = computed(
+  () =>
+    !!acceptedByAgentId.value && acceptedByAgentId.value === currentUserId.value
+);
+// Pickup auto-assigns the conversation, so the assignee is a safe display proxy
+// for the answerer when the Call payload lacks accepted_by_agent_id (e.g.,
+// Twilio's call-status webhook flipped the call to in-progress before the
+// participant-join webhook claimed it).
+const conversationAssignee = computed(() => {
+  const conversation = store.getters.getConversationById?.(
+    conversationId?.value
+  );
+  return conversation?.meta?.assignee || null;
+});
+const displayAgentName = computed(() => {
+  if (call.value?.acceptedByAgentName) return call.value.acceptedByAgentName;
+  if (acceptedByAgentId.value) {
+    const agent = store.getters['agents/getAgentById'](acceptedByAgentId.value);
+    if (agent?.available_name) return agent.available_name;
+    if (agent?.name) return agent.name;
+  }
+  return conversationAssignee.value?.name || null;
+});
 
 const labelKey = computed(() => {
   if (LABEL_MAP[status.value]) return LABEL_MAP[status.value];
@@ -52,16 +76,28 @@ const labelKey = computed(() => {
     : 'CONVERSATION.VOICE_CALL.INCOMING_CALL';
 });
 
-const subtextKey = computed(() => {
-  if (SUBTEXT_MAP[status.value]) return SUBTEXT_MAP[status.value];
+const subtext = computed(() => {
+  if (status.value === VOICE_CALL_STATUS.RINGING) {
+    return t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
+  }
+  if (status.value === VOICE_CALL_STATUS.COMPLETED) {
+    return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
+  }
   if (status.value === VOICE_CALL_STATUS.IN_PROGRESS) {
-    return isOutbound.value
-      ? 'CONVERSATION.VOICE_CALL.THEY_ANSWERED'
-      : 'CONVERSATION.VOICE_CALL.YOU_ANSWERED';
+    if (isOutbound.value) return t('CONVERSATION.VOICE_CALL.THEY_ANSWERED');
+    if (didCurrentUserAnswer.value) {
+      return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
+    }
+    if (displayAgentName.value) {
+      return t('CONVERSATION.VOICE_CALL.AGENT_ANSWERED', {
+        agentName: displayAgentName.value,
+      });
+    }
+    return t('CONVERSATION.VOICE_CALL.THEY_ANSWERED');
   }
   return isFailed.value
-    ? 'CONVERSATION.VOICE_CALL.NO_ANSWER'
-    : 'CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET';
+    ? t('CONVERSATION.VOICE_CALL.NO_ANSWER')
+    : t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
 });
 
 const iconName = computed(() => {
@@ -70,6 +106,45 @@ const iconName = computed(() => {
 });
 
 const bgColor = computed(() => BG_COLOR_MAP[status.value] || 'bg-n-teal-9');
+
+const callSid = computed(() => call.value?.providerCallId);
+
+// Show "Join call" when the call is still ringing, no agent has claimed it,
+// and the conversation is unassigned or assigned to the current user. Mirrors
+// the eligibility used by FloatingCallWidget so the bubble can act as a
+// recovery affordance after a refresh or missed widget.
+const canJoinCall = computed(() => {
+  if (status.value !== VOICE_CALL_STATUS.RINGING) return false;
+  if (isOutbound.value) return false;
+  if (acceptedByAgentId.value) return false;
+  if (!callSid.value || !inboxId.value || !conversationId.value) return false;
+  // Suppress the button once this call is the local active session — the
+  // message status webhook may lag behind, so we can't rely on `status` alone
+  // to hide it after a successful join from this client.
+  if (hasActiveCall.value && activeCall.value?.callSid === callSid.value)
+    return false;
+  const assignee = conversationAssignee.value;
+  if (assignee?.id && assignee.id !== currentUserId.value) return false;
+  return true;
+});
+
+const handleJoinCall = async () => {
+  if (!canJoinCall.value || isJoining.value) return;
+
+  if (hasActiveCall.value && activeCall.value?.callSid !== callSid.value) {
+    await endCall({
+      conversationId: activeCall.value.conversationId,
+      inboxId: activeCall.value.inboxId,
+      callSid: activeCall.value.callSid,
+    });
+  }
+
+  await joinCall({
+    conversationId: conversationId.value,
+    inboxId: inboxId.value,
+    callSid: callSid.value,
+  });
+};
 </script>
 
 <template>
@@ -95,8 +170,17 @@ const bgColor = computed(() => BG_COLOR_MAP[status.value] || 'bg-n-teal-9');
             {{ $t(labelKey) }}
           </span>
           <span class="text-xs text-n-slate-11">
-            {{ $t(subtextKey) }}
+            {{ subtext }}
           </span>
+          <button
+            v-if="canJoinCall"
+            type="button"
+            class="p-0 mt-1 text-xs font-medium text-start text-n-teal-10 hover:text-n-teal-11 disabled:opacity-50"
+            :disabled="isJoining"
+            @click="handleJoinCall"
+          >
+            {{ $t('CONVERSATION.VOICE_CALL.JOIN_CALL') }}
+          </button>
         </div>
       </div>
     </div>

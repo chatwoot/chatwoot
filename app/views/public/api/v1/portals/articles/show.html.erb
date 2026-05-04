@@ -1,5 +1,5 @@
 <% content_for :head do %>
-  <title><%= @article.title %> | <%= @portal.name %></title>
+  <title><%= @article.title %> | <%= @portal.display_title %></title>
   <% if @article.meta["title"].present? %>
     <meta name="title" content="<%= @article.meta["title"] %>">
     <meta property="og:title" content="<%= @article.meta["title"] %>">
@@ -36,7 +36,7 @@
 <% end %>
 
 <div class="flex max-w-5xl w-full px-4 md:px-8 mx-auto">
-  <article id="cw-article-content" class="article-content flex-grow flex-2 mx-auto text-slate-800 dark:text-slate-50 text-lg max-w-3xl prose-h1:text-2xl prose-h2:text-xl prose-h2:mt-0 prose-h3:text-lg prose-code:[&>p]:p-1 prose-code:[&>p]:rounded-sm prose-code:[&>p]:bg-black-100 dark:prose-code:[&>p]:bg-black-600 prose-code:after:content-none prose-code:before:content-none prose dark:prose-invert break-words w-full <%= @is_plain_layout_enabled ? 'py-4' : 'pt-8 pb-12' %>">
+  <article id="cw-article-content" class="article-content flex-grow flex-2 mx-auto text-slate-800 dark:text-slate-50 text-lg max-w-3xl prose-h1:text-2xl prose-h2:text-xl prose-h2:mt-0 prose-h3:text-lg prose-code:[&>p]:p-1 prose-code:[&>p]:rounded-sm prose-code:[&>p]:bg-black-100 dark:prose-code:[&>p]:bg-black-600 prose-code:after:content-none prose-code:before:content-none prose dark:prose-invert break-words w-full [&_table]:!border-slate-200 dark:[&_table]:!border-slate-800 [&_th]:!border-slate-200 dark:[&_th]:!border-slate-800 [&_td]:!border-slate-200 dark:[&_td]:!border-slate-800 [&_th]:!bg-slate-50 dark:[&_th]:!bg-slate-800/50 <%= @is_plain_layout_enabled ? 'py-4' : 'pt-8 pb-12' %>">
     <%= @parsed_content %>
   </article>
   <div class="flex-1" id="cw-hc-toc"></div>
@@ -44,5 +44,42 @@
 <style>
   .article-content li > p {
     margin: 0;
+  }
+  .article-content .tableWrapper {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+  .article-content table {
+    min-width: 100%;
+    border: 1px solid;
+    border-radius: 8px;
+    border-spacing: 0;
+    border-collapse: separate;
+    margin: 0;
+  }
+  .article-content th,
+  .article-content td {
+    border-bottom: 1px solid;
+    border-inline-end: 1px solid;
+    border-color: inherit;
+    padding: 0.5rem 0.75rem;
+    text-align: start;
+    vertical-align: top;
+  }
+  .article-content th:last-child,
+  .article-content td:last-child {
+    border-inline-end: none;
+  }
+  .article-content th {
+    font-weight: 600;
+  }
+  .article-content th:first-child {
+    border-start-start-radius: 7px;
+  }
+  .article-content th:last-child {
+    border-start-end-radius: 7px;
+  }
+  .article-content tr:last-child td {
+    border-bottom: none;
   }
 </style>

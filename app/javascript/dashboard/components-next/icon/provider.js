@@ -1,4 +1,5 @@
 import { computed } from 'vue';
+import { isVoiceCallEnabled } from 'dashboard/helper/inbox';
 
 export function useChannelIcon(inbox) {
   const channelTypeIconMap = {
@@ -9,11 +10,11 @@ export function useChannelIcon(inbox) {
     'Channel::Sms': 'i-woot-sms',
     'Channel::Telegram': 'i-woot-telegram',
     'Channel::TwilioSms': 'i-woot-sms',
-    'Channel::TwitterProfile': 'i-ri-twitter-x-fill',
+    'Channel::TwitterProfile': 'i-woot-x',
     'Channel::WebWidget': 'i-woot-website',
     'Channel::Whatsapp': 'i-woot-whatsapp',
     'Channel::Instagram': 'i-woot-instagram',
-    'Channel::Voice': 'i-ri-phone-fill',
+    'Channel::Tiktok': 'i-woot-tiktok',
   };
 
   const providerIconMap = {
@@ -35,6 +36,11 @@ export function useChannelIcon(inbox) {
     // Special case for Twilio whatsapp
     if (type === 'Channel::TwilioSms' && inboxDetails.medium === 'whatsapp') {
       icon = 'i-woot-whatsapp';
+    }
+
+    // Special case for voice-enabled inboxes (Twilio, WhatsApp, etc.)
+    if (isVoiceCallEnabled(inboxDetails)) {
+      icon = 'i-woot-voice';
     }
 
     return icon ?? 'i-ri-global-fill';

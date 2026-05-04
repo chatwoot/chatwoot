@@ -3,8 +3,11 @@
     "HEADER": "Automatisations",
     "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
     "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "Ajouter une règle d'automatisation",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "Récupération des règles d'automatisation",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Ajouter une règle d'automatisation",
       "SUBMIT": "Créer",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Nom",
-        "DESCRIPTION": "Description",
         "ACTIVE": "Actif",
-        "CREATED_ON": "Créé le"
+        "CREATED_ON": "Créé le",
+        "ACTIONS": "Actions"
       },
       "404": "Aucune règle d'automatisation trouvée"
     },
@@ -137,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Assigner à un agent",
       "ASSIGN_TEAM": "Assigner une équipe",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Supprimer l’équipe assignée",
       "ADD_LABEL": "Ajouter une étiquette",
       "REMOVE_LABEL": "Supprimer une étiquette",
       "SEND_EMAIL_TO_TEAM": "Envoyer un e-mail à l'équipe",
@@ -150,7 +155,8 @@
       "ADD_PRIVATE_NOTE": "Ajouter une note privée",
       "CHANGE_PRIORITY": "Modifier la priorité",
       "ADD_SLA": "Add SLA",
-      "OPEN_CONVERSATION": "Ouvrir la conversation"
+      "OPEN_CONVERSATION": "Ouvrir la conversation",
+      "PENDING_CONVERSATION": "Mark conversation as pending"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Boite de réception",
@@ -165,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Type de message",
+      "PRIVATE_NOTE": "Note privée",
       "MESSAGE_CONTAINS": "Le message contient",
       "EMAIL": "Courriel",
       "INBOX": "Boîte de réception",

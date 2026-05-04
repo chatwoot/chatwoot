@@ -15,9 +15,24 @@ export const mutations = {
   },
 
   [types.SET_CONTACT_META]: ($state, data) => {
-    const { count, current_page: currentPage } = data;
+    const { count, current_page: currentPage, has_more: hasMore } = data;
     $state.meta.count = count;
     $state.meta.currentPage = currentPage;
+    if (hasMore !== undefined) {
+      $state.meta.hasMore = hasMore;
+    }
+  },
+
+  [types.APPEND_CONTACTS]: ($state, data) => {
+    data.forEach(contact => {
+      $state.records[contact.id] = {
+        ...($state.records[contact.id] || {}),
+        ...contact,
+      };
+      if (!$state.sortOrder.includes(contact.id)) {
+        $state.sortOrder.push(contact.id);
+      }
+    });
   },
 
   [types.SET_CONTACTS]: ($state, data) => {

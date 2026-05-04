@@ -1,7 +1,7 @@
 <% if !@is_plain_layout_enabled %>
 <% content_for :head do %>
-  <title><%= @portal.name %></title>
-  <meta name="title" content="<%= @portal.name %>">
+  <title><%= @portal.display_title %></title>
+  <meta name="title" content="<%= @portal.display_title %>">
 
   <% if @og_image_url.present? %>
     <meta name="twitter:card" content="summary_large_image">

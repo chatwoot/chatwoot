@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwootは、チームの効率を向上させるために複数のツールやサービスと連携します。以下のリストを探索して、お気に入りのアプリを設定してください。",
     "LEARN_MORE": "連携について詳しく知る",
     "LOADING": "連携を取得中",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captainはあなたのアカウントで有効になっていません。",
       "CLICK_HERE_TO_CONFIGURE": "設定するにはここをクリック",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "購読イベント",
       "LEARN_MORE": "Webhookについて詳しく知る",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "キャンセル",
         "DESC": "Webhookイベントは、Chatwootアカウントで何が起こっているかについてのリアルタイムの情報を提供します。コールバックを設定するには有効なURLを入力してください。",
@@ -104,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "削除",
       "DELETE_CONFIRMATION": {
         "TITLE": "連携の削除",
@@ -145,7 +160,29 @@
         "EXPAND": "拡張",
         "MAKE_FRIENDLY": "メッセージのトーンをフレンドリーに変更",
         "MAKE_FORMAL": "フォーマルトーンを使用",
-        "SIMPLIFY": "簡素化"
+        "SIMPLIFY": "簡素化",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "プロフェッショナル",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "フレンドリー"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "下書き内容",
@@ -201,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>ダッシュボードアプリ</b></p><p>ダッシュボードアプリを使用すると、組織はChatwootダッシュボード内にアプリケーションを埋め込んで、カスタマーサポート担当者にコンテキストを提供できます。この機能により、アプリケーションを独立して作成し、ユーザー情報、注文履歴、または以前の支払い履歴を提供するためにダッシュボード内に埋め込むことができます。</p><p>Chatwootのダッシュボードを使用してアプリケーションを埋め込むと、アプリケーションはウィンドウイベントとして会話と連絡先のコンテキストを取得します。ページ上でメッセージイベントのリスナーを実装してコンテキストを受信します。</p><p>新しいダッシュボードアプリを追加するには、「新しいダッシュボードアプリを追加」ボタンをクリックしてください。</p>",
       "DESCRIPTION": "ダッシュボードアプリを使用すると、組織はダッシュボード内にアプリケーションを埋め込んで、カスタマーサポート担当者にコンテキストを提供できます。この機能により、アプリケーションを独立して作成し、ユーザー情報、注文履歴、または以前の支払い履歴を提供するために埋め込むことができます。",
       "LEARN_MORE": "ダッシュボードアプリについて詳しく知る",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "このアカウントにはまだダッシュボードアプリが設定されていません",
         "LOADING": "ダッシュボードアプリを取得中...",
         "TABLE_HEADER": {
           "NAME": "名前",
-          "ENDPOINT": "エンドポイント"
+          "ENDPOINT": "エンドポイント",
+          "ACTIONS": "操作"
         },
         "EDIT_TOOLTIP": "アプリを編集",
         "DELETE_TOOLTIP": "アプリを削除"
@@ -243,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Linear Issueを作成/リンク",
       "LOADING": "Linearの課題を取得中...",
       "LOADING_ERROR": "Linearの課題を取得中にエラーが発生しました。もう一度お試しください",
@@ -337,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
@@ -347,46 +390,46 @@
   },
   "CAPTAIN": {
     "NAME": "キャプテン",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "詳細を見る",
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "アシスタント",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "SWITCH_ASSISTANT": "アシスタントを切り替える",
+      "NEW_ASSISTANT": "アシスタントを作成",
+      "EMPTY_LIST": "アシスタントが見つかりません。始めるにはアシスタントを作成してください。"
     },
     "COPILOT": {
       "TITLE": "コパイロット",
       "TRY_THESE_PROMPTS": "これらのプロンプトを試してください",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "PANEL_TITLE": "Copilotの使い始め",
+      "KICK_OFF_MESSAGE": "簡単な要約が欲しい、過去の会話を確認したい、より良い返信を作成したい？Copilotが処理をスピードアップします。",
       "SEND_MESSAGE": "メッセージを送信...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
+      "EMPTY_MESSAGE": "回答の生成中にエラーが発生しました。もう一度お試しください。",
       "LOADER": "Captainが考え中",
       "YOU": "あなた",
       "USE": "これを使用",
       "RESET": "リセット",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "SHOW_STEPS": "手順を表示",
+      "SELECT_ASSISTANT": "アシスタントを選択",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "この会話を要約する",
+          "CONTENT": "顧客とサポートエージェントとの間で話し合われた重要なポイント、顧客の懸念や質問、サポートエージェントによる解決策や回答を要約してください。"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "回答を提案する",
+          "CONTENT": "顧客の問い合わせを分析し、顧客の懸念や質問に効果的に対応する回答案を作成してください。返信は明確で簡潔かつ役立つ情報を提供するようにしてください。"
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "この会話を評価する",
+          "CONTENT": "会話を確認して、顧客のニーズにどの程度応えているか評価してください。トーン、明確さ、有効性に基づき5点満点で評価を共有してください。"
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "高優先度の会話",
+          "CONTENT": "すべての高優先度の未解決会話の要約を教えてください。会話ID、顧客名（あれば）、最新メッセージの内容、および担当エージェントを含めてください。該当する場合はステータス別にグループ化してください。"
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "連絡先リスト",
+          "CONTENT": "上位10件の連絡先リストを表示してください。名前、メールまたは電話番号（あれば）、最終アクセス時間、タグ（あれば）を含めてください。"
         }
       }
     },
@@ -394,9 +437,9 @@
       "USER": "あなた",
       "ASSISTANT": "アシスタント",
       "MESSAGE_PLACEHOLDER": "Type your message...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "プレイグラウンド",
+      "DESCRIPTION": "このプレイグラウンドを使ってアシスタントへメッセージを送り、正確かつ迅速に、期待したトーンで応答するかを確認してください。",
+      "CREDIT_NOTE": "ここで送信したメッセージはCaptainのクレジットにカウントされます。"
     },
     "PAYWALL": {
       "TITLE": "アップグレードしてCaptain AIを利用する",
@@ -406,6 +449,7 @@
       "CANCEL_ANYTIME": "プランはいつでも変更またはキャンセルできます"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AIはEnterpriseプランでのみ利用可能です。",
       "UPGRADE_PROMPT": "アシスタント、Copilotなどにアクセスするには、プランをアップグレードしてください。",
       "ASK_ADMIN": "管理者にアップグレードを依頼してください。"
     },
@@ -483,7 +527,8 @@
           "TITLE": "機能",
           "ALLOW_CONVERSATION_FAQS": "解決済みの会話からFAQを生成",
           "ALLOW_MEMORIES": "顧客とのやり取りから重要な詳細を記憶としてキャプチャ",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
@@ -693,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "ドキュメント",
       "ADD_NEW": "新しいドキュメントを作成",
+      "SELECTED": "{count} selected",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "BULK_DELETE_BUTTON": "削除",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "関連するFAQ",
         "DESCRIPTION": "これらのFAQはドキュメントから直接生成されます。"
@@ -750,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -780,11 +837,30 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "請求情報を開く",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "管理者にアップグレードを依頼してください。"
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "説明",

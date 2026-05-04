@@ -3,7 +3,7 @@ import { frontendURL } from '../../../../helper/URLHelper';
 import ChannelFactory from './ChannelFactory.vue';
 
 import SettingsContent from '../Wrapper.vue';
-import SettingWrapper from '../SettingsWrapper.vue';
+import SettingsWrapper from '../SettingsWrapper.vue';
 import InboxHome from './Index.vue';
 import Settings from './Settings.vue';
 import InboxChannel from './InboxChannels.vue';
@@ -15,7 +15,7 @@ export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/inboxes'),
-      component: SettingWrapper,
+      component: SettingsWrapper,
       children: [
         {
           path: '',

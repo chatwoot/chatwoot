@@ -46,8 +46,8 @@
  * 2. Nested properties in additional_attributes (browser_language, referer, etc.)
  * 3. Nested properties in custom_attributes (conversation_type, etc.)
  */
-import jsonLogic from 'json-logic-js';
 import { coerceToDate } from '@chatwoot/utils';
+import jsonLogic from 'json-logic-js';
 
 /**
  * Gets a value from a conversation based on the attribute key
@@ -78,7 +78,6 @@ const getValueFromConversation = (conversation, attributeKey) => {
     case 'team_id':
       return conversation.meta?.team?.id;
     case 'browser_language':
-    case 'country_code':
     case 'referer':
       return conversation.additional_attributes?.[attributeKey];
     default:
@@ -122,7 +121,8 @@ const resolveValue = candidate => {
  * @returns {Boolean} - Returns true if the values are considered equal according to filtering rules
  *
  * This function handles various equality scenarios:
- * 1. When both values are arrays: checks if all items in filterValue exist in conversationValue
+ * 1. When both values are arrays (e.g. labels): matches if any filter value exists in the conversation array
+ *    (mirrors the backend SQL `tag_id IN (...)` OR semantics)
  * 2. When filterValue is an array but conversationValue is not: checks if conversationValue is included in filterValue
  * 3. Otherwise: performs strict equality comparison
  */
@@ -132,8 +132,9 @@ const equalTo = (filterValue, conversationValue) => {
     if (filterValue === 'all') return true;
 
     if (Array.isArray(conversationValue)) {
-      // For array values like labels, check if any of the filter values exist in the array
-      return filterValue.every(val => conversationValue.includes(val));
+      // For array values like labels, match if any filter value is present.
+      // Mirrors the backend SQL `tag_id IN (...)` (OR semantics).
+      return filterValue.some(val => conversationValue.includes(val));
     }
 
     if (!Array.isArray(conversationValue)) {

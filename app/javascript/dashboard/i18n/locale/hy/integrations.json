@@ -1,976 +1,1052 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "Ջնջել Shopify ինտեգրումը",
+        "MESSAGE": "Համոզվա՞ծ եք, որ ցանկանում եք ջնջել Shopify ինտեգրումը։"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
-        "LABEL": "Store URL",
+        "TITLE": "Միացնել Shopify խանութը",
+        "LABEL": "Խանութի URL",
         "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
-        "CANCEL": "Cancel",
-        "SUBMIT": "Connect Store"
+        "HELP": "Մուտքագրեք ձեր Shopify խանութի myshopify.com URL-ը",
+        "CANCEL": "Չեղարկել",
+        "SUBMIT": "Միացնել խանութը"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "Սխալ է տեղի ունեցել Shopify-ին միանալու ժամանակ։ Խնդրում ենք փորձել կրկին կամ կապվել աջակցման ծառայության հետ, եթե խնդիրը շարունակվի։"
     },
-    "HEADER": "Integrations",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
-    "LOADING": "Fetching integrations",
+    "HEADER": "Ինտեգրացիաներ",
+    "DESCRIPTION": "Chatwoot ինտեգրվում է բազմաթիվ գործիքների և ծառայությունների հետ՝ բարելավելու ձեր թիմի արդյունավետությունը։ Ստորև դիտեք ցանկը՝ ձեր սիրելի հավելվածները կարգավորելու համար։",
+    "LEARN_MORE": "Իմացեք ավելին ինտեգրացիաների մասին",
+    "LOADING": "Ինտեգրացիաները բեռնվում են",
+    "SEARCH_PLACEHOLDER": "Որոնել ինտեգրացիաներ...",
+    "NO_RESULTS": "Ձեր որոնմանը համապատասխան ինտեգրացիաներ չեն գտնվել",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
-      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "DISABLED": "Captain-ը ձեր հաշվում ակտիվացված չէ։",
+      "CLICK_HERE_TO_CONFIGURE": "Սեղմեք այստեղ կարգավորելու համար",
+      "LOADING_CONSOLE": "Բեռնվում է Captain կոնսոլը...",
+      "FAILED_TO_LOAD_CONSOLE": "Չհաջողվեց բեռնել Captain կոնսոլը։ Խնդրում ենք թարմացնել և փորձել կրկին։"
     },
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
-      "LEARN_MORE": "Learn more about webhooks",
+      "SUBSCRIBED_EVENTS": "Բաժանորդագրված իրադարձություններ",
+      "LEARN_MORE": "Իմացեք ավելին webhook-ների մասին",
+      "SECRET": {
+        "LABEL": "Գաղտնաբառ",
+        "COPY": "Պատճենել գաղտնաբառը",
+        "COPY_SUCCESS": "Գաղտնաբառը պատճենվել է",
+        "TOGGLE": "Ցուցադրել/թաքցնել գաղտնաբառը",
+        "CREATED_DESC": "Ձեր webhook-ը ստեղծվել է։ Օգտագործեք ներքևի գաղտնաբառը՝ webhook-ի ստորագրությունները ստուգելու համար։ Խնդրում ենք այն պատճենել հիմա՝ այն կարող եք գտնել նաև webhook-ի խմբագրման ձևում։",
+        "DONE": "Պատրաստ է"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Որոնել webhook-ներ...",
+      "NO_RESULTS": "Ձեր որոնմանը համապատասխան webhook-ներ չեն գտնվել",
       "FORM": {
-        "CANCEL": "Cancel",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "Չեղարկել",
+        "DESC": "Webhook իրադարձությունները ձեզ տրամադրում են իրական ժամանակի տեղեկություններ այն մասին, թե ինչ է տեղի ունենում ձեր Chatwoot հաշվում։ Խնդրում ենք մուտքագրել վավեր URL՝ callback կարգավորելու համար։",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Իրադարձություններ",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated",
-            "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_CREATED": "Հաղորդակցություն ստեղծվեց",
+            "CONVERSATION_STATUS_CHANGED": "Հաղորդակցության կարգավիճակը փոխվեց",
+            "CONVERSATION_UPDATED": "Հաղորդակցությունը թարմացվեց",
+            "MESSAGE_CREATED": "Հաղորդագրություն ստեղծվեց",
+            "MESSAGE_UPDATED": "Հաղորդագրությունը թարմացվեց",
+            "WEBWIDGET_TRIGGERED": "Օգտատիրոջ կողմից բացված կենդանի զրույցի վիջեթ",
+            "CONTACT_CREATED": "Կոնտակտ ստեղծվեց",
+            "CONTACT_UPDATED": "Կոնտակտը թարմացվեց",
+            "CONVERSATION_TYPING_ON": "Զրույցի տպագրություն ակտիվ է",
+            "CONVERSATION_TYPING_OFF": "Զրույցի տպագրություն անջատված է"
           }
         },
         "NAME": {
-          "LABEL": "Webhook Name",
-          "PLACEHOLDER": "Enter the name of the webhook"
+          "LABEL": "Webhook-ի անունը",
+          "PLACEHOLDER": "Մուտքագրեք webhook-ի անունը"
         },
         "END_POINT": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Example: {webhookExampleURL}",
-          "ERROR": "Please enter a valid URL"
+          "LABEL": "URL Webhook",
+          "PLACEHOLDER": "Օրինակ՝ {webhookExampleURL}",
+          "ERROR": "Խնդրում ենք մուտքագրել վավեր URL"
         },
-        "EDIT_SUBMIT": "Update webhook",
-        "ADD_SUBMIT": "Create webhook"
+        "EDIT_SUBMIT": "Թարմացնել webhook-ը",
+        "ADD_SUBMIT": "Ստեղծել webhook"
       },
-      "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "TITLE": "Վեբհուք",
+      "CONFIGURE": "Կարգավորել",
+      "HEADER": "Webhook կարգավորումներ",
+      "HEADER_BTN_TXT": "Ավելացնել նոր webhook",
+      "LOADING": "Բեռնվում են կցված webhook-ները",
+      "SEARCH_404": "Այս հարցմանը համապատասխանող տարրեր չկան",
+      "SIDEBAR_TXT": "<p><b>Webhook-ներ</b> </p> <p>Webhook-ները HTTP կանչեր են, որոնք կարող են սահմանվել յուրաքանչյուր հաշվի համար։ Դրանք ակտիվանում են Chatwoot-ում հաղորդագրության ստեղծման նման իրադարձություններով։ Դուք կարող եք ստեղծել մեկից ավելի webhook այս հաշվի համար։ <br /><br />Webhook ստեղծելու համար սեղմեք <b>Ավելացնել նոր webhook</b> կոճակը։ Դուք կարող եք նաև հեռացնել ցանկացած գոյություն ունեցող webhook՝ սեղմելով Delete կոճակը։</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "Այս հաշվի համար webhook-ներ չեն կարգավորվել։",
+        "TITLE": "Կառավարել webhook-ները",
         "TABLE_HEADER": {
-          "WEBHOOK_ENDPOINT": "Webhook endpoint",
-          "ACTIONS": "Actions"
+          "WEBHOOK_ENDPOINT": "Webhook վերջնակետ",
+          "ACTIONS": "Գործողություններ"
         }
       },
       "EDIT": {
-        "BUTTON_TEXT": "Edit",
-        "TITLE": "Edit webhook",
+        "BUTTON_TEXT": "Խմբագրել",
+        "TITLE": "Խմբագրել webhook-ը",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook կարգավորումը հաջողությամբ թարմացվեց",
+          "ERROR_MESSAGE": "Չհաջողվեց կապ հաստատել Woot սերվերի հետ, խնդրում ենք փորձել ավելի ուշ"
         }
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
+        "CANCEL": "Չեղարկել",
+        "TITLE": "Ավելացնել նոր webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook կարգավորումը հաջողությամբ ավելացվեց",
+          "ERROR_MESSAGE": "Չհաջողվեց կապ հաստատել Woot սերվերի հետ, խնդրում ենք փորձել ավելի ուշ"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "Հեռացնել",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook-ը հաջողությամբ հեռացվեց",
+          "ERROR_MESSAGE": "Չհաջողվեց կապ հաստատել Woot սերվերի հետ, խնդրում ենք փորձել ավելի ուշ"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "Հաստատել հեռացումը",
+          "MESSAGE": "Համոզվա՞ծ եք, որ ցանկանում եք ջնջել webhook-ը։ ({webhookURL})",
+          "YES": "Այո, հեռացնել ",
+          "NO": "Ոչ, պահել"
         }
       }
     },
     "SLACK": {
-      "DELETE": "Delete",
+      "HEADER": "Slack",
+      "DELETE": "Ջնջել",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "Ջնջել ինտեգրումը",
+        "MESSAGE": "Համոզվա՞ծ եք, որ ցանկանում եք ջնջել ինտեգրումը։ Դա կբերի ձեր Slack աշխատանքային տարածքի զրույցների հասանելիության կորուստին։"
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
-        "SELECTED": "selected"
+        "BODY": "Այս ինտեգրացիայի միջոցով ձեր բոլոր մուտք գործող զրույցները կհամաժամեցվեն ***{selectedChannelName}*** Slack ալիքում ձեր Slack workspace-ում։ Դուք կարող եք կառավարել ձեր հաճախորդների բոլոր զրույցները հենց այդ ալիքում և երբեք բաց չթողնել հաղորդագրություն։\n\nԱհա ինտեգրացիայի հիմնական հնարավորությունները.\n\n**Պատասխանեք զրույցներին Slack-ում:** Որպեսզի պատասխանեք ***{selectedChannelName}*** Slack ալիքում զրույցին, պարզապես գրեք ձեր հաղորդագրությունը և ուղարկեք այն որպես թել։ Սա կստեղծի պատասխան հաճախորդին Chatwoot-ի միջոցով։ Դա շատ պարզ է։\n\n **Ստեղծեք մասնավոր նշումներ:** Եթե ցանկանում եք ստեղծել մասնավոր նշումներ փոխարենը պատասխանների, ձեր հաղորդագրությունը սկսեք ***`note:`***-ով։ Սա կապահովի, որ ձեր հաղորդագրությունը կմնա մասնավոր և հաճախորդը չի տեսնի այն։\n\n**Կցեք գործակալի պրոֆիլ:** Եթե Slack-ում պատասխանող անձը ունի գործակալի պրոֆիլ Chatwoot-ում նույն էլ․ հասցեով, պատասխանները ինքնաբար կկցվեն այդ գործակալի պրոֆիլին։ Սա նշանակում է, որ հեշտությամբ կարող եք հետևել՝ ով, ինչ և երբ է ասել։ Մյուս կողմից, եթե պատասխանողը չունի կցված գործակալի պրոֆիլ, պատասխանները հաճախորդին կերևան բոտի պրոֆիլից։",
+        "SELECTED": "ընտրված"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
-        "UPDATE": "Update",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "OPTION_LABEL": "Ընտրել ալիք",
+        "UPDATE": "Թարմացնել",
+        "BUTTON_TEXT": "Կապել ալիքը",
+        "DESCRIPTION": "Ձեր Slack աշխատանքային տարածքը այժմ կապված է Chatwoot-ի հետ։ Սակայն ինտեգրումը ներկայումս անգործուն է։ Ինտեգրումը ակտիվացնելու և ալիք կապելու համար Chatwoot-ի հետ, խնդրում ենք սեղմել ստորև գտնվող կոճակը։\n\n**Նշում:** Եթե փորձում եք կապել անձնական ալիք, նախ ավելացրեք Chatwoot հավելվածը Slack ալիքին այս քայլից առաջ։",
+        "ATTENTION_REQUIRED": "Պահանջվում է ուշադրություն",
+        "EXPIRED": "Ձեր Slack ինտեգրումը ժամկետանց է։ Շարունակելու համար ստանալ հաղորդագրություններ Slack-ում, խնդրում ենք ջնջել ինտեգրումը և կրկին կապել ձեր աշխատանքային տարածքը։"
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "Ինտեգրման թարմացման ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին",
+      "UPDATE_SUCCESS": "Ալիքը հաջողությամբ կապվել է",
+      "FAILED_TO_FETCH_CHANNELS": "Slack-ից ալիքները ստանալու ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "Սեղմեք այստեղ՝ միանալու համար",
+      "LEAVE_THE_ROOM": "Ելք սենյակից",
+      "START_VIDEO_CALL_HELP_TEXT": "Սկսել նոր վիդեո զանգ հաճախորդի հետ",
+      "JOIN_ERROR": "Զանգին միանալու ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին",
+      "CREATE_ERROR": "Հանդիպման հղում ստեղծելիս սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " {option} with AI ",
+      "AI_ASSIST": "AI Օգնություն",
+      "WITH_AI": " {option} արհեստական բանականությամբ ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "Պատասխանման առաջարկ",
+        "SUMMARIZE": "Ամփոփել",
+        "REPHRASE": "Բարելավել գրությունը",
+        "FIX_SPELLING_GRAMMAR": "Ուղղել հոմանիշներն ու քերականությունը",
+        "SHORTEN": "Կրճատել",
+        "EXPAND": "Ընդլայնել",
+        "MAKE_FRIENDLY": "Փոխել հաղորդագրության տոնը ընկերական",
+        "MAKE_FORMAL": "Օգտվել պաշտոնական տոնից",
+        "SIMPLIFY": "Պարզեցնել",
+        "CONFIDENT": "Օգտագործել վստահ տոն",
+        "PROFESSIONAL": "Օգտագործել պրոֆեսիոնալ տոն",
+        "CASUAL": "Օգտագործել առօրյա տոն",
+        "STRAIGHTFORWARD": "Օգտագործել պարզ տոն"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Բարելավել պատասխանը",
+        "IMPROVE_REPLY_SELECTION": "Բարելավել ընտրությունը",
+        "CHANGE_TONE": {
+          "TITLE": "Փոխել տոնը",
+          "OPTIONS": {
+            "PROFESSIONAL": "Պրոֆեսիոնալ",
+            "CASUAL": "Անպաշտոնական",
+            "STRAIGHTFORWARD": "Պարզ ու հստակ",
+            "CONFIDENT": "Վստահ",
+            "FRIENDLY": "Բարեկամական"
+          }
+        },
+        "GRAMMAR": "Ուղղել քերականությունն ու ուղղագրությունը",
+        "SUGGESTION": "Առաջարկել պատասխան",
+        "SUMMARIZE": "Ամփոփել զրույցը",
+        "ASK_COPILOT": "Հարցնել Copilot-ին"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "Սևրագիր",
+        "GENERATED_TITLE": "Ստեղծված բովանդակություն",
+        "AI_WRITING": "AI-ն գրում է",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
-          "CANCEL": "Cancel"
+          "APPLY": "Օգտվել այս առաջարկից",
+          "CANCEL": "Չեղարկել"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "Ինտեգրվել OpenAI-ի հետ",
+        "DESC": "Ներդրեք առաջադեմ AI հնարավորություններ ձեր վահանակում OpenAI-ի GPT մոդելների միջոցով։ Սկսելու համար մուտքագրեք ձեր OpenAI հաշվի API բանալին։",
+        "KEY_PLACEHOLDER": "Մուտքագրեք ձեր OpenAI API բանալին",
         "BUTTONS": {
-          "NEED_HELP": "Need help?",
-          "DISMISS": "Dismiss",
-          "FINISH": "Finish Setup"
+          "NEED_HELP": "Պահանջվում է օգնություն։",
+          "DISMISS": "Փակել",
+          "FINISH": "Ավարտել կարգավորումը"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "Դուք կարող եք OpenAI ինտեգրումը կարգավորել ավելի ուշ, երբ ցանկանաք։",
+        "SUCCESS_MESSAGE": "OpenAI ինտեգրումը հաջողությամբ կարգավորվեց"
       },
-      "TITLE": "Improve With AI",
-      "SUMMARY_TITLE": "Summary with AI",
-      "REPLY_TITLE": "Reply suggestion with AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "Բարելավել AI-ով",
+      "SUMMARY_TITLE": "Ամփոփում AI-ով",
+      "REPLY_TITLE": "Պատասխանման առաջարկ AI-ով",
+      "SUBTITLE": "AI-ի միջոցով կստեղծվի բարելավված պատասխան՝ հիմնված ձեր ընթացիկ նախագծի վրա։",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "Տոն",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "Մասնագիտական",
+          "FRIENDLY": "Ընկերական"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
-        "CANCEL": "Cancel"
+        "GENERATE": "Ստեղծել",
+        "GENERATING": "Ստեղծվում է...",
+        "CANCEL": "Չեղարկել"
       },
       "GENERATE_ERROR": "There was an error processing the content, please try again"
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Հեռացնել",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Ինտեգրացիան հաջողությամբ հեռացվեց"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Կապվել"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
-      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "TITLE": "Վահանակի հավելվածներ",
+      "HEADER_BTN_TXT": "Ավելացնել նոր վահանակի հավելված",
+      "SIDEBAR_TXT": "<p><b>Վահանակի հավելվածներ</b></p><p>Վահանակի հավելվածները թույլ են տալիս կազմակերպություններին տեղադրել հավելված Chatwoot վահանակի ներսում՝ հաճախորդների աջակցության գործակալների համար համատեքստ տրամադրելու նպատակով։ Այս ֆունկցիան թույլ է տալիս անկախ ստեղծել հավելված և տեղադրել այն վահանակի ներսում՝ օգտատիրոջ տեղեկություններ, նրանց պատվերներ կամ նախորդ վճարումների պատմություն տրամադրելու համար։</p><p>Երբ դուք տեղադրում եք ձեր հավելվածը Chatwoot վահանակի միջոցով, ձեր հավելվածը կստանա հաղորդակցության և կոնտակտի համատեքստը որպես պատուհանի իրադարձություն։ Կիրառեք հաղորդագրության իրադարձության լսող ձեր էջում՝ համատեքստը ստանալու համար։</p><p>Նոր վահանակի հավելված ավելացնելու համար սեղմեք «Ավելացնել նոր վահանակի հավելված» կոճակը։</p>",
+      "DESCRIPTION": "Վահանակի հավելվածները թույլ են տալիս կազմակերպություններին տեղադրել հավելված վահանակի ներսում՝ հաճախորդների աջակցության գործակալների համար համատեքստ տրամադրելու նպատակով։ Այս ֆունկցիան թույլ է տալիս անկախ ստեղծել հավելված և տեղադրել այն՝ օգտատիրոջ տեղեկություններ, նրանց պատվերներ կամ նախորդ վճարումների պատմություն տրամադրելու համար։",
+      "LEARN_MORE": "Իմացեք ավելին Dashboard հավելվածների մասին",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Որոնել վահանակի հավելվածներ...",
+      "NO_RESULTS": "Ձեր որոնմանը համապատասխան վահանակի հավելվածներ չեն գտնվել",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "Այս հաշվի վրա դեռևս վահանակի հավելվածներ չեն կարգավորվել",
+        "LOADING": "Բեռնվում են վահանակի հավելվածները...",
         "TABLE_HEADER": {
-          "NAME": "Name",
-          "ENDPOINT": "Endpoint"
+          "NAME": "Անուն",
+          "ENDPOINT": "Վերջնակետ",
+          "ACTIONS": "Գործողություններ"
         },
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "Խմբագրել հավելվածը",
+        "DELETE_TOOLTIP": "Հեռացնել հավելվածը"
       },
       "FORM": {
-        "TITLE_LABEL": "Name",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_LABEL": "Անուն",
+        "TITLE_PLACEHOLDER": "Մուտքագրեք ձեր վահանակի հավելվածի անունը",
+        "TITLE_ERROR": "Վահանակի հավելվածի համար անունը պարտադիր է",
+        "URL_LABEL": "Վերջնակետ",
+        "URL_PLACEHOLDER": "Մուտքագրեք այն endpoint URL-ը, որտեղ հյուրընկալվում է ձեր հավելվածը",
+        "URL_ERROR": "Պարտադիր է վավեր URL"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
-        "FORM_SUBMIT": "Submit",
-        "FORM_CANCEL": "Cancel",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "HEADER": "Ավելացնել նոր վահանակի հավելված",
+        "FORM_SUBMIT": "Ուղարկել",
+        "FORM_CANCEL": "Չեղարկել",
+        "API_SUCCESS": "Վահանակի հավելվածը հաջողությամբ կարգավորվեց",
+        "API_ERROR": "Չհաջողվեց ստեղծել հավելված։ Խնդրում ենք փորձել ավելի ուշ"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
-        "FORM_SUBMIT": "Update",
-        "FORM_CANCEL": "Cancel",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "HEADER": "Խմբագրել վահանակի հավելվածը",
+        "FORM_SUBMIT": "Թարմացնել",
+        "FORM_CANCEL": "Չեղարկել",
+        "API_SUCCESS": "Վահանակի հավելվածը հաջողությամբ թարմացվեց",
+        "API_ERROR": "Չհաջողվեց թարմացնել հավելվածը։ Խնդրում ենք փորձել ավելի ուշ"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - {appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "CONFIRM_YES": "Այո, հեռացնել",
+        "CONFIRM_NO": "Ոչ, պահել",
+        "TITLE": "Հաստատել հեռացումը",
+        "MESSAGE": "Համոզվա՞ծ եք, որ ցանկանում եք ջնջել հավելվածը՝ {appName}:",
+        "API_SUCCESS": "Վահանակի հավելվածը հաջողությամբ հեռացվեց",
+        "API_ERROR": "Չհաջողվեց հեռացնել հավելվածը։ Խնդրում ենք փորձել ավելի ուշ"
       }
     },
     "LINEAR": {
-      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
-      "CREATE": "Create",
+      "HEADER": "Linear",
+      "ADD_OR_LINK_BUTTON": "Ստեղծել/կապել Linear խնդիր",
+      "LOADING": "Բեռնում են Linear խնդիրները...",
+      "LOADING_ERROR": "Linear խնդիրները բեռնելու ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին",
+      "CREATE": "Ստեղծել",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
-        "TITLE": "Link",
-        "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
-        "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "SEARCH": "Որոնել խնդիրները",
+        "SELECT": "Ընտրել խնդիր",
+        "TITLE": "Կապել",
+        "EMPTY_LIST": "Linear խնդիրներ չեն գտնվել",
+        "LOADING": "Բեռնում",
+        "ERROR": "Linear խնդիրները բեռնելու ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին",
+        "LINK_SUCCESS": "Խնդիրը հաջողությամբ կապվեց",
+        "LINK_ERROR": "Խնդիրը կապելու ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին",
+        "LINK_TITLE": "Հաղորդում (#{conversationId}) {name}-ի հետ"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "TITLE": "Ստեղծել/կապել Linear խնդիր",
+        "DESCRIPTION": "Ստեղծեք Linear խնդիրներ զրույցներից կամ կապեք գոյություն ունեցողները հարթ հետևման համար։",
         "FORM": {
           "TITLE": {
-            "LABEL": "Title",
-            "PLACEHOLDER": "Enter title",
-            "REQUIRED_ERROR": "Title is required"
+            "LABEL": "Վերնագիր",
+            "PLACEHOLDER": "Մուտքագրեք վերնագիր",
+            "REQUIRED_ERROR": "Պահանջվում է վերնագիր"
           },
           "DESCRIPTION": {
-            "LABEL": "Description",
-            "PLACEHOLDER": "Enter description"
+            "LABEL": "Նկարագրություն",
+            "PLACEHOLDER": "Մուտքագրեք նկարագրություն"
           },
           "TEAM": {
-            "LABEL": "Team",
-            "PLACEHOLDER": "Select team",
-            "SEARCH": "Search team",
-            "REQUIRED_ERROR": "Team is required"
+            "LABEL": "Թիմ",
+            "PLACEHOLDER": "Ընտրեք թիմը",
+            "SEARCH": "Որոնել թիմը",
+            "REQUIRED_ERROR": "Պահանջվում է թիմ"
           },
           "ASSIGNEE": {
-            "LABEL": "Assignee",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "LABEL": "Նշանակված",
+            "PLACEHOLDER": "Ընտրեք պատասխանատուին",
+            "SEARCH": "Որոնել պատասխանատուին"
           },
           "PRIORITY": {
-            "LABEL": "Priority",
-            "PLACEHOLDER": "Select priority",
-            "SEARCH": "Search priority"
+            "LABEL": "Առաջնահերթություն",
+            "PLACEHOLDER": "Ընտրեք առաջնահերթությունը",
+            "SEARCH": "Որոնել առաջնահերթությունը"
           },
           "LABEL": {
-            "LABEL": "Label",
-            "PLACEHOLDER": "Select label",
-            "SEARCH": "Search label"
+            "LABEL": "Նշում",
+            "PLACEHOLDER": "Ընտրեք պիտակը",
+            "SEARCH": "Որոնել պիտակը"
           },
           "STATUS": {
-            "LABEL": "Status",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "LABEL": "Կարգավիճակ",
+            "PLACEHOLDER": "Ընտրեք կարգավիճակը",
+            "SEARCH": "Որոնել կարգավիճակը"
           },
           "PROJECT": {
-            "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "LABEL": "Նախագիծ",
+            "PLACEHOLDER": "Ընտրեք նախագիծը",
+            "SEARCH": "Որոնել նախագիծը"
           }
         },
-        "CREATE": "Create",
-        "CANCEL": "Cancel",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE": "Ստեղծել",
+        "CANCEL": "Չեղարկել",
+        "CREATE_SUCCESS": "Խնդիրը հաջողությամբ ստեղծվեց",
+        "CREATE_ERROR": "Խնդիրը ստեղծելու ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին",
+        "LOADING_TEAM_ERROR": "Թիմերը բեռնելու ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին",
+        "LOADING_TEAM_ENTITIES_ERROR": "Թիմի միավորները բեռնելու ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին"
       },
       "ISSUE": {
-        "STATUS": "Status",
-        "PRIORITY": "Priority",
-        "ASSIGNEE": "Assignee",
-        "LABELS": "Labels",
-        "CREATED_AT": "Created at {createdAt}"
+        "STATUS": "Կարգավիճակ",
+        "PRIORITY": "Առաջնահերթություն",
+        "ASSIGNEE": "Նշանակված",
+        "LABELS": "Նշումներ",
+        "CREATED_AT": "Ստեղծվել է {createdAt}"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "TITLE": "Հեռացնել կապը",
+        "SUCCESS": "Խնդիրը հաջողությամբ անկապվեց",
+        "ERROR": "Խնդրի անկապման ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին"
       },
-      "NO_LINKED_ISSUES": "No linked issues found",
+      "NO_LINKED_ISSUES": "Համակցված խնդիրներ չեն գտնվել",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
-        "CONFIRM": "Yes, delete",
-        "CANCEL": "Cancel"
+        "TITLE": "Համոզված եք, որ ցանկանում եք ջնջել ինտեգրումը։",
+        "MESSAGE": "Համոզված եք, որ ցանկանում եք ջնջել ինտեգրումը։",
+        "CONFIRM": "Այո, ջնջել",
+        "CANCEL": "Չեղարկել"
       },
       "CTA": {
-        "TITLE": "Connect to Linear",
-        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
-        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
-        "BUTTON_TEXT": "Connect Linear workspace"
+        "TITLE": "Միացնել Linear-ին",
+        "AGENT_DESCRIPTION": "Linear աշխատանքային տարածքը միացված չէ։ Խնդրում ենք խնդրել ձեր ադմինիստրատորին միացնել աշխատանքային տարածքը՝ այս ինտեգրումը օգտագործելու համար։",
+        "DESCRIPTION": "Linear աշխատանքային տարածքը միացված չէ։ Սեղմեք ստորև գտնվող կոճակը՝ ձեր աշխատանքային տարածքը միացնելու համար և օգտագործելու այս ինտեգրումը։",
+        "BUTTON_TEXT": "Միացնել Linear աշխատանքային տարածքը"
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
-        "CONFIRM": "Yes, delete",
-        "CANCEL": "Cancel"
+        "TITLE": "Համոզվա՞ծ եք, որ ցանկանում եք ջնջել Notion ինտեգրումը։",
+        "MESSAGE": "Այս ինտեգրման ջնջումը կվերացնի ձեր Notion աշխատանքային տարածքի հասանելիությունը և կդադարեցնի բոլոր համապատասխան ֆունկցիոնալությունները։",
+        "CONFIRM": "Այո, ջնջել",
+        "CANCEL": "Չեղարկել"
       }
     }
   },
   "CAPTAIN": {
     "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "Իմանալ ավելին",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "Օգնականներ",
+      "SWITCH_ASSISTANT": "Փոխել օգնականը",
+      "NEW_ASSISTANT": "Ստեղծել օգնական",
+      "EMPTY_LIST": "Օգնականներ չեն գտնվել, ստեղծեք նոր՝ սկսելու համար"
     },
     "COPILOT": {
-      "TITLE": "Copilot",
-      "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
-      "SEND_MESSAGE": "Send message...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
-      "YOU": "You",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "TITLE": "Կոպիլոտ",
+      "TRY_THESE_PROMPTS": "Փորձեք այս հրահանգները",
+      "PANEL_TITLE": "Սկսեք Կոպիլոտով",
+      "KICK_OFF_MESSAGE": "Ցանկանու՞մ եք արագ ամփոփում, ստուգել անցյալ զրույցները կամ կազմել ավելի լավ պատասխան։ Կոպիլոտը այստեղ է՝ արագացնելու գործընթացը։",
+      "SEND_MESSAGE": "Ուղարկել հաղորդագրություն...",
+      "EMPTY_MESSAGE": "Սխալ է տեղի ունեցել պատասխանի ստեղծման ժամանակ։ Խնդրում ենք փորձել կրկին։",
+      "LOADER": "Captain-ը մտածում է",
+      "YOU": "Դուք",
+      "USE": "Օգտագործել սա",
+      "RESET": "Վերականգնել",
+      "SHOW_STEPS": "Ցույց տալ քայլերը",
+      "SELECT_ASSISTANT": "Ընտրել օգնական",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Ամփոփել այս զրույցը",
+          "CONTENT": "Ամփոփեք հաճախորդի և աջակցության գործակցի միջև քննարկված հիմնական կետերը, ներառյալ հաճախորդի մտահոգությունները, հարցերը և աջակցության գործակցի կողմից տրամադրված լուծումները կամ պատասխանները"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Առաջարկել պատասխան",
+          "CONTENT": "Վերլուծեք հաճախորդի հարցումը և կազմեք պատասխան, որը արդյունավետ կլուծի նրանց մտահոգությունները կամ հարցերը։ Համոզվեք, որ պատասխանը հստակ, կարճ և օգտակար տեղեկություններ է պարունակում։"
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Գնահատել այս զրույցը",
+          "CONTENT": "Վերանայեք զրույցը՝ տեսնելու, թե որքանով է այն բավարարում հաճախորդի կարիքները։ Կիսվեք 5 բալանոց գնահատականով՝ հիմնված տոնի, հստակության և արդյունավետության վրա։"
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "Բարձր առաջնահերթության զրույցներ",
+          "CONTENT": "Տվեք ինձ բոլոր բարձր առաջնահերթության բաց զրույցների ամփոփում։ Ներառեք զրույցի ID-ն, հաճախորդի անունը (եթե առկա է), վերջին հաղորդագրության բովանդակությունը և նշանակված գործակալը։ Խմբավորեք ըստ կարգավիճակի, եթե դա համապատասխան է։"
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "Ցուցադրել կոնտակտները",
+          "CONTENT": "Ցույց տվեք լավագույն 10 կոնտակտների ցուցակը։ Ներառեք անունը, էլ.փոստը կամ հեռախոսահամարը (եթե առկա է), վերջին անգամ տեսնելու ժամանակը, պիտակները (եթե կան)։"
         }
       }
     },
     "PLAYGROUND": {
-      "USER": "You",
-      "ASSISTANT": "Assistant",
-      "MESSAGE_PLACEHOLDER": "Type your message...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "USER": "Դուք",
+      "ASSISTANT": "Օգնական",
+      "MESSAGE_PLACEHOLDER": "Մուտքագրեք ձեր հաղորդագրությունը...",
+      "HEADER": "Խաղադաշտ",
+      "DESCRIPTION": "Օգտագործեք այս խաղադաշտը՝ հաղորդագրություններ ուղարկելու ձեր օգնականին և ստուգելու, թե արդյոք այն պատասխանում է ճշգրիտ, արագ և սպասվող տոնով։",
+      "CREDIT_NOTE": "Այստեղ ուղարկված հաղորդագրությունները կհաշվվեն ձեր Captain կրեդիտների մեջ։"
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "Թարմացրեք՝ օգտագործելու համար Captain AI",
+      "AVAILABLE_ON": "Captain հասանելի չէ անվճար պլանում։",
+      "UPGRADE_PROMPT": "Թարմացրեք ձեր պլանը՝ ստանալու համար մեր օգնականներին, copilot-ին և ավելին։",
+      "UPGRADE_NOW": "Թարմացնել հիմա",
+      "CANCEL_ANYTIME": "Դուք կարող եք ցանկացած պահի փոխել կամ չեղարկել ձեր պլանը"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "Captain AI-ը հասանելի է միայն Enterprise փաթեթներում։",
+      "UPGRADE_PROMPT": "Թարմացրեք ձեր պլանը՝ ստանալու համար մեր օգնականներին, copilot-ին և ավելին։",
+      "ASK_ADMIN": "Խնդրում ենք դիմել ձեր ադմինիստրատորին թարմացման համար։"
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "Դուք օգտագործել եք ձեր պատասխանների սահմանաչափի ավելի քան 80%-ը։ Շարունակելու համար խնդրում ենք թարմացնել։",
+      "DOCUMENTS": "Փաստաթղթերի սահմանաչափը լրացել է։ Շարունակելու համար թարմացրեք Captain AI։"
     },
     "FORM": {
-      "CANCEL": "Cancel",
-      "CREATE": "Create",
-      "EDIT": "Update"
+      "CANCEL": "Չեղարկել",
+      "CREATE": "Ստեղծել",
+      "EDIT": "Թարմացնել"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
-      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
-      "ADD_NEW": "Create a new assistant",
+      "HEADER": "Օգնականներ",
+      "NO_ASSISTANTS_AVAILABLE": "Ձեր հաշվում օգնականներ չկան։",
+      "ADD_NEW": "Ստեղծել նոր օգնական",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "TITLE": "Համոզվա՞ծ եք, որ ցանկանում եք ջնջել օգնականին:",
+        "DESCRIPTION": "Այս գործողությունը անշրջելի է։ Օգնականի ջնջումը կջնջի այն բոլոր միացված մուտքային արկղերից և մշտապես կջնջի բոլոր ստեղծված գիտելիքները։",
+        "CONFIRM": "Այո, ջնջել",
+        "SUCCESS_MESSAGE": "Օգնականը հաջողությամբ ջնջվել է",
+        "ERROR_MESSAGE": "Օգնականի ջնջման ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "Լրացրեք ստորև նշված տվյալները՝ օգնականին անուն տալու, նրա նպատակը նկարագրելու և աջակցվող արտադրանքը նշելու համար։",
       "CREATE": {
-        "TITLE": "Create an assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "TITLE": "Ստեղծել օգնական",
+        "SUCCESS_MESSAGE": "Օգնականը հաջողությամբ ստեղծվել է",
+        "ERROR_MESSAGE": "Օգնականի ստեղծման ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
       },
       "FORM": {
-        "UPDATE": "Update",
+        "UPDATE": "Թարմացնել",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
-          "FEATURES": "Features",
-          "TOOLS": "Tools "
+          "BASIC_INFO": "Հիմնական տեղեկություններ",
+          "SYSTEM_MESSAGES": "Համակարգի հաղորդագրություններ",
+          "INSTRUCTIONS": "Ցուցումներ",
+          "FEATURES": "Հատկություններ",
+          "TOOLS": "Գործիքներ "
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "LABEL": "Անուն",
+          "PLACEHOLDER": "Մուտքագրեք օգնականի անունը",
+          "ERROR": "Անունը պարտադիր է"
         },
         "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
+          "LABEL": "Պատասխանի ջերմաստիճան",
+          "DESCRIPTION": "Կարգավորեք, թե որքան ստեղծագործ կամ սահմանափակ պետք է լինեն օգնականի պատասխանները։ Նվազագույն արժեքները տալիս են ավելի կենտրոնացած և որոշակի պատասխաններ, իսկ բարձր արժեքները թույլ են տալիս ավելի ստեղծագործ և բազմազան արդյունքներ։"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter assistant description",
-          "ERROR": "The description is required"
+          "LABEL": "Նկարագրություն",
+          "PLACEHOLDER": "Մուտքագրեք օգնականի նկարագրությունը",
+          "ERROR": "Նկարագրությունը պարտադիր է"
         },
         "PRODUCT_NAME": {
-          "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name",
-          "ERROR": "The product name is required"
+          "LABEL": "Ապրանքի անուն",
+          "PLACEHOLDER": "Մուտքագրեք ապրանքի անունը",
+          "ERROR": "Ապրանքի անունը պարտադիր է"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "Բարի գալուստ հաղորդագրություն",
+          "PLACEHOLDER": "Մուտքագրեք բարի գալուստ հաղորդագրությունը"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "Հանձնման հաղորդագրություն",
+          "PLACEHOLDER": "Մուտքագրեք հանձնման հաղորդագրությունը"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "Լուծման հաղորդագրություն",
+          "PLACEHOLDER": "Մուտքագրեք լուծման հաղորդագրությունը"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "LABEL": "Ցուցումներ",
+          "PLACEHOLDER": "Մուտքագրեք ցուցումներ օգնականի համար"
         },
         "FEATURES": {
-          "TITLE": "Features",
-          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "TITLE": "Հատկություններ",
+          "ALLOW_CONVERSATION_FAQS": "Ստեղծել ՀՏՀ-ներ լուծված զրույցներից",
+          "ALLOW_MEMORIES": "Հաճախորդների հետ փոխգործակցություններից կարևոր մանրամասներ պահպանել հիշողություններում։",
+          "ALLOW_CITATIONS": "Sertakan petikan sumber dalam jawapan",
+          "ALLOW_CONTACT_ATTRIBUTES": "Թույլատրել մուտք կոնտակտային տվյալներին"
         }
       },
       "EDIT": {
-        "TITLE": "Update the assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "TITLE": "Թարմացնել օգնականը",
+        "SUCCESS_MESSAGE": "Օգնականը հաջողությամբ թարմացվել է",
+        "ERROR_MESSAGE": "Օգնականի թարմացման ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։",
+        "NOT_FOUND": "Օգնականը չի գտնվել։ Խնդրում ենք փորձել կրկին։"
       },
       "SETTINGS": {
-        "HEADER": "Settings",
+        "HEADER": "Կարգավորումներ",
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "Հիմնական կարգավորումներ",
+          "DESCRIPTION": "Անհատականացրեք, թե ինչ է ասում օգնականը զրույցը ավարտելիս կամ մարդուն փոխանցելիս։"
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "Համակարգի կարգավորումներ",
+          "DESCRIPTION": "Անհատականացրեք, թե ինչ է ասում օգնականը զրույցը ավարտելիս կամ մարդուն փոխանցելիս։"
         },
         "CONTROL_ITEMS": {
-          "TITLE": "The Fun Stuff",
-          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "TITLE": "Ճիշտ հաճելի բաները",
+          "DESCRIPTION": "Ավելացրեք ավելի շատ վերահսկողություն օգնականին։ (մի փոքր ավելի պատկերավոր՝ ինչպես պատմություն՝ Հարցման սահմանափակում → սցենարներ → արդյունք) Խթանում է օգտատիրոջը իրականում օգտագործել դրանք։",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Guardrails",
-              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+              "TITLE": "Պաշտպանիչ սահմաններ",
+              "DESCRIPTION": "Պահպանում է ամեն ինչ ուղիղ ճանապարհին՝ միայն այն հարցերը, որոնց պատասխանել եք ցանկանում ձեր օգնականին, ոչ մի բան սահմաններից դուրս կամ թեմայից դուրս։"
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "TITLE": "Պատասխանների ուղեցույցներ",
+              "DESCRIPTION": "Ձեր օգնականի պատասխանների ոճն ու կառուցվածքը՝ պարզ և բարեկամական՞ Կարճ և հակիրճ՞ Վերլուծական և պաշտոնական՞:"
             }
           }
         },
         "DELETE": {
-          "TITLE": "Delete Assistant",
-          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+          "TITLE": "Ջնջել օգնականը",
+          "DESCRIPTION": "Այս գործողությունը անդառնալի է։ Օգնականը ջնջելու դեպքում այն կհեռացվի բոլոր միացված մուտքային արկղերից և ամբողջությամբ կջնջվի ստեղծված գիտելիքը։",
           "BUTTON_TEXT": "Delete {assistantName}"
         }
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Edit Assistant",
-        "DELETE_ASSISTANT": "Delete Assistant",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "EDIT_ASSISTANT": "Խմբագրել օգնականին",
+        "DELETE_ASSISTANT": "Ջնջել օգնականին",
+        "VIEW_CONNECTED_INBOXES": "Դիտել միացված մուտքային արկղերը"
       },
       "EMPTY_STATE": {
-        "TITLE": "No assistants available",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
+        "TITLE": "Օգնականներ չկան",
+        "SUBTITLE": "Ստեղծեք օգնական՝ ձեր օգտատերերին արագ և ճշգրիտ պատասխաններ տրամադրելու համար։ Այն կարող է սովորել ձեր օգնության հոդվածներից և անցյալ զրույցներից։",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "Captain Օգնական",
+          "NOTE": "Captain Օգնականը անմիջականորեն ներգրավվում է հաճախորդների հետ, սովորում է ձեր օգնության փաստաթղթերից և անցյալ զրույցներից, և տրամադրում է արագ, ճշգրիտ պատասխաններ։ Այն կառավարում է սկզբնական հարցումները, ապահովելով արագ լուծումներ, նախքան անհրաժեշտության դեպքում փոխանցել գործակալին։"
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "TITLE": "Պահպանիչ սահմաններ",
+        "DESCRIPTION": "Պահպանում է ընթացքը՝ միայն այն հարցերը, որոնց պատասխանել եք ցանկանում, ոչինչ սահմաններից դուրս կամ թեմայից դուրս։",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "SELECTED": "{count} տարր ընտրված | {count} տարրեր ընտրված",
+          "SELECT_ALL": "Ընտրել բոլորը ({count})",
+          "UNSELECT_ALL": "Բացառել բոլորը ({count})",
+          "BULK_DELETE_BUTTON": "Ջնջել"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "TITLE": "Օրինակ պահպանիչ սահմաններ",
+            "ADD": "Ավելացնել բոլորը",
+            "ADD_SINGLE": "Ավելացնել սա",
+            "SAVE": "Ավելացնել և պահպանել (↵)",
+            "PLACEHOLDER": "Մուտքագրեք մեկ այլ պահպանիչ սահման..."
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
-            "CREATE": "Create",
-            "CANCEL": "Cancel",
-            "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "TITLE": "Ավելացնել պահպանիչ սահման",
+            "CREATE": "Ստեղծել",
+            "CANCEL": "Չեղարկել",
+            "PLACEHOLDER": "Մուտքագրեք մեկ այլ պահպանիչ սահման...",
+            "TEST_ALL": "Բոլորը թեստավորել"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Որոնում..."
         },
-        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "EMPTY_MESSAGE": "Պահպանիչ սահմաններ չեն գտնվել։ Սկսելու համար ստեղծեք կամ ավելացրեք օրինակներ։",
+        "SEARCH_EMPTY_MESSAGE": "Այս որոնման համար պահպանիչ սահմաններ չեն գտնվել։",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "Պահպանիչ սահմանները հաջողությամբ ավելացվեցին",
+            "ERROR": "Պահպանիչ սահմաններ ավելացնելիս սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
           },
           "UPDATE": {
-            "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "SUCCESS": "Պահպանիչ սահմանները հաջողությամբ թարմացվեցին",
+            "ERROR": "Պահպանիչ սահմաններ թարմացնելիս սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "SUCCESS": "Պահպանիչ սահմանները հաջողությամբ ջնջվեցին",
+            "ERROR": "Պահպանիչ սահմաններ ջնջելիս սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
-        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "TITLE": "Պատասխանների ուղեցույցներ",
+        "DESCRIPTION": "Ձեր օգնականի պատասխանների ոճն ու կառուցվածքը՝ պարզ և բարեկամական՞ Կարճ և հակիրճ՞ Վերլուծական և պաշտոնական՞:",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "SELECTED": "{count} տարր ընտրված | {count} տարրեր ընտրված",
+          "SELECT_ALL": "Ընտրել բոլորը ({count})",
+          "UNSELECT_ALL": "Բացառել բոլորը ({count})",
+          "BULK_DELETE_BUTTON": "Ջնջել"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example response guidelines",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another response guideline..."
+            "TITLE": "Օրինակ պատասխանների ուղեցույցներ",
+            "ADD": "Ավելացնել բոլորը",
+            "ADD_SINGLE": "Ավելացնել սա",
+            "SAVE": "Ավելացնել և պահպանել (↵)",
+            "PLACEHOLDER": "Մուտքագրեք մեկ այլ պատասխանների ուղեցույց..."
           },
           "NEW": {
-            "TITLE": "Add a response guideline",
-            "CREATE": "Create",
-            "CANCEL": "Cancel",
-            "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "TITLE": "Ավելացնել պատասխանների ուղեցույց",
+            "CREATE": "Ստեղծել",
+            "CANCEL": "Չեղարկել",
+            "PLACEHOLDER": "Մուտքագրեք մեկ այլ պատասխանների ուղեցույց...",
+            "TEST_ALL": "Բոլորը թեստավորել"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Որոնում..."
         },
-        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "EMPTY_MESSAGE": "Պատասխանների ուղեցույցներ չեն գտնվել։ Սկսելու համար ստեղծեք կամ ավելացրեք օրինակներ։",
+        "SEARCH_EMPTY_MESSAGE": "Այս որոնման համար պատասխանների ուղեցույցներ չեն գտնվել։",
         "API": {
           "ADD": {
-            "SUCCESS": "Response Guidelines added successfully",
-            "ERROR": "There was an error adding response guidelines, please try again."
+            "SUCCESS": "Պատասխանների ուղեցույցները հաջողությամբ ավելացվեցին",
+            "ERROR": "Պատասխանների ուղեցույցներ ավելացնելիս սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
           },
           "UPDATE": {
-            "SUCCESS": "Response Guidelines updated successfully",
-            "ERROR": "There was an error updating response guidelines, please try again."
+            "SUCCESS": "Պատասխանների ուղեցույցները հաջողությամբ թարմացվեցին",
+            "ERROR": "Պատասխանների ուղեցույցներ թարմացնելիս սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
           },
           "DELETE": {
-            "SUCCESS": "Response Guidelines deleted successfully",
-            "ERROR": "There was an error deleting response guidelines, please try again."
+            "SUCCESS": "Պատասխանների ուղեցույցները հաջողությամբ ջնջվեցին",
+            "ERROR": "Պատասխանների ուղեցույցներ ջնջելիս սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
           }
         }
       },
       "SCENARIOS": {
-        "TITLE": "Scenarios",
-        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "TITLE": "Սցենարներ",
+        "DESCRIPTION": "Տվեք ձեր օգնականին համատեքստ՝ օրինակ՝ «ինչ անել, երբ օգտատերը կաշկանդված է», կամ «ինչպես վարվել վերադարձի խնդրանքի ժամանակ»։",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "SELECTED": "{count} տարր ընտրված | {count} տարրեր ընտրված",
+          "SELECT_ALL": "Ընտրել բոլորը ({count})",
+          "UNSELECT_ALL": "Բացառել բոլորը ({count})",
+          "BULK_DELETE_BUTTON": "Ջնջել"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example scenarios",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "TOOLS_USED": "Tools used :"
+            "TITLE": "Օրինակ սցենարներ",
+            "ADD": "Ավելացնել բոլորը",
+            "ADD_SINGLE": "Ավելացնել սա",
+            "TOOLS_USED": "Օգտագործված գործիքներ:"
           },
           "NEW": {
-            "CREATE": "Add a scenario",
-            "TITLE": "Create a scenario",
+            "CREATE": "Ավելացնել սցենար",
+            "TITLE": "Ստեղծել սցենար",
             "FORM": {
               "TITLE": {
-                "LABEL": "Title",
-                "PLACEHOLDER": "Enter a name for the scenario",
-                "ERROR": "Scenario name is required"
+                "LABEL": "Վերնագիր",
+                "PLACEHOLDER": "Մուտքագրեք սցենարի անունը",
+                "ERROR": "Սցենարի անունը պարտադիր է"
               },
               "DESCRIPTION": {
-                "LABEL": "Description",
-                "PLACEHOLDER": "Describe how and where this scenario will be used",
-                "ERROR": "Scenario description is required"
+                "LABEL": "Նկարագրություն",
+                "PLACEHOLDER": "Նկարագրեք, թե ինչպես և որտեղ է օգտագործվելու այս սցենարը",
+                "ERROR": "Սցենարի նկարագրությունը պարտադիր է"
               },
               "INSTRUCTION": {
-                "LABEL": "How to handle",
-                "PLACEHOLDER": "Describe how and where this scenario will be handled",
-                "ERROR": "Scenario content is required"
+                "LABEL": "Ինչպես վարվել",
+                "PLACEHOLDER": "Նկարագրեք, թե ինչպես և որտեղ է իրականացվելու այս սցենարը",
+                "ERROR": "Սցենարի բովանդակությունը պարտադիր է"
               },
-              "CREATE": "Create",
-              "CANCEL": "Cancel"
+              "CREATE": "Ստեղծել",
+              "CANCEL": "Չեղարկել"
             }
           }
         },
         "UPDATE": {
-          "CANCEL": "Cancel",
-          "UPDATE": "Update changes"
+          "CANCEL": "Չեղարկել",
+          "UPDATE": "Թարմացնել փոփոխությունները"
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Որոնում..."
         },
-        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "EMPTY_MESSAGE": "Սցենարներ չեն գտնվել։ Սկսելու համար ստեղծեք կամ ավելացրեք օրինակներ։",
+        "SEARCH_EMPTY_MESSAGE": "Այս որոնման համար սցենարներ չեն գտնվել։",
         "API": {
           "ADD": {
-            "SUCCESS": "Scenarios added successfully",
-            "ERROR": "There was an error adding scenarios, please try again."
+            "SUCCESS": "Senario berjaya ditambah",
+            "ERROR": "Սցենարներ ավելացնելիս սխալ առաջացավ, խնդրում ենք փորձել կրկին։"
           },
           "UPDATE": {
-            "SUCCESS": "Scenarios updated successfully",
-            "ERROR": "There was an error updating scenarios, please try again."
+            "SUCCESS": "Senario berjaya dikemas kini",
+            "ERROR": "Սցենարներ թարմացնելիս սխալ առաջացավ, խնդրում ենք փորձել կրկին։"
           },
           "DELETE": {
-            "SUCCESS": "Scenarios deleted successfully",
-            "ERROR": "There was an error deleting scenarios, please try again."
+            "SUCCESS": "Senario berjaya dipadam",
+            "ERROR": "Սցենարներ ջնջելիս սխալ առաջացավ, խնդրում ենք փորձել կրկին։"
           }
         }
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
-      "RELATED_RESPONSES": {
-        "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+      "HEADER": "Փաստաթղթեր",
+      "ADD_NEW": "Ստեղծել նոր փաստաթուղթ",
+      "SELECTED": "{count} ընտրված",
+      "SELECT_ALL": "Ընտրել բոլորը ({count})",
+      "UNSELECT_ALL": "Չընտրել բոլորը ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Այո, ջնջել բոլորը",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "RELATED_RESPONSES": {
+        "TITLE": "Համապատասխան ՀՏՀ-ներ",
+        "DESCRIPTION": "Այս ՀՏՀ-ները ստեղծվել են ուղղակիորեն փաստաթղթից։"
+      },
+      "FORM_DESCRIPTION": "Մուտքագրեք փաստաթղթի URL հասցեն՝ այն ավելացնելու համար որպես գիտելիքների աղբյուր և ընտրեք օգնականին, որի հետ կապել այն։",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "TITLE": "Ավելացնել փաստաթուղթ",
+        "SUCCESS_MESSAGE": "Փաստաթուղթը հաջողությամբ ստեղծվել է",
+        "ERROR_MESSAGE": "Փաստաթղթի ստեղծման ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
       },
       "FORM": {
         "TYPE": {
-          "LABEL": "Document Type",
+          "LABEL": "Jenis Dokumen",
           "URL": "URL",
-          "PDF": "PDF File"
+          "PDF": "Fail PDF"
         },
         "URL": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "PLACEHOLDER": "Մուտքագրեք փաստաթղթի URL հասցեն",
+          "ERROR": "Խնդրում ենք տրամադրել փաստաթղթի վավեր URL"
         },
         "PDF_FILE": {
-          "LABEL": "PDF File",
-          "CHOOSE_FILE": "Choose PDF file",
-          "ERROR": "Please select a PDF file",
-          "HELP_TEXT": "Maximum file size: 10MB",
-          "INVALID_TYPE": "Please select a valid PDF file",
-          "TOO_LARGE": "File size exceeds 10MB limit"
+          "LABEL": "Fail PDF",
+          "CHOOSE_FILE": "Pilih fail PDF",
+          "ERROR": "Sila pilih fail PDF",
+          "HELP_TEXT": "Saiz fail maksimum: 10MB",
+          "INVALID_TYPE": "Sila pilih fail PDF yang sah",
+          "TOO_LARGE": "Saiz fail melebihi had 10MB"
         },
         "NAME": {
-          "LABEL": "Document Name (Optional)",
-          "PLACEHOLDER": "Enter a name for the document"
+          "LABEL": "Nama Dokumen (Pilihan)",
+          "PLACEHOLDER": "Masukkan nama untuk dokumen"
         }
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the document?",
-        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "TITLE": "Համոզվա՞ծ եք, որ ցանկանում եք ջնջել փաստաթուղթը։",
+        "DESCRIPTION": "Այս գործողությունը անշրջելի է։ Փաստաթղթի ջնջումը մշտապես կջնջի բոլոր ստեղծված գիտելիքները։",
+        "CONFIRM": "Այո, ջնջել",
+        "SUCCESS_MESSAGE": "Փաստաթուղթը հաջողությամբ ջնջվել է",
+        "ERROR_MESSAGE": "Փաստաթղթի ջնջման ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "DELETE_DOCUMENT": "Delete Document"
+        "VIEW_RELATED_RESPONSES": "Դիտել կապված պատասխանները",
+        "DELETE_DOCUMENT": "Ջնջել փաստաթուղթը"
       },
       "EMPTY_STATE": {
-        "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "TITLE": "Փաստաթղթեր չկան",
+        "SUBTITLE": "Փաստաթղթերը օգտագործվում են օգնականի կողմից ՀՏՀ-ներ ստեղծելու համար։ Դուք կարող եք ներմուծել փաստաթղթեր՝ օգնականին տրամադրելու համատեքստ։",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "TITLE": "Captain Փաստաթուղթ",
+          "NOTE": "Captain-ում փաստաթուղթը ծառայում է որպես գիտելիքների աղբյուր օգնականի համար։ Կապելով ձեր օգնության կենտրոնը կամ ուղեցույցները՝ Captain-ը կարող է վերլուծել բովանդակությունը և տրամադրել ճշգրիտ պատասխաններ հաճախորդների հարցումների համար։"
         }
       }
     },
     "CUSTOM_TOOLS": {
-      "HEADER": "Tools",
-      "ADD_NEW": "Create a new tool",
+      "HEADER": "Alat",
+      "ADD_NEW": "Cipta alat baru",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
-        "TITLE": "No custom tools available",
-        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "TITLE": "Tiada alat khusus tersedia",
+        "SUBTITLE": "Ստեղծեք անհատական գործիքներ՝ ձեր օգնականին արտաքին API-ների և ծառայությունների հետ կապելու համար՝ հնարավորություն տալով նրան ստանալ տվյալներ և կատարել գործողություններ ձեր անունից։",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Custom Tools",
-          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+          "TITLE": "Alat Khusus",
+          "NOTE": "Անհատական գործիքները թույլ են տալիս ձեր օգնականին աշխատել արտաքին API-ների և ծառայությունների հետ։ Ստեղծեք գործիքներ՝ տվյալներ ստանալու, գործողություններ կատարելու կամ ձեր առկա համակարգերի հետ ինտեգրվելու համար՝ ձեր օգնականի հնարավորությունները ընդլայնելու համար։"
         }
       },
-      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "FORM_DESCRIPTION": "Konfigurasikan alat khusus anda untuk berhubung dengan API luaran",
       "OPTIONS": {
-        "EDIT_TOOL": "Edit tool",
-        "DELETE_TOOL": "Delete tool"
+        "EDIT_TOOL": "Sunting alat",
+        "DELETE_TOOL": "Padam alat"
       },
       "CREATE": {
-        "TITLE": "Create Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool created successfully",
-        "ERROR_MESSAGE": "Failed to create custom tool"
+        "TITLE": "Cipta Alat Khusus",
+        "SUCCESS_MESSAGE": "Alat khusus berjaya dicipta",
+        "ERROR_MESSAGE": "Gagal mencipta alat khusus"
       },
       "EDIT": {
-        "TITLE": "Edit Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool updated successfully",
-        "ERROR_MESSAGE": "Failed to update custom tool"
+        "TITLE": "Sunting Alat Tersuai",
+        "SUCCESS_MESSAGE": "Alat tersuai berjaya dikemas kini",
+        "ERROR_MESSAGE": "Gagal mengemas kini alat tersuai"
       },
       "DELETE": {
-        "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete custom tool"
+        "TITLE": "Padam Alat Tersuai",
+        "DESCRIPTION": "Վստա՞հ եք, որ ցանկանում եք ջնջել այս անհատական գործիքը։ Այս գործողությունը հնարավոր չէ վերականգնել։",
+        "CONFIRM": "Ya, padam",
+        "SUCCESS_MESSAGE": "Alat tersuai berjaya dipadam",
+        "ERROR_MESSAGE": "Gagal memadam alat tersuai"
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Tool Name",
-          "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "LABEL": "Nama Alat",
+          "PLACEHOLDER": "Carian Pesanan",
+          "ERROR": "Nama alat diperlukan",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Looks up order details by order ID"
+          "LABEL": "Penerangan",
+          "PLACEHOLDER": "Mencari butiran pesanan mengikut ID pesanan"
         },
         "HTTP_METHOD": {
-          "LABEL": "Method"
+          "LABEL": "Kaedah"
         },
         "ENDPOINT_URL": {
-          "LABEL": "Endpoint URL",
+          "LABEL": "URL Titik Akhir",
           "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
-          "ERROR": "Valid URL is required"
+          "ERROR": "URL yang sah diperlukan"
         },
         "AUTH_TYPE": {
-          "LABEL": "Authentication Type"
+          "LABEL": "Jenis Pengesahan"
         },
         "AUTH_TYPES": {
-          "NONE": "None",
-          "BEARER": "Bearer Token",
-          "BASIC": "Basic Auth",
-          "API_KEY": "API Key"
+          "NONE": "Tiada",
+          "BEARER": "Token Bearer",
+          "BASIC": "Pengesahan Asas",
+          "API_KEY": "Kunci API"
         },
         "AUTH_CONFIG": {
-          "BEARER_TOKEN": "Bearer Token",
-          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
-          "USERNAME": "Username",
-          "USERNAME_PLACEHOLDER": "Enter username",
-          "PASSWORD": "Password",
-          "PASSWORD_PLACEHOLDER": "Enter password",
-          "API_KEY": "Header Name",
+          "BEARER_TOKEN": "Token Bearer",
+          "BEARER_TOKEN_PLACEHOLDER": "Masukkan token bearer anda",
+          "USERNAME": "Nama Pengguna",
+          "USERNAME_PLACEHOLDER": "Masukkan nama pengguna",
+          "PASSWORD": "Kata Laluan",
+          "PASSWORD_PLACEHOLDER": "Masukkan kata laluan",
+          "API_KEY": "Nama Header",
           "API_KEY_PLACEHOLDER": "X-API-Key",
-          "API_VALUE": "Header Value",
-          "API_VALUE_PLACEHOLDER": "Enter API key value"
+          "API_VALUE": "Nilai Header",
+          "API_VALUE_PLACEHOLDER": "Masukkan nilai kunci API"
         },
         "PARAMETERS": {
-          "LABEL": "Parameters",
-          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+          "LABEL": "Parameter",
+          "HELP_TEXT": "Tentukan parameter yang akan diambil dari pertanyaan pengguna"
         },
-        "ADD_PARAMETER": "Add Parameter",
+        "ADD_PARAMETER": "Tambah Parameter",
         "PARAM_NAME": {
-          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+          "PLACEHOLDER": "Nama parameter (contoh: order_id)"
         },
         "PARAM_TYPE": {
-          "PLACEHOLDER": "Type"
+          "PLACEHOLDER": "Տեսակ"
         },
         "PARAM_TYPES": {
-          "STRING": "String",
-          "NUMBER": "Number",
-          "BOOLEAN": "Boolean",
-          "ARRAY": "Array",
-          "OBJECT": "Object"
+          "STRING": "Տող",
+          "NUMBER": "Թիվ",
+          "BOOLEAN": "Բուլյան",
+          "ARRAY": "Զանգված",
+          "OBJECT": "Օբյեկտ"
         },
         "PARAM_DESCRIPTION": {
-          "PLACEHOLDER": "Description of the parameter"
+          "PLACEHOLDER": "Պարամետրի նկարագրություն"
         },
         "PARAM_REQUIRED": {
-          "LABEL": "Required"
+          "LABEL": "Պարտադիր"
         },
         "REQUEST_TEMPLATE": {
-          "LABEL": "Request Body Template (Optional)",
+          "LABEL": "Հարցման մարմնի ձևանմուշ (ըստ ցանկության)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "Response Template (Optional)",
+          "LABEL": "Պատասխանի ձևանմուշ (ըստ ցանկության)",
           "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
         },
         "ERRORS": {
-          "PARAM_NAME_REQUIRED": "Parameter name is required"
+          "PARAM_NAME_REQUIRED": "Պարամետրի անունը պարտադիր է"
         }
       }
     },
     "RESPONSES": {
-      "HEADER": "FAQs",
-      "PENDING_FAQS": "Pending FAQs",
-      "ADD_NEW": "Create new FAQ",
+      "HEADER": "ՀՏՀ-ներ",
+      "PENDING_FAQS": "Սպասող ՀՏՀ-ներ",
+      "ADD_NEW": "Ստեղծել նոր FAQ",
       "DOCUMENTABLE": {
-        "CONVERSATION": "Conversation #{id}"
+        "CONVERSATION": "Զրույց #{id}"
       },
-      "SELECTED": "{count} selected",
-      "SELECT_ALL": "Select all ({count})",
-      "UNSELECT_ALL": "Unselect all ({count})",
-      "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Approve",
-      "BULK_DELETE_BUTTON": "Delete",
+      "SELECTED": "{count} ընտրված",
+      "SELECT_ALL": "Ընտրել բոլորը ({count})",
+      "UNSELECT_ALL": "Չընտրել բոլորը ({count})",
+      "SEARCH_PLACEHOLDER": "Cari Soalan Lazim...",
+      "BULK_APPROVE_BUTTON": "Հաստատել",
+      "BULK_DELETE_BUTTON": "Ջնջել",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "ՀՏՀ-ները հաջողությամբ հաստատվեցին",
+        "ERROR_MESSAGE": "ՀՏՀ-ները հաստատելիս սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "TITLE": "Ջնջե՞լ ՀՏՀ-ները։",
+        "DESCRIPTION": "Համոզված եք, որ ցանկանում եք ջնջել ընտրված ՀՏՀ-ները։ Այս գործողությունը չի կարող հետ վերադարձվել։",
+        "CONFIRM": "Այո, ջնջել բոլորը",
+        "SUCCESS_MESSAGE": "ՀՏՀ-ները հաջողությամբ ջնջվեցին",
+        "ERROR_MESSAGE": "ՀՏՀ-ները ջնջելիս սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the FAQ?",
+        "TITLE": "Համոզվա՞ծ եք, որ ցանկանում եք ջնջել FAQ-ը։",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "FAQ deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+        "CONFIRM": "Այո, ջնջել",
+        "SUCCESS_MESSAGE": "ՀՏՀ-ն հաջողությամբ ջնջվեց",
+        "ERROR_MESSAGE": "ՀՏՀ-ն ջնջելիս սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
       },
       "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
-        "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "All"
+        "ASSISTANT": "Օգնական՝ {selected}",
+        "STATUS": "Կարգավիճակ՝ {selected}",
+        "ALL_ASSISTANTS": "Բոլորը"
       },
       "STATUS": {
-        "TITLE": "Status",
-        "PENDING": "Pending",
-        "APPROVED": "Approved",
-        "ALL": "All"
+        "TITLE": "Կարգավիճակ",
+        "PENDING": "Սպասման մեջ",
+        "APPROVED": "Հաստատված",
+        "ALL": "Բոլորը"
       },
       "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+        "TITLE": "Captain-ը գտել է հաճախորդների փնտրած ՀՏՀ-ները։",
+        "ACTION": "Սեղմեք այստեղ՝ դիտարկելու համար"
       },
-      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "FORM_DESCRIPTION": "Ավելացրեք հարց և նրա համապատասխան պատասխան գիտելիքների բազայում և ընտրեք օգնականին, որի հետ այն պետք է կապվի։",
       "CREATE": {
-        "TITLE": "Add an FAQ",
-        "SUCCESS_MESSAGE": "The response has been added successfully.",
-        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+        "TITLE": "Ավելացնել ՀՏՀ",
+        "SUCCESS_MESSAGE": "Պատասխանը հաջողությամբ ավելացվեց։",
+        "ERROR_MESSAGE": "Պատասխանը ավելացնելիս սխալ է տեղի ունեցել։ Խնդրում ենք փորձել կրկին։"
       },
       "FORM": {
         "QUESTION": {
-          "LABEL": "Question",
-          "PLACEHOLDER": "Enter the question here",
-          "ERROR": "Please provide a valid question."
+          "LABEL": "Հարց",
+          "PLACEHOLDER": "Մուտքագրեք հարցը այստեղ",
+          "ERROR": "Խնդրում ենք տրամադրել վավեր հարց։"
         },
         "ANSWER": {
-          "LABEL": "Answer",
-          "PLACEHOLDER": "Enter the answer here",
-          "ERROR": "Please provide a valid answer."
+          "LABEL": "Պատասխան",
+          "PLACEHOLDER": "Մուտքագրեք պատասխանը այստեղ",
+          "ERROR": "Խնդրում ենք տրամադրել վավեր պատասխան։"
         }
       },
       "EDIT": {
-        "TITLE": "Update the FAQ",
-        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
-        "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
+        "TITLE": "Թարմացնել ՀՏՀ-ն",
+        "SUCCESS_MESSAGE": "ՀՏՀ-ն հաջողությամբ թարմացվեց",
+        "ERROR_MESSAGE": "ՀՏՀ-ն թարմացնելիս սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին",
+        "APPROVE_SUCCESS_MESSAGE": "ՀՏՀ-ն նշվել է որպես հաստատված"
       },
       "OPTIONS": {
-        "APPROVE": "Approve",
-        "EDIT_RESPONSE": "Edit",
-        "DELETE_RESPONSE": "Delete"
+        "APPROVE": "Հաստատել",
+        "EDIT_RESPONSE": "Խմբագրել",
+        "DELETE_RESPONSE": "Ջնջել"
       },
       "EMPTY_STATE": {
-        "TITLE": "No FAQs Found",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
-        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
-        "CLEAR_SEARCH": "Clear active filters",
+        "TITLE": "ՀՏՀ-ներ չեն գտնվել",
+        "NO_PENDING_TITLE": "Վերանայման սպասող ՀՏՀ-ներ չկան",
+        "SUBTITLE": "ՀՏՀ-ները օգնում են ձեր օգնականին արագ և ճշգրիտ պատասխաններ տրամադրել ձեր հաճախորդների հարցերին։ Դրանք կարող են ավտոմատ կերպով ստեղծվել ձեր բովանդակությունից կամ ձեռքով ավելացվել։",
+        "CLEAR_SEARCH": "Մաքրել ակտիվ ֆիլտրերը",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "TITLE": "Կապտեն Հաճախ տրվող հարցեր",
+          "NOTE": "Կապտեն Հաճախ տրվող հարցերը հայտնաբերում են հաճախորդների ընդհանուր հարցերը՝ անկախ նրանից, թե դրանք բացակայում են ձեր գիտելիքների բազայում, թե հաճախ են տրվում, և ստեղծում են համապատասխան ՀՏՀ-ներ՝ աջակցությունը բարելավելու համար։ Դուք կարող եք վերանայել յուրաքանչյուր առաջարկ և որոշել՝ հաստատել կամ մերժել այն։"
         }
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "Կապված մուտքային արկղեր",
+      "ADD_NEW": "Կապել նոր մուտքային արկղ",
       "OPTIONS": {
-        "DISCONNECT": "Disconnect"
+        "DISCONNECT": "Դադարեցնել կապը"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "Համոզվա՞ծ եք, որ ցանկանում եք դադարեցնել կապը այս նամակապանակի հետ։",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "CONFIRM": "Այո, ջնջել",
+        "SUCCESS_MESSAGE": "Նամակապանակի կապը հաջողությամբ դադարեցվեց։",
+        "ERROR_MESSAGE": "Նամակապանակի կապը դադարեցնելու ընթացքում սխալ տեղի ունեցավ, խնդրում ենք փորձել կրկին։"
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "Ընտրեք մուտքային արկղը, որը կապվելու է օգնականի հետ։",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
-        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+        "TITLE": "Կապել մուտքային արկղ",
+        "SUCCESS_MESSAGE": "Մուտքային արկղը հաջողությամբ կապվեց։",
+        "ERROR_MESSAGE": "Մուտքային արկղը կապելիս սխալ է տեղի ունեցել։ Խնդրում ենք փորձել կրկին։"
       },
       "FORM": {
         "INBOX": {
-          "LABEL": "Inbox",
-          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
-          "ERROR": "An inbox selection is required."
+          "LABEL": "Մուտքային արկղ",
+          "PLACEHOLDER": "Ընտրեք մուտքային արկղը, որտեղ կգործարկվի օգնականը։",
+          "ERROR": "Պետք է ընտրել մուտքային արկղ։"
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "TITLE": "Կապված մուտքային արկղեր չկան",
+        "SUBTITLE": "Մուտքային արկղի միացումը թույլ է տալիս օգնականին կառավարել հաճախորդների սկզբնական հարցերը, նախքան դրանք փոխանցելը ձեզ։"
       }
     }
   }

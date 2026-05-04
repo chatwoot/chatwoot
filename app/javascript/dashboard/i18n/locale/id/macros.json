@@ -3,9 +3,12 @@
     "HEADER": "Makro",
     "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
     "LEARN_MORE": "Learn more about macros",
+    "COUNT": "{n} macro | {n} macros",
     "HEADER_BTN_TXT": "Tambahkan makro baru",
     "HEADER_BTN_TXT_SAVE": "Simpan makro",
     "LOADING": "Mengambil makro",
+    "SEARCH_PLACEHOLDER": "Search macros...",
+    "NO_RESULTS": "No macros found matching your search",
     "ERROR": "Terjadi kesalahan. Silakan coba lagi",
     "ORDER_INFO": "Makro akan dijalankan sesuai dengan urutan penambahan tindakan-tindakan Anda. Anda dapat mengatur ulang tindakan-tindakan tersebut dengan menggesernya menggunakan pegangan di sebelah setiap node.",
     "ADD": {
@@ -29,7 +32,8 @@
         "NAME": "Nama",
         "CREATED BY": "Dibuat oleh",
         "LAST_UPDATED_BY": "Terakhir diperbarui oleh",
-        "VISIBILITY": "Visibilitas"
+        "VISIBILITY": "Visibilitas",
+        "ACTIONS": "Aksi"
       },
       "404": "Tidak ditemukan makro"
     },
@@ -89,6 +93,7 @@
       "ASSIGN_AGENT": "Assign an Agent",
       "ADD_LABEL": "Add a Label",
       "REMOVE_LABEL": "Remove a Label",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
       "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
       "MUTE_CONVERSATION": "Matikan Suara Percakapan",
