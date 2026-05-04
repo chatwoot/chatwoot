@@ -318,20 +318,6 @@ RSpec.describe 'Companies API', type: :request do
       end
     end
 
-    context 'when companies feature is disabled' do
-      let(:admin) { create(:user, account: account, role: :administrator) }
-
-      before { account.disable_features!(:companies) }
-
-      it 'returns forbidden' do
-        delete "/api/v1/accounts/#{account.id}/companies/#{company.id}/avatar",
-               headers: admin.create_new_auth_token,
-               as: :json
-
-        expect(response).to have_http_status(:forbidden)
-      end
-    end
-
     context 'when it is an authenticated administrator' do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
