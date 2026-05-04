@@ -124,6 +124,11 @@ const canJoinCall = computed(() => {
   if (isOutbound.value) return false;
   if (acceptedByAgentId.value) return false;
   if (!callSid.value || !inboxId.value || !conversationId.value) return false;
+  // Suppress the button once this call is the local active session — the
+  // message status webhook may lag behind, so we can't rely on `status` alone
+  // to hide it after a successful join from this client.
+  if (hasActiveCall.value && activeCall.value?.callSid === callSid.value)
+    return false;
   const assignee = conversationAssignee.value;
   if (assignee?.id && assignee.id !== currentUserId.value) return false;
   return true;
