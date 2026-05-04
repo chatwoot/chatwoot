@@ -1,0 +1,88 @@
+name: Sync GHSA advisories to Linear
+
+on:
+  repository_advisory:
+    types: [reported, published]
+  schedule:
+    - cron: '0 4 * * *'  # 09:30 IST safety net
+  workflow_dispatch: {}
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: read
+    steps:
+      - name: Fetch triage advisories
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${{ github.repository }}/security-advisories?state=triage&per_page=100" \
+            | jq -c '[.[] | {
+                ghsa_id, cve_id, summary, severity, state, html_url,
+                description, created_at,
+                cvss_score: .cvss.score,
+                reporter: ([.credits[]?.user.login] | first // "unknown")
+              }]' > advisories.json
+          echo "Fetched $(jq 'length' advisories.json) triage advisories"
+
+      - name: Create Linear issues for new advisories
+        env:
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+          LINEAR_TEAM_ID: ${{ secrets.LINEAR_TEAM_ID }}
+          LINEAR_PROJECT_ID: ${{ secrets.LINEAR_PROJECT_ID }}
+          LINEAR_LABEL_ID: ${{ secrets.LINEAR_LABEL_ID }}
+        run: |
+          jq -c '.[]' advisories.json | while read -r advisory; do
+            ghsa_id=$(printf '%s' "$advisory" | jq -r '.ghsa_id')
+            summary=$(printf '%s' "$advisory" | jq -r '.summary')
+            severity=$(printf '%s' "$advisory" | jq -r '.severity // "unknown"')
+            cve_id=$(printf '%s' "$advisory" | jq -r '.cve_id // "n/a"')
+            cvss=$(printf '%s' "$advisory" | jq -r '.cvss_score // "n/a"')
+            reporter=$(printf '%s' "$advisory" | jq -r '.reporter')
+            html_url=$(printf '%s' "$advisory" | jq -r '.html_url')
+            created=$(printf '%s' "$advisory" | jq -r '.created_at' | cut -dT -f1)
+            description=$(printf '%s' "$advisory" | jq -r '.description // "No description provided."')
+
+            existing=$(curl -s -X POST https://api.linear.app/graphql \
+              -H "Content-Type: application/json" \
+              -H "Authorization: $LINEAR_API_KEY" \
+              -d "$(jq -n --arg q "$ghsa_id" '{query: "query($q: String!) { issues(filter: {title: {contains: $q}}, first: 1) { nodes { id } } }", variables: {q: $q}}')" \
+              | jq '.data.issues.nodes | length')
+
+            if [ "$existing" -gt 0 ]; then
+              echo "Skip $ghsa_id: Linear issue already exists"
+              continue
+            fi
+
+            echo "Creating Linear issue for $ghsa_id"
+
+            priority=3
+            case "$severity" in
+              critical) priority=1 ;;
+              high)     priority=2 ;;
+              medium)   priority=3 ;;
+              low)      priority=4 ;;
+            esac
+
+            title="[$ghsa_id] $summary"
+            body=$(printf '**GHSA:** %s\n**CVE:** %s\n**Severity:** %s (CVSS %s)\n**Reporter:** %s\n**Reported:** %s\n**Advisory:** %s\n\n---\n\n%s' \
+              "$ghsa_id" "$cve_id" "$severity" "$cvss" "$reporter" "$created" "$html_url" "$description")
+
+            curl -s -X POST https://api.linear.app/graphql \
+              -H "Content-Type: application/json" \
+              -H "Authorization: $LINEAR_API_KEY" \
+              -d "$(jq -n \
+                --arg title "$title" \
+                --arg body "$body" \
+                --arg teamId "$LINEAR_TEAM_ID" \
+                --arg projectId "$LINEAR_PROJECT_ID" \
+                --arg labelId "$LINEAR_LABEL_ID" \
+                --argjson priority "$priority" \
+                '{
+                  query: "mutation($input: IssueCreateInput!) { issueCreate(input: $input) { success issue { identifier url } } }",
+                  variables: {input: {title: $title, description: $body, teamId: $teamId, projectId: $projectId, labelIds: [$labelId], priority: $priority}}
+                }')" | jq -r '.data.issueCreate.issue | "Created \(.identifier): \(.url)"'
+          done
