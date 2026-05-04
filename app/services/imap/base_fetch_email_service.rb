@@ -116,7 +116,8 @@ class Imap::BaseFetchEmailService
     return nil if MailPresenter.new(mail, channel.account).notification_email_from_chatwoot?
 
     message_id = mail.message_id
-    return nil if message_id.present? && email_already_present?(channel, message_id)
+    return nil if message_id.blank?
+    return nil if email_already_present?(channel, message_id)
 
     [data.seqno, message_id]
   end
