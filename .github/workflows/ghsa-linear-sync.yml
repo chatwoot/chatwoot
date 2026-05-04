@@ -1,10 +1,8 @@
 name: Sync GHSA advisories to Linear
 
 on:
-  repository_advisory:
-    types: [reported, published]
   schedule:
-    - cron: '0 4 * * *'  # 09:30 IST safety net
+    - cron: '0 4 * * *'  # daily at 09:30 IST
   workflow_dispatch: {}
 
 jobs:
