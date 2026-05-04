@@ -913,6 +913,7 @@ watch(conversationFilters, (newVal, oldVal) => {
     <slot />
     <ChatListHeader
       :page-title="pageTitle"
+      :inbox="inbox"
       :has-applied-filters="hasAppliedFilters"
       :has-active-folders="hasActiveFolders"
       :active-status="activeStatus"

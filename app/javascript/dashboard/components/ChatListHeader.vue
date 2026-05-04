@@ -7,9 +7,11 @@ import wootConstants from 'dashboard/constants/globals';
 import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
 import SwitchLayout from 'dashboard/routes/dashboard/conversation/search/SwitchLayout.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import ChannelIcon from 'next/icon/ChannelIcon.vue';
 
 const props = defineProps({
   pageTitle: { type: String, required: true },
+  inbox: { type: Object, default: () => ({}) },
   hasAppliedFilters: { type: Boolean, required: true },
   hasActiveFolders: { type: Boolean, required: true },
   activeStatus: { type: String, required: true },
@@ -25,6 +27,35 @@ const emit = defineEmits([
   'basicFilterChange',
   'filtersModal',
 ]);
+
+const channelColor = computed(() => {
+  if (!props.inbox || !props.inbox.channel_type) return '';
+  const type = props.inbox.channel_type;
+  const medium = props.inbox.medium;
+
+  if (
+    type === 'Channel::Whatsapp' ||
+    (type === 'Channel::TwilioSms' && medium === 'whatsapp')
+  ) {
+    return 'color: #16a34a;';
+  }
+  if (type === 'Channel::FacebookPage') {
+    return 'color: #2563eb;';
+  }
+  if (type === 'Channel::Instagram') {
+    return 'color: #9333ea;';
+  }
+  if (type === 'Channel::Telegram') {
+    return 'color: #0ea5e9;';
+  }
+  if (type === 'Channel::Api') {
+    return 'color: #ea580c;';
+  }
+  if (type === 'Channel::Email') {
+    return 'color: #db2777;';
+  }
+  return '';
+});
 
 const { uiSettings, updateUISettings } = useUISettings();
 
@@ -64,9 +95,15 @@ const toggleConversationLayout = () => {
   >
     <div class="flex items-center justify-center min-w-0">
       <h1
-        class="text-base font-medium truncate text-n-slate-12"
+        class="text-base font-medium truncate text-n-slate-12 flex items-center gap-1.5"
         :title="pageTitle"
       >
+        <ChannelIcon
+          v-if="inbox && inbox.channel_type"
+          :inbox="inbox"
+          class="size-4 shrink-0"
+          :style="channelColor"
+        />
         {{ pageTitle }}
       </h1>
       <span
