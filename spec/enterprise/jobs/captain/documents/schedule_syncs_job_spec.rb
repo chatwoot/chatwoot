@@ -5,6 +5,7 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
   let(:assistant) { create(:captain_assistant, account: account) }
 
   before do
+    create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { business: 24, hacker: nil }.to_json)
     account.enable_features!('captain_document_auto_sync')
     clear_enqueued_jobs
   end
