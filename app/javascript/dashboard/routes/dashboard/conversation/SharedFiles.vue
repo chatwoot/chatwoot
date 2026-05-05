@@ -29,7 +29,9 @@ const mediaAttachments = computed(() =>
 );
 
 const fileAttachments = computed(() =>
-  allAttachments.value.filter(a => !MEDIA_TYPES.includes(a.file_type))
+  allAttachments.value.filter(
+    a => !MEDIA_TYPES.includes(a.file_type) && a.data_url
+  )
 );
 
 const showAllMedia = ref(false);
