@@ -121,7 +121,7 @@ const handleCreateArticle = event => {
           custom-text-area-class="!text-[32px] !leading-[48px] !font-medium !tracking-[0.2px]"
           custom-text-area-wrapper-class="border-0 !bg-transparent dark:!bg-transparent !py-0 !px-0"
           placeholder="Title"
-          autofocus
+          :autofocus="isNewArticle"
           @blur="handleCreateArticle"
         />
         <ArticleEditorControls
@@ -138,7 +138,7 @@ const handleCreateArticle = event => {
           t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.EDITOR_PLACEHOLDER')
         "
         :enabled-menu-options="ARTICLE_EDITOR_MENU_OPTIONS"
-        :autofocus="false"
+        :autofocus="!isNewArticle"
       />
     </template>
   </HelpCenterLayout>

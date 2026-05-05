@@ -88,7 +88,7 @@ export default {
 </script>
 
 <template>
-  <div class="h-full w-full p-8 col-span-6 overflow-auto">
+  <div class="h-full w-full px-8 pt-8 col-span-6 overflow-auto">
     <form class="flex flex-col gap-4 mx-0" @submit.prevent="addAgents">
       <PageHeader
         :header-title="headerTitle"

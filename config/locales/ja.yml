@@ -435,16 +435,12 @@ ja:
     button: 会話を開く
   time_units:
     days:
-      one: '%{count} 日'
       other: '%{count} 日'
     hours:
-      one: '%{count} 時間'
       other: '%{count} 時間'
     minutes:
-      one: '%{count} 分'
       other: '%{count} 分'
     seconds:
-      one: '%{count} 秒'
       other: '%{count} 秒'
   auto_assignment:
     default_policy_name: 'Default Policy'

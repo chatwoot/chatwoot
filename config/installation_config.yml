@@ -209,6 +209,12 @@
   description: 'The limits for the Captain AI service for different plans'
   value:
   type: code
+- name: CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS
+  display_title: 'Captain Document Auto Sync Intervals'
+  description: 'JSON map of plan-wise Captain document auto-sync intervals in hours. Use null to disable auto-sync for a plan.'
+  value:
+  locked: false
+  type: code
 # End of Captain Config
 
 # ------- Context.dev Config ------- #
