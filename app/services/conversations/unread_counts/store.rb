@@ -83,6 +83,16 @@ class Conversations::UnreadCounts::Store
       keys.zip(counts).to_h
     end
 
+    def memberships_for_keys(keys, conversation_id)
+      keys = keys.compact_blank
+      return {} if keys.blank?
+
+      memberships = Redis::Alfred.pipelined do |pipeline|
+        keys.each { |key| pipeline.sismember(key, conversation_id) }
+      end
+      keys.zip(memberships.map { |membership| membership == true || membership == 1 }).to_h
+    end
+
     def inbox_key(account_id, inbox_id)
       format(Redis::Alfred::UNREAD_CONVERSATIONS_INBOX, account_id: account_id, inbox_id: inbox_id)
     end

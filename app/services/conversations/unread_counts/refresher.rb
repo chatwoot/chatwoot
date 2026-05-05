@@ -9,12 +9,47 @@ class Conversations::UnreadCounts::Refresher
   def perform
     return false unless base_ready? || assignment_ready?
 
+    before_memberships = store.memberships_for_keys(affected_cache_keys, conversation.id)
     refresh_base_membership if base_ready?
     refresh_assignment_membership if assignment_ready?
-    true
+    after_memberships = store.memberships_for_keys(affected_cache_keys, conversation.id)
+
+    before_memberships != after_memberships
   end
 
   private
+
+  def affected_cache_keys
+    keys = []
+    keys.concat(affected_base_keys) if base_ready?
+    keys.concat(affected_assignment_keys) if assignment_ready?
+    keys.uniq
+  end
+
+  def affected_base_keys
+    affected_inbox_ids.flat_map do |inbox_id|
+      [store.inbox_key(account.id, inbox_id)] +
+        affected_label_ids.map { |label_id| store.label_inbox_key(account.id, label_id, inbox_id) }
+    end
+  end
+
+  def affected_assignment_keys
+    affected_inbox_ids.flat_map do |inbox_id|
+      affected_assignee_ids.flat_map do |assignee_id|
+        assignment_keys_for(inbox_id, assignee_id)
+      end
+    end
+  end
+
+  def assignment_keys_for(inbox_id, assignee_id)
+    if assignee_id.present?
+      [store.inbox_assignee_key(account.id, inbox_id, assignee_id)] +
+        affected_label_ids.map { |label_id| store.label_inbox_assignee_key(account.id, label_id, inbox_id, assignee_id) }
+    else
+      [store.inbox_unassigned_key(account.id, inbox_id)] +
+        affected_label_ids.map { |label_id| store.label_inbox_unassigned_key(account.id, label_id, inbox_id) }
+    end
+  end
 
   def refresh_base_membership
     store.remove_base_membership(

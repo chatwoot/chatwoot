@@ -27,8 +27,21 @@ RSpec.describe Conversations::UnreadCounts::Refresher do
 
     create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, created_at: 5.minutes.ago)
 
-    described_class.new(conversation.reload).perform
+    expect(described_class.new(conversation.reload).perform).to be(true)
 
+    expect(store.counts_for_keys(base_keys)).to eq(
+      store.inbox_key(account.id, inbox.id) => 1,
+      store.label_inbox_key(account.id, label.id, inbox.id) => 1
+    )
+  end
+
+  it 'returns false when refresh does not change unread counts' do
+    conversation = create_unread_conversation(account: account, inbox: inbox, labels: [label.title])
+    Conversations::UnreadCounts::Builder.new(account).build_base!
+
+    create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
+
+    expect(described_class.new(conversation.reload).perform).to be(false)
     expect(store.counts_for_keys(base_keys)).to eq(
       store.inbox_key(account.id, inbox.id) => 1,
       store.label_inbox_key(account.id, label.id, inbox.id) => 1
@@ -40,7 +53,7 @@ RSpec.describe Conversations::UnreadCounts::Refresher do
     Conversations::UnreadCounts::Builder.new(account).build_base!
 
     conversation.update!(agent_last_seen_at: 1.minute.from_now)
-    described_class.new(conversation.reload).perform
+    expect(described_class.new(conversation.reload).perform).to be(true)
 
     expect(store.counts_for_keys(base_keys).values).to all(eq(0))
   end
@@ -50,7 +63,7 @@ RSpec.describe Conversations::UnreadCounts::Refresher do
     Conversations::UnreadCounts::Builder.new(account).build_base!
 
     conversation.update_labels([new_label.title])
-    described_class.new(conversation.reload, changed_attributes: { label_list: [[label.title], [new_label.title]] }).perform
+    expect(described_class.new(conversation.reload, changed_attributes: { label_list: [[label.title], [new_label.title]] }).perform).to be(true)
 
     expect(store.counts_for_keys([
                                    store.label_inbox_key(account.id, label.id, inbox.id),
