@@ -62,6 +62,12 @@ const toggleStatus = async () => {
   );
 };
 
+const requestHandoff = async () => {
+  return API.post(
+    `/api/v1/widget/conversations/request_handoff${window.location.search}`
+  );
+};
+
 const setCustomAttributes = async customAttributes => {
   return API.post(
     `/api/v1/widget/conversations/set_custom_attributes${window.location.search}`,
@@ -90,6 +96,7 @@ export {
   setUserLastSeenAt,
   sendEmailTranscript,
   toggleStatus,
+  requestHandoff,
   setCustomAttributes,
   deleteCustomAttribute,
 };

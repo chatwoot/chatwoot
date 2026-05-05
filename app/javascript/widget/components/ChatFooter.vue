@@ -5,11 +5,14 @@ import CustomButton from 'shared/components/Button.vue';
 import FooterReplyTo from 'widget/components/FooterReplyTo.vue';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { CONVERSATION_STATUS } from 'shared/constants/messages';
 import { sendEmailTranscript } from 'widget/api/conversation';
 import { useRouter } from 'vue-router';
 import { IFrameHelper } from '../helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 import { emitter } from 'shared/helpers/mitt';
+
+const CAPTAIN_HANDOFF_REPLY_THRESHOLD = 5;
 
 export default {
   components: {
@@ -24,6 +27,7 @@ export default {
   data() {
     return {
       inReplyTo: null,
+      isRequestingHandoff: false,
     };
   },
   computed: {
@@ -31,6 +35,7 @@ export default {
       conversationAttributes: 'conversationAttributes/getConversationParams',
       widgetColor: 'appConfig/getWidgetColor',
       conversationSize: 'conversation/getConversationSize',
+      captainReplyCount: 'conversation/getCaptainReplyCount',
       currentUser: 'contacts/getCurrentUser',
       isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
     }),
@@ -45,6 +50,12 @@ export default {
     showEmailTranscriptButton() {
       return this.hasEmail;
     },
+    showCaptainHandoffButton() {
+      return (
+        this.conversationAttributes.status === CONVERSATION_STATUS.PENDING &&
+        this.captainReplyCount >= CAPTAIN_HANDOFF_REPLY_THRESHOLD
+      );
+    },
     hasEmail() {
       return this.currentUser && this.currentUser.has_email;
     },
@@ -58,7 +69,11 @@ export default {
     emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
   },
   methods: {
-    ...mapActions('conversation', ['sendMessage', 'sendAttachment']),
+    ...mapActions('conversation', [
+      'sendMessage',
+      'sendAttachment',
+      'requestHandoff',
+    ]),
     ...mapActions('conversationAttributes', ['getAttributes']),
     async handleSendMessage(content) {
       await this.sendMessage({
@@ -89,6 +104,18 @@ export default {
     },
     toggleReplyTo(message) {
       this.inReplyTo = message;
+    },
+    async handleRequestHandoff() {
+      try {
+        this.isRequestingHandoff = true;
+        await this.requestHandoff();
+      } catch (error) {
+        emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+          message: this.$t('CAPTAIN_HANDOFF.ERROR'),
+        });
+      } finally {
+        this.isRequestingHandoff = false;
+      }
     },
     async sendTranscript() {
       if (this.hasEmail) {
@@ -124,6 +151,17 @@ export default {
       :in-reply-to="inReplyTo"
       @dismiss="inReplyTo = null"
     />
+    <CustomButton
+      v-if="showCaptainHandoffButton"
+      block
+      class="mb-2 font-medium"
+      :bg-color="widgetColor"
+      :text-color="textColor"
+      :disabled="isRequestingHandoff"
+      @click="handleRequestHandoff"
+    >
+      {{ $t('CAPTAIN_HANDOFF.BUTTON_TEXT') }}
+    </CustomButton>
     <ChatInputWrap
       class="shadow-sm"
       :on-send-message="handleSendMessage"

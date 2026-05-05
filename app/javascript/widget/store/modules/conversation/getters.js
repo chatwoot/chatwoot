@@ -39,6 +39,15 @@ export const getters = {
   getMessageCount: _state => {
     return Object.values(_state.conversations).length;
   },
+  getCaptainReplyCount: _state => {
+    return Object.values(_state.conversations).filter(message => {
+      const { message_type: messageType, sender = {} } = message;
+      return (
+        messageType === MESSAGE_TYPE.OUTGOING &&
+        sender.type === 'captain_assistant'
+      );
+    }).length;
+  },
   getUnreadMessageCount: _state => {
     const { userLastSeenAt } = _state.meta;
     return Object.values(_state.conversations).filter(chat => {

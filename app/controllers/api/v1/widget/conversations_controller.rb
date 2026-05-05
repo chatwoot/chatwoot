@@ -1,6 +1,7 @@
 class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
-  before_action :render_not_found_if_empty, only: [:toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes]
+  before_action :render_not_found_if_empty,
+                only: [:toggle_typing, :toggle_status, :request_handoff, :set_custom_attributes, :destroy_custom_attributes]
 
   def index
     @conversation = conversation
@@ -64,6 +65,11 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     head :ok
   end
 
+  def request_handoff
+    perform_handoff if conversation.pending?
+    head :ok
+  end
+
   def set_custom_attributes
     conversation.update!(custom_attributes: permitted_params[:custom_attributes])
   end
@@ -98,5 +104,41 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     params.permit(:id, :typing_status, :website_token, :email, contact: [:name, :email, :phone_number],
                                                                message: [:content, :referer_url, :timestamp, :echo_id],
                                                                custom_attributes: {})
+  end
+
+  def perform_handoff
+    assistant = captain_assistant
+    previous_executed_by = Current.executed_by
+    Current.executed_by = assistant if assistant
+
+    I18n.with_locale(conversation.account.locale) do
+      create_captain_handoff_message(assistant) if assistant
+      conversation.bot_handoff!
+      send_out_of_office_message_after_handoff
+    end
+  ensure
+    Current.executed_by = previous_executed_by
+  end
+
+  def captain_assistant
+    return unless inbox.respond_to?(:captain_assistant)
+
+    inbox.captain_assistant
+  end
+
+  def create_captain_handoff_message(assistant)
+    conversation.messages.create!(
+      message_type: :outgoing,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      sender: assistant,
+      content: assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff')
+    )
+  end
+
+  def send_out_of_office_message_after_handoff
+    return if conversation.campaign.present?
+
+    ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(conversation)
   end
 end

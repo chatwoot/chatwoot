@@ -6,6 +6,7 @@ import {
   toggleTyping,
   setUserLastSeenAt,
   toggleStatus,
+  requestHandoff,
   setCustomAttributes,
   deleteCustomAttribute,
 } from 'widget/api/conversation';
@@ -210,6 +211,11 @@ export const actions = {
 
   resolveConversation: async () => {
     await toggleStatus();
+  },
+
+  requestHandoff: async ({ dispatch }) => {
+    await requestHandoff();
+    dispatch('conversationAttributes/getAttributes', {}, { root: true });
   },
 
   setCustomAttributes: async (
