@@ -92,5 +92,17 @@ RSpec.describe Contacts::MergeContactPoints do
         additional_phones: ['+15550000001']
       )
     end
+
+    it 'promotes the mergee first additional phone when base has no phone values' do
+      allow(base_contact).to receive(:phone_number).and_return(nil)
+      allow(base_contact).to receive(:additional_phones).and_return([])
+      allow(mergee_contact).to receive(:phone_number).and_return(nil)
+      allow(mergee_contact).to receive(:additional_phones).and_return(%w[+15550000001 +15550000002])
+
+      expect(result).to include(
+        phone_number: '+15550000001',
+        additional_phones: ['+15550000002']
+      )
+    end
   end
 end
