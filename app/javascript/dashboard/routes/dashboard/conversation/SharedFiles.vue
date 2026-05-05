@@ -153,24 +153,22 @@ const displaySize = attachment => {
             {{ mediaAttachments.length }}
           </span>
         </h4>
-        <button
+        <NextButton
           v-if="mediaOverflow > 0"
-          type="button"
-          class="inline-flex items-center gap-0.5 px-1.5 py-0.5 -mr-1.5 rounded-md text-xs font-medium text-n-blue-text hover:bg-n-alpha-1 transition-colors"
-          @click="showAllMedia = !showAllMedia"
-        >
-          {{
+          ghost
+          slate
+          xs
+          trailing-icon
+          :icon="
+            showAllMedia ? 'i-lucide-chevron-up' : 'i-lucide-chevron-right'
+          "
+          :label="
             showAllMedia
               ? t('CONVERSATION_SIDEBAR.SHARED_FILES.SHOW_LESS')
               : t('CONVERSATION_SIDEBAR.SHARED_FILES.VIEW_ALL')
-          }}
-          <Icon
-            :icon="
-              showAllMedia ? 'i-lucide-chevron-up' : 'i-lucide-chevron-right'
-            "
-            class="size-3"
-          />
-        </button>
+          "
+          @click="showAllMedia = !showAllMedia"
+        />
       </header>
       <div class="grid grid-cols-3 gap-1.5">
         <div
@@ -272,24 +270,22 @@ const displaySize = attachment => {
             {{ fileAttachments.length }}
           </span>
         </h4>
-        <button
+        <NextButton
           v-if="fileAttachments.length > FILES_PEEK_LIMIT"
-          type="button"
-          class="inline-flex items-center gap-0.5 px-1.5 py-0.5 -mr-1.5 rounded-md text-xs font-medium text-n-blue-text hover:bg-n-alpha-1 transition-colors"
-          @click="showAllFiles = !showAllFiles"
-        >
-          {{
+          ghost
+          slate
+          xs
+          trailing-icon
+          :icon="
+            showAllFiles ? 'i-lucide-chevron-up' : 'i-lucide-chevron-right'
+          "
+          :label="
             showAllFiles
               ? t('CONVERSATION_SIDEBAR.SHARED_FILES.SHOW_LESS')
               : t('CONVERSATION_SIDEBAR.SHARED_FILES.VIEW_ALL')
-          }}
-          <Icon
-            :icon="
-              showAllFiles ? 'i-lucide-chevron-up' : 'i-lucide-chevron-right'
-            "
-            class="size-3"
-          />
-        </button>
+          "
+          @click="showAllFiles = !showAllFiles"
+        />
       </header>
       <ul class="flex flex-col gap-0.5">
         <li
