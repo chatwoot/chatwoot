@@ -42,6 +42,7 @@ const createMarkdownInstance = (linkify = true) => {
     quotes: '\u201c\u201d\u2018\u2019',
     maxNesting: 20,
   })
+    .disable(['lheading'])
     .use(mentionPlugin)
     .use(imgResizeManager)
     .use(mila, {
