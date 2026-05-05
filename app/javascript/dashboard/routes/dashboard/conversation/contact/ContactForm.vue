@@ -43,8 +43,10 @@ export default {
       companyName: '',
       description: '',
       email: '',
+      additionalEmails: [],
       name: '',
       phoneNumber: '',
+      additionalPhones: [],
       activeDialCode: '',
       avatarFile: null,
       avatarUrl: '',
@@ -156,14 +158,28 @@ export default {
     setContactObject() {
       const {
         email: emailAddress,
+        additional_emails: additionalEmails,
+        email_addresses: emailAddresses,
         phone_number: phoneNumber,
+        additional_phones: additionalPhones,
+        phone_numbers: phoneNumbers,
         name,
       } = this.contact;
       const additionalAttributes = this.contact.additional_attributes || {};
 
       this.name = name || '';
       this.email = emailAddress || '';
+      this.additionalEmails = this.additionalContactPoints(
+        emailAddress,
+        additionalEmails,
+        emailAddresses
+      );
       this.phoneNumber = phoneNumber || '';
+      this.additionalPhones = this.additionalContactPoints(
+        phoneNumber,
+        additionalPhones,
+        phoneNumbers
+      );
       this.companyName = additionalAttributes.company_name || '';
       this.country = {
         id: additionalAttributes.country_code || '',
@@ -219,7 +235,25 @@ export default {
         contactObject.avatar = this.avatarFile;
         contactObject.isFormData = true;
       }
+      if (this.additionalEmails.length) {
+        contactObject.additional_emails = this.additionalEmails;
+      }
+      if (this.additionalPhones.length) {
+        contactObject.additional_phones = this.additionalPhones;
+      }
       return contactObject;
+    },
+    additionalContactPoints(
+      primaryValue,
+      additionalValues = [],
+      fullList = []
+    ) {
+      const values = additionalValues.length ? additionalValues : fullList;
+      return values
+        .map(value => value?.toString().trim())
+        .filter(Boolean)
+        .filter(value => value !== primaryValue)
+        .filter((value, index, list) => list.indexOf(value) === index);
     },
     setPhoneCode(code) {
       if (this.phoneNumber !== '' && this.parsePhoneNumber) {

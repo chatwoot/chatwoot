@@ -9,7 +9,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import PhoneNumberInput from 'dashboard/components-next/phonenumberinput/PhoneNumberInput.vue';
-import ContactEmailFields from './ContactEmailFields.vue';
+import ContactPointListInput from './ContactPointListInput.vue';
 
 const props = defineProps({
   contactData: {
@@ -25,6 +25,10 @@ const props = defineProps({
     default: false,
   },
   showEmailAliases: {
+    type: Boolean,
+    default: false,
+  },
+  showContactPoints: {
     type: Boolean,
     default: false,
   },
@@ -59,10 +63,11 @@ const buildDefaultState = () => ({
   id: 0,
   name: '',
   email: '',
-  emailAddresses: [],
+  additionalEmails: [],
   firstName: '',
   lastName: '',
   phoneNumber: '',
+  additionalPhones: [],
   additionalAttributes: {
     description: '',
     companyName: '',
@@ -83,30 +88,82 @@ const buildDefaultState = () => ({
 
 const state = reactive(buildDefaultState());
 
-const cloneEmailAddresses = emailAddresses =>
-  Array.isArray(emailAddresses)
-    ? emailAddresses.map(emailAddress => emailAddress?.toString() || '')
+const cloneContactPoints = contactPoints =>
+  Array.isArray(contactPoints)
+    ? contactPoints.map(contactPoint => contactPoint?.toString() || '')
     : [];
 
-const buildInitialEmailAddresses = (emailAddress, emailAddresses) => {
-  const clonedEmails = cloneEmailAddresses(emailAddresses);
-  if (clonedEmails.length) return clonedEmails;
+const normalizeEmail = value => value.trim().toLowerCase();
 
-  return emailAddress ? [emailAddress] : [];
+const normalizePhone = value => value.trim();
+
+const uniqueContactPoints = (contactPoints, normalizer) => {
+  const seen = new Set();
+
+  return cloneContactPoints(contactPoints).filter(contactPoint => {
+    const value = contactPoint.trim();
+    if (!value) return false;
+
+    const normalizedValue = normalizer(value);
+    if (seen.has(normalizedValue)) return false;
+
+    seen.add(normalizedValue);
+    return true;
+  });
 };
 
-const primaryEmailFromAddresses = emailAddresses =>
-  cloneEmailAddresses(emailAddresses)[0] || '';
+const additionalFromFullList = (primaryValue, contactPoints, normalizer) => {
+  const normalizedPrimary = normalizer(primaryValue || '');
+  return uniqueContactPoints(contactPoints, normalizer).filter(
+    contactPoint => normalizer(contactPoint) !== normalizedPrimary
+  );
+};
 
-const serializedEmailAddresses = emailAddresses =>
-  cloneEmailAddresses(emailAddresses)
-    .map(emailAddress => emailAddress.trim())
-    .filter(Boolean);
+const resolveAdditionalContactPoints = ({
+  additionalValues,
+  snakeCaseAdditionalValues,
+  fullListValues,
+  snakeCaseFullListValues,
+  primaryValue,
+  normalizer,
+}) => {
+  const additionalContactPoints =
+    additionalValues || snakeCaseAdditionalValues || null;
+
+  if (Array.isArray(additionalContactPoints)) {
+    return additionalFromFullList(
+      primaryValue,
+      additionalContactPoints,
+      normalizer
+    );
+  }
+
+  const fullListContactPoints = fullListValues || snakeCaseFullListValues || [];
+  return additionalFromFullList(
+    primaryValue,
+    cloneContactPoints(fullListContactPoints).slice(1),
+    normalizer
+  );
+};
+
+const removePrimaryFromAdditional = (
+  primaryValue,
+  additionalValues,
+  normalizer
+) => additionalFromFullList(primaryValue, additionalValues, normalizer);
 
 const buildSerializableState = () => {
   const { firstName, lastName, ...stateWithoutNames } = state;
-  const serializableState = {
+  return {
     ...stateWithoutNames,
+    additionalEmails: uniqueContactPoints(
+      state.additionalEmails,
+      normalizeEmail
+    ),
+    additionalPhones: uniqueContactPoints(
+      state.additionalPhones,
+      normalizePhone
+    ),
     additionalAttributes: {
       ...state.additionalAttributes,
       socialProfiles: {
@@ -114,18 +171,6 @@ const buildSerializableState = () => {
       },
     },
   };
-
-  if (props.showEmailAliases) {
-    serializableState.emailAddresses = serializedEmailAddresses(
-      state.emailAddresses
-    );
-    serializableState.email =
-      primaryEmailFromAddresses(serializableState.emailAddresses) || '';
-  } else {
-    delete serializableState.emailAddresses;
-  }
-
-  return serializableState;
 };
 
 const validationRules = {
@@ -136,8 +181,9 @@ const validationRules = {
 const v$ = useVuelidate(validationRules, state);
 
 const isFormInvalid = computed(() => v$.value.$invalid);
-const shouldShowEmailAliases = computed(
-  () => props.showEmailAliases && !props.isNewContact
+const shouldShowContactPoints = computed(
+  () =>
+    (props.showContactPoints || props.showEmailAliases) && !props.isNewContact
 );
 
 const emitContactUpdate = () => {
@@ -153,23 +199,45 @@ const prepareStateBasedOnProps = () => {
     id,
     name = '',
     email: emailAddress,
-    emailAddresses = [],
+    emailAddresses,
+    email_addresses: snakeCaseEmailAddresses,
+    additionalEmails,
+    additional_emails: snakeCaseAdditionalEmails,
     phoneNumber,
+    phone_number: snakeCasePhoneNumber,
+    phoneNumbers,
+    phone_numbers: snakeCasePhoneNumbers,
+    additionalPhones,
+    additional_phones: snakeCaseAdditionalPhones,
     additionalAttributes = {},
+    additional_attributes: snakeCaseAdditionalAttributes = {},
   } = props.contactData || {};
   const { firstName, lastName } = splitName(name || '');
+  const primaryPhoneNumber = phoneNumber || snakeCasePhoneNumber || '';
+  const contactAdditionalAttributes = {
+    ...snakeCaseAdditionalAttributes,
+    ...additionalAttributes,
+  };
   const {
     description = '',
     companyName = '',
+    company_name: snakeCaseCompanyName = '',
     countryCode = '',
+    country_code: snakeCaseCountryCode = '',
     country = '',
     city = '',
     socialTelegramUserName = '',
+    social_telegram_user_name: snakeCaseTelegramUserName = '',
     socialProfiles = {},
-  } = additionalAttributes || {};
+    social_profiles: snakeCaseSocialProfiles = {},
+  } = contactAdditionalAttributes || {};
 
   const telegramUsername =
-    socialProfiles?.telegram || socialTelegramUserName || '';
+    socialProfiles?.telegram ||
+    snakeCaseSocialProfiles?.telegram ||
+    socialTelegramUserName ||
+    snakeCaseTelegramUserName ||
+    '';
 
   Object.assign(state, {
     id,
@@ -177,15 +245,31 @@ const prepareStateBasedOnProps = () => {
     firstName,
     lastName,
     email: emailAddress,
-    emailAddresses: buildInitialEmailAddresses(emailAddress, emailAddresses),
-    phoneNumber,
+    additionalEmails: resolveAdditionalContactPoints({
+      additionalValues: additionalEmails,
+      snakeCaseAdditionalValues: snakeCaseAdditionalEmails,
+      fullListValues: emailAddresses,
+      snakeCaseFullListValues: snakeCaseEmailAddresses,
+      primaryValue: emailAddress,
+      normalizer: normalizeEmail,
+    }),
+    phoneNumber: primaryPhoneNumber,
+    additionalPhones: resolveAdditionalContactPoints({
+      additionalValues: additionalPhones,
+      snakeCaseAdditionalValues: snakeCaseAdditionalPhones,
+      fullListValues: phoneNumbers,
+      snakeCaseFullListValues: snakeCasePhoneNumbers,
+      primaryValue: primaryPhoneNumber,
+      normalizer: normalizePhone,
+    }),
     additionalAttributes: {
       description,
-      companyName,
-      countryCode,
+      companyName: companyName || snakeCaseCompanyName,
+      countryCode: countryCode || snakeCaseCountryCode,
       country,
       city,
       socialProfiles: {
+        ...snakeCaseSocialProfiles,
         ...socialProfiles,
         telegram: telegramUsername,
       },
@@ -250,34 +334,21 @@ const getFormBinding = key => {
         state.name = `${state.firstName} ${state.lastName}`.trim();
       } else if (field === 'email') {
         state.email = value;
-
-        if (shouldShowEmailAliases.value) {
-          const existingRows = cloneEmailAddresses(state.emailAddresses);
-          const trimmedValue = value.trim();
-
-          if (!trimmedValue) {
-            state.emailAddresses = existingRows.slice(1);
-            state.email = state.emailAddresses[0] || '';
-          } else {
-            const normalizedValue = trimmedValue.toLowerCase();
-            const matchingRowIndex = existingRows.findIndex(
-              row => row.trim().toLowerCase() === normalizedValue
-            );
-
-            if (matchingRowIndex >= 0) {
-              const matchingValue = value;
-              state.emailAddresses = [
-                matchingValue,
-                ...existingRows.filter(
-                  (_, index) => index !== matchingRowIndex
-                ),
-              ];
-            } else if (existingRows.length) {
-              state.emailAddresses = [value, ...existingRows];
-            } else {
-              state.emailAddresses = [value];
-            }
-          }
+        if (shouldShowContactPoints.value) {
+          state.additionalEmails = removePrimaryFromAdditional(
+            value,
+            state.additionalEmails,
+            normalizeEmail
+          );
+        }
+      } else if (field === 'phoneNumber') {
+        state.phoneNumber = value;
+        if (shouldShowContactPoints.value) {
+          state.additionalPhones = removePrimaryFromAdditional(
+            value,
+            state.additionalPhones,
+            normalizePhone
+          );
         }
       } else {
         // Handle nested vs non-nested fields
@@ -319,15 +390,67 @@ const resetForm = () => {
   Object.assign(state, buildDefaultState());
 };
 
-const handleEmailAddressesUpdate = async emailAddresses => {
-  const nextEmailAddresses = cloneEmailAddresses(emailAddresses);
-  state.emailAddresses = nextEmailAddresses;
-  state.email = state.emailAddresses[0] || '';
+const updateContactPoints = async (key, values, normalizer) => {
+  const primaryKey = key === 'additionalEmails' ? 'email' : 'phoneNumber';
+  state[key] = removePrimaryFromAdditional(
+    state[primaryKey],
+    values,
+    normalizer
+  );
 
   const isFormValid = await v$.value.$validate();
   if (isFormValid) {
     emitContactUpdate();
   }
+};
+
+const promoteContactPoint = async ({
+  primaryKey,
+  additionalKey,
+  value,
+  normalizer,
+}) => {
+  const trimmedValue = value?.trim();
+  if (!trimmedValue) return;
+
+  const currentPrimaryValue = state[primaryKey];
+  state[primaryKey] = trimmedValue;
+  state[additionalKey] = removePrimaryFromAdditional(
+    trimmedValue,
+    [currentPrimaryValue, ...state[additionalKey]],
+    normalizer
+  );
+
+  const isFormValid = await v$.value.$validate();
+  if (isFormValid) {
+    emitContactUpdate();
+  }
+};
+
+const handleAdditionalEmailsUpdate = emailAddresses => {
+  updateContactPoints('additionalEmails', emailAddresses, normalizeEmail);
+};
+
+const handleAdditionalPhonesUpdate = phoneNumbers => {
+  updateContactPoints('additionalPhones', phoneNumbers, normalizePhone);
+};
+
+const promoteEmail = value => {
+  promoteContactPoint({
+    primaryKey: 'email',
+    additionalKey: 'additionalEmails',
+    value,
+    normalizer: normalizeEmail,
+  });
+};
+
+const promotePhone = value => {
+  promoteContactPoint({
+    primaryKey: 'phoneNumber',
+    additionalKey: 'additionalPhones',
+    value,
+    normalizer: normalizePhone,
+  });
 };
 
 watch(
@@ -397,12 +520,44 @@ defineExpose({
           />
         </template>
       </div>
-      <ContactEmailFields
-        v-if="shouldShowEmailAliases"
-        :model-value="state.emailAddresses"
-        class="mt-4"
-        @update:model-value="handleEmailAddressesUpdate"
-      />
+      <div v-if="shouldShowContactPoints" class="mt-4 grid w-full gap-4">
+        <ContactPointListInput
+          data-testid="contact-email-list"
+          :model-value="state.additionalEmails"
+          type="email"
+          :primary-value="state.email"
+          :label="
+            t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.EMAILS.ADDITIONAL_LABEL')
+          "
+          :add-label="t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.EMAILS.ADD')"
+          :promote-label="
+            t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.EMAILS.SET_PRIMARY')
+          "
+          :remove-label="
+            t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.EMAILS.REMOVE')
+          "
+          @update:model-value="handleAdditionalEmailsUpdate"
+          @promote="promoteEmail"
+        />
+        <ContactPointListInput
+          data-testid="contact-phone-list"
+          :model-value="state.additionalPhones"
+          type="phone"
+          :primary-value="state.phoneNumber"
+          :label="
+            t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.PHONES.ADDITIONAL_LABEL')
+          "
+          :add-label="t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.PHONES.ADD')"
+          :promote-label="
+            t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.PHONES.SET_PRIMARY')
+          "
+          :remove-label="
+            t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.PHONES.REMOVE')
+          "
+          @update:model-value="handleAdditionalPhonesUpdate"
+          @promote="promotePhone"
+        />
+      </div>
     </div>
     <div class="flex flex-col items-start gap-2">
       <span class="py-1 text-sm font-medium text-n-slate-12">

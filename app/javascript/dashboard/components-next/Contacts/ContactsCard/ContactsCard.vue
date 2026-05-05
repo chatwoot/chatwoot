@@ -15,8 +15,12 @@ const props = defineProps({
   id: { type: Number, required: true },
   name: { type: String, default: '' },
   email: { type: String, default: '' },
+  additionalEmails: { type: Array, default: () => [] },
+  emailAddresses: { type: Array, default: () => [] },
   additionalAttributes: { type: Object, default: () => ({}) },
   phoneNumber: { type: String, default: '' },
+  additionalPhones: { type: Array, default: () => [] },
+  phoneNumbers: { type: Array, default: () => [] },
   thumbnail: { type: String, default: '' },
   availabilityStatus: { type: String, default: null },
   isExpanded: { type: Boolean, default: false },
@@ -41,7 +45,11 @@ const getInitialContactData = () => ({
   id: props.id,
   name: props.name,
   email: props.email,
+  additionalEmails: props.additionalEmails,
+  emailAddresses: props.emailAddresses,
   phoneNumber: props.phoneNumber,
+  additionalPhones: props.additionalPhones,
+  phoneNumbers: props.phoneNumbers,
   additionalAttributes: props.additionalAttributes,
 });
 
@@ -216,6 +224,7 @@ const handleAvatarHover = isHovered => {
               <ContactsForm
                 ref="contactsFormRef"
                 :contact-data="contactData"
+                show-contact-points
                 @update="handleFormUpdate"
               />
               <div>

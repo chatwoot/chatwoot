@@ -169,7 +169,7 @@ const handleAvatarDelete = async () => {
         ref="contactsFormRef"
         :contact-data="contactData"
         is-details-view
-        show-email-aliases
+        show-contact-points
         @update="handleFormUpdate"
       />
       <Button

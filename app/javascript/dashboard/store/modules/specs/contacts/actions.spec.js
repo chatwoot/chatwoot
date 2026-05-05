@@ -182,6 +182,37 @@ describe('#actions', () => {
       });
     });
 
+    it('preserves additional_phones for JSON updates', async () => {
+      axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
+
+      await actions.update(
+        { commit },
+        {
+          id: contactList[0].id,
+          phoneNumber: '+14155550123',
+          additionalPhones: ['+14155550124', '+14155550125'],
+          additionalAttributes: {
+            city: 'Portland',
+            socialProfiles: {
+              facebook: '',
+              github: '',
+              instagram: '',
+              telegram: '',
+              tiktok: '',
+              linkedin: '',
+              twitter: '',
+            },
+          },
+        }
+      );
+
+      expect(axios.patch).toHaveBeenCalledTimes(1);
+      expect(axios.patch.mock.calls[0][1]).toMatchObject({
+        phone_number: '+14155550123',
+        additional_phones: ['+14155550124', '+14155550125'],
+      });
+    });
+
     it('preserves email_addresses for FormData updates with avatar uploads', async () => {
       axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
 
@@ -216,6 +247,44 @@ describe('#actions', () => {
           ['email', 'primary@example.com'],
           ['email_addresses[0]', 'primary@example.com'],
           ['email_addresses[1]', 'alias@example.com'],
+        ])
+      );
+    });
+
+    it('preserves additional_phones for FormData updates with avatar uploads', async () => {
+      axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
+
+      await actions.update(
+        { commit },
+        {
+          id: contactList[0].id,
+          isFormData: true,
+          avatar: new File(['avatar'], 'avatar.png', { type: 'image/png' }),
+          phoneNumber: '+14155550123',
+          additionalPhones: ['+14155550124', '+14155550125'],
+          additionalAttributes: {
+            city: 'Portland',
+            socialProfiles: {
+              facebook: '',
+              github: '',
+              instagram: '',
+              telegram: '',
+              tiktok: '',
+              linkedin: '',
+              twitter: '',
+            },
+          },
+        }
+      );
+
+      expect(axios.patch).toHaveBeenCalledTimes(1);
+      const formDataArg = axios.patch.mock.calls[0][1];
+      expect(formDataArg instanceof FormData).toBe(true);
+      expect(Array.from(formDataArg.entries())).toEqual(
+        expect.arrayContaining([
+          ['phone_number', '+14155550123'],
+          ['additional_phones[0]', '+14155550124'],
+          ['additional_phones[1]', '+14155550125'],
         ])
       );
     });
