@@ -765,7 +765,8 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to have_http_status(:success)
         expect(contact.reload.email).to eq('explicit@example.com')
         expect(contact.additional_emails).to contain_exactly('primary@example.com', 'alias@example.com')
-        expect(response.parsed_body['payload']['email_addresses']).to contain_exactly('explicit@example.com', 'primary@example.com', 'alias@example.com')
+        expect(response.parsed_body['payload']['email_addresses']).to contain_exactly('explicit@example.com', 'primary@example.com',
+                                                                                      'alias@example.com')
       end
 
       it 'updates additional emails and phones without mass-assigning them to the contact' do
@@ -899,6 +900,33 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to have_http_status(:success)
         expect(contact.reload.email).to be_nil
         expect(contact.contact_emails).to be_empty
+      end
+
+      it 'clears all stored phones when phone_numbers is an empty array' do
+        contact.update!(phone_number: '+15550000001')
+        create(:contact_phone, contact: contact, account: account, phone_number: '+15550000002')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { phone_numbers: [] },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.phone_number).to be_nil
+        expect(contact.contact_phones).to be_empty
+      end
+
+      it 'clears all stored phones when multipart params send phone_numbers as an empty array marker' do
+        contact.update!(phone_number: '+15550000001')
+        create(:contact_phone, contact: contact, account: account, phone_number: '+15550000002')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { phone_numbers: '[]' }
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.phone_number).to be_nil
+        expect(contact.contact_phones).to be_empty
       end
     end
   end

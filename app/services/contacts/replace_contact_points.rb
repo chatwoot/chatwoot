@@ -4,12 +4,14 @@ class Contacts::ReplaceContactPoints
   pattr_initialize [:contact!, :params!]
 
   def perform
-    contact.assign_attributes(primary_attributes)
-    remove_promoted_contact_points
-    contact.save!
-    replace_emails
-    replace_phones
-    contact.reload
+    ActiveRecord::Base.transaction do
+      contact.assign_attributes(primary_attributes)
+      remove_promoted_contact_points
+      contact.save!
+      replace_emails
+      replace_phones
+      contact.reload
+    end
   end
 
   private
@@ -100,10 +102,10 @@ class Contacts::ReplaceContactPoints
     normalized_values(key) { |value| normalized_phone_value(value) }
   end
 
-  def normalized_values(key)
+  def normalized_values(key, &)
     return [] if param_value(key) == '[]'
 
-    Array(param_value(key)).filter_map { |value| yield(value) }.uniq
+    Array(param_value(key)).filter_map(&).uniq
   end
 
   def normalized_email_value(value)

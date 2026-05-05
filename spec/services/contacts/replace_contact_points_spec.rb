@@ -141,6 +141,46 @@ RSpec.describe Contacts::ReplaceContactPoints do
       expect(contact.additional_phones).to eq(%w[+15550000002 +15550000003])
     end
 
+    it 'rolls back email replacement when an additional phone is invalid' do
+      contact.update!(email: 'old-primary@example.com', phone_number: '+15550000001')
+      create(:contact_email, contact: contact, account: account, email: 'old-alias@example.com')
+      create(:contact_phone, contact: contact, account: account, phone_number: '+15550000002')
+
+      expect do
+        described_class.new(
+          contact: contact,
+          params: {
+            email: 'new-primary@example.com',
+            additional_emails: ['new-alias@example.com'],
+            phone_number: '+15550000003',
+            additional_phones: ['not-a-phone']
+          }
+        ).perform
+      end.to raise_error(ActiveRecord::RecordInvalid)
+
+      expect(contact.reload.email).to eq('old-primary@example.com')
+      expect(contact.phone_number).to eq('+15550000001')
+      expect(contact.additional_emails).to eq(['old-alias@example.com'])
+      expect(contact.additional_phones).to eq(['+15550000002'])
+    end
+
+    it 'rolls back the primary change when an additional child is invalid' do
+      contact.update!(email: 'old-primary@example.com')
+
+      expect do
+        described_class.new(
+          contact: contact,
+          params: {
+            email: 'new-primary@example.com',
+            additional_emails: ['not-an-email']
+          }
+        ).perform
+      end.to raise_error(ActiveRecord::RecordInvalid)
+
+      expect(contact.reload.email).to eq('old-primary@example.com')
+      expect(contact.additional_emails).to be_empty
+    end
+
     it 'promotes an existing additional email to primary' do
       contact.update!(email: 'old-primary@example.com')
       create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
