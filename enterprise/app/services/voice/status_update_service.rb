@@ -5,12 +5,12 @@ class Voice::StatusUpdateService
     'queued' => 'ringing',
     'initiated' => 'ringing',
     'ringing' => 'ringing',
-    'in-progress' => 'in-progress',
-    'inprogress' => 'in-progress',
-    'answered' => 'in-progress',
+    'in-progress' => 'in_progress',
+    'inprogress' => 'in_progress',
+    'answered' => 'in_progress',
     'completed' => 'completed',
-    'busy' => 'no-answer',
-    'no-answer' => 'no-answer',
+    'busy' => 'no_answer',
+    'no-answer' => 'no_answer',
     'failed' => 'failed',
     'canceled' => 'failed'
   }.freeze
@@ -19,13 +19,10 @@ class Voice::StatusUpdateService
     normalized_status = normalize_status(call_status)
     return if normalized_status.blank?
 
-    conversation = account.conversations.find_by(identifier: call_sid)
-    return unless conversation
+    call = Call.where(account_id: account.id).find_by(provider: :twilio, provider_call_id: call_sid)
+    return unless call
 
-    Voice::CallStatus::Manager.new(
-      conversation: conversation,
-      call_sid: call_sid
-    ).process_status_update(
+    Voice::CallStatus::Manager.new(call: call).process_status_update(
       normalized_status,
       duration: payload_duration,
       timestamp: payload_timestamp

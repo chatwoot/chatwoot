@@ -8,8 +8,6 @@ import { useEventListener } from '@vueuse/core';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
-
 import Button from 'dashboard/components-next/button/Button.vue';
 import WhatsAppOptions from './WhatsAppOptions.vue';
 import ContentTemplateSelector from './ContentTemplateSelector.vue';
@@ -30,6 +28,7 @@ const props = defineProps({
   isDropdownActive: { type: Boolean, default: false },
   messageSignature: { type: String, default: '' },
   inboxId: { type: Number, default: null },
+  voiceEnabled: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -82,11 +81,9 @@ const isRegularMessageMode = computed(() => {
   return !props.isWhatsappInbox && !props.isTwilioWhatsAppInbox;
 });
 
-const isVoiceInbox = computed(() => props.channelType === INBOX_TYPES.VOICE);
-
 const shouldShowSignatureButton = computed(() => {
   return (
-    props.hasSelectedInbox && isRegularMessageMode.value && !isVoiceInbox.value
+    props.hasSelectedInbox && isRegularMessageMode.value && !props.voiceEnabled
   );
 });
 
@@ -111,7 +108,7 @@ watch(
   () => props.hasSelectedInbox,
   newValue => {
     nextTick(() => {
-      if (newValue && !isVoiceInbox.value) setSignature();
+      if (newValue && !props.voiceEnabled) setSignature();
     });
   },
   { immediate: true }

@@ -302,6 +302,16 @@ RSpec.describe 'Accounts API', type: :request do
         expect(account.reload.custom_attributes['onboarding_step']).to eq('invite_team')
       end
 
+      it 'clears onboarding step when current value is account_details' do
+        account.update(custom_attributes: { onboarding_step: 'account_details' })
+        patch "/api/v1/accounts/#{account.id}",
+              params: params,
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(account.reload.custom_attributes).not_to have_key('onboarding_step')
+      end
+
       it 'will not update onboarding step if onboarding step is not present in account custom attributes' do
         patch "/api/v1/accounts/#{account.id}",
               params: params,
