@@ -222,7 +222,7 @@ const displaySize = attachment => {
               >
                 <Icon
                   icon="i-lucide-play"
-                  class="ml-0.5 size-3.5 text-n-slate-12"
+                  class="ml-0.5 size-3.5 text-n-black"
                 />
               </div>
             </div>
