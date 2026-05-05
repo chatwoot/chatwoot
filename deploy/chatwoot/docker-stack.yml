@@ -66,9 +66,9 @@ x-chatwoot-base: &chatwoot-base
     # Synapseos Agentic Panel (link no super admin)
     AGENTIC_PANEL_URL: https://painel.dexidigital.com.br
 
-    # Branding (white-label)
-    BRAND_NAME: Synapseos
-    INSTALLATION_NAME: Synapseos
+    # Branding (white-label) — nome oficial conforme Manual de Identidade Visual
+    BRAND_NAME: SynapseOS
+    INSTALLATION_NAME: SynapseOS
 
 services:
   app:

@@ -40,10 +40,14 @@ const tailwindConfig = {
     extend: {
       fontFamily: {
         sans: defaultSansFonts,
-        inter: ['Inter', ...defaultSansFonts],
-        interDisplay: ['InterDisplay', ...defaultSansFonts],
-        // CUSTOMIZAÇÃO_SYNAPSEOS
-        synapse: ['Inter', ...defaultSansFonts],
+        // CUSTOMIZAÇÃO_SYNAPSEOS — Open Sans (Manual oficial) é a fonte primária.
+        // Inter fica como fallback se Google Fonts não carregar.
+        // 'font-inter' está em ~9 lugares do _woot.scss; reusamos a chave pra
+        // não precisar refatorar e ativar Open Sans globalmente.
+        inter: ['Open Sans', 'Inter', ...defaultSansFonts],
+        interDisplay: ['Montserrat', 'InterDisplay', ...defaultSansFonts],
+        synapse: ['Open Sans', 'Inter', ...defaultSansFonts],
+        'synapse-display': ['Montserrat', 'Open Sans', ...defaultSansFonts],
       },
       boxShadow: {
         // CUSTOMIZAÇÃO_SYNAPSEOS — duas camadas, sutis mas visíveis em retina

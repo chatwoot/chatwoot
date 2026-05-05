@@ -29,6 +29,10 @@
       <link rel="manifest" href="/manifest.json">
     <% end %>
     <link rel="icon" type="image/png" sizes="512x512" href="<%= @global_config['LOGO_THUMBNAIL'] %>">
+    <%# CUSTOMIZAÇÃO_SYNAPSEOS — fontes oficiais (Manual de Identidade Visual) %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap">
     <%= csrf_meta_tags %>
     <script>
       window.chatwootConfig = {
