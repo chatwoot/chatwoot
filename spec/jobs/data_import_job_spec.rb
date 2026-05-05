@@ -280,38 +280,12 @@ RSpec.describe DataImportJob do
         expect(contact.label_list).to contain_exactly('vip')
       end
 
-      it 'merges labels from duplicate rows that resolve to the same contact' do
-        data_with_duplicate_contact = [
-          %w[id name email phone_number labels],
-          ['1', 'Duplicate User', 'duplicate-contact@example.com', '+918080808089', 'customer'],
-          ['2', 'Duplicate User', 'duplicate-contact@example.com', '+918080808089', 'vip']
-        ]
-        duplicate_contact_import = create(:data_import, account: labels_data_import.account,
-                                                        import_file: generate_csv_file(data_with_duplicate_contact))
-
-        described_class.perform_now(duplicate_contact_import)
-
-        contact = Contact.from_email('duplicate-contact@example.com')
-        expect(contact.label_list).to contain_exactly('customer', 'vip')
-      end
-
       it 'does not dispatch contact update events when applying labels' do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
 
         described_class.perform_now(labels_data_import)
 
         expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONTACT_UPDATED, anything, anything)
-      end
-
-      it 'marks the import as failed when label application raises an error' do
-        failing_import = create(:data_import, account: labels_data_import.account, import_file: generate_csv_file(data_with_labels))
-        data_import_job = described_class.new
-        allow(data_import_job).to receive(:add_labels_without_update_event).and_raise(StandardError, 'Label application failed')
-
-        data_import_job.perform(failing_import)
-
-        expect(failing_import.reload).to be_failed
-        expect(failing_import.processing_errors).to eq('Label application failed')
       end
 
       it 'rejects rows with labels that do not exist in the account' do

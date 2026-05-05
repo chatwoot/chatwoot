@@ -11,7 +11,8 @@ class DataImportJob < ApplicationJob
     @data_import = data_import
     @contact_manager = DataImport::ContactManager.new(@data_import.account)
     begin
-      send_import_notification_to_admin if process_import_file
+      process_import_file
+      send_import_notification_to_admin
     rescue CSV::MalformedCSVError => e
       handle_csv_error(e)
     end
@@ -23,11 +24,9 @@ class DataImportJob < ApplicationJob
     @data_import.update!(status: :processing)
     contacts, rejected_contacts = parse_csv_and_build_contacts
 
-    return unless import_contacts(contacts)
-
+    import_contacts(contacts)
     update_data_import_status(contacts.length, rejected_contacts.length)
     save_failed_records_csv(rejected_contacts)
-    true
   end
 
   def parse_csv_and_build_contacts
@@ -77,15 +76,10 @@ class DataImportJob < ApplicationJob
   end
 
   def import_contacts(contacts_with_labels)
-    contacts_with_labels = merged_contacts_with_labels(contacts_with_labels)
     contacts = contacts_with_labels.pluck(:contact)
     # <struct ActiveRecord::Import::Result failed_instances=[], num_inserts=1, ids=[444, 445], results=[]>
     Contact.import(contacts, synchronize: contacts, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true, batch_size: 1000)
-    apply_labels_to_contacts(persisted_contacts_with_labels(contacts_with_labels))
-    true
-  rescue StandardError => e
-    handle_import_error(e)
-    false
+    apply_labels_to_contacts(contacts_with_labels)
   end
 
   def apply_labels_to_contacts(contacts_with_labels)
@@ -93,42 +87,10 @@ class DataImportJob < ApplicationJob
       contact = item[:contact]
       labels = item[:labels].map(&:downcase).uniq
       # After bulk import with synchronize, contact is marked as persisted for successfully imported records.
-      next unless contact&.persisted? && labels.present?
+      next unless contact.persisted? && labels.present?
 
       add_labels_without_update_event(contact, labels)
     end
-  end
-
-  def merged_contacts_with_labels(contacts_with_labels)
-    contacts_with_labels.each_with_object({}) do |item, merged_contacts|
-      contact = item[:contact]
-      key = contact_identity_key(contact)
-      key ||= contact.object_id
-
-      merged_contacts[key] ||= { contact: contact, labels: [] }
-      merged_contacts[key][:contact] = contact if contact.persisted?
-      merged_contacts[key][:labels] += item[:labels]
-    end.values
-  end
-
-  def persisted_contacts_with_labels(contacts_with_labels)
-    contacts_with_labels.map do |item|
-      { contact: imported_contact(item[:contact]), labels: item[:labels] }
-    end
-  end
-
-  def contact_identity_key(contact)
-    return "identifier:#{contact.identifier}" if contact.identifier.present?
-    return "email:#{contact.email}" if contact.email.present?
-    return "phone_number:#{contact.phone_number}" if contact.phone_number.present?
-  end
-
-  def imported_contact(contact)
-    return contact if contact.persisted?
-    return @data_import.account.contacts.find_by(identifier: contact.identifier) if contact.identifier.present?
-    return @data_import.account.contacts.from_email(contact.email) if contact.email.present?
-
-    @data_import.account.contacts.find_by(phone_number: contact.phone_number) if contact.phone_number.present?
   end
 
   def add_labels_without_update_event(contact, labels)
@@ -174,11 +136,6 @@ class DataImportJob < ApplicationJob
 
   def handle_csv_error(error) # rubocop:disable Lint/UnusedMethodArgument
     @data_import.update!(status: :failed)
-    send_import_failed_notification_to_admin
-  end
-
-  def handle_import_error(error)
-    @data_import.update!(status: :failed, processing_errors: error.message)
     send_import_failed_notification_to_admin
   end
 
