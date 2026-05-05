@@ -16,7 +16,7 @@ class Captain::Tools::Copilot::SearchContactsService < Captain::Tools::BaseTool
 
     return 'No contacts found' unless contacts.exists?
 
-    contacts = contacts.limit(100)
+    contacts = contacts.preload(:contact_emails, :contact_phones).limit(100)
 
     <<~RESPONSE
       #{contacts.map(&:to_llm_text).join("\n---\n")}

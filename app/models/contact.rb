@@ -68,6 +68,7 @@ class Contact < ApplicationRecord
   before_save :sync_contact_attributes
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
+  before_destroy :snapshot_contact_points_for_destroy, prepend: true
   after_destroy_commit :dispatch_destroy_event
   validate :email_not_used_as_additional
   validate :phone_number_not_used_as_additional
@@ -172,16 +173,13 @@ class Contact < ApplicationRecord
   def push_event_data
     {
       additional_attributes: additional_attributes,
-      additional_emails: additional_emails,
-      additional_phones: additional_phones,
+      **destroyed_contact_point_data,
       custom_attributes: custom_attributes,
       email: email,
-      email_addresses: all_emails,
       id: id,
       identifier: identifier,
       name: name,
       phone_number: phone_number,
-      phone_numbers: all_phone_numbers,
       thumbnail: avatar_url,
       blocked: blocked,
       type: 'contact'
@@ -192,17 +190,14 @@ class Contact < ApplicationRecord
     {
       account: account.webhook_data,
       additional_attributes: additional_attributes,
-      additional_emails: additional_emails,
-      additional_phones: additional_phones,
+      **contact_point_data,
       avatar: avatar_url,
       custom_attributes: custom_attributes,
       email: email,
-      email_addresses: all_emails,
       id: id,
       identifier: identifier,
       name: name,
       phone_number: phone_number,
-      phone_numbers: all_phone_numbers,
       thumbnail: avatar_url,
       blocked: blocked
     }
@@ -211,7 +206,23 @@ class Contact < ApplicationRecord
   def self.resolved_contacts(use_crm_v2: false)
     return where(contact_type: 'lead') if use_crm_v2
 
-    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
+    where(<<~SQL.squish)
+      contacts.email <> ''
+      OR contacts.phone_number <> ''
+      OR contacts.identifier <> ''
+      OR EXISTS (
+        SELECT 1
+        FROM contact_emails
+        WHERE contact_emails.contact_id = contacts.id
+          AND contact_emails.account_id = contacts.account_id
+      )
+      OR EXISTS (
+        SELECT 1
+        FROM contact_phones
+        WHERE contact_phones.contact_id = contacts.id
+          AND contact_phones.account_id = contacts.account_id
+      )
+    SQL
   end
 
   def discard_invalid_attrs
@@ -228,35 +239,59 @@ class Contact < ApplicationRecord
   end
 
   def additional_emails
+    return contact_emails.sort_by(&:id).map(&:email) if contact_emails.loaded?
+
     contact_emails.order(:id).pluck(:email)
   end
 
   def additional_phones
+    return contact_phones.sort_by(&:id).map(&:phone_number) if contact_phones.loaded?
+
     contact_phones.order(:id).pluck(:phone_number)
   end
 
   def all_emails
-    [email, *additional_emails].compact_blank
+    contact_point_data[:email_addresses]
   end
 
   def all_phone_numbers
-    [phone_number, *additional_phones].compact_blank
+    contact_point_data[:phone_numbers]
+  end
+
+  def contact_point_data
+    additional_email_values = additional_emails
+    additional_phone_values = additional_phones
+
+    {
+      additional_emails: additional_email_values,
+      email_addresses: [email, *additional_email_values].compact_blank,
+      additional_phones: additional_phone_values,
+      phone_numbers: [phone_number, *additional_phone_values].compact_blank
+    }
   end
 
   private
 
   def email_not_used_as_additional
     return if email.blank? || account_id.blank?
-    return unless ContactEmail.where(account_id: account_id, email: email.downcase).exists?
+    return unless ContactEmail.exists?(account_id: account_id, email: email.downcase)
 
     errors.add(:email, :taken)
   end
 
   def phone_number_not_used_as_additional
     return if phone_number.blank? || account_id.blank?
-    return unless ContactPhone.where(account_id: account_id, phone_number: phone_number).exists?
+    return unless ContactPhone.exists?(account_id: account_id, phone_number: phone_number)
 
     errors.add(:phone_number, :taken)
+  end
+
+  def destroyed_contact_point_data
+    @destroyed_contact_point_data || contact_point_data
+  end
+
+  def snapshot_contact_points_for_destroy
+    @destroyed_contact_point_data = contact_point_data
   end
 
   def ip_lookup

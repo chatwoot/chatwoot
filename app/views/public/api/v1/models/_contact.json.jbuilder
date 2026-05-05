@@ -1,8 +1,10 @@
+contact_points = resource.contact_point_data
+
 json.id resource.id
 json.name resource.name
 json.email resource.email
-json.additional_emails resource.additional_emails
-json.email_addresses resource.all_emails
+json.additional_emails contact_points[:additional_emails]
+json.email_addresses contact_points[:email_addresses]
 json.phone_number resource.phone_number
-json.additional_phones resource.additional_phones
-json.phone_numbers resource.all_phone_numbers
+json.additional_phones contact_points[:additional_phones]
+json.phone_numbers contact_points[:phone_numbers]

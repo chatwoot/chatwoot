@@ -194,6 +194,26 @@ RSpec.describe Contact do
         phone_numbers: %w[+15551234567 +15557654321]
       )
     end
+
+    it 'dispatches destroyed contact event data with contact point arrays' do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+      contact = create(:contact, account: account, email: 'primary@example.com', phone_number: '+15551234567')
+      create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
+      create(:contact_phone, contact: contact, account: account, phone_number: '+15557654321')
+
+      contact.destroy!
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        Events::Types::CONTACT_DELETED,
+        kind_of(ActiveSupport::TimeWithZone),
+        contact_data: hash_including(
+          additional_emails: ['alias@example.com'],
+          email_addresses: %w[primary@example.com alias@example.com],
+          additional_phones: ['+15557654321'],
+          phone_numbers: %w[+15551234567 +15557654321]
+        )
+      )
+    end
   end
 
   context 'when city and country code passed in additional attributes' do
@@ -230,11 +250,21 @@ RSpec.describe Contact do
         contact_with_email = create(:contact, account: account, email: 'test@example.com', name: 'John Doe')
         contact_with_phone = create(:contact, account: account, phone_number: '+1234567890', name: 'Jane Smith')
         contact_with_identifier = create(:contact, account: account, identifier: 'user123', name: 'Bob Wilson')
+        contact_with_additional_email = create(:contact, account: account, email: nil, phone_number: nil, identifier: nil)
+        contact_with_additional_phone = create(:contact, account: account, email: nil, phone_number: nil, identifier: nil)
+        create(:contact_email, contact: contact_with_additional_email, account: account, email: 'alias@example.com')
+        create(:contact_phone, contact: contact_with_additional_phone, account: account, phone_number: '+15557654321')
         contact_without_details = create(:contact, account: account, name: 'Alice Johnson', email: nil, phone_number: nil, identifier: nil)
 
         resolved = account.contacts.resolved_contacts(use_crm_v2: false)
 
-        expect(resolved).to include(contact_with_email, contact_with_phone, contact_with_identifier)
+        expect(resolved).to include(
+          contact_with_email,
+          contact_with_phone,
+          contact_with_identifier,
+          contact_with_additional_email,
+          contact_with_additional_phone
+        )
         expect(resolved).not_to include(contact_without_details)
       end
     end

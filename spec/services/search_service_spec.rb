@@ -91,8 +91,36 @@ describe SearchService do
         expect(search.perform[:contacts].pluck(:id).count(alias_contact.id)).to eq(1)
       end
 
+      it 'finds contacts with only an additional email identity' do
+        alias_contact = create(:contact, name: 'Alias Harry', account: account, email: nil, phone_number: nil, identifier: nil)
+        create(:contact_email, contact: alias_contact, account: account, email: 'alias-only@example.com')
+
+        search = described_class.new(
+          current_user: user,
+          current_account: account,
+          params: { q: 'alias-only@example.com' },
+          search_type: 'Contact'
+        )
+
+        expect(search.perform[:contacts].map(&:id)).to include(alias_contact.id)
+      end
+
       it 'finds contacts by additional phone numbers' do
         phone_contact = create(:contact, name: 'Phone Harry', phone_number: '+15551234567', account: account, last_activity_at: 5.minutes.ago)
+        create(:contact_phone, contact: phone_contact, account: account, phone_number: '+15557654321')
+
+        search = described_class.new(
+          current_user: user,
+          current_account: account,
+          params: { q: '+15557654321' },
+          search_type: 'Contact'
+        )
+
+        expect(search.perform[:contacts].map(&:id)).to include(phone_contact.id)
+      end
+
+      it 'finds contacts with only an additional phone identity' do
+        phone_contact = create(:contact, name: 'Phone Harry', account: account, email: nil, phone_number: nil, identifier: nil)
         create(:contact_phone, contact: phone_contact, account: account, phone_number: '+15557654321')
 
         search = described_class.new(
