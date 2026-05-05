@@ -6,7 +6,7 @@ import { useAlert } from 'dashboard/composables';
 
 import Policy from 'dashboard/components/policy.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import DetailsLayout from 'dashboard/components-next/DetailsLayout.vue';
+import CompaniesDetailsLayout from 'dashboard/components-next/Companies/CompaniesDetailsLayout.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import CompanyContactsSidebar from 'dashboard/components-next/Companies/CompanyDetail/CompanyContactsSidebar.vue';
@@ -216,7 +216,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <DetailsLayout :breadcrumb-items="breadcrumbItems" @back="goToCompaniesList">
+  <CompaniesDetailsLayout
+    :breadcrumb-items="breadcrumbItems"
+    @back="goToCompaniesList"
+  >
     <div
       v-if="showInitialLoadingState"
       class="flex flex-col items-center justify-center gap-3 py-24 text-n-slate-11"
@@ -265,7 +268,7 @@ onBeforeUnmount(() => {
     </div>
 
     <template v-if="hasCompany" #sidebar>
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col">
         <div class="px-6">
           <TabBar
             :tabs="sidebarTabs"
@@ -306,5 +309,5 @@ onBeforeUnmount(() => {
       :is-loading="isDeletingCompany"
       @confirm="handleDeleteCompany"
     />
-  </DetailsLayout>
+  </CompaniesDetailsLayout>
 </template>

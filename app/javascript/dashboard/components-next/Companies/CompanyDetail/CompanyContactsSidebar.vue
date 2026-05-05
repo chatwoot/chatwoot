@@ -146,12 +146,12 @@ const handleContactSelect = contactId => {
 
 <template>
   <div class="flex flex-col gap-6 px-6 py-6">
-    <div v-if="!selectedContact" class="flex flex-col gap-3">
-      <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium text-n-slate-12">
+    <div v-if="!selectedContact" class="flex flex-col gap-4">
+      <div class="flex flex-col gap-2">
+        <label class="text-base text-n-slate-12">
           {{ t('COMPANIES.DETAIL.CONTACTS.ACTIONS.ADD') }}
         </label>
-        <span class="text-sm leading-5 text-n-slate-11">
+        <span class="text-sm text-n-slate-11">
           {{ t('COMPANIES.DETAIL.CONTACTS.DIALOGS.ADD.DESCRIPTION') }}
         </span>
       </div>
@@ -172,81 +172,89 @@ const handleContactSelect = contactId => {
     </div>
 
     <div v-else class="flex flex-col gap-4">
-      <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium text-n-slate-12">
+      <div class="flex flex-col gap-2">
+        <label class="text-base text-n-slate-12">
           {{ t('COMPANIES.DETAIL.CONTACTS.DIALOGS.ADD.CONFIRM_TITLE') }}
         </label>
-        <span class="text-sm leading-5 text-n-slate-11">
+        <span class="text-sm text-n-slate-11">
           {{ t('COMPANIES.DETAIL.CONTACTS.DIALOGS.ADD.CONFIRM_DESCRIPTION') }}
         </span>
       </div>
 
-      <div class="flex flex-col">
-        <div class="flex items-center justify-between h-5 gap-2">
-          <label class="text-sm text-n-slate-12">
-            {{ t('COMPANIES.DETAIL.CONTACTS.DIALOGS.ADD.COMPANY_LABEL') }}
-          </label>
-        </div>
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center justify-between h-5 gap-2">
+            <label class="text-sm text-n-slate-12">
+              {{ t('COMPANIES.DETAIL.CONTACTS.DIALOGS.ADD.COMPANY_LABEL') }}
+            </label>
+          </div>
 
-        <div
-          class="flex items-center gap-3 p-3 border rounded-xl border-n-strong"
-        >
-          <Avatar
-            :name="company.name || t('COMPANIES.UNNAMED')"
-            :src="company.avatarUrl"
-            :size="32"
-            rounded-full
-            hide-offline-status
-          />
-          <div class="flex flex-col min-w-0 gap-1">
-            <span class="text-sm leading-4 truncate text-n-slate-12">
-              {{ company.name || t('COMPANIES.UNNAMED') }}
-            </span>
-            <span
-              v-if="company.domain"
-              class="text-sm leading-4 truncate text-n-slate-11"
-            >
-              {{ company.domain }}
-            </span>
+          <div
+            class="border border-n-strong h-[60px] gap-2 flex items-center rounded-xl p-3"
+          >
+            <Avatar
+              :name="company.name || t('COMPANIES.UNNAMED')"
+              :src="company.avatarUrl"
+              :size="32"
+              rounded-full
+              hide-offline-status
+            />
+            <div class="flex flex-col w-full min-w-0 gap-1">
+              <span
+                class="text-sm leading-4 font-medium truncate text-n-slate-12"
+              >
+                {{ company.name || t('COMPANIES.UNNAMED') }}
+              </span>
+              <span
+                v-if="company.domain"
+                class="text-sm leading-4 truncate text-n-slate-11"
+              >
+                {{ company.domain }}
+              </span>
+            </div>
           </div>
         </div>
 
-        <div class="flex items-center justify-between h-5 gap-2">
-          <label class="text-sm text-n-slate-12">
-            {{ t('COMPANIES.DETAIL.CONTACTS.DIALOGS.ADD.CONTACT_LABEL') }}
-          </label>
-          <span
-            v-if="selectedContactCompanyName"
-            class="px-2 py-0.5 text-xs rounded-md text-n-amber-11 bg-n-alpha-2"
-          >
-            {{
-              t('COMPANIES.DETAIL.CONTACTS.DIALOGS.ADD.CURRENT_COMPANY', {
-                companyName: selectedContactCompanyName,
-              })
-            }}
-          </span>
-        </div>
-
-        <div
-          class="flex items-center gap-3 p-3 border rounded-xl border-n-strong"
-        >
-          <Avatar
-            :name="selectedContactName"
-            :src="selectedContact.thumbnail"
-            :size="32"
-            rounded-full
-            hide-offline-status
-          />
-          <div class="flex flex-col min-w-0 gap-1">
-            <span class="text-sm leading-4 truncate text-n-slate-12">
-              {{ selectedContactName }}
-            </span>
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center justify-between h-5 gap-2">
+            <label class="text-sm text-n-slate-12">
+              {{ t('COMPANIES.DETAIL.CONTACTS.DIALOGS.ADD.CONTACT_LABEL') }}
+            </label>
             <span
-              v-if="selectedContactMeta"
-              class="text-sm leading-4 truncate text-n-slate-11"
+              v-if="selectedContactCompanyName"
+              class="px-2 py-0.5 text-xs rounded-md text-n-amber-11 bg-n-alpha-2"
             >
-              {{ selectedContactMeta }}
+              {{
+                t('COMPANIES.DETAIL.CONTACTS.DIALOGS.ADD.CURRENT_COMPANY', {
+                  companyName: selectedContactCompanyName,
+                })
+              }}
             </span>
+          </div>
+
+          <div
+            class="border border-n-strong h-[60px] gap-2 flex items-center rounded-xl p-3"
+          >
+            <Avatar
+              :name="selectedContactName"
+              :src="selectedContact.thumbnail"
+              :size="32"
+              rounded-full
+              hide-offline-status
+            />
+            <div class="flex flex-col w-full min-w-0 gap-1">
+              <span
+                class="text-sm leading-4 font-medium truncate text-n-slate-12"
+              >
+                {{ selectedContactName }}
+              </span>
+              <span
+                v-if="selectedContactMeta"
+                class="text-sm leading-4 truncate text-n-slate-11"
+              >
+                {{ selectedContactMeta }}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -294,15 +302,15 @@ const handleContactSelect = contactId => {
         {{ t('COMPANIES.DETAIL.CONTACTS.EMPTY') }}
       </div>
 
-      <div v-else class="flex flex-col border-y border-n-weak">
+      <div v-else class="flex flex-col divide-y divide-n-weak">
         <div
           v-for="contact in contacts"
           :key="contact.id"
-          class="flex items-center gap-2 py-3 border-b group/contact border-n-weak last:border-b-0"
+          class="flex items-center gap-2 py-3 group/contact"
         >
           <button
             type="button"
-            class="flex items-center flex-1 min-w-0 gap-3 text-left rounded-lg transition-colors text-n-slate-12 hover:text-n-blue-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-brand focus-visible:ring-offset-2 focus-visible:ring-offset-n-background"
+            class="flex items-center flex-1 min-w-0 !p-0 gap-3 text-start rounded-lg transition-colors text-n-slate-12 hover:text-n-blue-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-brand focus-visible:ring-offset-2 focus-visible:ring-offset-n-background"
             @click="openContact(contact.id)"
           >
             <Avatar
@@ -312,10 +320,12 @@ const handleContactSelect = contactId => {
               rounded-full
               hide-offline-status
             />
-            <div class="min-w-0">
-              <p class="text-sm font-medium leading-5 truncate text-n-slate-12">
+            <div class="min-w-0 space-y-0.5">
+              <span
+                class="text-sm font-medium leading-5 truncate text-n-slate-12"
+              >
                 {{ contactName(contact) }}
-              </p>
+              </span>
               <p
                 v-if="contactMeta(contact)"
                 class="text-sm leading-5 truncate text-n-slate-11"

@@ -40,7 +40,7 @@ const formattedLastActivityAt = computed(() => {
 
 <template>
   <CardLayout layout="row" @click="onClickViewDetails">
-    <div class="flex items-center justify-start flex-1 gap-4">
+    <div class="flex items-center justify-start flex-1 gap-4 cursor-pointer">
       <Avatar
         :username="displayName"
         :src="avatarSource"
@@ -68,6 +68,7 @@ const formattedLastActivityAt = computed(() => {
             <span
               v-if="domain"
               class="inline-flex items-center gap-1.5 text-sm text-n-slate-11 truncate"
+              @click.stop
             >
               <Icon icon="i-lucide-globe" size="size-3.5 text-n-slate-11" />
               <span class="truncate">{{ domain }}</span>
