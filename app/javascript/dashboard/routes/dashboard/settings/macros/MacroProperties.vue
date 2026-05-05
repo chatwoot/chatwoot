@@ -91,12 +91,7 @@ export default {
         <button
           type="button"
           class="p-2 relative rounded-md border border-solid justify-between items-start gap-2 flex flex-col text-start"
-          :class="[
-            isActive('global'),
-            isPublicVisibilityDisabled || readOnly
-              ? 'opacity-60 cursor-not-allowed'
-              : 'cursor-default',
-          ]"
+          :class="isActive('global')"
           :disabled="isPublicVisibilityDisabled || readOnly"
           :aria-describedby="
             isPublicVisibilityDisabled ? 'macro-public-visibility-help' : null
@@ -123,10 +118,7 @@ export default {
         <button
           type="button"
           class="p-2 relative rounded-md border border-solid justify-between items-start gap-2 flex flex-col text-start"
-          :class="[
-            isActive('personal'),
-            readOnly ? 'opacity-60 cursor-not-allowed' : 'cursor-default',
-          ]"
+          :class="isActive('personal')"
           :disabled="readOnly"
           @click="onUpdateVisibility('personal')"
         >
