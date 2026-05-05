@@ -88,10 +88,7 @@ class DataImportJob < ApplicationJob
     taggings = taggings_for_contacts(contacts_with_labels)
     return if taggings.blank?
 
-    # Bulk insert mirrors the contact import path and avoids Contact update callbacks for label application.
-    # rubocop:disable Rails/SkipsModelValidations
-    ActsAsTaggableOn::Tagging.insert_all(taggings)
-    # rubocop:enable Rails/SkipsModelValidations
+    ActsAsTaggableOn::Tagging.import(taggings, on_duplicate_key_ignore: true, validate: false, batch_size: 1000)
   end
 
   def taggings_for_contacts(contacts_with_labels)
@@ -102,28 +99,32 @@ class DataImportJob < ApplicationJob
       next unless contact.persisted? && labels.present?
 
       labels.map do |label|
-        {
+        ActsAsTaggableOn::Tagging.new(
           tag_id: tags_by_name[label].id,
           taggable_type: CONTACT_TAGGABLE_TYPE,
           taggable_id: contact.id,
           context: LABELS_CONTEXT,
           created_at: Time.zone.now
-        }
+        )
       end
     end.flatten.uniq
 
-    reject_existing_taggings(taggings)
+    reject_existing_taggings(taggings.uniq { |tagging| tagging_key(tagging) })
   end
 
   def reject_existing_taggings(taggings)
-    taggable_ids = taggings.pluck(:taggable_id)
-    tag_ids = taggings.pluck(:tag_id)
+    taggable_ids = taggings.map(&:taggable_id)
+    tag_ids = taggings.map(&:tag_id)
     existing_taggings = ActsAsTaggableOn::Tagging
                         .where(context: LABELS_CONTEXT, taggable_type: CONTACT_TAGGABLE_TYPE, taggable_id: taggable_ids, tag_id: tag_ids)
                         .pluck(:tag_id, :taggable_id)
                         .index_with(true)
 
-    taggings.reject { |tagging| existing_taggings[[tagging[:tag_id], tagging[:taggable_id]]] }
+    taggings.reject { |tagging| existing_taggings[tagging_key(tagging)] }
+  end
+
+  def tagging_key(tagging)
+    [tagging.tag_id, tagging.taggable_id]
   end
 
   def tags_by_name
