@@ -59,14 +59,9 @@ const fileNameFromUrl = url => {
 };
 
 const onDownloadFile = async attachment => {
-  const {
-    message_id: messageId,
-    file_type: type,
-    data_url: url,
-    extension,
-  } = attachment;
+  const { id, file_type: type, data_url: url, extension } = attachment;
   try {
-    downloadingId.value = messageId;
+    downloadingId.value = id;
     await downloadFile({ url, type, extension });
   } catch (error) {
     useAlert(t('CONVERSATION_SIDEBAR.SHARED_FILES.DOWNLOAD_ERROR'));
@@ -103,14 +98,13 @@ const imagePreviewSrc = attachment => {
 };
 
 const failedPreviews = ref(new Set());
-const onPreviewError = messageId => failedPreviews.value.add(messageId);
+const onPreviewError = id => failedPreviews.value.add(id);
 const hasPreview = attachment =>
-  !!imagePreviewSrc(attachment) &&
-  !failedPreviews.value.has(attachment.message_id);
+  !!imagePreviewSrc(attachment) && !failedPreviews.value.has(attachment.id);
 const hasVideoPreview = attachment =>
   isVideoType(attachment.file_type) &&
   attachment.data_url &&
-  !failedPreviews.value.has(attachment.message_id);
+  !failedPreviews.value.has(attachment.id);
 
 const fallbackIcon = type => {
   if (type === 'audio') return 'i-lucide-music';
@@ -130,7 +124,7 @@ const displaySize = attachment => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-5 py-4 px-2">
+  <div class="flex flex-col gap-5 p-2">
     <div v-if="!attachmentsLoaded" class="flex justify-center p-3">
       <Spinner class="size-5" />
     </div>
@@ -173,7 +167,7 @@ const displaySize = attachment => {
       <div class="grid grid-cols-3 gap-1.5">
         <div
           v-for="(attachment, index) in visibleMedia"
-          :key="attachment.message_id"
+          :key="attachment.id"
           role="button"
           tabindex="0"
           class="relative w-full overflow-hidden transition-all duration-200 rounded-lg cursor-pointer aspect-square bg-n-slate-3 shadow-sm hover:shadow-md hover:-translate-y-px group focus:outline-none focus-visible:ring-2 focus-visible:ring-n-blue-9"
@@ -188,7 +182,7 @@ const displaySize = attachment => {
               class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
               loading="lazy"
               :alt="fileNameFromUrl(attachment.data_url)"
-              @error="onPreviewError(attachment.message_id)"
+              @error="onPreviewError(attachment.id)"
             />
             <video
               v-else-if="hasVideoPreview(attachment)"
@@ -197,7 +191,7 @@ const displaySize = attachment => {
               muted
               playsinline
               class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110 pointer-events-none"
-              @error="onPreviewError(attachment.message_id)"
+              @error="onPreviewError(attachment.id)"
             />
             <div
               v-else
@@ -230,7 +224,7 @@ const displaySize = attachment => {
             <button
               type="button"
               class="absolute flex items-center justify-center !p-px transition-all rounded-full opacity-0 bottom-1.5 right-1.5 size-6 bg-white/95 shadow-md group-hover:opacity-100 hover:bg-white disabled:opacity-50"
-              :disabled="downloadingId === attachment.message_id"
+              :disabled="downloadingId === attachment.id"
               :aria-label="t('CONVERSATION_SIDEBAR.SHARED_FILES.DOWNLOAD')"
               @click.stop="onDownloadFile(attachment)"
               @keydown.enter.stop
@@ -290,7 +284,7 @@ const displaySize = attachment => {
       <ul class="flex flex-col gap-0.5">
         <li
           v-for="attachment in visibleFiles"
-          :key="attachment.message_id"
+          :key="attachment.id"
           class="flex items-center gap-3 px-2 py-2 transition-colors rounded-lg hover:bg-n-slate-3 group"
         >
           <div
@@ -321,7 +315,7 @@ const displaySize = attachment => {
             sm
             icon="i-lucide-download"
             class="opacity-0 group-hover:opacity-100"
-            :is-loading="downloadingId === attachment.message_id"
+            :is-loading="downloadingId === attachment.id"
             :aria-label="t('CONVERSATION_SIDEBAR.SHARED_FILES.DOWNLOAD')"
             @click="onDownloadFile(attachment)"
           />
