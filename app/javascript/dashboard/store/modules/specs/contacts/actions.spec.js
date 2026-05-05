@@ -163,6 +163,35 @@ describe('#actions', () => {
         expect.arrayContaining([['account_owner_id', '']])
       );
     });
+
+    it('preserves cleared additional attributes for FormData updates', async () => {
+      axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
+
+      await actions.update(
+        { commit },
+        {
+          id: contactList[0].id,
+          isFormData: true,
+          avatar: new File(['avatar'], 'avatar.png', { type: 'image/png' }),
+          additionalAttributes: {
+            city: '',
+            description: '',
+            socialProfiles: {
+              facebook: '',
+            },
+          },
+        }
+      );
+
+      const formDataArg = axios.patch.mock.calls[0][1];
+      expect(Array.from(formDataArg.entries())).toEqual(
+        expect.arrayContaining([
+          ['additional_attributes[city]', ''],
+          ['additional_attributes[description]', ''],
+          ['additional_attributes[social_profiles][facebook]', ''],
+        ])
+      );
+    });
   });
 
   describe('#create', () => {
