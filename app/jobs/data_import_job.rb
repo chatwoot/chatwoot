@@ -6,6 +6,8 @@ class DataImportJob < ApplicationJob
   retry_on ActiveStorage::FileNotFoundError, wait: 1.minute, attempts: 3
 
   LABELS_DELIMITER = ','.freeze
+  LABELS_CONTEXT = 'labels'.freeze
+  CONTACT_TAGGABLE_TYPE = 'Contact'.freeze
 
   def perform(data_import)
     @data_import = data_import
@@ -83,22 +85,49 @@ class DataImportJob < ApplicationJob
   end
 
   def apply_labels_to_contacts(contacts_with_labels)
-    contacts_with_labels.each do |item|
+    taggings = taggings_for_contacts(contacts_with_labels)
+    return if taggings.blank?
+
+    # Bulk insert mirrors the contact import path and avoids Contact update callbacks for label application.
+    # rubocop:disable Rails/SkipsModelValidations
+    ActsAsTaggableOn::Tagging.insert_all(taggings)
+    # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def taggings_for_contacts(contacts_with_labels)
+    taggings = contacts_with_labels.filter_map do |item|
       contact = item[:contact]
       labels = item[:labels].map(&:downcase).uniq
       # After bulk import with synchronize, contact is marked as persisted for successfully imported records.
       next unless contact.persisted? && labels.present?
 
-      add_labels_without_update_event(contact, labels)
-    end
+      labels.map do |label|
+        {
+          tag_id: tags_by_name[label].id,
+          taggable_type: CONTACT_TAGGABLE_TYPE,
+          taggable_id: contact.id,
+          context: LABELS_CONTEXT,
+          created_at: Time.zone.now
+        }
+      end
+    end.flatten.uniq
+
+    reject_existing_taggings(taggings)
   end
 
-  def add_labels_without_update_event(contact, labels)
-    previous_value = ActiveSupport::IsolatedExecutionState[:contact_update_event_dispatch_suppressed]
-    ActiveSupport::IsolatedExecutionState[:contact_update_event_dispatch_suppressed] = true
-    contact.add_labels(labels)
-  ensure
-    ActiveSupport::IsolatedExecutionState[:contact_update_event_dispatch_suppressed] = previous_value
+  def reject_existing_taggings(taggings)
+    taggable_ids = taggings.pluck(:taggable_id)
+    tag_ids = taggings.pluck(:tag_id)
+    existing_taggings = ActsAsTaggableOn::Tagging
+                        .where(context: LABELS_CONTEXT, taggable_type: CONTACT_TAGGABLE_TYPE, taggable_id: taggable_ids, tag_id: tag_ids)
+                        .pluck(:tag_id, :taggable_id)
+                        .index_with(true)
+
+    taggings.reject { |tagging| existing_taggings[[tagging[:tag_id], tagging[:taggable_id]]] }
+  end
+
+  def tags_by_name
+    @tags_by_name ||= ActsAsTaggableOn::Tag.find_or_create_all_with_like_by_name(approved_labels).index_by { |tag| tag.name.downcase }
   end
 
   def approved_labels

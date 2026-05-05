@@ -64,7 +64,7 @@ class Contact < ApplicationRecord
   has_many :notes, dependent: :destroy_async
   before_validation :prepare_contact_attributes
   after_create_commit :dispatch_create_event, :ip_lookup
-  after_update_commit :dispatch_update_event, unless: :update_event_dispatch_suppressed?
+  after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
 
@@ -194,8 +194,6 @@ class Contact < ApplicationRecord
   end
 
   private
-
-  def update_event_dispatch_suppressed? = ActiveSupport::IsolatedExecutionState[:contact_update_event_dispatch_suppressed]
 
   def ip_lookup
     return unless account.feature_enabled?('ip_lookup')
