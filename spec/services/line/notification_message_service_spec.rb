@@ -242,6 +242,29 @@ RSpec.describe Line::NotificationMessageService do
       end
     end
 
+    context 'when flexible messages are not an array' do
+      let(:template_params) do
+        {
+          'name' => 'line-notification',
+          'type' => 'flexible',
+          'phone_number' => '+1 (415) 555-2671',
+          'messages' => { 'type' => 'text', 'text' => 'hello from notification' }
+        }
+      end
+
+      before do
+        allow(messaging_client).to receive(:push_messages_by_phone_with_http_info)
+      end
+
+      it 'marks the message as failed without calling LINE' do
+        described_class.new(message: message).perform
+
+        expect(messaging_client).not_to have_received(:push_messages_by_phone_with_http_info)
+        expect(message.reload.status).to eq('failed')
+        expect(message.external_error).to match(/messages as an array/)
+      end
+    end
+
     context 'when template phone number is blank' do
       let(:contact) { create(:contact, account: line_channel.account, phone_number: normalized_phone_number) }
       let(:template_params) do

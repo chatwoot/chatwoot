@@ -35,7 +35,7 @@ class Line::NotificationMessageService
     when 'template'
       template_params['template_key']
     when 'flexible'
-      template_params['messages']
+      flexible_message_payloads
     end
   end
 
@@ -44,7 +44,7 @@ class Line::NotificationMessageService
     when 'template'
       'LINE notification template messages require template_key'
     when 'flexible'
-      'LINE notification flexible messages require messages'
+      'LINE notification flexible messages require messages as an array'
     else
       'LINE notification messages require a valid type'
     end
@@ -150,7 +150,13 @@ class Line::NotificationMessageService
   end
 
   def flexible_messages
-    template_params['messages'].map { |message_payload| normalize_line_message_payload(message_payload) }
+    flexible_message_payloads.map { |message_payload| normalize_line_message_payload(message_payload) }
+  end
+
+  def flexible_message_payloads
+    return template_params['messages'] if template_params['messages'].is_a?(Array)
+
+    []
   end
 
   def normalize_line_message_payload(message_payload)

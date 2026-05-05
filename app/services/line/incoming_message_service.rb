@@ -29,7 +29,7 @@ class Line::IncomingMessageService
     return if duplicate_message?(event)
 
     profile = fetch_profile(event)
-    return if profile.blank? || profile.user_id.blank?
+    return unless profile.respond_to?(:user_id) && profile.user_id.present?
 
     @contact_inbox = Line::ContactResolverService.new(inbox: inbox, profile: profile).perform
     @contact = @contact_inbox.contact

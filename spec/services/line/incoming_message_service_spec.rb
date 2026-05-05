@@ -319,6 +319,15 @@ RSpec.describe Line::IncomingMessageService do
           a_string_matching(/\[LINE\] Skipping incoming message event due to ambiguous contact match/)
         )
       end
+
+      it 'skips events when profile lookup does not return a LINE profile object' do
+        allow(messaging_client).to receive(:get_profile).with(user_id: 'U4af4980629').and_return('{"message":"Not found"}')
+
+        expect { described_class.new(inbox: line_channel.inbox, params: params).perform }.not_to raise_error
+
+        expect(line_channel.inbox.messages.count).to eq(0)
+        expect(line_channel.inbox.conversations.count).to eq(0)
+      end
     end
 
     context 'when valid sticker message params' do

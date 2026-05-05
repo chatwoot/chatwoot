@@ -17,7 +17,7 @@ class Line::NotificationMessagePayload
     when 'template'
       params['template_key'].present?
     when 'flexible'
-      params['messages'].present?
+      params['messages'].is_a?(Array) && params['messages'].present?
     else
       false
     end
