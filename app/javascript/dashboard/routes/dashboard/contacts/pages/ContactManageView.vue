@@ -19,6 +19,7 @@ const route = useRoute();
 const router = useRouter();
 
 const contact = useMapGetter('contacts/getContactById');
+const agents = useMapGetter('agents/getVerifiedAgents');
 const uiFlags = useMapGetter('contacts/getUIFlags');
 
 const activeTab = ref('attributes');
@@ -90,6 +91,10 @@ const fetchAttributes = () => {
   store.dispatch('attributes/get');
 };
 
+const fetchAgents = () => {
+  store.dispatch('agents/get');
+};
+
 const toggleContactBlock = async isBlocked => {
   const ALERT_MESSAGES = {
     success: {
@@ -118,6 +123,7 @@ const toggleContactBlock = async isBlocked => {
 };
 
 onMounted(() => {
+  fetchAgents();
   fetchActiveContact();
   fetchContactNotes();
   fetchContactConversations();
@@ -147,6 +153,7 @@ onMounted(() => {
       <ContactDetails
         v-else-if="selectedContact"
         :selected-contact="selectedContact"
+        :agents="agents"
         @go-to-contacts-list="goToContactsList"
       />
       <template #sidebar>

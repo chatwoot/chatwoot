@@ -12,6 +12,12 @@
     "DISCARD": "Discard",
     "PREFERRED": "Preferred"
   },
+  "ACCOUNT_OWNER": {
+    "LABEL": "Account Owner",
+    "UNASSIGNED": "Unassigned",
+    "SEARCH_PLACEHOLDER": "Search agents",
+    "EMPTY_STATE": "No agents found"
+  },
   "CHOICE_TOGGLE": {
     "YES": "Yes",
     "NO": "No"

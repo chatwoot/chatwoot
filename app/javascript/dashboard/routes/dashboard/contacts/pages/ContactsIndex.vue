@@ -27,6 +27,7 @@ const { t } = useI18n();
 const { updateUISettings, uiSettings } = useUISettings();
 
 const contacts = useMapGetter('contacts/getContactsList');
+const agents = useMapGetter('agents/getVerifiedAgents');
 const uiFlags = useMapGetter('contacts/getUIFlags');
 const customViewsUiFlags = useMapGetter('customViews/getUIFlags');
 const segments = useMapGetter('customViews/getContactCustomViews');
@@ -449,6 +450,8 @@ watch(searchQuery, value => {
 });
 
 onMounted(async () => {
+  store.dispatch('agents/get');
+
   if (!activeSegmentId.value) {
     if (searchQuery.value) {
       await searchContacts(searchQuery.value, pageNumber.value, false, {
@@ -538,6 +541,7 @@ onMounted(async () => {
           <ContactsList
             :contacts="contacts"
             :selected-contact-ids="selectedContactIds"
+            :agents="agents"
             @toggle-contact="toggleContactSelection"
           />
           <Dialog

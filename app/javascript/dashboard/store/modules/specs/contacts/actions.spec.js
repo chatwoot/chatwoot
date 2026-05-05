@@ -145,6 +145,24 @@ describe('#actions', () => {
         [types.SET_CONTACT_UI_FLAG, { isUpdating: false }],
       ]);
     });
+    it('preserves cleared account_owner_id for FormData updates with avatar uploads', async () => {
+      axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
+
+      await actions.update(
+        { commit },
+        {
+          id: contactList[0].id,
+          isFormData: true,
+          avatar: new File(['avatar'], 'avatar.png', { type: 'image/png' }),
+          accountOwnerId: null,
+        }
+      );
+
+      const formDataArg = axios.patch.mock.calls[0][1];
+      expect(Array.from(formDataArg.entries())).toEqual(
+        expect.arrayContaining([['account_owner_id', '']])
+      );
+    });
   });
 
   describe('#create', () => {
