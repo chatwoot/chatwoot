@@ -90,6 +90,13 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, CONVERSATION_UPDATED, conversation.push_event_data)
   end
 
+  def conversation_unread_count_changed(event)
+    _conversation, account = extract_conversation_and_account(event)
+    tokens = user_tokens(account, account.agents)
+
+    broadcast(account, tokens, CONVERSATION_UNREAD_COUNT_CHANGED, {})
+  end
+
   def conversation_typing_on(event)
     conversation = event.data[:conversation]
     account = conversation.account
