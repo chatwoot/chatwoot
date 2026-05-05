@@ -10,6 +10,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   sort_on :country, internal_name: :order_on_country_name, type: :scope, scope_params: [:direction]
 
   RESULTS_PER_PAGE = 15
+  CONTACT_POINT_PARAMS = [:email, :phone_number, :email_addresses, :additional_emails, :phone_numbers, :additional_phones].freeze
+  CONTACT_POINT_ARRAY_PARAMS = [:email_addresses, :additional_emails, :phone_numbers, :additional_phones].freeze
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]
@@ -85,7 +87,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def create
     ActiveRecord::Base.transaction do
       @contact = Current.account.contacts.new(contact_create_params)
-      persist_contact!
+      replace_contact_points!
       @contact_inbox = build_contact_inbox
       process_avatar_from_url
     end
@@ -94,7 +96,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def update
     ActiveRecord::Base.transaction do
       @contact.assign_attributes(contact_update_params)
-      persist_contact!
+      replace_contact_points!
       process_avatar_from_url
     end
   end
@@ -174,7 +176,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def permitted_params
     params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url,
-                  additional_attributes: {}, custom_attributes: {}, email_addresses: [], additional_emails: [])
+                  additional_attributes: {}, custom_attributes: {}, email_addresses: [], additional_emails: [],
+                  phone_numbers: [], additional_phones: [])
   end
 
   def contact_custom_attributes
@@ -190,43 +193,21 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def contact_update_params
-    params_for_update = permitted_params.except(:custom_attributes, :avatar_url, :email_addresses, :additional_emails)
-                                      .merge({ custom_attributes: contact_custom_attributes })
-                                      .merge({ additional_attributes: contact_additional_attributes })
-    params_for_update[:email] = email_attribute_for_write if email_write_param_provided?
-    params_for_update
+    permitted_params.except(:custom_attributes, :avatar_url, *CONTACT_POINT_PARAMS)
+                    .merge({ custom_attributes: contact_custom_attributes })
+                    .merge({ additional_attributes: contact_additional_attributes })
   end
 
   def contact_create_params
-    permitted_params.except(:avatar_url, :email_addresses, :additional_emails)
-                    .merge({ email: email_attribute_for_write })
+    permitted_params.except(:avatar_url, *CONTACT_POINT_PARAMS)
   end
 
-  def persist_contact!
-    remove_promoted_additional_email!
-    @contact.save!
-    sync_contact_email_addresses!
-  end
-
-  def remove_promoted_additional_email!
-    return unless @contact.will_save_change_to_email?
-
-    @contact.contact_emails.where(email: normalize_email_value(@contact.email)).destroy_all
-  end
-
-  def sync_contact_email_addresses!
-    return unless email_addresses_param_provided? || additional_emails_param_provided?
-
-    @contact.contact_emails.destroy_all
-    additional_email_values_for_write.each do |email|
-      @contact.contact_emails.create!(account: @contact.account, email: email)
+  def contact_point_params
+    point_params = permitted_params.slice(*CONTACT_POINT_PARAMS)
+    CONTACT_POINT_ARRAY_PARAMS.each do |key|
+      point_params[key] = params[key] if params[key] == '[]'
     end
-  end
-
-  def email_attribute_for_write
-    return email_values_for_write.first if email_addresses_param_provided?
-
-    permitted_params[:email]
+    point_params
   end
 
   def contact_search_sql
@@ -250,42 +231,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     SQL
   end
 
-  def email_values_for_write
-    return [] if params[:email_addresses] == '[]'
-
-    Array(permitted_params[:email_addresses]).filter_map { |email| normalize_email_value(email) }.uniq
-  end
-
-  def additional_email_values_for_write
-    values = if additional_emails_param_provided?
-               additional_emails_for_write
-             else
-               email_values_for_write.drop(1)
-             end
-
-    values - [@contact.email]
-  end
-
-  def additional_emails_for_write
-    return [] if params[:additional_emails] == '[]'
-
-    Array(permitted_params[:additional_emails]).filter_map { |email| normalize_email_value(email) }.uniq
-  end
-
-  def normalize_email_value(value)
-    value.to_s.strip.downcase.presence
-  end
-
-  def email_addresses_param_provided?
-    params.key?(:email_addresses)
-  end
-
-  def additional_emails_param_provided?
-    params.key?(:additional_emails)
-  end
-
-  def email_write_param_provided?
-    email_addresses_param_provided? || params.key?(:email)
+  def replace_contact_points!
+    Contacts::ReplaceContactPoints.new(contact: @contact, params: contact_point_params).perform
   end
 
   def set_include_contact_inboxes

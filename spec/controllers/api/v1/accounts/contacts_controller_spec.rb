@@ -619,10 +619,15 @@ RSpec.describe 'Contacts API', type: :request do
         expect(created_contact.additional_emails).to be_empty
       end
 
-      it 'creates additional emails without mass-assigning them to the contact' do
+      it 'creates additional emails and phones without mass-assigning them to the contact' do
         post "/api/v1/accounts/#{account.id}/contacts",
              headers: admin.create_new_auth_token,
-             params: valid_params.merge(email: 'primary@example.com', additional_emails: ['alias@example.com']),
+             params: valid_params.merge(
+               email: 'primary@example.com',
+               additional_emails: ['alias@example.com'],
+               phone_number: '+15551234567',
+               additional_phones: ['+15557654321']
+             ),
              as: :json
 
         expect(response).to have_http_status(:success)
@@ -630,6 +635,8 @@ RSpec.describe 'Contacts API', type: :request do
         created_contact = Contact.find(response.parsed_body['payload']['contact']['id'])
         expect(created_contact.email).to eq('primary@example.com')
         expect(created_contact.additional_emails).to contain_exactly('alias@example.com')
+        expect(created_contact.phone_number).to eq('+15551234567')
+        expect(created_contact.additional_phones).to contain_exactly('+15557654321')
       end
     end
   end
@@ -746,34 +753,56 @@ RSpec.describe 'Contacts API', type: :request do
         expect(contact.reload.blocked).to be(false)
       end
 
-      it 'treats email_addresses as the authoritative full state' do
+      it 'keeps explicit email as primary when email_addresses is present' do
         patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
               headers: admin.create_new_auth_token,
               params: {
-                email: 'ignored@example.com',
+                email: 'explicit@example.com',
                 email_addresses: %w[primary@example.com alias@example.com]
               },
               as: :json
 
         expect(response).to have_http_status(:success)
-        expect(contact.reload.email).to eq('primary@example.com')
-        expect(contact.additional_emails).to contain_exactly('alias@example.com')
-        expect(response.parsed_body['payload']['email_addresses']).to contain_exactly('primary@example.com', 'alias@example.com')
+        expect(contact.reload.email).to eq('explicit@example.com')
+        expect(contact.additional_emails).to contain_exactly('primary@example.com', 'alias@example.com')
+        expect(response.parsed_body['payload']['email_addresses']).to contain_exactly('explicit@example.com', 'primary@example.com', 'alias@example.com')
       end
 
-      it 'updates additional emails without mass-assigning them to the contact' do
+      it 'updates additional emails and phones without mass-assigning them to the contact' do
         contact.update!(email: 'primary@example.com')
+        contact.update!(phone_number: '+15551234567')
 
         patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
               headers: admin.create_new_auth_token,
               params: {
-                additional_emails: ['alias@example.com']
+                additional_emails: ['alias@example.com'],
+                additional_phones: ['+15557654321']
               },
               as: :json
 
         expect(response).to have_http_status(:success)
         expect(contact.reload.email).to eq('primary@example.com')
         expect(contact.additional_emails).to contain_exactly('alias@example.com')
+        expect(contact.phone_number).to eq('+15551234567')
+        expect(contact.additional_phones).to contain_exactly('+15557654321')
+      end
+
+      it 'replaces additional emails and phones instead of appending' do
+        contact.update!(email: 'primary@example.com', phone_number: '+15551234567')
+        create(:contact_email, contact: contact, account: account, email: 'old@example.com')
+        create(:contact_phone, contact: contact, account: account, phone_number: '+15550000001')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                additional_emails: %w[new@example.com newer@example.com],
+                additional_phones: %w[+15550000002 +15550000003]
+              },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.additional_emails).to eq(%w[new@example.com newer@example.com])
+        expect(contact.additional_phones).to eq(%w[+15550000002 +15550000003])
       end
 
       it 'promotes an existing additional email to primary through email_addresses' do
@@ -793,6 +822,22 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response.parsed_body['payload']['email_addresses']).to eq(%w[alias@example.com old-primary@example.com])
       end
 
+      it 'promotes an existing additional phone to primary through phone_numbers' do
+        contact.update!(phone_number: '+15550000001')
+        create(:contact_phone, contact: contact, account: account, phone_number: '+15550000002')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                phone_numbers: %w[+15550000002 +15550000001]
+              },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.phone_number).to eq('+15550000002')
+        expect(contact.additional_phones).to eq(['+15550000001'])
+      end
+
       it 'rejects duplicate aliases owned by another contact' do
         create(:contact, account: account, email: 'taken@example.com')
 
@@ -805,6 +850,28 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['attributes']).to include('email')
+      end
+
+      it 'returns validation errors for invalid additional email' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { additional_emails: ['not-an-email'] },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq('Email is invalid')
+        expect(response.parsed_body['attributes']).to eq(['email'])
+      end
+
+      it 'returns validation errors for invalid additional phone' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { additional_phones: ['5557654321'] },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq('Phone number is invalid')
+        expect(response.parsed_body['attributes']).to eq(['phone_number'])
       end
 
       it 'clears all stored emails when email_addresses is an empty array' do
