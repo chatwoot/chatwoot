@@ -41,7 +41,11 @@ class CreateContactEmails < ActiveRecord::Migration[7.0]
              CURRENT_TIMESTAMP
       FROM contacts
       WHERE contacts.email IS NOT NULL AND contacts.email <> ''
-      ORDER BY contacts.account_id, LOWER(contacts.email), contacts.created_at ASC, contacts.id ASC
+      ORDER BY contacts.account_id,
+               LOWER(contacts.email),
+               contacts.email = LOWER(contacts.email) DESC,
+               contacts.created_at ASC,
+               contacts.id ASC
     SQL
   end
 end
