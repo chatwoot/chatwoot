@@ -112,6 +112,22 @@ describe ContactInboxWithContactBuilder do
       expect(contact_inbox.contact.id).to be(contact.id)
     end
 
+    it 'reuses a contact when an additional phone matches and creates a missing contact inbox' do
+      create(:contact_phone, contact: contact, account: contact.account, phone_number: '+23423424124')
+
+      contact_inbox = described_class.new(
+        source_id: '123456',
+        inbox: inbox,
+        contact_attributes: {
+          name: 'Contact',
+          phone_number: '+23423424124'
+        }
+      ).perform
+
+      expect(contact_inbox.contact.id).to be(contact.id)
+      expect(ContactInbox.where(contact: contact, inbox: inbox).count).to eq(1)
+    end
+
     it 'reuses contact if it exists with the same source_id in a Facebook inbox when creating for Instagram inbox' do
       instagram_source_id = '123456789'
 

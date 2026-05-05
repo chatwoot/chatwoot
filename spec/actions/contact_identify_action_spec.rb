@@ -109,6 +109,18 @@ describe ContactIdentifyAction do
         expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
+      it 'merges through an additional phone match and moves it to the primary contact phone field' do
+        existing_phone_number_contact = create(:contact, account: account, phone_number: '+919999888877')
+        create(:contact_phone, contact: existing_phone_number_contact, account: account, phone_number: '+919999888878')
+
+        result = described_class.new(contact: contact, params: { phone_number: '+919999888878' }).perform
+
+        expect(result.id).to eq existing_phone_number_contact.id
+        expect(result.reload.phone_number).to eq('+919999888878')
+        expect(result.additional_phones).to contain_exactly('+919999888877')
+        expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+
       it 'will not merge the current contact to phone contact if identifier of phone contact is different' do
         existing_phone_number_contact = create(:contact, account: account, identifier: '1', phone_number: '+919999888877')
         params = { identifier: '2', phone_number: '+919999888877' }
