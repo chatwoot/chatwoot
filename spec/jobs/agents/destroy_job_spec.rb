@@ -30,5 +30,17 @@ RSpec.describe Agents::DestroyJob do
       expect(user.notification_settings.length).to eq 0
       expect(user.assigned_conversations.where(account: account).length).to eq 0
     end
+
+    it 'clears contact ownership only for the account the user is removed from' do
+      other_account = create(:account)
+      create(:account_user, account: other_account, user: user)
+      owned_contact = create(:contact, account: account, account_owner: user)
+      other_contact = create(:contact, account: other_account, account_owner: user)
+
+      described_class.perform_now(account, user)
+
+      expect(owned_contact.reload.account_owner).to be_nil
+      expect(other_contact.reload.account_owner).to eq(user)
+    end
   end
 end

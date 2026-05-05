@@ -25,6 +25,27 @@ RSpec.describe Contact do
     end
   end
 
+  describe 'account owner validation' do
+    let(:account) { create(:account) }
+    let(:owner) { create(:user, account: account) }
+    let(:other_owner) { create(:user, account: create(:account)) }
+
+    it 'allows an account owner from the same account' do
+      contact = build(:contact, account: account, account_owner: owner)
+
+      expect(contact).to be_valid
+    end
+
+    it 'rejects an account owner from another account' do
+      contact = build(:contact, account: account, account_owner: other_owner)
+
+      expect(contact).not_to be_valid
+      expect(contact.errors[:account_owner_id]).to include(
+        'must belong to the same account as the contact'
+      )
+    end
+  end
+
   context 'when prepare contact attributes before validation' do
     it 'sets email to lowercase' do
       contact = create(:contact, email: 'Test@test.com')

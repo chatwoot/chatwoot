@@ -16,5 +16,11 @@ FactoryBot.define do
     trait :with_phone_number do
       phone_number { Faker::PhoneNumber.cell_phone_in_e164 }
     end
+
+    trait :with_account_owner do
+      after(:build) do |contact|
+        contact.account_owner ||= create(:user, account: contact.account)
+      end
+    end
   end
 end

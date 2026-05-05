@@ -7,6 +7,7 @@ class Agents::DestroyJob < ApplicationJob
       remove_user_from_teams(account, user)
       remove_user_from_inboxes(account, user)
       unassign_conversations(account, user)
+      unassign_account_owners(account, user)
     end
   end
 
@@ -34,4 +35,11 @@ class Agents::DestroyJob < ApplicationJob
     user.assigned_conversations.where(account: account).in_batches.update_all(assignee_id: nil)
     # rubocop:enable Rails/SkipsModelValidations
   end
+
+  def unassign_account_owners(account, user)
+    # rubocop:disable Rails/SkipsModelValidations
+    user.owned_contacts.where(account: account).in_batches.update_all(account_owner_id: nil)
+    # rubocop:enable Rails/SkipsModelValidations
+  end
 end
+Agents::DestroyJob.prepend_mod_with('Agents::DestroyJob')

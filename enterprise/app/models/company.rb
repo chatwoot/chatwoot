@@ -27,8 +27,10 @@ class Company < ApplicationRecord
   }
   validates :domain, uniqueness: { scope: :account_id }, if: -> { domain.present? }
   validates :description, length: { maximum: Limits::COMPANY_DESCRIPTION_LENGTH_LIMIT }
+  validate :account_owner_must_belong_to_account
 
   belongs_to :account
+  belongs_to :account_owner, class_name: 'User', optional: true, inverse_of: :owned_companies
   has_many :contacts, dependent: :nullify
   after_create_commit :fetch_favicon, if: -> { domain.present? }
 
@@ -46,6 +48,14 @@ class Company < ApplicationRecord
   }
 
   private
+
+  def account_owner_must_belong_to_account
+    return if account_owner_id.blank?
+    return if account.blank?
+    return if account.users.exists?(id: account_owner_id)
+
+    errors.add(:account_owner_id, 'must belong to the same account as the company')
+  end
 
   def fetch_favicon
     Avatar::AvatarFromFaviconJob.set(wait: 5.seconds).perform_later(self)

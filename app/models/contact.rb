@@ -56,6 +56,7 @@ class Contact < ApplicationRecord
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
 
   belongs_to :account
+  belongs_to :account_owner, class_name: 'User', optional: true, inverse_of: :owned_contacts
   has_many :conversations, dependent: :destroy_async
   has_many :contact_inboxes, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
@@ -67,6 +68,7 @@ class Contact < ApplicationRecord
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
+  validate :account_owner_must_belong_to_account
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -194,6 +196,14 @@ class Contact < ApplicationRecord
   end
 
   private
+
+  def account_owner_must_belong_to_account
+    return if account_owner_id.blank?
+    return if account.blank?
+    return if account.users.exists?(id: account_owner_id)
+
+    errors.add(:account_owner_id, 'must belong to the same account as the contact')
+  end
 
   def ip_lookup
     return unless account.feature_enabled?('ip_lookup')
