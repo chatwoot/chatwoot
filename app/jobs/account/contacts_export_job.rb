@@ -2,7 +2,7 @@ class Account::ContactsExportJob < ApplicationJob
   queue_as :low
 
   LABELS_COLUMN = 'labels'.freeze
-  LABELS_DELIMITER = '|'.freeze
+  LABELS_DELIMITER = ','.freeze
 
   def perform(account_id, user_id, column_names, params)
     @account = Account.find(account_id)

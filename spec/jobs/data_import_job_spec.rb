@@ -176,12 +176,18 @@ RSpec.describe DataImportJob do
       let(:data_with_labels) do
         [
           %w[id name email phone_number labels],
-          ['1', 'John Doe', 'john@example.com', '+918080808080', 'customer|vip'],
+          ['1', 'John Doe', 'john@example.com', '+918080808080', 'customer,vip'],
           ['2', 'Jane Smith', 'jane@example.com', '+918080808081', 'lead'],
           ['3', 'Bob Wilson', 'bob@example.com', '+918080808082', '']
         ]
       end
       let(:labels_data_import) { create(:data_import, import_file: generate_csv_file(data_with_labels)) }
+
+      before do
+        %w[customer vip lead].each do |title|
+          create(:label, account: labels_data_import.account, title: title)
+        end
+      end
 
       it 'imports contacts with labels from CSV' do
         described_class.perform_now(labels_data_import)
@@ -202,9 +208,12 @@ RSpec.describe DataImportJob do
       it 'handles labels with extra whitespace' do
         data_with_whitespace = [
           %w[id name email phone_number labels],
-          ['1', 'Test User', 'test@example.com', '+918080808083', ' customer | vip | lead ']
+          ['1', 'Test User', 'test@example.com', '+918080808083', ' customer , vip , lead ']
         ]
         whitespace_import = create(:data_import, import_file: generate_csv_file(data_with_whitespace))
+        %w[customer vip lead].each do |title|
+          create(:label, account: whitespace_import.account, title: title)
+        end
 
         described_class.perform_now(whitespace_import)
 
@@ -212,19 +221,20 @@ RSpec.describe DataImportJob do
         expect(contact.label_list).to contain_exactly('customer', 'vip', 'lead')
       end
 
-      it 'skips invalid labels and still imports the contact' do
-        data_with_invalid_labels = [
+      it 'rejects rows with labels that do not exist in the account' do
+        data_with_unknown_labels = [
           %w[id name email phone_number labels],
-          ['1', 'Invalid Label User', 'invalidlabel@example.com', '+918080808084', 'vip customer|v|vip_customer']
+          ['1', 'Unknown Label User', 'unknownlabel@example.com', '+918080808084', 'vip,unknown_label']
         ]
 
-        invalid_label_import = create(:data_import, import_file: generate_csv_file(data_with_invalid_labels))
+        unknown_label_import = create(:data_import, import_file: generate_csv_file(data_with_unknown_labels))
+        create(:label, account: unknown_label_import.account, title: 'vip')
 
-        expect { described_class.perform_now(invalid_label_import) }.not_to raise_error
+        described_class.perform_now(unknown_label_import)
 
-        contact = Contact.from_email('invalidlabel@example.com')
-        expect(contact).to be_present
-        expect(contact.label_list).to contain_exactly('v', 'vip_customer')
+        expect(Contact.from_email('unknownlabel@example.com')).to be_nil
+        expect(unknown_label_import.reload.failed_records).to be_attached
+        expect(unknown_label_import.failed_records.download).to include('Unknown labels: unknown_label')
       end
     end
   end

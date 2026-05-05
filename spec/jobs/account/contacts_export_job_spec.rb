@@ -85,7 +85,7 @@ RSpec.describe Account::ContactsExportJob do
       expect(phone_numbers).to include('+910808080818', '+910808080808')
     end
 
-    it 'exports contact labels with pipe delimiter' do
+    it 'exports contact labels with comma delimiter' do
       contact_with_labels = account.contacts.first
       contact_with_labels.add_labels(%w[vip support])
 

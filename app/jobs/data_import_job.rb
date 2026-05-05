@@ -5,7 +5,7 @@ class DataImportJob < ApplicationJob
   queue_as :low
   retry_on ActiveStorage::FileNotFoundError, wait: 1.minute, attempts: 3
 
-  LABELS_DELIMITER = '|'.freeze
+  LABELS_DELIMITER = ','.freeze
 
   def perform(data_import)
     @data_import = data_import
@@ -38,7 +38,10 @@ class DataImportJob < ApplicationJob
         row_hash = row.to_h.with_indifferent_access
         labels = extract_labels(row_hash)
         current_contact = @contact_manager.build_contact(row_hash.except(:labels))
-        if current_contact.valid?
+
+        if unapproved_labels(labels).present?
+          append_rejected_contact(row, invalid_label_errors(labels), rejected_contacts)
+        elsif current_contact.valid?
           contacts << { contact: current_contact, labels: labels }
         else
           append_rejected_contact(row, current_contact, rejected_contacts)
@@ -55,8 +58,19 @@ class DataImportJob < ApplicationJob
     row_hash[:labels].to_s.split(LABELS_DELIMITER).map(&:strip).reject(&:blank?)
   end
 
-  def append_rejected_contact(row, contact, rejected_contacts)
-    row['errors'] = contact.errors.full_messages.join(', ')
+  def unapproved_labels(labels)
+    labels.map(&:downcase) - approved_labels
+  end
+
+  def invalid_label_errors(labels)
+    missing_labels = unapproved_labels(labels)
+    return if missing_labels.blank?
+
+    "Unknown labels: #{missing_labels.join(', ')}"
+  end
+
+  def append_rejected_contact(row, contact_or_error, rejected_contacts)
+    row['errors'] = contact_or_error.respond_to?(:errors) ? contact_or_error.errors.full_messages.join(', ') : contact_or_error
     rejected_contacts << row
   end
 
@@ -70,7 +84,7 @@ class DataImportJob < ApplicationJob
   def apply_labels_to_contacts(contacts_with_labels)
     contacts_with_labels.each do |item|
       contact = item[:contact]
-      labels = sanitize_labels(item[:labels])
+      labels = item[:labels].map(&:downcase).uniq
       # After bulk import with synchronize, contact.id is populated for successfully imported records
       next unless contact.id.present? && labels.present?
 
@@ -78,10 +92,8 @@ class DataImportJob < ApplicationJob
     end
   end
 
-  def sanitize_labels(labels)
-    Array(labels)
-      .map { |label| label.to_s.downcase.strip }
-      .grep(RegexHelper::UNICODE_CHARACTER_NUMBER_HYPHEN_UNDERSCORE)
+  def approved_labels
+    @approved_labels ||= @data_import.account.labels.pluck(:title)
   end
 
   def update_data_import_status(processed_records, rejected_records)
