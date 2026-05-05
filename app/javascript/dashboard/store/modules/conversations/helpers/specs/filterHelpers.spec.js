@@ -416,6 +416,40 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(true);
     });
 
+    // Multi-label equal_to uses OR semantics to mirror the backend SQL `tag_id IN (...)`:
+    // a conversation matches if ANY of the filter labels is on it.
+    it('should match conversation with equal_to operator when any of multiple filter labels is present', () => {
+      const conversation = { labels: ['support'] };
+      const filters = [
+        {
+          attribute_key: 'labels',
+          filter_operator: 'equal_to',
+          values: [
+            { id: 'support', name: 'Support' },
+            { id: 'urgent', name: 'Urgent' },
+          ],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should not match conversation with equal_to operator when none of multiple filter labels is present', () => {
+      const conversation = { labels: ['new'] };
+      const filters = [
+        {
+          attribute_key: 'labels',
+          filter_operator: 'equal_to',
+          values: [
+            { id: 'support', name: 'Support' },
+            { id: 'urgent', name: 'Urgent' },
+          ],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
     it('should match conversation with is_present operator for labels', () => {
       const conversation = { labels: ['support', 'urgent', 'new'] };
       const filters = [

@@ -57,8 +57,8 @@ importers:
         specifier: ^8.59.1
         version: 8.59.1(eslint@9.39.4)(typescript@6.0.3)
       uuid:
-        specifier: ^13.0.0
-        version: 13.0.0
+        specifier: ^14.0.0
+        version: 14.0.0
 
 packages:
 
@@ -645,8 +645,8 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
-  uuid@13.0.0:
-    resolution: {integrity: sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==}
+  uuid@14.0.0:
+    resolution: {integrity: sha512-Qo+uWgilfSmAhXCMav1uYFynlQO7fMFiMVZsQqZRMIXp0O7rR7qjkj+cPvBHLgBqi960QCoo/PH2/6ZtVqKvrg==}
     hasBin: true
 
   which@2.0.2:
@@ -1234,7 +1234,7 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  uuid@13.0.0: {}
+  uuid@14.0.0: {}
 
   which@2.0.2:
     dependencies:

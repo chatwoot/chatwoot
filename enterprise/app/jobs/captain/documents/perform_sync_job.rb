@@ -1,6 +1,9 @@
 class Captain::Documents::PerformSyncJob < MutexApplicationJob
   queue_as :low
 
+  # A single page fetch + fingerprint compare should complete in seconds.
+  # 10 minutes is generous headroom — if still "syncing" after that, the worker likely died mid-run.
+  # Shared with ScheduleSyncsJob so stale locks are re-enqueued at the same threshold.
   LOCK_TIMEOUT = 10.minutes
 
   # Safety net for anything we didn't rescue by name — parser bugs, ActiveRecord blips,
@@ -78,6 +81,7 @@ class Captain::Documents::PerformSyncJob < MutexApplicationJob
   def handle_unexpected_failure(document, error, start_time)
     document.update!(
       sync_status: :failed,
+      sync_step: nil,
       last_sync_error_code: 'sync_error',
       last_sync_attempted_at: Time.current
     )
