@@ -98,6 +98,7 @@ provide('contextMenuElementTarget', conversationDynamicScroller);
 const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
 const activeStatus = ref(wootConstants.STATUS_TYPE.OPEN);
 const activeSortBy = ref(wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC);
+const showUnreadOnly = ref(false);
 const showAdvancedFilters = ref(false);
 // chatsOnView is to store the chats that are currently visible on the screen,
 // which mirrors the conversationList.
@@ -344,6 +345,12 @@ const conversationList = computed(() => {
     localConversationList = localConversationList.filter(conversation => {
       return matchesFilters(conversation, payload);
     });
+  }
+
+  if (showUnreadOnly.value) {
+    localConversationList = localConversationList.filter(
+      conversation => conversation.unread_count > 0
+    );
   }
 
   return localConversationList;
@@ -948,13 +955,29 @@ watch(conversationFilters, (newVal, oldVal) => {
       @close="onCloseDeleteFoldersModal"
     />
 
-    <ChatTypeTabs
+    <div
       v-if="!hasAppliedFiltersOrActiveFolders"
-      :items="assigneeTabItems"
-      :active-tab="activeAssigneeTab"
-      is-compact
-      @chat-tab-change="updateAssigneeTab"
-    />
+      class="flex items-center gap-2 px-3"
+    >
+      <ChatTypeTabs
+        :items="assigneeTabItems"
+        :active-tab="activeAssigneeTab"
+        is-compact
+        class="flex-1"
+        @chat-tab-change="updateAssigneeTab"
+      />
+      <button
+        class="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium transition-all duration-150 whitespace-nowrap flex-shrink-0"
+        :class="showUnreadOnly
+          ? 'text-white'
+          : 'text-n-slate-11 bg-n-alpha-1 hover:bg-n-alpha-2'"
+        :style="showUnreadOnly ? 'background-color: #25D366;' : ''"
+        @click="showUnreadOnly = !showUnreadOnly"
+      >
+        <fluent-icon icon="mail-unread" size="14" />
+        Unread
+      </button>
+    </div>
 
     <p
       v-if="!chatListLoading && !conversationList.length"

@@ -4,6 +4,8 @@ import {
   fromUnixTime,
   formatDistanceToNow,
   differenceInDays,
+  isToday,
+  isYesterday,
 } from 'date-fns';
 
 /**
@@ -113,4 +115,36 @@ export const getDayDifferenceFromNow = (now, timestampInSeconds) => {
 export const hasOneDayPassed = timestamp => {
   if (!timestamp) return true; // Defensive check
   return getDayDifferenceFromNow(new Date(), timestamp) >= 1;
+};
+
+/**
+ * Formats a Unix timestamp to match WhatsApp's conversation list format.
+ * - Today: 'h:mm a' (e.g., '10:30 AM')
+ * - Yesterday: 'Yesterday'
+ * - Within a week: 'EEEE' (e.g., 'Monday')
+ * - Older: 'dd/MM/yyyy'
+ * @param {number} timestampInSeconds - Unix timestamp in seconds.
+ * @returns {string} Formatted date/time string.
+ */
+export const whatsappTimeFormat = timestampInSeconds => {
+  if (!timestampInSeconds) return '';
+  const messageDate = fromUnixTime(timestampInSeconds);
+  const now = new Date();
+
+  if (isToday(messageDate)) {
+    return format(messageDate, 'h:mm a');
+  }
+
+  if (isYesterday(messageDate)) {
+    // We should ideally use i18n here, but returning the raw key or fallback is fine.
+    // In vue component we can translate it if needed, or just return 'Yesterday'.
+    return 'Yesterday';
+  }
+
+  const daysDifference = differenceInDays(now, messageDate);
+  if (daysDifference < 7) {
+    return format(messageDate, 'EEEE');
+  }
+
+  return format(messageDate, 'dd/MM/yyyy');
 };
