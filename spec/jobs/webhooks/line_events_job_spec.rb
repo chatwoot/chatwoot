@@ -41,7 +41,7 @@ RSpec.describe Webhooks::LineEventsJob do
     )
   end
 
-  it 'runs delivery status processing when incoming message processing fails' do
+  it 'runs delivery status processing before re-raising incoming message failures' do
     inbound_service = instance_double(Line::IncomingMessageService)
     delivery_service = instance_double(Line::DeliveryStatusService, perform: true)
     webhook_parser = instance_double(Line::Bot::V2::WebhookParser)
@@ -62,7 +62,7 @@ RSpec.describe Webhooks::LineEventsJob do
         post_body: '{"events":[]}',
         signature: 'sig'
       )
-    end.not_to raise_error
+    end.to raise_error(StandardError, 'profile lookup failed')
 
     expect(delivery_service).to have_received(:perform)
     expect(ChatwootExceptionTracker).to have_received(:new).with(
