@@ -14,7 +14,7 @@ class Line::ContactResolverService
   end
 
   def contact_inbox_for_existing_contact
-    contact = find_contact_by_social_line_user_id || find_contact_by_line_handle
+    contact = find_contact_by_line_identity
     return unless contact
 
     enrich_contact(contact)
@@ -42,16 +42,14 @@ class Line::ContactResolverService
     )
   end
 
-  def find_contact_by_social_line_user_id
-    find_single_contact("additional_attributes ->> 'social_line_user_id' = ?", line_user_id)
-  end
-
-  def find_contact_by_line_handle
-    find_single_contact("custom_attributes ->> 'line_handle' = ?", line_user_id)
-  end
-
-  def find_single_contact(condition, value)
-    matches = inbox.account.contacts.where(condition, value).limit(2).to_a
+  def find_contact_by_line_identity
+    matches = inbox.account.contacts
+                   .where(
+                     "additional_attributes ->> 'social_line_user_id' = :line_user_id OR custom_attributes ->> 'line_handle' = :line_user_id",
+                     line_user_id: line_user_id
+                   )
+                   .limit(2)
+                   .to_a
     raise AmbiguousContactMatchError, line_user_id if matches.size > 1
 
     matches.first
