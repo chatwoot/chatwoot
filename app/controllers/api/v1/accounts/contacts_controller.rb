@@ -26,9 +26,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
     search_query = params[:q].strip
-    contacts = Current.account.contacts.left_outer_joins(:contact_emails)
-    contacts = contacts.where(search_conditions, search: "%#{search_query}%", contact_id: search_query.to_i)
-    contacts = prioritize_exact_contact_id_match(contacts.distinct, search_query)
+    matching_contacts = Current.account.contacts.left_outer_joins(:contact_emails)
+    matching_contacts = matching_contacts.where(search_conditions, search: "%#{search_query}%", contact_id: search_query.to_i)
+
+    contacts = Current.account.contacts.where(id: matching_contacts.select(:id))
+    contacts = prioritize_exact_contact_id_match(contacts, search_query)
     @contacts = fetch_contacts_with_has_more(contacts)
   end
 

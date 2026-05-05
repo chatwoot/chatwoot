@@ -420,6 +420,20 @@ RSpec.describe 'Contacts API', type: :request do
         expect(payload.first['emails']).to eq([contact2.email, 'secondary@example.com'])
       end
 
+      it 'supports name sorting when matching secondary emails' do
+        create(:contact_email, account: account, contact: contact2, email: 'sorted-secondary@example.com')
+
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: 'sorted-secondary@example.com', sort: 'name' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        payload = response.parsed_body['payload']
+        expect(payload.pluck('id')).to eq([contact2.id])
+      end
+
       it 'matches the contact by the legacy contact email when identity rows are absent' do
         legacy_contact = create(:contact, account: account)
         legacy_contact.update_columns(email: 'legacy-only@example.com') # rubocop:disable Rails/SkipsModelValidations
