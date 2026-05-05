@@ -158,7 +158,7 @@ export const useCompaniesStore = defineStore('companies', {
     },
 
     upsertCompanyRecord(record) {
-      this.records = upsertRecord(this.records, normalizeCompanyRecord(record));
+      this.records = upsertRecord(this.records, record);
     },
 
     updateCompanyContactsCount(companyId, contactsCount) {

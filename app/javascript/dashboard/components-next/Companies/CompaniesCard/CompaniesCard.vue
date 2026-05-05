@@ -67,7 +67,7 @@ const formattedLastActivityAt = computed(() => {
           <div class="flex items-center min-w-0">
             <span
               v-if="domain"
-              class="inline-flex items-center gap-1.5 text-sm text-n-slate-11 truncate"
+              class="inline-flex items-center gap-1.5 text-sm text-n-slate-11 truncate cursor-text"
               @click.stop
             >
               <Icon icon="i-lucide-globe" size="size-3.5 text-n-slate-11" />
