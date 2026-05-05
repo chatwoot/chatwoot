@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 
+// Slugs canônicos suportados pelo squadron (vide app/services/synapseos/agent_resolver.rb).
+// Usado só para inicializar o estado por slug; a lista REAL exibida vem do backend.
 export const AGENT_SLUGS = ['alice', 'iza', 'otto', 'luis', 'fernanda', 'angela', 'vitor'];
 
 export const RANGE_OPTIONS = [
@@ -33,6 +35,8 @@ const sinceFromRange = rangeKey => {
 export const useAgentMetricsStore = defineStore('synapseosAgentMetrics', {
   state: () => ({
     agents: buildInitialAgents(),
+    activeSlugs: [],
+    activeFetched: false,
     range: '30d',
     since: sinceFromRange('30d'),
     lastUpdatedAt: null,
@@ -40,6 +44,7 @@ export const useAgentMetricsStore = defineStore('synapseosAgentMetrics', {
 
   getters: {
     agentState: state => slug => state.agents[slug] || defaultAgentState(),
+    hasActiveAgents: state => state.activeSlugs.length > 0,
   },
 
   actions: {
@@ -47,6 +52,26 @@ export const useAgentMetricsStore = defineStore('synapseosAgentMetrics', {
       this.range = rangeKey;
       this.since = sinceFromRange(rangeKey);
       return this.fetchAll({ accountId: this._lastAccountId });
+    },
+
+    async fetchActiveAgents({ accountId }) {
+      this._lastAccountId = accountId;
+      try {
+        const { data } = await axios.get(
+          `/api/v1/accounts/${accountId}/synapseos/agent_metrics`
+        );
+        this.activeSlugs = Array.isArray(data?.slugs) ? data.slugs : [];
+        if (Array.isArray(data?.agents)) {
+          data.agents.forEach(a => {
+            if (this.agents[a.slug]) this.agents[a.slug].displayName = a.display_name;
+          });
+        }
+      } catch (_err) {
+        this.activeSlugs = [];
+      } finally {
+        this.activeFetched = true;
+      }
+      return this.activeSlugs;
     },
 
     async fetchAgent({ accountId, slug }) {
@@ -72,9 +97,12 @@ export const useAgentMetricsStore = defineStore('synapseosAgentMetrics', {
 
     async fetchAll({ accountId }) {
       this._lastAccountId = accountId;
-      await Promise.all(
-        AGENT_SLUGS.map(slug => this.fetchAgent({ accountId, slug }))
-      );
+      const slugs = await this.fetchActiveAgents({ accountId });
+      if (slugs.length > 0) {
+        await Promise.all(
+          slugs.map(slug => this.fetchAgent({ accountId, slug }))
+        );
+      }
       this.lastUpdatedAt = new Date().toISOString();
     },
   },

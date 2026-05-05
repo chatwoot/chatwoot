@@ -22,6 +22,7 @@ import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import SidebarNotificationBell from './SidebarNotificationBell.vue';
 import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
+import { useAgentMetricsStore } from 'dashboard/store/synapseos/useAgentMetrics';
 
 const props = defineProps({
   isMobileSidebarOpen: {
@@ -160,10 +161,18 @@ useEventListener(document, 'touchend', onResizeEnd);
 // e sortedInboxes foram removidos do sidebar — os submenus que os consumiam
 // (Conversas > Folders/Teams/Channels/Labels, Contatos > Segments/Tagged)
 // não existem mais. Notification count segue porque Caixa de Entrada usa.
+// CUSTOMIZAÇÃO_SYNAPSEOS: lista de squad ativo (AgentBots cadastrados) define
+// se o item "Esquadrão / Métricas" aparece no nav.
+const agentMetricsStore = useAgentMetricsStore();
+const hasSynapseosAgents = computed(() => agentMetricsStore.hasActiveAgents);
+
 onMounted(() => {
   store.dispatch('inboxes/get');
   store.dispatch('notifications/unReadCount');
   store.dispatch('attributes/get');
+  if (accountId.value) {
+    agentMetricsStore.fetchActiveAgents({ accountId: accountId.value });
+  }
 });
 
 const closeMobileSidebar = () => {
@@ -236,13 +245,20 @@ const menuItems = computed(() => {
       to: accountScopedRoute('synapseos_live_agents'),
       activeOn: ['synapseos_live_agents'],
     },
-    {
-      name: 'SynapseOS Agent Metrics',
-      label: t('SIDEBAR.SYNAPSEOS_AGENT_METRICS'),
-      icon: 'i-lucide-bot',
-      to: accountScopedRoute('synapseos_agent_metrics'),
-      activeOn: ['synapseos_agent_metrics'],
-    },
+    // CUSTOMIZAÇÃO_SYNAPSEOS: Esquadrão / Métricas só aparece quando há
+    // pelo menos um AgentBot cadastrado (squadron_role ou nome legado).
+    // Sem agentes a página é puro empty state — esconde do nav até cadastrar.
+    ...(hasSynapseosAgents.value
+      ? [
+          {
+            name: 'SynapseOS Agent Metrics',
+            label: t('SIDEBAR.SYNAPSEOS_AGENT_METRICS'),
+            icon: 'i-lucide-bot',
+            to: accountScopedRoute('synapseos_agent_metrics'),
+            activeOn: ['synapseos_agent_metrics'],
+          },
+        ]
+      : []),
     // CUSTOMIZAÇÃO_SYNAPSEOS: Tempo Real removido do nav — redundante com
     // Live Agents (mesmas métricas, mesma semântica de monitoramento ao vivo).
     // A rota `synapseos_live_dashboard` continua existindo no routes.js caso

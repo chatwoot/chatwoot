@@ -2,6 +2,17 @@ class Api::V1::Accounts::Synapseos::AgentMetricsController < Api::V1::Accounts::
   before_action :ensure_administrator
   before_action :validate_agent_slug, only: :show
 
+  def index
+    slugs = ::Synapseos::AgentResolver::SLUGS.select do |slug|
+      ::Synapseos::AgentResolver.bots_for_slug(Current.account, slug).exists?
+    end
+
+    render json: {
+      slugs: slugs,
+      agents: slugs.map { |s| agent_descriptor(s) }
+    }
+  end
+
   def live
     render json: ::Synapseos::AgentMetricsQuery.live(account: Current.account)
   end
@@ -18,6 +29,14 @@ class Api::V1::Accounts::Synapseos::AgentMetricsController < Api::V1::Accounts::
 
   def ensure_administrator
     raise Pundit::NotAuthorizedError unless Current.account_user&.administrator?
+  end
+
+  def agent_descriptor(slug)
+    {
+      slug: slug,
+      display_name: ::Synapseos::AgentResolver.display_name(slug),
+      role_label: ::Synapseos::AgentResolver.role_label(slug)
+    }
   end
 
   def validate_agent_slug

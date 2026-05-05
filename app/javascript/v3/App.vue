@@ -56,6 +56,10 @@ export default {
 @tailwind utilities;
 
 @import '../dashboard/assets/scss/next-colors';
+// CUSTOMIZAÇÃO_SYNAPSEOS: páginas v3 (login, signup, reset password) precisam
+// dos tokens --s-* para renderizar bg-s-brand etc. Sem este import, o tema
+// branca cai em variáveis CSS undefined e botões/cores ficam invisíveis.
+@import '../dashboard/assets/scss/synapseos_tokens';
 
 html,
 body {

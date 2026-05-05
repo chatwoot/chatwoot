@@ -86,6 +86,15 @@ const GROUPS = [
   { key: 'RESCUE', slugs: ['fernanda', 'angela', 'vitor'] },
 ];
 
+// Apenas grupos com pelo menos um agente ativo aparecem; cada grupo
+// só lista os slugs ativos (cadastrados como AgentBot na conta).
+const visibleGroups = computed(() =>
+  GROUPS.map(g => ({
+    ...g,
+    slugs: g.slugs.filter(s => store.activeSlugs.includes(s)),
+  })).filter(g => g.slugs.length > 0)
+);
+
 const formatKpi = (format, value) => {
   if (format === 'brl') return formatBRL(value);
   if (format === 'percent') return formatPercent(value);
@@ -169,7 +178,21 @@ onMounted(refreshAll);
       </div>
     </header>
 
-    <section v-for="group in GROUPS" :key="group.key" class="space-y-4">
+    <!-- Empty state: nenhum AgentBot cadastrado pra essa conta -->
+    <div
+      v-if="store.activeFetched && !store.hasActiveAgents"
+      class="flex flex-col items-center justify-center text-center py-16 px-6 gap-3 rounded-xl border border-dashed border-s-border bg-s-surface"
+    >
+      <span class="i-lucide-users size-8 text-s-muted" />
+      <h2 class="text-lg font-semibold text-s-primary">
+        {{ t('SYNAPSEOS.METRICS.EMPTY_STATE.TITLE') }}
+      </h2>
+      <p class="text-sm text-s-muted max-w-md">
+        {{ t('SYNAPSEOS.METRICS.EMPTY_STATE.DESCRIPTION') }}
+      </p>
+    </div>
+
+    <section v-for="group in visibleGroups" :key="group.key" class="space-y-4">
       <div class="flex items-center gap-3">
         <h2 class="text-lg font-semibold text-s-primary">
           {{ t(`SYNAPSEOS.METRICS.GROUPS.${group.key}`) }}

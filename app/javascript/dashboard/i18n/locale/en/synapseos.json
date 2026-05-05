@@ -120,6 +120,10 @@
       "REFRESH": "Refresh",
       "LAST_UPDATED": "Updated at {time}",
       "EMPTY": "—",
+      "EMPTY_STATE": {
+        "TITLE": "No agents registered yet",
+        "DESCRIPTION": "Register agent bots with a squadron role (Alice, Iza, Otto, Luís, Fernanda, Ângela, Vitor) to see metrics here."
+      },
       "ERROR": "Failed to load",
       "AGENT_COUNT": "1 agent | {n} agents",
       "RANGES": {
