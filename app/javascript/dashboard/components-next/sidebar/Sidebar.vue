@@ -157,6 +157,12 @@ useEventListener(document, 'touchend', onResizeEnd);
 
 const inboxes = useMapGetter('inboxes/getInboxes');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
+const getInboxUnreadCount = useMapGetter(
+  'conversationUnreadCounts/getInboxUnreadCount'
+);
+const getLabelUnreadCount = useMapGetter(
+  'conversationUnreadCounts/getLabelUnreadCount'
+);
 const teams = useMapGetter('teams/getMyTeams');
 const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
 const conversationCustomViews = useMapGetter(
@@ -166,6 +172,7 @@ const conversationCustomViews = useMapGetter(
 onMounted(() => {
   store.dispatch('labels/get');
   store.dispatch('inboxes/get');
+  store.dispatch('conversationUnreadCounts/get');
   store.dispatch('notifications/unReadCount');
   store.dispatch('teams/get');
   store.dispatch('attributes/get');
@@ -281,6 +288,7 @@ const menuItems = computed(() => {
           children: sortedInboxes.value.map(inbox => ({
             name: `${inbox.name}-${inbox.id}`,
             label: inbox.name,
+            badgeCount: getInboxUnreadCount.value(inbox.id),
             icon: h(ChannelIcon, { inbox, class: 'size-[16px]' }),
             to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
             component: leafProps =>
@@ -288,6 +296,7 @@ const menuItems = computed(() => {
                 label: leafProps.label,
                 active: leafProps.active,
                 inbox,
+                badgeCount: leafProps.badgeCount,
               }),
           })),
         },
@@ -299,6 +308,7 @@ const menuItems = computed(() => {
           children: labels.value.map(label => ({
             name: `${label.title}-${label.id}`,
             label: label.title,
+            badgeCount: getLabelUnreadCount.value(label.id),
             icon: h('span', {
               class: `size-[8px] rounded-sm`,
               style: { backgroundColor: label.color },

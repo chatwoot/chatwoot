@@ -64,4 +64,24 @@ describe('ActionCableConnector - Copilot Tests', () => {
       );
     });
   });
+
+  describe('conversation unread count event handlers', () => {
+    it('should register the conversation.unread_count_changed event handler', () => {
+      expect(Object.keys(actionCable.events)).toContain(
+        'conversation.unread_count_changed'
+      );
+      expect(actionCable.events['conversation.unread_count_changed']).toBe(
+        actionCable.onConversationUnreadCountChanged
+      );
+    });
+
+    it('should refetch unread counts when unread count changes', () => {
+      actionCable.onReceived({
+        event: 'conversation.unread_count_changed',
+        data: { account_id: 1 },
+      });
+
+      expect(mockDispatch).toHaveBeenCalledWith('conversationUnreadCounts/get');
+    });
+  });
 });
