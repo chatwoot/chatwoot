@@ -1,4 +1,5 @@
 <script setup>
+import { useI18n } from 'vue-i18n';
 import Icon from 'next/icon/Icon.vue';
 
 defineProps({
@@ -18,7 +19,13 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  isBeta: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -37,9 +44,18 @@ defineProps({
     </div>
 
     <div class="flex flex-col items-start gap-1.5">
-      <h3 class="text-n-slate-12 text-sm text-start font-medium capitalize">
-        {{ title }}
-      </h3>
+      <div class="flex items-center gap-2">
+        <h3 class="text-n-slate-12 text-sm text-start font-medium capitalize">
+          {{ title }}
+        </h3>
+        <span
+          v-if="isBeta && !isComingSoon"
+          v-tooltip.top="t('GENERAL.BETA_DESCRIPTION')"
+          class="text-xs font-medium text-n-blue-11 bg-n-blue-3 leading-none rounded-md px-2 py-1"
+        >
+          {{ t('GENERAL.BETA') }}
+        </span>
+      </div>
       <p class="text-n-slate-11 text-start text-sm">
         {{ description }}
       </p>
@@ -50,7 +66,7 @@ defineProps({
       class="absolute inset-0 flex items-center justify-center backdrop-blur-[2px] rounded-2xl bg-gradient-to-br from-n-surface-1/90 via-n-surface-1/70 to-n-surface-1/95 cursor-not-allowed"
     >
       <span class="text-n-slate-12 font-medium text-sm">
-        {{ $t('CHANNEL_SELECTOR.COMING_SOON') }} 🚀
+        {{ t('CHANNEL_SELECTOR.COMING_SOON') }} 🚀
       </span>
     </div>
   </button>
