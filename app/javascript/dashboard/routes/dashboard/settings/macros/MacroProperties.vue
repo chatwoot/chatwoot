@@ -79,7 +79,7 @@ export default {
         :placeholder="$t('MACROS.ADD.FORM.NAME.PLACEHOLDER')"
         :error="v$.macro.name.$error ? $t('MACROS.ADD.FORM.NAME.ERROR') : null"
         :class="{ error: v$.macro.name.$error }"
-        :disabled="readOnly"
+        :readonly="readOnly"
         @update:model-value="onUpdateName"
       />
     </div>
