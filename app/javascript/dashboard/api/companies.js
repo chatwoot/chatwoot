@@ -1,4 +1,5 @@
 /* global axios */
+import snakecaseKeys from 'snakecase-keys';
 import ApiClient from './ApiClient';
 
 export const buildCompanyParams = (page, sort) => {
@@ -17,6 +18,10 @@ export const buildSearchParams = (query, page, sort) => {
   return params;
 };
 
+export const buildCompanyPayload = data => ({
+  company: snakecaseKeys(data, { deep: true }),
+});
+
 class CompanyAPI extends ApiClient {
   constructor() {
     super('companies', { accountScoped: true });
@@ -31,6 +36,14 @@ class CompanyAPI extends ApiClient {
   search(query = '', page = 1, sort = 'name') {
     const requestURL = `${this.url}/search?${buildSearchParams(query, page, sort)}`;
     return axios.get(requestURL);
+  }
+
+  create(data) {
+    return axios.post(this.url, buildCompanyPayload(data));
+  }
+
+  update(id, data) {
+    return axios.patch(`${this.url}/${id}`, buildCompanyPayload(data));
   }
 }
 

@@ -3,6 +3,8 @@ import { ref, computed, onMounted, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
 import { debounce } from '@chatwoot/utils';
 import { useCompaniesStore } from 'dashboard/stores/companies';
 
@@ -14,6 +16,7 @@ const DEBOUNCE_DELAY = 300;
 
 const companiesStore = useCompaniesStore();
 
+const store = useStore();
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
@@ -21,12 +24,15 @@ const { t } = useI18n();
 const { updateUISettings, uiSettings } = useUISettings();
 
 const companies = computed(() => companiesStore.getCompaniesList);
+const agents = useMapGetter('agents/getVerifiedAgents');
 const meta = computed(() => companiesStore.getMeta);
 const uiFlags = computed(() => companiesStore.getUIFlags);
 
 const searchQuery = computed(() => route.query?.search || '');
 const searchValue = ref(searchQuery.value);
 const pageNumber = computed(() => Number(route.query?.page) || 1);
+const ownerPickerResetKeys = ref({});
+const updatingCompanyOwnerIds = ref([]);
 
 const parseSortSettings = (sortString = '') => {
   const hasDescending = sortString.startsWith('-');
@@ -121,8 +127,46 @@ const handleSort = async ({ sort, order }) => {
   fetchCompanies(1, searchValue.value, buildSortAttr());
 };
 
+const setCompanyOwnerUpdating = (id, isUpdating) => {
+  if (isUpdating) {
+    updatingCompanyOwnerIds.value = [
+      ...new Set([...updatingCompanyOwnerIds.value, id]),
+    ];
+  } else {
+    updatingCompanyOwnerIds.value = updatingCompanyOwnerIds.value.filter(
+      updatingId => updatingId !== id
+    );
+  }
+};
+
+const isCompanyOwnerUpdating = id => updatingCompanyOwnerIds.value.includes(id);
+
+const resetOwnerPicker = id => {
+  ownerPickerResetKeys.value = {
+    ...ownerPickerResetKeys.value,
+    [id]: (ownerPickerResetKeys.value[id] || 0) + 1,
+  };
+};
+
+const ownerPickerResetKey = id => ownerPickerResetKeys.value[id] || 0;
+
+const updateCompanyOwner = async ({ id, accountOwnerId }) => {
+  setCompanyOwnerUpdating(id, true);
+
+  try {
+    await companiesStore.update({ id, accountOwnerId });
+    useAlert(t('COMPANIES.ACCOUNT_OWNER_UPDATE_SUCCESS'));
+  } catch {
+    resetOwnerPicker(id);
+    useAlert(t('COMPANIES.ACCOUNT_OWNER_UPDATE_ERROR'));
+  } finally {
+    setCompanyOwnerUpdating(id, false);
+  }
+};
+
 onMounted(() => {
   searchValue.value = searchQuery.value;
+  store.dispatch('agents/get');
   fetchCompanies();
 });
 </script>
@@ -165,6 +209,12 @@ onMounted(() => {
         :description="company.description"
         :avatar-url="company.avatarUrl"
         :updated-at="company.updatedAt"
+        :account-owner-id="company.accountOwnerId"
+        :account-owner="company.accountOwner"
+        :agents="agents"
+        :is-updating="isCompanyOwnerUpdating(company.id)"
+        :owner-picker-reset-key="ownerPickerResetKey(company.id)"
+        @update-owner="updateCompanyOwner"
       />
     </div>
   </CompaniesListLayout>

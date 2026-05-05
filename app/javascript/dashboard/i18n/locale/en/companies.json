@@ -21,6 +21,8 @@
     "LOADING": "Loading companies...",
     "UNNAMED": "Unnamed Company",
     "CONTACTS_COUNT": "{n} contact | {n} contacts",
+    "ACCOUNT_OWNER_UPDATE_SUCCESS": "Account Owner updated",
+    "ACCOUNT_OWNER_UPDATE_ERROR": "Could not update Account Owner",
     "EMPTY_STATE": {
       "TITLE": "No companies found"
     }
