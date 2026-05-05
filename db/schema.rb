@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_30_114500) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_05_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1022,8 +1022,13 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_30_114500) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "updated_by_id"
+    t.string "source", default: "manual", null: false
+    t.jsonb "metadata", default: {}, null: false
     t.index ["account_id"], name: "index_notes_on_account_id"
+    t.index ["contact_id", "created_at", "id"], name: "index_notes_on_contact_timeline"
     t.index ["contact_id"], name: "index_notes_on_contact_id"
+    t.index ["updated_by_id"], name: "index_notes_on_updated_by_id"
     t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
@@ -1319,6 +1324,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_30_114500) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "notes", "users", column: "updated_by_id"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

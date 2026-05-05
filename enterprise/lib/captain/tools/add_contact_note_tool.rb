@@ -17,7 +17,16 @@ class Captain::Tools::AddContactNoteTool < Captain::Tools::BasePublicTool
   private
 
   def create_contact_note(contact, note)
-    contact.notes.create!(content: note)
+    contact.notes.create!(
+      content: note,
+      source: 'captain',
+      metadata: {
+        agent_context: {
+          origin: 'captain_tool',
+          tool: 'add_contact_note'
+        }
+      }
+    )
   end
 
   def permissions

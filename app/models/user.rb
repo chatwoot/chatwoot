@@ -105,6 +105,8 @@ class User < ApplicationRecord
   has_many :dashboard_apps, dependent: :nullify
   has_many :mentions, dependent: :destroy_async
   has_many :notes, dependent: :nullify
+  has_many :updated_notes, foreign_key: 'updated_by_id', class_name: 'Note',
+                           dependent: :nullify, inverse_of: :updated_by
   has_many :notification_settings, dependent: :destroy_async
   has_many :notification_subscriptions, dependent: :destroy_async
   has_many :notifications, dependent: :destroy_async

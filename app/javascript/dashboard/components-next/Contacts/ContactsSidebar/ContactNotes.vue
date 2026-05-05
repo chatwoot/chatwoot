@@ -45,6 +45,12 @@ const onDelete = noteId => {
   store.dispatch('contactNotes/delete', { noteId, contactId });
 };
 
+const onUpdate = ({ noteId, content }) => {
+  if (!noteId || !content) return;
+  const { contactId } = route.params;
+  store.dispatch('contactNotes/update', { noteId, content, contactId });
+};
+
 const keyboardEvents = {
   '$mod+Enter': {
     action: () => onAdd(state.message),
@@ -91,7 +97,9 @@ useKeyboardEvents(keyboardEvents);
         :note="note"
         :written-by="getWrittenBy(note)"
         allow-delete
+        allow-edit
         @delete="onDelete"
+        @update="onUpdate"
       />
     </div>
     <p v-else class="px-6 py-6 text-sm leading-6 text-center text-n-slate-11">

@@ -1,0 +1,146 @@
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - name: contact_id
+    in: path
+    required: true
+    schema:
+      type: number
+    description: ID of the contact
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: number
+    description: ID of the contact note
+
+get:
+  tags:
+    - Contacts
+  operationId: contactNoteDetails
+  summary: Show Contact Note
+  description: Get a note associated with a contact.
+  security:
+    - userApiKey: []
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/contact_note'
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '404':
+      description: Contact note not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+
+patch:
+  tags:
+    - Contacts
+  operationId: contactNoteUpdate
+  summary: Update Contact Note
+  description: Update a note associated with a contact.
+  security:
+    - userApiKey: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/contact_note_create_update_payload'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/contact_note'
+    '400':
+      description: Bad Request Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '404':
+      description: Contact note not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+
+put:
+  tags:
+    - Contacts
+  operationId: contactNoteReplace
+  summary: Update Contact Note
+  description: Update a note associated with a contact.
+  security:
+    - userApiKey: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/contact_note_create_update_payload'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/contact_note'
+    '400':
+      description: Bad Request Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '404':
+      description: Contact note not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+
+delete:
+  tags:
+    - Contacts
+  operationId: contactNoteDelete
+  summary: Delete Contact Note
+  description: Delete a note associated with a contact.
+  security:
+    - userApiKey: []
+  responses:
+    '200':
+      description: Success
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '404':
+      description: Contact note not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

@@ -1,0 +1,24 @@
+type: object
+description: Prefer the nested note payload. Flat content and metadata keys are accepted for backward compatibility.
+properties:
+  note:
+    type: object
+    properties:
+      content:
+        type: string
+        description: The note content. Required when creating a note.
+        example: Customer prefers email follow-ups.
+      metadata:
+        type: object
+        description: Additional metadata to store with the note
+        example:
+          imported_from: crm
+  content:
+    type: string
+    description: Legacy flat note content. Required when creating a note if note.content is not provided.
+    example: Customer prefers email follow-ups.
+  metadata:
+    type: object
+    description: Legacy flat metadata to store with the note
+    example:
+      imported_from: crm

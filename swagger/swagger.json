@@ -2902,6 +2902,374 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/contacts/{contact_id}/notes": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "name": "contact_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "number"
+          },
+          "description": "ID of the contact"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Contacts"
+        ],
+        "operationId": "contactNoteList",
+        "summary": "List Contact Notes",
+        "description": "List all notes associated with a contact.",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "Array of contact notes",
+                  "items": {
+                    "$ref": "#/components/schemas/contact_note"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contact not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Contacts"
+        ],
+        "operationId": "contactNoteCreate",
+        "summary": "Create Contact Note",
+        "description": "Create a note associated with a contact.",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/contact_note_create_update_payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/contact_note"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contact not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/contacts/{contact_id}/notes/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "name": "contact_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "number"
+          },
+          "description": "ID of the contact"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "number"
+          },
+          "description": "ID of the contact note"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Contacts"
+        ],
+        "operationId": "contactNoteDetails",
+        "summary": "Show Contact Note",
+        "description": "Get a note associated with a contact.",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/contact_note"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contact note not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Contacts"
+        ],
+        "operationId": "contactNoteUpdate",
+        "summary": "Update Contact Note",
+        "description": "Update a note associated with a contact.",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/contact_note_create_update_payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/contact_note"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contact note not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Contacts"
+        ],
+        "operationId": "contactNoteReplace",
+        "summary": "Update Contact Note",
+        "description": "Update a note associated with a contact.",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/contact_note_create_update_payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/contact_note"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contact note not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Contacts"
+        ],
+        "operationId": "contactNoteDelete",
+        "summary": "Delete Contact Note",
+        "description": "Delete a note associated with a contact.",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contact note not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/contacts/{id}/conversations": {
       "parameters": [
         {
@@ -9436,6 +9804,85 @@
           }
         }
       },
+      "contact_note": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the contact note",
+            "example": 1
+          },
+          "content": {
+            "type": "string",
+            "description": "The note content",
+            "example": "Customer prefers email follow-ups."
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "The ID of the account",
+            "example": 1
+          },
+          "contact_id": {
+            "type": "integer",
+            "description": "The ID of the contact",
+            "example": 42
+          },
+          "target": {
+            "type": "object",
+            "description": "The target resource for this note",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "contact"
+                ],
+                "example": "contact"
+              },
+              "id": {
+                "type": "integer",
+                "description": "The ID of the target contact",
+                "example": 42
+              }
+            }
+          },
+          "user": {
+            "$ref": "#/components/schemas/agent"
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/agent"
+          },
+          "updated_by": {
+            "$ref": "#/components/schemas/agent"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "manual",
+              "captain",
+              "system"
+            ],
+            "description": "The source that created the note",
+            "example": "manual"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional metadata stored with the note",
+            "example": {
+              "imported_from": "crm"
+            }
+          },
+          "created_at": {
+            "type": "integer",
+            "description": "Unix timestamp when the note was created",
+            "example": 1716297600
+          },
+          "updated_at": {
+            "type": "integer",
+            "description": "Unix timestamp when the note was last updated",
+            "example": 1716297600
+          }
+        }
+      },
       "conversation": {
         "type": "object",
         "properties": {
@@ -11755,6 +12202,41 @@
             "type": "object",
             "description": "An object where you can store custom attributes for contact. example {\"type\":\"customer\", \"age\":30}, this should have a valid custom attribute definition.",
             "example": {}
+          }
+        }
+      },
+      "contact_note_create_update_payload": {
+        "type": "object",
+        "description": "Prefer the nested note payload. Flat content and metadata keys are accepted for backward compatibility.",
+        "properties": {
+          "note": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": "string",
+                "description": "The note content. Required when creating a note.",
+                "example": "Customer prefers email follow-ups."
+              },
+              "metadata": {
+                "type": "object",
+                "description": "Additional metadata to store with the note",
+                "example": {
+                  "imported_from": "crm"
+                }
+              }
+            }
+          },
+          "content": {
+            "type": "string",
+            "description": "Legacy flat note content. Required when creating a note if note.content is not provided.",
+            "example": "Customer prefers email follow-ups."
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Legacy flat metadata to store with the note",
+            "example": {
+              "imported_from": "crm"
+            }
           }
         }
       },

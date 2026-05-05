@@ -36,6 +36,8 @@ article:
   $ref: ./resource/article.yml
 contact:
   $ref: ./resource/contact.yml
+contact_note:
+  $ref: ./resource/contact_note.yml
 conversation:
   $ref: ./resource/conversation.yml
 message:
@@ -133,6 +135,8 @@ contact_create_payload:
   $ref: ./request/contact/create_payload.yml
 contact_update_payload:
   $ref: ./request/contact/update_payload.yml
+contact_note_create_update_payload:
+  $ref: ./request/contact_note/create_update_payload.yml
 
 ## Conversation
 conversation_create_payload:

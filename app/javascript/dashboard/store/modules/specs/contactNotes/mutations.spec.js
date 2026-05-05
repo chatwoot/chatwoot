@@ -24,6 +24,29 @@ describe('#mutations', () => {
       expect(state.records[1]).toEqual([allNotes[0], allNotes[1]]);
     });
   });
+  describe('#EDIT_CONTACT_NOTE', () => {
+    it('replaces edited note in records', () => {
+      const editedNote = {
+        ...allNotes[1],
+        content: 'Updated note content',
+      };
+      const state = { records: { 1: [allNotes[0], allNotes[1]] } };
+      mutations[types.EDIT_CONTACT_NOTE](state, {
+        data: editedNote,
+        contactId: 1,
+      });
+      expect(state.records[1]).toEqual([allNotes[0], editedNote]);
+    });
+
+    it('handles missing contact records', () => {
+      const state = { records: {} };
+      mutations[types.EDIT_CONTACT_NOTE](state, {
+        data: { id: 1, content: 'Updated note content' },
+        contactId: 1,
+      });
+      expect(state.records[1]).toEqual([]);
+    });
+  });
   describe('#DELETE_CONTACT_NOTE', () => {
     it('Delete existing note from records', () => {
       const state = { records: { 1: [{ id: 2 }] } };

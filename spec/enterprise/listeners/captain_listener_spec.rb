@@ -53,4 +53,31 @@ describe CaptainListener do
       end
     end
   end
+
+  describe Captain::Llm::ContactNotesService do
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, contact: create(:contact, account: account)) }
+    let(:mock_chat) { instance_double(RubyLLM::Chat) }
+    let(:mock_response) { instance_double(RubyLLM::Message, content: { notes: ['Customer prefers email follow ups'] }.to_json) }
+
+    before do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+      allow(RubyLLM).to receive(:chat).and_return(mock_chat)
+      allow(mock_chat).to receive(:with_temperature).and_return(mock_chat)
+      allow(mock_chat).to receive(:with_params).and_return(mock_chat)
+      allow(mock_chat).to receive(:with_instructions).and_return(mock_chat)
+      allow(mock_chat).to receive(:ask).and_return(mock_response)
+    end
+
+    it 'creates generated notes with captain source' do
+      described_class.new(assistant, conversation).generate_and_update_notes
+
+      created_note = conversation.contact.notes.last
+      expect(created_note.source).to eq('captain')
+      expect(created_note.metadata['agent_context']).to include(
+        'origin' => 'captain_llm',
+        'assistant_id' => assistant.id,
+        'conversation_id' => conversation.id
+      )
+    end
+  end
 end

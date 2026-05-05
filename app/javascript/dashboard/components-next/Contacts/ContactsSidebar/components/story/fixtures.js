@@ -5,6 +5,15 @@ export default [
       'This tutorial will show you how to use Chatwoot and, hence, ensure you practice effective customer communication. We will explain in detail the following:\n\n* Step-by-step setup of your account, with illustrative screenshots.\n\n* An in-depth explanation of all the core features of Chatwoot.\n\n* Get your account up and running by the end of this tutorial.\n\n* Basic concepts of customer communication.',
     accountId: null,
     contactId: null,
+    source: 'contact',
+    metadata: {
+      remindedAt: null,
+    },
+    target: {
+      id: 12,
+      type: 'contact',
+      name: 'Paperlayer',
+    },
     user: {
       id: 30,
       account_id: 2,
@@ -19,6 +28,12 @@ export default [
         'https://sivin-tunnel.chatwoot.dev/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBJZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--515dbb35e9ba3c36d14f4c4b77220a675513c1fb/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--df796c2af3c0153e55236c2f3cf3a199ac2cb6f7/2.jpg',
       custom_role_id: null,
     },
+    updatedBy: {
+      id: 30,
+      name: 'Bruce',
+      thumbnail:
+        'https://sivin-tunnel.chatwoot.dev/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBJZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--515dbb35e9ba3c36d14f4c4b77220a675513c1fb/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--df796c2af3c0153e55236c2f3cf3a199ac2cb6f7/2.jpg',
+    },
     createdAt: 1730786556,
     updatedAt: 1730786556,
   },
@@ -28,6 +43,15 @@ export default [
       'We discussed a couple of things:\n\n* Product offering and how it can be useful to talk with people.\n\n* They’ll reach out to us after an internal review.',
     accountId: null,
     contactId: null,
+    source: 'conversation',
+    metadata: {
+      remindedAt: '2026-05-05T10:00:00Z',
+    },
+    target: {
+      id: 10,
+      type: 'conversation',
+      displayId: 142,
+    },
     user: {
       id: 1,
       account_id: 2,
@@ -41,6 +65,11 @@ export default [
       thumbnail: '',
       custom_role_id: null,
     },
+    updatedBy: {
+      id: 1,
+      name: 'Hillary',
+      thumbnail: '',
+    },
     createdAt: 1730782566,
     updatedAt: 1730782566,
   },
@@ -50,6 +79,13 @@ export default [
       'We discussed a couple of things:\n\n* Product offering and how it can be useful to talk with people.\n\n* They’ll reach out to us after an internal review.',
     accountId: null,
     contactId: null,
+    source: 'contact',
+    metadata: {},
+    target: {
+      id: 9,
+      type: 'contact',
+      name: 'John',
+    },
     user: {
       id: 1,
       account_id: 2,
@@ -62,6 +98,11 @@ export default [
       role: 'administrator',
       thumbnail: '',
       custom_role_id: null,
+    },
+    updatedBy: {
+      id: 1,
+      name: 'John',
+      thumbnail: '',
     },
     createdAt: 1730782564,
     updatedAt: 1730782564,
