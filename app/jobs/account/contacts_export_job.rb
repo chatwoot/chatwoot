@@ -28,9 +28,17 @@ class Account::ContactsExportJob < ApplicationJob
   end
 
   def value_for_header(contact, header)
-    return contact.label_list.join(LABELS_DELIMITER) if header == LABELS_COLUMN
+    return approved_contact_labels(contact).join(LABELS_DELIMITER) if header == LABELS_COLUMN
 
     contact.send(header)
+  end
+
+  def approved_contact_labels(contact)
+    contact.label_list & approved_labels
+  end
+
+  def approved_labels
+    @approved_labels ||= @account.labels.pluck(:title)
   end
 
   def contacts
