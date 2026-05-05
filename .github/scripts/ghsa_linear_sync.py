@@ -1,24 +1,13 @@
 #!/usr/bin/env python3
-"""Sync triage GitHub security advisories to Linear issues.
-
-Behaviour mirrors the previous inline bash workflow: fetch all triage
-advisories, dedupe against Linear by GHSA ID in the issue title, create
-missing Linear issues with full advisory content in the description,
-and post a Discord embed when DISCORD_WEBHOOK_URL is set.
-
-The script prints an aggregate count line; it does not log GHSA IDs or
-Linear ticket URLs, so logs are safe to leave in public Actions output.
-Exit code is non-zero if any creation failed.
-"""
+"""Sync triage GitHub security advisories to Linear issues."""
 
 from __future__ import annotations
 
-import json
 import os
 import sys
-import urllib.error
-import urllib.request
 from typing import Any
+
+import requests
 
 GITHUB_API = "https://api.github.com"
 LINEAR_API = "https://api.linear.app/graphql"
@@ -40,34 +29,9 @@ def required_env(name: str) -> str:
     return value
 
 
-def http_json(url: str, headers: dict[str, str], payload: dict[str, Any] | None = None) -> tuple[dict[str, Any] | list[Any], dict[str, str]]:
-    data = json.dumps(payload).encode("utf-8") if payload is not None else None
-    req_headers = dict(headers)
-    if payload is not None:
-        req_headers["Content-Type"] = "application/json"
-    req = urllib.request.Request(url, data=data, headers=req_headers)
-    with urllib.request.urlopen(req) as resp:
-        body = json.loads(resp.read())
-        return body, dict(resp.headers)
-
-
-def next_link(link_header: str | None) -> str | None:
-    if not link_header:
-        return None
-    for chunk in link_header.split(","):
-        parts = [p.strip() for p in chunk.split(";")]
-        if len(parts) < 2:
-            continue
-        url = parts[0].strip("<>")
-        if parts[1] == 'rel="next"':
-            return url
-    return None
-
-
 def fetch_triage_advisories(repo: str, token: str) -> list[dict[str, Any]]:
-    url: str | None = (
-        f"{GITHUB_API}/repos/{repo}/security-advisories?state=triage&per_page=100"
-    )
+    url: str | None = f"{GITHUB_API}/repos/{repo}/security-advisories"
+    params: dict[str, Any] | None = {"state": "triage", "per_page": 100}
     headers = {
         "Accept": "application/vnd.github+json",
         "Authorization": f"Bearer {token}",
@@ -75,21 +39,24 @@ def fetch_triage_advisories(repo: str, token: str) -> list[dict[str, Any]]:
     }
     advisories: list[dict[str, Any]] = []
     while url:
-        page, resp_headers = http_json(url, headers)
-        assert isinstance(page, list)
-        advisories.extend(page)
-        url = next_link(resp_headers.get("Link"))
+        r = requests.get(url, headers=headers, params=params, timeout=30)
+        r.raise_for_status()
+        advisories.extend(r.json())
+        next_link = r.links.get("next")
+        url = next_link["url"] if next_link else None
+        params = None
     return advisories
 
 
-def linear_query(query: str, variables: dict[str, Any], api_key: str) -> dict[str, Any]:
-    body, _ = http_json(
+def linear_call(query: str, variables: dict[str, Any], api_key: str) -> dict[str, Any]:
+    r = requests.post(
         LINEAR_API,
-        {"Authorization": api_key},
-        {"query": query, "variables": variables},
+        headers={"Authorization": api_key},
+        json={"query": query, "variables": variables},
+        timeout=30,
     )
-    assert isinstance(body, dict)
-    return body
+    r.raise_for_status()
+    return r.json()
 
 
 def linear_issue_exists(ghsa_id: str, api_key: str) -> bool:
@@ -97,9 +64,8 @@ def linear_issue_exists(ghsa_id: str, api_key: str) -> bool:
         "query($q: String!) { issues(filter: {title: {contains: $q}}, first: 1) "
         "{ nodes { id } } }"
     )
-    resp = linear_query(query, {"q": ghsa_id}, api_key)
-    nodes = resp.get("data", {}).get("issues", {}).get("nodes", [])
-    return len(nodes) > 0
+    resp = linear_call(query, {"q": ghsa_id}, api_key)
+    return len(resp.get("data", {}).get("issues", {}).get("nodes", [])) > 0
 
 
 def linear_create_issue(input_data: dict[str, Any], api_key: str) -> dict[str, str] | None:
@@ -107,7 +73,7 @@ def linear_create_issue(input_data: dict[str, Any], api_key: str) -> dict[str, s
         "mutation($input: IssueCreateInput!) { issueCreate(input: $input) "
         "{ success issue { identifier url } } }"
     )
-    resp = linear_query(query, {"input": input_data}, api_key)
+    resp = linear_call(query, {"input": input_data}, api_key)
     create = resp.get("data", {}).get("issueCreate") or {}
     if not create.get("success"):
         return None
@@ -117,9 +83,8 @@ def linear_create_issue(input_data: dict[str, Any], api_key: str) -> dict[str, s
 def reporter_login(advisory: dict[str, Any]) -> str:
     for credit in advisory.get("credits") or []:
         user = (credit or {}).get("user") or {}
-        login = user.get("login")
-        if login:
-            return login
+        if user.get("login"):
+            return user["login"]
     return "unknown"
 
 
@@ -168,8 +133,8 @@ def post_discord(adv: dict[str, Any], issue: dict[str, str], webhook_url: str) -
         ],
     }
     try:
-        http_json(webhook_url, {}, payload)
-    except (urllib.error.URLError, json.JSONDecodeError):
+        requests.post(webhook_url, json=payload, timeout=10)
+    except requests.RequestException:
         pass
 
 
@@ -210,7 +175,7 @@ def main() -> int:
                 },
                 linear_api_key,
             )
-        except (urllib.error.URLError, KeyError, json.JSONDecodeError):
+        except requests.RequestException:
             failed += 1
             continue
 

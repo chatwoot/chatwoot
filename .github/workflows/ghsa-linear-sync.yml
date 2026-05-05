@@ -16,6 +16,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install dependencies
+        run: pip install requests==2.32.3
       - name: Sync advisories
         env:
           GHSA_READ_TOKEN: ${{ secrets.GHSA_READ_TOKEN }}
