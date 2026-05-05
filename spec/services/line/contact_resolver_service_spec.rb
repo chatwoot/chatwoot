@@ -39,6 +39,15 @@ RSpec.describe Line::ContactResolverService do
     expect(contact.reload.additional_attributes['social_line_user_id']).to eq('U-line-123')
   end
 
+  it 'raises when multiple contacts match the same LINE identity' do
+    create_list(:contact, 2, account: account, additional_attributes: { 'social_line_user_id' => 'U-line-123' })
+
+    expect { described_class.new(inbox: inbox, profile: profile).perform }.to raise_error(
+      Line::ContactResolverService::AmbiguousContactMatchError,
+      'U-line-123'
+    )
+  end
+
   it 'creates a new contact and contact inbox when no match exists' do
     resolved = described_class.new(inbox: inbox, profile: profile).perform
 

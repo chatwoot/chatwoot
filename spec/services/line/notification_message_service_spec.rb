@@ -64,6 +64,37 @@ RSpec.describe Line::NotificationMessageService do
       end
     end
 
+    context 'when sending a flexible notification message fails with SDK error object' do
+      let(:error_response) do
+        Line::Bot::V2::MessagingApi::ErrorResponse.new(
+          message: 'The request was invalid',
+          details: [
+            Line::Bot::V2::MessagingApi::ErrorDetail.new(
+              property: 'messages[0].text',
+              message: 'May not be empty'
+            ),
+            {
+              'property' => 'to',
+              'message' => 'Invalid phone number hash'
+            }
+          ]
+        )
+      end
+
+      before do
+        allow(messaging_client).to receive(:push_messages_by_phone_with_http_info).and_return([error_response, 400, {}])
+      end
+
+      it 'updates the external error from the SDK error object' do
+        described_class.new(message: message).perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.external_error).to eq(
+          'The request was invalid, messages[0].text: May not be empty, to: Invalid phone number hash'
+        )
+      end
+    end
+
     context 'when sending a templated notification message' do
       let(:template_params) do
         {
@@ -174,7 +205,9 @@ RSpec.describe Line::NotificationMessageService do
       end
 
       before do
-        allow(messaging_client).to receive(:push_messages_by_phone_with_http_info).and_return([{}, 200, { 'x-line-request-id' => 'request-blank-phone' }])
+        allow(messaging_client).to receive(:push_messages_by_phone_with_http_info).and_return(
+          [{}, 200, { 'x-line-request-id' => 'request-blank-phone' }]
+        )
       end
 
       it 'falls back to the contact phone number' do
