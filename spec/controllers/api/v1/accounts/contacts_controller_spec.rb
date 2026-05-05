@@ -840,6 +840,25 @@ RSpec.describe 'Contacts API', type: :request do
         expect(payload['emails']).to eq(['new-primary@example.com', 'other@example.com'])
       end
 
+      it 'publishes a contact update when only secondary emails change' do
+        contact.update!(email: 'primary@example.com')
+        create(:contact_email, account: account, contact: contact, email: 'secondary@example.com')
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              params: { emails: ['primary@example.com', 'alias@example.com'] },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+          'contact.updated',
+          anything,
+          contact: contact,
+          changed_attributes: include('updated_at')
+        )
+      end
+
       it 'rolls back contact changes when email replacement fails' do
         contact.update!(name: 'Original Name', email: 'primary@example.com')
         create(:contact_email, account: account, contact: contact, email: 'secondary@example.com')

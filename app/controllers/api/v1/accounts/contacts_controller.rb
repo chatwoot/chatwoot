@@ -98,10 +98,12 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def update
     ActiveRecord::Base.transaction do
+      previous_emails = @contact.all_emails if emails_param_provided?
       @contact.assign_attributes(contact_update_params)
       assign_primary_email_from_identities(@contact)
       @contact.save!
       replace_contact_emails if emails_param_provided?
+      touch_contact_if_only_email_identities_changed(previous_emails)
       process_avatar_from_url
     end
   end
@@ -242,6 +244,14 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def replace_contact_emails
     Contacts::ReplaceContactEmails.new(contact: @contact, emails: permitted_params[:emails]).perform
+  end
+
+  def touch_contact_if_only_email_identities_changed(previous_emails)
+    return if previous_emails.blank?
+    return if @contact.previous_changes.present?
+    return if previous_emails == @contact.all_emails
+
+    @contact.update!(updated_at: Time.current)
   end
 
   def search_conditions
