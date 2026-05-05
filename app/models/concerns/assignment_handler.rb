@@ -5,7 +5,7 @@ module AssignmentHandler
   included do
     before_save :ensure_assignee_is_from_team
     before_create :auto_assign_from_contact_consultant
-    after_commit :notify_assignment_change, :process_assignment_changes
+    after_commit :notify_assignment_change, :process_assignment_activities
     after_create_commit :auto_add_contact_to_kanban
   end
 
@@ -38,11 +38,6 @@ module AssignmentHandler
     end
   end
 
-  def process_assignment_changes
-    process_assignment_activities
-    auto_assign_contact_consultant
-  end
-
   def process_assignment_activities
     user_name = Current.user.name if Current.user.present?
     if saved_change_to_team_id?
@@ -69,22 +64,5 @@ module AssignmentHandler
     return if contact.consultant_id.blank?
 
     Kanban::AutoAddContactService.new(contact: contact).perform
-  end
-
-  def auto_assign_contact_consultant
-    return unless saved_change_to_assignee_id?
-    return if assignee_id.blank?
-    return unless respond_to?(:contact) && contact.present?
-
-    account_user = account.account_users.find_by(user_id: assignee_id)
-    return if account_user&.custom_role_id.blank?
-
-    consultant_role = account.custom_roles.find_by(name: 'Consultor(a)')
-    return unless consultant_role
-    return unless account_user.custom_role_id == consultant_role.id
-
-    return if contact.consultant_id.present?
-
-    contact.update!(consultant_id: assignee_id)
   end
 end
