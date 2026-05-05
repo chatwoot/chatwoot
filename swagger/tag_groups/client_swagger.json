@@ -1173,6 +1173,24 @@
                   "type": "boolean",
                   "description": "Whether the contact is blocked"
                 },
+                "account_owner_id": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "description": "The ID of the account user assigned as the contact owner"
+                },
+                "account_owner": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/agent"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "The account user assigned as the contact owner"
+                },
                 "identifier": {
                   "type": "string",
                   "description": "The identifier of the contact"
@@ -3442,6 +3460,14 @@
             "description": "whether the contact is blocked or not",
             "example": false
           },
+          "account_owner_id": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "ID of the account user assigned as the contact owner. Set to null to clear the owner when applicable.",
+            "example": 1
+          },
           "phone_number": {
             "type": "string",
             "description": "phone number of the contact",
@@ -3494,6 +3520,14 @@
             "type": "boolean",
             "description": "whether the contact is blocked or not",
             "example": false
+          },
+          "account_owner_id": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "ID of the account user assigned as the contact owner. Set to null to clear the owner when applicable.",
+            "example": 1
           },
           "phone_number": {
             "type": "string",
@@ -5831,6 +5865,24 @@
             "type": "boolean",
             "description": "Whether the contact is blocked"
           },
+          "account_owner_id": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "The ID of the account user assigned as the contact owner"
+          },
+          "account_owner": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/agent"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The account user assigned as the contact owner"
+          },
           "identifier": {
             "type": [
               "string",
@@ -5878,6 +5930,30 @@
               "$ref": "#/components/schemas/contact_list_item"
             },
             "description": "List of contacts"
+          }
+        }
+      },
+      "contact_create_response": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "type": "object",
+            "properties": {
+              "contact": {
+                "$ref": "#/components/schemas/contact_list_item"
+              },
+              "contact_inbox": {
+                "$ref": "#/components/schemas/contact_inbox"
+              }
+            }
+          }
+        }
+      },
+      "contact_update_response": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "$ref": "#/components/schemas/contact_list_item"
           }
         }
       },

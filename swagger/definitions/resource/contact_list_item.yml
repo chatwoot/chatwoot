@@ -41,6 +41,16 @@ properties:
   blocked:
     type: boolean
     description: Whether the contact is blocked
+  account_owner_id:
+    type:
+      - integer
+      - 'null'
+    description: The ID of the account user assigned as the contact owner
+  account_owner:
+    anyOf:
+      - $ref: '#/components/schemas/agent'
+      - type: 'null'
+    description: The account user assigned as the contact owner
   identifier:
     type:
       - string
@@ -64,4 +74,4 @@ properties:
     type: array
     description: List of inboxes associated with this contact
     items:
-      $ref: '#/components/schemas/contact_inbox' 
+      $ref: '#/components/schemas/contact_inbox'

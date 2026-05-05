@@ -12,6 +12,12 @@ properties:
     type: boolean
     description: whether the contact is blocked or not
     example: false
+  account_owner_id:
+    type:
+      - integer
+      - 'null'
+    description: ID of the account user assigned as the contact owner. Set to null to clear the owner when applicable.
+    example: 1
   phone_number:
     type: string
     description: phone number of the contact
