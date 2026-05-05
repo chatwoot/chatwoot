@@ -20,7 +20,7 @@ RSpec.describe Conversations::UnreadCounts::Notifier do
     )
   end
 
-  context 'when cache is not ready' do
+  context 'when refresh does not change unread count memberships' do
     let(:refresh_result) { false }
 
     it 'does not dispatch unread count changed event' do
