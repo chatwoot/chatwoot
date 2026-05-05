@@ -8,12 +8,10 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    permissions:
-      security-events: read
     steps:
       - name: Fetch triage advisories
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GHSA_READ_TOKEN }}
         run: |
           gh api --paginate \
             -H "Accept: application/vnd.github+json" \
