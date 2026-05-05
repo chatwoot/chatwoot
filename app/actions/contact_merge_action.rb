@@ -9,11 +9,11 @@ class ContactMergeAction
 
     ActiveRecord::Base.transaction do
       validate_contacts
+      merge_contact_points
       merge_conversations
       merge_messages
       merge_contact_inboxes
       merge_contact_notes
-      merge_contact_emails
       merge_and_remove_mergee_contact
     end
     @base_contact
@@ -47,18 +47,17 @@ class ContactMergeAction
     ContactInbox.where(contact_id: @mergee_contact.id).update(contact_id: @base_contact.id)
   end
 
-  def merge_contact_emails
-    @merged_contact_emails = merged_contact_email_values
+  def merge_contact_points
+    @merged_contact_points = Contacts::MergeContactPoints.new(base_contact: base_contact, mergee_contact: mergee_contact).perform
   end
 
   def merge_and_remove_mergee_contact
-    mergable_attribute_keys = %w[identifier name email phone_number additional_attributes custom_attributes]
+    mergable_attribute_keys = %w[identifier name additional_attributes custom_attributes]
     base_contact_attributes = base_contact.attributes.slice(*mergable_attribute_keys).compact_blank
     mergee_contact_attributes = mergee_contact.attributes.slice(*mergable_attribute_keys).compact_blank
 
     # attributes in base contact are given preference
     merged_attributes = mergee_contact_attributes.deep_merge(base_contact_attributes)
-    merged_attributes['email'] ||= @merged_contact_emails.first if base_contact.email.blank?
 
     @mergee_contact.reload.destroy!
     @base_contact.update!(merged_attributes) if merged_attributes.present?
@@ -68,19 +67,7 @@ class ContactMergeAction
   end
 
   def sync_merged_contact_emails!
-    @base_contact.contact_emails.destroy_all
-    additional_emails = Array(@merged_contact_emails) - [@base_contact.email]
-    additional_emails.each do |email|
-      @base_contact.contact_emails.create!(account: account, email: email)
-    end
-  end
-
-  def merged_contact_email_values
-    contact_email_values_for(base_contact) | contact_email_values_for(mergee_contact)
-  end
-
-  def contact_email_values_for(contact)
-    contact.all_emails.map { |email| email.to_s.strip.downcase }.compact_blank
+    Contacts::ReplaceContactPoints.new(contact: @base_contact, params: @merged_contact_points).perform
   end
 end
 

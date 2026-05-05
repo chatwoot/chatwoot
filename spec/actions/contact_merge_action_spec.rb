@@ -48,6 +48,21 @@ describe ContactMergeAction do
       expect(base_contact.email).to eq('old@old.com')
     end
 
+    it 'merges primary and additional email and phone values into the base contact' do
+      base_contact.update!(phone_number: '+15551234567')
+      create(:contact_email, contact: base_contact, account: account, email: 'base-alias@example.com')
+      create(:contact_email, contact: mergee_contact, account: account, email: 'mergee-alias@example.com')
+      create(:contact_phone, contact: base_contact, account: account, phone_number: '+15557654321')
+      create(:contact_phone, contact: mergee_contact, account: account, phone_number: '+15559876543')
+
+      contact_merge
+
+      expect(base_contact.reload.email).to eq('old@old.com')
+      expect(base_contact.additional_emails).to contain_exactly('base-alias@example.com', 'new@new.com', 'mergee-alias@example.com')
+      expect(base_contact.phone_number).to eq('+15551234567')
+      expect(base_contact.additional_phones).to contain_exactly('+15557654321', '+12212345', '+15559876543')
+    end
+
     context 'when base contact and merge contact are same' do
       it 'does not delete contact' do
         mergee_contact = base_contact
