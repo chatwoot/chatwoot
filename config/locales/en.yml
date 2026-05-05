@@ -64,6 +64,8 @@ en:
       email_already_exists: 'You have already signed up for an account with %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Signup failed
+    voice:
+      call_already_accepted: '%{agent_name} is already handling the call.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:
@@ -243,6 +245,7 @@ en:
       deleted: This message was deleted
       whatsapp:
         list_button_label: 'Choose an item'
+        call_permission_request_body: 'We would like to call you regarding your conversation.'
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
@@ -379,6 +382,9 @@ en:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
       pdf_size_error: 'must be less than 10MB'
+      sync_not_supported_for_pdf: 'Sync is not supported for PDF documents'
+      sync_only_available_documents: 'Sync is only available for processed documents'
+      sync_already_in_progress: 'Document sync is already in progress'
       pdf_upload_failed: 'Failed to upload PDF to OpenAI'
       pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
       pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'

@@ -77,7 +77,9 @@ Rails.application.routes.draw do
             resources :custom_tools do
               post :test, on: :collection
             end
-            resources :documents, only: [:index, :show, :create, :destroy]
+            resources :documents, only: [:index, :show, :create, :destroy] do
+              post :sync, on: :member
+            end
             resource :tasks, only: [], controller: 'tasks' do
               post :rewrite
               post :summarize
@@ -605,6 +607,7 @@ Rails.application.routes.draw do
       post 'voice/call/:phone', to: 'voice#call_twiml', as: :voice_call
       post 'voice/status/:phone', to: 'voice#status', as: :voice_status
       post 'voice/conference_status/:phone', to: 'voice#conference_status', as: :voice_conference_status
+      post 'voice/recording_status/:phone', to: 'voice#recording_status', as: :voice_recording_status
     end
   end
 
@@ -651,6 +654,7 @@ Rails.application.routes.draw do
         delete :avatar, on: :member, action: :destroy_avatar
       end
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
+      resources :platform_banners
       resource :instance_status, only: [:show]
 
       resource :settings, only: [:show] do

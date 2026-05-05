@@ -38,10 +38,16 @@ const unreadCount = computed(() => props.chat.unread_count);
 const hasUnread = computed(() => unreadCount.value > 0);
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
 
-const voiceCallData = computed(() => ({
-  status: props.chat.additional_attributes?.call_status,
-  direction: props.chat.additional_attributes?.call_direction,
-}));
+const voiceCallData = computed(() => {
+  const last = lastMessageInChat.value;
+  if (last?.content_type !== 'voice_call' || !last.call) {
+    return { status: null, direction: null };
+  }
+  return {
+    status: last.call.status,
+    direction: last.call.direction === 'outgoing' ? 'outbound' : 'inbound',
+  };
+});
 
 const showMetaSection = computed(() => {
   return (

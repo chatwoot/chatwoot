@@ -83,7 +83,9 @@
       "CALL_ENDED": "Call ended",
       "NOT_ANSWERED_YET": "Not answered yet",
       "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "YOU_ANSWERED": "You answered",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "Join call"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",
