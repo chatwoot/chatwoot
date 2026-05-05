@@ -68,6 +68,25 @@ RSpec.describe 'Companies API', type: :request do
         expect(company_data['contacts_count']).to eq(5)
       end
 
+      it 'returns account owner details for owned and unowned companies' do
+        owner = create(:user, account: account)
+        company1.update!(account_owner: owner)
+
+        get "/api/v1/accounts/#{account.id}/companies",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = response.parsed_body
+        owned_company_payload = response_body['payload'].find { |c| c['id'] == company1.id }
+        unowned_company_payload = response_body['payload'].find { |c| c['id'] == company2.id }
+
+        expect(owned_company_payload['account_owner_id']).to eq(owner.id)
+        expect(owned_company_payload['account_owner']['id']).to eq(owner.id)
+        expect(unowned_company_payload['account_owner_id']).to be_nil
+        expect(unowned_company_payload['account_owner']).to be_nil
+      end
+
       it 'does not return companies from other accounts' do
         other_account = create(:account)
         create(:company, name: 'Other Account Company', account: other_account)
@@ -259,6 +278,56 @@ RSpec.describe 'Companies API', type: :request do
         expect(response_body['payload']['domain']).to eq('newcompany.com')
       end
 
+      it 'creates a new company with an account owner' do
+        owner = create(:user, account: account)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/companies",
+               params: {
+                 company: {
+                   name: 'New Company',
+                   domain: 'newcompany.com',
+                   description: 'A new company',
+                   account_owner_id: owner.id
+                 }
+               },
+               headers: admin.create_new_auth_token,
+               as: :json
+        end.to change(Company, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+
+        company = Company.last
+        expect(company.account_owner).to eq(owner)
+
+        response_body = response.parsed_body
+        expect(response_body['payload']['account_owner_id']).to eq(owner.id)
+        expect(response_body['payload']['account_owner']['id']).to eq(owner.id)
+      end
+
+      it 'rejects an account owner from another account' do
+        other_owner = create(:user, account: create(:account))
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/companies",
+               params: {
+                 company: {
+                   name: 'New Company',
+                   domain: 'newcompany.com',
+                   description: 'A new company',
+                   account_owner_id: other_owner.id
+                 }
+               },
+               headers: admin.create_new_auth_token,
+               as: :json
+        end.not_to change(Company, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to include(
+          'Account owner must belong to the same account as the company'
+        )
+      end
+
       it 'returns error for invalid params' do
         invalid_params = { company: { name: '' } }
 
@@ -301,6 +370,37 @@ RSpec.describe 'Companies API', type: :request do
         response_body = response.parsed_body
         expect(response_body['payload']['name']).to eq('Updated Company Name')
         expect(response_body['payload']['domain']).to eq('updated.com')
+      end
+
+      it 'updates the account owner' do
+        owner = create(:user, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/companies/#{company.id}",
+              params: { company: { account_owner_id: owner.id } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(company.reload.account_owner).to eq(owner)
+
+        response_body = response.parsed_body
+        expect(response_body['payload']['account_owner_id']).to eq(owner.id)
+        expect(response_body['payload']['account_owner']['email']).to eq(owner.email)
+      end
+
+      it 'rejects an account owner from another account' do
+        other_owner = create(:user, account: create(:account))
+
+        patch "/api/v1/accounts/#{account.id}/companies/#{company.id}",
+              params: { company: { account_owner_id: other_owner.id } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(company.reload.account_owner_id).to be_nil
+        expect(response.parsed_body['message']).to include(
+          'Account owner must belong to the same account as the company'
+        )
       end
     end
   end
