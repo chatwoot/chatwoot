@@ -5,6 +5,10 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { formatBytes } from 'shared/helpers/FileHelper';
 import { downloadFile } from '@chatwoot/utils';
+import {
+  ATTACHMENT_TYPES,
+  MEDIA_TYPES,
+} from 'dashboard/components-next/message/constants';
 
 import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 import Icon from 'next/icon/Icon.vue';
@@ -12,7 +16,6 @@ import FileIcon from 'next/icon/FileIcon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
-const MEDIA_TYPES = ['image', 'video', 'ig_reel', 'audio'];
 const MEDIA_PEEK_LIMIT = 6;
 const FILES_PEEK_LIMIT = 3;
 
@@ -70,7 +73,8 @@ const onDownloadFile = async attachment => {
   }
 };
 
-const isVideoType = type => ['video', 'ig_reel'].includes(type);
+const isVideoType = type =>
+  [ATTACHMENT_TYPES.VIDEO, ATTACHMENT_TYPES.IG_REEL].includes(type);
 
 const isOverflowTile = index =>
   !showAllMedia.value &&
@@ -92,7 +96,7 @@ const imagePreviewSrc = attachment => {
     thumb_url: thumbUrl,
     data_url: dataUrl,
   } = attachment;
-  if (type === 'image') return thumbUrl || dataUrl;
+  if (type === ATTACHMENT_TYPES.IMAGE) return thumbUrl || dataUrl;
   if (isVideoType(type)) return thumbUrl || null;
   return null;
 };
@@ -107,7 +111,7 @@ const hasVideoPreview = attachment =>
   !failedPreviews.value.has(attachment.id);
 
 const fallbackIcon = type => {
-  if (type === 'audio') return 'i-lucide-music';
+  if (type === ATTACHMENT_TYPES.AUDIO) return 'i-lucide-music';
   if (isVideoType(type)) return 'i-lucide-video';
   return 'i-lucide-image';
 };
