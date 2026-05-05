@@ -19,7 +19,7 @@ class Account::ContactsExportJob < ApplicationJob
   def generate_csv(headers)
     csv_data = CSV.generate do |csv|
       csv << headers
-      contacts.each do |contact|
+      export_contacts(headers).each do |contact|
         csv << headers.map { |header| value_for_header(contact, header) }
       end
     end
@@ -52,9 +52,16 @@ class Account::ContactsExportJob < ApplicationJob
     end
   end
 
+  def export_contacts(headers)
+    return contacts unless headers.include?(LABELS_COLUMN)
+
+    contacts.includes(:labels)
+  end
+
   def valid_headers(column_names)
     requested_headers = column_names.presence || default_columns
 
+    # Keep requested header order while allowing the virtual labels column.
     requested_headers.select do |header|
       header == LABELS_COLUMN || Contact.column_names.include?(header)
     end.uniq

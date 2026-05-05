@@ -113,6 +113,21 @@ RSpec.describe Account::ContactsExportJob do
       expect(row['labels']).to eq('vip')
     end
 
+    it 'exports labels when requested through column names' do
+      contact_with_labels = account.contacts.first
+      create(:label, account: account, title: 'vip')
+      contact_with_labels.add_labels(%w[vip])
+
+      described_class.perform_now(account.id, user.id, %w[id email labels], {})
+
+      csv_content = account.contacts_export.download.force_encoding('UTF-8').delete_prefix("\xEF\xBB\xBF")
+      csv_data = CSV.parse(csv_content, headers: true)
+      row = csv_data.find { |r| r['email'] == contact_with_labels.email }
+
+      expect(csv_data.headers).to eq(%w[id email labels])
+      expect(row['labels']).to eq('vip')
+    end
+
     it 'prepends UTF-8 BOM to the exported CSV for spreadsheet compatibility' do
       described_class.perform_now(account.id, user.id, [], {})
 

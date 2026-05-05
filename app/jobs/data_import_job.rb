@@ -35,24 +35,29 @@ class DataImportJob < ApplicationJob
 
     with_import_file do |file|
       csv_reader(file).each do |row|
-        row_hash = row.to_h.with_indifferent_access
-        labels = extract_labels(row_hash)
-
-        if unapproved_labels(labels).present?
-          append_rejected_contact(row, invalid_label_errors(labels), rejected_contacts)
-          next
-        end
-
-        current_contact = @contact_manager.build_contact(row_hash.except(:labels))
-        if current_contact.valid?
-          contacts << { contact: current_contact, labels: labels }
-        else
-          append_rejected_contact(row, current_contact, rejected_contacts)
-        end
+        build_contact_from_row(row, contacts, rejected_contacts)
       end
     end
 
     [contacts, rejected_contacts]
+  end
+
+  def build_contact_from_row(row, contacts, rejected_contacts)
+    row_hash = row.to_h.with_indifferent_access
+    labels = extract_labels(row_hash)
+    invalid_labels = unapproved_labels(labels)
+
+    if invalid_labels.present?
+      append_label_error(row, invalid_labels, rejected_contacts)
+      return
+    end
+
+    current_contact = @contact_manager.build_contact(row_hash.except(:labels))
+    if current_contact.valid?
+      contacts << { contact: current_contact, labels: labels }
+    else
+      append_rejected_contact(row, current_contact, rejected_contacts)
+    end
   end
 
   def extract_labels(row_hash)
@@ -65,15 +70,8 @@ class DataImportJob < ApplicationJob
     labels.map(&:downcase) - approved_labels
   end
 
-  def invalid_label_errors(labels)
-    missing_labels = unapproved_labels(labels)
-    return if missing_labels.blank?
-
-    "Unknown labels: #{missing_labels.join(', ')}"
-  end
-
-  def append_rejected_contact(row, contact_or_error, rejected_contacts)
-    row['errors'] = contact_or_error.respond_to?(:errors) ? contact_or_error.errors.full_messages.join(', ') : contact_or_error
+  def append_rejected_contact(row, contact, rejected_contacts)
+    row['errors'] = contact.errors.full_messages.join(', ')
     rejected_contacts << row
   end
 
@@ -88,15 +86,20 @@ class DataImportJob < ApplicationJob
     contacts_with_labels.each do |item|
       contact = item[:contact]
       labels = item[:labels].map(&:downcase).uniq
-      # After bulk import with synchronize, contact.id is populated for successfully imported records
-      next unless contact.id.present? && labels.present?
+      # After bulk import with synchronize, contact is marked as persisted for successfully imported records.
+      next unless contact.persisted? && labels.present?
 
-      contact.reload.add_labels(labels)
+      contact.add_labels(labels)
     end
   end
 
   def approved_labels
     @approved_labels ||= @data_import.account.labels.pluck(:title)
+  end
+
+  def append_label_error(row, labels, rejected_contacts)
+    row['errors'] = "Unknown labels: #{labels.join(', ')}"
+    rejected_contacts << row
   end
 
   def update_data_import_status(processed_records, rejected_records)
