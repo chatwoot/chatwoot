@@ -46,6 +46,7 @@ class Contact < ApplicationRecord
   include AvailabilityStatusable
   include Labelable
   include LlmFormattable
+  include AccountOwnerValidatable
 
   validates :account_id, presence: true
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
@@ -68,7 +69,6 @@ class Contact < ApplicationRecord
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
-  validate :account_owner_must_belong_to_account
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -133,10 +133,6 @@ class Contact < ApplicationRecord
     )
   }
 
-  # Find contacts that:
-  # 1. Have no identification (email, phone_number, and identifier are NULL or empty string)
-  # 2. Have no conversations
-  # 3. Are older than the specified time period
   scope :stale_without_conversations, lambda { |time_period|
     where('contacts.email IS NULL OR contacts.email = ?', '')
       .where('contacts.phone_number IS NULL OR contacts.phone_number = ?', '')
@@ -196,14 +192,6 @@ class Contact < ApplicationRecord
   end
 
   private
-
-  def account_owner_must_belong_to_account
-    return if account_owner_id.blank?
-    return if account.blank?
-    return if account.users.exists?(id: account_owner_id)
-
-    errors.add(:account_owner_id, 'must belong to the same account as the contact')
-  end
 
   def ip_lookup
     return unless account.feature_enabled?('ip_lookup')

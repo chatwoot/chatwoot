@@ -208,14 +208,9 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contact
-    contact_scope = Current.account.contacts
-    contact_scope = contact_scope.includes(account_owner: [:account_users, { avatar_attachment: [:blob] }]) if include_account_owner?
+    contact_scope = Current.account.contacts.includes(account_owner: [:account_users, { avatar_attachment: [:blob] }])
     contact_scope = contact_scope.includes(contact_inboxes: [:inbox]) if @include_contact_inboxes
     @contact = contact_scope.find(params[:id])
-  end
-
-  def include_account_owner?
-    %w[show update avatar destroy_custom_attributes].include?(action_name)
   end
 
   def process_avatar_from_url
