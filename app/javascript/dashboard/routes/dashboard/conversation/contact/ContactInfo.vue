@@ -144,6 +144,25 @@ export default {
     onFieldUpdate(field, value) {
       this.updateContactField({ [field]: value });
     },
+    normalizeEmails(emails = []) {
+      return [
+        ...new Set(
+          emails
+            .map(emailAddress => emailAddress?.trim()?.toLowerCase())
+            .filter(Boolean)
+        ),
+      ];
+    },
+    onEmailUpdate(index, value) {
+      const emails = [...this.contactEmails];
+      emails.splice(index, 1, value);
+      const normalizedEmails = this.normalizeEmails(emails);
+
+      this.updateContactField({
+        email: normalizedEmails[0] || '',
+        emails: normalizedEmails,
+      });
+    },
     async updateContactField(attrs) {
       const contactId = this.contact.id;
       try {
@@ -243,8 +262,8 @@ export default {
         </p>
         <div class="flex flex-col items-start w-full gap-2">
           <ContactInfoRow
-            v-for="email in contactEmails"
-            :key="email"
+            v-for="(email, index) in contactEmails"
+            :key="`${email}-${index}`"
             :href="`mailto:${email}`"
             :value="email"
             icon="mail"
@@ -252,7 +271,7 @@ export default {
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
             show-copy
             editable
-            @update="value => onFieldUpdate('email', value)"
+            @update="value => onEmailUpdate(index, value)"
           />
           <ContactInfoRow
             v-if="!contactEmails.length"
