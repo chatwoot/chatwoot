@@ -26,7 +26,7 @@ class ContactEmail < ApplicationRecord
 
   def email_not_used_as_primary
     return if email.blank? || account_id.blank?
-    return unless Contact.where(account_id: account_id).where('LOWER(email) = ?', email).exists?
+    return unless Contact.where(account_id: account_id).exists?(['LOWER(email) = ?', email])
 
     errors.add(:email, :taken)
   end

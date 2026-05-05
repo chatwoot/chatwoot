@@ -26,7 +26,7 @@ class ContactPhone < ApplicationRecord
 
   def phone_not_used_as_primary
     return if phone_number.blank? || account_id.blank?
-    return unless Contact.where(account_id: account_id, phone_number: phone_number).exists?
+    return unless Contact.exists?(account_id: account_id, phone_number: phone_number)
 
     errors.add(:phone_number, :taken)
   end
