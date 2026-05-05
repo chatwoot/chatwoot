@@ -104,13 +104,7 @@ RSpec.describe Imap::ImapMailbox do
       let(:inbound_mail) { create_inbound_email_from_mail(from: 'alias@example.com', to: 'imap@gmail.com', subject: 'Hello!') }
 
       before do
-        Contacts::EmailAddressesSyncService.new(
-          contact: alias_contact,
-          email_addresses: [
-            { email: 'primary@example.com', primary: true },
-            { email: 'alias@example.com', primary: false }
-          ]
-        ).perform
+        create(:contact_email, contact: alias_contact, account: alias_contact.account, email: 'alias@example.com')
       end
 
       it 'reuses the contact and creates the missing contact inbox' do

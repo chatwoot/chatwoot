@@ -37,10 +37,7 @@ const buildContactData = () => ({
   name: 'Bob Example',
   email: 'primary@example.com',
   phoneNumber: '+14155550123',
-  emailAddresses: [
-    { email: 'primary@example.com', primary: true },
-    { email: 'old-alias@example.com', primary: false },
-  ],
+  emailAddresses: ['primary@example.com', 'old-alias@example.com'],
   additionalAttributes: {
     description: '',
     companyName: '',
@@ -98,9 +95,9 @@ describe('ContactsForm', () => {
     expect(wrapper.emitted('update').at(-1)[0]).toMatchObject({
       email: 'primary@example.com',
       emailAddresses: [
-        { email: 'primary@example.com', primary: true },
-        { email: 'old-alias@example.com', primary: false },
-        { email: 'billing@example.com', primary: false },
+        'primary@example.com',
+        'old-alias@example.com',
+        'billing@example.com',
       ],
     });
 
@@ -112,23 +109,20 @@ describe('ContactsForm', () => {
     expect(wrapper.emitted('update').at(-1)[0]).toMatchObject({
       email: 'billing@example.com',
       emailAddresses: [
-        { email: 'primary@example.com', primary: false },
-        { email: 'old-alias@example.com', primary: false },
-        { email: 'billing@example.com', primary: true },
+        'billing@example.com',
+        'primary@example.com',
+        'old-alias@example.com',
       ],
     });
 
     await wrapper
-      .find('[data-testid="contact-email-remove-1"]')
+      .find('[data-testid="contact-email-remove-2"]')
       .trigger('click');
     await nextTick();
 
     expect(wrapper.emitted('update').at(-1)[0]).toMatchObject({
       email: 'billing@example.com',
-      emailAddresses: [
-        { email: 'primary@example.com', primary: false },
-        { email: 'billing@example.com', primary: true },
-      ],
+      emailAddresses: ['billing@example.com', 'primary@example.com'],
     });
   });
 

@@ -73,13 +73,7 @@ RSpec.describe Captain::Tools::Copilot::SearchContactsService do
       end
 
       it 'returns contacts when filtered by alias email' do
-        Contacts::EmailAddressesSyncService.new(
-          contact: contact1,
-          email_addresses: [
-            { email: 'test1@example.com', primary: true },
-            { email: 'alias@example.com', primary: false }
-          ]
-        ).perform
+        create(:contact_email, contact: contact1, account: contact1.account, email: 'alias@example.com')
 
         result = service.execute(email: 'alias@example.com')
         expect(result).to include(contact1.to_llm_text)

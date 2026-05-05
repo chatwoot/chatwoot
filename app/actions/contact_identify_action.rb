@@ -66,7 +66,7 @@ class ContactIdentifyAction
   def existing_phone_number_contact
     return if params[:phone_number].blank?
 
-    @existing_phone_number_contact ||= account.contacts.find_by(phone_number: params[:phone_number])
+    @existing_phone_number_contact ||= account.contacts.from_phone_number(params[:phone_number])
   end
 
   def merge_contacts?(existing_contact, key)
@@ -138,14 +138,25 @@ class ContactIdentifyAction
   end
 
   def persist_contact_with_email_sync!
-    should_sync_email = params[:email].present? && @attributes_to_update.include?(:email)
-
-    @contact.skip_contact_email_sync = should_sync_email
+    previous_email = @contact.email_was if @contact.will_save_change_to_email?
+    remove_promoted_additional_email!
     @contact.save! if @contact.changed?
-    return unless should_sync_email
+    sync_changed_primary_email!(previous_email) if previous_email.present?
+  end
 
-    @contact = Contacts::EmailAddressesSyncService.new(contact: @contact, email: params[:email]).perform
-  ensure
-    @contact.skip_contact_email_sync = false
+  def remove_promoted_additional_email!
+    return unless @contact.will_save_change_to_email?
+
+    @contact.contact_emails.where(email: normalized_pending_email).destroy_all
+  end
+
+  def sync_changed_primary_email!(previous_email)
+    return if previous_email == @contact.email
+
+    @contact.contact_emails.find_or_create_by!(account: account, email: previous_email)
+  end
+
+  def normalized_pending_email
+    @contact.email.to_s.strip.downcase
   end
 end

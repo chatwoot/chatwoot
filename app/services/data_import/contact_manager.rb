@@ -41,7 +41,7 @@ class DataImport::ContactManager
   def find_contact_by_phone_number(params)
     return unless params[:phone_number]
 
-    @account.contacts.find_by(phone_number: format_phone_number(params[:phone_number]))
+    @account.contacts.from_phone_number(format_phone_number(params[:phone_number]))
   end
 
   def format_phone_number(phone_number)
@@ -50,23 +50,15 @@ class DataImport::ContactManager
 
   def update_contact_with_merged_attributes(params, contact)
     contact.identifier = params[:identifier] if params[:identifier].present?
-    contact.email = params[:email] if params[:email].present?
+    contact.email = params[:email] if should_update_primary_email?(params, contact)
     contact.phone_number = format_phone_number(params[:phone_number]) if params[:phone_number].present?
     update_contact_attributes(params, contact)
 
-    should_sync_email = params[:email].present?
-    contact.skip_contact_email_sync = should_sync_email
-
-    ActiveRecord::Base.transaction do
-      contact.save!
-      sync_contact_email!(contact, params[:email]) if should_sync_email
-    end
+    contact.save!
 
     true
   rescue ActiveRecord::RecordInvalid
     false
-  ensure
-    contact.skip_contact_email_sync = false
   end
 
   private
@@ -79,7 +71,9 @@ class DataImport::ContactManager
     contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :email, :name, :phone_number)))
   end
 
-  def sync_contact_email!(contact, email)
-    Contacts::EmailAddressesSyncService.new(contact: contact, email: email, touch_parent: false).perform
+  def should_update_primary_email?(params, contact)
+    return false if params[:email].blank?
+
+    !contact.additional_emails.include?(params[:email].to_s.strip.downcase)
   end
 end

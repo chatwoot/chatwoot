@@ -84,27 +84,20 @@ RSpec.describe MailboxHelper do
   end
 
   describe '#create_contact' do
-    it 'creates a primary contact_email row for the inbound sender' do
+    it 'stores the inbound sender on the primary contact email field' do
       helper_instance = mailbox_helper_obj.new(conversation, processed_mail)
       helper_instance.inbox = inbox
 
       helper_instance.send(:create_contact)
 
       created_contact = helper_instance.instance_variable_get(:@contact)
-      expect(created_contact.contact_emails.pluck(:email, :primary)).to contain_exactly(
-        [processed_mail.original_sender.downcase, true]
-      )
+      expect(created_contact.email).to eq(processed_mail.original_sender.downcase)
+      expect(created_contact.additional_emails).to be_empty
     end
 
     it 'reuses an existing contact matched through an alias email' do
       existing_contact = create(:contact, account: conversation.account, email: 'primary@example.com')
-      Contacts::EmailAddressesSyncService.new(
-        contact: existing_contact,
-        email_addresses: [
-          { email: 'primary@example.com', primary: true },
-          { email: processed_mail.original_sender, primary: false }
-        ]
-      ).perform
+      create(:contact_email, contact: existing_contact, account: existing_contact.account, email: processed_mail.original_sender)
 
       helper_instance = mailbox_helper_obj.new(conversation, processed_mail)
       helper_instance.inbox = inbox

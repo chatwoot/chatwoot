@@ -85,50 +85,23 @@ const state = reactive(buildDefaultState());
 
 const cloneEmailAddresses = emailAddresses =>
   Array.isArray(emailAddresses)
-    ? emailAddresses.map(row => ({
-        email: row?.email?.toString() || '',
-        primary: Boolean(row?.primary),
-      }))
+    ? emailAddresses.map(emailAddress => emailAddress?.toString() || '')
     : [];
 
-const resolvePrimaryIndex = emailAddresses => {
-  const primaryIndex = emailAddresses.findIndex(row => row.primary);
-  return primaryIndex >= 0 ? primaryIndex : 0;
-};
-
 const buildInitialEmailAddresses = (emailAddress, emailAddresses) => {
-  const clonedRows = cloneEmailAddresses(emailAddresses);
-  if (clonedRows.length) {
-    const primaryIndex = resolvePrimaryIndex(clonedRows);
-    return clonedRows.map((row, index) => ({
-      ...row,
-      primary: index === primaryIndex,
-    }));
-  }
+  const clonedEmails = cloneEmailAddresses(emailAddresses);
+  if (clonedEmails.length) return clonedEmails;
 
-  return emailAddress ? [{ email: emailAddress, primary: true }] : [];
+  return emailAddress ? [emailAddress] : [];
 };
 
-const primaryEmailFromAddresses = emailAddresses => {
-  const primaryRow = cloneEmailAddresses(emailAddresses).find(
-    row => row.primary
-  );
-  return primaryRow?.email || '';
-};
+const primaryEmailFromAddresses = emailAddresses =>
+  cloneEmailAddresses(emailAddresses)[0] || '';
 
-const serializedEmailAddresses = emailAddresses => {
-  const rows = cloneEmailAddresses(emailAddresses).filter(row =>
-    row.email.trim()
-  );
-  if (!rows.length) return [];
-
-  const primaryIndex = resolvePrimaryIndex(rows);
-
-  return rows.map((row, index) => ({
-    email: row.email.trim(),
-    primary: index === primaryIndex,
-  }));
-};
+const serializedEmailAddresses = emailAddresses =>
+  cloneEmailAddresses(emailAddresses)
+    .map(emailAddress => emailAddress.trim())
+    .filter(Boolean);
 
 const buildSerializableState = () => {
   const { firstName, lastName, ...stateWithoutNames } = state;
@@ -283,36 +256,26 @@ const getFormBinding = key => {
           const trimmedValue = value.trim();
 
           if (!trimmedValue) {
-            const remainingAliases = existingRows.filter(row => !row.primary);
-
-            if (remainingAliases.length) {
-              state.emailAddresses = remainingAliases.map((row, index) => ({
-                ...row,
-                primary: index === 0,
-              }));
-              state.email = state.emailAddresses[0]?.email || '';
-            } else {
-              state.emailAddresses = [];
-            }
+            state.emailAddresses = existingRows.slice(1);
+            state.email = state.emailAddresses[0] || '';
           } else {
             const normalizedValue = trimmedValue.toLowerCase();
             const matchingRowIndex = existingRows.findIndex(
-              row => row.email.trim().toLowerCase() === normalizedValue
+              row => row.trim().toLowerCase() === normalizedValue
             );
 
             if (matchingRowIndex >= 0) {
-              state.emailAddresses = existingRows.map((row, index) => ({
-                ...row,
-                email: index === matchingRowIndex ? value : row.email,
-                primary: index === matchingRowIndex,
-              }));
-            } else if (existingRows.length) {
+              const matchingValue = value;
               state.emailAddresses = [
-                { email: value, primary: true },
-                ...existingRows.map(row => ({ ...row, primary: false })),
+                matchingValue,
+                ...existingRows.filter(
+                  (_, index) => index !== matchingRowIndex
+                ),
               ];
+            } else if (existingRows.length) {
+              state.emailAddresses = [value, ...existingRows];
             } else {
-              state.emailAddresses = [{ email: value, primary: true }];
+              state.emailAddresses = [value];
             }
           }
         }
@@ -358,16 +321,8 @@ const resetForm = () => {
 
 const handleEmailAddressesUpdate = async emailAddresses => {
   const nextEmailAddresses = cloneEmailAddresses(emailAddresses);
-  const primaryIndex = nextEmailAddresses.length
-    ? resolvePrimaryIndex(nextEmailAddresses)
-    : -1;
-
-  state.emailAddresses = nextEmailAddresses.map((row, index) => ({
-    ...row,
-    primary: primaryIndex >= 0 && index === primaryIndex,
-  }));
-  state.email =
-    primaryIndex >= 0 ? state.emailAddresses[primaryIndex].email : '';
+  state.emailAddresses = nextEmailAddresses;
+  state.email = state.emailAddresses[0] || '';
 
   const isFormValid = await v$.value.$validate();
   if (isFormValid) {

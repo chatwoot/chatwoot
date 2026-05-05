@@ -174,7 +174,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def permitted_params
     params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url,
-                  additional_attributes: {}, custom_attributes: {}, email_addresses: %i[id email primary])
+                  additional_attributes: {}, custom_attributes: {}, email_addresses: [], additional_emails: [])
   end
 
   def contact_custom_attributes
@@ -190,45 +190,41 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def contact_update_params
-    permitted_params.except(:custom_attributes, :avatar_url, :email_addresses)
-                    .merge({ email: email_attribute_for_write })
-                    .merge({ custom_attributes: contact_custom_attributes })
-                    .merge({ additional_attributes: contact_additional_attributes })
+    params_for_update = permitted_params.except(:custom_attributes, :avatar_url, :email_addresses, :additional_emails)
+                                      .merge({ custom_attributes: contact_custom_attributes })
+                                      .merge({ additional_attributes: contact_additional_attributes })
+    params_for_update[:email] = email_attribute_for_write if email_write_param_provided?
+    params_for_update
   end
 
   def contact_create_params
-    permitted_params.except(:avatar_url, :email_addresses)
+    permitted_params.except(:avatar_url, :email_addresses, :additional_emails)
                     .merge({ email: email_attribute_for_write })
   end
 
   def persist_contact!
-    with_contact_email_sync_suppressed do
-      @contact.save!
-    end
-
+    remove_promoted_additional_email!
+    @contact.save!
     sync_contact_email_addresses!
   end
 
-  def sync_contact_email_addresses!
-    return unless explicit_contact_email_sync?
+  def remove_promoted_additional_email!
+    return unless @contact.will_save_change_to_email?
 
-    sync_args = { contact: @contact }
-    sync_args[:email_addresses] = email_addresses_params_for_write if email_addresses_param_provided?
-    sync_args[:email] = permitted_params[:email] if email_param_provided? && !email_addresses_param_provided?
-
-    @contact = Contacts::EmailAddressesSyncService.new(**sync_args).perform
+    @contact.contact_emails.where(email: normalize_email_value(@contact.email)).destroy_all
   end
 
-  def with_contact_email_sync_suppressed
-    previous_value = @contact.skip_contact_email_sync
-    @contact.skip_contact_email_sync = explicit_contact_email_sync?
-    yield
-  ensure
-    @contact.skip_contact_email_sync = previous_value
+  def sync_contact_email_addresses!
+    return unless email_addresses_param_provided? || additional_emails_param_provided?
+
+    @contact.contact_emails.destroy_all
+    additional_email_values_for_write.each do |email|
+      @contact.contact_emails.create!(account: @contact.account, email: email)
+    end
   end
 
   def email_attribute_for_write
-    return primary_email_from_email_addresses if email_addresses_param_provided?
+    return email_values_for_write.first if email_addresses_param_provided?
 
     permitted_params[:email]
   end
@@ -254,28 +250,42 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     SQL
   end
 
-  def primary_email_from_email_addresses
-    Array(email_addresses_params_for_write).find do |row|
-      ActiveModel::Type::Boolean.new.cast(row[:primary])
-    end&.dig(:email)
-  end
-
-  def email_addresses_params_for_write
+  def email_values_for_write
     return [] if params[:email_addresses] == '[]'
 
-    Array(permitted_params[:email_addresses])
+    Array(permitted_params[:email_addresses]).filter_map { |email| normalize_email_value(email) }.uniq
   end
 
-  def explicit_contact_email_sync?
-    email_addresses_param_provided? || email_param_provided?
+  def additional_email_values_for_write
+    values = if additional_emails_param_provided?
+               additional_emails_for_write
+             else
+               email_values_for_write.drop(1)
+             end
+
+    values - [@contact.email]
+  end
+
+  def additional_emails_for_write
+    return [] if params[:additional_emails] == '[]'
+
+    Array(permitted_params[:additional_emails]).filter_map { |email| normalize_email_value(email) }.uniq
+  end
+
+  def normalize_email_value(value)
+    value.to_s.strip.downcase.presence
   end
 
   def email_addresses_param_provided?
     params.key?(:email_addresses)
   end
 
-  def email_param_provided?
-    params.key?(:email)
+  def additional_emails_param_provided?
+    params.key?(:additional_emails)
+  end
+
+  def email_write_param_provided?
+    email_addresses_param_provided? || params.key?(:email)
   end
 
   def set_include_contact_inboxes

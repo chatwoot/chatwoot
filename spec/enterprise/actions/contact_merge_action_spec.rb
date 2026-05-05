@@ -7,7 +7,7 @@ RSpec.describe ContactMergeAction do
     let(:mergee_contact) { create(:contact, account: account, email: nil, company: nil) }
 
     before do
-      create(:contact_email, contact: mergee_contact, account: account, email: 'owner@acme.com', primary: true)
+      create(:contact_email, contact: mergee_contact, account: account, email: 'owner@acme.com')
     end
 
     it 'associates a company when the merged contact gains its first business email' do

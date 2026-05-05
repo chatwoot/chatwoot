@@ -10,8 +10,8 @@ class Captain::Tools::Copilot::SearchContactsService < Captain::Tools::BaseTool
 
   def execute(email: nil, phone_number: nil, name: nil)
     contacts = Contact.where(account_id: @assistant.account_id)
-    contacts = contacts.with_matching_email(email) if email.present?
-    contacts = contacts.where(phone_number: phone_number) if phone_number.present?
+    contacts = contacts.matching_email(email) if email.present?
+    contacts = contacts.matching_phone_number(phone_number) if phone_number.present?
     contacts = contacts.where('LOWER(name) ILIKE ?', "%#{name.downcase}%") if name.present?
 
     return 'No contacts found' unless contacts.exists?

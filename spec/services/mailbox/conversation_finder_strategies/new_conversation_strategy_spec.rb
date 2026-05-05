@@ -69,13 +69,7 @@ RSpec.describe Mailbox::ConversationFinderStrategies::NewConversationStrategy do
 
         it 'reuses a contact matched by alias email and creates a missing contact inbox' do
           existing_contact.contact_inboxes.destroy_all
-          Contacts::EmailAddressesSyncService.new(
-            contact: existing_contact,
-            email_addresses: [
-              { email: 'sender@example.com', primary: true },
-              { email: 'alias@example.com', primary: false }
-            ]
-          ).perform
+          create(:contact_email, contact: existing_contact, account: existing_contact.account, email: 'alias@example.com')
           mail.from = 'alias@example.com'
 
           strategy = described_class.new(mail)

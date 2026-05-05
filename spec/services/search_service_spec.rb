@@ -78,14 +78,8 @@ describe SearchService do
 
       it 'returns one contact row even when multiple alias emails match the query' do
         alias_contact = create(:contact, name: 'Alias Harry', email: 'primary@example.com', account: account, last_activity_at: 5.minutes.ago)
-        Contacts::EmailAddressesSyncService.new(
-          contact: alias_contact,
-          email_addresses: [
-            { email: 'primary@example.com', primary: true },
-            { email: 'harry-one@alias.example.com', primary: false },
-            { email: 'harry-two@alias.example.com', primary: false }
-          ]
-        ).perform
+        create(:contact_email, contact: alias_contact, account: account, email: 'harry-one@alias.example.com')
+        create(:contact_email, contact: alias_contact, account: account, email: 'harry-two@alias.example.com')
 
         search = described_class.new(
           current_user: user,
@@ -276,14 +270,8 @@ describe SearchService do
       it 'finds conversations by alias email without duplicating rows' do
         alias_contact = create(:contact, name: 'Alias Harry', email: 'primary@example.com', account: account)
         alias_conversation = create(:conversation, contact: alias_contact, inbox: inbox, account: account)
-        Contacts::EmailAddressesSyncService.new(
-          contact: alias_contact,
-          email_addresses: [
-            { email: 'primary@example.com', primary: true },
-            { email: 'harry-one@alias.example.com', primary: false },
-            { email: 'harry-two@alias.example.com', primary: false }
-          ]
-        ).perform
+        create(:contact_email, contact: alias_contact, account: account, email: 'harry-one@alias.example.com')
+        create(:contact_email, contact: alias_contact, account: account, email: 'harry-two@alias.example.com')
 
         params = { q: 'alias.example.com' }
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')

@@ -83,13 +83,7 @@ describe ContactInboxWithContactBuilder do
     end
 
     it 'reuses a contact when a non-primary alias email matches and creates a missing contact inbox' do
-      Contacts::EmailAddressesSyncService.new(
-        contact: contact,
-        email_addresses: [
-          { email: contact.email, primary: true },
-          { email: 'alias@example.com', primary: false }
-        ]
-      ).perform
+      create(:contact_email, contact: contact, account: contact.account, email: 'alias@example.com')
 
       contact_inbox = described_class.new(
         source_id: '123456',

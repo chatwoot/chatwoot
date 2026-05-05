@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_15_143000) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_05_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -596,16 +596,27 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_15_143000) do
   end
 
   create_table "contact_emails", force: :cascade do |t|
-    t.integer "contact_id", null: false
-    t.integer "account_id", null: false
+    t.bigint "account_id", null: false
+    t.bigint "contact_id", null: false
     t.string "email", null: false
-    t.boolean "primary", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index "lower((email)::text), account_id", name: "index_contact_emails_on_lower_email_and_account_id", unique: true
-    t.index ["account_id", "primary"], name: "index_contact_emails_on_account_id_and_primary"
+    t.index ["account_id"], name: "index_contact_emails_on_account_id"
     t.index ["contact_id"], name: "index_contact_emails_on_contact_id"
-    t.index ["contact_id"], name: "index_contact_emails_on_contact_id_where_primary", unique: true, where: "(\"primary\" = true)"
+    t.index ["email"], name: "index_contact_emails_on_email_trigram", opclass: :gin_trgm_ops, using: :gin
+  end
+
+  create_table "contact_phones", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "contact_id", null: false
+    t.string "phone_number", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "phone_number"], name: "index_contact_phones_on_account_id_and_phone_number", unique: true
+    t.index ["account_id"], name: "index_contact_phones_on_account_id"
+    t.index ["contact_id"], name: "index_contact_phones_on_contact_id"
+    t.index ["phone_number"], name: "index_contact_phones_on_phone_number_trigram", opclass: :gin_trgm_ops, using: :gin
   end
 
   create_table "contact_inboxes", force: :cascade do |t|
@@ -1285,8 +1296,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_15_143000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "contact_emails", "accounts"
-  add_foreign_key "contact_emails", "contacts"
+  add_foreign_key "contact_emails", "accounts", on_delete: :cascade
+  add_foreign_key "contact_emails", "contacts", on_delete: :cascade
+  add_foreign_key "contact_phones", "accounts", on_delete: :cascade
+  add_foreign_key "contact_phones", "contacts", on_delete: :cascade
   add_foreign_key "inboxes", "portals"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

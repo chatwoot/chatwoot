@@ -77,33 +77,19 @@ describe ContactIdentifyAction do
         expect(result.email).to be_nil
       end
 
-      it 'promotes an existing alias to the primary contact_email row' do
-        Contacts::EmailAddressesSyncService.new(
-          contact: contact,
-          email_addresses: [
-            { email: 'old-primary@example.com', primary: true },
-            { email: 'alias@example.com', primary: false }
-          ]
-        ).perform
+      it 'moves an existing additional email to the primary contact email field' do
+        contact.update!(email: 'old-primary@example.com')
+        create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
 
-        result = described_class.new(contact: contact, params: { email: 'alias@example.com' }).perform
+        result = described_class.new(contact: contact, params: { email: 'Alias@Example.com' }).perform
 
         expect(result.reload.email).to eq('alias@example.com')
-        expect(result.contact_emails.pluck(:email, :primary)).to contain_exactly(
-          ['old-primary@example.com', false],
-          ['alias@example.com', true]
-        )
+        expect(result.additional_emails).to contain_exactly('old-primary@example.com')
       end
 
       it 'merges through an alias email match' do
         existing_email_contact = create(:contact, account: account, email: 'primary@example.com', name: 'old name')
-        Contacts::EmailAddressesSyncService.new(
-          contact: existing_email_contact,
-          email_addresses: [
-            { email: 'primary@example.com', primary: true },
-            { email: 'alias@example.com', primary: false }
-          ]
-        ).perform
+        create(:contact_email, contact: existing_email_contact, account: account, email: 'alias@example.com')
 
         result = described_class.new(contact: contact, params: { name: 'new name', email: 'alias@example.com' }).perform
 

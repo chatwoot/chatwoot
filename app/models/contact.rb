@@ -47,8 +47,6 @@ class Contact < ApplicationRecord
   include Labelable
   include LlmFormattable
 
-  attr_accessor :skip_contact_email_sync
-
   validates :account_id, presence: true
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
                     format: { with: Devise.email_regexp, message: I18n.t('errors.contacts.email.invalid') }
@@ -59,6 +57,7 @@ class Contact < ApplicationRecord
 
   belongs_to :account
   has_many :contact_emails, dependent: :destroy
+  has_many :contact_phones, dependent: :destroy
   has_many :conversations, dependent: :destroy_async
   has_many :contact_inboxes, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
@@ -70,8 +69,8 @@ class Contact < ApplicationRecord
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
-  after_save :sync_legacy_contact_email, if: :should_sync_legacy_contact_email?
-  validate :ensure_single_primary_contact_email
+  validate :email_not_used_as_additional
+  validate :phone_number_not_used_as_additional
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -147,29 +146,23 @@ class Contact < ApplicationRecord
       .where('contacts.created_at < ?', time_period)
       .where.missing(:conversations)
   }
-  scope :with_matching_email, lambda { |email|
-    normalized_email = email.to_s.strip.downcase.presence
-    next none if normalized_email.blank?
-
-    where(
-      <<~SQL.squish,
-        EXISTS (
-          SELECT 1
-          FROM contact_emails
-          WHERE contact_emails.contact_id = contacts.id
-            AND contact_emails.account_id = contacts.account_id
-            AND contact_emails.email = :email
-        ) OR (
-          LOWER(contacts.email) = :email
-          AND NOT EXISTS (
-            SELECT 1
-            FROM contact_emails
-            WHERE contact_emails.contact_id = contacts.id
-          )
-        )
-      SQL
-      email: normalized_email
-    )
+  scope :matching_email, lambda { |value|
+    normalized = value.to_s.strip.downcase
+    where('LOWER(contacts.email) = :email OR EXISTS (
+      SELECT 1 FROM contact_emails
+      WHERE contact_emails.contact_id = contacts.id
+      AND contact_emails.account_id = contacts.account_id
+      AND LOWER(contact_emails.email) = :email
+    )', email: normalized)
+  }
+  scope :matching_phone_number, lambda { |value|
+    normalized = value.to_s.strip
+    where('contacts.phone_number = :phone OR EXISTS (
+      SELECT 1 FROM contact_phones
+      WHERE contact_phones.contact_id = contacts.id
+      AND contact_phones.account_id = contacts.account_id
+      AND contact_phones.phone_number = :phone
+    )', phone: normalized)
   }
 
   def get_source_id(inbox_id)
@@ -219,27 +212,43 @@ class Contact < ApplicationRecord
   end
 
   def self.from_email(email)
-    with_matching_email(email).first
+    matching_email(email).first
+  end
+
+  def self.from_phone_number(phone_number)
+    matching_phone_number(phone_number).first
+  end
+
+  def additional_emails
+    contact_emails.order(:id).pluck(:email)
+  end
+
+  def additional_phones
+    contact_phones.order(:id).pluck(:phone_number)
+  end
+
+  def all_emails
+    [email, *additional_emails].compact_blank
+  end
+
+  def all_phone_numbers
+    [phone_number, *additional_phones].compact_blank
   end
 
   private
 
-  def ensure_single_primary_contact_email
-    active_contact_emails = contact_emails.reject(&:marked_for_destruction?)
-    return if active_contact_emails.empty?
+  def email_not_used_as_additional
+    return if email.blank? || account_id.blank?
+    return unless ContactEmail.where(account_id: account_id, email: email.downcase).exists?
 
-    primary_count = active_contact_emails.count(&:primary?)
-    return if primary_count == 1
-
-    errors.add(:contact_emails, I18n.t('errors.contacts.email.invalid'))
+    errors.add(:email, :taken)
   end
 
-  def should_sync_legacy_contact_email?
-    !skip_contact_email_sync && saved_change_to_email?
-  end
+  def phone_number_not_used_as_additional
+    return if phone_number.blank? || account_id.blank?
+    return unless ContactPhone.where(account_id: account_id, phone_number: phone_number).exists?
 
-  def sync_legacy_contact_email
-    Contacts::EmailAddressesSyncService.new(contact: self, email: email, touch_parent: false, reload_contact: false).perform
+    errors.add(:phone_number, :taken)
   end
 
   def ip_lookup

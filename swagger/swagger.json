@@ -9389,7 +9389,7 @@
                   "type": "array",
                   "description": "Stored email addresses for the contact, ordered with the primary email first when requested by account contact APIs.",
                   "items": {
-                    "$ref": "#/components/schemas/contact_email_address"
+                    "type": "string"
                   }
                 },
                 "id": {
@@ -10244,23 +10244,6 @@
           },
           "inbox": {
             "$ref": "#/components/schemas/inbox_contact"
-          }
-        }
-      },
-      "contact_email_address": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "ID of the stored contact email. Response-only in the current API."
-          },
-          "email": {
-            "type": "string",
-            "description": "Email address for the contact"
-          },
-          "primary": {
-            "type": "boolean",
-            "description": "Whether this email is the primary email for the contact"
           }
         }
       },
@@ -11326,8 +11309,8 @@
             "type": "array",
             "description": "Optional full-state email set for the contact. When present, this takes precedence over the top-level email field on write.",
             "items": {
-              "$ref": "#/components/schemas/contact_email_address"
-            }
+                    "type": "string"
+                  }
           },
           "blocked": {
             "type": "boolean",
@@ -11386,8 +11369,8 @@
             "type": "array",
             "description": "Optional full-state email set for the contact. When present, this takes precedence over the top-level email field on write.",
             "items": {
-              "$ref": "#/components/schemas/contact_email_address"
-            }
+                    "type": "string"
+                  }
           },
           "blocked": {
             "type": "boolean",
@@ -13715,8 +13698,8 @@
             "type": "array",
             "description": "Stored email addresses for the contact, ordered with the primary email first when requested by account contact APIs.",
             "items": {
-              "$ref": "#/components/schemas/contact_email_address"
-            }
+                    "type": "string"
+                  }
           },
           "id": {
             "type": "integer",

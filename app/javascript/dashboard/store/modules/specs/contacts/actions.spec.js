@@ -159,10 +159,7 @@ describe('#actions', () => {
         {
           id: contactList[0].id,
           email: 'primary@example.com',
-          emailAddresses: [
-            { email: 'primary@example.com', primary: true },
-            { email: 'alias@example.com', primary: false },
-          ],
+          emailAddresses: ['primary@example.com', 'alias@example.com'],
           additionalAttributes: {
             city: 'Portland',
             socialProfiles: {
@@ -181,10 +178,7 @@ describe('#actions', () => {
       expect(axios.patch).toHaveBeenCalledTimes(1);
       expect(axios.patch.mock.calls[0][1]).toMatchObject({
         email: 'primary@example.com',
-        email_addresses: [
-          { email: 'primary@example.com', primary: true },
-          { email: 'alias@example.com', primary: false },
-        ],
+        email_addresses: ['primary@example.com', 'alias@example.com'],
       });
     });
 
@@ -198,10 +192,7 @@ describe('#actions', () => {
           isFormData: true,
           avatar: new File(['avatar'], 'avatar.png', { type: 'image/png' }),
           email: 'primary@example.com',
-          emailAddresses: [
-            { email: 'primary@example.com', primary: true },
-            { email: 'alias@example.com', primary: false },
-          ],
+          emailAddresses: ['primary@example.com', 'alias@example.com'],
           additionalAttributes: {
             city: 'Portland',
             socialProfiles: {
@@ -223,10 +214,8 @@ describe('#actions', () => {
       expect(Array.from(formDataArg.entries())).toEqual(
         expect.arrayContaining([
           ['email', 'primary@example.com'],
-          ['email_addresses[0][email]', 'primary@example.com'],
-          ['email_addresses[0][primary]', 'true'],
-          ['email_addresses[1][email]', 'alias@example.com'],
-          ['email_addresses[1][primary]', 'false'],
+          ['email_addresses[0]', 'primary@example.com'],
+          ['email_addresses[1]', 'alias@example.com'],
         ])
       );
     });

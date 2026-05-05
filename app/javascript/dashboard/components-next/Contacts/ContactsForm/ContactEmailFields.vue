@@ -14,22 +14,18 @@ const emit = defineEmits(['update:modelValue']);
 const { t } = useI18n();
 
 const aliasRows = computed(() =>
-  props.modelValue
-    .map((row, index) => ({ ...row, index }))
-    .filter(row => !row.primary)
+  props.modelValue.slice(1).map((email, index) => ({ email, index: index + 1 }))
 );
 
 const updateRows = rows => emit('update:modelValue', rows);
 
 const addAlias = () => {
-  updateRows([...props.modelValue, { email: '', primary: false }]);
+  updateRows([...props.modelValue, '']);
 };
 
 const updateAliasEmail = (index, email) => {
   updateRows(
-    props.modelValue.map((row, rowIndex) =>
-      rowIndex === index ? { ...row, email } : row
-    )
+    props.modelValue.map((row, rowIndex) => (rowIndex === index ? email : row))
   );
 };
 
@@ -38,12 +34,10 @@ const removeAlias = index => {
 };
 
 const setPrimary = index => {
-  updateRows(
-    props.modelValue.map((row, rowIndex) => ({
-      ...row,
-      primary: rowIndex === index,
-    }))
-  );
+  updateRows([
+    props.modelValue[index],
+    ...props.modelValue.filter((_, rowIndex) => rowIndex !== index),
+  ]);
 };
 </script>
 
