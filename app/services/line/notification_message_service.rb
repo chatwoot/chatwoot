@@ -142,11 +142,21 @@ class Line::NotificationMessageService
     channel.messaging_api_client.push_messages_by_phone_with_http_info(
       pnp_messages_request: Line::Bot::V2::MessagingApi::PnpMessagesRequest.new(
         to: hashed_phone_number,
-        messages: template_params['messages'],
+        messages: flexible_messages,
         notification_disabled: template_params.fetch('notification_disabled', false)
       ),
       x_line_delivery_tag: delivery_tag
     )
+  end
+
+  def flexible_messages
+    template_params['messages'].map { |message_payload| normalize_line_message_payload(message_payload) }
+  end
+
+  def normalize_line_message_payload(message_payload)
+    return message_payload unless message_payload.is_a?(Hash)
+
+    message_payload.deep_transform_keys { |key| key.to_s.underscore.to_sym }
   end
 
   def channel

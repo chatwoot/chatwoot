@@ -62,6 +62,57 @@ RSpec.describe Line::NotificationMessageService do
           expect(message.additional_attributes['template_params']['x_line_request_id']).to eq('request-123')
         end
       end
+
+      context 'with LINE-style camelCase payload keys' do
+        let(:template_params) do
+          {
+            'name' => 'line-notification',
+            'type' => 'flexible',
+            'phone_number' => '+1 (415) 555-2671',
+            'messages' => [
+              {
+                'type' => 'flex',
+                'altText' => 'Order update',
+                'contents' => {
+                  'type' => 'bubble',
+                  'hero' => {
+                    'type' => 'image',
+                    'url' => 'https://example.com/order.png',
+                    'size' => 'full',
+                    'aspectRatio' => '20:13',
+                    'aspectMode' => 'cover'
+                  },
+                  'body' => {
+                    'type' => 'box',
+                    'layout' => 'vertical',
+                    'contents' => [
+                      {
+                        'type' => 'text',
+                        'text' => 'Your order shipped',
+                        'wrap' => true
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        end
+
+        it 'normalizes message keys before building SDK message objects' do
+          described_class.new(message: message).perform
+
+          expect(messaging_client).to have_received(:push_messages_by_phone_with_http_info) do |pnp_messages_request:, **|
+            flex_message = pnp_messages_request.messages.first
+
+            aggregate_failures do
+              expect(flex_message).to be_a(Line::Bot::V2::MessagingApi::FlexMessage)
+              expect(flex_message.alt_text).to eq('Order update')
+              expect(flex_message.contents.hero.aspect_ratio).to eq('20:13')
+            end
+          end
+        end
+      end
     end
 
     context 'when sending a flexible notification message fails with SDK error object' do
