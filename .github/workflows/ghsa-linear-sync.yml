@@ -33,6 +33,7 @@ jobs:
           LINEAR_TEAM_ID: ${{ secrets.LINEAR_TEAM_ID }}
           LINEAR_PROJECT_ID: ${{ secrets.LINEAR_PROJECT_ID }}
           LINEAR_LABEL_ID: ${{ secrets.LINEAR_LABEL_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           created_count=0
           skipped_count=0
@@ -71,7 +72,7 @@ jobs:
             body=$(printf '**GHSA:** %s\n**CVE:** %s\n**Severity:** %s (CVSS %s)\n**Reporter:** %s\n**Reported:** %s\n**Advisory:** %s\n\n---\n\n%s' \
               "$ghsa_id" "$cve_id" "$severity" "$cvss" "$reporter" "$created_date" "$html_url" "$description")
 
-            success=$(curl -s -X POST https://api.linear.app/graphql \
+            create_response=$(curl -s -X POST https://api.linear.app/graphql \
               -H "Content-Type: application/json" \
               -H "Authorization: $LINEAR_API_KEY" \
               -d "$(jq -n \
@@ -82,14 +83,51 @@ jobs:
                 --arg labelId "$LINEAR_LABEL_ID" \
                 --argjson priority "$priority" \
                 '{
-                  query: "mutation($input: IssueCreateInput!) { issueCreate(input: $input) { success } }",
+                  query: "mutation($input: IssueCreateInput!) { issueCreate(input: $input) { success issue { identifier url } } }",
                   variables: {input: {title: $title, description: $body, teamId: $teamId, projectId: $projectId, labelIds: [$labelId], priority: $priority}}
-                }')" | jq -r '.data.issueCreate.success // false')
+                }')")
+            success=$(printf '%s' "$create_response" | jq -r '.data.issueCreate.success // false')
 
-            if [ "$success" = "true" ]; then
-              created_count=$((created_count+1))
-            else
+            if [ "$success" != "true" ]; then
               failed_count=$((failed_count+1))
+              continue
+            fi
+
+            created_count=$((created_count+1))
+
+            if [ -n "${DISCORD_WEBHOOK_URL:-}" ]; then
+              linear_url=$(printf '%s' "$create_response" | jq -r '.data.issueCreate.issue.url')
+              linear_id=$(printf '%s' "$create_response" | jq -r '.data.issueCreate.issue.identifier')
+              case "$severity" in
+                critical) color=15548997 ;;
+                high)     color=15105570 ;;
+                medium)   color=15844367 ;;
+                low)      color=3066993  ;;
+                *)        color=9807270  ;;
+              esac
+              discord_payload=$(jq -n \
+                --arg title "$title" \
+                --arg url "$linear_url" \
+                --arg ident "$linear_id" \
+                --arg severity "$severity" \
+                --arg cvss "$cvss" \
+                --arg advisory "$html_url" \
+                --argjson color "$color" \
+                '{
+                  username: "GHSA Sync",
+                  embeds: [{
+                    title: ($title | .[0:250]),
+                    url: $url,
+                    color: $color,
+                    fields: [
+                      {name: "Linear", value: $ident, inline: true},
+                      {name: "Severity", value: "\($severity) (CVSS \($cvss))", inline: true},
+                      {name: "Advisory", value: "[GitHub](\($advisory))", inline: true}
+                    ]
+                  }]
+                }')
+              curl -s -o /dev/null -X POST -H "Content-Type: application/json" \
+                -d "$discord_payload" "$DISCORD_WEBHOOK_URL" || true
             fi
           done < <(jq -c '.[]' advisories.json)
           echo "Created $created_count, skipped $skipped_count, failed $failed_count"
