@@ -35,10 +35,9 @@ class Voice::InboundCallBuilder
   def ensure_contact_inbox!(contact)
     ContactInbox.find_or_create_by!(
       contact_id: contact.id,
-      inbox_id: inbox.id
-    ) do |record|
-      record.source_id = from_number
-    end
+      inbox_id: inbox.id,
+      source_id: from_number
+    )
   end
 
   def find_conversation

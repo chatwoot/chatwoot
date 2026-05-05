@@ -77,6 +77,22 @@ RSpec.describe Voice::InboundCallBuilder do
       expect(conversation.contact).to eq(existing_contact)
     end
 
+    it 'creates a contact inbox for the matched additional phone when the primary phone already has one' do
+      existing_contact = create(:contact, account: account, phone_number: '+15550002222')
+      create(:contact_phone, contact: existing_contact, account: account, phone_number: from_number)
+      create(:contact_inbox, contact: existing_contact, inbox: inbox, source_id: existing_contact.phone_number)
+
+      conversation = nil
+
+      expect do
+        conversation = perform_builder
+      end.to not_change(Contact, :count)
+        .and change(ContactInbox, :count).by(1)
+
+      expect(conversation.contact).to eq(existing_contact)
+      expect(conversation.contact_inbox.source_id).to eq(from_number)
+    end
+
     it 'ensures the conversation has a display_id before building the conference SID' do
       allow(Voice::Conference::Name).to receive(:for).and_wrap_original do |original, conversation|
         expect(conversation.display_id).to be_present
