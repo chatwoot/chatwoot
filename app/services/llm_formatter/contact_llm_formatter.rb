@@ -24,7 +24,9 @@ class LlmFormatter::ContactLlmFormatter < LlmFormatter::DefaultLlmFormatter
     attributes = []
     attributes << "Name: #{@record.name}"
     attributes << "Email: #{@record.email}"
+    attributes << "Additional emails: #{@record.additional_emails.join(', ')}" if @record.additional_emails.any?
     attributes << "Phone: #{@record.phone_number}"
+    attributes << "Additional phones: #{@record.additional_phones.join(', ')}" if @record.additional_phones.any?
     attributes << "Location: #{@record.location}"
     attributes << "Country Code: #{@record.country_code}"
     @record.account.custom_attribute_definitions.with_attribute_model('contact_attribute').each do |attribute|

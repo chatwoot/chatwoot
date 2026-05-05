@@ -34,7 +34,7 @@ class SearchService
     conversations_query = current_account.conversations.where(inbox_id: accessable_inbox_ids)
                                          .joins(:contact)
                                          .where(
-                                           "#{conversation_search_sql} OR #{contact_email_search_sql}",
+                                           "#{conversation_search_sql} OR #{contact_email_search_sql} OR #{contact_phone_search_sql}",
                                            search: "%#{search_query}%"
                                          )
 
@@ -165,7 +165,7 @@ class SearchService
 
   def filter_contacts
     contacts_query = current_account.contacts.where(
-      "#{contact_search_sql} OR #{contact_email_search_sql}",
+      "#{contact_search_sql} OR #{contact_email_search_sql} OR #{contact_phone_search_sql}",
       search: "%#{search_query}%"
     )
 
@@ -233,6 +233,18 @@ class SearchService
         WHERE contact_emails.contact_id = contacts.id
           AND contact_emails.account_id = contacts.account_id
           AND contact_emails.email ILIKE :search
+      )
+    SQL
+  end
+
+  def contact_phone_search_sql
+    <<~SQL.squish
+      EXISTS (
+        SELECT 1
+        FROM contact_phones
+        WHERE contact_phones.contact_id = contacts.id
+          AND contact_phones.account_id = contacts.account_id
+          AND contact_phones.phone_number ILIKE :search
       )
     SQL
   end

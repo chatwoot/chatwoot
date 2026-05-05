@@ -327,10 +327,11 @@ RSpec.describe 'Contacts API', type: :request do
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
       let!(:contact1) { create(:contact, :with_email, account: account) }
-      let!(:contact2) { create(:contact, :with_email, name: 'testcontact', account: account, email: 'test@test.com') }
+      let!(:contact2) { create(:contact, :with_email, name: 'testcontact', account: account, email: 'test@test.com', phone_number: '+15551234567') }
 
       it 'returns all resolved contacts with contact inboxes' do
         create(:contact_email, contact: contact2, account: account, email: 'alias@test.com')
+        create(:contact_phone, contact: contact2, account: account, phone_number: '+15557654321')
 
         get "/api/v1/accounts/#{account.id}/contacts/search",
             params: { q: 'alias@test.com' },
@@ -342,6 +343,22 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response.body).to include(contact2.email)
         expect(response.body).not_to include(contact1.email)
         expect(response.parsed_body['payload'].first['email_addresses']).to contain_exactly('test@test.com', 'alias@test.com')
+        expect(response.parsed_body['payload'].first['phone_numbers']).to contain_exactly(contact2.phone_number, '+15557654321')
+      end
+
+      it 'returns contacts matching additional phone numbers' do
+        create(:contact_phone, contact: contact2, account: account, phone_number: '+15557654321')
+
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: '+15557654321' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(contact2.email)
+        expect(response.body).not_to include(contact1.email)
+        expect(response.parsed_body['payload'].first['additional_phones']).to eq(['+15557654321'])
+        expect(response.parsed_body['payload'].first['phone_numbers']).to contain_exactly(contact2.phone_number, '+15557654321')
       end
 
       it 'matches the contact ignoring the case in email' do

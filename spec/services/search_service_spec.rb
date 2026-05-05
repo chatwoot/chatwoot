@@ -90,6 +90,20 @@ describe SearchService do
 
         expect(search.perform[:contacts].pluck(:id).count(alias_contact.id)).to eq(1)
       end
+
+      it 'finds contacts by additional phone numbers' do
+        phone_contact = create(:contact, name: 'Phone Harry', phone_number: '+15551234567', account: account, last_activity_at: 5.minutes.ago)
+        create(:contact_phone, contact: phone_contact, account: account, phone_number: '+15557654321')
+
+        search = described_class.new(
+          current_user: user,
+          current_account: account,
+          params: { q: '+15557654321' },
+          search_type: 'Contact'
+        )
+
+        expect(search.perform[:contacts].map(&:id)).to include(phone_contact.id)
+      end
     end
 
     context 'when message search' do
@@ -277,6 +291,17 @@ describe SearchService do
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
 
         expect(search.perform[:conversations].pluck(:id)).to eq([alias_conversation.id])
+      end
+
+      it 'finds conversations by additional contact phone numbers' do
+        phone_contact = create(:contact, name: 'Phone Harry', phone_number: '+15551234567', account: account)
+        phone_conversation = create(:conversation, contact: phone_contact, inbox: inbox, account: account)
+        create(:contact_phone, contact: phone_contact, account: account, phone_number: '+15557654321')
+
+        params = { q: '+15557654321' }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
+
+        expect(search.perform[:conversations].pluck(:id)).to eq([phone_conversation.id])
       end
 
       it 'searches across conversations with display id' do

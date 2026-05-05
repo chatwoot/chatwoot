@@ -22,6 +22,27 @@ RSpec.describe LlmFormatter::ContactLlmFormatter do
 
         expect(formatter.format).to eq(expected_output)
       end
+
+      it 'includes additional contact points compactly' do
+        create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
+        create(:contact_phone, contact: contact, account: account, phone_number: '+15557654321')
+
+        expected_output = [
+          "Contact ID: ##{contact.id}",
+          'Contact Attributes:',
+          'Name: John Doe',
+          'Email: john@example.com',
+          'Additional emails: alias@example.com',
+          'Phone: +1234567890',
+          'Additional phones: +15557654321',
+          'Location: ',
+          'Country Code: ',
+          'Contact Notes:',
+          'No notes for this contact'
+        ].join("\n")
+
+        expect(formatter.format).to eq(expected_output)
+      end
     end
 
     context 'when contact has notes' do

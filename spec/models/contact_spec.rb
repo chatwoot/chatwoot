@@ -168,6 +168,32 @@ RSpec.describe Contact do
       expect(account.contacts.matching_phone_number(' +15551234567 ')).to contain_exactly(primary_contact)
       expect(account.contacts.matching_phone_number('+15559876543')).to contain_exactly(additional_contact)
     end
+
+    it 'includes contact point arrays in push event data' do
+      contact = create(:contact, account: account, email: 'primary@example.com', phone_number: '+15551234567')
+      create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
+      create(:contact_phone, contact: contact, account: account, phone_number: '+15557654321')
+
+      expect(contact.push_event_data).to include(
+        additional_emails: ['alias@example.com'],
+        email_addresses: %w[primary@example.com alias@example.com],
+        additional_phones: ['+15557654321'],
+        phone_numbers: %w[+15551234567 +15557654321]
+      )
+    end
+
+    it 'includes contact point arrays in webhook data' do
+      contact = create(:contact, account: account, email: 'primary@example.com', phone_number: '+15551234567')
+      create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
+      create(:contact_phone, contact: contact, account: account, phone_number: '+15557654321')
+
+      expect(contact.webhook_data).to include(
+        additional_emails: ['alias@example.com'],
+        email_addresses: %w[primary@example.com alias@example.com],
+        additional_phones: ['+15557654321'],
+        phone_numbers: %w[+15551234567 +15557654321]
+      )
+    end
   end
 
   context 'when city and country code passed in additional attributes' do

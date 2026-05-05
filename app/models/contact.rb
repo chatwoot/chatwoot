@@ -172,12 +172,16 @@ class Contact < ApplicationRecord
   def push_event_data
     {
       additional_attributes: additional_attributes,
+      additional_emails: additional_emails,
+      additional_phones: additional_phones,
       custom_attributes: custom_attributes,
       email: email,
+      email_addresses: all_emails,
       id: id,
       identifier: identifier,
       name: name,
       phone_number: phone_number,
+      phone_numbers: all_phone_numbers,
       thumbnail: avatar_url,
       blocked: blocked,
       type: 'contact'
@@ -188,13 +192,17 @@ class Contact < ApplicationRecord
     {
       account: account.webhook_data,
       additional_attributes: additional_attributes,
+      additional_emails: additional_emails,
+      additional_phones: additional_phones,
       avatar: avatar_url,
       custom_attributes: custom_attributes,
       email: email,
+      email_addresses: all_emails,
       id: id,
       identifier: identifier,
       name: name,
       phone_number: phone_number,
+      phone_numbers: all_phone_numbers,
       thumbnail: avatar_url,
       blocked: blocked
     }
