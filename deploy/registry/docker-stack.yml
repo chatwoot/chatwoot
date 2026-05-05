@@ -1,0 +1,57 @@
+version: "3.8"
+
+# Registry self-hosted para imagens privadas do fork Synapseos.
+# Sobe atrás do Traefik com HTTPS (Let's Encrypt) e basic auth.
+#
+# Pré-requisitos antes do deploy:
+#   1. DNS A: registry.dexidigital.com.br -> 158.69.63.140
+#   2. Network overlay externa do Traefik (ajustar o nome em `networks.traefik` se diferente)
+#   3. Cert resolver `letsencrypt` configurado no Traefik (ajustar se diferente)
+#   4. Gerar htpasswd:
+#        docker run --rm --entrypoint htpasswd httpd:2 -Bbn synapseos '<senha-forte>' > deploy/registry/htpasswd
+#      Copiar o arquivo para a VPS em /opt/registry/htpasswd antes do `docker stack deploy`.
+#
+# Deploy:
+#   docker stack deploy -c docker-stack.yml registry
+
+services:
+  registry:
+    image: registry:2
+    environment:
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: "Synapseos Registry"
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+      REGISTRY_STORAGE_DELETE_ENABLED: "true"
+      REGISTRY_HTTP_HEADERS_X-Content-Type-Options: "[nosniff]"
+    volumes:
+      - registry_data:/var/lib/registry
+      - /opt/registry/htpasswd:/auth/htpasswd:ro
+    networks:
+      - dexinet
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=dexinet
+        - traefik.http.routers.registry.rule=Host(`registry.dexidigital.com.br`)
+        - traefik.http.routers.registry.entrypoints=websecure
+        - traefik.http.routers.registry.tls=true
+        - traefik.http.routers.registry.tls.certresolver=letsencryptresolver
+        - traefik.http.services.registry.loadbalancer.server.port=5000
+        # Permitir uploads grandes de camadas Docker (default 1MB é insuficiente)
+        - traefik.http.middlewares.registry-buffer.buffering.maxRequestBodyBytes=10000000000
+        - traefik.http.routers.registry.middlewares=registry-buffer
+
+volumes:
+  registry_data:
+    driver: local
+
+networks:
+  dexinet:
+    external: true
+    name: dexinet
