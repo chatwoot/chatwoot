@@ -22,6 +22,10 @@
       "UPDATE_SUCCESFUL": "Beszélgetés státusza sikeresen frissítve ",
       "UPDATE_FAILED": "Nem sikerült frissíteni a beszélgetéseket. Kérjük, próbálja újra."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Címkék hozzárendelése",
       "NO_LABELS_FOUND": "Nem találtunk címkét",

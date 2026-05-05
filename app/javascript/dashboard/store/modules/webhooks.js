@@ -42,6 +42,7 @@ export const actions = {
       } = response.data;
       commit(types.default.ADD_WEBHOOK, webhook);
       commit(types.default.SET_WEBHOOK_UI_FLAG, { creatingItem: false });
+      return webhook;
     } catch (error) {
       commit(types.default.SET_WEBHOOK_UI_FLAG, { creatingItem: false });
       throw error;

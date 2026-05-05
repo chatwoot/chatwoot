@@ -105,15 +105,19 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def message_params
+    content_attributes = {
+      in_reply_to_external_id: response.in_reply_to_external_id
+    }
+    content_attributes[:external_echo] = true if @outgoing_echo
+
     {
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: @message_type,
+      status: @outgoing_echo ? :delivered : :sent,
       content: response.content,
       source_id: response.identifier,
-      content_attributes: {
-        in_reply_to_external_id: response.in_reply_to_external_id
-      },
+      content_attributes: content_attributes,
       sender: @outgoing_echo ? nil : @contact_inbox.contact
     }
   end

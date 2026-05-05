@@ -49,7 +49,11 @@ const rules = computed(() => ({
       props.attribute.regexPattern && {
         regexValidation: value => {
           if (!value) return true;
-          return getRegexp(props.attribute.regexPattern).test(value);
+          try {
+            return getRegexp(props.attribute.regexPattern).test(value);
+          } catch {
+            return false;
+          }
         },
       }),
   },

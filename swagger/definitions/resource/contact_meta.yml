@@ -4,5 +4,7 @@ properties:
     type: integer
     description: Total number of contacts
   current_page:
-    type: string
-    description: Current page number 
+    type:
+      - string
+      - integer
+    description: Current page number

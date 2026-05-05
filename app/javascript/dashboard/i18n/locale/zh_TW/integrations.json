@@ -1,417 +1,461 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "刪除 Shopify 整合",
+        "MESSAGE": "您確定要刪除 Shopify 整合嗎？"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
-        "LABEL": "Store URL",
+        "TITLE": "連接 Shopify 商店",
+        "LABEL": "商店網址",
         "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "HELP": "請輸入您的 Shopify 商店的 myshopify.com 網址",
         "CANCEL": "取消",
-        "SUBMIT": "Connect Store"
+        "SUBMIT": "連接商店"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "連接 Shopify 時發生錯誤。請重試，若問題持續存在，請聯繫支援團隊。"
     },
-    "HEADER": "整合方式",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
-    "LOADING": "Fetching integrations",
+    "HEADER": "整合",
+    "DESCRIPTION": "Chatwoot 可與多種工具和服務整合，以提升團隊效率。請瀏覽以下列表來設定您常用的應用程式。",
+    "LEARN_MORE": "進一步瞭解整合功能",
+    "LOADING": "正在取得整合資訊",
+    "SEARCH_PLACEHOLDER": "搜尋整合...",
+    "NO_RESULTS": "找不到符合搜尋條件的整合",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
-      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "DISABLED": "您的帳戶尚未啟用 Captain。",
+      "CLICK_HERE_TO_CONFIGURE": "點此進行設定",
+      "LOADING_CONSOLE": "正在載入 Captain 控制台...",
+      "FAILED_TO_LOAD_CONSOLE": "無法載入 Captain 控制台。請重新整理頁面後再試一次。"
     },
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
-      "LEARN_MORE": "Learn more about webhooks",
+      "SUBSCRIBED_EVENTS": "已訂閱的事件",
+      "LEARN_MORE": "進一步瞭解 webhook",
+      "SECRET": {
+        "LABEL": "密鑰",
+        "COPY": "複製密鑰至剪貼簿",
+        "COPY_SUCCESS": "密鑰已複製至剪貼簿",
+        "TOGGLE": "切換密鑰顯示",
+        "CREATED_DESC": "您的 webhook 已建立。請使用以下密鑰來驗證 webhook 簽章。請立即複製——您也可以稍後在 webhook 編輯表單中找到它。",
+        "DONE": "完成"
+      },
+      "COUNT": "{n} 個 webhook",
+      "SEARCH_PLACEHOLDER": "搜尋 webhook...",
+      "NO_RESULTS": "找不到符合搜尋條件的 webhook",
       "FORM": {
         "CANCEL": "取消",
-        "DESC": "Webhook 事件為您提供了有關 Chatwoot 帳戶中發生的事情的即時資訊。請輸入一個有效的URL來配置回呼。",
+        "DESC": "Webhook 事件為您提供 Chatwoot 帳戶中即時發生的事件資訊。請輸入有效的 URL 來設定回呼。",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "事件",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated",
-            "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_CREATED": "對話已建立",
+            "CONVERSATION_STATUS_CHANGED": "對話狀態已變更",
+            "CONVERSATION_UPDATED": "對話已更新",
+            "MESSAGE_CREATED": "訊息已建立",
+            "MESSAGE_UPDATED": "訊息已更新",
+            "WEBWIDGET_TRIGGERED": "使用者開啟了即時聊天小工具",
+            "CONTACT_CREATED": "聯絡人已建立",
+            "CONTACT_UPDATED": "聯絡人已更新",
+            "CONVERSATION_TYPING_ON": "對話正在輸入",
+            "CONVERSATION_TYPING_OFF": "對話停止輸入"
           }
         },
         "NAME": {
-          "LABEL": "Webhook Name",
-          "PLACEHOLDER": "Enter the name of the webhook"
+          "LABEL": "Webhook 名稱",
+          "PLACEHOLDER": "請輸入 webhook 的名稱"
         },
         "END_POINT": {
           "LABEL": "Webhook 網址",
-          "PLACEHOLDER": "Example: {webhookExampleURL}",
-          "ERROR": "請輸入一個有效的 URL"
+          "PLACEHOLDER": "範例：{webhookExampleURL}",
+          "ERROR": "請輸入有效的 URL"
         },
-        "EDIT_SUBMIT": "Update webhook",
+        "EDIT_SUBMIT": "更新 webhook",
         "ADD_SUBMIT": "建立 webhook"
       },
-      "TITLE": "回呼接口位址",
-      "CONFIGURE": "配置",
+      "TITLE": "Webhook",
+      "CONFIGURE": "設定",
       "HEADER": "Webhook 設定",
       "HEADER_BTN_TXT": "建立新的 webhook",
-      "LOADING": "正在取得已建立的 webhooks",
-      "SEARCH_404": "没有任何項目符合此查詢",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks 是 HTTP 回呼，可以為每個帳戶定義的。 他們是由諸如在 Chatwoot 中建立消息等事件所觸發的。您可以為此帳戶建立多個 webhook。 <br /><br /> 建立一個 <b>webhook</b>, 點擊 <b>建立新的 webhook</b> 按鈕。 您也可以通過點擊刪除按鈕刪除任何現有的 webhook。</p>",
+      "LOADING": "正在取得已建立的 webhook",
+      "SEARCH_404": "沒有任何項目符合此查詢",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhook 是可以為每個帳戶定義的 HTTP 回呼。它們會被 Chatwoot 中的事件（例如建立訊息）所觸發。您可以為此帳戶建立多個 webhook。 <br /><br /> 若要建立 <b>webhook</b>，請點擊 <b>建立新的 webhook</b> 按鈕。您也可以點擊刪除按鈕來移除現有的 webhook。</p>",
       "LIST": {
-        "404": "此帳戶没有配置 webhooks。",
-        "TITLE": "管理 webhooks",
+        "404": "此帳戶尚未設定任何 webhook。",
+        "TITLE": "管理 webhook",
         "TABLE_HEADER": {
-          "WEBHOOK_ENDPOINT": "Webhook 端点",
+          "WEBHOOK_ENDPOINT": "Webhook 端點",
           "ACTIONS": "操作"
         }
       },
       "EDIT": {
         "BUTTON_TEXT": "編輯",
-        "TITLE": "編輯 Webhook",
+        "TITLE": "編輯 webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "SUCCESS_MESSAGE": "Webhook 設定已成功更新",
           "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
         }
       },
       "ADD": {
-        "CANCEL": "取消操作",
+        "CANCEL": "取消",
         "TITLE": "建立新的 webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "SUCCESS_MESSAGE": "Webhook 設定已成功新增",
           "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "刪除",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook 刪除成功",
+          "SUCCESS_MESSAGE": "Webhook 已成功刪除",
           "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
         },
         "CONFIRM": {
           "TITLE": "確認刪除",
-          "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
-          "YES": "是，刪除 ",
-          "NO": "否，保留它"
+          "MESSAGE": "您確定要刪除此 webhook 嗎？（{webhookURL}）",
+          "YES": "是，刪除",
+          "NO": "否，保留"
         }
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "刪除",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "刪除整合",
+        "MESSAGE": "您確定要刪除此整合嗎？刪除後將無法再從您的 Slack 工作區存取對話。"
       },
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
-        "SELECTED": "selected"
+        "TITLE": "如何使用 Slack 整合？",
+        "BODY": "透過此整合，您所有的傳入對話都將同步至 Slack 工作區中的 ***{selectedChannelName}*** 頻道。您可以直接在該頻道中管理所有客戶對話，不再錯過任何訊息。\n\n以下是此整合的主要功能：\n\n**在 Slack 中回覆對話：**若要在 ***{selectedChannelName}*** Slack 頻道中回覆對話，只需輸入您的訊息並以討論串方式傳送。這將透過 Chatwoot 回覆給客戶。就是這麼簡單！\n\n**建立私人備註：**如果您想建立私人備註而非回覆，請在訊息開頭加上 ***`note:`***。這可確保您的訊息為私密內容，客戶無法看見。\n\n**關聯客服人員個人資料：**如果在 Slack 上回覆的人在 Chatwoot 中擁有相同電子郵件的客服人員個人資料，回覆將自動與該客服人員個人資料關聯。這表示您可以輕鬆追蹤誰在何時說了什麼。另一方面，當回覆者沒有關聯的客服人員個人資料時，回覆將以機器人個人資料的身分顯示給客戶。",
+        "SELECTED": "已選擇"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
+        "OPTION_LABEL": "選擇頻道",
         "UPDATE": "更新",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "BUTTON_TEXT": "連接頻道",
+        "DESCRIPTION": "您的 Slack 工作區已與 Chatwoot 連結。但整合目前處於非啟用狀態。若要啟用整合並將頻道連接至 Chatwoot，請點擊下方按鈕。\n\n**注意：**如果您嘗試連接私人頻道，請先將 Chatwoot 應用程式加入該 Slack 頻道，再進行此步驟。",
+        "ATTENTION_REQUIRED": "需要注意",
+        "EXPIRED": "您的 Slack 整合已過期。若要繼續在 Slack 上接收訊息，請刪除此整合並重新連接您的工作區。"
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "更新整合時發生錯誤，請重試",
+      "UPDATE_SUCCESS": "頻道已成功連接",
+      "FAILED_TO_FETCH_CHANNELS": "從 Slack 取得頻道時發生錯誤，請重試"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "點此加入",
+      "LEAVE_THE_ROOM": "離開房間",
+      "START_VIDEO_CALL_HELP_TEXT": "與客戶開始新的視訊通話",
+      "JOIN_ERROR": "加入通話時發生錯誤，請重試",
+      "CREATE_ERROR": "建立會議連結時發生錯誤，請重試"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " {option} with AI ",
+      "AI_ASSIST": "AI 輔助",
+      "WITH_AI": " 使用 AI {option} ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "回覆建議",
+        "SUMMARIZE": "摘要",
+        "REPHRASE": "改善文筆",
+        "FIX_SPELLING_GRAMMAR": "修正拼寫和文法",
+        "SHORTEN": "縮短",
+        "EXPAND": "展開",
+        "MAKE_FRIENDLY": "將訊息語氣改為親切",
+        "MAKE_FORMAL": "使用正式語氣",
+        "SIMPLIFY": "簡化",
+        "CONFIDENT": "使用自信語氣",
+        "PROFESSIONAL": "使用專業語氣",
+        "CASUAL": "使用輕鬆語氣",
+        "STRAIGHTFORWARD": "使用直白語氣"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "改善回覆",
+        "IMPROVE_REPLY_SELECTION": "改善選取內容",
+        "CHANGE_TONE": {
+          "TITLE": "變更語氣",
+          "OPTIONS": {
+            "PROFESSIONAL": "專業",
+            "CASUAL": "輕鬆",
+            "STRAIGHTFORWARD": "直白",
+            "CONFIDENT": "自信",
+            "FRIENDLY": "親切"
+          }
+        },
+        "GRAMMAR": "修正文法與拼寫",
+        "SUGGESTION": "建議回覆",
+        "SUMMARIZE": "摘要對話",
+        "ASK_COPILOT": "詢問 Copilot"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "草稿內容",
+        "GENERATED_TITLE": "生成內容",
+        "AI_WRITING": "AI 正在撰寫",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
+          "APPLY": "使用此建議",
           "CANCEL": "取消"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "與 OpenAI 整合",
+        "DESC": "透過 OpenAI 的 GPT 模型為您的儀表板帶來進階 AI 功能。請輸入您 OpenAI 帳戶的 API 金鑰以開始使用。",
+        "KEY_PLACEHOLDER": "請輸入您的 OpenAI API 金鑰",
         "BUTTONS": {
-          "NEED_HELP": "Need help?",
-          "DISMISS": "Dismiss",
-          "FINISH": "Finish Setup"
+          "NEED_HELP": "需要幫助？",
+          "DISMISS": "關閉",
+          "FINISH": "完成設定"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "您可以在任何時候設定 OpenAI 整合。",
+        "SUCCESS_MESSAGE": "OpenAI 整合設定成功"
       },
-      "TITLE": "Improve With AI",
-      "SUMMARY_TITLE": "Summary with AI",
-      "REPLY_TITLE": "Reply suggestion with AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "使用 AI 改善",
+      "SUMMARY_TITLE": "AI 摘要",
+      "REPLY_TITLE": "AI 回覆建議",
+      "SUBTITLE": "系統將根據您目前的草稿，使用 AI 生成改善後的回覆。",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "語氣",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "專業",
+          "FRIENDLY": "親切"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
+        "GENERATE": "生成",
+        "GENERATING": "生成中...",
         "CANCEL": "取消"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please try again"
+      "GENERATE_ERROR": "處理內容時發生錯誤，請確認您的 OpenAI API 金鑰後再試一次"
     },
     "DELETE": {
       "BUTTON_TEXT": "刪除",
       "API": {
-        "SUCCESS_MESSAGE": "已成功刪除"
+        "SUCCESS_MESSAGE": "整合已成功刪除"
       }
     },
     "CONNECT": {
       "BUTTON_TEXT": "連接"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
-      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "TITLE": "儀表板應用程式",
+      "HEADER_BTN_TXT": "新增儀表板應用程式",
+      "SIDEBAR_TXT": "<p><b>儀表板應用程式</b></p><p>儀表板應用程式允許組織在 Chatwoot 儀表板中嵌入應用程式，為客服人員提供相關資訊。此功能讓您可以獨立建立應用程式，並將其嵌入儀表板中，提供使用者資訊、訂單記錄或過往付款歷史。</p><p>當您透過 Chatwoot 儀表板嵌入應用程式時，您的應用程式將以 window event 的形式接收對話和聯絡人的上下文資訊。請在您的頁面上實作 message event 監聽器以接收上下文。</p><p>若要新增儀表板應用程式，請點擊「新增儀表板應用程式」按鈕。</p>",
+      "DESCRIPTION": "儀表板應用程式允許組織在儀表板中嵌入應用程式，為客服人員提供相關資訊。此功能讓您可以獨立建立應用程式，並將其嵌入以提供使用者資訊、訂單記錄或過往付款歷史。",
+      "LEARN_MORE": "進一步瞭解儀表板應用程式",
+      "COUNT": "{n} 個儀表板應用程式",
+      "SEARCH_PLACEHOLDER": "搜尋儀表板應用程式...",
+      "NO_RESULTS": "找不到符合搜尋條件的儀表板應用程式",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "此帳戶尚未設定任何儀表板應用程式",
+        "LOADING": "正在取得儀表板應用程式...",
         "TABLE_HEADER": {
-          "NAME": "姓名",
-          "ENDPOINT": "Endpoint"
+          "NAME": "名稱",
+          "ENDPOINT": "端點",
+          "ACTIONS": "操作"
         },
         "EDIT_TOOLTIP": "編輯應用程式",
         "DELETE_TOOLTIP": "刪除應用程式"
       },
       "FORM": {
-        "TITLE_LABEL": "姓名",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_LABEL": "名稱",
+        "TITLE_PLACEHOLDER": "請輸入儀表板應用程式的名稱",
+        "TITLE_ERROR": "儀表板應用程式名稱為必填",
+        "URL_LABEL": "端點",
+        "URL_PLACEHOLDER": "請輸入應用程式託管的端點 URL",
+        "URL_ERROR": "請輸入有效的 URL"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "新增儀表板應用程式",
         "FORM_SUBMIT": "送出",
         "FORM_CANCEL": "取消",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "儀表板應用程式已成功設定",
+        "API_ERROR": "無法建立應用程式，請稍後再試"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "編輯儀表板應用程式",
         "FORM_SUBMIT": "更新",
         "FORM_CANCEL": "取消",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "無法更新應用程式，請稍後再試。"
+        "API_SUCCESS": "儀表板應用程式已成功更新",
+        "API_ERROR": "無法更新應用程式，請稍後再試"
       },
       "DELETE": {
         "CONFIRM_YES": "是，刪除",
         "CONFIRM_NO": "否，保留",
-        "TITLE": "刪除確認",
-        "MESSAGE": "你確定要刪除應用程式 {appName} 嗎？",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "TITLE": "確認刪除",
+        "MESSAGE": "您確定要刪除應用程式 {appName} 嗎？",
+        "API_SUCCESS": "儀表板應用程式已成功刪除",
+        "API_ERROR": "無法刪除應用程式，請稍後再試"
       }
     },
     "LINEAR": {
-      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "HEADER": "Linear",
+      "ADD_OR_LINK_BUTTON": "建立/連結 Linear 議題",
+      "LOADING": "正在取得 Linear 議題...",
+      "LOADING_ERROR": "取得 Linear 議題時發生錯誤，請重試",
       "CREATE": "建立",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
+        "SEARCH": "搜尋議題",
+        "SELECT": "選擇議題",
         "TITLE": "連結",
-        "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
-        "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "EMPTY_LIST": "找不到 Linear 議題",
+        "LOADING": "載入中",
+        "ERROR": "取得 Linear 議題時發生錯誤，請重試",
+        "LINK_SUCCESS": "議題已成功連結",
+        "LINK_ERROR": "連結議題時發生錯誤，請重試",
+        "LINK_TITLE": "對話（#{conversationId}）與 {name}"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "TITLE": "建立/連結 Linear 議題",
+        "DESCRIPTION": "從對話中建立 Linear 議題，或連結現有議題以進行無縫追蹤。",
         "FORM": {
           "TITLE": {
             "LABEL": "標題",
-            "PLACEHOLDER": "Enter title",
+            "PLACEHOLDER": "請輸入標題",
             "REQUIRED_ERROR": "標題為必填"
           },
           "DESCRIPTION": {
-            "LABEL": "描述資訊",
-            "PLACEHOLDER": "Enter description"
+            "LABEL": "描述",
+            "PLACEHOLDER": "請輸入描述"
           },
           "TEAM": {
-            "LABEL": "Team",
+            "LABEL": "團隊",
             "PLACEHOLDER": "選擇團隊",
-            "SEARCH": "Search team",
-            "REQUIRED_ERROR": "Team is required"
+            "SEARCH": "搜尋團隊",
+            "REQUIRED_ERROR": "團隊為必填"
           },
           "ASSIGNEE": {
-            "LABEL": "Assignee",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "LABEL": "負責人",
+            "PLACEHOLDER": "選擇負責人",
+            "SEARCH": "搜尋負責人"
           },
           "PRIORITY": {
             "LABEL": "優先程度",
-            "PLACEHOLDER": "Select priority",
-            "SEARCH": "Search priority"
+            "PLACEHOLDER": "選擇優先程度",
+            "SEARCH": "搜尋優先程度"
           },
           "LABEL": {
-            "LABEL": "Label",
-            "PLACEHOLDER": "Select label",
-            "SEARCH": "Search label"
+            "LABEL": "標籤",
+            "PLACEHOLDER": "選擇標籤",
+            "SEARCH": "搜尋標籤"
           },
           "STATUS": {
             "LABEL": "狀態",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "PLACEHOLDER": "選擇狀態",
+            "SEARCH": "搜尋狀態"
           },
           "PROJECT": {
-            "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "LABEL": "專案",
+            "PLACEHOLDER": "選擇專案",
+            "SEARCH": "搜尋專案"
           }
         },
         "CREATE": "建立",
         "CANCEL": "取消",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE_SUCCESS": "議題已成功建立",
+        "CREATE_ERROR": "建立議題時發生錯誤，請重試",
+        "LOADING_TEAM_ERROR": "取得團隊時發生錯誤，請重試",
+        "LOADING_TEAM_ENTITIES_ERROR": "取得團隊項目時發生錯誤，請重試"
       },
       "ISSUE": {
         "STATUS": "狀態",
         "PRIORITY": "優先程度",
-        "ASSIGNEE": "Assignee",
+        "ASSIGNEE": "負責人",
         "LABELS": "標籤",
-        "CREATED_AT": "Created at {createdAt}"
+        "CREATED_AT": "建立於 {createdAt}"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "TITLE": "取消連結",
+        "SUCCESS": "議題已成功取消連結",
+        "ERROR": "取消連結議題時發生錯誤，請重試"
       },
-      "NO_LINKED_ISSUES": "No linked issues found",
+      "NO_LINKED_ISSUES": "找不到已連結的議題",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
-        "CONFIRM": "是的，刪除",
+        "TITLE": "您確定要刪除此整合嗎？",
+        "MESSAGE": "您確定要刪除此整合嗎？",
+        "CONFIRM": "是，刪除",
         "CANCEL": "取消"
       },
       "CTA": {
-        "TITLE": "Connect to Linear",
-        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
-        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
-        "BUTTON_TEXT": "Connect Linear workspace"
+        "TITLE": "連接至 Linear",
+        "AGENT_DESCRIPTION": "Linear 工作區尚未連接。請聯繫您的管理員連接工作區以使用此整合。",
+        "DESCRIPTION": "Linear 工作區尚未連接。點擊下方按鈕連接您的工作區以使用此整合。",
+        "BUTTON_TEXT": "連接 Linear 工作區"
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
-        "CONFIRM": "是的，刪除",
+        "TITLE": "您確定要刪除 Notion 整合嗎？",
+        "MESSAGE": "刪除此整合將會移除對您 Notion 工作區的存取權限，並停止所有相關功能。",
+        "CONFIRM": "是，刪除",
         "CANCEL": "取消"
       }
     }
   },
   "CAPTAIN": {
     "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "瞭解更多",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "助理",
+      "SWITCH_ASSISTANT": "切換助理",
+      "NEW_ASSISTANT": "建立助理",
+      "EMPTY_LIST": "找不到助理，請先建立一個以開始使用"
     },
     "COPILOT": {
       "TITLE": "Copilot",
-      "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "TRY_THESE_PROMPTS": "試試這些提示",
+      "PANEL_TITLE": "開始使用 Copilot",
+      "KICK_OFF_MESSAGE": "需要快速摘要、想查看過去的對話，或草擬更好的回覆？Copilot 在此幫您加速處理。",
       "SEND_MESSAGE": "傳送訊息...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
-      "YOU": "You",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "EMPTY_MESSAGE": "生成回應時發生錯誤，請重試。",
+      "LOADER": "Captain 正在思考",
+      "YOU": "您",
+      "USE": "使用此內容",
+      "RESET": "重設",
+      "SHOW_STEPS": "顯示步驟",
+      "SELECT_ASSISTANT": "選擇助理",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "摘要此對話",
+          "CONTENT": "請摘要客戶與客服人員之間討論的重點，包括客戶的疑慮、問題，以及客服人員提供的解決方案或回覆"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "建議回覆",
+          "CONTENT": "請分析客戶的詢問，並草擬一份能有效解決其疑慮或問題的回覆。確保回覆清晰、簡潔且提供有用的資訊。"
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "評分此對話",
+          "CONTENT": "請檢視此對話是否滿足客戶的需求。根據語氣、清晰度和有效性，提供 1 至 5 的評分。"
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "高優先程度對話",
+          "CONTENT": "請提供所有高優先程度未結對話的摘要。包含對話 ID、客戶名稱（如有）、最後一則訊息內容以及指派的客服人員。如相關請按狀態分組。"
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "列出聯絡人",
+          "CONTENT": "請顯示前 10 名聯絡人。包含名稱、電子郵件或電話號碼（如有）、最後上線時間、標籤（如有）。"
         }
       }
     },
     "PLAYGROUND": {
-      "USER": "You",
-      "ASSISTANT": "Assistant",
-      "MESSAGE_PLACEHOLDER": "輸入你的訊息...",
+      "USER": "您",
+      "ASSISTANT": "助理",
+      "MESSAGE_PLACEHOLDER": "輸入您的訊息...",
       "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "DESCRIPTION": "使用此 Playground 向您的助理傳送訊息，檢查其回應是否準確、快速且符合您期望的語氣。",
+      "CREDIT_NOTE": "在此傳送的訊息將計入您的 Captain 額度。"
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "升級以使用 Captain AI",
+      "AVAILABLE_ON": "免費方案不提供 Captain。",
+      "UPGRADE_PROMPT": "升級您的方案以取得助理、Copilot 等功能的存取權限。",
+      "UPGRADE_NOW": "立即升級",
+      "CANCEL_ANYTIME": "您可以隨時更改或取消方案"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "Captain AI 僅在企業方案中提供。",
+      "UPGRADE_PROMPT": "升級您的方案以取得助理、Copilot 等功能的存取權限。",
+      "ASK_ADMIN": "請聯繫您的管理員進行升級。"
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "您已使用超過 80% 的回應額度。若要繼續使用 Captain AI，請升級方案。",
+      "DOCUMENTS": "文件額度已用完。請升級以繼續使用 Captain AI。"
     },
     "FORM": {
       "CANCEL": "取消",
@@ -419,246 +463,247 @@
       "EDIT": "更新"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
-      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
-      "ADD_NEW": "Create a new assistant",
+      "HEADER": "助理",
+      "NO_ASSISTANTS_AVAILABLE": "您的帳戶中沒有可用的助理。",
+      "ADD_NEW": "建立新助理",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-        "CONFIRM": "是的，刪除",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "TITLE": "您確定要刪除此助理嗎？",
+        "DESCRIPTION": "此操作不可復原。刪除此助理將會從所有已連接的收件匣中移除，並永久清除所有已生成的知識。",
+        "CONFIRM": "是，刪除",
+        "SUCCESS_MESSAGE": "助理已成功刪除",
+        "ERROR_MESSAGE": "刪除助理時發生錯誤，請重試。"
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "請填寫以下資訊，為您的助理命名、描述其用途，並指定其支援的產品。",
       "CREATE": {
-        "TITLE": "Create an assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "TITLE": "建立助理",
+        "SUCCESS_MESSAGE": "助理已成功建立",
+        "ERROR_MESSAGE": "建立助理時發生錯誤，請重試。"
       },
       "FORM": {
         "UPDATE": "更新",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
-          "FEATURES": "Features",
-          "TOOLS": "Tools "
+          "BASIC_INFO": "基本資訊",
+          "SYSTEM_MESSAGES": "系統訊息",
+          "INSTRUCTIONS": "指示",
+          "FEATURES": "功能",
+          "TOOLS": "工具"
         },
         "NAME": {
-          "LABEL": "姓名",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "LABEL": "名稱",
+          "PLACEHOLDER": "請輸入助理名稱",
+          "ERROR": "名稱為必填"
         },
         "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
+          "LABEL": "回應溫度",
+          "DESCRIPTION": "調整助理回應的創造性或限制性。較低的值會產生更聚焦且確定性的回應，而較高的值則允許更多創意和多樣化的輸出。"
         },
         "DESCRIPTION": {
-          "LABEL": "描述資訊",
-          "PLACEHOLDER": "Enter assistant description",
-          "ERROR": "The description is required"
+          "LABEL": "描述",
+          "PLACEHOLDER": "請輸入助理描述",
+          "ERROR": "描述為必填"
         },
         "PRODUCT_NAME": {
-          "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name",
-          "ERROR": "The product name is required"
+          "LABEL": "產品名稱",
+          "PLACEHOLDER": "請輸入產品名稱",
+          "ERROR": "產品名稱為必填"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "歡迎訊息",
+          "PLACEHOLDER": "請輸入歡迎訊息"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "轉接訊息",
+          "PLACEHOLDER": "請輸入轉接訊息"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "解決訊息",
+          "PLACEHOLDER": "請輸入解決訊息"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "LABEL": "指示",
+          "PLACEHOLDER": "請輸入給助理的指示"
         },
         "FEATURES": {
-          "TITLE": "Features",
-          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "TITLE": "功能",
+          "ALLOW_CONVERSATION_FAQS": "從已解決的對話生成常見問答",
+          "ALLOW_MEMORIES": "從客戶互動中擷取重要細節作為記憶。",
+          "ALLOW_CITATIONS": "在回應中包含來源引用",
+          "ALLOW_CONTACT_ATTRIBUTES": "允許存取聯絡人資訊"
         }
       },
       "EDIT": {
-        "TITLE": "Update the assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "TITLE": "更新助理",
+        "SUCCESS_MESSAGE": "助理已成功更新",
+        "ERROR_MESSAGE": "更新助理時發生錯誤，請重試。",
+        "NOT_FOUND": "找不到該助理，請重試。"
       },
       "SETTINGS": {
         "HEADER": "設定",
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "基本設定",
+          "DESCRIPTION": "自訂助理在結束對話或轉接給真人時的用語。"
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "系統設定",
+          "DESCRIPTION": "自訂助理在結束對話或轉接給真人時的用語。"
         },
         "CONTROL_ITEMS": {
-          "TITLE": "The Fun Stuff",
-          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "TITLE": "進階控制",
+          "DESCRIPTION": "為助理新增更多控制項目。（更視覺化的流程：查詢防護機制 → 情境 → 輸出）鼓勵您善加利用這些功能。",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Guardrails",
-              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+              "TITLE": "防護機制",
+              "DESCRIPTION": "確保回應保持正軌——僅回答您希望助理回答的問題類型，排除不當或離題的內容。"
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "TITLE": "回應準則",
+              "DESCRIPTION": "助理回覆的風格與結構——清楚友善？簡短精煉？詳細正式？"
             }
           }
         },
         "DELETE": {
-          "TITLE": "Delete Assistant",
-          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-          "BUTTON_TEXT": "Delete {assistantName}"
+          "TITLE": "刪除助理",
+          "DESCRIPTION": "此操作不可復原。刪除此助理將會從所有已連接的收件匣中移除，並永久清除所有已生成的知識。",
+          "BUTTON_TEXT": "刪除 {assistantName}"
         }
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Edit Assistant",
-        "DELETE_ASSISTANT": "Delete Assistant",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "EDIT_ASSISTANT": "編輯助理",
+        "DELETE_ASSISTANT": "刪除助理",
+        "VIEW_CONNECTED_INBOXES": "檢視已連接的收件匣"
       },
       "EMPTY_STATE": {
-        "TITLE": "No assistants available",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
+        "TITLE": "沒有可用的助理",
+        "SUBTITLE": "建立助理來為您的使用者提供快速且準確的回應。它可以從您的幫助文章和過去的對話中學習。",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "Captain 助理",
+          "NOTE": "Captain 助理可直接與客戶互動、從您的幫助文件和過往對話中學習，並提供即時、準確的回應。它會處理初始查詢，提供快速解決方案，必要時再轉接給客服人員。"
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "TITLE": "防護機制",
+        "DESCRIPTION": "確保回應保持正軌——僅回答您希望助理回答的問題類型，排除不當或離題的內容。",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECTED": "已選擇 {count} 個項目",
+          "SELECT_ALL": "全選（{count}）",
+          "UNSELECT_ALL": "取消全選（{count}）",
           "BULK_DELETE_BUTTON": "刪除"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "TITLE": "範例防護機制",
+            "ADD": "全部新增",
+            "ADD_SINGLE": "新增此項",
+            "SAVE": "新增並儲存（↵）",
+            "PLACEHOLDER": "輸入另一條防護機制..."
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
+            "TITLE": "新增防護機制",
             "CREATE": "建立",
             "CANCEL": "取消",
-            "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "PLACEHOLDER": "輸入另一條防護機制...",
+            "TEST_ALL": "全部測試"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "搜尋..."
         },
-        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "EMPTY_MESSAGE": "找不到防護機制。請建立或新增範例以開始。",
+        "SEARCH_EMPTY_MESSAGE": "找不到符合搜尋條件的防護機制。",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "防護機制已成功新增",
+            "ERROR": "新增防護機制時發生錯誤，請重試。"
           },
           "UPDATE": {
-            "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "SUCCESS": "防護機制已成功更新",
+            "ERROR": "更新防護機制時發生錯誤，請重試。"
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "SUCCESS": "防護機制已成功刪除",
+            "ERROR": "刪除防護機制時發生錯誤，請重試。"
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
-        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "TITLE": "回應準則",
+        "DESCRIPTION": "助理回覆的風格與結構——清楚友善？簡短精煉？詳細正式？",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECTED": "已選擇 {count} 個項目",
+          "SELECT_ALL": "全選（{count}）",
+          "UNSELECT_ALL": "取消全選（{count}）",
           "BULK_DELETE_BUTTON": "刪除"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example response guidelines",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another response guideline..."
+            "TITLE": "範例回應準則",
+            "ADD": "全部新增",
+            "ADD_SINGLE": "新增此項",
+            "SAVE": "新增並儲存（↵）",
+            "PLACEHOLDER": "輸入另一條回應準則..."
           },
           "NEW": {
-            "TITLE": "Add a response guideline",
+            "TITLE": "新增回應準則",
             "CREATE": "建立",
             "CANCEL": "取消",
-            "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "PLACEHOLDER": "輸入另一條回應準則...",
+            "TEST_ALL": "全部測試"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "搜尋..."
         },
-        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "EMPTY_MESSAGE": "找不到回應準則。請建立或新增範例以開始。",
+        "SEARCH_EMPTY_MESSAGE": "找不到符合搜尋條件的回應準則。",
         "API": {
           "ADD": {
-            "SUCCESS": "Response Guidelines added successfully",
-            "ERROR": "There was an error adding response guidelines, please try again."
+            "SUCCESS": "回應準則已成功新增",
+            "ERROR": "新增回應準則時發生錯誤，請重試。"
           },
           "UPDATE": {
-            "SUCCESS": "Response Guidelines updated successfully",
-            "ERROR": "There was an error updating response guidelines, please try again."
+            "SUCCESS": "回應準則已成功更新",
+            "ERROR": "更新回應準則時發生錯誤，請重試。"
           },
           "DELETE": {
-            "SUCCESS": "Response Guidelines deleted successfully",
-            "ERROR": "There was an error deleting response guidelines, please try again."
+            "SUCCESS": "回應準則已成功刪除",
+            "ERROR": "刪除回應準則時發生錯誤，請重試。"
           }
         }
       },
       "SCENARIOS": {
-        "TITLE": "Scenarios",
-        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "TITLE": "情境",
+        "DESCRIPTION": "為助理提供一些情境——例如「當使用者遇到困難時該怎麼做」或「如何處理退款請求」。",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECTED": "已選擇 {count} 個項目",
+          "SELECT_ALL": "全選（{count}）",
+          "UNSELECT_ALL": "取消全選（{count}）",
           "BULK_DELETE_BUTTON": "刪除"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example scenarios",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "TOOLS_USED": "Tools used :"
+            "TITLE": "範例情境",
+            "ADD": "全部新增",
+            "ADD_SINGLE": "新增此項",
+            "TOOLS_USED": "使用的工具："
           },
           "NEW": {
-            "CREATE": "Add a scenario",
-            "TITLE": "Create a scenario",
+            "CREATE": "新增情境",
+            "TITLE": "建立情境",
             "FORM": {
               "TITLE": {
                 "LABEL": "標題",
-                "PLACEHOLDER": "Enter a name for the scenario",
-                "ERROR": "Scenario name is required"
+                "PLACEHOLDER": "請輸入情境名稱",
+                "ERROR": "情境名稱為必填"
               },
               "DESCRIPTION": {
-                "LABEL": "描述資訊",
-                "PLACEHOLDER": "Describe how and where this scenario will be used",
-                "ERROR": "Scenario description is required"
+                "LABEL": "描述",
+                "PLACEHOLDER": "描述此情境的使用方式和時機",
+                "ERROR": "情境描述為必填"
               },
               "INSTRUCTION": {
-                "LABEL": "How to handle",
-                "PLACEHOLDER": "Describe how and where this scenario will be handled",
-                "ERROR": "Scenario content is required"
+                "LABEL": "處理方式",
+                "PLACEHOLDER": "描述此情境的處理方式和時機",
+                "ERROR": "情境內容為必填"
               },
               "CREATE": "建立",
               "CANCEL": "取消"
@@ -667,139 +712,170 @@
         },
         "UPDATE": {
           "CANCEL": "取消",
-          "UPDATE": "Update changes"
+          "UPDATE": "更新變更"
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "搜尋..."
         },
-        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "EMPTY_MESSAGE": "找不到情境。請建立或新增範例以開始。",
+        "SEARCH_EMPTY_MESSAGE": "找不到符合搜尋條件的情境。",
         "API": {
           "ADD": {
-            "SUCCESS": "Scenarios added successfully",
-            "ERROR": "There was an error adding scenarios, please try again."
+            "SUCCESS": "情境已成功新增",
+            "ERROR": "新增情境時發生錯誤，請重試。"
           },
           "UPDATE": {
-            "SUCCESS": "Scenarios updated successfully",
-            "ERROR": "There was an error updating scenarios, please try again."
+            "SUCCESS": "情境已成功更新",
+            "ERROR": "更新情境時發生錯誤，請重試。"
           },
           "DELETE": {
-            "SUCCESS": "Scenarios deleted successfully",
-            "ERROR": "There was an error deleting scenarios, please try again."
+            "SUCCESS": "情境已成功刪除",
+            "ERROR": "刪除情境時發生錯誤，請重試。"
           }
         }
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
-      "RELATED_RESPONSES": {
-        "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+      "HEADER": "文件",
+      "ADD_NEW": "建立新文件",
+      "SELECTED": "已選擇 {count} 個",
+      "SELECT_ALL": "全選（{count}）",
+      "UNSELECT_ALL": "取消全選（{count}）",
+      "BULK_DELETE_BUTTON": "刪除",
+      "BULK_DELETE": {
+        "TITLE": "刪除文件？",
+        "DESCRIPTION": "您確定要刪除所選的文件嗎？此操作無法復原。",
+        "CONFIRM": "是，全部刪除",
+        "SUCCESS_MESSAGE": "文件已成功刪除",
+        "ERROR_MESSAGE": "刪除文件時發生錯誤，請重試。"
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "RELATED_RESPONSES": {
+        "TITLE": "相關常見問答",
+        "DESCRIPTION": "這些常見問答是直接從文件中生成的。"
+      },
+      "FORM_DESCRIPTION": "請輸入文件的 URL 將其新增為知識來源，並選擇要關聯的助理。",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "TITLE": "新增文件",
+        "SUCCESS_MESSAGE": "文件已成功建立",
+        "ERROR_MESSAGE": "建立文件時發生錯誤，請重試。"
       },
       "FORM": {
         "TYPE": {
-          "LABEL": "Document Type",
+          "LABEL": "文件類型",
           "URL": "URL",
-          "PDF": "PDF File"
+          "PDF": "PDF 檔案"
         },
         "URL": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "PLACEHOLDER": "請輸入文件的 URL",
+          "ERROR": "請提供有效的文件 URL"
         },
         "PDF_FILE": {
-          "LABEL": "PDF File",
-          "CHOOSE_FILE": "Choose PDF file",
-          "ERROR": "Please select a PDF file",
-          "HELP_TEXT": "Maximum file size: 10MB",
-          "INVALID_TYPE": "Please select a valid PDF file",
-          "TOO_LARGE": "File size exceeds 10MB limit"
+          "LABEL": "PDF 檔案",
+          "CHOOSE_FILE": "選擇 PDF 檔案",
+          "ERROR": "請選擇一個 PDF 檔案",
+          "HELP_TEXT": "檔案大小上限：10MB",
+          "INVALID_TYPE": "請選擇有效的 PDF 檔案",
+          "TOO_LARGE": "檔案大小超過 10MB 限制"
         },
         "NAME": {
-          "LABEL": "Document Name (Optional)",
-          "PLACEHOLDER": "Enter a name for the document"
+          "LABEL": "文件名稱（選填）",
+          "PLACEHOLDER": "請輸入文件名稱"
         }
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the document?",
-        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
-        "CONFIRM": "是的，刪除",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "TITLE": "您確定要刪除此文件嗎？",
+        "DESCRIPTION": "此操作不可復原。刪除此文件將永久清除所有已生成的知識。",
+        "CONFIRM": "是，刪除",
+        "SUCCESS_MESSAGE": "文件已成功刪除",
+        "ERROR_MESSAGE": "刪除文件時發生錯誤，請重試。"
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "DELETE_DOCUMENT": "Delete Document"
+        "VIEW_RELATED_RESPONSES": "檢視相關回應",
+        "DELETE_DOCUMENT": "刪除文件"
       },
       "EMPTY_STATE": {
-        "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "TITLE": "沒有可用的文件",
+        "SUBTITLE": "文件可供助理生成常見問答。您可以匯入文件為助理提供知識來源。",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "TITLE": "Captain 文件",
+          "NOTE": "Captain 中的文件可作為助理的知識資源。透過連接您的幫助中心或指南，Captain 能分析內容並為客戶詢問提供準確的回應。"
         }
       }
     },
     "CUSTOM_TOOLS": {
-      "HEADER": "Tools",
-      "ADD_NEW": "Create a new tool",
+      "HEADER": "工具",
+      "ADD_NEW": "建立新工具",
+      "SOFT_LIMIT_WARNING": "擁有超過 10 個工具可能會降低助理選擇正確工具的可靠性。建議移除未使用的工具以獲得更好的效果。",
       "EMPTY_STATE": {
-        "TITLE": "No custom tools available",
-        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "TITLE": "沒有可用的自訂工具",
+        "SUBTITLE": "建立自訂工具將您的助理與外部 API 和服務連接，使其能夠代您取得資料並執行操作。",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Custom Tools",
-          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+          "TITLE": "自訂工具",
+          "NOTE": "自訂工具讓您的助理能與外部 API 和服務互動。建立工具以取得資料、執行操作，或與您現有的系統整合，以增強助理的能力。"
         }
       },
-      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "FORM_DESCRIPTION": "設定您的自訂工具以連接外部 API",
       "OPTIONS": {
-        "EDIT_TOOL": "Edit tool",
-        "DELETE_TOOL": "Delete tool"
+        "EDIT_TOOL": "編輯工具",
+        "DELETE_TOOL": "刪除工具"
       },
       "CREATE": {
-        "TITLE": "Create Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool created successfully",
-        "ERROR_MESSAGE": "Failed to create custom tool"
+        "TITLE": "建立自訂工具",
+        "SUCCESS_MESSAGE": "自訂工具已成功建立",
+        "ERROR_MESSAGE": "建立自訂工具失敗"
       },
       "EDIT": {
-        "TITLE": "Edit Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool updated successfully",
-        "ERROR_MESSAGE": "Failed to update custom tool"
+        "TITLE": "編輯自訂工具",
+        "SUCCESS_MESSAGE": "自訂工具已成功更新",
+        "ERROR_MESSAGE": "更新自訂工具失敗"
       },
       "DELETE": {
-        "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
-        "CONFIRM": "是的，刪除",
-        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete custom tool"
+        "TITLE": "刪除自訂工具",
+        "DESCRIPTION": "您確定要刪除此自訂工具嗎？此操作無法復原。",
+        "CONFIRM": "是，刪除",
+        "SUCCESS_MESSAGE": "自訂工具已成功刪除",
+        "ERROR_MESSAGE": "刪除自訂工具失敗"
+      },
+      "PAYWALL": {
+        "TITLE": "升級以在 Captain 中使用工具",
+        "AVAILABLE_ON": "Captain 工具僅適用於 Business 與 Enterprise 方案。請升級至 Business 方案以使用此功能。",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "開啟帳單",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain 工具僅適用於付費方案。",
+        "UPGRADE_PROMPT": "請升級至付費方案以使用此功能。",
+        "ASK_ADMIN": "請聯繫您的管理員進行升級。"
+      },
+      "TEST": {
+        "BUTTON": "測試連接",
+        "SUCCESS": "端點回傳 HTTP {status}",
+        "ERROR": "連接失敗",
+        "DISABLED_HINT": "測試功能僅適用於沒有範本或請求內容的端點。"
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Tool Name",
-          "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "LABEL": "工具名稱",
+          "PLACEHOLDER": "訂單查詢",
+          "ERROR": "工具名稱為必填",
+          "MAX_LENGTH_ERROR": "工具名稱不得超過 {max} 個字元"
         },
         "DESCRIPTION": {
-          "LABEL": "描述資訊",
-          "PLACEHOLDER": "Looks up order details by order ID"
+          "LABEL": "描述",
+          "PLACEHOLDER": "依訂單 ID 查詢訂單詳情"
         },
         "HTTP_METHOD": {
-          "LABEL": "Method"
+          "LABEL": "方法"
         },
         "ENDPOINT_URL": {
-          "LABEL": "Endpoint URL",
+          "LABEL": "端點 URL",
           "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
-          "ERROR": "Valid URL is required"
+          "ERROR": "請輸入有效的 URL"
         },
         "AUTH_TYPE": {
-          "LABEL": "Authentication Type"
+          "LABEL": "驗證類型"
         },
         "AUTH_TYPES": {
           "NONE": "無",
@@ -809,168 +885,168 @@
         },
         "AUTH_CONFIG": {
           "BEARER_TOKEN": "Bearer Token",
-          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
-          "USERNAME": "Username",
-          "USERNAME_PLACEHOLDER": "Enter username",
+          "BEARER_TOKEN_PLACEHOLDER": "請輸入您的 Bearer Token",
+          "USERNAME": "使用者名稱",
+          "USERNAME_PLACEHOLDER": "請輸入使用者名稱",
           "PASSWORD": "密碼",
-          "PASSWORD_PLACEHOLDER": "Enter password",
-          "API_KEY": "Header Name",
+          "PASSWORD_PLACEHOLDER": "請輸入密碼",
+          "API_KEY": "Header 名稱",
           "API_KEY_PLACEHOLDER": "X-API-Key",
-          "API_VALUE": "Header Value",
-          "API_VALUE_PLACEHOLDER": "Enter API key value"
+          "API_VALUE": "Header 值",
+          "API_VALUE_PLACEHOLDER": "請輸入 API Key 值"
         },
         "PARAMETERS": {
-          "LABEL": "Parameters",
-          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+          "LABEL": "參數",
+          "HELP_TEXT": "定義將從使用者查詢中提取的參數"
         },
-        "ADD_PARAMETER": "Add Parameter",
+        "ADD_PARAMETER": "新增參數",
         "PARAM_NAME": {
-          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+          "PLACEHOLDER": "參數名稱（例如 order_id）"
         },
         "PARAM_TYPE": {
-          "PLACEHOLDER": "類別"
+          "PLACEHOLDER": "類型"
         },
         "PARAM_TYPES": {
           "STRING": "String",
-          "NUMBER": "數字",
+          "NUMBER": "Number",
           "BOOLEAN": "Boolean",
           "ARRAY": "Array",
           "OBJECT": "Object"
         },
         "PARAM_DESCRIPTION": {
-          "PLACEHOLDER": "Description of the parameter"
+          "PLACEHOLDER": "參數描述"
         },
         "PARAM_REQUIRED": {
-          "LABEL": "Required"
+          "LABEL": "必填"
         },
         "REQUEST_TEMPLATE": {
-          "LABEL": "Request Body Template (Optional)",
+          "LABEL": "請求內容範本（選填）",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "Response Template (Optional)",
+          "LABEL": "回應範本（選填）",
           "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
         },
         "ERRORS": {
-          "PARAM_NAME_REQUIRED": "Parameter name is required"
+          "PARAM_NAME_REQUIRED": "參數名稱為必填"
         }
       }
     },
     "RESPONSES": {
-      "HEADER": "FAQs",
-      "PENDING_FAQS": "Pending FAQs",
-      "ADD_NEW": "Create new FAQ",
+      "HEADER": "常見問答",
+      "PENDING_FAQS": "待審核的常見問答",
+      "ADD_NEW": "建立新的常見問答",
       "DOCUMENTABLE": {
-        "CONVERSATION": "Conversation #{id}"
+        "CONVERSATION": "對話 #{id}"
       },
-      "SELECTED": "{count} selected",
-      "SELECT_ALL": "Select all ({count})",
-      "UNSELECT_ALL": "Unselect all ({count})",
-      "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Approve",
+      "SELECTED": "已選擇 {count} 個",
+      "SELECT_ALL": "全選（{count}）",
+      "UNSELECT_ALL": "取消全選（{count}）",
+      "SEARCH_PLACEHOLDER": "搜尋常見問答...",
+      "BULK_APPROVE_BUTTON": "核准",
       "BULK_DELETE_BUTTON": "刪除",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "常見問答已成功核准",
+        "ERROR_MESSAGE": "核准常見問答時發生錯誤，請重試。"
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "TITLE": "刪除常見問答？",
+        "DESCRIPTION": "您確定要刪除所選的常見問答嗎？此操作無法復原。",
+        "CONFIRM": "是，全部刪除",
+        "SUCCESS_MESSAGE": "常見問答已成功刪除",
+        "ERROR_MESSAGE": "刪除常見問答時發生錯誤，請重試。"
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the FAQ?",
+        "TITLE": "您確定要刪除此常見問答嗎？",
         "DESCRIPTION": "",
-        "CONFIRM": "是的，刪除",
-        "SUCCESS_MESSAGE": "FAQ deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+        "CONFIRM": "是，刪除",
+        "SUCCESS_MESSAGE": "常見問答已成功刪除",
+        "ERROR_MESSAGE": "刪除常見問答時發生錯誤，請重試。"
       },
       "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
-        "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "所有的"
+        "ASSISTANT": "助理：{selected}",
+        "STATUS": "狀態：{selected}",
+        "ALL_ASSISTANTS": "全部"
       },
       "STATUS": {
         "TITLE": "狀態",
-        "PENDING": "待處理",
-        "APPROVED": "Approved",
-        "ALL": "所有的"
+        "PENDING": "待審核",
+        "APPROVED": "已核准",
+        "ALL": "全部"
       },
       "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+        "TITLE": "Captain 發現了一些客戶正在尋找的常見問答。",
+        "ACTION": "點此檢視"
       },
-      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "FORM_DESCRIPTION": "新增問題及其對應的答案至知識庫，並選擇要關聯的助理。",
       "CREATE": {
-        "TITLE": "Add an FAQ",
-        "SUCCESS_MESSAGE": "The response has been added successfully.",
-        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+        "TITLE": "新增常見問答",
+        "SUCCESS_MESSAGE": "回應已成功新增。",
+        "ERROR_MESSAGE": "新增回應時發生錯誤，請重試。"
       },
       "FORM": {
         "QUESTION": {
-          "LABEL": "Question",
-          "PLACEHOLDER": "Enter the question here",
-          "ERROR": "Please provide a valid question."
+          "LABEL": "問題",
+          "PLACEHOLDER": "請在此輸入問題",
+          "ERROR": "請提供有效的問題。"
         },
         "ANSWER": {
-          "LABEL": "Answer",
-          "PLACEHOLDER": "Enter the answer here",
-          "ERROR": "Please provide a valid answer."
+          "LABEL": "答案",
+          "PLACEHOLDER": "請在此輸入答案",
+          "ERROR": "請提供有效的答案。"
         }
       },
       "EDIT": {
-        "TITLE": "Update the FAQ",
-        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
-        "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
+        "TITLE": "更新常見問答",
+        "SUCCESS_MESSAGE": "常見問答已成功更新",
+        "ERROR_MESSAGE": "更新常見問答時發生錯誤，請重試",
+        "APPROVE_SUCCESS_MESSAGE": "常見問答已標記為已核准"
       },
       "OPTIONS": {
-        "APPROVE": "Approve",
+        "APPROVE": "核准",
         "EDIT_RESPONSE": "編輯",
         "DELETE_RESPONSE": "刪除"
       },
       "EMPTY_STATE": {
-        "TITLE": "No FAQs Found",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
-        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
-        "CLEAR_SEARCH": "Clear active filters",
+        "TITLE": "找不到常見問答",
+        "NO_PENDING_TITLE": "沒有更多待審核的常見問答",
+        "SUBTITLE": "常見問答可幫助助理為客戶的問題提供快速且準確的回答。它們可以從您的內容自動生成，也可以手動新增。",
+        "CLEAR_SEARCH": "清除篩選條件",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "TITLE": "Captain 常見問答",
+          "NOTE": "Captain 常見問答會偵測常見的客戶問題——無論是知識庫中缺少的還是經常被問到的——並生成相關的常見問答以改善支援服務。您可以檢視每個建議並決定是否核准或拒絕。"
         }
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "已連接的收件匣",
+      "ADD_NEW": "連接新的收件匣",
       "OPTIONS": {
-        "DISCONNECT": "取消連結"
+        "DISCONNECT": "取消連接"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "您確定要取消連接此收件匣嗎？",
         "DESCRIPTION": "",
-        "CONFIRM": "是的，刪除",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "CONFIRM": "是，刪除",
+        "SUCCESS_MESSAGE": "收件匣已成功取消連接。",
+        "ERROR_MESSAGE": "取消連接收件匣時發生錯誤，請重試。"
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "選擇要與助理連接的收件匣。",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
-        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+        "TITLE": "連接收件匣",
+        "SUCCESS_MESSAGE": "收件匣已成功連接。",
+        "ERROR_MESSAGE": "連接收件匣時發生錯誤，請重試。"
       },
       "FORM": {
         "INBOX": {
           "LABEL": "收件匣",
-          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
-          "ERROR": "An inbox selection is required."
+          "PLACEHOLDER": "選擇要部署助理的收件匣。",
+          "ERROR": "必須選擇一個收件匣。"
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "TITLE": "沒有已連接的收件匣",
+        "SUBTITLE": "連接收件匣可讓助理在轉接給您之前，先處理客戶的初始問題。"
       }
     }
   }

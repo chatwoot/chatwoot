@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useAlert } from 'dashboard/composables';
+import { picoSearch } from '@scmmishra/pico-search';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import AddAttribute from './AddAttribute.vue';
 import EditAttribute from './EditAttribute.vue';
@@ -26,6 +27,7 @@ const inboxes = useMapGetter('inboxes/getInboxes');
 
 const [showAddPopup, toggleAddPopup] = useToggle(false);
 const selectedTabIndex = ref(0);
+const searchQuery = ref('');
 const uiFlags = computed(() => getters['attributes/getUIFlags'].value);
 const [showEditPopup, toggleEditPopup] = useToggle(false);
 const [showDeletePopup, toggleDeletePopup] = useToggle(false);
@@ -77,6 +79,7 @@ const attributes = computed(() =>
 
 const onClickTabChange = tab => {
   selectedTabIndex.value = tab.key;
+  searchQuery.value = '';
 };
 
 const handleEditAttribute = attribute => {
@@ -144,6 +147,16 @@ const derivedAttributes = computed(() =>
     badges: buildBadges(attribute),
   }))
 );
+
+const filteredAttributes = computed(() => {
+  const query = searchQuery.value.trim();
+  if (!query) return derivedAttributes.value;
+  return picoSearch(derivedAttributes.value, query, [
+    'attribute_display_name',
+    'attribute_key',
+    'attribute_description',
+  ]);
+});
 </script>
 
 <template>
@@ -153,31 +166,48 @@ const derivedAttributes = computed(() =>
   >
     <template #header>
       <BaseSettingsHeader
+        v-model:search-query="searchQuery"
         :title="$t('ATTRIBUTES_MGMT.HEADER')"
         :description="$t('ATTRIBUTES_MGMT.DESCRIPTION')"
         :link-text="$t('ATTRIBUTES_MGMT.LEARN_MORE')"
+        :search-placeholder="$t('ATTRIBUTES_MGMT.SEARCH_PLACEHOLDER')"
         feature-name="custom_attributes"
       >
+        <template v-if="attributes?.length" #count>
+          <span class="text-body-main text-n-slate-11 truncate min-w-0">
+            {{ $t('ATTRIBUTES_MGMT.COUNT', { n: attributes.length }) }}
+          </span>
+        </template>
+        <template #tabs>
+          <TabBar
+            :tabs="tabsForTabBar"
+            :initial-active-tab="selectedTabIndex"
+            @tab-changed="onClickTabChange"
+          />
+        </template>
         <template #actions>
           <Button
-            icon="i-lucide-circle-plus"
             :label="$t('ATTRIBUTES_MGMT.HEADER_BTN_TXT')"
+            size="sm"
             @click="openAddPopup"
           />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <div class="flex flex-col gap-6">
-        <TabBar
-          :tabs="tabsForTabBar"
-          :initial-active-tab="selectedTabIndex"
-          class="max-w-xl"
-          @tab-changed="onClickTabChange"
-        />
-        <div v-if="derivedAttributes.length" class="grid gap-3">
+      <div class="flex flex-col gap-4">
+        <span
+          v-if="!filteredAttributes.length && searchQuery"
+          class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
+        >
+          {{ $t('ATTRIBUTES_MGMT.NO_RESULTS') }}
+        </span>
+        <div
+          v-else-if="filteredAttributes.length"
+          class="flex flex-col divide-y divide-n-weak border-t border-n-weak"
+        >
           <AttributeListItem
-            v-for="attribute in derivedAttributes"
+            v-for="attribute in filteredAttributes"
             :key="attribute.id"
             :attribute="attribute"
             :badges="attribute.badges"

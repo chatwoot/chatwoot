@@ -54,6 +54,7 @@ describe('#dateFormat', () => {
 describe('#shortTimestamp', () => {
   // Test cases when withAgo is false or not provided
   it('returns correct value without ago', () => {
+    expect(shortTimestamp('in less than a minute')).toEqual('now');
     expect(shortTimestamp('less than a minute ago')).toEqual('now');
     expect(shortTimestamp('1 minute ago')).toEqual('1m');
     expect(shortTimestamp('12 minutes ago')).toEqual('12m');

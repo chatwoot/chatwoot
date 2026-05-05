@@ -61,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "این پیام پشتیبانی نمی شود. می توانید این پیام را در برنامه فیس بوک مسنجر مشاهده کنید.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "این پیام پشتیبانی نمی شود. می توانید این پیام را در برنامه اینستاگرام مشاهده کنید.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "پیام با موفقیت حذف شد",
     "FAIL_DELETE_MESSSAGE": "پیام حذف نشد! دوباره امتحان کنید",
     "NO_RESPONSE": "بدون پاسخ",
@@ -173,6 +174,10 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "برچسب اختصاص داده نشد. لطفا دوباره تلاش کنید."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "تیم \"{team}\" را به شناسه مکالمه {conversationId} اختصاص داد",
           "FAILED": "تیم تعیین نشد. لطفا دوباره تلاش کنید."
@@ -185,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "غیرفعال کردن امضا",
       "MSG_INPUT": "برای رفتن به سرخط shift+enter و برای استفاده از پیام های ذخیره شده / را بزنید.",
       "PRIVATE_MSG_INPUT": "برای رفتن به سرخط shift+enter را بزنید. این پیام فقط به ایجنت ها نمایش داده میشود",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "امضای پیام پیکربندی نشده است، لطفاً آن را در تنظیمات نمایه پیکربندی کنید.",
+      "COPILOT_MSG_INPUT": "دستورهای اضافی به Copilot بدهید، یا هر سوال دیگری بپرسید... برای ارسال پاسخ بعدی اینتر بزنید",
       "CLICK_HERE": "برای به روز رسانی اینجا را کلیک کنید",
       "WHATSAPP_TEMPLATES": "قالب های واتساپ"
     },
@@ -205,7 +214,7 @@
       "DRAG_DROP": "برای ضمیمه کردن درگ و درآپ کنید",
       "START_AUDIO_RECORDING": "در حال شروع ضبط صدا",
       "STOP_AUDIO_RECORDING": "در حال توقف ضبط صدا",
-      "": "",
+      "COPILOT_THINKING": "Copilot در حال فکر کردن است",
       "EMAIL_HEAD": {
         "TO": "به",
         "ADD_BCC": "افزودن رونوشت",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "پرونده از حد مجاز پیوست {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} مگابایت بیشتر است",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "ارسال این پیام امکان پذیر نیست ، لطفاً بعداً دوباره امتحان کنید",
     "SENT_BY": "ارسال شده توسط:",
     "BOT": "ربات",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "پیام ارسال نشد! دوباره امتحان کنید",
     "TRY_AGAIN": "دوباره امتحان کنید",
     "ASSIGNMENT": {
@@ -294,6 +306,7 @@
     "CANCEL": "انصراف",
     "SEND_EMAIL_SUCCESS": "متن گفتگو با موفقیت ارسال شد",
     "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "متن گفتگو را برای مشتری ارسال کنید",
       "SEND_TO_AGENT": "متن گفتگو را به ایجنت اختصاص یافته ارسال کنید",
