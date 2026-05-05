@@ -231,4 +231,21 @@ describe ActionCableListener do
       listener.conversation_updated(event)
     end
   end
+
+  describe '#conversation_unread_count_changed' do
+    let(:event_name) { :'conversation.unread_count_changed' }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
+
+    it 'sends a lightweight refresh event to account agents and admins' do
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token),
+        'conversation.unread_count_changed',
+        {
+          account_id: account.id
+        }
+      )
+
+      listener.conversation_unread_count_changed(event)
+    end
+  end
 end
