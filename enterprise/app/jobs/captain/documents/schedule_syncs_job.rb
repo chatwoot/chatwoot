@@ -7,6 +7,7 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
 
   def perform
     @remaining_global_capacity = GLOBAL_HOURLY_CAP
+    sync_intervals = Enterprise::Account.captain_document_sync_intervals
     stats = { accounts_scanned: 0, accounts_enabled: 0, accounts_scheduled: 0, documents_enqueued: 0 }
 
     Account.joins(:captain_documents).distinct.find_each(batch_size: 100) do |account|
@@ -16,7 +17,7 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
       next unless account.feature_enabled?('captain_document_auto_sync')
 
       stats[:accounts_enabled] += 1
-      interval = account.captain_document_sync_interval
+      interval = account.captain_document_sync_interval(sync_intervals)
       next unless interval
 
       stats[:accounts_scheduled] += 1
