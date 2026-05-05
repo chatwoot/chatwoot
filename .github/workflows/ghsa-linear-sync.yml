@@ -5,93 +5,25 @@ on:
     - cron: '0 4 * * *'  # daily at 09:30 IST
   workflow_dispatch: {}
 
+permissions:
+  contents: read
+
 jobs:
   sync:
     runs-on: ubuntu-latest
-    permissions:
-      security-events: read
     steps:
-      - name: Fetch triage advisories
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install requests==2.32.3
+      - name: Sync advisories
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh api --paginate \
-            -H "Accept: application/vnd.github+json" \
-            "/repos/${{ github.repository }}/security-advisories?state=triage&per_page=100" \
-            | jq -cs 'add | [.[] | {
-                ghsa_id, cve_id, summary, severity, state, html_url,
-                description, created_at,
-                cvss_score: .cvss.score,
-                reporter: ([.credits[]?.user.login] | first // "unknown")
-              }]' > advisories.json
-          echo "Fetched $(jq 'length' advisories.json) triage advisories"
-
-      - name: Create Linear issues for new advisories
-        env:
+          GHSA_READ_TOKEN: ${{ secrets.GHSA_READ_TOKEN }}
           LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
           LINEAR_TEAM_ID: ${{ secrets.LINEAR_TEAM_ID }}
           LINEAR_PROJECT_ID: ${{ secrets.LINEAR_PROJECT_ID }}
           LINEAR_LABEL_ID: ${{ secrets.LINEAR_LABEL_ID }}
-        run: |
-          created_count=0
-          skipped_count=0
-          failed_count=0
-          while read -r advisory; do
-            ghsa_id=$(printf '%s' "$advisory" | jq -r '.ghsa_id')
-            summary=$(printf '%s' "$advisory" | jq -r '.summary')
-            severity=$(printf '%s' "$advisory" | jq -r '.severity // "unknown"')
-            cve_id=$(printf '%s' "$advisory" | jq -r '.cve_id // "n/a"')
-            cvss=$(printf '%s' "$advisory" | jq -r '.cvss_score // "n/a"')
-            reporter=$(printf '%s' "$advisory" | jq -r '.reporter')
-            html_url=$(printf '%s' "$advisory" | jq -r '.html_url')
-            created_date=$(printf '%s' "$advisory" | jq -r '.created_at' | cut -dT -f1)
-            description=$(printf '%s' "$advisory" | jq -r '.description // "No description provided."')
-
-            existing=$(curl -s -X POST https://api.linear.app/graphql \
-              -H "Content-Type: application/json" \
-              -H "Authorization: $LINEAR_API_KEY" \
-              -d "$(jq -n --arg q "$ghsa_id" '{query: "query($q: String!) { issues(filter: {title: {contains: $q}}, first: 1) { nodes { id } } }", variables: {q: $q}}')" \
-              | jq '.data.issues.nodes | length')
-
-            if [ "${existing:-0}" -gt 0 ] 2>/dev/null; then
-              skipped_count=$((skipped_count+1))
-              continue
-            fi
-
-            priority=3
-            case "$severity" in
-              critical) priority=1 ;;
-              high)     priority=2 ;;
-              medium)   priority=3 ;;
-              low)      priority=4 ;;
-            esac
-
-            title="[$ghsa_id] $summary"
-            body=$(printf '**GHSA:** %s\n**CVE:** %s\n**Severity:** %s (CVSS %s)\n**Reporter:** %s\n**Reported:** %s\n**Advisory:** %s\n\n---\n\n%s' \
-              "$ghsa_id" "$cve_id" "$severity" "$cvss" "$reporter" "$created_date" "$html_url" "$description")
-
-            success=$(curl -s -X POST https://api.linear.app/graphql \
-              -H "Content-Type: application/json" \
-              -H "Authorization: $LINEAR_API_KEY" \
-              -d "$(jq -n \
-                --arg title "$title" \
-                --arg body "$body" \
-                --arg teamId "$LINEAR_TEAM_ID" \
-                --arg projectId "$LINEAR_PROJECT_ID" \
-                --arg labelId "$LINEAR_LABEL_ID" \
-                --argjson priority "$priority" \
-                '{
-                  query: "mutation($input: IssueCreateInput!) { issueCreate(input: $input) { success } }",
-                  variables: {input: {title: $title, description: $body, teamId: $teamId, projectId: $projectId, labelIds: [$labelId], priority: $priority}}
-                }')" | jq -r '.data.issueCreate.success // false')
-
-            if [ "$success" = "true" ]; then
-              created_count=$((created_count+1))
-            else
-              failed_count=$((failed_count+1))
-            fi
-          done < <(jq -c '.[]' advisories.json)
-          echo "Created $created_count, skipped $skipped_count, failed $failed_count"
-          if [ "$failed_count" -gt 0 ]; then
-            exit 1
-          fi
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python3 .github/scripts/ghsa_linear_sync.py
