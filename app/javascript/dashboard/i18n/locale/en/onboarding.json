@@ -30,5 +30,34 @@
     "VALIDATION_ERROR": "Please fill in all required fields",
     "SUCCESS": "Details saved successfully",
     "ERROR": "Could not save details. Please try again."
+  },
+  "ONBOARDING_INBOX_SETUP": {
+    "GREETING": "Let's set up a few things",
+    "SUBTITLE": "This will give you head-start in your workspace",
+    "CONTINUE": "Continue",
+    "SKIP": "Skip",
+    "CREATED_FOR_YOU": {
+      "TITLE": "We've created the following for you",
+      "LIVE_CHAT": "Live Chat widget",
+      "LIVE_CHAT_DESCRIPTION": "Instant messenger for your website",
+      "LIVE_CHAT_STATUS": "Almost done…",
+      "HELP_CENTER": "Help Center",
+      "HELP_CENTER_DESCRIPTION": "Your digital encyclopedia",
+      "HELP_CENTER_STATUS": "{articles} articles • {categories} categories"
+    },
+    "CHANNELS": {
+      "TITLE": "Connect all your conversation channels",
+      "CONNECT_HANDLE": "Connect {handle}",
+      "MORE_CHANNELS_NOTE": "Set up Email and Voice channels later inside the app",
+      "VIEW_ALL": "View all"
+    },
+    "CHANNELS_DIALOG": {
+      "TITLE": "Connect all your channels instantly",
+      "SUBTITLE": "Manage all of them from one dashboard. You can also set up and edit inboxes later inside the app.",
+      "NOTE": "You can set up Voice and other Email channels on the application."
+    },
+    "APPS": {
+      "TITLE": "Connect your favorite apps"
+    }
   }
 }
