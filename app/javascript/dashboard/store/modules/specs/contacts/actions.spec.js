@@ -251,6 +251,44 @@ describe('#actions', () => {
       );
     });
 
+    it('preserves additional_emails for FormData updates with avatar uploads', async () => {
+      axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
+
+      await actions.update(
+        { commit },
+        {
+          id: contactList[0].id,
+          isFormData: true,
+          avatar: new File(['avatar'], 'avatar.png', { type: 'image/png' }),
+          email: 'primary@example.com',
+          additionalEmails: ['alias@example.com', 'billing@example.com'],
+          additionalAttributes: {
+            city: 'Portland',
+            socialProfiles: {
+              facebook: '',
+              github: '',
+              instagram: '',
+              telegram: '',
+              tiktok: '',
+              linkedin: '',
+              twitter: '',
+            },
+          },
+        }
+      );
+
+      expect(axios.patch).toHaveBeenCalledTimes(1);
+      const formDataArg = axios.patch.mock.calls[0][1];
+      expect(formDataArg instanceof FormData).toBe(true);
+      expect(Array.from(formDataArg.entries())).toEqual(
+        expect.arrayContaining([
+          ['email', 'primary@example.com'],
+          ['additional_emails[0]', 'alias@example.com'],
+          ['additional_emails[1]', 'billing@example.com'],
+        ])
+      );
+    });
+
     it('preserves additional_phones for FormData updates with avatar uploads', async () => {
       axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
 

@@ -74,6 +74,15 @@ describe('ContactPointListInput', () => {
     expect(wrapper.emitted('update:modelValue').at(-1)[0]).toEqual([
       'billing@example.com',
     ]);
+
+    await wrapper.find('[data-testid="contact-point-add"]').trigger('click');
+    expect(wrapper.emitted('update:modelValue').at(-1)[0]).toEqual([
+      'alias@example.com',
+      '',
+    ]);
+
+    await wrapper.find('[data-testid="contact-point-remove"]').trigger('click');
+    expect(wrapper.emitted('update:modelValue').at(-1)[0]).toEqual([]);
   });
 
   it('renders phone rows with PhoneNumberInput and emits promote/remove actions', async () => {

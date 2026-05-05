@@ -97,12 +97,16 @@ const normalizeEmail = value => value.trim().toLowerCase();
 
 const normalizePhone = value => value.trim();
 
-const uniqueContactPoints = (contactPoints, normalizer) => {
+const uniqueContactPoints = (
+  contactPoints,
+  normalizer,
+  { keepBlank = false } = {}
+) => {
   const seen = new Set();
 
   return cloneContactPoints(contactPoints).filter(contactPoint => {
     const value = contactPoint.trim();
-    if (!value) return false;
+    if (!value) return keepBlank;
 
     const normalizedValue = normalizer(value);
     if (seen.has(normalizedValue)) return false;
@@ -112,12 +116,26 @@ const uniqueContactPoints = (contactPoints, normalizer) => {
   });
 };
 
-const additionalFromFullList = (primaryValue, contactPoints, normalizer) => {
+const additionalFromFullList = (
+  primaryValue,
+  contactPoints,
+  normalizer,
+  options = {}
+) => {
   const normalizedPrimary = normalizer(primaryValue || '');
-  return uniqueContactPoints(contactPoints, normalizer).filter(
-    contactPoint => normalizer(contactPoint) !== normalizedPrimary
+  return uniqueContactPoints(contactPoints, normalizer, options).filter(
+    contactPoint => {
+      const value = contactPoint.trim();
+      return !value || normalizer(value) !== normalizedPrimary;
+    }
   );
 };
+
+const findPopulatedContactPointArray = (...contactPointArrays) =>
+  contactPointArrays.find(
+    contactPointArray =>
+      Array.isArray(contactPointArray) && contactPointArray.length > 0
+  );
 
 const resolveAdditionalContactPoints = ({
   additionalValues,
@@ -127,10 +145,12 @@ const resolveAdditionalContactPoints = ({
   primaryValue,
   normalizer,
 }) => {
-  const additionalContactPoints =
-    additionalValues || snakeCaseAdditionalValues || null;
+  const additionalContactPoints = findPopulatedContactPointArray(
+    additionalValues,
+    snakeCaseAdditionalValues
+  );
 
-  if (Array.isArray(additionalContactPoints)) {
+  if (additionalContactPoints) {
     return additionalFromFullList(
       primaryValue,
       additionalContactPoints,
@@ -138,10 +158,12 @@ const resolveAdditionalContactPoints = ({
     );
   }
 
-  const fullListContactPoints = fullListValues || snakeCaseFullListValues || [];
+  const fullListContactPoints =
+    findPopulatedContactPointArray(fullListValues, snakeCaseFullListValues) ||
+    [];
   return additionalFromFullList(
     primaryValue,
-    cloneContactPoints(fullListContactPoints).slice(1),
+    fullListContactPoints,
     normalizer
   );
 };
@@ -149,8 +171,10 @@ const resolveAdditionalContactPoints = ({
 const removePrimaryFromAdditional = (
   primaryValue,
   additionalValues,
-  normalizer
-) => additionalFromFullList(primaryValue, additionalValues, normalizer);
+  normalizer,
+  options = {}
+) =>
+  additionalFromFullList(primaryValue, additionalValues, normalizer, options);
 
 const buildSerializableState = () => {
   const { firstName, lastName, ...stateWithoutNames } = state;
@@ -338,7 +362,8 @@ const getFormBinding = key => {
           state.additionalEmails = removePrimaryFromAdditional(
             value,
             state.additionalEmails,
-            normalizeEmail
+            normalizeEmail,
+            { keepBlank: true }
           );
         }
       } else if (field === 'phoneNumber') {
@@ -347,7 +372,8 @@ const getFormBinding = key => {
           state.additionalPhones = removePrimaryFromAdditional(
             value,
             state.additionalPhones,
-            normalizePhone
+            normalizePhone,
+            { keepBlank: true }
           );
         }
       } else {
@@ -395,7 +421,8 @@ const updateContactPoints = async (key, values, normalizer) => {
   state[key] = removePrimaryFromAdditional(
     state[primaryKey],
     values,
-    normalizer
+    normalizer,
+    { keepBlank: true }
   );
 
   const isFormValid = await v$.value.$validate();

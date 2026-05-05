@@ -121,24 +121,32 @@ describe('ContactsForm', () => {
       contactData: {
         ...buildContactData(),
         id: 43,
-        additionalEmails: undefined,
+        additionalEmails: [],
         additional_emails: undefined,
         emailAddresses: undefined,
-        email_addresses: ['api-primary@example.com', 'api-alias@example.com'],
-        additionalPhones: undefined,
+        email_addresses: [
+          'api-primary@example.com',
+          'primary@example.com',
+          'api-alias@example.com',
+        ],
+        additionalPhones: [],
         additional_phones: undefined,
         phoneNumbers: undefined,
-        phone_numbers: ['+14155550126', '+14155550127'],
+        phone_numbers: ['+14155550126', '+14155550123', '+14155550127'],
       },
     });
     await nextTick();
 
     expect(wrapper.vm.state.email).toBe('primary@example.com');
     expect(wrapper.vm.state.additionalEmails).toEqual([
+      'api-primary@example.com',
       'api-alias@example.com',
     ]);
     expect(wrapper.vm.state.phoneNumber).toBe('+14155550123');
-    expect(wrapper.vm.state.additionalPhones).toEqual(['+14155550127']);
+    expect(wrapper.vm.state.additionalPhones).toEqual([
+      '+14155550126',
+      '+14155550127',
+    ]);
   });
 
   it('renders contact point management and emits promoted email and phone payloads', async () => {
@@ -198,6 +206,44 @@ describe('ContactsForm', () => {
     expect(wrapper.emitted('update').at(-1)[0]).toMatchObject({
       email: 'billing@example.com',
       additionalEmails: ['primary@example.com'],
+    });
+  });
+
+  it('keeps blank contact point rows available while editing', async () => {
+    const wrapper = buildWrapper({
+      isDetailsView: true,
+      showContactPoints: true,
+    });
+    await nextTick();
+
+    const emailList = wrapper.find('[data-testid="contact-email-list"]');
+    const phoneList = wrapper.find('[data-testid="contact-phone-list"]');
+
+    await emailList.find('[data-testid="contact-point-add"]').trigger('click');
+    await nextTick();
+    await flushPromises();
+
+    expect(wrapper.vm.state.additionalEmails).toEqual([
+      'old-alias@example.com',
+      '',
+    ]);
+    expect(
+      emailList.findAll('[data-testid="contact-point-input"]')
+    ).toHaveLength(2);
+    expect(wrapper.emitted('update').at(-1)[0]).toMatchObject({
+      additionalEmails: ['old-alias@example.com'],
+    });
+
+    await phoneList.find('[data-testid="contact-point-add"]').trigger('click');
+    await nextTick();
+    await flushPromises();
+
+    expect(wrapper.vm.state.additionalPhones).toEqual(['+14155550124', '']);
+    expect(
+      phoneList.findAll('[data-testid="contact-point-input"]')
+    ).toHaveLength(2);
+    expect(wrapper.emitted('update').at(-1)[0]).toMatchObject({
+      additionalPhones: ['+14155550124'],
     });
   });
 
