@@ -288,6 +288,26 @@ RSpec.describe DataImportJob do
         expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONTACT_UPDATED, anything, anything)
       end
 
+      it 'dispatches only the contact update event when importing labels for an existing contact' do
+        existing_contact = create(:contact, account: labels_data_import.account, email: 'existing-labeled@example.com', name: 'Old Name')
+        data_with_existing_contact = [
+          %w[id name email phone_number labels],
+          ['1', 'Updated Name', existing_contact.email, '+918080808090', 'lead']
+        ]
+        existing_contact_import = create(:data_import, account: labels_data_import.account,
+                                                       import_file: generate_csv_file(data_with_existing_contact))
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+        described_class.perform_now(existing_contact_import)
+
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+          Events::Types::CONTACT_UPDATED,
+          anything,
+          hash_including(contact: have_attributes(id: existing_contact.id))
+        ).once
+        expect(existing_contact.reload.label_list).to contain_exactly('lead')
+      end
+
       it 'rejects rows with labels that do not exist in the account' do
         data_with_unknown_labels = [
           %w[id name email phone_number labels],

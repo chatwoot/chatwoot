@@ -94,10 +94,11 @@ class DataImportJob < ApplicationJob
   end
 
   def add_labels_without_update_event(contact, labels)
-    contact.skip_update_event_dispatch = true
+    previous_value = ActiveSupport::IsolatedExecutionState[:contact_update_event_dispatch_suppressed]
+    ActiveSupport::IsolatedExecutionState[:contact_update_event_dispatch_suppressed] = true
     contact.add_labels(labels)
   ensure
-    contact.skip_update_event_dispatch = false
+    ActiveSupport::IsolatedExecutionState[:contact_update_event_dispatch_suppressed] = previous_value
   end
 
   def approved_labels

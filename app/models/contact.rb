@@ -47,8 +47,6 @@ class Contact < ApplicationRecord
   include Labelable
   include LlmFormattable
 
-  attr_accessor :skip_update_event_dispatch
-
   validates :account_id, presence: true
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
                     format: { with: Devise.email_regexp, message: I18n.t('errors.contacts.email.invalid') }
@@ -66,7 +64,7 @@ class Contact < ApplicationRecord
   has_many :notes, dependent: :destroy_async
   before_validation :prepare_contact_attributes
   after_create_commit :dispatch_create_event, :ip_lookup
-  after_update_commit :dispatch_update_event, unless: :skip_update_event_dispatch
+  after_update_commit :dispatch_update_event, unless: :update_event_dispatch_suppressed?
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
 
@@ -196,6 +194,8 @@ class Contact < ApplicationRecord
   end
 
   private
+
+  def update_event_dispatch_suppressed? = ActiveSupport::IsolatedExecutionState[:contact_update_event_dispatch_suppressed]
 
   def ip_lookup
     return unless account.feature_enabled?('ip_lookup')
