@@ -110,6 +110,7 @@ watch(
       />
       <Button
         v-if="index > 0"
+        type="button"
         icon="i-lucide-trash-2"
         variant="ghost"
         color="slate"
@@ -119,6 +120,7 @@ watch(
       />
     </div>
     <Button
+      type="button"
       icon="i-lucide-plus"
       variant="link"
       color="slate"

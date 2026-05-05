@@ -32,9 +32,16 @@ class CreateContactEmails < ActiveRecord::Migration[7.0]
   def backfill_contact_emails
     execute <<~SQL.squish
       INSERT INTO contact_emails (account_id, contact_id, email, "primary", created_at, updated_at)
-      SELECT contacts.account_id, contacts.id, LOWER(contacts.email), TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+      SELECT DISTINCT ON (contacts.account_id, LOWER(contacts.email))
+             contacts.account_id,
+             contacts.id,
+             LOWER(contacts.email),
+             TRUE,
+             CURRENT_TIMESTAMP,
+             CURRENT_TIMESTAMP
       FROM contacts
       WHERE contacts.email IS NOT NULL AND contacts.email <> ''
+      ORDER BY contacts.account_id, LOWER(contacts.email), contacts.created_at ASC, contacts.id ASC
     SQL
   end
 end
