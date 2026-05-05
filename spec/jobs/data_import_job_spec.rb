@@ -252,6 +252,28 @@ RSpec.describe DataImportJob do
         expect(unknown_label_import.reload.failed_records).to be_attached
         expect(unknown_label_import.failed_records.download).to include('Unknown labels: unknown_label')
       end
+
+      it 'does not update an existing contact when the row has unknown labels' do
+        existing_contact = create(:contact,
+                                  account: labels_data_import.account,
+                                  email: 'existing@example.com',
+                                  phone_number: '+918080808085',
+                                  name: 'Existing Name')
+        data_with_unknown_labels = [
+          %w[id name email phone_number labels],
+          ['1', 'Updated Name', existing_contact.email, '+918080808086', 'vip,unknown_label']
+        ]
+
+        unknown_label_import = create(:data_import, account: labels_data_import.account,
+                                                    import_file: generate_csv_file(data_with_unknown_labels))
+
+        described_class.perform_now(unknown_label_import)
+
+        expect(existing_contact.reload.name).to eq('Existing Name')
+        expect(existing_contact.phone_number).to eq('+918080808085')
+        expect(unknown_label_import.reload.failed_records).to be_attached
+        expect(unknown_label_import.failed_records.download).to include('Unknown labels: unknown_label')
+      end
     end
   end
 end

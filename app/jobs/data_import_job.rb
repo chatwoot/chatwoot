@@ -37,11 +37,14 @@ class DataImportJob < ApplicationJob
       csv_reader(file).each do |row|
         row_hash = row.to_h.with_indifferent_access
         labels = extract_labels(row_hash)
-        current_contact = @contact_manager.build_contact(row_hash.except(:labels))
 
         if unapproved_labels(labels).present?
           append_rejected_contact(row, invalid_label_errors(labels), rejected_contacts)
-        elsif current_contact.valid?
+          next
+        end
+
+        current_contact = @contact_manager.build_contact(row_hash.except(:labels))
+        if current_contact.valid?
           contacts << { contact: current_contact, labels: labels }
         else
           append_rejected_contact(row, current_contact, rejected_contacts)
