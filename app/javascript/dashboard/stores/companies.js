@@ -10,14 +10,26 @@ const createInitialUIFlags = () => ({
   updatingItem: false,
   deletingItem: false,
   deletingAvatar: false,
+  deletingCustomAttributes: false,
+  fetchingContacts: false,
+  searchingContacts: false,
+  creatingContact: false,
+  removingContact: false,
 });
 
 const createInitialState = () => ({
   records: [],
   meta: {},
+  companyContacts: [],
+  companyContactsMeta: {},
+  contactSearchResults: [],
+  contactSearchMeta: {},
   uiFlags: createInitialUIFlags(),
   activeCompanyId: null,
   companyDetailRequestToken: 0,
+  companyContactsRequestToken: 0,
+  contactSearchRequestToken: 0,
+  activeContactSearchQuery: '',
 });
 
 const normalizeCompanyRecord = record =>
@@ -32,10 +44,22 @@ const normalizeCompanyCollection = collection =>
     stopPaths: ['custom_attributes'],
   });
 
+const normalizeContactRecord = record =>
+  camelcaseKeys(record || {}, {
+    deep: true,
+    stopPaths: ['custom_attributes', 'additional_attributes'],
+  });
+
+const normalizeContactCollection = collection =>
+  camelcaseKeys(collection || [], {
+    deep: true,
+    stopPaths: ['custom_attributes', 'additional_attributes'],
+  });
+
 const normalizeMeta = meta => ({
   ...camelcaseKeys(meta || {}),
-  totalCount: Number(meta?.total_count || meta?.totalCount || 0),
-  page: Number(meta?.page || 1),
+  totalCount: Number(meta?.total_count || meta?.totalCount || meta?.count || 0),
+  page: Number(meta?.page || meta?.current_page || 1),
 });
 
 const upsertRecord = (records, record) => {
@@ -83,10 +107,11 @@ const buildCompanyFormData = payload => {
 };
 
 const buildCompanyPayload = companyAttrs => {
-  const { avatar, ...attrsToDecamelize } = companyAttrs;
+  const { avatar, customAttributes, ...attrsToDecamelize } = companyAttrs;
 
   return {
     ...snakecaseKeys(attrsToDecamelize, { deep: true }),
+    ...(customAttributes && { custom_attributes: customAttributes }),
     ...(avatar && { avatar }),
   };
 };
@@ -134,6 +159,25 @@ export const useCompaniesStore = defineStore('companies', {
 
     upsertCompanyRecord(record) {
       this.records = upsertRecord(this.records, normalizeCompanyRecord(record));
+    },
+
+    updateCompanyContactsCount(companyId, contactsCount) {
+      const company = this.getRecord(companyId);
+      if (!company.id) {
+        return;
+      }
+
+      this.upsertCompanyRecord({
+        ...company,
+        contactsCount,
+      });
+    },
+
+    clearContactSearchResults() {
+      this.contactSearchResults = [];
+      this.contactSearchMeta = {};
+      this.activeContactSearchQuery = '';
+      this.contactSearchRequestToken += 1;
     },
 
     async get({ page = 1, sort = 'name' } = {}) {
@@ -251,14 +295,154 @@ export const useCompaniesStore = defineStore('companies', {
       }
     },
 
+    async getCompanyContacts(companyId, page = 1) {
+      this.setUIFlag({ fetchingContacts: true });
+      this.ensureActiveCompanyContext(companyId);
+      const activeCompanyId = Number(companyId);
+      const requestToken = this.companyContactsRequestToken + 1;
+      this.companyContactsRequestToken = requestToken;
+
+      try {
+        const {
+          data: { payload, meta },
+        } = await CompanyAPI.listContacts(companyId, page);
+        const contacts = normalizeContactCollection(payload);
+        const normalizedMeta = normalizeMeta(meta);
+
+        if (
+          this.companyContactsRequestToken !== requestToken ||
+          this.activeCompanyId !== activeCompanyId
+        ) {
+          return contacts;
+        }
+
+        this.companyContacts = contacts;
+        this.companyContactsMeta = normalizedMeta;
+        this.updateCompanyContactsCount(companyId, normalizedMeta.totalCount);
+        return contacts;
+      } catch (error) {
+        return throwErrorMessage(error);
+      } finally {
+        if (this.companyContactsRequestToken === requestToken) {
+          this.setUIFlag({ fetchingContacts: false });
+        }
+      }
+    },
+
+    async searchCompanyContactCandidates({ companyId, search, page = 1 }) {
+      const query = search?.trim() || '';
+      if (!query) {
+        this.clearContactSearchResults();
+        return [];
+      }
+
+      this.setUIFlag({ searchingContacts: true });
+      this.ensureActiveCompanyContext(companyId);
+      this.activeContactSearchQuery = query;
+      const activeCompanyId = Number(companyId);
+      const requestToken = this.contactSearchRequestToken + 1;
+      this.contactSearchRequestToken = requestToken;
+
+      try {
+        const {
+          data: { payload, meta },
+        } = await CompanyAPI.searchContacts(companyId, query, page);
+        const contacts = normalizeContactCollection(payload);
+        const normalizedMeta = normalizeMeta(meta);
+
+        if (
+          this.contactSearchRequestToken !== requestToken ||
+          this.activeCompanyId !== activeCompanyId ||
+          this.activeContactSearchQuery !== query
+        ) {
+          return contacts;
+        }
+
+        this.contactSearchResults = contacts;
+        this.contactSearchMeta = normalizedMeta;
+        return contacts;
+      } catch (error) {
+        return throwErrorMessage(error);
+      } finally {
+        if (this.contactSearchRequestToken === requestToken) {
+          this.setUIFlag({ searchingContacts: false });
+        }
+      }
+    },
+
+    async attachContactToCompany(companyId, contactId) {
+      this.setUIFlag({ creatingContact: true });
+      this.ensureActiveCompanyContext(companyId);
+      try {
+        const {
+          data: { payload },
+        } = await CompanyAPI.createContact(companyId, {
+          contact_id: contactId,
+        });
+        const contact = normalizeContactRecord(payload);
+        await this.getCompanyContacts(companyId, 1);
+        this.clearContactSearchResults();
+        return contact;
+      } catch (error) {
+        return throwErrorMessage(error);
+      } finally {
+        this.setUIFlag({ creatingContact: false });
+      }
+    },
+
+    async removeContactFromCompany(companyId, contactId, page = null) {
+      this.setUIFlag({ removingContact: true });
+      this.ensureActiveCompanyContext(companyId);
+      try {
+        await CompanyAPI.removeContact(companyId, contactId);
+        await this.getCompanyContacts(
+          companyId,
+          page || this.companyContactsMeta.page || 1
+        );
+        return Number(contactId);
+      } catch (error) {
+        return throwErrorMessage(error);
+      } finally {
+        this.setUIFlag({ removingContact: false });
+      }
+    },
+
+    async deleteCustomAttributes({ id, customAttributes }) {
+      this.setUIFlag({ deletingCustomAttributes: true });
+      try {
+        const {
+          data: { payload },
+        } = await CompanyAPI.destroyCustomAttributes(id, customAttributes);
+        const company = normalizeCompanyRecord(payload);
+        this.upsertCompanyRecord(company);
+        return company;
+      } catch (error) {
+        return throwErrorMessage(error);
+      } finally {
+        this.setUIFlag({ deletingCustomAttributes: false });
+      }
+    },
+
     resetCompanyDetailState() {
       this.activeCompanyId = null;
       this.companyDetailRequestToken += 1;
+      this.companyContactsRequestToken += 1;
+      this.contactSearchRequestToken += 1;
+      this.companyContacts = [];
+      this.companyContactsMeta = {};
+      this.contactSearchResults = [];
+      this.contactSearchMeta = {};
+      this.activeContactSearchQuery = '';
       this.setUIFlag({
         fetchingItem: false,
         updatingItem: false,
         deletingItem: false,
         deletingAvatar: false,
+        deletingCustomAttributes: false,
+        fetchingContacts: false,
+        searchingContacts: false,
+        creatingContact: false,
+        removingContact: false,
       });
     },
   },

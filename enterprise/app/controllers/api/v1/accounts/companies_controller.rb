@@ -11,7 +11,7 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAcco
   before_action :ensure_companies_enabled!
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :search]
-  before_action :fetch_company, only: [:show, :update, :destroy, :avatar]
+  before_action :fetch_company, only: [:show, :update, :destroy, :avatar, :destroy_custom_attributes]
 
   def index
     @companies = fetch_companies(resolved_companies)
@@ -37,11 +37,23 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAcco
   end
 
   def update
-    @company.update!(company_params)
+    ActiveRecord::Base.transaction do
+      @company.assign_attributes(company_update_params)
+      @company.save!
+      Companies::ContactMembershipService.new(company: @company).sync_company_name if @company.saved_change_to_name?
+    end
+  end
+
+  def destroy_custom_attributes
+    @company.custom_attributes = @company.custom_attributes.excluding(params[:custom_attributes])
+    @company.save!
   end
 
   def destroy
-    @company.destroy!
+    ActiveRecord::Base.transaction do
+      Companies::ContactMembershipService.new(company: @company).cleanup_on_company_delete
+      @company.destroy!
+    end
     head :ok
   end
 
@@ -80,7 +92,20 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAcco
       :name,
       :domain,
       :description,
-      :avatar
+      :avatar,
+      additional_attributes: {},
+      custom_attributes: {}
     )
+  end
+
+  def company_custom_attributes
+    custom_attributes = company_params[:custom_attributes]
+    return @company.custom_attributes.merge(custom_attributes.to_h) if custom_attributes.present?
+
+    @company.custom_attributes
+  end
+
+  def company_update_params
+    company_params.except(:custom_attributes).merge(custom_attributes: company_custom_attributes)
   end
 end

@@ -7,6 +7,11 @@ vi.mock('dashboard/api/companies', () => ({
     show: vi.fn(),
     update: vi.fn(),
     destroyAvatar: vi.fn(),
+    listContacts: vi.fn(),
+    searchContacts: vi.fn(),
+    createContact: vi.fn(),
+    removeContact: vi.fn(),
+    destroyCustomAttributes: vi.fn(),
   },
 }));
 
@@ -97,5 +102,112 @@ describe('companies store', () => {
     const formData = CompanyAPI.update.mock.calls[0][1];
     expect(formData.get('company[avatar]')).toBe(avatar);
     expect(formData.get('company[name]')).toBe('Acme');
+  });
+
+  it('preserves custom attribute keys when building update params', async () => {
+    CompanyAPI.update.mockResolvedValueOnce({
+      data: {
+        payload: {
+          id: 1,
+          name: 'Acme',
+          custom_attributes: {
+            subscriptionPlan: 'Enterprise',
+          },
+        },
+      },
+    });
+
+    const companiesStore = useCompaniesStore();
+
+    await companiesStore.update({
+      id: 1,
+      customAttributes: {
+        subscriptionPlan: 'Enterprise',
+      },
+    });
+
+    expect(CompanyAPI.update).toHaveBeenCalledWith(1, {
+      company: {
+        custom_attributes: {
+          subscriptionPlan: 'Enterprise',
+        },
+      },
+    });
+  });
+
+  it('links an existing contact and refreshes company contacts', async () => {
+    CompanyAPI.createContact.mockResolvedValueOnce({
+      data: {
+        payload: {
+          id: 2,
+          name: 'Jane Contact',
+          company_id: 1,
+          linked_to_current_company: true,
+        },
+      },
+    });
+    CompanyAPI.listContacts.mockResolvedValueOnce({
+      data: {
+        payload: [
+          {
+            id: 2,
+            name: 'Jane Contact',
+            company_id: 1,
+            linked_to_current_company: true,
+          },
+        ],
+        meta: { total_count: 1, page: 1 },
+      },
+    });
+
+    const companiesStore = useCompaniesStore();
+    companiesStore.setActiveCompanyId(1);
+
+    await companiesStore.attachContactToCompany(1, 2);
+
+    expect(CompanyAPI.createContact).toHaveBeenCalledWith(1, {
+      contact_id: 2,
+    });
+    expect(CompanyAPI.listContacts).toHaveBeenCalledWith(1, 1);
+    expect(companiesStore.companyContacts).toEqual([
+      expect.objectContaining({
+        id: 2,
+        companyId: 1,
+        linkedToCurrentCompany: true,
+      }),
+    ]);
+  });
+
+  it('removes a company custom attribute and updates the company record', async () => {
+    CompanyAPI.destroyCustomAttributes.mockResolvedValueOnce({
+      data: {
+        payload: {
+          id: 1,
+          name: 'Acme',
+          custom_attributes: {
+            region: 'us',
+          },
+        },
+      },
+    });
+
+    const companiesStore = useCompaniesStore();
+
+    await companiesStore.deleteCustomAttributes({
+      id: 1,
+      customAttributes: ['plan'],
+    });
+
+    expect(CompanyAPI.destroyCustomAttributes).toHaveBeenCalledWith(1, [
+      'plan',
+    ]);
+    expect(companiesStore.getRecord(1)).toEqual(
+      expect.objectContaining({
+        id: 1,
+        customAttributes: {
+          region: 'us',
+        },
+      })
+    );
   });
 });

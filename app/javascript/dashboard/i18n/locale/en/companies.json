@@ -28,6 +28,56 @@
         "TITLE": "Company not found",
         "SUBTITLE": "This company may have been removed or is no longer available in this account."
       },
+      "SIDEBAR": {
+        "TABS": {
+          "ATTRIBUTES": "Attributes",
+          "CONTACTS": "Contacts"
+        }
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search attributes...",
+        "EMPTY_STATE": "There are no company custom attributes configured yet.",
+        "NO_ATTRIBUTES": "No matching attributes found.",
+        "UNUSED_ATTRIBUTES": "{count} unused attribute | {count} unused attributes",
+        "MESSAGES": {
+          "UPDATE_SUCCESS": "Company attribute updated.",
+          "UPDATE_ERROR": "Could not update company attribute.",
+          "DELETE_SUCCESS": "Company attribute removed.",
+          "DELETE_ERROR": "Could not remove company attribute."
+        }
+      },
+      "CONTACTS": {
+        "LOADING": "Loading contacts...",
+        "EMPTY": "No contacts are linked to this company yet.",
+        "UNNAMED_CONTACT": "Unnamed contact",
+        "ACTIONS": {
+          "ADD": "Add contact",
+          "REMOVE": "Remove contact"
+        },
+        "DIALOGS": {
+          "ADD": {
+            "DESCRIPTION": "Search for an existing contact and link it to this company.",
+            "SEARCH_PLACEHOLDER": "Search contacts...",
+            "INITIAL": "Start typing to search contacts.",
+            "EMPTY": "No contacts found.",
+            "CONFIRM_TITLE": "Link contact",
+            "CONFIRM_DESCRIPTION": "Confirm the company and contact before linking them.",
+            "COMPANY_LABEL": "Company",
+            "CONTACT_LABEL": "Contact",
+            "CURRENT_COMPANY": "Currently linked to {companyName}",
+            "ADD": "Link contact",
+            "CANCEL": "Cancel"
+          }
+        },
+        "MESSAGES": {
+          "ADD_SUCCESS": "Contact linked to company.",
+          "ADD_ERROR": "Could not link contact to company.",
+          "REASSIGN_SUCCESS": "Contact reassigned to company.",
+          "REASSIGN_ERROR": "Could not reassign contact to company.",
+          "REMOVE_SUCCESS": "Contact removed from company.",
+          "REMOVE_ERROR": "Could not remove contact from company."
+        }
+      },
       "AVATAR": {
         "UPDATING": "Updating company avatar...",
         "UPLOAD_SUCCESS": "Company avatar updated.",

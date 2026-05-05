@@ -23,6 +23,10 @@ class CompanyPolicy < ApplicationPolicy
     update?
   end
 
+  def destroy_custom_attributes?
+    update?
+  end
+
   def destroy?
     @account_user.administrator?
   end

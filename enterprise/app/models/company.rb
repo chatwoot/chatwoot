@@ -31,9 +31,11 @@ class Company < ApplicationRecord
   }
   validates :domain, uniqueness: { scope: :account_id }, if: -> { domain.present? }
   validates :description, length: { maximum: Limits::COMPANY_DESCRIPTION_LENGTH_LIMIT }
+  validates :custom_attributes, jsonb_attributes_length: true
 
   belongs_to :account
   has_many :contacts, dependent: :nullify
+  before_validation :prepare_jsonb_attributes
   after_create_commit :fetch_favicon, if: -> { domain.present? }
 
   scope :ordered_by_name, -> { order(:name) }
@@ -57,6 +59,11 @@ class Company < ApplicationRecord
   }
 
   private
+
+  def prepare_jsonb_attributes
+    self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
+    self.custom_attributes = {} unless custom_attributes.is_a?(Hash)
+  end
 
   def fetch_favicon
     Avatar::AvatarFromFaviconJob.set(wait: 5.seconds).perform_later(self)
