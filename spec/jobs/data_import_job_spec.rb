@@ -153,7 +153,7 @@ RSpec.describe DataImportJob do
             phone_number: "+#{csv_data[0]['phone_number']}",
             name: csv_data[0]['name'].to_s
           )
-          expect(imported_contact.additional_attributes['company']).to eq(csv_data[0]['company'].to_s)
+          expect(imported_contact.additional_attributes['company_name']).to eq(csv_data[0]['company_name'].to_s)
         end
       end
 
