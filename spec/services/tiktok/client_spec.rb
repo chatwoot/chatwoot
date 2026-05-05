@@ -58,4 +58,64 @@ RSpec.describe Tiktok::Client do
       expect(result).to be(false)
     end
   end
+
+  describe '#upload_media' do
+    let(:connection) { instance_double(Faraday::Connection) }
+    let(:request) { instance_double(Faraday::Request, headers: {}) }
+    let(:response) { instance_double(Faraday::Response, success?: true, body: response_body) }
+    let(:response_body) do
+      {
+        code: 0,
+        message: 'OK',
+        data: { media_id: 'media-123' }
+      }.to_json
+    end
+    let(:blob) do
+      instance_double(
+        ActiveStorage::Blob,
+        content_type: 'image/png',
+        filename: ActiveStorage::Filename.new('avatar.png')
+      )
+    end
+
+    before do
+      allow(GlobalConfigService).to receive(:load).with('TIKTOK_API_VERSION', 'v1.3').and_return('v1.3')
+      allow(Faraday).to receive(:new).and_return(connection)
+      allow(blob).to receive(:open) do |&block|
+        File.open(Rails.root.join('spec/assets/avatar.png'), 'rb', &block)
+      end
+    end
+
+    it 'posts media upload with access token header' do
+      captured_endpoint = nil
+      allow(connection).to receive(:post) do |endpoint, _payload, &block|
+        captured_endpoint = endpoint
+        block.call(request)
+        response
+      end
+
+      media_id = client.send(:upload_media, blob)
+
+      expect(media_id).to eq('media-123')
+      expect(captured_endpoint).to eq('https://business-api.tiktok.com/open_api/v1.3/business/message/media/upload/')
+      expect(request.headers['Access-Token']).to eq('token-123')
+    end
+
+    it 'uploads media as a multipart file with filename and content type' do
+      captured_payload = nil
+      allow(connection).to receive(:post) do |_endpoint, payload, &block|
+        captured_payload = payload
+        block.call(request)
+        response
+      end
+
+      client.send(:upload_media, blob)
+
+      expect(captured_payload[:business_id]).to eq('biz-123')
+      expect(captured_payload[:media_type]).to eq('IMAGE')
+      expect(captured_payload[:file]).to be_a(Faraday::Multipart::FilePart)
+      expect(captured_payload[:file].content_type).to eq('image/png')
+      expect(captured_payload[:file].original_filename).to eq('avatar.png')
+    end
+  end
 end

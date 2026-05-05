@@ -1,4 +1,5 @@
-require 'net/http/post/multipart'
+require 'faraday'
+require 'faraday/multipart'
 
 class Tiktok::Client
   # Always use Tiktok::TokenService to get a valid access token
@@ -91,20 +92,26 @@ class Tiktok::Client
 
   def upload_media(blob, media_type = 'IMAGE')
     endpoint = "#{api_base_url}/business/message/media/upload/"
-    uri = URI.parse(endpoint)
 
     blob.open do |temp_file|
       temp_file.rewind
-      body = {
+      payload = {
         business_id: business_id,
         media_type: media_type,
-        file: UploadIO.new(temp_file, blob.content_type || 'application/octet-stream', blob.filename.to_s)
+        file: Faraday::Multipart::FilePart.new(temp_file, blob.content_type || 'application/octet-stream', blob.filename.to_s)
       }
 
-      request = Net::HTTP::Post::Multipart.new(uri.request_uri, body, { 'Access-Token' => access_token })
-      response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') { |http| http.request(request) }
+      response = multipart_connection.post(endpoint, payload) do |request|
+        request.headers['Access-Token'] = access_token
+      end
       json = process_json_response(response, 'Failed to upload TikTok media')
       json['data']['media_id']
+    end
+  end
+
+  def multipart_connection
+    @multipart_connection ||= Faraday.new do |faraday|
+      faraday.request :multipart
     end
   end
 
@@ -113,15 +120,18 @@ class Tiktok::Client
   end
 
   def process_json_response(response, error_prefix)
-    success = response.respond_to?(:success?) ? response.success? : response.is_a?(Net::HTTPSuccess)
-    unless success
-      Rails.logger.error "#{error_prefix}. Status: #{response.code}, Body: #{response.body}"
-      raise "#{response.code}: #{response.body}"
+    unless response.success?
+      Rails.logger.error "#{error_prefix}. Status: #{response_status(response)}, Body: #{response.body}"
+      raise "#{response_status(response)}: #{response.body}"
     end
 
     res = JSON.parse(response.body)
     raise "#{res['code']}: #{res['message']}" if res['code'] != 0
 
     res
+  end
+
+  def response_status(response)
+    response.respond_to?(:code) ? response.code : response.status
   end
 end

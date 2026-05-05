@@ -58,7 +58,7 @@ RSpec.describe Tiktok::MessageService do
 
       message = Message.last
       expect(message.conversation.additional_attributes.dig('tiktok_capabilities', 'image_send')).to be(true)
-      expect(message.conversation.additional_attributes.dig('tiktok_capabilities', 'checked_at')).to be_present
+      expect(message.conversation.additional_attributes.dig('tiktok_capabilities', 'updated_at')).to be_present
       expect(tiktok_client).to have_received(:image_send_capable?).with('tt-conv-1')
     end
 

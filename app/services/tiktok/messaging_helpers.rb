@@ -61,7 +61,7 @@ module Tiktok::MessagingHelpers
 
   def tiktok_conversation_capabilities(channel, tt_conversation_id)
     image_send = tiktok_client(channel).image_send_capable?(tt_conversation_id)
-    { image_send: image_send, checked_at: Time.current.iso8601 }
+    { image_send: image_send, updated_at: Time.current.iso8601 }
   rescue StandardError => e
     Rails.logger.error(
       'Failed to fetch TikTok conversation capabilities ' \

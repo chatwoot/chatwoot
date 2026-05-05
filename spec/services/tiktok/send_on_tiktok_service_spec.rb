@@ -67,5 +67,48 @@ RSpec.describe Tiktok::SendOnTiktokService do
       expect(Messages::StatusUpdateService).to have_received(:new).with(message, 'failed', kind_of(String))
       expect(tiktok_client).not_to have_received(:send_media_message)
     end
+
+    it 'marks message as failed when attachment is not an image' do
+      allow(tiktok_client).to receive(:send_media_message)
+
+      message = build(:message, message_type: :outgoing, inbox: inbox, conversation: conversation, account: inbox.account, content: nil)
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
+      attachment.file.attach(io: Rails.root.join('spec/assets/contacts.csv').open, filename: 'contacts.csv', content_type: 'text/csv')
+      message.save!
+
+      described_class.new(message: message).perform
+
+      expect(Messages::StatusUpdateService).to have_received(:new).with(message, 'failed', 'Only image attachments are supported on TikTok.')
+      expect(tiktok_client).not_to have_received(:send_media_message)
+    end
+
+    it 'marks message as failed when image format is unsupported' do
+      allow(tiktok_client).to receive(:send_media_message)
+
+      message = build(:message, message_type: :outgoing, inbox: inbox, conversation: conversation, account: inbox.account, content: nil)
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/contacts.csv').open, filename: 'contacts.csv', content_type: 'text/csv')
+      message.save!
+
+      described_class.new(message: message).perform
+
+      expect(Messages::StatusUpdateService).to have_received(:new).with(message, 'failed', 'TikTok supports only JPG and PNG images.')
+      expect(tiktok_client).not_to have_received(:send_media_message)
+    end
+
+    it 'marks message as failed when image is larger than 3 MB' do
+      allow(tiktok_client).to receive(:send_media_message)
+
+      message = build(:message, message_type: :outgoing, inbox: inbox, conversation: conversation, account: inbox.account, content: nil)
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      message.save!
+      allow(message.attachments.first.file).to receive(:byte_size).and_return(4.megabytes)
+
+      described_class.new(message: message).perform
+
+      expect(Messages::StatusUpdateService).to have_received(:new).with(message, 'failed', 'TikTok image attachments must be smaller than 3 MB.')
+      expect(tiktok_client).not_to have_received(:send_media_message)
+    end
   end
 end
