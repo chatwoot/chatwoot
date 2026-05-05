@@ -6,7 +6,7 @@
 #  custom_attributes     :jsonb
 #  last_activity_at      :datetime
 #  id             :bigint           not null, primary key
-#  contacts_count :integer          default(0), not null
+#  contacts_count :integer
 #  description    :text
 #  domain         :string
 #  name           :string           not null
