@@ -18,11 +18,12 @@ class Line::WebhookEventAdapter
     end
 
     def normalize_message_event(event)
-      return unless event.source.respond_to?(:type) && event.source.type == 'user'
+      source_user_id = event.source.user_id if event.source.respond_to?(:user_id)
+      return if source_user_id.blank?
 
       {
         'type' => event.type,
-        'source' => { 'userId' => event.source.user_id },
+        'source' => { 'userId' => source_user_id },
         'message' => normalize_message(event.message)
       }
     end

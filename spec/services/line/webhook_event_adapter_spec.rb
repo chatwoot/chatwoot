@@ -18,8 +18,24 @@ RSpec.describe Line::WebhookEventAdapter do
       )
     end
 
-    it 'skips non-user sources' do
+    it 'normalizes a group message event with a source user id' do
       source = Struct.new(:type, :group_id, :user_id).new('group', 'C123', 'U123')
+      message = Struct.new(:id, :type, :text).new('mid-1', 'text', 'hello')
+      event = Struct.new(:type, :source, :message).new('message', source, message)
+
+      expect(described_class.normalize([event])).to eq(
+        'events' => [
+          {
+            'type' => 'message',
+            'source' => { 'userId' => 'U123' },
+            'message' => { 'id' => 'mid-1', 'type' => 'text', 'text' => 'hello' }
+          }
+        ]
+      )
+    end
+
+    it 'skips message events without source user ids' do
+      source = Struct.new(:type, :group_id, :user_id).new('group', 'C123', nil)
       message = Struct.new(:id, :type, :text).new('mid-1', 'text', 'hello')
       event = Struct.new(:type, :source, :message).new('message', source, message)
 
