@@ -278,6 +278,8 @@ export default {
             icon="mail"
             emoji="✉️"
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
+            editable
+            @update="value => onEmailUpdate(0, value)"
           />
           <ContactInfoRow
             :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
