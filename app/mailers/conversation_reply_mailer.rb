@@ -194,8 +194,18 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def to_emails
-    # if there is no to_emails from content_attributes, send it to @contact&.email
-    to_emails_from_content_attributes.presence || [@contact&.email]
+    to_emails_from_content_attributes.presence || [reply_to_contact_email].compact
+  end
+
+  def reply_to_contact_email
+    contact_inbox_source_email || @contact&.email
+  end
+
+  def contact_inbox_source_email
+    source_id = @conversation.contact_inbox&.source_id.to_s.strip
+    return if source_id.blank?
+
+    @contact&.all_emails&.find { |email| email.casecmp?(source_id) }
   end
 
   def inbound_email_enabled?

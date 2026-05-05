@@ -247,6 +247,42 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{conversation.account.domain}")
       end
 
+      it 'uses explicit outgoing recipient emails before contact emails' do
+        create(:contact_email, contact: conversation.contact, account: account, email: 'alias@example.com')
+        conversation.contact_inbox.update!(source_id: 'alias@example.com')
+        message.update!(content_attributes: { to_emails: ['explicit@example.com'] })
+
+        mail = described_class.email_reply(message).deliver_now
+
+        expect(mail.to).to eq(['explicit@example.com'])
+      end
+
+      it 'uses the contact inbox source email when it is an additional contact email' do
+        create(:contact_email, contact: conversation.contact, account: account, email: 'alias@example.com')
+        conversation.contact_inbox.update!(source_id: 'alias@example.com')
+
+        mail = described_class.email_reply(message).deliver_now
+
+        expect(mail.to).to eq(['alias@example.com'])
+      end
+
+      it 'falls back to the primary contact email when the contact inbox source email is not a contact email' do
+        create(:contact_email, contact: conversation.contact, account: account, email: 'alias@example.com')
+        conversation.contact_inbox.update!(source_id: 'external@example.com')
+
+        mail = described_class.email_reply(message).deliver_now
+
+        expect(mail.to).to eq([conversation.contact.email])
+      end
+
+      it 'does not send to additional emails by default when primary email and source match are blank' do
+        conversation.contact.update!(email: nil)
+        create(:contact_email, contact: conversation.contact, account: account, email: 'alias@example.com')
+        conversation.contact_inbox.update!(source_id: 'external@example.com')
+
+        expect { described_class.email_reply(message).deliver_now }.to raise_error(ArgumentError, /To address may not be blank/)
+      end
+
       context 'when message is a CSAT survey' do
         let(:csat_message) do
           create(:message, conversation: conversation, account: account, message_type: 'template',
