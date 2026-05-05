@@ -47,9 +47,10 @@ const visibleFiles = computed(() =>
     : fileAttachments.value.slice(0, FILES_PEEK_LIMIT)
 );
 
-const mediaOverflow = computed(() =>
-  Math.max(0, mediaAttachments.value.length - MEDIA_PEEK_LIMIT)
-);
+const mediaOverflow = computed(() => {
+  const total = mediaAttachments.value.length;
+  return total > MEDIA_PEEK_LIMIT ? total - (MEDIA_PEEK_LIMIT - 1) : 0;
+});
 
 const showGallery = ref(false);
 const selectedAttachment = ref(null);
@@ -90,19 +91,41 @@ const onTileActivate = (attachment, index) => {
   showGallery.value = true;
 };
 
+const failedThumbs = ref(new Set());
+const failedPreviews = ref(new Set());
+
 const imagePreviewSrc = attachment => {
   const {
+    id,
     file_type: type,
     thumb_url: thumbUrl,
     data_url: dataUrl,
   } = attachment;
-  if (type === ATTACHMENT_TYPES.IMAGE) return thumbUrl || dataUrl;
-  if (isVideoType(type)) return thumbUrl || null;
+  const canUseThumb = thumbUrl && !failedThumbs.value.has(id);
+  if (type === ATTACHMENT_TYPES.IMAGE) {
+    if (canUseThumb) return thumbUrl;
+    return dataUrl;
+  }
+  if (isVideoType(type)) return canUseThumb ? thumbUrl : null;
   return null;
 };
 
-const failedPreviews = ref(new Set());
-const onPreviewError = id => failedPreviews.value.add(id);
+const onPreviewError = attachment => {
+  const {
+    id,
+    file_type: type,
+    thumb_url: thumbUrl,
+    data_url: dataUrl,
+  } = attachment;
+  // First failure on a thumb-backed src: retry with the full url (image)
+  // or hand off to the <video> tag (video).
+  if (thumbUrl && !failedThumbs.value.has(id) && dataUrl) {
+    failedThumbs.value.add(id);
+    if (type === ATTACHMENT_TYPES.IMAGE || isVideoType(type)) return;
+  }
+  failedPreviews.value.add(id);
+};
+
 const hasPreview = attachment =>
   !!imagePreviewSrc(attachment) && !failedPreviews.value.has(attachment.id);
 const hasVideoPreview = attachment =>
@@ -186,7 +209,7 @@ const displaySize = attachment => {
               class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
               loading="lazy"
               :alt="fileNameFromUrl(attachment.data_url)"
-              @error="onPreviewError(attachment.id)"
+              @error="onPreviewError(attachment)"
             />
             <video
               v-else-if="hasVideoPreview(attachment)"
@@ -195,7 +218,7 @@ const displaySize = attachment => {
               muted
               playsinline
               class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110 pointer-events-none"
-              @error="onPreviewError(attachment.id)"
+              @error="onPreviewError(attachment)"
             />
             <div
               v-else
