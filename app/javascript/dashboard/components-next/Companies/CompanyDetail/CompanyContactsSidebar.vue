@@ -123,6 +123,30 @@ const selectedContactCompanyName = computed(
   () => props.selectedContact?.company?.name || ''
 );
 
+const summaryRows = computed(() => [
+  {
+    key: 'company',
+    label: t('COMPANIES.DETAIL.CONTACTS.DIALOGS.ADD.COMPANY_LABEL'),
+    avatarName: props.company.name || t('COMPANIES.UNNAMED'),
+    avatarSrc: props.company.avatarUrl,
+    primary: props.company.name || t('COMPANIES.UNNAMED'),
+    secondary: props.company.domain,
+  },
+  {
+    key: 'contact',
+    label: t('COMPANIES.DETAIL.CONTACTS.DIALOGS.ADD.CONTACT_LABEL'),
+    badge: selectedContactCompanyName.value
+      ? t('COMPANIES.DETAIL.CONTACTS.DIALOGS.ADD.CURRENT_COMPANY', {
+          companyName: selectedContactCompanyName.value,
+        })
+      : '',
+    avatarName: selectedContactName.value,
+    avatarSrc: props.selectedContact?.thumbnail,
+    primary: selectedContactName.value,
+    secondary: selectedContactMeta.value,
+  },
+]);
+
 const debouncedSearch = debounce(query => {
   emit('search', query);
 }, 300);
@@ -182,53 +206,20 @@ const handleContactSelect = contactId => {
       </div>
 
       <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-2">
+        <div
+          v-for="row in summaryRows"
+          :key="row.key"
+          class="flex flex-col gap-2"
+        >
           <div class="flex items-center justify-between h-5 gap-2">
             <label class="text-sm text-n-slate-12">
-              {{ t('COMPANIES.DETAIL.CONTACTS.DIALOGS.ADD.COMPANY_LABEL') }}
-            </label>
-          </div>
-
-          <div
-            class="border border-n-strong h-[60px] gap-2 flex items-center rounded-xl p-3"
-          >
-            <Avatar
-              :name="company.name || t('COMPANIES.UNNAMED')"
-              :src="company.avatarUrl"
-              :size="32"
-              rounded-full
-              hide-offline-status
-            />
-            <div class="flex flex-col w-full min-w-0 gap-1">
-              <span
-                class="text-sm leading-4 font-medium truncate text-n-slate-12"
-              >
-                {{ company.name || t('COMPANIES.UNNAMED') }}
-              </span>
-              <span
-                v-if="company.domain"
-                class="text-sm leading-4 truncate text-n-slate-11"
-              >
-                {{ company.domain }}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex flex-col gap-2">
-          <div class="flex items-center justify-between h-5 gap-2">
-            <label class="text-sm text-n-slate-12">
-              {{ t('COMPANIES.DETAIL.CONTACTS.DIALOGS.ADD.CONTACT_LABEL') }}
+              {{ row.label }}
             </label>
             <span
-              v-if="selectedContactCompanyName"
+              v-if="row.badge"
               class="px-2 py-0.5 text-xs rounded-md text-n-amber-11 bg-n-alpha-2"
             >
-              {{
-                t('COMPANIES.DETAIL.CONTACTS.DIALOGS.ADD.CURRENT_COMPANY', {
-                  companyName: selectedContactCompanyName,
-                })
-              }}
+              {{ row.badge }}
             </span>
           </div>
 
@@ -236,8 +227,8 @@ const handleContactSelect = contactId => {
             class="border border-n-strong h-[60px] gap-2 flex items-center rounded-xl p-3"
           >
             <Avatar
-              :name="selectedContactName"
-              :src="selectedContact.thumbnail"
+              :name="row.avatarName"
+              :src="row.avatarSrc"
               :size="32"
               rounded-full
               hide-offline-status
@@ -246,20 +237,20 @@ const handleContactSelect = contactId => {
               <span
                 class="text-sm leading-4 font-medium truncate text-n-slate-12"
               >
-                {{ selectedContactName }}
+                {{ row.primary }}
               </span>
               <span
-                v-if="selectedContactMeta"
+                v-if="row.secondary"
                 class="text-sm leading-4 truncate text-n-slate-11"
               >
-                {{ selectedContactMeta }}
+                {{ row.secondary }}
               </span>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center justify-between gap-3 mt-2">
         <Button
           variant="faded"
           color="slate"
