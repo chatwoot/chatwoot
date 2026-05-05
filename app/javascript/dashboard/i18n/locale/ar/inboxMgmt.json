@@ -3,6 +3,9 @@
     "HEADER": "قنوات التواصل",
     "DESCRIPTION": "القناة هي وضع الاتصال الذي يختاره العميل للتفاعل معك. صندوق الوارد هو المكان الذي تدير فيه التفاعلات لقناة معينة. ويمكن أن تشمل الاتصالات من مصادر مختلفة مثل البريد الإلكتروني، والمحادثة الحية، ووسائط الإعلام الاجتماعية.",
     "LEARN_MORE": "تعلم المزيد عن صناديق البريد",
+    "COUNT": "{n} inbox | {n} inboxes",
+    "SEARCH_PLACEHOLDER": "Search inboxes...",
+    "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
@@ -58,11 +61,11 @@
         "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TIKTOK": {
-        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
-        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
-        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
-        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+        "CONTINUE_WITH_TIKTOK": "المتابعة مع تيكتوك",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "الاتصال بحسابك في تيكتوك",
+        "HELP": "لإضافة ملفك الشخصي على TikTok كقناة، عليك مصادقة ملفك الشخصي على TikTok بالنقر على \"متابعة مع TikTok\".",
+        "ERROR_MESSAGE": "حدث خطأ أثناء الاتصال بـ TikTok، يرجى المحاولة مرة أخرى",
+        "ERROR_AUTH": "حدث خطأ أثناء الاتصال بـ TikTok، يرجى المحاولة مرة أخرى"
       },
       "TWITTER": {
         "HELP": "لإضافة حساب تويتر الخاص بك كقناة تواصل، تحتاج إلى مصادقة حسابك على تويتر بك بالنقر على زر \"تسجيل الدخول باستخدام تويتر\" ",
@@ -82,6 +85,14 @@
           "LABEL": "رابط Webhook",
           "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "الرجاء إدخال عنوان URL صالح"
+        },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "نطاق الموقع",
@@ -389,10 +400,10 @@
           "ERROR_MESSAGE": "لم نتمكن من حفظ قناة البريد الإلكتروني"
         },
         "FINISH_MESSAGE": "بدء إعادة توجيه رسائل البريد الإلكتروني الخاصة بك إلى عنوان البريد الإلكتروني التالي.",
-        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
-        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
+        "FINISH_MESSAGE_NO_FORWARDING": "تم إنشاء بريدك الإلكتروني بنجاح! تحتاج إلى تكوين بيانات اعتماد SMTP و IMAP لإرسال واستقبال رسائل البريد الإلكتروني. بدون هذه الإعدادات، لن يتم معالجة رسائل البريد الإلكتروني.",
+        "FORWARDING_ADDRESS_LABEL": "إعادة توجيه رسائل البريد الإلكتروني إلى هذا العنوان",
         "CONFIGURE_SMTP_IMAP_LINK": "اضغط هنا",
-        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
+        "CONFIGURE_SMTP_IMAP_TEXT": " لتهيئة إعدادات IMAP و SMTP"
       },
       "LINE_CHANNEL": {
         "TITLE": "قناة LINE",
@@ -480,7 +491,7 @@
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "ربط حسابك في TikTok"
           },
           "VOICE": {
             "TITLE": "Voice",
@@ -575,7 +586,7 @@
           "SUBTITLE": "Use only the configured business name as the sender name in the email header."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
+          "BUTTON_TEXT": "Configure your business name",
           "PLACEHOLDER": "Enter your business name",
           "SAVE_BUTTON_TEXT": "حفظ"
         }
@@ -589,8 +600,10 @@
         "DISABLED": "معطّل"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "مفعل",
-        "DISABLED": "معطّل"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "تفعيل"
@@ -625,6 +638,8 @@
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "تقييم رضاء العملاء"
     },
+    "CHANNEL_PREFERENCES": "Channel Preferences",
+    "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
       "TITLE": "Manage your WhatsApp account",
       "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
@@ -678,6 +693,16 @@
           "SANDBOX": "Sandbox",
           "LIVE": "مباشر"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Webhook Configuration",
+        "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
+        "ACTION_REQUIRED": "Webhook not configured",
+        "REGISTER_BUTTON": "Register Webhook",
+        "REGISTER_SUCCESS": "Webhook registered successfully",
+        "REGISTER_ERROR": "Failed to register webhook. Please try again.",
+        "CONFIGURED_SUCCESS": "Webhook configured successfully",
+        "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
     "SETTINGS": "الإعدادات",
@@ -693,8 +718,20 @@
       "MESSENGER_SUB_HEAD": "ضع هذا الكود داخل وسم الـ body في موقعك",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
+      },
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Enable widget in mobile apps",
+        "SUBTITLE": "حدد هذا الخيار إذا كنت تقوم بتضمين الأداة في تطبيقات iOS أو Android. لا ترسل تطبيقات الجوال معلومات النطاق، لذا سيتم حظرها بسبب قيود النطاق ما لم يتم تفعيل هذا الخيار."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Identity Validation",
+        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "SECRET_KEY": "Secret Key",
+        "VIEW_DOCS": "View documentation",
+        "REQUIRE_LABEL": "Require identity validation for all conversations",
+        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
       },
       "INBOX_AGENTS": "وكيل الدعم",
       "INBOX_AGENTS_SUB_TEXT": "إضافة أو إزالة وكلاء من صندوق الوارد هذا",
@@ -708,8 +745,8 @@
       "SENDER_NAME_SECTION_TEXT": "تمكين/تعطيل إظهار اسم الوكيل في البريد الإلكتروني، إذا تم تعطيله فسيظهر اسم المنشأة",
       "ENABLE_CONTINUITY_VIA_EMAIL": "تمكين استمرارية المحادثة عبر البريد الإلكتروني",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "المحادثات ستستمر عبر البريد الإلكتروني إذا كان عنوان البريد الإلكتروني لجهة الاتصال متاحاً.",
-      "LOCK_TO_SINGLE_CONVERSATION": "قفل إلى محادثة واحدة",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "تمكين أو تعطيل محادثات متعددة لنفس جهة الاتصال في هذا البريد الوارد",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "إعدادات قناة التواصل",
       "INBOX_UPDATE_SUB_TEXT": "تحديث إعدادات قناة التواصل",
       "AUTO_ASSIGNMENT_SUB_TEXT": "تمكين أو تعطيل الإسناد التلقائي للمحادثات الجديدة إلى الموظفين المضافين إلى قناة التواصل هذه.",
@@ -758,6 +795,7 @@
       "LABEL": "مركز المساعدة",
       "PLACEHOLDER": "Select Help Center",
       "SELECT_PLACEHOLDER": "Select Help Center",
+      "NONE": "لا شيء",
       "REMOVE": "Remove Help Center",
       "SUB_TEXT": "Attach a Help Center with the inbox"
     },
@@ -765,6 +803,53 @@
       "MAX_ASSIGNMENT_LIMIT": "حد الإسناد التلقائي",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "الرجاء إدخال قيمة أكبر من 0",
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "تحديد الحد الأقصى لعدد المحادثات من علبة الوارد هذه التي يمكن تعيينها تلقائياً إلى وكيل"
+    },
+    "ASSIGNMENT": {
+      "TITLE": "تعيين المحادثة",
+      "DESCRIPTION": "تعيين المحادثات الواردة تلقائياً إلى الوكلاء المتاحين استناداً إلى سياسات التعيين",
+      "ENABLE_AUTO_ASSIGNMENT": "تمكين تعيين المحادثة تلقائياً",
+      "DEFAULT_RULES_TITLE": "قواعد التعيين الافتراضية",
+      "DEFAULT_RULES_DESCRIPTION": "استخدام سلوك التعيين الافتراضي لجميع المحادثات",
+      "DEFAULT_RULE_1": "المحادثات التي تم إنشاؤها أولاً",
+      "DEFAULT_RULE_2": "توزيع الجدولة الدائرية (Round robin)",
+      "CUSTOMIZE_WITH_POLICY": "Customize with assignment policy",
+      "USING_POLICY": "استخدام سياسة التعيين المخصصة لهذه القناة",
+      "CUSTOMIZE_POLICY": "التخصيص وفقًا لسياسة التعيين",
+      "DELETE_POLICY": "حذف سياسة",
+      "POLICY_LABEL": "سياسة التعيين",
+      "ASSIGNMENT_ORDER_LABEL": "ترتيب التعيين",
+      "ASSIGNMENT_METHOD_LABEL": "طريقة التعيين",
+      "POLICY_STATUS": {
+        "ACTIVE": "مفعل",
+        "INACTIVE": "غير نشط"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "تم إنشاؤها في وقت سابق",
+        "LONGEST_WAITING": "أطول انتظار"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "Round robin",
+        "BALANCED": "تعيين متوازن"
+      },
+      "UPGRADE_PROMPT": "سياسة التعيين المخصصة متاحى في الخطة (Business) ",
+      "UPGRADE_TO_BUSINESS": "الترقية إلى (Business)",
+      "DEFAULT_POLICY_LINKED": "السياسة الافتراضية المرتبطة",
+      "DEFAULT_POLICY_DESCRIPTION": "ربط سياسة تعيين مخصصة لتخصيص كيفية تعيين المحادثات إلى الوكلاء في هذه القناه",
+      "LINK_EXISTING_POLICY": "ربط السياسة الحالية",
+      "CREATE_NEW_POLICY": "إنشاء سياسة جديدة",
+      "NO_POLICIES": "لم يتم العثور على سياسات التعيين",
+      "VIEW_ALL_POLICIES": "عرض جميع السياسات",
+      "CURRENT_BEHAVIOR": "حاليا يستخدم سلوك التعيين الافتراضي:",
+      "LINK_SUCCESS": "تم ربط سياسة التعيين بنجاح",
+      "LINK_ERROR": "فشل في ربط سياسة التعيين"
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "حذف سياسة التعيين؟",
+      "DELETE_CONFIRM_MESSAGE": "هل أنت متأكد من أنك تريد إزالة سياسة التعيين هذه من صندوق الوارد هذا؟ صندوق الوارد سوف يعود إلى قواعد التعيين الافتراضية.",
+      "CANCEL": "إلغاء",
+      "CONFIRM_DELETE": "حذف",
+      "DELETE_SUCCESS": "تمت إزالة سياسة التعيين بنجاح",
+      "DELETE_ERROR": "فشل في إزالة سياسة التعيين"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "إعادة التصريح",
@@ -809,33 +894,47 @@
         "PLACEHOLDER": "Please enter a message to show users with the form"
       },
       "BUTTON_TEXT": {
-        "LABEL": "Button text",
-        "PLACEHOLDER": "Please rate us"
+        "LABEL": "نص الزر",
+        "PLACEHOLDER": "يرجى تقييمنا"
       },
       "LANGUAGE": {
         "LABEL": "اللغة",
-        "PLACEHOLDER": "Select template language"
+        "PLACEHOLDER": "اختر لغة القالب"
       },
       "MESSAGE_PREVIEW": {
-        "LABEL": "Message preview",
-        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+        "LABEL": "معاينة الرسالة",
+        "TOOLTIP": "قد يختلف هذا قليلاً عند تقديمه على منصة WhatsApp."
       },
       "TEMPLATE_STATUS": {
-        "APPROVED": "Approved by WhatsApp",
-        "PENDING": "Pending WhatsApp approval",
-        "REJECTED": "Meta rejected the template",
-        "DEFAULT": "Needs WhatsApp approval",
-        "NOT_FOUND": "The template does not exist in the Meta platform."
+        "APPROVED": "معتمد بواسطة WhatsApp",
+        "PENDING": "في انتظار موافقة WhatsApp",
+        "REJECTED": "Meta رفضت القالب",
+        "DEFAULT": "يحتاج موافقة WhatsApp",
+        "NOT_FOUND": "هذا القالب غير موجود في منصة ميتا."
       },
       "TEMPLATE_CREATION": {
-        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
-        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+        "SUCCESS_MESSAGE": "تم إنشاء قالب WhatsApp بنجاح وإرساله للموافقة عليه",
+        "ERROR_MESSAGE": "فشل إنشاء قالب WhatsApp"
       },
       "TEMPLATE_UPDATE_DIALOG": {
-        "TITLE": "Edit survey details",
-        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Create new template",
+        "TITLE": "تعديل تفاصيل الاستبيان",
+        "DESCRIPTION": "سوف نقوم بحذف القالب السابق ونقوم بإنشاء قالب جديد حيث سيتم إرساله مرة أخرى للاعتماد من قبل Whatsapp",
+        "CONFIRM": "إنشاء قالب جديد",
         "CANCEL": "العودة للخلف"
+      },
+      "UTILITY_ANALYZER": {
+        "ACTION": "Check utility fit",
+        "HELPER_NOTE": "Check this message before submission to improve Utility fit. The system creates a dedicated CSAT template with buttons for reporting and submits it as Utility; Meta may still reclassify it as Marketing based on content.",
+        "RESULT_LABEL": "Meta category prediction",
+        "GUIDANCE_NOTE": "This is a guidance check, not a guarantee of Meta approval.",
+        "SUGGESTION_LABEL": "Suggested utility-safe rewrite",
+        "APPLY": "Use this rewrite",
+        "ERROR_MESSAGE": "Couldn't analyze the message. Please try again.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "Likely Utility",
+          "LIKELY_MARKETING": "Likely Marketing",
+          "UNCLEAR": "Needs clarification"
+        }
       },
       "SURVEY_RULE": {
         "LABEL": "Survey rule",
@@ -848,7 +947,7 @@
         "SELECT_PLACEHOLDER": "select labels"
       },
       "NOTE": "Note: CSAT surveys are sent only once per conversation",
-      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
       "API": {
         "SUCCESS_MESSAGE": "CSAT settings updated successfully",
         "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
@@ -864,9 +963,11 @@
       "UNAVAILABLE_MESSAGE_LABEL": "رسالة غير متاح للزائرين",
       "TOGGLE_HELP": "تمكين توفر العمل سيظهر الساعات المتاحة على أداة الدردشة المباشرة حتى لو كان جميع الوكلاء غير متصلين بالإنترنت. خارج الساعات المتاحة يمكن تحذير الزوار برسالة ونموذج ما قبل الدردشة.",
       "DAY": {
+        "DAY": "اليوم",
+        "AVAILABILITY": "التوفر",
+        "HOURS": "Hours",
         "ENABLE": "تمكين التوفر لهذا اليوم",
         "UNAVAILABLE": "غير متوفر",
-        "HOURS": "ساعات",
         "VALIDATION_ERROR": "يجب أن يكون وقت البدء قبل وقت الإغلاق.",
         "CHOOSE": "اختر"
       },
@@ -973,11 +1074,12 @@
           "IN_A_DAY": "خلال يوم"
         },
         "WIDGET_COLOR_LABEL": "لون صندوق الدردشة",
-        "WIDGET_BUBBLE_POSITION_LABEL": "موقع شعار اللايف شات",
-        "WIDGET_BUBBLE_TYPE_LABEL": "شكل عرض اللايف شات",
+        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "النوع:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "تحدث الينا",
-          "LABEL": "عنوان ايقونة اللايف شات",
+          "LABEL": "Launcher Title",
           "PLACE_HOLDER": "تحدث الينا"
         },
         "UPDATE": {
@@ -1002,7 +1104,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "افتراضي",
-        "CHAT": "محادثة"
+        "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "عادة نقوم بالرد خلال بضع دقائق",

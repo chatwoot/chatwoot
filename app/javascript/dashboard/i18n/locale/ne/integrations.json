@@ -1,49 +1,63 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "Shopify एकीकरण मेटाउनु",
+        "MESSAGE": "के तपाईं साँच्चै Shopify एकीकरण मेटाउन चाहनुहुन्छ?"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
-        "LABEL": "Store URL",
+        "TITLE": "Shopify स्टोर जडान गर्नु",
+        "LABEL": "स्टोर URL",
         "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
-        "CANCEL": "Cancel",
-        "SUBMIT": "Connect Store"
+        "HELP": "तपाईंको Shopify स्टोरको myshopify.com URL प्रविष्ट गर्नुहोस्",
+        "CANCEL": "रद्द गर्नु",
+        "SUBMIT": "स्टोर जडान गर्नु"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "Shopify सँग जडान गर्दा त्रुटि भयो। कृपया पुन: प्रयास गर्नुहोस् वा समस्या जारी रहेमा समर्थनलाई सम्पर्क गर्नुहोस्।"
     },
-    "HEADER": "Integrations",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
-    "LOADING": "Fetching integrations",
+    "HEADER": "एकीकरणहरू",
+    "DESCRIPTION": "Chatwoot ले तपाईंको टोलीको कार्यक्षमता सुधार गर्न विभिन्न उपकरण र सेवाहरूसँग एकीकृत गर्दछ। तपाईंको मनपर्ने एपहरू कन्फिगर गर्न तलको सूची अन्वेषण गर्नुहोस्।",
+    "LEARN_MORE": "एकीकरणहरू बारे थप जान्नुहोस्",
+    "LOADING": "एकीकरणहरू ल्याउँदैछ",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
-      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "DISABLED": "तपाईंको खातामा Captain सक्षम गरिएको छैन।",
+      "CLICK_HERE_TO_CONFIGURE": "कन्फिगर गर्न यहाँ क्लिक गर्नुहोस्",
+      "LOADING_CONSOLE": "Captain कन्सोल लोड हुँदैछ...",
+      "FAILED_TO_LOAD_CONSOLE": "Captain कन्सोल लोड गर्न असफल भयो। कृपया रिफ्रेश गरेर पुन: प्रयास गर्नुहोस्।"
     },
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
-      "LEARN_MORE": "Learn more about webhooks",
+      "SUBSCRIBED_EVENTS": "सदस्यता लिएका घटनाहरू",
+      "LEARN_MORE": "वेबहुकहरू बारे थप जान्नुहोस्",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
-        "CANCEL": "Cancel",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "रद्द गर्नुहोस्",
+        "DESC": "वेबहुक घटनाहरूले तपाईंलाई तपाईंको Chatwoot खातामा के भइरहेको छ भन्ने बारे वास्तविक-समय जानकारी प्रदान गर्छ। कृपया कलब्याक कन्फिगर गर्न मान्य URL प्रविष्ट गर्नुहोस्।",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "घटनाहरू",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated",
-            "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_CREATED": "संवाद सिर्जना भयो",
+            "CONVERSATION_STATUS_CHANGED": "संवाद स्थिति परिवर्तन भयो",
+            "CONVERSATION_UPDATED": "संवाद अपडेट भयो",
+            "MESSAGE_CREATED": "सन्देश सिर्जना भयो",
+            "MESSAGE_UPDATED": "सन्देश अपडेट भयो",
+            "WEBWIDGET_TRIGGERED": "प्रयोगकर्ताद्वारा लाइभ च्याट विजेट खोलियो",
+            "CONTACT_CREATED": "सम्पर्क सिर्जना भयो",
+            "CONTACT_UPDATED": "सम्पर्क अपडेट गरियो",
+            "CONVERSATION_TYPING_ON": "कुराकानी टाइप गर्दै छ",
+            "CONVERSATION_TYPING_OFF": "कुराकानी टाइप गर्दै छैन"
           }
         },
         "NAME": {
@@ -51,468 +65,499 @@
           "PLACEHOLDER": "Enter the name of the webhook"
         },
         "END_POINT": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Example: {webhookExampleURL}",
-          "ERROR": "Please enter a valid URL"
+          "LABEL": "वेबहुक URL",
+          "PLACEHOLDER": "उदाहरण: {webhookExampleURL}",
+          "ERROR": "कृपया मान्य URL प्रविष्ट गर्नुहोस्"
         },
-        "EDIT_SUBMIT": "Update webhook",
-        "ADD_SUBMIT": "Create webhook"
+        "EDIT_SUBMIT": "वेबहुक अपडेट गर्नुहोस्",
+        "ADD_SUBMIT": "वेबहुक सिर्जना गर्नुहोस्"
       },
-      "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "TITLE": "वेबहुक",
+      "CONFIGURE": "कन्फिगर गर्नुहोस्",
+      "HEADER": "वेबहुक सेटिङहरू",
+      "HEADER_BTN_TXT": "नयाँ वेबहुक थप्नुहोस्",
+      "LOADING": "जोडिएका वेबहुकहरू ल्याउँदैछ",
+      "SEARCH_404": "यस सोधपुछसँग मेल खाने कुनै वस्तुहरू छैनन्",
+      "SIDEBAR_TXT": "<p><b>वेबहुकहरू</b> </p> <p>वेबहुकहरू HTTP कलब्याकहरू हुन् जुन प्रत्येक खाताका लागि परिभाषित गर्न सकिन्छ। तिनीहरू Chatwoot मा सन्देश सिर्जना जस्ता घटनाहरूले ट्रिगर हुन्छन्। तपाईं यस खाताका लागि एक भन्दा बढी वेबहुकहरू सिर्जना गर्न सक्नुहुन्छ। <br /><br /> वेबहुक सिर्जना गर्न, <b>नयाँ वेबहुक थप्नुहोस्</b> बटनमा क्लिक गर्नुहोस्। तपाईं कुनै पनि अवस्थित वेबहुकलाई मेटाउन Delete बटनमा क्लिक गर्न सक्नुहुन्छ।</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "यस खाताका लागि कुनै वेबहुकहरू कन्फिगर गरिएको छैन।",
+        "TITLE": "वेबहुकहरू व्यवस्थापन गर्नुहोस्",
         "TABLE_HEADER": {
-          "WEBHOOK_ENDPOINT": "Webhook endpoint",
-          "ACTIONS": "Actions"
+          "WEBHOOK_ENDPOINT": "वेबहुक अन्त्यबिन्दु",
+          "ACTIONS": "कार्यहरू"
         }
       },
       "EDIT": {
-        "BUTTON_TEXT": "Edit",
-        "TITLE": "Edit webhook",
+        "BUTTON_TEXT": "सम्पादन गर्नुहोस्",
+        "TITLE": "वेबहुक सम्पादन गर्नुहोस्",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "वेबहुक कन्फिगरेसन सफलतापूर्वक अपडेट गरियो",
+          "ERROR_MESSAGE": "Woot सर्भरसँग जडान गर्न सकिएन, कृपया पछि फेरि प्रयास गर्नुहोस्"
         }
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
+        "CANCEL": "रद्द गर्नुहोस्",
+        "TITLE": "नयाँ वेबहुक थप्नुहोस्",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "वेबहुक कन्फिगरेसन सफलतापूर्वक थपियो",
+          "ERROR_MESSAGE": "Woot सर्भरसँग जडान गर्न सकिएन, कृपया पछि फेरि प्रयास गर्नुहोस्"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "मेटाउनुहोस्",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "वेबहुक सफलतापूर्वक मेटाइयो",
+          "ERROR_MESSAGE": "Woot सर्भरसँग जडान गर्न सकिएन, कृपया पछि फेरि प्रयास गर्नुहोस्"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "मेटाउने पुष्टि गर्नुहोस्",
+          "MESSAGE": "के तपाईं वेबहुक मेटाउन निश्चित हुनुहुन्छ? ({webhookURL})",
+          "YES": "हो, मेटाउनुहोस् ",
+          "NO": "होइन, राख्नुहोस्"
         }
       }
     },
     "SLACK": {
-      "DELETE": "Delete",
+      "HEADER": "Slack",
+      "DELETE": "मेटाउनुहोस्",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "एकीकरण मेटाउनुहोस्",
+        "MESSAGE": "के तपाईं निश्चित रूपमा एकीकरण मेटाउन चाहनुहुन्छ? यसो गर्दा तपाईंको Slack कार्यक्षेत्रमा कुराकानीहरू पहुँच गुम्नेछ।"
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
-        "SELECTED": "selected"
+        "BODY": "यस एकीकरणसँग, तपाईंका सबै आउने कुराकानीहरू तपाईंको Slack workspace भित्रको ***{selectedChannelName}*** च्यानलमा sync हुनेछन्। तपाईं च्यानलमै बसेर आफ्ना सबै ग्राहक कुराकानीहरू व्यवस्थापन गर्न सक्नुहुन्छ र कहिल्यै कुनै सन्देश छुटाउनु पर्दैन।\n\nयस एकीकरणका मुख्य सुविधाहरू यस्ता छन्:\n\n**Slack भित्रैबाट कुराकानीहरूलाई जवाफ दिनुहोस्:** ***{selectedChannelName}*** Slack च्यानलमा रहेको कुनै कुराकानीलाई जवाफ दिन, आफ्नो सन्देश टाइप गर्नुहोस् र यसलाई thread को रूपमा पठाउनुहोस्। यसले Chatwoot मार्फत ग्राहकलाई जवाफ सिर्जना गर्नेछ। यति नै सजिलो!\n\n **निजी नोटहरू सिर्जना गर्नुहोस्:** यदि तपाईं reply को सट्टा निजी नोटहरू सिर्जना गर्न चाहनुहुन्छ भने, आफ्नो सन्देशको सुरुमा ***`note:`*** लेख्नुहोस्। यसले तपाईंको सन्देश निजी नै रहन्छ र ग्राहकलाई देखिँदैन भन्ने सुनिश्चित गर्छ।\n\n**एजेन्ट प्रोफाइललाई associate गर्नुहोस्:** यदि Slack मा reply गर्ने व्यक्तिको Chatwoot मा उही email अन्तर्गत एजेन्ट प्रोफाइल छ भने, reply हरू स्वतः त्यही एजेन्ट प्रोफाइलसँग associate हुनेछन्। यसको अर्थ तपाईंले कसले के भन्यो र कहिले भन्यो भनेर सजिलै ट्र्याक गर्न सक्नुहुन्छ। अर्कोतर्फ, reply गर्ने व्यक्तिसँग कुनै associated एजेन्ट प्रोफाइल छैन भने, ग्राहकलाई reply हरू bot profile बाट आएको रूपमा देखिनेछन्.",
+        "SELECTED": "छानिएको"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
-        "UPDATE": "Update",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "OPTION_LABEL": "च्यानल छान्नुहोस्",
+        "UPDATE": "अद्यावधिक गर्नुहोस्",
+        "BUTTON_TEXT": "च्यानल जडान गर्नुहोस्",
+        "DESCRIPTION": "तपाईंको Slack कार्यक्षेत्र अहिले Chatwoot सँग जडान गरिएको छ। तर, एकीकरण हाल निष्क्रिय छ। एकीकरण सक्रिय गर्न र Chatwoot सँग च्यानल जडान गर्न तलको बटनमा क्लिक गर्नुहोस्।\n\n**सूचना:** यदि तपाईं निजी च्यानल जडान गर्न खोज्दै हुनुहुन्छ भने, यस चरण अघि Chatwoot एपलाई Slack च्यानलमा थप्नुहोस्।",
+        "ATTENTION_REQUIRED": "ध्यान आवश्यक छ",
+        "EXPIRED": "तपाईंको Slack एकीकरणको म्याद सकियो। Slack मा सन्देशहरू प्राप्त गर्न जारी राख्न, कृपया एकीकरण मेटाउनुहोस् र पुनः कार्यक्षेत्र जडान गर्नुहोस्।"
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "एकीकरण अद्यावधिक गर्दा त्रुटि भयो, कृपया पुन: प्रयास गर्नुहोस्",
+      "UPDATE_SUCCESS": "च्यानल सफलतापूर्वक जडान गरियो",
+      "FAILED_TO_FETCH_CHANNELS": "Slack बाट च्यानलहरू ल्याउन त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "सामेल हुन यहाँ क्लिक गर्नुहोस्",
+      "LEAVE_THE_ROOM": "कोठा छोड्नुहोस्",
+      "START_VIDEO_CALL_HELP_TEXT": "ग्राहकसँग नयाँ भिडियो कल सुरु गर्नुहोस्",
+      "JOIN_ERROR": "कलमा सामेल हुन त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्",
+      "CREATE_ERROR": "बैठक लिंक सिर्जना गर्न त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " {option} with AI ",
+      "AI_ASSIST": "AI सहायता",
+      "WITH_AI": " {option} AI सँग ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "जवाफ सुझाव",
+        "SUMMARIZE": "सारांश गर्नुहोस्",
+        "REPHRASE": "लेखन सुधार्नुहोस्",
+        "FIX_SPELLING_GRAMMAR": "वर्तनी र व्याकरण सुधार्नुहोस्",
+        "SHORTEN": "छोटो गर्नुहोस्",
+        "EXPAND": "विस्तार गर्नुहोस्",
+        "MAKE_FRIENDLY": "सन्देशको स्वर मैत्रीपूर्ण बनाउनुहोस्",
+        "MAKE_FORMAL": "औपचारिक स्वर प्रयोग गर्नुहोस्",
+        "SIMPLIFY": "सरलीकृत गर्नुहोस्",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Professional",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Friendly"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "मसौदा सामग्री",
+        "GENERATED_TITLE": "उत्पन्न सामग्री",
+        "AI_WRITING": "AI लेख्दैछ",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
-          "CANCEL": "Cancel"
+          "APPLY": "यो सुझाव प्रयोग गर्नुहोस्",
+          "CANCEL": "रद्द गर्नुहोस्"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "OpenAI सँग एकीकरण गर्नुहोस्",
+        "DESC": "OpenAI का GPT मोडेलहरूसँग तपाईंको ड्यासबोर्डमा उन्नत AI सुविधाहरू ल्याउनुहोस्। सुरु गर्न, तपाईंको OpenAI खाताबाट API कुञ्जी प्रविष्ट गर्नुहोस्।",
+        "KEY_PLACEHOLDER": "तपाईंको OpenAI API कुञ्जी प्रविष्ट गर्नुहोस्",
         "BUTTONS": {
-          "NEED_HELP": "Need help?",
-          "DISMISS": "Dismiss",
-          "FINISH": "Finish Setup"
+          "NEED_HELP": "मद्दत चाहिन्छ?",
+          "DISMISS": "अस्वीकार गर्नुहोस्",
+          "FINISH": "सेटअप पूरा गर्नुहोस्"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "तपाईं पछि कहिले पनि OpenAI एकीकरण सेटअप गर्न सक्नुहुन्छ।",
+        "SUCCESS_MESSAGE": "OpenAI एकीकरण सफलतापूर्वक सेटअप भयो"
       },
-      "TITLE": "Improve With AI",
-      "SUMMARY_TITLE": "Summary with AI",
-      "REPLY_TITLE": "Reply suggestion with AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "AI सँग सुधार गर्नुहोस्",
+      "SUMMARY_TITLE": "AI सँग सारांश",
+      "REPLY_TITLE": "AI सँग जवाफ सुझाव",
+      "SUBTITLE": "तपाईंको हालको ड्राफ्टको आधारमा AI प्रयोग गरी सुधारिएको जवाफ तयार गरिनेछ।",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "स्वर",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "व्यावसायिक",
+          "FRIENDLY": "मैत्रीपूर्ण"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
-        "CANCEL": "Cancel"
+        "GENERATE": "उत्पन्न गर्नुहोस्",
+        "GENERATING": "उत्पन्न हुँदैछ...",
+        "CANCEL": "रद्द गर्नुहोस्"
       },
       "GENERATE_ERROR": "There was an error processing the content, please try again"
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "मेटाउनुहोस्",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "एकीकरण सफलतापूर्वक मेटाइयो"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "जोड्नुहोस्"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
-      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "TITLE": "ड्यासबोर्ड एपहरू",
+      "HEADER_BTN_TXT": "नयाँ ड्यासबोर्ड एप थप्नुहोस्",
+      "SIDEBAR_TXT": "<p><b>ड्यासबोर्ड एपहरू</b></p><p>ड्यासबोर्ड एपहरूले संस्थाहरूलाई ग्राहक सहायता एजेन्टहरूको सन्दर्भ प्रदान गर्न Chatwoot ड्यासबोर्ड भित्र एप्लिकेशन एम्बेड गर्न अनुमति दिन्छ। यस सुविधाले तपाईंलाई स्वतन्त्र रूपमा एप्लिकेशन सिर्जना गर्न र त्यसलाई ड्यासबोर्ड भित्र एम्बेड गरेर प्रयोगकर्ता जानकारी, तिनीहरूको अर्डरहरू, वा तिनीहरूको अघिल्लो भुक्तानी इतिहास प्रदान गर्न अनुमति दिन्छ।</p><p>जब तपाईंले Chatwoot मा ड्यासबोर्ड प्रयोग गरेर आफ्नो एप्लिकेशन एम्बेड गर्नुहुन्छ, तपाईंको एप्लिकेशनले संवाद र सम्पर्कको सन्दर्भ विन्डो इभेन्टको रूपमा प्राप्त गर्नेछ। सन्देश इभेन्टको लागि आफ्नो पृष्ठमा लिस्नर कार्यान्वयन गर्नुहोस् ताकि सन्दर्भ प्राप्त गर्न सकियोस्।</p><p>नयाँ ड्यासबोर्ड एप थप्न, 'नयाँ ड्यासबोर्ड एप थप्नुहोस्' बटनमा क्लिक गर्नुहोस्।</p>",
+      "DESCRIPTION": "ड्यासबोर्ड एपहरूले संस्थाहरूलाई ग्राहक सहायता एजेन्टहरूको सन्दर्भ प्रदान गर्न ड्यासबोर्ड भित्र एप्लिकेशन एम्बेड गर्न अनुमति दिन्छ। यस सुविधाले तपाईंलाई स्वतन्त्र रूपमा एप्लिकेशन सिर्जना गर्न र त्यसलाई प्रयोगकर्ता जानकारी, तिनीहरूको अर्डरहरू, वा तिनीहरूको अघिल्लो भुक्तानी इतिहास प्रदान गर्न एम्बेड गर्न अनुमति दिन्छ।",
+      "LEARN_MORE": "ड्यासबोर्ड एपहरू बारे थप जान्नुहोस्",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "यस खातामा अहिलेसम्म कुनै ड्यासबोर्ड एपहरू कन्फिगर गरिएको छैन",
+        "LOADING": "ड्यासबोर्ड एपहरू ल्याउँदैछ...",
         "TABLE_HEADER": {
-          "NAME": "Name",
-          "ENDPOINT": "Endpoint"
+          "NAME": "नाम",
+          "ENDPOINT": "अन्त्यबिन्दु",
+          "ACTIONS": "Actions"
         },
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "एप सम्पादन गर्नुहोस्",
+        "DELETE_TOOLTIP": "एप्लिकेसन मेटाउनुहोस्"
       },
       "FORM": {
-        "TITLE_LABEL": "Name",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_LABEL": "नाम",
+        "TITLE_PLACEHOLDER": "तपाईंको ड्यासबोर्ड एप्लिकेसनको लागि नाम प्रविष्ट गर्नुहोस्",
+        "TITLE_ERROR": "ड्यासबोर्ड एप्लिकेसनको लागि नाम आवश्यक छ",
+        "URL_LABEL": "एन्डपोइन्ट",
+        "URL_PLACEHOLDER": "तपाईंको एप्लिकेसन होस्ट गरिएको एन्डपोइन्ट URL प्रविष्ट गर्नुहोस्",
+        "URL_ERROR": "मान्य URL आवश्यक छ"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "नयाँ ड्यासबोर्ड एप्लिकेसन थप्नुहोस्",
         "FORM_SUBMIT": "बुझाउनुहोस्",
-        "FORM_CANCEL": "Cancel",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "FORM_CANCEL": "रद्द गर्नुहोस्",
+        "API_SUCCESS": "ड्यासबोर्ड एप्लिकेसन सफलतापूर्वक कन्फिगर गरियो",
+        "API_ERROR": "हामी एप्लिकेसन सिर्जना गर्न सकेनौं। कृपया पछि फेरि प्रयास गर्नुहोस्"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
-        "FORM_SUBMIT": "Update",
-        "FORM_CANCEL": "Cancel",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "HEADER": "ड्यासबोर्ड एप्लिकेसन सम्पादन गर्नुहोस्",
+        "FORM_SUBMIT": "अपडेट गर्नुहोस्",
+        "FORM_CANCEL": "रद्द गर्नुहोस्",
+        "API_SUCCESS": "ड्यासबोर्ड एप्लिकेसन सफलतापूर्वक अपडेट गरियो",
+        "API_ERROR": "हामी एप्लिकेसन अपडेट गर्न सकेनौं। कृपया पछि फेरि प्रयास गर्नुहोस्"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - {appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "CONFIRM_YES": "हो, मेटाउनुहोस्",
+        "CONFIRM_NO": "होइन, राख्नुहोस्",
+        "TITLE": "मेटाउने पुष्टि गर्नुहोस्",
+        "MESSAGE": "के तपाईं {appName} एप मेटाउन निश्चित हुनुहुन्छ?",
+        "API_SUCCESS": "ड्यासबोर्ड एप्लिकेसन सफलतापूर्वक मेटाइयो",
+        "API_ERROR": "हामी एप्लिकेसन मेटाउन सकेनौं। कृपया पछि फेरि प्रयास गर्नुहोस्"
       }
     },
     "LINEAR": {
-      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
-      "CREATE": "Create",
+      "HEADER": "Linear",
+      "ADD_OR_LINK_BUTTON": "Linear मुद्दा सिर्जना/जोड्नुहोस्",
+      "LOADING": "Linear मुद्दाहरू ल्याउँदैछ...",
+      "LOADING_ERROR": "Linear मुद्दाहरू ल्याउन त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्",
+      "CREATE": "सिर्जना गर्नुहोस्",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
-        "TITLE": "Link",
-        "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
-        "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "SEARCH": "मुद्दा खोज्नुहोस्",
+        "SELECT": "मुद्दा छान्नुहोस्",
+        "TITLE": "जोड्नुहोस्",
+        "EMPTY_LIST": "कुनै Linear मुद्दा फेला परेन",
+        "LOADING": "लोड हुँदैछ",
+        "ERROR": "Linear मुद्दाहरू ल्याउन त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्",
+        "LINK_SUCCESS": "मुद्दा सफलतापूर्वक जोडियो",
+        "LINK_ERROR": "मुद्दा जोड्दा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्",
+        "LINK_TITLE": "संवाद (#{conversationId}) {name} सँग"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "TITLE": "Linear मुद्दा सिर्जना/जोड्नुहोस्",
+        "DESCRIPTION": "कुराकानीबाट Linear मुद्दाहरू सिर्जना गर्नुहोस्, वा अवस्थितलाई जोडेर सहज ट्र्याकिङ गर्नुहोस्।",
         "FORM": {
           "TITLE": {
-            "LABEL": "Title",
-            "PLACEHOLDER": "Enter title",
-            "REQUIRED_ERROR": "Title is required"
+            "LABEL": "शीर्षक",
+            "PLACEHOLDER": "शीर्षक प्रविष्ट गर्नुहोस्",
+            "REQUIRED_ERROR": "शीर्षक आवश्यक छ"
           },
           "DESCRIPTION": {
-            "LABEL": "Description",
-            "PLACEHOLDER": "Enter description"
+            "LABEL": "विवरण",
+            "PLACEHOLDER": "विवरण प्रविष्ट गर्नुहोस्"
           },
           "TEAM": {
-            "LABEL": "Team",
-            "PLACEHOLDER": "Select team",
-            "SEARCH": "Search team",
-            "REQUIRED_ERROR": "Team is required"
+            "LABEL": "टोली",
+            "PLACEHOLDER": "टोली चयन गर्नुहोस्",
+            "SEARCH": "टोली खोज्नुहोस्",
+            "REQUIRED_ERROR": "टोली आवश्यक छ"
           },
           "ASSIGNEE": {
-            "LABEL": "Assignee",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "LABEL": "जिम्मेवार व्यक्ति",
+            "PLACEHOLDER": "जिम्मेवार चयन गर्नुहोस्",
+            "SEARCH": "जिम्मेवार खोज्नुहोस्"
           },
           "PRIORITY": {
-            "LABEL": "Priority",
-            "PLACEHOLDER": "Select priority",
-            "SEARCH": "Search priority"
+            "LABEL": "प्राथमिकता",
+            "PLACEHOLDER": "प्राथमिकता चयन गर्नुहोस्",
+            "SEARCH": "प्राथमिकता खोज्नुहोस्"
           },
           "LABEL": {
-            "LABEL": "Label",
-            "PLACEHOLDER": "Select label",
-            "SEARCH": "Search label"
+            "LABEL": "लेबल",
+            "PLACEHOLDER": "लेबल चयन गर्नुहोस्",
+            "SEARCH": "लेबल खोज्नुहोस्"
           },
           "STATUS": {
-            "LABEL": "Status",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "LABEL": "स्थिति",
+            "PLACEHOLDER": "स्थिति चयन गर्नुहोस्",
+            "SEARCH": "स्थिति खोज्नुहोस्"
           },
           "PROJECT": {
-            "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "LABEL": "परियोजना",
+            "PLACEHOLDER": "परियोजना चयन गर्नुहोस्",
+            "SEARCH": "परियोजना खोज्नुहोस्"
           }
         },
-        "CREATE": "Create",
-        "CANCEL": "Cancel",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE": "सिर्जना गर्नुहोस्",
+        "CANCEL": "रद्द गर्नुहोस्",
+        "CREATE_SUCCESS": "मुद्दा सफलतापूर्वक सिर्जना भयो",
+        "CREATE_ERROR": "मुद्दा सिर्जना गर्दा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्",
+        "LOADING_TEAM_ERROR": "टोलीहरू ल्याउन समस्या भयो, कृपया पुन: प्रयास गर्नुहोस्",
+        "LOADING_TEAM_ENTITIES_ERROR": "टोली संस्थाहरू ल्याउन समस्या भयो, कृपया पुन: प्रयास गर्नुहोस्"
       },
       "ISSUE": {
-        "STATUS": "Status",
-        "PRIORITY": "Priority",
-        "ASSIGNEE": "Assignee",
-        "LABELS": "Labels",
-        "CREATED_AT": "Created at {createdAt}"
+        "STATUS": "स्थिति",
+        "PRIORITY": "प्राथमिकता",
+        "ASSIGNEE": "जिम्मेवार व्यक्ति",
+        "LABELS": "लेबलहरू",
+        "CREATED_AT": "{createdAt} मा सिर्जना गरिएको"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "TITLE": "जोड हटाउनुहोस्",
+        "SUCCESS": "मुद्दा सफलतापूर्वक जोड हटाइयो",
+        "ERROR": "मुद्दा अनलिंक गर्दा समस्या भयो, कृपया फेरि प्रयास गर्नुहोस्"
       },
-      "NO_LINKED_ISSUES": "No linked issues found",
+      "NO_LINKED_ISSUES": "कुनै लिंक गरिएको समस्या फेला परेन",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
-        "CONFIRM": "Yes, delete",
-        "CANCEL": "Cancel"
+        "TITLE": "के तपाईं निश्चित हुनुहुन्छ कि एकीकरण मेटाउन चाहनुहुन्छ?",
+        "MESSAGE": "के तपाईं निश्चित हुनुहुन्छ कि एकीकरण मेटाउन चाहनुहुन्छ?",
+        "CONFIRM": "हो, मेटाउनु",
+        "CANCEL": "रद्द गर्नु"
       },
       "CTA": {
-        "TITLE": "Connect to Linear",
-        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
-        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
-        "BUTTON_TEXT": "Connect Linear workspace"
+        "TITLE": "Linear सँग जडान गर्नुहोस्",
+        "AGENT_DESCRIPTION": "Linear कार्यक्षेत्र जडान गरिएको छैन। यो एकीकरण प्रयोग गर्न तपाईंको प्रशासकलाई कार्यक्षेत्र जडान गर्न अनुरोध गर्नुहोस्।",
+        "DESCRIPTION": "Linear कार्यक्षेत्र जडान गरिएको छैन। यो एकीकरण प्रयोग गर्न तलको बटनमा क्लिक गरेर तपाईंको कार्यक्षेत्र जडान गर्नुहोस्।",
+        "BUTTON_TEXT": "Linear कार्यक्षेत्र जडान गर्नुहोस्"
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
-        "CONFIRM": "Yes, delete",
-        "CANCEL": "Cancel"
+        "TITLE": "के तपाईं साँच्चै Notion एकीकरण मेटाउन चाहनुहुन्छ?",
+        "MESSAGE": "यो एकीकरण मेटाउँदा तपाईंको Notion कार्यक्षेत्र पहुँच हटाइनेछ र सबै सम्बन्धित कार्यक्षमता रोकिनेछ।",
+        "CONFIRM": "हो, मेटाउनुहोस्",
+        "CANCEL": "रद्द गर्नुहोस्"
       }
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "NAME": "कप्तान",
+    "HEADER_KNOW_MORE": "थप जान्नु",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "सहायकहरू",
+      "SWITCH_ASSISTANT": "सहायकहरू बीच साट्नुस्",
+      "NEW_ASSISTANT": "सहायक सिर्जना गर्नुहोस्",
+      "EMPTY_LIST": "कुनै सहायक फेला परेन, सुरु गर्न कृपया एउटा सिर्जना गर्नुहोस्"
     },
     "COPILOT": {
-      "TITLE": "Copilot",
-      "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
-      "SEND_MESSAGE": "Send message...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
-      "YOU": "You",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "TITLE": "कोपाइलट",
+      "TRY_THESE_PROMPTS": "यी प्रॉम्प्टहरू प्रयास गर्नुहोस्",
+      "PANEL_TITLE": "कोपाइलटसँग सुरु गर्नुहोस्",
+      "KICK_OFF_MESSAGE": "छिटो सारांश चाहिन्छ, विगतका कुराकानीहरू जाँच गर्न चाहनुहुन्छ, वा राम्रो जवाफ तयार पार्न चाहनुहुन्छ? कोपाइलट यहाँ छ छिटो बनाउन।",
+      "SEND_MESSAGE": "सन्देश पठाउनुहोस्...",
+      "EMPTY_MESSAGE": "प्रतिक्रिया सिर्जना गर्दा त्रुटि भयो। कृपया पुन: प्रयास गर्नुहोस्।",
+      "LOADER": "Captain सोच्दैछ",
+      "YOU": "तपाईं",
+      "USE": "यो प्रयोग गर्नुहोस्",
+      "RESET": "रिसेट गर्नुहोस्",
+      "SHOW_STEPS": "चरणहरू देखाउनुहोस्",
+      "SELECT_ASSISTANT": "सहायक चयन गर्नु",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "यस कुराकानीलाई संक्षेप गर्नुहोस्",
+          "CONTENT": "ग्राहक र समर्थन एजेन्टबीच छलफल गरिएका मुख्य बुँदाहरू संक्षेप गर्नुहोस्, जसमा ग्राहकका चिन्ता, प्रश्नहरू, र समर्थन एजेन्टले प्रदान गरेका समाधान वा प्रतिक्रियाहरू समावेश छन्।"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "उत्तर सुझाव दिनुहोस्",
+          "CONTENT": "ग्राहकको सोधपुछ विश्लेषण गर्नुहोस्, र प्रभावकारी रूपमा उनीहरूको चिन्ता वा प्रश्नहरू सम्बोधन गर्ने प्रतिक्रिया तयार गर्नुहोस्। जवाफ स्पष्ट, संक्षिप्त र उपयोगी जानकारी प्रदान गर्ने सुनिश्चित गर्नुहोस्।"
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "यस कुराकानीलाई मूल्याङ्कन गर्नुहोस्",
+          "CONTENT": "कुराकानी समीक्षा गर्नुहोस् कि यसले ग्राहकको आवश्यकताहरू कत्तिको पूरा गर्छ। स्वर, स्पष्टता, र प्रभावकारिताको आधारमा 5 मा बाट मूल्याङ्कन साझा गर्नुहोस्।"
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "उच्च प्राथमिकता कुराकानीहरू",
+          "CONTENT": "मलाई सबै उच्च प्राथमिकता खुला कुराकानीहरूको सारांश दिनुहोस्। कुराकानी ID, ग्राहक नाम (यदि उपलब्ध छ), अन्तिम सन्देश सामग्री, र तोकिएको एजेन्ट समावेश गर्नुहोस्। सान्दर्भिक भएमा स्थिति अनुसार समूह बनाउनुहोस्।"
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "सम्पर्कहरूको सूची",
+          "CONTENT": "मलाई शीर्ष 10 सम्पर्कहरूको सूची देखाउनुहोस्। नाम, इमेल वा फोन नम्बर (यदि उपलब्ध छ), अन्तिम देखिएको समय, ट्यागहरू (यदि कुनै छन्) समावेश गर्नुहोस्।"
         }
       }
     },
     "PLAYGROUND": {
-      "USER": "You",
-      "ASSISTANT": "Assistant",
-      "MESSAGE_PLACEHOLDER": "Type your message...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "USER": "तपाईं",
+      "ASSISTANT": "सहायक",
+      "MESSAGE_PLACEHOLDER": "सन्देश टाइप गर्नुहोस्...",
+      "HEADER": "प्लेलगाउँड",
+      "DESCRIPTION": "यस प्लेलगाउँडलाई तपाईंको सहायकलाई सन्देश पठाउन र यसले कत्तिको सही, छिटो र अपेक्षित स्वरमा प्रतिक्रिया दिन्छ जाँच गर्न प्रयोग गर्नुहोस्।",
+      "CREDIT_NOTE": "यहाँ पठाइएका सन्देशहरू तपाईंको Captain क्रेडिटहरूमा गणना गरिनेछ।"
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "Captain AI प्रयोग गर्न अपग्रेड गर्नुहोस्",
+      "AVAILABLE_ON": "Captain निःशुल्क योजनामा उपलब्ध छैन।",
+      "UPGRADE_PROMPT": "हाम्रो सहायकहरू, कोपाइलट र थप सुविधाहरू पहुँच गर्न आफ्नो योजना अपग्रेड गर्नुहोस्।",
+      "UPGRADE_NOW": "अहिले अपग्रेड गर्नुहोस्",
+      "CANCEL_ANYTIME": "तपाईं आफ्नो योजना कुनै पनि समयमा परिवर्तन वा रद्द गर्न सक्नुहुन्छ"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "Captain AI केवल Enterprise योजनाहरूमा उपलब्ध छ।",
+      "UPGRADE_PROMPT": "हाम्रो सहायकहरू, कोपाइलट र थप सुविधाहरू पहुँच गर्न आफ्नो योजना अपग्रेड गर्नुहोस्।",
+      "ASK_ADMIN": "कृपया अपग्रेडका लागि आफ्नो प्रशासकलाई सम्पर्क गर्नुहोस्।"
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "तपाईंले आफ्नो प्रतिक्रिया सीमा <b>80</b>% भन्दा बढी प्रयोग गर्नुभएको छ। Captain AI प्रयोग जारी राख्न कृपया अपग्रेड गर्नुहोस्।",
+      "DOCUMENTS": "कागजात सीमा पुगेको छ। Captain AI प्रयोग जारी राख्न अपग्रेड गर्नुहोस्।"
     },
     "FORM": {
-      "CANCEL": "Cancel",
-      "CREATE": "Create",
-      "EDIT": "Update"
+      "CANCEL": "रद्द गर्नुहोस्",
+      "CREATE": "सिर्जना गर्नुहोस्",
+      "EDIT": "अद्यावधिक गर्नुहोस्"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
-      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
-      "ADD_NEW": "Create a new assistant",
+      "HEADER": "सहायकहरू",
+      "NO_ASSISTANTS_AVAILABLE": "तपाईंको खातामा कुनै सहायक उपलब्ध छैन।",
+      "ADD_NEW": "नयाँ सहायक सिर्जना गर्नुहोस्",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "TITLE": "के तपाईं सहायक मेटाउन निश्चित हुनुहुन्छ?",
+        "DESCRIPTION": "यो कार्य स्थायी छ। सहायक मेटाउँदा यसले सबै जडित इनबक्सहरूबाट हटाइनेछ र सबै सिर्जित ज्ञान स्थायी रूपमा मेटाइनेछ।",
+        "CONFIRM": "हो, मेटाउनुहोस्",
+        "SUCCESS_MESSAGE": "सहायक सफलतापूर्वक मेटाइयो",
+        "ERROR_MESSAGE": "सहायक मेटाउँदा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।"
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "तलका विवरणहरू भरेर तपाईंको सहायकको नाम राख्नुहोस्, यसको उद्देश्य वर्णन गर्नुहोस्, र समर्थन गर्ने उत्पादन निर्दिष्ट गर्नुहोस्।",
       "CREATE": {
-        "TITLE": "Create an assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "TITLE": "सहायक सिर्जना गर्नुहोस्",
+        "SUCCESS_MESSAGE": "सहायक सफलतापूर्वक सिर्जना गरियो",
+        "ERROR_MESSAGE": "सहायक सिर्जना गर्दा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।"
       },
       "FORM": {
-        "UPDATE": "Update",
+        "UPDATE": "अद्यावधिक गर्नु",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
-          "FEATURES": "Features",
-          "TOOLS": "Tools "
+          "BASIC_INFO": "मूल जानकारी",
+          "SYSTEM_MESSAGES": "प्रणाली सन्देशहरू",
+          "INSTRUCTIONS": "निर्देशनहरू",
+          "FEATURES": "विशेषताहरू",
+          "TOOLS": "उपकरणहरू "
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "LABEL": "नाम",
+          "PLACEHOLDER": "सहायकको नाम प्रविष्ट गर्नुहोस्",
+          "ERROR": "नाम आवश्यक छ"
         },
         "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
+          "LABEL": "प्रतिक्रिया तापक्रम",
+          "DESCRIPTION": "सहायकको प्रतिक्रियाहरू कति सिर्जनात्मक वा प्रतिबन्धित हुनुपर्छ समायोजन गर्नुहोस्। कम मानहरूले बढी केन्द्रित र निश्चित प्रतिक्रियाहरू उत्पादन गर्छन्, जबकि उच्च मानहरूले बढी सिर्जनात्मक र विविध आउटपुटहरू अनुमति दिन्छ।"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter assistant description",
-          "ERROR": "The description is required"
+          "LABEL": "विवरण",
+          "PLACEHOLDER": "सहायकको विवरण प्रविष्ट गर्नुहोस्",
+          "ERROR": "विवरण आवश्यक छ"
         },
         "PRODUCT_NAME": {
-          "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name",
-          "ERROR": "The product name is required"
+          "LABEL": "उत्पादन नाम",
+          "PLACEHOLDER": "उत्पादनको नाम प्रविष्ट गर्नुहोस्",
+          "ERROR": "उत्पादन नाम आवश्यक छ"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "स्वागत सन्देश",
+          "PLACEHOLDER": "स्वागत सन्देश प्रविष्ट गर्नुहोस्"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "ह्यान्डअफ सन्देश",
+          "PLACEHOLDER": "ह्यान्डअफ सन्देश प्रविष्ट गर्नुहोस्"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "समाधान सन्देश",
+          "PLACEHOLDER": "समाधान सन्देश प्रविष्ट गर्नुहोस्"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "LABEL": "निर्देशनहरू",
+          "PLACEHOLDER": "सहायकका लागि निर्देशनहरू प्रविष्ट गर्नुहोस्"
         },
         "FEATURES": {
-          "TITLE": "Features",
-          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "TITLE": "विशेषताहरू",
+          "ALLOW_CONVERSATION_FAQS": "समाधान भएका कुराकानीबाट FAQ उत्पन्न गर्नुहोस्",
+          "ALLOW_MEMORIES": "ग्राहक अन्तरक्रियाबाट मुख्य विवरणहरू सम्झनाहरूको रूपमा समात्नुहोस्।",
+          "ALLOW_CITATIONS": "उत्तरहरूमा स्रोत उद्धरणहरू समावेश गर्नुहोस्",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
-        "TITLE": "Update the assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "TITLE": "सहायक अद्यावधिक गर्नुहोस्",
+        "SUCCESS_MESSAGE": "सहायक सफलतापूर्वक अद्यावधिक गरियो",
+        "ERROR_MESSAGE": "सहायक अद्यावधिक गर्दा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।",
+        "NOT_FOUND": "सहायक फेला परेन। कृपया पुन: प्रयास गर्नुहोस्।"
       },
       "SETTINGS": {
         "HEADER": "Settings",
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "मूल सेटिङहरू",
+          "DESCRIPTION": "कुराकानी समाप्त गर्दा वा मानवमा हस्तान्तरण गर्दा सहायकले के भन्छ अनुकूलित गर्नुहोस्।"
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "प्रणाली सेटिङहरू",
+          "DESCRIPTION": "कुराकानी समाप्त गर्दा वा मानवमा हस्तान्तरण गर्दा सहायकले के भन्छ अनुकूलित गर्नुहोस्।"
         },
         "CONTROL_ITEMS": {
-          "TITLE": "The Fun Stuff",
-          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "TITLE": "रमाइलो कुरा",
+          "DESCRIPTION": "सहायकलाई थप नियन्त्रण थप्नुहोस्। (थोरै दृश्यात्मक जस्तै कथा: सोधपुछ गार्डरेल → परिदृश्यहरू → आउटपुट) प्रयोगकर्तालाई यी प्रयोग गर्न प्रोत्साहित गर्दछ।",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Guardrails",
-              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+              "TITLE": "गार्डरेलहरू",
+              "DESCRIPTION": "चीजहरू ट्रयाकमा राख्छ—तपाईंको सहायकले जवाफ दिन चाहने प्रश्नहरूको प्रकार मात्र, कुनै पनि सीमा बाहिर वा विषय बाहिर छैन।"
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "TITLE": "प्रतिक्रिया मार्गनिर्देशनहरू",
+              "DESCRIPTION": "तपाईंको सहायकका जवाफको शैली र संरचना—स्पष्ट र मैत्रीपूर्ण? छोटो र छरितो? विस्तृत र औपचारिक?"
             }
           }
         },
@@ -523,332 +568,363 @@
         }
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Edit Assistant",
-        "DELETE_ASSISTANT": "Delete Assistant",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "EDIT_ASSISTANT": "सहायक सम्पादन गर्नुहोस्",
+        "DELETE_ASSISTANT": "सहायक मेटाउनुहोस्",
+        "VIEW_CONNECTED_INBOXES": "जडित इनबक्सहरू हेर्नुहोस्"
       },
       "EMPTY_STATE": {
-        "TITLE": "No assistants available",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
+        "TITLE": "कुनै सहायक उपलब्ध छैन",
+        "SUBTITLE": "छिटो र सही उत्तर दिन सहायक बनाउन एक सहायक सिर्जना गर्नुहोस्। यसले तपाईंका सहायता लेख र विगतका कुराकानीहरूबाट सिक्न सक्छ।",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "Captain सहायक",
+          "NOTE": "Captain सहायकले सिधा ग्राहकसँग संवाद गर्छ, तपाईंका सहायता कागजात र विगतका कुराकानीबाट सिक्छ, र छिटो र सही उत्तर दिन्छ। यसले प्रारम्भिक प्रश्नहरू सम्हाल्छ र आवश्यक परे एजेन्टलाई स्थानान्तरण गर्छ।"
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "TITLE": "सीमाहरू",
+        "DESCRIPTION": "सबै कुरा ट्र्याकमा राख्छ—सहायकले तपाईंले चाहेका प्रश्नहरू मात्र जवाफ दिन्छ, अरू कुनै विषय वा सीमा बाहिर जाँदैन।",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
+          "SELECTED": "{count} वस्तु चयन गरियो | {count} वस्तुहरू चयन गरियो",
+          "SELECT_ALL": "सबै चयन गर्नुहोस् ({count})",
           "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "BULK_DELETE_BUTTON": "हटाउनुहोस्"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "TITLE": "उदाहरण सीमाहरू",
+            "ADD": "सबै थप्नुहोस्",
+            "ADD_SINGLE": "यो थप्नुहोस्",
+            "SAVE": "थप्नुहोस् र सुरक्षित गर्नुहोस् (↵)",
+            "PLACEHOLDER": "अर्को सीमा टाइप गर्नुहोस्..."
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
-            "CREATE": "Create",
-            "CANCEL": "Cancel",
-            "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "TITLE": "नयाँ गार्डरेल थप्नुहोस्",
+            "CREATE": "सिर्जना गर्नुहोस्",
+            "CANCEL": "रद्द गर्नुहोस्",
+            "PLACEHOLDER": "अर्को गार्डरेल टाइप गर्नुहोस्...",
+            "TEST_ALL": "सबै परीक्षण गर्नुहोस्"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "खोज्नुहोस्..."
         },
-        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "EMPTY_MESSAGE": "कुनै गार्डरेल भेटिएन। सुरु गर्न उदाहरणहरू सिर्जना वा थप्नुहोस्।",
+        "SEARCH_EMPTY_MESSAGE": "यो खोजमा कुनै गार्डरेल भेटिएन।",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "गार्डरेलहरू सफलतापूर्वक थपियो",
+            "ERROR": "गार्डरेल थप्दा त्रुटि आयो, कृपया पुन: प्रयास गर्नुहोस्।"
           },
           "UPDATE": {
-            "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "SUCCESS": "गार्डरेलहरू सफलतापूर्वक अद्यावधिक गरियो",
+            "ERROR": "गार्डरेल्स अद्यावधिक गर्दा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।"
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "SUCCESS": "गार्डरेल्स सफलतापूर्वक हटाइयो",
+            "ERROR": "गार्डरेल्स हटाउँदा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।"
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
-        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "TITLE": "उत्तर दिने निर्देशिका",
+        "DESCRIPTION": "तपाईंको सहायकका उत्तरहरूको शैली र संरचना—स्पष्ट र मैत्रीपूर्ण? छोटो र छरितो? विस्तृत र औपचारिक?",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
+          "SELECTED": "{count} वस्तु चयन गरियो | {count} वस्तुहरू चयन गरियो",
+          "SELECT_ALL": "सबै चयन गर्नुहोस् ({count})",
           "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "BULK_DELETE_BUTTON": "हटाउनुहोस्"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example response guidelines",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another response guideline..."
+            "TITLE": "उत्तर निर्देशिकाका उदाहरणहरू",
+            "ADD": "सबै थप्नुहोस्",
+            "ADD_SINGLE": "यो थप्नुहोस्",
+            "SAVE": "थप्नुहोस् र सुरक्षित गर्नुहोस् (↵)",
+            "PLACEHOLDER": "अर्को प्रतिक्रिया मार्गनिर्देशन टाइप गर्नुहोस्..."
           },
           "NEW": {
-            "TITLE": "Add a response guideline",
-            "CREATE": "Create",
-            "CANCEL": "Cancel",
-            "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "TITLE": "प्रतिक्रिया मार्गनिर्देशन थप्नुहोस्",
+            "CREATE": "सिर्जना गर्नुहोस्",
+            "CANCEL": "रद्द गर्नुहोस्",
+            "PLACEHOLDER": "अर्को प्रतिक्रिया मार्गनिर्देशन टाइप गर्नुहोस्...",
+            "TEST_ALL": "सबै परीक्षण गर्नुहोस्"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "खोज्नुहोस्..."
         },
-        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "EMPTY_MESSAGE": "प्रतिक्रिया मार्गनिर्देशन फेला परेन। सुरु गर्न उदाहरणहरू सिर्जना वा थप्नुहोस्।",
+        "SEARCH_EMPTY_MESSAGE": "यो खोजमा कुनै उत्तर निर्देशनहरू भेटिएन।",
         "API": {
           "ADD": {
-            "SUCCESS": "Response Guidelines added successfully",
-            "ERROR": "There was an error adding response guidelines, please try again."
+            "SUCCESS": "प्रतिक्रिया मार्गनिर्देशन सफलतापूर्वक थपियो",
+            "ERROR": "प्रतिक्रिया मार्गनिर्देशन थप्दा त्रुटि आयो, कृपया पुन: प्रयास गर्नुहोस्।"
           },
           "UPDATE": {
-            "SUCCESS": "Response Guidelines updated successfully",
-            "ERROR": "There was an error updating response guidelines, please try again."
+            "SUCCESS": "उत्तर निर्देशनहरू सफलतापूर्वक अद्यावधिक गरियो",
+            "ERROR": "उत्तर निर्देशनहरू अद्यावधिक गर्दा त्रुटि आयो, कृपया फेरि प्रयास गर्नुहोस्।"
           },
           "DELETE": {
-            "SUCCESS": "Response Guidelines deleted successfully",
-            "ERROR": "There was an error deleting response guidelines, please try again."
+            "SUCCESS": "उत्तर निर्देशनहरू सफलतापूर्वक हटाइयो",
+            "ERROR": "उत्तर निर्देशनहरू हटाउँदा त्रुटि आयो, कृपया फेरि प्रयास गर्नुहोस्।"
           }
         }
       },
       "SCENARIOS": {
-        "TITLE": "Scenarios",
-        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "TITLE": "परिदृश्यहरू",
+        "DESCRIPTION": "आफ्नो सहायकलाई केही सन्दर्भ दिनुहोस्—जस्तै “प्रयोगकर्ता अल्झिएको बेला के गर्ने”, वा “रिफन्ड अनुरोधमा कसरी व्यवहार गर्ने।”",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
+          "SELECTED": "{count} वस्तु चयन गरियो | {count} वस्तुहरू चयन गरियो",
+          "SELECT_ALL": "सबै चयन गर्नुहोस् ({count})",
           "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "BULK_DELETE_BUTTON": "हटाउनुहोस्"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example scenarios",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "TOOLS_USED": "Tools used :"
+            "TITLE": "उदाहरण परिदृश्यहरू",
+            "ADD": "सबै थप्नुहोस्",
+            "ADD_SINGLE": "यो थप्नुहोस्",
+            "TOOLS_USED": "प्रयोग गरिएका उपकरणहरू :"
           },
           "NEW": {
-            "CREATE": "Add a scenario",
-            "TITLE": "Create a scenario",
+            "CREATE": "परिदृश्य थप्नुहोस्",
+            "TITLE": "परिदृश्य सिर्जना गर्नुहोस्",
             "FORM": {
               "TITLE": {
-                "LABEL": "Title",
-                "PLACEHOLDER": "Enter a name for the scenario",
-                "ERROR": "Scenario name is required"
+                "LABEL": "शीर्षक",
+                "PLACEHOLDER": "परिदृश्यको नाम लेख्नुहोस्",
+                "ERROR": "परिदृश्यको नाम आवश्यक छ"
               },
               "DESCRIPTION": {
-                "LABEL": "Description",
-                "PLACEHOLDER": "Describe how and where this scenario will be used",
-                "ERROR": "Scenario description is required"
+                "LABEL": "विवरण",
+                "PLACEHOLDER": "यो परिदृश्य कसरी र कहाँ प्रयोग हुन्छ वर्णन गर्नुहोस्",
+                "ERROR": "परिदृश्य विवरण आवश्यक छ"
               },
               "INSTRUCTION": {
-                "LABEL": "How to handle",
-                "PLACEHOLDER": "Describe how and where this scenario will be handled",
-                "ERROR": "Scenario content is required"
+                "LABEL": "कसरी व्यवस्थापन गर्ने",
+                "PLACEHOLDER": "यो परिदृश्य कसरी र कहाँ व्यवस्थापन हुन्छ वर्णन गर्नुहोस्",
+                "ERROR": "परिदृश्य सामग्री आवश्यक छ"
               },
-              "CREATE": "Create",
-              "CANCEL": "Cancel"
+              "CREATE": "सिर्जना गर्नुहोस्",
+              "CANCEL": "रद्द गर्नुहोस्"
             }
           }
         },
         "UPDATE": {
-          "CANCEL": "Cancel",
-          "UPDATE": "Update changes"
+          "CANCEL": "रद्द गर्नुहोस्",
+          "UPDATE": "परिवर्तनहरू अद्यावधिक गर्नुहोस्"
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "खोज्नुहोस्..."
         },
-        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "EMPTY_MESSAGE": "कुनै परिदृश्य फेला परेन। सुरु गर्न नयाँ सिर्जना वा उदाहरणहरू थप्नुहोस्।",
+        "SEARCH_EMPTY_MESSAGE": "यो खोजीमा कुनै परिदृश्य भेटिएन।",
         "API": {
           "ADD": {
-            "SUCCESS": "Scenarios added successfully",
-            "ERROR": "There was an error adding scenarios, please try again."
+            "SUCCESS": "परिदृश्यहरू सफलतापूर्वक थपियो",
+            "ERROR": "परिदृश्यहरू थप्दा त्रुटि आयो, कृपया फेरि प्रयास गर्नुहोस्।"
           },
           "UPDATE": {
-            "SUCCESS": "Scenarios updated successfully",
-            "ERROR": "There was an error updating scenarios, please try again."
+            "SUCCESS": "परिदृश्यहरू सफलतापूर्वक अद्यावधिक गरियो",
+            "ERROR": "परिदृश्यहरू अद्यावधिक गर्दा त्रुटि आयो, कृपया फेरि प्रयास गर्नुहोस्।"
           },
           "DELETE": {
-            "SUCCESS": "Scenarios deleted successfully",
-            "ERROR": "There was an error deleting scenarios, please try again."
+            "SUCCESS": "परिदृश्यहरू सफलतापूर्वक हटाइयो",
+            "ERROR": "परिदृश्यहरू हटाउँदा त्रुटि आयो, कृपया फेरि प्रयास गर्नुहोस्।"
           }
         }
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
-      "RELATED_RESPONSES": {
-        "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+      "HEADER": "कागजातहरू",
+      "ADD_NEW": "नयाँ कागजात सिर्जना गर्नुहोस्",
+      "SELECTED": "{count} चयन गरियो",
+      "SELECT_ALL": "सबै चयन गर्नुहोस् ({count})",
+      "UNSELECT_ALL": "सबै चयन हटाउनुहोस् ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "हो, सबै मेटाउनु",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "RELATED_RESPONSES": {
+        "TITLE": "सम्बन्धित FAQ",
+        "DESCRIPTION": "यी FAQ सिधा कागजातबाट उत्पन्न भएका हुन्।"
+      },
+      "FORM_DESCRIPTION": "कागजातको URL प्रविष्ट गर्नुहोस् र यसलाई ज्ञान स्रोतको रूपमा थप्न र सम्बन्धित सहायक चयन गर्नुस्।",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "TITLE": "कागजात थप्नुहोस्",
+        "SUCCESS_MESSAGE": "कागजात सफलतापूर्वक सिर्जना गरियो",
+        "ERROR_MESSAGE": "कागजात सिर्जना गर्दा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।"
       },
       "FORM": {
         "TYPE": {
-          "LABEL": "Document Type",
+          "LABEL": "कागजात प्रकार",
           "URL": "URL",
-          "PDF": "PDF File"
+          "PDF": "PDF फाइल"
         },
         "URL": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "PLACEHOLDER": "कागजातको URL प्रविष्ट गर्नुहोस्",
+          "ERROR": "कृपया कागजातको लागि मान्य URL प्रदान गर्नुहोस्"
         },
         "PDF_FILE": {
-          "LABEL": "PDF File",
-          "CHOOSE_FILE": "Choose PDF file",
-          "ERROR": "Please select a PDF file",
-          "HELP_TEXT": "Maximum file size: 10MB",
-          "INVALID_TYPE": "Please select a valid PDF file",
-          "TOO_LARGE": "File size exceeds 10MB limit"
+          "LABEL": "PDF फाइल",
+          "CHOOSE_FILE": "PDF फाइल छान्नुहोस्",
+          "ERROR": "कृपया PDF फाइल चयन गर्नुहोस्",
+          "HELP_TEXT": "अधिकतम फाइल साइज: १०MB",
+          "INVALID_TYPE": "कृपया मान्य PDF फाइल चयन गर्नुहोस्",
+          "TOO_LARGE": "फाइल साइज १०MB भन्दा बढी छ"
         },
         "NAME": {
-          "LABEL": "Document Name (Optional)",
-          "PLACEHOLDER": "Enter a name for the document"
+          "LABEL": "डोकुमेन्ट नाम (वैकल्पिक)",
+          "PLACEHOLDER": "डोकुमेन्टको नाम लेख्नुहोस्"
         }
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the document?",
-        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "TITLE": "के तपाईं कागजात मेटाउन निश्चित हुनुहुन्छ?",
+        "DESCRIPTION": "यो कार्य स्थायी छ। कागजात मेटाउँदा सबै सिर्जित ज्ञान स्थायी रूपमा मेटाइनेछ।",
+        "CONFIRM": "हो, मेटाउनुहोस्",
+        "SUCCESS_MESSAGE": "कागजात सफलतापूर्वक मेटाइयो",
+        "ERROR_MESSAGE": "कागजात मेटाउँदा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।"
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "DELETE_DOCUMENT": "Delete Document"
+        "VIEW_RELATED_RESPONSES": "सम्बन्धित प्रतिक्रियाहरू हेर्नुहोस्",
+        "DELETE_DOCUMENT": "कागजात मेटाउनुहोस्"
       },
       "EMPTY_STATE": {
-        "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "TITLE": "कुनै कागजात उपलब्ध छैन",
+        "SUBTITLE": "कागजातहरू तपाईंको सहायकलाई FAQ उत्पन्न गर्न प्रयोग गरिन्छ। तपाईं कागजातहरू आयात गरेर सहायकलाई सन्दर्भ प्रदान गर्न सक्नुहुन्छ।",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "TITLE": "Captain कागजात",
+          "NOTE": "Captain मा कागजात सहायकको लागि ज्ञान स्रोतको रूपमा काम गर्छ। तपाईंको सहायता केन्द्र वा मार्गनिर्देशनहरू जडान गरेर, Captain सामग्री विश्लेषण गरी ग्राहक प्रश्नहरूको लागि सही उत्तर दिन सक्छ।"
         }
       }
     },
     "CUSTOM_TOOLS": {
-      "HEADER": "Tools",
-      "ADD_NEW": "Create a new tool",
+      "HEADER": "उपकरणहरू",
+      "ADD_NEW": "नयाँ उपकरण बनाउनुहोस्",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
-        "TITLE": "No custom tools available",
-        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "TITLE": "कुनै कस्टम उपकरण उपलब्ध छैन",
+        "SUBTITLE": "आफ्नो सहायकलाई बाह्य API र सेवासँग जडान गर्न कस्टम उपकरणहरू बनाउनुहोस्, जसले तपाईंको लागि डेटा ल्याउन र कार्यहरू गर्न सक्षम बनाउँछ।",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Custom Tools",
-          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+          "TITLE": "कस्टम उपकरणहरू",
+          "NOTE": "कस्टम उपकरणहरूले तपाईंको सहायकलाई बाह्य API र सेवासँग अन्तरक्रिया गर्न अनुमति दिन्छ। डेटा ल्याउन, कार्यहरू गर्न, वा तपाईंको प्रणालीसँग एकीकृत गर्न उपकरणहरू बनाउनुहोस् र सहायकको क्षमता बढाउनुहोस्।"
         }
       },
-      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "FORM_DESCRIPTION": "बाह्य API सँग जडान गर्न आफ्नो कस्टम उपकरण कन्फिगर गर्नुहोस्",
       "OPTIONS": {
-        "EDIT_TOOL": "Edit tool",
-        "DELETE_TOOL": "Delete tool"
+        "EDIT_TOOL": "उपकरण सम्पादन गर्नुहोस्",
+        "DELETE_TOOL": "उपकरण हटाउनुहोस्"
       },
       "CREATE": {
-        "TITLE": "Create Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool created successfully",
-        "ERROR_MESSAGE": "Failed to create custom tool"
+        "TITLE": "कस्टम उपकरण बनाउनुहोस्",
+        "SUCCESS_MESSAGE": "कस्टम उपकरण सफलतापूर्वक बनाइयो",
+        "ERROR_MESSAGE": "कस्टम टुल बनाउन असफल भयो"
       },
       "EDIT": {
-        "TITLE": "Edit Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool updated successfully",
-        "ERROR_MESSAGE": "Failed to update custom tool"
+        "TITLE": "कस्टम टुल सम्पादन गर्नुहोस्",
+        "SUCCESS_MESSAGE": "कस्टम टुल सफलतापूर्वक अपडेट भयो",
+        "ERROR_MESSAGE": "कस्टम टुल अपडेट गर्न असफल भयो"
       },
       "DELETE": {
-        "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete custom tool"
+        "TITLE": "कस्टम टुल मेटाउनुहोस्",
+        "DESCRIPTION": "के तपाईं यो कस्टम टुल मेटाउन निश्चित हुनुहुन्छ? यो कार्य पूर्ववत गर्न सकिँदैन।",
+        "CONFIRM": "हो, मेटाउनुहोस्",
+        "SUCCESS_MESSAGE": "कस्टम टुल सफलतापूर्वक मेटाइयो",
+        "ERROR_MESSAGE": "कस्टम टुल मेटाउन असफल भयो"
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Tool Name",
-          "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "LABEL": "टुलको नाम",
+          "PLACEHOLDER": "अर्डर खोज्नुहोस्",
+          "ERROR": "टुलको नाम आवश्यक छ",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Looks up order details by order ID"
+          "LABEL": "विवरण",
+          "PLACEHOLDER": "अर्डर ID द्वारा अर्डर विवरण खोज्छ"
         },
         "HTTP_METHOD": {
-          "LABEL": "Method"
+          "LABEL": "विधि"
         },
         "ENDPOINT_URL": {
-          "LABEL": "Endpoint URL",
+          "LABEL": "एन्डपोइन्ट URL",
           "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
-          "ERROR": "Valid URL is required"
+          "ERROR": "मान्य URL आवश्यक छ"
         },
         "AUTH_TYPE": {
-          "LABEL": "Authentication Type"
+          "LABEL": "प्रमाणीकरण प्रकार"
         },
         "AUTH_TYPES": {
-          "NONE": "None",
+          "NONE": "कुनै होइन",
           "BEARER": "Bearer Token",
-          "BASIC": "Basic Auth",
+          "BASIC": "बेसिक प्रमाणीकरण",
           "API_KEY": "API Key"
         },
         "AUTH_CONFIG": {
           "BEARER_TOKEN": "Bearer Token",
-          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
-          "USERNAME": "Username",
-          "USERNAME_PLACEHOLDER": "Enter username",
-          "PASSWORD": "Password",
-          "PASSWORD_PLACEHOLDER": "Enter password",
-          "API_KEY": "Header Name",
+          "BEARER_TOKEN_PLACEHOLDER": "आफ्नो bearer token प्रविष्ट गर्नुहोस्",
+          "USERNAME": "प्रयोगकर्ता नाम",
+          "USERNAME_PLACEHOLDER": "प्रयोगकर्ता नाम लेख्नुहोस्",
+          "PASSWORD": "पासवर्ड",
+          "PASSWORD_PLACEHOLDER": "पासवर्ड लेख्नुहोस्",
+          "API_KEY": "हेडर नाम",
           "API_KEY_PLACEHOLDER": "X-API-Key",
-          "API_VALUE": "Header Value",
-          "API_VALUE_PLACEHOLDER": "Enter API key value"
+          "API_VALUE": "हेडर मान",
+          "API_VALUE_PLACEHOLDER": "API कुञ्जी मान प्रविष्ट गर्नुहोस्"
         },
         "PARAMETERS": {
-          "LABEL": "Parameters",
-          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+          "LABEL": "प्यारामिटरहरू",
+          "HELP_TEXT": "प्रयोगकर्ताका प्रश्नबाट निकालिने प्यारामिटरहरू परिभाषित गर्नुहोस्"
         },
-        "ADD_PARAMETER": "Add Parameter",
+        "ADD_PARAMETER": "प्यारामिटर थप्नुहोस्",
         "PARAM_NAME": {
-          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+          "PLACEHOLDER": "प्यारामिटर नाम (जस्तै, order_id)"
         },
         "PARAM_TYPE": {
-          "PLACEHOLDER": "Type"
+          "PLACEHOLDER": "प्रकार"
         },
         "PARAM_TYPES": {
-          "STRING": "String",
-          "NUMBER": "Number",
-          "BOOLEAN": "Boolean",
-          "ARRAY": "Array",
-          "OBJECT": "Object"
+          "STRING": "स्ट्रिङ",
+          "NUMBER": "संख्या",
+          "BOOLEAN": "बुलियन",
+          "ARRAY": "एरे",
+          "OBJECT": "वस्तु"
         },
         "PARAM_DESCRIPTION": {
-          "PLACEHOLDER": "Description of the parameter"
+          "PLACEHOLDER": "प्यारामिटरको विवरण"
         },
         "PARAM_REQUIRED": {
-          "LABEL": "Required"
+          "LABEL": "आवश्यक"
         },
         "REQUEST_TEMPLATE": {
-          "LABEL": "Request Body Template (Optional)",
+          "LABEL": "अनुरोध बडी टेम्प्लेट (वैकल्पिक)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "Response Template (Optional)",
+          "LABEL": "प्रतिक्रिया टेम्प्लेट (वैकल्पिक)",
           "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
         },
         "ERRORS": {
@@ -857,74 +933,74 @@
       }
     },
     "RESPONSES": {
-      "HEADER": "FAQs",
+      "HEADER": "FAQ",
       "PENDING_FAQS": "Pending FAQs",
-      "ADD_NEW": "Create new FAQ",
+      "ADD_NEW": "नयाँ FAQ सिर्जना गर्नुहोस्",
       "DOCUMENTABLE": {
-        "CONVERSATION": "Conversation #{id}"
+        "CONVERSATION": "कुराकानी #{id}"
       },
-      "SELECTED": "{count} selected",
-      "SELECT_ALL": "Select all ({count})",
-      "UNSELECT_ALL": "Unselect all ({count})",
-      "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Approve",
-      "BULK_DELETE_BUTTON": "Delete",
+      "SELECTED": "{count} चयन गरियो",
+      "SELECT_ALL": "सबै चयन गर्नुहोस् ({count})",
+      "UNSELECT_ALL": "सबै चयन हटाउनुहोस् ({count})",
+      "SEARCH_PLACEHOLDER": "FAQs खोज्नुहोस्...",
+      "BULK_APPROVE_BUTTON": "स्वीकृत गर्नु",
+      "BULK_DELETE_BUTTON": "मेटाउनु",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "FAQ सफलतापूर्वक स्वीकृत भयो",
+        "ERROR_MESSAGE": "FAQ स्वीकृत गर्दा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।"
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "TITLE": "FAQ मेटाउने?",
+        "DESCRIPTION": "के तपाईं चयनित FAQ मेटाउन निश्चित हुनुहुन्छ? यो कार्य पूर्ववत गर्न सकिँदैन।",
+        "CONFIRM": "हो, सबै मेटाउनु",
+        "SUCCESS_MESSAGE": "FAQ सफलतापूर्वक मेटाइयो",
+        "ERROR_MESSAGE": "FAQ मेटाउँदा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।"
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the FAQ?",
+        "TITLE": "के तपाईं FAQ मेटाउन निश्चित हुनुहुन्छ?",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "FAQ deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+        "CONFIRM": "हो, मेटाउनुहोस्",
+        "SUCCESS_MESSAGE": "FAQ सफलतापूर्वक मेटाइयो",
+        "ERROR_MESSAGE": "FAQ मेटाउँदा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।"
       },
       "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
-        "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "All"
+        "ASSISTANT": "सहायक: {selected}",
+        "STATUS": "स्थिति: {selected}",
+        "ALL_ASSISTANTS": "सबै"
       },
       "STATUS": {
-        "TITLE": "Status",
-        "PENDING": "Pending",
-        "APPROVED": "Approved",
-        "ALL": "All"
+        "TITLE": "स्थिति",
+        "PENDING": "प्रतीक्षा अवस्थामा",
+        "APPROVED": "स्वीकृत",
+        "ALL": "सबै"
       },
       "PENDING_BANNER": {
         "TITLE": "Captain has found some FAQs your customers were looking for.",
         "ACTION": "Click here to review"
       },
-      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "FORM_DESCRIPTION": "ज्ञान आधारमा प्रश्न र यसको सम्बन्धित उत्तर थप्नुहोस् र सम्बन्धित सहायक चयन गर्नुहोस्।",
       "CREATE": {
-        "TITLE": "Add an FAQ",
-        "SUCCESS_MESSAGE": "The response has been added successfully.",
-        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+        "TITLE": "FAQ थप्नुहोस्",
+        "SUCCESS_MESSAGE": "उत्तर सफलतापूर्वक थपियो।",
+        "ERROR_MESSAGE": "उत्तर थप्दा त्रुटि भयो। कृपया फेरि प्रयास गर्नुहोस्।"
       },
       "FORM": {
         "QUESTION": {
-          "LABEL": "Question",
-          "PLACEHOLDER": "Enter the question here",
-          "ERROR": "Please provide a valid question."
+          "LABEL": "प्रश्न",
+          "PLACEHOLDER": "यहाँ प्रश्न प्रविष्ट गर्नुहोस्",
+          "ERROR": "कृपया मान्य प्रश्न प्रदान गर्नुहोस्।"
         },
         "ANSWER": {
-          "LABEL": "Answer",
-          "PLACEHOLDER": "Enter the answer here",
-          "ERROR": "Please provide a valid answer."
+          "LABEL": "उत्तर",
+          "PLACEHOLDER": "यहाँ उत्तर प्रविष्ट गर्नुहोस्",
+          "ERROR": "कृपया मान्य उत्तर प्रदान गर्नुहोस्।"
         }
       },
       "EDIT": {
-        "TITLE": "Update the FAQ",
-        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
-        "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
+        "TITLE": "FAQ अपडेट गर्नुहोस्",
+        "SUCCESS_MESSAGE": "FAQ सफलतापूर्वक अपडेट गरियो।",
+        "ERROR_MESSAGE": "FAQ अपडेट गर्दा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।",
+        "APPROVE_SUCCESS_MESSAGE": "FAQ लाई स्वीकृतको रूपमा चिन्हित गरियो।"
       },
       "OPTIONS": {
         "APPROVE": "Approve",
@@ -932,45 +1008,45 @@
         "DELETE_RESPONSE": "Delete"
       },
       "EMPTY_STATE": {
-        "TITLE": "No FAQs Found",
+        "TITLE": "कुनै FAQ फेला परेन",
         "NO_PENDING_TITLE": "There are no more pending FAQs to review",
-        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
+        "SUBTITLE": "FAQ ले तपाईंको सहायकलाई ग्राहकका प्रश्नहरूमा छिटो र सही उत्तर दिन मद्दत गर्छ। यी स्वचालित रूपमा वा म्यानुअली थप्न सकिन्छ।",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "TITLE": "क्याप्टेन FAQ",
+          "NOTE": "Captain FAQs ले सामान्य ग्राहक प्रश्नहरू पत्ता लगाउँछ—तपाईंको ज्ञान आधारमा नभएका वा बारम्बार सोधिने—र समर्थन सुधार गर्न सम्बन्धित FAQs सिर्जना गर्छ। तपाईं प्रत्येक सुझाव समीक्षा गर्न सक्नुहुन्छ र स्वीकृत वा अस्वीकृत गर्ने निर्णय लिन सक्नुहुन्छ।"
         }
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "जोडिएका इनबक्सहरू",
+      "ADD_NEW": "नयाँ इनबक्स जडान गर्नुहोस्",
       "OPTIONS": {
-        "DISCONNECT": "Disconnect"
+        "DISCONNECT": "जडान काट्नुहोस्"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "के तपाईं पक्का हुनुहुन्छ इनबक्स जडान काट्न?",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "CONFIRM": "हो, मेटाउनुहोस्",
+        "SUCCESS_MESSAGE": "इनबक्स सफलतापूर्वक जडान काटियो।",
+        "ERROR_MESSAGE": "इनबक्स जडान काट्दा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।"
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "सहायकसँग जडान गर्न इनबक्स चयन गर्नुहोस्।",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
-        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+        "TITLE": "इनबक्स जडान गर्नुहोस्",
+        "SUCCESS_MESSAGE": "इनबक्स सफलतापूर्वक जडान गरियो।",
+        "ERROR_MESSAGE": "इनबक्स जडान गर्दा त्रुटि भयो। कृपया फेरि प्रयास गर्नुहोस्।"
       },
       "FORM": {
         "INBOX": {
-          "LABEL": "Inbox",
-          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
-          "ERROR": "An inbox selection is required."
+          "LABEL": "इनबक्स",
+          "PLACEHOLDER": "सहायक तैनाथ गर्न इनबक्स चयन गर्नुहोस्।",
+          "ERROR": "इनबक्स चयन आवश्यक छ।"
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "TITLE": "कुनै जडान गरिएको इनबक्स छैन",
+        "SUBTITLE": "इनबक्स जडान गर्दा सहायकले ग्राहकका प्रारम्भिक प्रश्नहरू सम्हाल्न सक्छ र आवश्यक परे एजेन्टलाई स्थानान्तरण गर्न सक्छ।"
       }
     }
   }

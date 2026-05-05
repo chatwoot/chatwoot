@@ -6,7 +6,7 @@ class Captain::Tools::ResolveConversationTool < Captain::Tools::BasePublicTool
     conversation = find_conversation(tool_context.state)
     return 'Conversation not found' unless conversation
     return "Conversation ##{conversation.display_id} is already resolved" if conversation.resolved?
-    return 'Auto-resolve is disabled for this account' if conversation.account.captain_disable_auto_resolve
+    return 'Auto-resolve is disabled for this account' if conversation.account.captain_auto_resolve_disabled?
 
     log_tool_usage('resolve_conversation', { conversation_id: conversation.id, reason: reason })
 

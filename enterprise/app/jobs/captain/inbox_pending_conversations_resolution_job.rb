@@ -5,9 +5,9 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   queue_as :low
 
   def perform(inbox)
-    return if inbox.account.captain_disable_auto_resolve
+    return if inbox.account.captain_auto_resolve_disabled?
 
-    if inbox.account.feature_enabled?('captain_tasks')
+    if evaluate_conversation_completion?(inbox.account)
       perform_with_evaluation(inbox)
     else
       perform_time_based(inbox)
@@ -17,6 +17,10 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   end
 
   private
+
+  def evaluate_conversation_completion?(account)
+    account.feature_enabled?('captain_tasks') && account.captain_auto_resolve_evaluated?
+  end
 
   def perform_time_based(inbox)
     Current.executed_by = inbox.captain_assistant

@@ -1,435 +1,503 @@
 {
   "REPORT": {
-    "HEADER": "Conversations",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
-    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "HEADER": "Vestlused",
+    "LOADING_CHART": "Laaditakse diagrammi andmeid...",
+    "NO_ENOUGH_DATA": "Me pole saanud piisavalt andmepunkte aruande genereerimiseks, palun proovige hiljem uuesti.",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Laadi alla vestluste aruanded",
+    "DATA_FETCHING_FAILED": "Andmete toomine ebaõnnestus, palun proovi hiljem uuesti.",
+    "SUMMARY_FETCHING_FAILED": "Kokkuvõtte toomine ebaõnnestus, palun proovi hiljem uuesti.",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Vestlused",
+        "DESC": "(Kokku)"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Messages received",
-        "DESC": "( Total )"
+        "NAME": "Vastuvõetud sõnumid",
+        "DESC": "(Kokku)"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Messages sent",
-        "DESC": "( Total )"
+        "NAME": "Saadetud sõnumid",
+        "DESC": "( Kogus )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Esimene vastuse aeg",
+        "DESC": "( Keskmine )",
+        "INFO_TEXT": "Arvutamiseks kasutatud vestluste koguarv:",
+        "TOOLTIP_TEXT": "Esimene vastuse aeg on {metricValue} (põhineb {conversationCount} vestlusel)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Lahendamise aeg",
+        "DESC": "( Keskmine )",
+        "INFO_TEXT": "Arvutamiseks kasutatud vestluste koguarv:",
+        "TOOLTIP_TEXT": "Lahendamise aeg on {metricValue} (põhineb {conversationCount} vestlusel)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Lahenduste arv",
+        "DESC": "( Kokku )"
       },
       "BOT_RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Lahenduste arv",
+        "DESC": "( Kokku )"
       },
       "BOT_HANDOFF_COUNT": {
-        "NAME": "Handoff Count",
-        "DESC": "( Total )"
+        "NAME": "Üleandmiste arv",
+        "DESC": "( Kokku )"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "NAME": "Kliendi ooteaeg",
+        "TOOLTIP_TEXT": "Ooteaeg on {metricValue} (põhineb {conversationCount} vastusel)",
         "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
-      "LAST_7_DAYS": "Last 7 days",
-      "LAST_14_DAYS": "Last 14 days",
-      "LAST_30_DAYS": "Last 30 days",
-      "THIS_MONTH": "This month",
-      "LAST_MONTH": "Last month",
-      "LAST_3_MONTHS": "Last 3 months",
-      "LAST_6_MONTHS": "Last 6 months",
-      "LAST_YEAR": "Last year",
-      "CUSTOM_DATE_RANGE": "Custom date range"
+      "LAST_7_DAYS": "Viimased 7 päeva",
+      "LAST_14_DAYS": "Viimased 14 päeva",
+      "LAST_30_DAYS": "Viimased 30 päeva",
+      "THIS_MONTH": "Käesolev kuu",
+      "LAST_MONTH": "Eelmine kuu",
+      "LAST_3_MONTHS": "Viimased 3 kuud",
+      "LAST_6_MONTHS": "Viimased 6 kuud",
+      "LAST_YEAR": "Eelmine aasta",
+      "CUSTOM_DATE_RANGE": "Kohandatud kuupäevavahemik"
     },
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Rakenda",
+      "PLACEHOLDER": "Vali kuupäevavahemik"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
-    "DURATION_FILTER_LABEL": "Duration",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Grupeeri",
+    "DURATION_FILTER_LABEL": "Kestus",
     "GROUPING_OPTIONS": {
-      "DAY": "Day",
-      "WEEK": "Week",
-      "MONTH": "Month",
-      "YEAR": "Year"
+      "DAY": "Päev",
+      "WEEK": "Nädal",
+      "MONTH": "Kuu",
+      "YEAR": "Aasta"
     },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Päev"
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Päev"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Nädal"
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Päev"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Nädal"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Kuu"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Nädal"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Kuu"
       },
       {
         "id": 4,
-        "groupBy": "Year"
+        "groupBy": "Aasta"
       }
     ],
-    "BUSINESS_HOURS": "Business Hours",
+    "BUSINESS_HOURS": "Tööaeg",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
-      "EMPTY_LIST": "No results found"
+      "CLEAR_FILTER": "Tühjenda filter",
+      "EMPTY_LIST": "Tulemusi ei leitud"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results",
-      "PER_PAGE_TEMPLATE": "{size} / page"
+      "RESULTS": "Kuvatakse {start} kuni {end} {total} tulemusest",
+      "PER_PAGE_TEMPLATE": "{size} / lehekülg"
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "HEADER": "Agentide ülevaade",
+    "DESCRIPTION": "Jälgi agentide sooritust lihtsalt oluliste mõõdikutega nagu vestlused, vastamisajad, lahendamisajad ja lahendatud juhtumid. Klõpsa agendi nimele, et rohkem teada saada.",
+    "LOADING_CHART": "Diagrammi andmete laadimine...",
+    "NO_ENOUGH_DATA": "Meil pole piisavalt andmepunkte aruande genereerimiseks, palun proovige hiljem uuesti.",
+    "DOWNLOAD_AGENT_REPORTS": "Laadi alla agendi aruanded",
+    "FILTER_DROPDOWN_LABEL": "Vali agent",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Otsi agente"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Vestlused",
+        "DESC": "( Kogus )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Sissetulevad sõnumid",
+        "DESC": "( Kogus )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Väljaminevad sõnumid",
+        "DESC": "( Kogus )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Esimene vastuse aeg",
+        "DESC": "( Keskmine )",
+        "INFO_TEXT": "Arvutuste tegemiseks kasutatud vestluste koguarv:",
+        "TOOLTIP_TEXT": "Esimese vastuse aeg on {metricValue} (põhineb {conversationCount} vestlusel)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Lahendamise aeg",
+        "DESC": "( Keskmine )",
+        "INFO_TEXT": "Arvutuste tegemiseks kasutatud vestluste koguarv:",
+        "TOOLTIP_TEXT": "Lahendamise aeg on {metricValue} (põhineb {conversationCount} vestlusel)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Lahenduste arv",
+        "DESC": "( Kokku )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Viimased 7 päeva"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Viimased 30 päeva"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Viimased 3 kuud"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Viimased 6 kuud"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Eelmine aasta"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Kohandatud kuupäevavahemik"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Rakenda",
+      "PLACEHOLDER": "Vali kuupäevavahemik"
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
-    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "HEADER": "Siltide ülevaade",
+    "DESCRIPTION": "Jälgi sildi tulemuslikkust peamiste mõõdikute abil, sealhulgas vestlused, vastamisajad, lahendamise ajad ja lahendatud juhtumid. Täpsemate teadmiste saamiseks klõpsa sildi nimele.",
+    "LOADING_CHART": "Diagrammi andmete laadimine...",
+    "NO_ENOUGH_DATA": "Meil ei ole piisavalt andmepunkte aruande genereerimiseks, palun proovige hiljem uuesti.",
+    "DOWNLOAD_LABEL_REPORTS": "Laadi alla sildiaruanded",
+    "FILTER_DROPDOWN_LABEL": "Vali silt",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Otsi silte"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Vestlused",
+        "DESC": "(Kokku)"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Sissetulevad sõnumid",
+        "DESC": "( Kogus )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Väljaminevad sõnumid",
+        "DESC": "( Kogus )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Esimene vastuse aeg",
+        "DESC": "( Keskmine )",
+        "INFO_TEXT": "Arvutuste tegemiseks kasutatud vestluste koguarv:",
+        "TOOLTIP_TEXT": "Esimese vastuse aeg on {metricValue} (põhineb {conversationCount} vestlusel)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Lahendamise aeg",
+        "DESC": "( Keskmine )",
+        "INFO_TEXT": "Arvutuste tegemiseks kasutatud vestluste koguarv:",
+        "TOOLTIP_TEXT": "Lahendamise aeg on {metricValue} (põhineb {conversationCount} vestlusel)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Lahenduste arv",
+        "DESC": "( Kogus )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Viimased 7 päeva"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Viimased 30 päeva"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Viimased 3 kuud"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Viimased 6 kuud"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Eelmine aasta"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Kohandatud kuupäevavahemik"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Rakenda",
+      "PLACEHOLDER": "Vali kuupäevavahemik"
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
-    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
-    "ALL_INBOXES": "All Inboxes",
-    "SEARCH_INBOX": "Search Inbox",
+    "HEADER": "Postkasti ülevaade",
+    "DESCRIPTION": "Vaata kiiresti oma postkasti tulemuslikkust võtmemõõdikute abil nagu vestlused, reageerimisajad, lahendamisajad ja lahendatud juhtumid – kõik ühes kohas. Klõpsa postkasti nimele, et näha rohkem üksikasju.",
+    "LOADING_CHART": "Diagrammi andmete laadimine...",
+    "NO_ENOUGH_DATA": "Meil pole piisavalt andmepunkte aruande genereerimiseks, palun proovige hiljem uuesti.",
+    "DOWNLOAD_INBOX_REPORTS": "Laadi alla postkasti aruanded",
+    "FILTER_DROPDOWN_LABEL": "Vali postkast",
+    "ALL_INBOXES": "Kõik postkastid",
+    "SEARCH_INBOX": "Otsi postkastist",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Otsi postkaste"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Vestlused",
+        "DESC": "( Kokku )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Sissetulevad sõnumid",
+        "DESC": "( Kogus )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Väljaminevad sõnumid",
+        "DESC": "( Kogus )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Esimene vastuse aeg",
+        "DESC": "( Keskmine )",
+        "INFO_TEXT": "Arvutamiseks kasutatud vestluste koguarv:",
+        "TOOLTIP_TEXT": "Esimene vastuse aeg on {metricValue} (põhineb {conversationCount} vestlusel)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Lahendamise aeg",
+        "DESC": "( Keskmine )",
+        "INFO_TEXT": "Arvutamiseks kasutatud vestluste koguarv:",
+        "TOOLTIP_TEXT": "Lahendamise aeg on {metricValue} (põhineb {conversationCount} vestlusel)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Lahenduste arv",
+        "DESC": "( Kogus )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Viimased 7 päeva"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Viimased 30 päeva"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Viimased 3 kuud"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Viimased 6 kuud"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Eelmine aasta"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Kohandatud kuupäevavahemik"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Rakenda",
+      "PLACEHOLDER": "Vali kuupäevavahemik"
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "HEADER": "Meeskonna ülevaade",
+    "DESCRIPTION": "Saate ülevaate oma meeskonna tulemuslikkusest oluliste mõõdikutega, sealhulgas vestlused, reageerimisajad, lahendamise ajad ja lahendatud juhtumid. Lisateabe saamiseks klõpsake meeskonna nime.",
+    "LOADING_CHART": "Diagrammi andmete laadimine...",
+    "NO_ENOUGH_DATA": "Meil ei ole piisavalt andmepunkte aruande koostamiseks, palun proovige hiljem uuesti.",
+    "DOWNLOAD_TEAM_REPORTS": "Laadi alla meeskonna aruanded",
+    "FILTER_DROPDOWN_LABEL": "Vali meeskond",
+    "FILTERS": {
+      "ADD_FILTER": "Lisa filter",
+      "CLEAR_ALL": "Tühjenda kõik",
+      "NO_FILTER": "Filtreid pole saadaval",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Otsi meeskondi"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Vestlused",
+        "DESC": "( Kogus )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Sissetulevad sõnumid",
+        "DESC": "( Kogus )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Väljaminevad sõnumid",
+        "DESC": "( Kogus )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Esimene vastuse aeg",
+        "DESC": "( Keskmine )",
+        "INFO_TEXT": "Arvutamiseks kasutatud vestluste koguarv:",
+        "TOOLTIP_TEXT": "Esimene vastuse aeg on {metricValue} (põhineb {conversationCount} vestlusel)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Lahendamise aeg",
+        "DESC": "( Keskmine )",
+        "INFO_TEXT": "Kokku vestluste arv arvutamiseks:",
+        "TOOLTIP_TEXT": "Lahendamise aeg on {metricValue} (põhineb {conversationCount} vestlusel)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Lahenduste arv",
+        "DESC": "( Kogus )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Viimased 7 päeva"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Viimased 30 päeva"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Viimased 3 kuud"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Viimased 6 kuud"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Eelmine aasta"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Kohandatud kuupäevavahemik"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Rakenda",
+      "PLACEHOLDER": "Vali kuupäevavahemik"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
-    "DOWNLOAD": "Download CSAT Reports",
+    "HEADER": "CSAT aruanded",
+    "NO_RECORDS": "Vastuseid pole veel",
+    "NO_RECORDS_DESCRIPTION": "Kliendirahulolu küsitluse vastused kuvatakse siin, kui kliendid hakkavad tagasisidet andma.",
+    "DOWNLOAD": "Laadi alla CSAT aruanded",
     "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
+      "ADD_FILTER": "Lisa filter",
+      "CLEAR_ALL": "Tühjenda kõik",
+      "NO_FILTER": "Filtreid pole saadaval",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Otsi agente",
+        "INBOXES": "Otsi postkaste",
+        "TEAMS": "Otsi meeskondi",
+        "RATINGS": "Otsi hinnanguid"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "LABEL": "Agent"
+      },
+      "INBOXES": {
+        "LABEL": "Sissetulek"
+      },
+      "TEAMS": {
+        "LABEL": "Meeskond"
+      },
+      "RATINGS": {
+        "LABEL": "Hinnang"
       }
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
-      }
+        "CONTACT_NAME": "Kontakt",
+        "AGENT_NAME": "Agent",
+        "RATING": "Hinnang",
+        "FEEDBACK_TEXT": "Tagasiside kommentaar",
+        "CONVERSATION": "Vestlus",
+        "CUSTOMER": "Klient",
+        "RESPONSE": "Vastus",
+        "HANDLED_BY": "Käsitlenud"
+      },
+      "UNKNOWN_CUSTOMER": "Tundmatu klient"
     },
+    "NO_AGENT": "Määramata agent",
+    "NO_FEEDBACK": "Tagasisidet ei ole antud",
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Vastuste koguarv",
+        "TOOLTIP": "Kogutud vastuste koguarv"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Rahulolu skoor",
+        "TOOLTIP": "Positiivsete vastuste koguarv / Vastuste koguarv * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
+        "LABEL": "Vastuste määr",
         "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+      },
+      "RATING_DISTRIBUTION": "Hinnangute jaotus"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "Ülevaate märkmed",
+      "PLACEHOLDER": "Lisa selle hinnangu kohta ülevaate märkmeid...",
+      "SAVE": "Salvesta",
+      "CANCEL": "Tühista",
+      "SAVING": "Salvestamine...",
+      "SAVED": "Märkmed salvestatud edukalt",
+      "SAVE_ERROR": "Märkmete salvestamine ebaõnnestus",
+      "UPDATED_BY": "Uuendas {name} {time}",
+      "UPDATED_BY_LABEL": "Uuendas",
+      "PAYWALL": {
+        "TITLE": "Uuenda, et lisada ülevaate märkmeid",
+        "AVAILABLE_ON": "The review notes feature is only available in the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Lisa igale CSAT vastusele sisekontekst arvustuste märkmetega. Kogu teavet tegeliku olukorra kohta, avasta mustreid kiiremini ja tee paremaid otsuseid oma tagasiside põhjal.",
+        "UPGRADE_NOW": "Uuenda kohe",
+        "CANCEL_ANYTIME": "Saad oma plaani igal ajal muuta või tühistada"
       }
     }
   },
@@ -437,146 +505,146 @@
     "HEADER": "Bot Reports",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
+        "LABEL": "Vestluste arv",
         "TOOLTIP": "Total number of conversations handled by the bot"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
+        "LABEL": "Vastuste koguarv",
         "TOOLTIP": "Total number of responses sent by the bot"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
+        "LABEL": "Lahendamise määr",
         "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
+        "LABEL": "Üleandmise määr",
         "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
       }
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
-    "LIVE": "Live",
+    "HEADER": "Ülevaade",
+    "LIVE": "Otseülekanne",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Open",
-      "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Unassigned",
-      "PENDING": "Pending"
+      "HEADER": "Avatud vestlused",
+      "LOADING_MESSAGE": "Vestluse mõõdikute laadimine...",
+      "OPEN": "Avatud",
+      "UNATTENDED": "Jäetud tähelepanuta",
+      "UNASSIGNED": "Määramata",
+      "PENDING": "Ootel"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "{count} conversation",
-      "CONVERSATIONS": "{count} conversations",
-      "DOWNLOAD_REPORT": "Download report"
+      "HEADER": "Vestluste liiklus",
+      "NO_CONVERSATIONS": "Vestlusi pole",
+      "CONVERSATION": "{count} vestlus",
+      "CONVERSATIONS": "{count} vestlust",
+      "DOWNLOAD_REPORT": "Laadi aruanne alla"
     },
     "RESOLUTION_HEATMAP": {
-      "HEADER": "Resolutions",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "{count} conversation",
-      "CONVERSATIONS": "{count} conversations",
-      "DOWNLOAD_REPORT": "Download report"
+      "HEADER": "Lahendused",
+      "NO_CONVERSATIONS": "Vestlusi pole",
+      "CONVERSATION": "{count} vestlus",
+      "CONVERSATIONS": "{count} vestlust",
+      "DOWNLOAD_REPORT": "Laadi aruanne alla"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "HEADER": "Agentide vestlused",
+      "LOADING_MESSAGE": "Agendi mõõdikute laadimine...",
+      "NO_AGENTS": "Agentide vestlusi pole",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "Open",
-        "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+        "OPEN": "Ava",
+        "UNATTENDED": "Jäetud tähelepanuta",
+        "STATUS": "Staatus"
       }
     },
     "TEAM_CONVERSATIONS": {
-      "ALL_TEAMS": "All Teams",
-      "HEADER": "Conversations by teams",
-      "LOADING_MESSAGE": "Loading team metrics...",
-      "NO_TEAMS": "There is no data available",
+      "ALL_TEAMS": "Kõik meeskonnad",
+      "HEADER": "Vestlused meeskondade kaupa",
+      "LOADING_MESSAGE": "Meeskonna mõõdikute laadimine...",
+      "NO_TEAMS": "Andmeid pole saadaval",
       "TABLE_HEADER": {
-        "TEAM": "Team",
-        "OPEN": "Open",
-        "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+        "TEAM": "Meeskond",
+        "OPEN": "Avatud",
+        "UNATTENDED": "Jäetud tähelepanuta",
+        "STATUS": "Staatus"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "Online",
-      "BUSY": "Busy",
-      "OFFLINE": "Offline"
+      "HEADER": "Agendi olek",
+      "ONLINE": "Veebis",
+      "BUSY": "Hõivatud",
+      "OFFLINE": "Võrgust väljas"
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
+    "SUNDAY": "Pühapäev",
     "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
+    "TUESDAY": "Teisipäev",
     "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "THURSDAY": "Neljapäev",
+    "FRIDAY": "Reede",
+    "SATURDAY": "Laupäev"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
+    "HEADER": "SLA aruanded",
     "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "LOADING": "Laaditakse SLA andmeid...",
+    "DOWNLOAD_SLA_REPORTS": "Laadi alla SLA aruanded",
+    "DOWNLOAD_FAILED": "SLA aruannete allalaadimine ebaõnnestus",
     "DROPDOWN": {
-      "ADD_FIlTER": "Add filter",
-      "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
-      "EMPTY_LIST": "No results found",
-      "NO_FILTER": "No filters available",
-      "SEARCH": "Search filter",
+      "ADD_FIlTER": "Lisa filter",
+      "CLEAR_ALL": "Tühjenda kõik",
+      "CLEAR_FILTER": "Tühjenda filter",
+      "EMPTY_LIST": "Tulemusi ei leitud",
+      "NO_FILTER": "Filtreid pole saadaval",
+      "SEARCH": "Otsi filtrit",
       "INPUT_PLACEHOLDER": {
-        "SLA": "SLA name",
-        "AGENTS": "Agent name",
-        "INBOXES": "Inbox name",
-        "LABELS": "Label name",
-        "TEAMS": "Team name"
+        "SLA": "SLA nimi",
+        "AGENTS": "Agendi nimi",
+        "INBOXES": "Postkasti nimi",
+        "LABELS": "Sildi nimi",
+        "TEAMS": "Meeskonna nimi"
       },
-      "SLA": "SLA Policy",
-      "INBOXES": "Inbox",
+      "SLA": "SLA poliitika",
+      "INBOXES": "Postkast",
       "AGENTS": "Agent",
-      "LABELS": "Label",
-      "TEAMS": "Team"
+      "LABELS": "Silt",
+      "TEAMS": "Meeskond"
     },
-    "WITH": "with",
+    "WITH": "koos",
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Hit Rate",
+        "LABEL": "Täitumismäär",
         "TOOLTIP": "Percentage of SLAs created were completed successfully"
       },
       "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
-        "TOOLTIP": "Total SLA misses in a certain period"
+        "LABEL": "Mittejärgimiste arv",
+        "TOOLTIP": "Kokku SLA mittejärgimised kindlal perioodil"
       },
       "NO_OF_CONVERSATIONS": {
-        "LABEL": "Number of Conversations",
-        "TOOLTIP": "Total number of conversations with SLA"
+        "LABEL": "Vestluste arv",
+        "TOOLTIP": "Vestluste koguarv, millel on SLA"
       }
     },
     "TABLE": {
       "HEADER": {
-        "POLICY": "Policy",
-        "CONVERSATION": "Conversation",
+        "POLICY": "Poliitika",
+        "CONVERSATION": "Vestlus",
         "AGENT": "Agent"
       },
-      "VIEW_DETAILS": "View Details"
+      "VIEW_DETAILS": "Vaata üksikasju"
     }
   },
   "SUMMARY_REPORTS": {
-    "INBOX": "Inbox",
+    "INBOX": "Postkast",
     "AGENT": "Agent",
-    "TEAM": "Team",
-    "LABEL": "Label",
-    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
-    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
-    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
-    "RESOLUTION_COUNT": "Resolution Count",
-    "CONVERSATIONS": "No. of conversations"
+    "TEAM": "Meeskond",
+    "LABEL": "Silt",
+    "AVG_RESOLUTION_TIME": "Keskmine lahendusaeg",
+    "AVG_FIRST_RESPONSE_TIME": "Keskmine esimene vastuse aeg",
+    "AVG_REPLY_TIME": "Keskmine kliendi ooteaeg",
+    "RESOLUTION_COUNT": "Lahenduste arv",
+    "CONVERSATIONS": "Vestluste arv"
   }
 }

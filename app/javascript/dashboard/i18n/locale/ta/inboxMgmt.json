@@ -1,10 +1,13 @@
 {
   "INBOX_MGMT": {
     "HEADER": "இன்பாக்ஸ்கள்",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
-    "CLICK_TO_RECONNECT": "Click here to reconnect.",
+    "DESCRIPTION": "ஒரு சேனல் என்பது உங்கள் வாடிக்கையாளர் தொடர்பு கொள்ள தேர்ந்தெடுக்கும் தொடர்பு முறை. ஒரு இன்பாக்ஸ் என்பது குறிப்பிட்ட சேனலுக்கான தொடர்புகளை நீங்கள் நிர்வகிக்கும் இடம். இது மின்னஞ்சல், நேரடி உரையாடல் மற்றும் சமூக ஊடகம் போன்ற பல்வேறு மூலங்களிலிருந்து வரும் தொடர்புகளை உள்ளடக்கலாம்.",
+    "LEARN_MORE": "இன்பாக்ஸ்கள் பற்றி மேலும் அறியவும்",
+    "COUNT": "{n} inbox | {n} inboxes",
+    "SEARCH_PLACEHOLDER": "Search inboxes...",
+    "NO_RESULTS": "No inboxes found matching your search",
+    "RECONNECTION_REQUIRED": "உங்கள் இன்பாக்ஸ் துண்டிக்கப்பட்டுள்ளது. மீண்டும் அங்கீகரிக்காமல் புதிய செய்திகள் வரமாட்டாது.",
+    "CLICK_TO_RECONNECT": "மீண்டும் இணைக்க இங்கே கிளிக் செய்யவும்.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
     "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
@@ -24,19 +27,19 @@
         "BODY": "உருவாக்கப்பட்ட இன்பாக்ஸில் ஏஜென்ட்களைச் சேர்க்கவும்."
       },
       "FINISH": {
-        "TITLE": "Voilà!",
+        "TITLE": "வோய்லா!",
         "BODY": "நீங்கள் மேற்கொண்டு பயன்படுத்தலாம்!"
       }
     },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "இன்பாக்ஸ் பெயர்",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "PLACEHOLDER": "உங்கள் இன்பாக்ஸ் பெயரை உள்ளிடவும் (எ.கா: Acme Inc)",
+        "ERROR": "தயவுசெய்து செல்லுபடியான இன்பாக்ஸ் பெயரை உள்ளிடவும்"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
-        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+        "LABEL": "இணையதளத்தின் பெயர்",
+        "PLACEHOLDER": "உங்கள் இணையதளத்தின் பெயரை உள்ளிடவும் (எ.கா: Acme Inc)"
       },
       "FB": {
         "HELP": "கவனத்திற்கு: உள்நுழைவதன் மூலம், உங்கள் பக்கத்தின் செய்திகளை மட்டுமே நாங்கள் அணுகுவோம். உங்கள் தனிப்பட்ட செய்திகளை ஒருபோதும் சாட்வூட்டால் அணுக முடியாது.",
@@ -44,18 +47,18 @@
         "CHOOSE_PLACEHOLDER": "பட்டியலிலிருந்து ஒரு பக்கத்தைத் தேர்ந்தெடுக்கவும்",
         "INBOX_NAME": "இன்பாக்ஸ் பெயர்",
         "ADD_NAME": "உங்கள் இன்பாக்ஸுக்கு ஒரு பெயரைச் சேர்க்கவும்",
-        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_NAME": "உங்கள் இன்பாக்ஸுக்கு ஒரு பெயரை தேர்ந்தெடுக்கவும்",
         "PICK_A_VALUE": "மதிப்பைத் தேர்ந்தெடுங்கள்",
         "CREATE_INBOX": "இன்பாக்ஸை உருவாக்கவும்"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "CONTINUE_WITH_INSTAGRAM": "Instagram உடன் தொடரவும்",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "உங்கள் Instagram சுயவிவரத்தை இணைக்கவும்",
+        "HELP": "உங்கள் Instagram சுயவிவரத்தை ஒரு சேனலாக சேர்க்க, 'Instagram உடன் தொடரவும்' என்பதைக் கிளிக் செய்து உங்கள் Instagram சுயவிவரத்தை அங்கீகரிக்க வேண்டும் ",
+        "ERROR_MESSAGE": "Instagram-க்கு இணைக்கும்போது பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்",
+        "ERROR_AUTH": "Instagram-க்கு இணைக்கும்போது பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்",
+        "NEW_INBOX_SUGGESTION": "இந்த Instagram கணக்கு முந்தையதாக வேறு இன்பாக்ஸுடன் இணைக்கப்பட்டிருந்தது மற்றும் இப்போது இங்கே மாற்றப்பட்டுள்ளது. அனைத்து புதிய செய்திகள் இங்கே தோன்றும். பழைய இன்பாக்ஸ் இந்த கணக்குக்கான செய்திகள் அனுப்பவோ பெறவோ முடியாது.",
+        "DUPLICATE_INBOX_BANNER": "இந்த Instagram கணக்கு புதிய Instagram சேனல் இன்பாக்ஸுக்கு மாற்றப்பட்டுள்ளது. இ இன்பாக்ஸில் இருந்து இன்ஸ்டாகிராம் செய்திகள் அனுப்பவோ பெறவோ முடியாது."
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
@@ -66,9 +69,9 @@
       },
       "TWITTER": {
         "HELP": "உங்கள் ட்விட்டர் சுயவிவரத்தை ஒரு சேனலாக சேர்க்க, 'ட்விட்டருடன் உள்நுழைக' என்பதைக் கிளிக் செய்யாவும், இதன் மூலம் உங்கள் சுயவிவரத்தை ட்விட்டர் வாயிலாக அங்கீகரிக்கிறீர்கள் ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "ERROR_MESSAGE": "Twitter-க்கு இணைக்கும்போது பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "மேற்கோள் செய்யப்பட்ட Tweets மூலம் உரையாடல்களை உருவாக்கவும்"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -80,8 +83,16 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "வெப்ஹூக் URL",
-          "PLACEHOLDER": "Please enter your Webhook URL",
+          "PLACEHOLDER": "தயவுசெய்து உங்கள் Webhook URL ஐ உள்ளிடவும்",
           "ERROR": "சரியான URL ஐ பதிவிடவும்"
+        },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "ரகசியம் கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது",
+          "TOGGLE": "ரகசியத்தை காண்பிக்க/மறைக்கவும்",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "இணையதள களம்",
@@ -106,11 +117,11 @@
           "DISABLED": "முடக்கப்பட்டது"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "பதில் நேரத்தை அமைக்கவும்",
+          "IN_A_FEW_MINUTES": "சில நிமிடங்களில்",
+          "IN_A_FEW_HOURS": "சில மணி நேரங்களில்",
+          "IN_A_DAY": "ஒரு நாளில்",
+          "HELP_TEXT": "இந்த பதில் நேரம் நேரடி உரையாடல் விகடனில் காட்சியிடப்படும்"
         },
         "WIDGET_COLOR": {
           "LABEL": "விட்ஜெட் நிறம்",
@@ -118,33 +129,33 @@
         },
         "SUBMIT_BUTTON": "இன்பாக்ஸை உருவாக்கவும்",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "நாம் ஒரு வலைத்தளம் சேனலை உருவாக்க முடியவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்"
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp சேனல்",
+        "DESC": "Twilio-வை ஒருங்கிணைத்து SMS அல்லது WhatsApp மூலம் உங்கள் வாடிக்கையாளர்களுக்கு ஆதரவு வழங்கத் தொடங்குங்கள்.",
         "ACCOUNT_SID": {
           "LABEL": "கணக்கின் SID",
           "PLACEHOLDER": "உங்கள் ட்விலியோ கணக்கின் SID ஐ உள்ளிடவும்",
           "ERROR": "இந்த புலம் தேவை"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
-          "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
+          "USE_API_KEY": "API விசை அங்கீகாரத்தை பயன்படுத்தவும்",
+          "LABEL": "API விசை SID",
+          "PLACEHOLDER": "தயவுசெய்து உங்கள் API விசை SID ஐ உள்ளிடவும்",
           "ERROR": "இந்த புலம் தேவை"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
+          "LABEL": "API விசை ரகசியம்",
+          "PLACEHOLDER": "தயவுசெய்து உங்கள் API விசை ரகசியத்தை உள்ளிடவும்",
           "ERROR": "இந்த புலம் தேவை"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "LABEL": "செய்தி சேவை SID",
+          "PLACEHOLDER": "தயவுசெய்து உங்கள் Twilio Messaging Service SID ஐ உள்ளிடவும்",
           "ERROR": "இந்த புலம் தேவை",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "USE_MESSAGING_SERVICE": "Twilio Messaging Service ஐ பயன்படுத்தவும்"
         },
         "CHANNEL_TYPE": {
           "LABEL": "சேனல் வகை",
@@ -157,13 +168,13 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "இன்பாக்ஸ் பெயர்",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "தயவுசெய்து ஒரு இன்பாக்ஸ் பெயரை உள்ளிடவும்",
           "ERROR": "இந்த புலம் தேவை"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone Number",
+          "LABEL": "தொலைபேசி எண்",
           "PLACEHOLDER": "செய்தி அனுப்பப்படும் தொலைபேசி எண்ணை உள்ளிடவும்.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "தயவுசெய்து `+` குறியீட்டுடன் தொடங்கும் மற்றும் இடைவெளிகள் இல்லாத செல்லுபடியான தொலைபேசி எண்ணை வழங்கவும்."
         },
         "API_CALLBACK": {
           "TITLE": "கால்பேக் URL",
@@ -175,65 +186,65 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "எஸ்எம்எஸ் சேனல்",
+        "DESC": "உங்கள் வாடிக்கையாளர்களுக்கு எஸ்எம்எஸ் மூலம் ஆதரவு வழங்கத் தொடங்குங்கள்.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "API வழங்குநர்",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "SMS சேனல் சேமிக்க முடியவில்லை"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "LABEL": "கணக்கு ஐடி",
+            "PLACEHOLDER": "உங்கள் Bandwidth கணக்கு ஐடியை உள்ளிடவும்",
             "ERROR": "இந்த புலம் தேவை"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
+            "LABEL": "API விசை",
+            "PLACEHOLDER": "தயவுசெய்து உங்கள் Bandwidth API விசையை உள்ளிடவும்",
             "ERROR": "இந்த புலம் தேவை"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
+            "LABEL": "API ரகசியம்",
+            "PLACEHOLDER": "தயவுசெய்து உங்கள் Bandwidth API ரகசியத்தை உள்ளிடவும்",
             "ERROR": "இந்த புலம் தேவை"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "LABEL": "விண்ணப்ப ஐடி",
+            "PLACEHOLDER": "தயவுசெய்து உங்கள் Bandwidth விண்ணப்ப ஐடியை உள்ளிடவும்",
             "ERROR": "இந்த புலம் தேவை"
           },
           "INBOX_NAME": {
             "LABEL": "இன்பாக்ஸ் பெயர்",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "PLACEHOLDER": "தயவுசெய்து ஒரு இன்பாக்ஸ் பெயரை உள்ளிடவும்",
             "ERROR": "இந்த புலம் தேவை"
           },
           "PHONE_NUMBER": {
             "LABEL": "தொலைபேசி எண்",
             "PLACEHOLDER": "செய்தி அனுப்பப்படும் தொலைபேசி எண்ணை உள்ளிடவும்.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "ERROR": "தயவுசெய்து `+` குறியீட்டுடன் தொடங்கும் மற்றும் இடைவெளிகள் இல்லாத செல்லுபடியான தொலைபேசி எண்ணை வழங்கவும்."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "Bandwidth சேனலை உருவாக்கவும்",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "Bandwidth அங்கீகாரத் தகவல்களை சரிபார்க்க முடியவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்"
           },
           "API_CALLBACK": {
             "TITLE": "கால்பேக் URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "Bandwidth இல் உள்ள செய்தி callback URL-ஐ இங்கே குறிப்பிடப்பட்ட URL உடன் அமைக்க வேண்டும்."
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "வாட்ஸ்அப் சேனல்",
+        "DESC": "உங்கள் வாடிக்கையாளர்களுக்கு வாட்ஸ்அப்பின் மூலம் ஆதரவு வழங்கத் தொடங்குங்கள்.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "API வழங்குநர்",
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
-          "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "WHATSAPP_CLOUD": "WhatsApp கிளவுட்",
           "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
           "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360Dialog"
@@ -244,42 +255,42 @@
         },
         "INBOX_NAME": {
           "LABEL": "இன்பாக்ஸ் பெயர்",
-          "PLACEHOLDER": "Please enter an inbox name",
+          "PLACEHOLDER": "தயவுசெய்து ஒரு இன்பாக்ஸ் பெயரை உள்ளிடவும்",
           "ERROR": "இந்த புலம் தேவை"
         },
         "PHONE_NUMBER": {
           "LABEL": "தொலைபேசி எண்",
           "PLACEHOLDER": "செய்தி அனுப்பப்படும் தொலைபேசி எண்ணை உள்ளிடவும்.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "தயவுசெய்து `+` குறியீட்டுடன் தொடங்கும் மற்றும் இடைவெளிகள் இல்லாத செல்லுபடியான தொலைபேசி எண்ணை வழங்கவும்."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "தொலைபேசி எண் ஐடி",
+          "PLACEHOLDER": "Facebook டெவலப்பர் டாஷ்போர்டில் இருந்து பெற்ற தொலைபேசி எண் ஐடியை உள்ளிடவும்.",
+          "ERROR": "தயவுசெய்து செல்லுபடியான மதிப்பை உள்ளிடவும்."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "வணிக கணக்கு ஐடி",
+          "PLACEHOLDER": "Facebook டெவலப்பர் டாஷ்போர்டில் இருந்து பெற்ற வணிக கணக்கு ஐடியை உள்ளிடவும்.",
+          "ERROR": "தயவுசெய்து செல்லுபடியான மதிப்பை உள்ளிடவும்."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "Webhook சரிபார்ப்பு டோக்கன்",
+          "PLACEHOLDER": "Facebook webhook க்கான verify token ஐ உள்ளிடவும்.",
+          "ERROR": "தயவுசெய்து செல்லுபடியாகும் மதிப்பை உள்ளிடவும்."
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "API விசை",
+          "SUBTITLE": "WhatsApp API விசையை அமைக்கவும்.",
+          "PLACEHOLDER": "API விசை",
+          "ERROR": "தயவுசெய்து செல்லுபடியான மதிப்பை உள்ளிடவும்."
         },
         "API_CALLBACK": {
           "TITLE": "கால்பேக் URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "Facebook Developer போர்டலில் கீழே காட்டப்பட்ட மதிப்புகளுடன் webhook URL மற்றும் சரிபார்ப்பு டோக்கனை அமைக்க வேண்டும்.",
           "WEBHOOK_URL": "வெப்ஹூக் URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook சரிபார்ப்பு டோக்கன்"
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "WhatsApp சேனலை உருவாக்கவும்",
         "EMBEDDED_SIGNUP": {
           "TITLE": "Quick setup with Meta",
           "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
@@ -309,7 +320,7 @@
           "MANUAL_LINK_TEXT": "manual setup flow"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "WhatsApp சேனல் சேமிக்க முடியவில்லை"
         }
       },
       "VOICE": {
@@ -354,8 +365,8 @@
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "API சேனல்",
+        "DESC": "API சேனலுடன் ஒருங்கிணைத்து உங்கள் வாடிக்கையாளர்களுக்கு ஆதரவு வழங்கத் தொடங்குங்கள்.",
         "CHANNEL_NAME": {
           "LABEL": "சேனலின் பெயர்",
           "PLACEHOLDER": "சேனலின் பெயரை உள்ளிடவும்",
@@ -363,17 +374,17 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "வெப்ஹூக் URL",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "SUBTITLE": "நீங்கள் callback களை பெற விரும்பும் URL ஐ அமைக்கவும்.",
           "PLACEHOLDER": "வெப்ஹூக் URL"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "API சேனல் உருவாக்கவும்",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "API சேனல் சேமிக்க முடியவில்லை"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate your email inbox.",
+        "TITLE": "மின்னஞ்சல் சேனல்",
+        "DESC": "உங்கள் மின்னஞ்சல் இன்பாக்ஸை ஒருங்கிணைக்கவும்.",
         "CHANNEL_NAME": {
           "LABEL": "சேனலின் பெயர்",
           "PLACEHOLDER": "சேனலின் பெயரை உள்ளிடவும்",
@@ -384,9 +395,9 @@
           "SUBTITLE": "Email where your customers sends you support tickets",
           "PLACEHOLDER": "இமெயில்"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "மின்னஞ்சல் சேனலை உருவாக்கவும்",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "மின்னஞ்சல் சேனல் சேமிக்க முடியவில்லை"
         },
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address.",
         "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
@@ -395,49 +406,49 @@
         "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "LINE சேனல்",
+        "DESC": "LINE சேனலுடன் ஒருங்கிணைத்து உங்கள் வாடிக்கையாளர்களுக்கு ஆதரவு வழங்கத் தொடங்குங்கள்.",
         "CHANNEL_NAME": {
           "LABEL": "சேனலின் பெயர்",
           "PLACEHOLDER": "சேனலின் பெயரை உள்ளிடவும்",
           "ERROR": "இந்த புலம் தேவை"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "LINE சேனல் ஐடி",
+          "PLACEHOLDER": "LINE சேனல் ஐடி"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "LINE சேனல் ரகசியம்",
+          "PLACEHOLDER": "LINE சேனல் ரகசியம்"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "LINE சேனல் டோக்கன்",
+          "PLACEHOLDER": "LINE சேனல் டோக்கன்"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "LINE சேனலை உருவாக்கவும்",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "LINE சேனல் சேமிக்க முடியவில்லை"
         },
         "API_CALLBACK": {
           "TITLE": "கால்பேக் URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "SUBTITLE": "LINE செயலியில் உள்ள webhook URL-ஐ இங்கே குறிப்பிடப்பட்ட URL-ஆக அமைக்க வேண்டும்."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "டெலிகிராம் சேனல்",
+        "DESC": "டெலிகிராம் சேனலுடன் ஒருங்கிணைத்து உங்கள் வாடிக்கையாளர்களுக்கு ஆதரவு வழங்கத் தொடங்குங்கள்.",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "பாட் டோக்கன்",
+          "SUBTITLE": "Telegram BotFather-இல் இருந்து பெற்றுள்ள பாட் டோக்கனை அமைக்கவும்.",
+          "PLACEHOLDER": "பாட் டோக்கன்"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Telegram சேனலை உருவாக்கவும்",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "Telegram சேனல் சேமிக்க முடியவில்லை"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
+        "TITLE": "ஒரு சேனல் தேர்ந்தெடுக்கவும்",
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
@@ -491,8 +502,8 @@
       "AGENTS": {
         "TITLE": "ஏஜென்ட்கள்",
         "DESC": "புதிதாக உருவாக்கப்பட்ட இன்பாக்ஸை நிர்வகிக்க ஏஜெண்டுகளை இங்கே சேர்க்கலாம். தேர்ந்தெடுக்கப்பட்ட ஏஜெண்டுகளுக்கு மட்டுமே உங்கள் இன்பாக்ஸிற்கான அணுகல் இருக்கும். இந்த இன்பாக்ஸின் பகுதியாக இல்லாத ஏஜெண்டுகள் உள்நுழையும்போது இந்த இன்பாக்ஸில் உள்ள செய்திகளைக் காணவோ அல்லது பதிலளிக்கவோ முடியாது. <br> <b> கவனத்திற்கு: </b> ஒரு நிர்வாகியாக, உங்களுக்கு எல்லா இன்பாக்ஸுக்கும் அணுகல் தேவைப்பட்டால், நீங்கள் உருவாக்கும் அனைத்து இன்பாக்ஸுக்கும் உங்களை ஏஜெண்டாக சேர்க்க வேண்டும்.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "VALIDATION_ERROR": "உங்கள் புதிய இன்பாக்ஸில் குறைந்தது ஒரு முகவரியைச் சேர்க்கவும்",
+        "PICK_AGENTS": "இன்பாக்ஸுக்கான முகவர்களை தேர்ந்தெடுக்கவும்"
       },
       "DETAILS": {
         "TITLE": "இன்பாக்ஸ் விவரங்கள்",
@@ -503,30 +514,30 @@
         "DESC": "உங்கள் பேஸ்புக் பக்கத்தை சாட்வூட்டுடன் வெற்றிகரமாக ஒருங்கிணைத்து விட்டீர்கள். அடுத்த முறை ஒரு வாடிக்கையாளர் உங்கள் பக்கத்திற்கு செய்தி அனுப்பும்போது, உரையாடல் தானாகவே உங்கள் இன்பாக்ஸில் தோன்றும். <br> உங்கள் வலைத்தளத்திற்கு நீங்கள் எளிதாகச் சேர்க்கக்கூடிய விட்ஜெட் ஸ்கிரிப்டையும் நாங்கள் உங்களுக்கு வழங்குகிறோம். இது உங்கள் வலைத்தளத்தில் நேரலையில் வந்தவுடன், வாடிக்கையாளர்கள் எந்தவொரு வெளிப்புற கருவியின் உதவியும் இல்லாமல் உங்கள் வலைத்தளத்திலிருந்தே உங்களுக்கு செய்தி அனுப்பலாம், மேலும் உரையாடல் சாட்வூட்டில் இங்கேயே தோன்றும். <br> கூல், இல்லையா? சரி, நாங்கள் நிச்சயமாக இருக்க முயற்சிக்கிறோம் :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+        "TITLE": "உங்கள் மின்னஞ்சல் வழங்குநரை தேர்ந்தெடுக்கவும்",
+        "DESCRIPTION": "கீழே உள்ள பட்டியலில் இருந்து ஒரு மின்னஞ்சல் வழங்குநரை தேர்ந்தெடுக்கவும். உங்கள் மின்னஞ்சல் வழங்குநர் பட்டியலில் இல்லை என்றால், மற்ற வழங்குநர் விருப்பத்தைத் தேர்ந்தெடுத்து IMAP மற்றும் SMTP அங்கீகார விவரங்களை வழங்கலாம்."
       },
       "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "SIGN_IN": "Sign in with Microsoft",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "TITLE": "Microsoft மின்னஞ்சல்",
+        "DESCRIPTION": "தொடங்க Microsoft உடன் உள்நுழைய பொத்தானை கிளிக் செய்யவும். நீங்கள் மின்னஞ்சல் உள்நுழைவு பக்கத்திற்கு மாற்றப்படுவீர்கள். கோரப்பட்ட அனுமதிகளை நீங்கள் ஏற்றுக்கொண்டவுடன், மீண்டும் inbox உருவாக்கும் படிக்கு மாற்றப்படுவீர்கள்.",
+        "EMAIL_PLACEHOLDER": "மின்னஞ்சல் முகவரியை உள்ளிடவும்",
+        "SIGN_IN": "Microsoft மூலம் உள்நுழையவும்",
+        "ERROR_MESSAGE": "Microsoft-க்கு இணைக்கும்போது பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்"
       },
       "GOOGLE": {
-        "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+        "TITLE": "Google மின்னஞ்சல்",
+        "DESCRIPTION": "தொடங்க Google மூலம் உள்நுழையவும் பொத்தானை கிளிக் செய்யவும். நீங்கள் மின்னஞ்சல் உள்நுழைவு பக்கத்திற்கு மாற்றப்படுவீர்கள். கோரப்பட்ட அனுமதிகளை நீங்கள் ஏற்றுக்கொண்டவுடன், நீங்கள் மீண்டும் இன்பாக்ஸ் உருவாக்கும் படிக்கு மாற்றப்படுவீர்கள்.",
+        "SIGN_IN": "Google மூலம் உள்நுழையவும்",
+        "EMAIL_PLACEHOLDER": "மின்னஞ்சல் முகவரியை உள்ளிடவும்",
+        "ERROR_MESSAGE": "Google-இல் இணைப்பதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்"
       }
     },
     "DETAILS": {
       "LOADING_FB": "பேஸ்புக் மூலம் உங்களை அங்கீகரிக்கிறது...",
-      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
+      "ERROR_FB_LOADING": "Facebook SDK ஏற்றுவதில் பிழை. எந்தவொரு விளம்பர தடுப்பாளர்களையும் முடக்கி வேறு உலாவியில் மீண்டும் முயற்சிக்கவும்.",
       "ERROR_FB_AUTH": "ஏதோ தவறு ஏற்பட்டது, தயவுசெய்து பக்கத்தைப் புதுப்பிக்கவும்...",
-      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
+      "ERROR_FB_UNAUTHORIZED": "இந்த செயல்பாட்டை செய்ய நீங்கள் அங்கீகாரம் பெறவில்லை. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "தயவுசெய்து நீங்கள் முழு கட்டுப்பாட்டுடன் Facebook பக்கத்துக்கு அணுகல் உள்ளதா என்பதை உறுதிப்படுத்தவும். Facebook பங்கு பற்றிய மேலதிக தகவலுக்கு <a href=\" https://www.facebook.com/help/187316341316631\">இங்கே</a> படிக்கலாம்.",
       "CREATING_CHANNEL": "உங்கள் இன்பாக்ஸை உருவாக்குகிறது...",
       "TITLE": "இன்பாக்ஸ் விவரங்களை உள்ளமைக்கவும்",
       "DESC": ""
@@ -537,9 +548,9 @@
     },
     "FINISH": {
       "TITLE": "உங்கள் இன்பாக்ஸ் தயாராக உள்ளது!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
+      "MESSAGE": "நீங்கள் இப்போது உங்கள் புதிய சேனல் மூலம் உங்கள் வாடிக்கையாளர்களுடன் தொடர்பு கொள்ளலாம். மகிழ்ச்சியான ஆதரவு",
       "BUTTON_TEXT": "என்னை அங்கே அழைத்துச் செல்லுங்கள்",
-      "MORE_SETTINGS": "More settings",
+      "MORE_SETTINGS": "மேலும் அமைப்புகள்",
       "WEBSITE_SUCCESS": "வலைத்தள சேனலை உருவாக்குவதை வெற்றிகரமாக முடித்துவிட்டீர்கள். கீழே காட்டப்பட்டுள்ள உங்கள் இணையதளத்தில் ஒட்டவும். அடுத்த முறை வாடிக்கையாளர் நேரடி சாட்டை பயன்படுத்தும்போது, உரையாடல் தானாகவே உங்கள் இன்பாக்ஸில் தோன்றும்.",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
@@ -551,7 +562,7 @@
       "API": {
         "SUCCESS_MESSAGE": "இன்பாக்ஸ் அமைப்புகள் வெற்றிகரமாக புதுப்பிக்கப்பட்டன",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "தானியங்கு பணி வெற்றிகரமாக புதுப்பிக்கப்பட்டது",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "ERROR_MESSAGE": "நாங்கள் இன்பாக்ஸ் அமைப்புகளை புதுப்பிக்க முடியவில்லை. தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "இயக்கப்பட்டது",
@@ -562,22 +573,22 @@
         "DISABLED": "முடக்கப்பட்டது"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
-        "FOR_EG": "For eg:",
+        "TITLE": "அனுப்புநர் பெயர்",
+        "SUB_TEXT": "உங்கள் முகவர்கள் அனுப்பும் மின்னஞ்சல்களை பெறும் போது உங்கள் வாடிக்கையாளருக்கு காட்டப்படும் பெயரை தேர்ந்தெடுக்கவும்.",
+        "FOR_EG": "உதாரணமாக:",
         "FRIENDLY": {
-          "TITLE": "Friendly",
-          "FROM": "from",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "TITLE": "நண்பரான",
+          "FROM": "இருந்து",
+          "SUBTITLE": "பதில் அனுப்பிய முகவரின் பெயரை அனுப்புநர் பெயரில் சேர்க்கவும், இதனால் அது நட்பானதாக இருக்கும்."
         },
         "PROFESSIONAL": {
-          "TITLE": "Professional",
-          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+          "TITLE": "தொழில்முறை",
+          "SUBTITLE": "மின்னஞ்சல் தலைப்பில் அனுப்புநர் பெயராக அமைக்கப்பட்ட வணிகப் பெயரை மட்டும் பயன்படுத்தவும்."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
-          "SAVE_BUTTON_TEXT": "Save"
+          "BUTTON_TEXT": "Configure your business name",
+          "PLACEHOLDER": "உங்கள் வணிகப் பெயரை உள்ளிடவும்",
+          "SAVE_BUTTON_TEXT": "சேமிக்கவும்"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
@@ -589,42 +600,46 @@
         "DISABLED": "முடக்கப்பட்டது"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "இயக்கப்பட்டது",
-        "DISABLED": "முடக்கப்பட்டது"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "செயல்படுத்தவும்"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "BUTTON_TEXT": "நீக்கு",
+      "AVATAR_DELETE_BUTTON_TEXT": "அவதாரத்தை நீக்கு",
       "CONFIRM": {
         "TITLE": "நீக்குதலை உறுதிப்படுத்தவும்",
         "MESSAGE": "நீக்குவதில் உறுதியாக உள்ளீர்களா ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "தயவுசெய்து உறுதிப்படுத்த {inboxName} என தட்டச்சு செய்யவும்",
         "YES": "ஆம், நீக்கு ",
         "NO": "இல்லை, வைத்திரு "
       },
       "API": {
         "SUCCESS_MESSAGE": "இன்பாக்ஸ் வெற்றிகரமாக நீக்கப்பட்டது",
         "ERROR_MESSAGE": "இன்பாக்ஸை நீக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "AVATAR_SUCCESS_MESSAGE": "இன்பாக்ஸ் அவதாரம் வெற்றிகரமாக நீக்கப்பட்டது",
+        "AVATAR_ERROR_MESSAGE": "இன்பாக்ஸ் அவதாரத்தை நீக்க முடியவில்லை. தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்."
       }
     },
     "TABS": {
       "SETTINGS": "அமைப்புகள்",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration",
+      "COLLABORATORS": "கூட்டாளர்கள்",
+      "CONFIGURATION": "கட்டமைப்பு",
+      "CAMPAIGN": "பிரச்சாரங்கள்",
+      "PRE_CHAT_FORM": "முன் உரையாடல் படிவம்",
+      "BUSINESS_HOURS": "வணிக நேரம்",
+      "WIDGET_BUILDER": "விட்ஜெட் கட்டுமானி",
+      "BOT_CONFIGURATION": "பாட் அமைப்பு",
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT"
     },
+    "CHANNEL_PREFERENCES": "Channel Preferences",
+    "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
       "TITLE": "Manage your WhatsApp account",
       "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
@@ -678,58 +693,80 @@
           "SANDBOX": "Sandbox",
           "LIVE": "Live"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Webhook Configuration",
+        "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
+        "ACTION_REQUIRED": "Webhook not configured",
+        "REGISTER_BUTTON": "Register Webhook",
+        "REGISTER_SUCCESS": "Webhook registered successfully",
+        "REGISTER_ERROR": "Failed to register webhook. Please try again.",
+        "CONFIGURED_SUCCESS": "Webhook configured successfully",
+        "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
     "SETTINGS": "அமைப்புகள்",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "LABEL": "அம்சங்கள்",
+      "DISPLAY_FILE_PICKER": "விட்ஜெட்டில் கோப்பு தேர்வாளரை காட்டு",
+      "DISPLAY_EMOJI_PICKER": "விட்ஜெட்டில் எமோஜி தேர்வாளரை காட்டு",
+      "ALLOW_END_CONVERSATION": "பயனர்களுக்கு விகெட் மூலம் உரையாடலை முடிக்க அனுமதி அளிக்கவும்",
+      "USE_INBOX_AVATAR_FOR_BOT": "போட்டுக்கான இன்பாக்ஸ் பெயர் மற்றும் அவதாரைப் பயன்படுத்தவும்"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "மெசஞ்சர் ஸ்கிரிப்ட்",
       "MESSENGER_SUB_HEAD": "இந்த பொத்தானை உங்கள் பாடி டேகுக்குள் வைக்கவும்",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
+      },
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Enable widget in mobile apps",
+        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Identity Validation",
+        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "SECRET_KEY": "Secret Key",
+        "VIEW_DOCS": "View documentation",
+        "REQUIRE_LABEL": "Require identity validation for all conversations",
+        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
       },
       "INBOX_AGENTS": "ஏஜென்ட்கள்",
       "INBOX_AGENTS_SUB_TEXT": "இந்த இன்பாக்ஸிலிருந்து ஏஜென்ட்களைச் சேர்க்கவும் அல்லது அகற்றவும்",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
+      "AGENT_ASSIGNMENT": "உரையாடல் ஒதுக்கீடு",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "உரையாடல் ஒதுக்கீடு அமைப்புகளை புதுப்பிக்கவும்",
       "UPDATE": "புதுப்பிப்பு",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "மின்னஞ்சல் சேகரிப்பு பெட்டியை இயக்கவும்",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "புதிய உரையாடலில் மின்னஞ்சல் சேகரிப்பு பெட்டியை இயக்கவும் அல்லது முடக்கவும்",
       "AUTO_ASSIGNMENT": "தானாக ஒதுக்கீட்டை இயக்கு",
-      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "SENDER_NAME_SECTION": "மின்னஞ்சலில் முகவர் பெயரை இயக்கவும்",
+      "SENDER_NAME_SECTION_TEXT": "மின்னஞ்சலில் முகவரின் பெயரை காட்ட/மறைக்க இயக்கு, மறைக்கப்பட்டால் வணிகப் பெயர் காட்டப்படும்",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "மின்னஞ்சல் மூலம் உரையாடல் தொடர்ச்சியை இயக்கு",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "தொடர்பு மின்னஞ்சல் முகவரி கிடைக்கும் போது உரையாடல்கள் மின்னஞ்சல் வழியாக தொடரும்.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "இன்பாக்ஸ் அமைப்புகள்",
       "INBOX_UPDATE_SUB_TEXT": "உங்கள் இன்பாக்ஸ் அமைப்புகளைப் புதுப்பிக்கவும்",
       "AUTO_ASSIGNMENT_SUB_TEXT": "இந்த இன்பாக்ஸில் சேர்க்கப்பட்ட ஏஜென்ட்களுக்கு புதிய உரையாடல்களின் தானியங்கி ஒதுக்கீட்டை இயக்கவும் அல்லது முடக்கவும்.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
+      "HMAC_VERIFICATION": "பயனர் அடையாள சரிபார்ப்பு",
+      "HMAC_DESCRIPTION": "இந்த விசையுடன், உங்கள் பயனர்களின் அடையாளத்தை சரிபார்க்க பயன்படுத்தக்கூடிய ஒரு ரகசிய டோக்கனை உருவாக்கலாம்.",
+      "HMAC_LINK_TO_DOCS": "மேலும் விவரங்களை இங்கேப் படிக்கலாம்.",
+      "HMAC_MANDATORY_VERIFICATION": "பயனர் அடையாள சரிபார்ப்பை கட்டாயப்படுத்தவும்",
+      "HMAC_MANDATORY_DESCRIPTION": "செயல்படுத்தப்பட்டால், சரிபார்க்க முடியாத கோரிக்கைகள் நிராகரிக்கப்படும்.",
+      "INBOX_IDENTIFIER": "இன்பாக்ஸ் அடையாளம்",
+      "INBOX_IDENTIFIER_SUB_TEXT": "உங்கள் API கிளையண்டுகளை அங்கீகரிக்க இங்கே காணப்படும் `inbox_identifier` டோக்கனை பயன்படுத்தவும்.",
+      "FORWARD_EMAIL_TITLE": "மின்னஞ்சலுக்கு முன்னோக்கி அனுப்பு",
+      "FORWARD_EMAIL_SUB_TEXT": "உங்கள் மின்னஞ்சல்களை கீழ்காணும் மின்னஞ்சல் முகவரிக்கு முன்னோக்கி அனுப்பத் தொடங்கவும்.",
       "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "உரையாடல் முடிந்த பிறகு செய்திகளை அனுமதிக்கவும்",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "உரையாடல் முடிந்த பிறகும் இறுதி பயனர்கள் செய்திகளை அனுப்ப அனுமதிக்கவும்.",
+      "WHATSAPP_SECTION_SUBHEADER": "இந்த API விசை WhatsApp APIகளுடன் ஒருங்கிணைப்புக்கு பயன்படுத்தப்படுகிறது.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "WhatsApp APIகளுடன் ஒருங்கிணைக்க புதிய API விசையை உள்ளிடவும்.",
+      "WHATSAPP_SECTION_TITLE": "API விசை",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "API விசையை புதுப்பிக்கவும்",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "புதிய API விசையை இங்கே உள்ளிடவும்",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "புதுப்பிப்பு",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
@@ -746,61 +783,109 @@
       "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
       "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
       "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook சரிபார்ப்பு டோக்கன்",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "இந்த டோக்கன் வெப்ஹுக் எண்ட்பாயின்டின் உண்மைத்தன்மையை சரிபார்க்க பயன்படுத்தப்படுகிறது.",
       "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "முன் உரையாடல் படிவ அமைப்புகளை புதுப்பிக்கவும்"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "LABEL": "உதவி மையம்",
+      "PLACEHOLDER": "உதவி மையத்தை தேர்ந்தெடுக்கவும்",
+      "SELECT_PLACEHOLDER": "உதவி மையத்தை தேர்ந்தெடுக்கவும்",
+      "NONE": "None",
+      "REMOVE": "உதவி மையத்தை அகற்று",
+      "SUB_TEXT": "ஒரு உதவி மையத்தை இன்பாக்ஸுடன் இணைக்கவும்"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "தானாக ஒதுக்கீடு வரம்பு",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "0 க்கும் மேற்பட்ட மதிப்பை உள்ளிடவும்",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "இந்த இன்பாக்ஸில் இருந்து ஒரு முகவருக்கு தானாக ஒதுக்கப்படக்கூடிய உரையாடல்களின் அதிகபட்ச எண்ணிக்கையை வரையறுக்கவும்"
+    },
+    "ASSIGNMENT": {
+      "TITLE": "Conversation Assignment",
+      "DESCRIPTION": "Automatically assign incoming conversations to available agents based on assignment policies",
+      "ENABLE_AUTO_ASSIGNMENT": "Enable automatic conversation assignment",
+      "DEFAULT_RULES_TITLE": "Default assignment rules",
+      "DEFAULT_RULES_DESCRIPTION": "Using the default assignment behavior for all conversations",
+      "DEFAULT_RULE_1": "Earliest created conversations first",
+      "DEFAULT_RULE_2": "Round robin distribution",
+      "CUSTOMIZE_WITH_POLICY": "Customize with assignment policy",
+      "USING_POLICY": "Using custom assignment policy for this inbox",
+      "CUSTOMIZE_POLICY": "Customize with assignment policy",
+      "DELETE_POLICY": "Delete policy",
+      "POLICY_LABEL": "Assignment policy",
+      "ASSIGNMENT_ORDER_LABEL": "Assignment Order",
+      "ASSIGNMENT_METHOD_LABEL": "Assignment Method",
+      "POLICY_STATUS": {
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "Earliest created",
+        "LONGEST_WAITING": "Longest waiting"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "Round robin",
+        "BALANCED": "Balanced assignment"
+      },
+      "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
+      "UPGRADE_TO_BUSINESS": "Upgrade to Business",
+      "DEFAULT_POLICY_LINKED": "Default policy linked",
+      "DEFAULT_POLICY_DESCRIPTION": "Link a custom assignment policy to customize how conversations are assigned to agents in this inbox.",
+      "LINK_EXISTING_POLICY": "Link existing policy",
+      "CREATE_NEW_POLICY": "Create new policy",
+      "NO_POLICIES": "No assignment policies found",
+      "VIEW_ALL_POLICIES": "View all policies",
+      "CURRENT_BEHAVIOR": "Currently using default assignment behavior:",
+      "LINK_SUCCESS": "Assignment policy linked successfully",
+      "LINK_ERROR": "Failed to link assignment policy"
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
+      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
+      "CANCEL": "ரத்துசெய்",
+      "CONFIRM_DELETE": "Delete",
+      "DELETE_SUCCESS": "Assignment policy removed successfully",
+      "DELETE_ERROR": "Failed to remove assignment policy"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "மறு அங்கீகாரம்",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "SUBTITLE": "உங்கள் Facebook இணைப்பு காலாவதியானது, சேவைகளை தொடர உங்கள் Facebook பக்கத்தை மீண்டும் இணைக்கவும்",
+      "MESSAGE_SUCCESS": "மீண்டும் இணைத்தல் வெற்றிகரமாக முடிந்தது",
+      "MESSAGE_ERROR": "ஒரு பிழை ஏற்பட்டுள்ளது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
-      "SET_FIELDS": "Pre chat form fields",
+      "DESCRIPTION": "முன் உரையாடல் படிவங்கள், பயனர் உங்கள் உடன் உரையாடலைத் தொடங்குவதற்கு முன் அவர்களின் தகவல்களைப் பெற உதவுகின்றன.",
+      "SET_FIELDS": "முன் உரையாடல் படிவப் புலங்கள்",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
-        "TYPE": "Type",
-        "REQUIRED": "Required"
+        "FIELDS": "புலங்கள்",
+        "LABEL": "லேபிள்",
+        "PLACE_HOLDER": "இடம்காட்டி",
+        "KEY": "முக்கியம்",
+        "TYPE": "வகை",
+        "REQUIRED": "தேவை"
       },
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "முன் உரையாடல் படிவத்தை இயக்கவும்",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "ஆம்",
+          "DISABLED": "இல்லை"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "முன் உரையாடல் செய்தி",
+        "PLACEHOLDER": "இந்த செய்தி படிவத்துடன் பயனர்களுக்கு காட்சியளிக்கப்படும்"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "பயணிகள் உரையாடலைத் தொடங்குவதற்கு முன் தங்கள் பெயர் மற்றும் மின்னஞ்சல் முகவரியை வழங்க வேண்டும்"
       }
     },
     "CSAT": {
-      "TITLE": "Enable CSAT",
-      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "TITLE": "CSAT ஐ இயக்கவும்",
+      "SUBTITLE": "உரையாடல்களின் முடிவில் தானாகவே CSAT ஆய்வுகளைத் தொடங்கி, வாடிக்கையாளர்கள் தங்கள் ஆதரவு அனுபவத்தைப் பற்றி எப்படி உணர்கிறார்கள் என்பதைப் புரிந்து கொள்ளுங்கள். திருப்தி போக்குகளை கண்காணித்து, நேரத்திற்குள் மேம்படுத்த வேண்டிய பகுதிகளை அடையாளம் காணுங்கள்.",
       "DISPLAY_TYPE": {
         "LABEL": "Display type"
       },
@@ -837,6 +922,20 @@
         "CONFIRM": "Create new template",
         "CANCEL": "Go back"
       },
+      "UTILITY_ANALYZER": {
+        "ACTION": "Check utility fit",
+        "HELPER_NOTE": "Check this message before submission to improve Utility fit. The system creates a dedicated CSAT template with buttons for reporting and submits it as Utility; Meta may still reclassify it as Marketing based on content.",
+        "RESULT_LABEL": "Meta category prediction",
+        "GUIDANCE_NOTE": "This is a guidance check, not a guarantee of Meta approval.",
+        "SUGGESTION_LABEL": "Suggested utility-safe rewrite",
+        "APPLY": "Use this rewrite",
+        "ERROR_MESSAGE": "Couldn't analyze the message. Please try again.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "Likely Utility",
+          "LIKELY_MARKETING": "Likely Marketing",
+          "UNCLEAR": "Needs clarification"
+        }
+      },
       "SURVEY_RULE": {
         "LABEL": "Survey rule",
         "DESCRIPTION_PREFIX": "Send the survey if the conversation",
@@ -848,48 +947,50 @@
         "SELECT_PLACEHOLDER": "select labels"
       },
       "NOTE": "Note: CSAT surveys are sent only once per conversation",
-      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
       "API": {
         "SUCCESS_MESSAGE": "CSAT settings updated successfully",
         "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TITLE": "உங்கள் கிடைக்கும் நேரத்தை அமைக்கவும்",
+      "SUBTITLE": "உங்கள் livechat விட்ஜெட்டில் கிடைக்கும் நேரத்தை அமைக்கவும்",
+      "WEEKLY_TITLE": "உங்கள் வாராந்திர நேரத்தை அமைக்கவும்",
+      "TIMEZONE_LABEL": "நேர மண்டலத்தை தேர்ந்தெடுக்கவும்",
+      "UPDATE": "வணிக நேர அமைப்புகளை புதுப்பிக்கவும்",
+      "TOGGLE_AVAILABILITY": "இந்த இன்பாக்ஸிற்கான வணிக கிடைக்கும் நேரத்தை இயக்கு",
+      "UNAVAILABLE_MESSAGE_LABEL": "விருந்தினர்களுக்கான கிடைக்காத செய்தி",
+      "TOGGLE_HELP": "வணிக கிடைக்கும் நேரத்தை இயக்குவதால், அனைத்து முகவர்களும் ஆஃப்லைனில் இருந்தாலும் நேரடி உரையாடல் விகடனில் கிடைக்கும் நேரம் காட்டப்படும். கிடைக்கும் நேரத்திற்கு வெளியே வந்த பயனாளிகள் ஒரு செய்தியுடன் மற்றும் முன்-உரையாடல் படிவத்துடன் எச்சரிக்கப்படலாம்.",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "DAY": "Day",
+        "AVAILABILITY": "Availability",
+        "HOURS": "Hours",
+        "ENABLE": "இந்த நாளுக்கான கிடைக்கும் நேரத்தை இயக்கவும்",
+        "UNAVAILABLE": "கிடைக்கவில்லை",
+        "VALIDATION_ERROR": "தொடக்க நேரம் மூடும் நேரத்திற்கு முன் இருக்க வேண்டும்.",
+        "CHOOSE": "தேர்ந்தெடுக்கவும்"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "முழு நாள்"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "SUBTITLE": "உங்கள் IMAP விவரங்களை அமைக்கவும்",
+      "NOTE_TEXT": "SMTP ஐ இயக்க IMAP ஐ அமைக்கவும்.",
+      "UPDATE": "IMAP அமைப்புகளை புதுப்பிக்கவும்",
+      "TOGGLE_AVAILABILITY": "இந்த இன்பாக்ஸுக்கான IMAP கட்டமைப்பை இயக்கவும்",
+      "TOGGLE_HELP": "IMAP ஐ இயக்குவது பயனருக்கு மின்னஞ்சல் பெற உதவும்",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "IMAP அமைப்புகள் வெற்றிகரமாக புதுப்பிக்கப்பட்டன",
+        "ERROR_MESSAGE": "IMAP அமைப்புகளை புதுப்பிக்க முடியவில்லை"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "முகவரி",
+        "PLACE_HOLDER": "முகவரி (உதா: imap.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "போர்ட்",
+        "PLACE_HOLDER": "போர்ட்"
       },
       "LOGIN": {
         "LABEL": "உள்நுழையவும்",
@@ -899,29 +1000,29 @@
         "LABEL": "பாஸ்வேர்ட்",
         "PLACE_HOLDER": "பாஸ்வேர்ட்"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "SSL ஐ இயக்கவும்"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
+      "SUBTITLE": "உங்கள் MICROSOFT கணக்கை மீண்டும் அங்கீகரிக்கவும்"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "SUBTITLE": "உங்கள் SMTP விவரங்களை அமைக்கவும்",
+      "UPDATE": "SMTP அமைப்புகளை புதுப்பிக்கவும்",
+      "TOGGLE_AVAILABILITY": "இந்த இன்பாக்ஸுக்கான SMTP கட்டமைப்பை இயக்கு",
+      "TOGGLE_HELP": "SMTP ஐ இயக்குவது பயனருக்கு மின்னஞ்சல் அனுப்ப உதவும்",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "SMTP அமைப்புகள் வெற்றிகரமாக புதுப்பிக்கப்பட்டன",
+        "ERROR_MESSAGE": "SMTP அமைப்புகளை புதுப்பிக்க முடியவில்லை"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "முகவரி",
+        "PLACE_HOLDER": "முகவரி (எ.கா: smtp.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "போர்ட்",
+        "PLACE_HOLDER": "போர்ட்"
       },
       "LOGIN": {
         "LABEL": "உள்நுழையவும்",
@@ -935,91 +1036,92 @@
         "LABEL": "களம்",
         "PLACE_HOLDER": "களம்"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "குறியாக்கம்",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
-      "AUTH_MECHANISM": "Authentication"
+      "OPEN_SSL_VERIFY_MODE": "Open SSL சரிபார்ப்பு முறை",
+      "AUTH_MECHANISM": "அங்கீகாரம்"
     },
-    "NOTE": "Note: ",
+    "NOTE": "குறிப்பு: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "இணையதள அவதார்",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
-              "ERROR_MESSAGE": "There was an error, please try again"
+              "SUCCESS_MESSAGE": "அவதார் வெற்றிகரமாக நீக்கப்பட்டது",
+              "ERROR_MESSAGE": "ஒரு பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்"
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Website Name",
-          "PLACE_HOLDER": "Enter your website name (eg: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "LABEL": "இணையதளத்தின் பெயர்",
+          "PLACE_HOLDER": "உங்கள் வலைத்தளத்தின் பெயரை உள்ளிடவும் (எ.கா: Acme Inc)",
+          "ERROR": "தயவுசெய்து செல்லுபடியான வலைத்தள பெயரை உள்ளிடவும்"
         },
         "WELCOME_HEADING": {
           "LABEL": "வரவேற்பு தலைப்பு",
-          "PLACE_HOLDER": "Hi there!"
+          "PLACE_HOLDER": "வணக்கம்!"
         },
         "WELCOME_TAGLINE": {
           "LABEL": "வரவேற்பு டேக்லைன்",
           "PLACE_HOLDER": "எங்களுடன் இணைவதை எளிதாக்குகிறோம். இதன் மூலம் எங்களிடம் எதையும் கேட்கலாம் அல்லது உங்கள் கருத்தைப் பகிர்ந்து கொள்ளலாம்."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day"
+          "LABEL": "பதில் நேரம்",
+          "IN_A_FEW_MINUTES": "சில நிமிடங்களில்",
+          "IN_A_FEW_HOURS": "சில மணி நேரங்களில்",
+          "IN_A_DAY": "ஒரு நாளில்"
         },
         "WIDGET_COLOR_LABEL": "விட்ஜெட் நிறம்",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Type:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Chat with us",
-          "LABEL": "Widget Bubble Launcher Title",
-          "PLACE_HOLDER": "Chat with us"
+          "DEFAULT": "எங்களுடன் உரையாடவும்",
+          "LABEL": "Launcher Title",
+          "PLACE_HOLDER": "எங்களுடன் உரையாடவும்"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "விட்ஜெட் அமைப்புகளை புதுப்பிக்கவும்",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "விட்ஜெட் அமைப்புகள் வெற்றிகரமாக புதுப்பிக்கப்பட்டன",
+            "ERROR_MESSAGE": "விட்ஜெட் அமைப்புகளை புதுப்பிக்க முடியவில்லை"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "முன்னோட்டம்",
+          "SCRIPT": "ஸ்கிரிப்ட்"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "இடது",
+          "RIGHT": "வலது"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "சாதாரணம்",
+          "EXPANDED_BUBBLE": "விரிவாக்கப்பட்ட பபுள்"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "இயல்புநிலை",
+        "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-        "IN_A_FEW_HOURS": "Typically replies in a few hours",
-        "IN_A_DAY": "Typically replies in a day"
+        "IN_A_FEW_MINUTES": "சாதாரணமாக சில நிமிடங்களில் பதிலளிக்கிறது",
+        "IN_A_FEW_HOURS": "சாதாரணமாக சில மணி நேரங்களில் பதிலளிக்கிறது",
+        "IN_A_DAY": "சாதாரணமாக ஒரு நாளில் பதிலளிக்கிறது"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Start Conversation",
+        "START_CONVERSATION_BUTTON_TEXT": "உரையாடலைத் தொடங்கு",
         "CHAT_INPUT_PLACEHOLDER": "உங்கள் செய்தியை உள்ளிடவும்"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
-          "OFFLINE": "We are away at the moment"
+          "ONLINE": "நாங்கள் ஆன்லைனில் உள்ளோம்",
+          "OFFLINE": "நாங்கள் தற்போது இல்லாமல் இருக்கிறோம்"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "வணக்கம்",
+        "AGENT_MESSAGE": "ஹலோ"
       },
       "BRANDING_TEXT": "சாட்வுட் மூலம் இயக்கபடுகிறது",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
@@ -1039,16 +1141,16 @@
       }
     },
     "CHANNELS": {
-      "MESSENGER": "Messenger",
-      "WEB_WIDGET": "Website",
+      "MESSENGER": "மெசஞ்சர்",
+      "WEB_WIDGET": "வலைத்தளம்",
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
-      "SMS": "SMS",
+      "SMS": "எஸ்எம்எஸ்",
       "EMAIL": "இமெயில்",
-      "TELEGRAM": "Telegram",
-      "LINE": "Line",
-      "API": "API Channel",
+      "TELEGRAM": "டெலிகிராம்",
+      "LINE": "லைன்",
+      "API": "API சேனல்",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
       "VOICE": "Voice"

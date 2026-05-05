@@ -3,17 +3,20 @@
     "HEADER": "사용자 지정 특성",
     "HEADER_BTN_TXT": "사용자 지정 속성 추가하기",
     "LOADING": "사용자 지정 속성들 가져오기",
-    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
-    "LEARN_MORE": "Learn more about custom attributes",
+    "DESCRIPTION": "사용자 지정 속성은 연락처 또는 대화에 대한 추가 세부 정보를 추적합니다. 예를 들어 구독 플랜이나 첫 구매 날짜 등이 있습니다. 텍스트, 리스트, 숫자 등 다양한 유형의 사용자 지정 속성을 추가하여 필요한 정보를 수집할 수 있습니다.",
+    "LEARN_MORE": "사용자 지정 속성에 대해 더 알아보기",
+    "COUNT": "{n}개의 사용자 지정 속성 | {n}개의 사용자 지정 속성",
+    "SEARCH_PLACEHOLDER": "사용자 지정 속성 검색...",
+    "NO_RESULTS": "검색과 일치하는 사용자 지정 속성이 없습니다",
     "ATTRIBUTE_MODELS": {
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "CONVERSATION": "대화",
+      "CONTACT": "연락처"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "텍스트",
       "NUMBER": "숫자",
       "LINK": "링크",
-      "DATE": "Date",
+      "DATE": "날짜",
       "LIST": "리스트",
       "CHECKBOX": "체크박스"
     },
@@ -33,106 +36,110 @@
           "ERROR": "설명이 필요합니다"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Model is required"
+          "LABEL": "적용 대상",
+          "PLACEHOLDER": "하나를 선택하십시오",
+          "ERROR": "모델이 필요합니다"
         },
         "TYPE": {
-          "LABEL": "Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required",
+          "LABEL": "유형",
+          "PLACEHOLDER": "유형을 선택하십시오",
+          "ERROR": "유형이 필요합니다",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "LABEL": "리스트 값",
+            "PLACEHOLDER": "값을 입력하고 엔터 키를 누르십시오",
+            "ERROR": "최소 하나의 값이 필요합니다"
           }
         },
         "KEY": {
-          "LABEL": "Key",
-          "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "LABEL": "키",
+          "PLACEHOLDER": "사용자 지정 속성 키 입력",
+          "ERROR": "키가 필요합니다",
+          "IN_VALID": "잘못된 키입니다"
         },
         "REGEX_PATTERN": {
-          "LABEL": "Regex Pattern",
-          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+          "LABEL": "정규식 패턴",
+          "PLACEHOLDER": "사용자 지정 속성 정규식 패턴을 입력하십시오. (선택 사항)"
         },
         "REGEX_CUE": {
-          "LABEL": "Regex Cue",
-          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+          "LABEL": "정규식 힌트",
+          "PLACEHOLDER": "정규식 패턴 힌트를 입력하십시오. (선택 사항)"
         },
         "ENABLE_REGEX": {
-          "LABEL": "Enable regex validation"
+          "LABEL": "정규식 유효성 검사 활성화"
+        },
+        "BADGES": {
+          "PRE_CHAT": "사전 채팅",
+          "RESOLUTION": "해결"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
-        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+        "SUCCESS_MESSAGE": "사용자 지정 속성이 성공적으로 추가되었습니다!",
+        "ERROR_MESSAGE": "사용자 지정 속성을 만들 수 없습니다. 나중에 다시 시도하십시오."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "삭제",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "SUCCESS_MESSAGE": "사용자 지정 속성이 성공적으로 삭제되었습니다.",
+        "ERROR_MESSAGE": "사용자 지정 속성을 삭제할 수 없습니다. 다시 시도하십시오."
       },
       "CONFIRM": {
-        "TITLE": "{attributeName}팀을 삭제하시겠습니까?",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the custom attribute",
+        "TITLE": "{attributeName}을(를) 삭제하시겠습니까?",
+        "PLACE_HOLDER": "확인하려면 {attributeName}을(를) 입력하십시오",
+        "MESSAGE": "삭제하면 사용자 지정 속성이 제거됩니다",
         "YES": "삭제 ",
         "NO": "취소"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Custom Attribute",
+      "TITLE": "사용자 지정 속성 수정",
       "UPDATE_BUTTON_TEXT": "업데이트",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "LABEL": "리스트 값",
+          "PLACEHOLDER": "값을 입력하고 엔터 키를 누르십시오"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "사용자 지정 속성이 성공적으로 업데이트되었습니다",
+        "ERROR_MESSAGE": "사용자 지정 속성 업데이트 중 오류가 발생했습니다. 다시 시도하십시오"
       }
     },
     "TABS": {
       "HEADER": "사용자 지정 특성",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "CONVERSATION": "대화",
+      "CONTACT": "연락처"
     },
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "이름",
         "DESCRIPTION": "내용",
-        "TYPE": "Type",
-        "KEY": "Key"
+        "TYPE": "유형",
+        "KEY": "키"
       },
       "BUTTONS": {
         "EDIT": "수정",
         "DELETE": "삭제"
       },
       "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
+        "404": "생성된 사용자 지정 속성이 없습니다",
+        "NOT_FOUND": "구성된 사용자 지정 속성이 없습니다"
       },
       "REGEX_PATTERN": {
-        "LABEL": "Regex Pattern",
-        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        "LABEL": "정규식 패턴",
+        "PLACEHOLDER": "사용자 지정 속성 정규식 패턴을 입력하십시오. (선택 사항)"
       },
       "REGEX_CUE": {
-        "LABEL": "Regex Cue",
-        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        "LABEL": "정규식 힌트",
+        "PLACEHOLDER": "정규식 패턴 힌트를 입력하십시오. (선택 사항)"
       },
       "ENABLE_REGEX": {
-        "LABEL": "Enable regex validation"
+        "LABEL": "정규식 유효성 검사 활성화"
       }
     },
     "BADGES": {
-      "PRE_CHAT": "Pre-chat",
-      "RESOLUTION": "Resolution"
+      "PRE_CHAT": "사전 채팅",
+      "RESOLUTION": "해결"
     }
   }
 }

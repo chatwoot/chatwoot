@@ -21,7 +21,7 @@ describe 'Markdown Embeds Configuration' do
     end
 
     it 'contains expected embed types' do
-      expected_types = %w[youtube loom vimeo mp4 arcade_tab arcade wistia bunny codepen github_gist]
+      expected_types = %w[youtube loom vimeo mp4 arcade_tab arcade wistia bunny codepen guidejar github_gist]
       expect(config.keys).to match_array(expected_types)
     end
   end
@@ -63,11 +63,21 @@ describe 'Markdown Embeds Configuration' do
         'bunny' => [
           { url: 'https://iframe.mediadelivery.net/play/431789/1f105841-cad9-46fe-a70e-b7623c60797c',
             expected: { 'library_id' => '431789', 'video_id' => '1f105841-cad9-46fe-a70e-b7623c60797c' } },
-          { url: 'https://iframe.mediadelivery.net/play/12345/abcdef-ghijkl', expected: { 'library_id' => '12345', 'video_id' => 'abcdef-ghijkl' } }
+          { url: 'https://iframe.mediadelivery.net/play/12345/abcdef-ghijkl', expected: { 'library_id' => '12345', 'video_id' => 'abcdef-ghijkl' } },
+          { url: 'https://player.mediadelivery.net/play/431789/1f105841-cad9-46fe-a70e-b7623c60797c',
+            expected: { 'library_id' => '431789', 'video_id' => '1f105841-cad9-46fe-a70e-b7623c60797c' } },
+          { url: 'https://iframe.mediadelivery.net/embed/256380/d9d9ab1f-fc9f-4488-9c26-4ffc653c0024',
+            expected: { 'library_id' => '256380', 'video_id' => 'd9d9ab1f-fc9f-4488-9c26-4ffc653c0024' } }
         ],
         'codepen' => [
           { url: 'https://codepen.io/username/pen/abcdef', expected: { 'user' => 'username', 'pen_id' => 'abcdef' } },
           { url: 'https://www.codepen.io/testuser/pen/xyz123', expected: { 'user' => 'testuser', 'pen_id' => 'xyz123' } }
+        ],
+        'guidejar' => [
+          { url: 'https://www.guidejar.com/embed/i2qMQRp26rtRxpZczmaA', expected: { 'guide_id' => 'i2qMQRp26rtRxpZczmaA' } },
+          { url: 'https://guidejar.com/guides/i2qMQRp26rtRxpZczmaA', expected: { 'guide_id' => 'i2qMQRp26rtRxpZczmaA' } },
+          { url: 'https://guidejar.com/guides/d6a6fdc2-4812-4777-897e-ec1b0c64238f',
+            expected: { 'guide_id' => 'd6a6fdc2-4812-4777-897e-ec1b0c64238f' } }
         ],
         'github_gist' => [
           { url: 'https://gist.github.com/username/1234567890abcdef1234567890abcdef',

@@ -3,6 +3,9 @@
     "HEADER": "Caixas de Entrada",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",
+    "COUNT": "{n} inbox | {n} inboxes",
+    "SEARCH_PLACEHOLDER": "Search inboxes...",
+    "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "A sua caixa de entrada está desconectada. Não serão recebidas novas mensagens até nova autorização.",
     "CLICK_TO_RECONNECT": "Clique aqui para reconectar.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
@@ -82,6 +85,14 @@
           "LABEL": "URL do Webhook",
           "PLACEHOLDER": "Introduza o seu URL do Webhook",
           "ERROR": "Por favor, insira um URL válido"
+        },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domínio do site",
@@ -236,7 +247,7 @@
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
           "TWILIO_DESC": "Connect via Twilio credentials",
-          "360_DIALOG": "360Dialog"
+          "360_DIALOG": "360dialog"
         },
         "SELECT_PROVIDER": {
           "TITLE": "Select your API provider",
@@ -575,7 +586,7 @@
           "SUBTITLE": "Usar apenas o nome da empresa como nome do remetente no cabeçalho do e-mail."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure o nome da sua empresa",
+          "BUTTON_TEXT": "Configure o nome da sua empresa",
           "PLACEHOLDER": "Insira o nome da sua empresa",
           "SAVE_BUTTON_TEXT": "Guardar"
         }
@@ -589,8 +600,10 @@
         "DISABLED": "Desativado"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Ativado",
-        "DISABLED": "Desativado"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "Ativar"
@@ -625,6 +638,8 @@
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT"
     },
+    "CHANNEL_PREFERENCES": "Channel Preferences",
+    "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
       "TITLE": "Manage your WhatsApp account",
       "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
@@ -678,6 +693,16 @@
           "SANDBOX": "Sandbox",
           "LIVE": "Disponível"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Webhook Configuration",
+        "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
+        "ACTION_REQUIRED": "Webhook not configured",
+        "REGISTER_BUTTON": "Register Webhook",
+        "REGISTER_SUCCESS": "Webhook registered successfully",
+        "REGISTER_ERROR": "Failed to register webhook. Please try again.",
+        "CONFIGURED_SUCCESS": "Webhook configured successfully",
+        "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
     "SETTINGS": "Configurações",
@@ -693,8 +718,20 @@
       "MESSENGER_SUB_HEAD": "Coloque este botão no corpo da sua tag ",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
+      },
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Enable widget in mobile apps",
+        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Identity Validation",
+        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "SECRET_KEY": "Secret Key",
+        "VIEW_DOCS": "View documentation",
+        "REQUIRE_LABEL": "Require identity validation for all conversations",
+        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
       },
       "INBOX_AGENTS": "Agentes",
       "INBOX_AGENTS_SUB_TEXT": "Adicionar ou remover agentes desta caixa de entrada",
@@ -708,8 +745,8 @@
       "SENDER_NAME_SECTION_TEXT": "Ativar/Desativar exibição do nome do agente no e-mail. Se estiver desativado, exibirá o nome da empresa",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Ativar continuidade das conversas por e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "As conversas irão continuar por e-mail se o endereço de e-mail do contacto estiver disponível.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Bloquear conversa única",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Ativar ou desativar múltiplas conversas para o mesmo contacto nesta caixa de entrada",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Configurações da caixa de entrada",
       "INBOX_UPDATE_SUB_TEXT": "Atualize as suas configurações da caixa de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada.",
@@ -758,6 +795,7 @@
       "LABEL": "Centro de suporte",
       "PLACEHOLDER": "Selecione centro de suporte",
       "SELECT_PLACEHOLDER": "Selecione centro de suporte",
+      "NONE": "Nenhuma",
       "REMOVE": "Remover centro de suporte",
       "SUB_TEXT": "Associe um centro de suporte à caixa de entrada"
     },
@@ -765,6 +803,53 @@
       "MAX_ASSIGNMENT_LIMIT": "Limite de atribuição automática",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Por favor, insira um valor maior que 0",
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limitar o número máximo de conversas desta caixa de entrada que pode ser atribuído automaticamente a um agente"
+    },
+    "ASSIGNMENT": {
+      "TITLE": "Atribuição da conversa",
+      "DESCRIPTION": "Automatically assign incoming conversations to available agents based on assignment policies",
+      "ENABLE_AUTO_ASSIGNMENT": "Enable automatic conversation assignment",
+      "DEFAULT_RULES_TITLE": "Default assignment rules",
+      "DEFAULT_RULES_DESCRIPTION": "Using the default assignment behavior for all conversations",
+      "DEFAULT_RULE_1": "Earliest created conversations first",
+      "DEFAULT_RULE_2": "Round robin distribution",
+      "CUSTOMIZE_WITH_POLICY": "Customize with assignment policy",
+      "USING_POLICY": "Using custom assignment policy for this inbox",
+      "CUSTOMIZE_POLICY": "Customize with assignment policy",
+      "DELETE_POLICY": "Delete policy",
+      "POLICY_LABEL": "Assignment policy",
+      "ASSIGNMENT_ORDER_LABEL": "Assignment Order",
+      "ASSIGNMENT_METHOD_LABEL": "Assignment Method",
+      "POLICY_STATUS": {
+        "ACTIVE": "Ativa",
+        "INACTIVE": "Inactive"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "Earliest created",
+        "LONGEST_WAITING": "Longest waiting"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "Round robin",
+        "BALANCED": "Balanced assignment"
+      },
+      "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
+      "UPGRADE_TO_BUSINESS": "Upgrade to Business",
+      "DEFAULT_POLICY_LINKED": "Default policy linked",
+      "DEFAULT_POLICY_DESCRIPTION": "Link a custom assignment policy to customize how conversations are assigned to agents in this inbox.",
+      "LINK_EXISTING_POLICY": "Link existing policy",
+      "CREATE_NEW_POLICY": "Create new policy",
+      "NO_POLICIES": "No assignment policies found",
+      "VIEW_ALL_POLICIES": "View all policies",
+      "CURRENT_BEHAVIOR": "Currently using default assignment behavior:",
+      "LINK_SUCCESS": "Assignment policy linked successfully",
+      "LINK_ERROR": "Failed to link assignment policy"
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
+      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
+      "CANCEL": "Cancelar",
+      "CONFIRM_DELETE": "Excluir",
+      "DELETE_SUCCESS": "Assignment policy removed successfully",
+      "DELETE_ERROR": "Failed to remove assignment policy"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",
@@ -837,6 +922,20 @@
         "CONFIRM": "Create new template",
         "CANCEL": "Voltar"
       },
+      "UTILITY_ANALYZER": {
+        "ACTION": "Check utility fit",
+        "HELPER_NOTE": "Check this message before submission to improve Utility fit. The system creates a dedicated CSAT template with buttons for reporting and submits it as Utility; Meta may still reclassify it as Marketing based on content.",
+        "RESULT_LABEL": "Meta category prediction",
+        "GUIDANCE_NOTE": "This is a guidance check, not a guarantee of Meta approval.",
+        "SUGGESTION_LABEL": "Suggested utility-safe rewrite",
+        "APPLY": "Use this rewrite",
+        "ERROR_MESSAGE": "Couldn't analyze the message. Please try again.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "Likely Utility",
+          "LIKELY_MARKETING": "Likely Marketing",
+          "UNCLEAR": "Needs clarification"
+        }
+      },
       "SURVEY_RULE": {
         "LABEL": "Regra do inquérito",
         "DESCRIPTION_PREFIX": "Enviar o inquérito se a conversa",
@@ -848,7 +947,7 @@
         "SELECT_PLACEHOLDER": "selecionar etiquetas"
       },
       "NOTE": "Nota: Os inquéritos CSAT são enviados apenas uma vez por conversa",
-      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
       "API": {
         "SUCCESS_MESSAGE": "Definições de CSAT atualizadas com sucesso",
         "ERROR_MESSAGE": "Não foi possível atualizar as definições de CSAT. Por favor, tente novamente mais tarde."
@@ -864,9 +963,11 @@
       "UNAVAILABLE_MESSAGE_LABEL": "Mensagem indisponível para os visitantes",
       "TOGGLE_HELP": "Permitir a disponibilidade de negócios mostrará as horas disponíveis no widget de live-chat, mesmo que todos os agentes estejam offline. Em caso de contactos fora do horário disponível, os clientes podem ser avisados com uma mensagem e um formulário de pré-chat.",
       "DAY": {
+        "DAY": "Dia",
+        "AVAILABILITY": "Disponibilidade",
+        "HOURS": "Horas",
         "ENABLE": "Ativar a disponibilidade para este dia",
         "UNAVAILABLE": "Indisponível",
-        "HOURS": "horas",
         "VALIDATION_ERROR": "A hora de abertura deve ser anterior à hora de encerramento.",
         "CHOOSE": "Escolher"
       },
@@ -973,11 +1074,12 @@
           "IN_A_DAY": "Dentro de um dia"
         },
         "WIDGET_COLOR_LABEL": "Cor do widget",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Posição do balão de widget",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Tipo de balão de widget",
+        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Tipo:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Fale connosco",
-          "LABEL": "Título do inicializador do balão de widget",
+          "LABEL": "Launcher Title",
           "PLACE_HOLDER": "Fale connosco"
         },
         "UPDATE": {
@@ -1002,7 +1104,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "Padrão",
-        "CHAT": "Chat"
+        "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Normalmente respondemos em poucos minutos",

@@ -5,7 +5,12 @@
     "ADD_ACTION_LONG": "ایجاد سیاست SLA جدید",
     "DESCRIPTION": "قراردادهای سطح خدمات (SLA) قراردادهایی هستند که انتظارات واضحی را بین تیم شما و مشتریان تعریف می کنند. آنها استانداردهایی را برای زمان پاسخگویی و حل موضوعات تعریف می کنند، در قالب چارچوبی مه برای پاسخگویی ایجاد می کنند تجربه ای پایدار و با کیفیت را به مشتری ارائه می کنند.",
     "LEARN_MORE": "اطلاعات بیشتری درباره SLA",
+    "COUNT": "{n} SLA | {n} SLAs",
     "LOADING": "در حال گرفتن SLAها",
+    "SEARCH_PLACEHOLDER": "Search SLA...",
+    "SEARCH": {
+      "NO_RESULTS": "No SLA found matching your search"
+    },
     "PAYWALL": {
       "TITLE": "برای ایجاد SLA بروز رسانی کنید",
       "AVAILABLE_ON": "قابلیت SLA فقط در نسخه Business و Enterprise وجود دارد.",
@@ -20,14 +25,18 @@
     },
     "LIST": {
       "404": "هیچ SLA در این حساب‌کاربری وجود ندارد.",
+      "TABLE_HEADER": {
+        "SLA": "SLA",
+        "BUSINESS_HOURS": "Business hours"
+      },
       "EMPTY": {
         "TITLE_1": "Enterprise P0",
         "DESC_1": "مسائلی که توسط مشتریان سازمانی مطرح می شود و نیاز به توجه فوری دارد.",
         "TITLE_2": "Enterprise P1",
         "DESC_2": "مسائلی که توسط مشتریان سازمانی مطرح می شود، باید به سرعت مورد تایید قرار گیرد."
       },
-      "BUSINESS_HOURS_ON": "در ساعت کاری",
-      "BUSINESS_HOURS_OFF": "خارج از ساعت کاری",
+      "BUSINESS_HOURS_ON": "Turned on",
+      "BUSINESS_HOURS_OFF": "Turned off",
       "RESPONSE_TYPES": {
         "FRT": "آستانه زمان اولین پاسخ",
         "NRT": "آستانه زمان پاسخ بعدی",

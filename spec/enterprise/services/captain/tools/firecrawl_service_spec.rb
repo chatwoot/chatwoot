@@ -33,7 +33,7 @@ RSpec.describe Captain::Tools::FirecrawlService do
       end
 
       it 'raises an error' do
-        expect { described_class.new }.to raise_error(NoMethodError)
+        expect { described_class.new }.to raise_error('Missing API key')
       end
     end
 
@@ -58,9 +58,9 @@ RSpec.describe Captain::Tools::FirecrawlService do
         limit: crawl_limit,
         webhook: webhook_url,
         scrapeOptions: {
-          onlyMainContent: false,
+          onlyMainContent: true,
           formats: ['markdown'],
-          excludeTags: ['iframe']
+          excludeTags: Captain::Tools::FirecrawlService::FIRECRAWL_EXCLUDE_TAGS
         }
       }.to_json
     end

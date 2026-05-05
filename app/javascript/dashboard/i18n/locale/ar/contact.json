@@ -18,8 +18,9 @@
     "CREATED_AT_LABEL": "تم إنشاؤها",
     "NEW_MESSAGE": "رسالة جديدة",
     "CALL": "Call",
-    "CALL_INITIATED": "Calling the contact…",
-    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CALL_INITIATED": "جار الاتصال بجهة الاتصال…",
+    "CALL_FAILED": "تعذر بدء المكالمة. الرجاء المحاولة مرة أخرى.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
@@ -457,8 +458,11 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
           },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Add Telegram"
+          },
           "TIKTOK": {
-            "PLACEHOLDER": "Add TikTok"
+            "PLACEHOLDER": "إضافة TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "Add LinkedIn"
@@ -573,7 +577,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "لا توجد جهات اتصال تطابق بحثك 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
-    }
+    },
+    "LOAD_MORE": "تحميل المزيد"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "تعيين التسميات",
@@ -607,7 +612,7 @@
       "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
       "CONTACT_SELECTOR": {
         "LABEL": "إلى:",
-        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
+        "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
         "CONTACT_CREATING": "Creating contact..."
       },
       "INBOX_SELECTOR": {
@@ -618,9 +623,9 @@
         "SUBJECT_LABEL": "الموضوع :",
         "SUBJECT_PLACEHOLDER": "Enter your email subject here",
         "CC_LABEL": "نسخة من البريد:",
-        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "CC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_LABEL": "نسخة خفية من البريد:",
-        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_BUTTON": "نسخة خفية من البريد"
       },
       "MESSAGE_EDITOR": {

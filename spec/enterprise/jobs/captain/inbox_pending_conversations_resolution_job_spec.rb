@@ -84,6 +84,16 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect(resolvable_pending_conversation.reload.status).to eq('pending')
       expect(resolvable_pending_conversation.messages.outgoing).to be_empty
     end
+
+    it 'falls back to legacy time-based resolve when legacy auto-resolve is forced' do
+      inbox.account.update!(captain_auto_resolve_mode: 'legacy')
+      allow(Captain::ConversationCompletionService).to receive(:new)
+
+      described_class.perform_now(inbox)
+
+      expect(Captain::ConversationCompletionService).not_to have_received(:new)
+      expect(resolvable_pending_conversation.reload.status).to eq('resolved')
+    end
   end
 
   context 'when LLM evaluation returns complete' do
@@ -322,7 +332,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
   end
 
   it 'does not resolve conversations when auto-resolve is disabled at execution time' do
-    inbox.account.update!(captain_disable_auto_resolve: true)
+    inbox.account.update!(captain_auto_resolve_mode: 'disabled')
 
     expect do
       described_class.perform_now(inbox)
@@ -330,5 +340,15 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
 
     expect(resolvable_pending_conversation.reload.status).to eq('pending')
     expect(resolvable_pending_conversation.messages.outgoing).to be_empty
+  end
+
+  it 'falls back to disabled mode from legacy settings key' do
+    inbox.account.update!(settings: inbox.account.settings.merge('captain_disable_auto_resolve' => true))
+
+    expect do
+      described_class.perform_now(inbox)
+    end.not_to(change { resolvable_pending_conversation.reload.status })
+
+    expect(resolvable_pending_conversation.reload.status).to eq('pending')
   end
 end

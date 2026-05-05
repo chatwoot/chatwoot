@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Ustvari račun",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "Registrirajte se",
     "TESTIMONIAL_HEADER": "Le še en korak, da napredujete",
     "TESTIMONIAL_CONTENT": "Ste le korak stran od tega, da pritegnete svoje stranke, jih obdržite in najdete nove.",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "Ni bilo mogoče vzpostaviti povezave s strežnikom. Prosimo poskusite ponovno."
     },
     "SUBMIT": "Ustvari račun",
-    "HAVE_AN_ACCOUNT": "Že imate račun?"
+    "HAVE_AN_ACCOUNT": "Že imate račun?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "Ponovno pošlji potrditveni e-poštni naslov",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }
