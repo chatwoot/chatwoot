@@ -51,9 +51,13 @@ const canManageConsultant = computed(() => {
 const consultantOptions = computed(() => {
   const consultantRole = customRoles.value.find(r => r.name === 'Consultor(a)');
   if (!consultantRole) return [];
-  return agents.value
+  const consultants = agents.value
     .filter(a => a.custom_role_id === consultantRole.id)
     .map(a => ({ label: a.name, value: a.id }));
+  return [
+    { label: t('CONTACTS_LAYOUT.CARD.CONSULTANT.NONE'), value: '' },
+    ...consultants,
+  ];
 });
 
 onMounted(() => {
@@ -351,7 +355,7 @@ defineExpose({
         }"
         @update:model-value="
           val => {
-            state.consultantId = val;
+            state.consultantId = val === '' ? null : val;
             emit('update', state);
           }
         "

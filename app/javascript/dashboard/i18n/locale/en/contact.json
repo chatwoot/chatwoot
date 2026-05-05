@@ -449,7 +449,8 @@
       },
       "CONSULTANT": {
         "TITLE": "Assigned Consultant",
-        "PLACEHOLDER": "Select a consultant"
+        "PLACEHOLDER": "Select a consultant",
+        "NONE": "No consultant"
       },
       "SOCIAL_MEDIA": {
         "TITLE": "Edit social links",

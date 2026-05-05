@@ -448,7 +448,8 @@
       },
       "CONSULTANT": {
         "TITLE": "Consultor(a) Responsável",
-        "PLACEHOLDER": "Selecione um consultor"
+        "PLACEHOLDER": "Selecione um consultor",
+        "NONE": "Nenhum consultor"
       },
       "SOCIAL_MEDIA": {
         "TITLE": "Editar redes sociais",
