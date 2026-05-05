@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "Localização removida do portal com sucesso",
           "ERROR_MESSAGE": "Não é possível remover a localidade do portal. Tente novamente."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Localidade movida para rascunho com sucesso",
+          "ERROR_MESSAGE": "Não foi possível mover a localidade para rascunho. Tente novamente."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Localidade publicada com sucesso",
+          "ERROR_MESSAGE": "Não foi possível publicar a localidade. Tente novamente."
+        }
       }
     },
     "TABLE": {
@@ -644,8 +656,11 @@
         "ARTICLES_COUNT": "artigo {count} | {count} artigos",
         "CATEGORIES_COUNT": "categoria {count} | {count} categorias",
         "DEFAULT": "Padrão",
+        "DRAFT": "Rascunho",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Tornar padrão",
+          "MOVE_TO_DRAFT": "Mover para rascunho",
+          "PUBLISH_LOCALE": "Publicar localidade",
           "DELETE": "Excluir"
         }
       },
@@ -654,6 +669,13 @@
         "DESCRIPTION": "Selecione o idioma em que este artigo será escrito. Isto será adicionado à sua lista de traduções, e você pode adicionar mais tarde.",
         "COMBOBOX": {
           "PLACEHOLDER": "Selecionar local..."
+        },
+        "STATUS": {
+          "LABEL": "Status",
+          "OPTIONS": {
+            "LIVE": "Publicado",
+            "DRAFT": "Rascunho"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Localidade adicionada com sucesso",
@@ -676,7 +698,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "Mais propriedades",
         "UNCATEGORIZED": "Não categorizado",
-        "EDITOR_PLACEHOLDER": "Escreva algo..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Propriedades do artigo",

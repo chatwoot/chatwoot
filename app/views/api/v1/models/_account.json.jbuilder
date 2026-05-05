@@ -10,7 +10,9 @@ if resource.custom_attributes.present?
     json.company_size resource.custom_attributes['company_size'] if resource.custom_attributes['company_size'].present?
     json.timezone resource.custom_attributes['timezone'] if resource.custom_attributes['timezone'].present?
     json.logo resource.custom_attributes['logo'] if resource.custom_attributes['logo'].present?
-    json.onboarding_step resource.custom_attributes['onboarding_step'] if resource.custom_attributes['onboarding_step'].present?
+    json.referral_source resource.custom_attributes['referral_source'] if resource.custom_attributes['referral_source'].present?
+    json.brand_info resource.custom_attributes['brand_info'] if resource.custom_attributes['brand_info'].present?
+    json.onboarding_step resource.onboarding_step if resource.onboarding_step.present?
     json.marked_for_deletion_at resource.custom_attributes['marked_for_deletion_at'] if resource.custom_attributes['marked_for_deletion_at'].present?
     if resource.custom_attributes['marked_for_deletion_reason'].present?
       json.marked_for_deletion_reason resource.custom_attributes['marked_for_deletion_reason']

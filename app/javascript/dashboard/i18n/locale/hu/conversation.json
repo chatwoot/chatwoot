@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Üzenet aláírása nem változott, kérlek, változtasd meg a profilod beállításaiban. ",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "Adj további promptokat a copilothoz, vagy kérdezz bármi mást... Nyomd meg az Entert a folytatáshoz",
       "CLICK_HERE": "Frissítéshez kattints ide",
       "WHATSAPP_TEMPLATES": "Whatsapp sablonok"
     },
@@ -214,7 +214,7 @@
       "DRAG_DROP": "Helyezd ide a csatolmányt",
       "START_AUDIO_RECORDING": "Hangfelvétel indítása",
       "STOP_AUDIO_RECORDING": "Hangfelvétel leállítása",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot gondolkodik",
       "EMAIL_HEAD": {
         "TO": "Címzett",
         "ADD_BCC": "Titkos másolat hozzáadása",

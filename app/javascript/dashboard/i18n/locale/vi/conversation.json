@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Chứ ký cuối tin nhắn chưa được cài đặt, xin hãy cài đặt một chữ ký trong phần cài đặt hồ sơ.",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "Cho copilot thêm lời nhắc hoặc hỏi thêm bất cứ điều gì... Nhấn enter để gửi theo dõi",
       "CLICK_HERE": "Bấm vào đây để cập nhật",
       "WHATSAPP_TEMPLATES": "Mẫu Whatsapp"
     },
@@ -214,7 +214,7 @@
       "DRAG_DROP": "Kéo thả vào đây để đính kèm",
       "START_AUDIO_RECORDING": "Bắt đầu ghi âm",
       "STOP_AUDIO_RECORDING": "Dừng ghi âm",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot đang suy nghĩ",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Thêm bcc",

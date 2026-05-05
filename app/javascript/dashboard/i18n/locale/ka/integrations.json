@@ -429,7 +429,7 @@
         },
         "LIST_CONTACTS": {
           "LABEL": "კონტაქტების სია",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "CONTENT": "აჩვენე მოწონებული 10 კონტაქტის სია. ჩათვალე სახელი, ელ.ფოსტა ან ტელეფონის ნომერი (თუ გვაქვს), ბოლო აქტივობის დრო, ტეგები (თუ არის)."
         }
       }
     },
@@ -697,12 +697,12 @@
               },
               "DESCRIPTION": {
                 "LABEL": "აღწერა",
-                "PLACEHOLDER": "Опишите, როგორ და სად გამოიყენება ეს სცენარი",
+                "PLACEHOLDER": "აღწერეთ, როგორ და სად იქნება გამოყენებული ეს სცენარი",
                 "ERROR": "სცენარის აღწერა აუცილებელია"
               },
               "INSTRUCTION": {
                 "LABEL": "როგორ მოვაგვაროთ",
-                "PLACEHOLDER": "Опишите, როგორ და სად იქნება ამ სცენარის მართვა",
+                "PLACEHOLDER": "აღწერეთ, როგორ და სად დამუშავდება ეს სცენარი",
                 "ERROR": "სცენარის შინაარსი აუცილებელია"
               },
               "CREATE": "შექმნა",
@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "დოკუმენტები",
       "ADD_NEW": "ახალი დოკუმენტის შექმნა",
+      "SELECTED": "{count} არჩეული",
+      "SELECT_ALL": "ყველას არჩევა ({count})",
+      "UNSELECT_ALL": "ყველას არჩევის გაუქმება ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "დიახ, წაშალე ყველა",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "მიმართებული ხშირად დასმული კითხვები",
         "DESCRIPTION": "ეს ხშირად დასმული კითხვები პირდაპირ დოკუმენტიდან არის გენერირებული."
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "ინსტრუმენტები",
       "ADD_NEW": "შექმენი ახალი ხელსაწყო",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "არ არის ხელმისაწვდომი მორგებული ხელსაწყოები",
         "SUBTITLE": "შექმენი მორგებული ხელსაწყოები, რომ დაკავშირება მოახდინოს შენმა ასისტენტმა გარე API-ებთან და სერვისებთან, რაც საშუალებას მისცემს მას მონაცემების მიღებას და ქმედებების შესრულებას შენს სახელზე.",
@@ -825,11 +837,30 @@
         "SUCCESS_MESSAGE": "კასტომური ხელსაწყო წარმატებით წაიშალა",
         "ERROR_MESSAGE": "კასტომური ხელსაწყოს წაშლა ვერ მოხერხდა"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "ხელისაწვდომობის სახელი",
           "PLACEHOLDER": "შეკვეთის მოძებნა",
-          "ERROR": "ინსტრუმენტის სახელი აუცილებელია"
+          "ERROR": "ინსტრუმენტის სახელი აუცილებელია",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "აღწერა",

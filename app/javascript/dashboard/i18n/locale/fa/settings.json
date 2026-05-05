@@ -68,7 +68,8 @@
         "API_SUCCESS": "امضا با موفقیت ذخیره شد",
         "IMAGE_UPLOAD_ERROR": "تصویر ارسال نشد! دوباره امتحان کنید",
         "IMAGE_UPLOAD_SUCCESS": "تصویر با موفقیت اضافه شد. لطفا بر روی ذخیره کلیک کنید تا امضا ذخیره شود",
-        "IMAGE_UPLOAD_SIZE_ERROR": "اندازه تصویر باید کمتر از {size} مگابایت باشد"
+        "IMAGE_UPLOAD_SIZE_ERROR": "اندازه تصویر باید کمتر از {size} مگابایت باشد",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "امضای پیام",

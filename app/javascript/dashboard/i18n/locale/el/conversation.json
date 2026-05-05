@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Δεν έχει ρυθμιστεί η υπογραφή μηνύματος, παρακαλώ ρυθμίστε την στις ρυθμίσεις προφίλ.",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "Δώστε στον copilot επιπλέον εντολές ή ρωτήστε οτιδήποτε άλλο... Πατήστε enter για να στείλετε συνέχεια",
       "CLICK_HERE": "Πατήστε εδώ για ενημέρωση",
       "WHATSAPP_TEMPLATES": "Πρότυπα Whatsapp"
     },
@@ -214,7 +214,7 @@
       "DRAG_DROP": "Σύρετε και αφήστε εδώ για επισύναψη",
       "START_AUDIO_RECORDING": "Έναρξη ηχογράφησης",
       "STOP_AUDIO_RECORDING": "Διακοπή ηχογράφησης",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Ο Copilot σκέφτεται",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Προσθήκη bcc",

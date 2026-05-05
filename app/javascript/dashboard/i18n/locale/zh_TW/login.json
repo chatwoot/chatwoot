@@ -1,10 +1,10 @@
 {
   "LOGIN": {
-    "TITLE": "登入到 Chatwoot",
+    "TITLE": "登入 Chatwoot",
     "EMAIL": {
       "LABEL": "電子郵件",
-      "PLACEHOLDER": "例項 {'@'}companyname.com",
-      "ERROR": "請輸入一個有效的電子信箱"
+      "PLACEHOLDER": "example{'@'}companyname.com",
+      "ERROR": "請輸入有效的電子郵件地址"
     },
     "PASSWORD": {
       "LABEL": "密碼",
@@ -12,13 +12,13 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "登入成功",
-      "ERROR_MESSAGE": "無法連線Woot伺服器，請稍後再試",
+      "ERROR_MESSAGE": "無法連線至 Woot 伺服器，請稍後再試。",
       "UNAUTH": "使用者名稱或密碼不正確，請重試。"
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "使用Google登入",
+      "GOOGLE_LOGIN": "使用 Google 登入",
       "BUSINESS_ACCOUNTS_ONLY": "請使用您的公司電子郵件地址登入",
-      "NO_ACCOUNT_FOUND": "我們找不到您的電子郵件地址的帳戶。"
+      "NO_ACCOUNT_FOUND": "找不到與您的電子郵件地址相關聯的帳戶。"
     },
     "FORGOT_PASSWORD": "忘記密碼了？",
     "CREATE_NEW_ACCOUNT": "建立新帳戶",
@@ -29,12 +29,12 @@
       "SUBTITLE": "輸入您的工作電子郵件以存取您的組織",
       "BACK_TO_LOGIN": "透過密碼登入",
       "WORK_EMAIL": {
-        "LABEL": "工作信箱",
+        "LABEL": "工作電子郵件",
         "PLACEHOLDER": "輸入您的工作電子郵件"
       },
-      "SUBMIT": "繼續使用單一登入",
+      "SUBMIT": "繼續使用 SSO",
       "API": {
-        "ERROR_MESSAGE": "SSO 身份驗證失敗。請檢查您的憑證並重試。"
+        "ERROR_MESSAGE": "SSO 驗證失敗。請檢查您的憑證並重試。"
       }
     }
   }

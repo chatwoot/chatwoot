@@ -366,8 +366,8 @@
       },
       "NO_LINKED_ISSUES": "No linked issues found",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
+        "TITLE": "Ali ste prepričani, da želite izbrisati integracijo?",
+        "MESSAGE": "Ali ste prepričani, da želite izbrisati integracijo?",
         "CONFIRM": "Da, izbriši",
         "CANCEL": "Prekliči"
       },
@@ -390,56 +390,56 @@
   },
   "CAPTAIN": {
     "NAME": "Kapitan",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "Izvedi več",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "Pomočniki",
+      "SWITCH_ASSISTANT": "Preklapljanje med pomočniki",
+      "NEW_ASSISTANT": "Ustvari pomočnika",
+      "EMPTY_LIST": "Nobenega pomočnika ni bilo mogoče najti, prosimo, ustvarite enega za začetek"
     },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "PANEL_TITLE": "Začnite s Copilotom",
+      "KICK_OFF_MESSAGE": "Potrebujete hitro povzetek, želite preveriti pretekle pogovore ali sestaviti boljši odgovor? Copilot je tu, da pospeši delo.",
       "SEND_MESSAGE": "Pošlji sporočilo...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
+      "EMPTY_MESSAGE": "Pri generiranju odgovora je prišlo do napake. Prosimo, poskusite znova.",
       "LOADER": "Kapitan razmišlja",
       "YOU": "Vi",
       "USE": "Uporabi to",
       "RESET": "Ponastavi",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "SHOW_STEPS": "Pokaži korake",
+      "SELECT_ASSISTANT": "Izberi pomočnika",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Povzetek tega pogovora",
+          "CONTENT": "Povzemi ključne točke, o katerih sta se pogovarjala stranka in agent podpore, vključno s strankinimi skrbmi, vprašanji ter rešitvami ali odgovori agenta podpore."
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Predlagaj odgovor",
+          "CONTENT": "Analiziraj povpraševanje stranke in sestavi odgovor, ki učinkovito rešuje njihova vprašanja ali pomisleke. Poskrbi, da je odgovor jasen, jedrnat in vsebuje koristne informacije."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Ocenite ta pogovor",
+          "CONTENT": "Preglej pogovor, da oceniš, kako dobro izpolnjuje potrebe stranke. Deli oceno od 1 do 5 glede na ton, jasnost in učinkovitost."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "Pogovori z visoko prioriteto",
+          "CONTENT": "Naredi povzetek vseh odprtih pogovorov z visoko prioriteto. Vključi ID pogovora, ime stranke (če je na voljo), vsebino zadnjega sporočila in dodeljenega agenta. Po potrebi združi po statusu."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "Našteti stike",
+          "CONTENT": "Pokaži seznam top 10 stikov. Vključi ime, e-pošto ali telefonsko številko (če je na voljo), čas zadnjega vpogleda, oznake (če obstajajo)."
         }
       }
     },
     "PLAYGROUND": {
       "USER": "Vi",
-      "ASSISTANT": "Assistant",
+      "ASSISTANT": "Pomočnik",
       "MESSAGE_PLACEHOLDER": "Vnesite svoje sporočilo...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "Poligon",
+      "DESCRIPTION": "Uporabi ta poligon za pošiljanje sporočil svojemu pomočniku in preveri, ali odgovarja natančno, hitro in v pričakovanem tonu.",
+      "CREDIT_NOTE": "Sporočila, poslana tukaj, se bodo štela v vaše Captain kredite."
     },
     "PAYWALL": {
       "TITLE": "Nadgradite za uporabo Captain AI",
@@ -449,7 +449,7 @@
       "CANCEL_ANYTIME": "Paket lahko kadarkoli spremenite ali prekličete"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
+      "AVAILABLE_ON": "Captain AI je na voljo samo v Enterprise paketih.",
       "UPGRADE_PROMPT": "Nadgradite svoj paket, da pridobite dostop do naših pomočnikov, copilot in še več.",
       "ASK_ADMIN": "Prosimo, obrnite se na svojega skrbnika za nadgradnjo."
     },
@@ -577,7 +577,7 @@
         "SUBTITLE": "Ustvarite asistenta, ki bo vašim uporabnikom zagotavljal hitre in natančne odgovore. Lahko se uči iz vaših pomožnih člankov in preteklih pogovorov.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "NOTE": "Captain asistent se neposredno povezuje s strankami, se uči iz vaših pomožnih dokumentov in preteklih pogovorov ter zagotavlja takojšnje, natančne odgovore. Obvladuje začetna vprašanja in nudi hitre rešitve, preden po potrebi prenese zadevo agentu."
         }
       },
       "GUARDRAILS": {
@@ -738,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Dokumenti",
       "ADD_NEW": "Ustvari nov dokument",
+      "SELECTED": "{count} izbranih",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Da, izbriši vse",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Povezana pogosta vprašanja",
         "DESCRIPTION": "Ta pogosta vprašanja so ustvarjena neposredno iz dokumenta."
@@ -795,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -825,11 +837,30 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Description",
@@ -920,10 +951,10 @@
       },
       "BULK_DELETE": {
         "TITLE": "Izbrisati pogosta vprašanja?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "DESCRIPTION": "Ali ste prepričani, da želite izbrisati izbrane pogosta vprašanja? Tega dejanja ni mogoče razveljaviti.",
+        "CONFIRM": "Da, izbriši vse",
+        "SUCCESS_MESSAGE": "Pogosta vprašanja so bila uspešno izbrisana",
+        "ERROR_MESSAGE": "Pri brisanju pogostih vprašanj je prišlo do napake, prosimo, poskusite znova."
       },
       "DELETE": {
         "TITLE": "Ste prepričani, da želite izbrisati pogosta vprašanja?",

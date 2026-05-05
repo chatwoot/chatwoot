@@ -30,17 +30,35 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
   private
 
   def build_tools
-    [Captain::Tools::SearchDocumentationService.new(@assistant, user: nil)]
+    tools = [Captain::Tools::SearchDocumentationService.new(@assistant, user: nil)]
+    return tools unless custom_tools_enabled?
+
+    tools + @assistant.account.captain_custom_tools.enabled.map do |ct|
+      ct.tool(@assistant, base_class: Captain::Tools::CustomHttpTool, conversation: @conversation)
+    end
   end
 
   def system_message
     {
       role: 'system',
       content: Captain::Llm::SystemPromptsService.assistant_response_generator(
-        @assistant.name, @assistant.config['product_name'], @assistant.config,
-        contact: contact_attributes
+        @assistant.name, @assistant.config['product_name'], @assistant.config.merge('timezone' => inbox_timezone),
+        contact: contact_attributes,
+        custom_tools: custom_tools_metadata
       )
     }
+  end
+
+  def custom_tools_metadata
+    return [] unless custom_tools_enabled?
+
+    @assistant.account.captain_custom_tools.enabled.map do |ct|
+      { name: ct.slug, description: ct.description }
+    end
+  end
+
+  def custom_tools_enabled?
+    @assistant.account.feature_enabled?('custom_tools')
   end
 
   def contact_attributes
@@ -50,6 +68,10 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
     @conversation.contact.attributes.symbolize_keys.slice(
       :id, :name, :email, :phone_number, :identifier, :custom_attributes
     )
+  end
+
+  def inbox_timezone
+    @conversation&.inbox&.timezone.presence || 'UTC'
   end
 
   def persist_message(message, message_type = 'assistant')
