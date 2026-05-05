@@ -13,12 +13,21 @@ class Webhooks::LineEventsJob < ApplicationJob
       Line::IncomingMessageService,
       Line::DeliveryStatusService
     ].each do |service_class|
-      service_class.new(
-        inbox: @channel.inbox,
-        params: normalized_payload
-      ).perform
+      perform_service(service_class, normalized_payload)
     end
   rescue Line::Bot::V2::WebhookParser::InvalidSignatureError
     nil
+  end
+
+  private
+
+  def perform_service(service_class, normalized_payload)
+    service_class.new(
+      inbox: @channel.inbox,
+      params: normalized_payload
+    ).perform
+  rescue StandardError => e
+    Rails.logger.error("[LINE] #{service_class.name} failed for channel_id=#{@channel.id}: #{e.class} #{e.message}")
+    ChatwootExceptionTracker.new(e, account: @channel.account).capture_exception
   end
 end

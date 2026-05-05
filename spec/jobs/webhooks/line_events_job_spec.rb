@@ -40,4 +40,34 @@ RSpec.describe Webhooks::LineEventsJob do
       params: normalized_payload.with_indifferent_access
     )
   end
+
+  it 'runs delivery status processing when incoming message processing fails' do
+    inbound_service = instance_double(Line::IncomingMessageService)
+    delivery_service = instance_double(Line::DeliveryStatusService, perform: true)
+    webhook_parser = instance_double(Line::Bot::V2::WebhookParser)
+    exception_tracker = instance_double(ChatwootExceptionTracker, capture_exception: true)
+
+    allow(Channel::Line).to receive(:find_by).with(line_channel_id: line_channel.line_channel_id).and_return(line_channel)
+    allow(line_channel).to receive(:webhook_parser).and_return(webhook_parser)
+    allow(webhook_parser).to receive(:parse).and_return([parsed_event, delivery_event])
+    allow(Line::WebhookEventAdapter).to receive(:normalize).and_return(normalized_payload)
+    allow(Line::IncomingMessageService).to receive(:new).and_return(inbound_service)
+    allow(Line::DeliveryStatusService).to receive(:new).and_return(delivery_service)
+    allow(inbound_service).to receive(:perform).and_raise(StandardError, 'profile lookup failed')
+    allow(ChatwootExceptionTracker).to receive(:new).and_return(exception_tracker)
+
+    expect do
+      described_class.perform_now(
+        params: { 'line_channel_id' => line_channel.line_channel_id },
+        post_body: '{"events":[]}',
+        signature: 'sig'
+      )
+    end.not_to raise_error
+
+    expect(delivery_service).to have_received(:perform)
+    expect(ChatwootExceptionTracker).to have_received(:new).with(
+      instance_of(StandardError),
+      account: line_channel.account
+    )
+  end
 end
