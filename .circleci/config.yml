@@ -216,7 +216,13 @@ jobs:
           name: Install Application Dependencies
           command: |
             source ~/.rvm/scripts/rvm
-            bundle install
+            git config --global maintenance.auto false
+            git config --global gc.auto 0
+            bundle config set retry 3
+            bundle install || (
+              rm -rf "$GEM_HOME/cache/bundler/git" "$GEM_HOME/bundler/gems"
+              bundle install
+            )
 
       # Install and configure OpenSearch
       - run:
