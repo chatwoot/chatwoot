@@ -1,506 +1,517 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
-    "CLICK_TO_RECONNECT": "Click here to reconnect.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
-    "COMPLETE_REGISTRATION": "Complete Registration",
+    "HEADER": "ინბოქსები",
+    "DESCRIPTION": "არხი არის კომუნიკაციის საშუალება, რომელსაც თქვენი მომხმარებელი იყენებს თქვენთან ურთიერთობისთვის. ინბოქსი არის ადგილი, სადაც მართავთ კონკრეტული არხის ინტერაქციებს. მასში შეიძლება შედიოდეს კომუნიკაციები სხვადასხვა წყაროდან, როგორიცაა ელფოსტა, ცოცხალი ჩატი და სოციალური მედია.",
+    "LEARN_MORE": "გაიგეთ მეტი ინბოქსების შესახებ",
+    "COUNT": "{n} ინბოქსი | {n} ინბოქსი",
+    "SEARCH_PLACEHOLDER": "ინბოქსების ძებნა...",
+    "NO_RESULTS": "ინბოქსები ვერ მოიძებნა თქვენი ძიების მიხედვით",
+    "RECONNECTION_REQUIRED": "თქვენი ინბოქსი გათიშულია. ახალი შეტყობინებები არ მიიღება, სანამ ხელახლა არ დაადასტურებთ მას.",
+    "CLICK_TO_RECONNECT": "დააჭირეთ აქ ხელახლა დასაკავშირებლად.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "თქვენი WhatsApp Business რეგისტრაცია არ არის დასრულებული. გთხოვთ, გადაამოწმოთ თქვენი სახელის სტატუსი Meta Business Manager-ში, სანამ ხელახლა დაუკავშირდებით.",
+    "COMPLETE_REGISTRATION": "რეგისტრაციის დასრულება",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "ამ ანგარიშს არ აქვს დაკავშირებული ინბოქსები."
     },
     "CREATE_FLOW": {
       "CHANNEL": {
-        "TITLE": "Choose Channel",
-        "BODY": "Choose the provider you want to integrate with Chatwoot."
+        "TITLE": "არხის არჩევა",
+        "BODY": "აირჩიეთ პროვაიდერი, რომლის ინტეგრაციაც გსურთ Chatwoot-თან."
       },
       "INBOX": {
-        "TITLE": "Create Inbox",
-        "BODY": "Authenticate your account and create an inbox."
+        "TITLE": "შექმენით ინბოქსი",
+        "BODY": "ავტორიზეთ თქვენი ანგარიში და შექმენით ინბოქსი."
       },
       "AGENT": {
-        "TITLE": "Add Agents",
-        "BODY": "Add agents to the created inbox."
+        "TITLE": "დაამატეთ აგენტები",
+        "BODY": "დაამატეთ აგენტები შექმნილ ინბოქსში."
       },
       "FINISH": {
-        "TITLE": "Voilà!",
-        "BODY": "You are all set to go!"
+        "TITLE": "აი, მზადაა!",
+        "BODY": "თქვენ მზად ხართ დაწყებისთვის!"
       }
     },
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "LABEL": "ინბოქსის სახელი",
+        "PLACEHOLDER": "შეიყვანეთ თქვენი ინბოქსის სახელი (მაგ: Acme Inc)",
+        "ERROR": "გთხოვთ, შეიყვანოთ ვალიდური ინბოქსის სახელი"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
-        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+        "LABEL": "ვებგვერდის სახელი",
+        "PLACEHOLDER": "შეიყვანეთ თქვენი ვებგვერდის სახელი (მაგ: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Pick a value",
-        "CREATE_INBOX": "Create Inbox"
+        "HELP": "PS: შესვლისას, ჩვენ მხოლოდ თქვენს გვერდის შეტყობინებებზე გვაქვს წვდომა. თქვენი პირადი შეტყობინებები არასოდეს იქნება ხელმისაწვდომი Chatwoot-ისთვის.",
+        "CHOOSE_PAGE": "აირჩიეთ გვერდი",
+        "CHOOSE_PLACEHOLDER": "აირჩიეთ გვერდი სიიდან",
+        "INBOX_NAME": "ინბოქსის სახელი",
+        "ADD_NAME": "დაამატეთ სახელი თქვენს ინბოქსს",
+        "PICK_NAME": "აირჩიეთ სახელი თქვენი ინბოქსისთვის",
+        "PICK_A_VALUE": "აირჩიეთ მნიშვნელობა",
+        "CREATE_INBOX": "შექმენით ინბოქსი"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "CONTINUE_WITH_INSTAGRAM": "გაგრძელება Instagram-ით",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "დაკავშირეთ თქვენი Instagram პროფილი",
+        "HELP": "Instagram არხად დასამატებლად, საჭიროა თქვენი Instagram პროფილის ავთენტიფიკაცია 'გაგრძელება Instagram-ით' ღილაკზე დაჭერით ",
+        "ERROR_MESSAGE": "Instagram-თან დაკავშირებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან",
+        "ERROR_AUTH": "Instagram-თან დაკავშირებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან",
+        "NEW_INBOX_SUGGESTION": "ეს Instagram ანგარიში ადრე დაკავშირებული იყო სხვა ინბოქსთან და ახლა აქ გადატანილია. ყველა ახალი შეტყობინება გამოჩნდება აქ. ძველი ინბოქსი აღარ შეძლებს ამ ანგარიშისთვის შეტყობინებების გაგზავნას ან მიღებას.",
+        "DUPLICATE_INBOX_BANNER": "ეს Instagram ანგარიში გადატანილია ახალ Instagram არხის ინბოქსში. ამ ინბოქსიდან Instagram შეტყობინებების გაგზავნა/მიღება აღარ იქნება შესაძლებელი."
       },
       "TIKTOK": {
-        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
-        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
-        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
-        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+        "CONTINUE_WITH_TIKTOK": "გაგრძელება TikTok-ით",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "დაკავშირეთ თქვენი TikTok პროფილი",
+        "HELP": "თქვენი TikTok პროფილის არხად დასამატებლად, საჭიროა ავთენტიფიცირება TikTok პროფილზე, დააჭირეთ 'გაგრძელება TikTok-ით' ",
+        "ERROR_MESSAGE": "TikTok-თან დაკავშირებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან",
+        "ERROR_AUTH": "TikTok-თან დაკავშირებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "HELP": "თქვენი Twitter პროფილის არხად დასამატებლად, საჭიროა Twitter პროფილის ავთენტიფიკაცია, დააჭირეთ 'Sign in with Twitter'-ს ",
+        "ERROR_MESSAGE": "Twitter-სთან დაკავშირებისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "შექმენით საუბრები აღნიშნული Tweets-ებიდან"
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "TITLE": "ვებსაიტის არხი",
+        "DESC": "შექმენით არხი თქვენი ვებსაიტისთვის და დაიწყეთ მომხმარებელთა მხარდაჭერა ჩვენი ვებსაიტის ვიჯეტის საშუალებით.",
+        "LOADING_MESSAGE": "ვებგვერდის მხარდაჭერის არხის შექმნა",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "არხის ავატარი"
         },
         "CHANNEL_WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Please enter your Webhook URL",
-          "ERROR": "Please enter a valid URL"
+          "LABEL": "ვებჰუკის URL",
+          "PLACEHOLDER": "გთხოვთ, შეიყვანეთ თქვენი Webhook URL",
+          "ERROR": "გთხოვთ, შეიყვანოთ ვალიდური URL"
+        },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "საიდუმლოს კოპირება კლიპბორდზე",
+          "COPY_SUCCESS": "საიდუმლო კლიპბორდზე გადაწერილია",
+          "TOGGLE": "საიდუმლოს ხილვადობის გადართვა",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "ვებგვერდის დომენი",
+          "PLACEHOLDER": "შეიყვანეთ თქვენი ვებსაიტის დომენი (მაგ: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "მოგესალმებით სათაური",
+          "PLACEHOLDER": "გამარჯობა!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "მოგესალმების სლოგანი",
+          "PLACEHOLDER": "ჩვენ გაგვიმარტივეთ დაკავშირება. ჰკითხეთ რამე, ან გაგვიზიარეთ თქვენი გამოხმაურება."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "არხის მისალმების შეტყობინება",
+          "PLACEHOLDER": "Acme Inc ჩვეულებრივ პასუხობს რამდენიმე საათში."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
+          "LABEL": "ჩართეთ არხის მისალმება",
           "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "ENABLED": "ჩართულია",
+          "DISABLED": "გამორთულია"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "პასუხის დრო დააყენე",
+          "IN_A_FEW_MINUTES": "რამდენიმე წუთში",
+          "IN_A_FEW_HOURS": "რამდენიმე საათში",
+          "IN_A_DAY": "ერთ დღეში",
+          "HELP_TEXT": "ეს პასუხის დრო გამოჩნდება პირდაპირი ჩეთის ვიჯეტში"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "ვიჯეტის ფერი",
+          "PLACEHOLDER": "განაახლეთ ვიჯეტის ფერი, რომელიც გამოიყენება ვიჯეტში"
         },
-        "SUBMIT_BUTTON": "Create inbox",
+        "SUBMIT_BUTTON": "შექმენით ინბოქსი",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "ვებგვერდის არხის შექმნა ვერ მოხერხდა, გთხოვთ, სცადეთ თავიდან"
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp არხი",
+        "DESC": "დაერთეთ Twilio და დაიწყეთ თქვენი მომხმარებლების მხარდაჭერა SMS-ით ან WhatsApp-ით.",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
-          "ERROR": "This field is required"
+          "LABEL": "ანგარიშის SID",
+          "PLACEHOLDER": "გთხოვთ, შეიყვანეთ თქვენი Twilio ანგარიშის SID",
+          "ERROR": "ეს ველი აუცილებელია"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
-          "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
-          "ERROR": "This field is required"
+          "USE_API_KEY": "გამოიყენეთ API გასაღების ავთენტიფიკაცია",
+          "LABEL": "API გასაღების SID",
+          "PLACEHOLDER": "გთხოვთ, შეიყვანეთ თქვენი API გასაღების SID",
+          "ERROR": "ეს ველი აუცილებელია"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
-          "ERROR": "This field is required"
+          "LABEL": "API გასაღების საიდუმლო",
+          "PLACEHOLDER": "გთხოვთ, შეიყვანეთ თქვენი API გასაღების საიდუმლო",
+          "ERROR": "ეს ველი აუცილებელია"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
-          "ERROR": "This field is required",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "LABEL": "მესიჯების სერვისის SID",
+          "PLACEHOLDER": "გთხოვთ, შეიყვანეთ თქვენი Twilio Messaging Service SID",
+          "ERROR": "ეს ველი აუცილებელია",
+          "USE_MESSAGING_SERVICE": "გამოიყენეთ Twilio Messaging Service"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "არხის ტიპი",
+          "ERROR": "გთხოვთ აირჩიოთ თქვენი არხის ტიპი"
         },
         "AUTH_TOKEN": {
-          "LABEL": "Auth Token",
-          "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "This field is required"
+          "LABEL": "ავტორიზაციის ტოკენი",
+          "PLACEHOLDER": "გთხოვთ, შეიყვანეთ თქვენი Twilio ავტორიზაციის ტოკენი",
+          "ERROR": "ეს ველი აუცილებელია"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter a inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "ინბოქსის სახელი",
+          "PLACEHOLDER": "გთხოვთ, შეიყვანეთ ინბოქსის სახელი",
+          "ERROR": "ეს ველი აუცილებელია"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone Number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "LABEL": "ტელეფონის ნომერი",
+          "PLACEHOLDER": "გთხოვთ, შეიყვანეთ ტელეფონის ნომერი, საიდანაც შეტყობინება გაიგზავნება.",
+          "ERROR": "გთხოვთ მიუთითოთ ვალიდური ტელეფონის ნომერი, რომელიც იწყება `+` ნიშნით და არ შეიცავს სივრცეებს."
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "TITLE": "უკავშირზე დაბრუნების URL",
+          "SUBTITLE": "თქვენ უნდა დააყენოთ შეტყობინების callback URL Twilio-ში აქ მითითებული URL-ით."
         },
-        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "SUBMIT_BUTTON": "შექმენით Twilio არხი",
         "API": {
-          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+          "ERROR_MESSAGE": "Twilio სერთიფიკატების ავთენტიფიცირება ვერ მოხერხდა, გთხოვთ, სცადეთ თავიდან"
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "SMS არხი",
+        "DESC": "დაიწყეთ თქვენი მომხმარებლების მხარდაჭერა SMS-ის საშუალებით.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "API მიმწოდებელი",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "SMS არხის შენახვა ვერ მოხერხდა"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
-            "ERROR": "This field is required"
+            "LABEL": "ანგარიშის ID",
+            "PLACEHOLDER": "გთხოვთ, შეიყვანეთ თქვენი Bandwidth ანგარიშის ID",
+            "ERROR": "ეს ველი აუცილებელია"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
-            "ERROR": "This field is required"
+            "LABEL": "API გასაღები",
+            "PLACEHOLDER": "გთხოვთ, შეიყვანეთ თქვენი Bandwidth API გასაღები",
+            "ERROR": "ეს ველი აუცილებელია"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
-            "ERROR": "This field is required"
+            "LABEL": "API საიდუმლო",
+            "PLACEHOLDER": "გთხოვთ, შეიყვანეთ თქვენი Bandwidth API საიდუმლო",
+            "ERROR": "ეს ველი აუცილებელია"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
-            "ERROR": "This field is required"
+            "LABEL": "აპლიკაციის ID",
+            "PLACEHOLDER": "გთხოვთ, შეიყვანეთ თქვენი Bandwidth აპლიკაციის ID",
+            "ERROR": "ეს ველი აუცილებელია"
           },
           "INBOX_NAME": {
-            "LABEL": "Inbox Name",
-            "PLACEHOLDER": "Please enter a inbox name",
-            "ERROR": "This field is required"
+            "LABEL": "ინბოქსის სახელი",
+            "PLACEHOLDER": "გთხოვთ, შეიყვანეთ ინბოქსის სახელი",
+            "ERROR": "ეს ველი სავალდებულოა"
           },
           "PHONE_NUMBER": {
-            "LABEL": "Phone number",
-            "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "LABEL": "ტელეფონის ნომერი",
+            "PLACEHOLDER": "გთხოვთ, შეიყვანეთ ტელეფონის ნომერი, საიდანაც შეტყობინება გაიგზავნება.",
+            "ERROR": "გთხოვთ მიუთითოთ ვალიდური ტელეფონის ნომერი, რომელიც იწყება `+` ნიშნით და არ შეიცავს სივრცეებს."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "Bandwidth არხის შექმნა",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "Bandwidth-ის სერთიფიკატების ავთენტიფიცირება ვერ მოხერხდა, გთხოვთ, სცადეთ თავიდან"
           },
           "API_CALLBACK": {
-            "TITLE": "Callback URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "TITLE": "კოლბექის URL",
+            "SUBTITLE": "თქვენ უნდა დააყენოთ შეტყობინების callback URL Bandwidth-ში აქ მითითებული URL-ით."
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "WhatsApp არხი",
+        "DESC": "დაიწყეთ თქვენი მომხმარებლების მხარდაჭერა WhatsApp-ის საშუალებით.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
-          "WHATSAPP_EMBEDDED": "WhatsApp Business",
+          "LABEL": "API მიმწოდებელი",
+          "WHATSAPP_EMBEDDED": "WhatsApp ბიზნესისთვის",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
-          "TWILIO_DESC": "Connect via Twilio credentials",
+          "WHATSAPP_CLOUD_DESC": "სწრაფი დაყენება Meta-ს საშუალებით",
+          "TWILIO_DESC": "დაკავშირება Twilio-ს მონაცემებით",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
-          "TITLE": "Select your API provider",
-          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
+          "TITLE": "აირჩიეთ თქვენი API მიმწოდებელი",
+          "DESCRIPTION": "აირჩიეთ თქვენი WhatsApp მიმწოდებელი. შეგიძლიათ დაუკავშირდეთ პირდაპირ Meta-სთან, რაც არ საჭიროებს კონფიგურაციას, ან დაუკავშირდეთ Twilio-ს თქვენი ანგარიშის მონაცემების გამოყენებით."
         },
         "INBOX_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter an inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "ინბოქსის სახელი",
+          "PLACEHOLDER": "გთხოვთ, შეიყვანეთ ინბოქსის სახელი",
+          "ERROR": "ეს ველი სავალდებულოა"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "LABEL": "ტელეფონის ნომერი",
+          "PLACEHOLDER": "გთხოვთ, შეიყვანოთ ტელეფონის ნომერი, საიდანაც შეტყობინება გაიგზავნება.",
+          "ERROR": "გთხოვთ მიუთითოთ ვალიდური ტელეფონის ნომერი, რომელიც იწყება `+` ნიშნით და არ შეიცავს სივრცეებს."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "ტელეფონის ნომრის ID",
+          "PLACEHOLDER": "გთხოვთ, შეიყვანეთ ტელეფონის ნომრის ID, რომელიც მიღებულია Facebook-ის დეველოპერის დაფიდან.",
+          "ERROR": "გთხოვთ, შეიყვანოთ ვალიდური მნიშვნელობა."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "ბიზნეს ანგარიშის ID",
+          "PLACEHOLDER": "გთხოვთ, შეიყვანოთ Facebook-ის დეველოპერის დაფიდან მიღებული ბიზნეს ანგარიშის ID.",
+          "ERROR": "გთხოვთ, შეიყვანოთ ვალიდური მნიშვნელობა."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "Webhook-ის შემოწმების ტოკენი",
+          "PLACEHOLDER": "შეიყვანეთ ვერიფიკაციის ტოკენი, რომელსაც გსურთ დააყენოთ Facebook-ის webhook-ებისთვის.",
+          "ERROR": "გთხოვთ, შეიყვანეთ ვალიდური მნიშვნელობა."
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "API გასაღები",
+          "SUBTITLE": "დააყენეთ WhatsApp API გასაღები.",
+          "PLACEHOLDER": "API გასაღები",
+          "ERROR": "გთხოვთ, შეიყვანოთ ვალიდური მნიშვნელობა."
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
-          "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "TITLE": "უკავშირზე დაბრუნების URL",
+          "SUBTITLE": "თქვენ უნდა დააყენოთ webhook URL და შემოწმების ტოკენი Facebook Developer პორტალზე ქვემოთ მოცემული მნიშვნელობებით.",
+          "WEBHOOK_URL": "ვებჰუკის URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook შემოწმების ტოკენი"
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "შექმენით WhatsApp არხი",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Quick setup with Meta",
-          "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "TITLE": "სწრაფი დაყენება Meta-სთან",
+          "DESC": "გამოიყენეთ WhatsApp Embedded Signup პროცესი ახალი ნომრების სწრაფად დასაკავშირებლად. თქვენ გადამისამართდებით Meta-ში, რათა შეხვიდეთ თქვენს WhatsApp Business ანგარიშში. ადმინისტრატორის წვდომა ხელს შეუწყობს დაყენების მარტივად და სუფთად განხორციელებას.",
           "BENEFITS": {
-            "TITLE": "Benefits of Embedded Signup:",
-            "EASY_SETUP": "No manual configuration required",
-            "SECURE_AUTH": "Secure OAuth based authentication",
-            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+            "TITLE": "ჩაშენებული რეგისტრაციის სარგებელი:",
+            "EASY_SETUP": "ხელით კონფიგურაცია არ არის საჭირო",
+            "SECURE_AUTH": "უსაფრთხო OAuth-ზე დაფუძნებული ავტორიზაცია",
+            "AUTO_CONFIG": "ავტომატური webhook-ის და ტელეფონის ნომრის კონფიგურაცია"
           },
           "LEARN_MORE": {
-            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
-            "LINK_TEXT": "this link"
+            "TEXT": "ინტეგრირებული რეგისტრაციის, ფასების და შეზღუდვების შესახებ მეტი ინფორმაციის მისაღებად, ეწვიეთ {link}.",
+            "LINK_TEXT": "ეს ბმული"
           },
-          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
-          "AUTH_PROCESSING": "Authenticating with Meta",
-          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
-          "PROCESSING": "Setting up your WhatsApp Business Account",
-          "LOADING_SDK": "Loading Facebook SDK...",
-          "CANCELLED": "WhatsApp Signup was cancelled",
-          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
-          "WAITING_FOR_AUTH": "Waiting for authentication...",
-          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
-          "SIGNUP_ERROR": "Signup error occurred",
-          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
-          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
-          "MANUAL_LINK_TEXT": "manual setup flow"
+          "SUBMIT_BUTTON": "დაკავშირება WhatsApp Business-თან",
+          "AUTH_PROCESSING": "ავტორიზაცია Meta-სთან",
+          "WAITING_FOR_BUSINESS_INFO": "გთხოვთ დაასრულოთ ბიზნესის დაყენება Meta ფანჯარაში...",
+          "PROCESSING": "თქვენი WhatsApp Business ანგარიშის დაყენება",
+          "LOADING_SDK": "Facebook SDK-ის ჩატვირთვა...",
+          "CANCELLED": "WhatsApp რეგისტრაცია გაუქმდა",
+          "SUCCESS_TITLE": "WhatsApp ბიზნეს ანგარიში დაკავშირებულია!",
+          "WAITING_FOR_AUTH": "ავტორიზაციის მოლოდინში...",
+          "INVALID_BUSINESS_DATA": "Facebook-იდან მიღებული ბიზნესის მონაცემები არასწორია. გთხოვთ, სცადეთ თავიდან.",
+          "SIGNUP_ERROR": "რეგისტრაციის დროს მოხდა შეცდომა",
+          "AUTH_NOT_COMPLETED": "ავტორიზაცია არ დასრულებულა. გთხოვთ, დაიწყეთ პროცესი თავიდან.",
+          "SUCCESS_FALLBACK": "WhatsApp Business ანგარიში წარმატებით კონფიგურირებულია",
+          "MANUAL_FALLBACK": "თუ თქვენი ნომერი უკვე დაკავშირებულია WhatsApp Business Platform (API)-სთან, ან თუ თქვენ ტექნიკური მიმწოდებელი ხართ და საკუთარ ნომერს ამატებთ, გთხოვთ გამოიყენოთ {link} პროცესი",
+          "MANUAL_LINK_TEXT": "მანუალური დაყენების პროცესი"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "ვერ შევძელით WhatsApp არხის შენახვა"
         }
       },
       "VOICE": {
-        "TITLE": "Voice Channel",
-        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "TITLE": "ხმოვანი არხი",
+        "DESC": "დააკავშირეთ Twilio Voice და დაიწყეთ მომხმარებელთა მხარდაჭერა სატელეფონო ზარების საშუალებით.",
         "PHONE_NUMBER": {
-          "LABEL": "Phone Number",
-          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
-          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+          "LABEL": "ტელეფონის ნომერი",
+          "PLACEHOLDER": "შეიყვანეთ თქვენი ტელეფონის ნომერი (მაგ. +1234567890)",
+          "ERROR": "გთხოვთ, მიუთითოთ ვალიდური ტელეფონის ნომერი E.164 ფორმატში (მაგალითად +1234567890)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
-            "LABEL": "Account SID",
-            "PLACEHOLDER": "Enter your Twilio Account SID",
-            "REQUIRED": "Account SID is required"
+            "LABEL": "ანგარიშის SID",
+            "PLACEHOLDER": "შეიყვანეთ თქვენი Twilio Account SID",
+            "REQUIRED": "Account SID აუცილებელია"
           },
           "AUTH_TOKEN": {
-            "LABEL": "Auth Token",
-            "PLACEHOLDER": "Enter your Twilio Auth Token",
-            "REQUIRED": "Auth Token is required"
+            "LABEL": "ავტორიზაციის ტოკენი",
+            "PLACEHOLDER": "შეიყვანეთ თქვენი Twilio ავტორიზაციის ტოკენი",
+            "REQUIRED": "ავტორიზაციის ტოკენი აუცილებელია"
           },
           "API_KEY_SID": {
-            "LABEL": "API Key SID",
-            "PLACEHOLDER": "Enter your Twilio API Key SID",
-            "REQUIRED": "API Key SID is required"
+            "LABEL": "API გასაღების SID",
+            "PLACEHOLDER": "შეიყვანეთ თქვენი Twilio API გასაღების SID",
+            "REQUIRED": "API გასაღების SID აუცილებელია"
           },
           "API_KEY_SECRET": {
-            "LABEL": "API Key Secret",
-            "PLACEHOLDER": "Enter your Twilio API Key Secret",
-            "REQUIRED": "API Key Secret is required"
+            "LABEL": "API გასაღების საიდუმლო",
+            "PLACEHOLDER": "შეიყვანეთ თქვენი Twilio API გასაღების საიდუმლო",
+            "REQUIRED": "API გასაღების საიდუმლო აუცილებელია"
           }
         },
         "CONFIGURATION": {
           "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
-          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
-          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
-          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
+          "TWILIO_VOICE_URL_SUBTITLE": "დააყენეთ ეს URL როგორც Voice URL თქვენი Twilio ტელეფონის ნომერზე და TwiML აპში.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio სტატუსის Callback URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "დააყენეთ ეს URL როგორც სტატუსის Callback URL თქვენი Twilio ტელეფონის ნომერზე."
         },
-        "SUBMIT_BUTTON": "Create Voice Channel",
+        "SUBMIT_BUTTON": "ხმის არხის შექმნა",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create the voice channel"
+          "ERROR_MESSAGE": "ვერ შევქმენით ხმის არხი"
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "API არხი",
+        "DESC": "გაერთიანდით API არხთან და დაიწყეთ თქვენი მომხმარებლების მხარდაჭერა.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "არხის სახელი",
+          "PLACEHOLDER": "გთხოვთ, შეიყვანეთ არხის სახელი",
+          "ERROR": "ეს ველი სავალდებულოა"
         },
         "WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
-          "PLACEHOLDER": "Webhook URL"
+          "LABEL": "ვებჰუკის URL",
+          "SUBTITLE": "დააყენეთ URL, სადაც გსურთ მიიღოთ გამოძახებები მოვლენებზე.",
+          "PLACEHOLDER": "ვებჰუკის URL"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "API არხის შექმნა",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "api არხის შენახვა ვერ მოხერხდა"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate your email inbox.",
+        "TITLE": "ელ. ფოსტის არხი",
+        "DESC": "ინტეგრირეთ თქვენი ელფოსტის ინბოქსი.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "არხის სახელი",
+          "PLACEHOLDER": "გთხოვთ, შეიყვანეთ არხის სახელი",
+          "ERROR": "ეს ველი აუცილებელია"
         },
         "EMAIL": {
-          "LABEL": "Email",
+          "LABEL": "ელ. ფოსტა",
           "SUBTITLE": "Email where your customers sends you support tickets",
-          "PLACEHOLDER": "Email"
+          "PLACEHOLDER": "ელ. ფოსტა"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "ელ. ფოსტის არხის შექმნა",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "ელფოსტის არხის შენახვა ვერ მოხერხდა"
         },
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address.",
         "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
-        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
-        "CONFIGURE_SMTP_IMAP_LINK": "Click here",
-        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
+        "FORWARDING_ADDRESS_LABEL": "გადამისამართეთ ელფოსტები ამ მისამართზე:",
+        "CONFIGURE_SMTP_IMAP_LINK": "დააჭირეთ აქ",
+        "CONFIGURE_SMTP_IMAP_TEXT": " IMAP და SMTP პარამეტრების კონფიგურაციისთვის"
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "LINE არხი",
+        "DESC": "გაითვალისწინეთ LINE არხი და დაიწყეთ თქვენი მომხმარებლების მხარდაჭერა.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "არხის სახელი",
+          "PLACEHOLDER": "გთხოვთ, შეიყვანეთ არხის სახელი",
+          "ERROR": "ეს ველი აუცილებელია"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "LINE არხის ID",
+          "PLACEHOLDER": "LINE არხის ID"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "LINE არხის საიდუმლო",
+          "PLACEHOLDER": "LINE არხის საიდუმლო"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "LINE არხის ტოკენი",
+          "PLACEHOLDER": "LINE არხის ტოკენი"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "LINE არხის შექმნა",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "LINE არხის შენახვა ვერ მოხერხდა"
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "TITLE": "უკავშირზე დაბრუნების URL",
+          "SUBTITLE": "LINE აპლიკაციაში უნდა დააყენოთ webhook URL, რომელიც აქ არის მითითებული."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Telegram არხი",
+        "DESC": "გაერთიანეთ Telegram არხთან და დაიწყეთ თქვენი მომხმარებლების მხარდაჭერა.",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "ბოტის ტოკენი",
+          "SUBTITLE": "დააყენეთ ბოტის ტოკენი, რომელიც მიიღეთ Telegram BotFather-იდან.",
+          "PLACEHOLDER": "ბოტის ტოკენი"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Telegram არხის შექმნა",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "ტელეგრამის არხის შენახვა ვერ მოხერხდა"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
+        "TITLE": "არჩევა არხი",
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
-        "TITLE_NEXT": "Complete the setup",
-        "TITLE_FINISH": "Voilà!",
+        "TITLE_NEXT": "დაასრულეთ კონფიგურაცია",
+        "TITLE_FINISH": "აი, მზადაა!",
         "CHANNEL": {
           "WEBSITE": {
-            "TITLE": "Website",
-            "DESCRIPTION": "Create a live-chat widget"
+            "TITLE": "ვებგვერდი",
+            "DESCRIPTION": "შექმენით ცოცხალი ჩატის ვიჯეტი"
           },
           "FACEBOOK": {
             "TITLE": "Facebook",
-            "DESCRIPTION": "Connect your Facebook page"
+            "DESCRIPTION": "დაკავშირეთ თქვენი Facebook გვერდი"
           },
           "WHATSAPP": {
             "TITLE": "WhatsApp",
-            "DESCRIPTION": "Support your customers on WhatsApp"
+            "DESCRIPTION": "მხარდაჭერა თქვენი მომხმარებლებისთვის WhatsApp-ზე"
           },
           "EMAIL": {
             "TITLE": "Email",
-            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+            "DESCRIPTION": "დაკავშირება Gmail, Outlook ან სხვა მიმწოდებლებთან"
           },
           "SMS": {
             "TITLE": "SMS",
-            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+            "DESCRIPTION": "SMS არხის ინტეგრაცია Twilio-ს ან bandwidth-თან"
           },
           "API": {
             "TITLE": "API",
-            "DESCRIPTION": "Make a custom channel using our API"
+            "DESCRIPTION": "შექმენით მორგებული არხი ჩვენი API-ის გამოყენებით"
           },
           "TELEGRAM": {
             "TITLE": "Telegram",
-            "DESCRIPTION": "Configure Telegram channel using Bot token"
+            "DESCRIPTION": "დააყენეთ Telegram არხი Bot token-ის გამოყენებით"
           },
           "LINE": {
             "TITLE": "Line",
-            "DESCRIPTION": "Integrate your Line channel"
+            "DESCRIPTION": "გაერთიანეთ თქვენი Line არხი"
           },
           "INSTAGRAM": {
             "TITLE": "Instagram",
-            "DESCRIPTION": "Connect your instagram account"
+            "DESCRIPTION": "დაკავშირეთ თქვენი Instagram ანგარიში"
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "გაერთიანეთ თქვენი TikTok ანგარიში"
           },
           "VOICE": {
-            "TITLE": "Voice",
-            "DESCRIPTION": "Integrate with Twilio Voice"
+            "TITLE": "ხმოვანი",
+            "DESCRIPTION": "გაერთიანეთ Twilio Voice-თან"
           }
         }
       },
       "AGENTS": {
-        "TITLE": "Agents",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "TITLE": "მომხმარებლები",
+        "DESC": "აქ შეგიძლიათ დაამატოთ მომხმარებლები, რომლებსაც მართვა შეუძლიათ თქვენს ახლად შექმნილ ინბოქსზე. მხოლოდ ამ არჩეულ მომხმარებლებს ექნებათ წვდომა თქვენს ინბოქსზე. მომხმარებლები, რომლებიც არ არიან ამ ინბოქსის ნაწილი, ვერ დაინახავენ ან ვერ უპასუხებენ შეტყობინებებს ამ ინბოქსში, როდესაც შედიან სისტემაში. <br> <b>PS:</b> როგორც ადმინისტრატორი, თუ გჭირდებათ წვდომა ყველა ინბოქსზე, უნდა დაამატოთ თავი მომხმარებლად ყველა იმ ინბოქსში, რომელსაც ქმნით.",
+        "VALIDATION_ERROR": "დაამატეთ მინიმუმ ერთი აგენტი თქვენს ახალ ინბოქსში",
+        "PICK_AGENTS": "აირჩიეთ აგენტები ინბოქსისთვის"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "ინბოქსის დეტალები",
+        "DESC": "ქვემოთ მოცემული ჩამოსაშლელი სიიდან აირჩიეთ Facebook გვერდი, რომელსაც გსურთ დაუკავშირდეთ Chatwoot-ს. ასევე შეგიძლიათ მიანიჭოთ ინბოქსს საკუთარი სახელი უკეთესი იდენტიფიკაციისთვის."
       },
       "FINISH": {
-        "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "TITLE": "შესანიშნავად გააკეთე!",
+        "DESC": "თქვენ წარმატებით დაასრულეთ თქვენი Facebook გვერდის ინტეგრაცია Chatwoot-თან. შემდეგ ჯერზე, როდესაც მომხმარებელი მოგწერთ თქვენს გვერდს, საუბარი ავტომატურად გამოჩნდება თქვენს ინბოქსში.<br>ჩვენ ასევე გთავაზობთ ვიჯეტის სკრიპტს, რომელსაც მარტივად შეგიძლიათ დაამატოთ თქვენს ვებსაიტზე. როდესაც ეს ვებსაიტზე ჩართული იქნება, მომხმარებლებს შეეძლებათ მოგწერონ პირდაპირ თქვენი ვებსაიტიდან, გარეგანი ხელსაწყოს გარეშე და საუბარი გამოჩნდება აქვე, Chatwoot-ში.<br>საოცარია, არა? ჩვენ ნამდვილად ვცდილობთ :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Select your email provider",
@@ -508,539 +519,630 @@
       },
       "MICROSOFT": {
         "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "SIGN_IN": "Sign in with Microsoft",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "DESCRIPTION": "დაჭირეთ ღილაკს \"Sign in with Microsoft\", რომ დაიწყოთ. თქვენ გადამისამართდებით ელფოსტის შესვლის გვერდზე. როდესაც დაადასტურებთ მოთხოვნილ უფლებებს, დაბრუნდებით ინბოქსის შექმნის ეტაპზე.",
+        "EMAIL_PLACEHOLDER": "შეიყვანეთ ელფოსტის მისამართი",
+        "SIGN_IN": "შესვლა Microsoft-ით",
+        "ERROR_MESSAGE": "Microsoft-თან დაკავშირებისას მოხდა შეცდომა, გთხოვთ სცადოთ თავიდან"
       },
       "GOOGLE": {
         "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+        "DESCRIPTION": "დაწკაპეთ ღილაკზე Sign in with Google დასაწყებად. თქვენ გადამისამართდებით ელფოსტის შესვლის გვერდზე. როცა დაადასტურებთ მოთხოვნილ უფლებებს, გადამისამართდებით უკან ინბოქსის შექმნის ეტაპზე.",
+        "SIGN_IN": "შესვლა Google-ით",
+        "EMAIL_PLACEHOLDER": "შეიყვანეთ ელფოსტის მისამართი",
+        "ERROR_MESSAGE": "გაფიქსირდა შეცდომა Google-სთან დაკავშირებისას, გთხოვთ, სცადეთ თავიდან"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
-      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
-      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
-      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "LOADING_FB": "ფეისბუქით ავტორიზაცია მიმდინარეობს...",
+      "ERROR_FB_LOADING": "შეცდომა Facebook SDK-ის ჩატვირთვისას. გთხოვთ, გამორთეთ ნებისმიერი რეკლამის ბლოკერი და სცადეთ სხვა ბრაუზერიდან.",
+      "ERROR_FB_AUTH": "რაღაც შეცდომა მოხდა, გთხოვთ გვერდი გაახლებინეთ...",
+      "ERROR_FB_UNAUTHORIZED": "თქვენ არ გაქვთ უფლება ამ მოქმედების შესრულებისთვის. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "გთხოვთ დარწმუნდეთ, რომ ფეისბუქ გვერდზე სრული კონტროლის წვდომა გაქვთ. ფეისბუქის როლების შესახებ შეგიძლიათ წაიკითხოთ <a href=\" https://www.facebook.com/help/187316341316631\">აქ</a>.",
+      "CREATING_CHANNEL": "თქვენი ინბოქსის შექმნა...",
+      "TITLE": "ინბოქსის დეტალების კონფიგურაცია",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "მომხმარებლების დამატება",
+      "ADD_AGENTS": "მომხმარებლების დამატება თქვენს ინბოქსში..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
-      "BUTTON_TEXT": "Take me there",
-      "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox.",
-      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
-      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
-      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
+      "TITLE": "თქვენი ინბოქსი მზადაა!",
+      "MESSAGE": "ახლა შეგიძლიათ ურთიერთობა დაამყაროთ თქვენს მომხმარებლებთან ახალი არხის მეშვეობით. წარმატებული მხარდაჭერა",
+      "BUTTON_TEXT": "მიდით იქ",
+      "MORE_SETTINGS": "მეტი პარამეტრები",
+      "WEBSITE_SUCCESS": "თქვენ წარმატებით დაასრულეთ ვებგვერდის არხის შექმნა. დააკოპირეთ ქვემოთ მოცემული კოდი და ჩასვით თქვენს ვებგვერდზე. შემდეგ, როდესაც მომხმარებელი გამოიყენებს პირდაპირ ჩატს, საუბარი ავტომატურად გამოჩნდება თქვენს ინბოქსში.",
+      "WHATSAPP_QR_INSTRUCTION": "დაასკანერეთ ზემოთ მოცემული QR კოდი, რომ სწრაფად შეამოწმოთ თქვენი WhatsApp ინბოქსი",
+      "MESSENGER_QR_INSTRUCTION": "დაასკანერეთ ზემოთ მოცემული QR კოდი, რომ სწრაფად შეამოწმოთ თქვენი Facebook Messenger ინბოქსი",
+      "TELEGRAM_QR_INSTRUCTION": "დაასკანერეთ ზემოთ მოცემული QR კოდი, რომ სწრაფად შეამოწმოთ თქვენი Telegram ინბოქსი"
     },
-    "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "REAUTH": "გადაიმეორეთ ავტორიზაცია",
+    "VIEW": "ნახვა",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "SUCCESS_MESSAGE": "ინბოქსის პარამეტრები წარმატებით განახლდა",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "ავტომატური დანიშვნა წარმატებით განახლდა",
+        "ERROR_MESSAGE": "ინბოქსის პარამეტრების განახლება ვერ მოხერხდა. გთხოვთ, სცადეთ მოგვიანებით."
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "ჩართულია",
+        "DISABLED": "გამორთულია"
       },
       "ENABLE_CSAT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "ჩართულია",
+        "DISABLED": "გამორთულია"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
-        "FOR_EG": "For eg:",
+        "TITLE": "გამგზავნის სახელი",
+        "SUB_TEXT": "აირჩიეთ სახელი, რომელიც გამოჩნდება თქვენს მომხმარებელს, როდესაც ისინი მიიღებენ ელფოსტას თქვენს აგენტებისგან.",
+        "FOR_EG": "მაგალითად:",
         "FRIENDLY": {
-          "TITLE": "Friendly",
-          "FROM": "from",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "TITLE": "მეგობრული",
+          "FROM": "დან",
+          "SUBTITLE": "დაამატეთ აგენტის სახელი, რომელმაც პასუხი გაუგზავნა, გამგზავნის სახელში, რათა იყოს მეგობრული."
         },
         "PROFESSIONAL": {
-          "TITLE": "Professional",
-          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+          "TITLE": "პროფესიონალური",
+          "SUBTITLE": "გამოიყენეთ მხოლოდ კონფიგურირებული ბიზნესის სახელი, როგორც გამგზავნის სახელი ელფოსტის სათაურში."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
-          "SAVE_BUTTON_TEXT": "Save"
+          "BUTTON_TEXT": "დააყენეთ თქვენი ბიზნესის სახელი",
+          "PLACEHOLDER": "შეიყვანეთ თქვენი ბიზნესის სახელი",
+          "SAVE_BUTTON_TEXT": "შენახვა"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "ჩართულია",
+        "DISABLED": "გამორთულია"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "ჩართულია",
+        "DISABLED": "გამორთულია"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "გაიხსნას იგივე საუბარი",
+        "DISABLED": "შექმნას ახალი საუბრები",
+        "ENABLED_DESCRIPTION": "როდესაც კონტაქტი კვლავ მოგვწერს, წინა საუბარი გაიხსნება.",
+        "DISABLED_DESCRIPTION": "ყოველ ჯერზე წინა საუბრის დასრულების შემდეგ ახალი საუბარი შეიქმნება."
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "ჩართვა"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "BUTTON_TEXT": "წაშლა",
+      "AVATAR_DELETE_BUTTON_TEXT": "ავატარის წაშლა",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "წაშლის დადასტურება",
+        "MESSAGE": "დარწმუნებული ხართ, რომ წაშალოთ ",
+        "PLACE_HOLDER": "გთხოვთ, დააკრიფეთ {inboxName} დასადასტურებლად",
+        "YES": "დიახ, წაშლა ",
+        "NO": "არა, შეინახე "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "SUCCESS_MESSAGE": "ინბოქსი წარმატებით წაიშალა",
+        "ERROR_MESSAGE": "ინბოქსის წაშლა ვერ მოხერხდა. გთხოვთ, სცადეთ მოგვიანებით.",
+        "AVATAR_SUCCESS_MESSAGE": "ინბოქსის ავატარი წარმატებით წაიშალა",
+        "AVATAR_ERROR_MESSAGE": "ინბოქსის ავატარის წაშლა ვერ მოხერხდა. გთხოვთ, სცადეთ მოგვიანებით."
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration",
-      "ACCOUNT_HEALTH": "Account Health",
+      "SETTINGS": "პარამეტრები",
+      "COLLABORATORS": "თანამშრომლები",
+      "CONFIGURATION": "კონფიგურაცია",
+      "CAMPAIGN": "კამპანიები",
+      "PRE_CHAT_FORM": "ჩეთის წინ ფორმა",
+      "BUSINESS_HOURS": "სამუშაო საათები",
+      "WIDGET_BUILDER": "ვიჯეტის შემქმნელი",
+      "BOT_CONFIGURATION": "ბოტის კონფიგურაცია",
+      "ACCOUNT_HEALTH": "ანგარიშის ჯანმრთელობა",
       "CSAT": "CSAT"
     },
+    "CHANNEL_PREFERENCES": "არხის პარამეტრები",
+    "WIDGET_FEATURES": "ვიჯეტის ფუნქციები",
     "ACCOUNT_HEALTH": {
-      "TITLE": "Manage your WhatsApp account",
-      "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
-      "GO_TO_SETTINGS": "Go to Meta Business Manager",
-      "NO_DATA": "Health data is not available",
+      "TITLE": "მართეთ თქვენი WhatsApp ანგარიში",
+      "DESCRIPTION": "დაათვალიერეთ თქვენი WhatsApp ანგარიშის სტატუსი, შეტყობინებების ლიმიტები და ხარისხი. განაახლეთ პარამეტრები ან მოაგვარეთ პრობლემები საჭიროების შემთხვევაში",
+      "GO_TO_SETTINGS": "გადადით Meta Business Manager-ში",
+      "NO_DATA": "ჯანმრთელობის მონაცემები მიუწვდომელია",
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
-          "LABEL": "Display phone number",
-          "TOOLTIP": "Phone number displayed to customers"
+          "LABEL": "ტელეფონის ნომრის ჩვენება",
+          "TOOLTIP": "ტელეფონის ნომერი, რომელიც ჩანს მომხმარებლებისთვის"
         },
         "VERIFIED_NAME": {
-          "LABEL": "Business name",
-          "TOOLTIP": "Business name verified by WhatsApp"
+          "LABEL": "ბიზნესის სახელი",
+          "TOOLTIP": "ბიზნესის სახელი, რომელიც დადასტურებულია WhatsApp-ის მიერ"
         },
         "DISPLAY_NAME_STATUS": {
-          "LABEL": "Display name status",
-          "TOOLTIP": "Status of your business name verification"
+          "LABEL": "ჩვენების სახელის სტატუსი",
+          "TOOLTIP": "თქვენი ბიზნესის სახელის გადამოწმების სტატუსი"
         },
         "QUALITY_RATING": {
-          "LABEL": "Quality rating",
-          "TOOLTIP": "WhatsApp quality rating for your account"
+          "LABEL": "ხარისხის შეფასება",
+          "TOOLTIP": "WhatsApp-ის ხარისხის შეფასება თქვენი ანგარიშისთვის"
         },
         "MESSAGING_LIMIT_TIER": {
-          "LABEL": "Messaging limit tier",
-          "TOOLTIP": "Daily messaging limit for your account"
+          "LABEL": "შეტყობინებების ლიმიტის დონე",
+          "TOOLTIP": "დღიური შეტყობინებების ლიმიტი თქვენი ანგარიშისთვის"
         },
         "ACCOUNT_MODE": {
-          "LABEL": "Account mode",
-          "TOOLTIP": "Current operating mode of your WhatsApp account"
+          "LABEL": "ანგარიშის რეჟიმი",
+          "TOOLTIP": "WhatsApp ანგარიშის მიმდინარე ოპერაციული რეჟიმი"
         }
       },
       "VALUES": {
         "TIERS": {
-          "TIER_250": "250 customers per 24h",
-          "TIER_1000": "1K customers per 24h",
-          "TIER_1K": "1K customers per 24h",
-          "TIER_10K": "10K customers per 24h",
-          "TIER_100K": "100K customers per 24h",
-          "TIER_UNLIMITED": "Unlimited customers per 24h",
-          "UNKNOWN": "Rating not available"
+          "TIER_250": "250 მომხმარებელი დღეში",
+          "TIER_1000": "1K მომხმარებელი დღეში",
+          "TIER_1K": "1K მომხმარებელი დღეში",
+          "TIER_10K": "10K მომხმარებელი დღეში",
+          "TIER_100K": "100K მომხმარებელი დღეში",
+          "TIER_UNLIMITED": "შეუზღუდავი მომხმარებელი დღეში",
+          "UNKNOWN": "რეიტინგი მიუწვდომელია"
         },
         "STATUSES": {
-          "APPROVED": "Approved",
-          "PENDING_REVIEW": "Pending Review",
-          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
-          "REJECTED": "Rejected",
-          "DECLINED": "Declined",
-          "NON_EXISTS": "Non exists"
+          "APPROVED": "დამტკიცებული",
+          "PENDING_REVIEW": "მიმდინარე გადახედვა",
+          "AVAILABLE_WITHOUT_REVIEW": "ხელმისაწვდომია გადახედვის გარეშე",
+          "REJECTED": "უარყოფილი",
+          "DECLINED": "უარი",
+          "NON_EXISTS": "არ არსებობს"
         },
         "MODES": {
-          "SANDBOX": "Sandbox",
-          "LIVE": "Live"
+          "SANDBOX": "სანდბოქსი",
+          "LIVE": "ცოცხალი"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Webhook-ის კონფიგურაცია",
+        "DESCRIPTION": "Webhook URL აუცილებელია თქვენი WhatsApp Business ანგარიშისთვის, რათა მიიღოთ შეტყობინებები მომხმარებლებისგან",
+        "ACTION_REQUIRED": "Webhook არ არის კონფიგურირებული",
+        "REGISTER_BUTTON": "Webhook-ის რეგისტრაცია",
+        "REGISTER_SUCCESS": "Webhook წარმატებით დარეგისტრირდა",
+        "REGISTER_ERROR": "Webhook-ის რეგისტრაცია ვერ მოხერხდა. გთხოვთ, სცადეთ თავიდან.",
+        "CONFIGURED_SUCCESS": "ვებჰუკი წარმატებით კონფიგურირდა",
+        "URL_MISMATCH": "ვებჰუკის URL არ ემთხვევა"
       }
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "პარამეტრები",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "LABEL": "ფუნქციები",
+      "DISPLAY_FILE_PICKER": "ფაილის არჩევანის ჩვენება ვიჯეტზე",
+      "DISPLAY_EMOJI_PICKER": "ემოჯის არჩევანის ჩვენება ვიჯეტზე",
+      "ALLOW_END_CONVERSATION": "მომხმარებლებს შეუძლიათ საუბრის დასრულება ვიჯეტიდან",
+      "USE_INBOX_AVATAR_FOR_BOT": "გამოიყენეთ ინბოქსის სახელი და ავატარი ბოტისთვის"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
+      "MESSENGER_HEADING": "მესენჯერის სკრიპტი",
+      "MESSENGER_SUB_HEAD": "დამატეთ ეს ღილაკი თქვენი body ტეგის შიგნით",
       "ALLOWED_DOMAINS": {
-        "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "TITLE": "ნებადართული დომენები",
+        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
-      "INBOX_AGENTS": "Agents",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "UPDATE": "Update",
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Enable widget in mobile apps",
+        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Identity Validation",
+        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "SECRET_KEY": "საიდუმლო გასაღები",
+        "VIEW_DOCS": "View documentation",
+        "REQUIRE_LABEL": "Require identity validation for all conversations",
+        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
+      },
+      "INBOX_AGENTS": "მომხმარებლები",
+      "INBOX_AGENTS_SUB_TEXT": "ამ ინბოქსიდან აგენტების დამატება ან წაშლა",
+      "AGENT_ASSIGNMENT": "შეტყობინების დანიშვნა",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "შეტყობინების დანიშვნის პარამეტრების განახლება",
+      "UPDATE": "განახლება",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
-      "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
-      "HMAC_VERIFICATION": "User Identity Validation",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "ჩართეთ ან გამორთეთ ელფოსტის შეგროვების ყუთი ახალ საუბარში",
+      "AUTO_ASSIGNMENT": "ავტომატური დანიშვნის ჩართვა",
+      "SENDER_NAME_SECTION": "ჩართეთ აგენტის სახელი ელფოსტაში",
+      "SENDER_NAME_SECTION_TEXT": "ჩართეთ ან გამორთეთ აგენტის სახელის ჩვენება ელფოსტაში, გამორთვის შემთხვევაში გამოჩნდება ბიზნესის სახელი",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "შეტყობინებების გაგრძელების ჩართვა ელექტრონული ფოსტის საშუალებით",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "საუბრები გაგრძელდება ელფოსტით, თუ კონტაქტის ელფოსტის მისამართი ხელმისაწვდომია.",
+      "LOCK_TO_SINGLE_CONVERSATION": "საუბრის მარშრუტიზაცია",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "დააყენეთ საუბრის შექმნა არსებული კონტაქტებისთვის",
+      "INBOX_UPDATE_TITLE": "ინბოქსის პარამეტრები",
+      "INBOX_UPDATE_SUB_TEXT": "განაახლეთ თქვენი ინბოქსის პარამეტრები",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "ჩართეთ ან გამორთეთ ახალი საუბრების ავტომატური გადანაწილება ამ ინბოქსში დამატებულ აგენტებზე.",
+      "HMAC_VERIFICATION": "მომხმარებლის იდენტობის გადამოწმება",
       "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_LINK_TO_DOCS": "თქვენ შეგიძლიათ მეტი წაიკითხოთ აქ.",
+      "HMAC_MANDATORY_VERIFICATION": "მომხმარებლის იდენტობის ვალიდაციის გამკაცრება",
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
-      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Update",
-      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
-      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
-      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
-      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
-      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
-      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
-      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
-      "WHATSAPP_CONNECT_BUTTON": "Connect",
-      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
-      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
-      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
-      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
-      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
-      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
-      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
-      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
-      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "INBOX_IDENTIFIER": "ინბოქსის იდენტიფიკატორი",
+      "INBOX_IDENTIFIER_SUB_TEXT": "გამოიყენეთ აქ ნაჩვენები `inbox_identifier` ტოკენი თქვენი API კლიენტების ავთენტიფიკაციისთვის.",
+      "FORWARD_EMAIL_TITLE": "გაგზავნა ელფოსტაზე",
+      "FORWARD_EMAIL_SUB_TEXT": "დაიწყეთ თქვენი ელფოსტების გადამისამართება შემდეგ ელფოსტაზე.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "ელფოსტების გადამისამართება თქვენს ინბოქსში ამ ინსტალაციაზე ამჟამად გამორთულია. ამ ფუნქციის გამოყენებისთვის საჭიროა ადმინისტრატორის ჩართვა. გთხოვთ, დაუკავშირდით მათ გაგრძელებისთვის.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "შეტყობინებების დაშვება საუბრის დასრულების შემდეგ",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "მომხმარებლებს შეუძლიათ შეტყობინებების გაგზავნა საუბრის დასრულების შემდეგაც.",
+      "WHATSAPP_SECTION_SUBHEADER": "ეს API გასაღები გამოიყენება WhatsApp API-ებთან ინტეგრაციისთვის.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "შეიყვანეთ ახალი API გასაღები, რომელიც გამოიყენება WhatsApp API-ებთან ინტეგრაციისთვის.",
+      "WHATSAPP_SECTION_TITLE": "API გასაღები",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "API გასაღების განახლება",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "შეიყვანეთ ახალი API გასაღები აქ",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "განახლება",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp-ის ჩაშენებული რეგისტრაცია",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "ეს ინბოქსი დაკავშირებულია WhatsApp-ის ჩაშენებული რეგისტრაციის მეშვეობით.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "შეგიძლიათ ხელახლა დააყენოთ ეს ინბოქსი თქვენი WhatsApp Business-ის პარამეტრების განახლებისთვის.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "ხელახლა დააყენე",
+      "WHATSAPP_CONNECT_TITLE": "დაკავშირება WhatsApp Business-თან",
+      "WHATSAPP_CONNECT_SUBHEADER": "გააუმჯობესეთ WhatsApp-ის ჩაშენებული რეგისტრაციით მარტივი მართვისთვის.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "დააკავშირეთ ეს ინბოქსი WhatsApp Business-თან გაფართოებული ფუნქციებისა და მარტივი მართვისთვის.",
+      "WHATSAPP_CONNECT_BUTTON": "დაკავშირება",
+      "WHATSAPP_CONNECT_SUCCESS": "WhatsApp Business-თან წარმატებით დაკავშირებული!",
+      "WHATSAPP_CONNECT_ERROR": "WhatsApp Business-სთან დაკავშირება ვერ მოხერხდა. გთხოვთ, სცადეთ თავიდან.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "WhatsApp Business წარმატებით გადაკონფიგურირდა!",
+      "WHATSAPP_RECONFIGURE_ERROR": "WhatsApp Business-ის გადაკონფიგურება ვერ მოხერხდა. გთხოვთ, სცადეთ თავიდან.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp აპლიკაციის ID არ არის კონფიგურირებული. გთხოვთ, დაუკავშირდით ადმინისტრატორს.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp კონფიგურაციის ID არ არის კონფიგურირებული. გთხოვთ, დაუკავშირდით ადმინისტრატორს.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp–ში შესვლა გაუქმდა. გთხოვთ, სცადეთ თავიდან.",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook-ის გადამოწმების ტოკენი",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "ეს ტოკენი გამოიყენება webhook-ის endpoint-ის ავთენტურობის დასადასტურებლად.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "შაბლონების სინქრონიზაცია",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "ხელით სინქრონიზაცია WhatsApp-ისგან, რათა განაახლოთ ხელმისაწვდომი შაბლონები.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "შაბლონების სინქრონიზაცია",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "შაბლონების სინქრონიზაცია წარმატებით დაიწყო. განახლება შეიძლება რამდენიმე წუთი გაგრძელდეს.",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "განაახლეთ წინასწარი ჩატის ფორმის პარამეტრები"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "LABEL": "დახმარების ცენტრი",
+      "PLACEHOLDER": "აირჩიეთ დახმარების ცენტრი",
+      "SELECT_PLACEHOLDER": "აირჩიეთ დახმარების ცენტრი",
+      "NONE": "არცერთი",
+      "REMOVE": "დახმარების ცენტრის წაშლა",
+      "SUB_TEXT": "დამატეთ დახმარების ცენტრი ინბოქსთან"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "ავტომატური დანიშვნის ლიმიტი",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "გთხოვთ, შეიყვანოთ 0-ზე მეტი მნიშვნელობა",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "მოაზღვრე ამ ინბოქსიდან ავტომატურად აგენტზე დანიშვნადი საუბრების მაქსიმალური რაოდენობა"
+    },
+    "ASSIGNMENT": {
+      "TITLE": "შეტყობინებების მინიჭება",
+      "DESCRIPTION": "ავტომატურად მიანიჭეთ შემომავალი შეტყობინებები ხელმისაწვდომ აგენტებს მინიჭების პოლიტიკის მიხედვით",
+      "ENABLE_AUTO_ASSIGNMENT": "ჩართეთ ავტომატური შეტყობინებების მინიჭება",
+      "DEFAULT_RULES_TITLE": "ნაგულისხმევი დანიშვნის წესები",
+      "DEFAULT_RULES_DESCRIPTION": "ყველა საუბრისთვის ნაგულისხმევი დანიშვნის ქცევის გამოყენება",
+      "DEFAULT_RULE_1": "პირველ რიგში ყველაზე ადრინდელი შექმნილი საუბრები",
+      "DEFAULT_RULE_2": "რაუნდ-რობინის პრინციპით განაწილება",
+      "CUSTOMIZE_WITH_POLICY": "დანიშვნის პოლიტიკით მორგება",
+      "USING_POLICY": "ამ ინბოქსისთვის კასტომიზირებული დანიშვნის პოლიტიკის გამოყენება",
+      "CUSTOMIZE_POLICY": "დანიშვნის პოლიტიკის კასტომიზაცია",
+      "DELETE_POLICY": "პოლიტიკის წაშლა",
+      "POLICY_LABEL": "მინიჭების პოლიტიკა",
+      "ASSIGNMENT_ORDER_LABEL": "დანიშვნის თანმიმდევრობა",
+      "ASSIGNMENT_METHOD_LABEL": "დანიშვნის მეთოდი",
+      "POLICY_STATUS": {
+        "ACTIVE": "აქტიური",
+        "INACTIVE": "არააქტიური"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "ყველაზე ადრე შექმნილი",
+        "LONGEST_WAITING": "ყველაზე დიდხანს მოლოდინში"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "რაუნდ-რობინი",
+        "BALANCED": "ბალანსირებული დანიშვნა"
+      },
+      "UPGRADE_PROMPT": "მორგებული დანიშვნის პოლიტიკა ხელმისაწვდომია Business გეგმაზე",
+      "UPGRADE_TO_BUSINESS": "გადაინაცვლეთ Business გეგმაზე",
+      "DEFAULT_POLICY_LINKED": "ნაგულისხმევი პოლიტიკა დაკავშირებულია",
+      "DEFAULT_POLICY_DESCRIPTION": "დააკავშირეთ მორგებული დანიშვნის პოლიტიკა, რათა დაარეგულიროთ როგორ გადანაწილდება საუბრები აგენტებზე ამ ინბოქსში.",
+      "LINK_EXISTING_POLICY": "არსებული პოლიტიკის დაკავშირება",
+      "CREATE_NEW_POLICY": "ახალი პოლიტიკის შექმნა",
+      "NO_POLICIES": "მინიჭების პოლიტიკები ვერ მოიძებნა",
+      "VIEW_ALL_POLICIES": "ყველა პოლიტიკის ნახვა",
+      "CURRENT_BEHAVIOR": "ამჟამად გამოიყენება ნაგულისხმევი დანიშვნის ქცევა:",
+      "LINK_SUCCESS": "დანიშვნის პოლიტიკა წარმატებით დაკავშირებულია",
+      "LINK_ERROR": "მონაწილეობის პოლიტიკის დაკავშირება ვერ მოხერხდა"
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "მონაწილეობის პოლიტიკის წაშლა?",
+      "DELETE_CONFIRM_MESSAGE": "დარწმუნებული ხართ, რომ გინდათ ამ მონაწილეობის პოლიტიკის ამოღება ამ ინბოქსიდან? ინბოქსი დაბრუნდება ნაგულისხმევ მონაწილეობის წესებზე.",
+      "CANCEL": "გაუქმება",
+      "CONFIRM_DELETE": "წაშლა",
+      "DELETE_SUCCESS": "დავალების პოლიტიკა წარმატებით წაიშალა",
+      "DELETE_ERROR": "დავალების პოლიტიკის წაშლა ვერ მოხერხდა"
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Reauthorize",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "TITLE": "გადაიმეორეთ ავტორიზაცია",
+      "SUBTITLE": "თქვენი Facebook კავშირი ვადა გაუვიდა, გთხოვთ, დაუკავშირდეთ თქვენი Facebook გვერდი სერვისების გასაგრძელებლად",
+      "MESSAGE_SUCCESS": "კავშირი წარმატებით აღდგენილია",
+      "MESSAGE_ERROR": "შეცდომა მოხდა, გთხოვთ, სცადეთ თავიდან"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
-      "SET_FIELDS": "Pre chat form fields",
+      "DESCRIPTION": "წინასწარი ჩეთის ფორმები საშუალებას გაძლევთ დააფიქსიროთ მომხმარებლის ინფორმაცია, სანამ ისინი დაიწყებენ თქვენთან საუბარს.",
+      "SET_FIELDS": "ჩატის წინ ფორმის ველები",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
-        "TYPE": "Type",
-        "REQUIRED": "Required"
+        "FIELDS": "ველები",
+        "LABEL": "ლეიბლი",
+        "PLACE_HOLDER": "ადგილმამა",
+        "KEY": "საკვანძო",
+        "TYPE": "ტიპი",
+        "REQUIRED": "სავალდებულო"
       },
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "ჩართეთ წინასწარი ჩეთის ფორმა",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "დიახ",
+          "DISABLED": "არა"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "წინასწარი ჩეთის შეტყობინება",
+        "PLACEHOLDER": "ეს შეტყობინება მომხმარებლებისთვის ფორმასთან ერთად იქნება ხილული"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "მომხმარებლები უნდა მიუთითონ სახელი და ელ.ფოსტის მისამართი ჩეთის დაწყებამდე"
       }
     },
     "CSAT": {
-      "TITLE": "Enable CSAT",
-      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "TITLE": "ჩართეთ CSAT",
+      "SUBTITLE": "ავტომატურად გააქტიურეთ CSAT გამოკითხვები საუბრის ბოლოს, რათა გაიგოთ, როგორ აფასებენ მომხმარებლები მხარდაჭერის გამოცდილებას. დააკვირდით კმაყოფილების ტენდენციებს და გამოავლინეთ გაუმჯობესების შესაძლებლობები დროთა განმავლობაში.",
       "DISPLAY_TYPE": {
-        "LABEL": "Display type"
+        "LABEL": "გამოსახვის ტიპი"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter a message to show users with the form"
+        "LABEL": "მესიჯი",
+        "PLACEHOLDER": "გთხოვთ, შეიყვანეთ მესიჯი, რომელიც ფორმასთან ერთად მომხმარებლებს აჩვენებს"
       },
       "BUTTON_TEXT": {
-        "LABEL": "Button text",
-        "PLACEHOLDER": "Please rate us"
+        "LABEL": "ღილაკის ტექსტი",
+        "PLACEHOLDER": "გთხოვთ, შეაფასეთ ჩვენ"
       },
       "LANGUAGE": {
-        "LABEL": "Language",
-        "PLACEHOLDER": "Select template language"
+        "LABEL": "ენა",
+        "PLACEHOLDER": "აირჩიეთ შაბლონის ენა"
       },
       "MESSAGE_PREVIEW": {
-        "LABEL": "Message preview",
-        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+        "LABEL": "მესიჯის წინასწარი ნახვა",
+        "TOOLTIP": "ეს შეიძლება ოდნავ განსხვავდებოდეს WhatsApp-ის პლატფორმაზე ჩვენებისას."
       },
       "TEMPLATE_STATUS": {
-        "APPROVED": "Approved by WhatsApp",
-        "PENDING": "Pending WhatsApp approval",
-        "REJECTED": "Meta rejected the template",
-        "DEFAULT": "Needs WhatsApp approval",
-        "NOT_FOUND": "The template does not exist in the Meta platform."
+        "APPROVED": "დამტკიცებულია WhatsApp-ის მიერ",
+        "PENDING": "მოლოდინშია WhatsApp-ის დამტკიცება",
+        "REJECTED": "Meta-მ უარყო შაბლონი",
+        "DEFAULT": "საჭიროა WhatsApp-ის დამტკიცება",
+        "NOT_FOUND": "თემპლატი Meta პლატფორმაზე არ არსებობს."
       },
       "TEMPLATE_CREATION": {
-        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
-        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+        "SUCCESS_MESSAGE": "WhatsApp-ის თემპლატი წარმატებით შეიქმნა და გაგზავნილია დამტკიცებისთვის",
+        "ERROR_MESSAGE": "WhatsApp-ის თემპლატის შექმნა ვერ მოხერხდა"
       },
       "TEMPLATE_UPDATE_DIALOG": {
-        "TITLE": "Edit survey details",
-        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Create new template",
-        "CANCEL": "Go back"
+        "TITLE": "გამოკითხვის დეტალების რედაქტირება",
+        "DESCRIPTION": "ჩვენ წავშლით წინა თემპლატს და შევქმნით ახალს, რომელიც კვლავ გაიგზავნება WhatsApp-ის დამტკიცებისთვის",
+        "CONFIRM": "ახალი შაბლონის შექმნა",
+        "CANCEL": "უკან დაბრუნება"
+      },
+      "UTILITY_ANALYZER": {
+        "ACTION": "გამოწერეთ სარგებლიანობის შესაბამისობა",
+        "HELPER_NOTE": "გაგზავნამდე შეამოწმეთ ეს შეტყობინება სარგებლიანობის შესაბამისობის გასაუმჯობესებლად. სისტემა ქმნის სპეციალურ CSAT შაბლონს ანგარიშგებისთვის ღილაკებით და აგზავნის მას როგორც სარგებლიანობას; Meta შესაძლოა კვლავ დაახარისხოს იგი მარკეტინგად შინაარსის მიხედვით.",
+        "RESULT_LABEL": "Meta კატეგორიის პროგნოზი",
+        "GUIDANCE_NOTE": "ეს არის მითითების შემოწმება, არა Meta-ს დამტკიცების გარანტია.",
+        "SUGGESTION_LABEL": "შეთავაზებული უსაფრთხო გადამუშავება",
+        "APPLY": "გამოიყენეთ ეს გადამუშავება",
+        "ERROR_MESSAGE": "შეტყობინების ანალიზი ვერ მოხერხდა. გთხოვთ, სცადეთ თავიდან.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "მომგებიანი გამოყენება",
+          "LIKELY_MARKETING": "მარკეტინგის ალბათობა",
+          "UNCLEAR": "საჭიროა განმარტება"
+        }
       },
       "SURVEY_RULE": {
-        "LABEL": "Survey rule",
-        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
-        "DESCRIPTION_SUFFIX": "any of the labels",
+        "LABEL": "საველების წესი",
+        "DESCRIPTION_PREFIX": "გაგზავნეთ სერვეი, თუ საუბარი",
+        "DESCRIPTION_SUFFIX": "ნებისმიერი ლეიბლის",
         "OPERATOR": {
-          "CONTAINS": "contains",
-          "DOES_NOT_CONTAINS": "does not contain"
+          "CONTAINS": "შეიცავს",
+          "DOES_NOT_CONTAINS": "არ შეიცავს"
         },
-        "SELECT_PLACEHOLDER": "select labels"
+        "SELECT_PLACEHOLDER": "აირჩიეთ ლეიბლები"
       },
-      "NOTE": "Note: CSAT surveys are sent only once per conversation",
-      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "NOTE": "შენიშვნა: CSAT გამოკითხვები იგზავნება მხოლოდ ერთხელ თითო საუბრისთვის",
+      "WHATSAPP_NOTE": "შენიშვნა: შენახვისას სისტემა ქმნის სპეციალურ CSAT შაბლონს WhatsApp-ში (გამოიყენება შეფასებისა და გამოხმაურების აღსაწერად ანგარიშებში) და წარადგენს მას Utility-ს დამტკიცებისთვის. Meta შესაძლოა კვლავ დაახარისხოს როგორც მარკეტინგი კონტენტის მიხედვით. დამტკიცების შემდეგ, გამოკითხვები იგზავნება მხოლოდ ერთხელ თითოეული საუბრისთვის გამოკითხვის წესის შესაბამისად.",
       "API": {
-        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
-        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+        "SUCCESS_MESSAGE": "CSAT პარამეტრები წარმატებით განახლდა",
+        "ERROR_MESSAGE": "CSAT პარამეტრების განახლება ვერ მოხერხდა. გთხოვთ, სცადეთ მოგვიანებით."
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TITLE": "დააყენეთ თქვენი ხელმისაწვდომობა",
+      "SUBTITLE": "დააყენეთ თქვენი ხელმისაწვდომობა თქვენს ლაივჩატის ვიჯეტზე",
+      "WEEKLY_TITLE": "დააყენეთ თქვენი კვირის საათები",
+      "TIMEZONE_LABEL": "აირჩიეთ დროის ზონა",
+      "UPDATE": "განაახლეთ სამუშაო საათების პარამეტრები",
+      "TOGGLE_AVAILABILITY": "ჩართეთ სამუშაო დრო ამ ინბოქსისთვის",
+      "UNAVAILABLE_MESSAGE_LABEL": "მომხმარებლებისთვის მიუწვდომელი შეტყობინება",
+      "TOGGLE_HELP": "ბიზნესის ხელმისაწვდომობის ჩართვა აჩვენებს ხელმისაწვდომ საათებს პირდაპირი ჩეთის ვიჯეტში, მაშინაც კი, თუ ყველა აგენტი ოფლაინია. ხელმისაწვდომი საათების გარეთ ვიზიტორებს შეუძლიათ მიიღონ გაფრთხილება შეტყობინებით და წინასწარი ჩეთის ფორმით.",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "DAY": "დღე",
+        "AVAILABILITY": "ხელმისაწვდომობა",
+        "HOURS": "საათები",
+        "ENABLE": "ჩართეთ ხელმისაწვდომობა ამ დღისთვის",
+        "UNAVAILABLE": "არ არის ხელმისაწვდომი",
+        "VALIDATION_ERROR": "დაწყების დრო უნდა იყოს დახურვის დროის წინ.",
+        "CHOOSE": "აირჩიეთ"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "მთელი დღე"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "SUBTITLE": "დააყენეთ თქვენი IMAP დეტალები",
+      "NOTE_TEXT": "SMTP-ის ჩართვისთვის, გთხოვთ დააყენოთ IMAP.",
+      "UPDATE": "IMAP პარამეტრების განახლება",
+      "TOGGLE_AVAILABILITY": "ჩართეთ IMAP კონფიგურაცია ამ ინბოქსისთვის",
+      "TOGGLE_HELP": "IMAP-ის ჩართვა დაეხმარება მომხმარებელს ელფოსტის მიღებაში",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "IMAP პარამეტრები წარმატებით განახლდა",
+        "ERROR_MESSAGE": "IMAP პარამეტრების განახლება ვერ მოხერხდა"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "მისამართი",
+        "PLACE_HOLDER": "მისამართი (მაგ: imap.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "პორტი",
+        "PLACE_HOLDER": "პორტი"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "შესვლა",
+        "PLACE_HOLDER": "შესვლა"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "პაროლი",
+        "PLACE_HOLDER": "პაროლი"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "SSL-ის ჩართვა"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
+      "SUBTITLE": "გაიმეორეთ MICROSOFT ანგარიშის ავტორიზაცია"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "SUBTITLE": "დააყენეთ თქვენი SMTP დეტალები",
+      "UPDATE": "SMTP პარამეტრების განახლება",
+      "TOGGLE_AVAILABILITY": "SMTP კონფიგურაციის ჩართვა ამ ინბოქსისთვის",
+      "TOGGLE_HELP": "SMTP-ის ჩართვა დაეხმარება მომხმარებელს ელფოსტის გაგზავნაში",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "SMTP პარამეტრები წარმატებით განახლდა",
+        "ERROR_MESSAGE": "SMTP პარამეტრების განახლება ვერ მოხერხდა"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "მისამართი",
+        "PLACE_HOLDER": "მისამართი (მაგ: smtp.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "პორტი",
+        "PLACE_HOLDER": "პორტი"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "შესვლა",
+        "PLACE_HOLDER": "შესვლა"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "პაროლი",
+        "PLACE_HOLDER": "პაროლი"
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "დომენი",
+        "PLACE_HOLDER": "დომენი"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "შიფრაცია",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
-      "AUTH_MECHANISM": "Authentication"
+      "OPEN_SSL_VERIFY_MODE": "Open SSL გადამოწმების რეჟიმი",
+      "AUTH_MECHANISM": "ავტორიზაცია"
     },
-    "NOTE": "Note: ",
+    "NOTE": "შენიშვნა: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "ვებგვერდის ავატარი",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
-              "ERROR_MESSAGE": "There was an error, please try again"
+              "SUCCESS_MESSAGE": "ავატარი წარმატებით წაიშალა",
+              "ERROR_MESSAGE": "შეცდომა მოხდა, გთხოვთ, სცადეთ თავიდან"
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Website Name",
-          "PLACE_HOLDER": "Enter your website name (eg: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "LABEL": "ვებგვერდის სახელი",
+          "PLACE_HOLDER": "შეიყვანეთ თქვენი ვებგვერდის სახელი (მაგ: Acme Inc)",
+          "ERROR": "გთხოვთ, შეიყვანეთ ვალიდური ვებგვერდის სახელი"
         },
         "WELCOME_HEADING": {
-          "LABEL": "Welcome Heading",
-          "PLACE_HOLDER": "Hi there!"
+          "LABEL": "მოგესალმებით სათაური",
+          "PLACE_HOLDER": "გამარჯობა!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACE_HOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "მოგესალმებით სათაური",
+          "PLACE_HOLDER": "ჩვენ გაგიადვილებთ დაკავშირებას. ჰკითხეთ რამე, ან გაგვიზიარეთ თქვენი გამოხმაურება."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day"
+          "LABEL": "პასუხის დრო",
+          "IN_A_FEW_MINUTES": "რამდენიმე წუთში",
+          "IN_A_FEW_HOURS": "რამდენიმე საათში",
+          "IN_A_DAY": "ერთ დღეში"
         },
-        "WIDGET_COLOR_LABEL": "Widget Color",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_COLOR_LABEL": "ვიჯეტის ფერი",
+        "WIDGET_BUBBLE": "ბუშტი",
+        "WIDGET_BUBBLE_POSITION_LABEL": "პოზიცია:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "ტიპი:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Chat with us",
-          "LABEL": "Widget Bubble Launcher Title",
-          "PLACE_HOLDER": "Chat with us"
+          "DEFAULT": "გაიარეთ ჩეთი ჩვენთან",
+          "LABEL": "ლანჩერის სათაური",
+          "PLACE_HOLDER": "გაიარეთ ჩეთი ჩვენთან"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "ვიჯეტის პარამეტრების განახლება",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "ვიჯეტის პარამეტრები წარმატებით განახლდა",
+            "ERROR_MESSAGE": "ვიჯეტის პარამეტრების განახლება შეუძლებელია"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "წინასწარი ნახვა",
+          "SCRIPT": "სკრიპტი"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "მარცხენა",
+          "RIGHT": "მარჯვენა"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "სტანდარტული",
+          "EXPANDED_BUBBLE": "გაფართოებული ბუშტი"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "სტანდარტი",
+        "CHAT": "ჩეთის რეჟიმი"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-        "IN_A_FEW_HOURS": "Typically replies in a few hours",
-        "IN_A_DAY": "Typically replies in a day"
+        "IN_A_FEW_MINUTES": "ჩვეულებრივ პასუხობს რამდენიმე წუთში",
+        "IN_A_FEW_HOURS": "ჩვეულებრივ პასუხობს რამდენიმე საათში",
+        "IN_A_DAY": "ჩვეულებრივ პასუხობს ერთ დღეში"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Start Conversation",
-        "CHAT_INPUT_PLACEHOLDER": "Type your message"
+        "START_CONVERSATION_BUTTON_TEXT": "გაიწყეთ საუბარი",
+        "CHAT_INPUT_PLACEHOLDER": "ჩაწერეთ თქვენი შეტყობინება"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
-          "OFFLINE": "We are away at the moment"
+          "ONLINE": "ჩვენ ონლაინ ვართ",
+          "OFFLINE": "ამჟამად ჩვენ არ ვართ ხელმისაწვდომები"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "გამარჯობა",
+        "AGENT_MESSAGE": "სალამი"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "მოძრავებულია Chatwoot-ის მიერ",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
         "TITLE": "Microsoft",
-        "DESCRIPTION": "Connect with Microsoft"
+        "DESCRIPTION": "დაკავშირება Microsoft-თან"
       },
       "GOOGLE": {
         "TITLE": "Google",
-        "DESCRIPTION": "Connect with Google"
+        "DESCRIPTION": "დაკავშირება Google-თან"
       },
       "OTHER_PROVIDERS": {
-        "TITLE": "Other Providers",
-        "DESCRIPTION": "Connect with Other Providers"
+        "TITLE": "სხვა მიმწოდებლები",
+        "DESCRIPTION": "დაკავშირება სხვა პროვაიდერებთან"
       }
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
-      "WEB_WIDGET": "Website",
+      "WEB_WIDGET": "ვებგვერდი",
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
@@ -1048,10 +1150,10 @@
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Channel",
+      "API": "API არხი",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
-      "VOICE": "Voice"
+      "VOICE": "ხმოვანი"
     }
   }
 }

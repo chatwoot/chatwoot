@@ -6,6 +6,7 @@ import { generateLabelForContactableInboxesList } from 'dashboard/components-nex
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const props = defineProps({
   targetInbox: {
@@ -25,6 +26,10 @@ const props = defineProps({
     default: () => [],
   },
   hasErrors: {
+    type: Boolean,
+    default: false,
+  },
+  isFetchingInboxes: {
     type: Boolean,
     default: false,
   },
@@ -71,7 +76,9 @@ const targetInboxLabel = computed(() => {
       v-on-click-outside="() => emit('toggleDropdown', false)"
       class="relative flex items-center h-7"
     >
+      <Spinner v-if="isFetchingInboxes" :size="16" />
       <Button
+        v-else
         :label="t('COMPOSE_NEW_CONVERSATION.FORM.INBOX_SELECTOR.BUTTON')"
         variant="link"
         size="sm"

@@ -11,8 +11,28 @@ export const INBOX_TYPES = {
   SMS: 'Channel::Sms',
   INSTAGRAM: 'Channel::Instagram',
   TIKTOK: 'Channel::Tiktok',
-  VOICE: 'Channel::Voice',
 };
+
+// Add providers here as they gain voice capability (e.g., WhatsApp Cloud, Twilio WhatsApp)
+export const VOICE_CALL_PROVIDERS = {
+  TWILIO: 'twilio',
+};
+
+export const getVoiceCallProvider = inbox => {
+  if (!inbox) return null;
+
+  // Callers pass either snake_case (raw API) or camelCase (after camelcaseKeys) shapes.
+  const channelType = inbox.channel_type || inbox.channelType;
+  const voiceEnabled = inbox.voice_enabled || inbox.voiceEnabled;
+
+  if (channelType === INBOX_TYPES.TWILIO && voiceEnabled) {
+    return VOICE_CALL_PROVIDERS.TWILIO;
+  }
+
+  return null;
+};
+
+export const isVoiceCallEnabled = inbox => getVoiceCallProvider(inbox) !== null;
 
 export const TWILIO_CHANNEL_MEDIUM = {
   WHATSAPP: 'whatsapp',
@@ -30,23 +50,21 @@ const INBOX_ICON_MAP_FILL = {
   [INBOX_TYPES.LINE]: 'i-ri-line-fill',
   [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-fill',
   [INBOX_TYPES.TIKTOK]: 'i-ri-tiktok-fill',
-  [INBOX_TYPES.VOICE]: 'i-ri-phone-fill',
 };
 
 const DEFAULT_ICON_FILL = 'i-ri-chat-1-fill';
 
 const INBOX_ICON_MAP_LINE = {
-  [INBOX_TYPES.WEB]: 'i-ri-global-line',
-  [INBOX_TYPES.FB]: 'i-ri-messenger-line',
-  [INBOX_TYPES.TWITTER]: 'i-ri-twitter-x-line',
-  [INBOX_TYPES.WHATSAPP]: 'i-ri-whatsapp-line',
-  [INBOX_TYPES.API]: 'i-ri-cloudy-line',
-  [INBOX_TYPES.EMAIL]: 'i-ri-mail-line',
-  [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram-line',
-  [INBOX_TYPES.LINE]: 'i-ri-line-line',
-  [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-line',
-  [INBOX_TYPES.TIKTOK]: 'i-ri-tiktok-line',
-  [INBOX_TYPES.VOICE]: 'i-ri-phone-line',
+  [INBOX_TYPES.WEB]: 'i-woot-website',
+  [INBOX_TYPES.FB]: 'i-woot-messenger',
+  [INBOX_TYPES.TWITTER]: 'i-woot-x',
+  [INBOX_TYPES.WHATSAPP]: 'i-woot-whatsapp',
+  [INBOX_TYPES.API]: 'i-woot-api',
+  [INBOX_TYPES.EMAIL]: 'i-woot-mail',
+  [INBOX_TYPES.TELEGRAM]: 'i-woot-telegram',
+  [INBOX_TYPES.LINE]: 'i-woot-line',
+  [INBOX_TYPES.INSTAGRAM]: 'i-woot-instagram',
+  [INBOX_TYPES.TIKTOK]: 'i-woot-tiktok',
 };
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
@@ -58,7 +76,6 @@ export const getInboxSource = (type, phoneNumber, inbox) => {
 
     case INBOX_TYPES.TWILIO:
     case INBOX_TYPES.WHATSAPP:
-    case INBOX_TYPES.VOICE:
       return phoneNumber || '';
 
     case INBOX_TYPES.EMAIL:
@@ -96,9 +113,6 @@ export const getReadableInboxByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.LINE:
       return 'line';
-
-    case INBOX_TYPES.VOICE:
-      return 'voice';
 
     default:
       return 'chat';
@@ -141,9 +155,6 @@ export const getInboxClassByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.TIKTOK:
       return 'brand-tiktok';
-
-    case INBOX_TYPES.VOICE:
-      return 'phone';
 
     default:
       return 'chat';

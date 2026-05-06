@@ -1,61 +1,75 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "ഷോപ്പിഫൈ",
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "Shopify ഇന്റഗ്രേഷൻ ഇല്ലാതാക്കുക",
+        "MESSAGE": "Shopify ഇന്റഗ്രേഷൻ നീക്കം ചെയ്യാൻ നിങ്ങൾക്ക് ഉറപ്പുണ്ടോ?"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
-        "LABEL": "Store URL",
+        "TITLE": "Shopify സ്റ്റോർ കണക്ട് ചെയ്യുക",
+        "LABEL": "സ്റ്റോർ URL",
         "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "HELP": "നിങ്ങളുടെ Shopify സ്റ്റോറിന്റെ myshopify.com URL നൽകുക",
         "CANCEL": "റദ്ദാക്കുക",
-        "SUBMIT": "Connect Store"
+        "SUBMIT": "സ്റ്റോർ കണക്റ്റ് ചെയ്യുക"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "Shopify-യുമായി ബന്ധപ്പെടുന്നതിൽ പിശക് സംഭവിച്ചു. ദയവായി വീണ്ടും ശ്രമിക്കുക അല്ലെങ്കിൽ പ്രശ്നം തുടരുകയാണെങ്കിൽ പിന്തുണയെ ബന്ധപ്പെടുക."
     },
     "HEADER": "സംയോജനങ്ങൾ",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
-    "LOADING": "Fetching integrations",
+    "DESCRIPTION": "Chatwoot നിങ്ങളുടെ ടീമിന്റെ കാര്യക്ഷമത മെച്ചപ്പെടുത്താൻ നിരവധി ടൂളുകളും സേവനങ്ങളും സംയോജിപ്പിക്കുന്നു. നിങ്ങളുടെ പ്രിയപ്പെട്ട ആപ്പുകൾ ക്രമീകരിക്കാൻ താഴെ നൽകിയ പട്ടിക പരിശോധിക്കുക.",
+    "LEARN_MORE": "ഇന്റഗ്രേഷനുകൾക്കുറിച്ച് കൂടുതൽ അറിയുക",
+    "LOADING": "ഇന്റഗ്രേഷനുകൾ നേടുന്നു",
+    "SEARCH_PLACEHOLDER": "ഇന്റഗ്രേഷനുകൾ തിരയുക...",
+    "NO_RESULTS": "നിങ്ങളുടെ തിരച്ചിലുമായി പൊരുത്തപ്പെടുന്ന ഇന്റഗ്രേഷനുകൾ ഒന്നും കണ്ടെത്തിയില്ല",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
-      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "DISABLED": "നിങ്ങളുടെ അക്കൗണ്ടിൽ Captain സജീവമല്ല.",
+      "CLICK_HERE_TO_CONFIGURE": "ക്രമീകരിക്കാൻ ഇവിടെ ക്ലിക്ക് ചെയ്യുക",
+      "LOADING_CONSOLE": "Captain കൺസോൾ ലോഡുചെയ്യുന്നു...",
+      "FAILED_TO_LOAD_CONSOLE": "Captain Console ലോഡ് ചെയ്യാൻ പരാജയപ്പെട്ടു. ദയവായി പുനഃപ്രവർത്തിപ്പിച്ച് വീണ്ടും ശ്രമിക്കുക."
     },
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
-      "LEARN_MORE": "Learn more about webhooks",
+      "SUBSCRIBED_EVENTS": "സബ്സ്ക്രൈബ് ചെയ്ത ഇവന്റുകൾ",
+      "LEARN_MORE": "വെബ്‌ഹുക്കുകൾക്കുറിച്ച് കൂടുതൽ അറിയുക",
+      "SECRET": {
+        "LABEL": "രഹസ്യം",
+        "COPY": "രഹസ്യം ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തുക",
+        "COPY_SUCCESS": "രഹസ്യം ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തി",
+        "TOGGLE": "രഹസ്യ ദൃശ്യത ടോഗിൾ ചെയ്യുക",
+        "CREATED_DESC": "നിങ്ങളുടെ webhook സൃഷ്ടിക്കപ്പെട്ടിരിക്കുന്നു. webhook ഒപ്പുകൾ സ്ഥിരീകരിക്കാൻ താഴെ കാണുന്ന രഹസ്യം ഉപയോഗിക്കുക. ദയവായി ഇപ്പോൾ ഇത് പകർത്തുക — പിന്നീട് webhook എഡിറ്റ് ഫോമിൽ ഇത് കണ്ടെത്താനും കഴിയും.",
+        "DONE": "സമാപ്തം"
+      },
+      "COUNT": "{n} വെബ്‌ഹുക്ക് | {n} വെബ്‌ഹുക്കുകൾ",
+      "SEARCH_PLACEHOLDER": "വെബ്‌ഹുക്കുകൾ തിരയുക...",
+      "NO_RESULTS": "നിങ്ങളുടെ തിരച്ചിലുമായി പൊരുത്തപ്പെടുന്ന വെബ്ഹുക്കുകൾ ഒന്നും കണ്ടെത്തിയില്ല",
       "FORM": {
         "CANCEL": "റദ്ദാക്കുക",
         "DESC": "നിങ്ങളുടെ ചാറ്റ് വൂട്ട് അക്കൗണ്ടിൽ എന്താണ് സംഭവിക്കുന്നതെന്നതിനെക്കുറിച്ചുള്ള തത്സമയ വിവരങ്ങൾ വെബ്‌ഹൂക്ക് ഇവന്റുകൾ നൽകുന്നു. ഒരു കോൾബാക്ക് കോൺഫിഗർ ചെയ്യുന്നതിന് സാധുവായ ഒരു യുആർഎൽ നൽകുക.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "ഇവന്റുകൾ",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated",
-            "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_CREATED": "സംവാദം സൃഷ്ടിച്ചു",
+            "CONVERSATION_STATUS_CHANGED": "സംവാദത്തിന്റെ നില മാറ്റപ്പെട്ടു",
+            "CONVERSATION_UPDATED": "സംവാദം അപ്ഡേറ്റ് ചെയ്തു",
+            "MESSAGE_CREATED": "സന്ദേശം സൃഷ്ടിച്ചു",
+            "MESSAGE_UPDATED": "സന്ദേശം അപ്‌ഡേറ്റ് ചെയ്തു",
+            "WEBWIDGET_TRIGGERED": "ഉപയോക്താവ് ലൈവ് ചാറ്റ് വിഡ്ജറ്റ് തുറന്നു",
+            "CONTACT_CREATED": "ബന്ധപ്പെടൽ സൃഷ്ടിച്ചു",
+            "CONTACT_UPDATED": "ബന്ധപ്പെടൽ അപ്ഡേറ്റ് ചെയ്തു",
+            "CONVERSATION_TYPING_ON": "സംഭാഷണം ടൈപ്പിംഗ് ഓൺ",
+            "CONVERSATION_TYPING_OFF": "സംവാദം ടൈപ്പിംഗ് ഓഫ്"
           }
         },
         "NAME": {
-          "LABEL": "Webhook Name",
-          "PLACEHOLDER": "Enter the name of the webhook"
+          "LABEL": "Webhook നാമം",
+          "PLACEHOLDER": "വെബ്‌ഹുക്ക് നാമം നൽകുക"
         },
         "END_POINT": {
           "LABEL": "വെബ്‌ഹുക്ക് യുആർഎൽ",
-          "PLACEHOLDER": "Example: {webhookExampleURL}",
+          "PLACEHOLDER": "ഉദാഹരണം: {webhookExampleURL}",
           "ERROR": "ദയവായി സാധുവായ ഒരു യുആർഎൽ നൽകുക"
         },
-        "EDIT_SUBMIT": "Update webhook",
+        "EDIT_SUBMIT": "വെബ്‌ഹുക്ക് അപ്‌ഡേറ്റ് ചെയ്യുക",
         "ADD_SUBMIT": "വെബ്‌ഹുക്ക് സൃഷ്‌ടിക്കുക"
       },
       "TITLE": "വെബ്‌ഹൂക്ക്",
@@ -77,7 +91,7 @@
         "BUTTON_TEXT": "എഡിറ്റുചെയ്യുക",
         "TITLE": "വെബ്ഹുക്ക് എഡിറ്റ് ചെയ്യുക",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "SUCCESS_MESSAGE": "വെബ്‌ഹുക്ക് ക്രമീകരണം വിജയകരമായി അപ്‌ഡേറ്റ് ചെയ്തു",
           "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
         }
       },
@@ -85,7 +99,7 @@
         "CANCEL": "റദ്ദാക്കുക",
         "TITLE": "പുതിയ വെബ്‌ഹൂക്ക് ഉണ്ടാക്കുക",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "SUCCESS_MESSAGE": "Webhook ക്രമീകരണം വിജയകരമായി ചേർത്തു",
           "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
         }
       },
@@ -97,91 +111,114 @@
         },
         "CONFIRM": {
           "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
-          "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
+          "MESSAGE": "നിങ്ങൾക്ക് വെബ്‌ഹുക്ക് ({webhookURL}) ഇല്ലാതാക്കണമെന്ന് ഉറപ്പാണോ",
           "YES": "അതെ, ഇല്ലാതാക്കുക ",
           "NO": "ഇല്ല, സൂക്ഷിക്കുക"
         }
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "ഇല്ലാതാക്കുക",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "ഇന്റഗ്രേഷൻ ഇല്ലാതാക്കുക",
+        "MESSAGE": "നിങ്ങൾ ഇന്റഗ്രേഷൻ ഇല്ലാതാക്കാൻ ഉറപ്പാണോ? ഇത് ചെയ്യുന്നതിലൂടെ നിങ്ങളുടെ Slack വർക്ക്‌സ്പേസിലെ സംഭാഷണങ്ങളിലേക്ക് പ്രവേശനം നഷ്ടപ്പെടും."
       },
       "HELP_TEXT": {
         "TITLE": "സ്ലാക്ക് ഇന്റഗ്രേഷൻ ഉപയോഗിക്കുന്നു",
         "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
-        "SELECTED": "selected"
+        "SELECTED": "തിരഞ്ഞെടുത്തത്"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
+        "OPTION_LABEL": "ഒരു ചാനൽ തിരഞ്ഞെടുക്കുക",
         "UPDATE": "അപ്‌ഡേറ്റ്",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "BUTTON_TEXT": "ചാനൽ ബന്ധിപ്പിക്കുക",
+        "DESCRIPTION": "നിങ്ങളുടെ Slack വർക്ക്‌സ്‌പേസ് ഇപ്പോൾ Chatwoot-നൊപ്പം ബന്ധിപ്പിച്ചിരിക്കുന്നു. എങ്കിലും, ഇന്റഗ്രേഷൻ നിലവിൽ പ്രവർത്തനരഹിതമാണ്. ഇന്റഗ്രേഷൻ സജീവമാക്കി ഒരു ചാനൽ Chatwoot-നോട് ബന്ധിപ്പിക്കാൻ, ദയവായി താഴെയുള്ള ബട്ടൺ ക്ലിക്ക് ചെയ്യുക.\n\n**കുറിപ്പ്:** നിങ്ങൾ ഒരു സ്വകാര്യ ചാനൽ ബന്ധിപ്പിക്കാൻ ശ്രമിക്കുന്നുവെങ്കിൽ, ഈ ഘട്ടം തുടരുന്നതിന് മുമ്പ് Slack ചാനലിൽ Chatwoot ആപ്പ് ചേർക്കുക.",
+        "ATTENTION_REQUIRED": "ശ്രദ്ധ ആവശ്യമാണ്",
+        "EXPIRED": "നിങ്ങളുടെ Slack ഇന്റഗ്രേഷൻ കാലഹരണപ്പെട്ടു. Slack-ൽ സന്ദേശങ്ങൾ സ്വീകരിക്കാൻ തുടരുമെങ്കിൽ, ദയവായി ഇന്റഗ്രേഷൻ നീക്കം ചെയ്ത് നിങ്ങളുടെ വർക്ക്‌സ്പേസ് വീണ്ടും കണക്ട് ചെയ്യുക."
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "ഇന്റഗ്രേഷൻ അപ്ഡേറ്റ് ചെയ്യുന്നതിൽ പിഴവ് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക",
+      "UPDATE_SUCCESS": "ചാനൽ വിജയകരമായി ബന്ധിപ്പിച്ചു",
+      "FAILED_TO_FETCH_CHANNELS": "Slack-ൽ നിന്നുള്ള ചാനലുകൾ ലഭിക്കുന്നതിൽ പിഴവ് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "ചേരാൻ ഇവിടെ ക്ലിക്ക് ചെയ്യുക",
+      "LEAVE_THE_ROOM": "റൂം വിട്ടു പോകുക",
+      "START_VIDEO_CALL_HELP_TEXT": "ഉപഭോക്താവുമായി പുതിയ വീഡിയോ കോൾ ആരംഭിക്കുക",
+      "JOIN_ERROR": "കോളിൽ ചേരുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക",
+      "CREATE_ERROR": "യോഗം ലിങ്ക് സൃഷ്ടിക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " {option} with AI ",
+      "AI_ASSIST": "എഐ സഹായം",
+      "WITH_AI": " AI ഉപയോഗിച്ച് {option} ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "പ്രതികരണ നിർദ്ദേശം",
+        "SUMMARIZE": "സംക്ഷേപിക്കുക",
+        "REPHRASE": "എഴുത്ത് മെച്ചപ്പെടുത്തുക",
+        "FIX_SPELLING_GRAMMAR": "വ്യാകരണം, വാക്ക് തെറ്റുകൾ ശരിയാക്കുക",
+        "SHORTEN": "ചുരുക്കുക",
+        "EXPAND": "വിസ്തീർണ്ണമാക്കുക",
+        "MAKE_FRIENDLY": "സന്ദേശത്തിന്റെ ശൈലി സൗഹൃദപരമായി മാറ്റുക",
+        "MAKE_FORMAL": "ആധുനിക ശൈലി ഉപയോഗിക്കുക",
+        "SIMPLIFY": "സരളമാക്കുക",
+        "CONFIDENT": "വിശ്വാസമുള്ള ശൈലി ഉപയോഗിക്കുക",
+        "PROFESSIONAL": "പ്രൊഫഷണൽ ശൈലി ഉപയോഗിക്കുക",
+        "CASUAL": "സൗഹൃദപരമായ ശൈലി ഉപയോഗിക്കുക",
+        "STRAIGHTFORWARD": "സരളമായ ശൈലി ഉപയോഗിക്കുക"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "പ്രതികരണം മെച്ചപ്പെടുത്തുക",
+        "IMPROVE_REPLY_SELECTION": "തിരഞ്ഞെടുപ്പ് മെച്ചപ്പെടുത്തുക",
+        "CHANGE_TONE": {
+          "TITLE": "ശൈലി മാറ്റുക",
+          "OPTIONS": {
+            "PROFESSIONAL": "പ്രൊഫഷണൽ",
+            "CASUAL": "സൗഹൃദപരമായ",
+            "STRAIGHTFORWARD": "സരളമായ",
+            "CONFIDENT": "ആത്മവിശ്വാസമുള്ള",
+            "FRIENDLY": "സ്നേഹപൂർവ്വം"
+          }
+        },
+        "GRAMMAR": "വ്യാകരണം & വാക്ക് തെറ്റുകൾ ശരിയാക്കുക",
+        "SUGGESTION": "ഒരു മറുപടി നിർദ്ദേശിക്കുക",
+        "SUMMARIZE": "സംഭാഷണം സംക്ഷേപിക്കുക",
+        "ASK_COPILOT": "കോപ്പൈലോട്ടിനോട് ചോദിക്കുക"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "ഡ്രാഫ്റ്റ് ഉള്ളടക്കം",
+        "GENERATED_TITLE": "സൃഷ്ടിച്ച ഉള്ളടക്കം",
+        "AI_WRITING": "AI എഴുതുന്നു",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
+          "APPLY": "ഈ നിർദ്ദേശം ഉപയോഗിക്കുക",
           "CANCEL": "റദ്ദാക്കുക"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "OpenAI-യുമായി സംയോജിപ്പിക്കുക",
+        "DESC": "OpenAI-യുടെ GPT മോഡലുകളുമായി നിങ്ങളുടെ ഡാഷ്ബോർഡിലേക്ക് ആധുനിക AI സവിശേഷതകൾ കൊണ്ടുവരൂ. ആരംഭിക്കാൻ, നിങ്ങളുടെ OpenAI അക്കൗണ്ടിൽ നിന്നുള്ള API കീ നൽകുക.",
+        "KEY_PLACEHOLDER": "നിങ്ങളുടെ OpenAI API കീ നൽകുക",
         "BUTTONS": {
-          "NEED_HELP": "Need help?",
-          "DISMISS": "Dismiss",
-          "FINISH": "Finish Setup"
+          "NEED_HELP": "സഹായം വേണോ?",
+          "DISMISS": "നിരസിക്കുക",
+          "FINISH": "സജ്ജീകരണം പൂർത്തിയാക്കുക"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "നിങ്ങൾക്ക് OpenAI ഇന്റഗ്രേഷൻ പിന്നീട് എപ്പോൾ വേണമെങ്കിലും സജ്ജീകരിക്കാം.",
+        "SUCCESS_MESSAGE": "OpenAI ഇന്റഗ്രേഷൻ വിജയകരമായി സജ്ജമാക്കി"
       },
-      "TITLE": "Improve With AI",
-      "SUMMARY_TITLE": "Summary with AI",
-      "REPLY_TITLE": "Reply suggestion with AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "AI ഉപയോഗിച്ച് മെച്ചപ്പെടുത്തുക",
+      "SUMMARY_TITLE": "AI ഉപയോഗിച്ചുള്ള സംക്ഷേപം",
+      "REPLY_TITLE": "AI ഉപയോഗിച്ച് മറുപടി നിർദ്ദേശം",
+      "SUBTITLE": "നിങ്ങളുടെ നിലവിലെ ഡ്രാഫ്റ്റ് അടിസ്ഥാനമാക്കി AI ഉപയോഗിച്ച് മെച്ചപ്പെട്ട മറുപടി സൃഷ്ടിക്കും.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "ശൈലി",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "പ്രൊഫഷണൽ",
+          "FRIENDLY": "സ്നേഹപൂർവ്വം"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
+        "GENERATE": "സൃഷ്ടിക്കുക",
+        "GENERATING": "സൃഷ്ടിക്കുന്നു...",
         "CANCEL": "റദ്ദാക്കുക"
       },
       "GENERATE_ERROR": "There was an error processing the content, please try again"
@@ -196,222 +233,229 @@
       "BUTTON_TEXT": "ബന്ധിപ്പിക്കുക"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
-      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "TITLE": "ഡാഷ്ബോർഡ് ആപ്പുകൾ",
+      "HEADER_BTN_TXT": "പുതിയ ഡാഷ്ബോർഡ് ആപ്പ് ചേർക്കുക",
+      "SIDEBAR_TXT": "<p><b>ഡാഷ്ബോർഡ് ആപ്പുകൾ</b></p><p>ഡാഷ്ബോർഡ് ആപ്പുകൾ സംഘടനകൾക്ക് Chatwoot ഡാഷ്ബോർഡിനുള്ളിൽ ഒരു ആപ്പ് ഉൾപ്പെടുത്താൻ അനുവദിക്കുന്നു, ഇത് കസ്റ്റമർ സപ്പോർട്ട് ഏജന്റുകൾക്ക് പ്രാസംഗികമായ വിവരങ്ങൾ നൽകുന്നു. ഈ സവിശേഷത നിങ്ങൾക്ക് സ്വതന്ത്രമായി ഒരു ആപ്പ് സൃഷ്ടിച്ച് അത് ഡാഷ്ബോർഡിൽ ഉൾപ്പെടുത്താൻ സഹായിക്കുന്നു, ഉപയോക്തൃ വിവരങ്ങൾ, അവരുടെ ഓർഡറുകൾ, അല്ലെങ്കിൽ മുൻപുള്ള പേയ്മെന്റ് ചരിത്രം നൽകാൻ.</p><p>Chatwoot ഡാഷ്ബോർഡിൽ നിങ്ങളുടെ ആപ്പ് ഉൾപ്പെടുത്തുമ്പോൾ, സംഭാഷണവും കോൺടാക്റ്റും സംബന്ധിച്ച പ്രാസംഗിക വിവരങ്ങൾ വിൻഡോ ഇവന്റ് ആയി ലഭിക്കും. നിങ്ങളുടെ പേജിൽ മെസേജ് ഇവന്റ് ലിസണർ നടപ്പിലാക്കി ഈ പ്രാസംഗിക വിവരങ്ങൾ സ്വീകരിക്കാം.</p><p>പുതിയ ഡാഷ്ബോർഡ് ആപ്പ് ചേർക്കാൻ, 'പുതിയ ഡാഷ്ബോർഡ് ആപ്പ് ചേർക്കുക' ബട്ടൺ ക്ലിക്ക് ചെയ്യുക.</p>",
+      "DESCRIPTION": "ഡാഷ്ബോർഡ് ആപ്പുകൾ സംഘടനകൾക്ക് ഡാഷ്ബോർഡിനുള്ളിൽ ഒരു ആപ്ലിക്കേഷൻ ഉൾപ്പെടുത്താൻ അനുവദിക്കുന്നു, ഇത് കസ്റ്റമർ സപ്പോർട്ട് ഏജന്റുകൾക്ക് സാന്ദർഭ്യം നൽകുന്നു. ഈ ഫീച്ചർ നിങ്ങൾക്ക് സ്വതന്ത്രമായി ഒരു ആപ്ലിക്കേഷൻ സൃഷ്ടിച്ച് അത് ഉൾപ്പെടുത്താൻ അനുവദിക്കുന്നു, ഉപയോക്തൃ വിവരങ്ങൾ, അവരുടെ ഓർഡറുകൾ, അല്ലെങ്കിൽ മുമ്പത്തെ പേയ്മെന്റ് ചരിത്രം നൽകാൻ.",
+      "LEARN_MORE": "ഡാഷ്ബോർഡ് ആപ്പുകൾക്കുറിച്ച് കൂടുതൽ അറിയുക",
+      "COUNT": "{n} ഡാഷ്ബോർഡ് ആപ്പ് | {n} ഡാഷ്ബോർഡ് ആപ്പുകൾ",
+      "SEARCH_PLACEHOLDER": "ഡാഷ്ബോർഡ് ആപ്പുകൾ തിരയുക...",
+      "NO_RESULTS": "നിങ്ങളുടെ തിരച്ചിലുമായി പൊരുത്തപ്പെടുന്ന ഡാഷ്ബോർഡ് ആപ്പുകൾ ഒന്നും കണ്ടെത്തിയില്ല",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "ഈ അക്കൗണ്ടിൽ ഇതുവരെ ഡാഷ്ബോർഡ് ആപ്പുകൾ ക്രമീകരിച്ചിട്ടില്ല",
+        "LOADING": "ഡാഷ്ബോർഡ് ആപ്പുകൾ കൊണ്ടുവരുന്നു...",
         "TABLE_HEADER": {
           "NAME": "പേര്",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "എൻഡ്‌പോയിന്റ്",
+          "ACTIONS": "പ്രവർത്തനങ്ങൾ"
         },
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "ആപ്പ് തിരുത്തുക",
+        "DELETE_TOOLTIP": "ആപ്പ് ഇല്ലാതാക്കുക"
       },
       "FORM": {
         "TITLE_LABEL": "പേര്",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_PLACEHOLDER": "നിങ്ങളുടെ ഡാഷ്ബോർഡ് ആപ്പിന് ഒരു പേര് നൽകുക",
+        "TITLE_ERROR": "ഡാഷ്ബോർഡ് ആപ്പിന് ഒരു പേര് ആവശ്യമാണ്",
+        "URL_LABEL": "എൻഡ്‌പോയിന്റ്",
+        "URL_PLACEHOLDER": "നിങ്ങളുടെ ആപ്പ് ഹോസ്റ്റ് ചെയ്യുന്ന എന്റ്പോയിന്റ് URL നൽകുക",
+        "URL_ERROR": "സാധുവായ URL ആവശ്യമാണ്"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "പുതിയ ഡാഷ്ബോർഡ് ആപ്പ് ചേർക്കുക",
         "FORM_SUBMIT": "സമർപ്പിക്കുക",
         "FORM_CANCEL": "റദ്ദാക്കുക",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "ഡാഷ്ബോർഡ് ആപ്പ് വിജയകരമായി ക്രമീകരിച്ചു",
+        "API_ERROR": "ഞങ്ങൾ ഒരു ആപ്പ് സൃഷ്ടിക്കാൻ കഴിഞ്ഞില്ല. ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "ഡാഷ്ബോർഡ് ആപ്പ് തിരുത്തുക",
         "FORM_SUBMIT": "അപ്‌ഡേറ്റ്",
         "FORM_CANCEL": "റദ്ദാക്കുക",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "ഡാഷ്ബോർഡ് ആപ്പ് വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു",
+        "API_ERROR": "ആപ്പ് അപ്ഡേറ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല. ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - {appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "CONFIRM_YES": "അതെ, ഇല്ലാതാക്കുക",
+        "CONFIRM_NO": "ഇല്ല, സൂക്ഷിക്കുക",
+        "TITLE": "അഴിച്ചുവിടൽ സ്ഥിരീകരിക്കുക",
+        "MESSAGE": "നിങ്ങൾക്ക് {appName} ആപ്പ് ഇല്ലാതാക്കാൻ ഉറപ്പാണോ?",
+        "API_SUCCESS": "ഡാഷ്ബോർഡ് ആപ്പ് വിജയകരമായി അഴിച്ചുവിടപ്പെട്ടു",
+        "API_ERROR": "ആപ്പ് ഇല്ലാതാക്കാൻ കഴിഞ്ഞില്ല. ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
       }
     },
     "LINEAR": {
-      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "HEADER": "ലീനിയർ",
+      "ADD_OR_LINK_BUTTON": "Linear പ്രശ്നം സൃഷ്ടിക്കുക/ബന്ധിപ്പിക്കുക",
+      "LOADING": "Linear പ്രശ്നങ്ങൾ കൊണ്ടുവരുന്നു...",
+      "LOADING_ERROR": "ലീനിയർ പ്രശ്നങ്ങൾ ലഭ്യമാക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക",
       "CREATE": "സൃഷ്ടിക്കുക",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
-        "TITLE": "Link",
-        "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
-        "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "SEARCH": "പ്രശ്നങ്ങൾ തിരയുക",
+        "SELECT": "പ്രശ്നം തിരഞ്ഞെടുക്കുക",
+        "TITLE": "ലിങ്ക്",
+        "EMPTY_LIST": "ലീനിയർ പ്രശ്നങ്ങൾ കണ്ടെത്തിയില്ല",
+        "LOADING": "ലോഡിംഗ്",
+        "ERROR": "ലീനിയർ പ്രശ്നങ്ങൾ ലഭിക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക",
+        "LINK_SUCCESS": "പ്രശ്നം വിജയകരമായി ബന്ധിപ്പിച്ചു",
+        "LINK_ERROR": "പ്രശ്നം ലിങ്ക് ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക",
+        "LINK_TITLE": "{name} എന്നയാളുമായി സംഭാഷണം (#{conversationId})"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "TITLE": "ലീനിയർ പ്രശ്നം സൃഷ്ടിക്കുക/ലിങ്ക് ചെയ്യുക",
+        "DESCRIPTION": "സംഭാഷണങ്ങളിൽ നിന്ന് Linear പ്രശ്നങ്ങൾ സൃഷ്ടിക്കുക, അല്ലെങ്കിൽ സുതാര്യമായ ട്രാക്കിംഗിനായി നിലവിലുള്ളവ ബന്ധിപ്പിക്കുക.",
         "FORM": {
           "TITLE": {
             "LABEL": "തലക്കെട്ട്",
-            "PLACEHOLDER": "Enter title",
+            "PLACEHOLDER": "ശീർഷകം നൽകുക",
             "REQUIRED_ERROR": "ശീർഷകം ആവശ്യമാണ്"
           },
           "DESCRIPTION": {
             "LABEL": "വിവരണം",
-            "PLACEHOLDER": "Enter description"
+            "PLACEHOLDER": "വിവരണം നൽകുക"
           },
           "TEAM": {
-            "LABEL": "Team",
+            "LABEL": "ടീം",
             "PLACEHOLDER": "ടീം തിരഞ്ഞെടുക്കുക",
-            "SEARCH": "Search team",
-            "REQUIRED_ERROR": "Team is required"
+            "SEARCH": "ടീം തിരയുക",
+            "REQUIRED_ERROR": "ടീം ആവശ്യമാണ്"
           },
           "ASSIGNEE": {
-            "LABEL": "Assignee",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "LABEL": "അസൈനി",
+            "PLACEHOLDER": "അസൈനി തിരഞ്ഞെടുക്കുക",
+            "SEARCH": "അസൈനി തിരയുക"
           },
           "PRIORITY": {
-            "LABEL": "Priority",
-            "PLACEHOLDER": "Select priority",
-            "SEARCH": "Search priority"
+            "LABEL": "പ്രാധാന്യം",
+            "PLACEHOLDER": "പ്രാധാന്യം തിരഞ്ഞെടുക്കുക",
+            "SEARCH": "പ്രാധാന്യം തിരയുക"
           },
           "LABEL": {
-            "LABEL": "Label",
-            "PLACEHOLDER": "Select label",
-            "SEARCH": "Search label"
+            "LABEL": "ലേബൽ",
+            "PLACEHOLDER": "ലേബൽ തിരഞ്ഞെടുക്കുക",
+            "SEARCH": "തിരയൽ ലേബൽ"
           },
           "STATUS": {
             "LABEL": "സ്റ്റാറ്റസ്",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "PLACEHOLDER": "സ്റ്റാറ്റസ് തിരഞ്ഞെടുക്കുക",
+            "SEARCH": "സ്ഥിതി തിരയുക"
           },
           "PROJECT": {
-            "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "LABEL": "പ്രോജക്ട്",
+            "PLACEHOLDER": "പ്രോജക്ട് തിരഞ്ഞെടുക്കുക",
+            "SEARCH": "പ്രോജക്ട് തിരയുക"
           }
         },
         "CREATE": "സൃഷ്ടിക്കുക",
         "CANCEL": "റദ്ദാക്കുക",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE_SUCCESS": "പ്രശ്നം വിജയകരമായി സൃഷ്ടിച്ചു",
+        "CREATE_ERROR": "ഇഷ്യൂ സൃഷ്ടിക്കുമ്പോൾ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക",
+        "LOADING_TEAM_ERROR": "ടീമുകൾ ലഭ്യമാക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക",
+        "LOADING_TEAM_ENTITIES_ERROR": "ടീം ഘടകങ്ങൾ ലഭ്യമാക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
       },
       "ISSUE": {
         "STATUS": "സ്റ്റാറ്റസ്",
-        "PRIORITY": "Priority",
-        "ASSIGNEE": "Assignee",
+        "PRIORITY": "പ്രാധാന്യം",
+        "ASSIGNEE": "നിയുക്തന്‍",
         "LABELS": "ലേബലുകൾ",
-        "CREATED_AT": "Created at {createdAt}"
+        "CREATED_AT": "സൃഷ്ടിച്ചത് {createdAt}"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "TITLE": "അൺലിങ്ക് ചെയ്യുക",
+        "SUCCESS": "പ്രശ്നം വിജയകരമായി അൺലിങ്ക് ചെയ്തു",
+        "ERROR": "പ്രശ്നം അൺലിങ്ക് ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
       },
-      "NO_LINKED_ISSUES": "No linked issues found",
+      "NO_LINKED_ISSUES": "ബന്ധപ്പെട്ട പ്രശ്നങ്ങൾ കണ്ടെത്തിയില്ല",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
-        "CONFIRM": "Yes, delete",
+        "TITLE": "ഇന്റഗ്രേഷൻ നീക്കം ചെയ്യാൻ നിങ്ങൾ ഉറപ്പാണോ?",
+        "MESSAGE": "നിങ്ങൾ ഇന്റഗ്രേഷൻ ഇല്ലാതാക്കാൻ ഉറപ്പാണോ?",
+        "CONFIRM": "അതെ, ഇല്ലാതാക്കുക",
         "CANCEL": "റദ്ദാക്കുക"
       },
       "CTA": {
-        "TITLE": "Connect to Linear",
-        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
-        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
-        "BUTTON_TEXT": "Connect Linear workspace"
+        "TITLE": "Linear-ലേക്ക് കണക്ട് ചെയ്യുക",
+        "AGENT_DESCRIPTION": "Linear വർക്ക്സ്പേസ് കണക്ട് ചെയ്തിട്ടില്ല. ഈ ഇന്റഗ്രേഷൻ ഉപയോഗിക്കാൻ നിങ്ങളുടെ അഡ്മിനിസ്ട്രേറ്ററെ വർക്ക്സ്പേസ് കണക്ട് ചെയ്യാൻ അഭ്യർത്ഥിക്കുക.",
+        "DESCRIPTION": "Linear വർക്‌സ്പേസ് ബന്ധിപ്പിച്ചിട്ടില്ല. ഈ ഇന്റഗ്രേഷൻ ഉപയോഗിക്കാൻ നിങ്ങളുടെ വർക്‌സ്പേസ് ബന്ധിപ്പിക്കാൻ താഴെയുള്ള ബട്ടൺ ക്ലിക്ക് ചെയ്യുക.",
+        "BUTTON_TEXT": "Linear വർക്‌സ്പേസ് ബന്ധിപ്പിക്കുക"
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
-        "CONFIRM": "Yes, delete",
+        "TITLE": "നിങ്ങൾക്ക് Notion ഇന്റഗ്രേഷൻ ഇല്ലാതാക്കാൻ ഉറപ്പാണോ?",
+        "MESSAGE": "ഈ ഇന്റഗ്രേഷൻ ഇല്ലാതാക്കുന്നത് നിങ്ങളുടെ Notion വർക്ക്‌സ്‌പേസിലേക്കുള്ള ആക്‌സസ് നീക്കം ചെയ്യുകയും ബന്ധപ്പെട്ട എല്ലാ പ്രവർത്തനങ്ങളും നിർത്തുകയും ചെയ്യും.",
+        "CONFIRM": "അതെ, ഇല്ലാതാക്കുക",
         "CANCEL": "റദ്ദാക്കുക"
       }
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "NAME": "ക്യാപ്റ്റൻ",
+    "HEADER_KNOW_MORE": "കൂടുതൽ അറിയുക",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "സഹായികൾ",
+      "SWITCH_ASSISTANT": "അസിസ്റ്റന്റുകൾ തമ്മിൽ മാറുക",
+      "NEW_ASSISTANT": "അസിസ്റ്റന്റ് സൃഷ്ടിക്കുക",
+      "EMPTY_LIST": "സഹായികൾ ഒന്നും കണ്ടെത്തിയില്ല, ആരംഭിക്കാൻ ഒരു സഹായി സൃഷ്ടിക്കുക"
     },
     "COPILOT": {
-      "TITLE": "Copilot",
-      "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "TITLE": "കോപ്പൈലറ്റ്",
+      "TRY_THESE_PROMPTS": "ഈ പ്രോംപ്റ്റുകൾ പരീക്ഷിക്കുക",
+      "PANEL_TITLE": "കോപ്പൈലറ്റുമായി ആരംഭിക്കുക",
+      "KICK_OFF_MESSAGE": "വേഗത്തിലുള്ള സംക്ഷേപം വേണമോ, മുമ്പത്തെ സംഭാഷണങ്ങൾ പരിശോധിക്കണോ, അല്ലെങ്കിൽ മികച്ച മറുപടി തയ്യാറാക്കണോ? കാര്യങ്ങൾ വേഗത്തിലാക്കാൻ കോപ്പൈലറ്റ് ഇവിടെ ഉണ്ട്.",
       "SEND_MESSAGE": "സന്ദേശം അയയ്ക്കുക...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
-      "YOU": "You",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "EMPTY_MESSAGE": "പ്രതികരണം സൃഷ്ടിക്കുന്നതിൽ പിശക് സംഭവിച്ചു. ദയവായി വീണ്ടും ശ്രമിക്കുക.",
+      "LOADER": "ക്യാപ്റ്റൻ ചിന്തിക്കുന്നു",
+      "YOU": "നിങ്ങൾ",
+      "USE": "ഇത് ഉപയോഗിക്കുക",
+      "RESET": "പുനഃസജ്ജമാക്കുക",
+      "SHOW_STEPS": "പടികൾ കാണിക്കുക",
+      "SELECT_ASSISTANT": "സഹായി തിരഞ്ഞെടുക്കുക",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "ഈ സംഭാഷണം സംക്ഷേപിക്കുക",
+          "CONTENT": "ഉപഭോക്താവും പിന്തുണ ഏജന്റും തമ്മിൽ ചർച്ച ചെയ്ത പ്രധാന കാര്യങ്ങൾ, ഉപഭോക്താവിന്റെ ആശങ്കകൾ, ചോദ്യങ്ങൾ, പിന്തുണ ഏജന്റ് നൽകിയ പരിഹാരങ്ങൾ അല്ലെങ്കിൽ പ്രതികരണങ്ങൾ എന്നിവ സംക്ഷേപിക്കുക"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "ഒരു ഉത്തരം നിർദ്ദേശിക്കുക",
+          "CONTENT": "ഉപഭോക്താവിന്റെ ചോദ്യം വിശകലനം ചെയ്ത്, അവരുടെ ആശങ്കകൾ അല്ലെങ്കിൽ ചോദ്യങ്ങൾ ഫലപ്രദമായി പരിഹരിക്കുന്ന ഒരു മറുപടി രൂപരേഖ തയ്യാറാക്കുക. മറുപടി വ്യക്തവും സംക്ഷിപ്തവുമായിരിക്കണം, സഹായകരമായ വിവരങ്ങൾ നൽകണം."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "ഈ സംഭാഷണത്തിന് റേറ്റിംഗ് നൽകുക",
+          "CONTENT": "ഉപഭോക്താവിന്റെ ആവശ്യങ്ങൾ എത്രമാത്രം പൂരിപ്പിക്കുന്നുവെന്ന് കാണാൻ സംഭാഷണം അവലോകനം ചെയ്യുക. ടോൺ, വ്യക്തത, ഫലപ്രാപ്തി എന്നിവയുടെ അടിസ്ഥാനത്തിൽ 5-ൽ നിന്ന് റേറ്റിംഗ് പങ്കുവെക്കുക."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "ഉയർന്ന പ്രാധാന്യമുള്ള സംഭാഷണങ്ങൾ",
+          "CONTENT": "എല്ലാ ഉയർന്ന പ്രാധാന്യമുള്ള തുറന്ന സംഭാഷണങ്ങളുടെ ഒരു സംക്ഷിപ്തം നൽകുക. സംഭാഷണ ഐഡി, ഉപഭോക്തൃ പേര് (ലഭ്യമായാൽ), അവസാന സന്ദേശത്തിന്റെ ഉള്ളടക്കം, നിയുക്ത ഏജന്റ് എന്നിവ ഉൾപ്പെടുത്തുക. പ്രസക്തമായെങ്കിൽ നിലയനുസരിച്ച് ഗ്രൂപ്പ് ചെയ്യുക."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "ബന്ധപ്പെടലുകളുടെ പട്ടിക",
+          "CONTENT": "മുകളിൽ 10 ബന്ധപ്പെടലുകളുടെ പട്ടിക കാണിക്കുക. പേര്, ഇമെയിൽ അല്ലെങ്കിൽ ഫോൺ നമ്പർ (ലഭ്യമായെങ്കിൽ), അവസാനമായി കാണപ്പെട്ട സമയം, ടാഗുകൾ (എങ്കിൽ) ഉൾപ്പെടുത്തുക."
         }
       }
     },
     "PLAYGROUND": {
-      "USER": "You",
-      "ASSISTANT": "Assistant",
+      "USER": "നിങ്ങൾ",
+      "ASSISTANT": "സഹായി",
       "MESSAGE_PLACEHOLDER": "നിങ്ങളുടെ സന്ദേശം ടൈപ്പുചെയ്യുക...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "പ്ലേഗ്രൗണ്ട്",
+      "DESCRIPTION": "നിങ്ങളുടെ അസിസ്റ്റന്റിന് സന്ദേശങ്ങൾ അയയ്ക്കാനും അത് ശരിയായി, വേഗത്തിൽ, നിങ്ങൾ പ്രതീക്ഷിക്കുന്ന ശൈലിയിൽ പ്രതികരിക്കുന്നുണ്ടോ എന്ന് പരിശോധിക്കാനും ഈ പ്ലേഗ്രൗണ്ട് ഉപയോഗിക്കുക.",
+      "CREDIT_NOTE": "ഇവിടെ അയച്ച സന്ദേശങ്ങൾ നിങ്ങളുടെ Captain ക്രെഡിറ്റുകളിൽ ഉൾപ്പെടും."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "Captain AI ഉപയോഗിക്കാൻ അപ്ഗ്രേഡ് ചെയ്യുക",
+      "AVAILABLE_ON": "Captain സൗജന്യ പ്ലാനിൽ ലഭ്യമല്ല.",
+      "UPGRADE_PROMPT": "ഞങ്ങളുടെ അസിസ്റ്റന്റുകളും കോപൈലറ്റും ഉൾപ്പെടെ കൂടുതൽ സവിശേഷതകൾ ലഭിക്കാൻ നിങ്ങളുടെ പ്ലാൻ അപ്ഗ്രേഡ് ചെയ്യുക.",
+      "UPGRADE_NOW": "ഇപ്പോൾ അപ്ഗ്രേഡ് ചെയ്യുക",
+      "CANCEL_ANYTIME": "നിങ്ങളുടെ പ്ലാൻ എപ്പോഴും മാറ്റുകയോ റദ്ദാക്കുകയോ ചെയ്യാം"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "ക്യാപ്റ്റൻ AI എന്റർപ്രൈസ് പ്ലാനുകളിൽ മാത്രമേ ലഭ്യമാകൂ.",
+      "UPGRADE_PROMPT": "നമ്മുടെ അസിസ്റ്റന്റുകൾ, കോപൈലറ്റ് എന്നിവയ്ക്ക് ആക്‌സസ് നേടാൻ നിങ്ങളുടെ പ്ലാൻ അപ്ഗ്രേഡ് ചെയ്യുക.",
+      "ASK_ADMIN": "ദയവായി അപ്ഗ്രേഡിനായി നിങ്ങളുടെ അഡ്മിനിസ്ട്രേറ്ററെ സമീപിക്കുക."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "നിങ്ങൾ നിങ്ങളുടെ പ്രതികരണ പരിധിയുടെ 80% ക്കും മുകളിൽ ഉപയോഗിച്ചു. Captain AI തുടർച്ചയായി ഉപയോഗിക്കാൻ, ദയവായി അപ്ഗ്രേഡ് ചെയ്യുക.",
+      "DOCUMENTS": "ഡോക്യുമെന്റ് പരിധി എത്തി. Captain AI ഉപയോഗം തുടരാൻ അപ്ഗ്രേഡ് ചെയ്യുക."
     },
     "FORM": {
       "CANCEL": "റദ്ദാക്കുക",
@@ -419,246 +463,247 @@
       "EDIT": "അപ്‌ഡേറ്റ്"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
-      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
-      "ADD_NEW": "Create a new assistant",
+      "HEADER": "സഹായികൾ",
+      "NO_ASSISTANTS_AVAILABLE": "നിങ്ങളുടെ അക്കൗണ്ടിൽ സഹായികൾ ലഭ്യമല്ല.",
+      "ADD_NEW": "ഒരു പുതിയ അസിസ്റ്റന്റ് സൃഷ്‌ടിക്കുക",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "TITLE": "അസിസ്റ്റന്റ് ഇല്ലാതാക്കാൻ നിങ്ങൾ ഉറപ്പാണോ?",
+        "DESCRIPTION": "ഈ പ്രവർത്തനം സ്ഥിരമാണ്. ഈ അസിസ്റ്റന്റിനെ ഇല്ലാതാക്കുന്നത് എല്ലാ ബന്ധിപ്പിച്ച ഇൻബോക്സുകളിൽ നിന്നും അത് നീക്കം ചെയ്യുകയും സൃഷ്ടിച്ച എല്ലാ അറിവുകളും സ്ഥിരമായി മായ്ച്ചു കളയുകയും ചെയ്യും.",
+        "CONFIRM": "അതെ, ഇല്ലാതാക്കുക",
+        "SUCCESS_MESSAGE": "അസിസ്റ്റന്റ് വിജയകരമായി ഇല്ലാതാക്കി",
+        "ERROR_MESSAGE": "അസിസ്റ്റന്റ് ഇല്ലാതാക്കുന്നതിൽ പിഴവ് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "നിങ്ങളുടെ അസിസ്റ്റന്റിന് പേര് നൽകാൻ, അതിന്റെ ഉദ്ദേശ്യം വിവരിക്കാൻ, അത് പിന്തുണയ്ക്കുന്ന ഉൽപ്പന്നം വ്യക്തമാക്കാൻ താഴെ വിവരങ്ങൾ പൂരിപ്പിക്കുക.",
       "CREATE": {
-        "TITLE": "Create an assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "TITLE": "ഒരു അസിസ്റ്റന്റ് സൃഷ്ടിക്കുക",
+        "SUCCESS_MESSAGE": "അസിസ്റ്റന്റ് വിജയകരമായി സൃഷ്ടിച്ചു",
+        "ERROR_MESSAGE": "അസിസ്റ്റന്റ് സൃഷ്ടിക്കുമ്പോൾ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
       },
       "FORM": {
         "UPDATE": "അപ്‌ഡേറ്റ്",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
-          "FEATURES": "Features",
-          "TOOLS": "Tools "
+          "BASIC_INFO": "അടിസ്ഥാന വിവരങ്ങൾ",
+          "SYSTEM_MESSAGES": "സിസ്റ്റം സന്ദേശങ്ങൾ",
+          "INSTRUCTIONS": "നിർദ്ദേശങ്ങൾ",
+          "FEATURES": "സവിശേഷതകൾ",
+          "TOOLS": "ഉപകരണങ്ങൾ "
         },
         "NAME": {
           "LABEL": "പേര്",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "PLACEHOLDER": "അസിസ്റ്റന്റിന്റെ പേര് നൽകുക",
+          "ERROR": "പേര് ആവശ്യമാണ്"
         },
         "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
+          "LABEL": "പ്രതികരണ താപനില",
+          "DESCRIPTION": "അസിസ്റ്റന്റിന്റെ പ്രതികരണങ്ങൾ എത്ര സൃഷ്ടിപരമായോ നിയന്ത്രിതമായോ ആയിരിക്കണമെന്ന് ക്രമീകരിക്കുക. കുറഞ്ഞ മൂല്യങ്ങൾ കൂടുതൽ കേന്ദ്രീകൃതവും നിർണായകവുമായ പ്രതികരണങ്ങൾ നൽകും, ഉയർന്ന മൂല്യങ്ങൾ കൂടുതൽ സൃഷ്ടിപരവും വ്യത്യസ്തവുമായ ഔട്ട്പുട്ടുകൾ അനുവദിക്കും."
         },
         "DESCRIPTION": {
           "LABEL": "വിവരണം",
-          "PLACEHOLDER": "Enter assistant description",
-          "ERROR": "The description is required"
+          "PLACEHOLDER": "അസിസ്റ്റന്റിന്റെ വിവരണം നൽകുക",
+          "ERROR": "വിവരണം ആവശ്യമാണ്"
         },
         "PRODUCT_NAME": {
-          "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name",
-          "ERROR": "The product name is required"
+          "LABEL": "ഉൽപ്പന്നത്തിന്റെ പേര്",
+          "PLACEHOLDER": "ഉൽപ്പന്നത്തിന്റെ പേര് നൽകുക",
+          "ERROR": "ഉൽപ്പന്നത്തിന്റെ പേര് ആവശ്യമാണ്"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "സ്വാഗത സന്ദേശം",
+          "PLACEHOLDER": "സ്വാഗത സന്ദേശം നൽകുക"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "ഹാൻഡ്ഓഫ് സന്ദേശം",
+          "PLACEHOLDER": "ഹാൻഡ്ഓഫ് സന്ദേശം നൽകുക"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "പരിഹാര സന്ദേശം",
+          "PLACEHOLDER": "പരിഹാര സന്ദേശം നൽകുക"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "LABEL": "നിർദ്ദേശങ്ങൾ",
+          "PLACEHOLDER": "അസിസ്റ്റന്റിനായി നിർദ്ദേശങ്ങൾ നൽകുക"
         },
         "FEATURES": {
-          "TITLE": "Features",
-          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "TITLE": "സവിശേഷതകൾ",
+          "ALLOW_CONVERSATION_FAQS": "പരിഹരിച്ച സംഭാഷണങ്ങളിൽ നിന്ന് FAQകൾ സൃഷ്ടിക്കുക",
+          "ALLOW_MEMORIES": "ഉപഭോക്തൃ ഇടപെടലുകളിൽ നിന്നുള്ള പ്രധാന വിവരങ്ങൾ ഓർമ്മകളായി പിടിക്കുക.",
+          "ALLOW_CITATIONS": "പ്രതികരണങ്ങളിൽ ഉറവിട ഉദ്ധരണികൾ ഉൾപ്പെടുത്തുക",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
-        "TITLE": "Update the assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "TITLE": "അസിസ്റ്റന്റിനെ അപ്ഡേറ്റ് ചെയ്യുക",
+        "SUCCESS_MESSAGE": "അസിസ്റ്റന്റ് വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു",
+        "ERROR_MESSAGE": "അസിസ്റ്റന്റ് അപ്ഡേറ്റ് ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക.",
+        "NOT_FOUND": "അസിസ്റ്റന്റ് കണ്ടെത്താനായില്ല. ദയവായി വീണ്ടും ശ്രമിക്കുക."
       },
       "SETTINGS": {
         "HEADER": "ക്രമീകരണങ്ങൾ",
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "അടിസ്ഥാന ക്രമീകരണങ്ങൾ",
+          "DESCRIPTION": "സംവാദം അവസാനിപ്പിക്കുമ്പോൾ അല്ലെങ്കിൽ മനുഷ്യനിലേക്ക് കൈമാറുമ്പോൾ അസിസ്റ്റന്റ് പറയുന്നതിനെ ഇഷ്ടാനുസൃതമാക്കുക."
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "സിസ്റ്റം ക്രമീകരണങ്ങൾ",
+          "DESCRIPTION": "സംവാദം അവസാനിപ്പിക്കുമ്പോഴും മനുഷ്യനിലേക്ക് കൈമാറുമ്പോഴും അസിസ്റ്റന്റ് പറയുന്നതു ഇഷ്ടാനുസൃതമാക്കുക."
         },
         "CONTROL_ITEMS": {
-          "TITLE": "The Fun Stuff",
-          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "TITLE": "വിനോദകരമായ കാര്യങ്ങൾ",
+          "DESCRIPTION": "അസിസ്റ്റന്റിന് കൂടുതൽ നിയന്ത്രണം ചേർക്കുക. (കഥപോലെ കൂടുതൽ ദൃശ്യമായി: ക്വറി ഗാർഡ്‌റെയിൽ → സീനാരിയോകൾ → ഔട്ട്പുട്ട്) ഉപയോക്താവിനെ ഇത് ഉപയോഗിക്കാൻ പ്രേരിപ്പിക്കുന്നു.",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Guardrails",
-              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+              "TITLE": "ഗാർഡ്‌റെയിൽസ്",
+              "DESCRIPTION": "കാര്യങ്ങൾ ട്രാക്കിൽ സൂക്ഷിക്കുന്നു—നിങ്ങളുടെ അസിസ്റ്റന്റ് മറുപടി നൽകേണ്ട തരം ചോദ്യങ്ങൾ മാത്രം, പരിധി കടക്കാത്തതും വിഷയത്തിന് പുറത്തുള്ളതുമായ ഒന്നും ഇല്ല."
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "TITLE": "മറുപടി മാർഗ്ഗനിർദ്ദേശങ്ങൾ",
+              "DESCRIPTION": "നിങ്ങളുടെ അസിസ്റ്റന്റിന്റെ മറുപടികളുടെ അന്തരീക്ഷവും ഘടനയും—വ്യക്തവും സൗഹൃദപരവുമോ? ചുരുങ്ങിയതും തിളക്കമുള്ളതുമായോ? വിശദമായും ഔപചാരികവുമായോ?"
             }
           }
         },
         "DELETE": {
-          "TITLE": "Delete Assistant",
-          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-          "BUTTON_TEXT": "Delete {assistantName}"
+          "TITLE": "അസിസ്റ്റന്റ് ഇല്ലാതാക്കുക",
+          "DESCRIPTION": "ഈ പ്രവർത്തനം സ്ഥിരമാണ്. ഈ അസിസ്റ്റന്റ് ഇല്ലാതാക്കുന്നത് എല്ലാ ബന്ധിപ്പിച്ച ഇൻബോക്സുകളിൽ നിന്നും അത് നീക്കംചെയ്യുകയും സൃഷ്ടിച്ച എല്ലാ അറിവുകളും സ്ഥിരമായി മായ്ക്കുകയും ചെയ്യും.",
+          "BUTTON_TEXT": "{assistantName} ഇല്ലാതാക്കുക"
         }
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Edit Assistant",
-        "DELETE_ASSISTANT": "Delete Assistant",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "EDIT_ASSISTANT": "അസിസ്റ്റന്റ് തിരുത്തുക",
+        "DELETE_ASSISTANT": "അസിസ്റ്റന്റ് ഇല്ലാതാക്കുക",
+        "VIEW_CONNECTED_INBOXES": "കണക്ട് ചെയ്ത ഇൻബോക്സുകൾ കാണുക"
       },
       "EMPTY_STATE": {
-        "TITLE": "No assistants available",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
+        "TITLE": "സഹായികൾ ലഭ്യമല്ല",
+        "SUBTITLE": "നിങ്ങളുടെ ഉപയോക്താക്കൾക്ക് വേഗവും കൃത്യവുമായ മറുപടികൾ നൽകാൻ ഒരു അസിസ്റ്റന്റ് സൃഷ്ടിക്കുക. ഇത് നിങ്ങളുടെ സഹായ ലേഖനങ്ങളിലെയും മുൻ സംഭാഷണങ്ങളിലെയും അടിസ്ഥാനത്തിൽ പഠിക്കാം.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "ക്യാപ്റ്റൻ അസിസ്റ്റന്റ്",
+          "NOTE": "Captain Assistant നേരിട്ട് ഉപഭോക്താക്കളുമായി ഇടപഴകുന്നു, നിങ്ങളുടെ സഹായ ഡോക്യുമെന്റുകളും മുമ്പത്തെ സംഭാഷണങ്ങളും പഠിച്ച്, തൽക്ഷണവും കൃത്യവുമായ മറുപടികൾ നൽകുന്നു. ഇത് പ്രാഥമിക ചോദ്യങ്ങൾ കൈകാര്യം ചെയ്ത്, ആവശ്യമായപ്പോൾ ഏജന്റിലേക്ക് കൈമാറുന്നതിന് മുമ്പ് വേഗത്തിലുള്ള പരിഹാരങ്ങൾ നൽകുന്നു."
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "TITLE": "ഗാർഡ്‌റെയിൽസ്",
+        "DESCRIPTION": "വസ്തുക്കൾ പാതയിൽ നിർത്തുന്നു—നിങ്ങളുടെ അസിസ്റ്റന്റ് ഉത്തരം നൽകേണ്ടതായ ചോദ്യങ്ങളേ മാത്രം, അതിലപ്പുറം അല്ലെങ്കിൽ വിഷയം വിട്ടുപോകുന്ന ഒന്നും ഇല്ല.",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECTED": "{count} ഇനം തിരഞ്ഞെടുക്കപ്പെട്ടു | {count} ഇനങ്ങൾ തിരഞ്ഞെടുക്കപ്പെട്ടു",
+          "SELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കുക ({count})",
+          "UNSELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കാതിരിക്കുക ({count})",
           "BULK_DELETE_BUTTON": "ഇല്ലാതാക്കുക"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "TITLE": "ഉദാഹരണ ഗാർഡ്‌റെയിൽസ്",
+            "ADD": "എല്ലാം ചേർക്കുക",
+            "ADD_SINGLE": "ഇത് ചേർക്കുക",
+            "SAVE": "ചേർക്കുകയും സംരക്ഷിക്കുകയും ചെയ്യുക (↵)",
+            "PLACEHOLDER": "മറ്റൊരു ഗാർഡ്രെയിൽ ടൈപ്പ് ചെയ്യുക..."
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
+            "TITLE": "ഒരു ഗാർഡ്രെയിൽ ചേർക്കുക",
             "CREATE": "സൃഷ്ടിക്കുക",
             "CANCEL": "റദ്ദാക്കുക",
-            "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "PLACEHOLDER": "മറ്റൊരു ഗാർഡ്‌റെയിൽ ടൈപ്പ് ചെയ്യുക...",
+            "TEST_ALL": "എല്ലാം പരിശോധിക്കുക"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "തിരയുക..."
         },
-        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "EMPTY_MESSAGE": "ഗാർഡ്രെയിൽസ് കണ്ടെത്തിയില്ല. ആരംഭിക്കാൻ ഉദാഹരണങ്ങൾ സൃഷ്ടിക്കുക അല്ലെങ്കിൽ ചേർക്കുക.",
+        "SEARCH_EMPTY_MESSAGE": "ഈ തിരച്ചിലിനായി ഗാർഡ്‌റെയിൽസ് ഒന്നും കണ്ടെത്തിയില്ല.",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "ഗാർഡ്രെയിൽസ് വിജയകരമായി ചേർത്തു",
+            "ERROR": "ഗാർഡ്രെയിൽസ് ചേർക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
           },
           "UPDATE": {
-            "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "SUCCESS": "ഗാർഡ്‌റെയിൽസ് വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു",
+            "ERROR": "ഗാർഡ്‌റെയിൽസ് അപ്ഡേറ്റ് ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "SUCCESS": "ഗാർഡ്രെയിൽസ് വിജയകരമായി ഇല്ലാതാക്കി",
+            "ERROR": "ഗാർഡ്രെയിൽസ് ഇല്ലാതാക്കുന്നതിൽ പിഴവ് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
-        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "TITLE": "പ്രതികരണ മാർഗ്ഗനിർദ്ദേശങ്ങൾ",
+        "DESCRIPTION": "നിങ്ങളുടെ അസിസ്റ്റന്റിന്റെ മറുപടികളുടെ സ്വഭാവവും ഘടനയും—വ്യക്തവും സൗഹൃദപരവുമോ? ചുരുങ്ങിയതും തിളക്കമുള്ളതുമായോ? വിശദമായും ഔപചാരികവുമായോ?",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECTED": "{count} ഇനം തിരഞ്ഞെടുക്കപ്പെട്ടു | {count} ഇനങ്ങൾ തിരഞ്ഞെടുക്കപ്പെട്ടു",
+          "SELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കുക ({count})",
+          "UNSELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കാതാക്കുക ({count})",
           "BULK_DELETE_BUTTON": "ഇല്ലാതാക്കുക"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example response guidelines",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another response guideline..."
+            "TITLE": "ഉദാഹരണ പ്രതികരണ മാർഗനിർദ്ദേശങ്ങൾ",
+            "ADD": "എല്ലാം ചേർക്കുക",
+            "ADD_SINGLE": "ഇത് ചേർക്കുക",
+            "SAVE": "ചേർക്കുക ಮತ್ತು സേവ് ചെയ്യുക (↵)",
+            "PLACEHOLDER": "മറ്റൊരു പ്രതികരണ മാർഗ്ഗനിർദ്ദേശം ടൈപ്പ് ചെയ്യുക..."
           },
           "NEW": {
-            "TITLE": "Add a response guideline",
+            "TITLE": "ഒരു പ്രതികരണ മാർഗരേഖ ചേർക്കുക",
             "CREATE": "സൃഷ്ടിക്കുക",
             "CANCEL": "റദ്ദാക്കുക",
-            "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "PLACEHOLDER": "മറ്റൊരു പ്രതികരണ മാർഗരേഖ ടൈപ്പ് ചെയ്യുക...",
+            "TEST_ALL": "എല്ലാം പരീക്ഷിക്കുക"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "തിരയുക..."
         },
-        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "EMPTY_MESSAGE": "പ്രതികരണ മാർഗനിർദ്ദേശങ്ങൾ കണ്ടെത്തിയില്ല. ആരംഭിക്കാൻ ഉദാഹരണങ്ങൾ സൃഷ്ടിക്കുക അല്ലെങ്കിൽ ചേർക്കുക.",
+        "SEARCH_EMPTY_MESSAGE": "ഈ തിരച്ചിലിനായി പ്രതികരണ മാർഗനിർദ്ദേശങ്ങൾ കണ്ടെത്തിയില്ല.",
         "API": {
           "ADD": {
-            "SUCCESS": "Response Guidelines added successfully",
-            "ERROR": "There was an error adding response guidelines, please try again."
+            "SUCCESS": "പ്രതികരണ മാർഗനിർദ്ദേശങ്ങൾ വിജയകരമായി ചേർത്തു",
+            "ERROR": "പ്രതികരണ മാർഗ്ഗനിർദ്ദേശങ്ങൾ ചേർക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
           },
           "UPDATE": {
-            "SUCCESS": "Response Guidelines updated successfully",
-            "ERROR": "There was an error updating response guidelines, please try again."
+            "SUCCESS": "പ്രതികരണ മാർഗ്ഗനിർദ്ദേശങ്ങൾ വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു",
+            "ERROR": "പ്രതികരണ മാർഗനിർദ്ദേശങ്ങൾ അപ്ഡേറ്റ് ചെയ്യുമ്പോൾ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
           },
           "DELETE": {
-            "SUCCESS": "Response Guidelines deleted successfully",
-            "ERROR": "There was an error deleting response guidelines, please try again."
+            "SUCCESS": "പ്രതികരണ മാർഗ്ഗനിർദ്ദേശങ്ങൾ വിജയകരമായി ഇല്ലാതാക്കി",
+            "ERROR": "പ്രതികരണ മാർഗനിർദ്ദേശങ്ങൾ ഇല്ലാതാക്കുന്നതിൽ പിഴവുണ്ടായി, ദയവായി വീണ്ടും ശ്രമിക്കുക."
           }
         }
       },
       "SCENARIOS": {
-        "TITLE": "Scenarios",
-        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "TITLE": "സന്നിവേശങ്ങൾ",
+        "DESCRIPTION": "നിങ്ങളുടെ അസിസ്റ്റന്റിന് ചില പശ്ചാത്തലങ്ങൾ നൽകുക—ഉദാഹരണത്തിന് “ഉപയോക്താവ് തടസ്സപ്പെട്ടപ്പോൾ എന്ത് ചെയ്യണം,” അല്ലെങ്കിൽ “റിഫണ്ട് അഭ്യർത്ഥനയ്ക്കിടെ എങ്ങനെ പെരുമാറണം.”",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECTED": "{count} ഇനം തിരഞ്ഞെടുക്കപ്പെട്ടു | {count} ഇനങ്ങൾ തിരഞ്ഞെടുക്കപ്പെട്ടു",
+          "SELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കുക ({count})",
+          "UNSELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കാതിരിക്കുക ({count})",
           "BULK_DELETE_BUTTON": "ഇല്ലാതാക്കുക"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example scenarios",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "TOOLS_USED": "Tools used :"
+            "TITLE": "ഉദാഹരണ സീനാരിയോകൾ",
+            "ADD": "എല്ലാം ചേർക്കുക",
+            "ADD_SINGLE": "ഇത് ചേർക്കുക",
+            "TOOLS_USED": "ഉപയോഗിച്ച ഉപകരണങ്ങൾ :"
           },
           "NEW": {
-            "CREATE": "Add a scenario",
-            "TITLE": "Create a scenario",
+            "CREATE": "ഒരു സീനാരിയോ ചേർക്കുക",
+            "TITLE": "ഒരു സീനാരിയോ സൃഷ്ടിക്കുക",
             "FORM": {
               "TITLE": {
                 "LABEL": "തലക്കെട്ട്",
-                "PLACEHOLDER": "Enter a name for the scenario",
-                "ERROR": "Scenario name is required"
+                "PLACEHOLDER": "സീനാരിയോയ്ക്ക് ഒരു പേര് നൽകുക",
+                "ERROR": "സീനാരിയോയുടെ പേര് ആവശ്യമാണ്"
               },
               "DESCRIPTION": {
                 "LABEL": "വിവരണം",
-                "PLACEHOLDER": "Describe how and where this scenario will be used",
-                "ERROR": "Scenario description is required"
+                "PLACEHOLDER": "ഈ സീനാരിയോ എങ്ങനെ എവിടെ ഉപയോഗിക്കുമെന്ന് വിവരിക്കുക",
+                "ERROR": "സീനാരിയോ വിവരണം ആവശ്യമാണ്"
               },
               "INSTRUCTION": {
-                "LABEL": "How to handle",
-                "PLACEHOLDER": "Describe how and where this scenario will be handled",
-                "ERROR": "Scenario content is required"
+                "LABEL": "എങ്ങനെ കൈകാര്യം ചെയ്യാം",
+                "PLACEHOLDER": "ഈ സീനാരിയോ എങ്ങനെ എവിടെ കൈകാര്യം ചെയ്യപ്പെടും എന്ന് വിവരിക്കുക",
+                "ERROR": "സീനാരിയോ ഉള്ളടക്കം ആവശ്യമാണ്"
               },
               "CREATE": "സൃഷ്ടിക്കുക",
               "CANCEL": "റദ്ദാക്കുക"
@@ -667,310 +712,341 @@
         },
         "UPDATE": {
           "CANCEL": "റദ്ദാക്കുക",
-          "UPDATE": "Update changes"
+          "UPDATE": "മാറ്റങ്ങൾ അപ്ഡേറ്റ് ചെയ്യുക"
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "തിരയുക..."
         },
-        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "EMPTY_MESSAGE": "ഏതെങ്കിലും സീനാരിയോകളും കണ്ടെത്തിയില്ല. ആരംഭിക്കാൻ ഉദാഹരണങ്ങൾ സൃഷ്ടിക്കുക അല്ലെങ്കിൽ ചേർക്കുക.",
+        "SEARCH_EMPTY_MESSAGE": "ഈ തിരച്ചിലിനായി യാതൊരു സീനാരിയോയും കണ്ടെത്തിയില്ല.",
         "API": {
           "ADD": {
-            "SUCCESS": "Scenarios added successfully",
-            "ERROR": "There was an error adding scenarios, please try again."
+            "SUCCESS": "സീനാരിയോകൾ വിജയകരമായി ചേർത്തു",
+            "ERROR": "സീനാരിയോകൾ ചേർക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
           },
           "UPDATE": {
-            "SUCCESS": "Scenarios updated successfully",
-            "ERROR": "There was an error updating scenarios, please try again."
+            "SUCCESS": "സീനാരിയോകൾ വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു",
+            "ERROR": "സീനാരിയോകൾ അപ്ഡേറ്റ് ചെയ്യുമ്പോൾ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
           },
           "DELETE": {
-            "SUCCESS": "Scenarios deleted successfully",
-            "ERROR": "There was an error deleting scenarios, please try again."
+            "SUCCESS": "സീനാരിയോകൾ വിജയകരമായി ഇല്ലാതാക്കി",
+            "ERROR": "സീനാരിയോകൾ ഇല്ലാതാക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
           }
         }
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
-      "RELATED_RESPONSES": {
-        "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+      "HEADER": "ഡോക്യുമെന്റുകൾ",
+      "ADD_NEW": "ഒരു പുതിയ ഡോക്യുമെന്റ് സൃഷ്ടിക്കുക",
+      "SELECTED": "{count} തിരഞ്ഞെടുക്കപ്പെട്ടത്",
+      "SELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കുക ({count})",
+      "UNSELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കൽ ഒഴിവാക്കുക ({count})",
+      "BULK_DELETE_BUTTON": "ഇല്ലാതാക്കുക",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "അതെ, എല്ലാം ഇല്ലാതാക്കുക",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "RELATED_RESPONSES": {
+        "TITLE": "ബന്ധപ്പെട്ട സാധാരണ ചോദിക്കപ്പെടുന്ന ചോദ്യങ്ങൾ",
+        "DESCRIPTION": "ഈ സാധാരണ ചോദിക്കപ്പെടുന്ന ചോദ്യങ്ങൾ രേഖയിൽ നിന്നു നേരിട്ട് സൃഷ്ടിച്ചവയാണ്."
+      },
+      "FORM_DESCRIPTION": "ഡോക്യുമെന്റിന്റെ URL നൽകുക, അതിനെ ഒരു നോളജ് സോഴ്സ് ആയി ചേർക്കാൻ, കൂടാതെ അത് ബന്ധിപ്പിക്കാനുള്ള അസിസ്റ്റന്റിനെ തിരഞ്ഞെടുക്കുക.",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "TITLE": "ഒരു ഡോക്യുമെന്റ് ചേർക്കുക",
+        "SUCCESS_MESSAGE": "ഡോക്യുമെന്റ് വിജയകരമായി സൃഷ്ടിച്ചു",
+        "ERROR_MESSAGE": "ഡോക്യുമെന്റ് സൃഷ്ടിക്കുമ്പോൾ ഒരു പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
       },
       "FORM": {
         "TYPE": {
-          "LABEL": "Document Type",
+          "LABEL": "ഡോക്യുമെന്റ് തരം",
           "URL": "URL",
-          "PDF": "PDF File"
+          "PDF": "PDF ഫയൽ"
         },
         "URL": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "PLACEHOLDER": "ഡോക്യുമെന്റിന്റെ URL നൽകുക",
+          "ERROR": "ഡോക്യുമെന്റിനായി സാധുവായ URL നൽകുക"
         },
         "PDF_FILE": {
-          "LABEL": "PDF File",
-          "CHOOSE_FILE": "Choose PDF file",
-          "ERROR": "Please select a PDF file",
-          "HELP_TEXT": "Maximum file size: 10MB",
-          "INVALID_TYPE": "Please select a valid PDF file",
-          "TOO_LARGE": "File size exceeds 10MB limit"
+          "LABEL": "PDF ഫയൽ",
+          "CHOOSE_FILE": "PDF ഫയൽ തിരഞ്ഞെടുക്കുക",
+          "ERROR": "ദയവായി ഒരു PDF ഫയൽ തിരഞ്ഞെടുക്കുക",
+          "HELP_TEXT": "പരമാവധി ഫയൽ വലുപ്പം: 10MB",
+          "INVALID_TYPE": "ദയവായി സാധുവായ PDF ഫയൽ തിരഞ്ഞെടുക്കുക",
+          "TOO_LARGE": "ഫയൽ വലുപ്പം 10MB പരിധി കടന്നുപോയി"
         },
         "NAME": {
-          "LABEL": "Document Name (Optional)",
-          "PLACEHOLDER": "Enter a name for the document"
+          "LABEL": "ഡോക്യുമെന്റ് പേര് (ഐച്ഛികം)",
+          "PLACEHOLDER": "ഡോക്യുമെന്റിന് ഒരു പേര് നൽകുക"
         }
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the document?",
-        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "TITLE": "നിങ്ങൾക്ക് ഈ ഡോക്യുമെന്റ് ഇല്ലാതാക്കാൻ ഉറപ്പാണോ?",
+        "DESCRIPTION": "ഈ പ്രവർത്തനം സ്ഥിരമാണ്. ഈ ഡോക്യുമെന്റ് ഇല്ലാതാക്കുന്നത് സൃഷ്ടിച്ച എല്ലാ അറിവുകളും സ്ഥിരമായി ഇല്ലാതാക്കും.",
+        "CONFIRM": "അതെ, ഇല്ലാതാക്കുക",
+        "SUCCESS_MESSAGE": "ഡോക്യുമെന്റ് വിജയകരമായി ഇല്ലാതാക്കി",
+        "ERROR_MESSAGE": "ഡോക്യുമെന്റ് ഇല്ലാതാക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "DELETE_DOCUMENT": "Delete Document"
+        "VIEW_RELATED_RESPONSES": "ബന്ധപ്പെട്ട പ്രതികരണങ്ങൾ കാണുക",
+        "DELETE_DOCUMENT": "ഡോക്യുമെന്റ് ഇല്ലാതാക്കുക"
       },
       "EMPTY_STATE": {
-        "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "TITLE": "പ്രമാണങ്ങൾ ലഭ്യമല്ല",
+        "SUBTITLE": "നിങ്ങളുടെ അസിസ്റ്റന്റിന് FAQകൾ സൃഷ്ടിക്കാൻ ഡോക്യുമെന്റുകൾ ഉപയോഗിക്കുന്നു. അസിസ്റ്റന്റിന് സാന്ദർഭ്യം നൽകാൻ നിങ്ങൾക്ക് ഡോക്യുമെന്റുകൾ ഇറക്കുമതി ചെയ്യാം.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "TITLE": "ക്യാപ്റ്റൻ ഡോക്യുമെന്റ്",
+          "NOTE": "Captain-ലുള്ള ഒരു ഡോക്യുമെന്റ് അസിസ്റ്റന്റിനുള്ള അറിവ് വിഭവമായി സേവനം ചെയ്യുന്നു. നിങ്ങളുടെ സഹായ കേന്ദ്രം അല്ലെങ്കിൽ മാർഗ്ഗനിർദ്ദേശങ്ങൾ ബന്ധിപ്പിച്ച്, Captain ഉള്ളടക്കം വിശകലനം ചെയ്ത് ഉപഭോക്തൃ ചോദനകൾക്ക് കൃത്യമായ മറുപടികൾ നൽകാൻ കഴിയും."
         }
       }
     },
     "CUSTOM_TOOLS": {
-      "HEADER": "Tools",
-      "ADD_NEW": "Create a new tool",
+      "HEADER": "ഉപകരണങ്ങൾ",
+      "ADD_NEW": "പുതിയ ഉപകരണം സൃഷ്ടിക്കുക",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
-        "TITLE": "No custom tools available",
-        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "TITLE": "ഇവിടെ ഇഷ്ടാനുസൃത ഉപകരണങ്ങൾ ലഭ്യമല്ല",
+        "SUBTITLE": "നിങ്ങളുടെ അസിസ്റ്റന്റിനെ ബാഹ്യ API-കളുമായി സേവനങ്ങളുമായി ബന്ധിപ്പിക്കാൻ ഇഷ്ടാനുസൃത ഉപകരണങ്ങൾ സൃഷ്ടിക്കുക, അതിലൂടെ അത് നിങ്ങളുടെ പക്കൽ നിന്ന് ഡാറ്റ എടുക്കുകയും പ്രവർത്തനങ്ങൾ നടത്തുകയും ചെയ്യാൻ കഴിയും.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Custom Tools",
-          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+          "TITLE": "കസ്റ്റം ടൂളുകൾ",
+          "NOTE": "കസ്റ്റം ടൂളുകൾ നിങ്ങളുടെ അസിസ്റ്റന്റിന് ബാഹ്യ API-കളുമായി സേവനങ്ങളുമായി ഇടപഴകാൻ അനുവദിക്കുന്നു. ഡാറ്റ നേടാൻ, പ്രവർത്തനങ്ങൾ നടത്താൻ, അല്ലെങ്കിൽ നിങ്ങളുടെ നിലവിലുള്ള സിസ്റ്റങ്ങളുമായി സംയോജിപ്പിക്കാൻ ടൂളുകൾ സൃഷ്ടിച്ച് നിങ്ങളുടെ അസിസ്റ്റന്റിന്റെ കഴിവുകൾ മെച്ചപ്പെടുത്തുക."
         }
       },
-      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "FORM_DESCRIPTION": "ബാഹ്യ API-കളുമായി ബന്ധിപ്പിക്കാൻ നിങ്ങളുടെ കസ്റ്റം ടൂൾ ക്രമീകരിക്കുക",
       "OPTIONS": {
-        "EDIT_TOOL": "Edit tool",
-        "DELETE_TOOL": "Delete tool"
+        "EDIT_TOOL": "ടൂൾ എഡിറ്റ് ചെയ്യുക",
+        "DELETE_TOOL": "ടൂൾ ഇല്ലാതാക്കുക"
       },
       "CREATE": {
-        "TITLE": "Create Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool created successfully",
-        "ERROR_MESSAGE": "Failed to create custom tool"
+        "TITLE": "കസ്റ്റം ടൂൾ സൃഷ്ടിക്കുക",
+        "SUCCESS_MESSAGE": "കസ്റ്റം ടൂൾ വിജയകരമായി സൃഷ്ടിച്ചു",
+        "ERROR_MESSAGE": "കസ്റ്റം ടൂൾ സൃഷ്ടിക്കാൻ പരാജയപ്പെട്ടു"
       },
       "EDIT": {
-        "TITLE": "Edit Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool updated successfully",
-        "ERROR_MESSAGE": "Failed to update custom tool"
+        "TITLE": "കസ്റ്റം ടൂൾ എഡിറ്റ് ചെയ്യുക",
+        "SUCCESS_MESSAGE": "കസ്റ്റം ടൂൾ വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു",
+        "ERROR_MESSAGE": "കസ്റ്റം ടൂൾ അപ്ഡേറ്റ് ചെയ്യാൻ പരാജയപ്പെട്ടു"
       },
       "DELETE": {
-        "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete custom tool"
+        "TITLE": "കസ്റ്റം ടൂൾ ഇല്ലാതാക്കുക",
+        "DESCRIPTION": "ഈ കസ്റ്റം ടൂൾ നീക്കംചെയ്യാൻ നിങ്ങൾക്ക് ഉറപ്പുണ്ടോ? ഈ പ്രവർത്തനം മടക്കാനാകില്ല.",
+        "CONFIRM": "അതെ, നീക്കംചെയ്യുക",
+        "SUCCESS_MESSAGE": "കസ്റ്റം ടൂൾ വിജയകരമായി ഇല്ലാതാക്കി",
+        "ERROR_MESSAGE": "കസ്റ്റം ടൂൾ ഇല്ലാതാക്കാൻ പരാജയപ്പെട്ടു"
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Tool Name",
-          "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "LABEL": "ഉപകരണത്തിന്റെ പേര്",
+          "PLACEHOLDER": "ഓർഡർ ലുക്കപ്പ്",
+          "ERROR": "ടൂൾ നാമം ആവശ്യമാണ്",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "വിവരണം",
-          "PLACEHOLDER": "Looks up order details by order ID"
+          "PLACEHOLDER": "ഓർഡർ ഐഡിയുടെ അടിസ്ഥാനത്തിൽ ഓർഡർ വിശദാംശങ്ങൾ പരിശോധിക്കുന്നു"
         },
         "HTTP_METHOD": {
-          "LABEL": "Method"
+          "LABEL": "രീതി"
         },
         "ENDPOINT_URL": {
-          "LABEL": "Endpoint URL",
+          "LABEL": "എൻഡ്‌പോയിന്റ് URL",
           "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
-          "ERROR": "Valid URL is required"
+          "ERROR": "സാധുവായ URL ആവശ്യമാണ്"
         },
         "AUTH_TYPE": {
-          "LABEL": "Authentication Type"
+          "LABEL": "പ്രാമാണീകരണ തരം"
         },
         "AUTH_TYPES": {
-          "NONE": "None",
-          "BEARER": "Bearer Token",
-          "BASIC": "Basic Auth",
-          "API_KEY": "API Key"
+          "NONE": "ഒന്നുമില്ല",
+          "BEARER": "ബിയറർ ടോക്കൺ",
+          "BASIC": "ബേസിക് ഓത്ത്",
+          "API_KEY": "API കീ"
         },
         "AUTH_CONFIG": {
-          "BEARER_TOKEN": "Bearer Token",
-          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
-          "USERNAME": "Username",
-          "USERNAME_PLACEHOLDER": "Enter username",
+          "BEARER_TOKEN": "ബിയറർ ടോക്കൺ",
+          "BEARER_TOKEN_PLACEHOLDER": "നിങ്ങളുടെ ബിയറർ ടോക്കൺ നൽകുക",
+          "USERNAME": "ഉപയോക്തൃനാമം",
+          "USERNAME_PLACEHOLDER": "ഉപയോക്തൃനാമം നൽകുക",
           "PASSWORD": "പാസ്‌വേഡ്",
-          "PASSWORD_PLACEHOLDER": "Enter password",
-          "API_KEY": "Header Name",
+          "PASSWORD_PLACEHOLDER": "പാസ്‌വേഡ് നൽകുക",
+          "API_KEY": "ഹെഡർ നാമം",
           "API_KEY_PLACEHOLDER": "X-API-Key",
-          "API_VALUE": "Header Value",
-          "API_VALUE_PLACEHOLDER": "Enter API key value"
+          "API_VALUE": "ഹെഡർ മൂല്യം",
+          "API_VALUE_PLACEHOLDER": "API കീ മൂല്യം നൽകുക"
         },
         "PARAMETERS": {
-          "LABEL": "Parameters",
-          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+          "LABEL": "പരാമീറ്ററുകൾ",
+          "HELP_TEXT": "ഉപയോക്തൃ ചോദനകളിൽ നിന്ന് എടുക്കേണ്ട പരാമീറ്ററുകൾ നിർവചിക്കുക"
         },
-        "ADD_PARAMETER": "Add Parameter",
+        "ADD_PARAMETER": "പാരാമീറ്റർ ചേർക്കുക",
         "PARAM_NAME": {
-          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+          "PLACEHOLDER": "പാരാമീറ്റർ പേര് (ഉദാ., order_id)"
         },
         "PARAM_TYPE": {
-          "PLACEHOLDER": "Type"
+          "PLACEHOLDER": "ടൈപ്പ്"
         },
         "PARAM_TYPES": {
-          "STRING": "String",
-          "NUMBER": "Number",
-          "BOOLEAN": "Boolean",
-          "ARRAY": "Array",
-          "OBJECT": "Object"
+          "STRING": "സ്ട്രിംഗ്",
+          "NUMBER": "സംഖ്യ",
+          "BOOLEAN": "ബൂളിയൻ",
+          "ARRAY": "അറേ",
+          "OBJECT": "ഓബ്ജക്ട്"
         },
         "PARAM_DESCRIPTION": {
-          "PLACEHOLDER": "Description of the parameter"
+          "PLACEHOLDER": "പാരാമീറ്ററിന്റെ വിവരണം"
         },
         "PARAM_REQUIRED": {
-          "LABEL": "Required"
+          "LABEL": "ആവശ്യമാണ്"
         },
         "REQUEST_TEMPLATE": {
-          "LABEL": "Request Body Template (Optional)",
+          "LABEL": "അഭ്യർത്ഥന ബോഡി ടെംപ്ലേറ്റ് (ഐച്ഛികം)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "Response Template (Optional)",
+          "LABEL": "പ്രതികരണ ടെംപ്ലേറ്റ് (ഐച്ഛികം)",
           "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
         },
         "ERRORS": {
-          "PARAM_NAME_REQUIRED": "Parameter name is required"
+          "PARAM_NAME_REQUIRED": "പാരാമീറ്റർ നാമം ആവശ്യമാണ്"
         }
       }
     },
     "RESPONSES": {
-      "HEADER": "FAQs",
-      "PENDING_FAQS": "Pending FAQs",
-      "ADD_NEW": "Create new FAQ",
+      "HEADER": "അടിക്കുറിപ്പുകൾ",
+      "PENDING_FAQS": "പെൻഡിംഗ് എഫ്എക്യുസുകൾ",
+      "ADD_NEW": "പുതിയ FAQ സൃഷ്ടിക്കുക",
       "DOCUMENTABLE": {
-        "CONVERSATION": "Conversation #{id}"
+        "CONVERSATION": "സംഭാഷണം #{id}"
       },
-      "SELECTED": "{count} selected",
-      "SELECT_ALL": "Select all ({count})",
-      "UNSELECT_ALL": "Unselect all ({count})",
-      "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Approve",
+      "SELECTED": "{count} തിരഞ്ഞെടുക്കപ്പെട്ടത്",
+      "SELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കുക ({count})",
+      "UNSELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കൽ ഒഴിവാക്കുക ({count})",
+      "SEARCH_PLACEHOLDER": "FAQകൾ തിരയുക...",
+      "BULK_APPROVE_BUTTON": "അംഗീകാരം നൽകുക",
       "BULK_DELETE_BUTTON": "ഇല്ലാതാക്കുക",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "FAQs വിജയകരമായി അംഗീകരിച്ചു",
+        "ERROR_MESSAGE": "FAQs അംഗീകരിക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "TITLE": "FAQകൾ ഇല്ലാതാക്കണോ?",
+        "DESCRIPTION": "തിരഞ്ഞെടുത്ത FAQകൾ ഇല്ലാതാക്കാൻ നിങ്ങൾക്ക് ഉറപ്പാണോ? ഈ പ്രവർത്തനം തിരുത്താനാകില്ല.",
+        "CONFIRM": "അതെ, എല്ലാം ഇല്ലാതാക്കുക",
+        "SUCCESS_MESSAGE": "FAQകൾ വിജയകരമായി ഇല്ലാതാക്കി",
+        "ERROR_MESSAGE": "FAQ കളെ ഇല്ലാതാക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the FAQ?",
+        "TITLE": "നിങ്ങൾക്ക് FAQ ഇല്ലാതാക്കാൻ ഉറപ്പാണോ?",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "FAQ deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+        "CONFIRM": "അതെ, ഇല്ലാതാക്കുക",
+        "SUCCESS_MESSAGE": "FAQ വിജയകരമായി ഇല്ലാതാക്കി",
+        "ERROR_MESSAGE": "FAQ ഇല്ലാതാക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
       },
       "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
-        "STATUS": "Status: {selected}",
+        "ASSISTANT": "സഹായി: {selected}",
+        "STATUS": "സ്ഥിതി: {selected}",
         "ALL_ASSISTANTS": "എല്ലാം"
       },
       "STATUS": {
         "TITLE": "സ്റ്റാറ്റസ്",
         "PENDING": "കെട്ടിക്കിടക്കുന്നു",
-        "APPROVED": "Approved",
+        "APPROVED": "അംഗീകൃതം",
         "ALL": "എല്ലാം"
       },
       "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+        "TITLE": "ക്യാപ്റ്റൻ നിങ്ങളുടെ ഉപഭോക്താക്കൾ അന്വേഷിച്ച ചില സാധാരണ ചോദിച്ച ചോദ്യങ്ങൾ കണ്ടെത്തി.",
+        "ACTION": "പരിശോധിക്കാൻ ഇവിടെ ക്ലിക്ക് ചെയ്യുക"
       },
-      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "FORM_DESCRIPTION": "ഒരു ചോദ്യം അതിന്റെ അനുയോജ്യമായ ഉത്തരം അറിവ് അടിസ്ഥാനത്തിലേക്ക് ചേർക്കുക, കൂടാതെ അത് ബന്ധപ്പെട്ടിരിക്കേണ്ട അസിസ്റ്റന്റിനെ തിരഞ്ഞെടുക്കുക.",
       "CREATE": {
-        "TITLE": "Add an FAQ",
-        "SUCCESS_MESSAGE": "The response has been added successfully.",
-        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+        "TITLE": "ഒരു FAQ ചേർക്കുക",
+        "SUCCESS_MESSAGE": "പ്രതികരണം വിജയകരമായി ചേർത്തു.",
+        "ERROR_MESSAGE": "പ്രതികരണം ചേർക്കുമ്പോൾ ഒരു പിശക് സംഭവിച്ചു. ദയവായി വീണ്ടും ശ്രമിക്കുക."
       },
       "FORM": {
         "QUESTION": {
-          "LABEL": "Question",
-          "PLACEHOLDER": "Enter the question here",
-          "ERROR": "Please provide a valid question."
+          "LABEL": "ചോദ്യം",
+          "PLACEHOLDER": "ചോദ്യം ഇവിടെ നൽകുക",
+          "ERROR": "ദയവായി സാധുവായ ഒരു ചോദ്യം നൽകുക."
         },
         "ANSWER": {
-          "LABEL": "Answer",
-          "PLACEHOLDER": "Enter the answer here",
-          "ERROR": "Please provide a valid answer."
+          "LABEL": "ഉത്തരം",
+          "PLACEHOLDER": "ഉത്തരം ഇവിടെ നൽകുക",
+          "ERROR": "ദയവായി സാധുവായ ഒരു ഉത്തരം നൽകുക."
         }
       },
       "EDIT": {
-        "TITLE": "Update the FAQ",
-        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
-        "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
+        "TITLE": "FAQ അപ്ഡേറ്റ് ചെയ്യുക",
+        "SUCCESS_MESSAGE": "FAQ വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു",
+        "ERROR_MESSAGE": "FAQ അപ്ഡേറ്റ് ചെയ്യുമ്പോൾ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക",
+        "APPROVE_SUCCESS_MESSAGE": "FAQ അംഗീകൃതമായി അടയാളപ്പെടുത്തി"
       },
       "OPTIONS": {
-        "APPROVE": "Approve",
+        "APPROVE": "അംഗീകരിക്കുക",
         "EDIT_RESPONSE": "എഡിറ്റുചെയ്യുക",
         "DELETE_RESPONSE": "ഇല്ലാതാക്കുക"
       },
       "EMPTY_STATE": {
-        "TITLE": "No FAQs Found",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
-        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
-        "CLEAR_SEARCH": "Clear active filters",
+        "TITLE": "ഏതെങ്കിലും FAQ കണ്ടെത്തിയില്ല",
+        "NO_PENDING_TITLE": "പരിശോധിക്കാനുള്ള കൂടുതൽ പendente FAQകൾ ഇല്ല",
+        "SUBTITLE": "FAQകൾ നിങ്ങളുടെ അസിസ്റ്റന്റിന് നിങ്ങളുടെ ഉപഭോക്താക്കളിൽ നിന്നുള്ള ചോദ്യങ്ങൾക്ക് വേഗവും കൃത്യവുമായ ഉത്തരങ്ങൾ നൽകാൻ സഹായിക്കുന്നു. അവ നിങ്ങളുടെ ഉള്ളടക്കത്തിൽ നിന്ന് സ്വയം സൃഷ്ടിക്കപ്പെടാം അല്ലെങ്കിൽ കൈമാറി ചേർക്കാം.",
+        "CLEAR_SEARCH": "സജീവമായ ഫിൽട്ടറുകൾ മായ്ക്കുക",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "TITLE": "ക്യാപ്റ്റൻ എഫ്എക്യു",
+          "NOTE": "Captain FAQs സാധാരണ ഉപഭോക്തൃ ചോദ്യങ്ങൾ കണ്ടെത്തുന്നു—നിങ്ങളുടെ നോളജ് ബേസിൽ ഇല്ലാത്തതോ അല്ലെങ്കിൽ പലപ്പോഴും ചോദിക്കപ്പെടുന്നതോ ആയ ചോദ്യങ്ങൾ—മറ്റുള്ളവയ്ക്ക് അനുയോജ്യമായ FAQs സൃഷ്ടിച്ച് പിന്തുണ മെച്ചപ്പെടുത്തുന്നു. ഓരോ നിർദ്ദേശവും നിങ്ങൾ പരിശോധിച്ച് അംഗീകരിക്കാമോ നിരസിക്കാമോ എന്ന് തീരുമാനിക്കാം."
         }
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "കണക്ട് ചെയ്ത ഇൻബോക്സുകൾ",
+      "ADD_NEW": "പുതിയ ഇൻബോക്സ് കണക്ട് ചെയ്യുക",
       "OPTIONS": {
-        "DISCONNECT": "Disconnect"
+        "DISCONNECT": "ഡിസ്‌കണക്ട് ചെയ്യുക"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "ഇൻബോക്സ് ഡിസ്‌കണക്ട് ചെയ്യാൻ നിങ്ങൾ ഉറപ്പാണോ?",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "CONFIRM": "അതെ, ഇല്ലാതാക്കുക",
+        "SUCCESS_MESSAGE": "ഇൻബോക്സ് വിജയകരമായി ബന്ധം മുറിച്ചു.",
+        "ERROR_MESSAGE": "ഇൻബോക്സ് ബന്ധം വിച്ഛേദിക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "അസിസ്റ്റന്റുമായി ബന്ധിപ്പിക്കാൻ ഒരു ഇൻബോക്സ് തിരഞ്ഞെടുക്കുക.",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
-        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+        "TITLE": "ഒരു ഇൻബോക്സ് ബന്ധിപ്പിക്കുക",
+        "SUCCESS_MESSAGE": "ഇൻബോക്സ് വിജയകരമായി ബന്ധിപ്പിച്ചു.",
+        "ERROR_MESSAGE": "ഇൻബോക്സ് ബന്ധിപ്പിക്കുമ്പോൾ ഒരു പിശക് സംഭവിച്ചു. ദയവായി വീണ്ടും ശ്രമിക്കുക."
       },
       "FORM": {
         "INBOX": {
           "LABEL": "ഇൻബോക്സ്",
-          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
-          "ERROR": "An inbox selection is required."
+          "PLACEHOLDER": "അസിസ്റ്റന്റിനെ വിന്യസിക്കാൻ ഇൻബോക്സ് തിരഞ്ഞെടുക്കുക.",
+          "ERROR": "ഒരു ഇൻബോക്സ് തിരഞ്ഞെടുപ്പ് ആവശ്യമാണ്."
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "TITLE": "കണക്ട് ചെയ്ത ഇൻബോക്സുകൾ ഇല്ല",
+        "SUBTITLE": "ഒരു ഇൻബോക്സ് കണക്ട് ചെയ്യുന്നത് അസിസ്റ്റന്റിന് നിങ്ങളുടെ ഉപഭോക്താക്കളിൽ നിന്നുള്ള പ്രാഥമിക ചോദ്യങ്ങൾ കൈകാര്യം ചെയ്യാൻ സഹായിക്കുന്നു, പിന്നീട് അവരെ നിങ്ങളിലേക്ക് മാറ്റും."
       }
     }
   }

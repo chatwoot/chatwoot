@@ -2,7 +2,10 @@
   "INBOX_MGMT": {
     "HEADER": "Gelen kutuları",
     "DESCRIPTION": "Kanal, müşterinizin sizinle iletişim kurmak için seçtiği yöntemdir. Gelen kutusu (inbox) ise belirli bir kanal üzerinden gerçekleşen etkileşimleri yönettiğiniz yerdir. Gelen kutusu; e-posta, canlı sohbet ve sosyal medya gibi farklı kaynaklardan gelen iletişimleri içerebilir.",
-    "LEARN_MORE": "Learn more about inboxes",
+    "LEARN_MORE": "Gelen kutuları hakkında daha fazla bilgi edinin",
+    "COUNT": "{n} inbox | {n} inboxes",
+    "SEARCH_PLACEHOLDER": "Gelen kutularını ara...",
+    "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "WhatsApp Business kaydınız tamamlanmadı. Yeniden bağlanmadan önce lütfen Meta Business Manager'da görünen adınızın (display name) durumunu kontrol edin.",
@@ -82,6 +85,14 @@
           "LABEL": "Web Kanca URL'si",
           "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Lütfen geçerli bir adres girin"
+        },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Web Sitesi Alan Adı",
@@ -563,7 +574,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Gönderen Adı",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Müşterileriniz, temsilcilerinizden e-posta aldıklarında görecekleri adı seçin.",
         "FOR_EG": "Örneğin:",
         "FRIENDLY": {
           "TITLE": "Dostça",
@@ -575,7 +586,7 @@
           "SUBTITLE": "E-posta başlığında gönderen adı olarak yalnızca yapılandırılmış iş adını kullanın."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ İş adınızı yapılandırın",
+          "BUTTON_TEXT": "İş adınızı yapılandırın",
           "PLACEHOLDER": "İş adınızı girin",
           "SAVE_BUTTON_TEXT": "Kaydet"
         }
@@ -589,8 +600,10 @@
         "DISABLED": "Devre dışı"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Etkin",
-        "DISABLED": "Devre dışı"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "Etkinleştir"
@@ -625,6 +638,8 @@
       "ACCOUNT_HEALTH": "Hesap Sağlığı",
       "CSAT": "CSAT"
     },
+    "CHANNEL_PREFERENCES": "Channel Preferences",
+    "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
       "TITLE": "WhatsApp hesabınızı yönetin",
       "DESCRIPTION": "WhatsApp hesap durumunuzu, mesajlaşma limitlerinizi ve kalitesini inceleyin. Gerekirse ayarları güncelleyin veya sorunları çözün",
@@ -678,6 +693,16 @@
           "SANDBOX": "Sandbox",
           "LIVE": "Canlı"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Webhook Configuration",
+        "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
+        "ACTION_REQUIRED": "Webhook not configured",
+        "REGISTER_BUTTON": "Register Webhook",
+        "REGISTER_SUCCESS": "Webhook registered successfully",
+        "REGISTER_ERROR": "Failed to register webhook. Please try again.",
+        "CONFIGURED_SUCCESS": "Webhook configured successfully",
+        "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
     "SETTINGS": "Ayarlar",
@@ -693,8 +718,20 @@
       "MESSENGER_SUB_HEAD": "Bu düğmeyi gövde etiketinizin içine yerleştirin",
       "ALLOWED_DOMAINS": {
         "TITLE": "İzin Verilen Alan Adları",
-        "SUBTITLE": "Virgülle ayrılmış joker karakterli veya normal alan adları ekleyin (hepsine izin vermek için boş bırakın), örneğin *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Virgülle ayrılmış alan adlarını girin (ör: *.chatwoot.dev, chatwoot.com)"
+        "DESCRIPTION": "Sohbet widget'ınızı hangi web sitelerinin yerleştirebileceğini kısıtlayın. Güvenlik amacıyla, yalnızca sahip olduğunuz ve güvendiğiniz alan adlarını ekleyin. Bir veya daha fazla alan adını virgülle ayırarak ekleyin. Tüm alan adlarına izin vermek için boş bırakın (canlı ortamlar için önerilmez).",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
+      },
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Mobil uygulamalarda widget'ı etkinleştir",
+        "SUBTITLE": "Widget'ı iOS veya Android uygulamalarına yerleştiriyorsanız bu seçeneği işaretleyin. Mobil uygulamalar alan adı bilgisi göndermediğinden, bu seçenek etkinleştirilmezse alan adı kısıtlamalarına takılarak engellenirler."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Kimlik Doğrulama",
+        "DESCRIPTION": "Güvenli token'lar oluşturarak kullanıcıların gerçekliğini doğrulayın. Bu işlem, yetkisiz kişilerin sohbetinizde başkalarının kimliğine bürünmesini engeller.",
+        "SECRET_KEY": "Gizli Anahtar",
+        "VIEW_DOCS": "Dokümantasyonu görüntüle",
+        "REQUIRE_LABEL": "Tüm sohbetler için kimlik doğrulamayı zorunlu kıl",
+        "REQUIRE_DESCRIPTION": "Etkinleştirildiğinde, kullanıcıların sohbet başlatabilmesi için geçerli bir kimlik token'ı sunması gerekir. Geçerli bir token içermeyen istekler reddedilecektir."
       },
       "INBOX_AGENTS": "Kullanıcılar",
       "INBOX_AGENTS_SUB_TEXT": "Bu gelen kutusuna aracı ekleyin veya aracıları kaldırın",
@@ -708,8 +745,8 @@
       "SENDER_NAME_SECTION_TEXT": "E-postada Ajanın adını göstermeyi/Devre dışı bırakmayı etkinleştirin, devre dışı bırakıldığında iş adını gösterir",
       "ENABLE_CONTINUITY_VIA_EMAIL": "E-posta aracılığıyla konuşma sürekliliğini etkinleştir",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "E-posta adresi mevcut ise konuşmalar e-posta aracılığıyla devam eder.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Tek bir konuşmaya kilitle",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Bu gelen kutusu için aynı kişi için birden fazla konuşmayı etkinleştir veya devre dışı bırak",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Gelen Kutusu Ayarları",
       "INBOX_UPDATE_SUB_TEXT": "Gelen kutusu ayarlarınızı güncelleyin",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bu gelen kutusuna eklenen aracılara yeni konuşmaların otomatik olarak atanmasını etkinleştirin veya devre dışı bırakın.",
@@ -758,6 +795,7 @@
       "LABEL": "Yardım Merkezi",
       "PLACEHOLDER": "Yardım Merkezi Seçin",
       "SELECT_PLACEHOLDER": "Yardım Merkezi Seçin",
+      "NONE": "Hiç",
       "REMOVE": "Yardım Merkezini Kaldır",
       "SUB_TEXT": "Yardım Merkezini gelen kutusuna ekleyin"
     },
@@ -765,6 +803,53 @@
       "MAX_ASSIGNMENT_LIMIT": "Otomatik atama limiti",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Lütfen 0'dan büyük bir değer girin",
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Bu gelen kutusundan otomatik olarak bir ajanın atanabileceği maksimum konuşma sayısını sınırlayın"
+    },
+    "ASSIGNMENT": {
+      "TITLE": "Görüşme Atama",
+      "DESCRIPTION": "Automatically assign incoming conversations to available agents based on assignment policies",
+      "ENABLE_AUTO_ASSIGNMENT": "Enable automatic conversation assignment",
+      "DEFAULT_RULES_TITLE": "Default assignment rules",
+      "DEFAULT_RULES_DESCRIPTION": "Using the default assignment behavior for all conversations",
+      "DEFAULT_RULE_1": "Earliest created conversations first",
+      "DEFAULT_RULE_2": "Round robin distribution",
+      "CUSTOMIZE_WITH_POLICY": "Customize with assignment policy",
+      "USING_POLICY": "Using custom assignment policy for this inbox",
+      "CUSTOMIZE_POLICY": "Customize with assignment policy",
+      "DELETE_POLICY": "Politikayı sil",
+      "POLICY_LABEL": "Assignment policy",
+      "ASSIGNMENT_ORDER_LABEL": "Assignment Order",
+      "ASSIGNMENT_METHOD_LABEL": "Assignment Method",
+      "POLICY_STATUS": {
+        "ACTIVE": "Aktif",
+        "INACTIVE": "Inactive"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "Earliest created",
+        "LONGEST_WAITING": "Longest waiting"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "Round robin",
+        "BALANCED": "Balanced assignment"
+      },
+      "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
+      "UPGRADE_TO_BUSINESS": "Upgrade to Business",
+      "DEFAULT_POLICY_LINKED": "Default policy linked",
+      "DEFAULT_POLICY_DESCRIPTION": "Link a custom assignment policy to customize how conversations are assigned to agents in this inbox.",
+      "LINK_EXISTING_POLICY": "Link existing policy",
+      "CREATE_NEW_POLICY": "Create new policy",
+      "NO_POLICIES": "No assignment policies found",
+      "VIEW_ALL_POLICIES": "View all policies",
+      "CURRENT_BEHAVIOR": "Currently using default assignment behavior:",
+      "LINK_SUCCESS": "Assignment policy linked successfully",
+      "LINK_ERROR": "Failed to link assignment policy"
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
+      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
+      "CANCEL": "İptal Et",
+      "CONFIRM_DELETE": "Sil",
+      "DELETE_SUCCESS": "Assignment policy removed successfully",
+      "DELETE_ERROR": "Failed to remove assignment policy"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Yeniden Yetkilendir",
@@ -810,19 +895,19 @@
       },
       "BUTTON_TEXT": {
         "LABEL": "Button text",
-        "PLACEHOLDER": "Please rate us"
+        "PLACEHOLDER": "Lütfen bizi değerlendirin"
       },
       "LANGUAGE": {
         "LABEL": "Dil",
         "PLACEHOLDER": "Select template language"
       },
       "MESSAGE_PREVIEW": {
-        "LABEL": "Message preview",
+        "LABEL": "Mesaj önizlemesi",
         "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
       },
       "TEMPLATE_STATUS": {
-        "APPROVED": "Approved by WhatsApp",
-        "PENDING": "Pending WhatsApp approval",
+        "APPROVED": "WhatsApp tarafından onaylandı",
+        "PENDING": "WhatsApp onayı bekleniyor",
         "REJECTED": "Meta rejected the template",
         "DEFAULT": "Needs WhatsApp approval",
         "NOT_FOUND": "The template does not exist in the Meta platform."
@@ -832,10 +917,24 @@
         "ERROR_MESSAGE": "Failed to create WhatsApp template"
       },
       "TEMPLATE_UPDATE_DIALOG": {
-        "TITLE": "Edit survey details",
+        "TITLE": "Anket ayrıntılarını düzenle",
         "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Create new template",
+        "CONFIRM": "Yeni şablon oluştur",
         "CANCEL": "Geri git"
+      },
+      "UTILITY_ANALYZER": {
+        "ACTION": "Check utility fit",
+        "HELPER_NOTE": "Check this message before submission to improve Utility fit. The system creates a dedicated CSAT template with buttons for reporting and submits it as Utility; Meta may still reclassify it as Marketing based on content.",
+        "RESULT_LABEL": "Meta category prediction",
+        "GUIDANCE_NOTE": "This is a guidance check, not a guarantee of Meta approval.",
+        "SUGGESTION_LABEL": "Suggested utility-safe rewrite",
+        "APPLY": "Use this rewrite",
+        "ERROR_MESSAGE": "Couldn't analyze the message. Please try again.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "Likely Utility",
+          "LIKELY_MARKETING": "Likely Marketing",
+          "UNCLEAR": "Needs clarification"
+        }
       },
       "SURVEY_RULE": {
         "LABEL": "Anket kuralı",
@@ -848,7 +947,7 @@
         "SELECT_PLACEHOLDER": "etiketleri seç"
       },
       "NOTE": "Not: CSAT anketleri, konuşma başına yalnızca bir kez gönderilir",
-      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
       "API": {
         "SUCCESS_MESSAGE": "CSAT ayarları başarıyla güncellendi",
         "ERROR_MESSAGE": "CSAT ayarları güncellenemedi. Lütfen daha sonra tekrar deneyin."
@@ -864,9 +963,11 @@
       "UNAVAILABLE_MESSAGE_LABEL": "Ziyaretçiler için uygun değil mesajı",
       "TOGGLE_HELP": "İşletme erişilebilirliğini etkinleştirmek, tüm temsilciler çevrimdışı olsa bile canlı sohbet ekranında mevcut saatleri gösterecektir. Mevcut saatler dışında ziyaretçiler bir mesaj ve ön sohbet formu ile uyarılabilir.",
       "DAY": {
+        "DAY": "Gün",
+        "AVAILABILITY": "Uygunluk",
+        "HOURS": "Saat",
         "ENABLE": "Bu gün için uygunluğu etkinleştir",
         "UNAVAILABLE": "Uygun Değil",
-        "HOURS": "saat",
         "VALIDATION_ERROR": "Başlangıç saati kapanış saatinden önce olmalıdır.",
         "CHOOSE": "Seçin"
       },
@@ -973,11 +1074,12 @@
           "IN_A_DAY": "Bir gün içinde"
         },
         "WIDGET_COLOR_LABEL": "Widget Rengi",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Kabarcık Pozisyonu",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Kabarcık Türü",
+        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Tip:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Sohbet et",
-          "LABEL": "Widget Kabarcık Başlatıcı Başlığı",
+          "LABEL": "Launcher Title",
           "PLACE_HOLDER": "Sohbet et"
         },
         "UPDATE": {
@@ -1002,7 +1104,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "Varsayılan",
-        "CHAT": "Sohbet"
+        "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Genellikle birkaç dakika içinde yanıt verir",

@@ -1,29 +1,65 @@
-<p>Hi <%= @resource.name %>,</p>
+<%
+  brand_name = global_config['BRAND_NAME'] || 'Chatwoot'
+  recipient_name = @resource.name.presence || @resource.email
+  account_user = @resource&.account_users&.first
+  inviter = account_user&.inviter
+  account_name = account_user&.account&.name
+  invited_user = inviter.present? && @resource.unconfirmed_email.blank?
 
-<% account_user = @resource&.account_users&.first %>
+  eyebrow = 'Welcome'
+  heading = 'Confirm your email to get started'
+  intro_text =
+    "Welcome to #{brand_name}. We just need to verify your email address before you can start using your account."
+  supporting_text = 'This only takes a moment.'
+  action_text = 'Confirm my account'
+  action_url = frontend_url('auth/confirmation', confirmation_token: @token)
+  info_title = nil
+  info_text = nil
+  detail_rows = []
+  detail_rows << ['New email', @resource.unconfirmed_email] if @resource.unconfirmed_email.present?
 
-<% if account_user&.inviter.present? && @resource.unconfirmed_email.blank? %>
-  <p><%= account_user.inviter.name %>, with <%= account_user.account.name %>, has invited you to try out <%= global_config['BRAND_NAME'] || 'Chatwoot' %>.</p>
-<% end %>
+  if @resource.unconfirmed_email.present?
+    eyebrow = 'Email update'
+    heading = 'Confirm your new email address'
+    intro_text = "We received a request to update the email address on your #{brand_name} account."
+    supporting_text = 'Confirm the new address below to finish the change.'
+    action_text = 'Confirm email address'
+  elsif @resource.confirmed?
+    eyebrow = 'Account ready'
+    heading = 'Your account is ready'
+    intro_text = "Your #{brand_name} account is already active."
+    supporting_text = 'Use the button below to sign in and continue where you left off.'
+    action_text = 'Open my account'
+    action_url = frontend_url('auth/sign_in')
+    detail_rows = []
+  elsif invited_user
+    eyebrow = 'Workspace invitation'
+    heading = account_name.present? ? "You're invited to join #{account_name}" : "You're invited to try #{brand_name}"
+    intro_text = if account_name.present?
+      "#{inviter.name} invited you to join the #{account_name} workspace on #{brand_name}."
+    else
+      "#{inviter.name} invited you to try #{brand_name}."
+    end
+    supporting_text = 'Create your account to start collaborating with your team.'
+    action_text = 'Accept invitation'
+    action_url = frontend_url(
+      'auth/password/edit',
+      reset_password_token: @resource.send(:set_reset_password_token)
+    )
+    detail_rows = [['Invited by', inviter.name]]
+    detail_rows << ['Workspace', account_name] if account_name.present?
+  end
+%>
 
-<% if @resource.confirmed? %>
-  <p>You can login to your <%= global_config['BRAND_NAME'] || 'Chatwoot' %> account through the link below:</p>
-<% else %>
-  <% if account_user&.inviter.blank? %>
-  <p>
-    Welcome to <%= global_config['BRAND_NAME'] || 'Chatwoot' %>! We have a suite of powerful tools ready for you to explore. Before that we quickly need to verify your email address to know it's really you.
-  </p>
-  <% end %>
-  <p>Please take a moment and click the link below and activate your account.</p>
-<% end %>
-
-
-<% if @resource.unconfirmed_email.present? %>
-  <p><%= link_to 'Confirm my account', frontend_url('auth/confirmation', confirmation_token: @token) %></p>
-<% elsif @resource.confirmed? %>
-  <p><%= link_to 'Login to my account', frontend_url('auth/sign_in') %></p>
-<% elsif account_user&.inviter.present? %>
-  <p><%= link_to 'Confirm my account', frontend_url('auth/password/edit', reset_password_token: @resource.send(:set_reset_password_token)) %></p>
-<% else %>
-  <p><%= link_to 'Confirm my account', frontend_url('auth/confirmation', confirmation_token: @token) %></p>
-<% end %>
+<%= render partial: 'devise/mailer/confirmation_body', locals: {
+  action_text: action_text,
+  action_url: action_url,
+  detail_rows: detail_rows,
+  eyebrow: eyebrow,
+  heading: heading,
+  info_text: info_text,
+  info_title: info_title,
+  intro_text: intro_text,
+  recipient_name: recipient_name,
+  supporting_text: supporting_text
+} %>

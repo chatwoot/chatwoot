@@ -99,19 +99,19 @@ describe('#Inbox Helpers', () => {
     describe('line variant', () => {
       it('returns correct line icon for web widget', () => {
         expect(getInboxIconByType(INBOX_TYPES.WEB, null, 'line')).toBe(
-          'i-ri-global-line'
+          'i-woot-website'
         );
       });
 
       it('returns correct line icon for Facebook', () => {
         expect(getInboxIconByType(INBOX_TYPES.FB, null, 'line')).toBe(
-          'i-ri-messenger-line'
+          'i-woot-messenger'
         );
       });
 
       it('returns correct line icon for TikTok', () => {
         expect(getInboxIconByType(INBOX_TYPES.TIKTOK, null, 'line')).toBe(
-          'i-ri-tiktok-line'
+          'i-woot-tiktok'
         );
       });
 
@@ -147,7 +147,7 @@ describe('#Inbox Helpers', () => {
         it('returns WhatsApp line icon for Twilio WhatsApp number', () => {
           expect(
             getInboxIconByType(INBOX_TYPES.TWILIO, 'whatsapp', 'line')
-          ).toBe('i-ri-whatsapp-line');
+          ).toBe('i-woot-whatsapp');
         });
 
         it('returns SMS line icon for regular Twilio number', () => {

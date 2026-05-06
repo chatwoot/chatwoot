@@ -1,7 +1,7 @@
 {
   "MFA_SETTINGS": {
     "TITLE": "Двухфакторная аутентификация",
-    "SUBTITLE": "Защитите ваш аккаунт с помощью аутентификации на базе TOTP",
+    "SUBTITLE": "Protect your account from unauthorized access with TOTP-based authentication. This adds an extra layer of security to your account.",
     "DESCRIPTION": "Добавьте дополнительный уровень безопасности для вашего аккаунта, используя одноразовый пароль (TOTP)",
     "STATUS_TITLE": "Статус аутентификации",
     "STATUS_DESCRIPTION": "Управление настройками двухфакторной аутентификации и резервными кодами",

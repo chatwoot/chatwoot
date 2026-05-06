@@ -19,7 +19,7 @@ class AutoAssignment::AssignmentService
   def perform_for_conversation(conversation)
     return false unless assignable?(conversation)
 
-    agent = find_available_agent
+    agent = find_available_agent(conversation)
     return false unless agent
 
     assign_conversation(conversation, agent)
@@ -44,11 +44,24 @@ class AutoAssignment::AssignmentService
     scope.limit(limit)
   end
 
-  def find_available_agent
-    agents = filter_agents_by_rate_limit(inbox.available_agents)
+  def find_available_agent(conversation = nil)
+    agents = filter_agents_by_team(inbox.available_agents, conversation)
+    return nil if agents.nil?
+
+    agents = filter_agents_by_rate_limit(agents)
     return nil if agents.empty?
 
     round_robin_selector.select_agent(agents)
+  end
+
+  def filter_agents_by_team(agents, conversation)
+    return agents if conversation&.team_id.blank?
+
+    team = conversation.team
+    return nil if team.blank? || team.allow_auto_assign.blank?
+
+    team_member_ids = team.members.ids
+    agents.where(user_id: team_member_ids)
   end
 
   def filter_agents_by_rate_limit(agents)
@@ -59,13 +72,17 @@ class AutoAssignment::AssignmentService
   end
 
   def assign_conversation(conversation, agent)
+    Current.executed_by = inbox.assignment_policy || inbox
     conversation.update!(assignee: agent)
+    Current.executed_by = nil
 
     rate_limiter = build_rate_limiter(agent)
     rate_limiter.track_assignment(conversation)
 
     dispatch_assignment_event(conversation, agent)
     true
+  ensure
+    Current.executed_by = nil
   end
 
   def dispatch_assignment_event(conversation, agent)

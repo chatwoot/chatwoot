@@ -5,6 +5,9 @@
     "LOADING": "Vonzó egyedi tulajdonság",
     "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
     "LEARN_MORE": "Learn more about custom attributes",
+    "COUNT": "{n} attribute | {n} attributes",
+    "SEARCH_PLACEHOLDER": "Tulajdonságok keresése...",
+    "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Beszélgetés",
       "CONTACT": "Kontakt"
@@ -63,6 +66,10 @@
         },
         "ENABLE_REGEX": {
           "LABEL": "Enable regex validation"
+        },
+        "BADGES": {
+          "PRE_CHAT": "Pre-chat",
+          "RESOLUTION": "Resolution"
         }
       },
       "API": {
@@ -78,7 +85,7 @@
       },
       "CONFIRM": {
         "TITLE": "Biztosan törölni akarod: {attributeName}",
-        "PLACE_HOLDER": "Kérlek gépeld a megerősítéshez",
+        "PLACE_HOLDER": "Kérlek írd be: {attributeName}",
         "MESSAGE": "A törlés eltávolítja az egyéni tulajdonságot",
         "YES": "Törlés ",
         "NO": "Mégse"

@@ -3,6 +3,9 @@
     "FETCHING": "Preluarea integrărilor",
     "NO_HOOK_CONFIGURED": "Nu există integrări {integrationId} configurate în acest cont.",
     "HEADER": "Aplicatii",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Activat",
       "DISABLED": "Dezactivat"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Preluarea cârligelor de integrare",
       "INBOX": "Inbox",
+      "ACTIONS": "Actiuni",
       "DELETE": {
         "BUTTON_TEXT": "Şterge"
       }

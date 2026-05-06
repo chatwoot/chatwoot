@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "Administratorius",
       "AGENT": "Agentas"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "Su šia paskyra nėra susietų agentų",
       "TITLE": "Valdyti agentus jūsų komandoje",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
       }
     },
+    "SEARCH_PLACEHOLDER": "Ieškoti agentų...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "Nieko nerasta."
     },

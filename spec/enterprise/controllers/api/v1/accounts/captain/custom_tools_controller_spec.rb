@@ -5,6 +5,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
 
+  before { account.enable_features!('custom_tools') }
+
   def json_response
     JSON.parse(response.body, symbolize_names: true)
   end
@@ -40,7 +42,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         expect(json_response[:payload].length).to eq(5)
       end
 
-      it 'returns only enabled custom tools' do
+      it 'returns all custom tools including disabled' do
         create(:captain_custom_tool, account: account, enabled: true)
         create(:captain_custom_tool, account: account, enabled: false)
         get "/api/v1/accounts/#{account.id}/captain/custom_tools",
@@ -48,8 +50,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(json_response[:payload].length).to eq(1)
-        expect(json_response[:payload].first[:enabled]).to be(true)
+        expect(json_response[:payload].length).to eq(2)
       end
     end
   end

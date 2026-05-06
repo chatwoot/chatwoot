@@ -1,33 +1,65 @@
 class Webhooks::Trigger
   SUPPORTED_ERROR_HANDLE_EVENTS = %w[message_created message_updated].freeze
+  RETRYABLE_AGENT_BOT_STATUSES = [429, 500].freeze
 
-  def initialize(url, payload, webhook_type)
+  class RetryableError < StandardError
+    attr_reader :status
+
+    def initialize(status:, message:)
+      @status = status
+      super(message)
+    end
+  end
+
+  def initialize(url, payload, webhook_type, secret: nil, delivery_id: nil)
     @url = url
     @payload = payload
     @webhook_type = webhook_type
+    @secret = secret
+    @delivery_id = delivery_id
   end
 
-  def self.execute(url, payload, webhook_type)
-    new(url, payload, webhook_type).execute
+  def self.execute(url, payload, webhook_type, secret: nil, delivery_id: nil)
+    new(url, payload, webhook_type, secret: secret, delivery_id: delivery_id).execute
   end
 
   def execute
     perform_request
   rescue StandardError => e
-    handle_error(e)
-    Rails.logger.warn "Exception: Invalid webhook URL #{@url} : #{e.message}"
+    raise RetryableError.new(status: http_status(e), message: e.message) if retryable_agent_bot_error?(e)
+
+    handle_failure(e)
+  end
+
+  def handle_failure(error)
+    handle_error(error)
+    Rails.logger.warn "Exception: Invalid webhook URL #{@url} : #{error.message}"
   end
 
   private
 
   def perform_request
-    RestClient::Request.execute(
+    body = @payload.to_json
+    SafeFetch.fetch(
+      @url,
       method: :post,
-      url: @url,
-      payload: @payload.to_json,
-      headers: { content_type: :json, accept: :json },
-      timeout: webhook_timeout
-    )
+      body: body,
+      headers: request_headers(body),
+      open_timeout: webhook_timeout,
+      read_timeout: webhook_timeout,
+      validate_content_type: false
+    ) { |_response| nil }
+  end
+
+  def request_headers(body)
+    headers = { 'Content-Type' => 'application/json', 'Accept' => 'application/json' }
+    headers['X-Chatwoot-Delivery'] = @delivery_id if @delivery_id.present?
+    if @secret.present?
+      ts = Time.now.to_i.to_s
+      headers['X-Chatwoot-Timestamp'] = ts
+      headers['X-Chatwoot-Signature'] = "sha256=#{OpenSSL::HMAC.hexdigest('SHA256', @secret, "#{ts}.#{body}")}"
+    end
+    headers
   end
 
   def handle_error(error)
@@ -72,7 +104,11 @@ class Webhooks::Trigger
   def message
     return if message_id.blank?
 
-    @message ||= Message.find_by(id: message_id)
+    if defined?(@message)
+      @message
+    else
+      @message = Message.find_by(id: message_id)
+    end
   end
 
   def message_id
@@ -84,5 +120,15 @@ class Webhooks::Trigger
     timeout = raw_timeout.presence&.to_i
 
     timeout&.positive? ? timeout : 5
+  end
+
+  def retryable_agent_bot_error?(error)
+    @webhook_type == :agent_bot_webhook && RETRYABLE_AGENT_BOT_STATUSES.include?(http_status(error))
+  end
+
+  def http_status(error)
+    return unless error.is_a?(SafeFetch::HttpError)
+
+    error.message.to_s[/\A(\d{3})\b/, 1]&.to_i
   end
 end

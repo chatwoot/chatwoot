@@ -3,6 +3,9 @@
     "FETCHING": "Fetching Integrations",
     "NO_HOOK_CONFIGURED": "There are no {integrationId} integrations configured in this account.",
     "HEADER": "Applications",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Enabled",
       "DISABLED": "Disabled"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Fetching integration hooks",
       "INBOX": "Inbox",
+      "ACTIONS": "Actions",
       "DELETE": {
         "BUTTON_TEXT": "Delete"
       }
