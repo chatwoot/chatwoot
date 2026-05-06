@@ -51,8 +51,8 @@ const summary = computed(() =>
         : '',
     }),
     t('COMPANIES.DETAIL.PROFILE.LAST_ACTIVE', {
-      date: props.company?.lastActivityAt
-        ? dynamicTime(props.company.lastActivityAt)
+      date: props.company?.updatedAt
+        ? dynamicTime(props.company.updatedAt)
         : '',
     }),
   ].join(' • ')
