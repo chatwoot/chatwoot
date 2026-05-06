@@ -37,8 +37,7 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
     result = { enqueued: 0, skipped: 0 }
     skipped_document_ids = []
 
-    loop do
-      break if result[:enqueued] >= per_account_limit
+    while result[:enqueued] < per_account_limit
 
       documents = due_documents(account, interval, skipped_document_ids).limit(DUE_DOCUMENT_BATCH_SIZE).to_a
       break if documents.empty?
