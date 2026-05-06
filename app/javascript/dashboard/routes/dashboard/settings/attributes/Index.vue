@@ -32,10 +32,7 @@ const uiFlags = computed(() => getters['attributes/getUIFlags'].value);
 const [showEditPopup, toggleEditPopup] = useToggle(false);
 const [showDeletePopup, toggleDeletePopup] = useToggle(false);
 const selectedAttribute = ref({});
-const attributeModels = [
-  'conversation_attribute',
-  'contact_attribute',
-];
+const attributeModels = ['conversation_attribute', 'contact_attribute'];
 
 const openAddPopup = () => {
   toggleAddPopup(true);
