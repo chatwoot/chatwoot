@@ -16,7 +16,7 @@ const { t } = useI18n();
 const store = useStore();
 
 const searchQuery = ref('');
-const companyAttributes = useMapGetter('attributes/getCompanyAttributes') || [];
+const companyAttributes = useMapGetter('attributes/getCompanyAttributes');
 
 const customAttributes = computed(() => props.company?.customAttributes || {});
 const hasCompanyAttributes = computed(

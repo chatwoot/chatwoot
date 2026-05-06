@@ -72,8 +72,8 @@ RSpec.describe CustomAttributeDefinition do
     it 'does not sync widget pre-chat fields for company attributes' do
       cad = create(:custom_attribute_definition, account: account, attribute_model: 'company_attribute')
 
-      expect(::Inboxes::UpdateWidgetPreChatCustomFieldsJob).not_to receive(:perform_later)
-      expect(::Inboxes::SyncWidgetPreChatCustomFieldsJob).not_to receive(:perform_later)
+      expect(Inboxes::UpdateWidgetPreChatCustomFieldsJob).not_to receive(:perform_later)
+      expect(Inboxes::SyncWidgetPreChatCustomFieldsJob).not_to receive(:perform_later)
 
       cad.update!(attribute_display_name: 'Company tier')
       cad.destroy!

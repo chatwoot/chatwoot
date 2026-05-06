@@ -37,23 +37,19 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAcco
   end
 
   def update
-    ActiveRecord::Base.transaction do
-      @company.assign_attributes(company_update_params)
-      @company.save!
-      Companies::ContactMembershipService.new(company: @company).sync_company_name if @company.saved_change_to_name?
-    end
+    @company.update!(company_update_params)
   end
 
   def destroy_custom_attributes
-    @company.custom_attributes = @company.custom_attributes.excluding(params[:custom_attributes])
+    custom_attributes = custom_attributes_to_destroy
+    return if performed?
+
+    @company.custom_attributes = @company.custom_attributes.excluding(*custom_attributes)
     @company.save!
   end
 
   def destroy
-    ActiveRecord::Base.transaction do
-      Companies::ContactMembershipService.new(company: @company).cleanup_on_company_delete
-      @company.destroy!
-    end
+    @company.destroy!
     head :ok
   end
 
@@ -107,5 +103,12 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAcco
 
   def company_update_params
     company_params.except(:custom_attributes).merge(custom_attributes: company_custom_attributes)
+  end
+
+  def custom_attributes_to_destroy
+    custom_attributes = params.permit(custom_attributes: [])[:custom_attributes]
+    return custom_attributes if custom_attributes.present? || params[:custom_attributes].is_a?(Array)
+
+    render json: { error: 'custom_attributes must be an array' }, status: :unprocessable_entity
   end
 end

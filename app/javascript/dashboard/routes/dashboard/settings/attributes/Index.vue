@@ -35,7 +35,6 @@ const selectedAttribute = ref({});
 const attributeModels = [
   'conversation_attribute',
   'contact_attribute',
-  'company_attribute',
 ];
 
 const openAddPopup = () => {
@@ -62,10 +61,6 @@ const tabs = computed(() => {
     {
       key: 1,
       name: t('ATTRIBUTES_MGMT.TABS.CONTACT'),
-    },
-    {
-      key: 2,
-      name: t('ATTRIBUTES_MGMT.TABS.COMPANY'),
     },
   ];
 });

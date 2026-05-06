@@ -347,6 +347,16 @@ RSpec.describe 'Companies API', type: :request do
         expect(company.reload.custom_attributes).to eq('region' => 'us')
         expect(response.parsed_body['payload']['custom_attributes']).to eq('region' => 'us')
       end
+
+      it 'rejects invalid custom attributes payload' do
+        post "/api/v1/accounts/#{account.id}/companies/#{company.id}/destroy_custom_attributes",
+             params: { custom_attributes: 'plan' },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(company.reload.custom_attributes).to eq('plan' => 'enterprise', 'region' => 'us')
+      end
     end
   end
 
