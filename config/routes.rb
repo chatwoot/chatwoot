@@ -164,6 +164,12 @@ Rails.application.routes.draw do
             end
           end
 
+          resources :attachments, only: [] do
+            member do
+              get :playback
+            end
+          end
+
           resources :search, only: [:index] do
             collection do
               get :conversations

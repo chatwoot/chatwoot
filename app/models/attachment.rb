@@ -37,6 +37,7 @@ class Attachment < ApplicationRecord
   belongs_to :account
   belongs_to :message
   has_one_attached :file
+  has_one_attached :playback_file
   before_save :set_extension
   validate :acceptable_file
   validates :external_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
@@ -102,11 +103,16 @@ class Attachment < ApplicationRecord
 
   def audio_metadata
     audio_file_data = base_data.merge(file_metadata)
+    audio_file_data[:playback_url] = audio_playback_url if Audio::Mp3TranscodeService.requires_transcode?(self)
     audio_file_data.merge(
       {
         transcribed_text: meta&.[]('transcribed_text') || ''
       }
     )
+  end
+
+  def audio_playback_url
+    playback_api_v1_account_attachment_path(account_id: account_id, id: id)
   end
 
   def file_metadata

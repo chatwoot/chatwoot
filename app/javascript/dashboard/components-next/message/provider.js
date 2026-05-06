@@ -12,7 +12,9 @@ const MessageControl = Symbol('MessageControl');
  * @property {'image'|'audio'|'video'|'file'|'location'|'fallback'|'share'|'story_mention'|'contact'|'ig_reel'} fileType - Type of the attachment (file or image)
  * @property {number} accountId - ID of the associated account
  * @property {string|null} extension - File extension
+ * @property {string|null} contentType - MIME type of the file
  * @property {string} dataUrl - URL to access the full attachment data
+ * @property {string|null} playbackUrl - Optional browser-compatible audio playback URL
  * @property {string} thumbUrl - URL to access the thumbnail version
  * @property {number} fileSize - Size of the file in bytes
  * @property {number|null} width - Width of the image if applicable

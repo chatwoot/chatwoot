@@ -49,6 +49,8 @@ const activeSortBy = ref(wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC);
 
 const currentUser = useMapGetter('getCurrentUser');
 const currentAccountId = useMapGetter('auth/getCurrentAccountId');
+const activeInbox = useMapGetter('getSelectedInbox');
+const inboxesList = useMapGetter('inboxes/getInboxes');
 const conversationStats = useMapGetter('conversationStats/getStats');
 
 const userPermissions = computed(() => {
@@ -90,6 +92,10 @@ const listLoadingMore = computed(() => {
 const allConversationsLoaded = computed(
   () => hasCurrentPageEndReached.value && !chatListLoading.value
 );
+
+const showInboxName = computed(() => {
+  return !activeInbox.value && inboxesList.value.length > 1;
+});
 
 const conversationFilters = computed(() => ({
   page: currentPage.value + 1,
@@ -133,6 +139,22 @@ const onConversationClick = chat => {
     return;
   }
   emit('openConversation', chat.id);
+};
+
+const getCurrentContact = chat => {
+  const sender = chat.meta?.sender || {};
+  if (!sender.id) return sender;
+
+  const contact = store.getters['contacts/getContact'](sender.id);
+  return Object.keys(contact).length ? contact : sender;
+};
+
+const getAssignee = chat => {
+  return chat.meta?.assignee || {};
+};
+
+const getInbox = chat => {
+  return chat.inbox_id ? store.getters['inboxes/getInbox'](chat.inbox_id) : {};
 };
 
 const closeStatusSheet = () => {
@@ -279,6 +301,7 @@ const onFilterApply = filters => {
 };
 
 onMounted(() => {
+  store.dispatch('inboxes/get');
   store.dispatch('setChatListFilters', conversationFilters.value);
   fetchConversations();
   store.dispatch('conversationStats/get', conversationFilters.value);
@@ -322,7 +345,13 @@ watch(conversationFilters, newFilters => {
         >
           <ConversationCard
             :chat="chat"
-            :show-assignee="activeAssigneeTab === 'all'"
+            :current-contact="getCurrentContact(chat)"
+            :assignee="getAssignee(chat)"
+            :inbox="getInbox(chat)"
+            :show-assignee="
+              activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ALL
+            "
+            :show-inbox-name="showInboxName"
             class="rounded-lg"
             @click="onConversationClick(chat)"
           />

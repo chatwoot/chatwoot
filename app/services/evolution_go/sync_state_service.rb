@@ -179,8 +179,8 @@ class EvolutionGo::SyncStateService
   end
 
   def connection_status_from(connected:, logged_in:, jid:, qr_image:, fallback:)
-    return 'connected' if connected && (logged_in || format_phone_number(jid).present?)
     return 'awaiting_qr' if qr_image.present?
+    return 'connected' if connected && (logged_in || format_phone_number(jid).present?)
     return 'pairing' if connected
 
     fallback
@@ -210,7 +210,7 @@ class EvolutionGo::SyncStateService
   # rubocop:enable Metrics/CyclomaticComplexity
 
   def connected_from_event(event_name)
-    %w[connected pairsuccess qrcode qrsuccess].include?(event_name)
+    %w[connected pairsuccess].include?(event_name)
   end
 
   def logged_in_from_event(event_name, jid)

@@ -182,6 +182,7 @@ export default {
         query: {
           provider: 'evolution_go',
           inbox_id: this.inbox.id,
+          reconnect: 'true',
         },
       });
     },

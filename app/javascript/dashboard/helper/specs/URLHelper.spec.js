@@ -245,6 +245,17 @@ describe('#URL Helpers', () => {
       expect(timeStampAppendedURL(input)).toBe(expected);
     });
 
+    it('should append timestamp to a relative URL', () => {
+      const input = '/rails/active_storage/blobs/audio.mp3';
+      const expected = `${window.location.origin}/rails/active_storage/blobs/audio.mp3?t=${FIXED_TIMESTAMP}`;
+      expect(timeStampAppendedURL(input)).toBe(expected);
+    });
+
+    it('should return an empty string for empty URLs', () => {
+      expect(timeStampAppendedURL('')).toBe('');
+      expect(timeStampAppendedURL()).toBe('');
+    });
+
     it('should throw an error for invalid URLs', () => {
       const input = 'not a valid url';
       expect(() => timeStampAppendedURL(input)).toThrow();

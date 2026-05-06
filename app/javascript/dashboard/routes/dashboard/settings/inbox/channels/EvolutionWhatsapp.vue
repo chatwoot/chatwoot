@@ -21,6 +21,7 @@ const isCancellingPairing = ref(false);
 const isResolvingConflict = ref(false);
 const evolutionState = ref(null);
 const redirectScheduled = ref(false);
+const autoStartedPairing = ref(false);
 
 let pollInterval = null;
 const START_REQUIRED_STATUSES = [
@@ -41,10 +42,24 @@ const isInboxNameValid = computed(() => inboxName.value.trim().length > 0);
 const showInboxNameError = computed(
   () => formTouched.value && !isInboxNameValid.value
 );
-const connectionStatus = computed(
+const rawConnectionStatus = computed(
   () => evolutionState.value?.connection_status || 'disconnected'
 );
+const hasQrCode = computed(() => Boolean(evolutionState.value?.qr_code));
+const connectionStatus = computed(() => {
+  if (hasQrCode.value && rawConnectionStatus.value === 'connected') {
+    return 'awaiting_qr';
+  }
+
+  return rawConnectionStatus.value;
+});
 const isConnected = computed(() => connectionStatus.value === 'connected');
+const requiresReauthorization = computed(() =>
+  Boolean(evolutionState.value?.reauthorization_required)
+);
+const isReadyForAgents = computed(
+  () => isConnected.value && !hasQrCode.value && !requiresReauthorization.value
+);
 const connectionStatusLabels = {
   connected: computed(() =>
     t('INBOX_MGMT.ADD.WHATSAPP.EVOLUTION_GO.STATUS.connected')
@@ -87,8 +102,10 @@ const connectionStatusClass = computed(() =>
     ? 'bg-n-ruby-3 text-n-ruby-11'
     : 'bg-n-slate-3 text-n-slate-11'
 );
-const isStartRequired = computed(() =>
-  START_REQUIRED_STATUSES.includes(connectionStatus.value)
+const isStartRequired = computed(
+  () =>
+    requiresReauthorization.value ||
+    START_REQUIRED_STATUSES.includes(connectionStatus.value)
 );
 const hasPhoneConflict = computed(
   () => connectionStatus.value === 'phone_conflict'
@@ -98,20 +115,21 @@ const phoneConflict = computed(
 );
 const shouldKeepPolling = computed(
   () =>
-    !isConnected.value &&
+    !isReadyForAgents.value &&
     !STOP_POLLING_STATUSES.includes(connectionStatus.value)
 );
 const canStartPairing = computed(
   () =>
     hasCreatedInbox.value &&
-    !isConnected.value &&
+    !isReadyForAgents.value &&
+    !hasQrCode.value &&
     !hasPhoneConflict.value &&
     isStartRequired.value
 );
 const canCancelPairing = computed(
   () =>
     hasCreatedInbox.value &&
-    !isConnected.value &&
+    !isReadyForAgents.value &&
     !hasPhoneConflict.value &&
     !isStartRequired.value
 );
@@ -150,7 +168,7 @@ const goToAgents = () => {
 };
 
 const scheduleRedirect = () => {
-  if (!isConnected.value || redirectScheduled.value) {
+  if (!isReadyForAgents.value || redirectScheduled.value) {
     return;
   }
 
@@ -320,10 +338,17 @@ watch(
   currentInboxId,
   async inboxId => {
     redirectScheduled.value = false;
+    autoStartedPairing.value = false;
 
     if (!inboxId) {
       evolutionState.value = null;
       stopPolling();
+      return;
+    }
+
+    if (route.query.reconnect === 'true' && !autoStartedPairing.value) {
+      autoStartedPairing.value = true;
+      await startPairing();
       return;
     }
 

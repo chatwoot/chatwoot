@@ -111,7 +111,14 @@ export const hasValidAvatarUrl = avatarUrl => {
 };
 
 export const timeStampAppendedURL = dataUrl => {
-  const url = new URL(dataUrl);
+  if (!dataUrl) return '';
+
+  const isRelativePath = dataUrl.startsWith('/');
+  const baseUrl =
+    typeof window !== 'undefined' && window.location?.origin
+      ? window.location.origin
+      : 'http://localhost';
+  const url = isRelativePath ? new URL(dataUrl, baseUrl) : new URL(dataUrl);
   if (!url.searchParams.has('t')) {
     url.searchParams.append('t', Date.now());
   }

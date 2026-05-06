@@ -223,6 +223,25 @@ All under `app/javascript/dashboard/components-next/mobile/`:
 
 ## Changelog
 
+### 2026-05-06 — Mobile Conversation List and Audio Playback Fix
+
+Problem observed in the mobile PWA:
+
+- `MobileConversationList.vue` reused the desktop `ConversationCard.vue` but did not provide the required `currentContact` prop, causing `TypeError: Cannot read properties of undefined (reading 'name')` and leaving the conversation list blank.
+- The shared `AudioChip.vue` player relied on a hidden `<audio>` element and did not await `audio.play()`, so mobile/PWA playback failures could leave the UI cycling speed labels (`1x`, `1.5x`, `2x`) without actual audio.
+- Incoming WhatsApp/Evolution Go voice notes are stored as OGG/Opus, which Chrome can play but iOS Safari/PWA does not support. Chatwit-recorded audio is MP3 and was already compatible.
+- `timeStampAppendedURL()` only accepted absolute URLs, while Active Storage can provide relative `/rails/active_storage/...` paths.
+
+Implemented:
+
+- `MobileConversationList.vue` now connects the same desktop-backed contact, assignee, and inbox store data into `ConversationCard.vue`, including inbox preload for card metadata.
+- `AudioChip.vue` now keeps the media element visually hidden without `display: none`, reloads unloaded media before playing, applies playback speed before `play()`, forces the element back to audible output when the local mute button is off, awaits the play promise, syncs UI state from native `play/pause/error` events, and swaps to native browser controls as a fallback when playback fails.
+- OGG/Opus audio attachments now expose a same-account `playback_url` that lazily transcodes the original file to MP3 with ffmpeg, caches it in `playback_file`, and redirects the player to the compatible Active Storage blob. The original OGG remains available for download.
+- `timeStampAppendedURL()` now supports relative URLs while preserving invalid absolute URL validation.
+- Production storage remains MinIO/S3-compatible when `ACTIVE_STORAGE_SERVICE=s3_compatible` is set by the stack; the audio playback fix is in the browser player path and the authenticated attachment playback endpoint. The Rails runtime image now includes `ffmpeg` for this conversion.
+
+Desktop conversation behavior remains unchanged; the list fix is isolated to `components-next/mobile/`, and the audio change hardens the shared message player used by both desktop and mobile.
+
 ### 2026-05-02 — WhatsApp Interactive Template Conversation Context
 
 Implemented in the mobile reply box only:

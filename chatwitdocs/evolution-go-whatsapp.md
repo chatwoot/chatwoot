@@ -72,7 +72,15 @@ Fluxo do wizard:
 1. Criar inbox
 2. Mostrar `instance_name`, webhook e QR code
 3. Polling automático do estado
-4. Redirecionar para adicionar agentes apenas quando `connection_status == connected`
+4. Redirecionar para adicionar agentes apenas quando a sessão estiver realmente pronta: `connection_status == connected`, sem `qr_code` ativo e sem `reauthorization_required`
+
+Reconexão de sessão desconectada pelo celular:
+
+- O botão `Reconnect` na configuração da inbox abre o wizard com `reconnect=true`
+- O wizard inicia uma nova tentativa de pareamento automaticamente para a inbox existente
+- Se a Evolution Go retornar um QR junto de estado antigo `connected`, o QR tem precedência e o estado exibido deve ficar em `awaiting_qr`
+- O frontend também normaliza esse caso para `awaiting_qr` antes de decidir labels, polling e avanço de etapa
+- Enquanto existir QR ativo ou `reauthorization_required`, o wizard não pode pular para a etapa de agentes
 
 ## Compose e ENV
 
@@ -124,7 +132,7 @@ Em producao, o `compose-produção.yaml` fixa a imagem e os parametros do servic
 - Fechar a aba do navegador não encerra a sessão de pareamento no backend; a instância continua ativa até conectar, ser encerrada explicitamente ou atingir o limite de QR
 - O fork Chatwit usa `QRCODE_MAX_COUNT=20` por padrão para permitir regeneração suficiente do QR sem deixar a sessão em loop infinito
 - O wizard agora tem ações explícitas de `Cancel pairing` e `Start pairing`; fechar a aba não encerra a sessão no backend
-- Durante a geração do QR, sinais transitórios do provider não devem avançar o wizard; a UI só pode pular para agentes quando o backend expõe `connection_status=connected`
+- Durante a geração do QR, sinais transitórios ou estado antigo do provider não devem avançar o wizard; a UI só pode pular para agentes quando o backend expõe `connection_status=connected` sem QR e sem reautorização pendente
 - O callback configurado pelo Chatwit é `/webhooks/evolution_go`
 - Templates oficiais do WhatsApp não são suportados nesse provider
 - O Chatwit não aplica a janela de 24 horas para `evolution_go`
