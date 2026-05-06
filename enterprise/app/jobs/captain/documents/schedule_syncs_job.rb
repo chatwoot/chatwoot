@@ -35,7 +35,9 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
     per_account_limit = [PER_ACCOUNT_HOURLY_CAP, @remaining_global_capacity].min
     result = { enqueued: 0, skipped: 0 }
 
-    due_documents(account, interval, per_account_limit).each do |document|
+    due_documents(account, interval).each do |document|
+      break if result[:enqueued] >= per_account_limit
+
       next unless document.syncable?
 
       # Reserve the sync slot before enqueueing so later scheduler runs skip this document while the job is queued.
@@ -52,7 +54,7 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
     result
   end
 
-  def due_documents(account, interval, limit)
+  def due_documents(account, interval)
     syncing = Captain::Document.sync_statuses[:syncing]
     synced = Captain::Document.sync_statuses[:synced]
     failed = Captain::Document.sync_statuses[:failed]
@@ -61,7 +63,7 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
       '(sync_status = ? AND last_synced_at < ?) OR (sync_status = ? AND last_sync_attempted_at < ?) OR ' \
       '(sync_status = ? AND last_sync_attempted_at < ?)',
       synced, interval.ago, failed, interval.ago, syncing, SYNC_STALE_TIMEOUT.ago
-    ).order(Arel.sql('last_sync_attempted_at ASC NULLS FIRST'), :id).limit(limit)
+    ).order(Arel.sql('last_sync_attempted_at ASC NULLS FIRST'), :id)
   end
 
   def reserve_sync_slot(document)

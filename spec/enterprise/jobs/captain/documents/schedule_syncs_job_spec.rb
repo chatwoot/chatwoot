@@ -123,7 +123,8 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
         .to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document)
     end
 
-    it 'skips invalid legacy documents and continues scheduling other documents' do
+    it 'skips invalid legacy documents without counting them against the account cap' do
+      stub_const("#{described_class}::PER_ACCOUNT_HOURLY_CAP", 1)
       create(
         :captain_document,
         assistant: assistant,
