@@ -82,6 +82,22 @@ describe ContactInboxWithContactBuilder do
       expect(contact_inbox.contact.id).to be(contact.id)
     end
 
+    it 'doesnot create contact if it already exist with a secondary email' do
+      create(:contact_email, account: account, contact: contact, email: 'secondary@example.com')
+
+      contact_inbox = described_class.new(
+        source_id: '123456',
+        inbox: inbox,
+        contact_attributes: {
+          name: 'Contact',
+          phone_number: '+1234567890',
+          email: 'secondary@example.com'
+        }
+      ).perform
+
+      expect(contact_inbox.contact.id).to be(contact.id)
+    end
+
     it 'doesnot create contact if it already exist with phone number' do
       contact_inbox = described_class.new(
         source_id: '123456',

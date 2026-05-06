@@ -134,6 +134,27 @@ RSpec.describe DataImportJob do
           expect(contact.name).to eq((csv_data[0]['name']).to_s)
           expect(contact.additional_attributes['company_name']).to eq((csv_data[0]['company_name']).to_s)
         end
+
+        it 'updates the existing record when import email matches a secondary email' do
+          contact = Contact.create!(email: 'primary@example.com', account_id: existing_data_import.account_id)
+          create(:contact_email, account: existing_data_import.account, contact: contact, email: csv_data[0]['email'])
+          csv_length = csv_data.length
+
+          described_class.perform_now(existing_data_import)
+
+          expect(existing_data_import.account.contacts.count).to eq(csv_length)
+          expect(existing_data_import.reload.total_records).to eq(csv_length)
+          expect(existing_data_import.reload.processed_records).to eq(csv_length)
+
+          imported_contact = Contact.from_email(csv_data[0]['email'])
+          expect(imported_contact).to be_present
+          expect(imported_contact).to have_attributes(
+            id: contact.id,
+            phone_number: "+#{csv_data[0]['phone_number']}",
+            name: csv_data[0]['name'].to_s
+          )
+          expect(imported_contact.additional_attributes['company_name']).to eq(csv_data[0]['company_name'].to_s)
+        end
       end
 
       context 'when the existing record has a phone_number in import data' do

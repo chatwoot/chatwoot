@@ -350,9 +350,16 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
             conversation.label_list
             conversation.save!
 
-            conversation.resolved!
-            conversation.open!
-            conversation.resolved!
+            2.times do
+              create(:reporting_event,
+                     account: account2,
+                     inbox: inbox,
+                     user: user,
+                     conversation: conversation,
+                     name: 'conversation_resolved',
+                     value: 3600,
+                     created_at: test_date.to_time + 1.hour)
+            end
           end
         end
       end

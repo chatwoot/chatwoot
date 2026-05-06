@@ -66,6 +66,21 @@ RSpec.describe Mailbox::ConversationFinderStrategies::NewConversationStrategy do
             .and not_change(Contact, :count)
             .and not_change(ContactInbox, :count)
         end
+
+        it 'builds conversation with existing contact matched by a secondary email' do
+          create(:contact_email, account: account, contact: existing_contact, email: 'secondary@example.com')
+          mail.from = 'secondary@example.com'
+          strategy = described_class.new(mail)
+
+          expect do
+            conversation = strategy.find
+            expect(conversation).to be_a(Conversation)
+            expect(conversation.new_record?).to be(true)
+            expect(conversation.contact).to eq(existing_contact)
+          end.to not_change(Conversation, :count)
+            .and not_change(Contact, :count)
+            .and not_change(ContactInbox, :count)
+        end
       end
 
       context 'when mail has In-Reply-To header' do

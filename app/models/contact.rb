@@ -41,6 +41,7 @@
 
 # rubocop:enable Layout/LineLength
 
+# rubocop:disable Metrics/ClassLength
 class Contact < ApplicationRecord
   include Avatarable
   include AvailabilityStatusable
@@ -54,19 +55,28 @@ class Contact < ApplicationRecord
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
+  validate :email_uniqueness_across_contact_emails
 
   belongs_to :account
+  has_many :contact_emails, dependent: :destroy_async
   has_many :conversations, dependent: :destroy_async
   has_many :contact_inboxes, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
   has_many :inboxes, through: :contact_inboxes
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
+  # This scoped alias points at the same rows as contact_emails, which already owns lifecycle cleanup.
+  # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_one :primary_contact_email, -> { primary },
+          class_name: 'ContactEmail',
+          inverse_of: :contact
+  # rubocop:enable Rails/HasManyOrHasOneDependent
   before_validation :prepare_contact_attributes
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
+  after_save :sync_primary_email_identity, if: :saved_change_to_email?
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -142,6 +152,14 @@ class Contact < ApplicationRecord
       .where('contacts.created_at < ?', time_period)
       .where.missing(:conversations)
   }
+  scope :matching_email, lambda { |email|
+    normalized_email = email.to_s.downcase
+    next none if normalized_email.blank?
+
+    left_outer_joins(:contact_emails)
+      .where('contacts.email = :email OR contact_emails.email = :email', email: normalized_email)
+      .distinct
+  }
 
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
@@ -152,6 +170,7 @@ class Contact < ApplicationRecord
       additional_attributes: additional_attributes,
       custom_attributes: custom_attributes,
       email: email,
+      emails: all_emails,
       id: id,
       identifier: identifier,
       name: name,
@@ -190,10 +209,25 @@ class Contact < ApplicationRecord
   end
 
   def self.from_email(email)
-    find_by(email: email&.downcase)
+    matching_email(email).first
+  end
+
+  def all_emails
+    emails = ordered_contact_email_records.map(&:email)
+    return emails if emails.first == email || email.blank?
+
+    [email, *emails.reject { |contact_email| contact_email == email }]
   end
 
   private
+
+  def ordered_contact_email_records
+    if association(:contact_emails).loaded?
+      contact_emails.sort_by { |contact_email| [contact_email.primary ? 0 : 1, contact_email.id] }
+    else
+      contact_emails.order(primary: :desc, id: :asc)
+    end
+  end
 
   def ip_lookup
     return unless account.feature_enabled?('ip_lookup')
@@ -232,6 +266,19 @@ class Contact < ApplicationRecord
     ::Contacts::SyncAttributes.new(self).perform
   end
 
+  def email_uniqueness_across_contact_emails
+    return if email.blank? || account_id.blank?
+
+    existing_contact_email = ContactEmail.where(account_id: account_id, email: email)
+                                         .where.not(contact_id: id)
+                                         .exists?
+    errors.add(:email, :taken) if existing_contact_email
+  end
+
+  def sync_primary_email_identity
+    Contacts::SyncPrimaryEmailIdentity.new(contact: self).perform
+  end
+
   def dispatch_create_event
     Rails.configuration.dispatcher.dispatch(CONTACT_CREATED, Time.zone.now, contact: self)
   end
@@ -250,4 +297,5 @@ class Contact < ApplicationRecord
     )
   end
 end
+# rubocop:enable Metrics/ClassLength
 Contact.include_mod_with('Concerns::Contact')

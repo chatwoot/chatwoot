@@ -15,6 +15,7 @@ const props = defineProps({
   id: { type: Number, required: true },
   name: { type: String, default: '' },
   email: { type: String, default: '' },
+  emails: { type: Array, default: () => [] },
   additionalAttributes: { type: Object, default: () => ({}) },
   phoneNumber: { type: String, default: '' },
   thumbnail: { type: String, default: '' },
@@ -41,6 +42,7 @@ const getInitialContactData = () => ({
   id: props.id,
   name: props.name,
   email: props.email,
+  emails: props.emails?.length ? props.emails : [props.email].filter(Boolean),
   phoneNumber: props.phoneNumber,
   additionalAttributes: props.additionalAttributes,
 });
@@ -81,6 +83,10 @@ const formattedLocation = computed(() => {
     .filter(Boolean)
     .join(' ');
 });
+
+const contactEmails = computed(() =>
+  (props.emails?.length ? props.emails : [props.email]).filter(Boolean)
+);
 
 const handleFormUpdate = updatedData => {
   Object.assign(contactData.value, updatedData);
@@ -164,12 +170,19 @@ const handleAvatarHover = isHovered => {
           <div
             class="flex flex-wrap items-center justify-start gap-x-3 gap-y-1"
           >
-            <div v-if="email" class="truncate max-w-72" :title="email">
+            <div
+              v-if="contactEmails.length"
+              class="truncate max-w-72"
+              :title="contactEmails.join(', ')"
+            >
               <span class="text-sm text-n-slate-11">
-                {{ email }}
+                {{ contactEmails.join(', ') }}
               </span>
             </div>
-            <div v-if="email" class="w-px h-3 truncate bg-n-slate-6" />
+            <div
+              v-if="contactEmails.length"
+              class="w-px h-3 truncate bg-n-slate-6"
+            />
             <span v-if="phoneNumber" class="text-sm truncate text-n-slate-11">
               {{ phoneNumber }}
             </span>

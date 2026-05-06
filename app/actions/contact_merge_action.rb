@@ -13,6 +13,7 @@ class ContactMergeAction
       merge_messages
       merge_contact_inboxes
       merge_contact_notes
+      merge_contact_emails
       merge_and_remove_mergee_contact
     end
     @base_contact
@@ -44,6 +45,38 @@ class ContactMergeAction
 
   def merge_contact_inboxes
     ContactInbox.where(contact_id: @mergee_contact.id).update(contact_id: @base_contact.id)
+  end
+
+  def merge_contact_emails
+    base_contact_email_identities = @base_contact.all_emails.filter_map { |email| normalized_email(email) }
+    mergee_contact_emails = @mergee_contact.contact_emails.index_by { |contact_email| normalized_email(contact_email.email) }
+
+    mergee_email_identities.each do |email|
+      contact_email = mergee_contact_emails[email]
+
+      if base_contact_email_identities.include?(email)
+        contact_email&.destroy!
+        next
+      end
+
+      contact_email ||= @mergee_contact.contact_emails.create!(
+        account: @mergee_contact.account,
+        email: email,
+        primary: false
+      )
+      contact_email.update!(contact: @base_contact, primary: false)
+
+      base_contact_email_identities << email
+    end
+  end
+
+  def mergee_email_identities
+    [@mergee_contact.email, *@mergee_contact.contact_emails.pluck(:email)].filter_map { |email| normalized_email(email) }.uniq
+  end
+
+  def normalized_email(email)
+    normalized_email = email.to_s.strip.downcase
+    normalized_email.presence
   end
 
   def merge_and_remove_mergee_contact

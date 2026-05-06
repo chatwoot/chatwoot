@@ -99,6 +99,23 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when a new email from a secondary contact email' do
+      let(:inbound_mail) { create_inbound_email_from_mail(from: 'secondary@gmail.com', to: 'imap@gmail.com', subject: 'Hello!') }
+
+      before do
+        create(:contact_email, account: account, contact: contact, email: 'secondary@gmail.com')
+      end
+
+      it 'reuses the existing contact' do
+        expect do
+          class_instance.process(inbound_mail.mail, channel)
+        end.to not_change(Contact, :count)
+          .and change(Conversation, :count).by(1)
+
+        expect(conversation.contact).to eq(contact)
+      end
+    end
+
     context 'when a new email with invalid from' do
       let(:inbound_mail) { create_inbound_email_from_mail(from: 'invalidemail', to: 'imap@gmail.com', subject: 'Hello!') }
 
