@@ -68,6 +68,25 @@ RSpec.describe Tiktok::SendOnTiktokService do
       expect(tiktok_client).not_to have_received(:send_media_message)
     end
 
+    it 'marks message as failed when conversation cannot send images' do
+      allow(tiktok_client).to receive(:send_media_message)
+      conversation.update!(additional_attributes: { conversation_id: 'tt-conv-1', tiktok_capabilities: { image_send: false } })
+
+      message = build(:message, message_type: :outgoing, inbox: inbox, conversation: conversation, account: inbox.account, content: nil)
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      message.save!
+
+      described_class.new(message: message).perform
+
+      expect(Messages::StatusUpdateService).to have_received(:new).with(
+        message,
+        'failed',
+        'Sending image attachments is not supported for this TikTok conversation.'
+      )
+      expect(tiktok_client).not_to have_received(:send_media_message)
+    end
+
     it 'marks message as failed when attachment is not an image' do
       allow(tiktok_client).to receive(:send_media_message)
 

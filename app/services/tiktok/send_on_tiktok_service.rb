@@ -29,9 +29,14 @@ class Tiktok::SendOnTiktokService < Base::SendOnChannelService
   end
 
   def validate_attachment_support!(attachment)
+    raise 'Sending image attachments is not supported for this TikTok conversation.' unless image_send_capable?
     raise 'Only image attachments are supported on TikTok.' unless attachment.image?
     raise 'TikTok supports only JPG and PNG images.' unless SUPPORTED_IMAGE_CONTENT_TYPES.include?(attachment.file.content_type)
     raise 'TikTok image attachments must be smaller than 3 MB.' if attachment.file.byte_size > MAX_IMAGE_SIZE
+  end
+
+  def image_send_capable?
+    message.conversation.additional_attributes.dig('tiktok_capabilities', 'image_send') != false
   end
 
   def send_message
