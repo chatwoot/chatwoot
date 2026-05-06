@@ -52,6 +52,9 @@
 #
 
 class Conversation < ApplicationRecord
+  STANDARD_ATTRIBUTES = %w[status priority assignee_id inbox_id team_id display_id campaign_id labels browser_language country_code referer
+                           created_at last_activity_at].freeze
+
   include Labelable
   include LlmFormattable
   include AssignmentHandler
