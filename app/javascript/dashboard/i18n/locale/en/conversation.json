@@ -366,10 +366,10 @@
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders",
-      "SHARED_FILES": "Shared Files"
+      "SHARED_FILES": "Attachments"
     },
     "SHARED_FILES": {
-      "EMPTY": "No files shared yet",
+      "EMPTY": "No attachments yet",
       "DOWNLOAD": "Download file",
       "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
       "MEDIA_HEADING": "Media",

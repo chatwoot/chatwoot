@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { formatBytes } from 'shared/helpers/FileHelper';
+import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
 import { downloadFile } from '@chatwoot/utils';
 import {
   ATTACHMENT_TYPES,
@@ -150,6 +151,11 @@ const displaySize = attachment => {
   if (attachment.extension) return attachment.extension.toUpperCase();
   return '—';
 };
+
+const displayTime = attachment => {
+  if (!attachment.created_at) return '';
+  return shortTimestamp(dynamicTime(attachment.created_at), true);
+};
 </script>
 
 <template>
@@ -250,9 +256,16 @@ const displaySize = attachment => {
               </div>
             </div>
 
+            <span
+              v-if="displayTime(attachment)"
+              class="absolute text-xxs font-medium transition-opacity opacity-0 bottom-1.5 ltr:left-1.5 rtl:right-1.5 text-white [text-shadow:_0_1px_3px_rgba(0,0,0,0.95),_0_0_10px_rgba(0,0,0,0.7)] group-hover:opacity-100"
+            >
+              {{ displayTime(attachment) }}
+            </span>
+
             <button
               type="button"
-              class="absolute flex items-center justify-center !p-px transition-all rounded-full opacity-0 bottom-1.5 right-1.5 size-6 bg-white/95 shadow-md group-hover:opacity-100 hover:bg-white disabled:opacity-50"
+              class="absolute flex items-center justify-center !p-px transition-all rounded-full opacity-0 bottom-1.5 ltr:right-1.5 rtl:left-1.5 size-6 bg-white/95 shadow-md group-hover:opacity-100 hover:bg-white disabled:opacity-50"
               :disabled="downloadingId === attachment.id"
               :aria-label="t('CONVERSATION_SIDEBAR.SHARED_FILES.DOWNLOAD')"
               @click.stop="onDownloadFile(attachment)"
@@ -265,11 +278,9 @@ const displaySize = attachment => {
 
           <div
             v-if="isOverflowTile(index)"
-            class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-n-slate-1/85 via-n-slate-12/75 to-black/90 backdrop-blur-[2px]"
+            class="absolute inset-0 flex items-center justify-center bg-n-slate-5"
           >
-            <span
-              class="text-base font-semibold tracking-tight text-n-slate-1 drop-shadow-sm"
-            >
+            <span class="text-base font-semibold text-n-slate-12">
               {{
                 t('CONVERSATION_SIDEBAR.SHARED_FILES.MORE_COUNT', {
                   count: mediaOverflow,
@@ -336,6 +347,9 @@ const displaySize = attachment => {
             </p>
             <p class="text-xs text-n-slate-11">
               {{ displaySize(attachment) }}
+              <template v-if="displayTime(attachment)">
+                · {{ displayTime(attachment) }}
+              </template>
             </p>
           </a>
           <NextButton
