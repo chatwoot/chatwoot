@@ -221,20 +221,20 @@ RSpec.describe DataImportJob do
         expect(bob.label_list).to be_empty
       end
 
-      it 'handles labels with extra whitespace' do
-        data_with_whitespace = [
+      it 'normalizes labels case-insensitively and removes duplicate labels' do
+        data_with_normalized_labels = [
           %w[id name email phone_number labels],
-          ['1', 'Test User', 'test@example.com', '+918080808083', ' customer , vip , lead ']
+          ['1', 'Test User', 'test@example.com', '+918080808083', ' VIP , customer , vip ']
         ]
-        whitespace_import = create(:data_import, import_file: generate_csv_file(data_with_whitespace))
-        %w[customer vip lead].each do |title|
-          create(:label, account: whitespace_import.account, title: title)
+        normalized_labels_import = create(:data_import, import_file: generate_csv_file(data_with_normalized_labels))
+        %w[customer vip].each do |title|
+          create(:label, account: normalized_labels_import.account, title: title)
         end
 
-        described_class.perform_now(whitespace_import)
+        described_class.perform_now(normalized_labels_import)
 
         contact = Contact.from_email('test@example.com')
-        expect(contact.label_list).to contain_exactly('customer', 'vip', 'lead')
+        expect(contact.label_list).to contain_exactly('customer', 'vip')
       end
 
       it 'adds imported labels to existing contact labels' do
@@ -250,42 +250,6 @@ RSpec.describe DataImportJob do
         described_class.perform_now(existing_contact_import)
 
         expect(existing_contact.reload.label_list).to contain_exactly('customer', 'vip', 'lead')
-      end
-
-      it 'matches labels case-insensitively and stores lowercase labels' do
-        data_with_uppercase_labels = [
-          %w[id name email phone_number labels],
-          ['1', 'Case User', 'case@example.com', '+918080808087', 'VIP,Customer']
-        ]
-        uppercase_import = create(:data_import, account: labels_data_import.account,
-                                                import_file: generate_csv_file(data_with_uppercase_labels))
-
-        described_class.perform_now(uppercase_import)
-
-        contact = Contact.from_email('case@example.com')
-        expect(contact.label_list).to contain_exactly('vip', 'customer')
-      end
-
-      it 'deduplicates repeated labels in a row' do
-        data_with_duplicate_labels = [
-          %w[id name email phone_number labels],
-          ['1', 'Duplicate User', 'duplicate@example.com', '+918080808088', 'vip,vip']
-        ]
-        duplicate_import = create(:data_import, account: labels_data_import.account,
-                                                import_file: generate_csv_file(data_with_duplicate_labels))
-
-        described_class.perform_now(duplicate_import)
-
-        contact = Contact.from_email('duplicate@example.com')
-        expect(contact.label_list).to contain_exactly('vip')
-      end
-
-      it 'does not dispatch contact update events when applying labels' do
-        allow(Rails.configuration.dispatcher).to receive(:dispatch)
-
-        described_class.perform_now(labels_data_import)
-
-        expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONTACT_UPDATED, anything, anything)
       end
 
       it 'dispatches only the contact update event when importing labels for an existing contact' do

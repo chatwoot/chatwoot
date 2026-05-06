@@ -85,11 +85,11 @@ RSpec.describe Account::ContactsExportJob do
       expect(phone_numbers).to include('+910808080818', '+910808080808')
     end
 
-    it 'exports contact labels with comma delimiter' do
+    it 'exports approved contact labels with comma delimiter' do
       contact_with_labels = account.contacts.first
       create(:label, account: account, title: 'vip')
       create(:label, account: account, title: 'support')
-      contact_with_labels.add_labels(%w[vip support])
+      contact_with_labels.add_labels(%w[vip support legacy_tag])
 
       described_class.perform_now(account.id, user.id, [], {})
 
@@ -98,19 +98,6 @@ RSpec.describe Account::ContactsExportJob do
 
       expect(csv_data.headers).to include('labels')
       expect(row['labels'].split(described_class::LABELS_DELIMITER)).to match_array(%w[vip support])
-    end
-
-    it 'exports only labels that exist in the account labels list' do
-      contact_with_labels = account.contacts.first
-      create(:label, account: account, title: 'vip')
-      contact_with_labels.add_labels(%w[vip legacy_tag])
-
-      described_class.perform_now(account.id, user.id, [], {})
-
-      csv_data = CSV.parse(account.contacts_export.download, headers: true)
-      row = csv_data.find { |r| r['email'] == contact_with_labels.email }
-
-      expect(row['labels']).to eq('vip')
     end
 
     it 'exports labels when requested through column names' do
