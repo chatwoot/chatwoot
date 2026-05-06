@@ -225,45 +225,67 @@ RSpec.describe Account, type: :model do
   describe 'captain document sync cadence' do
     let(:account) { create(:account) }
 
-    it 'has no cadence on the hacker plan' do
-      account.update!(custom_attributes: { plan_name: 'hacker' })
-      expect(account.captain_document_sync_interval).to be_nil
-    end
-
-    it 'syncs weekly on the startups plan' do
-      account.update!(custom_attributes: { plan_name: 'startups' })
-      expect(account.captain_document_sync_interval).to eq(7.days)
-    end
-
-    it 'syncs daily on the business plan' do
+    it 'has no cadence when installation config is missing' do
       account.update!(custom_attributes: { plan_name: 'business' })
-      expect(account.captain_document_sync_interval).to eq(1.day)
-    end
-
-    it 'syncs every six hours on the enterprise plan' do
-      account.update!(custom_attributes: { plan_name: 'enterprise' })
-      expect(account.captain_document_sync_interval).to eq(6.hours)
-    end
-
-    it 'has no cadence when plan is missing' do
-      account.update!(custom_attributes: {})
       expect(account.captain_document_sync_interval).to be_nil
     end
 
-    it 'has no cadence for unknown plans' do
-      account.update!(custom_attributes: { plan_name: 'mystery' })
-      expect(account.captain_document_sync_interval).to be_nil
+    it 'uses configured plan intervals from installation config' do
+      intervals = {
+        business: 48,
+        enterprise: 24
+      }
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: intervals.to_json)
+      account.update!(custom_attributes: { plan_name: 'business' })
+
+      expect(account.captain_document_sync_interval).to eq(2.days)
     end
 
-    it 'normalizes plan name casing' do
+    it 'normalizes configured plan name casing' do
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { business: 24 }.to_json)
       account.update!(custom_attributes: { plan_name: 'Business' })
+
       expect(account.captain_document_sync_interval).to eq(1.day)
     end
 
-    it 'syncs every six hours on self-hosted enterprise installs without a plan_name' do
+    it 'uses the enterprise cadence for self-hosted enterprise installs without a plan_name' do
       allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { enterprise: 6 }.to_json)
       account.update!(custom_attributes: {})
+
       expect(account.captain_document_sync_interval).to eq(6.hours)
+    end
+
+    it 'allows installation config to disable a plan cadence' do
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { business: nil }.to_json)
+      account.update!(custom_attributes: { plan_name: 'business' })
+
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'has no cadence when installation config is invalid' do
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: 'invalid-json')
+      account.update!(custom_attributes: { plan_name: 'business' })
+
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'treats invalid plan interval values as disabled' do
+      intervals = {
+        business: false,
+        enterprise: { hours: 6 },
+        startups: '168'
+      }
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: intervals.to_json)
+
+      account.update!(custom_attributes: { plan_name: 'business' })
+      expect(account.captain_document_sync_interval).to be_nil
+
+      account.update!(custom_attributes: { plan_name: 'enterprise' })
+      expect(account.captain_document_sync_interval).to be_nil
+
+      account.update!(custom_attributes: { plan_name: 'startups' })
+      expect(account.captain_document_sync_interval).to be_nil
     end
   end
 

@@ -6,20 +6,18 @@ class Api::V1::Accounts::Contacts::CallsController < Api::V1::Accounts::BaseCont
     authorize contact, :show?
     authorize voice_inbox, :show?
 
-    result = Voice::OutboundCallBuilder.perform!(
+    call = Voice::OutboundCallBuilder.perform!(
       account: Current.account,
       inbox: voice_inbox,
       user: Current.user,
       contact: contact
     )
 
-    conversation = result[:conversation]
-
     render json: {
-      conversation_id: conversation.display_id,
+      conversation_id: call.conversation.display_id,
       inbox_id: voice_inbox.id,
-      call_sid: result[:call_sid],
-      conference_sid: conversation.additional_attributes['conference_sid']
+      call_sid: call.provider_call_id,
+      conference_sid: call.conference_sid
     }
   end
 
