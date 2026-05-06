@@ -381,11 +381,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_05_000000) do
     t.integer "sync_status"
     t.datetime "last_synced_at"
     t.datetime "last_sync_attempted_at"
+    t.index ["account_id", "sync_status"], name: "index_captain_documents_on_account_id_and_sync_status"
     t.index ["account_id"], name: "index_captain_documents_on_account_id"
     t.index ["assistant_id", "external_link"], name: "index_captain_documents_on_assistant_id_and_external_link", unique: true
     t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"
     t.index ["status"], name: "index_captain_documents_on_status"
-    t.index ["account_id", "sync_status"], name: "index_captain_documents_on_account_id_and_sync_status"
   end
 
   create_table "captain_inboxes", force: :cascade do |t|
@@ -629,18 +629,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_05_000000) do
     t.index ["email"], name: "index_contact_emails_on_email_trigram", opclass: :gin_trgm_ops, using: :gin
   end
 
-  create_table "contact_phones", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.bigint "contact_id", null: false
-    t.string "phone_number", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id", "phone_number"], name: "index_contact_phones_on_account_id_and_phone_number", unique: true
-    t.index ["account_id"], name: "index_contact_phones_on_account_id"
-    t.index ["contact_id"], name: "index_contact_phones_on_contact_id"
-    t.index ["phone_number"], name: "index_contact_phones_on_phone_number_trigram", opclass: :gin_trgm_ops, using: :gin
-  end
-
   create_table "contact_inboxes", force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "inbox_id"
@@ -654,6 +642,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_05_000000) do
     t.index ["inbox_id"], name: "index_contact_inboxes_on_inbox_id"
     t.index ["pubsub_token"], name: "index_contact_inboxes_on_pubsub_token", unique: true
     t.index ["source_id"], name: "index_contact_inboxes_on_source_id"
+  end
+
+  create_table "contact_phones", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "contact_id", null: false
+    t.string "phone_number", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "phone_number"], name: "index_contact_phones_on_account_id_and_phone_number", unique: true
+    t.index ["account_id"], name: "index_contact_phones_on_account_id"
+    t.index ["contact_id"], name: "index_contact_phones_on_contact_id"
+    t.index ["phone_number"], name: "index_contact_phones_on_phone_number_trigram", opclass: :gin_trgm_ops, using: :gin
   end
 
   create_table "contacts", id: :serial, force: :cascade do |t|
