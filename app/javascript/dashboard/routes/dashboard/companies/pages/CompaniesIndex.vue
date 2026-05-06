@@ -133,6 +133,11 @@ const handleSort = async ({ sort, order }) => {
 
 onMounted(() => {
   searchValue.value = searchQuery.value;
+
+  if (!route.query.sort && sortParam.value !== DEFAULT_SORT_FIELD) {
+    updateURLParams(pageNumber.value, searchQuery.value, sortParam.value);
+  }
+
   fetchCompanies();
 });
 </script>
