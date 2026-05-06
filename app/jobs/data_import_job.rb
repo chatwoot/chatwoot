@@ -87,10 +87,9 @@ class DataImportJob < ApplicationJob
   end
 
   def taggings_for_contacts(contacts_with_labels)
-    identity_counts = contact_identity_counts(contacts_with_labels)
     tag_lookup = tags_by_label_name(contacts_with_labels)
     taggings = contacts_with_labels.flat_map do |item|
-      contact = contact_for_label_import(item[:contact], identity_counts)
+      contact = contact_for_label_import(item[:contact])
       labels = item[:labels].map(&:downcase).uniq
       next [] if contact&.id.blank?
 
@@ -116,15 +115,11 @@ class DataImportJob < ApplicationJob
     end
   end
 
-  def contact_identity_counts(contacts_with_labels)
-    contacts_with_labels.filter_map { |item| contact_identity_key(item[:contact]) }.tally
-  end
-
-  def contact_for_label_import(contact, identity_counts)
+  def contact_for_label_import(contact)
     return contact if contact.id.present?
 
     key = contact_identity_key(contact)
-    return if key.blank? || identity_counts[key] > 1
+    return if key.blank?
 
     imported_contact(contact)
   end
