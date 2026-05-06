@@ -178,7 +178,7 @@ onMounted(() => {
         :domain="company.domain"
         :contacts-count="company.contactsCount || 0"
         :avatar-url="company.avatarUrl"
-        :last-activity-at="company.lastActivityAt"
+        :last-activity-at="company.updatedAt"
         @show-company="showCompany"
       />
     </div>
