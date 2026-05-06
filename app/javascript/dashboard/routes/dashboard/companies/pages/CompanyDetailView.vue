@@ -59,7 +59,7 @@ const goToCompaniesIndex = () => {
 };
 
 const goToCompaniesList = () => {
-  if (window.history.state?.back || window.history.length > 1) {
+  if (window.history.state?.back) {
     router.back();
     return;
   }
