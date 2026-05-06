@@ -32,9 +32,11 @@ class SearchService
 
   def filter_conversations
     conversations_query = current_account.conversations.where(inbox_id: accessable_inbox_ids)
-                                         .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
-                                         .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
-                            ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search", search: "%#{search_query}%")
+                                         .joins(:contact)
+                                         .where(
+                                           "#{conversation_search_sql} OR #{Contacts::SearchQuery.sql}",
+                                           search: "%#{search_query}%"
+                                         )
 
     if current_account.feature_enabled?('advanced_search')
       conversations_query = apply_time_filter(conversations_query,
@@ -162,16 +164,13 @@ class SearchService
   end
 
   def filter_contacts
-    contacts_query = current_account.contacts.where(
-      "name ILIKE :search OR email ILIKE :search OR phone_number
-      ILIKE :search OR identifier ILIKE :search", search: "%#{search_query}%"
-    )
+    contacts_query = current_account.contacts.where(Contacts::SearchQuery.sql, search: "%#{search_query}%")
 
     contacts_query = apply_time_filter(contacts_query, 'last_activity_at') if current_account.feature_enabled?('advanced_search')
 
     @contacts = contacts_query.resolved_contacts(
       use_crm_v2: current_account.feature_enabled?('crm_v2')
-    ).order_on_last_activity_at('desc').page(params[:page]).per(15)
+    ).preload(:contact_emails, :contact_phones).order_on_last_activity_at('desc').page(params[:page]).per(15)
   end
 
   def filter_articles
@@ -202,6 +201,16 @@ class SearchService
     requested_time = Time.zone.at(until_param.to_i)
 
     [requested_time, max_future].min
+  end
+
+  def conversation_search_sql
+    <<~SQL.squish
+      cast(conversations.display_id as text) ILIKE :search
+      OR contacts.name ILIKE :search
+      OR contacts.email ILIKE :search
+      OR contacts.phone_number ILIKE :search
+      OR contacts.identifier ILIKE :search
+    SQL
   end
 end
 

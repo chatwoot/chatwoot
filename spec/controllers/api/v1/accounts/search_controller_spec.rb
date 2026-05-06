@@ -70,6 +70,22 @@ RSpec.describe 'Search', type: :request do
         expect(response_data[:payload][:contacts].length).to eq 1
       end
 
+      it 'finds contacts by alias email and includes email_addresses' do
+        contact = create(:contact, email: 'primary@example.com', account: account)
+        create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
+
+        get "/api/v1/accounts/#{account.id}/search/contacts",
+            headers: agent.create_new_auth_token,
+            params: { q: 'alias@example.com' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+
+        expect(response_data[:payload][:contacts].pluck(:id)).to include(contact.id)
+        expect(response_data[:payload][:contacts].first[:email_addresses]).to contain_exactly('primary@example.com', 'alias@example.com')
+      end
+
       it 'returns last_activity_at in contact search results' do
         contact = create(:contact, email: 'activity@test.com', account: account, last_activity_at: 3.days.ago)
 

@@ -572,6 +572,20 @@
                   "type": "string",
                   "description": "The email address of the contact"
                 },
+                "additional_emails": {
+                  "type": "array",
+                  "description": "Additional email addresses stored for the contact",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "email_addresses": {
+                  "type": "array",
+                  "description": "Stored email addresses for the contact, ordered with the primary email first",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "id": {
                   "type": "integer",
                   "description": "The ID of the contact"
@@ -583,6 +597,20 @@
                 "phone_number": {
                   "type": "string",
                   "description": "The phone number of the contact"
+                },
+                "additional_phones": {
+                  "type": "array",
+                  "description": "Additional phone numbers stored for the contact",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "phone_numbers": {
+                  "type": "array",
+                  "description": "Stored phone numbers for the contact, ordered with the primary phone number first",
+                  "items": {
+                    "type": "string"
+                  }
                 },
                 "blocked": {
                   "type": "boolean",
@@ -1950,12 +1978,40 @@
             ],
             "description": "Email of the contact"
           },
+          "additional_emails": {
+            "type": "array",
+            "description": "Additional email addresses stored for the contact",
+            "items": {
+              "type": "string"
+            }
+          },
+          "email_addresses": {
+            "type": "array",
+            "description": "Stored email addresses for the contact, ordered with the primary email first",
+            "items": {
+              "type": "string"
+            }
+          },
           "phone_number": {
             "type": [
               "string",
               "null"
             ],
             "description": "Phone number of the contact"
+          },
+          "additional_phones": {
+            "type": "array",
+            "description": "Additional phone numbers stored for the contact",
+            "items": {
+              "type": "string"
+            }
+          },
+          "phone_numbers": {
+            "type": "array",
+            "description": "Stored phone numbers for the contact, ordered with the primary phone number first",
+            "items": {
+              "type": "string"
+            }
           },
           "pubsub_token": {
             "type": "string",
@@ -2852,6 +2908,20 @@
             "description": "email of the contact",
             "example": "alice@acme.inc"
           },
+          "additional_emails": {
+            "type": "array",
+            "description": "Additional email addresses for the contact",
+            "items": {
+              "type": "string"
+            }
+          },
+          "email_addresses": {
+            "type": "array",
+            "description": "Full-state email set for the contact. When email is omitted, the first value becomes the primary email.",
+            "items": {
+              "type": "string"
+            }
+          },
           "blocked": {
             "type": "boolean",
             "description": "whether the contact is blocked or not",
@@ -2861,6 +2931,20 @@
             "type": "string",
             "description": "phone number of the contact",
             "example": "+123456789"
+          },
+          "additional_phones": {
+            "type": "array",
+            "description": "Additional phone numbers for the contact",
+            "items": {
+              "type": "string"
+            }
+          },
+          "phone_numbers": {
+            "type": "array",
+            "description": "Full-state phone number set for the contact. When phone_number is omitted, the first value becomes the primary phone number.",
+            "items": {
+              "type": "string"
+            }
           },
           "avatar": {
             "type": "string",
@@ -2905,6 +2989,20 @@
             "description": "email of the contact",
             "example": "alice@acme.inc"
           },
+          "additional_emails": {
+            "type": "array",
+            "description": "Additional email addresses for the contact",
+            "items": {
+              "type": "string"
+            }
+          },
+          "email_addresses": {
+            "type": "array",
+            "description": "Full-state email set for the contact. When email is omitted, the first value becomes the primary email.",
+            "items": {
+              "type": "string"
+            }
+          },
           "blocked": {
             "type": "boolean",
             "description": "whether the contact is blocked or not",
@@ -2914,6 +3012,20 @@
             "type": "string",
             "description": "phone number of the contact",
             "example": "+123456789"
+          },
+          "additional_phones": {
+            "type": "array",
+            "description": "Additional phone numbers for the contact",
+            "items": {
+              "type": "string"
+            }
+          },
+          "phone_numbers": {
+            "type": "array",
+            "description": "Full-state phone number set for the contact. When phone_number is omitted, the first value becomes the primary phone number.",
+            "items": {
+              "type": "string"
+            }
           },
           "avatar": {
             "type": "string",
@@ -4836,6 +4948,20 @@
             "type": "string",
             "description": "The email address of the contact"
           },
+          "additional_emails": {
+            "type": "array",
+            "description": "Additional email addresses stored for the contact",
+            "items": {
+              "type": "string"
+            }
+          },
+          "email_addresses": {
+            "type": "array",
+            "description": "Stored email addresses for the contact, ordered with the primary email first",
+            "items": {
+              "type": "string"
+            }
+          },
           "id": {
             "type": "integer",
             "description": "The ID of the contact"
@@ -4857,6 +4983,20 @@
               "null"
             ],
             "description": "The phone number of the contact"
+          },
+          "additional_phones": {
+            "type": "array",
+            "description": "Additional phone numbers stored for the contact",
+            "items": {
+              "type": "string"
+            }
+          },
+          "phone_numbers": {
+            "type": "array",
+            "description": "Stored phone numbers for the contact, ordered with the primary phone number first",
+            "items": {
+              "type": "string"
+            }
           },
           "thumbnail": {
             "type": "string",
@@ -5227,6 +5367,20 @@
             ],
             "description": "The email address of the contact"
           },
+          "additional_emails": {
+            "type": "array",
+            "description": "Additional email addresses stored for the contact",
+            "items": {
+              "type": "string"
+            }
+          },
+          "email_addresses": {
+            "type": "array",
+            "description": "Stored email addresses for the contact, ordered with the primary email first",
+            "items": {
+              "type": "string"
+            }
+          },
           "id": {
             "type": "integer",
             "description": "The ID of the contact"
@@ -5241,6 +5395,20 @@
               "null"
             ],
             "description": "The phone number of the contact"
+          },
+          "additional_phones": {
+            "type": "array",
+            "description": "Additional phone numbers stored for the contact",
+            "items": {
+              "type": "string"
+            }
+          },
+          "phone_numbers": {
+            "type": "array",
+            "description": "Stored phone numbers for the contact, ordered with the primary phone number first",
+            "items": {
+              "type": "string"
+            }
           },
           "blocked": {
             "type": "boolean",

@@ -66,7 +66,7 @@ class ContactIdentifyAction
   def existing_phone_number_contact
     return if params[:phone_number].blank?
 
-    @existing_phone_number_contact ||= account.contacts.find_by(phone_number: params[:phone_number])
+    @existing_phone_number_contact ||= account.contacts.from_phone_number(params[:phone_number])
   end
 
   def merge_contacts?(existing_contact, key)
@@ -104,7 +104,7 @@ class ContactIdentifyAction
     # blank identifier or email will throw unique index error
     # TODO: replace reject { |_k, v| v.blank? } with compact_blank when rails is upgraded
     @contact.discard_invalid_attrs if discard_invalid_attrs
-    @contact.save! if @contact.changed?
+    persist_contact_with_contact_point_sync!
     enqueue_avatar_job
   end
 
@@ -135,5 +135,47 @@ class ContactIdentifyAction
     return @contact.additional_attributes if params[:additional_attributes].blank?
 
     (@contact.additional_attributes || {}).deep_merge(params[:additional_attributes].stringify_keys)
+  end
+
+  def persist_contact_with_contact_point_sync!
+    previous_email = @contact.email_was if @contact.will_save_change_to_email?
+    previous_phone_number = @contact.phone_number_was if @contact.will_save_change_to_phone_number?
+    remove_promoted_additional_email!
+    remove_promoted_additional_phone!
+    @contact.save! if @contact.changed?
+    sync_changed_primary_email!(previous_email) if previous_email.present?
+    sync_changed_primary_phone_number!(previous_phone_number) if previous_phone_number.present?
+  end
+
+  def remove_promoted_additional_email!
+    return unless @contact.will_save_change_to_email?
+
+    @contact.contact_emails.where(email: normalized_pending_email).destroy_all
+  end
+
+  def remove_promoted_additional_phone!
+    return unless @contact.will_save_change_to_phone_number?
+
+    @contact.contact_phones.where(phone_number: normalized_pending_phone_number).destroy_all
+  end
+
+  def sync_changed_primary_email!(previous_email)
+    return if previous_email == @contact.email
+
+    @contact.contact_emails.find_or_create_by!(account: account, email: previous_email)
+  end
+
+  def sync_changed_primary_phone_number!(previous_phone_number)
+    return if previous_phone_number == @contact.phone_number
+
+    @contact.contact_phones.find_or_create_by!(account: account, phone_number: previous_phone_number)
+  end
+
+  def normalized_pending_email
+    @contact.email.to_s.strip.downcase
+  end
+
+  def normalized_pending_phone_number
+    @contact.phone_number.to_s.strip
   end
 end

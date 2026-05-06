@@ -36,9 +36,9 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
   private
 
   def find_or_create_contact
-    @contact = @inbox.contacts.from_email(original_sender_email)
+    @contact = @account.contacts.from_email(original_sender_email)
     if @contact.present?
-      @contact_inbox = ContactInbox.find_by(inbox: @inbox, contact: @contact)
+      find_or_create_contact_inbox
     else
       create_contact
     end

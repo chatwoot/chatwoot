@@ -76,6 +76,27 @@ describe ContactIdentifyAction do
         expect(result.identifier).to eq params[:identifier]
         expect(result.email).to be_nil
       end
+
+      it 'moves an existing additional email to the primary contact email field' do
+        contact.update!(email: 'old-primary@example.com')
+        create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
+
+        result = described_class.new(contact: contact, params: { email: 'Alias@Example.com' }).perform
+
+        expect(result.reload.email).to eq('alias@example.com')
+        expect(result.additional_emails).to contain_exactly('old-primary@example.com')
+      end
+
+      it 'merges through an alias email match' do
+        existing_email_contact = create(:contact, account: account, email: 'primary@example.com', name: 'old name')
+        create(:contact_email, contact: existing_email_contact, account: account, email: 'alias@example.com')
+
+        result = described_class.new(contact: contact, params: { name: 'new name', email: 'alias@example.com' }).perform
+
+        expect(result.id).to eq existing_email_contact.id
+        expect(result.name).to eq 'new name'
+        expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
 
     context 'when contact with same phone_number exists' do
@@ -85,6 +106,18 @@ describe ContactIdentifyAction do
         result = described_class.new(contact: contact, params: params).perform
         expect(result.id).to eq existing_phone_number_contact.id
         expect(result.name).to eq existing_phone_number_contact.name
+        expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+
+      it 'merges through an additional phone match and moves it to the primary contact phone field' do
+        existing_phone_number_contact = create(:contact, account: account, phone_number: '+919999888877')
+        create(:contact_phone, contact: existing_phone_number_contact, account: account, phone_number: '+919999888878')
+
+        result = described_class.new(contact: contact, params: { phone_number: '+919999888878' }).perform
+
+        expect(result.id).to eq existing_phone_number_contact.id
+        expect(result.reload.phone_number).to eq('+919999888878')
+        expect(result.additional_phones).to contain_exactly('+919999888877')
         expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
 

@@ -9,6 +9,7 @@ class ContactMergeAction
 
     ActiveRecord::Base.transaction do
       validate_contacts
+      merge_contact_points
       merge_conversations
       merge_messages
       merge_contact_inboxes
@@ -46,8 +47,12 @@ class ContactMergeAction
     ContactInbox.where(contact_id: @mergee_contact.id).update(contact_id: @base_contact.id)
   end
 
+  def merge_contact_points
+    @merged_contact_points = Contacts::MergeContactPoints.new(base_contact: base_contact, mergee_contact: mergee_contact).perform
+  end
+
   def merge_and_remove_mergee_contact
-    mergable_attribute_keys = %w[identifier name email phone_number additional_attributes custom_attributes]
+    mergable_attribute_keys = %w[identifier name additional_attributes custom_attributes]
     base_contact_attributes = base_contact.attributes.slice(*mergable_attribute_keys).compact_blank
     mergee_contact_attributes = mergee_contact.attributes.slice(*mergable_attribute_keys).compact_blank
 
@@ -55,8 +60,15 @@ class ContactMergeAction
     merged_attributes = mergee_contact_attributes.deep_merge(base_contact_attributes)
 
     @mergee_contact.reload.destroy!
+    @base_contact.update!(merged_attributes) if merged_attributes.present?
+    sync_merged_contact_emails!
     Rails.configuration.dispatcher.dispatch(CONTACT_MERGED, Time.zone.now, contact: @base_contact,
                                                                            tokens: [@base_contact.contact_inboxes.filter_map(&:pubsub_token)])
-    @base_contact.update!(merged_attributes)
+  end
+
+  def sync_merged_contact_emails!
+    Contacts::ReplaceContactPoints.new(contact: @base_contact, params: @merged_contact_points).perform
   end
 end
+
+ContactMergeAction.prepend_mod_with('ContactMergeAction')

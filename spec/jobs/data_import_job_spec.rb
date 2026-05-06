@@ -42,6 +42,7 @@ RSpec.describe DataImportJob do
         contact = Contact.find_by(phone_number: '+918080808080')
         expect(contact).to be_truthy
         expect(contact['additional_attributes']['company_name']).to eq('My Company Name')
+        expect(contact.additional_emails).to be_empty
       end
     end
 
@@ -133,6 +134,7 @@ RSpec.describe DataImportJob do
           expect(contact.phone_number).to eq("+#{csv_data[0]['phone_number']}")
           expect(contact.name).to eq((csv_data[0]['name']).to_s)
           expect(contact.additional_attributes['company_name']).to eq((csv_data[0]['company_name']).to_s)
+          expect(contact.additional_emails).to be_empty
         end
       end
 
@@ -150,6 +152,22 @@ RSpec.describe DataImportJob do
           expect(contact.email).to eq(csv_data[0]['email'])
           expect(contact.name).to eq((csv_data[0]['name']).to_s)
           expect(contact.additional_attributes['company_name']).to eq((csv_data[0]['company_name']).to_s)
+        end
+
+        it 'updates an existing record matched through an alias email' do
+          contact = Contact.create!(email: 'primary@example.com', account_id: existing_data_import.account_id)
+          create(:contact_email, contact: contact, account: contact.account, email: csv_data[0]['email'])
+
+          csv_length = csv_data.length
+
+          described_class.perform_now(existing_data_import)
+          expect(existing_data_import.account.contacts.count).to eq(csv_length)
+
+          contact.reload
+          expect(contact.email).to eq('primary@example.com')
+          expect(contact.additional_emails).to contain_exactly(csv_data[0]['email'])
+          expect(contact.phone_number).to eq("+#{csv_data[0]['phone_number']}")
+          expect(contact.name).to eq(csv_data[0]['name'].to_s)
         end
       end
 

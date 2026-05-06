@@ -75,6 +75,63 @@ describe SearchService do
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Contact')
         expect(search.perform[:contacts].map(&:id)).to eq([harry4.id, harry3.id, harry2.id, harry.id])
       end
+
+      it 'returns one contact row even when multiple alias emails match the query' do
+        alias_contact = create(:contact, name: 'Alias Harry', email: 'primary@example.com', account: account, last_activity_at: 5.minutes.ago)
+        create(:contact_email, contact: alias_contact, account: account, email: 'harry-one@alias.example.com')
+        create(:contact_email, contact: alias_contact, account: account, email: 'harry-two@alias.example.com')
+
+        search = described_class.new(
+          current_user: user,
+          current_account: account,
+          params: { q: 'alias.example.com' },
+          search_type: 'Contact'
+        )
+
+        expect(search.perform[:contacts].pluck(:id).count(alias_contact.id)).to eq(1)
+      end
+
+      it 'finds contacts with only an additional email identity' do
+        alias_contact = create(:contact, name: 'Alias Harry', account: account, email: nil, phone_number: nil, identifier: nil)
+        create(:contact_email, contact: alias_contact, account: account, email: 'alias-only@example.com')
+
+        search = described_class.new(
+          current_user: user,
+          current_account: account,
+          params: { q: 'alias-only@example.com' },
+          search_type: 'Contact'
+        )
+
+        expect(search.perform[:contacts].map(&:id)).to include(alias_contact.id)
+      end
+
+      it 'finds contacts by additional phone numbers' do
+        phone_contact = create(:contact, name: 'Phone Harry', phone_number: '+15551234567', account: account, last_activity_at: 5.minutes.ago)
+        create(:contact_phone, contact: phone_contact, account: account, phone_number: '+15557654321')
+
+        search = described_class.new(
+          current_user: user,
+          current_account: account,
+          params: { q: '+15557654321' },
+          search_type: 'Contact'
+        )
+
+        expect(search.perform[:contacts].map(&:id)).to include(phone_contact.id)
+      end
+
+      it 'finds contacts with only an additional phone identity' do
+        phone_contact = create(:contact, name: 'Phone Harry', account: account, email: nil, phone_number: nil, identifier: nil)
+        create(:contact_phone, contact: phone_contact, account: account, phone_number: '+15557654321')
+
+        search = described_class.new(
+          current_user: user,
+          current_account: account,
+          params: { q: '+15557654321' },
+          search_type: 'Contact'
+        )
+
+        expect(search.perform[:contacts].map(&:id)).to include(phone_contact.id)
+      end
     end
 
     context 'when message search' do
@@ -250,6 +307,29 @@ describe SearchService do
         params = { q: 'Harry' }
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
         expect(search.perform[:conversations].map(&:id)).to eq([conv2.id, conversation.id])
+      end
+
+      it 'finds conversations by alias email without duplicating rows' do
+        alias_contact = create(:contact, name: 'Alias Harry', email: 'primary@example.com', account: account)
+        alias_conversation = create(:conversation, contact: alias_contact, inbox: inbox, account: account)
+        create(:contact_email, contact: alias_contact, account: account, email: 'harry-one@alias.example.com')
+        create(:contact_email, contact: alias_contact, account: account, email: 'harry-two@alias.example.com')
+
+        params = { q: 'alias.example.com' }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
+
+        expect(search.perform[:conversations].pluck(:id)).to eq([alias_conversation.id])
+      end
+
+      it 'finds conversations by additional contact phone numbers' do
+        phone_contact = create(:contact, name: 'Phone Harry', phone_number: '+15551234567', account: account)
+        phone_conversation = create(:conversation, contact: phone_contact, inbox: inbox, account: account)
+        create(:contact_phone, contact: phone_contact, account: account, phone_number: '+15557654321')
+
+        params = { q: '+15557654321' }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
+
+        expect(search.perform[:conversations].pluck(:id)).to eq([phone_conversation.id])
       end
 
       it 'searches across conversations with display id' do

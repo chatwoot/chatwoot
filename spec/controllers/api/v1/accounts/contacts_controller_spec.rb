@@ -40,6 +40,8 @@ RSpec.describe 'Contacts API', type: :request do
       let!(:contact_inbox) { create(:contact_inbox, contact: contact) }
 
       it 'returns all resolved contacts along with contact inboxes' do
+        create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
+
         get "/api/v1/accounts/#{account.id}/contacts",
             headers: admin.create_new_auth_token,
             as: :json
@@ -52,6 +54,8 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(contact_emails).to include(contact.email)
         expect(contact_inboxes_source_ids).to include(contact_inbox.source_id)
+        contact_payload = response_body['payload'].find { |payload| payload['id'] == contact.id }
+        expect(contact_payload['email_addresses']).to contain_exactly(contact.email, 'alias@example.com')
       end
 
       it 'returns all contacts without contact inboxes' do
@@ -323,11 +327,14 @@ RSpec.describe 'Contacts API', type: :request do
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
       let!(:contact1) { create(:contact, :with_email, account: account) }
-      let!(:contact2) { create(:contact, :with_email, name: 'testcontact', account: account, email: 'test@test.com') }
+      let!(:contact2) { create(:contact, :with_email, name: 'testcontact', account: account, email: 'test@test.com', phone_number: '+15551234567') }
 
       it 'returns all resolved contacts with contact inboxes' do
+        create(:contact_email, contact: contact2, account: account, email: 'alias@test.com')
+        create(:contact_phone, contact: contact2, account: account, phone_number: '+15557654321')
+
         get "/api/v1/accounts/#{account.id}/contacts/search",
-            params: { q: contact2.email },
+            params: { q: 'alias@test.com' },
             headers: admin.create_new_auth_token,
             as: :json
 
@@ -335,6 +342,23 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to conform_schema(200)
         expect(response.body).to include(contact2.email)
         expect(response.body).not_to include(contact1.email)
+        expect(response.parsed_body['payload'].first['email_addresses']).to contain_exactly('test@test.com', 'alias@test.com')
+        expect(response.parsed_body['payload'].first['phone_numbers']).to contain_exactly(contact2.phone_number, '+15557654321')
+      end
+
+      it 'returns contacts matching additional phone numbers' do
+        create(:contact_phone, contact: contact2, account: account, phone_number: '+15557654321')
+
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: '+15557654321' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(contact2.email)
+        expect(response.body).not_to include(contact1.email)
+        expect(response.parsed_body['payload'].first['additional_phones']).to eq(['+15557654321'])
+        expect(response.parsed_body['payload'].first['phone_numbers']).to contain_exactly(contact2.phone_number, '+15557654321')
       end
 
       it 'matches the contact ignoring the case in email' do
@@ -495,6 +519,9 @@ RSpec.describe 'Contacts API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'shows the contact' do
+        contact.update!(email: 'primary@example.com')
+        create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
+
         get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
             headers: admin.create_new_auth_token,
             as: :json
@@ -502,6 +529,7 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response).to conform_schema(200)
         expect(response.body).to include(contact.name)
+        expect(response.parsed_body['payload']['email_addresses']).to contain_exactly('primary@example.com', 'alias@example.com')
       end
     end
   end
@@ -593,6 +621,39 @@ RSpec.describe 'Contacts API', type: :request do
         end.to change(ContactInbox, :count).by(1)
 
         expect(response).to have_http_status(:success)
+      end
+
+      it 'keeps legacy single-email writes on the primary contact email' do
+        post "/api/v1/accounts/#{account.id}/contacts",
+             headers: admin.create_new_auth_token,
+             params: valid_params.merge(email: 'legacy@example.com'),
+             as: :json
+
+        expect(response).to have_http_status(:success)
+
+        created_contact = Contact.find(response.parsed_body['payload']['contact']['id'])
+        expect(created_contact.email).to eq('legacy@example.com')
+        expect(created_contact.additional_emails).to be_empty
+      end
+
+      it 'creates additional emails and phones without mass-assigning them to the contact' do
+        post "/api/v1/accounts/#{account.id}/contacts",
+             headers: admin.create_new_auth_token,
+             params: valid_params.merge(
+               email: 'primary@example.com',
+               additional_emails: ['alias@example.com'],
+               phone_number: '+15551234567',
+               additional_phones: ['+15557654321']
+             ),
+             as: :json
+
+        expect(response).to have_http_status(:success)
+
+        created_contact = Contact.find(response.parsed_body['payload']['contact']['id'])
+        expect(created_contact.email).to eq('primary@example.com')
+        expect(created_contact.additional_emails).to contain_exactly('alias@example.com')
+        expect(created_contact.phone_number).to eq('+15551234567')
+        expect(created_contact.additional_phones).to contain_exactly('+15557654321')
       end
     end
   end
@@ -707,6 +768,182 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(contact.reload.blocked).to be(false)
+      end
+
+      it 'keeps explicit email as primary when email_addresses is present' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                email: 'explicit@example.com',
+                email_addresses: %w[primary@example.com alias@example.com]
+              },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.email).to eq('explicit@example.com')
+        expect(contact.additional_emails).to contain_exactly('primary@example.com', 'alias@example.com')
+        expect(response.parsed_body['payload']['email_addresses']).to contain_exactly('explicit@example.com', 'primary@example.com',
+                                                                                      'alias@example.com')
+      end
+
+      it 'updates additional emails and phones without mass-assigning them to the contact' do
+        contact.update!(email: 'primary@example.com')
+        contact.update!(phone_number: '+15551234567')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                additional_emails: ['alias@example.com'],
+                additional_phones: ['+15557654321']
+              },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.email).to eq('primary@example.com')
+        expect(contact.additional_emails).to contain_exactly('alias@example.com')
+        expect(contact.phone_number).to eq('+15551234567')
+        expect(contact.additional_phones).to contain_exactly('+15557654321')
+      end
+
+      it 'replaces additional emails and phones instead of appending' do
+        contact.update!(email: 'primary@example.com', phone_number: '+15551234567')
+        create(:contact_email, contact: contact, account: account, email: 'old@example.com')
+        create(:contact_phone, contact: contact, account: account, phone_number: '+15550000001')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                additional_emails: %w[new@example.com newer@example.com],
+                additional_phones: %w[+15550000002 +15550000003]
+              },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.additional_emails).to eq(%w[new@example.com newer@example.com])
+        expect(contact.additional_phones).to eq(%w[+15550000002 +15550000003])
+      end
+
+      it 'promotes an existing additional email to primary through email_addresses' do
+        contact.update!(email: 'old-primary@example.com')
+        create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                email_addresses: %w[Alias@Example.com old-primary@example.com]
+              },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.email).to eq('alias@example.com')
+        expect(contact.additional_emails).to contain_exactly('old-primary@example.com')
+        expect(response.parsed_body['payload']['email_addresses']).to eq(%w[alias@example.com old-primary@example.com])
+      end
+
+      it 'promotes an existing additional phone to primary through phone_numbers' do
+        contact.update!(phone_number: '+15550000001')
+        create(:contact_phone, contact: contact, account: account, phone_number: '+15550000002')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                phone_numbers: %w[+15550000002 +15550000001]
+              },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.phone_number).to eq('+15550000002')
+        expect(contact.additional_phones).to eq(['+15550000001'])
+      end
+
+      it 'rejects duplicate aliases owned by another contact' do
+        create(:contact, account: account, email: 'taken@example.com')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                email_addresses: %w[primary@example.com taken@example.com]
+              },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['attributes']).to include('email')
+      end
+
+      it 'returns validation errors for invalid additional email' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { additional_emails: ['not-an-email'] },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq('Email is invalid')
+        expect(response.parsed_body['attributes']).to eq(['email'])
+      end
+
+      it 'returns validation errors for invalid additional phone' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { additional_phones: ['5557654321'] },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq('Phone number is invalid')
+        expect(response.parsed_body['attributes']).to eq(['phone_number'])
+      end
+
+      it 'clears all stored emails when email_addresses is an empty array' do
+        contact.update!(email: 'primary@example.com')
+        create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { email_addresses: [] },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.email).to be_nil
+        expect(contact.contact_emails).to be_empty
+      end
+
+      it 'clears all stored emails when multipart params send email_addresses as an empty array marker' do
+        contact.update!(email: 'primary@example.com')
+        create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { email_addresses: '[]' }
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.email).to be_nil
+        expect(contact.contact_emails).to be_empty
+      end
+
+      it 'clears all stored phones when phone_numbers is an empty array' do
+        contact.update!(phone_number: '+15550000001')
+        create(:contact_phone, contact: contact, account: account, phone_number: '+15550000002')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { phone_numbers: [] },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.phone_number).to be_nil
+        expect(contact.contact_phones).to be_empty
+      end
+
+      it 'clears all stored phones when multipart params send phone_numbers as an empty array marker' do
+        contact.update!(phone_number: '+15550000001')
+        create(:contact_phone, contact: contact, account: account, phone_number: '+15550000002')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { phone_numbers: '[]' }
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.phone_number).to be_nil
+        expect(contact.contact_phones).to be_empty
       end
     end
   end

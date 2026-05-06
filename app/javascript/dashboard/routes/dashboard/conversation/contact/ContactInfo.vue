@@ -92,6 +92,28 @@ export default {
         telegram,
       };
     },
+    // Delete Modal
+    confirmDeleteMessage() {
+      return ` ${this.contact.name}?`;
+    },
+    contactEmails() {
+      const primaryEmail = this.contact.email || '';
+      const additionalEmails =
+        this.contact.additional_emails || this.contact.additionalEmails || [];
+      const emailAddresses =
+        this.contact.email_addresses || this.contact.emailAddresses || [];
+
+      return this.contactPoints(primaryEmail, additionalEmails, emailAddresses);
+    },
+    contactPhones() {
+      const primaryPhone = this.contact.phone_number || '';
+      const additionalPhones =
+        this.contact.additional_phones || this.contact.additionalPhones || [];
+      const phoneNumbers =
+        this.contact.phone_numbers || this.contact.phoneNumbers || [];
+
+      return this.contactPoints(primaryPhone, additionalPhones, phoneNumbers);
+    },
   },
   watch: {
     'contact.id': {
@@ -170,6 +192,15 @@ export default {
         }
       }
     },
+    contactPoints(primaryValue, additionalValues, fullListValues) {
+      const values = additionalValues.length
+        ? additionalValues
+        : fullListValues;
+      return [primaryValue, ...values]
+        .map(value => value?.toString().trim())
+        .filter(Boolean)
+        .filter((value, index, list) => list.indexOf(value) === index);
+    },
   },
 };
 </script>
@@ -238,8 +269,10 @@ export default {
         </p>
         <div class="flex flex-col items-start w-full gap-2">
           <ContactInfoRow
-            :href="contact.email ? `mailto:${contact.email}` : ''"
-            :value="contact.email"
+            v-for="emailAddress in contactEmails"
+            :key="`email-${emailAddress}`"
+            :href="`mailto:${emailAddress}`"
+            :value="emailAddress"
             icon="mail"
             emoji="✉️"
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
@@ -248,8 +281,10 @@ export default {
             @update="value => onFieldUpdate('email', value)"
           />
           <ContactInfoRow
-            :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
-            :value="contact.phone_number"
+            v-for="phoneNumber in contactPhones"
+            :key="`phone-${phoneNumber}`"
+            :href="`tel:${phoneNumber}`"
+            :value="phoneNumber"
             icon="call"
             emoji="📞"
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"

@@ -1,4 +1,6 @@
 module MailboxHelper
+  include MailboxContactInboxHelper
+
   private
 
   def create_message
@@ -120,10 +122,7 @@ module MailboxHelper
   end
 
   def mail_content
-    if processed_mail.text_content.present?
-      processed_mail.text_content[:reply]
-    elsif processed_mail.html_content.present?
-      processed_mail.html_content[:reply]
-    end
+    content = processed_mail.text_content.presence || processed_mail.html_content
+    content&.[](:reply)
   end
 end

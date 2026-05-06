@@ -46,6 +46,8 @@ class Contact < ApplicationRecord
   include AvailabilityStatusable
   include Labelable
   include LlmFormattable
+  include ContactPointable
+  include ContactPointSearchable
 
   validates :account_id, presence: true
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
@@ -63,10 +65,10 @@ class Contact < ApplicationRecord
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
   before_validation :prepare_contact_attributes
+  before_save :sync_contact_attributes
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
-  before_save :sync_contact_attributes
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -142,7 +144,6 @@ class Contact < ApplicationRecord
       .where('contacts.created_at < ?', time_period)
       .where.missing(:conversations)
   }
-
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
   end
@@ -150,6 +151,7 @@ class Contact < ApplicationRecord
   def push_event_data
     {
       additional_attributes: additional_attributes,
+      **destroyed_contact_point_data,
       custom_attributes: custom_attributes,
       email: email,
       id: id,
@@ -166,6 +168,7 @@ class Contact < ApplicationRecord
     {
       account: account.webhook_data,
       additional_attributes: additional_attributes,
+      **contact_point_data,
       avatar: avatar_url,
       custom_attributes: custom_attributes,
       email: email,
@@ -178,19 +181,9 @@ class Contact < ApplicationRecord
     }
   end
 
-  def self.resolved_contacts(use_crm_v2: false)
-    return where(contact_type: 'lead') if use_crm_v2
-
-    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
-  end
-
   def discard_invalid_attrs
     phone_number_format
     email_format
-  end
-
-  def self.from_email(email)
-    find_by(email: email&.downcase)
   end
 
   private

@@ -85,6 +85,144 @@ RSpec.describe Contact do
     end
   end
 
+  describe 'contact points' do
+    let(:account) { create(:account) }
+
+    it "does not allow a primary email to duplicate another contact's additional email" do
+      contact = create(:contact, account: account, email: 'owner@example.com')
+      create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
+
+      duplicate = build(:contact, account: account, email: 'alias@example.com')
+
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:email]).to be_present
+    end
+
+    it 'does not allow the primary email to duplicate its own additional email' do
+      contact = create(:contact, account: account, email: 'owner@example.com')
+      contact_email = create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
+
+      contact.email = 'alias@example.com'
+
+      expect(contact).not_to be_valid
+      expect(contact.errors[:email]).to be_present
+
+      contact_email.destroy!
+      expect(contact).to be_valid
+    end
+
+    it "does not allow a primary phone to duplicate another contact's additional phone" do
+      contact = create(:contact, account: account, phone_number: '+15551234567')
+      create(:contact_phone, contact: contact, account: account, phone_number: '+15557654321')
+
+      duplicate = build(:contact, account: account, phone_number: '+15557654321')
+
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:phone_number]).to be_present
+    end
+
+    it 'does not allow the primary phone to duplicate its own additional phone' do
+      contact = create(:contact, account: account, phone_number: '+15551234567')
+      contact_phone = create(:contact_phone, contact: contact, account: account, phone_number: '+15557654321')
+
+      contact.phone_number = '+15557654321'
+
+      expect(contact).not_to be_valid
+      expect(contact.errors[:phone_number]).to be_present
+
+      contact_phone.destroy!
+      expect(contact).to be_valid
+    end
+
+    it 'returns all emails with primary first' do
+      contact = create(:contact, account: account, email: 'primary@example.com')
+      create(:contact_email, contact: contact, account: account, email: 'second@example.com')
+      create(:contact_email, contact: contact, account: account, email: 'third@example.com')
+
+      expect(contact.all_emails).to eq(%w[primary@example.com second@example.com third@example.com])
+    end
+
+    it 'returns all phone numbers with primary first' do
+      contact = create(:contact, account: account, phone_number: '+15551234567')
+      create(:contact_phone, contact: contact, account: account, phone_number: '+15557654321')
+      create(:contact_phone, contact: contact, account: account, phone_number: '+15559876543')
+
+      expect(contact.all_phone_numbers).to eq(%w[+15551234567 +15557654321 +15559876543])
+    end
+  end
+
+  describe '.matching_email' do
+    let(:account) { create(:account) }
+
+    it 'finds contacts by primary and additional emails' do
+      primary_contact = create(:contact, account: account, email: 'primary@example.com')
+      additional_contact = create(:contact, account: account, email: 'owner@example.com')
+      create(:contact_email, contact: additional_contact, account: account, email: 'alias@example.com')
+
+      expect(account.contacts.matching_email(' PRIMARY@example.com ')).to contain_exactly(primary_contact)
+      expect(account.contacts.matching_email('ALIAS@example.com')).to contain_exactly(additional_contact)
+    end
+  end
+
+  describe '.matching_phone_number' do
+    let(:account) { create(:account) }
+
+    it 'finds contacts by primary and additional phone numbers' do
+      primary_contact = create(:contact, account: account, phone_number: '+15551234567')
+      additional_contact = create(:contact, account: account, phone_number: '+15557654321')
+      create(:contact_phone, contact: additional_contact, account: account, phone_number: '+15559876543')
+
+      expect(account.contacts.matching_phone_number(' +15551234567 ')).to contain_exactly(primary_contact)
+      expect(account.contacts.matching_phone_number('+15559876543')).to contain_exactly(additional_contact)
+    end
+
+    it 'includes contact point arrays in push event data' do
+      contact = create(:contact, account: account, email: 'primary@example.com', phone_number: '+15551234567')
+      create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
+      create(:contact_phone, contact: contact, account: account, phone_number: '+15557654321')
+
+      expect(contact.push_event_data).to include(
+        additional_emails: ['alias@example.com'],
+        email_addresses: %w[primary@example.com alias@example.com],
+        additional_phones: ['+15557654321'],
+        phone_numbers: %w[+15551234567 +15557654321]
+      )
+    end
+
+    it 'includes contact point arrays in webhook data' do
+      contact = create(:contact, account: account, email: 'primary@example.com', phone_number: '+15551234567')
+      create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
+      create(:contact_phone, contact: contact, account: account, phone_number: '+15557654321')
+
+      expect(contact.webhook_data).to include(
+        additional_emails: ['alias@example.com'],
+        email_addresses: %w[primary@example.com alias@example.com],
+        additional_phones: ['+15557654321'],
+        phone_numbers: %w[+15551234567 +15557654321]
+      )
+    end
+
+    it 'dispatches destroyed contact event data with contact point arrays' do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+      contact = create(:contact, account: account, email: 'primary@example.com', phone_number: '+15551234567')
+      create(:contact_email, contact: contact, account: account, email: 'alias@example.com')
+      create(:contact_phone, contact: contact, account: account, phone_number: '+15557654321')
+
+      contact.destroy!
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        Events::Types::CONTACT_DELETED,
+        kind_of(ActiveSupport::TimeWithZone),
+        contact_data: hash_including(
+          additional_emails: ['alias@example.com'],
+          email_addresses: %w[primary@example.com alias@example.com],
+          additional_phones: ['+15557654321'],
+          phone_numbers: %w[+15551234567 +15557654321]
+        )
+      )
+    end
+  end
+
   context 'when city and country code passed in additional attributes' do
     it 'updates location and country code' do
       contact = create(:contact, additional_attributes: { city: 'New York', country: 'US' })
@@ -119,11 +257,21 @@ RSpec.describe Contact do
         contact_with_email = create(:contact, account: account, email: 'test@example.com', name: 'John Doe')
         contact_with_phone = create(:contact, account: account, phone_number: '+1234567890', name: 'Jane Smith')
         contact_with_identifier = create(:contact, account: account, identifier: 'user123', name: 'Bob Wilson')
+        contact_with_additional_email = create(:contact, account: account, email: nil, phone_number: nil, identifier: nil)
+        contact_with_additional_phone = create(:contact, account: account, email: nil, phone_number: nil, identifier: nil)
+        create(:contact_email, contact: contact_with_additional_email, account: account, email: 'alias@example.com')
+        create(:contact_phone, contact: contact_with_additional_phone, account: account, phone_number: '+15557654321')
         contact_without_details = create(:contact, account: account, name: 'Alice Johnson', email: nil, phone_number: nil, identifier: nil)
 
         resolved = account.contacts.resolved_contacts(use_crm_v2: false)
 
-        expect(resolved).to include(contact_with_email, contact_with_phone, contact_with_identifier)
+        expect(resolved).to include(
+          contact_with_email,
+          contact_with_phone,
+          contact_with_identifier,
+          contact_with_additional_email,
+          contact_with_additional_phone
+        )
         expect(resolved).not_to include(contact_without_details)
       end
     end

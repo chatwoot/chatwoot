@@ -38,18 +38,15 @@ class Voice::InboundCallBuilder
   end
 
   def ensure_contact!
-    account.contacts.find_or_create_by!(phone_number: from_number) do |record|
-      record.name = from_number if record.name.blank?
-    end
+    account.contacts.from_phone_number(from_number) || account.contacts.create!(phone_number: from_number, name: from_number)
   end
 
   def ensure_contact_inbox!(contact)
     ContactInbox.find_or_create_by!(
       contact_id: contact.id,
-      inbox_id: inbox.id
-    ) do |record|
-      record.source_id = from_number
-    end
+      inbox_id: inbox.id,
+      source_id: from_number
+    )
   end
 
   def resolve_conversation!(contact, contact_inbox)

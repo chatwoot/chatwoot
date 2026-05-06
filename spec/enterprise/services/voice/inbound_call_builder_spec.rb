@@ -58,6 +58,36 @@ RSpec.describe Voice::InboundCallBuilder do
       expect(call.contact.name).to eq(from_number)
     end
 
+    it 'reuses an existing contact matched by additional phone' do
+      existing_contact = create(:contact, account: account, phone_number: '+15550002222')
+      create(:contact_phone, contact: existing_contact, account: account, phone_number: from_number)
+
+      call = nil
+
+      expect do
+        call = perform_builder
+      end.to not_change(Contact, :count)
+        .and change(ContactInbox, :count).by(1)
+
+      expect(call.contact).to eq(existing_contact)
+    end
+
+    it 'creates a contact inbox for the matched additional phone when the primary phone already has one' do
+      existing_contact = create(:contact, account: account, phone_number: '+15550002222')
+      create(:contact_phone, contact: existing_contact, account: account, phone_number: from_number)
+      create(:contact_inbox, contact: existing_contact, inbox: inbox, source_id: existing_contact.phone_number)
+
+      call = nil
+
+      expect do
+        call = perform_builder
+      end.to not_change(Contact, :count)
+        .and change(ContactInbox, :count).by(1)
+
+      expect(call.contact).to eq(existing_contact)
+      expect(call.conversation.contact_inbox.source_id).to eq(from_number)
+    end
+
     it 'does not set conversation.identifier or write call state to additional_attributes' do
       call = perform_builder
       conversation = call.conversation

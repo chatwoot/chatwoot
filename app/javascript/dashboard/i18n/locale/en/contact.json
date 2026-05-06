@@ -444,6 +444,18 @@
             "PLACEHOLDER": "Enter the company name"
           }
         },
+        "EMAILS": {
+          "ADDITIONAL_LABEL": "Additional email addresses",
+          "ADD": "Add email",
+          "SET_PRIMARY": "Set as primary",
+          "REMOVE": "Remove"
+        },
+        "PHONES": {
+          "ADDITIONAL_LABEL": "Additional phone numbers",
+          "ADD": "Add phone",
+          "SET_PRIMARY": "Set as primary",
+          "REMOVE": "Remove"
+        },
         "UPDATE_BUTTON": "Update contact",
         "SUCCESS_MESSAGE": "Contact updated successfully",
         "ERROR_MESSAGE": "Unable to update contact. Please try again later."
