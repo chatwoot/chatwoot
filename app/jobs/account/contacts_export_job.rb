@@ -31,13 +31,9 @@ class Account::ContactsExportJob < ApplicationJob
   end
 
   def value_for_header(contact, header)
-    return approved_contact_labels(contact).join(LABELS_DELIMITER) if header == LABELS_COLUMN
+    return contact_labels_by_id.fetch(contact.id, []).join(LABELS_DELIMITER) if header == LABELS_COLUMN
 
     contact.send(header)
-  end
-
-  def approved_contact_labels(contact)
-    contact_labels_by_id.fetch(contact.id, []) & approved_labels
   end
 
   def approved_labels

@@ -85,21 +85,6 @@ RSpec.describe Account::ContactsExportJob do
       expect(phone_numbers).to include('+910808080818', '+910808080808')
     end
 
-    it 'exports approved contact labels with comma delimiter' do
-      contact_with_labels = account.contacts.first
-      create(:label, account: account, title: 'vip')
-      create(:label, account: account, title: 'support')
-      contact_with_labels.add_labels(%w[vip support legacy_tag])
-
-      described_class.perform_now(account.id, user.id, [], {})
-
-      csv_data = CSV.parse(account.contacts_export.download, headers: true)
-      row = csv_data.find { |r| r['email'] == contact_with_labels.email }
-
-      expect(csv_data.headers).to include('labels')
-      expect(row['labels'].split(described_class::LABELS_DELIMITER)).to match_array(%w[vip support])
-    end
-
     it 'exports labels when requested through column names' do
       contact_with_labels = account.contacts.first
       create(:label, account: account, title: 'vip')
@@ -119,6 +104,7 @@ RSpec.describe Account::ContactsExportJob do
       create(:label, account: account, title: 'vip')
       create(:label, account: account, title: 'support')
       account.contacts.find_each { |contact| contact.add_labels(%w[vip support]) }
+      account.contacts.first.add_labels('legacy_tag')
 
       taggings_queries = []
       subscriber = ActiveSupport::Notifications.subscribe('sql.active_record') do |_name, _started, _finished, _unique_id, payload|
@@ -126,7 +112,11 @@ RSpec.describe Account::ContactsExportJob do
       end
 
       described_class.perform_now(account.id, user.id, [], {})
+      csv_data = CSV.parse(account.contacts_export.download, headers: true)
+      row = csv_data.find { |r| r['email'] == account.contacts.first.email }
 
+      expect(csv_data.headers).to include('labels')
+      expect(row['labels'].split(described_class::LABELS_DELIMITER)).to match_array(%w[vip support])
       expect(taggings_queries.size).to eq(1)
     ensure
       ActiveSupport::Notifications.unsubscribe(subscriber) if subscriber

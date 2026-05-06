@@ -192,7 +192,7 @@ RSpec.describe DataImportJob do
       let(:data_with_labels) do
         [
           %w[id name email phone_number labels],
-          ['1', 'John Doe', 'john@example.com', '+918080808080', 'customer,vip'],
+          ['1', 'John Doe', 'john@example.com', '+918080808080', ' Customer , VIP , vip '],
           ['2', 'Jane Smith', 'jane@example.com', '+918080808081', 'lead'],
           ['3', 'Bob Wilson', 'bob@example.com', '+918080808082', '']
         ]
@@ -221,39 +221,9 @@ RSpec.describe DataImportJob do
         expect(bob.label_list).to be_empty
       end
 
-      it 'normalizes labels case-insensitively and removes duplicate labels' do
-        data_with_normalized_labels = [
-          %w[id name email phone_number labels],
-          ['1', 'Test User', 'test@example.com', '+918080808083', ' VIP , customer , vip ']
-        ]
-        normalized_labels_import = create(:data_import, import_file: generate_csv_file(data_with_normalized_labels))
-        %w[customer vip].each do |title|
-          create(:label, account: normalized_labels_import.account, title: title)
-        end
-
-        described_class.perform_now(normalized_labels_import)
-
-        contact = Contact.from_email('test@example.com')
-        expect(contact.label_list).to contain_exactly('customer', 'vip')
-      end
-
-      it 'adds imported labels to existing contact labels' do
-        existing_contact = create(:contact, account: labels_data_import.account, email: 'labeled@example.com')
-        existing_contact.add_labels(%w[customer vip])
-        data_with_existing_contact = [
-          %w[id name email phone_number labels],
-          ['1', 'Labeled User', existing_contact.email, '+918080808086', 'lead']
-        ]
-        existing_contact_import = create(:data_import, account: labels_data_import.account,
-                                                       import_file: generate_csv_file(data_with_existing_contact))
-
-        described_class.perform_now(existing_contact_import)
-
-        expect(existing_contact.reload.label_list).to contain_exactly('customer', 'vip', 'lead')
-      end
-
       it 'dispatches only the contact update event when importing labels for an existing contact' do
         existing_contact = create(:contact, account: labels_data_import.account, email: 'existing-labeled@example.com', name: 'Old Name')
+        existing_contact.add_labels('customer')
         data_with_existing_contact = [
           %w[id name email phone_number labels],
           ['1', 'Updated Name', existing_contact.email, '+918080808090', 'lead'],
@@ -270,27 +240,11 @@ RSpec.describe DataImportJob do
           anything,
           hash_including(contact: have_attributes(id: existing_contact.id))
         ).once
-        expect(existing_contact.reload.label_list).to contain_exactly('lead')
+        expect(existing_contact.reload.label_list).to contain_exactly('customer', 'lead')
         expect(labels_data_import.account.contacts.from_email('new-labeled@example.com').label_list).to contain_exactly('customer')
       end
 
-      it 'rejects rows with labels that do not exist in the account' do
-        data_with_unknown_labels = [
-          %w[id name email phone_number labels],
-          ['1', 'Unknown Label User', 'unknownlabel@example.com', '+918080808084', 'vip,unknown_label']
-        ]
-
-        unknown_label_import = create(:data_import, import_file: generate_csv_file(data_with_unknown_labels))
-        create(:label, account: unknown_label_import.account, title: 'vip')
-
-        described_class.perform_now(unknown_label_import)
-
-        expect(Contact.from_email('unknownlabel@example.com')).to be_nil
-        expect(unknown_label_import.reload.failed_records).to be_attached
-        expect(unknown_label_import.failed_records.download).to include('Unknown labels: unknown_label')
-      end
-
-      it 'does not update an existing contact when the row has unknown labels' do
+      it 'rejects rows with labels that do not exist in the account before updating contacts' do
         existing_contact = create(:contact,
                                   account: labels_data_import.account,
                                   email: 'existing@example.com',

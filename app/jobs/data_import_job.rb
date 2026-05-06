@@ -47,7 +47,7 @@ class DataImportJob < ApplicationJob
   def build_contact_from_row(row, contacts, rejected_contacts)
     row_hash = row.to_h.with_indifferent_access
     labels = extract_labels(row_hash)
-    invalid_labels = unapproved_labels(labels)
+    invalid_labels = labels.map(&:downcase) - approved_labels
 
     if invalid_labels.present?
       append_label_error(row, invalid_labels, rejected_contacts)
@@ -64,10 +64,6 @@ class DataImportJob < ApplicationJob
 
   def extract_labels(row_hash)
     row_hash[:labels].to_s.split(LABELS_DELIMITER).map(&:strip).reject(&:blank?)
-  end
-
-  def unapproved_labels(labels)
-    labels.map(&:downcase) - approved_labels
   end
 
   def append_rejected_contact(row, contact, rejected_contacts)
