@@ -17,9 +17,12 @@ class Account::ContactsExportJob < ApplicationJob
   private
 
   def generate_csv(headers)
+    contacts_to_export = contacts.to_a
+    preload_contact_labels(contacts_to_export) if headers.include?(LABELS_COLUMN)
+
     csv_data = CSV.generate do |csv|
       csv << headers
-      export_contacts(headers).each do |contact|
+      contacts_to_export.each do |contact|
         csv << headers.map { |header| value_for_header(contact, header) }
       end
     end
@@ -34,11 +37,27 @@ class Account::ContactsExportJob < ApplicationJob
   end
 
   def approved_contact_labels(contact)
-    contact.label_list & approved_labels
+    approved_labels & contact_labels_by_id.fetch(contact.id, [])
   end
 
   def approved_labels
     @approved_labels ||= @account.labels.pluck(:title)
+  end
+
+  def preload_contact_labels(contacts_to_export)
+    contact_ids = contacts_to_export.map(&:id)
+    return if contact_ids.blank?
+
+    ActsAsTaggableOn::Tagging
+      .joins(:tag)
+      .where(context: LABELS_COLUMN, taggable_type: 'Contact', taggable_id: contact_ids)
+      .where(tags: { name: approved_labels })
+      .pluck(:taggable_id, 'tags.name')
+      .each { |contact_id, label| contact_labels_by_id[contact_id] << label }
+  end
+
+  def contact_labels_by_id
+    @contact_labels_by_id ||= Hash.new { |hash, contact_id| hash[contact_id] = [] }
   end
 
   def contacts
@@ -50,12 +69,6 @@ class Account::ContactsExportJob < ApplicationJob
     else
       @account.contacts.resolved_contacts(use_crm_v2: @account.feature_enabled?('crm_v2'))
     end
-  end
-
-  def export_contacts(headers)
-    return contacts unless headers.include?(LABELS_COLUMN)
-
-    contacts.includes(:labels)
   end
 
   def valid_headers(column_names)

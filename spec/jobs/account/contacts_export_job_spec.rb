@@ -5,7 +5,7 @@ RSpec.describe Account::ContactsExportJob do
 
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account, email: 'account-user-test@test.com') }
-  let(:label) { create(:label, title: 'spec-billing', maccount: account) }
+  let(:label) { create(:label, title: 'spec-billing', account: account) }
 
   let(:email_filter) do
     {
@@ -113,6 +113,23 @@ RSpec.describe Account::ContactsExportJob do
 
       expect(csv_data.headers).to eq(%w[id email labels])
       expect(row['labels']).to eq('vip')
+    end
+
+    it 'bulk loads labels while exporting contacts' do
+      create(:label, account: account, title: 'vip')
+      create(:label, account: account, title: 'support')
+      account.contacts.find_each { |contact| contact.add_labels(%w[vip support]) }
+
+      taggings_queries = []
+      subscriber = ActiveSupport::Notifications.subscribe('sql.active_record') do |_name, _started, _finished, _unique_id, payload|
+        taggings_queries << payload[:sql] if payload[:sql].include?('FROM "taggings"')
+      end
+
+      described_class.perform_now(account.id, user.id, [], {})
+
+      expect(taggings_queries.size).to eq(1)
+    ensure
+      ActiveSupport::Notifications.unsubscribe(subscriber) if subscriber
     end
 
     it 'prepends UTF-8 BOM to the exported CSV for spreadsheet compatibility' do

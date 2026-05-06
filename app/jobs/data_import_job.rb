@@ -94,13 +94,14 @@ class DataImportJob < ApplicationJob
 
   def taggings_for_contacts(contacts_with_labels)
     identity_counts = contact_identity_counts(contacts_with_labels)
+    labels_by_name = tags_by_name(contacts_with_labels)
     taggings = contacts_with_labels.flat_map do |item|
       contact = contact_for_label_import(item[:contact], identity_counts)
       labels = item[:labels].map(&:downcase).uniq
       next [] unless contact&.id.present? && labels.present?
 
       labels.map do |label|
-        [tags_by_name[label].id, CONTACT_TAGGABLE_TYPE, contact.id, LABELS_CONTEXT, Time.zone.now]
+        [labels_by_name[label].id, CONTACT_TAGGABLE_TYPE, contact.id, LABELS_CONTEXT, Time.zone.now]
       end
     end.uniq
 
@@ -138,8 +139,10 @@ class DataImportJob < ApplicationJob
     @data_import.account.contacts.find_by(phone_number: contact.phone_number) if contact.phone_number.present?
   end
 
-  def tags_by_name
-    @tags_by_name ||= ActsAsTaggableOn::Tag.find_or_create_all_with_like_by_name(approved_labels).index_by { |tag| tag.name.downcase }
+  def tags_by_name(contacts_with_labels)
+    labels = contacts_with_labels.flat_map { |item| item[:labels] }.map(&:downcase).uniq
+
+    ActsAsTaggableOn::Tag.find_or_create_all_with_like_by_name(labels).index_by { |tag| tag.name.downcase }
   end
 
   def approved_labels
