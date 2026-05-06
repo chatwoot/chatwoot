@@ -13,6 +13,7 @@ import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
 import FontSize from './FontSize.vue';
 import UserLanguageSelect from './UserLanguageSelect.vue';
+import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
 import NotificationPreferences from './NotificationPreferences.vue';
@@ -43,13 +44,16 @@ export default {
     AccessToken,
     MfaSettingsCard,
     BaseSettingsHeader,
+    SettingsToggleSection,
   },
   setup() {
-    const { isEditorHotKeyEnabled, updateUISettings } = useUISettings();
+    const { uiSettings, isEditorHotKeyEnabled, updateUISettings } =
+      useUISettings();
     const { currentFontSize, updateFontSize } = useFontSize();
     const { replaceInstallationName } = useBranding();
 
     return {
+      uiSettings,
       currentFontSize,
       updateFontSize,
       isEditorHotKeyEnabled,
@@ -102,6 +106,14 @@ export default {
     }),
     isMfaEnabled() {
       return parseBoolean(window.chatwootConfig?.isMfaEnabled);
+    },
+    homeDashboardEnabled: {
+      get() {
+        return !!this.uiSettings?.home_dashboard_enabled;
+      },
+      set(value) {
+        this.updateUISettings({ home_dashboard_enabled: value });
+      },
     },
   },
   mounted() {
@@ -246,6 +258,16 @@ export default {
           :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.TITLE')"
           :description="
             $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.NOTE')
+          "
+        />
+        <SettingsToggleSection
+          v-model="homeDashboardEnabled"
+          class="w-full"
+          :header="
+            $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.HOME_DASHBOARD.TITLE')
+          "
+          :description="
+            $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.HOME_DASHBOARD.NOTE')
           "
         />
       </div>

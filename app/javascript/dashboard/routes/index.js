@@ -39,7 +39,9 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     isActive;
 
   if (to.name === 'no_accounts' || !to.name) {
-    const target = needsOnboarding ? 'onboarding' : 'dashboard';
+    const homeDashboardEnabled = !!user?.ui_settings?.home_dashboard_enabled;
+    const landingTarget = homeDashboardEnabled ? 'home' : 'dashboard';
+    const target = needsOnboarding ? 'onboarding' : landingTarget;
     return next(frontendURL(`accounts/${routeAccountId}/${target}`));
   }
 

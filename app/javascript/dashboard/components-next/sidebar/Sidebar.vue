@@ -4,6 +4,7 @@ import { provideSidebarContext, useSidebarResize } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
@@ -40,6 +41,16 @@ const { accountScopedRoute, isOnChatwootCloud } = useAccount();
 const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
+const { uiSettings } = useUISettings();
+const isHomeDashboardEnabled = computed(
+  () => !!uiSettings.value?.home_dashboard_enabled
+);
+const unreadInboxCount = useMapGetter('notifications/getUnreadCount');
+const unreadInboxCountLabel = computed(() => {
+  const count = unreadInboxCount.value;
+  if (!count) return '';
+  return count < 100 ? String(count) : '99+';
+});
 
 const isACustomBrandedInstance = useMapGetter(
   'globalConfig/isACustomBrandedInstance'
@@ -212,16 +223,28 @@ const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
   return [
-    {
-      name: 'Inbox',
-      label: t('SIDEBAR.INBOX'),
-      icon: 'i-lucide-inbox',
-      to: accountScopedRoute('inbox_view'),
-      activeOn: ['inbox_view', 'inbox_view_conversation'],
-      getterKeys: {
-        count: 'notifications/getUnreadCount',
-      },
-    },
+    ...(isHomeDashboardEnabled.value
+      ? [
+          {
+            name: 'Home',
+            label: t('SIDEBAR.HOME'),
+            icon: 'i-lucide-gauge',
+            to: accountScopedRoute('home_dashboard'),
+            activeOn: ['home_dashboard', 'home_dashboard_admin'],
+          },
+        ]
+      : [
+          {
+            name: 'Inbox',
+            label: t('SIDEBAR.INBOX'),
+            icon: 'i-lucide-inbox',
+            to: accountScopedRoute('inbox_view'),
+            activeOn: ['inbox_view', 'inbox_view_conversation'],
+            getterKeys: {
+              count: 'notifications/getUnreadCount',
+            },
+          },
+        ]),
     {
       name: 'Conversation',
       label: t('SIDEBAR.CONVERSATIONS'),
@@ -858,6 +881,20 @@ const menuItems = computed(() => {
           :is-collapsed="isEffectivelyCollapsed"
           @open-key-shortcut-modal="emit('openKeyShortcutModal')"
         />
+        <RouterLink
+          v-if="isHomeDashboardEnabled"
+          :to="accountScopedRoute('inbox_view')"
+          :title="t('SIDEBAR.INBOX')"
+          class="size-8 rounded-lg hover:bg-n-alpha-1 flex-shrink-0 grid place-content-center relative text-n-slate-11"
+        >
+          <span class="i-lucide-bell size-4" />
+          <span
+            v-if="unreadInboxCountLabel"
+            class="min-h-2 min-w-2 p-0.5 px-1 bg-n-ruby-9 rounded-lg absolute -top-1 -right-1.5 grid place-items-center text-[9px] leading-none text-n-ruby-3"
+          >
+            {{ unreadInboxCountLabel }}
+          </span>
+        </RouterLink>
       </div>
     </section>
     <!-- Resize Handle (desktop only) -->

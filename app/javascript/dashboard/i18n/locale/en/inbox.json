@@ -1,7 +1,7 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "My Inbox",
+      "TITLE": "Notifications",
       "DISPLAY_DROPDOWN": "Display",
       "LOADING": "Fetching notifications",
       "404": "There are no active notifications in this group.",

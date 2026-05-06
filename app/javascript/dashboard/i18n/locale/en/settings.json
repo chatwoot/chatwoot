@@ -58,6 +58,10 @@
           "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
           "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
           "USE_ACCOUNT_DEFAULT": "Use account default"
+        },
+        "HOME_DASHBOARD": {
+          "TITLE": "Home dashboard",
+          "NOTE": "Show a Home dashboard with team workload, KPIs, and a Captain prompt as your landing page. Hides the My Inbox sidebar item."
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
@@ -226,6 +230,128 @@
         "ERROR": "Confirm password should match the password",
         "PLACEHOLDER": "Please re-enter your new password"
       }
+    }
+  },
+  "HOME_DASHBOARD_PAGE": {
+    "ROLE_SWITCH": {
+      "AGENT": "Agent",
+      "ADMIN": "Admin"
+    },
+    "GREETING": {
+      "MORNING": "Good morning",
+      "AFTERNOON": "Good afternoon",
+      "EVENING": "Good evening",
+      "LATE": "Working late",
+      "FALLBACK_NAME": "there",
+      "GREETING_LINE": "{greeting}, ",
+      "NAME_LINE": "{name}."
+    },
+    "TEAM_SUMMARY": {
+      "PREFIX": "Your team has ",
+      "OPEN_CONVERSATIONS": "{count} open conversations",
+      "MID": ", ",
+      "NEARING_SLA": "{count} nearing SLA",
+      "AND": ", and ",
+      "AGENTS_ONLINE": "{count} agents online",
+      "PERIOD": "."
+    },
+    "AGENT_SUMMARY": {
+      "PREFIX": "You have ",
+      "OPEN_CONVERSATIONS": "{count} open conversations",
+      "MID": ", ",
+      "UNATTENDED": "{count} unattended",
+      "AND": ", and ",
+      "NEARING_SLA": "{count} close to SLA breach",
+      "PERIOD": "."
+    },
+    "KPI": {
+      "OPEN_CONVERSATIONS": "Open conversations",
+      "AVG_FIRST_RESPONSE": "Avg first response",
+      "FIRST_RESPONSE": "First response",
+      "RESOLVED_TODAY": "Resolved today",
+      "NOTIFICATIONS": "Notifications",
+      "SLA_BREACHES_TODAY": "SLA breaches today",
+      "TEAM_CSAT_TODAY": "Team CSAT today",
+      "SEE_ALL": "See all"
+    },
+    "AI": {
+      "SHORTCUT": "⌘K"
+    },
+    "TEAM_WORKLOAD": {
+      "TITLE": "Team workload",
+      "SORT_BY": "Sort by",
+      "HEADERS": {
+        "AGENT": "Agent",
+        "WORKLOAD": "Workload",
+        "UNATTENDED_OPEN": "Unattended / Open",
+        "FRT": "FRT",
+        "CSAT": "CSAT"
+      },
+      "OFF_SHIFT": "Off shift",
+      "CAPACITY": "{percent}% capacity",
+      "YOU": "YOU"
+    },
+    "ATTENTION": {
+      "TITLE": "Needs your attention",
+      "SUBTITLE": "3 items, surfaced by Captain"
+    },
+    "SUGGESTIONS_ADMIN": {
+      "OVERLOADED": "Who's overloaded right now?",
+      "HIGH_VOLUME": "What's driving the {count} open conversations today?",
+      "CSAT_OUTLIERS": "Show CSAT outliers this week",
+      "TEAM_PERFORMANCE": "Summarize team performance today",
+      "COACH_AGENT": "Draft a coaching note for {name}",
+      "QUIET_DAY": "What did the team accomplish today?",
+      "FIND_PATTERNS": "Trending customer questions"
+    },
+    "SUGGESTIONS_AGENT": {
+      "SUMMARIZE_QUEUE": "Summarize my queue",
+      "TRIAGE_UNATTENDED": "Help me triage my {count} unattended",
+      "NEAR_SLA": "Which of my conversations are close to SLA breach?",
+      "URGENT": "What's most urgent right now?",
+      "SUMMARIZE_CONVERSATION": "Summarize my conversation with {name}",
+      "CATCH_UP": "Catch me up on what I missed",
+      "SLOW_DAY": "What can I work on?"
+    },
+    "AI_PLACEHOLDERS_ADMIN": {
+      "DEFAULT": "Ask Captain about your team…",
+      "SUMMARIZE": "Summarize the three most urgent tickets…",
+      "DRAFT_REPLY": "Draft a refund reply for Aria Chen…",
+      "WHY_CSAT": "Why did CSAT slip today?",
+      "FIND_TICKETS": "Find tickets mentioning rate limit this week…"
+    },
+    "AI_PLACEHOLDERS_AGENT": {
+      "DEFAULT": "Ask anything about your queue…",
+      "SUMMARIZE": "Summarize the three most urgent tickets…",
+      "DRAFT_REPLY": "Draft a refund reply for Aria Chen…",
+      "WHY_CSAT": "Why did CSAT slip today?",
+      "FIND_TICKETS": "Find tickets mentioning rate limit this week…"
+    },
+    "SORT_OPTIONS_ADMIN": {
+      "CAPACITY": "Capacity",
+      "FIRST_RESPONSE": "First response",
+      "CSAT_TODAY": "CSAT today",
+      "RESOLVED_TODAY": "Resolved today"
+    },
+    "SORT_OPTIONS_AGENT": {
+      "PRIORITY": "Priority",
+      "SLA_BREACH": "SLA breach",
+      "LATEST": "Latest activity",
+      "OLDEST": "Oldest first",
+      "CUSTOMER": "Customer name"
+    },
+    "TOP_CONVERSATIONS": {
+      "TITLE": "Top conversations",
+      "SLA_LEFT": "{time} left",
+      "EMPTY": "Nothing in your queue.",
+      "LOADING": "Loading…"
+    },
+    "COPILOT_THREAD": {
+      "BACK": "Back to home",
+      "SEND": "Send"
+    },
+    "RECENT_THREADS": {
+      "TITLE": "Recent threads"
     }
   },
   "SIDEBAR_ITEMS": {
