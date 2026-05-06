@@ -72,6 +72,27 @@ class ArticlesAPI extends PortalsAPI {
       category_slug: categorySlug,
     });
   }
+
+  bulkTranslate({ portalSlug, articleIds, locale, categoryId, force = false }) {
+    return axios.post(
+      `${this.url}/${portalSlug}/articles/bulk_actions/translate`,
+      { ids: articleIds, locale, category_id: categoryId, force }
+    );
+  }
+
+  bulkUpdateStatus({ portalSlug, articleIds, status }) {
+    return axios.patch(
+      `${this.url}/${portalSlug}/articles/bulk_actions/update_status`,
+      { ids: articleIds, status }
+    );
+  }
+
+  bulkDelete({ portalSlug, articleIds }) {
+    return axios.delete(
+      `${this.url}/${portalSlug}/articles/bulk_actions/delete_articles`,
+      { data: { ids: articleIds } }
+    );
+  }
 }
 
 export default new ArticlesAPI();

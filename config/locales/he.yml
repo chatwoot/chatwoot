@@ -34,6 +34,11 @@ he:
     saml_not_available: אימות SAML אינו זמין בהתקנה זו.
     inbox_deletetion_response: בקשת מחיקת תיבת הדואר הנכנס שלך תעובד בקרוב.
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: לא יכול להיות ריק
     webhook:
@@ -49,6 +54,14 @@ he:
       not_found: מדיניות הקצאה לא נמצאה
     attachments:
       invalid: Invalid attachment
+    upload:
+      missing_input: 'No file or URL provided'
+      invalid_url: 'Invalid URL provided'
+      fetch_failed: 'Failed to fetch file from URL'
+      fetch_failed_with_message: 'Failed to fetch file from URL: %{message}'
+      file_too_large: 'File exceeds the maximum allowed size'
+      unsupported_content_type: 'File type not supported (only images and videos are allowed)'
+      unexpected: 'An unexpected error occurred'
     saml:
       feature_not_enabled: תכונת SAML לא מופעלת עבור חשבון זה
       sso_not_enabled: SAML SSO is not enabled for this installation
@@ -340,9 +353,9 @@ he:
     copilot_message_required: הודעה נדרשת
     copilot_error: 'אנא חבר עוזר לתיבת דואר נכנס זו כדי להשתמש ב-Copilot'
     copilot_limit: 'נגמרו לך זיכויי Copilot. אתה יכול לקנות זיכויים נוספים מסעיף החיובים.'
-    upgrade: 'Upgrade your plan to enable Captain AI'
-    disabled: 'Captain AI is disabled for this account.'
-    api_key_missing: 'Captain AI API key is not configured.'
+    upgrade: 'שדרג את התכנית שלך כדי להפעיל את Captain AI'
+    disabled: 'Captain AI מושבת עבור חשבון זה.'
+    api_key_missing: 'מפתח ה-API של Captain AI לא מוגדר.'
     copilot:
       using_tool: 'משתמש בכלי %{function_name}'
       completed_tool_call: 'הושלם קריאת כלי %{function_name}'
@@ -370,6 +383,7 @@ he:
       page_processing_error: 'שגיאה בעיבוד עמודים %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'לא ניתן ליצור slug ייחודי לאחר 5 ניסיונות'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
       search_placeholder: חפש מאמר לפי כותרת או תוכן...
@@ -406,6 +420,10 @@ he:
       title: דף לא נמצא
       description: לא הצלחנו למצוא את הדף שחיפשת.
       back_to_home: חזור לדף הבית
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
       name: שם

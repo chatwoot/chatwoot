@@ -61,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "이 메시지는 지원되지 않습니다. 확인하려면 원래 플랫폼에서 열어 주십시오.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "이 메시지는 지원되지 않습니다. Facebook Messenger 앱에서 이 메시지를 확인할 수 있습니다.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "이 메시지는 지원되지 않습니다. Instagram 앱에서 이 메시지를 확인할 수 있습니다.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "이 메시지는 지원되지 않습니다. TikTok 앱에서 이 메시지를 확인할 수 있습니다.",
     "SUCCESS_DELETE_MESSAGE": "메시지가 성공적으로 삭제되었습니다",
     "FAIL_DELETE_MESSSAGE": "메시지를 삭제할 수 없습니다! 다시 시도해 주십시오.",
     "NO_RESPONSE": "응답 없음",
@@ -173,13 +174,13 @@
           "SUCCESFUL": "라벨 #{labelName}이(가) 대화 ID {conversationId}에 배정되었습니다",
           "FAILED": "라벨을 배정할 수 없습니다. 다시 시도해 주십시오."
         },
-        "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "팀 \"{team}\"이(가) 대화 ID {conversationId}에 배정되었습니다",
-          "FAILED": "팀을 배정할 수 없습니다. 다시 시도해 주십시오."
-        },
         "LABEL_REMOVAL": {
           "SUCCESFUL": "라벨 #{labelName}이(가) 대화 ID {conversationId}에서 제거되었습니다",
           "FAILED": "라벨을 제거할 수 없습니다. 다시 시도해 주십시오."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "팀 \"{team}\"이(가) 대화 ID {conversationId}에 배정되었습니다",
+          "FAILED": "팀을 배정할 수 없습니다. 다시 시도해 주십시오."
         }
       }
     },
@@ -189,13 +190,13 @@
       "DISABLE_SIGN_TOOLTIP": "서명 비활성화",
       "MSG_INPUT": "줄바꿈을 하시려면 Shift + Enter를 누르십시오. '/'로 시작하여 미리 준비된 답변을 사용할 수 있습니다.",
       "PRIVATE_MSG_INPUT": "줄바꿈을 하시려면 Shift + Enter를 누르십시오. 에이전트만 볼 수 있습니다.",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "메시지 서명이 설정되지 않았습니다. 프로필 설정에서 설정해 주십시오.",
-      "CLICK_HERE": "업데이트하려면 여기를 클릭하십시오",
-      "WHATSAPP_TEMPLATES": "WhatsApp 템플릿",
       "MESSAGING_RESTRICTED": "이 대화에 답장할 수 없습니다",
       "MESSAGING_RESTRICTED_WHATSAPP": "24시간 메시지 창 제한으로 인해 템플릿 메시지로만 답장할 수 있습니다",
+      "MESSAGING_RESTRICTED_API": "메시지 창 제한으로 인해 템플릿 메시지로만 답장할 수 있습니다",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "메시지 서명이 설정되지 않았습니다. 프로필 설정에서 설정해 주십시오.",
       "COPILOT_MSG_INPUT": "Copilot에 추가 프롬프트를 입력하거나 다른 질문을 하십시오... Enter를 눌러 후속 메시지를 보내십시오",
-      "MESSAGING_RESTRICTED_API": "메시지 창 제한으로 인해 템플릿 메시지로만 답장할 수 있습니다"
+      "CLICK_HERE": "업데이트하려면 여기를 클릭하십시오",
+      "WHATSAPP_TEMPLATES": "WhatsApp 템플릿"
     },
     "REPLYBOX": {
       "REPLY": "답글",
@@ -213,6 +214,7 @@
       "DRAG_DROP": "여기에 드래그 앤 드롭하여 첨부하십시오",
       "START_AUDIO_RECORDING": "오디오 녹음 시작",
       "STOP_AUDIO_RECORDING": "오디오 녹음 중지",
+      "COPILOT_THINKING": "Copilot이 생각하고 있습니다",
       "EMAIL_HEAD": {
         "TO": "받는 사람",
         "ADD_BCC": "숨은 참조 추가",
@@ -241,8 +243,7 @@
         "REMOVE_PREVIEW": "인용된 이메일 스레드 제거",
         "COLLAPSE": "미리보기 축소",
         "EXPAND": "미리보기 확장"
-      },
-      "COPILOT_THINKING": "Copilot이 생각하고 있습니다"
+      }
     },
     "VISIBLE_TO_AGENTS": "개인 노트: 귀하와 귀하의 팀만 볼 수 있습니다",
     "CHANGE_STATUS": "대화 상태가 변경되었습니다",
@@ -255,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "대화가 성공적으로 삭제되었습니다",
     "FAIL_DELETE_CONVERSATION": "대화를 삭제할 수 없습니다! 다시 시도해 주십시오.",
     "FILE_SIZE_LIMIT": "파일이 {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB 첨부 제한을 초과합니다",
+    "FILE_TYPE_NOT_SUPPORTED": "이 대화에서 {fileName} 파일 형식은 지원되지 않습니다",
     "MESSAGE_ERROR": "메시지를 보낼 수 없습니다. 나중에 다시 시도해 주십시오.",
     "SENT_BY": "보낸 사람:",
     "BOT": "봇",
+    "NATIVE_APP": "네이티브 앱",
+    "NATIVE_APP_ADVISORY": "이 메시지는 네이티브 앱에서 전송되었습니다. 메시지 창을 유지하려면 Chatwoot에서 답장하십시오.",
     "SEND_FAILED": "메시지를 보낼 수 없습니다! 다시 시도해 주십시오.",
     "TRY_AGAIN": "재시도",
     "ASSIGNMENT": {
@@ -293,11 +297,7 @@
       "REJECT_CALL": "거부",
       "JOIN_CALL": "통화 참가",
       "END_CALL": "통화 종료"
-    },
-    "UNSUPPORTED_MESSAGE_TIKTOK": "이 메시지는 지원되지 않습니다. TikTok 앱에서 이 메시지를 확인할 수 있습니다.",
-    "FILE_TYPE_NOT_SUPPORTED": "이 대화에서 {fileName} 파일 형식은 지원되지 않습니다",
-    "NATIVE_APP": "네이티브 앱",
-    "NATIVE_APP_ADVISORY": "이 메시지는 네이티브 앱에서 전송되었습니다. 메시지 창을 유지하려면 Chatwoot에서 답장하십시오."
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "대화 내용 보내기",
@@ -306,6 +306,7 @@
     "CANCEL": "취소",
     "SEND_EMAIL_SUCCESS": "대화 내용이 성공적으로 전송되었습니다",
     "SEND_EMAIL_ERROR": "오류가 발생했습니다. 다시 시도해 주십시오.",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "현재 플랜에서는 이메일 대화 기록을 사용할 수 없습니다. 이 기능을 사용하려면 업그레이드하십시오.",
     "FORM": {
       "SEND_TO_CONTACT": "고객에게 대화 기록 보내기",
       "SEND_TO_AGENT": "배정된 에이전트에게 대화 기록 보내기",
@@ -314,8 +315,7 @@
         "PLACEHOLDER": "이메일 주소를 입력하십시오",
         "ERROR": "올바른 이메일 주소를 입력하십시오"
       }
-    },
-    "SEND_EMAIL_PAYMENT_REQUIRED": "현재 플랜에서는 이메일 대화 기록을 사용할 수 없습니다. 이 기능을 사용하려면 업그레이드하십시오."
+    }
   },
   "ONBOARDING": {
     "TITLE": "안녕하세요 👋, {installationName}에 오신 것을 환영합니다!",

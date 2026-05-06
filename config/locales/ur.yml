@@ -34,6 +34,11 @@ ur:
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: must not be blank
     webhook:
@@ -49,6 +54,14 @@ ur:
       not_found: Assignment policy not found
     attachments:
       invalid: Invalid attachment
+    upload:
+      missing_input: 'No file or URL provided'
+      invalid_url: 'Invalid URL provided'
+      fetch_failed: 'Failed to fetch file from URL'
+      fetch_failed_with_message: 'Failed to fetch file from URL: %{message}'
+      file_too_large: 'File exceeds the maximum allowed size'
+      unsupported_content_type: 'File type not supported (only images and videos are allowed)'
+      unexpected: 'An unexpected error occurred'
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
@@ -340,14 +353,14 @@ ur:
     copilot_message_required: Message is required
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
-    upgrade: 'Upgrade your plan to enable Captain AI'
-    disabled: 'Captain AI is disabled for this account.'
-    api_key_missing: 'Captain AI API key is not configured.'
+    upgrade: 'Captain AI فعال کرنے کے لیے اپنا پلان اپ گریڈ کریں'
+    disabled: 'اس اکاؤنٹ کے لیے Captain AI غیر فعال ہے۔'
+    api_key_missing: 'Captain AI API کلید تشکیل نہیں دی گئی۔'
     copilot:
-      using_tool: 'Using tool %{function_name}'
-      completed_tool_call: 'Completed %{function_name} tool call'
-      invalid_tool_call: 'Invalid tool call'
-      tool_not_available: 'Tool not available'
+      using_tool: '%{function_name} ٹول استعمال کر رہا ہے'
+      completed_tool_call: '%{function_name} ٹول کال مکمل ہو گئی'
+      invalid_tool_call: 'غلط ٹول کال'
+      tool_not_available: 'ٹول دستیاب نہیں'
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
@@ -370,6 +383,7 @@ ur:
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -406,6 +420,10 @@ ur:
       title: Page not found
       description: We couldn't find the page you were looking for.
       back_to_home: Go to home page
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
       name: نام

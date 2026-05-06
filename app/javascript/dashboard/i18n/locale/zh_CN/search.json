@@ -49,7 +49,7 @@
       "AND": "和",
       "APPLY": "应用",
       "BEFORE_DATE": "在{date}之前",
-      "AFTER_DATE": "在{data}之后",
+      "AFTER_DATE": "在{date}之后",
       "TIME_RANGE": "按时间筛选",
       "CLEAR_FILTER": "清除筛选条件"
     },

@@ -7,86 +7,129 @@
     <style type="text/css">
       img {
         max-width: 100%;
+        border: none;
       }
 
       body {
         -webkit-font-smoothing: antialiased;
         -webkit-text-size-adjust: none;
-        height: 100%;
-        line-height: 1.6em;
+        line-height: 21px;
         width: 100% !important;
+        margin: 0;
+        padding: 0;
+        background-color: #F4F7FB;
       }
 
-      body {
-        background-color: #F8FAFC;
+      table {
+        border-collapse: separate;
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+      }
+
+      a {
+        color: #2781F6;
+      }
+
+      .email-container {
+        width: 100%;
+        max-width: 640px;
+      }
+
+      .main-card {
+        width: 100%;
+        border: 1px solid #DCE7F5;
+        border-radius: 24px;
+        background-color: #FFFFFF;
+        box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06);
+        overflow: hidden;
+      }
+
+      .accent-bar {
+        height: 6px;
+        background-color: #2781F6;
+        font-size: 0;
+        line-height: 0;
+      }
+
+      .content-wrap {
+        padding: 40px 36px 20px;
+      }
+
+      .footer {
+        padding: 20px 8px 0;
+        text-align: center;
+        color: #64748B;
+        font-size: 13px;
+        line-height: 21px;
+      }
+
+      .footer a {
+        color: #2781F6;
+        font-weight: 600;
+        text-decoration: none;
       }
 
       @media only screen and (max-width: 640px) {
-        body {
-          padding: 0 !important;
-        }
         h1 {
-          font-size: 22px !important;
-          font-weight: 800 !important;
-          margin: 20px 0 5px !important;
+          font-size: 28px !important;
+          line-height: 34px !important;
         }
-        h2 {
-          font-size: 18px !important;
-          font-weight: 800 !important;
-          margin: 20px 0 5px !important;
+
+        .page-wrap {
+          padding: 24px 12px 32px !important;
         }
-        h3 {
-          font-size: 16px !important;
-          font-weight: 800 !important;
-          margin: 20px 0 5px !important;
+
+        .main-card {
+          border-radius: 20px !important;
         }
-        h4 {
-          font-weight: 800 !important;
-          margin: 20px 0 5px !important;
-        }
-        .container {
-          padding: 0 !important;
-          width: 100% !important;
-        }
-        .content {
-          padding: 0 !important;
-        }
+
         .content-wrap {
-          padding: 10px !important;
+          padding: 32px 24px 18px !important;
         }
       }
     </style>
   </head>
 
-  <body itemscope itemtype="http://schema.org/EmailMessage" style="font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; line-height: 1.6em; background-color: #F8FAFC; margin: 0;" bgcolor="#F8FAFC">
-    <table class="body-wrap" style="width: 100%; background-color: #F8FAFC; margin: 0;" bgcolor="#F8FAFC">
+  {% assign brand_name = global_config['BRAND_NAME'] %}
+  {% if brand_name == nil %}
+    {% assign brand_name = 'Chatwoot' %}
+  {% endif %}
+  {% assign brand_url = global_config['BRAND_URL'] %}
+
+  <body itemscope itemtype="http://schema.org/EmailMessage" style="font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,Helvetica,Arial,sans-serif; box-sizing: border-box; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; line-height: 21px; background-color: #F4F7FB; margin: 0; padding: 0;" bgcolor="#F4F7FB">
+    <table class="body-wrap" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; background-color: #F4F7FB; margin: 0;" bgcolor="#F4F7FB">
       <tr style="margin: 0;">
-        <td class="container" width="600" style="display: block !important; max-width: 600px !important; clear: both !important; margin: 0 auto;" valign="top">
-          <div class="content" style="display: block; margin: 0 auto; padding: 20px; text-align:center;">
-            <table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/ConfirmAction" style="border-radius: 6px;  background-color: #fff; text-align:left; margin: 0; border: 1px solid #e9e9e9; border-top:3px solid #0080f8;" bgcolor="#fff">
+        <td align="center" class="page-wrap" style="padding: 32px 16px 40px;" valign="top">
+          <table class="email-container" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 640px; margin: 0 auto;">
+            <tr style="margin: 0;">
+              <td style="margin: 0;">
+                <table class="main-card" role="presentation" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/ConfirmAction" style="width: 100%; border: 1px solid #DCE7F5; border-radius: 24px; background-color: #FFFFFF; box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06); overflow: hidden;" bgcolor="#FFFFFF">
+                  <tr style="margin: 0;">
+                    <td class="accent-bar" style="height: 6px; background-color: #2781F6; font-size: 0; line-height: 0;">&nbsp;</td>
+                  </tr>
+                  <tr style="margin: 0;">
+                    <td class="content-wrap" style="vertical-align: top; margin: 0; padding: 40px 36px 20px; font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;" valign="top">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; margin: 0;">
+                        {{ content_for_layout }}
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            {% if brand_name != '' %}
               <tr style="margin: 0;">
-                <td class="content-wrap" style="vertical-align: top; margin: 0; padding: 20px; font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;" valign="top">
-                  <table width="100%" cellpadding="0" cellspacing="0" style="margin: 0;">
-                    {{ content_for_layout }}
-                  </table>
+                <td class="footer" style="padding: 20px 8px 0; text-align: center; color: #64748B; font-size: 13px; line-height: 21px;">
+                  This email was sent by
+                  {% if brand_url != nil and brand_url != '' %}
+                    <a href="{{ brand_url }}" style="color: #2781F6; font-weight: 600; text-decoration: none;">{{ brand_name }}</a>.
+                  {% else %}
+                    <span style="color: #0F172A; font-weight: 600;">{{ brand_name }}</span>.
+                  {% endif %}
                 </td>
               </tr>
-            </table>
-          </div>
-          <div class="footer" style="color: #93AFC8; margin: 0; padding: 0 20px 40px; text-align: center">
-            <table width="100%" style="margin: 0;">
-              <tr style="margin: 0;">
-                {% if global_config['BRAND_NAME'] != '' %}
-                  <td class="content-block" style="font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                    Powered by
-                    <a href="{{ global_config['BRAND_URL'] }}" style="vertical-align: top; color: #93AFC8; text-align: center; margin: 0; padding: 0 0 20px;" align="center" valign="top">
-                      {{ global_config['BRAND_NAME'] }}
-                    </a>
-                  </td>
-                {% endif %}
-              </tr>
-            </table>
-          </div>
+            {% endif %}
+          </table>
         </td>
       </tr>
     </table>

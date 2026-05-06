@@ -1,6 +1,7 @@
 class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::BaseController
   before_action :ensure_custom_domain_request, only: [:show, :index]
   before_action :portal
+  before_action :ensure_portal_feature_enabled
   before_action :set_category, except: [:index, :show, :tracking_pixel]
   before_action :set_article, only: [:show]
   layout 'portal'
@@ -61,7 +62,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def set_article
     @article = @portal.articles.find_by(slug: permitted_params[:article_slug])
-    @parsed_content = render_article_content(@article.content)
+    @parsed_content = render_article_content(@article.content.to_s)
   end
 
   def set_category

@@ -22,6 +22,10 @@
       "UPDATE_SUCCESFUL": "대화 상태가 성공적으로 업데이트되었습니다.",
       "UPDATE_FAILED": "대화 업데이트에 실패했습니다. 다시 시도하십시오."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "필수 속성이 누락되어 대화를 해결할 수 없습니다",
+      "PARTIAL_SUCCESS": "일부 대화는 필수 속성이 필요하여 건너뛰었습니다"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "라벨 배정",
       "NO_LABELS_FOUND": "라벨을 찾을 수 없습니다",
@@ -36,10 +40,6 @@
       "ASSIGN_SELECTED_TEAMS": "선택한 팀 배정",
       "ASSIGN_SUCCESFUL": "팀이 성공적으로 배정되었습니다.",
       "ASSIGN_FAILED": "팀 배정에 실패했습니다. 다시 시도하십시오."
-    },
-    "RESOLVE": {
-      "ALL_MISSING_ATTRIBUTES": "필수 속성이 누락되어 대화를 해결할 수 없습니다",
-      "PARTIAL_SUCCESS": "일부 대화는 필수 속성이 필요하여 건너뛰었습니다"
     }
   }
 }

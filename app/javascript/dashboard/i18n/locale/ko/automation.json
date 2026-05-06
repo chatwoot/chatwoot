@@ -3,8 +3,11 @@
     "HEADER": "자동화",
     "DESCRIPTION": "자동화를 통해 라벨을 추가하고 가장 적합한 상담원에게 대화를 배정하는 등 수작업이 필요한 기존 프로세스를 대체하고 간소화할 수 있습니다. 이를 통해 팀은 일상적인 업무에 소요되는 시간을 줄이면서 자신의 강점에 집중할 수 있습니다.",
     "LEARN_MORE": "자동화에 대해 더 알아보기",
+    "COUNT": "{n}개의 자동화 규칙 | {n}개의 자동화 규칙",
     "HEADER_BTN_TXT": "자동화 규칙 추가",
     "LOADING": "자동화 규칙 가져오는 중",
+    "SEARCH_PLACEHOLDER": "자동화 규칙 검색...",
+    "NO_RESULTS": "검색과 일치하는 자동화 규칙이 없습니다",
     "ADD": {
       "TITLE": "자동화 규칙 추가",
       "SUBMIT": "만들기",
@@ -137,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "에이전트에게 배정",
       "ASSIGN_TEAM": "팀 배정",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "배정된 팀 제거",
       "ADD_LABEL": "라벨 추가",
       "REMOVE_LABEL": "라벨 제거",
       "SEND_EMAIL_TO_TEAM": "팀에 이메일 보내기",
@@ -166,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "메시지 유형",
+      "PRIVATE_NOTE": "개인 노트",
       "MESSAGE_CONTAINS": "메시지 포함",
       "EMAIL": "이메일",
       "INBOX": "받은 메시지함",
@@ -180,9 +186,6 @@
       "TEAM_NAME": "팀",
       "PRIORITY": "우선순위",
       "LABELS": "라벨"
-    },
-    "COUNT": "{n}개의 자동화 규칙 | {n}개의 자동화 규칙",
-    "SEARCH_PLACEHOLDER": "자동화 규칙 검색...",
-    "NO_RESULTS": "검색과 일치하는 자동화 규칙이 없습니다"
+    }
   }
 }

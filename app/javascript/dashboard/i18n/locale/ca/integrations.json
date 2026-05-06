@@ -390,72 +390,72 @@
   },
   "CAPTAIN": {
     "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "Saber més",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "Assistents",
+      "SWITCH_ASSISTANT": "Canvia entre assistents",
+      "NEW_ASSISTANT": "Crea un assistent",
+      "EMPTY_LIST": "No s'ha trobat cap assistent, si us plau crea'n un per començar"
     },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "PANEL_TITLE": "Comença amb Copilot",
+      "KICK_OFF_MESSAGE": "Necessites un resum ràpid, vols revisar converses anteriors o redactar una resposta millor? Copilot és aquí per accelerar-ho.",
       "SEND_MESSAGE": "Envia missatge...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
+      "EMPTY_MESSAGE": "Hi ha hagut un error generant la resposta. Torna-ho a provar.",
+      "LOADER": "Captain està pensant",
       "YOU": "Tu",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "USE": "Utilitza això",
+      "RESET": "Reinicia",
+      "SHOW_STEPS": "Mostra passos",
+      "SELECT_ASSISTANT": "Selecciona Assistente",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Resumeix aquesta conversa",
+          "CONTENT": "Resumeix els punts claus que s'han discutit entre el client i l'agent de suport, incloent les preocupacions, preguntes del client i les solucions o respostes aportades per l'agent."
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Suggerir una resposta",
+          "CONTENT": "Analitza la consulta del client i redacta una resposta que atiqui eficaçment les seves preocupacions o preguntes. Assegura que la resposta sigui clara, concisa i ofereixi informació útil."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Valora aquesta conversa",
+          "CONTENT": "Revisa la conversa per veure com de bé s'adapta a les necessitats del client. Comparteix una valoració de 5 punts basada en to, claredat i efectivitat."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "Converses d'alta prioritat",
+          "CONTENT": "Dóna'm un resum de totes les converses obertes d'alta prioritat. Inclou la ID de la conversa, nom del client (si està disponible), contingut de l'últim missatge i agent assignat. Agrupa per estat si és rellevant."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "Llista de contactes",
+          "CONTENT": "Mostra'm la llista dels 10 contactes principals. Inclou nom, correu electrònic o telèfon (si està disponible), última vegada que es va veure, etiquetes (si n'hi ha)."
         }
       }
     },
     "PLAYGROUND": {
       "USER": "Tu",
-      "ASSISTANT": "Assistant",
+      "ASSISTANT": "Assistent",
       "MESSAGE_PLACEHOLDER": "Escriu el missatge...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "Zona de proves",
+      "DESCRIPTION": "Utilitza aquest espai de proves per enviar missatges al teu assistent i comprovar si respon de manera precisa, ràpida i amb el to que esperes.",
+      "CREDIT_NOTE": "Els missatges enviats aquí comptaran per als teus crèdits de Captain."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "TITLE": "Actualitza per usar Captain AI",
+      "AVAILABLE_ON": "Captain no està disponible en el pla gratuït.",
+      "UPGRADE_PROMPT": "Actualitza el teu pla per accedir als nostres assistents, copilot i més.",
       "UPGRADE_NOW": "Actualitza ara",
       "CANCEL_ANYTIME": "Pots canviar o cancel·lar el teu pla en qualsevol moment"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "AVAILABLE_ON": "Captain AI només està disponible en els plans Enterprise.",
+      "UPGRADE_PROMPT": "Actualitza el teu pla per accedir als nostres assistents, copilot i més.",
       "ASK_ADMIN": "Posa't en contacte amb el vostre administrador per obtenir l'actualització."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "Has utilitzat més del 80% del teu límit de respostes. Per continuar utilitzant Captain AI, si us plau actualitza.",
+      "DOCUMENTS": "S'ha arribat al límit de documents. Actualitza per continuar utilitzant Captain AI."
     },
     "FORM": {
       "CANCEL": "Cancel·la",
@@ -527,7 +527,8 @@
           "TITLE": "Característiques",
           "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
@@ -737,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
+      "SELECTED": "{count} selected",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "BULK_DELETE_BUTTON": "Esborrar",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
         "DESCRIPTION": "These FAQs are generated directly from the document."
@@ -794,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -824,11 +837,30 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Obrir facturació",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Posa't en contacte amb el vostre administrador per obtenir l'actualització."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Descripció",

@@ -16,17 +16,14 @@ class Voice::OutboundCallBuilder
     raise ArgumentError, 'Contact phone number required' if contact.phone_number.blank?
     raise ArgumentError, 'Agent required' if user.blank?
 
-    timestamp = current_timestamp
-
     ActiveRecord::Base.transaction do
       contact_inbox = ensure_contact_inbox!
       conversation = create_conversation!(contact_inbox)
-      conversation.reload
-      conference_sid = Voice::Conference::Name.for(conversation)
       call_sid = initiate_call!
-      update_conversation!(conversation, call_sid, conference_sid, timestamp)
-      build_voice_message!(conversation, call_sid, conference_sid, timestamp)
-      { conversation: conversation, call_sid: call_sid }
+      call = create_call!(conversation, call_sid)
+      message = Voice::CallMessageBuilder.new(call).perform!
+      call.update!(message_id: message.id)
+      call
     end
   end
 
@@ -51,48 +48,23 @@ class Voice::OutboundCallBuilder
   end
 
   def initiate_call!
-    inbox.channel.initiate_call(
-      to: contact.phone_number
-    )[:call_sid]
+    inbox.channel.initiate_call(to: contact.phone_number)[:call_sid]
   end
 
-  def update_conversation!(conversation, call_sid, conference_sid, timestamp)
-    attrs = {
-      'call_direction' => 'outbound',
-      'call_status' => 'ringing',
-      'agent_id' => user.id,
-      'conference_sid' => conference_sid,
-      'meta' => { 'initiated_at' => timestamp }
-    }
-
-    conversation.update!(
-      identifier: call_sid,
-      additional_attributes: attrs,
-      last_activity_at: current_time
-    )
-  end
-
-  def build_voice_message!(conversation, call_sid, conference_sid, timestamp)
-    Voice::CallMessageBuilder.perform!(
+  def create_call!(conversation, call_sid)
+    call = Call.create!(
+      account: account,
+      inbox: inbox,
       conversation: conversation,
-      direction: 'outbound',
-      payload: {
-        call_sid: call_sid,
-        status: 'ringing',
-        conference_sid: conference_sid,
-        from_number: inbox.channel&.phone_number,
-        to_number: contact.phone_number
-      },
-      user: user,
-      timestamps: { created_at: timestamp, ringing_at: timestamp }
+      contact: contact,
+      accepted_by_agent: user,
+      provider: :twilio,
+      direction: :outgoing,
+      status: 'ringing',
+      provider_call_id: call_sid,
+      meta: { 'initiated_at' => Time.zone.now.to_i }
     )
-  end
-
-  def current_timestamp
-    @current_timestamp ||= current_time.to_i
-  end
-
-  def current_time
-    @current_time ||= Time.zone.now
+    call.update!(conference_sid: call.default_conference_sid)
+    call
   end
 end

@@ -3,6 +3,9 @@
     "FETCHING": "통합을 가져오는 중",
     "NO_HOOK_CONFIGURED": "이 계정에 구성된 {integrationId} 통합이 없습니다.",
     "HEADER": "애플리케이션",
+    "COUNT": "{n}개의 통합 | {n}개의 통합",
+    "SEARCH_PLACEHOLDER": "검색...",
+    "NO_RESULTS": "검색과 일치하는 결과가 없습니다",
     "STATUS": {
       "ENABLED": "사용함",
       "DISABLED": "사용 안 함"
@@ -31,10 +34,10 @@
     "LIST": {
       "FETCHING": "통합 훅을 가져오는 중",
       "INBOX": "받은 메시지함",
+      "ACTIONS": "액션",
       "DELETE": {
         "BUTTON_TEXT": "삭제"
-      },
-      "ACTIONS": "액션"
+      }
     },
     "ADD": {
       "FORM": {
@@ -58,9 +61,6 @@
     },
     "SIDEBAR_DESCRIPTION": {
       "DIALOGFLOW": "Dialogflow는 대화형 인터페이스를 구축하기 위한 자연어 처리 플랫폼입니다. {installationName}와(과) 통합하면 봇이 먼저 문의를 처리하고 필요할 때 에이전트에게 전달할 수 있습니다. 리드 평가에 도움이 되고 FAQ 응답을 통해 에이전트 업무량을 줄여줍니다. Dialogflow를 추가하려면 Google Console에서 서비스 계정을 만들고 자격 증명을 공유하십시오. 자세한 내용은 문서를 참조하십시오"
-    },
-    "COUNT": "{n}개의 통합 | {n}개의 통합",
-    "SEARCH_PLACEHOLDER": "검색...",
-    "NO_RESULTS": "검색과 일치하는 결과가 없습니다"
+    }
   }
 }

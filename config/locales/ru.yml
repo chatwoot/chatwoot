@@ -34,6 +34,11 @@ ru:
     saml_not_available: SAML аутентификация не доступна в этой установке.
     inbox_deletetion_response: Ваш запрос на удаление входящих сообщений будет обработан через некоторое время.
   errors:
+    account:
+      reporting_timezone:
+        invalid: неверный часовой пояс
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: не должен быть пустым
     webhook:
@@ -49,6 +54,14 @@ ru:
       not_found: Политика назначения не найдена
     attachments:
       invalid: Недопустимое вложение
+    upload:
+      missing_input: 'No file or URL provided'
+      invalid_url: 'Invalid URL provided'
+      fetch_failed: 'Failed to fetch file from URL'
+      fetch_failed_with_message: 'Failed to fetch file from URL: %{message}'
+      file_too_large: 'File exceeds the maximum allowed size'
+      unsupported_content_type: 'File type not supported (only images and videos are allowed)'
+      unexpected: 'An unexpected error occurred'
     saml:
       feature_not_enabled: Функция SAML не включена для этой учетной записи
       sso_not_enabled: SSO SAML не включен для этой установки
@@ -370,6 +383,7 @@ ru:
       page_processing_error: 'Ошибка при обработке страниц %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'Невозможно сгенерировать уникальный slug после 5 попыток'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
       search_placeholder: Поиск статьи по названию или содержанию...
@@ -406,6 +420,10 @@ ru:
       title: Страница не найдена
       description: Мы не смогли найти запрашиваемую вами страницу.
       back_to_home: Перейти на главную страницу
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
       name: Имя

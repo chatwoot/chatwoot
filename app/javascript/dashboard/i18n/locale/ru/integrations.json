@@ -390,12 +390,12 @@
   },
   "CAPTAIN": {
     "NAME": "Капитан",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "Узнать больше",
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Ассистенты",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "SWITCH_ASSISTANT": "Переключиться между помощниками",
+      "NEW_ASSISTANT": "Создать помощника",
+      "EMPTY_LIST": "Список помощников пуст, пожалуйста, создайте помощника, чтобы начать работу"
     },
     "COPILOT": {
       "TITLE": "Copilot",
@@ -449,7 +449,7 @@
       "CANCEL_ANYTIME": "Вы можете изменить или отменить ваш тарифный план в любое время"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
+      "AVAILABLE_ON": "Captain AI доступен только в тарифных планах Enterprise.",
       "UPGRADE_PROMPT": "Обновите тарифный план, чтобы получить доступ к нашим ассистентам, copilot и другим функциям.",
       "ASK_ADMIN": "Пожалуйста, обратитесь к вашему администратору для обновления."
     },
@@ -527,7 +527,8 @@
           "TITLE": "Возможности",
           "ALLOW_CONVERSATION_FAQS": "Создать FAQ из решённых диалогов",
           "ALLOW_MEMORIES": "Сохраняйте ключевые детали в виде воспоминаний о взаимодействии с клиентами.",
-          "ALLOW_CITATIONS": "Включить цитаты источника в ответы"
+          "ALLOW_CITATIONS": "Включить цитаты источника в ответы",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
@@ -737,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Документы",
       "ADD_NEW": "Создать новый документ",
+      "SELECTED": "Выбрано {count}",
+      "SELECT_ALL": "Выбрать все ({count})",
+      "UNSELECT_ALL": "Сбросить все ({count})",
+      "BULK_DELETE_BUTTON": "Удалить",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Да, удалить всё",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Связанные FAQ",
         "DESCRIPTION": "Эти FAQ генерируются напрямую из документа."
@@ -794,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Инструменты",
       "ADD_NEW": "Создать новый инструмент",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "Нет доступных пользовательских инструментов",
         "SUBTITLE": "Создавайте пользовательские инструменты, чтобы подключить ассистента к внешним API и сервисам, позволяя получать данные и выполнять действия от вашего имени.",
@@ -824,11 +837,30 @@
         "SUCCESS_MESSAGE": "Пользовательский инструмент успешно удален",
         "ERROR_MESSAGE": "Не удалось удалить пользовательский инструмент"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Открыть платеж",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Пожалуйста, обратитесь к вашему администратору для обновления."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Название инструмента",
           "PLACEHOLDER": "Поиск заказа",
-          "ERROR": "Название инструмента обязательно"
+          "ERROR": "Название инструмента обязательно",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Описание",
