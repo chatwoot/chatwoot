@@ -201,7 +201,7 @@ const displayTime = attachment => {
         >
           {{ t('CONVERSATION_SIDEBAR.SHARED_FILES.MEDIA_HEADING') }}
           <span
-            class="ml-1 font-medium tracking-normal normal-case text-n-slate-10"
+            class="ms-1 font-medium tracking-normal normal-case text-n-slate-10"
           >
             {{ mediaAttachments.length }}
           </span>
@@ -284,7 +284,7 @@ const displayTime = attachment => {
               >
                 <Icon
                   icon="i-lucide-play"
-                  class="ml-0.5 size-3.5 text-n-black"
+                  class="ms-0.5 size-3.5 text-n-black"
                 />
               </div>
             </div>
@@ -342,7 +342,7 @@ const displayTime = attachment => {
         >
           {{ t('CONVERSATION_SIDEBAR.SHARED_FILES.FILES_HEADING') }}
           <span
-            class="ml-1 font-medium tracking-normal normal-case text-n-slate-10"
+            class="ms-1 font-medium tracking-normal normal-case text-n-slate-10"
           >
             {{ fileAttachments.length }}
           </span>
