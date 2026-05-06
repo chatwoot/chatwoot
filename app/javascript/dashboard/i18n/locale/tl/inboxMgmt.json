@@ -86,6 +86,14 @@
           "PLACEHOLDER": "Pakilagay ang iyong Webhook URL",
           "ERROR": "Mangyaring maglagay ng wastong URL"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domain ng Website",
           "PLACEHOLDER": "Ilagay ang domain ng iyong website (hal: acme.com)"

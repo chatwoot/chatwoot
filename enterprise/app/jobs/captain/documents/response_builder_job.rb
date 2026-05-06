@@ -26,7 +26,7 @@ class Captain::Documents::ResponseBuilderJob < ApplicationJob
   end
 
   def generate_standard_faqs(document)
-    Captain::Llm::FaqGeneratorService.new(document.content, document.account.locale_english_name, account_id: document.account_id).generate
+    Captain::Llm::FaqGeneratorService.new(document: document).generate
   end
 
   def build_paginated_service(document, options)
@@ -62,7 +62,7 @@ class Captain::Documents::ResponseBuilderJob < ApplicationJob
   end
 
   def reset_previous_responses(response_document)
-    response_document.responses.destroy_all
+    response_document.responses.where(edited: false).destroy_all
   end
 
   def create_response(faq, document)

@@ -86,6 +86,14 @@
           "PLACEHOLDER": "Webhook URLを入力してください",
           "ERROR": "有効なURLを入力してください"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "ウェブサイトのドメイン",
           "PLACEHOLDER": "ウェブサイトのドメインを入力してください(例：acme.com)"
