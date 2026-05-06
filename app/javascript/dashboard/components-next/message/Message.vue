@@ -1,13 +1,16 @@
 <script setup>
 import { onMounted, computed, ref, toRefs } from 'vue';
-import { useTimeoutFn } from '@vueuse/core';
+import { useTimeoutFn, useWindowSize } from '@vueuse/core';
 import { provideMessageContext } from './provider.js';
-import { useTrack } from 'dashboard/composables';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useTrack, useAlert } from 'dashboard/composables';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { emitter } from 'shared/helpers/mitt';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import wootConstants from 'dashboard/constants/globals';
 import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
@@ -46,6 +49,7 @@ import RichCardsBubble from './bubbles/RichCards.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
+import MobileMessageContextMenu from 'dashboard/components-next/mobile/MobileMessageContextMenu.vue';
 import { useBranding } from 'shared/composables/useBranding';
 
 /**
@@ -144,11 +148,23 @@ const emit = defineEmits(['retry']);
 const contextMenuPosition = ref({});
 const showBackgroundHighlight = ref(false);
 const showContextMenu = ref(false);
+const showMobileContextMenu = ref(false);
+const mobileAnchorRect = ref(null);
+const bubbleRef = ref(null);
 const { t } = useI18n();
 const route = useRoute();
+const store = useStore();
 const inboxGetter = useMapGetter('inboxes/getInbox');
+const accountGetter = useMapGetter('accounts/getAccount');
+const currentAccountIdGetter = useMapGetter('getCurrentAccountId');
+const uiSettingsGetter = useMapGetter('getUISettings');
 const inbox = computed(() => inboxGetter.value(props.inboxId) || {});
 const { replaceInstallationName } = useBranding();
+const { getPlainText } = useMessageFormatter();
+const { width: viewportWidth } = useWindowSize();
+const isMobileViewport = computed(
+  () => viewportWidth.value < wootConstants.SMALL_SCREEN_BREAKPOINT
+);
 
 /**
  * Computes the message variant based on props
@@ -459,6 +475,139 @@ function closeContextMenu() {
   contextMenuPosition.value = { x: null, y: null };
 }
 
+const LONG_PRESS_MS = 450;
+const LONG_PRESS_MOVE_TOLERANCE = 12;
+let longPressTimer = null;
+let longPressStart = null;
+let longPressTriggered = false;
+
+function clearLongPressTimer() {
+  if (longPressTimer) {
+    clearTimeout(longPressTimer);
+    longPressTimer = null;
+  }
+}
+
+function openMobileContextMenu() {
+  if (!shouldShowContextMenu.value || !isBubble.value) return;
+  if (getSelection().toString()) return;
+
+  const target = bubbleRef.value;
+  const rect = target?.getBoundingClientRect();
+  if (rect) {
+    mobileAnchorRect.value = {
+      top: rect.top,
+      bottom: rect.bottom,
+      left: rect.left,
+      right: rect.right,
+    };
+  }
+  useTrack(ACCOUNT_EVENTS.OPEN_MESSAGE_CONTEXT_MENU);
+  showMobileContextMenu.value = true;
+}
+
+function closeMobileContextMenu() {
+  showMobileContextMenu.value = false;
+  mobileAnchorRect.value = null;
+}
+
+function onBubbleTouchStart(e) {
+  if (!isMobileViewport.value) return;
+  if (!shouldShowContextMenu.value || !isBubble.value) return;
+  if (e.touches?.length > 1) return;
+
+  longPressTriggered = false;
+  const touch = e.touches?.[0];
+  longPressStart = touch
+    ? { x: touch.clientX, y: touch.clientY }
+    : { x: 0, y: 0 };
+
+  clearLongPressTimer();
+  longPressTimer = setTimeout(() => {
+    longPressTriggered = true;
+    if (navigator.vibrate) {
+      try {
+        navigator.vibrate(8);
+      } catch (err) {
+        // ignore
+      }
+    }
+    openMobileContextMenu();
+  }, LONG_PRESS_MS);
+}
+
+function onBubbleTouchMove(e) {
+  if (!longPressTimer) return;
+  const touch = e.touches?.[0];
+  if (!touch || !longPressStart) return;
+  const dx = Math.abs(touch.clientX - longPressStart.x);
+  const dy = Math.abs(touch.clientY - longPressStart.y);
+  if (dx > LONG_PRESS_MOVE_TOLERANCE || dy > LONG_PRESS_MOVE_TOLERANCE) {
+    clearLongPressTimer();
+  }
+}
+
+function onBubbleTouchEnd(e) {
+  clearLongPressTimer();
+  if (longPressTriggered) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  longPressTriggered = false;
+}
+
+function onBubbleTouchCancel() {
+  clearLongPressTimer();
+  longPressTriggered = false;
+}
+
+function onBubbleContextMenuNative(e) {
+  if (isMobileViewport.value) {
+    e.preventDefault();
+    return;
+  }
+  openContextMenu(e);
+}
+
+async function handleMobileCopy() {
+  const plain = getPlainText(props.content || '');
+  if (!plain) return;
+  await copyTextToClipboard(plain);
+  useAlert(t('CONTACT_PANEL.COPY_SUCCESSFUL'));
+}
+
+function handleMobileTranslate() {
+  const accountId = currentAccountIdGetter.value;
+  const account = accountGetter.value?.(accountId) || {};
+  const accountLocale = account.locale;
+  const agentLocale = uiSettingsGetter.value?.locale;
+  const targetLanguage = agentLocale || accountLocale || 'en';
+  store.dispatch('translateMessage', {
+    conversationId: props.conversationId,
+    messageId: props.id,
+    targetLanguage,
+  });
+}
+
+async function handleMobileDelete() {
+  const message =
+    t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.MESSAGE') ||
+    'Tem certeza que deseja apagar esta mensagem?';
+  // eslint-disable-next-line no-alert
+  if (!window.confirm(message)) {
+    return;
+  }
+  try {
+    await store.dispatch('deleteMessage', {
+      conversationId: props.conversationId,
+      messageId: props.id,
+    });
+    useAlert(t('CONVERSATION.SUCCESS_DELETE_MESSAGE'));
+  } catch (error) {
+    useAlert(t('CONVERSATION.FAIL_DELETE_MESSSAGE'));
+  }
+}
+
 function handleReplyTo() {
   const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
   const { conversationId, id: replyTo } = props;
@@ -579,12 +728,18 @@ provideMessageContext({
         <Avatar v-bind="avatarInfo" :size="24" />
       </div>
       <div
+        ref="bubbleRef"
         class="[grid-area:bubble] flex min-w-0"
         :class="{
           'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
           'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
+          'mobile-bubble-touch': isMobileViewport,
         }"
-        @contextmenu="openContextMenu($event)"
+        @contextmenu="onBubbleContextMenuNative($event)"
+        @touchstart.passive="onBubbleTouchStart($event)"
+        @touchmove.passive="onBubbleTouchMove($event)"
+        @touchend="onBubbleTouchEnd($event)"
+        @touchcancel="onBubbleTouchCancel($event)"
       >
         <Component :is="componentToRender" />
       </div>
@@ -608,6 +763,17 @@ provideMessageContext({
         @close="closeContextMenu"
         @reply-to="handleReplyTo"
       />
+      <MobileMessageContextMenu
+        v-if="isBubble"
+        :is-open="showMobileContextMenu"
+        :enabled-options="contextMenuEnabledOptions"
+        :anchor-rect="mobileAnchorRect"
+        @close="closeMobileContextMenu"
+        @copy="handleMobileCopy"
+        @translate="handleMobileTranslate"
+        @reply="handleReplyTo"
+        @delete="handleMobileDelete"
+      />
     </div>
   </div>
 </template>
@@ -621,5 +787,12 @@ provideMessageContext({
   .right-bubble {
     @apply ltr:rounded-tr-sm rtl:rounded-tl-sm;
   }
+}
+
+.mobile-bubble-touch,
+.mobile-bubble-touch * {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 </style>
