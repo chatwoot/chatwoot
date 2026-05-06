@@ -37,7 +37,7 @@ class Account::ContactsExportJob < ApplicationJob
   end
 
   def approved_contact_labels(contact)
-    approved_labels & contact_labels_by_id.fetch(contact.id, [])
+    contact_labels_by_id.fetch(contact.id, []) & approved_labels
   end
 
   def approved_labels

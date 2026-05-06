@@ -94,14 +94,14 @@ class DataImportJob < ApplicationJob
 
   def taggings_for_contacts(contacts_with_labels)
     identity_counts = contact_identity_counts(contacts_with_labels)
-    labels_by_name = tags_by_name(contacts_with_labels)
+    tag_lookup = tags_by_label_name(contacts_with_labels)
     taggings = contacts_with_labels.flat_map do |item|
       contact = contact_for_label_import(item[:contact], identity_counts)
       labels = item[:labels].map(&:downcase).uniq
       next [] unless contact&.id.present? && labels.present?
 
       labels.map do |label|
-        [labels_by_name[label].id, CONTACT_TAGGABLE_TYPE, contact.id, LABELS_CONTEXT, Time.zone.now]
+        [tag_lookup[label].id, CONTACT_TAGGABLE_TYPE, contact.id, LABELS_CONTEXT, Time.zone.now]
       end
     end.uniq
 
@@ -109,17 +109,22 @@ class DataImportJob < ApplicationJob
   end
 
   def reject_existing_taggings(taggings)
-    taggable_ids = taggings.pluck(2)
-    tag_ids = taggings.pluck(0)
+    tag_ids = taggings.map { |tag_id, _taggable_type, _taggable_id, _context, _created_at| tag_id }
+    taggable_ids = taggings.map { |_tag_id, _taggable_type, taggable_id, _context, _created_at| taggable_id }
     existing_taggings = ActsAsTaggableOn::Tagging
-                        .where(context: LABELS_CONTEXT, taggable_type: CONTACT_TAGGABLE_TYPE, taggable_id: taggable_ids, tag_id: tag_ids)
+                        .where(context: LABELS_CONTEXT, taggable_type: CONTACT_TAGGABLE_TYPE,
+                               taggable_id: taggable_ids, tag_id: tag_ids)
                         .pluck(:tag_id, :taggable_id)
                         .index_with(true)
 
-    taggings.reject { |tagging| existing_taggings[[tagging[0], tagging[2]]] }
+    taggings.reject do |tag_id, _taggable_type, taggable_id, _context, _created_at|
+      existing_taggings[[tag_id, taggable_id]]
+    end
   end
 
-  def contact_identity_counts(contacts_with_labels) = contacts_with_labels.filter_map { |item| contact_identity_key(item[:contact]) }.tally
+  def contact_identity_counts(contacts_with_labels)
+    contacts_with_labels.filter_map { |item| contact_identity_key(item[:contact]) }.tally
+  end
 
   def contact_for_label_import(contact, identity_counts)
     return contact if contact.id.present?
@@ -139,7 +144,7 @@ class DataImportJob < ApplicationJob
     @data_import.account.contacts.find_by(phone_number: contact.phone_number) if contact.phone_number.present?
   end
 
-  def tags_by_name(contacts_with_labels)
+  def tags_by_label_name(contacts_with_labels)
     labels = contacts_with_labels.flat_map { |item| item[:labels] }.map(&:downcase).uniq
 
     ActsAsTaggableOn::Tag.find_or_create_all_with_like_by_name(labels).index_by { |tag| tag.name.downcase }
