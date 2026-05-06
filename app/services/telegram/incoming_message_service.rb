@@ -1,10 +1,11 @@
 # Find the various telegram payload samples here: https://core.telegram.org/bots/webhooks#testing-your-bot-with-updates
 # https://core.telegram.org/bots/api#available-types
-# rubocop:disable Metrics/ClassLength
+
 class Telegram::IncomingMessageService
   include ::FileTypeHelper
   include ::Telegram::ParamHelpers
   pattr_initialize [:inbox!, :params!]
+
   def perform
     # chatwoot doesn't support group conversations at the moment
     transform_business_message!
@@ -218,25 +219,9 @@ class Telegram::IncomingMessageService
     callback_query_id = params.dig(:callback_query, :id)
     return if callback_query_id.blank?
 
-    response = HTTParty.post("#{inbox.channel.telegram_api_url}/answerCallbackQuery", body: { callback_query_id: callback_query_id }, timeout: 3)
-    return if callback_query_ack_successful?(response)
-
-    Rails.logger.warn(
-      'Telegram callback ack failed ' \
-      "inbox_id=#{inbox.id} callback_query_id=#{callback_query_id} " \
-      "status=#{response.code} body=#{response.body}"
-    )
-  rescue StandardError => e
-    Rails.logger.warn("Telegram callback ack error inbox_id=#{inbox&.id} callback_query_id=#{callback_query_id} #{e.class}: #{e.message}")
-  end
-
-  def callback_query_ack_successful?(response)
-    return false unless response.respond_to?(:success?) && response.success?
-
-    body = response.parsed_response
-    return body['ok'] == true if body.is_a?(Hash) && body.key?('ok')
-
-    true
+    HTTParty.post("#{inbox.channel.telegram_api_url}/answerCallbackQuery",
+                  body: { callback_query_id: callback_query_id }, timeout: 3)
+  rescue StandardError
+    nil
   end
 end
-# rubocop:enable Metrics/ClassLength

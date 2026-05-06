@@ -459,14 +459,13 @@ describe Telegram::IncomingMessageService do
           }
         }.with_indifferent_access
 
-        expect(Rails.logger).to receive(:warn).with(/Telegram callback ack failed/)
         expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }.not_to raise_error
         expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
       end
     end
 
     context 'when callback_query ack returns ok=false' do
-      it 'logs a warning and still processes the callback' do
+      it 'still processes the callback' do
         stub_request(:post, %r{/answerCallbackQuery}).to_return(
           status: 200,
           body: { ok: false, description: 'Bad Request: query is too old' }.to_json,
@@ -491,7 +490,6 @@ describe Telegram::IncomingMessageService do
           }
         }.with_indifferent_access
 
-        expect(Rails.logger).to receive(:warn).with(/Telegram callback ack failed/)
         expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }.not_to raise_error
         expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
       end
