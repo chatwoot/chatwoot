@@ -68,7 +68,8 @@
         "API_SUCCESS": "دستخط کامیابی سے محفوظ ہو گیا",
         "IMAGE_UPLOAD_ERROR": "تصویر اپ لوڈ نہیں ہو سکی! دوبارہ کوشش کریں",
         "IMAGE_UPLOAD_SUCCESS": "تصویر کامیابی سے شامل کر دی گئی۔ دستخط محفوظ کرنے کے لیے براہ کرم سیو پر کلک کریں",
-        "IMAGE_UPLOAD_SIZE_ERROR": "تصویر کا سائز {size}MB سے کم ہونا چاہیے"
+        "IMAGE_UPLOAD_SIZE_ERROR": "تصویر کا سائز {size}MB سے کم ہونا چاہیے",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "پیغام دستخط",

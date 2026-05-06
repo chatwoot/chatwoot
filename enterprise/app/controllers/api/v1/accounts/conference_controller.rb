@@ -1,5 +1,6 @@
 class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseController
   before_action :set_voice_inbox_for_conference
+  rescue_from CustomExceptions::CallAlreadyAccepted, with: :render_call_already_accepted
 
   def token
     render json: Voice::Provider::Twilio::TokenService.new(
@@ -10,36 +11,35 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   end
 
   def create
-    conversation = fetch_conversation_by_display_id
-    ensure_call_sid!(conversation)
+    call = resolve_call!
 
-    conference_service = Voice::Provider::Twilio::ConferenceService.new(conversation: conversation)
+    conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
     conference_sid = conference_service.ensure_conference_sid
     conference_service.mark_agent_joined(user: current_user)
 
     render json: {
       status: 'success',
-      id: conversation.display_id,
+      id: call.conversation.display_id,
       conference_sid: conference_sid,
       using_webrtc: true
     }
   end
 
   def destroy
-    conversation = fetch_conversation_by_display_id
-    Voice::Provider::Twilio::ConferenceService.new(conversation: conversation).end_conference
-    render json: { status: 'success', id: conversation.display_id }
+    call = resolve_call!
+    Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference
+    render json: { status: 'success', id: call.conversation.display_id }
   end
 
   private
 
-  def ensure_call_sid!(conversation)
-    return conversation.identifier if conversation.identifier.present?
+  def resolve_call!
+    sid = params[:call_sid].presence
+    raise ActionController::ParameterMissing, :call_sid if sid.blank?
 
-    incoming_sid = params.require(:call_sid)
-
-    conversation.update!(identifier: incoming_sid)
-    incoming_sid
+    conversation = fetch_conversation_by_display_id
+    Call.where(inbox_id: @voice_inbox.id, provider: :twilio, conversation_id: conversation.id)
+        .find_by!(provider_call_id: sid)
   end
 
   def set_voice_inbox_for_conference
@@ -54,5 +54,9 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     conversation = @voice_inbox.conversations.find_by!(display_id: cid)
     authorize conversation, :show?
     conversation
+  end
+
+  def render_call_already_accepted(error)
+    render json: { error: error.message }, status: :conflict
   end
 end

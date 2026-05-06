@@ -27,10 +27,6 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  isPopout: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 const emit = defineEmits([
@@ -208,10 +204,7 @@ onMounted(() => {
 
 <template>
   <div class="space-y-2 mb-4">
-    <div
-      class="overflow-y-auto"
-      :class="{ 'max-h-96': isPopout, 'max-h-56': !isPopout }"
-    >
+    <div class="overflow-y-auto max-h-56">
       <p
         v-dompurify-html="formatMessage(generatedContent, false)"
         class="text-n-iris-12 text-sm prose-sm font-normal !mb-4"

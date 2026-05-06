@@ -837,6 +837,18 @@
         "SUCCESS_MESSAGE": "Strumento personalizzato eliminato correttamente",
         "ERROR_MESSAGE": "Impossibile eliminare lo strumento personalizzato"
       },
+      "PAYWALL": {
+        "TITLE": "Aggiorna per utilizzare gli strumenti con Captain",
+        "AVAILABLE_ON": "Gli strumenti Captain sono disponibili solo nei piani Business e Enterprise. Si prega di aggiornare al piano Business per utilizzare la funzionalità.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Apri fatturazione",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Gli strumenti Captain sono disponibili solo nei piani a pagamento.",
+        "UPGRADE_PROMPT": "Aggiorna a un piano a pagamento per utilizzare questa funzione.",
+        "ASK_ADMIN": "Contatta il tuo amministratore per l'aggiornamento."
+      },
       "TEST": {
         "BUTTON": "Test connection",
         "SUCCESS": "Endpoint returned HTTP {status}",

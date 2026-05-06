@@ -837,6 +837,18 @@
         "SUCCESS_MESSAGE": "Ferramenta personalizada excluída com sucesso",
         "ERROR_MESSAGE": "Falha ao excluir a ferramenta personalizada"
       },
+      "PAYWALL": {
+        "TITLE": "Atualize para usar ferramentas com o Capitão",
+        "AVAILABLE_ON": "As ferramentas do Capitão estão disponíveis apenas nos planos Business e Enterprise. Faça upgrade para o plano Business para utilizar esse recurso.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Abrir faturamento",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Ferramentas do Capitão estão disponíveis apenas nos planos pagos.",
+        "UPGRADE_PROMPT": "Por favor, faça o upgrade para um plano pago para utilizar este recurso.",
+        "ASK_ADMIN": "Entre em contato com seu administrador para fazer a atualização."
+      },
       "TEST": {
         "BUTTON": "Testar conexão",
         "SUCCESS": "Endpoint retornou HTTP {status}",

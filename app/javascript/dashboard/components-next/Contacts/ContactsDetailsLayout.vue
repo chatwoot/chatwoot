@@ -107,11 +107,10 @@ const closeMobileSidebar = () => {
                 size="sm"
               />
               <ComposeConversation :contact-id="contactId">
-                <template #trigger="{ toggle }">
+                <template #trigger>
                   <Button
                     :label="$t('CONTACTS_LAYOUT.HEADER.SEND_MESSAGE')"
                     size="sm"
-                    @click="toggle"
                   />
                 </template>
               </ComposeConversation>

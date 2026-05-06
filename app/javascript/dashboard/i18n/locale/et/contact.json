@@ -20,6 +20,7 @@
     "CALL": "Helista",
     "CALL_INITIATED": "Helistatakse kontaktile…",
     "CALL_FAILED": "Kõne alustamine ebaõnnestus. Palun proovi uuesti.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Vali häälpostkast"
     },

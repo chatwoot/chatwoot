@@ -180,6 +180,18 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(portal.archived).to be_truthy
       end
 
+      it 'does not raise when blob_id is an integer (existing logo re-sent by frontend)' do
+        portal.logo.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: { portal: { name: 'updated_name' }, blob_id: portal.logo.blob.id },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['name']).to eq('updated_name')
+        expect(portal.reload.logo).to be_attached
+      end
+
       it 'clears associated web widget when inbox selection is blank' do
         web_widget_inbox = create(:inbox, account: account)
         portal.update!(channel_web_widget: web_widget_inbox.channel)

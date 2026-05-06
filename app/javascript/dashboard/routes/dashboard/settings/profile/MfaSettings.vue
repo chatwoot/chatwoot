@@ -104,9 +104,9 @@ const cancelSetup = () => {
 };
 
 // Disable MFA
-const disableMfa = async ({ password, otpCode }) => {
+const disableMfa = async ({ password, otpCode, backupCode }) => {
   try {
-    await mfaAPI.disable(password, otpCode);
+    await mfaAPI.disable(password, { otpCode, backupCode });
     mfaEnabled.value = false;
     backupCodesGenerated.value = false;
     managementActionsRef.value?.resetDisableForm();

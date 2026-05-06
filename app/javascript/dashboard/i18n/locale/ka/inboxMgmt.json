@@ -86,6 +86,14 @@
           "PLACEHOLDER": "გთხოვთ, შეიყვანეთ თქვენი Webhook URL",
           "ERROR": "გთხოვთ, შეიყვანოთ ვალიდური URL"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "საიდუმლოს კოპირება კლიპბორდზე",
+          "COPY_SUCCESS": "საიდუმლო კლიპბორდზე გადაწერილია",
+          "TOGGLE": "საიდუმლოს ხილვადობის გადართვა",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "ვებგვერდის დომენი",
           "PLACEHOLDER": "შეიყვანეთ თქვენი ვებსაიტის დომენი (მაგ: acme.com)"

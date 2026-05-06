@@ -837,6 +837,18 @@
         "SUCCESS_MESSAGE": "കസ്റ്റം ടൂൾ വിജയകരമായി ഇല്ലാതാക്കി",
         "ERROR_MESSAGE": "കസ്റ്റം ടൂൾ ഇല്ലാതാക്കാൻ പരാജയപ്പെട്ടു"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
       "TEST": {
         "BUTTON": "Test connection",
         "SUCCESS": "Endpoint returned HTTP {status}",
