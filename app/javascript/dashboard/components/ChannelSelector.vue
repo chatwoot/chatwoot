@@ -1,6 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Icon from 'next/icon/Icon.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
 
 defineProps({
   title: {
@@ -48,13 +49,13 @@ const { t } = useI18n();
         <h3 class="text-n-slate-12 text-sm text-start font-medium capitalize">
           {{ title }}
         </h3>
-        <span
+        <Label
           v-if="isBeta && !isComingSoon"
           v-tooltip.top="t('GENERAL.BETA_DESCRIPTION')"
-          class="text-xs font-medium text-n-blue-11 bg-n-blue-3 leading-none rounded-md px-2 py-1"
-        >
-          {{ t('GENERAL.BETA') }}
-        </span>
+          :label="t('GENERAL.BETA')"
+          color="blue"
+          compact
+        />
       </div>
       <p class="text-n-slate-11 text-start text-sm">
         {{ description }}
