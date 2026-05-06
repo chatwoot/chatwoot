@@ -55,7 +55,7 @@ RSpec.describe 'Company contacts API', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(contact.reload.company_id).to eq(company.id)
-      expect(contact.additional_attributes).to include('city' => 'Berlin', 'company_name' => 'Acme')
+      expect(contact.additional_attributes).to eq('city' => 'Berlin')
       expect(response.parsed_body['payload']['company_id']).to eq(company.id)
       expect(response.parsed_body['payload']['linked_to_current_company']).to be true
     end
@@ -72,7 +72,7 @@ RSpec.describe 'Company contacts API', type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(contact.reload.company_id).to be_nil
-      expect(contact.additional_attributes).to eq('city' => 'Berlin')
+      expect(contact.additional_attributes).to eq('company_name' => 'Acme', 'city' => 'Berlin')
     end
   end
 end
