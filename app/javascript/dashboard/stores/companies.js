@@ -307,7 +307,9 @@ export const useCompaniesStore = createStore({
         const contact = camelizeContact(payload);
         if (this.activeCompanyId === activeCompanyId) {
           await this.getCompanyContacts(companyId, 1);
-          this.clearContactSearchResults();
+          if (this.activeCompanyId === activeCompanyId) {
+            this.clearContactSearchResults();
+          }
         }
         return contact;
       } catch (error) {
