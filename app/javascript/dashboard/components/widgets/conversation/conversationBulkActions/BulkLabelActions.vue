@@ -36,10 +36,9 @@ const selectedLabels = ref([]);
 
 const isTypeContact = computed(() => props.type === 'contact');
 
-const buttonLabel = computed(() => {
-  if (props.type === 'contact') return t('CONTACTS_BULK_ACTIONS.ASSIGN_LABELS');
-  return '';
-});
+const buttonLabel = computed(() =>
+  props.type === 'contact' ? t('CONTACTS_BULK_ACTIONS.ASSIGN_LABELS') : ''
+);
 
 const isLabelSelected = labelTitle => {
   return selectedLabels.value.includes(labelTitle);
