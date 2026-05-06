@@ -3,6 +3,7 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
 
   PER_ACCOUNT_HOURLY_CAP = 50
   GLOBAL_HOURLY_CAP = 1000
+  DUE_DOCUMENT_BATCH_SIZE = PER_ACCOUNT_HOURLY_CAP * 2 # Inspite of skipping, we should at least reach the hourly cap
   SYNC_STALE_TIMEOUT = Captain::Document::SYNC_STALE_TIMEOUT
 
   def perform
@@ -34,36 +35,51 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
   def enqueue_due_documents(account, interval)
     per_account_limit = [PER_ACCOUNT_HOURLY_CAP, @remaining_global_capacity].min
     result = { enqueued: 0, skipped: 0 }
+    skipped_document_ids = []
 
-    due_documents(account, interval).each do |document|
+    loop do
       break if result[:enqueued] >= per_account_limit
 
-      next unless document.syncable?
+      documents = due_documents(account, interval, skipped_document_ids).limit(DUE_DOCUMENT_BATCH_SIZE).to_a
+      break if documents.empty?
 
-      # Reserve the sync slot before enqueueing so later scheduler runs skip this document while the job is queued.
-      unless reserve_sync_slot(document)
-        result[:skipped] += 1
-        next
+      documents.each do |document|
+        break if result[:enqueued] >= per_account_limit
+
+        process_due_document(document, result, skipped_document_ids)
       end
-
-      Captain::Documents::PerformSyncJob.perform_later(document)
-      @remaining_global_capacity -= 1
-      result[:enqueued] += 1
     end
 
     result
   end
 
-  def due_documents(account, interval)
+  def process_due_document(document, result, skipped_document_ids)
+    return unless document.syncable?
+
+    # Reserve the sync slot before enqueueing so later scheduler runs skip this document while the job is queued.
+    unless reserve_sync_slot(document)
+      result[:skipped] += 1
+      skipped_document_ids << document.id
+      return
+    end
+
+    Captain::Documents::PerformSyncJob.perform_later(document)
+    @remaining_global_capacity -= 1
+    result[:enqueued] += 1
+  end
+
+  def due_documents(account, interval, skipped_document_ids)
     syncing = Captain::Document.sync_statuses[:syncing]
     synced = Captain::Document.sync_statuses[:synced]
     failed = Captain::Document.sync_statuses[:failed]
 
-    account.captain_documents.syncable.where(status: :available).where(
+    documents = account.captain_documents.syncable.where(status: :available).where(
       '(sync_status = ? AND last_synced_at < ?) OR (sync_status = ? AND last_sync_attempted_at < ?) OR ' \
       '(sync_status = ? AND last_sync_attempted_at < ?)',
       synced, interval.ago, failed, interval.ago, syncing, SYNC_STALE_TIMEOUT.ago
-    ).order(Arel.sql('last_sync_attempted_at ASC NULLS FIRST'), :id)
+    )
+    documents = documents.where.not(id: skipped_document_ids) if skipped_document_ids.present?
+    documents.order(Arel.sql('last_sync_attempted_at ASC NULLS FIRST'), :id)
   end
 
   def reserve_sync_slot(document)
