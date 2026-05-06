@@ -188,7 +188,7 @@ const displayTime = attachment => {
       <Spinner class="size-5" />
     </div>
     <p
-      v-else-if="!allAttachments.length"
+      v-else-if="!mediaAttachments.length && !fileAttachments.length"
       class="p-3 text-sm text-center text-n-slate-11"
     >
       {{ t('CONVERSATION_SIDEBAR.SHARED_FILES.EMPTY') }}
