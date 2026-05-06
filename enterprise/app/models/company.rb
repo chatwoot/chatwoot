@@ -21,8 +21,6 @@
 #  index_companies_on_name_and_account_id  (name,account_id)
 #
 class Company < ApplicationRecord
-  STANDARD_ATTRIBUTES = %w[name domain description contacts_count created_at updated_at last_activity_at].freeze
-
   include Avatarable
 
   validates :account_id, presence: true

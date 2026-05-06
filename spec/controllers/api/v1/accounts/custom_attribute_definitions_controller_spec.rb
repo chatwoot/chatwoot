@@ -91,7 +91,7 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
       end
 
       context 'when creating with a conflicting attribute_key' do
-        let(:standard_key) { Conversation::STANDARD_ATTRIBUTES.first }
+        let(:standard_key) { CustomAttributeDefinition::STANDARD_ATTRIBUTES[:conversation].first }
         let(:conflicting_payload) do
           {
             custom_attribute_definition: {

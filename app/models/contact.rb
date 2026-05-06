@@ -42,8 +42,6 @@
 # rubocop:enable Layout/LineLength
 
 class Contact < ApplicationRecord
-  STANDARD_ATTRIBUTES = %w[name email phone_number identifier country_code city company_name created_at last_activity_at referer blocked].freeze
-
   include Avatarable
   include AvailabilityStatusable
   include Labelable

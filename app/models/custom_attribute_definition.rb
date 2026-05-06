@@ -22,6 +22,13 @@
 #  index_custom_attribute_definitions_on_account_id  (account_id)
 #
 class CustomAttributeDefinition < ApplicationRecord
+  STANDARD_ATTRIBUTES = {
+    :conversation => %w[status priority assignee_id inbox_id team_id display_id campaign_id labels browser_language country_code referer created_at
+                        last_activity_at],
+    :contact => %w[name email phone_number identifier country_code city company_name created_at last_activity_at referer blocked],
+    :company => %w[name domain description contacts_count created_at updated_at last_activity_at]
+  }.freeze
+
   scope :with_attribute_model, ->(attribute_model) { attribute_model.presence && where(attribute_model: attribute_model) }
   validates :attribute_display_name, presence: true
   before_validation :normalize_attribute_fields
@@ -58,8 +65,8 @@ class CustomAttributeDefinition < ApplicationRecord
   end
 
   def attribute_must_not_conflict
-    model = attribute_model.to_s.delete_suffix('_attribute').classify.safe_constantize
-    standard_attributes = model&.const_defined?(:STANDARD_ATTRIBUTES, false) ? model::STANDARD_ATTRIBUTES : []
+    model_keys = attribute_model.to_s.delete_suffix('_attribute').to_sym
+    standard_attributes = STANDARD_ATTRIBUTES[model_keys]
     return if standard_attributes.blank?
     return unless attribute_key.in?(standard_attributes)
 
