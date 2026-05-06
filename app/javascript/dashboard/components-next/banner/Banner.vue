@@ -1,5 +1,3 @@
-<!-- DEPRECIATED -->
-<!-- TODO: Replace this banner component with NextBanner "app/javascript/dashboard/components-next/banner/Banner.vue" -->
 <script setup>
 import { computed } from 'vue';
 
@@ -20,11 +18,13 @@ const emit = defineEmits(['action']);
 
 const bannerClass = computed(() => {
   const classMap = {
-    slate: 'bg-n-slate-3 border-n-slate-4 text-n-slate-11',
-    amber: 'bg-n-amber-3 border-n-amber-4 text-n-amber-11',
-    teal: 'bg-n-teal-3 border-n-teal-4 text-n-teal-11',
-    ruby: 'bg-n-ruby-3 border-n-ruby-4 text-n-ruby-11',
-    blue: 'bg-n-blue-3 border-n-blue-4 text-n-blue-11',
+    slate:
+      'bg-n-slate-3 border-n-slate-4 text-n-slate-11 [&_.link]:text-n-slate-11',
+    amber:
+      'bg-n-amber-3 border-n-amber-4 text-n-amber-11 [&_.link]:text-n-amber-11',
+    teal: 'bg-n-teal-3 border-n-teal-4 text-n-teal-11 [&_.link]:text-n-teal-11',
+    ruby: 'bg-n-ruby-3 border-n-ruby-4 text-n-ruby-11 [&_.link]:text-n-ruby-11',
+    blue: 'bg-n-blue-3 border-n-blue-4 text-n-blue-11 [&_.link]:text-n-blue-11',
   };
 
   return classMap[props.color];

@@ -44,6 +44,7 @@ const handleEndCall = async () => {
   await endCallSession({
     conversationId: call.conversationId,
     inboxId,
+    callSid: call.callSid,
   });
 };
 
