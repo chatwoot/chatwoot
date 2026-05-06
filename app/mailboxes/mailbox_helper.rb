@@ -1,4 +1,6 @@
 module MailboxHelper
+  include MailboxInlineAttachmentHelper
+
   private
 
   def create_message
@@ -48,25 +50,6 @@ module MailboxHelper
     { inline: inline_attachments, regular: regular_attachments }
   end
 
-  def inline_attachment?(attachment)
-    # Only process images as potential inline attachments
-    return false unless mail_content.present? && attachment[:original].content_type.to_s.start_with?('image/')
-
-    # Check if attachment is explicitly marked as inline
-    return true if attachment[:original].inline?
-
-    # For Outlook compatibility: if not marked as inline but has CID and is referenced in body
-    cid = attachment[:original].cid
-    cid.present? && body_references_cid?(cid)
-  end
-
-  def body_references_cid?(cid)
-    # Check if CID is referenced in HTML content
-    return true if @html_content.present? && @html_content.include?("cid:#{cid}")
-
-    false
-  end
-
   def process_regular_attachments(attachments)
     Rails.logger.info "[MailboxHelper] Processing regular attachments for message with ID: #{processed_mail.message_id}"
     attachments.each do |mail_attachment|
@@ -96,12 +79,6 @@ module MailboxHelper
     elsif @text_content.present?
       embed_plain_text_email_with_inline_image(mail_attachment)
     end
-  end
-
-  def upload_inline_image(mail_attachment)
-    content_id = mail_attachment[:original].cid
-
-    @html_content = @html_content.gsub("cid:#{content_id}", inline_image_url(mail_attachment[:blob]).to_s)
   end
 
   def embed_plain_text_email_with_inline_image(mail_attachment)
@@ -134,11 +111,6 @@ module MailboxHelper
 
     @contact = @contact_inbox.contact
     Rails.logger.info "[MailboxHelper] Contact created with ID: #{@contact.id} for inbox with ID: #{@inbox.id}"
-  end
-
-  def load_email_content
-    @html_content = processed_mail.serialized_data[:html_content][:full]
-    @text_content = processed_mail.serialized_data[:text_content][:reply]
   end
 
   def mail_content
