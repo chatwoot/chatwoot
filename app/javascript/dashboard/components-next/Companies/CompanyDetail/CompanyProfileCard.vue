@@ -65,6 +65,8 @@ const syncForm = company => {
   form.description = company?.description || '';
 };
 
+const isCurrentCompany = companyId => Number(props.company?.id) === companyId;
+
 watch(
   () => [
     props.company?.id,
@@ -105,16 +107,22 @@ const handleAvatarDelete = async () => {
 };
 
 const handleUpdateCompany = async () => {
+  const companyId = Number(props.company.id);
+
   try {
     const updated = await companiesStore.update({
-      id: props.company.id,
+      id: companyId,
       name: form.name.trim(),
       domain: form.domain.trim() || null,
       description: form.description.trim() || null,
     });
+    if (!isCurrentCompany(companyId)) return;
+
     syncForm(updated);
     useAlert(t('COMPANIES.DETAIL.PROFILE.MESSAGES.UPDATE_SUCCESS'));
   } catch {
+    if (!isCurrentCompany(companyId)) return;
+
     syncForm(props.company);
     useAlert(t('COMPANIES.DETAIL.PROFILE.MESSAGES.UPDATE_ERROR'));
   }
