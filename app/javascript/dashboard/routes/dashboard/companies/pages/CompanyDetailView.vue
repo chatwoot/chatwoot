@@ -8,9 +8,7 @@ import Policy from 'dashboard/components/policy.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import CompaniesDetailsLayout from 'dashboard/components-next/Companies/CompaniesDetailsLayout.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import CompanyContactsSidebar from 'dashboard/components-next/Companies/CompanyDetail/CompanyContactsSidebar.vue';
-import CompanyCustomAttributes from 'dashboard/components-next/Companies/CompanyDetail/CompanyCustomAttributes.vue';
 import CompanyProfileCard from 'dashboard/components-next/Companies/CompanyDetail/CompanyProfileCard.vue';
 import ConfirmCompanyDeleteDialog from 'dashboard/components-next/Companies/CompanyDetail/ConfirmCompanyDeleteDialog.vue';
 import { useCompaniesStore } from 'dashboard/stores/companies';
@@ -22,7 +20,6 @@ const { t } = useI18n();
 
 const confirmDeleteDialogRef = ref(null);
 const selectedCandidate = ref(null);
-const activeSidebarTab = ref('attributes');
 
 const companyId = computed(() => Number(route.params.companyId));
 const company = computed(() => companiesStore.getRecord(companyId.value));
@@ -52,19 +49,6 @@ const breadcrumbItems = computed(() => [
     ? [{ label: company.value?.name || t('COMPANIES.UNNAMED') }]
     : []),
 ]);
-
-const sidebarTabs = computed(() => [
-  { label: t('COMPANIES.DETAIL.SIDEBAR.TABS.ATTRIBUTES'), value: 'attributes' },
-  {
-    label: t('COMPANIES.DETAIL.SIDEBAR.TABS.CONTACTS'),
-    value: 'contacts',
-    count: Number(company.value?.contactsCount || 0),
-  },
-]);
-
-const activeSidebarTabIndex = computed(() =>
-  sidebarTabs.value.findIndex(tab => tab.value === activeSidebarTab.value)
-);
 
 const goToCompaniesIndex = () => {
   router.push({
@@ -108,25 +92,19 @@ const handleConfirmContactSelection = async () => {
 
   const isReassigning =
     candidate.company?.id && candidate.company.id !== companyId.value;
+  const message = isReassigning
+    ? t('COMPANIES.DETAIL.CONTACTS.MESSAGES.REASSIGN_SUCCESS')
+    : t('COMPANIES.DETAIL.CONTACTS.MESSAGES.ADD_SUCCESS');
 
   try {
     await companiesStore.attachContactToCompany(companyId.value, candidate.id);
-    useAlert(
-      t(
-        isReassigning
-          ? 'COMPANIES.DETAIL.CONTACTS.MESSAGES.REASSIGN_SUCCESS'
-          : 'COMPANIES.DETAIL.CONTACTS.MESSAGES.ADD_SUCCESS'
-      )
-    );
+    useAlert(message);
     clearSelectedCandidate();
   } catch {
-    useAlert(
-      t(
-        isReassigning
-          ? 'COMPANIES.DETAIL.CONTACTS.MESSAGES.REASSIGN_ERROR'
-          : 'COMPANIES.DETAIL.CONTACTS.MESSAGES.ADD_ERROR'
-      )
-    );
+    const errorMessage = isReassigning
+      ? t('COMPANIES.DETAIL.CONTACTS.MESSAGES.REASSIGN_ERROR')
+      : t('COMPANIES.DETAIL.CONTACTS.MESSAGES.ADD_ERROR');
+    useAlert(errorMessage);
   }
 };
 
@@ -230,39 +208,22 @@ onBeforeUnmount(() => {
     </div>
 
     <template v-if="hasCompany" #sidebar>
-      <div class="flex flex-col">
-        <div class="px-6">
-          <TabBar
-            :tabs="sidebarTabs"
-            :initial-active-tab="activeSidebarTabIndex"
-            class="w-full [&>button]:w-full bg-n-alpha-black2"
-            @tab-changed="tab => (activeSidebarTab = tab.value)"
-          />
-        </div>
-
-        <CompanyCustomAttributes
-          v-if="activeSidebarTab === 'attributes'"
-          :company="company"
-        />
-
-        <CompanyContactsSidebar
-          v-else-if="activeSidebarTab === 'contacts'"
-          :company="company"
-          :contacts="companyContacts"
-          :meta="companyContactsMeta"
-          :is-loading="isFetchingContacts"
-          :is-busy="isManagingContacts"
-          :search-results="contactSearchResults"
-          :is-searching="isSearchingContacts"
-          :selected-contact="selectedCandidate"
-          @cancel-contact-selection="clearSelectedCandidate"
-          @confirm-contact-selection="handleConfirmContactSelection"
-          @search="handleContactSearch"
-          @select-contact="contact => (selectedCandidate = contact)"
-          @remove-contact="handleRemoveContact"
-          @update:current-page="loadCompanyContactsPage"
-        />
-      </div>
+      <CompanyContactsSidebar
+        :company="company"
+        :contacts="companyContacts"
+        :meta="companyContactsMeta"
+        :is-loading="isFetchingContacts"
+        :is-busy="isManagingContacts"
+        :search-results="contactSearchResults"
+        :is-searching="isSearchingContacts"
+        :selected-contact="selectedCandidate"
+        @cancel-contact-selection="clearSelectedCandidate"
+        @confirm-contact-selection="handleConfirmContactSelection"
+        @search="handleContactSearch"
+        @select-contact="contact => (selectedCandidate = contact)"
+        @remove-contact="handleRemoveContact"
+        @update:current-page="loadCompanyContactsPage"
+      />
     </template>
 
     <ConfirmCompanyDeleteDialog
