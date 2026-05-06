@@ -61,7 +61,7 @@ class Contact < ApplicationRecord
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
 
   belongs_to :account
-  belongs_to :pipeline_status
+  belongs_to :pipeline_status, optional: true
   has_many :conversations, dependent: :destroy_async
   has_many :contact_inboxes, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
@@ -73,7 +73,7 @@ class Contact < ApplicationRecord
   has_many :appointments, dependent: :destroy_async
   before_validation :prepare_contact_attributes
   before_save :sync_contact_attributes
-  before_create :assign_default_pipeline_status
+  before_validation :assign_default_pipeline_status, on: :create
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
