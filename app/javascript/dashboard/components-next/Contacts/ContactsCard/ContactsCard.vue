@@ -17,6 +17,9 @@ const props = defineProps({
   email: { type: String, default: '' },
   additionalAttributes: { type: Object, default: () => ({}) },
   phoneNumber: { type: String, default: '' },
+  accountOwnerId: { type: [Number, String], default: '' },
+  accountOwner: { type: Object, default: null },
+  agents: { type: Array, default: () => [] },
   thumbnail: { type: String, default: '' },
   availabilityStatus: { type: String, default: null },
   isExpanded: { type: Boolean, default: false },
@@ -42,6 +45,7 @@ const getInitialContactData = () => ({
   name: props.name,
   email: props.email,
   phoneNumber: props.phoneNumber,
+  accountOwnerId: props.accountOwnerId,
   additionalAttributes: props.additionalAttributes,
 });
 
@@ -82,6 +86,14 @@ const formattedLocation = computed(() => {
     .join(' ');
 });
 
+const accountOwnerName = computed(
+  () =>
+    props.accountOwner?.availableName ||
+    props.accountOwner?.available_name ||
+    props.accountOwner?.name ||
+    ''
+);
+
 const handleFormUpdate = updatedData => {
   Object.assign(contactData.value, updatedData);
 };
@@ -115,7 +127,7 @@ const handleAvatarHover = isHovered => {
         'outline-n-weak !bg-n-slate-3 dark:!bg-n-solid-3': isSelected,
       }"
     >
-      <div class="flex items-center justify-start flex-1 gap-4">
+      <div class="flex items-center justify-start flex-1 min-w-0 gap-4">
         <div
           class="relative"
           @mouseenter="handleAvatarHover(true)"
@@ -143,28 +155,39 @@ const handleAvatarHover = isHovered => {
             </template>
           </Avatar>
         </div>
-        <div class="flex flex-col gap-0.5 flex-1">
-          <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <span class="text-base font-medium truncate text-n-slate-12">
+        <div class="flex flex-col gap-0.5 flex-1 min-w-0">
+          <div class="flex flex-wrap items-center min-w-0 gap-x-4 gap-y-1">
+            <span
+              class="min-w-0 text-base font-medium truncate text-n-slate-12"
+            >
               {{ name }}
             </span>
-            <span class="inline-flex items-center gap-1">
+            <span class="inline-flex items-center min-w-0 gap-1">
               <span
                 v-if="additionalAttributes?.companyName"
                 class="i-ph-building-light size-4 text-n-slate-10 mb-0.5"
               />
               <span
                 v-if="additionalAttributes?.companyName"
-                class="text-sm truncate text-n-slate-11"
+                class="min-w-0 text-sm truncate text-n-slate-11"
               >
                 {{ additionalAttributes.companyName }}
               </span>
             </span>
+            <span
+              v-if="accountOwnerName"
+              class="inline-flex items-center gap-1 min-w-0"
+            >
+              <span class="i-lucide-user-round size-4 text-n-slate-10 mb-0.5" />
+              <span class="min-w-0 text-sm truncate text-n-slate-11">
+                {{ accountOwnerName }}
+              </span>
+            </span>
           </div>
           <div
-            class="flex flex-wrap items-center justify-start gap-x-3 gap-y-1"
+            class="flex flex-wrap items-center justify-start min-w-0 gap-x-3 gap-y-1"
           >
-            <div v-if="email" class="truncate max-w-72" :title="email">
+            <div v-if="email" class="min-w-0 truncate max-w-72" :title="email">
               <span class="text-sm text-n-slate-11">
                 {{ email }}
               </span>
@@ -215,6 +238,7 @@ const handleAvatarHover = isHovered => {
               <ContactsForm
                 ref="contactsFormRef"
                 :contact-data="contactData"
+                :agents="agents"
                 @update="handleFormUpdate"
               />
               <div>

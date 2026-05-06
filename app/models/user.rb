@@ -88,6 +88,11 @@ class User < ApplicationRecord
   has_many :accounts, through: :account_users
   accepts_nested_attributes_for :account_users
 
+  has_many :owned_contacts,
+           class_name: 'Contact',
+           foreign_key: 'account_owner_id',
+           dependent: :nullify,
+           inverse_of: :account_owner
   has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify, inverse_of: :assignee
   alias_attribute :conversations, :assigned_conversations
   has_many :csat_survey_responses, foreign_key: 'assigned_agent_id', dependent: :nullify, inverse_of: :assigned_agent

@@ -8,6 +8,16 @@ json.blocked resource.blocked
 json.identifier resource.identifier
 json.thumbnail resource.avatar_url
 json.custom_attributes resource.custom_attributes
+if defined?(with_account_owner) && with_account_owner.present?
+  json.account_owner_id resource.account_owner_id
+  if resource.account_owner.present?
+    json.account_owner do
+      json.partial! 'api/v1/models/agent', formats: [:json], resource: resource.account_owner
+    end
+  else
+    json.account_owner nil
+  end
+end
 json.last_activity_at resource.last_activity_at.to_i if resource[:last_activity_at].present?
 json.created_at resource.created_at.to_i if resource[:created_at].present?
 # we only want to output contact inbox when its /contacts endpoints

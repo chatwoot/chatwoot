@@ -16,6 +16,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  agents: {
+    type: Array,
+    default: () => [],
+  },
 });
 
 const emit = defineEmits(['toggleContact']);
@@ -94,6 +98,9 @@ const handleAvatarHover = (id, isHovered) => {
         :email="contact.email"
         :thumbnail="contact.thumbnail"
         :phone-number="contact.phoneNumber"
+        :account-owner-id="contact.accountOwnerId"
+        :account-owner="contact.accountOwner"
+        :agents="agents"
         :additional-attributes="contact.additionalAttributes"
         :availability-status="contact.availabilityStatus"
         :is-expanded="expandedCardId === contact.id"

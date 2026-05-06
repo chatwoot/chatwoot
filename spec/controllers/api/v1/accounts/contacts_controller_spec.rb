@@ -54,6 +54,25 @@ RSpec.describe 'Contacts API', type: :request do
         expect(contact_inboxes_source_ids).to include(contact_inbox.source_id)
       end
 
+      it 'returns account owner details for owned and unowned contacts' do
+        owner = create(:user, account: account)
+        contact.update!(account_owner: owner)
+
+        get "/api/v1/accounts/#{account.id}/contacts",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = response.parsed_body
+        owned_contact_payload = response_body['payload'].find { |payload| payload['id'] == contact.id }
+        unowned_contact_payload = response_body['payload'].find { |payload| payload['id'] == contact_1.id }
+
+        expect(owned_contact_payload['account_owner_id']).to eq(owner.id)
+        expect(owned_contact_payload['account_owner']['id']).to eq(owner.id)
+        expect(unowned_contact_payload['account_owner_id']).to be_nil
+        expect(unowned_contact_payload['account_owner']).to be_nil
+      end
+
       it 'returns all contacts without contact inboxes' do
         get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false",
             headers: admin.create_new_auth_token,
@@ -503,6 +522,20 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to conform_schema(200)
         expect(response.body).to include(contact.name)
       end
+
+      it 'shows the account owner' do
+        owner = create(:user, account: account)
+        contact.update!(account_owner: owner)
+
+        get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['payload']['account_owner_id']).to eq(owner.id)
+        expect(json_response['payload']['account_owner']['email']).to eq(owner.email)
+      end
     end
   end
 
@@ -574,6 +607,41 @@ RSpec.describe 'Contacts API', type: :request do
         expect(json_response['payload']['contact']['custom_attributes']).to eq({ 'test' => 'test', 'test1' => 'test1' })
       end
 
+      it 'creates the contact with an account owner' do
+        owner = create(:user, account: account)
+
+        post "/api/v1/accounts/#{account.id}/contacts",
+             headers: admin.create_new_auth_token,
+             params: valid_params.merge(account_owner_id: owner.id),
+             as: :json
+
+        expect(response).to have_http_status(:success)
+
+        contact = Contact.last
+        expect(contact.account_owner).to eq(owner)
+
+        json_response = response.parsed_body
+        expect(json_response['payload']['contact']['account_owner_id']).to eq(owner.id)
+        expect(json_response['payload']['contact']['account_owner']['id']).to eq(owner.id)
+        expect(json_response['payload']['contact']['account_owner']['name']).to eq(owner.name)
+      end
+
+      it 'rejects an account owner from another account' do
+        other_owner = create(:user, account: create(:account))
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/contacts",
+               headers: admin.create_new_auth_token,
+               params: valid_params.merge(account_owner_id: other_owner.id),
+               as: :json
+        end.not_to change(Contact, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to include(
+          'Account owner must belong to the same account as the contact'
+        )
+      end
+
       it 'does not create the contact' do
         valid_params[:name] = 'test' * 999
 
@@ -629,6 +697,37 @@ RSpec.describe 'Contacts API', type: :request do
         # custom attributes are merged properly without overwriting existing ones
         expect(contact.custom_attributes).to eq({ 'test' => 'new test', 'test1' => 'test1', 'test2' => 'test2' })
         expect(contact.additional_attributes).to eq({ 'attr1' => 'attr1', 'attr2' => 'new attr2', 'attr3' => 'attr3' })
+      end
+
+      it 'updates the account owner' do
+        owner = create(:user, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { account_owner_id: owner.id },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.account_owner).to eq(owner)
+
+        json_response = response.parsed_body
+        expect(json_response['payload']['account_owner_id']).to eq(owner.id)
+        expect(json_response['payload']['account_owner']['id']).to eq(owner.id)
+      end
+
+      it 'rejects an account owner from another account' do
+        other_owner = create(:user, account: create(:account))
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { account_owner_id: other_owner.id },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(contact.reload.account_owner_id).to be_nil
+        expect(response.parsed_body['message']).to include(
+          'Account owner must belong to the same account as the contact'
+        )
       end
 
       it 'prevents the update of contact of another account' do

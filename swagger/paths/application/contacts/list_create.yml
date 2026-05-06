@@ -46,7 +46,7 @@ post:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/extended_contact'
+            $ref: '#/components/schemas/contact_create_response'
     '400':
       description: Bad Request Error
       content:

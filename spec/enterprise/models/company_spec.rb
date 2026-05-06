@@ -22,6 +22,27 @@ RSpec.describe Company, type: :model do
     it { is_expected.to have_many(:contacts).dependent(:nullify) }
   end
 
+  describe 'account owner validation' do
+    let(:account) { create(:account) }
+    let(:owner) { create(:user, account: account) }
+    let(:other_owner) { create(:user, account: create(:account)) }
+
+    it 'allows an account owner from the same account' do
+      company = build(:company, account: account, account_owner: owner)
+
+      expect(company).to be_valid
+    end
+
+    it 'rejects an account owner from another account' do
+      company = build(:company, account: account, account_owner: other_owner)
+
+      expect(company).not_to be_valid
+      expect(company.errors[:account_owner_id]).to include(
+        'must belong to the same account as the company'
+      )
+    end
+  end
+
   describe 'scopes' do
     let(:account) { create(:account) }
     let!(:company_b) { create(:company, name: 'B Company', account: account) }

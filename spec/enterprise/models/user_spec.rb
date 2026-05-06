@@ -2,8 +2,12 @@
 
 require 'rails_helper'
 
-RSpec.describe User do
+RSpec.describe User, type: :model do
   let!(:user) { create(:user) }
+
+  context 'with associations' do
+    it { is_expected.to have_many(:owned_companies).dependent(:nullify) }
+  end
 
   describe 'before validation for pricing plans' do
     let!(:existing_user) { create(:user) }

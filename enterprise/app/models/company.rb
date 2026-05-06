@@ -19,6 +19,8 @@
 #
 class Company < ApplicationRecord
   include Avatarable
+  include AccountOwnerValidatable
+
   validates :account_id, presence: true
   validates :name, presence: true, length: { maximum: Limits::COMPANY_NAME_LENGTH_LIMIT }
   validates :domain, allow_blank: true, format: {
@@ -29,6 +31,7 @@ class Company < ApplicationRecord
   validates :description, length: { maximum: Limits::COMPANY_DESCRIPTION_LENGTH_LIMIT }
 
   belongs_to :account
+  belongs_to :account_owner, class_name: 'User', optional: true, inverse_of: :owned_companies
   has_many :contacts, dependent: :nullify
   after_create_commit :fetch_favicon, if: -> { domain.present? }
 

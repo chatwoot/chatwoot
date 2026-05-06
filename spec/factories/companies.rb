@@ -16,5 +16,11 @@ FactoryBot.define do
     trait :with_long_description do
       description { 'A' * 500 }
     end
+
+    trait :with_account_owner do
+      after(:build) do |company|
+        company.account_owner ||= create(:user, account: company.account)
+      end
+    end
   end
 end

@@ -17,6 +17,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  agents: {
+    type: Array,
+    default: () => [],
+  },
 });
 
 const emit = defineEmits(['goToContactsList']);
@@ -164,6 +168,7 @@ const handleAvatarDelete = async () => {
       <ContactsForm
         ref="contactsFormRef"
         :contact-data="contactData"
+        :agents="agents"
         is-details-view
         @update="handleFormUpdate"
       />

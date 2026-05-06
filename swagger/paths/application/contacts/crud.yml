@@ -50,12 +50,12 @@ put:
         schema:
           $ref: '#/components/schemas/contact_update_payload'
   responses:
-    '204':
+    '200':
       description: Success
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/contact_base'
+            $ref: '#/components/schemas/contact_update_response'
     '404':
       description: Contact not found
       content:

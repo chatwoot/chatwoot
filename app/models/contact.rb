@@ -46,6 +46,7 @@ class Contact < ApplicationRecord
   include AvailabilityStatusable
   include Labelable
   include LlmFormattable
+  include AccountOwnerValidatable
 
   validates :account_id, presence: true
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
@@ -56,6 +57,7 @@ class Contact < ApplicationRecord
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
 
   belongs_to :account
+  belongs_to :account_owner, class_name: 'User', optional: true, inverse_of: :owned_contacts
   has_many :conversations, dependent: :destroy_async
   has_many :contact_inboxes, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
@@ -131,10 +133,6 @@ class Contact < ApplicationRecord
     )
   }
 
-  # Find contacts that:
-  # 1. Have no identification (email, phone_number, and identifier are NULL or empty string)
-  # 2. Have no conversations
-  # 3. Are older than the specified time period
   scope :stale_without_conversations, lambda { |time_period|
     where('contacts.email IS NULL OR contacts.email = ?', '')
       .where('contacts.phone_number IS NULL OR contacts.phone_number = ?', '')

@@ -13,11 +13,17 @@ const buildContactFormData = contactParams => {
   const formData = new FormData();
   const { additional_attributes = {}, ...contactProperties } = contactParams;
   Object.keys(contactProperties).forEach(key => {
-    if (contactProperties[key]) {
-      formData.append(key, contactProperties[key]);
+    const value = contactProperties[key];
+    if (key === 'account_owner_id' && (value === null || value === '')) {
+      formData.append(key, '');
+      return;
+    }
+
+    if (value) {
+      formData.append(key, value);
     }
   });
-  const { social_profiles, ...additionalAttributesProperties } =
+  const { social_profiles = {}, ...additionalAttributesProperties } =
     additional_attributes;
   Object.keys(additionalAttributesProperties).forEach(key => {
     formData.append(
@@ -31,6 +37,7 @@ const buildContactFormData = contactParams => {
       social_profiles[key]
     );
   });
+
   return formData;
 };
 

@@ -55,6 +55,7 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAcco
 
   def fetch_companies(companies)
     filtrate(companies)
+      .includes(account_owner: [:account_users, { avatar_attachment: [:blob] }])
       .page(@current_page)
       .per(RESULTS_PER_PAGE)
   end
@@ -66,10 +67,16 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAcco
   end
 
   def fetch_company
-    @company = Current.account.companies.find(params[:id])
+    company_scope = Current.account.companies
+    company_scope = company_scope.includes(account_owner: [:account_users, { avatar_attachment: [:blob] }]) if include_account_owner?
+    @company = company_scope.find(params[:id])
+  end
+
+  def include_account_owner?
+    %w[show update].include?(action_name)
   end
 
   def company_params
-    params.require(:company).permit(:name, :domain, :description, :avatar)
+    params.require(:company).permit(:name, :domain, :description, :avatar, :account_owner_id)
   end
 end

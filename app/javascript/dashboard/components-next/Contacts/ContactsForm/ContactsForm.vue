@@ -9,6 +9,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import PhoneNumberInput from 'dashboard/components-next/phonenumberinput/PhoneNumberInput.vue';
+import AccountOwnerSelect from 'dashboard/components-next/AccountOwner/AccountOwnerSelect.vue';
 
 const props = defineProps({
   contactData: {
@@ -23,6 +24,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  agents: {
+    type: Array,
+    default: () => [],
+  },
 });
 
 const emit = defineEmits(['update']);
@@ -35,6 +40,7 @@ const FORM_CONFIG = {
   EMAIL_ADDRESS: { field: 'email' },
   PHONE_NUMBER: { field: 'phoneNumber' },
   CITY: { field: 'additionalAttributes.city' },
+  ACCOUNT_OWNER: { field: 'accountOwnerId' },
   COUNTRY: { field: 'additionalAttributes.countryCode' },
   BIO: { field: 'additionalAttributes.description' },
   COMPANY_NAME: { field: 'additionalAttributes.companyName' },
@@ -57,6 +63,7 @@ const defaultState = {
   firstName: '',
   lastName: '',
   phoneNumber: '',
+  accountOwnerId: '',
   additionalAttributes: {
     description: '',
     companyName: '',
@@ -77,6 +84,24 @@ const defaultState = {
 
 const state = reactive({ ...defaultState });
 
+const buildSerializableState = () => {
+  const { firstName, lastName, ...stateWithoutNames } = state;
+  return {
+    ...stateWithoutNames,
+    accountOwnerId: state.accountOwnerId || null,
+    additionalAttributes: {
+      ...state.additionalAttributes,
+      socialProfiles: {
+        ...state.additionalAttributes.socialProfiles,
+      },
+    },
+  };
+};
+
+const emitContactUpdate = () => {
+  emit('update', buildSerializableState());
+};
+
 const validationRules = {
   firstName: { required },
   email: { email },
@@ -96,6 +121,7 @@ const prepareStateBasedOnProps = () => {
     name = '',
     email: emailAddress,
     phoneNumber,
+    accountOwnerId = '',
     additionalAttributes = {},
   } = props.contactData || {};
   const { firstName, lastName } = splitName(name || '');
@@ -119,6 +145,7 @@ const prepareStateBasedOnProps = () => {
     lastName,
     email: emailAddress,
     phoneNumber,
+    accountOwnerId: accountOwnerId || '',
     additionalAttributes: {
       description,
       companyName,
@@ -138,12 +165,15 @@ const countryOptions = computed(() =>
 );
 
 const editDetailsForm = computed(() =>
-  Object.keys(FORM_CONFIG).map(key => ({
-    key,
-    placeholder: t(
-      `CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM.${key}.PLACEHOLDER`
-    ),
-  }))
+  Object.keys(FORM_CONFIG)
+    .filter(key => !(props.isNewContact && key === 'ACCOUNT_OWNER'))
+    .map(key => ({
+      key,
+      placeholder:
+        key === 'ACCOUNT_OWNER'
+          ? t('ACCOUNT_OWNER.LABEL')
+          : t(`CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM.${key}.PLACEHOLDER`),
+    }))
 );
 
 const socialProfilesForm = computed(() =>
@@ -202,8 +232,7 @@ const getFormBinding = key => {
 
       const isFormValid = await v$.value.$validate();
       if (isFormValid) {
-        const { firstName, lastName, ...stateWithoutNames } = state;
-        emit('update', stateWithoutNames);
+        emitContactUpdate();
       }
     },
   });
@@ -218,7 +247,12 @@ const getMessageType = key => {
 const handleCountrySelection = value => {
   const selectedCountry = countries.find(option => option.id === value);
   state.additionalAttributes.country = selectedCountry?.name || '';
-  emit('update', state);
+  emitContactUpdate();
+};
+
+const handleAccountOwnerSelection = value => {
+  state.accountOwnerId = value || '';
+  emitContactUpdate();
 };
 
 const resetValidation = () => {
@@ -254,8 +288,20 @@ defineExpose({
       </span>
       <div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
         <template v-for="item in editDetailsForm" :key="item.key">
+          <AccountOwnerSelect
+            v-if="item.key === 'ACCOUNT_OWNER'"
+            :model-value="state.accountOwnerId"
+            :agents="agents"
+            class="[&>div>button]:h-8"
+            :class="{
+              '[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:!outline-transparent':
+                !isDetailsView,
+              '[&>div>button]:!bg-n-alpha-black2': isDetailsView,
+            }"
+            @update:model-value="handleAccountOwnerSelection"
+          />
           <ComboBox
-            v-if="item.key === 'COUNTRY'"
+            v-else-if="item.key === 'COUNTRY'"
             v-model="state.additionalAttributes.countryCode"
             :options="countryOptions"
             :placeholder="item.placeholder"
@@ -321,7 +367,7 @@ defineExpose({
             class="w-auto min-w-[100px] text-sm bg-transparent outline-none reset-base text-n-slate-12 dark:text-n-slate-12 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10"
             :placeholder="item.placeholder"
             :size="item.placeholder.length"
-            @input="emit('update', state)"
+            @input="emitContactUpdate"
           />
         </div>
       </div>

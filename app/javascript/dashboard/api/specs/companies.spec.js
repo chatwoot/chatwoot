@@ -26,6 +26,7 @@ describe('#CompanyAPI', () => {
 
     beforeEach(() => {
       window.axios = axiosMock;
+      vi.clearAllMocks();
     });
 
     afterEach(() => {
@@ -79,6 +80,32 @@ describe('#CompanyAPI', () => {
       expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/companies/search?q=&page=1&sort=name'
       );
+    });
+
+    it('#create wraps company payload and snakecases account owner id', () => {
+      companyAPI.create({
+        name: 'Acme',
+        domain: 'acme.com',
+        accountOwnerId: 7,
+      });
+
+      expect(axiosMock.post).toHaveBeenCalledWith('/api/v1/companies', {
+        company: {
+          name: 'Acme',
+          domain: 'acme.com',
+          account_owner_id: 7,
+        },
+      });
+    });
+
+    it('#update wraps company payload and snakecases account owner id', () => {
+      companyAPI.update(12, { accountOwnerId: 7 });
+
+      expect(axiosMock.patch).toHaveBeenCalledWith('/api/v1/companies/12', {
+        company: {
+          account_owner_id: 7,
+        },
+      });
     });
   });
 });

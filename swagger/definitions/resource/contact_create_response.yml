@@ -1,0 +1,11 @@
+type: object
+properties:
+  payload:
+    type: object
+    properties:
+      contact:
+        $ref: '#/components/schemas/contact_list_item'
+        description: Created contact details
+      contact_inbox:
+        $ref: '#/components/schemas/contact_inbox'
+        description: Contact inbox details when an inbox is provided
