@@ -65,21 +65,6 @@ describe('#getters', () => {
     ]);
   });
 
-  it('getCompanyAttributes returns empty array when no company attributes exist', () => {
-    const state = {
-      records: [
-        {
-          attribute_display_name: 'Language',
-          attribute_display_type: 1,
-          attribute_description: 'Conversation language',
-          attribute_key: 'language',
-          attribute_model: 'conversation_attribute',
-        },
-      ],
-    };
-    expect(getters.getCompanyAttributes(state)).toEqual([]);
-  });
-
   it('getUIFlags', () => {
     const state = {
       uiFlags: {

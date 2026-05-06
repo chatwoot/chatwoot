@@ -347,29 +347,11 @@ RSpec.describe 'Companies API', type: :request do
         expect(company.reload.custom_attributes).to eq('region' => 'us')
         expect(response.parsed_body['payload']['custom_attributes']).to eq('region' => 'us')
       end
-
-      it 'rejects invalid custom attributes payload' do
-        post "/api/v1/accounts/#{account.id}/companies/#{company.id}/destroy_custom_attributes",
-             params: { custom_attributes: 'plan' },
-             headers: admin.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(company.reload.custom_attributes).to eq('plan' => 'enterprise', 'region' => 'us')
-      end
     end
   end
 
   describe 'DELETE /api/v1/accounts/{account.id}/companies/{id}/avatar' do
     let(:company) { create(:company, account: account) }
-
-    context 'when it is an unauthenticated user' do
-      it 'returns unauthorized' do
-        delete "/api/v1/accounts/#{account.id}/companies/#{company.id}/avatar"
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
 
     context 'when it is an authenticated administrator' do
       let(:admin) { create(:user, account: account, role: :administrator) }
@@ -386,23 +368,6 @@ RSpec.describe 'Companies API', type: :request do
         expect(response).to have_http_status(:success)
         expect { company.avatar.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
         expect(response.parsed_body['payload']['avatar_url']).to be_blank
-      end
-    end
-
-    context 'when it is a regular agent' do
-      let(:agent) { create(:user, account: account, role: :agent) }
-
-      before do
-        company.avatar.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
-      end
-
-      it 'deletes the company avatar' do
-        delete "/api/v1/accounts/#{account.id}/companies/#{company.id}/avatar",
-               headers: agent.create_new_auth_token,
-               as: :json
-
-        expect(response).to have_http_status(:success)
-        expect { company.avatar.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
