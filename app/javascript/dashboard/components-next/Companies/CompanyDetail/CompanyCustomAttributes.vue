@@ -84,7 +84,7 @@ onMounted(() => {
     <div v-if="!hasNoUsedAttributes" class="flex flex-col gap-2">
       <CompanyCustomAttributeItem
         v-for="attribute in usedAttributes"
-        :key="attribute.id"
+        :key="`${company.id}-${attribute.id}`"
         is-editing-view
         :company-id="company.id"
         :attribute="attribute"
@@ -128,7 +128,7 @@ onMounted(() => {
       <div v-if="!hasNoUnusedAttributes" class="flex flex-col gap-2">
         <CompanyCustomAttributeItem
           v-for="attribute in filteredUnusedAttributes"
-          :key="attribute.id"
+          :key="`${company.id}-${attribute.id}`"
           :company-id="company.id"
           :attribute="attribute"
         />

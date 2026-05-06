@@ -297,6 +297,7 @@ export const useCompaniesStore = createStore({
     async attachContactToCompany(companyId, contactId) {
       this.setUIFlag({ creatingContact: true });
       this.ensureActiveCompanyContext(companyId);
+      const activeCompanyId = Number(companyId);
       try {
         const {
           data: { payload },
@@ -304,8 +305,10 @@ export const useCompaniesStore = createStore({
           contact_id: contactId,
         });
         const contact = camelizeContact(payload);
-        await this.getCompanyContacts(companyId, 1);
-        this.clearContactSearchResults();
+        if (this.activeCompanyId === activeCompanyId) {
+          await this.getCompanyContacts(companyId, 1);
+          this.clearContactSearchResults();
+        }
         return contact;
       } catch (error) {
         return throwErrorMessage(error);
@@ -317,12 +320,15 @@ export const useCompaniesStore = createStore({
     async removeContactFromCompany(companyId, contactId, page = null) {
       this.setUIFlag({ removingContact: true });
       this.ensureActiveCompanyContext(companyId);
+      const activeCompanyId = Number(companyId);
       try {
         await CompanyAPI.removeContact(companyId, contactId);
-        await this.getCompanyContacts(
-          companyId,
-          page || this.companyContactsMeta?.page || 1
-        );
+        if (this.activeCompanyId === activeCompanyId) {
+          await this.getCompanyContacts(
+            companyId,
+            page || this.companyContactsMeta?.page || 1
+          );
+        }
         return Number(contactId);
       } catch (error) {
         return throwErrorMessage(error);

@@ -43,20 +43,21 @@ const hasChanges = computed(
     form.description.trim() !== (props.company?.description || '').trim()
 );
 
-const summary = computed(() =>
-  [
-    t('COMPANIES.DETAIL.PROFILE.CREATED_AT', {
-      date: props.company?.createdAt
-        ? dynamicTime(props.company.createdAt)
-        : '',
-    }),
-    t('COMPANIES.DETAIL.PROFILE.LAST_ACTIVE', {
-      date: props.company?.updatedAt
-        ? dynamicTime(props.company.updatedAt)
-        : '',
-    }),
-  ].join(' • ')
-);
+const summary = computed(() => {
+  const { createdAt, lastActivityAt } = props.company || {};
+  return [
+    createdAt &&
+      t('COMPANIES.DETAIL.PROFILE.CREATED_AT', {
+        date: dynamicTime(createdAt),
+      }),
+    lastActivityAt &&
+      t('COMPANIES.DETAIL.PROFILE.LAST_ACTIVE', {
+        date: dynamicTime(lastActivityAt),
+      }),
+  ]
+    .filter(Boolean)
+    .join(' • ');
+});
 
 const syncForm = company => {
   form.name = company?.name || '';
