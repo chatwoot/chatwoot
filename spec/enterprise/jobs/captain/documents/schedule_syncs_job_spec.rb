@@ -122,6 +122,67 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
       expect { described_class.new.perform }
         .to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document)
     end
+
+    it 'skips invalid legacy documents without counting them against the account cap' do
+      stub_const("#{described_class}::PER_ACCOUNT_HOURLY_CAP", 1)
+      create(
+        :captain_document,
+        assistant: assistant,
+        account: account,
+        status: :in_progress,
+        content: nil,
+        external_link: 'https://example.com'
+      )
+      invalid_document = build(
+        :captain_document,
+        assistant: assistant,
+        account: account,
+        status: :available,
+        sync_status: :synced,
+        last_synced_at: 2.days.ago,
+        last_sync_attempted_at: 2.days.ago,
+        external_link: 'https://example.com/'
+      )
+      invalid_document.save!(validate: false)
+      valid_document = create(:captain_document, assistant: assistant, account: account, status: :available)
+      valid_document.update!(sync_status: :synced, last_synced_at: 2.days.ago, last_sync_attempted_at: 2.days.ago)
+      clear_enqueued_jobs
+
+      expect { described_class.new.perform }.not_to raise_error
+      expect(Captain::Documents::PerformSyncJob).not_to have_been_enqueued.with(invalid_document)
+      expect(Captain::Documents::PerformSyncJob).to have_been_enqueued.with(valid_document)
+    end
+
+    it 'keeps paging due documents when invalid documents fill the first batch' do
+      stub_const("#{described_class}::PER_ACCOUNT_HOURLY_CAP", 1)
+      stub_const("#{described_class}::DUE_DOCUMENT_BATCH_SIZE", 1)
+      create(
+        :captain_document,
+        assistant: assistant,
+        account: account,
+        status: :in_progress,
+        content: nil,
+        external_link: 'https://example.com'
+      )
+      invalid_document = build(
+        :captain_document,
+        assistant: assistant,
+        account: account,
+        status: :available,
+        sync_status: :synced,
+        last_synced_at: 2.days.ago,
+        last_sync_attempted_at: 3.days.ago,
+        external_link: 'https://example.com/'
+      )
+      invalid_document.save!(validate: false)
+      valid_document = create(:captain_document, assistant: assistant, account: account, status: :available)
+      valid_document.update!(sync_status: :synced, last_synced_at: 2.days.ago, last_sync_attempted_at: 2.days.ago)
+      clear_enqueued_jobs
+
+      described_class.new.perform
+
+      expect(Captain::Documents::PerformSyncJob).to have_been_enqueued.with(valid_document)
+    end
   end
 
   context 'when more documents are due than the account cap allows' do
