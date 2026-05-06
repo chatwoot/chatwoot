@@ -92,7 +92,7 @@ const durations = ref({});
 const onLoadedMetadata = (attachment, event) => {
   const seconds = event.target?.duration;
   if (Number.isFinite(seconds) && seconds > 0) {
-    durations.value = { ...durations.value, [attachment.id]: seconds };
+    durations.value[attachment.id] = seconds;
   }
 };
 
@@ -118,34 +118,31 @@ const onTileActivate = (attachment, index) => {
 const failedThumbs = ref(new Set());
 const failedPreviews = ref(new Set());
 
-const imagePreviewSrc = attachment => {
-  const {
-    id,
-    file_type: type,
-    thumb_url: thumbUrl,
-    data_url: dataUrl,
-  } = attachment;
+const imagePreviewSrc = ({
+  id,
+  file_type: type,
+  thumb_url: thumbUrl,
+  data_url: dataUrl,
+}) => {
   const canUseThumb = thumbUrl && !failedThumbs.value.has(id);
-  if (type === ATTACHMENT_TYPES.IMAGE) {
-    if (canUseThumb) return thumbUrl;
-    return dataUrl;
-  }
+  if (type === ATTACHMENT_TYPES.IMAGE) return canUseThumb ? thumbUrl : dataUrl;
   if (isVideoType(type)) return canUseThumb ? thumbUrl : null;
   return null;
 };
 
-const onPreviewError = attachment => {
-  const {
-    id,
-    file_type: type,
-    thumb_url: thumbUrl,
-    data_url: dataUrl,
-  } = attachment;
-  // First failure on a thumb-backed src: retry with the full url (image)
-  // or hand off to the <video> tag (video).
-  if (thumbUrl && !failedThumbs.value.has(id) && dataUrl) {
+const onPreviewError = ({
+  id,
+  file_type: type,
+  thumb_url: thumbUrl,
+  data_url: dataUrl,
+}) => {
+  const canRetryWithFull = thumbUrl && !failedThumbs.value.has(id) && dataUrl;
+  if (
+    canRetryWithFull &&
+    (type === ATTACHMENT_TYPES.IMAGE || isVideoType(type))
+  ) {
     failedThumbs.value.add(id);
-    if (type === ATTACHMENT_TYPES.IMAGE || isVideoType(type)) return;
+    return;
   }
   failedPreviews.value.add(id);
 };
