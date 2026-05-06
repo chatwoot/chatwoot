@@ -29,12 +29,18 @@ const { t } = useI18n();
 const allAttachments = useMapGetter('getSelectedChatAttachments');
 const attachmentsLoaded = useMapGetter('getSelectedChatAttachmentsLoaded');
 
+const sortedAttachments = computed(() =>
+  [...allAttachments.value].sort(
+    (a, b) => (b.created_at || 0) - (a.created_at || 0)
+  )
+);
+
 const mediaAttachments = computed(() =>
-  allAttachments.value.filter(a => MEDIA_TYPES.includes(a.file_type))
+  sortedAttachments.value.filter(a => MEDIA_TYPES.includes(a.file_type))
 );
 
 const fileAttachments = computed(() =>
-  allAttachments.value.filter(
+  sortedAttachments.value.filter(
     a => !MEDIA_TYPES.includes(a.file_type) && a.data_url
   )
 );
