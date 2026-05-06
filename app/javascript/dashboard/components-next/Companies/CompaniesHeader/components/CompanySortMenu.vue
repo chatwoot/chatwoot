@@ -105,6 +105,7 @@ const handleOrderChange = value => {
           :model-value="activeSort"
           :options="sortMenus"
           :label="activeSortLabel"
+          sub-menu-position="left"
           @update:model-value="handleSortChange"
         />
       </div>
@@ -116,6 +117,7 @@ const handleOrderChange = value => {
           :model-value="activeOrdering"
           :options="orderingMenus"
           :label="activeOrderingLabel"
+          sub-menu-position="left"
           @update:model-value="handleOrderChange"
         />
       </div>
