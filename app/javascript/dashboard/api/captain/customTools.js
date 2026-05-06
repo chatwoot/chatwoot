@@ -31,6 +31,12 @@ class CaptainCustomTools extends ApiClient {
   delete(id) {
     return axios.delete(`${this.url}/${id}`);
   }
+
+  test(data = {}) {
+    return axios.post(`${this.url}/test`, {
+      custom_tool: data,
+    });
+  }
 }
 
 export default new CaptainCustomTools();

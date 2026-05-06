@@ -53,7 +53,11 @@ const buildContactFormData = contactParams => {
 
 export const handleContactOperationErrors = error => {
   if (error.response?.status === 422) {
-    throw new DuplicateContactException(error.response.data.attributes);
+    const exception = new DuplicateContactException(
+      error.response.data.attributes
+    );
+    exception.message = error.response.data.message || exception.message;
+    throw exception;
   } else if (error.response?.data?.message) {
     throw new ExceptionWithMessage(error.response.data.message);
   } else {

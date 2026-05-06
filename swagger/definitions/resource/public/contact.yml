@@ -7,10 +7,14 @@ properties:
     type: string
     description: The session identifier of the contact
   name:
-    type: string
-    description: Name of the contact
+    type:
+      - string
+      - 'null'
+    description: Name of the contact when available
   email:
-    type: string
+    type:
+      - string
+      - 'null'
     description: Email of the contact
   additional_emails:
     type: array
@@ -23,7 +27,9 @@ properties:
     items:
       type: string
   phone_number:
-    type: string
+    type:
+      - string
+      - 'null'
     description: Phone number of the contact
   additional_phones:
     type: array

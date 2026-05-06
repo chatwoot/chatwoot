@@ -16,6 +16,13 @@ RSpec.describe Contact do
 
   describe 'concerns' do
     it_behaves_like 'avatarable'
+
+    it 'accepts webp avatars' do
+      contact = build(:contact, account: create(:account))
+      contact.avatar.attach(get_blob_for(Rails.root.join('spec/assets/avatar.png'), 'image/webp'))
+
+      expect(contact).to be_valid
+    end
   end
 
   context 'when prepare contact attributes before validation' do

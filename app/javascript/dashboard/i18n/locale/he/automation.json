@@ -3,8 +3,11 @@
     "HEADER": "אוטומציה",
     "DESCRIPTION": "אוטומציה יכולה להחליף ולזרז תהליכים קיימים שדורשים מאמץ ידני, כגון הוספת תוויות והקצאת שיחות לסוכן המתאים ביותר. זה מאפשר לצוות להתמקד בחוזקות שלו תוך כדי הפחתת הזמן המושקע במשימות שגרתיות.",
     "LEARN_MORE": "למד עוד על אוטומציה",
-    "HEADER_BTN_TXT": "הוסף כלל אוטומציה",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "טוען כללי אוטומציה",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "הוסף כלל אוטומציה",
       "SUBMIT": "צור",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "שם",
-        "DESCRIPTION": "תיאור",
         "ACTIVE": "פעיל",
-        "CREATED_ON": "נוצר ב"
+        "CREATED_ON": "נוצר ב",
+        "ACTIONS": "פעולות"
       },
       "404": "לא נמצאו כללי אוטומציה"
     },
@@ -137,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "הקצה לסוכן",
       "ASSIGN_TEAM": "הקצה צוות",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "הסר צוות שהוקצה",
       "ADD_LABEL": "הוסף תווית",
       "REMOVE_LABEL": "הסר תווית",
       "SEND_EMAIL_TO_TEAM": "שלח דוא\"ל לצוות",
@@ -150,7 +155,8 @@
       "ADD_PRIVATE_NOTE": "הוסף הערה פרטית",
       "CHANGE_PRIORITY": "שנה עדיפות",
       "ADD_SLA": "הוסף SLA",
-      "OPEN_CONVERSATION": "פתח שיחה"
+      "OPEN_CONVERSATION": "פתח שיחה",
+      "PENDING_CONVERSATION": "Mark conversation as pending"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "הודעה נכנסת",
@@ -165,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "סוג הודעה",
+      "PRIVATE_NOTE": "הערה פרטית",
       "MESSAGE_CONTAINS": "ההודעה מכילה",
       "EMAIL": "דוא\"ל",
       "INBOX": "תיבת דואר נכנס",

@@ -1,31 +1,32 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "Email Address",
-    "PHONE_NUMBER": "Phone number",
+    "NOT_AVAILABLE": "მიუწვდომელია",
+    "EMAIL_ADDRESS": "ელ. ფოსტის მისამართი",
+    "PHONE_NUMBER": "ტელეფონის ნომერი",
     "IDENTIFIER": "Identifier",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
-    "LOCATION": "Location",
+    "COPY_SUCCESSFUL": "კლიპბორდზე წარმატებით დაკოპირდა",
+    "COMPANY": "კომპანია",
+    "LOCATION": "ლოკაცია",
     "BROWSER_LANGUAGE": "Browser Language",
-    "CONVERSATION_TITLE": "Conversation Details",
+    "CONVERSATION_TITLE": "საუბრის დეტალები",
     "VIEW_PROFILE": "View Profile",
-    "BROWSER": "Browser",
-    "OS": "Operating System",
-    "INITIATED_FROM": "Initiated from",
-    "INITIATED_AT": "Initiated at",
-    "IP_ADDRESS": "IP Address",
+    "BROWSER": "ბრაუზერი",
+    "OS": "ოპერაციული სისტემა",
+    "INITIATED_FROM": "დაწყებულია",
+    "INITIATED_AT": "დაწყების დრო",
+    "IP_ADDRESS": "IP მისამართი",
     "CREATED_AT_LABEL": "Created",
-    "NEW_MESSAGE": "New message",
+    "NEW_MESSAGE": "ახალი შეტყობინება",
     "CALL": "დარეკვა",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "აირჩიეთ ხმოვანი საფოსტო ყუთი"
     },
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
-      "TITLE": "Previous Conversations"
+      "NO_RECORDS_FOUND": "ამ კონტაქტთან დაკავშირებული წინა საუბრები არ მოიძებნა.",
+      "TITLE": "წინა საუბრები"
     },
     "LABELS": {
       "CONTACT": {
@@ -49,8 +50,8 @@
     "UNMUTE_CONTACT": "Unblock Contact",
     "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
     "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
-    "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "Edit",
+    "SEND_TRANSCRIPT": "ტრანსკრიპტის გაგზავნა",
+    "EDIT_LABEL": "რედაქტირება",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Custom Attributes",
       "CONTACT_LABELS": "Contact Labels",
@@ -59,9 +60,9 @@
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details"
+    "BUTTON_LABEL": "კონტაქტის რედაქტირება",
+    "TITLE": "კონტაქტის რედაქტირება",
+    "DESC": "კონტაქტის დეტალების რედაქტირება"
   },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Delete Contact",
@@ -80,40 +81,40 @@
   },
   "CONTACT_FORM": {
     "FORM": {
-      "SUBMIT": "Submit",
-      "CANCEL": "Cancel",
+      "SUBMIT": "გაგზავნა",
+      "CANCEL": "გაუქმება",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "კონტაქტის ავატარი"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "შეიყვანეთ კონტაქტის სრული სახელი",
+        "LABEL": "სრული სახელი"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "შეიყვანეთ კონტაქტის ბიო",
+        "LABEL": "ბიო"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "Email Address",
+        "PLACEHOLDER": "შეიყვანეთ კონტაქტის ელ. ფოსტის მისამართი",
+        "LABEL": "ელ. ფოსტის მისამართი",
         "DUPLICATE": "This email address is in use for another contact.",
         "ERROR": "Please enter a valid email address."
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number",
+        "PLACEHOLDER": "შეიყვანეთ კონტაქტის ტელეფონის ნომერი",
+        "LABEL": "ტელეფონის ნომერი",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format",
+        "ERROR": "ტელეფონის ნომერი უნდა იყოს ან ცარიელი, ან E.164 ფორმატის",
         "DIAL_CODE_ERROR": "Please select a dial code from the list",
         "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
-        "LABEL": "Location"
+        "PLACEHOLDER": "შეიყვანეთ კონტაქტის მდებარეობა",
+        "LABEL": "მდებარეობა"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "შეიყვანეთ კომპანიის სახელი",
+        "LABEL": "კომპანიის სახელი"
       },
       "COUNTRY": {
         "PLACEHOLDER": "Enter the country name",
@@ -128,19 +129,19 @@
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "შეიყვანეთ Facebook-ის მომხმარებლის სახელი",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "შეიყვანეთ Twitter-ის მომხმარებლის სახელი",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "შეიყვანეთ LinkedIn-ის მომხმარებლის სახელი",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "შეიყვანეთ Github-ის მომხმარებლის სახელი",
           "LABEL": "Github"
         }
       }
@@ -151,22 +152,22 @@
         "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "SUCCESS_MESSAGE": "კონტაქტი წარმატებით შენახულია",
+    "ERROR_MESSAGE": "დაფიქსირდა შეცდომა, გთხოვთ, სცადეთ თავიდან"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "BUTTON_LABEL": "საუბრის დაწყება",
+    "TITLE": "ახალი საუბარი",
+    "DESC": "დაიწყეთ ახალი საუბარი ახალი შეტყობინების გაგზავნით.",
+    "NO_INBOX": "ამ კონტაქტთან ახალი საუბრის დასაწყებად ვერ მოიძებნა ინბოქსი.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "სად"
       },
       "INBOX": {
         "LABEL": "Inbox",
         "PLACEHOLDER": "Choose source inbox",
-        "ERROR": "Select an inbox"
+        "ERROR": "აირჩიეთ ინბოქსი"
       },
       "SUBJECT": {
         "LABEL": "Subject",
@@ -174,25 +175,25 @@
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "LABEL": "მესიჯი",
+        "PLACEHOLDER": "დაწერეთ თქვენი მესიჯი აქ",
+        "ERROR": "მესიჯი არ შეიძლება იყოს ცარიელი"
       },
       "ATTACHMENTS": {
         "SELECT": "Choose files",
         "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
-      "SUBMIT": "Send message",
-      "CANCEL": "Cancel",
-      "SUCCESS_MESSAGE": "Message sent!",
+      "SUBMIT": "გაგზავნე მესიჯი",
+      "CANCEL": "გაუქმება",
+      "SUCCESS_MESSAGE": "მესიჯი გაგზავნილია!",
       "GO_TO_CONVERSATION": "View",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "ERROR_MESSAGE": "გაგზავნა ვერ მოხერხდა! სცადეთ თავიდან"
     }
   },
   "CONTACTS_PAGE": {
     "LIST": {
       "TABLE_HEADER": {
-        "SOCIAL_PROFILES": "Social Profiles"
+        "SOCIAL_PROFILES": "სოციალური პროფილები"
       }
     }
   },
@@ -457,6 +458,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
           },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Add Telegram"
+          },
           "TIKTOK": {
             "PLACEHOLDER": "Add TikTok"
           },
@@ -573,7 +577,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "No contacts matches your search 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "ამ მომენტისთვის არცერთი კონტაქტი არ არის აქტიური 🌙"
-    }
+    },
+    "LOAD_MORE": "Load more"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Assign Labels",
@@ -607,7 +612,7 @@
       "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
       "CONTACT_SELECTOR": {
         "LABEL": "To:",
-        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
+        "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
         "CONTACT_CREATING": "Creating contact..."
       },
       "INBOX_SELECTOR": {
@@ -618,9 +623,9 @@
         "SUBJECT_LABEL": "Subject :",
         "SUBJECT_PLACEHOLDER": "Enter your email subject here",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "CC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_LABEL": "Bcc:",
-        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {

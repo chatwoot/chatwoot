@@ -23,7 +23,7 @@
         "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
         "BUTTON_TEXT": "Hapus",
         "DISMISS": "Batalkan",
-        "PLACE_HOLDER": "Silakan ketik %{accountName} untuk konfirmasi"
+        "PLACE_HOLDER": "Silakan ketik {accountName} untuk konfirmasi"
       },
       "SUCCESS": "Account marked for deletion",
       "FAILURE": "Could not delete account, try again!",
@@ -182,6 +182,7 @@
   },
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "Cari atau loncat ke",
+    "SNOOZE_PLACEHOLDER": "Type a time e.g. tomorrow, 2 hours, next friday, jan 15...",
     "SECTIONS": {
       "GENERAL": "Umum",
       "REPORTS": "Laporan",

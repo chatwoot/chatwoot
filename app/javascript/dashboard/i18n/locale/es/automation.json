@@ -3,8 +3,11 @@
     "HEADER": "Automatización",
     "DESCRIPTION": "La automatización puede reemplazar y agilizar los procesos existentes que requieren esfuerzo manual, como añadir etiquetas y asignar conversaciones al agente más adecuado. Esto permite al equipo concentrarse en sus fortalezas, mientras que reduce el tiempo dedicado a las tareas de rutina.",
     "LEARN_MORE": "Aprende más sobre automatización",
-    "HEADER_BTN_TXT": "Añadir regla de automatización",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "Obteniendo reglas de automatización",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Añadir regla de automatización",
       "SUBMIT": "Crear",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Nombre",
-        "DESCRIPTION": "Descripción",
         "ACTIVE": "Activo",
-        "CREATED_ON": "Creado el"
+        "CREATED_ON": "Creado el",
+        "ACTIONS": "Acciones"
       },
       "404": "No se encontraron reglas de automatización"
     },
@@ -137,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Asignar al agente",
       "ASSIGN_TEAM": "Asignar equipo",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
       "ADD_LABEL": "Añadir etiqueta",
       "REMOVE_LABEL": "Eliminar etiqueta",
       "SEND_EMAIL_TO_TEAM": "Enviar un email al equipo",
@@ -150,7 +155,8 @@
       "ADD_PRIVATE_NOTE": "Añadir una nota privada",
       "CHANGE_PRIORITY": "Cambiar prioridad",
       "ADD_SLA": "Añadir SLA",
-      "OPEN_CONVERSATION": "Abrir conversación"
+      "OPEN_CONVERSATION": "Abrir conversación",
+      "PENDING_CONVERSATION": "Marca la conversación como pendiente"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Mensaje entrante",
@@ -165,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Tipo de mensaje",
+      "PRIVATE_NOTE": "Nota privada",
       "MESSAGE_CONTAINS": "El mensaje contiene",
       "EMAIL": "E-mail",
       "INBOX": "Bandeja de entrada",

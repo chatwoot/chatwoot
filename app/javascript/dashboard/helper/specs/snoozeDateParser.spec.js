@@ -1626,6 +1626,24 @@ describe('generateDateSuggestions — localized input regressions', () => {
     },
   };
 
+  const zhTWSnoozeTranslations = {
+    UNITS: {
+      HOUR: '小時',
+      HOURS: '小時',
+      DAY: '天',
+      DAYS: '天',
+    },
+    HALF: '半',
+    RELATIVE: {
+      TOMORROW: '明天',
+    },
+    MERIDIEM: {
+      AM: '上午',
+      PM: '下午',
+    },
+    AFTER: '後',
+  };
+
   describe('P1: short non-English tokens must NOT produce spurious half-duration suggestions', () => {
     it('Arabic "غد" does not produce half-duration suggestions', () => {
       const results = generateDateSuggestions('غد', now, {
@@ -1719,6 +1737,37 @@ describe('generateDateSuggestions — localized input regressions', () => {
       expect(results.length).toBeGreaterThan(0);
       expect(results[0].date.getDate()).toBe(17);
       expect(results[0].date.getHours()).toBe(6);
+    });
+  });
+
+  describe('zh_TW compact CJK inputs', () => {
+    const options = {
+      translations: zhTWSnoozeTranslations,
+      locale: 'zh-TW',
+    };
+
+    it('parses "2小時後" (2 hours from now) without spaces', () => {
+      const results = generateDateSuggestions('2小時後', now, options);
+      expect(results.length).toBeGreaterThan(0);
+      expect(results[0].date.getDate()).toBe(16);
+      expect(results[0].date.getHours()).toBe(12);
+      expect(results[0].date.getMinutes()).toBe(0);
+    });
+
+    it('parses "半天" (half day) without spaces', () => {
+      const results = generateDateSuggestions('半天', now, options);
+      expect(results.length).toBeGreaterThan(0);
+      expect(results[0].date.getDate()).toBe(16);
+      expect(results[0].date.getHours()).toBe(22);
+      expect(results[0].date.getMinutes()).toBe(0);
+    });
+
+    it('parses "明天 上午" (tomorrow AM) into tomorrow 9am', () => {
+      const results = generateDateSuggestions('明天 上午', now, options);
+      expect(results.length).toBeGreaterThan(0);
+      expect(results[0].date.getDate()).toBe(17);
+      expect(results[0].date.getHours()).toBe(9);
+      expect(results[0].date.getMinutes()).toBe(0);
     });
   });
 });

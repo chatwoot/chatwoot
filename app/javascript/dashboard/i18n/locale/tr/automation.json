@@ -3,11 +3,14 @@
     "HEADER": "Otomasyon",
     "DESCRIPTION": "Otomasyon, etiket ekleme veya konuşmaları en uygun temsilciye atama gibi manuel çaba gerektiren mevcut süreçleri kolaylaştırabilir ve onların yerine geçebilir. Bu sayede ekip, rutin işlere harcanan zamanı azaltarak güçlü yönlerine odaklanabilir.",
     "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "Otomasyon Kuralı Ekle",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Otomasyon Oluştur",
     "LOADING": "Otomasyon kuralları getiriliyor",
+    "SEARCH_PLACEHOLDER": "Otomasyon kurallarını ara...",
+    "NO_RESULTS": "Aramanızla eşleşen otomasyon kuralı bulunamadı",
     "ADD": {
       "TITLE": "Otomasyon Kuralı Ekle",
-      "SUBMIT": "Yarat",
+      "SUBMIT": "Oluştur",
       "CANCEL_BUTTON_TEXT": "İptal Et",
       "FORM": {
         "NAME": {
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "İsim",
-        "DESCRIPTION": "Açıklama",
         "ACTIVE": "Aktif",
-        "CREATED_ON": "Oluşturma"
+        "CREATED_ON": "Oluşturma",
+        "ACTIONS": "Hareketler"
       },
       "404": "Otomasyon kuralı bulunamadı"
     },
@@ -81,7 +84,7 @@
     },
     "FORM": {
       "EDIT": "Düzenle",
-      "CREATE": "Yarat",
+      "CREATE": "Oluştur",
       "DELETE": "Sil",
       "CANCEL": "İptal Et",
       "RESET_MESSAGE": "Olay seçimini değiştirmek tüm koşulları ve aşağıda eklenmiş etkinlikleri değiştirecektir"
@@ -137,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Temsilciye Ata",
       "ASSIGN_TEAM": "Bir Ekibe Ata",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Atanan Ekibi Kaldır",
       "ADD_LABEL": "Etiket Ekle",
       "REMOVE_LABEL": "Etiketi Kaldır",
       "SEND_EMAIL_TO_TEAM": "Ekibe E-posta Gönder",
@@ -150,7 +155,8 @@
       "ADD_PRIVATE_NOTE": "Özel Not Ekle",
       "CHANGE_PRIORITY": "Önceliği Değiştir",
       "ADD_SLA": "Add SLA",
-      "OPEN_CONVERSATION": "Görüşmeyi aç"
+      "OPEN_CONVERSATION": "Görüşmeyi aç",
+      "PENDING_CONVERSATION": "Mark conversation as pending"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Gelen Mesaj",
@@ -165,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Mesaj Türü",
+      "PRIVATE_NOTE": "Özel Not",
       "MESSAGE_CONTAINS": "Mesaj İçerir",
       "EMAIL": "E-Posta",
       "INBOX": "Gelen Kutusu",

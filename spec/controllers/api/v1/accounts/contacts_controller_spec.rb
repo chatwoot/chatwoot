@@ -105,7 +105,7 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'returns all contacts with company name desc order' do
-        get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false&sort=-company",
+        get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false&sort=-company_name",
             headers: admin.create_new_auth_token,
             as: :json
 
@@ -116,7 +116,7 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'returns all contacts with company name asc order with null values at last' do
-        get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false&sort=-company",
+        get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false&sort=-company_name",
             headers: admin.create_new_auth_token,
             as: :json
 

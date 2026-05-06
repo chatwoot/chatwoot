@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Create an account",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "Registrovat se",
     "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
     "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
     },
     "SUBMIT": "Create account",
-    "HAVE_AN_ACCOUNT": "Máte již účet?"
+    "HAVE_AN_ACCOUNT": "Máte již účet?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "Resend verification email",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

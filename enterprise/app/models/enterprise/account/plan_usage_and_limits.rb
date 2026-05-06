@@ -16,20 +16,15 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   end
 
   def increment_response_usage
-    current_usage = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
-    custom_attributes[CAPTAIN_RESPONSES_USAGE] = current_usage + 1
-    save
+    increment_custom_attribute(CAPTAIN_RESPONSES_USAGE)
   end
 
   def reset_response_usage
-    custom_attributes[CAPTAIN_RESPONSES_USAGE] = 0
-    save
+    update_custom_attribute(CAPTAIN_RESPONSES_USAGE, 0)
   end
 
   def update_document_usage
-    # this will ensure that the document count is always accurate
-    custom_attributes[CAPTAIN_DOCUMENTS_USAGE] = captain_documents.count
-    save
+    update_custom_attribute(CAPTAIN_DOCUMENTS_USAGE, captain_documents.count)
   end
 
   def email_transcript_enabled?
@@ -129,6 +124,27 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
 
     ChatwootApp.max_limit
   end
+
+  # Atomic jsonb_set to avoid clobbering concurrent writes to other custom_attributes keys.
+  # Goes through Account relation (rather than raw connection) so shard routing is respected.
+  # rubocop:disable Rails/SkipsModelValidations
+  def update_custom_attribute(key, value)
+    Account.where(id: id).update_all([
+                                       "custom_attributes = jsonb_set(COALESCE(custom_attributes, '{}'), ARRAY[:key], :value::jsonb)",
+                                       { key: key, value: value.to_json }
+                                     ])
+    custom_attributes[key] = value
+  end
+
+  def increment_custom_attribute(key)
+    Account.where(id: id).update_all([
+                                       "custom_attributes = jsonb_set(COALESCE(custom_attributes, '{}'), ARRAY[:key], " \
+                                       '(COALESCE((custom_attributes ->> :key)::int, 0) + 1)::text::jsonb)',
+                                       { key: key }
+                                     ])
+    custom_attributes[key] = custom_attributes[key].to_i + 1
+  end
+  # rubocop:enable Rails/SkipsModelValidations
 
   def validate_limit_keys
     errors.add(:limits, ': Invalid data') unless self[:limits].is_a? Hash
