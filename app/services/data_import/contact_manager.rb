@@ -74,6 +74,6 @@ class DataImport::ContactManager
   def should_update_primary_email?(params, contact)
     return false if params[:email].blank?
 
-    !contact.additional_emails.include?(params[:email].to_s.strip.downcase)
+    contact.additional_emails.exclude?(params[:email].to_s.strip.downcase)
   end
 end

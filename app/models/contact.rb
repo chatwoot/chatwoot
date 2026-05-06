@@ -46,6 +46,8 @@ class Contact < ApplicationRecord
   include AvailabilityStatusable
   include Labelable
   include LlmFormattable
+  include ContactPointable
+  include ContactPointSearchable
 
   validates :account_id, presence: true
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
@@ -56,8 +58,6 @@ class Contact < ApplicationRecord
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
 
   belongs_to :account
-  has_many :contact_emails, dependent: :destroy
-  has_many :contact_phones, dependent: :destroy
   has_many :conversations, dependent: :destroy_async
   has_many :contact_inboxes, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
@@ -68,10 +68,7 @@ class Contact < ApplicationRecord
   before_save :sync_contact_attributes
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
-  before_destroy :snapshot_contact_points_for_destroy, prepend: true
   after_destroy_commit :dispatch_destroy_event
-  validate :email_not_used_as_additional
-  validate :phone_number_not_used_as_additional
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -147,25 +144,6 @@ class Contact < ApplicationRecord
       .where('contacts.created_at < ?', time_period)
       .where.missing(:conversations)
   }
-  scope :matching_email, lambda { |value|
-    normalized = value.to_s.strip.downcase
-    where('LOWER(contacts.email) = :email OR EXISTS (
-      SELECT 1 FROM contact_emails
-      WHERE contact_emails.contact_id = contacts.id
-      AND contact_emails.account_id = contacts.account_id
-      AND LOWER(contact_emails.email) = :email
-    )', email: normalized)
-  }
-  scope :matching_phone_number, lambda { |value|
-    normalized = value.to_s.strip
-    where('contacts.phone_number = :phone OR EXISTS (
-      SELECT 1 FROM contact_phones
-      WHERE contact_phones.contact_id = contacts.id
-      AND contact_phones.account_id = contacts.account_id
-      AND contact_phones.phone_number = :phone
-    )', phone: normalized)
-  }
-
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
   end
@@ -203,96 +181,12 @@ class Contact < ApplicationRecord
     }
   end
 
-  def self.resolved_contacts(use_crm_v2: false)
-    return where(contact_type: 'lead') if use_crm_v2
-
-    where(<<~SQL.squish)
-      contacts.email <> ''
-      OR contacts.phone_number <> ''
-      OR contacts.identifier <> ''
-      OR EXISTS (
-        SELECT 1
-        FROM contact_emails
-        WHERE contact_emails.contact_id = contacts.id
-          AND contact_emails.account_id = contacts.account_id
-      )
-      OR EXISTS (
-        SELECT 1
-        FROM contact_phones
-        WHERE contact_phones.contact_id = contacts.id
-          AND contact_phones.account_id = contacts.account_id
-      )
-    SQL
-  end
-
   def discard_invalid_attrs
     phone_number_format
     email_format
   end
 
-  def self.from_email(email)
-    matching_email(email).first
-  end
-
-  def self.from_phone_number(phone_number)
-    matching_phone_number(phone_number).first
-  end
-
-  def additional_emails
-    return contact_emails.sort_by(&:id).map(&:email) if contact_emails.loaded?
-
-    contact_emails.order(:id).pluck(:email)
-  end
-
-  def additional_phones
-    return contact_phones.sort_by(&:id).map(&:phone_number) if contact_phones.loaded?
-
-    contact_phones.order(:id).pluck(:phone_number)
-  end
-
-  def all_emails
-    contact_point_data[:email_addresses]
-  end
-
-  def all_phone_numbers
-    contact_point_data[:phone_numbers]
-  end
-
-  def contact_point_data
-    additional_email_values = additional_emails
-    additional_phone_values = additional_phones
-
-    {
-      additional_emails: additional_email_values,
-      email_addresses: [email, *additional_email_values].compact_blank,
-      additional_phones: additional_phone_values,
-      phone_numbers: [phone_number, *additional_phone_values].compact_blank
-    }
-  end
-
   private
-
-  def email_not_used_as_additional
-    return if email.blank? || account_id.blank?
-    return unless ContactEmail.exists?(account_id: account_id, email: email.downcase)
-
-    errors.add(:email, :taken)
-  end
-
-  def phone_number_not_used_as_additional
-    return if phone_number.blank? || account_id.blank?
-    return unless ContactPhone.exists?(account_id: account_id, phone_number: phone_number)
-
-    errors.add(:phone_number, :taken)
-  end
-
-  def destroyed_contact_point_data
-    @destroyed_contact_point_data || contact_point_data
-  end
-
-  def snapshot_contact_points_for_destroy
-    @destroyed_contact_point_data = contact_point_data
-  end
 
   def ip_lookup
     return unless account.feature_enabled?('ip_lookup')

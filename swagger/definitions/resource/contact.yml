@@ -14,6 +14,16 @@ properties:
         email:
           type: string
           description: The email address of the contact
+        additional_emails:
+          type: array
+          description: Additional email addresses stored for the contact
+          items:
+            type: string
+        email_addresses:
+          type: array
+          description: Stored email addresses for the contact, ordered with the primary email first
+          items:
+            type: string
         id:
           type: integer
           description: The ID of the contact
@@ -23,6 +33,16 @@ properties:
         phone_number:
           type: string
           description: The phone number of the contact
+        additional_phones:
+          type: array
+          description: Additional phone numbers stored for the contact
+          items:
+            type: string
+        phone_numbers:
+          type: array
+          description: Stored phone numbers for the contact, ordered with the primary phone number first
+          items:
+            type: string
         blocked:
           type: boolean
           description: Whether the contact is blocked

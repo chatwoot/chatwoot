@@ -113,15 +113,15 @@ RSpec.describe DataImportJob do
 
           csv_length = csv_data.length
 
-        described_class.perform_now(existing_data_import)
-        expect(existing_data_import.account.contacts.count).to eq(csv_length)
-        contact = Contact.from_email(csv_data[0]['email'])
-        expect(contact).to be_present
-        expect(contact.phone_number).to eq("+#{csv_data[0]['phone_number']}")
-        expect(contact.name).to eq((csv_data[0]['name']).to_s)
-        expect(contact.additional_attributes['company']).to eq((csv_data[0]['company']).to_s)
-        expect(contact.additional_emails).to be_empty
-      end
+          described_class.perform_now(existing_data_import)
+          expect(existing_data_import.account.contacts.count).to eq(csv_length)
+          contact = Contact.from_email(csv_data[0]['email'])
+          expect(contact).to be_present
+          expect(contact.phone_number).to eq("+#{csv_data[0]['phone_number']}")
+          expect(contact.name).to eq((csv_data[0]['name']).to_s)
+          expect(contact.additional_attributes['company']).to eq((csv_data[0]['company']).to_s)
+          expect(contact.additional_emails).to be_empty
+        end
       end
 
       context 'when the existing record has a phone_number in import data' do

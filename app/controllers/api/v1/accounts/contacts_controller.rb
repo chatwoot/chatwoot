@@ -1,5 +1,7 @@
 class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   include Sift
+  include ContactPointParams
+
   sort_on :email, type: :string
   sort_on :name, internal_name: :order_on_name, type: :scope, scope_params: [:direction]
   sort_on :phone_number, type: :string
@@ -10,8 +12,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   sort_on :country, internal_name: :order_on_country_name, type: :scope, scope_params: [:direction]
 
   RESULTS_PER_PAGE = 15
-  CONTACT_POINT_PARAMS = [:email, :phone_number, :email_addresses, :additional_emails, :phone_numbers, :additional_phones].freeze
-  CONTACT_POINT_ARRAY_PARAMS = [:email_addresses, :additional_emails, :phone_numbers, :additional_phones].freeze
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]
@@ -26,10 +26,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
-    contacts = Current.account.contacts.where(
-      "#{contact_search_sql} OR #{contact_email_search_sql} OR #{contact_phone_search_sql}",
-      search: "%#{params[:q].strip}%"
-    )
+    contacts = Current.account.contacts.where(Contacts::SearchQuery.sql, search: "%#{params[:q].strip}%")
     @contacts = fetch_contacts_with_has_more(contacts)
   end
 
@@ -189,61 +186,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     return @contact.additional_attributes.merge(permitted_params[:additional_attributes]) if permitted_params[:additional_attributes]
 
     @contact.additional_attributes
-  end
-
-  def contact_update_params
-    permitted_params.except(:custom_attributes, :avatar_url, *CONTACT_POINT_PARAMS)
-                    .merge({ custom_attributes: contact_custom_attributes })
-                    .merge({ additional_attributes: contact_additional_attributes })
-  end
-
-  def contact_create_params
-    permitted_params.except(:avatar_url, *CONTACT_POINT_PARAMS)
-  end
-
-  def contact_point_params
-    point_params = permitted_params.slice(*CONTACT_POINT_PARAMS)
-    CONTACT_POINT_ARRAY_PARAMS.each do |key|
-      point_params[key] = params[key] if params[key] == '[]'
-    end
-    point_params
-  end
-
-  def contact_search_sql
-    <<~SQL.squish
-      contacts.name ILIKE :search
-      OR contacts.email ILIKE :search
-      OR contacts.phone_number ILIKE :search
-      OR contacts.identifier ILIKE :search
-    SQL
-  end
-
-  def contact_email_search_sql
-    <<~SQL.squish
-      EXISTS (
-        SELECT 1
-        FROM contact_emails
-        WHERE contact_emails.contact_id = contacts.id
-          AND contact_emails.account_id = contacts.account_id
-          AND contact_emails.email ILIKE :search
-      )
-    SQL
-  end
-
-  def contact_phone_search_sql
-    <<~SQL.squish
-      EXISTS (
-        SELECT 1
-        FROM contact_phones
-        WHERE contact_phones.contact_id = contacts.id
-          AND contact_phones.account_id = contacts.account_id
-          AND contact_phones.phone_number ILIKE :search
-      )
-    SQL
-  end
-
-  def replace_contact_points!
-    Contacts::ReplaceContactPoints.new(contact: @contact, params: contact_point_params).perform
   end
 
   def set_include_contact_inboxes

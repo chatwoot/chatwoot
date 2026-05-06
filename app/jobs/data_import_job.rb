@@ -119,5 +119,4 @@ class DataImportJob < ApplicationJob
       yield file
     end
   end
-
 end

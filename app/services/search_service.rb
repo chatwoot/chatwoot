@@ -34,7 +34,7 @@ class SearchService
     conversations_query = current_account.conversations.where(inbox_id: accessable_inbox_ids)
                                          .joins(:contact)
                                          .where(
-                                           "#{conversation_search_sql} OR #{contact_email_search_sql} OR #{contact_phone_search_sql}",
+                                           "#{conversation_search_sql} OR #{Contacts::SearchQuery.sql}",
                                            search: "%#{search_query}%"
                                          )
 
@@ -164,10 +164,7 @@ class SearchService
   end
 
   def filter_contacts
-    contacts_query = current_account.contacts.where(
-      "#{contact_search_sql} OR #{contact_email_search_sql} OR #{contact_phone_search_sql}",
-      search: "%#{search_query}%"
-    )
+    contacts_query = current_account.contacts.where(Contacts::SearchQuery.sql, search: "%#{search_query}%")
 
     contacts_query = apply_time_filter(contacts_query, 'last_activity_at') if current_account.feature_enabled?('advanced_search')
 
@@ -213,39 +210,6 @@ class SearchService
       OR contacts.email ILIKE :search
       OR contacts.phone_number ILIKE :search
       OR contacts.identifier ILIKE :search
-    SQL
-  end
-
-  def contact_search_sql
-    <<~SQL.squish
-      contacts.name ILIKE :search
-      OR contacts.email ILIKE :search
-      OR contacts.phone_number ILIKE :search
-      OR contacts.identifier ILIKE :search
-    SQL
-  end
-
-  def contact_email_search_sql
-    <<~SQL.squish
-      EXISTS (
-        SELECT 1
-        FROM contact_emails
-        WHERE contact_emails.contact_id = contacts.id
-          AND contact_emails.account_id = contacts.account_id
-          AND contact_emails.email ILIKE :search
-      )
-    SQL
-  end
-
-  def contact_phone_search_sql
-    <<~SQL.squish
-      EXISTS (
-        SELECT 1
-        FROM contact_phones
-        WHERE contact_phones.contact_id = contacts.id
-          AND contact_phones.account_id = contacts.account_id
-          AND contact_phones.phone_number ILIKE :search
-      )
     SQL
   end
 end

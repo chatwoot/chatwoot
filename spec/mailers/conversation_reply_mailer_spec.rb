@@ -647,6 +647,10 @@ RSpec.describe ConversationReplyMailer do
       let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }
       let(:domain) { account.inbound_email_domain }
 
+      before do
+        account.disable_features!('inbound_emails')
+      end
+
       it 'renders the receiver email' do
         expect(mail.to).to eq([message&.conversation&.contact&.email])
       end
@@ -669,6 +673,10 @@ RSpec.describe ConversationReplyMailer do
       let(:conversation) { create(:conversation, assignee: agent, inbox: inbox, account: account) }
       let!(:message) { create(:message, conversation: conversation, account: account) }
       let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }
+
+      before do
+        account.disable_features!('inbound_emails')
+      end
 
       it 'set reply to email address as inbox email address' do
         expect(mail.from).to eq([inbox.email_address])
