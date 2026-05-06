@@ -35,7 +35,14 @@ const ownerOptions = computed(() => [
 ]);
 
 const handleUpdate = value => {
-  emit('update:modelValue', value === UNASSIGNED_VALUE ? '' : value);
+  if (value === UNASSIGNED_VALUE) {
+    emit('update:modelValue', '');
+    return;
+  }
+
+  if (value === '') return;
+
+  emit('update:modelValue', value);
 };
 </script>
 
