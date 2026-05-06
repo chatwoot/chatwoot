@@ -1,7 +1,7 @@
 import camelcaseKeys from 'camelcase-keys';
 import CompanyAPI from 'dashboard/api/companies';
+import { createStore } from 'dashboard/store/storeFactory';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
-import { defineStore } from 'pinia';
 import snakecaseKeys from 'snakecase-keys';
 
 const createInitialUIFlags = () => ({
@@ -15,21 +15,6 @@ const createInitialUIFlags = () => ({
   searchingContacts: false,
   creatingContact: false,
   removingContact: false,
-});
-
-const createInitialState = () => ({
-  records: [],
-  meta: {},
-  companyContacts: [],
-  companyContactsMeta: {},
-  contactSearchResults: [],
-  contactSearchMeta: {},
-  uiFlags: createInitialUIFlags(),
-  activeCompanyId: null,
-  companyDetailRequestToken: 0,
-  companyContactsRequestToken: 0,
-  contactSearchRequestToken: 0,
-  activeContactSearchQuery: '',
 });
 
 const camelizeCompany = data =>
@@ -77,22 +62,16 @@ const buildCompanyRequestPayload = ({ avatar, customAttributes, ...rest }) => {
   return formData;
 };
 
-export const useCompaniesStore = defineStore('companies', {
-  state: createInitialState,
+export const useCompaniesStore = createStore({
+  name: 'companies',
+  type: 'pinia',
+  API: CompanyAPI,
 
   getters: {
-    getRecord: state => id =>
-      state.records.find(record => record.id === Number(id)) || {},
-    getUIFlags: state => state.uiFlags,
-    getMeta: state => state.meta,
     getCompaniesList: state => state.records,
   },
 
-  actions: {
-    setUIFlag(data) {
-      this.uiFlags = { ...this.uiFlags, ...data };
-    },
-
+  actions: () => ({
     setMeta(meta) {
       this.meta = normalizeMeta(meta);
     },
@@ -123,7 +102,8 @@ export const useCompaniesStore = defineStore('companies', {
       this.contactSearchResults = [];
       this.contactSearchMeta = {};
       this.activeContactSearchQuery = '';
-      this.contactSearchRequestToken += 1;
+      this.contactSearchRequestToken =
+        (this.contactSearchRequestToken || 0) + 1;
     },
 
     async get({ page = 1, sort = 'name' } = {}) {
@@ -146,7 +126,7 @@ export const useCompaniesStore = defineStore('companies', {
       this.setUIFlag({ fetchingItem: true });
       this.setActiveCompanyId(id);
       const activeCompanyId = Number(id);
-      const requestToken = this.companyDetailRequestToken + 1;
+      const requestToken = (this.companyDetailRequestToken || 0) + 1;
       this.companyDetailRequestToken = requestToken;
       try {
         const {
@@ -243,7 +223,7 @@ export const useCompaniesStore = defineStore('companies', {
       this.setUIFlag({ fetchingContacts: true });
       this.ensureActiveCompanyContext(companyId);
       const activeCompanyId = Number(companyId);
-      const requestToken = this.companyContactsRequestToken + 1;
+      const requestToken = (this.companyContactsRequestToken || 0) + 1;
       this.companyContactsRequestToken = requestToken;
 
       try {
@@ -284,7 +264,7 @@ export const useCompaniesStore = defineStore('companies', {
       this.ensureActiveCompanyContext(companyId);
       this.activeContactSearchQuery = query;
       const activeCompanyId = Number(companyId);
-      const requestToken = this.contactSearchRequestToken + 1;
+      const requestToken = (this.contactSearchRequestToken || 0) + 1;
       this.contactSearchRequestToken = requestToken;
 
       try {
@@ -341,7 +321,7 @@ export const useCompaniesStore = defineStore('companies', {
         await CompanyAPI.removeContact(companyId, contactId);
         await this.getCompanyContacts(
           companyId,
-          page || this.companyContactsMeta.page || 1
+          page || this.companyContactsMeta?.page || 1
         );
         return Number(contactId);
       } catch (error) {
@@ -370,9 +350,12 @@ export const useCompaniesStore = defineStore('companies', {
     resetCompanyDetailState() {
       const { fetchingList } = this.uiFlags;
       this.activeCompanyId = null;
-      this.companyDetailRequestToken += 1;
-      this.companyContactsRequestToken += 1;
-      this.contactSearchRequestToken += 1;
+      this.companyDetailRequestToken =
+        (this.companyDetailRequestToken || 0) + 1;
+      this.companyContactsRequestToken =
+        (this.companyContactsRequestToken || 0) + 1;
+      this.contactSearchRequestToken =
+        (this.contactSearchRequestToken || 0) + 1;
       this.companyContacts = [];
       this.companyContactsMeta = {};
       this.contactSearchResults = [];
@@ -380,5 +363,5 @@ export const useCompaniesStore = defineStore('companies', {
       this.activeContactSearchQuery = '';
       this.uiFlags = { ...createInitialUIFlags(), fetchingList };
     },
-  },
+  }),
 });
