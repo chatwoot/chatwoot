@@ -63,8 +63,6 @@ class DataImportJob < ApplicationJob
   end
 
   def extract_labels(row_hash)
-    return [] if row_hash[:labels].blank?
-
     row_hash[:labels].to_s.split(LABELS_DELIMITER).map(&:strip).reject(&:blank?)
   end
 
@@ -135,7 +133,9 @@ class DataImportJob < ApplicationJob
     imported_contact(contact)
   end
 
-  def contact_identity_key(contact) = contact.identifier.presence || contact.email.presence || contact.phone_number.presence
+  def contact_identity_key(contact)
+    contact.identifier.presence || contact.email.presence || contact.phone_number.presence
+  end
 
   def imported_contact(contact)
     return @data_import.account.contacts.find_by(identifier: contact.identifier) if contact.identifier.present?

@@ -5,7 +5,7 @@ RSpec.describe Account::ContactsExportJob do
 
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account, email: 'account-user-test@test.com') }
-  let(:label) { create(:label, title: 'spec-billing', account: account) }
+  let(:label) { create(:label, title: 'spec-billing', maccount: account) }
 
   let(:email_filter) do
     {
