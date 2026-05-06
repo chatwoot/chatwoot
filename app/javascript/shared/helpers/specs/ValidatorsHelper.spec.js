@@ -9,6 +9,7 @@ import {
   isNumber,
   isDomain,
   getRegexp,
+  normalizeRegexPattern,
   isValidSlug,
 } from '../Validators';
 
@@ -152,6 +153,30 @@ describe('#getRegexp', () => {
 
     expect(regex.test('123-45-6789')).toBe(true);
     expect(regex.test('12-34-5678')).toBe(false);
+  });
+});
+
+describe('#normalizeRegexPattern', () => {
+  it('returns null for empty values', () => {
+    expect(normalizeRegexPattern('')).toBeNull();
+    expect(normalizeRegexPattern(null)).toBeNull();
+    expect(normalizeRegexPattern(undefined)).toBeNull();
+  });
+
+  it('canonicalises a bare source', () => {
+    expect(normalizeRegexPattern('^[0-9]+$')).toBe('/^[0-9]+$/');
+  });
+
+  it('strips slash wrapping the user may include', () => {
+    expect(normalizeRegexPattern('/^[0-9]+$/')).toBe('/^[0-9]+$/');
+  });
+
+  it('preserves flags on wrapped input', () => {
+    expect(normalizeRegexPattern('/hello/gi')).toBe('/hello/gi');
+  });
+
+  it('throws for an invalid regex source', () => {
+    expect(() => normalizeRegexPattern('[')).toThrow();
   });
 });
 

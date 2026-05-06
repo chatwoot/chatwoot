@@ -26,12 +26,14 @@
 #
 class Captain::Document < ApplicationRecord
   class LimitExceededError < StandardError; end
+  SYNC_STALE_TIMEOUT = 2.hours
   self.table_name = 'captain_documents'
 
   belongs_to :assistant, class_name: 'Captain::Assistant'
   has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy, as: :documentable
   belongs_to :account
   has_one_attached :pdf_file
+  store_accessor :metadata, :content_fingerprint, :last_sync_error_code, :sync_step, :openai_file_id
 
   validates :external_link, presence: true, unless: -> { pdf_file.attached? }
   validates :external_link, uniqueness: { scope: :assistant_id }, allow_blank: true
@@ -59,6 +61,7 @@ class Captain::Document < ApplicationRecord
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
   scope :for_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
+  scope :syncable, -> { where("external_link NOT LIKE 'PDF:%' AND external_link NOT LIKE '%.pdf'") }
 
   def pdf_document?
     return true if pdf_file.attached? && pdf_file.blob.content_type == 'application/pdf'
@@ -75,36 +78,8 @@ class Captain::Document < ApplicationRecord
     pdf_file.blob.byte_size if pdf_file.attached?
   end
 
-  def content_fingerprint
-    metadata&.dig('content_fingerprint')
-  end
-
-  def content_fingerprint=(value)
-    self.metadata = (metadata || {}).merge('content_fingerprint' => value)
-  end
-
-  def last_sync_error_code
-    metadata&.dig('last_sync_error_code')
-  end
-
-  def last_sync_error_code=(value)
-    self.metadata = (metadata || {}).merge('last_sync_error_code' => value)
-  end
-
-  def sync_step
-    metadata&.dig('sync_step')
-  end
-
-  def store_sync_step(step)
-    update!(metadata: (metadata || {}).merge('sync_step' => step))
-  end
-
-  def openai_file_id
-    metadata&.dig('openai_file_id')
-  end
-
   def store_openai_file_id(file_id)
-    update!(metadata: (metadata || {}).merge('openai_file_id' => file_id))
+    update!(openai_file_id: file_id)
   end
 
   def display_url
@@ -119,6 +94,18 @@ class Captain::Document < ApplicationRecord
 
   def to_llm_metadata
     { document_id: id, assistant_id: assistant_id, external_link: external_link }
+  end
+
+  def syncable?
+    !pdf_document?
+  end
+
+  def sync_stale?
+    sync_syncing? && (last_sync_attempted_at.blank? || last_sync_attempted_at < SYNC_STALE_TIMEOUT.ago)
+  end
+
+  def sync_in_progress?
+    sync_syncing? && !sync_stale?
   end
 
   private
