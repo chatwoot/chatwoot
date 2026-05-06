@@ -4,7 +4,11 @@ import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { formatBytes } from 'shared/helpers/FileHelper';
-import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import {
+  dynamicTime,
+  formatDuration,
+  shortTimestamp,
+} from 'shared/helpers/timeHelper';
 import { downloadFile } from '@chatwoot/utils';
 import {
   ATTACHMENT_TYPES,
@@ -79,6 +83,23 @@ const onDownloadFile = async attachment => {
 
 const isVideoType = type =>
   [ATTACHMENT_TYPES.VIDEO, ATTACHMENT_TYPES.IG_REEL].includes(type);
+
+const isAudioType = type => type === ATTACHMENT_TYPES.AUDIO;
+const isPlayableType = type => isVideoType(type) || isAudioType(type);
+
+const durations = ref({});
+
+const onLoadedMetadata = (attachment, event) => {
+  const seconds = event.target?.duration;
+  if (Number.isFinite(seconds) && seconds > 0) {
+    durations.value = { ...durations.value, [attachment.id]: seconds };
+  }
+};
+
+const displayDuration = attachment => {
+  const seconds = durations.value[attachment.id];
+  return seconds ? formatDuration(Math.round(seconds)) : '';
+};
 
 const isOverflowTile = index =>
   !showAllMedia.value &&
@@ -199,7 +220,7 @@ const displayTime = attachment => {
           @click="showAllMedia = !showAllMedia"
         />
       </header>
-      <div class="grid grid-cols-3 gap-1.5">
+      <div class="grid grid-cols-3 gap-2">
         <div
           v-for="(attachment, index) in visibleMedia"
           :key="attachment.id"
@@ -226,6 +247,7 @@ const displayTime = attachment => {
               muted
               playsinline
               class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110 pointer-events-none"
+              @loadedmetadata="onLoadedMetadata(attachment, $event)"
               @error="onPreviewError(attachment)"
             />
             <div
@@ -237,6 +259,14 @@ const displayTime = attachment => {
                 class="size-6 text-n-slate-11"
               />
             </div>
+
+            <audio
+              v-if="isAudioType(attachment.file_type) && attachment.data_url"
+              :src="attachment.data_url"
+              preload="metadata"
+              class="hidden"
+              @loadedmetadata="onLoadedMetadata(attachment, $event)"
+            />
 
             <div
               class="absolute inset-0 transition-opacity duration-200 opacity-0 pointer-events-none group-hover:opacity-100 bg-gradient-to-t from-black/40 via-transparent to-transparent"
@@ -255,6 +285,16 @@ const displayTime = attachment => {
                 />
               </div>
             </div>
+
+            <span
+              v-if="
+                isPlayableType(attachment.file_type) &&
+                displayDuration(attachment)
+              "
+              class="absolute text-xxs font-medium tabular-nums transition-opacity bottom-1.5 ltr:right-1.5 rtl:left-1.5 text-white [text-shadow:_0_1px_3px_rgba(0,0,0,0.95),_0_0_10px_rgba(0,0,0,0.7)] group-hover:opacity-0"
+            >
+              {{ displayDuration(attachment) }}
+            </span>
 
             <span
               v-if="displayTime(attachment)"
@@ -371,6 +411,7 @@ const displayTime = attachment => {
       v-model:show="showGallery"
       :attachment="selectedAttachment"
       :all-attachments="mediaAttachments"
+      auto-play
       @close="showGallery = false"
     />
   </div>
