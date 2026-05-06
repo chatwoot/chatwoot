@@ -119,17 +119,17 @@ export default {
   <div class="flex flex-col w-full h-auto lg:flex-row lg:h-full">
     <div
       class="flex-1 w-full h-full max-h-full ltr:pl-12 ltr:pr-6 rtl:pl-6 rtl:pr-12 py-4 overflow-y-auto lg:w-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size"
-      :inert="readOnly"
-      :class="{ 'pointer-events-none opacity-75': readOnly }"
     >
-      <MacroNodes
-        v-model="macro.actions"
-        :files="files"
-        :errors="errors"
-        @add-new-node="appendNode"
-        @delete-node="deleteNode"
-        @reset-action="resetNode"
-      />
+      <div :inert="readOnly" :class="{ 'opacity-75': readOnly }">
+        <MacroNodes
+          v-model="macro.actions"
+          :files="files"
+          :errors="errors"
+          @add-new-node="appendNode"
+          @delete-node="deleteNode"
+          @reset-action="resetNode"
+        />
+      </div>
     </div>
     <div class="w-full lg:w-1/3 pb-4">
       <MacroProperties
