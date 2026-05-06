@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Companies API', type: :request do
   let(:account) { create(:account) }
 
+  before { account.enable_features!(:companies) }
+
   describe 'GET /api/v1/accounts/{account.id}/companies' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -222,6 +224,17 @@ RSpec.describe 'Companies API', type: :request do
         expect(response_body['payload']['name']).to eq(company.name)
         expect(response_body['payload']['id']).to eq(company.id)
       end
+
+      it 'returns company custom attributes' do
+        company.update!(custom_attributes: { 'plan' => 'enterprise' })
+
+        get "/api/v1/accounts/#{account.id}/companies/#{company.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']['custom_attributes']).to eq('plan' => 'enterprise')
+      end
     end
   end
 
@@ -301,6 +314,60 @@ RSpec.describe 'Companies API', type: :request do
         response_body = response.parsed_body
         expect(response_body['payload']['name']).to eq('Updated Company Name')
         expect(response_body['payload']['domain']).to eq('updated.com')
+      end
+
+      it 'merges custom attributes without removing existing attributes' do
+        company.update!(custom_attributes: { 'plan' => 'startup', 'region' => 'us' })
+
+        patch "/api/v1/accounts/#{account.id}/companies/#{company.id}",
+              params: { company: { custom_attributes: { 'plan' => 'enterprise' } } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(company.reload.custom_attributes).to eq('plan' => 'enterprise', 'region' => 'us')
+        expect(response.parsed_body['payload']['custom_attributes']).to eq('plan' => 'enterprise', 'region' => 'us')
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/companies/{id}/destroy_custom_attributes' do
+    let(:company) { create(:company, account: account, custom_attributes: { 'plan' => 'enterprise', 'region' => 'us' }) }
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'removes selected company custom attributes' do
+        post "/api/v1/accounts/#{account.id}/companies/#{company.id}/destroy_custom_attributes",
+             params: { custom_attributes: ['plan'] },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(company.reload.custom_attributes).to eq('region' => 'us')
+        expect(response.parsed_body['payload']['custom_attributes']).to eq('region' => 'us')
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/companies/{id}/avatar' do
+    let(:company) { create(:company, account: account) }
+
+    context 'when it is an authenticated administrator' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      before do
+        company.avatar.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      end
+
+      it 'deletes the company avatar' do
+        delete "/api/v1/accounts/#{account.id}/companies/#{company.id}/avatar",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect { company.avatar.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(response.parsed_body['payload']['avatar_url']).to be_blank
       end
     end
   end
