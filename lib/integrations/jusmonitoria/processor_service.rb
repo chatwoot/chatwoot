@@ -56,7 +56,6 @@ class Integrations::Jusmonitoria::ProcessorService
     return if message.blank?
 
     conversation = message.conversation
-    return unless conversation_has_jusmonitoria_label?(conversation)
     return unless message.incoming?
 
     Rails.logger.info "[JUSMONITORIA] Forwarding message.received for message #{message.id} in conversation #{conversation.id}"
