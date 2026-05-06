@@ -92,26 +92,26 @@ class DataImportJob < ApplicationJob
     taggings = contacts_with_labels.flat_map do |item|
       contact = contact_for_label_import(item[:contact], identity_counts)
       labels = item[:labels].map(&:downcase).uniq
-      next [] unless contact&.id.present? && labels.present?
+      next [] if contact&.id.blank?
 
       labels.map do |label|
-        [tag_lookup[label].id, CONTACT_TAGGABLE_TYPE, contact.id, LABELS_CONTEXT, Time.zone.now]
+        [tag_lookup[label].id, CONTACT_TAGGABLE_TYPE, contact.id, LABELS_CONTEXT]
       end
     end.uniq
 
-    reject_existing_taggings(taggings)
+    reject_existing_taggings(taggings).map { |tagging| tagging + [Time.zone.now] }
   end
 
   def reject_existing_taggings(taggings)
-    tag_ids = taggings.map { |tag_id, _taggable_type, _taggable_id, _context, _created_at| tag_id }
-    taggable_ids = taggings.map { |_tag_id, _taggable_type, taggable_id, _context, _created_at| taggable_id }
+    tag_ids = taggings.map { |tag_id, _taggable_type, _taggable_id, _context| tag_id }
+    taggable_ids = taggings.map { |_tag_id, _taggable_type, taggable_id, _context| taggable_id }
     existing_taggings = ActsAsTaggableOn::Tagging
                         .where(context: LABELS_CONTEXT, taggable_type: CONTACT_TAGGABLE_TYPE,
                                taggable_id: taggable_ids, tag_id: tag_ids)
                         .pluck(:tag_id, :taggable_id)
                         .index_with(true)
 
-    taggings.reject do |tag_id, _taggable_type, taggable_id, _context, _created_at|
+    taggings.reject do |tag_id, _taggable_type, taggable_id, _context|
       existing_taggings[[tag_id, taggable_id]]
     end
   end

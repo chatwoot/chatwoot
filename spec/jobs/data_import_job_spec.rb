@@ -244,6 +244,22 @@ RSpec.describe DataImportJob do
         expect(labels_data_import.account.contacts.from_email('new-labeled@example.com').label_list).to contain_exactly('customer')
       end
 
+      it 'does not duplicate taggings for duplicate contact rows' do
+        existing_contact = create(:contact, account: labels_data_import.account, email: 'duplicate-labeled@example.com')
+        data_with_duplicate_contact = [
+          %w[id name email phone_number labels],
+          ['1', 'Duplicate User', existing_contact.email, '+918080808092', 'lead'],
+          ['2', 'Duplicate User', existing_contact.email, '+918080808092', 'lead']
+        ]
+        duplicate_contact_import = create(:data_import, account: labels_data_import.account,
+                                                        import_file: generate_csv_file(data_with_duplicate_contact))
+
+        described_class.perform_now(duplicate_contact_import)
+
+        lead = ActsAsTaggableOn::Tag.find_by(name: 'lead')
+        expect(ActsAsTaggableOn::Tagging.where(tag_id: lead.id, taggable: existing_contact, context: 'labels').count).to eq(1)
+      end
+
       it 'rejects rows with labels that do not exist in the account before updating contacts' do
         existing_contact = create(:contact,
                                   account: labels_data_import.account,
