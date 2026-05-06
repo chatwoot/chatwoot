@@ -60,7 +60,7 @@
 # ------- Signup & Account Related Config ------- #
 - name: ENABLE_ACCOUNT_SIGNUP
   display_title: 'Enable Account Signup'
-  value: false
+  value: true
   description: 'Allow users to signup for new accounts'
   locked: false
   type: boolean

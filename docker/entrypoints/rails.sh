@@ -30,5 +30,9 @@ do
   sleep 2;
 done
 
+if [ -n "$ENABLE_ACCOUNT_SIGNUP" ]; then
+  bundle exec rails runner "if ActiveRecord::Base.connection.data_source_exists?('installation_configs'); config = InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').first_or_initialize; config.value = ENV.fetch('ENABLE_ACCOUNT_SIGNUP'); config.locked = false; config.save!; GlobalConfig.clear_cache; end"
+fi
+
 # Execute the main process of the container
 exec "$@"
