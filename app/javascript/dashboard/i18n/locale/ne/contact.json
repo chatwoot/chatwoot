@@ -1,376 +1,377 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "Email Address",
-    "PHONE_NUMBER": "Phone number",
-    "IDENTIFIER": "Identifier",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
-    "LOCATION": "Location",
-    "BROWSER_LANGUAGE": "Browser Language",
-    "CONVERSATION_TITLE": "Conversation Details",
-    "VIEW_PROFILE": "View Profile",
-    "BROWSER": "Browser",
-    "OS": "Operating System",
-    "INITIATED_FROM": "Initiated from",
-    "INITIATED_AT": "Initiated at",
-    "IP_ADDRESS": "IP Address",
-    "CREATED_AT_LABEL": "Created",
-    "NEW_MESSAGE": "New message",
-    "CALL": "Call",
-    "CALL_INITIATED": "Calling the contact…",
-    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "NOT_AVAILABLE": "उपलब्ध छैन",
+    "EMAIL_ADDRESS": "इमेल ठेगाना",
+    "PHONE_NUMBER": "फोन नम्बर",
+    "IDENTIFIER": "पहिचानकर्ता",
+    "COPY_SUCCESSFUL": "क्लिपबोर्डमा सफलतापूर्वक प्रतिलिपि गरियो",
+    "COMPANY": "कम्पनी",
+    "LOCATION": "स्थान",
+    "BROWSER_LANGUAGE": "ब्राउजर भाषा",
+    "CONVERSATION_TITLE": "संवाद विवरण",
+    "VIEW_PROFILE": "प्रोफाइल हेर्नुहोस्",
+    "BROWSER": "ब्राउजर",
+    "OS": "अपरेटिङ सिस्टम",
+    "INITIATED_FROM": "बाट सुरु गरिएको",
+    "INITIATED_AT": "मा सुरु गरिएको",
+    "IP_ADDRESS": "IP ठेगाना",
+    "CREATED_AT_LABEL": "सिर्जना गरिएको",
+    "NEW_MESSAGE": "नयाँ सन्देश",
+    "CALL": "कल गर्नुहोस्",
+    "CALL_INITIATED": "सम्पर्कलाई कल गर्दै…",
+    "CALL_FAILED": "फोन कल सुरु गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
-      "TITLE": "Choose a voice inbox"
+      "TITLE": "भ्वाइस इन्बक्स छान्नुहोस्"
     },
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
-      "TITLE": "Previous Conversations"
+      "NO_RECORDS_FOUND": "यस सम्पर्कसँग सम्बन्धित कुनै अघिल्लो कुराकानीहरू छैनन्।",
+      "TITLE": "अघिल्लो कुराकानीहरू"
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "सम्पर्क लेबलहरू",
+        "ERROR": "लेबलहरू अपडेट गर्न सकिएन"
       },
       "CONVERSATION": {
-        "TITLE": "Conversation Labels",
-        "ADD_BUTTON": "Add Labels"
+        "TITLE": "संवाद लेबलहरू",
+        "ADD_BUTTON": "लेबलहरू थप्नुहोस्"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found",
-        "CREATE_LABEL": "Create new label"
+        "TITLE": "लेबलहरू थप्नुहोस्",
+        "PLACEHOLDER": "लेबलहरू खोज्नुहोस्",
+        "NO_RESULT": "कुनै लेबल फेला परेन",
+        "CREATE_LABEL": "नयाँ लेबल सिर्जना गर्नुहोस्"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
-    "MUTE_CONTACT": "Block Contact",
-    "UNMUTE_CONTACT": "Unblock Contact",
-    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
-    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
-    "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "Edit",
+    "MERGE_CONTACT": "सम्पर्क मर्ज गर्नुहोस्",
+    "CONTACT_ACTIONS": "सम्पर्क कार्यहरू",
+    "MUTE_CONTACT": "सम्पर्क ब्लक गर्नुहोस्",
+    "UNMUTE_CONTACT": "सम्पर्क अनब्लक गर्नुहोस्",
+    "MUTED_SUCCESS": "यो सम्पर्क सफलतापूर्वक ब्लक गरियो। तपाईंलाई भविष्यका कुनै पनि कुराकानीको सूचना दिइने छैन।",
+    "UNMUTED_SUCCESS": "यो सम्पर्क सफलतापूर्वक अनब्लक गरियो।",
+    "SEND_TRANSCRIPT": "प्रतिलिपि पठाउनुहोस्",
+    "EDIT_LABEL": "सम्पादन गर्नुहोस्",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "Custom Attributes",
-      "CONTACT_LABELS": "Contact Labels",
-      "PREVIOUS_CONVERSATIONS": "Previous Conversations",
-      "NO_RECORDS_FOUND": "No attributes found"
+      "CUSTOM_ATTRIBUTES": "अनुकूलित विशेषताहरू",
+      "CONTACT_LABELS": "सम्पर्क लेबलहरू",
+      "PREVIOUS_CONVERSATIONS": "अघिल्लो कुराकानीहरू",
+      "NO_RECORDS_FOUND": "कुनै विशेषता फेला परेन"
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details"
+    "BUTTON_LABEL": "सम्पर्क सम्पादन गर्नुहोस्",
+    "TITLE": "सम्पर्क सम्पादन गर्नुहोस्",
+    "DESC": "सम्पर्क विवरण सम्पादन गर्नुहोस्"
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "सम्पर्क मेटाउनुहोस्",
+    "TITLE": "सम्पर्क मेटाउनुहोस्",
+    "DESC": "सम्पर्क विवरण मेटाउनुहोस्",
     "CONFIRM": {
-      "TITLE": "Confirm Deletion",
-      "MESSAGE": "Are you sure to delete ",
-      "YES": "Yes, Delete",
-      "NO": "No, Keep"
+      "TITLE": "मेटाउने पुष्टि गर्नुहोस्",
+      "MESSAGE": "के तपाईं यो मेटाउन निश्चित हुनुहुन्छ ",
+      "YES": "हो, मेटाउनुहोस्",
+      "NO": "होइन, राख्नुहोस्"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "सम्पर्क सफलतापूर्वक मेटाइयो",
+      "ERROR_MESSAGE": "सम्पर्क मेटाउन सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।"
     }
   },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "बुझाउनुहोस्",
-      "CANCEL": "Cancel",
+      "CANCEL": "रद्द गर्नुहोस्",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "सम्पर्क अवतार"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "सम्पर्कको पूरा नाम प्रविष्ट गर्नुहोस्",
+        "LABEL": "पूरा नाम"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "सम्पर्कको बायो प्रविष्ट गर्नुहोस्",
+        "LABEL": "परिचय"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "Email Address",
-        "DUPLICATE": "This email address is in use for another contact.",
-        "ERROR": "Please enter a valid email address."
+        "PLACEHOLDER": "सम्पर्कको इमेल ठेगाना प्रविष्ट गर्नुहोस्",
+        "LABEL": "इमेल ठेगाना",
+        "DUPLICATE": "यो इमेल ठेगाना अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।",
+        "ERROR": "कृपया मान्य इमेल ठेगाना प्रविष्ट गर्नुहोस्।"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number",
+        "PLACEHOLDER": "सम्पर्कको फोन नम्बर प्रविष्ट गर्नुहोस्",
+        "LABEL": "फोन नम्बर",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format",
-        "DIAL_CODE_ERROR": "Please select a dial code from the list",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "ERROR": "फोन नम्बर खाली वा E.164 ढाँचामा हुनुपर्छ",
+        "DIAL_CODE_ERROR": "कृपया सूचीबाट डायल कोड चयन गर्नुहोस्",
+        "DUPLICATE": "यो फोन नम्बर अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
-        "LABEL": "Location"
+        "PLACEHOLDER": "सम्पर्कको स्थान प्रविष्ट गर्नुहोस्",
+        "LABEL": "स्थान"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "कम्पनीको नाम प्रविष्ट गर्नुहोस्",
+        "LABEL": "कम्पनी नाम"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "Country Name",
-        "SELECT_PLACEHOLDER": "Select",
-        "REMOVE": "Remove",
-        "SELECT_COUNTRY": "Select Country"
+        "PLACEHOLDER": "देशको नाम प्रविष्ट गर्नुहोस्",
+        "LABEL": "देशको नाम",
+        "SELECT_PLACEHOLDER": "छान्नुहोस्",
+        "REMOVE": "हटाउनुहोस्",
+        "SELECT_COUNTRY": "देश छान्नुहोस्"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "PLACEHOLDER": "सहरको नाम लेख्नुहोस्",
+        "LABEL": "सहरको नाम"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Facebook प्रयोगकर्ता नाम लेख्नुहोस्",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Twitter प्रयोगकर्ता नाम लेख्नुहोस्",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "LinkedIn प्रयोगकर्ता नाम लेख्नुहोस्",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Github प्रयोगकर्ता नाम लेख्नुहोस्",
           "LABEL": "Github"
         }
       }
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "सम्पर्क अवतार सफलतापूर्वक मेटाइयो",
+        "ERROR_MESSAGE": "सम्पर्कको अवतार मेटाउन सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।"
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "SUCCESS_MESSAGE": "सम्पर्क सफलतापूर्वक सुरक्षित गरियो",
+    "ERROR_MESSAGE": "त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "BUTTON_LABEL": "संवाद सुरु गर्नुहोस्",
+    "TITLE": "नयाँ संवाद",
+    "DESC": "नयाँ सन्देश पठाएर नयाँ कुराकानी सुरु गर्नुहोस्।",
+    "NO_INBOX": "यस सम्पर्कसँग नयाँ कुराकानी सुरु गर्न इनबक्स फेला परेन।",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "लाई"
       },
       "INBOX": {
         "LABEL": "Inbox",
-        "PLACEHOLDER": "Choose source inbox",
-        "ERROR": "Select an inbox"
+        "PLACEHOLDER": "स्रोत इनबक्स छान्नुहोस्",
+        "ERROR": "इनबक्स छान्नुहोस्"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
-        "ERROR": "Subject can't be empty"
+        "LABEL": "विषय",
+        "PLACEHOLDER": "विषय",
+        "ERROR": "विषय खाली हुन सक्दैन"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "LABEL": "सन्देश",
+        "PLACEHOLDER": "यहाँ तपाईंको सन्देश लेख्नुहोस्",
+        "ERROR": "सन्देश खाली हुन सक्दैन"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "फाइलहरू छान्नुहोस्",
+        "HELP_TEXT": "यहाँ फाइलहरू तान्नुहोस् वा संलग्न गर्न फाइलहरू छान्नुहोस्"
       },
-      "SUBMIT": "Send message",
-      "CANCEL": "Cancel",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "GO_TO_CONVERSATION": "View",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUBMIT": "सन्देश पठाउनुहोस्",
+      "CANCEL": "रद्द गर्नुहोस्",
+      "SUCCESS_MESSAGE": "सन्देश पठाइयो!",
+      "GO_TO_CONVERSATION": "हेर्नुहोस्",
+      "ERROR_MESSAGE": "पठाउन सकिएन! कृपया फेरि प्रयास गर्नुहोस्"
     }
   },
   "CONTACTS_PAGE": {
     "LIST": {
       "TABLE_HEADER": {
-        "SOCIAL_PROFILES": "Social Profiles"
+        "SOCIAL_PROFILES": "सामाजिक प्रोफाइलहरू"
       }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "BUTTON": "Add custom attribute",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "SHOW_MORE": "Show all attributes",
-    "SHOW_LESS": "Show less attributes",
+    "BUTTON": "अनुकूलित विशेषता थप्नुहोस्",
+    "COPY_SUCCESSFUL": "क्लिपबोर्डमा सफलतापूर्वक प्रतिलिपि गरियो",
+    "SHOW_MORE": "सबै विशेषताहरू देखाउनुहोस्",
+    "SHOW_LESS": "कम विशेषताहरू देखाउनुहोस्",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
-      "EDIT": "Edit attribute"
+      "COPY": "विशेषता प्रतिलिपि गर्नुहोस्",
+      "DELETE": "विशेषता मेटाउनुहोस्",
+      "EDIT": "विशेषता सम्पादन गर्नुहोस्"
     },
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "अनुकूलित विशेषता सिर्जना गर्नुहोस्",
+      "DESC": "यस सम्पर्कमा कस्टम जानकारी थप्नुहोस्।"
     },
     "FORM": {
-      "CREATE": "Add attribute",
-      "CANCEL": "Cancel",
+      "CREATE": "विशेषता थप्नुहोस्",
+      "CANCEL": "रद्द गर्नुहोस्",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "अनुकूलित गुण नाम",
+        "PLACEHOLDER": "जस्तै: shopify id",
+        "ERROR": "अवैध अनुकूलित गुण नाम"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "गुणस्तर मान",
+        "PLACEHOLDER": "जस्तै: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
-        "SUCCESS": "Attribute added successfully",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "TITLE": "नयाँ विशेषता सिर्जना गर्नुहोस्",
+        "SUCCESS": "विशेषता सफलतापूर्वक थपियो",
+        "ERROR": "विशेषता थप्न सकिएन। कृपया पछि पुन: प्रयास गर्नुहोस्"
       },
       "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "SUCCESS": "विशेषता सफलतापूर्वक अपडेट गरियो",
+        "ERROR": "विशेषता अपडेट गर्न सकिएन। कृपया पछि पुन: प्रयास गर्नुहोस्"
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "SUCCESS": "विशेषता सफलतापूर्वक मेटाइयो",
+        "ERROR": "विशेषता मेटाउन सकिएन। कृपया पछि पुन: प्रयास गर्नुहोस्"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "विशेषताहरू थप्नुहोस्",
+        "PLACEHOLDER": "विशेषताहरू खोज्नुहोस्",
+        "NO_RESULT": "कुनै गुण फेला परेन"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "मान चयन गर्नुहोस्",
+          "SEARCH_INPUT_PLACEHOLDER": "मान खोज्नुहोस्",
+          "NO_RESULT": "कुनै परिणाम फेला परेन"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL",
-      "INVALID_INPUT": "Invalid Input"
+      "REQUIRED": "वैध मान आवश्यक छ",
+      "INVALID_URL": "अवैध URL",
+      "INVALID_INPUT": "अवैध इनपुट"
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
+    "TITLE": "सम्पर्कहरू मर्ज गर्नुहोस्",
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "प्राथमिक सम्पर्क",
+      "HELP_LABEL": "मेटाउनुपर्ने"
     },
     "PARENT": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "मर्ज गर्नुपर्ने सम्पर्क",
+      "PLACEHOLDER": "सम्पर्क खोज्नुहोस्",
+      "HELP_LABEL": "राख्नुपर्ने"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>{primaryContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>{primaryContactName}</strong> will be copied to <strong>{parentContactName}</strong>."
+      "TITLE": "सारांश",
+      "DELETE_WARNING": "<strong>{primaryContactName}</strong> को सम्पर्क मेटाइनेछ।",
+      "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> को सम्पर्क विवरण <strong>{parentContactName}</strong> मा प्रतिलिपि गरिनेछ।"
     },
     "SEARCH": {
-      "ERROR_MESSAGE": "Something went wrong. Please try again later."
+      "ERROR_MESSAGE": "केही समस्या भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
-      "CANCEL": "Cancel",
+      "SUBMIT": "सम्पर्कहरू मर्ज गर्नुहोस्",
+      "CANCEL": "रद्द गर्नुहोस्",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "मर्ज गर्नका लागि चाइल्ड सम्पर्क छान्नुहोस्"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "SUCCESS_MESSAGE": "सम्पर्क सफलतापूर्वक मर्ज गरियो",
+      "ERROR_MESSAGE": "सम्पर्कहरू मर्ज गर्न सकिएन, पुन: प्रयास गर्नुहोस्!"
     },
     "DROPDOWN_ITEM": {
-      "ID": "(ID: {identifier})"
+      "ID": "(पहिचान: {identifier})"
     }
   },
   "CONTACTS_LAYOUT": {
     "HEADER": {
-      "TITLE": "Contacts",
-      "SEARCH_TITLE": "Search contacts",
-      "ACTIVE_TITLE": "Active contacts",
-      "SEARCH_PLACEHOLDER": "Search...",
-      "MESSAGE_BUTTON": "Message",
-      "SEND_MESSAGE": "Send message",
-      "BLOCK_CONTACT": "Block contact",
-      "UNBLOCK_CONTACT": "Unblock contact",
+      "TITLE": "सम्पर्कहरू",
+      "SEARCH_TITLE": "सम्पर्कहरू खोज्नुहोस्",
+      "ACTIVE_TITLE": "सक्रिय सम्पर्कहरू",
+      "SEARCH_PLACEHOLDER": "खोज्नुहोस्...",
+      "MESSAGE_BUTTON": "सन्देश",
+      "SEND_MESSAGE": "सन्देश पठाउनुहोस्",
+      "BLOCK_CONTACT": "सम्पर्क ब्लक गर्नुहोस्",
+      "UNBLOCK_CONTACT": "सम्पर्क अनब्लक गर्नुहोस्",
       "BREADCRUMB": {
-        "CONTACTS": "Contacts"
+        "CONTACTS": "सम्पर्कहरू"
       },
       "ACTIONS": {
         "CONTACT_CREATION": {
-          "ADD_CONTACT": "Add contact",
-          "EXPORT_CONTACT": "Export contacts",
-          "IMPORT_CONTACT": "Import contacts",
-          "SAVE_CONTACT": "Save contact",
-          "EMAIL_ADDRESS_DUPLICATE": "This email address is in use for another contact.",
-          "PHONE_NUMBER_DUPLICATE": "This phone number is in use for another contact.",
-          "SUCCESS_MESSAGE": "Contact saved successfully",
-          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
+          "ADD_CONTACT": "सम्पर्क थप्नुहोस्",
+          "EXPORT_CONTACT": "सम्पर्कहरू निर्यात गर्नुहोस्",
+          "IMPORT_CONTACT": "सम्पर्कहरू आयात गर्नुहोस्",
+          "SAVE_CONTACT": "सम्पर्क सुरक्षित गर्नुहोस्",
+          "EMAIL_ADDRESS_DUPLICATE": "यो इमेल ठेगाना अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।",
+          "PHONE_NUMBER_DUPLICATE": "यो फोन नम्बर अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।",
+          "SUCCESS_MESSAGE": "सम्पर्क सफलतापूर्वक सुरक्षित गरियो",
+          "ERROR_MESSAGE": "सम्पर्क बचत गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।"
         },
-        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
-        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
-        "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
-        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
+        "BLOCK_SUCCESS_MESSAGE": "यो सम्पर्क सफलतापूर्वक ब्लक गरियो",
+        "BLOCK_ERROR_MESSAGE": "सम्पर्क ब्लक गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+        "UNBLOCK_SUCCESS_MESSAGE": "यो सम्पर्क सफलतापूर्वक अनब्लक गरियो",
+        "UNBLOCK_ERROR_MESSAGE": "सम्पर्क अनब्लक गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।",
         "IMPORT_CONTACT": {
-          "TITLE": "Import contacts",
-          "DESCRIPTION": "Import contacts through a CSV file.",
-          "DOWNLOAD_LABEL": "Download a sample csv.",
-          "LABEL": "CSV File:",
-          "CHOOSE_FILE": "Choose file",
-          "CHANGE": "Change",
-          "CANCEL": "Cancel",
-          "IMPORT": "Import",
-          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
-          "ERROR_MESSAGE": "There was an error, please try again"
+          "TITLE": "सम्पर्कहरू आयात गर्नुहोस्",
+          "DESCRIPTION": "CSV फाइल मार्फत सम्पर्कहरू आयात गर्नुहोस्।",
+          "DOWNLOAD_LABEL": "नमूना CSV डाउनलोड गर्नुहोस्।",
+          "LABEL": "CSV फाइल:",
+          "CHOOSE_FILE": "फाइल छान्नुहोस्",
+          "CHANGE": "परिवर्तन गर्नुहोस्",
+          "CANCEL": "रद्द गर्नुहोस्",
+          "IMPORT": "आयात गर्नुहोस्",
+          "SUCCESS_MESSAGE": "आयात पूरा भएपछि तपाईंलाई इमेलमार्फत सूचित गरिनेछ।",
+          "ERROR_MESSAGE": "त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्"
         },
         "EXPORT_CONTACT": {
-          "TITLE": "Export contacts",
-          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
-          "CONFIRM": "Export",
+          "TITLE": "सम्पर्कहरू निर्यात गर्नुहोस्",
+          "DESCRIPTION": "तपाईंका सम्पर्कहरूको विस्तृत विवरण सहित छिटो csv फाइल निर्यात गर्नुहोस्",
+          "CONFIRM": "निर्यात गर्नुहोस्",
           "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-          "ERROR_MESSAGE": "There was an error, please try again"
+          "ERROR_MESSAGE": "त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्"
         },
         "SORT_BY": {
-          "LABEL": "Sort by",
+          "LABEL": "द्वारा क्रमबद्ध गर्नुहोस्",
           "OPTIONS": {
-            "NAME": "Name",
-            "EMAIL": "Email",
-            "PHONE_NUMBER": "Phone number",
-            "COMPANY": "Company",
-            "COUNTRY": "Country",
-            "CITY": "City",
-            "LAST_ACTIVITY": "Last activity",
-            "CREATED_AT": "Created at"
+            "NAME": "नाम",
+            "EMAIL": "इमेल",
+            "PHONE_NUMBER": "फोन नम्बर",
+            "COMPANY": "कम्पनी",
+            "COUNTRY": "देश",
+            "CITY": "सहर",
+            "LAST_ACTIVITY": "अन्तिम क्रियाकलाप",
+            "CREATED_AT": "सिर्जना मिति"
           }
         },
         "ORDER": {
-          "LABEL": "Ordering",
+          "LABEL": "क्रमबद्ध गर्दै",
           "OPTIONS": {
-            "ASCENDING": "Ascending",
-            "DESCENDING": "Descending"
+            "ASCENDING": "बढ्दो क्रममा",
+            "DESCENDING": "घट्दो क्रममा"
           }
         },
         "FILTERS": {
           "CREATE_SEGMENT": {
-            "TITLE": "Do you want to save this filter?",
-            "CONFIRM": "Save filter",
-            "LABEL": "Name",
-            "PLACEHOLDER": "Enter the name of the filter",
-            "ERROR": "Enter a valid name",
-            "SUCCESS_MESSAGE": "Filter saved successfully",
-            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+            "TITLE": "के तपाईं यो फिल्टर सुरक्षित गर्न चाहनुहुन्छ?",
+            "CONFIRM": "फिल्टर सुरक्षित गर्नुहोस्",
+            "LABEL": "नाम",
+            "PLACEHOLDER": "फिल्टरको नाम प्रविष्ट गर्नुहोस्",
+            "ERROR": "वैध नाम प्रविष्ट गर्नुहोस्",
+            "SUCCESS_MESSAGE": "फिल्टर सफलतापूर्वक सुरक्षित गरियो",
+            "ERROR_MESSAGE": "फिल्टर बचत गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।"
           },
           "DELETE_SEGMENT": {
-            "TITLE": "Confirm Deletion",
-            "DESCRIPTION": "Are you sure you want to delete this filter?",
-            "CONFIRM": "Yes, Delete",
-            "CANCEL": "No, Cancel",
-            "SUCCESS_MESSAGE": "Filter deleted successfully",
-            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+            "TITLE": "मेटाउने पुष्टि गर्नुहोस्",
+            "DESCRIPTION": "के तपाईं साँच्चिकै यो फिल्टर मेटाउन चाहनुहुन्छ?",
+            "CONFIRM": "हो, मेटाउनुहोस्",
+            "CANCEL": "होइन, रद्द गर्नुहोस्",
+            "SUCCESS_MESSAGE": "फिल्टर सफलतापूर्वक मेटाइयो",
+            "ERROR_MESSAGE": "फिल्टर मेटाउन सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।"
           }
         }
       }
@@ -379,275 +380,279 @@
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
     "FILTER": {
-      "NAME": "Name",
-      "EMAIL": "Email",
-      "PHONE_NUMBER": "Phone number",
-      "IDENTIFIER": "Identifier",
-      "COUNTRY": "Country",
-      "CITY": "City",
-      "CREATED_AT": "Created at",
-      "LAST_ACTIVITY": "Last activity",
-      "REFERER_LINK": "Referer link",
-      "BLOCKED": "Blocked",
-      "BLOCKED_TRUE": "True",
-      "BLOCKED_FALSE": "False",
+      "NAME": "नाम",
+      "EMAIL": "इमेल",
+      "PHONE_NUMBER": "फोन नम्बर",
+      "IDENTIFIER": "पहिचानकर्ता",
+      "COUNTRY": "देश",
+      "CITY": "सहर",
+      "CREATED_AT": "सिर्जना मिति",
+      "LAST_ACTIVITY": "अन्तिम क्रियाकलाप",
+      "REFERER_LINK": "रेफरर लिंक",
+      "BLOCKED": "ब्लक गरिएको",
+      "BLOCKED_TRUE": "साँचो",
+      "BLOCKED_FALSE": "गलत",
       "BUTTONS": {
-        "CLEAR_FILTERS": "Clear filters",
-        "UPDATE_SEGMENT": "Update segment",
-        "APPLY_FILTERS": "Apply filters",
-        "ADD_FILTER": "Add filter"
+        "CLEAR_FILTERS": "फिल्टरहरू खाली गर्नुहोस्",
+        "UPDATE_SEGMENT": "सेगमेन्ट अपडेट गर्नुहोस्",
+        "APPLY_FILTERS": "फिल्टरहरू लागू गर्नुहोस्",
+        "ADD_FILTER": "फिल्टर थप्नुहोस्"
       },
-      "TITLE": "Filter contacts",
-      "EDIT_SEGMENT": "Edit segment",
+      "TITLE": "सम्पर्कहरू फिल्टर गर्नुहोस्",
+      "EDIT_SEGMENT": "सेगमेन्ट सम्पादन गर्नुहोस्",
       "SEGMENT": {
-        "LABEL": "Segment name",
-        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+        "LABEL": "सेगमेन्ट नाम",
+        "INPUT_PLACEHOLDER": "सेगमेन्टको नाम प्रविष्ट गर्नुहोस्"
       },
       "ACTIVE_FILTERS": {
-        "MORE_FILTERS": "+ {count} more filters",
-        "CLEAR_FILTERS": "Clear filters"
+        "MORE_FILTERS": "+ {count} थप फिल्टरहरू",
+        "CLEAR_FILTERS": "फिल्टरहरू खाली गर्नुहोस्"
       }
     },
     "CARD": {
-      "OF": "of",
-      "VIEW_DETAILS": "View details",
+      "OF": "को",
+      "VIEW_DETAILS": "विवरण हेर्नुहोस्",
       "EDIT_DETAILS_FORM": {
-        "TITLE": "Edit contact details",
+        "TITLE": "सम्पर्क विवरण सम्पादन गर्नुहोस्",
         "FORM": {
           "FIRST_NAME": {
-            "PLACEHOLDER": "Enter the first name"
+            "PLACEHOLDER": "पहिलो नाम प्रविष्ट गर्नुहोस्"
           },
           "LAST_NAME": {
-            "PLACEHOLDER": "Enter the last name"
+            "PLACEHOLDER": "थर प्रविष्ट गर्नुहोस्"
           },
           "EMAIL_ADDRESS": {
-            "PLACEHOLDER": "Enter the email address",
-            "DUPLICATE": "This email address is in use for another contact."
+            "PLACEHOLDER": "इमेल ठेगाना प्रविष्ट गर्नुहोस्",
+            "DUPLICATE": "यो इमेल ठेगाना अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।"
           },
           "PHONE_NUMBER": {
-            "PLACEHOLDER": "Enter the phone number",
-            "DUPLICATE": "This phone number is in use for another contact."
+            "PLACEHOLDER": "फोन नम्बर प्रविष्ट गर्नुहोस्",
+            "DUPLICATE": "यो फोन नम्बर अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।"
           },
           "CITY": {
-            "PLACEHOLDER": "Enter the city name"
+            "PLACEHOLDER": "सहरको नाम प्रविष्ट गर्नुहोस्"
           },
           "COUNTRY": {
-            "PLACEHOLDER": "Select country"
+            "PLACEHOLDER": "देश चयन गर्नुहोस्"
           },
           "BIO": {
-            "PLACEHOLDER": "Enter the bio"
+            "PLACEHOLDER": "बायो प्रविष्ट गर्नुहोस्"
           },
           "COMPANY_NAME": {
-            "PLACEHOLDER": "Enter the company name"
+            "PLACEHOLDER": "कम्पनीको नाम प्रविष्ट गर्नुहोस्"
           }
         },
-        "UPDATE_BUTTON": "Update contact",
-        "SUCCESS_MESSAGE": "Contact updated successfully",
-        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
+        "UPDATE_BUTTON": "सम्पर्क अद्यावधिक गर्नुहोस्",
+        "SUCCESS_MESSAGE": "सम्पर्क सफलतापूर्वक अद्यावधिक गरियो",
+        "ERROR_MESSAGE": "सम्पर्क अपडेट गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।"
       },
       "SOCIAL_MEDIA": {
-        "TITLE": "Edit social links",
+        "TITLE": "सामाजिक लिंकहरू सम्पादन गर्नुहोस्",
         "FORM": {
           "FACEBOOK": {
-            "PLACEHOLDER": "Add Facebook"
+            "PLACEHOLDER": "Facebook थप्नुहोस्"
           },
           "GITHUB": {
-            "PLACEHOLDER": "Add Github"
+            "PLACEHOLDER": "Github थप्नुहोस्"
           },
           "INSTAGRAM": {
-            "PLACEHOLDER": "Add Instagram"
+            "PLACEHOLDER": "Instagram थप्नुहोस्"
+          },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Telegram थप्नुहोस्"
           },
           "TIKTOK": {
-            "PLACEHOLDER": "Add TikTok"
+            "PLACEHOLDER": "TikTok थप्नुहोस्"
           },
           "LINKEDIN": {
-            "PLACEHOLDER": "Add LinkedIn"
+            "PLACEHOLDER": "LinkedIn थप्नुहोस्"
           },
           "TWITTER": {
-            "PLACEHOLDER": "Add Twitter"
+            "PLACEHOLDER": "Twitter थप्नुहोस्"
           }
         }
       },
       "DELETE_CONTACT": {
-        "MESSAGE": "This action is permanent and irreversible.",
-        "BUTTON": "Delete now"
+        "MESSAGE": "यो क्रिया स्थायी र उल्ट्याउन सकिँदैन।",
+        "BUTTON": "अहिले मेटाउनुहोस्"
       }
     },
     "DETAILS": {
-      "CREATED_AT": "Created {date}",
-      "LAST_ACTIVITY": "Last active {date}",
-      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
-      "DELETE_CONTACT": "Delete contact",
+      "CREATED_AT": "सिर्जना गरिएको {date}",
+      "LAST_ACTIVITY": "अन्तिम सक्रिय {date}",
+      "DELETE_CONTACT_DESCRIPTION": "यो सम्पर्क स्थायी रूपमा मेटाइनेछ। यो क्रिया उल्ट्याउन सकिँदैन।",
+      "DELETE_CONTACT": "सम्पर्क मेटाउनुहोस्",
       "DELETE_DIALOG": {
-        "TITLE": "Confirm Deletion",
-        "DESCRIPTION": "Are you sure you want to delete this contact?",
-        "CONFIRM": "Yes, Delete",
+        "TITLE": "मेटाउने पुष्टि गर्नुहोस्",
+        "DESCRIPTION": "के तपाईं यो सम्पर्क मेटाउन निश्चित हुनुहुन्छ?",
+        "CONFIRM": "हो, मेटाउनुहोस्",
         "API": {
-          "SUCCESS_MESSAGE": "Contact deleted successfully",
-          "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+          "SUCCESS_MESSAGE": "सम्पर्क सफलतापूर्वक मेटाइयो",
+          "ERROR_MESSAGE": "सम्पर्क मेटाउन सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।"
         }
       },
       "AVATAR": {
         "UPLOAD": {
-          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
-          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+          "ERROR_MESSAGE": "अवतार अपलोड गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+          "SUCCESS_MESSAGE": "अवतार सफलतापूर्वक अपलोड गरियो"
         },
         "DELETE": {
-          "SUCCESS_MESSAGE": "Avatar deleted successfully",
-          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+          "SUCCESS_MESSAGE": "अवतार सफलतापूर्वक मेटाइयो",
+          "ERROR_MESSAGE": "अवतार मेटाउन सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।"
         }
       }
     },
     "SIDEBAR": {
       "TABS": {
-        "ATTRIBUTES": "Attributes",
-        "HISTORY": "History",
-        "NOTES": "Notes",
-        "MERGE": "Merge"
+        "ATTRIBUTES": "गुणहरू",
+        "HISTORY": "इतिहास",
+        "NOTES": "टिप्पणीहरू",
+        "MERGE": "मर्ज गर्नुहोस्"
       },
       "HISTORY": {
-        "EMPTY_STATE": "There are no previous conversations associated to this contact"
+        "EMPTY_STATE": "यस सम्पर्कसँग सम्बन्धित कुनै अघिल्लो कुराकानीहरू छैनन्"
       },
       "ATTRIBUTES": {
-        "SEARCH_PLACEHOLDER": "Search for attributes",
-        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
-        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
-        "YES": "Yes",
-        "NO": "No",
+        "SEARCH_PLACEHOLDER": "गुणहरू खोज्नुहोस्",
+        "UNUSED_ATTRIBUTES": "{count} प्रयोग गरिएको गुण | {count} प्रयोग नगरिएको गुणहरू",
+        "EMPTY_STATE": "यस खातामा कुनै कस्टम सम्पर्क विशेषताहरू उपलब्ध छैनन्। तपाईं सेटिङहरूमा कस्टम विशेषता सिर्जना गर्न सक्नुहुन्छ।",
+        "YES": "हो",
+        "NO": "होइन",
         "TRIGGER": {
-          "SELECT": "Select value",
-          "INPUT": "Enter value"
+          "SELECT": "मान चयन गर्नुहोस्",
+          "INPUT": "मान प्रविष्ट गर्नुहोस्"
         },
         "VALIDATIONS": {
-          "INVALID_NUMBER": "Invalid number",
-          "REQUIRED": "Valid value is required",
-          "INVALID_INPUT": "Invalid input",
-          "INVALID_URL": "Invalid URL",
-          "INVALID_DATE": "Invalid date"
+          "INVALID_NUMBER": "अवैध नम्बर",
+          "REQUIRED": "वैध मान आवश्यक छ",
+          "INVALID_INPUT": "अवैध इनपुट",
+          "INVALID_URL": "अवैध URL",
+          "INVALID_DATE": "अवैध मिति"
         },
-        "NO_ATTRIBUTES": "No attributes found",
+        "NO_ATTRIBUTES": "कुनै विशेषता फेला परेन",
         "API": {
-          "SUCCESS_MESSAGE": "Attribute updated successfully",
-          "DELETE_SUCCESS_MESSAGE": "Attribute deleted successfully",
-          "UPDATE_ERROR": "Unable to update attribute. Please try again later",
-          "DELETE_ERROR": "Unable to delete attribute. Please try again later"
+          "SUCCESS_MESSAGE": "गुण सफलतापूर्वक अपडेट गरियो",
+          "DELETE_SUCCESS_MESSAGE": "गुण सफलतापूर्वक मेटाइयो",
+          "UPDATE_ERROR": "गुण अपडेट गर्न सकिएन। कृपया पछि पुन: प्रयास गर्नुहोस्",
+          "DELETE_ERROR": "गुण मेटाउन सकिएन। कृपया पछि पुन: प्रयास गर्नुहोस्"
         }
       },
       "MERGE": {
-        "TITLE": "Merge contact",
-        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
-        "PRIMARY": "Primary contact",
-        "PRIMARY_HELP_LABEL": "To be saved",
-        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
-        "PARENT": "To be merged",
-        "PARENT_HELP_LABEL": "To be deleted",
-        "EMPTY_STATE": "No contacts found",
-        "PLACEHOLDER": "Search for primary contact",
-        "SEARCH_PLACEHOLDER": "Search for a contact",
-        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
-        "SUCCESS_MESSAGE": "Contact merged successfully",
-        "ERROR_MESSAGE": "Could not merge contacts, try again!",
-        "IS_SEARCHING": "Searching...",
+        "TITLE": "सम्पर्क मर्ज गर्नुहोस्",
+        "DESCRIPTION": "दुई प्रोफाइलहरूलाई सबै विशेषता र कुराकानीहरू सहित एकमा मिलाउनुहोस्। विवाद भएमा, प्राथमिक सम्पर्कका विशेषताहरू प्राथमिकता पाउनेछन्।",
+        "PRIMARY": "प्राथमिक सम्पर्क",
+        "PRIMARY_HELP_LABEL": "सेभ गर्नुपर्ने",
+        "PRIMARY_REQUIRED_ERROR": "अगाडि बढ्नुअघि मर्ज गर्नुपर्ने सम्पर्क चयन गर्नुहोस्",
+        "PARENT": "मर्ज गर्नुपर्ने",
+        "PARENT_HELP_LABEL": "मेटाइनेछ",
+        "EMPTY_STATE": "कुनै सम्पर्क फेला परेन",
+        "PLACEHOLDER": "प्राथमिक सम्पर्क खोज्नुहोस्",
+        "SEARCH_PLACEHOLDER": "सम्पर्क खोज्नुहोस्",
+        "SEARCH_ERROR_MESSAGE": "सम्पर्कहरू खोज्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+        "SUCCESS_MESSAGE": "सम्पर्क सफलतापूर्वक मर्ज गरियो",
+        "ERROR_MESSAGE": "सम्पर्कहरू मर्ज गर्न सकिएन, कृपया फेरि प्रयास गर्नुहोस्!",
+        "IS_SEARCHING": "खोज्दै...",
         "BUTTONS": {
-          "CANCEL": "Cancel",
-          "CONFIRM": "Merge contact"
+          "CANCEL": "रद्द गर्नुहोस्",
+          "CONFIRM": "सम्पर्क मर्ज गर्नुहोस्"
         }
       },
       "NOTES": {
-        "PLACEHOLDER": "Add a note",
-        "WROTE": "wrote",
-        "YOU": "You",
-        "SAVE": "Save note",
-        "ADD_NOTE": "Add contact note",
-        "EXPAND": "Expand",
-        "COLLAPSE": "Collapse",
-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
-        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+        "PLACEHOLDER": "टिप्पणी थप्नुहोस्",
+        "WROTE": "लेख्यो",
+        "YOU": "तपाईं",
+        "SAVE": "टिप्पणी सुरक्षित गर्नुहोस्",
+        "ADD_NOTE": "सम्पर्क टिप्पणी थप्नुहोस्",
+        "EXPAND": "विस्तार गर्नुहोस्",
+        "COLLAPSE": "सङ्कुचन गर्नुहोस्",
+        "NO_NOTES": "कुनै नोटहरू छैनन्, तपाईं सम्पर्क विवरण पृष्ठबाट नोटहरू थप्न सक्नुहुन्छ।",
+        "EMPTY_STATE": "यस सम्पर्कसँग सम्बन्धित कुनै नोटहरू छैनन्। माथि रहेको बाकसमा टाइप गरेर नोट थप्न सक्नुहुन्छ।",
+        "CONVERSATION_EMPTY_STATE": "अहिलेसम्म कुनै नोटहरू छैनन्। एउटा नोट सिर्जना गर्न Add note बटन प्रयोग गर्नुहोस्।"
       }
     },
     "EMPTY_STATE": {
-      "TITLE": "No contacts found in this account",
-      "SUBTITLE": "Start adding new contacts by clicking on the button below",
-      "BUTTON_LABEL": "Add contact",
-      "SEARCH_EMPTY_STATE_TITLE": "No contacts matches your search 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
-      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
-    }
+      "TITLE": "यस खातामा कुनै सम्पर्क फेला परेन",
+      "SUBTITLE": "तलको बटनमा क्लिक गरेर नयाँ सम्पर्कहरू थप्न सुरु गर्नुहोस्",
+      "BUTTON_LABEL": "सम्पर्क थप्नुहोस्",
+      "SEARCH_EMPTY_STATE_TITLE": "तपाईंको खोजीमा कुनै सम्पर्क मेल खाँदैन 🔍",
+      "LIST_EMPTY_STATE_TITLE": "यस दृश्यमा कुनै सम्पर्क उपलब्ध छैन 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "हाल कुनै सम्पर्क सक्रिय छैन 🌙"
+    },
+    "LOAD_MORE": "थप लोड गर्नुहोस्"
   },
   "CONTACTS_BULK_ACTIONS": {
-    "ASSIGN_LABELS": "Assign Labels",
-    "ASSIGN_LABELS_SUCCESS": "Labels assigned successfully.",
-    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
-    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
-    "NO_LABELS_FOUND": "No labels available yet.",
-    "SELECTED_COUNT": "{count} selected",
-    "CLEAR_SELECTION": "Clear selection",
-    "SELECT_ALL": "Select all ({count})",
-    "DELETE_CONTACTS": "Delete",
-    "DELETE_SUCCESS": "Contacts deleted successfully.",
-    "DELETE_FAILED": "Failed to delete contacts.",
+    "ASSIGN_LABELS": "लेबलहरू तोक्नुहोस्",
+    "ASSIGN_LABELS_SUCCESS": "लेबलहरू सफलतापूर्वक असाइन गरियो।",
+    "ASSIGN_LABELS_FAILED": "लेबलहरू तोक्न असफल भयो",
+    "DESCRIPTION": "चयनित सम्पर्कहरूमा थप्न चाहनुभएको लेबलहरू छान्नुहोस्।",
+    "NO_LABELS_FOUND": "अहिलेसम्म कुनै लेबलहरू उपलब्ध छैनन्।",
+    "SELECTED_COUNT": "{count} चयन गरियो",
+    "CLEAR_SELECTION": "चयन सफा गर्नुहोस्",
+    "SELECT_ALL": "सबै चयन गर्नुहोस् ({count})",
+    "DELETE_CONTACTS": "मेटाउनुहोस्",
+    "DELETE_SUCCESS": "सम्पर्कहरू सफलतापूर्वक मेटाइयो।",
+    "DELETE_FAILED": "सम्पर्कहरू मेटाउन असफल।",
     "DELETE_DIALOG": {
-      "TITLE": "Delete selected contacts",
-      "SINGULAR_TITLE": "Delete selected contact",
-      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
-      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
-      "CONFIRM_MULTIPLE": "Delete contacts",
-      "CONFIRM_SINGLE": "Delete contact"
+      "TITLE": "छानिएका सम्पर्कहरू मेटाउनुहोस्",
+      "SINGULAR_TITLE": "छानिएको सम्पर्क मेटाउनुहोस्",
+      "DESCRIPTION": "यसले चयनित {count} सम्पर्कहरू स्थायी रूपमा मेटाउनेछ। यो क्रिया उल्ट्याउन सकिँदैन।",
+      "SINGULAR_DESCRIPTION": "यसले चयनित सम्पर्क स्थायी रूपमा मेटाउनेछ। यो क्रिया उल्ट्याउन सकिँदैन।",
+      "CONFIRM_MULTIPLE": "सम्पर्कहरू मेटाउनुहोस्",
+      "CONFIRM_SINGLE": "सम्पर्क मेटाउनुहोस्"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
-      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+      "ERROR_MESSAGE": "हामीले खोजी पूरा गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।"
     },
     "FORM": {
-      "GO_TO_CONVERSATION": "View",
-      "SUCCESS_MESSAGE": "The message was sent successfully!",
-      "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
-      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+      "GO_TO_CONVERSATION": "हेर्नुहोस्",
+      "SUCCESS_MESSAGE": "सन्देश सफलतापूर्वक पठाइयो!",
+      "ERROR_MESSAGE": "कुराकानी सिर्जना गर्दा त्रुटि भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+      "NO_INBOX_ALERT": "यस सम्पर्कसँग कुराकानी सुरु गर्न उपलब्ध कुनै इनबक्सहरू छैनन्।",
       "CONTACT_SELECTOR": {
-        "LABEL": "To:",
-        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
-        "CONTACT_CREATING": "Creating contact..."
+        "LABEL": "लाई:",
+        "TAG_INPUT_PLACEHOLDER": "नाम, इमेल वा फोन नम्बरले खोज्न कम्तिमा 2 अक्षर प्रविष्ट गर्नुहोस्",
+        "CONTACT_CREATING": "सम्पर्क सिर्जना हुँदैछ..."
       },
       "INBOX_SELECTOR": {
-        "LABEL": "Via:",
-        "BUTTON": "Show inboxes"
+        "LABEL": "मार्फत:",
+        "BUTTON": "इनबक्सहरू देखाउनुहोस्"
       },
       "EMAIL_OPTIONS": {
-        "SUBJECT_LABEL": "Subject :",
-        "SUBJECT_PLACEHOLDER": "Enter your email subject here",
+        "SUBJECT_LABEL": "विषय :",
+        "SUBJECT_PLACEHOLDER": "यहाँ तपाईंको इमेल विषय प्रविष्ट गर्नुहोस्",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "CC_PLACEHOLDER": "इमेलले खोज्न कम्तिमा 2 अक्षर प्रविष्ट गर्नुहोस्",
         "BCC_LABEL": "Bcc:",
-        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_PLACEHOLDER": "इमेलले खोज्न कम्तिमा 2 अक्षर प्रविष्ट गर्नुहोस्",
         "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {
-        "PLACEHOLDER": "Write your message here..."
+        "PLACEHOLDER": "यहाँ तपाईंको सन्देश लेख्नुहोस्..."
       },
       "WHATSAPP_OPTIONS": {
-        "LABEL": "Select template",
-        "SEARCH_PLACEHOLDER": "Search templates",
-        "EMPTY_STATE": "No templates found",
+        "LABEL": "टेम्प्लेट चयन गर्नुहोस्",
+        "SEARCH_PLACEHOLDER": "टेम्प्लेटहरू खोज्नुहोस्",
+        "EMPTY_STATE": "टेम्प्लेटहरू फेला परेनन्",
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp template: {templateName}",
-          "VARIABLES": "Variables",
-          "BACK": "Go back",
-          "SEND_MESSAGE": "Send message"
+          "VARIABLES": "परिवर्तनीयहरू",
+          "BACK": "फिर्ता जानुहोस्",
+          "SEND_MESSAGE": "सन्देश पठाउनुहोस्"
         }
       },
       "TWILIO_OPTIONS": {
-        "LABEL": "Select template",
-        "SEARCH_PLACEHOLDER": "Search templates",
-        "EMPTY_STATE": "No templates found",
+        "LABEL": "टेम्प्लेट चयन गर्नुहोस्",
+        "SEARCH_PLACEHOLDER": "टेम्प्लेटहरू खोज्नुहोस्",
+        "EMPTY_STATE": "कुनै ढाँचा फेला परेन",
         "TEMPLATE_PARSER": {
-          "BACK": "Go back",
-          "SEND_MESSAGE": "Send message"
+          "BACK": "फिर्ता जानुहोस्",
+          "SEND_MESSAGE": "सन्देश पठाउनुहोस्"
         }
       },
       "ACTION_BUTTONS": {
-        "DISCARD": "Discard",
+        "DISCARD": "रद्द गर्नुहोस्",
         "SEND": "Send ({keyCode})"
       }
     }

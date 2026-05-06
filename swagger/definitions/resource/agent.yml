@@ -31,5 +31,7 @@ properties:
     type: string
     description: The thumbnail of the agent
   custom_role_id:
-    type: integer
+    type:
+      - integer
+      - 'null'
     description: The custom role id of the agent

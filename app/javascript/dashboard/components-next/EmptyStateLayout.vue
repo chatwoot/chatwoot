@@ -26,7 +26,7 @@ defineProps({
     class="relative flex flex-col items-center justify-center w-full h-full overflow-hidden"
   >
     <div
-      class="relative w-full max-w-[60rem] mx-auto overflow-hidden h-full max-h-[28rem]"
+      class="relative w-full max-w-5xl mx-auto overflow-hidden h-full max-h-[28rem]"
     >
       <div
         v-if="showBackdrop"

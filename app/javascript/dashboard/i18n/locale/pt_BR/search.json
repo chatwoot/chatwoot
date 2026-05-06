@@ -35,7 +35,7 @@
     "PRIVATE": "Nota privada",
     "TRANSCRIPT": "Transcrição",
     "CREATED_AT": "criado {time}",
-    "UPDATED_AT": "atualizado em {time}",
+    "UPDATED_AT": "atualizado {time}",
     "SORT_BY": {
       "RELEVANCE": "Relevância"
     },

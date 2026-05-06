@@ -76,6 +76,9 @@
       },
       "waiting_since_desc": {
         "TEXT": "در انتظار پاسخ: کم‌ترین اول"
+      },
+      "priority_desc_created_at_asc": {
+        "TEXT": "Priority: Highest first, Created: Oldest first"
       }
     },
     "ATTACHMENTS": {

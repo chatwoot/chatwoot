@@ -56,6 +56,65 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(json_response['content']).to eq(message_params[:content])
       end
 
+      it 'creates conversation with custom_attributes when first message is sent' do
+        conversation.destroy!
+        message_params = { content: 'hello world', timestamp: Time.current }
+        custom_attributes = { plan: 'enterprise', source: 'website' }
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params, custom_attributes: custom_attributes },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        new_conversation = contact.conversations.last
+        expect(new_conversation.custom_attributes).to include('plan' => 'enterprise', 'source' => 'website')
+      end
+
+      it 'creates conversation with labels when first message is sent' do
+        conversation.destroy!
+        label = create(:label, title: 'vip', account: account)
+        message_params = { content: 'hello world', timestamp: Time.current }
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params, labels: [label.title] },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        new_conversation = contact.conversations.last
+        expect(new_conversation.label_list).to include('vip')
+      end
+
+      it 'ignores invalid labels when creating conversation with first message' do
+        conversation.destroy!
+        create(:label, title: 'valid-label', account: account)
+        message_params = { content: 'hello world', timestamp: Time.current }
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params, labels: %w[valid-label nonexistent] },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        new_conversation = contact.conversations.last
+        expect(new_conversation.label_list).to include('valid-label')
+        expect(new_conversation.label_list).not_to include('nonexistent')
+      end
+
+      it 'does not apply labels or custom_attributes when conversation already exists' do
+        create(:label, title: 'vip', account: account)
+        message_params = { content: 'hello world', timestamp: Time.current }
+        custom_attributes = { plan: 'enterprise' }
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params,
+                       custom_attributes: custom_attributes, labels: ['vip'] },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        conversation.reload
+        expect(conversation.custom_attributes).not_to include('plan' => 'enterprise')
+        expect(conversation.label_list).not_to include('vip')
+      end
+
       it 'does not create the message' do
         conversation.destroy! # Test all params
         message_params = { content: "#{'h' * 150 * 1000}a", timestamp: Time.current }

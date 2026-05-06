@@ -1,476 +1,544 @@
 {
   "REPORT": {
-    "HEADER": "Conversations",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
-    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "HEADER": "Mga Pag-uusap",
+    "LOADING_CHART": "Ikinakarga ang datos ng tsart...",
+    "NO_ENOUGH_DATA": "Walang sapat na datos para makagawa ng ulat. Pakisubukang muli mamaya.",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
+    "DATA_FETCHING_FAILED": "Nabigong kunin ang datos, pakisubukang muli mamaya.",
+    "SUMMARY_FETCHING_FAILED": "Nabigong kunin ang buod, pakisubukang muli mamaya.",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Usapan",
+        "DESC": "(Kabuuan)"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Messages received",
-        "DESC": "( Total )"
+        "NAME": "Mga mensaheng natanggap",
+        "DESC": "(Kabuuan)"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Messages sent",
-        "DESC": "( Total )"
+        "NAME": "Mga mensaheng ipinadala",
+        "DESC": "(Kabuuan)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Unang Oras ng Tugon",
+        "DESC": "(Average)",
+        "INFO_TEXT": "Kabuuang bilang ng mga pag-uusap na ginamit sa pagkalkula:",
+        "TOOLTIP_TEXT": "Ang Unang Oras ng Tugon ay {metricValue} (batay sa {conversationCount} mga pag-uusap)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Oras ng Resolusyon",
+        "DESC": "(Average)",
+        "INFO_TEXT": "Kabuuang bilang ng mga pag-uusap na ginamit sa pagkalkula:",
+        "TOOLTIP_TEXT": "Ang Oras ng Resolusyon ay {metricValue} (batay sa {conversationCount} mga pag-uusap)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Bilang ng Resolusyon",
+        "DESC": "( Kabuuan )"
       },
       "BOT_RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Bilang ng Resolusyon",
+        "DESC": "( Kabuuan )"
       },
       "BOT_HANDOFF_COUNT": {
-        "NAME": "Handoff Count",
-        "DESC": "( Total )"
+        "NAME": "Bilang ng Pagsasalin",
+        "DESC": "( Kabuuan )"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "NAME": "Oras ng paghihintay ng customer",
+        "TOOLTIP_TEXT": "Ang oras ng paghihintay ay {metricValue} (batay sa {conversationCount} mga sagot)",
         "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
-      "LAST_7_DAYS": "Last 7 days",
-      "LAST_14_DAYS": "Last 14 days",
-      "LAST_30_DAYS": "Last 30 days",
+      "LAST_7_DAYS": "Huling 7 araw",
+      "LAST_14_DAYS": "Huling 14 na araw",
+      "LAST_30_DAYS": "Huling 30 araw",
       "THIS_MONTH": "This month",
       "LAST_MONTH": "Last month",
-      "LAST_3_MONTHS": "Last 3 months",
-      "LAST_6_MONTHS": "Last 6 months",
-      "LAST_YEAR": "Last year",
-      "CUSTOM_DATE_RANGE": "Custom date range"
+      "LAST_3_MONTHS": "Huling 3 buwan",
+      "LAST_6_MONTHS": "Huling 6 na buwan",
+      "LAST_YEAR": "Nakaraang taon",
+      "CUSTOM_DATE_RANGE": "Pasadyang saklaw ng petsa"
     },
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Ilapat",
+      "PLACEHOLDER": "Pumili ng petsa"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
-    "DURATION_FILTER_LABEL": "Duration",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Pangkatin Ayon sa",
+    "DURATION_FILTER_LABEL": "Tagal",
     "GROUPING_OPTIONS": {
-      "DAY": "Day",
-      "WEEK": "Week",
-      "MONTH": "Month",
-      "YEAR": "Year"
+      "DAY": "Araw",
+      "WEEK": "Linggo",
+      "MONTH": "Buwan",
+      "YEAR": "Taon"
     },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Araw"
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Araw"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Linggo"
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Araw"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Linggo"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Buwan"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Linggo"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Buwan"
       },
       {
         "id": 4,
-        "groupBy": "Year"
+        "groupBy": "Taon"
       }
     ],
-    "BUSINESS_HOURS": "Business Hours",
+    "BUSINESS_HOURS": "Oras ng Negosyo",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
-      "EMPTY_LIST": "No results found"
+      "CLEAR_FILTER": "Tanggalin ang filter",
+      "EMPTY_LIST": "Walang nahanap na resulta"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results",
-      "PER_PAGE_TEMPLATE": "{size} / page"
+      "RESULTS": "Ipinapakita ang {start} hanggang {end} ng {total} resulta",
+      "PER_PAGE_TEMPLATE": "{size} / pahina"
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "HEADER": "Pangkalahatang-ideya ng mga Ahente",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
+    "LOADING_CHART": "Ikinakarga ang datos ng tsart...",
+    "NO_ENOUGH_DATA": "Wala pa kaming sapat na datos para makagawa ng ulat. Pakisubukan muli mamaya.",
+    "DOWNLOAD_AGENT_REPORTS": "I-download ang ulat ng ahente",
+    "FILTER_DROPDOWN_LABEL": "Piliin ang Ahente",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Search agents"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Usapan",
+        "DESC": "(Kabuuan)"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Papasok na Mensahe",
+        "DESC": "(Kabuuan)"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Papalabas na Mensahe",
+        "DESC": "( Kabuuan )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Unang Oras ng Tugon",
+        "DESC": "( Karaniwan )",
+        "INFO_TEXT": "Kabuuang bilang ng mga pag-uusap na ginamit para sa pagkalkula:",
+        "TOOLTIP_TEXT": "Ang Unang Oras ng Pagtugon ay {metricValue} (batay sa {conversationCount} mga pag-uusap)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Oras ng Pagsagot",
+        "DESC": "( Karaniwan )",
+        "INFO_TEXT": "Kabuuang bilang ng mga pag-uusap na ginamit para sa pagkalkula:",
+        "TOOLTIP_TEXT": "Ang Oras ng Resolusyon ay {metricValue} (batay sa {conversationCount} mga pag-uusap)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Bilang ng Nalutas",
+        "DESC": "( Kabuuan )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Huling 7 araw"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Huling 30 araw"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Huling 3 buwan"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Huling 6 na buwan"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Nakaraang taon"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Pasadyang petsa"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Ilapat",
+      "PLACEHOLDER": "Pumili ng petsa"
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
-    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "HEADER": "Pangkalahatang-ideya ng Label",
+    "DESCRIPTION": "Subaybayan ang performance ng label gamit ang mga pangunahing sukatan kabilang ang mga pag-uusap, oras ng pagtugon, oras ng paglutas, at mga naresolbang kaso. I-click ang pangalan ng label para sa detalyadong impormasyon.",
+    "LOADING_CHART": "Ikinakarga ang datos ng tsart...",
+    "NO_ENOUGH_DATA": "Walang sapat na datos para makagawa ng ulat. Pakisubukang muli mamaya.",
+    "DOWNLOAD_LABEL_REPORTS": "I-download ang mga ulat ng label",
+    "FILTER_DROPDOWN_LABEL": "Pumili ng Label",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Search labels"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Usapan",
+        "DESC": "( Kabuuan )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Papasok na Mensahe",
+        "DESC": "( Kabuuan )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Papalabas na Mensahe",
+        "DESC": "( Kabuuan )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Unang Oras ng Pagtugon",
+        "DESC": "( Karaniwan )",
+        "INFO_TEXT": "Kabuuang bilang ng mga pag-uusap na ginamit para sa pagkalkula:",
+        "TOOLTIP_TEXT": "Ang Unang Oras ng Pagtugon ay {metricValue} (batay sa {conversationCount} mga pag-uusap)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Oras ng Resolusyon",
+        "DESC": "( Karaniwan )",
+        "INFO_TEXT": "Kabuuang bilang ng mga pag-uusap na ginamit para sa pagkalkula:",
+        "TOOLTIP_TEXT": "Ang Oras ng Resolusyon ay {metricValue} (batay sa {conversationCount} mga pag-uusap)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Bilang ng Resolusyon",
+        "DESC": "( Kabuuan )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Huling 7 araw"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Huling 30 araw"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Huling 3 buwan"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Huling 6 na buwan"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Nakaraang taon"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Pasadyang petsa"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Ilapat",
+      "PLACEHOLDER": "Pumili ng petsa"
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
-    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
-    "ALL_INBOXES": "All Inboxes",
-    "SEARCH_INBOX": "Search Inbox",
+    "HEADER": "Buod ng Inbox",
+    "DESCRIPTION": "Mabilis na tingnan ang performance ng iyong inbox gamit ang mga pangunahing sukatan tulad ng mga pag-uusap, oras ng pagtugon, oras ng paglutas, at mga nalutas na kaso—lahat sa isang lugar. I-click ang pangalan ng inbox para sa karagdagang detalye.",
+    "LOADING_CHART": "Ikinakarga ang datos ng tsart...",
+    "NO_ENOUGH_DATA": "Walang sapat na datos para makagawa ng ulat. Pakisubukang muli mamaya.",
+    "DOWNLOAD_INBOX_REPORTS": "I-download ang mga ulat ng inbox",
+    "FILTER_DROPDOWN_LABEL": "Pumili ng Inbox",
+    "ALL_INBOXES": "Lahat ng Inbox",
+    "SEARCH_INBOX": "Hanapin sa Inbox",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Search inboxes"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Usapan",
+        "DESC": "(Kabuuan)"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Mga Papasok na Mensahe",
+        "DESC": "(Kabuuan)"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Mga Lumabas na Mensahe",
+        "DESC": "( Kabuuan )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Unang Oras ng Tugon",
+        "DESC": "( Karaniwan )",
+        "INFO_TEXT": "Kabuuang bilang ng mga pag-uusap na ginamit sa pagkalkula:",
+        "TOOLTIP_TEXT": "Ang Oras ng Unang Tugon ay {metricValue} (batay sa {conversationCount} mga pag-uusap)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Oras ng Paglutas",
+        "DESC": "( Karaniwan )",
+        "INFO_TEXT": "Kabuuang bilang ng mga pag-uusap na ginamit sa pagkalkula:",
+        "TOOLTIP_TEXT": "Ang Oras ng Resolusyon ay {metricValue} (batay sa {conversationCount} mga pag-uusap)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Bilang ng Paglutas",
+        "DESC": "( Kabuuan )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Huling 7 araw"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Huling 30 araw"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Huling 3 buwan"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Huling 6 na buwan"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Nakaraang taon"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Pasadyang saklaw ng petsa"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Ipatupad",
+      "PLACEHOLDER": "Pumili ng saklaw ng petsa"
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "HEADER": "Pangkalahatang-ideya ng Koponan",
+    "DESCRIPTION": "Get a snapshot of your team's performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "LOADING_CHART": "Naglo-load ng datos ng tsart...",
+    "NO_ENOUGH_DATA": "Hindi pa sapat ang datos na natanggap para makabuo ng ulat, Pakisubukang muli mamaya.",
+    "DOWNLOAD_TEAM_REPORTS": "I-download ang mga ulat ng koponan",
+    "FILTER_DROPDOWN_LABEL": "Pumili ng Koponan",
+    "FILTERS": {
+      "ADD_FILTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "NO_FILTER": "No filters available",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Search teams"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Mga Pag-uusap",
+        "DESC": "( Kabuuan )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Mga Papasok na Mensahe",
+        "DESC": "( Kabuuan )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Mga Papalabas na Mensahe",
+        "DESC": "( Kabuuan )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Unang Oras ng Tugon",
+        "DESC": "( Karaniwan )",
+        "INFO_TEXT": "Kabuuang bilang ng mga pag-uusap na ginamit sa pagkalkula:",
+        "TOOLTIP_TEXT": "Ang Oras ng Unang Tugon ay {metricValue} (batay sa {conversationCount} mga pag-uusap)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "Oras ng Paglutas",
+        "DESC": "( Karaniwan )",
+        "INFO_TEXT": "Kabuuang bilang ng mga pag-uusap na ginamit para sa pagkalkula:",
+        "TOOLTIP_TEXT": "Ang Oras ng Resolusyon ay {metricValue} (batay sa {conversationCount} mga pag-uusap)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Bilang ng Paglutas",
+        "DESC": "( Kabuuan )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Huling 7 araw"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Huling 30 araw"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Huling 3 buwan"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Huling 6 na buwan"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Nakaraang taon"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Pasadyang saklaw ng petsa"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Ilapat",
+      "PLACEHOLDER": "Pumili ng saklaw ng petsa"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
-    "DOWNLOAD": "Download CSAT Reports",
-    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "HEADER": "Ulat ng CSAT",
+    "NO_RECORDS": "No responses yet",
+    "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
+    "DOWNLOAD": "I-download ang mga Ulat ng CSAT",
+    "DOWNLOAD_FAILED": "Nabigong i-download ang mga Ulat ng CSAT",
     "FILTERS": {
+      "ADD_FILTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "NO_FILTER": "No filters available",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Search agents",
+        "INBOXES": "Search inboxes",
+        "TEAMS": "Search teams",
+        "RATINGS": "Search ratings"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "LABEL": "Agent"
+      },
+      "INBOXES": {
+        "LABEL": "Inbox"
+      },
+      "TEAMS": {
+        "LABEL": "Team"
+      },
+      "RATINGS": {
+        "LABEL": "Rating"
       }
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
-      }
+        "CONTACT_NAME": "Kontak",
+        "AGENT_NAME": "Agent",
+        "RATING": "Pagsusuri",
+        "FEEDBACK_TEXT": "Komento ng feedback",
+        "CONVERSATION": "Conversation",
+        "CUSTOMER": "Customer",
+        "RESPONSE": "Response",
+        "HANDLED_BY": "Handled by"
+      },
+      "UNKNOWN_CUSTOMER": "Unknown customer"
     },
+    "NO_AGENT": "No assigned agent",
+    "NO_FEEDBACK": "No feedback provided",
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "Kabuuang tugon",
+        "TOOLTIP": "Kabuuang bilang ng nakuhang tugon"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "Score ng kasiyahan",
+        "TOOLTIP": "Kabuuang bilang ng positibong tugon / Kabuuang bilang ng mga tugon * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "Antas ng pagtugon",
+        "TOOLTIP": "Kabuuang bilang ng mga tugon / Kabuuang bilang ng ipinadalang CSAT survey messages * 100"
+      },
+      "RATING_DISTRIBUTION": "Rating distribution"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "Review notes",
+      "PLACEHOLDER": "Add review notes about this rating...",
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "SAVING": "Saving...",
+      "SAVED": "Notes saved successfully",
+      "SAVE_ERROR": "Failed to save notes",
+      "UPDATED_BY": "Updated by {name} {time}",
+      "UPDATED_BY_LABEL": "Updated by",
+      "PAYWALL": {
+        "TITLE": "Upgrade to add review notes",
+        "AVAILABLE_ON": "The review notes feature is only available in the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Add internal context to every CSAT response with review notes. Capture what really happened, spot patterns faster, and make better decisions from your feedback.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
       }
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
+    "HEADER": "Mga Ulat ng Bot",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "LABEL": "Bilang ng mga Pag-uusap",
+        "TOOLTIP": "Kabuuang bilang ng mga pag-uusap na hinawakan ng bot"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
+        "LABEL": "Kabuuang Tugon",
+        "TOOLTIP": "Kabuuang bilang ng mga tugon na ipinadala ng bot"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "LABEL": "Porsyento ng Paglutas",
+        "TOOLTIP": "Kabuuang bilang ng mga pag-uusap na nalutas ng bot / Kabuuang bilang ng mga pag-uusap na hinawakan ng bot * 100"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "LABEL": "Porsyento ng Pagsasalin",
+        "TOOLTIP": "Kabuuang bilang ng mga pag-uusap na ipinasa sa mga ahente / Kabuuang bilang ng mga pag-uusap na hinawakan ng bot * 100"
       }
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
-    "LIVE": "Live",
+    "HEADER": "Pangkalahatang-ideya",
+    "LIVE": "Naka-live",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Open",
-      "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Unassigned",
-      "PENDING": "Pending"
+      "HEADER": "Mga Bukas na Pag-uusap",
+      "LOADING_MESSAGE": "Ikinakarga ang mga sukatan ng pag-uusap...",
+      "OPEN": "Bukas",
+      "UNATTENDED": "Hindi Napansin",
+      "UNASSIGNED": "Hindi Itinalaga",
+      "PENDING": "Nakahintay"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "{count} conversation",
-      "CONVERSATIONS": "{count} conversations",
-      "DOWNLOAD_REPORT": "Download report"
+      "HEADER": "Trapiko ng Pag-uusap",
+      "NO_CONVERSATIONS": "Walang mga pag-uusap",
+      "CONVERSATION": "{count} pag-uusap",
+      "CONVERSATIONS": "{count} mga pag-uusap",
+      "DOWNLOAD_REPORT": "I-download ang ulat"
     },
     "RESOLUTION_HEATMAP": {
       "HEADER": "Resolutions",
@@ -480,103 +548,103 @@
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "HEADER": "Mga Pag-uusap ayon sa mga ahente",
+      "LOADING_MESSAGE": "Ikinakarga ang mga sukatan ng ahente...",
+      "NO_AGENTS": "Walang mga pag-uusap mula sa mga ahente",
       "TABLE_HEADER": {
-        "AGENT": "Agent",
-        "OPEN": "Open",
-        "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+        "AGENT": "Ahente",
+        "OPEN": "Bukas",
+        "UNATTENDED": "Hindi napansin",
+        "STATUS": "Katayuan"
       }
     },
     "TEAM_CONVERSATIONS": {
-      "ALL_TEAMS": "All Teams",
-      "HEADER": "Conversations by teams",
-      "LOADING_MESSAGE": "Loading team metrics...",
-      "NO_TEAMS": "There is no data available",
+      "ALL_TEAMS": "Lahat ng Koponan",
+      "HEADER": "Mga pag-uusap ayon sa koponan",
+      "LOADING_MESSAGE": "Naglo-load ng mga sukatan ng koponan...",
+      "NO_TEAMS": "Walang magagamit na datos",
       "TABLE_HEADER": {
-        "TEAM": "Team",
-        "OPEN": "Open",
-        "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+        "TEAM": "Koponan",
+        "OPEN": "Bukas",
+        "UNATTENDED": "Hindi napansin",
+        "STATUS": "Katayuan"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "Online",
-      "BUSY": "Busy",
-      "OFFLINE": "Offline"
+      "HEADER": "Katayuan ng ahente",
+      "ONLINE": "Naka-online",
+      "BUSY": "Abala",
+      "OFFLINE": "Hindi konektado"
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "Linggo",
+    "MONDAY": "Lunes",
+    "TUESDAY": "Martes",
+    "WEDNESDAY": "Miyerkules",
+    "THURSDAY": "Huwebes",
+    "FRIDAY": "Biyernes",
+    "SATURDAY": "Sabado"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
-    "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "HEADER": "Mga Ulat ng SLA",
+    "NO_RECORDS": "Walang magagamit na mga pag-uusap na may inilapat na SLA.",
+    "LOADING": "Naglo-load ng datos ng SLA...",
+    "DOWNLOAD_SLA_REPORTS": "I-download ang mga ulat ng SLA",
+    "DOWNLOAD_FAILED": "Nabigong i-download ang mga Ulat ng SLA",
     "DROPDOWN": {
-      "ADD_FIlTER": "Add filter",
-      "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
-      "EMPTY_LIST": "No results found",
-      "NO_FILTER": "No filters available",
-      "SEARCH": "Search filter",
+      "ADD_FIlTER": "Magdagdag ng filter",
+      "CLEAR_ALL": "Tanggalin lahat",
+      "CLEAR_FILTER": "Tanggalin ang filter",
+      "EMPTY_LIST": "Walang nahanap na resulta",
+      "NO_FILTER": "Walang available na filter",
+      "SEARCH": "Hanapin ang filter",
       "INPUT_PLACEHOLDER": {
-        "SLA": "SLA name",
-        "AGENTS": "Agent name",
-        "INBOXES": "Inbox name",
-        "LABELS": "Label name",
-        "TEAMS": "Team name"
+        "SLA": "Pangalan ng SLA",
+        "AGENTS": "Pangalan ng ahente",
+        "INBOXES": "Pangalan ng inbox",
+        "LABELS": "Pangalan ng label",
+        "TEAMS": "Pangalan ng koponan"
       },
-      "SLA": "SLA Policy",
+      "SLA": "Patakaran ng SLA",
       "INBOXES": "Inbox",
-      "AGENTS": "Agent",
+      "AGENTS": "Ahente",
       "LABELS": "Label",
-      "TEAMS": "Team"
+      "TEAMS": "Koponan"
     },
-    "WITH": "with",
+    "WITH": "kasama",
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Hit Rate",
-        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+        "LABEL": "Porsyento ng Tagumpay",
+        "TOOLTIP": "Porsyento ng mga SLA na nagawa nang matagumpay"
       },
       "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
-        "TOOLTIP": "Total SLA misses in a certain period"
+        "LABEL": "Bilang ng mga Palya",
+        "TOOLTIP": "Kabuuang bilang ng mga palya sa SLA sa isang takdang panahon"
       },
       "NO_OF_CONVERSATIONS": {
-        "LABEL": "Number of Conversations",
-        "TOOLTIP": "Total number of conversations with SLA"
+        "LABEL": "Bilang ng mga Pag-uusap",
+        "TOOLTIP": "Kabuuang bilang ng mga pag-uusap na may SLA"
       }
     },
     "TABLE": {
       "HEADER": {
-        "POLICY": "Policy",
-        "CONVERSATION": "Conversation",
-        "AGENT": "Agent"
+        "POLICY": "Patakaran",
+        "CONVERSATION": "Pag-uusap",
+        "AGENT": "Ahente"
       },
-      "VIEW_DETAILS": "View Details"
+      "VIEW_DETAILS": "Tingnan ang Detalye"
     }
   },
   "SUMMARY_REPORTS": {
     "INBOX": "Inbox",
-    "AGENT": "Agent",
-    "TEAM": "Team",
+    "AGENT": "Ahente",
+    "TEAM": "Koponan",
     "LABEL": "Label",
-    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
-    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
-    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
-    "RESOLUTION_COUNT": "Resolution Count",
-    "CONVERSATIONS": "No. of conversations"
+    "AVG_RESOLUTION_TIME": "Karaniwang Oras ng Paglutas",
+    "AVG_FIRST_RESPONSE_TIME": "Karaniwang Oras ng Unang Tugon",
+    "AVG_REPLY_TIME": "Karaniwang Oras ng Paghintay ng Customer",
+    "RESOLUTION_COUNT": "Bilang ng mga Nalutas",
+    "CONVERSATIONS": "Bilang ng mga pag-uusap"
   }
 }
