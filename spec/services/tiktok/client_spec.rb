@@ -118,4 +118,19 @@ RSpec.describe Tiktok::Client do
       expect(captured_payload[:file].original_filename).to eq('avatar.png')
     end
   end
+
+  describe '#send_media_message' do
+    let(:file) { Struct.new(:blob).new('blob') }
+    let(:attachment) { instance_double(Attachment, file: file) }
+
+    it 'sends image messages' do
+      allow(client).to receive(:upload_media).with('blob', 'IMAGE').and_return('media-123')
+      allow(client).to receive(:send_message).and_return('tt-msg-123')
+
+      message_id = client.send_media_message('tt-conv-1', attachment)
+
+      expect(message_id).to eq('tt-msg-123')
+      expect(client).to have_received(:send_message).with('tt-conv-1', 'IMAGE', 'media-123')
+    end
+  end
 end

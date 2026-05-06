@@ -48,8 +48,31 @@ RSpec.describe Tiktok::SendOnTiktokService do
 
       described_class.new(message: message).perform
 
-      expect(tiktok_client).to have_received(:send_media_message).with('tt-conv-1', message.attachments.first, referenced_message_id: nil)
+      expect(tiktok_client).to have_received(:send_media_message).with('tt-conv-1', message.attachments.first)
       expect(message.reload.source_id).to eq('tt-msg-124')
+    end
+
+    it 'sends outgoing image message without quote metadata' do
+      allow(tiktok_client).to receive(:send_media_message).and_return('tt-msg-124')
+      allow(tiktok_client).to receive(:send_text_message)
+
+      message = build(
+        :message,
+        message_type: :outgoing,
+        inbox: inbox,
+        conversation: conversation,
+        account: inbox.account,
+        content: nil,
+        content_attributes: { in_reply_to_external_id: 'quoted-message-id' }
+      )
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      message.save!
+
+      described_class.new(message: message).perform
+
+      expect(tiktok_client).to have_received(:send_media_message).with('tt-conv-1', message.attachments.first)
+      expect(tiktok_client).not_to have_received(:send_text_message)
     end
 
     it 'marks message as failed when sending multiple attachments' do

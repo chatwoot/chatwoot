@@ -44,7 +44,7 @@ class Tiktok::SendOnTiktokService < Base::SendOnChannelService
     tt_referenced_message_id = message.content_attributes['in_reply_to_external_id']
 
     if message.attachments.any?
-      tiktok_client.send_media_message(tt_conversation_id, message.attachments.first, referenced_message_id: tt_referenced_message_id)
+      tiktok_client.send_media_message(tt_conversation_id, message.attachments.first)
     else
       tiktok_client.send_text_message(tt_conversation_id, message.outgoing_content, referenced_message_id: tt_referenced_message_id)
     end

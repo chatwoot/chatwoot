@@ -56,10 +56,10 @@ class Tiktok::Client
     send_message(conversation_id, 'TEXT', text, referenced_message_id: referenced_message_id)
   end
 
-  def send_media_message(conversation_id, attachment, referenced_message_id: nil)
+  def send_media_message(conversation_id, attachment)
     # As of now, only IMAGE media type is supported
     media_id = upload_media(attachment.file.blob, 'IMAGE')
-    send_message(conversation_id, 'IMAGE', media_id, referenced_message_id: referenced_message_id)
+    send_message(conversation_id, 'IMAGE', media_id)
   end
 
   private
