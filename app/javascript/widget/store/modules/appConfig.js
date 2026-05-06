@@ -149,8 +149,7 @@ export const mutations = {
       // Any close event clears the "opened by user" flag so the next
       // open is evaluated fresh.
       $state.isWidgetOpenedByUser = false;
-    }
-    else if (isUserInitiated) {
+    } else if (isUserInitiated) {
       $state.isWidgetOpenedByUser = true;
     }
   },
