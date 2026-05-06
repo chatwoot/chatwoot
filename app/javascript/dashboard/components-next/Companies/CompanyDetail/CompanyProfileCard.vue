@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { dynamicTime } from 'shared/helpers/timeHelper';
@@ -11,54 +11,57 @@ import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import { useCompaniesStore } from 'dashboard/stores/companies';
 
 const props = defineProps({
-  company: {
-    type: Object,
-    default: () => ({}),
-  },
-  isLoading: {
-    type: Boolean,
-    default: false,
-  },
+  company: { type: Object, default: () => ({}) },
+  isLoading: { type: Boolean, default: false },
 });
 
 const { t } = useI18n();
 const companiesStore = useCompaniesStore();
 
-const editableName = ref('');
-const editableDomain = ref('');
-const editableDescription = ref('');
+const form = reactive({ name: '', domain: '', description: '' });
 const avatarPreviewUrl = ref('');
 const isUploadingAvatar = ref(false);
 
 const uiFlags = computed(() => companiesStore.getUIFlags);
 const isUpdating = computed(() => uiFlags.value.updatingItem);
-const isDeletingAvatar = computed(() => uiFlags.value.deletingAvatar);
-const isAvatarActionInFlight = computed(
-  () => isUploadingAvatar.value || isDeletingAvatar.value
-);
 const isAvatarBusy = computed(
-  () => isAvatarActionInFlight.value || isUpdating.value
+  () =>
+    isUploadingAvatar.value || uiFlags.value.deletingAvatar || isUpdating.value
 );
-const canRenderForm = computed(() => Boolean(props.company?.id));
+
 const displayName = computed(
   () => props.company?.name || t('COMPANIES.UNNAMED')
 );
 const avatarSource = computed(
   () => avatarPreviewUrl.value || props.company?.avatarUrl || ''
 );
-const isFormInvalid = computed(() => !editableName.value.trim());
+const isFormInvalid = computed(() => !form.name.trim());
 const hasChanges = computed(
   () =>
-    editableName.value.trim() !== `${props.company?.name || ''}`.trim() ||
-    editableDomain.value.trim() !== `${props.company?.domain || ''}`.trim() ||
-    editableDescription.value.trim() !==
-      `${props.company?.description || ''}`.trim()
+    form.name.trim() !== (props.company?.name || '').trim() ||
+    form.domain.trim() !== (props.company?.domain || '').trim() ||
+    form.description.trim() !== (props.company?.description || '').trim()
 );
 
-const syncEditableFields = company => {
-  editableName.value = company?.name || '';
-  editableDomain.value = company?.domain || '';
-  editableDescription.value = company?.description || '';
+const summary = computed(() =>
+  [
+    t('COMPANIES.DETAIL.PROFILE.CREATED_AT', {
+      date: props.company?.createdAt
+        ? dynamicTime(props.company.createdAt)
+        : '',
+    }),
+    t('COMPANIES.DETAIL.PROFILE.LAST_ACTIVE', {
+      date: props.company?.lastActivityAt
+        ? dynamicTime(props.company.lastActivityAt)
+        : '',
+    }),
+  ].join(' • ')
+);
+
+const syncForm = company => {
+  form.name = company?.name || '';
+  form.domain = company?.domain || '';
+  form.description = company?.description || '';
 };
 
 watch(
@@ -71,38 +74,16 @@ watch(
   ],
   () => {
     avatarPreviewUrl.value = '';
-    syncEditableFields(props.company);
+    syncForm(props.company);
   },
   { immediate: true }
 );
 
-const summaryItems = computed(() => {
-  const createdAt = props.company?.createdAt
-    ? dynamicTime(props.company.createdAt)
-    : '';
-  const lastActiveAt = props.company?.lastActivityAt
-    ? dynamicTime(props.company.lastActivityAt)
-    : '';
-
-  return [
-    t('COMPANIES.DETAIL.PROFILE.CREATED_AT', { date: createdAt }),
-    t('COMPANIES.DETAIL.PROFILE.LAST_ACTIVE', { date: lastActiveAt }),
-  ];
-});
-
 const handleAvatarUpload = async ({ file, url }) => {
-  if (!props.company?.id || isAvatarBusy.value) {
-    return;
-  }
-
   avatarPreviewUrl.value = url;
   isUploadingAvatar.value = true;
-
   try {
-    await companiesStore.update({
-      id: props.company.id,
-      avatar: file,
-    });
+    await companiesStore.update({ id: props.company.id, avatar: file });
     useAlert(t('COMPANIES.DETAIL.AVATAR.UPLOAD_SUCCESS'));
   } catch {
     avatarPreviewUrl.value = '';
@@ -113,10 +94,6 @@ const handleAvatarUpload = async ({ file, url }) => {
 };
 
 const handleAvatarDelete = async () => {
-  if (!props.company?.id || isAvatarBusy.value) {
-    return;
-  }
-
   try {
     await companiesStore.deleteCompanyAvatar(props.company.id);
     avatarPreviewUrl.value = '';
@@ -127,21 +104,17 @@ const handleAvatarDelete = async () => {
 };
 
 const handleUpdateCompany = async () => {
-  if (!props.company?.id || isFormInvalid.value || !hasChanges.value) {
-    return;
-  }
-
   try {
-    const updatedCompany = await companiesStore.update({
+    const updated = await companiesStore.update({
       id: props.company.id,
-      name: editableName.value.trim(),
-      domain: editableDomain.value.trim() || null,
-      description: editableDescription.value.trim() || null,
+      name: form.name.trim(),
+      domain: form.domain.trim() || null,
+      description: form.description.trim() || null,
     });
-    syncEditableFields(updatedCompany);
+    syncForm(updated);
     useAlert(t('COMPANIES.DETAIL.PROFILE.MESSAGES.UPDATE_SUCCESS'));
   } catch {
-    syncEditableFields(props.company);
+    syncForm(props.company);
     useAlert(t('COMPANIES.DETAIL.PROFILE.MESSAGES.UPDATE_ERROR'));
   }
 };
@@ -152,13 +125,13 @@ const handleUpdateCompany = async () => {
     {{ t('COMPANIES.DETAIL.LOADING') }}
   </div>
 
-  <div v-else-if="canRenderForm" class="flex flex-col items-start gap-8 pb-6">
+  <div v-else-if="company?.id" class="flex flex-col items-start gap-8 pb-6">
     <div class="flex flex-col items-start gap-3">
       <Avatar
         :name="displayName"
         :src="avatarSource"
         :size="72"
-        :allow-upload="Boolean(company?.id) && !isAvatarBusy"
+        :allow-upload="!isAvatarBusy"
         rounded-full
         hide-offline-status
         @upload="handleAvatarUpload"
@@ -169,60 +142,53 @@ const handleUpdateCompany = async () => {
         <h3 class="text-base font-medium text-n-slate-12">
           {{ displayName }}
         </h3>
-
-        <span class="text-sm leading-6 text-n-slate-11">
-          {{ summaryItems.join(' • ') }}
-        </span>
-
-        <p v-if="isAvatarActionInFlight" class="text-sm text-n-slate-11">
+        <span class="text-sm leading-6 text-n-slate-11">{{ summary }}</span>
+        <p
+          v-if="isUploadingAvatar || uiFlags.deletingAvatar"
+          class="text-sm text-n-slate-11"
+        >
           {{ t('COMPANIES.DETAIL.AVATAR.UPDATING') }}
         </p>
       </div>
     </div>
 
     <div class="flex flex-col items-start w-full gap-6">
-      <div class="flex flex-col gap-1">
-        <span class="py-1 text-sm font-medium text-n-slate-12">
-          {{ t('COMPANIES.DETAIL.PROFILE.TITLE') }}
-        </span>
-      </div>
+      <span class="py-1 text-sm font-medium text-n-slate-12">
+        {{ t('COMPANIES.DETAIL.PROFILE.TITLE') }}
+      </span>
 
       <div class="grid w-full gap-4 sm:grid-cols-2">
         <Input
-          v-model="editableName"
+          v-model="form.name"
           :placeholder="t('COMPANIES.DETAIL.PROFILE.FIELDS.NAME')"
           :disabled="isUpdating"
           custom-input-class="h-8 !pt-1 !pb-1"
         />
-
         <Input
-          v-model="editableDomain"
+          v-model="form.domain"
           :placeholder="t('COMPANIES.DETAIL.PROFILE.FIELDS.DOMAIN')"
           :disabled="isUpdating"
           custom-input-class="h-8 !pt-1 !pb-1"
         />
       </div>
 
-      <div class="flex flex-col w-full gap-2">
-        <TextArea
-          v-model="editableDescription"
-          :placeholder="t('COMPANIES.DETAIL.PROFILE.DESCRIPTION_PLACEHOLDER')"
-          :disabled="isUpdating"
-          :max-length="280"
-          show-character-count
-          auto-height
-        />
-      </div>
+      <TextArea
+        v-model="form.description"
+        :placeholder="t('COMPANIES.DETAIL.PROFILE.DESCRIPTION_PLACEHOLDER')"
+        :disabled="isUpdating"
+        :max-length="280"
+        class="w-full"
+        show-character-count
+        auto-height
+      />
 
-      <div class="flex items-center">
-        <Button
-          :label="t('COMPANIES.DETAIL.PROFILE.ACTIONS.SAVE')"
-          size="sm"
-          :is-loading="isUpdating"
-          :disabled="isUpdating || isFormInvalid || !hasChanges"
-          @click="handleUpdateCompany"
-        />
-      </div>
+      <Button
+        :label="t('COMPANIES.DETAIL.PROFILE.ACTIONS.SAVE')"
+        size="sm"
+        :is-loading="isUpdating"
+        :disabled="isUpdating || isFormInvalid || !hasChanges"
+        @click="handleUpdateCompany"
+      />
     </div>
   </div>
 </template>
