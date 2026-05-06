@@ -66,7 +66,9 @@ class CustomAttributeDefinition < ApplicationRecord
 
   def attribute_must_not_conflict
     model_keys = attribute_model.to_s.delete_suffix('_attribute').to_sym
-    return unless attribute_key.in?(STANDARD_ATTRIBUTES[model_keys])
+    standard_attributes = STANDARD_ATTRIBUTES[model_keys]
+    return if standard_attributes.blank?
+    return unless attribute_key.in?(standard_attributes)
 
     errors.add(:attribute_key, I18n.t('errors.custom_attribute_definition.key_conflict'))
   end
