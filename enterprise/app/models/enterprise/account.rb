@@ -1,4 +1,23 @@
 module Enterprise::Account
+  class << self
+    def captain_document_sync_intervals
+      parse_captain_document_sync_intervals(InstallationConfig.find_by(name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS')&.value)
+    end
+
+    private
+
+    def parse_captain_document_sync_intervals(configured_intervals)
+      return {} if configured_intervals.blank?
+
+      parsed_intervals = configured_intervals.is_a?(String) ? JSON.parse(configured_intervals) : configured_intervals
+      return {} unless parsed_intervals.is_a?(Hash)
+
+      parsed_intervals.transform_keys { |plan| plan.to_s.downcase }
+    rescue JSON::ParserError
+      {}
+    end
+  end
+
   # TODO: Remove this when we upgrade administrate gem to the latest version
   # this is a temporary method since current administrate doesn't support virtual attributes
   def manually_managed_features; end
@@ -32,6 +51,17 @@ module Enterprise::Account
 
   def unmark_for_deletion
     custom_attributes.delete('marked_for_deletion_at') && custom_attributes.delete('marked_for_deletion_reason') && save
+  end
+
+  def captain_document_sync_interval(sync_intervals = Enterprise::Account.captain_document_sync_intervals)
+    plan = custom_attributes['plan_name']
+    plan = 'enterprise' if plan.blank? && ChatwootApp.self_hosted_enterprise?
+    return nil if plan.blank?
+
+    interval_hours = sync_intervals[plan.downcase]
+    return nil unless interval_hours.is_a?(Integer) && interval_hours.positive?
+
+    interval_hours.hours
   end
 
   def saml_enabled?

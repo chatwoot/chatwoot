@@ -23,13 +23,24 @@ class HookJob < MutexApplicationJob
   private
 
   def process_slack_integration(hook, event_name, event_data)
-    return unless ['message.created'].include?(event_name)
-
     message = event_data[:message]
-    if message.attachments.blank?
-      ::SendOnSlackJob.perform_later(message, hook)
-    else
-      ::SendOnSlackJob.set(wait: 2.seconds).perform_later(message, hook)
+
+    case event_name
+    when 'message.created'
+      if message.attachments.blank?
+        ::SendOnSlackJob.perform_later(message, hook)
+      else
+        ::SendOnSlackJob.set(wait: 2.seconds).perform_later(message, hook)
+      end
+    when 'message.updated'
+      # Only interactive bot messages store responses via content_attributes (submitted_values / submitted_email).
+      # Skip other content types to avoid unnecessary job enqueues on every message update.
+      return unless message.content_type.in?(Integrations::Slack::UpdateSlackMessageService::SUPPORTED_CONTENT_TYPES)
+      # Guard against redundant Slack updates when unrelated attributes change (e.g. status)
+      # while submitted_values is already present on the message.
+      return unless event_data[:previous_changes]&.key?('content_attributes')
+
+      ::UpdateSlackMessageJob.perform_later(message, hook)
     end
   end
 

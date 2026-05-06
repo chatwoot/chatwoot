@@ -86,6 +86,14 @@
           "PLACEHOLDER": "請輸入您的 Webhook URL",
           "ERROR": "請輸入有效的 URL"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook 密鑰",
+          "COPY": "複製密鑰至剪貼簿",
+          "COPY_SUCCESS": "密鑰已複製至剪貼簿",
+          "TOGGLE": "切換密鑰顯示",
+          "RESET_SUCCESS": "Webhook 密鑰已成功重新產生",
+          "RESET_ERROR": "無法重新產生 Webhook 密鑰，請再試一次"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "網站網域",
           "PLACEHOLDER": "輸入您的網站網域（例：acme.com）"

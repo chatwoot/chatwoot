@@ -93,6 +93,7 @@
       "ASSIGN_AGENT": "Bir Temsilci Ata",
       "ADD_LABEL": "Etiket Ekle",
       "REMOVE_LABEL": "Etiketi Kaldır",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "Atanan Ekibi Kaldır",
       "SEND_EMAIL_TRANSCRIPT": "E-posta Dökümü Gönder",
       "MUTE_CONVERSATION": "Konuşmayı Sessize Al",

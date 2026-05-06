@@ -86,6 +86,14 @@
           "PLACEHOLDER": "कृपया तपाईंको वेबहुक URL प्रविष्ट गर्नुहोस्",
           "ERROR": "कृपया मान्य URL प्रविष्ट गर्नुहोस्"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "वेबसाइट डोमेन",
           "PLACEHOLDER": "तपाईंको वेबसाइट डोमेन प्रविष्ट गर्नुहोस् (जस्तै: acme.com)"

@@ -68,7 +68,8 @@
         "API_SUCCESS": "Matagumpay na naisave ang lagda",
         "IMAGE_UPLOAD_ERROR": "Hindi ma-upload ang larawan! Subukang muli",
         "IMAGE_UPLOAD_SUCCESS": "Matagumpay na naidagdag ang larawan. Paki-click ang save upang mai-save ang pirma",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Ang laki ng larawan ay dapat mas mababa sa {size}MB"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Ang laki ng larawan ay dapat mas mababa sa {size}MB",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Lagda ng Mensahe",

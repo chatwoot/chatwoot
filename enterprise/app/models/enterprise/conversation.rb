@@ -25,17 +25,6 @@ module Enterprise::Conversation
     self.captain_activity_reason_type = previous_reason_type
   end
 
-  # Include select additional_attributes keys (call related) for update events
-  def allowed_keys?
-    return true if super
-
-    attrs_change = previous_changes['additional_attributes']
-    return false unless attrs_change.is_a?(Array) && attrs_change[1].is_a?(Hash)
-
-    changed_attr_keys = attrs_change[1].keys
-    changed_attr_keys.intersect?(%w[call_status])
-  end
-
   private
 
   def dispatch_captain_inference_event(event_name)
