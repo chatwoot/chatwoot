@@ -45,27 +45,16 @@ const showInitialLoadingState = computed(
   () =>
     !hasCompany.value && (isFetchingCompany.value || isFetchingContacts.value)
 );
-const breadcrumbItems = computed(() => {
-  const items = [
-    {
-      label: t('COMPANIES.HEADER'),
-    },
-  ];
 
-  if (hasCompany.value) {
-    items.push({
-      label: company.value?.name || t('COMPANIES.UNNAMED'),
-    });
-  }
-
-  return items;
-});
+const breadcrumbItems = computed(() => [
+  { label: t('COMPANIES.HEADER') },
+  ...(hasCompany.value
+    ? [{ label: company.value?.name || t('COMPANIES.UNNAMED') }]
+    : []),
+]);
 
 const sidebarTabs = computed(() => [
-  {
-    label: t('COMPANIES.DETAIL.SIDEBAR.TABS.ATTRIBUTES'),
-    value: 'attributes',
-  },
+  { label: t('COMPANIES.DETAIL.SIDEBAR.TABS.ATTRIBUTES'), value: 'attributes' },
   {
     label: t('COMPANIES.DETAIL.SIDEBAR.TABS.CONTACTS'),
     value: 'contacts',
@@ -85,36 +74,25 @@ const goToCompaniesIndex = () => {
   });
 };
 
-const fetchCompanyDetail = async activeCompanyId => {
-  if (!activeCompanyId) {
-    return;
-  }
-
-  await Promise.allSettled([
-    companiesStore.show(activeCompanyId),
-    companiesStore.getCompanyContacts(activeCompanyId),
-  ]);
-};
-
-const loadCompanyContactsPage = async page => {
-  if (!companyId.value) {
-    return;
-  }
-
-  await companiesStore.getCompanyContacts(companyId.value, page);
-};
-
 const goToCompaniesList = () => {
   if (window.history.state?.back || window.history.length > 1) {
     router.back();
     return;
   }
-
   goToCompaniesIndex();
+};
+
+const loadCompanyContactsPage = async page => {
+  if (!companyId.value) return;
+  await companiesStore.getCompanyContacts(companyId.value, page);
 };
 
 const openDeleteCompanyDialog = () => {
   confirmDeleteDialogRef.value?.dialogRef.open();
+};
+
+const clearSelectedCandidate = () => {
+  selectedCandidate.value = null;
 };
 
 const handleContactSearch = async query => {
@@ -124,50 +102,36 @@ const handleContactSearch = async query => {
   });
 };
 
-const clearSelectedCandidate = () => {
-  selectedCandidate.value = null;
-};
-
-const attachSelectedContact = async ({
-  contactId,
-  successMessage,
-  errorMessage,
-}) => {
-  try {
-    await companiesStore.attachContactToCompany(companyId.value, contactId);
-    useAlert(successMessage);
-    clearSelectedCandidate();
-  } catch {
-    useAlert(errorMessage);
-  }
-};
-
-const handleSelectContact = contact => {
-  selectedCandidate.value = contact;
-};
-
 const handleConfirmContactSelection = async () => {
-  if (!selectedCandidate.value) {
-    return;
-  }
+  const candidate = selectedCandidate.value;
+  if (!candidate) return;
 
   const isReassigning =
-    selectedCandidate.value.company?.id &&
-    selectedCandidate.value.company.id !== companyId.value;
+    candidate.company?.id && candidate.company.id !== companyId.value;
 
-  await attachSelectedContact({
-    contactId: selectedCandidate.value.id,
-    successMessage: isReassigning
-      ? t('COMPANIES.DETAIL.CONTACTS.MESSAGES.REASSIGN_SUCCESS')
-      : t('COMPANIES.DETAIL.CONTACTS.MESSAGES.ADD_SUCCESS'),
-    errorMessage: isReassigning
-      ? t('COMPANIES.DETAIL.CONTACTS.MESSAGES.REASSIGN_ERROR')
-      : t('COMPANIES.DETAIL.CONTACTS.MESSAGES.ADD_ERROR'),
-  });
+  try {
+    await companiesStore.attachContactToCompany(companyId.value, candidate.id);
+    useAlert(
+      t(
+        isReassigning
+          ? 'COMPANIES.DETAIL.CONTACTS.MESSAGES.REASSIGN_SUCCESS'
+          : 'COMPANIES.DETAIL.CONTACTS.MESSAGES.ADD_SUCCESS'
+      )
+    );
+    clearSelectedCandidate();
+  } catch {
+    useAlert(
+      t(
+        isReassigning
+          ? 'COMPANIES.DETAIL.CONTACTS.MESSAGES.REASSIGN_ERROR'
+          : 'COMPANIES.DETAIL.CONTACTS.MESSAGES.ADD_ERROR'
+      )
+    );
+  }
 };
 
 const handleRemoveContact = async contactId => {
-  const currentPage = Number(companiesStore.companyContactsMeta.page || 1);
+  const currentPage = Number(companyContactsMeta.value.page || 1);
   const nextPage =
     currentPage > 1 && companyContacts.value.length === 1
       ? currentPage - 1
@@ -196,16 +160,16 @@ const handleDeleteCompany = async () => {
   }
 };
 
-const handleSidebarTabChange = tab => {
-  activeSidebarTab.value = tab.value;
-};
-
 watch(
   companyId,
-  async currentCompanyId => {
+  async id => {
     companiesStore.resetCompanyDetailState();
     clearSelectedCandidate();
-    await fetchCompanyDetail(currentCompanyId);
+    if (!id) return;
+    await Promise.allSettled([
+      companiesStore.show(id),
+      companiesStore.getCompanyContacts(id),
+    ]);
   },
   { immediate: true }
 );
@@ -225,9 +189,7 @@ onBeforeUnmount(() => {
       class="flex flex-col items-center justify-center gap-3 py-24 text-n-slate-11"
     >
       <Spinner />
-      <span class="text-sm">
-        {{ t('COMPANIES.DETAIL.LOADING') }}
-      </span>
+      <span class="text-sm">{{ t('COMPANIES.DETAIL.LOADING') }}</span>
     </div>
 
     <div
@@ -274,7 +236,7 @@ onBeforeUnmount(() => {
             :tabs="sidebarTabs"
             :initial-active-tab="activeSidebarTabIndex"
             class="w-full [&>button]:w-full bg-n-alpha-black2"
-            @tab-changed="handleSidebarTabChange"
+            @tab-changed="tab => (activeSidebarTab = tab.value)"
           />
         </div>
 
@@ -296,7 +258,7 @@ onBeforeUnmount(() => {
           @cancel-contact-selection="clearSelectedCandidate"
           @confirm-contact-selection="handleConfirmContactSelection"
           @search="handleContactSearch"
-          @select-contact="handleSelectContact"
+          @select-contact="contact => (selectedCandidate = contact)"
           @remove-contact="handleRemoveContact"
           @update:current-page="loadCompanyContactsPage"
         />
