@@ -88,43 +88,54 @@ class DataImportJob < ApplicationJob
     taggings = taggings_for_contacts(contacts_with_labels)
     return if taggings.blank?
 
-    ActsAsTaggableOn::Tagging.import(taggings, on_duplicate_key_ignore: true, validate: false, batch_size: 1000)
+    ActsAsTaggableOn::Tagging.import(%i[tag_id taggable_type taggable_id context created_at],
+                                     taggings, on_duplicate_key_ignore: true, validate: false, batch_size: 1000)
   end
 
   def taggings_for_contacts(contacts_with_labels)
-    taggings = contacts_with_labels.filter_map do |item|
-      contact = item[:contact]
+    identity_counts = contact_identity_counts(contacts_with_labels)
+    taggings = contacts_with_labels.flat_map do |item|
+      contact = contact_for_label_import(item[:contact], identity_counts)
       labels = item[:labels].map(&:downcase).uniq
-      # After bulk import with synchronize, contact is marked as persisted for successfully imported records.
-      next unless contact.persisted? && labels.present?
+      next [] unless contact&.id.present? && labels.present?
 
       labels.map do |label|
-        ActsAsTaggableOn::Tagging.new(
-          tag_id: tags_by_name[label].id,
-          taggable_type: CONTACT_TAGGABLE_TYPE,
-          taggable_id: contact.id,
-          context: LABELS_CONTEXT,
-          created_at: Time.zone.now
-        )
+        [tags_by_name[label].id, CONTACT_TAGGABLE_TYPE, contact.id, LABELS_CONTEXT, Time.zone.now]
       end
-    end.flatten.uniq
+    end.uniq
 
-    reject_existing_taggings(taggings.uniq { |tagging| tagging_key(tagging) })
+    reject_existing_taggings(taggings)
   end
 
   def reject_existing_taggings(taggings)
-    taggable_ids = taggings.map(&:taggable_id)
-    tag_ids = taggings.map(&:tag_id)
+    taggable_ids = taggings.pluck(2)
+    tag_ids = taggings.pluck(0)
     existing_taggings = ActsAsTaggableOn::Tagging
                         .where(context: LABELS_CONTEXT, taggable_type: CONTACT_TAGGABLE_TYPE, taggable_id: taggable_ids, tag_id: tag_ids)
                         .pluck(:tag_id, :taggable_id)
                         .index_with(true)
 
-    taggings.reject { |tagging| existing_taggings[tagging_key(tagging)] }
+    taggings.reject { |tagging| existing_taggings[[tagging[0], tagging[2]]] }
   end
 
-  def tagging_key(tagging)
-    [tagging.tag_id, tagging.taggable_id]
+  def contact_identity_counts(contacts_with_labels) = contacts_with_labels.filter_map { |item| contact_identity_key(item[:contact]) }.tally
+
+  def contact_for_label_import(contact, identity_counts)
+    return contact if contact.id.present?
+
+    key = contact_identity_key(contact)
+    return if key.blank? || identity_counts[key] > 1
+
+    imported_contact(contact)
+  end
+
+  def contact_identity_key(contact) = contact.identifier.presence || contact.email.presence || contact.phone_number.presence
+
+  def imported_contact(contact)
+    return @data_import.account.contacts.find_by(identifier: contact.identifier) if contact.identifier.present?
+    return @data_import.account.contacts.from_email(contact.email) if contact.email.present?
+
+    @data_import.account.contacts.find_by(phone_number: contact.phone_number) if contact.phone_number.present?
   end
 
   def tags_by_name

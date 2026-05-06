@@ -256,7 +256,8 @@ RSpec.describe DataImportJob do
         existing_contact = create(:contact, account: labels_data_import.account, email: 'existing-labeled@example.com', name: 'Old Name')
         data_with_existing_contact = [
           %w[id name email phone_number labels],
-          ['1', 'Updated Name', existing_contact.email, '+918080808090', 'lead']
+          ['1', 'Updated Name', existing_contact.email, '+918080808090', 'lead'],
+          ['2', 'New Labeled Contact', 'new-labeled@example.com', '+918080808091', 'customer']
         ]
         existing_contact_import = create(:data_import, account: labels_data_import.account,
                                                        import_file: generate_csv_file(data_with_existing_contact))
@@ -270,6 +271,7 @@ RSpec.describe DataImportJob do
           hash_including(contact: have_attributes(id: existing_contact.id))
         ).once
         expect(existing_contact.reload.label_list).to contain_exactly('lead')
+        expect(labels_data_import.account.contacts.from_email('new-labeled@example.com').label_list).to contain_exactly('customer')
       end
 
       it 'rejects rows with labels that do not exist in the account' do
