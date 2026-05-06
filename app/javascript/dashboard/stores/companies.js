@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia';
+import camelcaseKeys from 'camelcase-keys';
 import CompanyAPI from 'dashboard/api/companies';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
-import camelcaseKeys from 'camelcase-keys';
+import { defineStore } from 'pinia';
 import snakecaseKeys from 'snakecase-keys';
 
 const createInitialUIFlags = () => ({
@@ -32,26 +32,11 @@ const createInitialState = () => ({
   activeContactSearchQuery: '',
 });
 
-const normalizeCompanyRecord = record =>
-  camelcaseKeys(record || {}, {
-    deep: true,
-    stopPaths: ['custom_attributes'],
-  });
+const camelizeCompany = data =>
+  camelcaseKeys(data || {}, { deep: true, stopPaths: ['custom_attributes'] });
 
-const normalizeCompanyCollection = collection =>
-  camelcaseKeys(collection || [], {
-    deep: true,
-    stopPaths: ['custom_attributes'],
-  });
-
-const normalizeContactRecord = record =>
-  camelcaseKeys(record || {}, {
-    deep: true,
-    stopPaths: ['custom_attributes', 'additional_attributes'],
-  });
-
-const normalizeContactCollection = collection =>
-  camelcaseKeys(collection || [], {
+const camelizeContact = data =>
+  camelcaseKeys(data || {}, {
     deep: true,
     stopPaths: ['custom_attributes', 'additional_attributes'],
   });
@@ -62,66 +47,34 @@ const normalizeMeta = meta => ({
   page: Number(meta?.page || meta?.current_page || 1),
 });
 
-const upsertRecord = (records, record) => {
-  const index = records.findIndex(
-    existingRecord => existingRecord.id === record.id
-  );
-
-  if (index === -1) {
-    return [...records, record];
-  }
-
-  return records.map(existingRecord =>
-    existingRecord.id === record.id ? record : existingRecord
-  );
-};
-
-const appendFormDataValue = (formData, key, value) => {
-  if (value === undefined || value === null || value === '') {
-    return;
-  }
-
-  if (value instanceof File || value instanceof Blob) {
+const appendFormData = (formData, key, value) => {
+  if (value === undefined || value == null || value === '') return;
+  if (
+    value instanceof File ||
+    value instanceof Blob ||
+    typeof value !== 'object'
+  ) {
     formData.append(key, value);
     return;
   }
-
-  if (typeof value === 'object') {
-    Object.entries(value).forEach(([nestedKey, nestedValue]) => {
-      appendFormDataValue(formData, `${key}[${nestedKey}]`, nestedValue);
-    });
-    return;
-  }
-
-  formData.append(key, value);
+  Object.entries(value).forEach(([k, v]) =>
+    appendFormData(formData, `${key}[${k}]`, v)
+  );
 };
 
-const buildCompanyFormData = payload => {
-  const formData = new FormData();
-
-  Object.entries(payload).forEach(([key, value]) => {
-    appendFormDataValue(formData, `company[${key}]`, value);
-  });
-
-  return formData;
-};
-
-const buildCompanyPayload = companyAttrs => {
-  const { avatar, customAttributes, ...attrsToDecamelize } = companyAttrs;
-
-  return {
-    ...snakecaseKeys(attrsToDecamelize, { deep: true }),
+const buildCompanyRequestPayload = ({ avatar, customAttributes, ...rest }) => {
+  const payload = {
+    ...snakecaseKeys(rest, { deep: true }),
     ...(customAttributes && { custom_attributes: customAttributes }),
     ...(avatar && { avatar }),
   };
-};
+  if (!avatar) return { company: payload };
 
-const buildCompanyRequestPayload = companyAttrs => {
-  const payload = buildCompanyPayload(companyAttrs);
-
-  return companyAttrs.avatar
-    ? buildCompanyFormData(payload)
-    : { company: payload };
+  const formData = new FormData();
+  Object.entries(payload).forEach(([k, v]) =>
+    appendFormData(formData, `company[${k}]`, v)
+  );
+  return formData;
 };
 
 export const useCompaniesStore = defineStore('companies', {
@@ -137,10 +90,7 @@ export const useCompaniesStore = defineStore('companies', {
 
   actions: {
     setUIFlag(data) {
-      this.uiFlags = {
-        ...this.uiFlags,
-        ...data,
-      };
+      this.uiFlags = { ...this.uiFlags, ...data };
     },
 
     setMeta(meta) {
@@ -158,19 +108,15 @@ export const useCompaniesStore = defineStore('companies', {
     },
 
     upsertCompanyRecord(record) {
-      this.records = upsertRecord(this.records, record);
+      const index = this.records.findIndex(r => r.id === record.id);
+      if (index === -1) this.records.push(record);
+      else this.records[index] = record;
     },
 
     updateCompanyContactsCount(companyId, contactsCount) {
       const company = this.getRecord(companyId);
-      if (!company.id) {
-        return;
-      }
-
-      this.upsertCompanyRecord({
-        ...company,
-        contactsCount,
-      });
+      if (!company.id) return;
+      this.upsertCompanyRecord({ ...company, contactsCount });
     },
 
     clearContactSearchResults() {
@@ -186,7 +132,7 @@ export const useCompaniesStore = defineStore('companies', {
         const {
           data: { payload, meta },
         } = await CompanyAPI.get({ page, sort });
-        this.records = normalizeCompanyCollection(payload);
+        this.records = camelizeCompany(payload);
         this.setMeta(meta);
         return this.records;
       } catch (error) {
@@ -206,7 +152,7 @@ export const useCompaniesStore = defineStore('companies', {
         const {
           data: { payload },
         } = await CompanyAPI.show(id);
-        const company = normalizeCompanyRecord(payload);
+        const company = camelizeCompany(payload);
 
         if (
           this.companyDetailRequestToken !== requestToken ||
@@ -231,12 +177,12 @@ export const useCompaniesStore = defineStore('companies', {
       this.setUIFlag({ updatingItem: true });
       try {
         const {
-          data: { payload: updatedPayload },
+          data: { payload },
         } = await CompanyAPI.update(
           id,
           buildCompanyRequestPayload(companyAttrs)
         );
-        const company = normalizeCompanyRecord(updatedPayload);
+        const company = camelizeCompany(payload);
         this.upsertCompanyRecord(company);
         return company;
       } catch (error) {
@@ -250,10 +196,8 @@ export const useCompaniesStore = defineStore('companies', {
       this.setUIFlag({ deletingItem: true });
       try {
         await CompanyAPI.delete(id);
-        this.records = this.records.filter(record => record.id !== Number(id));
-        if (this.activeCompanyId === Number(id)) {
-          this.resetCompanyDetailState();
-        }
+        this.records = this.records.filter(r => r.id !== Number(id));
+        if (this.activeCompanyId === Number(id)) this.resetCompanyDetailState();
         return Number(id);
       } catch (error) {
         return throwErrorMessage(error);
@@ -268,7 +212,7 @@ export const useCompaniesStore = defineStore('companies', {
         const {
           data: { payload, meta },
         } = await CompanyAPI.search(search, page, sort);
-        this.records = normalizeCompanyCollection(payload);
+        this.records = camelizeCompany(payload);
         this.setMeta(meta);
         return this.records;
       } catch (error) {
@@ -285,7 +229,7 @@ export const useCompaniesStore = defineStore('companies', {
         const {
           data: { payload },
         } = await CompanyAPI.destroyAvatar(companyId);
-        const company = normalizeCompanyRecord(payload);
+        const company = camelizeCompany(payload);
         this.upsertCompanyRecord(company);
         return company;
       } catch (error) {
@@ -306,7 +250,7 @@ export const useCompaniesStore = defineStore('companies', {
         const {
           data: { payload, meta },
         } = await CompanyAPI.listContacts(companyId, page);
-        const contacts = normalizeContactCollection(payload);
+        const contacts = camelizeContact(payload);
         const normalizedMeta = normalizeMeta(meta);
 
         if (
@@ -347,7 +291,7 @@ export const useCompaniesStore = defineStore('companies', {
         const {
           data: { payload, meta },
         } = await CompanyAPI.searchContacts(companyId, query, page);
-        const contacts = normalizeContactCollection(payload);
+        const contacts = camelizeContact(payload);
         const normalizedMeta = normalizeMeta(meta);
 
         if (
@@ -379,7 +323,7 @@ export const useCompaniesStore = defineStore('companies', {
         } = await CompanyAPI.createContact(companyId, {
           contact_id: contactId,
         });
-        const contact = normalizeContactRecord(payload);
+        const contact = camelizeContact(payload);
         await this.getCompanyContacts(companyId, 1);
         this.clearContactSearchResults();
         return contact;
@@ -413,7 +357,7 @@ export const useCompaniesStore = defineStore('companies', {
         const {
           data: { payload },
         } = await CompanyAPI.destroyCustomAttributes(id, customAttributes);
-        const company = normalizeCompanyRecord(payload);
+        const company = camelizeCompany(payload);
         this.upsertCompanyRecord(company);
         return company;
       } catch (error) {
@@ -424,6 +368,7 @@ export const useCompaniesStore = defineStore('companies', {
     },
 
     resetCompanyDetailState() {
+      const { fetchingList } = this.uiFlags;
       this.activeCompanyId = null;
       this.companyDetailRequestToken += 1;
       this.companyContactsRequestToken += 1;
@@ -433,17 +378,7 @@ export const useCompaniesStore = defineStore('companies', {
       this.contactSearchResults = [];
       this.contactSearchMeta = {};
       this.activeContactSearchQuery = '';
-      this.setUIFlag({
-        fetchingItem: false,
-        updatingItem: false,
-        deletingItem: false,
-        deletingAvatar: false,
-        deletingCustomAttributes: false,
-        fetchingContacts: false,
-        searchingContacts: false,
-        creatingContact: false,
-        removingContact: false,
-      });
+      this.uiFlags = { ...createInitialUIFlags(), fetchingList };
     },
   },
 });
