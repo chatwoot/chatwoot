@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Voice::Provider::Twilio::TokenService do
   let(:account) { create(:account) }
   let(:user) { create(:user, :administrator, account: account) }
-  let(:voice_channel) { create(:channel_voice, account: account) }
+  let(:voice_channel) { create(:channel_twilio_sms, :with_voice, account: account) }
   let(:inbox) { voice_channel.inbox }
 
   let(:webhook_service) { instance_double(Twilio::VoiceWebhookSetupService, perform: true) }

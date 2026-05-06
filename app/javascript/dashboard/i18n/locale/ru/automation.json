@@ -140,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Назначить агента",
       "ASSIGN_TEAM": "Назначить команду",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Удалить назначенную команду",
       "ADD_LABEL": "Добавить метку",
       "REMOVE_LABEL": "Удалить метку",
       "SEND_EMAIL_TO_TEAM": "Отправить Email команде",
@@ -169,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Тип сообщения",
+      "PRIVATE_NOTE": "Личная заметка",
       "MESSAGE_CONTAINS": "Сообщение содержит",
       "EMAIL": "Email",
       "INBOX": "Источник",

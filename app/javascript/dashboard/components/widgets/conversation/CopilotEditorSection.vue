@@ -16,10 +16,6 @@ defineProps({
     type: String,
     default: '',
   },
-  isPopout: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 const emit = defineEmits([
@@ -69,7 +65,6 @@ const onSend = () => {
       :generated-content="generatedContent"
       :min-height="4"
       :enabled-menu-options="[]"
-      :is-popout="isPopout"
       @focus="onFocus"
       @blur="onBlur"
       @clear-selection="clearEditorSelection"
