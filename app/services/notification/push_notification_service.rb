@@ -40,9 +40,48 @@ class Notification::PushNotificationService
     {
       title: notification.push_message_title,
       body: notification.push_message_body,
-      tag: "#{notification.notification_type}_#{conversation.display_id}_#{notification.id}",
-      url: push_url
+      tag: notification_tag,
+      url: push_url,
+      account_id: conversation.account_id,
+      conversation_id: conversation.display_id,
+      conversation_uuid: conversation.uuid,
+      notification_id: notification.id,
+      notification_type: notification.notification_type,
+      sender: sender_payload,
+      reply_enabled: reply_enabled?,
+      timestamp: notification.created_at.to_i * 1000
     }
+  end
+
+  # Tag is keyed only by the conversation so that follow-up messages collapse
+  # into the same notification on iOS/Android instead of stacking.
+  def notification_tag
+    "conversation_#{conversation.account_id}_#{conversation.display_id}"
+  end
+
+  def sender_payload
+    contact = conversation.contact
+    return nil unless contact
+
+    {
+      name: contact.name,
+      avatar_url: contact.avatar_url.presence
+    }
+  end
+
+  # iOS and Android can both surface a Reply action button. The actual inline
+  # text-input is only honored by Chrome/Android; iOS opens the PWA focused on
+  # the reply box. Both flows benefit from this flag being present.
+  def reply_enabled?
+    return false unless conversation.can_reply?
+
+    %w[
+      assigned_conversation_new_message
+      participating_conversation_new_message
+      conversation_mention
+      conversation_assignment
+      conversation_creation
+    ].include?(notification.notification_type)
   end
 
   def push_url

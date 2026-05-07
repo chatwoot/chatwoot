@@ -16,6 +16,7 @@ import { useFontSize } from 'dashboard/composables/useFontSize';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
+  syncPwaAuthBridge,
 } from './helper/pushHelper';
 import ReconnectService from 'dashboard/helper/ReconnectService';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -121,6 +122,10 @@ export default {
         registration.pushManager.getSubscription().then(subscription => {
           if (subscription) {
             registerSubscription();
+            syncPwaAuthBridge({
+              accountId: this.currentAccountId,
+              userId: this.currentUser?.id,
+            });
           }
         })
       );

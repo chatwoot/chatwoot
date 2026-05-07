@@ -1,5 +1,12 @@
 <script setup>
-import { ref, computed, nextTick, watch } from 'vue';
+import {
+  ref,
+  computed,
+  nextTick,
+  watch,
+  onMounted,
+  onBeforeUnmount,
+} from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
@@ -333,6 +340,38 @@ const onSendWhatsAppReply = async messagePayload => {
     useAlert(errorMessage);
   }
 };
+
+const focusReplyTextarea = (payload = {}) => {
+  if (isEditorDisabled.value) return;
+  const conversationId = payload?.conversationId;
+  if (conversationId && currentChat.value?.id !== conversationId) return;
+
+  const prefill = typeof payload?.prefill === 'string' ? payload.prefill : '';
+  if (prefill) {
+    message.value = prefill;
+  }
+
+  nextTick(() => {
+    const el = textareaRef.value;
+    if (!el) return;
+    el.focus({ preventScroll: false });
+    try {
+      const len = el.value?.length || 0;
+      el.setSelectionRange(len, len);
+    } catch (e) {
+      // setSelectionRange not supported on every textarea; safe to ignore.
+    }
+    resizeTextarea();
+  });
+};
+
+onMounted(() => {
+  emitter.on(BUS_EVENTS.FOCUS_REPLY_BOX, focusReplyTextarea);
+});
+
+onBeforeUnmount(() => {
+  emitter.off(BUS_EVENTS.FOCUS_REPLY_BOX, focusReplyTextarea);
+});
 </script>
 
 <template>
