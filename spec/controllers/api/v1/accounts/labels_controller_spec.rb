@@ -22,6 +22,7 @@ RSpec.describe 'Label API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(response.body).to include(label.title)
       end
     end
@@ -45,6 +46,7 @@ RSpec.describe 'Label API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(response.body).to include(label.title)
       end
     end
@@ -71,6 +73,7 @@ RSpec.describe 'Label API', type: :request do
         end.to change(Label, :count).by(1)
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
       end
     end
   end
@@ -97,6 +100,7 @@ RSpec.describe 'Label API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(label.reload.title).to eq('test_2')
       end
     end
