@@ -8,6 +8,7 @@ const createInitialUIFlags = () => ({
   fetchingList: false,
   fetchingItem: false,
   updatingItem: false,
+  creatingItem: false,
   deletingItem: false,
   deletingAvatar: false,
   deletingCustomAttributes: false,
@@ -169,6 +170,22 @@ export const useCompaniesStore = createStore({
         return throwErrorMessage(error);
       } finally {
         this.setUIFlag({ updatingItem: false });
+      }
+    },
+
+    async create(companyAttrs) {
+      this.setUIFlag({ creatingItem: true });
+      try {
+        const {
+          data: { payload },
+        } = await CompanyAPI.create(buildCompanyRequestPayload(companyAttrs));
+        const company = camelizeCompany(payload);
+        this.upsertCompanyRecord(company);
+        return company;
+      } catch (error) {
+        return throwErrorMessage(error);
+      } finally {
+        this.setUIFlag({ creatingItem: false });
       }
     },
 
