@@ -142,7 +142,7 @@ const handleBreadcrumbClick = () => {
             v-if="isLocaleMenuOpen"
             :menu-items="localeMenuItems"
             show-search
-            class="left-0 w-40 mt-2 overflow-y-auto xl:right-0 top-full max-h-60"
+            class="left-0 w-40 mt-2 xl:right-0 top-full max-h-60"
             @action="handleLocaleAction"
           />
         </OnClickOutside>
