@@ -488,9 +488,21 @@ function clearLongPressTimer() {
   }
 }
 
+function clearSelection() {
+  try {
+    const selection = window.getSelection?.();
+    if (selection && typeof selection.removeAllRanges === 'function') {
+      selection.removeAllRanges();
+    }
+  } catch (err) {
+    // ignore
+  }
+}
+
 function openMobileContextMenu() {
   if (!shouldShowContextMenu.value || !isBubble.value) return;
-  if (getSelection().toString()) return;
+
+  clearSelection();
 
   const target = bubbleRef.value;
   const rect = target?.getBoundingClientRect();
@@ -552,6 +564,7 @@ function onBubbleTouchEnd(e) {
   if (longPressTriggered) {
     e.preventDefault();
     e.stopPropagation();
+    clearSelection();
   }
   longPressTriggered = false;
 }
@@ -564,9 +577,17 @@ function onBubbleTouchCancel() {
 function onBubbleContextMenuNative(e) {
   if (isMobileViewport.value) {
     e.preventDefault();
+    e.stopPropagation();
+    clearSelection();
     return;
   }
   openContextMenu(e);
+}
+
+function onBubbleSelectStart(e) {
+  if (isMobileViewport.value) {
+    e.preventDefault();
+  }
 }
 
 async function handleMobileCopy() {
@@ -730,17 +751,20 @@ provideMessageContext({
       <div
         ref="bubbleRef"
         class="[grid-area:bubble] flex min-w-0"
-        :class="{
-          'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
-          'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
-          'select-none [-webkit-touch-callout:none] [&_*]:select-none [&_*]:[-webkit-touch-callout:none]':
-            isMobileViewport,
-        }"
+        :class="[
+          {
+            'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
+            'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
+          },
+          isMobileViewport ? 'mobile-bubble-no-callout' : '',
+        ]"
         @contextmenu="onBubbleContextMenuNative($event)"
         @touchstart.passive="onBubbleTouchStart($event)"
         @touchmove.passive="onBubbleTouchMove($event)"
         @touchend="onBubbleTouchEnd($event)"
         @touchcancel="onBubbleTouchCancel($event)"
+        @selectstart="onBubbleSelectStart($event)"
+        @dragstart.prevent
       >
         <Component :is="componentToRender" />
       </div>
@@ -788,5 +812,20 @@ provideMessageContext({
   .right-bubble {
     @apply ltr:rounded-tr-sm rtl:rounded-tl-sm;
   }
+}
+
+.mobile-bubble-no-callout,
+.mobile-bubble-no-callout * {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+.mobile-bubble-no-callout img,
+.mobile-bubble-no-callout video {
+  -webkit-user-drag: none;
+  pointer-events: auto;
 }
 </style>
