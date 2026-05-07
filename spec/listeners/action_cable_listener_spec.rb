@@ -237,6 +237,10 @@ describe ActionCableListener do
     let!(:agent_without_inbox_access) { create(:user, account: account, role: :agent) }
     let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
 
+    before do
+      account.enable_features!(:conversation_unread_counts)
+    end
+
     it 'sends a lightweight refresh event to inbox agents and admins' do
       expect(conversation.inbox.reload.inbox_members.count).to eq(1)
 
@@ -257,6 +261,14 @@ describe ActionCableListener do
         anything,
         anything
       )
+
+      listener.conversation_unread_count_changed(event)
+    end
+
+    it 'does not broadcast when conversation unread counts feature is disabled' do
+      account.disable_features!(:conversation_unread_counts)
+
+      expect(ActionCableBroadcastJob).not_to receive(:perform_later)
 
       listener.conversation_unread_count_changed(event)
     end
