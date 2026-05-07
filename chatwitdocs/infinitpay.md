@@ -28,7 +28,7 @@ Criando o link de pagamento
 Assim que seu cliente fizer um pedido, você vai enviar uma requisição POST para:
 
 Requisição para POST
-POST https://api.infinitepay.io/invoices/public/checkout/links
+POST https://api.checkout.infinitepay.io/links
 Siga a documentação, que vamos explicar passo a passo como você monta o payload necessário para geração do seu link de checkout.
 
 Informe sua handle
@@ -82,7 +82,7 @@ transaction_nsu- ID único da transação
 Você pode consultar o status do pagamento fazendo uma requisição:
 
 Requisição para status de pagamento
-POST https://api.infinitepay.io/invoices/public/checkout/payment_check
+POST https://api.checkout.infinitepay.io/payment_check
 Corpo da requisição:
 
 Exemplo

@@ -4,7 +4,7 @@
 # Creates an InfinitePay checkout link and sends it as a message in the conversation.
 
 class Integrations::Infinitepay::CreateLinkService
-  INFINITEPAY_API = 'https://api.infinitepay.io/invoices/public/checkout/links'
+  INFINITEPAY_API = 'https://api.checkout.infinitepay.io/links'
   TIMEOUT = 15
 
   def initialize(account:, conversation:, user:, **options)

@@ -50,7 +50,7 @@ Sem handle configurado, o botão de pagamento não aparece na conversa.
 
 ## Taxas e Parcelas (InfinitePay)
 
-A API pública de checkout da InfinitePay (`POST /invoices/public/checkout/links`) **não oferece controle** sobre:
+A API pública de checkout da InfinitePay (`POST https://api.checkout.infinitepay.io/links`) **não oferece controle** sobre:
 - Número de parcelas (o cliente escolhe no checkout)
 - Quem paga a taxa (vendedor ou comprador)
 - Tipo de recebimento (1 dia útil ou NITRO)
@@ -240,3 +240,4 @@ Nenhuma nova variável necessária. Reutiliza:
 | 2026-03-10 | Implementação inicial: link de pagamento, favoritos, webhook, forwarding |
 | 2026-03-11 | Modal: máscara de moeda (R$ 0,00), simulador de taxas por parcela, i18n pt_BR |
 | 2026-03-11 | Modal: seletor de forma de pagamento (PIX/Cartão), parcelas, mensagem diferenciada por método, nota sobre checkout |
+| 2026-05-07 | InfinitePay: endpoint de criação de links migrado para `https://api.checkout.infinitepay.io/links`; payloads e webhooks mantidos |
