@@ -4,7 +4,7 @@ import { mutations } from '../../conversationUnreadCounts';
 describe('#mutations', () => {
   describe('#SET_CONVERSATION_UNREAD_COUNTS', () => {
     it('normalizes unread count payload', () => {
-      const state = { inboxes: {}, labels: {} };
+      const state = { inboxes: {}, labels: {}, teams: {} };
 
       mutations[types.SET_CONVERSATION_UNREAD_COUNTS](state, {
         inboxes: {
@@ -16,11 +16,16 @@ describe('#mutations', () => {
           4: 5,
           5: -1,
         },
+        teams: {
+          6: '7',
+          7: 0,
+        },
       });
 
       expect(state).toEqual({
         inboxes: { 1: 2 },
         labels: { 4: 5 },
+        teams: { 6: 7 },
       });
     });
 
@@ -28,6 +33,7 @@ describe('#mutations', () => {
       const state = {
         inboxes: { 1: 2 },
         labels: { 4: 5 },
+        teams: { 6: 7 },
       };
 
       mutations[types.SET_CONVERSATION_UNREAD_COUNTS](state, {});
@@ -35,6 +41,7 @@ describe('#mutations', () => {
       expect(state).toEqual({
         inboxes: {},
         labels: {},
+        teams: {},
       });
     });
   });

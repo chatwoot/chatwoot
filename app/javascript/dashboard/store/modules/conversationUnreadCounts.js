@@ -4,6 +4,7 @@ import types from '../mutation-types';
 export const state = {
   inboxes: {},
   labels: {},
+  teams: {},
 };
 
 const normalizeCounts = counts => {
@@ -24,11 +25,17 @@ export const getters = {
   getLabelUnreadCount: $state => labelId => {
     return $state.labels[String(labelId)] || 0;
   },
+  getTeamUnreadCount: $state => teamId => {
+    return $state.teams[String(teamId)] || 0;
+  },
   getInboxUnreadCounts($state) {
     return $state.inboxes;
   },
   getLabelUnreadCounts($state) {
     return $state.labels;
+  },
+  getTeamUnreadCounts($state) {
+    return $state.teams;
   },
 };
 
@@ -47,6 +54,7 @@ export const mutations = {
   [types.SET_CONVERSATION_UNREAD_COUNTS]($state, payload = {}) {
     $state.inboxes = normalizeCounts(payload.inboxes);
     $state.labels = normalizeCounts(payload.labels);
+    $state.teams = normalizeCounts(payload.teams);
   },
 };
 

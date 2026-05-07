@@ -163,6 +163,9 @@ const getInboxUnreadCount = useMapGetter(
 const getLabelUnreadCount = useMapGetter(
   'conversationUnreadCounts/getLabelUnreadCount'
 );
+const getTeamUnreadCount = useMapGetter(
+  'conversationUnreadCounts/getTeamUnreadCount'
+);
 const teams = useMapGetter('teams/getMyTeams');
 const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
 const conversationCustomViews = useMapGetter(
@@ -277,6 +280,7 @@ const menuItems = computed(() => {
           children: teams.value.map(team => ({
             name: `${team.name}-${team.id}`,
             label: team.name,
+            badgeCount: getTeamUnreadCount.value(team.id),
             to: accountScopedRoute('team_conversations', { teamId: team.id }),
           })),
         },

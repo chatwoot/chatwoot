@@ -17,6 +17,7 @@ describe('#actions', () => {
       const payload = {
         inboxes: { 1: '2' },
         labels: { 3: 4 },
+        teams: { 5: 6 },
       };
       axios.get.mockResolvedValue({ data: { payload } });
 
