@@ -115,9 +115,11 @@ RSpec.describe 'Conversations API', type: :request do
       let(:visible_inbox) { create(:inbox, account: account) }
       let(:hidden_inbox) { create(:inbox, account: account) }
       let(:label) { create(:label, account: account, title: 'billing', show_on_sidebar: true) }
+      let(:team) { create(:team, account: account, allow_auto_assign: false) }
 
       before do
         create(:inbox_member, user: agent, inbox: visible_inbox)
+        create(:team_member, user: agent, team: team)
       end
 
       after do
@@ -135,8 +137,21 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.parsed_body['payload']).to eq(
           'inboxes' => { visible_inbox.id.to_s => 1 },
-          'labels' => { label.id.to_s => 1 }
+          'labels' => { label.id.to_s => 1 },
+          'teams' => {}
         )
+      end
+
+      it 'returns unread team conversation counts scoped to the signed-in user' do
+        create_unread_conversation(account: account, inbox: visible_inbox, team: team)
+        create_unread_conversation(account: account, inbox: hidden_inbox, team: team)
+
+        get "/api/v1/accounts/#{account.id}/conversations/unread_counts",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']['teams']).to eq(team.id.to_s => 1)
       end
     end
   end
