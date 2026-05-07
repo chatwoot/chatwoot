@@ -3,17 +3,13 @@ require 'rails_helper'
 RSpec.describe Telegram::SendAttachmentsService do
   describe '#perform' do
     let(:channel) { create(:channel_telegram) }
-    # Channel#chat_id and #business_connection_id read from conversation.additional_attributes,
-    # so set the values there directly — stubbing the let(:channel) instance doesn't affect
-    # the service's message.inbox.channel reference (different object instance).
-    let(:conversation) do
-      create(:conversation, inbox: channel.inbox, additional_attributes: { 'chat_id' => 'chat123' })
-    end
-    let(:message) { build(:message, conversation: conversation) }
+    let(:message) { build(:message, conversation: create(:conversation, inbox: channel.inbox)) }
     let(:service) { described_class.new(message: message) }
     let(:telegram_api_url) { channel.telegram_api_url }
 
     before do
+      allow(channel).to receive(:chat_id).and_return('chat123')
+
       stub_request(:post, "#{telegram_api_url}/sendMediaGroup")
         .to_return(status: 200, body: { ok: true, result: [{ message_id: 'media' }] }.to_json, headers: { 'Content-Type' => 'application/json' })
 
@@ -45,11 +41,7 @@ RSpec.describe Telegram::SendAttachmentsService do
     end
 
     context 'when this is business chat' do
-      before do
-        conversation.update!(additional_attributes: conversation.additional_attributes.merge(
-          'business_connection_id' => 'eooW3KF5WB5HxTD7T826'
-        ))
-      end
+      before { allow(channel).to receive(:business_connection_id).and_return('eooW3KF5WB5HxTD7T826') }
 
       it 'sends all types of attachments in seperate groups and returns the last successful message ID from the batch' do
         attach_files(message)
