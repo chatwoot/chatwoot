@@ -84,10 +84,15 @@ class Whatsapp::IncomingCallService
 
   # `connect` is the WebRTC tunnel-ready signal, not the pickup signal. Apply
   # Meta's SDP answer so the handshake completes during ringing; the call
-  # stays in `ringing` until status=ACCEPTED arrives.
+  # stays in `ringing` until status=ACCEPTED arrives. Don't gate on
+  # in_progress: an out-of-order ACCEPTED can flip status before connect is
+  # processed, and dropping the SDP answer would leave the browser without
+  # the data it needs to complete the handshake. Use the stored answer as
+  # the idempotency key instead.
   def accept_outbound_call(call, payload)
     call.with_lock do
-      next if call.in_progress? || call.terminal?
+      next if call.terminal?
+      next if call.meta&.dig('sdp_answer').present?
 
       # Pin setup:active so browsers don't renegotiate when Meta echoes actpass.
       sdp_answer = payload.dig(:session, :sdp)&.gsub('a=setup:actpass', 'a=setup:active')
