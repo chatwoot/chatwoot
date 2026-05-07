@@ -5,9 +5,11 @@ import { useStore } from 'vuex';
 import { useMessageContext } from '../provider.js';
 import { VOICE_CALL_STATUS } from '../constants';
 import { useCallSession } from 'dashboard/composables/useCallSession';
+import { formatDuration } from 'shared/helpers/timeHelper';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
+import AudioChip from 'next/message/chips/Audio.vue';
 
 const LABEL_MAP = {
   [VOICE_CALL_STATUS.IN_PROGRESS]: 'CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS',
@@ -76,12 +78,16 @@ const labelKey = computed(() => {
     : 'CONVERSATION.VOICE_CALL.INCOMING_CALL';
 });
 
+const formattedDuration = computed(() =>
+  formatDuration(call.value?.durationSeconds)
+);
+
 const subtext = computed(() => {
   if (status.value === VOICE_CALL_STATUS.RINGING) {
     return t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
   }
   if (status.value === VOICE_CALL_STATUS.COMPLETED) {
-    return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
+    return formattedDuration.value;
   }
   if (status.value === VOICE_CALL_STATUS.IN_PROGRESS) {
     if (isOutbound.value) return t('CONVERSATION.VOICE_CALL.THEY_ANSWERED');
@@ -128,6 +134,17 @@ const canJoinCall = computed(() => {
   return true;
 });
 
+const recordingAttachment = computed(() => {
+  const url = call.value?.recordingUrl;
+  if (!url) return null;
+  return {
+    dataUrl: url,
+    fileType: 'audio',
+    extension: 'wav',
+    transcribedText: call.value?.transcript || '',
+  };
+});
+
 const handleJoinCall = async () => {
   if (!canJoinCall.value || isJoining.value) return;
 
@@ -149,7 +166,7 @@ const handleJoinCall = async () => {
 
 <template>
   <BaseBubble class="p-0 border-none" hide-meta>
-    <div class="flex overflow-hidden flex-col w-full max-w-xs">
+    <div class="flex overflow-hidden flex-col w-full max-w-sm">
       <div class="flex gap-3 items-center p-3 w-full">
         <div
           class="flex justify-center items-center rounded-full size-10 shrink-0"
@@ -169,7 +186,7 @@ const handleJoinCall = async () => {
           <span class="text-sm font-medium truncate text-n-slate-12">
             {{ $t(labelKey) }}
           </span>
-          <span class="text-xs text-n-slate-11">
+          <span v-if="subtext" class="text-xs text-n-slate-11">
             {{ subtext }}
           </span>
           <button
@@ -182,6 +199,10 @@ const handleJoinCall = async () => {
             {{ $t('CONVERSATION.VOICE_CALL.JOIN_CALL') }}
           </button>
         </div>
+      </div>
+
+      <div v-if="recordingAttachment" class="px-3 pb-3">
+        <AudioChip :attachment="recordingAttachment" />
       </div>
     </div>
   </BaseBubble>
