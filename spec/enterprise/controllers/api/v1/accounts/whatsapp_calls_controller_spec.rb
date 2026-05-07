@@ -16,7 +16,8 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
   let(:provider_service) { instance_double(Whatsapp::Providers::WhatsappCloudService) }
 
   before do
-    channel.provider_config = channel.provider_config.merge('calling_enabled' => true)
+    account.enable_features!('channel_voice')
+    channel.provider_config = channel.provider_config.merge('source' => 'embedded_signup', 'calling_enabled' => true)
     channel.save!
     create(:inbox_member, user: agent, inbox: inbox)
     allow_any_instance_of(Channel::Whatsapp).to receive(:provider_service).and_return(provider_service) # rubocop:disable RSpec/AnyInstance
@@ -111,7 +112,8 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
            params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
            headers: agent.create_new_auth_token
 
-      expect(response).to have_http_status(:ok)
+      # Controller deliberately returns 422 so clients can't mistake the permission-template path for a successful dial.
+      expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body['status']).to eq('permission_requested')
       attrs = initiate_conversation.reload.additional_attributes
       expect(attrs['call_permission_requested_at']).to be_present
