@@ -39,7 +39,7 @@ const createNewArticle = async ({ title, content }) => {
   if (title) article.value.title = title;
   if (content) article.value.content = content;
 
-  if (!article.value.title || !article.value.content) return;
+  if (!article.value.title || isUpdating.value) return;
 
   isUpdating.value = true;
   try {
@@ -86,7 +86,7 @@ const goBackToArticles = () => {
     :article="article"
     :is-updating="isUpdating"
     :is-saved="isSaved"
-    @save-article="createNewArticle"
+    @create-article="createNewArticle"
     @go-back="goBackToArticles"
     @set-author="setAuthorId"
     @set-category="setCategoryId"

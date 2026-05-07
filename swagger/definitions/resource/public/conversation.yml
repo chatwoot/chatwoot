@@ -3,14 +3,26 @@ properties:
   id:
     type: integer
     description: Id of the conversation
-  inbox_id:
+  uuid:
     type: string
+    description: UUID of the conversation
+  inbox_id:
+    type: integer
     description: The inbox id of the conversation
+  contact_last_seen_at:
+    type: integer
+    description: Timestamp of when the contact last seen the conversation (Unix timestamp)
+  status:
+    type: string
+    enum: ['open', 'resolved', 'pending', 'snoozed']
+    description: The status of the conversation
+  agent_last_seen_at:
+    type: integer
+    description: Timestamp of when the agent last seen the conversation (Unix timestamp)
   messages:
     type: array
     items:
-      $ref: '#/components/schemas/message'
+      $ref: '#/components/schemas/public_message'
     description: Messages in the conversation
   contact:
-    type: object
-    description: The contact information associated to the conversation
+    $ref: '#/components/schemas/public_contact_record'

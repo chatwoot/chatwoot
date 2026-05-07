@@ -9,11 +9,15 @@ import {
   ARTICLE_STATUSES,
 } from 'dashboard/helper/portalHelper';
 
+import { useMapGetter } from 'dashboard/composables/store.js';
+import { useConfig } from 'dashboard/composables/useConfig';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 const props = defineProps({
   id: {
@@ -44,13 +48,45 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  isSelected: {
+    type: Boolean,
+    default: false,
+  },
+  selectable: {
+    type: Boolean,
+    default: false,
+  },
+  showSelectionControl: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['openArticle', 'articleAction']);
+const emit = defineEmits([
+  'openArticle',
+  'articleAction',
+  'toggleSelect',
+  'hover',
+]);
 
 const { t } = useI18n();
 
 const [showActionsDropdown, toggleDropdown] = useToggle();
+
+const currentAccountId = useMapGetter('getCurrentAccountId');
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
+const { isEnterprise } = useConfig();
+
+const isTranslationAvailable = computed(
+  () =>
+    isEnterprise &&
+    isFeatureEnabledonAccount.value(
+      currentAccountId.value,
+      FEATURE_FLAGS.CAPTAIN_TASKS
+    )
+);
 
 const articleMenuItems = computed(() => {
   const commonItems = Object.entries(ARTICLE_MENU_ITEMS).reduce(
@@ -64,7 +100,9 @@ const articleMenuItems = computed(() => {
   const statusItems = (
     ARTICLE_MENU_OPTIONS[props.status] ||
     ARTICLE_MENU_OPTIONS[ARTICLE_STATUSES.PUBLISHED]
-  ).map(key => commonItems[key]);
+  )
+    .filter(key => key !== 'translate' || isTranslationAvailable.value)
+    .map(key => commonItems[key]);
 
   return [...statusItems, commonItems.delete];
 });
@@ -123,14 +161,27 @@ const handleClick = id => {
 </script>
 
 <template>
-  <CardLayout>
+  <CardLayout
+    :selectable="selectable"
+    class="relative"
+    @mouseenter="emit('hover', true)"
+    @mouseleave="emit('hover', false)"
+  >
+    <div
+      v-show="showSelectionControl"
+      class="absolute top-7 ltr:left-3 rtl:right-3"
+    >
+      <Checkbox :model-value="isSelected" @change="emit('toggleSelect', id)" />
+    </div>
     <div class="flex justify-between w-full gap-1">
-      <span
-        class="text-base cursor-pointer hover:underline underline-offset-2 hover:text-n-blue-11 text-n-slate-12 line-clamp-1"
-        @click="handleClick(id)"
-      >
-        {{ title }}
-      </span>
+      <div class="flex items-center gap-2 min-w-0">
+        <span
+          class="text-base cursor-pointer hover:underline underline-offset-2 hover:text-n-blue-11 text-n-slate-12 line-clamp-1"
+          @click="handleClick(id)"
+        >
+          {{ title }}
+        </span>
+      </div>
       <div class="flex items-center gap-2">
         <span
           class="text-xs font-medium inline-flex items-center h-6 px-2 py-0.5 rounded-md bg-n-alpha-2"

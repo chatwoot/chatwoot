@@ -61,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Esta mensagem não é suportada. Pode ver esta mensagem na app Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Esta mensagem não é suportada. Pode ver esta mensagem na app do Instagram.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "Mensagem apagada com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível apagar a mensagem! Por favor, tente novamente",
     "NO_RESPONSE": "Sem resposta",
@@ -173,6 +174,10 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Não foi possível atribuir etiqueta. Por favor, tente novamente."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Equipa \"{team}\" atribuída  a conversa de ID {conversationId}",
           "FAILED": "Não foi possível atribuir equipa. Por favor, tente novamente."
@@ -185,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "Desativar assinatura",
       "MSG_INPUT": "Shift + Enter para nova linha. Comece com '/' para selecionar uma resposta pronta.",
       "PRIVATE_MSG_INPUT": "Shift + Enter para nova linha. Esta mensagem apenas será visível para agentes",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
+      "COPILOT_MSG_INPUT": "Dê comandos adicionais ao copiloto ou pergunte qualquer outra coisa... Pressione enter para enviar o acompanhamento",
       "CLICK_HERE": "Clique aqui para atualizar",
       "WHATSAPP_TEMPLATES": "Template do WhatsApp"
     },
@@ -205,7 +214,7 @@
       "DRAG_DROP": "Arrastar e soltar aqui para anexar",
       "START_AUDIO_RECORDING": "Iniciar gravação de áudio",
       "STOP_AUDIO_RECORDING": "Parar gravação de áudio",
-      "": "",
+      "COPILOT_THINKING": "Copiloto está pensando",
       "EMAIL_HEAD": {
         "TO": "PARA",
         "ADD_BCC": "Adicionar Bcc",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversa apagada",
     "FAIL_DELETE_CONVERSATION": "Não foi possível apagar a conversa! Tente novamente",
     "FILE_SIZE_LIMIT": "O ficheiro excede o tamanho limite para anexos de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Não foi possível enviar esta mensagem, por favor, tente novamente mais tarde",
     "SENT_BY": "Enviado por:",
     "BOT": "Bot",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Não foi possível enviar a mensagem! Tente novamente",
     "TRY_AGAIN": "Tentar novamente",
     "ASSIGNMENT": {
@@ -294,6 +306,7 @@
     "CANCEL": "Cancelar",
     "SEND_EMAIL_SUCCESS": "A transcrição da conversa foi enviada com sucesso",
     "SEND_EMAIL_ERROR": "Ocorreu um erro, por favor, tente novamente",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Enviar a transcrição ao cliente",
       "SEND_TO_AGENT": "Enviar a transcrição para o agente atribuído",

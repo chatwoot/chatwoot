@@ -13,7 +13,6 @@ const FEATURE_HELP_URLS = {
   integrations: 'https://chwt.app/hc/integrations',
   labels: 'https://chwt.app/hc/labels',
   macros: 'https://chwt.app/hc/macros',
-  message_reply_to: 'https://chwt.app/hc/reply-to',
   reports: 'https://chwt.app/hc/reports',
   sla: 'https://chwt.app/hc/sla',
   team_management: 'https://chwt.app/hc/teams',

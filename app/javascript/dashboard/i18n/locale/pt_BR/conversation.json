@@ -32,7 +32,7 @@
     "LOADING_CONVERSATIONS": "Carregando conversas",
     "CANNOT_REPLY": "Você não pode responder porque",
     "24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
-    "48_HOURS_WINDOW": "Restrição de janela de mensagem de 48 horas",
+    "48_HOURS_WINDOW": "Restrição da janela de mensagens de 48 horas",
     "API_HOURS_WINDOW": "Você só pode responder a esta conversa em {hours} horas",
     "NOT_ASSIGNED_TO_YOU": "Esta conversa não está atribuída a você. Gostaria de atribuir esta conversa a você mesmo?",
     "ASSIGN_TO_ME": "Atribuir a mim",
@@ -58,9 +58,10 @@
     },
     "UPLOADING_ATTACHMENTS": "Enviando anexos...",
     "REPLIED_TO_STORY": "Respondido ao seu story",
-    "UNSUPPORTED_MESSAGE": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo Facebook Messenger.",
+    "UNSUPPORTED_MESSAGE": "Esta mensagem não é suportada. Para visualizá-la, por favor, abra-a na plataforma original.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo do Instagram.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "Esta mensagem não é compatível. Você pode visualizá-la no aplicativo do TikTok.",
     "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível excluir a mensagem! Tente novamente",
     "NO_RESPONSE": "Sem resposta",
@@ -173,6 +174,10 @@
           "SUCCESFUL": "Etiqueta #{labelName} atribuída para a conversa {conversationId}",
           "FAILED": "Não foi possível atribuir etiqueta. Por favor, tente novamente."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Etiqueta #{labelName} removida da conversa com id {conversationId}",
+          "FAILED": "Não foi possível remover a etiqueta. Por favor, tente novamente."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Time {team} atribuído para o id de conversa {conversationId}",
           "FAILED": "Não foi possível atribuir time. Por favor, tente novamente."
@@ -185,9 +190,13 @@
       "DISABLE_SIGN_TOOLTIP": "Desativar assinatura",
       "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para selecionar uma Resposta Pronta.",
       "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para agentes",
+      "MESSAGING_RESTRICTED": "Você não pode responder esta conversa",
+      "MESSAGING_RESTRICTED_WHATSAPP": "Você só pode responder usando uma mensagem de modelo devido à restrição da janela de 24 horas",
+      "MESSAGING_RESTRICTED_API": "Você só pode responder usando uma mensagem de template devido à restrição da janela de mensagens",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
+      "COPILOT_MSG_INPUT": "Forneça instruções adicionais ao Copiloto ou pergunte algo mais... Pressione Enter para enviar",
       "CLICK_HERE": "Clique aqui para atualizar",
-      "WHATSAPP_TEMPLATES": "Templates do Whatsapp"
+      "WHATSAPP_TEMPLATES": "Modelos do Whatsapp"
     },
     "REPLYBOX": {
       "REPLY": "Responder",
@@ -205,7 +214,7 @@
       "DRAG_DROP": "Arraste e solte aqui para anexar",
       "START_AUDIO_RECORDING": "Iniciar gravação de áudio",
       "STOP_AUDIO_RECORDING": "Parar gravação de áudio",
-      "": "",
+      "COPILOT_THINKING": "O Copiloto está pensando",
       "EMAIL_HEAD": {
         "TO": "Para",
         "ADD_BCC": "Adicionar cco",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversa excluída com sucesso",
     "FAIL_DELETE_CONVERSATION": "Não foi possível excluir a conversa! Tente novamente",
     "FILE_SIZE_LIMIT": "O arquivo excede os {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB do limite para anexos",
+    "FILE_TYPE_NOT_SUPPORTED": "O tipo de arquivo {fileName} não é suportado nesta conversa",
     "MESSAGE_ERROR": "Não foi possível enviar esta mensagem, por favor, tente novamente mais tarde",
     "SENT_BY": "Enviado por:",
     "BOT": "Robôs",
+    "NATIVE_APP": "Aplicativo nativo",
+    "NATIVE_APP_ADVISORY": "Esta mensagem foi enviada a partir do aplicativo nativo. Responda pelo Chatwoot para manter a janela de mensagens ativa.",
     "SEND_FAILED": "Não foi possível enviar a mensagem! Tente novamente",
     "TRY_AGAIN": "tentar novamente",
     "ASSIGNMENT": {
@@ -294,6 +306,7 @@
     "CANCEL": "Cancelar",
     "SEND_EMAIL_SUCCESS": "A transcrição do chat foi enviada com sucesso",
     "SEND_EMAIL_ERROR": "Ocorreu um erro, por favor tente novamente",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "A transcrição de e-mail não está disponível no seu plano atual. Por favor, atualize para usar este recurso.",
     "FORM": {
       "SEND_TO_CONTACT": "Envie a transcrição para o cliente",
       "SEND_TO_AGENT": "Envie a transcrição para o agente designado",
@@ -349,25 +362,25 @@
       "PREVIOUS_CONVERSATION": "Conversas anteriores",
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Problemas do Linear vinculados",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Pedidos do Shopify"
     },
     "SHOPIFY": {
-      "ORDER_ID": "Order #{id}",
-      "ERROR": "Error loading orders",
-      "NO_SHOPIFY_ORDERS": "No orders found",
+      "ORDER_ID": "Pedido #{id}",
+      "ERROR": "Erro ao carregar pedidos",
+      "NO_SHOPIFY_ORDERS": "Nenhum pedido encontrado",
       "FINANCIAL_STATUS": {
         "PENDING": "Pendentes",
-        "AUTHORIZED": "Authorized",
-        "PARTIALLY_PAID": "Partially Paid",
-        "PAID": "Paid",
-        "PARTIALLY_REFUNDED": "Partially Refunded",
-        "REFUNDED": "Refunded",
-        "VOIDED": "Voided"
+        "AUTHORIZED": "Autorizado",
+        "PARTIALLY_PAID": "Parcialmente pago",
+        "PAID": "Pago",
+        "PARTIALLY_REFUNDED": "Parcialmente Reembolsado",
+        "REFUNDED": "Reembolsado",
+        "VOIDED": "Anulado"
       },
       "FULFILLMENT_STATUS": {
-        "FULFILLED": "Fulfilled",
-        "PARTIALLY_FULFILLED": "Partially Fulfilled",
-        "UNFULFILLED": "Unfulfilled"
+        "FULFILLED": "Concluído",
+        "PARTIALLY_FULFILLED": "Parcialmente Concluído",
+        "UNFULFILLED": "Não concluído"
       }
     }
   },

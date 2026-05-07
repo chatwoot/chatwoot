@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Elimina Integrazione Shopify",
         "MESSAGE": "Sei sicuro di voler eliminare l'integrazione Shopify?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot si integra con più strumenti e servizi per migliorare l'efficienza del tuo team. Esplora l'elenco qui sotto per configurare le tue app preferite.",
     "LEARN_MORE": "Scopri di più sulle integrazioni",
     "LOADING": "Caricamento integrazioni",
+    "SEARCH_PLACEHOLDER": "Cerca integrazioni...",
+    "NO_RESULTS": "Nessuna integrazione trovata corrispondente alla tua ricerca",
     "CAPTAIN": {
       "DISABLED": "Captain non è abilitato sul tuo account.",
       "CLICK_HERE_TO_CONFIGURE": "Clicca qui per configurare",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventi Sottoscritti",
       "LEARN_MORE": "Scopri di più sui webhooks",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copia secret negli appunti",
+        "COPY_SUCCESS": "Secret copiato negli appunti",
+        "TOGGLE": "Cambia visibilità secret",
+        "CREATED_DESC": "Il tuo webhook è stato creato. Usa il secret qui sotto per verificare le signature del webhook. Per favore copialo ora — lo puoi ritrovare più tardi nel modulo di modifica webhook.",
+        "DONE": "Fatto"
+      },
+      "COUNT": "{n} webhook | {n} webhook",
+      "SEARCH_PLACEHOLDER": "Cerca webhook...",
+      "NO_RESULTS": "Nessun webhook trovato corrispondente alla tua ricerca",
       "FORM": {
         "CANCEL": "Annulla",
         "DESC": "Gli eventi Webhook ti forniscono le informazioni in tempo reale su ciò che sta accadendo nel tuo account Chatwoot. Per favore inserisci un URL valido per configurare un callback.",
@@ -104,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Elimina",
       "DELETE_CONFIRMATION": {
         "TITLE": "Elimina l'integrazione",
@@ -111,7 +126,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Stai utilizzando l'integrazione Slack",
-        "BODY": "Con questa integrazione, tutte le conversazioni in arrivo verranno sincronizzate nel canale ***{selectedChannelName}*** del tuo workspace Slack. Potrai gestire tutte le conversazioni con i clienti direttamente dal canale e non perderai mai un messaggio.\n\nEcco le principali funzionalità dell’integrazione:\n\n**Rispondi alle conversazioni direttamente da Slack:** Per rispondere a una conversazione nel canale Slack ***{selectedChannelName}***, ti basta scrivere il tuo messaggio e inviarlo come thread. Questo genererà automaticamente una risposta al cliente tramite Chatwoot. Semplice, no?\n\n**Crea note private:** Se vuoi aggiungere note private invece di risposte, inizia il messaggio con ***`note:`***. In questo modo il messaggio resterà privato e non sarà visibile al cliente.\n\n**Associa un profilo operatore:** Se la persona che risponde su Slack ha un profilo operatore in app con lo stesso indirizzo email, le risposte verranno associate automaticamente a quel profilo. In questo modo potrai sapere facilmente chi ha risposto e quando. Se invece chi risponde non ha un profilo operatore associato, le risposte verranno inviate al cliente dal profilo del bot.",
+        "BODY": "Con questa integrazione, tutte le conversazioni in arrivo verranno sincronizzate nel canale ***{selectedChannelName}*** del tuo workspace Slack. Potrai gestire tutte le conversazioni con i clienti direttamente dal canale e non perderai mai un messaggio.\n\nEcco le principali funzionalità dell’integrazione:\n\n**Rispondi alle conversazioni direttamente da Slack:** Per rispondere a una conversazione nel canale Slack ***{selectedChannelName}***, ti basta scrivere il tuo messaggio e inviarlo come thread. Questo invierà automaticamente la risposta al cliente tramite Chatwoot. Semplice!\n\n**Crea note private:** Se vuoi aggiungere note private invece di risposte, inizia il messaggio con ***`note:`***. In questo modo il messaggio resterà privato e non sarà visibile al cliente.\n\n**Associa un profilo operatore:** Se la persona che risponde su Slack ha un profilo operatore in app con lo stesso indirizzo email, le risposte verranno associate automaticamente a quel profilo. In questo modo potrai sapere facilmente chi ha risposto e quando. Se invece chi risponde non ha un profilo operatore associato, le risposte verranno inviate al cliente dal profilo del bot.",
         "SELECTED": "selezionato"
       },
       "SELECT_CHANNEL": {
@@ -145,7 +160,29 @@
         "EXPAND": "Espandi",
         "MAKE_FRIENDLY": "Cambia il tono del messaggio in amichevole",
         "MAKE_FORMAL": "Usa un tono formale",
-        "SIMPLIFY": "Semplifica"
+        "SIMPLIFY": "Semplifica",
+        "CONFIDENT": "Usa un tono sicuro",
+        "PROFESSIONAL": "Usa un tono professionale",
+        "CASUAL": "Usa un tono informale",
+        "STRAIGHTFORWARD": "Usa un tono diretto"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Migliora la risposta",
+        "IMPROVE_REPLY_SELECTION": "Migliora il testo selezionato",
+        "CHANGE_TONE": {
+          "TITLE": "Cambia tono",
+          "OPTIONS": {
+            "PROFESSIONAL": "Professionale",
+            "CASUAL": "Informale",
+            "STRAIGHTFORWARD": "Diretto",
+            "CONFIDENT": "Sicuro",
+            "FRIENDLY": "Amichevole"
+          }
+        },
+        "GRAMMAR": "Correggi grammatica e ortografia",
+        "SUGGESTION": "Suggerisci una risposta",
+        "SUMMARIZE": "Riassumi la conversazione",
+        "ASK_COPILOT": "Chiedi a Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Contenuti in bozza",
@@ -201,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>App dashboard</b></p><p>Le app dashboard consentono alle organizzazioni di incorporare un'applicazione all'interno di Chatwoot per fornire informazioni aggiuntive agli operatorii. Questa funzione consente di creare un'applicazione in modo indipendente e incorporata all'interno della dashboard per fornire informazioni degli utenti, ad esempio ordini o pagamenti effettuati.</p><p>Quando integri la tua applicazione usando la dashboard Chatwoot, la tua applicazione avrà il context della conversazione e del contatto come evento window. Implementa un listener per l'evento del messaggio sulla tua pagina per ricevere i dati.</p><p>Per aggiungere una nuova app dashboard, clicca sul pulsante 'Aggiungi una nuova app dashboard'.</p>",
       "DESCRIPTION": "Le app dashboard consentono alle organizzazioni di incorporare un'applicazione all'interno della dashboard per fornire dati aggiuntivi agli operatori. Questa funzione consente di creare un'applicazione in modo indipendente e incorporarla per fornire informazioni sull'utente, i suoi ordini o la loro cronologia di pagamento precedente.",
       "LEARN_MORE": "Scopri di più sulle App Dashboard",
+      "COUNT": "{n} app dashboard | {n} app dashboard",
+      "SEARCH_PLACEHOLDER": "Cerca app dashboard...",
+      "NO_RESULTS": "Nessuna app dashboard trovata corrispondente alla tua ricerca",
       "LIST": {
         "404": "Non ci sono ancora app dashboard configurate su questo account",
         "LOADING": "Caricamento app dashboard...",
         "TABLE_HEADER": {
           "NAME": "Nome",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Azioni"
         },
         "EDIT_TOOLTIP": "Modifica app",
         "DELETE_TOOLTIP": "Elimina app"
@@ -243,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Crea/collega issue Linear",
       "LOADING": "Caricamento issue Linear...",
       "LOADING_ERROR": "Si è verificato un errore nel recupero delle issue Linear, si prega di riprovare",
@@ -337,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Sei sicuro di voler eliminare l'integrazione di Notion?",
         "MESSAGE": "L'eliminazione di questa integrazione rimuoverà l'accesso al tuo workspace Notion e interromperà tutte le funzionalità correlate.",
@@ -352,7 +395,7 @@
       "ASSISTANTS": "Assistenti",
       "SWITCH_ASSISTANT": "Cambia assistenti",
       "NEW_ASSISTANT": "Crea Assistente",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "EMPTY_LIST": "Nessun assistente trovato, creane uno per iniziare"
     },
     "COPILOT": {
       "TITLE": "Copilot",
@@ -364,7 +407,7 @@
       "LOADER": "Captain sta pensando",
       "YOU": "Tu",
       "USE": "Usa questo",
-      "RESET": "Reset",
+      "RESET": "Reimposta",
       "SHOW_STEPS": "Mostra i passaggi",
       "SELECT_ASSISTANT": "Seleziona Assistente",
       "PROMPTS": {
@@ -394,7 +437,7 @@
       "USER": "Tu",
       "ASSISTANT": "Assistente",
       "MESSAGE_PLACEHOLDER": "Scrivi il tuo messaggio...",
-      "HEADER": "Playground",
+      "HEADER": "Area di prova",
       "DESCRIPTION": "Usa questo playground per inviare messaggi al tuo assistente e controllare se risponde correttamente, rapidamente e con il tono che ti aspetti.",
       "CREDIT_NOTE": "I messaggi inviati qui vengono scalati dai crediti Captain."
     },
@@ -406,6 +449,7 @@
       "CANCEL_ANYTIME": "Puoi modificare o annullare il tuo piano in qualsiasi momento"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI è disponibile solo nei piani Enterprise.",
       "UPGRADE_PROMPT": "Aggiorna il tuo piano per ottenere l'accesso ai nostri assistenti, copilot e altro ancora.",
       "ASK_ADMIN": "Contatta il tuo amministratore per l'aggiornamento."
     },
@@ -483,7 +527,8 @@
           "TITLE": "Funzionalità",
           "ALLOW_CONVERSATION_FAQS": "Genera FAQ dalle conversazioni risolte",
           "ALLOW_MEMORIES": "Salva memorie e dettagli chiave dalle interazioni con i clienti.",
-          "ALLOW_CITATIONS": "Includi citazioni alle fonti nelle risposte"
+          "ALLOW_CITATIONS": "Includi citazioni alle fonti nelle risposte",
+          "ALLOW_CONTACT_ATTRIBUTES": "Consenti accesso alle informazioni di contatto"
         }
       },
       "EDIT": {
@@ -693,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Documenti",
       "ADD_NEW": "Crea un nuovo documento",
+      "SELECTED": "{count} selezionate",
+      "SELECT_ALL": "Seleziona tutto ({count})",
+      "UNSELECT_ALL": "Deseleziona tutto ({count})",
+      "BULK_DELETE_BUTTON": "Elimina",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Sì, elimina tutte",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "FAQ Correlate",
         "DESCRIPTION": "Queste FAQ vengono generate direttamente dai Documenti."
@@ -750,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Strumenti",
       "ADD_NEW": "Crea un nuovo strumento",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "Nessuno strumento personalizzato disponibile",
         "SUBTITLE": "Crea strumenti personalizzati per collegare il tuo assistente con API e servizi esterni, consentendogli di recuperare dati ed eseguire azioni per tuo conto.",
@@ -780,11 +837,30 @@
         "SUCCESS_MESSAGE": "Strumento personalizzato eliminato correttamente",
         "ERROR_MESSAGE": "Impossibile eliminare lo strumento personalizzato"
       },
+      "PAYWALL": {
+        "TITLE": "Aggiorna per utilizzare gli strumenti con Captain",
+        "AVAILABLE_ON": "Gli strumenti Captain sono disponibili solo nei piani Business e Enterprise. Si prega di aggiornare al piano Business per utilizzare la funzionalità.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Apri fatturazione",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Gli strumenti Captain sono disponibili solo nei piani a pagamento.",
+        "UPGRADE_PROMPT": "Aggiorna a un piano a pagamento per utilizzare questa funzione.",
+        "ASK_ADMIN": "Contatta il tuo amministratore per l'aggiornamento."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Nome Strumento",
           "PLACEHOLDER": "Ricerca Ordini",
-          "ERROR": "Nome strumento richiesto"
+          "ERROR": "Nome strumento richiesto",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Descrizione",

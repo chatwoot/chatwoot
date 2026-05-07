@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "Administrátor",
       "AGENT": "Agent"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "K tomuto účtu nejsou přiřazeni žádní agenti",
       "TITLE": "Spravujte agenty ve vašem týmu",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
       }
     },
+    "SEARCH_PLACEHOLDER": "Hledat agenty...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "Žádné výsledky."
     },

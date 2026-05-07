@@ -1,161 +1,161 @@
 {
   "HELP_CENTER": {
-    "TITLE": "Help Center",
+    "TITLE": "Qendra e Ndihmës",
     "NEW_PAGE": {
-      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
-      "CREATE_PORTAL_BUTTON": "Create Portal"
+      "DESCRIPTION": "Krijoni porta për qendra ndihme vetë-shërbimi për klientët tuaj. Ndihmojini të gjejnë përgjigje shpejt, pa pritur. Thjeshtoni pyetjet, rrisni efikasitetin e agjentëve dhe përmirësoni mbështetjen ndaj klientit.",
+      "CREATE_PORTAL_BUTTON": "Krijo Portën"
     },
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
-      "LOCALE": "Locale",
-      "SETTINGS_BUTTON": "Settings",
-      "NEW_BUTTON": "New Article",
+      "FILTER": "Filtro sipas",
+      "SORT": "Rendit sipas",
+      "LOCALE": "Gjuha",
+      "SETTINGS_BUTTON": "Cilësimet",
+      "NEW_BUTTON": "Artikull i ri",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
+        "PUBLISHED": "Botuar",
         "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "ARCHIVED": "Arkivuar"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "Të gjitha artikujt",
+        "MINE": "Artikujt e mi",
+        "DRAFT": "Artikuj në draft",
+        "ARCHIVED": "Artikuj të arkivuar"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "Zgjidh gjuhën",
+        "PLACEHOLDER": "Zgjidh gjuhën",
+        "NO_RESULT": "Nuk u gjet asnjë gjuhë",
+        "SEARCH_PLACEHOLDER": "Kërko gjuhën"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "Të gjitha artikujt",
+      "PUBLISH_BUTTON": "Publiko",
+      "MOVE_TO_ARCHIVE_BUTTON": "Zhvendos në arkivuar",
+      "PREVIEW": "Parapamje",
+      "ADD_TRANSLATION": "Shto përkthim",
+      "OPEN_SIDEBAR": "Hap shiritin anësor",
+      "CLOSE_SIDEBAR": "Mbyll shiritin anësor",
+      "SAVING": "Duke ruajtur...",
+      "SAVED": "U ruajt"
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
-        "TITLE": "Upload image",
+        "TITLE": "Ngarko imazhin",
         "UPLOADING": "Po ngarkohet...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
+        "SUCCESS": "Imazhi u ngarkua me sukses",
+        "ERROR": "Gabim gjatë ngarkimit të imazhit",
+        "UN_AUTHORIZED_ERROR": "Nuk jeni i autorizuar të ngarkoni imazhe",
+        "ERROR_FILE_SIZE": "Madhësia e imazhit duhet të jetë më pak se {size}MB",
         "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "ERROR_FILE_DIMENSIONS": "Dimensionet e imazhit duhet të jenë më pak se 2000 x 2000"
       }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "Cilësimet e artikullit",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "Kategoria",
+          "TITLE": "Zgjidh kategorinë",
+          "PLACEHOLDER": "Zgjidhni kategorinë",
+          "NO_RESULT": "Nuk u gjet asnjë kategori",
+          "SEARCH_PLACEHOLDER": "Kërko kategori"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "Autori",
+          "TITLE": "Zgjidh autorin",
+          "PLACEHOLDER": "Zgjidh autorin",
+          "NO_RESULT": "Nuk u gjet asnjë autor",
+          "SEARCH_PLACEHOLDER": "Kërko autorin"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "Titulli meta",
+          "PLACEHOLDER": "Shto një titull meta"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "Përshkrimi meta",
+          "PLACEHOLDER": "Shto përshkrimin tuaj meta për rezultate më të mira SEO..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "Etiketat meta",
+          "PLACEHOLDER": "Shto etiketat meta të ndara me presje..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "Arkivo artikullin",
+        "DELETE": "Fshi artikullin"
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for {query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
-      "SEARCH_LOADER": "Searching...",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "UNCATEGORIZED": "Pa kategori",
+      "SEARCH_RESULTS": "Rezultatet e kërkimit për {query}",
+      "EMPTY_TEXT": "Kërko artikuj për t'i futur në përgjigje.",
+      "SEARCH_LOADER": "Duke kërkuar...",
+      "INSERT_ARTICLE": "Fut",
+      "NO_RESULT": "Nuk u gjetën artikuj",
+      "COPY_LINK": "Kopjo lidhjen e artikullit në kujtesën e përkohshme",
+      "OPEN_LINK": "Hap artikullin në skedë të re",
+      "PREVIEW_LINK": "Parapamje e artikullit"
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "DEFAULT": "Default",
-      "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "HEADER": "Portale",
+      "DEFAULT": "Parazgjedhje",
+      "NEW_BUTTON": "Portal i ri",
+      "ACTIVE_BADGE": "aktiv",
+      "CHOOSE_LOCALE_LABEL": "Zgjidh një gjuhë",
+      "LOADING_MESSAGE": "Duke ngarkuar portalet...",
+      "ARTICLES_LABEL": "artikuj",
+      "NO_PORTALS_MESSAGE": "Nuk ka portale të disponueshme",
+      "ADD_NEW_LOCALE": "Shto një gjuhë të re",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
-        "CANCEL_BUTTON_LABEL": "Cancel",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "TITLE": "Portale",
+        "PORTAL_SETTINGS": "Cilësimet e portalit",
+        "SUBTITLE": "Keni disa porta dhe mund të keni gjuhë të ndryshme për secilën portë.",
+        "CANCEL_BUTTON_LABEL": "Anulo",
+        "CHOOSE_LOCALE_BUTTON": "Zgjidh Gjuhën"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
-            "SETTINGS": "Settings",
-            "DELETE": "Delete"
+            "COUNT_LABEL": "artikuj",
+            "ADD": "Shto gjuhë",
+            "VISIT": "Vizito faqen",
+            "SETTINGS": "Cilësimet",
+            "DELETE": "Fshij"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "Konfigurimet e portalit",
             "ITEMS": {
-              "NAME": "Name",
-              "DOMAIN": "Custom domain",
+              "NAME": "Emri",
+              "DOMAIN": "Domen i personalizuar",
               "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "TITLE": "Titulli i portalit",
+              "THEME": "Ngjyra e temës",
+              "SUB_TEXT": "Nëntitulli i portalit"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "Gjuhët në dispozicion",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
-              "DELETE": "Delete",
-              "DEFAULT_LOCALE": "Default"
+              "NAME": "Emri i lokalitetit",
+              "CODE": "Kodi i lokalitetit",
+              "ARTICLE_COUNT": "Nr. i artikujve",
+              "CATEGORIES": "Nr. i kategorive",
+              "SWAP": "Ndërrim",
+              "DELETE": "Fshi",
+              "DEFAULT_LOCALE": "Parazgjedhje"
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "Fshij portalin",
+          "MESSAGE": "A jeni i sigurt që dëshironi të fshini këtë portal",
+          "YES": "Po, fshij portalin",
+          "NO": "Jo, ruaj portalin",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "Portali u fshi me sukses",
+            "DELETE_ERROR": "Gabim gjatë fshirjes së portalit"
           }
         },
         "SEND_CNAME_INSTRUCTIONS": {
@@ -166,86 +166,86 @@
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit portal",
+        "HEADER_TEXT": "Ndrysho portalin",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": "Informacion bazë"
           },
           "CUSTOMIZATION_SETTINGS": {
             "TITLE": "Portal customization"
           },
           "CATEGORY_SETTINGS": {
-            "TITLE": "Categories"
+            "TITLE": "Kategoritë"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": "Gjuhët"
           }
         },
         "CATEGORIES": {
-          "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "TITLE": "Kategoritë në",
+          "NEW_CATEGORY": "Kategori e re",
           "TABLE": {
-            "NAME": "Name",
-            "DESCRIPTION": "Description",
-            "LOCALE": "Locale",
-            "ARTICLE_COUNT": "No. of articles",
+            "NAME": "Emri",
+            "DESCRIPTION": "Përshkrimi",
+            "LOCALE": "Gjuha",
+            "ARTICLE_COUNT": "Numri i artikujve",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "Ndrysho kategorinë",
+              "DELETE": "Fshi kategorinë"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "Nuk u gjetën kategori"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Update basic settings"
+          "BUTTON_TEXT": "Përditëso cilësimet bazë"
         }
       },
       "ADD": {
         "CREATE_FLOW": {
           "BASIC": {
-            "TITLE": "Help center information",
-            "BODY": "Basic information about portal"
+            "TITLE": "Informacioni i qendrës së ndihmës",
+            "BODY": "Informacion bazë rreth portalit"
           },
           "CUSTOMIZATION": {
             "TITLE": "Help center customization",
             "BODY": "Customize portal"
           },
           "FINISH": {
-            "TITLE": "Voila! 🎉",
-            "BODY": "You're all set!"
+            "TITLE": "Ja ku jemi! 🎉",
+            "BODY": "Gjithçka është gati!"
           }
         },
         "CREATE_FLOW_PAGE": {
-          "BACK_BUTTON": "Back",
+          "BACK_BUTTON": "Kthehu",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "Krijo Portal",
+            "TITLE": "Informacion për qendrën e ndihmës",
+            "CREATE_BASIC_SETTING_BUTTON": "Krijo cilësimet bazë të portalit"
           },
           "CUSTOMIZATION_PAGE": {
             "HEADER": "Portal customisation",
             "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "UPDATE_PORTAL_BUTTON": "Përditëso cilësimet e portalit"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "Ja ku jeni!🎉 Tani jeni gati!",
+            "MESSAGE": "Tani mund ta shihni këtë portal të krijuar në faqen tuaj të të gjitha portaleve.",
+            "FINISH": "Shko te faqja e të gjitha portaleve"
           }
         },
         "LOGO": {
           "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "UPLOAD_BUTTON": "Ngarko logo",
+          "HELP_TEXT": "Kjo logo do të shfaqet në krye të portalit.",
+          "IMAGE_UPLOAD_SUCCESS": "Logoja u ngarkua me sukses",
+          "IMAGE_UPLOAD_ERROR": "Logoja u fshi me sukses",
+          "IMAGE_DELETE_ERROR": "Gabim gjatë fshirjes së logos"
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
-          "ERROR": "Name is required"
+          "LABEL": "Emri",
+          "PLACEHOLDER": "Emri i portalit",
+          "HELP_TEXT": "Emri do të përdoret brenda portalit që është i dukshëm për publikun.",
+          "ERROR": "Emri është i nevojshëm"
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -255,358 +255,380 @@
         "DOMAIN": {
           "LABEL": "Custom Domain",
           "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
-          "ERROR": "Enter a valid domain URL"
+          "HELP_TEXT": "Shto vetëm nëse dëshiron të përdorësh një domen të personalizuar për portalet e tua. Për shembull: {exampleURL}",
+          "ERROR": "Futni një URL domeni të vlefshëm"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
-          "ERROR": "Enter a valid home page URL"
+          "LABEL": "Lidhja e faqes kryesore",
+          "PLACEHOLDER": "Lidhja e faqes kryesore të portalit",
+          "HELP_TEXT": "Lidhja që përdoret për t'u kthyer nga portali në faqen kryesore. Për shembull: {exampleURL}",
+          "ERROR": "Futni një URL të vlefshme të faqes kryesore"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "Ngjyra e temës së portalit",
+          "HELP_TEXT": "Kjo ngjyrë do të shfaqet si ngjyra e temës për portalin."
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "LABEL": "Titulli i faqes",
+          "PLACEHOLDER": "Titulli i faqes së portalit",
+          "HELP_TEXT": "Titulli i faqes do të përdoret në portalin publik.",
+          "ERROR": "Titulli i faqes është i nevojshëm"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "Teksti i kokës",
+          "PLACEHOLDER": "Teksti i kokës së portalit",
+          "HELP_TEXT": "Teksti i kokës së portalit do të përdoret në portalin publik.",
+          "ERROR": "Teksti i kokës së portalit është i nevojshëm"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portali u krijua me sukses.",
+          "ERROR_MESSAGE_FOR_BASIC": "Nuk u mund të krijohej portali. Provoni përsëri.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portali u përditësua me sukses.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Nuk u arrit të përditësohej portali. Provo përsëri."
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Add a new locale",
-        "SUB_TITLE": "This adds a new locale to your available translation list.",
-        "PORTAL": "Portal",
+        "TITLE": "Shto një gjuhë të re",
+        "SUB_TITLE": "Kjo shton një gjuhë të re në listën tuaj të përkthimeve të disponueshme.",
+        "PORTAL": "Portali",
         "LOCALE": {
-          "LABEL": "Locale",
-          "PLACEHOLDER": "Choose a locale",
-          "ERROR": "Locale is required"
+          "LABEL": "Gjuha",
+          "PLACEHOLDER": "Zgjidh një gjuhë",
+          "ERROR": "Gjuha është e nevojshme"
         },
         "BUTTONS": {
-          "CREATE": "Create locale",
-          "CANCEL": "Cancel"
+          "CREATE": "Krijo gjuhën",
+          "CANCEL": "Anulo"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "Gjuha u shtua me sukses",
+          "ERROR_MESSAGE": "Nuk mund të shtohet gjuha. Provo përsëri."
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Default locale updated successfully",
-          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+          "SUCCESS_MESSAGE": "Gjuha parazgjedhje u përditësua me sukses",
+          "ERROR_MESSAGE": "Nuk mund të përditësohet gjuha parazgjedhje. Provoni përsëri."
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
-          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+          "SUCCESS_MESSAGE": "Gjuha u hoq nga portali me sukses",
+          "ERROR_MESSAGE": "Nuk mund të hiqet gjuha nga portali. Provoni përsëri."
+        }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "Duke ngarkuar artikuj...",
+      "404": "Asnjë artikull nuk përputhet me kërkimin tuaj 🔍",
+      "NO_ARTICLES": "Nuk ka artikuj të disponueshëm",
       "HEADERS": {
-        "TITLE": "Title",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Views",
-        "STATUS": "Status",
-        "LAST_EDITED": "Last edited"
+        "TITLE": "Titulli",
+        "CATEGORY": "Kategoria",
+        "READ_COUNT": "Shikime",
+        "STATUS": "Statusi",
+        "LAST_EDITED": "I redaktuar së fundmi"
       },
       "COLUMNS": {
-        "BY": "by",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "nga",
+        "AUTHOR_NOT_AVAILABLE": "Autori nuk është i disponueshëm"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "Duke ngarkuar artikullin...",
+      "TITLE_PLACEHOLDER": "Titulli i artikullit shkruhet këtu",
+      "CONTENT_PLACEHOLDER": "Shkruani artikullin tuaj këtu",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "Gabim gjatë ruajtjes së artikullit"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article published successfully"
+        "ERROR": "Gabim gjatë botimit të artikullit",
+        "SUCCESS": "Artikulli u publikua me sukses"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "Gabim gjatë arkivimit të artikullit",
+        "SUCCESS": "Artikulli u arkivua me sukses"
       }
     },
     "DRAFT_ARTICLE": {
       "API": {
-        "ERROR": "Error while drafting article",
-        "SUCCESS": "Article drafted successfully"
+        "ERROR": "Gabim gjatë krijimit të artikullit",
+        "SUCCESS": "Artikulli u krijua me sukses"
       }
     },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete the article?",
-          "YES": "Yes, Delete",
-          "NO": "No, Keep it"
+          "TITLE": "Konfirmo Fshirjen",
+          "MESSAGE": "A jeni i sigurt që dëshironi të fshini artikullin?",
+          "YES": "Po, Fshi",
+          "NO": "Jo, Ruaje"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Article deleted successfully",
-        "ERROR_MESSAGE": "Error while deleting article"
+        "SUCCESS_MESSAGE": "Artikulli u fshi me sukses",
+        "ERROR_MESSAGE": "Gabim gjatë fshirjes së artikullit"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Nuk mund të riorganizohen artikujt. Ju lutemi provoni përsëri."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Nuk mund të riorganizohen kategoritë. Ju lutemi provoni përsëri."
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": "Ju lutemi shtoni titullin dhe përmbajtjen e artikullit, vetëm atëherë mund të përditësoni cilësimet"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "Kërko për artikuj"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "Krijo një kategori",
+        "SUB_TITLE": "Kategoria do të përdoret në portalin publik për të kategorizuar artikujt.",
+        "PORTAL": "Portali",
+        "LOCALE": "Gjuha",
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "LABEL": "Emri",
+          "PLACEHOLDER": "Emri i kategorisë",
+          "HELP_TEXT": "Emri i kategorisë dhe ikona do të përdoren në portalin publik për të kategorizuar artikujt.",
+          "ERROR": "Emri është i nevojshëm"
         },
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/sq/categories/my-slug",
           "ERROR": "Slug is required"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "LABEL": "Përshkrimi",
+          "PLACEHOLDER": "Jepni një përshkrim të shkurtër për kategorinë.",
+          "ERROR": "Përshkrimi është i nevojshëm"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
-          "CANCEL": "Cancel"
+          "CREATE": "Krijo kategori",
+          "CANCEL": "Anulo"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "Kategoria u krijua me sukses",
+          "ERROR_MESSAGE": "Nuk mund të krijohet kategoria"
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "Ndrysho një kategori",
+        "SUB_TITLE": "Ndryshimi i një kategorie do të përditësojë kategorinë në portalin publik.",
+        "PORTAL": "Portali",
+        "LOCALE": "Gjuha",
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "LABEL": "Emri",
+          "PLACEHOLDER": "Emri i kategorisë",
+          "HELP_TEXT": "Emri i kategorisë dhe ikona do të përdoren në portalin publik për të kategorizuar artikujt.",
+          "ERROR": "Emri është i nevojshëm"
         },
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/sq/categories/my-slug",
           "ERROR": "Slug is required"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "LABEL": "Përshkrimi",
+          "PLACEHOLDER": "Jepni një përshkrim të shkurtër për kategorinë.",
+          "ERROR": "Përshkrimi është i nevojshëm"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
-          "CANCEL": "Cancel"
+          "CREATE": "Përditëso kategorinë",
+          "CANCEL": "Anulo"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "Kategoria u përditësua me sukses",
+          "ERROR_MESSAGE": "Nuk mund të përditësohet kategoria"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "Kategoria u fshi me sukses",
+          "ERROR_MESSAGE": "Nuk mund të fshihet kategoria"
         }
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "No articles found",
-      "SEARCHING": "Searching...",
-      "SEARCH_BUTTON": "Search",
-      "INSERT_ARTICLE": "Insert link",
+      "TITLE": "Kërko artikuj",
+      "PLACEHOLDER": "Kërko artikuj",
+      "NO_RESULT": "Nuk u gjetën artikuj",
+      "SEARCHING": "Duke kërkuar...",
+      "SEARCH_BUTTON": "Kërko",
+      "INSERT_ARTICLE": "Fut lidhjen",
       "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Preview article",
-      "CANCEL": "Close",
-      "BACK": "Back",
-      "BACK_RESULTS": "Back to results"
+      "OPEN_ARTICLE_SEARCH": "Fut artikull nga Qendra e Ndihmës",
+      "SUCCESS_ARTICLE_INSERTED": "Artikulli u fut me sukses",
+      "PREVIEW_LINK": "Paraqit artikullin",
+      "CANCEL": "Mbyll",
+      "BACK": "Kthehu",
+      "BACK_RESULTS": "Kthehu te rezultatet"
     },
     "UPGRADE_PAGE": {
-      "TITLE": "Help Center",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "TITLE": "Qendra e Ndihmës",
+      "DESCRIPTION": "Krijoni porta vetë-shërbimi të përshtatshme për përdoruesit. Ndihmoni përdoruesit tuaj të kenë akses në artikuj dhe të marrin mbështetje 24/7. Përmirësoni abonimin tuaj për të aktivizuar këtë veçori.",
+      "SELF_HOSTED_DESCRIPTION": "Krijoni porta vetë-shërbimi të përshtatshme për përdoruesit. Ndihmoni përdoruesit tuaj të kenë akses në artikuj dhe të marrin mbështetje 24/7. Ju lutemi kontaktoni administratorin tuaj për të aktivizuar këtë veçori.",
       "BUTTON": {
-        "LEARN_MORE": "Learn more",
-        "UPGRADE": "Upgrade"
+        "LEARN_MORE": "Mëso më shumë",
+        "UPGRADE": "Përmirëso"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "Portale të shumta",
+          "DESCRIPTION": "Krijo portale të shumta të qendrës së ndihmës për produkte të ndryshme duke përdorur të njëjtin llogari."
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "Mbështetje e plotë për gjuhët lokale",
+          "DESCRIPTION": "Lokalizoni portalin në gjuhën tuaj. Ne mbështesim të gjitha lokalet dhe lejojmë përkthime për çdo artikull."
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
+          "TITLE": "Dizajn miqësor për SEO",
           "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
         },
         "API": {
-          "TITLE": "Full API support",
-          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+          "TITLE": "Mbështetje e plotë API",
+          "DESCRIPTION": "Përdorni portalin si një CMS pa kokë me kornizat e palëve të treta për front-end duke përdorur API-të tona."
         }
       }
     },
-    "LOADING": "Loading...",
+    "LOADING": "Duke ngarkuar...",
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
-          "VIEWS": "{count} view | {count} views",
+          "VIEWS": "{count} shikim | {count} shikime",
           "DROPDOWN_MENU": {
-            "PUBLISH": "Publish",
+            "PUBLISH": "Publiko",
             "DRAFT": "Draft",
-            "ARCHIVE": "Archive",
-            "DELETE": "Delete"
+            "ARCHIVE": "Arkivo",
+            "DELETE": "Fshij"
           },
           "STATUS": {
-            "DRAFT": "Draft",
-            "PUBLISHED": "Published",
-            "ARCHIVED": "Archived"
+            "DRAFT": "Nismë",
+            "PUBLISHED": "Botuar",
+            "ARCHIVED": "Arkivuar"
           },
           "CATEGORY": {
-            "UNCATEGORISED": "Uncategorised"
+            "UNCATEGORISED": "Pa kategori"
           }
         }
       },
       "ARTICLES_HEADER": {
         "TABS": {
-          "ALL": "All articles",
-          "MINE": "Mine",
-          "DRAFT": "Draft",
-          "PUBLISHED": "Published",
-          "ARCHIVED": "Archived"
+          "ALL": "Të gjitha artikujt",
+          "MINE": "E mia",
+          "DRAFT": "Nismë",
+          "PUBLISHED": "Botuar",
+          "ARCHIVED": "Arkivuar"
         },
         "CATEGORY": {
-          "ALL": "All categories"
+          "ALL": "Të gjitha kategoritë"
         },
         "LOCALE": {
-          "ALL": "All locales"
+          "ALL": "Të gjitha gjuhët"
         },
-        "NEW_ARTICLE": "New article"
+        "NEW_ARTICLE": "Artikull i ri"
       },
       "EMPTY_STATE": {
         "ALL": {
-          "TITLE": "Write an article",
-          "SUBTITLE": "Write a rich article, let’s get started!",
-          "BUTTON_LABEL": "New article"
+          "TITLE": "Shkruaj një artikull",
+          "SUBTITLE": "Shkruaj një artikull të pasur, le të fillojmë!",
+          "BUTTON_LABEL": "Artikull i ri"
         },
         "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+          "TITLE": "Nuk keni shkruar asnjë artikull këtu",
+          "SUBTITLE": "Të gjitha artikujt e shkruar nga ju shfaqen këtu për akses të shpejtë."
         },
         "DRAFT": {
-          "TITLE": "There are no articles in drafts",
-          "SUBTITLE": "Draft articles will appear here"
+          "TITLE": "Nuk ka artikuj në draft",
+          "SUBTITLE": "Artikujt në draft do të shfaqen këtu"
         },
         "PUBLISHED": {
-          "TITLE": "There are no published articles",
-          "SUBTITLE": "Published articles will appear here"
+          "TITLE": "Nuk ka artikuj të publikuar",
+          "SUBTITLE": "Artikujt e publikuar do të shfaqen këtu"
         },
         "ARCHIVED": {
-          "TITLE": "There are no articles in the archive",
-          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+          "TITLE": "Nuk ka artikuj në arkiv",
+          "SUBTITLE": "Artikujt e arkivuar nuk shfaqen në portal, mund ta përdorni për të shënuar faqet e vjetruara ose të papërdorshme"
         },
         "CATEGORY": {
-          "TITLE": "There are no articles in this category",
-          "SUBTITLE": "Articles in this category will appear here"
+          "TITLE": "Nuk ka artikuj në këtë kategori",
+          "SUBTITLE": "Artikujt në këtë kategori do të shfaqen këtu"
         }
       }
     },
     "CATEGORY_PAGE": {
       "CATEGORY_HEADER": {
-        "NEW_CATEGORY": "New category",
-        "EDIT_CATEGORY": "Edit category",
-        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "NEW_CATEGORY": "Kategori e re",
+        "EDIT_CATEGORY": "Ndrysho kategorinë",
+        "CATEGORIES_COUNT": "{n} kategori | {n} kategori",
         "BREADCRUMB": {
-          "CATEGORY_LOCALE": "Categories ({localeCode})",
-          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+          "CATEGORY_LOCALE": "Kategoritë ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} artikuj) | {categoryName} ({categoryCount} artikull)"
         }
       },
       "CATEGORY_EMPTY_STATE": {
-        "TITLE": "No categories found",
-        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+        "TITLE": "Nuk u gjetën kategori",
+        "SUBTITLE": "Kategoritë do të shfaqen këtu. Mund të shtoni një kategori duke klikuar butonin 'Kategori e Re'."
       },
       "CATEGORY_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles"
+        "ARTICLES_COUNT": "{count} artikull | {count} artikuj"
       },
       "CATEGORY_DIALOG": {
         "CREATE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category created successfully",
-            "ERROR_MESSAGE": "Unable to create category"
+            "SUCCESS_MESSAGE": "Kategoria u krijua me sukses",
+            "ERROR_MESSAGE": "Nuk mund të krijohet kategoria"
           }
         },
         "EDIT": {
           "API": {
-            "SUCCESS_MESSAGE": "Category updated successfully",
-            "ERROR_MESSAGE": "Unable to update category"
+            "SUCCESS_MESSAGE": "Kategoria u përditësua me sukses",
+            "ERROR_MESSAGE": "Nuk mund të përditësohet kategoria"
           }
         },
         "DELETE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category deleted successfully",
-            "ERROR_MESSAGE": "Unable to delete category"
+            "SUCCESS_MESSAGE": "Kategoria u fshi me sukses",
+            "ERROR_MESSAGE": "Nuk mund të fshihet kategoria"
           }
         },
         "HEADER": {
-          "CREATE": "Create category",
-          "EDIT": "Edit category",
-          "DESCRIPTION": "Editing a category will update the category in the public facing portal.",
-          "PORTAL": "Portal",
-          "LOCALE": "Locale"
+          "CREATE": "Krijo kategori",
+          "EDIT": "Ndrysho kategori",
+          "DESCRIPTION": "Ndryshimi i një kategorie do të përditësojë kategorinë në portalin publik.",
+          "PORTAL": "Portali",
+          "LOCALE": "Gjuha"
         },
         "FORM": {
           "NAME": {
-            "LABEL": "Name",
-            "PLACEHOLDER": "Category name",
-            "ERROR": "Name is required"
+            "LABEL": "Emri",
+            "PLACEHOLDER": "Emri i kategorisë",
+            "ERROR": "Emri është i nevojshëm"
           },
           "SLUG": {
             "LABEL": "Slug",
@@ -615,93 +637,103 @@
             "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
-            "LABEL": "Description",
-            "PLACEHOLDER": "Give a short description about the category.",
-            "ERROR": "Description is required"
+            "LABEL": "Përshkrimi",
+            "PLACEHOLDER": "Jepni një përshkrim të shkurtër për kategorinë.",
+            "ERROR": "Përshkrimi është i nevojshëm"
           }
         },
         "BUTTONS": {
-          "CREATE": "Create",
-          "EDIT": "Update",
-          "CANCEL": "Cancel"
+          "CREATE": "Krijo",
+          "EDIT": "Përditëso",
+          "CANCEL": "Anulo"
         }
       }
     },
     "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALES_COUNT": "Nuk ka gjuhë të disponueshme | {n} gjuhë | {n} gjuhë",
+      "NEW_LOCALE_BUTTON_TEXT": "Gjuhë e re",
       "LOCALE_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles",
-        "CATEGORIES_COUNT": "{count} category | {count} categories",
-        "DEFAULT": "Default",
+        "ARTICLES_COUNT": "{count} artikull | {count} artikuj",
+        "CATEGORIES_COUNT": "{count} kategori | {count} kategori",
+        "DEFAULT": "Parazgjedhje",
+        "DRAFT": "Nismë",
         "DROPDOWN_MENU": {
-          "MAKE_DEFAULT": "Make default",
-          "DELETE": "Delete"
+          "MAKE_DEFAULT": "Bëje parazgjedhje",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
+          "DELETE": "Fshi"
         }
       },
       "ADD_LOCALE_DIALOG": {
-        "TITLE": "Add a new locale",
-        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "TITLE": "Shto një gjuhë të re",
+        "DESCRIPTION": "Zgjidhni gjuhën në të cilën do të shkruhet ky artikull. Kjo do të shtohet në listën tuaj të përkthimeve, dhe mund të shtoni më shumë më vonë.",
         "COMBOBOX": {
-          "PLACEHOLDER": "Select locale..."
+          "PLACEHOLDER": "Zgjidhni gjuhën..."
+        },
+        "STATUS": {
+          "LABEL": "Status",
+          "OPTIONS": {
+            "LIVE": "Botuar",
+            "DRAFT": "Nismë"
+          }
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "Gjuha u shtua me sukses",
+          "ERROR_MESSAGE": "Nuk mund të shtohet gjuha. Provoni përsëri."
         }
       }
     },
     "EDIT_ARTICLE_PAGE": {
       "HEADER": {
         "STATUS": {
-          "SAVING": "Saving...",
-          "SAVED": "Saved"
+          "SAVING": "Duke ruajtur...",
+          "SAVED": "E ruajtur"
         },
-        "PREVIEW": "Preview",
-        "PUBLISH": "Publish",
+        "PREVIEW": "Parapamje",
+        "PUBLISH": "Publiko",
         "DRAFT": "Draft",
-        "ARCHIVE": "Archive",
-        "BACK_TO_ARTICLES": "Back to articles"
+        "ARCHIVE": "Arkivo",
+        "BACK_TO_ARTICLES": "Kthehu te artikujt"
       },
       "EDIT_ARTICLE": {
-        "MORE_PROPERTIES": "More properties",
-        "UNCATEGORIZED": "Uncategorized",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "MORE_PROPERTIES": "Më shumë vetitë",
+        "UNCATEGORIZED": "Pa kategori",
+        "EDITOR_PLACEHOLDER": "Shkruaj diçka..."
       },
       "ARTICLE_PROPERTIES": {
-        "ARTICLE_PROPERTIES": "Article properties",
-        "META_DESCRIPTION": "Meta description",
-        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
-        "META_TITLE": "Meta title",
-        "META_TITLE_PLACEHOLDER": "Add meta title",
-        "META_TAGS": "Meta tags",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "ARTICLE_PROPERTIES": "Pronat e artikullit",
+        "META_DESCRIPTION": "Përshkrimi meta",
+        "META_DESCRIPTION_PLACEHOLDER": "Shto përshkrimin meta",
+        "META_TITLE": "Titulli meta",
+        "META_TITLE_PLACEHOLDER": "Shto titull meta",
+        "META_TAGS": "Etiketat meta",
+        "META_TAGS_PLACEHOLDER": "Shto etiketa meta"
       },
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "Gabim gjatë ruajtjes së artikullit"
       }
     },
     "PORTAL_SWITCHER": {
-      "NEW_PORTAL": "New portal",
-      "PORTALS": "Portals",
-      "CREATE_PORTAL": "Create and manage multiple portals",
-      "ARTICLES": "articles",
-      "DOMAIN": "domain",
-      "PORTAL_NAME": "Portal name"
+      "NEW_PORTAL": "Portali i ri",
+      "PORTALS": "Portale",
+      "CREATE_PORTAL": "Krijo dhe menaxho porta të shumta",
+      "ARTICLES": "artikuj",
+      "DOMAIN": "domen",
+      "PORTAL_NAME": "Emri i portalit"
     },
     "CREATE_PORTAL_DIALOG": {
-      "TITLE": "Create new portal",
-      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
-      "CONFIRM_BUTTON_LABEL": "Create",
+      "TITLE": "Krijo portal të ri",
+      "DESCRIPTION": "Jepni portalit tuaj një emër dhe krijoni një URL të thjeshtë për përdoruesit. Mund t’i ndryshoni të dyja më vonë në cilësime.",
+      "CONFIRM_BUTTON_LABEL": "Krijo",
       "NAME": {
-        "LABEL": "Name",
-        "PLACEHOLDER": "User Guide | Chatwoot",
-        "MESSAGE": "Choose an name for your portal.",
-        "ERROR": "Name is required"
+        "LABEL": "Emri",
+        "PLACEHOLDER": "Udhëzuesi i Përdoruesit | Chatwoot",
+        "MESSAGE": "Zgjidh një emër për portalin tënd.",
+        "ERROR": "Emri është i nevojshëm"
       },
       "SLUG": {
         "LABEL": "Slug",
-        "PLACEHOLDER": "user-guide",
+        "PLACEHOLDER": "udhëzues-përdoruesi",
         "ERROR": "Slug is required",
         "FORMAT_ERROR": "Ju lutemi shkruani një slug të vlefshëm, p.sh.: user-guide"
       }
@@ -710,28 +742,28 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "Logo",
-          "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
-          "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Unable to delete logo",
-          "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+          "IMAGE_UPLOAD_ERROR": "Nuk u mund të ngarkohet imazhi! Provoni përsëri",
+          "IMAGE_UPLOAD_SUCCESS": "Imazhi u shtua me sukses. Ju lutemi klikoni ruaj ndryshimet për të ruajtur logon",
+          "IMAGE_DELETE_SUCCESS": "Logo u fshi me sukses",
+          "IMAGE_DELETE_ERROR": "Nuk mund të fshihet logoja",
+          "IMAGE_UPLOAD_SIZE_ERROR": "Madhësia e imazhit duhet të jetë më pak se {size}MB"
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Portal name",
-          "ERROR": "Name is required"
+          "LABEL": "Emri",
+          "PLACEHOLDER": "Emri i portalit",
+          "ERROR": "Emri është i nevojshëm"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header text",
-          "PLACEHOLDER": "Portal header text"
+          "LABEL": "Teksti i kokës",
+          "PLACEHOLDER": "Teksti i kokës së portalit"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page title",
-          "PLACEHOLDER": "Portal page title"
+          "LABEL": "Titulli i faqes",
+          "PLACEHOLDER": "Titulli i faqes së portalit"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home page link",
-          "PLACEHOLDER": "Portal home page link",
+          "LABEL": "Lidhja e faqes kryesore",
+          "PLACEHOLDER": "Lidhja e faqes kryesore të portalit",
           "ERROR": "Shkruani një URL të vlefshme. Lidhja e faqes kryesore duhet të fillojë me 'http://' ose 'https://'."
         },
         "SLUG": {
@@ -745,36 +777,36 @@
           "NONE_OPTION": "No widget"
         },
         "BRAND_COLOR": {
-          "LABEL": "Brand color"
+          "LABEL": "Ngjyra e markës"
         },
-        "SAVE_CHANGES": "Save changes"
+        "SAVE_CHANGES": "Ruaj ndryshimet"
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {
-          "HEADER": "Custom domain",
+          "HEADER": "Domen i personalizuar",
           "LABEL": "Custom domain:",
-          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "DESCRIPTION": "Mund të strehoni portalin tuaj në një domen të personalizuar. Për shembull, nëse faqja juaj është yourdomain.com dhe dëshironi që portali juaj të jetë i disponueshëm në docs.yourdomain.com, thjesht shkruani atë në këtë fushë.",
           "STATUS_DESCRIPTION": "Portali juaj i personalizuar do të fillojë të funksionojë sapo të verifikohet.",
-          "PLACEHOLDER": "Portal custom domain",
-          "EDIT_BUTTON": "Edit",
-          "ADD_BUTTON": "Add custom domain",
+          "PLACEHOLDER": "Domeni i personalizuar i portalit",
+          "EDIT_BUTTON": "Ndrysho",
+          "ADD_BUTTON": "Shto domen të personalizuar",
           "STATUS": {
-            "LIVE": "Live",
+            "LIVE": "Aktiv",
             "PENDING": "Në pritje të verifikimit",
             "ERROR": "Verifikimi dështoi"
           },
           "DIALOG": {
-            "ADD_HEADER": "Add custom domain",
-            "EDIT_HEADER": "Edit custom domain",
-            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
-            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
-            "LABEL": "Custom domain",
-            "PLACEHOLDER": "Portal custom domain",
-            "ERROR": "Custom domain is required",
+            "ADD_HEADER": "Shto domen të personalizuar",
+            "EDIT_HEADER": "Ndrysho domenin e personalizuar",
+            "ADD_CONFIRM_BUTTON_LABEL": "Shto domen",
+            "EDIT_CONFIRM_BUTTON_LABEL": "Përditëso domenin",
+            "LABEL": "Domen i personalizuar",
+            "PLACEHOLDER": "Domeni i personalizuar i portalit",
+            "ERROR": "Kërkohet domen i personalizuar",
             "FORMAT_ERROR": "Ju lutemi shkruani një URL të vlefshme të domain-it, p.sh. docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
-            "HEADER": "DNS configuration",
+            "HEADER": "Konfigurimi i DNS",
             "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
             "COPY": "CNAME u kopjua me sukses",
             "SEND_INSTRUCTIONS": {
@@ -782,84 +814,84 @@
               "DESCRIPTION": "Nëse preferoni që dikush nga ekipi juaj i zhvillimit ta trajtojë këtë hap, mund të shkruani adresën e emailit më poshtë dhe ne do t'u dërgojmë udhëzimet e nevojshme.",
               "PLACEHOLDER": "Shkruani emailin e tyre",
               "ERROR": "Shkruani një adresë emaili të vlefshme",
-              "SEND_BUTTON": "Send"
+              "SEND_BUTTON": "Dërgo"
             }
           }
         },
         "DELETE_PORTAL": {
-          "BUTTON": "Delete {portalName}",
-          "HEADER": "Delete portal",
-          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "BUTTON": "Fshi {portalName}",
+          "HEADER": "Fshi portalin",
+          "DESCRIPTION": "Fshini përgjithmonë këtë portal. Kjo veprim është i pakthyeshëm",
           "DIALOG": {
-            "HEADER": "Sure you want to delete {portalName}?",
-            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
-            "CONFIRM_BUTTON_LABEL": "Delete"
+            "HEADER": "Jeni i sigurt që doni të fshini {portalName}?",
+            "DESCRIPTION": "Kjo është një veprim i përhershëm që nuk mund të kthehet mbrapsht.",
+            "CONFIRM_BUTTON_LABEL": "Fshij"
           }
         },
-        "EDIT_CONFIGURATION": "Edit configuration"
+        "EDIT_CONFIGURATION": "Ndrysho konfigurimin"
       },
       "API": {
         "CREATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal created successfully",
-          "ERROR_MESSAGE": "Unable to create portal"
+          "SUCCESS_MESSAGE": "Portali u krijua me sukses",
+          "ERROR_MESSAGE": "Nuk mund të krijohet portali"
         },
         "UPDATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal updated successfully",
-          "ERROR_MESSAGE": "Unable to update portal"
+          "SUCCESS_MESSAGE": "Portali u përditësua me sukses",
+          "ERROR_MESSAGE": "Nuk mund të përditësohet portali"
         }
       }
     },
     "PDF_UPLOAD": {
-      "TITLE": "Upload PDF Document",
-      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
-      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
-      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "TITLE": "Ngarko Dokumentin PDF",
+      "DESCRIPTION": "Ngarko një dokument PDF për të gjeneruar automatikisht Pyetje të Shpeshta duke përdorur AI",
+      "DRAG_DROP_TEXT": "Tërhiq dhe lësho skedarin PDF këtu, ose kliko për të zgjedhur",
+      "SELECT_FILE": "Zgjidh Skedarin PDF",
+      "ADDITIONAL_CONTEXT_LABEL": "Kontekst Shtesë (Opsionale)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Jepni ndonjë kontekst ose udhëzime shtesë për gjenerimin e FAQ-ve...",
       "UPLOADING": "Po ngarkohet...",
-      "UPLOAD": "Upload & Process",
-      "CANCEL": "Cancel",
-      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
-      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
+      "UPLOAD": "Ngarko & Përpunoni",
+      "CANCEL": "Anulo",
+      "ERROR_INVALID_TYPE": "Ju lutemi zgjidhni një skedar PDF të vlefshëm",
+      "ERROR_FILE_TOO_LARGE": "Madhësia e skedarit duhet të jetë më pak se 512MB",
       "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
     },
     "PDF_DOCUMENTS": {
-      "TITLE": "PDF Documents",
-      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
-      "UPLOAD_PDF": "Upload PDF",
+      "TITLE": "Dokumentet PDF",
+      "DESCRIPTION": "Menaxhoni dokumentet PDF të ngarkuara dhe gjeneroni FAQ nga to",
+      "UPLOAD_PDF": "Ngarko PDF",
       "UPLOAD_FIRST_PDF": "Upload your first PDF",
-      "UPLOADED_BY": "Uploaded by",
-      "GENERATE_FAQS": "Generate FAQs",
-      "GENERATING": "Generating...",
-      "CONFIRM_DELETE": "Are you sure you want to delete {filename}?",
+      "UPLOADED_BY": "Ngarkuar nga",
+      "GENERATE_FAQS": "Gjenero Pyetje të Shpeshta",
+      "GENERATING": "Duke gjeneruar...",
+      "CONFIRM_DELETE": "A jeni i sigurt që dëshironi të fshini {filename}?",
       "EMPTY_STATE": {
-        "TITLE": "No PDF documents yet",
-        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+        "TITLE": "Asnjë dokument PDF ende",
+        "DESCRIPTION": "Ngarkoni dokumente PDF për të gjeneruar automatikisht FAQ me ndihmën e AI"
       },
       "STATUS": {
-        "UPLOADED": "Ready",
-        "PROCESSING": "Processing",
-        "PROCESSED": "Completed",
-        "FAILED": "Failed"
+        "UPLOADED": "Gati",
+        "PROCESSING": "Në përpunim",
+        "PROCESSED": "Përfunduar",
+        "FAILED": "Dështuar"
       }
     },
     "CONTENT_GENERATION": {
-      "TITLE": "Content Generation",
-      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
-      "UPLOAD_TITLE": "Upload PDF Document",
-      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "UPLOADING": "Processing document...",
-      "UPLOAD_SUCCESS": "Document processed successfully!",
-      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
-      "INVALID_FILE_TYPE": "Please select a valid PDF file",
-      "FILE_TOO_LARGE": "File size must be less than 512MB",
-      "GENERATED_CONTENT": "Generated FAQ Content",
-      "PUBLISH_SELECTED": "Publish Selected",
-      "PUBLISHING": "Publishing...",
-      "FROM_DOCUMENT": "From document",
-      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
-      "LOADING": "Loading generated content..."
+      "TITLE": "Gjenerimi i Përmbajtjes",
+      "DESCRIPTION": "Ngarkoni dokumente PDF për të gjeneruar automatikisht përmbajtje FAQ duke përdorur AI",
+      "UPLOAD_TITLE": "Ngarko Dokumentin PDF",
+      "DRAG_DROP": "Tërhiq dhe lësho skedarin PDF këtu, ose kliko për të zgjedhur",
+      "SELECT_FILE": "Zgjidhni skedarin PDF",
+      "UPLOADING": "Duke përpunuar dokumentin...",
+      "UPLOAD_SUCCESS": "Dokumenti u përpunua me sukses!",
+      "UPLOAD_ERROR": "Dështoi ngarkimi i dokumentit. Ju lutemi provoni përsëri.",
+      "INVALID_FILE_TYPE": "Ju lutemi zgjidhni një skedar PDF të vlefshëm",
+      "FILE_TOO_LARGE": "Madhësia e skedarit duhet të jetë më pak se 512MB",
+      "GENERATED_CONTENT": "Përmbajtja e FAQ e gjeneruar",
+      "PUBLISH_SELECTED": "Publiko të zgjedhurat",
+      "PUBLISHING": "Duke publikuar...",
+      "FROM_DOCUMENT": "Nga dokumenti",
+      "NO_CONTENT": "Nuk ka përmbajtje të gjeneruar në dispozicion. Ngarkoni një dokument PDF për të filluar.",
+      "LOADING": "Duke ngarkuar përmbajtjen e gjeneruar..."
     }
   }
 }

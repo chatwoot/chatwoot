@@ -24,6 +24,11 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
       end
 
       it 'creates a voice inbox when administrator' do
+        account.enable_features('channel_voice')
+        account.save!
+        stub_request(:get, %r{api\.twilio\.com/2010-04-01/Accounts/.*/IncomingPhoneNumbers\.json})
+          .to_return(status: 200, body: { incoming_phone_numbers: [{ capabilities: { 'voice' => true } }] }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
         allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(instance_double(Twilio::VoiceWebhookSetupService,
                                                                                             perform: "AP#{SecureRandom.hex(16)}"))
 
@@ -34,8 +39,7 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
                                   provider_config: { account_sid: "AC#{SecureRandom.hex(16)}",
                                                      auth_token: SecureRandom.hex(16),
                                                      api_key_sid: SecureRandom.hex(8),
-                                                     api_key_secret: SecureRandom.hex(16),
-                                                     twiml_app_sid: "AP#{SecureRandom.hex(16)}" } } },
+                                                     api_key_secret: SecureRandom.hex(16) } } },
              as: :json
 
         expect(response).to have_http_status(:success)
