@@ -30,8 +30,16 @@ class Whatsapp::CallService
       next if call.terminal?
 
       invoke_provider!(:terminate_call)
-      # Agent hangs up before contact picks up → no_answer; mirrors the webhook terminate path.
-      finalize_call(call.in_progress? ? 'completed' : 'no_answer')
+      # Compute duration from started_at locally — the webhook arrives after the
+      # call is already terminal and the idempotency guard there bails before it
+      # can fill these fields, so we have to record them here.
+      if call.in_progress?
+        duration = call.started_at ? (Time.current - call.started_at).to_i : nil
+        finalize_call('completed', duration_seconds: duration, end_reason: 'agent_hangup')
+      else
+        # Agent hangs up before contact picks up → no_answer; mirrors the webhook terminate path.
+        finalize_call('no_answer', end_reason: 'agent_hangup')
+      end
     end
     call
   end
@@ -73,16 +81,16 @@ class Whatsapp::CallService
     raise Voice::CallErrors::CallFailed, "Meta #{method} failed"
   end
 
-  def finalize_call(status)
+  def finalize_call(status, **attrs)
     meta = (call.meta || {}).merge('ended_at' => Time.zone.now.to_i)
-    call.update!(status: status, meta: meta)
-    update_message_status(status)
+    call.update!(status: status, meta: meta, **attrs)
+    update_message_status(status, duration_seconds: attrs[:duration_seconds])
     update_conversation_call_status(call.display_status)
     broadcast(:ended, status: call.display_status)
   end
 
-  def update_message_status(status)
-    Voice::CallMessageBuilder.new(call).update_status!(status: status, agent: agent)
+  def update_message_status(status, duration_seconds: nil)
+    Voice::CallMessageBuilder.new(call).update_status!(status: status, agent: agent, duration_seconds: duration_seconds)
   end
 
   def update_conversation_call_status(status)
