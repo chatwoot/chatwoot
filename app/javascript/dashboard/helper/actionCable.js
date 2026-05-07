@@ -6,12 +6,15 @@ import { emitter } from 'shared/helpers/mitt';
 import { useImpersonation } from 'dashboard/composables/useImpersonation';
 
 const { isImpersonating } = useImpersonation();
+const UNREAD_COUNTS_REFETCH_THROTTLE_MS = 5000;
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
     const { websocketURL = '' } = window.chatwootConfig || {};
     super(app, pubsubToken, websocketURL);
     this.CancelTyping = [];
+    this.lastUnreadCountsFetchAt = null;
+    this.unreadCountsFetchTimer = null;
     this.events = {
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
@@ -123,6 +126,31 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onConversationUnreadCountChanged = () => {
+    this.throttledFetchConversationUnreadCounts();
+  };
+
+  throttledFetchConversationUnreadCounts = () => {
+    const now = Date.now();
+    const elapsedTime = now - this.lastUnreadCountsFetchAt;
+
+    if (
+      this.lastUnreadCountsFetchAt === null ||
+      elapsedTime >= UNREAD_COUNTS_REFETCH_THROTTLE_MS
+    ) {
+      this.fetchConversationUnreadCounts();
+      return;
+    }
+
+    if (this.unreadCountsFetchTimer) return;
+
+    this.unreadCountsFetchTimer = setTimeout(() => {
+      this.unreadCountsFetchTimer = null;
+      this.fetchConversationUnreadCounts();
+    }, UNREAD_COUNTS_REFETCH_THROTTLE_MS - elapsedTime);
+  };
+
+  fetchConversationUnreadCounts = () => {
+    this.lastUnreadCountsFetchAt = Date.now();
     this.app.$store.dispatch('conversationUnreadCounts/get');
   };
 
