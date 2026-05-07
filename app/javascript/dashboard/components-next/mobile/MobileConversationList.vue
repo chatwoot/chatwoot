@@ -24,6 +24,7 @@ import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue'
 import MobileConversationHeader from './MobileConversationHeader.vue';
 import MobileFilterSheet from './MobileFilterSheet.vue';
 import MobileConversationStatusSheet from './MobileConversationStatusSheet.vue';
+import MobilePullToRefresh from './MobilePullToRefresh.vue';
 import MobileSwipeableRow from './MobileSwipeableRow.vue';
 
 import wootConstants from 'dashboard/constants/globals';
@@ -38,6 +39,7 @@ const swipeOpenRowId = ref(null);
 provide('swipeOpenRowId', swipeOpenRowId);
 
 const listRef = ref(null);
+const isPullRefreshing = ref(false);
 const showFilterSheet = ref(false);
 const showStatusSheet = ref(false);
 const selectedConversation = ref(null);
@@ -82,11 +84,19 @@ const hasCurrentPageEndReached = useFunctionGetter(
 );
 
 const chatListLoading = computed(() => {
-  return chatListLoadingStatus.value && !chatLists.value.length;
+  return (
+    chatListLoadingStatus.value &&
+    !chatLists.value.length &&
+    !isPullRefreshing.value
+  );
 });
 
 const listLoadingMore = computed(() => {
-  return chatListLoadingStatus.value && chatLists.value.length > 0;
+  return (
+    chatListLoadingStatus.value &&
+    chatLists.value.length > 0 &&
+    !isPullRefreshing.value
+  );
 });
 
 const allConversationsLoaded = computed(
@@ -104,16 +114,20 @@ const conversationFilters = computed(() => ({
   sortBy: activeSortBy.value,
 }));
 
-const fetchConversations = () => {
+const fetchConversations = ({ preserveRecords = false } = {}) => {
   store.dispatch('conversationPage/reset');
-  store.dispatch('emptyAllConversations');
+
+  if (!preserveRecords) {
+    store.dispatch('emptyAllConversations');
+  }
+
   store.dispatch('setChatListFilters', {
     assigneeType: activeAssigneeTab.value,
     status: activeStatus.value,
     page: 1,
     sortBy: activeSortBy.value,
   });
-  store.dispatch('fetchAllConversations');
+  return store.dispatch('fetchAllConversations');
 };
 
 const loadMoreConversations = () => {
@@ -292,6 +306,16 @@ const onStatusSelect = async status => {
   }
 };
 
+const onRefreshStart = () => {
+  isPullRefreshing.value = true;
+};
+
+const onRefreshEnd = () => {
+  isPullRefreshing.value = false;
+};
+
+const onRefresh = () => fetchConversations({ preserveRecords: true });
+
 const onFilterApply = filters => {
   if (filters.status) activeStatus.value = filters.status;
   if (filters.assigneeType) activeAssigneeTab.value = filters.assigneeType;
@@ -322,50 +346,63 @@ watch(conversationFilters, newFilters => {
       class="px-2 flex-shrink-0"
       @chat-tab-change="onAssigneeTabChange"
     />
-    <div ref="listRef" class="flex-1 overflow-y-auto px-2">
-      <div v-if="chatListLoading" class="flex items-center justify-center py-8">
-        <Spinner class="text-n-brand" />
-      </div>
+    <MobilePullToRefresh
+      :refresh-action="onRefresh"
+      @refresh-start="onRefreshStart"
+      @refresh-end="onRefreshEnd"
+    >
       <div
-        v-else-if="!chatLists.length"
-        class="flex items-center justify-center py-8 text-sm text-n-slate-10"
+        ref="listRef"
+        data-mobile-pull-scroll
+        class="flex-1 overflow-y-auto overscroll-y-contain px-2"
       >
-        {{ t('MOBILE.CONVERSATIONS.NO_CONVERSATIONS') }}
-      </div>
-      <template v-else>
-        <MobileSwipeableRow
-          v-for="chat in chatLists"
-          :key="chat.id"
-          :row-id="chat.id"
-          :actions="getSwipeActions(chat)"
-          :left-actions="getLeftSwipeActions(chat)"
-          class="mb-0.5"
-          @action="onSwipeAction(chat, $event)"
-          @left-action="onLeftSwipeAction(chat, $event)"
+        <div
+          v-if="chatListLoading"
+          class="flex items-center justify-center py-8"
         >
-          <ConversationCard
-            :chat="chat"
-            :current-contact="getCurrentContact(chat)"
-            :assignee="getAssignee(chat)"
-            :inbox="getInbox(chat)"
-            :show-assignee="
-              activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ALL
-            "
-            :show-inbox-name="showInboxName"
-            class="rounded-lg"
-            @click="onConversationClick(chat)"
-          />
-        </MobileSwipeableRow>
-        <div v-if="listLoadingMore" class="flex justify-center py-4">
           <Spinner class="text-n-brand" />
         </div>
-        <IntersectionObserver
-          v-if="!allConversationsLoaded && !chatListLoadingStatus"
-          :options="{ root: listRef, rootMargin: '100px 0px' }"
-          @observed="loadMoreConversations"
-        />
-      </template>
-    </div>
+        <div
+          v-else-if="!chatLists.length"
+          class="flex items-center justify-center py-8 text-sm text-n-slate-10"
+        >
+          {{ t('MOBILE.CONVERSATIONS.NO_CONVERSATIONS') }}
+        </div>
+        <template v-else>
+          <MobileSwipeableRow
+            v-for="chat in chatLists"
+            :key="chat.id"
+            :row-id="chat.id"
+            :actions="getSwipeActions(chat)"
+            :left-actions="getLeftSwipeActions(chat)"
+            class="mb-0.5"
+            @action="onSwipeAction(chat, $event)"
+            @left-action="onLeftSwipeAction(chat, $event)"
+          >
+            <ConversationCard
+              :chat="chat"
+              :current-contact="getCurrentContact(chat)"
+              :assignee="getAssignee(chat)"
+              :inbox="getInbox(chat)"
+              :show-assignee="
+                activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ALL
+              "
+              :show-inbox-name="showInboxName"
+              class="rounded-lg"
+              @click="onConversationClick(chat)"
+            />
+          </MobileSwipeableRow>
+          <div v-if="listLoadingMore" class="flex justify-center py-4">
+            <Spinner class="text-n-brand" />
+          </div>
+          <IntersectionObserver
+            v-if="!allConversationsLoaded && !chatListLoadingStatus"
+            :options="{ root: listRef, rootMargin: '100px 0px' }"
+            @observed="loadMoreConversations"
+          />
+        </template>
+      </div>
+    </MobilePullToRefresh>
     <MobileFilterSheet
       v-if="showFilterSheet"
       :status="activeStatus"
