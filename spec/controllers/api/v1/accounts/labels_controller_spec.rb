@@ -116,17 +116,21 @@ RSpec.describe 'Label API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'deletes the label and enqueues label cleanup' do
+        label_deleted_at = Time.zone.parse('2026-05-07 10:00:00 UTC')
         conversation.label_list.add(label.title)
         conversation.save!
 
         clear_enqueued_jobs
 
-        expect do
-          delete "/api/v1/accounts/#{account.id}/labels/#{label.id}", headers: admin.create_new_auth_token, as: :json
-        end.to have_enqueued_job(Labels::RemoveAssociationsJob).with(
-          label_title: label.title,
-          account_id: account.id
-        )
+        travel_to(label_deleted_at) do
+          expect do
+            delete "/api/v1/accounts/#{account.id}/labels/#{label.id}", headers: admin.create_new_auth_token, as: :json
+          end.to have_enqueued_job(Labels::RemoveAssociationsJob).with(
+            label_title: label.title,
+            account_id: account.id,
+            label_deleted_at: label_deleted_at
+          )
+        end
 
         expect(response).to have_http_status(:ok)
         expect(Label.exists?(label.id)).to be(false)

@@ -1,5 +1,5 @@
 class Labels::DestroyService
-  pattr_initialize [:label_title!, :account_id!]
+  pattr_initialize [:label_title!, :account_id!, :label_deleted_at!]
 
   def perform
     tagged_conversations.find_in_batches do |conversation_batch|
@@ -23,11 +23,18 @@ class Labels::DestroyService
   end
 
   def tagged_conversations
-    account.conversations.tagged_with(label_title)
+    account.conversations.where(id: label_taggings_for('Conversation').select(:taggable_id))
   end
 
   def tagged_contacts
-    account.contacts.tagged_with(label_title)
+    account.contacts.where(id: label_taggings_for('Contact').select(:taggable_id))
+  end
+
+  def label_taggings_for(taggable_type)
+    ActsAsTaggableOn::Tagging
+      .joins(:tag)
+      .where(context: 'labels', taggable_type: taggable_type, tags: { name: label_title })
+      .where('taggings.created_at <= ?', label_deleted_at)
   end
 
   def account
