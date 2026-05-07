@@ -1,0 +1,54 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: The ID of the contact note
+    example: 1
+  content:
+    type: string
+    description: The note content
+    example: Customer prefers email follow-ups.
+  account_id:
+    type: integer
+    description: The ID of the account
+    example: 1
+  contact_id:
+    type: integer
+    description: The ID of the contact
+    example: 42
+  target:
+    type: object
+    description: The target resource for this note
+    properties:
+      type:
+        type: string
+        enum: ['contact']
+        example: contact
+      id:
+        type: integer
+        description: The ID of the target contact
+        example: 42
+  user:
+    $ref: '#/components/schemas/agent'
+  created_by:
+    $ref: '#/components/schemas/agent'
+  updated_by:
+    $ref: '#/components/schemas/agent'
+  source:
+    type: string
+    enum: ['manual', 'captain', 'system']
+    description: The source that created the note
+    example: manual
+  metadata:
+    type: object
+    description: Additional metadata stored with the note
+    example:
+      imported_from: crm
+  created_at:
+    type: integer
+    description: Unix timestamp when the note was created
+    example: 1716297600
+  updated_at:
+    type: integer
+    description: Unix timestamp when the note was last updated
+    example: 1716297600

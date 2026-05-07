@@ -43,6 +43,18 @@ RSpec.describe Captain::Tools::AddContactNoteTool, type: :model do
           expect(created_note.user).to eq(assistant.account.users.first)
         end
 
+        it 'creates captain source metadata' do
+          tool.perform(tool_context, note: 'This is a contact note')
+
+          created_note = contact.notes.last
+          expect(created_note.source).to eq('captain')
+          expect(created_note.metadata).to include('agent_context')
+          expect(created_note.metadata['agent_context']).to include(
+            'origin' => 'captain_tool',
+            'tool' => 'add_contact_note'
+          )
+        end
+
         it 'logs tool usage' do
           expect(tool).to receive(:log_tool_usage).with(
             'add_contact_note',

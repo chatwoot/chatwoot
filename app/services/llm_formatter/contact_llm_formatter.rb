@@ -17,7 +17,11 @@ class LlmFormatter::ContactLlmFormatter < LlmFormatter::DefaultLlmFormatter
   private
 
   def build_notes
-    @record.notes.all.map { |note| " - #{note.content}" }.join("\n")
+    @record.notes.latest.includes(:user).map do |note|
+      author_name = note.created_by&.name || 'Unknown'
+      timestamp = note.created_at&.iso8601
+      " - #{note.content} (Author: #{author_name}; Source: #{note.source}; Created: #{timestamp})"
+    end.join("\n")
   end
 
   def build_attributes

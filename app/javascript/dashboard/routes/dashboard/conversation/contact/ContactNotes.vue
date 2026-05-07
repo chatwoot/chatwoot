@@ -75,6 +75,18 @@ const onDelete = noteId => {
   });
 };
 
+const onUpdate = ({ noteId, content }) => {
+  if (!contactId.value || !noteId || !content) {
+    return;
+  }
+
+  store.dispatch('contactNotes/update', {
+    noteId,
+    content,
+    contactId: contactId.value,
+  });
+};
+
 const keyboardEvents = {
   '$mod+Enter': {
     action: onAdd,
@@ -126,8 +138,10 @@ watch(
         :note="note"
         :written-by="getWrittenBy(note)"
         allow-delete
+        allow-edit
         collapsible
         @delete="onDelete"
+        @update="onUpdate"
       />
     </div>
     <p v-else class="px-6 py-6 text-sm leading-6 text-center text-n-slate-11">

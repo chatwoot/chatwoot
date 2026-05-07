@@ -5,6 +5,9 @@ FactoryBot.define do
     content { 'Hey welcome to chatwoot' }
     account
     user
+    updated_by { user }
     contact
+    source { 'manual' }
+    metadata { {} }
   end
 end

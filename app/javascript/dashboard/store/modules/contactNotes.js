@@ -7,6 +7,7 @@ export const state = {
   uiFlags: {
     isFetching: false,
     isCreating: false,
+    isUpdating: false,
     isDeleting: false,
   },
 };
@@ -51,6 +52,21 @@ export const actions = {
     }
   },
 
+  async update({ commit }, { contactId, noteId, content, metadata }) {
+    commit(types.SET_CONTACT_NOTES_UI_FLAG, { isUpdating: true });
+    try {
+      const { data } = await ContactNotesAPI.update(contactId, noteId, {
+        content,
+        metadata,
+      });
+      commit(types.EDIT_CONTACT_NOTE, { contactId, data });
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      commit(types.SET_CONTACT_NOTES_UI_FLAG, { isUpdating: false });
+    }
+  },
+
   async delete({ commit }, { noteId, contactId }) {
     commit(types.SET_CONTACT_NOTES_UI_FLAG, { isDeleting: true });
     try {
@@ -81,6 +97,12 @@ export const mutations = {
   [types.ADD_CONTACT_NOTE]($state, { data, contactId }) {
     const contactNotes = $state.records[contactId] || [];
     $state.records[contactId] = [...contactNotes, data];
+  },
+  [types.EDIT_CONTACT_NOTE]($state, { data, contactId }) {
+    const contactNotes = $state.records[contactId] || [];
+    $state.records[contactId] = contactNotes.map(note =>
+      note.id === data.id ? data : note
+    );
   },
   [types.DELETE_CONTACT_NOTE]($state, { noteId, contactId }) {
     const contactNotes = $state.records[contactId];

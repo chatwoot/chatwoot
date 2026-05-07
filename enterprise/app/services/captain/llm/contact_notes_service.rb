@@ -11,7 +11,17 @@ class Captain::Llm::ContactNotesService < Llm::BaseAiService
 
   def generate_and_update_notes
     generate_notes.each do |note|
-      @contact.notes.create!(content: note)
+      @contact.notes.create!(
+        content: note,
+        source: 'captain',
+        metadata: {
+          agent_context: {
+            origin: 'captain_llm',
+            assistant_id: @assistant.id,
+            conversation_id: @conversation.id
+          }
+        }
+      )
     end
   end
 

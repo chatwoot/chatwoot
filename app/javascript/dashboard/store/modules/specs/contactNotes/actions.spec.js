@@ -54,6 +54,55 @@ describe('#actions', () => {
     });
   });
 
+  describe('#update', () => {
+    it('sends correct actions if API is success', async () => {
+      const updatedNote = {
+        id: 2,
+        content: 'updated note',
+        metadata: { reminded_at: '2026-05-05T10:00:00Z' },
+      };
+      axios.patch.mockResolvedValue({ data: updatedNote });
+      await actions.update(
+        { commit },
+        {
+          contactId: 1,
+          noteId: 2,
+          content: updatedNote.content,
+          metadata: updatedNote.metadata,
+        }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CONTACT_NOTES_UI_FLAG, { isUpdating: true }],
+        [types.default.EDIT_CONTACT_NOTE, { contactId: 1, data: updatedNote }],
+        [types.default.SET_CONTACT_NOTES_UI_FLAG, { isUpdating: false }],
+      ]);
+      expect(axios.patch).toHaveBeenCalledWith('/api/v1/contacts/1/notes/2', {
+        note: {
+          content: updatedNote.content,
+          metadata: updatedNote.metadata,
+        },
+      });
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.patch.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.update(
+          { commit },
+          {
+            contactId: 1,
+            noteId: 2,
+            content: 'updated note',
+            metadata: { reminded_at: '2026-05-05T10:00:00Z' },
+          }
+        )
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CONTACT_NOTES_UI_FLAG, { isUpdating: true }],
+        [types.default.SET_CONTACT_NOTES_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+  });
+
   describe('#delete', () => {
     it('sends correct actions if API is success', async () => {
       axios.delete.mockResolvedValue({ data: notesData[0] });

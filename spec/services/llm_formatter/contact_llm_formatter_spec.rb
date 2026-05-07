@@ -25,26 +25,43 @@ RSpec.describe LlmFormatter::ContactLlmFormatter do
     end
 
     context 'when contact has notes' do
+      let(:alice) { create(:user, account: account, name: 'Alice') }
+
       before do
-        create(:note, account: account, contact: contact, content: 'First interaction')
+        create(:note, account: account, contact: contact, content: 'First interaction', user: alice)
         create(:note, account: account, contact: contact, content: 'Follow up needed')
       end
 
       it 'includes notes in the output' do
-        expected_output = [
-          "Contact ID: ##{contact.id}",
-          'Contact Attributes:',
-          'Name: John Doe',
-          'Email: john@example.com',
-          'Phone: +1234567890',
-          'Location: ',
-          'Country Code: ',
-          'Contact Notes:',
-          ' - First interaction',
-          ' - Follow up needed'
-        ].join("\n")
+        formatted_contact = formatter.format
 
-        expect(formatter.format).to eq(expected_output)
+        expect(formatted_contact).to include('First interaction')
+        expect(formatted_contact).to include('Author: Alice')
+        expect(formatted_contact).to include('Source: manual')
+        expect(formatted_contact).to match(/Created: \d{4}-\d{2}-\d{2}T/)
+      end
+
+      it 'uses unknown author when note has no creator' do
+        create(:note, account: account, contact: contact, content: 'Imported note', user: nil, updated_by: nil)
+
+        expect(formatter.format).to include('Imported note (Author: Unknown; Source: manual; Created:')
+      end
+
+      it 'preloads note authors while formatting notes' do
+        bob = create(:user, account: account, name: 'Bob')
+        create(:note, account: account, contact: contact, content: 'Bob note', user: bob)
+        user_queries = []
+
+        subscriber = ActiveSupport::Notifications.subscribe('sql.active_record') do |_name, _started, _finished, _id, payload|
+          user_queries << payload[:sql] if payload[:sql].include?('FROM "users"') && !payload[:cached]
+        end
+        begin
+          formatter.format
+        ensure
+          ActiveSupport::Notifications.unsubscribe(subscriber)
+        end
+
+        expect(user_queries.count).to eq(1)
       end
     end
 

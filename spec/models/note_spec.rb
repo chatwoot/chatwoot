@@ -10,7 +10,26 @@ RSpec.describe Note do
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to belong_to(:user).optional }
+    it { is_expected.to belong_to(:updated_by).class_name('User').optional }
     it { is_expected.to belong_to(:contact) }
+  end
+
+  describe 'defaults' do
+    it 'defaults source and metadata for timeline and agent context' do
+      note = build(:note, source: nil, metadata: nil)
+      note.valid?
+
+      expect(note.source).to eq('manual')
+      expect(note.metadata).to eq({})
+    end
+  end
+
+  describe '#created_by' do
+    it 'aliases the legacy user association as creator' do
+      note = create(:note)
+
+      expect(note.created_by).to eq(note.user)
+    end
   end
 
   describe 'validates_factory' do

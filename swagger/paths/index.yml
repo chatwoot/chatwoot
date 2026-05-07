@@ -262,6 +262,10 @@
   $ref: ./application/contacts/list_create.yml
 /api/v1/accounts/{account_id}/contacts/{id}:
   $ref: ./application/contacts/crud.yml
+/api/v1/accounts/{account_id}/contacts/{contact_id}/notes:
+  $ref: ./application/contacts/notes/list_create.yml
+/api/v1/accounts/{account_id}/contacts/{contact_id}/notes/{id}:
+  $ref: ./application/contacts/notes/crud.yml
 /api/v1/accounts/{account_id}/contacts/{id}/conversations:
   $ref: ./application/contacts/conversations.yml
 /api/v1/accounts/{account_id}/contacts/{id}/labels:

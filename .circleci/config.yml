@@ -29,7 +29,6 @@ jobs:
             DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
               libpq-dev \
               build-essential \
-              git \
               curl \
               libssl-dev \
               zlib1g-dev \
@@ -172,7 +171,6 @@ jobs:
               postgresql-16 \
               postgresql-16-pgvector \
               build-essential \
-              git \
               curl \
               libssl-dev \
               zlib1g-dev \
