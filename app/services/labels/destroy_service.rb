@@ -2,32 +2,51 @@ class Labels::DestroyService
   pattr_initialize [:label_title!, :account_id!, :label_deleted_at!]
 
   def perform
-    tagged_conversations.find_in_batches do |conversation_batch|
-      conversation_batch.each do |conversation|
-        remove_label(conversation)
-      end
-    end
-
-    tagged_contacts.find_in_batches do |contact_batch|
-      contact_batch.each do |contact|
-        remove_label(contact)
-      end
-    end
+    remove_conversation_labels
+    remove_contact_labels
   end
 
   private
 
-  def remove_label(record)
-    record.label_list.remove(label_title)
-    record.save!
+  def remove_conversation_labels
+    tagged_conversations.find_in_batches do |conversation_batch|
+      Conversation.transaction do
+        conversation_batch.each do |conversation|
+          update_conversation_cached_labels(conversation)
+        end
+        delete_label_taggings('Conversation', conversation_batch.map(&:id))
+      end
+    end
+  end
+
+  def remove_contact_labels
+    contact_label_taggings.in_batches do |tagging_batch|
+      ActsAsTaggableOn::Tagging.where(id: tagging_batch.select(:id)).delete_all
+    end
+  end
+
+  def update_conversation_cached_labels(conversation)
+    label_list = conversation.label_list.dup
+    label_list.remove(label_title)
+
+    # We only want the acts-as-taggable-on cache effect here, not Conversation callbacks/events.
+    # rubocop:disable Rails/SkipsModelValidations
+    conversation.update_column(:cached_label_list, label_list.join("#{ActsAsTaggableOn.delimiter} "))
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def tagged_conversations
     account.conversations.where(id: label_taggings_for('Conversation').select(:taggable_id))
   end
 
-  def tagged_contacts
-    account.contacts.where(id: label_taggings_for('Contact').select(:taggable_id))
+  def contact_label_taggings
+    label_taggings_for('Contact').where(taggable_id: account.contacts.select(:id))
+  end
+
+  def delete_label_taggings(taggable_type, taggable_ids)
+    ActsAsTaggableOn::Tagging
+      .where(id: label_taggings_for(taggable_type).where(taggable_id: taggable_ids).select(:id))
+      .delete_all
   end
 
   def label_taggings_for(taggable_type)

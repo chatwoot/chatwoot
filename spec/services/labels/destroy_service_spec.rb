@@ -29,6 +29,7 @@ describe Labels::DestroyService do
       ).perform
 
       expect(conversation.reload.label_list).to eq(['billing'])
+      expect(conversation.cached_label_list).to eq('billing')
       expect(contact.reload.label_list).to eq(['vip'])
     end
 
@@ -43,6 +44,7 @@ describe Labels::DestroyService do
       ).perform
 
       expect(conversation.reload.label_list).to eq(['billing'])
+      expect(conversation.cached_label_list).to eq('billing')
       expect(contact.reload.label_list).to eq(['vip'])
     end
 
@@ -62,6 +64,16 @@ describe Labels::DestroyService do
       expect(other_conversation.reload.label_list).to eq([label.title])
     end
 
+    it 'does not dispatch conversation or contact update events' do
+      expect(Rails.configuration.dispatcher).not_to receive(:dispatch)
+
+      described_class.new(
+        label_title: label.title,
+        account_id: account.id,
+        label_deleted_at: label_deleted_at
+      ).perform
+    end
+
     it 'does not remove label associations created after the label was deleted' do
       other_conversation = create(:conversation, account: account)
       other_conversation.label_list.add(label.title)
@@ -75,6 +87,7 @@ describe Labels::DestroyService do
       ).perform
 
       expect(conversation.reload.label_list).to eq(['billing'])
+      expect(conversation.cached_label_list).to eq('billing')
       expect(contact.reload.label_list).to eq(['vip'])
       expect(other_conversation.reload.label_list).to eq([label.title])
     end
