@@ -116,6 +116,8 @@
       "STATUS": "Status",
       "MARK_READ": "Read",
       "MARK_UNREAD": "Unread",
+      "MARKED_READ": "Conversation marked as read",
+      "MARKED_UNREAD": "Conversation marked as unread",
       "DELETE": "Delete",
       "CONFIRM_DELETE": "Are you sure you want to delete this conversation?"
     },
