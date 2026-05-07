@@ -19,7 +19,8 @@ describe Whatsapp::CallPermissionReplyService do
   end
 
   before do
-    channel.provider_config = channel.provider_config.merge('calling_enabled' => true)
+    account.enable_features!('channel_voice')
+    channel.provider_config = channel.provider_config.merge('source' => 'embedded_signup', 'calling_enabled' => true)
     channel.save!
   end
 
