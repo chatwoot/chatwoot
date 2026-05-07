@@ -1,10 +1,13 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useWindowSize } from '@vueuse/core';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useHaptics } from 'dashboard/composables/useHaptics';
 import { useSwipeBack } from 'dashboard/composables/useSwipeBack';
 import { useKeyboardResize } from 'dashboard/composables/useKeyboardResize';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
 
 import MobileChatHeader from './MobileChatHeader.vue';
 import MobileConversationActionsView from './MobileConversationActionsView.vue';
@@ -271,6 +274,26 @@ const onPanelTouchCancel = () => {
   panelThresholdReached = false;
 };
 
+const route = useRoute();
+const router = useRouter();
+
+const consumeFocusReplyParam = () => {
+  if (!route?.query) return;
+  const focusReply = route.query.focus_reply;
+  if (!focusReply || focusReply === '0') return;
+
+  // Clear the query so a refresh does not re-focus the input.
+  router
+    .replace({
+      query: { ...route.query, focus_reply: undefined },
+    })
+    .catch(() => {});
+
+  emitter.emit(BUS_EVENTS.FOCUS_REPLY_BOX, {
+    conversationId: props.conversationId,
+  });
+};
+
 onMounted(() => {
   store.dispatch('agents/get');
   store.dispatch('teams/get');
@@ -280,14 +303,14 @@ onMounted(() => {
   store.dispatch('conversationWatchers/show', {
     conversationId: props.conversationId,
   });
-  setActiveChat();
+  setActiveChat().then(() => consumeFocusReplyParam());
 });
 
 watch(
   () => props.conversationId,
   () => {
     closeActionsPanel();
-    setActiveChat();
+    setActiveChat().then(() => consumeFocusReplyParam());
   }
 );
 </script>

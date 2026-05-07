@@ -39,6 +39,66 @@ describe Notification::PushNotificationService do
         end
       end
 
+      it 'embeds conversation, sender and reply context in the webpush payload' do
+        with_modified_env VAPID_PUBLIC_KEY: 'test' do
+          create(:notification_subscription, user: notification.user)
+
+          described_class.new(notification: notification).perform
+
+          captured = nil
+          expect(WebPush).to have_received(:payload_send) do |args|
+            captured = JSON.parse(args[:message])
+          end
+
+          expect(captured).to include(
+            'title' => notification.push_message_title,
+            'account_id' => notification.account.id,
+            'conversation_id' => notification.conversation.display_id,
+            'conversation_uuid' => notification.conversation.uuid,
+            'notification_id' => notification.id,
+            'notification_type' => notification.notification_type
+          )
+          expect(captured['tag']).to eq("conversation_#{notification.account.id}_#{notification.conversation.display_id}")
+          expect(captured).to have_key('reply_enabled')
+          expect(captured['sender']).to be_a(Hash).or be_nil
+          expect(captured['timestamp']).to be_a(Integer)
+        end
+      end
+
+      it 'flags reply_enabled true for new-message notifications on a repliable conversation' do
+        with_modified_env VAPID_PUBLIC_KEY: 'test' do
+          notification.update!(notification_type: 'assigned_conversation_new_message')
+          allow(notification.conversation).to receive(:can_reply?).and_return(true)
+          allow_any_instance_of(described_class).to receive(:conversation).and_return(notification.conversation)
+          create(:notification_subscription, user: notification.user)
+
+          described_class.new(notification: notification).perform
+
+          captured = nil
+          expect(WebPush).to have_received(:payload_send) do |args|
+            captured = JSON.parse(args[:message])
+          end
+          expect(captured['reply_enabled']).to be true
+        end
+      end
+
+      it 'flags reply_enabled false when the conversation cannot accept replies' do
+        with_modified_env VAPID_PUBLIC_KEY: 'test' do
+          notification.update!(notification_type: 'assigned_conversation_new_message')
+          allow(notification.conversation).to receive(:can_reply?).and_return(false)
+          allow_any_instance_of(described_class).to receive(:conversation).and_return(notification.conversation)
+          create(:notification_subscription, user: notification.user)
+
+          described_class.new(notification: notification).perform
+
+          captured = nil
+          expect(WebPush).to have_received(:payload_send) do |args|
+            captured = JSON.parse(args[:message])
+          end
+          expect(captured['reply_enabled']).to be false
+        end
+      end
+
       it 'does not send standard push when infinitepay push only is enabled for the account' do
         with_modified_env VAPID_PUBLIC_KEY: 'test' do
           account.update!(custom_attributes: account.custom_attributes.merge('infinitepay_push_only' => true))

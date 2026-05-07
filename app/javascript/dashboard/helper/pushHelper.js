@@ -2,6 +2,7 @@
 import NotificationSubscriptions from '../api/notificationSubscription';
 import auth from '../api/auth';
 import { useAlert } from 'dashboard/composables';
+import { syncSessionToServiceWorker } from './swAuthBridge';
 
 export const verifyServiceWorkerExistence = (callback = () => {}) => {
   if (!('serviceWorker' in navigator)) {
@@ -53,6 +54,14 @@ export const sendRegistrationToServer = subscription => {
   return null;
 };
 
+export const syncPwaAuthBridge = ({ accountId, userId } = {}) => {
+  if (!auth.hasAuthCookie()) return Promise.resolve(false);
+  return syncSessionToServiceWorker({ accountId, userId }).catch(error => {
+    console.warn('PWA auth bridge sync failed', error);
+    return false;
+  });
+};
+
 export const removeRegistrationFromServer = subscription => {
   if (auth.hasAuthCookie() && subscription?.endpoint) {
     return NotificationSubscriptions.destroy({
@@ -75,6 +84,7 @@ export const registerSubscription = (onSuccess = () => {}) => {
       })
     )
     .then(sendRegistrationToServer)
+    .then(() => syncPwaAuthBridge())
     .then(() => {
       onSuccess();
     })
