@@ -104,6 +104,15 @@ describe Whatsapp::IncomingCallService do
       expect(call.reload.status).to eq('no_answer')
     end
 
+    it 'records the call as failed when Meta reports a failure reason for an in_progress call' do
+      allow(ActionCable.server).to receive(:broadcast)
+
+      params = call_payload(event: 'terminate', duration: 12, terminate_reason: 'failed')
+      described_class.new(inbox: inbox, params: params).perform
+
+      expect(call.reload).to have_attributes(status: 'failed', duration_seconds: 12, end_reason: 'failed')
+    end
+
     it 'is a no-op when the call is already terminal so retries cannot flip a completed call to no_answer' do
       call.update!(status: 'completed', duration_seconds: 5, direction: :outgoing, accepted_by_agent: nil)
       allow(ActionCable.server).to receive(:broadcast)

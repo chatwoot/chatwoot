@@ -120,11 +120,23 @@ class Whatsapp::IncomingCallService
       next if call.terminal?
 
       duration = payload[:duration]&.to_i
-      status = answered?(call, duration) ? 'completed' : 'no_answer'
+      reason = payload[:terminate_reason].to_s
+      status = derive_terminate_status(call, duration, reason)
       meta = (call.meta || {}).merge('ended_at' => Time.zone.now.to_i)
-      update_call!(call, status, duration_seconds: duration, end_reason: payload[:terminate_reason], meta: meta)
+      update_call!(call, status, duration_seconds: duration, end_reason: reason, meta: meta)
       broadcast(call, 'voice_call.ended', status: call.display_status, duration_seconds: call.duration_seconds)
     end
+  end
+
+  # Provider-reported failures trump the answered/no_answer heuristic. An
+  # in_progress call that Meta later terminates with a failure reason would
+  # otherwise be recorded as 'completed' purely because it had been accepted.
+  FAILURE_REASONS = %w[failed error rejected busy invalid_offer cancelled].freeze
+
+  def derive_terminate_status(call, duration, reason)
+    return 'failed' if FAILURE_REASONS.any? { |r| reason.include?(r) }
+
+    answered?(call, duration) ? 'completed' : 'no_answer'
   end
 
   # accepted_by_agent_id is the initiating agent on outbound calls, so it only signals "answered" for inbound.
