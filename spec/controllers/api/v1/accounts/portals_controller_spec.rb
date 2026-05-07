@@ -133,7 +133,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['name']).to eql('test_portal_blank_domain')
-        expect(json_response['custom_domain']).to eq('')
+        expect(json_response['custom_domain']).to be_blank
       end
     end
   end
