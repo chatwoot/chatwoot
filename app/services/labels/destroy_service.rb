@@ -10,12 +10,10 @@ class Labels::DestroyService
 
   def remove_conversation_labels
     tagged_conversations.find_in_batches do |conversation_batch|
-      Conversation.transaction do
-        conversation_batch.each do |conversation|
-          update_conversation_cached_labels(conversation)
-        end
-        delete_label_taggings('Conversation', conversation_batch.map(&:id))
+      conversation_batch.each do |conversation|
+        update_conversation_cached_labels(conversation)
       end
+      delete_label_taggings('Conversation', conversation_batch.map(&:id))
     end
   end
 
