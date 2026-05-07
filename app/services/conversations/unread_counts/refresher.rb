@@ -29,7 +29,8 @@ class Conversations::UnreadCounts::Refresher
   def affected_base_keys
     affected_inbox_ids.flat_map do |inbox_id|
       [store.inbox_key(account.id, inbox_id)] +
-        affected_label_ids.map { |label_id| store.label_inbox_key(account.id, label_id, inbox_id) }
+        affected_label_ids.map { |label_id| store.label_inbox_key(account.id, label_id, inbox_id) } +
+        affected_team_ids.map { |team_id| store.team_inbox_key(account.id, team_id, inbox_id) }
     end
   end
 
@@ -42,13 +43,19 @@ class Conversations::UnreadCounts::Refresher
   end
 
   def assignment_keys_for(inbox_id, assignee_id)
-    if assignee_id.present?
-      [store.inbox_assignee_key(account.id, inbox_id, assignee_id)] +
-        affected_label_ids.map { |label_id| store.label_inbox_assignee_key(account.id, label_id, inbox_id, assignee_id) }
-    else
-      [store.inbox_unassigned_key(account.id, inbox_id)] +
-        affected_label_ids.map { |label_id| store.label_inbox_unassigned_key(account.id, label_id, inbox_id) }
-    end
+    keys = assignee_id.present? ? assignee_keys_for(inbox_id, assignee_id) : unassigned_keys_for(inbox_id)
+
+    keys + affected_team_ids.map { |team_id| team_assignment_key_for(team_id, inbox_id, assignee_id) }
+  end
+
+  def assignee_keys_for(inbox_id, assignee_id)
+    [store.inbox_assignee_key(account.id, inbox_id, assignee_id)] +
+      affected_label_ids.map { |label_id| store.label_inbox_assignee_key(account.id, label_id, inbox_id, assignee_id) }
+  end
+
+  def unassigned_keys_for(inbox_id)
+    [store.inbox_unassigned_key(account.id, inbox_id)] +
+      affected_label_ids.map { |label_id| store.label_inbox_unassigned_key(account.id, label_id, inbox_id) }
   end
 
   def refresh_base_membership
@@ -56,6 +63,7 @@ class Conversations::UnreadCounts::Refresher
       account_id: account.id,
       inbox_ids: affected_inbox_ids,
       label_ids: affected_label_ids,
+      team_ids: affected_team_ids,
       conversation_id: conversation.id
     )
     return unless unread?
@@ -64,6 +72,7 @@ class Conversations::UnreadCounts::Refresher
       account_id: account.id,
       inbox_id: conversation.inbox_id,
       label_ids: current_label_ids,
+      team_id: conversation.team_id,
       conversation_id: conversation.id
     )
   end
@@ -74,6 +83,7 @@ class Conversations::UnreadCounts::Refresher
       inbox_ids: affected_inbox_ids,
       label_ids: affected_label_ids,
       assignee_ids: affected_assignee_ids,
+      team_ids: affected_team_ids,
       conversation_id: conversation.id
     )
     return unless unread?
@@ -83,6 +93,7 @@ class Conversations::UnreadCounts::Refresher
       inbox_id: conversation.inbox_id,
       label_ids: current_label_ids,
       assignee_id: conversation.assignee_id,
+      team_id: conversation.team_id,
       conversation_id: conversation.id
     )
   end
@@ -109,6 +120,10 @@ class Conversations::UnreadCounts::Refresher
     (previous_label_ids + current_label_ids).uniq
   end
 
+  def affected_team_ids
+    [previous_value_for(:team_id), conversation.team_id].compact.uniq
+  end
+
   def previous_label_ids
     label_ids_for(previous_value_for(:label_list) || previous_value_for(:cached_label_list) || conversation.cached_label_list)
   end
@@ -126,6 +141,12 @@ class Conversations::UnreadCounts::Refresher
   def previous_value_for(attribute)
     change = changed_attributes[attribute.to_s] || changed_attributes[attribute.to_sym]
     change&.first
+  end
+
+  def team_assignment_key_for(team_id, inbox_id, assignee_id)
+    return store.team_inbox_assignee_key(account.id, team_id, inbox_id, assignee_id) if assignee_id.present?
+
+    store.team_inbox_unassigned_key(account.id, team_id, inbox_id)
   end
 
   def labels_by_title

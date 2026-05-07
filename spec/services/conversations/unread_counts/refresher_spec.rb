@@ -5,6 +5,8 @@ RSpec.describe Conversations::UnreadCounts::Refresher do
   let(:inbox) { create(:inbox, account: account) }
   let(:label) { create(:label, account: account, title: 'urgent', show_on_sidebar: true) }
   let(:new_label) { create(:label, account: account, title: 'billing', show_on_sidebar: true) }
+  let(:team) { create(:team, account: account, allow_auto_assign: false) }
+  let(:new_team) { create(:team, account: account, allow_auto_assign: false) }
   let(:assignee) { create(:user, account: account, role: :agent) }
   let(:other_assignee) { create(:user, account: account, role: :agent) }
   let(:store) { Conversations::UnreadCounts::Store }
@@ -74,6 +76,22 @@ RSpec.describe Conversations::UnreadCounts::Refresher do
                                  )
   end
 
+  it 'moves base team membership when team changes' do
+    conversation = create_unread_conversation(account: account, inbox: inbox, team: team)
+    Conversations::UnreadCounts::Builder.new(account).build_base!
+
+    conversation.update!(team: new_team)
+    expect(described_class.new(conversation.reload, changed_attributes: { team_id: [team.id, new_team.id] }).perform).to be(true)
+
+    expect(store.counts_for_keys([
+                                   store.team_inbox_key(account.id, team.id, inbox.id),
+                                   store.team_inbox_key(account.id, new_team.id, inbox.id)
+                                 ])).to eq(
+                                   store.team_inbox_key(account.id, team.id, inbox.id) => 0,
+                                   store.team_inbox_key(account.id, new_team.id, inbox.id) => 1
+                                 )
+  end
+
   it 'moves assignment-aware membership when assignee changes' do
     conversation = create_unread_conversation(account: account, inbox: inbox, labels: [label.title], assignee: assignee)
     Conversations::UnreadCounts::Builder.new(account).build_assignment!
@@ -87,6 +105,23 @@ RSpec.describe Conversations::UnreadCounts::Refresher do
                                  ])).to eq(
                                    store.inbox_assignee_key(account.id, inbox.id, assignee.id) => 0,
                                    store.inbox_assignee_key(account.id, inbox.id, other_assignee.id) => 1
+                                 )
+  end
+
+  it 'moves assignment-aware team membership when team changes' do
+    create(:team_member, user: assignee, team: new_team)
+    conversation = create_unread_conversation(account: account, inbox: inbox, assignee: assignee, team: team)
+    Conversations::UnreadCounts::Builder.new(account).build_assignment!
+
+    conversation.update!(team: new_team)
+    described_class.new(conversation.reload, changed_attributes: { team_id: [team.id, new_team.id] }).perform
+
+    expect(store.counts_for_keys([
+                                   store.team_inbox_assignee_key(account.id, team.id, inbox.id, assignee.id),
+                                   store.team_inbox_assignee_key(account.id, new_team.id, inbox.id, assignee.id)
+                                 ])).to eq(
+                                   store.team_inbox_assignee_key(account.id, team.id, inbox.id, assignee.id) => 0,
+                                   store.team_inbox_assignee_key(account.id, new_team.id, inbox.id, assignee.id) => 1
                                  )
   end
 

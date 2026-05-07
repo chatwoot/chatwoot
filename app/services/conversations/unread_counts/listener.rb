@@ -25,6 +25,11 @@ class Conversations::UnreadCounts::Listener < BaseListener
     refresh(conversation, event.data[:changed_attributes])
   end
 
+  def team_changed(event)
+    conversation, = extract_conversation_and_account(event)
+    refresh(conversation, event.data[:changed_attributes])
+  end
+
   private
 
   def refresh(conversation, changed_attributes = nil)

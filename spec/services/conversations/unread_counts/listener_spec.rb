@@ -66,4 +66,14 @@ RSpec.describe Conversations::UnreadCounts::Listener do
     expect(Conversations::UnreadCounts::Notifier).to have_received(:new).with(conversation, changed_attributes: changed_attributes)
     expect(notifier).to have_received(:perform)
   end
+
+  it 'refreshes unread counts when team changes' do
+    changed_attributes = { team_id: [nil, 1] }
+    event = Events::Base.new('team.changed', Time.zone.now, conversation: conversation, changed_attributes: changed_attributes)
+
+    listener.team_changed(event)
+
+    expect(Conversations::UnreadCounts::Notifier).to have_received(:new).with(conversation, changed_attributes: changed_attributes)
+    expect(notifier).to have_received(:perform)
+  end
 end
