@@ -92,7 +92,7 @@ listens for the event and focuses the textarea (with optional prefill text).
 - `spec/services/notification/push_notification_service_spec.rb` — verifies
   the new payload fields (`account_id`, `conversation_id`, `notification_id`,
   `tag`, `timestamp`, `reply_enabled`).
-- `app/javascript/shared/helpers/specs/pwaPushNotification.spec.js` — 26
+- `app/javascript/shared/helpers/specs/pwaPushNotification.spec.js` — 27
   unit tests covering the pure helper functions.
 - `app/javascript/dashboard/helper/specs/swAuthBridge.spec.js` — 7 tests
   covering the IndexedDB round-trip and the cookie → SW sync flow.

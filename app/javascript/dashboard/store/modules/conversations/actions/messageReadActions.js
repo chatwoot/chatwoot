@@ -41,6 +41,7 @@ export default {
           commit(mutationTypes.UPDATE_MESSAGE_UNREAD_COUNT, { id, lastSeen }),
         MARK_READ_DELAY_MS
       );
+      return true;
     } catch (error) {
       // Rollback to previous values on error.
       commit(mutationTypes.UPDATE_MESSAGE_UNREAD_COUNT, {
@@ -48,6 +49,7 @@ export default {
         lastSeen: previousLastSeen,
         unreadCount: previousUnread,
       });
+      return false;
     }
   },
 

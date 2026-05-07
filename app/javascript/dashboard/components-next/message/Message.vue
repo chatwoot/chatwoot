@@ -733,7 +733,8 @@ provideMessageContext({
         :class="{
           'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
           'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
-          'mobile-bubble-touch': isMobileViewport,
+          'select-none [-webkit-touch-callout:none] [&_*]:select-none [&_*]:[-webkit-touch-callout:none]':
+            isMobileViewport,
         }"
         @contextmenu="onBubbleContextMenuNative($event)"
         @touchstart.passive="onBubbleTouchStart($event)"
@@ -787,12 +788,5 @@ provideMessageContext({
   .right-bubble {
     @apply ltr:rounded-tr-sm rtl:rounded-tl-sm;
   }
-}
-
-.mobile-bubble-touch,
-.mobile-bubble-touch * {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
 }
 </style>

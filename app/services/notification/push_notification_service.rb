@@ -1,6 +1,11 @@
 class Notification::PushNotificationService
   include Rails.application.routes.url_helpers
 
+  REPLY_ENABLED_NOTIFICATION_TYPES = %w[
+    assigned_conversation_new_message participating_conversation_new_message
+    conversation_mention conversation_assignment conversation_creation
+  ].freeze
+
   pattr_initialize [:notification!]
 
   def perform
@@ -75,13 +80,7 @@ class Notification::PushNotificationService
   def reply_enabled?
     return false unless conversation.can_reply?
 
-    %w[
-      assigned_conversation_new_message
-      participating_conversation_new_message
-      conversation_mention
-      conversation_assignment
-      conversation_creation
-    ].include?(notification.notification_type)
+    REPLY_ENABLED_NOTIFICATION_TYPES.include?(notification.notification_type)
   end
 
   def push_url

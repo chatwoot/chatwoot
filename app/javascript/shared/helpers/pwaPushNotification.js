@@ -46,6 +46,9 @@ export const buildReplyPlaceholder = (payload, fallback = 'Reply') => {
 
 export const isReplyAllowed = payload => Boolean(payload?.reply_enabled);
 
+const isMarkReadAllowed = payload =>
+  Boolean(payload?.account_id && payload?.notification_id);
+
 const buildReplyActionDescriptor = (payload, labels) => ({
   action: NOTIFICATION_ACTIONS.REPLY,
   title: labels.reply || 'Reply',
@@ -61,11 +64,14 @@ const buildMarkReadActionDescriptor = labels => ({
 });
 
 export const buildNotificationActions = (payload, labels = {}) => {
-  if (!isReplyAllowed(payload)) return [];
-  return [
-    buildReplyActionDescriptor(payload, labels),
-    buildMarkReadActionDescriptor(labels),
-  ];
+  const actions = [];
+  if (isReplyAllowed(payload)) {
+    actions.push(buildReplyActionDescriptor(payload, labels));
+  }
+  if (isMarkReadAllowed(payload)) {
+    actions.push(buildMarkReadActionDescriptor(labels));
+  }
+  return actions;
 };
 
 export const buildNotificationOptions = (payload, labels = {}) => {

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   isOpen: { type: Boolean, default: false },
@@ -12,22 +13,39 @@ const emit = defineEmits(['close', 'reply', 'copy', 'translate', 'delete']);
 const VIEWPORT_PADDING = 12;
 const MENU_WIDTH = 240;
 const ESTIMATED_ITEM_HEIGHT = 50;
+const { t } = useI18n();
 
 const visibleItems = computed(() => {
   const items = [];
   if (props.enabledOptions.copy) {
-    items.push({ key: 'copy', label: 'Copiar', danger: false });
+    items.push({
+      key: 'copy',
+      label: t('CONVERSATION.CONTEXT_MENU.COPY'),
+      icon: 'i-lucide-copy',
+      danger: false,
+    });
   }
   if (props.enabledOptions.translate) {
-    items.push({ key: 'translate', label: 'Traduzir', danger: false });
+    items.push({
+      key: 'translate',
+      label: t('CONVERSATION.CONTEXT_MENU.TRANSLATE'),
+      icon: 'i-lucide-languages',
+      danger: false,
+    });
   }
   if (props.enabledOptions.replyTo) {
-    items.push({ key: 'reply', label: 'Responder', danger: false });
+    items.push({
+      key: 'reply',
+      label: t('CONVERSATION.CONTEXT_MENU.REPLY_TO'),
+      icon: 'i-lucide-reply',
+      danger: false,
+    });
   }
   if (props.enabledOptions.delete) {
     items.push({
       key: 'delete',
-      label: 'Apagar mensagem',
+      label: t('CONVERSATION.CONTEXT_MENU.DELETE'),
+      icon: 'i-lucide-trash-2',
       danger: true,
     });
   }
@@ -66,7 +84,7 @@ const computeMenuPosition = () => {
 };
 
 watch(
-  () => [props.isOpen, props.anchorRect],
+  () => [props.isOpen, props.anchorRect, visibleItems.value.length],
   () => {
     if (props.isOpen) {
       menuStyle.value = computeMenuPosition();
@@ -106,118 +124,41 @@ const handleAction = key => {
 
 <template>
   <Teleport to="body">
-    <Transition name="ios-context-menu">
-      <div
-        v-if="isOpen"
-        class="ios-context-menu-root fixed inset-0 z-[100]"
-        @contextmenu.prevent
-      >
+    <Transition
+      enter-active-class="transition-opacity duration-200 ease-out"
+      enter-from-class="opacity-0"
+      leave-active-class="transition-opacity duration-150 ease-in"
+      leave-to-class="opacity-0"
+    >
+      <div v-if="isOpen" class="fixed inset-0 z-[100]" @contextmenu.prevent>
         <div
-          class="absolute inset-0 ios-context-backdrop"
+          class="absolute inset-0 bg-white/20 backdrop-blur-md backdrop-saturate-150 dark:bg-black/30"
           @pointerdown="onOverlayPointerDown"
           @touchstart.prevent="onOverlayPointerDown"
         />
         <div
-          class="absolute ios-context-menu select-none"
+          class="absolute select-none overflow-hidden rounded-[14px] bg-[#f8f8f8]/80 shadow-[0_12px_36px_rgba(0,0,0,0.18),0_1px_2px_rgba(0,0,0,0.08)] backdrop-blur-3xl backdrop-saturate-150 dark:bg-[#282828]/80 dark:shadow-[0_12px_36px_rgba(0,0,0,0.5),0_1px_2px_rgba(0,0,0,0.4)]"
           :style="menuStyle"
           @pointerdown.stop
           @touchstart.stop
         >
           <button
-            v-for="(item, index) in visibleItems"
+            v-for="item in visibleItems"
             :key="item.key"
             type="button"
-            class="ios-context-menu-item w-full flex items-center justify-between text-left text-[17px] leading-tight px-4 py-3.5 transition-colors active:bg-black/5 dark:active:bg-white/5"
+            class="flex h-[50px] w-full items-center justify-between border-b border-[rgba(60,60,67,0.18)] px-4 text-left text-[17px] leading-tight transition-colors last:border-b-0 active:bg-black/5 dark:border-white/10 dark:active:bg-white/5"
             :class="[
               item.danger
                 ? 'text-red-500 dark:text-red-400'
                 : 'text-black dark:text-white',
-              index !== visibleItems.length - 1
-                ? 'ios-context-menu-divider'
-                : '',
             ]"
             @click="handleAction(item.key)"
           >
             <span>{{ item.label }}</span>
+            <span :class="item.icon" class="size-4.5 flex-shrink-0" />
           </button>
         </div>
       </div>
     </Transition>
   </Teleport>
 </template>
-
-<style lang="scss" scoped>
-.ios-context-backdrop {
-  background-color: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(8px) saturate(160%);
-  -webkit-backdrop-filter: blur(8px) saturate(160%);
-}
-
-:global(.dark) .ios-context-backdrop,
-.dark .ios-context-backdrop {
-  background-color: rgba(0, 0, 0, 0.3);
-}
-
-.ios-context-menu {
-  border-radius: 14px;
-  overflow: hidden;
-  background-color: rgba(248, 248, 248, 0.78);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  box-shadow:
-    0 12px 36px rgba(0, 0, 0, 0.18),
-    0 1px 2px rgba(0, 0, 0, 0.08);
-  transform-origin: top right;
-}
-
-:global(.dark) .ios-context-menu,
-.dark .ios-context-menu {
-  background-color: rgba(40, 40, 40, 0.78);
-  box-shadow:
-    0 12px 36px rgba(0, 0, 0, 0.5),
-    0 1px 2px rgba(0, 0, 0, 0.4);
-}
-
-.ios-context-menu-divider {
-  position: relative;
-}
-
-.ios-context-menu-divider::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 0.5px;
-  background-color: rgba(60, 60, 67, 0.18);
-  pointer-events: none;
-}
-
-:global(.dark) .ios-context-menu-divider::after,
-.dark .ios-context-menu-divider::after {
-  background-color: rgba(255, 255, 255, 0.12);
-}
-
-.ios-context-menu-enter-active,
-.ios-context-menu-leave-active {
-  transition: opacity 0.18s ease;
-}
-
-.ios-context-menu-enter-active .ios-context-menu,
-.ios-context-menu-leave-active .ios-context-menu {
-  transition:
-    transform 0.22s cubic-bezier(0.32, 0.72, 0.3, 1),
-    opacity 0.18s ease;
-}
-
-.ios-context-menu-enter-from,
-.ios-context-menu-leave-to {
-  opacity: 0;
-}
-
-.ios-context-menu-enter-from .ios-context-menu,
-.ios-context-menu-leave-to .ios-context-menu {
-  opacity: 0;
-  transform: scale(0.86);
-}
-</style>

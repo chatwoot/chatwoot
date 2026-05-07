@@ -301,8 +301,9 @@ describe('#actions', () => {
       axios.post.mockResolvedValue({
         data: { id: 1, agent_last_seen_at: lastSeen },
       });
-      await actions.markMessagesRead({ commit }, { id: 1 });
+      const result = await actions.markMessagesRead({ commit }, { id: 1 });
       vi.runAllTimers();
+      expect(result).toBe(true);
       expect(commit).toHaveBeenCalledTimes(2);
       // Optimistic call: unreadCount cleared.
       expect(commit.mock.calls[0][0]).toBe(types.UPDATE_MESSAGE_UNREAD_COUNT);
@@ -318,7 +319,8 @@ describe('#actions', () => {
     });
     it('rolls back if api is unsuccessful', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
-      await actions.markMessagesRead({ commit }, { id: 1 });
+      const result = await actions.markMessagesRead({ commit }, { id: 1 });
+      expect(result).toBe(false);
       // Optimistic + rollback.
       expect(commit).toHaveBeenCalledTimes(2);
       expect(commit.mock.calls[0][0]).toBe(types.UPDATE_MESSAGE_UNREAD_COUNT);

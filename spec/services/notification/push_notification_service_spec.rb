@@ -7,6 +7,12 @@ describe Notification::PushNotificationService do
   let(:fcm_double) { instance_double(FCM) }
   let(:fcm_service_double) { instance_double(Notification::FcmService, fcm_client: fcm_double) }
 
+  def enable_push_for(notification)
+    setting = notification.user.notification_settings.find_by(account_id: notification.account_id)
+    setting.selected_push_flags = [:"push_#{notification.notification_type}"]
+    setting.save!
+  end
+
   before do
     allow(InstallationConfig).to receive(:find_by).and_call_original
     allow(InstallationConfig).to receive(:find_by)
@@ -67,9 +73,11 @@ describe Notification::PushNotificationService do
 
       it 'flags reply_enabled true for new-message notifications on a repliable conversation' do
         with_modified_env VAPID_PUBLIC_KEY: 'test' do
+          conversation = notification.conversation
           notification.update!(notification_type: 'assigned_conversation_new_message')
-          allow(notification.conversation).to receive(:can_reply?).and_return(true)
-          allow_any_instance_of(described_class).to receive(:conversation).and_return(notification.conversation)
+          enable_push_for(notification)
+          allow(conversation).to receive(:can_reply?).and_return(true)
+          allow(notification).to receive(:conversation).and_return(conversation)
           create(:notification_subscription, user: notification.user)
 
           described_class.new(notification: notification).perform
@@ -84,9 +92,11 @@ describe Notification::PushNotificationService do
 
       it 'flags reply_enabled false when the conversation cannot accept replies' do
         with_modified_env VAPID_PUBLIC_KEY: 'test' do
+          conversation = notification.conversation
           notification.update!(notification_type: 'assigned_conversation_new_message')
-          allow(notification.conversation).to receive(:can_reply?).and_return(false)
-          allow_any_instance_of(described_class).to receive(:conversation).and_return(notification.conversation)
+          enable_push_for(notification)
+          allow(conversation).to receive(:can_reply?).and_return(false)
+          allow(notification).to receive(:conversation).and_return(conversation)
           create(:notification_subscription, user: notification.user)
 
           described_class.new(notification: notification).perform

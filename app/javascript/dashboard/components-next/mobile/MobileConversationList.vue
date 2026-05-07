@@ -244,8 +244,10 @@ const onLeftSwipeAction = async (chat, actionKey) => {
     }
   } else if (actionKey === 'markRead') {
     try {
-      await store.dispatch('markMessagesRead', { id: chat.id });
-      useAlert(t('MOBILE.SWIPE.MARKED_READ'));
+      const marked = await store.dispatch('markMessagesRead', { id: chat.id });
+      if (marked !== false) {
+        useAlert(t('MOBILE.SWIPE.MARKED_READ'));
+      }
     } catch {
       // error already surfaced by the store action
     }

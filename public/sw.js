@@ -67,22 +67,28 @@ const buildReplyPlaceholder = (payload, fallback = 'Reply') => {
 
 const isReplyAllowed = payload => Boolean(payload && payload.reply_enabled);
 
+const isMarkReadAllowed = payload =>
+  Boolean(payload && payload.account_id && payload.notification_id);
+
 const buildNotificationActions = (payload, labels) => {
-  if (!isReplyAllowed(payload)) return [];
-  return [
-    {
+  const actions = [];
+  if (isReplyAllowed(payload)) {
+    actions.push({
       action: NOTIFICATION_ACTIONS.REPLY,
-      title: labels.reply,
+      title: labels.reply || 'Reply',
       type: 'text',
       placeholder: buildReplyPlaceholder(payload, labels.replyPlaceholder),
       icon: '/favicon-96x96.png',
-    },
-    {
+    });
+  }
+  if (isMarkReadAllowed(payload)) {
+    actions.push({
       action: NOTIFICATION_ACTIONS.MARK_READ,
-      title: labels.markRead,
+      title: labels.markRead || 'Mark as read',
       icon: '/favicon-96x96.png',
-    },
-  ];
+    });
+  }
+  return actions;
 };
 
 const buildNotificationOptions = (payload, labels) => {
@@ -208,7 +214,7 @@ const readStoredSession = async () => {
   }
 };
 
-const showFailureNotification = async message => {
+const showFailureNotification = async (message, data = null) => {
   try {
     await self.registration.showNotification('Could not send reply', {
       body: message,
@@ -216,6 +222,7 @@ const showFailureNotification = async message => {
       badge: DEFAULT_BADGE,
       tag: REPLY_FAILURE_TAG,
       renotify: true,
+      data,
     });
   } catch (err) {
     console.warn('SW: failed to show failure notification', err);
@@ -409,12 +416,14 @@ const handleReplyAction = async (notification, replyText) => {
     const fallbackUrl = buildOpenWindowUrl(data, NOTIFICATION_ACTIONS.REPLY);
     await focusOrOpenWindow(fallbackUrl);
     return showFailureNotification(
-      'Sign in to the app to enable instant reply.'
+      'Sign in to the app to enable instant reply.',
+      data
     );
   }
 
   await showFailureNotification(
-    `We could not deliver your reply (${result.reason}). Tap to retry.`
+    `We could not deliver your reply (${result.reason}). Open the app to retry.`,
+    data
   );
   const fallbackUrl = buildOpenWindowUrl(data, NOTIFICATION_ACTIONS.REPLY);
   return focusOrOpenWindow(fallbackUrl);
@@ -422,12 +431,14 @@ const handleReplyAction = async (notification, replyText) => {
 
 const handleMarkReadAction = async notification => {
   const { data } = notification;
-  await performMarkRead(data);
-  await broadcastToClients({
-    type: 'PWA_NOTIFICATION_READ',
-    notification_id: data.notification_id,
-    conversation_id: data.conversation_id,
-  });
+  const result = await performMarkRead(data);
+  if (result.ok) {
+    await broadcastToClients({
+      type: 'PWA_NOTIFICATION_READ',
+      notification_id: data.notification_id,
+      conversation_id: data.conversation_id,
+    });
+  }
 };
 
 self.addEventListener('notificationclick', event => {

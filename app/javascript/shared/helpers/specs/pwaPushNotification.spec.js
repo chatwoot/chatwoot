@@ -113,9 +113,28 @@ describe('pwaPushNotification helpers', () => {
       });
     });
 
-    it('returns no actions when reply is disabled', () => {
+    it('still returns mark_read when reply is disabled', () => {
       expect(
         buildNotificationActions(buildPayload({ reply_enabled: false }), labels)
+      ).toEqual([
+        {
+          action: NOTIFICATION_ACTIONS.MARK_READ,
+          title: 'Mark as read',
+          icon: '/favicon-96x96.png',
+        },
+      ]);
+    });
+
+    it('returns no actions when no action context is available', () => {
+      expect(
+        buildNotificationActions(
+          buildPayload({
+            reply_enabled: false,
+            account_id: null,
+            notification_id: null,
+          }),
+          labels
+        )
       ).toEqual([]);
     });
   });
