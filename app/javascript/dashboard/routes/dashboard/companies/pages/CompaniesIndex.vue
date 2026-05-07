@@ -111,6 +111,16 @@ const onPageChange = page => {
   fetchCompanies(page, searchValue.value, sortParam.value);
 };
 
+const showCompany = companyId => {
+  router.push({
+    name: 'companies_dashboard_show',
+    params: {
+      accountId: route.params.accountId,
+      companyId,
+    },
+  });
+};
+
 const handleSort = async ({ sort, order }) => {
   Object.assign(sortState, { activeSort: sort, activeOrdering: order });
 
@@ -123,6 +133,11 @@ const handleSort = async ({ sort, order }) => {
 
 onMounted(() => {
   searchValue.value = searchQuery.value;
+
+  if (!route.query.sort && sortParam.value !== DEFAULT_SORT_FIELD) {
+    updateURLParams(pageNumber.value, searchQuery.value, sortParam.value);
+  }
+
   fetchCompanies();
 });
 </script>
@@ -162,9 +177,9 @@ onMounted(() => {
         :name="company.name"
         :domain="company.domain"
         :contacts-count="company.contactsCount || 0"
-        :description="company.description"
         :avatar-url="company.avatarUrl"
-        :updated-at="company.updatedAt"
+        :last-activity-at="company.lastActivityAt"
+        @show-company="showCompany"
       />
     </div>
   </CompaniesListLayout>
