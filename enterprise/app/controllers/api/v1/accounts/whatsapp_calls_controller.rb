@@ -123,6 +123,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
       sent = send_permission_request_safely
       if sent
         record_permission_request_wamid(sent)
+        emit_permission_requested_activity
         status = 'permission_requested'
       else
         status = 'failed'
@@ -131,7 +132,10 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
     return render_could_not_create_error(I18n.t('errors.whatsapp.calls.permission_request_failed')) if status == 'failed'
 
-    render json: { status: status }
+    # 422 (not 200) so any client treating 2xx as "call placed" can't mistake
+    # the permission-template path for a successful dial. The FE composable
+    # detects this status and surfaces the banner instead of throwing.
+    render json: { status: status }, status: :unprocessable_entity
   end
 
   def permission_request_throttled?
@@ -141,10 +145,31 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   # Treat transport errors as a falsy return so we render 422 rather than 500.
   def send_permission_request_safely
-    provider_service.send_call_permission_request(@conversation.contact.phone_number.delete('+'))
+    provider_service.send_call_permission_request(
+      @conversation.contact.phone_number.delete('+'),
+      *permission_request_body_args
+    )
   rescue StandardError => e
     Rails.logger.warn "[WHATSAPP CALL] permission_request failed: #{e.class} #{e.message}"
     nil
+  end
+
+  # Pass the inbox-level override only when present so the provider falls back
+  # to the i18n default for inboxes that haven't customized the prompt.
+  def permission_request_body_args
+    custom_body = @conversation.inbox.channel.provider_config&.dig('call_permission_request_body').presence
+    custom_body ? [custom_body] : []
+  end
+
+  def emit_permission_requested_activity
+    content = I18n.t(
+      'conversations.activity.whatsapp_call.permission_requested',
+      contact_name: @conversation.contact.name
+    )
+    ::Conversations::ActivityMessageJob.perform_later(
+      @conversation,
+      { account_id: @conversation.account_id, inbox_id: @conversation.inbox_id, message_type: :activity, content: content }
+    )
   end
 
   # Stash the outbound wamid so the reply webhook can match context.id back here.

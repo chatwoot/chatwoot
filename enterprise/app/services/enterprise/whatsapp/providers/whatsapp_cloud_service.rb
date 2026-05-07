@@ -76,7 +76,7 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
 
   def initiate_call_body(to_phone_number, sdp_offer)
     {
-      messaging_product: 'whatsapp', to: to_phone_number, type: 'audio',
+      messaging_product: 'whatsapp', to: to_phone_number, action: 'connect',
       session: { sdp: sdp_offer, sdp_type: 'offer' }
     }.to_json
   end

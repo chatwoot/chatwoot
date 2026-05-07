@@ -46,7 +46,8 @@ class Channel::Whatsapp < ApplicationRecord
   def voice_enabled?
     provider == 'whatsapp_cloud' &&
       provider_config['source'] == 'embedded_signup' &&
-      provider_config['calling_enabled'].present?
+      provider_config['calling_enabled'].present? &&
+      account.feature_enabled?('channel_voice')
   end
 
   def provider_service

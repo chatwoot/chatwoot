@@ -5,6 +5,7 @@ class Whatsapp::IncomingCallService
     return unless inbox.channel.voice_enabled?
 
     Array(params[:calls]).each { |c| handle_event(c.with_indifferent_access) }
+    Array(params[:statuses]).each { |s| handle_status(s.with_indifferent_access) }
   end
 
   private
@@ -17,14 +18,57 @@ class Whatsapp::IncomingCallService
     end
   end
 
+  # Meta's `connect` event for outbound calls fires when the WebRTC tunnel is
+  # up — empirically ~20s before the contact actually answers. The real pickup
+  # is reported as a separate webhook with status=ACCEPTED, and is what
+  # `terminate.start_time` aligns to. Treat ACCEPTED as the pickup transition.
+  def handle_status(payload)
+    return unless payload[:type] == 'call'
+
+    call = Call.whatsapp.find_by(provider_call_id: payload[:id])
+    return unless call
+
+    case payload[:status]
+    when 'ACCEPTED' then mark_outbound_accepted(call, payload)
+    when 'RINGING' then nil # informational
+    else Rails.logger.info "[WHATSAPP CALL] Unhandled call status: #{payload[:status]} for #{payload[:id]}"
+    end
+  end
+
+  # with_lock + reload here serializes against Whatsapp::CallService (agent
+  # actions hold call.with_lock across the Meta API call), so a webhook racing
+  # with a terminate can't overwrite a freshly-finalized terminal status.
+  def mark_outbound_accepted(call, payload)
+    call.with_lock do
+      next unless call.outgoing?
+      next if call.in_progress? || call.terminal?
+
+      started_at = Time.zone.at(payload[:timestamp].to_i) if payload[:timestamp].present?
+      update_call!(call, 'in_progress', started_at: started_at || Time.current)
+      broadcast(call, 'voice_call.outbound_accepted')
+    end
+  end
+
   def handle_connect(payload)
     call = Call.whatsapp.find_by(provider_call_id: payload[:id])
-    return create_inbound_call(payload) if call.nil?
+    if call.nil?
+      # Only an `offer` payload is a real inbound caller. An `answer` with no
+      # local row means Meta beat our outbound `Call.create!` (tiny window
+      # between initiate API response and DB insert) — do not mint an inbound
+      # row for it; the next status webhook (or a retry) will find it.
+      return create_inbound_call(payload) if inbound_offer?(payload)
+
+      Rails.logger.warn "[WHATSAPP CALL] Outbound connect for unknown call #{payload[:id]}; skipping"
+      return
+    end
+
     return accept_outbound_call(call, payload) if call.outgoing?
 
     Rails.logger.info "[WHATSAPP CALL] Duplicate inbound connect for #{payload[:id]}; ignoring"
-  rescue ActiveRecord::RecordNotUnique
-    Rails.logger.warn "[WHATSAPP CALL] Duplicate provider_call_id received: #{payload[:id]}"
+  end
+
+  def inbound_offer?(payload)
+    payload.dig(:session, :sdp_type).to_s.downcase == 'offer'
   end
 
   def create_inbound_call(payload)
@@ -38,41 +82,44 @@ class Whatsapp::IncomingCallService
     broadcast_incoming(call, sdp_offer)
   end
 
+  # `connect` is the WebRTC tunnel-ready signal, not the pickup signal. Apply
+  # Meta's SDP answer so the handshake completes during ringing; the call
+  # stays in `ringing` until status=ACCEPTED arrives.
   def accept_outbound_call(call, payload)
-    return if call.in_progress? || call.terminal?
+    call.with_lock do
+      next if call.in_progress? || call.terminal?
 
-    # Pin setup:active so browsers don't renegotiate when Meta echoes actpass.
-    sdp_answer = payload.dig(:session, :sdp)&.gsub('a=setup:actpass', 'a=setup:active')
-    update_call!(call, 'in_progress',
-                 started_at: Time.current,
-                 meta: (call.meta || {}).merge('sdp_answer' => sdp_answer))
-    broadcast(call, 'voice_call.outbound_connected', sdp_answer: sdp_answer)
+      # Pin setup:active so browsers don't renegotiate when Meta echoes actpass.
+      sdp_answer = payload.dig(:session, :sdp)&.gsub('a=setup:actpass', 'a=setup:active')
+      call.update!(meta: (call.meta || {}).merge('sdp_answer' => sdp_answer))
+      broadcast(call, 'voice_call.outbound_connected', sdp_answer: sdp_answer)
+    end
   end
 
   def handle_terminate(payload)
-    # Webhooks can arrive out of order (terminate before connect under tunnel/network
-    # delays). Materialise a missed-call record so the contact's "called and hung up"
-    # still surfaces in the dashboard instead of being silently dropped.
-    call = Call.whatsapp.find_by(provider_call_id: payload[:id]) || build_missed_inbound_call(payload)
-    return unless call
+    call = Call.whatsapp.find_by(provider_call_id: payload[:id])
+    if call.nil?
+      # No row yet means either an out-of-order terminate (rare in practice — Meta
+      # delivery is FIFO) or, more dangerously, an outbound terminate landing in
+      # the window between the controller's Meta API call and Call.create!.
+      # Materialising as inbound here would collide with the unique
+      # (provider, provider_call_id) index. Skip; controller commits seal it.
+      Rails.logger.warn "[WHATSAPP CALL] Terminate for unknown call #{payload[:id]}; skipping"
+      return
+    end
 
-    duration = payload[:duration]&.to_i
-    status = answered?(call, duration) ? 'completed' : 'no_answer'
-    meta = (call.meta || {}).merge('ended_at' => Time.zone.now.to_i)
-    update_call!(call, status, duration_seconds: duration, end_reason: payload[:terminate_reason], meta: meta)
-    broadcast(call, 'voice_call.ended', status: call.display_status, duration_seconds: call.duration_seconds)
-  end
+    call.with_lock do
+      # Webhook retries can re-deliver terminate after we've already finalized the
+      # call; don't recompute status or a duration=0 retry can flip a completed
+      # short call back to no_answer.
+      next if call.terminal?
 
-  # No connect was ever processed (webhook reordering or never delivered) — build a
-  # bare Call+Message for the contact so the UI shows the missed-call bubble.
-  def build_missed_inbound_call(payload)
-    Voice::InboundCallBuilder.perform!(
-      inbox: inbox, from_number: "+#{payload[:from]}", call_sid: payload[:id],
-      provider: :whatsapp,
-      extra_meta: { 'ice_servers' => Call.default_ice_servers }
-    )
-  rescue ActiveRecord::RecordNotUnique
-    Call.whatsapp.find_by(provider_call_id: payload[:id])
+      duration = payload[:duration]&.to_i
+      status = answered?(call, duration) ? 'completed' : 'no_answer'
+      meta = (call.meta || {}).merge('ended_at' => Time.zone.now.to_i)
+      update_call!(call, status, duration_seconds: duration, end_reason: payload[:terminate_reason], meta: meta)
+      broadcast(call, 'voice_call.ended', status: call.display_status, duration_seconds: call.duration_seconds)
+    end
   end
 
   # accepted_by_agent_id is the initiating agent on outbound calls, so it only signals "answered" for inbound.

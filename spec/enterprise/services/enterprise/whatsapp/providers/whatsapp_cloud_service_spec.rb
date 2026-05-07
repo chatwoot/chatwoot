@@ -40,7 +40,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
   describe '#initiate_call' do
     it 'returns the parsed body on success' do
       stub_request(:post, calls_url)
-        .with(body: { messaging_product: 'whatsapp', to: '15551234567', type: 'audio',
+        .with(body: { messaging_product: 'whatsapp', to: '15551234567', action: 'connect',
                       session: { sdp: 'sdp_offer', sdp_type: 'offer' } }.to_json)
         .to_return(status: 200, body: { messages: [{ id: 'wacall_1' }] }.to_json, headers: headers)
 

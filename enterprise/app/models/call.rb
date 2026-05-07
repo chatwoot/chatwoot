@@ -32,7 +32,7 @@ class Call < ApplicationRecord
   STATUSES = %w[ringing in_progress completed no_answer failed].freeze
   TERMINAL_STATUSES = %w[completed no_answer failed].freeze
 
-  store_accessor :meta, :conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at
+  store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at
 
   # Frontend voice bubbles/stores expect inbound/outbound string values
   DISPLAY_DIRECTION = { 'incoming' => 'inbound', 'outgoing' => 'outbound' }.freeze
@@ -58,6 +58,7 @@ class Call < ApplicationRecord
 
   scope :active, -> { where.not(status: TERMINAL_STATUSES) }
   scope :by_conference_sid, ->(sid) { where("meta->>'conference_sid' = ?", sid) }
+  scope :by_twilio_conference_sid, ->(sid) { where("meta->>'twilio_conference_sid' = ?", sid) }
 
   def self.find_by_provider_call_id(provider, sid)
     find_by(provider: provider, provider_call_id: sid)
@@ -117,6 +118,7 @@ class Call < ApplicationRecord
       duration_seconds: duration_seconds,
       conference_sid: conference_sid,
       accepted_by_agent_id: accepted_by_agent_id,
+      accepted_by_agent_name: accepted_by_agent&.available_name,
       started_at: started_at&.to_i,
       ended_at: ended_at,
       from_number: from_number,

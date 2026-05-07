@@ -11,7 +11,8 @@ describe Whatsapp::IncomingCallService do
   let(:provider_call_id) { 'wacid_abc' }
 
   before do
-    channel.provider_config = channel.provider_config.merge('calling_enabled' => true)
+    account.enable_features!('channel_voice')
+    channel.provider_config = channel.provider_config.merge('source' => 'embedded_signup', 'calling_enabled' => true)
     channel.save!
   end
 
@@ -57,14 +58,15 @@ describe Whatsapp::IncomingCallService do
                     provider: :whatsapp, direction: :outgoing, status: 'ringing', provider_call_id: provider_call_id)
     end
 
-    it 'transitions the call to in_progress and broadcasts voice_call.outbound_connected with the SDP answer' do
+    it 'stores the SDP answer and broadcasts voice_call.outbound_connected without flipping to in_progress' do
       allow(ActionCable.server).to receive(:broadcast)
       sdp_answer = "v=0\r\na=setup:actpass\r\n"
 
       params = call_payload(event: 'connect', session: { sdp: sdp_answer, sdp_type: 'answer' })
       described_class.new(inbox: inbox, params: params).perform
 
-      expect(call.reload).to have_attributes(status: 'in_progress', started_at: be_present)
+      # connect only completes the SDP handshake; pickup is reported separately as status=ACCEPTED.
+      expect(call.reload).to have_attributes(status: 'ringing', started_at: nil)
       expect(call.meta['sdp_answer']).to include('a=setup:active')
       expect(ActionCable.server).to have_received(:broadcast).with(
         "account_#{account.id}",
@@ -100,6 +102,45 @@ describe Whatsapp::IncomingCallService do
 
       described_class.new(inbox: inbox, params: params).perform
       expect(call.reload.status).to eq('no_answer')
+    end
+
+    it 'is a no-op when the call is already terminal so retries cannot flip a completed call to no_answer' do
+      call.update!(status: 'completed', duration_seconds: 5, direction: :outgoing, accepted_by_agent: nil)
+      allow(ActionCable.server).to receive(:broadcast)
+      params = call_payload(event: 'terminate', duration: 0, terminate_reason: 'completed_normally')
+
+      described_class.new(inbox: inbox, params: params).perform
+
+      expect(call.reload).to have_attributes(status: 'completed', duration_seconds: 5)
+      expect(ActionCable.server).not_to have_received(:broadcast)
+    end
+  end
+
+  describe 'terminate with no local row yet' do
+    it 'logs and skips instead of materialising an inbound missed-call row' do
+      allow(Rails.logger).to receive(:warn)
+      allow(ActionCable.server).to receive(:broadcast)
+
+      params = call_payload(event: 'terminate', duration: 0, terminate_reason: 'no_answer')
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .not_to change(Call, :count)
+      expect(Rails.logger).to have_received(:warn).with(/Terminate for unknown call/)
+      expect(ActionCable.server).not_to have_received(:broadcast)
+    end
+  end
+
+  describe 'outbound connect with no local row yet' do
+    it 'does not mint an inbound call when sdp_type is answer' do
+      allow(Rails.logger).to receive(:warn)
+      allow(ActionCable.server).to receive(:broadcast)
+
+      params = call_payload(event: 'connect', session: { sdp: 'sdp_answer', sdp_type: 'answer' })
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .not_to change(Call, :count)
+      expect(Rails.logger).to have_received(:warn).with(/Outbound connect for unknown call/)
+      expect(ActionCable.server).not_to have_received(:broadcast)
     end
   end
 

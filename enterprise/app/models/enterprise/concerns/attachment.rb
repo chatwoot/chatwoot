@@ -14,8 +14,10 @@ module Enterprise::Concerns::Attachment
 
   def enqueue_audio_transcription
     return unless file_type.to_sym == :audio
-    return unless file.attached?
 
+    # No file.attached? guard: the social-media ingest path saves the
+    # Attachment before attaching the blob. AudioTranscriptionJob retries
+    # on ActiveStorage::FileNotFoundError to ride out that race.
     Messages::AudioTranscriptionJob.perform_later(id)
   end
 

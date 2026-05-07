@@ -1,6 +1,8 @@
 require 'net/imap'
 
 class Imap::BaseFetchEmailService
+  MAX_MESSAGES_PER_SYNC = 500
+
   pattr_initialize [:channel!, :interval]
 
   def fetch_emails
@@ -77,25 +79,47 @@ class Imap::BaseFetchEmailService
     Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Fetching mails from #{channel.email}, found #{seq_nums.length}."
 
     message_ids_with_seq = []
-    seq_nums.each_slice(10).each do |batch|
-      # Fetch only message-id only without mail body or contents.
-      batch_message_ids = imap_client.fetch(batch, 'BODY.PEEK[HEADER]')
-
-      # .fetch returns an array of Net::IMAP::FetchData or nil
-      # (instead of an empty array) if there is no matching message.
-      # Check
-      if batch_message_ids.blank?
-        Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Fetching the batch failed for #{channel.email}."
-        next
-      end
-
-      batch_message_ids.each do |data|
-        message_id = build_mail_from_string(data.attr['BODY[HEADER]']).message_id
-        message_ids_with_seq.push([data.seqno, message_id])
+    seq_nums.each_slice(MAX_MESSAGES_PER_SYNC).each do |batch|
+      append_message_ids_for_batch(batch, message_ids_with_seq)
+      if message_ids_with_seq.length >= MAX_MESSAGES_PER_SYNC
+        Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Reached MAX_MESSAGES_PER_SYNC=#{MAX_MESSAGES_PER_SYNC} for #{channel.email}, stopping sync."
+        break
       end
     end
 
     message_ids_with_seq
+  end
+
+  def append_message_ids_for_batch(batch, message_ids_with_seq)
+    # Fetch only message-id only without mail body or contents.
+    batch_message_ids = imap_client.fetch(batch, 'BODY.PEEK[HEADER]')
+    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Fetching the batch for #{channel.email}. Found #{batch_message_ids&.length} messages."
+
+    # .fetch returns an array of Net::IMAP::FetchData or nil
+    # (instead of an empty array) if there is no matching message.
+    if batch_message_ids.blank?
+      Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Fetching the batch failed for #{channel.email}."
+      return
+    end
+
+    batch_message_ids.each do |data|
+      entry = build_message_id_entry(data)
+      next if entry.nil?
+
+      message_ids_with_seq.push(entry)
+      break if message_ids_with_seq.length >= MAX_MESSAGES_PER_SYNC
+    end
+  end
+
+  def build_message_id_entry(data)
+    mail = build_mail_from_string(data.attr['BODY[HEADER]'])
+    return nil if MailPresenter.new(mail, channel.account).notification_email_from_chatwoot?
+
+    message_id = mail.message_id
+    return nil if message_id.blank?
+    return nil if email_already_present?(channel, message_id)
+
+    [data.seqno, message_id]
   end
 
   # Sends a SEARCH command to search the mailbox for messages that were

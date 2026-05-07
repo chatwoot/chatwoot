@@ -46,12 +46,16 @@ class Voice::InboundCallBuilder
   # Always look up by (inbox, source_id) first — that pair has a UNIQUE index, so
   # creating with a colliding source_id under a different contact would raise
   # RecordNotUnique. Reuse the existing ContactInbox (and its contact) when found.
+  # A concurrent message webhook for the same wa_id can win the (inbox_id, source_id)
+  # race; rescue and re-find so the call path doesn't drop the connect.
   def ensure_contact_inbox!
     sid = source_id_for_provider
     existing = inbox.contact_inboxes.find_by(source_id: sid)
     return existing if existing
 
     ContactInbox.create!(contact: ensure_contact!, inbox: inbox, source_id: sid)
+  rescue ActiveRecord::RecordNotUnique
+    inbox.contact_inboxes.find_by!(source_id: sid)
   end
 
   def ensure_contact!
@@ -61,8 +65,13 @@ class Voice::InboundCallBuilder
   end
 
   # WhatsApp ContactInbox.source_id must be digits-only (the wa_id); Twilio accepts the +.
+  # Run BR/AR-style wa_id normalization (same path messaging uses) so an inbound call
+  # finds the existing ContactInbox instead of forking a new contact/conversation.
   def source_id_for_provider
-    provider == :whatsapp ? from_number.to_s.delete_prefix('+') : from_number
+    return from_number unless provider == :whatsapp
+
+    digits = from_number.to_s.delete_prefix('+')
+    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(digits, :cloud)
   end
 
   def resolve_conversation!(contact, contact_inbox)

@@ -100,6 +100,31 @@ RSpec.describe Voice::InboundCallBuilder do
     end
   end
 
+  context 'when the WhatsApp wa_id needs Brazil normalization to match an existing ContactInbox' do
+    let(:whatsapp_channel) do
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                provider_config: { 'phone_number_id' => '123', 'calling_enabled' => true },
+                                validate_provider_config: false, sync_templates: false)
+    end
+    let(:whatsapp_inbox) { whatsapp_channel.inbox }
+    let!(:stored_contact) { create(:contact, account: account, phone_number: '+5541988887777') }
+    let!(:stored_contact_inbox) do
+      create(:contact_inbox, contact: stored_contact, inbox: whatsapp_inbox, source_id: '5541988887777')
+    end
+
+    it 'reuses the contact via normalized wa_id rather than forking a new ContactInbox' do
+      call = described_class.perform!(
+        inbox: whatsapp_inbox,
+        from_number: '+554188887777',
+        call_sid: 'wacall_br_1',
+        provider: :whatsapp
+      )
+
+      expect(call.contact).to eq(stored_contact)
+      expect(call.conversation.contact_inbox).to eq(stored_contact_inbox)
+    end
+  end
+
   context 'when the inbox has lock_to_single_conversation enabled' do
     let!(:contact) { create(:contact, account: account, phone_number: from_number) }
     let!(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox, source_id: from_number) }
