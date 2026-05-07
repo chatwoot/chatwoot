@@ -26,6 +26,7 @@ const ERROR_MESSAGES = {
 };
 
 const IMPERSONATION_URL_SEARCH_KEY = 'impersonation';
+const USER_NOT_CONFIRMED_ERROR_CODE = 'user_not_confirmed';
 
 export default {
   components: {
@@ -63,6 +64,7 @@ export default {
         message: '',
         showLoading: false,
         hasErrored: false,
+        errorCode: '',
       },
       resendConfirmation: {
         isLoading: false,
@@ -107,8 +109,7 @@ export default {
     shouldShowResendLink() {
       return (
         this.loginApi.hasErrored &&
-        this.loginApi.message &&
-        this.loginApi.message.toLowerCase().includes('confirmation')
+        this.loginApi.errorCode === USER_NOT_CONFIRMED_ERROR_CODE
       );
     },
     resendLinkStyle() {
@@ -198,6 +199,7 @@ export default {
     },
     submitLogin() {
       this.loginApi.hasErrored = false;
+      this.loginApi.errorCode = '';
       this.loginApi.showLoading = true;
 
       const credentials = {
@@ -229,6 +231,7 @@ export default {
             window.location = '/app/login';
           }
           this.loginApi.hasErrored = true;
+          this.loginApi.errorCode = response?.errorCode || '';
           this.showAlertMessage(
             response?.message || this.$t('LOGIN.API.UNAUTH')
           );
