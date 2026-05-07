@@ -293,48 +293,68 @@ describe('#actions', () => {
   describe('#markMessagesRead', () => {
     beforeEach(() => {
       vi.useFakeTimers();
+      commit.mockClear();
     });
 
-    it('sends correct mutations if api is successful', async () => {
+    it('optimistically clears unread and reconciles after api success', async () => {
       const lastSeen = new Date().getTime() / 1000;
       axios.post.mockResolvedValue({
         data: { id: 1, agent_last_seen_at: lastSeen },
       });
       await actions.markMessagesRead({ commit }, { id: 1 });
       vi.runAllTimers();
-      expect(commit).toHaveBeenCalledTimes(1);
-      expect(commit.mock.calls).toEqual([
-        [types.UPDATE_MESSAGE_UNREAD_COUNT, { id: 1, lastSeen }],
+      expect(commit).toHaveBeenCalledTimes(2);
+      // Optimistic call: unreadCount cleared.
+      expect(commit.mock.calls[0][0]).toBe(types.UPDATE_MESSAGE_UNREAD_COUNT);
+      expect(commit.mock.calls[0][1]).toMatchObject({
+        id: 1,
+        unreadCount: 0,
+      });
+      // Reconciliation with server lastSeen.
+      expect(commit.mock.calls[1]).toEqual([
+        types.UPDATE_MESSAGE_UNREAD_COUNT,
+        { id: 1, lastSeen },
       ]);
     });
-    it('sends correct mutations if api is unsuccessful', async () => {
+    it('rolls back if api is unsuccessful', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
       await actions.markMessagesRead({ commit }, { id: 1 });
-      expect(commit.mock.calls).toEqual([]);
+      // Optimistic + rollback.
+      expect(commit).toHaveBeenCalledTimes(2);
+      expect(commit.mock.calls[0][0]).toBe(types.UPDATE_MESSAGE_UNREAD_COUNT);
+      expect(commit.mock.calls[1][0]).toBe(types.UPDATE_MESSAGE_UNREAD_COUNT);
     });
   });
 
   describe('#markMessagesUnread', () => {
-    it('sends correct mutations if API is successful', async () => {
+    beforeEach(() => {
+      commit.mockClear();
+    });
+
+    it('optimistically marks unread and reconciles after api success', async () => {
       const lastSeen = new Date().getTime() / 1000;
       axios.post.mockResolvedValue({
         data: { id: 1, agent_last_seen_at: lastSeen, unread_count: 1 },
       });
       await actions.markMessagesUnread({ commit }, { id: 1 });
-      vi.runAllTimers();
-      expect(commit).toHaveBeenCalledTimes(1);
-      expect(commit.mock.calls).toEqual([
-        [
-          types.UPDATE_MESSAGE_UNREAD_COUNT,
-          { id: 1, lastSeen, unreadCount: 1 },
-        ],
+      expect(commit).toHaveBeenCalledTimes(2);
+      // Optimistic: unreadCount >= 1.
+      expect(commit.mock.calls[0][0]).toBe(types.UPDATE_MESSAGE_UNREAD_COUNT);
+      expect(commit.mock.calls[0][1].id).toBe(1);
+      expect(commit.mock.calls[0][1].unreadCount).toBeGreaterThanOrEqual(1);
+      // Reconciliation with server values.
+      expect(commit.mock.calls[1]).toEqual([
+        types.UPDATE_MESSAGE_UNREAD_COUNT,
+        { id: 1, lastSeen, unreadCount: 1 },
       ]);
     });
-    it('sends correct mutations if API is unsuccessful', async () => {
+    it('rolls back and throws if API is unsuccessful', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
       await expect(
         actions.markMessagesUnread({ commit }, { id: 1 })
       ).rejects.toThrow(Error);
+      // Optimistic + rollback.
+      expect(commit).toHaveBeenCalledTimes(2);
     });
   });
 

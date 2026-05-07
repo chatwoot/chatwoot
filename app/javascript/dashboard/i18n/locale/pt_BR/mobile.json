@@ -116,6 +116,8 @@
       "STATUS": "Status",
       "MARK_READ": "Lido",
       "MARK_UNREAD": "N\u00e3o lido",
+      "MARKED_READ": "Conversa marcada como lida",
+      "MARKED_UNREAD": "Conversa marcada como n\u00e3o lida",
       "DELETE": "Excluir",
       "CONFIRM_DELETE": "Tem certeza de que deseja excluir esta conversa?"
     },
