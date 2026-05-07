@@ -119,22 +119,13 @@ RSpec.describe 'Label API', type: :request do
         conversation.label_list.add(label.title)
         conversation.save!
 
-        existing_tagging_ids = ActsAsTaggableOn::Tagging.joins(:tag)
-                                                        .where(
-                                                          context: 'labels',
-                                                          taggable: conversation,
-                                                          tags: { name: label.title }
-                                                        )
-                                                        .pluck(:id)
-
         clear_enqueued_jobs
 
         expect do
           delete "/api/v1/accounts/#{account.id}/labels/#{label.id}", headers: admin.create_new_auth_token, as: :json
         end.to have_enqueued_job(Labels::RemoveAssociationsJob).with(
           label_title: label.title,
-          account_id: account.id,
-          tagging_ids: existing_tagging_ids
+          account_id: account.id
         )
 
         expect(response).to have_http_status(:ok)
