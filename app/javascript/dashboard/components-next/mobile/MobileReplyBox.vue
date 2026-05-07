@@ -485,12 +485,13 @@ onBeforeUnmount(() => {
       <!-- Text input area (hidden when recording) -->
       <div
         v-if="!showAudioRecorderEditor"
-        class="flex-1 flex items-center rounded-2xl border px-3 py-1.5 transition-colors min-h-[36px]"
-        :class="
+        class="mobile-reply-input flex-1 flex items-center rounded-2xl border px-3 py-1.5 transition-colors min-h-[36px]"
+        :class="[
           effectivePrivate
             ? 'bg-n-amber-2 border-n-amber-5'
-            : 'bg-n-alpha-2 border-n-weak'
-        "
+            : 'bg-n-alpha-2 border-n-weak',
+          isFocused && !effectivePrivate ? 'border-n-brand' : '',
+        ]"
       >
         <textarea
           ref="textareaRef"
@@ -498,11 +499,11 @@ onBeforeUnmount(() => {
           :placeholder="placeholder"
           :disabled="isEditorDisabled"
           rows="1"
-          class="flex-1 bg-transparent text-sm text-n-slate-12 placeholder:text-n-slate-9 placeholder:text-xs resize-none outline-none max-h-[120px] h-5 leading-5 overflow-y-hidden"
+          class="mobile-reply-textarea flex-1 min-w-0 w-full bg-transparent text-sm text-n-slate-12 placeholder:text-n-slate-9 placeholder:text-xs resize-none outline-none max-h-[120px] h-5 leading-5 overflow-y-hidden"
           :class="{ 'opacity-50 cursor-not-allowed': isEditorDisabled }"
           @keydown="onKeydown"
           @input="onTyping"
-          @blur="onTypingOff"
+          @blur="isFocused = false; onTypingOff()"
           @focus="isFocused = true"
         />
 
@@ -655,3 +656,23 @@ onBeforeUnmount(() => {
     />
   </div>
 </template>
+
+<style scoped>
+.mobile-reply-textarea {
+  -webkit-appearance: none;
+  appearance: none;
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent;
+  font-family: inherit;
+}
+
+.mobile-reply-textarea:focus,
+.mobile-reply-textarea:focus-visible,
+.mobile-reply-textarea:focus-within {
+  outline: none !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+</style>
