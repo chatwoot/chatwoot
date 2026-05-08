@@ -4,7 +4,6 @@ import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import CustomRoleModal from './component/CustomRoleModal.vue';
 import CustomRoleTableBody from './component/CustomRoleTableBody.vue';
-import CustomRolePaywall from './component/CustomRolePaywall.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -44,19 +43,6 @@ const deleteMessage = computed(() => {
   return ` ${activeResponse.value.name} ? `;
 });
 
-const isFeatureEnabledOnAccount = useMapGetter(
-  'accounts/isFeatureEnabledonAccount'
-);
-
-const currentAccountId = useMapGetter('getCurrentAccountId');
-
-const isBehindAPaywall = computed(() => {
-  return !isFeatureEnabledOnAccount.value(
-    currentAccountId.value,
-    'custom_roles'
-  );
-});
-
 const fetchCustomRoles = async () => {
   try {
     await store.dispatch('customRole/getCustomRole');
@@ -85,7 +71,6 @@ const showAlertMessage = message => {
 };
 
 const openAddModal = () => {
-  if (isBehindAPaywall.value) return;
   customRoleModalMode.value = 'add';
   selectedRole.value = null;
   showCustomRoleModal.value = true;
@@ -133,7 +118,7 @@ const confirmDeletion = () => {
   <SettingsLayout
     :is-loading="uiFlags.fetchingList"
     :loading-message="$t('CUSTOM_ROLE.LOADING')"
-    :no-records-found="!records.length && !isBehindAPaywall"
+    :no-records-found="!records.length"
     :no-records-message="$t('CUSTOM_ROLE.LIST.404')"
   >
     <template #header>
@@ -154,7 +139,6 @@ const confirmDeletion = () => {
           <Button
             :label="$t('CUSTOM_ROLE.HEADER_BTN_TXT')"
             size="sm"
-            :disabled="isBehindAPaywall"
             @click="openAddModal"
           />
         </template>
@@ -162,9 +146,7 @@ const confirmDeletion = () => {
     </template>
 
     <template #body>
-      <CustomRolePaywall v-if="isBehindAPaywall" />
       <BaseTable
-        v-else
         :headers="tableHeaders"
         :items="filteredRecords"
         :no-data-message="

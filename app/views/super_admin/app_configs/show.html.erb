@@ -15,7 +15,7 @@
 </style>
 
 <section class="main-content__body">
-  <%= form_with url: super_admin_app_config_url(config: @config) , method: :post do |form| %>
+  <%= form_with url: super_admin_app_config_url(config: @config), method: :post, multipart: true do |form| %>
     <% @allowed_configs.each do |key| %>
       <div class="flex mb-8">
         <div class="field-unit__label">
@@ -59,6 +59,37 @@
               { selected: @app_config[key] },
               class: "mt-2 border border-slate-100 p-1 rounded-md"
             %>
+          <% elsif @installation_configs[key]&.dig('type') == 'color' %>
+            <div class="flex items-center gap-2">
+              <%= form.color_field "app_config[#{key}]",
+                value: @app_config[key].presence || @installation_configs[key]&.dig('value'),
+                class: "mt-2 h-9 w-14 cursor-pointer rounded-md border border-slate-100 p-1 color-picker",
+                data: { target: "app_config_#{key}_text" }
+              %>
+              <%= form.text_field "app_config[#{key}]",
+                value: @app_config[key].presence || @installation_configs[key]&.dig('value'),
+                id: "app_config_#{key}_text",
+                class: "mt-2 border border-slate-100 p-1.5 rounded-md font-mono text-sm"
+              %>
+            </div>
+          <% elsif @installation_configs[key]&.dig('type') == 'image' %>
+            <div class="space-y-3">
+              <% if @app_config[key].present? %>
+                <div class="flex items-center gap-3">
+                  <img src="<%= @app_config[key] %>" alt="<%= key %>" class="object-contain w-12 h-12 rounded-md border border-slate-100 bg-white p-1">
+                  <span class="text-xs text-slate-500 break-all"><%= @app_config[key] %></span>
+                </div>
+              <% end %>
+              <%= form.text_field "app_config[#{key}]",
+                value: @app_config[key],
+                placeholder: 'https://example.com/logo.svg',
+                class: "mt-2 border border-slate-100 p-1.5 rounded-md w-full"
+              %>
+              <%= file_field_tag "app_config_files[#{key}]",
+                accept: 'image/png,image/jpeg,image/svg+xml,image/webp',
+                class: "block text-sm text-slate-700"
+              %>
+            </div>
         <% else %>
           <%= form.text_field "app_config[#{key}]", value: @app_config[key] %>
         <% end %>
@@ -92,6 +123,21 @@
           svg.classList.remove('eye-hide')
         } else {
           svg.classList.add('eye-hide')
+        }
+      });
+    });
+
+    document.querySelectorAll('.color-picker').forEach(input => {
+      const textInput = document.getElementById(input.dataset.target);
+      if (!textInput) return;
+
+      input.addEventListener('input', () => {
+        textInput.value = input.value;
+      });
+
+      textInput.addEventListener('input', () => {
+        if (/^#[0-9A-Fa-f]{6}$/.test(textInput.value)) {
+          input.value = textInput.value;
         }
       });
     });

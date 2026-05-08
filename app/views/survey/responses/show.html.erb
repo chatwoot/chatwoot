@@ -10,7 +10,7 @@
     <%= vite_client_tag %>
     <%= vite_javascript_tag 'survey' %>
   </head>
-  <body>
+  <body style="<%= brand_css_variables(@global_config) %>">
     <div id="app"></div>
     <%= yield %>
   </body>

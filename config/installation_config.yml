@@ -22,14 +22,17 @@
   value: '/brand-assets/logo_thumbnail.svg'
   display_title: 'Logo Thumbnail'
   description: 'The thumbnail that would be used for favicon (512px X 512px)'
+  type: image
 - name: LOGO
   value: '/brand-assets/logo.svg'
   display_title: 'Logo'
   description: 'The logo that would be used on the dashboard, login page etc.'
+  type: image
 - name: LOGO_DARK
   value: '/brand-assets/logo_dark.svg'
   display_title: 'Logo Dark Mode'
   description: 'The logo that would be used on the dashboard, login page etc. for dark mode'
+  type: image
 - name: BRAND_URL
   value: 'https://www.chatwoot.com'
   display_title: 'Brand URL'
@@ -42,6 +45,21 @@
   value: 'Chatwoot'
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
+- name: BRAND_PRIMARY_COLOR
+  value: '#2781F6'
+  display_title: 'Primary Brand Color'
+  description: 'The primary color used for buttons, focus states, selected items and links'
+  type: color
+- name: BRAND_PRIMARY_HOVER_COLOR
+  value: '#1073E9'
+  display_title: 'Primary Hover Color'
+  description: 'The color used for hover and active states'
+  type: color
+- name: BRAND_SECONDARY_COLOR
+  value: '#DAECFF'
+  display_title: 'Secondary Brand Color'
+  description: 'The softer brand color used for selected backgrounds and highlights'
+  type: color
 - name: TERMS_URL
   value: 'https://www.chatwoot.com/terms-of-service'
   display_title: 'Terms URL'

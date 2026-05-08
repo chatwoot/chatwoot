@@ -36,7 +36,7 @@
     <%= vite_client_tag %>
     <%= vite_javascript_tag 'widget' %>
   </head>
-  <body>
+  <body style="<%= brand_css_variables(@global_config) %>">
     <div id="app" class="h-full"></div>
     <%= yield %>
   </body>

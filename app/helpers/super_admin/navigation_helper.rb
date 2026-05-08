@@ -9,7 +9,10 @@ module SuperAdmin::NavigationHelper
     end
 
     # Add general at the beginning
-    general_feature = [['general', { 'config_key' => 'general', 'name' => 'General' }]]
+    general_feature = [
+      ['general', { 'config_key' => 'general', 'name' => 'General' }],
+      ['branding', { 'config_key' => 'branding', 'name' => 'Branding' }]
+    ]
 
     general_feature + features.to_a
   end

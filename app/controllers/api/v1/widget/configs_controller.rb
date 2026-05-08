@@ -13,6 +13,9 @@ class Api::V1::Widget::ConfigsController < Api::V1::Widget::BaseController
       'LOGO_THUMBNAIL',
       'BRAND_NAME',
       'WIDGET_BRAND_URL',
+      'BRAND_PRIMARY_COLOR',
+      'BRAND_PRIMARY_HOVER_COLOR',
+      'BRAND_SECONDARY_COLOR',
       'MAXIMUM_FILE_UPLOAD_SIZE',
       'INSTALLATION_NAME'
     )

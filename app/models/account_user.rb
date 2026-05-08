@@ -28,6 +28,7 @@ class AccountUser < ApplicationRecord
   include AvailabilityStatusable
 
   belongs_to :account
+  belongs_to :custom_role, optional: true
   belongs_to :user
   belongs_to :inviter, class_name: 'User', optional: true
 
@@ -54,13 +55,14 @@ class AccountUser < ApplicationRecord
   end
 
   def permissions
-    administrator? ? ['administrator'] : ['agent']
+    custom_role.present? ? (custom_role.permissions + ['custom_role']) : default_permissions
   end
 
   def push_event_data
     {
       id: id,
       availability: availability,
+      custom_role_id: custom_role_id,
       role: role,
       user_id: user_id
     }
@@ -78,6 +80,10 @@ class AccountUser < ApplicationRecord
 
   def update_presence_in_redis
     OnlineStatusTracker.set_status(account.id, user.id, availability)
+  end
+
+  def default_permissions
+    administrator? ? ['administrator'] : ['agent']
   end
 end
 

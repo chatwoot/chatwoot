@@ -139,8 +139,7 @@
   premium: true
 - name: custom_roles
   display_name: Custom Roles
-  enabled: false
-  premium: true
+  enabled: true
 - name: chatwoot_v4
   display_name: Chatwoot V4
   enabled: true

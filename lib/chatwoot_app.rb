@@ -12,7 +12,8 @@ module ChatwootApp
   end
 
   def self.enterprise?
-    return if ENV.fetch('DISABLE_ENTERPRISE', false)
+    return false if env_truthy?('DISABLE_ENTERPRISE')
+    return false unless env_truthy?('ENABLE_ENTERPRISE')
 
     @enterprise ||= root.join('enterprise').exist?
   end
@@ -35,7 +36,7 @@ module ChatwootApp
 
   def self.extensions
     if custom?
-      %w[enterprise custom]
+      enterprise? ? %w[enterprise custom] : %w[custom]
     elsif enterprise?
       %w[enterprise]
     else
@@ -52,5 +53,9 @@ module ChatwootApp
     secret_key = InstallationConfig.find_by(name: 'LANGFUSE_SECRET_KEY')&.value
 
     otel_provider.present? && secret_key.present? && otel_provider == 'langfuse'
+  end
+
+  def self.env_truthy?(key)
+    ENV.fetch(key, nil).to_s.match?(/\A(true|1|yes)\z/i)
   end
 end
