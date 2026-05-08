@@ -77,6 +77,6 @@ class Integrations::Linear::AutoLinkService
   end
 
   def processor
-    @processor ||= Integrations::Linear::ProcessorService.new(account: message.account)
+    @processor ||= Integrations::Linear::ProcessorService.new(account: hook.account)
   end
 end
