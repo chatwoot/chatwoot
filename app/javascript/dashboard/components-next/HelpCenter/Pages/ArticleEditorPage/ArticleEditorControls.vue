@@ -201,7 +201,7 @@ onMounted(() => {
           v-if="openAgentsList && hasAgentList"
           :menu-items="agentList"
           show-search
-          class="z-[100] w-48 mt-2 overflow-y-auto ltr:left-0 rtl:right-0 top-full max-h-60"
+          class="z-[100] w-48 mt-2 ltr:left-0 rtl:right-0 top-full max-h-60"
           @action="handleArticleAction"
         />
       </OnClickOutside>
@@ -233,7 +233,7 @@ onMounted(() => {
           v-if="openCategoryList && hasCategoryMenuItems"
           :menu-items="categoryList"
           show-search
-          class="w-48 mt-2 z-[100] overflow-y-auto left-0 top-full max-h-60"
+          class="w-48 mt-2 z-[100] left-0 top-full max-h-60"
           @action="handleArticleAction"
         />
       </OnClickOutside>

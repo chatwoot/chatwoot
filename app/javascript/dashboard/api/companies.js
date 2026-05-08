@@ -1,21 +1,12 @@
 /* global axios */
 import ApiClient from './ApiClient';
 
-export const buildCompanyParams = (page, sort) => {
-  let params = `page=${page}`;
-  if (sort) {
-    params = `${params}&sort=${sort}`;
-  }
-  return params;
-};
-
-export const buildSearchParams = (query, page, sort) => {
-  let params = `q=${encodeURIComponent(query)}&page=${page}`;
-  if (sort) {
-    params = `${params}&sort=${sort}`;
-  }
-  return params;
-};
+const buildParams = params =>
+  new URLSearchParams(
+    Object.entries(params).filter(
+      ([key, value]) => value !== undefined && (value !== '' || key === 'q')
+    )
+  ).toString();
 
 class CompanyAPI extends ApiClient {
   constructor() {
@@ -24,13 +15,40 @@ class CompanyAPI extends ApiClient {
 
   get(params = {}) {
     const { page = 1, sort = 'name' } = params;
-    const requestURL = `${this.url}?${buildCompanyParams(page, sort)}`;
+    const requestURL = `${this.url}?${buildParams({ page, sort })}`;
     return axios.get(requestURL);
   }
 
   search(query = '', page = 1, sort = 'name') {
-    const requestURL = `${this.url}/search?${buildSearchParams(query, page, sort)}`;
+    const requestURL = `${this.url}/search?${buildParams({ q: query, page, sort })}`;
     return axios.get(requestURL);
+  }
+
+  listContacts(id, page = 1) {
+    return axios.get(`${this.url}/${id}/contacts?${buildParams({ page })}`);
+  }
+
+  searchContacts(id, query = '', page = 1) {
+    const requestURL = `${this.url}/${id}/contacts/search?${buildParams({ q: query, page })}`;
+    return axios.get(requestURL);
+  }
+
+  createContact(id, payload) {
+    return axios.post(`${this.url}/${id}/contacts`, payload);
+  }
+
+  removeContact(id, contactId) {
+    return axios.delete(`${this.url}/${id}/contacts/${contactId}`);
+  }
+
+  destroyCustomAttributes(id, customAttributes) {
+    return axios.post(`${this.url}/${id}/destroy_custom_attributes`, {
+      custom_attributes: customAttributes,
+    });
+  }
+
+  destroyAvatar(id) {
+    return axios.delete(`${this.url}/${id}/avatar`);
   }
 }
 
