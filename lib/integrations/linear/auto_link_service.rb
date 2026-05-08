@@ -3,6 +3,7 @@ class Integrations::Linear::AutoLinkService
 
   LINEAR_URL_REGEX = %r{https?://linear\.app/[^/\s]+/issue/[A-Z][A-Z0-9_]+-\d+(?:/[^\s)]*)?}i
   IDENTIFIER_REGEX = %r{/issue/([A-Z][A-Z0-9_]+-\d+)}i
+  WORKSPACE_REGEX = %r{//linear\.app/([^/\s]+)/}i
 
   def perform
     return unless valid_message?
@@ -21,13 +22,14 @@ class Integrations::Linear::AutoLinkService
     return if linear_url.blank?
 
     identifier = linear_url[IDENTIFIER_REGEX, 1]&.upcase
-    return if identifier.blank? || already_linked?(identifier)
+    workspace = linear_url[WORKSPACE_REGEX, 1]&.downcase
+    return if identifier.blank? || workspace.blank? || already_linked?(identifier)
 
-    finalize_link(identifier)
+    finalize_link(workspace, identifier)
   end
 
-  def finalize_link(identifier)
-    node_id = resolve_node_id(identifier)
+  def finalize_link(workspace, identifier)
+    node_id = resolve_node_id(workspace, identifier)
     return if node_id.blank?
     return unless link_to_linear(node_id, identifier)
 
@@ -41,12 +43,18 @@ class Integrations::Linear::AutoLinkService
     response[:data].any? { |attachment| attachment.dig('issue', 'identifier') == identifier }
   end
 
-  def resolve_node_id(identifier)
+  def resolve_node_id(workspace, identifier)
     response = processor.search_issue(identifier)
     return if response[:error]
 
-    node = response[:data].find { |issue| issue['identifier'] == identifier }
+    node = response[:data].find do |issue|
+      issue['identifier'] == identifier && node_workspace(issue) == workspace
+    end
     node && node['id']
+  end
+
+  def node_workspace(node)
+    node['url']&.match(WORKSPACE_REGEX)&.[](1)&.downcase
   end
 
   def link_to_linear(node_id, identifier)

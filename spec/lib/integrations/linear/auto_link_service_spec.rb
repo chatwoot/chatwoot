@@ -12,12 +12,17 @@ describe Integrations::Linear::AutoLinkService do
   let(:linear_url) { 'https://linear.app/chatwoot/issue/CW-1234/some-slug' }
   let(:identifier) { 'CW-1234' }
   let(:node_id) { 'linear-node-id-1' }
-  let(:search_response) { { data: [{ 'id' => node_id, 'identifier' => identifier, 'title' => 'Issue title' }] } }
+  let(:search_response) do
+    { data: [{ 'id' => node_id, 'identifier' => identifier, 'title' => 'Issue title',
+               'url' => 'https://linear.app/chatwoot/issue/CW-1234/issue-title' }] }
+  end
 
   before do
     allow(Integrations::Linear::ProcessorService).to receive(:new).with(account: account).and_return(processor)
     allow(Linear::ActivityMessageService).to receive(:new).and_return(activity_service)
     allow(processor).to receive(:linked_issues).and_return({ data: [] })
+    allow(processor).to receive(:search_issue).and_return(search_response)
+    allow(processor).to receive(:link_issue).and_return({ data: { id: node_id, link_id: 'attachment-1' } })
   end
 
   def build_private_note(content)
@@ -40,7 +45,9 @@ describe Integrations::Linear::AutoLinkService do
 
         described_class.new(hook: hook, message: message).perform
 
-        expect(processor).not_to have_received(:new) if processor.respond_to?(:new)
+        expect(processor).not_to have_received(:linked_issues)
+        expect(processor).not_to have_received(:search_issue)
+        expect(processor).not_to have_received(:link_issue)
         expect(Linear::ActivityMessageService).not_to have_received(:new)
       end
     end
@@ -54,6 +61,7 @@ describe Integrations::Linear::AutoLinkService do
 
         described_class.new(hook: hook, message: message).perform
 
+        expect(processor).not_to have_received(:link_issue)
         expect(Linear::ActivityMessageService).not_to have_received(:new)
       end
     end
@@ -64,6 +72,7 @@ describe Integrations::Linear::AutoLinkService do
 
         described_class.new(hook: hook, message: message).perform
 
+        expect(processor).not_to have_received(:link_issue)
         expect(Linear::ActivityMessageService).not_to have_received(:new)
       end
     end
@@ -77,7 +86,8 @@ describe Integrations::Linear::AutoLinkService do
 
         described_class.new(hook: hook, message: message).perform
 
-        expect(processor).not_to receive(:search_issue)
+        expect(processor).not_to have_received(:search_issue)
+        expect(processor).not_to have_received(:link_issue)
         expect(Linear::ActivityMessageService).not_to have_received(:new)
       end
     end
@@ -85,11 +95,28 @@ describe Integrations::Linear::AutoLinkService do
     context 'when Linear search returns no exact match for the identifier' do
       it 'does not link' do
         message = build_private_note("see #{linear_url}")
-        allow(processor).to receive(:search_issue).with(identifier).and_return({ data: [{ 'id' => 'other', 'identifier' => 'OTHER-1' }] })
+        allow(processor).to receive(:search_issue).with(identifier).and_return(
+          { data: [{ 'id' => 'other', 'identifier' => 'OTHER-1', 'url' => 'https://linear.app/chatwoot/issue/OTHER-1' }] }
+        )
 
         described_class.new(hook: hook, message: message).perform
 
-        expect(processor).not_to receive(:link_issue)
+        expect(processor).not_to have_received(:link_issue)
+        expect(Linear::ActivityMessageService).not_to have_received(:new)
+      end
+    end
+
+    context 'when the matching issue belongs to a different Linear workspace' do
+      it 'does not link' do
+        message = build_private_note("see #{linear_url}")
+        allow(processor).to receive(:search_issue).with(identifier).and_return(
+          { data: [{ 'id' => node_id, 'identifier' => identifier,
+                     'url' => 'https://linear.app/other-workspace/issue/CW-1234' }] }
+        )
+
+        described_class.new(hook: hook, message: message).perform
+
+        expect(processor).not_to have_received(:link_issue)
         expect(Linear::ActivityMessageService).not_to have_received(:new)
       end
     end
@@ -101,7 +128,7 @@ describe Integrations::Linear::AutoLinkService do
 
         described_class.new(hook: hook, message: message).perform
 
-        expect(processor).not_to receive(:link_issue)
+        expect(processor).not_to have_received(:link_issue)
         expect(Linear::ActivityMessageService).not_to have_received(:new)
       end
     end
@@ -109,7 +136,6 @@ describe Integrations::Linear::AutoLinkService do
     context 'when link_issue returns an error' do
       it 'does not post the activity message' do
         message = build_private_note("see #{linear_url}")
-        allow(processor).to receive(:search_issue).with(identifier).and_return(search_response)
         allow(processor).to receive(:link_issue).and_return({ error: 'nope' })
 
         described_class.new(hook: hook, message: message).perform
@@ -121,8 +147,6 @@ describe Integrations::Linear::AutoLinkService do
     context 'when the private note contains a Linear URL' do
       it 'links the issue and posts an activity message' do
         message = build_private_note("Found it: #{linear_url}")
-        allow(processor).to receive(:search_issue).with(identifier).and_return(search_response)
-        allow(processor).to receive(:link_issue).and_return({ data: { id: node_id, link_id: 'attachment-1' } })
 
         described_class.new(hook: hook, message: message).perform
 
@@ -144,8 +168,6 @@ describe Integrations::Linear::AutoLinkService do
       it 'links only the first Linear URL when multiple are present' do
         second_url = 'https://linear.app/chatwoot/issue/CW-9999'
         message = build_private_note("see #{linear_url} and #{second_url}")
-        allow(processor).to receive(:search_issue).and_return(search_response)
-        allow(processor).to receive(:link_issue).and_return({ data: { id: node_id, link_id: 'attachment-1' } })
 
         described_class.new(hook: hook, message: message).perform
 
