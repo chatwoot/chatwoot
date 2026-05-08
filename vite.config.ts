@@ -22,6 +22,7 @@ import { defineConfig } from 'vite';
 import ruby from 'vite-plugin-ruby';
 import path from 'path';
 import vue from '@vitejs/plugin-vue';
+import yaml from '@rollup/plugin-yaml';
 
 const isLibraryMode = process.env.BUILD_MODE === 'library';
 const isTestMode = process.env.TEST === 'true';
@@ -34,12 +35,12 @@ const vueOptions = {
   },
 };
 
-let plugins = [ruby(), vue(vueOptions)];
+let plugins = [ruby(), vue(vueOptions), yaml()];
 
 if (isLibraryMode) {
   plugins = [];
 } else if (isTestMode) {
-  plugins = [vue(vueOptions)];
+  plugins = [vue(vueOptions), yaml()];
 }
 
 export default defineConfig({
