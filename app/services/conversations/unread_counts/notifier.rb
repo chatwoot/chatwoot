@@ -9,7 +9,11 @@ class Conversations::UnreadCounts::Notifier
   end
 
   def perform
-    return false unless ::Conversations::UnreadCounts::Feature.enabled?(conversation.account)
+    unless ::Conversations::UnreadCounts::Feature.enabled?(conversation.account)
+      ::Conversations::UnreadCounts::Store.expire_ready_keys!(conversation.account_id)
+      return false
+    end
+
     return false unless ::Conversations::UnreadCounts::Refresher.new(conversation, changed_attributes: changed_attributes).perform
 
     Rails.configuration.dispatcher.dispatch(CONVERSATION_UNREAD_COUNT_CHANGED, Time.zone.now, conversation: conversation)

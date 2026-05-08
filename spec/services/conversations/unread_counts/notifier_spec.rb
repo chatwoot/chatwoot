@@ -33,13 +33,21 @@ RSpec.describe Conversations::UnreadCounts::Notifier do
 
   context 'when conversation unread counts feature is disabled' do
     before do
+      Conversations::UnreadCounts::Store.mark_base_ready!(conversation.account_id)
+      Conversations::UnreadCounts::Store.mark_assignment_ready!(conversation.account_id)
       conversation.account.disable_features!(:conversation_unread_counts)
     end
 
-    it 'does not refresh or dispatch unread count changed event' do
+    after do
+      Conversations::UnreadCounts::Store.clear_account!(conversation.account_id)
+    end
+
+    it 'expires ready keys without refreshing or dispatching unread count changed event' do
       described_class.new(conversation).perform
 
       expect(Conversations::UnreadCounts::Refresher).not_to have_received(:new)
+      expect(Conversations::UnreadCounts::Store.base_ready?(conversation.account_id)).to be(false)
+      expect(Conversations::UnreadCounts::Store.assignment_ready?(conversation.account_id)).to be(false)
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
     end
   end

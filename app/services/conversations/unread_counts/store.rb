@@ -23,6 +23,13 @@ class Conversations::UnreadCounts::Store
       Redis::Alfred.set(assignment_ready_key(account_id), Time.current.to_i, ex: Conversations::UnreadCounts::READY_TTL)
     end
 
+    def expire_ready_keys!(account_id)
+      Redis::Alfred.pipelined do |pipeline|
+        pipeline.expire(base_ready_key(account_id), 0)
+        pipeline.expire(assignment_ready_key(account_id), 0)
+      end
+    end
+
     def clear_account!(account_id)
       delete_matching("#{account_prefix(account_id)}::*")
     end
