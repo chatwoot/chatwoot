@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_03_225201) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_07_214147) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -681,6 +681,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_03_225201) do
     t.integer "position", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "classification_type", default: 0, null: false
     t.index ["account_id", "name"], name: "index_conversation_classifications_on_account_id_and_name", unique: true
     t.index ["account_id"], name: "index_conversation_classifications_on_account_id"
   end
@@ -1004,8 +1005,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_03_225201) do
     t.float "position", default: 1.0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "conversation_id"
     t.index ["contact_id"], name: "index_kanban_cards_on_contact_id"
-    t.index ["contact_id"], name: "index_kanban_cards_on_contact_id_unique", unique: true
+    t.index ["conversation_id"], name: "index_kanban_cards_on_conversation_id"
+    t.index ["conversation_id"], name: "index_kanban_cards_on_conversation_id_unique", unique: true, where: "(conversation_id IS NOT NULL)"
     t.index ["created_by_id"], name: "index_kanban_cards_on_created_by_id"
     t.index ["kanban_board_id"], name: "index_kanban_cards_on_kanban_board_id"
     t.index ["kanban_column_id", "position"], name: "index_kanban_cards_on_kanban_column_id_and_position"
@@ -1369,6 +1372,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_03_225201) do
     t.integer "consumed_timestep"
     t.boolean "otp_required_for_login", default: false
     t.text "otp_backup_codes"
+    t.boolean "kanban_enabled", default: true, null: false
     t.index ["email"], name: "index_users_on_email"
     t.index ["otp_required_for_login"], name: "index_users_on_otp_required_for_login"
     t.index ["otp_secret"], name: "index_users_on_otp_secret", unique: true
@@ -1421,6 +1425,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_03_225201) do
   add_foreign_key "kanban_card_schedules", "kanban_cards"
   add_foreign_key "kanban_card_schedules", "users", column: "created_by_id"
   add_foreign_key "kanban_cards", "contacts"
+  add_foreign_key "kanban_cards", "conversations", on_delete: :nullify
   add_foreign_key "kanban_cards", "kanban_boards"
   add_foreign_key "kanban_cards", "kanban_columns"
   add_foreign_key "kanban_cards", "users", column: "created_by_id"
