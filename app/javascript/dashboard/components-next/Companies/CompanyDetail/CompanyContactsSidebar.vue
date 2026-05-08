@@ -169,7 +169,7 @@ const handleContactSelect = contactId => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-6 px-6 pb-6 pt-1">
+  <div class="flex flex-col gap-6 px-6 pb-8 pt-1">
     <div v-if="!selectedContact" class="flex flex-col gap-4">
       <div class="flex flex-col gap-2">
         <label class="text-base text-n-slate-12">
@@ -346,7 +346,7 @@ const handleContactSelect = contactId => {
         :current-page="currentPage"
         :total-items="totalContacts"
         :items-per-page="15"
-        class="px-0 before:hidden"
+        class="!px-0 before:hidden"
         @update:current-page="emit('update:currentPage', $event)"
       />
     </div>
