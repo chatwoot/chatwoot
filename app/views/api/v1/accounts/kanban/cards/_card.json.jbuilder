@@ -1,6 +1,7 @@
 json.id card.id
 json.kanban_column_id card.kanban_column_id
 json.kanban_board_id card.kanban_board_id
+json.conversation_id card.conversation_id
 json.position card.position
 json.potential_value card.potential_value
 json.notes card.notes

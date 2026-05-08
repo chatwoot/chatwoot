@@ -25,7 +25,7 @@ class Api::V1::Accounts::Kanban::CardsController < Api::V1::Accounts::BaseContro
     )
     authorize @card
     @card.save!
-    contact.update_columns(consultant_id: current_user.id) if contact.consultant_id.blank?
+    contact.update!(consultant_id: current_user.id) if contact.consultant_id.blank?
     render 'api/v1/accounts/kanban/cards/show', status: :created
   end
 
