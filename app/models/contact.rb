@@ -67,11 +67,12 @@ class Contact < ApplicationRecord
   has_many :contact_inboxes, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
   has_many :inboxes, through: :contact_inboxes
+  has_many :kanban_cards, dependent: :destroy_async
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
   before_validation :prepare_contact_attributes
-  after_create_commit :dispatch_create_event, :ip_lookup, :auto_add_to_kanban_board
-  after_update_commit :dispatch_update_event, :auto_add_to_kanban_board_on_consultant_change
+  after_create_commit :dispatch_create_event, :ip_lookup
+  after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
 
@@ -255,18 +256,6 @@ class Contact < ApplicationRecord
       Time.zone.now,
       contact_data: push_event_data.merge(account_id: account_id)
     )
-  end
-
-  def auto_add_to_kanban_board
-    return if consultant_id.blank?
-
-    Kanban::AutoAddContactService.new(contact: self).perform
-  end
-
-  def auto_add_to_kanban_board_on_consultant_change
-    return unless saved_change_to_consultant_id? && consultant_id.present?
-
-    Kanban::AutoAddContactService.new(contact: self).perform
   end
 end
 Contact.include_mod_with('Concerns::Contact')

@@ -9,6 +9,7 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  contact_id       :bigint           not null
+#  conversation_id  :bigint
 #  created_by_id    :bigint           not null
 #  kanban_board_id  :bigint           not null
 #  kanban_column_id :bigint           not null
@@ -16,7 +17,8 @@
 # Indexes
 #
 #  index_kanban_cards_on_contact_id                     (contact_id)
-#  index_kanban_cards_on_contact_id_unique              (contact_id) UNIQUE
+#  index_kanban_cards_on_conversation_id                (conversation_id)
+#  index_kanban_cards_on_conversation_id_unique         (conversation_id) UNIQUE WHERE (conversation_id IS NOT NULL)
 #  index_kanban_cards_on_created_by_id                  (created_by_id)
 #  index_kanban_cards_on_kanban_board_id                (kanban_board_id)
 #  index_kanban_cards_on_kanban_column_id               (kanban_column_id)
@@ -25,6 +27,7 @@
 # Foreign Keys
 #
 #  fk_rails_...  (contact_id => contacts.id)
+#  fk_rails_...  (conversation_id => conversations.id) ON DELETE => nullify
 #  fk_rails_...  (created_by_id => users.id)
 #  fk_rails_...  (kanban_board_id => kanban_boards.id)
 #  fk_rails_...  (kanban_column_id => kanban_columns.id)
@@ -33,13 +36,14 @@ class KanbanCard < ApplicationRecord
   belongs_to :kanban_column
   belongs_to :kanban_board
   belongs_to :contact
+  belongs_to :conversation, optional: true
   belongs_to :created_by, class_name: 'User'
 
   has_many :activities, class_name: 'KanbanCardActivity', dependent: :destroy
   has_many :schedules, class_name: 'KanbanCardSchedule', dependent: :destroy
 
   validates :position, presence: true, numericality: true
-  validates :contact_id, uniqueness: { message: 'already has a Kanban card' }
+  validates :conversation_id, uniqueness: { allow_nil: true, message: 'already has a Kanban card' }
   validates :potential_value, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   default_scope { order(:position) }

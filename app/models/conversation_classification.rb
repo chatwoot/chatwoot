@@ -2,12 +2,13 @@
 #
 # Table name: conversation_classifications
 #
-#  id         :bigint           not null, primary key
-#  name       :string           not null
-#  position   :integer          default(0), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  account_id :bigint           not null
+#  id                  :bigint           not null, primary key
+#  classification_type :integer          default("standard"), not null
+#  name                :string           not null
+#  position            :integer          default(0), not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  account_id          :bigint           not null
 #
 # Indexes
 #
@@ -22,6 +23,8 @@
 class ConversationClassification < ApplicationRecord
   belongs_to :account
   has_many :conversations, dependent: :nullify
+
+  enum classification_type: { standard: 0, won: 1, lost: 2 }
 
   validates :name, presence: true, uniqueness: { scope: :account_id }
   validates :name, length: { maximum: 100 }

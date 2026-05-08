@@ -130,8 +130,10 @@ class Conversation < ApplicationRecord
   before_create :ensure_waiting_since
 
   after_update_commit :execute_after_update_commit_callbacks
+  after_update_commit :sync_kanban_card
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
+  after_create_commit :sync_kanban_card_on_create
 
   delegate :auto_resolve_after, to: :account
 
@@ -234,6 +236,18 @@ class Conversation < ApplicationRecord
     notify_status_change
     create_activity
     notify_conversation_updation
+  end
+
+  def sync_kanban_card_on_create
+    Kanban::CardSyncService.new(conversation: self).sync
+  end
+
+  def sync_kanban_card
+    return unless saved_change_to_assignee_id? ||
+                  saved_change_to_status? ||
+                  saved_change_to_classification_id?
+
+    Kanban::CardSyncService.new(conversation: self).sync
   end
 
   def handle_resolved_status_change

@@ -6,7 +6,6 @@ module AssignmentHandler
     before_save :ensure_assignee_is_from_team
     before_create :auto_assign_from_contact_consultant
     after_commit :notify_assignment_change, :process_assignment_activities
-    after_create_commit :auto_add_contact_to_kanban
   end
 
   private
@@ -57,12 +56,5 @@ module AssignmentHandler
     return if contact.consultant_id.blank?
 
     self.assignee_id = contact.consultant_id
-  end
-
-  def auto_add_contact_to_kanban
-    return unless respond_to?(:contact) && contact.present?
-    return if contact.consultant_id.blank?
-
-    Kanban::AutoAddContactService.new(contact: contact).perform
   end
 end
