@@ -87,6 +87,83 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(1)
         end
 
+        it 'excludes activity markers when the resolved context boundary config is disabled' do
+          create(:message, conversation: conversation, message_type: :activity,
+                           content: 'Conversation was marked resolved by Suryakant',
+                           content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } },
+                           created_at: 1.minute.ago)
+          create(:message, conversation: conversation, message_type: :incoming, content: 'Hey hi', created_at: Time.current)
+
+          expected_history = [
+            { content: 'Hello', role: 'user' },
+            { content: 'Hey hi', role: 'user' }
+          ]
+
+          expect(mock_llm_chat_service).to receive(:generate_response).with(
+            message_history: expected_history
+          ).and_return({ 'response' => 'Hello again' })
+
+          expect(mock_action_classifier_service).to receive(:classify).with(
+            message_history: expected_history,
+            assistant_response: 'Hello again'
+          ).and_return({
+                         'action' => 'continue',
+                         'action_reason' => 'general_product_question',
+                         'model' => 'gpt-4.1'
+                       })
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.reload.status).to eq('pending')
+          expect(conversation.messages.outgoing.where(private: false).last.content).to eq('Hello again')
+        end
+
+        it 'passes sanitized resolved markers while excluding private notes and unrelated activity when configured' do
+          assistant.update!(config: assistant.config.merge('use_resolved_context_boundary' => true))
+          conversation.messages.incoming.first.update!(created_at: 5.minutes.ago)
+          create(:message, conversation: conversation, message_type: :activity,
+                           content: 'Automation System added SLA policy General SLA', created_at: 4.minutes.ago)
+          create(:message, conversation: conversation, message_type: :activity,
+                           content: 'Conversation was marked open by CashBook Support',
+                           content_attributes: { activity: { type: 'conversation_status_changed', status: 'open' } },
+                           created_at: 3.minutes.ago)
+          create(:message, conversation: conversation, message_type: :outgoing, private: true,
+                           content: 'Internal note with private context', created_at: 2.minutes.ago)
+          create(:message, conversation: conversation, message_type: :activity,
+                           content: 'Conversation was marked resolved by Suryakant',
+                           content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } },
+                           created_at: 1.minute.ago)
+          create(:message, conversation: conversation, message_type: :incoming, content: 'Hey hi', created_at: Time.current)
+
+          expected_history = [
+            { content: 'Hello', role: 'user' },
+            {
+              content: 'System activity: Conversation was marked resolved. Treat as a support episode boundary. ' \
+                       'Use prior messages only if latest user message clearly refers back.',
+              role: 'system'
+            },
+            { content: 'Hey hi', role: 'user' }
+          ]
+
+          expect(mock_llm_chat_service).to receive(:generate_response).with(
+            message_history: expected_history
+          ).and_return({ 'response' => 'Hello again' })
+
+          expect(mock_action_classifier_service).to receive(:classify).with(
+            message_history: expected_history,
+            assistant_response: 'Hello again'
+          ).and_return({
+                         'action' => 'continue',
+                         'action_reason' => 'general_product_question',
+                         'model' => 'gpt-4.1'
+                       })
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.reload.status).to eq('pending')
+          expect(conversation.messages.outgoing.where(private: false).last.content).to eq('Hello again')
+        end
+
         it 'hands off without incrementing response usage when the classifier returns handoff' do
           allow(mock_action_classifier_service).to receive(:classify).and_return({
                                                                                    'action' => 'handoff',

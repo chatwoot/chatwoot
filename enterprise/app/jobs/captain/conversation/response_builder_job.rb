@@ -82,19 +82,26 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   def collect_previous_messages
     @conversation
       .messages
-      .where(message_type: [:incoming, :outgoing])
+      .where(message_type: message_history_types)
       .where(private: false)
-      .map do |message|
-      message_hash = {
-        content: prepare_multimodal_message_content(message),
-        role: determine_role(message)
-      }
+      .filter_map do |message|
+        next Captain::ActivityMessageContextBuilderService.new(message: message).generate_content if message.activity?
 
-      # Include agent_name if present in additional_attributes
-      message_hash[:agent_name] = message.additional_attributes['agent_name'] if message.additional_attributes&.dig('agent_name').present?
+        message_hash = {
+          content: prepare_multimodal_message_content(message),
+          role: determine_role(message)
+        }
 
-      message_hash
-    end
+        message_hash[:agent_name] = message.additional_attributes['agent_name'] if message.additional_attributes&.dig('agent_name').present?
+
+        message_hash
+      end
+  end
+
+  def message_history_types
+    return [:incoming, :outgoing, :activity] if @assistant.use_resolved_context_boundary?
+
+    [:incoming, :outgoing]
   end
 
   def determine_role(message)

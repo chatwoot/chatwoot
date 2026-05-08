@@ -36,7 +36,8 @@ class Captain::Assistant < ApplicationRecord
   has_many :copilot_threads, dependent: :destroy_async
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
 
-  store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name
+  store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name,
+                 :use_resolved_context_boundary
 
   validates :name, presence: true
   validates :description, presence: true
@@ -61,6 +62,10 @@ class Captain::Assistant < ApplicationRecord
 
   def available_tool_ids
     available_agent_tools.pluck(:id)
+  end
+
+  def use_resolved_context_boundary?
+    ActiveModel::Type::Boolean.new.cast(use_resolved_context_boundary)
   end
 
   def push_event_data

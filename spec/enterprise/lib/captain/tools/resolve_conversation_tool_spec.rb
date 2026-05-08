@@ -24,7 +24,8 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
       expect(Conversations::ActivityMessageJob).to have_been_enqueued.with(
         conversation,
         hash_including(
-          content: I18n.t('conversations.activity.captain.resolved_by_tool', user_name: assistant.name, reason: 'Possible spam')
+          content: I18n.t('conversations.activity.captain.resolved_by_tool', user_name: assistant.name, reason: 'Possible spam'),
+          content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } }
         )
       )
     end
