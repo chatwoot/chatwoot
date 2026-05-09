@@ -1308,6 +1308,61 @@ onMounted(() => {
 
     <template #preBody>
       <div class="mb-5 flex w-full flex-col gap-5">
+        <div class="mb-2 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-5">
+          <button
+            v-for="card in summaryCards"
+            :key="card.key"
+            type="button"
+            class="group relative flex min-h-16 overflow-hidden rounded-lg border border-solid p-2 transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-brand-7 ltr:text-left rtl:text-right"
+            :class="summaryCardClass(card)"
+            :title="card.subtitle"
+            @click="applyCardFilter(card)"
+          >
+            <span
+              class="absolute top-0 h-full w-1 opacity-80 ltr:left-0 rtl:right-0"
+              :class="accentBarClass(card)"
+            />
+            <div
+              class="flex min-h-full w-full flex-col gap-1 ltr:pl-1 rtl:pr-1"
+            >
+              <div class="flex items-center justify-between gap-1">
+                <span
+                  class="block truncate text-xs font-semibold leading-tight text-n-slate-12"
+                >
+                  {{ card.label }}
+                </span>
+                <span
+                  class="relative flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-md text-xs ring-1"
+                  :class="[
+                    summaryIconClass(card),
+                    summaryIconMotionClass(card),
+                  ]"
+                >
+                  <span
+                    class="absolute inset-0 opacity-20"
+                    :class="toneFillClass(card.tone)"
+                  />
+                  <span class="relative" :class="card.icon" />
+                </span>
+              </div>
+              <div class="flex items-end justify-between gap-1">
+                <span
+                  class="block text-xl font-bold tracking-tight text-n-slate-12"
+                  :class="summaryValueClass(card)"
+                >
+                  {{ card.value }}
+                </span>
+                <span
+                  v-if="activeFilterCard === card.key"
+                  class="shrink-0 rounded-full bg-n-brand-3 px-1.5 py-0.5 text-[9px] font-semibold uppercase text-n-brand-11"
+                >
+                  {{ $t('EMPLOYEE_MGMT.SUMMARY.ACTIVE_FILTER') }}
+                </span>
+              </div>
+            </div>
+          </button>
+        </div>
+
         <div
           class="flex flex-col gap-4 rounded-2xl border border-solid border-n-weak bg-n-solid-1 p-5 shadow-sm dark:bg-n-solid-2"
         >
@@ -1538,91 +1593,6 @@ onMounted(() => {
               <span class="i-lucide-x text-sm" />
             </button>
           </div>
-        </div>
-
-        <div class="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
-          <button
-            v-for="card in summaryCards"
-            :key="card.key"
-            type="button"
-            class="group relative flex min-h-28 overflow-hidden rounded-xl border border-solid p-3 transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-brand-7 ltr:text-left rtl:text-right"
-            :class="summaryCardClass(card)"
-            :title="card.subtitle"
-            @click="applyCardFilter(card)"
-          >
-            <span
-              class="absolute top-0 h-full w-1 animate-pulse opacity-80 transition-all duration-500 group-hover:opacity-100 ltr:left-0 rtl:right-0"
-              :class="accentBarClass(card)"
-            />
-            <div
-              class="flex min-h-full w-full flex-col gap-2 ltr:pl-1 rtl:pr-1"
-            >
-              <div class="flex items-start justify-between gap-3">
-                <div class="min-w-0">
-                  <div class="flex flex-wrap items-center gap-2">
-                    <span
-                      class="block text-xs font-semibold uppercase text-n-slate-10 ltr:tracking-widest rtl:tracking-normal"
-                    >
-                      {{ card.metricLabel }}
-                    </span>
-                    <span class="flex items-center gap-1.5">
-                      <span
-                        class="h-1.5 w-1.5 rounded-full"
-                        :class="summaryLiveDotClass(card)"
-                      />
-                      <span
-                        class="text-[10px] font-semibold uppercase text-n-slate-9 ltr:tracking-wider rtl:tracking-normal"
-                      >
-                        {{ $t('EMPLOYEE_MGMT.MONITORING.LIVE_SHORT') }}
-                      </span>
-                    </span>
-                  </div>
-                  <span
-                    class="mt-1 block text-sm font-semibold leading-5 text-n-slate-12"
-                  >
-                    {{ card.label }}
-                  </span>
-                </div>
-                <span
-                  class="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg text-base ring-1 transition-all duration-300 group-hover:scale-110"
-                  :class="[
-                    summaryIconClass(card),
-                    summaryIconMotionClass(card),
-                  ]"
-                >
-                  <span
-                    class="absolute -top-1 h-3 w-3 rounded-full opacity-60 ltr:-right-1 rtl:-left-1"
-                    :class="summaryLiveDotClass(card)"
-                  />
-                  <span
-                    class="absolute inset-0 opacity-20 transition-opacity duration-300 group-hover:opacity-40"
-                    :class="toneFillClass(card.tone)"
-                  />
-                  <span class="relative" :class="card.icon" />
-                </span>
-              </div>
-
-              <div class="mt-auto">
-                <div class="flex items-end justify-between gap-3">
-                  <span
-                    class="block truncate text-3xl font-bold tracking-tight text-n-slate-12"
-                    :class="summaryValueClass(card)"
-                  >
-                    {{ card.value }}
-                  </span>
-                  <span
-                    v-if="activeFilterCard === card.key"
-                    class="mb-1 shrink-0 rounded-full bg-n-brand-3 px-2 py-1 text-[10px] font-semibold uppercase text-n-brand-11 ltr:tracking-wider rtl:tracking-normal"
-                  >
-                    {{ $t('EMPLOYEE_MGMT.SUMMARY.ACTIVE_FILTER') }}
-                  </span>
-                </div>
-                <span class="mt-1 block text-xs leading-4 text-n-slate-10">
-                  {{ card.subtitle }}
-                </span>
-              </div>
-            </div>
-          </button>
         </div>
       </div>
 
