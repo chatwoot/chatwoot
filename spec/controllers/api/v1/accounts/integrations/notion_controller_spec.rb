@@ -45,7 +45,7 @@ RSpec.describe 'Notion Integration API', type: :request do
     end
 
     it 'returns the created issue for an agent' do
-      allow(issue_tracker_service).to receive(:create_issue).with(issue_params.stringify_keys, agent).and_return(
+      allow(issue_tracker_service).to receive(:create_issue).with(issue_params.with_indifferent_access, agent).and_return(
         data: { id: 'page-1', title: 'Sample Issue', url: 'https://notion.so/page-1' }
       )
 
@@ -63,7 +63,7 @@ RSpec.describe 'Notion Integration API', type: :request do
     end
 
     it 'creates activity message when the issue is created by an agent' do
-      allow(issue_tracker_service).to receive(:create_issue).with(issue_params.stringify_keys, agent).and_return(
+      allow(issue_tracker_service).to receive(:create_issue).with(issue_params.with_indifferent_access, agent).and_return(
         data: { id: 'page-1', title: 'Sample Issue', url: 'https://notion.so/page-1' }
       )
 
@@ -82,7 +82,7 @@ RSpec.describe 'Notion Integration API', type: :request do
     end
 
     it 'returns error message and does not create activity message when creation fails' do
-      allow(issue_tracker_service).to receive(:create_issue).with(issue_params.stringify_keys, agent).and_return(error: 'error message')
+      allow(issue_tracker_service).to receive(:create_issue).with(issue_params.with_indifferent_access, agent).and_return(error: 'error message')
 
       expect do
         post "/api/v1/accounts/#{account.id}/integrations/notion/create_issue",

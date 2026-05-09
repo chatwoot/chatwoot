@@ -33,7 +33,7 @@ class Api::V1::Accounts::Integrations::NotionController < Api::V1::Accounts::Bas
   end
 
   def create_issue
-    issue = issue_tracker_service.create_issue(permitted_issue_params.to_h, Current.user)
+    issue = issue_tracker_service.create_issue(permitted_issue_params.to_h.with_indifferent_access, Current.user)
     if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
