@@ -35,6 +35,10 @@ const emit = defineEmits([
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
 const showLabelsSection = computed(() => props.chat.labels?.length > 0);
 
+const currentContactCompanyName = computed(
+  () => props.currentContact?.additional_attributes?.company_name
+);
+
 const voiceCallData = computed(() => {
   const last = lastMessageInChat.value;
   if (last?.content_type !== 'voice_call' || !last.call) {
@@ -150,11 +154,24 @@ const selectedModel = computed({
         :hide-thumbnail="false"
       />
 
-      <h4
-        class="text-heading-3 my-0 capitalize truncate text-n-slate-12 font-medium w-32 flex-shrink-0"
-      >
-        {{ currentContact.name }}
-      </h4>
+      <div class="flex flex-col min-w-0 w-32 flex-shrink-0">
+        <h4
+          class="text-heading-3 my-0 capitalize truncate text-n-slate-12 font-medium"
+        >
+          {{ currentContact.name }}
+        </h4>
+        <span
+          v-if="currentContactCompanyName"
+          class="inline-flex items-center gap-1 min-w-0"
+        >
+          <span
+            class="i-ph-building-light size-3 text-n-slate-10 flex-shrink-0"
+          />
+          <span class="text-xs truncate text-n-slate-11">
+            {{ currentContactCompanyName }}
+          </span>
+        </span>
+      </div>
 
       <CardContent
         :last-message="lastMessageInChat"
