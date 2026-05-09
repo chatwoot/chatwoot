@@ -375,7 +375,6 @@ const attentionReason = employee => {
     employeeMetric.delayed_unreplied_conversations_count
   );
   const unrepliedCount = Number(employeeMetric.unreplied_conversations_count);
-  const openCount = Number(employeeMetric.open_conversations_count);
   const oldestWaitingSeconds = Number(
     employeeMetric.oldest_waiting_customer_seconds
   );
@@ -399,10 +398,9 @@ const attentionReason = employee => {
     });
   }
 
-  if (openCount > 0 || unrepliedCount > 0) {
-    return t('EMPLOYEE_MGMT.TOOLTIPS.ATTENTION_WORKLOAD', {
-      open: openCount,
-      unreplied: unrepliedCount,
+  if (unrepliedCount > 0) {
+    return t('EMPLOYEE_MGMT.TOOLTIPS.ATTENTION_UNREPLIED', {
+      count: unrepliedCount,
     });
   }
 
@@ -497,7 +495,6 @@ const conversationLabel = conversation => {
 };
 
 const isHighWorkload = employee =>
-  Number(metric(employee).open_conversations_count) >= 10 ||
   Number(metric(employee).unreplied_conversations_count) >= 5;
 
 const summaryCards = computed(() => [
@@ -620,13 +617,6 @@ const detailMetricCards = computed(() => {
   if (!metrics) return [];
 
   return [
-    {
-      key: 'open',
-      label: t('EMPLOYEE_MGMT.TABLE.OPEN_CONVERSATIONS'),
-      value: metrics.open_conversations_count || 0,
-      icon: 'i-lucide-inbox',
-      tone: 'slate',
-    },
     {
       key: 'unreplied',
       label: t('EMPLOYEE_MGMT.TABLE.UNREPLIED'),
@@ -757,10 +747,7 @@ const sortedByAttention = employeeList =>
       Number(metric(a).unreplied_conversations_count);
     if (unrepliedDifference) return unrepliedDifference;
 
-    return (
-      Number(metric(b).open_conversations_count) -
-      Number(metric(a).open_conversations_count)
-    );
+    return 0;
   });
 
 const filteredEmployees = computed(() => {
@@ -1666,7 +1653,7 @@ onMounted(() => {
                 {{ $t('EMPLOYEE_MGMT.TABLE.HEALTH') }}
               </th>
               <th class="px-3 py-3">
-                {{ $t('EMPLOYEE_MGMT.TABLE.WORKLOAD') }}
+                {{ $t('EMPLOYEE_MGMT.TABLE.UNREPLIED') }}
               </th>
               <th class="px-3 py-3">
                 {{ $t('EMPLOYEE_MGMT.TABLE.WAITING') }}
@@ -1772,34 +1759,17 @@ onMounted(() => {
                     </span>
                   </div>
                 </td>
-                <td class="px-3 py-4">
-                  <div class="grid w-full grid-cols-2 gap-1.5 text-center">
-                    <div class="min-w-0 rounded-md bg-n-slate-2 px-2 py-1">
-                      <span class="block truncate text-[11px] text-n-slate-10">
-                        {{ $t('EMPLOYEE_MGMT.TABLE.OPEN_CONVERSATIONS') }}
-                      </span>
-                      <span class="font-semibold text-n-slate-12">
-                        {{ metric(employee).open_conversations_count || 0 }}
-                      </span>
-                    </div>
-                    <div class="min-w-0 rounded-md bg-n-slate-2 px-2 py-1">
-                      <span class="block truncate text-[11px] text-n-slate-10">
-                        {{ $t('EMPLOYEE_MGMT.TABLE.UNREPLIED') }}
-                      </span>
-                      <span
-                        class="font-semibold"
-                        :class="
-                          metric(employee).unreplied_conversations_count
-                            ? 'text-n-ruby-11'
-                            : 'text-n-slate-12'
-                        "
-                      >
-                        {{
-                          metric(employee).unreplied_conversations_count || 0
-                        }}
-                      </span>
-                    </div>
-                  </div>
+                <td class="px-3 py-4 text-center text-n-slate-11">
+                  <span
+                    class="font-semibold"
+                    :class="
+                      metric(employee).unreplied_conversations_count
+                        ? 'text-n-ruby-11'
+                        : 'text-n-slate-12'
+                    "
+                  >
+                    {{ metric(employee).unreplied_conversations_count || 0 }}
+                  </span>
                 </td>
                 <td class="whitespace-nowrap px-3 py-4 text-n-slate-11">
                   {{
@@ -1958,16 +1928,11 @@ onMounted(() => {
                     <div>
                       <span class="block text-xs font-medium text-n-slate-10">
                         {{ $t('EMPLOYEE_MGMT.DRILLDOWN.WORKLOAD') }}
+                        {{ $t('EMPLOYEE_MGMT.DRILLDOWN.UNREPLIED') }}
                       </span>
                       <div
                         class="grid grid-cols-[auto_1fr] gap-x-2 text-sm text-n-slate-12"
                       >
-                        <span class="text-n-slate-10">
-                          {{ $t('EMPLOYEE_MGMT.TABLE.OPEN_CONVERSATIONS') }}
-                        </span>
-                        <span>
-                          {{ metric(employee).open_conversations_count || 0 }}
-                        </span>
                         <span class="text-n-slate-10">
                           {{ $t('EMPLOYEE_MGMT.TABLE.UNREPLIED') }}
                         </span>
