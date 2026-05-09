@@ -25,13 +25,15 @@ class Integrations::Notion::IssueTrackerConfigService
   private
 
   def normalized_properties(properties)
-    properties.to_h.map do |property_name, config|
+    normalized_properties = properties.to_h.map do |property_name, config|
       property = config.with_indifferent_access
       {
         name: property[:name].presence || property_name.to_s,
         type: property[:type]
       }
-    end.sort_by { |property| property[:name].downcase }
+    end
+
+    normalized_properties.sort_by { |property| property[:name].downcase }
   end
 
   def notion_client
