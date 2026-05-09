@@ -8,7 +8,6 @@ import {
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
-import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SocialIcons from './SocialIcons.vue';
@@ -58,17 +57,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
+    ...mapGetters({
+      uiFlags: 'contacts/getUIFlags',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
+      globalConfig: 'globalConfig/get',
+    }),
     contactProfileLink() {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
     },
-    installationType() {
-      return window.globalConfig?.INSTALLATION_IDENTIFIER || '';
-    },
     isCompaniesAvailable() {
-      return [INSTALLATION_TYPES.CLOUD, INSTALLATION_TYPES.ENTERPRISE].includes(
-        this.installationType
-      );
+      return this.isOnChatwootCloud || this.globalConfig.isEnterprise;
     },
     companyDetailUrl() {
       if (!this.isCompaniesAvailable) return '';
