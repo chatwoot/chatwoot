@@ -356,6 +356,9 @@ Rails.application.routes.draw do
             resource :notion, controller: 'notion', only: [] do
               collection do
                 delete :destroy
+                get :issue_tracker
+                patch :issue_tracker, action: :update_issue_tracker
+                post :validate_issue_tracker
               end
             end
           end
