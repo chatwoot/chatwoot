@@ -71,6 +71,10 @@ const currentContact = computed(() =>
   store.getters['contacts/getContact'](props.chat.meta.sender.id)
 );
 
+const currentContactCompanyName = computed(
+  () => currentContact.value?.additional_attributes?.company_name
+);
+
 const isSnoozed = computed(
   () => currentChat.value.status === wootConstants.STATUS_TYPE.SNOOZED
 );
@@ -146,6 +150,16 @@ const copyConversationId = async () => {
         <div
           class="flex items-center gap-1 overflow-hidden text-xs conversation--header--actions text-n-slate-11 text-ellipsis whitespace-nowrap"
         >
+          <span
+            v-if="currentContactCompanyName"
+            class="inline-flex items-center gap-1 min-w-0"
+          >
+            <span
+              class="i-ph-building-light size-3 text-n-slate-10 flex-shrink-0"
+            />
+            <span class="truncate">{{ currentContactCompanyName }}</span>
+          </span>
+          <span v-if="currentContactCompanyName">•</span>
           <button
             type="button"
             class="truncate text-label-small text-n-slate-11 hover:text-n-slate-12 !p-0 cucursor-pointer"
