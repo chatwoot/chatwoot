@@ -359,6 +359,8 @@ Rails.application.routes.draw do
                 get :issue_tracker
                 patch :issue_tracker, action: :update_issue_tracker
                 post :validate_issue_tracker
+                post :create_issue
+                get :linked_issues
               end
             end
           end
