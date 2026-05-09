@@ -1540,14 +1540,12 @@ onMounted(() => {
           </div>
         </div>
 
-        <div
-          class="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-6"
-        >
+        <div class="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
           <button
             v-for="card in summaryCards"
             :key="card.key"
             type="button"
-            class="group relative flex min-h-40 overflow-hidden rounded-2xl border border-solid p-4 transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-brand-7 ltr:text-left rtl:text-right"
+            class="group relative flex min-h-28 overflow-hidden rounded-xl border border-solid p-3 transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-brand-7 ltr:text-left rtl:text-right"
             :class="summaryCardClass(card)"
             :title="card.subtitle"
             @click="applyCardFilter(card)"
@@ -1557,7 +1555,7 @@ onMounted(() => {
               :class="accentBarClass(card)"
             />
             <div
-              class="flex min-h-full w-full flex-col gap-4 ltr:pl-1 rtl:pr-1"
+              class="flex min-h-full w-full flex-col gap-2 ltr:pl-1 rtl:pr-1"
             >
               <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
@@ -1586,7 +1584,7 @@ onMounted(() => {
                   </span>
                 </div>
                 <span
-                  class="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl text-lg ring-1 transition-all duration-300 group-hover:scale-110"
+                  class="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg text-base ring-1 transition-all duration-300 group-hover:scale-110"
                   :class="[
                     summaryIconClass(card),
                     summaryIconMotionClass(card),
@@ -1607,7 +1605,7 @@ onMounted(() => {
               <div class="mt-auto">
                 <div class="flex items-end justify-between gap-3">
                   <span
-                    class="block truncate text-4xl font-bold tracking-tight text-n-slate-12"
+                    class="block truncate text-3xl font-bold tracking-tight text-n-slate-12"
                     :class="summaryValueClass(card)"
                   >
                     {{ card.value }}
@@ -1619,9 +1617,7 @@ onMounted(() => {
                     {{ $t('EMPLOYEE_MGMT.SUMMARY.ACTIVE_FILTER') }}
                   </span>
                 </div>
-                <span
-                  class="mt-2 block min-h-10 text-sm leading-5 text-n-slate-10"
-                >
+                <span class="mt-1 block text-xs leading-4 text-n-slate-10">
                   {{ card.subtitle }}
                 </span>
               </div>
