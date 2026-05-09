@@ -341,118 +341,11 @@ const workStatusTooltip = employee => {
   return tooltips[status] || t('EMPLOYEE_MGMT.TOOLTIPS.ACTIVITY_EMPTY');
 };
 
-const attentionStatus = employee => {
-  const employeeMetric = metric(employee);
-  const delayedCount = Number(
-    employeeMetric.delayed_unreplied_conversations_count
-  );
-  const unrepliedCount = Number(employeeMetric.unreplied_conversations_count);
-  const oldestWaitingSeconds = Number(
-    employeeMetric.oldest_waiting_customer_seconds
-  );
-
-  if (!employee.active || employee.archived_at) return null;
-  if (delayedCount > 0 || oldestWaitingSeconds >= 20 * 60) {
-    return 'critical';
-  }
-  if (presenceStatus(employee) === 'offline') {
-    return unrepliedCount > 0 ? 'critical' : null;
-  }
-  if (
-    workStatus(employee) === 'not_responding' ||
-    unrepliedCount > 0 ||
-    oldestWaitingSeconds >= 10 * 60
-  ) {
-    return 'at_risk';
-  }
-  if (workStatus(employee) === 'idle') return 'watch';
-  return 'healthy';
-};
-
-const attentionReason = employee => {
-  const employeeMetric = metric(employee);
-  const delayedCount = Number(
-    employeeMetric.delayed_unreplied_conversations_count
-  );
-  const unrepliedCount = Number(employeeMetric.unreplied_conversations_count);
-  const oldestWaitingSeconds = Number(
-    employeeMetric.oldest_waiting_customer_seconds
-  );
-  const isOffline = presenceStatus(employee) === 'offline';
-
-  if (isOffline && unrepliedCount > 0) {
-    return t('EMPLOYEE_MGMT.TOOLTIPS.ATTENTION_CRITICAL_OFFLINE_UNREPLIED', {
-      count: unrepliedCount,
-    });
-  }
-
-  if (delayedCount > 0) {
-    return t('EMPLOYEE_MGMT.TOOLTIPS.ATTENTION_CRITICAL_DELAYED', {
-      count: delayedCount,
-    });
-  }
-
-  if (oldestWaitingSeconds >= 20 * 60) {
-    return t('EMPLOYEE_MGMT.TOOLTIPS.ATTENTION_CRITICAL_WAITING', {
-      duration: formatDuration(oldestWaitingSeconds),
-    });
-  }
-
-  if (unrepliedCount > 0) {
-    return t('EMPLOYEE_MGMT.TOOLTIPS.ATTENTION_UNREPLIED', {
-      count: unrepliedCount,
-    });
-  }
-
-  return '';
-};
-
-const attentionLabel = employee => {
-  const labels = {
-    healthy: t('EMPLOYEE_MGMT.HEALTH.HEALTHY'),
-    watch: t('EMPLOYEE_MGMT.HEALTH.WATCH'),
-    at_risk: t('EMPLOYEE_MGMT.HEALTH.AT_RISK'),
-    critical: t('EMPLOYEE_MGMT.HEALTH.CRITICAL'),
-  };
-  return labels[attentionStatus(employee)] || t('EMPLOYEE_MGMT.EMPTY_STATUS');
-};
-
-const attentionBadgeClass = employee => {
-  const classes = {
-    healthy:
-      'rounded-md border border-solid bg-n-teal-2 text-n-teal-11 border-n-teal-5',
-    watch:
-      'rounded-md border border-solid bg-n-blue-2 text-n-blue-11 border-n-blue-5',
-    at_risk:
-      'rounded-md border border-solid bg-n-amber-2 text-n-amber-11 border-n-amber-5',
-    critical:
-      'rounded-md border border-solid bg-n-ruby-2 text-n-ruby-11 border-n-ruby-5',
-  };
-  return classes[attentionStatus(employee)] || 'text-n-slate-9';
-};
-
-const attentionTooltip = employee => {
-  if (attentionStatus(employee) === 'critical') {
-    return attentionReason(employee);
-  }
-
-  const tooltips = {
-    healthy: t('EMPLOYEE_MGMT.TOOLTIPS.ATTENTION_HEALTHY'),
-    watch: t('EMPLOYEE_MGMT.TOOLTIPS.ATTENTION_WATCH'),
-    at_risk: t('EMPLOYEE_MGMT.TOOLTIPS.ATTENTION_AT_RISK'),
-    critical: t('EMPLOYEE_MGMT.TOOLTIPS.ATTENTION_CRITICAL'),
-  };
-  return (
-    tooltips[attentionStatus(employee)] ||
-    t('EMPLOYEE_MGMT.TOOLTIPS.ATTENTION_EMPTY')
-  );
-};
-
-const waitingTextClass = seconds => {
-  if (Number(seconds) >= 20 * 60) return 'text-n-ruby-11';
-  if (Number(seconds) >= 10 * 60) return 'text-n-amber-11';
-  return 'text-n-slate-11';
-};
+const attentionStatus = () => 'healthy';
+const attentionBadgeClass = () => '';
+const attentionTooltip = () => '';
+const attentionLabel = () => '';
+const waitingTextClass = () => '';
 
 const toggleRowDetails = employeeId => {
   if (expandedRowIds.value.includes(employeeId)) {
@@ -494,8 +387,7 @@ const conversationLabel = conversation => {
   });
 };
 
-const isHighWorkload = employee =>
-  Number(metric(employee).unreplied_conversations_count) >= 5;
+const isHighWorkload = () => false;
 
 const summaryCards = computed(() => [
   {
@@ -618,27 +510,6 @@ const detailMetricCards = computed(() => {
 
   return [
     {
-      key: 'unreplied',
-      label: t('EMPLOYEE_MGMT.TABLE.UNREPLIED'),
-      value: metrics.unreplied_conversations_count || 0,
-      icon: 'i-lucide-message-square-warning',
-      tone: metrics.unreplied_conversations_count ? 'ruby' : 'slate',
-    },
-    {
-      key: 'delayed',
-      label: t('EMPLOYEE_MGMT.DETAILS.DELAYED'),
-      value: metrics.delayed_unreplied_conversations_count || 0,
-      icon: 'i-lucide-hourglass',
-      tone: metrics.delayed_unreplied_conversations_count ? 'ruby' : 'slate',
-    },
-    {
-      key: 'oldest_waiting',
-      label: t('EMPLOYEE_MGMT.TABLE.OLDEST_WAITING'),
-      value: formatDuration(metrics.oldest_waiting_customer_seconds),
-      icon: 'i-lucide-clock-3',
-      tone: metrics.oldest_waiting_customer_seconds ? 'amber' : 'slate',
-    },
-    {
       key: 'replies_today',
       label: t('EMPLOYEE_MGMT.TABLE.REPLIES_TODAY'),
       value: metrics.replies_count_today || 0,
@@ -741,11 +612,6 @@ const sortedByAttention = employeeList =>
   [...employeeList].sort((a, b) => {
     const rankDifference = attentionSortRank(a) - attentionSortRank(b);
     if (rankDifference) return rankDifference;
-
-    const unrepliedDifference =
-      Number(metric(b).unreplied_conversations_count) -
-      Number(metric(a).unreplied_conversations_count);
-    if (unrepliedDifference) return unrepliedDifference;
 
     return 0;
   });
@@ -1650,15 +1516,6 @@ onMounted(() => {
                 {{ $t('EMPLOYEE_MGMT.TABLE.WORK_STATUS') }}
               </th>
               <th class="px-3 py-3">
-                {{ $t('EMPLOYEE_MGMT.TABLE.HEALTH') }}
-              </th>
-              <th class="px-3 py-3">
-                {{ $t('EMPLOYEE_MGMT.TABLE.UNREPLIED') }}
-              </th>
-              <th class="px-3 py-3">
-                {{ $t('EMPLOYEE_MGMT.TABLE.WAITING') }}
-              </th>
-              <th class="px-3 py-3">
                 {{ $t('EMPLOYEE_MGMT.TABLE.ACTIVITY') }}
               </th>
               <th class="px-3 py-3">
@@ -1747,36 +1604,6 @@ onMounted(() => {
                   >
                     {{ workStatusLabel(employee) }}
                   </span>
-                </td>
-                <td class="px-3 py-4">
-                  <div class="flex min-w-0 items-center gap-2">
-                    <span
-                      class="inline-flex min-w-16 items-center justify-center gap-1.5 px-2 py-0.5 text-xs font-semibold"
-                      :class="attentionBadgeClass(employee)"
-                      :title="attentionTooltip(employee)"
-                    >
-                      {{ attentionLabel(employee) }}
-                    </span>
-                  </div>
-                </td>
-                <td class="px-3 py-4 text-center text-n-slate-11">
-                  <span
-                    class="font-semibold"
-                    :class="
-                      metric(employee).unreplied_conversations_count
-                        ? 'text-n-ruby-11'
-                        : 'text-n-slate-12'
-                    "
-                  >
-                    {{ metric(employee).unreplied_conversations_count || 0 }}
-                  </span>
-                </td>
-                <td class="whitespace-nowrap px-3 py-4 text-n-slate-11">
-                  {{
-                    formatDuration(
-                      metric(employee).oldest_waiting_customer_seconds
-                    )
-                  }}
                 </td>
                 <td class="px-3 py-4 text-n-slate-11">
                   <div
@@ -1910,9 +1737,9 @@ onMounted(() => {
                 </td>
               </tr>
               <tr v-if="isRowExpanded(employee.id)" class="bg-n-slate-1/60">
-                <td colspan="11" class="px-4 py-4">
+                <td colspan="8" class="px-4 py-4">
                   <div
-                    class="grid gap-3 rounded-xl border border-solid border-n-weak bg-n-solid-1 p-4 md:grid-cols-4"
+                    class="grid gap-3 rounded-xl border border-solid border-n-weak bg-n-solid-1 p-4 md:grid-cols-2"
                   >
                     <div>
                       <span class="block text-xs font-medium text-n-slate-10">
@@ -1925,53 +1752,25 @@ onMounted(() => {
                         {{ employee.phone_number || $t('EMPLOYEE_MGMT.EMPTY') }}
                       </span>
                     </div>
-                    <div>
+                    <div class="col-span-2">
                       <span class="block text-xs font-medium text-n-slate-10">
-                        {{ $t('EMPLOYEE_MGMT.DRILLDOWN.WORKLOAD') }}
-                        {{ $t('EMPLOYEE_MGMT.DRILLDOWN.UNREPLIED') }}
+                        {{ $t('EMPLOYEE_MGMT.DRILLDOWN.ACTIVITY') }}
                       </span>
                       <div
                         class="grid grid-cols-[auto_1fr] gap-x-2 text-sm text-n-slate-12"
                       >
                         <span class="text-n-slate-10">
-                          {{ $t('EMPLOYEE_MGMT.TABLE.UNREPLIED') }}
+                          {{ $t('EMPLOYEE_MGMT.TABLE.LAST_ACTIVITY') }}
                         </span>
-                        <span>
-                          {{
-                            metric(employee).unreplied_conversations_count || 0
-                          }}
-                        </span>
-                      </div>
-                    </div>
-                    <div>
-                      <span class="block text-xs font-medium text-n-slate-10">
-                        {{ $t('EMPLOYEE_MGMT.DRILLDOWN.RESPONSE') }}
-                      </span>
-                      <div
-                        class="grid grid-cols-[auto_1fr] gap-x-2 text-sm text-n-slate-12"
-                      >
+                        <span>{{
+                          formatSince(metric(employee).last_activity_at)
+                        }}</span>
                         <span class="text-n-slate-10">
-                          {{ $t('EMPLOYEE_MGMT.TABLE.LAST_REPLY') }}
+                          {{ $t('EMPLOYEE_MGMT.TABLE.IDLE_DURATION') }}
                         </span>
-                        <span>
-                          {{ formatSince(metric(employee).last_reply_at) }}
-                        </span>
-                        <span class="text-n-slate-10">
-                          {{ $t('EMPLOYEE_MGMT.TABLE.OLDEST_WAITING') }}
-                        </span>
-                        <span
-                          :class="
-                            waitingTextClass(
-                              metric(employee).oldest_waiting_customer_seconds
-                            )
-                          "
-                        >
-                          {{
-                            formatDuration(
-                              metric(employee).oldest_waiting_customer_seconds
-                            )
-                          }}
-                        </span>
+                        <span>{{
+                          formatDuration(metric(employee).idle_duration)
+                        }}</span>
                       </div>
                     </div>
                     <div class="flex items-center justify-end">
