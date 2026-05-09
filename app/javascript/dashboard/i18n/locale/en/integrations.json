@@ -385,6 +385,53 @@
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
         "CONFIRM": "Yes, delete",
         "CANCEL": "Cancel"
+      },
+      "ISSUE_TRACKER": {
+        "TITLE": "Issue tracker",
+        "DESCRIPTION": "Map Chatwoot issue fields to Notion data source properties.",
+        "VALIDATE": "Validate",
+        "SAVE": "Save settings",
+        "DATA_SOURCE_REQUIRED": "Data source ID is required",
+        "TITLE_REQUIRED": "Validate the data source to fill the title property",
+        "LOAD_ERROR": "There was an error loading Notion issue tracker settings, please try again",
+        "VALIDATE_SUCCESS": "Notion data source validated successfully",
+        "VALIDATE_ERROR": "There was an error validating the Notion data source, please try again",
+        "SAVE_SUCCESS": "Notion issue tracker settings saved successfully",
+        "SAVE_ERROR": "There was an error saving Notion issue tracker settings, please try again",
+        "FIELDS": {
+          "DATA_SOURCE_ID": {
+            "LABEL": "Data source ID",
+            "PLACEHOLDER": "Enter the Notion data source ID"
+          },
+          "TITLE_PROPERTY": {
+            "LABEL": "Title property",
+            "PLACEHOLDER": "Validate to fill the title property"
+          },
+          "DESCRIPTION_PROPERTY": {
+            "LABEL": "Description property",
+            "PLACEHOLDER": "Description"
+          },
+          "ASSIGNEE_PROPERTY": {
+            "LABEL": "Assignee property",
+            "PLACEHOLDER": "Assignee"
+          },
+          "PROJECT_PROPERTY": {
+            "LABEL": "Project property",
+            "PLACEHOLDER": "Project"
+          },
+          "STATUS_PROPERTY": {
+            "LABEL": "Status property",
+            "PLACEHOLDER": "Status"
+          },
+          "PRIORITY_PROPERTY": {
+            "LABEL": "Priority property",
+            "PLACEHOLDER": "Priority"
+          },
+          "LABEL_PROPERTY": {
+            "LABEL": "Label property",
+            "PLACEHOLDER": "Tags"
+          }
+        }
       }
     }
   },
