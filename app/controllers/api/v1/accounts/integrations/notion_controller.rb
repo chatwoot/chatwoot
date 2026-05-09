@@ -2,8 +2,10 @@ class Api::V1::Accounts::Integrations::NotionController < Api::V1::Accounts::Bas
   before_action :fetch_hook, only: [:destroy, :issue_tracker, :update_issue_tracker, :validate_issue_tracker]
   before_action :check_admin_authorization?, only: [:issue_tracker, :update_issue_tracker, :validate_issue_tracker]
   before_action :fetch_conversation, only: [:create_issue, :linked_issues]
+  before_action :authorize_conversation, only: [:create_issue, :linked_issues]
 
   def destroy
+    Integrations::IssueLink.where(account: Current.account, app_id: 'notion').delete_all
     @hook.destroy!
     head :ok
   end
@@ -88,6 +90,10 @@ class Api::V1::Accounts::Integrations::NotionController < Api::V1::Accounts::Bas
 
   def fetch_conversation
     @conversation = Current.account.conversations.find_by!(display_id: permitted_issue_params[:conversation_id])
+  end
+
+  def authorize_conversation
+    authorize @conversation, :show?
   end
 
   def fetch_hook

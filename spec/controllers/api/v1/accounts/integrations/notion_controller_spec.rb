@@ -4,6 +4,7 @@ RSpec.describe 'Notion Integration API', type: :request do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
+  let(:restricted_agent) { create(:user, account: account, role: :agent) }
   let(:issue_tracker_service) { instance_double(Integrations::Notion::IssueTrackerService) }
   let!(:hook) do
     create(
@@ -39,6 +40,7 @@ RSpec.describe 'Notion Integration API', type: :request do
     end
 
     before do
+      create(:inbox_member, user: agent, inbox: inbox)
       allow(Integrations::Notion::IssueTrackerService).to receive(:new).with(account: account).and_return(issue_tracker_service)
     end
 
@@ -92,12 +94,23 @@ RSpec.describe 'Notion Integration API', type: :request do
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body).to eq('error' => 'error message')
     end
+
+    it 'does not allow agents without conversation access to create issues' do
+      post "/api/v1/accounts/#{account.id}/integrations/notion/create_issue",
+           params: issue_params,
+           headers: restricted_agent.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(Integrations::Notion::IssueTrackerService).not_to have_received(:new)
+    end
   end
 
   describe 'GET /api/v1/accounts/:account_id/integrations/notion/linked_issues' do
     let(:conversation) { create(:conversation, account: account) }
 
     before do
+      create(:inbox_member, user: agent, inbox: conversation.inbox)
       allow(Integrations::Notion::IssueTrackerService).to receive(:new).with(account: account).and_return(issue_tracker_service)
     end
 
@@ -127,6 +140,33 @@ RSpec.describe 'Notion Integration API', type: :request do
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body).to eq('error' => 'error message')
+    end
+
+    it 'does not allow agents without conversation access to list issues' do
+      get "/api/v1/accounts/#{account.id}/integrations/notion/linked_issues",
+          params: { conversation_id: conversation.display_id },
+          headers: restricted_agent.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(Integrations::Notion::IssueTrackerService).not_to have_received(:new)
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/:account_id/integrations/notion' do
+    it 'deletes the notion integration and local issue links' do
+      conversation = create(:conversation, account: account)
+      create(:integrations_issue_link, account: account, conversation: conversation, app_id: 'notion', external_id: 'notion-page-1')
+      create(:integrations_issue_link, account: account, conversation: conversation, app_id: 'linear', external_id: 'linear-issue-1')
+
+      delete "/api/v1/accounts/#{account.id}/integrations/notion",
+             headers: admin.create_new_auth_token,
+             as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(account.hooks.exists?(app_id: 'notion')).to be(false)
+      expect(Integrations::IssueLink.where(account: account, app_id: 'notion')).to be_empty
+      expect(Integrations::IssueLink.where(account: account, app_id: 'linear').count).to eq(1)
     end
   end
 
