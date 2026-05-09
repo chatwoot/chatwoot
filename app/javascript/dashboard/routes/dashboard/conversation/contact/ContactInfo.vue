@@ -8,6 +8,7 @@ import {
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SocialIcons from './SocialIcons.vue';
@@ -61,12 +62,21 @@ export default {
       uiFlags: 'contacts/getUIFlags',
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
       globalConfig: 'globalConfig/get',
+      isFeatureEnabledOnAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     contactProfileLink() {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
     },
     isCompaniesAvailable() {
-      return this.isOnChatwootCloud || this.globalConfig.isEnterprise;
+      const isSupportedInstall =
+        this.isOnChatwootCloud || this.globalConfig.isEnterprise;
+      return (
+        isSupportedInstall &&
+        this.isFeatureEnabledOnAccount(
+          this.$route.params.accountId,
+          FEATURE_FLAGS.COMPANIES
+        )
+      );
     },
     companyDetailUrl() {
       if (!this.isCompaniesAvailable) return '';
