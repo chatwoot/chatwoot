@@ -1552,7 +1552,7 @@ onMounted(() => {
                 :placeholder="$t('EMPLOYEE_MGMT.FILTERS.SEARCH')"
               />
             </div>
-            <select v-model="filters.role" class="h-11 min-w-0 rounded-lg">
+            <select v-model="filters.role" class="no-margin !mb-0 !h-9 min-w-0 rounded-lg text-sm">
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_ROLES') }}
               </option>
@@ -1563,7 +1563,7 @@ onMounted(() => {
                 {{ $t('EMPLOYEE_MGMT.ROLES.AGENT') }}
               </option>
             </select>
-            <select v-model="filters.status" class="h-11 min-w-0 rounded-lg">
+            <select v-model="filters.status" class="no-margin !mb-0 !h-9 min-w-0 rounded-lg text-sm">
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_STATUS') }}
               </option>
@@ -1579,7 +1579,7 @@ onMounted(() => {
             </select>
             <select
               v-model="filters.presence_status"
-              class="h-11 min-w-0 rounded-lg"
+              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg text-sm"
             >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_PRESENCE') }}
@@ -1593,7 +1593,7 @@ onMounted(() => {
             </select>
             <select
               v-model="filters.work_status"
-              class="h-11 min-w-0 rounded-lg"
+              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg text-sm"
             >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_WORK_STATUS') }}
@@ -1608,7 +1608,7 @@ onMounted(() => {
                 {{ $t('EMPLOYEE_MGMT.WORK_STATUS.NOT_RESPONDING') }}
               </option>
             </select>
-            <select v-model="filters.team_id" class="h-11 min-w-0 rounded-lg">
+            <select v-model="filters.team_id" class="no-margin !mb-0 !h-9 min-w-0 rounded-lg text-sm">
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_TEAMS') }}
               </option>
@@ -1618,7 +1618,7 @@ onMounted(() => {
             </select>
             <button
               type="button"
-              class="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-solid border-n-weak px-4 text-sm font-medium text-n-slate-11 hover:bg-n-slate-2"
+              class="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-solid border-n-weak px-3 text-sm font-medium text-n-slate-11 hover:bg-n-slate-2"
               @click="showAdvancedFilters = !showAdvancedFilters"
             >
               <span class="i-lucide-sliders-horizontal" />
@@ -3313,3 +3313,9 @@ onMounted(() => {
     </div>
   </woot-modal>
 </template>
+
+<style scoped>
+.i-lucide-search {
+  display: inline-block !important;
+}
+</style>
