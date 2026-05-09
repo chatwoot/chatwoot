@@ -83,7 +83,7 @@ class Api::V1::Accounts::Integrations::NotionController < Api::V1::Accounts::Bas
   end
 
   def permitted_issue_params
-    params.permit(:conversation_id, :title, :description, :priority, :state_id, label_ids: [])
+    params.permit(:conversation_id, :title, :description, :assignee_id, :project_id, :priority, :state_id, label_ids: [])
   end
 
   def fetch_conversation

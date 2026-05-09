@@ -2,6 +2,7 @@ class Integrations::Notion::IssueTrackerService
   pattr_initialize [:account!]
 
   def create_issue(params, user = nil)
+    return { error: 'Notion issue tracker is not configured' } unless issue_tracker_configured?
     return { error: 'Title is required' } if params[:title].blank?
     return { error: 'Conversation is required' } if params[:conversation_id].blank?
 
@@ -38,6 +39,8 @@ class Integrations::Notion::IssueTrackerService
     }
 
     add_description_property(properties, params)
+    add_assignee_property(properties, params)
+    add_project_property(properties, params)
     add_status_property(properties, params)
     add_priority_property(properties, params)
     add_label_property(properties, params)
@@ -49,6 +52,20 @@ class Integrations::Notion::IssueTrackerService
     return if property.blank? || params[:description].blank?
 
     properties[property] = rich_text_property(params[:description])
+  end
+
+  def add_assignee_property(properties, params)
+    property = issue_tracker_settings['assignee_property']
+    return if property.blank? || params[:assignee_id].blank?
+
+    properties[property] = { people: [{ id: params[:assignee_id] }] }
+  end
+
+  def add_project_property(properties, params)
+    property = issue_tracker_settings['project_property']
+    return if property.blank? || params[:project_id].blank?
+
+    properties[property] = { relation: [{ id: params[:project_id] }] }
   end
 
   def add_status_property(properties, params)
@@ -163,6 +180,10 @@ class Integrations::Notion::IssueTrackerService
 
   def issue_tracker_settings
     @issue_tracker_settings ||= notion_hook.settings.to_h['issue_tracker'] || {}
+  end
+
+  def issue_tracker_configured?
+    issue_tracker_settings['data_source_id'].present? && issue_tracker_settings['title_property'].present?
   end
 
   def notion_hook

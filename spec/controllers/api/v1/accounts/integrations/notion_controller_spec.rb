@@ -29,6 +29,8 @@ RSpec.describe 'Notion Integration API', type: :request do
       {
         title: 'Sample Issue',
         description: 'This is a sample issue.',
+        assignee_id: 'notion-user-1',
+        project_id: 'project-page-1',
         priority: 'High',
         state_id: 'In progress',
         label_ids: ['Billing'],

@@ -65,13 +65,15 @@ RSpec.describe Integrations::Notion::IssueTrackerService do
           'data_source_id' => 'data-source-1',
           'title_property' => 'Name',
           'description_property' => 'Description',
+          'assignee_property' => 'DRI',
+          'project_property' => 'Project',
           'status_property' => 'Status',
           'priority_property' => 'Priority',
           'label_property' => 'Tags'
         }
       end
 
-      it 'sends configured rich text, status, select priority, and multi-select properties' do
+      it 'sends configured optional issue properties' do
         stub_notion_page_request(id: 'page-2', url: 'https://notion.so/page-2')
 
         with_modified_env FRONTEND_URL: 'https://app.chatwoot.test' do
@@ -80,6 +82,8 @@ RSpec.describe Integrations::Notion::IssueTrackerService do
               title: 'Export fails',
               description: 'Export fails when invoices include discounts.',
               conversation_id: conversation.display_id,
+              assignee_id: 'notion-user-1',
+              project_id: 'project-page-1',
               state_id: 'In progress',
               priority: 'High',
               label_ids: %w[Billing Exports]
@@ -118,6 +122,17 @@ RSpec.describe Integrations::Notion::IssueTrackerService do
 
       expect(result).to eq(error: { 'object' => 'error', 'message' => 'Invalid property' })
       expect(Integrations::IssueLink.count).to eq(0)
+    end
+
+    context 'when the issue tracker is not configured' do
+      let(:issue_tracker_settings) { {} }
+
+      it 'returns an error without creating a page' do
+        result = service.create_issue({ title: 'Refund request', conversation_id: conversation.display_id }, agent)
+
+        expect(result).to eq(error: 'Notion issue tracker is not configured')
+        expect(WebMock).not_to have_requested(:post, 'https://api.notion.com/v1/pages')
+      end
     end
   end
 
@@ -190,6 +205,8 @@ RSpec.describe Integrations::Notion::IssueTrackerService do
     {
       'Name' => { 'title' => [text_payload('Export fails')] },
       'Description' => { 'rich_text' => [text_payload('Export fails when invoices include discounts.')] },
+      'DRI' => { 'people' => [{ 'id' => 'notion-user-1' }] },
+      'Project' => { 'relation' => [{ 'id' => 'project-page-1' }] },
       'Status' => { 'status' => { 'name' => 'In progress' } },
       'Priority' => { 'select' => { 'name' => 'High' } },
       'Tags' => { 'multi_select' => [{ 'name' => 'Billing' }, { 'name' => 'Exports' }] }
