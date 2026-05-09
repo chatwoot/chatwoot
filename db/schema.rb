@@ -941,7 +941,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_08_200438) do
     t.jsonb "metadata", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id", "app_id", "external_id"], name: "index_issue_links_on_account_app_external_id", unique: true
+    t.index ["account_id", "conversation_id", "app_id", "external_id"], name: "index_issue_links_on_account_conversation_app_external_id", unique: true
     t.index ["conversation_id", "app_id"], name: "index_integrations_issue_links_on_conversation_id_and_app_id"
   end
 

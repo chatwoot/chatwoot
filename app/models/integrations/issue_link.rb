@@ -16,7 +16,7 @@
 # Indexes
 #
 #  index_integrations_issue_links_on_conversation_id_and_app_id  (conversation_id,app_id)
-#  index_issue_links_on_account_app_external_id                  (account_id,app_id,external_id) UNIQUE
+#  index_issue_links_on_account_conversation_app_external_id     (account_id,conversation_id,app_id,external_id) UNIQUE
 #
 class Integrations::IssueLink < ApplicationRecord
   before_validation :ensure_account_id
@@ -25,7 +25,7 @@ class Integrations::IssueLink < ApplicationRecord
   belongs_to :conversation
 
   validates :app_id, :external_id, :external_url, presence: true
-  validates :external_id, uniqueness: { scope: [:account_id, :app_id] }
+  validates :external_id, uniqueness: { scope: [:account_id, :conversation_id, :app_id] }
 
   private
 

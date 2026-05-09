@@ -12,9 +12,9 @@ class CreateIntegrationsIssueLinks < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    add_index :integrations_issue_links, [:account_id, :app_id, :external_id],
+    add_index :integrations_issue_links, [:account_id, :conversation_id, :app_id, :external_id],
               unique: true,
-              name: 'index_issue_links_on_account_app_external_id'
+              name: 'index_issue_links_on_account_conversation_app_external_id'
     add_index :integrations_issue_links, [:conversation_id, :app_id]
   end
 end
