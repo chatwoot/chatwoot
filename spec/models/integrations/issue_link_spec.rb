@@ -27,5 +27,15 @@ RSpec.describe Integrations::IssueLink do
       expect(different_app).to be_valid
       expect(different_account).to be_valid
     end
+
+    it 'derives the account from the conversation' do
+      account = create(:account)
+      conversation = create(:conversation, account: account)
+      issue_link = build(:integrations_issue_link, account: create(:account), conversation: conversation)
+
+      issue_link.valid?
+
+      expect(issue_link.account_id).to eq(account.id)
+    end
   end
 end

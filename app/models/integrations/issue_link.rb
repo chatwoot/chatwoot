@@ -19,9 +19,17 @@
 #  index_issue_links_on_account_app_external_id                  (account_id,app_id,external_id) UNIQUE
 #
 class Integrations::IssueLink < ApplicationRecord
+  before_validation :ensure_account_id
+
   belongs_to :account
   belongs_to :conversation
 
   validates :app_id, :external_id, :external_url, presence: true
   validates :external_id, uniqueness: { scope: [:account_id, :app_id] }
+
+  private
+
+  def ensure_account_id
+    self.account_id = conversation&.account_id
+  end
 end

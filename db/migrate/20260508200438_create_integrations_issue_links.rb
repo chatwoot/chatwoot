@@ -1,8 +1,8 @@
 class CreateIntegrationsIssueLinks < ActiveRecord::Migration[7.0]
   def change
     create_table :integrations_issue_links do |t|
-      t.references :account, null: false, index: false
-      t.references :conversation, null: false, index: false
+      t.references :account, null: false, index: false, foreign_key: true
+      t.references :conversation, null: false, index: false, foreign_key: true
       t.string :app_id, null: false
       t.string :external_id, null: false
       t.text :external_url, null: false

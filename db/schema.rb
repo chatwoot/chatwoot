@@ -1337,6 +1337,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_08_200438) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "integrations_issue_links", "accounts"
+  add_foreign_key "integrations_issue_links", "conversations"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
