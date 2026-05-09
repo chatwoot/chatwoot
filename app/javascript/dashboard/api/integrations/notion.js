@@ -18,6 +18,16 @@ class NotionAPI extends ApiClient {
   validateIssueTracker(data) {
     return axios.post(`${this.url}/validate_issue_tracker`, data);
   }
+
+  createIssue(data) {
+    return axios.post(`${this.url}/create_issue`, data);
+  }
+
+  getLinkedIssues(conversationId) {
+    return axios.get(
+      `${this.url}/linked_issues?conversation_id=${conversationId}`
+    );
+  }
 }
 
 export default new NotionAPI();

@@ -24,6 +24,8 @@ describe('#notionAPI', () => {
     expect(NotionAPIClient).toHaveProperty('getIssueTracker');
     expect(NotionAPIClient).toHaveProperty('updateIssueTracker');
     expect(NotionAPIClient).toHaveProperty('validateIssueTracker');
+    expect(NotionAPIClient).toHaveProperty('createIssue');
+    expect(NotionAPIClient).toHaveProperty('getLinkedIssues');
   });
 
   describe('getIssueTracker', () => {
@@ -61,6 +63,32 @@ describe('#notionAPI', () => {
       expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/integrations/notion/validate_issue_tracker',
         payload
+      );
+    });
+  });
+
+  describe('createIssue', () => {
+    it('creates a valid request', () => {
+      const payload = {
+        title: 'Broken workflow',
+        conversation_id: 42,
+      };
+
+      NotionAPIClient.createIssue(payload);
+
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/integrations/notion/create_issue',
+        payload
+      );
+    });
+  });
+
+  describe('getLinkedIssues', () => {
+    it('creates a valid request', () => {
+      NotionAPIClient.getLinkedIssues(42);
+
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/integrations/notion/linked_issues?conversation_id=42'
       );
     });
   });

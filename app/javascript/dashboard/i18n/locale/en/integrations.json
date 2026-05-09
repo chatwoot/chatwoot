@@ -380,6 +380,60 @@
     },
     "NOTION": {
       "HEADER": "Notion",
+      "ADD_ISSUE_BUTTON": "Create Notion issue",
+      "NO_LINKED_ISSUES": "No linked issues found",
+      "LOADING_ERROR": "There was an error fetching Notion issues, please try again",
+      "CREATE": {
+        "TITLE": "Create Notion issue",
+        "DESCRIPTION": "Create a Notion page from this conversation.",
+        "DEFAULT_TITLE": "Conversation (#{conversationId}) with {name}",
+        "SUBMIT": "Create issue",
+        "CANCEL": "Cancel",
+        "SUCCESS": "Issue created successfully",
+        "ERROR": "There was an error creating the issue, please try again",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Title",
+            "PLACEHOLDER": "Enter title",
+            "REQUIRED_ERROR": "Title is required"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Description",
+            "PLACEHOLDER": "Enter description"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Assignee",
+            "PLACEHOLDER": "Enter Notion user ID"
+          },
+          "PROJECT": {
+            "LABEL": "Project",
+            "PLACEHOLDER": "Enter related Notion page ID"
+          },
+          "STATUS": {
+            "LABEL": "Status",
+            "PLACEHOLDER": "Enter status"
+          },
+          "PRIORITY": {
+            "LABEL": "Priority",
+            "PLACEHOLDER": "Enter priority"
+          },
+          "LABELS": {
+            "LABEL": "Labels",
+            "PLACEHOLDER": "Enter labels separated by commas"
+          }
+        }
+      },
+      "ISSUE": {
+        "OPEN": "Open Notion issue",
+        "CREATED_AT": "Created at {createdAt}",
+        "CREATED_BY": "Created by {name}"
+      },
+      "CTA": {
+        "TITLE": "Set up Notion issue tracker",
+        "AGENT_DESCRIPTION": "Notion issue tracker is not configured. Request your administrator to configure a data source to use this integration.",
+        "DESCRIPTION": "Configure a Notion issue tracker data source to create issues from conversations.",
+        "BUTTON_TEXT": "Configure Notion issue tracker"
+      },
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",

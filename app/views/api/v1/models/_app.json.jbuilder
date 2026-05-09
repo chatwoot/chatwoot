@@ -3,6 +3,7 @@ json.name resource.name
 json.description resource.description
 json.short_description resource.short_description.presence
 json.enabled resource.enabled?(@current_account)
+json.issue_tracker_configured resource.notion_issue_tracker_configured?(@current_account) if resource.id == 'notion'
 
 if Current.account_user&.administrator?
   json.call(resource.params, *resource.params.keys)

@@ -24,6 +24,8 @@ import ShopifyOrdersList from 'dashboard/components/widgets/conversation/Shopify
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
+import NotionIssuesList from 'dashboard/components/widgets/conversation/notion/IssuesList.vue';
+import NotionSetupCTA from 'dashboard/components/widgets/conversation/notion/NotionSetupCTA.vue';
 
 const props = defineProps({
   conversationId: {
@@ -61,17 +63,38 @@ const isLinearFeatureEnabled = computed(() =>
   isCloudFeatureEnabled(FEATURE_FLAGS.LINEAR)
 );
 
+const isNotionFeatureEnabled = computed(() =>
+  isCloudFeatureEnabled(FEATURE_FLAGS.NOTION)
+);
+
 const linearIntegration = useFunctionGetter(
   'integrations/getIntegration',
   'linear'
+);
+
+const notionIntegration = useFunctionGetter(
+  'integrations/getIntegration',
+  'notion'
 );
 
 const isLinearClientIdConfigured = computed(() => {
   return !!linearIntegration.value?.id;
 });
 
+const isNotionClientIdConfigured = computed(() => {
+  return !!notionIntegration.value?.id;
+});
+
 const isLinearConnected = computed(
   () => linearIntegration.value?.enabled || false
+);
+
+const isNotionConnected = computed(
+  () => notionIntegration.value?.enabled || false
+);
+
+const isNotionIssueTrackerConfigured = computed(
+  () => notionIntegration.value?.issue_tracker_configured || false
 );
 
 const store = useStore();
@@ -126,8 +149,7 @@ onMounted(() => {
   conversationSidebarItems.value = conversationSidebarItemsOrder.value;
   getContactDetails();
   store.dispatch('attributes/get', 0);
-  // Load integrations to ensure linear integration state is available
-  store.dispatch('integrations/get', 'linear');
+  store.dispatch('integrations/get');
 });
 </script>
 
@@ -268,6 +290,29 @@ onMounted(() => {
             >
               <LinearSetupCTA v-if="!isLinearConnected" />
               <LinearIssuesList v-else :conversation-id="conversationId" />
+            </AccordionItem>
+          </div>
+          <div
+            v-else-if="
+              element.name === 'notion_issues' &&
+              isNotionFeatureEnabled &&
+              isNotionClientIdConfigured
+            "
+          >
+            <AccordionItem
+              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.NOTION_ISSUES')"
+              :is-open="isContactSidebarItemOpen('is_notion_issues_open')"
+              compact
+              @toggle="
+                value => toggleSidebarUIState('is_notion_issues_open', value)
+              "
+            >
+              <NotionSetupCTA v-if="!isNotionConnected" />
+              <NotionIssuesList
+                v-else
+                :conversation-id="conversationId"
+                :is-configured="isNotionIssueTrackerConfigured"
+              />
             </AccordionItem>
           </div>
           <div

@@ -89,6 +89,13 @@ class Integrations::App
     end
   end
 
+  def notion_issue_tracker_configured?(account)
+    return false unless id == 'notion'
+
+    issue_tracker = account.hooks.find_by(app_id: 'notion')&.settings.to_h['issue_tracker'] || {}
+    issue_tracker['data_source_id'].present? && issue_tracker['title_property'].present?
+  end
+
   def hooks
     Current.account.hooks.where(app_id: id)
   end
