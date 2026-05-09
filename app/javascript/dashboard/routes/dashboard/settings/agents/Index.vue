@@ -10,6 +10,7 @@ import EmployeeAPI from 'dashboard/api/employees';
 const { t } = useI18n();
 const store = useStore();
 const getters = useStoreGetters();
+const isRTL = computed(() => getters['accounts/isRTL'].value);
 
 const employees = ref([]);
 const sessions = ref([]);
@@ -1479,11 +1480,11 @@ onMounted(() => {
           >
             <div class="relative min-w-0">
               <span
-                class="absolute left-3 top-1/2 -translate-y-1/2 text-base text-n-slate-10 i-lucide-search"
+                class="absolute top-1/2 -translate-y-1/2 text-base text-n-slate-10 i-lucide-search ltr:left-3 rtl:right-3"
               />
               <input
                 v-model="filters.q"
-                class="h-11 w-full min-w-0 rounded-lg pl-9"
+                class="h-11 w-full min-w-0 rounded-lg ltr:pl-9 rtl:pr-9"
                 type="search"
                 :placeholder="$t('EMPLOYEE_MGMT.FILTERS.SEARCH')"
               />
@@ -1715,16 +1716,18 @@ onMounted(() => {
             v-for="card in summaryCards"
             :key="card.key"
             type="button"
-            class="group relative flex min-h-40 overflow-hidden rounded-2xl border border-solid p-4 text-left transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-brand-7"
+            class="group relative flex min-h-40 overflow-hidden rounded-2xl border border-solid p-4 transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-brand-7 ltr:text-left rtl:text-right"
             :class="summaryCardClass(card)"
             :title="card.subtitle"
             @click="applyCardFilter(card)"
           >
             <span
-              class="absolute left-0 top-0 h-full w-1 animate-pulse opacity-80 transition-all duration-500 group-hover:opacity-100"
+              class="absolute top-0 h-full w-1 animate-pulse opacity-80 transition-all duration-500 group-hover:opacity-100 ltr:left-0 rtl:right-0"
               :class="accentBarClass(card)"
             />
-            <div class="flex min-h-full w-full flex-col gap-4 pl-1">
+            <div
+              class="flex min-h-full w-full flex-col gap-4 ltr:pl-1 rtl:pr-1"
+            >
               <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
                   <div class="flex flex-wrap items-center gap-2">
@@ -1759,7 +1762,7 @@ onMounted(() => {
                   ]"
                 >
                   <span
-                    class="absolute -right-1 -top-1 h-3 w-3 rounded-full opacity-60"
+                    class="absolute -top-1 h-3 w-3 rounded-full opacity-60 ltr:-right-1 rtl:-left-1"
                     :class="summaryLiveDotClass(card)"
                   />
                   <span
@@ -1800,7 +1803,7 @@ onMounted(() => {
             v-for="insight in insightCards"
             :key="insight.key"
             type="button"
-            class="group flex min-h-24 items-center gap-4 rounded-2xl p-4 text-left"
+            class="group flex min-h-24 items-center gap-4 rounded-2xl p-4 ltr:text-left rtl:text-right"
             :class="insightClass(insight)"
             @click="applyCardFilter(insight)"
           >
@@ -1825,7 +1828,7 @@ onMounted(() => {
               </span>
             </div>
             <span
-              class="i-lucide-chevron-right shrink-0 text-base opacity-60 transition-transform duration-200 group-hover:translate-x-0.5"
+              class="i-lucide-chevron-right shrink-0 text-base opacity-60 transition-transform duration-200 ltr:group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5"
             />
           </button>
         </div>
@@ -1872,10 +1875,24 @@ onMounted(() => {
       />
       <div
         class="relative z-10 w-full overflow-x-auto rounded-2xl border border-solid border-n-weak bg-n-solid-1 shadow-sm"
+        :dir="isRTL ? 'rtl' : 'ltr'"
       >
-        <table class="w-full min-w-[1500px] text-sm">
+        <table class="w-full min-w-[1800px] table-fixed text-sm">
+          <colgroup>
+            <col class="w-[56px]" />
+            <col class="w-[320px]" />
+            <col class="w-[130px]" />
+            <col class="w-[150px]" />
+            <col class="w-[150px]" />
+            <col class="w-[160px]" />
+            <col class="w-[220px]" />
+            <col class="w-[140px]" />
+            <col class="w-[260px]" />
+            <col class="w-[220px]" />
+            <col class="w-[140px]" />
+          </colgroup>
           <thead
-            class="sticky top-0 z-10 border-b border-solid border-n-weak bg-n-slate-2 text-left text-xs font-semibold uppercase text-n-slate-11"
+            class="sticky top-0 z-10 border-b border-solid border-n-weak bg-n-slate-2 text-xs font-semibold uppercase text-n-slate-11 ltr:text-left rtl:text-right"
           >
             <tr>
               <th
@@ -1914,7 +1931,7 @@ onMounted(() => {
               <th class="px-4 py-3">
                 {{ $t('EMPLOYEE_MGMT.TABLE.TODAY') }}
               </th>
-              <th class="px-4 py-3 text-right">
+              <th class="px-4 py-3 ltr:text-right rtl:text-left">
                 {{ $t('EMPLOYEE_MGMT.TABLE.ACTIONS') }}
               </th>
             </tr>
@@ -1932,18 +1949,18 @@ onMounted(() => {
                   />
                 </td>
                 <td class="px-4 py-4">
-                  <div class="flex min-w-72 items-center gap-3">
+                  <div class="flex min-w-0 items-center gap-3">
                     <div
                       class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-solid border-n-slate-4 bg-n-slate-3 text-sm font-semibold text-n-slate-12"
                     >
                       {{ employeeInitials(employee) }}
                       <span
-                        class="absolute bottom-0 right-0 w-3 h-3 border-2 border-solid rounded-full border-n-solid-1"
+                        class="absolute bottom-0 h-3 w-3 rounded-full border-2 border-solid border-n-solid-1 ltr:right-0 rtl:left-0"
                         :class="presenceDotClass(employee)"
                       />
                     </div>
                     <div class="min-w-0">
-                      <span class="block font-medium text-n-slate-12">
+                      <span class="block truncate font-medium text-n-slate-12">
                         {{ employee.name }}
                       </span>
                       <span
@@ -1999,7 +2016,7 @@ onMounted(() => {
                   </span>
                 </td>
                 <td class="px-4 py-4">
-                  <div class="flex min-w-48 items-center gap-2">
+                  <div class="flex min-w-0 items-center gap-2">
                     <span
                       class="inline-flex min-w-20 items-center justify-center gap-1.5 px-2 py-0.5 text-xs font-semibold"
                       :class="attentionBadgeClass(employee)"
@@ -2010,7 +2027,7 @@ onMounted(() => {
                   </div>
                 </td>
                 <td class="px-4 py-4">
-                  <div class="grid w-40 grid-cols-2 gap-2 text-center">
+                  <div class="grid w-full grid-cols-2 gap-2 text-center">
                     <div class="rounded-lg bg-n-slate-2 px-2 py-1">
                       <span class="block text-xs text-n-slate-10">
                         {{ $t('EMPLOYEE_MGMT.TABLE.OPEN_CONVERSATIONS') }}
@@ -2038,7 +2055,7 @@ onMounted(() => {
                     </div>
                   </div>
                 </td>
-                <td class="px-4 py-4 text-n-slate-11 whitespace-nowrap">
+                <td class="whitespace-nowrap px-4 py-4 text-n-slate-11">
                   {{
                     formatDuration(
                       metric(employee).oldest_waiting_customer_seconds
@@ -2047,30 +2064,30 @@ onMounted(() => {
                 </td>
                 <td class="px-4 py-4 text-n-slate-11">
                   <div
-                    class="grid min-w-44 grid-cols-[auto_1fr] gap-x-2 gap-y-1"
+                    class="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1"
                   >
                     <span class="text-n-slate-10">
                       {{ $t('EMPLOYEE_MGMT.TABLE.LAST_REPLY') }}
                     </span>
-                    <span>{{
+                    <span class="truncate">{{
                       formatSince(metric(employee).last_reply_at)
                     }}</span>
                     <span class="text-n-slate-10">
                       {{ $t('EMPLOYEE_MGMT.TABLE.LAST_ACTIVITY') }}
                     </span>
-                    <span>{{
+                    <span class="truncate">{{
                       formatSince(metric(employee).last_activity_at)
                     }}</span>
                     <span class="text-n-slate-10">
                       {{ $t('EMPLOYEE_MGMT.TABLE.IDLE_DURATION') }}
                     </span>
-                    <span>
+                    <span class="truncate">
                       {{ formatDuration(metric(employee).idle_duration) }}
                     </span>
                   </div>
                 </td>
                 <td class="px-4 py-4 text-n-slate-11">
-                  <div class="grid w-40 grid-cols-2 gap-2 text-center">
+                  <div class="grid w-full grid-cols-2 gap-2 text-center">
                     <div class="rounded-lg bg-n-slate-2 px-2 py-1">
                       <span class="block text-xs text-n-slate-10">
                         {{ $t('EMPLOYEE_MGMT.TABLE.REPLIES_TODAY') }}
@@ -2089,8 +2106,8 @@ onMounted(() => {
                     </div>
                   </div>
                 </td>
-                <td class="px-4 py-5 text-right relative">
-                  <div class="flex justify-end gap-1">
+                <td class="relative px-4 py-5 ltr:text-right rtl:text-left">
+                  <div class="flex gap-1 ltr:justify-end rtl:justify-start">
                     <button
                       type="button"
                       class="flex h-8 w-8 items-center justify-center rounded-md text-n-slate-11 transition-colors hover:bg-n-slate-3 hover:text-n-slate-12 focus:outline-none"
@@ -2116,32 +2133,34 @@ onMounted(() => {
 
                   <div
                     v-if="openDropdownId === employee.id"
-                    class="absolute right-4 z-20 w-48 py-1 mt-1 origin-top-right border border-solid rounded-lg shadow-lg border-n-weak bg-n-solid-1 top-full focus:outline-none overflow-hidden"
+                    class="absolute top-full z-20 mt-1 w-48 origin-top-right overflow-hidden rounded-lg border border-solid border-n-weak bg-n-solid-1 py-1 shadow-lg focus:outline-none ltr:right-4 rtl:left-4"
                   >
                     <button
-                      class="flex w-full items-center px-4 py-2 text-sm text-left transition-colors text-n-slate-11 hover:bg-n-slate-2 hover:text-n-slate-12"
+                      class="flex w-full items-center px-4 py-2 text-sm transition-colors text-n-slate-11 hover:bg-n-slate-2 hover:text-n-slate-12 ltr:text-left rtl:text-right"
                       @click="handleEmployeeAction(employee, 'edit')"
                     >
-                      <span class="mr-2 text-lg i-lucide-pencil" />
+                      <span class="text-lg i-lucide-pencil ltr:mr-2 rtl:ml-2" />
                       {{ $t('EMPLOYEE_MGMT.ACTIONS.EDIT') }}
                     </button>
                     <button
-                      class="flex w-full items-center px-4 py-2 text-sm text-left transition-colors text-n-slate-11 hover:bg-n-slate-2 hover:text-n-slate-12"
+                      class="flex w-full items-center px-4 py-2 text-sm transition-colors text-n-slate-11 hover:bg-n-slate-2 hover:text-n-slate-12 ltr:text-left rtl:text-right"
                       @click="handleEmployeeAction(employee, 'password')"
                     >
-                      <span class="mr-2 text-lg i-lucide-key" />
+                      <span class="text-lg i-lucide-key ltr:mr-2 rtl:ml-2" />
                       {{ $t('EMPLOYEE_MGMT.ACTIONS.PASSWORD') }}
                     </button>
                     <button
-                      class="flex w-full items-center px-4 py-2 text-sm text-left transition-colors text-n-slate-11 hover:bg-n-slate-2 hover:text-n-slate-12"
+                      class="flex w-full items-center px-4 py-2 text-sm transition-colors text-n-slate-11 hover:bg-n-slate-2 hover:text-n-slate-12 ltr:text-left rtl:text-right"
                       @click="handleEmployeeAction(employee, 'activity')"
                     >
-                      <span class="mr-2 text-lg i-lucide-activity" />
+                      <span
+                        class="text-lg i-lucide-activity ltr:mr-2 rtl:ml-2"
+                      />
                       {{ $t('EMPLOYEE_MGMT.ACTIONS.ACTIVITY') }}
                     </button>
                     <div class="h-px w-full bg-n-weak my-1" />
                     <button
-                      class="flex w-full items-center px-4 py-2 text-sm font-medium text-left transition-colors"
+                      class="flex w-full items-center px-4 py-2 text-sm font-medium transition-colors ltr:text-left rtl:text-right"
                       :class="
                         employee.active
                           ? 'text-n-ruby-11 hover:bg-n-ruby-2 hover:text-n-ruby-12'
@@ -2155,7 +2174,7 @@ onMounted(() => {
                       "
                     >
                       <span
-                        class="mr-2 text-lg"
+                        class="text-lg ltr:mr-2 rtl:ml-2"
                         :class="
                           employee.active
                             ? 'i-lucide-user-minus'
@@ -2169,17 +2188,21 @@ onMounted(() => {
                       }}
                     </button>
                     <button
-                      class="flex w-full items-center px-4 py-2 text-sm font-medium text-left transition-colors text-n-ruby-11 hover:bg-n-ruby-2 hover:text-n-ruby-12"
+                      class="flex w-full items-center px-4 py-2 text-sm font-medium transition-colors text-n-ruby-11 hover:bg-n-ruby-2 hover:text-n-ruby-12 ltr:text-left rtl:text-right"
                       @click="handleEmployeeAction(employee, 'archive')"
                     >
-                      <span class="mr-2 text-lg i-lucide-archive" />
+                      <span
+                        class="text-lg i-lucide-archive ltr:mr-2 rtl:ml-2"
+                      />
                       {{ $t('EMPLOYEE_MGMT.ACTIONS.ARCHIVE') }}
                     </button>
                     <button
-                      class="flex w-full items-center px-4 py-2 text-sm font-medium text-left transition-colors text-n-ruby-11 hover:bg-n-ruby-2 hover:text-n-ruby-12"
+                      class="flex w-full items-center px-4 py-2 text-sm font-medium transition-colors text-n-ruby-11 hover:bg-n-ruby-2 hover:text-n-ruby-12 ltr:text-left rtl:text-right"
                       @click="handleEmployeeAction(employee, 'delete')"
                     >
-                      <span class="mr-2 text-lg i-lucide-trash-2" />
+                      <span
+                        class="text-lg i-lucide-trash-2 ltr:mr-2 rtl:ml-2"
+                      />
                       {{ $t('EMPLOYEE_MGMT.ACTIONS.DELETE') }}
                     </button>
                   </div>
