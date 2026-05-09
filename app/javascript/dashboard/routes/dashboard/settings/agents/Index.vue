@@ -655,13 +655,6 @@ const detailMetricCards = computed(() => {
       icon: 'i-lucide-send',
       tone: 'blue',
     },
-    {
-      key: 'resolved_today',
-      label: t('EMPLOYEE_MGMT.TABLE.RESOLVED_TODAY'),
-      value: metrics.resolved_conversations_today || 0,
-      icon: 'i-lucide-check-check',
-      tone: 'teal',
-    },
   ];
 });
 
@@ -1839,25 +1832,10 @@ onMounted(() => {
                     </span>
                   </div>
                 </td>
-                <td class="px-3 py-4 text-n-slate-11">
-                  <div class="grid w-full grid-cols-2 gap-1.5 text-center">
-                    <div class="min-w-0 rounded-md bg-n-slate-2 px-2 py-1">
-                      <span class="block truncate text-[11px] text-n-slate-10">
-                        {{ $t('EMPLOYEE_MGMT.TABLE.REPLIES_TODAY') }}
-                      </span>
-                      <span class="font-semibold text-n-slate-12">
-                        {{ metric(employee).replies_count_today || 0 }}
-                      </span>
-                    </div>
-                    <div class="min-w-0 rounded-md bg-n-slate-2 px-2 py-1">
-                      <span class="block truncate text-[11px] text-n-slate-10">
-                        {{ $t('EMPLOYEE_MGMT.TABLE.RESOLVED_TODAY') }}
-                      </span>
-                      <span class="font-semibold text-n-slate-12">
-                        {{ metric(employee).resolved_conversations_today || 0 }}
-                      </span>
-                    </div>
-                  </div>
+                <td class="px-3 py-4 text-center text-n-slate-11">
+                  <span class="font-semibold text-n-slate-12">
+                    {{ metric(employee).replies_count_today || 0 }}
+                  </span>
                 </td>
                 <td class="relative px-3 py-4 ltr:text-right rtl:text-left">
                   <div class="flex gap-1 ltr:justify-end rtl:justify-start">
