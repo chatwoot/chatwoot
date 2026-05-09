@@ -123,12 +123,13 @@ const idleEmployees = computed(
   () =>
     employees.value.filter(employee => workStatus(employee) === 'idle').length
 );
-const notRespondingEmployees = computed(
-  () =>
-    employees.value.filter(
-      employee => workStatus(employee) === 'not_responding'
-    ).length
-);
+// TODO: Re-enable when not_responding logic accounts for old unresolved conversations
+// const notRespondingEmployees = computed(
+//   () =>
+//     employees.value.filter(
+//       employee => workStatus(employee) === 'not_responding'
+//     ).length
+// );
 
 const passwordScore = computed(() => {
   const password = isEditing.value ? passwordForm.password : form.password;
@@ -539,16 +540,6 @@ const summaryCards = computed(() => [
     tone: 'amber',
     metricLabel: t('EMPLOYEE_MGMT.SUMMARY.METRICS.AGENTS'),
     filters: { work_status: 'idle' },
-  },
-  {
-    key: 'not_responding',
-    label: t('EMPLOYEE_MGMT.SUMMARY.NOT_RESPONDING'),
-    subtitle: t('EMPLOYEE_MGMT.SUMMARY.SUBTITLES.NOT_RESPONDING'),
-    value: notRespondingEmployees.value,
-    icon: 'i-lucide-message-circle-warning',
-    tone: 'ruby',
-    metricLabel: t('EMPLOYEE_MGMT.SUMMARY.METRICS.AGENTS'),
-    filters: { work_status: 'not_responding' },
   },
 ]);
 
@@ -1308,7 +1299,7 @@ onMounted(() => {
 
     <template #preBody>
       <div class="mb-5 flex w-full flex-col gap-5">
-        <div class="mb-2 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-5">
+        <div class="mb-2 grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
           <button
             v-for="card in summaryCards"
             :key="card.key"
