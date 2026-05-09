@@ -1,6 +1,6 @@
 class Api::V1::Accounts::Synapseos::AgentMetricsController < Api::V1::Accounts::BaseController
   before_action :ensure_administrator
-  before_action :validate_agent_slug, only: :show
+  before_action :validate_agent_slug, only: %i[show usage]
 
   def index
     slugs = ::Synapseos::AgentResolver::SLUGS.select do |slug|
@@ -22,6 +22,13 @@ class Api::V1::Accounts::Synapseos::AgentMetricsController < Api::V1::Accounts::
       account: Current.account,
       slug: params[:agent_slug],
       since: since_param
+    )
+  end
+
+  def usage
+    render json: ::Synapseos::AgentMetricsQuery.usage_for_agent(
+      account: Current.account,
+      slug: params[:agent_slug]
     )
   end
 

@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router';
 import SynapseCard from 'next/synapseos/SynapseCard.vue';
 import SynapseButton from 'next/synapseos/SynapseButton.vue';
 import SynapseStatusPill from 'next/synapseos/SynapseStatusPill.vue';
+import SynapseQuotaBar from 'next/synapseos/SynapseQuotaBar.vue';
 import {
   useAgentMetricsStore,
   RANGE_OPTIONS,
@@ -305,6 +306,46 @@ onMounted(refreshAll);
                     {{ formatKpi(kpi.format, store.agents[slug].kpis[kpi.key]) }}
                   </span>
                 </div>
+              </div>
+
+              <!-- Consumo do mês (quota de mensagens enviadas) -->
+              <div
+                v-if="store.agents[slug].usage"
+                class="flex flex-col gap-2 pt-3 border-t border-s-border-subtle"
+              >
+                <div class="flex items-center justify-between gap-3">
+                  <span class="text-sm text-s-muted">
+                    {{ t('SYNAPSEOS.METRICS.USAGE.LABEL') }}
+                  </span>
+                  <SynapseStatusPill
+                    v-if="store.agents[slug].usage.over_quota"
+                    tone="error"
+                    size="sm"
+                  >
+                    {{
+                      t('SYNAPSEOS.METRICS.USAGE.OVERAGE', {
+                        n: formatCount(store.agents[slug].usage.overage),
+                      })
+                    }}
+                  </SynapseStatusPill>
+                </div>
+                <SynapseQuotaBar
+                  v-slot="{ percent }"
+                  :used="store.agents[slug].usage.total"
+                  :quota="store.agents[slug].usage.quota"
+                >
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-s-secondary">
+                      <span class="font-semibold text-s-primary">{{
+                        formatCount(store.agents[slug].usage.total)
+                      }}</span>
+                      <span class="text-s-muted">
+                        / {{ formatCount(store.agents[slug].usage.quota) }}
+                      </span>
+                    </span>
+                    <span class="text-s-muted">{{ percent }}%</span>
+                  </div>
+                </SynapseQuotaBar>
               </div>
             </template>
           </div>

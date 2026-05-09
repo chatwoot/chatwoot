@@ -18,6 +18,9 @@ const defaultAgentState = () => ({
   kpis: {},
   since: null,
   displayName: null,
+  usage: null,
+  usageLoading: false,
+  usageError: null,
 });
 
 const buildInitialAgents = () =>
@@ -95,13 +98,31 @@ export const useAgentMetricsStore = defineStore('synapseosAgentMetrics', {
       }
     },
 
+    async fetchAgentUsage({ accountId, slug }) {
+      const agent = this.agents[slug];
+      if (!agent) return;
+      agent.usageLoading = true;
+      agent.usageError = null;
+      try {
+        const { data } = await axios.get(
+          `/api/v1/accounts/${accountId}/synapseos/agent_metrics/${slug}/usage`
+        );
+        agent.usage = data;
+      } catch (err) {
+        agent.usageError = err?.response?.data?.error || err.message || 'unknown_error';
+      } finally {
+        agent.usageLoading = false;
+      }
+    },
+
     async fetchAll({ accountId }) {
       this._lastAccountId = accountId;
       const slugs = await this.fetchActiveAgents({ accountId });
       if (slugs.length > 0) {
-        await Promise.all(
-          slugs.map(slug => this.fetchAgent({ accountId, slug }))
-        );
+        await Promise.all([
+          ...slugs.map(slug => this.fetchAgent({ accountId, slug })),
+          ...slugs.map(slug => this.fetchAgentUsage({ accountId, slug })),
+        ]);
       }
       this.lastUpdatedAt = new Date().toISOString();
     },

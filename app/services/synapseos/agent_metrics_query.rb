@@ -12,6 +12,11 @@ class Synapseos::AgentMetricsQuery
   HOT_WINDOW    = 24.hours
   HOT_LIMIT     = 20
 
+  # Quota mensal de mensagens enviadas por agente cadastrado. Excedente
+  # é cobrado fora — aqui só contabilizamos pra exibir consumo + alerta.
+  MONTHLY_MESSAGE_QUOTA = 300
+  USAGE_TIME_ZONE = 'America/Sao_Paulo'
+
   # ----- LIVE ------------------------------------------------------------
 
   def self.live(account:)
@@ -20,6 +25,10 @@ class Synapseos::AgentMetricsQuery
 
   def self.for_agent(account:, slug:, since:)
     new(account).agent_payload(slug: slug, since: since)
+  end
+
+  def self.usage_for_agent(account:, slug:)
+    new(account).usage_payload(slug: slug)
   end
 
   def initialize(account)
@@ -70,7 +79,56 @@ class Synapseos::AgentMetricsQuery
     }
   end
 
+  # ----- USAGE (consumo mensal de mensagens) -----------------------------
+
+  # Conta toda mensagem outgoing da conta cuja conversa está atribuída ao
+  # bot do slug, no mês calendário atual (BRT). Mensagens em conversas sem
+  # bot atribuído ficam fora — quota é por agente cadastrado.
+  def usage_payload(slug:)
+    bot_ids = AgentResolver.bots_for_slug(@account, slug).pluck(:id)
+    period_start, period_end = current_month_range
+    daily = daily_outgoing_counts(bot_ids, period_start, period_end)
+    total = daily.values.sum
+
+    {
+      slug: slug,
+      display_name: AgentResolver.display_name(slug),
+      period_start: period_start.iso8601,
+      period_end: period_end.iso8601,
+      quota: MONTHLY_MESSAGE_QUOTA,
+      total: total,
+      overage: [total - MONTHLY_MESSAGE_QUOTA, 0].max,
+      over_quota: total > MONTHLY_MESSAGE_QUOTA,
+      daily: daily.map { |date, count| { date: date.iso8601, count: count } }
+    }
+  end
+
   private
+
+  def current_month_range
+    now = Time.now.in_time_zone(USAGE_TIME_ZONE)
+    [now.beginning_of_month, now.end_of_month]
+  end
+
+  # Conta mensagens outgoing (incluindo humanos) das conversas atribuídas
+  # ao bot via assignee_agent_bot_id. groupdate respeita o time_zone passado
+  # e devolve um Hash {Date => count} cobrindo TODOS os dias do range.
+  def daily_outgoing_counts(bot_ids, period_start, period_end)
+    return empty_daily_hash(period_start, period_end) if bot_ids.empty?
+
+    Message.joins(:conversation)
+           .where(account_id: @account.id, message_type: :outgoing, private: false)
+           .where(conversations: { assignee_agent_bot_id: bot_ids })
+           .where(created_at: period_start..period_end)
+           .group_by_day(:created_at, time_zone: USAGE_TIME_ZONE,
+                                      range: period_start..period_end)
+           .count
+  end
+
+  def empty_daily_hash(period_start, period_end)
+    (period_start.to_date..period_end.to_date).index_with { 0 }
+  end
+
 
   def kpis_for(slug, since)
     method = "#{slug}_kpis"

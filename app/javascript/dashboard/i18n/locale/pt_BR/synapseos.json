@@ -133,6 +133,10 @@
         "PARTNERS": "Parceiros do Vendedor",
         "RESCUE": "Tropa de Resgate e Lucro"
       },
+      "USAGE": {
+        "LABEL": "Mensagens no mês",
+        "OVERAGE": "+{n} excedente"
+      },
       "AGENTS": {
         "ALICE": {
           "NAME": "Alice",

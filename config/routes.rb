@@ -80,6 +80,7 @@ Rails.application.routes.draw do
             get 'agent_metrics', to: 'agent_metrics#index'
             get 'agent_metrics/live', to: 'agent_metrics#live'
             get 'agent_metrics/:agent_slug', to: 'agent_metrics#show'
+            get 'agent_metrics/:agent_slug/usage', to: 'agent_metrics#usage'
           end
           namespace :captain do
             resource :preferences, only: [:show, :update]

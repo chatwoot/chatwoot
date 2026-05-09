@@ -137,6 +137,10 @@
         "PARTNERS": "Seller Partners",
         "RESCUE": "Rescue & Profit Squad"
       },
+      "USAGE": {
+        "LABEL": "Messages this month",
+        "OVERAGE": "+{n} over quota"
+      },
       "AGENTS": {
         "ALICE": {
           "NAME": "Alice",
