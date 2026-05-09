@@ -1493,40 +1493,37 @@ onMounted(() => {
   >
     <template #header>
       <div
-        class="flex w-full flex-col gap-4 rounded-2xl border border-solid border-n-weak bg-n-solid-1 p-5 shadow-sm dark:bg-n-solid-2 lg:flex-row lg:items-center lg:justify-between"
+        class="flex w-full items-center justify-between rounded-xl border border-solid border-n-weak bg-n-solid-1 px-4 py-3 shadow-sm dark:bg-n-solid-2"
       >
-        <div class="min-w-0">
-          <div class="flex flex-wrap items-center gap-2">
-            <span
-              class="inline-flex w-fit items-center gap-2 rounded-full border border-solid border-n-teal-4 bg-n-teal-2 px-3 py-1 text-xs font-semibold text-n-teal-11"
-            >
-              <span class="h-2 w-2 rounded-full bg-n-teal-9" />
-              {{ $t('EMPLOYEE_MGMT.MONITORING.LIVE') }}
-            </span>
-            <span class="text-sm text-n-slate-10">
-              {{ $t('EMPLOYEE_MGMT.MONITORING.LAST_UPDATED') }}
-              {{ lastUpdatedLabel }}
-            </span>
-          </div>
+        <div class="flex items-center gap-3">
+          <span
+            class="inline-flex items-center gap-1.5 rounded-full border border-solid border-n-teal-4 bg-n-teal-2 px-2.5 py-0.5 text-xs font-semibold text-n-teal-11"
+          >
+            <span class="h-1.5 w-1.5 rounded-full bg-n-teal-9 animate-pulse" />
+            {{ $t('EMPLOYEE_MGMT.MONITORING.LIVE') }}
+          </span>
           <h1
-            class="mb-0 mt-4 text-3xl font-semibold tracking-tight text-n-slate-12"
+            class="mb-0 text-xl font-semibold tracking-tight text-n-slate-12"
           >
             {{ $t('EMPLOYEE_MGMT.HEADER') }}
           </h1>
-          <p class="mb-0 mt-2 max-w-4xl text-sm leading-6 text-n-slate-11">
-            {{ $t('EMPLOYEE_MGMT.DESCRIPTION') }}
-          </p>
+          <span class="text-xs text-n-slate-9">
+            {{ $t('EMPLOYEE_MGMT.MONITORING.LAST_UPDATED') }}
+            {{ lastUpdatedLabel }}
+          </span>
         </div>
-        <div class="flex shrink-0 flex-wrap items-center gap-2">
+        <div class="flex shrink-0 items-center gap-2">
           <Button
             faded
             slate
+            xs
             icon="i-lucide-refresh-cw"
             :is-loading="isFetching"
             :label="$t('EMPLOYEE_MGMT.MONITORING.REFRESH')"
             @click="fetchEmployees"
           />
           <Button
+            xs
             icon="i-lucide-circle-plus"
             :label="$t('EMPLOYEE_MGMT.ADD')"
             @click="openCreateModal"
@@ -1545,11 +1542,12 @@ onMounted(() => {
           >
             <div class="relative min-w-0">
               <span
-                class="absolute top-1/2 -translate-y-1/2 text-base text-n-slate-10 i-lucide-search ltr:left-3 rtl:right-3"
+                class="pointer-events-none absolute top-1/2 -translate-y-1/2 inline-block h-4 w-4 text-n-slate-10 i-lucide-search ltr:left-3 rtl:right-3"
+                style="display: inline-block"
               />
               <input
                 v-model="filters.q"
-                class="h-11 w-full min-w-0 rounded-lg ltr:pl-9 rtl:pr-9"
+                class="reset-base no-margin !mb-0 !h-9 w-full min-w-0 rounded-lg border border-solid border-n-weak bg-n-alpha-1 text-sm placeholder:text-n-slate-9 focus:border-n-brand-7 focus:outline-none focus:ring-1 focus:ring-n-brand-7 ltr:pl-10 rtl:pr-10"
                 type="search"
                 :placeholder="$t('EMPLOYEE_MGMT.FILTERS.SEARCH')"
               />
@@ -1636,19 +1634,7 @@ onMounted(() => {
             </button>
           </div>
 
-          <div class="flex flex-wrap gap-2">
-            <button
-              v-for="preset in quickPresetCards"
-              :key="preset.key"
-              type="button"
-              class="inline-flex items-center gap-2 rounded-full border border-solid px-3.5 py-1.5 text-xs font-semibold transition-all duration-200"
-              :class="presetClass(preset)"
-              @click="applyPreset(preset)"
-            >
-              <span class="text-sm" :class="preset.icon" />
-              {{ preset.label }}
-            </button>
-          </div>
+
 
           <div
             v-if="showAdvancedFilters"
