@@ -3,7 +3,7 @@
 import { login } from '../../api/auth';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { required, email } from '@vuelidate/validators';
+import { required } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
 import SessionStorage from 'shared/helpers/sessionStorage';
@@ -77,7 +77,6 @@ export default {
         },
         email: {
           required,
-          email,
         },
       },
     };
@@ -197,7 +196,7 @@ export default {
     },
     submitFormLogin() {
       if (this.v$.credentials.email.$invalid && !this.email) {
-        this.showAlertMessage(this.$t('LOGIN.EMAIL.ERROR'));
+        this.showAlertMessage(this.$t('LOGIN.LOGIN_ID.ERROR'));
         return;
       }
 
@@ -289,13 +288,13 @@ export default {
         <form class="space-y-5" @submit.prevent="submitFormLogin">
           <FormInput
             v-model="credentials.email"
-            name="email_address"
+            name="login_id"
             type="text"
             data-testid="email_input"
             :tabindex="1"
             required
-            :label="$t('LOGIN.EMAIL.LABEL')"
-            :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
+            :label="$t('LOGIN.LOGIN_ID.LABEL')"
+            :placeholder="$t('LOGIN.LOGIN_ID.PLACEHOLDER')"
             :has-error="v$.credentials.email.$error"
             @input="v$.credentials.email.$touch"
           />
@@ -310,17 +309,7 @@ export default {
             :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
             :has-error="v$.credentials.password.$error"
             @input="v$.credentials.password.$touch"
-          >
-            <p v-if="!globalConfig.disableUserProfileUpdate">
-              <router-link
-                to="auth/reset/password"
-                class="text-sm text-link"
-                tabindex="4"
-              >
-                {{ $t('LOGIN.FORGOT_PASSWORD') }}
-              </router-link>
-            </p>
-          </FormInput>
+          />
           <NextButton
             lg
             type="submit"

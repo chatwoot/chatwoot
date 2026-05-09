@@ -15,6 +15,7 @@ import conversation from './conversation.json';
 import csatMgmt from './csatMgmt.json';
 import customRole from './customRole.json';
 import datePicker from './datePicker.json';
+import employeeMgmt from './employeeMgmt.json';
 import emoji from './emoji.json';
 import general from './general.json';
 import generalSettings from './generalSettings.json';
@@ -54,6 +55,7 @@ export default {
   ...csatMgmt,
   ...customRole,
   ...datePicker,
+  ...employeeMgmt,
   ...emoji,
   ...general,
   ...generalSettings,

@@ -1,0 +1,313 @@
+{
+  "EMPLOYEE_MGMT": {
+    "HEADER": "Agents",
+    "DESCRIPTION": "Monitor agent availability, activity, response health, and daily performance.",
+    "LOADING": "Loading agents",
+    "EMPTY_STATE": "There are no agents in this account.",
+    "EMPTY": "-",
+    "EMPTY_STATUS": "—",
+    "SEPARATOR": "·",
+    "ADD": "Add agent",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "REQUIRED_MARK": "*",
+    "REASON_MODAL": {
+      "TITLE": "Record reason",
+      "DESCRIPTION": "Add an internal reason for deactivating or archiving this employee."
+    },
+    "DELETE_MODAL": {
+      "TITLE": "Delete employee",
+      "DESCRIPTION": "Deactivation is recommended to preserve conversations and reports. Continue only when this account must be removed.",
+      "CONFIRM": "Delete employee"
+    },
+    "FILTERS": {
+      "ADVANCED": "Advanced filters",
+      "SEARCH": "Search by name, phone, or username",
+      "ALL_ROLES": "All roles",
+      "ALL_STATUS": "All statuses",
+      "ALL_AVAILABILITY": "All availability",
+      "ALL_PRESENCE": "All presence",
+      "ALL_WORK_STATUS": "All activity",
+      "ALL_TEAMS": "All teams",
+      "LAST_LOGIN": "Last login",
+      "LAST_ACTIVITY": "Last activity",
+      "LAST_REPLY_BEFORE": "Last reply before",
+      "IDLE_MORE_THAN": "Idle more than",
+      "IDLE_CHIP": "Idle over {count} min",
+      "REPLY_CHIP": "No reply for {count} min",
+      "HAS_OPEN": "Has open conversations",
+      "HAS_UNREPLIED": "Has unreplied conversations",
+      "HAS_DELAYED": "Has delayed unreplied conversations",
+      "HAS_RESPONSE_TODAY": "Has response time today",
+      "OLDEST_WAITING_OVER_TARGET": "Oldest waiting over target",
+      "MINUTES": "minutes",
+      "MINUTES_15": "15 minutes",
+      "MINUTES_30": "30 minutes",
+      "MINUTES_60": "60 minutes",
+      "LAST_7_DAYS": "Last 7 days",
+      "LAST_30_DAYS": "Last 30 days",
+      "NEVER": "Never",
+      "APPLY": "Apply",
+      "CLEAR": "Clear",
+      "OPTIONS": {
+        "7_DAYS": "Last 7 days",
+        "30_DAYS": "Last 30 days",
+        "NEVER": "Never"
+      }
+    },
+    "MONITORING": {
+      "TITLE": "Live monitoring dashboard",
+      "DESCRIPTION": "Track who is connected, who is working, and where customer replies are delayed.",
+      "LIVE": "Monitoring now",
+      "LIVE_SHORT": "Live",
+      "LAST_UPDATED": "Last updated",
+      "REFRESH": "Refresh"
+    },
+    "PRESETS": {
+      "NEEDS_ATTENTION": "Needs attention",
+      "ONLINE_ONLY": "Online only",
+      "DELAYED_REPLIES": "Delayed replies",
+      "IDLE_AGENTS": "Idle agents"
+    },
+    "INSIGHTS": {
+      "NOT_RESPONDING_TITLE": "Response risk",
+      "NOT_RESPONDING_VALUE": "{count} agents not responding",
+      "OLDEST_WAITING_TITLE": "Oldest waiting customer",
+      "IDLE_TITLE": "Idle online agents",
+      "IDLE_VALUE": "{count} idle agents",
+      "DELAYED_TITLE": "Delayed unreplied conversations",
+      "DELAYED_VALUE": "{count} conversations over target"
+    },
+    "HEALTH": {
+      "HEALTHY": "Healthy",
+      "WATCH": "Watch",
+      "AT_RISK": "At risk",
+      "CRITICAL": "Critical"
+    },
+    "ROLES": {
+      "ADMINISTRATOR": "Administrator",
+      "AGENT": "Agent"
+    },
+    "STATUS": {
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive",
+      "ARCHIVED": "Archived"
+    },
+    "AVAILABILITY": {
+      "ONLINE": "Online",
+      "OFFLINE": "Offline",
+      "AWAY": "Away",
+      "BUSY": "Busy"
+    },
+    "PRESENCE": {
+      "ONLINE": "Online",
+      "OFFLINE": "Offline"
+    },
+    "WORK_STATUS": {
+      "WORKING": "Working",
+      "IDLE": "Idle",
+      "NOT_RESPONDING": "Not responding"
+    },
+    "DURATION": {
+      "LESS_THAN_MINUTE": "Less than 1 min",
+      "MINUTES": "{count} min",
+      "HOURS": "{count} hr",
+      "DAYS": "{count} d",
+      "AGO": "{duration} ago"
+    },
+    "TABLE": {
+      "EMPLOYEE": "Agent",
+      "PHONE": "Phone",
+      "USERNAME": "Username",
+      "ROLE": "Role",
+      "TEAMS": "Teams",
+      "STATUS": "Account status",
+      "AVAILABILITY": "Availability",
+      "PRESENCE": "Presence",
+      "WORK_STATUS": "Activity",
+      "OPEN_CONVERSATIONS": "Open",
+      "UNREPLIED": "Unreplied",
+      "OLDEST_WAITING": "Oldest waiting",
+      "LAST_REPLY": "Last reply",
+      "IDLE_DURATION": "Idle",
+      "REPLIES_TODAY": "Replies today",
+      "RESOLVED_TODAY": "Resolved today",
+      "WORKLOAD": "Workload",
+      "WAITING": "Waiting",
+      "ACTIVITY": "Activity",
+      "TODAY": "Today",
+      "HEALTH": "Attention",
+      "LAST_LOGIN": "Last login",
+      "LAST_ACTIVITY": "Last activity",
+      "ACTIONS": "Actions"
+    },
+    "DRILLDOWN": {
+      "IDENTITY": "Identity",
+      "WORKLOAD": "Workload",
+      "RESPONSE": "Response health"
+    },
+    "TOOLTIPS": {
+      "PRESENCE_ONLINE": "The agent has a live browser session.",
+      "PRESENCE_OFFLINE": "The agent is not connected right now.",
+      "ACTIVITY_WORKING": "Online with recent replies or operational activity.",
+      "ACTIVITY_IDLE": "Online but no recent activity was detected.",
+      "ACTIVITY_NOT_RESPONDING": "Online with customer replies waiting beyond the target.",
+      "ACTIVITY_EMPTY": "No live activity status while the agent is offline or inactive.",
+      "ATTENTION_HEALTHY": "No clear issue needs management attention.",
+      "ATTENTION_WATCH": "Light follow-up may be useful.",
+      "ATTENTION_AT_RISK": "There is waiting work or delay that needs attention.",
+      "ATTENTION_CRITICAL": "Customers are waiting or delay is high enough to intervene.",
+      "ATTENTION_CRITICAL_OFFLINE_UNREPLIED": "Critical because this agent has {count} unreplied conversations while offline.",
+      "ATTENTION_CRITICAL_DELAYED": "Critical because this agent has {count} unreplied conversations beyond the response target.",
+      "ATTENTION_CRITICAL_WAITING": "Critical because the oldest waiting customer has been waiting {duration}.",
+      "ATTENTION_WORKLOAD": "Needs attention because this agent has {open} open conversations and {unreplied} unreplied conversations.",
+      "ATTENTION_EMPTY": "No active load needs attention."
+    },
+    "EMPTY_FILTERED": {
+      "TITLE": "No agents match these filters",
+      "DESCRIPTION": "Clear filters or adjust the monitoring view."
+    },
+    "ACTIONS": {
+      "MENU": "Actions",
+      "DETAILS": "Sessions and login history",
+      "EDIT": "Edit",
+      "PASSWORD": "Change password",
+      "ACTIVITY": "View activity",
+      "DEACTIVATE": "Deactivate",
+      "ACTIVATE": "Activate",
+      "ARCHIVE": "Archive",
+      "DELETE": "Delete"
+    },
+    "FORM": {
+      "ADD_TITLE": "Add agent",
+      "EDIT_TITLE": "Edit agent",
+      "DESCRIPTION": "The internal email is generated automatically and is not used for sign in.",
+      "SECTIONS": {
+        "IDENTITY": "Basic information",
+        "ACCESS": "Access and teams",
+        "PASSWORD": "Password and security",
+        "STATUS": "Status and notes"
+      },
+      "NAME": "Name",
+      "PHONE": "Phone number",
+      "USERNAME": "Username / Login ID",
+      "ROLE": "Role",
+      "TEAMS": "Assigned teams",
+      "JOB_TITLE": "Job title",
+      "NOTES": "Internal notes",
+      "ACTIVE": "Active",
+      "DEACTIVATION_REASON": "Deactivation reason",
+      "PASSWORD": "Password",
+      "PASSWORD_CONFIRMATION": "Confirm password",
+      "PLACEHOLDERS": {
+        "NAME": "Enter full name",
+        "PHONE": "Enter phone number",
+        "USERNAME": "Enter username",
+        "JOB_TITLE": "Optional",
+        "NOTES": "Add internal notes"
+      }
+    },
+    "PASSWORD": {
+      "TITLE": "Change password",
+      "DESCRIPTION": "The current password is never shown. Saving signs the employee out of all devices.",
+      "SAVE": "Update password",
+      "WEAK": "Weak password",
+      "MEDIUM": "Medium password",
+      "STRONG": "Strong password",
+      "WEAK_BLOCK": "Use a stronger password before saving.",
+      "REQUIREMENTS": "Use at least 8 characters with uppercase, lowercase, number, and symbol.",
+      "SHOW": "Show",
+      "HIDE": "Hide"
+    },
+    "DETAILS": {
+      "TITLE": "Agent access",
+      "ACTIVITY_TITLE": "Agent activity",
+      "TIMELINE": "Activity timeline",
+      "RECENT_REPLIES": "Recent replies",
+      "OPEN_CONVERSATIONS": "Open conversations",
+      "DELAYED_CONVERSATIONS": "Delayed conversations",
+      "RESPONSE_RISK": "Response risk",
+      "DELAYED": "Delayed",
+      "CONVERSATION": "Conversation #{id}",
+      "NO_ACTIVITY": "There is no activity timeline yet.",
+      "NO_DELAYED": "There are no delayed conversations.",
+      "NO_REPLIES": "There are no agent replies today.",
+      "NO_OPEN_CONVERSATIONS": "There are no open conversations.",
+      "SESSIONS": "Open sessions",
+      "LOGIN_HISTORY": "Login history",
+      "LOGOUT_SESSION": "Log out session",
+      "SUCCESS": "Success",
+      "FAILED": "Failed",
+      "NO_SESSIONS": "There are no open sessions for this agent.",
+      "NO_LOGIN_HISTORY": "There is no login history for this agent yet."
+    },
+    "SUMMARY": {
+      "TOTAL": "Total agents",
+      "ACTIVE": "Active agents",
+      "INACTIVE": "Inactive agents",
+      "ONLINE": "Online agents",
+      "OFFLINE": "Offline agents",
+      "ADMINS": "Admins",
+      "WORKING": "Working now",
+      "IDLE": "Idle agents",
+      "NOT_RESPONDING": "Not responding",
+      "CRITICAL_AGENTS": "Critical agents",
+      "OFFLINE_UNREPLIED": "Offline with unreplied",
+      "HIGH_WORKLOAD": "High workload",
+      "UNREPLIED": "Unreplied conversations",
+      "AVG_RESPONSE": "Avg response today",
+      "RESOLVED_TODAY": "Resolved today",
+      "FILTER_HINT": "Filter",
+      "ACTIVE_FILTER": "Active",
+      "METRICS": {
+        "AGENTS": "Agents",
+        "CONVERSATIONS": "Conversations",
+        "TIME": "Time"
+      },
+      "SUBTITLES": {
+        "ONLINE": "Live browser presence",
+        "OFFLINE": "No live session",
+        "WORKING": "Recent real activity",
+        "IDLE": "Online without activity",
+        "NOT_RESPONDING": "Customers waiting",
+        "CRITICAL_AGENTS": "Sorted to the top",
+        "OFFLINE_UNREPLIED": "Offline agents with waiting customers",
+        "HIGH_WORKLOAD": "10+ open or 5+ unreplied",
+        "UNREPLIED": "Needs agent reply",
+        "AVG_RESPONSE": "Today across agents",
+        "RESOLVED_TODAY": "Closed conversations"
+      }
+    },
+    "TIMELINE": {
+      "LOGGED_IN": "Logged in",
+      "REPLIED": "Replied to conversation #{id}",
+      "RESOLVED": "Resolved conversation #{id}",
+      "IDLE": "No real activity for {duration}",
+      "NOT_RESPONDING": "Customer waiting for {duration}",
+      "ACTIVITY": "Activity recorded"
+    },
+    "VALIDATION": {
+      "NAME_REQUIRED": "Name is required.",
+      "PHONE_REQUIRED": "Phone number is required.",
+      "USERNAME_REQUIRED": "Username is required."
+    },
+    "BULK": {
+      "SELECTED": "{count} selected",
+      "ACTIVATE": "Activate",
+      "DEACTIVATE": "Deactivate",
+      "ARCHIVE": "Archive"
+    },
+    "API": {
+      "CREATED": "Agent created successfully",
+      "UPDATED": "Agent updated successfully",
+      "PASSWORD_CHANGED": "Password changed successfully",
+      "ACTIVATED": "Agent activated",
+      "DEACTIVATED": "Agent deactivated",
+      "ARCHIVED": "Agent archived",
+      "DELETED": "Agent deleted",
+      "SESSION_LOGOUT": "Session signed out",
+      "BULK_UPDATED": "Bulk action completed",
+      "ERROR": "We could not complete this agent action. Please try again."
+    }
+  }
+}

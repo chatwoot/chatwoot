@@ -53,6 +53,9 @@ ar:
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
+    employees:
+      cannot_manage_self: لا يمكنك تعطيل أو أرشفة أو حذف حسابك الإداري الحالي.
+      cannot_disable_last_admin: لا يمكنك تعطيل أو أرشفة أو حذف آخر مدير في الحساب.
     data_import:
       data_type:
         invalid: نوع البيانات غير صالح

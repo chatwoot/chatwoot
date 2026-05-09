@@ -1,0 +1,8 @@
+json.id employee_session.id
+json.client_id employee_session.client_id
+json.ip_address employee_session.ip_address
+json.user_agent employee_session.user_agent
+json.signed_in_at employee_session.signed_in_at
+json.last_seen_at employee_session.last_seen_at
+json.signed_out_at employee_session.signed_out_at
+json.open employee_session.open?

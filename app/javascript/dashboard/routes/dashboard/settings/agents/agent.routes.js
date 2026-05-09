@@ -8,6 +8,9 @@ export default {
     {
       path: frontendURL('accounts/:accountId/settings/agents'),
       component: SettingsWrapper,
+      props: {
+        fullWidth: true,
+      },
       children: [
         {
           path: '',

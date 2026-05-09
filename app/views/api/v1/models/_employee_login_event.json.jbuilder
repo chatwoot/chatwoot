@@ -1,0 +1,7 @@
+json.id employee_login_event.id
+json.success employee_login_event.success
+json.login_identifier employee_login_event.login_identifier
+json.ip_address employee_login_event.ip_address
+json.user_agent employee_login_event.user_agent
+json.failure_reason employee_login_event.failure_reason
+json.created_at employee_login_event.created_at

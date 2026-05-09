@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_05_090004) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -52,6 +52,13 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
     t.boolean "auto_offline", default: true, null: false
     t.bigint "custom_role_id"
     t.bigint "agent_capacity_policy_id"
+    t.string "job_title"
+    t.text "employee_notes"
+    t.boolean "active", default: true, null: false
+    t.text "deactivation_reason"
+    t.datetime "archived_at"
+    t.index ["account_id", "active"], name: "index_account_users_on_account_id_and_active"
+    t.index ["account_id", "archived_at"], name: "index_account_users_on_account_id_and_archived_at"
     t.index ["account_id", "user_id"], name: "uniq_user_id_per_account_id", unique: true
     t.index ["account_id"], name: "index_account_users_on_account_id"
     t.index ["agent_capacity_policy_id"], name: "index_account_users_on_agent_capacity_policy_id"
@@ -589,7 +596,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "contacts_count"
+    t.integer "contacts_count", default: 0, null: false
     t.index ["account_id", "domain"], name: "index_companies_on_account_and_domain", unique: true, where: "(domain IS NOT NULL)"
     t.index ["account_id"], name: "index_companies_on_account_id"
     t.index ["name", "account_id"], name: "index_companies_on_name_and_account_id"
@@ -815,6 +822,41 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
+  end
+
+  create_table "employee_login_events", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "account_id"
+    t.boolean "success", default: false, null: false
+    t.string "login_identifier"
+    t.string "ip_address"
+    t.text "user_agent"
+    t.string "failure_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "created_at"], name: "index_employee_login_events_on_account_id_and_created_at"
+    t.index ["account_id"], name: "index_employee_login_events_on_account_id"
+    t.index ["success", "created_at"], name: "index_employee_login_events_on_success_and_created_at"
+    t.index ["user_id", "created_at"], name: "index_employee_login_events_on_user_id_and_created_at"
+    t.index ["user_id"], name: "index_employee_login_events_on_user_id"
+  end
+
+  create_table "employee_sessions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "account_id"
+    t.string "client_id", null: false
+    t.string "ip_address"
+    t.text "user_agent"
+    t.datetime "signed_in_at", null: false
+    t.datetime "last_seen_at"
+    t.datetime "signed_out_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "last_seen_at"], name: "index_employee_sessions_on_account_id_and_last_seen_at"
+    t.index ["account_id"], name: "index_employee_sessions_on_account_id"
+    t.index ["user_id", "client_id"], name: "index_employee_sessions_on_user_id_and_client_id", unique: true
+    t.index ["user_id", "signed_out_at"], name: "index_employee_sessions_on_user_id_and_signed_out_at"
+    t.index ["user_id"], name: "index_employee_sessions_on_user_id"
   end
 
   create_table "folders", force: :cascade do |t|
@@ -1233,9 +1275,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
     t.integer "consumed_timestep"
     t.boolean "otp_required_for_login", default: false
     t.text "otp_backup_codes"
+    t.string "username"
+    t.string "phone_number"
+    t.boolean "local_auth_enabled", default: false, null: false
+    t.integer "failed_login_attempts", default: 0, null: false
+    t.datetime "last_failed_login_at"
+    t.datetime "locked_at"
+    t.index "lower((username)::text)", name: "index_users_on_lower_username", unique: true, where: "(username IS NOT NULL)"
     t.index ["email"], name: "index_users_on_email"
     t.index ["otp_required_for_login"], name: "index_users_on_otp_required_for_login"
     t.index ["otp_secret"], name: "index_users_on_otp_secret", unique: true
+    t.index ["phone_number"], name: "index_users_on_phone_number", unique: true, where: "(phone_number IS NOT NULL)"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
@@ -1271,6 +1321,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "employee_login_events", "accounts"
+  add_foreign_key "employee_login_events", "users"
+  add_foreign_key "employee_sessions", "accounts"
+  add_foreign_key "employee_sessions", "users"
   add_foreign_key "inboxes", "portals"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

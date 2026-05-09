@@ -55,6 +55,23 @@ Rails.application.routes.draw do
           resources :agents, only: [:index, :create, :update, :destroy] do
             post :bulk_create, on: :collection
           end
+          resources :employees, only: [:index, :show, :create, :update, :destroy] do
+            collection do
+              patch :bulk_update
+            end
+
+            member do
+              patch :change_password
+              patch :activate
+              patch :deactivate
+              patch :archive
+              post :force_logout
+              get :activity
+              get :sessions
+              get :login_history
+              delete 'sessions/:client_id', action: :destroy_session
+            end
+          end
           namespace :captain do
             resource :preferences, only: [:show, :update]
             resources :assistants do

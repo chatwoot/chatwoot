@@ -6,6 +6,11 @@
       "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
     },
+    "LOGIN_ID": {
+      "LABEL": "اسم المستخدم أو رقم الهاتف",
+      "PLACEHOLDER": "اسم المستخدم أو رقم الهاتف",
+      "ERROR": "الرجاء إدخال اسم المستخدم أو رقم الهاتف"
+    },
     "PASSWORD": {
       "LABEL": "كلمة المرور",
       "PLACEHOLDER": "كلمة المرور"

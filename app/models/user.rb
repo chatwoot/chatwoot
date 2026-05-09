@@ -16,6 +16,10 @@
 #  encrypted_password     :string           default(""), not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
+#  failed_login_attempts  :integer          default(0), not null
+#  last_failed_login_at   :datetime
+#  local_auth_enabled     :boolean          default(FALSE), not null
+#  locked_at              :datetime
 #  message_signature      :text
 #  name                   :string           not null
 #  otp_backup_codes       :text
@@ -23,6 +27,7 @@
 #  otp_secret             :string
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string
+#  phone_number           :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
@@ -31,6 +36,7 @@
 #  type                   :string
 #  ui_settings            :jsonb
 #  uid                    :string           default(""), not null
+#  username               :string
 #  unconfirmed_email      :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
@@ -38,8 +44,10 @@
 # Indexes
 #
 #  index_users_on_email                   (email)
+#  index_users_on_lower_username          (lower((username)::text)) UNIQUE WHERE (username IS NOT NULL)
 #  index_users_on_otp_required_for_login  (otp_required_for_login)
 #  index_users_on_otp_secret              (otp_secret) UNIQUE
+#  index_users_on_phone_number            (phone_number) UNIQUE WHERE (phone_number IS NOT NULL)
 #  index_users_on_pubsub_token            (pubsub_token) UNIQUE
 #  index_users_on_reset_password_token    (reset_password_token) UNIQUE
 #  index_users_on_uid_and_provider        (uid,provider) UNIQUE
@@ -76,6 +84,10 @@ class User < ApplicationRecord
   # validates_uniqueness_of :email, scope: :account_id
 
   validates :email, presence: true
+  validates :username, presence: true, if: :local_auth_enabled?
+  validates :phone_number, presence: true, if: :local_auth_enabled?
+  validates :username, uniqueness: { case_sensitive: false }, allow_blank: true
+  validates :phone_number, uniqueness: true, allow_blank: true
 
   serialize :otp_backup_codes, type: Array
 
@@ -107,6 +119,8 @@ class User < ApplicationRecord
   has_many :notification_settings, dependent: :destroy_async
   has_many :notification_subscriptions, dependent: :destroy_async
   has_many :notifications, dependent: :destroy_async
+  has_many :employee_login_events, dependent: :destroy
+  has_many :employee_sessions, dependent: :destroy
   has_many :team_members, dependent: :destroy_async
   has_many :teams, through: :team_members
   has_many :articles, foreign_key: 'author_id', dependent: :nullify, inverse_of: :author
@@ -119,9 +133,12 @@ class User < ApplicationRecord
   after_destroy :remove_macros
 
   scope :order_by_full_name, -> { order('lower(name) ASC') }
+  scope :local_employees, -> { where(local_auth_enabled: true) }
 
   before_validation do
     self.email = email.try(:downcase)
+    self.username = username.try(:strip)&.downcase
+    self.phone_number = phone_number.try(:strip).presence
   end
 
   def send_devise_notification(notification, *)
@@ -169,6 +186,43 @@ class User < ApplicationRecord
 
   def self.from_email(email)
     find_by(email: email&.downcase)
+  end
+
+  def self.from_login_identifier(identifier)
+    normalized_identifier = identifier.to_s.strip.downcase
+    return if normalized_identifier.blank?
+
+    where('lower(email) = :identifier OR lower(username) = :identifier OR phone_number = :raw_identifier',
+          identifier: normalized_identifier, raw_identifier: identifier.to_s.strip).first
+  end
+
+  def local_employee?
+    local_auth_enabled?
+  end
+
+  def locked_for_local_auth?
+    locked_at.present? && locked_at > 15.minutes.ago
+  end
+
+  def record_failed_login!
+    update!(
+      failed_login_attempts: failed_login_attempts + 1,
+      last_failed_login_at: Time.current,
+      locked_at: failed_login_attempts + 1 >= 5 ? Time.current : locked_at
+    )
+  end
+
+  def reset_failed_login_attempts!
+    update!(failed_login_attempts: 0, locked_at: nil, last_failed_login_at: nil)
+  end
+
+  def active_employee_account_users
+    account_users.where(active: true, archived_at: nil)
+  end
+
+  def invalidate_all_employee_sessions!
+    update!(tokens: {})
+    employee_sessions.open.find_each { |employee_session| employee_session.update!(signed_out_at: Time.current) }
   end
 
   # 2FA/MFA Methods

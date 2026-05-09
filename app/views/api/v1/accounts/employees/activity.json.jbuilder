@@ -1,0 +1,6 @@
+json.metrics @employee_activity[:metrics]
+json.recent_replies @employee_activity[:recent_replies]
+json.open_conversations @employee_activity[:open_conversations]
+json.delayed_conversations @employee_activity[:delayed_conversations]
+json.resolved_conversations @employee_activity[:resolved_conversations]
+json.timeline @employee_activity[:timeline]

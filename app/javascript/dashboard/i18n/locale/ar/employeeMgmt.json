@@ -1,0 +1,306 @@
+{
+  "EMPLOYEE_MGMT": {
+    "HEADER": "وكلاء الدعم",
+    "DESCRIPTION": "متابعة اتصال وكلاء الدعم ونشاطهم وصحة الردود وأداء اليوم.",
+    "LOADING": "جاري تحميل وكلاء الدعم",
+    "EMPTY_STATE": "لا يوجد وكلاء دعم في هذا الحساب.",
+    "EMPTY": "-",
+    "EMPTY_STATUS": "—",
+    "SEPARATOR": "·",
+    "ADD": "إضافة وكيل دعم",
+    "SAVE": "حفظ",
+    "CANCEL": "إلغاء",
+    "REQUIRED_MARK": "*",
+    "REASON_MODAL": {
+      "TITLE": "تسجيل السبب",
+      "DESCRIPTION": "أضف سببًا داخليًا لإيقاف أو أرشفة هذا الموظف."
+    },
+    "DELETE_MODAL": {
+      "TITLE": "حذف موظف",
+      "DESCRIPTION": "الإيقاف هو الاختيار المفضل للحفاظ على المحادثات والتقارير. أكمل فقط عند الحاجة لحذف الحساب.",
+      "CONFIRM": "حذف الموظف"
+    },
+    "FILTERS": {
+      "ADVANCED": "فلاتر متقدمة",
+      "SEARCH": "ابحث بالاسم أو الرقم أو اسم المستخدم",
+      "ALL_ROLES": "كل الأدوار",
+      "ALL_STATUS": "كل الحالات",
+      "ALL_AVAILABILITY": "كل حالات التواجد",
+      "ALL_PRESENCE": "كل حالات الاتصال",
+      "ALL_WORK_STATUS": "كل حالات النشاط",
+      "ALL_TEAMS": "كل الفرق",
+      "LAST_LOGIN": "آخر دخول",
+      "LAST_ACTIVITY": "آخر نشاط",
+      "LAST_REPLY_BEFORE": "آخر رد قبل",
+      "IDLE_MORE_THAN": "خامل أكثر من",
+      "IDLE_CHIP": "خامل أكثر من {count} دقيقة",
+      "REPLY_CHIP": "لم يرد منذ {count} دقيقة",
+      "HAS_OPEN": "لديه محادثات مفتوحة",
+      "HAS_UNREPLIED": "لديه محادثات تنتظر الرد",
+      "HAS_DELAYED": "لديه محادثات متأخرة بلا رد",
+      "HAS_RESPONSE_TODAY": "لديه وقت رد اليوم",
+      "OLDEST_WAITING_OVER_TARGET": "أقدم انتظار تخطى الهدف",
+      "MINUTES": "دقيقة",
+      "MINUTES_15": "15 دقيقة",
+      "MINUTES_30": "30 دقيقة",
+      "MINUTES_60": "60 دقيقة",
+      "LAST_7_DAYS": "آخر 7 أيام",
+      "LAST_30_DAYS": "آخر 30 يومًا",
+      "NEVER": "لم يحدث",
+      "APPLY": "تطبيق",
+      "CLEAR": "مسح",
+      "OPTIONS": {
+        "7_DAYS": "آخر 7 أيام",
+        "30_DAYS": "آخر 30 يومًا",
+        "NEVER": "لم يحدث"
+      }
+    },
+    "MONITORING": {
+      "TITLE": "لوحة متابعة تشغيلية مباشرة",
+      "DESCRIPTION": "تابع من هو متصل، من يعمل فعليًا، وأين توجد ردود عملاء متأخرة.",
+      "LIVE": "المتابعة الآن",
+      "LIVE_SHORT": "مباشر",
+      "LAST_UPDATED": "آخر تحديث",
+      "REFRESH": "تحديث"
+    },
+    "PRESETS": {
+      "NEEDS_ATTENTION": "تحتاج انتباه",
+      "ONLINE_ONLY": "المتصلون فقط",
+      "DELAYED_REPLIES": "ردود متأخرة",
+      "IDLE_AGENTS": "الخاملون"
+    },
+    "INSIGHTS": {
+      "NOT_RESPONDING_TITLE": "خطر الرد",
+      "NOT_RESPONDING_VALUE": "{count} لا يردون",
+      "OLDEST_WAITING_TITLE": "أقدم عميل منتظر",
+      "IDLE_TITLE": "متصلون خاملون",
+      "IDLE_VALUE": "{count} خاملون",
+      "DELAYED_TITLE": "محادثات متأخرة بلا رد",
+      "DELAYED_VALUE": "{count} محادثات تخطت الهدف"
+    },
+    "HEALTH": {
+      "HEALTHY": "سليم",
+      "WATCH": "مراقبة",
+      "AT_RISK": "معرض للخطر",
+      "CRITICAL": "حرج"
+    },
+    "ROLES": {
+      "ADMINISTRATOR": "مدير",
+      "AGENT": "موظف"
+    },
+    "STATUS": {
+      "ACTIVE": "مفعل",
+      "INACTIVE": "متوقف",
+      "ARCHIVED": "مؤرشف"
+    },
+    "AVAILABILITY": {
+      "ONLINE": "متصل",
+      "OFFLINE": "غير متصل",
+      "AWAY": "غير نشط",
+      "BUSY": "مشغول"
+    },
+    "PRESENCE": {
+      "ONLINE": "متصل",
+      "OFFLINE": "غير متصل"
+    },
+    "WORK_STATUS": {
+      "WORKING": "يعمل الآن",
+      "IDLE": "خامل",
+      "NOT_RESPONDING": "لا يرد"
+    },
+    "DURATION": {
+      "LESS_THAN_MINUTE": "أقل من دقيقة",
+      "MINUTES": "{count} دقيقة",
+      "HOURS": "{count} ساعة",
+      "DAYS": "{count} يوم",
+      "AGO": "منذ {duration}"
+    },
+    "TABLE": {
+      "EMPLOYEE": "وكيل الدعم",
+      "PHONE": "رقم الهاتف",
+      "USERNAME": "اسم المستخدم",
+      "ROLE": "الدور",
+      "TEAMS": "الفرق",
+      "STATUS": "حالة الحساب",
+      "AVAILABILITY": "حالة التواجد",
+      "PRESENCE": "الاتصال",
+      "WORK_STATUS": "النشاط",
+      "OPEN_CONVERSATIONS": "مفتوحة",
+      "UNREPLIED": "بانتظار الرد",
+      "OLDEST_WAITING": "أقدم انتظار",
+      "LAST_REPLY": "آخر رد",
+      "IDLE_DURATION": "الخمول",
+      "REPLIES_TODAY": "ردود اليوم",
+      "RESOLVED_TODAY": "محلولة اليوم",
+      "WORKLOAD": "حجم العمل",
+      "WAITING": "الانتظار",
+      "ACTIVITY": "النشاط",
+      "TODAY": "اليوم",
+      "HEALTH": "الانتباه",
+      "LAST_LOGIN": "آخر دخول",
+      "LAST_ACTIVITY": "آخر نشاط",
+      "ACTIONS": "الإجراءات"
+    },
+    "DRILLDOWN": {
+      "IDENTITY": "الهوية",
+      "WORKLOAD": "حجم العمل",
+      "RESPONSE": "صحة الرد"
+    },
+    "TOOLTIPS": {
+      "PRESENCE_ONLINE": "الموظف لديه جلسة متصفح مباشرة.",
+      "PRESENCE_OFFLINE": "الموظف غير متصل الآن.",
+      "ACTIVITY_WORKING": "متصل ويوجد ردود أو نشاط تشغيلي حديث.",
+      "ACTIVITY_IDLE": "متصل لكن لا يوجد نشاط حديث.",
+      "ACTIVITY_NOT_RESPONDING": "متصل ولديه عملاء ينتظرون الرد بعد الوقت المستهدف.",
+      "ACTIVITY_EMPTY": "لا توجد حالة نشاط مباشرة أثناء عدم الاتصال أو الإيقاف.",
+      "ATTENTION_HEALTHY": "لا توجد مشكلة واضحة تحتاج تدخل إداري.",
+      "ATTENTION_WATCH": "قد يحتاج متابعة بسيطة.",
+      "ATTENTION_AT_RISK": "يوجد انتظار أو تأخير يحتاج انتباه.",
+      "ATTENTION_CRITICAL": "يوجد عملاء ينتظرون أو تأخير كبير يحتاج تدخل.",
+      "ATTENTION_CRITICAL_OFFLINE_UNREPLIED": "حرج لأن هذا الموظف لديه {count} محادثة غير مردود عليها وهو غير متصل.",
+      "ATTENTION_CRITICAL_DELAYED": "حرج لأن هذا الموظف لديه {count} محادثة غير مردود عليها تخطت وقت الرد المستهدف.",
+      "ATTENTION_CRITICAL_WAITING": "حرج لأن أقدم عميل منتظر ينتظر منذ {duration}.",
+      "ATTENTION_WORKLOAD": "يحتاج انتباه لأن هذا الموظف لديه {open} محادثة مفتوحة و {unreplied} محادثة غير مردود عليها.",
+      "ATTENTION_EMPTY": "لا يوجد حمل نشط يحتاج انتباه."
+    },
+    "EMPTY_FILTERED": {
+      "TITLE": "لا يوجد وكلاء مطابقون لهذه الفلاتر",
+      "DESCRIPTION": "امسح الفلاتر أو عدّل عرض المتابعة."
+    },
+    "ACTIONS": {
+      "MENU": "الإجراءات",
+      "DETAILS": "الجلسات وسجل الدخول",
+      "EDIT": "تعديل",
+      "PASSWORD": "تغيير كلمة المرور",
+      "ACTIVITY": "عرض النشاط",
+      "DEACTIVATE": "إيقاف",
+      "ACTIVATE": "تفعيل",
+      "ARCHIVE": "أرشفة",
+      "DELETE": "حذف"
+    },
+    "FORM": {
+      "ADD_TITLE": "إضافة وكيل دعم",
+      "EDIT_TITLE": "تعديل وكيل دعم",
+      "DESCRIPTION": "يتم إنشاء البريد الداخلي تلقائيًا ولا يستخدم في تسجيل الدخول.",
+      "SECTIONS": {
+        "IDENTITY": "البيانات الأساسية",
+        "ACCESS": "الوصول والفرق",
+        "PASSWORD": "كلمة المرور والأمان",
+        "STATUS": "الحالة والملاحظات"
+      },
+      "NAME": "الاسم",
+      "PHONE": "رقم الهاتف",
+      "USERNAME": "اسم المستخدم / Login ID",
+      "ROLE": "الدور",
+      "TEAMS": "الفرق المرتبطة",
+      "JOB_TITLE": "المسمى الوظيفي",
+      "NOTES": "ملاحظات داخلية",
+      "ACTIVE": "مفعل",
+      "DEACTIVATION_REASON": "سبب الإيقاف",
+      "PASSWORD": "كلمة المرور",
+      "PASSWORD_CONFIRMATION": "تأكيد كلمة المرور"
+    },
+    "PASSWORD": {
+      "TITLE": "تغيير كلمة المرور",
+      "DESCRIPTION": "لا يتم عرض كلمة المرور الحالية نهائيًا. الحفظ يسجل خروج الموظف من كل الأجهزة.",
+      "SAVE": "تحديث كلمة المرور",
+      "WEAK": "كلمة مرور ضعيفة",
+      "MEDIUM": "كلمة مرور متوسطة",
+      "STRONG": "كلمة مرور قوية",
+      "WEAK_BLOCK": "استخدم كلمة مرور أقوى قبل الحفظ.",
+      "REQUIREMENTS": "استخدم 8 أحرف على الأقل مع حرف كبير وحرف صغير ورقم ورمز.",
+      "SHOW": "إظهار",
+      "HIDE": "إخفاء"
+    },
+    "DETAILS": {
+      "TITLE": "دخول وكيل الدعم",
+      "ACTIVITY_TITLE": "نشاط وكيل الدعم",
+      "TIMELINE": "سجل النشاط",
+      "RECENT_REPLIES": "آخر الردود",
+      "OPEN_CONVERSATIONS": "المحادثات المفتوحة",
+      "DELAYED_CONVERSATIONS": "محادثات متأخرة",
+      "RESPONSE_RISK": "خطر الرد",
+      "DELAYED": "متأخرة",
+      "CONVERSATION": "محادثة #{id}",
+      "NO_ACTIVITY": "لا يوجد سجل نشاط بعد.",
+      "NO_DELAYED": "لا توجد محادثات متأخرة.",
+      "NO_REPLIES": "لا توجد ردود للموظف اليوم.",
+      "NO_OPEN_CONVERSATIONS": "لا توجد محادثات مفتوحة.",
+      "SESSIONS": "الجلسات المفتوحة",
+      "LOGIN_HISTORY": "سجل الدخول",
+      "LOGOUT_SESSION": "تسجيل خروج الجلسة",
+      "SUCCESS": "نجاح",
+      "FAILED": "فشل",
+      "NO_SESSIONS": "لا توجد جلسات مفتوحة لوكيل الدعم هذا.",
+      "NO_LOGIN_HISTORY": "لا يوجد سجل دخول لوكيل الدعم هذا حتى الآن."
+    },
+    "SUMMARY": {
+      "TOTAL": "إجمالي الوكلاء",
+      "ACTIVE": "الحسابات المفعلة",
+      "INACTIVE": "الحسابات المتوقفة",
+      "ONLINE": "المتصلون",
+      "OFFLINE": "غير المتصلين",
+      "ADMINS": "المديرون",
+      "WORKING": "يعملون الآن",
+      "IDLE": "الخاملون",
+      "NOT_RESPONDING": "لا يردون",
+      "CRITICAL_AGENTS": "حالات حرجة",
+      "OFFLINE_UNREPLIED": "غير متصل وعليه ردود",
+      "HIGH_WORKLOAD": "حمل مرتفع",
+      "UNREPLIED": "محادثات تنتظر الرد",
+      "AVG_RESPONSE": "متوسط الرد اليوم",
+      "RESOLVED_TODAY": "محلولة اليوم",
+      "FILTER_HINT": "فلترة",
+      "ACTIVE_FILTER": "مفعل",
+      "METRICS": {
+        "AGENTS": "الوكلاء",
+        "CONVERSATIONS": "المحادثات",
+        "TIME": "الوقت"
+      },
+      "SUBTITLES": {
+        "ONLINE": "اتصال مباشر فعلي",
+        "OFFLINE": "لا توجد جلسة مباشرة",
+        "WORKING": "نشاط حقيقي حديث",
+        "IDLE": "متصل بلا نشاط",
+        "NOT_RESPONDING": "عملاء ينتظرون",
+        "CRITICAL_AGENTS": "تظهر أعلى الجدول",
+        "OFFLINE_UNREPLIED": "غير متصلين ولديهم عملاء ينتظرون",
+        "HIGH_WORKLOAD": "10+ مفتوحة أو 5+ بلا رد",
+        "UNREPLIED": "تحتاج رد موظف",
+        "AVG_RESPONSE": "اليوم عبر الموظفين",
+        "RESOLVED_TODAY": "محادثات مغلقة"
+      }
+    },
+    "TIMELINE": {
+      "LOGGED_IN": "سجل الدخول",
+      "REPLIED": "رد على محادثة #{id}",
+      "RESOLVED": "حل محادثة #{id}",
+      "IDLE": "لا يوجد نشاط حقيقي منذ {duration}",
+      "NOT_RESPONDING": "عميل ينتظر منذ {duration}",
+      "ACTIVITY": "تم تسجيل نشاط"
+    },
+    "VALIDATION": {
+      "NAME_REQUIRED": "الاسم مطلوب.",
+      "PHONE_REQUIRED": "رقم الهاتف مطلوب.",
+      "USERNAME_REQUIRED": "اسم المستخدم مطلوب."
+    },
+    "BULK": {
+      "SELECTED": "تم تحديد {count}",
+      "ACTIVATE": "تفعيل",
+      "DEACTIVATE": "إيقاف",
+      "ARCHIVE": "أرشفة"
+    },
+    "API": {
+      "CREATED": "تم إنشاء وكيل الدعم بنجاح",
+      "UPDATED": "تم تحديث وكيل الدعم بنجاح",
+      "PASSWORD_CHANGED": "تم تغيير كلمة المرور بنجاح",
+      "ACTIVATED": "تم تفعيل وكيل الدعم",
+      "DEACTIVATED": "تم إيقاف وكيل الدعم",
+      "ARCHIVED": "تمت أرشفة وكيل الدعم",
+      "DELETED": "تم حذف وكيل الدعم",
+      "SESSION_LOGOUT": "تم تسجيل خروج الجلسة",
+      "BULK_UPDATED": "تم تنفيذ الإجراء الجماعي",
+      "ERROR": "تعذر تنفيذ إجراء وكيل الدعم. حاول مرة أخرى."
+    }
+  }
+}

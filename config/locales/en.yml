@@ -66,6 +66,9 @@ en:
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
+    employees:
+      cannot_manage_self: You cannot deactivate, archive, or delete your own employee account.
+      cannot_disable_last_admin: You cannot deactivate, archive, or delete the last administrator.
     data_import:
       data_type:
         invalid: Invalid data type
