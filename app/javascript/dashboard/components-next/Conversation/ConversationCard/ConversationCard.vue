@@ -43,6 +43,10 @@ const currentContactStatus = computed(
   () => currentContact.value?.availabilityStatus
 );
 
+const currentContactCompanyName = computed(
+  () => currentContact.value?.additionalAttributes?.companyName
+);
+
 const inbox = computed(() => props.stateInbox);
 
 const inboxName = computed(() => inbox.value?.name);
@@ -98,10 +102,23 @@ const onCardClick = e => {
       rounded-full
     />
     <div class="flex flex-col w-full gap-1 min-w-0">
-      <div class="flex items-center justify-between h-6 gap-2">
-        <h4 class="text-base font-medium truncate text-n-slate-12">
-          {{ currentContactName }}
-        </h4>
+      <div class="flex items-center justify-between gap-2">
+        <div class="flex flex-col min-w-0">
+          <h4 class="text-base font-medium truncate text-n-slate-12">
+            {{ currentContactName }}
+          </h4>
+          <span
+            v-if="currentContactCompanyName"
+            class="inline-flex items-center gap-1 min-w-0"
+          >
+            <span
+              class="i-ph-building-light size-3.5 text-n-slate-10 flex-shrink-0"
+            />
+            <span class="text-xs truncate text-n-slate-11">
+              {{ currentContactCompanyName }}
+            </span>
+          </span>
+        </div>
         <div class="flex items-center gap-2">
           <CardPriorityIcon :priority="conversation.priority || null" />
           <div
