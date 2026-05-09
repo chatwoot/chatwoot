@@ -307,10 +307,7 @@ onMounted(() => {
           </template>
         </Integration>
 
-        <div
-          v-if="isIntegrationEnabled"
-          class="p-6 outline outline-n-container outline-1 bg-n-card rounded-xl"
-        >
+        <div v-if="isIntegrationEnabled" class="pt-6 border-t border-n-weak">
           <div class="flex flex-col gap-5">
             <div>
               <h3 class="mb-1 text-heading-1 text-n-slate-12">
