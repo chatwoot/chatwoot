@@ -7,6 +7,8 @@ import {
 } from 'shared/helpers/CustomErrors';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { frontendURL } from 'dashboard/helper/URLHelper.js';
+import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SocialIcons from './SocialIcons.vue';
@@ -59,6 +61,21 @@ export default {
     ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
     contactProfileLink() {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
+    },
+    installationType() {
+      return window.globalConfig?.INSTALLATION_IDENTIFIER || '';
+    },
+    isCompaniesAvailable() {
+      return [INSTALLATION_TYPES.CLOUD, INSTALLATION_TYPES.ENTERPRISE].includes(
+        this.installationType
+      );
+    },
+    companyDetailUrl() {
+      if (!this.isCompaniesAvailable) return '';
+      if (!this.contact?.company_id) return '';
+      return frontendURL(
+        `accounts/${this.$route.params.accountId}/companies/${this.contact.company_id}`
+      );
     },
     additionalAttributes() {
       return this.contact.additional_attributes || {};
@@ -265,6 +282,7 @@ export default {
             :title="$t('CONTACT_PANEL.IDENTIFIER')"
           />
           <ContactInfoRow
+            :href="companyDetailUrl"
             :value="additionalAttributes.company_name"
             icon="building-bank"
             emoji="🏢"
