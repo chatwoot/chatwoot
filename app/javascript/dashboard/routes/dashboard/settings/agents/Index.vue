@@ -129,29 +129,6 @@ const notRespondingEmployees = computed(
       employee => workStatus(employee) === 'not_responding'
     ).length
 );
-const unrepliedConversations = computed(() =>
-  employees.value.reduce(
-    (total, employee) =>
-      total + (metric(employee).unreplied_conversations_count || 0),
-    0
-  )
-);
-const resolvedToday = computed(() =>
-  employees.value.reduce(
-    (total, employee) =>
-      total + (metric(employee).resolved_conversations_today || 0),
-    0
-  )
-);
-const averageResponseTimeToday = computed(() => {
-  const values = employees.value
-    .map(employee => metric(employee).average_response_time_today)
-    .filter(value => Number(value) > 0);
-  if (!values.length) return 0;
-  return (
-    values.reduce((total, value) => total + Number(value), 0) / values.length
-  );
-});
 
 const passwordScore = computed(() => {
   const password = isEditing.value ? passwordForm.password : form.password;
@@ -522,54 +499,7 @@ const isHighWorkload = employee =>
   Number(metric(employee).open_conversations_count) >= 10 ||
   Number(metric(employee).unreplied_conversations_count) >= 5;
 
-const criticalEmployees = computed(
-  () =>
-    employees.value.filter(employee => attentionStatus(employee) === 'critical')
-      .length
-);
-const offlineWithUnrepliedEmployees = computed(
-  () =>
-    employees.value.filter(
-      employee =>
-        presenceStatus(employee) === 'offline' &&
-        Number(metric(employee).unreplied_conversations_count) > 0
-    ).length
-);
-const highWorkloadEmployees = computed(
-  () => employees.value.filter(employee => isHighWorkload(employee)).length
-);
-
 const summaryCards = computed(() => [
-  {
-    key: 'critical_agents',
-    label: t('EMPLOYEE_MGMT.SUMMARY.CRITICAL_AGENTS'),
-    subtitle: t('EMPLOYEE_MGMT.SUMMARY.SUBTITLES.CRITICAL_AGENTS'),
-    value: criticalEmployees.value,
-    icon: 'i-lucide-siren',
-    tone: 'ruby',
-    metricLabel: t('EMPLOYEE_MGMT.SUMMARY.METRICS.AGENTS'),
-    filters: { attention_status: 'critical' },
-  },
-  {
-    key: 'offline_unreplied',
-    label: t('EMPLOYEE_MGMT.SUMMARY.OFFLINE_UNREPLIED'),
-    subtitle: t('EMPLOYEE_MGMT.SUMMARY.SUBTITLES.OFFLINE_UNREPLIED'),
-    value: offlineWithUnrepliedEmployees.value,
-    icon: 'i-lucide-wifi-off',
-    tone: 'ruby',
-    metricLabel: t('EMPLOYEE_MGMT.SUMMARY.METRICS.AGENTS'),
-    filters: { offline_with_unreplied: 'true' },
-  },
-  {
-    key: 'high_workload',
-    label: t('EMPLOYEE_MGMT.SUMMARY.HIGH_WORKLOAD'),
-    subtitle: t('EMPLOYEE_MGMT.SUMMARY.SUBTITLES.HIGH_WORKLOAD'),
-    value: highWorkloadEmployees.value,
-    icon: 'i-lucide-briefcase-business',
-    tone: 'amber',
-    metricLabel: t('EMPLOYEE_MGMT.SUMMARY.METRICS.AGENTS'),
-    filters: { high_workload: 'true' },
-  },
   {
     key: 'online',
     label: t('EMPLOYEE_MGMT.SUMMARY.ONLINE'),
@@ -620,36 +550,6 @@ const summaryCards = computed(() => [
     metricLabel: t('EMPLOYEE_MGMT.SUMMARY.METRICS.AGENTS'),
     filters: { work_status: 'not_responding' },
   },
-  {
-    key: 'unreplied',
-    label: t('EMPLOYEE_MGMT.SUMMARY.UNREPLIED'),
-    subtitle: t('EMPLOYEE_MGMT.SUMMARY.SUBTITLES.UNREPLIED'),
-    value: unrepliedConversations.value,
-    icon: 'i-lucide-message-square-more',
-    tone: 'ruby',
-    metricLabel: t('EMPLOYEE_MGMT.SUMMARY.METRICS.CONVERSATIONS'),
-    filters: { has_unreplied_conversations: 'true' },
-  },
-  {
-    key: 'avg_response',
-    label: t('EMPLOYEE_MGMT.SUMMARY.AVG_RESPONSE'),
-    subtitle: t('EMPLOYEE_MGMT.SUMMARY.SUBTITLES.AVG_RESPONSE'),
-    value: formatDuration(averageResponseTimeToday.value),
-    icon: 'i-lucide-timer',
-    tone: 'blue',
-    metricLabel: t('EMPLOYEE_MGMT.SUMMARY.METRICS.TIME'),
-    filters: { has_response_today: 'true' },
-  },
-  {
-    key: 'resolved_today',
-    label: t('EMPLOYEE_MGMT.SUMMARY.RESOLVED_TODAY'),
-    subtitle: t('EMPLOYEE_MGMT.SUMMARY.SUBTITLES.RESOLVED_TODAY'),
-    value: resolvedToday.value,
-    icon: 'i-lucide-check-check',
-    tone: 'teal',
-    metricLabel: t('EMPLOYEE_MGMT.SUMMARY.METRICS.CONVERSATIONS'),
-    filters: { has_resolved_today: 'true' },
-  },
 ]);
 
 const toneFillClass = tone => {
@@ -684,92 +584,6 @@ const summaryIconMotionClass = card => {
 };
 
 const summaryLiveDotClass = card => `${toneFillClass(card.tone)} animate-pulse`;
-
-const oldestWaitingSeconds = computed(() => {
-  const values = employees.value
-    .map(employee => metric(employee).oldest_waiting_customer_seconds)
-    .filter(value => Number(value) > 0);
-  return values.length ? Math.max(...values) : 0;
-});
-
-const delayedUnrepliedConversations = computed(() =>
-  employees.value.reduce(
-    (total, employee) =>
-      total + (metric(employee).delayed_unreplied_conversations_count || 0),
-    0
-  )
-);
-
-const insightCards = computed(() => [
-  {
-    key: 'not_responding',
-    tone: notRespondingEmployees.value ? 'ruby' : 'teal',
-    icon: notRespondingEmployees.value
-      ? 'i-lucide-triangle-alert'
-      : 'i-lucide-circle-check',
-    title: t('EMPLOYEE_MGMT.INSIGHTS.NOT_RESPONDING_TITLE'),
-    value: t('EMPLOYEE_MGMT.INSIGHTS.NOT_RESPONDING_VALUE', {
-      count: notRespondingEmployees.value,
-    }),
-    filters: { work_status: 'not_responding' },
-  },
-  {
-    key: 'oldest_waiting',
-    tone: oldestWaitingSeconds.value >= 20 * 60 ? 'ruby' : 'amber',
-    icon: 'i-lucide-hourglass',
-    title: t('EMPLOYEE_MGMT.INSIGHTS.OLDEST_WAITING_TITLE'),
-    value: formatDuration(oldestWaitingSeconds.value),
-    filters: { oldest_waiting_over_target: 'true' },
-  },
-  {
-    key: 'idle',
-    tone: idleEmployees.value ? 'amber' : 'teal',
-    icon: 'i-lucide-clock-3',
-    title: t('EMPLOYEE_MGMT.INSIGHTS.IDLE_TITLE'),
-    value: t('EMPLOYEE_MGMT.INSIGHTS.IDLE_VALUE', {
-      count: idleEmployees.value,
-    }),
-    filters: { work_status: 'idle' },
-  },
-  {
-    key: 'delayed',
-    tone: delayedUnrepliedConversations.value ? 'ruby' : 'teal',
-    icon: 'i-lucide-message-square-warning',
-    title: t('EMPLOYEE_MGMT.INSIGHTS.DELAYED_TITLE'),
-    value: t('EMPLOYEE_MGMT.INSIGHTS.DELAYED_VALUE', {
-      count: delayedUnrepliedConversations.value,
-    }),
-    filters: { has_delayed_unreplied_conversations: 'true' },
-  },
-]);
-
-const insightClass = insight => {
-  const classes = {
-    teal: 'border-n-teal-5 bg-n-teal-2/40 text-n-teal-11 dark:bg-n-teal-3/20',
-    ruby: 'border-n-ruby-5 bg-n-ruby-2/40 text-n-ruby-11 dark:bg-n-ruby-3/20',
-    amber:
-      'border-n-amber-5 bg-n-amber-2/40 text-n-amber-11 dark:bg-n-amber-3/20',
-  };
-  const activeClass =
-    activeFilterCard.value === insight.key
-      ? 'ring-2 ring-n-brand-7 shadow-md shadow-n-brand-4/20'
-      : 'hover:-translate-y-0.5 hover:shadow-sm';
-  return `${classes[insight.tone]} ${activeClass} border border-solid transition-all duration-200`;
-};
-
-const insightIconMotionClass = insight => {
-  if (activeFilterCard.value === insight.key) return 'scale-110';
-  if (insight.tone === 'ruby') return 'animate-pulse';
-  return 'group-hover:scale-105';
-};
-
-const presetClass = preset => {
-  if (activeFilterCard.value === preset.key) {
-    return 'bg-n-brand-9 text-white border-n-brand-9 shadow-sm shadow-n-brand-5/30';
-  }
-
-  return 'border-n-weak bg-n-slate-2 text-n-slate-11 hover:bg-n-slate-3 hover:border-n-slate-6 hover:text-n-slate-12';
-};
 
 const summaryCardClass = card => {
   if (activeFilterCard.value === card.key) {
@@ -938,33 +752,6 @@ const activeFilterChips = computed(() =>
       label: key === 'q' ? value : filterLabel(key, value),
     }))
 );
-
-const quickPresetCards = computed(() => [
-  {
-    key: 'needs_attention',
-    label: t('EMPLOYEE_MGMT.PRESETS.NEEDS_ATTENTION'),
-    icon: 'i-lucide-siren',
-    filters: { attention_status: 'critical' },
-  },
-  {
-    key: 'online_only',
-    label: t('EMPLOYEE_MGMT.PRESETS.ONLINE_ONLY'),
-    icon: 'i-lucide-wifi',
-    filters: { presence_status: 'online' },
-  },
-  {
-    key: 'delayed_replies',
-    label: t('EMPLOYEE_MGMT.PRESETS.DELAYED_REPLIES'),
-    icon: 'i-lucide-message-square-warning',
-    filters: { has_delayed_unreplied_conversations: 'true' },
-  },
-  {
-    key: 'idle_agents',
-    label: t('EMPLOYEE_MGMT.PRESETS.IDLE_AGENTS'),
-    icon: 'i-lucide-clock-3',
-    filters: { work_status: 'idle' },
-  },
-]);
 
 const attentionSortRank = employee => {
   const ranks = {
@@ -1220,17 +1007,6 @@ const applyCardFilter = card => {
     Object.assign(filters, card.filters);
   }
   selectedIds.value = [];
-};
-
-const applyPreset = preset => {
-  if (activeFilterCard.value === preset.key) {
-    clearFilters();
-    return;
-  }
-
-  clearFilters();
-  activeFilterCard.value = preset.key;
-  Object.assign(filters, preset.filters);
 };
 
 const openCreateModal = () => {
@@ -1502,9 +1278,7 @@ onMounted(() => {
             <span class="h-1.5 w-1.5 rounded-full bg-n-teal-9 animate-pulse" />
             {{ $t('EMPLOYEE_MGMT.MONITORING.LIVE') }}
           </span>
-          <h1
-            class="mb-0 text-xl font-semibold tracking-tight text-n-slate-12"
-          >
+          <h1 class="mb-0 text-xl font-semibold tracking-tight text-n-slate-12">
             {{ $t('EMPLOYEE_MGMT.HEADER') }}
           </h1>
           <span class="text-xs text-n-slate-9">
@@ -1543,7 +1317,6 @@ onMounted(() => {
             <div class="relative min-w-0">
               <span
                 class="pointer-events-none absolute top-1/2 -translate-y-1/2 inline-block h-4 w-4 text-n-slate-10 i-lucide-search ltr:left-3 rtl:right-3"
-                style="display: inline-block"
               />
               <input
                 v-model="filters.q"
@@ -1552,7 +1325,10 @@ onMounted(() => {
                 :placeholder="$t('EMPLOYEE_MGMT.FILTERS.SEARCH')"
               />
             </div>
-            <select v-model="filters.role" class="no-margin !mb-0 !h-9 min-w-0 rounded-lg text-sm">
+            <select
+              v-model="filters.role"
+              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg text-sm"
+            >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_ROLES') }}
               </option>
@@ -1563,7 +1339,10 @@ onMounted(() => {
                 {{ $t('EMPLOYEE_MGMT.ROLES.AGENT') }}
               </option>
             </select>
-            <select v-model="filters.status" class="no-margin !mb-0 !h-9 min-w-0 rounded-lg text-sm">
+            <select
+              v-model="filters.status"
+              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg text-sm"
+            >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_STATUS') }}
               </option>
@@ -1608,7 +1387,10 @@ onMounted(() => {
                 {{ $t('EMPLOYEE_MGMT.WORK_STATUS.NOT_RESPONDING') }}
               </option>
             </select>
-            <select v-model="filters.team_id" class="no-margin !mb-0 !h-9 min-w-0 rounded-lg text-sm">
+            <select
+              v-model="filters.team_id"
+              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg text-sm"
+            >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_TEAMS') }}
               </option>
@@ -1633,8 +1415,6 @@ onMounted(() => {
               />
             </button>
           </div>
-
-
 
           <div
             v-if="showAdvancedFilters"
@@ -1846,41 +1626,6 @@ onMounted(() => {
                 </span>
               </div>
             </div>
-          </button>
-        </div>
-
-        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <button
-            v-for="insight in insightCards"
-            :key="insight.key"
-            type="button"
-            class="group flex min-h-24 items-center gap-4 rounded-2xl p-4 ltr:text-left rtl:text-right"
-            :class="insightClass(insight)"
-            @click="applyCardFilter(insight)"
-          >
-            <span
-              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-n-solid-1/60 text-xl shadow-sm transition-transform duration-300"
-              :class="[insight.icon, insightIconMotionClass(insight)]"
-            />
-            <div class="min-w-0 flex-1">
-              <div class="flex items-center gap-2">
-                <span
-                  class="h-1.5 w-1.5 rounded-full"
-                  :class="`${toneFillClass(insight.tone)} animate-pulse`"
-                />
-                <span
-                  class="block text-[11px] font-semibold uppercase opacity-80 ltr:tracking-wider rtl:tracking-normal"
-                >
-                  {{ insight.title }}
-                </span>
-              </div>
-              <span class="mt-1 block text-lg font-bold leading-6">
-                {{ insight.value }}
-              </span>
-            </div>
-            <span
-              class="i-lucide-chevron-right shrink-0 text-base opacity-60 transition-transform duration-200 ltr:group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5"
-            />
           </button>
         </div>
       </div>
