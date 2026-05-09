@@ -810,6 +810,71 @@ const accentBarClass = card => {
   return classes[card.tone] || classes.slate;
 };
 
+const detailMetricCards = computed(() => {
+  const metrics = activityDetails.value?.metrics;
+  if (!metrics) return [];
+
+  return [
+    {
+      key: 'open',
+      label: t('EMPLOYEE_MGMT.TABLE.OPEN_CONVERSATIONS'),
+      value: metrics.open_conversations_count || 0,
+      icon: 'i-lucide-inbox',
+      tone: 'slate',
+    },
+    {
+      key: 'unreplied',
+      label: t('EMPLOYEE_MGMT.TABLE.UNREPLIED'),
+      value: metrics.unreplied_conversations_count || 0,
+      icon: 'i-lucide-message-square-warning',
+      tone: metrics.unreplied_conversations_count ? 'ruby' : 'slate',
+    },
+    {
+      key: 'delayed',
+      label: t('EMPLOYEE_MGMT.DETAILS.DELAYED'),
+      value: metrics.delayed_unreplied_conversations_count || 0,
+      icon: 'i-lucide-hourglass',
+      tone: metrics.delayed_unreplied_conversations_count ? 'ruby' : 'slate',
+    },
+    {
+      key: 'oldest_waiting',
+      label: t('EMPLOYEE_MGMT.TABLE.OLDEST_WAITING'),
+      value: formatDuration(metrics.oldest_waiting_customer_seconds),
+      icon: 'i-lucide-clock-3',
+      tone: metrics.oldest_waiting_customer_seconds ? 'amber' : 'slate',
+    },
+    {
+      key: 'replies_today',
+      label: t('EMPLOYEE_MGMT.TABLE.REPLIES_TODAY'),
+      value: metrics.replies_count_today || 0,
+      icon: 'i-lucide-send',
+      tone: 'blue',
+    },
+    {
+      key: 'resolved_today',
+      label: t('EMPLOYEE_MGMT.TABLE.RESOLVED_TODAY'),
+      value: metrics.resolved_conversations_today || 0,
+      icon: 'i-lucide-check-check',
+      tone: 'teal',
+    },
+  ];
+});
+
+const detailMetricCardClass = card => {
+  const classes = {
+    teal: 'hover:border-n-teal-6 hover:bg-n-teal-2/30 hover:shadow-n-teal-3/30',
+    ruby: 'hover:border-n-ruby-6 hover:bg-n-ruby-2/30 hover:shadow-n-ruby-3/30',
+    amber:
+      'hover:border-n-amber-6 hover:bg-n-amber-2/30 hover:shadow-n-amber-3/30',
+    blue: 'hover:border-n-blue-6 hover:bg-n-blue-2/30 hover:shadow-n-blue-3/30',
+    slate: 'hover:border-n-slate-6 hover:bg-n-slate-2/50',
+  };
+  return classes[card.tone] || classes.slate;
+};
+
+const detailMetricIconClass = card => summaryIconClass(card);
+const detailMetricValueClass = card => summaryValueClass(card);
+
 const filterLabel = (key, value) => {
   const statusLabels = {
     active: t('EMPLOYEE_MGMT.STATUS.ACTIVE'),
@@ -1732,7 +1797,7 @@ onMounted(() => {
                 <div class="min-w-0">
                   <div class="flex flex-wrap items-center gap-2">
                     <span
-                      class="block text-xs font-semibold uppercase tracking-widest text-n-slate-10"
+                      class="block text-xs font-semibold uppercase text-n-slate-10 ltr:tracking-widest rtl:tracking-normal"
                     >
                       {{ card.metricLabel }}
                     </span>
@@ -1742,7 +1807,7 @@ onMounted(() => {
                         :class="summaryLiveDotClass(card)"
                       />
                       <span
-                        class="text-[10px] font-semibold uppercase tracking-wider text-n-slate-9"
+                        class="text-[10px] font-semibold uppercase text-n-slate-9 ltr:tracking-wider rtl:tracking-normal"
                       >
                         {{ $t('EMPLOYEE_MGMT.MONITORING.LIVE_SHORT') }}
                       </span>
@@ -1783,7 +1848,7 @@ onMounted(() => {
                   </span>
                   <span
                     v-if="activeFilterCard === card.key"
-                    class="mb-1 shrink-0 rounded-full bg-n-brand-3 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-n-brand-11"
+                    class="mb-1 shrink-0 rounded-full bg-n-brand-3 px-2 py-1 text-[10px] font-semibold uppercase text-n-brand-11 ltr:tracking-wider rtl:tracking-normal"
                   >
                     {{ $t('EMPLOYEE_MGMT.SUMMARY.ACTIVE_FILTER') }}
                   </span>
@@ -1818,7 +1883,7 @@ onMounted(() => {
                   :class="`${toneFillClass(insight.tone)} animate-pulse`"
                 />
                 <span
-                  class="block text-[11px] font-semibold uppercase tracking-wider opacity-80"
+                  class="block text-[11px] font-semibold uppercase opacity-80 ltr:tracking-wider rtl:tracking-normal"
                 >
                   {{ insight.title }}
                 </span>
@@ -1877,26 +1942,26 @@ onMounted(() => {
         class="relative z-10 w-full overflow-x-auto rounded-2xl border border-solid border-n-weak bg-n-solid-1 shadow-sm"
         :dir="isRTL ? 'rtl' : 'ltr'"
       >
-        <table class="w-full min-w-[1800px] table-fixed text-sm">
+        <table class="w-full min-w-[1580px] table-fixed text-sm">
           <colgroup>
-            <col class="w-[56px]" />
-            <col class="w-[320px]" />
+            <col class="w-[48px]" />
+            <col class="w-[300px]" />
+            <col class="w-[110px]" />
             <col class="w-[130px]" />
-            <col class="w-[150px]" />
-            <col class="w-[150px]" />
-            <col class="w-[160px]" />
-            <col class="w-[220px]" />
-            <col class="w-[140px]" />
-            <col class="w-[260px]" />
-            <col class="w-[220px]" />
-            <col class="w-[140px]" />
+            <col class="w-[120px]" />
+            <col class="w-[130px]" />
+            <col class="w-[180px]" />
+            <col class="w-[110px]" />
+            <col class="w-[230px]" />
+            <col class="w-[170px]" />
+            <col class="w-[100px]" />
           </colgroup>
           <thead
-            class="sticky top-0 z-10 border-b border-solid border-n-weak bg-n-slate-2 text-xs font-semibold uppercase text-n-slate-11 ltr:text-left rtl:text-right"
+            class="sticky top-0 z-10 border-b border-solid border-n-weak bg-n-slate-2 text-xs font-semibold uppercase text-n-slate-11 ltr:text-left ltr:tracking-wide rtl:text-right rtl:tracking-normal"
           >
             <tr>
               <th
-                class="w-10 px-4 py-4 font-medium uppercase text-xs tracking-wider"
+                class="w-10 px-3 py-3 text-xs font-medium uppercase ltr:tracking-wider rtl:tracking-normal"
               >
                 <input
                   type="checkbox"
@@ -1904,34 +1969,34 @@ onMounted(() => {
                   @change="toggleSelectAll"
                 />
               </th>
-              <th class="px-4 py-3">
+              <th class="px-3 py-3">
                 {{ $t('EMPLOYEE_MGMT.TABLE.EMPLOYEE') }}
               </th>
-              <th class="px-4 py-3">
+              <th class="px-3 py-3">
                 {{ $t('EMPLOYEE_MGMT.TABLE.STATUS') }}
               </th>
-              <th class="px-4 py-3">
+              <th class="px-3 py-3">
                 {{ $t('EMPLOYEE_MGMT.TABLE.PRESENCE') }}
               </th>
-              <th class="px-4 py-3">
+              <th class="px-3 py-3">
                 {{ $t('EMPLOYEE_MGMT.TABLE.WORK_STATUS') }}
               </th>
-              <th class="px-4 py-3">
+              <th class="px-3 py-3">
                 {{ $t('EMPLOYEE_MGMT.TABLE.HEALTH') }}
               </th>
-              <th class="px-4 py-3">
+              <th class="px-3 py-3">
                 {{ $t('EMPLOYEE_MGMT.TABLE.WORKLOAD') }}
               </th>
-              <th class="px-4 py-3">
+              <th class="px-3 py-3">
                 {{ $t('EMPLOYEE_MGMT.TABLE.WAITING') }}
               </th>
-              <th class="px-4 py-3">
+              <th class="px-3 py-3">
                 {{ $t('EMPLOYEE_MGMT.TABLE.ACTIVITY') }}
               </th>
-              <th class="px-4 py-3">
+              <th class="px-3 py-3">
                 {{ $t('EMPLOYEE_MGMT.TABLE.TODAY') }}
               </th>
-              <th class="px-4 py-3 ltr:text-right rtl:text-left">
+              <th class="px-3 py-3 ltr:text-right rtl:text-left">
                 {{ $t('EMPLOYEE_MGMT.TABLE.ACTIONS') }}
               </th>
             </tr>
@@ -1941,14 +2006,14 @@ onMounted(() => {
               <tr
                 class="align-middle transition hover:bg-n-slate-1/70 dark:hover:bg-n-solid-2"
               >
-                <td class="px-4 py-4">
+                <td class="px-3 py-4">
                   <input
                     v-model="selectedIds"
                     type="checkbox"
                     :value="employee.id"
                   />
                 </td>
-                <td class="px-4 py-4">
+                <td class="px-3 py-4">
                   <div class="flex min-w-0 items-center gap-3">
                     <div
                       class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-solid border-n-slate-4 bg-n-slate-3 text-sm font-semibold text-n-slate-12"
@@ -1986,7 +2051,7 @@ onMounted(() => {
                     </div>
                   </div>
                 </td>
-                <td class="px-4 py-4">
+                <td class="px-3 py-4">
                   <span
                     class="inline-flex w-fit px-2 py-1 text-xs font-medium border border-solid rounded-md"
                     :class="statusBadgeClass(employee)"
@@ -1994,9 +2059,9 @@ onMounted(() => {
                     {{ statusLabel(employee) }}
                   </span>
                 </td>
-                <td class="px-4 py-4">
+                <td class="px-3 py-4">
                   <span
-                    class="inline-flex w-24 items-center gap-2 text-xs font-medium text-n-slate-11"
+                    class="inline-flex w-full items-center gap-2 text-xs font-medium text-n-slate-11"
                     :title="presenceTooltip(employee)"
                   >
                     <span
@@ -2006,19 +2071,19 @@ onMounted(() => {
                     {{ presenceLabel(employee) }}
                   </span>
                 </td>
-                <td class="px-4 py-4">
+                <td class="px-3 py-4">
                   <span
-                    class="inline-flex min-w-20 justify-center px-2 py-0.5 text-xs font-medium"
+                    class="inline-flex min-w-16 justify-center px-2 py-0.5 text-xs font-medium"
                     :class="workStatusBadgeClass(employee)"
                     :title="workStatusTooltip(employee)"
                   >
                     {{ workStatusLabel(employee) }}
                   </span>
                 </td>
-                <td class="px-4 py-4">
+                <td class="px-3 py-4">
                   <div class="flex min-w-0 items-center gap-2">
                     <span
-                      class="inline-flex min-w-20 items-center justify-center gap-1.5 px-2 py-0.5 text-xs font-semibold"
+                      class="inline-flex min-w-16 items-center justify-center gap-1.5 px-2 py-0.5 text-xs font-semibold"
                       :class="attentionBadgeClass(employee)"
                       :title="attentionTooltip(employee)"
                     >
@@ -2026,18 +2091,18 @@ onMounted(() => {
                     </span>
                   </div>
                 </td>
-                <td class="px-4 py-4">
-                  <div class="grid w-full grid-cols-2 gap-2 text-center">
-                    <div class="rounded-lg bg-n-slate-2 px-2 py-1">
-                      <span class="block text-xs text-n-slate-10">
+                <td class="px-3 py-4">
+                  <div class="grid w-full grid-cols-2 gap-1.5 text-center">
+                    <div class="min-w-0 rounded-md bg-n-slate-2 px-2 py-1">
+                      <span class="block truncate text-[11px] text-n-slate-10">
                         {{ $t('EMPLOYEE_MGMT.TABLE.OPEN_CONVERSATIONS') }}
                       </span>
                       <span class="font-semibold text-n-slate-12">
                         {{ metric(employee).open_conversations_count || 0 }}
                       </span>
                     </div>
-                    <div class="rounded-lg bg-n-slate-2 px-2 py-1">
-                      <span class="block text-xs text-n-slate-10">
+                    <div class="min-w-0 rounded-md bg-n-slate-2 px-2 py-1">
+                      <span class="block truncate text-[11px] text-n-slate-10">
                         {{ $t('EMPLOYEE_MGMT.TABLE.UNREPLIED') }}
                       </span>
                       <span
@@ -2055,16 +2120,16 @@ onMounted(() => {
                     </div>
                   </div>
                 </td>
-                <td class="whitespace-nowrap px-4 py-4 text-n-slate-11">
+                <td class="whitespace-nowrap px-3 py-4 text-n-slate-11">
                   {{
                     formatDuration(
                       metric(employee).oldest_waiting_customer_seconds
                     )
                   }}
                 </td>
-                <td class="px-4 py-4 text-n-slate-11">
+                <td class="px-3 py-4 text-n-slate-11">
                   <div
-                    class="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1"
+                    class="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1 text-xs leading-5"
                   >
                     <span class="text-n-slate-10">
                       {{ $t('EMPLOYEE_MGMT.TABLE.LAST_REPLY') }}
@@ -2086,18 +2151,18 @@ onMounted(() => {
                     </span>
                   </div>
                 </td>
-                <td class="px-4 py-4 text-n-slate-11">
-                  <div class="grid w-full grid-cols-2 gap-2 text-center">
-                    <div class="rounded-lg bg-n-slate-2 px-2 py-1">
-                      <span class="block text-xs text-n-slate-10">
+                <td class="px-3 py-4 text-n-slate-11">
+                  <div class="grid w-full grid-cols-2 gap-1.5 text-center">
+                    <div class="min-w-0 rounded-md bg-n-slate-2 px-2 py-1">
+                      <span class="block truncate text-[11px] text-n-slate-10">
                         {{ $t('EMPLOYEE_MGMT.TABLE.REPLIES_TODAY') }}
                       </span>
                       <span class="font-semibold text-n-slate-12">
                         {{ metric(employee).replies_count_today || 0 }}
                       </span>
                     </div>
-                    <div class="rounded-lg bg-n-slate-2 px-2 py-1">
-                      <span class="block text-xs text-n-slate-10">
+                    <div class="min-w-0 rounded-md bg-n-slate-2 px-2 py-1">
+                      <span class="block truncate text-[11px] text-n-slate-10">
                         {{ $t('EMPLOYEE_MGMT.TABLE.RESOLVED_TODAY') }}
                       </span>
                       <span class="font-semibold text-n-slate-12">
@@ -2106,7 +2171,7 @@ onMounted(() => {
                     </div>
                   </div>
                 </td>
-                <td class="relative px-4 py-5 ltr:text-right rtl:text-left">
+                <td class="relative px-3 py-4 ltr:text-right rtl:text-left">
                   <div class="flex gap-1 ltr:justify-end rtl:justify-start">
                     <button
                       type="button"
@@ -2748,19 +2813,24 @@ onMounted(() => {
     size="medium"
     :on-close="() => (showDetailsModal = false)"
   >
-    <div class="flex max-h-[90vh] w-full flex-col overflow-hidden bg-n-solid-1">
-      <div class="shrink-0 border-b border-solid border-n-weak px-6 py-6">
+    <div
+      class="flex max-h-[90vh] w-full flex-col overflow-hidden bg-n-solid-1 ltr:text-left rtl:text-right"
+      :dir="isRTL ? 'rtl' : 'ltr'"
+    >
+      <div
+        class="shrink-0 border-b border-solid border-n-weak bg-n-solid-2/60 px-6 py-5 ltr:pr-12 rtl:pl-12"
+      >
         <div
-          class="flex min-w-0 flex-col gap-5 lg:flex-row lg:items-start lg:justify-between"
+          class="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start"
         >
           <div class="min-w-0">
             <span
-              class="text-xs font-semibold uppercase tracking-wider text-n-slate-10"
+              class="text-xs font-semibold uppercase text-n-slate-10 ltr:tracking-wider rtl:tracking-normal"
             >
               {{ $t('EMPLOYEE_MGMT.DETAILS.ACTIVITY_TITLE') }}
             </span>
             <h2
-              class="mt-2 break-words text-3xl font-semibold leading-tight text-n-slate-12"
+              class="mt-2 max-w-3xl break-words text-3xl font-semibold leading-tight text-n-slate-12"
             >
               {{ currentEmployee?.name }}
             </h2>
@@ -2768,9 +2838,9 @@ onMounted(() => {
               {{ currentEmployee?.username || $t('EMPLOYEE_MGMT.EMPTY') }}
             </span>
           </div>
-          <div class="flex shrink-0 flex-wrap items-center gap-2">
+          <div class="flex min-w-0 shrink-0 flex-wrap items-center gap-2">
             <span
-              class="inline-flex items-center gap-2 rounded-full border border-solid border-n-weak bg-n-slate-2 px-3 py-1.5 text-xs font-medium text-n-slate-11"
+              class="inline-flex min-w-0 items-center gap-2 rounded-full border border-solid border-n-weak bg-n-slate-2 px-3 py-1.5 text-xs font-medium text-n-slate-11"
               :title="presenceTooltip(currentEmployee)"
             >
               <span
@@ -2780,14 +2850,14 @@ onMounted(() => {
               {{ presenceLabel(currentEmployee) }}
             </span>
             <span
-              class="inline-flex px-3 py-1.5 text-xs font-medium"
+              class="inline-flex min-w-0 px-3 py-1.5 text-xs font-medium"
               :class="workStatusBadgeClass(currentEmployee)"
               :title="workStatusTooltip(currentEmployee)"
             >
               {{ workStatusLabel(currentEmployee) }}
             </span>
             <span
-              class="inline-flex px-3 py-1.5 text-xs font-semibold"
+              class="inline-flex min-w-0 px-3 py-1.5 text-xs font-semibold"
               :class="attentionBadgeClass(currentEmployee)"
               :title="attentionTooltip(currentEmployee)"
             >
@@ -2799,121 +2869,75 @@ onMounted(() => {
 
       <section
         v-if="activityDetails"
-        class="flex flex-1 flex-col gap-5 overflow-y-auto overflow-x-hidden px-6 py-6"
+        class="flex flex-1 flex-col gap-5 overflow-y-auto overflow-x-hidden bg-n-surface-1 px-6 py-6"
       >
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
           <div
-            class="min-w-0 rounded-lg border border-solid border-n-weak bg-n-slate-2/40 p-4"
+            v-for="card in detailMetricCards"
+            :key="card.key"
+            class="group relative min-w-0 overflow-hidden rounded-2xl border border-solid border-n-weak bg-n-solid-1 p-4 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+            :class="detailMetricCardClass(card)"
           >
-            <span class="block text-xs font-medium text-n-slate-10">
-              {{ $t('EMPLOYEE_MGMT.TABLE.OPEN_CONVERSATIONS') }}
-            </span>
             <span
-              class="mt-3 block truncate text-3xl font-semibold text-n-slate-12"
-            >
-              {{ activityDetails.metrics.open_conversations_count || 0 }}
-            </span>
-          </div>
-          <div
-            class="min-w-0 rounded-lg border border-solid border-n-weak bg-n-slate-2/40 p-4"
-          >
-            <span class="block text-xs font-medium text-n-slate-10">
-              {{ $t('EMPLOYEE_MGMT.TABLE.UNREPLIED') }}
-            </span>
-            <span
-              class="mt-3 block truncate text-3xl font-semibold"
-              :class="
-                activityDetails.metrics.unreplied_conversations_count
-                  ? 'text-n-ruby-11'
-                  : 'text-n-slate-12'
-              "
-            >
-              {{ activityDetails.metrics.unreplied_conversations_count || 0 }}
-            </span>
-          </div>
-          <div
-            class="min-w-0 rounded-lg border border-solid border-n-weak bg-n-slate-2/40 p-4"
-          >
-            <span class="block text-xs font-medium text-n-slate-10">
-              {{ $t('EMPLOYEE_MGMT.DETAILS.DELAYED') }}
-            </span>
-            <span
-              class="mt-3 block truncate text-3xl font-semibold"
-              :class="
-                activityDetails.metrics.delayed_unreplied_conversations_count
-                  ? 'text-n-ruby-11'
-                  : 'text-n-slate-12'
-              "
-            >
-              {{
-                activityDetails.metrics.delayed_unreplied_conversations_count ||
-                0
-              }}
-            </span>
-          </div>
-          <div
-            class="min-w-0 rounded-lg border border-solid border-n-weak bg-n-slate-2/40 p-4"
-          >
-            <span class="block text-xs font-medium text-n-slate-10">
-              {{ $t('EMPLOYEE_MGMT.TABLE.OLDEST_WAITING') }}
-            </span>
-            <span
-              class="mt-3 block truncate text-3xl font-semibold"
-              :class="
-                waitingTextClass(
-                  activityDetails.metrics.oldest_waiting_customer_seconds
-                )
-              "
-            >
-              {{
-                formatDuration(
-                  activityDetails.metrics.oldest_waiting_customer_seconds
-                )
-              }}
-            </span>
-          </div>
-          <div
-            class="min-w-0 rounded-lg border border-solid border-n-weak bg-n-slate-2/40 p-4"
-          >
-            <span class="block text-xs font-medium text-n-slate-10">
-              {{ $t('EMPLOYEE_MGMT.TABLE.REPLIES_TODAY') }}
-            </span>
-            <span
-              class="mt-3 block truncate text-3xl font-semibold text-n-slate-12"
-            >
-              {{ activityDetails.metrics.replies_count_today || 0 }}
-            </span>
-          </div>
-          <div
-            class="min-w-0 rounded-lg border border-solid border-n-weak bg-n-slate-2/40 p-4"
-          >
-            <span class="block text-xs font-medium text-n-slate-10">
-              {{ $t('EMPLOYEE_MGMT.TABLE.RESOLVED_TODAY') }}
-            </span>
-            <span
-              class="mt-3 block truncate text-3xl font-semibold text-n-slate-12"
-            >
-              {{ activityDetails.metrics.resolved_conversations_today || 0 }}
-            </span>
+              class="absolute top-0 h-full w-1 opacity-80 ltr:left-0 rtl:right-0"
+              :class="accentBarClass(card)"
+            />
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <span
+                  class="block truncate text-xs font-semibold uppercase text-n-slate-10 ltr:tracking-wider rtl:tracking-normal"
+                >
+                  {{ card.label }}
+                </span>
+                <span
+                  class="mt-3 block truncate text-3xl font-semibold"
+                  :class="detailMetricValueClass(card)"
+                >
+                  {{ card.value }}
+                </span>
+              </div>
+              <span
+                class="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl text-lg ring-1 transition-all duration-300 group-hover:scale-110"
+                :class="detailMetricIconClass(card)"
+              >
+                <span
+                  class="absolute -top-1 h-3 w-3 rounded-full opacity-70 ltr:-right-1 rtl:-left-1"
+                  :class="summaryLiveDotClass(card)"
+                />
+                <span class="relative" :class="card.icon" />
+              </span>
+            </div>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-5">
+        <div
+          class="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]"
+        >
           <section
-            class="min-w-0 rounded-xl border border-solid border-n-weak bg-n-solid-2 p-5"
+            class="group relative min-w-0 overflow-hidden rounded-2xl border border-solid border-n-weak bg-n-solid-1 p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-n-ruby-6 hover:shadow-xl hover:shadow-n-ruby-3/20"
           >
+            <span
+              class="absolute top-0 h-full w-1 animate-pulse bg-n-ruby-6 opacity-80 ltr:left-0 rtl:right-0"
+            />
             <div
               class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
             >
-              <div class="min-w-0">
+              <div class="flex min-w-0 items-start gap-3">
                 <span
-                  class="text-xs font-semibold uppercase tracking-wider text-n-slate-10"
+                  class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-n-ruby-3 text-xl text-n-ruby-11 ring-1 ring-n-ruby-5/30 transition-transform duration-300 group-hover:scale-110"
                 >
-                  {{ $t('EMPLOYEE_MGMT.DETAILS.RESPONSE_RISK') }}
+                  <span class="i-lucide-shield-alert" />
                 </span>
-                <h3 class="mt-1 text-lg font-semibold text-n-slate-12">
-                  {{ attentionLabel(currentEmployee) }}
-                </h3>
+                <div class="min-w-0">
+                  <span
+                    class="text-xs font-semibold uppercase text-n-slate-10 ltr:tracking-wider rtl:tracking-normal"
+                  >
+                    {{ $t('EMPLOYEE_MGMT.DETAILS.RESPONSE_RISK') }}
+                  </span>
+                  <h3 class="mt-1 text-lg font-semibold text-n-slate-12">
+                    {{ attentionLabel(currentEmployee) }}
+                  </h3>
+                </div>
               </div>
               <span
                 class="inline-flex w-fit px-2.5 py-1 text-xs font-semibold"
@@ -2923,14 +2947,14 @@ onMounted(() => {
               </span>
             </div>
             <p
-              class="mt-4 rounded-lg border border-solid border-n-weak bg-n-slate-1 px-4 py-3 text-sm leading-6 text-n-slate-11"
+              class="mt-4 rounded-xl border border-solid border-n-weak bg-n-slate-1 px-4 py-3 text-sm leading-6 text-n-slate-11 transition-colors duration-300 group-hover:bg-n-ruby-2/20"
             >
               {{ attentionTooltip(currentEmployee) }}
             </p>
-            <div
-              class="mt-5 grid grid-cols-1 gap-4 text-sm sm:grid-cols-2 lg:grid-cols-4"
-            >
-              <div>
+            <div class="mt-5 grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
+              <div
+                class="rounded-xl bg-n-slate-2 px-3 py-2 transition-colors duration-300 group-hover:bg-n-slate-3"
+              >
                 <span class="block text-xs text-n-slate-10">
                   {{ $t('EMPLOYEE_MGMT.TABLE.LAST_REPLY') }}
                 </span>
@@ -2938,7 +2962,9 @@ onMounted(() => {
                   {{ formatSince(activityDetails.metrics.last_reply_at) }}
                 </span>
               </div>
-              <div>
+              <div
+                class="rounded-xl bg-n-slate-2 px-3 py-2 transition-colors duration-300 group-hover:bg-n-slate-3"
+              >
                 <span class="block text-xs text-n-slate-10">
                   {{ $t('EMPLOYEE_MGMT.TABLE.LAST_ACTIVITY') }}
                 </span>
@@ -2946,7 +2972,9 @@ onMounted(() => {
                   {{ formatSince(activityDetails.metrics.last_activity_at) }}
                 </span>
               </div>
-              <div>
+              <div
+                class="rounded-xl bg-n-slate-2 px-3 py-2 transition-colors duration-300 group-hover:bg-n-slate-3"
+              >
                 <span class="block text-xs text-n-slate-10">
                   {{ $t('EMPLOYEE_MGMT.TABLE.IDLE_DURATION') }}
                 </span>
@@ -2954,7 +2982,9 @@ onMounted(() => {
                   {{ formatDuration(activityDetails.metrics.idle_duration) }}
                 </span>
               </div>
-              <div>
+              <div
+                class="rounded-xl bg-n-slate-2 px-3 py-2 transition-colors duration-300 group-hover:bg-n-slate-3"
+              >
                 <span class="block text-xs text-n-slate-10">
                   {{ $t('EMPLOYEE_MGMT.TABLE.OLDEST_WAITING') }}
                 </span>
@@ -2977,18 +3007,30 @@ onMounted(() => {
           </section>
 
           <section
-            class="min-w-0 rounded-xl border border-solid border-n-weak bg-n-solid-2 p-5"
+            class="group relative min-w-0 overflow-hidden rounded-2xl border border-solid border-n-weak bg-n-solid-1 p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-n-amber-6 hover:shadow-xl hover:shadow-n-amber-3/20"
           >
+            <span
+              class="absolute top-0 h-full w-1 animate-pulse bg-n-amber-6 opacity-80 ltr:left-0 rtl:right-0"
+            />
             <div class="mb-3 flex items-center justify-between gap-3">
-              <div class="min-w-0">
+              <div class="flex min-w-0 items-start gap-3">
                 <span
-                  class="text-xs font-semibold uppercase tracking-wider text-n-slate-10"
+                  class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-n-amber-3 text-xl text-n-amber-11 ring-1 ring-n-amber-5/30 transition-transform duration-300 group-hover:scale-110"
                 >
-                  {{ $t('EMPLOYEE_MGMT.TABLE.WORKLOAD') }}
+                  <span class="i-lucide-briefcase-business" />
                 </span>
-                <h3 class="mt-1 truncate text-lg font-semibold text-n-slate-12">
-                  {{ $t('EMPLOYEE_MGMT.DETAILS.DELAYED_CONVERSATIONS') }}
-                </h3>
+                <div class="min-w-0">
+                  <span
+                    class="text-xs font-semibold uppercase text-n-slate-10 ltr:tracking-wider rtl:tracking-normal"
+                  >
+                    {{ $t('EMPLOYEE_MGMT.TABLE.WORKLOAD') }}
+                  </span>
+                  <h3
+                    class="mt-1 truncate text-lg font-semibold text-n-slate-12"
+                  >
+                    {{ $t('EMPLOYEE_MGMT.DETAILS.DELAYED_CONVERSATIONS') }}
+                  </h3>
+                </div>
               </div>
               <span
                 class="rounded-md bg-n-ruby-2 px-2 py-1 text-xs font-semibold text-n-ruby-11"
@@ -3001,12 +3043,12 @@ onMounted(() => {
             </div>
             <div
               v-if="activityDetails.delayed_conversations.length"
-              class="max-h-80 overflow-y-auto overflow-x-hidden"
+              class="max-h-80 overflow-y-auto overflow-x-hidden rounded-xl border border-solid border-n-weak"
             >
               <div
                 v-for="conversation in activityDetails.delayed_conversations"
                 :key="conversation.id"
-                class="grid grid-cols-[minmax(0,1fr)_auto] gap-4 border-b border-n-weak py-3 text-sm last:border-b-0"
+                class="grid grid-cols-[minmax(0,1fr)_auto] gap-4 border-b border-n-weak px-4 py-3 text-sm transition-colors duration-200 hover:bg-n-slate-2 last:border-b-0"
               >
                 <div class="min-w-0">
                   <span class="block truncate font-medium text-n-slate-12">
