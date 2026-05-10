@@ -1,12 +1,20 @@
 #!/bin/bash
+# ============================================================================
+# LEGACY — APENAS PARA PRIMEIRA INSTALAÇÃO. NÃO USAR PARA UPDATES.
+# ============================================================================
+# Este script faz `docker stack rm chatwoot` + `docker volume rm chatwoot_*`,
+# DESCARTANDO TODOS OS DADOS do Chatwoot. Foi escrito para a fase de
+# bootstrap (substituir a instalação Chatwoot upstream pelo fork). Em
+# produção, NÃO RODAR — você vai perder banco, conversas e arquivos.
+#
+# Para updates de produção, use:
+#   bash 05-rolling-update.sh <tag>
+#
 # Substitui a imagem do Chatwoot oficial pelo fork Synapseos.
 # Roda na VPS.
 #
-# IMPORTANTE: Esse script DESCARTA os dados atuais do Chatwoot (autorizado).
-# Se mudar de ideia, faça backup com 00-backup-postgres.sh ANTES.
-#
-# Uso:
-#   bash 04-redeploy-chatwoot.sh v0.1.0-synapseos
+# Uso (apenas se realmente quiser zerar tudo e começar do zero):
+#   bash 04-first-install-only.sh.LEGACY v0.1.0-synapseos
 
 set -euo pipefail
 
