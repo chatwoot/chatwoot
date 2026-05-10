@@ -236,6 +236,12 @@ export default {
           : 'CONVERSATION.UNREAD_MESSAGE';
       return `${count} ${this.$t(label)}`;
     },
+    chatBackgroundClass() {
+      if (this.isAWhatsAppChannel) return 'bg-whatsapp-pattern';
+      if (this.isAFacebookInbox) return 'bg-messenger-pattern';
+      if (this.isAnInstagramChannel) return 'bg-instagram-pattern';
+      return '';
+    },
     inboxSupportsReplyTo() {
       const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
       const outgoing =
@@ -460,6 +466,7 @@ export default {
     <MessageList
       ref="conversationPanelRef"
       class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4"
+      :class="chatBackgroundClass"
       :current-user-id="currentUserId"
       :first-unread-id="unReadMessages[0]?.id"
       :is-an-email-channel="isAnEmailChannel"
