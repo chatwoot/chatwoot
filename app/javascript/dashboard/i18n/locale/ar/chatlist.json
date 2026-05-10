@@ -137,6 +137,7 @@
     "HIDE_QUOTED_TEXT": "إخفاء النص المقتبس",
     "SHOW_QUOTED_TEXT": "إظهار النص المقتبس",
     "MESSAGE_READ": "قراءة",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "UNREAD": "غير مقروء"
   }
 }

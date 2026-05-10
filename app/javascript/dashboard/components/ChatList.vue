@@ -968,14 +968,16 @@ watch(conversationFilters, (newVal, oldVal) => {
       />
       <button
         class="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium transition-all duration-150 whitespace-nowrap flex-shrink-0"
-        :class="showUnreadOnly
-          ? 'text-white'
-          : 'text-n-slate-11 bg-n-alpha-1 hover:bg-n-alpha-2'"
+        :class="
+          showUnreadOnly
+            ? 'text-white'
+            : 'text-n-slate-11 bg-n-alpha-1 hover:bg-n-alpha-2'
+        "
         :style="showUnreadOnly ? 'background-color: #25D366;' : ''"
         @click="showUnreadOnly = !showUnreadOnly"
       >
         <fluent-icon icon="mail-unread" size="14" />
-        Unread
+        {{ $t('CHAT_LIST.UNREAD') }}
       </button>
     </div>
 
