@@ -78,7 +78,11 @@ export default {
 </script>
 
 <template>
-  <div class="overflow-hidden text-ellipsis whitespace-nowrap font-bubble-text" dir="auto" style="unicode-bidi: plaintext;">
+  <div
+    class="overflow-hidden text-ellipsis whitespace-nowrap font-bubble-text"
+    dir="auto"
+    style="unicode-bidi: plaintext"
+  >
     <template v-if="showMessageType">
       <fluent-icon
         v-if="isMessagePrivate"
@@ -90,25 +94,64 @@ export default {
         <svg
           v-if="isFailed"
           class="-mt-0.5 align-middle inline-block"
-          width="14" height="14" viewBox="0 0 14 14"
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
         >
-          <circle cx="7" cy="7" r="6" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
-          <path d="M7 4v3.5M7 9v.5" stroke="#e74c3c" stroke-width="1.5" stroke-linecap="round"/>
+          <circle
+            cx="7"
+            cy="7"
+            r="6"
+            fill="none"
+            stroke="#e74c3c"
+            stroke-width="1.5"
+          />
+          <path
+            d="M7 4v3.5M7 9v.5"
+            stroke="#e74c3c"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
         </svg>
         <svg
           v-else-if="isRead || isDelivered"
           class="-mt-0.5 align-middle inline-block"
-          width="18" height="12" viewBox="0 0 18 12"
+          width="18"
+          height="12"
+          viewBox="0 0 18 12"
         >
-          <path d="M1.5 6.5L5 10L12.5 1.5" fill="none" :stroke="tickColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M6 6.5L9.5 10L17 1.5" fill="none" :stroke="tickColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path
+            d="M1.5 6.5L5 10L12.5 1.5"
+            fill="none"
+            :stroke="tickColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M6 6.5L9.5 10L17 1.5"
+            fill="none"
+            :stroke="tickColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
         <svg
           v-else
           class="-mt-0.5 align-middle inline-block"
-          width="14" height="12" viewBox="0 0 14 12"
+          width="14"
+          height="12"
+          viewBox="0 0 14 12"
         >
-          <path d="M1.5 6.5L5 10L12.5 1.5" fill="none" stroke="#8696a0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path
+            d="M1.5 6.5L5 10L12.5 1.5"
+            fill="none"
+            stroke="#8696a0"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </template>
       <fluent-icon

@@ -113,7 +113,7 @@ export default {
       html: true,
     }"
     class="ml-auto leading-4 text-xxs"
-    style="color: inherit;"
+    style="color: inherit"
   >
     <span>{{ lastActivityTime }}</span>
   </div>

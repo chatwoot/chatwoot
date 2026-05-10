@@ -170,12 +170,12 @@ onMounted(() => {
   <TeleportWithDirection to="body">
     <woot-modal
       v-model:show="show"
-      full-width
       :show-close-button="false"
       :on-close="onClose"
+      size="!w-[95vw] md:!w-[70vw] !h-[85vh]"
     >
       <div
-        class="bg-n-background flex flex-col h-[inherit] w-[inherit] overflow-hidden select-none"
+        class="bg-n-background flex flex-col h-full w-full overflow-hidden select-none rounded-xl"
         @click="onClose"
       >
         <header
