@@ -19,8 +19,6 @@ class ReusableAttachment < ApplicationRecord
   # Note: blobs never referenced by a message will remain in storage after destroy.
   has_one_attached :file, dependent: false
 
-  before_destroy -> { file.detach if file.attached? }
-
   validates :name, presence: true, length: { maximum: 255 }
   validates :file, presence: true
   validate :acceptable_file_size
@@ -33,6 +31,7 @@ class ReusableAttachment < ApplicationRecord
   }
 
   before_save :set_file_metadata
+  before_destroy -> { file.detach if file.attached? }
 
   def file_url
     Rails.application.routes.url_helpers.url_for(file) if file.attached?
