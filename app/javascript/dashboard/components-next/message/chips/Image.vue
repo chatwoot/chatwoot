@@ -24,19 +24,19 @@ const handleError = () => {
 
 <template>
   <div
-    class="size-[72px] overflow-hidden contain-content rounded-xl cursor-pointer"
+    class="relative w-full max-w-[320px] overflow-hidden contain-content rounded-xl cursor-pointer bg-n-alpha-1"
     @click="showGallery = true"
   >
     <div
       v-if="hasError"
-      class="flex flex-col items-center justify-center gap-1 text-xs text-center rounded-lg size-full bg-n-alpha-1 text-n-slate-11"
+      class="flex flex-col items-center justify-center gap-1 text-xs text-center rounded-lg size-full bg-n-alpha-1 text-n-slate-11 py-10"
     >
       <Icon icon="i-lucide-circle-off" class="text-n-slate-11" />
       {{ $t('COMPONENTS.MEDIA.LOADING_FAILED') }}
     </div>
     <img
       v-else
-      class="object-cover w-full h-full skip-context-menu"
+      class="object-contain w-full h-auto max-h-[320px] skip-context-menu"
       :src="attachment.dataUrl"
       @error="handleError"
     />
