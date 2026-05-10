@@ -181,7 +181,7 @@
     "FORM": {
       "ADD_TITLE": "Add agent",
       "EDIT_TITLE": "Edit agent",
-      "DESCRIPTION": "The internal email is generated automatically and is not used for sign in.",
+      "DESCRIPTION": "Enter the agent's full details.",
       "SECTIONS": {
         "IDENTITY": "Basic information",
         "ACCESS": "Access and teams",
@@ -189,6 +189,7 @@
         "STATUS": "Status and notes"
       },
       "NAME": "Name",
+      "EMAIL": "Email",
       "PHONE": "Phone number",
       "USERNAME": "Username / Login ID",
       "ROLE": "Role",
@@ -199,8 +200,10 @@
       "DEACTIVATION_REASON": "Deactivation reason",
       "PASSWORD": "Password",
       "PASSWORD_CONFIRMATION": "Confirm password",
+      "PASSWORD_OPTIONAL": "optional — leave blank to keep current",
       "PLACEHOLDERS": {
         "NAME": "Enter full name",
+        "EMAIL": "example@domain.com",
         "PHONE": "Enter phone number",
         "USERNAME": "Enter username",
         "JOB_TITLE": "Optional",
@@ -288,6 +291,7 @@
     },
     "VALIDATION": {
       "NAME_REQUIRED": "Name is required.",
+      "EMAIL_REQUIRED": "Email is required.",
       "PHONE_REQUIRED": "Phone number is required.",
       "USERNAME_REQUIRED": "Username is required."
     },

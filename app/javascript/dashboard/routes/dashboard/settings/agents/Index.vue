@@ -70,6 +70,7 @@ const toggleDropdown = id => {
 
 const form = reactive({
   name: '',
+  email: '',
   phone_number: '',
   username: '',
   role: 'agent',
@@ -177,12 +178,17 @@ const canSubmitPassword = computed(() => {
   const confirmation = isEditing.value
     ? passwordForm.password_confirmation
     : form.password_confirmation;
+  // In edit mode, empty password is fine (means no change)
+  if (isEditing.value && !form.password && !form.password_confirmation) {
+    return true;
+  }
   return passwordStrength.value !== 'weak' && password === confirmation;
 });
 
 const requiredFieldsPresent = computed(() => {
   const requiredFields = [
     form.name,
+    form.email,
     form.phone_number,
     form.username,
     form.role,
@@ -194,6 +200,8 @@ const requiredFieldsPresent = computed(() => {
 const saveDisabledReason = computed(() => {
   if (isSaving.value) return '';
   if (!form.name.trim()) return t('EMPLOYEE_MGMT.VALIDATION.NAME_REQUIRED');
+  if (!(form.email || '').trim())
+    return t('EMPLOYEE_MGMT.VALIDATION.EMAIL_REQUIRED');
   if (!form.phone_number.trim())
     return t('EMPLOYEE_MGMT.VALIDATION.PHONE_REQUIRED');
   if (!form.username.trim())
@@ -211,6 +219,7 @@ const canSaveEmployee = computed(() => {
 const resetForm = () => {
   Object.assign(form, {
     name: '',
+    email: '',
     phone_number: '',
     username: '',
     role: 'agent',
@@ -863,6 +872,7 @@ const openEditModal = employee => {
   currentEmployee.value = employee;
   Object.assign(form, {
     name: employee.name || '',
+    email: employee.email || '',
     phone_number: employee.phone_number || '',
     username: employee.username || '',
     role: employee.role || 'agent',
@@ -903,8 +913,11 @@ const saveEmployee = async () => {
   try {
     const payload = { employee: { ...form } };
     if (isEditing.value) {
-      delete payload.employee.password;
-      delete payload.employee.password_confirmation;
+      // Only include password if user entered one
+      if (!payload.employee.password) {
+        delete payload.employee.password;
+        delete payload.employee.password_confirmation;
+      }
       const response = await EmployeeAPI.update(
         currentEmployee.value.id,
         payload
@@ -1201,25 +1214,23 @@ onMounted(() => {
         </div>
 
         <div
-          class="flex flex-col gap-4 rounded-2xl border border-solid border-n-weak bg-n-solid-1 p-5 shadow-sm dark:bg-n-solid-2"
+          class="flex flex-col gap-3 rounded-2xl border border-solid border-n-weak bg-n-solid-1 p-4 shadow-sm dark:bg-n-solid-2"
         >
-          <div
-            class="grid grid-cols-1 gap-3 xl:grid-cols-[minmax(22rem,1.4fr)_repeat(5,minmax(9rem,1fr))_auto]"
-          >
-            <div class="relative min-w-0">
-              <span
-                class="pointer-events-none absolute top-1/2 -translate-y-1/2 inline-block h-4 w-4 text-n-slate-10 i-lucide-search ltr:left-3 rtl:right-3"
-              />
-              <input
-                v-model="filters.q"
-                class="reset-base no-margin !mb-0 !h-9 w-full min-w-0 rounded-lg border border-solid border-n-weak bg-n-alpha-1 text-sm placeholder:text-n-slate-9 focus:border-n-brand-7 focus:outline-none focus:ring-1 focus:ring-n-brand-7 ltr:pl-10 rtl:pr-10"
-                type="search"
-                :placeholder="$t('EMPLOYEE_MGMT.FILTERS.SEARCH')"
-              />
-            </div>
+          <div class="relative min-w-0">
+            <span
+              class="pointer-events-none absolute top-1/2 -translate-y-1/2 inline-block h-4 w-4 text-n-slate-10 i-lucide-search ltr:left-3 rtl:right-3"
+            />
+            <input
+              v-model="filters.q"
+              class="reset-base no-margin !mb-0 !h-9 w-full min-w-0 rounded-lg border border-solid border-n-weak bg-n-alpha-1 text-sm placeholder:text-n-slate-9 focus:border-n-brand-7 focus:outline-none focus:ring-1 focus:ring-n-brand-7 ltr:pl-10 rtl:pr-10"
+              type="search"
+              :placeholder="$t('EMPLOYEE_MGMT.FILTERS.SEARCH')"
+            />
+          </div>
+          <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
             <select
               v-model="filters.role"
-              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg text-sm"
+              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg border border-solid border-n-weak bg-n-alpha-1 text-sm text-n-slate-11"
             >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_ROLES') }}
@@ -1233,7 +1244,7 @@ onMounted(() => {
             </select>
             <select
               v-model="filters.status"
-              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg text-sm"
+              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg border border-solid border-n-weak bg-n-alpha-1 text-sm text-n-slate-11"
             >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_STATUS') }}
@@ -1250,7 +1261,7 @@ onMounted(() => {
             </select>
             <select
               v-model="filters.presence_status"
-              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg text-sm"
+              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg border border-solid border-n-weak bg-n-alpha-1 text-sm text-n-slate-11"
             >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_PRESENCE') }}
@@ -1264,7 +1275,7 @@ onMounted(() => {
             </select>
             <select
               v-model="filters.work_status"
-              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg text-sm"
+              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg border border-solid border-n-weak bg-n-alpha-1 text-sm text-n-slate-11"
             >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_WORK_STATUS') }}
@@ -1281,7 +1292,7 @@ onMounted(() => {
             </select>
             <select
               v-model="filters.team_id"
-              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg text-sm"
+              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg border border-solid border-n-weak bg-n-alpha-1 text-sm text-n-slate-11"
             >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_TEAMS') }}
@@ -1292,7 +1303,7 @@ onMounted(() => {
             </select>
             <button
               type="button"
-              class="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-solid border-n-weak px-3 text-sm font-medium text-n-slate-11 hover:bg-n-slate-2"
+              class="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-solid border-n-weak bg-n-alpha-1 px-3 text-sm font-medium text-n-slate-11 transition-colors hover:bg-n-slate-2"
               @click="showAdvancedFilters = !showAdvancedFilters"
             >
               <span class="i-lucide-sliders-horizontal" />
@@ -1476,91 +1487,86 @@ onMounted(() => {
         class="relative z-10 w-full overflow-x-auto rounded-2xl border border-solid border-n-weak bg-n-solid-1 shadow-sm"
         :dir="isRTL ? 'rtl' : 'ltr'"
       >
-        <table class="w-full min-w-[1580px] table-fixed text-sm">
+        <table class="w-full min-w-[1100px] table-fixed text-sm">
           <colgroup>
-            <col class="w-[48px]" />
-            <col class="w-[300px]" />
+            <col class="w-[40px]" />
+            <col class="w-[260px]" />
+            <col class="w-[90px]" />
             <col class="w-[110px]" />
-            <col class="w-[130px]" />
-            <col class="w-[120px]" />
-            <col class="w-[130px]" />
-            <col class="w-[180px]" />
             <col class="w-[110px]" />
-            <col class="w-[230px]" />
-            <col class="w-[170px]" />
-            <col class="w-[100px]" />
+            <col class="w-[240px]" />
+            <col class="w-[80px]" />
+            <col class="w-[90px]" />
           </colgroup>
           <thead
-            class="sticky top-0 z-10 border-b border-solid border-n-weak bg-n-slate-2 text-xs font-semibold uppercase text-n-slate-11 ltr:text-left ltr:tracking-wide rtl:text-right rtl:tracking-normal"
+            class="sticky top-0 z-10 border-b border-solid border-n-weak bg-gradient-to-b from-n-slate-2 to-n-slate-1 text-[11px] font-semibold uppercase tracking-wider text-n-slate-10 ltr:text-left rtl:text-right"
           >
             <tr>
-              <th
-                class="w-10 px-3 py-3 text-xs font-medium uppercase ltr:tracking-wider rtl:tracking-normal"
-              >
+              <th class="w-10 px-3 py-2.5">
                 <input
                   type="checkbox"
                   :checked="allSelected"
+                  class="accent-n-teal-9 cursor-pointer"
                   @change="toggleSelectAll"
                 />
               </th>
-              <th class="px-3 py-3">
+              <th class="px-3 py-2.5">
                 {{ $t('EMPLOYEE_MGMT.TABLE.EMPLOYEE') }}
               </th>
-              <th class="px-3 py-3">
+              <th class="px-3 py-2.5 text-center">
                 {{ $t('EMPLOYEE_MGMT.TABLE.STATUS') }}
               </th>
-              <th class="px-3 py-3">
+              <th class="px-3 py-2.5 text-center">
                 {{ $t('EMPLOYEE_MGMT.TABLE.PRESENCE') }}
               </th>
-              <th class="px-3 py-3">
+              <th class="px-3 py-2.5 text-center">
                 {{ $t('EMPLOYEE_MGMT.TABLE.WORK_STATUS') }}
               </th>
-              <th class="px-3 py-3">
+              <th class="px-3 py-2.5">
                 {{ $t('EMPLOYEE_MGMT.TABLE.ACTIVITY') }}
               </th>
-              <th class="px-3 py-3">
+              <th class="px-3 py-2.5 text-center">
                 {{ $t('EMPLOYEE_MGMT.TABLE.TODAY') }}
               </th>
-              <th class="px-3 py-3 ltr:text-right rtl:text-left">
+              <th class="px-3 py-2.5 text-center">
                 {{ $t('EMPLOYEE_MGMT.TABLE.ACTIONS') }}
               </th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-n-weak text-n-slate-12">
+          <tbody class="divide-y divide-n-weak/60 text-n-slate-12">
             <template v-for="employee in filteredEmployees" :key="employee.id">
               <tr
-                class="align-middle transition hover:bg-n-slate-1/70 dark:hover:bg-n-solid-2"
+                class="align-middle transition-all duration-150 hover:bg-n-slate-1/80 dark:hover:bg-n-solid-2"
               >
-                <td class="px-3 py-4">
+                <td class="px-3 py-3">
                   <input
                     v-model="selectedIds"
                     type="checkbox"
                     :value="employee.id"
+                    class="accent-n-teal-9 cursor-pointer"
                   />
                 </td>
-                <td class="px-3 py-4">
-                  <div class="flex min-w-0 items-center gap-3">
+                <!-- Agent Name -->
+                <td class="px-3 py-3">
+                  <div class="flex min-w-0 items-center gap-2.5">
                     <div
-                      class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-solid border-n-slate-4 bg-n-slate-3 text-sm font-semibold text-n-slate-12"
+                      class="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-n-slate-3 to-n-slate-4 text-xs font-bold text-n-slate-11 ring-2 ring-n-slate-2"
                     >
                       {{ employeeInitials(employee) }}
                       <span
-                        class="absolute bottom-0 h-3 w-3 rounded-full border-2 border-solid border-n-solid-1 ltr:right-0 rtl:left-0"
+                        class="absolute -bottom-px h-2.5 w-2.5 rounded-full border-2 border-solid border-n-solid-1 ltr:-right-px rtl:-left-px"
                         :class="presenceDotClass(employee)"
                       />
                     </div>
                     <div class="min-w-0">
-                      <span class="block truncate font-medium text-n-slate-12">
+                      <span
+                        class="block truncate text-sm font-semibold leading-tight text-n-slate-12"
+                      >
                         {{ employee.name }}
                       </span>
-                      <span
-                        class="block max-w-64 truncate text-xs text-n-slate-10"
-                      >
-                        {{ employee.username || $t('EMPLOYEE_MGMT.EMPTY') }}
-                      </span>
-                      <span class="mt-1 flex flex-wrap gap-1">
+                      <span class="mt-0.5 flex flex-wrap items-center gap-1">
                         <span
-                          class="inline-flex px-1.5 py-0.5 text-xs font-medium border border-solid rounded"
+                          class="inline-flex items-center px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide border border-solid rounded"
                           :class="roleBadgeClass(employee.role)"
                         >
                           {{ roleLabel(employee.role) }}
@@ -1568,7 +1574,7 @@ onMounted(() => {
                         <span
                           v-for="team in employeeTeams(employee)"
                           :key="team.id"
-                          class="px-1.5 py-0.5 text-xs border border-solid rounded border-n-slate-4 bg-n-slate-3 text-n-slate-11"
+                          class="px-1.5 py-px text-[10px] font-medium border border-solid rounded border-n-slate-4 bg-n-slate-2 text-n-slate-10"
                         >
                           {{ team.name }}
                         </span>
@@ -1576,65 +1582,82 @@ onMounted(() => {
                     </div>
                   </div>
                 </td>
-                <td class="px-3 py-4">
+                <!-- Status -->
+                <td class="px-3 py-3 text-center">
                   <span
-                    class="inline-flex w-fit px-2 py-1 text-xs font-medium border border-solid rounded-md"
+                    class="inline-flex items-center justify-center px-2 py-0.5 text-[11px] font-semibold border border-solid rounded-full"
                     :class="statusBadgeClass(employee)"
                   >
                     {{ statusLabel(employee) }}
                   </span>
                 </td>
-                <td class="px-3 py-4">
+                <!-- Presence -->
+                <td class="px-3 py-3 text-center">
                   <span
-                    class="inline-flex w-full items-center gap-2 text-xs font-medium text-n-slate-11"
+                    class="inline-flex items-center gap-1.5 text-xs font-medium text-n-slate-11"
                     :title="presenceTooltip(employee)"
                   >
                     <span
-                      class="h-2 w-2 rounded-full shadow-sm"
+                      class="h-2 w-2 rounded-full"
                       :class="presenceDotClass(employee)"
                     />
                     {{ presenceLabel(employee) }}
                   </span>
                 </td>
-                <td class="px-3 py-4">
+                <!-- Work Status -->
+                <td class="px-3 py-3 text-center">
                   <span
-                    class="inline-flex min-w-16 justify-center px-2 py-0.5 text-xs font-medium"
+                    class="inline-flex items-center justify-center px-2 py-0.5 text-[11px] font-semibold"
                     :class="workStatusBadgeClass(employee)"
                     :title="workStatusTooltip(employee)"
                   >
                     {{ workStatusLabel(employee) }}
                   </span>
                 </td>
-                <td class="px-3 py-4 text-n-slate-11">
-                  <div
-                    class="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1 text-xs leading-5"
-                  >
-                    <span class="text-n-slate-10">
-                      {{ $t('EMPLOYEE_MGMT.TABLE.LAST_REPLY') }}
-                    </span>
-                    <span class="truncate">{{
-                      formatSince(metric(employee).last_reply_at)
-                    }}</span>
-                    <span class="text-n-slate-10">
-                      {{ $t('EMPLOYEE_MGMT.TABLE.LAST_ACTIVITY') }}
-                    </span>
-                    <span class="truncate">{{
-                      formatSince(metric(employee).last_activity_at)
-                    }}</span>
-                    <span class="text-n-slate-10">
-                      {{ $t('EMPLOYEE_MGMT.TABLE.IDLE_DURATION') }}
-                    </span>
-                    <span class="truncate">
-                      {{ formatDuration(metric(employee).idle_duration) }}
-                    </span>
+                <!-- Activity -->
+                <td class="px-3 py-3">
+                  <div class="space-y-1 text-[11px] leading-relaxed">
+                    <div class="flex items-center gap-1.5">
+                      <span class="shrink-0 text-n-slate-9">{{
+                        $t('EMPLOYEE_MGMT.TABLE.LAST_REPLY')
+                      }}</span>
+                      <span class="truncate font-medium text-n-slate-12">{{
+                        formatSince(metric(employee).last_reply_at)
+                      }}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="shrink-0 text-n-slate-9">{{
+                        $t('EMPLOYEE_MGMT.TABLE.LAST_ACTIVITY')
+                      }}</span>
+                      <span class="truncate font-medium text-n-slate-12">{{
+                        formatSince(metric(employee).last_activity_at)
+                      }}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="shrink-0 text-n-slate-9">{{
+                        $t('EMPLOYEE_MGMT.TABLE.IDLE_DURATION')
+                      }}</span>
+                      <span class="truncate font-medium text-n-slate-12">
+                        {{ formatDuration(metric(employee).idle_duration) }}
+                      </span>
+                    </div>
                   </div>
                 </td>
-                <td class="px-3 py-4 text-center text-n-slate-11">
-                  <span class="font-semibold text-n-slate-12">
+                <!-- Today -->
+                <td class="px-3 py-3 text-center">
+                  <span
+                    class="inline-flex h-7 min-w-7 items-center justify-center rounded-full px-2 text-xs font-bold"
+                    :class="
+                      metric(employee).replies_count_today > 0
+                        ? 'bg-n-teal-3 text-n-teal-11'
+                        : 'bg-n-slate-3 text-n-slate-10'
+                    "
+                  >
                     {{ metric(employee).replies_count_today || 0 }}
                   </span>
                 </td>
-                <td class="relative px-3 py-4 ltr:text-right rtl:text-left">
+                <!-- Actions -->
+                <td class="relative px-3 py-3 text-center">
                   <div class="flex gap-1 ltr:justify-end rtl:justify-start">
                     <button
                       type="button"
@@ -1736,8 +1759,11 @@ onMounted(() => {
                   </div>
                 </td>
               </tr>
-              <tr v-if="isRowExpanded(employee.id)" class="bg-n-slate-1/60">
-                <td colspan="8" class="px-4 py-4">
+              <tr
+                v-if="isRowExpanded(employee.id)"
+                class="bg-gradient-to-b from-n-slate-1/40 to-transparent"
+              >
+                <td colspan="8" class="px-4 py-3">
                   <div
                     class="grid gap-3 rounded-xl border border-solid border-n-weak bg-n-solid-1 p-4 md:grid-cols-2"
                   >
@@ -1881,6 +1907,26 @@ onMounted(() => {
             </label>
             <label class="flex flex-col">
               <span class="mb-1 font-medium text-n-slate-12">
+                {{ $t('EMPLOYEE_MGMT.FORM.EMAIL') }}
+                <span class="text-n-ruby-9">{{
+                  $t('EMPLOYEE_MGMT.REQUIRED_MARK')
+                }}</span>
+              </span>
+              <input
+                v-model="form.email"
+                required
+                type="email"
+                :placeholder="$t('EMPLOYEE_MGMT.FORM.PLACEHOLDERS.EMAIL')"
+              />
+              <span
+                v-if="!(form.email || '').trim()"
+                class="mt-1 text-xs text-n-ruby-11"
+              >
+                {{ $t('EMPLOYEE_MGMT.VALIDATION.EMAIL_REQUIRED') }}
+              </span>
+            </label>
+            <label class="flex flex-col">
+              <span class="mb-1 font-medium text-n-slate-12">
                 {{ $t('EMPLOYEE_MGMT.FORM.USERNAME') }}
                 <span class="text-n-ruby-9">{{
                   $t('EMPLOYEE_MGMT.REQUIRED_MARK')
@@ -1962,10 +2008,7 @@ onMounted(() => {
           </section>
 
           <!-- Password Section -->
-          <section
-            v-if="!isEditing"
-            class="grid grid-cols-1 gap-6 md:grid-cols-2"
-          >
+          <section class="grid grid-cols-1 gap-6 md:grid-cols-2">
             <h3
               class="pb-2 text-xs font-semibold tracking-wide uppercase border-b border-solid md:col-span-2 text-n-slate-11 border-n-weak"
             >
@@ -1974,14 +2017,20 @@ onMounted(() => {
             <label class="flex flex-col relative">
               <span class="mb-1 font-medium text-n-slate-12">
                 {{ $t('EMPLOYEE_MGMT.FORM.PASSWORD') }}
-                <span class="text-n-ruby-9">{{
+                <span v-if="!isEditing" class="text-n-ruby-9">{{
                   $t('EMPLOYEE_MGMT.REQUIRED_MARK')
                 }}</span>
+                <span
+                  v-if="isEditing"
+                  class="text-xs font-normal text-n-slate-10"
+                >
+                  ({{ $t('EMPLOYEE_MGMT.FORM.PASSWORD_OPTIONAL') }})
+                </span>
               </span>
               <div class="relative w-full">
                 <input
                   v-model="form.password"
-                  required
+                  :required="!isEditing"
                   :type="showNewPassword ? 'text' : 'password'"
                   class="w-full pr-10"
                 />
@@ -2007,14 +2056,14 @@ onMounted(() => {
             <label class="flex flex-col relative">
               <span class="mb-1 font-medium text-n-slate-12">
                 {{ $t('EMPLOYEE_MGMT.FORM.PASSWORD_CONFIRMATION') }}
-                <span class="text-n-ruby-9">{{
+                <span v-if="!isEditing" class="text-n-ruby-9">{{
                   $t('EMPLOYEE_MGMT.REQUIRED_MARK')
                 }}</span>
               </span>
               <div class="relative w-full">
                 <input
                   v-model="form.password_confirmation"
-                  required
+                  :required="!isEditing"
                   :type="showNewPasswordConfirmation ? 'text' : 'password'"
                   class="w-full pr-10"
                 />

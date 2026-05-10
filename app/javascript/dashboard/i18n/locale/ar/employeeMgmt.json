@@ -181,7 +181,7 @@
     "FORM": {
       "ADD_TITLE": "إضافة وكيل دعم",
       "EDIT_TITLE": "تعديل وكيل دعم",
-      "DESCRIPTION": "يتم إنشاء البريد الداخلي تلقائيًا ولا يستخدم في تسجيل الدخول.",
+      "DESCRIPTION": "أدخل بيانات وكيل الدعم بالكامل.",
       "SECTIONS": {
         "IDENTITY": "البيانات الأساسية",
         "ACCESS": "الوصول والفرق",
@@ -189,6 +189,7 @@
         "STATUS": "الحالة والملاحظات"
       },
       "NAME": "الاسم",
+      "EMAIL": "البريد الإلكتروني",
       "PHONE": "رقم الهاتف",
       "USERNAME": "اسم المستخدم / Login ID",
       "ROLE": "الدور",
@@ -198,7 +199,15 @@
       "ACTIVE": "مفعل",
       "DEACTIVATION_REASON": "سبب الإيقاف",
       "PASSWORD": "كلمة المرور",
-      "PASSWORD_CONFIRMATION": "تأكيد كلمة المرور"
+      "PASSWORD_CONFIRMATION": "تأكيد كلمة المرور",
+      "PASSWORD_OPTIONAL": "اختياري — اتركه فارغاً إن لم ترد تغييره",
+      "PLACEHOLDERS": {
+        "NAME": "أدخل اسم الموظف",
+        "EMAIL": "example@domain.com",
+        "PHONE": "Enter phone number",
+        "USERNAME": "Enter username",
+        "JOB_TITLE": "Optional"
+      }
     },
     "PASSWORD": {
       "TITLE": "تغيير كلمة المرور",
@@ -281,6 +290,7 @@
     },
     "VALIDATION": {
       "NAME_REQUIRED": "الاسم مطلوب.",
+      "EMAIL_REQUIRED": "البريد الإلكتروني مطلوب.",
       "PHONE_REQUIRED": "رقم الهاتف مطلوب.",
       "USERNAME_REQUIRED": "اسم المستخدم مطلوب."
     },
