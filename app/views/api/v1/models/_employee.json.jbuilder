@@ -3,6 +3,7 @@ metrics ||= {}
 
 json.id resource.id
 json.name resource.name
+json.email resource.email
 json.username resource.username
 json.phone_number resource.phone_number
 json.role account_user&.role

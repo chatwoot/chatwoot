@@ -203,7 +203,7 @@
       "PASSWORD_OPTIONAL": "optional — leave blank to keep current",
       "PLACEHOLDERS": {
         "NAME": "Enter full name",
-        "EMAIL": "example@domain.com",
+        "EMAIL": "Enter email address",
         "PHONE": "Enter phone number",
         "USERNAME": "Enter username",
         "JOB_TITLE": "Optional",

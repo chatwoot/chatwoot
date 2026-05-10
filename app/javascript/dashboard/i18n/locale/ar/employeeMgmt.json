@@ -203,7 +203,7 @@
       "PASSWORD_OPTIONAL": "اختياري — اتركه فارغاً إن لم ترد تغييره",
       "PLACEHOLDERS": {
         "NAME": "أدخل اسم الموظف",
-        "EMAIL": "example@domain.com",
+        "EMAIL": "أدخل البريد الإلكتروني",
         "PHONE": "Enter phone number",
         "USERNAME": "Enter username",
         "JOB_TITLE": "Optional"

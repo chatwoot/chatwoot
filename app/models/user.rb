@@ -84,8 +84,6 @@ class User < ApplicationRecord
   # validates_uniqueness_of :email, scope: :account_id
 
   validates :email, presence: true
-  validates :username, presence: true, if: :local_auth_enabled?
-  validates :phone_number, presence: true, if: :local_auth_enabled?
   validates :username, uniqueness: { case_sensitive: false }, allow_blank: true
   validates :phone_number, uniqueness: true, allow_blank: true
 

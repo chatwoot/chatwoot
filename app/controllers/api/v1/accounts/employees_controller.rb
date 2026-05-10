@@ -31,7 +31,10 @@ class Api::V1::Accounts::EmployeesController < Api::V1::Accounts::BaseController
     return if disabling_admin_access? && !can_manage_employee?
 
     ActiveRecord::Base.transaction do
-      @employee.update!(user_attributes.except(:password, :password_confirmation).merge(local_auth_enabled: true).compact)
+      attrs = user_attributes.merge(local_auth_enabled: true).compact
+      # Only include password if explicitly provided
+      attrs = attrs.except(:password, :password_confirmation) if attrs[:password].blank?
+      @employee.update!(attrs)
       employee_account_user.update!(account_user_attributes.except(:active, :deactivation_reason).compact)
       sync_teams!
       audit_employee_event(@employee, 'employee_update')
@@ -223,8 +226,8 @@ class Api::V1::Accounts::EmployeesController < Api::V1::Accounts::BaseController
   end
 
   def user_attributes
-    attributes = permitted_params.slice(:name, :username, :phone_number, :password, :password_confirmation).compact
-    attributes[:email] = generated_employee_email(attributes[:username]) if @employee.blank?
+    attributes = permitted_params.slice(:name, :email, :username, :phone_number, :password, :password_confirmation).compact
+    attributes[:email] = generated_employee_email(attributes[:username]) if @employee.blank? && attributes[:email].blank?
     attributes
   end
 
@@ -238,7 +241,7 @@ class Api::V1::Accounts::EmployeesController < Api::V1::Accounts::BaseController
 
   def permitted_params
     params.require(:employee).permit(
-      :name, :username, :phone_number, :role, :job_title, :employee_notes, :active, :deactivation_reason,
+      :name, :email, :username, :phone_number, :role, :job_title, :employee_notes, :active, :deactivation_reason,
       :password, :password_confirmation, team_ids: []
     )
   end

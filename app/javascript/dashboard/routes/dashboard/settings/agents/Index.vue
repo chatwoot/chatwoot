@@ -186,13 +186,7 @@ const canSubmitPassword = computed(() => {
 });
 
 const requiredFieldsPresent = computed(() => {
-  const requiredFields = [
-    form.name,
-    form.email,
-    form.phone_number,
-    form.username,
-    form.role,
-  ];
+  const requiredFields = [form.name, form.email];
   const hasPassword = isEditing.value || canSubmitPassword.value;
   return requiredFields.every(value => value?.toString().trim()) && hasPassword;
 });
@@ -202,10 +196,6 @@ const saveDisabledReason = computed(() => {
   if (!form.name.trim()) return t('EMPLOYEE_MGMT.VALIDATION.NAME_REQUIRED');
   if (!(form.email || '').trim())
     return t('EMPLOYEE_MGMT.VALIDATION.EMAIL_REQUIRED');
-  if (!form.phone_number.trim())
-    return t('EMPLOYEE_MGMT.VALIDATION.PHONE_REQUIRED');
-  if (!form.username.trim())
-    return t('EMPLOYEE_MGMT.VALIDATION.USERNAME_REQUIRED');
   if (!isEditing.value && !canSubmitPassword.value) {
     return t('EMPLOYEE_MGMT.PASSWORD.WEAK_BLOCK');
   }
@@ -1888,22 +1878,12 @@ onMounted(() => {
             <label class="flex flex-col">
               <span class="mb-1 font-medium text-n-slate-12">
                 {{ $t('EMPLOYEE_MGMT.FORM.PHONE') }}
-                <span class="text-n-ruby-9">{{
-                  $t('EMPLOYEE_MGMT.REQUIRED_MARK')
-                }}</span>
               </span>
               <input
                 v-model="form.phone_number"
-                required
                 type="text"
                 :placeholder="$t('EMPLOYEE_MGMT.FORM.PLACEHOLDERS.PHONE')"
               />
-              <span
-                v-if="!form.phone_number.trim()"
-                class="mt-1 text-xs text-n-ruby-11"
-              >
-                {{ $t('EMPLOYEE_MGMT.VALIDATION.PHONE_REQUIRED') }}
-              </span>
             </label>
             <label class="flex flex-col">
               <span class="mb-1 font-medium text-n-slate-12">
@@ -1928,22 +1908,12 @@ onMounted(() => {
             <label class="flex flex-col">
               <span class="mb-1 font-medium text-n-slate-12">
                 {{ $t('EMPLOYEE_MGMT.FORM.USERNAME') }}
-                <span class="text-n-ruby-9">{{
-                  $t('EMPLOYEE_MGMT.REQUIRED_MARK')
-                }}</span>
               </span>
               <input
                 v-model="form.username"
-                required
                 type="text"
                 :placeholder="$t('EMPLOYEE_MGMT.FORM.PLACEHOLDERS.USERNAME')"
               />
-              <span
-                v-if="!form.username.trim()"
-                class="mt-1 text-xs text-n-ruby-11"
-              >
-                {{ $t('EMPLOYEE_MGMT.VALIDATION.USERNAME_REQUIRED') }}
-              </span>
             </label>
           </section>
 
