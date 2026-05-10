@@ -291,24 +291,71 @@ module Synapseos::SchemaFormHelper
     tag.fieldset(safe_join([legend, *blocks]), class: FIELDSET_CLASSES, data: { agents_map: true })
   end
 
+  # Available primeiro (template implementado), depois planned, depois orphan
+  # values (slug em uso na config mas sem entry no agents_meta — caso raro).
   def agent_slugs(agents_meta, value)
-    (agents_meta.keys.map(&:to_s) + value.keys.map(&:to_s)).uniq
+    all = (agents_meta.keys.map(&:to_s) + value.keys.map(&:to_s)).uniq
+    all.sort_by { |slug| [agent_status_rank(agents_meta, slug), slug] }
+  end
+
+  def agent_status_rank(agents_meta, slug)
+    meta = agents_meta[slug] || agents_meta[slug.to_sym] || {}
+    case (meta[:status] || meta['status']).to_s
+    when 'available' then 0
+    when 'planned'   then 1
+    else 2
+    end
   end
 
   def agent_block(field, target, slug, value)
     meta = field.ctx[:agents_meta][slug] || field.ctx[:agents_meta][slug.to_sym] || {}
+    planned = (meta[:status] || meta['status']).to_s == 'planned'
     agent_value = value[slug] || value[slug.to_sym] || agent_default_values(target)
-    sub_field = field.child(slug, target, agent_value)
-    body = render_object(sub_field)
-    tag.details(safe_join([agent_summary(slug, meta), tag.div(body, class: 'mt-3')]),
-                class: 'mb-2 border border-slate-200 rounded-md p-3', data: { agent_slug: slug })
+    body = planned ? planned_agent_body(meta) : agent_form_body(field, target, slug, agent_value)
+    tag.details(safe_join([agent_summary(slug, meta, planned), tag.div(body, class: 'mt-3')]),
+                class: agent_block_classes(planned),
+                data: { agent_slug: slug, agent_status: planned ? 'planned' : 'available' })
   end
 
-  def agent_summary(slug, meta)
+  def agent_form_body(field, target, slug, agent_value)
+    sub_field = field.child(slug, target, agent_value)
+    render_object(sub_field)
+  end
+
+  # Pra agentes planned, NÃO renderiza o form (evita o operador marcar
+  # `enabled` e o deploy estourar). Mostra só descrição + dica de roadmap.
+  def planned_agent_body(meta)
+    desc = meta[:role_description] || meta['role_description']
+    safe_join([
+                tag.p('Workflows ainda não implementados — não pode ser ativado.',
+                      class: 'text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded p-2'),
+                desc.present? ? tag.p(desc, class: 'text-xs text-slate-600 mt-2') : ''.html_safe
+              ])
+  end
+
+  def agent_block_classes(planned)
+    base = 'mb-2 border rounded-md p-3'
+    planned ? "#{base} border-slate-200 bg-slate-50 opacity-75" : "#{base} border-slate-200"
+  end
+
+  def agent_summary(slug, meta, planned)
     display = meta[:display_name] || meta['display_name'] || slug.to_s
     role = meta[:role_tag] || meta['role_tag']
-    chip = role ? tag.span(role, class: 'ml-2 text-xs bg-slate-100 text-slate-700 rounded px-2 py-0.5') : ''.html_safe
-    tag.summary(safe_join([tag.strong(display), chip]), class: 'cursor-pointer text-sm')
+    chips = [
+      role ? tag.span(role, class: 'ml-2 text-xs bg-slate-100 text-slate-700 rounded px-2 py-0.5') : nil,
+      agent_status_chip(planned)
+    ].compact
+    tag.summary(safe_join([tag.strong(display), *chips]), class: 'cursor-pointer text-sm')
+  end
+
+  def agent_status_chip(planned)
+    if planned
+      tag.span('Em desenvolvimento',
+               class: 'ml-2 text-xs bg-amber-100 text-amber-800 rounded px-2 py-0.5')
+    else
+      tag.span('Pronto',
+               class: 'ml-2 text-xs bg-emerald-100 text-emerald-800 rounded px-2 py-0.5')
+    end
   end
 
   def agent_default_values(target_schema)
