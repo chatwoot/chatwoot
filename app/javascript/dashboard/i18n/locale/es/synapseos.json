@@ -1,0 +1,233 @@
+{
+  "SYNAPSEOS": {
+    "LIVE": {
+      "TITLE": "Tiempo real",
+      "SUBTITLE": "Monitoreo del escuadrón en vivo",
+      "AGENTS_SECTION": "Agentes activos",
+      "HOT_CONVERSATIONS": "Conversaciones calientes",
+      "LAST_ACTION_NONE": "Sin actividad reciente",
+      "STATUS": {
+        "ONLINE": "En línea",
+        "IDLE": "Inactivo",
+        "OFFLINE": "Desconectado"
+      },
+      "COLUMNS": {
+        "CONVERSATION": "Conversación",
+        "CONTACT": "Contacto",
+        "ASSIGNEE": "Responsable",
+        "STATUS": "Estado",
+        "TIME_IN_STAGE": "Tiempo en etapa"
+      },
+      "CABLE": {
+        "CONNECTED": "En vivo",
+        "POLLING": "Sincronizando"
+      }
+    },
+    "LIVE_AGENTS": {
+      "TITLE": "Agentes en vivo",
+      "SUBTITLE": "Vista en tiempo real de la actividad y carga de los agentes",
+      "SEARCH_PLACEHOLDER": "Buscar por nombre o correo…",
+      "REFRESH_HINT": "Actualizando automáticamente cada 15s",
+      "EMPTY_TITLE": "Aún no hay agentes para mostrar",
+      "EMPTY_DESCRIPTION": "Los agentes aparecen aquí en cuanto se conectan o comienzan a atender conversaciones. Invita a tu equipo en Configuración → Agentes.",
+      "COL_NAME": "Agente",
+      "COL_STATUS": "Estado",
+      "COL_OPEN": "Conversaciones abiertas",
+      "COL_TODAY": "Atendidas hoy",
+      "COL_FIRST_RESPONSE": "Tiempo medio de 1ª respuesta (hoy)",
+      "COL_ROLE": "Rol",
+      "SUMMARY": {
+        "TOTAL": "Total de agentes",
+        "ONLINE": "En línea",
+        "BUSY": "Ocupado",
+        "OFFLINE": "Desconectado",
+        "OPEN": "Abiertas ahora",
+        "HANDLED_TODAY": "Atendidas hoy"
+      },
+      "STATUS": {
+        "ONLINE": "En línea",
+        "OFFLINE": "Desconectado",
+        "BUSY": "Ocupado"
+      },
+      "PANEL": {
+        "TITLE": "Conversaciones — {name}",
+        "COUNT": "{n} conversaciones abiertas",
+        "CLOSE": "Cerrar",
+        "LOADING": "Cargando conversaciones…",
+        "EMPTY": "Ninguna conversación abierta asignada a este agente.",
+        "HINT": "Selecciona un agente para ver sus conversaciones.",
+        "STATUS": {
+          "OPEN": "Abierta",
+          "RESOLVED": "Resuelta",
+          "PENDING": "Pendiente",
+          "SNOOZED": "Pospuesta"
+        }
+      }
+    },
+    "DASHBOARD": {
+      "TITLE": "Panel ejecutivo",
+      "SUBTITLE": "KPIs operativos y de ingresos de los últimos {days} días",
+      "LOADING": "Cargando métricas…",
+      "NO_DATA": "Aún no hay datos en el período seleccionado.",
+      "EMPTY_CHART_TITLE": "Aún sin actividad",
+      "EMPTY_CHART_DESCRIPTION": "Recibe o envía mensajes en este período para poblar el gráfico.",
+      "EMPTY_EVENTS_TITLE": "Aún sin eventos de CRM",
+      "EMPTY_EVENTS_DESCRIPTION": "Los eventos aparecen aquí cuando los leads avanzan en el pipeline, se cierran tratos o los bots transfieren conversaciones.",
+      "TABS": {
+        "OVERVIEW": "Resumen",
+        "REPORTS": "Informes en vivo"
+      },
+      "KPI": {
+        "LEADS": "Leads",
+        "DEALS_WON": "Tratos ganados",
+        "DEALS_LOST": "Tratos perdidos",
+        "REVENUE": "Ingresos",
+        "MESSAGES_RECEIVED": "Mensajes recibidos",
+        "MESSAGES_SENT": "Mensajes enviados",
+        "BOT_TAKEOVERS": "Bot → atención humana",
+        "HUMAN_RESCUES": "Humano → rescate por el bot",
+        "AI_RESPONSES": "Respuestas de IA",
+        "APPOINTMENTS": "Citas",
+        "CONVERSION_RATE": "Tasa de conversión"
+      },
+      "CHART": {
+        "TITLE": "Actividad diaria",
+        "MESSAGES_RECEIVED": "Mensajes recibidos",
+        "MESSAGES_SENT": "Mensajes enviados",
+        "AI_RESPONSES": "Respuestas de IA",
+        "BOT_TAKEOVERS": "Transferencias del bot"
+      },
+      "RECENT_EVENTS": {
+        "TITLE": "Actividad reciente",
+        "EMPTY": "Aún sin eventos de CRM."
+      },
+      "EVENT_TYPE": {
+        "LEAD_CREATED": "Lead creado",
+        "LEAD_QUALIFIED": "Lead calificado",
+        "LEAD_DISQUALIFIED": "Lead descalificado",
+        "DEAL_CREATED": "Trato creado",
+        "DEAL_WON": "Trato ganado",
+        "DEAL_LOST": "Trato perdido",
+        "BOT_TAKEOVER": "Transferencia a humano",
+        "HUMAN_RESCUE": "Rescate por el bot",
+        "APPOINTMENT_CONFIRMED": "Cita confirmada",
+        "PRIVATE_NOTE_ADDED": "Nota privada añadida"
+      }
+    },
+    "METRICS": {
+      "TITLE": "Escuadrón Synka",
+      "SUBTITLE": "Métricas de rendimiento del escuadrón de IA",
+      "REFRESH": "Actualizar",
+      "LAST_UPDATED": "Actualizado a las {time}",
+      "EMPTY": "—",
+      "ERROR": "Falló la carga",
+      "AGENT_COUNT": "1 agente | {n} agentes",
+      "RANGES": {
+        "24H": "24h",
+        "7D": "7d",
+        "30D": "30d",
+        "90D": "90d"
+      },
+      "GROUPS": {
+        "FRONTLINE": "Primera línea",
+        "PARTNERS": "Socios del vendedor",
+        "RESCUE": "Tropa de rescate y ganancia"
+      },
+      "USAGE": {
+        "LABEL": "Mensajes del mes",
+        "OVERAGE": "+{n} excedente"
+      },
+      "AGENTS": {
+        "ALICE": {
+          "NAME": "Alice",
+          "ROLE": "Prospección (BDR outbound)",
+          "KPI": {
+            "LEADS_FRIOS_CONTACTADOS": "Leads fríos contactados",
+            "TAXA_RESPOSTA": "Tasa de respuesta",
+            "LEADS_CONVERTIDOS": "Convertidos en oportunidad"
+          }
+        },
+        "IZA": {
+          "NAME": "Iza",
+          "ROLE": "Recepción (SDR inbound)",
+          "KPI": {
+            "LEADS_INBOUND_RECEPCIONADOS": "Leads inbound recibidos",
+            "SPEED_TO_LEAD_SECONDS": "Speed-to-lead",
+            "TAXA_QUALIFICACAO": "Tasa de calificación inbound",
+            "HANDOFFS": "Traspasos exitosos"
+          }
+        },
+        "OTTO": {
+          "NAME": "Otto",
+          "ROLE": "Copiloto de CRM",
+          "KPI": {
+            "INTERACOES_CRM": "Interacciones de CRM",
+            "ALERTAS_SLA": "Alertas de SLA",
+            "RESGATES": "Rescates"
+          }
+        },
+        "LUIS": {
+          "NAME": "Luís",
+          "ROLE": "Asistencia técnica",
+          "KPI": {
+            "ASSISTENCIAS_TECNICAS": "Asistencias técnicas"
+          }
+        },
+        "FERNANDA": {
+          "NAME": "Fernanda",
+          "ROLE": "Reactivación de leads",
+          "KPI": {
+            "LEADS_REATIVADOS": "Leads reactivados",
+            "PIPELINE_RESGATADO_CENTS": "Pipeline rescatado"
+          }
+        },
+        "ANGELA": {
+          "NAME": "Ángela",
+          "ROLE": "Farming y cross-sell",
+          "KPI": {
+            "AGENDAMENTOS": "Citas",
+            "TAXA_CROSSSELL": "Tasa de cross-sell"
+          }
+        },
+        "VITOR": {
+          "NAME": "Vitor",
+          "ROLE": "Cobranza",
+          "KPI": {
+            "ACORDOS_FECHADOS": "Acuerdos cerrados",
+            "VALOR_RECUPERADO_CENTS": "Valor recuperado"
+          }
+        }
+      }
+    },
+    "PIPELINE": {
+      "TITLE": "Pipeline de CRM",
+      "SUBTITLE": "Arrastra los leads entre las etapas para actualizar su posición en el pipeline.",
+      "LOADING": "Cargando pipeline…",
+      "UNASSIGNED": "Sin responsable",
+      "ADD_STAGE": "Añadir etapa",
+      "ADD_STAGE_PLUS": "+ Añadir etapa",
+      "NEW_STAGE_HEADER": "Nueva etapa del pipeline",
+      "STAGE_NAME": "Nombre",
+      "STAGE_COLOR": "Color",
+      "STAGE_TYPE": "Tipo",
+      "STAGE_TYPE_HINT": "Las etapas 'Ganado' y 'Perdido' cierran automáticamente el trato del lead cuando se suelta una tarjeta en ellas.",
+      "CONFIRM_DELETE": "¿Eliminar la etapa '{name}'? Los leads en ella quedarán sin etapa.",
+      "STAGE_SUM": "Σ {value}",
+      "CONV_ID": "conv #{id}",
+      "CANCEL": "Cancelar",
+      "CREATE": "Crear",
+      "TEMPLATES": "Plantillas",
+      "TEMPLATE_HEADER": "Plantillas de pipeline",
+      "TEMPLATE_DESCRIPTION": "Elige una plantilla preconfigurada para tu segmento. Atención: esto reemplazará todas las etapas actuales y desvinculará los leads existentes.",
+      "TEMPLATE_CONFIRM": "¿Aplicar esta plantilla? Todas las etapas actuales serán reemplazadas y los leads quedarán sin etapa.",
+      "TEMPLATE_STAGES": "{count} etapas",
+      "STAGE_TYPES": {
+        "INBOUND": "Inbound",
+        "WORKING": "En progreso",
+        "WON": "Ganado",
+        "LOST": "Perdido",
+        "CUSTOM": "Personalizado"
+      }
+    }
+  }
+}

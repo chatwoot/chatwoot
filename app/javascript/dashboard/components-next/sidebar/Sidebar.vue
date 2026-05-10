@@ -358,44 +358,51 @@ const menuItems = computed(() => {
               },
             ]
           : []),
-        {
-          name: 'Settings Inboxes',
-          label: t('SIDEBAR.INBOXES'),
-          icon: 'i-lucide-inbox',
-          activeOn: [
-            'settings_inbox_list',
-            'settings_inbox_show',
-            'settings_inbox_new',
-            'settings_inbox_finish',
-            'settings_inboxes_page_channel',
-            'settings_inboxes_add_agents',
-          ],
-          to: accountScopedRoute('settings_inbox_list'),
-        },
+        // CUSTOMIZAÇÃO_SYNAPSEOS: itens abaixo escondidos do console normal.
+        // Setup técnico (inboxes, agent bots, custom attributes, integrações)
+        // é responsabilidade do Super Admin / panel agentic. Operadores
+        // gerenciam só labels, automations, macros, respostas prontas.
+        //
+        // Pra reverter: descomentar os blocos com prefixo `// HIDDEN:`.
+        //
+        // HIDDEN: Caixas de Entrada — criação/edição via /super_admin/inboxes
+        // {
+        //   name: 'Settings Inboxes',
+        //   label: t('SIDEBAR.INBOXES'),
+        //   icon: 'i-lucide-inbox',
+        //   activeOn: [
+        //     'settings_inbox_list', 'settings_inbox_show', 'settings_inbox_new',
+        //     'settings_inbox_finish', 'settings_inboxes_page_channel',
+        //     'settings_inboxes_add_agents',
+        //   ],
+        //   to: accountScopedRoute('settings_inbox_list'),
+        // },
         {
           name: 'Settings Labels',
           label: t('SIDEBAR.LABELS'),
           icon: 'i-lucide-tags',
           to: accountScopedRoute('labels_list'),
         },
-        {
-          name: 'Settings Custom Attributes',
-          label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
-          icon: 'i-lucide-code',
-          to: accountScopedRoute('attributes_list'),
-        },
+        // HIDDEN: Atributos Personalizados — setup técnico raro pós-onboarding
+        // {
+        //   name: 'Settings Custom Attributes',
+        //   label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
+        //   icon: 'i-lucide-code',
+        //   to: accountScopedRoute('attributes_list'),
+        // },
         {
           name: 'Settings Automation',
           label: t('SIDEBAR.AUTOMATION'),
           icon: 'i-lucide-repeat',
           to: accountScopedRoute('automation_list'),
         },
-        {
-          name: 'Settings Agent Bots',
-          label: t('SIDEBAR.AGENT_BOTS'),
-          icon: 'i-lucide-bot',
-          to: accountScopedRoute('agent_bots'),
-        },
+        // HIDDEN: Agent Bots — criação via synapseos_panel + post-deploy hook
+        // {
+        //   name: 'Settings Agent Bots',
+        //   label: t('SIDEBAR.AGENT_BOTS'),
+        //   icon: 'i-lucide-bot',
+        //   to: accountScopedRoute('agent_bots'),
+        // },
         {
           name: 'Settings Macros',
           label: t('SIDEBAR.MACROS'),
@@ -408,12 +415,13 @@ const menuItems = computed(() => {
           icon: 'i-lucide-message-square-quote',
           to: accountScopedRoute('canned_list'),
         },
-        {
-          name: 'Settings Integrations',
-          label: t('SIDEBAR.INTEGRATIONS'),
-          icon: 'i-lucide-blocks',
-          to: accountScopedRoute('settings_applications'),
-        },
+        // HIDDEN: Integrações — Slack/webhooks/dashboard apps são setup técnico
+        // {
+        //   name: 'Settings Integrations',
+        //   label: t('SIDEBAR.INTEGRATIONS'),
+        //   icon: 'i-lucide-blocks',
+        //   to: accountScopedRoute('settings_applications'),
+        // },
         {
           name: 'Settings Audit Logs',
           label: t('SIDEBAR.AUDIT_LOGS'),
