@@ -69,8 +69,8 @@ onMounted(() => {
       </span>
     </div>
 
-    <div v-else class="flex-1 overflow-x-auto overflow-y-hidden">
-      <div class="flex gap-4 p-6 min-h-full items-start">
+    <div v-else class="flex-1 min-h-0 overflow-x-auto overflow-y-hidden">
+      <div class="flex gap-4 p-6 h-full items-stretch">
         <KanbanColumn
           v-for="col in columns"
           :key="col.id"

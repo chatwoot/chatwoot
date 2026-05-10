@@ -1,5 +1,12 @@
 <script setup>
-import { ref, computed } from 'vue';
+import {
+  ref,
+  computed,
+  onMounted,
+  onBeforeUnmount,
+  nextTick,
+  watch,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import draggable from 'vuedraggable';
@@ -106,6 +113,43 @@ async function handleResolutionCancel() {
   store.dispatch('kanban/fetchBoard');
 }
 
+const scrollEl = ref(null);
+const hasTopOverflow = ref(false);
+const hasBottomOverflow = ref(false);
+let resizeObserver = null;
+
+function updateOverflowIndicators() {
+  const el = scrollEl.value;
+  if (!el) return;
+  hasTopOverflow.value = el.scrollTop > 0;
+  hasBottomOverflow.value =
+    el.scrollTop + el.clientHeight < el.scrollHeight - 1;
+}
+
+onMounted(() => {
+  const el = scrollEl.value;
+  if (!el) return;
+  el.addEventListener('scroll', updateOverflowIndicators, { passive: true });
+  resizeObserver = new ResizeObserver(updateOverflowIndicators);
+  resizeObserver.observe(el);
+  updateOverflowIndicators();
+});
+
+onBeforeUnmount(() => {
+  if (scrollEl.value) {
+    scrollEl.value.removeEventListener('scroll', updateOverflowIndicators);
+  }
+  if (resizeObserver) resizeObserver.disconnect();
+});
+
+watch(cards, () => {
+  nextTick(updateOverflowIndicators);
+});
+
+watch(showAddForm, () => {
+  nextTick(updateOverflowIndicators);
+});
+
 async function onCardDrop(event) {
   const { added, moved } = event;
   const item = added?.element || moved?.element;
@@ -130,10 +174,10 @@ async function onCardDrop(event) {
 </script>
 
 <template>
-  <div class="flex-shrink-0 w-72">
+  <div class="flex-shrink-0 w-72 h-full flex flex-col min-h-0">
     <!-- Container da coluna: cor aplicada como tint de fundo + borda superior sólida -->
     <div
-      class="flex flex-col rounded-xl"
+      class="flex flex-col flex-1 min-h-0 rounded-xl"
       :class="column.color ? '' : 'bg-slate-100 dark:bg-slate-800'"
       :style="columnStyle"
     >
@@ -170,30 +214,43 @@ async function onCardDrop(event) {
         {{ formattedTotal }}
       </div>
 
-      <!-- Cards com drag & drop -->
-      <div class="flex-1 overflow-y-auto px-2 py-2 space-y-2 min-h-16">
-        <draggable
-          :list="cards"
-          group="kanban-cards"
-          item-key="id"
-          class="space-y-2 min-h-4"
-          ghost-class="opacity-40"
-          @change="onCardDrop"
+      <!-- Cards com drag & drop (scroll vertical independente) -->
+      <div class="relative flex-1 min-h-0">
+        <div
+          ref="scrollEl"
+          class="absolute inset-0 overflow-y-auto px-2 py-2 space-y-2"
         >
-          <template #item="{ element }">
-            <KanbanCard
-              :card="element"
-              @edit="emit('card-edit', $event)"
-              @delete="deleteCard"
-            />
-          </template>
-        </draggable>
+          <draggable
+            :list="cards"
+            group="kanban-cards"
+            item-key="id"
+            class="space-y-2 min-h-4"
+            ghost-class="opacity-40"
+            @change="onCardDrop"
+          >
+            <template #item="{ element }">
+              <KanbanCard
+                :card="element"
+                @edit="emit('card-edit', $event)"
+                @delete="deleteCard"
+              />
+            </template>
+          </draggable>
 
-        <AddCardForm
-          v-if="showAddForm"
-          :column-id="column.id"
-          @created="showAddForm = false"
-          @cancel="showAddForm = false"
+          <AddCardForm
+            v-if="showAddForm"
+            :column-id="column.id"
+            @created="showAddForm = false"
+            @cancel="showAddForm = false"
+          />
+        </div>
+        <div
+          v-show="hasTopOverflow"
+          class="pointer-events-none absolute top-0 inset-x-0 h-4 bg-gradient-to-b from-black/15 dark:from-black/40 to-transparent rounded-t-md"
+        />
+        <div
+          v-show="hasBottomOverflow"
+          class="pointer-events-none absolute bottom-0 inset-x-0 h-4 bg-gradient-to-t from-black/15 dark:from-black/40 to-transparent rounded-b-md"
         />
       </div>
 
