@@ -14,7 +14,12 @@
 
 class ReusableAttachment < ApplicationRecord
   belongs_to :account
-  has_one_attached :file
+  # dependent: false prevents purging shared blobs on destroy.
+  # Blobs used in message attachments must not be purged when the reusable handle is deleted.
+  # Note: blobs never referenced by a message will remain in storage after destroy.
+  has_one_attached :file, dependent: false
+
+  before_destroy -> { file.detach if file.attached? }
 
   validates :name, presence: true, length: { maximum: 255 }
   validates :file, presence: true

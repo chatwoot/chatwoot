@@ -37,6 +37,10 @@ class Api::V1::Accounts::ReusableAttachmentsController < Api::V1::Accounts::Base
   end
 
   def reusable_attachment_params
-    params.require(:reusable_attachment).permit(:name, :description, :file)
+    if params.key?(:reusable_attachment)
+      params.require(:reusable_attachment).permit(:name, :description, :file)
+    else
+      params.permit(:name, :description, :file)
+    end
   end
 end
