@@ -727,7 +727,7 @@
       "CONFIRM_BUTTON_LABEL": "Criar",
       "NAME": {
         "LABEL": "Nome",
-        "PLACEHOLDER": "Guia do Usuário | Synapse OS",
+        "PLACEHOLDER": "Guia do Usuário | Synka",
         "MESSAGE": "Escolha um nome para o seu portal.",
         "ERROR": "O nome é obrigatório"
       },

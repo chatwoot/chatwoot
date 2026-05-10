@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Synapse OS",
+    "TITLE": "Login to Synka",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "example{'@'}companyname.com",

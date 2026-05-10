@@ -99,7 +99,7 @@
         "REQUIRED": "Webhook URL is required"
       },
       "SQUADRON_ROLE": {
-        "LABEL": "Synapse Squad role",
+        "LABEL": "Synka Squad role",
         "HINT": "Required. Defines which canonical role this bot plays and which dashboard metrics it feeds.",
         "PLACEHOLDER": "Pick a role",
         "REQUIRED": "Select a squad role",

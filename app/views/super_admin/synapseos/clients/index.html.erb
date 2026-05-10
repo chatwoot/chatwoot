@@ -1,4 +1,4 @@
-<% content_for(:title) do %>Synapse Agents<% end %>
+<% content_for(:title) do %>Synka Agents<% end %>
 
 <%
   status_pill = lambda do |status|
@@ -27,7 +27,7 @@
 
 <header class="main-content__header" role="banner">
   <div class="flex items-center justify-between w-full">
-    <h1 class="main-content__page-title m-0 mr-6" id="page-title">Synapse Agents</h1>
+    <h1 class="main-content__page-title m-0 mr-6" id="page-title">Synka Agents</h1>
 
     <% if account_ids.any? %>
       <div class="flex items-center text-sm">
@@ -48,14 +48,14 @@
 <section class="main-content__body main-content__body--flush">
   <% if @error.present? %>
     <div class="m-6 p-4 border-l-4 border-red-400 bg-red-50 rounded">
-      <h2 class="text-sm font-semibold text-red-800 mb-1">Cannot reach Synapse OS Agentic</h2>
+      <h2 class="text-sm font-semibold text-red-800 mb-1">Cannot reach Synka Agentic</h2>
       <p class="text-sm text-red-700"><%= humanize_agentic_error(@error) %></p>
     </div>
   <% end %>
 
   <% if @clients.empty? && @error.blank? %>
     <div class="m-6 p-6 bg-white border border-slate-100 rounded-lg text-center">
-      <p class="text-sm text-slate-700 mb-2">No Synapse clients configured yet.</p>
+      <p class="text-sm text-slate-700 mb-2">No Synka clients configured yet.</p>
       <p class="text-sm text-slate-600">
         Configure your first client at
         <%= link_to "#{base_url}/_agentic/", "#{base_url}/_agentic/", target: '_blank', rel: 'noopener', class: 'text-woot-500 underline' %>.

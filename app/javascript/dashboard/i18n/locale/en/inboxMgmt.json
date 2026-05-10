@@ -16,7 +16,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Choose Channel",
-        "BODY": "Choose the provider you want to integrate with Synapse OS."
+        "BODY": "Choose the provider you want to integrate with Synka."
       },
       "INBOX": {
         "TITLE": "Create Inbox",
@@ -42,7 +42,7 @@
         "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Synapse OS.",
+        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Synka.",
         "CHOOSE_PAGE": "Choose Page",
         "CHOOSE_PLACEHOLDER": "Select a page from the list",
         "INBOX_NAME": "Inbox Name",
@@ -259,7 +259,7 @@
           "ACKNOWLEDGE": "I understand the risks of running an unofficial WhatsApp integration.",
           "API_KEY_LABEL": "Avisa instance token",
           "API_KEY_PLACEHOLDER": "Bearer token from your Avisa instance",
-          "API_KEY_HINT": "Token per instance, available in the Avisa API dashboard. Synapse OS stores it securely and uses it to send messages and auto-register the inbound webhook."
+          "API_KEY_HINT": "Token per instance, available in the Avisa API dashboard. Synka stores it securely and uses it to send messages and auto-register the inbound webhook."
         },
         "HYPERFLOW": {
           "EXPLAINER": "Hyperflow is reached through your N8N orchestration flow (using the official n8n-nodes-hyperflow-whatsapp node). Chatwoot POSTs outgoing messages to the N8N webhook below, and your N8N flow POSTs incoming messages back to Chatwoot through the URL shown at the bottom.",
@@ -270,7 +270,7 @@
           "N8N_URL_HINT": "URL of the N8N webhook node that receives outgoing messages from Chatwoot and forwards them to the Hyperflow node.",
           "SECRET_LABEL": "Shared secret (optional)",
           "SECRET_PLACEHOLDER": "optional shared secret",
-          "SECRET_HINT": "If set, Chatwoot sends it in the X-Synapseos-Signature header so the N8N flow can verify calls are from this Chatwoot instance.",
+          "SECRET_HINT": "If set, Chatwoot sends it in the X-Synka-Signature header so the N8N flow can verify calls are from this Chatwoot instance.",
           "INCOMING_URL_LABEL": "Incoming webhook URL (paste into your N8N 'HTTP Request to Chatwoot' step)",
           "INCOMING_URL_HINT": "Your N8N flow should POST incoming messages from Hyperflow to this URL in Meta Cloud API format (entry[].changes[].value.messages[] / contacts[])."
         },
@@ -474,7 +474,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Synapse OS supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
+        "DESC": "Synka supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -532,11 +532,11 @@
       },
       "DETAILS": {
         "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Synapse OS. You can also give a custom name to your inbox for better identification."
+        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Synka. You can also give a custom name to your inbox for better identification."
       },
       "FINISH": {
         "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Synapse OS. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Synapse OS.<br>Cool, huh? Well, we sure try to be :)"
+        "DESC": "You have successfully finished integrating your Facebook Page with Synka. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Synka.<br>Cool, huh? Well, we sure try to be :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Select your email provider",
@@ -1148,7 +1148,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Powered by Synapse OS",
+      "BRANDING_TEXT": "Powered by Synka",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

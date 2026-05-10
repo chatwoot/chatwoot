@@ -1,5 +1,5 @@
 <% content_for(:title) do %>Snapshots: <%= params[:slug] %><% end %>
-<% @activity_logs ||= SynapseosAgenticDeploymentLog.by_slug(params[:slug]).recent.limit(50) %>
+<% @activity_logs ||= SynkaAgenticDeploymentLog.by_slug(params[:slug]).recent.limit(50) %>
 
 <header class="main-content__header" role="banner">
   <div class="flex items-center justify-between w-full">
