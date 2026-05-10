@@ -15,3 +15,14 @@ vendor/bundle
 .DS_Store
 *.swp
 *~
+# CUSTOMIZAÇÃO_SYNAPSEOS — exclusões pesadas que travavam o build context
+# transfer (Mac local). GIT_SHA é passado via --build-arg, então .git
+# não é necessário dentro do contexto.
+.git
+.pnpm-store
+.claude
+.venv
+.pytest_cache
+spec
+test
+coverage
