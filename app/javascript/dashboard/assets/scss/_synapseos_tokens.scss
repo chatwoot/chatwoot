@@ -1,13 +1,15 @@
 // CUSTOMIZAÇÃO_SYNAPSEOS
-// Canonical semantic design tokens — paleta oficial SynapseOS (Manual 2026).
+// Canonical semantic design tokens — paleta oficial Synka (Manual 2026).
+// Synka é o produto principal da Dexi Digital — Revenue Operating Intelligence.
 // Dark mode redefine este mesmo bloco dentro de [data-theme='dark'] ou .synapse-dark.
 //
-// Paleta oficial:
-// - Azul Primário (Escuro)  #1A2B4D — bg sidebar, brand, botão primário
-// - Azul Secundário (Médio) #2E5C99 — gráficos, ícones, subtítulos
-// - Azul Claro (Destaque)   #6AAFE6 — botões destaque, hovers, focus ring
-// - Branco                  #FFFFFF — bg, texto sobre escuro
-// - Cinza Neutro            #CCCCCC — bordas, texto auxiliar
+// Paleta oficial Synka:
+// - Deep Blue              #1A2B4D — bg sidebar, brand, autoridade
+// - Electric Blue          #5DADE2 — logo, ícones, CTAs, destaques
+// - Medium Blue            #2E5C99 — gradientes, hover states, secundário
+// - Light Blue (bg)        #F5F8FB — fundos suaves, áreas de destaque
+// - Dark Gray              #333333 — texto secundário, bordas
+// - Branco                 #FFFFFF — bg, texto sobre escuro
 :root {
   // ----- SUPERFÍCIES (neutros frios) -------------------------------------
   --s-bg: 246 248 251;            // #F6F8FB — app background
@@ -39,20 +41,22 @@
   --s-brand-800: 38 60 102;       // #263C66 — hover (mais escuro que o medium)
   --s-brand-700: 46 92 153;       // #2E5C99 — Azul Secundário (foco secundário)
 
-  // Brand-soft (chips/tabs ativos): tom claro derivado do Azul Claro #6AAFE6
-  --s-brand-soft: 230 240 251;    // #E6F0FB — soft tint (#6AAFE6 @10%)
-  --s-brand-soft-hover: 211 229 247; // #D3E5F7
-  --s-brand-cta: 26 43 77;        // #1A2B4D — botão primário sólido
+  // Brand-soft (chips/tabs ativos): tom claro derivado do Electric Blue #5DADE2
+  --s-brand-soft: 245 248 251;    // #F5F8FB — Light Blue oficial Synka
+  --s-brand-soft-hover: 224 238 248; // #E0EEF8 — variante hover do Light Blue
+  --s-brand-cta: 26 43 77;        // #1A2B4D — Deep Blue, botão primário sólido
   --s-brand-cta-hover: 38 60 102; // #263C66
   --s-brand-cta-active: 46 92 153; // #2E5C99
-  --s-brand-text: 46 92 153;      // #2E5C99 — Azul Secundário acessível pra texto
+  --s-brand-text: 46 92 153;      // #2E5C99 — Medium Blue acessível pra texto
 
-  // ----- ACCENT (Azul Claro Destaque oficial #6AAFE6) --------------------
-  --s-accent: 106 175 230;        // #6AAFE6 — Azul Claro (foco/destaque)
-  --s-accent-500: 106 175 230;    // alias
-  --s-accent-700: 46 92 153;      // #2E5C99 — texto destaque acessível (Médio)
-  --s-accent-100: 230 240 251;    // #E6F0FB — bg suave (Azul Claro tint)
-  --s-accent-soft: 230 240 251;   // alias
+  // ----- ACCENT (Electric Blue oficial Synka #5DADE2) --------------------
+  // Manual Synka: usado em logo, ícones, CTAs, destaques. Significa
+  // energia, sincronização, movimento.
+  --s-accent: 93 173 226;         // #5DADE2 — Electric Blue
+  --s-accent-500: 93 173 226;     // alias
+  --s-accent-700: 46 92 153;      // #2E5C99 — Medium Blue (texto destaque acessível)
+  --s-accent-100: 245 248 251;    // #F5F8FB — Light Blue (bg suave)
+  --s-accent-soft: 245 248 251;   // alias
 
   // ----- STATUS (paleta Dexi acessível) ----------------------------------
   --s-success: 29 127 86;         // #1D7F56 — verde texto (WCAG AA)
@@ -69,7 +73,7 @@
   --s-info-text: 46 92 153;
 
   // ----- FOCUS RING ------------------------------------------------------
-  --s-focus: 106 175 230;         // #6AAFE6 — Azul Claro (focus visível)
+  --s-focus: 93 173 226;          // #5DADE2 — Electric Blue Synka (focus visível)
 
   // ----- SHADOWS ---------------------------------------------------------
   --s-shadow-sm: 0 1px 2px 0 rgb(26 43 77 / 0.04);
@@ -80,7 +84,7 @@
     0 4px 12px 0 rgb(26 43 77 / 0.06),
     0 12px 24px -6px rgb(26 43 77 / 0.08);
 
-  // ----- TIPOGRAFIA (oficial Manual SynapseOS) ---------------------------
+  // ----- TIPOGRAFIA (oficial Manual Synka) -------------------------------
   // Open Sans (corpo) e Montserrat (títulos/destaques) carregados via
   // <link> no app/views/layouts/vueapp.html.erb (Google Fonts).
   --s-font-sans:
@@ -120,17 +124,17 @@ html[data-theme='dark'] {
   --s-brand: 46 92 153;           // #2E5C99 — Azul Secundário (mais visível em dark)
   --s-brand-900: 46 92 153;
   --s-brand-800: 60 113 184;
-  --s-brand-700: 106 175 230;     // #6AAFE6 — Azul Claro pra foco em dark
+  --s-brand-700: 93 173 226;     // #5DADE2 — Electric Blue pra foco em dark
 
   --s-brand-soft: 22 38 66;       // tom escuro compatível com #1A2B4D
   --s-brand-soft-hover: 30 51 87;
-  --s-brand-cta: 106 175 230;     // cta no dark pega o Azul Claro (mais visível)
+  --s-brand-cta: 93 173 226;     // cta no dark pega o Electric Blue (mais visível)
   --s-brand-cta-hover: 130 187 234;
   --s-brand-cta-active: 154 199 238;
   --s-brand-text: 154 199 238;    // azul claro pra texto sobre dark
 
-  --s-accent: 106 175 230;        // Azul Claro mantém em dark
-  --s-accent-500: 106 175 230;
+  --s-accent: 93 173 226;        // Electric Blue mantém em dark
+  --s-accent-500: 93 173 226;
   --s-accent-700: 154 199 238;    // mais claro pra texto
   --s-accent-100: 22 38 66;       // soft dark
   --s-accent-soft: 22 38 66;
@@ -148,7 +152,7 @@ html[data-theme='dark'] {
   --s-info-soft: 22 38 66;
   --s-info-text: 154 199 238;
 
-  --s-focus: 106 175 230;
+  --s-focus: 93 173 226;
 
   --s-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
   --s-shadow-md:

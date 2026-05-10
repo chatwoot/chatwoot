@@ -66,9 +66,10 @@ x-chatwoot-base: &chatwoot-base
     # Synapseos Agentic Panel (link no super admin)
     AGENTIC_PANEL_URL: https://painel.dexidigital.com.br
 
-    # Branding (white-label) — nome oficial conforme Manual de Identidade Visual
-    BRAND_NAME: SynapseOS
-    INSTALLATION_NAME: SynapseOS
+    # Branding (white-label) — nome oficial conforme Manual de Identidade Visual Synka.
+    # Synka é o produto principal da Dexi Digital; "Revenue Operating Intelligence".
+    BRAND_NAME: Synka
+    INSTALLATION_NAME: Synka
 
 services:
   app:
