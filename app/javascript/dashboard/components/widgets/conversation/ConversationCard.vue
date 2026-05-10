@@ -101,6 +101,36 @@ const inbox = computed(() => {
   return inboxId.value ? store.getters['inboxes/getInbox'](inboxId.value) : {};
 });
 
+const isAWhatsAppChannel = computed(() => {
+  if (!inbox.value) return false;
+  const channelType = inbox.value.channel_type || inbox.value.channelType;
+  const medium = inbox.value.medium || '';
+  return (
+    channelType === 'Channel::Whatsapp' ||
+    (channelType === 'Channel::TwilioSms' && medium === 'whatsapp')
+  );
+});
+
+const formattedPhoneNumber = computed(() => {
+  const name = currentContact.value.name || '';
+  const phone = currentContact.value.phone_number;
+
+  if (
+    isAWhatsAppChannel.value &&
+    phone &&
+    name !== phone &&
+    !name.includes(phone)
+  ) {
+    let cleanPhone = phone.replace(/^\+/, '');
+    if (cleanPhone.startsWith('2')) {
+      cleanPhone = cleanPhone.substring(1);
+    }
+    return cleanPhone;
+  }
+
+  return null;
+});
+
 const showInboxName = computed(() => {
   return (
     !props.hideInboxName &&
@@ -246,7 +276,8 @@ const deleteConversation = () => {
   <div
     class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group transition-all duration-150"
     :class="{
-      'active animate-card-select bg-n-background border-l-[3px] !border-l-n-brand': isActiveChat,
+      'active animate-card-select bg-n-background border-l-[3px] !border-l-n-brand':
+        isActiveChat,
       'bg-n-slate-2': selected,
       'px-0': compact,
       'px-3': !compact,
@@ -288,9 +319,7 @@ const deleteConversation = () => {
         </template>
       </Avatar>
     </div>
-    <div
-      class="px-0 py-3 border-b flex-1 border-n-weak min-w-0"
-    >
+    <div class="px-0 py-3 border-b flex-1 border-n-weak min-w-0">
       <div
         v-if="showMetaSection"
         class="flex items-center min-w-0 gap-1"
@@ -316,12 +345,37 @@ const deleteConversation = () => {
           <PriorityMark :priority="chat.priority" class="flex-shrink-0" />
         </div>
       </div>
-      <h4
-        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap flex-1 min-w-0 ltr:pr-16 rtl:pl-16"
-        :class="hasUnread ? 'font-bold text-n-slate-12' : 'font-medium text-n-slate-12'"
+      <div
+        class="flex items-center my-0 mx-2 pt-0.5 flex-1 min-w-0 ltr:pr-16 rtl:pl-16"
       >
-        {{ currentContact.name }}
-      </h4>
+        <div
+          v-if="formattedPhoneNumber"
+          class="inline-flex items-stretch border border-[#BBDEFB] dark:border-[#1E40AF] rounded max-w-full overflow-hidden shadow-sm"
+        >
+          <h4
+            class="conversation--user text-xs px-2 py-0.5 capitalize text-ellipsis overflow-hidden whitespace-nowrap min-w-0 bg-[#E3F2FD] dark:bg-[#1E3A8A] text-[#1565C0] dark:text-[#93C5FD] font-bold"
+          >
+            {{ currentContact.name }}
+          </h4>
+          <span
+            class="px-2 py-0.5 text-[10px] ltr:border-l rtl:border-r border-[#BBDEFB] dark:border-[#1E40AF] flex-shrink-0 flex items-center bg-[#E8F5E9] dark:bg-[#064E3B] text-[#2E7D32] dark:text-[#6EE7B7] font-bold"
+            dir="ltr"
+          >
+            {{ formattedPhoneNumber }}
+          </span>
+        </div>
+        <h4
+          v-else
+          class="conversation--user text-sm capitalize text-ellipsis overflow-hidden whitespace-nowrap min-w-0"
+          :class="
+            hasUnread
+              ? 'font-bold text-n-slate-12'
+              : 'font-medium text-n-slate-12'
+          "
+        >
+          {{ currentContact.name }}
+        </h4>
+      </div>
       <VoiceCallStatus
         v-if="voiceCallData.status"
         key="voice-status-row"
@@ -356,16 +410,18 @@ const deleteConversation = () => {
         class="absolute flex flex-col ltr:right-3 rtl:left-3"
         :class="showMetaSection ? 'top-8' : 'top-4'"
       >
-        <span class="ml-auto font-normal leading-4 text-xxs text-n-slate-10" :style="hasUnread ? 'color: #25D366;' : ''">
+        <span
+          class="ml-auto font-normal leading-4 text-xxs"
+          :class="hasUnread ? 'text-[#25D366]' : 'text-n-slate-10'"
+        >
           <TimeAgo
             :last-activity-timestamp="chat.timestamp"
             :created-at-timestamp="chat.created_at"
           />
         </span>
         <span
-          class="shadow-lg rounded-full text-xxs font-bold h-[18px] leading-[18px] ltr:ml-auto rtl:mr-auto mt-1 min-w-[18px] px-1.5 py-0 text-center text-white"
+          class="shadow-lg rounded-full text-xxs font-bold h-[18px] leading-[18px] ltr:ml-auto rtl:mr-auto mt-1 min-w-[18px] px-1.5 py-0 text-center text-white bg-[#25D366]"
           :class="hasUnread ? 'block' : 'hidden'"
-          style="background-color: #25D366;"
         >
           {{ unreadCount > 9 ? '9+' : unreadCount }}
         </span>

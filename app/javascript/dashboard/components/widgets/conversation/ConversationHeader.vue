@@ -30,7 +30,7 @@ const store = useStore();
 const route = useRoute();
 const conversationHeader = ref(null);
 const { width } = useElementSize(conversationHeader);
-const { isAWebWidgetInbox } = useInbox();
+const { isAWebWidgetInbox, isAWhatsAppChannel } = useInbox();
 
 const currentChat = computed(() => store.getters.getSelectedChat);
 const accountId = computed(() => store.getters.getCurrentAccountId);
@@ -64,9 +64,32 @@ const isHMACVerified = computed(() => {
   return chatMetadata.value.hmac_verified;
 });
 
-const currentContact = computed(() =>
-  store.getters['contacts/getContact'](props.chat.meta.sender.id)
-);
+const currentContact = computed(() => {
+  const contact = store.getters['contacts/getContact'](
+    props.chat.meta.sender.id
+  );
+  return contact || {};
+});
+
+const formattedPhoneNumber = computed(() => {
+  const name = currentContact.value.name || '';
+  const phone = currentContact.value.phone_number;
+
+  if (
+    isAWhatsAppChannel.value &&
+    phone &&
+    name !== phone &&
+    !name.includes(phone)
+  ) {
+    let cleanPhone = phone.replace(/^\+/, '');
+    if (cleanPhone.startsWith('2')) {
+      cleanPhone = cleanPhone.substring(1);
+    }
+    return cleanPhone;
+  }
+
+  return null;
+});
 
 const isSnoozed = computed(
   () => currentChat.value.status === wootConstants.STATUS_TYPE.SNOOZED
@@ -117,7 +140,24 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
         class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2"
       >
         <div class="flex flex-row items-center max-w-full gap-1 p-0 m-0">
+          <div
+            v-if="formattedPhoneNumber"
+            class="inline-flex items-stretch border border-[#BBDEFB] dark:border-[#1E40AF] rounded-md max-w-full overflow-hidden shadow-sm"
+          >
+            <span
+              class="text-sm font-bold truncate leading-tight px-2.5 py-1 bg-[#E3F2FD] dark:bg-[#1E3A8A] text-[#1565C0] dark:text-[#93C5FD]"
+            >
+              {{ currentContact.name }}
+            </span>
+            <span
+              class="px-2.5 py-1 text-[11px] font-bold ltr:border-l rtl:border-r border-[#BBDEFB] dark:border-[#1E40AF] flex-shrink-0 flex items-center bg-[#E8F5E9] dark:bg-[#064E3B] text-[#2E7D32] dark:text-[#6EE7B7]"
+              dir="ltr"
+            >
+              {{ formattedPhoneNumber }}
+            </span>
+          </div>
           <span
+            v-else
             class="text-sm font-medium truncate leading-tight text-n-slate-12"
           >
             {{ currentContact.name }}

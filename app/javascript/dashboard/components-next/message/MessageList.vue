@@ -5,6 +5,7 @@ import { MESSAGE_TYPES } from './constants.js';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import MessageApi from 'dashboard/api/inbox/message.js';
+import DateSeparator from './DateSeparator.vue';
 
 /**
  * Props definition for the component
@@ -160,12 +161,33 @@ const getInReplyToMessage = parentMessage => {
 
   return replyMessage ? useCamelCase(replyMessage) : null;
 };
+
+/**
+ * Determines if a date separator should be shown before this message
+ * @param {Number} index - Index of the current message
+ * @param {Array} messages - Array of all messages
+ * @returns {Boolean} - Whether to show the date separator
+ */
+const shouldShowDateSeparator = (index, messages) => {
+  if (index === 0) return true;
+  const currentMsgDate = new Date(
+    messages[index].createdAt * 1000
+  ).toDateString();
+  const prevMsgDate = new Date(
+    messages[index - 1].createdAt * 1000
+  ).toDateString();
+  return currentMsgDate !== prevMsgDate;
+};
 </script>
 
 <template>
   <ul class="px-4 bg-n-surface-1">
     <slot name="beforeAll" />
     <template v-for="(message, index) in allMessages" :key="message.id">
+      <DateSeparator
+        v-if="shouldShowDateSeparator(index, allMessages)"
+        :date="message.createdAt"
+      />
       <slot
         v-if="firstUnreadId && message.id === firstUnreadId"
         name="unreadBadge"

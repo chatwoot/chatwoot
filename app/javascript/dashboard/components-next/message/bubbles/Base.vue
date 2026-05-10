@@ -41,16 +41,6 @@ const orientationMap = {
   [ORIENTATION.CENTER]: 'rounded-md',
 };
 
-const flexOrientationClass = computed(() => {
-  const map = {
-    [ORIENTATION.LEFT]: 'justify-start',
-    [ORIENTATION.RIGHT]: 'justify-end',
-    [ORIENTATION.CENTER]: 'justify-center',
-  };
-
-  return map[orientation.value];
-});
-
 const messageClass = computed(() => {
   const classToApply = [varaintBaseMap[variant.value]];
 
@@ -117,13 +107,12 @@ const replyToPreview = computed(() => {
     <MessageMeta
       v-if="shouldShowMeta"
       :class="[
-        flexOrientationClass,
         variant === MESSAGE_VARIANTS.EMAIL ? 'px-3 pb-3' : '',
         variant === MESSAGE_VARIANTS.PRIVATE
           ? 'text-n-amber-12/50'
           : 'text-n-slate-11',
       ]"
-      class="mt-2"
+      class="mt-1 justify-end"
     />
   </div>
 </template>
