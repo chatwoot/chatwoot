@@ -135,7 +135,7 @@ class User < ApplicationRecord
 
   before_validation do
     self.email = email.try(:downcase)
-    self.username = username.try(:strip)&.downcase
+    self.username = username.try(:strip)&.downcase.presence
     self.phone_number = phone_number.try(:strip).presence
   end
 
