@@ -1,0 +1,70 @@
+// =============================================================================
+// Arabic font setup
+// =============================================================================
+// Two Arabic fonts are registered with disjoint scopes:
+//
+// 1) Cairo  -> registered under 'Inter' / 'InterDisplay' family names so it is
+//    used by the entire UI (sidebar, headers, labels, customer names, lists).
+//    The unicode-range limits it to Arabic glyphs only — Latin keeps Inter.
+//
+// 2) Noto Sans Arabic -> registered under 'BubbleArabic' family name, applied
+//    only to message-bubble content via the `.prose-bubble` class. This gives
+//    conversation messages a WhatsApp-like neutral system-font feel for Arabic
+//    text, while Latin text inside bubbles still uses Inter.
+// =============================================================================
+
+// --- 1) Cairo for general UI ------------------------------------------------
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('shared/assets/fonts/Arabic/Cairo-Variable.woff2') format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891,
+    U+0898-08E1, U+08E3-08FF, U+FB50-FDFF, U+FE70-FEFF;
+  size-adjust: 95%;
+}
+
+@font-face {
+  font-family: 'InterDisplay';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('shared/assets/fonts/Arabic/Cairo-Variable.woff2') format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891,
+    U+0898-08E1, U+08E3-08FF, U+FB50-FDFF, U+FE70-FEFF;
+  size-adjust: 95%;
+}
+
+// --- 2) Noto Sans Arabic for message bubbles --------------------------------
+@font-face {
+  font-family: 'BubbleArabic';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('shared/assets/fonts/Arabic/NotoSansArabic-Variable.woff2')
+    format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891,
+    U+0898-08E1, U+08E3-08FF, U+FB50-FDFF, U+FE70-FEFF;
+  size-adjust: 100%;
+}
+
+// Apply to message-bubble text content, conversation-list previews, and the
+// ProseMirror reply editor — so all "conversation-text" surfaces share the
+// same Arabic typography. Latin chars fall through to Inter.
+.prose-bubble,
+.font-bubble-text,
+.ProseMirror {
+  font-family:
+    'BubbleArabic',
+    'Inter',
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Tahoma,
+    Arial,
+    sans-serif;
+}

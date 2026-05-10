@@ -78,7 +78,7 @@ export default {
 </script>
 
 <template>
-  <div class="overflow-hidden text-ellipsis whitespace-nowrap" dir="auto" style="unicode-bidi: plaintext;">
+  <div class="overflow-hidden text-ellipsis whitespace-nowrap font-bubble-text" dir="auto" style="unicode-bidi: plaintext;">
     <template v-if="showMessageType">
       <fluent-icon
         v-if="isMessagePrivate"
