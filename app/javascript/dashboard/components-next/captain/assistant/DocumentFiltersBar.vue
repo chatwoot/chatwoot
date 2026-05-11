@@ -3,26 +3,15 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 
 const props = defineProps({
-  activeSourceFilter: {
-    type: String,
-    default: 'all',
-  },
-  activeStatusFilter: {
-    type: String,
-    default: null,
-  },
-  activeSort: {
-    type: String,
-    default: 'recently_updated',
-  },
-  searchQuery: {
-    type: String,
-    default: '',
-  },
+  activeSourceFilter: { type: String, default: 'all' },
+  activeStatusFilter: { type: String, default: null },
+  activeSort: { type: String, default: 'recently_updated' },
+  searchQuery: { type: String, default: '' },
 });
 
 const emit = defineEmits([
@@ -36,101 +25,80 @@ const { t } = useI18n();
 
 const openMenu = ref(null);
 
-const sourceOptions = computed(() => [
+const MENU_CONFIG = [
   {
-    label: t('CAPTAIN.DOCUMENTS.FILTERS.SOURCE.ALL'),
-    value: 'all',
-    action: 'source',
-    icon: 'i-lucide-files',
-    isSelected: props.activeSourceFilter === 'all',
+    key: 'source',
+    activeKey: 'activeSourceFilter',
+    dropdownClass: 'min-w-48',
+    options: [
+      { labelKey: 'SOURCE.ALL', value: 'all', icon: 'i-lucide-files' },
+      { labelKey: 'SOURCE.WEB', value: 'web', icon: 'i-lucide-link' },
+      { labelKey: 'SOURCE.PDF', value: 'pdf', icon: 'i-lucide-file-text' },
+    ],
   },
   {
-    label: t('CAPTAIN.DOCUMENTS.FILTERS.SOURCE.WEB'),
-    value: 'web',
-    action: 'source',
-    icon: 'i-lucide-link',
-    isSelected: props.activeSourceFilter === 'web',
+    key: 'status',
+    activeKey: 'activeStatusFilter',
+    dropdownClass: 'min-w-52',
+    options: [
+      { labelKey: 'STATUS.ANY', value: null, icon: 'i-lucide-circle-dashed' },
+      {
+        labelKey: 'STATUS.UPDATED',
+        value: 'synced',
+        icon: 'i-lucide-check-circle',
+      },
+      {
+        labelKey: 'STATUS.NEEDS_UPDATE',
+        value: 'stale',
+        icon: 'i-lucide-clock',
+      },
+      {
+        labelKey: 'STATUS.UPDATING',
+        value: 'syncing',
+        icon: 'i-lucide-refresh-cw',
+      },
+      {
+        labelKey: 'STATUS.FAILED',
+        value: 'failed',
+        icon: 'i-lucide-circle-x',
+      },
+    ],
   },
   {
-    label: t('CAPTAIN.DOCUMENTS.FILTERS.SOURCE.PDF'),
-    value: 'pdf',
-    action: 'source',
-    icon: 'i-lucide-file-text',
-    isSelected: props.activeSourceFilter === 'pdf',
+    key: 'sort',
+    activeKey: 'activeSort',
+    dropdownClass: 'min-w-56',
+    options: [
+      {
+        labelKey: 'SORT.RECENTLY_UPDATED',
+        value: 'recently_updated',
+        icon: 'i-lucide-arrow-down-up',
+      },
+      {
+        labelKey: 'SORT.RECENTLY_CREATED',
+        value: 'recently_created',
+        icon: 'i-lucide-clock',
+      },
+    ],
   },
-]);
+];
 
-const statusOptions = computed(() => [
-  {
-    label: t('CAPTAIN.DOCUMENTS.FILTERS.STATUS.ANY'),
-    value: null,
-    action: 'status',
-    icon: 'i-lucide-circle-dashed',
-    isSelected: !props.activeStatusFilter,
-  },
-  {
-    label: t('CAPTAIN.DOCUMENTS.FILTERS.STATUS.UPDATED'),
-    value: 'synced',
-    action: 'status',
-    icon: 'i-lucide-check-circle',
-    isSelected: props.activeStatusFilter === 'synced',
-  },
-  {
-    label: t('CAPTAIN.DOCUMENTS.FILTERS.STATUS.NEEDS_UPDATE'),
-    value: 'stale',
-    action: 'status',
-    icon: 'i-lucide-clock',
-    isSelected: props.activeStatusFilter === 'stale',
-  },
-  {
-    label: t('CAPTAIN.DOCUMENTS.FILTERS.STATUS.UPDATING'),
-    value: 'syncing',
-    action: 'status',
-    icon: 'i-lucide-refresh-cw',
-    isSelected: props.activeStatusFilter === 'syncing',
-  },
-  {
-    label: t('CAPTAIN.DOCUMENTS.FILTERS.STATUS.FAILED'),
-    value: 'failed',
-    action: 'status',
-    icon: 'i-lucide-circle-x',
-    isSelected: props.activeStatusFilter === 'failed',
-  },
-]);
-
-const sortOptions = computed(() => [
-  {
-    label: t('CAPTAIN.DOCUMENTS.FILTERS.SORT.RECENTLY_UPDATED'),
-    value: 'recently_updated',
-    action: 'sort',
-    icon: 'i-lucide-arrow-down-up',
-    isSelected: props.activeSort === 'recently_updated',
-  },
-  {
-    label: t('CAPTAIN.DOCUMENTS.FILTERS.SORT.RECENTLY_CREATED'),
-    value: 'recently_created',
-    action: 'sort',
-    icon: 'i-lucide-clock',
-    isSelected: props.activeSort === 'recently_created',
-  },
-]);
-
-const selectedSourceOption = computed(
-  () =>
-    sourceOptions.value.find(item => item.value === props.activeSourceFilter) ||
-    sourceOptions.value[0]
-);
-
-const selectedStatusOption = computed(
-  () =>
-    statusOptions.value.find(item => item.value === props.activeStatusFilter) ||
-    statusOptions.value[0]
-);
-
-const selectedSortOption = computed(
-  () =>
-    sortOptions.value.find(item => item.value === props.activeSort) ||
-    sortOptions.value[0]
+const filterMenus = computed(() =>
+  MENU_CONFIG.map(menu => {
+    const active = props[menu.activeKey];
+    const items = menu.options.map(opt => ({
+      label: t(`CAPTAIN.DOCUMENTS.FILTERS.${opt.labelKey}`),
+      value: opt.value,
+      icon: opt.icon,
+      action: menu.key,
+      isSelected: opt.value === active,
+    }));
+    return {
+      ...menu,
+      items,
+      selected: items.find(item => item.isSelected) || items[0],
+    };
+  })
 );
 
 const closeMenu = () => {
@@ -143,13 +111,9 @@ const toggleMenu = menu => {
 
 const handleMenuAction = ({ action, value }) => {
   closeMenu();
-  if (action === 'source') {
-    emit('selectSource', value);
-  } else if (action === 'status') {
-    emit('selectStatus', value);
-  } else if (action === 'sort') {
-    emit('selectSort', value);
-  }
+  if (action === 'source') emit('selectSource', value);
+  else if (action === 'status') emit('selectStatus', value);
+  else if (action === 'sort') emit('selectSort', value);
 };
 </script>
 
@@ -159,94 +123,41 @@ const handleMenuAction = ({ action, value }) => {
     class="flex flex-col gap-3 w-full lg:flex-row lg:items-center lg:justify-between"
   >
     <div class="flex flex-wrap items-center gap-2">
-      <div class="relative">
+      <div v-for="menu in filterMenus" :key="menu.key" class="relative">
         <Button
-          :label="selectedSourceOption.label"
-          :icon="selectedSourceOption.icon"
+          :icon="menu.selected.icon"
           slate
           outline
-          size="md"
-          class="min-w-[10rem] !justify-between bg-n-solid-1"
-          @click="toggleMenu('source')"
+          :class="{ 'bg-n-slate-9/10': openMenu === menu.key }"
+          @click="toggleMenu(menu.key)"
         >
-          <template #default>
-            <span class="min-w-0 truncate">
-              {{ selectedSourceOption.label }}
-            </span>
-            <Icon icon="i-lucide-chevron-down" class="shrink-0 size-4" />
-          </template>
+          <span class="min-w-0 truncate">{{ menu.selected.label }}</span>
+          <Icon icon="i-lucide-chevron-down" class="shrink-0 size-4" />
         </Button>
         <DropdownMenu
-          v-if="openMenu === 'source'"
-          :menu-items="sourceOptions"
-          class="top-full mt-2 ltr:left-0 rtl:right-0 min-w-48"
-          @action="handleMenuAction"
-        />
-      </div>
-
-      <div class="relative">
-        <Button
-          :label="selectedStatusOption.label"
-          :icon="selectedStatusOption.icon"
-          slate
-          outline
-          size="md"
-          class="min-w-[10rem] !justify-between bg-n-solid-1"
-          @click="toggleMenu('status')"
-        >
-          <template #default>
-            <span class="min-w-0 truncate">
-              {{ selectedStatusOption.label }}
-            </span>
-            <Icon icon="i-lucide-chevron-down" class="shrink-0 size-4" />
-          </template>
-        </Button>
-        <DropdownMenu
-          v-if="openMenu === 'status'"
-          :menu-items="statusOptions"
-          class="top-full mt-2 ltr:left-0 rtl:right-0 min-w-52"
-          @action="handleMenuAction"
-        />
-      </div>
-
-      <div class="relative">
-        <Button
-          :label="selectedSortOption.label"
-          :icon="selectedSortOption.icon"
-          slate
-          outline
-          size="md"
-          class="min-w-[12rem] !justify-between bg-n-solid-1"
-          @click="toggleMenu('sort')"
-        >
-          <template #default>
-            <span class="min-w-0 truncate">{{ selectedSortOption.label }}</span>
-            <Icon icon="i-lucide-chevron-down" class="shrink-0 size-4" />
-          </template>
-        </Button>
-        <DropdownMenu
-          v-if="openMenu === 'sort'"
-          :menu-items="sortOptions"
-          class="top-full mt-2 ltr:left-0 rtl:right-0 min-w-56"
+          v-if="openMenu === menu.key"
+          :menu-items="menu.items"
+          :class="menu.dropdownClass"
+          class="top-full mt-2 ltr:left-0 rtl:right-0"
           @action="handleMenuAction"
         />
       </div>
     </div>
 
-    <label
-      class="relative flex items-center w-full h-10 rounded-lg outline outline-1 outline-n-container bg-n-solid-1 lg:max-w-72"
+    <Input
+      :model-value="searchQuery"
+      type="search"
+      :placeholder="t('CAPTAIN.DOCUMENTS.FILTERS.SEARCH_PLACEHOLDER')"
+      :custom-input-class="['ltr:!pl-9 rtl:!pr-9']"
+      class="w-full lg:max-w-72"
+      @input="emit('search', $event.target.value)"
     >
-      <Icon
-        icon="i-lucide-search"
-        class="absolute size-4 text-n-slate-11 ltr:left-3 rtl:right-3"
-      />
-      <input
-        :value="searchQuery"
-        type="search"
-        :placeholder="t('CAPTAIN.DOCUMENTS.FILTERS.SEARCH_PLACEHOLDER')"
-        class="w-full h-full py-0 text-sm border-0 reset-base bg-transparent text-n-slate-12 placeholder:text-n-slate-10 focus:outline-none ltr:pl-9 ltr:pr-3 rtl:pr-9 rtl:pl-3"
-        @input="emit('search', $event.target.value)"
-      />
-    </label>
+      <template #prefix>
+        <Icon
+          icon="i-lucide-search"
+          class="absolute size-4 text-n-slate-11 top-1/2 -translate-y-1/2 ltr:left-3 rtl:right-3"
+        />
+      </template>
+    </Input>
   </div>
 </template>
