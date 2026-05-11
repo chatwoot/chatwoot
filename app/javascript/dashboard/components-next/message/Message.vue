@@ -146,6 +146,8 @@ const showEmojiPicker = ref(false);
 
 const QUICK_EMOJIS = ['👍', '❤️', '😂', '😮', '😢', '🙏'];
 
+const conversationGetter = useMapGetter('getConversationById');
+
 const reactions = computed(() => {
   const raw = props.contentAttributes?.reactions || [];
   if (!raw.length) return [];
@@ -160,8 +162,15 @@ const reactions = computed(() => {
       };
     }
     groups[reaction.emoji].count += 1;
-    if (reaction.senderName) {
-      groups[reaction.emoji].senders.push(reaction.senderName);
+
+    let senderName = reaction.senderName;
+    if (!senderName) {
+      const conversation = conversationGetter.value(props.conversationId);
+      senderName = conversation?.meta?.sender?.name || 'Contact';
+    }
+
+    if (senderName && !groups[reaction.emoji].senders.includes(senderName)) {
+      groups[reaction.emoji].senders.push(senderName);
     }
   });
   return Object.values(groups);
