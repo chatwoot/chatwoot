@@ -123,6 +123,13 @@ export function cleanSignature(signature) {
   }
 }
 
+// Strip `\<newline>` hardbreak markers trailing `--` after a signature slice
+const stripDelimiterHardbreaks = body =>
+  body.replace(/(--)\s*(?:\\\s*)+$/, '$1');
+
+// Strip standalone blank-paragraph markers (`\` on their own lines).
+const stripTrailingBlankLine = body => body.replace(/\n(?:\s*\\\n)+$/, '');
+
 /**
  * Adds the signature delimiter to the beginning of the signature.
  *
@@ -227,13 +234,19 @@ export function removeSignature(body, signature, channelType) {
   // trimming will ensure any spaces or new lines before the signature are removed
   // This means we will have the delimiter at the end
   if (signatureIndex > -1) {
-    newBody = newBody.substring(0, signatureIndex).trimEnd();
+    newBody = stripDelimiterHardbreaks(
+      newBody.substring(0, signatureIndex)
+    ).trimEnd();
   }
 
   // Remove delimiter if it's at the end
   if (newBody.endsWith(SIGNATURE_DELIMITER)) {
     // if the delimiter is at the end, remove it
     newBody = newBody.slice(0, -SIGNATURE_DELIMITER.length);
+    // strip any trailing blank-line markers
+    if (signatureIndex > -1) {
+      newBody = stripTrailingBlankLine(newBody);
+    }
   }
 
   return newBody;
