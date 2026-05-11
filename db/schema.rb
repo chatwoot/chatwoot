@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_07_214147) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_11_001747) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -969,10 +969,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_07_214147) do
   create_table "kanban_card_activities", force: :cascade do |t|
     t.bigint "kanban_card_id", null: false
     t.bigint "from_column_id"
-    t.bigint "to_column_id", null: false
-    t.bigint "user_id", null: false
+    t.bigint "to_column_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "source", default: 0, null: false
+    t.integer "event_type", default: 0, null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.index ["event_type"], name: "index_kanban_card_activities_on_event_type"
     t.index ["from_column_id"], name: "index_kanban_card_activities_on_from_column_id"
     t.index ["kanban_card_id", "created_at"], name: "index_kanban_card_activities_on_kanban_card_id_and_created_at"
     t.index ["kanban_card_id"], name: "index_kanban_card_activities_on_kanban_card_id"
@@ -1006,11 +1010,13 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_07_214147) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "conversation_id"
+    t.datetime "entered_stage_at", null: false
     t.index ["contact_id"], name: "index_kanban_cards_on_contact_id"
     t.index ["conversation_id"], name: "index_kanban_cards_on_conversation_id"
     t.index ["conversation_id"], name: "index_kanban_cards_on_conversation_id_unique", unique: true, where: "(conversation_id IS NOT NULL)"
     t.index ["created_by_id"], name: "index_kanban_cards_on_created_by_id"
     t.index ["kanban_board_id"], name: "index_kanban_cards_on_kanban_board_id"
+    t.index ["kanban_column_id", "entered_stage_at"], name: "index_kanban_cards_on_column_and_entered_stage_at"
     t.index ["kanban_column_id", "position"], name: "index_kanban_cards_on_kanban_column_id_and_position"
     t.index ["kanban_column_id"], name: "index_kanban_cards_on_kanban_column_id"
   end

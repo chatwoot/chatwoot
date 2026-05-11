@@ -67,6 +67,13 @@
       "TIMELINE": {
         "CREATED": "Lead created",
         "MOVED": "Moved from {from} to {to} by {user}",
+        "STAGE_CHANGED_BY_SYSTEM": "Moved to {to} automatically",
+        "STAGE_CHANGED_BY_MACRO": "Macro \"{macro}\" moved to {to}",
+        "CONVERSATION_CLOSED": "Conversation closed — classification: {classification}",
+        "CONVERSATION_CLOSED_NO_CLASSIFICATION": "Conversation closed",
+        "CLOSURE_CANCELLED": "Closure cancelled ({reason})",
+        "MACRO_TRIGGERED": "Macro \"{macro}\" triggered",
+        "UNKNOWN_EVENT": "Activity recorded",
         "SYSTEM": "System"
       },
       "SCHEDULE": {

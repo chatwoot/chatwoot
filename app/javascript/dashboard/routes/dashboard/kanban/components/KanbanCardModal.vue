@@ -115,6 +115,46 @@ const PRIORITY_OPTIONS = [
 const conversationPriority = ref(null);
 const initialPriority = ref(null);
 
+function activityLabel(a) {
+  const systemActor = t('KANBAN.CARD.TIMELINE.SYSTEM');
+  const macroName = a.metadata?.macro_name;
+  const classification = a.metadata?.classification_name;
+  const reason = a.metadata?.reason;
+
+  if (a.event_type === 'stage_changed') {
+    if (a.source === 'macro' && macroName) {
+      return t('KANBAN.CARD.TIMELINE.STAGE_CHANGED_BY_MACRO', {
+        macro: macroName,
+        to: a.to_column_name || '—',
+      });
+    }
+    if (a.source === 'system') {
+      return t('KANBAN.CARD.TIMELINE.STAGE_CHANGED_BY_SYSTEM', {
+        to: a.to_column_name || '—',
+      });
+    }
+    return t('KANBAN.CARD.TIMELINE.MOVED', {
+      from: a.from_column_name || '—',
+      to: a.to_column_name || '—',
+      user: a.user_name || systemActor,
+    });
+  }
+  if (a.event_type === 'conversation_closed') {
+    return classification
+      ? t('KANBAN.CARD.TIMELINE.CONVERSATION_CLOSED', { classification })
+      : t('KANBAN.CARD.TIMELINE.CONVERSATION_CLOSED_NO_CLASSIFICATION');
+  }
+  if (a.event_type === 'closure_cancelled') {
+    return t('KANBAN.CARD.TIMELINE.CLOSURE_CANCELLED', {
+      reason: reason || 'manual_reopen',
+    });
+  }
+  if (a.event_type === 'macro_triggered' && macroName) {
+    return t('KANBAN.CARD.TIMELINE.MACRO_TRIGGERED', { macro: macroName });
+  }
+  return t('KANBAN.CARD.TIMELINE.UNKNOWN_EVENT');
+}
+
 const activityLog = computed(() => {
   const events = [];
   events.push({
@@ -129,12 +169,8 @@ const activityLog = computed(() => {
     .forEach(a => {
       events.push({
         id: a.id,
-        type: 'moved',
-        label: t('KANBAN.CARD.TIMELINE.MOVED', {
-          from: a.from_column_name || '—',
-          to: a.to_column_name || '—',
-          user: a.user_name || t('KANBAN.CARD.TIMELINE.SYSTEM'),
-        }),
+        type: a.event_type || 'moved',
+        label: activityLabel(a),
         timestamp: a.created_at,
       });
     });

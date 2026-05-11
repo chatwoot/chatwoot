@@ -73,37 +73,19 @@ export default {
     return data;
   },
 
-  async moveCard(
-    { commit, state },
-    { card, targetColumnId, beforePosition, afterPosition }
-  ) {
+  async moveCard({ commit }, { card, targetColumnId }) {
     const originalColumnId = card.kanban_column_id;
-    const originalCards = [...(state.cards[originalColumnId] || [])];
+    if (String(originalColumnId) === String(targetColumnId)) return;
 
-    // Calculate optimistic position
-    let newPosition;
-    if (beforePosition != null && afterPosition != null) {
-      newPosition = (beforePosition + afterPosition) / 2;
-    } else if (beforePosition != null) {
-      newPosition = beforePosition + 1.0;
-    } else if (afterPosition != null) {
-      newPosition = afterPosition / 2.0;
-    } else {
-      newPosition = (state.cards[targetColumnId] || []).length + 1.0;
-    }
-
-    // Optimistic update
-    commit('MOVE_CARD_OPTIMISTIC', { card, targetColumnId, newPosition });
+    commit('MOVE_CARD_OPTIMISTIC', { card, targetColumnId });
 
     try {
       const { data } = await KanbanAPI.moveCard(card.id, {
         columnId: targetColumnId,
-        beforePosition,
-        afterPosition,
       });
       commit('UPDATE_CARD', data);
     } catch {
-      commit('REVERT_CARD_MOVE', { card, originalColumnId, originalCards });
+      commit('REVERT_CARD_MOVE', { card, originalColumnId });
     }
   },
 

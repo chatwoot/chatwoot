@@ -1,3 +1,5 @@
+import { insertSortedByRule } from './sort';
+
 export default {
   SET_BOARD(state, board) {
     state.board = board;
@@ -57,48 +59,51 @@ export default {
     };
   },
 
-  MOVE_CARD_OPTIMISTIC(state, { card, targetColumnId, newPosition }) {
+  MOVE_CARD_OPTIMISTIC(state, { card, targetColumnId }) {
     const sourceColumnId = card.kanban_column_id;
+    if (String(sourceColumnId) === String(targetColumnId)) return;
+
+    const targetColumn = state.columns.find(
+      c => String(c.id) === String(targetColumnId)
+    );
     const updatedCard = {
       ...card,
       kanban_column_id: targetColumnId,
-      position: newPosition,
+      entered_stage_at: new Date().toISOString(),
     };
 
-    if (String(sourceColumnId) === String(targetColumnId)) {
-      state.cards = {
-        ...state.cards,
-        [targetColumnId]: (state.cards[targetColumnId] || []).map(c =>
-          c.id === card.id ? updatedCard : c
-        ),
-      };
-    } else {
-      const targetCards = [
-        ...(state.cards[targetColumnId] || []).filter(c => c.id !== card.id),
-        updatedCard,
-      ].sort((a, b) => a.position - b.position);
-      state.cards = {
-        ...state.cards,
-        [sourceColumnId]: (state.cards[sourceColumnId] || []).filter(
-          c => c.id !== card.id
-        ),
-        [targetColumnId]: targetCards,
-      };
-    }
+    const sourceCards = (state.cards[sourceColumnId] || []).filter(
+      c => c.id !== card.id
+    );
+    const targetCards = insertSortedByRule(
+      (state.cards[targetColumnId] || []).filter(c => c.id !== card.id),
+      updatedCard,
+      targetColumn
+    );
+
+    state.cards = {
+      ...state.cards,
+      [sourceColumnId]: sourceCards,
+      [targetColumnId]: targetCards,
+    };
   },
 
-  REVERT_CARD_MOVE(state, { card, originalColumnId, originalCards }) {
-    const newCards = { ...state.cards, [originalColumnId]: originalCards };
-    const otherColId = Object.keys(state.cards).find(
-      colId =>
-        String(colId) !== String(originalColumnId) &&
-        (state.cards[colId] || []).some(c => c.id === card.id)
+  REVERT_CARD_MOVE(state, { card, originalColumnId }) {
+    const originalColumn = state.columns.find(
+      c => String(c.id) === String(originalColumnId)
     );
-    if (otherColId) {
-      newCards[otherColId] = state.cards[otherColId].filter(
-        c => c.id !== card.id
-      );
-    }
+    const newCards = { ...state.cards };
+
+    Object.keys(newCards).forEach(colId => {
+      newCards[colId] = newCards[colId].filter(c => c.id !== card.id);
+    });
+
+    newCards[originalColumnId] = insertSortedByRule(
+      newCards[originalColumnId] || [],
+      { ...card, kanban_column_id: originalColumnId },
+      originalColumn
+    );
+
     state.cards = newCards;
   },
 

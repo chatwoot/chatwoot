@@ -3,10 +3,20 @@ json.kanban_column_id card.kanban_column_id
 json.kanban_board_id card.kanban_board_id
 json.conversation_id card.conversation_id
 json.position card.position
+json.entered_stage_at card.entered_stage_at&.iso8601
 json.potential_value card.potential_value
 json.notes card.notes
 json.created_by_id card.created_by_id
-json.created_at card.created_at
+json.created_at card.created_at&.iso8601
+
+json.conversation do
+  if card.conversation
+    json.id card.conversation.id
+    json.created_at card.conversation.created_at&.iso8601
+  else
+    json.null!
+  end
+end
 
 json.contact do
   json.id card.contact.id
@@ -18,7 +28,10 @@ end
 
 json.activities card.activities do |activity|
   json.id activity.id
-  json.created_at activity.created_at
+  json.created_at activity.created_at&.iso8601
+  json.source activity.source
+  json.event_type activity.event_type
+  json.metadata activity.metadata
   json.user_name activity.user&.name
   json.from_column_name activity.from_column&.name
   json.to_column_name activity.to_column&.name

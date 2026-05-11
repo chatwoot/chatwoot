@@ -4,7 +4,10 @@ class Api::V1::Accounts::Kanban::CardsController < Api::V1::Accounts::BaseContro
   before_action :find_card, only: [:update, :move, :destroy]
 
   def index
-    @cards = @column.cards.where(kanban_board: @board).includes(:contact, :created_by)
+    @cards = @column.cards
+                    .where(kanban_board: @board)
+                    .includes(:contact, :created_by, :conversation)
+                    .ordered_for_column(@column)
     render 'api/v1/accounts/kanban/cards/index'
   end
 
@@ -38,22 +41,9 @@ class Api::V1::Accounts::Kanban::CardsController < Api::V1::Accounts::BaseContro
   def move
     authorize @card
     target_column = Current.account.kanban_columns.find(params[:column_id])
-    before_pos = params[:before_position]&.to_f
-    after_pos = params[:after_position]&.to_f
-
-    new_position = calculate_position(before_pos, after_pos, target_column)
-
     from_column = @card.kanban_column
 
-    ActiveRecord::Base.transaction do
-      @card.update!(kanban_column: target_column, position: new_position)
-      KanbanCardActivity.create!(
-        kanban_card: @card,
-        from_column: from_column,
-        to_column: target_column,
-        user: current_user
-      )
-    end
+    apply_card_move(target_column, from_column) if from_column.id != target_column.id
 
     render 'api/v1/accounts/kanban/cards/show'
   end
@@ -98,6 +88,23 @@ class Api::V1::Accounts::Kanban::CardsController < Api::V1::Accounts::BaseContro
     )
   end
 
+  def apply_card_move(target_column, from_column)
+    ActiveRecord::Base.transaction do
+      @card.update!(
+        kanban_column: target_column,
+        position: KanbanCard.next_position(target_column.id, @board.id)
+      )
+      KanbanCardActivity.create!(
+        kanban_card: @card,
+        from_column: from_column,
+        to_column: target_column,
+        user: current_user,
+        source: :manual,
+        event_type: :stage_changed
+      )
+    end
+  end
+
   def normalize_phone(phone)
     return if phone.blank?
 
@@ -105,17 +112,5 @@ class Api::V1::Accounts::Kanban::CardsController < Api::V1::Accounts::BaseContro
     return "+#{cleaned}" if cleaned.start_with?('55') && cleaned.length >= 12
 
     "+55#{cleaned}"
-  end
-
-  def calculate_position(before_pos, after_pos, column)
-    if before_pos && after_pos
-      (before_pos + after_pos) / 2.0
-    elsif before_pos
-      before_pos + 1.0
-    elsif after_pos
-      after_pos / 2.0
-    else
-      KanbanCard.next_position(column.id, @board.id)
-    end
   end
 end

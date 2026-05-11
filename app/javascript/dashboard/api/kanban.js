@@ -47,12 +47,8 @@ class KanbanAPI extends ApiClient {
     return axios.patch(`${this.url}/cards/${id}`, { card: params });
   }
 
-  moveCard(id, { columnId, beforePosition, afterPosition }) {
-    return axios.patch(`${this.url}/cards/${id}/move`, {
-      column_id: columnId,
-      before_position: beforePosition,
-      after_position: afterPosition,
-    });
+  moveCard(id, { columnId }) {
+    return axios.patch(`${this.url}/cards/${id}/move`, { column_id: columnId });
   }
 
   deleteCard(id) {

@@ -3,6 +3,7 @@
 # Table name: kanban_cards
 #
 #  id               :bigint           not null, primary key
+#  entered_stage_at :datetime         not null
 #  notes            :text
 #  position         :float            default(1.0), not null
 #  potential_value  :decimal(15, 2)
@@ -16,6 +17,7 @@
 #
 # Indexes
 #
+#  index_kanban_cards_on_column_and_entered_stage_at    (kanban_column_id,entered_stage_at)
 #  index_kanban_cards_on_contact_id                     (contact_id)
 #  index_kanban_cards_on_conversation_id                (conversation_id)
 #  index_kanban_cards_on_conversation_id_unique         (conversation_id) UNIQUE WHERE (conversation_id IS NOT NULL)
@@ -42,11 +44,26 @@ class KanbanCard < ApplicationRecord
   has_many :activities, class_name: 'KanbanCardActivity', dependent: :destroy
   has_many :schedules, class_name: 'KanbanCardSchedule', dependent: :destroy
 
+  # DEPRECATED: ordering is now deterministic via `entered_stage_at` (or
+  # `conversation.created_at` for auto_receive columns). The `position` field
+  # is kept for backwards compatibility and will be removed in a future PR.
   validates :position, presence: true, numericality: true
   validates :conversation_id, uniqueness: { allow_nil: true, message: 'already has a Kanban card' }
   validates :potential_value, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
-  default_scope { order(:position) }
+  # Managed exclusively by the before_save callback `touch_entered_stage_at`.
+  # Do not assign directly — manual edits break FIFO ordering guarantees.
+  before_save :touch_entered_stage_at
+
+  scope :ordered_for_column, lambda { |column|
+    if column.column_function == 'auto_receive'
+      left_outer_joins(:conversation)
+        .order(Arel.sql('COALESCE(conversations.created_at, kanban_cards.created_at) ASC'))
+        .order(:id)
+    else
+      order(:entered_stage_at).order(:id)
+    end
+  }
 
   def self.next_position(column_id, board_id = nil)
     scope = where(kanban_column_id: column_id)
@@ -56,5 +73,15 @@ class KanbanCard < ApplicationRecord
 
   def self.position_between(before_pos, after_pos)
     (before_pos.to_f + after_pos.to_f) / 2.0
+  end
+
+  private
+
+  def touch_entered_stage_at
+    if new_record?
+      self.entered_stage_at ||= Time.current
+    elsif kanban_column_id_changed?
+      self.entered_stage_at = Time.current
+    end
   end
 end

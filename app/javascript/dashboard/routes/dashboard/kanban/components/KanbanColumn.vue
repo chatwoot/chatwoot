@@ -107,8 +107,6 @@ async function handleResolutionCancel() {
   await store.dispatch('kanban/moveCard', {
     card,
     targetColumnId: originalColumnId,
-    beforePosition: null,
-    afterPosition: null,
   });
   store.dispatch('kanban/fetchBoard');
 }
@@ -151,22 +149,17 @@ watch(showAddForm, () => {
 });
 
 async function onCardDrop(event) {
-  const { added, moved } = event;
-  const item = added?.element || moved?.element;
+  // Intra-column reordering is disabled (FIFO ordering is server-driven).
+  // We only react to inter-column moves.
+  const { added } = event;
+  const item = added?.element;
   if (!item) return;
 
   const originalColumnId = item.kanban_column_id;
 
-  const targetCards = cards.value;
-  const newIndex = added?.newIndex ?? moved?.newIndex;
-  const beforePos = targetCards[newIndex - 1]?.position ?? null;
-  const afterPos = targetCards[newIndex + 1]?.position ?? null;
-
   await store.dispatch('kanban/moveCard', {
     card: item,
     targetColumnId: props.column.id,
-    beforePosition: beforePos,
-    afterPosition: afterPos,
   });
 
   await openResolutionIfNeeded(item, originalColumnId);
@@ -222,6 +215,7 @@ async function onCardDrop(event) {
         >
           <draggable
             :list="cards"
+            :sort="false"
             group="kanban-cards"
             item-key="id"
             class="space-y-2 min-h-4"
