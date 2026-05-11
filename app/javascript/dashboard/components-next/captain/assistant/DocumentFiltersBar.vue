@@ -116,7 +116,7 @@ const handleMenuAction = ({ action, value }) => {
 <template>
   <div
     v-on-click-outside="closeMenu"
-    class="flex flex-wrap items-center gap-2 pt-2"
+    class="inline-flex flex-wrap items-center gap-2 pt-2 w-fit"
   >
     <div v-for="menu in filterMenus" :key="menu.key" class="relative">
       <Button
