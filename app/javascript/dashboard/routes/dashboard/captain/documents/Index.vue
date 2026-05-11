@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref, nextTick, watch } from 'vue';
+import { computed, onUnmounted, ref, nextTick, watch } from 'vue';
 import { useTimeoutPoll } from '@vueuse/core';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
@@ -73,8 +73,6 @@ const handleCreateDialogClose = () => {
 
 const documentFilter = ref(null);
 const syncIntervalHours = ref(null);
-let documentsRequestId = 0;
-let fetchingListRequestId = null;
 
 const currentAssistantId = () =>
   Number.isFinite(selectedAssistantId.value) ? selectedAssistantId.value : null;
@@ -88,6 +86,12 @@ const buildDocumentFilterParams = (page = 1) => {
   if (assistantId) filterParams.assistantId = assistantId;
   return filterParams;
 };
+
+// Monotonic request id used to drop stale responses. Incremented on every
+// fetch dispatch; the in-flight response is discarded if a newer dispatch
+// has overtaken it.
+let documentsRequestId = 0;
+let fetchingListRequestId = null;
 
 const isCurrentDocumentRequest = (requestId, filterParams) =>
   requestId === documentsRequestId &&
@@ -272,23 +276,18 @@ const hasActiveDocumentFilters = computed(
   () => documentFilter.value?.hasActiveFilters ?? false
 );
 
-watch(selectedAssistantId, async () => {
-  documentFilter.value?.reset();
-  bulkSelectedIds.value = new Set();
-  syncIntervalHours.value = null;
-  stopSyncPolling();
-  await fetchDocuments(1);
-  if (hasSyncingDocuments.value) {
-    scheduleSyncPoll();
-  }
-});
-
-onMounted(async () => {
-  await fetchDocuments();
-  if (hasSyncingDocuments.value) {
-    scheduleSyncPoll();
-  }
-});
+watch(
+  selectedAssistantId,
+  async () => {
+    documentFilter.value?.reset();
+    bulkSelectedIds.value = new Set();
+    syncIntervalHours.value = null;
+    stopSyncPolling();
+    await fetchDocuments(1);
+    if (hasSyncingDocuments.value) scheduleSyncPoll();
+  },
+  { immediate: true }
+);
 
 onUnmounted(() => {
   stopSyncPolling();
