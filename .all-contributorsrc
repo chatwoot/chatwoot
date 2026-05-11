@@ -67,21 +67,7 @@
       "profile": "https://github.com/manojmj92",
       "contributions": [
         "bug",
-        "code",
-      ]
-    },
-    {
-      "login": "SapotaDa",
-      "name": "Aarav Uniyal",
-      "profile": "https://github.com/SapotaDA",
-      "contributions": [
-        "bug",
-        "blog",
-        "code",
-        "doc",
-        "design",
-        "maintenance",
-        "review"
+        "code"
       ]
     }
   ],
