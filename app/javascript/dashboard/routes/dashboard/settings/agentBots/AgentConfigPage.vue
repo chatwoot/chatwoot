@@ -51,25 +51,62 @@ const defaultBehaviorConfig = () => ({
     appointments: {
       enabled: false,
       actions: { create: true, reschedule: true, cancel: true },
-      fallback: { strategy: 'transfer_advisor', phone_number: null, custom_message: null },
+      fallback: {
+        strategy: 'transfer_advisor',
+        phone_number: null,
+        custom_message: null,
+      },
     },
     send_documents: { enabled: true, allowed_types: ['pdf', 'image'] },
     out_of_scope: { enabled: true, max_attempts: 3 },
   },
   tools: {
-    search_product_info: { enabled: true, score_threshold: 0.75, top_k: 10, examples: [], custom_instructions: '' },
-    get_all_products: { enabled: true, listing_mode: 'all', max_results: 0, show_prices_by_default: false, examples: [], custom_instructions: '' },
-    get_faqs: { enabled: true, per_page: 8, examples: [], custom_instructions: '' },
-    get_marketing_campaigns: { enabled: true, examples: [], custom_instructions: '' },
+    search_product_info: {
+      enabled: true,
+      score_threshold: 0.75,
+      top_k: 10,
+      examples: [],
+      custom_instructions: '',
+    },
+    get_all_products: {
+      enabled: true,
+      listing_mode: 'all',
+      max_results: 0,
+      show_prices_by_default: false,
+      examples: [],
+      custom_instructions: '',
+    },
+    get_faqs: {
+      enabled: true,
+      per_page: 8,
+      examples: [],
+      custom_instructions: '',
+    },
+    get_marketing_campaigns: {
+      enabled: true,
+      examples: [],
+      custom_instructions: '',
+    },
     get_kb_resources: { enabled: false, examples: [], custom_instructions: '' },
-    send_document: { enabled: true, sources: ['catalog'], allowed_types: ['pdf', 'image'], examples: [], custom_instructions: '' },
+    send_document: {
+      enabled: true,
+      sources: ['catalog'],
+      allowed_types: ['pdf', 'image'],
+      examples: [],
+      custom_instructions: '',
+    },
     transfer_chat: { enabled: true, examples: [], custom_instructions: '' },
   },
-  lead_warming: { enabled: true, auto_suggest_after_turns: 5, closing_phrases: [] },
+  lead_warming: {
+    enabled: true,
+    auto_suggest_after_turns: 5,
+    lead_warming_config: '',
+    closing_phrases: [],
+  },
   proactive_reengagement: {
     enabled: false,
     attempts: [
-      { delay_value: 5,  delay_unit: 'minutes' },
+      { delay_value: 5, delay_unit: 'minutes' },
       { delay_value: 15, delay_unit: 'minutes' },
       { delay_value: 45, delay_unit: 'minutes' },
     ],
@@ -79,10 +116,17 @@ const defaultBehaviorConfig = () => ({
       on_agent_assigned: false,
     },
     stop_keywords: { case_insensitive: true, phrases: [] },
-    reactivation: { on_bot_reply: true, exclude_if_cancelled_by: ['keyword', 'api_cancel'] },
+    reactivation: {
+      on_bot_reply: true,
+      exclude_if_cancelled_by: ['keyword', 'api_cancel'],
+    },
   },
   module_fallbacks: {
-    appointments: { strategy: 'transfer_advisor', phone_number: null, custom_message: null },
+    appointments: {
+      strategy: 'transfer_advisor',
+      phone_number: null,
+      custom_message: null,
+    },
   },
   qualification_questions: [],
   additional_instructions: '',
@@ -135,11 +179,15 @@ const initForm = () => {
   formState.agent_behavior_config.industry_sector_type =
     abc.industry_sector_type ?? defaults.industry_sector_type;
 
-  if (abc.response) Object.assign(formState.agent_behavior_config.response, abc.response);
+  if (abc.response)
+    Object.assign(formState.agent_behavior_config.response, abc.response);
   if (abc.modules) {
     Object.keys(abc.modules).forEach(key => {
       if (formState.agent_behavior_config.modules[key]) {
-        Object.assign(formState.agent_behavior_config.modules[key], abc.modules[key]);
+        Object.assign(
+          formState.agent_behavior_config.modules[key],
+          abc.modules[key]
+        );
       } else {
         formState.agent_behavior_config.modules[key] = abc.modules[key];
       }
@@ -148,22 +196,39 @@ const initForm = () => {
   if (abc.tools) {
     Object.keys(abc.tools).forEach(key => {
       if (formState.agent_behavior_config.tools[key]) {
-        Object.assign(formState.agent_behavior_config.tools[key], abc.tools[key]);
+        Object.assign(
+          formState.agent_behavior_config.tools[key],
+          abc.tools[key]
+        );
       } else {
         formState.agent_behavior_config.tools[key] = abc.tools[key];
       }
     });
   }
-  if (abc.lead_warming) Object.assign(formState.agent_behavior_config.lead_warming, abc.lead_warming);
-  if (abc.module_fallbacks) Object.assign(formState.agent_behavior_config.module_fallbacks, abc.module_fallbacks);
-  if (abc.qualification_questions) formState.agent_behavior_config.qualification_questions = [...abc.qualification_questions];
-  if (abc.additional_instructions !== undefined) formState.agent_behavior_config.additional_instructions = abc.additional_instructions;
+  if (abc.lead_warming)
+    Object.assign(
+      formState.agent_behavior_config.lead_warming,
+      abc.lead_warming
+    );
+  if (abc.module_fallbacks)
+    Object.assign(
+      formState.agent_behavior_config.module_fallbacks,
+      abc.module_fallbacks
+    );
+  if (abc.qualification_questions)
+    formState.agent_behavior_config.qualification_questions = [
+      ...abc.qualification_questions,
+    ];
+  if (abc.additional_instructions !== undefined)
+    formState.agent_behavior_config.additional_instructions =
+      abc.additional_instructions;
   if (abc.proactive_reengagement) {
     const pr = abc.proactive_reengagement;
     const def = formState.agent_behavior_config.proactive_reengagement;
     def.enabled = pr.enabled ?? def.enabled;
     if (pr.attempts?.length) def.attempts = pr.attempts;
-    if (pr.stop_conditions) Object.assign(def.stop_conditions, pr.stop_conditions);
+    if (pr.stop_conditions)
+      Object.assign(def.stop_conditions, pr.stop_conditions);
     if (pr.stop_keywords) Object.assign(def.stop_keywords, pr.stop_keywords);
     if (pr.reactivation) Object.assign(def.reactivation, pr.reactivation);
   }
@@ -194,13 +259,126 @@ const handleSave = async () => {
   else useAlert(t('AGENT_BOTS.CONFIG.ERROR_MESSAGE'));
 };
 
+const fileInputRef = ref(null);
+
+const IMPORT_FIELDS = [
+  'name',
+  'description',
+  'assistant_config',
+  'agent_behavior_config',
+];
+
+const applyImportedConfig = parsed => {
+  if (parsed.name !== undefined) formState.name = parsed.name;
+  if (parsed.description !== undefined)
+    formState.description = parsed.description;
+
+  if (parsed.assistant_config) {
+    Object.assign(
+      formState.assistant_config,
+      defaultAssistantConfig(),
+      parsed.assistant_config
+    );
+  }
+
+  if (parsed.agent_behavior_config) {
+    const abc = parsed.agent_behavior_config;
+    if (abc.industry_sector_type !== undefined)
+      formState.agent_behavior_config.industry_sector_type =
+        abc.industry_sector_type;
+    if (abc.response)
+      Object.assign(formState.agent_behavior_config.response, abc.response);
+    if (abc.modules) {
+      Object.keys(abc.modules).forEach(key => {
+        if (formState.agent_behavior_config.modules[key]) {
+          Object.assign(
+            formState.agent_behavior_config.modules[key],
+            abc.modules[key]
+          );
+        } else {
+          formState.agent_behavior_config.modules[key] = abc.modules[key];
+        }
+      });
+    }
+    if (abc.tools) {
+      Object.keys(abc.tools).forEach(key => {
+        if (formState.agent_behavior_config.tools[key]) {
+          Object.assign(
+            formState.agent_behavior_config.tools[key],
+            abc.tools[key]
+          );
+        } else {
+          formState.agent_behavior_config.tools[key] = abc.tools[key];
+        }
+      });
+    }
+    if (abc.lead_warming)
+      Object.assign(
+        formState.agent_behavior_config.lead_warming,
+        abc.lead_warming
+      );
+    if (abc.module_fallbacks)
+      Object.assign(
+        formState.agent_behavior_config.module_fallbacks,
+        abc.module_fallbacks
+      );
+    if (abc.qualification_questions)
+      formState.agent_behavior_config.qualification_questions = [
+        ...abc.qualification_questions,
+      ];
+    if (abc.additional_instructions !== undefined)
+      formState.agent_behavior_config.additional_instructions =
+        abc.additional_instructions;
+    if (abc.proactive_reengagement) {
+      const pr = abc.proactive_reengagement;
+      const def = formState.agent_behavior_config.proactive_reengagement;
+      def.enabled = pr.enabled ?? def.enabled;
+      if (pr.attempts?.length) def.attempts = pr.attempts;
+      if (pr.stop_conditions)
+        Object.assign(def.stop_conditions, pr.stop_conditions);
+      if (pr.stop_keywords) Object.assign(def.stop_keywords, pr.stop_keywords);
+      if (pr.reactivation) Object.assign(def.reactivation, pr.reactivation);
+    }
+  }
+};
+
+const handleImportFile = event => {
+  const file = event.target.files?.[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      const hasValidField = IMPORT_FIELDS.some(f => parsed[f] !== undefined);
+      if (!hasValidField) {
+        useAlert(t('AGENT_BOTS.CONFIG.IMPORT.ERROR_NO_FIELDS'));
+        return;
+      }
+      applyImportedConfig(parsed);
+      useAlert(t('AGENT_BOTS.CONFIG.IMPORT.SUCCESS'));
+    } catch {
+      useAlert(t('AGENT_BOTS.CONFIG.IMPORT.ERROR_INVALID_JSON'));
+    } finally {
+      event.target.value = '';
+    }
+  };
+  reader.readAsText(file);
+};
+
+const triggerImport = () => {
+  fileInputRef.value?.click();
+};
+
 const handleCopyToken = async value => {
   await copyTextToClipboard(value);
   useAlert(t('AGENT_BOTS.ACCESS_TOKEN.COPY_SUCCESSFUL'));
 };
 
 const handleResetToken = async () => {
-  const result = await store.dispatch('agentBots/resetAccessToken', botId.value);
+  const result = await store.dispatch(
+    'agentBots/resetAccessToken',
+    botId.value
+  );
   if (result) {
     formState.access_token = result.access_token || '';
     useAlert(t('AGENT_BOTS.ACCESS_TOKEN.RESET_SUCCESS'));
@@ -220,7 +398,10 @@ onMounted(async () => {
     <SettingIntroBanner
       :header-image="formState.thumbnail"
       :header-title="formState.name"
-      :back-url="{ name: 'ai_agents', params: { accountId: route.params.accountId } }"
+      :back-url="{
+        name: 'ai_agents',
+        params: { accountId: route.params.accountId },
+      }"
     >
       <div class="flex items-center justify-between pr-1">
         <woot-tabs
@@ -237,11 +418,26 @@ onMounted(async () => {
             is-compact
           />
         </woot-tabs>
-        <Button
-          :label="$t('AGENT_BOTS.CONFIG.SAVE')"
-          :is-loading="uiFlags.isUpdating"
-          @click="handleSave"
-        />
+        <div class="flex items-center gap-2">
+          <input
+            ref="fileInputRef"
+            type="file"
+            accept=".json,application/json"
+            class="hidden"
+            @change="handleImportFile"
+          />
+          <Button
+            :label="$t('AGENT_BOTS.CONFIG.IMPORT.BUTTON')"
+            variant="clear"
+            color-scheme="secondary"
+            @click="triggerImport"
+          />
+          <Button
+            :label="$t('AGENT_BOTS.CONFIG.SAVE')"
+            :is-loading="uiFlags.isUpdating"
+            @click="handleSave"
+          />
+        </div>
       </div>
     </SettingIntroBanner>
 
