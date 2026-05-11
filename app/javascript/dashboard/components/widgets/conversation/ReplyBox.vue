@@ -117,6 +117,7 @@ export default {
     return {
       message: '',
       inReplyTo: {},
+      isFlashing: false,
       isFocused: false,
       showEmojiPicker: false,
       attachedFiles: [],
@@ -296,6 +297,8 @@ export default {
       return {
         'is-private': this.isPrivate,
         'is-focused': this.isFocused || this.hasAttachments,
+        'transition-all duration-300': true,
+        'ring-2 ring-woot-500/50 ring-offset-2 scale-[0.99]': this.isFlashing,
       };
     },
     hasAttachments() {
@@ -1179,6 +1182,13 @@ export default {
         }
         return false;
       });
+
+      if (this.inReplyTo) {
+        this.isFlashing = true;
+        setTimeout(() => {
+          this.isFlashing = false;
+        }, 400);
+      }
     },
     resetReplyToMessage() {
       const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;

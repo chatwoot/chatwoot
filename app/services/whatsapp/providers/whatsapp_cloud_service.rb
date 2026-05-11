@@ -11,6 +11,25 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     end
   end
 
+  def send_reaction(phone_number, message_id, emoji)
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        recipient_type: 'individual',
+        to: phone_number,
+        type: 'reaction',
+        reaction: {
+          message_id: message_id,
+          emoji: emoji
+        }
+      }.to_json
+    )
+
+    response.parsed_response
+  end
+
   def send_template(phone_number, template_info, message)
     template_body = template_body_parameters(template_info)
 

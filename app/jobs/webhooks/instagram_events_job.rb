@@ -2,8 +2,8 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   queue_as :default
   retry_on LockAcquisitionError, wait: 1.second, attempts: 8
 
-  # @return [Array] We will support further events like reaction or seen in future
-  SUPPORTED_EVENTS = [:message, :read].freeze
+  # @return [Array] Supported webhook event types
+  SUPPORTED_EVENTS = [:message, :read, :reaction].freeze
 
   def perform(entries)
     @entries = entries
@@ -124,6 +124,37 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   def read(messaging, channel)
     # Use a single service to handle read status for both channel types since the params are same
     ::Instagram::ReadStatusService.new(params: messaging, channel: channel).perform
+  end
+
+  def reaction(messaging, _channel)
+    reaction_data = messaging[:reaction]
+    return unless reaction_data
+
+    mid = reaction_data[:mid]
+    action = reaction_data[:action]
+    emoji = reaction_data[:emoji]
+    sender_id = messaging.dig(:sender, :id)
+
+    target_message = Message.find_by(source_id: mid)
+    return unless target_message
+
+    reactions = target_message.content_attributes['reactions'] || []
+
+    # Remove any existing reaction from this sender
+    reactions.reject! { |r| r['sender_source_id'] == sender_id.to_s }
+
+    # Add new reaction if action is 'react' (not 'unreact')
+    if action == 'react' && emoji.present?
+      reactions << {
+        'emoji' => emoji,
+        'sender_source_id' => sender_id.to_s,
+        'timestamp' => Time.current.to_i
+      }
+    end
+
+    target_message.content_attributes['reactions'] = reactions
+    target_message.save!
+    target_message.send_update_event
   end
 
   def messages(entry)

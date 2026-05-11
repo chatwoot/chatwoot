@@ -36,6 +36,36 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     render_could_not_create_error(e.message)
   end
 
+  def react
+    emoji = params[:emoji]
+    return head :bad_request if emoji.blank?
+
+    reactions = (message.content_attributes['reactions'] || []).dup
+    sender_identifier = "agent:#{Current.user&.id}"
+
+    # Remove existing reaction from this agent
+    reactions.reject! { |r| r['sender_source_id'] == sender_identifier }
+
+    # Add new reaction (empty emoji means unreact)
+    if emoji != 'remove'
+      reactions << {
+        'emoji' => emoji,
+        'sender_source_id' => sender_identifier,
+        'sender_name' => Current.user&.name,
+        'timestamp' => Time.current.to_i
+      }
+    end
+
+    message.content_attributes = message.content_attributes.merge('reactions' => reactions)
+    message.save!
+    message.send_update_event
+
+    # Send reaction to channel if supported
+    send_reaction_to_channel(emoji)
+
+    head :ok
+  end
+
   def translate
     return head :ok if already_translated_content_available?
 
@@ -65,7 +95,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def permitted_params
-    params.permit(:id, :target_language, :status, :external_error)
+    params.permit(:id, :target_language, :status, :external_error, :emoji)
   end
 
   def already_translated_content_available?
@@ -76,5 +106,22 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   def ensure_api_inbox
     # Only API inboxes can update messages
     render json: { error: 'Message status update is only allowed for API inboxes' }, status: :forbidden unless @conversation.inbox.api?
+  end
+
+  def send_reaction_to_channel(emoji)
+    channel = @conversation.inbox.channel
+    return unless message.source_id.present?
+
+    case channel
+    when Channel::Whatsapp
+      contact = @conversation.contact
+      phone_number = contact.phone_number&.delete('+')
+      return unless phone_number.present?
+
+      reaction_emoji = emoji == 'remove' ? '' : emoji
+      channel.provider_service.send_reaction(phone_number, message.source_id, reaction_emoji)
+    end
+  rescue StandardError => e
+    Rails.logger.error "Failed to send reaction to channel: #{e.message}"
   end
 end

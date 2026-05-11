@@ -24,8 +24,10 @@ class Whatsapp::IncomingMessageBaseService
   private
 
   def process_messages
-    # We don't support reactions & ephemeral message now, we need to skip processing the message
-    # if the webhook event is a reaction or an ephermal message or an unsupported message.
+    # Handle emoji reactions separately — they update an existing message rather than creating a new one
+    return process_reaction if reaction_message_type?(message_type)
+
+    # We don't support ephemeral or unsupported messages, skip processing them
     return if unprocessable_message_type?(message_type)
 
     # Multiple webhook events can be received for the same message due to
@@ -84,6 +86,36 @@ class Whatsapp::IncomingMessageBaseService
     attach_files
     attach_location if message_type == 'location'
     @message.save!
+  end
+
+  def process_reaction
+    reaction_data = messages_data.first[:reaction]
+    return unless reaction_data
+
+    target_source_id = reaction_data[:message_id]
+    emoji = reaction_data[:emoji]
+    sender_wa_id = messages_data.first[:from]
+
+    target_message = inbox.messages.find_by(source_id: target_source_id)
+    return unless target_message
+
+    reactions = target_message.content_attributes['reactions'] || []
+
+    # Remove any existing reaction from this sender
+    reactions.reject! { |r| r['sender_source_id'] == sender_wa_id }
+
+    # Add new reaction if emoji is present (absent means unreact)
+    if emoji.present?
+      reactions << {
+        'emoji' => emoji,
+        'sender_source_id' => sender_wa_id,
+        'timestamp' => Time.current.to_i
+      }
+    end
+
+    target_message.content_attributes['reactions'] = reactions
+    target_message.save!
+    target_message.send_update_event
   end
 
   def set_contact

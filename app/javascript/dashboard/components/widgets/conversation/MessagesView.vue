@@ -331,17 +331,52 @@ export default {
     removeBusListeners() {
       emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     },
-    onScrollToMessage({ messageId = '' } = {}) {
-      this.$nextTick(() => {
-        const messageElement = document.getElementById('message' + messageId);
-        if (messageElement) {
-          this.isProgrammaticScroll = true;
-          messageElement.scrollIntoView({ behavior: 'smooth' });
-          this.fetchPreviousMessages();
-        } else {
-          this.scrollToBottom();
+    async onScrollToMessage({ messageId = '' } = {}) {
+      if (!messageId) {
+        this.$nextTick(() => this.scrollToBottom());
+        this.makeMessagesRead();
+        return;
+      }
+
+      // Try to find the message element, loading older messages if needed
+      let messageElement = document.getElementById('message' + messageId);
+      let attempts = 0;
+      const MAX_ATTEMPTS = 5;
+
+      /* eslint-disable no-await-in-loop */
+      while (!messageElement && attempts < MAX_ATTEMPTS) {
+        const messages = this.currentChat.messages || [];
+        if (!messages.length) break;
+
+        this.isLoadingPrevious = true;
+        try {
+          await this.$store.dispatch('fetchPreviousMessages', {
+            conversationId: this.currentChat.id,
+            before: messages[0].id,
+          });
+        } catch {
+          break;
+        } finally {
+          this.isLoadingPrevious = false;
         }
-      });
+
+        await new Promise(resolve => {
+          this.$nextTick(resolve);
+        });
+        messageElement = document.getElementById('message' + messageId);
+        attempts += 1;
+      }
+      /* eslint-enable no-await-in-loop */
+
+      if (messageElement) {
+        this.isProgrammaticScroll = true;
+        messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Emit highlight event so Message.vue can flash the target
+        emitter.emit(BUS_EVENTS.HIGHLIGHT_MESSAGE, { messageId });
+      } else {
+        this.scrollToBottom();
+      }
+
       this.makeMessagesRead();
     },
     addScrollListener() {

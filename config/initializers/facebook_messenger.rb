@@ -43,4 +43,37 @@ Rails.application.reloader.to_prepare do
     # This avoids duplicate messages when echo comes early during API processing
     Webhooks::FacebookEventsJob.set(wait: 2.seconds).perform_later(message.to_json)
   end
+
+  # Extend Bot::EVENTS to support reaction events (the gem parses them but doesn't whitelist them)
+  Facebook::Messenger::Bot::EVENTS.push(:reaction) unless Facebook::Messenger::Bot::EVENTS.include?(:reaction)
+
+  Facebook::Messenger::Bot.on :reaction do |reaction|
+    reaction_json = JSON.parse(reaction.to_json)
+    messaging = reaction_json['messaging'] || reaction_json
+    reaction_data = messaging['reaction'] || reaction_json['reaction']
+    next unless reaction_data
+
+    mid = reaction_data['mid']
+    action = reaction_data['action']
+    emoji = reaction_data['emoji']
+    sender_id = (messaging.dig('sender', 'id') || reaction_json.dig('sender', 'id')).to_s
+
+    target_message = Message.find_by(source_id: mid)
+    next unless target_message
+
+    reactions = target_message.content_attributes['reactions'] || []
+    reactions.reject! { |r| r['sender_source_id'] == sender_id }
+
+    if action == 'react' && emoji.present?
+      reactions << {
+        'emoji' => emoji,
+        'sender_source_id' => sender_id,
+        'timestamp' => Time.current.to_i
+      }
+    end
+
+    target_message.content_attributes['reactions'] = reactions
+    target_message.save!
+    target_message.send_update_event
+  end
 end
