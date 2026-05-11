@@ -55,6 +55,19 @@ class KanbanCard < ApplicationRecord
   # Do not assign directly — manual edits break FIFO ordering guarantees.
   before_save :touch_entered_stage_at
 
+  # FIFO ordering keys per column — used in Ruby paths (e.g. boards#show jbuilder
+  # which groups cards by column in memory). Mirrors the SQL scope below.
+  # Keep both in sync to avoid drift.
+  def self.sort_keys_for_column(card, column)
+    if column.column_function == 'auto_receive'
+      [(card.conversation&.created_at || card.created_at), card.id]
+    else
+      [card.entered_stage_at, card.id]
+    end
+  end
+
+  # SQL counterpart of `sort_keys_for_column`. Used in single-column paths
+  # (e.g. cards#index). Keep aligned with the Ruby method above.
   scope :ordered_for_column, lambda { |column|
     if column.column_function == 'auto_receive'
       left_outer_joins(:conversation)

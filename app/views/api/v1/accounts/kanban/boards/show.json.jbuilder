@@ -11,11 +11,7 @@ board_cards_by_column = @board.cards
 
 json.columns Current.account.kanban_columns do |column|
   raw_cards = board_cards_by_column[column.id] || []
-  column_cards = if column.column_function == 'auto_receive'
-                   raw_cards.sort_by { |c| [(c.conversation&.created_at || c.created_at), c.id] }
-                 else
-                   raw_cards.sort_by { |c| [c.entered_stage_at, c.id] }
-                 end
+  column_cards = raw_cards.sort_by { |c| KanbanCard.sort_keys_for_column(c, column) }
   json.id column.id
   json.name column.name
   json.position column.position
