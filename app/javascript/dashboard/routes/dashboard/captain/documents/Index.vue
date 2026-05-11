@@ -87,9 +87,6 @@ const buildDocumentFilterParams = (page = 1) => {
   return filterParams;
 };
 
-// Monotonic request id used to drop stale responses. Incremented on every
-// fetch dispatch; the in-flight response is discarded if a newer dispatch
-// has overtaken it.
 let documentsRequestId = 0;
 let fetchingListRequestId = null;
 
