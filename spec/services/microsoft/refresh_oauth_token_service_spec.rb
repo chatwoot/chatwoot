@@ -88,4 +88,6 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
   end
 
   context 'when refresh token is not present in provider config and access token is expired' do
+    pending 'add test for missing refresh token scenario'
+  end
 end
