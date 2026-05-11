@@ -33,7 +33,7 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
   describe 'on expired token or invalid expiry' do
     before do
       stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token').with(
-        body: { 'grant_type' => 'refresh_token', 'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token'] }
+        body: hash_including({ 'grant_type' => 'refresh_token', 'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token'] })
       ).to_return(status: 200, body: new_tokens.to_json, headers: { 'Content-Type' => 'application/json' })
     end
 
@@ -74,7 +74,7 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
 
       before do
         stub_request(:post, "https://login.microsoftonline.com/#{tenant_id}/oauth2/v2.0/token").with(
-          body: { 'grant_type' => 'refresh_token', 'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token'] }
+          body: hash_including({ 'grant_type' => 'refresh_token', 'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token'] })
         ).to_return(status: 200, body: new_tokens.to_json, headers: { 'Content-Type' => 'application/json' })
       end
 
@@ -88,6 +88,19 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
   end
 
   context 'when refresh token is not present in provider config and access token is expired' do
-    pending 'add test for missing refresh token scenario'
+    it 'throws an error' do
+      with_modified_env AZURE_APP_ID: SecureRandom.uuid, AZURE_APP_SECRET: SecureRandom.hex do
+        microsoft_channel.update(
+          provider_config: {
+            access_token: SecureRandom.hex,
+            expires_on: Time.zone.now - 3600
+          }
+        )
+
+        expect do
+          described_class.new(channel: microsoft_channel).access_token
+        end.to raise_error(RuntimeError, 'A refresh_token is not available')
+      end
+    end
   end
 end
