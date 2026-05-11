@@ -11,10 +11,8 @@ import { usePolicy } from 'dashboard/composables/usePolicy';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCard.vue';
 import DocumentFilter from 'dashboard/components-next/captain/assistant/DocumentFilter.vue';
-import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
-import BulkDeleteDialog from 'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue';
+import DocumentBulkActions from 'dashboard/components-next/captain/assistant/DocumentBulkActions.vue';
 import Policy from 'dashboard/components/policy.vue';
-import Button from 'dashboard/components-next/button/Button.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import RelatedResponses from 'dashboard/components-next/captain/pageComponents/document/RelatedResponses.vue';
@@ -44,7 +42,6 @@ const canManageDocuments = computed(() => checkPermissions(['administrator']));
 
 const selectedDocument = ref(null);
 const deleteDocumentDialog = ref(null);
-const bulkDeleteDialog = ref(null);
 const bulkSelectedIds = ref(new Set());
 const hoveredCard = ref(null);
 
@@ -238,28 +235,9 @@ const onDeleteSuccess = () => {
   }
 };
 
-const buildSelectedCountLabel = computed(() => {
-  const count = documents.value?.length || 0;
-  const isAllSelected = bulkSelectedIds.value.size === count && count > 0;
-  return isAllSelected
-    ? t('CAPTAIN.DOCUMENTS.UNSELECT_ALL', { count })
-    : t('CAPTAIN.DOCUMENTS.SELECT_ALL', { count });
-});
-
-const selectedCountLabel = computed(() => {
-  return t('CAPTAIN.DOCUMENTS.SELECTED', {
-    count: bulkSelectedIds.value.size,
-  });
-});
-
-const hasBulkSelection = computed(() => bulkSelectedIds.value.size > 0);
-
-const shouldShowSelectionControl = docId => {
-  return (
-    canManageDocuments.value &&
-    (hoveredCard.value === docId || hasBulkSelection.value)
-  );
-};
+const shouldShowSelectionControl = docId =>
+  canManageDocuments.value &&
+  (hoveredCard.value === docId || bulkSelectedIds.value.size > 0);
 
 const handleCardHover = (isHovered, id) => {
   hoveredCard.value = isHovered ? id : null;
@@ -286,55 +264,8 @@ const fetchDocumentsAfterBulkAction = () => {
   bulkSelectedIds.value = new Set();
 };
 
-const onBulkDeleteSuccess = () => {
-  fetchDocumentsAfterBulkAction();
-};
-
 const onCreateSuccess = () => {
   refreshDocumentsPage(1);
-};
-
-const isSyncableDocument = doc =>
-  !doc.pdf_document && doc.status === 'available' && !doc.sync_in_progress;
-
-const syncableSelectedIds = computed(() => {
-  if (!bulkSelectedIds.value.size) return [];
-  return (documents.value || [])
-    .filter(doc => bulkSelectedIds.value.has(doc.id) && isSyncableDocument(doc))
-    .map(doc => doc.id);
-});
-
-const hasSyncableSelection = computed(
-  () => syncableSelectedIds.value.length > 0
-);
-
-const handleBulkSync = async () => {
-  const ids = syncableSelectedIds.value;
-  if (!ids.length) return;
-
-  try {
-    const response = await store.dispatch('captainBulkActions/handleBulkSync', {
-      ids,
-    });
-    const queuedCount = response?.count ?? response?.ids?.length ?? 0;
-    let message = t('CAPTAIN.DOCUMENTS.BULK_SYNC.ZERO_MESSAGE');
-
-    if (queuedCount === 1) {
-      message = t('CAPTAIN.DOCUMENTS.BULK_SYNC.SUCCESS_MESSAGE_ONE');
-    } else if (queuedCount > 1) {
-      message = t('CAPTAIN.DOCUMENTS.BULK_SYNC.SUCCESS_MESSAGE', {
-        count: queuedCount,
-      });
-    }
-
-    useAlert(message);
-    bulkSelectedIds.value = new Set();
-    if (queuedCount > 0) {
-      scheduleSyncPoll({ extendWindow: true });
-    }
-  } catch (error) {
-    useAlert(t('CAPTAIN.DOCUMENTS.BULK_SYNC.ERROR_MESSAGE'));
-  }
 };
 
 const hasActiveDocumentFilters = computed(
@@ -381,39 +312,20 @@ onUnmounted(() => {
   >
     <template #subHeader>
       <Policy :permissions="['administrator']">
-        <BulkSelectBar
-          v-model="bulkSelectedIds"
-          :all-items="documents"
-          :select-all-label="buildSelectedCountLabel"
-          :selected-count-label="selectedCountLabel"
-          :delete-label="$t('CAPTAIN.DOCUMENTS.BULK_DELETE_BUTTON')"
-          class="w-fit"
-          :class="{ 'mb-2': bulkSelectedIds.size > 0 }"
-          @bulk-delete="bulkDeleteDialog.dialogRef.open()"
-        >
-          <template v-if="hasSyncableSelection" #secondaryActions>
-            <Button
-              :label="$t('CAPTAIN.DOCUMENTS.BULK_SYNC_BUTTON')"
-              sm
-              slate
-              ghost
-              icon="i-lucide-refresh-cw"
-              class="!px-1.5"
-              @click="handleBulkSync"
-            />
-          </template>
-        </BulkSelectBar>
+        <DocumentBulkActions
+          v-model:selected-ids="bulkSelectedIds"
+          :documents="documents"
+          @bulk-sync-queued="scheduleSyncPoll({ extendWindow: true })"
+          @bulk-delete-succeeded="fetchDocumentsAfterBulkAction"
+        />
       </Policy>
-    </template>
-
-    <template #controls>
       <DocumentFilter
+        v-show="!bulkSelectedIds.size"
         ref="documentFilter"
-        class="mb-5"
+        class="mb-2"
         @change="onFiltersChanged"
       />
     </template>
-
     <template #knowMore>
       <FeatureSpotlightPopover
         :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
@@ -495,13 +407,6 @@ onUnmounted(() => {
       :entity="selectedDocument"
       type="Documents"
       @delete-success="onDeleteSuccess"
-    />
-    <BulkDeleteDialog
-      v-if="bulkSelectedIds"
-      ref="bulkDeleteDialog"
-      :bulk-ids="bulkSelectedIds"
-      type="AssistantDocument"
-      @delete-success="onBulkDeleteSuccess"
     />
   </PageLayout>
 </template>
