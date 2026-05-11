@@ -51,7 +51,7 @@ class Channel::FacebookPage < ApplicationRecord
     Facebook::Messenger::Subscriptions.subscribe(
       access_token: page_access_token,
       subscribed_fields: %w[
-        messages message_deliveries message_echoes message_reads standby messaging_handovers
+        messages message_deliveries message_echoes message_reads standby messaging_handovers message_reactions
       ]
     )
   rescue StandardError => e
@@ -64,5 +64,23 @@ class Channel::FacebookPage < ApplicationRecord
   rescue StandardError => e
     Rails.logger.debug { "Rescued: #{e.inspect}" }
     true
+  end
+
+  def send_reaction(recipient_id, message_id, emoji)
+    payload = {
+      message_id: message_id,
+      reaction: (emoji.presence)
+    }.compact
+
+    delivery_params = {
+      recipient: { id: recipient_id },
+      sender_action: emoji.blank? ? 'unreact' : 'react',
+      payload: payload
+    }
+
+    Facebook::Messenger::Bot.deliver(delivery_params, page_id: page_id)
+  rescue StandardError => e
+    Rails.logger.error "Failed to send reaction for Facebook Page #{page_id}: #{e.message}"
+    nil
   end
 end

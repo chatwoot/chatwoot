@@ -110,16 +110,18 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def send_reaction_to_channel(emoji)
     channel = @conversation.inbox.channel
-    return unless message.source_id.present?
+    return if message.source_id.blank?
+
+    reaction_emoji = emoji == 'remove' ? '' : emoji
+    contact = @conversation.contact
 
     case channel
     when Channel::Whatsapp
-      contact = @conversation.contact
       phone_number = contact.phone_number&.delete('+')
-      return unless phone_number.present?
-
-      reaction_emoji = emoji == 'remove' ? '' : emoji
-      channel.provider_service.send_reaction(phone_number, message.source_id, reaction_emoji)
+      channel.provider_service.send_reaction(phone_number, message.source_id, reaction_emoji) if phone_number.present?
+    when Channel::FacebookPage
+      recipient_id = contact.get_source_id(@conversation.inbox.id)
+      channel.send_reaction(recipient_id, message.source_id, reaction_emoji) if recipient_id.present?
     end
   rescue StandardError => e
     Rails.logger.error "Failed to send reaction to channel: #{e.message}"

@@ -54,20 +54,26 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def fb_text_message_payload
-    if message.content_type == 'input_select' && message.content_attributes['items'].any?
-      {
-        text: message.content,
-        quick_replies: message.content_attributes['items'].map do |item|
-          {
-            content_type: 'text',
-            payload: item['title'],
-            title: item['title']
-          }
-        end
-      }
-    else
-      { text: message.outgoing_content }
+    payload = if message.content_type == 'input_select' && message.content_attributes['items'].any?
+                {
+                  text: message.content,
+                  quick_replies: message.content_attributes['items'].map do |item|
+                    {
+                      content_type: 'text',
+                      payload: item['title'],
+                      title: item['title']
+                    }
+                  end
+                }
+              else
+                { text: message.outgoing_content }
+              end
+
+    if message.content_attributes['in_reply_to_external_id'].present?
+      payload[:reply_to] = { mid: message.content_attributes['in_reply_to_external_id'] }
     end
+
+    payload
   end
 
   def external_error(response)
@@ -79,16 +85,22 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def fb_attachment_message_params(attachment)
+    payload = {
+      attachment: {
+        type: attachment_type(attachment),
+        payload: {
+          url: attachment.download_url
+        }
+      }
+    }
+
+    if message.content_attributes['in_reply_to_external_id'].present?
+      payload[:reply_to] = { mid: message.content_attributes['in_reply_to_external_id'] }
+    end
+
     {
       recipient: { id: contact.get_source_id(inbox.id) },
-      message: {
-        attachment: {
-          type: attachment_type(attachment),
-          payload: {
-            url: attachment.download_url
-          }
-        }
-      },
+      message: payload,
       messaging_type: 'MESSAGE_TAG',
       tag: 'ACCOUNT_UPDATE'
     }
