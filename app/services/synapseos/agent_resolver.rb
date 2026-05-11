@@ -6,7 +6,11 @@
 # separados (Prospecção/BDR outbound vs Recepção/SDR inbound).
 class Synapseos::AgentResolver
   # Papel -> label curto (1 palavra) exibido como tag no painel.
+  # Natália é o template SDR base do ecossistema (Royal Enfield + Audi rodam
+  # nele); aparece como 8º slug no AgentMetrics pra mostrar bots de vendas
+  # consultivas que não se encaixam nos 7 papéis especializados.
   DISPLAY_NAMES = {
+    'natalia' => 'Natália',
     'alice' => 'Alice',
     'iza' => 'Iza',
     'luis' => 'Luís',
@@ -17,6 +21,7 @@ class Synapseos::AgentResolver
   }.freeze
 
   ROLE_LABELS = {
+    'natalia' => 'Vendas',
     'alice' => 'Prospecção',
     'iza' => 'Recepção',
     'luis' => 'Especialista',
@@ -33,6 +38,8 @@ class Synapseos::AgentResolver
   # mais comum em base de dados existente); se o cliente usava o nome
   # combinado, ele reclassifica explicitamente depois.
   NAME_TO_SLUG = {
+    'Natália' => 'natalia',
+    'Natalia' => 'natalia',
     'Alice' => 'alice',
     'Iza' => 'iza',
     'Alice & Iza' => 'iza',

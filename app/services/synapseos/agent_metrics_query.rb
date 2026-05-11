@@ -147,6 +147,27 @@ class Synapseos::AgentMetricsQuery
 
   SPEED_TO_LEAD_SQL = 'AVG(EXTRACT(EPOCH FROM (first_reply_created_at - created_at)))'.freeze
 
+  # Natália (vendas consultivas SDR base): template usado em clientes que
+  # não se encaixam num squadron especializado (Royal Enfield, Audi, etc.).
+  # KPIs descritos sem depender de tags específicas — usa Message direto
+  # pra evitar dependência do labels_emission_plan.
+  def natalia_kpis(since)
+    bot_ids = AgentResolver.bots_for_slug(@account, 'natalia').pluck(:id)
+    outgoing_msgs = Message.where(account_id: @account.id, message_type: :outgoing,
+                                  sender_type: 'AgentBot', sender_id: bot_ids)
+                           .where('created_at >= ?', since)
+    conversations = @account.conversations
+                            .where(assignee_agent_bot_id: bot_ids)
+                            .where('created_at >= ?', since)
+    replied = conversations.where(INCOMING_MSG_EXISTS)
+
+    {
+      conversas_atendidas: conversations.count,
+      mensagens_enviadas: outgoing_msgs.count,
+      taxa_resposta_cliente: ratio(replied.count, conversations.count)
+    }
+  end
+
   # Alice (BDR outbound): conversas iniciadas ativamente, com tag `outbound`.
   def alice_kpis(since)
     outbound = conversations_with_label('outbound', since)

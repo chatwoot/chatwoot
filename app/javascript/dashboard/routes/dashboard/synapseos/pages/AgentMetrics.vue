@@ -27,6 +27,15 @@ const accountId = computed(() => route.params.accountId);
 // Agent card declarative configuration.
 // Each card has: slug, icon, tone, hero KPI (large), secondary KPIs (smaller rows).
 const AGENT_CARDS = {
+  natalia: {
+    icon: 'i-lucide-message-circle',
+    tone: 'brand',
+    hero: { key: 'conversas_atendidas', format: 'count' },
+    secondary: [
+      { key: 'mensagens_enviadas', format: 'count' },
+      { key: 'taxa_resposta_cliente', format: 'percent' },
+    ],
+  },
   alice: {
     icon: 'i-lucide-target',
     tone: 'brand',
@@ -82,7 +91,9 @@ const AGENT_CARDS = {
 };
 
 const GROUPS = [
-  { key: 'FRONTLINE', slugs: ['alice', 'iza'] },
+  // Natália aparece primeiro na FRONTLINE — é o template base de SDR usado
+  // em clientes que não cabem em squadron especializado (Audi, Royal Enfield).
+  { key: 'FRONTLINE', slugs: ['natalia', 'alice', 'iza'] },
   { key: 'PARTNERS', slugs: ['otto', 'luis'] },
   { key: 'RESCUE', slugs: ['fernanda', 'angela', 'vitor'] },
 ];

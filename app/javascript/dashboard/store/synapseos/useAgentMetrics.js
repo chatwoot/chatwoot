@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // Slugs canônicos suportados pelo squadron (vide app/services/synapseos/agent_resolver.rb).
 // Usado só para inicializar o estado por slug; a lista REAL exibida vem do backend.
-export const AGENT_SLUGS = ['alice', 'iza', 'otto', 'luis', 'fernanda', 'angela', 'vitor'];
+export const AGENT_SLUGS = ['natalia', 'alice', 'iza', 'otto', 'luis', 'fernanda', 'angela', 'vitor'];
 
 export const RANGE_OPTIONS = [
   { key: '24h', labelKey: 'SYNAPSEOS.METRICS.RANGES.24H', hours: 24 },

@@ -142,6 +142,15 @@
         "OVERAGE": "+{n} over quota"
       },
       "AGENTS": {
+        "NATALIA": {
+          "NAME": "Natália",
+          "ROLE": "Consultative sales (SDR base)",
+          "KPI": {
+            "CONVERSAS_ATENDIDAS": "Conversations handled",
+            "MENSAGENS_ENVIADAS": "Messages sent",
+            "TAXA_RESPOSTA_CLIENTE": "Customer response rate"
+          }
+        },
         "ALICE": {
           "NAME": "Alice",
           "ROLE": "Prospecting (outbound BDR)",
