@@ -7,6 +7,10 @@ class Captain::AssistantPolicy < ApplicationPolicy
     true
   end
 
+  def stats?
+    true
+  end
+
   def tools?
     @account_user.administrator?
   end
