@@ -94,6 +94,19 @@ const isCurrentDocumentRequest = (requestId, filterParams) =>
   requestId === documentsRequestId &&
   (filterParams.assistantId || null) === currentAssistantId();
 
+const pruneSelectionToDocuments = nextDocuments => {
+  if (!bulkSelectedIds.value.size) return;
+
+  const visibleDocumentIds = new Set(nextDocuments.map(doc => doc.id));
+  const selectedIds = new Set(
+    [...bulkSelectedIds.value].filter(id => visibleDocumentIds.has(id))
+  );
+
+  if (selectedIds.size !== bulkSelectedIds.value.size) {
+    bulkSelectedIds.value = selectedIds;
+  }
+};
+
 const fetchDocuments = async (page = 1, { showLoader = true } = {}) => {
   documentsRequestId += 1;
   const requestId = documentsRequestId;
@@ -113,6 +126,7 @@ const fetchDocuments = async (page = 1, { showLoader = true } = {}) => {
 
     const { payload, meta } = response.data;
     store.dispatch('captainDocuments/setRecords', { records: payload, meta });
+    pruneSelectionToDocuments(payload);
     syncIntervalHours.value = Number(meta?.sync_interval_hours) || null;
     return payload;
   } catch (error) {
