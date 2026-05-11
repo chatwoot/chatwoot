@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref, nextTick, watch } from 'vue';
-import { useDebounceFn, useTimeoutPoll } from '@vueuse/core';
+import { useTimeoutPoll } from '@vueuse/core';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -10,7 +10,7 @@ import { usePolicy } from 'dashboard/composables/usePolicy';
 
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCard.vue';
-import DocumentFiltersBar from 'dashboard/components-next/captain/assistant/DocumentFiltersBar.vue';
+import DocumentFilter from 'dashboard/components-next/captain/assistant/DocumentFilter.vue';
 import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
 import BulkDeleteDialog from 'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue';
 import Policy from 'dashboard/components/policy.vue';
@@ -74,10 +74,7 @@ const handleCreateDialogClose = () => {
   showCreateDialog.value = false;
 };
 
-const activeStatusFilter = ref(null);
-const activeSourceFilter = ref('all');
-const activeSort = ref('recently_updated');
-const searchQuery = ref('');
+const documentFilter = ref(null);
 const syncIntervalHours = ref(null);
 let documentsRequestId = 0;
 let fetchingListRequestId = null;
@@ -86,38 +83,18 @@ const currentAssistantId = () =>
   Number.isFinite(selectedAssistantId.value) ? selectedAssistantId.value : null;
 
 const buildDocumentFilterParams = (page = 1) => {
-  const filterParams = { page };
+  const filterParams = documentFilter.value?.buildParams(page) ?? {
+    page,
+    sort: 'recently_updated',
+  };
   const assistantId = currentAssistantId();
-
-  if (assistantId) {
-    filterParams.assistantId = assistantId;
-  }
-  if (activeSourceFilter.value !== 'all') {
-    filterParams.source = activeSourceFilter.value;
-  }
-  if (activeStatusFilter.value) {
-    filterParams.filter = activeStatusFilter.value;
-  }
-  if (activeSort.value) {
-    filterParams.sort = activeSort.value;
-  }
-  if (searchQuery.value.trim()) {
-    filterParams.searchKey = searchQuery.value.trim();
-  }
-
+  if (assistantId) filterParams.assistantId = assistantId;
   return filterParams;
 };
 
-const isCurrentDocumentRequest = (requestId, filterParams) => {
-  return (
-    requestId === documentsRequestId &&
-    (filterParams.assistantId || null) === currentAssistantId() &&
-    (filterParams.source || 'all') === activeSourceFilter.value &&
-    (filterParams.filter || null) === (activeStatusFilter.value || null) &&
-    (filterParams.sort || null) === (activeSort.value || null) &&
-    (filterParams.searchKey || '') === searchQuery.value.trim()
-  );
-};
+const isCurrentDocumentRequest = (requestId, filterParams) =>
+  requestId === documentsRequestId &&
+  (filterParams.assistantId || null) === currentAssistantId();
 
 const fetchDocuments = async (page = 1, { showLoader = true } = {}) => {
   documentsRequestId += 1;
@@ -160,38 +137,9 @@ const refreshDocumentsPage = (
   return fetchDocuments(page, { showLoader }).catch(() => {});
 };
 
-const handleSourceFilterSelect = sourceKey => {
-  activeSourceFilter.value = sourceKey;
-  if (sourceKey !== 'web') {
-    activeStatusFilter.value = null;
-  }
+const onFiltersChanged = () => {
   bulkSelectedIds.value = new Set();
   fetchDocuments(1);
-};
-
-const handleStatusFilterSelect = filterKey => {
-  activeStatusFilter.value = filterKey;
-  if (filterKey) {
-    activeSourceFilter.value = 'web';
-  }
-  bulkSelectedIds.value = new Set();
-  fetchDocuments(1);
-};
-
-const handleSortSelect = sortKey => {
-  activeSort.value = sortKey;
-  bulkSelectedIds.value = new Set();
-  fetchDocuments(1);
-};
-
-const fetchDocumentsForSearch = useDebounceFn(() => {
-  bulkSelectedIds.value = new Set();
-  fetchDocuments(1);
-}, 300);
-
-const handleSearch = value => {
-  searchQuery.value = value;
-  fetchDocumentsForSearch();
 };
 
 const syncPollStartedAt = ref(null);
@@ -390,17 +338,11 @@ const handleBulkSync = async () => {
 };
 
 const hasActiveDocumentFilters = computed(
-  () =>
-    activeSourceFilter.value !== 'all' ||
-    Boolean(activeStatusFilter.value) ||
-    Boolean(searchQuery.value.trim())
+  () => documentFilter.value?.hasActiveFilters ?? false
 );
 
 watch(selectedAssistantId, async () => {
-  activeStatusFilter.value = null;
-  activeSourceFilter.value = 'all';
-  activeSort.value = 'recently_updated';
-  searchQuery.value = '';
+  documentFilter.value?.reset();
   bulkSelectedIds.value = new Set();
   syncIntervalHours.value = null;
   stopSyncPolling();
@@ -465,16 +407,10 @@ onUnmounted(() => {
     </template>
 
     <template #controls>
-      <DocumentFiltersBar
-        :active-source-filter="activeSourceFilter"
-        :active-status-filter="activeStatusFilter"
-        :active-sort="activeSort"
-        :search-query="searchQuery"
+      <DocumentFilter
+        ref="documentFilter"
         class="mb-5"
-        @select-source="handleSourceFilterSelect"
-        @select-status="handleStatusFilterSelect"
-        @select-sort="handleSortSelect"
-        @search="handleSearch"
+        @change="onFiltersChanged"
       />
     </template>
 

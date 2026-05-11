@@ -84,7 +84,9 @@ const MENU_CONFIG = [
 ];
 
 const filterMenus = computed(() =>
-  MENU_CONFIG.map(menu => {
+  MENU_CONFIG.filter(
+    menu => !(menu.key === 'status' && props.activeSourceFilter === 'pdf')
+  ).map(menu => {
     const active = props[menu.activeKey];
     const items = menu.options.map(opt => ({
       label: t(`CAPTAIN.DOCUMENTS.FILTERS.${opt.labelKey}`),
