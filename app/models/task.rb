@@ -6,7 +6,9 @@ class Task < ApplicationRecord
   belongs_to :creator, class_name: 'User'
   belongs_to :entity, polymorphic: true, optional: true
   belongs_to :assignee, class_name: 'User', optional: true
-  belongs_to :agent_bot, class_name: 'AgentBot', optional: true
+  belongs_to :agent_bot, class_name: 'AgentBot', optional: true, foreign_key: :ai_agent_id, inverse_of: false
+
+  alias_attribute :agent_bot_id, :ai_agent_id
 
   # Enums
   enum status: {
