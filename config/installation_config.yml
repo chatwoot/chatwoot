@@ -370,7 +370,7 @@
   type: secret
 - name: NOTION_VERSION
   display_title: 'Notion Version'
-  value: '2022-06-28'
+  value: '2026-03-11'
   locked: false
   description: 'Notion version'
 ## ------ End of Configs added for Notion ------ ##

@@ -366,6 +366,7 @@
       "PREVIOUS_CONVERSATION": "Previous Conversations",
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
+      "NOTION_ISSUES": "Linked Notion Issues",
       "SHOPIFY_ORDERS": "Shopify Orders",
       "SHARED_FILES": "Attachments"
     },

@@ -40,6 +40,32 @@ RSpec.describe 'Integration Apps API', type: :request do
         expect(app['hooks'].first['settings']).to be_nil
       end
 
+      it 'returns notion issue tracker configuration status without exposing settings to agents' do
+        account.enable_features('notion_integration')
+        notion_hook = create(
+          :integrations_hook,
+          account: account,
+          app_id: 'notion',
+          settings: {
+            'issue_tracker' => {
+              'data_source_id' => 'data-source-id',
+              'title_property' => 'Title'
+            }
+          }
+        )
+
+        with_modified_env NOTION_CLIENT_ID: 'notion-client-id' do
+          get api_v1_account_integrations_apps_url(account),
+              headers: agent.create_new_auth_token,
+              as: :json
+        end
+
+        expect(response).to have_http_status(:success)
+        app = response.parsed_body['payload'].find { |int_app| int_app['id'] == notion_hook.app.id }
+        expect(app['issue_tracker_configured']).to be(true)
+        expect(app['hooks'].first['settings']).to be_nil
+      end
+
       it 'returns all active apps with sensitive information if user is an admin' do
         first_app = Integrations::App.all.find { |app| app.active?(account) }
         get api_v1_account_integrations_apps_url(account),

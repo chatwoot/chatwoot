@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_07_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_08_200438) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -931,6 +931,20 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_07_000000) do
     t.jsonb "settings", default: {}
   end
 
+  create_table "integrations_issue_links", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.string "app_id", null: false
+    t.string "external_id", null: false
+    t.text "external_url", null: false
+    t.string "external_title"
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "conversation_id", "app_id", "external_id"], name: "index_issue_links_on_account_conversation_app_external_id", unique: true
+    t.index ["conversation_id", "app_id"], name: "index_integrations_issue_links_on_conversation_id_and_app_id"
+  end
+
   create_table "labels", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -1323,6 +1337,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_07_000000) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "integrations_issue_links", "accounts", on_delete: :cascade
+  add_foreign_key "integrations_issue_links", "conversations", on_delete: :cascade
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
