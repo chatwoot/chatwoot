@@ -50,46 +50,40 @@ const openContact = contactId => {
 </script>
 
 <template>
-  <div v-if="hasNotes" class="flex flex-col px-6 py-4">
+  <div v-if="hasNotes" class="flex flex-col px-6">
     <div class="flex flex-col divide-y divide-n-strong">
       <div
         v-for="note in notes"
         :key="note.id"
         class="flex flex-col gap-2 py-4 group/note"
       >
-        <div class="flex items-center justify-between gap-2">
-          <div class="flex items-center min-w-0 gap-1.5">
-            <Avatar
-              :name="contactName(note.contact)"
-              :src="note.contact?.thumbnail"
-              :size="16"
-              rounded-full
-              hide-offline-status
-            />
+        <div class="flex items-center gap-1.5 min-w-0">
+          <Avatar
+            :name="contactName(note.contact)"
+            :src="note.contact?.thumbnail"
+            :size="16"
+            rounded-full
+            hide-offline-status
+          />
+          <div
+            class="flex items-center justify-between min-w-0 gap-1 w-full text-sm text-n-slate-11"
+          >
+            <button
+              type="button"
+              class="min-w-0 font-medium truncate text-start text-n-slate-12 hover:text-n-blue-11 p-0"
+              @click="openContact(note.contact.id)"
+            >
+              {{ contactName(note.contact) }}
+            </button>
             <div class="min-w-0 truncate">
               <span
-                class="inline-flex items-center gap-1 text-sm text-n-slate-11"
+                class="inline-flex items-center gap-1 text-sm text-n-slate-10"
               >
-                <button
-                  type="button"
-                  class="font-medium truncate text-start text-n-slate-12 hover:text-n-blue-11"
-                  @click="openContact(note.contact.id)"
-                >
-                  {{ contactName(note.contact) }}
-                </button>
-                <span
-                  class="rounded-full shrink-0 size-1 bg-n-slate-8"
-                  aria-hidden="true"
-                />
-                <span class="truncate">
+                <span class="font-medium text-n-slate-11">
                   {{ getWrittenBy(note) }}
-                  {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.WROTE') }}
                 </span>
-                <span
-                  class="rounded-full shrink-0 size-1 bg-n-slate-8"
-                  aria-hidden="true"
-                />
-                <span class="font-medium shrink-0 text-n-slate-12">
+                {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.WROTE') }}
+                <span class="font-medium text-n-slate-11">
                   {{ dynamicTime(note.createdAt) }}
                 </span>
               </span>

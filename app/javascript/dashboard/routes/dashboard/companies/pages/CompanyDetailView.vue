@@ -255,8 +255,8 @@ onBeforeUnmount(() => {
       </Policy>
     </div>
 
-    <template v-if="hasCompany" #sidebar>
-      <div class="px-6">
+    <template #sidebarHeader>
+      <div class="px-6 pt-6 pb-3">
         <TabBar
           :tabs="sidebarTabs"
           :initial-active-tab="activeSidebarTabIndex"
@@ -264,6 +264,8 @@ onBeforeUnmount(() => {
           @tab-changed="handleSidebarTabChange"
         />
       </div>
+    </template>
+    <template v-if="hasCompany" #sidebar>
       <CompanyNotesSidebar
         v-if="activeSidebarTab === 'notes'"
         :notes="companyNotes"
