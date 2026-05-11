@@ -161,7 +161,7 @@ A `ResolutionModal` já está integrada (botão "Resolver" + drag pra won/lost).
 | Arquivo | Mudança |
 |---|---|
 | [app/models/conversation.rb](app/models/conversation.rb) | adicionar `handle_kanban_status_transitions` + `kanban_card` association se não existir |
-| [app/services/kanban/card_sync_service.rb](app/services/kanban/card_sync_service.rb) | activities geradas pelo move automático → `metadata: { triggered_by_closure: true }` |
+| [app/services/kanban/card_sync_service.rb](app/services/kanban/card_sync_service.rb) | activities geradas pelo move automático → `metadata: { trigger: 'conversation_resolved' }` |
 | [app/services/kanban/macros/triggers/conversation_reopened.rb](app/services/kanban/macros/triggers/conversation_reopened.rb) | novo |
 | [config/initializers/kanban_macros.rb](config/initializers/kanban_macros.rb) | registrar novo trigger |
 | Frontend: histórico no modal do card | renderizar texto de `closure_cancelled` (Fase 1 já listou texto sugerido, aqui só confirmar) |
@@ -239,7 +239,7 @@ A maior parte do "cancelamento" do brief acontece como "card antigo permanece ar
 
 ### 8. CardSyncService já existe e move pra won/lost — esta fase não duplica
 - Service permanece autoridade do move. Esta fase adiciona o evento estruturado ANTES do move, no callback.
-- `metadata.triggered_by_closure: true` no activity de stage_changed deixa rastro de "esse move foi parte de um encerramento", o que ajuda na UI do histórico.
+- `metadata.trigger: 'conversation_resolved'` no activity de stage_changed deixa rastro de "esse move foi parte de um encerramento", o que ajuda na UI do histórico. Chave `trigger` é extensível para futuros valores (`conversation_archived`, `card_imported`, etc).
 
 ---
 
@@ -255,7 +255,7 @@ A maior parte do "cancelamento" do brief acontece como "card antigo permanece ar
 ---
 
 ## Critérios de aceite (validação manual)
-1. Resolver conversa via botão "Resolver" → activity `conversation_closed` criada com classification metadata; activity `stage_changed` com `triggered_by_closure: true` criada (move pra won/lost).
+1. Resolver conversa via botão "Resolver" → activity `conversation_closed` criada com classification metadata; activity `stage_changed` com `metadata.trigger: 'conversation_resolved'` criada (move pra won/lost).
 2. Resolver conversa via drag → mesmo comportamento.
 3. Reabrir conversa <5min após resolver → activity `closure_cancelled` criada. Histórico mostra texto correto.
 4. Reabrir >5min depois → sem activity de cancelamento.

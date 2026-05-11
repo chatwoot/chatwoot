@@ -62,6 +62,10 @@ module Kanban::Macros
         Kanban::Macro.create!(spec.merge(account: @account, system: true, enabled: true, position: 0))
       end
     end
+    
+    def self.find_default_by_name(name)
+      DEFAULTS.find { |spec| spec[:name] == name }
+    end
   end
 end
 ```

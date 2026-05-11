@@ -145,7 +145,7 @@ Componente segue o mesmo layout existente; só muda a função que monta o texto
 - Posicionalmente: Fase 2 para de gravar/ler `position`; remoção do campo pode acontecer em PR futuro de cleanup.
 
 ### 6. Validação de `metadata` por event_type
-- Fazer no model (`validate :metadata_matches_event_type`) com lógica simples de presença de chaves obrigatórias.
+- Fazer no model (`validate :validate_metadata_schema`) com lógica simples de presença de chaves obrigatórias.
 - Não usar `json_schema` gem por enquanto — overhead desnecessário para 4 tipos.
 
 ---

@@ -23,10 +23,10 @@ Remoção fica para um PR de cleanup futuro (não bloqueante).
 # Do not assign directly — manual edits break FIFO ordering guarantees.
 ```
 
-**Verificar índice em `conversations(created_at)` — NÃO assumir:**
-- Conferir em `db/schema.rb` ou via `\d conversations` no banco.
-- Se existir, **registrar na descrição do PR1.**
-- Se NÃO existir, criar migration auxiliar nesta mesma fase: `add_index :conversations, :created_at`.
+**Índice em `conversations(created_at)` — VERIFICADO ✓:**
+- Existe `index_conversations_on_account_id_and_created_at` (composto, `account_id + created_at`).
+- O JOIN do scope `ordered_for_column` filtrará por `account` indiretamente (via card.account → conversation.account), e o ORDER BY usará a porção `created_at` do índice composto.
+- **Nenhuma migration adicional necessária.** Registrar nessa descrição do PR1.
 
 ---
 
@@ -165,7 +165,7 @@ Elimina o "snap" no caminho feliz e no de erro.
 | Risco | Mitigação |
 |---|---|
 | `vuedraggable` `sort: false` ter comportamento inesperado para drag inter-coluna | Validar empiricamente; alternativa: interceptar `@change` ignorando eventos `moved` |
-| Performance do JOIN em board com muitas colunas/cards | Índice em `conversations(created_at)`; medir; denormalizar se preciso (plano B documentado) |
+| Performance do JOIN em board com muitas colunas/cards | Índice composto `(account_id, created_at)` confirmado em `conversations`. Plano B (denormalização de `conversation_created_at` no card) documentado se virar gargalo. Validar com `EXPLAIN ANALYZE` em volume razoável antes do merge — o composto pode degradar para seq scan se o ORDER BY não conseguir aproveitar o sufixo do índice. |
 | Cards "saltam" visualmente após server response | Mitigado pelo `insertSortedByRule` (inserção otimista já ordenada). Pequeno ajuste só se timestamps locais divergirem do servidor por skew de clock — aceitável. |
 | Frontend antigo cacheado tenta enviar `before_position`/`after_position` | Backend ignora silenciosamente (não retorna 422); deploy backend antes de frontend |
 
