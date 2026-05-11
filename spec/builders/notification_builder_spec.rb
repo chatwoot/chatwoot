@@ -116,6 +116,10 @@ describe NotificationBuilder do
 
       it 'still creates a notification for administrators regardless of inbox membership' do
         admin = create(:user, account: account, role: :administrator)
+        admin_setting = admin.notification_settings.find_by(account_id: account.id)
+        admin_setting.selected_email_flags = [:email_conversation_creation]
+        admin_setting.selected_push_flags = [:push_conversation_creation]
+        admin_setting.save!
 
         expect do
           described_class.new(
