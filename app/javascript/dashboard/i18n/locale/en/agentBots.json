@@ -300,6 +300,9 @@
         "LEAD_WARMING_TITLE": "Lead Warming",
         "LEAD_WARMING_ENABLED": "Enable proactive advisor suggestion",
         "LEAD_WARMING_TURNS_LABEL": "Suggest advisor after N turns with high interest",
+        "LEAD_WARMING_CONFIG_LABEL": "Lead warming rules (injected inside lead_warming_protocol)",
+        "LEAD_WARMING_CONFIG_HINT": "Free text injected at high priority inside the agent's prompt. Use it to define qualification rules, blocking conditions and transfer criteria.",
+        "LEAD_WARMING_CONFIG_PLACEHOLDER": "## Qualification rules\n- Only suggest advisor after N diagnostic questions answered...",
         "LEAD_WARMING_PHRASES_LABEL": "Closing phrases to detect (one per line)"
       },
       "TOOLS": {
@@ -362,6 +365,12 @@
             "NO_PARAMS": "No configurable parameters."
           }
         }
+      },
+      "IMPORT": {
+        "BUTTON": "Import config",
+        "SUCCESS": "Configuration imported successfully. Review and save to apply.",
+        "ERROR_INVALID_JSON": "The file is not a valid JSON.",
+        "ERROR_NO_FIELDS": "The JSON does not contain any recognised fields (name, description, assistant_config, agent_behavior_config)."
       },
       "CONTENT": {
         "SECTION_QUESTIONS": "Lead Qualification Questions",

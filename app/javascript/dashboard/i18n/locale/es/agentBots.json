@@ -299,6 +299,9 @@
         "LEAD_WARMING_TITLE": "Lead Warming",
         "LEAD_WARMING_ENABLED": "Habilitar sugerencia proactiva de asesor",
         "LEAD_WARMING_TURNS_LABEL": "Sugerir asesor después de N turnos con interés alto",
+        "LEAD_WARMING_CONFIG_LABEL": "Reglas de lead warming (inyectadas dentro de lead_warming_protocol)",
+        "LEAD_WARMING_CONFIG_HINT": "Texto libre inyectado con alta prioridad en el prompt del agente. Úsalo para definir reglas de calificación, condiciones de bloqueo y criterios de transferencia.",
+        "LEAD_WARMING_CONFIG_PLACEHOLDER": "## Reglas de calificación\n- Solo sugerir asesor después de N preguntas diagnósticas respondidas...",
         "LEAD_WARMING_PHRASES_LABEL": "Frases de cierre a detectar (una por línea)"
       },
       "TOOLS": {
@@ -361,6 +364,12 @@
             "NO_PARAMS": "Sin parámetros configurables."
           }
         }
+      },
+      "IMPORT": {
+        "BUTTON": "Importar config",
+        "SUCCESS": "Configuración importada correctamente. Revisa y guarda para aplicar los cambios.",
+        "ERROR_INVALID_JSON": "El archivo no es un JSON válido.",
+        "ERROR_NO_FIELDS": "El JSON no contiene campos reconocidos (name, description, assistant_config, agent_behavior_config)."
       },
       "CONTENT": {
         "SECTION_QUESTIONS": "Preguntas de calificación del lead",

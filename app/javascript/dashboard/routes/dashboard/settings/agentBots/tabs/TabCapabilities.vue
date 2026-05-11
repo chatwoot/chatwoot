@@ -10,7 +10,9 @@ const props = defineProps({
 const { t } = useI18n();
 
 const modules = computed(() => props.form.agent_behavior_config.modules);
-const leadWarming = computed(() => props.form.agent_behavior_config.lead_warming);
+const leadWarming = computed(
+  () => props.form.agent_behavior_config.lead_warming
+);
 const reengagement = computed(
   () => props.form.agent_behavior_config.proactive_reengagement
 );
@@ -57,19 +59,23 @@ const appointmentFallback = computed(
 const FALLBACK_STRATEGIES = [
   {
     value: 'provide_phone',
-    labelKey: 'AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.FALLBACK_PHONE',
+    labelKey:
+      'AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.FALLBACK_PHONE',
   },
   {
     value: 'transfer_advisor',
-    labelKey: 'AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.FALLBACK_TRANSFER',
+    labelKey:
+      'AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.FALLBACK_TRANSFER',
   },
   {
     value: 'show_hours',
-    labelKey: 'AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.FALLBACK_HOURS',
+    labelKey:
+      'AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.FALLBACK_HOURS',
   },
   {
     value: 'custom_message',
-    labelKey: 'AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.FALLBACK_CUSTOM',
+    labelKey:
+      'AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.FALLBACK_CUSTOM',
   },
 ];
 </script>
@@ -92,11 +98,17 @@ const FALLBACK_STRATEGIES = [
               class="accent-n-brand w-4 h-4"
             />
             <span class="text-sm font-medium text-n-slate-12">
-              {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.general_response.LABEL') }}
+              {{
+                $t(
+                  'AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.general_response.LABEL'
+                )
+              }}
             </span>
           </label>
           <p class="text-xs text-n-slate-11 ml-7">
-            {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.general_response.DESC') }}
+            {{
+              $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.general_response.DESC')
+            }}
           </p>
         </div>
 
@@ -109,11 +121,15 @@ const FALLBACK_STRATEGIES = [
               class="accent-n-brand w-4 h-4"
             />
             <span class="text-sm font-medium text-n-slate-12">
-              {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.transfer_chat.LABEL') }}
+              {{
+                $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.transfer_chat.LABEL')
+              }}
             </span>
           </label>
           <p class="text-xs text-n-slate-11 ml-7">
-            {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.transfer_chat.DESC') }}
+            {{
+              $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.transfer_chat.DESC')
+            }}
           </p>
         </div>
 
@@ -126,7 +142,9 @@ const FALLBACK_STRATEGIES = [
               class="accent-n-brand w-4 h-4"
             />
             <span class="text-sm font-medium text-n-slate-12">
-              {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.LABEL') }}
+              {{
+                $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.LABEL')
+              }}
             </span>
           </label>
           <p class="text-xs text-n-slate-11 ml-7">
@@ -138,7 +156,11 @@ const FALLBACK_STRATEGIES = [
             class="ml-7 flex items-center gap-4"
           >
             <span class="text-xs text-n-slate-11">
-              {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.ACTIONS_LABEL') }}:
+              {{
+                $t(
+                  'AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.ACTIONS_LABEL'
+                )
+              }}:
             </span>
             <label
               v-for="action in ['create', 'reschedule', 'cancel']"
@@ -150,7 +172,11 @@ const FALLBACK_STRATEGIES = [
                 type="checkbox"
                 class="accent-n-brand"
               />
-              {{ $t(`AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.ACTION_${action.toUpperCase()}`) }}
+              {{
+                $t(
+                  `AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.ACTION_${action.toUpperCase()}`
+                )
+              }}
             </label>
           </div>
 
@@ -159,7 +185,11 @@ const FALLBACK_STRATEGIES = [
             class="ml-7 p-3 bg-n-amber-1 border border-n-amber-6 rounded-lg flex flex-col gap-3"
           >
             <p class="text-xs font-medium text-n-slate-12">
-              {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.FALLBACK_TITLE') }}
+              {{
+                $t(
+                  'AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.FALLBACK_TITLE'
+                )
+              }}
             </p>
             <div class="flex flex-col gap-2">
               <label
@@ -174,7 +204,9 @@ const FALLBACK_STRATEGIES = [
                   class="accent-n-brand mt-0.5"
                   @change="appointmentFallback.strategy = strategy.value"
                 />
-                <span class="text-xs text-n-slate-12">{{ $t(strategy.labelKey) }}</span>
+                <span class="text-xs text-n-slate-12">{{
+                  $t(strategy.labelKey)
+                }}</span>
               </label>
             </div>
             <input
@@ -182,14 +214,22 @@ const FALLBACK_STRATEGIES = [
               v-model="appointmentFallback.phone_number"
               type="text"
               class="w-full px-3 py-2 text-sm rounded-lg border border-n-weak bg-n-background text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-brand"
-              :placeholder="$t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.FALLBACK_PHONE_PLACEHOLDER')"
+              :placeholder="
+                $t(
+                  'AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.FALLBACK_PHONE_PLACEHOLDER'
+                )
+              "
             />
             <textarea
               v-if="appointmentFallback.strategy === 'custom_message'"
               v-model="appointmentFallback.custom_message"
               rows="2"
               class="w-full px-3 py-2 text-sm rounded-lg border border-n-weak bg-n-background text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-brand resize-none"
-              :placeholder="$t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.FALLBACK_CUSTOM_PLACEHOLDER')"
+              :placeholder="
+                $t(
+                  'AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.appointments.FALLBACK_CUSTOM_PLACEHOLDER'
+                )
+              "
             />
           </div>
         </div>
@@ -203,15 +243,28 @@ const FALLBACK_STRATEGIES = [
               class="accent-n-brand w-4 h-4"
             />
             <span class="text-sm font-medium text-n-slate-12">
-              {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.send_documents.LABEL') }}
+              {{
+                $t(
+                  'AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.send_documents.LABEL'
+                )
+              }}
             </span>
           </label>
           <p class="text-xs text-n-slate-11 ml-7">
-            {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.send_documents.DESC') }}
+            {{
+              $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.send_documents.DESC')
+            }}
           </p>
-          <div v-if="modules.send_documents.enabled" class="ml-7 flex flex-col gap-1">
+          <div
+            v-if="modules.send_documents.enabled"
+            class="ml-7 flex flex-col gap-1"
+          >
             <span class="text-xs text-n-slate-11 mb-1">
-              {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.send_documents.TYPES_LABEL') }}:
+              {{
+                $t(
+                  'AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.send_documents.TYPES_LABEL'
+                )
+              }}:
             </span>
             <label
               v-for="type in ['pdf', 'image', 'video']"
@@ -231,7 +284,11 @@ const FALLBACK_STRATEGIES = [
                   }
                 "
               />
-              {{ $t(`AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.send_documents.TYPE_${type.toUpperCase()}`) }}
+              {{
+                $t(
+                  `AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.send_documents.TYPE_${type.toUpperCase()}`
+                )
+              }}
             </label>
           </div>
         </div>
@@ -245,7 +302,9 @@ const FALLBACK_STRATEGIES = [
               class="accent-n-brand w-4 h-4"
             />
             <span class="text-sm font-medium text-n-slate-12">
-              {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.out_of_scope.LABEL') }}
+              {{
+                $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.out_of_scope.LABEL')
+              }}
             </span>
           </label>
           <p class="text-xs text-n-slate-11 ml-7">
@@ -256,7 +315,11 @@ const FALLBACK_STRATEGIES = [
             class="ml-7 flex items-center gap-3"
           >
             <span class="text-xs text-n-slate-11">
-              {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.out_of_scope.ATTEMPTS_LABEL') }}:
+              {{
+                $t(
+                  'AGENT_BOTS.CONFIG.CAPABILITIES.MODULES.out_of_scope.ATTEMPTS_LABEL'
+                )
+              }}:
             </span>
             <input
               v-model.number="modules.out_of_scope.max_attempts"
@@ -272,7 +335,9 @@ const FALLBACK_STRATEGIES = [
 
     <SettingsSection
       :title="$t('AGENT_BOTS.CONFIG.CAPABILITIES.SECTION_LEAD_WARMING')"
-      :sub-title="$t('AGENT_BOTS.CONFIG.CAPABILITIES.SECTION_LEAD_WARMING_DESC')"
+      :sub-title="
+        $t('AGENT_BOTS.CONFIG.CAPABILITIES.SECTION_LEAD_WARMING_DESC')
+      "
       :show-border="false"
     >
       <div class="flex flex-col gap-4">
@@ -290,7 +355,9 @@ const FALLBACK_STRATEGIES = [
         <template v-if="leadWarming.enabled">
           <div class="flex items-center gap-3">
             <span class="text-sm text-n-slate-11">
-              {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.LEAD_WARMING_TURNS_LABEL') }}:
+              {{
+                $t('AGENT_BOTS.CONFIG.CAPABILITIES.LEAD_WARMING_TURNS_LABEL')
+              }}:
             </span>
             <input
               v-model.number="leadWarming.auto_suggest_after_turns"
@@ -302,7 +369,31 @@ const FALLBACK_STRATEGIES = [
           </div>
           <div class="flex flex-col gap-2">
             <label class="text-sm text-n-slate-11">
-              {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.LEAD_WARMING_PHRASES_LABEL') }}
+              {{
+                $t('AGENT_BOTS.CONFIG.CAPABILITIES.LEAD_WARMING_CONFIG_LABEL')
+              }}
+            </label>
+            <p class="text-xs text-n-slate-11">
+              {{
+                $t('AGENT_BOTS.CONFIG.CAPABILITIES.LEAD_WARMING_CONFIG_HINT')
+              }}
+            </p>
+            <textarea
+              v-model="leadWarming.lead_warming_config"
+              rows="8"
+              class="w-full px-3 py-2 text-sm rounded-lg border border-n-weak bg-n-background text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-brand resize-y font-mono"
+              :placeholder="
+                $t(
+                  'AGENT_BOTS.CONFIG.CAPABILITIES.LEAD_WARMING_CONFIG_PLACEHOLDER'
+                )
+              "
+            />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="text-sm text-n-slate-11">
+              {{
+                $t('AGENT_BOTS.CONFIG.CAPABILITIES.LEAD_WARMING_PHRASES_LABEL')
+              }}
             </label>
             <textarea
               v-model="closingPhrasesText"
@@ -316,7 +407,9 @@ const FALLBACK_STRATEGIES = [
 
     <SettingsSection
       :title="$t('AGENT_BOTS.CONFIG.CAPABILITIES.SECTION_REENGAGEMENT')"
-      :sub-title="$t('AGENT_BOTS.CONFIG.CAPABILITIES.SECTION_REENGAGEMENT_DESC')"
+      :sub-title="
+        $t('AGENT_BOTS.CONFIG.CAPABILITIES.SECTION_REENGAGEMENT_DESC')
+      "
       :show-border="false"
     >
       <div class="flex flex-col gap-4">
@@ -336,16 +429,25 @@ const FALLBACK_STRATEGIES = [
           <!-- Attempts list -->
           <div class="flex flex-col gap-2">
             <span class="text-sm font-medium text-n-slate-12">
-              {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_ATTEMPTS_LABEL') }}
+              {{
+                $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_ATTEMPTS_LABEL')
+              }}
             </span>
-            <div class="flex flex-col gap-2 border border-n-weak rounded-xl p-4">
+            <div
+              class="flex flex-col gap-2 border border-n-weak rounded-xl p-4"
+            >
               <div
                 v-for="(attempt, idx) in reengagement.attempts"
                 :key="idx"
                 class="flex items-center gap-2"
               >
                 <span class="text-xs text-n-slate-10 w-16 shrink-0">
-                  {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_ATTEMPT_N', { n: idx + 1 }) }}
+                  {{
+                    $t(
+                      'AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_ATTEMPT_N',
+                      { n: idx + 1 }
+                    )
+                  }}
                 </span>
                 <input
                   v-model.number="attempt.delay_value"
@@ -358,7 +460,11 @@ const FALLBACK_STRATEGIES = [
                   class="px-2 py-1 text-sm rounded-lg border border-n-weak bg-n-background text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-brand"
                 >
                   <option v-for="unit in DELAY_UNITS" :key="unit" :value="unit">
-                    {{ $t(`AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_UNIT_${unit.toUpperCase()}`) }}
+                    {{
+                      $t(
+                        `AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_UNIT_${unit.toUpperCase()}`
+                      )
+                    }}
                   </option>
                 </select>
                 <button
@@ -376,11 +482,15 @@ const FALLBACK_STRATEGIES = [
                 class="text-sm text-n-brand hover:underline text-left mt-1"
                 @click="addAttempt"
               >
-                {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_ADD_ATTEMPT') }}
+                {{
+                  $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_ADD_ATTEMPT')
+                }}
               </button>
             </div>
             <p class="text-xs text-n-slate-11">
-              {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_ATTEMPTS_HINT') }}
+              {{
+                $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_ATTEMPTS_HINT')
+              }}
             </p>
           </div>
 
@@ -389,9 +499,15 @@ const FALLBACK_STRATEGIES = [
             <span class="text-sm font-medium text-n-slate-12">
               {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_STOP_LABEL') }}
             </span>
-            <div class="flex flex-col gap-2 border border-n-weak rounded-xl p-4">
+            <div
+              class="flex flex-col gap-2 border border-n-weak rounded-xl p-4"
+            >
               <label
-                v-for="cond in ['on_any_reply', 'on_resolved', 'on_agent_assigned']"
+                v-for="cond in [
+                  'on_any_reply',
+                  'on_resolved',
+                  'on_agent_assigned',
+                ]"
                 :key="cond"
                 class="flex items-center gap-3 cursor-pointer"
               >
@@ -401,7 +517,11 @@ const FALLBACK_STRATEGIES = [
                   class="accent-n-brand w-4 h-4"
                 />
                 <span class="text-sm text-n-slate-12">
-                  {{ $t(`AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_STOP_${cond.toUpperCase()}`) }}
+                  {{
+                    $t(
+                      `AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_STOP_${cond.toUpperCase()}`
+                    )
+                  }}
                 </span>
               </label>
             </div>
@@ -410,12 +530,18 @@ const FALLBACK_STRATEGIES = [
           <!-- Stop keywords -->
           <div class="flex flex-col gap-2">
             <span class="text-sm font-medium text-n-slate-12">
-              {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_KEYWORDS_LABEL') }}
+              {{
+                $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_KEYWORDS_LABEL')
+              }}
             </span>
             <p class="text-xs text-n-slate-11">
-              {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_KEYWORDS_HINT') }}
+              {{
+                $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_KEYWORDS_HINT')
+              }}
             </p>
-            <div class="flex flex-col gap-2 border border-n-weak rounded-xl p-4">
+            <div
+              class="flex flex-col gap-2 border border-n-weak rounded-xl p-4"
+            >
               <div
                 v-for="(phrase, idx) in reengagement.stop_keywords.phrases"
                 :key="idx"
@@ -425,8 +551,15 @@ const FALLBACK_STRATEGIES = [
                   type="text"
                   :value="phrase"
                   class="flex-1 px-3 py-1.5 text-sm rounded-lg border border-n-weak bg-n-background text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-brand"
-                  :placeholder="$t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_KEYWORD_PLACEHOLDER')"
-                  @input="e => (reengagement.stop_keywords.phrases[idx] = e.target.value)"
+                  :placeholder="
+                    $t(
+                      'AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_KEYWORD_PLACEHOLDER'
+                    )
+                  "
+                  @input="
+                    e =>
+                      (reengagement.stop_keywords.phrases[idx] = e.target.value)
+                  "
                 />
                 <button
                   type="button"
@@ -442,15 +575,25 @@ const FALLBACK_STRATEGIES = [
                   class="text-sm text-n-brand hover:underline text-left"
                   @click="addKeyword"
                 >
-                  {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_ADD_KEYWORD') }}
+                  {{
+                    $t(
+                      'AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_ADD_KEYWORD'
+                    )
+                  }}
                 </button>
-                <label class="flex items-center gap-2 text-xs text-n-slate-11 cursor-pointer">
+                <label
+                  class="flex items-center gap-2 text-xs text-n-slate-11 cursor-pointer"
+                >
                   <input
                     v-model="reengagement.stop_keywords.case_insensitive"
                     type="checkbox"
                     class="accent-n-brand"
                   />
-                  {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_CASE_INSENSITIVE') }}
+                  {{
+                    $t(
+                      'AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_CASE_INSENSITIVE'
+                    )
+                  }}
                 </label>
               </div>
             </div>
@@ -459,9 +602,15 @@ const FALLBACK_STRATEGIES = [
           <!-- Reactivation -->
           <div class="flex flex-col gap-2">
             <span class="text-sm font-medium text-n-slate-12">
-              {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_REACTIVATION_LABEL') }}
+              {{
+                $t(
+                  'AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_REACTIVATION_LABEL'
+                )
+              }}
             </span>
-            <div class="flex flex-col gap-2 border border-n-weak rounded-xl p-4">
+            <div
+              class="flex flex-col gap-2 border border-n-weak rounded-xl p-4"
+            >
               <label class="flex items-center gap-3 cursor-pointer">
                 <input
                   v-model="reengagement.reactivation.on_bot_reply"
@@ -469,12 +618,23 @@ const FALLBACK_STRATEGIES = [
                   class="accent-n-brand w-4 h-4"
                 />
                 <span class="text-sm text-n-slate-12">
-                  {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_REACTIVATION_ON_BOT_REPLY') }}
+                  {{
+                    $t(
+                      'AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_REACTIVATION_ON_BOT_REPLY'
+                    )
+                  }}
                 </span>
               </label>
-              <div v-if="reengagement.reactivation.on_bot_reply" class="ml-7 flex flex-col gap-1.5">
+              <div
+                v-if="reengagement.reactivation.on_bot_reply"
+                class="ml-7 flex flex-col gap-1.5"
+              >
                 <span class="text-xs text-n-slate-11">
-                  {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_REACTIVATION_EXCLUDE_LABEL') }}
+                  {{
+                    $t(
+                      'AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_REACTIVATION_EXCLUDE_LABEL'
+                    )
+                  }}
                 </span>
                 <label
                   v-for="key in ['keyword', 'api_cancel']"
@@ -483,30 +643,47 @@ const FALLBACK_STRATEGIES = [
                 >
                   <input
                     type="checkbox"
-                    :checked="reengagement.reactivation.exclude_if_cancelled_by.includes(key)"
+                    :checked="
+                      reengagement.reactivation.exclude_if_cancelled_by.includes(
+                        key
+                      )
+                    "
                     class="accent-n-brand"
-                    @change="e => {
-                      const list = reengagement.reactivation.exclude_if_cancelled_by;
-                      e.target.checked
-                        ? list.push(key)
-                        : list.splice(list.indexOf(key), 1);
-                    }"
+                    @change="
+                      e => {
+                        const list =
+                          reengagement.reactivation.exclude_if_cancelled_by;
+                        e.target.checked
+                          ? list.push(key)
+                          : list.splice(list.indexOf(key), 1);
+                      }
+                    "
                   />
-                  {{ $t(`AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_EXCLUDE_${key.toUpperCase()}`) }}
+                  {{
+                    $t(
+                      `AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_EXCLUDE_${key.toUpperCase()}`
+                    )
+                  }}
                 </label>
               </div>
             </div>
           </div>
 
           <!-- API endpoint info -->
-          <div class="rounded-xl border border-n-weak bg-n-alpha-1 p-4 flex flex-col gap-2">
-            <span class="text-xs font-semibold text-n-slate-11 uppercase tracking-wide">
+          <div
+            class="rounded-xl border border-n-weak bg-n-alpha-1 p-4 flex flex-col gap-2"
+          >
+            <span
+              class="text-xs font-semibold text-n-slate-11 uppercase tracking-wide"
+            >
               {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_API_TITLE') }}
             </span>
             <p class="text-xs text-n-slate-11">
               {{ $t('AGENT_BOTS.CONFIG.CAPABILITIES.REENGAGEMENT_API_DESC') }}
             </p>
-            <code class="text-xs font-mono text-n-slate-12 bg-n-background border border-n-weak rounded-lg px-3 py-2 break-all">
+            <code
+              class="text-xs font-mono text-n-slate-12 bg-n-background border border-n-weak rounded-lg px-3 py-2 break-all"
+            >
               DELETE /api/v1/agent_bot/conversations/{id}/reengagement
             </code>
           </div>
