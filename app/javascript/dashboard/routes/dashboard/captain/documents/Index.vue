@@ -1,15 +1,17 @@
 <script setup>
-import { computed, onMounted, ref, nextTick } from 'vue';
+import { computed, onUnmounted, ref, nextTick, watch } from 'vue';
+import { useTimeoutPoll } from '@vueuse/core';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useAlert } from 'dashboard/composables';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCard.vue';
-import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
-import BulkDeleteDialog from 'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue';
+import DocumentFilter from 'dashboard/components-next/captain/assistant/DocumentFilter.vue';
+import DocumentBulkActions from 'dashboard/components-next/captain/assistant/DocumentBulkActions.vue';
 import Policy from 'dashboard/components/policy.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
@@ -18,12 +20,16 @@ import CreateDocumentDialog from 'dashboard/components-next/captain/pageComponen
 import DocumentPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/DocumentPageEmptyState.vue';
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/document/LimitBanner.vue';
+import CaptainDocumentAPI from 'dashboard/api/captain/document';
 import { useI18n } from 'vue-i18n';
 
 const route = useRoute();
 const store = useStore();
 const { t } = useI18n();
 const { checkPermissions } = usePolicy();
+
+const SYNC_POLL_INTERVAL_MS = 5000;
+const SYNC_POLL_MAX_DURATION_MS = 15 * 60 * 1000;
 
 const { isOnChatwootCloud } = useAccount();
 const uiFlags = useMapGetter('captainDocuments/getUIFlags');
@@ -36,7 +42,6 @@ const canManageDocuments = computed(() => checkPermissions(['administrator']));
 
 const selectedDocument = ref(null);
 const deleteDocumentDialog = ref(null);
-const bulkDeleteDialog = ref(null);
 const bulkSelectedIds = ref(new Set());
 const hoveredCard = ref(null);
 
@@ -66,6 +71,152 @@ const handleCreateDialogClose = () => {
   showCreateDialog.value = false;
 };
 
+const documentFilter = ref(null);
+const syncIntervalHours = ref(null);
+
+const currentAssistantId = () =>
+  Number.isFinite(selectedAssistantId.value) ? selectedAssistantId.value : null;
+
+const buildDocumentFilterParams = (page = 1) => {
+  const filterParams = documentFilter.value?.buildParams(page) ?? {
+    page,
+    sort: 'recently_updated',
+  };
+  const assistantId = currentAssistantId();
+  if (assistantId) filterParams.assistantId = assistantId;
+  return filterParams;
+};
+
+let documentsRequestId = 0;
+let fetchingListRequestId = null;
+
+const isCurrentDocumentRequest = (requestId, filterParams) =>
+  requestId === documentsRequestId &&
+  (filterParams.assistantId || null) === currentAssistantId();
+
+const pruneSelectionToDocuments = nextDocuments => {
+  if (!bulkSelectedIds.value.size) return;
+
+  const visibleDocumentIds = new Set(nextDocuments.map(doc => doc.id));
+  const selectedIds = new Set(
+    [...bulkSelectedIds.value].filter(id => visibleDocumentIds.has(id))
+  );
+
+  if (selectedIds.size !== bulkSelectedIds.value.size) {
+    bulkSelectedIds.value = selectedIds;
+  }
+};
+
+const fetchDocuments = async (page = 1, { showLoader = true } = {}) => {
+  documentsRequestId += 1;
+  const requestId = documentsRequestId;
+  const filterParams = buildDocumentFilterParams(page);
+
+  if (showLoader) {
+    fetchingListRequestId = requestId;
+    store.dispatch('captainDocuments/setFetchingList', true);
+  }
+
+  try {
+    const response = await CaptainDocumentAPI.get(filterParams);
+
+    if (!isCurrentDocumentRequest(requestId, filterParams)) {
+      return [];
+    }
+
+    const { payload, meta } = response.data;
+    store.dispatch('captainDocuments/setRecords', { records: payload, meta });
+    pruneSelectionToDocuments(payload);
+    syncIntervalHours.value = Number(meta?.sync_interval_hours) || null;
+    return payload;
+  } catch (error) {
+    if (isCurrentDocumentRequest(requestId, filterParams)) {
+      throw error;
+    }
+    return [];
+  } finally {
+    if (showLoader && fetchingListRequestId === requestId) {
+      fetchingListRequestId = null;
+      store.dispatch('captainDocuments/setFetchingList', false);
+    }
+  }
+};
+
+const refreshDocumentsPage = (
+  page = documentsMeta.value?.page || 1,
+  { showLoader = false } = {}
+) => {
+  return fetchDocuments(page, { showLoader }).catch(() => {});
+};
+
+const onFiltersChanged = () => {
+  bulkSelectedIds.value = new Set();
+  fetchDocuments(1);
+};
+
+const syncPollStartedAt = ref(null);
+
+const hasDocumentsSyncing = computed(() =>
+  (documents.value || []).some(doc => doc.sync_in_progress)
+);
+
+const hasSyncingDocuments = computed(() => hasDocumentsSyncing.value);
+
+const isWithinSyncPollWindow = () =>
+  syncPollStartedAt.value &&
+  Date.now() - syncPollStartedAt.value < SYNC_POLL_MAX_DURATION_MS;
+
+const shouldContinueSyncPolling = () =>
+  hasSyncingDocuments.value && isWithinSyncPollWindow();
+
+let syncPollingControls;
+
+function stopSyncPolling() {
+  syncPollingControls.pause();
+  syncPollStartedAt.value = null;
+}
+
+async function pollSyncDocuments() {
+  try {
+    await refreshDocumentsPage();
+  } catch (error) {
+    // Keep the existing polling decision based on the last known sync state.
+  }
+
+  if (!shouldContinueSyncPolling()) {
+    stopSyncPolling();
+  }
+}
+
+function scheduleSyncPoll({ extendWindow = false } = {}) {
+  if (extendWindow || !syncPollStartedAt.value) {
+    syncPollStartedAt.value = Date.now();
+  }
+
+  if (syncPollingControls.isActive.value) return;
+  syncPollingControls.resume();
+}
+
+syncPollingControls = useTimeoutPoll(pollSyncDocuments, SYNC_POLL_INTERVAL_MS, {
+  immediate: false,
+});
+
+watch(hasSyncingDocuments, isSyncing => {
+  if (isSyncing) {
+    scheduleSyncPoll();
+  }
+});
+
+const handleSync = async id => {
+  try {
+    await store.dispatch('captainDocuments/sync', id);
+    useAlert(t('CAPTAIN.DOCUMENTS.SYNC.QUEUED_MESSAGE'));
+    scheduleSyncPoll({ extendWindow: true });
+  } catch (error) {
+    useAlert(t('CAPTAIN.DOCUMENTS.SYNC.ERROR_MESSAGE'));
+  }
+};
+
 const handleAction = ({ action, id }) => {
   selectedDocument.value = documents.value.find(
     captainDocument => id === captainDocument.id
@@ -76,17 +227,10 @@ const handleAction = ({ action, id }) => {
       handleDelete();
     } else if (action === 'viewRelatedQuestions') {
       handleShowRelatedDocument();
+    } else if (action === 'sync') {
+      handleSync(id);
     }
   });
-};
-
-const fetchDocuments = (page = 1) => {
-  const filterParams = { page };
-
-  if (selectedAssistantId.value) {
-    filterParams.assistantId = selectedAssistantId.value;
-  }
-  store.dispatch('captainDocuments/get', filterParams);
 };
 
 const onPageChange = page => {
@@ -101,31 +245,14 @@ const onPageChange = page => {
 const onDeleteSuccess = () => {
   if (documents.value?.length === 0 && documentsMeta.value?.page > 1) {
     onPageChange(documentsMeta.value.page - 1);
+  } else {
+    refreshDocumentsPage();
   }
 };
 
-const buildSelectedCountLabel = computed(() => {
-  const count = documents.value?.length || 0;
-  const isAllSelected = bulkSelectedIds.value.size === count && count > 0;
-  return isAllSelected
-    ? t('CAPTAIN.DOCUMENTS.UNSELECT_ALL', { count })
-    : t('CAPTAIN.DOCUMENTS.SELECT_ALL', { count });
-});
-
-const selectedCountLabel = computed(() => {
-  return t('CAPTAIN.DOCUMENTS.SELECTED', {
-    count: bulkSelectedIds.value.size,
-  });
-});
-
-const hasBulkSelection = computed(() => bulkSelectedIds.value.size > 0);
-
-const shouldShowSelectionControl = docId => {
-  return (
-    canManageDocuments.value &&
-    (hoveredCard.value === docId || hasBulkSelection.value)
-  );
-};
+const shouldShowSelectionControl = docId =>
+  canManageDocuments.value &&
+  (hoveredCard.value === docId || bulkSelectedIds.value.size > 0);
 
 const handleCardHover = (isHovered, id) => {
   hoveredCard.value = isHovered ? id : null;
@@ -152,12 +279,30 @@ const fetchDocumentsAfterBulkAction = () => {
   bulkSelectedIds.value = new Set();
 };
 
-const onBulkDeleteSuccess = () => {
-  fetchDocumentsAfterBulkAction();
+const onCreateSuccess = () => {
+  refreshDocumentsPage(1);
 };
 
-onMounted(() => {
-  fetchDocuments();
+const hasActiveDocumentFilters = computed(
+  () => documentFilter.value?.hasActiveFilters ?? false
+);
+
+watch(
+  selectedAssistantId,
+  async () => {
+    documentFilter.value?.reset();
+    bulkSelectedIds.value = new Set();
+    syncIntervalHours.value = null;
+    stopSyncPolling();
+    await fetchDocuments(1);
+    if (hasSyncingDocuments.value) scheduleSyncPoll();
+  },
+  { immediate: true }
+);
+
+onUnmounted(() => {
+  stopSyncPolling();
+  documentsRequestId += 1;
 });
 </script>
 
@@ -170,27 +315,27 @@ onMounted(() => {
     :current-page="documentsMeta.page"
     :show-pagination-footer="!isFetching && !!documents.length"
     :is-fetching="isFetching"
-    :is-empty="!documents.length"
-    :show-know-more="false"
+    :is-empty="!documents.length && !hasActiveDocumentFilters"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
     @update:current-page="onPageChange"
     @click="handleCreateDocument"
   >
     <template #subHeader>
       <Policy :permissions="['administrator']">
-        <BulkSelectBar
-          v-model="bulkSelectedIds"
-          :all-items="documents"
-          :select-all-label="buildSelectedCountLabel"
-          :selected-count-label="selectedCountLabel"
-          :delete-label="$t('CAPTAIN.DOCUMENTS.BULK_DELETE_BUTTON')"
-          class="w-fit"
-          :class="{ 'mb-2': bulkSelectedIds.size > 0 }"
-          @bulk-delete="bulkDeleteDialog.dialogRef.open()"
+        <DocumentBulkActions
+          v-model:selected-ids="bulkSelectedIds"
+          :documents="documents"
+          @bulk-sync-queued="scheduleSyncPoll({ extendWindow: true })"
+          @bulk-delete-succeeded="fetchDocumentsAfterBulkAction"
         />
       </Policy>
+      <DocumentFilter
+        v-show="!bulkSelectedIds.size"
+        ref="documentFilter"
+        class="mb-2"
+        @change="onFiltersChanged"
+      />
     </template>
-
     <template #knowMore>
       <FeatureSpotlightPopover
         :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
@@ -214,15 +359,34 @@ onMounted(() => {
     <template #body>
       <LimitBanner class="mb-5" />
 
-      <div class="flex flex-col gap-4">
+      <div
+        v-if="!documents.length && hasActiveDocumentFilters"
+        class="flex flex-col items-center justify-center min-h-80 gap-2 text-center"
+      >
+        <span class="text-base font-medium text-n-slate-12">
+          {{ $t('CAPTAIN.DOCUMENTS.EMPTY_STATE.FILTERED_TITLE') }}
+        </span>
+        <span class="max-w-md text-sm text-n-slate-11">
+          {{ $t('CAPTAIN.DOCUMENTS.EMPTY_STATE.FILTERED_SUBTITLE') }}
+        </span>
+      </div>
+
+      <div v-else class="flex flex-col gap-4">
         <DocumentCard
           v-for="doc in documents"
           :id="doc.id"
           :key="doc.id"
           :name="doc.name || doc.external_link"
           :external-link="doc.external_link"
+          :pdf-document="doc.pdf_document"
           :assistant="doc.assistant"
           :created-at="doc.created_at"
+          :status="doc.status"
+          :sync-status="doc.sync_status"
+          :last-synced-at="doc.last_synced_at"
+          :last-sync-error-code="doc.last_sync_error_code"
+          :sync-in-progress="doc.sync_in_progress"
+          :sync-stale-after-hours="syncIntervalHours"
           :is-selected="canManageDocuments && bulkSelectedIds.has(doc.id)"
           :selectable="canManageDocuments"
           :show-selection-control="shouldShowSelectionControl(doc.id)"
@@ -244,6 +408,7 @@ onMounted(() => {
       v-if="showCreateDialog"
       ref="createDocumentDialog"
       :assistant-id="selectedAssistantId"
+      @create-success="onCreateSuccess"
       @close="handleCreateDialogClose"
     />
     <DeleteDialog
@@ -252,13 +417,6 @@ onMounted(() => {
       :entity="selectedDocument"
       type="Documents"
       @delete-success="onDeleteSuccess"
-    />
-    <BulkDeleteDialog
-      v-if="bulkSelectedIds"
-      ref="bulkDeleteDialog"
-      :bulk-ids="bulkSelectedIds"
-      type="AssistantDocument"
-      @delete-success="onBulkDeleteSuccess"
     />
   </PageLayout>
 </template>
