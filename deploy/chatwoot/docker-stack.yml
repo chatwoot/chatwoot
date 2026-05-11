@@ -71,6 +71,12 @@ x-chatwoot-base: &chatwoot-base
     BRAND_NAME: Synka
     INSTALLATION_NAME: Synka
 
+    # Security baseline (audit maio/2026). Quando true, Rails:
+    # - redireciona HTTP → HTTPS
+    # - adiciona Strict-Transport-Security header
+    # - marca cookies como Secure (impede session leak via downgrade)
+    FORCE_SSL: "true"
+
 services:
   app:
     <<: *chatwoot-base
@@ -91,9 +97,16 @@ services:
         - traefik.http.routers.chatwoot.tls=true
         - traefik.http.routers.chatwoot.tls.certresolver=letsencryptresolver
         - traefik.http.services.chatwoot.loadbalancer.server.port=3000
-        # ActionCable / WebSocket
+        # ActionCable / WebSocket + security headers (audit maio/2026 enterprise prep)
         - traefik.http.routers.chatwoot.middlewares=chatwoot-headers
         - traefik.http.middlewares.chatwoot-headers.headers.customrequestheaders.X-Forwarded-Proto=https
+        # CSP — frame-ancestors 'self' permite widget iframado pelo próprio domínio
+        # (Chatwoot embeds widgets); script-src/style-src 'unsafe-inline' por
+        # compatibilidade com Vue inline e iconlets. Refinar quando UI eliminar inline.
+        - "traefik.http.middlewares.chatwoot-headers.headers.contentSecurityPolicy=default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self' wss: https:; frame-src 'self' blob:; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
+        # Defense-in-depth (Rails já adiciona HSTS via FORCE_SSL=true)
+        - traefik.http.middlewares.chatwoot-headers.headers.customResponseHeaders.Permissions-Policy=camera=(self), microphone=(self), geolocation=()
+        - traefik.http.middlewares.chatwoot-headers.headers.referrerPolicy=strict-origin-when-cross-origin
 
   sidekiq:
     <<: *chatwoot-base
