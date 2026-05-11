@@ -23,6 +23,7 @@ import sla from './sla/sla.routes';
 import teams from './teams/teams.routes';
 import customRoles from './customRoles/customRole.routes';
 import profile from './profile/profile.routes';
+import templates from './templates/templates.routes';
 import security from './security/security.routes';
 import conversationWorkflow from './conversationWorkflow/conversationWorkflow.routes';
 import captain from './captain/captain.routes';
@@ -64,6 +65,7 @@ export default {
     ...teams.routes,
     ...customRoles.routes,
     ...profile.routes,
+    ...templates.routes,
     ...security.routes,
     ...conversationWorkflow.routes,
     ...captain.routes,

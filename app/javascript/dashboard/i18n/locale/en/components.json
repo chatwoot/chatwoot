@@ -15,6 +15,9 @@
     "EMPTY_STATE": "No results found.",
     "SEARCHING": "Searching..."
   },
+  "LANGUAGE_DROPDOWN": {
+    "NO_RESULTS": "No languages found"
+  },
   "DIALOG": {
     "BUTTONS": {
       "CANCEL": "Cancel",
