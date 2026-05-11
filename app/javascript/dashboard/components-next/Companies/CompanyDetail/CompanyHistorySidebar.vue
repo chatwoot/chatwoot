@@ -58,7 +58,10 @@ const conversationInbox = conversation =>
     />
   </div>
 
-  <p v-else class="px-6 py-10 text-sm leading-6 text-center text-n-slate-11">
+  <p
+    v-else
+    class="py-8 px-4 mx-6 text-sm text-center rounded-xl border border-dashed border-n-strong text-n-slate-11"
+  >
     {{ t('COMPANIES.DETAIL.HISTORY.EMPTY') }}
   </p>
 </template>

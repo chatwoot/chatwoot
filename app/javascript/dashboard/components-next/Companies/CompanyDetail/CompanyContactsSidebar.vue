@@ -288,7 +288,7 @@ const handleContactSelect = contactId => {
 
       <div
         v-else-if="!hasContacts"
-        class="py-8 text-sm text-center rounded-xl border border-dashed border-n-weak text-n-slate-11"
+        class="py-8 px-4 text-sm text-center rounded-xl border border-dashed border-n-strong text-n-slate-11"
       >
         {{ t('COMPANIES.DETAIL.CONTACTS.EMPTY') }}
       </div>
