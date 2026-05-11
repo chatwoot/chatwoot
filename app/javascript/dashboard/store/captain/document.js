@@ -33,17 +33,6 @@ export default createStore({
       commit(mutations.SET, records);
       commit(mutations.SET_META, meta);
     },
-    async create({ commit }, dataObj) {
-      commit(mutations.SET_UI_FLAG, { creatingItem: true });
-      try {
-        const response = await CaptainDocumentAPI.create(dataObj);
-        return response.data;
-      } catch (error) {
-        return throwErrorMessage(error);
-      } finally {
-        commit(mutations.SET_UI_FLAG, { creatingItem: false });
-      }
-    },
     removeBulkRecords({ commit, getters }, ids) {
       const records = getters.getRecords.filter(
         record => !ids.includes(record.id)
