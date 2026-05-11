@@ -10,6 +10,7 @@ const props = defineProps({
   icon: { type: [String, Object], default: null },
   active: { type: Boolean, default: false },
   component: { type: Function, default: null },
+  showAlert: { type: Boolean, default: false },
 });
 
 const { resolvePermissions, resolveFeatureFlag } = useSidebarContext();
@@ -34,6 +35,8 @@ const shouldRenderComponent = computed(() => {
       class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg hover:bg-gradient-to-r from-transparent via-n-slate-3/70 to-n-slate-3/70 group min-w-0"
       :class="{
         'text-n-slate-12 bg-n-alpha-2 active': active,
+        'animate-pulse bg-n-ruby-9/10 ring-1 ring-n-ruby-8/50 text-n-slate-12':
+          showAlert,
       }"
     >
       <component

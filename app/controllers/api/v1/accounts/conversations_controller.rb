@@ -160,6 +160,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     # rubocop:disable Rails/SkipsModelValidations
     @conversation.update_columns(updates)
     # rubocop:enable Rails/SkipsModelValidations
+    Rails.configuration.dispatcher.dispatch(CONVERSATION_READ, Time.zone.now, conversation: @conversation)
   end
 
   def should_update_last_seen?

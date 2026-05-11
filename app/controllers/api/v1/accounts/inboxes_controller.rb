@@ -1,6 +1,7 @@
+# rubocop:disable Metrics/ClassLength
 class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   include Api::V1::InboxesHelper
-  before_action :fetch_inbox, except: [:index, :create]
+  before_action :fetch_inbox, except: [:index, :create, :unattended_counts]
   before_action :fetch_agent_bot, only: [:set_agent_bot]
   before_action :validate_limit, only: [:create]
   # we are already handling the authorization in fetch inbox
@@ -9,6 +10,19 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def index
     @inboxes = policy_scope(Current.account.inboxes.order_by_name.includes(:channel, { avatar_attachment: [:blob] }))
+  end
+
+  def unattended_counts
+    counts = Current.account.conversations
+                    .joins(:messages)
+                    .where(inbox: policy_scope(Current.account.inboxes))
+                    .where(messages: { account_id: Current.account.id, message_type: Message.message_types[:incoming] })
+                    .where('conversations.agent_last_seen_at IS NULL OR messages.created_at > conversations.agent_last_seen_at')
+                    .group(:inbox_id)
+                    .distinct
+                    .count(:id)
+
+    render json: { payload: counts }
   end
 
   def show; end
@@ -215,3 +229,4 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 end
 
 Api::V1::Accounts::InboxesController.prepend_mod_with('Api::V1::Accounts::InboxesController')
+# rubocop:enable Metrics/ClassLength

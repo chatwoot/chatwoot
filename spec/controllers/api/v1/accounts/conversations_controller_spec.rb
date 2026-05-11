@@ -678,6 +678,19 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.agent_last_seen_at).not_to be_nil
       end
 
+      it 'dispatches conversation read event after updating last seen' do
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+        conversation.update!(agent_last_seen_at: nil)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+          .with('conversation.read', kind_of(Time), { conversation: conversation })
+      end
+
       it 'updates assignee last seen' do
         conversation.update!(assignee_id: agent.id, agent_last_seen_at: nil)
 

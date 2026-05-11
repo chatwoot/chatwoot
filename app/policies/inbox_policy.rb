@@ -19,6 +19,10 @@ class InboxPolicy < ApplicationPolicy
     true
   end
 
+  def unattended_counts?
+    true
+  end
+
   def show?
     # FIXME: for agent bots, lets bring this validation to policies as well in future
     return true if @user.is_a?(AgentBot)

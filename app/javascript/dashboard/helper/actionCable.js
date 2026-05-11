@@ -79,15 +79,18 @@ class ActionCableConnector extends BaseActionCableConnector {
       this.app.$store.dispatch('updateConversation', payload);
     }
     this.fetchConversationStats();
+    this.fetchInboxUnattendedCounts();
   };
 
   onConversationCreated = data => {
     this.app.$store.dispatch('addConversation', data);
     this.fetchConversationStats();
+    this.fetchInboxUnattendedCounts();
   };
 
   onConversationRead = data => {
     this.app.$store.dispatch('updateConversation', data);
+    this.fetchInboxUnattendedCounts();
   };
 
   // eslint-disable-next-line class-methods-use-this
@@ -104,6 +107,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       lastActivityAt,
       conversationId,
     });
+    this.fetchInboxUnattendedCounts();
   };
 
   // eslint-disable-next-line class-methods-use-this
@@ -112,11 +116,13 @@ class ActionCableConnector extends BaseActionCableConnector {
   onStatusChange = data => {
     this.app.$store.dispatch('updateConversation', data);
     this.fetchConversationStats();
+    this.fetchInboxUnattendedCounts();
   };
 
   onConversationUpdated = data => {
     this.app.$store.dispatch('updateConversation', data);
     this.fetchConversationStats();
+    this.fetchInboxUnattendedCounts();
   };
 
   onTypingOn = ({ conversation, user }) => {
@@ -166,12 +172,18 @@ class ActionCableConnector extends BaseActionCableConnector {
     emitter.emit('fetch_conversation_stats');
   };
 
+  // eslint-disable-next-line class-methods-use-this
+  fetchInboxUnattendedCounts = () => {
+    emitter.emit('fetch_inbox_unattended_counts');
+  };
+
   onContactDelete = data => {
     this.app.$store.dispatch(
       'contacts/deleteContactThroughConversations',
       data.id
     );
     this.fetchConversationStats();
+    this.fetchInboxUnattendedCounts();
   };
 
   onContactUpdate = data => {
@@ -199,6 +211,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('labels/revalidate', { newKey: keys.label });
     this.app.$store.dispatch('inboxes/revalidate', { newKey: keys.inbox });
     this.app.$store.dispatch('teams/revalidate', { newKey: keys.team });
+    this.fetchInboxUnattendedCounts();
   };
 }
 

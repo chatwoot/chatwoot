@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
+import { useMapGetter } from 'dashboard/composables/store';
 
 const props = defineProps({
   label: {
@@ -22,6 +23,16 @@ const props = defineProps({
 const reauthorizationRequired = computed(() => {
   return props.inbox.reauthorization_required;
 });
+
+const getUnattendedCount = useMapGetter('inboxes/getUnattendedCount');
+
+const unattendedCount = computed(() =>
+  getUnattendedCount.value(props.inbox.id)
+);
+
+const countLabel = computed(() =>
+  unattendedCount.value > 99 ? '99+' : unattendedCount.value
+);
 
 const channelColor = computed(() => {
   const type = props.inbox.channel_type;
@@ -57,6 +68,12 @@ const channelColor = computed(() => {
     <ChannelIcon :inbox="inbox" class="size-3" :style="channelColor" />
   </span>
   <div class="flex-1 truncate min-w-0">{{ label }}</div>
+  <span
+    v-if="unattendedCount"
+    class="inline-flex h-5 min-w-5 flex-shrink-0 items-center justify-center rounded-md bg-n-ruby-9/20 px-1.5 text-[11px] font-semibold leading-none text-n-ruby-11 ring-1 ring-n-ruby-8/50 tabular-nums"
+  >
+    {{ countLabel }}
+  </span>
   <div
     v-if="reauthorizationRequired"
     v-tooltip.top-end="$t('SIDEBAR.REAUTHORIZE')"

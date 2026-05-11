@@ -280,6 +280,7 @@ watch(
             :label="child.label"
             :icon="child.icon"
             :children="child.children"
+            :count="child.count"
             :is-expanded="isExpanded"
             :active-child="activeChild"
           />

@@ -12,6 +12,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useWindowSize, useEventListener } from '@vueuse/core';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { useEmitter } from 'dashboard/composables/emitter';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
@@ -158,6 +159,7 @@ useEventListener(document, 'touchmove', onResizeMove, { passive: false });
 useEventListener(document, 'touchend', onResizeEnd);
 
 const inboxes = useMapGetter('inboxes/getInboxes');
+const getInboxUnattendedCount = useMapGetter('inboxes/getUnattendedCount');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
 const teams = useMapGetter('teams/getMyTeams');
 const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
@@ -168,6 +170,7 @@ const conversationCustomViews = useMapGetter(
 onMounted(() => {
   store.dispatch('labels/get');
   store.dispatch('inboxes/get');
+  store.dispatch('inboxes/fetchUnattendedCounts');
   store.dispatch('notifications/unReadCount');
   store.dispatch('teams/get');
   store.dispatch('attributes/get');
@@ -175,8 +178,21 @@ onMounted(() => {
   store.dispatch('customViews/get', 'contact');
 });
 
+useEmitter('fetch_inbox_unattended_counts', () => {
+  store.dispatch('inboxes/fetchUnattendedCounts');
+});
+
+const getInboxCount = inbox => getInboxUnattendedCount.value(inbox.id);
+
+const channelsUnreadTotal = computed(() =>
+  inboxes.value.reduce((total, inbox) => total + getInboxCount(inbox), 0)
+);
+
 const sortedInboxes = computed(() =>
-  inboxes.value.slice().sort((a, b) => a.name.localeCompare(b.name))
+  inboxes.value.slice().sort((a, b) => {
+    const countDifference = getInboxCount(b) - getInboxCount(a);
+    return countDifference || a.name.localeCompare(b.name);
+  })
 );
 
 const closeMobileSidebar = () => {
@@ -283,11 +299,13 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.CHANNELS'),
           icon: 'i-lucide-mailbox',
           activeOn: ['conversation_through_inbox'],
+          count: channelsUnreadTotal.value,
           children: sortedInboxes.value.map(inbox => ({
             name: `${inbox.name}-${inbox.id}`,
             label: inbox.name,
             icon: h(ChannelIcon, { inbox, class: 'size-[12px]' }),
             to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
+            showAlert: getInboxUnattendedCount.value(inbox.id) > 0,
             component: leafProps =>
               h(ChannelLeaf, {
                 label: leafProps.label,

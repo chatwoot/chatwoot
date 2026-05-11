@@ -12,6 +12,7 @@ const props = defineProps({
   icon: { type: [Object, String], required: true },
   children: { type: Array, default: undefined },
   activeChild: { type: Object, default: undefined },
+  count: { type: Number, default: 0 },
 });
 
 const { isAllowed } = useSidebarContext();
@@ -46,6 +47,7 @@ useEventListener(scrollableContainer, 'scroll', () => {
     v-show="isExpanded"
     :label
     :icon
+    :count
     class="my-1"
   />
   <ul

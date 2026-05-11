@@ -9,11 +9,13 @@ import WhatsappChannel from '../../api/channel/whatsappChannel';
 import { throwErrorMessage } from '../utils/api';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import camelcaseKeys from 'camelcase-keys';
+import { debounce } from '@chatwoot/utils';
 import { ACCOUNT_EVENTS } from '../../helper/AnalyticsHelper/events';
 import { channelActions, buildInboxData } from './inboxes/channelActions';
 
 export const state = {
   records: [],
+  unattendedCounts: {},
   uiFlags: {
     isFetching: false,
     isFetchingItem: false,
@@ -131,6 +133,9 @@ export const getters = {
     );
     return camelcaseKeys(inbox || {}, { deep: true });
   },
+  getUnattendedCount: $state => inboxId => {
+    return $state.unattendedCounts[Number(inboxId)] || 0;
+  },
   getUIFlags($state) {
     return $state.uiFlags;
   },
@@ -188,6 +193,22 @@ const sendAnalyticsEvent = channelType => {
   });
 };
 
+const fetchUnattendedCounts = async commit => {
+  try {
+    const response = await InboxesAPI.getUnattendedCounts();
+    commit(types.default.SET_INBOX_UNATTENDED_COUNTS, response.data.payload);
+  } catch (error) {
+    // Ignore error
+  }
+};
+
+const debouncedFetchUnattendedCounts = debounce(
+  fetchUnattendedCounts,
+  500,
+  false,
+  1500
+);
+
 export const actions = {
   revalidate: async ({ commit }, { newKey }) => {
     try {
@@ -209,6 +230,9 @@ export const actions = {
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isFetching: false });
     }
+  },
+  fetchUnattendedCounts: async ({ commit }) => {
+    debouncedFetchUnattendedCounts(commit);
   },
   createChannel: async ({ commit }, params) => {
     try {
@@ -371,6 +395,9 @@ export const mutations = {
   [types.default.ADD_INBOXES]: MutationHelpers.create,
   [types.default.EDIT_INBOXES]: MutationHelpers.update,
   [types.default.DELETE_INBOXES]: MutationHelpers.destroy,
+  [types.default.SET_INBOX_UNATTENDED_COUNTS]($state, counts = {}) {
+    $state.unattendedCounts = counts;
+  },
 };
 
 export default {

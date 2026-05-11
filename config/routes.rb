@@ -193,6 +193,7 @@ Rails.application.routes.draw do
             collection do
               get :active
               get :search
+              get :import_template
               post :filter
               post :import
               post :export
@@ -229,6 +230,7 @@ Rails.application.routes.draw do
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
+            get :unattended_counts, on: :collection
             get :assignable_agents, on: :member
             get :campaigns, on: :member
             get :agent_bot, on: :member
