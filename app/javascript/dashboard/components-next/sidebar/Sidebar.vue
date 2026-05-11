@@ -6,6 +6,7 @@ import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -42,6 +43,11 @@ const { accountScopedRoute, isOnChatwootCloud } = useAccount();
 const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
+
+// CUSTOMIZAÇÃO_SYNAPSEOS: itens técnicos do menu de Settings (Inboxes,
+// Agent Bots, Custom Attributes, Integrations) ficam VISÍVEIS só pra
+// administradores. Agents não veem — esses são setup técnico de operação.
+const { isAdmin } = useAdmin();
 
 const isACustomBrandedInstance = useMapGetter(
   'globalConfig/isACustomBrandedInstance'
@@ -358,51 +364,59 @@ const menuItems = computed(() => {
               },
             ]
           : []),
-        // CUSTOMIZAÇÃO_SYNAPSEOS: itens abaixo escondidos do console normal.
-        // Setup técnico (inboxes, agent bots, custom attributes, integrações)
-        // é responsabilidade do Super Admin / panel agentic. Operadores
-        // gerenciam só labels, automations, macros, respostas prontas.
-        //
-        // Pra reverter: descomentar os blocos com prefixo `// HIDDEN:`.
-        //
-        // HIDDEN: Caixas de Entrada — criação/edição via /super_admin/inboxes
-        // {
-        //   name: 'Settings Inboxes',
-        //   label: t('SIDEBAR.INBOXES'),
-        //   icon: 'i-lucide-inbox',
-        //   activeOn: [
-        //     'settings_inbox_list', 'settings_inbox_show', 'settings_inbox_new',
-        //     'settings_inbox_finish', 'settings_inboxes_page_channel',
-        //     'settings_inboxes_add_agents',
-        //   ],
-        //   to: accountScopedRoute('settings_inbox_list'),
-        // },
+        // CUSTOMIZAÇÃO_SYNAPSEOS: 4 itens técnicos visíveis SÓ pra administrators.
+        // Agents/operadores comuns têm UI enxuta (labels, automation, macros,
+        // canned responses). Admins têm tudo + setup técnico.
+        ...(isAdmin.value
+          ? [
+              {
+                name: 'Settings Inboxes',
+                label: t('SIDEBAR.INBOXES'),
+                icon: 'i-lucide-inbox',
+                activeOn: [
+                  'settings_inbox_list',
+                  'settings_inbox_show',
+                  'settings_inbox_new',
+                  'settings_inbox_finish',
+                  'settings_inboxes_page_channel',
+                  'settings_inboxes_add_agents',
+                ],
+                to: accountScopedRoute('settings_inbox_list'),
+              },
+            ]
+          : []),
         {
           name: 'Settings Labels',
           label: t('SIDEBAR.LABELS'),
           icon: 'i-lucide-tags',
           to: accountScopedRoute('labels_list'),
         },
-        // HIDDEN: Atributos Personalizados — setup técnico raro pós-onboarding
-        // {
-        //   name: 'Settings Custom Attributes',
-        //   label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
-        //   icon: 'i-lucide-code',
-        //   to: accountScopedRoute('attributes_list'),
-        // },
+        ...(isAdmin.value
+          ? [
+              {
+                name: 'Settings Custom Attributes',
+                label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
+                icon: 'i-lucide-code',
+                to: accountScopedRoute('attributes_list'),
+              },
+            ]
+          : []),
         {
           name: 'Settings Automation',
           label: t('SIDEBAR.AUTOMATION'),
           icon: 'i-lucide-repeat',
           to: accountScopedRoute('automation_list'),
         },
-        // HIDDEN: Agent Bots — criação via synapseos_panel + post-deploy hook
-        // {
-        //   name: 'Settings Agent Bots',
-        //   label: t('SIDEBAR.AGENT_BOTS'),
-        //   icon: 'i-lucide-bot',
-        //   to: accountScopedRoute('agent_bots'),
-        // },
+        ...(isAdmin.value
+          ? [
+              {
+                name: 'Settings Agent Bots',
+                label: t('SIDEBAR.AGENT_BOTS'),
+                icon: 'i-lucide-bot',
+                to: accountScopedRoute('agent_bots'),
+              },
+            ]
+          : []),
         {
           name: 'Settings Macros',
           label: t('SIDEBAR.MACROS'),
@@ -415,13 +429,16 @@ const menuItems = computed(() => {
           icon: 'i-lucide-message-square-quote',
           to: accountScopedRoute('canned_list'),
         },
-        // HIDDEN: Integrações — Slack/webhooks/dashboard apps são setup técnico
-        // {
-        //   name: 'Settings Integrations',
-        //   label: t('SIDEBAR.INTEGRATIONS'),
-        //   icon: 'i-lucide-blocks',
-        //   to: accountScopedRoute('settings_applications'),
-        // },
+        ...(isAdmin.value
+          ? [
+              {
+                name: 'Settings Integrations',
+                label: t('SIDEBAR.INTEGRATIONS'),
+                icon: 'i-lucide-blocks',
+                to: accountScopedRoute('settings_applications'),
+              },
+            ]
+          : []),
         {
           name: 'Settings Audit Logs',
           label: t('SIDEBAR.AUDIT_LOGS'),
