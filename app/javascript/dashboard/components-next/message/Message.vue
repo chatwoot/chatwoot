@@ -163,7 +163,8 @@ const reactions = computed(() => {
     }
     groups[reaction.emoji].count += 1;
 
-    let senderName = reaction.senderName;
+    let senderName =
+      reaction.senderName || reaction.sender_name || reaction.sender?.name;
     if (!senderName) {
       const conversation = conversationGetter.value(props.conversationId);
       senderName = conversation?.meta?.sender?.name || 'Contact';
