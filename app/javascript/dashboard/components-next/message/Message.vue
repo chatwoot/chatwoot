@@ -666,7 +666,8 @@ provideMessageContext({
           <button
             v-for="group in reactions"
             :key="group.emoji"
-            v-tooltip="group.senders.join(', ')"
+            v-tooltip.top="group.senders.join(', ')"
+            :title="group.senders.join(', ')"
             class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full hover:bg-n-alpha-3 text-xs cursor-pointer border transition-colors bg-white dark:bg-slate-800 shadow-sm"
             :class="[
               isEmojiSelectedByCurrentUser(group.emoji)
