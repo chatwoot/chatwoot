@@ -2,6 +2,7 @@
 class Api::V1::Accounts::EmployeesController < Api::V1::Accounts::BaseController
   IDLE_AFTER_MINUTES = 15
   NOT_RESPONDING_AFTER_MINUTES = 10
+  DAILY_REPORT_TIME_ZONE = 'Africa/Cairo'.freeze
   ACTIVITY_REPORTING_EVENTS = %w[first_response reply_time conversation_resolved conversation_opened].freeze
 
   before_action :check_admin_authorization?
@@ -9,7 +10,7 @@ class Api::V1::Accounts::EmployeesController < Api::V1::Accounts::BaseController
   before_action :validate_limit, only: [:create]
 
   def index
-    @employees = filtered_employees.includes(:teams, :employee_sessions, :employee_login_events, :account_users).order_by_full_name
+    @employees = filtered_employees.includes(:teams, :inboxes, :employee_sessions, :employee_login_events, :account_users).order_by_full_name
     @employee_metrics = build_employee_metrics(@employees)
     @employees = filter_by_activity_metrics(@employees.to_a)
   end
@@ -19,16 +20,20 @@ class Api::V1::Accounts::EmployeesController < Api::V1::Accounts::BaseController
   end
 
   def create
+    return render_employee_management_error(:inbox_required) if permitted_inbox_ids.blank?
+
     ActiveRecord::Base.transaction do
       @employee = User.create!(user_attributes.merge(local_auth_enabled: true, confirmed_at: Time.current))
       @employee_account_user = Current.account.account_users.create!(account_user_attributes.merge(user: @employee, inviter: current_user))
       sync_teams!
+      sync_inboxes!
       audit_employee_event(@employee, 'employee_create')
     end
   end
 
   def update
     return if disabling_admin_access? && !can_manage_employee?
+    return render_employee_management_error(:inbox_required) if permitted_params.key?(:inbox_ids) && permitted_inbox_ids.blank?
 
     ActiveRecord::Base.transaction do
       attrs = user_attributes.merge(local_auth_enabled: true).compact
@@ -37,6 +42,7 @@ class Api::V1::Accounts::EmployeesController < Api::V1::Accounts::BaseController
       @employee.update!(attrs)
       employee_account_user.update!(account_user_attributes.except(:active, :deactivation_reason).compact)
       sync_teams!
+      sync_inboxes!
       audit_employee_event(@employee, 'employee_update')
     end
   end
@@ -242,7 +248,7 @@ class Api::V1::Accounts::EmployeesController < Api::V1::Accounts::BaseController
   def permitted_params
     params.require(:employee).permit(
       :name, :email, :username, :phone_number, :role, :job_title, :employee_notes, :active, :deactivation_reason,
-      :password, :password_confirmation, team_ids: []
+      :password, :password_confirmation, team_ids: [], inbox_ids: []
     )
   end
 
@@ -258,6 +264,35 @@ class Api::V1::Accounts::EmployeesController < Api::V1::Accounts::BaseController
 
     (team_ids - current_team_ids).each { |team_id| TeamMember.create!(team_id: team_id, user: @employee) }
     @employee.team_members.where(team_id: current_team_ids - team_ids).destroy_all
+  end
+
+  def sync_inboxes!
+    return unless permitted_params.key?(:inbox_ids)
+
+    inbox_ids = permitted_inbox_ids
+    current_inbox_ids = current_employee_inbox_ids
+
+    add_employee_to_inboxes(inbox_ids - current_inbox_ids)
+    remove_employee_from_inboxes(current_inbox_ids - inbox_ids)
+  end
+
+  def permitted_inbox_ids
+    Current.account.inboxes.where(id: permitted_params[:inbox_ids]).pluck(:id)
+  end
+
+  def current_employee_inbox_ids
+    @employee.inbox_members
+             .joins(:inbox)
+             .where(inboxes: { account_id: Current.account.id })
+             .pluck(:inbox_id)
+  end
+
+  def add_employee_to_inboxes(inbox_ids)
+    Current.account.inboxes.where(id: inbox_ids).find_each { |inbox| inbox.add_members([@employee.id]) }
+  end
+
+  def remove_employee_from_inboxes(inbox_ids)
+    Current.account.inboxes.where(id: inbox_ids).find_each { |inbox| inbox.remove_members([@employee.id]) }
   end
 
   def disabling_admin_access?
@@ -368,6 +403,7 @@ class Api::V1::Accounts::EmployeesController < Api::V1::Accounts::BaseController
 
     {
       metrics: metrics,
+      daily_performance: build_employee_daily_performance(employee, metrics),
       recent_replies: replies.map { |message| activity_message_payload(message) },
       open_conversations: open_conversations.limit(10).map { |conversation| activity_conversation_payload(conversation) },
       delayed_conversations: open_conversations.where(waiting_since: ..threshold).limit(10).map do |conversation|
@@ -405,6 +441,90 @@ class Api::V1::Accounts::EmployeesController < Api::V1::Accounts::BaseController
 
   def average_reporting_event(reporting_events, name, range)
     reporting_events.where(name: name, created_at: range).group(:user_id).average(:value)
+  end
+
+  def build_employee_daily_performance(employee, metrics)
+    today = daily_report_range
+    replies_today = human_agent_replies([employee.id]).where(created_at: today)
+    response_times = daily_response_times(employee, replies_today, today)
+    first_login_at = first_login_today(employee, today)
+    last_reply_at = replies_today.maximum(:created_at)
+    reporting_events = Current.account.reporting_events
+    latest_reporting_activity = reporting_events.where(user_id: employee.id, name: ACTIVITY_REPORTING_EVENTS, created_at: today).maximum(:created_at)
+    last_seen_today = metrics[:last_seen_at] if metrics[:last_seen_at].present? && today.cover?(metrics[:last_seen_at])
+    last_activity_at = [last_reply_at, latest_reporting_activity, last_seen_today].compact.max
+
+    {
+      date: today.begin.to_date,
+      time_zone: DAILY_REPORT_TIME_ZONE,
+      first_login_at: first_login_at,
+      last_seen_at: metrics[:last_seen_at],
+      last_activity_at: last_activity_at,
+      last_reply_at: last_reply_at,
+      messages_count: replies_today.count,
+      customers_replied_count: customers_replied_today_count(replies_today),
+      average_response_seconds: average_seconds(response_times),
+      fastest_response_seconds: response_times.min,
+      slowest_response_seconds: response_times.max,
+      idle_duration: seconds_since(last_activity_at)
+    }
+  end
+
+  def daily_report_range
+    Time.use_zone(DAILY_REPORT_TIME_ZONE) { Time.zone.now.all_day }
+  end
+
+  def first_login_today(employee, range)
+    login_at = employee.employee_login_events.where(account: Current.account, success: true, created_at: range).minimum(:created_at)
+    session_at = employee.employee_sessions.where(signed_in_at: range).minimum(:signed_in_at)
+    [login_at, session_at].compact.min
+  end
+
+  def customers_replied_today_count(replies)
+    replies.joins(:conversation).distinct.count('conversations.contact_id')
+  end
+
+  def average_seconds(values)
+    return nil if values.blank?
+
+    (values.sum.to_f / values.size).round
+  end
+
+  def daily_response_times(employee, replies_today, range)
+    conversation_ids = replies_today.distinct.pluck(:conversation_id)
+    return [] if conversation_ids.blank?
+
+    response_times = []
+    pending_customer_message_at = nil
+    current_conversation_id = nil
+    messages_for_response_report(conversation_ids, range.end).each do |message|
+      if current_conversation_id != message.conversation_id
+        current_conversation_id = message.conversation_id
+        pending_customer_message_at = nil
+      end
+
+      if message.incoming?
+        pending_customer_message_at = message.created_at
+        next
+      end
+
+      next unless message.outgoing? && pending_customer_message_at.present?
+
+      if message.sender_type == 'User' && message.sender_id == employee.id && range.cover?(message.created_at)
+        response_times << (message.created_at - pending_customer_message_at).to_i
+      end
+      pending_customer_message_at = nil
+    end
+
+    response_times
+  end
+
+  def messages_for_response_report(conversation_ids, report_end)
+    Current.account.messages
+           .reorder(:conversation_id, :created_at, :id)
+           .where(conversation_id: conversation_ids, private: false, created_at: ..report_end)
+           .where(message_type: [:incoming, :outgoing])
+           .where("sender_type IS NULL OR sender_type NOT IN ('AgentBot', 'Captain::Assistant')")
   end
 
   def presence_status_for(employee_id, account_user)

@@ -50,3 +50,11 @@ json.teams do
   end
 end
 json.team_ids resource.teams.where(account_id: Current.account.id).pluck(:id)
+json.inboxes do
+  json.array! resource.inboxes.where(account_id: Current.account.id) do |inbox|
+    json.id inbox.id
+    json.name inbox.name
+    json.channel_type inbox.channel_type
+  end
+end
+json.inbox_ids resource.inboxes.where(account_id: Current.account.id).pluck(:id)

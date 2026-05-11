@@ -56,6 +56,7 @@ ar:
     employees:
       cannot_manage_self: لا يمكنك تعطيل أو أرشفة أو حذف حسابك الإداري الحالي.
       cannot_disable_last_admin: لا يمكنك تعطيل أو أرشفة أو حذف آخر مدير في الحساب.
+      inbox_required: اختر صندوق وارد واحدًا على الأقل لهذا الوكيل.
     data_import:
       data_type:
         invalid: نوع البيانات غير صالح

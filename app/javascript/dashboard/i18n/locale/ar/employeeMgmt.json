@@ -101,7 +101,8 @@
     },
     "PRESENCE": {
       "ONLINE": "متصل",
-      "OFFLINE": "غير متصل"
+      "OFFLINE": "غير متصل",
+      "BUSY": "مشغول"
     },
     "WORK_STATUS": {
       "WORKING": "يعمل الآن",
@@ -134,8 +135,8 @@
       "RESOLVED_TODAY": "محلولة اليوم",
       "WORKLOAD": "حجم العمل",
       "WAITING": "الانتظار",
-      "ACTIVITY": "النشاط",
-      "TODAY": "اليوم",
+      "ACTIVITY": "آخر تفاعل",
+      "TODAY": "عدد الردود اليوم",
       "HEALTH": "الانتباه",
       "LAST_LOGIN": "آخر دخول",
       "LAST_ACTIVITY": "آخر نشاط",
@@ -143,6 +144,7 @@
     },
     "DRILLDOWN": {
       "IDENTITY": "الهوية",
+      "ACTIVITY": "آخر تفاعل",
       "WORKLOAD": "حجم العمل",
       "RESPONSE": "صحة الرد"
     },
@@ -181,6 +183,7 @@
     "FORM": {
       "ADD_TITLE": "إضافة وكيل دعم",
       "EDIT_TITLE": "تعديل وكيل دعم",
+      "DRAWER_BADGE": "صلاحيات وكيل الدعم",
       "DESCRIPTION": "أدخل بيانات وكيل الدعم بالكامل.",
       "SECTIONS": {
         "IDENTITY": "البيانات الأساسية",
@@ -188,25 +191,62 @@
         "PASSWORD": "كلمة المرور والأمان",
         "STATUS": "الحالة والملاحظات"
       },
+      "SECTION_DESCRIPTIONS": {
+        "IDENTITY": "حافظ على بيانات وكيل الدعم واضحة وسهلة البحث.",
+        "ACCESS": "حدد الدور والفرق وصناديق الوارد التي يمكنه العمل عليها.",
+        "PASSWORD": "عيّن كلمة مرور محلية قوية للدخول.",
+        "STATUS": "تحكم في حالة الحساب والملاحظات الداخلية."
+      },
       "NAME": "الاسم",
       "EMAIL": "البريد الإلكتروني",
       "PHONE": "رقم الهاتف",
       "USERNAME": "اسم المستخدم / Login ID",
       "ROLE": "الدور",
       "TEAMS": "الفرق المرتبطة",
+      "INBOXES": "صناديق الوارد المرتبطة",
+      "INBOXES_SELECTED": "تم تحديد {count} من {total}",
+      "MORE_INBOXES": "+{count} أخرى",
+      "INBOX_COLUMN": "صندوق الوارد",
+      "CHANNEL_COLUMN": "القناة",
+      "SEARCH_INBOXES": "ابحث في صناديق الوارد",
+      "SELECT_FILTERED_INBOXES": "تحديد الظاهر",
+      "CLEAR_FILTERED_INBOXES": "إلغاء تحديد الظاهر",
+      "SELECT_ALL_INBOXES": "تحديد الكل",
+      "CLEAR_ALL_INBOXES": "إلغاء تحديد الكل",
+      "CLEAR_INBOXES": "مسح الكل",
+      "NO_INBOXES": "لا توجد صناديق وارد متاحة.",
+      "NO_INBOX_RESULTS": "لا توجد صناديق وارد مطابقة للبحث.",
       "JOB_TITLE": "المسمى الوظيفي",
       "NOTES": "ملاحظات داخلية",
       "ACTIVE": "مفعل",
+      "ACTIVE_DESCRIPTION": "يمكن لوكيل الدعم تسجيل الدخول والوصول إلى النظام.",
+      "NOTES_HELP": "هذه الملاحظات خاصة ومرئية للمسؤولين فقط.",
+      "FIX_FIELDS": "يرجى تصحيح الحقول المحددة للمتابعة.",
+      "SAVE_AGENT": "حفظ الوكيل",
       "DEACTIVATION_REASON": "سبب الإيقاف",
       "PASSWORD": "كلمة المرور",
       "PASSWORD_CONFIRMATION": "تأكيد كلمة المرور",
       "PASSWORD_OPTIONAL": "اختياري — اتركه فارغاً إن لم ترد تغييره",
+      "CHANNELS": {
+        "LIVECHAT": "الموقع",
+        "FACEBOOK": "فيسبوك",
+        "TWITTER": "X",
+        "WHATSAPP": "واتساب",
+        "SMS": "رسائل SMS",
+        "API": "API",
+        "EMAIL": "البريد",
+        "TELEGRAM": "تيليجرام",
+        "LINE": "لاين",
+        "VOICE": "الصوت",
+        "CHAT": "محادثة"
+      },
       "PLACEHOLDERS": {
         "NAME": "أدخل اسم الموظف",
         "EMAIL": "أدخل البريد الإلكتروني",
-        "PHONE": "Enter phone number",
-        "USERNAME": "Enter username",
-        "JOB_TITLE": "Optional"
+        "PHONE": "أدخل رقم الهاتف",
+        "USERNAME": "أدخل اسم المستخدم",
+        "JOB_TITLE": "اختياري",
+        "NOTES": "أضف ملاحظات داخلية"
       }
     },
     "PASSWORD": {
@@ -224,6 +264,25 @@
     "DETAILS": {
       "TITLE": "دخول وكيل الدعم",
       "ACTIVITY_TITLE": "نشاط وكيل الدعم",
+      "DAILY_TITLE": "تقرير أداء الموظف اليومي",
+      "BASIC_SUMMARY": "ملخص الموظف",
+      "BASIC_SUMMARY_HINT": "حالة الحساب والاتصال وآخر نشاط واضح.",
+      "TODAY_REPORT": "تقرير أداء اليوم",
+      "TODAY_REPORT_HINT": "يتم حسابه من ردود الموظف الفعلية وحركته خلال اليوم.",
+      "EMAIL": "البريد الإلكتروني",
+      "ACCOUNT_STATUS": "حالة الحساب",
+      "CONNECTION_STATUS": "حالة الاتصال",
+      "LAST_SEEN": "آخر ظهور",
+      "LAST_REPLY": "آخر رد",
+      "FIRST_LOGIN": "أول دخول",
+      "LAST_ACTIVITY": "آخر نشاط",
+      "MESSAGES_TODAY": "رسائل اليوم",
+      "CUSTOMERS_REPLIED": "عملاء تم الرد عليهم",
+      "AVG_RESPONSE": "متوسط الرد",
+      "FASTEST_RESPONSE": "أسرع رد",
+      "SLOWEST_RESPONSE": "أبطأ رد",
+      "IDLE_DURATION": "مدة الخمول",
+      "NO_TODAY_DATA": "لا توجد بيانات متاحة لهذا اليوم.",
       "TIMELINE": "سجل النشاط",
       "RECENT_REPLIES": "آخر الردود",
       "OPEN_CONVERSATIONS": "المحادثات المفتوحة",
@@ -291,6 +350,7 @@
     "VALIDATION": {
       "NAME_REQUIRED": "الاسم مطلوب.",
       "EMAIL_REQUIRED": "البريد الإلكتروني مطلوب.",
+      "INBOX_REQUIRED": "اختر صندوق وارد واحدًا على الأقل.",
       "PHONE_REQUIRED": "رقم الهاتف مطلوب.",
       "USERNAME_REQUIRED": "اسم المستخدم مطلوب."
     },

@@ -6,6 +6,10 @@ import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import Button from 'dashboard/components-next/button/Button.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import EmployeeAPI from 'dashboard/api/employees';
+import {
+  getInboxIconByType,
+  getReadableInboxByType,
+} from 'dashboard/helper/inbox';
 
 const { t } = useI18n();
 const store = useStore();
@@ -13,14 +17,11 @@ const getters = useStoreGetters();
 const isRTL = computed(() => getters['accounts/isRTL'].value);
 
 const employees = ref([]);
-const sessions = ref([]);
-const loginHistory = ref([]);
 const activityDetails = ref(null);
 const isFetching = ref(false);
 const isSaving = ref(false);
 const selectedIds = ref([]);
 const showFormModal = ref(false);
-const showPasswordModal = ref(false);
 const showDetailsModal = ref(false);
 const showReasonModal = ref(false);
 const showDeleteModal = ref(false);
@@ -32,7 +33,6 @@ const pendingEmployee = ref(null);
 const pendingBulkIds = ref([]);
 const lastUpdatedAt = ref(null);
 const showAdvancedFilters = ref(false);
-const expandedRowIds = ref([]);
 
 const filters = reactive({
   q: '',
@@ -56,9 +56,16 @@ const filters = reactive({
   last_activity: '',
 });
 
+const sortState = reactive({
+  key: 'presence',
+  direction: 'asc',
+});
+
 const activeFilterCard = ref(null);
 const firstFieldRef = ref(null);
 const openDropdownId = ref(null);
+const inboxSearchQuery = ref('');
+const showRoleDropdown = ref(false);
 
 const toggleDropdown = id => {
   if (openDropdownId.value === id) {
@@ -75,15 +82,11 @@ const form = reactive({
   username: '',
   role: 'agent',
   team_ids: [],
+  inbox_ids: [],
   job_title: '',
   employee_notes: '',
   active: true,
   deactivation_reason: '',
-  password: '',
-  password_confirmation: '',
-});
-
-const passwordForm = reactive({
   password: '',
   password_confirmation: '',
 });
@@ -93,6 +96,10 @@ const reasonForm = reactive({
 });
 
 const teams = computed(() => getters['teams/getTeams'].value || []);
+const inboxes = computed(() => getters['inboxes/getInboxes'].value || []);
+const inboxesUiFlags = computed(
+  () => getters['inboxes/getUIFlags'].value || {}
+);
 const isEditing = computed(() => Boolean(currentEmployee.value?.id));
 const metric = employee => employee.metrics || {};
 
@@ -133,7 +140,7 @@ const idleEmployees = computed(
 // );
 
 const passwordScore = computed(() => {
-  const password = isEditing.value ? passwordForm.password : form.password;
+  const password = form.password;
   let score = 0;
   if (password.length >= 8) score += 1;
   if (/[A-Z]/.test(password)) score += 1;
@@ -173,11 +180,15 @@ const passwordStrengthClass = computed(() => {
   return 'bg-n-ruby-3 text-n-ruby-11 border-n-ruby-4';
 });
 
+const passwordStrengthBarClass = computed(() => {
+  if (passwordStrength.value === 'strong') return 'bg-n-teal-8';
+  if (passwordStrength.value === 'medium') return 'bg-n-amber-8';
+  return 'bg-gradient-to-r from-n-ruby-8 to-n-amber-8';
+});
+
 const canSubmitPassword = computed(() => {
-  const password = isEditing.value ? passwordForm.password : form.password;
-  const confirmation = isEditing.value
-    ? passwordForm.password_confirmation
-    : form.password_confirmation;
+  const password = form.password;
+  const confirmation = form.password_confirmation;
   // In edit mode, empty password is fine (means no change)
   if (isEditing.value && !form.password && !form.password_confirmation) {
     return true;
@@ -188,7 +199,11 @@ const canSubmitPassword = computed(() => {
 const requiredFieldsPresent = computed(() => {
   const requiredFields = [form.name, form.email];
   const hasPassword = isEditing.value || canSubmitPassword.value;
-  return requiredFields.every(value => value?.toString().trim()) && hasPassword;
+  return (
+    requiredFields.every(value => value?.toString().trim()) &&
+    hasPassword &&
+    form.inbox_ids.length > 0
+  );
 });
 
 const saveDisabledReason = computed(() => {
@@ -196,6 +211,8 @@ const saveDisabledReason = computed(() => {
   if (!form.name.trim()) return t('EMPLOYEE_MGMT.VALIDATION.NAME_REQUIRED');
   if (!(form.email || '').trim())
     return t('EMPLOYEE_MGMT.VALIDATION.EMAIL_REQUIRED');
+  if (!form.inbox_ids.length)
+    return t('EMPLOYEE_MGMT.VALIDATION.INBOX_REQUIRED');
   if (!isEditing.value && !canSubmitPassword.value) {
     return t('EMPLOYEE_MGMT.PASSWORD.WEAK_BLOCK');
   }
@@ -214,6 +231,7 @@ const resetForm = () => {
     username: '',
     role: 'agent',
     team_ids: [],
+    inbox_ids: [],
     job_title: '',
     employee_notes: '',
     active: true,
@@ -221,10 +239,6 @@ const resetForm = () => {
     password: '',
     password_confirmation: '',
   });
-};
-
-const formatDate = value => {
-  return value ? new Date(value).toLocaleString() : t('EMPLOYEE_MGMT.EMPTY');
 };
 
 const formatDuration = seconds => {
@@ -253,6 +267,11 @@ const roleLabel = role => {
     ? t('EMPLOYEE_MGMT.ROLES.ADMINISTRATOR')
     : t('EMPLOYEE_MGMT.ROLES.AGENT');
 };
+
+const roleOptions = computed(() => [
+  { value: 'administrator', label: t('EMPLOYEE_MGMT.ROLES.ADMINISTRATOR') },
+  { value: 'agent', label: t('EMPLOYEE_MGMT.ROLES.AGENT') },
+]);
 
 const roleBadgeClass = role => {
   return role === 'administrator'
@@ -299,6 +318,13 @@ const presenceDotClass = employee => {
   return 'bg-n-slate-8';
 };
 
+const presencePulseClass = employee => {
+  if (presenceStatus(employee) === 'online') {
+    return 'after:absolute after:inset-0 after:rounded-full after:bg-n-teal-9 after:opacity-75 after:animate-ping';
+  }
+  return '';
+};
+
 const presenceTooltip = employee => {
   if (presenceStatus(employee) === 'online') {
     return t('EMPLOYEE_MGMT.TOOLTIPS.PRESENCE_ONLINE');
@@ -341,50 +367,6 @@ const workStatusTooltip = employee => {
 };
 
 const attentionStatus = () => 'healthy';
-const attentionBadgeClass = () => '';
-const attentionTooltip = () => '';
-const attentionLabel = () => '';
-const waitingTextClass = () => '';
-
-const toggleRowDetails = employeeId => {
-  if (expandedRowIds.value.includes(employeeId)) {
-    expandedRowIds.value = expandedRowIds.value.filter(id => id !== employeeId);
-  } else {
-    expandedRowIds.value = [...expandedRowIds.value, employeeId];
-  }
-};
-
-const isRowExpanded = employeeId => expandedRowIds.value.includes(employeeId);
-
-const timelineLabel = event => {
-  const conversationId = event.metadata?.conversation_display_id;
-  if (event.event_type === 'logged_in') {
-    return t('EMPLOYEE_MGMT.TIMELINE.LOGGED_IN');
-  }
-  if (event.event_type === 'reply') {
-    return t('EMPLOYEE_MGMT.TIMELINE.REPLIED', { id: conversationId });
-  }
-  if (event.event_type === 'resolved') {
-    return t('EMPLOYEE_MGMT.TIMELINE.RESOLVED', { id: conversationId });
-  }
-  if (event.event_type === 'idle') {
-    return t('EMPLOYEE_MGMT.TIMELINE.IDLE', {
-      duration: formatDuration(event.metadata?.idle_duration),
-    });
-  }
-  if (event.event_type === 'not_responding') {
-    return t('EMPLOYEE_MGMT.TIMELINE.NOT_RESPONDING', {
-      duration: formatDuration(event.metadata?.waiting_seconds),
-    });
-  }
-  return t('EMPLOYEE_MGMT.TIMELINE.ACTIVITY');
-};
-
-const conversationLabel = conversation => {
-  return t('EMPLOYEE_MGMT.DETAILS.CONVERSATION', {
-    id: conversation.display_id,
-  });
-};
 
 const isHighWorkload = () => false;
 
@@ -466,28 +448,28 @@ const summaryLiveDotClass = card => `${toneFillClass(card.tone)} animate-pulse`;
 
 const summaryCardClass = card => {
   if (activeFilterCard.value === card.key) {
-    return 'ring-2 ring-n-brand-7 border-n-brand-7 bg-n-brand-2 shadow-md shadow-n-brand-4/30 dark:bg-n-brand-3';
+    return 'border-n-brand-7 bg-n-brand-3/30 shadow-xl shadow-n-brand-9/20 ring-1 ring-n-brand-7/50';
   }
 
   const classes = {
-    teal: 'hover:border-n-teal-6 hover:bg-n-teal-2/30 hover:shadow-xl hover:shadow-n-teal-3/30 hover:-translate-y-0.5',
-    ruby: 'hover:border-n-ruby-6 hover:bg-n-ruby-2/30 hover:shadow-xl hover:shadow-n-ruby-3/30 hover:-translate-y-0.5',
+    teal: 'hover:border-n-teal-7 hover:bg-n-teal-3/20 hover:shadow-n-teal-9/10',
+    ruby: 'hover:border-n-ruby-7 hover:bg-n-ruby-3/20 hover:shadow-n-ruby-9/10',
     amber:
-      'hover:border-n-amber-6 hover:bg-n-amber-2/30 hover:shadow-xl hover:shadow-n-amber-3/30 hover:-translate-y-0.5',
-    blue: 'hover:border-n-blue-6 hover:bg-n-blue-2/30 hover:shadow-xl hover:shadow-n-blue-3/30 hover:-translate-y-0.5',
+      'hover:border-n-amber-7 hover:bg-n-amber-3/20 hover:shadow-n-amber-9/10',
+    blue: 'hover:border-n-blue-7 hover:bg-n-blue-3/20 hover:shadow-n-blue-9/10',
     slate:
-      'hover:border-n-slate-6 hover:bg-n-slate-2/50 hover:shadow-xl hover:-translate-y-0.5',
+      'hover:border-n-blue-7 hover:bg-n-slate-3/20 hover:shadow-n-blue-9/10',
   };
-  return `border-n-weak bg-n-solid-1 text-n-slate-12 shadow-sm dark:bg-n-solid-2 ${classes[card.tone]}`;
+  return `border-n-blue-9/30 bg-n-solid-2/45 text-n-slate-12 shadow-lg shadow-n-blue-12/10 ${classes[card.tone]}`;
 };
 
 const summaryIconClass = card => {
   const classes = {
-    teal: 'bg-n-teal-3 text-n-teal-11 ring-n-teal-5/30',
-    ruby: 'bg-n-ruby-3 text-n-ruby-11 ring-n-ruby-5/30',
-    amber: 'bg-n-amber-3 text-n-amber-11 ring-n-amber-5/30',
-    blue: 'bg-n-blue-3 text-n-blue-11 ring-n-blue-5/30',
-    slate: 'bg-n-slate-3 text-n-slate-11 ring-n-slate-5/30',
+    teal: 'bg-n-teal-3/30 text-n-teal-11 ring-n-teal-7/40',
+    ruby: 'bg-n-ruby-3/30 text-n-ruby-11 ring-n-ruby-7/40',
+    amber: 'bg-n-amber-3/30 text-n-amber-11 ring-n-amber-7/40',
+    blue: 'bg-n-blue-3/30 text-n-blue-11 ring-n-blue-7/40',
+    slate: 'bg-n-slate-3/30 text-n-slate-11 ring-n-slate-7/40',
   };
   return classes[card.tone] || classes.slate;
 };
@@ -503,35 +485,161 @@ const accentBarClass = card => {
   return classes[card.tone] || classes.slate;
 };
 
-const detailMetricCards = computed(() => {
-  const metrics = activityDetails.value?.metrics;
-  if (!metrics) return [];
-
-  return [
-    {
-      key: 'replies_today',
-      label: t('EMPLOYEE_MGMT.TABLE.REPLIES_TODAY'),
-      value: metrics.replies_count_today || 0,
-      icon: 'i-lucide-send',
-      tone: 'blue',
-    },
-  ];
-});
-
-const detailMetricCardClass = card => {
+const performanceCardClass = card => {
   const classes = {
-    teal: 'hover:border-n-teal-6 hover:bg-n-teal-2/30 hover:shadow-n-teal-3/30',
-    ruby: 'hover:border-n-ruby-6 hover:bg-n-ruby-2/30 hover:shadow-n-ruby-3/30',
-    amber:
-      'hover:border-n-amber-6 hover:bg-n-amber-2/30 hover:shadow-n-amber-3/30',
-    blue: 'hover:border-n-blue-6 hover:bg-n-blue-2/30 hover:shadow-n-blue-3/30',
-    slate: 'hover:border-n-slate-6 hover:bg-n-slate-2/50',
+    teal: 'border-n-teal-7/30 bg-n-teal-3/15 text-n-teal-11',
+    ruby: 'border-n-ruby-7/30 bg-n-ruby-3/15 text-n-ruby-11',
+    amber: 'border-n-amber-7/30 bg-n-amber-3/15 text-n-amber-11',
+    blue: 'border-n-blue-7/30 bg-n-blue-3/15 text-n-blue-11',
+    slate: 'border-n-blue-9/30 bg-n-solid-2/50 text-n-slate-11',
   };
   return classes[card.tone] || classes.slate;
 };
 
-const detailMetricIconClass = card => summaryIconClass(card);
-const detailMetricValueClass = card => summaryValueClass(card);
+const formatCairoTime = value => {
+  if (!value) return t('EMPLOYEE_MGMT.EMPTY');
+
+  return new Intl.DateTimeFormat(undefined, {
+    timeZone: 'Africa/Cairo',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(new Date(value));
+};
+
+const formatReportDuration = seconds => {
+  if (seconds === null || seconds === undefined)
+    return t('EMPLOYEE_MGMT.EMPTY');
+  return formatDuration(seconds);
+};
+
+const availabilityLabel = employee => {
+  if (employee?.availability_status === 'busy') {
+    return t('EMPLOYEE_MGMT.PRESENCE.BUSY');
+  }
+  return presenceLabel(employee);
+};
+
+const activityMetrics = computed(() => activityDetails.value?.metrics || {});
+const dailyPerformance = computed(
+  () => activityDetails.value?.daily_performance || {}
+);
+
+const hasDailyPerformanceData = computed(() => {
+  const report = dailyPerformance.value;
+  return Boolean(
+    report.first_login_at ||
+      report.last_activity_at ||
+      report.last_reply_at ||
+      report.messages_count ||
+      report.customers_replied_count
+  );
+});
+
+const employeeProfileItems = computed(() => [
+  {
+    key: 'email',
+    label: t('EMPLOYEE_MGMT.DETAILS.EMAIL'),
+    value: currentEmployee.value?.email || t('EMPLOYEE_MGMT.EMPTY'),
+    icon: 'i-lucide-mail',
+  },
+  {
+    key: 'account_status',
+    label: t('EMPLOYEE_MGMT.DETAILS.ACCOUNT_STATUS'),
+    value: currentEmployee.value
+      ? statusLabel(currentEmployee.value)
+      : t('EMPLOYEE_MGMT.EMPTY'),
+    icon: 'i-lucide-shield-check',
+  },
+  {
+    key: 'connection_status',
+    label: t('EMPLOYEE_MGMT.DETAILS.CONNECTION_STATUS'),
+    value: currentEmployee.value
+      ? availabilityLabel(currentEmployee.value)
+      : t('EMPLOYEE_MGMT.EMPTY'),
+    icon: 'i-lucide-wifi',
+  },
+  {
+    key: 'last_seen',
+    label: t('EMPLOYEE_MGMT.DETAILS.LAST_SEEN'),
+    value: formatSince(dailyPerformance.value.last_seen_at),
+    icon: 'i-lucide-eye',
+  },
+  {
+    key: 'last_reply',
+    label: t('EMPLOYEE_MGMT.DETAILS.LAST_REPLY'),
+    value: formatSince(activityMetrics.value.last_reply_at),
+    icon: 'i-lucide-reply',
+  },
+]);
+
+const dailyPerformanceCards = computed(() => {
+  const report = dailyPerformance.value;
+  return [
+    {
+      key: 'first_login',
+      label: t('EMPLOYEE_MGMT.DETAILS.FIRST_LOGIN'),
+      value: formatCairoTime(report.first_login_at),
+      icon: 'i-lucide-log-in',
+      tone: 'blue',
+    },
+    {
+      key: 'last_activity',
+      label: t('EMPLOYEE_MGMT.DETAILS.LAST_ACTIVITY'),
+      value: formatCairoTime(report.last_activity_at),
+      icon: 'i-lucide-activity',
+      tone: 'teal',
+    },
+    {
+      key: 'last_reply',
+      label: t('EMPLOYEE_MGMT.DETAILS.LAST_REPLY'),
+      value: formatCairoTime(report.last_reply_at),
+      icon: 'i-lucide-reply',
+      tone: 'blue',
+    },
+    {
+      key: 'messages',
+      label: t('EMPLOYEE_MGMT.DETAILS.MESSAGES_TODAY'),
+      value: report.messages_count || 0,
+      icon: 'i-lucide-send',
+      tone: 'teal',
+    },
+    {
+      key: 'customers',
+      label: t('EMPLOYEE_MGMT.DETAILS.CUSTOMERS_REPLIED'),
+      value: report.customers_replied_count || 0,
+      icon: 'i-lucide-users-round',
+      tone: 'teal',
+    },
+    {
+      key: 'average_response',
+      label: t('EMPLOYEE_MGMT.DETAILS.AVG_RESPONSE'),
+      value: formatReportDuration(report.average_response_seconds),
+      icon: 'i-lucide-timer',
+      tone: 'amber',
+    },
+    {
+      key: 'fastest_response',
+      label: t('EMPLOYEE_MGMT.DETAILS.FASTEST_RESPONSE'),
+      value: formatReportDuration(report.fastest_response_seconds),
+      icon: 'i-lucide-zap',
+      tone: 'teal',
+    },
+    {
+      key: 'slowest_response',
+      label: t('EMPLOYEE_MGMT.DETAILS.SLOWEST_RESPONSE'),
+      value: formatReportDuration(report.slowest_response_seconds),
+      icon: 'i-lucide-hourglass',
+      tone: 'ruby',
+    },
+    {
+      key: 'idle_duration',
+      label: t('EMPLOYEE_MGMT.DETAILS.IDLE_DURATION'),
+      value: formatReportDuration(report.idle_duration),
+      icon: 'i-lucide-clock-3',
+      tone: 'slate',
+    },
+  ];
+});
 
 const filterLabel = (key, value) => {
   const statusLabels = {
@@ -597,22 +705,100 @@ const activeFilterChips = computed(() =>
     }))
 );
 
-const attentionSortRank = employee => {
-  const ranks = {
-    critical: 0,
-    at_risk: 1,
-    watch: 2,
-    healthy: 3,
-  };
-  return ranks[attentionStatus(employee)] ?? 4;
+const sortColumns = [
+  'employee',
+  'status',
+  'presence',
+  'work_status',
+  'activity',
+  'replies_today',
+];
+
+const defaultSortDirections = {
+  employee: 'asc',
+  status: 'asc',
+  presence: 'asc',
+  work_status: 'asc',
+  activity: 'desc',
+  replies_today: 'desc',
 };
 
-const sortedByAttention = employeeList =>
-  [...employeeList].sort((a, b) => {
-    const rankDifference = attentionSortRank(a) - attentionSortRank(b);
-    if (rankDifference) return rankDifference;
+const toggleSort = key => {
+  if (!sortColumns.includes(key)) return;
 
-    return 0;
+  if (sortState.key === key) {
+    sortState.direction = sortState.direction === 'asc' ? 'desc' : 'asc';
+    return;
+  }
+
+  sortState.key = key;
+  sortState.direction = defaultSortDirections[key];
+};
+
+const sortIcon = key => {
+  if (sortState.key !== key) return 'i-lucide-arrow-up-down';
+  return sortState.direction === 'asc'
+    ? 'i-lucide-arrow-up-narrow-wide'
+    : 'i-lucide-arrow-down-wide-narrow';
+};
+
+const statusSortRank = employee => {
+  if (employee.archived_at) return 2;
+  return employee.active ? 0 : 1;
+};
+
+const presenceSortRank = employee =>
+  presenceStatus(employee) === 'online' ? 0 : 1;
+
+const workStatusSortRank = employee => {
+  const ranks = {
+    working: 0,
+    idle: 1,
+    not_responding: 2,
+  };
+  return ranks[workStatus(employee)] ?? 3;
+};
+
+const timestampSortValue = value => {
+  if (!value) return 0;
+  return new Date(value).getTime() || 0;
+};
+
+const sortValue = (employee, key) => {
+  if (key === 'employee') {
+    return (employee.name || employee.username || '').toLowerCase();
+  }
+  if (key === 'status') return statusSortRank(employee);
+  if (key === 'presence') return presenceSortRank(employee);
+  if (key === 'work_status') return workStatusSortRank(employee);
+  if (key === 'activity')
+    return timestampSortValue(metric(employee).last_reply_at);
+  if (key === 'replies_today')
+    return Number(metric(employee).replies_count_today) || 0;
+  return '';
+};
+
+const compareSortValues = (first, second) => {
+  if (typeof first === 'string' || typeof second === 'string') {
+    return first.toString().localeCompare(second.toString(), undefined, {
+      sensitivity: 'base',
+    });
+  }
+  return first - second;
+};
+
+const sortEmployees = employeeList =>
+  [...employeeList].sort((a, b) => {
+    const direction = sortState.direction === 'asc' ? 1 : -1;
+    const primary = compareSortValues(
+      sortValue(a, sortState.key),
+      sortValue(b, sortState.key)
+    );
+    if (primary) return primary * direction;
+
+    return (a.name || '').localeCompare(b.name || '', undefined, {
+      sensitivity: 'base',
+    });
   });
 
 const filteredEmployees = computed(() => {
@@ -747,7 +933,7 @@ const filteredEmployees = computed(() => {
     });
   }
 
-  return sortedByAttention(result);
+  return sortEmployees(result);
 });
 
 const allSelected = computed(
@@ -778,6 +964,128 @@ const toggleTeam = teamId => {
 };
 
 const isTeamSelected = teamId => form.team_ids.includes(teamId);
+
+const normalizedInboxQuery = computed(() =>
+  inboxSearchQuery.value.trim().toLowerCase()
+);
+
+const filteredInboxes = computed(() => {
+  if (!normalizedInboxQuery.value) return inboxes.value;
+
+  return inboxes.value.filter(inbox => {
+    const readableType = getReadableInboxByType(
+      inbox.channel_type,
+      inbox.phone_number
+    );
+    return [inbox.name, inbox.email, inbox.phone_number, readableType]
+      .filter(Boolean)
+      .some(value =>
+        value.toString().toLowerCase().includes(normalizedInboxQuery.value)
+      );
+  });
+});
+
+const filteredInboxIds = computed(() =>
+  filteredInboxes.value.map(inbox => inbox.id)
+);
+
+const selectedInboxCount = computed(() => form.inbox_ids.length);
+
+const selectedInboxes = computed(() =>
+  inboxes.value.filter(inbox => form.inbox_ids.includes(inbox.id))
+);
+
+const selectedInboxPreview = computed(() => selectedInboxes.value.slice(0, 4));
+
+const hiddenSelectedInboxCount = computed(() =>
+  Math.max(selectedInboxCount.value - selectedInboxPreview.value.length, 0)
+);
+
+const allFilteredInboxesSelected = computed(
+  () =>
+    filteredInboxIds.value.length > 0 &&
+    filteredInboxIds.value.every(id => form.inbox_ids.includes(id))
+);
+
+const isInboxSelected = inboxId => form.inbox_ids.includes(inboxId);
+
+const toggleInbox = inboxId => {
+  if (isInboxSelected(inboxId)) {
+    form.inbox_ids = form.inbox_ids.filter(id => id !== inboxId);
+  } else {
+    form.inbox_ids = [...form.inbox_ids, inboxId];
+  }
+};
+
+const toggleFilteredInboxes = () => {
+  if (allFilteredInboxesSelected.value) {
+    form.inbox_ids = form.inbox_ids.filter(
+      id => !filteredInboxIds.value.includes(id)
+    );
+    return;
+  }
+
+  form.inbox_ids = Array.from(
+    new Set([...form.inbox_ids, ...filteredInboxIds.value])
+  );
+};
+
+const clearInboxSelection = () => {
+  form.inbox_ids = [];
+};
+
+const inboxChannelLabel = inbox => {
+  const readableType = getReadableInboxByType(
+    inbox.channel_type,
+    inbox.phone_number
+  ).toUpperCase();
+  const labels = {
+    LIVECHAT: t('EMPLOYEE_MGMT.FORM.CHANNELS.LIVECHAT'),
+    FACEBOOK: t('EMPLOYEE_MGMT.FORM.CHANNELS.FACEBOOK'),
+    TWITTER: t('EMPLOYEE_MGMT.FORM.CHANNELS.TWITTER'),
+    WHATSAPP: t('EMPLOYEE_MGMT.FORM.CHANNELS.WHATSAPP'),
+    SMS: t('EMPLOYEE_MGMT.FORM.CHANNELS.SMS'),
+    API: t('EMPLOYEE_MGMT.FORM.CHANNELS.API'),
+    EMAIL: t('EMPLOYEE_MGMT.FORM.CHANNELS.EMAIL'),
+    TELEGRAM: t('EMPLOYEE_MGMT.FORM.CHANNELS.TELEGRAM'),
+    LINE: t('EMPLOYEE_MGMT.FORM.CHANNELS.LINE'),
+    VOICE: t('EMPLOYEE_MGMT.FORM.CHANNELS.VOICE'),
+    CHAT: t('EMPLOYEE_MGMT.FORM.CHANNELS.CHAT'),
+  };
+  return labels[readableType] || labels.CHAT;
+};
+
+const inboxMeta = inbox => inbox.email || inbox.phone_number || '';
+
+const inboxIconToneClass = inbox => {
+  const type = getReadableInboxByType(inbox.channel_type, inbox.phone_number);
+  const classes = {
+    facebook: 'bg-n-blue-5 text-n-blue-12',
+    whatsapp: 'bg-n-teal-5 text-n-teal-12',
+    email: 'bg-n-amber-5 text-n-amber-12',
+    api: 'bg-n-blue-5 text-n-blue-12',
+    livechat: 'bg-n-ruby-5 text-n-ruby-12',
+    chat: 'bg-n-ruby-5 text-n-ruby-12',
+    sms: 'bg-n-amber-5 text-n-amber-12',
+    voice: 'bg-n-teal-5 text-n-teal-12',
+  };
+  return classes[type] || 'bg-n-slate-5 text-n-slate-12';
+};
+
+const inboxChannelBadgeClass = inbox => {
+  const type = getReadableInboxByType(inbox.channel_type, inbox.phone_number);
+  const classes = {
+    facebook: 'border-n-blue-7/50 bg-n-blue-3 text-n-blue-11',
+    whatsapp: 'border-n-teal-7/50 bg-n-teal-3 text-n-teal-11',
+    email: 'border-n-amber-7/50 bg-n-amber-3 text-n-amber-11',
+    api: 'border-n-slate-7/50 bg-n-slate-3 text-n-slate-11',
+    livechat: 'border-n-ruby-7/50 bg-n-ruby-3 text-n-ruby-11',
+    chat: 'border-n-ruby-7/50 bg-n-ruby-3 text-n-ruby-11',
+    sms: 'border-n-amber-7/50 bg-n-amber-3 text-n-amber-11',
+    voice: 'border-n-teal-7/50 bg-n-teal-3 text-n-teal-11',
+  };
+  return classes[type] || 'border-n-slate-7/50 bg-n-slate-3 text-n-slate-11';
+};
 
 const showMessage = message => {
   useAlert(message);
@@ -848,6 +1156,7 @@ const applyCardFilter = card => {
 const openCreateModal = () => {
   currentEmployee.value = null;
   resetForm();
+  inboxSearchQuery.value = '';
   showNewPassword.value = false;
   showNewPasswordConfirmation.value = false;
   showFormModal.value = true;
@@ -867,6 +1176,7 @@ const openEditModal = employee => {
     username: employee.username || '',
     role: employee.role || 'agent',
     team_ids: employee.team_ids || [],
+    inbox_ids: employee.inbox_ids || [],
     job_title: employee.job_title || '',
     employee_notes: employee.employee_notes || '',
     active: employee.active,
@@ -874,6 +1184,7 @@ const openEditModal = employee => {
     password: '',
     password_confirmation: '',
   });
+  inboxSearchQuery.value = '';
   showNewPassword.value = false;
   showNewPasswordConfirmation.value = false;
   showFormModal.value = true;
@@ -930,32 +1241,6 @@ const saveEmployee = async () => {
   }
 };
 
-const openPasswordModal = employee => {
-  currentEmployee.value = employee;
-  Object.assign(passwordForm, { password: '', password_confirmation: '' });
-  showNewPassword.value = false;
-  showNewPasswordConfirmation.value = false;
-  showPasswordModal.value = true;
-};
-
-const changePassword = async () => {
-  if (!canSubmitPassword.value) {
-    showMessage(t('EMPLOYEE_MGMT.PASSWORD.WEAK_BLOCK'));
-    return;
-  }
-
-  isSaving.value = true;
-  try {
-    await EmployeeAPI.changePassword(currentEmployee.value.id, passwordForm);
-    showPasswordModal.value = false;
-    showMessage(t('EMPLOYEE_MGMT.API.PASSWORD_CHANGED'));
-  } catch (error) {
-    showMessage(errorMessage(error));
-  } finally {
-    isSaving.value = false;
-  }
-};
-
 const refreshEmployee = async employeeId => {
   const response = await EmployeeAPI.show(employeeId);
   const index = employees.value.findIndex(item => item.id === response.data.id);
@@ -994,25 +1279,8 @@ const openDetails = async employee => {
   currentEmployee.value = employee;
   activityDetails.value = null;
   showDetailsModal.value = true;
-  const [sessionResponse, historyResponse, activityResponse] =
-    await Promise.all([
-      EmployeeAPI.sessions(employee.id),
-      EmployeeAPI.loginHistory(employee.id),
-      EmployeeAPI.activity(employee.id),
-    ]);
-  sessions.value = sessionResponse.data;
-  loginHistory.value = historyResponse.data;
+  const activityResponse = await EmployeeAPI.activity(employee.id);
   activityDetails.value = activityResponse.data;
-};
-
-const logoutSession = async session => {
-  await EmployeeAPI.deleteSession(currentEmployee.value.id, session.client_id);
-  sessions.value = sessions.value.map(item =>
-    item.client_id === session.client_id
-      ? { ...item, open: false, signed_out_at: new Date().toISOString() }
-      : item
-  );
-  showMessage(t('EMPLOYEE_MGMT.API.SESSION_LOGOUT'));
 };
 
 const toggleSelectAll = () => {
@@ -1085,7 +1353,6 @@ const handleEmployeeAction = (employee, action) => {
   openDropdownId.value = null;
   if (!action) return;
   if (action === 'edit') openEditModal(employee);
-  if (action === 'password') openPasswordModal(employee);
   if (action === 'activate') activateEmployee(employee);
   if (action === 'deactivate') deactivateEmployee(employee);
   if (action === 'activity') openDetails(employee);
@@ -1096,12 +1363,13 @@ const handleEmployeeAction = (employee, action) => {
 onMounted(() => {
   fetchEmployees();
   store.dispatch('teams/get');
+  store.dispatch('inboxes/get');
 });
 </script>
 
 <template>
   <SettingsLayout
-    class="gap-5"
+    class="min-h-full gap-6 bg-gradient-to-br from-n-solid-1 via-n-blue-1 to-n-solid-1 p-5 text-n-slate-12"
     :is-loading="isFetching"
     :loading-message="$t('EMPLOYEE_MGMT.LOADING')"
     :no-records-found="!employees.length"
@@ -1109,70 +1377,104 @@ onMounted(() => {
   >
     <template #header>
       <div
-        class="flex w-full items-center justify-between rounded-xl border border-solid border-n-weak bg-n-solid-1 px-4 py-3 shadow-sm dark:bg-n-solid-2"
+        class="flex w-full flex-col-reverse gap-4 lg:flex-row lg:items-start lg:justify-between"
       >
-        <div class="flex items-center gap-3">
-          <span
-            class="inline-flex items-center gap-1.5 rounded-full border border-solid border-n-teal-4 bg-n-teal-2 px-2.5 py-0.5 text-xs font-semibold text-n-teal-11"
-          >
-            <span class="h-1.5 w-1.5 rounded-full bg-n-teal-9 animate-pulse" />
-            {{ $t('EMPLOYEE_MGMT.MONITORING.LIVE') }}
-          </span>
-          <h1 class="mb-0 text-xl font-semibold tracking-tight text-n-slate-12">
-            {{ $t('EMPLOYEE_MGMT.HEADER') }}
-          </h1>
-          <span class="text-xs text-n-slate-9">
-            {{ $t('EMPLOYEE_MGMT.MONITORING.LAST_UPDATED') }}
-            {{ lastUpdatedLabel }}
-          </span>
-        </div>
-        <div class="flex shrink-0 items-center gap-2">
-          <Button
-            faded
-            slate
-            xs
-            icon="i-lucide-refresh-cw"
-            :is-loading="isFetching"
-            :label="$t('EMPLOYEE_MGMT.MONITORING.REFRESH')"
-            @click="fetchEmployees"
-          />
-          <Button
-            xs
-            icon="i-lucide-circle-plus"
-            :label="$t('EMPLOYEE_MGMT.ADD')"
+        <div class="flex shrink-0 flex-wrap items-center gap-3">
+          <button
+            type="button"
+            class="inline-flex h-12 min-w-40 items-center justify-center gap-2 rounded-lg border border-solid border-n-blue-9 bg-n-blue-9 px-5 text-sm font-semibold !text-white shadow-lg shadow-n-blue-9/30 transition-colors hover:border-n-blue-10 hover:bg-n-blue-10"
             @click="openCreateModal"
-          />
+          >
+            {{ $t('EMPLOYEE_MGMT.ADD') }}
+            <span class="i-lucide-plus h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            class="inline-flex h-12 items-center justify-center gap-3 rounded-lg border border-solid border-n-blue-9/35 bg-n-solid-2/70 px-5 text-sm font-semibold text-n-slate-12 shadow-sm shadow-n-blue-12/10 transition-colors hover:border-n-blue-8 hover:bg-n-slate-3/70"
+            @click="fetchEmployees"
+          >
+            {{ $t('EMPLOYEE_MGMT.MONITORING.REFRESH') }}
+            <span
+              class="h-5 w-5"
+              :class="
+                isFetching
+                  ? 'i-lucide-loader-circle animate-spin'
+                  : 'i-lucide-refresh-cw'
+              "
+            />
+          </button>
+        </div>
+        <div
+          class="flex min-w-0 items-start justify-end gap-5 text-end lg:ms-auto"
+        >
+          <div class="min-w-0">
+            <div class="mb-3 flex justify-end">
+              <span
+                class="inline-flex items-center gap-2 rounded-lg border border-solid border-n-teal-7/40 bg-n-teal-3/20 px-4 py-2 text-xs font-semibold text-n-teal-11 shadow-sm shadow-n-teal-9/10"
+                :title="lastUpdatedLabel"
+              >
+                {{ $t('EMPLOYEE_MGMT.MONITORING.LIVE') }}
+                <span
+                  class="relative h-2.5 w-2.5 rounded-full bg-n-teal-9 after:absolute after:inset-0 after:rounded-full after:bg-n-teal-9 after:opacity-75 after:animate-ping"
+                />
+              </span>
+            </div>
+            <h1 class="mb-2 text-3xl font-bold tracking-tight text-n-slate-12">
+              {{ $t('EMPLOYEE_MGMT.HEADER') }}
+            </h1>
+            <p class="mb-0 text-sm text-n-slate-10">
+              {{ $t('EMPLOYEE_MGMT.DESCRIPTION') }}
+            </p>
+          </div>
+          <span
+            class="hidden h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-solid border-n-blue-9/30 bg-n-solid-2/70 text-3xl text-n-blue-11 shadow-lg shadow-n-blue-12/10 sm:flex"
+          >
+            <span class="i-lucide-user-round" />
+          </span>
         </div>
       </div>
     </template>
 
     <template #preBody>
-      <div class="mb-5 flex w-full flex-col gap-5">
-        <div class="mb-2 grid grid-cols-2 gap-2 sm:grid-cols-2 xl:grid-cols-4">
+      <div class="mb-5 flex w-full flex-col gap-5" :dir="isRTL ? 'rtl' : 'ltr'">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <button
             v-for="card in summaryCards"
             :key="card.key"
             type="button"
-            class="group relative flex min-h-16 overflow-hidden rounded-lg border border-solid p-2 transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-brand-7 ltr:text-left rtl:text-right"
+            class="group relative flex min-h-28 overflow-hidden rounded-xl border border-solid p-4 transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-brand-7 ltr:text-left rtl:text-right"
             :class="summaryCardClass(card)"
             :title="card.subtitle"
             @click="applyCardFilter(card)"
           >
             <span
-              class="absolute top-0 h-full w-1 opacity-80 ltr:left-0 rtl:right-0"
-              :class="accentBarClass(card)"
+              class="absolute inset-0 bg-gradient-to-br from-n-blue-9/10 via-transparent to-transparent opacity-60"
             />
             <div
-              class="flex min-h-full w-full flex-col gap-1 ltr:pl-1 rtl:pr-1"
+              class="relative flex min-h-full w-full items-start justify-between gap-5 rtl:flex-row-reverse"
             >
-              <div class="flex items-center justify-between gap-1">
-                <span
-                  class="block truncate text-xs font-semibold leading-tight text-n-slate-12"
-                >
+              <div
+                class="flex min-w-0 flex-1 flex-col ltr:items-start ltr:text-left rtl:items-end rtl:text-right"
+              >
+                <span class="block text-base font-semibold text-n-slate-12">
                   {{ card.label }}
                 </span>
                 <span
-                  class="relative flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-md text-xs ring-1"
+                  class="mt-2 block text-4xl font-bold leading-none tracking-tight text-n-slate-12"
+                  :class="summaryValueClass(card)"
+                >
+                  {{ card.value }}
+                </span>
+                <span
+                  v-if="activeFilterCard === card.key"
+                  class="mt-4 rounded-full bg-n-brand-3 px-2.5 py-1 text-[10px] font-semibold uppercase text-n-brand-11"
+                >
+                  {{ $t('EMPLOYEE_MGMT.SUMMARY.ACTIVE_FILTER') }}
+                </span>
+              </div>
+              <div class="flex shrink-0 flex-col items-center gap-3">
+                <span
+                  class="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full text-2xl ring-1"
                   :class="[
                     summaryIconClass(card),
                     summaryIconMotionClass(card),
@@ -1184,43 +1486,38 @@ onMounted(() => {
                   />
                   <span class="relative" :class="card.icon" />
                 </span>
-              </div>
-              <div class="flex items-end justify-between gap-1">
                 <span
-                  class="block text-xl font-bold tracking-tight text-n-slate-12"
-                  :class="summaryValueClass(card)"
-                >
-                  {{ card.value }}
-                </span>
-                <span
-                  v-if="activeFilterCard === card.key"
-                  class="shrink-0 rounded-full bg-n-brand-3 px-1.5 py-0.5 text-[9px] font-semibold uppercase text-n-brand-11"
-                >
-                  {{ $t('EMPLOYEE_MGMT.SUMMARY.ACTIVE_FILTER') }}
-                </span>
+                  class="h-2.5 w-2.5 rounded-full"
+                  :class="summaryLiveDotClass(card)"
+                />
               </div>
             </div>
           </button>
         </div>
 
         <div
-          class="flex flex-col gap-3 rounded-2xl border border-solid border-n-weak bg-n-solid-1 p-4 shadow-sm dark:bg-n-solid-2"
+          class="relative overflow-hidden rounded-xl border border-solid border-n-blue-9/30 bg-n-solid-2/45 p-5 shadow-xl shadow-n-blue-12/10"
         >
-          <div class="relative min-w-0">
-            <span
-              class="pointer-events-none absolute top-1/2 -translate-y-1/2 inline-block h-4 w-4 text-n-slate-10 i-lucide-search ltr:left-3 rtl:right-3"
-            />
-            <input
-              v-model="filters.q"
-              class="reset-base no-margin !mb-0 !h-9 w-full min-w-0 rounded-lg border border-solid border-n-weak bg-n-alpha-1 text-sm placeholder:text-n-slate-9 focus:border-n-brand-7 focus:outline-none focus:ring-1 focus:ring-n-brand-7 ltr:pl-10 rtl:pr-10"
-              type="search"
-              :placeholder="$t('EMPLOYEE_MGMT.FILTERS.SEARCH')"
-            />
-          </div>
-          <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+          <span
+            class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-n-blue-8/60 to-transparent"
+          />
+          <div
+            class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-[minmax(20rem,1.35fr)_repeat(5,minmax(9rem,1fr))_auto]"
+          >
+            <div
+              class="flex h-12 min-w-0 items-center gap-3 rounded-lg border border-solid border-n-blue-9/30 bg-n-solid-1/55 px-4 transition-colors focus-within:border-n-brand-7 focus-within:ring-1 focus-within:ring-n-brand-7/30"
+            >
+              <span class="i-lucide-search h-5 w-5 shrink-0 text-n-slate-10" />
+              <input
+                v-model="filters.q"
+                class="reset-base no-margin !mb-0 h-full min-w-0 flex-1 !border-0 !bg-transparent !p-0 text-sm text-n-slate-12 outline-none !ring-0 placeholder:text-n-slate-10 focus:!border-0 focus:!outline-none focus:!ring-0"
+                type="search"
+                :placeholder="$t('EMPLOYEE_MGMT.FILTERS.SEARCH')"
+              />
+            </div>
             <select
               v-model="filters.role"
-              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg border border-solid border-n-weak bg-n-alpha-1 text-sm text-n-slate-11"
+              class="no-margin !mb-0 !h-12 min-w-0 rounded-lg border border-solid border-n-blue-9/30 bg-n-solid-1/55 text-sm text-n-slate-12"
             >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_ROLES') }}
@@ -1234,7 +1531,7 @@ onMounted(() => {
             </select>
             <select
               v-model="filters.status"
-              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg border border-solid border-n-weak bg-n-alpha-1 text-sm text-n-slate-11"
+              class="no-margin !mb-0 !h-12 min-w-0 rounded-lg border border-solid border-n-blue-9/30 bg-n-solid-1/55 text-sm text-n-slate-12"
             >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_STATUS') }}
@@ -1251,7 +1548,7 @@ onMounted(() => {
             </select>
             <select
               v-model="filters.presence_status"
-              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg border border-solid border-n-weak bg-n-alpha-1 text-sm text-n-slate-11"
+              class="no-margin !mb-0 !h-12 min-w-0 rounded-lg border border-solid border-n-blue-9/30 bg-n-solid-1/55 text-sm text-n-slate-12"
             >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_PRESENCE') }}
@@ -1265,7 +1562,7 @@ onMounted(() => {
             </select>
             <select
               v-model="filters.work_status"
-              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg border border-solid border-n-weak bg-n-alpha-1 text-sm text-n-slate-11"
+              class="no-margin !mb-0 !h-12 min-w-0 rounded-lg border border-solid border-n-blue-9/30 bg-n-solid-1/55 text-sm text-n-slate-12"
             >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_WORK_STATUS') }}
@@ -1282,7 +1579,7 @@ onMounted(() => {
             </select>
             <select
               v-model="filters.team_id"
-              class="no-margin !mb-0 !h-9 min-w-0 rounded-lg border border-solid border-n-weak bg-n-alpha-1 text-sm text-n-slate-11"
+              class="no-margin !mb-0 !h-12 min-w-0 rounded-lg border border-solid border-n-blue-9/30 bg-n-solid-1/55 text-sm text-n-slate-12"
             >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.ALL_TEAMS') }}
@@ -1293,7 +1590,7 @@ onMounted(() => {
             </select>
             <button
               type="button"
-              class="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-solid border-n-weak bg-n-alpha-1 px-3 text-sm font-medium text-n-slate-11 transition-colors hover:bg-n-slate-2"
+              class="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-solid border-n-blue-9/35 bg-n-solid-1/55 px-4 text-sm font-semibold text-n-slate-12 transition-colors hover:border-n-blue-8 hover:bg-n-slate-3/70"
               @click="showAdvancedFilters = !showAdvancedFilters"
             >
               <span class="i-lucide-sliders-horizontal" />
@@ -1311,11 +1608,11 @@ onMounted(() => {
 
           <div
             v-if="showAdvancedFilters"
-            class="grid grid-cols-1 gap-3 rounded-xl border border-solid border-n-weak bg-n-slate-1 p-4 md:grid-cols-2 xl:grid-cols-[repeat(4,minmax(10rem,1fr))_auto_auto_auto]"
+            class="mt-4 grid grid-cols-1 gap-3 rounded-xl border border-solid border-n-blue-9/25 bg-n-solid-1/45 p-4 md:grid-cols-2 xl:grid-cols-[repeat(4,minmax(10rem,1fr))_auto_auto_auto]"
           >
             <select
               v-model="filters.last_login"
-              class="h-10 min-w-0 rounded-lg"
+              class="h-10 min-w-0 rounded-lg border-n-blue-9/30 bg-n-solid-2/70"
             >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.LAST_LOGIN') }}
@@ -1332,7 +1629,7 @@ onMounted(() => {
             </select>
             <select
               v-model="filters.last_activity"
-              class="h-10 min-w-0 rounded-lg"
+              class="h-10 min-w-0 rounded-lg border-n-blue-9/30 bg-n-solid-2/70"
             >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.LAST_ACTIVITY') }}
@@ -1349,7 +1646,7 @@ onMounted(() => {
             </select>
             <select
               v-model="filters.idle_more_than"
-              class="h-10 min-w-0 rounded-lg"
+              class="h-10 min-w-0 rounded-lg border-n-blue-9/30 bg-n-solid-2/70"
             >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.IDLE_MORE_THAN') }}
@@ -1366,7 +1663,7 @@ onMounted(() => {
             </select>
             <select
               v-model="filters.last_reply_before"
-              class="h-10 min-w-0 rounded-lg"
+              class="h-10 min-w-0 rounded-lg border-n-blue-9/30 bg-n-solid-2/70"
             >
               <option value="">
                 {{ $t('EMPLOYEE_MGMT.FILTERS.LAST_REPLY_BEFORE') }}
@@ -1382,7 +1679,7 @@ onMounted(() => {
               </option>
             </select>
             <label
-              class="flex h-10 items-center gap-2 rounded-lg border border-solid border-n-weak px-3 text-sm text-n-slate-11"
+              class="flex h-10 items-center gap-2 rounded-lg border border-solid border-n-blue-9/30 px-3 text-sm text-n-slate-11"
             >
               <input
                 v-model="filters.has_open_conversations"
@@ -1393,7 +1690,7 @@ onMounted(() => {
               {{ $t('EMPLOYEE_MGMT.FILTERS.HAS_OPEN') }}
             </label>
             <label
-              class="flex h-10 items-center gap-2 rounded-lg border border-solid border-n-weak px-3 text-sm text-n-slate-11"
+              class="flex h-10 items-center gap-2 rounded-lg border border-solid border-n-blue-9/30 px-3 text-sm text-n-slate-11"
             >
               <input
                 v-model="filters.has_unreplied_conversations"
@@ -1424,7 +1721,7 @@ onMounted(() => {
               v-for="chip in activeFilterChips"
               :key="chip.key"
               type="button"
-              class="inline-flex items-center gap-2 rounded-full border border-solid border-n-weak bg-n-slate-2 px-3 py-1 text-xs font-medium text-n-slate-11 hover:bg-n-slate-3"
+              class="inline-flex items-center gap-2 rounded-full border border-solid border-n-blue-9/35 bg-n-solid-1/70 px-3 py-1 text-xs font-medium text-n-slate-11 hover:border-n-blue-8 hover:bg-n-slate-3/60"
               @click="clearFilter(chip.key)"
             >
               {{ chip.label }}
@@ -1436,7 +1733,7 @@ onMounted(() => {
 
       <div
         v-if="selectedIds.length"
-        class="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-solid border-n-weak bg-n-slate-1 p-3 dark:bg-n-solid-2"
+        class="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-solid border-n-blue-9/30 bg-n-solid-2/55 p-3 shadow-lg shadow-n-blue-12/10"
       >
         <span class="text-sm font-medium text-n-slate-12">
           {{ $t('EMPLOYEE_MGMT.BULK.SELECTED', { count: selectedIds.length }) }}
@@ -1474,342 +1771,343 @@ onMounted(() => {
         @click="openDropdownId = null"
       />
       <div
-        class="relative z-10 w-full overflow-x-auto rounded-2xl border border-solid border-n-weak bg-n-solid-1 shadow-sm"
+        class="relative z-10 w-full overflow-hidden rounded-xl border border-solid border-n-blue-9/30 bg-n-solid-2/45 shadow-xl shadow-n-blue-12/10"
         :dir="isRTL ? 'rtl' : 'ltr'"
       >
-        <table class="w-full min-w-[1100px] table-fixed text-sm">
-          <colgroup>
-            <col class="w-[40px]" />
-            <col class="w-[260px]" />
-            <col class="w-[90px]" />
-            <col class="w-[110px]" />
-            <col class="w-[110px]" />
-            <col class="w-[240px]" />
-            <col class="w-[80px]" />
-            <col class="w-[90px]" />
-          </colgroup>
-          <thead
-            class="sticky top-0 z-10 border-b border-solid border-n-weak bg-gradient-to-b from-n-slate-2 to-n-slate-1 text-[11px] font-semibold uppercase tracking-wider text-n-slate-10 ltr:text-left rtl:text-right"
-          >
-            <tr>
-              <th class="w-10 px-3 py-2.5">
-                <input
-                  type="checkbox"
-                  :checked="allSelected"
-                  class="accent-n-teal-9 cursor-pointer"
-                  @change="toggleSelectAll"
-                />
-              </th>
-              <th class="px-3 py-2.5">
-                {{ $t('EMPLOYEE_MGMT.TABLE.EMPLOYEE') }}
-              </th>
-              <th class="px-3 py-2.5 text-center">
-                {{ $t('EMPLOYEE_MGMT.TABLE.STATUS') }}
-              </th>
-              <th class="px-3 py-2.5 text-center">
-                {{ $t('EMPLOYEE_MGMT.TABLE.PRESENCE') }}
-              </th>
-              <th class="px-3 py-2.5 text-center">
-                {{ $t('EMPLOYEE_MGMT.TABLE.WORK_STATUS') }}
-              </th>
-              <th class="px-3 py-2.5">
-                {{ $t('EMPLOYEE_MGMT.TABLE.ACTIVITY') }}
-              </th>
-              <th class="px-3 py-2.5 text-center">
-                {{ $t('EMPLOYEE_MGMT.TABLE.TODAY') }}
-              </th>
-              <th class="px-3 py-2.5 text-center">
-                {{ $t('EMPLOYEE_MGMT.TABLE.ACTIONS') }}
-              </th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-n-weak/60 text-n-slate-12">
-            <template v-for="employee in filteredEmployees" :key="employee.id">
-              <tr
-                class="align-middle transition-all duration-150 hover:bg-n-slate-1/80 dark:hover:bg-n-solid-2"
-              >
-                <td class="px-3 py-3">
+        <div class="w-full overflow-x-auto">
+          <table class="w-full min-w-[1100px] table-fixed text-sm">
+            <colgroup>
+              <col class="w-[40px]" />
+              <col class="w-[260px]" />
+              <col class="w-[96px]" />
+              <col class="w-[110px]" />
+              <col class="w-[110px]" />
+              <col class="w-[240px]" />
+              <col class="w-[80px]" />
+              <col class="w-[90px]" />
+            </colgroup>
+            <thead
+              class="sticky top-0 z-10 border-b border-solid border-n-blue-9/30 bg-n-solid-1/85 text-[11px] font-semibold uppercase tracking-wider text-n-slate-10 backdrop-blur ltr:text-left rtl:text-right"
+            >
+              <tr>
+                <th class="w-10 px-3 py-3">
                   <input
-                    v-model="selectedIds"
                     type="checkbox"
-                    :value="employee.id"
-                    class="accent-n-teal-9 cursor-pointer"
+                    :checked="allSelected"
+                    class="cursor-pointer accent-n-teal-9"
+                    @change="toggleSelectAll"
                   />
-                </td>
-                <!-- Agent Name -->
-                <td class="px-3 py-3">
-                  <div class="flex min-w-0 items-center gap-2.5">
-                    <div
-                      class="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-n-slate-3 to-n-slate-4 text-xs font-bold text-n-slate-11 ring-2 ring-n-slate-2"
-                    >
-                      {{ employeeInitials(employee) }}
-                      <span
-                        class="absolute -bottom-px h-2.5 w-2.5 rounded-full border-2 border-solid border-n-solid-1 ltr:-right-px rtl:-left-px"
-                        :class="presenceDotClass(employee)"
-                      />
-                    </div>
-                    <div class="min-w-0">
-                      <span
-                        class="block truncate text-sm font-semibold leading-tight text-n-slate-12"
-                      >
-                        {{ employee.name }}
-                      </span>
-                      <span class="mt-0.5 flex flex-wrap items-center gap-1">
-                        <span
-                          class="inline-flex items-center px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide border border-solid rounded"
-                          :class="roleBadgeClass(employee.role)"
-                        >
-                          {{ roleLabel(employee.role) }}
-                        </span>
-                        <span
-                          v-for="team in employeeTeams(employee)"
-                          :key="team.id"
-                          class="px-1.5 py-px text-[10px] font-medium border border-solid rounded border-n-slate-4 bg-n-slate-2 text-n-slate-10"
-                        >
-                          {{ team.name }}
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                </td>
-                <!-- Status -->
-                <td class="px-3 py-3 text-center">
-                  <span
-                    class="inline-flex items-center justify-center px-2 py-0.5 text-[11px] font-semibold border border-solid rounded-full"
-                    :class="statusBadgeClass(employee)"
+                </th>
+                <th class="px-3 py-3">
+                  <button
+                    type="button"
+                    class="inline-flex items-center gap-1 rounded-md px-2 py-1 transition-colors hover:bg-n-slate-3/70 hover:text-n-slate-12"
+                    @click="toggleSort('employee')"
                   >
-                    {{ statusLabel(employee) }}
-                  </span>
-                </td>
-                <!-- Presence -->
-                <td class="px-3 py-3 text-center">
-                  <span
-                    class="inline-flex items-center gap-1.5 text-xs font-medium text-n-slate-11"
-                    :title="presenceTooltip(employee)"
+                    {{ $t('EMPLOYEE_MGMT.TABLE.EMPLOYEE') }}
+                    <span class="text-sm" :class="sortIcon('employee')" />
+                  </button>
+                </th>
+                <th class="px-3 py-3 text-center">
+                  <button
+                    type="button"
+                    class="inline-flex items-center justify-center gap-1 rounded-md px-2 py-1 transition-colors hover:bg-n-slate-3/70 hover:text-n-slate-12"
+                    @click="toggleSort('status')"
                   >
-                    <span
-                      class="h-2 w-2 rounded-full"
-                      :class="presenceDotClass(employee)"
-                    />
-                    {{ presenceLabel(employee) }}
-                  </span>
-                </td>
-                <!-- Work Status -->
-                <td class="px-3 py-3 text-center">
-                  <span
-                    class="inline-flex items-center justify-center px-2 py-0.5 text-[11px] font-semibold"
-                    :class="workStatusBadgeClass(employee)"
-                    :title="workStatusTooltip(employee)"
+                    {{ $t('EMPLOYEE_MGMT.TABLE.STATUS') }}
+                    <span class="text-sm" :class="sortIcon('status')" />
+                  </button>
+                </th>
+                <th class="px-3 py-3 text-center">
+                  <button
+                    type="button"
+                    class="inline-flex items-center justify-center gap-1 rounded-md px-2 py-1 transition-colors hover:bg-n-slate-3/70 hover:text-n-slate-12"
+                    @click="toggleSort('presence')"
                   >
-                    {{ workStatusLabel(employee) }}
-                  </span>
-                </td>
-                <!-- Activity -->
-                <td class="px-3 py-3">
-                  <div class="space-y-1 text-[11px] leading-relaxed">
-                    <div class="flex items-center gap-1.5">
-                      <span class="shrink-0 text-n-slate-9">{{
-                        $t('EMPLOYEE_MGMT.TABLE.LAST_REPLY')
-                      }}</span>
-                      <span class="truncate font-medium text-n-slate-12">{{
-                        formatSince(metric(employee).last_reply_at)
-                      }}</span>
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                      <span class="shrink-0 text-n-slate-9">{{
-                        $t('EMPLOYEE_MGMT.TABLE.LAST_ACTIVITY')
-                      }}</span>
-                      <span class="truncate font-medium text-n-slate-12">{{
-                        formatSince(metric(employee).last_activity_at)
-                      }}</span>
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                      <span class="shrink-0 text-n-slate-9">{{
-                        $t('EMPLOYEE_MGMT.TABLE.IDLE_DURATION')
-                      }}</span>
-                      <span class="truncate font-medium text-n-slate-12">
-                        {{ formatDuration(metric(employee).idle_duration) }}
-                      </span>
-                    </div>
-                  </div>
-                </td>
-                <!-- Today -->
-                <td class="px-3 py-3 text-center">
-                  <span
-                    class="inline-flex h-7 min-w-7 items-center justify-center rounded-full px-2 text-xs font-bold"
-                    :class="
-                      metric(employee).replies_count_today > 0
-                        ? 'bg-n-teal-3 text-n-teal-11'
-                        : 'bg-n-slate-3 text-n-slate-10'
-                    "
+                    {{ $t('EMPLOYEE_MGMT.TABLE.PRESENCE') }}
+                    <span class="text-sm" :class="sortIcon('presence')" />
+                  </button>
+                </th>
+                <th class="px-3 py-3 text-center">
+                  <button
+                    type="button"
+                    class="inline-flex items-center justify-center gap-1 rounded-md px-2 py-1 transition-colors hover:bg-n-slate-3/70 hover:text-n-slate-12"
+                    @click="toggleSort('work_status')"
                   >
-                    {{ metric(employee).replies_count_today || 0 }}
-                  </span>
-                </td>
-                <!-- Actions -->
-                <td class="relative px-3 py-3 text-center">
-                  <div class="flex gap-1 ltr:justify-end rtl:justify-start">
-                    <button
-                      type="button"
-                      class="flex h-8 w-8 items-center justify-center rounded-md text-n-slate-11 transition-colors hover:bg-n-slate-3 hover:text-n-slate-12 focus:outline-none"
-                      @click.stop="toggleRowDetails(employee.id)"
-                    >
-                      <span
-                        class="text-lg"
-                        :class="
-                          isRowExpanded(employee.id)
-                            ? 'i-lucide-chevron-up'
-                            : 'i-lucide-chevron-down'
-                        "
-                      />
-                    </button>
-                    <button
-                      type="button"
-                      class="flex items-center justify-center w-8 h-8 transition-colors rounded-md text-n-slate-11 hover:bg-n-slate-3 hover:text-n-slate-12 focus:outline-none"
-                      @click.stop="toggleDropdown(employee.id)"
-                    >
-                      <span class="text-lg i-lucide-more-vertical" />
-                    </button>
-                  </div>
-
-                  <div
-                    v-if="openDropdownId === employee.id"
-                    class="absolute top-full z-20 mt-1 w-48 origin-top-right overflow-hidden rounded-lg border border-solid border-n-weak bg-n-solid-1 py-1 shadow-lg focus:outline-none ltr:right-4 rtl:left-4"
+                    {{ $t('EMPLOYEE_MGMT.TABLE.WORK_STATUS') }}
+                    <span class="text-sm" :class="sortIcon('work_status')" />
+                  </button>
+                </th>
+                <th class="px-3 py-3">
+                  <button
+                    type="button"
+                    class="inline-flex items-center gap-1 rounded-md px-2 py-1 transition-colors hover:bg-n-slate-3/70 hover:text-n-slate-12"
+                    @click="toggleSort('activity')"
                   >
-                    <button
-                      class="flex w-full items-center px-4 py-2 text-sm transition-colors text-n-slate-11 hover:bg-n-slate-2 hover:text-n-slate-12 ltr:text-left rtl:text-right"
-                      @click="handleEmployeeAction(employee, 'edit')"
-                    >
-                      <span class="text-lg i-lucide-pencil ltr:mr-2 rtl:ml-2" />
-                      {{ $t('EMPLOYEE_MGMT.ACTIONS.EDIT') }}
-                    </button>
-                    <button
-                      class="flex w-full items-center px-4 py-2 text-sm transition-colors text-n-slate-11 hover:bg-n-slate-2 hover:text-n-slate-12 ltr:text-left rtl:text-right"
-                      @click="handleEmployeeAction(employee, 'password')"
-                    >
-                      <span class="text-lg i-lucide-key ltr:mr-2 rtl:ml-2" />
-                      {{ $t('EMPLOYEE_MGMT.ACTIONS.PASSWORD') }}
-                    </button>
-                    <button
-                      class="flex w-full items-center px-4 py-2 text-sm transition-colors text-n-slate-11 hover:bg-n-slate-2 hover:text-n-slate-12 ltr:text-left rtl:text-right"
-                      @click="handleEmployeeAction(employee, 'activity')"
-                    >
-                      <span
-                        class="text-lg i-lucide-activity ltr:mr-2 rtl:ml-2"
-                      />
-                      {{ $t('EMPLOYEE_MGMT.ACTIONS.ACTIVITY') }}
-                    </button>
-                    <div class="h-px w-full bg-n-weak my-1" />
-                    <button
-                      class="flex w-full items-center px-4 py-2 text-sm font-medium transition-colors ltr:text-left rtl:text-right"
-                      :class="
-                        employee.active
-                          ? 'text-n-ruby-11 hover:bg-n-ruby-2 hover:text-n-ruby-12'
-                          : 'text-n-teal-11 hover:bg-n-teal-2 hover:text-n-teal-12'
-                      "
-                      @click="
-                        handleEmployeeAction(
-                          employee,
-                          employee.active ? 'deactivate' : 'activate'
-                        )
-                      "
-                    >
-                      <span
-                        class="text-lg ltr:mr-2 rtl:ml-2"
-                        :class="
-                          employee.active
-                            ? 'i-lucide-user-minus'
-                            : 'i-lucide-user-check'
-                        "
-                      />
-                      {{
-                        employee.active
-                          ? $t('EMPLOYEE_MGMT.ACTIONS.DEACTIVATE')
-                          : $t('EMPLOYEE_MGMT.ACTIONS.ACTIVATE')
-                      }}
-                    </button>
-                    <button
-                      class="flex w-full items-center px-4 py-2 text-sm font-medium transition-colors text-n-ruby-11 hover:bg-n-ruby-2 hover:text-n-ruby-12 ltr:text-left rtl:text-right"
-                      @click="handleEmployeeAction(employee, 'archive')"
-                    >
-                      <span
-                        class="text-lg i-lucide-archive ltr:mr-2 rtl:ml-2"
-                      />
-                      {{ $t('EMPLOYEE_MGMT.ACTIONS.ARCHIVE') }}
-                    </button>
-                    <button
-                      class="flex w-full items-center px-4 py-2 text-sm font-medium transition-colors text-n-ruby-11 hover:bg-n-ruby-2 hover:text-n-ruby-12 ltr:text-left rtl:text-right"
-                      @click="handleEmployeeAction(employee, 'delete')"
-                    >
-                      <span
-                        class="text-lg i-lucide-trash-2 ltr:mr-2 rtl:ml-2"
-                      />
-                      {{ $t('EMPLOYEE_MGMT.ACTIONS.DELETE') }}
-                    </button>
-                  </div>
-                </td>
+                    {{ $t('EMPLOYEE_MGMT.TABLE.ACTIVITY') }}
+                    <span class="text-sm" :class="sortIcon('activity')" />
+                  </button>
+                </th>
+                <th class="px-3 py-3 text-center">
+                  <button
+                    type="button"
+                    class="inline-flex items-center justify-center gap-1 rounded-md px-2 py-1 transition-colors hover:bg-n-slate-3/70 hover:text-n-slate-12"
+                    @click="toggleSort('replies_today')"
+                  >
+                    {{ $t('EMPLOYEE_MGMT.TABLE.TODAY') }}
+                    <span class="text-sm" :class="sortIcon('replies_today')" />
+                  </button>
+                </th>
+                <th class="px-2 py-3 text-center">
+                  {{ $t('EMPLOYEE_MGMT.TABLE.ACTIONS') }}
+                </th>
               </tr>
-              <tr
-                v-if="isRowExpanded(employee.id)"
-                class="bg-gradient-to-b from-n-slate-1/40 to-transparent"
+            </thead>
+            <tbody class="divide-y divide-n-blue-9/20 text-n-slate-12">
+              <template
+                v-for="employee in filteredEmployees"
+                :key="employee.id"
               >
-                <td colspan="8" class="px-4 py-3">
-                  <div
-                    class="grid gap-3 rounded-xl border border-solid border-n-weak bg-n-solid-1 p-4 md:grid-cols-2"
-                  >
-                    <div>
-                      <span class="block text-xs font-medium text-n-slate-10">
-                        {{ $t('EMPLOYEE_MGMT.DRILLDOWN.IDENTITY') }}
-                      </span>
-                      <span class="block text-sm font-medium text-n-slate-12">
-                        {{ employee.name }}
-                      </span>
-                      <span class="block text-xs text-n-slate-10">
-                        {{ employee.phone_number || $t('EMPLOYEE_MGMT.EMPTY') }}
-                      </span>
-                    </div>
-                    <div class="col-span-2">
-                      <span class="block text-xs font-medium text-n-slate-10">
-                        {{ $t('EMPLOYEE_MGMT.DRILLDOWN.ACTIVITY') }}
-                      </span>
+                <tr
+                  class="align-middle transition-all duration-150"
+                  :class="
+                    presenceStatus(employee) === 'online'
+                      ? 'border-y border-solid border-n-teal-7/40 bg-n-teal-4/35 shadow-[inset_4px_0_0_0_var(--teal-8)] hover:bg-n-teal-4/50'
+                      : 'hover:bg-n-slate-3/20'
+                  "
+                >
+                  <td class="px-3 py-3">
+                    <input
+                      v-model="selectedIds"
+                      type="checkbox"
+                      :value="employee.id"
+                      class="cursor-pointer accent-n-teal-9"
+                    />
+                  </td>
+                  <!-- Agent Name -->
+                  <td class="px-3 py-3">
+                    <div class="flex min-w-0 items-center gap-2.5">
                       <div
-                        class="grid grid-cols-[auto_1fr] gap-x-2 text-sm text-n-slate-12"
+                        class="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-n-slate-12 ring-2"
+                        :class="
+                          presenceStatus(employee) === 'online'
+                            ? 'bg-gradient-to-br from-n-teal-4 to-n-blue-3 ring-n-teal-8/50'
+                            : 'bg-gradient-to-br from-n-slate-3 to-n-slate-4 ring-n-slate-2'
+                        "
                       >
-                        <span class="text-n-slate-10">
-                          {{ $t('EMPLOYEE_MGMT.TABLE.LAST_ACTIVITY') }}
+                        {{ employeeInitials(employee) }}
+                        <span
+                          class="absolute -bottom-px h-3 w-3 rounded-full border-2 border-solid border-n-solid-1 ltr:-right-px rtl:-left-px"
+                          :class="[
+                            presenceDotClass(employee),
+                            presencePulseClass(employee),
+                          ]"
+                        />
+                      </div>
+                      <div class="min-w-0">
+                        <span
+                          class="block truncate text-sm font-semibold leading-tight text-n-slate-12"
+                        >
+                          {{ employee.name }}
                         </span>
-                        <span>{{
-                          formatSince(metric(employee).last_activity_at)
-                        }}</span>
-                        <span class="text-n-slate-10">
-                          {{ $t('EMPLOYEE_MGMT.TABLE.IDLE_DURATION') }}
+                        <span
+                          class="mt-0.5 flex min-w-0 flex-wrap items-center gap-1"
+                        >
+                          <span
+                            class="inline-flex shrink-0 items-center rounded border border-solid px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide"
+                            :class="roleBadgeClass(employee.role)"
+                          >
+                            {{ roleLabel(employee.role) }}
+                          </span>
+                          <span
+                            v-if="employee.email"
+                            class="min-w-0 max-w-[12rem] truncate text-[11px] font-medium text-n-slate-10"
+                            :title="employee.email"
+                          >
+                            {{ employee.email }}
+                          </span>
+                          <span
+                            v-for="team in employeeTeams(employee)"
+                            :key="team.id"
+                            class="rounded border border-solid border-n-blue-9/25 bg-n-solid-1/55 px-1.5 py-px text-[10px] font-medium text-n-slate-9"
+                          >
+                            {{ team.name }}
+                          </span>
                         </span>
-                        <span>{{
-                          formatDuration(metric(employee).idle_duration)
-                        }}</span>
                       </div>
                     </div>
-                    <div class="flex items-center justify-end">
-                      <Button
-                        faded
-                        slate
-                        icon="i-lucide-activity"
-                        :label="$t('EMPLOYEE_MGMT.ACTIONS.ACTIVITY')"
-                        @click="openDetails(employee)"
+                  </td>
+                  <!-- Status -->
+                  <td class="px-3 py-3 text-center">
+                    <span
+                      class="inline-flex items-center justify-center px-2 py-0.5 text-[11px] font-semibold border border-solid rounded-full"
+                      :class="statusBadgeClass(employee)"
+                    >
+                      {{ statusLabel(employee) }}
+                    </span>
+                  </td>
+                  <!-- Presence -->
+                  <td class="px-3 py-3 text-center">
+                    <span
+                      class="inline-flex items-center gap-1.5 text-xs font-medium text-n-slate-11"
+                      :title="presenceTooltip(employee)"
+                    >
+                      <span
+                        class="relative h-3 w-3 rounded-full"
+                        :class="[
+                          presenceDotClass(employee),
+                          presencePulseClass(employee),
+                        ]"
                       />
+                      {{ presenceLabel(employee) }}
+                    </span>
+                  </td>
+                  <!-- Work Status -->
+                  <td class="px-3 py-3 text-center">
+                    <span
+                      class="inline-flex items-center justify-center px-2 py-0.5 text-[11px] font-semibold"
+                      :class="workStatusBadgeClass(employee)"
+                      :title="workStatusTooltip(employee)"
+                    >
+                      {{ workStatusLabel(employee) }}
+                    </span>
+                  </td>
+                  <!-- Activity -->
+                  <td class="px-3 py-3">
+                    <div class="space-y-1 text-[11px] leading-relaxed">
+                      <div class="flex items-center gap-1.5">
+                        <span class="shrink-0 text-n-slate-9">{{
+                          $t('EMPLOYEE_MGMT.TABLE.LAST_REPLY')
+                        }}</span>
+                        <span class="truncate font-medium text-n-slate-12">{{
+                          formatSince(metric(employee).last_reply_at)
+                        }}</span>
+                      </div>
+                      <div class="flex items-center gap-1.5">
+                        <span class="shrink-0 text-n-slate-9">{{
+                          $t('EMPLOYEE_MGMT.TABLE.LAST_ACTIVITY')
+                        }}</span>
+                        <span class="truncate font-medium text-n-slate-12">{{
+                          formatSince(metric(employee).last_activity_at)
+                        }}</span>
+                      </div>
+                      <div class="flex items-center gap-1.5">
+                        <span class="shrink-0 text-n-slate-9">{{
+                          $t('EMPLOYEE_MGMT.TABLE.IDLE_DURATION')
+                        }}</span>
+                        <span class="truncate font-medium text-n-slate-12">
+                          {{ formatDuration(metric(employee).idle_duration) }}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </td>
-              </tr>
-            </template>
-          </tbody>
-        </table>
+                  </td>
+                  <!-- Today -->
+                  <td class="px-3 py-3 text-center">
+                    <span
+                      class="inline-flex h-7 min-w-7 items-center justify-center rounded-full px-2 text-xs font-bold"
+                      :class="
+                        metric(employee).replies_count_today > 0
+                          ? 'bg-n-teal-3 text-n-teal-11'
+                          : 'bg-n-slate-3 text-n-slate-10'
+                      "
+                    >
+                      {{ metric(employee).replies_count_today || 0 }}
+                    </span>
+                  </td>
+                  <!-- Actions -->
+                  <td class="relative px-2 py-3 text-center">
+                    <div class="flex justify-center gap-1">
+                      <button
+                        type="button"
+                        class="flex h-8 w-8 items-center justify-center rounded-md border border-solid border-n-blue-9/25 bg-n-solid-1/40 text-n-slate-11 transition-colors hover:border-n-blue-8 hover:bg-n-slate-3/70 hover:text-n-slate-12 focus:outline-none"
+                        @click.stop="toggleDropdown(employee.id)"
+                      >
+                        <span class="text-lg i-lucide-more-vertical" />
+                      </button>
+                    </div>
+
+                    <div
+                      v-if="openDropdownId === employee.id"
+                      class="absolute top-full z-20 mt-1 w-48 origin-top-right overflow-hidden rounded-lg border border-solid border-n-blue-9/35 bg-n-solid-1 py-1 shadow-xl shadow-n-blue-12/20 focus:outline-none ltr:right-4 rtl:left-4"
+                    >
+                      <button
+                        class="flex w-full items-center px-4 py-2 text-sm text-n-slate-11 transition-colors hover:bg-n-slate-3/70 hover:text-n-slate-12 ltr:text-left rtl:text-right"
+                        @click="handleEmployeeAction(employee, 'edit')"
+                      >
+                        <span
+                          class="text-lg i-lucide-pencil ltr:mr-2 rtl:ml-2"
+                        />
+                        {{ $t('EMPLOYEE_MGMT.ACTIONS.EDIT') }}
+                      </button>
+                      <button
+                        class="flex w-full items-center px-4 py-2 text-sm text-n-slate-11 transition-colors hover:bg-n-slate-3/70 hover:text-n-slate-12 ltr:text-left rtl:text-right"
+                        @click="handleEmployeeAction(employee, 'activity')"
+                      >
+                        <span
+                          class="text-lg i-lucide-activity ltr:mr-2 rtl:ml-2"
+                        />
+                        {{ $t('EMPLOYEE_MGMT.ACTIONS.ACTIVITY') }}
+                      </button>
+                      <div class="my-1 h-px w-full bg-n-blue-9/25" />
+                      <button
+                        class="flex w-full items-center px-4 py-2 text-sm font-medium transition-colors ltr:text-left rtl:text-right"
+                        :class="
+                          employee.active
+                            ? 'text-n-ruby-11 hover:bg-n-ruby-3/30 hover:text-n-ruby-12'
+                            : 'text-n-teal-11 hover:bg-n-teal-3/30 hover:text-n-teal-12'
+                        "
+                        @click="
+                          handleEmployeeAction(
+                            employee,
+                            employee.active ? 'deactivate' : 'activate'
+                          )
+                        "
+                      >
+                        <span
+                          class="text-lg ltr:mr-2 rtl:ml-2"
+                          :class="
+                            employee.active
+                              ? 'i-lucide-user-minus'
+                              : 'i-lucide-user-check'
+                          "
+                        />
+                        {{
+                          employee.active
+                            ? $t('EMPLOYEE_MGMT.ACTIONS.DEACTIVATE')
+                            : $t('EMPLOYEE_MGMT.ACTIONS.ACTIVATE')
+                        }}
+                      </button>
+                      <button
+                        class="flex w-full items-center px-4 py-2 text-sm font-medium text-n-ruby-11 transition-colors hover:bg-n-ruby-3/30 hover:text-n-ruby-12 ltr:text-left rtl:text-right"
+                        @click="handleEmployeeAction(employee, 'archive')"
+                      >
+                        <span
+                          class="text-lg i-lucide-archive ltr:mr-2 rtl:ml-2"
+                        />
+                        {{ $t('EMPLOYEE_MGMT.ACTIONS.ARCHIVE') }}
+                      </button>
+                      <button
+                        class="flex w-full items-center px-4 py-2 text-sm font-medium text-n-ruby-11 transition-colors hover:bg-n-ruby-3/30 hover:text-n-ruby-12 ltr:text-left rtl:text-right"
+                        @click="handleEmployeeAction(employee, 'delete')"
+                      >
+                        <span
+                          class="text-lg i-lucide-trash-2 ltr:mr-2 rtl:ml-2"
+                        />
+                        {{ $t('EMPLOYEE_MGMT.ACTIONS.DELETE') }}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
         <div
           v-if="tableEmpty"
-          class="flex flex-col items-center gap-3 border-t border-solid border-n-weak px-6 py-10 text-center"
+          class="flex flex-col items-center gap-3 border-t border-solid border-n-blue-9/25 px-6 py-10 text-center"
         >
           <span
-            class="rounded-full bg-n-slate-2 p-3 text-2xl text-n-slate-10 i-lucide-search-x"
+            class="i-lucide-search-x rounded-full bg-n-slate-3/60 p-3 text-2xl text-n-slate-10"
           />
           <div>
             <h3 class="m-0 text-base font-semibold text-n-slate-12">
@@ -1830,891 +2128,939 @@ onMounted(() => {
     </template>
   </SettingsLayout>
 
-  <woot-modal
-    v-model:show="showFormModal"
-    :on-close="() => (showFormModal = false)"
-    size="medium"
-  >
-    <div class="flex flex-col w-full h-full max-h-[90vh]">
-      <woot-modal-header
-        class="px-8 pt-8 pb-4"
-        :header-title="
-          isEditing
-            ? $t('EMPLOYEE_MGMT.FORM.EDIT_TITLE')
-            : $t('EMPLOYEE_MGMT.FORM.ADD_TITLE')
-        "
-        :header-content="$t('EMPLOYEE_MGMT.FORM.DESCRIPTION')"
-      />
-      <form class="flex flex-col min-h-0" @submit.prevent="saveEmployee">
-        <div class="flex flex-col gap-8 px-8 pb-8 overflow-y-auto">
-          <!-- Identity Section -->
-          <section class="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <h3
-              class="pb-2 text-xs font-semibold tracking-wide uppercase border-b border-solid md:col-span-2 text-n-slate-11 border-n-weak"
+  <Teleport to="body">
+    <div
+      v-if="showFormModal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-n-black/80 p-3 backdrop-blur-md sm:p-5"
+      @click.self="showFormModal = false"
+    >
+      <div
+        class="flex h-[calc(100vh-1.5rem)] w-full max-w-[74rem] flex-col overflow-hidden rounded-2xl border border-solid border-n-blue-8/50 bg-gradient-to-br from-n-solid-1 via-n-blue-2 to-n-solid-1 shadow-2xl shadow-n-blue-12/40 sm:h-[calc(100vh-2.5rem)]"
+      >
+        <div
+          class="flex shrink-0 items-start justify-between gap-4 px-5 pb-4 pt-6 sm:px-8"
+        >
+          <div class="flex min-w-0 flex-col text-start">
+            <span
+              class="mb-4 inline-flex w-fit items-center gap-2 rounded-lg border border-solid border-n-brand-7 bg-gradient-to-r from-n-brand-3 to-n-slate-3 px-3 py-1.5 text-xs font-semibold uppercase text-n-brand-11 shadow-sm shadow-n-brand-5/20"
             >
-              {{ $t('EMPLOYEE_MGMT.FORM.SECTIONS.IDENTITY') }}
-            </h3>
-            <label class="flex flex-col">
-              <span class="mb-1 font-medium text-n-slate-12">
-                {{ $t('EMPLOYEE_MGMT.FORM.NAME') }}
-                <span class="text-n-ruby-9">{{
-                  $t('EMPLOYEE_MGMT.REQUIRED_MARK')
-                }}</span>
-              </span>
-              <input
-                ref="firstFieldRef"
-                v-model="form.name"
-                required
-                type="text"
-                :placeholder="$t('EMPLOYEE_MGMT.FORM.PLACEHOLDERS.NAME')"
-              />
-              <span
-                v-if="!form.name.trim()"
-                class="mt-1 text-xs text-n-ruby-11"
-              >
-                {{ $t('EMPLOYEE_MGMT.VALIDATION.NAME_REQUIRED') }}
-              </span>
-            </label>
-            <label class="flex flex-col">
-              <span class="mb-1 font-medium text-n-slate-12">
-                {{ $t('EMPLOYEE_MGMT.FORM.PHONE') }}
-              </span>
-              <input
-                v-model="form.phone_number"
-                type="text"
-                :placeholder="$t('EMPLOYEE_MGMT.FORM.PLACEHOLDERS.PHONE')"
-              />
-            </label>
-            <label class="flex flex-col">
-              <span class="mb-1 font-medium text-n-slate-12">
-                {{ $t('EMPLOYEE_MGMT.FORM.EMAIL') }}
-                <span class="text-n-ruby-9">{{
-                  $t('EMPLOYEE_MGMT.REQUIRED_MARK')
-                }}</span>
-              </span>
-              <input
-                v-model="form.email"
-                required
-                type="email"
-                :placeholder="$t('EMPLOYEE_MGMT.FORM.PLACEHOLDERS.EMAIL')"
-              />
-              <span
-                v-if="!(form.email || '').trim()"
-                class="mt-1 text-xs text-n-ruby-11"
-              >
-                {{ $t('EMPLOYEE_MGMT.VALIDATION.EMAIL_REQUIRED') }}
-              </span>
-            </label>
-            <label class="flex flex-col">
-              <span class="mb-1 font-medium text-n-slate-12">
-                {{ $t('EMPLOYEE_MGMT.FORM.USERNAME') }}
-              </span>
-              <input
-                v-model="form.username"
-                type="text"
-                :placeholder="$t('EMPLOYEE_MGMT.FORM.PLACEHOLDERS.USERNAME')"
-              />
-            </label>
-          </section>
+              <span class="i-lucide-shield-check text-base" />
+              {{ $t('EMPLOYEE_MGMT.FORM.DRAWER_BADGE') }}
+            </span>
+            <h2 class="mb-2 text-4xl font-semibold text-n-slate-12">
+              {{
+                isEditing
+                  ? $t('EMPLOYEE_MGMT.FORM.EDIT_TITLE')
+                  : $t('EMPLOYEE_MGMT.FORM.ADD_TITLE')
+              }}
+            </h2>
+            <p class="mb-0 text-base text-n-slate-11">
+              {{ $t('EMPLOYEE_MGMT.FORM.DESCRIPTION') }}
+            </p>
+          </div>
+          <button
+            type="button"
+            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-solid border-n-blue-9/30 bg-n-solid-1/50 text-n-slate-11 transition-colors hover:border-n-blue-8/60 hover:bg-n-slate-3 hover:text-n-slate-12"
+            :title="$t('EMPLOYEE_MGMT.CANCEL')"
+            @click="showFormModal = false"
+          >
+            <span class="i-lucide-x text-lg" />
+          </button>
+        </div>
 
-          <!-- Access and Teams Section -->
-          <section class="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <h3
-              class="pb-2 text-xs font-semibold tracking-wide uppercase border-b border-solid md:col-span-2 text-n-slate-11 border-n-weak"
+        <form
+          class="flex min-h-0 flex-1 flex-col"
+          @submit.prevent="saveEmployee"
+        >
+          <div
+            class="grid min-h-0 flex-1 grid-cols-1 gap-5 overflow-y-auto px-5 pb-5 pt-2 sm:px-8 xl:grid-cols-[minmax(0,0.9fr)_minmax(24rem,1.1fr)] xl:items-start"
+          >
+            <section
+              class="grid grid-cols-1 gap-5 rounded-xl border border-solid border-n-blue-9/30 bg-n-solid-2/40 p-5 shadow-sm shadow-n-blue-12/10 md:grid-cols-2 xl:col-start-1 xl:row-start-1"
             >
-              {{ $t('EMPLOYEE_MGMT.FORM.SECTIONS.ACCESS') }}
-            </h3>
-            <label class="flex flex-col">
-              <span class="mb-1 font-medium text-n-slate-12">
-                {{ $t('EMPLOYEE_MGMT.FORM.ROLE') }}
-                <span class="text-n-ruby-9">{{
-                  $t('EMPLOYEE_MGMT.REQUIRED_MARK')
-                }}</span>
-              </span>
-              <select v-model="form.role">
-                <option value="administrator">
-                  {{ $t('EMPLOYEE_MGMT.ROLES.ADMINISTRATOR') }}
-                </option>
-                <option value="agent">
-                  {{ $t('EMPLOYEE_MGMT.ROLES.AGENT') }}
-                </option>
-              </select>
-            </label>
-            <label class="flex flex-col">
-              <span class="mb-1 font-medium text-n-slate-12">
-                {{ $t('EMPLOYEE_MGMT.FORM.JOB_TITLE') }}
-              </span>
-              <input
-                v-model="form.job_title"
-                type="text"
-                :placeholder="$t('EMPLOYEE_MGMT.FORM.PLACEHOLDERS.JOB_TITLE')"
-              />
-            </label>
-            <div class="flex flex-col md:col-span-2">
-              <span class="mb-2 font-medium text-n-slate-12">
-                {{ $t('EMPLOYEE_MGMT.FORM.TEAMS') }}
-              </span>
-              <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
-                <label
-                  v-for="team in teams"
-                  :key="team.id"
-                  class="flex items-center gap-3 px-4 py-3 m-0 transition-colors border border-solid rounded-lg cursor-pointer"
-                  :class="
-                    isTeamSelected(team.id)
-                      ? 'border-n-brand-5 bg-n-brand-2 text-n-brand-12'
-                      : 'border-n-weak bg-n-slate-1 dark:bg-n-solid-2 hover:bg-n-slate-2'
-                  "
+              <div
+                class="flex items-start gap-3 border-b border-solid border-n-blue-9/20 pb-4 text-start md:col-span-2"
+              >
+                <span
+                  class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-solid border-n-blue-8/40 bg-gradient-to-br from-n-brand-4 to-n-solid-3 text-n-blue-12"
                 >
+                  <span class="i-lucide-user-round text-xl" />
+                </span>
+                <div class="min-w-0">
+                  <h3 class="mb-1 text-base font-semibold text-n-slate-12">
+                    {{ $t('EMPLOYEE_MGMT.FORM.SECTIONS.IDENTITY') }}
+                  </h3>
+                  <p class="mb-0 text-sm text-n-slate-10">
+                    {{ $t('EMPLOYEE_MGMT.FORM.SECTION_DESCRIPTIONS.IDENTITY') }}
+                  </p>
+                </div>
+              </div>
+              <label class="flex flex-col text-start">
+                <span class="mb-1 text-sm font-medium text-n-slate-12">
+                  {{ $t('EMPLOYEE_MGMT.FORM.NAME') }}
+                  <span class="text-n-ruby-9">{{
+                    $t('EMPLOYEE_MGMT.REQUIRED_MARK')
+                  }}</span>
+                </span>
+                <div
+                  class="flex h-11 w-full items-center gap-3 rounded-lg border border-solid border-n-blue-9/40 bg-n-solid-1/60 px-3 transition-colors focus-within:border-n-brand-7 focus-within:ring-1 focus-within:ring-n-brand-7/30"
+                >
+                  <span
+                    class="i-lucide-user h-4 w-4 shrink-0 text-n-slate-10"
+                  />
                   <input
-                    type="checkbox"
-                    class="w-4 h-4 text-n-brand-9 border-n-slate-4 rounded focus:ring-n-brand-5"
-                    :checked="isTeamSelected(team.id)"
-                    @change="toggleTeam(team.id)"
+                    ref="firstFieldRef"
+                    v-model="form.name"
+                    required
+                    type="text"
+                    class="reset-base h-full min-w-0 flex-1 !border-0 !bg-transparent !p-0 text-sm text-n-slate-12 outline-none !ring-0 placeholder:text-n-slate-10 focus:!border-0 focus:!outline-none focus:!ring-0"
+                    :placeholder="$t('EMPLOYEE_MGMT.FORM.PLACEHOLDERS.NAME')"
                   />
-                  <span class="font-medium truncate">{{ team.name }}</span>
-                </label>
-              </div>
-            </div>
-          </section>
+                </div>
+                <span
+                  v-if="!form.name.trim()"
+                  class="mt-1 text-xs text-n-ruby-11"
+                >
+                  {{ $t('EMPLOYEE_MGMT.VALIDATION.NAME_REQUIRED') }}
+                </span>
+              </label>
+              <label class="flex flex-col text-start">
+                <span class="mb-1 text-sm font-medium text-n-slate-12">
+                  {{ $t('EMPLOYEE_MGMT.FORM.PHONE') }}
+                </span>
+                <div
+                  class="flex h-11 w-full items-center gap-3 rounded-lg border border-solid border-n-blue-9/40 bg-n-solid-1/60 px-3 transition-colors focus-within:border-n-brand-7 focus-within:ring-1 focus-within:ring-n-brand-7/30"
+                >
+                  <span
+                    class="i-lucide-phone h-4 w-4 shrink-0 text-n-slate-10"
+                  />
+                  <input
+                    v-model="form.phone_number"
+                    type="text"
+                    class="reset-base h-full min-w-0 flex-1 !border-0 !bg-transparent !p-0 text-sm text-n-slate-12 outline-none !ring-0 placeholder:text-n-slate-10 focus:!border-0 focus:!outline-none focus:!ring-0"
+                    :placeholder="$t('EMPLOYEE_MGMT.FORM.PLACEHOLDERS.PHONE')"
+                  />
+                </div>
+              </label>
+              <label class="flex flex-col text-start">
+                <span class="mb-1 text-sm font-medium text-n-slate-12">
+                  {{ $t('EMPLOYEE_MGMT.FORM.EMAIL') }}
+                  <span class="text-n-ruby-9">{{
+                    $t('EMPLOYEE_MGMT.REQUIRED_MARK')
+                  }}</span>
+                </span>
+                <div
+                  class="flex h-11 w-full items-center gap-3 rounded-lg border border-solid border-n-blue-9/40 bg-n-solid-1/60 px-3 transition-colors focus-within:border-n-brand-7 focus-within:ring-1 focus-within:ring-n-brand-7/30"
+                >
+                  <span
+                    class="i-lucide-mail h-4 w-4 shrink-0 text-n-slate-10"
+                  />
+                  <input
+                    v-model="form.email"
+                    required
+                    type="email"
+                    class="reset-base h-full min-w-0 flex-1 !border-0 !bg-transparent !p-0 text-sm text-n-slate-12 outline-none !ring-0 placeholder:text-n-slate-10 focus:!border-0 focus:!outline-none focus:!ring-0"
+                    :placeholder="$t('EMPLOYEE_MGMT.FORM.PLACEHOLDERS.EMAIL')"
+                  />
+                </div>
+                <span
+                  v-if="!(form.email || '').trim()"
+                  class="mt-1 text-xs text-n-ruby-11"
+                >
+                  {{ $t('EMPLOYEE_MGMT.VALIDATION.EMAIL_REQUIRED') }}
+                </span>
+              </label>
+              <label class="flex flex-col text-start">
+                <span class="mb-1 text-sm font-medium text-n-slate-12">
+                  {{ $t('EMPLOYEE_MGMT.FORM.USERNAME') }}
+                </span>
+                <div
+                  class="flex h-11 w-full items-center gap-3 rounded-lg border border-solid border-n-blue-9/40 bg-n-solid-1/60 px-3 transition-colors focus-within:border-n-brand-7 focus-within:ring-1 focus-within:ring-n-brand-7/30"
+                >
+                  <span
+                    class="i-lucide-at-sign h-4 w-4 shrink-0 text-n-slate-10"
+                  />
+                  <input
+                    v-model="form.username"
+                    type="text"
+                    class="reset-base h-full min-w-0 flex-1 !border-0 !bg-transparent !p-0 text-sm text-n-slate-12 outline-none !ring-0 placeholder:text-n-slate-10 focus:!border-0 focus:!outline-none focus:!ring-0"
+                    :placeholder="
+                      $t('EMPLOYEE_MGMT.FORM.PLACEHOLDERS.USERNAME')
+                    "
+                  />
+                </div>
+              </label>
+            </section>
 
-          <!-- Password Section -->
-          <section class="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <h3
-              class="pb-2 text-xs font-semibold tracking-wide uppercase border-b border-solid md:col-span-2 text-n-slate-11 border-n-weak"
+            <section
+              class="grid grid-cols-1 gap-5 rounded-xl border border-solid border-n-blue-9/30 bg-n-solid-2/40 p-5 shadow-sm shadow-n-blue-12/10 md:grid-cols-2 xl:col-start-2 xl:row-span-3 xl:row-start-1"
             >
-              {{ $t('EMPLOYEE_MGMT.FORM.SECTIONS.PASSWORD') }}
-            </h3>
-            <label class="flex flex-col relative">
-              <span class="mb-1 font-medium text-n-slate-12">
-                {{ $t('EMPLOYEE_MGMT.FORM.PASSWORD') }}
-                <span v-if="!isEditing" class="text-n-ruby-9">{{
-                  $t('EMPLOYEE_MGMT.REQUIRED_MARK')
-                }}</span>
+              <div
+                class="flex items-start gap-3 border-b border-solid border-n-blue-9/20 pb-4 text-start md:col-span-2"
+              >
                 <span
-                  v-if="isEditing"
-                  class="text-xs font-normal text-n-slate-10"
+                  class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-solid border-n-blue-8/40 bg-gradient-to-br from-n-brand-4 to-n-solid-3 text-n-blue-12"
                 >
-                  ({{ $t('EMPLOYEE_MGMT.FORM.PASSWORD_OPTIONAL') }})
+                  <span class="i-lucide-shield-check text-xl" />
                 </span>
-              </span>
-              <div class="relative w-full">
-                <input
-                  v-model="form.password"
-                  :required="!isEditing"
-                  :type="showNewPassword ? 'text' : 'password'"
-                  class="w-full pr-10"
-                />
-                <button
-                  type="button"
-                  class="absolute inset-y-0 right-0 flex items-center px-3 text-n-slate-10 hover:text-n-slate-12"
-                  :title="
-                    showNewPassword
-                      ? $t('EMPLOYEE_MGMT.PASSWORD.HIDE')
-                      : $t('EMPLOYEE_MGMT.PASSWORD.SHOW')
-                  "
-                  @click="showNewPassword = !showNewPassword"
-                >
-                  <span
-                    :class="
-                      showNewPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'
-                    "
-                    class="text-lg"
-                  />
-                </button>
+                <div class="min-w-0">
+                  <h3 class="mb-1 text-base font-semibold text-n-slate-12">
+                    {{ $t('EMPLOYEE_MGMT.FORM.SECTIONS.ACCESS') }}
+                  </h3>
+                  <p class="mb-0 text-sm text-n-slate-10">
+                    {{ $t('EMPLOYEE_MGMT.FORM.SECTION_DESCRIPTIONS.ACCESS') }}
+                  </p>
+                </div>
               </div>
-            </label>
-            <label class="flex flex-col relative">
-              <span class="mb-1 font-medium text-n-slate-12">
-                {{ $t('EMPLOYEE_MGMT.FORM.PASSWORD_CONFIRMATION') }}
-                <span v-if="!isEditing" class="text-n-ruby-9">{{
-                  $t('EMPLOYEE_MGMT.REQUIRED_MARK')
-                }}</span>
-              </span>
-              <div class="relative w-full">
-                <input
-                  v-model="form.password_confirmation"
-                  :required="!isEditing"
-                  :type="showNewPasswordConfirmation ? 'text' : 'password'"
-                  class="w-full pr-10"
-                />
-                <button
-                  type="button"
-                  class="absolute inset-y-0 right-0 flex items-center px-3 text-n-slate-10 hover:text-n-slate-12"
-                  :title="
-                    showNewPasswordConfirmation
-                      ? $t('EMPLOYEE_MGMT.PASSWORD.HIDE')
-                      : $t('EMPLOYEE_MGMT.PASSWORD.SHOW')
-                  "
-                  @click="
-                    showNewPasswordConfirmation = !showNewPasswordConfirmation
-                  "
+              <div class="flex flex-col text-start">
+                <span class="mb-1 text-sm font-medium text-n-slate-12">
+                  {{ $t('EMPLOYEE_MGMT.FORM.ROLE') }}
+                  <span class="text-n-ruby-9">{{
+                    $t('EMPLOYEE_MGMT.REQUIRED_MARK')
+                  }}</span>
+                </span>
+                <div class="relative">
+                  <button
+                    type="button"
+                    class="flex h-11 w-full items-center gap-3 rounded-lg border border-solid border-n-blue-9/40 bg-n-solid-1/60 px-3 text-start text-sm text-n-slate-12 transition-colors hover:border-n-blue-8 focus:border-n-brand-7 focus:outline-none focus:ring-1 focus:ring-n-brand-7/30"
+                    @click="showRoleDropdown = !showRoleDropdown"
+                  >
+                    <span
+                      class="i-lucide-user h-4 w-4 shrink-0 text-n-slate-10"
+                    />
+                    <span class="min-w-0 flex-1 truncate">
+                      {{ roleLabel(form.role) }}
+                    </span>
+                    <span
+                      class="i-lucide-chevron-down h-4 w-4 shrink-0 text-n-slate-10 transition-transform"
+                      :class="showRoleDropdown ? 'rotate-180' : ''"
+                    />
+                  </button>
+                  <div
+                    v-if="showRoleDropdown"
+                    class="absolute inset-x-0 top-full z-40 mt-2 overflow-hidden rounded-lg border border-solid border-n-blue-9/40 bg-n-solid-1 py-1 shadow-xl shadow-n-blue-12/20"
+                  >
+                    <button
+                      v-for="option in roleOptions"
+                      :key="option.value"
+                      type="button"
+                      class="flex w-full items-center gap-3 px-3 py-2 text-start text-sm transition-colors"
+                      :class="
+                        form.role === option.value
+                          ? 'bg-n-brand-3 text-n-brand-12'
+                          : 'text-n-slate-11 hover:bg-n-slate-3 hover:text-n-slate-12'
+                      "
+                      @click="
+                        form.role = option.value;
+                        showRoleDropdown = false;
+                      "
+                    >
+                      <span
+                        class="h-4 w-4 shrink-0"
+                        :class="
+                          form.role === option.value
+                            ? 'i-lucide-circle-check text-n-brand-11'
+                            : 'i-lucide-circle text-n-slate-10'
+                        "
+                      />
+                      <span class="min-w-0 flex-1 truncate">
+                        {{ option.label }}
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <label class="flex flex-col text-start">
+                <span class="mb-1 text-sm font-medium text-n-slate-12">
+                  {{ $t('EMPLOYEE_MGMT.FORM.JOB_TITLE') }}
+                </span>
+                <div
+                  class="flex h-11 w-full items-center gap-3 rounded-lg border border-solid border-n-blue-9/40 bg-n-solid-1/60 px-3 transition-colors focus-within:border-n-brand-7 focus-within:ring-1 focus-within:ring-n-brand-7/30"
                 >
                   <span
+                    class="i-lucide-briefcase-business h-4 w-4 shrink-0 text-n-slate-10"
+                  />
+                  <input
+                    v-model="form.job_title"
+                    type="text"
+                    class="reset-base h-full min-w-0 flex-1 !border-0 !bg-transparent !p-0 text-sm text-n-slate-12 outline-none !ring-0 placeholder:text-n-slate-10 focus:!border-0 focus:!outline-none focus:!ring-0"
+                    :placeholder="
+                      $t('EMPLOYEE_MGMT.FORM.PLACEHOLDERS.JOB_TITLE')
+                    "
+                  />
+                </div>
+              </label>
+              <div class="flex flex-col text-start md:col-span-2">
+                <span class="mb-2 text-sm font-medium text-n-slate-12">
+                  {{ $t('EMPLOYEE_MGMT.FORM.TEAMS') }}
+                </span>
+                <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                  <label
+                    v-for="team in teams"
+                    :key="team.id"
+                    class="m-0 flex min-h-12 cursor-pointer items-center gap-3 rounded-lg border border-solid px-3 py-2 transition-colors"
                     :class="
+                      isTeamSelected(team.id)
+                        ? 'border-n-brand-7 bg-n-brand-3 text-n-brand-12'
+                        : 'border-n-blue-9/20 bg-n-solid-1/60 hover:border-n-blue-8/40 hover:bg-n-slate-2'
+                    "
+                  >
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 rounded border-n-slate-4 text-n-brand-9 focus:ring-n-brand-5"
+                      :checked="isTeamSelected(team.id)"
+                      @change="toggleTeam(team.id)"
+                    />
+                    <span
+                      class="i-lucide-users h-4 w-4 shrink-0 text-n-slate-10"
+                    />
+                    <span class="min-w-0 truncate text-sm font-medium">
+                      {{ team.name }}
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-3 text-start md:col-span-2">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                  <div class="flex flex-col">
+                    <span class="text-sm font-medium text-n-slate-12">
+                      {{ $t('EMPLOYEE_MGMT.FORM.INBOXES') }}
+                      <span class="text-n-ruby-9">{{
+                        $t('EMPLOYEE_MGMT.REQUIRED_MARK')
+                      }}</span>
+                    </span>
+                    <span
+                      class="text-xs"
+                      :class="
+                        selectedInboxCount
+                          ? 'text-n-slate-10'
+                          : 'text-n-ruby-11'
+                      "
+                    >
+                      {{
+                        selectedInboxCount
+                          ? $t('EMPLOYEE_MGMT.FORM.INBOXES_SELECTED', {
+                              count: selectedInboxCount,
+                              total: inboxes.length,
+                            })
+                          : $t('EMPLOYEE_MGMT.VALIDATION.INBOX_REQUIRED')
+                      }}
+                    </span>
+                  </div>
+                  <div class="flex shrink-0 items-center gap-2">
+                    <button
+                      type="button"
+                      class="inline-flex h-9 items-center gap-2 rounded-lg border border-solid px-3 text-xs font-semibold transition-colors"
+                      :class="
+                        allFilteredInboxesSelected
+                          ? 'border-n-brand-7 bg-n-brand-3 text-n-brand-12'
+                          : 'border-n-blue-9/30 bg-n-solid-1/60 text-n-slate-11 hover:border-n-brand-7 hover:text-n-brand-11'
+                      "
+                      @click="toggleFilteredInboxes"
+                    >
+                      <span
+                        class="h-4 w-4"
+                        :class="
+                          allFilteredInboxesSelected
+                            ? 'i-lucide-check-check'
+                            : 'i-lucide-list-checks'
+                        "
+                      />
+                      {{
+                        allFilteredInboxesSelected
+                          ? $t('EMPLOYEE_MGMT.FORM.CLEAR_ALL_INBOXES')
+                          : $t('EMPLOYEE_MGMT.FORM.SELECT_ALL_INBOXES')
+                      }}
+                    </button>
+                    <button
+                      v-if="selectedInboxCount"
+                      type="button"
+                      class="rounded-md px-2 py-1 text-xs font-semibold text-n-slate-11 transition-colors hover:bg-n-slate-3 hover:text-n-slate-12"
+                      @click="clearInboxSelection"
+                    >
+                      {{ $t('EMPLOYEE_MGMT.FORM.CLEAR_INBOXES') }}
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  class="flex h-11 w-full items-center gap-3 rounded-lg border border-solid border-n-blue-9/40 bg-n-solid-1/60 px-3 transition-colors focus-within:border-n-brand-7 focus-within:ring-1 focus-within:ring-n-brand-7/30"
+                >
+                  <span
+                    class="i-lucide-search h-4 w-4 shrink-0 text-n-slate-10"
+                  />
+                  <input
+                    v-model="inboxSearchQuery"
+                    type="text"
+                    class="reset-base h-full min-w-0 flex-1 !border-0 !bg-transparent !p-0 text-sm text-n-slate-12 outline-none !ring-0 placeholder:text-n-slate-10 focus:!border-0 focus:!outline-none focus:!ring-0"
+                    :placeholder="$t('EMPLOYEE_MGMT.FORM.SEARCH_INBOXES')"
+                  />
+                </div>
+
+                <div
+                  v-if="selectedInboxCount"
+                  class="flex flex-wrap items-center gap-2 rounded-lg border border-solid border-n-blue-9/20 bg-n-solid-1/50 px-3 py-2"
+                >
+                  <span
+                    v-for="inbox in selectedInboxPreview"
+                    :key="`selected-${inbox.id}`"
+                    class="inline-flex max-w-44 items-center gap-1 rounded-md border border-solid border-n-brand-5/60 bg-n-brand-3 px-2 py-1 text-xs font-medium text-n-brand-12"
+                  >
+                    <span class="min-w-0 truncate" :title="inbox.name">
+                      {{ inbox.name }}
+                    </span>
+                  </span>
+                  <span
+                    v-if="hiddenSelectedInboxCount"
+                    class="inline-flex items-center rounded-md bg-n-slate-3 px-2 py-1 text-xs font-medium text-n-slate-11"
+                  >
+                    {{
+                      $t('EMPLOYEE_MGMT.FORM.MORE_INBOXES', {
+                        count: hiddenSelectedInboxCount,
+                      })
+                    }}
+                  </span>
+                </div>
+
+                <div
+                  class="overflow-hidden rounded-lg border border-solid border-n-blue-9/30 bg-n-solid-1/50"
+                >
+                  <div
+                    class="grid grid-cols-[2rem_2.75rem_minmax(0,1fr)_6rem] items-center gap-3 border-b border-solid border-n-blue-9/20 bg-n-solid-3/40 px-3 py-2 text-xs font-semibold uppercase text-n-slate-10"
+                  >
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 rounded border-n-slate-4 text-n-brand-9 focus:ring-n-brand-5"
+                      :checked="allFilteredInboxesSelected"
+                      @change="toggleFilteredInboxes"
+                    />
+                    <span />
+                    <span>{{ $t('EMPLOYEE_MGMT.FORM.INBOX_COLUMN') }}</span>
+                    <span class="text-end">
+                      {{ $t('EMPLOYEE_MGMT.FORM.CHANNEL_COLUMN') }}
+                    </span>
+                  </div>
+                  <div class="max-h-[27rem] overflow-y-auto bg-n-solid-1/20">
+                    <div
+                      v-if="inboxesUiFlags.isFetching"
+                      class="flex flex-col gap-1"
+                    >
+                      <div
+                        v-for="index in 6"
+                        :key="index"
+                        class="h-12 animate-pulse rounded-md bg-n-slate-3"
+                      />
+                    </div>
+                    <div
+                      v-else-if="!inboxes.length"
+                      class="rounded-lg border border-dashed border-n-weak px-4 py-8 text-center text-sm text-n-slate-10"
+                    >
+                      {{ $t('EMPLOYEE_MGMT.FORM.NO_INBOXES') }}
+                    </div>
+                    <div
+                      v-else-if="!filteredInboxes.length"
+                      class="rounded-lg border border-dashed border-n-weak px-4 py-8 text-center text-sm text-n-slate-10"
+                    >
+                      {{ $t('EMPLOYEE_MGMT.FORM.NO_INBOX_RESULTS') }}
+                    </div>
+                    <div v-else class="divide-y divide-n-blue-9/20">
+                      <label
+                        v-for="inbox in filteredInboxes"
+                        :key="inbox.id"
+                        class="m-0 grid min-h-14 cursor-pointer grid-cols-[2rem_2.75rem_minmax(0,1fr)_6rem] items-center gap-3 px-3 py-2 transition-colors"
+                        :class="
+                          isInboxSelected(inbox.id)
+                            ? 'bg-n-brand-3/60 text-n-brand-12'
+                            : 'hover:bg-n-slate-2/60'
+                        "
+                      >
+                        <input
+                          type="checkbox"
+                          class="h-4 w-4 rounded border-n-slate-4 text-n-brand-9 focus:ring-n-brand-5"
+                          :checked="isInboxSelected(inbox.id)"
+                          @change="toggleInbox(inbox.id)"
+                        />
+                        <span
+                          class="flex h-8 w-8 items-center justify-center rounded-lg"
+                          :class="inboxIconToneClass(inbox)"
+                        >
+                          <span
+                            class="text-base"
+                            :class="
+                              getInboxIconByType(
+                                inbox.channel_type,
+                                inbox.medium,
+                                'line'
+                              )
+                            "
+                          />
+                        </span>
+                        <span class="flex min-w-0 flex-col">
+                          <span
+                            class="truncate text-sm font-medium"
+                            :title="inbox.name"
+                          >
+                            {{ inbox.name }}
+                          </span>
+                          <span
+                            v-if="inboxMeta(inbox)"
+                            class="truncate text-xs text-n-slate-10"
+                            :title="inboxMeta(inbox)"
+                          >
+                            {{ inboxMeta(inbox) }}
+                          </span>
+                        </span>
+                        <span
+                          class="inline-flex justify-self-end rounded-md border border-solid px-2 py-1 text-xs font-medium"
+                          :class="inboxChannelBadgeClass(inbox)"
+                        >
+                          {{ inboxChannelLabel(inbox) }}
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section
+              class="grid grid-cols-1 gap-5 rounded-xl border border-solid border-n-blue-9/30 bg-n-solid-2/40 p-5 shadow-sm shadow-n-blue-12/10 md:grid-cols-2 xl:col-start-1 xl:row-start-2"
+            >
+              <div
+                class="flex items-start gap-3 border-b border-solid border-n-blue-9/20 pb-4 text-start md:col-span-2"
+              >
+                <span
+                  class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-solid border-n-blue-8/40 bg-gradient-to-br from-n-brand-4 to-n-solid-3 text-n-blue-12"
+                >
+                  <span class="i-lucide-lock-keyhole text-xl" />
+                </span>
+                <div class="min-w-0">
+                  <h3 class="mb-1 text-base font-semibold text-n-slate-12">
+                    {{ $t('EMPLOYEE_MGMT.FORM.SECTIONS.PASSWORD') }}
+                  </h3>
+                  <p class="mb-0 text-sm text-n-slate-10">
+                    {{ $t('EMPLOYEE_MGMT.FORM.SECTION_DESCRIPTIONS.PASSWORD') }}
+                  </p>
+                </div>
+              </div>
+              <label class="relative flex flex-col text-start">
+                <span class="mb-1 text-sm font-medium text-n-slate-12">
+                  {{ $t('EMPLOYEE_MGMT.FORM.PASSWORD') }}
+                  <span v-if="!isEditing" class="text-n-ruby-9">{{
+                    $t('EMPLOYEE_MGMT.REQUIRED_MARK')
+                  }}</span>
+                  <span
+                    v-if="isEditing"
+                    class="text-xs font-normal text-n-slate-10"
+                  >
+                    {{ $t('EMPLOYEE_MGMT.FORM.PASSWORD_OPTIONAL') }}
+                  </span>
+                </span>
+                <div class="relative w-full">
+                  <input
+                    v-model="form.password"
+                    :required="!isEditing"
+                    :type="showNewPassword ? 'text' : 'password'"
+                    class="h-11 w-full rounded-lg border-n-blue-9/40 bg-n-solid-1/60 !py-0 tracking-[0.35em] focus:border-n-brand-7 ltr:!pr-11 rtl:!pl-11"
+                  />
+                  <button
+                    type="button"
+                    class="absolute inset-y-0 flex h-11 w-11 items-center justify-center text-n-slate-10 transition-colors hover:text-n-slate-12 ltr:right-0 rtl:left-0"
+                    :title="
+                      showNewPassword
+                        ? $t('EMPLOYEE_MGMT.PASSWORD.HIDE')
+                        : $t('EMPLOYEE_MGMT.PASSWORD.SHOW')
+                    "
+                    @click="showNewPassword = !showNewPassword"
+                  >
+                    <span
+                      :class="
+                        showNewPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'
+                      "
+                      class="text-lg"
+                    />
+                  </button>
+                </div>
+              </label>
+              <label class="relative flex flex-col text-start">
+                <span class="mb-1 text-sm font-medium text-n-slate-12">
+                  {{ $t('EMPLOYEE_MGMT.FORM.PASSWORD_CONFIRMATION') }}
+                  <span v-if="!isEditing" class="text-n-ruby-9">{{
+                    $t('EMPLOYEE_MGMT.REQUIRED_MARK')
+                  }}</span>
+                </span>
+                <div class="relative w-full">
+                  <input
+                    v-model="form.password_confirmation"
+                    :required="!isEditing"
+                    :type="showNewPasswordConfirmation ? 'text' : 'password'"
+                    class="h-11 w-full rounded-lg border-n-blue-9/40 bg-n-solid-1/60 !py-0 tracking-[0.35em] focus:border-n-brand-7 ltr:!pr-11 rtl:!pl-11"
+                  />
+                  <button
+                    type="button"
+                    class="absolute inset-y-0 flex h-11 w-11 items-center justify-center text-n-slate-10 transition-colors hover:text-n-slate-12 ltr:right-0 rtl:left-0"
+                    :title="
                       showNewPasswordConfirmation
-                        ? 'i-lucide-eye-off'
-                        : 'i-lucide-eye'
+                        ? $t('EMPLOYEE_MGMT.PASSWORD.HIDE')
+                        : $t('EMPLOYEE_MGMT.PASSWORD.SHOW')
                     "
-                    class="text-lg"
-                  />
-                </button>
-              </div>
-            </label>
-            <div class="flex flex-col gap-2 md:col-span-2">
-              <div class="flex items-center gap-2">
-                <span
-                  class="inline-flex items-center px-2 py-1 text-xs font-semibold border border-solid rounded-md"
-                  :class="passwordStrengthClass"
-                >
-                  {{ passwordStrengthLabel }}
-                </span>
+                    @click="
+                      showNewPasswordConfirmation = !showNewPasswordConfirmation
+                    "
+                  >
+                    <span
+                      :class="
+                        showNewPasswordConfirmation
+                          ? 'i-lucide-eye-off'
+                          : 'i-lucide-eye'
+                      "
+                      class="text-lg"
+                    />
+                  </button>
+                </div>
+              </label>
+              <div class="flex flex-col gap-3 text-start md:col-span-2">
+                <div class="flex items-center gap-3">
+                  <div class="flex min-w-0 flex-1 items-center gap-2">
+                    <span
+                      v-for="index in 4"
+                      :key="index"
+                      class="h-1.5 flex-1 rounded-full"
+                      :class="
+                        passwordScore >= index
+                          ? passwordStrengthBarClass
+                          : 'bg-n-slate-4'
+                      "
+                    />
+                  </div>
+                  <span
+                    class="inline-flex shrink-0 items-center rounded-md border border-solid px-2 py-1 text-xs font-semibold"
+                    :class="passwordStrengthClass"
+                  >
+                    {{ passwordStrengthLabel }}
+                  </span>
+                </div>
                 <span class="text-xs text-n-slate-11">
                   {{ $t('EMPLOYEE_MGMT.PASSWORD.REQUIREMENTS') }}
                 </span>
               </div>
-            </div>
-          </section>
+            </section>
 
-          <!-- Status Section -->
-          <section class="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <h3
-              class="pb-2 text-xs font-semibold tracking-wide uppercase border-b border-solid md:col-span-2 text-n-slate-11 border-n-weak"
+            <section
+              class="grid grid-cols-1 gap-5 rounded-xl border border-solid border-n-blue-9/30 bg-n-solid-2/40 p-5 shadow-sm shadow-n-blue-12/10 md:grid-cols-2 xl:col-start-1 xl:row-start-3"
             >
-              {{ $t('EMPLOYEE_MGMT.FORM.SECTIONS.STATUS') }}
-            </h3>
-            <label class="flex flex-col gap-2 md:col-span-2">
-              <div class="flex items-center gap-3">
+              <div
+                class="flex items-start gap-3 border-b border-solid border-n-blue-9/20 pb-4 text-start md:col-span-2"
+              >
+                <span
+                  class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-solid border-n-blue-8/40 bg-gradient-to-br from-n-brand-4 to-n-solid-3 text-n-blue-12"
+                >
+                  <span class="i-lucide-clipboard-check text-xl" />
+                </span>
+                <div class="min-w-0">
+                  <h3 class="mb-1 text-base font-semibold text-n-slate-12">
+                    {{ $t('EMPLOYEE_MGMT.FORM.SECTIONS.STATUS') }}
+                  </h3>
+                  <p class="mb-0 text-sm text-n-slate-10">
+                    {{ $t('EMPLOYEE_MGMT.FORM.SECTION_DESCRIPTIONS.STATUS') }}
+                  </p>
+                </div>
+              </div>
+              <label
+                class="m-0 flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-solid border-n-blue-9/30 bg-n-solid-1/50 px-4 py-3 text-start md:col-span-2"
+              >
+                <div class="min-w-0">
+                  <p class="mb-1 font-medium text-n-slate-12">
+                    {{ $t('EMPLOYEE_MGMT.FORM.ACTIVE') }}
+                  </p>
+                  <p class="mb-0 text-xs text-n-slate-10">
+                    {{ $t('EMPLOYEE_MGMT.FORM.ACTIVE_DESCRIPTION') }}
+                  </p>
+                </div>
                 <input
                   v-model="form.active"
                   type="checkbox"
-                  class="w-5 h-5 text-n-brand-9 border-n-slate-4 rounded focus:ring-n-brand-5 cursor-pointer"
+                  class="h-6 w-6 shrink-0 cursor-pointer rounded border-n-slate-6 bg-n-solid-3 text-n-brand-9 focus:ring-n-brand-5"
                 />
+              </label>
+              <label
+                v-if="!form.active"
+                class="flex flex-col text-start md:col-span-2"
+              >
+                <span class="mb-1 text-sm font-medium text-n-slate-12">
+                  {{ $t('EMPLOYEE_MGMT.FORM.DEACTIVATION_REASON') }}
+                </span>
+                <textarea
+                  v-model="form.deactivation_reason"
+                  rows="2"
+                  class="resize-none rounded-lg border-n-blue-9/40 bg-n-solid-1/60 placeholder:text-n-slate-10 focus:border-n-brand-7"
+                />
+              </label>
+              <label class="flex flex-col text-start md:col-span-2">
+                <span class="mb-1 text-sm font-medium text-n-slate-12">
+                  {{ $t('EMPLOYEE_MGMT.FORM.NOTES') }}
+                </span>
+                <div class="relative">
+                  <textarea
+                    v-model="form.employee_notes"
+                    rows="3"
+                    :placeholder="$t('EMPLOYEE_MGMT.FORM.PLACEHOLDERS.NOTES')"
+                    class="w-full resize-none rounded-lg border-n-blue-9/40 bg-n-solid-1/60 placeholder:text-n-slate-10 focus:border-n-brand-7"
+                  />
+                </div>
+                <span class="mt-2 text-xs text-n-slate-10">
+                  {{ $t('EMPLOYEE_MGMT.FORM.NOTES_HELP') }}
+                </span>
+              </label>
+            </section>
+          </div>
+
+          <div
+            class="flex shrink-0 flex-col gap-3 border-t border-solid border-n-blue-9/20 bg-n-solid-1/55 px-5 py-4 sm:px-8"
+          >
+            <div
+              class="flex flex-col gap-4 rounded-xl border border-solid border-n-blue-9/20 bg-n-solid-2/40 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+            >
+              <div
+                class="flex min-h-9 items-center gap-3 text-start text-sm text-n-slate-10"
+              >
                 <span
-                  class="font-medium text-n-slate-12 cursor-pointer"
-                  @click="form.active = !form.active"
-                >
-                  {{ $t('EMPLOYEE_MGMT.FORM.ACTIVE') }}
+                  v-if="saveDisabledReason"
+                  class="i-lucide-triangle-alert h-6 w-6 shrink-0 text-n-ruby-10"
+                />
+                <span v-if="saveDisabledReason">
+                  {{ $t('EMPLOYEE_MGMT.FORM.FIX_FIELDS') }}
                 </span>
               </div>
-            </label>
-            <label v-if="!form.active" class="flex flex-col md:col-span-2">
-              <span class="mb-1 font-medium text-n-slate-12">
-                {{ $t('EMPLOYEE_MGMT.FORM.DEACTIVATION_REASON') }}
-              </span>
-              <textarea
-                v-model="form.deactivation_reason"
-                rows="2"
-                class="resize-none"
-              />
-            </label>
-            <label class="flex flex-col md:col-span-2">
-              <span class="mb-1 font-medium text-n-slate-12">
-                {{ $t('EMPLOYEE_MGMT.FORM.NOTES') }}
-              </span>
-              <textarea
-                v-model="form.employee_notes"
-                rows="3"
-                :placeholder="$t('EMPLOYEE_MGMT.FORM.PLACEHOLDERS.NOTES')"
-                class="resize-none"
-              />
-            </label>
-          </section>
-        </div>
-
-        <div
-          class="sticky bottom-0 flex flex-col gap-2 px-8 py-5 border-t border-solid bg-n-solid-1 border-n-weak"
-        >
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-medium text-n-ruby-11">
-              {{ saveDisabledReason }}
-            </span>
-            <div class="flex justify-end gap-3 ml-auto">
-              <Button
-                type="button"
-                faded
-                slate
-                :label="$t('EMPLOYEE_MGMT.CANCEL')"
-                @click="showFormModal = false"
-              />
-              <Button
-                type="submit"
-                :is-loading="isSaving"
-                :disabled="!canSaveEmployee"
-                :label="$t('EMPLOYEE_MGMT.SAVE')"
-              />
+              <div class="flex justify-end gap-3">
+                <button
+                  type="button"
+                  class="h-12 min-w-32 rounded-lg border border-solid border-n-blue-9/40 bg-n-solid-1/70 px-5 text-sm font-semibold text-n-slate-12 transition-colors hover:bg-n-slate-3"
+                  @click="showFormModal = false"
+                >
+                  {{ $t('EMPLOYEE_MGMT.CANCEL') }}
+                </button>
+                <button
+                  type="submit"
+                  :disabled="!canSaveEmployee"
+                  class="inline-flex h-12 min-w-40 items-center justify-center gap-2 rounded-lg border border-solid border-n-brand-7 bg-n-brand-9 px-5 text-sm font-semibold text-white shadow-lg shadow-n-brand-9/25 transition-colors hover:bg-n-brand-10 disabled:cursor-not-allowed disabled:border-n-slate-7 disabled:bg-n-slate-4 disabled:text-n-slate-10 disabled:shadow-none"
+                >
+                  <span
+                    class="h-4 w-4"
+                    :class="
+                      isSaving
+                        ? 'i-lucide-loader-circle animate-spin'
+                        : 'i-lucide-circle-check'
+                    "
+                  />
+                  {{ $t('EMPLOYEE_MGMT.FORM.SAVE_AGENT') }}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </woot-modal>
-
-  <woot-modal
-    v-model:show="showPasswordModal"
-    :on-close="() => (showPasswordModal = false)"
-  >
-    <div class="flex flex-col gap-6 p-8 w-full max-w-lg">
-      <woot-modal-header
-        :header-title="$t('EMPLOYEE_MGMT.PASSWORD.TITLE')"
-        :header-content="$t('EMPLOYEE_MGMT.PASSWORD.DESCRIPTION')"
-      />
-      <form class="flex flex-col gap-6" @submit.prevent="changePassword">
-        <label class="flex flex-col relative">
-          <span class="mb-1 font-medium text-n-slate-12">
-            {{ $t('EMPLOYEE_MGMT.FORM.PASSWORD') }}
-            <span class="text-n-ruby-9">{{
-              $t('EMPLOYEE_MGMT.REQUIRED_MARK')
-            }}</span>
-          </span>
-          <div class="relative w-full">
-            <input
-              v-model="passwordForm.password"
-              required
-              :type="showNewPassword ? 'text' : 'password'"
-              class="w-full pr-10"
-            />
-            <button
-              type="button"
-              class="absolute inset-y-0 right-0 flex items-center px-3 text-n-slate-10 hover:text-n-slate-12"
-              :title="
-                showNewPassword
-                  ? $t('EMPLOYEE_MGMT.PASSWORD.HIDE')
-                  : $t('EMPLOYEE_MGMT.PASSWORD.SHOW')
-              "
-              @click="showNewPassword = !showNewPassword"
-            >
-              <span
-                :class="showNewPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'"
-                class="text-lg"
-              />
-            </button>
-          </div>
-        </label>
-        <label class="flex flex-col relative">
-          <span class="mb-1 font-medium text-n-slate-12">
-            {{ $t('EMPLOYEE_MGMT.FORM.PASSWORD_CONFIRMATION') }}
-            <span class="text-n-ruby-9">{{
-              $t('EMPLOYEE_MGMT.REQUIRED_MARK')
-            }}</span>
-          </span>
-          <div class="relative w-full">
-            <input
-              v-model="passwordForm.password_confirmation"
-              required
-              :type="showNewPasswordConfirmation ? 'text' : 'password'"
-              class="w-full pr-10"
-            />
-            <button
-              type="button"
-              class="absolute inset-y-0 right-0 flex items-center px-3 text-n-slate-10 hover:text-n-slate-12"
-              :title="
-                showNewPasswordConfirmation
-                  ? $t('EMPLOYEE_MGMT.PASSWORD.HIDE')
-                  : $t('EMPLOYEE_MGMT.PASSWORD.SHOW')
-              "
-              @click="
-                showNewPasswordConfirmation = !showNewPasswordConfirmation
-              "
-            >
-              <span
-                :class="
-                  showNewPasswordConfirmation
-                    ? 'i-lucide-eye-off'
-                    : 'i-lucide-eye'
-                "
-                class="text-lg"
-              />
-            </button>
-          </div>
-        </label>
-        <div class="flex items-center gap-2">
-          <div
-            class="inline-flex items-center px-2 py-1 text-xs font-semibold border border-solid rounded-md"
-            :class="passwordStrengthClass"
-          >
-            {{ passwordStrengthLabel }}
-          </div>
-          <span class="text-xs text-n-slate-11">
-            {{ $t('EMPLOYEE_MGMT.PASSWORD.REQUIREMENTS') }}
-          </span>
-        </div>
-        <div class="flex justify-end gap-3 mt-2">
-          <Button
-            type="button"
-            faded
-            slate
-            :label="$t('EMPLOYEE_MGMT.CANCEL')"
-            @click="showPasswordModal = false"
-          />
-          <Button
-            type="submit"
-            :is-loading="isSaving"
-            :disabled="!canSubmitPassword || isSaving"
-            :label="$t('EMPLOYEE_MGMT.PASSWORD.SAVE')"
-          />
-        </div>
-      </form>
-    </div>
-  </woot-modal>
+  </Teleport>
 
   <woot-modal
     v-model:show="showDetailsModal"
-    size="medium"
+    size="medium !w-[88rem] !max-w-[calc(100vw-2rem)]"
     :on-close="() => (showDetailsModal = false)"
   >
     <div
-      class="flex max-h-[90vh] w-full flex-col overflow-hidden bg-n-solid-1 ltr:text-left rtl:text-right"
+      class="flex max-h-[92vh] w-full flex-col overflow-hidden bg-gradient-to-br from-n-solid-1 via-n-blue-1 to-n-solid-1 ltr:text-left rtl:text-right"
       :dir="isRTL ? 'rtl' : 'ltr'"
     >
       <div
-        class="shrink-0 border-b border-solid border-n-weak bg-n-solid-2/60 px-6 py-5 ltr:pr-12 rtl:pl-12"
+        class="shrink-0 border-b border-solid border-n-blue-9/25 bg-gradient-to-br from-n-solid-2/90 via-n-blue-2/40 to-n-solid-1 px-8 py-7 ltr:pr-14 rtl:pl-14"
       >
         <div
-          class="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start"
+          class="grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-center"
         >
-          <div class="min-w-0">
+          <div
+            class="flex min-w-0 shrink-0 flex-wrap items-center gap-3 lg:order-1"
+          >
             <span
-              class="text-xs font-semibold uppercase text-n-slate-10 ltr:tracking-wider rtl:tracking-normal"
-            >
-              {{ $t('EMPLOYEE_MGMT.DETAILS.ACTIVITY_TITLE') }}
-            </span>
-            <h2
-              class="mt-2 max-w-3xl break-words text-3xl font-semibold leading-tight text-n-slate-12"
-            >
-              {{ currentEmployee?.name }}
-            </h2>
-            <span class="mt-2 block truncate text-sm text-n-slate-10">
-              {{ currentEmployee?.username || $t('EMPLOYEE_MGMT.EMPTY') }}
-            </span>
-          </div>
-          <div class="flex min-w-0 shrink-0 flex-wrap items-center gap-2">
-            <span
-              class="inline-flex min-w-0 items-center gap-2 rounded-full border border-solid border-n-weak bg-n-slate-2 px-3 py-1.5 text-xs font-medium text-n-slate-11"
+              class="inline-flex min-w-0 items-center gap-2 rounded-lg border border-solid border-n-blue-9/40 bg-n-solid-1/80 px-4 py-2 text-sm font-semibold text-n-slate-12 shadow-sm shadow-n-blue-12/10"
               :title="presenceTooltip(currentEmployee)"
             >
               <span
-                class="h-2 w-2 rounded-full"
-                :class="presenceDotClass(currentEmployee)"
+                class="relative h-2.5 w-2.5 rounded-full"
+                :class="[
+                  presenceDotClass(currentEmployee),
+                  presencePulseClass(currentEmployee),
+                ]"
               />
-              {{ presenceLabel(currentEmployee) }}
+              {{
+                currentEmployee
+                  ? availabilityLabel(currentEmployee)
+                  : $t('EMPLOYEE_MGMT.EMPTY')
+              }}
             </span>
             <span
-              class="inline-flex min-w-0 px-3 py-1.5 text-xs font-medium"
-              :class="workStatusBadgeClass(currentEmployee)"
-              :title="workStatusTooltip(currentEmployee)"
+              class="inline-flex min-w-0 items-center rounded-lg border border-solid px-4 py-2 text-sm font-semibold shadow-sm shadow-n-blue-12/10"
+              :class="statusBadgeClass(currentEmployee || {})"
             >
-              {{ workStatusLabel(currentEmployee) }}
+              {{
+                currentEmployee
+                  ? statusLabel(currentEmployee)
+                  : $t('EMPLOYEE_MGMT.EMPTY')
+              }}
             </span>
-            <span
-              class="inline-flex min-w-0 px-3 py-1.5 text-xs font-semibold"
-              :class="attentionBadgeClass(currentEmployee)"
-              :title="attentionTooltip(currentEmployee)"
+          </div>
+          <div
+            class="flex min-w-0 items-center gap-5 lg:order-2 lg:justify-end"
+          >
+            <div class="min-w-0">
+              <div
+                class="mb-3 inline-flex items-center gap-2 rounded-lg border border-solid border-n-blue-9/30 bg-n-solid-1/60 px-3 py-1.5 text-xs font-semibold text-n-slate-10"
+              >
+                <span
+                  class="i-lucide-clipboard-list text-base text-n-blue-11"
+                />
+                {{ $t('EMPLOYEE_MGMT.DETAILS.DAILY_TITLE') }}
+              </div>
+              <h2
+                class="mb-1 max-w-3xl break-words text-4xl font-semibold leading-tight text-n-slate-12"
+              >
+                {{ currentEmployee?.name }}
+              </h2>
+              <span class="block truncate text-base text-n-slate-10">
+                {{ currentEmployee?.email || $t('EMPLOYEE_MGMT.EMPTY') }}
+              </span>
+            </div>
+            <div
+              class="relative flex h-20 w-20 shrink-0 items-center justify-center rounded-full border border-solid border-n-blue-9/40 bg-gradient-to-br from-n-slate-3 to-n-blue-3 text-xl font-bold text-n-slate-12 shadow-xl shadow-n-blue-12/20"
             >
-              {{ attentionLabel(currentEmployee) }}
-            </span>
+              {{
+                currentEmployee
+                  ? employeeInitials(currentEmployee)
+                  : $t('EMPLOYEE_MGMT.EMPTY')
+              }}
+              <span
+                class="absolute bottom-2 h-3.5 w-3.5 rounded-full border-2 border-solid border-n-solid-1 ltr:right-2 rtl:left-2"
+                :class="[
+                  presenceDotClass(currentEmployee),
+                  presencePulseClass(currentEmployee),
+                ]"
+              />
+            </div>
           </div>
         </div>
       </div>
 
       <section
         v-if="activityDetails"
-        class="flex flex-1 flex-col gap-5 overflow-y-auto overflow-x-hidden bg-n-surface-1 px-6 py-6"
+        class="flex flex-1 flex-col gap-5 overflow-y-auto overflow-x-hidden bg-n-surface-1/70 px-6 py-6"
       >
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
-          <div
-            v-for="card in detailMetricCards"
-            :key="card.key"
-            class="group relative min-w-0 overflow-hidden rounded-2xl border border-solid border-n-weak bg-n-solid-1 p-4 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
-            :class="detailMetricCardClass(card)"
-          >
+        <section
+          class="rounded-xl border border-solid border-n-blue-9/30 bg-n-solid-2/60 p-6 shadow-lg shadow-n-blue-12/10"
+        >
+          <div class="mb-5 flex items-start justify-between gap-4">
+            <div class="min-w-0">
+              <h3 class="mb-1 text-base font-semibold text-n-slate-12">
+                {{ $t('EMPLOYEE_MGMT.DETAILS.BASIC_SUMMARY') }}
+              </h3>
+              <p class="mb-0 text-sm text-n-slate-10">
+                {{ $t('EMPLOYEE_MGMT.DETAILS.BASIC_SUMMARY_HINT') }}
+              </p>
+            </div>
             <span
-              class="absolute top-0 h-full w-1 opacity-80 ltr:left-0 rtl:right-0"
-              :class="accentBarClass(card)"
-            />
-            <div class="flex items-start justify-between gap-3">
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-solid border-n-blue-9/40 bg-n-blue-3/30 text-2xl text-n-blue-11"
+            >
+              <span class="i-lucide-users-round" />
+            </span>
+          </div>
+          <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-5">
+            <div
+              v-for="item in employeeProfileItems"
+              :key="item.key"
+              class="flex min-w-0 items-center gap-3 rounded-lg border border-solid border-n-blue-9/25 bg-n-solid-1/60 p-3"
+            >
+              <span
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-solid border-n-blue-9/30 bg-n-blue-3/20 text-lg text-n-blue-11"
+                :class="item.icon"
+              />
               <div class="min-w-0">
+                <div class="mb-1 truncate text-xs text-n-slate-10">
+                  {{ item.label }}
+                </div>
                 <span
-                  class="block truncate text-xs font-semibold uppercase text-n-slate-10 ltr:tracking-wider rtl:tracking-normal"
+                  class="block truncate text-sm font-semibold text-n-slate-12"
                 >
-                  {{ card.label }}
-                </span>
-                <span
-                  class="mt-3 block truncate text-3xl font-semibold"
-                  :class="detailMetricValueClass(card)"
-                >
-                  {{ card.value }}
+                  {{ item.value }}
                 </span>
               </div>
-              <span
-                class="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl text-lg ring-1 transition-all duration-300 group-hover:scale-110"
-                :class="detailMetricIconClass(card)"
-              >
-                <span
-                  class="absolute -top-1 h-3 w-3 rounded-full opacity-70 ltr:-right-1 rtl:-left-1"
-                  :class="summaryLiveDotClass(card)"
-                />
-                <span class="relative" :class="card.icon" />
-              </span>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div
-          class="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]"
+        <section
+          class="rounded-xl border border-solid border-n-blue-9/30 bg-n-solid-2/60 p-6 shadow-lg shadow-n-blue-12/10"
         >
-          <section
-            class="group relative min-w-0 overflow-hidden rounded-2xl border border-solid border-n-weak bg-n-solid-1 p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-n-ruby-6 hover:shadow-xl hover:shadow-n-ruby-3/20"
-          >
+          <div class="mb-5 flex items-start justify-between gap-4">
+            <div class="min-w-0">
+              <h3 class="mb-1 text-base font-semibold text-n-slate-12">
+                {{ $t('EMPLOYEE_MGMT.DETAILS.TODAY_REPORT') }}
+              </h3>
+              <p class="mb-0 text-sm text-n-slate-10">
+                {{ $t('EMPLOYEE_MGMT.DETAILS.TODAY_REPORT_HINT') }}
+              </p>
+            </div>
             <span
-              class="absolute top-0 h-full w-1 animate-pulse bg-n-ruby-6 opacity-80 ltr:left-0 rtl:right-0"
-            />
-            <div
-              class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-solid border-n-blue-9/40 bg-n-blue-3/30 text-2xl text-n-blue-11"
             >
-              <div class="flex min-w-0 items-start gap-3">
-                <span
-                  class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-n-ruby-3 text-xl text-n-ruby-11 ring-1 ring-n-ruby-5/30 transition-transform duration-300 group-hover:scale-110"
-                >
-                  <span class="i-lucide-shield-alert" />
-                </span>
-                <div class="min-w-0">
-                  <span
-                    class="text-xs font-semibold uppercase text-n-slate-10 ltr:tracking-wider rtl:tracking-normal"
-                  >
-                    {{ $t('EMPLOYEE_MGMT.DETAILS.RESPONSE_RISK') }}
-                  </span>
-                  <h3 class="mt-1 text-lg font-semibold text-n-slate-12">
-                    {{ attentionLabel(currentEmployee) }}
-                  </h3>
-                </div>
-              </div>
+              <span class="i-lucide-chart-no-axes-combined" />
+            </span>
+          </div>
+
+          <div
+            v-if="hasDailyPerformanceData"
+            class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3"
+          >
+            <div
+              v-for="card in dailyPerformanceCards"
+              :key="card.key"
+              class="relative min-h-32 min-w-0 overflow-hidden rounded-xl border border-solid p-4 shadow-sm shadow-n-blue-12/10"
+              :class="performanceCardClass(card)"
+            >
               <span
-                class="inline-flex w-fit px-2.5 py-1 text-xs font-semibold"
-                :class="attentionBadgeClass(currentEmployee)"
-              >
-                {{ attentionLabel(currentEmployee) }}
-              </span>
-            </div>
-            <p
-              class="mt-4 rounded-xl border border-solid border-n-weak bg-n-slate-1 px-4 py-3 text-sm leading-6 text-n-slate-11 transition-colors duration-300 group-hover:bg-n-ruby-2/20"
-            >
-              {{ attentionTooltip(currentEmployee) }}
-            </p>
-            <div class="mt-5 grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
-              <div
-                class="rounded-xl bg-n-slate-2 px-3 py-2 transition-colors duration-300 group-hover:bg-n-slate-3"
-              >
-                <span class="block text-xs text-n-slate-10">
-                  {{ $t('EMPLOYEE_MGMT.TABLE.LAST_REPLY') }}
-                </span>
-                <span class="mt-1 block font-medium text-n-slate-12">
-                  {{ formatSince(activityDetails.metrics.last_reply_at) }}
-                </span>
-              </div>
-              <div
-                class="rounded-xl bg-n-slate-2 px-3 py-2 transition-colors duration-300 group-hover:bg-n-slate-3"
-              >
-                <span class="block text-xs text-n-slate-10">
-                  {{ $t('EMPLOYEE_MGMT.TABLE.LAST_ACTIVITY') }}
-                </span>
-                <span class="mt-1 block font-medium text-n-slate-12">
-                  {{ formatSince(activityDetails.metrics.last_activity_at) }}
-                </span>
-              </div>
-              <div
-                class="rounded-xl bg-n-slate-2 px-3 py-2 transition-colors duration-300 group-hover:bg-n-slate-3"
-              >
-                <span class="block text-xs text-n-slate-10">
-                  {{ $t('EMPLOYEE_MGMT.TABLE.IDLE_DURATION') }}
-                </span>
-                <span class="mt-1 block font-medium text-n-slate-12">
-                  {{ formatDuration(activityDetails.metrics.idle_duration) }}
-                </span>
-              </div>
-              <div
-                class="rounded-xl bg-n-slate-2 px-3 py-2 transition-colors duration-300 group-hover:bg-n-slate-3"
-              >
-                <span class="block text-xs text-n-slate-10">
-                  {{ $t('EMPLOYEE_MGMT.TABLE.OLDEST_WAITING') }}
-                </span>
-                <span
-                  class="mt-1 block font-medium"
-                  :class="
-                    waitingTextClass(
-                      activityDetails.metrics.oldest_waiting_customer_seconds
-                    )
-                  "
-                >
-                  {{
-                    formatDuration(
-                      activityDetails.metrics.oldest_waiting_customer_seconds
-                    )
-                  }}
-                </span>
-              </div>
-            </div>
-          </section>
-
-          <section
-            class="group relative min-w-0 overflow-hidden rounded-2xl border border-solid border-n-weak bg-n-solid-1 p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-n-amber-6 hover:shadow-xl hover:shadow-n-amber-3/20"
-          >
-            <span
-              class="absolute top-0 h-full w-1 animate-pulse bg-n-amber-6 opacity-80 ltr:left-0 rtl:right-0"
-            />
-            <div class="mb-3 flex items-center justify-between gap-3">
-              <div class="flex min-w-0 items-start gap-3">
-                <span
-                  class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-n-amber-3 text-xl text-n-amber-11 ring-1 ring-n-amber-5/30 transition-transform duration-300 group-hover:scale-110"
-                >
-                  <span class="i-lucide-briefcase-business" />
-                </span>
-                <div class="min-w-0">
-                  <span
-                    class="text-xs font-semibold uppercase text-n-slate-10 ltr:tracking-wider rtl:tracking-normal"
-                  >
-                    {{ $t('EMPLOYEE_MGMT.TABLE.WORKLOAD') }}
-                  </span>
-                  <h3
-                    class="mt-1 truncate text-lg font-semibold text-n-slate-12"
-                  >
-                    {{ $t('EMPLOYEE_MGMT.DETAILS.DELAYED_CONVERSATIONS') }}
-                  </h3>
-                </div>
-              </div>
+                class="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-70"
+              />
               <span
-                class="rounded-md bg-n-ruby-2 px-2 py-1 text-xs font-semibold text-n-ruby-11"
-              >
-                {{
-                  activityDetails.delayed_conversations.length ||
-                  $t('EMPLOYEE_MGMT.EMPTY')
-                }}
-              </span>
-            </div>
-            <div
-              v-if="activityDetails.delayed_conversations.length"
-              class="max-h-80 overflow-y-auto overflow-x-hidden rounded-xl border border-solid border-n-weak"
-            >
+                class="absolute top-0 h-full w-1 opacity-80 ltr:left-0 rtl:right-0"
+                :class="accentBarClass(card)"
+              />
               <div
-                v-for="conversation in activityDetails.delayed_conversations"
-                :key="conversation.id"
-                class="grid grid-cols-[minmax(0,1fr)_auto] gap-4 border-b border-n-weak px-4 py-3 text-sm transition-colors duration-200 hover:bg-n-slate-2 last:border-b-0"
+                class="relative flex h-full items-start justify-between gap-3"
               >
-                <div class="min-w-0">
-                  <span class="block truncate font-medium text-n-slate-12">
-                    {{ conversationLabel(conversation) }}
+                <div class="min-w-0 self-end">
+                  <span class="block truncate text-sm font-semibold">
+                    {{ card.label }}
                   </span>
-                  <span class="block text-xs text-n-slate-10">
-                    {{ formatDate(conversation.last_activity_at) }}
+                  <span
+                    class="mt-3 block truncate text-3xl font-bold leading-tight text-n-slate-12"
+                  >
+                    {{ card.value }}
                   </span>
                 </div>
-                <span class="shrink-0 font-semibold text-n-ruby-11">
-                  {{
-                    formatDuration(
-                      (Date.now() -
-                        new Date(conversation.waiting_since).getTime()) /
-                        1000
-                    )
-                  }}
-                </span>
-              </div>
-            </div>
-            <div
-              v-else
-              class="rounded-lg border border-dashed border-n-weak p-5 text-center text-sm text-n-slate-11"
-            >
-              {{ $t('EMPLOYEE_MGMT.DETAILS.NO_DELAYED') }}
-            </div>
-          </section>
-        </div>
-
-        <div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
-          <section
-            class="min-w-0 rounded-xl border border-solid border-n-weak bg-n-solid-2 p-5"
-          >
-            <h3 class="mb-3 text-base font-semibold text-n-slate-12">
-              {{ $t('EMPLOYEE_MGMT.DETAILS.TIMELINE') }}
-            </h3>
-            <div
-              v-if="activityDetails.timeline.length"
-              class="max-h-96 overflow-y-auto overflow-x-hidden"
-            >
-              <div
-                v-for="event in activityDetails.timeline"
-                :key="`${event.event_type}-${event.occurred_at}`"
-                class="grid grid-cols-[1rem_1fr] gap-3 border-b border-n-weak py-3 last:border-b-0"
-              >
-                <span class="mt-1 h-2 w-2 rounded-full bg-n-blue-8" />
-                <div class="min-w-0">
-                  <span class="block text-sm font-medium text-n-slate-12">
-                    {{ timelineLabel(event) }}
-                  </span>
-                  <span class="mt-1 block text-xs text-n-slate-10">
-                    {{ formatDate(event.occurred_at) }}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div v-else class="text-sm text-n-slate-11">
-              {{ $t('EMPLOYEE_MGMT.DETAILS.NO_ACTIVITY') }}
-            </div>
-          </section>
-
-          <section
-            class="min-w-0 rounded-xl border border-solid border-n-weak bg-n-solid-2 p-5"
-          >
-            <h3 class="mb-3 text-base font-semibold text-n-slate-12">
-              {{ $t('EMPLOYEE_MGMT.DETAILS.RECENT_REPLIES') }}
-            </h3>
-            <div
-              v-if="activityDetails.recent_replies.length"
-              class="max-h-96 overflow-y-auto overflow-x-hidden"
-            >
-              <div
-                v-for="reply in activityDetails.recent_replies"
-                :key="reply.id"
-                class="border-b border-n-weak py-3 last:border-b-0"
-              >
-                <span class="block text-sm font-medium text-n-slate-12">
-                  {{
-                    $t('EMPLOYEE_MGMT.DETAILS.CONVERSATION', {
-                      id: reply.conversation_display_id,
-                    })
-                  }}
-                </span>
-                <span class="mt-1 block truncate text-sm text-n-slate-11">
-                  {{ reply.content || $t('EMPLOYEE_MGMT.EMPTY') }}
-                </span>
-                <span class="mt-1 block text-xs text-n-slate-10">
-                  {{ formatDate(reply.created_at) }}
-                </span>
-              </div>
-            </div>
-            <div v-else class="text-sm text-n-slate-11">
-              {{ $t('EMPLOYEE_MGMT.DETAILS.NO_REPLIES') }}
-            </div>
-          </section>
-
-          <section
-            class="min-w-0 rounded-xl border border-solid border-n-weak bg-n-solid-2 p-5 lg:col-span-2"
-          >
-            <h3 class="mb-3 text-base font-semibold text-n-slate-12">
-              {{ $t('EMPLOYEE_MGMT.DETAILS.OPEN_CONVERSATIONS') }}
-            </h3>
-            <div
-              v-if="activityDetails.open_conversations.length"
-              class="max-h-80 overflow-y-auto overflow-x-hidden"
-            >
-              <div
-                v-for="conversation in activityDetails.open_conversations"
-                :key="conversation.id"
-                class="flex items-center justify-between gap-3 border-b border-n-weak py-3 text-sm last:border-b-0"
-              >
-                <span class="truncate font-medium text-n-slate-12">
-                  {{ conversationLabel(conversation) }}
-                </span>
-                <span class="shrink-0 text-xs text-n-slate-10">
-                  {{ formatDate(conversation.last_activity_at) }}
-                </span>
-              </div>
-            </div>
-            <div v-else class="text-sm text-n-slate-11">
-              {{ $t('EMPLOYEE_MGMT.DETAILS.NO_OPEN_CONVERSATIONS') }}
-            </div>
-          </section>
-        </div>
-
-        <div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
-          <section
-            class="min-w-0 rounded-xl border border-solid border-n-weak bg-n-solid-2 p-5"
-          >
-            <h3 class="mb-3 text-base font-semibold text-n-slate-12">
-              {{ $t('EMPLOYEE_MGMT.DETAILS.SESSIONS') }}
-            </h3>
-            <div
-              v-if="sessions.length"
-              class="max-h-72 overflow-y-auto overflow-x-hidden"
-            >
-              <div
-                v-for="session in sessions"
-                :key="session.client_id"
-                class="flex items-center justify-between gap-3 border-b border-n-weak py-3 last:border-b-0"
-              >
-                <div class="min-w-0">
-                  <span class="block text-sm font-medium text-n-slate-12">
-                    {{ session.ip_address || $t('EMPLOYEE_MGMT.EMPTY') }}
-                  </span>
-                  <span class="block truncate text-xs text-n-slate-11">
-                    {{ session.user_agent }}
-                  </span>
-                  <span class="block text-xs text-n-slate-10">
-                    {{
-                      formatDate(session.last_seen_at || session.signed_in_at)
-                    }}
-                  </span>
-                </div>
-                <Button
-                  v-if="session.open"
-                  xs
-                  ruby
-                  faded
-                  :label="$t('EMPLOYEE_MGMT.DETAILS.LOGOUT_SESSION')"
-                  @click="logoutSession(session)"
+                <span
+                  class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-solid border-current/20 bg-n-solid-1/50 text-2xl"
+                  :class="card.icon"
                 />
               </div>
             </div>
-            <div
-              v-else
-              class="rounded-lg border border-dashed border-n-weak p-5 text-center text-sm text-n-slate-11"
-            >
-              {{ $t('EMPLOYEE_MGMT.DETAILS.NO_SESSIONS') }}
-            </div>
-          </section>
+          </div>
 
-          <section
-            class="min-w-0 rounded-xl border border-solid border-n-weak bg-n-solid-2 p-5"
+          <div
+            v-else
+            class="rounded-xl border border-dashed border-n-blue-9/30 bg-n-solid-1/45 px-5 py-8 text-center text-sm font-medium text-n-slate-10"
           >
-            <h3 class="mb-3 text-base font-semibold text-n-slate-12">
-              {{ $t('EMPLOYEE_MGMT.DETAILS.LOGIN_HISTORY') }}
-            </h3>
-            <div
-              v-if="loginHistory.length"
-              class="max-h-72 overflow-y-auto overflow-x-hidden"
-            >
-              <div
-                v-for="event in loginHistory"
-                :key="event.id"
-                class="grid grid-cols-[auto_1fr_auto] gap-3 border-b border-n-weak py-3 text-sm last:border-b-0"
-              >
-                <span
-                  class="inline-flex h-6 items-center rounded-md px-2 text-xs font-semibold"
-                  :class="
-                    event.success
-                      ? 'bg-n-teal-2 text-n-teal-11'
-                      : 'bg-n-ruby-2 text-n-ruby-11'
-                  "
-                >
-                  {{
-                    event.success
-                      ? $t('EMPLOYEE_MGMT.DETAILS.SUCCESS')
-                      : $t('EMPLOYEE_MGMT.DETAILS.FAILED')
-                  }}
-                </span>
-                <span class="truncate text-n-slate-11">
-                  {{ event.ip_address || $t('EMPLOYEE_MGMT.EMPTY') }}
-                </span>
-                <span class="text-xs text-n-slate-10">
-                  {{ formatDate(event.created_at) }}
-                </span>
-              </div>
-            </div>
-            <div
-              v-else
-              class="rounded-lg border border-dashed border-n-weak p-5 text-center text-sm text-n-slate-11"
-            >
-              {{ $t('EMPLOYEE_MGMT.DETAILS.NO_LOGIN_HISTORY') }}
-            </div>
-          </section>
-        </div>
+            {{ $t('EMPLOYEE_MGMT.DETAILS.NO_TODAY_DATA') }}
+          </div>
+        </section>
       </section>
       <section v-else class="p-8 text-sm text-n-slate-11">
         {{ $t('EMPLOYEE_MGMT.LOADING') }}
@@ -2776,9 +3122,3 @@ onMounted(() => {
     </div>
   </woot-modal>
 </template>
-
-<style scoped>
-.i-lucide-search {
-  display: inline-block !important;
-}
-</style>

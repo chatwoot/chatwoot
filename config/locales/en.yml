@@ -69,6 +69,7 @@ en:
     employees:
       cannot_manage_self: You cannot deactivate, archive, or delete your own employee account.
       cannot_disable_last_admin: You cannot deactivate, archive, or delete the last administrator.
+      inbox_required: Select at least one inbox for this agent.
     data_import:
       data_type:
         invalid: Invalid data type

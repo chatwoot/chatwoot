@@ -1,4 +1,5 @@
 json.metrics @employee_activity[:metrics]
+json.daily_performance @employee_activity[:daily_performance]
 json.recent_replies @employee_activity[:recent_replies]
 json.open_conversations @employee_activity[:open_conversations]
 json.delayed_conversations @employee_activity[:delayed_conversations]
