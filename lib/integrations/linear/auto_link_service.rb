@@ -1,7 +1,7 @@
 class Integrations::Linear::AutoLinkService
-  pattr_initialize [:hook!, :message!]
+  pattr_initialize [:account!, :message!]
 
-  LINEAR_URL_REGEX = %r{https?://linear\.app/[^/\s]+/issue/[A-Z][A-Z0-9_]+-\d+(?:/[^\s)]*)?}i
+  LINEAR_URL_REGEX = %r{https?://linear\.app/[^/\s]+/issue/[A-Z][A-Z0-9_]+-\d+(?:/[^\s)]*)?}
   IDENTIFIER_REGEX = %r{/issue/([A-Z][A-Z0-9_]+-\d+)}i
   WORKSPACE_REGEX = %r{//linear\.app/([^/\s]+)/}i
 
@@ -58,9 +58,20 @@ class Integrations::Linear::AutoLinkService
   end
 
   def link_to_linear(node_id, identifier)
-    title = message.conversation.contact&.name.presence || identifier
-    response = processor.link_issue(conversation_link, node_id, title, message.sender)
-    response[:error].blank?
+    response = processor.link_issue(conversation_link, node_id, attachment_title, message.sender)
+    if response[:error].present?
+      Rails.logger.warn("[Linear::AutoLinkService] link_issue failed for #{identifier}: #{response[:error]}")
+      return false
+    end
+    true
+  end
+
+  def attachment_title
+    I18n.t(
+      'integration_apps.linear.attachment_link_title',
+      conversation_id: message.conversation.display_id,
+      name: message.conversation.contact&.name
+    )
   end
 
   def post_activity_message(identifier)
@@ -77,6 +88,6 @@ class Integrations::Linear::AutoLinkService
   end
 
   def processor
-    @processor ||= Integrations::Linear::ProcessorService.new(account: hook.account)
+    @processor ||= Integrations::Linear::ProcessorService.new(account: account)
   end
 end

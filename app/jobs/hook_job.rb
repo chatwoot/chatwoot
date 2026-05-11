@@ -61,7 +61,7 @@ class HookJob < MutexApplicationJob
     return unless event_name == 'message.created'
 
     message = event_data[:message]
-    Integrations::Linear::AutoLinkService.new(hook: hook, message: message).perform
+    Integrations::Linear::AutoLinkService.new(account: hook.account, message: message).perform
   end
 
   def process_leadsquared_integration_with_lock(hook, event_name, event_data)

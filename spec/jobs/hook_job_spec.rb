@@ -69,7 +69,7 @@ RSpec.describe HookJob do
     it "calls Integrations::Linear::AutoLinkService when it's a linear hook" do
       hook = create(:integrations_hook, :linear, account: account)
       allow(Integrations::Linear::AutoLinkService).to receive(:new).and_return(process_service)
-      expect(Integrations::Linear::AutoLinkService).to receive(:new).with(hook: hook, message: event_data[:message])
+      expect(Integrations::Linear::AutoLinkService).to receive(:new).with(account: account, message: event_data[:message])
       described_class.perform_now(hook, event_name, event_data)
     end
   end
