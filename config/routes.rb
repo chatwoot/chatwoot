@@ -177,6 +177,17 @@ Rails.application.routes.draw do
             collection do
               get :search
             end
+            member do
+              post :destroy_custom_attributes
+              delete :avatar
+            end
+            scope module: :companies do
+              resources :contacts, only: [:index, :create, :destroy] do
+                collection do
+                  get :search
+                end
+              end
+            end
           end
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do
             collection do

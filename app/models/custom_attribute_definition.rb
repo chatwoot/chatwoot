@@ -25,7 +25,8 @@ class CustomAttributeDefinition < ApplicationRecord
   STANDARD_ATTRIBUTES = {
     :conversation => %w[status priority assignee_id inbox_id team_id display_id campaign_id labels browser_language country_code referer created_at
                         last_activity_at],
-    :contact => %w[name email phone_number identifier country_code city company_name created_at last_activity_at referer blocked]
+    :contact => %w[name email phone_number identifier country_code city company_name created_at last_activity_at referer blocked],
+    :company => %w[name domain description contacts_count created_at updated_at last_activity_at]
   }.freeze
 
   scope :with_attribute_model, ->(attribute_model) { attribute_model.presence && where(attribute_model: attribute_model) }
@@ -41,12 +42,12 @@ class CustomAttributeDefinition < ApplicationRecord
   validates :attribute_model, presence: true
   validate :attribute_must_not_conflict, on: :create
 
-  enum attribute_model: { conversation_attribute: 0, contact_attribute: 1 }
+  enum attribute_model: { conversation_attribute: 0, contact_attribute: 1, company_attribute: 2 }
   enum attribute_display_type: { text: 0, number: 1, currency: 2, percent: 3, link: 4, date: 5, list: 6, checkbox: 7 }
 
   belongs_to :account
-  after_update :update_widget_pre_chat_custom_fields
-  after_destroy :sync_widget_pre_chat_custom_fields
+  after_update :update_widget_pre_chat_custom_fields, unless: :company_attribute?
+  after_destroy :sync_widget_pre_chat_custom_fields, unless: :company_attribute?
 
   private
 
@@ -64,8 +65,10 @@ class CustomAttributeDefinition < ApplicationRecord
   end
 
   def attribute_must_not_conflict
-    model_keys = attribute_model.to_sym == :conversation_attribute ? :conversation : :contact
-    return unless attribute_key.in?(STANDARD_ATTRIBUTES[model_keys])
+    model_keys = attribute_model.to_s.delete_suffix('_attribute').to_sym
+    standard_attributes = STANDARD_ATTRIBUTES[model_keys]
+    return if standard_attributes.blank?
+    return unless attribute_key.in?(standard_attributes)
 
     errors.add(:attribute_key, I18n.t('errors.custom_attribute_definition.key_conflict'))
   end
