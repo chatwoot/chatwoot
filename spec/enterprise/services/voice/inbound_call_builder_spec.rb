@@ -103,7 +103,7 @@ RSpec.describe Voice::InboundCallBuilder do
   context 'when the WhatsApp wa_id needs Brazil normalization to match an existing ContactInbox' do
     let(:whatsapp_channel) do
       create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
-                                provider_config: { 'phone_number_id' => '123', 'calling_enabled' => true },
+                                provider_config: { 'phone_number_id' => '123', 'source' => 'embedded_signup', 'calling_enabled' => true },
                                 validate_provider_config: false, sync_templates: false)
     end
     let(:whatsapp_inbox) { whatsapp_channel.inbox }
@@ -111,6 +111,8 @@ RSpec.describe Voice::InboundCallBuilder do
     let!(:stored_contact_inbox) do
       create(:contact_inbox, contact: stored_contact, inbox: whatsapp_inbox, source_id: '5541988887777')
     end
+
+    before { account.enable_features!('channel_voice') }
 
     it 'reuses the contact via normalized wa_id rather than forking a new ContactInbox' do
       call = described_class.perform!(
