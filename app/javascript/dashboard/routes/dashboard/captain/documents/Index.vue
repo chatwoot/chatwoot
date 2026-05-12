@@ -7,11 +7,13 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAlert } from 'dashboard/composables';
 import { usePolicy } from 'dashboard/composables/usePolicy';
+import { debounce } from '@chatwoot/utils';
 
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCard.vue';
 import DocumentFilter from 'dashboard/components-next/captain/assistant/DocumentFilter.vue';
 import DocumentBulkActions from 'dashboard/components-next/captain/assistant/DocumentBulkActions.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import Policy from 'dashboard/components/policy.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
@@ -73,6 +75,7 @@ const handleCreateDialogClose = () => {
 
 const documentFilter = ref(null);
 const syncIntervalHours = ref(null);
+const searchQuery = ref('');
 
 const currentAssistantId = () =>
   Number.isFinite(selectedAssistantId.value) ? selectedAssistantId.value : null;
@@ -84,6 +87,8 @@ const buildDocumentFilterParams = (page = 1) => {
   };
   const assistantId = currentAssistantId();
   if (assistantId) filterParams.assistantId = assistantId;
+  const trimmedQuery = searchQuery.value.trim();
+  if (trimmedQuery) filterParams.searchKey = trimmedQuery;
   return filterParams;
 };
 
@@ -153,6 +158,11 @@ const onFiltersChanged = () => {
   bulkSelectedIds.value = new Set();
   fetchDocuments(1);
 };
+
+const debouncedSearch = debounce(() => {
+  bulkSelectedIds.value = new Set();
+  fetchDocuments(1);
+}, 300);
 
 const syncPollStartedAt = ref(null);
 
@@ -284,13 +294,16 @@ const onCreateSuccess = () => {
 };
 
 const hasActiveDocumentFilters = computed(
-  () => documentFilter.value?.hasActiveFilters ?? false
+  () =>
+    (documentFilter.value?.hasActiveFilters ?? false) ||
+    Boolean(searchQuery.value.trim())
 );
 
 watch(
   selectedAssistantId,
   async () => {
     documentFilter.value?.reset();
+    searchQuery.value = '';
     bulkSelectedIds.value = new Set();
     syncIntervalHours.value = null;
     stopSyncPolling();
@@ -320,6 +333,22 @@ onUnmounted(() => {
     @update:current-page="onPageChange"
     @click="handleCreateDocument"
   >
+    <template #search>
+      <div
+        v-if="bulkSelectedIds.size === 0"
+        class="flex gap-3 justify-between w-full items-center"
+      >
+        <Input
+          v-model="searchQuery"
+          :placeholder="$t('CAPTAIN.DOCUMENTS.FILTERS.SEARCH_PLACEHOLDER')"
+          class="max-w-64 min-w-0 w-full"
+          size="sm"
+          type="search"
+          @input="debouncedSearch"
+        />
+      </div>
+    </template>
+
     <template #subHeader>
       <Policy :permissions="['administrator']">
         <DocumentBulkActions

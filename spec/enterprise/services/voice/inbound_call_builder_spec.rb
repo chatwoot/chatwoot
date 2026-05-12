@@ -16,7 +16,6 @@ RSpec.describe Voice::InboundCallBuilder do
 
   def perform_builder
     described_class.perform!(
-      account: account,
       inbox: inbox,
       from_number: from_number,
       call_sid: call_sid
@@ -84,6 +83,45 @@ RSpec.describe Voice::InboundCallBuilder do
       existing_call
       expect { perform_builder }.not_to change(Call, :count)
       expect(perform_builder).to eq(existing_call)
+    end
+  end
+
+  context 'when a ContactInbox already exists for the source_id (different contact)' do
+    let!(:original_contact) { create(:contact, account: account, phone_number: '+15550009999') }
+    let!(:original_contact_inbox) do
+      create(:contact_inbox, contact: original_contact, inbox: inbox, source_id: from_number)
+    end
+
+    it 'reuses the existing ContactInbox instead of raising RecordNotUnique' do
+      call = perform_builder
+
+      expect(call.contact).to eq(original_contact)
+      expect(call.conversation.contact_inbox).to eq(original_contact_inbox)
+    end
+  end
+
+  context 'when the WhatsApp wa_id needs Brazil normalization to match an existing ContactInbox' do
+    let(:whatsapp_channel) do
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                provider_config: { 'phone_number_id' => '123', 'calling_enabled' => true },
+                                validate_provider_config: false, sync_templates: false)
+    end
+    let(:whatsapp_inbox) { whatsapp_channel.inbox }
+    let!(:stored_contact) { create(:contact, account: account, phone_number: '+5541988887777') }
+    let!(:stored_contact_inbox) do
+      create(:contact_inbox, contact: stored_contact, inbox: whatsapp_inbox, source_id: '5541988887777')
+    end
+
+    it 'reuses the contact via normalized wa_id rather than forking a new ContactInbox' do
+      call = described_class.perform!(
+        inbox: whatsapp_inbox,
+        from_number: '+554188887777',
+        call_sid: 'wacall_br_1',
+        provider: :whatsapp
+      )
+
+      expect(call.contact).to eq(stored_contact)
+      expect(call.conversation.contact_inbox).to eq(stored_contact_inbox)
     end
   end
 
