@@ -262,11 +262,13 @@ class Conversation < ApplicationRecord
     # ver. Em arquiteturas como a do Audi (n8n-único) o "AgentBot" do Chatwoot
     # só serve como sender de mensagens da IA logada via API (outgoing_url
     # aponta pro noop); o processamento real acontece em n8n via webhook
-    # Avisa. Nesse caso a conversa deve nascer :open pra aparecer no
-    # /dashboard dos atendentes desde o início.
+    # nativo do canal. Nesse caso a conversa deve nascer :open pra aparecer
+    # no /dashboard dos atendentes desde o início.
     #
-    # Flag por inbox: ``inbox.additional_attributes['start_conversations_open']``.
-    return if inbox.additional_attributes.try(:[], 'start_conversations_open')
+    # Flag por canal — armazenada em ``channel.provider_config`` (jsonb que
+    # já existe em Channel::Whatsapp). Para outros canais o campo não existe
+    # e o ``try`` apenas devolve nil, mantendo o comportamento legacy.
+    return if inbox.channel.try(:provider_config).try(:[], 'start_conversations_open')
 
     self.status = :pending if inbox.active_bot?
   end
