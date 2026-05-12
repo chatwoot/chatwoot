@@ -116,6 +116,13 @@ en:
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
+      calls:
+        not_enabled: 'Calling is not enabled for this inbox'
+        no_recording: 'No recording file provided'
+        no_message: 'Call has no associated message'
+        sdp_offer_required: 'sdp_offer is required'
+        contact_phone_required: 'Contact phone number is required'
+        permission_request_failed: 'Failed to send call permission request'
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
@@ -246,6 +253,9 @@ en:
       whatsapp:
         list_button_label: 'Choose an item'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
+      voice_call:
+        twilio: 'Voice Call'
+        whatsapp: 'WhatsApp Call'
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
@@ -290,6 +300,9 @@ en:
         issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
         issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      whatsapp_call:
+        permission_requested: 'Sent a call permission request to %{contact_name}.'
+        permission_granted: '%{contact_name} accepted the call permission request.'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       auto_resolve:
