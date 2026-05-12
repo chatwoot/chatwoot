@@ -30,6 +30,7 @@ const countLabel = computed(() => (props.count > 99 ? '99+' : props.count));
     </span>
     <span
       v-if="count"
+      dir="ltr"
       class="inline-flex h-5 min-w-5 flex-shrink-0 items-center justify-center rounded-md bg-n-ruby-9/20 px-1.5 text-[11px] font-semibold leading-none text-n-ruby-11 ring-1 ring-n-ruby-8/50 tabular-nums"
     >
       {{ countLabel }}
