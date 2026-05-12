@@ -257,7 +257,17 @@ class Conversation < ApplicationRecord
 
     return handle_campaign_status if campaign.present?
 
-    # TODO: make this an inbox config instead of assuming bot conversations should start as pending
+    # CUSTOMIZAÇÃO_SYNAPSEOS: por default, conversas em inboxes com AgentBot
+    # ligado nascem como :pending pra deixar o bot processar antes do humano
+    # ver. Em arquiteturas como a do Audi (n8n-único) o "AgentBot" do Chatwoot
+    # só serve como sender de mensagens da IA logada via API (outgoing_url
+    # aponta pro noop); o processamento real acontece em n8n via webhook
+    # Avisa. Nesse caso a conversa deve nascer :open pra aparecer no
+    # /dashboard dos atendentes desde o início.
+    #
+    # Flag por inbox: ``inbox.additional_attributes['start_conversations_open']``.
+    return if inbox.additional_attributes.try(:[], 'start_conversations_open')
+
     self.status = :pending if inbox.active_bot?
   end
 
