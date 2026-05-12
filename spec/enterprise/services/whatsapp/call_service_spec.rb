@@ -54,26 +54,29 @@ describe Whatsapp::CallService do
       call.update!(status: 'in_progress')
 
       expect { described_class.new(call: call, agent: agent, sdp_answer: sdp_answer).accept }
-        .to raise_error(Voice::CallErrors::AlreadyAccepted)
+        .to raise_error(StandardError) { |error| expect(error.class.name).to eq('Voice::CallErrors::AlreadyAccepted') }
     end
 
     it 'raises NotRinging when the call has reached a terminal state' do
       call.update!(status: 'completed')
 
       expect { described_class.new(call: call, agent: agent, sdp_answer: sdp_answer).accept }
-        .to raise_error(Voice::CallErrors::NotRinging)
+        .to raise_error(StandardError) { |error| expect(error.class.name).to eq('Voice::CallErrors::NotRinging') }
     end
 
     it 'raises CallFailed when sdp_answer is missing' do
       expect { described_class.new(call: call, agent: agent, sdp_answer: nil).accept }
-        .to raise_error(Voice::CallErrors::CallFailed, 'sdp_answer is required')
+        .to raise_error(StandardError) do |error|
+          expect(error.class.name).to eq('Voice::CallErrors::CallFailed')
+          expect(error.message).to eq('sdp_answer is required')
+        end
     end
 
     it 'wraps Meta transport exceptions as CallFailed and leaves the call ringing' do
       allow(provider_service).to receive(:pre_accept_call).and_raise(Faraday::TimeoutError)
 
       expect { described_class.new(call: call, agent: agent, sdp_answer: sdp_answer).accept }
-        .to raise_error(Voice::CallErrors::CallFailed)
+        .to raise_error(StandardError) { |error| expect(error.class.name).to eq('Voice::CallErrors::CallFailed') }
       expect(call.reload.status).to eq('ringing')
     end
   end
@@ -103,7 +106,7 @@ describe Whatsapp::CallService do
       allow(provider_service).to receive(:reject_call).and_return(false)
 
       expect { described_class.new(call: call, agent: agent).reject }
-        .to raise_error(Voice::CallErrors::CallFailed)
+        .to raise_error(StandardError) { |error| expect(error.class.name).to eq('Voice::CallErrors::CallFailed') }
       expect(call.reload.status).to eq('ringing')
     end
   end

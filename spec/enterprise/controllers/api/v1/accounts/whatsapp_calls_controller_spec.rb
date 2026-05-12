@@ -20,7 +20,7 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
     channel.provider_config = channel.provider_config.merge('source' => 'embedded_signup', 'calling_enabled' => true)
     channel.save!
     create(:inbox_member, user: agent, inbox: inbox)
-    allow_any_instance_of(Channel::Whatsapp).to receive(:provider_service).and_return(provider_service) # rubocop:disable RSpec/AnyInstance
+    allow(Whatsapp::Providers::WhatsappCloudService).to receive(:new).and_return(provider_service)
   end
 
   describe 'GET /api/v1/accounts/:account_id/whatsapp_calls/:id' do
