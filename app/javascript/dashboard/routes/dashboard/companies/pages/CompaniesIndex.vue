@@ -3,11 +3,13 @@ import { ref, computed, onMounted, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useAlert } from 'dashboard/composables';
 import { debounce } from '@chatwoot/utils';
 import { useCompaniesStore } from 'dashboard/stores/companies';
 
 import CompaniesListLayout from 'dashboard/components-next/Companies/CompaniesListLayout.vue';
 import CompaniesCard from 'dashboard/components-next/Companies/CompaniesCard/CompaniesCard.vue';
+import CompanyCreateDialog from 'dashboard/components-next/Companies/CompanyCreateDialog.vue';
 
 const DEFAULT_SORT_FIELD = 'name';
 const DEBOUNCE_DELAY = 300;
@@ -26,6 +28,7 @@ const uiFlags = computed(() => companiesStore.getUIFlags);
 
 const searchQuery = computed(() => route.query?.search || '');
 const searchValue = ref(searchQuery.value);
+const createCompanyDialogRef = ref(null);
 const pageNumber = computed(() => Number(route.query?.page) || 1);
 
 const parseSortSettings = (sortString = '') => {
@@ -51,6 +54,7 @@ const activeSort = computed(() => sortState.activeSort);
 const activeOrdering = computed(() => sortState.activeOrdering);
 
 const isFetchingList = computed(() => uiFlags.value.fetchingList);
+const isCreatingCompany = computed(() => uiFlags.value.creatingItem);
 
 const buildSortAttr = () =>
   `${sortState.activeOrdering}${sortState.activeSort}`;
@@ -121,6 +125,21 @@ const showCompany = companyId => {
   });
 };
 
+const openCreateCompanyDialog = () => {
+  createCompanyDialogRef.value?.dialogRef.open();
+};
+
+const createCompany = async company => {
+  try {
+    const newCompany = await companiesStore.create(company);
+    createCompanyDialogRef.value?.onSuccess();
+    useAlert(t('COMPANIES.CREATE.MESSAGES.SUCCESS'));
+    showCompany(newCompany.id);
+  } catch {
+    useAlert(t('COMPANIES.CREATE.MESSAGES.ERROR'));
+  }
+};
+
 const handleSort = async ({ sort, order }) => {
   Object.assign(sortState, { activeSort: sort, activeOrdering: order });
 
@@ -155,6 +174,7 @@ onMounted(() => {
     @update:current-page="onPageChange"
     @update:sort="handleSort"
     @search="onSearch"
+    @create="openCreateCompanyDialog"
   >
     <div v-if="isFetchingList" class="flex items-center justify-center p-8">
       <span class="text-n-slate-11 text-base">{{
@@ -182,5 +202,10 @@ onMounted(() => {
         @show-company="showCompany"
       />
     </div>
+    <CompanyCreateDialog
+      ref="createCompanyDialogRef"
+      :is-loading="isCreatingCompany"
+      @create="createCompany"
+    />
   </CompaniesListLayout>
 </template>

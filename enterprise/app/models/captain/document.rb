@@ -4,8 +4,10 @@
 #
 #  id                     :bigint           not null, primary key
 #  content                :text
+#  content_fingerprint    :string
 #  external_link          :string           not null
 #  last_sync_attempted_at :datetime
+#  last_sync_error_code   :string
 #  last_synced_at         :datetime
 #  metadata               :jsonb
 #  name                   :string
@@ -18,6 +20,7 @@
 #
 # Indexes
 #
+#  idx_captain_documents_on_account_assistant_sync_stats      (account_id,assistant_id,sync_status,last_synced_at)
 #  index_captain_documents_on_account_id                      (account_id)
 #  index_captain_documents_on_account_id_and_sync_status      (account_id,sync_status)
 #  index_captain_documents_on_assistant_id                    (assistant_id)
@@ -62,6 +65,14 @@ class Captain::Document < ApplicationRecord
   scope :for_account, ->(account_id) { where(account_id: account_id) }
   scope :for_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
   scope :syncable, -> { where("external_link NOT LIKE 'PDF:%' AND external_link NOT LIKE '%.pdf'") }
+  scope :pdf_documents, -> { where("external_link LIKE 'PDF:%' OR external_link LIKE '%.pdf'") }
+  scope :sync_in_progress, -> { sync_syncing.where(arel_table[:last_sync_attempted_at].gteq(SYNC_STALE_TIMEOUT.ago)) }
+  scope :stale, lambda { |stale_before|
+    sync_failed.or(sync_synced.where(arel_table[:last_synced_at].lt(stale_before)))
+  }
+  scope :synced_since, lambda { |time|
+    sync_synced.where(arel_table[:last_synced_at].gteq(time))
+  }
 
   def pdf_document?
     return true if pdf_file.attached? && pdf_file.blob.content_type == 'application/pdf'
