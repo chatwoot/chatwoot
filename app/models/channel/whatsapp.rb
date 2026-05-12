@@ -144,7 +144,17 @@ class Channel::Whatsapp < ApplicationRecord
 
   # CUSTOMIZAÇÃO_SYNAPSEOS: registra URL de inbound na Avisa API dentro da
   # transação. Falha → rollback → inbox não é criada. Idempotente na Avisa.
+  #
+  # Em arquiteturas n8n-único (Audi piloto) o webhook Avisa aponta pro
+  # bridge n8n, não pro Chatwoot. Se o operador setar
+  # provider_config['skip_avisa_webhook_setup'] = true, NÃO mexemos no
+  # webhook — qualquer save subsequente preserva a configuração externa.
   def register_avisa_webhook!
+    if provider_config['skip_avisa_webhook_setup']
+      Rails.logger.info("[AVISA] skip_avisa_webhook_setup=true — não toca no webhook (arquitetura n8n-único)")
+      return
+    end
+
     webhook_url = "#{ENV['FRONTEND_URL'].to_s.chomp('/')}/webhooks/avisa"
 
     Whatsapp::Providers::AvisaClient.new(
