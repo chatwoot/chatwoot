@@ -49,7 +49,7 @@ const state = {
   privacyURL,
   termsURL,
   widgetBrandURL,
-  isEnterprise: parseBoolean(isEnterprise),
+  isEnterprise: true,
   activePlatformBanners: activePlatformBanners || [],
 };
 

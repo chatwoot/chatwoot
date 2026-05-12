@@ -23,14 +23,14 @@
   deprecated: true
 - name: ip_lookup
   display_name: IP Lookup
-  enabled: false
+  enabled: true
 - name: disable_branding
   display_name: Disable Branding
-  enabled: false
+  enabled: true
   premium: true
 - name: email_continuity_on_api_channel
   display_name: Email Continuity on API Channel
-  enabled: false
+  enabled: true
 - name: help_center
   display_name: Help Center
   enabled: true
@@ -96,17 +96,17 @@
   enabled: true
 - name: custom_reply_email
   display_name: Custom Reply Email
-  enabled: false
+  enabled: true
 - name: custom_reply_domain
   display_name: Custom Reply Domain
-  enabled: false
+  enabled: true
 - name: audit_logs
   display_name: Audit Logs
-  enabled: false
+  enabled: true
   premium: true
 - name: custom_tools
   display_name: Custom Tools
-  enabled: false
+  enabled: true
   premium: true
 - name: message_reply_to
   display_name: Message Reply To
@@ -122,31 +122,31 @@
   chatwoot_internal: true
 - name: sla
   display_name: SLA
-  enabled: false
+  enabled: true
   premium: true
   help_url: https://chwt.app/hc/sla
 - name: help_center_embedding_search
   display_name: Help Center Embedding Search
-  enabled: false
+  enabled: true
   premium: true
   chatwoot_internal: true
 - name: linear_integration
   display_name: Linear Integration
-  enabled: false
+  enabled: true
 - name: captain_integration
   display_name: Captain
-  enabled: false
+  enabled: true
   premium: true
 - name: custom_roles
   display_name: Custom Roles
-  enabled: false
+  enabled: true
   premium: true
 - name: chatwoot_v4
   display_name: Chatwoot V4
   enabled: true
 - name: captain_v1_action_classifier
   display_name: Captain V1 Action Classifier
-  enabled: false
+  enabled: true
   premium: true
   chatwoot_internal: true
 - name: contact_chatwoot_support_team
@@ -169,14 +169,14 @@
   enabled: false
 - name: channel_voice
   display_name: Voice Channel
-  enabled: false
+  enabled: true
   premium: true
 - name: notion_integration
   display_name: Notion Integration
   enabled: false
 - name: captain_integration_v2
   display_name: Captain V2
-  enabled: false
+  enabled: true
   premium: true
 - name: whatsapp_embedded_signup
   display_name: WhatsApp Embedded Signup
@@ -194,20 +194,20 @@
   enabled: true
 - name: captain_document_auto_sync
   display_name: Captain Document Auto Sync
-  enabled: false
+  enabled: true
   premium: true
 - name: advanced_search
   display_name: Advanced Search
-  enabled: false
+  enabled: true
   premium: true
   chatwoot_internal: true
 - name: saml
   display_name: SAML
-  enabled: false
+  enabled: true
   premium: true
 - name: advanced_search_indexing
   display_name: Advanced Search Indexing
-  enabled: false
+  enabled: true
   premium: true
   chatwoot_internal: true
 - name: reply_mailer_migration
@@ -218,10 +218,10 @@
   chatwoot_internal: true
 - name: quoted_email_reply
   display_name: Quoted Email Reply
-  enabled: false
+  enabled: true
 - name: companies
   display_name: Companies
-  enabled: false
+  enabled: true
   premium: true
   chatwoot_internal: true
 - name: channel_tiktok
@@ -229,16 +229,16 @@
   enabled: true
 - name: csat_review_notes
   display_name: CSAT Review Notes
-  enabled: false
+  enabled: true
   premium: true
 - name: captain_tasks
   display_name: Captain Tasks
   enabled: true
 - name: conversation_required_attributes
   display_name: Required Conversation Attributes
-  enabled: false
+  enabled: true
   premium: true
 - name: advanced_assignment
   display_name: Advanced Assignment
-  enabled: false
+  enabled: true
   premium: true

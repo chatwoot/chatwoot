@@ -13,6 +13,7 @@ export default {
         installationTypes: [
           INSTALLATION_TYPES.CLOUD,
           INSTALLATION_TYPES.ENTERPRISE,
+          INSTALLATION_TYPES.COMMUNITY,
         ],
       },
       component: SettingsWrapper,
@@ -32,6 +33,7 @@ export default {
             installationTypes: [
               INSTALLATION_TYPES.CLOUD,
               INSTALLATION_TYPES.ENTERPRISE,
+              INSTALLATION_TYPES.COMMUNITY,
             ],
           },
         },

@@ -81,7 +81,6 @@ module Enterprise::Account
   end
 
   def business_or_enterprise_plan?
-    plan_name = custom_attributes['plan_name']
-    %w[Business Enterprise].include?(plan_name)
+    true
   end
 end

@@ -29,6 +29,7 @@ export default {
             installationTypes: [
               INSTALLATION_TYPES.ENTERPRISE,
               INSTALLATION_TYPES.CLOUD,
+              INSTALLATION_TYPES.COMMUNITY,
             ],
           },
         },

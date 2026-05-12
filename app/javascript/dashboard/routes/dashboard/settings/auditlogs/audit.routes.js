@@ -25,6 +25,7 @@ export default {
             installationTypes: [
               INSTALLATION_TYPES.CLOUD,
               INSTALLATION_TYPES.ENTERPRISE,
+              INSTALLATION_TYPES.COMMUNITY,
             ],
             permissions: ['administrator'],
           },
