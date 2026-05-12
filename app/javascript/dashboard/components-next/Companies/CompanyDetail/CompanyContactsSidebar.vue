@@ -169,7 +169,7 @@ const handleContactSelect = contactId => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-6 px-6 pb-6 pt-1">
+  <div class="flex flex-col gap-6 px-6 pb-8">
     <div v-if="!selectedContact" class="flex flex-col gap-4">
       <div class="flex flex-col gap-2">
         <label class="text-base text-n-slate-12">
@@ -288,7 +288,7 @@ const handleContactSelect = contactId => {
 
       <div
         v-else-if="!hasContacts"
-        class="py-8 text-sm text-center rounded-xl border border-dashed border-n-weak text-n-slate-11"
+        class="py-8 px-4 text-sm text-center rounded-xl border border-dashed border-n-strong text-n-slate-11"
       >
         {{ t('COMPANIES.DETAIL.CONTACTS.EMPTY') }}
       </div>
@@ -346,7 +346,7 @@ const handleContactSelect = contactId => {
         :current-page="currentPage"
         :total-items="totalContacts"
         :items-per-page="15"
-        class="px-0 before:hidden"
+        class="!px-0 before:hidden bg-transparent"
         @update:current-page="emit('update:currentPage', $event)"
       />
     </div>
