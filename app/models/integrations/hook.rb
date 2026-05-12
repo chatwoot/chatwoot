@@ -29,6 +29,7 @@ class Integrations::Hook < ApplicationRecord
   validates :inbox_id, presence: true, if: -> { hook_type == 'inbox' }
   validate :validate_settings_json_schema
   validate :ensure_feature_enabled
+  validate :validate_dialogflow_credentials, if: :dialogflow?
   validates :app_id, uniqueness: { scope: [:account_id], unless: -> { app.present? && app.params[:allow_multiple_hooks].present? } }
 
   # TODO: This seems to be only used for slack at the moment
@@ -93,6 +94,35 @@ class Integrations::Hook < ApplicationRecord
     return if app.blank? || app.params[:settings_json_schema].blank?
 
     errors.add(:settings, ': Invalid settings data') unless JSONSchemer.schema(app.params[:settings_json_schema]).valid?(settings)
+  end
+
+  def validate_dialogflow_credentials
+    return if settings.blank?
+
+    credentials = settings['credentials']
+    project_id = settings['project_id']
+
+    errors.add(:settings, ': project_id is required') if project_id.blank?
+
+    if credentials.blank? || !credentials.is_a?(Hash)
+      errors.add(:settings, ': credentials are required')
+      return
+    end
+
+    validate_service_account_credentials(credentials)
+  end
+
+  def validate_service_account_credentials(credentials)
+    required_keys = %w[type project_id private_key client_email]
+    missing_keys = required_keys.reject { |key| credentials[key].present? || credentials[key.to_sym].present? }
+
+    if missing_keys.any?
+      errors.add(:settings, ": credentials missing required fields: #{missing_keys.join(', ')}")
+      return
+    end
+
+    type = credentials['type'] || credentials[:type]
+    errors.add(:settings, ': credentials type must be "service_account"') if type != 'service_account'
   end
 
   def trigger_setup_if_crm
