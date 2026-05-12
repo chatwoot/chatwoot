@@ -67,7 +67,7 @@ module ReportHelper
   end
 
   def bot_handoff_conversation_ids_subquery
-    scope.reporting_events.where(account_id: account.id, name: :conversation_bot_handoff, created_at: range).select(:conversation_id)
+    bot_handoffs
   end
 
   def avg_first_response_time

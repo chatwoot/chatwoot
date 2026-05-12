@@ -47,6 +47,7 @@ class V2::Reports::BotMetricsBuilder
   def bot_handoff_conversation_ids_subquery
     account.reporting_events
            .where(name: :conversation_bot_handoff, created_at: range)
+           .where.not(conversation_id: nil)
            .select(:conversation_id)
   end
 

@@ -78,6 +78,25 @@ RSpec.describe V2::Reports::BotMetricsBuilder do
       end
     end
 
+    context 'when a bot_handoff event has no conversation' do
+      let!(:resolved_conversation) { create(:conversation, account: inbox.account, inbox: inbox, created_at: 2.days.ago) }
+
+      before do
+        create(:reporting_event, account_id: inbox.account.id, name: 'conversation_bot_resolved',
+                                 conversation_id: resolved_conversation.id, created_at: 2.days.ago)
+        create(:reporting_event, account: inbox.account, inbox: inbox, conversation: nil, conversation_id: nil,
+                                 name: 'conversation_bot_handoff', created_at: 2.days.ago)
+      end
+
+      it 'does not exclude all bot resolutions' do
+        metrics = bot_metrics_builder.metrics
+
+        expect(metrics[:conversation_count]).to eq(1)
+        expect(metrics[:resolution_rate]).to eq(100)
+        expect(metrics[:handoff_rate]).to eq(0)
+      end
+    end
+
     context 'with missing params' do
       let(:params) { {} }
 

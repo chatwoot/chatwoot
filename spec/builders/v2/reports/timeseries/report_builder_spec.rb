@@ -340,6 +340,8 @@ describe V2::Reports::Timeseries::ReportBuilder do
                                created_at: current_time)
       create(:reporting_event, name: 'conversation_bot_handoff', account: account, conversation: double_counted_conversation,
                                created_at: current_time)
+      create(:reporting_event, name: 'conversation_bot_handoff', account: account, inbox: inbox, conversation: nil, conversation_id: nil,
+                               created_at: current_time)
     end
 
     it 'excludes conversations that also had a bot handoff in the range' do
