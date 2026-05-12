@@ -47,9 +47,8 @@ class Enterprise::Billing::HandleStripeEventService
 
   def current_plan_credits
     plan_name = account.custom_attributes['plan_name']
-    return { responses: 0, documents: 0 } if plan_name.blank?
-
-    get_plan_credits(plan_name)
+    plan_credits = get_plan_credits(plan_name) if plan_name.present?
+    plan_credits || { responses: 0, documents: 0 }
   end
 
   def update_account_attributes(subscription, plan)
@@ -71,19 +70,28 @@ class Enterprise::Billing::HandleStripeEventService
     # skipping self hosted plan events
     return if account.blank?
 
-    Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
+    previous_monthly_credits = current_plan_credits[:responses]
+    return unless Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
+
+    account.with_lock do
+      previous_usage = { responses: account.custom_attributes['captain_responses_usage'].to_i, monthly: previous_monthly_credits }
+      adjust_captain_credits(previous_usage, new_plan_credits: 0)
+      account.reset_response_usage
+    end
   end
 
   def handle_subscription_credits(plan, previous_usage)
-    current_limits = account.limits || {}
+    adjust_captain_credits(previous_usage, new_plan_credits: get_plan_credits(plan['name'])[:responses])
+  end
 
+  def adjust_captain_credits(previous_usage, new_plan_credits:)
+    current_limits = account.limits || {}
     current_credits = current_limits['captain_responses'].to_i
-    new_plan_credits = get_plan_credits(plan['name'])[:responses]
 
     consumed_topup_credits = [previous_usage[:responses] - previous_usage[:monthly], 0].max
-    updated_credits = current_credits - consumed_topup_credits - previous_usage[:monthly] + new_plan_credits
+    updated_credits = [current_credits - consumed_topup_credits - previous_usage[:monthly] + new_plan_credits, 0].max
 
-    Rails.logger.info("Updating subscription credits for account #{account.id}: #{current_credits} -> #{updated_credits}")
+    Rails.logger.info("Updating captain credits for account #{account.id}: #{current_credits} -> #{updated_credits}")
     account.update!(limits: current_limits.merge('captain_responses' => updated_credits))
   end
 

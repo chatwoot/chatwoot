@@ -187,6 +187,8 @@ Rails.application.routes.draw do
                   get :search
                 end
               end
+              resources :conversations, only: [:index]
+              resources :notes, only: [:index]
             end
           end
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do
