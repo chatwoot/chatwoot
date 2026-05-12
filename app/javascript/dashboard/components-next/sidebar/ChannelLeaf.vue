@@ -67,11 +67,16 @@ const channelColor = computed(() => {
   <span class="size-5 grid place-content-center rounded-full bg-n-alpha-2">
     <ChannelIcon :inbox="inbox" class="size-3" :style="channelColor" />
   </span>
-  <div class="flex-1 truncate min-w-0">{{ label }}</div>
+  <div
+    class="flex-1 truncate min-w-0 transition-colors duration-300"
+    :class="[unattendedCount ? 'text-[#b91c1c] font-medium' : '']"
+  >
+    {{ label }}
+  </div>
   <span
     v-if="unattendedCount"
     dir="ltr"
-    class="inline-flex h-5 min-w-5 flex-shrink-0 items-center justify-center rounded-md bg-n-ruby-9/20 px-1.5 text-[11px] font-semibold leading-none text-n-ruby-11 ring-1 ring-n-ruby-8/50 tabular-nums"
+    class="inline-flex h-[18px] min-w-[18px] flex-shrink-0 items-center justify-center rounded-full bg-[#b91c1c] px-1 text-[10px] font-semibold leading-none text-white tabular-nums animate-calm-breath"
   >
     {{ countLabel }}
   </span>
@@ -83,3 +88,21 @@ const channelColor = computed(() => {
     <Icon icon="i-woot-alert" class="size-3 text-n-ruby-9" />
   </div>
 </template>
+
+<style scoped>
+@keyframes calm-breath {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 4px rgba(185, 28, 28, 0);
+  }
+}
+
+.animate-calm-breath {
+  animation: calm-breath 2.5s ease-in-out infinite;
+}
+</style>

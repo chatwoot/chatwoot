@@ -11,6 +11,7 @@ const props = defineProps({
   active: { type: Boolean, default: false },
   component: { type: Function, default: null },
   showAlert: { type: Boolean, default: false },
+  count: { type: Number, default: 0 },
 });
 
 const { resolvePermissions, resolveFeatureFlag } = useSidebarContext();
@@ -35,8 +36,6 @@ const shouldRenderComponent = computed(() => {
       class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg hover:bg-gradient-to-r from-transparent via-n-slate-3/70 to-n-slate-3/70 group min-w-0"
       :class="{
         'text-n-slate-12 bg-n-alpha-2 active': active,
-        'animate-pulse bg-n-ruby-9/10 ring-1 ring-n-ruby-8/50 text-n-slate-12':
-          showAlert,
       }"
     >
       <component
@@ -49,7 +48,37 @@ const shouldRenderComponent = computed(() => {
       <template v-else>
         <Icon v-if="icon" :icon="icon" class="size-4 inline-block" />
         <div class="flex-1 truncate min-w-0">{{ label }}</div>
+        <span
+          v-if="count"
+          dir="ltr"
+          class="inline-flex flex-shrink-0 items-center justify-center font-semibold leading-none tabular-nums"
+          :class="[
+            showAlert
+              ? 'bg-[#b91c1c] text-white rounded-full h-[18px] min-w-[18px] px-1 text-[10px] animate-calm-breath'
+              : 'bg-n-alpha-2 text-n-slate-11 rounded-md h-5 min-w-5 px-1.5 text-[11px]',
+          ]"
+        >
+          {{ count > 99 ? '99+' : count }}
+        </span>
       </template>
     </component>
   </Policy>
 </template>
+
+<style scoped>
+@keyframes calm-breath {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 4px rgba(185, 28, 28, 0);
+  }
+}
+
+.animate-calm-breath {
+  animation: calm-breath 2.5s ease-in-out infinite;
+}
+</style>

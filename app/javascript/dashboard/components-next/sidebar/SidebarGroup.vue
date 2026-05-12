@@ -18,6 +18,8 @@ const props = defineProps({
   activeOn: { type: Array, default: () => [] },
   children: { type: Array, default: undefined },
   getterKeys: { type: Object, default: () => ({}) },
+  count: { type: Number, default: 0 },
+  showAlert: { type: Boolean, default: false },
 });
 
 const {
@@ -267,6 +269,8 @@ watch(
         :has-active-child="hasActiveChild"
         :expandable="hasChildren"
         :is-expanded="isExpanded"
+        :count="count"
+        :show-alert="showAlert"
         @toggle="toggleTrigger"
       />
       <ul

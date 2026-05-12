@@ -253,6 +253,8 @@ const menuItems = computed(() => {
       name: 'Conversation',
       label: t('SIDEBAR.CONVERSATIONS'),
       icon: 'i-lucide-message-circle',
+      count: channelsUnreadTotal.value,
+      showAlert: channelsUnreadTotal.value > 0,
       children: [
         {
           name: 'All',
@@ -299,7 +301,6 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.CHANNELS'),
           icon: 'i-lucide-mailbox',
           activeOn: ['conversation_through_inbox'],
-          count: channelsUnreadTotal.value,
           children: sortedInboxes.value.map(inbox => ({
             name: `${inbox.name}-${inbox.id}`,
             label: inbox.name,

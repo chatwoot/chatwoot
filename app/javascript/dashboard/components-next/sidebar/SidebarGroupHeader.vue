@@ -12,14 +12,17 @@ const props = defineProps({
   isActive: { type: Boolean, default: false },
   hasActiveChild: { type: Boolean, default: false },
   getterKeys: { type: Object, default: () => ({}) },
+  count: { type: Number, default: 0 },
+  showAlert: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['toggle']);
 
 const showBadge = useMapGetter(props.getterKeys.badge);
 const dynamicCount = useMapGetter(props.getterKeys.count);
-const count = computed(() =>
-  dynamicCount.value > 99 ? '99+' : dynamicCount.value
+const displayCountValue = computed(() => props.count || dynamicCount.value);
+const displayCount = computed(() =>
+  displayCountValue.value > 99 ? '99+' : displayCountValue.value
 );
 </script>
 
@@ -56,14 +59,18 @@ const count = computed(() =>
         {{ label }}
       </span>
       <span
-        v-if="dynamicCount && !expandable"
-        class="rounded-md capitalize text-xs leading-5 font-medium text-center outline outline-1 px-1 flex-shrink-0"
-        :class="{
-          'text-n-slate-12 outline-n-slate-6': isActive,
-          'text-n-slate-11 outline-n-strong': !isActive,
-        }"
+        v-if="displayCountValue"
+        dir="ltr"
+        class="capitalize leading-5 font-semibold text-center flex-shrink-0 tabular-nums flex items-center justify-center"
+        :class="[
+          showAlert
+            ? 'bg-[#b91c1c] text-white rounded-full outline-none h-[18px] min-w-[18px] px-1 text-[10px] animate-calm-breath'
+            : isActive
+              ? 'bg-n-alpha-2 text-n-slate-12 outline-n-slate-6 rounded-md outline outline-1 h-5 min-w-5 px-1.5 text-[11px]'
+              : 'bg-n-alpha-2 text-n-slate-11 outline-n-strong rounded-md outline outline-1 h-5 min-w-5 px-1.5 text-[11px]',
+        ]"
       >
-        {{ count }}
+        {{ displayCount }}
       </span>
     </div>
     <span
@@ -74,3 +81,21 @@ const count = computed(() =>
     />
   </component>
 </template>
+
+<style scoped>
+@keyframes calm-breath {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 4px rgba(185, 28, 28, 0);
+  }
+}
+
+.animate-calm-breath {
+  animation: calm-breath 2.5s ease-in-out infinite;
+}
+</style>
