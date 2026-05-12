@@ -67,9 +67,12 @@ jobs:
           context: .
           file: docker/Dockerfile
           push: true
-          # Multi-arch pra suportar VPS ARM (Hetzner CAX, AWS Graviton, Oracle Ampere).
-          # Build arm64 roda sob QEMU e custa ~2× o tempo; mantém amd64 como padrão.
-          platforms: linux/amd64,linux/arm64
+          # CUSTOMIZAÇÃO_SYNAPSEOS: VPS prod (synapseos-vps) roda em linux/amd64.
+          # Build multi-arch via QEMU (linux/arm64) estava custando 1h+ por
+          # step e travando o ciclo de release. Restrito a amd64 — se um dia
+          # operar em ARM (Hetzner CAX, Graviton, Apple Silicon dev), readicionar
+          # `,linux/arm64`.
+          platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
