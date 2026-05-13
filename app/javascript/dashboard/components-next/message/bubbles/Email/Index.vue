@@ -1,10 +1,8 @@
 <script setup>
-import { computed, useTemplateRef, ref, onMounted, onErrorCaptured } from 'vue';
+import { computed, useTemplateRef, ref, onMounted } from 'vue';
 import { Letter } from 'vue-letter';
 import { sanitizeTextForRender } from '@chatwoot/utils';
 import { allowedCssProperties } from 'lettersanitizer';
-import DOMPurify from 'dompurify';
-import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
 
 import Icon from 'next/icon/Icon.vue';
 import { EmailQuoteExtractor } from 'dashboard/helper/emailQuoteExtractor.js';
@@ -21,21 +19,14 @@ import { useTranslations } from 'dashboard/composables/useTranslations';
 const { content, contentAttributes, attachments, messageType } =
   useMessageContext();
 
-const MAX_HTML_LENGTH = 500000; // 500KB safety limit for the frontend
-
 const isExpandable = ref(false);
 const isExpanded = ref(false);
 const showQuotedMessage = ref(false);
 const renderOriginal = ref(false);
-const renderError = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
 
 onMounted(() => {
   isExpandable.value = contentContainer.value?.scrollHeight > 400;
-});
-
-onErrorCaptured(() => {
-  renderError.value = true;
 });
 
 const isOutgoing = computed(() => messageType.value === MESSAGE_TYPES.OUTGOING);
@@ -50,13 +41,11 @@ const originalEmailText = computed(() => {
   return sanitizeTextForRender(text);
 });
 
-const originalEmailHtml = computed(() => {
-  const html = contentAttributes?.value?.email?.htmlContent?.full;
-  if (html && html.length > MAX_HTML_LENGTH) {
-    return DOMPurify.sanitize(originalEmailText.value, domPurifyConfig);
-  }
-  return DOMPurify.sanitize(html || originalEmailText.value, domPurifyConfig);
-});
+const originalEmailHtml = computed(
+  () =>
+    contentAttributes?.value?.email?.htmlContent?.full ||
+    originalEmailText.value
+);
 
 const hasEmailContent = computed(() => {
   return (
@@ -92,22 +81,13 @@ const fullHTML = computed(() => {
   return originalEmailHtml.value;
 });
 
-const unquotedHTML = computed(() => {
-  if (fullHTML.value.length > MAX_HTML_LENGTH) {
-    return fullHTML.value;
-  }
-  return DOMPurify.sanitize(
-    EmailQuoteExtractor.extractQuotes(fullHTML.value),
-    domPurifyConfig
-  );
-});
+const unquotedHTML = computed(() =>
+  EmailQuoteExtractor.extractQuotes(fullHTML.value)
+);
 
-const hasQuotedMessage = computed(() => {
-  if (fullHTML.value.length > MAX_HTML_LENGTH) {
-    return false;
-  }
-  return EmailQuoteExtractor.hasQuotes(fullHTML.value);
-});
+const hasQuotedMessage = computed(() =>
+  EmailQuoteExtractor.hasQuotes(fullHTML.value)
+);
 
 // Ensure unique keys for <Letter> when toggling between original and translated views.
 // This forces Vue to re-render the component and update content correctly.
@@ -169,11 +149,8 @@ const handleSeeOriginal = () => {
           :content="messageContent"
         />
         <template v-else>
-          <div v-if="renderError" class="text-n-slate-12">
-            {{ textToShow }}
-          </div>
           <Letter
-            v-else-if="showQuotedMessage"
+            v-if="showQuotedMessage"
             :key="`letter-quoted-${translationKeySuffix}`"
             class-name="prose prose-bubble !max-w-none letter-render"
             :allowed-css-properties="[
