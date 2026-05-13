@@ -23,3 +23,18 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+================================================================================
+
+Modifications and additions Copyright (c) 2026 Nathan Nóbrega
+Licensed under the same MIT terms above.
+
+The "enterprise/" directory of the upstream Chatwoot repository has been
+removed from this fork, as its contents are governed by the proprietary
+Chatwoot Enterprise License (CEEL), which forbids redistribution and
+commercial use without a Chatwoot Enterprise subscription. This fork is
+distributed under MIT-only terms.
+
+"Chatwoot" is a registered trademark of Chatwoot Inc. This project is an
+independent fork and is not affiliated with, endorsed by, or sponsored by
+Chatwoot Inc.
