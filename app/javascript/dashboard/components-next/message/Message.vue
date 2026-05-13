@@ -170,7 +170,7 @@ const reactions = computed(() => {
       senderName = conversation?.meta?.sender?.name || 'Contact';
     }
 
-    if (senderName && !groups[reaction.emoji].senders.includes(senderName)) {
+    if (senderName) {
       groups[reaction.emoji].senders.push(senderName);
     }
   });
