@@ -69,7 +69,7 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
   end
 
   def fetch_notification
-    @notification = current_user.notifications.find(params[:id])
+    @notification = current_user.notifications.where(account_id: Current.account.id).find(params[:id])
   end
 
   def set_current_page
