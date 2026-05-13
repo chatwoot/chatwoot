@@ -56,6 +56,7 @@ Rails.application.reloader.to_prepare do
     mid = reaction_data['mid']
     action = reaction_data['action']
     emoji = reaction_data['emoji']
+    emoji += "\uFE0F" if emoji == "\u2764" # Normalize black heart to red heart
     sender_id = (messaging.dig('sender', 'id') || reaction_json.dig('sender', 'id')).to_s
 
     target_message = Message.find_by(source_id: mid)

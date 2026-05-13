@@ -133,6 +133,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
     mid = reaction_data[:mid]
     action = reaction_data[:action]
     emoji = reaction_data[:emoji]
+    emoji += "\uFE0F" if emoji == "\u2764" # Normalize black heart to red heart
     sender_id = messaging.dig(:sender, :id)
 
     target_message = Message.find_by(source_id: mid)
