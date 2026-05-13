@@ -67,8 +67,6 @@ export const openExternalLinksInNewTab = () => {
   });
 };
 
-const mountedApps = [];
-
 export const InitializationHelpers = {
   navigateToLocalePage: () => {
     document.addEventListener('change', e => {
@@ -97,7 +95,6 @@ export const InitializationHelpers = {
       app.use(VueDOMPurifyHTML, domPurifyConfig);
       app.directive('on-clickaway', onClickaway);
       app.mount(selector);
-      mountedApps.push(app);
     });
   },
 
@@ -115,7 +112,6 @@ export const InitializationHelpers = {
 
       app.use(VueDOMPurifyHTML, domPurifyConfig);
       app.mount('#cw-hc-toc');
-      mountedApps.push(app);
     }
   },
 
@@ -129,18 +125,7 @@ export const InitializationHelpers = {
       });
       app.directive('on-clickaway', onClickaway);
       app.mount('#sidebar-theme-toggle');
-      mountedApps.push(app);
     }
-  },
-
-  teardown: () => {
-    mountedApps.splice(0).forEach(app => {
-      try {
-        app.unmount();
-      } catch (e) {
-        // ignore — app may already be detached
-      }
-    });
   },
 
   initializeDetailsClickAway: () => {
