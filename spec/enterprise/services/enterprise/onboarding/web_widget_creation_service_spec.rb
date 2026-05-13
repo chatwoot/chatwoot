@@ -7,7 +7,8 @@ end
 
 RSpec.describe Enterprise::Onboarding::WebWidgetCreationService do
   let(:account) do
-    create(:account, name: 'Acme Inc', domain: 'acme.com', custom_attributes: {
+    create(:account, name: 'Acme Inc', custom_attributes: {
+             'website' => 'acme.com',
              'brand_info' => { 'slogan' => 'Fallback slogan', 'description' => 'Fallback description' }
            })
   end
