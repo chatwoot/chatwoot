@@ -82,11 +82,13 @@ const menuItems = computed(() => {
       },
     },
     {
+      // Hidden by showOnCustomBrandedInstance: false. Link emptied to avoid
+      // leaking the upstream chatwoot.com domain even in source.
       show: true,
       showOnCustomBrandedInstance: false,
       label: t('SIDEBAR_ITEMS.DOCS'),
       icon: 'i-lucide-book',
-      link: 'https://www.chatwoot.com/hc/user-guide/en',
+      link: '',
       nativeLink: true,
       target: '_blank',
     },
@@ -95,7 +97,7 @@ const menuItems = computed(() => {
       showOnCustomBrandedInstance: false,
       label: t('SIDEBAR_ITEMS.CHANGELOG'),
       icon: 'i-lucide-scroll-text',
-      link: 'https://www.chatwoot.com/changelog/',
+      link: '',
       nativeLink: true,
       target: '_blank',
     },

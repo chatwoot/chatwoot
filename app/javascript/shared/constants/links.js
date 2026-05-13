@@ -8,4 +8,7 @@ export const REPLY_POLICY = {
   TIKTOK: 'https://business-api.tiktok.com/portal/docs?id=1832184236919810',
 };
 
-export const CHANGELOG_API_URL = 'https://hub.2.chatwoot.com/changelogs';
+// Changelog endpoint disabled — points to upstream Chatwoot hub. Set the env
+// PAINELCHAT_CHANGELOG_API_URL on a PainelChat-owned origin to enable, or
+// keep empty to hide the sidebar changelog card entirely.
+export const CHANGELOG_API_URL = '';

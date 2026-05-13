@@ -83,10 +83,8 @@ const handleDismiss = slug => {
 };
 
 const handleReadMore = () => {
-  const currentPost = unDismissedPosts.value[currentIndex.value];
-  if (currentPost?.slug) {
-    window.open(`https://www.chatwoot.com/blog/${currentPost.slug}`, '_blank');
-  }
+  // No-op until a PainelChat-owned changelog origin is configured.
+  // Original Chatwoot blog URL removed to avoid leaking the upstream brand.
 };
 
 const handleImgClick = ({ index }) => {
