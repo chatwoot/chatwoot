@@ -81,5 +81,19 @@ RSpec.describe BulkActionsJob do
       expect(Conversation.second.snoozed_until).to be_present
       expect(Conversation.third.snoozed_until).to be_present
     end
+
+    it 'skips conversations whose inbox the agent does not belong to' do
+      forbidden_conversation = create(:conversation, account_id: account.id, status: :open)
+      params = {
+        type: 'Conversation',
+        fields: { status: 'resolved' },
+        ids: [conversation_1.display_id, forbidden_conversation.display_id]
+      }
+
+      described_class.perform_now(account: account, params: params, user: agent)
+
+      expect(conversation_1.reload.status).to eq('resolved')
+      expect(forbidden_conversation.reload.status).to eq('open')
+    end
   end
 end
