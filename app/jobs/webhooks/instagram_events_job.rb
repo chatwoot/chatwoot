@@ -149,6 +149,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
       reactions << {
         'emoji' => emoji,
         'sender_source_id' => sender_id.to_s,
+        'sender_name' => target_message.conversation&.contact&.name,
         'timestamp' => Time.current.to_i
       }
     end

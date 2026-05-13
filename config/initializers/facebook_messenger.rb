@@ -69,6 +69,7 @@ Rails.application.reloader.to_prepare do
       reactions << {
         'emoji' => emoji,
         'sender_source_id' => sender_id,
+        'sender_name' => target_message.conversation&.contact&.name,
         'timestamp' => Time.current.to_i
       }
     end

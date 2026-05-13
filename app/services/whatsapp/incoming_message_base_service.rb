@@ -109,6 +109,7 @@ class Whatsapp::IncomingMessageBaseService
       reactions << {
         'emoji' => emoji,
         'sender_source_id' => sender_wa_id,
+        'sender_name' => target_message.conversation&.contact&.name,
         'timestamp' => Time.current.to_i
       }
     end
