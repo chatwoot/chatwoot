@@ -25,7 +25,9 @@ const { t } = useI18n();
 const rows = computed({
   get() {
     const entries = Object.entries(props.modelValue || {});
-    return entries.length ? entries.map(([name, value]) => ({ name, value })) : [{ name: '', value: '' }];
+    return entries.length
+      ? entries.map(([name, value]) => ({ name, value }))
+      : [{ name: '', value: '' }];
   },
   set(value) {
     const headers = {};
@@ -38,7 +40,9 @@ const rows = computed({
 });
 
 const updateRow = (index, key, value) => {
-  const next = rows.value.map((row, idx) => (idx === index ? { ...row, [key]: value } : row));
+  const next = rows.value.map((row, idx) =>
+    idx === index ? { ...row, [key]: value } : row
+  );
   rows.value = next;
 };
 

@@ -13,7 +13,7 @@ class Webhooks::Trigger
     end
   end
 
-  def initialize(url, payload, webhook_type, secret: nil, delivery_id: nil, additional_headers: nil)
+  def initialize(url, payload, webhook_type, secret: nil, delivery_id: nil, additional_headers: nil) # rubocop:disable Metrics/ParameterLists
     @url = url
     @payload = payload
     @webhook_type = webhook_type
@@ -22,7 +22,7 @@ class Webhooks::Trigger
     @additional_headers = additional_headers || {}
   end
 
-  def self.execute(url, payload, webhook_type, secret: nil, delivery_id: nil, additional_headers: nil)
+  def self.execute(url, payload, webhook_type, secret: nil, delivery_id: nil, additional_headers: nil) # rubocop:disable Metrics/ParameterLists
     new(url, payload, webhook_type, secret: secret, delivery_id: delivery_id, additional_headers: additional_headers).execute
   end
 
