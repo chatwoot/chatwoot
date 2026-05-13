@@ -10,7 +10,9 @@ class AgentBots::WebhookJob < WebhookJob
   end
 
   def perform(url, payload, webhook_type = :agent_bot_webhook, secret: nil, delivery_id: nil, additional_headers: nil) # rubocop:disable Metrics/ParameterLists
-    super(url, payload, webhook_type, secret: secret, delivery_id: delivery_id, additional_headers: additional_headers)
+    kwargs = { secret: secret, delivery_id: delivery_id }
+    kwargs[:additional_headers] = additional_headers if additional_headers.present?
+    super(url, payload, webhook_type, **kwargs)
   rescue Webhooks::Trigger::RetryableError => e
     Rails.logger.warn("[AgentBots::WebhookJob] attempt #{executions} failed #{e.class.name} payload=#{payload.to_json}")
     raise
