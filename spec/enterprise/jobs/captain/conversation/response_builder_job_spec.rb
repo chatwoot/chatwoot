@@ -102,6 +102,20 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         described_class.perform_now(conversation, assistant)
       end
 
+      it 'keeps same-second messages after last_resolved_at when strict reset mode is enabled' do
+        assistant.update!(config: { conversation_context: 'since_last_resolution' })
+        boundary = Time.zone.parse('2026-05-08 12:00:00.500')
+        conversation.messages.incoming.last.update!(created_at: boundary - 1.second)
+        conversation.update!(last_resolved_at: boundary)
+        create(:message, conversation: conversation, content: 'Immediate new issue', message_type: :incoming, created_at: boundary.change(usec: 0))
+
+        expect(mock_llm_chat_service).to receive(:generate_response).with(
+          message_history: [{ content: 'Immediate new issue', role: 'user' }]
+        ).and_return({ 'response' => 'Hey, welcome to Captain Specs' })
+
+        described_class.perform_now(conversation, assistant)
+      end
+
       it 'increments usage response' do
         described_class.perform_now(conversation, assistant)
         account.reload
