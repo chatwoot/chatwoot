@@ -1,9 +1,11 @@
 <script>
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Icon from 'next/icon/Icon.vue';
 
 export default {
   components: {
     NextButton,
+    Icon,
   },
   props: {
     bannerMessage: {
@@ -42,6 +44,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    icon: {
+      type: String,
+      default: '',
+    },
   },
   emits: ['primaryAction', 'close'],
   computed: {
@@ -79,9 +85,10 @@ export default {
 
 <template>
   <div
-    class="flex items-center justify-center h-12 gap-4 px-4 py-3 text-xs text-white banner dark:text-white woot-banner"
+    class="flex items-center justify-center h-12 gap-2 px-4 py-3 text-xs banner woot-banner"
     :class="bannerClasses"
   >
+    <Icon v-if="icon" :icon="icon" class="size-4 flex-shrink-0" />
     <span class="banner-message">
       {{ bannerMessage }}
       <a
@@ -129,10 +136,10 @@ export default {
   }
 
   &.alert {
-    @apply bg-n-ruby-3 text-n-ruby-12;
+    @apply bg-n-ruby-3 text-n-ruby-12 font-medium;
 
     a {
-      @apply text-n-ruby-12;
+      @apply text-n-ruby-12 font-semibold;
     }
   }
 

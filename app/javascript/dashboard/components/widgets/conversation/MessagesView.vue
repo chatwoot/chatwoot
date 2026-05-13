@@ -486,7 +486,8 @@ export default {
     <Banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
-      class="mx-2 mt-2 overflow-hidden rounded-lg"
+      class="mx-2 mt-2 overflow-hidden rounded-lg shadow-sm border border-n-ruby-4"
+      icon="i-lucide-alert-triangle"
       :banner-message="replyWindowBannerMessage"
       :href-link="replyWindowLink"
       :href-link-text="replyWindowLinkText"
