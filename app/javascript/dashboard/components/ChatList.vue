@@ -627,12 +627,12 @@ function handleScroll() {
 
 function updateAssigneeTab(selectedTab) {
   if (activeAssigneeTab.value !== selectedTab) {
+    store.dispatch('emptyAllConversations');
+    store.dispatch('conversationPage/reset');
     resetBulkActions();
     emitter.emit('clearSearchInput');
     activeAssigneeTab.value = selectedTab;
-    if (!currentPage.value) {
-      fetchConversations();
-    }
+    fetchConversations();
   }
 }
 
