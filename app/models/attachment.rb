@@ -104,9 +104,21 @@ class Attachment < ApplicationRecord
     audio_file_data = base_data.merge(file_metadata)
     audio_file_data.merge(
       {
+        # ActiveStorage's redirect endpoint defaults to Content-Disposition: attachment,
+        # which makes <audio> elements download instead of play. Force inline so the
+        # call-recording chip (and any other audio bubble) can stream directly.
+        data_url: inline_audio_url,
         transcribed_text: meta&.[]('transcribed_text') || ''
       }
     )
+  end
+
+  def inline_audio_url
+    return '' unless file.attached?
+
+    # Proxy endpoint streams through Rails and honours `disposition: 'inline'`,
+    # unlike the redirect endpoint which always sends Content-Disposition: attachment.
+    Rails.application.routes.url_helpers.rails_storage_proxy_url(file, disposition: 'inline')
   end
 
   def file_metadata

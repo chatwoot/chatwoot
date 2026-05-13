@@ -28,6 +28,10 @@ class Messages::Messenger::MessageBuilder
       filename: attachment_file.original_filename,
       content_type: attachment_file.content_type
     )
+    # The Attachment row is saved before the blob is attached, so the
+    # after_create_commit broadcast bails on `file.attached?`. Re-fire here
+    # for audio so the bubble updates without waiting on transcription.
+    attachment.message&.reload&.send_update_event if attachment.file_type.to_sym == :audio
   end
 
   def attachment_params(attachment)
