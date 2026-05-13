@@ -52,6 +52,9 @@ class Twilio::IncomingMessageService
     @account ||= inbox.account
   end
 
+  # Twilio WhatsApp phone payloads arrive as `whatsapp:+E164`. BSUID-only
+  # payloads use `whatsapp:<BSUID>` in `From`, so this intentionally returns
+  # nil when `From` is not phone-shaped.
   def phone_number
     return params[:From] if twilio_channel.sms?
     return unless twilio_whatsapp_phone_source?
@@ -59,6 +62,8 @@ class Twilio::IncomingMessageService
     params[:From].gsub('whatsapp:', '')
   end
 
+  # Keep Twilio WhatsApp source ids in Twilio's native shape. Phone messages use
+  # `whatsapp:+E164`; BSUID-only messages fall back to `whatsapp:<BSUID>`.
   def normalized_phone_number
     return phone_number unless twilio_channel.whatsapp?
     return twilio_whatsapp_source_id_from_bsuid if phone_number.blank?
