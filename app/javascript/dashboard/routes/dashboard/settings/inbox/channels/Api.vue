@@ -6,6 +6,7 @@ import { required } from '@vuelidate/validators';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import HeadersEditor from 'dashboard/components-next/webhook/HeadersEditor.vue';
 
 const shouldBeWebhookUrl = (value = '') =>
   value ? value.startsWith('http') : true;
@@ -14,6 +15,7 @@ export default {
   components: {
     PageHeader,
     NextButton,
+    HeadersEditor,
   },
   setup() {
     return { v$: useVuelidate() };
@@ -22,6 +24,7 @@ export default {
     return {
       channelName: '',
       webhookUrl: '',
+      additionalHeaders: {},
     };
   },
   computed: {
@@ -46,6 +49,7 @@ export default {
           channel: {
             type: 'api',
             webhook_url: this.webhookUrl,
+            additional_headers: this.additionalHeaders,
           },
         });
 
@@ -110,6 +114,13 @@ export default {
           {{ $t('INBOX_MGMT.ADD.API_CHANNEL.WEBHOOK_URL.SUBTITLE') }}
         </p>
       </div>
+
+      <HeadersEditor
+        v-model="additionalHeaders"
+        class="mb-4"
+        :label="$t('INBOX_MGMT.ADD.API_CHANNEL.HEADERS.LABEL')"
+        :description="$t('INBOX_MGMT.ADD.API_CHANNEL.HEADERS.DESC')"
+      />
 
       <div class="w-full mt-4">
         <NextButton

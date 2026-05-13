@@ -30,6 +30,44 @@ RSpec.describe AgentBots::WebhookJob do
     perform_enqueued_jobs { job }
   end
 
+  context 'with additional headers' do
+    subject(:job) do
+      described_class.perform_later(
+        url, payload, webhook_type,
+        secret: 'secret',
+        delivery_id: 'delivery-id',
+        additional_headers: { 'Authorization' => 'Bearer bot-token' }
+      )
+    end
+
+    it 'serializes keyword arguments and passes additional headers to the trigger' do
+      expect(Webhooks::Trigger).to receive(:execute).with(
+        url, payload, webhook_type,
+        secret: 'secret',
+        delivery_id: 'delivery-id',
+        additional_headers: { 'Authorization' => 'Bearer bot-token' }
+      )
+      perform_enqueued_jobs { job }
+    end
+
+    it 'keeps additional headers available when retry handling is exhausted' do
+      allow(Webhooks::Trigger).to receive(:execute).and_raise(retryable_error)
+      trigger_instance = instance_double(Webhooks::Trigger, handle_failure: true)
+      allow(Webhooks::Trigger).to receive(:new).and_return(trigger_instance)
+      allow(Rails.logger).to receive(:warn)
+
+      perform_enqueued_jobs { job }
+
+      expect(Webhooks::Trigger).to have_received(:new).with(
+        url, payload, webhook_type,
+        secret: 'secret',
+        delivery_id: 'delivery-id',
+        additional_headers: { 'Authorization' => 'Bearer bot-token' }
+      )
+      expect(trigger_instance).to have_received(:handle_failure).with(instance_of(Webhooks::Trigger::RetryableError))
+    end
+  end
+
   it 'configures retry handlers for 429 and 500 errors' do
     handlers = described_class.rescue_handlers.map(&:first)
 

@@ -40,6 +40,7 @@ import ColorPicker from 'dashboard/components-next/colorpicker/ColorPicker.vue';
 import SelectInput from 'dashboard/components-next/select/Select.vue';
 import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
 import AccessToken from 'dashboard/routes/dashboard/settings/profile/AccessToken.vue';
+import HeadersEditor from 'dashboard/components-next/webhook/HeadersEditor.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 export default {
@@ -74,6 +75,7 @@ export default {
     AccountHealth,
     Widget,
     AccessToken,
+    HeadersEditor,
   },
   mixins: [inboxMixin],
   setup() {
@@ -94,6 +96,7 @@ export default {
       selectedInboxName: '',
       channelWebsiteUrl: '',
       webhookUrl: '',
+      additionalHeaders: {},
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
       selectedFeatureFlags: [],
@@ -445,6 +448,7 @@ export default {
       this.avatarUrl = this.inbox.avatar_url;
       this.selectedInboxName = this.inbox.name;
       this.webhookUrl = this.inbox.webhook_url;
+      this.additionalHeaders = { ...(this.inbox.additional_headers || {}) };
       this.greetingEnabled = this.inbox.greeting_enabled || false;
       this.greetingMessage = this.inbox.greeting_message || '';
       this.emailCollectEnabled = this.inbox.enable_email_collect;
@@ -579,6 +583,7 @@ export default {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
             webhook_url: this.webhookUrl,
+            additional_headers: this.additionalHeaders,
             welcome_title: this.channelWelcomeTitle || '',
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
@@ -590,7 +595,10 @@ export default {
         if (this.avatarFile) {
           payload.avatar = this.avatarFile;
         }
-        await this.$store.dispatch('inboxes/updateInbox', payload);
+        await this.$store.dispatch('inboxes/updateInbox', {
+          ...payload,
+          formData: !this.isAPIInbox || !!this.avatarFile,
+        });
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
         this.showBusinessNameInput = false;
       } catch (error) {
@@ -783,6 +791,24 @@ export default {
                     : ''
                 "
                 @blur="v$.webhookUrl.$touch"
+              />
+            </SettingsFieldSection>
+
+            <SettingsFieldSection
+              v-if="isAPIInbox"
+              :label="
+                $t(
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_HEADERS.LABEL'
+                )
+              "
+            >
+              <HeadersEditor
+                v-model="additionalHeaders"
+                :description="
+                  $t(
+                    'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_HEADERS.DESC'
+                  )
+                "
               />
             </SettingsFieldSection>
 

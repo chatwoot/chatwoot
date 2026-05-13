@@ -32,6 +32,17 @@ describe AgentBotListener do
         listener.message_created(event)
       end
 
+      it 'passes additional headers to the agent bot webhook job' do
+        agent_bot.update!(additional_headers: { 'Authorization' => 'Bearer bot-token' })
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+          agent_bot.outgoing_url, message.webhook_data.merge(event: 'message_created'),
+          :agent_bot_webhook, secret: agent_bot.secret, delivery_id: instance_of(String),
+                              additional_headers: { 'Authorization' => 'Bearer bot-token' }
+        ).once
+        listener.message_created(event)
+      end
+
       it 'does not send message to agent bot if url is empty' do
         agent_bot = create(:agent_bot, outgoing_url: '')
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
