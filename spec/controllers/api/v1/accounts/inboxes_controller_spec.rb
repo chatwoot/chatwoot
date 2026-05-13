@@ -1008,6 +1008,19 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(response).to have_http_status(:unauthorized)
       end
+
+      it 'does not allow binding an agent bot from another account' do
+        other_account = create(:account)
+        foreign_bot = create(:agent_bot, account: other_account)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/set_agent_bot",
+             headers: admin.create_new_auth_token,
+             params: { agent_bot: foreign_bot.id },
+             as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(inbox.reload.agent_bot).to be_nil
+      end
     end
   end
 
