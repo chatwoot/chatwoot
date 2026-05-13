@@ -77,7 +77,12 @@ class Api::V1::Accounts::Captain::BulkActionsController < Api::V1::Accounts::Bas
       next unless document.available?
       next if document.sync_in_progress?
 
-      document.update!(sync_status: :syncing, last_sync_attempted_at: Time.current)
+      document.update!(
+        sync_status: :syncing,
+        sync_step: nil,
+        last_sync_error_code: nil,
+        last_sync_attempted_at: Time.current
+      )
       Captain::Documents::PerformSyncJob.perform_later(document)
       synced_document_ids << document.id
     end

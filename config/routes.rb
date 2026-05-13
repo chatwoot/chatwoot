@@ -177,6 +177,19 @@ Rails.application.routes.draw do
             collection do
               get :search
             end
+            member do
+              post :destroy_custom_attributes
+              delete :avatar
+            end
+            scope module: :companies do
+              resources :contacts, only: [:index, :create, :destroy] do
+                collection do
+                  get :search
+                end
+              end
+              resources :conversations, only: [:index]
+              resources :notes, only: [:index]
+            end
           end
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do
             collection do
@@ -215,6 +228,21 @@ Rails.application.routes.draw do
             end
           end
           resources :reporting_events, only: [:index] if ChatwootApp.enterprise?
+
+          if ChatwootApp.enterprise?
+            resources :whatsapp_calls, only: [:show] do
+              member do
+                post :accept
+                post :reject
+                post :terminate
+                post :upload_recording
+              end
+              collection do
+                post :initiate
+              end
+            end
+          end
+
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do

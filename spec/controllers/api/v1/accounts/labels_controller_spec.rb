@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Label API', type: :request do
   let!(:account) { create(:account) }
   let!(:label) { create(:label, account: account) }
+  let!(:conversation) { create(:conversation, account: account) }
 
   describe 'GET /api/v1/accounts/{account.id}/labels' do
     context 'when it is an unauthenticated user' do
@@ -98,6 +99,41 @@ RSpec.describe 'Label API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(label.reload.title).to eq('test_2')
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/labels/:id' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/labels/#{label.id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'deletes the label and enqueues label cleanup' do
+        label_deleted_at = Time.zone.parse('2026-05-07 10:00:00 UTC')
+        conversation.label_list.add(label.title)
+        conversation.save!
+
+        clear_enqueued_jobs
+
+        travel_to(label_deleted_at) do
+          expect do
+            delete "/api/v1/accounts/#{account.id}/labels/#{label.id}", headers: admin.create_new_auth_token, as: :json
+          end.to have_enqueued_job(Labels::RemoveAssociationsJob).with(
+            label_title: label.title,
+            account_id: account.id,
+            label_deleted_at: label_deleted_at
+          )
+        end
+
+        expect(response).to have_http_status(:ok)
+        expect(Label.exists?(label.id)).to be(false)
       end
     end
   end
