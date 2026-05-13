@@ -36,7 +36,9 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
         body: hash_including(
           {
             'grant_type' => 'refresh_token',
-            'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token']
+            'refresh_token' => microsoft_channel_with_expired_token.provider_config[
+              'refresh_token'
+            ]
           }
         )
       ).to_return(status: 200, body: new_tokens.to_json, headers: { 'Content-Type' => 'application/json' })
