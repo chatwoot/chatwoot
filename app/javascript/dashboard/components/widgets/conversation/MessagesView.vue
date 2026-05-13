@@ -209,12 +209,11 @@ export default {
       return '';
     },
     replyWindowLinkText() {
-      if (
-        this.isAWhatsAppChannel ||
-        this.isAFacebookInbox ||
-        this.isAnInstagramChannel
-      ) {
+      if (this.isAWhatsAppChannel) {
         return this.$t('CONVERSATION.24_HOURS_WINDOW');
+      }
+      if (this.isAFacebookInbox || this.isAnInstagramChannel) {
+        return this.$t('CONVERSATION.7_DAYS_WINDOW');
       }
       if (this.isATiktokChannel) {
         return this.$t('CONVERSATION.48_HOURS_WINDOW');
