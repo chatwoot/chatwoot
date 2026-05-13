@@ -9,6 +9,12 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
     @embed_regexes ||= config.transform_values { |embed_config| Regexp.new(embed_config['regex']) }
   end
 
+  def table(node)
+    out('<div class="tableWrapper">')
+    super
+    out('</div>')
+  end
+
   def text(node)
     content = node.string_content
 
@@ -71,9 +77,10 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
     return nil unless embed_config
 
     template = embed_config['template']
-    # Use Ruby's built-in named captures with gsub to handle CSS % values
+    # Use gsub (not format) so CSS `%` values in templates don't need escaping.
+    # Captured values are HTML-escaped since they land inside HTML attribute contexts.
     match_data.named_captures.each do |var_name, value|
-      template = template.gsub("%{#{var_name}}", value)
+      template = template.gsub("%{#{var_name}}", CGI.escapeHTML(value))
     end
     template
   end

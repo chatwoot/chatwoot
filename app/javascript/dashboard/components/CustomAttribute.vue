@@ -102,13 +102,14 @@ export default {
       return this.v$.editedValue.$error;
     },
     errorMessage() {
-      if (this.v$.editedValue.url) {
+      if (this.v$.editedValue.url?.$invalid) {
         return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_URL');
       }
-      if (!this.v$.editedValue.regexValidation) {
-        return this.regexCue
-          ? this.regexCue
-          : this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_INPUT');
+      if (this.v$.editedValue.regexValidation?.$invalid) {
+        return (
+          this.regexCue ||
+          this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_INPUT')
+        );
       }
       return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.REQUIRED');
     },
@@ -134,9 +135,12 @@ export default {
       editedValue: {
         required,
         regexValidation: value => {
-          return !(
-            this.attributeRegex && !getRegexp(this.attributeRegex).test(value)
-          );
+          if (!this.attributeRegex || !value) return true;
+          try {
+            return getRegexp(this.attributeRegex).test(value);
+          } catch {
+            return false;
+          }
         },
       },
     };

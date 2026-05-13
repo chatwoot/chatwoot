@@ -140,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "הקצה לסוכן",
       "ASSIGN_TEAM": "הקצה צוות",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "הסר צוות שהוקצה",
       "ADD_LABEL": "הוסף תווית",
       "REMOVE_LABEL": "הסר תווית",
       "SEND_EMAIL_TO_TEAM": "שלח דוא\"ל לצוות",
@@ -169,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "סוג הודעה",
+      "PRIVATE_NOTE": "הערה פרטית",
       "MESSAGE_CONTAINS": "ההודעה מכילה",
       "EMAIL": "דוא\"ל",
       "INBOX": "תיבת דואר נכנס",

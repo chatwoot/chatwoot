@@ -210,7 +210,7 @@ const onToggleDropdown = () => {
     >
       <template #footer>
         <div class="h-px bg-n-strong" />
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2 px-2 py-2">
           <div class="flex items-center justify-between gap-2 px-1 h-9">
             <span class="text-sm text-n-slate-11">
               {{ t('SEARCH.DATE_RANGE.CUSTOM_RANGE') }}

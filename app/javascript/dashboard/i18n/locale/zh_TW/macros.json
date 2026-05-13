@@ -93,6 +93,7 @@
       "ASSIGN_AGENT": "指派客服人員",
       "ADD_LABEL": "新增標籤",
       "REMOVE_LABEL": "移除標籤",
+      "REMOVE_ASSIGNED_AGENT": "移除已指派的客服人員",
       "REMOVE_ASSIGNED_TEAM": "移除已指派的團隊",
       "SEND_EMAIL_TRANSCRIPT": "傳送電子郵件副本",
       "MUTE_CONVERSATION": "將對話靜音",

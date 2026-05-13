@@ -140,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Piešķirt Aģentam",
       "ASSIGN_TEAM": "Piešķirt Komandai",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Noņemt Piešķirto Komandu",
       "ADD_LABEL": "Pievienot Etiķeti",
       "REMOVE_LABEL": "Noņemt Etiķeti",
       "SEND_EMAIL_TO_TEAM": "Nosūtīt E-pastu Komandai",
@@ -169,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Ziņojuma Tips",
+      "PRIVATE_NOTE": "Privāta Piezīme",
       "MESSAGE_CONTAINS": "Ziņojums Satur",
       "EMAIL": "E-pasts",
       "INBOX": "Iesūtne",

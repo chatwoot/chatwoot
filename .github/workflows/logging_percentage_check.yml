@@ -10,6 +10,9 @@ concurrency:
   group: pr-${{ github.workflow }}-${{ github.head_ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   log_lines_check:
     runs-on: ubuntu-latest

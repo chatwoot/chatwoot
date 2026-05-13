@@ -20,6 +20,7 @@
     "CALL": "Chiama",
     "CALL_INITIATED": "Chiamando il contatto…",
     "CALL_FAILED": "Impossibile avviare la chiamata. Riprova.",
+    "CLICK_TO_EDIT": "Clicca per modificare",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Scegli una inbox vocale"
     },

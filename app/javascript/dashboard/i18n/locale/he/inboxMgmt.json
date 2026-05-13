@@ -86,6 +86,14 @@
           "PLACEHOLDER": "אנא הזן את כתובת ה-Webhook URL שלך",
           "ERROR": "אנא הכנס כתובת URL חוקית"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "דומיין אתר",
           "PLACEHOLDER": "הזן את שם האתר שלך (למשל: Acme Inc)"
