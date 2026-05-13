@@ -14,8 +14,12 @@
 # options: For select types, its required to have options for the select in the following pattern: "option_value":"Human readable option"
 
 # ------- Branding Related Config ------- #
+# Rebrand defaults switched from "Chatwoot" to "PainelChat" (codename).
+# Triggers globalConfig.isACustomBrandedInstance=true and useBranding
+# replaceInstallationName to substitute "Chatwoot" across user-facing strings.
+# Final brand name to be substituted before commercial launch.
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'PainelChat'
   display_title: 'Installation Name'
   description: 'The installation wide name that would be used in the dashboard, title etc.'
 - name: LOGO_THUMBNAIL
@@ -31,29 +35,29 @@
   display_title: 'Logo Dark Mode'
   description: 'The logo that would be used on the dashboard, login page etc. for dark mode'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: ''
   display_title: 'Brand URL'
   description: 'The URL that would be used in emails under the section “Powered By”'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: ''
   display_title: 'Widget Brand URL'
   description: 'The URL that would be used in the widget under the section “Powered By”'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'PainelChat'
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
 - name: TERMS_URL
-  value: 'https://www.chatwoot.com/terms-of-service'
+  value: ''
   display_title: 'Terms URL'
   description: 'The terms of service URL displayed in Signup Page'
 - name: PRIVACY_URL
-  value: 'https://www.chatwoot.com/privacy-policy'
+  value: ''
   display_title: 'Privacy URL'
   description: 'The privacy policy URL displayed in the app'
 - name: DISPLAY_MANIFEST
-  value: true
-  display_title: 'Chatwoot Metadata'
-  description: 'Display default Chatwoot metadata like favicons and upgrade warnings'
+  value: false
+  display_title: 'Display Default Metadata'
+  description: 'Display default upstream metadata like favicons and upgrade warnings. Disabled for branded instances.'
   type: boolean
 # ------- End of Branding Related Config ------- #
 
