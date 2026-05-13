@@ -1,6 +1,8 @@
 class Webhooks::Trigger
   SUPPORTED_ERROR_HANDLE_EVENTS = %w[message_created message_updated].freeze
   RETRYABLE_AGENT_BOT_STATUSES = [429, 500].freeze
+  # Header names below are managed by Chatwoot and cannot be overridden via additional_headers.
+  RESERVED_HEADERS = %w[content-type accept x-chatwoot-delivery x-chatwoot-timestamp x-chatwoot-signature].freeze
 
   class RetryableError < StandardError
     attr_reader :status
@@ -11,16 +13,17 @@ class Webhooks::Trigger
     end
   end
 
-  def initialize(url, payload, webhook_type, secret: nil, delivery_id: nil)
+  def initialize(url, payload, webhook_type, secret: nil, delivery_id: nil, additional_headers: nil)
     @url = url
     @payload = payload
     @webhook_type = webhook_type
     @secret = secret
     @delivery_id = delivery_id
+    @additional_headers = additional_headers || {}
   end
 
-  def self.execute(url, payload, webhook_type, secret: nil, delivery_id: nil)
-    new(url, payload, webhook_type, secret: secret, delivery_id: delivery_id).execute
+  def self.execute(url, payload, webhook_type, secret: nil, delivery_id: nil, additional_headers: nil)
+    new(url, payload, webhook_type, secret: secret, delivery_id: delivery_id, additional_headers: additional_headers).execute
   end
 
   def execute
@@ -52,7 +55,9 @@ class Webhooks::Trigger
   end
 
   def request_headers(body)
-    headers = { 'Content-Type' => 'application/json', 'Accept' => 'application/json' }
+    headers = sanitized_additional_headers
+    headers['Content-Type'] = 'application/json'
+    headers['Accept'] = 'application/json'
     headers['X-Chatwoot-Delivery'] = @delivery_id if @delivery_id.present?
     if @secret.present?
       ts = Time.now.to_i.to_s
@@ -60,6 +65,17 @@ class Webhooks::Trigger
       headers['X-Chatwoot-Signature'] = "sha256=#{OpenSSL::HMAC.hexdigest('SHA256', @secret, "#{ts}.#{body}")}"
     end
     headers
+  end
+
+  def sanitized_additional_headers
+    return {} if @additional_headers.blank?
+
+    @additional_headers.each_with_object({}) do |(name, value), headers|
+      key = name.to_s.strip
+      next if key.empty? || RESERVED_HEADERS.include?(key.downcase)
+
+      headers[key] = value.to_s
+    end
   end
 
   def handle_error(error)

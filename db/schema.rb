@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_07_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_13_120000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -132,6 +132,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_07_000000) do
     t.integer "bot_type", default: 0
     t.jsonb "bot_config", default: {}
     t.string "secret"
+    t.jsonb "additional_headers", default: {}, null: false
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
   end
 
@@ -445,6 +446,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_07_000000) do
     t.boolean "hmac_mandatory", default: false
     t.jsonb "additional_attributes", default: {}
     t.string "secret"
+    t.jsonb "additional_headers", default: {}, null: false
     t.index ["hmac_token"], name: "index_channel_api_on_hmac_token", unique: true
     t.index ["identifier"], name: "index_channel_api_on_identifier", unique: true
   end
@@ -1302,6 +1304,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_07_000000) do
     t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "contact_created", "contact_updated", "message_created", "message_updated", "webwidget_triggered"]
     t.string "name"
     t.string "secret"
+    t.jsonb "additional_headers", default: {}, null: false
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 

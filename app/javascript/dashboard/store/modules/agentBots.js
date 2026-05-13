@@ -4,6 +4,15 @@ import AgentBotsAPI from '../../api/agentBots';
 import InboxesAPI from '../../api/inboxes';
 import { throwErrorMessage } from '../utils/api';
 
+const appendAdditionalHeaders = (formData, additionalHeaders) => {
+  if (!additionalHeaders) return;
+  Object.entries(additionalHeaders).forEach(([name, value]) => {
+    const trimmedName = (name || '').trim();
+    if (!trimmedName) return;
+    formData.append(`additional_headers[${trimmedName}]`, value ?? '');
+  });
+};
+
 export const state = {
   records: [],
   uiFlags: {
@@ -65,6 +74,8 @@ export const actions = {
         formData.append('avatar', botData.avatar);
       }
 
+      appendAdditionalHeaders(formData, botData.additional_headers);
+
       const response = await AgentBotsAPI.create(formData);
       commit(types.ADD_AGENT_BOT, response.data);
       return response.data;
@@ -89,6 +100,8 @@ export const actions = {
       if (data.avatar) {
         formData.append('avatar', data.avatar);
       }
+
+      appendAdditionalHeaders(formData, data.additional_headers);
 
       const response = await AgentBotsAPI.update(id, formData);
       commit(types.EDIT_AGENT_BOT, response.data);

@@ -69,6 +69,10 @@
           "PLACEHOLDER": "Example: {webhookExampleURL}",
           "ERROR": "Please enter a valid URL"
         },
+        "HEADERS": {
+          "LABEL": "Custom headers",
+          "DESC": "Headers sent with every webhook request. Useful for static auth tokens (for example Authorization: Bearer ...). Chatwoot-managed headers (Content-Type, X-Chatwoot-*) cannot be overridden."
+        },
         "EDIT_SUBMIT": "Update webhook",
         "ADD_SUBMIT": "Create webhook"
       },

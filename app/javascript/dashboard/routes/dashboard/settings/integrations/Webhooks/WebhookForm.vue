@@ -6,6 +6,7 @@ import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsH
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { useAlert } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import HeadersEditor from 'dashboard/components-next/webhook/HeadersEditor.vue';
 
 const { EXAMPLE_WEBHOOK_URL } = wootConstants;
 
@@ -25,6 +26,7 @@ const SUPPORTED_WEBHOOK_EVENTS = [
 export default {
   components: {
     NextButton,
+    HeadersEditor,
   },
   props: {
     value: {
@@ -59,6 +61,7 @@ export default {
       url: this.value.url || '',
       name: this.value.name || '',
       subscriptions: this.value.subscriptions || [],
+      additionalHeaders: { ...(this.value.additional_headers || {}) },
       secretVisible: false,
       supportedWebhookEvents: SUPPORTED_WEBHOOK_EVENTS,
     };
@@ -85,6 +88,7 @@ export default {
         url: this.url,
         name: this.name,
         subscriptions: this.subscriptions,
+        additional_headers: this.additionalHeaders,
       });
     },
     async copySecret() {
@@ -179,6 +183,12 @@ export default {
           </label>
         </div>
       </div>
+      <HeadersEditor
+        v-model="additionalHeaders"
+        class="mb-4"
+        :label="$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.HEADERS.LABEL')"
+        :description="$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.HEADERS.DESC')"
+      />
     </div>
 
     <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
