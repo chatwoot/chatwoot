@@ -49,7 +49,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
       recipient: { id: contact.get_source_id(inbox.id) },
       message: fb_text_message_payload,
       messaging_type: 'MESSAGE_TAG',
-      tag: 'ACCOUNT_UPDATE'
+      tag: 'HUMAN_AGENT'
     }
 
     if message.content_attributes['in_reply_to_external_id'].present?
@@ -96,7 +96,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
         }
       },
       messaging_type: 'MESSAGE_TAG',
-      tag: 'ACCOUNT_UPDATE'
+      tag: 'HUMAN_AGENT'
     }
 
     if message.content_attributes['in_reply_to_external_id'].present?
