@@ -6,8 +6,9 @@ import MessageStatus from './MessageStatus.vue';
 import Icon from 'next/icon/Icon.vue';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { useMessageContext } from './provider.js';
+import { useI18n } from 'vue-i18n';
 
-import { MESSAGE_STATUS, MESSAGE_TYPES } from './constants';
+import { MESSAGE_STATUS, MESSAGE_TYPES, SENDER_TYPES } from './constants';
 
 const {
   isAFacebookInbox,
@@ -30,7 +31,28 @@ const {
   sourceId,
   messageType,
   contentAttributes,
+  sender,
 } = useMessageContext();
+
+const { t } = useI18n();
+
+const agentNameToShow = computed(() => {
+  if (!sender?.value || sender.value.type === SENDER_TYPES.AGENT_BOT) {
+    return t('CONVERSATION.BOT');
+  }
+  if (sender.value.name) {
+    return sender.value.name.split(' ')[0];
+  }
+  return '';
+});
+
+const showAgentName = computed(() => {
+  return (
+    messageType.value === MESSAGE_TYPES.OUTGOING &&
+    !isPrivate.value &&
+    !!agentNameToShow.value
+  );
+});
 
 const readableTime = computed(() => messageStamp(createdAt.value, 'h:mm a'));
 
@@ -128,6 +150,9 @@ const statusToShow = computed(() => {
     <div class="inline">
       <time class="inline">{{ readableTime }}</time>
     </div>
+    <span v-if="showAgentName" class="inline opacity-75">
+      {{ `· ${agentNameToShow}` }}
+    </span>
     <Icon v-if="isPrivate" icon="i-lucide-lock-keyhole" class="size-3" />
     <MessageStatus v-if="showStatusIndicator" :status="statusToShow" />
   </div>
