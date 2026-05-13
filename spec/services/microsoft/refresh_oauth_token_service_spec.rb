@@ -33,7 +33,12 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
   describe 'on expired token or invalid expiry' do
     before do
       stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token').with(
-        body: hash_including({ 'grant_type' => 'refresh_token', 'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token'] })
+        body: hash_including(
+          {
+            'grant_type' => 'refresh_token',
+            'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token']
+          }
+        )
       ).to_return(status: 200, body: new_tokens.to_json, headers: { 'Content-Type' => 'application/json' })
     end
 
@@ -74,7 +79,12 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
 
       before do
         stub_request(:post, "https://login.microsoftonline.com/#{tenant_id}/oauth2/v2.0/token").with(
-          body: hash_including({ 'grant_type' => 'refresh_token', 'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token'] })
+          body: hash_including(
+            {
+              'grant_type' => 'refresh_token',
+              'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token']
+            }
+          )
         ).to_return(status: 200, body: new_tokens.to_json, headers: { 'Content-Type' => 'application/json' })
       end
 
