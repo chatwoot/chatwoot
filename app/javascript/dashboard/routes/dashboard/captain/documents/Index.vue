@@ -95,27 +95,9 @@ const buildDocumentFilterParams = (page = 1) => {
 let documentsRequestId = 0;
 let fetchingListRequestId = null;
 
-const comparableFilterParams = params => ({
-  page: params.page || 1,
-  assistantId: params.assistantId || null,
-  source: params.source || null,
-  filter: params.filter || null,
-  sort: params.sort || null,
-  searchKey: params.searchKey || null,
-});
-
-const isCurrentDocumentRequest = (requestId, filterParams) => {
-  if (requestId !== documentsRequestId) return false;
-
-  const currentParams = comparableFilterParams(
-    buildDocumentFilterParams(filterParams.page)
-  );
-  const requestParams = comparableFilterParams(filterParams);
-
-  return Object.keys(requestParams).every(
-    key => requestParams[key] === currentParams[key]
-  );
-};
+const isCurrentDocumentRequest = (requestId, filterParams) =>
+  requestId === documentsRequestId &&
+  (filterParams.assistantId || null) === currentAssistantId();
 
 const pruneSelectionToDocuments = nextDocuments => {
   if (!bulkSelectedIds.value.size) return;
@@ -383,7 +365,6 @@ onUnmounted(() => {
         @change="onFiltersChanged"
       />
     </template>
-
     <template #knowMore>
       <FeatureSpotlightPopover
         :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
