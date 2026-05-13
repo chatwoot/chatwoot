@@ -47,6 +47,29 @@ class Api::V1::Accounts::InboxMessageTemplatesController < Api::V1::Accounts::Ba
   PENDING_REVIEW_STATUSES = %w[PENDING IN_APPEAL].freeze
   PERMISSION_ERROR_CODE = 100
 
+  def upload_media
+    file = params[:file]
+    header_format = params[:header_format].to_s.upcase
+
+    return render_validation_error('File is required') if file.blank?
+    return render_validation_error('header_format is required') if header_format.blank?
+
+    uploader = Whatsapp::TemplateMediaUploaderService.new(@inbox.channel)
+    handle = uploader.upload(
+      io: file.tempfile,
+      file_size: file.size,
+      mime_type: file.content_type,
+      header_format: header_format
+    )
+
+    render json: { handle: handle }, status: :ok
+  rescue ArgumentError => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  rescue StandardError => e
+    Rails.logger.error "Template media upload failed: #{e.message}"
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
+
   def destroy
     template_name = params[:id]
     template_id = params[:template_id] # hsm_id from Meta API
@@ -107,7 +130,7 @@ class Api::V1::Accounts::InboxMessageTemplatesController < Api::V1::Accounts::Ba
   def extract_template_params
     template = params.require(:template).permit(
       :name, :language, :category, :parameter_format,
-      header: [:format, :text, :example_url, :example],
+      header: [:format, :text, :example_handle, :example],
       body: [:text],
       footer: [:text]
     )

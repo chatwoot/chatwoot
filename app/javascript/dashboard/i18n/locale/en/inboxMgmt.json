@@ -1205,9 +1205,12 @@
           "TEXT_LABEL": "Header Text",
           "TEXT_PLACEHOLDER": "Enter header text",
           "TEXT_HELP": "Maximum 60 characters. Only 1 variable allowed (e.g. {'{{'}1{'}}'}).",
-          "MEDIA_URL_LABEL": "Sample Media URL",
-          "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg",
-          "MEDIA_URL_HELP": "Provide a publicly accessible URL for the sample media. This is used for template approval only."
+          "MEDIA_SAMPLE_LABEL": "Sample media file",
+          "MEDIA_UPLOAD_BUTTON": "Upload sample file",
+          "MEDIA_UPLOADING": "Uploading...",
+          "MEDIA_REMOVE": "Remove file",
+          "MEDIA_SAMPLE_HELP": "Upload a sample file. Meta requires it only for template approval — it won't be sent to recipients. Images: JPG/PNG (max 5MB). Videos: MP4/3GPP (max 16MB). Documents: PDF (max 100MB).",
+          "MEDIA_UPLOAD_ERROR": "Failed to upload the sample file. Please try again."
         },
         "HEADER_FORMAT_OPTIONS": {
           "NONE": "No header",

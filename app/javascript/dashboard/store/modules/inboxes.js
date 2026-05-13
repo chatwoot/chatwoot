@@ -405,6 +405,15 @@ export const actions = {
     return response.data;
   },
 
+  uploadMessageTemplateMedia: async (_, { inboxId, file, headerFormat }) => {
+    const response = await InboxesAPI.uploadMessageTemplateMedia(
+      inboxId,
+      file,
+      headerFormat
+    );
+    return response.data;
+  },
+
   getMessageTemplateStatus: async (_, { inboxId, templateName }) => {
     const response = await InboxesAPI.getMessageTemplateStatus(
       inboxId,

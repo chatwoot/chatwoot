@@ -53,7 +53,7 @@ class Whatsapp::MessageTemplateService
   end
 
   def fetch_templates_page(limit:, after: nil, before: nil)
-    query_params = { limit: limit }
+    query_params = { limit: limit, fields: 'name,status,language,category,components,id,parameter_format' }
     query_params[:after] = after if after.present?
     query_params[:before] = before if before.present?
 
@@ -228,6 +228,11 @@ class Whatsapp::MessageTemplateService
       raise ArgumentError, "Header format must be one of: #{ALLOWED_HEADER_FORMATS.join(', ')}"
     end
 
+    # Media header validation: IMAGE/VIDEO/DOCUMENT require a sample handle from Meta's resumable upload
+    if %w[IMAGE VIDEO DOCUMENT].include?(header[:format]) && header[:example_handle].blank?
+      raise ArgumentError, "Header format #{header[:format]} requires a sample file. Please upload a sample media file."
+    end
+
     # Text header validation
     if header[:format] == 'TEXT' && header[:text].present?
       header_text = header[:text].to_s
@@ -398,8 +403,8 @@ class Whatsapp::MessageTemplateService
         component[:example] = { header_text: example_values } if example_values.any?
       end
     when 'IMAGE', 'VIDEO', 'DOCUMENT'
-      if header[:example_url].present? && valid_media_url?(header[:example_url])
-        component[:example] = { header_handle: [header[:example_url]] }
+      if header[:example_handle].present?
+        component[:example] = { header_handle: [header[:example_handle]] }
       end
     end
 

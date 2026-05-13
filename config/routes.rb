@@ -366,7 +366,11 @@ Rails.application.routes.draw do
 
             resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates'
             resources :message_templates, only: [:index, :create, :show, :destroy],
-                      controller: 'inbox_message_templates'
+                      controller: 'inbox_message_templates' do
+              collection do
+                post :upload_media
+              end
+            end
           end
 
           resources :inbox_members, only: [:create, :show], param: :inbox_id do

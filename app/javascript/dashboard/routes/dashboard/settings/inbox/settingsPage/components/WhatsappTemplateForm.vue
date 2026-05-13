@@ -1,6 +1,7 @@
 <script setup>
-import { reactive, computed, defineEmits, defineProps, ref, nextTick, defineAsyncComponent } from 'vue';
+import { reactive, computed, defineEmits, defineProps, ref, nextTick, defineAsyncComponent, watch, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
@@ -13,15 +14,20 @@ const EmojiInput = defineAsyncComponent(
   () => import('shared/components/emoji/EmojiInput.vue')
 );
 
-defineProps({
+const props = defineProps({
   isLoading: {
     type: Boolean,
     default: false,
+  },
+  inboxId: {
+    type: [Number, String],
+    required: true,
   },
 });
 
 const emit = defineEmits(['submit', 'cancel']);
 const { t } = useI18n();
+const store = useStore();
 
 // Refs for textareas
 const bodyTextareaRef = ref(null);
@@ -77,11 +83,91 @@ const state = reactive({
   parameterFormat: 'positional', // 'positional' for {{1}}, {{2}} or 'named' for {{name}}, {{order_number}}
   headerFormat: '',
   headerText: '',
-  headerExampleUrl: '',
+  headerExampleHandle: '',
+  headerSampleFileName: '',
   bodyText: '',
   footerText: '',
   variableExamples: {}, // Store examples for each variable: { '1': 'John', '2': '12345' } or { 'first_name': 'John' }
 });
+
+const mediaFileInputRef = ref(null);
+const isUploadingMedia = ref(false);
+const mediaUploadError = ref('');
+const mediaPreviewUrl = ref('');
+
+const revokeMediaPreview = () => {
+  if (mediaPreviewUrl.value) {
+    URL.revokeObjectURL(mediaPreviewUrl.value);
+    mediaPreviewUrl.value = '';
+  }
+};
+
+onBeforeUnmount(() => revokeMediaPreview());
+
+const acceptedMimeTypes = computed(() => {
+  switch (state.headerFormat) {
+    case 'IMAGE':
+      return 'image/jpeg,image/png';
+    case 'VIDEO':
+      return 'video/mp4,video/3gpp';
+    case 'DOCUMENT':
+      return 'application/pdf';
+    default:
+      return '';
+  }
+});
+
+const triggerMediaFilePicker = () => {
+  mediaUploadError.value = '';
+  mediaFileInputRef.value?.click();
+};
+
+const clearHeaderMediaSample = () => {
+  state.headerExampleHandle = '';
+  state.headerSampleFileName = '';
+  mediaUploadError.value = '';
+  revokeMediaPreview();
+  if (mediaFileInputRef.value) mediaFileInputRef.value.value = '';
+};
+
+watch(
+  () => state.headerFormat,
+  () => clearHeaderMediaSample()
+);
+
+const handleMediaFileSelected = async event => {
+  const file = event.target.files?.[0];
+  if (!file) return;
+
+  mediaUploadError.value = '';
+  state.headerExampleHandle = '';
+  state.headerSampleFileName = '';
+  revokeMediaPreview();
+  if (state.headerFormat !== 'DOCUMENT') {
+    mediaPreviewUrl.value = URL.createObjectURL(file);
+  }
+  isUploadingMedia.value = true;
+
+  try {
+    const data = await store.dispatch('inboxes/uploadMessageTemplateMedia', {
+      inboxId: props.inboxId,
+      file,
+      headerFormat: state.headerFormat,
+    });
+    state.headerExampleHandle = data.handle;
+    state.headerSampleFileName = file.name;
+  } catch (err) {
+    revokeMediaPreview();
+    const apiMsg = err?.response?.data?.error;
+    mediaUploadError.value =
+      apiMsg ||
+      err?.message ||
+      t('INBOX_MGMT.WHATSAPP_TEMPLATES.FORM.HEADER.MEDIA_UPLOAD_ERROR');
+    if (mediaFileInputRef.value) mediaFileInputRef.value.value = '';
+  } finally {
+    isUploadingMedia.value = false;
+  }
+};
 
 const categoryOptions = [
   {
@@ -503,7 +589,7 @@ const isValid = computed(() => {
   if (state.headerFormat === 'TEXT' && !state.headerText.trim()) {
     return false;
   }
-  if (isHeaderMediaFormat.value && !state.headerExampleUrl.trim()) {
+  if (isHeaderMediaFormat.value && !state.headerExampleHandle) {
     return false;
   }
 
@@ -695,7 +781,7 @@ const handleSubmit = () => {
     if (state.headerFormat === 'TEXT') {
       template.header.text = state.headerText;
     } else if (isHeaderMediaFormat.value) {
-      template.header.example_url = state.headerExampleUrl;
+      template.header.example_handle = state.headerExampleHandle;
     }
   }
 
@@ -912,23 +998,80 @@ const handleCancel = () => {
                 <label class="block text-sm text-n-slate-11">
                   {{
                     $t(
-                      'INBOX_MGMT.WHATSAPP_TEMPLATES.FORM.HEADER.MEDIA_URL_LABEL'
+                      'INBOX_MGMT.WHATSAPP_TEMPLATES.FORM.HEADER.MEDIA_SAMPLE_LABEL'
                     )
                   }}
                 </label>
-                <Input
-                  v-model="state.headerExampleUrl"
-                  :placeholder="
-                    $t(
-                      'INBOX_MGMT.WHATSAPP_TEMPLATES.FORM.HEADER.MEDIA_URL_PLACEHOLDER'
-                    )
-                  "
-                  class="w-full"
+
+                <input
+                  ref="mediaFileInputRef"
+                  type="file"
+                  class="hidden"
+                  :accept="acceptedMimeTypes"
+                  @change="handleMediaFileSelected"
                 />
-                <p class="text-xs text-n-slate-10">
+
+                <div
+                  v-if="!state.headerExampleHandle"
+                  class="flex items-center gap-2"
+                >
+                  <NextButton
+                    type="button"
+                    variant="outline"
+                    :is-loading="isUploadingMedia"
+                    :disabled="isUploadingMedia"
+                    icon="i-lucide-upload"
+                    :label="
+                      isUploadingMedia
+                        ? $t(
+                            'INBOX_MGMT.WHATSAPP_TEMPLATES.FORM.HEADER.MEDIA_UPLOADING'
+                          )
+                        : $t(
+                            'INBOX_MGMT.WHATSAPP_TEMPLATES.FORM.HEADER.MEDIA_UPLOAD_BUTTON'
+                          )
+                    "
+                    @click="triggerMediaFilePicker"
+                  />
+                </div>
+
+                <div
+                  v-else
+                  class="flex items-center gap-2 px-3 py-2 rounded-md bg-n-alpha-2 border border-n-weak"
+                >
+                  <Icon
+                    icon="i-lucide-check-circle"
+                    class="size-4 text-n-teal-11 flex-shrink-0"
+                  />
+                  <span
+                    class="text-sm text-n-slate-12 truncate flex-1"
+                    :title="state.headerSampleFileName"
+                  >
+                    {{ state.headerSampleFileName }}
+                  </span>
+                  <button
+                    type="button"
+                    class="p-1 rounded-md hover:bg-n-slate-3 text-n-slate-11 flex-shrink-0"
+                    :title="
+                      $t(
+                        'INBOX_MGMT.WHATSAPP_TEMPLATES.FORM.HEADER.MEDIA_REMOVE'
+                      )
+                    "
+                    @click="clearHeaderMediaSample"
+                  >
+                    <Icon icon="i-lucide-x" class="size-4" />
+                  </button>
+                </div>
+
+                <p
+                  v-if="mediaUploadError"
+                  class="text-xs text-n-ruby-9"
+                >
+                  {{ mediaUploadError }}
+                </p>
+                <p v-else class="text-xs text-n-slate-10">
                   {{
                     $t(
-                      'INBOX_MGMT.WHATSAPP_TEMPLATES.FORM.HEADER.MEDIA_URL_HELP'
+                      'INBOX_MGMT.WHATSAPP_TEMPLATES.FORM.HEADER.MEDIA_SAMPLE_HELP'
                     )
                   }}
                 </p>
@@ -1214,24 +1357,42 @@ const handleCancel = () => {
                 <!-- Message Bubble -->
                 <div class="wa-bubble relative w-[330px] max-w-[330px] rounded-lg bg-white shadow-sm">
                   <!-- Header Media Preview -->
-                  <div
-                    v-if="state.headerFormat === 'IMAGE'"
-                    class="flex items-center justify-center h-28 bg-n-slate-3 rounded-t-lg"
-                  >
-                    <Icon
-                      icon="i-lucide-image"
-                      class="size-10 text-n-slate-9"
+                  <template v-if="state.headerFormat === 'IMAGE'">
+                    <img
+                      v-if="mediaPreviewUrl"
+                      :src="mediaPreviewUrl"
+                      :alt="state.headerSampleFileName"
+                      class="object-cover w-full h-40 rounded-t-lg"
                     />
-                  </div>
-                  <div
-                    v-else-if="state.headerFormat === 'VIDEO'"
-                    class="flex items-center justify-center h-28 bg-n-slate-3 rounded-t-lg"
-                  >
-                    <Icon
-                      icon="i-lucide-play-circle"
-                      class="size-10 text-n-slate-9"
+                    <div
+                      v-else
+                      class="flex items-center justify-center h-28 bg-n-slate-3 rounded-t-lg"
+                    >
+                      <Icon
+                        icon="i-lucide-image"
+                        class="size-10 text-n-slate-9"
+                      />
+                    </div>
+                  </template>
+                  <template v-else-if="state.headerFormat === 'VIDEO'">
+                    <video
+                      v-if="mediaPreviewUrl"
+                      :src="mediaPreviewUrl"
+                      class="object-cover w-full h-40 bg-black rounded-t-lg"
+                      controls
+                      muted
+                      playsinline
                     />
-                  </div>
+                    <div
+                      v-else
+                      class="flex items-center justify-center h-28 bg-n-slate-3 rounded-t-lg"
+                    >
+                      <Icon
+                        icon="i-lucide-play-circle"
+                        class="size-10 text-n-slate-9"
+                      />
+                    </div>
+                  </template>
                   <div
                     v-else-if="state.headerFormat === 'DOCUMENT'"
                     class="flex items-center gap-2 p-3 bg-n-slate-3 rounded-t-lg"
@@ -1240,7 +1401,9 @@ const handleCancel = () => {
                       icon="i-lucide-file-text"
                       class="size-8 text-n-ruby-9"
                     />
-                    <span class="text-xs text-n-slate-11">document.pdf</span>
+                    <span class="text-xs truncate text-n-slate-11">
+                      {{ state.headerSampleFileName || 'document.pdf' }}
+                    </span>
                   </div>
 
                   <div class="p-3">

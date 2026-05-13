@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineProps, defineEmits } from 'vue';
+import { computed, defineProps, defineEmits, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Modal from 'dashboard/components/Modal.vue';
@@ -111,6 +111,27 @@ const buttonsComponent = computed(() => {
   return props.template?.components?.find(c => c.type === 'BUTTONS') || null;
 });
 
+// Meta returns the sample media as a signed CDN URL inside example.header_handle[0]
+// (e.g. https://scontent.whatsapp.net/...). When it's just an opaque handle, we fall back to a placeholder.
+const headerMediaUrl = computed(() => {
+  const handle = headerComponent.value?.example?.header_handle?.[0];
+  if (typeof handle !== 'string') return '';
+  return /^https?:\/\//.test(handle) ? handle : '';
+});
+
+const mediaFailedToLoad = ref(false);
+const onMediaError = () => {
+  mediaFailedToLoad.value = true;
+};
+
+// Reset error state whenever the modal opens with a different template
+watch(
+  () => props.template?.id,
+  () => {
+    mediaFailedToLoad.value = false;
+  }
+);
+
 // Highlight variables like {{1}}, {{2}} in the preview
 const highlightVariables = text => {
   if (!text) return '';
@@ -197,24 +218,54 @@ const handleDelete = () => {
               <!-- Message Bubble -->
               <div class="wa-bubble relative w-[330px] max-w-[330px] rounded-lg bg-white">
                 <!-- Header Media Preview -->
-                <div
-                  v-if="headerComponent?.format === 'IMAGE'"
-                  class="flex items-center justify-center h-28 bg-n-slate-3 rounded-t-lg"
-                >
-                  <Icon icon="i-lucide-image" class="size-10 text-n-slate-9" />
-                </div>
-                <div
-                  v-else-if="headerComponent?.format === 'VIDEO'"
-                  class="flex items-center justify-center h-28 bg-n-slate-3 rounded-t-lg"
-                >
-                  <Icon icon="i-lucide-play-circle" class="size-10 text-n-slate-9" />
-                </div>
+                <template v-if="headerComponent?.format === 'IMAGE'">
+                  <img
+                    v-if="headerMediaUrl && !mediaFailedToLoad"
+                    :src="headerMediaUrl"
+                    alt="Template sample"
+                    class="object-cover w-full h-40 rounded-t-lg"
+                    referrerpolicy="no-referrer"
+                    @error="onMediaError"
+                  />
+                  <div
+                    v-else
+                    class="flex items-center justify-center h-28 bg-n-slate-3 rounded-t-lg"
+                  >
+                    <Icon icon="i-lucide-image" class="size-10 text-n-slate-9" />
+                  </div>
+                </template>
+                <template v-else-if="headerComponent?.format === 'VIDEO'">
+                  <video
+                    v-if="headerMediaUrl && !mediaFailedToLoad"
+                    :src="headerMediaUrl"
+                    class="object-cover w-full h-40 bg-black rounded-t-lg"
+                    controls
+                    muted
+                    playsinline
+                    @error="onMediaError"
+                  />
+                  <div
+                    v-else
+                    class="flex items-center justify-center h-28 bg-n-slate-3 rounded-t-lg"
+                  >
+                    <Icon icon="i-lucide-play-circle" class="size-10 text-n-slate-9" />
+                  </div>
+                </template>
                 <div
                   v-else-if="headerComponent?.format === 'DOCUMENT'"
-                  class="flex items-center gap-2 p-3 bg-n-slate-3 rounded-t-lg"
+                  class="flex gap-2 items-center p-3 rounded-t-lg bg-n-slate-3"
                 >
-                  <Icon icon="i-lucide-file-text" class="size-8 text-n-ruby-9" />
-                  <span class="text-xs text-n-slate-11">document.pdf</span>
+                  <Icon icon="i-lucide-file-text" class="flex-shrink-0 size-8 text-n-ruby-9" />
+                  <a
+                    v-if="headerMediaUrl"
+                    :href="headerMediaUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-xs underline truncate text-n-blue-11"
+                  >
+                    document.pdf
+                  </a>
+                  <span v-else class="text-xs text-n-slate-11">document.pdf</span>
                 </div>
 
                 <div class="p-3">

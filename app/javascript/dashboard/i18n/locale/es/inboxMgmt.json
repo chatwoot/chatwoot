@@ -1199,9 +1199,12 @@
           "TEXT_LABEL": "Texto del Encabezado",
           "TEXT_PLACEHOLDER": "Ingresa el texto del encabezado",
           "TEXT_HELP": "Máximo 60 caracteres. Solo 1 variable permitida (ej. {'{{'}1{'}}'}).",
-          "MEDIA_URL_LABEL": "URL de Muestra del Medio",
-          "MEDIA_URL_PLACEHOLDER": "https://ejemplo.com/imagen.jpg",
-          "MEDIA_URL_HELP": "Proporciona una URL de acceso público para el medio de muestra. Esto solo se usa para la aprobación de la plantilla."
+          "MEDIA_SAMPLE_LABEL": "Archivo de muestra",
+          "MEDIA_UPLOAD_BUTTON": "Subir archivo de muestra",
+          "MEDIA_UPLOADING": "Subiendo...",
+          "MEDIA_REMOVE": "Quitar archivo",
+          "MEDIA_SAMPLE_HELP": "Sube un archivo de muestra. Meta lo necesita solo para aprobar la plantilla — no se enviará a los destinatarios. Imágenes: JPG/PNG (máx 5MB). Videos: MP4/3GPP (máx 16MB). Documentos: PDF (máx 100MB).",
+          "MEDIA_UPLOAD_ERROR": "No se pudo subir el archivo de muestra. Intenta de nuevo."
         },
         "HEADER_FORMAT_OPTIONS": {
           "NONE": "Sin encabezado",

@@ -206,6 +206,7 @@ onMounted(() => {
       <div v-if="showForm" class="mb-6">
         <WhatsappTemplateForm
           :is-loading="isCreating"
+          :inbox-id="inbox.id"
           @submit="handleCreateTemplate"
           @cancel="toggleForm"
         />
