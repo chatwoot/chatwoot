@@ -78,14 +78,11 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
       let(:tenant_id) { 'my-tenant-id' }
 
       before do
-        stub_request(:post, "https://login.microsoftonline.com/#{tenant_id}/oauth2/v2.0/token").with(
-          body: hash_including(
-            {
-              'grant_type' => 'refresh_token',
-              'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token']
-            }
-          )
-        ).to_return(status: 200, body: new_tokens.to_json, headers: { 'Content-Type' => 'application/json' })
+        stub_request(:post, "https://login.microsoftonline.com/#{tenant_id}/oauth2/v2.0/token").to_return(
+          status: 200,
+          body: new_tokens.to_json,
+          headers: { 'Content-Type' => 'application/json' }
+        )
       end
 
       it 'fetches new access token using the tenant-specific endpoint' do

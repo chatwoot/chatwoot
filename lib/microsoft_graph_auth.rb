@@ -24,6 +24,8 @@ class MicrosoftGraphAuth < OmniAuth::Strategies::OAuth2
   option :authorize_options, [:scope]
 
   def client
+    return super if tenant_id.blank?
+
     options.client_options.authorize_url = "/#{tenant_id}/oauth2/v2.0/authorize"
     options.client_options.token_url = "/#{tenant_id}/oauth2/v2.0/token"
     super
