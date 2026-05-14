@@ -50,10 +50,10 @@
         }
       },
       "HISTORY": {
-        "EMPTY": "No conversations found for this company's contacts yet."
+        "EMPTY": "Nessuna conversazione trovata per i contatti di questa azienda."
       },
       "NOTES": {
-        "EMPTY": "No notes found for this company's contacts yet."
+        "EMPTY": "Nessuna nota trovata per i contatti di questa azienda."
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Cerca attributi...",
