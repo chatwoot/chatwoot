@@ -183,13 +183,13 @@ export default {
         <Rating
           v-if="isEmojiType"
           :selected-rating="selectedRating"
-          :is-disabled="isRatingSubmitted"
+          :is-disabled="isRatingSubmitted || isUpdating"
           @select-rating="selectRating"
         />
         <StarRating
           v-if="isStarType"
           :selected-rating="selectedRating"
-          :is-disabled="isRatingSubmitted"
+          :is-disabled="isRatingSubmitted || isUpdating"
           class="[&>button>span]:text-4xl !justify-start !px-0"
           @select-rating="selectRating"
         />

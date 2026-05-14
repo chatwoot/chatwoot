@@ -81,10 +81,11 @@ export default {
 
   methods: {
     buttonClass(rating) {
+      const isLocked = this.isRatingSubmitted || this.isUpdating;
       return [
         { selected: rating.value === this.selectedRating },
-        { disabled: this.isRatingSubmitted },
-        { hover: this.isRatingSubmitted },
+        { disabled: isLocked },
+        { hover: isLocked },
         'emoji-button',
       ];
     },
@@ -108,11 +109,11 @@ export default {
     },
 
     selectRating(rating) {
-      if (this.isRatingSubmitted) return;
+      if (this.isRatingSubmitted || this.isUpdating) return;
       this.selectedRating = rating.value;
     },
     selectStarRating(value) {
-      if (this.isRatingSubmitted) return;
+      if (this.isRatingSubmitted || this.isUpdating) return;
       this.selectedRating = value;
     },
   },
@@ -140,7 +141,7 @@ export default {
     <StarRating
       v-else-if="isStarType"
       :selected-rating="selectedRating"
-      :is-disabled="isRatingSubmitted"
+      :is-disabled="isRatingSubmitted || isUpdating"
       @select-rating="selectStarRating"
     />
     <form
