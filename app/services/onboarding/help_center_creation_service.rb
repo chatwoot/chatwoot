@@ -111,7 +111,19 @@ class Onboarding::HelpCenterCreationService
   end
 
   def generate_slug
-    base = @account.name.to_s.parameterize
-    base.present? ? "#{base}-#{SecureRandom.hex(4)}" : "portal-#{SecureRandom.hex(8)}"
+    slug_candidates.find { |slug| !Portal.exists?(slug: slug) } || fallback_slug
+  end
+
+  def slug_candidates
+    base = @account.name.to_s.parameterize.presence
+    return [] if base.blank?
+
+    first_token = base.split('-').first
+    [base, first_token, "#{first_token}-docs", "#{first_token}-help"].uniq
+  end
+
+  def fallback_slug
+    base = @account.name.to_s.parameterize.presence || 'portal'
+    "#{base}-#{SecureRandom.hex(4)}"
   end
 end
