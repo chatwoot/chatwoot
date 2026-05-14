@@ -55,7 +55,7 @@ class Onboarding::WebWidgetCreationService
   end
 
   def website_url
-    @account.domain.presence || brand_info[:domain].presence
+    @account.custom_attributes['website'].presence || brand_info[:domain].presence
   end
 
   def widget_color
