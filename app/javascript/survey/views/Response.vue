@@ -1,6 +1,7 @@
 <script>
 import { useAlert } from 'dashboard/composables';
 import Branding from 'shared/components/Branding.vue';
+import CustomButton from 'shared/components/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import Rating from 'survey/components/Rating.vue';
 import Feedback from 'survey/components/Feedback.vue';
@@ -14,6 +15,7 @@ export default {
   name: 'Response',
   components: {
     Branding,
+    CustomButton,
     Rating,
     Spinner,
     Banner,
@@ -79,6 +81,8 @@ export default {
   methods: {
     selectRating(rating) {
       this.selectedRating = rating;
+    },
+    submitRating() {
       this.updateSurveyDetails();
     },
     sendFeedback(message) {
@@ -179,6 +183,7 @@ export default {
         <Rating
           v-if="isEmojiType"
           :selected-rating="selectedRating"
+          :is-disabled="isRatingSubmitted"
           @select-rating="selectRating"
         />
         <StarRating
@@ -188,6 +193,15 @@ export default {
           class="[&>button>span]:text-4xl !justify-start !px-0"
           @select-rating="selectRating"
         />
+        <div
+          v-if="selectedRating && !isRatingSubmitted"
+          class="flex items-center justify-end mt-4 font-medium"
+        >
+          <CustomButton :disabled="isUpdating" @click="submitRating">
+            <Spinner v-if="isUpdating" class="p-0" />
+            {{ $t('SURVEY.RATING.SUBMIT_BUTTON_TEXT') }}
+          </CustomButton>
+        </div>
         <Feedback
           v-if="enableFeedbackForm"
           :is-updating="isUpdating"

@@ -49,7 +49,9 @@ export default {
         ?.feedback_message;
     },
     isButtonDisabled() {
-      return !(this.selectedRating && this.feedback);
+      if (!this.selectedRating) return true;
+      if (this.isRatingSubmitted && !this.feedback) return true;
+      return false;
     },
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -106,12 +108,12 @@ export default {
     },
 
     selectRating(rating) {
+      if (this.isRatingSubmitted) return;
       this.selectedRating = rating.value;
-      this.onSubmit();
     },
     selectStarRating(value) {
+      if (this.isRatingSubmitted) return;
       this.selectedRating = value;
-      this.onSubmit();
     },
   },
 };
@@ -160,7 +162,7 @@ export default {
           color: textColor,
         }"
       >
-        <Spinner v-if="isUpdating && feedback" />
+        <Spinner v-if="isUpdating" />
         <FluentIcon v-else icon="chevron-right" />
       </button>
     </form>
