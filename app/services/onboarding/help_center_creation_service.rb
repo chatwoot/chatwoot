@@ -60,7 +60,13 @@ class Onboarding::HelpCenterCreationService
   end
 
   def homepage_link
-    custom_attributes_website.presence || brand_info[:domain].presence
+    with_scheme(custom_attributes_website.presence || brand_info[:domain].presence)
+  end
+
+  def with_scheme(raw)
+    return raw if raw.blank?
+
+    raw.match?(%r{\Ahttps?://}i) ? raw : "https://#{raw}"
   end
 
   def custom_attributes_website

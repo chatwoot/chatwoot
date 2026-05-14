@@ -45,7 +45,13 @@ class Onboarding::HelpCenterCurator
   end
 
   def website_url
-    @website_url ||= custom_attributes_website.presence || brand_info[:domain].presence
+    @website_url ||= with_scheme(custom_attributes_website.presence || brand_info[:domain].presence)
+  end
+
+  def with_scheme(raw)
+    return raw if raw.blank?
+
+    raw.match?(%r{\Ahttps?://}i) ? raw : "https://#{raw}"
   end
 
   def custom_attributes_website
