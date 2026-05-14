@@ -28,7 +28,7 @@ import {
 const { t } = useI18n();
 const router = useRouter();
 const store = useStore();
-const { accountId, currentAccount, updateAccount } = useAccount();
+const { accountId, currentAccount, finishOnboarding } = useAccount();
 const { enabledLanguages } = useConfig();
 const currentUser = useMapGetter('getCurrentUser');
 
@@ -213,7 +213,7 @@ const handleSubmit = async () => {
 
   isSubmitting.value = true;
   try {
-    await updateAccount({
+    await finishOnboarding({
       name: accountName.value,
       locale: locale.value,
       website: website.value,
