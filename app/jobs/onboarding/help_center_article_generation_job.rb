@@ -28,6 +28,11 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
     categories_by_name = create_categories(generation.portal, plan['categories'])
     enriched = plan.merge('articles' => stamp_category_ids(plan['articles'], categories_by_name))
 
+    if enriched['articles'].empty?
+      raise CustomExceptions::HelpCenter::CurationSkipped,
+            'no articles after category stamping (LLM article category_name did not match any curated category)'
+    end
+
     generation.update!(plan: enriched, status: :generating)
     fan_out(generation)
   end
