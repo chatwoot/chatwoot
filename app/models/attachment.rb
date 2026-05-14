@@ -116,9 +116,7 @@ class Attachment < ApplicationRecord
   def inline_audio_url
     return '' unless file.attached?
 
-    # Proxy endpoint streams through Rails and honours `disposition: 'inline'`,
-    # unlike the redirect endpoint which always sends Content-Disposition: attachment.
-    Rails.application.routes.url_helpers.rails_storage_proxy_url(file, disposition: 'inline')
+    Rails.application.routes.url_helpers.rails_storage_redirect_url(file, disposition: 'inline')
   end
 
   def file_metadata
