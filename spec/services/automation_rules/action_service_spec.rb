@@ -117,5 +117,72 @@ RSpec.describe AutomationRules::ActionService do
         expect(mailer).to have_received(:conversation_transcript).exactly(1).times
       end
     end
+
+    describe '#perform with send_whatsapp_template action' do
+      let(:whatsapp_channel) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false) }
+      let(:whatsapp_inbox) { whatsapp_channel.inbox }
+      let(:other_whatsapp_inbox) do
+        create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox
+      end
+      let(:contact) { create(:contact, account: account, name: 'Jane Doe', email: 'jane@example.com') }
+      let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: '+1234567890') }
+      let(:wa_conversation) { create(:conversation, account: account, inbox: whatsapp_inbox, contact: contact, contact_inbox: contact_inbox) }
+
+      let(:template_config) do
+        {
+          'inbox_ids' => [whatsapp_inbox.id, other_whatsapp_inbox.id],
+          'template_name' => 'sample_shipping_confirmation',
+          'template_language' => 'en_US',
+          'template_namespace' => '23423423_2342423_324234234_2343224',
+          'template_category' => 'SHIPPING_UPDATE',
+          'template_body' => 'Hi {{1}}, your order ships in {{2}} business days.',
+          'processed_params' => { '1' => '{{contact.name}}', '2' => '3' }
+        }
+      end
+
+      let(:template_rule) do
+        create(:automation_rule, account: account,
+                                 event_name: 'conversation_created',
+                                 actions: [{ action_name: 'send_whatsapp_template', action_params: [template_config] }])
+      end
+
+      it 'creates a message with template_params and resolves placeholders' do
+        expect do
+          described_class.new(template_rule, account, wa_conversation).perform
+        end.to change { wa_conversation.messages.count }.by(1)
+
+        message = wa_conversation.messages.last
+        expect(message.additional_attributes['template_params']).to include(
+          'name' => 'sample_shipping_confirmation',
+          'language' => 'en_US'
+        )
+        expect(message.additional_attributes['template_params']['processed_params']).to eq('1' => 'Jane Doe', '2' => '3')
+        expect(message.content).to eq('Hi Jane Doe, your order ships in 3 business days.')
+        expect(message.content_attributes['automation_rule_id']).to eq(template_rule.id)
+      end
+
+      it 'no-ops when the conversation is not on a configured inbox' do
+        unrelated_conversation = create(:conversation, account: account)
+        expect do
+          described_class.new(template_rule, account, unrelated_conversation).perform
+        end.not_to(change { unrelated_conversation.messages.count })
+      end
+
+      it 'no-ops when the conversation is not on a WhatsApp inbox at all' do
+        non_wa_inbox = create(:inbox, account: account)
+        non_wa_conversation = create(:conversation, account: account, inbox: non_wa_inbox)
+        # Make the action target this non-WA inbox to prove the channel check
+        # wins regardless of inbox_ids membership.
+        template_rule.update_columns(actions: [
+                                       {
+                                         action_name: 'send_whatsapp_template',
+                                         action_params: [template_config.merge('inbox_ids' => [non_wa_inbox.id])]
+                                       }
+                                     ])
+        expect do
+          described_class.new(template_rule.reload, account, non_wa_conversation).perform
+        end.not_to(change { non_wa_conversation.messages.count })
+      end
+    end
   end
 end

@@ -96,7 +96,19 @@
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
       "TEAM_DROPDOWN_PLACEHOLDER": "Select teams",
       "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "URL_INPUT_PLACEHOLDER": "Enter URL",
+      "WHATSAPP_TEMPLATE": {
+        "INBOX_LABEL": "WhatsApp inboxes",
+        "INBOX_PLACEHOLDER": "Select one or more WhatsApp inboxes",
+        "NO_WA_INBOXES": "No WhatsApp inboxes are connected to this account.",
+        "TEMPLATE_LABEL": "Template",
+        "TEMPLATE_PLACEHOLDER": "Choose an approved template",
+        "NO_COMMON_TEMPLATES": "The selected inboxes don't share any approved template. Pick inboxes that have the same template approved.",
+        "BODY_LABEL": "Template body",
+        "VARIABLES_LABEL": "Variables",
+        "VARIABLES_HINT": "Fill each variable. Use these placeholders to substitute live data at send time:",
+        "VARIABLE_PLACEHOLDER": "Static text or a placeholder"
+      }
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",

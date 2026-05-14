@@ -335,7 +335,11 @@ export const getCustomAttributeType = (automationTypes, automation, key) => {
  * @returns {boolean} True if the action input should be shown, false otherwise.
  */
 export const showActionInput = (automationActionTypes, action) => {
-  if (action === 'send_email_to_team' || action === 'send_message')
+  if (
+    action === 'send_email_to_team' ||
+    action === 'send_message' ||
+    action === 'send_whatsapp_template'
+  )
     return false;
   const type = automationActionTypes.find(i => i.key === action).inputType;
   return !!type;

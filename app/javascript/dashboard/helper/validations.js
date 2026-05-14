@@ -134,6 +134,21 @@ const validateSingleAction = action => {
     'remove_assigned_team',
   ];
 
+  if (action.action_name === 'send_whatsapp_template') {
+    const config = Array.isArray(action.action_params)
+      ? action.action_params[0]
+      : action.action_params;
+    if (
+      !config ||
+      !Array.isArray(config.inbox_ids) ||
+      config.inbox_ids.length === 0 ||
+      !config.template_name
+    ) {
+      return ACTION_PARAMETERS_REQUIRED;
+    }
+    return null;
+  }
+
   if (
     !noParamActions.includes(action.action_name) &&
     (!action.action_params || action.action_params.length === 0)

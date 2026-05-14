@@ -607,6 +607,11 @@ export const AUTOMATION_ACTION_TYPES = [
     inputType: 'textarea',
   },
   {
+    key: 'send_whatsapp_template',
+    label: 'Send a WhatsApp template',
+    inputType: 'whatsapp_template',
+  },
+  {
     key: 'change_priority',
     label: 'Change Priority',
     inputType: 'search_select',

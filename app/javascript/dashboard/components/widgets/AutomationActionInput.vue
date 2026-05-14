@@ -1,11 +1,13 @@
 <script>
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
+import AutomationActionWhatsappTemplateInput from './AutomationActionWhatsappTemplateInput.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 export default {
   components: {
     AutomationActionTeamMessageInput,
     AutomationActionFileInput,
+    AutomationActionWhatsappTemplateInput,
     WootMessageEditor,
   },
   props: {
@@ -189,6 +191,10 @@ export default {
       enable-variables
       :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
       class="action-message"
+    />
+    <AutomationActionWhatsappTemplateInput
+      v-if="inputType === 'whatsapp_template'"
+      v-model="castMessageVmodel"
     />
     <p v-if="errorMessage" class="filter-error">
       {{ errorMessage }}

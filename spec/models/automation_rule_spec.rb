@@ -62,6 +62,51 @@ RSpec.describe AutomationRule do
     end
   end
 
+  describe 'send_whatsapp_template action validation' do
+    let(:account) { create(:account) }
+    let(:whatsapp_inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
+    let(:other_whatsapp_inbox) do
+      create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox
+    end
+    let(:web_inbox) { create(:inbox, account: account) }
+
+    def build_rule(action_params)
+      build(:automation_rule,
+            account: account,
+            event_name: 'conversation_created',
+            conditions: [{ attribute_key: 'status', filter_operator: 'equal_to', values: ['open'], query_operator: nil }],
+            actions: [{ action_name: 'send_whatsapp_template', action_params: action_params }])
+    end
+
+    it 'is valid with one or more WhatsApp inboxes and a template_name' do
+      rule = build_rule([{
+                          inbox_ids: [whatsapp_inbox.id, other_whatsapp_inbox.id],
+                          template_name: 'sample_shipping_confirmation',
+                          template_language: 'en_US',
+                          processed_params: { '1' => '{{contact.name}}' }
+                        }])
+      expect(rule).to be_valid
+    end
+
+    it 'is invalid when no inboxes are configured' do
+      rule = build_rule([{ inbox_ids: [], template_name: 'sample_shipping_confirmation' }])
+      expect(rule).to be_invalid
+      expect(rule.errors[:actions].join).to include('requires at least one WhatsApp inbox')
+    end
+
+    it 'is invalid when a non-WhatsApp inbox is configured' do
+      rule = build_rule([{ inbox_ids: [web_inbox.id], template_name: 'sample_shipping_confirmation' }])
+      expect(rule).to be_invalid
+      expect(rule.errors[:actions].join).to include('are not WhatsApp inboxes')
+    end
+
+    it 'is invalid when template_name is missing' do
+      rule = build_rule([{ inbox_ids: [whatsapp_inbox.id] }])
+      expect(rule).to be_invalid
+      expect(rule.errors[:actions].join).to include('requires a template_name')
+    end
+  end
+
   describe 'reauthorizable' do
     context 'when prompt_reauthorization!' do
       it 'marks the rule inactive' do

@@ -27,6 +27,7 @@ class AutomationRule < ApplicationRecord
   validate :json_conditions_format
   validate :json_actions_format
   validate :query_operator_presence
+  validate :whatsapp_template_action_inboxes
   validates :account_id, presence: true
 
   after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
@@ -39,8 +40,8 @@ class AutomationRule < ApplicationRecord
   end
 
   def actions_attributes
-    %w[send_message add_label remove_label send_email_to_team assign_team assign_agent send_webhook_event mute_conversation
-       send_attachment change_status resolve_conversation snooze_conversation change_priority send_email_transcript].freeze
+    %w[send_message send_whatsapp_template add_label remove_label send_email_to_team assign_team assign_agent send_webhook_event
+       mute_conversation send_attachment change_status resolve_conversation snooze_conversation change_priority send_email_transcript].freeze
   end
 
   def file_base_data
@@ -82,6 +83,30 @@ class AutomationRule < ApplicationRecord
 
     operators = conditions.select { |obj, _| obj['query_operator'].nil? }
     errors.add(:conditions, 'Automation conditions should have query operator.') if operators.length > 1
+  end
+
+  def whatsapp_template_action_inboxes
+    return if actions.blank?
+    return if account.blank?
+
+    template_actions = actions.select { |obj| obj['action_name'] == 'send_whatsapp_template' }
+    template_actions.each { |action| validate_single_template_action(action) }
+  end
+
+  def validate_single_template_action(action)
+    config = Array(action['action_params']).first
+    inbox_ids = config.is_a?(Hash) ? Array(config['inbox_ids'] || config[:inbox_ids]) : []
+
+    if inbox_ids.blank?
+      errors.add(:actions, 'send_whatsapp_template requires at least one WhatsApp inbox.')
+      return
+    end
+
+    non_whatsapp = account.inboxes.where(id: inbox_ids).where.not(channel_type: 'Channel::Whatsapp').pluck(:id)
+    errors.add(:actions, "Inboxes #{non_whatsapp.join(',')} are not WhatsApp inboxes.") if non_whatsapp.any?
+
+    template_name = config['template_name'].presence || config[:template_name].presence
+    errors.add(:actions, 'send_whatsapp_template requires a template_name.') if template_name.blank?
   end
 end
 
