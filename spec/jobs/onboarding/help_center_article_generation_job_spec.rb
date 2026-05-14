@@ -8,10 +8,10 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
   end
   let(:curated_plan) do
     {
-      categories: [{ name: 'Getting Started', description: 'desc' }],
-      articles: [
-        { title: 'Hello', urls: ['https://x.test/a'], category_name: 'Getting Started' },
-        { title: 'World', urls: ['https://x.test/b'], category_name: 'Getting Started' }
+      'categories' => [{ 'name' => 'Getting Started', 'description' => 'desc' }],
+      'articles' => [
+        { 'title' => 'Hello', 'urls' => ['https://x.test/a'], 'category_name' => 'Getting Started' },
+        { 'title' => 'World', 'urls' => ['https://x.test/b'], 'category_name' => 'Getting Started' }
       ]
     }
   end
@@ -47,10 +47,10 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
   describe 'orphan article filtering' do
     let(:curated_plan) do
       {
-        categories: [{ name: 'Getting Started', description: 'desc' }],
-        articles: [
-          { title: 'Valid', urls: ['https://x.test/a'], category_name: 'Getting Started' },
-          { title: 'Orphan', urls: ['https://x.test/b'], category_name: 'NonExistent' }
+        'categories' => [{ 'name' => 'Getting Started', 'description' => 'desc' }],
+        'articles' => [
+          { 'title' => 'Valid', 'urls' => ['https://x.test/a'], 'category_name' => 'Getting Started' },
+          { 'title' => 'Orphan', 'urls' => ['https://x.test/b'], 'category_name' => 'NonExistent' }
         ]
       }
     end

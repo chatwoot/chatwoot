@@ -25,8 +25,8 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
     generation.update!(status: :curating, started_at: Time.current) if generation.pending?
 
     plan = Onboarding::HelpCenterCurator.new(account: generation.account, portal: generation.portal).perform
-    categories_by_name = create_categories(generation.portal, plan[:categories])
-    enriched = plan.merge(articles: stamp_category_ids(plan[:articles], categories_by_name))
+    categories_by_name = create_categories(generation.portal, plan['categories'])
+    enriched = plan.merge('articles' => stamp_category_ids(plan['articles'], categories_by_name))
 
     generation.update!(plan: enriched, status: :generating)
     fan_out(generation)
@@ -35,12 +35,12 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
   def create_categories(portal, categories)
     locale = portal.default_locale
     Array(categories).each_with_index.with_object({}) do |(cat, idx), acc|
-      name = cat[:name].to_s.strip
+      name = cat['name'].to_s.strip
       next if name.blank?
 
       record = portal.categories.create!(
         name: name,
-        description: cat[:description].to_s.strip.presence,
+        description: cat['description'].to_s.strip.presence,
         slug: "#{name.parameterize}-#{SecureRandom.hex(3)}",
         locale: locale,
         position: (idx + 1) * 10
@@ -51,10 +51,10 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
 
   def stamp_category_ids(articles, categories_by_name)
     Array(articles).filter_map do |article|
-      category_id = categories_by_name[article[:category_name].to_s]&.id
+      category_id = categories_by_name[article['category_name'].to_s]&.id
       next if category_id.nil?
 
-      article.merge(category_id: category_id)
+      article.merge('category_id' => category_id)
     end
   end
 

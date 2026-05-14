@@ -20,7 +20,7 @@ class Onboarding::HelpCenterCurator
     plan = curate(links)
     raise Skipped, "only #{plan[:articles].size} articles curated (< #{MIN_ARTICLES} threshold)" if plan[:articles].size < MIN_ARTICLES
 
-    plan.merge(allowed_urls: extract_urls(links))
+    plan.merge(allowed_urls: extract_urls(links)).deep_stringify_keys
   end
 
   private
