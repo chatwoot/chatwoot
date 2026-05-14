@@ -113,6 +113,30 @@ export const AUTOMATIONS = {
         name: 'REMOVE_LABEL',
       },
       {
+        key: 'add_label_to_contact',
+        name: 'ADD_LABEL_TO_CONTACT',
+      },
+      {
+        key: 'remove_label_from_contact',
+        name: 'REMOVE_LABEL_FROM_CONTACT',
+      },
+      {
+        key: 'add_label_everywhere',
+        name: 'ADD_LABEL_EVERYWHERE',
+      },
+      {
+        key: 'remove_label_everywhere',
+        name: 'REMOVE_LABEL_EVERYWHERE',
+      },
+      {
+        key: 'sync_conversation_labels_everywhere',
+        name: 'SYNC_CONVERSATION_LABELS_EVERYWHERE',
+      },
+      {
+        key: 'inherit_contact_labels',
+        name: 'INHERIT_CONTACT_LABELS',
+      },
+      {
         key: 'send_email_to_team',
         name: 'SEND_EMAIL_TO_TEAM',
       },
@@ -249,6 +273,30 @@ export const AUTOMATIONS = {
       {
         key: 'assign_agent',
         name: 'ASSIGN_AGENT',
+      },
+      {
+        key: 'add_label_to_contact',
+        name: 'ADD_LABEL_TO_CONTACT',
+      },
+      {
+        key: 'remove_label_from_contact',
+        name: 'REMOVE_LABEL_FROM_CONTACT',
+      },
+      {
+        key: 'add_label_everywhere',
+        name: 'ADD_LABEL_EVERYWHERE',
+      },
+      {
+        key: 'remove_label_everywhere',
+        name: 'REMOVE_LABEL_EVERYWHERE',
+      },
+      {
+        key: 'sync_conversation_labels_everywhere',
+        name: 'SYNC_CONVERSATION_LABELS_EVERYWHERE',
+      },
+      {
+        key: 'inherit_contact_labels',
+        name: 'INHERIT_CONTACT_LABELS',
       },
       {
         key: 'send_email_to_team',
@@ -395,6 +443,30 @@ export const AUTOMATIONS = {
       {
         key: 'assign_agent',
         name: 'ASSIGN_AGENT',
+      },
+      {
+        key: 'add_label_to_contact',
+        name: 'ADD_LABEL_TO_CONTACT',
+      },
+      {
+        key: 'remove_label_from_contact',
+        name: 'REMOVE_LABEL_FROM_CONTACT',
+      },
+      {
+        key: 'add_label_everywhere',
+        name: 'ADD_LABEL_EVERYWHERE',
+      },
+      {
+        key: 'remove_label_everywhere',
+        name: 'REMOVE_LABEL_EVERYWHERE',
+      },
+      {
+        key: 'sync_conversation_labels_everywhere',
+        name: 'SYNC_CONVERSATION_LABELS_EVERYWHERE',
+      },
+      {
+        key: 'inherit_contact_labels',
+        name: 'INHERIT_CONTACT_LABELS',
       },
       {
         key: 'send_email_to_team',
@@ -739,6 +811,36 @@ export const AUTOMATION_ACTION_TYPES = [
     key: 'remove_label',
     label: 'REMOVE_LABEL',
     inputType: 'multi_select',
+  },
+  {
+    key: 'add_label_to_contact',
+    label: 'ADD_LABEL_TO_CONTACT',
+    inputType: 'multi_select',
+  },
+  {
+    key: 'remove_label_from_contact',
+    label: 'REMOVE_LABEL_FROM_CONTACT',
+    inputType: 'multi_select',
+  },
+  {
+    key: 'add_label_everywhere',
+    label: 'ADD_LABEL_EVERYWHERE',
+    inputType: 'multi_select',
+  },
+  {
+    key: 'remove_label_everywhere',
+    label: 'REMOVE_LABEL_EVERYWHERE',
+    inputType: 'multi_select',
+  },
+  {
+    key: 'sync_conversation_labels_everywhere',
+    label: 'SYNC_CONVERSATION_LABELS_EVERYWHERE',
+    inputType: null,
+  },
+  {
+    key: 'inherit_contact_labels',
+    label: 'INHERIT_CONTACT_LABELS',
+    inputType: null,
   },
   {
     key: 'send_email_to_team',

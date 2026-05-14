@@ -217,5 +217,174 @@ RSpec.describe AutomationRules::ActionService do
         expect(conversation.reload.assignee).to eq(agent)
       end
     end
+
+    describe '#perform with add_label_to_contact action' do
+      before do
+        rule.actions.delete_if { |a| %w[send_message send_webhook_event].include?(a['action_name']) }
+        rule.actions << { action_name: 'add_label_to_contact', action_params: %w[paid vip] }
+        rule.save
+      end
+
+      it 'adds the given labels to the conversation contact' do
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.contact.reload.label_list.sort).to include('paid', 'vip')
+      end
+
+      it 'does not propagate the labels to the conversation (contact-scoped only)' do
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.reload.label_list).not_to include('paid', 'vip')
+      end
+
+      it 'is a no-op when every requested label is already on the contact' do
+        # Seed contact labels under the propagation guard so the diff
+        # callback does not fan the labels out before the test runs.
+        Current.label_propagation_in_progress = true
+        conversation.contact.update_labels(%w[paid vip extra])
+        Current.label_propagation_in_progress = nil
+        before_list = conversation.contact.reload.label_list.to_a.sort
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.contact.reload.label_list.to_a.sort).to eq(before_list)
+      ensure
+        Current.label_propagation_in_progress = nil
+      end
+
+      it 'is a no-op when action_params is empty' do
+        rule.actions.find { |a| a['action_name'] == 'add_label_to_contact' }['action_params'] = []
+        rule.save
+        expect { described_class.new(rule, account, conversation).perform }
+          .not_to(change { conversation.contact.reload.label_list })
+      end
+    end
+
+    describe '#perform with remove_label_from_contact action' do
+      before do
+        # Seed contact labels under the propagation guard so the diff
+        # callback does not fan the labels out before the test runs.
+        Current.label_propagation_in_progress = true
+        conversation.contact.update_labels(%w[paid vip research])
+        Current.label_propagation_in_progress = nil
+        rule.actions.delete_if { |a| %w[send_message send_webhook_event].include?(a['action_name']) }
+        rule.actions << { action_name: 'remove_label_from_contact', action_params: %w[paid] }
+        rule.save
+      end
+
+      after { Current.label_propagation_in_progress = nil }
+
+      it 'removes the given labels from the conversation contact' do
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.contact.reload.label_list).not_to include('paid')
+      end
+
+      it 'leaves other contact labels intact' do
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.contact.reload.label_list).to include('research', 'vip')
+      end
+
+      it 'is a no-op when none of the requested labels are on the contact' do
+        rule.actions.find { |a| a['action_name'] == 'remove_label_from_contact' }['action_params'] = %w[nonexistent]
+        rule.save
+        before_list = conversation.contact.reload.label_list.to_a.sort
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.contact.reload.label_list.to_a.sort).to eq(before_list)
+      end
+    end
+
+    describe '#perform with add_label_everywhere action' do
+      let!(:sibling_conv) do
+        create(:conversation, account: account, inbox: conversation.inbox,
+                              contact: conversation.contact, contact_inbox: conversation.contact_inbox)
+      end
+
+      before do
+        rule.actions.delete_if { |a| %w[send_message send_webhook_event].include?(a['action_name']) }
+        rule.actions << { action_name: 'add_label_everywhere', action_params: %w[paid] }
+        rule.save
+      end
+
+      it 'adds the label to the contact, the current conversation, and every sibling conversation' do
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.contact.reload.label_list).to include('paid')
+        expect(conversation.reload.label_list).to include('paid')
+        expect(sibling_conv.reload.label_list).to include('paid')
+      end
+
+      it 'is a no-op when action_params is empty' do
+        rule.actions.find { |a| a['action_name'] == 'add_label_everywhere' }['action_params'] = []
+        rule.save
+        expect { described_class.new(rule, account, conversation).perform }
+          .not_to(change { conversation.contact.reload.label_list })
+      end
+    end
+
+    describe '#perform with remove_label_everywhere action' do
+      let!(:sibling_conv) do
+        create(:conversation, account: account, inbox: conversation.inbox,
+                              contact: conversation.contact, contact_inbox: conversation.contact_inbox)
+      end
+
+      before do
+        # Apply seed labels with the propagation guard so the diff callback
+        # does not converge labels across contact / conv / sibling during setup.
+        Current.label_propagation_in_progress = true
+        conversation.contact.update_labels(%w[paid vip])
+        conversation.update_labels(%w[paid extra])
+        sibling_conv.update_labels(%w[paid research])
+        Current.label_propagation_in_progress = nil
+        rule.actions.delete_if { |a| %w[send_message send_webhook_event].include?(a['action_name']) }
+        rule.actions << { action_name: 'remove_label_everywhere', action_params: %w[paid] }
+        rule.save
+      end
+
+      after { Current.label_propagation_in_progress = nil }
+
+      it 'removes the label from the contact, the current conversation, and every sibling conversation' do
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.contact.reload.label_list).not_to include('paid')
+        expect(conversation.reload.label_list).not_to include('paid')
+        expect(sibling_conv.reload.label_list).not_to include('paid')
+      end
+
+      it 'leaves other labels intact on each entity that originally had them' do
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.contact.reload.label_list).to include('vip')
+        expect(conversation.reload.label_list).to include('extra')
+        expect(sibling_conv.reload.label_list).to include('research')
+      end
+    end
+
+    describe '#perform with sync_conversation_labels_everywhere action' do
+      let!(:sibling_conv) do
+        create(:conversation, account: account, inbox: conversation.inbox,
+                              contact: conversation.contact, contact_inbox: conversation.contact_inbox)
+      end
+
+      before do
+        Current.label_propagation_in_progress = true
+        conversation.update_labels(%w[paid course-2025])
+        Current.label_propagation_in_progress = nil
+        rule.actions.delete_if { |a| %w[send_message send_webhook_event].include?(a['action_name']) }
+        rule.actions << { action_name: 'sync_conversation_labels_everywhere', action_params: [] }
+        rule.save
+      end
+
+      after { Current.label_propagation_in_progress = nil }
+
+      it 'pushes the conversation labels onto the contact and every sibling conversation' do
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.contact.reload.label_list).to include('paid', 'course-2025')
+        expect(sibling_conv.reload.label_list).to include('paid', 'course-2025')
+      end
+
+      it 'is a no-op when the conversation has no labels' do
+        Current.label_propagation_in_progress = true
+        conversation.update_labels([])
+        Current.label_propagation_in_progress = nil
+        before_contact = conversation.contact.reload.label_list.to_a.sort
+        before_sib = sibling_conv.reload.label_list.to_a.sort
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.contact.reload.label_list.to_a.sort).to eq(before_contact)
+        expect(sibling_conv.reload.label_list.to_a.sort).to eq(before_sib)
+      end
+    end
   end
 end

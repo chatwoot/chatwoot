@@ -203,4 +203,53 @@ RSpec.describe Contact do
       end
     end
   end
+
+  describe 'label change propagation to conversations' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:contact) { create(:contact, account: account) }
+    let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
+    let!(:conv_a) { create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: contact_inbox) }
+    let!(:conv_b) { create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: contact_inbox) }
+
+    it 'adds newly added contact labels onto every conversation of the contact' do
+      contact.update_labels(%w[paid])
+      expect(conv_a.reload.label_list.sort).to eq(%w[paid])
+      expect(conv_b.reload.label_list.sort).to eq(%w[paid])
+    end
+
+    it 'removes labels from conversations when removed from the contact' do
+      contact.update_labels(%w[paid vip])
+      contact.update_labels(%w[paid])
+      expect(conv_a.reload.label_list.sort).to eq(%w[paid])
+      expect(conv_b.reload.label_list.sort).to eq(%w[paid])
+    end
+
+    it 'is a no-op when label_list has not changed' do
+      contact.update_labels(%w[paid])
+      expect { contact.update!(name: 'New Name') }.not_to(change { conv_a.reload.label_list })
+    end
+
+    it 'is a no-op when the contact has no conversations' do
+      lonely_contact = create(:contact, account: account)
+      expect { lonely_contact.update_labels(%w[paid]) }.not_to raise_error
+    end
+
+    it 'only propagates to open conversations; resolved conversations stay frozen' do
+      conv_a.update!(status: :resolved)
+      contact.update_labels(%w[paid])
+      expect(conv_a.reload.label_list).not_to include('paid')
+      expect(conv_b.reload.label_list).to include('paid')
+    end
+
+    it 'does not dispatch conversation.updated for sibling fan-out writes' do
+      # User-configured automation rules on conversation_updated must NOT fire
+      # for every sibling conversation just because the contact's labels changed.
+      dispatcher = Rails.configuration.dispatcher
+      allow(dispatcher).to receive(:dispatch).and_call_original
+      contact.update_labels(%w[paid])
+      expect(dispatcher).not_to have_received(:dispatch)
+        .with('conversation.updated', anything, hash_including(:conversation))
+    end
+  end
 end

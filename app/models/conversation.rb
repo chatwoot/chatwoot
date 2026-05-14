@@ -53,6 +53,7 @@
 
 class Conversation < ApplicationRecord
   include Labelable
+  include ConversationLabelPropagation
   include LlmFormattable
   include AssignmentHandler
   include AutoAssignmentHandler
@@ -271,6 +272,12 @@ class Conversation < ApplicationRecord
   end
 
   def notify_conversation_updation
+    # System-driven label propagation (Contact / Conversation label propagation
+    # callbacks) sets this flag while it writes labels to siblings. Skipping
+    # the event dispatch here prevents user-configured `conversation_updated`
+    # automation rules (and webhook subscribers) from firing across every
+    # sibling conversation as a side effect of an internal label sync.
+    return if Current.label_propagation_in_progress
     return unless previous_changes.keys.present? && allowed_keys?
 
     dispatch_conversation_updated_event(previous_changes)
