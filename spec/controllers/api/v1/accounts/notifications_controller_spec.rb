@@ -241,7 +241,7 @@ RSpec.describe 'Notifications API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'deletes all the read notifications' do
-        expect(Notification::DeleteNotificationJob).to receive(:perform_later).with(admin, type: :read)
+        expect(Notification::DeleteNotificationJob).to receive(:perform_later).with(admin, account, type: :read)
 
         post "/api/v1/accounts/#{account.id}/notifications/destroy_all",
              headers: admin.create_new_auth_token,
@@ -252,7 +252,7 @@ RSpec.describe 'Notifications API', type: :request do
       end
 
       it 'deletes all the notifications' do
-        expect(Notification::DeleteNotificationJob).to receive(:perform_later).with(admin, type: :all)
+        expect(Notification::DeleteNotificationJob).to receive(:perform_later).with(admin, account, type: :all)
 
         post "/api/v1/accounts/#{account.id}/notifications/destroy_all",
              headers: admin.create_new_auth_token,

@@ -41,9 +41,9 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
 
   def destroy_all
     if params[:type] == 'read'
-      ::Notification::DeleteNotificationJob.perform_later(Current.user, type: :read)
+      ::Notification::DeleteNotificationJob.perform_later(Current.user, Current.account, type: :read)
     else
-      ::Notification::DeleteNotificationJob.perform_later(Current.user, type: :all)
+      ::Notification::DeleteNotificationJob.perform_later(Current.user, Current.account, type: :all)
     end
     head :ok
   end
