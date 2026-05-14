@@ -33,9 +33,7 @@ class Attachment < ApplicationRecord
     application/vnd.openxmlformats-officedocument.presentationml.presentation
     application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
     application/vnd.openxmlformats-officedocument.wordprocessingml.document
-    application/x-pkcs12 application/pkcs12
   ].freeze
-  ACCEPTABLE_FILE_EXTENSIONS = %w[.pfx].freeze
   belongs_to :account
   belongs_to :message
   has_one_attached :file
@@ -197,10 +195,7 @@ class Attachment < ApplicationRecord
   end
 
   def validate_file_content_type(file_content_type)
-    return if media_file?(file_content_type) || ACCEPTABLE_FILE_TYPES.include?(file_content_type)
-    return if ACCEPTABLE_FILE_EXTENSIONS.include?(File.extname(file.filename.to_s).downcase)
-
-    errors.add(:file, 'type not supported')
+    errors.add(:file, 'type not supported') unless media_file?(file_content_type) || ACCEPTABLE_FILE_TYPES.include?(file_content_type)
   end
 
   def validate_file_size(byte_size)
