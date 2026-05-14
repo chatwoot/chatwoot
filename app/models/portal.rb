@@ -33,7 +33,6 @@ class Portal < ApplicationRecord
   has_many :categories, dependent: :destroy_async
   has_many :folders,  through: :categories
   has_many :articles, dependent: :destroy_async
-  has_many :help_center_generations, dependent: :destroy_async
   has_one_attached :logo
   has_many :inboxes, dependent: :nullify
   belongs_to :channel_web_widget, class_name: 'Channel::WebWidget', optional: true

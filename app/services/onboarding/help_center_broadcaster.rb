@@ -4,22 +4,26 @@ module Onboarding::HelpCenterBroadcaster
 
   module_function
 
-  def article_generated(generation, article)
-    broadcast(generation, ARTICLE_GENERATED) do
-      { generation_id: generation.id, article_id: article.id, articles_finished: generation.articles_finished }
-    end
+  def article_generated(user:, generation_id:, article:, articles_finished:)
+    broadcast(user, ARTICLE_GENERATED, {
+                generation_id: generation_id,
+                article_id: article.id,
+                articles_finished: articles_finished
+              })
   end
 
-  def completed(generation)
-    broadcast(generation, GENERATION_COMPLETED) do
-      { generation_id: generation.id, status: generation.status, skip_reason: generation.skip_reason }
-    end
+  def completed(user:, generation_id:, status:, skip_reason: nil)
+    broadcast(user, GENERATION_COMPLETED, {
+                generation_id: generation_id,
+                status: status,
+                skip_reason: skip_reason
+              })
   end
 
-  def broadcast(generation, event)
-    token = generation.account.administrators.first&.pubsub_token
+  def broadcast(user, event, payload)
+    token = user&.pubsub_token
     return if token.blank?
 
-    ActionCableBroadcastJob.perform_later([token], event, yield)
+    ActionCableBroadcastJob.perform_later([token], event, payload)
   end
 end

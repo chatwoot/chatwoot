@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_11_145127) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_07_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -850,21 +850,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_11_145127) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "help_center_generations", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.bigint "portal_id", null: false
-    t.integer "status", default: 0, null: false
-    t.jsonb "plan"
-    t.integer "articles_finished", default: 0, null: false
-    t.text "skip_reason"
-    t.datetime "started_at"
-    t.datetime "finished_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_help_center_generations_on_account_id"
-    t.index ["portal_id"], name: "index_help_center_generations_on_portal_id"
   end
 
   create_table "inbox_assignment_policies", force: :cascade do |t|
