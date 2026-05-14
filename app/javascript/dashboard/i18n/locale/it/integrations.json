@@ -751,49 +751,49 @@
         "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
       "BULK_SYNC": {
-        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
-        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
-        "ZERO_MESSAGE": "No documents marked for refresh.",
-        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+        "SUCCESS_MESSAGE_ONE": "Riaggiornamento in coda per 1 documento",
+        "SUCCESS_MESSAGE": "Riaggiornamento in coda per {count} documenti",
+        "ZERO_MESSAGE": "Nessun documento contrassegnato per il riaggiornamento.",
+        "ERROR_MESSAGE": "Si è verificato un errore nella coda di riaggiornamento, riprova."
       },
       "SYNC": {
-        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
-        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+        "QUEUED_MESSAGE": "Riaggiornamento in coda. Il documento verrà aggiornato a breve.",
+        "ERROR_MESSAGE": "Impossibile avviare la coda di riaggiornamento, riprova."
       },
       "FILTERS": {
         "SOURCE": {
-          "ALL": "All sources",
-          "WEB": "Web pages",
-          "PDF": "PDFs"
+          "ALL": "Tutte le fonti",
+          "WEB": "Pagine web",
+          "PDF": "PDF"
         },
         "STATUS": {
-          "ANY": "Any status",
-          "UPDATED": "Updated",
-          "NEEDS_UPDATE": "Needs update",
-          "UPDATING": "Updating",
+          "ANY": "Tutti gli stati",
+          "UPDATED": "Aggiornato",
+          "NEEDS_UPDATE": "Richiede aggiornamento",
+          "UPDATING": "Aggiornamento in corso",
           "FAILED": "Non Riuscito"
         },
         "SORT": {
-          "RECENTLY_UPDATED": "Recently updated",
-          "RECENTLY_CREATED": "Recently created"
+          "RECENTLY_UPDATED": "Aggiornato di recente",
+          "RECENTLY_CREATED": "Creato di recente"
         },
         "SEARCH_PLACEHOLDER": "Cerca..."
       },
       "SYNC_STATUS": {
-        "SYNCED": "last updated {time}",
+        "SYNCED": "ultimo aggiornamento {time}",
         "SYNCING": "aggiornamento...",
         "STALE_SYNC": "update stalled",
-        "FAILED": "Failed to sync",
-        "NEVER_SYNCED": "not updated yet"
+        "FAILED": "Sincronizzazione fallita",
+        "NEVER_SYNCED": "non ancora aggiornato"
       },
       "SYNC_ERRORS": {
         "NOT_FOUND": "Pagina non trovata",
-        "ACCESS_DENIED": "Access denied",
-        "TIMEOUT": "Page took too long to respond",
-        "CONTENT_EMPTY": "Page returned empty content",
-        "FETCH_FAILED": "Could not fetch page",
-        "SYNC_ERROR": "Unexpected error",
-        "DEFAULT": "Sync error"
+        "ACCESS_DENIED": "Accesso negato",
+        "TIMEOUT": "La pagina ha impiegato troppo tempo per rispondere",
+        "CONTENT_EMPTY": "La pagina ha restituito contenuto vuoto",
+        "FETCH_FAILED": "Impossibile recuperare la pagina",
+        "SYNC_ERROR": "Errore imprevisto",
+        "DEFAULT": "Errore di sincronizzazione"
       },
       "RELATED_RESPONSES": {
         "TITLE": "FAQ Correlate",
@@ -838,15 +838,15 @@
       },
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "Visualizza FAQ Correlate",
-        "SYNC_NOW": "Refresh now",
-        "RETRY_SYNC": "Retry refresh",
+        "SYNC_NOW": "Aggiorna ora",
+        "RETRY_SYNC": "Riprova ad aggiornare",
         "DELETE_DOCUMENT": "Elimina Documento"
       },
       "EMPTY_STATE": {
         "TITLE": "Nessun documento disponibile",
         "SUBTITLE": "I documenti sono utilizzati dal tuo assistente per generare FAQ. Puoi importare documenti per fornire contesto al tuo assistente.",
-        "FILTERED_TITLE": "No matching documents",
-        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
+        "FILTERED_TITLE": "Nessun documento corrispondente",
+        "FILTERED_SUBTITLE": "Prova a cambiare fonte, stato o chiave di ricerca.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Documento Captain",
           "NOTE": "Un documento in Captain serve come risorsa di knowledge base per l'assistente. Collegando documenti help center e guide, Captain può analizzare il contenuto e fornire risposte accurate per le richieste dei clienti."
