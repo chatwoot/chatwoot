@@ -47,10 +47,8 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   def fb_text_message_params
     delivery_params = {
       recipient: { id: contact.get_source_id(inbox.id) },
-      message: fb_text_message_payload,
-      messaging_type: 'MESSAGE_TAG',
-      tag: 'HUMAN_AGENT'
-    }
+      message: fb_text_message_payload
+    }.merge(messaging_type_params)
 
     if message.content_attributes['in_reply_to_external_id'].present?
       delivery_params[:reply_to] = { mid: message.content_attributes['in_reply_to_external_id'] }
@@ -94,10 +92,8 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
             url: attachment.download_url
           }
         }
-      },
-      messaging_type: 'MESSAGE_TAG',
-      tag: 'HUMAN_AGENT'
-    }
+      }
+    }.merge(messaging_type_params)
 
     if message.content_attributes['in_reply_to_external_id'].present?
       delivery_params[:reply_to] = { mid: message.content_attributes['in_reply_to_external_id'] }
@@ -115,6 +111,24 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   def sent_first_outgoing_message_after_24_hours?
     # we can send max 1 message after 24 hour window
     conversation.messages.outgoing.where('id > ?', conversation.last_incoming_message.id).count == 1
+  end
+
+  def messaging_type_params
+    return { messaging_type: 'RESPONSE' } if within_standard_messaging_window?
+
+    human_agent_enabled = GlobalConfigService.load('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT', nil)
+    if human_agent_enabled
+      { messaging_type: 'MESSAGE_TAG', tag: 'HUMAN_AGENT' }
+    else
+      { messaging_type: 'RESPONSE' }
+    end
+  end
+
+  def within_standard_messaging_window?
+    last_incoming = conversation.messages.incoming.last
+    return false if last_incoming.nil?
+
+    Time.current < last_incoming.created_at + 24.hours
   end
 
   def handle_facebook_error(exception)
